@@ -1,0 +1,1 @@
+javaw -Xmx1024m -jar mtgcompanion.jar
