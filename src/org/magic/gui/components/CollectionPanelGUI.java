@@ -65,7 +65,7 @@ public class CollectionPanelGUI extends JPanel {
 	
 	public void initGUI() throws Exception {
 		setLayout(new BorderLayout(0, 0));
-		model = new MagicEditionsTableModel(dao);
+		model = new MagicEditionsTableModel(dao,provider);
 			model.init(provider.searchSetByCriteria(null, null));
 		
 		JPanel panneauHaut = new JPanel();
@@ -74,76 +74,10 @@ public class CollectionPanelGUI extends JPanel {
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.setEnabled(true);
 		
-		btnRemove.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-
-				
-				
-				
-				
-				
-				
-				
-				
-				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode)path.getPathComponent(1)).getUserObject();
-				
-				DefaultMutableTreeNode curr=(DefaultMutableTreeNode) path.getLastPathComponent();
-				if(curr.isLeaf())
-				{	
-					MagicCard card = (MagicCard)((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
-					
-					try {
-						int res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + card +" from " + col + "?");
-						if(res==JOptionPane.YES_OPTION)
-							dao.removeCard(card, col);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				else
-				{
-					MagicEdition me = (MagicEdition)((DefaultMutableTreeNode)path.getPathComponent(2)).getUserObject();
-					
-					try {
-						int res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + me +" from " + col + "?");
-						if(res==JOptionPane.YES_OPTION)
-							dao.removeEdition(me, col);
-					} catch (SQLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-				}
-				
-				tree.refresh();
-			}
-		});
+		
 		panneauHaut.add(btnRemove);
 		
 		JButton btnAddAllSet = new JButton("Get all set");
-		btnAddAllSet.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
-					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
-					
-					int res = JOptionPane.showConfirmDialog(null,"Are you sure you adding " + ed +" to Library ?");
-					
-					if(res==JOptionPane.YES_OPTION)
-				try {
-					List<MagicCard> list = provider.searchCardByCriteria("set", ed.getId());
-					
-					for(MagicCard mc : list)
-					{
-						MagicCollection col = new MagicCollection();
-						col.setName("Library");
-						dao.saveCard(mc, col);
-					}
-					
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
 		
 		
 		
@@ -157,7 +91,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 		
 		tableEditions.setModel(model);
-		tableEditions.setDefaultRenderer(Integer.class,new MagicCollectionTableCellRenderer());
+		tableEditions.setDefaultRenderer(Object.class,new MagicCollectionTableCellRenderer());
 		DefaultRowSorter sorterEditions = new TableRowSorter<DefaultTableModel>(model);
 		tableEditions.setRowSorter(sorterEditions);
 		
@@ -222,6 +156,75 @@ public class CollectionPanelGUI extends JPanel {
 				}
 			}
 		});
+		
+		
+		btnAddAllSet.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+					MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
+					
+					int res = JOptionPane.showConfirmDialog(null,"Are you sure you adding " + ed +" to Library ?");
+					
+					if(res==JOptionPane.YES_OPTION)
+				try {
+					List<MagicCard> list = provider.searchCardByCriteria("set", ed.getId());
+					
+					for(MagicCard mc : list)
+					{
+						MagicCollection col = new MagicCollection();
+						col.setName("Library");
+						dao.saveCard(mc, col);
+					}
+					model.calculate();
+					model.fireTableDataChanged();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
+		
+		btnRemove.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent evt) {
+
+				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode)path.getPathComponent(1)).getUserObject();
+				
+				DefaultMutableTreeNode curr=(DefaultMutableTreeNode) path.getLastPathComponent();
+				if(curr.isLeaf())
+				{	
+					MagicCard card = (MagicCard)((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
+					
+					try {
+						int res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + card +" from " + col + "?");
+						if(res==JOptionPane.YES_OPTION)
+							dao.removeCard(card, col);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				else
+				{
+					MagicEdition me = (MagicEdition)((DefaultMutableTreeNode)path.getPathComponent(2)).getUserObject();
+					
+					try {
+						int res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + me +" from " + col + "?");
+						if(res==JOptionPane.YES_OPTION)
+							dao.removeEdition(me, col);
+					} catch (SQLException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+				}
+				try {
+					model.calculate();
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+				model.fireTableDataChanged();
+				tree.refresh();
+			}
+		});
+		
 	}
 	
 	

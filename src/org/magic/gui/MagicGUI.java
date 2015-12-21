@@ -659,6 +659,7 @@ public class MagicGUI extends JFrame {
 
 			mntmExportGrid.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					BufferedWriter bw;
 					try {
 						TableModel model=tableCards.getModel();
 						JFileChooser jf =new JFileChooser();
@@ -667,7 +668,7 @@ public class MagicGUI extends JFrame {
 						FileWriter out;
 
 						out = new FileWriter(f);
-						BufferedWriter bw=new BufferedWriter(out);
+						bw=new BufferedWriter(out);
 						for (int i=0;i<model.getColumnCount();i++){
 							bw.write(model.getColumnName(i)+";");
 						}
@@ -681,6 +682,7 @@ public class MagicGUI extends JFrame {
 						bw.close();
 						JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 					} catch (IOException e1) {
+						
 						JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 						e1.printStackTrace();
 					}

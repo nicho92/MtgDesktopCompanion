@@ -152,13 +152,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		logger.debug("searchCardByCriteria : " + jsquery);
 	
 		List<Map<String,Object>> cardsElement = ctx.withListeners(new EvaluationListener() {
-			
-			@Override
 			public EvaluationContinuation resultFound(FoundResult fr) {
 				
 				if(fr.path().startsWith("$"))
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
-	
 				return null;
 			}
 		}).read(jsquery,List.class);

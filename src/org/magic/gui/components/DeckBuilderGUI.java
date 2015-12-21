@@ -190,13 +190,6 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		
-		JSeparator separator = new JSeparator();
-		panneauHaut.add(separator);
-		
-		JButton btnWebImport = new JButton("Web Import");
-		
-		panneauHaut.add(btnWebImport);
-		
 		JButton btnManualImport = new JButton("Manual Import");
 		btnManualImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -339,12 +332,6 @@ public class DeckBuilderGUI extends JPanel{
 				List<MagicCard> d = deck.getAsList();
 				Collections.shuffle(d);
 			    thumbnailPanel.initThumbnails(d.subList(0, 1));
-			}
-		});
-		
-		
-		btnWebImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
 		
