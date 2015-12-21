@@ -14,7 +14,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.magic.gui.ManaCellRenderer;
+import org.magic.gui.renderer.ManaCellRenderer;
 
 public class ManaPanel extends JPanel {
 	

@@ -84,6 +84,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.models.MagicPriceTableModel;
+import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicPDFGenerator;
 
 import com.jayway.jsonpath.JsonPath;

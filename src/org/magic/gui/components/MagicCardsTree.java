@@ -32,7 +32,7 @@ public class MagicCardsTree extends JXTree {
 	public void refresh()
 	{
 		setModel(new DefaultTreeModel(
-				new DefaultMutableTreeNode("Collection") {
+				new DefaultMutableTreeNode("Collections") {
 					{
 						
 						new Thread(new Runnable() {
@@ -48,7 +48,7 @@ public class MagicCardsTree extends JXTree {
 								{
 									logger.debug("loading cards from " + me);
 									nodeSet = new DefaultMutableTreeNode(me);
-									add(nodeSet);
+								add(nodeSet);
 									
 									try {
 										List<MagicEdition> editions = provider.searchSetByCriteria(null, null);

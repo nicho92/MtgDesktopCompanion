@@ -1,14 +1,12 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.Enumeration;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultRowSorter;
@@ -21,14 +19,15 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.JTree;
+import javax.swing.SwingWorker;
+import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.TreeWillExpandListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-import javax.swing.tree.TreeModel;
+import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
 
 import org.magic.api.beans.MagicCard;
@@ -36,8 +35,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
-import org.magic.gui.MagicCollectionTableCellRenderer;
 import org.magic.gui.models.MagicEditionsTableModel;
+import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 
 public class CollectionPanelGUI extends JPanel {
 	private JTable tableEditions;
@@ -77,6 +76,15 @@ public class CollectionPanelGUI extends JPanel {
 		
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
+
+				
+				
+				
+				
+				
+				
+				
+				
 				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode)path.getPathComponent(1)).getUserObject();
 				
 				DefaultMutableTreeNode curr=(DefaultMutableTreeNode) path.getLastPathComponent();
@@ -195,7 +203,6 @@ public class CollectionPanelGUI extends JPanel {
 		 panneauTreeSearch.add(lblCard, BorderLayout.SOUTH);
 
 		
-		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent tse) {
 				path = tse.getPath();
@@ -212,15 +219,9 @@ public class CollectionPanelGUI extends JPanel {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-	         		
-					
-					
 				}
 			}
 		});
-
-		
-		
 	}
 	
 	

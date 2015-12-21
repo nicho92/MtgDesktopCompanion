@@ -40,12 +40,12 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.gui.ManaCellRenderer;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.DeckModel;
+import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicSerializer;
 
 public class DeckBuilderGUI extends JPanel{

@@ -150,15 +150,29 @@ public class HsqlDAO implements MagicDAO {
 		return null;
 	}
 
+	 
+	
 	@Override
-	public void saveCollection(MagicCollection c) {
-		// TODO Auto-generated method stub
+	public void saveCollection(MagicCollection c) throws SQLException {
+
+		PreparedStatement pst = con.prepareStatement("insert into collections values (?)");
+		 pst.setString(1, c.getName());
+		 
+		 pst.executeUpdate();
+			
 		
 	}
 
 	@Override
-	public void removeCollection(MagicCollection c) {
-		// TODO Auto-generated method stub
+	public void removeCollection(MagicCollection c) throws SQLException {
+		PreparedStatement pst = con.prepareStatement("delete from collections where name = ?");
+		 pst.setString(1, c.getName());
+		 pst.executeUpdate();
+		 
+		 
+		 pst = con.prepareStatement("delete from cartes where collection = ?");
+		 pst.setString(1, c.getName());
+		 pst.executeUpdate();
 		
 	}
 
@@ -185,8 +199,8 @@ public class HsqlDAO implements MagicDAO {
 		 pst.executeUpdate();
 		
 	}
-	 
-	 
+
+	
 	
 }
 
