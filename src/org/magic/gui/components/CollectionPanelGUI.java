@@ -3,15 +3,18 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -30,13 +33,20 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.jdesktop.swingx.search.Searchable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
+import org.magic.gui.MagicGUI;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
+import org.magic.tools.MagicExporter;
+
+import ca.odell.glazedlists.GlazedLists;
 
 public class CollectionPanelGUI extends JPanel {
 	private JTable tableEditions;
@@ -47,7 +57,8 @@ public class CollectionPanelGUI extends JPanel {
 	private JTextField txtSearch;
 	
 	private TreePath path;
-	
+	static final Logger logger = LogManager.getLogger(CollectionPanelGUI.class.getName());
+
 	
 	public CollectionPanelGUI(MagicCardsProvider provider,MagicDAO dao) throws Exception
 	{
@@ -82,6 +93,27 @@ public class CollectionPanelGUI extends JPanel {
 		
 		
 		panneauHaut.add(btnAddAllSet);
+		
+		JButton btnExportCSV = new JButton("Export Collection");
+		btnExportCSV.setEnabled(false);
+		btnExportCSV.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jf =new JFileChooser();
+				jf.showSaveDialog(null);
+				File f=jf.getSelectedFile();
+				DefaultMutableTreeNode curr=(DefaultMutableTreeNode) path.getLastPathComponent();
+				MagicCollection mc = (MagicCollection)curr.getUserObject();
+				
+				try {
+					MagicExporter.export(dao.getCardsFromCollection(mc), f);
+					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					logger.error(e);
+					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		panneauHaut.add(btnExportCSV);
 		
 		
 		
@@ -124,7 +156,7 @@ public class CollectionPanelGUI extends JPanel {
 		 txtSearch.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent evt) {
-	               tree.refresh();
+	               
 	            }
 	        });
 		 
@@ -142,6 +174,12 @@ public class CollectionPanelGUI extends JPanel {
 				path = tse.getPath();
 				
 				DefaultMutableTreeNode curr=(DefaultMutableTreeNode) path.getLastPathComponent();
+				
+				if(curr.getUserObject() instanceof MagicCollection)
+					btnExportCSV.setEnabled(true);
+				else
+					btnExportCSV.setEnabled(false);
+				
 				if(curr.isLeaf())
 				{	
 					MagicCard card = (MagicCard)((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
@@ -165,21 +203,21 @@ public class CollectionPanelGUI extends JPanel {
 					int res = JOptionPane.showConfirmDialog(null,"Are you sure you adding " + ed +" to Library ?");
 					
 					if(res==JOptionPane.YES_OPTION)
-				try {
-					List<MagicCard> list = provider.searchCardByCriteria("set", ed.getId());
-					
-					for(MagicCard mc : list)
-					{
-						MagicCollection col = new MagicCollection();
-						col.setName("Library");
-						dao.saveCard(mc, col);
+					try {
+						List<MagicCard> list = provider.searchCardByCriteria("set", ed.getId());
+						
+						for(MagicCard mc : list)
+						{
+							MagicCollection col = new MagicCollection();
+							col.setName("Library");
+							dao.saveCard(mc, col);
+						}
+						model.calculate();
+						model.fireTableDataChanged();
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
 					}
-					model.calculate();
-					model.fireTableDataChanged();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
 			}
 		});
 		

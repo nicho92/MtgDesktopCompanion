@@ -15,6 +15,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -85,6 +86,7 @@ import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.models.MagicPriceTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicPDFGenerator;
 
 import com.jayway.jsonpath.JsonPath;
@@ -150,6 +152,13 @@ public class MagicGUI extends JFrame {
 	private CollectionPanelGUI collectionPanelGUI;
 	private JPopupMenu popupMenu = new JPopupMenu();
     private JTabbedPane tabbedCardsInfo ;
+    private JMenu mnuSearch;
+    private JMenu mnDeck;
+    private JMenuItem mnuExportDeckCsv;
+    private JMenuItem mnuExportDeckPDF;
+    private JMenuItem mnuNewDeck;
+    private JMenu mnuCollections;
+    private JMenuItem mnuCollectionNew;
     
     
 	public static void main(String[] args) {
@@ -254,9 +263,7 @@ public class MagicGUI extends JFrame {
 	{
 		menuBar = new JMenuBar();
 		mnFile = new JMenu("File");
-		mntmExportGrid = new JMenuItem("Export as CSV");
 		mntmExit = new JMenuItem("Exit");
-		mntmExportAsPdf = new JMenuItem("Export as PDF");
 		panneauRss = new RssNewsPanel();	
 
 		setSize(new Dimension(1420, 900));
@@ -266,8 +273,33 @@ public class MagicGUI extends JFrame {
 		setJMenuBar(menuBar);
 
 		menuBar.add(mnFile);
-		mnFile.add(mntmExportGrid);
-		mnFile.add(mntmExportAsPdf);
+		
+		mnuSearch = new JMenu("Results");
+		mnFile.add(mnuSearch);
+		mntmExportAsPdf = new JMenuItem("Export as PDF");
+		mnuSearch.add(mntmExportAsPdf);
+		mntmExportGrid = new JMenuItem("Export as CSV");
+		mnuSearch.add(mntmExportGrid);
+		
+		mnDeck = new JMenu("Deck");
+		mnFile.add(mnDeck);
+		
+		mnuNewDeck = new JMenuItem("New Deck");
+		mnDeck.add(mnuNewDeck);
+		
+		mnuExportDeckPDF = new JMenuItem("Export PDF");
+		mnDeck.add(mnuExportDeckPDF);
+		
+		mnuExportDeckCsv = new JMenuItem("Export as CSV");
+		
+		mnDeck.add(mnuExportDeckCsv);
+		
+		mnuCollections = new JMenu("Collection");
+		mnFile.add(mnuCollections);
+		
+		mnuCollectionNew = new JMenuItem("New Collection");
+		
+		mnuCollections.add(mnuCollectionNew);
 		mnFile.add(mntmExit);
 
 
@@ -578,7 +610,7 @@ public class MagicGUI extends JFrame {
 							String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), 4).toString();
 							Desktop.getDesktop().browse(new URI(url));
 						} catch (Exception e) {
-							e.printStackTrace();
+							logger.error(e);
 						}
 
 					}
@@ -643,7 +675,7 @@ public class MagicGUI extends JFrame {
 							JOptionPane.showMessageDialog(null, "Export PDF Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 
 						}
-					}).start();;
+					}).start();
 
 				}
 			});
@@ -659,36 +691,57 @@ public class MagicGUI extends JFrame {
 
 			mntmExportGrid.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					BufferedWriter bw;
+					JFileChooser jf =new JFileChooser();
+					jf.showSaveDialog(null);
+					File f=jf.getSelectedFile();
+				
+					
 					try {
-						TableModel model=tableCards.getModel();
-						JFileChooser jf =new JFileChooser();
-						jf.showSaveDialog(null);
-						File f=jf.getSelectedFile();
-						FileWriter out;
-
-						out = new FileWriter(f);
-						bw=new BufferedWriter(out);
-						for (int i=0;i<model.getColumnCount();i++){
-							bw.write(model.getColumnName(i)+";");
-						}
-						bw.write("\n");
-						for (int i=0;i<model.getRowCount();i++){
-							for (int j=0;j<model.getColumnCount();j++){
-								bw.write(model.getValueAt(i,j).toString()+";");
-							}
-							bw.write("\n");
-						}
-						bw.close();
-						JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
-					} catch (IOException e1) {
-						
+						MagicExporter.export(cardsModeltable.getListCards(),f);
+					} catch (Exception e1) {
+						logger.error(e1);
 						JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
-						e1.printStackTrace();
+
 					}
 
 				}
 			});
+			
+			
+			mnuCollectionNew.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					
+					String name = JOptionPane.showInputDialog("Name ?");
+					MagicCollection mc = new MagicCollection();
+					mc.setName(name);
+					try {
+						dao.saveCollection(mc);
+						collectionPanelGUI.getJTree().refresh();
+						
+					} catch (SQLException e) {
+						logger.error(e);
+						JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
+			
+			mnuExportDeckCsv.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					JFileChooser jf =new JFileChooser();
+					jf.showSaveDialog(null);
+					File f=jf.getSelectedFile();
+					
+					try {
+						MagicExporter.export(deckBuilderGUI.getDeck(), f);
+						JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
+					} catch (Exception e) {
+						logger.error(e);
+						JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+					}
+					
+				}
+			});
+			
 		} 
 		catch(Exception e)
 		{

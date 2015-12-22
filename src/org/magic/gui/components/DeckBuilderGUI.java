@@ -75,7 +75,9 @@ public class DeckBuilderGUI extends JPanel{
 	protected Object String;
 	private JTable tableSide;
 	
-	
+	public MagicDeck getDeck() {
+		return deck;
+	}
 	
 	public DeckBuilderGUI(MagicCardsProvider provider) {
 		

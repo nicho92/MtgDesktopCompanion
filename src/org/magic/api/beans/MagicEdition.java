@@ -26,7 +26,7 @@ public class MagicEdition implements Serializable {
 	private String block;
 	private String border;
 	private List<Object> booster;
-
+	
 	
 	public MagicEdition() {
 		booster=new ArrayList<Object>();

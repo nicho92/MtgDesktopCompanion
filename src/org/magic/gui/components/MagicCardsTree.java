@@ -1,6 +1,11 @@
 package org.magic.gui.components;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -8,6 +13,7 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hsqldb.lib.HashSet;
 import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -20,6 +26,8 @@ public class MagicCardsTree extends JXTree {
 	DefaultMutableTreeNode nodeSet;
 	private MagicDAO dao;
 	private MagicCardsProvider provider;
+	DefaultMutableTreeNode root;
+	
 	
 	static final Logger logger = LogManager.getLogger(MagicCardsTree.class.getName());
 
@@ -27,8 +35,7 @@ public class MagicCardsTree extends JXTree {
 	{
 		return nodeSet;
 	}
-	
-	
+
 	public void refresh()
 	{
 		setModel(new DefaultTreeModel(
@@ -48,7 +55,7 @@ public class MagicCardsTree extends JXTree {
 								{
 									logger.debug("loading cards from " + me);
 									nodeSet = new DefaultMutableTreeNode(me);
-								add(nodeSet);
+									add(nodeSet);
 									
 									try {
 										List<MagicEdition> editions = provider.searchSetByCriteria(null, null);
@@ -71,6 +78,7 @@ public class MagicCardsTree extends JXTree {
 									e.printStackTrace();	
 									}
 								}
+								expandPath(getPathForRow(0));
 							}
 						}).start();
 						
@@ -87,7 +95,6 @@ public class MagicCardsTree extends JXTree {
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.provider=provider;
 		this.dao=dao;
-		
 		refresh();
 	
 	}
