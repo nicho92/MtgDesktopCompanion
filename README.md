@@ -8,5 +8,5 @@ Collection manager
 manacurve
 
 
-
-![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png)
+Main interface :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png)
