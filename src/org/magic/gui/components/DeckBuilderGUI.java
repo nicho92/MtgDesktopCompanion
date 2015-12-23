@@ -5,6 +5,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -258,7 +261,22 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		
-		
+		tableDeck.addKeyListener(new KeyAdapter() {
+			
+			@Override
+			public void keyTyped(KeyEvent e) {
+				MagicCard mc = (MagicCard)tableDeck.getValueAt(tableDeck.getSelectedRow(),0);
+				if(e.getKeyCode() == 0)
+				{
+					deck.getMap().remove(mc);
+					deckmodel.init(deck);
+					deckmodel.fireTableDataChanged();
+				}
+			
+			}
+		});
+			
+			
 		tableDeck.getModel().addTableModelListener(new TableModelListener() {
 		      public void tableChanged(TableModelEvent e) {
 		    	  updatePanels();

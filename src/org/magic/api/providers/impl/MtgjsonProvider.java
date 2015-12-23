@@ -141,7 +141,15 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		if(att.equalsIgnoreCase("set"))
 		{
-			jsquery="$."+crit.toUpperCase()+".cards";
+			if(crit.length()==4)
+			{
+				crit=crit.substring(0, 1)+crit.substring(1).toUpperCase();
+				jsquery="$."+crit+".cards";	
+			}
+			else
+			{
+				jsquery="$."+crit.toUpperCase()+".cards";	
+			}
 		}
 
 		if(att.equalsIgnoreCase("multiverseid")|| att.equalsIgnoreCase("cmc"))

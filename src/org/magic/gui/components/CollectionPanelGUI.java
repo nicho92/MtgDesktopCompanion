@@ -153,7 +153,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 		tree = new MagicCardsTree(provider,dao);
 		
-		 txtSearch.addActionListener(new ActionListener() {
+		txtSearch.addActionListener(new ActionListener() {
 	            @Override
 	            public void actionPerformed(ActionEvent evt) {
 	               

@@ -92,6 +92,7 @@ import org.magic.tools.MagicPDFGenerator;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
 import com.jayway.jsonpath.spi.cache.CacheProvider;
+import org.magic.gui.components.CardsPicPanel;
 
 public class MagicGUI extends JFrame {
 
@@ -104,7 +105,7 @@ public class MagicGUI extends JFrame {
 	private JList<MagicEdition> listEdition;
 	private JLabel lblLoading = new JLabel("");
 	private JLabel lblNbcard = new JLabel("");
-	private JLabel lblCard = new JLabel();
+	//private JLabel lblCard = new JLabel();
 	private JComboBox<String> cboQuereableItems;
 	private JButton btnSearch;
 	private JPanel panneauHaut;
@@ -159,6 +160,7 @@ public class MagicGUI extends JFrame {
     private JMenuItem mnuNewDeck;
     private JMenu mnuCollections;
     private JMenuItem mnuCollectionNew;
+    private CardsPicPanel cardsPicPanel;
     
     
 	public static void main(String[] args) {
@@ -351,7 +353,6 @@ public class MagicGUI extends JFrame {
 		globalPanel.add(panneauCard, BorderLayout.EAST);
 		cboLanguages = new JComboBox<MagicCardNames>();
 		JScrollPane scrollEditions = new JScrollPane();
-		lblCard.setVerticalAlignment(SwingConstants.TOP);
 		panneauCard.setLayout(new BorderLayout(0, 0));
 
 
@@ -359,9 +360,6 @@ public class MagicGUI extends JFrame {
 		manaRepartitionPanel = new ManaRepartitionPanel();
 		typeRepartitionPanel = new TypeRepartitionPanel();
 
-
-
-		panneauCard.add(lblCard, BorderLayout.CENTER);
 		panneauCard.add(scrollEditions, BorderLayout.SOUTH);
 		listEdition = new JList<MagicEdition>();
 		scrollEditions.setViewportView(listEdition);							
@@ -369,6 +367,10 @@ public class MagicGUI extends JFrame {
 		listEdition.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listEdition.setModel(new DefaultListModel<MagicEdition>());
 		panneauCard.add(cboLanguages, BorderLayout.NORTH);
+		
+		cardsPicPanel = new CardsPicPanel();
+		cardsPicPanel.setPreferredSize(new Dimension(400, 10));
+		panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
 		tablePrice = new JXTable();
 		detailCardPanel = new MagicCardDetailPanel(new MagicCard());
 		tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
@@ -584,7 +586,7 @@ public class MagicGUI extends JFrame {
 						new Thread(new Runnable() {
 							public void run() {
 								try {
-									lblCard.setIcon(new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card")));
+									cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card"));
 									loading(true,"loading edition");
 									priceModel.init(selected, selectedEdition);
 									priceModel.fireTableDataChanged();
@@ -635,13 +637,7 @@ public class MagicGUI extends JFrame {
 					MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
 					try {
 						if(selLang!=null)
-						{
-							lblCard.setIcon(new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selLang.getGathererId()+"&type=card")));
-							logger.debug("loading" + selLang + " " + selLang.getGathererId());
-						}
-
-
-
+							cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selLang.getGathererId()+"&type=card"));
 					} catch (MalformedURLException e1) {}
 				}
 
@@ -785,7 +781,8 @@ public class MagicGUI extends JFrame {
 				((DefaultListModel<MagicEdition>)listEdition.getModel()).addElement(me);
 
 			ImageIcon icon = new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selected.getEditions().get(0).getMultiverse_id()+"&type=card"));
-			lblCard.setIcon(icon);
+			//lblCard.setIcon(icon);
+			cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selected.getEditions().get(0).getMultiverse_id()+"&type=card"));
 
 			detailCardPanel.setMagicCard(selected,true);
 			magicEditionDetailPanel.setMagicEdition(selected.getEditions().get(0));
