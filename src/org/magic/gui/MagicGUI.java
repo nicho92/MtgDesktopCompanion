@@ -11,16 +11,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,14 +44,12 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
-import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.LogManager;
@@ -72,6 +68,7 @@ import org.magic.api.pricers.impl.MagicVillePricer;
 import org.magic.api.pricers.impl.TCGPlayerPricer;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.db.HsqlDAO;
+import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.CollectionPanelGUI;
 import org.magic.gui.components.DeckBuilderGUI;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -92,7 +89,6 @@ import org.magic.tools.MagicPDFGenerator;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
 import com.jayway.jsonpath.spi.cache.CacheProvider;
-import org.magic.gui.components.CardsPicPanel;
 
 public class MagicGUI extends JFrame {
 
@@ -161,6 +157,7 @@ public class MagicGUI extends JFrame {
     private JMenu mnuCollections;
     private JMenuItem mnuCollectionNew;
     private CardsPicPanel cardsPicPanel;
+    private JComboBox<MagicEdition> cboEdition;
     
     
 	public static void main(String[] args) {
@@ -251,8 +248,9 @@ public class MagicGUI extends JFrame {
 						}
 
 					}
-					collectionPanelGUI.getJTree().refresh();
 					loading(false, "");
+					collectionPanelGUI.getJTree().refresh();
+					
 				}
 			});
 			menuItemAdd.add(adds);
@@ -335,6 +333,20 @@ public class MagicGUI extends JFrame {
 
 		btnSearch = new JButton("Rechercher");
 		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
+		cboQuereableItems.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("set"))
+				{
+					txtMagicSearch.setVisible(false);
+					cboEdition.setVisible(true);
+				}
+				else
+				{
+					txtMagicSearch.setVisible(true);
+					cboEdition.setVisible(false);
+				}
+			}
+		});
 		txtMagicSearch = new JTextField();
 		panneauHaut = new JPanel();
 		globalPanel.add(panneauHaut, BorderLayout.NORTH);
@@ -347,6 +359,17 @@ public class MagicGUI extends JFrame {
 
 		panneauHaut.add(cboQuereableItems);
 		panneauHaut.add(txtMagicSearch);
+		
+		List li = provider.searchSetByCriteria(null, null);
+		Collections.sort(li);
+		cboEdition = new JComboBox(li.toArray());
+		cboEdition.setVisible(false);
+		cboEdition.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				txtMagicSearch.setText(((MagicEdition)cboEdition.getSelectedItem()).getId());
+			}
+		});
+		panneauHaut.add(cboEdition);
 		panneauHaut.add(btnSearch);
 		panneauHaut.add(lblLoading);
 		panneauCard = new JPanel();
@@ -430,9 +453,6 @@ public class MagicGUI extends JFrame {
 		scrollThumbnails.setViewportView(thumbnailPanel);
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
 		scrollCards.setViewportView(tableCards);
-
-
-
 		scrollCards.setMinimumSize(new Dimension(23, 250));
 		tabbedCardsInfo.setMinimumSize(new Dimension(23,200));
 
@@ -741,7 +761,8 @@ public class MagicGUI extends JFrame {
 		} 
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			logger.error(e);
+			JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 		}
 
 		txtMagicSearch.addActionListener(new ActionListener() {

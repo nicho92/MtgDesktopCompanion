@@ -179,7 +179,7 @@ public class DeckBuilderGUI extends JPanel{
 				}
 				catch(Exception ex)
 				{
-					ex.printStackTrace();
+					JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -204,7 +204,7 @@ public class DeckBuilderGUI extends JPanel{
 				}
 				catch(Exception ex)
 				{
-					ex.printStackTrace();
+					JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});

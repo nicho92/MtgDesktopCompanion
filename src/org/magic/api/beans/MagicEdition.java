@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MagicEdition implements Serializable {
+public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 
 	
 	private String set;
@@ -101,7 +101,7 @@ public class MagicEdition implements Serializable {
 	
 	@Override
 	public String toString() {
-		return getSet() + " ("+ getId()+")";
+		return getSet();
 	}
 	
 	public String getSet() {
@@ -185,5 +185,10 @@ public class MagicEdition implements Serializable {
 	 public int hashCode() {
 	    return set.hashCode();
 	 }
+
+	@Override
+	public int compareTo(MagicEdition o) {
+		return compare(this, o);
+	}
 	
 }
