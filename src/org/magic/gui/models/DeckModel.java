@@ -10,9 +10,12 @@ public class DeckModel extends DefaultTableModel {
 	String[] columns = new String[]{"name","type","cost","color","edition","Qty"};
 
 	private MagicDeck deck;
+	public static enum TYPE { DECK,SIDE };
 	
+	private TYPE t;
 	
-	public DeckModel() {
+	public DeckModel(TYPE t) {
+		this.t=t;
 		deck = new MagicDeck();
 	}
 	
@@ -44,8 +47,15 @@ public class DeckModel extends DefaultTableModel {
 
 	@Override
 	public Object getValueAt(int row, int column) {
+		MagicCard mc ;
+		switch(t)
+		{
+			case DECK :mc = deck.getValueAt(row);break;
+			case SIDE : mc = deck.getSideValueAt(row);break;
+			default : mc = deck.getValueAt(row);break;
+		}
 		
-		MagicCard mc = deck.getValueAt(row);
+		
  
 		if(column==0)
 			return mc;
@@ -73,7 +83,13 @@ public class DeckModel extends DefaultTableModel {
 		if(deck==null)
 			return 0;
 		
-		return deck.getMap().size();
+		switch(t)
+		{
+			case DECK : return deck.getMap().size();
+			case SIDE : return deck.getMapSideBoard().size();
+			default :return deck.getMap().size();
+		}
+		
 	}
 	
 	public void init(MagicDeck deck)

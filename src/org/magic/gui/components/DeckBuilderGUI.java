@@ -7,13 +7,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
@@ -25,7 +25,6 @@ import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSeparator;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
@@ -33,6 +32,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
@@ -58,10 +58,14 @@ public class DeckBuilderGUI extends JPanel{
 	MagicCardsProvider provider;
 	MagicDeck deck;
 	DeckModel deckmodel ;
-	DeckModel sideboardmodel ;
 	JComboBox cboAttributs;
 	DefaultListModel<MagicCard> resultListModel = new DefaultListModel<MagicCard>();
 	ThumbnailPanel thumbnailPanel;
+	
+	public static final int MAIN=0;
+	public static final int SIDE=1;
+	
+	private int type=0;
 	
 	
 	static final Logger logger = LogManager.getLogger(DeckBuilderGUI.class.getName());
@@ -77,6 +81,8 @@ public class DeckBuilderGUI extends JPanel{
 	private DeckDetailsPanel deckDetailsPanel;
 	protected Object String;
 	private JTable tableSide;
+	protected int selectedIndex=0;
+	private DeckModel deckSidemodel;
 	
 	public MagicDeck getDeck() {
 		return deck;
@@ -91,6 +97,10 @@ public class DeckBuilderGUI extends JPanel{
 
 	}
 
+	public void setType(int side)
+	{
+		this.type=side;
+	}
 	
 	public void setDeck(MagicDeck deck)
 	{
@@ -104,8 +114,8 @@ public class DeckBuilderGUI extends JPanel{
 	private void initGUI() {
 		
 		setLayout(new BorderLayout(0, 0));
-		deckmodel = new DeckModel();
-		sideboardmodel= new DeckModel();
+		deckmodel = new DeckModel(DeckModel.TYPE.DECK);
+		deckSidemodel = new DeckModel(DeckModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
 		
 		
@@ -137,6 +147,8 @@ public class DeckBuilderGUI extends JPanel{
 				setDeck(newDeck);
 				deckmodel.load(newDeck);
 				deckmodel.fireTableDataChanged();
+				deckSidemodel.load(newDeck);
+				deckSidemodel.fireTableDataChanged();
 				//updatePanels();
 			}
 		});
@@ -158,7 +170,9 @@ public class DeckBuilderGUI extends JPanel{
 					deck = MagicSerializer.read(f,MagicDeck.class);
 					deckDetailsPanel.setMagicDeck(deck);
 					deckmodel.load(deck);
+					deckSidemodel.load(deck);
 					deckmodel.fireTableDataChanged();
+					deckSidemodel.fireTableDataChanged();
 					updatePanels();
 	
 					
@@ -232,6 +246,7 @@ public class DeckBuilderGUI extends JPanel{
 		panneauDeck.setRightComponent(magicCardDetailPanel);
 		
 		JTabbedPane tabbedDeck_side = new JTabbedPane(JTabbedPane.BOTTOM);
+		
 		panneauDeck.setLeftComponent(tabbedDeck_side);
 		
 		JScrollPane scrollDeck = new JScrollPane();
@@ -239,6 +254,7 @@ public class DeckBuilderGUI extends JPanel{
 		
 		tableDeck = new JTable();
 		scrollDeck.setViewportView(tableDeck);
+		
 		tableDeck.setModel(deckmodel);
 		tableDeck.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableDeck.setRowHeight(ManaPanel.pix_resize);
@@ -248,7 +264,7 @@ public class DeckBuilderGUI extends JPanel{
 		tabbedDeck_side.addTab("SideBoard", null, scrollSideboard, null);
 		
 		tableSide = new JTable();
-		tableSide.setModel(sideboardmodel);
+		tableSide.setModel(deckSidemodel);
 		scrollSideboard.setViewportView(tableSide);
 		
 		tableDeck.addMouseListener(new MouseAdapter() {
@@ -374,15 +390,17 @@ public class DeckBuilderGUI extends JPanel{
 					
 					MagicCard mc = (MagicCard)listResult.getSelectedValue();
 					
-					if(deck.getMap().get(mc)!=null)
+					if(getSelectedMap().get(mc)!=null)
 					{
-						deck.getMap().put(mc, deck.getMap().get(mc)+1);
+						getSelectedMap().put(mc, deck.getMap().get(mc)+1);
 					}
 					else
 					{	
-						deck.getMap().put(mc, 1);
+						getSelectedMap().put(mc, 1);
 					}
 					deckmodel.init(deck);
+					deckSidemodel.init(deck);
+					deckSidemodel.fireTableDataChanged();
 					deckmodel.fireTableDataChanged();
 				}
 			}
@@ -392,6 +410,12 @@ public class DeckBuilderGUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				btnSearch.doClick();
 				
+			}
+		});
+		
+		tabbedDeck_side.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				selectedIndex = tabbedDeck_side.getSelectedIndex();
 			}
 		});
 		
@@ -447,10 +471,11 @@ public class DeckBuilderGUI extends JPanel{
 						
 						if(mc!=null)
 							{
-							deck.getMap().put(mc, nb);
+							getSelectedMap().put(mc, nb);
 							setDeck(deck);
 							updatePanels();
 							deckmodel.fireTableDataChanged();
+							deckSidemodel.fireTableDataChanged();
 							}
 					} catch (Exception e) {
 						
@@ -466,6 +491,16 @@ public class DeckBuilderGUI extends JPanel{
 		
 	}
 
+	
+	public Map<MagicCard,Integer> getSelectedMap()
+	{
+		System.out.println(selectedIndex);
+		if(selectedIndex==0)
+			return deck.getMap();
+		else
+			return deck.getMapSideBoard();
+		
+	}
 
 	protected void updatePanels() {
 

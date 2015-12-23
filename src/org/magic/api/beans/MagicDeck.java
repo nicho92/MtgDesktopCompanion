@@ -85,6 +85,11 @@ public class MagicDeck implements Serializable{
     {
 		return new ArrayList<MagicCard>(mapDeck.keySet()).get(pos);
     }
+
+	public MagicCard getSideValueAt(int pos)
+    {
+		return new ArrayList<MagicCard>(mapSideBoard.keySet()).get(pos);
+    }
 	
 	public List<MagicCard> getAsList()
 	{
@@ -96,7 +101,6 @@ public class MagicDeck implements Serializable{
 		return deck;
 	}
 	
-	//TODO test format soit un retour des format autorisé soit un test
 	public boolean isCompatibleFormat(MagicFormat mf)
 	{
 		for(MagicCard mc : mapDeck.keySet())
