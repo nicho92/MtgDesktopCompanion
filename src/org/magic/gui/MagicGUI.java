@@ -601,7 +601,7 @@ public class MagicGUI extends JFrame {
 					try {
 
 						selectedEdition = listEdition.getSelectedValue();
-						detailCardPanel.setMagicLogo(selectedEdition.getId(),selectedEdition.getRarity());
+						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);
 						new Thread(new Runnable() {
 							public void run() {
