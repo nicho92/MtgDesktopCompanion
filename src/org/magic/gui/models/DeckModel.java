@@ -72,10 +72,20 @@ public class DeckModel extends DefaultTableModel {
 
 		if(column==4)
 			return mc.getEditions();
-
 		
-		return deck.getMap().get(mc);
+		if(column==5)
+		{
+			switch(t)
+			{
+				case DECK :return deck.getMap().get(mc);
+				case SIDE : return deck.getMapSideBoard().get(mc);
+				default : return null;
+			}
+			
+		}
 		
+		
+		return null;
 	}
 	
 	@Override

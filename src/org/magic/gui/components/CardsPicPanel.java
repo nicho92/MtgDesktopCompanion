@@ -58,7 +58,6 @@ public class CardsPicPanel extends JXPanel {
 					image = ImageIO.read(photo);
 					
 					image=renderer.appendReflection(image);
-					
 					int w = getWidth();
 				    int h = getHeight();
 				    int x = (w - image.getWidth())/2;
