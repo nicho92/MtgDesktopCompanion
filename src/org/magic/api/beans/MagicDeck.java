@@ -101,6 +101,16 @@ public class MagicDeck implements Serializable{
 		return deck;
 	}
 	
+	public List<MagicCard> getSideAsList()
+	{
+		ArrayList<MagicCard> deck = new ArrayList<MagicCard>();
+		
+		for(MagicCard c : mapSideBoard.keySet())
+			for(int i=0;i<mapSideBoard.get(c);i++)
+				deck.add(c);
+		return deck;
+	}
+	
 	public boolean isCompatibleFormat(MagicFormat mf)
 	{
 		for(MagicCard mc : mapDeck.keySet())

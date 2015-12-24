@@ -1,12 +1,16 @@
 package org.magic.tools;
 
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import org.magic.api.beans.MagicDeck;
+
+import com.google.gson.Gson;
 
 public class MagicSerializer {
 
@@ -19,14 +23,15 @@ public class MagicSerializer {
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(deck);
 		oos.flush();
-		oos.close();/*
-		File f = new File(name);
+		oos.close();
+		
+		File f = new File(name+".json");
 		Gson GSON = new Gson();
 		FileWriter fw = new FileWriter(f.getAbsoluteFile());
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.write(GSON.toJson(deck));
 		bw.close();
-		*/
+		
 		
 	}
 

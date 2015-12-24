@@ -15,6 +15,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 
+import sun.util.locale.provider.LocaleServiceProviderPool.LocalizedObjectGetter;
+
 public class HsqlDAO implements MagicDAO {
 
 	static final Logger logger = LogManager.getLogger(HsqlDAO.class.getName());
@@ -57,7 +59,7 @@ public class HsqlDAO implements MagicDAO {
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		
-		
+		logger.debug("saving " + mc +" in " + collection);
 		
 		PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?)");
 		 pst.setString(1, mc.getName());

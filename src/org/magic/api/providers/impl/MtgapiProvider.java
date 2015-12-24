@@ -323,6 +323,12 @@ public class MtgapiProvider implements MagicCardsProvider{
 		return null;
 	}
 
+	@Override
+	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }

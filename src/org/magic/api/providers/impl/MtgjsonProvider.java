@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 
+import com.google.gson.JsonElement;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.EvaluationListener;
 import com.jayway.jsonpath.JsonPath;
@@ -129,6 +130,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	public MagicCard getCardById(String id) throws Exception {
 		return searchCardByCriteria("id", id).get(0);
 	}
+	
+	
 	
 	public List<MagicCard> searchCardByCriteria(String att,String crit) throws IOException {
 		
@@ -318,6 +321,9 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		if(crit==null)
 			jsquery="$.*";
 		
+		
+		logger.debug("get edition with " + att +"="+crit);
+
 		final List<String> codeEd=new ArrayList<String>();
 		ctx.withListeners(new EvaluationListener() {
 				
@@ -346,7 +352,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	public MagicEdition getSetById(String id)  {
 		
 		
-		
+		logger.debug("get edition " + id);
 		MagicEdition me = new MagicEdition();
 					me.setId(id);
 					me.setSet(ctx.read("$."+id+".name",String.class));
@@ -413,7 +419,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	public List<MagicCard> openBooster(MagicEdition me) {
 
-		
+		logger.debug("opening booster for " + me );
 		List<MagicCard> common = new ArrayList<MagicCard>();
 		List<MagicCard> uncommon = new ArrayList<MagicCard>();
 		List<MagicCard> rare= new ArrayList<MagicCard>();
@@ -487,6 +493,41 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			resList.add(rare.get(0));
 			
 		return resList;
+	}
+
+
+	@Override
+	public MagicCard getCardByNumber(String num, MagicEdition me) throws Exception {
+		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.number =~ /^.*"+num+".*$/)]";
+		List<Map<String,Object>> cardsElement = ctx.read(jsquery,List.class);
+		Map<String,Object> map;
+		
+		String id = "";
+		
+		if(cardsElement.size()>0)
+		{
+			map=cardsElement.get(0);
+			id = map.get("id").toString();
+		}
+		else //for old edition, number is at null. So we take his position in 'cards' array
+		{
+			int parseId=0;
+			try{ 
+				parseId= Integer.parseInt(num);
+				jsquery="$."+me.getId().toUpperCase()+".cards["+(parseId-1)+"]";
+				id = ctx.read(jsquery,JsonElement.class).getAsJsonObject().get("id").getAsString();
+			}catch(NumberFormatException nfe)
+			{
+				logger.error("could not parse " + num);
+			}
+			
+		}
+		
+			MagicCard mc = getCardById(id);
+					  mc.getEditions().add(me);
+					  return mc;
+		
+		
 	}
 
 }

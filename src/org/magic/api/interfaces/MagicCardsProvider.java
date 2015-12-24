@@ -12,6 +12,8 @@ public interface MagicCardsProvider {
 	
 	public MagicCard getCardById(String id) throws Exception;
 	public List<MagicCard> searchCardByCriteria(String att, String crit) throws Exception;
+	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception;
+	
 	
 	public List<MagicEdition> searchSetByCriteria(String att,String crit) throws Exception;
 	public MagicEdition getSetById(String id) throws Exception;

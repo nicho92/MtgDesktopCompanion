@@ -5,6 +5,7 @@ import java.awt.BasicStroke;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
@@ -46,6 +47,19 @@ public class CardsPicPanel extends JXPanel {
 	public CardsPicPanel()
 	{
 		initGUI();
+	}
+	
+	public void showImage(Image i)
+	{
+		image=(BufferedImage) i;
+		image=renderer.appendReflection(image);
+		int w = getWidth();
+	    int h = getHeight();
+	    int x = (w - image.getWidth())/2;
+	    int y = (h - image.getHeight())/2;
+		
+	    selectedShape= new Rectangle2D.Double(x, y, image.getWidth(null),  image.getHeight(null));
+	    repaint();
 	}
 	
 	public void showPhoto(URL photo) {

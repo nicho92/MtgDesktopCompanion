@@ -2,6 +2,7 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -68,6 +69,7 @@ import org.magic.api.pricers.impl.MagicVillePricer;
 import org.magic.api.pricers.impl.TCGPlayerPricer;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.db.HsqlDAO;
+import org.magic.gui.components.CardBuilderPanelGUI;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.CollectionPanelGUI;
 import org.magic.gui.components.DeckBuilderGUI;
@@ -158,6 +160,8 @@ public class MagicGUI extends JFrame {
     private JMenuItem mnuCollectionNew;
     private CardsPicPanel cardsPicPanel;
     private JComboBox<MagicEdition> cboEdition;
+
+	private CardBuilderPanelGUI panneauBuilder;
     
     
 	public static void main(String[] args) {
@@ -302,7 +306,7 @@ public class MagicGUI extends JFrame {
 		mnuCollections.add(mnuCollectionNew);
 		mnFile.add(mntmExit);
 
-
+		panneauBuilder = new CardBuilderPanelGUI();
 
 		JMenu jmnuLook = new JMenu("Look");
 		menuBar.add(jmnuLook);
@@ -483,6 +487,7 @@ public class MagicGUI extends JFrame {
 		collectionPanelGUI = new CollectionPanelGUI(provider,dao);
 		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), collectionPanelGUI, null);
 		tabbedPane.addTab("News", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), panneauRss, null);
+		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), panneauBuilder, null);
 
 		initPopupCollection();
 
@@ -761,7 +766,8 @@ public class MagicGUI extends JFrame {
 		} 
 		catch(Exception e)
 		{
-			logger.error(e);
+			e.printStackTrace();
+			
 			JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 		}
 

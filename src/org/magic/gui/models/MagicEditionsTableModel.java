@@ -26,6 +26,11 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	private MagicCardsProvider provider; 
 	
 	
+	public List<MagicEdition> getEditions()
+	{
+		return list;
+	}
+	
 	public void init(List<MagicEdition> editions ){
 		this.list=editions;
 		mapCount=new HashMap<MagicEdition,Integer>();

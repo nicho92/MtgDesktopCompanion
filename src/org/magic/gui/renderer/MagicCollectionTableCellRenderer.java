@@ -15,7 +15,14 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		{
+			
+			if(column==4)
+				value=value.toString()+"%";
+			
 			Component pane = super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column);
+			
+			
+			
 			if((int)table.getValueAt(row, 4)<50)
 			{
 				pane.setBackground(table.getBackground());

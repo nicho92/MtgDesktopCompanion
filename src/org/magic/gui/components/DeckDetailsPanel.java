@@ -34,6 +34,8 @@ public class DeckDetailsPanel extends JPanel {
 	JLabel lbvin;
 	JLabel lbcmd;
 	private JLabel lbLeg;
+	private JLabel lblSideboard;
+	private JProgressBar nbSideProgress;
 
 	
 	public DeckDetailsPanel(org.magic.api.beans.MagicDeck newMagicDeck) {
@@ -44,9 +46,9 @@ public class DeckDetailsPanel extends JPanel {
 	public DeckDetailsPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 132, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 45, 30, 0, 60, 38, 71, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 28, 30, 35, 60, 38, 31, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
 				JLabel nameLabel = new JLabel("Name:");
@@ -123,7 +125,6 @@ public class DeckDetailsPanel extends JPanel {
 		add(nbCardsLabel, labelGbc_2);
 		
 		nbCardsProgress = new JProgressBar();
-		nbCardsProgress.setMaximum(75);
 		nbCardsProgress.setStringPainted(true);
 		GridBagConstraints gbc_nbCardsProgress = new GridBagConstraints();
 		gbc_nbCardsProgress.fill = GridBagConstraints.HORIZONTAL;
@@ -155,6 +156,23 @@ public class DeckDetailsPanel extends JPanel {
 		panelLegalities.add(lbstd);
 		panelLegalities.add(lbmnd);
 		panelLegalities.add(lbcmd);
+		
+		lblSideboard = new JLabel("SideBoard :");
+		GridBagConstraints gbc_lblSideboard = new GridBagConstraints();
+		gbc_lblSideboard.insets = new Insets(0, 0, 0, 5);
+		gbc_lblSideboard.gridx = 1;
+		gbc_lblSideboard.gridy = 7;
+		add(lblSideboard, gbc_lblSideboard);
+		
+		nbSideProgress = new JProgressBar();
+		nbSideProgress.setMaximum(15);
+		nbSideProgress.setStringPainted(true);
+		GridBagConstraints gbc_nbSideProgress = new GridBagConstraints();
+		gbc_nbSideProgress.fill = GridBagConstraints.HORIZONTAL;
+		gbc_nbSideProgress.insets = new Insets(0, 0, 0, 5);
+		gbc_nbSideProgress.gridx = 2;
+		gbc_nbSideProgress.gridy = 7;
+		add(nbSideProgress, gbc_nbSideProgress);
 		
 		
 		if (magicDeck != null) {
@@ -221,6 +239,9 @@ public class DeckDetailsPanel extends JPanel {
 		AutoBinding<MagicDeck, Integer, JProgressBar, Integer> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, nbCardsProperty,nbCardsProgress , textProperty_4);
 		autoBinding_2.bind();
 		nbCardsProgress.setString(""+magicDeck.getNbCards());
+		nbSideProgress.setValue(magicDeck.getSideAsList().size());
+		
+		
 		setLegalities();
 		//
 		BeanProperty<MagicDeck, String> descriptionProperty = BeanProperty.create("description");
@@ -233,6 +254,7 @@ public class DeckDetailsPanel extends JPanel {
 		AutoBinding<MagicDeck, String, ManaPanel, String> autoBinding_4 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, colorIdentityProperty, manaPanel, manaCostProperty_3);
 		autoBinding_4.bind();
 		//
+		
 		BindingGroup bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding_1);

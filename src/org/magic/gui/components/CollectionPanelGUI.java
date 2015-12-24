@@ -113,6 +113,10 @@ public class CollectionPanelGUI extends JPanel {
 				}
 			}
 		});
+		
+		JButton btnMassCollection = new JButton("Mass Collection");
+		
+		panneauHaut.add(btnMassCollection);
 		panneauHaut.add(btnExportCSV);
 		
 		
@@ -192,6 +196,17 @@ public class CollectionPanelGUI extends JPanel {
 						e.printStackTrace();
 					}
 				}
+			}
+		});
+		
+		btnMassCollection.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				new MassCollectionImporterDialog(dao,provider,model.getEditions()).setVisible(true);
+				try {
+					model.calculate();
+				} catch (Exception e) {}
+				model.fireTableDataChanged();
+				tree.refresh();
 			}
 		});
 		
