@@ -25,6 +25,7 @@ import java.awt.event.ActionEvent;
 import javax.swing.JProgressBar;
 import java.awt.Dimension;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 
 public class MassCollectionImporterDialog extends JDialog{
 	
@@ -67,7 +68,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		JComboBox cboCollections = new JComboBox(lc.toArray());
 		panelCollectionInput.add(cboCollections);
 		
-		JLabel lblThisNumber = new JLabel(" this number : ");
+		JLabel lblThisNumber = new JLabel(" theses numbers : ");
 		panelCollectionInput.add(lblThisNumber);
 		
 		JPanel panneauBas = new JPanel();
@@ -132,7 +133,7 @@ public class MassCollectionImporterDialog extends JDialog{
 								e1.printStackTrace();
 							}
 						}
-						
+						JOptionPane.showMessageDialog(null, "Finished import "+ ids.length +" cards","Import",JOptionPane.INFORMATION_MESSAGE);
 						if(!checkNewOne.isSelected())
 						{
 							setVisible(false);

@@ -35,6 +35,7 @@ import javax.swing.tree.TreePath;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.search.Searchable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -43,10 +44,12 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.models.MagicEditionsTableModel;
+import org.magic.gui.models.MagicPriceTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.tools.MagicExporter;
 
 import ca.odell.glazedlists.GlazedLists;
+import java.awt.Dimension;
 
 public class CollectionPanelGUI extends JPanel {
 	private JTable tableEditions;
@@ -58,7 +61,8 @@ public class CollectionPanelGUI extends JPanel {
 	
 	private TreePath path;
 	static final Logger logger = LogManager.getLogger(CollectionPanelGUI.class.getName());
-
+	private JXTable tablePrices;
+	private MagicPriceTableModel modelPrices;
 	
 	public CollectionPanelGUI(MagicCardsProvider provider,MagicDAO dao) throws Exception
 	{
@@ -169,8 +173,21 @@ public class CollectionPanelGUI extends JPanel {
 		 
 		 scrollPaneCollections.setViewportView(tree);
 		 
+		 JPanel panneauBas = new JPanel();
+		 panneauTreeSearch.add(panneauBas, BorderLayout.SOUTH);
+		 panneauBas.setLayout(new BorderLayout(0, 0));
+		 
 		 JLabel lblCard = new JLabel("");
-		 panneauTreeSearch.add(lblCard, BorderLayout.SOUTH);
+		 lblCard.setPreferredSize(new Dimension(250, 0));
+		 panneauBas.add(lblCard, BorderLayout.WEST);
+		 
+		 JScrollPane scrollPrices = new JScrollPane();
+		 panneauBas.add(scrollPrices);
+		 
+		 modelPrices=new MagicPriceTableModel();
+		 tablePrices = new JXTable(modelPrices);
+		 tablePrices.setColumnControlVisible(true);
+		 scrollPrices.setViewportView(tablePrices);
 
 		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
@@ -187,14 +204,24 @@ public class CollectionPanelGUI extends JPanel {
 				if(curr.isLeaf())
 				{	
 					MagicCard card = (MagicCard)((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
-					ImageIcon icon;
-					try {
-						icon = new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+card.getEditions().get(0).getMultiverse_id()+"&type=card"));
-						lblCard.setIcon(icon);
-					} catch (MalformedURLException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					
+					new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							ImageIcon icon;
+							try {
+								icon = new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+card.getEditions().get(0).getMultiverse_id()+"&type=card"));
+								lblCard.setIcon(icon);
+								modelPrices.init(card, card.getEditions().get(0));
+								modelPrices.fireTableDataChanged();
+							} catch (MalformedURLException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+						}
+					}).start();
 				}
 			}
 		});

@@ -505,11 +505,7 @@ public class MagicGUI extends JFrame {
 
 		try {
 			priceModel=new MagicPriceTableModel();
-			priceModel.addProvider(new EbayPricer());
-			priceModel.addProvider(new MagicVillePricer());
-			priceModel.addProvider(new TCGPlayerPricer());
-			priceModel.addProvider(new MagicTradersPricer());
-			priceModel.addProvider(new ChannelFireballPricer());
+			
 
 			this.provider=provider;
 
