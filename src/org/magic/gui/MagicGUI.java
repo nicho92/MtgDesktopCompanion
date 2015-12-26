@@ -69,14 +69,10 @@ import org.magic.api.pricers.impl.MagicVillePricer;
 import org.magic.api.pricers.impl.TCGPlayerPricer;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.db.HsqlDAO;
-import org.magic.gui.components.CardBuilderPanelGUI;
 import org.magic.gui.components.CardsPicPanel;
-import org.magic.gui.components.CollectionPanelGUI;
-import org.magic.gui.components.DeckBuilderGUI;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ManaPanel;
-import org.magic.gui.components.RssNewsPanel;
 import org.magic.gui.components.ThumbnailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -108,7 +104,7 @@ public class MagicGUI extends JFrame {
 	private JButton btnSearch;
 	private JPanel panneauHaut;
 	private JPanel panneauCard = new JPanel();
-	private RssNewsPanel panneauRss;
+	private RssNewsPanelGUI panneauRss;
 
 
 	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
@@ -271,7 +267,7 @@ public class MagicGUI extends JFrame {
 		menuBar = new JMenuBar();
 		mnFile = new JMenu("File");
 		mntmExit = new JMenuItem("Exit");
-		panneauRss = new RssNewsPanel();	
+		panneauRss = new RssNewsPanelGUI();	
 
 		setSize(new Dimension(1420, 900));
 		setTitle("Magic Desktop Companion");

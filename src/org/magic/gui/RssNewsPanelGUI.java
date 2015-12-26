@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui;
 
 import java.awt.SystemColor;
 import java.io.IOException;
@@ -11,8 +11,8 @@ import javax.swing.text.html.HTMLEditorKit;
 import java.awt.BorderLayout;
 import javax.swing.JEditorPane;
 
-public class RssNewsPanel extends JDesktopPane {
-	public RssNewsPanel() {
+public class RssNewsPanelGUI extends JDesktopPane {
+	public RssNewsPanelGUI() {
 		setBackground(SystemColor.inactiveCaption);
 		
 		  JInternalFrame internalFrame = new JInternalFrame("MTG GoldFish News", true, true, true, true);

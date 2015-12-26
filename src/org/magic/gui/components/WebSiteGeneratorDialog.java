@@ -76,16 +76,10 @@ public class WebSiteGeneratorDialog extends JDialog {
 		panneauBas.add(btnGenerate);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.WEST);
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		list = new JList<MagicCollection>(cols.toArray(new MagicCollection[cols.size()]));
 		scrollPane.setViewportView(list);
-		
-		JEditorPane editorPane = new JEditorPane();
-		HTMLEditorKit kit = new HTMLEditorKit();
-		editorPane.setEditorKit(kit);
-		getContentPane().add(editorPane, BorderLayout.CENTER);
-		
 		
 		btnDestChoose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

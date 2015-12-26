@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
@@ -41,6 +41,9 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
+import org.magic.gui.components.MagicCardsTree;
+import org.magic.gui.components.MassCollectionImporterDialog;
+import org.magic.gui.components.WebSiteGeneratorDialog;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.models.MagicPriceTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;

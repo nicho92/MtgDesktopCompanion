@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
@@ -43,6 +43,11 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.gui.components.DeckDetailsPanel;
+import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.ManaPanel;
+import org.magic.gui.components.ManualImportFrame;
+import org.magic.gui.components.ThumbnailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;

@@ -41,8 +41,8 @@ Licence URI: http://www.os-templates.com/template-terms
   <main class="container clear"> 
    <div class="content"> 
       <h1>${card.name?if_exists}</h1>
-      <img src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=${card.editions[0].id}&size=medium&rarity=${card.editions[0].rarity[0..0]}"/>
-      <img class="imgr borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid?if_exists}&type=card"/>
+      <img class="imgr borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=${card.editions[0].id}&size=medium&rarity=${card.editions[0].rarity[0..0]}"/>
+      <img class="imgl borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid?if_exists}&type=card"/>
      <p>${card.text?if_exists}</p>
      <p><i>${card.flavor?if_exists}</i></p>
     </div>
