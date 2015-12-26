@@ -39,7 +39,10 @@ public class MagicVillePricer implements MagicPricesProvider {
 		switch (me.getId())
 		{
 		case "M10" :return "10m";
-		case "M11" : return "11m";
+		case "M11" :return "11m";
+		case "M12" :return "12m";
+		case "M13" : return "13m";
+		case "M14" : return "14m";
 		case "DRK" : return "dar";
 		default : return me.getId();
 		}
