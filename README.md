@@ -25,3 +25,8 @@ Deck Manager :
 
 Collection Manager :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png)
+
+
+Generate Website of your collections :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png)
+
