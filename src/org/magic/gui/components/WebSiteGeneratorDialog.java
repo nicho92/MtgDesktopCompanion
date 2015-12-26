@@ -79,6 +79,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		list = new JList<MagicCollection>(cols.toArray(new MagicCollection[cols.size()]));
+		
 		scrollPane.setViewportView(list);
 		
 		btnDestChoose.addActionListener(new ActionListener() {

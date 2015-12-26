@@ -8,10 +8,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -141,7 +142,9 @@ public class CollectionPanelGUI extends JPanel {
 						
 						if(res==JOptionPane.YES_OPTION)
 						{
-							Desktop.getDesktop().browse(new URI("file://"+diag.getDest().getAbsolutePath()+"/index.htm"));
+							//URI uri = new URI("file:///"+diag.getDest().getAbsolutePath()+"/index.htm");
+							Path p = Paths.get(diag.getDest().getAbsolutePath()+"/index.htm");
+							Desktop.getDesktop().browse(p.toUri());
 						}
 						
 					}
