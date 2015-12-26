@@ -1,15 +1,19 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -22,34 +26,26 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-import javax.swing.SwingWorker;
-import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
-import javax.swing.event.TreeWillExpandListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.search.Searchable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
-import org.magic.gui.MagicGUI;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.models.MagicPriceTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.tools.MagicExporter;
-
-import ca.odell.glazedlists.GlazedLists;
-import java.awt.Dimension;
+import org.magic.tools.MagicWebSiteGenerator;
 
 public class CollectionPanelGUI extends JPanel {
 	private JTable tableEditions;
@@ -92,7 +88,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 		panneauHaut.add(btnRemove);
 		
-		JButton btnAddAllSet = new JButton("Get all set");
+		JButton btnAddAllSet = new JButton("Mark set as full");
 		
 		
 		
@@ -118,10 +114,42 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 		
-		JButton btnMassCollection = new JButton("Mass Collection");
+		JButton btnMassCollection = new JButton("Mass Import");
 		
 		panneauHaut.add(btnMassCollection);
 		panneauHaut.add(btnExportCSV);
+		
+		JButton btnGenerateWebSite = new JButton("Generate website");
+		btnGenerateWebSite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					
+					WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.getCollections());
+											diag.setVisible(true);
+					
+					if(diag.value()==true)
+					{						
+						MagicWebSiteGenerator gen = new MagicWebSiteGenerator(dao, diag.getTemplate(), diag.getDest().getAbsolutePath());
+										  gen.generate(diag.getSelectedCollections());
+										  
+										  
+						int res= JOptionPane.showConfirmDialog(null, "website generate. Want to see it ? ");
+						
+						if(res==JOptionPane.YES_OPTION)
+						{
+							Desktop.getDesktop().browse(new URI("file://"+diag.getDest().getAbsolutePath()+"/index.htm"));
+						}
+						
+					}
+				} 
+				catch (Exception e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		panneauHaut.add(btnGenerateWebSite);
 		
 		
 		
@@ -263,6 +291,24 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 		
+		tablePrices.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent ev) {
+				if(ev.getClickCount()==2 && !ev.isConsumed())
+				{
+					ev.consume();
+					try {
+						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), 4).toString();
+						Desktop.getDesktop().browse(new URI(url));
+					} catch (Exception e) {
+						logger.error(e);
+					}
+				}
+
+			}
+		});
+
+		
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 
@@ -291,7 +337,6 @@ public class CollectionPanelGUI extends JPanel {
 						if(res==JOptionPane.YES_OPTION)
 							dao.removeEdition(me, col);
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}

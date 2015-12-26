@@ -6,6 +6,8 @@ import java.io.IOException;
 import javax.swing.JDesktopPane;
 import javax.swing.JInternalFrame;
 import javax.swing.JScrollPane;
+import javax.swing.text.html.HTMLEditorKit;
+
 import java.awt.BorderLayout;
 import javax.swing.JEditorPane;
 
@@ -23,6 +25,8 @@ public class RssNewsPanel extends JDesktopPane {
 		  internalFrame.getContentPane().add(scrollPane, BorderLayout.CENTER);
 		  
 		  JEditorPane editorPane = new JEditorPane();
+		  HTMLEditorKit kit = new HTMLEditorKit();
+			editorPane.setEditorKit(kit);
 		  editorPane.setContentType("text/html");
 		  scrollPane.setViewportView(editorPane);
 		  

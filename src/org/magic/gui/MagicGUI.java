@@ -162,6 +162,9 @@ public class MagicGUI extends JFrame {
     private JComboBox<MagicEdition> cboEdition;
 
 	private CardBuilderPanelGUI panneauBuilder;
+	private JMenu mnuAbout;
+	private JMenuItem mntmAboutMagicDesktop;
+	private JMenuItem mntmReportBug;
     
     
 	public static void main(String[] args) {
@@ -310,6 +313,25 @@ public class MagicGUI extends JFrame {
 
 		JMenu jmnuLook = new JMenu("Look");
 		menuBar.add(jmnuLook);
+		
+		mnuAbout = new JMenu("?");
+		menuBar.add(mnuAbout);
+		
+		mntmAboutMagicDesktop = new JMenuItem("About Magic Desktop Companion");
+		mnuAbout.add(mntmAboutMagicDesktop);
+		
+		mntmReportBug = new JMenuItem("Report Bug");
+		mntmReportBug.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try {
+					String url = "https://github.com/nicho92/MtgDesktopCompanion/issues";
+					Desktop.getDesktop().browse(new URI(url));
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			}
+		});
+		mnuAbout.add(mntmReportBug);
 		for(LookAndFeelInfo ui : UIManager.getInstalledLookAndFeels())
 		{
 			final JMenuItem it = new JMenuItem(ui.getClassName());

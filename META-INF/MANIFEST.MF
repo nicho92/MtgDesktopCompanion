@@ -8,4 +8,4 @@ Rsrc-Class-Path: ./ httpclient-4.5.1.jar httpcore-4.4.3.jar jsoup-1.7.
 Class-Path: .
 Rsrc-Main-Class: org.magic.gui.MagicGUI
 Main-Class: org.eclipse.jdt.internal.jarinjarloader.JarRsrcLoader
-SplashScreen-Image: splash.png
+SplashScreen-Image: magic-logo.png

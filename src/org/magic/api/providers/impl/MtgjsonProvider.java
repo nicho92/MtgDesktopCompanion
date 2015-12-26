@@ -352,7 +352,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	public MagicEdition getSetById(String id)  {
 		
 		
-		logger.debug("get edition " + id);
 		MagicEdition me = new MagicEdition();
 					me.setId(id);
 					me.setSet(ctx.read("$."+id+".name",String.class));
