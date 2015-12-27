@@ -41,7 +41,8 @@ public class MagicWebSiteGenerator {
 	
 	public MagicWebSiteGenerator(MagicDAO dao,String template,String dest) throws IOException, ClassNotFoundException, SQLException {
 		cfg = new Configuration(Configuration.VERSION_2_3_23);
-		cfg.setDirectoryForTemplateLoading(new File(WebSiteGeneratorDialog.class.getResource("/templates").getFile()+"/"+template));
+		System.out.println(new File("/").getAbsolutePath());
+		cfg.setDirectoryForTemplateLoading(new File("./templates"+"/"+template));
 		cfg.setDefaultEncoding("UTF-8");
 	//	cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
 		cfg.setNumberFormat("#");
@@ -49,7 +50,7 @@ public class MagicWebSiteGenerator {
 		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_23).build());
 		this.dao=dao;
 		this.dest = dest;
-		FileUtils.copyDirectory(new File(WebSiteGeneratorDialog.class.getResource("/templates").getFile()+"/"+template), new File(dest),new FileFilter() {
+		FileUtils.copyDirectory(new File("./templates/"+template), new File(dest),new FileFilter() {
 			public boolean accept(File pathname) {
 				if(pathname.isDirectory())
 					return true;

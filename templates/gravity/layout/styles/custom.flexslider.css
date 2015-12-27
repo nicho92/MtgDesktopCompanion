@@ -1,0 +1,60 @@
+@charset "utf-8";
+/*
+Template Name: Gravity
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+File: Custom Flexslider CSS => For FlexSlider v2.2.0
+*/
+
+/* Browser Resets
+*********************************/
+.flex-container a:active, .flexslider a:active, .flex-container a:focus, .flexslider a:focus{outline:none}
+.slides, .flex-control-nav, .flex-direction-nav{margin:0; padding:0; list-style:none}
+
+/* Icon Fonts
+*********************************/
+/* Font-face Icons */
+@font-face{font-family:"flexslider-icon"; src:url("fonts/flexslider-icon.eot"); src:url("fonts/flexslider-icon.eot?#iefix") format("embedded-opentype"),url("fonts/flexslider-icon.woff") format("woff"),url("fonts/flexslider-icon.ttf") format("truetype"),url("fonts/flexslider-icon.svg#flexslider-icon") format("svg"); font-weight:normal; font-style:normal}
+
+/* FlexSlider Necessary Styles
+*********************************/
+.flexslider{display:block; position:relative; margin:0; padding:0}
+.flexslider .slides{display:block; width:100%; white-space:nowrap; overflow:hidden;}
+.flexslider .slides > li {display: none; -webkit-backface-visibility: hidden;} /* Hide the slides before the JS is loaded. Avoids image jumping */
+/*.flexslider .slides li{display:inline-block;}*/
+.flexslider .slides img{display:block; max-width:100%;}
+/* Modern Clear fix for the .slides element */
+.slides::before, .slides::after{display:table; content:"";}
+.slides, .slides::after{clear:both;}
+
+/* FlexSlider Default Theme
+*********************************/
+.flex-viewport{max-height:2000px; -webkit-transition:all 1s ease; -moz-transition:all 1s ease; -o-transition:all 1s ease; transition:all 1s ease}
+.loading .flex-viewport{max-height:300px}
+.flexslider .slides{zoom:1}
+.flexslider.carousel .slides li{margin-right:20px}
+/* Direction Nav */
+.flex-direction-nav{*height:0}
+.flex-direction-nav a{text-decoration:none; display:block; width:40px; height:40px; margin:-20px 0 0; position:absolute; top:50%; z-index:10; overflow:hidden; opacity:0; cursor:pointer; color:rgba(0,0,0,0.8); text-shadow:1px 1px 0 rgba(255,255,255,0.3); -webkit-transition:all .3s ease; -moz-transition:all .3s ease; transition:all .3s ease}
+.flex-direction-nav .flex-prev{left:10px}
+.flex-direction-nav .flex-next{right:10px}
+.flexslider:hover .flex-prev, .flexslider:hover .flex-next{opacity:0.5;}
+.flexslider:hover .flex-next:hover, .flexslider:hover .flex-prev:hover{opacity:1}
+.flex-direction-nav .flex-disabled{opacity:0 !important; cursor:default}
+.flex-direction-nav a:before{font-family:"flexslider-icon"; font-size:40px; line-height:1; display:inline-block; content:'\f001'}
+.flex-direction-nav a.flex-next:before{content:'\f002'}
+/* Control Nav */
+.flex-control-nav{width:100%; position:absolute; bottom:0; text-align:center}
+.flex-control-nav li{margin:0 6px; display:inline-block; zoom:1; *display:inline}
+.flex-control-paging li a{width:11px; height:11px; display:block; background:rgba(0,0,0,0.5); cursor:pointer; text-indent:-9999px; border-radius:20px; box-shadow:inset 0 0 3px rgba(0,0,0,0.3)}
+.flex-control-paging li a:hover{background:rgba(0,0,0,0.7)}
+.flex-control-paging li a.flex-active{background:rgba(0,0,0,0.9); cursor:default}
+/* Carousel Paging Nav Override */
+.flexslider.carousel{}
+.flexslider.carousel .flex-control-nav.flex-control-paging{top:-65px; right:0; width:auto}
+.flexslider.carousel .flex-control-nav.flex-control-paging li{margin:0 5px 0 0}
+.flexslider.carousel .flex-control-nav.flex-control-paging li:last-child{margin:0}
+
+@media screen and (max-width:650px){.flex-direction-nav .flex-prev, .flex-direction-nav .flex-next{display:none}}

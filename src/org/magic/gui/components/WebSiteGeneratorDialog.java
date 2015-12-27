@@ -48,7 +48,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		File f = new File(WebSiteGeneratorDialog.class.getResource("/templates").getPath());
+		File f = new File("./templates");
 		
 		List<String> arrayTemplates=new ArrayList<String>();
 		

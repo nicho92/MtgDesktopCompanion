@@ -35,7 +35,7 @@ public class MassCollectionImporterDialog extends JDialog{
 
 	public MassCollectionImporterDialog(MagicDAO dao,MagicCardsProvider provider,List<MagicEdition> list) {
 		setSize(new Dimension(500, 290));
-		setTitle("Mass Card Importer");
+		setTitle("Mass Cards Importer");
 		
 		this.dao=dao;
 		this.provider=provider;
@@ -44,7 +44,6 @@ public class MassCollectionImporterDialog extends JDialog{
 		try {
 			initGUI();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

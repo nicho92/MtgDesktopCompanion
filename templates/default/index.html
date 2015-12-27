@@ -1,0 +1,23 @@
+
+
+
+			<table id="table-1">
+				<thead>
+					<tr>
+						<th>Card</th>
+						<th>Name</th>
+						<th>Edition</th>
+					</tr>
+				</thead>
+				<tbody>
+				
+				<#list Library as card>
+			    		<tr>
+						<td><img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid}&type=card"/></td>
+						<td>${card.name}</td>
+						<td>${card.editions}</td>
+						</tr>
+				</#list>
+				</tbody>
+			</table>
+

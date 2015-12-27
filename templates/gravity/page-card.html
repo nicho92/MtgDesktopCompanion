@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<!--
+Template Name: Gravity
+Author: <a href="http://www.os-templates.com/">OS Templates</a>
+Author URI: http://www.os-templates.com/
+Licence: Free to use under our free template licence terms
+Licence URI: http://www.os-templates.com/template-terms
+-->
+<html>
+<head>
+<title>${card.name?if_exists}</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all">
+</head>
+<body id="top">
+<div class="wrapper row1">
+  <header id="header" class="clear"> 
+    <div id="logo" class="fl_left">
+      <h1><a href="index.htm">Magic Desktop Companion</a></h1>
+    </div>
+     
+  </header>
+</div>
+<div class="wrapper row2">
+  <nav id="mainav" class="clear"> 
+    <ul class="clear">
+      <li><a href="index.htm">Home</a></li>
+       <#list cols as key><li><a href="page-col-${key}.htm">${key}</a></li></#list>
+    </ul>
+  </nav>
+</div>
+<div class="wrapper row3">
+  
+<div class="wrapper row3">
+  <main class="container clear"> 
+   <div class="content"> 
+      <h1>${card.name?if_exists}    -    ${card.cost?if_exists}</h1>
+      <p>${card.fullType?if_exists}</p>
+       <p></p>
+      <img class="imgr borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=${card.editions[0].id}&size=medium&rarity=${card.editions[0].rarity[0..0]}"/>
+      <img class="imgl borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid?if_exists}&type=card"/>
+      <p>${card.text?if_exists}</p>
+      <p><i>${card.flavor?if_exists}</i></p>
+     
+      
+      
+    </div>
+    <!-- ################################################################################################ --> 
+    <!-- / main body -->
+    <div class="clear"></div>
+  </main>
+</div>
+<a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a> 
+<!-- JAVASCRIPTS --> 
+<script src="../layout/scripts/jquery.min.js"></script> 
+<script src="../layout/scripts/jquery.backtotop.js"></script> 
+<script src="../layout/scripts/jquery.mobilemenu.js"></script>
+</body>
+</html>

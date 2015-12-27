@@ -124,37 +124,7 @@ public class CollectionPanelGUI extends JPanel {
 		panneauHaut.add(btnExportCSV);
 		
 		JButton btnGenerateWebSite = new JButton("Generate website");
-		btnGenerateWebSite.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				try {
-					
-					WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.getCollections());
-											diag.setVisible(true);
-					
-					if(diag.value()==true)
-					{						
-						MagicWebSiteGenerator gen = new MagicWebSiteGenerator(dao, diag.getTemplate(), diag.getDest().getAbsolutePath());
-										  gen.generate(diag.getSelectedCollections());
-										  
-										  
-						int res= JOptionPane.showConfirmDialog(null, "website generate. Want to see it ? ");
-						
-						if(res==JOptionPane.YES_OPTION)
-						{
-							//URI uri = new URI("file:///"+diag.getDest().getAbsolutePath()+"/index.htm");
-							Path p = Paths.get(diag.getDest().getAbsolutePath()+"/index.htm");
-							Desktop.getDesktop().browse(p.toUri());
-						}
-						
-					}
-				} 
-				catch (Exception e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
+		
 		panneauHaut.add(btnGenerateWebSite);
 		
 		
@@ -271,6 +241,47 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 		
+		btnGenerateWebSite.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				new Thread(new Runnable() {
+					
+					@Override
+					public void run() {
+
+						try {
+							
+							WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.getCollections());
+													diag.setVisible(true);
+							
+							if(diag.value()==true)
+							{						
+								MagicWebSiteGenerator gen = new MagicWebSiteGenerator(dao, diag.getTemplate(), diag.getDest().getAbsolutePath());
+												  gen.generate(diag.getSelectedCollections());
+												  
+												  
+								int res= JOptionPane.showConfirmDialog(null, "website generate. Want to see it ? ");
+								
+								if(res==JOptionPane.YES_OPTION)
+								{
+									//URI uri = new URI("file:///"+diag.getDest().getAbsolutePath()+"/index.htm");
+									Path p = Paths.get(diag.getDest().getAbsolutePath()+"/index.htm");
+									Desktop.getDesktop().browse(p.toUri());
+								}
+								
+							}
+						} 
+						catch (Exception e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+						}
+						
+					}
+				}).start();
+				
+				
+			}
+		});
 		
 		btnAddAllSet.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
