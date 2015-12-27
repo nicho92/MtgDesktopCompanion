@@ -5,17 +5,15 @@
 				<thead>
 					<tr>
 						<th>Card</th>
-						<th>Name</th>
-						<th>Edition</th>
+						<th>Count</th>
 					</tr>
 				</thead>
 				<tbody>
 				
-				<#list Library as card>
+				<#list .data_model?keys as key>
 			    		<tr>
-						<td><img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid}&type=card"/></td>
-						<td>${card.name}</td>
-						<td>${card.editions}</td>
+						<td><a href="page-col-${key}.htm">${key}</a></td>
+						<td>${.data_model[key]?size} cards</td>
 						</tr>
 				</#list>
 				</tbody>
