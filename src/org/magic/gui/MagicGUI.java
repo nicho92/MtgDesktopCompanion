@@ -2,7 +2,6 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -62,11 +61,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.pricers.impl.ChannelFireballPricer;
-import org.magic.api.pricers.impl.EbayPricer;
-import org.magic.api.pricers.impl.MagicTradersPricer;
-import org.magic.api.pricers.impl.MagicVillePricer;
-import org.magic.api.pricers.impl.TCGPlayerPricer;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.db.HsqlDAO;
 import org.magic.gui.components.CardsPicPanel;
@@ -104,7 +98,6 @@ public class MagicGUI extends JFrame {
 	private JButton btnSearch;
 	private JPanel panneauHaut;
 	private JPanel panneauCard = new JPanel();
-	private RssNewsPanelGUI panneauRss;
 
 
 	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
@@ -267,7 +260,6 @@ public class MagicGUI extends JFrame {
 		menuBar = new JMenuBar();
 		mnFile = new JMenu("File");
 		mntmExit = new JMenuItem("Exit");
-		panneauRss = new RssNewsPanelGUI();	
 
 		setSize(new Dimension(1420, 900));
 		setTitle("Magic Desktop Companion");
@@ -504,7 +496,6 @@ public class MagicGUI extends JFrame {
 
 		collectionPanelGUI = new CollectionPanelGUI(provider,dao);
 		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), collectionPanelGUI, null);
-		tabbedPane.addTab("News", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), panneauRss, null);
 		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), panneauBuilder, null);
 
 		initPopupCollection();

@@ -1,42 +1,54 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
-import java.net.MalformedURLException;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Graphics;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Image;
+import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
 
+import javax.imageio.ImageIO;
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import javax.swing.JTabbedPane;
-import org.magic.gui.components.CardsPicPanel;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JComboBox;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextPane;
-import java.awt.FlowLayout;
+import org.magic.gui.components.CropImagePanel;
 
 public class CardBuilderPanelGUI extends JPanel {
 	
 	private MagicCard card;
 	private JTextField txtName;
-	CardsPicPanel cardsPicPanel;
-	JComboBox cboColor;
+	private JPanel cardsPicPanel;
+	private JComboBox cboColor;
 	private JTextField txtType;
-	JTextPane textPane;
+	private JTextPane textPane;
 	private JTextField txtPower;
 	private JTextField txtToughness;
 	private JTextField txtFlavor;
+	private BufferedImage croppedImage;
+	private CropImagePanel panelImage;
+	
+	private Image cardImage;
 	
 	private void init()
 	{
@@ -64,17 +76,20 @@ public class CardBuilderPanelGUI extends JPanel {
 				+ "&cardtype="+URLEncoder.encode(txtType.getText(),"UTF-8")
 				+ "&subtype="
 				+ "&expansion="
-				+ "&rarity=Common"
+				+ "&rarity="
 				+ "&cardtext="+URLEncoder.encode(textPane.getText(),"UTF-8")
 				+ "&power="+txtPower.getText()
 				+ "&toughness="+txtToughness.getText()
 				+ "&artist="
-				+ "&bottom=%E2%84%A2+%26+%C2%A9+1993-2013+Wizards+of+the+Coast+LLC&set1="
-				+ "&set2=&setname=";
+				+ "&bottom=%E2%84%A2+%26+%C2%A9+1993-2013+Wizards+of+the+Coast+LLC"
+				+ "&set1="
+				+ "&set2="
+				+ "&setname=";
 		
-			cardsPicPanel.showPhoto(new URL(url));
+			cardImage = ImageIO.read(new URL(url));
+			cardsPicPanel.repaint();
+			
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -86,17 +101,33 @@ public class CardBuilderPanelGUI extends JPanel {
 		
 		setLayout(new BorderLayout(0, 0));
 		
-		cardsPicPanel = new CardsPicPanel();
-		cardsPicPanel.setMoveable(false);
-		add(cardsPicPanel, BorderLayout.CENTER);
+		cardsPicPanel = new JPanel() {
+			
+			@Override
+			protected void paintComponent(Graphics g) {
+				 super.paintComponent(g);
+	             g.drawImage(cardImage, 0, 0, null);
+	             
+	           
+					if(panelImage.getCroppedImage()!=null)
+						g.drawImage(panelImage.getCroppedImage(), 35, 68, 329, 242, null);
+				
+			}
+		};
+		
+		
+		
+		cardsPicPanel.setBackground(Color.WHITE);
+		cardsPicPanel.setPreferredSize(new Dimension(400, 10));
+		add(cardsPicPanel, BorderLayout.EAST);
 		
 		JPanel panel = new JPanel();
-		add(panel, BorderLayout.WEST);
+		add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{80, 209, 144, 41, 0};
-		gbl_panel.rowHeights = new int[]{0, 28, 35, 29, 27, 0, 97, 28, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{80, 209, 85, 41, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 28, 35, 29, 27, 0, 97, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblLayout = new JLabel("Layout :");
@@ -114,6 +145,20 @@ public class CardBuilderPanelGUI extends JPanel {
 		gbc_cboLayout.gridx = 1;
 		gbc_cboLayout.gridy = 1;
 		panel.add(cboLayout, gbc_cboLayout);
+		
+		JButton btnGenerate = new JButton("Generate");
+		GridBagConstraints gbc_btnGenerate = new GridBagConstraints();
+		gbc_btnGenerate.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGenerate.gridx = 3;
+		gbc_btnGenerate.gridy = 1;
+		panel.add(btnGenerate, gbc_btnGenerate);
+		
+		btnGenerate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateCard();
+				
+			}
+		});
 		
 		JLabel lblName = new JLabel("Name: ");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
@@ -198,20 +243,21 @@ public class CardBuilderPanelGUI extends JPanel {
 		gbc_panelPalette.gridy = 7;
 		panel.add(panelPalette, gbc_panelPalette);
 		
-		JButton btnW = new JButton("W");
-		panelPalette.add(btnW);
 		
-		JButton btnU = new JButton("U");
-		panelPalette.add(btnU);
+		String[] symbols = new String[]{"W","U","B","R","G","T"};
 		
-		JButton btnB = new JButton("B");
-		panelPalette.add(btnB);
 		
-		JButton btnR = new JButton("R");
-		panelPalette.add(btnR);
-		
-		JButton btnG = new JButton("G");
-		panelPalette.add(btnG);
+		for(String s : symbols)
+		{
+			final JButton btnG = new JButton(s);
+			btnG.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					textPane.setText(textPane.getText()+ " {" + btnG.getText()+"}");
+				}
+			});
+			panelPalette.add(btnG);
+				
+		}
 		
 		JLabel lblFlavor = new JLabel("Flavor :");
 		GridBagConstraints gbc_lblFlavor = new GridBagConstraints();
@@ -258,21 +304,37 @@ public class CardBuilderPanelGUI extends JPanel {
 		panel_1.add(txtToughness);
 		txtToughness.setColumns(3);
 		
-		JButton btnGenerate = new JButton("Generate");
-		GridBagConstraints gbc_btnGenerate = new GridBagConstraints();
-		gbc_btnGenerate.insets = new Insets(0, 0, 0, 5);
-		gbc_btnGenerate.gridx = 1;
-		gbc_btnGenerate.gridy = 13;
-		panel.add(btnGenerate, gbc_btnGenerate);
+		JButton btnPicture = new JButton("Picture");
+		GridBagConstraints gbc_btnPicture = new GridBagConstraints();
+		gbc_btnPicture.anchor = GridBagConstraints.NORTH;
+		gbc_btnPicture.insets = new Insets(0, 0, 5, 5);
+		gbc_btnPicture.gridx = 0;
+		gbc_btnPicture.gridy = 10;
+		panel.add(btnPicture, gbc_btnPicture);
 		
 		
 		
-		
-		btnGenerate.addActionListener(new ActionListener() {
+		btnPicture.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				updateCard();
+				JFileChooser choose = new JFileChooser();
+				choose.showOpenDialog(null);
+				File pics = choose.getSelectedFile();
+				
+				Image i = new ImageIcon(pics.getAbsolutePath()).getImage();
+				panelImage.setImage(i.getScaledInstance(panelImage.getWidth(), panelImage.getHeight(), Image.SCALE_SMOOTH));
 			}
 		});
+		
+		panelImage = new CropImagePanel();
+		panelImage.setBackground(Color.BLACK);
+		GridBagConstraints gbc_panelImage = new GridBagConstraints();
+		gbc_panelImage.gridwidth = 3;
+		gbc_panelImage.gridheight = 6;
+		gbc_panelImage.insets = new Insets(0, 0, 5, 5);
+		gbc_panelImage.fill = GridBagConstraints.BOTH;
+		gbc_panelImage.gridx = 1;
+		gbc_panelImage.gridy = 10;
+		panel.add(panelImage, gbc_panelImage);
 	}
 
 }
