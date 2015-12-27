@@ -1,19 +1,21 @@
 # Magic The Gathering Desktop Companion
-Personal Magic the Gathering application
+##Personal Magic the Gathering application##
 
 
 
 Download last version here https://github.com/nicho92/MtgDesktopCompanion/blob/master/executable/mtgcompanion.zip?raw=true 
+(just download and unzip. execute run.bat)
 
 
 
-
-Create Manage deck
-multiple Prices providers, in real time.
-Multiple database providers
-Collection manager
-manacurve
-Website collection generator
+Features :
+> Create and Manage decks
+> multiple Prices providers, in real time.
+> Multiple json providers
+> Collection manager
+> manacurve, card statistics
+> simulate drawing
+> Website collection generator
 
 
 
