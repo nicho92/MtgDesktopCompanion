@@ -496,7 +496,8 @@ public class MagicGUI extends JFrame {
 
 		collectionPanelGUI = new CollectionPanelGUI(provider,dao);
 		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), collectionPanelGUI, null);
-		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), panneauBuilder, null);
+		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), panneauBuilder, null);
+		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new JPanel(), null);
 
 		initPopupCollection();
 
