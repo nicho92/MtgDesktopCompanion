@@ -1,5 +1,5 @@
 # Magic The Gathering Desktop Companion
-##Personal Magic the Gathering application##
+##Personal Magic the Gathering manager##
 
 
 
@@ -39,5 +39,6 @@ Collection Manager :
 
 
 Generate Website of your collections :
+
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png)
 
