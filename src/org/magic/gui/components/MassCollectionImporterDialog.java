@@ -57,14 +57,14 @@ public class MassCollectionImporterDialog extends JDialog{
 		JLabel lblImport = new JLabel("import ");
 		panelCollectionInput.add(lblImport);
 		
-		JComboBox cboEditions = new JComboBox(list.toArray());
+		final JComboBox cboEditions = new JComboBox(list.toArray());
 		panelCollectionInput.add(cboEditions);
 		
 		List lc = dao.getCollections();
 		
 		JLabel lblIn = new JLabel("in");
 		panelCollectionInput.add(lblIn);
-		JComboBox cboCollections = new JComboBox(lc.toArray());
+		final JComboBox cboCollections = new JComboBox(lc.toArray());
 		panelCollectionInput.add(cboCollections);
 		
 		JLabel lblThisNumber = new JLabel(" theses numbers : ");
@@ -73,12 +73,12 @@ public class MassCollectionImporterDialog extends JDialog{
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 		
-		JTextPane txtNumbersInput = new JTextPane();
+		final JTextPane txtNumbersInput = new JTextPane();
 		getContentPane().add(txtNumbersInput, BorderLayout.CENTER);
-		JProgressBar progressBar = new JProgressBar();
+		final JProgressBar progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
 		
-		JCheckBox checkNewOne = new JCheckBox("import a serie after this one");
+		final JCheckBox checkNewOne = new JCheckBox("import a serie after this one");
 		
 		JButton btnInverse = new JButton("Inverse");
 		btnInverse.addActionListener(new ActionListener() {
@@ -112,9 +112,9 @@ public class MassCollectionImporterDialog extends JDialog{
 		JButton btnImport = new JButton("Import");
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
-				MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
-				String[] ids = txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" ");
+				final MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
+				final MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
+				final String[] ids = txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" ");
 				progressBar.setMaximum(ids.length);
 				
 				new Thread(new Runnable() {

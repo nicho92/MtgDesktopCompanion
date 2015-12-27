@@ -250,7 +250,7 @@ public class DeckBuilderGUI extends JPanel{
 		magicCardDetailPanel.enableThumbnail(true);
 		panneauDeck.setRightComponent(magicCardDetailPanel);
 		
-		JTabbedPane tabbedDeck_side = new JTabbedPane(JTabbedPane.BOTTOM);
+		final JTabbedPane tabbedDeck_side = new JTabbedPane(JTabbedPane.BOTTOM);
 		
 		panneauDeck.setLeftComponent(tabbedDeck_side);
 		

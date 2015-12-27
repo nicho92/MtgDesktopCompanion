@@ -41,8 +41,13 @@ public class CardsPicPanel extends JXPanel {
 	private Point pointInitial = null;
 	private boolean isCtrlPressed = false;
 
-	
+	private boolean moveable=true;
 
+	
+	public void setMoveable(boolean bool)
+	{
+		this.moveable=bool;
+	}
 	  
 	public CardsPicPanel()
 	{
@@ -62,7 +67,7 @@ public class CardsPicPanel extends JXPanel {
 	    repaint();
 	}
 	
-	public void showPhoto(URL photo) {
+	public void showPhoto(final URL photo) {
 		
 		new Thread(new Runnable() {
 			
@@ -143,6 +148,7 @@ public class CardsPicPanel extends JXPanel {
 		
 		 	public void mouseWheelMoved(MouseWheelEvent e) {
 					double quotien = 1.1;
+					
 			          if (selectedShape.contains(e.getPoint()))
 			          {
 			            if(e.getWheelRotation()==-1)//zoom
@@ -159,6 +165,7 @@ public class CardsPicPanel extends JXPanel {
 			
 			public void mousePressed(MouseEvent e)
 		    {
+			  if(moveable)
 		      if (selectedShape.contains(e.getPoint()))
 		      {
 		            pointInitial = e.getPoint();
@@ -169,12 +176,12 @@ public class CardsPicPanel extends JXPanel {
 			public void mouseReleased(MouseEvent e){    }
 		    
 		    public void mouseDragged(MouseEvent e) {
-		        
+		    	
 		    	if(isCtrlPressed)
 			    {
 			    	System.out.println("rotation " + Math.PI);
 			    }
-		    	  
+		    	if(moveable) 
 		    	if (selectedShape != null) {
 		           int deltaX = e.getX() - pointInitial.x;
 		           int deltaY = e.getY() - pointInitial.y;

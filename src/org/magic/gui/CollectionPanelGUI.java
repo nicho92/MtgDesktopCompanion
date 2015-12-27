@@ -57,7 +57,6 @@ public class CollectionPanelGUI extends JPanel {
 	private MagicDAO dao;
 	private MagicCardsTree tree;
 	private MagicEditionsTableModel model;
-	private JTextField txtSearch;
 	
 	private TreePath path;
 	static final Logger logger = LogManager.getLogger(CollectionPanelGUI.class.getName());
@@ -98,7 +97,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 		panneauHaut.add(btnAddAllSet);
 		
-		JButton btnExportCSV = new JButton("Export Collection");
+		final JButton btnExportCSV = new JButton("Export Collection");
 		btnExportCSV.setEnabled(false);
 		btnExportCSV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -155,22 +154,11 @@ public class CollectionPanelGUI extends JPanel {
 		panneauDroite.add(panneauTreeSearch, BorderLayout.CENTER);
 		panneauTreeSearch.setLayout(new BorderLayout(0, 0));
 		
-		txtSearch = new JTextField();
-		panneauTreeSearch.add(txtSearch, BorderLayout.NORTH);
-		txtSearch.setColumns(10);
-		
 		
 		JScrollPane scrollPaneCollections = new JScrollPane();
 		panneauTreeSearch.add(scrollPaneCollections);
 		
 		tree = new MagicCardsTree(provider,dao);
-		
-		txtSearch.addActionListener(new ActionListener() {
-	            @Override
-	            public void actionPerformed(ActionEvent evt) {
-	               
-	            }
-	        });
 		 
 		 
 	
@@ -181,7 +169,7 @@ public class CollectionPanelGUI extends JPanel {
 		 panneauTreeSearch.add(panneauBas, BorderLayout.SOUTH);
 		 panneauBas.setLayout(new BorderLayout(0, 0));
 		 
-		 JLabel lblCard = new JLabel("");
+		 final JLabel lblCard = new JLabel("");
 		 lblCard.setPreferredSize(new Dimension(250, 0));
 		 panneauBas.add(lblCard, BorderLayout.WEST);
 		 
@@ -207,7 +195,7 @@ public class CollectionPanelGUI extends JPanel {
 				
 				if(curr.isLeaf())
 				{	
-					MagicCard card = (MagicCard)((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
+					final MagicCard card = (MagicCard)((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
 					
 					new Thread(new Runnable() {
 						
