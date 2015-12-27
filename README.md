@@ -10,11 +10,17 @@ Download last version here https://github.com/nicho92/MtgDesktopCompanion/blob/m
 
 Features :
 > Create and Manage decks
+
 > multiple Prices providers, in real time.
+
 > Multiple json providers
+
 > Collection manager
+
 > manacurve, card statistics
+
 > simulate drawing
+
 > Website collection generator
 
 
