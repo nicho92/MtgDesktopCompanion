@@ -245,7 +245,7 @@ public class CollectionPanelGUI extends JPanel {
 							if(diag.value()==true)
 							{						
 								MagicWebSiteGenerator gen = new MagicWebSiteGenerator(dao, diag.getTemplate(), diag.getDest().getAbsolutePath());
-												  gen.generate(diag.getSelectedCollections());
+												  gen.generate(diag.getSelectedCollections(),diag.getPriceProviders());
 												  
 												  
 								int res= JOptionPane.showConfirmDialog(null, "website generate. Want to see it ? ");

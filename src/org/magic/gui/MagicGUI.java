@@ -840,7 +840,8 @@ public class MagicGUI extends JFrame {
 
 			if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 				updatePrices();
-
+			
+			
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}

@@ -22,6 +22,8 @@ import javax.swing.JTextField;
 import javax.swing.text.html.HTMLEditorKit;
 
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.interfaces.MagicPricesProvider;
+import java.awt.FlowLayout;
 
 public class WebSiteGeneratorDialog extends JDialog {
 	private JTextField txtDest;
@@ -29,6 +31,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	private boolean value=false;
 	JComboBox cboTemplates;
 	JList<MagicCollection> list ;
+	private List<MagicPricesProvider> pricesProvider;
 	
 	public File getDest() {
 		return new File(txtDest.getText());
@@ -75,12 +78,22 @@ public class WebSiteGeneratorDialog extends JDialog {
 		
 		panneauBas.add(btnGenerate);
 		
+		JPanel panneaucentral = new JPanel();
+		getContentPane().add(panneaucentral, BorderLayout.CENTER);
+		panneaucentral.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
 		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		panneaucentral.add(scrollPane);
 		
 		list = new JList<MagicCollection>(cols.toArray(new MagicCollection[cols.size()]));
 		
 		scrollPane.setViewportView(list);
+		
+		JScrollPane scrollProviders = new JScrollPane();
+		panneaucentral.add(scrollProviders);
+		
+		JList lstProviders = new JList();
+		scrollProviders.setViewportView(lstProviders);
 		
 		btnDestChoose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -114,6 +127,10 @@ public class WebSiteGeneratorDialog extends JDialog {
 
 	public boolean value() {
 		return value;
+	}
+
+	public List<MagicPricesProvider> getPriceProviders() {
+		return pricesProvider;
 	}
 
 }

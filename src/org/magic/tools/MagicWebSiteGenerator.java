@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -18,6 +19,8 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.db.HsqlDAO;
 import org.magic.db.MagicDAO;
 import org.magic.gui.components.WebSiteGeneratorDialog;
@@ -37,7 +40,7 @@ public class MagicWebSiteGenerator {
 	Configuration cfg ;
 	MagicDAO dao;
 	private String dest;
-	
+	private List<MagicPricesProvider> pricesProvider;
 	
 	public MagicWebSiteGenerator(MagicDAO dao,String template,String dest) throws IOException, ClassNotFoundException, SQLException {
 		cfg = new Configuration(Configuration.VERSION_2_3_23);
@@ -65,10 +68,10 @@ public class MagicWebSiteGenerator {
 	}
 	
 	
-	public void generate(List<MagicCollection> cols) throws TemplateException, IOException, SQLException
+	public void generate(List<MagicCollection> cols,List<MagicPricesProvider> providers) throws TemplateException, IOException, SQLException
 	{
 		
-		
+		this.pricesProvider=providers;
 		
 		Map<String,List<MagicCard>> root = new HashMap<String,List<MagicCard>>();
 		
@@ -113,6 +116,23 @@ public class MagicWebSiteGenerator {
 				Map rootEd = new HashMap<>();
 				rootEd.put("card", mc);
 				rootEd.put("cols", cols);
+				
+				List<MagicPrice> prices= new ArrayList<MagicPrice>();
+				if(pricesProvider!=null)
+				{
+					for(MagicPricesProvider prov : pricesProvider)
+					{
+						try {
+							prices.addAll(prov.getPrice(mc.getEditions().get(0), mc));
+						} catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
+				}
+				
+				
+				rootEd.put("prices", prices);
 				FileWriter out = new FileWriter(new File(dest+"\\page-card-"+mc.getId()+".htm"));
 				cardTemplate.process(rootEd, out);
 		}
