@@ -5,17 +5,16 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
 
@@ -46,7 +45,6 @@ public class CardBuilderPanelGUI extends JPanel {
 	private JTextField txtPower;
 	private JTextField txtToughness;
 	private JTextField txtFlavor;
-	private BufferedImage croppedImage;
 	private CropImagePanel panelImage;
 	
 	private Image cardImage;
@@ -357,19 +355,6 @@ public class CardBuilderPanelGUI extends JPanel {
 		gbc_btnPicture.gridy = 11;
 		panel.add(btnPicture, gbc_btnPicture);
 		
-		
-		
-		btnPicture.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser choose = new JFileChooser();
-				choose.showOpenDialog(null);
-				File pics = choose.getSelectedFile();
-				
-				Image i = new ImageIcon(pics.getAbsolutePath()).getImage();
-				panelImage.setImage(i.getScaledInstance(panelImage.getWidth(), panelImage.getHeight(), Image.SCALE_SMOOTH));
-			}
-		});
-		
 		panelImage = new CropImagePanel();
 		panelImage.setBackground(Color.BLACK);
 		GridBagConstraints gbc_panelImage = new GridBagConstraints();
@@ -387,6 +372,48 @@ public class CardBuilderPanelGUI extends JPanel {
 		gbc_btnGenerate.gridx = 1;
 		gbc_btnGenerate.gridy = 16;
 		panel.add(btnGenerate, gbc_btnGenerate);
+		
+		JButton btnSave = new JButton("Save");
+		
+		GridBagConstraints gbc_btnSave = new GridBagConstraints();
+		gbc_btnSave.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSave.gridx = 2;
+		gbc_btnSave.gridy = 16;
+		panel.add(btnSave, gbc_btnSave);
+		
+		btnPicture.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser choose = new JFileChooser();
+				choose.showOpenDialog(null);
+				File pics = choose.getSelectedFile();
+				
+				Image i = new ImageIcon(pics.getAbsolutePath()).getImage();
+				panelImage.setImage(i.getScaledInstance(panelImage.getWidth(), panelImage.getHeight(), Image.SCALE_SMOOTH));
+				updateCard();
+			}
+		});
+		
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser choose = new JFileChooser();
+				choose.showSaveDialog(null);
+				File pics = choose.getSelectedFile();
+				
+				int w = cardsPicPanel.getWidth();
+			    int h = cardsPicPanel.getHeight();
+			    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
+			    Graphics2D g = bi.createGraphics();
+			    cardsPicPanel.paint(g);
+
+				
+				try {
+					ImageIO.write(bi,"PNG",pics);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		
 		btnGenerate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
