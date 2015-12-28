@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -202,7 +203,30 @@ public class HsqlDAO implements MagicDAO {
 		
 	}
 
-	
+	@Override
+	public int getCardsCount(List<MagicCollection> cols) throws SQLException {
+		
+		String sql = "select count(*) from cards where";
+		for(int i=0;i<cols.size();i++)
+		{
+			if(i==0)
+				sql+=" collection = '" + cols.get(i).getName()+"'";
+			else
+			sql+=" OR collection = '" + cols.get(i).getName()+"'";
+		}
+		
+		Statement st = con.createStatement();
+		logger.debug(sql);
+		
+		
+		ResultSet rs = st.executeQuery(sql);
+		rs.next();
+		return rs.getInt(1);
+	}
+
+	public static void main(String[] args) {
+		
+	}
 	
 }
 

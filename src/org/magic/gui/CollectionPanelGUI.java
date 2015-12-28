@@ -15,6 +15,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -50,6 +52,7 @@ import org.magic.gui.models.MagicPriceTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicWebSiteGenerator;
+import javax.swing.JProgressBar;
 
 public class CollectionPanelGUI extends JPanel {
 	private JTable tableEditions;
@@ -57,7 +60,7 @@ public class CollectionPanelGUI extends JPanel {
 	private MagicDAO dao;
 	private MagicCardsTree tree;
 	private MagicEditionsTableModel model;
-	
+	private JProgressBar progressBar;
 	private TreePath path;
 	static final Logger logger = LogManager.getLogger(CollectionPanelGUI.class.getName());
 	private JXTable tablePrices;
@@ -125,6 +128,10 @@ public class CollectionPanelGUI extends JPanel {
 		JButton btnGenerateWebSite = new JButton("Generate website");
 		
 		panneauHaut.add(btnGenerateWebSite);
+		
+		progressBar = new JProgressBar();
+		progressBar.setVisible(false);
+		panneauHaut.add(progressBar);
 		
 		
 		
@@ -233,19 +240,27 @@ public class CollectionPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				new Thread(new Runnable() {
-					
-					@Override
 					public void run() {
-
 						try {
 							
 							WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.getCollections());
-													diag.setVisible(true);
-							
+												   diag.setVisible(true);
 							if(diag.value()==true)
-							{						
+							{	
+								progressBar.setVisible(true);
+								progressBar.setStringPainted(true);
+								progressBar.setMinimum(0);
+								progressBar.setMaximum(dao.getCardsCount(diag.getSelectedCollections()));
+								progressBar.setValue(0);
+								   
 								MagicWebSiteGenerator gen = new MagicWebSiteGenerator(dao, diag.getTemplate(), diag.getDest().getAbsolutePath());
-												  gen.generate(diag.getSelectedCollections(),diag.getPriceProviders());
+								
+								gen.addObserver(new Observer() {
+									public void update(Observable o, Object arg) {
+										progressBar.setValue((int)arg);
+									}
+								});				  
+								gen.generate(diag.getSelectedCollections(),diag.getPriceProviders());
 												  
 												  
 								int res= JOptionPane.showConfirmDialog(null, "website generate. Want to see it ? ");
@@ -256,8 +271,10 @@ public class CollectionPanelGUI extends JPanel {
 									Path p = Paths.get(diag.getDest().getAbsolutePath()+"/index.htm");
 									Desktop.getDesktop().browse(p.toUri());
 								}
-								
+								progressBar.setVisible(false);
 							}
+							
+							
 						} 
 						catch (Exception e) {
 							e.printStackTrace();

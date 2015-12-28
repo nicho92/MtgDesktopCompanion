@@ -18,6 +18,9 @@ public interface MagicDAO {
 	public void saveDeck(MagicDeck deck)throws SQLException;
 	public void removeDeck(MagicDeck deck)throws SQLException;
 	
+	
+	public int getCardsCount(List<MagicCollection> list)throws SQLException;
+	
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException;
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException;
 

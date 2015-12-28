@@ -29,7 +29,10 @@ public class EbayPricer implements MagicPricesProvider{
 	static final Logger logger = LogManager.getLogger(EbayPricer.class.getName());
 
 	
-	
+	public String toString()
+	{
+		return getName();
+	}
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<MagicPrice>();
 		

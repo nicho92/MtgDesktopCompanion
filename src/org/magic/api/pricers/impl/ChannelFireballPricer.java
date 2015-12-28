@@ -73,4 +73,9 @@ public class ChannelFireballPricer implements MagicPricesProvider {
 	public String getName() {
 		return "Channel Fireball";
 	}
+	
+	public String toString()
+	{
+		return getName();
+	}
 }

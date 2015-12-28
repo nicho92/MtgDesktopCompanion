@@ -22,7 +22,10 @@ public class TCGPlayerPricer implements MagicPricesProvider {
 	  
 	int max=-1;
 	
-	
+	public String toString()
+	{
+		return getName();
+	}
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
 

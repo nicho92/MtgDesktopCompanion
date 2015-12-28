@@ -23,6 +23,8 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.tools.MagicPricerFactory;
+
 import java.awt.FlowLayout;
 
 public class WebSiteGeneratorDialog extends JDialog {
@@ -31,7 +33,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	private boolean value=false;
 	JComboBox cboTemplates;
 	JList<MagicCollection> list ;
-	private List<MagicPricesProvider> pricesProvider;
+	JList<MagicPricesProvider> lstProviders;
 	
 	public File getDest() {
 		return new File(txtDest.getText());
@@ -92,7 +94,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		JScrollPane scrollProviders = new JScrollPane();
 		panneaucentral.add(scrollProviders);
 		
-		JList lstProviders = new JList();
+		lstProviders = new JList<MagicPricesProvider>(MagicPricerFactory.getInstance().getListPricers().toArray(new MagicPricesProvider[MagicPricerFactory.getInstance().getListPricers().size() ]));
 		scrollProviders.setViewportView(lstProviders);
 		
 		btnDestChoose.addActionListener(new ActionListener() {
@@ -130,7 +132,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	}
 
 	public List<MagicPricesProvider> getPriceProviders() {
-		return pricesProvider;
+		return lstProviders.getSelectedValuesList();
 	}
 
 }

@@ -19,7 +19,10 @@ public class MagicTradersPricer implements MagicPricesProvider {
 
 	String url = "http://classic.magictraders.com/pricelists/current-magic-excel.txt";
 	static final Logger logger = LogManager.getLogger(MagicTradersPricer.class.getName());
-
+	public String toString()
+	{
+		return getName();
+	}
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
 		
 		

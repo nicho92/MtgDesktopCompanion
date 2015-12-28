@@ -11,9 +11,9 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 import java.util.Set;
-
-import javax.swing.plaf.synth.SynthScrollBarUI;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
@@ -21,9 +21,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.db.HsqlDAO;
 import org.magic.db.MagicDAO;
-import org.magic.gui.components.WebSiteGeneratorDialog;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
@@ -34,7 +32,7 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateNotFoundException;
 
-public class MagicWebSiteGenerator {
+public class MagicWebSiteGenerator extends Observable{
 	
 	Template template ;
 	Configuration cfg ;
@@ -44,10 +42,8 @@ public class MagicWebSiteGenerator {
 	
 	public MagicWebSiteGenerator(MagicDAO dao,String template,String dest) throws IOException, ClassNotFoundException, SQLException {
 		cfg = new Configuration(Configuration.VERSION_2_3_23);
-		System.out.println(new File("/").getAbsolutePath());
 		cfg.setDirectoryForTemplateLoading(new File("./templates"+"/"+template));
 		cfg.setDefaultEncoding("UTF-8");
-	//	cfg.setTemplateExceptionHandler(TemplateExceptionHandler.HTML_DEBUG_HANDLER);
 		cfg.setNumberFormat("#");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER );
 		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_23).build());
@@ -101,7 +97,7 @@ public class MagicWebSiteGenerator {
 				rootEd.put("cards", root.get(colName));
 				rootEd.put("editions",editions);
 				generateCardsTemplate(root.get(colName),cols);
-			template.process(rootEd, out);
+				template.process(rootEd, out);
 		}
 		
 		
@@ -109,7 +105,7 @@ public class MagicWebSiteGenerator {
 		
 	}
 
-
+	int i=0;
 	private void generateCardsTemplate(List<MagicCard> list, List<MagicCollection> cols) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-card.html");
 		for(MagicCard mc : list){
@@ -118,25 +114,28 @@ public class MagicWebSiteGenerator {
 				rootEd.put("cols", cols);
 				
 				List<MagicPrice> prices= new ArrayList<MagicPrice>();
-				if(pricesProvider!=null)
+				if(pricesProvider.size()>0)
 				{
 					for(MagicPricesProvider prov : pricesProvider)
 					{
-						try {
+						try 
+						{
 							prices.addAll(prov.getPrice(mc.getEditions().get(0), mc));
-						} catch (Exception e) {
-							// TODO Auto-generated catch block
+						} 
+						catch (Exception e) 
+						{
 							e.printStackTrace();
 						}
 					}
 				}
-				
-				
 				rootEd.put("prices", prices);
 				FileWriter out = new FileWriter(new File(dest+"\\page-card-"+mc.getId()+".htm"));
 				cardTemplate.process(rootEd, out);
+				
+				setChanged();
+				notifyObservers(i++);
 		}
 		
 	}
-	
 }
+

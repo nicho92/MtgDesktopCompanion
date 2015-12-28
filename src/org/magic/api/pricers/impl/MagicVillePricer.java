@@ -32,7 +32,10 @@ public class MagicVillePricer implements MagicPricesProvider {
 		list=new ArrayList<MagicPrice>();
 		httpclient = HttpClients.createDefault();
 	}
-	
+	public String toString()
+	{
+		return getName();
+	}
 	
 	public static String getMGVILLCodeEdition(MagicEdition me)
 	{
