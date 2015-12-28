@@ -140,6 +140,7 @@ public class ManaPanel extends JPanel {
 			case "2/B":val=42;break;
 			case "2/R":val=43;break;
 			case "2/G":val=44;break;
+			case "T" : val=50;break;
 			
 			default:val=0;
 			System.out.println("missing " + el);

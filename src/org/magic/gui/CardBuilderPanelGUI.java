@@ -33,6 +33,7 @@ import javax.swing.JTextPane;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.CropImagePanel;
+import org.magic.gui.components.ManaPanel;
 
 public class CardBuilderPanelGUI extends JPanel {
 	
@@ -49,6 +50,9 @@ public class CardBuilderPanelGUI extends JPanel {
 	private CropImagePanel panelImage;
 	
 	private Image cardImage;
+	private JTextField txtBottom;
+	private JTextField txtCard1;
+	private JTextField txtCard2;
 	
 	private void init()
 	{
@@ -81,9 +85,9 @@ public class CardBuilderPanelGUI extends JPanel {
 				+ "&power="+txtPower.getText()
 				+ "&toughness="+txtToughness.getText()
 				+ "&artist="
-				+ "&bottom=%E2%84%A2+%26+%C2%A9+1993-2013+Wizards+of+the+Coast+LLC"
-				+ "&set1="
-				+ "&set2="
+				+ "&bottom="+URLEncoder.encode(txtBottom.getText(),"UTF-8")
+				+ "&set1="+txtCard1.getText()
+				+ "&set2="+txtCard2.getText()
 				+ "&setname=";
 		
 			cardImage = ImageIO.read(new URL(url));
@@ -124,10 +128,10 @@ public class CardBuilderPanelGUI extends JPanel {
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.CENTER);
 		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{80, 209, 85, 41, 0, 0};
-		gbl_panel.rowHeights = new int[]{0, 28, 35, 29, 27, 0, 97, 28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.columnWidths = new int[]{80, 96, 120, 0, 74, 41, 0};
+		gbl_panel.rowHeights = new int[]{0, 28, 35, 29, 27, 28, 62, 28, 0, 0, 0, 45, 30, 0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		JLabel lblLayout = new JLabel("Layout :");
@@ -146,19 +150,24 @@ public class CardBuilderPanelGUI extends JPanel {
 		gbc_cboLayout.gridy = 1;
 		panel.add(cboLayout, gbc_cboLayout);
 		
-		JButton btnGenerate = new JButton("Generate");
-		GridBagConstraints gbc_btnGenerate = new GridBagConstraints();
-		gbc_btnGenerate.insets = new Insets(0, 0, 5, 5);
-		gbc_btnGenerate.gridx = 3;
-		gbc_btnGenerate.gridy = 1;
-		panel.add(btnGenerate, gbc_btnGenerate);
+		JLabel lblColor = new JLabel("Color :");
+		GridBagConstraints gbc_lblColor = new GridBagConstraints();
+		gbc_lblColor.anchor = GridBagConstraints.EAST;
+		gbc_lblColor.fill = GridBagConstraints.VERTICAL;
+		gbc_lblColor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblColor.gridx = 2;
+		gbc_lblColor.gridy = 1;
+		panel.add(lblColor, gbc_lblColor);
 		
-		btnGenerate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				updateCard();
-				
-			}
-		});
+		cboColor = new JComboBox();
+		cboColor.setModel(new DefaultComboBoxModel(new String[] {"White", "Blue", "Black", "Red", "Green", "Gold","Uncolor"}));
+		GridBagConstraints gbc_cboColor = new GridBagConstraints();
+		gbc_cboColor.gridwidth = 2;
+		gbc_cboColor.fill = GridBagConstraints.BOTH;
+		gbc_cboColor.insets = new Insets(0, 0, 5, 5);
+		gbc_cboColor.gridx = 3;
+		gbc_cboColor.gridy = 1;
+		panel.add(cboColor, gbc_cboColor);
 		
 		JLabel lblName = new JLabel("Name: ");
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
@@ -170,6 +179,7 @@ public class CardBuilderPanelGUI extends JPanel {
 		
 		txtName = new JTextField();
 		GridBagConstraints gbc_txtName = new GridBagConstraints();
+		gbc_txtName.gridwidth = 4;
 		gbc_txtName.insets = new Insets(0, 0, 5, 5);
 		gbc_txtName.fill = GridBagConstraints.BOTH;
 		gbc_txtName.gridx = 1;
@@ -177,28 +187,11 @@ public class CardBuilderPanelGUI extends JPanel {
 		panel.add(txtName, gbc_txtName);
 		txtName.setColumns(10);
 		
-		JLabel lblColor = new JLabel("Color :");
-		GridBagConstraints gbc_lblColor = new GridBagConstraints();
-		gbc_lblColor.fill = GridBagConstraints.VERTICAL;
-		gbc_lblColor.insets = new Insets(0, 0, 5, 5);
-		gbc_lblColor.gridx = 0;
-		gbc_lblColor.gridy = 3;
-		panel.add(lblColor, gbc_lblColor);
-		
-		cboColor = new JComboBox();
-		cboColor.setModel(new DefaultComboBoxModel(new String[] {"White", "Blue", "Black", "Red", "Green", "Gold","Uncolor"}));
-		GridBagConstraints gbc_cboColor = new GridBagConstraints();
-		gbc_cboColor.fill = GridBagConstraints.BOTH;
-		gbc_cboColor.insets = new Insets(0, 0, 5, 5);
-		gbc_cboColor.gridx = 1;
-		gbc_cboColor.gridy = 3;
-		panel.add(cboColor, gbc_cboColor);
-		
 		JLabel lblCost = new JLabel("Cost :");
 		GridBagConstraints gbc_lblCost = new GridBagConstraints();
 		gbc_lblCost.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCost.gridx = 0;
-		gbc_lblCost.gridy = 4;
+		gbc_lblCost.gridy = 3;
 		panel.add(lblCost, gbc_lblCost);
 		
 		
@@ -206,15 +199,16 @@ public class CardBuilderPanelGUI extends JPanel {
 		GridBagConstraints gbc_lblType = new GridBagConstraints();
 		gbc_lblType.insets = new Insets(0, 0, 5, 5);
 		gbc_lblType.gridx = 0;
-		gbc_lblType.gridy = 5;
+		gbc_lblType.gridy = 4;
 		panel.add(lblType, gbc_lblType);
 		
 		txtType = new JTextField();
 		GridBagConstraints gbc_txtType = new GridBagConstraints();
+		gbc_txtType.gridwidth = 2;
 		gbc_txtType.insets = new Insets(0, 0, 5, 5);
 		gbc_txtType.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtType.gridx = 1;
-		gbc_txtType.gridy = 5;
+		gbc_txtType.gridy = 4;
 		panel.add(txtType, gbc_txtType);
 		txtType.setColumns(10);
 		
@@ -222,16 +216,17 @@ public class CardBuilderPanelGUI extends JPanel {
 		GridBagConstraints gbc_lblText = new GridBagConstraints();
 		gbc_lblText.insets = new Insets(0, 0, 5, 5);
 		gbc_lblText.gridx = 0;
-		gbc_lblText.gridy = 6;
+		gbc_lblText.gridy = 5;
 		panel.add(lblText, gbc_lblText);
 		
 		textPane = new JTextPane();
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
-		gbc_textPane.gridwidth = 2;
+		gbc_textPane.gridheight = 2;
+		gbc_textPane.gridwidth = 4;
 		gbc_textPane.insets = new Insets(0, 0, 5, 5);
 		gbc_textPane.fill = GridBagConstraints.BOTH;
 		gbc_textPane.gridx = 1;
-		gbc_textPane.gridy = 6;
+		gbc_textPane.gridy = 5;
 		panel.add(textPane, gbc_textPane);
 		
 		JPanel panelPalette = new JPanel();
@@ -246,13 +241,17 @@ public class CardBuilderPanelGUI extends JPanel {
 		
 		String[] symbols = new String[]{"W","U","B","R","G","T"};
 		
-		
+		ManaPanel pan = new ManaPanel();
 		for(String s : symbols)
 		{
 			final JButton btnG = new JButton(s);
+			btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+			btnG.setForeground(btnG.getBackground());
+			
 			btnG.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					textPane.setText(textPane.getText()+ " {" + btnG.getText()+"}");
+					
 				}
 			});
 			panelPalette.add(btnG);
@@ -304,12 +303,58 @@ public class CardBuilderPanelGUI extends JPanel {
 		panel_1.add(txtToughness);
 		txtToughness.setColumns(3);
 		
+		JLabel lblCardNumber = new JLabel("card number :");
+		GridBagConstraints gbc_lblCardNumber = new GridBagConstraints();
+		gbc_lblCardNumber.anchor = GridBagConstraints.EAST;
+		gbc_lblCardNumber.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCardNumber.gridx = 2;
+		gbc_lblCardNumber.gridy = 9;
+		panel.add(lblCardNumber, gbc_lblCardNumber);
+		
+		JPanel panel_2 = new JPanel();
+		GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+		gbc_panel_2.gridwidth = 2;
+		gbc_panel_2.insets = new Insets(0, 0, 5, 5);
+		gbc_panel_2.fill = GridBagConstraints.BOTH;
+		gbc_panel_2.gridx = 3;
+		gbc_panel_2.gridy = 9;
+		panel.add(panel_2, gbc_panel_2);
+		
+		txtCard1 = new JTextField();
+		txtCard1.setColumns(3);
+		panel_2.add(txtCard1);
+		
+		JLabel label = new JLabel("/");
+		panel_2.add(label);
+		
+		txtCard2 = new JTextField();
+		txtCard2.setColumns(3);
+		panel_2.add(txtCard2);
+		
+		JLabel lblBottom = new JLabel("Bottom :");
+		GridBagConstraints gbc_lblBottom = new GridBagConstraints();
+		gbc_lblBottom.insets = new Insets(0, 0, 5, 5);
+		gbc_lblBottom.gridx = 0;
+		gbc_lblBottom.gridy = 10;
+		panel.add(lblBottom, gbc_lblBottom);
+		
+		txtBottom = new JTextField();
+		txtBottom.setText("\u2122 & \u00A9 1993-2013 Wizards of the Coast LLC");
+		GridBagConstraints gbc_txtBottom = new GridBagConstraints();
+		gbc_txtBottom.gridwidth = 2;
+		gbc_txtBottom.insets = new Insets(0, 0, 5, 5);
+		gbc_txtBottom.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtBottom.gridx = 1;
+		gbc_txtBottom.gridy = 10;
+		panel.add(txtBottom, gbc_txtBottom);
+		txtBottom.setColumns(10);
+		
 		JButton btnPicture = new JButton("Picture");
 		GridBagConstraints gbc_btnPicture = new GridBagConstraints();
 		gbc_btnPicture.anchor = GridBagConstraints.NORTH;
 		gbc_btnPicture.insets = new Insets(0, 0, 5, 5);
 		gbc_btnPicture.gridx = 0;
-		gbc_btnPicture.gridy = 10;
+		gbc_btnPicture.gridy = 11;
 		panel.add(btnPicture, gbc_btnPicture);
 		
 		
@@ -328,13 +373,27 @@ public class CardBuilderPanelGUI extends JPanel {
 		panelImage = new CropImagePanel();
 		panelImage.setBackground(Color.BLACK);
 		GridBagConstraints gbc_panelImage = new GridBagConstraints();
-		gbc_panelImage.gridwidth = 3;
-		gbc_panelImage.gridheight = 6;
-		gbc_panelImage.insets = new Insets(0, 0, 5, 5);
+		gbc_panelImage.gridwidth = 5;
+		gbc_panelImage.gridheight = 5;
+		gbc_panelImage.insets = new Insets(0, 0, 5, 0);
 		gbc_panelImage.fill = GridBagConstraints.BOTH;
 		gbc_panelImage.gridx = 1;
-		gbc_panelImage.gridy = 10;
+		gbc_panelImage.gridy = 11;
 		panel.add(panelImage, gbc_panelImage);
+		
+		JButton btnGenerate = new JButton("Generate");
+		GridBagConstraints gbc_btnGenerate = new GridBagConstraints();
+		gbc_btnGenerate.insets = new Insets(0, 0, 5, 5);
+		gbc_btnGenerate.gridx = 1;
+		gbc_btnGenerate.gridy = 16;
+		panel.add(btnGenerate, gbc_btnGenerate);
+		
+		btnGenerate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				updateCard();
+				
+			}
+		});
 	}
 
 }
