@@ -389,7 +389,7 @@ public class CardBuilderPanelGUI extends JPanel {
 				
 				Image i = new ImageIcon(pics.getAbsolutePath()).getImage();
 				panelImage.setImage(i.getScaledInstance(panelImage.getWidth(), panelImage.getHeight(), Image.SCALE_SMOOTH));
-				updateCard();
+				
 			}
 		});
 		
@@ -400,7 +400,7 @@ public class CardBuilderPanelGUI extends JPanel {
 				File pics = choose.getSelectedFile();
 				
 				int w = cardsPicPanel.getWidth();
-			    int h = cardsPicPanel.getHeight();
+			    int h = 560;//cardsPicPanel.getHeight();
 			    BufferedImage bi = new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			    Graphics2D g = bi.createGraphics();
 			    cardsPicPanel.paint(g);

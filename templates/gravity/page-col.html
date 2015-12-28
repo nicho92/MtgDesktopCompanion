@@ -5,6 +5,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all"/>
+<link href="layout/styles/dataTables.jqueryui.css" rel="stylesheet" type="text/css" media="all"/>
+
+
 </head>
 <body id="top">
 <!-- ################################################################################################ --> 
@@ -60,7 +63,7 @@
       <!-- ################################################################################################ -->
       <h1> ${colName}</h1>
       <div class="scrollable">
-        <table>
+        <table id="tablecards">
           <thead>
             <tr>
               <th>Pics</th>
@@ -141,14 +144,26 @@
     <!-- ################################################################################################ --> 
   </div>
 </div>
-<!-- ################################################################################################ --> 
-<!-- ################################################################################################ --> 
-<!-- ################################################################################################ --> 
 <a id="backtotop" href="#top"><i class="fa fa-chevron-up"></i></a> 
 <!-- JAVASCRIPTS --> 
-<script src="layout/scripts/jquery.min.js"></script> 
+<script type="text/javascript" src="layout/scripts/jquery.min.js"></script> 
 <script src="layout/scripts/jquery.backtotop.js"></script> 
 <script src="layout/scripts/jquery.mobilemenu.js"></script> 
 <script src="layout/scripts/jquery.flexslider-min.js"></script>
+<script src="layout/scripts/jquery.dataTables.min.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+    $('#tablecards').DataTable({
+        "paging":   true,
+        "ordering": true,
+        "info":     true,
+        "lengthMenu": [[5,10, 25, 50, 10,-1], [5,10, 25, 50,100, "All"]],
+        "language": {
+        		"lengthMenu": " _MENU_ "
+        }
+    });
+} );
+
+</script>
 </body>
 </html>
