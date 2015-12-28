@@ -26,6 +26,10 @@ import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.tools.MagicPricerFactory;
 
 import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JLabel;
 
 public class WebSiteGeneratorDialog extends JDialog {
 	private JTextField txtDest;
@@ -82,19 +86,46 @@ public class WebSiteGeneratorDialog extends JDialog {
 		
 		JPanel panneaucentral = new JPanel();
 		getContentPane().add(panneaucentral, BorderLayout.CENTER);
-		panneaucentral.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		GridBagLayout gbl_panneaucentral = new GridBagLayout();
+		gbl_panneaucentral.columnWidths = new int[]{258, 258, 0};
+		gbl_panneaucentral.rowHeights = new int[]{35, 191, 0};
+		gbl_panneaucentral.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gbl_panneaucentral.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panneaucentral.setLayout(gbl_panneaucentral);
+		
+		JLabel lblChooseYourCollections = new JLabel("Choose your collections :");
+		GridBagConstraints gbc_lblChooseYourCollections = new GridBagConstraints();
+		gbc_lblChooseYourCollections.insets = new Insets(0, 0, 5, 5);
+		gbc_lblChooseYourCollections.gridx = 0;
+		gbc_lblChooseYourCollections.gridy = 0;
+		panneaucentral.add(lblChooseYourCollections, gbc_lblChooseYourCollections);
+		
+		JLabel lblChooseYourPrices = new JLabel("Choose your prices providers (or not) :");
+		GridBagConstraints gbc_lblChooseYourPrices = new GridBagConstraints();
+		gbc_lblChooseYourPrices.insets = new Insets(0, 0, 5, 0);
+		gbc_lblChooseYourPrices.gridx = 1;
+		gbc_lblChooseYourPrices.gridy = 0;
+		panneaucentral.add(lblChooseYourPrices, gbc_lblChooseYourPrices);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		panneaucentral.add(scrollPane);
-		
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+		gbc_scrollPane.gridx = 0;
+		gbc_scrollPane.gridy = 1;
+		panneaucentral.add(scrollPane, gbc_scrollPane);
 		list = new JList<MagicCollection>(cols.toArray(new MagicCollection[cols.size()]));
+		lstProviders = new JList<MagicPricesProvider>(MagicPricerFactory.getInstance().getListPricers().toArray(new MagicPricesProvider[MagicPricerFactory.getInstance().getListPricers().size() ]));
 		
 		scrollPane.setViewportView(list);
 		
 		JScrollPane scrollProviders = new JScrollPane();
-		panneaucentral.add(scrollProviders);
+		GridBagConstraints gbc_scrollProviders = new GridBagConstraints();
+		gbc_scrollProviders.fill = GridBagConstraints.BOTH;
+		gbc_scrollProviders.gridx = 1;
+		gbc_scrollProviders.gridy = 1;
+		panneaucentral.add(scrollProviders, gbc_scrollProviders);
 		
-		lstProviders = new JList<MagicPricesProvider>(MagicPricerFactory.getInstance().getListPricers().toArray(new MagicPricesProvider[MagicPricerFactory.getInstance().getListPricers().size() ]));
 		scrollProviders.setViewportView(lstProviders);
 		
 		btnDestChoose.addActionListener(new ActionListener() {

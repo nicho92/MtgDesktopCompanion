@@ -17,6 +17,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -52,13 +54,22 @@ public class CardBuilderPanelGUI extends JPanel {
 	private JTextField txtCard1;
 	private JTextField txtCard2;
 	
+	Integer[] data = {0,1,2,3,4,5,6,7,8,9,10};
+	JComboBox<Integer> cboW = new JComboBox<Integer>(data);
+	JComboBox<Integer> cboU = new JComboBox<Integer>(data);
+	JComboBox<Integer> cboB = new JComboBox<Integer>(data);
+	JComboBox<Integer> cboR = new JComboBox<Integer>(data);
+	JComboBox<Integer> cboG = new JComboBox<Integer>(data);
+	JComboBox<Integer> cboC = new JComboBox<Integer>(data);
+	JComboBox<Integer> cboUn = new JComboBox<Integer>(data);
+	
+
+	
 	private void init()
 	{
 		card = new MagicCard();
 		MagicEdition ed = new MagicEdition();
 		card.getEditions().add(ed);
-		
-				
 	}
 	
 	public void updateCard()
@@ -67,12 +78,12 @@ public class CardBuilderPanelGUI extends JPanel {
 		String url = "http://www.mtgcardmaker.com/mcmaker/createcard.php?"
 				+ "name="+URLEncoder.encode(txtName.getText(),"UTF-8")
 				+ "&color="+cboColor.getSelectedItem()
-				+ "&mana_r=0"
-				+ "&mana_u=0"
-				+ "&mana_g=0"
-				+ "&mana_b=0"
-				+ "&mana_w=0"
-				+ "&mana_colorless=0"
+				+ "&mana_r="+cboR.getSelectedItem()
+				+ "&mana_u="+cboU.getSelectedItem()
+				+ "&mana_g="+cboG.getSelectedItem()
+				+ "&mana_b="+cboB.getSelectedItem()
+				+ "&mana_w="+cboW.getSelectedItem()
+				+ "&mana_colorless="+cboUn.getSelectedItem()
 				+ "&picture="
 				+ "&supertype="
 				+ "&cardtype="+URLEncoder.encode(txtType.getText(),"UTF-8")
@@ -192,6 +203,39 @@ public class CardBuilderPanelGUI extends JPanel {
 		gbc_lblCost.gridy = 3;
 		panel.add(lblCost, gbc_lblCost);
 		
+		JPanel panelcost = new JPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panelcost.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.LEFT);
+		GridBagConstraints gbc_panelcost = new GridBagConstraints();
+		gbc_panelcost.anchor = GridBagConstraints.WEST;
+		gbc_panelcost.gridwidth = 2;
+		gbc_panelcost.insets = new Insets(0, 0, 5, 5);
+		gbc_panelcost.fill = GridBagConstraints.VERTICAL;
+		gbc_panelcost.gridx = 1;
+		gbc_panelcost.gridy = 3;
+		panel.add(panelcost, gbc_panelcost);
+		gbc_panelcost.gridwidth = 2;
+		gbc_panelcost.insets = new Insets(0, 0, 5, 5);
+		gbc_panelcost.fill = GridBagConstraints.BOTH;
+		gbc_panelcost.gridx = 1;
+		gbc_panelcost.gridy = 5;
+		
+		
+		final ManaPanel pan = new ManaPanel();
+		
+		panelcost.add(new JLabel(new ImageIcon(pan.getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+		panelcost.add(cboW);
+		panelcost.add(new JLabel(new ImageIcon(pan.getManaSymbol("U").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+		panelcost.add(cboU);
+		panelcost.add(new JLabel(new ImageIcon(pan.getManaSymbol("B").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+		panelcost.add(cboB);
+		panelcost.add(new JLabel(new ImageIcon(pan.getManaSymbol("R").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+		panelcost.add(cboR);
+		panelcost.add(new JLabel(new ImageIcon(pan.getManaSymbol("G").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+		panelcost.add(cboG);
+		panelcost.add(new JLabel(new ImageIcon(pan.getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+		panelcost.add(cboUn);
+		
 		
 		JLabel lblType = new JLabel("Type :");
 		GridBagConstraints gbc_lblType = new GridBagConstraints();
@@ -237,10 +281,9 @@ public class CardBuilderPanelGUI extends JPanel {
 		panel.add(panelPalette, gbc_panelPalette);
 		
 		
-		String[] symbols = new String[]{"W","U","B","R","G","T"};
+		String[] symbolcs = new String[]{"W","U","B","R","G","C","T"};
 		
-		ManaPanel pan = new ManaPanel();
-		for(String s : symbols)
+		for(String s : symbolcs)
 		{
 			final JButton btnG = new JButton(s);
 			btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
