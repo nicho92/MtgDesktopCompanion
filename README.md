@@ -41,4 +41,5 @@ Collection Manager :
 Generate Website of your collections :
 
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png)
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website2.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website2.png)
 
