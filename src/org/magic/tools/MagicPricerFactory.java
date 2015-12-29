@@ -9,6 +9,11 @@ import java.util.List;
 import java.util.Set;
 
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.pricers.impl.ChannelFireballPricer;
+import org.magic.api.pricers.impl.EbayPricer;
+import org.magic.api.pricers.impl.MagicTradersPricer;
+import org.magic.api.pricers.impl.MagicVillePricer;
+import org.magic.api.pricers.impl.TCGPlayerPricer;
 
 public class MagicPricerFactory {
 
@@ -31,7 +36,13 @@ public class MagicPricerFactory {
 	private MagicPricerFactory()
 	{
 		try {
-			init("org.magic.api.pricers.impl");
+			//init("org.magic.api.pricers.impl");
+			classes = new ArrayList<MagicPricesProvider>();
+			classes.add(new ChannelFireballPricer() );
+			classes.add(new EbayPricer() );
+			classes.add(new MagicTradersPricer() );
+			classes.add(new MagicVillePricer() );
+			classes.add(new TCGPlayerPricer() );
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -44,7 +55,7 @@ public class MagicPricerFactory {
 		  return classes;
 	}
 	
-	private void init(String packageName) throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException {
+	/*private void init(String packageName) throws ClassNotFoundException, IOException, InstantiationException, IllegalAccessException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         assert classLoader != null;
         String path = packageName.replace('.', '/');

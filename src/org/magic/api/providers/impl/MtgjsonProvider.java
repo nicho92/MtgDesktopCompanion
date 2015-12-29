@@ -54,19 +54,19 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private boolean hasNewVersion()
 	{
 		try{
+			logger.debug("check new version of " + toString());
 		InputStreamReader fr = new InputStreamReader( new URL(urlVersion).openStream(),"ISO-8859-1");
   	  	BufferedReader br = new BufferedReader(fr);
   	  	String version =  br.readLine();
   	  	br.close();
   	  	if(!version.equals(new BufferedReader(new FileReader(fversion)).readLine()))
   	  		return true;
-  	 	
-  	  	
+  	 
   	  	return false;
 		}
 		catch(Exception e)
 		{
-			logger.debug("Error to get last version " +e);
+			logger.error("Error to get last version " +e);
 			return true;
 		}
 	}

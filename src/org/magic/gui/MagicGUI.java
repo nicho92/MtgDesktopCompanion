@@ -236,7 +236,7 @@ public class MagicGUI extends JFrame {
 					loading(true, "add cards to " + collec); 
 
 					for (int i = 0; i < tableCards.getSelectedRowCount(); i++) { 
-						MagicCard mc = (MagicCard) tableCards.getValueAt(tableCards.convertRowIndexToModel(tableCards.getSelectedRows()[i]),tableCards.convertColumnIndexToModel(0));
+						MagicCard mc = selected;// (MagicCard) tableCards.getValueAt(tableCards.getRowSorter().convertRowIndexToModel(tableCards.getSelectedRows()[i]),tableCards.getRowSorter().convertColumnIndexToModel(0));
 						try {
 							dao.saveCard(mc, dao.getCollection(collec));
 						} catch (SQLException e1) {
@@ -245,7 +245,7 @@ public class MagicGUI extends JFrame {
 
 					}
 					loading(false, "");
-					collectionPanelGUI.getJTree().refresh();
+					//collectionPanelGUI.getJTree().refresh();
 					
 				}
 			});
@@ -497,7 +497,7 @@ public class MagicGUI extends JFrame {
 		collectionPanelGUI = new CollectionPanelGUI(provider,dao);
 		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), collectionPanelGUI, null);
 		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), panneauBuilder, null);
-		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new JPanel(), null);
+		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
 
 		initPopupCollection();
 

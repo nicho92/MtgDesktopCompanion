@@ -191,13 +191,13 @@ public class MagicCardDetailPanel extends JPanel {
 				panelDetailCreature.add(toughnessLabel);
 				panelDetailCreature.add(toughnessJTextField);
 						
-						lblnumberInSet = new JLabel("/");
-						GridBagConstraints gbc_lblnumberInSet = new GridBagConstraints();
-						gbc_lblnumberInSet.gridwidth = 2;
-						gbc_lblnumberInSet.insets = new Insets(0, 0, 5, 5);
-						gbc_lblnumberInSet.gridx = 5;
-						gbc_lblnumberInSet.gridy = 2;
-						add(lblnumberInSet, gbc_lblnumberInSet);
+				lblnumberInSet = new JLabel("/");
+				GridBagConstraints gbc_lblnumberInSet = new GridBagConstraints();
+				gbc_lblnumberInSet.gridwidth = 2;
+				gbc_lblnumberInSet.insets = new Insets(0, 0, 5, 5);
+				gbc_lblnumberInSet.gridx = 5;
+				gbc_lblnumberInSet.gridy = 2;
+				add(lblnumberInSet, gbc_lblnumberInSet);
 				
 				lblLayout = new JLabel("Layout :");
 				GridBagConstraints gbc_lblLayout = new GridBagConstraints();
@@ -365,6 +365,9 @@ public class MagicCardDetailPanel extends JPanel {
 				e.printStackTrace();
 			}
 	}
+	
+	
+	
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, Integer> cmcProperty = BeanProperty.create("cmc");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
@@ -464,6 +467,8 @@ public class MagicCardDetailPanel extends JPanel {
 		for(MagicFormat mf : magicCard.getLegalities())
 			((DefaultListModel)lstFormats.getModel()).addElement(mf);
 		
+		
+			
 		
 		//
 		BindingGroup bindingGroup = new BindingGroup();

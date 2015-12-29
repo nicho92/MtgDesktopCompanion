@@ -3,6 +3,7 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -23,12 +24,16 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -87,6 +92,14 @@ public class CollectionPanelGUI extends JPanel {
 		
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
+		
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				tree.refresh();
+			}
+		});
+		panneauHaut.add(btnRefresh);
 		
 		JButton btnRemove = new JButton("Remove");
 		btnRemove.setEnabled(true);
@@ -188,6 +201,7 @@ public class CollectionPanelGUI extends JPanel {
 		 tablePrices.setColumnControlVisible(true);
 		 scrollPrices.setViewportView(tablePrices);
 
+		 initPopupCollection();
 		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent tse) {
@@ -221,6 +235,23 @@ public class CollectionPanelGUI extends JPanel {
 							
 						}
 					}).start();
+				}
+			}
+		});
+		
+				
+		tree.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				if(SwingUtilities.isRightMouseButton(e))
+				{
+					try{
+						DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
+						if(node.getUserObject() instanceof MagicEdition)
+							popupMenu.show(e.getComponent(), e.getX(), e.getY());
+					
+					}
+					catch(Exception ex){}
 				}
 			}
 		});
@@ -375,7 +406,57 @@ public class CollectionPanelGUI extends JPanel {
 	}
 	
 	
-	
+	private JPopupMenu popupMenu = new JPopupMenu();
+	public void initPopupCollection() throws Exception
+	{
+		JMenu menuItemAdd = new JMenu("Add missing cards in ");
+
+		for(MagicCollection mc : dao.getCollections())
+		{
+			JMenuItem adds = new JMenuItem(mc.getName());
+			adds.addActionListener(new ActionListener() {
+
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					
+					final String collec = ((JMenuItem)e.getSource()).getText();
+					new Thread(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+								DefaultMutableTreeNode node = ((DefaultMutableTreeNode)path.getPathComponent(2));
+								MagicEdition me = (MagicEdition)node.getUserObject();
+								
+								MagicCollection mc = new MagicCollection();
+									mc.setName(collec);
+								List<MagicCard> sets = provider.searchCardByCriteria("set", me.getId());
+								 for(int i = 0 ; i < node.getChildCount() ; i++)
+								 {
+								        MagicCard c = (MagicCard)((DefaultMutableTreeNode)node.getChildAt(i)).getUserObject();
+								        sets.remove(c);
+								 }
+								
+								 for(MagicCard m : sets)
+									 dao.saveCard(m, mc);
+								 
+								 tree.refresh();
+							} catch (Exception e1) {
+								// TODO Auto-generated catch block
+								e1.printStackTrace();
+							}	
+							
+						}
+					}).start();
+					
+					
+				}
+			});
+			menuItemAdd.add(adds);
+		}
+
+		popupMenu.add(menuItemAdd);
+	}
 	
 	public void setProvider(MagicCardsProvider provider)
 	{

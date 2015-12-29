@@ -380,7 +380,7 @@ public class CardBuilderPanelGUI extends JPanel {
 		panel.add(lblBottom, gbc_lblBottom);
 		
 		txtBottom = new JTextField();
-		txtBottom.setText("\u2122 & \u00A9 1993-2013 Wizards of the Coast LLC");
+		txtBottom.setText("\u2122 & \u00A9 1993-2016 Wizards of the Coast LLC");
 		GridBagConstraints gbc_txtBottom = new GridBagConstraints();
 		gbc_txtBottom.gridwidth = 2;
 		gbc_txtBottom.insets = new Insets(0, 0, 5, 5);
