@@ -97,6 +97,10 @@ public class CollectionPanelGUI extends JPanel {
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				tree.refresh();
+				try {
+					model.calculate();
+				} catch (Exception e) {}
+				model.fireTableDataChanged();
 			}
 		});
 		panneauHaut.add(btnRefresh);

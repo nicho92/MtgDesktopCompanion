@@ -11,6 +11,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -45,7 +46,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	Reader readSet;
 	List<MagicCard> list;
 	ReadContext ctx;
-	
+	Map<String,List<MagicCard>> cacheExtension;
 	String urlVersion = "http://mtgjson.com/json/version.json";
 	File fversion = new File(System.getProperty("user.home")+"//magicDeskCompanion/version");
 	
@@ -118,7 +119,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			
 		 readSet = new InputStreamReader(new FileInputStream(fset),"UTF-8");
 		 
-		 
+		 cacheExtension= new HashMap<String,List<MagicCard>>();
 		 ctx = JsonPath.parse(fset);
 		 logger.debug("init " + this +" OK");
 		} 
@@ -144,6 +145,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		if(att.equalsIgnoreCase("set"))
 		{
+			if(cacheExtension.get(crit)!=null)
+			{
+				logger.debug(crit + " is already in cache. Loading from it");
+				return cacheExtension.get(crit);
+			}
+			
+			
 			if(crit.length()==4)
 			{
 				crit=crit.substring(0, 1)+crit.substring(1).toUpperCase();
@@ -311,6 +319,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		  list.add(mc);
 		}
 		currentSet.clear();
+		
+		if(att.equalsIgnoreCase("set"))
+			cacheExtension.put(crit, list);
+		
 		return list;
 		
 	}

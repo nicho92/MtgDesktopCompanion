@@ -285,13 +285,14 @@ public class CardBuilderPanelGUI extends JPanel {
 		
 		for(String s : symbolcs)
 		{
-			final JButton btnG = new JButton(s);
+			final JButton btnG = new JButton();
+			btnG.setToolTipText(s);
 			btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
 			btnG.setForeground(btnG.getBackground());
 			
 			btnG.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					textPane.setText(textPane.getText()+ " {" + btnG.getText()+"}");
+					textPane.setText(textPane.getText()+ " {" + btnG.getToolTipText()+"}");
 					
 				}
 			});

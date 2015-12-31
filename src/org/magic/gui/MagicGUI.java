@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
@@ -44,6 +45,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
+import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
@@ -81,65 +83,34 @@ import org.magic.tools.MagicPDFGenerator;
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
 import com.jayway.jsonpath.spi.cache.CacheProvider;
+import java.awt.GridLayout;
 
 public class MagicGUI extends JFrame {
 
-	private MagicCardDetailPanel detailCardPanel;
-
-	private JXTable tableCards;
-	private JXTable tablePrice;
-
-	private JTextField txtMagicSearch;
-	private JList<MagicEdition> listEdition;
-	private JLabel lblLoading = new JLabel("");
-	private JLabel lblNbcard = new JLabel("");
-	//private JLabel lblCard = new JLabel();
-	private JComboBox<String> cboQuereableItems;
-	private JButton btnSearch;
-	private JPanel panneauHaut;
-	private JPanel panneauCard = new JPanel();
-
-
 	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
+
+
+
+
 
 	private static final int INDEX_PRICES = 2;
 
-
-	MagicCard selected;
-	MagicPriceTableModel priceModel;
-	MagicEdition selectedEdition;
-
+	private MagicCard selected;
+	private MagicEdition selectedEdition;
+	private List<MagicCard> cards;
 	private HsqlDAO dao;
 	private String defaultLanguage;
-
 	private MagicCardsProvider provider;
+
+	
+	
+	private MagicPriceTableModel priceModel;
 	private MagicCardTableModel cardsModeltable;
-	private JComboBox<MagicCardNames> cboLanguages;
-	private JTextArea txtRulesArea;
+	
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenuItem mntmExit;
 	private JMenuItem mntmExportGrid;
-	private JTabbedPane tabbedCardsView;
-	private JScrollPane scrollThumbnails;
-	private ThumbnailPanel thumbnailPanel;
-	private CmcChartPanel cmcChart;
-	private ManaRepartitionPanel manaRepartitionPanel;
-	private JMenuItem mntmExportAsPdf;
-
-	private List<MagicCard> cards;
-	private TypeRepartitionPanel typeRepartitionPanel;
-	private JPanel globalPanel;
-	private JTabbedPane tabbedPane;
-	private DeckBuilderGUI deckBuilderGUI;
-	private RarityRepartitionPanel rarityRepartitionPanel;
-	private JPanel editionDetailPanel;
-	private MagicEditionDetailPanel magicEditionDetailPanel;
-	private JPanel panelEditionRight;
-	private JButton btnGenerateBooster;
-	private CollectionPanelGUI collectionPanelGUI;
-	private JPopupMenu popupMenu = new JPopupMenu();
-    private JTabbedPane tabbedCardsInfo ;
     private JMenu mnuSearch;
     private JMenu mnDeck;
     private JMenuItem mnuExportDeckCsv;
@@ -147,15 +118,66 @@ public class MagicGUI extends JFrame {
     private JMenuItem mnuNewDeck;
     private JMenu mnuCollections;
     private JMenuItem mnuCollectionNew;
-    private CardsPicPanel cardsPicPanel;
-    private JComboBox<MagicEdition> cboEdition;
-
-	private CardBuilderPanelGUI panneauBuilder;
+	private JMenuItem mntmExportAsPdf;
 	private JMenu mnuAbout;
 	private JMenuItem mntmAboutMagicDesktop;
 	private JMenuItem mntmReportBug;
+	private JMenu mnView;
+	private JMenuItem mntmShowhideFilters;
     
+	private JTabbedPane tabbedCardsView;
+	private JTabbedPane tabbedCardsInfo ;
+	private JTabbedPane tabbedPane;
+	
+	private JScrollPane scrollThumbnails;
+	
+	private ThumbnailPanel thumbnailPanel;
+	private ManaRepartitionPanel manaRepartitionPanel;
+	private TypeRepartitionPanel typeRepartitionPanel;
+	private RarityRepartitionPanel rarityRepartitionPanel;
+	private CmcChartPanel cmcChart;
+	private CardsPicPanel cardsPicPanel;
+	private MagicEditionDetailPanel magicEditionDetailPanel;
+	private MagicCardDetailPanel detailCardPanel;
+
+	private JPanel panelEditionRight;
+	private JPanel panelResultsCards;
+	private JPanel panelFilters;
+    private JPanel panelmana;
+	private JPanel globalPanel;
+	private JPanel editionDetailPanel;
+	private JPanel panneauHaut;
+	private JPanel panneauCard = new JPanel();
+  
+	private JTextArea txtRulesArea;
+	private JTextField txtFilter;
+	private JTextField txtMagicSearch;
+	
+	private JPopupMenu popupMenu = new JPopupMenu();
     
+	private JComboBox<MagicEdition> cboEdition;
+    private JComboBox<MagicCardNames> cboLanguages;
+	private JComboBox<String> cboQuereableItems;
+
+    private DeckBuilderGUI deckBuilderGUI;
+	private CardBuilderPanelGUI panneauBuilder;
+	private CollectionPanelGUI collectionPanelGUI;
+   
+	private JXTable tableCards;
+	private JXTable tablePrice;
+    private DefaultRowSorter sorterCards ;
+
+    private JButton btnClear;
+	private JButton btnGenerateBooster;
+	private JButton btnSearch;
+
+	private JLabel lblLoading = new JLabel("");
+	private JLabel lblNbcard = new JLabel("");
+
+	private JList<MagicEdition> listEdition;
+
+	
+	
 	public static void main(String[] args) {
 
 		CacheProvider.setCache(new Cache() {
@@ -236,7 +258,13 @@ public class MagicGUI extends JFrame {
 					loading(true, "add cards to " + collec); 
 
 					for (int i = 0; i < tableCards.getSelectedRowCount(); i++) { 
-						MagicCard mc = selected;// (MagicCard) tableCards.getValueAt(tableCards.getRowSorter().convertRowIndexToModel(tableCards.getSelectedRows()[i]),tableCards.getRowSorter().convertColumnIndexToModel(0));
+						
+						
+						int viewRow = tableCards.getSelectedRows()[i];
+						int modelRow = tableCards.convertRowIndexToModel(viewRow);
+						
+						
+						MagicCard mc = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
 						try {
 							dao.saveCard(mc, dao.getCollection(collec));
 						} catch (SQLException e1) {
@@ -245,8 +273,6 @@ public class MagicGUI extends JFrame {
 
 					}
 					loading(false, "");
-					//collectionPanelGUI.getJTree().refresh();
-					
 				}
 			});
 			menuItemAdd.add(adds);
@@ -298,6 +324,13 @@ public class MagicGUI extends JFrame {
 		mnFile.add(mntmExit);
 
 		panneauBuilder = new CardBuilderPanelGUI();
+		
+		mnView = new JMenu("View");
+		menuBar.add(mnView);
+		
+		mntmShowhideFilters = new JMenuItem("Show/Hide Filters");
+		
+		mnView.add(mntmShowhideFilters);
 
 		JMenu jmnuLook = new JMenu("Look");
 		menuBar.add(jmnuLook);
@@ -333,7 +366,7 @@ public class MagicGUI extends JFrame {
 
 
 		DefaultRowSorter sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
-		DefaultRowSorter sorterCards = new TableRowSorter<DefaultTableModel>(cardsModeltable);
+		sorterCards = new TableRowSorter<DefaultTableModel>(cardsModeltable);
 
 		loading(false,null);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -416,10 +449,6 @@ public class MagicGUI extends JFrame {
 		thumbnailPanel = new ThumbnailPanel();
 
 		rarityRepartitionPanel = new RarityRepartitionPanel();
-
-		tableCards = new JXTable();
-		tableCards.setColumnControlVisible(true);
-		JScrollPane scrollCards = new JScrollPane();
 		JScrollPane scrollPaneRules = new JScrollPane();
 		JScrollPane scrollPanePrices = new JScrollPane();
 		JSplitPane panneauCentral = new JSplitPane();
@@ -455,8 +484,76 @@ public class MagicGUI extends JFrame {
 		panelEditionRight.add(btnGenerateBooster);
 		tabbedCardsInfo.addTab("Prices", null, scrollPanePrices, null);
 		tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
+		
+		panelResultsCards = new JPanel();
+		tabbedCardsView.addTab("Results", null, panelResultsCards, null);
+				panelResultsCards.setLayout(new BorderLayout(0, 0));
+		
+				tableCards = new JXTable();
+				tableCards.setColumnControlVisible(true);
+				JScrollPane scrollCards = new JScrollPane();
+				panelResultsCards.add(scrollCards);
+				scrollCards.setViewportView(tableCards);
+				scrollCards.setMinimumSize(new Dimension(23, 250));
+				
+				
+						tableCards.setRowHeight(ManaPanel.pix_resize);
+						tableCards.setModel(cardsModeltable);
+						tableCards.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
+						tableCards.setRowSorter(sorterCards);
+						
+						panelFilters = new JPanel();
+						FlowLayout fl_panelFilters = (FlowLayout) panelFilters.getLayout();
+						fl_panelFilters.setAlignment(FlowLayout.LEFT);
+						panelResultsCards.add(panelFilters, BorderLayout.NORTH);
+						
+						JLabel lblFilter = new JLabel("Filter :");
+						panelFilters.add(lblFilter);
+						
+						txtFilter = new JTextField();
+						
+						panelFilters.add(txtFilter);
+						txtFilter.setColumns(25);
+						
+						btnClear = new JButton("");
+						btnClear.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								txtFilter.setText("");
+								sorterCards.setRowFilter(null);
+							}
+						});
+						btnClear.setIcon(new ImageIcon(MagicGUI.class.getResource("/res/09_clear_location.png")));
+						panelFilters.add(btnClear);
+						
+						panelmana = new JPanel();
+						panelFilters.add(panelmana);
+						panelmana.setLayout(new GridLayout(1, 0, 2, 2));
+						
+						String[] symbolcs = new String[]{"W","U","B","R","G","C","1"};
+						ManaPanel pan = new ManaPanel();
+						
+						for(String s : symbolcs)
+						{
+							final JButton btnG = new JButton();
+							btnG.setToolTipText(s);
+							if(s.equals("1"))
+								btnG.setToolTipText("[0-9]*");
 
-		tabbedCardsView.addTab("Result", null, scrollCards, null);
+							btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+							btnG.setForeground(btnG.getBackground());
+							
+							btnG.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									txtFilter.setText("\\{" + btnG.getToolTipText()+"}");
+									sorterCards.setRowFilter(RowFilter.regexFilter(txtFilter.getText()));
+									
+								}
+							});
+							panelmana.add(btnG);
+								
+						}
+						
+						
 		tabbedCardsView.addTab("Thumbnail", null, scrollThumbnails, null);
 
 		txtRulesArea = new JTextArea();
@@ -466,15 +563,7 @@ public class MagicGUI extends JFrame {
 		scrollPaneRules.setViewportView(txtRulesArea);
 		scrollThumbnails.setViewportView(thumbnailPanel);
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
-		scrollCards.setViewportView(tableCards);
-		scrollCards.setMinimumSize(new Dimension(23, 250));
 		tabbedCardsInfo.setMinimumSize(new Dimension(23,200));
-
-
-		tableCards.setRowHeight(ManaPanel.pix_resize);
-		tableCards.setModel(cardsModeltable);
-		tableCards.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
-		tableCards.setRowSorter(sorterCards);
 
 
 
@@ -546,7 +635,8 @@ public class MagicGUI extends JFrame {
 								typeRepartitionPanel.init(cards);
 								manaRepartitionPanel.init(cards);
 								rarityRepartitionPanel.init(cards);
-								lblNbcard.setText(cardsModeltable.getRowCount()+" items");
+								tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
+								//lblNbcard.setText(cardsModeltable.getRowCount()+" items");
 
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -768,6 +858,29 @@ public class MagicGUI extends JFrame {
 					
 				}
 			});
+			
+			
+			txtFilter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					String text = txtFilter.getText();
+			          if (text.length() == 0) {
+			        	  sorterCards.setRowFilter(null);
+			          } else {
+			        	  sorterCards.setRowFilter(RowFilter.regexFilter(text));
+			          }
+				}
+			});
+			
+			mntmShowhideFilters.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(panelFilters.isVisible())
+						panelFilters.setVisible(false);
+					else
+						panelFilters.setVisible(true);
+					
+				}
+			});
+			
 			
 		} 
 		catch(Exception e)
