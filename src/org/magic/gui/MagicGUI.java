@@ -109,20 +109,20 @@ public class MagicGUI extends JFrame {
 	
 	private JMenuBar menuBar;
 	private JMenu mnFile;
+	private JMenu mnuSearch;
+	private JMenu mnDeck;
+	private JMenu mnuCollections;
+	private JMenu mnView;
+	private JMenu mnuAbout;
 	private JMenuItem mntmExit;
 	private JMenuItem mntmExportGrid;
-    private JMenu mnuSearch;
-    private JMenu mnDeck;
     private JMenuItem mnuExportDeckCsv;
     private JMenuItem mnuExportDeckPDF;
     private JMenuItem mnuNewDeck;
-    private JMenu mnuCollections;
     private JMenuItem mnuCollectionNew;
 	private JMenuItem mntmExportAsPdf;
-	private JMenu mnuAbout;
 	private JMenuItem mntmAboutMagicDesktop;
 	private JMenuItem mntmReportBug;
-	private JMenu mnView;
 	private JMenuItem mntmShowhideFilters;
     
 	private JTabbedPane tabbedCardsView;
@@ -175,8 +175,6 @@ public class MagicGUI extends JFrame {
 	private JLabel lblNbcard = new JLabel("");
 
 	private JList<MagicEdition> listEdition;
-
-	
 	
 	public static void main(String[] args) {
 
