@@ -63,6 +63,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.providers.impl.DeckbrewProvider;
+import org.magic.api.providers.impl.MtgapiProvider;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.db.HsqlDAO;
 import org.magic.gui.components.CardsPicPanel;
@@ -205,6 +207,8 @@ public class MagicGUI extends JFrame {
 				}
 
 				MagicCardsProvider	provider = new MtgjsonProvider();
+				//MagicCardsProvider	provider = new MtgapiProvider();
+				//MagicCardsProvider	provider = new DeckbrewProvider();
 				provider.init();
 
 				MagicGUI gui = new MagicGUI(provider);
@@ -584,7 +588,7 @@ public class MagicGUI extends JFrame {
 		collectionPanelGUI = new CollectionPanelGUI(provider,dao);
 		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), collectionPanelGUI, null);
 		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), panneauBuilder, null);
-		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
+		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (provider,dao), null);
 
 		initPopupCollection();
 
@@ -745,7 +749,6 @@ public class MagicGUI extends JFrame {
 					if(selLang!=null)
 					{
 						defaultLanguage=selLang.getLanguage();
-						logger.debug("Change default language" + defaultLanguage);
 					}
 				}
 			});
@@ -756,7 +759,10 @@ public class MagicGUI extends JFrame {
 					MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
 					try {
 						if(selLang!=null)
+						{
+							//logger.debug("loading " + selLang + " " + "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selLang.getGathererId()+"&type=card");
 							cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selLang.getGathererId()+"&type=card"));
+						}
 					} catch (MalformedURLException e1) {}
 				}
 

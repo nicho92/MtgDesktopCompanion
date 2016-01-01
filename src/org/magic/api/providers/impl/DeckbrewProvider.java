@@ -88,7 +88,13 @@ public class DeckbrewProvider implements MagicCardsProvider {
 			url = urldeckbrewJSON+"/sets?"+att+"="+crit;
 		
 		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
-		return Arrays.asList(gson.fromJson(reader, MagicEdition[].class));
+		List<MagicEdition> list =  Arrays.asList(gson.fromJson(reader, MagicEdition[].class));
+		for(MagicEdition me : list)
+				{
+					me.setSet(me.getId());
+				}
+		
+		return list;
 	}
 
 	public MagicEdition getSetById(String id) throws IOException   {

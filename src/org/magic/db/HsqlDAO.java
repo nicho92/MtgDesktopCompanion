@@ -1,5 +1,6 @@
 package org.magic.db;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -9,6 +10,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -16,17 +18,19 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 
-import sun.util.locale.provider.LocaleServiceProviderPool.LocalizedObjectGetter;
-
 public class HsqlDAO implements MagicDAO {
 
+	
+	String location;
+	
 	static final Logger logger = LogManager.getLogger(HsqlDAO.class.getName());
     Connection con;
     List<MagicCard> listNeeded ;
     
 	 public void init() throws ClassNotFoundException, SQLException {
 	      Class.forName("org.hsqldb.jdbc.JDBCDriver");
-		  con=DriverManager.getConnection("jdbc:hsqldb:"+System.getProperty("user.home")+"/magicDeskCompanion/db/magicDB","SA","");
+	      location = System.getProperty("user.home")+"/magicDeskCompanion/db";
+		  con=DriverManager.getConnection("jdbc:hsqldb:"+location+"/magicDB","SA","");
 		  
 		  createDB();
 		
@@ -229,9 +233,13 @@ public class HsqlDAO implements MagicDAO {
 	}
 
 	@Override
-	public ResultSet executeSQL(String sql) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getDBLocation() {
+		return location;
+	}
+
+	@Override
+	public long getDBSize() {
+		return FileUtils.sizeOfDirectory(new File(location));
 	}
 	
 }

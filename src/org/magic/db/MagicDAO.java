@@ -32,7 +32,7 @@ public interface MagicDAO {
 
 	public void removeEdition(MagicEdition ed, MagicCollection col)throws SQLException;
  
-	public ResultSet executeSQL(String sql);
-	
+	public String getDBLocation();
+	public long getDBSize();
 	
 }

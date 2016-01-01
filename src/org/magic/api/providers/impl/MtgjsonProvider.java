@@ -42,11 +42,14 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 public class MtgjsonProvider implements MagicCardsProvider{
 
 	String urlSetJson = "http://mtgjson.com/json/AllSets-x.json";
-	File fset = new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json");
+	File fileSetJson = new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json");
 	Reader readSet;
 	List<MagicCard> list;
 	ReadContext ctx;
-	Map<String,List<MagicCard>> cacheExtension;
+	Map<String,List<MagicCard>> cacheCard;
+	List<MagicEdition> eds;
+	
+	
 	String urlVersion = "http://mtgjson.com/json/version.json";
 	File fversion = new File(System.getProperty("user.home")+"//magicDeskCompanion/version");
 	
@@ -55,7 +58,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private boolean hasNewVersion()
 	{
 		try{
-			logger.debug("check new version of " + toString());
+		logger.debug("check new version of " + toString());
 		InputStreamReader fr = new InputStreamReader( new URL(urlVersion).openStream(),"ISO-8859-1");
   	  	BufferedReader br = new BufferedReader(fr);
   	  	String version =  br.readLine();
@@ -102,10 +105,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		try 
 		{	 
-			if(!fset.exists())
+			if(!fileSetJson.exists())
 			{
 				logger.debug("datafile not exist. Downloading it");
-				FileUtils.copyURLToFile(new URL(urlSetJson), fset);
+				FileUtils.copyURLToFile(new URL(urlSetJson), fileSetJson);
 				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
 			}
 			
@@ -113,14 +116,14 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			if(hasNewVersion())
 			{
 				logger.debug("new version datafile exist. Downloading it");
-				FileUtils.copyURLToFile(new URL(urlSetJson), fset);
+				FileUtils.copyURLToFile(new URL(urlSetJson), fileSetJson);
 				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
 			}
 			
-		 readSet = new InputStreamReader(new FileInputStream(fset),"UTF-8");
+		 readSet = new InputStreamReader(new FileInputStream(fileSetJson),"UTF-8");
 		 
-		 cacheExtension= new HashMap<String,List<MagicCard>>();
-		 ctx = JsonPath.parse(fset);
+		 cacheCard= new HashMap<String,List<MagicCard>>();
+		 ctx = JsonPath.parse(fileSetJson);
 		 logger.debug("init " + this +" OK");
 		} 
 		catch (Exception e1) {
@@ -145,10 +148,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		if(att.equalsIgnoreCase("set"))
 		{
-			if(cacheExtension.get(crit)!=null)
+			if(cacheCard.get(crit)!=null)
 			{
 				logger.debug(crit + " is already in cache. Loading from it");
-				return cacheExtension.get(crit);
+				return cacheCard.get(crit);
 			}
 			
 			
@@ -321,7 +324,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		currentSet.clear();
 		
 		if(att.equalsIgnoreCase("set"))
-			cacheExtension.put(crit, list);
+			cacheCard.put(crit, list);
 		
 		return list;
 		
@@ -335,7 +338,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		
 		logger.debug("get edition with " + att +"="+crit);
-
+		
+		if(eds!=null)
+		{
+			logger.debug("editions already loaded. return cache");
+			return eds;
+		}
+		
 		final List<String> codeEd=new ArrayList<String>();
 		ctx.withListeners(new EvaluationListener() {
 				
@@ -349,8 +358,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				}
 			}).read(jsquery,List.class);
 		
-		
-		List<MagicEdition> eds = new ArrayList<MagicEdition>();
+		eds = new ArrayList<MagicEdition>();
 
 		for(String codeedition : codeEd)
 		{
