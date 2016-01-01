@@ -60,6 +60,7 @@ import org.magic.tools.MagicWebSiteGenerator;
 import javax.swing.JProgressBar;
 
 public class CollectionPanelGUI extends JPanel {
+
 	private JTable tableEditions;
 	private MagicCardsProvider provider;
 	private MagicDAO dao;

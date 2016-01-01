@@ -39,30 +39,30 @@ import org.magic.gui.components.ManaPanel;
 public class CardBuilderPanelGUI extends JPanel {
 	
 	private MagicCard card;
-	private JTextField txtName;
 	private JPanel cardsPicPanel;
-	private JComboBox cboColor;
-	private JTextField txtType;
+	private CropImagePanel panelImage;
+	private Image cardImage;
+
 	private JTextPane textPane;
+	private JTextField txtType;
 	private JTextField txtPower;
 	private JTextField txtToughness;
 	private JTextField txtFlavor;
-	private CropImagePanel panelImage;
-	
-	private Image cardImage;
 	private JTextField txtBottom;
 	private JTextField txtCard1;
 	private JTextField txtCard2;
+	private JTextField txtName;
 	
-	Integer[] data = {0,1,2,3,4,5,6,7,8,9,10};
-	JComboBox<Integer> cboW = new JComboBox<Integer>(data);
-	JComboBox<Integer> cboU = new JComboBox<Integer>(data);
-	JComboBox<Integer> cboB = new JComboBox<Integer>(data);
-	JComboBox<Integer> cboR = new JComboBox<Integer>(data);
-	JComboBox<Integer> cboG = new JComboBox<Integer>(data);
-	JComboBox<Integer> cboC = new JComboBox<Integer>(data);
-	JComboBox<Integer> cboUn = new JComboBox<Integer>(data);
-	
+	private Integer[] data = {0,1,2,3,4,5,6,7,8,9,10};
+	private JComboBox<Integer> cboW = new JComboBox<Integer>(data);
+	private JComboBox<Integer> cboU = new JComboBox<Integer>(data);
+	private JComboBox<Integer> cboB = new JComboBox<Integer>(data);
+	private JComboBox<Integer> cboR = new JComboBox<Integer>(data);
+	private JComboBox<Integer> cboG = new JComboBox<Integer>(data);
+	private JComboBox<Integer> cboC = new JComboBox<Integer>(data);
+	private JComboBox<Integer> cboUn = new JComboBox<Integer>(data);
+	private JComboBox<String> cboColor;
+
 
 	
 	private void init()

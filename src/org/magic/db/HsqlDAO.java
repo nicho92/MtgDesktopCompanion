@@ -227,6 +227,12 @@ public class HsqlDAO implements MagicDAO {
 	public static void main(String[] args) {
 		
 	}
+
+	@Override
+	public ResultSet executeSQL(String sql) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 }
 

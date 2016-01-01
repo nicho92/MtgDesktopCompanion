@@ -57,16 +57,30 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicSerializer;
 
 public class DeckBuilderGUI extends JPanel{
-	private JTable tableDeck;
-	private JTextField txtSearch;
-
-	MagicCardsProvider provider;
-	MagicDeck deck;
-	DeckModel deckmodel ;
-	JComboBox cboAttributs;
-	DefaultListModel<MagicCard> resultListModel = new DefaultListModel<MagicCard>();
-	ThumbnailPanel thumbnailPanel;
 	
+	private DeckDetailsPanel deckDetailsPanel;
+	private ThumbnailPanel thumbnailPanel;
+	private CmcChartPanel cmcChartPanel;
+	private ManaRepartitionPanel manaRepartitionPanel;
+	private TypeRepartitionPanel typeRepartitionPanel;
+	private RarityRepartitionPanel rarityRepartitionPanel; 
+
+	private JTextField txtSearch;
+	private JComboBox<String> cboAttributs;
+
+	protected int selectedIndex=0;
+
+	private DeckModel deckSidemodel;
+	private DeckModel deckmodel ;
+	
+	private MagicCardsProvider provider;
+	private MagicDeck deck;
+	
+	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<MagicCard>();
+
+	private JTable tableDeck;
+	private JTable tableSide;
+
 	public static final int MAIN=0;
 	public static final int SIDE=1;
 	
@@ -77,17 +91,6 @@ public class DeckBuilderGUI extends JPanel{
 
 	File deckDirectory = new File(System.getProperty("user.home")+"/magicDeskCompanion/decks");
 	
-	CmcChartPanel cmcChartPanel;
-	ManaRepartitionPanel manaRepartitionPanel;
-	TypeRepartitionPanel typeRepartitionPanel;
-	RarityRepartitionPanel rarityRepartitionPanel; 
-	
-	
-	private DeckDetailsPanel deckDetailsPanel;
-	protected Object String;
-	private JTable tableSide;
-	protected int selectedIndex=0;
-	private DeckModel deckSidemodel;
 	
 	public MagicDeck getDeck() {
 		return deck;

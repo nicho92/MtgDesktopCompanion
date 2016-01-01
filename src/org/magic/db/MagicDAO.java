@@ -1,5 +1,6 @@
 package org.magic.db;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
@@ -31,6 +32,7 @@ public interface MagicDAO {
 
 	public void removeEdition(MagicEdition ed, MagicCollection col)throws SQLException;
  
+	public ResultSet executeSQL(String sql);
 	
 	
 }
