@@ -38,6 +38,8 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicFormat;
 import javax.swing.UIManager;
+import javax.swing.event.CaretListener;
+import javax.swing.event.CaretEvent;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -82,7 +84,7 @@ public class MagicCardDetailPanel extends JPanel {
 	public MagicCardDetailPanel() {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 52, 224, 52, 0, 57, 32, 51, 16, 0 };
+		gridBagLayout.columnWidths = new int[] { 52, 230, 65, 0, 57, 32, 51, 16, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
@@ -260,12 +262,18 @@ public class MagicCardDetailPanel extends JPanel {
 
 				JLabel textLabel = new JLabel("Text:");
 				GridBagConstraints labelGbc_8 = new GridBagConstraints();
+				labelGbc_8.gridheight = 2;
 				labelGbc_8.insets = new Insets(5, 5, 5, 5);
 				labelGbc_8.gridx = 0;
 				labelGbc_8.gridy = 4;
 				add(textLabel, labelGbc_8);
 		
 				txtTexteArea = new JTextPane();
+				txtTexteArea.addCaretListener(new CaretListener() {
+					public void caretUpdate(CaretEvent arg0) {
+						System.out.println(arg0.getDot());
+					}
+				});
 				txtTexteArea.setBackground(Color.WHITE);
 				txtTexteArea.setEditable(false);
 				txtTexteArea.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -358,13 +366,17 @@ public class MagicCardDetailPanel extends JPanel {
 		 try {
 			document.insertString(0, text, null);
 			while(m.find()) {
+				System.out.println(m.start() + " " + m.end() + " " + (m.end()-m.start()) +" " + m.group());
 				 Image ic = manaPanel.getManaSymbol(m.group());
+				
 				 JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 				 label.setAlignmentY(JLabel.TOP);
 				 StyleConstants.setComponent(labelStyle, label);
+
 				 document.remove(m.start()+cumule, (m.end()-m.start()));
 				 document.insertString(m.start()+cumule, m.group(), labelStyle);
-				 cumule += (m.end()-m.start())+1;
+					 
+				// cumule += (m.end()-m.start())+1;
 			}
 			txtTexteArea.setDocument(document);
 		 } 

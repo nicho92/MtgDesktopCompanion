@@ -466,6 +466,7 @@ public class MagicGUI extends JFrame {
 						tableCards.setRowSorter(sorterCards);
 						
 						panelFilters = new JPanel();
+						panelFilters.setVisible(false);
 						FlowLayout fl_panelFilters = (FlowLayout) panelFilters.getLayout();
 						fl_panelFilters.setAlignment(FlowLayout.LEFT);
 						panelResultsCards.add(panelFilters, BorderLayout.NORTH);
@@ -646,6 +647,7 @@ public class MagicGUI extends JFrame {
 					}
 					else
 					{
+						
 						selected = (MagicCard)tableCards.getValueAt(tableCards.getSelectedRow(), 0);
 						selectedEdition = selected.getEditions().get(0);
 						updateCards();
