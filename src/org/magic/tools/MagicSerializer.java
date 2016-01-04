@@ -25,12 +25,12 @@ public class MagicSerializer {
 		oos.flush();
 		oos.close();
 		
-		File f = new File(name+".json");
-		Gson GSON = new Gson();
-		FileWriter fw = new FileWriter(f.getAbsoluteFile());
-		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write(GSON.toJson(deck));
-		bw.close();
+//		File f = new File(name+".json");
+//		Gson GSON = new Gson();
+//		FileWriter fw = new FileWriter(f.getAbsoluteFile());
+//		BufferedWriter bw = new BufferedWriter(fw);
+//		bw.write(GSON.toJson(deck));
+//		bw.close();
 		
 		
 	}
