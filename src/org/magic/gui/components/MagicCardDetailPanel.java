@@ -1,6 +1,6 @@
 package org.magic.gui.components;
 
-import java.awt.Component;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -9,6 +9,8 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -16,9 +18,17 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
+import javax.swing.text.AttributeSet;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.DefaultStyledDocument;
+import javax.swing.text.SimpleAttributeSet;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -33,12 +43,12 @@ public class MagicCardDetailPanel extends JPanel {
 	private BindingGroup m_bindingGroup;
 	private org.magic.api.beans.MagicCard magicCard = new org.magic.api.beans.MagicCard();
 	private JTextField cmcJTextField;
-	private ManaPanel costJTextField;
+	private ManaPanel manaPanel;
 	private JTextField fullTypeJTextField;
 	private JTextField loyaltyJTextField;
 	private JTextField nameJTextField;
 	private JTextField powerJTextField;
-	private JTextArea txtTexteArea;
+	private JTextPane txtTexteArea;
 	private JTextField toughnessJTextField;
 	private JLabel lblFlavor;
 	private JTextPane txtFlavorArea;
@@ -71,44 +81,44 @@ public class MagicCardDetailPanel extends JPanel {
 	public MagicCardDetailPanel() {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 224, 52, 0, 57, 32, 51, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 0, 0, 25, 0, 0 };
+		gridBagLayout.columnWidths = new int[] { 52, 224, 52, 0, 57, 32, 51, -19, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 0, 0, 25, 21, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 						
-								JLabel nameLabel = new JLabel("Name:");
-								GridBagConstraints labelGbc_5 = new GridBagConstraints();
-								labelGbc_5.insets = new Insets(5, 5, 5, 5);
-								labelGbc_5.gridx = 0;
-								labelGbc_5.gridy = 0;
-								add(nameLabel, labelGbc_5);
-						
-								nameJTextField = new JTextField();
-								nameJTextField.setEditable(false);
-								GridBagConstraints componentGbc_5 = new GridBagConstraints();
-								componentGbc_5.insets = new Insets(5, 0, 5, 5);
-								componentGbc_5.fill = GridBagConstraints.HORIZONTAL;
-								componentGbc_5.gridx = 1;
-								componentGbc_5.gridy = 0;
-								add(nameJTextField, componentGbc_5);
-				
-						JLabel cmcLabel = new JLabel("Cmc:");
-						GridBagConstraints labelGbc_0 = new GridBagConstraints();
-						labelGbc_0.anchor = GridBagConstraints.EAST;
-						labelGbc_0.insets = new Insets(5, 5, 5, 5);
-						labelGbc_0.gridx = 2;
-						labelGbc_0.gridy = 0;
-						add(cmcLabel, labelGbc_0);
-				
-						cmcJTextField = new JTextField();
-						cmcJTextField.setEditable(false);
-						GridBagConstraints componentGbc_0 = new GridBagConstraints();
-						componentGbc_0.insets = new Insets(5, 0, 5, 5);
-						componentGbc_0.fill = GridBagConstraints.HORIZONTAL;
-						componentGbc_0.gridx = 4;
-						componentGbc_0.gridy = 0;
-						add(cmcJTextField, componentGbc_0);
+		JLabel nameLabel = new JLabel("Name:");
+		GridBagConstraints labelGbc_5 = new GridBagConstraints();
+		labelGbc_5.insets = new Insets(5, 5, 5, 5);
+		labelGbc_5.gridx = 0;
+		labelGbc_5.gridy = 0;
+		add(nameLabel, labelGbc_5);
+
+		nameJTextField = new JTextField();
+		nameJTextField.setEditable(false);
+		GridBagConstraints componentGbc_5 = new GridBagConstraints();
+		componentGbc_5.insets = new Insets(5, 0, 5, 5);
+		componentGbc_5.fill = GridBagConstraints.HORIZONTAL;
+		componentGbc_5.gridx = 1;
+		componentGbc_5.gridy = 0;
+		add(nameJTextField, componentGbc_5);
+
+		JLabel cmcLabel = new JLabel("Cmc:");
+		GridBagConstraints labelGbc_0 = new GridBagConstraints();
+		labelGbc_0.anchor = GridBagConstraints.EAST;
+		labelGbc_0.insets = new Insets(5, 5, 5, 5);
+		labelGbc_0.gridx = 2;
+		labelGbc_0.gridy = 0;
+		add(cmcLabel, labelGbc_0);
+
+		cmcJTextField = new JTextField();
+		cmcJTextField.setEditable(false);
+		GridBagConstraints componentGbc_0 = new GridBagConstraints();
+		componentGbc_0.insets = new Insets(5, 0, 5, 5);
+		componentGbc_0.fill = GridBagConstraints.HORIZONTAL;
+		componentGbc_0.gridx = 4;
+		componentGbc_0.gridy = 0;
+		add(cmcJTextField, componentGbc_0);
 				
 				lblLogoSet = new JLabel("");
 				GridBagConstraints gbc_lblLogoSet = new GridBagConstraints();
@@ -143,48 +153,52 @@ public class MagicCardDetailPanel extends JPanel {
 				componentGbc_2.gridy = 1;
 				add(fullTypeJTextField, componentGbc_2);
 						
-								JLabel costLabel = new JLabel("Cost:");
-								GridBagConstraints labelGbc_1 = new GridBagConstraints();
-								labelGbc_1.anchor = GridBagConstraints.EAST;
-								labelGbc_1.insets = new Insets(5, 5, 5, 5);
-								labelGbc_1.gridx = 2;
-								labelGbc_1.gridy = 1;
-								add(costLabel, labelGbc_1);
+				JLabel costLabel = new JLabel("Cost:");
+				GridBagConstraints labelGbc_1 = new GridBagConstraints();
+				labelGbc_1.anchor = GridBagConstraints.EAST;
+				labelGbc_1.insets = new Insets(5, 5, 5, 5);
+				labelGbc_1.gridx = 2;
+				labelGbc_1.gridy = 1;
+				add(costLabel, labelGbc_1);
 		
-				costJTextField = new ManaPanel();
+				manaPanel = new ManaPanel();
 				//costJTextField.setEditable(false);
 				GridBagConstraints componentGbc_1 = new GridBagConstraints();
 				componentGbc_1.insets = new Insets(5, 0, 5, 5);
 				componentGbc_1.fill = GridBagConstraints.HORIZONTAL;
 				componentGbc_1.gridx = 4;
 				componentGbc_1.gridy = 1;
-				add(costJTextField, componentGbc_1);
-						
-								JLabel loyaltyLabel = new JLabel("Loyalty:");
-								loyaltyJTextField = new JTextField();
-								loyaltyJTextField.setEditable(false);
-								loyaltyJTextField.setColumns(5);
-								JLabel powerLabel = new JLabel("Power:");
-								powerJTextField = new JTextField();
-								powerJTextField.setEditable(false);
-								powerJTextField.setColumns(5);
-								JLabel toughnessLabel = new JLabel("/");
-								toughnessJTextField = new JTextField();
-								toughnessJTextField.setEditable(false);
-								toughnessJTextField.setColumns(5);
+				add(manaPanel, componentGbc_1);
+				
+				JLabel loyaltyLabel = new JLabel("Loyalty:");
+				GridBagConstraints gbc_loyaltyLabel = new GridBagConstraints();
+				gbc_loyaltyLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_loyaltyLabel.gridx = 0;
+				gbc_loyaltyLabel.gridy = 2;
+				add(loyaltyLabel, gbc_loyaltyLabel);
+				loyaltyJTextField = new JTextField();
+				loyaltyJTextField.setEditable(false);
+				loyaltyJTextField.setColumns(5);
+				JLabel powerLabel = new JLabel("Power:");
+				powerJTextField = new JTextField();
+				powerJTextField.setEditable(false);
+				powerJTextField.setColumns(5);
+				JLabel toughnessLabel = new JLabel("/");
+				toughnessJTextField = new JTextField();
+				toughnessJTextField.setEditable(false);
+				toughnessJTextField.setColumns(5);
 								
 				
 				panelDetailCreature = new JPanel();
 				FlowLayout flowLayout = (FlowLayout) panelDetailCreature.getLayout();
 				flowLayout.setAlignment(FlowLayout.LEFT);
 				GridBagConstraints gbc_panelDetailCreature = new GridBagConstraints();
-				gbc_panelDetailCreature.gridwidth = 4;
+				gbc_panelDetailCreature.gridwidth = 3;
 				gbc_panelDetailCreature.insets = new Insets(0, 0, 5, 5);
 				gbc_panelDetailCreature.fill = GridBagConstraints.BOTH;
-				gbc_panelDetailCreature.gridx = 0;
+				gbc_panelDetailCreature.gridx = 1;
 				gbc_panelDetailCreature.gridy = 2;
 				add(panelDetailCreature, gbc_panelDetailCreature);
-				panelDetailCreature.add(loyaltyLabel);
 				panelDetailCreature.add(loyaltyJTextField);
 				panelDetailCreature.add(powerLabel);
 				panelDetailCreature.add(powerJTextField);
@@ -251,12 +265,12 @@ public class MagicCardDetailPanel extends JPanel {
 				labelGbc_8.gridy = 4;
 				add(textLabel, labelGbc_8);
 		
-				txtTexteArea = new JTextArea();
+				txtTexteArea = new JTextPane();
 				txtTexteArea.setEditable(false);
 				txtTexteArea.setFont(new Font("Arial", Font.PLAIN, 12));
-				txtTexteArea.setLineWrap(true);
-				txtTexteArea.setWrapStyleWord(true);
-				txtTexteArea.setRows(4);
+//				txtTexteArea.setLineWrap(true);
+//				txtTexteArea.setWrapStyleWord(true);
+//				txtTexteArea.setRows(4);
 				GridBagConstraints gbc_txtTexteArea = new GridBagConstraints();
 				gbc_txtTexteArea.gridwidth = 6;
 				gbc_txtTexteArea.gridheight = 3;
@@ -265,6 +279,7 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_txtTexteArea.gridx = 1;
 				gbc_txtTexteArea.gridy = 4;
 				add(txtTexteArea, gbc_txtTexteArea);
+				
 				
 				lblFlavor = new JLabel("Flavor:");
 				GridBagConstraints gbc_lblFlavor = new GridBagConstraints();
@@ -330,7 +345,38 @@ public class MagicCardDetailPanel extends JPanel {
 		}
 	}
 
-	public org.magic.api.beans.MagicCard getMagicCard() {
+	private void updateIcon() {
+		String regex ="\\{(.*?)\\}";
+		Pattern p = Pattern.compile(regex);
+		Matcher m = p.matcher(txtTexteArea.getText());
+		
+		String text = txtTexteArea.getText();
+		 StyleContext context = new StyleContext();
+		 StyledDocument document = new DefaultStyledDocument(context);
+		 Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
+		 
+		 int cumule=0;
+		 try {
+			document.insertString(0, text, null);
+			while(m.find()) {
+				 Image ic = manaPanel.getManaSymbol(m.group());
+				 JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+				 StyleConstants.setComponent(labelStyle, label);
+				 document.remove(m.start()+cumule, (m.end()-m.start()));
+				 document.insertString(m.start()+cumule, "Ignored", labelStyle);
+				 cumule += (m.end()-m.start())+1;
+			}
+			txtTexteArea.setDocument(document);
+		 } 
+		 catch (BadLocationException e) {
+				txtTexteArea.setText(text);
+		}
+			
+		
+	}
+
+
+	public MagicCard getMagicCard() {
 		return magicCard;
 	}
 
@@ -376,7 +422,7 @@ public class MagicCardDetailPanel extends JPanel {
 		//
 		BeanProperty<MagicCard, String> costProperty = BeanProperty.create("cost");
 		BeanProperty<ManaPanel, String> textProperty_1 = BeanProperty.create("manaCost");
-		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, costJTextField, textProperty_1);
+		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, manaPanel, textProperty_1);
 		autoBinding_1.bind();
 		//
 		BeanProperty<MagicCard, String> fullTypeProperty = BeanProperty.create("fullType");
@@ -400,8 +446,8 @@ public class MagicCardDetailPanel extends JPanel {
 		autoBinding_6.bind();
 		//
 		BeanProperty<MagicCard, String> textProperty_8 = BeanProperty.create("text");
-		BeanProperty<JTextArea, String> textProperty_9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextArea, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty_8, txtTexteArea, textProperty_9);
+		BeanProperty<JTextPane, String> textProperty_9 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextPane, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty_8, txtTexteArea, textProperty_9);
 		autoBinding_8.bind();
 		//
 		BeanProperty<MagicCard, String> toughnessProperty = BeanProperty.create("toughness");
@@ -431,6 +477,9 @@ public class MagicCardDetailPanel extends JPanel {
 		BeanProperty<JTextField, String> textProperty_14 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, waterProperty, txtWatermark, textProperty_14);
 		autoBinding_13.bind();
+		
+		
+		updateIcon();
 		
 		if(thumbnail)
 		{
@@ -466,9 +515,6 @@ public class MagicCardDetailPanel extends JPanel {
 		
 		for(MagicFormat mf : magicCard.getLegalities())
 			((DefaultListModel)lstFormats.getModel()).addElement(mf);
-		
-		
-			
 		
 		//
 		BindingGroup bindingGroup = new BindingGroup();

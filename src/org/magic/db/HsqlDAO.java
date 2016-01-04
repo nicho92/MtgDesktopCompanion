@@ -28,7 +28,8 @@ public class HsqlDAO implements MagicDAO {
     List<MagicCard> listNeeded ;
     
 	 public void init() throws ClassNotFoundException, SQLException {
-	      Class.forName("org.hsqldb.jdbc.JDBCDriver");
+	      logger.debug("init HsqlDB");
+		  Class.forName("org.hsqldb.jdbc.JDBCDriver");
 	      location = System.getProperty("user.home")+"/magicDeskCompanion/db";
 		  con=DriverManager.getConnection("jdbc:hsqldb:"+location+"/magicDB","SA","");
 		  
@@ -40,13 +41,14 @@ public class HsqlDAO implements MagicDAO {
 	 {
 		 try{
 		 	con.createStatement().executeUpdate("create table cards (name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
-		 	 logger.debug("Create table Cards");
+		 	logger.debug("Create table Cards");
 		 	con.createStatement().executeUpdate("create table decks (id_deck integer PRIMARY KEY , name varchar(45),commentaire varchar(1500))");
 		 	logger.debug("Create table decks");
 		 	con.createStatement().executeUpdate("create table decks_cartes (id_deck integer PRIMARY KEY, id_carte varchar(45),exemplaire integer)");
 		 	logger.debug("Create table decks_carte");
 		 	con.createStatement().executeUpdate("create table collections (name varchar(250) PRIMARY KEY)");
 		 	logger.debug("Create table collections");
+		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
 		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
 		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
 		 	logger.debug("populate collections");
@@ -55,7 +57,7 @@ public class HsqlDAO implements MagicDAO {
 		 	return true;
 		 }catch(SQLException e)
 		 {
-			 logger.debug("Base already exist");
+			 logger.debug("HsqlDB : Base already exist");
 			 return false;
 		 }
 		 

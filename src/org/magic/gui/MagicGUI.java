@@ -178,50 +178,9 @@ public class MagicGUI extends JFrame {
 
 	private JList<MagicEdition> listEdition;
 	
-	public static void main(String[] args) {
+	
 
-		CacheProvider.setCache(new Cache() {
-			//Not thread safe simple cache
-			private Map<String, JsonPath> map = new HashMap<String, JsonPath>();
-
-			@Override
-			public JsonPath get(String key) {
-				return map.get(key);
-			}
-
-			@Override
-			public void put(String key, JsonPath jsonPath) {
-				map.put(key, jsonPath);
-			}
-		});
-
-
-
-		SwingUtilities.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
-					UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-
-				MagicCardsProvider	provider = new MtgjsonProvider();
-				//MagicCardsProvider	provider = new MtgapiProvider();
-				//MagicCardsProvider	provider = new DeckbrewProvider();
-				provider.init();
-
-				MagicGUI gui = new MagicGUI(provider);
-				gui.setDefaultLanguage("English");
-				gui.setVisible(true);
-
-			}
-		});
-
-	}
-
-
-	protected void setDefaultLanguage(String language) {
+	public void setDefaultLanguage(String language) {
 		defaultLanguage=language;
 
 	}
@@ -285,6 +244,7 @@ public class MagicGUI extends JFrame {
 
 	public void initGUI() throws Exception
 	{
+		logger.debug("construction of GUI");
 		menuBar = new JMenuBar();
 		mnFile = new JMenu("File");
 		mntmExit = new JMenuItem("Exit");
@@ -354,6 +314,7 @@ public class MagicGUI extends JFrame {
 				}
 			}
 		});
+		
 		mnuAbout.add(mntmReportBug);
 		for(LookAndFeelInfo ui : UIManager.getInstalledLookAndFeels())
 		{
@@ -606,8 +567,6 @@ public class MagicGUI extends JFrame {
 
 		try {
 			priceModel=new MagicPriceTableModel();
-			
-
 			this.provider=provider;
 
 			dao=new HsqlDAO();
@@ -687,8 +646,6 @@ public class MagicGUI extends JFrame {
 					}
 					else
 					{
-
-
 						selected = (MagicCard)tableCards.getValueAt(tableCards.getSelectedRow(), 0);
 						selectedEdition = selected.getEditions().get(0);
 						updateCards();
@@ -901,7 +858,7 @@ public class MagicGUI extends JFrame {
 			}
 		});
 
-
+		logger.debug("construction of GUI : done");
 	}
 
 	public void updatePrices() {

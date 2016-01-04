@@ -152,5 +152,10 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		return null;
 	}
 
+	@Override
+	public String getVersion() {
+		return "1";
+	}
+
 	
 }

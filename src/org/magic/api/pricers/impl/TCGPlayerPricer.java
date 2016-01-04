@@ -40,7 +40,7 @@ public class TCGPlayerPricer implements MagicPricesProvider {
 			   link=link.replaceAll("%CARTE%", name);
 
 			   
-			   logger.debug("Get Price" + getName() + " " + link);
+			   logger.debug("Get Price " + getName() + " " + link);
 		
 			   DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			   DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();

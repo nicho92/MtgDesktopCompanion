@@ -329,6 +329,11 @@ public class MtgapiProvider implements MagicCardsProvider{
 		return null;
 	}
 
+	@Override
+	public String getVersion() {
+		return "v2";
+	}
+
 	
 	
 }
