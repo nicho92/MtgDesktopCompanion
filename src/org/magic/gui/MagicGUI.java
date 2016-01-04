@@ -244,6 +244,7 @@ public class MagicGUI extends JFrame {
 
 	public void initGUI() throws Exception
 	{
+		logger.debug("construction of GUI");
 		menuBar = new JMenuBar();
 		mnFile = new JMenu("File");
 		mntmExit = new JMenuItem("Exit");
@@ -313,6 +314,7 @@ public class MagicGUI extends JFrame {
 				}
 			}
 		});
+		
 		mnuAbout.add(mntmReportBug);
 		for(LookAndFeelInfo ui : UIManager.getInstalledLookAndFeels())
 		{
@@ -856,7 +858,7 @@ public class MagicGUI extends JFrame {
 			}
 		});
 
-
+		logger.debug("construction of GUI : done");
 	}
 
 	public void updatePrices() {

@@ -41,17 +41,19 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 public class MtgjsonProvider implements MagicCardsProvider{
 
-	String urlSetJson = "http://mtgjson.com/json/AllSets-x.json";
-	File fileSetJson = new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json");
-	Reader readSet;
-	List<MagicCard> list;
-	ReadContext ctx;
-	Map<String,List<MagicCard>> cacheCard;
-	List<MagicEdition> eds;
-	String version;
+	private String urlSetJson = "http://mtgjson.com/json/AllSets-x.json";
+	private String urlVersion = "http://mtgjson.com/json/version.json";
 	
-	String urlVersion = "http://mtgjson.com/json/version.json";
-	File fversion = new File(System.getProperty("user.home")+"//magicDeskCompanion/version");
+	private File fileSetJson = new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json");
+	private File fversion = new File(System.getProperty("user.home")+"/magicDeskCompanion/version");
+	
+	private Reader readSet;
+	private List<MagicCard> list;
+	private ReadContext ctx;
+	private Map<String,List<MagicCard>> cacheCard;
+	private List<MagicEdition> eds;
+	private String version;
+	
 	
 	static final Logger logger = LogManager.getLogger(MtgjsonProvider.class.getName());
 
@@ -390,7 +392,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		}
 		catch(PathNotFoundException ex)
 		{	
-			//logger.debug("no booster definition found for " + id);
+			//logger.error("no booster definition found for " + id);
 		}
 		
 		return me;
