@@ -66,12 +66,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
   	  	if(!version.equals(new BufferedReader(new FileReader(fversion)).readLine()))
   	  		return true;
   	 
+  	  	logger.debug("check new version of " + this + ": up to date");
   	  	return false;
 		}
 		catch(Exception e)
 		{
-			logger.error("Error to get last version " +e);
-			return true;
+			logger.error("Error getting last version " +e);
+			return false;
 		}
 	}
 	
@@ -107,7 +108,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		{	 
 			if(!fileSetJson.exists())
 			{
-				logger.debug("datafile not exist. Downloading it");
+				logger.debug("datafile does not exist. Downloading it");
 				FileUtils.copyURLToFile(new URL(urlSetJson), fileSetJson);
 				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
 			}
@@ -123,8 +124,9 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		 readSet = new InputStreamReader(new FileInputStream(fileSetJson),"UTF-8");
 		 
 		 cacheCard= new HashMap<String,List<MagicCard>>();
+		 logger.debug("init " + this +" : parsing db file");
 		 ctx = JsonPath.parse(fileSetJson);
-		 logger.debug("init " + this +" OK");
+		 logger.debug("init " + this +" : OK");
 		} 
 		catch (Exception e1) {
 			e1.printStackTrace();
