@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.border.LineBorder;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
@@ -81,7 +82,7 @@ public class MagicCardDetailPanel extends JPanel {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 52, 224, 52, 0, 57, 32, 51, -19, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 0, 0, 25, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 0, 0, 25, 21, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		setLayout(gridBagLayout);
@@ -168,8 +169,13 @@ public class MagicCardDetailPanel extends JPanel {
 				componentGbc_1.gridx = 4;
 				componentGbc_1.gridy = 1;
 				add(manaPanel, componentGbc_1);
-						
+				
 				JLabel loyaltyLabel = new JLabel("Loyalty:");
+				GridBagConstraints gbc_loyaltyLabel = new GridBagConstraints();
+				gbc_loyaltyLabel.insets = new Insets(0, 0, 5, 5);
+				gbc_loyaltyLabel.gridx = 0;
+				gbc_loyaltyLabel.gridy = 2;
+				add(loyaltyLabel, gbc_loyaltyLabel);
 				loyaltyJTextField = new JTextField();
 				loyaltyJTextField.setEditable(false);
 				loyaltyJTextField.setColumns(5);
@@ -187,13 +193,12 @@ public class MagicCardDetailPanel extends JPanel {
 				FlowLayout flowLayout = (FlowLayout) panelDetailCreature.getLayout();
 				flowLayout.setAlignment(FlowLayout.LEFT);
 				GridBagConstraints gbc_panelDetailCreature = new GridBagConstraints();
-				gbc_panelDetailCreature.gridwidth = 4;
+				gbc_panelDetailCreature.gridwidth = 3;
 				gbc_panelDetailCreature.insets = new Insets(0, 0, 5, 5);
 				gbc_panelDetailCreature.fill = GridBagConstraints.BOTH;
-				gbc_panelDetailCreature.gridx = 0;
+				gbc_panelDetailCreature.gridx = 1;
 				gbc_panelDetailCreature.gridy = 2;
 				add(panelDetailCreature, gbc_panelDetailCreature);
-				panelDetailCreature.add(loyaltyLabel);
 				panelDetailCreature.add(loyaltyJTextField);
 				panelDetailCreature.add(powerLabel);
 				panelDetailCreature.add(powerJTextField);
@@ -268,7 +273,7 @@ public class MagicCardDetailPanel extends JPanel {
 //				txtTexteArea.setRows(4);
 				GridBagConstraints gbc_txtTexteArea = new GridBagConstraints();
 				gbc_txtTexteArea.gridwidth = 6;
-				gbc_txtTexteArea.gridheight = 2;
+				gbc_txtTexteArea.gridheight = 3;
 				gbc_txtTexteArea.insets = new Insets(5, 0, 5, 5);
 				gbc_txtTexteArea.fill = GridBagConstraints.BOTH;
 				gbc_txtTexteArea.gridx = 1;
@@ -357,13 +362,9 @@ public class MagicCardDetailPanel extends JPanel {
 				 Image ic = manaPanel.getManaSymbol(m.group());
 				 JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 				 StyleConstants.setComponent(labelStyle, label);
-				 
 				 document.remove(m.start()+cumule, (m.end()-m.start()));
 				 document.insertString(m.start()+cumule, "Ignored", labelStyle);
-				 
 				 cumule += (m.end()-m.start())+1;
-				 
-				 System.out.println(m.start() + " " + m.end() +" " + m.group() +" " + m.groupCount());
 			}
 			txtTexteArea.setDocument(document);
 		 } 
