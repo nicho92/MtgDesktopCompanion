@@ -37,6 +37,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicFormat;
+import javax.swing.UIManager;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -81,10 +82,10 @@ public class MagicCardDetailPanel extends JPanel {
 	public MagicCardDetailPanel() {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 52, 224, 52, 0, 57, 32, 51, -19, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 0, 0, 25, 21, 0 };
+		gridBagLayout.columnWidths = new int[] { 52, 224, 52, 0, 57, 32, 51, 16, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0 };
 		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 						
 		JLabel nameLabel = new JLabel("Name:");
@@ -132,7 +133,7 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				lblThumbnail = new JLabel("");
 				GridBagConstraints gbc_lblThumbnail = new GridBagConstraints();
-				gbc_lblThumbnail.gridheight = 9;
+				gbc_lblThumbnail.gridheight = 8;
 				gbc_lblThumbnail.gridx = 7;
 				gbc_lblThumbnail.gridy = 0;
 				add(lblThumbnail, gbc_lblThumbnail);
@@ -215,7 +216,6 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				lblLayout = new JLabel("Layout :");
 				GridBagConstraints gbc_lblLayout = new GridBagConstraints();
-				gbc_lblLayout.anchor = GridBagConstraints.EAST;
 				gbc_lblLayout.insets = new Insets(0, 0, 5, 5);
 				gbc_lblLayout.gridx = 0;
 				gbc_lblLayout.gridy = 3;
@@ -266,6 +266,7 @@ public class MagicCardDetailPanel extends JPanel {
 				add(textLabel, labelGbc_8);
 		
 				txtTexteArea = new JTextPane();
+				txtTexteArea.setBackground(Color.WHITE);
 				txtTexteArea.setEditable(false);
 				txtTexteArea.setFont(new Font("Arial", Font.PLAIN, 12));
 //				txtTexteArea.setLineWrap(true);
@@ -273,7 +274,7 @@ public class MagicCardDetailPanel extends JPanel {
 //				txtTexteArea.setRows(4);
 				GridBagConstraints gbc_txtTexteArea = new GridBagConstraints();
 				gbc_txtTexteArea.gridwidth = 6;
-				gbc_txtTexteArea.gridheight = 3;
+				gbc_txtTexteArea.gridheight = 2;
 				gbc_txtTexteArea.insets = new Insets(5, 0, 5, 5);
 				gbc_txtTexteArea.fill = GridBagConstraints.BOTH;
 				gbc_txtTexteArea.gridx = 1;
@@ -283,10 +284,9 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				lblFlavor = new JLabel("Flavor:");
 				GridBagConstraints gbc_lblFlavor = new GridBagConstraints();
-				gbc_lblFlavor.anchor = GridBagConstraints.EAST;
 				gbc_lblFlavor.insets = new Insets(0, 0, 5, 5);
 				gbc_lblFlavor.gridx = 0;
-				gbc_lblFlavor.gridy = 7;
+				gbc_lblFlavor.gridy = 6;
 				add(lblFlavor, gbc_lblFlavor);
 				
 				txtFlavorArea = new JTextPane();
@@ -299,15 +299,14 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_txtFlavorArea.insets = new Insets(0, 0, 5, 5);
 				gbc_txtFlavorArea.fill = GridBagConstraints.BOTH;
 				gbc_txtFlavorArea.gridx = 1;
-				gbc_txtFlavorArea.gridy = 7;
+				gbc_txtFlavorArea.gridy = 6;
 				add(txtFlavorArea, gbc_txtFlavorArea);
 				
 				lblArtist = new JLabel("Artist:");
 				GridBagConstraints gbc_lblArtist = new GridBagConstraints();
-				gbc_lblArtist.anchor = GridBagConstraints.EAST;
 				gbc_lblArtist.insets = new Insets(0, 0, 0, 5);
 				gbc_lblArtist.gridx = 0;
-				gbc_lblArtist.gridy = 8;
+				gbc_lblArtist.gridy = 7;
 				add(lblArtist, gbc_lblArtist);
 				
 				txtArtist = new JTextField();
@@ -316,7 +315,7 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_txtArtist.insets = new Insets(0, 0, 0, 5);
 				gbc_txtArtist.fill = GridBagConstraints.HORIZONTAL;
 				gbc_txtArtist.gridx = 1;
-				gbc_txtArtist.gridy = 8;
+				gbc_txtArtist.gridy = 7;
 				add(txtArtist, gbc_txtArtist);
 				txtArtist.setColumns(10);
 				
@@ -325,7 +324,7 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_lblWatermark.anchor = GridBagConstraints.EAST;
 				gbc_lblWatermark.insets = new Insets(0, 0, 0, 5);
 				gbc_lblWatermark.gridx = 2;
-				gbc_lblWatermark.gridy = 8;
+				gbc_lblWatermark.gridy = 7;
 				add(lblWatermark, gbc_lblWatermark);
 				
 				txtWatermark = new JTextField();
@@ -335,7 +334,7 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_txtWatermark.insets = new Insets(0, 0, 0, 5);
 				gbc_txtWatermark.fill = GridBagConstraints.HORIZONTAL;
 				gbc_txtWatermark.gridx = 4;
-				gbc_txtWatermark.gridy = 8;
+				gbc_txtWatermark.gridy = 7;
 				add(txtWatermark, gbc_txtWatermark);
 				txtWatermark.setColumns(10);
 						
@@ -361,9 +360,10 @@ public class MagicCardDetailPanel extends JPanel {
 			while(m.find()) {
 				 Image ic = manaPanel.getManaSymbol(m.group());
 				 JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+				 label.setAlignmentY(JLabel.TOP);
 				 StyleConstants.setComponent(labelStyle, label);
 				 document.remove(m.start()+cumule, (m.end()-m.start()));
-				 document.insertString(m.start()+cumule, "Ignored", labelStyle);
+				 document.insertString(m.start()+cumule, m.group(), labelStyle);
 				 cumule += (m.end()-m.start())+1;
 			}
 			txtTexteArea.setDocument(document);

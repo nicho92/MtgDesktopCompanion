@@ -212,11 +212,13 @@ public class HsqlDAO implements MagicDAO {
 	@Override
 	public int getCardsCount(List<MagicCollection> cols) throws SQLException {
 		
-		String sql = "select count(*) from cards where";
+		String sql = "select count(*) from cards ";
+			
+		if(cols!=null)
 		for(int i=0;i<cols.size();i++)
 		{
 			if(i==0)
-				sql+=" collection = '" + cols.get(i).getName()+"'";
+				sql+=" where collection = '" + cols.get(i).getName()+"'";
 			else
 			sql+=" OR collection = '" + cols.get(i).getName()+"'";
 		}
