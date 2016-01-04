@@ -47,6 +47,7 @@ public class HsqlDAO implements MagicDAO {
 		 	logger.debug("Create table decks_carte");
 		 	con.createStatement().executeUpdate("create table collections (name varchar(250) PRIMARY KEY)");
 		 	logger.debug("Create table collections");
+		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
 		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
 		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
 		 	logger.debug("populate collections");
