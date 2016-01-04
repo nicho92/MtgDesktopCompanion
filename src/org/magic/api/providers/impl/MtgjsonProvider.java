@@ -48,7 +48,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	ReadContext ctx;
 	Map<String,List<MagicCard>> cacheCard;
 	List<MagicEdition> eds;
-	
+	String version;
 	
 	String urlVersion = "http://mtgjson.com/json/version.json";
 	File fversion = new File(System.getProperty("user.home")+"//magicDeskCompanion/version");
@@ -61,7 +61,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		logger.debug("check new version of " + toString());
 		InputStreamReader fr = new InputStreamReader( new URL(urlVersion).openStream(),"ISO-8859-1");
   	  	BufferedReader br = new BufferedReader(fr);
-  	  	String version =  br.readLine();
+  	  	version =  br.readLine();
   	  	br.close();
   	  	if(!version.equals(new BufferedReader(new FileReader(fversion)).readLine()))
   	  		return true;
@@ -547,6 +547,12 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					  return mc;
 		
 		
+	}
+
+
+	@Override
+	public String getVersion() {
+		return version;
 	}
 
 }

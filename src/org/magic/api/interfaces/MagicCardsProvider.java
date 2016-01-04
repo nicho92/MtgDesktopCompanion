@@ -27,5 +27,6 @@ public interface MagicCardsProvider {
 	
 	public List<MagicCard> openBooster(MagicEdition me) throws Exception;
 	
+	public String getVersion();
 	
 }
