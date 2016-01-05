@@ -85,9 +85,9 @@ public class MagicCardDetailPanel extends JPanel {
 	public MagicCardDetailPanel() {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 52, 230, 65, 0, 57, 32, 51, 16, 0 };
+		gridBagLayout.columnWidths = new int[] { 52, 244, 76, 0, 57, 32, 51, 16, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 						
@@ -270,8 +270,7 @@ public class MagicCardDetailPanel extends JPanel {
 				add(textLabel, labelGbc_8);
 		
 				txtTextPane = new JTextPane();
-				txtTextPane.setMargin(new Insets(10, 10, 10, 10));
-				txtTextPane.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.GRAY, null, null, null));
+				txtTextPane.setBorder(new LineBorder(Color.GRAY));
 //				txtTextPane.addCaretListener(new CaretListener() {
 //					public void caretUpdate(CaretEvent arg0) {
 //						System.out.println(arg0.getDot());

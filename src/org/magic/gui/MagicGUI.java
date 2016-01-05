@@ -160,7 +160,8 @@ public class MagicGUI extends JFrame {
 	private JComboBox<MagicEdition> cboEdition;
     private JComboBox<MagicCardNames> cboLanguages;
 	private JComboBox<String> cboQuereableItems;
-
+	private JComboBox<MagicCollection> cboCollections;
+	
     private DeckBuilderGUI deckBuilderGUI;
 	private CardBuilderPanelGUI panneauBuilder;
 	private CollectionPanelGUI collectionPanelGUI;
@@ -343,17 +344,29 @@ public class MagicGUI extends JFrame {
 
 		btnSearch = new JButton("Rechercher");
 		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
+		cboQuereableItems.addItem("Collections");
+		cboCollections= new JComboBox<MagicCollection>(dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
+		cboCollections.setVisible(false);
+		
 		cboQuereableItems.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("set"))
 				{
 					txtMagicSearch.setVisible(false);
 					cboEdition.setVisible(true);
+					cboCollections.setVisible(false);
+				}
+				else if(cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("Collections"))
+				{
+					txtMagicSearch.setVisible(false);
+					cboEdition.setVisible(false);
+					cboCollections.setVisible(true);
 				}
 				else
 				{
 					txtMagicSearch.setVisible(true);
 					cboEdition.setVisible(false);
+					cboCollections.setVisible(false);
 				}
 			}
 		});
@@ -368,6 +381,7 @@ public class MagicGUI extends JFrame {
 		lblLoading.setIcon(new ImageIcon(MagicGUI.class.getResource("/res/load.gif")));
 
 		panneauHaut.add(cboQuereableItems);
+		panneauHaut.add(cboCollections);
 		panneauHaut.add(txtMagicSearch);
 		
 		List li = provider.searchSetByCriteria(null, null);
@@ -581,14 +595,19 @@ public class MagicGUI extends JFrame {
 				public void actionPerformed(ActionEvent arg0) {
 
 					selectedEdition=null;
-					if(txtMagicSearch.getText().equals(""))
+					if(txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
 						return;
+					
 					Thread tsearch = new Thread(new Runnable() {
 						public void run() {
 							loading(true,"searching");
 							try {
 								String searchName=URLEncoder.encode(txtMagicSearch.getText(),"UTF-8");
-								cards = provider.searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName);
+								
+								if(cboCollections.isVisible())
+									cards = dao.getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
+								else
+									cards = provider.searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName);
 
 								cardsModeltable.init(cards);
 								cardsModeltable.fireTableDataChanged();
