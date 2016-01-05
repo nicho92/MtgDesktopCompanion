@@ -349,6 +349,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			return eds;
 		}
 		
+		
+		
 		final List<String> codeEd=new ArrayList<String>();
 		ctx.withListeners(new EvaluationListener() {
 				

@@ -16,7 +16,7 @@ import org.magic.db.MagicDAO;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 
-	String[] columns = new String[] {"code","edition","Count","date","%"};
+	String[] columns = new String[] {"code","edition","cards numbers","date","%","qte"};
 	
 	List<MagicEdition> list;
 
@@ -54,7 +54,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		 
 		for(MagicEdition me : list)
 		{
-			mapCount.put(me, 100 *dao.getCardsFromCollection(mc, me).size() / me.getCardCount());
+			mapCount.put(me, dao.getCardsFromCollection(mc, me).size());
 		}
 		
 	}
@@ -98,6 +98,9 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 				return e.getReleaseDate();
 			
 			if(column==4)
+				return 100 * mapCount.get(e) / e.getCardCount();
+			
+			if(column==5)
 				return mapCount.get(e);
 			
 		return "";

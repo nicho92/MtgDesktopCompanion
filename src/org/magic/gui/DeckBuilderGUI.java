@@ -250,6 +250,7 @@ public class DeckBuilderGUI extends JPanel{
 		
 		
 		final MagicCardDetailPanel magicCardDetailPanel = new MagicCardDetailPanel();
+		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
 		panneauDeck.setRightComponent(magicCardDetailPanel);
 		

@@ -412,6 +412,7 @@ public class CollectionPanelGUI extends JPanel {
 	
 	
 	private JPopupMenu popupMenu = new JPopupMenu();
+	
 	public void initPopupCollection() throws Exception
 	{
 		JMenu menuItemAdd = new JMenu("Add missing cards in ");
@@ -447,7 +448,6 @@ public class CollectionPanelGUI extends JPanel {
 								 
 								 tree.refresh();
 							} catch (Exception e1) {
-								// TODO Auto-generated catch block
 								e1.printStackTrace();
 							}	
 							
@@ -462,6 +462,7 @@ public class CollectionPanelGUI extends JPanel {
 
 		popupMenu.add(menuItemAdd);
 	}
+	
 	
 	public void setProvider(MagicCardsProvider provider)
 	{
