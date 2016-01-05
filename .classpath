@@ -20,5 +20,6 @@
 	<classpathentry kind="lib" path="lib/swingx-all-1.6.4.jar"/>
 	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.2.jar"/>
 	<classpathentry kind="lib" path="lib/freemarker.jar"/>
+	<classpathentry kind="lib" path="lib/tablefilter-swing-5.2.1.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

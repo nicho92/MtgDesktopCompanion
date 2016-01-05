@@ -2,9 +2,11 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Toolkit;
@@ -20,9 +22,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
@@ -63,9 +63,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.providers.impl.DeckbrewProvider;
-import org.magic.api.providers.impl.MtgapiProvider;
-import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.db.HsqlDAO;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -82,10 +79,10 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicPDFGenerator;
 
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.spi.cache.Cache;
-import com.jayway.jsonpath.spi.cache.CacheProvider;
-import java.awt.GridLayout;
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.ChoiceRenderer;
+import net.coderazzi.filters.gui.IFilterEditor;
+import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class MagicGUI extends JFrame {
 
@@ -169,14 +166,14 @@ public class MagicGUI extends JFrame {
 	private JXTable tableCards;
 	private JXTable tablePrice;
     private DefaultRowSorter sorterCards ;
+    private TableFilterHeader filterHeader;
 
     private JButton btnClear;
 	private JButton btnGenerateBooster;
 	private JButton btnSearch;
 
 	private JLabel lblLoading = new JLabel("");
-	private JLabel lblNbcard = new JLabel("");
-
+	
 	private JList<MagicEdition> listEdition;
 	
 	
@@ -467,6 +464,7 @@ public class MagicGUI extends JFrame {
 				panelResultsCards.setLayout(new BorderLayout(0, 0));
 		
 				tableCards = new JXTable();
+				
 				tableCards.setColumnControlVisible(true);
 				JScrollPane scrollCards = new JScrollPane();
 				panelResultsCards.add(scrollCards);
@@ -478,6 +476,12 @@ public class MagicGUI extends JFrame {
 						tableCards.setModel(cardsModeltable);
 						tableCards.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 						tableCards.setRowSorter(sorterCards);
+						
+						filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
+						filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+						IFilterEditor editor = filterHeader.getFilterEditor(1);
+						
+						
 						
 						panelFilters = new JPanel();
 						panelFilters.setVisible(false);
@@ -552,7 +556,6 @@ public class MagicGUI extends JFrame {
 
 		tabbedCardsView.addTab("Types", null, typeRepartitionPanel, null);
 		tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
-		globalPanel.add(lblNbcard, BorderLayout.SOUTH);
 
 		deckBuilderGUI = new DeckBuilderGUI(provider);
 
@@ -617,7 +620,7 @@ public class MagicGUI extends JFrame {
 								manaRepartitionPanel.init(cards);
 								rarityRepartitionPanel.init(cards);
 								tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
-								//lblNbcard.setText(cardsModeltable.getRowCount()+" items");
+								
 
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -856,9 +859,15 @@ public class MagicGUI extends JFrame {
 			mntmShowhideFilters.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(panelFilters.isVisible())
+					{
 						panelFilters.setVisible(false);
+						filterHeader.setTable(null);
+					}
 					else
+					{
 						panelFilters.setVisible(true);
+						filterHeader.setTable(tableCards);
+					}
 					
 				}
 			});

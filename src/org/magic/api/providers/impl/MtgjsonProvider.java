@@ -334,12 +334,14 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 	}
 
+	
 	public List<MagicEdition> searchSetByCriteria(String att,String crit) throws IOException {
 		
 		String jsquery="";
 		if(crit==null)
 			jsquery="$.*";
-		
+		else //TODO : check
+			jsquery="$..(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
 		
 		logger.debug("get edition with " + att +"="+crit);
 		
@@ -517,14 +519,12 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			
 		return resList;
 	}
-
-
-	@Override
+	
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws Exception {
 		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.number =~ /^.*"+num+".*$/)]";
 		List<Map<String,Object>> cardsElement = ctx.read(jsquery,List.class);
 		Map<String,Object> map;
-		
+		int parseId=0;
 		String id = "";
 		
 		if(cardsElement.size()>0)
@@ -534,7 +534,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		}
 		else //for old edition, number is at null. So we take his position in 'cards' array
 		{
-			int parseId=0;
+			
 			try{ 
 				parseId= Integer.parseInt(num);
 				jsquery="$."+me.getId().toUpperCase()+".cards["+(parseId-1)+"]";
@@ -547,12 +547,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		}
 		
 			MagicCard mc = getCardById(id);
+						me.setNumber(String.valueOf(parseId-1));
 					  mc.getEditions().add(me);
+					  
 					  return mc;
 		
 		
 	}
-
 
 	@Override
 	public String getVersion() {

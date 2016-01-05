@@ -65,12 +65,11 @@ public class MagicCardsTree extends JXTree {
 											if(cards.size()>0)
 											{
 												DefaultMutableTreeNode nodeEd = new DefaultMutableTreeNode(ed);
+											
 												nodeSet.add(nodeEd);
-												
-												
+
 												for(MagicCard mc : cards)
 													nodeEd.add(new DefaultMutableTreeNode(mc));
-												
 											}
 										}
 										
