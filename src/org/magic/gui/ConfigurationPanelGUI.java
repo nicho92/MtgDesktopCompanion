@@ -22,8 +22,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private MagicCardsProvider provider;
 	private MagicDAO dao;
 	private JLabel lblNbCards ;
-	
-	
+		
 	
 	public ConfigurationPanelGUI(MagicCardsProvider provider,MagicDAO dao) {
 		

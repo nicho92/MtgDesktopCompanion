@@ -40,6 +40,7 @@ import org.magic.api.beans.MagicFormat;
 import javax.swing.UIManager;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
+import javax.swing.border.BevelBorder;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -51,7 +52,7 @@ public class MagicCardDetailPanel extends JPanel {
 	private JTextField loyaltyJTextField;
 	private JTextField nameJTextField;
 	private JTextField powerJTextField;
-	private JTextPane txtTexteArea;
+	private JTextPane txtTextPane;
 	private JTextField toughnessJTextField;
 	private JLabel lblFlavor;
 	private JTextPane txtFlavorArea;
@@ -86,7 +87,7 @@ public class MagicCardDetailPanel extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 52, 230, 65, 0, 57, 32, 51, 16, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0 };
-		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 						
@@ -268,26 +269,26 @@ public class MagicCardDetailPanel extends JPanel {
 				labelGbc_8.gridy = 4;
 				add(textLabel, labelGbc_8);
 		
-				txtTexteArea = new JTextPane();
-				txtTexteArea.addCaretListener(new CaretListener() {
-					public void caretUpdate(CaretEvent arg0) {
-						System.out.println(arg0.getDot());
-					}
-				});
-				txtTexteArea.setBackground(Color.WHITE);
-				txtTexteArea.setEditable(false);
-				txtTexteArea.setFont(new Font("Arial", Font.PLAIN, 12));
-//				txtTexteArea.setLineWrap(true);
-//				txtTexteArea.setWrapStyleWord(true);
-//				txtTexteArea.setRows(4);
-				GridBagConstraints gbc_txtTexteArea = new GridBagConstraints();
-				gbc_txtTexteArea.gridwidth = 6;
-				gbc_txtTexteArea.gridheight = 2;
-				gbc_txtTexteArea.insets = new Insets(5, 0, 5, 5);
-				gbc_txtTexteArea.fill = GridBagConstraints.BOTH;
-				gbc_txtTexteArea.gridx = 1;
-				gbc_txtTexteArea.gridy = 4;
-				add(txtTexteArea, gbc_txtTexteArea);
+				txtTextPane = new JTextPane();
+				txtTextPane.setMargin(new Insets(10, 10, 10, 10));
+				txtTextPane.setBorder(new BevelBorder(BevelBorder.LOWERED, Color.GRAY, null, null, null));
+//				txtTextPane.addCaretListener(new CaretListener() {
+//					public void caretUpdate(CaretEvent arg0) {
+//						System.out.println(arg0.getDot());
+//					}
+//				});
+				txtTextPane.setBackground(Color.WHITE);
+				txtTextPane.setEditable(false);
+				txtTextPane.setFont(new Font("Arial", Font.PLAIN, 12));
+
+				GridBagConstraints gbc_txtTextPane = new GridBagConstraints();
+				gbc_txtTextPane.gridwidth = 6;
+				gbc_txtTextPane.gridheight = 2;
+				gbc_txtTextPane.insets = new Insets(5, 0, 5, 5);
+				gbc_txtTextPane.fill = GridBagConstraints.BOTH;
+				gbc_txtTextPane.gridx = 1;
+				gbc_txtTextPane.gridy = 4;
+				add(txtTextPane, gbc_txtTextPane);
 				
 				
 				lblFlavor = new JLabel("Flavor:");
@@ -355,9 +356,9 @@ public class MagicCardDetailPanel extends JPanel {
 	private void updateIcon() {
 		String regex ="\\{(.*?)\\}";
 		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(txtTexteArea.getText());
+		Matcher m = p.matcher(txtTextPane.getText());
 		
-		String text = txtTexteArea.getText();
+		String text = txtTextPane.getText();
 		 StyleContext context = new StyleContext();
 		 StyledDocument document = new DefaultStyledDocument(context);
 		 Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
@@ -366,7 +367,7 @@ public class MagicCardDetailPanel extends JPanel {
 		 try {
 			document.insertString(0, text, null);
 			while(m.find()) {
-				System.out.println(m.start() + " " + m.end() + " " + (m.end()-m.start()) +" " + m.group());
+				 //System.out.println(m.start() + " " + m.end() + " " + (m.end()-m.start()) +" " + m.group());
 				 Image ic = manaPanel.getManaSymbol(m.group());
 				
 				 JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
@@ -378,10 +379,10 @@ public class MagicCardDetailPanel extends JPanel {
 					 
 				// cumule += (m.end()-m.start())+1;
 			}
-			txtTexteArea.setDocument(document);
+			txtTextPane.setDocument(document);
 		 } 
 		 catch (BadLocationException e) {
-				txtTexteArea.setText(text);
+				txtTextPane.setText(text);
 		}
 			
 		
@@ -459,7 +460,7 @@ public class MagicCardDetailPanel extends JPanel {
 		//
 		BeanProperty<MagicCard, String> textProperty_8 = BeanProperty.create("text");
 		BeanProperty<JTextPane, String> textProperty_9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextPane, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty_8, txtTexteArea, textProperty_9);
+		AutoBinding<MagicCard, String, JTextPane, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty_8, txtTextPane, textProperty_9);
 		autoBinding_8.bind();
 		//
 		BeanProperty<MagicCard, String> toughnessProperty = BeanProperty.create("toughness");
