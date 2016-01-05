@@ -51,6 +51,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private List<MagicCard> list;
 	private ReadContext ctx;
 	private Map<String,List<MagicCard>> cacheCard;
+	
 	private List<MagicEdition> eds;
 	private String version;
 	
@@ -138,8 +139,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	public MagicCard getCardById(String id) throws Exception {
 		return searchCardByCriteria("id", id).get(0);
 	}
-	
-	
 	
 	public List<MagicCard> searchCardByCriteria(String att,String crit) throws IOException {
 		
@@ -334,7 +333,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 	}
 
-	
 	public List<MagicEdition> searchSetByCriteria(String att,String crit) throws IOException {
 		
 		String jsquery="";

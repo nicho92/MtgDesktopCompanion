@@ -85,10 +85,10 @@ public class MagicCardDetailPanel extends JPanel {
 	public MagicCardDetailPanel() {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 52, 244, 76, 0, 57, 32, 51, 16, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0 };
+		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 38, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 						
 		JLabel nameLabel = new JLabel("Name:");
@@ -136,6 +136,7 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				lblThumbnail = new JLabel("");
 				GridBagConstraints gbc_lblThumbnail = new GridBagConstraints();
+				gbc_lblThumbnail.insets = new Insets(0, 0, 5, 0);
 				gbc_lblThumbnail.gridheight = 8;
 				gbc_lblThumbnail.gridx = 7;
 				gbc_lblThumbnail.gridy = 0;
@@ -233,14 +234,6 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_txtLayoutField.gridy = 3;
 				add(txtLayoutField, gbc_txtLayoutField);
 				txtLayoutField.setColumns(10);
-				
-				lblLegal = new JLabel("Legal:");
-				GridBagConstraints gbc_lblLegal = new GridBagConstraints();
-				gbc_lblLegal.anchor = GridBagConstraints.EAST;
-				gbc_lblLegal.insets = new Insets(0, 0, 5, 5);
-				gbc_lblLegal.gridx = 2;
-				gbc_lblLegal.gridy = 3;
-				add(lblLegal, gbc_lblLegal);
 				GridBagConstraints gbc_lstFormats = new GridBagConstraints();
 				gbc_lstFormats.gridwidth = 3;
 				gbc_lstFormats.insets = new Insets(0, 0, 5, 5);
@@ -249,15 +242,15 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_lstFormats.gridy = 3;
 				
 				lstFormats = new JList<MagicFormat>(new DefaultListModel<MagicFormat>());
-				lstFormats.setVisibleRowCount(3);
+				lstFormats.setVisibleRowCount(4);
 				
 				scrollLegality = new JScrollPane();
 				GridBagConstraints gbc_scrollLegality = new GridBagConstraints();
 				gbc_scrollLegality.gridwidth = 3;
 				gbc_scrollLegality.insets = new Insets(0, 0, 5, 5);
 				gbc_scrollLegality.fill = GridBagConstraints.BOTH;
-				gbc_scrollLegality.gridx = 4;
-				gbc_scrollLegality.gridy = 3;
+				gbc_scrollLegality.gridx = 1;
+				gbc_scrollLegality.gridy = 8;
 				add(scrollLegality, gbc_scrollLegality);
 				scrollLegality.setViewportView(lstFormats);
 
@@ -312,7 +305,7 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				lblArtist = new JLabel("Artist:");
 				GridBagConstraints gbc_lblArtist = new GridBagConstraints();
-				gbc_lblArtist.insets = new Insets(0, 0, 0, 5);
+				gbc_lblArtist.insets = new Insets(0, 0, 5, 5);
 				gbc_lblArtist.gridx = 0;
 				gbc_lblArtist.gridy = 7;
 				add(lblArtist, gbc_lblArtist);
@@ -320,7 +313,7 @@ public class MagicCardDetailPanel extends JPanel {
 				txtArtist = new JTextField();
 				txtArtist.setEditable(false);
 				GridBagConstraints gbc_txtArtist = new GridBagConstraints();
-				gbc_txtArtist.insets = new Insets(0, 0, 0, 5);
+				gbc_txtArtist.insets = new Insets(0, 0, 5, 5);
 				gbc_txtArtist.fill = GridBagConstraints.HORIZONTAL;
 				gbc_txtArtist.gridx = 1;
 				gbc_txtArtist.gridy = 7;
@@ -330,7 +323,7 @@ public class MagicCardDetailPanel extends JPanel {
 				lblWatermark = new JLabel("watermark: ");
 				GridBagConstraints gbc_lblWatermark = new GridBagConstraints();
 				gbc_lblWatermark.anchor = GridBagConstraints.EAST;
-				gbc_lblWatermark.insets = new Insets(0, 0, 0, 5);
+				gbc_lblWatermark.insets = new Insets(0, 0, 5, 5);
 				gbc_lblWatermark.gridx = 2;
 				gbc_lblWatermark.gridy = 7;
 				add(lblWatermark, gbc_lblWatermark);
@@ -339,12 +332,19 @@ public class MagicCardDetailPanel extends JPanel {
 				txtWatermark.setEditable(false);
 				GridBagConstraints gbc_txtWatermark = new GridBagConstraints();
 				gbc_txtWatermark.gridwidth = 3;
-				gbc_txtWatermark.insets = new Insets(0, 0, 0, 5);
+				gbc_txtWatermark.insets = new Insets(0, 0, 5, 5);
 				gbc_txtWatermark.fill = GridBagConstraints.HORIZONTAL;
 				gbc_txtWatermark.gridx = 4;
 				gbc_txtWatermark.gridy = 7;
 				add(txtWatermark, gbc_txtWatermark);
 				txtWatermark.setColumns(10);
+				
+				lblLegal = new JLabel("Legal:");
+				GridBagConstraints gbc_lblLegal = new GridBagConstraints();
+				gbc_lblLegal.insets = new Insets(0, 0, 0, 5);
+				gbc_lblLegal.gridx = 0;
+				gbc_lblLegal.gridy = 8;
+				add(lblLegal, gbc_lblLegal);
 						
 
 		if (magicCard != null) {
