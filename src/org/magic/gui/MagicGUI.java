@@ -692,8 +692,11 @@ public class MagicGUI extends JFrame {
 								try {
 									cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card"));
 									loading(true,"loading edition");
-									priceModel.init(selected, selectedEdition);
-									priceModel.fireTableDataChanged();
+
+									magicEditionDetailPanel.setMagicEdition(selectedEdition);
+									if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
+										updatePrices();
+									
 									loading(false,"");
 								} catch (IOException e) {
 									e.printStackTrace();

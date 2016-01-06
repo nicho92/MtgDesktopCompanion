@@ -21,5 +21,8 @@
 	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.2.jar"/>
 	<classpathentry kind="lib" path="lib/freemarker.jar"/>
 	<classpathentry kind="lib" path="lib/tablefilter-swing-5.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jdom2-2.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/rome-1.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/rome-utils-1.5.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

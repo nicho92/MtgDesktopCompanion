@@ -246,7 +246,7 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				scrollLegality = new JScrollPane();
 				GridBagConstraints gbc_scrollLegality = new GridBagConstraints();
-				gbc_scrollLegality.gridwidth = 3;
+				gbc_scrollLegality.gridwidth = 2;
 				gbc_scrollLegality.insets = new Insets(0, 0, 5, 5);
 				gbc_scrollLegality.fill = GridBagConstraints.BOTH;
 				gbc_scrollLegality.gridx = 1;
