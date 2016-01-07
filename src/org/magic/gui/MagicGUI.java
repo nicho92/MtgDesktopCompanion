@@ -2,7 +2,6 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -66,6 +65,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.HsqlDAO;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.MagicCardLabel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.ThumbnailPanel;
@@ -80,7 +80,6 @@ import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicPDFGenerator;
 
 import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.ChoiceRenderer;
 import net.coderazzi.filters.gui.IFilterEditor;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
@@ -873,6 +872,15 @@ public class MagicGUI extends JFrame {
 					}
 					
 				}
+			});
+			
+			thumbnailPanel.addMouseListener(new MouseAdapter() {
+				public void mouseClicked(MouseEvent e) {
+					MagicCardLabel lab = (MagicCardLabel)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
+					selected = lab.getMagicCard();
+					updateCards();
+				}
+				
 			});
 			
 			

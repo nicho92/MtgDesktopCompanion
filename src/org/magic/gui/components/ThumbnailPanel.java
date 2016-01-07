@@ -84,7 +84,8 @@ public class ThumbnailPanel extends JPanel {
 				for(MagicCard mc : cards)
 				{
 					
-					JLabel lab = new JLabel(mc.getName());
+					MagicCardLabel lab = new MagicCardLabel(mc.getName());
+					  	   lab.setMagicCard(mc);
 						   lab.setSize(new Dimension(width, height));
 						   lab.setHorizontalTextPosition(JLabel.CENTER);
 						   lab.setVerticalTextPosition(JLabel.BOTTOM);
