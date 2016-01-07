@@ -588,7 +588,7 @@ public class MagicGUI extends JFrame {
 
 			dao=new HsqlDAO();
 			dao.init();
-			cardsModeltable = new MagicCardTableModel(provider);
+			cardsModeltable = new MagicCardTableModel();
 
 			initGUI();
 

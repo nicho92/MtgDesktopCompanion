@@ -13,12 +13,10 @@ public class MagicCardTableModel extends DefaultTableModel{
 	List<MagicCard> cards;
 	
 	String columns[] = new String[] {"name","manacost","type","power","rarity","Editions","N°"};
-	private MagicCardsProvider provider;
 	
 	
-	public MagicCardTableModel(MagicCardsProvider provider) {
+	public MagicCardTableModel() {
 		cards = new ArrayList<MagicCard>();
-		this.provider=provider;
 	}
 
 	@Override
@@ -56,7 +54,7 @@ public class MagicCardTableModel extends DefaultTableModel{
 			case 0: return mc;
 			case 1: return mc.getCost();
 			case 2 : return mc.getFullType();
-			case 3:  return contains(mc.getTypes(),("creature"))? mc.getPower() +"/"+mc.getToughness() : contains(mc.getTypes(),"planeswalker")? mc.getLoyalty() : "";
+			case 3:  return contains(mc.getTypes(),"creature")? mc.getPower() +"/"+mc.getToughness() : contains(mc.getTypes(),"planeswalker")? mc.getLoyalty() : "";
 			case 4 : return mc.getEditions().get(0).getRarity();
 			case 5 : return mc.getEditions();
 			case 6 : return mc.getNumber();

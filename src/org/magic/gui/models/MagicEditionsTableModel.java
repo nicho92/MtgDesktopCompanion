@@ -38,7 +38,6 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		try {
 			calculate();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		

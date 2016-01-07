@@ -156,8 +156,6 @@ public class CollectionPanelGUI extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		
 		tableEditions = new JTable();
-		
-		
 		tableEditions.setModel(model);
 		tableEditions.setDefaultRenderer(Object.class,new MagicCollectionTableCellRenderer());
 		DefaultRowSorter sorterEditions = new TableRowSorter<DefaultTableModel>(model);
@@ -184,9 +182,6 @@ public class CollectionPanelGUI extends JPanel {
 		panneauTreeSearch.add(scrollPaneCollections);
 		
 		tree = new MagicCardsTree(provider,dao);
-		 
-		 
-	
 		 
 		 scrollPaneCollections.setViewportView(tree);
 		 
