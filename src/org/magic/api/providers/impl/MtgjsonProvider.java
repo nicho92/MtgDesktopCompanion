@@ -47,7 +47,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private File fileSetJson = new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json");
 	private File fversion = new File(System.getProperty("user.home")+"/magicDeskCompanion/version");
 	
-	private Reader readSet;
 	private List<MagicCard> list;
 	private ReadContext ctx;
 	private Map<String,List<MagicCard>> cacheCard;
@@ -124,7 +123,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
 			}
 			
-		 readSet = new InputStreamReader(new FileInputStream(fileSetJson),"UTF-8");
+			
 		 
 		 cacheCard= new HashMap<String,List<MagicCard>>();
 		 logger.debug("init " + this +" : parsing db file");

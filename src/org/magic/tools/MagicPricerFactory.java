@@ -1,12 +1,7 @@
 package org.magic.tools;
 
-import java.io.File;
-import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
-import java.util.Set;
 
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.pricers.impl.ChannelFireballPricer;

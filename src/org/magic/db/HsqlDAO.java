@@ -76,9 +76,6 @@ public class HsqlDAO implements MagicDAO {
 		 pst.setString(5, collection.getName());
 		 
 		 pst.executeUpdate();
-			
-		
-		 
 		
 	}
 

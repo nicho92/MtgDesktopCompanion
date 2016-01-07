@@ -34,9 +34,9 @@ public class MtgapiProvider implements MagicCardsProvider{
 	CloseableHttpClient httpclient;
 
 	
-		public MtgapiProvider() {
-			httpclient = HttpClients.createDefault();
-		}
+	public MtgapiProvider() {
+		httpclient = HttpClients.createDefault();
+	}
 	
 	@Override
 	public void init() {
