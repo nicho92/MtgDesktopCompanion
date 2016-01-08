@@ -340,7 +340,7 @@ public class MagicGUI extends JFrame {
 
 		btnSearch = new JButton("Rechercher");
 		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
-		cboQuereableItems.addItem("Collections");
+		cboQuereableItems.addItem("collections");
 		cboCollections= new JComboBox<MagicCollection>(dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
 		cboCollections.setVisible(false);
 		
@@ -352,7 +352,7 @@ public class MagicGUI extends JFrame {
 					cboEdition.setVisible(true);
 					cboCollections.setVisible(false);
 				}
-				else if(cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("Collections"))
+				else if(cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("collections"))
 				{
 					txtMagicSearch.setVisible(false);
 					cboEdition.setVisible(false);

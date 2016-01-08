@@ -106,6 +106,22 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		
 			
 	}
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		
+		switch(columnIndex)
+		{
+		case 0:return String.class;
+		case 1 : return MagicEdition.class;
+		case 2: return Integer.class;
+		case 3 : return String.class;
+		case 4 : return double.class;
+		case 5 : return Integer.class;
+		default : return Object.class;
+		}
+		
+		//return super.getColumnClass(columnIndex);
+	}
 	
 	@Override
 	public int getColumnCount() {

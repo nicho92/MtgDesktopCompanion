@@ -1,19 +1,20 @@
 package org.magic.gui;
 
-import javax.swing.JPanel;
 import java.awt.BorderLayout;
-import javax.swing.JTabbedPane;
-
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.db.MagicDAO;
-
-import java.awt.GridBagLayout;
-import javax.swing.JLabel;
 import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.sql.SQLException;
+
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
+import javax.swing.JTable;
+
+import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.db.MagicDAO;
+import org.magic.gui.models.SystemTableModel;
 
 public class ConfigurationPanelGUI extends JPanel {
 	
@@ -22,6 +23,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private MagicCardsProvider provider;
 	private MagicDAO dao;
 	private JLabel lblNbCards ;
+	private JTable table;
 		
 	
 	public ConfigurationPanelGUI(MagicCardsProvider provider,MagicDAO dao) {
@@ -34,14 +36,12 @@ public class ConfigurationPanelGUI extends JPanel {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 		
-		JPanel applicationConfigPanel = new JPanel();
+		JScrollPane applicationConfigPanel = new JScrollPane();
 		tabbedPane.addTab("Application", null, applicationConfigPanel, null);
-		GridBagLayout gbl_applicationConfigPanel = new GridBagLayout();
-		gbl_applicationConfigPanel.columnWidths = new int[]{0};
-		gbl_applicationConfigPanel.rowHeights = new int[]{0};
-		gbl_applicationConfigPanel.columnWeights = new double[]{Double.MIN_VALUE};
-		gbl_applicationConfigPanel.rowWeights = new double[]{Double.MIN_VALUE};
-		applicationConfigPanel.setLayout(gbl_applicationConfigPanel);
+
+		
+		table = new JTable(new SystemTableModel());
+		applicationConfigPanel.setViewportView(table);
 		
 		JPanel webSiteConfigPanel = new JPanel();
 		tabbedPane.addTab("WebSite", null, webSiteConfigPanel, null);

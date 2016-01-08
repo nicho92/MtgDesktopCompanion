@@ -23,6 +23,8 @@ public class MagicCard implements Serializable {
 		private String cost;
 		private String text;
 		private List<MagicEdition> editions;
+		private String originalText;
+		private String originalType;
 		private String power;
 		private String toughness;
 		private Integer loyalty;
@@ -51,6 +53,26 @@ public class MagicCard implements Serializable {
 		}
 		
 		
+		public String getOriginalText() {
+			return originalText;
+		}
+
+
+		public void setOriginalText(String originalText) {
+			this.originalText = originalText;
+		}
+
+
+		public String getOriginalType() {
+			return originalType;
+		}
+
+
+		public void setOriginalType(String originalType) {
+			this.originalType = originalType;
+		}
+
+
 		public List<MagicFormat> getLegalities() {
 			return legalities;
 		}

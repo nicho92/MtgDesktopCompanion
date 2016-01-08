@@ -45,13 +45,6 @@ public class MagicPriceTableModel extends DefaultTableModel {
 		providers = new ArrayList<MagicPricesProvider>();
 		prices=new ArrayList<MagicPrice>();
 		providers=MagicPricerFactory.getInstance().getListPricers();
-		
-		/*
-		addProvider(new EbayPricer());
-		addProvider(new MagicVillePricer());
-		addProvider(new TCGPlayerPricer());
-		addProvider(new MagicTradersPricer());
-		addProvider(new ChannelFireballPricer());*/
 	}
 	
 	

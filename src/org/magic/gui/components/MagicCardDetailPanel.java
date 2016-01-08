@@ -16,6 +16,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -41,6 +42,9 @@ import javax.swing.UIManager;
 import javax.swing.event.CaretListener;
 import javax.swing.event.CaretEvent;
 import javax.swing.border.BevelBorder;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -247,7 +251,7 @@ public class MagicCardDetailPanel extends JPanel {
 				scrollLegality = new JScrollPane();
 				GridBagConstraints gbc_scrollLegality = new GridBagConstraints();
 				gbc_scrollLegality.gridwidth = 2;
-				gbc_scrollLegality.insets = new Insets(0, 0, 5, 5);
+				gbc_scrollLegality.insets = new Insets(0, 0, 0, 5);
 				gbc_scrollLegality.fill = GridBagConstraints.BOTH;
 				gbc_scrollLegality.gridx = 1;
 				gbc_scrollLegality.gridy = 8;
@@ -264,11 +268,6 @@ public class MagicCardDetailPanel extends JPanel {
 		
 				txtTextPane = new JTextPane();
 				txtTextPane.setBorder(new LineBorder(Color.GRAY));
-//				txtTextPane.addCaretListener(new CaretListener() {
-//					public void caretUpdate(CaretEvent arg0) {
-//						System.out.println(arg0.getDot());
-//					}
-//				});
 				txtTextPane.setBackground(Color.WHITE);
 				txtTextPane.setEditable(false);
 				txtTextPane.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -346,6 +345,9 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_lblLegal.gridy = 8;
 				add(lblLegal, gbc_lblLegal);
 						
+				
+				
+				
 
 		if (magicCard != null) {
 			m_bindingGroup = initDataBindings();

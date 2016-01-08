@@ -245,6 +245,8 @@ public class CollectionPanelGUI extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				if(SwingUtilities.isRightMouseButton(e))
 				{
+					int row = tree.getClosestRowForLocation(e.getX(), e.getY());
+		            tree.setSelectionRow(row);
 					try{
 						DefaultMutableTreeNode node = (DefaultMutableTreeNode)tree.getLastSelectedPathComponent();
 						if(node.getUserObject() instanceof MagicEdition)
@@ -366,14 +368,14 @@ public class CollectionPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 
 				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode)path.getPathComponent(1)).getUserObject();
-				
+				int res=0;
 				DefaultMutableTreeNode curr=(DefaultMutableTreeNode) path.getLastPathComponent();
 				if(curr.isLeaf())
 				{	
 					MagicCard card = (MagicCard)((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
 					
 					try {
-						int res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + card +" from " + col + "?");
+						res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + card +" from " + col + "?");
 						if(res==JOptionPane.YES_OPTION)
 							dao.removeCard(card, col);
 					} catch (SQLException e) {
@@ -386,20 +388,24 @@ public class CollectionPanelGUI extends JPanel {
 					MagicEdition me = (MagicEdition)((DefaultMutableTreeNode)path.getPathComponent(2)).getUserObject();
 					
 					try {
-						int res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + me +" from " + col + "?");
+						res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + me +" from " + col + "?");
 						if(res==JOptionPane.YES_OPTION)
 							dao.removeEdition(me, col);
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
-				try {
-					model.calculate();
-				} catch (Exception e) {
-					e.printStackTrace();
+				
+				if(res==JOptionPane.YES_OPTION)
+				{
+					try {
+						model.calculate();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+					model.fireTableDataChanged();
+					tree.refresh();
 				}
-				model.fireTableDataChanged();
-				tree.refresh();
 			}
 		});
 		

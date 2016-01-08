@@ -208,6 +208,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		   mc.setArtist(String.valueOf(map.get("artist")));
 	 		   mc.setLayout(String.valueOf(map.get("layout")));
 	 		   
+	 		   if(map.get("originalText")!=null)
+	 			 mc.setOriginalText(String.valueOf(map.get("originalText")));
+	 		   
+	 		   if(map.get("originalType")!=null)
+	 			 mc.setOriginalType(String.valueOf(map.get("originalType")));
 	 		   
 	 		   if(map.get("types")!=null)
 	 			  mc.getTypes().addAll((List<String>)map.get("types"));
