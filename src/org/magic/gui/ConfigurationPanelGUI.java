@@ -6,11 +6,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.sql.SQLException;
 
+import javax.swing.DefaultRowSorter;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
@@ -39,8 +41,9 @@ public class ConfigurationPanelGUI extends JPanel {
 		JScrollPane applicationConfigPanel = new JScrollPane();
 		tabbedPane.addTab("Application", null, applicationConfigPanel, null);
 
+		SystemTableModel mod = new SystemTableModel();
 		
-		table = new JTable(new SystemTableModel());
+		table = new JTable(mod);
 		applicationConfigPanel.setViewportView(table);
 		
 		JPanel webSiteConfigPanel = new JPanel();
