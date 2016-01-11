@@ -92,4 +92,8 @@ public class TCGPlayerPricer implements MagicPricesProvider {
 		this.max=max;
 		
 	}
+	@Override
+	public int getMaxResults() {
+		return max;
+	}
 }

@@ -11,6 +11,6 @@ public interface MagicPricesProvider {
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws Exception;
 	
 	public void setMaxResults(int max);
-	
+	public int getMaxResults();
 	public String getName();
 }

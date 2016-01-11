@@ -90,7 +90,7 @@ public class MagicWebSiteGenerator extends Observable{
 			{
 				editions.add(mc.getEditions().get(0));
 			}
-		
+
 			Map rootEd = new HashMap<>();
 				rootEd.put("colName", colName);
 				rootEd.put("cols",  cols);
@@ -98,6 +98,8 @@ public class MagicWebSiteGenerator extends Observable{
 				rootEd.put("editions",editions);
 				generateCardsTemplate(root.get(colName),cols);
 				template.process(rootEd, out);
+					
+				
 		}
 		
 		

@@ -68,6 +68,7 @@ public class CardsPicPanel extends JXPanel {
 	
 	public void showPhoto(final URL photo) {
 		
+		System.out.println("loading " + photo);
 		new Thread(new Runnable() {
 			
 			@Override

@@ -3,6 +3,7 @@ package org.magic.api.providers.impl;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -155,6 +156,11 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	@Override
 	public String getVersion() {
 		return "1";
+	}
+
+	@Override
+	public URL getWebSite() throws MalformedURLException {
+		return new URL("https://deckbrew.com/api/");
 	}
 
 	

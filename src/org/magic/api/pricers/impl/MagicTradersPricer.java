@@ -101,4 +101,8 @@ public void setMaxResults(int max) {
 	//no need 
 	
 }
+@Override
+public int getMaxResults() {
+	return 1;
+}
 }

@@ -128,6 +128,10 @@ public class MagicVillePricer implements MagicPricesProvider {
 		this.max=max;
 		
 	}
+	@Override
+	public int getMaxResults() {
+		return max;
+	}
 
 }
 

@@ -678,10 +678,9 @@ public class MagicGUI extends JFrame {
 			});
 
 			listEdition.addMouseListener(new MouseAdapter() {
-				@Override
 				public void mouseClicked(MouseEvent mev) {
 
-					try {
+				
 
 						selectedEdition = listEdition.getSelectedValue();
 						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
@@ -689,22 +688,18 @@ public class MagicGUI extends JFrame {
 						new Thread(new Runnable() {
 							public void run() {
 								try {
-									cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card"));
 									loading(true,"loading edition");
-
-									magicEditionDetailPanel.setMagicEdition(selectedEdition);
-									if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
-										updatePrices();
-									
+										cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card"));
+										magicEditionDetailPanel.setMagicEdition(selectedEdition);
+										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
+											updatePrices();
 									loading(false,"");
 								} catch (IOException e) {
-									e.printStackTrace();
+									logger.error(e);
 								}
 							}}).start();
 
-					} catch (Exception e1) {
-						e1.printStackTrace();
-					}
+					
 				}
 			});
 

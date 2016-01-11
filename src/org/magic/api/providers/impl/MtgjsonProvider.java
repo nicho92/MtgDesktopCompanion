@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -562,6 +563,12 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	@Override
 	public String getVersion() {
 		return version;
+	}
+
+
+	@Override
+	public URL getWebSite() throws MalformedURLException {
+		return new URL("http://mtgjson.com/");
 	}
 
 }

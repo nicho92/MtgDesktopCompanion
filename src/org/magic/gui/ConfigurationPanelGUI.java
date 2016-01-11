@@ -16,6 +16,8 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
+import org.magic.gui.models.PricesTableModel;
+import org.magic.gui.models.ProvidersTableModel;
 import org.magic.gui.models.SystemTableModel;
 
 public class ConfigurationPanelGUI extends JPanel {
@@ -26,6 +28,8 @@ public class ConfigurationPanelGUI extends JPanel {
 	private MagicDAO dao;
 	private JLabel lblNbCards ;
 	private JTable table;
+	private JTable cardsProviderTable;
+	private JTable priceProviderTable;
 		
 	
 	public ConfigurationPanelGUI(MagicCardsProvider provider,MagicDAO dao) {
@@ -104,6 +108,26 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		JPanel providerConfigPanel = new JPanel();
 		tabbedPane.addTab("Providers", null, providerConfigPanel, null);
+		providerConfigPanel.setLayout(new BorderLayout(0, 0));
+		
+		JTabbedPane subTabbedProviders = new JTabbedPane(JTabbedPane.TOP);
+		providerConfigPanel.add(subTabbedProviders);
+		
+		JScrollPane cardsProvidersScrollPane = new JScrollPane();
+		subTabbedProviders.addTab("Cards", null, cardsProvidersScrollPane, null);
+		
+		cardsProviderTable = new JTable();
+		cardsProvidersScrollPane.setViewportView(cardsProviderTable);
+		
+		JScrollPane priceProviderScrollPane = new JScrollPane();
+		subTabbedProviders.addTab("Pricers", null, priceProviderScrollPane, null);
+		
+		priceProviderTable = new JTable();
+		priceProviderScrollPane.setViewportView(priceProviderTable);
+		
+		
+		cardsProviderTable.setModel(new ProvidersTableModel());
+		priceProviderTable.setModel(new PricesTableModel());
 		
 		initDBTab();
 		

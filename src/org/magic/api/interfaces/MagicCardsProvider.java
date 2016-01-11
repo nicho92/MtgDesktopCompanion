@@ -1,5 +1,7 @@
 package org.magic.api.interfaces;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
@@ -28,5 +30,7 @@ public interface MagicCardsProvider {
 	public List<MagicCard> openBooster(MagicEdition me) throws Exception;
 	
 	public String getVersion();
+	
+	public URL getWebSite() throws MalformedURLException;
 	
 }

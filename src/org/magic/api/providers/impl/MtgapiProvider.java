@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -332,6 +334,11 @@ public class MtgapiProvider implements MagicCardsProvider{
 	@Override
 	public String getVersion() {
 		return "v2";
+	}
+
+	@Override
+	public URL getWebSite() throws MalformedURLException {
+		return new URL("https://mtgapi.com/");
 	}
 
 	

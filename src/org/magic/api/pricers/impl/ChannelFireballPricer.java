@@ -78,4 +78,10 @@ public class ChannelFireballPricer implements MagicPricesProvider {
 	{
 		return getName();
 	}
+
+	@Override
+	public int getMaxResults() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 }

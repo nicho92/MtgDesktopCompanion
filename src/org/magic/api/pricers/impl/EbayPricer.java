@@ -93,5 +93,9 @@ public class EbayPricer implements MagicPricesProvider{
 		
 		
 	}
+	@Override
+	public int getMaxResults() {
+		return MAXRESULT;
+	}
 
 }
