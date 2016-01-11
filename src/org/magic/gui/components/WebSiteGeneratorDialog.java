@@ -23,7 +23,7 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.tools.MagicPricerFactory;
+import org.magic.tools.MagicFactory;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
@@ -115,7 +115,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		gbc_scrollPane.gridy = 1;
 		panneaucentral.add(scrollPane, gbc_scrollPane);
 		list = new JList<MagicCollection>(cols.toArray(new MagicCollection[cols.size()]));
-		lstProviders = new JList<MagicPricesProvider>(MagicPricerFactory.getInstance().getListPricers().toArray(new MagicPricesProvider[MagicPricerFactory.getInstance().getListPricers().size() ]));
+		lstProviders = new JList<MagicPricesProvider>(MagicFactory.getInstance().getListPricers().toArray(new MagicPricesProvider[MagicFactory.getInstance().getListPricers().size() ]));
 		
 		scrollPane.setViewportView(list);
 		

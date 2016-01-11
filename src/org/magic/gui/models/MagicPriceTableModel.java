@@ -14,7 +14,7 @@ import org.magic.api.pricers.impl.EbayPricer;
 import org.magic.api.pricers.impl.MagicTradersPricer;
 import org.magic.api.pricers.impl.MagicVillePricer;
 import org.magic.api.pricers.impl.TCGPlayerPricer;
-import org.magic.tools.MagicPricerFactory;
+import org.magic.tools.MagicFactory;
 
 public class MagicPriceTableModel extends DefaultTableModel {
 
@@ -44,7 +44,7 @@ public class MagicPriceTableModel extends DefaultTableModel {
 	public MagicPriceTableModel() {
 		providers = new ArrayList<MagicPricesProvider>();
 		prices=new ArrayList<MagicPrice>();
-		providers=MagicPricerFactory.getInstance().getListPricers();
+		providers=MagicFactory.getInstance().getListPricers();
 	}
 	
 	
