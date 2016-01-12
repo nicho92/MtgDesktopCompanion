@@ -7,6 +7,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -19,14 +20,28 @@ public class MagicTradersPricer implements MagicPricesProvider {
 
 	String url = "http://classic.magictraders.com/pricelists/current-magic-excel.txt";
 	static final Logger logger = LogManager.getLogger(MagicTradersPricer.class.getName());
+	Properties props;
+
+	
+	public MagicTradersPricer() {
+		props = new Properties();
+		props.put("MAX", 5);
+		props.put("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
+		props.put("WEBSITE", "http://classic.magictraders.com");
+		props.put("KEYWORD", "");
+	}
+	
+	
+	
 	public String toString()
 	{
 		return getName();
 	}
+	
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
 		
 		
-		URL link = new URL("http://classic.magictraders.com/pricelists/current-magic-excel.txt");
+		URL link = new URL(props.getProperty("URL"));
 		InputStream is = link.openStream();
 		BufferedReader read = new BufferedReader(new InputStreamReader(is));
 		String line;
@@ -42,9 +57,10 @@ public class MagicTradersPricer implements MagicPricesProvider {
 			try {
 				double f = Double.parseDouble(price);
 				String cname = getCorrectName(card.getName());
+				props.put("KEYWORD",cname);
 				if(name.startsWith(cname))
 				{
-					logger.debug("Find ! : " + getName() + " : "+ cname);
+					logger.debug(getName() + " found "+ cname);
    				 MagicPrice mp = new MagicPrice();
 							mp.setSeller(getName());
 							mp.setUrl("http://store.eudogames.com/products/search?query="+URLEncoder.encode(card.getName(),"UTF-8"));
@@ -82,27 +98,15 @@ public class MagicTradersPricer implements MagicPricesProvider {
 		return "Magic Traders";
 	}
 
-	
-public static void main(String[] args) throws Exception {
+	@Override
+	public Properties getProperties() {
+		return props;
+	}
+	@Override
+	public void setProperties(String k, Object value) {
+		props.put(k, value);
 		
-		MagicCard mc = new MagicCard();
-			mc.setName("Bloodstone Cameo");
-			
-		MagicEdition ed = new MagicEdition();
-			ed.setSet("Invasion");
-			mc.getEditions().add(ed);
-			
-		new MagicTradersPricer().getPrice(ed, mc);
 	}
 
 
-@Override
-public void setMaxResults(int max) {
-	//no need 
-	
-}
-@Override
-public int getMaxResults() {
-	return 1;
-}
 }

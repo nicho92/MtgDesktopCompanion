@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -20,10 +21,11 @@ import org.magic.api.interfaces.MagicPricesProvider;
 public class MagicVillePricer implements MagicPricesProvider {
 
 	Document doc;
-	String html = "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=";
 	List<MagicPrice> list;
 	CloseableHttpClient httpclient;
-	private int max=0;
+	
+	Properties props;
+	
 	
 	static final Logger logger = LogManager.getLogger(MagicVillePricer.class.getName());
 
@@ -31,6 +33,14 @@ public class MagicVillePricer implements MagicPricesProvider {
 
 		list=new ArrayList<MagicPrice>();
 		httpclient = HttpClients.createDefault();
+		
+		props = new Properties();
+		
+		props.put("MAX", 5);
+		props.put("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
+		props.put("WEBSITE", "http://www.magic-ville.com/");
+		props.put("KEYWORD", "");	
+		
 	}
 	public String toString()
 	{
@@ -66,17 +76,15 @@ public class MagicVillePricer implements MagicPricesProvider {
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
 		
 		list.clear();
-		
+		String html = props.getProperty("URL");
 		
 		if(me==null)
-		{
 			me = card.getEditions().get(0);
-		}
+
 		
-//		if(me==null)
-//			return list;
-		
-		String url = html+getMGVILLCodeEdition(me)+prefixZeros(me.getNumber(),3);
+		String keyword = getMGVILLCodeEdition(me)+prefixZeros(me.getNumber(),3);
+		props.put("KEYWORD", keyword);
+		String url = html+keyword;
 		
 
 		logger.debug(getName() +" looking for prices " + url );
@@ -107,10 +115,12 @@ public class MagicVillePricer implements MagicPricesProvider {
 			 
 		 }
 		
-		 if(max>0)
-			 return list.subList(0, max);
+		 logger.debug(getName() +" found " + list.size() +" item(s) . Return " + props.getProperty("MAX")+" results");
+			 
 		 
-		 logger.debug(getName() +" found " + list.size() +" item");
+		if(((int)props.get("MAX"))!=-1)
+			 return list.subList(0, (int)props.get("MAX"));
+		 
 			 
 		return list;
 	}
@@ -121,17 +131,16 @@ public class MagicVillePricer implements MagicPricesProvider {
 	public String getName() {
 		return "Magic-Villois";
 	}
-
-
 	@Override
-	public void setMaxResults(int max) {
-		this.max=max;
+	public Properties getProperties() {
+		return props;
+	}
+	@Override
+	public void setProperties(String k, Object value) {
+		props.put(k, value);
 		
 	}
-	@Override
-	public int getMaxResults() {
-		return max;
-	}
+
 
 }
 

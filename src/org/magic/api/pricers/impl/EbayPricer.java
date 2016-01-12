@@ -6,6 +6,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -21,31 +22,50 @@ import com.google.gson.stream.JsonReader;
 
 public class EbayPricer implements MagicPricesProvider{
 
-	String API_KEY="none04674-8d13-4421-af9e-ec641c7ee59";
 	String KEYWORD="";
-	int MAXRESULT=5;
-	String COUNTRY="EBAY-FR";
-	String url = "http://svcs.ebay.fr/services/search/FindingService/v1?SECURITY-APPNAME="+API_KEY+"&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID="+COUNTRY+"&keywords=%KEYWORD%&paginationInput.entriesPerPage="+MAXRESULT;
 	static final Logger logger = LogManager.getLogger(EbayPricer.class.getName());
-
+	
+	Properties props;
 	
 	public String toString()
 	{
 		return getName();
 	}
+	
+	public EbayPricer() {
+		props = new Properties();
+		
+		props.put("MAX", 5);
+		props.put("COUNTRY", "EBAY-FR");
+		props.put("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
+		props.put("URL", "http://svcs.ebay.fr/services/search/FindingService/v1?SECURITY-APPNAME=%API_KEY%&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID=%COUNTRY%&keywords=%KEYWORD%&paginationInput.entriesPerPage=%MAX%");
+		props.put("WEBSITE", "http://www.ebay.com/");
+		props.put("ENCODING", "UTF-8");
+		props.put("KEYWORD", "");
+	}
+	
+	
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<MagicPrice>();
 		
-		
+		String url = props.getProperty("URL");
+			   url = url.replaceAll("%API_KEY%", props.get("API_KEY").toString());
+			   url = url.replaceAll("%COUNTRY%", props.get("COUNTRY").toString());
+			   url = url.replaceAll("%MAX%", props.get("MAX").toString());
 		KEYWORD=card.getName();
 		
 		if(me!=null)
 			KEYWORD += " " + me.getSet();
 		
-		KEYWORD=URLEncoder.encode(KEYWORD,"UTF-8");
-			
+		props.put("KEYWORD", KEYWORD);
+		
+		KEYWORD=URLEncoder.encode(KEYWORD,props.getProperty("ENCODING"));
+		
+		
+		
 		String link=url.replaceAll("%KEYWORD%", KEYWORD);
 		
+		logger.debug(getName() + " looking for " + link);
 		
 		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), "UTF-8"));
 		JsonElement root = new JsonParser().parse(reader);
@@ -76,6 +96,7 @@ public class EbayPricer implements MagicPricesProvider{
 		 		prices.add(mp);
 		 	}
 		 	
+		 	logger.debug(getName() + " find " + prices.size() + " item(s)");
 		 	
 		java.util.Collections.sort(prices);
 		return prices;
@@ -86,16 +107,13 @@ public class EbayPricer implements MagicPricesProvider{
 		return "Ebay";
 	}
 
-	@Override
-	public void setMaxResults(int max) {
-		MAXRESULT=max;
-		url = "http://svcs.ebay.fr/services/search/FindingService/v1?SECURITY-APPNAME="+API_KEY+"&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID="+COUNTRY+"&keywords=%KEYWORD%&paginationInput.entriesPerPage="+MAXRESULT;
-		
-		
+	public Properties getProperties() {
+		return props;
 	}
+
 	@Override
-	public int getMaxResults() {
-		return MAXRESULT;
+	public void setProperties(String k, Object value) {
+		props.put(k,value);
 	}
 
 }

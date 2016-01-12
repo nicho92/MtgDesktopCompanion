@@ -32,7 +32,7 @@ public class PricesTableModel extends DefaultTableModel {
 			switch(column)
 			{
 			case 0 :return MagicFactory.getInstance().getListPricers().get(row).getName();
-			case 1 :return MagicFactory.getInstance().getListPricers().get(row).getMaxResults();
+			case 1 :return MagicFactory.getInstance().getListPricers().get(row).getProperties();
 			case 2 : return true;
 			default : return null;
 			}
