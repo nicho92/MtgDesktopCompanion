@@ -6,14 +6,13 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.sql.SQLException;
 
-import javax.swing.DefaultRowSorter;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableModel;
 
+import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
 import org.magic.gui.models.PricesTableModel;
@@ -29,7 +28,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JLabel lblNbCards ;
 	private JTable table;
 	private JTable cardsProviderTable;
-	private JTable priceProviderTable;
+	private JXTreeTable priceProviderTable;
 		
 	
 	public ConfigurationPanelGUI(MagicCardsProvider provider,MagicDAO dao) {
@@ -122,12 +121,11 @@ public class ConfigurationPanelGUI extends JPanel {
 		JScrollPane priceProviderScrollPane = new JScrollPane();
 		subTabbedProviders.addTab("Pricers", null, priceProviderScrollPane, null);
 		
-		priceProviderTable = new JTable();
+		priceProviderTable = new JXTreeTable(new PricesTableModel());
 		priceProviderScrollPane.setViewportView(priceProviderTable);
 		
 		
 		cardsProviderTable.setModel(new ProvidersTableModel());
-		priceProviderTable.setModel(new PricesTableModel());
 		
 		initDBTab();
 		

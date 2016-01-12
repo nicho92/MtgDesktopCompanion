@@ -108,5 +108,10 @@ public class MagicTradersPricer implements MagicPricesProvider {
 		
 	}
 
+	@Override
+	public Object getProperty(String k) {
+		return props.get(k);
+	}
+
 
 }

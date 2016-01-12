@@ -96,5 +96,10 @@ public class ChannelFireballPricer implements MagicPricesProvider {
 		
 	}
 
+	@Override
+	public Object getProperty(String k) {
+		return props.get(k);
+	}
+
 	
 }

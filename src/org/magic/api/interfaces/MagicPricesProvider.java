@@ -12,6 +12,7 @@ public interface MagicPricesProvider {
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws Exception;
 	public Properties getProperties();
 	public void setProperties(String k,Object value);
+	public Object getProperty(String k);
 	public String getName();
 
 }

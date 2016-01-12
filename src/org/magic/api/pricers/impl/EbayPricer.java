@@ -116,4 +116,9 @@ public class EbayPricer implements MagicPricesProvider{
 		props.put(k,value);
 	}
 
+	@Override
+	public Object getProperty(String k) {
+		return props.get(k);
+	}
+
 }
