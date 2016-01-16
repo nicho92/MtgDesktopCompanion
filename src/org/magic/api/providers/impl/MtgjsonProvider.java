@@ -3,10 +3,10 @@ package org.magic.api.providers.impl;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -16,6 +16,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -42,9 +44,10 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 public class MtgjsonProvider implements MagicCardsProvider{
 
-	private String urlSetJson = "http://mtgjson.com/json/AllSets-x.json";
+	private String urlSetJsonZip = "http://mtgjson.com/json/AllSets-x.json.zip";
 	private String urlVersion = "http://mtgjson.com/json/version.json";
 	
+	private File fileSetJsonTemp = new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json.zip");
 	private File fileSetJson = new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json");
 	private File fversion = new File(System.getProperty("user.home")+"/magicDeskCompanion/version");
 	
@@ -58,6 +61,39 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	static final Logger logger = LogManager.getLogger(MtgjsonProvider.class.getName());
 
+	
+	public MtgjsonProvider() {
+		init();
+	}
+	
+	
+	public void unZipIt(File zipFile){
+
+	     byte[] buffer = new byte[1024];
+	    	
+	     try{
+	     	ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
+	    	ZipEntry ze = zis.getNextEntry();
+	    		
+	    	while(ze!=null){
+	           logger.debug(this + " unzip : "+ fileSetJson.getAbsoluteFile());
+	            FileOutputStream fos = new FileOutputStream(fileSetJson);             
+	            int len;
+	            while ((len = zis.read(buffer)) > 0) {
+	       		fos.write(buffer, 0, len);
+	            }
+	        		
+	            fos.close();   
+	            ze = zis.getNextEntry();
+	    	}
+	    	
+	        zis.closeEntry();
+	    	zis.close();
+	    }catch(IOException ex){
+	       ex.printStackTrace(); 
+	    }
+	   }    
+	
 	private boolean hasNewVersion()
 	{
 		try{
@@ -112,7 +148,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			if(!fileSetJson.exists())
 			{
 				logger.debug("datafile does not exist. Downloading it");
-				FileUtils.copyURLToFile(new URL(urlSetJson), fileSetJson);
+				FileUtils.copyURLToFile(new URL(urlSetJsonZip), fileSetJsonTemp);
+				unZipIt(fileSetJsonTemp);
 				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
 			}
 			
@@ -120,7 +157,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			if(hasNewVersion())
 			{
 				logger.debug("new version datafile exist. Downloading it");
-				FileUtils.copyURLToFile(new URL(urlSetJson), fileSetJson);
+				FileUtils.copyURLToFile(new URL(urlSetJsonZip), fileSetJsonTemp);
+				unZipIt(fileSetJsonTemp);
 				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
 			}
 			
@@ -560,7 +598,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 	}
 
-	@Override
 	public String getVersion() {
 		return version;
 	}

@@ -10,6 +10,7 @@ import javax.swing.UIManager;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.gui.MagicGUI;
+import org.magic.tools.MagicFactory;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
@@ -43,12 +44,7 @@ public class MtgDesktopCompanion {
 					e.printStackTrace();
 				}
 
-				MagicCardsProvider	provider = new MtgjsonProvider();
-				//MagicCardsProvider	provider = new MtgapiProvider();
-				//MagicCardsProvider	provider = new DeckbrewProvider();
-				provider.init();
-
-				MagicGUI gui = new MagicGUI(provider);
+				MagicGUI gui = new MagicGUI(MagicFactory.getInstance().getListProviders().get(0));
 				gui.setDefaultLanguage("English");
 				gui.setVisible(true);
 

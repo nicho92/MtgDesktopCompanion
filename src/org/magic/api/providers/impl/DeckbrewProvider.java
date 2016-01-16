@@ -25,6 +25,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 
 	public DeckbrewProvider() {
 		gson = new Gson();
+		init();
 	}
 	
 	public void init() {
