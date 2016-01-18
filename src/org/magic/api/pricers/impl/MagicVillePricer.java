@@ -56,6 +56,7 @@ public class MagicVillePricer implements MagicPricesProvider {
 		case "M12" :return "12m";
 		case "M13" : return "13m";
 		case "M14" : return "14m";
+		case "M15" : return "15m";
 		case "DRK" : return "dar";
 		default : return me.getId();
 		}
@@ -114,13 +115,12 @@ public class MagicVillePricer implements MagicPricesProvider {
 			 list.add(mp);
 			 
 		 }
-		
-		 logger.debug(getName() +" found " + list.size() +" item(s) . Return " + props.getProperty("MAX")+" results");
+		 logger.debug(getName() +" found " + list.size() +" item(s)");
 			 
 		 
-		if(((int)props.get("MAX"))!=-1)
-			 return list.subList(0, (int)props.get("MAX"));
-		 
+//		if(Integer.parseInt(props.get("MAX").toString())>-1)
+//			 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
+//		 
 			 
 		return list;
 	}

@@ -4,14 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import org.hsqldb.util.DatabaseManagerSwing;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
@@ -56,9 +60,9 @@ public class ConfigurationPanelGUI extends JPanel {
 		tabbedPane.addTab("Database", null, databaseConfigPanel, null);
 		GridBagLayout gbl_databaseConfigPanel = new GridBagLayout();
 		gbl_databaseConfigPanel.columnWidths = new int[]{142, 116, 0};
-		gbl_databaseConfigPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbl_databaseConfigPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gbl_databaseConfigPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_databaseConfigPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_databaseConfigPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		databaseConfigPanel.setLayout(gbl_databaseConfigPanel);
 		
 		JLabel lblDatabaseLocation = new JLabel("Database Location :");
@@ -94,16 +98,18 @@ public class ConfigurationPanelGUI extends JPanel {
 		JLabel lblCardsInDb = new JLabel("Cards in DB :");
 		GridBagConstraints gbc_lblCardsInDb = new GridBagConstraints();
 		gbc_lblCardsInDb.anchor = GridBagConstraints.WEST;
-		gbc_lblCardsInDb.insets = new Insets(0, 0, 0, 5);
+		gbc_lblCardsInDb.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCardsInDb.gridx = 0;
 		gbc_lblCardsInDb.gridy = 3;
 		databaseConfigPanel.add(lblCardsInDb, gbc_lblCardsInDb);
 		
 		lblNbCards = new JLabel("");
 		GridBagConstraints gbc_lblNbCards = new GridBagConstraints();
+		gbc_lblNbCards.insets = new Insets(0, 0, 5, 0);
 		gbc_lblNbCards.gridx = 1;
 		gbc_lblNbCards.gridy = 3;
 		databaseConfigPanel.add(lblNbCards, gbc_lblNbCards);
+		
 		
 		JPanel providerConfigPanel = new JPanel();
 		tabbedPane.addTab("Providers", null, providerConfigPanel, null);
