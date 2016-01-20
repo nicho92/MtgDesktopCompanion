@@ -44,7 +44,7 @@ public class MtgDesktopCompanion {
 					e.printStackTrace();
 				}
 
-				MagicGUI gui = new MagicGUI(MagicFactory.getInstance().getListProviders().get(0));
+				MagicGUI gui = new MagicGUI();
 				gui.setDefaultLanguage("English");
 				gui.setVisible(true);
 

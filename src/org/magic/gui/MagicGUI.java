@@ -77,6 +77,7 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.models.MagicPriceTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicExporter;
+import org.magic.tools.MagicFactory;
 import org.magic.tools.MagicPDFGenerator;
 
 import net.coderazzi.filters.gui.AutoChoices;
@@ -112,6 +113,7 @@ public class MagicGUI extends JFrame {
 	private JMenu mnuCollections;
 	private JMenu mnView;
 	private JMenu mnuAbout;
+	private JMenu mnuProviders;
 	private JMenuItem mntmExit;
 	private JMenuItem mntmExportGrid;
     private JMenuItem mnuExportDeckCsv;
@@ -297,6 +299,12 @@ public class MagicGUI extends JFrame {
 		mnuAbout = new JMenu("?");
 		menuBar.add(mnuAbout);
 		
+		
+		mnuProviders = new JMenu("Providers");
+		menuBar.add(mnuProviders);
+		
+		
+		
 		mntmAboutMagicDesktop = new JMenuItem("About Magic Desktop Companion");
 		mnuAbout.add(mntmAboutMagicDesktop);
 		
@@ -323,6 +331,21 @@ public class MagicGUI extends JFrame {
 			});
 			jmnuLook.add(it);
 		}
+		
+		for(final MagicCardsProvider provider : MagicFactory.getInstance().getListProviders())
+		{
+			
+			JMenuItem it = new JMenuItem(provider.toString());
+			
+			it.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setProvider(provider);					
+				}
+			});
+			
+			mnuProviders.add(it);
+		}
+		
 
 
 		DefaultRowSorter sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
@@ -574,17 +597,22 @@ public class MagicGUI extends JFrame {
 	}
 
 
+	protected void setProvider(MagicCardsProvider provider2) {
+		this.provider=provider2;
+		
+	}
+
 	public void setSelectedCard(MagicCard mc)
 	{
 		this.selected=mc;
 		updateCards();
 	}
 
-	public MagicGUI( final MagicCardsProvider provider) {
+	public MagicGUI() {
 
 		try {
 			priceModel=new MagicPriceTableModel();
-			this.provider=provider;
+			provider=MagicFactory.getInstance().getListProviders().get(0);
 
 			dao=new HsqlDAO();
 			dao.init();
