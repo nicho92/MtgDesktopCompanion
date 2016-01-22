@@ -27,6 +27,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -335,7 +336,7 @@ public class MagicGUI extends JFrame {
 		for(final MagicCardsProvider provider : MagicFactory.getInstance().getListProviders())
 		{
 			
-			JMenuItem it = new JMenuItem(provider.toString());
+			JCheckBoxMenuItem it = new JCheckBoxMenuItem(provider.toString());
 			
 			it.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -598,6 +599,8 @@ public class MagicGUI extends JFrame {
 
 
 	protected void setProvider(MagicCardsProvider provider2) {
+		
+		logger.debug("replace provider '" + provider + "' by '" + provider2 +"'" ) ;
 		this.provider=provider2;
 		
 	}
