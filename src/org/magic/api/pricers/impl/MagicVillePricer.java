@@ -58,6 +58,8 @@ public class MagicVillePricer implements MagicPricesProvider {
 		case "M14" : return "14m";
 		case "M15" : return "15m";
 		case "DRK" : return "dar";
+		case "5DN" : return "fda";
+		case "10E" : return "xth";
 		default : return me.getId();
 		}
 		

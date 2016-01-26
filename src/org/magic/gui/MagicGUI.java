@@ -23,11 +23,11 @@ import java.sql.SQLException;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -39,6 +39,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -332,12 +333,12 @@ public class MagicGUI extends JFrame {
 			});
 			jmnuLook.add(it);
 		}
+		ButtonGroup group = new ButtonGroup();
 		
 		for(final MagicCardsProvider provider : MagicFactory.getInstance().getListProviders())
 		{
-			
-			JCheckBoxMenuItem it = new JCheckBoxMenuItem(provider.toString());
-			
+		   JRadioButtonMenuItem it = new JRadioButtonMenuItem(provider.toString());
+			group.add(it);
 			it.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setProvider(provider);					
@@ -602,6 +603,8 @@ public class MagicGUI extends JFrame {
 		
 		logger.debug("replace provider '" + provider + "' by '" + provider2 +"'" ) ;
 		this.provider=provider2;
+		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
+		cboQuereableItems.addItem("collections");
 		
 	}
 
