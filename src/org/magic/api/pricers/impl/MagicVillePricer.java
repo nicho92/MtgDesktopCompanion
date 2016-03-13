@@ -131,12 +131,12 @@ public class MagicVillePricer implements MagicPricesProvider {
 			 list.add(mp);
 			 
 		 }
-		 logger.debug(getName() +" found " + list.size() +" item(s)");
-			 
 		 
-//		if(Integer.parseInt(props.get("MAX").toString())>-1)
-//			 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
-//		 
+		 logger.debug(getName() +" found " + list.size() +" item(s) return " + props.get("MAX") + " items" );
+		
+		 if(Integer.parseInt(props.get("MAX").toString())>-1)
+			 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
+		 
 			 
 		return list;
 	}
