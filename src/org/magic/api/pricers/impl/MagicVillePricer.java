@@ -42,6 +42,19 @@ public class MagicVillePricer implements MagicPricesProvider {
 		props.put("KEYWORD", "");	
 		
 	}
+	
+	public static void main(String[] args) throws IOException {
+		MagicVillePricer pricer = new MagicVillePricer();
+		MagicEdition ed = new MagicEdition();
+		ed.setId("ORI");
+		
+		MagicCard mc = new MagicCard();
+		
+			mc.setNumber("1");
+		pricer.getPrice(ed, mc);
+	}
+	
+	
 	public String toString()
 	{
 		return getName();
@@ -85,7 +98,7 @@ public class MagicVillePricer implements MagicPricesProvider {
 			me = card.getEditions().get(0);
 
 		
-		String keyword = getMGVILLCodeEdition(me)+prefixZeros(me.getNumber(),3);
+		String keyword = getMGVILLCodeEdition(me)+prefixZeros(card.getNumber(),3);
 		props.put("KEYWORD", keyword);
 		String url = html+keyword;
 		
@@ -95,13 +108,14 @@ public class MagicVillePricer implements MagicPricesProvider {
 		doc = Jsoup.connect(url).get();
 		
 		
-		if( doc.select("table[width=95%]").size()<=0)
-			return list;
+	//	if( doc.select("table[width=98%]").size()<=0)
+	//		return list;
 		
 		
-		 Element table = doc.select("table[width=95%]").get(0); //select the first table.
+		 Element table = doc.select("table[width=98%]").get(2); //select the first table.
+		 
 		 Elements rows = table.select("tr");
-	
+		 
 		 for (int i = 3; i < rows.size(); i=i+2) {
 			 Element ligne = rows.get(i);
 			 Elements cols = ligne.getElementsByTag("td");
