@@ -61,20 +61,24 @@
     <!-- ################################################################################################ -->
     <div class="content three_quarter"> 
       <!-- ################################################################################################ -->
-      <h1> ${colName}</h1>
+      <h1> ${colName} - ${edition} </h1>
       <div class="scrollable">
         <table id="tablecards">
           <thead>
             <tr>
+              <th>Pics</th>
+              <th>Number</th>
               <th>Name</th>
-              <th>Collection size</th>
+              <th>Edition</th>
            </tr>
           </thead>
           <tbody>
-         <#list editions as ed>
-            <tr id="${ed.id}">
-              <td><a href="page-ed-${colName}-${ed.id?if_exists}.htm">${ed.set?if_exists}</a></td>
-              <td>${ed.set}</td>
+          <#list cards as card>
+            <tr id="${card.editions[0]}">
+              <td><img height="45" src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=${card.multiverseid?if_exists}&type=card"/></td>
+              <td>${card.editions[0].number?if_exists}</td>
+              <td><a href="page-card-${card.id?if_exists}.htm">${card.name?if_exists}</a></td>
+              <td>${card.editions[0]}</td>
             </tr>
             </#list>
           </tbody>
@@ -153,7 +157,7 @@ $(document).ready(function() {
         "paging":   true,
         "ordering": true,
         "info":     true,
-        "pageLength": 50,
+        "pageLength": 25,
         "lengthMenu": [[5,10, 25, 50, 100,-1], [5,10, 25, 50,100, "All"]],
         "language": {
         		"lengthMenu": " _MENU_ "

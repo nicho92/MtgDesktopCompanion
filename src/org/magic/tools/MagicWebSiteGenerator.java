@@ -8,6 +8,7 @@ import java.io.Writer;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.db.HsqlDAO;
 import org.magic.db.MagicDAO;
 
 import freemarker.core.ParseException;
@@ -39,6 +41,7 @@ public class MagicWebSiteGenerator extends Observable{
 	MagicDAO dao;
 	private String dest;
 	private List<MagicPricesProvider> pricesProvider;
+	private List<MagicCollection> cols;
 	
 	public MagicWebSiteGenerator(MagicDAO dao,String template,String dest) throws IOException, ClassNotFoundException, SQLException {
 		cfg = new Configuration(Configuration.VERSION_2_3_23);
@@ -60,57 +63,104 @@ public class MagicWebSiteGenerator extends Observable{
 				return true;
 			}
 		});
+	}
 	
+	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException, TemplateException {
+		HsqlDAO dao = new HsqlDAO();
+		dao.init();
+		MagicWebSiteGenerator gen = new MagicWebSiteGenerator(dao, "gravity", "D:\\magic");
+		
+		MagicCollection col = new MagicCollection();
+						col.setName("Needed");
+		MagicCollection col2 = new MagicCollection();
+						col2.setName("For sell");
+		List<MagicCollection> cols = new ArrayList<MagicCollection>();
+							  cols.add(col);
+							  cols.add(col2);
+							  
+		gen.generate(cols, new ArrayList<MagicPricesProvider>());
 	}
 	
 	
+	//lister la page d'acccueil
 	public void generate(List<MagicCollection> cols,List<MagicPricesProvider> providers) throws TemplateException, IOException, SQLException
 	{
 		
 		this.pricesProvider=providers;
-		
-		Map<String,List<MagicCard>> root = new HashMap<String,List<MagicCard>>();
-		
-	 	for(MagicCollection col :cols)
-	 		root.put(col.getName(), dao.getCardsFromCollection(col));
-		
-	 	template = cfg.getTemplate("index.html");
-		Writer out = new FileWriter(new File(dest+"\\index.htm"));
-		template.process(root, out);
-		
-		template = cfg.getTemplate("page-col.html");
-		
-		for(String colName : root.keySet())
-		{
-			out = new FileWriter(new File(dest+"\\page-col-"+colName+".htm"));
-			
-			
-			Set<MagicEdition> editions = new LinkedHashSet<>();
-			for(MagicCard mc : root.get(colName))
-			{
-				editions.add(mc.getEditions().get(0));
-			}
+		this.cols = cols;
 
-			Map rootEd = new HashMap<>();
-				rootEd.put("colName", colName);
-				rootEd.put("cols",  cols);
-				rootEd.put("cards", root.get(colName));
-				rootEd.put("editions",editions);
-				generateCardsTemplate(root.get(colName),cols);
-				template.process(rootEd, out);
-					
-				
-		}
+		Template template = cfg.getTemplate("index.html");
+			Writer out = new FileWriter(new File(dest+"\\index.htm"));
 		
+			Map root = new HashMap();
+			for(MagicCollection col : cols)
+				root.put(col.getName(), dao.getCardsFromCollection(col));
+			
+			template.process(root, out);
 		
+		generateCollectionsTemplate();
 		
 		
 	}
+	
+	
 
+	//lister les editions disponibles
+	private void generateCollectionsTemplate() throws IOException, TemplateException, SQLException
+	{
+		Template template = cfg.getTemplate("page-col.html");
+		
+		for(MagicCollection col : cols){
+			Map rootEd = new HashMap<>();
+				rootEd.put("cols", cols);
+				rootEd.put("colName", col.getName());
+				Set<MagicEdition> eds = new HashSet<MagicEdition>();
+				for(MagicCard mc : dao.getCardsFromCollection(col))
+				{
+					eds.add(mc.getEditions().get(0));
+					generateCardsTemplate(mc);
+				}
+				
+				rootEd.put("editions",eds);
+				
+				
+				FileWriter out = new FileWriter(new File(dest+"\\page-col-"+col.getName()+".htm"));
+				template.process(rootEd, out);
+				
+				for(String ed : dao.getEditionsFromCollection(col))
+				{
+					generateEditionsTemplate(eds,col);
+				}
+				
+		}
+	}
+
+	//lister les cartes disponibles dans la collection
+	private void generateEditionsTemplate(Set<MagicEdition> eds,MagicCollection col) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, SQLException, TemplateException
+	{
+		Template cardTemplate = cfg.getTemplate("page-ed.html");
+		Map rootEd = new HashMap<>();
+			rootEd.put("cols",cols);
+			rootEd.put("editions",eds);
+			rootEd.put("col", col);
+			rootEd.put("colName", col.getName());
+			
+			for(MagicEdition ed : eds)
+			{
+				rootEd.put("cards", dao.getCardsFromCollection(col, ed));
+				rootEd.put("edition", ed);
+				FileWriter out = new FileWriter(new File(dest+"\\page-ed-"+col.getName()+"-"+ed.getId()+".htm"));
+				cardTemplate.process(rootEd, out);
+			}
+	}
+	
+	
+	
+	
 	int i=0;
-	private void generateCardsTemplate(List<MagicCard> list, List<MagicCollection> cols) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {
+	private void generateCardsTemplate(MagicCard mc) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-card.html");
-		for(MagicCard mc : list){
+		
 				Map rootEd = new HashMap<>();
 				rootEd.put("card", mc);
 				rootEd.put("cols", cols);
@@ -136,7 +186,7 @@ public class MagicWebSiteGenerator extends Observable{
 				
 				setChanged();
 				notifyObservers(i++);
-		}
+		
 		
 	}
 }

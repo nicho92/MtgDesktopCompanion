@@ -13,6 +13,7 @@ public interface MagicDAO {
 
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException;
+	public MagicCard loadCard(String name, MagicCollection collection)throws SQLException;
 	
 	public MagicDeck getDeck(String name)throws SQLException;
 	public void saveDeck(MagicDeck deck)throws SQLException;
@@ -23,7 +24,8 @@ public interface MagicDAO {
 	
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException;
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException;
-
+	public List<String> getEditionsFromCollection(MagicCollection collection) throws SQLException;
+	
 	public MagicCollection getCollection(String name)throws SQLException;
 	public void saveCollection(MagicCollection c)throws SQLException;
 	public void removeCollection(MagicCollection c)throws SQLException;

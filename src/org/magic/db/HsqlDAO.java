@@ -110,9 +110,18 @@ public class HsqlDAO implements MagicDAO {
 	
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException
 	{
-		PreparedStatement pst=con.prepareStatement("select * from cards where collection= ? and edition = ?");	
+		
+		String sql ="select * from cards where collection= ? and edition = ?";
+		
+		if(me==null)
+			sql ="select * from cards where collection= ?";
+		
+		PreparedStatement pst=con.prepareStatement(sql);	
 		pst.setString(1, collection.getName());
-		pst.setString(2, me.getId());
+		
+		if(me!=null)
+			pst.setString(2, me.getId());
+		
 		ResultSet rs = pst.executeQuery();
 		List<MagicCard> list = new ArrayList<MagicCard>();
 		while(rs.next())
@@ -126,16 +135,7 @@ public class HsqlDAO implements MagicDAO {
 	
 	@Override
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException {
-		PreparedStatement pst=con.prepareStatement("select * from cards where collection= ?");	
-		pst.setString(1, collection.getName());
-		ResultSet rs = pst.executeQuery();
-		List<MagicCard> list = new ArrayList<MagicCard>();
-		while(rs.next())
-		{
-			list.add((MagicCard) rs.getObject("mcard"));
-		}
-	
-	return list;
+		return getCardsFromCollection(collection,null);
 	}
 
 	@Override
@@ -229,10 +229,6 @@ public class HsqlDAO implements MagicDAO {
 		return rs.getInt(1);
 	}
 
-	public static void main(String[] args) {
-		
-	}
-
 	@Override
 	public String getDBLocation() {
 		return location;
@@ -241,6 +237,34 @@ public class HsqlDAO implements MagicDAO {
 	@Override
 	public long getDBSize() {
 		return FileUtils.sizeOfDirectory(new File(location));
+	}
+	
+	
+	
+
+	@Override
+	public MagicCard loadCard(String name, MagicCollection collection) throws SQLException {
+		PreparedStatement pst=con.prepareStatement("select * from cards where collection= ? and name= ?");	
+		pst.setString(1, collection.getName());
+		pst.setString(2, name);
+		ResultSet rs = pst.executeQuery();
+		return (MagicCard) rs.getObject("mcard");
+	}
+
+	@Override
+	public List<String> getEditionsFromCollection(MagicCollection collection) throws SQLException {
+		String sql ="select distinct(edition) from cards where collection=?";
+		
+		PreparedStatement pst=con.prepareStatement(sql);	
+		pst.setString(1, collection.getName());
+		ResultSet rs = pst.executeQuery();
+		List<String> list = new ArrayList<String>();
+		while(rs.next())
+		{
+			list.add(rs.getString("edition"));
+		}
+	
+	return list;
 	}
 	
 }
