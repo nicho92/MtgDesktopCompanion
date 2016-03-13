@@ -43,16 +43,16 @@ public class MagicVillePricer implements MagicPricesProvider {
 		
 	}
 	
-	public static void main(String[] args) throws IOException {
-		MagicVillePricer pricer = new MagicVillePricer();
-		MagicEdition ed = new MagicEdition();
-		ed.setId("ORI");
-		
-		MagicCard mc = new MagicCard();
-		
-			mc.setNumber("1");
-		pricer.getPrice(ed, mc);
-	}
+//	public static void main(String[] args) throws IOException {
+//		MagicVillePricer pricer = new MagicVillePricer();
+//		MagicEdition ed = new MagicEdition();
+//		ed.setId("CNS");
+//		
+//		MagicCard mc = new MagicCard();
+//		
+//			mc.setNumber("4");
+//		pricer.getPrice(ed, mc);
+//	}
 	
 	
 	public String toString()
@@ -107,12 +107,7 @@ public class MagicVillePricer implements MagicPricesProvider {
 		
 		doc = Jsoup.connect(url).get();
 		
-		
-	//	if( doc.select("table[width=98%]").size()<=0)
-	//		return list;
-		
-		
-		 Element table = doc.select("table[width=98%]").get(2); //select the first table.
+		Element table = doc.select("table[width=98%]").get(2); //select the first table.
 		 
 		 Elements rows = table.select("tr");
 		 
@@ -134,8 +129,10 @@ public class MagicVillePricer implements MagicPricesProvider {
 		 
 		 logger.debug(getName() +" found " + list.size() +" item(s) return " + props.get("MAX") + " items" );
 		
-		 if(Integer.parseInt(props.get("MAX").toString())>-1)
-			 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
+		 
+		 if(list.size()>Integer.parseInt(props.get("MAX").toString()))
+			 if(Integer.parseInt(props.get("MAX").toString())>-1)
+				 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
 		 
 			 
 		return list;

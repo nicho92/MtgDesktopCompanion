@@ -45,14 +45,7 @@
     <!-- ################################################################################################ -->
     <div class="sidebar one_quarter first"> 
       <!-- ################################################################################################ -->
-      <h6>Navigation</h6>
-      <nav class="sdb_holder">
-        <ul>
-        <#list editions as ed>
-          <li><a href="page-ed-${colName}-${ed.id?if_exists}.htm">${ed.set}</a></li>
-        </#list>
-        </ul>
-      </nav>
+     
       <div class="sdb_holder">
       </div>
       <!-- ################################################################################################ --> 
@@ -67,14 +60,14 @@
           <thead>
             <tr>
               <th>Name</th>
-              <th>Collection size</th>
+              <th></th>
            </tr>
           </thead>
           <tbody>
          <#list editions as ed>
             <tr id="${ed.id}">
               <td><a href="page-ed-${colName}-${ed.id?if_exists}.htm">${ed.set?if_exists}</a></td>
-              <td>${ed.set}</td>
+              <td><img class="imgr borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=${ed.id}&size=medium&rarity=${ed.rarity[0..0]}"/></td>
             </tr>
             </#list>
           </tbody>
