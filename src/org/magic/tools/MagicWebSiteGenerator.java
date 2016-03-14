@@ -72,6 +72,7 @@ public class MagicWebSiteGenerator extends Observable{
 						col.setName("Needed");
 		MagicCollection col2 = new MagicCollection();
 						col2.setName("For sell");
+						
 		List<MagicCollection> cols = new ArrayList<MagicCollection>();
 							  cols.add(col);
 							  cols.add(col2);
@@ -125,7 +126,7 @@ public class MagicWebSiteGenerator extends Observable{
 				FileWriter out = new FileWriter(new File(dest+"\\page-col-"+col.getName()+".htm"));
 				template.process(rootEd, out);
 				
-				for(String ed : dao.getEditionsFromCollection(col))
+				for(String ed : dao.getEditionsIDFromCollection(col))
 				{
 					generateEditionsTemplate(eds,col);
 				}

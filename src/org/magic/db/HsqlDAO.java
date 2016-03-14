@@ -252,7 +252,7 @@ public class HsqlDAO implements MagicDAO {
 	}
 
 	@Override
-	public List<String> getEditionsFromCollection(MagicCollection collection) throws SQLException {
+	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException {
 		String sql ="select distinct(edition) from cards where collection=?";
 		
 		PreparedStatement pst=con.prepareStatement(sql);	
@@ -262,6 +262,22 @@ public class HsqlDAO implements MagicDAO {
 		while(rs.next())
 		{
 			list.add(rs.getString("edition"));
+		}
+	
+	return list;
+	}
+
+	@Override
+	public List<MagicCard> listCards() throws SQLException {
+		String sql ="select * from cards";
+		
+		PreparedStatement pst=con.prepareStatement(sql);	
+		
+		ResultSet rs = pst.executeQuery();
+		List<MagicCard> list = new ArrayList<MagicCard>();
+		while(rs.next())
+		{
+			list.add((MagicCard) rs.getObject("mcard"));
 		}
 	
 	return list;

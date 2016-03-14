@@ -119,7 +119,7 @@ public class MagicVillePricer implements MagicPricesProvider {
 			 String price = cols.get(4).text();
 			 		price=price.substring(0, price.length()-1);
 			 mp.setValue(Double.parseDouble(price));
-			 mp.setCurrency("e");
+			 mp.setCurrency("EUR");
 			 mp.setSeller(cols.get(0).text());
 			 mp.setSite(getName());
 			 mp.setUrl(url);
