@@ -1,3 +1,4 @@
+package org.magic.tools;
 /**
  * Originally from:
  * http://blogs.sun.com/andreas/resource/InstallCert.java

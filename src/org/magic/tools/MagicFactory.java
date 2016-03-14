@@ -7,6 +7,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.pricers.impl.ChannelFireballPricer;
 import org.magic.api.pricers.impl.EbayPricer;
+import org.magic.api.pricers.impl.MagicCardMarketPricer;
 import org.magic.api.pricers.impl.MagicTradersPricer;
 import org.magic.api.pricers.impl.MagicVillePricer;
 import org.magic.api.pricers.impl.TCGPlayerPricer;
@@ -42,7 +43,7 @@ public class MagicFactory {
 			pricers.add(new MagicTradersPricer() );
 			pricers.add(new MagicVillePricer() );
 			pricers.add(new TCGPlayerPricer() );
-			
+			pricers.add(new MagicCardMarketPricer());
 			cardsProviders.add(new MtgjsonProvider());
 			cardsProviders.add(new DeckbrewProvider());
 			cardsProviders.add(new MtgapiProvider());

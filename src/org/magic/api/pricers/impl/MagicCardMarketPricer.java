@@ -3,7 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
+import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -16,19 +16,25 @@ import java.util.Properties;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
+import javax.net.ssl.SSLHandshakeException;
 import javax.xml.bind.DatatypeConverter;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MagicPricesProvider;
+import org.w3c.dom.Document;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
 
-public class MagicCardMarketPricer {
+public class MagicCardMarketPricer implements MagicPricesProvider{
     
     private int _lastCode;
     private String _lastContent;
-    
+    List<MagicPrice> lists;
     
     Properties props;
 	
@@ -56,6 +62,9 @@ public class MagicCardMarketPricer {
     }
   
     public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
+    	
+    lists = new ArrayList<MagicPrice>();
+    	
     try{
     	
     	_lastCode = 0;
@@ -76,17 +85,17 @@ public class MagicCardMarketPricer {
 		   String link=url.replaceAll("%KEYWORD%", KEYWORD);
 		   
             String realm = link ;
-            String oauth_version = "1.0" ;
+            String oauth_version =  props.get("OAUTH_VERSION").toString() ;
             String oauth_consumer_key = props.get("APP_TOKEN").toString() ;
             String oauth_token = props.get("APP_ACCESS_TOKEN").toString() ;
-            String oauth_signature_method = "HMAC-SHA1" ;
-            String oauth_timestamp = "" + (System.currentTimeMillis()/1000) ;
+            String oauth_signature_method = props.get("CRYPT").toString();
+            String oauth_timestamp = ""+ (System.currentTimeMillis()/1000) ;
             String oauth_nonce = "" + System.currentTimeMillis() ;
             
            
-            String baseString = "GET&" + URLEncoder.encode(url,props.get("ENCODING").toString()) + "&" ;
+            String baseString = "GET&" + URLEncoder.encode(link,props.get("ENCODING").toString()) + "&" ;
             
-            
+           
             String paramString = "oauth_consumer_key=" + URLEncoder.encode(oauth_consumer_key,props.get("ENCODING").toString()) + "&" +
                                  "oauth_nonce=" + URLEncoder.encode(oauth_nonce,props.get("ENCODING").toString()) + "&" +
                                  "oauth_signature_method=" + URLEncoder.encode(oauth_signature_method,props.get("ENCODING").toString()) + "&" +
@@ -96,6 +105,7 @@ public class MagicCardMarketPricer {
             
             
             baseString += URLEncoder.encode(paramString,props.get("ENCODING").toString()) ;
+           
             String signingKey = URLEncoder.encode( props.get("APP_SECRET").toString(),props.get("ENCODING").toString()) + "&" + URLEncoder.encode(props.get("APP_ACCESS_TOKEN_SECRET").toString(),props.get("ENCODING").toString()) ;
             Mac mac = Mac.getInstance("HmacSHA1");
             SecretKeySpec secret = new SecretKeySpec(signingKey.getBytes(), mac.getAlgorithm());
@@ -122,50 +132,90 @@ public class MagicCardMarketPricer {
             
 				              
            _lastCode = connection.getResponseCode();
-        
-           if (200 == _lastCode || 401 == _lastCode || 404 == _lastCode) {
-                BufferedReader rd = new BufferedReader(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream()));  
-                StringBuffer sb = new StringBuffer();  
-                String line;  
-                while ((line = rd.readLine()) != null) {  
-                    sb.append(line);  
-                }
-                rd.close();
-                _lastContent = sb.toString();
-               
-            }
-            
-            System.out.println(_lastContent);
-            
-            return new ArrayList<>();
-            
-            
+           
+           
+           BufferedReader rd = new BufferedReader(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream()));  
+           StringBuffer sb = new StringBuffer();  
+           String line;  
+           while ((line = rd.readLine()) != null) {  
+               sb.append(line);  
+           }
+           rd.close();
+           _lastContent = sb.toString();
+           
+           
+          
+           
+           if (200 == _lastCode) 
+           {
+        	  generateFromXML(_lastContent);
+           }
+           else	   
+           {
+                logger.error(_lastContent);
+           }
+           
+           return lists;
     }
-    catch(Exception e)
+    catch(SSLHandshakeException e)
     {
-    	e.printStackTrace();
-    	return null;
-    }
-	
-        
-    }
-    
-   
-    public String responseContent() {
-        return _lastContent;
+    	logger.error(e);
+    	
+    	
+    } catch (NoSuchAlgorithmException|InvalidKeyException e) {
+		logger.error(e);
+	} 
+    return lists;
     }
     
-    public static void main(String[] args) throws MalformedURLException, NoSuchAlgorithmException, IOException, InvalidKeyException {
+    private void generateFromXML(String xmlContent) {
+    	
+    	MagicPrice mp = new MagicPrice();
+    	try {
+    		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(xmlContent)));
+    		NodeList nodes =d.getElementsByTagName("priceGuide");
+    		System.out.println(xmlContent);
+    		System.out.println(nodes.item(0));
+    		
+    	
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+    	
+	}
+
+	public static void main(String[] args) throws MalformedURLException, NoSuchAlgorithmException, IOException, InvalidKeyException {
     
          MagicCardMarketPricer app = new MagicCardMarketPricer();
       
         MagicCard mc = new MagicCard();
-        mc.setName("Kozilek");
+        mc.setName("Artisan of Kozilek");
         
         app.getPrice(null, mc);
         
         
         // etc....
     }
+
+	@Override
+	public Properties getProperties() {
+		return props;
+	}
+
+	@Override
+	public void setProperties(String k, Object value) {
+		props.put(k, value);
+		
+	}
+
+	@Override
+	public Object getProperty(String k) {
+		return props.get(k);
+	}
+
+	@Override
+	public String getName() {
+		return "Magic Card Market";
+	}
 
 }
