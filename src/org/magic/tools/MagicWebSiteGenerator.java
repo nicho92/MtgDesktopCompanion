@@ -9,11 +9,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
@@ -47,7 +45,7 @@ public class MagicWebSiteGenerator extends Observable{
 		cfg = new Configuration(Configuration.VERSION_2_3_23);
 		cfg.setDirectoryForTemplateLoading(new File("./templates"+"/"+template));
 		cfg.setDefaultEncoding("UTF-8");
-		cfg.setNumberFormat("#");
+		//cfg.setNumberFormat("#");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER );
 		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_23).build());
 		this.dao=dao;
