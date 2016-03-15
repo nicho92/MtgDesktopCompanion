@@ -64,7 +64,7 @@ public class MagicCardMarketPricer implements MagicPricesProvider{
 		props.put("URL", "https://www.mkmapi.eu/ws/%VERSION%/products/%KEYWORD%/%GAME%/%LANG%/%IS_EXACT%");
 		props.put("WEBSITE", "https://www.magiccardmarket.eu");
 		props.put("KEYSTORE_PASS", "changeit");
-		props.put("KEYSTORE_NAME", "mkm.policy");
+		props.put("KEYSTORE_NAME", "mkmcerts");
 		props.put("REF_PRICE", "LOW");
 		props.put("OAUTH_VERSION", "1.0");
 		props.put("CRYPT", "HMAC-SHA1");
@@ -128,7 +128,6 @@ public class MagicCardMarketPricer implements MagicPricesProvider{
     catch(SSLHandshakeException e)
     {
     	try {
-    		e.printStackTrace();
     		logger.error("No authority found, install it from " + props.getProperty("CERT_SERV"));
 			InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
 		} catch (Exception e1) {

@@ -35,10 +35,6 @@ import org.apache.log4j.Logger;
  */
 public class InstallCert {
 
-	public static void main(String[] args) throws Exception {
-		InstallCert.install("www.mkmapi.eu", "mkm.policy","changeit");
-	}
-	
 	static final Logger logger = LogManager.getLogger(InstallCert.class.getName());
 
 	
@@ -49,7 +45,7 @@ public class InstallCert {
         char[] passphrase;
             String[] c = website.split(":");
             host = c[0];
-            port = (c.length == 1) ? 443 : Integer.parseInt(c[1]);
+            port = 443;
             passphrase = pass.toCharArray();
        
             File keystoreFile = new File(dir, filename);
