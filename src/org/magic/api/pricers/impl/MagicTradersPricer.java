@@ -21,7 +21,7 @@ public class MagicTradersPricer implements MagicPricesProvider {
 	String url = "http://classic.magictraders.com/pricelists/current-magic-excel.txt";
 	static final Logger logger = LogManager.getLogger(MagicTradersPricer.class.getName());
 	Properties props;
-
+	private boolean enable=true;
 	
 	public MagicTradersPricer() {
 		props = new Properties();
@@ -113,5 +113,17 @@ public class MagicTradersPricer implements MagicPricesProvider {
 		return props.get(k);
 	}
 
+
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
+
+	@Override
+	public void enable(boolean t) {
+		this.enable=t;
+		
+	}
+	
 
 }

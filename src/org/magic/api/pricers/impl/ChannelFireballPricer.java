@@ -21,10 +21,10 @@ import com.google.gson.stream.JsonReader;
 public class ChannelFireballPricer implements MagicPricesProvider {
 
 	
-	String setvar="&setname=";
+	private String setvar="&setname=";
 	static final Logger logger = LogManager.getLogger(ChannelFireballPricer.class.getName());
-
-	Properties props;
+	private Properties props;
+	private boolean enable=true;
 
 	
 	public ChannelFireballPricer() {
@@ -100,6 +100,18 @@ public class ChannelFireballPricer implements MagicPricesProvider {
 	public Object getProperty(String k) {
 		return props.get(k);
 	}
+
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
+
+	@Override
+	public void enable(boolean t) {
+		this.enable=t;
+		
+	}
+	
 
 	
 }

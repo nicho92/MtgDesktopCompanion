@@ -20,7 +20,7 @@ import org.w3c.dom.NodeList;
 public class TCGPlayerPricer implements MagicPricesProvider {
 
 	static final Logger logger = LogManager.getLogger(TCGPlayerPricer.class.getName());
-	  
+	private boolean enable=true;	  
 	Properties props;
 	
 	public TCGPlayerPricer() {
@@ -114,6 +114,17 @@ public class TCGPlayerPricer implements MagicPricesProvider {
 	@Override
 	public Object getProperty(String k) {
 		return props.get(k);
+	}
+
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
+
+	@Override
+	public void enable(boolean t) {
+		this.enable=t;
+		
 	}
 	
 }

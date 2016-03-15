@@ -24,7 +24,7 @@ public class EbayPricer implements MagicPricesProvider{
 
 	String KEYWORD="";
 	static final Logger logger = LogManager.getLogger(EbayPricer.class.getName());
-	
+	private boolean enable=true;
 	Properties props;
 	
 	public String toString()
@@ -120,5 +120,17 @@ public class EbayPricer implements MagicPricesProvider{
 	public Object getProperty(String k) {
 		return props.get(k);
 	}
+
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
+
+	@Override
+	public void enable(boolean t) {
+		this.enable=t;
+		
+	}
+	
 
 }

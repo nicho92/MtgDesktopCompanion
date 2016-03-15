@@ -41,9 +41,10 @@ public class MagicFactory {
 			pricers.add(new ChannelFireballPricer() );
 			pricers.add(new EbayPricer() );
 			pricers.add(new MagicTradersPricer() );
+			pricers.add(new MagicCardMarketPricer());
 			pricers.add(new MagicVillePricer() );
 			pricers.add(new TCGPlayerPricer() );
-			pricers.add(new MagicCardMarketPricer());
+			
 			cardsProviders.add(new MtgjsonProvider());
 			cardsProviders.add(new DeckbrewProvider());
 			cardsProviders.add(new MtgapiProvider());

@@ -23,7 +23,7 @@ public class MagicVillePricer implements MagicPricesProvider {
 	Document doc;
 	List<MagicPrice> list;
 	CloseableHttpClient httpclient;
-	
+	private boolean enable=true;	
 	Properties props;
 	
 	
@@ -157,6 +157,18 @@ public class MagicVillePricer implements MagicPricesProvider {
 	public Object getProperty(String k) {
 		return props.get(k);
 	}
+
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
+
+	@Override
+	public void enable(boolean t) {
+		this.enable=t;
+		
+	}
+	
 
 }
 

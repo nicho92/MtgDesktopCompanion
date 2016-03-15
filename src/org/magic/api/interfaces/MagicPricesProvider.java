@@ -14,5 +14,7 @@ public interface MagicPricesProvider {
 	public void setProperties(String k,Object value);
 	public Object getProperty(String k);
 	public String getName();
+	public boolean isEnable();
+	public void enable(boolean t);
 
 }
