@@ -38,6 +38,9 @@ public class PricesTableModel extends AbstractTreeTableModel
         if (node instanceof Map && column == 1) {
             return true;
         }
+        if(column==2)
+        	return true;
+        
         return false;
     }
 
@@ -99,7 +102,7 @@ public class PricesTableModel extends AbstractTreeTableModel
     	   MagicPricesProvider prov = (MagicPricesProvider) node;
             switch (column) {
                 case 0:return prov.getName();
-                case 2: return true;
+                case 2: return prov.isEnable();
             }
         } 
         else if (node instanceof Map) 
@@ -119,17 +122,27 @@ public class PricesTableModel extends AbstractTreeTableModel
     	
     	System.out.println(value +" " + node + " "+ column);
     	
-//        String strValue = (String) value;
-//        MagicPricesProvider prov = null;
-//        
-//        if(node instanceof MagicPricesProvider )
-//        	prov=(MagicPricesProvider)node;
-//        
-//        if (node instanceof String) {
-//            String emp = (String) node;
-//            	prov.setProperties(emp, strValue);
-//           }
+        String strValue = String.valueOf(value);
+        MagicPricesProvider prov = null;
+        
+        if(node instanceof MagicPricesProvider )
+        {
+        	prov=(MagicPricesProvider)node;
+        	if(column==2)
+        	{
+        		prov.enable(Boolean.parseBoolean(strValue));
+        	}
         }
+        
+        //TODO have to find how to get selected provider
+        
+//        if(column==1)
+//    	{
+//        	String k = (String)((HashMap)node).keySet().iterator().next();
+//    		System.out.println("set" + k + " "+  strValue);
+//    		prov.setProperties(k, strValue);
+//    	}    
+   }
     
     
     @Override

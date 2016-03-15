@@ -64,11 +64,14 @@ public class MagicCardMarketPricer implements MagicPricesProvider{
 		props.put("URL", "https://www.mkmapi.eu/ws/%VERSION%/products/%KEYWORD%/%GAME%/%LANG%/%IS_EXACT%");
 		props.put("WEBSITE", "https://www.magiccardmarket.eu");
 		props.put("KEYSTORE_PASS", "changeit");
-		props.put("KEYSTORE_NAME", "mkm.policy");
+		props.put("KEYSTORE_NAME", "jssecacerts");
 		props.put("REF_PRICE", "LOW");
 		props.put("OAUTH_VERSION", "1.0");
 		props.put("CRYPT", "HMAC-SHA1");
 		props.put("REF_PRICE", "LOW");
+		
+		System.setProperty("javax.net.ssl.trustStore",props.getProperty("KEYSTORE_NAME"));
+	    
 		
     }
   
@@ -128,7 +131,6 @@ public class MagicCardMarketPricer implements MagicPricesProvider{
     catch(SSLHandshakeException e)
     {
     	try {
-    		e.printStackTrace();
     		logger.error("No authority found, install it from " + props.getProperty("CERT_SERV"));
 			InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
 		} catch (Exception e1) {
@@ -228,7 +230,8 @@ public class MagicCardMarketPricer implements MagicPricesProvider{
 
 	public static void main(String[] args) throws MalformedURLException, NoSuchAlgorithmException, IOException, InvalidKeyException {
     
-         MagicCardMarketPricer app = new MagicCardMarketPricer();
+		
+	    MagicCardMarketPricer app = new MagicCardMarketPricer();
       
         MagicCard mc = new MagicCard();
         mc.setName("Kozilek butcher");
