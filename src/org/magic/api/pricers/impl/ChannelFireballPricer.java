@@ -112,6 +112,14 @@ public class ChannelFireballPricer implements MagicPricesProvider {
 		
 	}
 	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return this.hashCode()==obj.hashCode();
+	}
 	
 }

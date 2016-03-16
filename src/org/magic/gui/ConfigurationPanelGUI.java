@@ -14,12 +14,15 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
 
 import org.hsqldb.util.DatabaseManagerSwing;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.db.MagicDAO;
-import org.magic.gui.models.PricesTableModel;
+import org.magic.gui.models.MagicPricesTableModel;
 import org.magic.gui.models.ProvidersTableModel;
 import org.magic.gui.models.SystemTableModel;
 
@@ -126,12 +129,17 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		JScrollPane priceProviderScrollPane = new JScrollPane();
 		subTabbedProviders.addTab("Pricers", null, priceProviderScrollPane, null);
-		
-		priceProviderTable = new JXTreeTable(new PricesTableModel());
-		priceProviderScrollPane.setViewportView(priceProviderTable);
-		
-		
+		priceProviderTable = new JXTreeTable(new MagicPricesTableModel());
 		cardsProviderTable.setModel(new ProvidersTableModel());
+		
+		priceProviderTable.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1);
+						((MagicPricesTableModel)priceProviderTable.getTreeTableModel()).setSelectedNode((MagicPricesProvider)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		});
+		priceProviderScrollPane.setViewportView(priceProviderTable);
 		
 		initDBTab();
 		

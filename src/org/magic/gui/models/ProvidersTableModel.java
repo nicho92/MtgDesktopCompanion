@@ -5,6 +5,7 @@ import java.net.URL;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.tools.MagicFactory;
 
 public class ProvidersTableModel extends DefaultTableModel {
@@ -50,6 +51,8 @@ public class ProvidersTableModel extends DefaultTableModel {
 			
 		return super.getColumnClass(columnIndex);
 		}
+
+		
 	
 	
 }

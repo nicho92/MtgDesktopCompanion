@@ -76,7 +76,7 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.MagicCardTableModel;
-import org.magic.gui.models.MagicPriceTableModel;
+import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicFactory;
@@ -105,7 +105,7 @@ public class MagicGUI extends JFrame {
 
 	
 	
-	private MagicPriceTableModel priceModel;
+	private CardsPriceTableModel priceModel;
 	private MagicCardTableModel cardsModeltable;
 	
 	private JMenuBar menuBar;
@@ -617,7 +617,7 @@ public class MagicGUI extends JFrame {
 	public MagicGUI() {
 
 		try {
-			priceModel=new MagicPriceTableModel();
+			priceModel=new CardsPriceTableModel();
 			provider=MagicFactory.getInstance().getListProviders().get(0);
 
 			dao=new HsqlDAO();

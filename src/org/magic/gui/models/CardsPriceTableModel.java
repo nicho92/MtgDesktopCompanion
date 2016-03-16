@@ -1,7 +1,9 @@
 package org.magic.gui.models;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -9,18 +11,13 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.api.pricers.impl.ChannelFireballPricer;
-import org.magic.api.pricers.impl.EbayPricer;
-import org.magic.api.pricers.impl.MagicTradersPricer;
-import org.magic.api.pricers.impl.MagicVillePricer;
-import org.magic.api.pricers.impl.TCGPlayerPricer;
 import org.magic.tools.MagicFactory;
 
-public class MagicPriceTableModel extends DefaultTableModel {
+public class CardsPriceTableModel extends DefaultTableModel {
 
 	String columns[] = new String[]{"Site","Price","Currency","Seller","url"};
 	
-	List<MagicPricesProvider> providers;
+	Set<MagicPricesProvider> providers;
 	MagicCard mc;
 	MagicEdition me;
 	
@@ -33,7 +30,8 @@ public class MagicPriceTableModel extends DefaultTableModel {
 		for(MagicPricesProvider prov : providers)
 		{
 			try {
-				prices.addAll(prov.getPrice(me, mc));
+				if(prov.isEnable())
+					prices.addAll(prov.getPrice(me, mc));
 			} catch (Exception e) {
 				//e.printStackTrace();
 			}
@@ -41,10 +39,10 @@ public class MagicPriceTableModel extends DefaultTableModel {
 	}
 	
 
-	public MagicPriceTableModel() {
-		providers = new ArrayList<MagicPricesProvider>();
+	public CardsPriceTableModel() {
+		providers = new HashSet<MagicPricesProvider>();
 		prices=new ArrayList<MagicPrice>();
-		providers=MagicFactory.getInstance().getListPricers();
+		providers=MagicFactory.getInstance().getSetPricers();
 	}
 	
 	

@@ -64,11 +64,7 @@ public class MagicCardMarketPricer implements MagicPricesProvider{
 		props.put("URL", "https://www.mkmapi.eu/ws/%VERSION%/products/%KEYWORD%/%GAME%/%LANG%/%IS_EXACT%");
 		props.put("WEBSITE", "https://www.magiccardmarket.eu");
 		props.put("KEYSTORE_PASS", "changeit");
-<<<<<<< HEAD
-		props.put("KEYSTORE_NAME", "mkmcerts");
-=======
 		props.put("KEYSTORE_NAME", "jssecacerts");
->>>>>>> branch 'master' of https://github.com/nicho92/MtgDesktopCompanion.git
 		props.put("REF_PRICE", "LOW");
 		props.put("OAUTH_VERSION", "1.0");
 		props.put("CRYPT", "HMAC-SHA1");
@@ -278,5 +274,18 @@ public class MagicCardMarketPricer implements MagicPricesProvider{
 		
 	}
 	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
 
+	@Override
+	public boolean equals(Object obj) {
+		return this.hashCode()==obj.hashCode();
+	}
 }
