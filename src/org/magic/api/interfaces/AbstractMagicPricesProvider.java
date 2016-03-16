@@ -1,31 +1,67 @@
 package org.magic.api.interfaces;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.pricers.impl.EbayPricer;
 
 public abstract class AbstractMagicPricesProvider implements MagicPricesProvider {
 
-	@Override
-	public abstract List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception ;
-
 	private boolean enable=true;
 	protected Properties props;
-
+	protected File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	
-	public AbstractMagicPricesProvider() {
-		props=new Properties();
-	}
 	
+	@Override
+	public abstract List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception ;
 	
 	@Override
 	public abstract String getName() ;
+
+	public void load()
+	{
+		try {
+			File f = new File(confdir, getName()+".conf");
+			
+			if(f.exists())
+			{	
+				FileInputStream fis = new FileInputStream(f);
+				props.load(fis);
+				fis.close();
+			}
+			else
+			{
+				//save();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	public void save()
+	{
+		try {
+			File f = new File(confdir, getName()+".conf");
+		
+			FileOutputStream fos = new FileOutputStream(f);
+			props.store(fos,"");
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
+	
+	public AbstractMagicPricesProvider() {
+		props=new Properties();
+		load();
+	}
+	
 
 	public Properties getProperties() {
 		return props;

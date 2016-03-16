@@ -1,6 +1,7 @@
 package org.magic.api.pricers.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -51,6 +52,8 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     public MagicCardMarketPricer() {
     	super();
     	
+    	
+    	if(!new File(confdir, getName()+".conf").exists()){
     	props.put("APP_TOKEN", "OUP3DeKlkjyrA5xi");
 		props.put("APP_SECRET", "sGe5snpHSu1QND9rwgk98NFFY3Gi7Xzs");
 		props.put("APP_ACCESS_TOKEN", "9OUlURAjJ2Za7ZVB8FG3ZbRE7DGmq576");
@@ -70,10 +73,11 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 		props.put("CRYPT", "HMAC-SHA1");
 		props.put("REF_PRICE", "LOW");
 		props.put("MAX", "5");
-		
-		System.setProperty("javax.net.ssl.trustStore",props.getProperty("KEYSTORE_NAME"));
-	    
-		
+		save();
+    	}
+		 
+    	System.setProperty("javax.net.ssl.trustStore",props.getProperty("KEYSTORE_NAME"));
+  	   
     }
   
     public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {

@@ -142,6 +142,7 @@ public class MagicPricesTableModel extends AbstractTreeTableModel
 	        	selectedProvider.setProperties(k, strValue);
 	        	//pricers.add(selectedProvider);
 	        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
+	        	selectedProvider.save();
 	    	}    
    }
     

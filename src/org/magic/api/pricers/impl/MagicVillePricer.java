@@ -1,5 +1,6 @@
 package org.magic.api.pricers.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,11 +35,13 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		list=new ArrayList<MagicPrice>();
 		httpclient = HttpClients.createDefault();
 		
-	
-		props.put("MAX", 5);
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("MAX", "5");
 		props.put("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
 		props.put("WEBSITE", "http://www.magic-ville.com/");
 		props.put("KEYWORD", "");	
+		save();
+		}
 		
 	}
 	

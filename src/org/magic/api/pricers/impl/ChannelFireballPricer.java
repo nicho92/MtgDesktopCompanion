@@ -1,5 +1,6 @@
 package org.magic.api.pricers.impl;
 
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -32,11 +33,14 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	public ChannelFireballPricer() {
 		super();
 		
-		props.put("MAX", 5);
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("MAX", "5");
 		props.put("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
 		props.put("WEBSITE", "http://store.channelfireball.com/");
 		props.put("ENCODING", "UTF-8");
 		props.put("KEYWORD", "");
+		save();
+		}
 
 	}
 

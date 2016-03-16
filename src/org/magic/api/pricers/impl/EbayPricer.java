@@ -1,5 +1,6 @@
 package org.magic.api.pricers.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -31,13 +32,17 @@ public class EbayPricer extends AbstractMagicPricesProvider
 	
 	public EbayPricer() {
 		super();	
-		props.put("MAX", 10);
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("MAX", "10");
 		props.put("COUNTRY", "EBAY-FR");
 		props.put("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
 		props.put("URL", "http://svcs.ebay.fr/services/search/FindingService/v1?SECURITY-APPNAME=%API_KEY%&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID=%COUNTRY%&keywords=%KEYWORD%&paginationInput.entriesPerPage=%MAX%");
 		props.put("WEBSITE", "http://www.ebay.com/");
 		props.put("ENCODING", "UTF-8");
 		props.put("KEYWORD", "");
+		save();
+		}
 	}
 	
 	

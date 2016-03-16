@@ -1,5 +1,6 @@
 package org.magic.api.pricers.impl;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,12 +27,18 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	public TCGPlayerPricer() {
 		super();
 		
-		props.put("MAX", -1);
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("MAX", "-1");
 		props.put("API_KEY", "MGCASSTNT");
 		props.put("URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%");
 		props.put("WEBSITE", "http://www.tcgplayer.com/");
 		props.put("ENCODING", "UTF-8");
 		props.put("KEYWORD", "");
+		save();
+		}
+		
+		
+		
 	}
 	
 	@Override

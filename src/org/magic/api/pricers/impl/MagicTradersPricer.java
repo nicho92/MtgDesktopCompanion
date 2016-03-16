@@ -1,6 +1,7 @@
 package org.magic.api.pricers.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -25,10 +26,14 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 	
 	public MagicTradersPricer() {
 		super();
-		props.put("MAX", 5);
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("MAX", "5");
 		props.put("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
 		props.put("WEBSITE", "http://classic.magictraders.com");
 		props.put("KEYWORD", "");
+		save();
+		}
 	}
 	
 	
