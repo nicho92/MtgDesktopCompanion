@@ -18,6 +18,12 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 	private boolean enable=true;
 	protected Properties props;
 
+	
+	public AbstractMagicPricesProvider() {
+		props=new Properties();
+	}
+	
+	
 	@Override
 	public abstract String getName() ;
 
@@ -53,6 +59,11 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 	@Override
 	public boolean equals(Object obj) {
 		return this.hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 
 }

@@ -24,7 +24,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 	static final Logger logger = LogManager.getLogger(MagicTradersPricer.class.getName());
 	
 	public MagicTradersPricer() {
-		props = new Properties();
+		super();
 		props.put("MAX", 5);
 		props.put("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
 		props.put("WEBSITE", "http://classic.magictraders.com");

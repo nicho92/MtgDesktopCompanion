@@ -17,26 +17,24 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.AbstractMagicPricesProvider;
 import org.magic.api.interfaces.MagicPricesProvider;
 
-public class MagicVillePricer implements MagicPricesProvider {
+public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 	Document doc;
 	List<MagicPrice> list;
 	CloseableHttpClient httpclient;
-	private boolean enable=true;	
-	Properties props;
-	
 	
 	static final Logger logger = LogManager.getLogger(MagicVillePricer.class.getName());
 
 	public MagicVillePricer() {
-
+		super();
+		
 		list=new ArrayList<MagicPrice>();
 		httpclient = HttpClients.createDefault();
 		
-		props = new Properties();
-		
+	
 		props.put("MAX", 5);
 		props.put("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
 		props.put("WEBSITE", "http://www.magic-ville.com/");
@@ -44,22 +42,6 @@ public class MagicVillePricer implements MagicPricesProvider {
 		
 	}
 	
-//	public static void main(String[] args) throws IOException {
-//		MagicVillePricer pricer = new MagicVillePricer();
-//		MagicEdition ed = new MagicEdition();
-//		ed.setId("CNS");
-//		
-//		MagicCard mc = new MagicCard();
-//		
-//			mc.setNumber("4");
-//		pricer.getPrice(ed, mc);
-//	}
-	
-	
-	public String toString()
-	{
-		return getName();
-	}
 	
 	public static String getMGVILLCodeEdition(MagicEdition me)
 	{
@@ -144,41 +126,6 @@ public class MagicVillePricer implements MagicPricesProvider {
 	@Override
 	public String getName() {
 		return "Magic-Villois";
-	}
-	@Override
-	public Properties getProperties() {
-		return props;
-	}
-	@Override
-	public void setProperties(String k, Object value) {
-		props.put(k, value);
-		
-	}
-	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
-	@Override
-	public void enable(boolean t) {
-		this.enable=t;
-		
-	}
-	
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-
-
-	@Override
-	public boolean equals(Object obj) {
-		return this.hashCode()==obj.hashCode();
 	}
 	
 }

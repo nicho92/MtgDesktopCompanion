@@ -49,7 +49,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     static final Logger logger = LogManager.getLogger(MagicCardMarketPricer.class.getName());
 
     public MagicCardMarketPricer() {
-    	props = new Properties();
+    	super();
     	
     	props.put("APP_TOKEN", "OUP3DeKlkjyrA5xi");
 		props.put("APP_SECRET", "sGe5snpHSu1QND9rwgk98NFFY3Gi7Xzs");
@@ -230,21 +230,6 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 		} 
     	
 	}
-
-	public static void main(String[] args) throws MalformedURLException, NoSuchAlgorithmException, IOException, InvalidKeyException {
-    
-		
-	    MagicCardMarketPricer app = new MagicCardMarketPricer();
-      
-        MagicCard mc = new MagicCard();
-        mc.setName("Kozilek butcher");
-        
-        System.out.println(app.getPrice(null, mc));
-        
-        
-        // etc....
-    }
-
 	@Override
 	public String getName() {
 		return "Magic Card Market";

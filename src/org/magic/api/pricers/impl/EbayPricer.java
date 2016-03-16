@@ -28,14 +28,9 @@ public class EbayPricer extends AbstractMagicPricesProvider
 	String KEYWORD="";
 	static final Logger logger = LogManager.getLogger(EbayPricer.class.getName());
 	
-	public String toString()
-	{
-		return getName();
-	}
 	
 	public EbayPricer() {
-		props = new Properties();
-		
+		super();	
 		props.put("MAX", 10);
 		props.put("COUNTRY", "EBAY-FR");
 		props.put("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
