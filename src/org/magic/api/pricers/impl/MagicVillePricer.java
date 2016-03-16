@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -179,6 +180,7 @@ public class MagicVillePricer implements MagicPricesProvider {
 	public boolean equals(Object obj) {
 		return this.hashCode()==obj.hashCode();
 	}
+	
 }
 
 

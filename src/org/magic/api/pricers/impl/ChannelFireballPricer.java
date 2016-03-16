@@ -4,7 +4,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.LogManager;
@@ -121,5 +123,7 @@ public class ChannelFireballPricer implements MagicPricesProvider {
 	public boolean equals(Object obj) {
 		return this.hashCode()==obj.hashCode();
 	}
+
+	
 	
 }

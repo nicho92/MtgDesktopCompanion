@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -89,8 +90,9 @@ public class TCGPlayerPricer implements MagicPricesProvider {
 			   	List<MagicPrice> list = new ArrayList<MagicPrice>();
 			   	list.add(mp);
 			   	
-			   	if(((int)props.get("MAX"))!=-1)
-			   		return list.subList(0, (int)props.get("MAX"));
+			    if(list.size()>Integer.parseInt(props.get("MAX").toString()))
+					 if(Integer.parseInt(props.get("MAX").toString())>-1)
+						 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
 			   	
 			   	
 		return list;
@@ -136,4 +138,6 @@ public class TCGPlayerPricer implements MagicPricesProvider {
 	public boolean equals(Object obj) {
 		return this.hashCode()==obj.hashCode();
 	}
+	
+	
 }
