@@ -1,28 +1,33 @@
 package org.magic.gui.models;
 
 
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.Set;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.pricers.impl.MagicCardMarketPricer;
 import org.magic.tools.MagicFactory;
 
-public class PricesTableModel extends AbstractTreeTableModel 
+public class MagicPricesTableModel extends AbstractTreeTableModel 
 {
     private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
-    
-    private List<MagicPricesProvider> pricersList = MagicFactory.getInstance().getListPricers();
+    private MagicPricesProvider selectedProvider = null;
+    private Set<MagicPricesProvider> pricers = MagicFactory.getInstance().getSetPricers();
+    static final Logger logger = LogManager.getLogger(MagicPricesTableModel.class.getName());
 
-    public PricesTableModel() {
+    
+    
+    public MagicPricesTableModel() {
         super(new Object());
         
     }
     
-    
-
     @Override
     public int getColumnCount() {
         return COLUMN_NAMES.length;
@@ -55,7 +60,7 @@ public class PricesTableModel extends AbstractTreeTableModel
         	MagicPricesProvider dept = (MagicPricesProvider) parent;
             return dept.getProperties().size();
         }
-        return pricersList.size();
+        return pricers.size();
     }
 
     @Override
@@ -64,7 +69,7 @@ public class PricesTableModel extends AbstractTreeTableModel
         	MagicPricesProvider dept = (MagicPricesProvider) parent;
             return getPropByIndex(dept.getProperties(),index);
         }
-        return pricersList.get(index);
+        return new ArrayList(pricers).get(index);
     }
 
     private Map<String,Object> getPropByIndex(Properties p, int index)
@@ -81,7 +86,6 @@ public class PricesTableModel extends AbstractTreeTableModel
     public int getIndexOfChild(Object parent, Object child) {
     	MagicPricesProvider dept = (MagicPricesProvider) parent;
         String k = (String) child;
-        
         return getPosition(k,dept.getProperties());
     }
     
@@ -108,6 +112,7 @@ public class PricesTableModel extends AbstractTreeTableModel
         else if (node instanceof Map) 
         {
         	Map emp = (Map) node;
+        	System.out.println(emp);
             switch (column) {
                 case 0:
                     return emp.keySet().iterator().next();
@@ -118,30 +123,28 @@ public class PricesTableModel extends AbstractTreeTableModel
         return null;
     }
 
+    
+    
     public void setValueAt(Object value, Object node, int column) {
     	
-    	System.out.println(value +" " + node + " "+ column);
-    	
         String strValue = String.valueOf(value);
-        MagicPricesProvider prov = null;
         
         if(node instanceof MagicPricesProvider )
         {
-        	prov=(MagicPricesProvider)node;
+        	selectedProvider=(MagicPricesProvider)node;
         	if(column==2)
         	{
-        		prov.enable(Boolean.parseBoolean(strValue));
+        		selectedProvider.enable(Boolean.parseBoolean(strValue));
         	}
         }
-        
-        //TODO have to find how to get selected provider
-        
-//        if(column==1)
-//    	{
-//        	String k = (String)((HashMap)node).keySet().iterator().next();
-//    		System.out.println("set" + k + " "+  strValue);
-//    		prov.setProperties(k, strValue);
-//    	}    
+        if(node instanceof Map )
+	        if(column==1)
+	    	{
+	        	String k = (String)((HashMap)node).keySet().iterator().next();
+	        	selectedProvider.setProperties(k, strValue);
+	        	pricers.add(selectedProvider);
+	        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
+	    	}    
    }
     
     
@@ -152,5 +155,11 @@ public class PricesTableModel extends AbstractTreeTableModel
     	
     	return super.getColumnClass(column);
     }
+
+
+
+	public void setSelectedNode(MagicPricesProvider pathComponent) {
+		selectedProvider=pathComponent;
+	}
     
 }

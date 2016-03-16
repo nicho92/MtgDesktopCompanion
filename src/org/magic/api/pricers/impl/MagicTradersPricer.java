@@ -21,7 +21,7 @@ public class MagicTradersPricer implements MagicPricesProvider {
 	String url = "http://classic.magictraders.com/pricelists/current-magic-excel.txt";
 	static final Logger logger = LogManager.getLogger(MagicTradersPricer.class.getName());
 	Properties props;
-	private boolean enable=false;
+	private boolean enable=true;
 	
 	public MagicTradersPricer() {
 		props = new Properties();
@@ -124,6 +124,14 @@ public class MagicTradersPricer implements MagicPricesProvider {
 		this.enable=t;
 		
 	}
-	
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		return this.hashCode()==obj.hashCode();
+	}
 
 }

@@ -53,7 +53,7 @@ import org.magic.gui.components.MagicCardsTree;
 import org.magic.gui.components.MassCollectionImporterDialog;
 import org.magic.gui.components.WebSiteGeneratorDialog;
 import org.magic.gui.models.MagicEditionsTableModel;
-import org.magic.gui.models.MagicPriceTableModel;
+import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicWebSiteGenerator;
@@ -70,7 +70,7 @@ public class CollectionPanelGUI extends JPanel {
 	private TreePath path;
 	static final Logger logger = LogManager.getLogger(CollectionPanelGUI.class.getName());
 	private JXTable tablePrices;
-	private MagicPriceTableModel modelPrices;
+	private CardsPriceTableModel modelPrices;
 	
 	public CollectionPanelGUI(MagicCardsProvider provider,MagicDAO dao) throws Exception
 	{
@@ -197,7 +197,7 @@ public class CollectionPanelGUI extends JPanel {
 		 JScrollPane scrollPrices = new JScrollPane();
 		 panneauBas.add(scrollPrices);
 		 
-		 modelPrices=new MagicPriceTableModel();
+		 modelPrices=new CardsPriceTableModel();
 		 tablePrices = new JXTable(modelPrices);
 		 tablePrices.setColumnControlVisible(true);
 		 scrollPrices.setViewportView(tablePrices);

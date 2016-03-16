@@ -1,7 +1,9 @@
 package org.magic.tools;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicPricesProvider;
@@ -55,10 +57,21 @@ public class MagicFactory {
 		}
 	}
 	
-	
-	public List<MagicPricesProvider> getListPricers()
+	public List<MagicPricesProvider> getEnabledPricers()
 	{
-		  return pricers;
+		List<MagicPricesProvider> pricersE= new ArrayList<MagicPricesProvider>();
+		
+		for(MagicPricesProvider p : getSetPricers())
+			if(p.isEnable())
+				pricersE.add(p);
+		
+		return pricersE;
+	}
+	
+	
+	public Set<MagicPricesProvider> getSetPricers()
+	{
+		  return new HashSet<MagicPricesProvider>(pricers);
 	}
 	
 	public List<MagicCardsProvider> getListProviders()
