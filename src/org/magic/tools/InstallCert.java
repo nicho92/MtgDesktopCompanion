@@ -92,14 +92,17 @@ public class InstallCert {
         MessageDigest md5 = MessageDigest.getInstance("MD5");
        
         int i=0;
-        for (X509Certificate cert :chain) {
+      //  for (X509Certificate cert :chain) 
+        X509Certificate cert =chain[0];
+        {
          sha1.update(cert.getEncoded());
          md5.update(cert.getEncoded());
        
         String alias = host + "-" + (i++);
         ks.setCertificateEntry(alias, cert);
 
-        OutputStream out = new FileOutputStream(new File(dir, filename));
+        File s = new File(dir, filename);
+        OutputStream out = new FileOutputStream(filename);
         ks.store(out, passphrase);
         out.close();
 
@@ -109,18 +112,7 @@ public class InstallCert {
 
     private static final char[] HEXDIGITS = "0123456789abcdef".toCharArray();
 
-    private static String toHexString(byte[] bytes) {
-        StringBuilder sb = new StringBuilder(bytes.length * 3);
-        for (int b : bytes) {
-            b &= 0xff;
-            sb.append(HEXDIGITS[b >> 4]);
-            sb.append(HEXDIGITS[b & 15]);
-            sb.append(' ');
-        }
-        return sb.toString();
-    }
-
-    private static class SavingTrustManager implements X509TrustManager {
+     private static class SavingTrustManager implements X509TrustManager {
 
         private final X509TrustManager tm;
         private X509Certificate[] chain;

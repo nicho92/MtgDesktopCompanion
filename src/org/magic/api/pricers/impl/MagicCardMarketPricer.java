@@ -64,11 +64,18 @@ public class MagicCardMarketPricer implements MagicPricesProvider{
 		props.put("URL", "https://www.mkmapi.eu/ws/%VERSION%/products/%KEYWORD%/%GAME%/%LANG%/%IS_EXACT%");
 		props.put("WEBSITE", "https://www.magiccardmarket.eu");
 		props.put("KEYSTORE_PASS", "changeit");
+<<<<<<< HEAD
 		props.put("KEYSTORE_NAME", "mkmcerts");
+=======
+		props.put("KEYSTORE_NAME", "jssecacerts");
+>>>>>>> branch 'master' of https://github.com/nicho92/MtgDesktopCompanion.git
 		props.put("REF_PRICE", "LOW");
 		props.put("OAUTH_VERSION", "1.0");
 		props.put("CRYPT", "HMAC-SHA1");
 		props.put("REF_PRICE", "LOW");
+		
+		System.setProperty("javax.net.ssl.trustStore",props.getProperty("KEYSTORE_NAME"));
+	    
 		
     }
   
@@ -227,7 +234,8 @@ public class MagicCardMarketPricer implements MagicPricesProvider{
 
 	public static void main(String[] args) throws MalformedURLException, NoSuchAlgorithmException, IOException, InvalidKeyException {
     
-         MagicCardMarketPricer app = new MagicCardMarketPricer();
+		
+	    MagicCardMarketPricer app = new MagicCardMarketPricer();
       
         MagicCard mc = new MagicCard();
         mc.setName("Kozilek butcher");
