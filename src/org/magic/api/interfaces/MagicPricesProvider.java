@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
@@ -15,6 +16,8 @@ public interface MagicPricesProvider {
 	public Object getProperty(String k);
 	public String getName();
 	public boolean isEnable();
+	public void save();
+	public void load();
 	public void enable(boolean t);
 
 }

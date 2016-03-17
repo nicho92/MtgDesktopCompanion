@@ -1,8 +1,10 @@
 package org.magic.api.pricers.impl;
 
+import java.io.File;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,30 +15,30 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.AbstractMagicPricesProvider;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
-public class TCGPlayerPricer implements MagicPricesProvider {
+public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
 	static final Logger logger = LogManager.getLogger(TCGPlayerPricer.class.getName());
-	private boolean enable=true;	  
-	Properties props;
 	
 	public TCGPlayerPricer() {
-		props = new Properties();
+		super();
 		
-		props.put("MAX", -1);
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("MAX", "-1");
 		props.put("API_KEY", "MGCASSTNT");
 		props.put("URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%");
 		props.put("WEBSITE", "http://www.tcgplayer.com/");
 		props.put("ENCODING", "UTF-8");
 		props.put("KEYWORD", "");
-	}
-	
-	public String toString()
-	{
-		return getName();
+		save();
+		}
+		
+		
+		
 	}
 	
 	@Override
@@ -89,8 +91,9 @@ public class TCGPlayerPricer implements MagicPricesProvider {
 			   	List<MagicPrice> list = new ArrayList<MagicPrice>();
 			   	list.add(mp);
 			   	
-			   	if(((int)props.get("MAX"))!=-1)
-			   		return list.subList(0, (int)props.get("MAX"));
+			    if(list.size()>Integer.parseInt(props.get("MAX").toString()))
+					 if(Integer.parseInt(props.get("MAX").toString())>-1)
+						 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
 			   	
 			   	
 		return list;
@@ -102,38 +105,4 @@ public class TCGPlayerPricer implements MagicPricesProvider {
 		return "Trading Card Game";
 	}
 	
-	@Override
-	public Properties getProperties() {
-		return props;
-	}
-	@Override
-	public void setProperties(String k, Object value) {
-		props.put(k, value);
-		
-	}
-	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
-	@Override
-	public void enable(boolean t) {
-		this.enable=t;
-		
-	}
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-
-	
-	@Override
-	public boolean equals(Object obj) {
-		return this.hashCode()==obj.hashCode();
-	}
 }

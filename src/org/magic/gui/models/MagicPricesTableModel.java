@@ -4,6 +4,7 @@ package org.magic.gui.models;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Set;
 
@@ -40,7 +41,7 @@ public class MagicPricesTableModel extends AbstractTreeTableModel
     
     @Override
     public boolean isCellEditable(Object node, int column) {
-        if (node instanceof Map && column == 1) {
+        if (node instanceof Entry && column == 1) {
             return true;
         }
         if(column==2)
@@ -51,7 +52,7 @@ public class MagicPricesTableModel extends AbstractTreeTableModel
 
     @Override
     public boolean isLeaf(Object node) {
-        return node instanceof Map;
+        return node instanceof Entry;
     }
 
     @Override
@@ -64,20 +65,18 @@ public class MagicPricesTableModel extends AbstractTreeTableModel
     }
 
     @Override
-    public Object getChild(Object parent, int index) {
+    public Object getChild(Object parent, int index) 
+    {
     	  if (parent instanceof MagicPricesProvider) {
         	MagicPricesProvider dept = (MagicPricesProvider) parent;
-            return getPropByIndex(dept.getProperties(),index);
+            return getPropByIndex(dept,index);
         }
         return new ArrayList(pricers).get(index);
     }
 
-    private Map<String,Object> getPropByIndex(Properties p, int index)
+    private Entry<String,Object> getPropByIndex(MagicPricesProvider dept, int index)
     {
-    	String k = (String) p.keySet().toArray()[index];
-    	HashMap<String, Object> prop = new HashMap<String,Object>();
-    	prop.put(k, p.get(k));
-    	return prop;
+    	return (Map.Entry<String,Object>)dept.getProperties().entrySet().toArray()[index];
     }
     
     
@@ -85,15 +84,15 @@ public class MagicPricesTableModel extends AbstractTreeTableModel
     @Override
     public int getIndexOfChild(Object parent, Object child) {
     	MagicPricesProvider dept = (MagicPricesProvider) parent;
-        String k = (String) child;
+        Entry k = (Entry) child;
         return getPosition(k,dept.getProperties());
     }
     
-    private int getPosition(String k, Properties p)
+    private int getPosition(Entry k, Properties p)
     {
     	for(int i=0;i<p.keySet().size();i++)
     	{
-    		if(p.keySet().toArray()[i].toString().equals(k))
+    		if(p.keySet().toArray()[i].toString().equals(k.getKey()))
     			return i;
     	}
     	return -1;
@@ -109,15 +108,14 @@ public class MagicPricesTableModel extends AbstractTreeTableModel
                 case 2: return prov.isEnable();
             }
         } 
-        else if (node instanceof Map) 
+        else if (node instanceof Entry) 
         {
-        	Map emp = (Map) node;
-        	System.out.println(emp);
-            switch (column) {
+        	Entry emp = (Entry) node;
+        	  switch (column) {
                 case 0:
-                    return emp.keySet().iterator().next();
+                    return emp.getKey();
                 case 1:
-                    return emp.values().iterator().next();
+                    return emp.getValue();
             }
         }
         return null;
@@ -137,13 +135,14 @@ public class MagicPricesTableModel extends AbstractTreeTableModel
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
         	}
         }
-        if(node instanceof Map )
+        if(node instanceof Entry )
 	        if(column==1)
 	    	{
-	        	String k = (String)((HashMap)node).keySet().iterator().next();
+	        	String k = (String)((Entry)node).getKey();
 	        	selectedProvider.setProperties(k, strValue);
-	        	pricers.add(selectedProvider);
+	        	//pricers.add(selectedProvider);
 	        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
+	        	selectedProvider.save();
 	    	}    
    }
     

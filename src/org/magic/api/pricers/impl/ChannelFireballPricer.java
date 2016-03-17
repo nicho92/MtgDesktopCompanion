@@ -1,10 +1,13 @@
 package org.magic.api.pricers.impl;
 
+import java.io.File;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.LogManager;
@@ -12,29 +15,32 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.AbstractMagicPricesProvider;
 import org.magic.api.interfaces.MagicPricesProvider;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-public class ChannelFireballPricer implements MagicPricesProvider {
+public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 
 	
 	private String setvar="&setname=";
 	static final Logger logger = LogManager.getLogger(ChannelFireballPricer.class.getName());
-	private Properties props;
 	private boolean enable=true;
 
 	
 	public ChannelFireballPricer() {
-		props = new Properties();
+		super();
 		
-		props.put("MAX", 5);
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("MAX", "5");
 		props.put("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
 		props.put("WEBSITE", "http://store.channelfireball.com/");
 		props.put("ENCODING", "UTF-8");
 		props.put("KEYWORD", "");
+		save();
+		}
 
 	}
 
@@ -80,46 +86,6 @@ public class ChannelFireballPricer implements MagicPricesProvider {
 		return "Channel Fireball";
 	}
 	
-	public String toString()
-	{
-		return getName();
-	}
-
-	@Override
-	public Properties getProperties() {
-		return props;
-	}
-
-	@Override
-	public void setProperties(String k, Object value) {
-		props.put(k, value);
-		
-	}
-
-	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
-	@Override
-	public void enable(boolean t) {
-		this.enable=t;
-		
-	}
 	
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return this.hashCode()==obj.hashCode();
-	}
 	
 }

@@ -1,12 +1,14 @@
 package org.magic.api.pricers.impl;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.LogManager;
@@ -14,29 +16,26 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.AbstractMagicPricesProvider;
 import org.magic.api.interfaces.MagicPricesProvider;
 
-public class MagicTradersPricer implements MagicPricesProvider {
+public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
 	String url = "http://classic.magictraders.com/pricelists/current-magic-excel.txt";
 	static final Logger logger = LogManager.getLogger(MagicTradersPricer.class.getName());
-	Properties props;
-	private boolean enable=true;
 	
 	public MagicTradersPricer() {
-		props = new Properties();
-		props.put("MAX", 5);
+		super();
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("MAX", "5");
 		props.put("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
 		props.put("WEBSITE", "http://classic.magictraders.com");
 		props.put("KEYWORD", "");
+		save();
+		}
 	}
 	
-	
-	
-	public String toString()
-	{
-		return getName();
-	}
 	
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
 		
@@ -76,6 +75,10 @@ public class MagicTradersPricer implements MagicPricesProvider {
 			} 
 		}
 	    
+		if(list.size()>Integer.parseInt(props.get("MAX").toString()))
+ 			 if(Integer.parseInt(props.get("MAX").toString())>-1)
+ 				 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
+		
 		return list;
 	}
 
@@ -97,41 +100,4 @@ public class MagicTradersPricer implements MagicPricesProvider {
 	public String getName() {
 		return "Magic Traders";
 	}
-
-	@Override
-	public Properties getProperties() {
-		return props;
-	}
-	@Override
-	public void setProperties(String k, Object value) {
-		props.put(k, value);
-		
-	}
-
-	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
-	}
-
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
-	@Override
-	public void enable(boolean t) {
-		this.enable=t;
-		
-	}
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return this.hashCode()==obj.hashCode();
-	}
-
 }

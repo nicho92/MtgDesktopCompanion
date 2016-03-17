@@ -1,11 +1,13 @@
 package org.magic.api.pricers.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.LogManager;
@@ -13,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.AbstractMagicPricesProvider;
 import org.magic.api.interfaces.MagicPricesProvider;
 
 import com.google.gson.JsonArray;
@@ -20,28 +23,26 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-public class EbayPricer implements MagicPricesProvider{
+public class EbayPricer extends AbstractMagicPricesProvider
+{
 
 	String KEYWORD="";
 	static final Logger logger = LogManager.getLogger(EbayPricer.class.getName());
-	private boolean enable=true;
-	Properties props;
 	
-	public String toString()
-	{
-		return getName();
-	}
 	
 	public EbayPricer() {
-		props = new Properties();
+		super();	
 		
-		props.put("MAX", 5);
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("MAX", "10");
 		props.put("COUNTRY", "EBAY-FR");
 		props.put("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
 		props.put("URL", "http://svcs.ebay.fr/services/search/FindingService/v1?SECURITY-APPNAME=%API_KEY%&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID=%COUNTRY%&keywords=%KEYWORD%&paginationInput.entriesPerPage=%MAX%");
 		props.put("WEBSITE", "http://www.ebay.com/");
 		props.put("ENCODING", "UTF-8");
 		props.put("KEYWORD", "");
+		save();
+		}
 	}
 	
 	
@@ -106,39 +107,4 @@ public class EbayPricer implements MagicPricesProvider{
 	public String getName() {
 		return "Ebay";
 	}
-
-	public Properties getProperties() {
-		return props;
-	}
-
-	@Override
-	public void setProperties(String k, Object value) {
-		props.put(k,value);
-	}
-
-	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
-	@Override
-	public void enable(boolean t) {
-		this.enable=t;
-		
-	}
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		return this.hashCode()==obj.hashCode();
-	}
-
 }

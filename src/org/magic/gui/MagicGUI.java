@@ -298,12 +298,15 @@ public class MagicGUI extends JFrame {
 		JMenu jmnuLook = new JMenu("Look");
 		menuBar.add(jmnuLook);
 		
+		
+		mnuProviders = new JMenu("Providers");
+		menuBar.add(mnuProviders);
+		
+		
 		mnuAbout = new JMenu("?");
 		menuBar.add(mnuAbout);
 		
 		
-		mnuProviders = new JMenu("Providers");
-		menuBar.add(mnuProviders);
 		
 		
 		
