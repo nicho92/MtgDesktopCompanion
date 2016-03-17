@@ -54,10 +54,10 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     	
     	
     	if(!new File(confdir, getName()+".conf").exists()){
-    	props.put("APP_TOKEN", "OUP3DeKlkjyrA5xi");
-		props.put("APP_SECRET", "sGe5snpHSu1QND9rwgk98NFFY3Gi7Xzs");
-		props.put("APP_ACCESS_TOKEN", "9OUlURAjJ2Za7ZVB8FG3ZbRE7DGmq576");
-		props.put("APP_ACCESS_TOKEN_SECRET", "pGSX1EvJiPQWcuuaTpuGUuCMNdx1xWcb");
+    	props.put("APP_TOKEN", "YwlAAFW7VTANkQ0N");
+		props.put("APP_SECRET", "");
+		props.put("APP_ACCESS_TOKEN", "bARV5r0kGsqELWQyFdpYhVVeadzfqbQk");
+		props.put("APP_ACCESS_TOKEN_SECRET", "");
 		props.put("GAME_ID", "1");
 		props.put("ENCODING", "UTF-8");
 		props.put("LANGUAGE_ID", "1");

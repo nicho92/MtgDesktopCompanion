@@ -13,17 +13,36 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MagicPricesProvider;
 
 public class MagicExporter {
 
 	
 	static String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions","layout"};
 	static String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
+	static String exportedPricesProperties[] = new String[]{	"site","seller","value","currency"};
 	
 	
-	public static void export(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
+	public static void exportPriceCatalog(List<MagicCard> cards, File f,List<MagicPricesProvider> prices) throws IOException
+	{
 		BufferedWriter bw;
+		FileWriter out;
+		
+		out = new FileWriter(f);
+		bw=new BufferedWriter(out);
+		
+		
+		for(String k : exportedProperties)
+			bw.write(k+";");
+		
+		
+	}
+	
+	
+	public static void exportCSV(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
+			BufferedWriter bw;
 			FileWriter out;
+				
 			out = new FileWriter(f);
 			bw=new BufferedWriter(out);
 				for(String k : exportedProperties)
@@ -41,10 +60,11 @@ public class MagicExporter {
 				bw.write("\n");
 			}
 			bw.close();
-			
+			out.close();
 		
 		
-		
+			bw.close();
+			out.close();
 	}
 
 	public static void export(MagicDeck deck, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException{
@@ -90,7 +110,7 @@ public class MagicExporter {
 		}
 		
 		bw.close();
-		
+		out.close();
 	}
 
 }

@@ -263,6 +263,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		   if(map.get("variations")!=null)
 	 			  mc.getVariations().addAll((List<Integer>)map.get("variations"));
 	 		  
+	 		  
+	 		   if(map.get("colors")!=null)
+	 			   mc.getColors().addAll((List<String>)map.get("colors"));
+	 		   
+	 		   
 	 		   if(map.get("colorIdentity")!=null)
 	 			   mc.getColorIdentity().addAll((List<String>)map.get("colorIdentity"));
 	 		  

@@ -7,14 +7,20 @@ import java.util.Set;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.pricers.impl.MagicCardMarketPricer;
 import org.magic.tools.MagicFactory;
 
 public class CardsPriceTableModel extends DefaultTableModel {
 
+	  static final Logger logger = LogManager.getLogger(CardsPriceTableModel.class.getName());
+
+	
 	String columns[] = new String[]{"Site","Price","Currency","Seller","url"};
 	
 	Set<MagicPricesProvider> providers;
@@ -33,7 +39,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 				if(prov.isEnable())
 					prices.addAll(prov.getPrice(me, mc));
 			} catch (Exception e) {
-				//e.printStackTrace();
+				logger.error(e);
 			}
 		}
 	}

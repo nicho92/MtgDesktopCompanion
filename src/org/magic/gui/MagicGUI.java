@@ -833,7 +833,7 @@ public class MagicGUI extends JFrame {
 				
 					
 					try {
-						MagicExporter.export(cardsModeltable.getListCards(),f);
+						MagicExporter.exportCSV(cardsModeltable.getListCards(),f);
 					} catch (Exception e1) {
 						logger.error(e1);
 						JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);

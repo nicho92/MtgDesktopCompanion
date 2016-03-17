@@ -55,6 +55,7 @@ import org.magic.gui.components.WebSiteGeneratorDialog;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
+import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicWebSiteGenerator;
 import javax.swing.JProgressBar;
@@ -129,7 +130,7 @@ public class CollectionPanelGUI extends JPanel {
 				MagicCollection mc = (MagicCollection)curr.getUserObject();
 				
 				try {
-					MagicExporter.export(dao.getCardsFromCollection(mc), f);
+					MagicExporter.exportCSV(dao.getCardsFromCollection(mc), f);
 					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					logger.error(e);
@@ -183,8 +184,8 @@ public class CollectionPanelGUI extends JPanel {
 		panneauTreeSearch.add(scrollPaneCollections);
 		
 		tree = new MagicCardsTree(provider,dao);
-		 
-		 scrollPaneCollections.setViewportView(tree);
+		tree.setCellRenderer(new MagicCollectionTreeCellRenderer()); 
+		scrollPaneCollections.setViewportView(tree);
 		 
 		 JPanel panneauBas = new JPanel();
 		 panneauTreeSearch.add(panneauBas, BorderLayout.SOUTH);
