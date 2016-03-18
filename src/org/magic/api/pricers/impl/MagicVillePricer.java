@@ -59,6 +59,9 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		case "DRK" : return "dar";
 		case "5DN" : return "fda";
 		case "10E" : return "xth";
+		case "CSP" : return "col";
+		case "ARB" : return "alr";
+		
 		default : return me.getId();
 		}
 		
@@ -67,7 +70,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	
 	private static String prefixZeros(String value, int len) {
 	    char[] t = new char[len];
-	    int l = value.length();
+	    int l = value.trim().length();
 	    int k = len-l;
 	    for(int i=0;i<k;i++) { t[i]='0'; }
 	    value.getChars(0, l, t, k);
@@ -84,7 +87,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 			me = card.getEditions().get(0);
 
 		
-		String keyword = getMGVILLCodeEdition(me)+prefixZeros(card.getNumber(),3);
+		String keyword = getMGVILLCodeEdition(me)+prefixZeros(card.getNumber().replaceAll("a", ""),3);
 		props.put("KEYWORD", keyword);
 		String url = html+keyword;
 		
@@ -92,8 +95,14 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		logger.debug(getName() +" looking for prices " + url );
 		
 		doc = Jsoup.connect(url).get();
-		
-		Element table = doc.select("table[width=98%]").get(2); //select the first table.
+		Element table =null;
+		try{
+		table = doc.select("table[width=98%]").get(2); //select the first table.
+		}catch(IndexOutOfBoundsException e)
+		{
+			logger.debug(getName() +" no sellers");
+			return list;
+		}
 		 
 		 Elements rows = table.select("tr");
 		 

@@ -7,12 +7,10 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
-import javax.swing.JOptionPane;
-
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 
 public class MagicExporter {
@@ -23,7 +21,8 @@ public class MagicExporter {
 	static String exportedPricesProperties[] = new String[]{	"site","seller","value","currency"};
 	
 	
-	public static void exportPriceCatalog(List<MagicCard> cards, File f,List<MagicPricesProvider> prices) throws IOException
+	//TODO export card prices catalog
+	public static void exportPriceCatalog(List<MagicCard> cards, File f,MagicPricesProvider prov) throws Exception
 	{
 		BufferedWriter bw;
 		FileWriter out;
@@ -31,9 +30,43 @@ public class MagicExporter {
 		out = new FileWriter(f);
 		bw=new BufferedWriter(out);
 		
-		
 		for(String k : exportedProperties)
 			bw.write(k+";");
+		for(String k : exportedPricesProperties)
+			bw.write(k+";");
+		
+		bw.write("\n");
+
+		for (MagicCard mc : cards)
+		{
+		
+			for(MagicPrice prices : prov.getPrice(mc.getEditions().get(0),mc))
+			{
+				for(String k : exportedProperties){
+					String val = BeanUtils.getProperty(mc, k);
+					if(val==null)
+						val="";
+					bw.write(val.replaceAll("\n", "")+";");
+				}
+				
+				for(String p : exportedPricesProperties){
+					String val = BeanUtils.getProperty(prices,p);
+					if(val==null)
+						val="";
+					bw.write(val.replaceAll("\n", "")+";");
+				}
+				
+				
+				bw.close();
+				out.close();
+				
+			}
+			bw.write("\n");
+		}
+		bw.close();
+		out.close();
+		
+		
 		
 		
 	}

@@ -3,7 +3,6 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.PopupMenu;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -29,10 +28,10 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
@@ -52,13 +51,12 @@ import org.magic.db.MagicDAO;
 import org.magic.gui.components.MagicCardsTree;
 import org.magic.gui.components.MassCollectionImporterDialog;
 import org.magic.gui.components.WebSiteGeneratorDialog;
-import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.models.CardsPriceTableModel;
+import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicWebSiteGenerator;
-import javax.swing.JProgressBar;
 
 public class CollectionPanelGUI extends JPanel {
 
@@ -144,6 +142,10 @@ public class CollectionPanelGUI extends JPanel {
 		panneauHaut.add(btnMassCollection);
 		panneauHaut.add(btnExportCSV);
 		
+		JButton btnExportPriceCatalog = new JButton("Export Price Catalog");
+		
+		panneauHaut.add(btnExportPriceCatalog);
+		
 		JButton btnGenerateWebSite = new JButton("Generate website");
 		
 		panneauHaut.add(btnGenerateWebSite);
@@ -205,6 +207,8 @@ public class CollectionPanelGUI extends JPanel {
 
 		 initPopupCollection();
 		
+		 
+		MagicCollection selectedcol =null; 
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent tse) {
 				path = tse.getPath();
@@ -212,9 +216,13 @@ public class CollectionPanelGUI extends JPanel {
 				DefaultMutableTreeNode curr=(DefaultMutableTreeNode) path.getLastPathComponent();
 				
 				if(curr.getUserObject() instanceof MagicCollection)
+				{
 					btnExportCSV.setEnabled(true);
+				}
 				else
+				{
 					btnExportCSV.setEnabled(false);
+				}
 				
 				if(curr.isLeaf())
 				{	

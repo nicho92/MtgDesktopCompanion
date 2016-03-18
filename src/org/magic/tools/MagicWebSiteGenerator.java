@@ -63,24 +63,6 @@ public class MagicWebSiteGenerator extends Observable{
 		});
 	}
 	
-	public static void main(String[] args) throws ClassNotFoundException, IOException, SQLException, TemplateException {
-		HsqlDAO dao = new HsqlDAO();
-		dao.init();
-		MagicWebSiteGenerator gen = new MagicWebSiteGenerator(dao, "gravity", "D:\\magic");
-		
-		MagicCollection col = new MagicCollection();
-						col.setName("Needed");
-		MagicCollection col2 = new MagicCollection();
-						col2.setName("For sell");
-						
-		List<MagicCollection> cols = new ArrayList<MagicCollection>();
-							  cols.add(col);
-							  cols.add(col2);
-							  
-		gen.generate(cols, new ArrayList<MagicPricesProvider>());
-	}
-	
-	
 	//lister la page d'acccueil
 	public void generate(List<MagicCollection> cols,List<MagicPricesProvider> providers) throws TemplateException, IOException, SQLException
 	{

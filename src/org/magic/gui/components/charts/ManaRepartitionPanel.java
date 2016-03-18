@@ -53,13 +53,13 @@ public class ManaRepartitionPanel extends JPanel{
 	
 		pane = new ChartPanel(chart);
 		PiePlot plot = (PiePlot) chart.getPlot();
-		plot.setSectionPaint("B", Color.BLACK);
-		plot.setSectionPaint("W", Color.WHITE);
-		plot.setSectionPaint("U", Color.BLUE);
-		plot.setSectionPaint("G", Color.GREEN);
-		plot.setSectionPaint("R", Color.RED);
-		plot.setSectionPaint("multi", Color.YELLOW);
-		plot.setSectionPaint("uncolor", Color.GRAY);
+		plot.setSectionPaint("Black", Color.BLACK);
+		plot.setSectionPaint("White", Color.WHITE);
+		plot.setSectionPaint("Blue", Color.BLUE);
+		plot.setSectionPaint("Green", Color.GREEN);
+		plot.setSectionPaint("Red", Color.RED);
+		plot.setSectionPaint("Multi", Color.YELLOW);
+		plot.setSectionPaint("Uncolor", Color.GRAY);
 		
 		
 		this.add(pane);
@@ -70,15 +70,19 @@ public class ManaRepartitionPanel extends JPanel{
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		for(MagicCard mc : cards)
 		{
-			if(mc.getColorIdentity().size()==1 )
-				dataset.setValue(mc.getColorIdentity().get(0), count(mc.getColorIdentity().get(0)));
-			
-			if(mc.getColorIdentity().size()>1 )
-				dataset.setValue("multi", count("multi"));
-			
-			if(mc.getColorIdentity().size()<1 )
-				dataset.setValue("uncolor", count("uncolor"));
+			if(mc.getColors().size()>0)
+			{
+				if(mc.getColors().size()==1 )
+					dataset.setValue(mc.getColors().get(0), count(mc.getColors().get(0)));
 				
+				if(mc.getColors().size()>1 )
+					dataset.setValue("Multi", count("Multi"));
+					
+			}
+			else
+			{
+				dataset.setValue("Uncolor", count("Uncolor"));
+			}
 		}
 
 
@@ -89,16 +93,16 @@ public class ManaRepartitionPanel extends JPanel{
 	private Double count(String string) {
 		double count=0;
 		
-		if(string.equals("uncolor"))
+		if(string.equals("Uncolor"))
 		{	for(MagicCard mc : cards)
-				if(mc.getColorIdentity().size()<1)
+				if(mc.getColors().size()==0)
 					count ++;
 		
 			return count;
 		}
-		else if(string.equals("multi"))
+		else if(string.equals("Multi"))
 		{	for(MagicCard mc : cards)
-				if(mc.getColorIdentity().size()>1)
+				if(mc.getColors().size()>1)
 					count ++;
 		
 			return count;
@@ -106,8 +110,8 @@ public class ManaRepartitionPanel extends JPanel{
 		else
 		{
 			for(MagicCard mc : cards)
-				if(mc.getColorIdentity().size()==1)
-					if(mc.getColorIdentity().get(0).equals(string))
+				if(mc.getColors().size()==1)
+					if(mc.getColors().get(0).equals(string))
 						count++;
 			
 			return count;
