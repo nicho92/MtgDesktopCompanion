@@ -14,6 +14,7 @@ import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,6 +39,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.LogManager;
@@ -224,7 +226,7 @@ public class CollectionPanelGUI extends JPanel {
 					btnExportCSV.setEnabled(false);
 				}
 				
-				if(curr.isLeaf())
+				if(curr.getUserObject() instanceof MagicCard)
 				{	
 					final MagicCard card = (MagicCard)((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
 					
@@ -275,7 +277,7 @@ public class CollectionPanelGUI extends JPanel {
 					model.calculate();
 				} catch (Exception e) {}
 				model.fireTableDataChanged();
-				tree.refresh();
+				tree.init();
 			}
 		});
 		
@@ -293,7 +295,12 @@ public class CollectionPanelGUI extends JPanel {
 								progressBar.setVisible(true);
 								progressBar.setStringPainted(true);
 								progressBar.setMinimum(0);
-								progressBar.setMaximum(dao.getCardsCount(diag.getSelectedCollections()));
+								
+								int max = 0;
+								for(MagicCollection col : diag.getSelectedCollections())
+									max+=dao.getCardsCount(col);
+								
+								progressBar.setMaximum(max);
 								progressBar.setValue(0);
 								   
 								MagicWebSiteGenerator gen = new MagicWebSiteGenerator(dao, diag.getTemplate(), diag.getDest().getAbsolutePath());
@@ -379,28 +386,46 @@ public class CollectionPanelGUI extends JPanel {
 
 				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode)path.getPathComponent(1)).getUserObject();
 				int res=0;
+				
 				DefaultMutableTreeNode curr=(DefaultMutableTreeNode) path.getLastPathComponent();
-				if(curr.isLeaf())
+				if(curr.getUserObject() instanceof MagicCard)
 				{	
 					MagicCard card = (MagicCard)((DefaultMutableTreeNode)path.getLastPathComponent()).getUserObject();
 					
 					try {
 						res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + card +" from " + col + "?");
 						if(res==JOptionPane.YES_OPTION)
-							dao.removeCard(card, col);
+						{	dao.removeCard(card, col);
+							curr.removeFromParent();
+						}
 					} catch (SQLException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
-				else
+				if(curr.getUserObject() instanceof MagicEdition)
 				{
 					MagicEdition me = (MagicEdition)((DefaultMutableTreeNode)path.getPathComponent(2)).getUserObject();
 					
 					try {
 						res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + me +" from " + col + "?");
 						if(res==JOptionPane.YES_OPTION)
+						{
 							dao.removeEdition(me, col);
+							curr.removeFromParent();
+						}
+					} catch (SQLException e) {
+						e.printStackTrace();
+					}
+				}
+				if(curr.getUserObject() instanceof MagicCollection)
+				{
+					try {
+						res = JOptionPane.showConfirmDialog(null,"Are you sure you wan't delete " + col +" ? (" + dao.getCardsCount(col) +" cards)");
+						if(res==JOptionPane.YES_OPTION)
+						{
+							dao.removeCollection(col);
+							curr.removeFromParent();
+						}
 					} catch (SQLException e) {
 						e.printStackTrace();
 					}
@@ -415,6 +440,7 @@ public class CollectionPanelGUI extends JPanel {
 					}
 					model.fireTableDataChanged();
 					tree.refresh();
+					
 				}
 			}
 		});

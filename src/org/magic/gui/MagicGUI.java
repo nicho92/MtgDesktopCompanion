@@ -54,6 +54,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -75,8 +77,8 @@ import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
-import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.models.CardsPriceTableModel;
+import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicFactory;
@@ -852,7 +854,9 @@ public class MagicGUI extends JFrame {
 					mc.setName(name);
 					try {
 						dao.saveCollection(mc);
-						collectionPanelGUI.getJTree().refresh();
+						((DefaultMutableTreeNode)collectionPanelGUI.getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));
+						DefaultTreeModel mod = (DefaultTreeModel) collectionPanelGUI.getJTree().getModel();
+						mod.reload();
 						
 					} catch (SQLException e) {
 						logger.error(e);

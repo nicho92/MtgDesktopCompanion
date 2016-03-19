@@ -35,8 +35,14 @@ public class MagicCardsTree extends JXTree {
 	{
 		return nodeSet;
 	}
-
+	
 	public void refresh()
+	{
+		((DefaultTreeModel)getModel()).reload();
+	}
+	
+
+	public void init()
 	{
 		setModel(new DefaultTreeModel(
 				new DefaultMutableTreeNode("Collections") {
@@ -80,13 +86,11 @@ public class MagicCardsTree extends JXTree {
 								expandPath(getPathForRow(0));
 							}
 						}).start();
-						
-						
-						
 					}
 				}
 			));
-			
+		
+		
 	}
 	
 	
@@ -94,7 +98,7 @@ public class MagicCardsTree extends JXTree {
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.provider=provider;
 		this.dao=dao;
-		refresh();
+		init();
 	
 	}
 
