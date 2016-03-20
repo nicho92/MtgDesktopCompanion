@@ -55,13 +55,9 @@ public class MagicExporter {
 						val="";
 					bw.write(val.replaceAll("\n", "")+";");
 				}
-				
-				
-				bw.close();
-				out.close();
-				
+			
+				bw.write("\n");
 			}
-			bw.write("\n");
 		}
 		bw.close();
 		out.close();

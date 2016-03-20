@@ -86,8 +86,15 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		if(me==null)
 			me = card.getEditions().get(0);
 
-		
-		String keyword = getMGVILLCodeEdition(me)+prefixZeros(card.getNumber().replaceAll("a", ""),3);
+		String keyword ="";
+		try{
+		keyword = getMGVILLCodeEdition(me)+prefixZeros(card.getNumber().replaceAll("a", ""),3);
+		}
+		catch(Exception e)
+		{
+			logger.error("no number for " + card);
+			return list;
+		}
 		props.put("KEYWORD", keyword);
 		String url = html+keyword;
 		

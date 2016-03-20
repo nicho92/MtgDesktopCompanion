@@ -58,6 +58,7 @@ import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.tools.MagicExporter;
+import org.magic.tools.MagicFactory;
 import org.magic.tools.MagicWebSiteGenerator;
 
 public class CollectionPanelGUI extends JPanel {
@@ -145,6 +146,22 @@ public class CollectionPanelGUI extends JPanel {
 		panneauHaut.add(btnExportCSV);
 		
 		JButton btnExportPriceCatalog = new JButton("Export Price Catalog");
+		btnExportPriceCatalog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				MagicCollection c = new MagicCollection();
+				c.setName("Needed");
+				try {
+					MagicExporter.exportPriceCatalog(dao.getCardsFromCollection(c), new File("test.csv"), MagicFactory.getInstance().getEnabledPricers().get(0));
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		});
 		
 		panneauHaut.add(btnExportPriceCatalog);
 		
@@ -426,7 +443,8 @@ public class CollectionPanelGUI extends JPanel {
 							dao.removeCollection(col);
 							curr.removeFromParent();
 						}
-					} catch (SQLException e) {
+					} 
+					catch (SQLException e) {
 						e.printStackTrace();
 					}
 				}
