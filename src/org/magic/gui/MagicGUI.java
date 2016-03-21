@@ -92,10 +92,6 @@ public class MagicGUI extends JFrame {
 
 	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
 
-
-
-
-
 	private static final int INDEX_PRICES = 2;
 
 	private MagicCard selected;
@@ -112,19 +108,12 @@ public class MagicGUI extends JFrame {
 	
 	private JMenuBar menuBar;
 	private JMenu mnFile;
-	private JMenu mnuSearch;
-	private JMenu mnDeck;
 	private JMenu mnuCollections;
 	private JMenu mnView;
 	private JMenu mnuAbout;
 	private JMenu mnuProviders;
 	private JMenuItem mntmExit;
-	private JMenuItem mntmExportGrid;
-    private JMenuItem mnuExportDeckCsv;
-    private JMenuItem mnuExportDeckPDF;
-    private JMenuItem mnuNewDeck;
     private JMenuItem mnuCollectionNew;
-	private JMenuItem mntmExportAsPdf;
 	private JMenuItem mntmAboutMagicDesktop;
 	private JMenuItem mntmReportBug;
 	private JMenuItem mntmShowhideFilters;
@@ -176,12 +165,15 @@ public class MagicGUI extends JFrame {
     private JButton btnClear;
 	private JButton btnGenerateBooster;
 	private JButton btnSearch;
+	private JButton btnExportSearchCSV;
+	private JButton btnExportSearchPDF;
 
 	private JLabel lblLoading = new JLabel("");
 	
 	private JList<MagicEdition> listEdition;
-	
-	
+
+
+
 
 	public void setDefaultLanguage(String language) {
 		defaultLanguage=language;
@@ -260,25 +252,7 @@ public class MagicGUI extends JFrame {
 
 		menuBar.add(mnFile);
 		
-		mnuSearch = new JMenu("Results");
-		mnFile.add(mnuSearch);
-		mntmExportAsPdf = new JMenuItem("Export as PDF");
-		mnuSearch.add(mntmExportAsPdf);
-		mntmExportGrid = new JMenuItem("Export as CSV");
-		mnuSearch.add(mntmExportGrid);
 		
-		mnDeck = new JMenu("Deck");
-		mnFile.add(mnDeck);
-		
-		mnuNewDeck = new JMenuItem("New Deck");
-		mnDeck.add(mnuNewDeck);
-		
-		mnuExportDeckPDF = new JMenuItem("Export PDF");
-		mnDeck.add(mnuExportDeckPDF);
-		
-		mnuExportDeckCsv = new JMenuItem("Export as CSV");
-		
-		mnDeck.add(mnuExportDeckCsv);
 		
 		mnuCollections = new JMenu("Collection");
 		mnFile.add(mnuCollections);
@@ -369,6 +343,9 @@ public class MagicGUI extends JFrame {
 
 
 		btnSearch = new JButton("Rechercher");
+		btnExportSearchPDF = new JButton("Export as PDF");
+		btnExportSearchCSV = new JButton("Export as CSV");
+		
 		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
 		cboQuereableItems.addItem("collections");
 		cboCollections= new JComboBox<MagicCollection>(dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
@@ -421,6 +398,9 @@ public class MagicGUI extends JFrame {
 		});
 		panneauHaut.add(cboEdition);
 		panneauHaut.add(btnSearch);
+		panneauHaut.add(btnExportSearchPDF);
+		panneauHaut.add(btnExportSearchCSV);
+		
 		panneauHaut.add(lblLoading);
 		panneauCard = new JPanel();
 		globalPanel.add(panneauCard, BorderLayout.EAST);
@@ -793,7 +773,7 @@ public class MagicGUI extends JFrame {
 				}
 			});
 
-			mntmExportAsPdf.addActionListener(new ActionListener() {
+			btnExportSearchPDF.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 
 					new Thread(new Runnable() {
@@ -827,7 +807,7 @@ public class MagicGUI extends JFrame {
 				}
 			});
 
-			mntmExportGrid.addActionListener(new ActionListener() {
+			btnExportSearchCSV.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					JFileChooser jf =new JFileChooser();
 					jf.showSaveDialog(null);
@@ -865,22 +845,6 @@ public class MagicGUI extends JFrame {
 				}
 			});
 			
-			mnuExportDeckCsv.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ae) {
-					JFileChooser jf =new JFileChooser();
-					jf.showSaveDialog(null);
-					File f=jf.getSelectedFile();
-					
-					try {
-						MagicExporter.export(deckBuilderGUI.getDeck(), f);
-						JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
-					} catch (Exception e) {
-						logger.error(e);
-						JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
-					}
-					
-				}
-			});
 			
 			
 			txtFilter.addActionListener(new ActionListener() {

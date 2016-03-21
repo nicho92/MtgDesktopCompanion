@@ -82,12 +82,6 @@ public class CollectionPanelGUI extends JPanel {
 	}
 	
 	
-	public void add(MagicCollection coll, List<MagicCard> cards)
-	{
-		
-	}
-	
-	
 	public void initGUI() throws Exception {
 		setLayout(new BorderLayout(0, 0));
 		model = new MagicEditionsTableModel(dao,provider);

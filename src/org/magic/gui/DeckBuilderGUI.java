@@ -54,6 +54,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicSerializer;
 
 public class DeckBuilderGUI extends JPanel{
@@ -229,6 +230,12 @@ public class DeckBuilderGUI extends JPanel{
 		});
 		panneauHaut.add(btnManualImport);
 		
+		JButton btnExportPDF = new JButton("Export as PDF");
+		panneauHaut.add(btnExportPDF);
+		
+		JButton btnExportAsCsv = new JButton("Export as CSV");
+		panneauHaut.add(btnExportAsCsv);
+		
 		JScrollPane scrollResult = new JScrollPane();
 		add(scrollResult, BorderLayout.WEST);
 		
@@ -379,6 +386,25 @@ public class DeckBuilderGUI extends JPanel{
 			    thumbnailPanel.initThumbnails(d.subList(0, 1));
 			}
 		});
+		
+		btnExportAsCsv.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				JFileChooser jf =new JFileChooser();
+				jf.showSaveDialog(null);
+				File f=jf.getSelectedFile();
+				
+				try {
+					MagicExporter.export(getDeck(), f);
+					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					logger.error(e);
+					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		
+		
 		
 		listResult.addMouseListener(new MouseAdapter() {
 			
