@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Observable;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
@@ -13,16 +14,19 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 
-public class MagicExporter {
+import javafx.beans.InvalidationListener;
+
+
+public class MagicExporter extends Observable{
 
 	
-	static String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions","layout"};
-	static String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
-	static String exportedPricesProperties[] = new String[]{	"site","seller","value","currency"};
+	String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions","layout"};
+	String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
+	String exportedPricesProperties[] = new String[]{	"site","seller","value","currency"};
 	
 	
 	//TODO export card prices catalog
-	public static void exportPriceCatalog(List<MagicCard> cards, File f,MagicPricesProvider prov) throws Exception
+	public void exportPriceCatalog(List<MagicCard> cards, File f,MagicPricesProvider prov) throws Exception
 	{
 		BufferedWriter bw;
 		FileWriter out;
@@ -36,7 +40,7 @@ public class MagicExporter {
 			bw.write(k+";");
 		
 		bw.write("\n");
-
+		int i =0;
 		for (MagicCard mc : cards)
 		{
 		
@@ -55,7 +59,8 @@ public class MagicExporter {
 						val="";
 					bw.write(val.replaceAll("\n", "")+";");
 				}
-			
+				setChanged();
+				notifyObservers(i++);
 				bw.write("\n");
 			}
 		}
@@ -68,7 +73,7 @@ public class MagicExporter {
 	}
 	
 	
-	public static void exportCSV(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
+	public void exportCSV(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
 			BufferedWriter bw;
 			FileWriter out;
 				
@@ -96,7 +101,7 @@ public class MagicExporter {
 			out.close();
 	}
 
-	public static void export(MagicDeck deck, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException{
+	public void export(MagicDeck deck, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException{
 		BufferedWriter bw;
 		FileWriter out;
 		out = new FileWriter(f);
@@ -141,5 +146,8 @@ public class MagicExporter {
 		bw.close();
 		out.close();
 	}
+
+
+
 
 }

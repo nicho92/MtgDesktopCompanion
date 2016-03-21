@@ -362,24 +362,36 @@ public class MagicCardDetailPanel extends JPanel {
 		String text = txtTextPane.getText();
 		 StyleContext context = new StyleContext();
 		 StyledDocument document = new DefaultStyledDocument(context);
-		 Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
 		 
+		 Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
+		
+		 Style italic =context.addStyle("italicStyle", labelStyle); 
+		 StyleConstants.setItalic(italic, true);
+				 
 		 int cumule=0;
 		 try {
 			document.insertString(0, text, null);
 			while(m.find()) {
-				 //System.out.println(m.start() + " " + m.end() + " " + (m.end()-m.start()) +" " + m.group());
 				 Image ic = manaPanel.getManaSymbol(m.group());
 				
 				 JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
-				 label.setAlignmentY(JLabel.TOP);
+				 		label.setAlignmentY(JLabel.TOP);
+				 
 				 StyleConstants.setComponent(labelStyle, label);
 
 				 document.remove(m.start()+cumule, (m.end()-m.start()));
 				 document.insertString(m.start()+cumule, m.group(), labelStyle);
-					 
-				// cumule += (m.end()-m.start())+1;
 			}
+			
+			//italic style
+//			if(text.contains("("))
+//			{
+//				int posD = text.indexOf("(");
+//				int posF = text.lastIndexOf(")");
+//				document.setCharacterAttributes(posD, posF-posD, italic,true);
+//				
+//			}
+			
 			txtTextPane.setDocument(document);
 		 } 
 		 catch (BadLocationException e) {

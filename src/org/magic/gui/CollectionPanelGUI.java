@@ -52,6 +52,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.db.MagicDAO;
 import org.magic.gui.components.MagicCardsTree;
 import org.magic.gui.components.MassCollectionImporterDialog;
+import org.magic.gui.components.PriceCatalogExportDialog;
 import org.magic.gui.components.WebSiteGeneratorDialog;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
@@ -73,6 +74,8 @@ public class CollectionPanelGUI extends JPanel {
 	static final Logger logger = LogManager.getLogger(CollectionPanelGUI.class.getName());
 	private JXTable tablePrices;
 	private CardsPriceTableModel modelPrices;
+	private MagicCollection selectedcol;
+	
 	
 	public CollectionPanelGUI(MagicCardsProvider provider,MagicDAO dao) throws Exception
 	{
@@ -125,7 +128,8 @@ public class CollectionPanelGUI extends JPanel {
 				MagicCollection mc = (MagicCollection)curr.getUserObject();
 				
 				try {
-					MagicExporter.exportCSV(dao.getCardsFromCollection(mc), f);
+					MagicExporter exp = new MagicExporter();
+					exp.exportCSV(dao.getCardsFromCollection(mc), f);
 					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					logger.error(e);
@@ -139,23 +143,8 @@ public class CollectionPanelGUI extends JPanel {
 		panneauHaut.add(btnMassCollection);
 		panneauHaut.add(btnExportCSV);
 		
-		JButton btnExportPriceCatalog = new JButton("Export Price Catalog");
-		btnExportPriceCatalog.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				MagicCollection c = new MagicCollection();
-				c.setName("Needed");
-				try {
-					MagicExporter.exportPriceCatalog(dao.getCardsFromCollection(c), new File("test.csv"), MagicFactory.getInstance().getEnabledPricers().get(0));
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		});
+		final JButton btnExportPriceCatalog = new JButton("Export Price Catalog");
+		btnExportPriceCatalog.setEnabled(false);
 		
 		panneauHaut.add(btnExportPriceCatalog);
 		
@@ -221,7 +210,7 @@ public class CollectionPanelGUI extends JPanel {
 		 initPopupCollection();
 		
 		 
-		MagicCollection selectedcol =null; 
+ 
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent tse) {
 				path = tse.getPath();
@@ -231,10 +220,13 @@ public class CollectionPanelGUI extends JPanel {
 				if(curr.getUserObject() instanceof MagicCollection)
 				{
 					btnExportCSV.setEnabled(true);
+					btnExportPriceCatalog.setEnabled(true);
+					selectedcol=(MagicCollection)curr.getUserObject();
 				}
 				else
 				{
 					btnExportCSV.setEnabled(false);
+					btnExportPriceCatalog.setEnabled(false);
 				}
 				
 				if(curr.getUserObject() instanceof MagicCard)
@@ -289,6 +281,43 @@ public class CollectionPanelGUI extends JPanel {
 				} catch (Exception e) {}
 				model.fireTableDataChanged();
 				tree.init();
+			}
+		});
+		
+		btnExportPriceCatalog.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+						
+				new Thread(new Runnable() {
+					public void run() {
+					try {
+						PriceCatalogExportDialog diag = new PriceCatalogExportDialog(selectedcol);
+						diag.setVisible(true);
+								if(diag.value()==true)
+								{
+									progressBar.setVisible(true);
+									progressBar.setStringPainted(true);
+									progressBar.setMinimum(0);
+									progressBar.setMaximum(dao.getCardsCount(selectedcol));
+									MagicExporter exp = new MagicExporter();
+									exp.addObserver(new Observer() {
+										public void update(Observable o, Object arg) {
+											progressBar.setValue((int)arg);
+										}
+									});	
+									exp.exportPriceCatalog(dao.getCardsFromCollection(selectedcol), diag.getDest(), diag.getPriceProviders());
+									
+									JOptionPane.showMessageDialog(null, "Catalog generated");
+									progressBar.setVisible(false);
+								}
+								
+						} 
+						catch (Exception e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					
+					}
+				}).start();
 			}
 		});
 		

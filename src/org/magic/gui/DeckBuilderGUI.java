@@ -394,7 +394,8 @@ public class DeckBuilderGUI extends JPanel{
 				File f=jf.getSelectedFile();
 				
 				try {
-					MagicExporter.export(getDeck(), f);
+					MagicExporter exp = new MagicExporter();
+					exp.export(getDeck(), f);
 					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					logger.error(e);
