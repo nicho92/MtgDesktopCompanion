@@ -24,7 +24,7 @@ public class MagicExporter extends Observable{
 	
 	String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions"};
 	String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
-	String exportedPricesProperties[] = new String[]{	"site","seller","value","currency"};
+	String exportedPricesProperties[] = new String[]{	"site","seller","value","currency","language","quality","foil"};
 	
 	
 	//TODO export card prices catalog
@@ -63,10 +63,10 @@ public class MagicExporter extends Observable{
 						val="";
 					bw.write(val.replaceAll("\n", "")+";");
 				}
-				setChanged();
-				notifyObservers(i++);
 				bw.write("\n");
 			}
+			setChanged();
+			notifyObservers(i++);
 		}
 		bw.close();
 		out.close();

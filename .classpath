@@ -24,5 +24,6 @@
 	<classpathentry kind="lib" path="lib/jdom2-2.0.5.jar"/>
 	<classpathentry kind="lib" path="lib/rome-1.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/rome-utils-1.5.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-collections-3.2.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
