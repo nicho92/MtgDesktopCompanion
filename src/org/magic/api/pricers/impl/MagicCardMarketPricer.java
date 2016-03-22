@@ -201,6 +201,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     	
     	
     	try {
+    		
     		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(xmlContent)));
     		NodeList nodes =d.getElementsByTagName("product");
     		

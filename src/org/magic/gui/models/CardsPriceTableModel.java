@@ -20,9 +20,8 @@ public class CardsPriceTableModel extends DefaultTableModel {
 
 	  static final Logger logger = LogManager.getLogger(CardsPriceTableModel.class.getName());
 
-	
-	String columns[] = new String[]{"Site","Price","Currency","Seller","url"};
-	
+	  String columns[] = new String[]{"Site","Price","Currency","Seller","quality","langage","url"};
+			
 	Set<MagicPricesProvider> providers;
 	MagicCard mc;
 	MagicEdition me;
@@ -86,7 +85,9 @@ public class CardsPriceTableModel extends DefaultTableModel {
 			case 1 : return mp.getValue();
 			case 2: return mp.getCurrency();
 			case 3 : return mp.getSeller();
-			case 4 : return mp.getUrl();
+			case 4 : return mp.getQuality();
+			case 5 : return mp.getLanguage();
+			case 6 : return mp.getUrl();
 		default : return 0;
 		}
 	}

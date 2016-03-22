@@ -7,8 +7,29 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	private String url;
 	private String currency; 
 	private String site;
+	private boolean foil;
+	private String language;
+	private String quality;
 	
 	
+	public String getQuality() {
+		return quality;
+	}
+	public void setQuality(String quality) {
+		this.quality = quality;
+	}
+	public boolean isFoil() {
+		return foil;
+	}
+	public void setFoil(boolean foil) {
+		this.foil = foil;
+	}
+	public String getLanguage() {
+		return language;
+	}
+	public void setLanguage(String language) {
+		this.language = language;
+	}
 	public String getSite() {
 		return site;
 	}

@@ -125,6 +125,10 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 			 mp.setSeller(cols.get(0).text());
 			 mp.setSite(getName());
 			 mp.setUrl(url);
+			 mp.setQuality(cols.get(2).text());
+			 mp.setLanguage(cols.get(1).getElementsByTag("span").text());
+			
+			 
 			 list.add(mp);
 			 
 		 }

@@ -15,16 +15,16 @@ import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.pricers.impl.MagicCardMarketPricer;
 import org.magic.tools.MagicFactory;
 
-public class MagicPricesTableModel extends AbstractTreeTableModel 
+public class MagicPricesProvidersTableModel extends AbstractTreeTableModel 
 {
     private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
     private MagicPricesProvider selectedProvider = null;
     private Set<MagicPricesProvider> pricers = MagicFactory.getInstance().getSetPricers();
-    static final Logger logger = LogManager.getLogger(MagicPricesTableModel.class.getName());
+    static final Logger logger = LogManager.getLogger(MagicPricesProvidersTableModel.class.getName());
 
     
     
-    public MagicPricesTableModel() {
+    public MagicPricesProvidersTableModel() {
         super(new Object());
         
     }
