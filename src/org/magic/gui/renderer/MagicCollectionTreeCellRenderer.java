@@ -10,6 +10,7 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.ManaPanel;
 
 public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -23,13 +24,17 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
     	{
     		Image gold= ImageIO.read(ManaCellRenderer.class.getResource("/res/gold.png"));
     		Image uncolor= ImageIO.read(ManaCellRenderer.class.getResource("/res/uncolor.jpg"));
-		
+    		Image back= ImageIO.read(ManaCellRenderer.class.getResource("/res/bottom.png"));
     	 
+    		
+    			if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicEdition)
+    			{
+    				setIcon(new ImageIcon(back.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+    			}
+    			else
 		    	if(isLeaf)
 		    	{ 
-		    		MagicCard mc;
-		    		
-		    			mc=(MagicCard)((DefaultMutableTreeNode)value).getUserObject();
+		    		MagicCard mc=(MagicCard)((DefaultMutableTreeNode)value).getUserObject();
 		    			//if(mc.getColors().contains(").size()<1)
 		    			{
 		    				setIcon(new ImageIcon(pane.getManaSymbol("{C}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));

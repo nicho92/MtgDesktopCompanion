@@ -539,7 +539,6 @@ public class DeckBuilderGUI extends JPanel{
 	
 	public Map<MagicCard,Integer> getSelectedMap()
 	{
-		System.out.println(selectedIndex);
 		if(selectedIndex==0)
 			return deck.getMap();
 		else

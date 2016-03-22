@@ -6,9 +6,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.Map;
 import java.util.Observable;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.beanutils.PropertyUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
@@ -18,7 +20,9 @@ import org.magic.api.interfaces.MagicPricesProvider;
 public class MagicExporter extends Observable{
 
 	
-	String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions","layout"};
+	
+	
+	String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions"};
 	String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
 	String exportedPricesProperties[] = new String[]{	"site","seller","value","currency"};
 	
@@ -31,6 +35,8 @@ public class MagicExporter extends Observable{
 		
 		out = new FileWriter(f);
 		bw=new BufferedWriter(out);
+	
+		
 		
 		for(String k : exportedProperties)
 			bw.write(k+";");
