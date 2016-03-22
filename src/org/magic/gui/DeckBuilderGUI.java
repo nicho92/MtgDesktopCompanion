@@ -17,6 +17,7 @@ import java.util.Map;
 
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -140,13 +141,15 @@ public class DeckBuilderGUI extends JPanel{
 		panneauHaut.add(txtSearch);
 		txtSearch.setColumns(25);
 		
-		final JButton btnSearch = new JButton("Search");
+		final JButton btnSearch = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/search.png")));
 		panneauHaut.add(btnSearch);
 		
 		final JLabel lblCards = new JLabel("");
 		panneauHaut.add(lblCards);
 		
-		JButton btnNewDeck = new JButton("New Deck");
+		JButton btnNewDeck = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/new.png")));
+				btnNewDeck.setToolTipText("Create New Deck");
+		
 		panneauHaut.add(btnNewDeck);
 		
 		btnNewDeck.addActionListener(new ActionListener() {
@@ -162,7 +165,8 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		
-		JButton btnOpen = new JButton("Open");
+		JButton btnOpen = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/open.png")));
+				btnOpen.setToolTipText("Open deck");
 		panneauHaut.add(btnOpen);
 		
 		btnOpen.addActionListener(new ActionListener() {
@@ -193,7 +197,8 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		
-		JButton btnSave = new JButton("Save");
+		JButton btnSave = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/save.png")));
+				btnSave.setToolTipText("Save deck");
 		panneauHaut.add(btnSave);
 		
 		btnSave.addActionListener(new ActionListener() {
@@ -218,7 +223,9 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		
-		JButton btnManualImport = new JButton("Manual Import");
+		JButton btnManualImport = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/import.png")));
+				btnManualImport.setToolTipText("Import deck manualy");
+				
 		btnManualImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ManualImportFrame fimport = new ManualImportFrame();
@@ -230,10 +237,12 @@ public class DeckBuilderGUI extends JPanel{
 		});
 		panneauHaut.add(btnManualImport);
 		
-		JButton btnExportPDF = new JButton("Export as PDF");
+		JButton btnExportPDF = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/pdf.png")));
+		btnExportPDF.setToolTipText("Export as PDF");
 		panneauHaut.add(btnExportPDF);
 		
-		JButton btnExportAsCsv = new JButton("Export as CSV");
+		JButton btnExportAsCsv = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/xls.png")));
+		btnExportAsCsv.setToolTipText("Export as CSV");
 		panneauHaut.add(btnExportAsCsv);
 		
 		JScrollPane scrollResult = new JScrollPane();

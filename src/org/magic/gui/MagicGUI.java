@@ -342,9 +342,9 @@ public class MagicGUI extends JFrame {
 		globalPanel.setLayout(new BorderLayout());
 
 
-		btnSearch = new JButton("Rechercher");
-		btnExportSearchPDF = new JButton("Export as PDF");
-		btnExportSearchCSV = new JButton("Export as CSV");
+		btnSearch = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/search.png")));
+		btnExportSearchPDF = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/pdf.png")));
+		btnExportSearchCSV = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/xls.png")));
 		
 		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
 		cboQuereableItems.addItem("collections");

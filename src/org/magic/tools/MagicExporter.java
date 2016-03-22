@@ -14,8 +14,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 
-import javafx.beans.InvalidationListener;
-
 
 public class MagicExporter extends Observable{
 
