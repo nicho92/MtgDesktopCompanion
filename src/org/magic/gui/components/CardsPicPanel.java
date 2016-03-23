@@ -53,18 +53,18 @@ public class CardsPicPanel extends JXPanel {
 		initGUI();
 	}
 	
-	public void showImage(Image i)
-	{
-		image=(BufferedImage) i;
-		image=renderer.appendReflection(image);
-		int w = getWidth();
-	    int h = getHeight();
-	    int x = (w - image.getWidth())/2;
-	    int y = (h - image.getHeight())/2;
-		
-	    selectedShape= new Rectangle2D.Double(x, y, image.getWidth(null),  image.getHeight(null));
-	    repaint();
-	}
+//	public void showImage(Image i)
+//	{
+//		image=(BufferedImage) i;
+//		image=renderer.appendReflection(image);
+//		int w = getWidth();
+//	    int h = getHeight();
+//	    int x = (w - image.getWidth())/2;
+//	    int y = (h - image.getHeight())/2;
+//		
+//	    selectedShape= new Rectangle2D.Double(x, y, image.getWidth(null),  image.getHeight(null));
+//	    repaint();
+//	}
 	
 	public void showPhoto(final URL photo) {
 		
