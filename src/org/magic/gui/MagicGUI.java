@@ -729,7 +729,7 @@ public class MagicGUI extends JFrame {
 					{
 						ev.consume();
 						try {
-							String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), 4).toString();
+							String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), 6).toString();
 							Desktop.getDesktop().browse(new URI(url));
 						} catch (Exception e) {
 							logger.error(e);

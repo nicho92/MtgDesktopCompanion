@@ -403,7 +403,7 @@ public class CollectionPanelGUI extends JPanel {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
-						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), 4).toString();
+						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), 6).toString();
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e) {
 						logger.error(e);
