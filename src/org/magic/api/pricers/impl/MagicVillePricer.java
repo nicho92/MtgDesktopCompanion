@@ -36,11 +36,11 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		httpclient = HttpClients.createDefault();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("MAX", "5");
-		props.put("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
-		props.put("WEBSITE", "http://www.magic-ville.com/");
-		props.put("KEYWORD", "");	
-		save();
+				props.put("MAX", "5");
+				props.put("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
+				props.put("WEBSITE", "http://www.magic-ville.com/");
+				props.put("KEYWORD", "");	
+				save();
 		}
 		
 	}
@@ -61,6 +61,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		case "10E" : return "xth";
 		case "CSP" : return "col";
 		case "ARB" : return "alr";
+		case "DST" : return "drs";
 		
 		default : return me.getId();
 		}

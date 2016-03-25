@@ -1,9 +1,11 @@
 package org.magic.gui.components;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -142,10 +144,11 @@ public class ManaPanel extends JPanel {
 			case "2/G":val=44;break;
 			case "T" : val=50;break;
 			case "C" : val=69;break;
+			case "CHAOS" : val=67;break; 
 			default:val=0;
 			}
 		}
-		
+			
 		return imgs[val];
 	}
 	

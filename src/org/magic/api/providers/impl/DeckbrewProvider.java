@@ -164,5 +164,5 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		return new URL("x");
 	}
 
-	
+
 }

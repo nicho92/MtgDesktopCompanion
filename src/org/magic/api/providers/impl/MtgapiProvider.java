@@ -342,6 +342,5 @@ public class MtgapiProvider implements MagicCardsProvider{
 		return new URL("https://mtgapi.com/");
 	}
 
-	
-	
+
 }

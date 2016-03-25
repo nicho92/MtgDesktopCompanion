@@ -3,10 +3,12 @@ package org.magic.gui.components;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.regex.Matcher;
@@ -16,16 +18,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.border.LineBorder;
-import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
-import javax.swing.text.SimpleAttributeSet;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
@@ -38,13 +37,6 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicFormat;
-import javax.swing.UIManager;
-import javax.swing.event.CaretListener;
-import javax.swing.event.CaretEvent;
-import javax.swing.border.BevelBorder;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -355,6 +347,9 @@ public class MagicCardDetailPanel extends JPanel {
 	}
 
 	private void updateIcon() {
+		
+		txtTextPane.setText(txtTextPane.getText().replaceAll("CHAOS", "{CHAOS}"));
+		
 		String regex ="\\{(.*?)\\}";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(txtTextPane.getText());
@@ -559,4 +554,7 @@ public class MagicCardDetailPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding_13);
 		return bindingGroup;
 	}
+	
+	
+	
 }

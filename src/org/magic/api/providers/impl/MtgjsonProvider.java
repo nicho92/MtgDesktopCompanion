@@ -179,9 +179,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		return searchCardByCriteria("id", id).get(0);
 	}
 	
-	public List<MagicCard> searchCardByCriteria(String att,String crit) throws IOException {
-		
-		final List<String> currentSet=new ArrayList<String>();
+	public List<MagicCard> searchCardByCriteria(String att,String crit) throws IOException{
 		
 		list= new ArrayList<MagicCard>();
 
@@ -212,6 +210,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		{
 			jsquery="$..cards[?(@."+att+" == "+crit+")]";
 		}
+		return search(jsquery,att,crit);
+	}
+	
+	private List<MagicCard> search(String jsquery,String att,String crit) throws IOException {
+		
+		final List<String> currentSet=new ArrayList<String>();
+		
 
 		logger.debug("searchCardByCriteria : " + jsquery);
 	
@@ -263,10 +268,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		   if(map.get("variations")!=null)
 	 			  mc.getVariations().addAll((List<Integer>)map.get("variations"));
 	 		  
-	 		  
 	 		   if(map.get("colors")!=null)
 	 			   mc.getColors().addAll((List<String>)map.get("colors"));
-	 		   
 	 		   
 	 		   if(map.get("colorIdentity")!=null)
 	 			   mc.getColorIdentity().addAll((List<String>)map.get("colorIdentity"));
@@ -276,6 +279,19 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		   
 	 		   if(map.get("number")!=null)
 	 			  mc.setNumber(String.valueOf(map.get("number")));
+	 		  
+	 		   if(map.get("number")==null)
+	 		   {
+	 			   if(map.get("mciNumber")!=null)
+	 			   {
+	 				   String mciN = String.valueOf(map.get("mciNumber"));
+	 				   if(mciN.lastIndexOf("/")>-1)
+	 					   mc.setNumber(mciN.substring(mciN.lastIndexOf("/")+1));
+	 				   else
+	 					  mc.setNumber(mciN);
+	 			   }
+	 		   }
+	 		   
 	 		   
 	 		  if(map.get("loyalty")!=null)
 	 			  mc.setLoyalty((int)(double)map.get("loyalty"));
@@ -613,5 +629,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	public URL getWebSite() throws MalformedURLException {
 		return new URL("http://mtgjson.com/");
 	}
+
+
 
 }
