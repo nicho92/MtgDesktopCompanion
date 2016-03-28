@@ -277,6 +277,17 @@ public class HsqlDAO implements MagicDAO {
 	
 	return list;
 	}
+
+	public void update(MagicCard temp, MagicEdition magicEdition, MagicCollection col) throws SQLException {
+		PreparedStatement pst=con.prepareStatement("update CARDS set MCARD=? where EDITION=? and NAME=? and COLLECTION=?");	
+			pst.setObject(1, temp);
+			pst.setString(2, magicEdition.getId());
+			pst.setString(3, temp.getName());
+			pst.setString(4, col.getName());
+			
+			logger.debug("update " + temp.getName() + " " + magicEdition.getId() );
+			pst.executeUpdate();
+	}
 	
 	
 }

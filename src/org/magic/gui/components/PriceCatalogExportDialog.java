@@ -45,7 +45,7 @@ public class PriceCatalogExportDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		txtDest = new JTextField(new File(".").getAbsolutePath()+"export.csv");
+		txtDest = new JTextField(new File(".").getAbsolutePath()+selectedcol.getName()+".csv");
 		
 		panel.add(txtDest);
 		txtDest.setColumns(20);

@@ -38,6 +38,7 @@ public class MagicCardsTree extends JXTree {
 	
 	public void refresh()
 	{
+		//init();
 		((DefaultTreeModel)getModel()).reload();
 	}
 	

@@ -77,6 +77,8 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	
 	@Override
 	public Object getValueAt(int row, int column) {
+		try{
+			
 		MagicPrice mp = prices.get(row);
 		
 		switch(column)
@@ -89,6 +91,11 @@ public class CardsPriceTableModel extends DefaultTableModel {
 			case 5 : return mp.getLanguage();
 			case 6 : return mp.getUrl();
 		default : return 0;
+		}
+		}catch(IndexOutOfBoundsException ioob)
+		{
+			logger.error(ioob);
+			return null;
 		}
 	}
 

@@ -62,7 +62,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		case "CSP" : return "col";
 		case "ARB" : return "alr";
 		case "DST" : return "drs";
-		
+		case "5ED" : return "5th";
 		default : return me.getId();
 		}
 		
@@ -89,7 +89,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 		String keyword ="";
 		try{
-		keyword = getMGVILLCodeEdition(me)+prefixZeros(card.getNumber().replaceAll("a", ""),3);
+		keyword = getMGVILLCodeEdition(me)+prefixZeros(me.getNumber().replaceAll("a", ""),3);
 		}
 		catch(Exception e)
 		{

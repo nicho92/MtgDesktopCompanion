@@ -97,6 +97,7 @@ public class CollectionPanelGUI extends JPanel {
 
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
+				tree.init();
 				tree.refresh();
 				try {
 					model.calculate();
@@ -261,13 +262,20 @@ public class CollectionPanelGUI extends JPanel {
 				if (SwingUtilities.isRightMouseButton(e)) {
 					int row = tree.getClosestRowForLocation(e.getX(), e.getY());
 					tree.setSelectionRow(row);
-					try {
+					
 						DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+						
 						if (node.getUserObject() instanceof MagicEdition)
-							popupMenu.show(e.getComponent(), e.getX(), e.getY());
+						{
+							popupMenuEdition.show(e.getComponent(), e.getX(), e.getY());
+						}
+						if (node.getUserObject() instanceof MagicCard)
+						{
+							popupMenuCards.show(e.getComponent(), e.getX(), e.getY());
+						}
+						
+						
 
-					} catch (Exception ex) {
-					}
 				}
 			}
 		});
@@ -478,13 +486,45 @@ public class CollectionPanelGUI extends JPanel {
 
 	}
 
-	private JPopupMenu popupMenu = new JPopupMenu();
-
+	private JPopupMenu popupMenuEdition = new JPopupMenu();
+	private JPopupMenu popupMenuCards = new JPopupMenu();
+	
+	
 	public void initPopupCollection() throws Exception {
 		JMenu menuItemAdd = new JMenu("Add missing cards in ");
-
+		JMenu menuItemMove = new JMenu("Move this card to ");
+		
 		for (MagicCollection mc : dao.getCollections()) {
 			JMenuItem adds = new JMenuItem(mc.getName());
+			JMenuItem movs = new JMenuItem(mc.getName());
+			
+			movs.addActionListener(new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					DefaultMutableTreeNode nodeCol = ((DefaultMutableTreeNode) path.getPathComponent(1));
+					DefaultMutableTreeNode nodeCd = ((DefaultMutableTreeNode) path.getPathComponent(3));
+					MagicCard card = (MagicCard) nodeCd.getUserObject();
+					MagicCollection oldCol = (MagicCollection)nodeCol.getUserObject();
+					
+					final String collec = ((JMenuItem) e.getSource()).getText();
+					MagicCollection mc = new MagicCollection();
+					mc.setName(collec);
+					
+					try {
+						dao.removeCard(card, oldCol);
+						dao.saveCard(card, mc);
+						nodeCd.removeFromParent();
+						nodeCol.add(new DefaultMutableTreeNode(card));
+						
+						tree.refresh();
+					} catch (SQLException e1) {
+						e1.printStackTrace();
+					}
+				}
+			});
+			
+			
 			adds.addActionListener(new ActionListener() {
 
 				@Override
@@ -521,10 +561,13 @@ public class CollectionPanelGUI extends JPanel {
 
 				}
 			});
+			
 			menuItemAdd.add(adds);
+			menuItemMove.add(movs);
 		}
 
-		popupMenu.add(menuItemAdd);
+		popupMenuEdition.add(menuItemAdd);
+		popupMenuCards.add(menuItemMove);
 	}
 
 	public void setProvider(MagicCardsProvider provider) {
