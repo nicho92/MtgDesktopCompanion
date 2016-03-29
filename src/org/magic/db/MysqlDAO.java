@@ -8,6 +8,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.dbutils.QueryRunner;
+import org.apache.commons.dbutils.ResultSetHandler;
+import org.apache.commons.dbutils.handlers.BeanHandler;
+import org.apache.commons.dbutils.handlers.BeanListHandler;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -20,8 +24,13 @@ public class MysqlDAO implements MagicDAO {
 	static final Logger logger = LogManager.getLogger(MysqlDAO.class.getName());
     Connection con;
     String location;
+    QueryRunner run;
+    
 	
-	 public MysqlDAO() throws ClassNotFoundException, SQLException {
+    ResultSetHandler<MagicCard> cardsHandler = new BeanHandler<MagicCard>(MagicCard.class);
+    ResultSetHandler<List<MagicCard>> cardsListHandler = new BeanListHandler<MagicCard>(MagicCard.class);
+    
+	public MysqlDAO() throws ClassNotFoundException, SQLException {
 			init();
 	}
 	
@@ -30,7 +39,7 @@ public class MysqlDAO implements MagicDAO {
 		 Class.forName("com.mysql.jdbc.Driver");
 	      location = "jdbc:mysql://synology:3306/";
 		  con=DriverManager.getConnection(location+"mtgdesktopclient","mtgdesktopclient","mtgdesktopclient");
-		  
+		  run = new QueryRunner();
 		  createDB();
 		
 	}
@@ -39,7 +48,7 @@ public class MysqlDAO implements MagicDAO {
 	 {
 		 try{
 		 	logger.debug("Create table Cards");
-		 	con.createStatement().executeUpdate("CREATE TABLE cards ( collection VARCHAR(250), multiverseid INTEGER ,originalType VARCHAR (250),artist VARCHAR (250),store_url VARCHAR (250),number VARCHAR (250),id VARCHAR (250),power VARCHAR (250),text VARCHAR (250),toughness VARCHAR (250),cost VARCHAR (250),loyalty INTEGER ,watermarks VARCHAR (250),url VARCHAR (250),flavor VARCHAR (250),layout VARCHAR (250),originalText VARCHAR (250),cmc INTEGER ,name VARCHAR (250),fullType VARCHAR (250))");
+		 	con.createStatement().executeUpdate("CREATE TABLE cards ( edition VARCHAR(250), collection VARCHAR(250), multiverseid INTEGER ,originalType VARCHAR (250),artist VARCHAR (250),store_url VARCHAR (250),number VARCHAR (250),id VARCHAR (250) PRIMARY KEY,power VARCHAR (250),text VARCHAR (250),toughness VARCHAR (250),cost VARCHAR (250),loyalty INTEGER ,watermarks VARCHAR (250),url VARCHAR (250),flavor VARCHAR (250),layout VARCHAR (250),originalText VARCHAR (250),cmc INTEGER ,name VARCHAR (250),fullType VARCHAR (250))");
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
 		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
@@ -71,14 +80,12 @@ public class MysqlDAO implements MagicDAO {
 
 	@Override
 	public MagicCard loadCard(String name, MagicCollection collection) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		 return run.query(con, "SELECT * FROM cards WHERE name=? and collection = ?", cardsHandler, name,collection.getName());
 	}
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		return run.query(con, "SELECT * FROM cards", cardsListHandler);
 	}
 
 	@Override
@@ -89,14 +96,12 @@ public class MysqlDAO implements MagicDAO {
 
 	@Override
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		 return run.query(con, "SELECT * FROM cards WHERE collection = ?", cardsListHandler, collection.getName());
 	}
 
 	@Override
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		 return run.query(con, "SELECT * FROM cards WHERE collection = ? and edition= ?", cardsListHandler, collection.getName(), me.getId());
 	}
 
 	@Override
@@ -154,5 +159,7 @@ public class MysqlDAO implements MagicDAO {
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+
 
 }
