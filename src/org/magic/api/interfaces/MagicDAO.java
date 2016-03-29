@@ -1,4 +1,4 @@
-package org.magic.db;
+package org.magic.api.interfaces;
 
 import java.sql.SQLException;
 import java.util.List;
