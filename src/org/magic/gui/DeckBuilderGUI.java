@@ -282,7 +282,7 @@ public class DeckBuilderGUI extends JPanel{
 		
 		tableDeck.setModel(deckmodel);
 		tableDeck.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		tableDeck.setRowHeight(ManaPanel.pix_resize);
+		tableDeck.setRowHeight(ManaPanel.row_height);
 		tableDeck.setRowSorter(sorterCards);
 		
 		JScrollPane scrollSideboard = new JScrollPane();

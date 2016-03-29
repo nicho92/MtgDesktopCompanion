@@ -1,12 +1,12 @@
 package org.magic.gui.components;
 
-import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.tools.ImageUtils;
 
 public class ManaPanel extends JPanel {
 	
@@ -27,7 +28,8 @@ public class ManaPanel extends JPanel {
 	int chunkHeight=100;
 	BufferedImage imgs[];
 	
-	public final static int pix_resize=18;
+	public static int row_height=18;
+	public static int row_width=18;
 	
 	String regex ="\\{(.*?)\\}";
 	FlowLayout fl =new FlowLayout();
@@ -65,11 +67,13 @@ public class ManaPanel extends JPanel {
 		
 		fl.setVgap(0);
 		fl.setHgap(0);
+		
 		while(m.find()) {
 			{
 			JLabel lab = new JLabel();
-				   lab.setIcon(new ImageIcon(getManaSymbol(m.group()).getScaledInstance(pix_resize, pix_resize, Image.SCALE_DEFAULT)));
-				   lab.setHorizontalAlignment(SwingConstants.LEFT);
+				Image img = getManaSymbol(m.group());
+				  lab.setIcon(new ImageIcon(img.getScaledInstance(row_width, row_height, Image.SCALE_DEFAULT)));
+				  lab.setHorizontalAlignment(SwingConstants.LEFT);
 				  
 			add(lab);
 			}
@@ -101,16 +105,20 @@ public class ManaPanel extends JPanel {
 
 	public Image getManaSymbol(String el) 
 	{
+		row_width=18;
 		el = el.replaceAll("\\{", "").replaceAll("\\}", "").trim();
 		int val = 0;
 		try{
 			val = Integer.parseInt(el);
-			
+			if(val==100)//mox lotus
+				val=65;
 		}
 		catch(NumberFormatException ne)
 		{
+			
 			switch(el)
 			{
+
 			case "X":val=21;break;
 			case "Y":val=22;break;
 			case "Z":val=23;break;
@@ -144,11 +152,24 @@ public class ManaPanel extends JPanel {
 			case "2/G":val=44;break;
 			case "T" : val=50;break;
 			case "C" : val=69;break;
+			case "\u221e" : val=52;break;//infinity symbol
 			case "CHAOS" : val=67;break; 
 			default:val=0;
 			}
 		}
-			
+		
+		if(val==1000000)//gleemax
+		{
+			List<Image> lst = new ArrayList<Image>();
+			lst.add(imgs[60]);
+			lst.add(imgs[61]);
+			lst.add(imgs[62]);
+			lst.add(imgs[63]);
+			lst.add(imgs[64]);
+			row_width=row_width*lst.size();
+			return ImageUtils.joinBufferedImage(lst);
+		}
+		
 		return imgs[val];
 	}
 	

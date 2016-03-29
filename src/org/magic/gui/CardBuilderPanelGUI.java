@@ -54,21 +54,13 @@ public class CardBuilderPanelGUI extends JPanel {
 	private JTextField txtName;
 	
 	private Integer[] data = {0,1,2,3,4,5,6,7,8,9,10};
-	private JComboBox<Integer> cboW = new JComboBox<Integer>();
-	private JComboBox<Integer> cboU = new JComboBox<Integer>();
-	private JComboBox<Integer> cboB = new JComboBox<Integer>();
-	private JComboBox<Integer> cboR = new JComboBox<Integer>();
-	private JComboBox<Integer> cboG = new JComboBox<Integer>();
-	private JComboBox<Integer> cboC = new JComboBox<Integer>();
-	private JComboBox<Integer> cboUn = new JComboBox<Integer>();
-	
-/*	private JComboBox<Integer> cboW = new JComboBox<Integer>(data);
+	private JComboBox<Integer> cboW = new JComboBox<Integer>(data);
 	private JComboBox<Integer> cboU = new JComboBox<Integer>(data);
 	private JComboBox<Integer> cboB = new JComboBox<Integer>(data);
 	private JComboBox<Integer> cboR = new JComboBox<Integer>(data);
 	private JComboBox<Integer> cboG = new JComboBox<Integer>(data);
 	private JComboBox<Integer> cboC = new JComboBox<Integer>(data);
-	private JComboBox<Integer> cboUn = new JComboBox<Integer>(data);*/
+	private JComboBox<Integer> cboUn = new JComboBox<Integer>(data);
 	private JComboBox<String> cboColor;
 	private JTextField txtAuthor;
 

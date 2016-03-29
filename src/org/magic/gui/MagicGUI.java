@@ -481,7 +481,7 @@ public class MagicGUI extends JFrame {
 				scrollCards.setMinimumSize(new Dimension(23, 250));
 				
 				
-						tableCards.setRowHeight(ManaPanel.pix_resize);
+						tableCards.setRowHeight(ManaPanel.row_height);
 						tableCards.setModel(cardsModeltable);
 						tableCards.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 						tableCards.setRowSorter(sorterCards);
