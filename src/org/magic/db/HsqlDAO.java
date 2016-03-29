@@ -89,25 +89,6 @@ public class HsqlDAO implements MagicDAO {
 		 pst.executeUpdate();
 	}
 
-	@Override
-	public MagicDeck getDeck(String name) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void saveDeck(MagicDeck deck) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void removeDeck(MagicDeck deck) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException
 	{
 		
@@ -171,6 +152,10 @@ public class HsqlDAO implements MagicDAO {
 
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
+		
+		if(c.getName().equals("Library"))
+			throw new SQLException(c.getName() + " can not be deleted");
+		
 		PreparedStatement pst = con.prepareStatement("delete from collections where name = ?");
 		 pst.setString(1, c.getName());
 		 pst.executeUpdate();

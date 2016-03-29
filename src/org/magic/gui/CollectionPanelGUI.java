@@ -440,7 +440,7 @@ public class CollectionPanelGUI extends JPanel {
 							curr.removeFromParent();
 						}
 					} catch (SQLException e) {
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				if (curr.getUserObject() instanceof MagicEdition) {
@@ -455,7 +455,7 @@ public class CollectionPanelGUI extends JPanel {
 							curr.removeFromParent();
 						}
 					} catch (SQLException e) {
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				if (curr.getUserObject() instanceof MagicCollection) {
@@ -467,7 +467,7 @@ public class CollectionPanelGUI extends JPanel {
 							curr.removeFromParent();
 						}
 					} catch (SQLException e) {
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 
@@ -475,7 +475,7 @@ public class CollectionPanelGUI extends JPanel {
 					try {
 						model.calculate();
 					} catch (Exception e) {
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 					}
 					model.fireTableDataChanged();
 					tree.refresh();
