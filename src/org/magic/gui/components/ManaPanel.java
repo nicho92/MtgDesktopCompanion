@@ -16,12 +16,16 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.magic.api.pricers.impl.EbayPricer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.ImageUtils;
 
 public class ManaPanel extends JPanel {
 	
-	
+	static final Logger logger = LogManager.getLogger(ManaPanel.class.getName());
+
 	int cols=10;
 	int rows =7;
 	int chunkWidth=100;
@@ -71,6 +75,7 @@ public class ManaPanel extends JPanel {
 		while(m.find()) {
 			{
 			JLabel lab = new JLabel();
+				//logger.debug("Analyse symbol : " + m.group());
 				Image img = getManaSymbol(m.group());
 				  lab.setIcon(new ImageIcon(img.getScaledInstance(row_width, row_height, Image.SCALE_DEFAULT)));
 				  lab.setHorizontalAlignment(SwingConstants.LEFT);
@@ -110,8 +115,6 @@ public class ManaPanel extends JPanel {
 		int val = 0;
 		try{
 			val = Integer.parseInt(el);
-			if(val==100)//mox lotus
-				val=65;
 		}
 		catch(NumberFormatException ne)
 		{
@@ -157,10 +160,19 @@ public class ManaPanel extends JPanel {
 			default:val=0;
 			}
 		}
+		List<Image> lst = new ArrayList<Image>();
+		
+		if(val==100)//mox lotus
+		{
+			lst.add(imgs[65]);
+			lst.add(imgs[66]);
+			row_width=row_width*lst.size();
+			return ImageUtils.joinBufferedImage(lst);
+		}
 		
 		if(val==1000000)//gleemax
 		{
-			List<Image> lst = new ArrayList<Image>();
+			
 			lst.add(imgs[60]);
 			lst.add(imgs[61]);
 			lst.add(imgs[62]);

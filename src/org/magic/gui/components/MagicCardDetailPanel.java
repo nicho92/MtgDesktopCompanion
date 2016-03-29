@@ -369,7 +369,12 @@ public class MagicCardDetailPanel extends JPanel {
 			while(m.find()) {
 				 Image ic = manaPanel.getManaSymbol(m.group());
 				
-				 JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+				 int width=15;
+				 if(m.group().equals("{100}"))
+					 width=30;
+				 
+				
+				 JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(width, 15, Image.SCALE_DEFAULT)));
 				 		label.setAlignmentY(JLabel.TOP);
 				 
 				 StyleConstants.setComponent(labelStyle, label);
