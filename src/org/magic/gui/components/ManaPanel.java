@@ -18,7 +18,6 @@ import javax.swing.SwingConstants;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.magic.api.pricers.impl.EbayPricer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.ImageUtils;
 

@@ -7,10 +7,7 @@ import java.util.Map;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.gui.MagicGUI;
-import org.magic.tools.MagicFactory;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;

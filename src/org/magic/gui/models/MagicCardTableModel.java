@@ -6,7 +6,6 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.MagicCardsProvider;
 
 public class MagicCardTableModel extends DefaultTableModel{
 

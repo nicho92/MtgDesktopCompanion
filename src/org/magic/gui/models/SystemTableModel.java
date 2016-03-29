@@ -1,7 +1,5 @@
 package org.magic.gui.models;
 
-import java.util.Set;
-
 import javax.swing.table.DefaultTableModel;
 
 public class SystemTableModel extends DefaultTableModel {

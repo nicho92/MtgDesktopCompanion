@@ -4,11 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -17,11 +14,10 @@ import javax.swing.JTable;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
-import org.hsqldb.util.DatabaseManagerSwing;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.db.MagicDAO;
 import org.magic.gui.models.MagicPricesProvidersTableModel;
 import org.magic.gui.models.ProvidersTableModel;
 import org.magic.gui.models.SystemTableModel;

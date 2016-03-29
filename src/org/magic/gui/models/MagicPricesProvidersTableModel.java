@@ -2,7 +2,6 @@ package org.magic.gui.models;
 
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -12,7 +11,6 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.api.pricers.impl.MagicCardMarketPricer;
 import org.magic.tools.MagicFactory;
 
 public class MagicPricesProvidersTableModel extends AbstractTreeTableModel 

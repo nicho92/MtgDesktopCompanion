@@ -4,8 +4,6 @@ import java.io.File;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -16,7 +14,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.AbstractMagicPricesProvider;
-import org.magic.api.interfaces.MagicPricesProvider;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 

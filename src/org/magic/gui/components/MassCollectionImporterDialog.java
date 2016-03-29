@@ -1,6 +1,9 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -9,23 +12,17 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JTextPane;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.db.MagicDAO;
-
-import com.itextpdf.text.log.Logger;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JProgressBar;
-import java.awt.Dimension;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
+import org.magic.api.interfaces.MagicDAO;
 
 public class MassCollectionImporterDialog extends JDialog{
 	

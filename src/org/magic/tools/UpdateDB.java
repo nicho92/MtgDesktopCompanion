@@ -1,5 +1,6 @@
 package org.magic.tools;
 
+import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;
 
 import org.magic.api.beans.MagicCard;
@@ -9,20 +10,20 @@ import org.magic.db.HsqlDAO;
 
 public class UpdateDB {
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		HsqlDAO dao = new HsqlDAO();
 		MtgjsonProvider prov = new MtgjsonProvider();
-		prov.init();
+						prov.init();
 		
-		dao.init();
 		
 		MagicCollection col = new MagicCollection();
 						col.setName("Needed");
 						
-		
-			for(MagicCard mc : dao.getCardsFromCollection(col))
+
+		  for(MagicCard mc : dao.getCardsFromCollection(col))
 			{
-				try {
+			
+		  	try {
 					MagicCard temp = prov.getCardById(mc.getId());
 					dao.update(temp,mc.getEditions().get(0),col);
 				} catch (Exception e) {
@@ -30,7 +31,7 @@ public class UpdateDB {
 					e.printStackTrace();
 				}
 			}
-						
-	}
+	
 
+	}
 }

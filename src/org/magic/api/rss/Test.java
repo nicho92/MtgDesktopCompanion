@@ -5,10 +5,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.Attributes;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;

@@ -6,8 +6,6 @@ import java.awt.Component;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.magic.gui.components.ManaPanel;
-
 public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 
 	

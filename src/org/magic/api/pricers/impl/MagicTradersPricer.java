@@ -8,8 +8,6 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Properties;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -17,7 +15,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.AbstractMagicPricesProvider;
-import org.magic.api.interfaces.MagicPricesProvider;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 

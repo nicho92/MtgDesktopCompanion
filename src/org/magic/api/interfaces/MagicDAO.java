@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 
 public interface MagicDAO {

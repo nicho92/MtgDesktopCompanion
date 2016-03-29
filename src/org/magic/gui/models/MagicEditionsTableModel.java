@@ -8,11 +8,10 @@ import java.util.Map;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.db.MagicDAO;
+import org.magic.api.interfaces.MagicDAO;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 

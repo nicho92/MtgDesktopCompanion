@@ -15,11 +15,13 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicDAO;
 
 public class HsqlDAO implements MagicDAO {
 
+	
+	
 	
 	String location;
 	
@@ -27,7 +29,12 @@ public class HsqlDAO implements MagicDAO {
     Connection con;
     List<MagicCard> listNeeded ;
     
-	 public void init() throws ClassNotFoundException, SQLException {
+    public HsqlDAO() throws ClassNotFoundException, SQLException {
+		init();
+	}
+    
+    
+	private void init() throws ClassNotFoundException, SQLException {
 	      logger.debug("init HsqlDB");
 		  Class.forName("org.hsqldb.jdbc.JDBCDriver");
 	      location = System.getProperty("user.home")+"/magicDeskCompanion/db";

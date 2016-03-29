@@ -1,11 +1,6 @@
 package org.magic.gui.components;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
@@ -13,13 +8,12 @@ import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.hsqldb.lib.HashSet;
 import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.db.MagicDAO;
+import org.magic.api.interfaces.MagicDAO;
 
 public class MagicCardsTree extends JXTree {
 	

@@ -19,9 +19,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.db.HsqlDAO;
-import org.magic.db.MagicDAO;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
