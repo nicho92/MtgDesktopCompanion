@@ -20,7 +20,6 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 
 import org.jdesktop.swingx.JXPanel;
-import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.util.PaintUtils;
