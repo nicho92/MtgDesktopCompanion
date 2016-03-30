@@ -7,8 +7,8 @@ import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
+import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -18,6 +18,10 @@ import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.InputMap;
+import javax.swing.KeyStroke;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
@@ -124,12 +128,12 @@ public class CardsPicPanel extends JXPanel {
 		    this.addMouseListener(interactionManager);
 		    this.addMouseMotionListener(interactionManager);
 		    this.addMouseWheelListener(interactionManager);
-		    this.addKeyListener(interactionManager);
-		    this.setFocusable(true);
+		    
+		   
 		    
 	}
 
-	private class GestionnaireEvenements extends MouseAdapter implements KeyListener 
+	private class GestionnaireEvenements extends MouseAdapter 
 	  {
 			public JXPanel mainPanel;
 		
@@ -137,7 +141,6 @@ public class CardsPicPanel extends JXPanel {
 			{
 					this.mainPanel = panel;
 			}
-		
 		
 		 	public void mouseWheelMoved(MouseWheelEvent e) {
 					double quotien = 1.1;
@@ -183,23 +186,10 @@ public class CardsPicPanel extends JXPanel {
 		           selectedShape = at.createTransformedShape(selectedShape);
 		           mainPanel.repaint();
 		        }
-		        
-		        
-		        
 		     }
-		
-			public void keyPressed(KeyEvent e) {
-				
-				if(e.getKeyCode()==KeyEvent.VK_CONTROL)
-					isCtrlPressed=true;
-			}
-		
-			public void keyReleased(KeyEvent e) {
-				if(e.getKeyCode()==KeyEvent.VK_CONTROL)
-					isCtrlPressed=false;
-			}
-		
-			public void keyTyped(KeyEvent e) {	}
+
+		   
+			
 		    
 	    }
 }
