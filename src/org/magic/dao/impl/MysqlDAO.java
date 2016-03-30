@@ -1,5 +1,6 @@
-package org.magic.db;
+package org.magic.dao.impl;
 
+import java.io.File;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -7,6 +8,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
@@ -17,30 +19,38 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.interfaces.AbstractMagicDAO;
 
-public class MysqlDAO implements MagicDAO {
+public class MysqlDAO extends AbstractMagicDAO{
 
 	static final Logger logger = LogManager.getLogger(MysqlDAO.class.getName());
     Connection con;
     String location;
     QueryRunner run;
-    
-	
+
     ResultSetHandler<MagicCard> cardsHandler = new BeanHandler<MagicCard>(MagicCard.class);
     ResultSetHandler<List<MagicCard>> cardsListHandler = new BeanListHandler<MagicCard>(MagicCard.class);
     
 	public MysqlDAO() throws ClassNotFoundException, SQLException {
-			init();
+	    super();	
+		if(!new File(confdir, getName()+".conf").exists()){
+			 props.put("DRIVER", "com.mysql.jdbc.Driver");
+			 props.put("URL","jdbc:mysql:/localhost:3306");
+			 props.put("DB_NAME", "mtgdesktopclient");
+			 props.put("LOGIN", "mtgdesktopclient");
+			 props.put("PASSWORD", "mtgdesktopclient");
+		save();
+		}
 	}
 	
-	
-	private void init() throws SQLException, ClassNotFoundException {
-		 Class.forName("com.mysql.jdbc.Driver");
-	      location = "jdbc:mysql://synology:3306/";
-		  con=DriverManager.getConnection(location+"mtgdesktopclient","mtgdesktopclient","mtgdesktopclient");
-		  run = new QueryRunner();
-		  createDB();
+
+	public void init() throws SQLException, ClassNotFoundException {
+		
+		 Class.forName(props.getProperty("DRIVER"));
+		 con=DriverManager.getConnection(props.getProperty("URL")+"/"+props.getProperty("DB_NAME"),props.getProperty("LOGIN"),props.getProperty("PASSWORD"));
+		 run = new QueryRunner(); 
+		 createDB();
+		
 		
 	}
 
@@ -50,12 +60,11 @@ public class MysqlDAO implements MagicDAO {
 		 	logger.debug("Create table Cards");
 		 	con.createStatement().executeUpdate("CREATE TABLE cards ( edition VARCHAR(250), collection VARCHAR(250), multiverseid INTEGER ,originalType VARCHAR (250),artist VARCHAR (250),store_url VARCHAR (250),number VARCHAR (250),id VARCHAR (250) PRIMARY KEY,power VARCHAR (250),text VARCHAR (250),toughness VARCHAR (250),cost VARCHAR (250),loyalty INTEGER ,watermarks VARCHAR (250),url VARCHAR (250),flavor VARCHAR (250),layout VARCHAR (250),originalText VARCHAR (250),cmc INTEGER ,name VARCHAR (250),fullType VARCHAR (250))");
 		 	logger.debug("Create table collections");
-		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
+		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
+			con.createStatement().executeUpdate("insert into collections values ('Library')");
 		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
 		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
 		 	logger.debug("populate collections");
-		 	
-		 	
 		 	return true;
 		 }catch(SQLException e)
 		 {
@@ -150,14 +159,38 @@ public class MysqlDAO implements MagicDAO {
 
 	@Override
 	public String getDBLocation() {
-		// TODO Auto-generated method stub
-		return null;
+		return props.getProperty("URL")+"/"+props.getProperty("DB_NAME");
 	}
 
 	@Override
 	public long getDBSize() {
 		// TODO Auto-generated method stub
 		return 0;
+	}
+
+
+	@Override
+	public Properties getProperties() {
+		return props;
+	}
+
+
+	@Override
+	public String getName() {
+		return "MySQL";
+	}
+
+
+	@Override
+	public boolean isEnable() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public void enable(boolean enabled) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 

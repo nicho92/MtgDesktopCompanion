@@ -67,7 +67,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.db.HsqlDAO;
+import org.magic.dao.impl.HsqlDAO;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicCardLabel;
@@ -604,9 +604,11 @@ public class MagicGUI extends JFrame {
 
 		try {
 			priceModel=new CardsPriceTableModel();
+			
 			provider=MagicFactory.getInstance().getListProviders().get(0);
-
-			dao=new HsqlDAO();
+			dao=MagicFactory.getInstance().getDaoProviders().get(0);
+			
+			dao.init();
 			
 			cardsModeltable = new MagicCardTableModel();
 

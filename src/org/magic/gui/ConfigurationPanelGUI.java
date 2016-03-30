@@ -14,10 +14,12 @@ import javax.swing.JTable;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
+import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.gui.models.MagicDAOProvidersTableModel;
 import org.magic.gui.models.MagicPricesProvidersTableModel;
 import org.magic.gui.models.ProvidersTableModel;
 import org.magic.gui.models.SystemTableModel;
@@ -32,6 +34,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JTable table;
 	private JTable cardsProviderTable;
 	private JXTreeTable priceProviderTable;
+	private JTable daoProviderTable;
 		
 	
 	public ConfigurationPanelGUI(MagicCardsProvider provider,MagicDAO dao) {
@@ -136,6 +139,12 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		});
 		priceProviderScrollPane.setViewportView(priceProviderTable);
+		
+		JScrollPane daoProviderScrollPane = new JScrollPane();
+		subTabbedProviders.addTab("DataBase", null, daoProviderScrollPane, null);
+		
+		daoProviderTable = new JXTreeTable(new MagicDAOProvidersTableModel());
+		daoProviderScrollPane.setViewportView(daoProviderTable);
 		
 		initDBTab();
 		

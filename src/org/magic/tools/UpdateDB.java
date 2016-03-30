@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.providers.impl.MtgjsonProvider;
-import org.magic.db.HsqlDAO;
+import org.magic.dao.impl.HsqlDAO;
 
 public class UpdateDB {
 
@@ -25,7 +25,7 @@ public class UpdateDB {
 			
 		  	try {
 					MagicCard temp = prov.getCardById(mc.getId());
-					dao.update(temp,mc.getEditions().get(0),col);
+					//dao.update(temp,mc.getEditions().get(0),col);
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

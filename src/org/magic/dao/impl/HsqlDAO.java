@@ -1,4 +1,4 @@
-package org.magic.db;
+package org.magic.dao.impl;
 
 import java.io.File;
 import java.sql.Connection;
@@ -16,29 +16,31 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.interfaces.AbstractMagicDAO;
 
-public class HsqlDAO implements MagicDAO {
+public class HsqlDAO extends AbstractMagicDAO{
 
-	
-	
-	
-	String location;
-	
 	static final Logger logger = LogManager.getLogger(HsqlDAO.class.getName());
     Connection con;
     List<MagicCard> listNeeded ;
     
     public HsqlDAO() throws ClassNotFoundException, SQLException {
-		init();
+    	 super();	
+ 		if(!new File(confdir, getName()+".conf").exists()){
+ 			props.put("DRIVER", "org.hsqldb.jdbc.JDBCDriver");
+ 			props.put("URL", System.getProperty("user.home")+"/magicDeskCompanion/db");
+ 			props.put("DBNAME", "magicDB");
+ 			props.put("LOGIN", "SA");
+ 			props.put("PASS", "");
+ 		save();
+ 		}
 	}
     
     
-	private void init() throws ClassNotFoundException, SQLException {
+	public void init() throws ClassNotFoundException, SQLException {
 	      logger.debug("init HsqlDB");
-		  Class.forName("org.hsqldb.jdbc.JDBCDriver");
-	      location = System.getProperty("user.home")+"/magicDeskCompanion/db";
-		  con=DriverManager.getConnection("jdbc:hsqldb:"+location+"/magicDB","SA","");
+		  Class.forName(props.getProperty("DRIVER"));
+	      con=DriverManager.getConnection("jdbc:hsqldb:"+props.getProperty("URL")+"/"+props.getProperty("DBNAME"),props.getProperty("LOGIN"),props.getProperty("PASS"));
 		  
 		  createDB();
 		
@@ -64,7 +66,7 @@ public class HsqlDAO implements MagicDAO {
 		 	return true;
 		 }catch(SQLException e)
 		 {
-			 logger.debug("HsqlDB : Base already exist");
+			 logger.debug(getName()+ ": Base already exist");
 			 return false;
 		 }
 		 
@@ -218,12 +220,12 @@ public class HsqlDAO implements MagicDAO {
 
 	@Override
 	public String getDBLocation() {
-		return location;
+		return props.getProperty("URL");
 	}
 
 	@Override
 	public long getDBSize() {
-		return FileUtils.sizeOfDirectory(new File(location));
+		return FileUtils.sizeOfDirectory(new File(props.getProperty("URL")));
 	}
 	
 	
@@ -270,18 +272,11 @@ public class HsqlDAO implements MagicDAO {
 	return list;
 	}
 
-	public void update(MagicCard temp, MagicEdition magicEdition, MagicCollection col) throws SQLException {
-		PreparedStatement pst=con.prepareStatement("update CARDS set MCARD=? where EDITION=? and NAME=? and COLLECTION=?");	
-			pst.setObject(1, temp);
-			pst.setString(2, magicEdition.getId());
-			pst.setString(3, temp.getName());
-			pst.setString(4, col.getName());
-			
-			logger.debug("update " + temp.getName() + " " + magicEdition.getId() );
-			pst.executeUpdate();
+	public String getName() {
+		return "hSQLdb";
 	}
-	
-	
+
+
 }
 
 
