@@ -1,4 +1,4 @@
-package org.magic.dao.impl;
+package org.magic.api.dao.impl;
 
 import java.io.File;
 import java.sql.Connection;

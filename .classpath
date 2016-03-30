@@ -25,7 +25,7 @@
 	<classpathentry kind="lib" path="lib/rome-utils-1.5.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-collections-3.2.2.jar"/>
 	<classpathentry kind="lib" path="lib/json-path-2.2.0.jar"/>
-	<classpathentry kind="lib" path="D:/programmation/mysql-connector-java-5.1.16-bin.jar"/>
+	<classpathentry kind="lib" path="D:/programmation/mysql-connector-java-5.1.38-bin.jar"/>
 	<classpathentry kind="lib" path="lib/commons-dbutils-1.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -106,7 +106,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
   	  	if(!version.equals(new BufferedReader(new FileReader(fversion)).readLine()))
   	  		return true;
   	 
-  	  	logger.debug("check new version of " + this + ": up to date");
+  	  	logger.debug("check new version of " + this + ": up to date ("+version+")");
   	  	return false;
 		}
 		catch(Exception e)

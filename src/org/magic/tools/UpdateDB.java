@@ -5,8 +5,8 @@ import java.sql.SQLException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.dao.impl.HsqlDAO;
 import org.magic.api.providers.impl.MtgjsonProvider;
-import org.magic.dao.impl.HsqlDAO;
 
 public class UpdateDB {
 

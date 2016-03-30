@@ -5,6 +5,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import org.magic.api.dao.impl.HsqlDAO;
+import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
@@ -17,8 +19,6 @@ import org.magic.api.pricers.impl.TCGPlayerPricer;
 import org.magic.api.providers.impl.DeckbrewProvider;
 import org.magic.api.providers.impl.MtgapiProvider;
 import org.magic.api.providers.impl.MtgjsonProvider;
-import org.magic.dao.impl.HsqlDAO;
-import org.magic.dao.impl.MysqlDAO;
 
 public class MagicFactory {
 
