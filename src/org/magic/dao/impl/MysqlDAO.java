@@ -8,8 +8,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
+import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.dbutils.QueryRunner;
 import org.apache.commons.dbutils.ResultSetHandler;
 import org.apache.commons.dbutils.handlers.BeanHandler;
@@ -25,17 +25,19 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	static final Logger logger = LogManager.getLogger(MysqlDAO.class.getName());
     Connection con;
-    String location;
     QueryRunner run;
 
-    ResultSetHandler<MagicCard> cardsHandler = new BeanHandler<MagicCard>(MagicCard.class);
+    ResultSetHandler<MagicCollection> collectionsHandler = new BeanHandler<MagicCollection>(MagicCollection.class);
+    ResultSetHandler<List<MagicCollection>> collectionsListHandler = new BeanListHandler<MagicCollection>(MagicCollection.class);
+    
     ResultSetHandler<List<MagicCard>> cardsListHandler = new BeanListHandler<MagicCard>(MagicCard.class);
+    ResultSetHandler<MagicCard> cardsHandler = new BeanHandler<MagicCard>(MagicCard.class);
     
 	public MysqlDAO() throws ClassNotFoundException, SQLException {
 	    super();	
 		if(!new File(confdir, getName()+".conf").exists()){
 			 props.put("DRIVER", "com.mysql.jdbc.Driver");
-			 props.put("URL","jdbc:mysql:/localhost:3306");
+			 props.put("URL","jdbc:mysql://localhost:3306");
 			 props.put("DB_NAME", "mtgdesktopclient");
 			 props.put("LOGIN", "mtgdesktopclient");
 			 props.put("PASSWORD", "mtgdesktopclient");
@@ -50,8 +52,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 con=DriverManager.getConnection(props.getProperty("URL")+"/"+props.getProperty("DB_NAME"),props.getProperty("LOGIN"),props.getProperty("PASSWORD"));
 		 run = new QueryRunner(); 
 		 createDB();
-		
-		
 	}
 
 	 public boolean createDB()
@@ -66,7 +66,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
 		 	logger.debug("populate collections");
 		 	return true;
-		 }catch(SQLException e)
+		 }
+		 catch(SQLException e)
 		 {
 			 logger.debug(e);
 			 return false;
@@ -77,8 +78,24 @@ public class MysqlDAO extends AbstractMagicDAO{
 	
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		// TODO Auto-generated method stub
-
+		String sql = "INSERT INTO  `cards` (  `edition` ,  `collection` ,  `multiverseid` ,  `originalType` ,  `artist` ,  `store_url` ,  `number` ,  `id` ,  `power` ,  `text` ,  `toughness` ,  `cost` ,  `loyalty` ,  `watermarks` ,  `url` ,  `flavor` , `layout` ,  `originalText` ,  `cmc` ,  `name` ,  `fullType` )"+ 
+					 "VALUES (?,  ?,  ?,  ?,  '?', ? ,  ?,  ?,  ?,  ?,  ?,  ?,  ?,  ?, ? , ? , ? , ? ,  ?,  ?, ?);";
+		
+		PreparedStatement stat = con.prepareStatement(sql);
+		stat.setString(1, mc.getEditions().get(0).getId());
+		stat.setString(2, collection.getName());
+		stat.setInt(3, mc.getMultiverseid());
+		stat.setString(4, mc.getOriginalType());
+		stat.setString(5, mc.getArtist());
+		stat.setString(6, mc.getStore_url());
+		stat.setString(7, mc.getNumber());
+		stat.setString(8,mc.getId());
+		stat.setString(8, mc.getPower());
+		stat.setString(9, mc.getText());
+		stat.setString(10, mc.getToughness());
+		stat.setString(11, mc.getCost());
+		stat.setInt(12, mc.getLoyalty());
+		stat.executeQuery();
 	}
 
 	@Override
@@ -99,7 +116,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public int getCardsCount(MagicCollection list) throws SQLException {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -121,8 +137,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public MagicCollection getCollection(String name) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		 return run.query(con, "SELECT * FROM collections WHERE name = ?", collectionsHandler, name);
 	}
 
 	@Override
@@ -139,16 +154,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<MagicCollection> getCollections() throws SQLException {
-		PreparedStatement pst=con.prepareStatement("select * from collections");	
-		ResultSet rs = pst.executeQuery();
-		List<MagicCollection> colls = new ArrayList<MagicCollection>();
-		while(rs.next())
-		{
-			MagicCollection mc = new MagicCollection();
-			mc.setName(rs.getString(1));
-			colls.add(mc);
-		}
-		return colls;
+		return run.query(con,"select * from collections",collectionsListHandler);
 	}
 
 	@Override
@@ -168,30 +174,12 @@ public class MysqlDAO extends AbstractMagicDAO{
 		return 0;
 	}
 
-
-	@Override
-	public Properties getProperties() {
-		return props;
-	}
-
-
 	@Override
 	public String getName() {
 		return "MySQL";
 	}
 
 
-	@Override
-	public boolean isEnable() {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public void enable(boolean enabled) {
-		// TODO Auto-generated method stub
-		
-	}
 	
 
 

@@ -139,6 +139,8 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
 	        	String k = (String)((Entry)node).getKey();
 	        	selectedProvider.getProperties().put(k, strValue);
 	        	//pricers.add(selectedProvider);
+	        	
+	        	
 	        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
 	        	selectedProvider.save();
 	    	}    

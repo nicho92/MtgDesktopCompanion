@@ -14,7 +14,6 @@ import javax.swing.JTable;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
-import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
@@ -25,16 +24,12 @@ import org.magic.gui.models.ProvidersTableModel;
 import org.magic.gui.models.SystemTableModel;
 
 public class ConfigurationPanelGUI extends JPanel {
-	
-	JLabel lblLocation;
-	JLabel lblDbSize;
 	private MagicCardsProvider provider;
 	private MagicDAO dao;
-	private JLabel lblNbCards ;
 	private JTable table;
 	private JTable cardsProviderTable;
 	private JXTreeTable priceProviderTable;
-	private JTable daoProviderTable;
+	private JXTreeTable daoProviderTable;
 		
 	
 	public ConfigurationPanelGUI(MagicCardsProvider provider,MagicDAO dao) {
@@ -57,60 +52,6 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		JPanel webSiteConfigPanel = new JPanel();
 		tabbedPane.addTab("WebSite", null, webSiteConfigPanel, null);
-		
-		JPanel databaseConfigPanel = new JPanel();
-		tabbedPane.addTab("Database", null, databaseConfigPanel, null);
-		GridBagLayout gbl_databaseConfigPanel = new GridBagLayout();
-		gbl_databaseConfigPanel.columnWidths = new int[]{142, 116, 0};
-		gbl_databaseConfigPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_databaseConfigPanel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_databaseConfigPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		databaseConfigPanel.setLayout(gbl_databaseConfigPanel);
-		
-		JLabel lblDatabaseLocation = new JLabel("Database Location :");
-		GridBagConstraints gbc_lblDatabaseLocation = new GridBagConstraints();
-		gbc_lblDatabaseLocation.anchor = GridBagConstraints.WEST;
-		gbc_lblDatabaseLocation.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDatabaseLocation.gridx = 0;
-		gbc_lblDatabaseLocation.gridy = 1;
-		databaseConfigPanel.add(lblDatabaseLocation, gbc_lblDatabaseLocation);
-		
-		lblLocation = new JLabel("");
-		GridBagConstraints gbc_lblLocation = new GridBagConstraints();
-		gbc_lblLocation.insets = new Insets(0, 0, 5, 0);
-		gbc_lblLocation.gridx = 1;
-		gbc_lblLocation.gridy = 1;
-		databaseConfigPanel.add(lblLocation, gbc_lblLocation);
-		
-		lblDbSize = new JLabel("");
-		GridBagConstraints gbc_lblDbSize = new GridBagConstraints();
-		gbc_lblDbSize.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDbSize.gridx = 1;
-		gbc_lblDbSize.gridy = 2;
-		databaseConfigPanel.add(lblDbSize, gbc_lblDbSize);
-		
-		JLabel lblDatabaseSize = new JLabel("Database size :");
-		GridBagConstraints gbc_lblDatabaseSize = new GridBagConstraints();
-		gbc_lblDatabaseSize.anchor = GridBagConstraints.WEST;
-		gbc_lblDatabaseSize.insets = new Insets(0, 0, 5, 5);
-		gbc_lblDatabaseSize.gridx = 0;
-		gbc_lblDatabaseSize.gridy = 2;
-		databaseConfigPanel.add(lblDatabaseSize, gbc_lblDatabaseSize);
-		
-		JLabel lblCardsInDb = new JLabel("Cards in DB :");
-		GridBagConstraints gbc_lblCardsInDb = new GridBagConstraints();
-		gbc_lblCardsInDb.anchor = GridBagConstraints.WEST;
-		gbc_lblCardsInDb.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCardsInDb.gridx = 0;
-		gbc_lblCardsInDb.gridy = 3;
-		databaseConfigPanel.add(lblCardsInDb, gbc_lblCardsInDb);
-		
-		lblNbCards = new JLabel("");
-		GridBagConstraints gbc_lblNbCards = new GridBagConstraints();
-		gbc_lblNbCards.insets = new Insets(0, 0, 5, 0);
-		gbc_lblNbCards.gridx = 1;
-		gbc_lblNbCards.gridy = 3;
-		databaseConfigPanel.add(lblNbCards, gbc_lblNbCards);
 		
 		
 		JPanel providerConfigPanel = new JPanel();
@@ -141,24 +82,20 @@ public class ConfigurationPanelGUI extends JPanel {
 		priceProviderScrollPane.setViewportView(priceProviderTable);
 		
 		JScrollPane daoProviderScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("DataBase", null, daoProviderScrollPane, null);
+		subTabbedProviders.addTab("DataBases", null, daoProviderScrollPane, null);
 		
 		daoProviderTable = new JXTreeTable(new MagicDAOProvidersTableModel());
+		daoProviderTable.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1);
+						((MagicDAOProvidersTableModel)daoProviderTable.getTreeTableModel()).setSelectedNode((MagicDAO)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		});
 		daoProviderScrollPane.setViewportView(daoProviderTable);
 		
-		initDBTab();
 		
 	}
 
-	private void initDBTab() {
-		lblLocation.setText(dao.getDBLocation());
-		lblDbSize.setText(dao.getDBSize()/1024 +" Ko");
-		try {
-			lblNbCards.setText(dao.getCardsCount(null) +"");
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 }
