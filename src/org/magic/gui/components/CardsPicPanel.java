@@ -8,13 +8,17 @@ import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -22,6 +26,7 @@ import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.InputMap;
 import javax.swing.KeyStroke;
+import javax.swing.Timer;
 
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
@@ -36,13 +41,27 @@ public class CardsPicPanel extends JXPanel {
 	
 	private static final long serialVersionUID = 1L;
 
-	private BufferedImage image=null;
+	private BufferedImage imgFront=null;
+	private BufferedImage back;
+
 	private Shape selectedShape = null;
 	private ReflectionRenderer renderer;
 	private Point pointInitial = null;
 	private boolean isCtrlPressed = false;
 
+	
+	 private BufferedImage printed;
+     
+     private float xScale = 1f;
+     private float xDelta = 0.05f;
+     boolean launched=false;
+     private Timer timer;
+     int pX, pY;
+	
+	
+	
 	private boolean moveable=true;
+
 
 	public void setMoveable(boolean bool)
 	{
@@ -53,36 +72,36 @@ public class CardsPicPanel extends JXPanel {
 	{
 		initGUI();
 	}
+
+	private BufferedImage mirroring(BufferedImage image) {
+    	AffineTransform tx = AffineTransform.getScaleInstance(-1, 1);
+    	tx.translate(-image.getWidth(null),0);
+    	AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+    	image = op.filter(image, null);
+    	return image;
+	}
 	
-//	public void showImage(Image i)
-//	{
-//		image=(BufferedImage) i;
-//		image=renderer.appendReflection(image);
-//		int w = getWidth();
-//	    int h = getHeight();
-//	    int x = (w - image.getWidth())/2;
-//	    int y = (h - image.getHeight())/2;
-//		
-//	    selectedShape= new Rectangle2D.Double(x, y, image.getWidth(null),  image.getHeight(null));
-//	    repaint();
-//	}
-	
-	public void showPhoto(final URL photo) {
+	public void showPhoto(final URL photo,final URL photoBack) {
 		
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
 				try {
-					image = ImageIO.read(photo);
+					imgFront = ImageIO.read(photo);
+					imgFront=renderer.appendReflection(imgFront);
+					back=mirroring(ImageIO.read(photoBack));
+					back=renderer.appendReflection(back);
 					
-					image=renderer.appendReflection(image);
+					
+					printed=imgFront; 
+					
 					int w = getWidth();
 				    int h = getHeight();
-				    int x = (w - image.getWidth())/2;
-				    int y = (h - image.getHeight())/2;
+				    int x = (w - imgFront.getWidth())/2;
+				    int y = (h - imgFront.getHeight())/2;
 					
-				    selectedShape= new Rectangle2D.Double(x, y, image.getWidth(null),  image.getHeight(null));
+				    selectedShape= new Rectangle2D.Double(x, y, imgFront.getWidth(null),  imgFront.getHeight(null));
 				  
 					
 				} catch (Exception e) {
@@ -102,35 +121,67 @@ public class CardsPicPanel extends JXPanel {
 		g2.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
 		g2.setStroke(new BasicStroke(0));
 		
-		if(image !=null)
+		if(printed !=null)
 		{
+			
+			 pX = (int)((getWidth() - (printed.getWidth() * xScale)) / 2);
+             pY = (getHeight() - printed.getHeight()) / 2;
+
+            AffineTransform at = new AffineTransform();
+            
+            at.translate(pX, pY);
+            at.scale(xScale, 1);
+            
+            g2.setTransform(at);
+            if(xScale<0)
+            	printed=back;
+            else
+            	printed=imgFront;
+            
+			
+			
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));   
 			g2.draw(selectedShape);
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
-			g2.drawImage(image, (int)selectedShape.getBounds().getX(), 
-  		  			  (int)selectedShape.getBounds().getY(),
-  		  			  (int)selectedShape.getBounds().getWidth(),
-  		  			  (int)selectedShape.getBounds().getHeight(),
-//  		  			  (int)selectedShape.getBounds(),
-//  		  			  (int)selectedShape.getBounds().getHeight(),
-//  		  			  (int)selectedShape.getBounds().getHeight(), 
-//  		  			  (int)selectedShape.getBounds().getHeight(),
-  		  			  null);    
+			g2.drawImage(printed, (int)selectedShape.getBounds().getX(),
+  		  			  			   (int)selectedShape.getBounds().getY(),
+  		  			  			   (int)selectedShape.getBounds().getWidth(),
+  		  			  			   (int)selectedShape.getBounds().getHeight(),
+  		  			  			   null);    
 			
+			g2.dispose();
 		}
+		
 	}
 
 	private void initGUI() {
 		renderer = new ReflectionRenderer();
 		setBackgroundPainter(new MattePainter(PaintUtils.NIGHT_GRAY,true));
-
+		
 	    GestionnaireEvenements interactionManager = new GestionnaireEvenements(this); 
 		    this.addMouseListener(interactionManager);
 		    this.addMouseMotionListener(interactionManager);
 		    this.addMouseWheelListener(interactionManager);
 		    
-		   
 		    
+		    timer = new Timer(30, new ActionListener() {
+                public void actionPerformed(ActionEvent e) {
+                	
+                    xScale += xDelta;
+                    if (xScale > 1) {
+                        xDelta *= -1;
+                    } else if (xScale < -1) {
+                        xDelta *= -1;
+                    }
+                    repaint();
+                    
+                   if((int)xScale==1 || (int)xScale==-1 )
+                   {
+                	   timer.stop();
+                	   launched=false;
+                   }
+                }
+            });
 	}
 
 	private class GestionnaireEvenements extends MouseAdapter 
@@ -158,6 +209,15 @@ public class CardsPicPanel extends JXPanel {
 			            mainPanel.repaint();
 			          }
 			}
+		 	
+		 	@Override
+		 	public void mouseClicked(MouseEvent e) {
+        		if(!launched)
+        		{
+        			timer.start();
+        			launched=true;
+        		}
+		 	}
 			
 			public void mousePressed(MouseEvent e)
 		    {

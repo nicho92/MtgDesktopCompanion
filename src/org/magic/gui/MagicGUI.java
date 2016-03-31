@@ -173,8 +173,8 @@ public class MagicGUI extends JFrame {
 	
 	private JList<MagicEdition> listEdition;
 
-
-
+	private URL front;
+	private URL back;
 
 	public void setDefaultLanguage(String language) {
 		defaultLanguage=language;
@@ -225,6 +225,7 @@ public class MagicGUI extends JFrame {
 						try {
 							dao.saveCard(mc, dao.getCollection(collec));
 						} catch (SQLException e1) {
+							e1.printStackTrace();
 							JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
 						}
 
@@ -701,9 +702,6 @@ public class MagicGUI extends JFrame {
 
 			listEdition.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent mev) {
-
-				
-
 						selectedEdition = listEdition.getSelectedValue();
 						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);
@@ -711,7 +709,8 @@ public class MagicGUI extends JFrame {
 							public void run() {
 								try {
 									loading(true,"loading edition");
-										cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card"));
+										cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card"),
+																new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card"));//backcard
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 											updatePrices();
@@ -761,7 +760,8 @@ public class MagicGUI extends JFrame {
 						if(selLang!=null)
 						{
 							//logger.debug("loading " + selLang + " " + "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selLang.getGathererId()+"&type=card");
-							cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selLang.getGathererId()+"&type=card"));
+							cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selLang.getGathererId()+"&type=card"),
+													back);
 						}
 					} catch (MalformedURLException e1) {}
 				}
@@ -932,9 +932,28 @@ public class MagicGUI extends JFrame {
 			for(MagicEdition me : selected.getEditions())
 				((DefaultListModel<MagicEdition>)listEdition.getModel()).addElement(me);
 
-			ImageIcon icon = new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selected.getEditions().get(0).getMultiverse_id()+"&type=card"));
-			//lblCard.setIcon(icon);
-			cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selected.getEditions().get(0).getMultiverse_id()+"&type=card"));
+			
+			front = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card");
+			
+			String nb = selected.getNumber();
+			if(selected.getLayout().equalsIgnoreCase("double-faced"))
+			{
+				if(nb.contains("a"))
+					nb=nb.replace("a", "b");
+				else
+					nb=nb.replace("b", "a");
+				
+				MagicCard flipC = provider.getCardByNumber(nb, selectedEdition);
+				back=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+flipC.getEditions().get(0).getMultiverse_id()+"&type=card");
+			}
+			else
+			{
+				back=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card");
+			}
+			
+			
+			cardsPicPanel.showPhoto(front,back);
+									
 
 			detailCardPanel.setMagicCard(selected,true);
 			magicEditionDetailPanel.setMagicEdition(selected.getEditions().get(0));

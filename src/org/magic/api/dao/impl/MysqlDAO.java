@@ -84,7 +84,10 @@ public class MysqlDAO extends AbstractMagicDAO{
 		PreparedStatement stat = con.prepareStatement(sql);
 		stat.setString(1, mc.getEditions().get(0).getId());
 		stat.setString(2, collection.getName());
-		stat.setInt(3, mc.getMultiverseid());
+		if(mc.getMultiverseid()!=null)
+			stat.setInt(3, mc.getMultiverseid());
+		else
+			stat.setInt(3, 0);
 		stat.setString(4, mc.getOriginalType());
 		stat.setString(5, mc.getArtist());
 		stat.setString(6, mc.getStore_url());
@@ -94,8 +97,22 @@ public class MysqlDAO extends AbstractMagicDAO{
 		stat.setString(9, mc.getText());
 		stat.setString(10, mc.getToughness());
 		stat.setString(11, mc.getCost());
-		stat.setInt(12, mc.getLoyalty());
-		stat.executeQuery();
+		if(mc.getLoyalty()==null)
+			stat.setInt(12, 0);
+		else
+			stat.setInt(12, mc.getLoyalty());
+		stat.setString(13, mc.getWatermarks());
+		stat.setString(14, mc.getUrl());
+		stat.setString(15, mc.getFlavor());
+		stat.setString(16, mc.getLayout());
+		stat.setString(17, mc.getOriginalText());
+		if(mc.getCmc()==null)
+			stat.setInt(18, 0);
+		else
+			stat.setInt(18, mc.getCmc());
+		stat.setString(19, mc.getName());
+		stat.setString(20, mc.getFullType());
+		stat.executeUpdate();
 	}
 
 	@Override
