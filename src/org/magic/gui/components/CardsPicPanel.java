@@ -98,8 +98,8 @@ public class CardsPicPanel extends JXPanel {
 					
 					int w = getWidth();
 				    int h = getHeight();
-				    int x = (w - imgFront.getWidth())/2;
-				    int y = (h - imgFront.getHeight())/2;
+				    int x = 15;//(w - imgFront.getWidth())/2;
+				    int y = 15;//(h - imgFront.getHeight())/2;
 					
 				    selectedShape= new Rectangle2D.Double(x, y, imgFront.getWidth(null),  imgFront.getHeight(null));
 				  
@@ -143,11 +143,14 @@ public class CardsPicPanel extends JXPanel {
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));   
 			g2.draw(selectedShape);
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+			
 			g2.drawImage(printed, (int)selectedShape.getBounds().getX(),
   		  			  			   (int)selectedShape.getBounds().getY(),
   		  			  			   (int)selectedShape.getBounds().getWidth(),
   		  			  			   (int)selectedShape.getBounds().getHeight(),
   		  			  			   null);    
+			
+			
 			
 			g2.dispose();
 		}

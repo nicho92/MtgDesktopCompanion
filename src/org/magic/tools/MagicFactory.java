@@ -54,7 +54,7 @@ public class MagicFactory {
 			cardsProviders.add(new DeckbrewProvider());
 			cardsProviders.add(new MtgapiProvider());
 			
-			//daoProviders.add(new HsqlDAO());
+			daoProviders.add(new HsqlDAO());
 			daoProviders.add(new MysqlDAO());
 			
 		} catch (Exception e) {
