@@ -62,12 +62,6 @@ public class CardsPicPanel extends JXPanel {
 	
 	private boolean moveable=true;
 
-
-	public void setMoveable(boolean bool)
-	{
-		this.moveable=bool;
-	}
-	  
 	public CardsPicPanel()
 	{
 		initGUI();
@@ -88,8 +82,7 @@ public class CardsPicPanel extends JXPanel {
 			@Override
 			public void run() {
 				try {
-					imgFront = ImageIO.read(photo);
-					imgFront=renderer.appendReflection(imgFront);
+					imgFront=renderer.appendReflection(ImageIO.read(photo));
 					back=mirroring(ImageIO.read(photoBack));
 					back=renderer.appendReflection(back);
 					
@@ -101,7 +94,7 @@ public class CardsPicPanel extends JXPanel {
 				    int x = 15;//(w - imgFront.getWidth())/2;
 				    int y = 15;//(h - imgFront.getHeight())/2;
 					
-				    selectedShape= new Rectangle2D.Double(x, y, imgFront.getWidth(null),  imgFront.getHeight(null));
+				    selectedShape= new Rectangle2D.Double(x, y, printed.getWidth(null),  printed.getHeight(null));
 				  
 					
 				} catch (Exception e) {
@@ -236,10 +229,6 @@ public class CardsPicPanel extends JXPanel {
 		    
 		    public void mouseDragged(MouseEvent e) {
 		    	
-		    	if(isCtrlPressed)
-			    {
-			    	System.out.println("rotation " + Math.PI);
-			    }
 		    	if(moveable) 
 		    	if (selectedShape != null) {
 		           int deltaX = e.getX() - pointInitial.x;
