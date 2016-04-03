@@ -15,6 +15,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.AbstractMagicDAO;
 
@@ -51,10 +52,8 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 try{
 		 	con.createStatement().executeUpdate("create table cards (name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Cards");
-		 	con.createStatement().executeUpdate("create table decks (id_deck integer PRIMARY KEY , name varchar(45),commentaire varchar(1500))");
+		 	con.createStatement().executeUpdate("create table decks (name varchar(45),mcard OBJECT)");
 		 	logger.debug("Create table decks");
-		 	con.createStatement().executeUpdate("create table decks_cartes (id_deck integer PRIMARY KEY, id_carte varchar(45),exemplaire integer)");
-		 	logger.debug("Create table decks_carte");
 		 	con.createStatement().executeUpdate("create table collections (name varchar(250) PRIMARY KEY)");
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
@@ -155,8 +154,6 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 pst.setString(1, c.getName());
 		 
 		 pst.executeUpdate();
-			
-		
 	}
 
 	@Override
@@ -274,6 +271,43 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	public String getName() {
 		return "hSQLdb";
+	}
+
+
+	@Override
+	public List<MagicDeck> listDeck() throws SQLException {
+		String sql ="select * from decks";
+		
+		PreparedStatement pst=con.prepareStatement(sql);	
+		
+		ResultSet rs = pst.executeQuery();
+		List<MagicDeck> list = new ArrayList<MagicDeck>();
+		while(rs.next())
+		{
+			list.add((MagicDeck) rs.getObject("mcard"));
+		}
+	
+	return list;
+	}
+
+
+	@Override
+	public void saveDeck(MagicDeck d) throws SQLException {
+
+		logger.debug("saving " + d);
+		PreparedStatement pst = con.prepareStatement("insert into decks values (?,?)");
+		 pst.setString(1, d.getName());
+		 pst.setObject(2, d);
+		 //pst.setString(3,d.getColors());
+		 pst.executeUpdate();
+		
+	}
+
+
+	@Override
+	public void deleteDeck(MagicDeck d) throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 

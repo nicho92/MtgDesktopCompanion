@@ -44,6 +44,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ManaPanel;
@@ -92,17 +93,18 @@ public class DeckBuilderGUI extends JPanel{
 	static final Logger logger = LogManager.getLogger(DeckBuilderGUI.class.getName());
 
 	File deckDirectory = new File(System.getProperty("user.home")+"/magicDeskCompanion/decks");
+	private MagicDAO dao;
 	
 	
 	public MagicDeck getDeck() {
 		return deck;
 	}
 	
-	public DeckBuilderGUI(MagicCardsProvider provider) {
+	public DeckBuilderGUI(MagicCardsProvider provider,MagicDAO dao) {
 		
 		deck = new MagicDeck();
 		this.provider=provider;
-		
+		this.dao=dao;
 		initGUI();
 
 	}
@@ -174,7 +176,7 @@ public class DeckBuilderGUI extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					
+					//TO DO use DAO for loading
 					JFileChooser choose = new JFileChooser(deckDirectory);
 					choose.showOpenDialog(null);
 					
@@ -214,6 +216,7 @@ public class DeckBuilderGUI extends JPanel{
 					
 					
 					MagicSerializer.serialize(deck, deckDirectory+"/"+name+".deck");
+					dao.saveDeck(deck);
 					
 				}
 				catch(Exception ex)

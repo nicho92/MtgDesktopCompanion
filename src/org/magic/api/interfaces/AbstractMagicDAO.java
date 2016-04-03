@@ -9,6 +9,7 @@ import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 
 public abstract class AbstractMagicDAO implements MagicDAO {
@@ -88,6 +89,11 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public abstract void removeCollection(MagicCollection c) throws SQLException;
 	public abstract List<MagicCollection> getCollections() throws SQLException;
 	public abstract void removeEdition(MagicEdition ed, MagicCollection col) throws SQLException ;
+	public abstract List<MagicDeck> listDeck()throws SQLException;
+	public abstract void saveDeck(MagicDeck d)throws SQLException;
+	public abstract void deleteDeck(MagicDeck d)throws SQLException;
+
+	
 	public abstract String getDBLocation() ;
 	public abstract long getDBSize() ;
 

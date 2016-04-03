@@ -18,6 +18,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.AbstractMagicDAO;
 
@@ -194,6 +195,27 @@ public class MysqlDAO extends AbstractMagicDAO{
 	@Override
 	public String getName() {
 		return "MySQL";
+	}
+
+
+	@Override
+	public List<MagicDeck> listDeck() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void saveDeck(MagicDeck d) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void deleteDeck(MagicDeck d) throws SQLException {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 
 public interface MagicDAO {
@@ -36,6 +37,10 @@ public interface MagicDAO {
 	public List<MagicCollection> getCollections() throws SQLException;
 
 	public void removeEdition(MagicEdition ed, MagicCollection col)throws SQLException;
+	
+	public List<MagicDeck> listDeck()throws SQLException;
+	public void saveDeck(MagicDeck d)throws SQLException;
+	public void deleteDeck(MagicDeck d)throws SQLException;
  
 	public String getDBLocation();
 	public long getDBSize();

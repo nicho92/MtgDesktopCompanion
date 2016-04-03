@@ -568,7 +568,7 @@ public class MagicGUI extends JFrame {
 		tabbedCardsView.addTab("Types", null, typeRepartitionPanel, null);
 		tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
 
-		deckBuilderGUI = new DeckBuilderGUI(provider);
+		deckBuilderGUI = new DeckBuilderGUI(provider,dao);
 
 
 
