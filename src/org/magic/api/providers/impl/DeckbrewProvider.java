@@ -161,7 +161,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 
 	@Override
 	public URL getWebSite() throws MalformedURLException {
-		return new URL("x");
+		return new URL("https://deckbrew.com/api/");
 	}
 
 
