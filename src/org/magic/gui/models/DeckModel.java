@@ -68,7 +68,7 @@ public class DeckModel extends DefaultTableModel {
 			return mc.getCost();
 		
 		if(column==3)
-			return mc.getColorIdentity();
+			return mc.getColors();
 
 		if(column==4)
 			return mc.getEditions();

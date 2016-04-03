@@ -180,11 +180,11 @@ public class DeckDetailsPanel extends JPanel {
 		}
 	}
 
-	public org.magic.api.beans.MagicDeck getMagicDeck() {
+	public MagicDeck getMagicDeck() {
 		return magicDeck;
 	}
 
-	public void setMagicDeck(org.magic.api.beans.MagicDeck newMagicDeck) {
+	public void setMagicDeck(MagicDeck newMagicDeck) {
 		setMagicDeck(newMagicDeck, true);
 	}
 
