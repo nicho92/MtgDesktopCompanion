@@ -936,20 +936,22 @@ public class MagicGUI extends JFrame {
 			front = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card");
 			
 			String nb = selected.getNumber();
-			if(selected.getLayout().equalsIgnoreCase("double-faced"))
-			{
-				if(nb.contains("a"))
-					nb=nb.replace("a", "b");
-				else
-					nb=nb.replace("b", "a");
-				
-				MagicCard flipC = provider.getCardByNumber(nb, selectedEdition);
-				back=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+flipC.getEditions().get(0).getMultiverse_id()+"&type=card");
-			}
-			else
-			{
-				back=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card");
-			}
+			
+			back=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card");
+			
+			
+			
+			if(selected.getLayout()!=null)
+				if(selected.getLayout().equalsIgnoreCase("double-faced"))
+				{
+					if(nb.contains("a"))
+						nb=nb.replace("a", "b");
+					else
+						nb=nb.replace("b", "a");
+					
+					MagicCard flipC = provider.getCardByNumber(nb, selectedEdition);
+					back=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+flipC.getEditions().get(0).getMultiverse_id()+"&type=card");
+				}
 			
 			
 			cardsPicPanel.showPhoto(front,back);
