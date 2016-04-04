@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.test;
 
 import java.lang.reflect.InvocationTargetException;
 import java.sql.SQLException;

@@ -54,6 +54,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private List<MagicCard> list;
 	private ReadContext ctx;
 	private Map<String,List<MagicCard>> cacheCard;
+	List<String> currentSet;
+	
 	
 	private List<MagicEdition> eds;
 	private String version;
@@ -181,8 +183,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	public List<MagicCard> searchCardByCriteria(String att,String crit) throws IOException{
 		
-		list= new ArrayList<MagicCard>();
-
 		String jsquery="$..cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
 
 		
@@ -210,13 +210,21 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		{
 			jsquery="$..cards[?(@."+att+" == "+crit+")]";
 		}
+		
+		if(att.equalsIgnoreCase("foreignNames"))
+		{
+			jsquery="$..cards[*]."+att+"[?(@.name =~ /^.*"+crit+".*$/i)]";
+		}
+				
+		
 		return search(jsquery,att,crit);
 	}
 	
 	private List<MagicCard> search(String jsquery,String att,String crit) throws IOException {
 		
-		final List<String> currentSet=new ArrayList<String>();
-		
+
+		currentSet=new ArrayList<String>();
+		list= new ArrayList<MagicCard>();
 
 		logger.debug("searchCardByCriteria : " + jsquery);
 	
@@ -224,7 +232,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			public EvaluationContinuation resultFound(FoundResult fr) {
 				
 				if(fr.path().startsWith("$"))
+				{
+					logger.debug(fr.path());
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
+				}
 				return null;
 			}
 		}).read(jsquery,List.class);
@@ -345,21 +356,23 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 					
 					/*get other sets*/
 	 			    
-	 			   if(!me.getRarity().equals("Basic Land")) 
-	 			   for(String print : (List<String>)map.get("printings"))
-	 			   {
-	 				   if(!print.equalsIgnoreCase(codeEd)){
-	 					  MagicEdition meO = getSetById(print);
-		 			    if(mc.getMultiverseid()==null)
-		 			    	meO.setMultiverse_id(String.valueOf(0));
-		 			    else
-		 			    	initEditionVars(mc, meO);
-		 			    
-		 			    mc.getEditions().add(meO); 
-	 				   }
+	 			   if(!me.getRarity().equals("Basic Land"))//too much elements, so, remove all re-printings information
+	 			   {   
+	 				   if(map.get("printings")!=null)
+	 				   for(String print : (List<String>)map.get("printings"))
+		 			   {
+		 				   if(!print.equalsIgnoreCase(codeEd)){
+		 					  MagicEdition meO = getSetById(print);
+			 			    if(mc.getMultiverseid()==null)
+			 			    	meO.setMultiverse_id(String.valueOf(0));
+			 			    else
+			 			    	initEditionVars(mc, meO);
+			 			    
+			 			    mc.getEditions().add(meO); 
+		 				   }
+		 			   }
+	 			   
 	 			   }
-	 			   
-	 			   
 	 			   
 	 			   
 	 			   
@@ -477,7 +490,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 
 	public String[] getQueryableAttributs() {
-		return new String[]{"name","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout"};
+		return new String[]{"name","foreignNames","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout"};
 	}
 
 	public String toString() {

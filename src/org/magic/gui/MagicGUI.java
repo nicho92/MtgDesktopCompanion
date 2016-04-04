@@ -13,6 +13,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -443,14 +445,13 @@ public class MagicGUI extends JFrame {
 		tablePrice.setModel(priceModel);
 		tablePrice.setRowSorter(sorterPrice);
 
-
-
 		scrollPanePrices.setViewportView(tablePrice);
 
 		panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panneauCentral.setRightComponent(tabbedCardsInfo);
 		panneauCentral.setLeftComponent(tabbedCardsView);
 
+		tabbedCardsInfo.setPreferredSize(new Dimension(0, 350));
 
 		tabbedCardsInfo.addTab("Details", null, detailCardPanel, null);
 
@@ -480,7 +481,7 @@ public class MagicGUI extends JFrame {
 				JScrollPane scrollCards = new JScrollPane();
 				panelResultsCards.add(scrollCards);
 				scrollCards.setViewportView(tableCards);
-				scrollCards.setMinimumSize(new Dimension(23, 250));
+				scrollCards.setMinimumSize(new Dimension(0, 0));
 				
 				
 						tableCards.setRowHeight(ManaPanel.row_height);
