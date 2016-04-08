@@ -98,7 +98,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 		   
 		   String link=url.replaceAll("%KEYWORD%", KEYWORD);
 		   
-		   logger.debug(getName() +" looking for price : " + link);
+		   logger.info(getName() +" looking for price : " + link);
 		   
 		   String authorizationProperty = generateOAuthSignature(link);
 		     HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
@@ -195,7 +195,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 
 	private void completeListFromXML(String xmlContent) {
     	
-    	
+    	logger.debug(xmlContent);
     	try {
     		
     		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(xmlContent)));
