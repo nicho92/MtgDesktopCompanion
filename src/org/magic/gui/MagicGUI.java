@@ -111,12 +111,10 @@ public class MagicGUI extends JFrame {
 	
 	private JMenuBar menuBar;
 	private JMenu mnFile;
-	private JMenu mnuCollections;
 	private JMenu mnView;
 	private JMenu mnuAbout;
 	private JMenu mnuProviders;
 	private JMenuItem mntmExit;
-    private JMenuItem mnuCollectionNew;
 	private JMenuItem mntmAboutMagicDesktop;
 	private JMenuItem mntmReportBug;
 	private JMenuItem mntmShowhideFilters;
@@ -258,12 +256,6 @@ public class MagicGUI extends JFrame {
 		
 		
 		
-		mnuCollections = new JMenu("Collection");
-		mnFile.add(mnuCollections);
-		
-		mnuCollectionNew = new JMenuItem("New Collection");
-		
-		mnuCollections.add(mnuCollectionNew);
 		mnFile.add(mntmExit);
 
 		panneauBuilder = new CardBuilderPanelGUI();
@@ -831,27 +823,6 @@ public class MagicGUI extends JFrame {
 			});
 			
 			
-			mnuCollectionNew.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					
-					String name = JOptionPane.showInputDialog("Name ?");
-					MagicCollection mc = new MagicCollection();
-					mc.setName(name);
-					try {
-						dao.saveCollection(mc);
-						((DefaultMutableTreeNode)collectionPanelGUI.getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));
-						DefaultTreeModel mod = (DefaultTreeModel) collectionPanelGUI.getJTree().getModel();
-						mod.reload();
-						
-					} catch (SQLException e) {
-						logger.error(e);
-						JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
-					}
-				}
-			});
-			
-			
-			
 			txtFilter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					String text = txtFilter.getText();
@@ -933,8 +904,10 @@ public class MagicGUI extends JFrame {
 			for(MagicEdition me : selected.getEditions())
 				((DefaultListModel<MagicEdition>)listEdition.getModel()).addElement(me);
 
-			
-			front = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card");
+			if(selectedEdition!=null)
+				front = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card");
+			else
+				front = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selected.getMultiverseid()+"&type=card");
 			
 			String nb = selected.getNumber();
 			

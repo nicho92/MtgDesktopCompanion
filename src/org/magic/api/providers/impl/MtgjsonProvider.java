@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -99,13 +100,25 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	private boolean hasNewVersion()
 	{
+		String temp ="";
 		try{
-		logger.debug("check new version of " + toString());
-		InputStreamReader fr = new InputStreamReader( new URL(urlVersion).openStream(),"ISO-8859-1");
+			
+			temp = new BufferedReader(new FileReader(fversion)).readLine();
+	  	  	logger.debug("check new version of " + toString() +" ("+temp+")");
+	  	
+	  	  URLConnection connection = new URL(urlVersion).openConnection();
+	  	connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+	  	connection.connect();
+	  	  	
+			
+		InputStreamReader fr = new InputStreamReader( connection.getInputStream(),"ISO-8859-1");
   	  	BufferedReader br = new BufferedReader(fr);
   	  	version =  br.readLine();
+  	  	
+  	  
+  	  	
   	  	br.close();
-  	  	if(!version.equals(new BufferedReader(new FileReader(fversion)).readLine()))
+  	  	if(!version.equals(temp))
   	  		return true;
   	 
   	  	logger.debug("check new version of " + this + ": up to date ("+version+")");
@@ -113,6 +126,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		}
 		catch(Exception e)
 		{
+			version =temp;
 			logger.error("Error getting last version " +e);
 			return false;
 		}
@@ -233,7 +247,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				
 				if(fr.path().startsWith("$"))
 				{
-					logger.debug(fr.path());
+					//logger.debug(fr.path());
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
 				}
 				return null;

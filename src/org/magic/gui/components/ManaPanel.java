@@ -129,7 +129,7 @@ public class ManaPanel extends JPanel {
 			case "B":val=26;break;
 			case "R":val=27;break;
 			case "G":val=28;break;
-			
+			case "S":val=29;break;
 			case "W/P":val=45;break;
 			case "U/P":val=46;break;
 			case "B/P":val=47;break;

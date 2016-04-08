@@ -38,7 +38,6 @@ public class MagicFactory {
 	private MagicFactory()
 	{
 		try {
-			//init("org.magic.api.pricers.impl");
 			pricers = new ArrayList<MagicPricesProvider>();
 			cardsProviders = new ArrayList<MagicCardsProvider>();
 			daoProviders=new ArrayList<MagicDAO>();

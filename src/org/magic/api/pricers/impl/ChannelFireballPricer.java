@@ -23,7 +23,6 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	
 	private String setvar="&setname=";
 	static final Logger logger = LogManager.getLogger(ChannelFireballPricer.class.getName());
-	private boolean enable=true;
 
 	
 	public ChannelFireballPricer() {

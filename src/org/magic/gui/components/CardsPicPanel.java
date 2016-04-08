@@ -149,7 +149,8 @@ public class CardsPicPanel extends JXPanel {
 		}
 		
 	}
-
+	 int loop=0;
+	   
 	private void initGUI() {
 		renderer = new ReflectionRenderer();
 		setBackgroundPainter(new MattePainter(PaintUtils.NIGHT_GRAY,true));
@@ -159,23 +160,25 @@ public class CardsPicPanel extends JXPanel {
 		    this.addMouseMotionListener(interactionManager);
 		    this.addMouseWheelListener(interactionManager);
 		    
-		    
 		    timer = new Timer(30, new ActionListener() {
                 public void actionPerformed(ActionEvent e) {
+                	repaint();
                 	
-                    xScale += xDelta;
+                	xScale += xDelta;
                     if (xScale > 1) {
                         xDelta *= -1;
                     } else if (xScale < -1) {
                         xDelta *= -1;
                     }
-                    repaint();
-                    
-                   if((int)xScale==1 || (int)xScale==-1 )
-                   {
-                	   timer.stop();
-                	   launched=false;
-                   }
+
+                    if(loop>0)
+                    if((int)xScale==1 || (int)xScale==-1 )
+                    {
+                       timer.stop();
+                 	   launched=false;
+                 	   
+                    }
+                    loop++;
                 }
             });
 	}

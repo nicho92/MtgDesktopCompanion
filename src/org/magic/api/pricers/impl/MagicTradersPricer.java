@@ -18,7 +18,6 @@ import org.magic.api.interfaces.AbstractMagicPricesProvider;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
-	String url = "http://classic.magictraders.com/pricelists/current-magic-excel.txt";
 	static final Logger logger = LogManager.getLogger(MagicTradersPricer.class.getName());
 	
 	public MagicTradersPricer() {

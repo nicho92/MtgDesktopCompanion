@@ -38,6 +38,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.LogManager;
@@ -87,6 +88,33 @@ public class CollectionPanelGUI extends JPanel {
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
 
+		
+		JButton btnAdd = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/new.png")));
+		btnAdd.setToolTipText("Add a new collection");
+
+		btnAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = JOptionPane.showInputDialog("Name ?");
+				MagicCollection mc = new MagicCollection();
+				mc.setName(name);
+				try {
+					dao.saveCollection(mc);
+					((DefaultMutableTreeNode)getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));
+					DefaultTreeModel mod = (DefaultTreeModel) getJTree().getModel();
+					mod.reload();
+					
+				} catch (SQLException ex) {
+					logger.error(ex);
+					JOptionPane.showMessageDialog(null, ex,"Error",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		
+		panneauHaut.add(btnAdd);
+		
 		JButton btnRefresh = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/refresh.png")));
 		btnRefresh.setToolTipText("Refresh collections");
 
