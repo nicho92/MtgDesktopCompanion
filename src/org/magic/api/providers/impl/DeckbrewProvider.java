@@ -35,7 +35,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	
 	public MagicCard getCardById(String id) throws  IOException {
 		String url = urldeckbrewJSON +"/cards/"+id;
-		logger.debug("get Card ID " + url );
+		logger.info("get Card ID " + url );
 		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
 		return gson.fromJson(reader, MagicCard.class);
 				
@@ -53,7 +53,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		
 		
 		
-		logger.debug("Connexion to " + url);
+		logger.info("Connexion to " + url);
 		
 		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
 		
@@ -103,7 +103,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 
 		String url = urldeckbrewJSON+"/sets/"+id;
 		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
-		logger.debug("Get Set By ID "  + url);
+		logger.info("Get Set By ID "  + url);
 		return gson.fromJson(reader, MagicEdition.class);
 	}
 

@@ -79,7 +79,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	    	ZipEntry ze = zis.getNextEntry();
 	    		
 	    	while(ze!=null){
-	           logger.debug(this + " unzip : "+ fileSetJson.getAbsoluteFile());
+	           logger.info(this + " unzip : "+ fileSetJson.getAbsoluteFile());
 	            FileOutputStream fos = new FileOutputStream(fileSetJson);             
 	            int len;
 	            while ((len = zis.read(buffer)) > 0) {
@@ -104,7 +104,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		try{
 			
 			temp = new BufferedReader(new FileReader(fversion)).readLine();
-	  	  	logger.debug("check new version of " + toString() +" ("+temp+")");
+	  	  	logger.info("check new version of " + toString() +" ("+temp+")");
 	  	
 	  	  URLConnection connection = new URL(urlVersion).openConnection();
 	  	connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
@@ -121,7 +121,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
   	  	if(!version.equals(temp))
   	  		return true;
   	 
-  	  	logger.debug("check new version of " + this + ": up to date ("+version+")");
+  	  	logger.info("check new version of " + this + ": up to date ("+version+")");
   	  	return false;
 		}
 		catch(Exception e)
@@ -135,7 +135,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	public void init()
 	{
-		logger.debug("init " + this +" ");
+		logger.info("init " + this +" ");
 		Configuration.setDefaults(new Configuration.Defaults() {
 
 		    private final JsonProvider jsonProvider = new GsonJsonProvider();
@@ -164,7 +164,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		{	 
 			if(!fileSetJson.exists())
 			{
-				logger.debug("datafile does not exist. Downloading it");
+				logger.info("datafile does not exist. Downloading it");
 				FileUtils.copyURLToFile(new URL(urlSetJsonZip), fileSetJsonTemp);
 				unZipIt(fileSetJsonTemp);
 				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
@@ -173,7 +173,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			
 			if(hasNewVersion())
 			{
-				logger.debug("new version datafile exist. Downloading it");
+				logger.info("new version datafile exist. Downloading it");
 				FileUtils.copyURLToFile(new URL(urlSetJsonZip), fileSetJsonTemp);
 				unZipIt(fileSetJsonTemp);
 				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
@@ -182,9 +182,9 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			
 		 
 		 cacheCard= new HashMap<String,List<MagicCard>>();
-		 logger.debug("init " + this +" : parsing db file");
+		 logger.info("init " + this +" : parsing db file");
 		 ctx = JsonPath.parse(fileSetJson);
-		 logger.debug("init " + this +" : OK");
+		 logger.info("init " + this +" : OK");
 		} 
 		catch (Exception e1) {
 			e1.printStackTrace();
@@ -204,7 +204,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		{
 			if(cacheCard.get(crit)!=null)
 			{
-				logger.debug(crit + " is already in cache. Loading from it");
+				logger.info(crit + " is already in cache. Loading from it");
 				return cacheCard.get(crit);
 			}
 			
@@ -240,14 +240,14 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		currentSet=new ArrayList<String>();
 		list= new ArrayList<MagicCard>();
 
-		logger.debug("searchCardByCriteria : " + jsquery);
+		logger.info("searchCardByCriteria : " + jsquery);
 	
 		List<Map<String,Object>> cardsElement = ctx.withListeners(new EvaluationListener() {
 			public EvaluationContinuation resultFound(FoundResult fr) {
 				
 				if(fr.path().startsWith("$"))
 				{
-					//logger.debug(fr.path());
+					//logger.info(fr.path());
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
 				}
 				return null;
@@ -433,11 +433,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		else //TODO : check
 			jsquery="$..(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
 		
-		logger.debug("get edition with " + att +"="+crit);
+		logger.info("get edition with " + att +"="+crit);
 		
 		if(eds!=null)
 		{
-			logger.debug("editions already loaded. return cache");
+			logger.info("editions already loaded. return cache");
 			return eds;
 		}
 		
@@ -536,7 +536,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	public List<MagicCard> openBooster(MagicEdition me) {
 
-		logger.debug("opening booster for " + me );
+		logger.info("opening booster for " + me );
 		List<MagicCard> common = new ArrayList<MagicCard>();
 		List<MagicCard> uncommon = new ArrayList<MagicCard>();
 		List<MagicCard> rare= new ArrayList<MagicCard>();
