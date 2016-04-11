@@ -1,5 +1,6 @@
 package org.magic.gui.models;
 
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -38,6 +39,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 					prices.addAll(prov.getPrice(me, mc));
 			} catch (Exception e) {
 				logger.error(e);
+				e.printStackTrace();
 			}
 		}
 	}
@@ -73,6 +75,22 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	public int getColumnCount() {
 		return columns.length;
 	}
+	
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		switch(columnIndex)
+		{
+		case 0:return String.class;
+		case 1 : return Double.class;
+		case 2: return String.class;
+		case 3 : return String.class;
+		case 4 : return String.class;
+		case 5 : return String.class;
+		default : return URL.class;
+		}
+	}
+	
 	
 	@Override
 	public Object getValueAt(int row, int column) {

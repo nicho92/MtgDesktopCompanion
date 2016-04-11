@@ -58,7 +58,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		String link=url.replaceAll("%CARDNAME%", KEYWORD);
 		
 		
-		logger.debug(getName()+ " Looking for price " + link);
+		logger.info(getName()+ " Looking for price " + link);
 		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), props.getProperty("ENCODING")));
 		JsonElement root = new JsonParser().parse(reader);
 		
@@ -68,7 +68,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 			mp.setUrl("http://store.channelfireball.com/products/search?query="+URLEncoder.encode(card.getName(),props.getProperty("ENCODING")));
 			mp.setSite(getName());
 			mp.setCurrency(value.substring(0, 1));
-			mp.setValue(Double.parseDouble(value.substring(1)));
+			mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));
 			
 			
 		ArrayList<MagicPrice> list = new ArrayList<MagicPrice>();

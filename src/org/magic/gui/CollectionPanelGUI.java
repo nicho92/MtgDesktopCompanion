@@ -197,7 +197,7 @@ public class CollectionPanelGUI extends JPanel {
 		DefaultRowSorter sorterEditions = new TableRowSorter<DefaultTableModel>(model);
 
 		tableEditions.setRowSorter(sorterEditions);
-
+		tableEditions.getRowSorter().toggleSortOrder(3);
 		scrollPane.setViewportView(tableEditions);
 
 		JSplitPane splitListPanel = new JSplitPane();

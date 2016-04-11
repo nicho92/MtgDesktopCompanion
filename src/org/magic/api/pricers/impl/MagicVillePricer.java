@@ -97,7 +97,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		String url = html+keyword;
 		
 
-		logger.debug(getName() +" looking for prices " + url );
+		logger.info(getName() +" looking for prices " + url );
 		
 		doc = Jsoup.connect(url).get();
 		Element table =null;
@@ -105,7 +105,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		table = doc.select("table[width=98%]").get(2); //select the first table.
 		}catch(IndexOutOfBoundsException e)
 		{
-			logger.debug(getName() +" no sellers");
+			logger.info(getName() +" no sellers");
 			return list;
 		}
 		 
@@ -131,7 +131,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 			 
 		 }
 		 
-		 logger.debug(getName() +" found " + list.size() +" item(s) return " + props.get("MAX") + " items" );
+		 logger.info(getName() +" found " + list.size() +" item(s) return " + props.get("MAX") + " items" );
 		
 		 
 		 if(list.size()>Integer.parseInt(props.get("MAX").toString()))

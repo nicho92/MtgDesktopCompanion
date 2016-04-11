@@ -40,7 +40,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
-
+		List<MagicPrice> list = new ArrayList<MagicPrice>();
 		String url = props.getProperty("URL");
 			   url = url.replaceAll("%API_KEY%", props.getProperty("API_KEY"));
 		
@@ -66,12 +66,25 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			   link=link.replaceAll("%CARTE%", name);
 
 			   
-			   logger.debug(getName()  + " looking "+ " " + link);
+			   logger.info(getName()  + " looking "+ " " + link);
 		
 			   DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			   DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-			   Document doc = dBuilder.parse(link);
-
+			   
+			   
+			   Document doc = null; 
+					   
+					try{   
+					  doc=dBuilder.parse(link);
+					  logger.debug(doc);
+					   
+					}
+					catch(Exception e)
+					{
+						logger.error(e);
+						return list;
+					}
+					
 			   doc.getDocumentElement().normalize();
 			   
 			   
@@ -85,7 +98,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			   	mp.setSeller(getName());
 			   	mp.setValue(Double.parseDouble(nodes.item(0).getChildNodes().item(7).getTextContent()));
 			   	
-			   	List<MagicPrice> list = new ArrayList<MagicPrice>();
+			   	
 			   	list.add(mp);
 			   	
 			    if(list.size()>Integer.parseInt(props.get("MAX").toString()))

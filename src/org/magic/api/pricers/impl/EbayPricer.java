@@ -63,12 +63,15 @@ public class EbayPricer extends AbstractMagicPricesProvider
 		
 		String link=url.replaceAll("%KEYWORD%", KEYWORD);
 		
-		logger.debug(getName() + " looking for " + link);
+		logger.info(getName() + " looking for " + link);
 		
 		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), "UTF-8"));
 		JsonElement root = new JsonParser().parse(reader);
 			
 		JsonElement articles=root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray().get(0).getAsJsonObject().get("searchResult");
+		
+		logger.debug(articles);
+		
 		
 		if(articles.getAsJsonArray().get(0).getAsJsonObject().get("item")==null)
 			return prices;
@@ -81,20 +84,30 @@ public class EbayPricer extends AbstractMagicPricesProvider
 		 	for(JsonElement el : items)
 		 	{
 		 		MagicPrice mp = new MagicPrice();
+		 		String etat="";
 		 		String title = el.getAsJsonObject().get("title").getAsString();
 		 		String consultURL = el.getAsJsonObject().get("viewItemURL").getAsString();
 		 		double price = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject().get("currentPrice").getAsJsonArray().get(0).getAsJsonObject().get("__value__").getAsDouble();
 		 		String currency = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject().get("currentPrice").getAsJsonArray().get(0).getAsJsonObject().get("@currencyId").getAsString();
+		 		try
+		 		{
+		 			etat = el.getAsJsonObject().get("condition").getAsJsonArray().get(0).getAsJsonObject().get("conditionDisplayName").getAsString();
+		 		}
+		 		catch(NullPointerException e)
+		 		{
+		 			etat="";
+		 		}
 		 		
 		 		mp.setSeller(title);
 		 		mp.setUrl(consultURL);
 		 		mp.setCurrency(currency);
 		 		mp.setValue(price);
 		 		mp.setSite(getName());
+		 		mp.setQuality(etat);
 		 		prices.add(mp);
 		 	}
 		 	
-		 	logger.debug(getName() + " find " + prices.size() + " item(s)");
+		 	logger.info(getName() + " find " + prices.size() + " item(s)");
 		 	
 		java.util.Collections.sort(prices);
 		return prices;

@@ -55,7 +55,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 				props.put("KEYWORD",cname);
 				if(name.startsWith(cname))
 				{
-					logger.debug(getName() + " found "+ cname);
+					logger.info(getName() + " found "+ cname);
    				 MagicPrice mp = new MagicPrice();
 							mp.setSeller(getName());
 							mp.setUrl("http://store.eudogames.com/products/search?query="+URLEncoder.encode(card.getName(),"UTF-8"));

@@ -54,7 +54,7 @@ public class MagicCardsTree extends JXTree {
 								
 								for(MagicCollection me : collection)
 								{
-									logger.debug("loading cards from " + me);
+									logger.info("loading cards from " + me);
 									nodeSet = new DefaultMutableTreeNode(me);
 									add(nodeSet);
 									

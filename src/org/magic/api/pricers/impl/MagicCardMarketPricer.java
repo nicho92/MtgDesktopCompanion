@@ -224,7 +224,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 				lists.add(mp);
     			}
     		}
-    		 logger.debug(getName() +" found " + lists.size() + " items");
+    		 logger.info(getName() +" found " + lists.size() + " items");
     	
 		} catch (Exception e) {
 			 logger.error(e);
