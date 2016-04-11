@@ -51,8 +51,6 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		/*if(crit!=null)*/
 			url = urldeckbrewJSON +"/cards?"+crit;
 		
-		
-		
 		logger.info("Connexion to " + url);
 		
 		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");

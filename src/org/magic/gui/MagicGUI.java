@@ -26,6 +26,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -316,7 +317,11 @@ public class MagicGUI extends JFrame {
 			group.add(it);
 			it.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					setProvider(provider);					
+					try {
+						setProvider(provider);
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, e1.getMessage(),"ERREUR",JOptionPane.ERROR_MESSAGE);
+					}					
 				}
 			});
 			
@@ -579,13 +584,19 @@ public class MagicGUI extends JFrame {
 	}
 
 
-	protected void setProvider(MagicCardsProvider provider2) {
+	protected void setProvider(MagicCardsProvider provider2) throws Exception {
 		
 		logger.debug("replace provider '" + provider + "' by '" + provider2 +"'" ) ;
 		this.provider=provider2;
-		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
+		cboQuereableItems.removeAll();
+		cboQuereableItems.setModel(new DefaultComboBoxModel<>(provider.getQueryableAttributs()));
+		//cboQuereableItems.updateUI();
 		cboQuereableItems.addItem("collections");
 		
+		List li = provider.searchSetByCriteria(null, null);
+		Collections.sort(li);
+		cboEdition.removeAll();
+		cboEdition.setModel(new DefaultComboBoxModel(li.toArray()));
 	}
 
 	public void setSelectedCard(MagicCard mc)
