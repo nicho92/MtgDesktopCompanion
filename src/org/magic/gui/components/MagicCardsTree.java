@@ -49,7 +49,7 @@ public class MagicCardsTree extends JXTree {
 								try {
 									collection = dao.getCollections();
 								} catch (Exception e) {
-									e.printStackTrace();
+									logger.error(e);
 								}
 								
 								for(MagicCollection me : collection)
@@ -75,9 +75,10 @@ public class MagicCardsTree extends JXTree {
 										}
 										
 									} catch (Exception e) {
-									e.printStackTrace();	
+										logger.error(e);
 									}
 								}
+								refresh();
 								expandPath(getPathForRow(0));
 							}
 						}).start();
