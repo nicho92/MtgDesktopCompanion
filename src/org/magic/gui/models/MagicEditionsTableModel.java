@@ -96,7 +96,12 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 				return e.getReleaseDate();
 			
 			if(column==4)
-				return 100 * mapCount.get(e) / e.getCardCount();
+			{
+				if(e.getCardCount()>0)
+					return 100 * mapCount.get(e) / e.getCardCount();
+				else
+					return 100 * mapCount.get(e) / 1;
+			}
 			
 			if(column==5)
 				return mapCount.get(e);

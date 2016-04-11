@@ -600,7 +600,7 @@ public class MagicGUI extends JFrame {
 			priceModel=new CardsPriceTableModel();
 			
 			provider=MagicFactory.getInstance().getListProviders().get(0);
-			dao=MagicFactory.getInstance().getDaoProviders().get(0);
+			dao=MagicFactory.getInstance().getEnabledDAO();
 			
 			dao.init();
 			

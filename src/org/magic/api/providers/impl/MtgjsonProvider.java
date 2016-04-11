@@ -6,6 +6,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -70,6 +71,16 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	
+	private InputStream getStreamFromUrl(URL u) throws IOException
+	{
+	  	URLConnection connection = u.openConnection();
+	  	connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+	  	connection.connect();
+	  	
+	  	return connection.getInputStream();
+	}
+	
+	
 	public void unZipIt(File zipFile){
 
 	     byte[] buffer = new byte[1024];
@@ -106,12 +117,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			temp = new BufferedReader(new FileReader(fversion)).readLine();
 	  	  	logger.info("check new version of " + toString() +" ("+temp+")");
 	  	
-	  	  URLConnection connection = new URL(urlVersion).openConnection();
-	  	connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
-	  	connection.connect();
-	  	  	
-			
-		InputStreamReader fr = new InputStreamReader( connection.getInputStream(),"ISO-8859-1");
+		InputStreamReader fr = new InputStreamReader( getStreamFromUrl(new URL(urlVersion)),"ISO-8859-1");
   	  	BufferedReader br = new BufferedReader(fr);
   	  	version =  br.readLine();
   	  	
@@ -161,22 +167,25 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
 		
 		try 
-		{	 
+		{	
+			
+		  	
+		  	  	
 			if(!fileSetJson.exists())
 			{
 				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyURLToFile(new URL(urlSetJsonZip), fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlSetJsonZip)), fileSetJsonTemp);
 				unZipIt(fileSetJsonTemp);
-				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlVersion)), fversion);
 			}
 			
 			
 			if(hasNewVersion())
 			{
 				logger.info("new version datafile exist. Downloading it");
-				FileUtils.copyURLToFile(new URL(urlSetJsonZip), fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlSetJsonZip)), fileSetJsonTemp);
 				unZipIt(fileSetJsonTemp);
-				FileUtils.copyInputStreamToFile(new URL(urlVersion).openStream(), fversion);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlVersion)), fversion);
 			}
 			
 			
@@ -468,9 +477,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MagicEdition getSetById(String id)  {
-		
-		
 		MagicEdition me = new MagicEdition();
+		try{
 					me.setId(id);
 					me.setSet(ctx.read("$."+id+".name",String.class));
 					me.setReleaseDate(ctx.read("$."+id+".releaseDate",String.class));
@@ -481,12 +489,12 @@ public class MtgjsonProvider implements MagicCardsProvider{
 						me.setCardCount(ctx.read("$."+id+".cards", List.class).size());//long !
 					
 				
-		try{
+		
 			me.setBooster(ctx.read("$."+id+".booster",List.class));
 		}
 		catch(PathNotFoundException ex)
 		{	
-			//logger.error("no booster definition found for " + id);
+			logger.error(ex);
 		}
 		
 		return me;

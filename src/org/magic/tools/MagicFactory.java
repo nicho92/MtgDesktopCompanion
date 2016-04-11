@@ -91,5 +91,9 @@ public class MagicFactory {
 	{
 		  return cardsProviders;
 	}
+
+	public MagicDAO getEnabledDAO() {
+		return daoProviders.get(0);
+	}
 	
 }
