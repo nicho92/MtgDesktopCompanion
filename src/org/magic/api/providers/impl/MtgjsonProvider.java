@@ -196,7 +196,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		 logger.info("init " + this +" : OK");
 		} 
 		catch (Exception e1) {
-			e1.printStackTrace();
+			logger.error(e1);
 		}
 	}
 	
@@ -493,8 +493,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			me.setBooster(ctx.read("$."+id+".booster",List.class));
 		}
 		catch(PathNotFoundException ex)
-		{	
-			logger.error(ex);
+		{	//logger.debug(ex);		
+			
 		}
 		
 		return me;
