@@ -194,6 +194,7 @@ public class CollectionPanelGUI extends JPanel {
 		tableEditions = new JTable();
 		tableEditions.setModel(model);
 		tableEditions.setDefaultRenderer(Object.class, new MagicCollectionTableCellRenderer());
+		tableEditions.setRowHeight(MagicCollectionTableCellRenderer.SIZE);
 		DefaultRowSorter sorterEditions = new TableRowSorter<DefaultTableModel>(model);
 
 		tableEditions.setRowSorter(sorterEditions);
