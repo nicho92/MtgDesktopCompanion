@@ -59,6 +59,7 @@ import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicWebSiteGenerator;
+import org.magic.tools.TableColumnAdjuster;
 
 public class CollectionPanelGUI extends JPanel {
 
@@ -82,7 +83,7 @@ public class CollectionPanelGUI extends JPanel {
 
 	public void initGUI() throws Exception {
 		setLayout(new BorderLayout(0, 0));
-		model = new MagicEditionsTableModel(dao, provider);
+		model = new MagicEditionsTableModel(dao);
 		model.init(provider.searchSetByCriteria(null, null));
 
 		JPanel panneauHaut = new JPanel();
@@ -199,8 +200,13 @@ public class CollectionPanelGUI extends JPanel {
 
 		tableEditions.setRowSorter(sorterEditions);
 		tableEditions.getRowSorter().toggleSortOrder(3);
+		
+		new TableColumnAdjuster(tableEditions).adjustColumns();
+		
+		
 		scrollPane.setViewportView(tableEditions);
-
+		
+		
 		JSplitPane splitListPanel = new JSplitPane();
 		add(splitListPanel, BorderLayout.CENTER);
 		splitListPanel.setLeftComponent(scrollPane);

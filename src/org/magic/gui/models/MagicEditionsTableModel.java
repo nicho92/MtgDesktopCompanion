@@ -21,10 +21,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 
 	private MagicDAO dao;
 	private Map<MagicEdition,Integer> mapCount;
-
-	private MagicCardsProvider provider; 
-	
-	
+		
 	public List<MagicEdition> getEditions()
 	{
 		return list;
@@ -60,10 +57,9 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 
 
 
-	public MagicEditionsTableModel(MagicDAO dao,MagicCardsProvider provider) {
+	public MagicEditionsTableModel(MagicDAO dao) {
 		list = new ArrayList<MagicEdition>();
 		this.dao =dao;
-		this.provider=provider;
 	}
 	
 	@Override

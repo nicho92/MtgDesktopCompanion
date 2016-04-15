@@ -34,7 +34,7 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
     			else
 		    	if(isLeaf)
 		    	{ 
-		    		MagicCard mc=(MagicCard)((DefaultMutableTreeNode)value).getUserObject();
+		    			MagicCard mc=(MagicCard)((DefaultMutableTreeNode)value).getUserObject();
 		    			//if(mc.getColors().contains(").size()<1)
 		    			{
 		    				setIcon(new ImageIcon(pane.getManaSymbol("{C}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));

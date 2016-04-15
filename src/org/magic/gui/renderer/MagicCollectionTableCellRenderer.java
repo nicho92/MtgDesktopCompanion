@@ -51,8 +51,9 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 				try
 				{
 					BufferedImage im = ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+value+"_set.png"));
-					ImageIcon ic = new ImageIcon(im.getSubimage(12, 11, 55, 42).getScaledInstance(im.getWidth()/2, 24, Image.SCALE_SMOOTH));
+					ImageIcon ic = new ImageIcon(im.getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
 					JLabel l = new JLabel(ic);
+					l.setOpaque(false);
 					l.setBackground(pane.getBackground());
 					return l;
 				}
@@ -60,7 +61,6 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 				{}
 			}
 		
-			
 			return pane;
 		}
 
