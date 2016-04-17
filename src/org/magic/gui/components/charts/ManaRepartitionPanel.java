@@ -1,6 +1,8 @@
 package org.magic.gui.components.charts;
 
 import java.awt.Color;
+import java.awt.Paint;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -10,7 +12,10 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
+import org.jfree.chart.renderer.category.CategoryItemRenderer;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
@@ -60,8 +65,9 @@ public class ManaRepartitionPanel extends JPanel{
 		plot.setSectionPaint("Red", Color.RED);
 		plot.setSectionPaint("Multi", Color.YELLOW);
 		plot.setSectionPaint("Uncolor", Color.GRAY);
-		
-		
+		plot.setSimpleLabels(true);
+		 PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
+		    plot.setLabelGenerator(generator);
 		this.add(pane);
 	}
 	
@@ -84,7 +90,7 @@ public class ManaRepartitionPanel extends JPanel{
 				dataset.setValue("Uncolor", count("Uncolor"));
 			}
 		}
-
+		
 
         return dataset;
 	}

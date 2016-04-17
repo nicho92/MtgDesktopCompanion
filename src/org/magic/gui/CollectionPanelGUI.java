@@ -60,6 +60,10 @@ import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicWebSiteGenerator;
 import org.magic.tools.TableColumnAdjuster;
+import javax.swing.JTabbedPane;
+import org.magic.gui.components.charts.TypeRepartitionPanel;
+import org.magic.gui.components.charts.ManaRepartitionPanel;
+import org.magic.gui.components.charts.RarityRepartitionPanel;
 
 public class CollectionPanelGUI extends JPanel {
 
@@ -75,6 +79,13 @@ public class CollectionPanelGUI extends JPanel {
 	private CardsPriceTableModel modelPrices;
 	private MagicCollection selectedcol;
 
+	private TypeRepartitionPanel typeRepartitionPanel;
+	private ManaRepartitionPanel manaRepartitionPanel;
+	private RarityRepartitionPanel rarityRepartitionPanel;
+
+	
+	
+	
 	public CollectionPanelGUI(MagicCardsProvider provider, MagicDAO dao) throws Exception {
 		this.provider = provider;
 		this.dao = dao;
@@ -234,34 +245,101 @@ public class CollectionPanelGUI extends JPanel {
 		lblCard.setPreferredSize(new Dimension(250, 0));
 		panneauBas.add(lblCard, BorderLayout.WEST);
 
-		JScrollPane scrollPrices = new JScrollPane();
-		panneauBas.add(scrollPrices);
-
 		modelPrices = new CardsPriceTableModel();
-		tablePrices = new JXTable(modelPrices);
-		tablePrices.setColumnControlVisible(true);
-		scrollPrices.setViewportView(tablePrices);
+		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		panneauBas.add(tabbedPane, BorderLayout.EAST);
+		
+				JScrollPane scrollPrices = new JScrollPane();
+				tabbedPane.addTab("Prices", null, scrollPrices, null);
+				tablePrices = new JXTable(modelPrices);
+				tablePrices.setColumnControlVisible(true);
+				scrollPrices.setViewportView(tablePrices);
+				
+				typeRepartitionPanel = new TypeRepartitionPanel();
+				tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
+				
+				manaRepartitionPanel = new ManaRepartitionPanel();
+				tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
+				
+				rarityRepartitionPanel = new RarityRepartitionPanel();
+				tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
+				
+						tablePrices.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent ev) {
+								if (ev.getClickCount() == 2 && !ev.isConsumed()) {
+									ev.consume();
+									try {
+										String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), 6).toString();
+										Desktop.getDesktop().browse(new URI(url));
+									} catch (Exception e) {
+										logger.error(e);
+									}
+								}
+				
+							}
+						});
 
 		initPopupCollection();
 
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
+			
+			
+			
 			public void valueChanged(TreeSelectionEvent tse) {
 				path = tse.getPath();
 
-				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+				final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
-				if (curr.getUserObject() instanceof MagicCollection) {
+				logger.debug("click on " + curr );
+				
+				if (curr.getUserObject() instanceof MagicCollection) 
+				{
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
+					new Thread(new Runnable() {
+						public void run() {
+								try{
+									rarityRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
+									typeRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
+									 manaRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
+								}catch(Exception e)
+								{
+									logger.error(e);
+									
+								}
+							}
+					}).start();
 					selectedcol = (MagicCollection) curr.getUserObject();
-				} else {
+				} 
+				if(curr.getUserObject() instanceof MagicEdition)
+				{
+					new Thread(new Runnable() {
+						public void run() {
+								try{
+									
+									MagicCollection c = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
+									
+									rarityRepartitionPanel.init(dao.getCardsFromCollection(c,(MagicEdition)curr.getUserObject()));
+									typeRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
+									manaRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
+								}catch(Exception e)
+								{
+									logger.error(e);
+									
+								}
+							}
+					}).start();
+				}
+				
+				{
 					btnExportCSV.setEnabled(false);
 					btnExportPriceCatalog.setEnabled(false);
 				}
 
 				if (curr.getUserObject() instanceof MagicCard) {
-					final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent())
-							.getUserObject();
+					final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
 
 					new Thread(new Runnable() {
 
@@ -282,6 +360,7 @@ public class CollectionPanelGUI extends JPanel {
 
 						}
 					}).start();
+					
 				}
 			}
 		});
@@ -298,6 +377,7 @@ public class CollectionPanelGUI extends JPanel {
 						if (node.getUserObject() instanceof MagicEdition)
 						{
 							popupMenuEdition.show(e.getComponent(), e.getX(), e.getY());
+							
 						}
 						if (node.getUserObject() instanceof MagicCard)
 						{
@@ -432,22 +512,6 @@ public class CollectionPanelGUI extends JPanel {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
-			}
-		});
-
-		tablePrices.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent ev) {
-				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
-					ev.consume();
-					try {
-						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), 6).toString();
-						Desktop.getDesktop().browse(new URI(url));
-					} catch (Exception e) {
-						logger.error(e);
-					}
-				}
-
 			}
 		});
 

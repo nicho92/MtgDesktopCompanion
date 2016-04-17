@@ -111,6 +111,7 @@ public class MagicWebSiteGenerator extends Observable{
 				{
 					generateEditionsTemplate(eds,col);
 				}
+				out.close();
 				
 		}
 	}
@@ -124,14 +125,15 @@ public class MagicWebSiteGenerator extends Observable{
 			rootEd.put("editions",eds);
 			rootEd.put("col", col);
 			rootEd.put("colName", col.getName());
-			
+			FileWriter out = null;
 			for(MagicEdition ed : eds)
 			{
 				rootEd.put("cards", dao.getCardsFromCollection(col, ed));
 				rootEd.put("edition", ed);
-				FileWriter out = new FileWriter(new File(dest+"\\page-ed-"+col.getName()+"-"+ed.getId()+".htm"));
+				out = new FileWriter(new File(dest+"\\page-ed-"+col.getName()+"-"+ed.getId()+".htm"));
 				cardTemplate.process(rootEd, out);
 			}
+			out.close();
 	}
 	
 	
@@ -166,7 +168,7 @@ public class MagicWebSiteGenerator extends Observable{
 				
 				setChanged();
 				notifyObservers(i++);
-		
+				out.close();
 		
 	}
 }

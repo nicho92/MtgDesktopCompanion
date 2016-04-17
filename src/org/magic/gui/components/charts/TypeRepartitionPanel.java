@@ -1,6 +1,7 @@
 package org.magic.gui.components.charts;
 
 import java.awt.Color;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -10,6 +11,8 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.labels.PieSectionLabelGenerator;
+import org.jfree.chart.labels.StandardPieSectionLabelGenerator;
 import org.jfree.chart.plot.PiePlot;
 import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
@@ -40,7 +43,7 @@ public class TypeRepartitionPanel extends JPanel{
 		this.removeAll();
 		
 		JFreeChart chart = ChartFactory.createPieChart3D(
-	            "Color repartition",  // chart title
+	            "Type repartition",  // chart title
 	            getTypeRepartitionDataSet(),             // data
 	            false,               // include legend
 	            true,
@@ -57,7 +60,8 @@ public class TypeRepartitionPanel extends JPanel{
 		plot.setSectionPaint("multi", Color.YELLOW);
 		plot.setSectionPaint("uncolor", Color.GRAY);
 		
-		
+		  PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
+		    plot.setLabelGenerator(generator);
 		this.add(pane);
 	}
 	
