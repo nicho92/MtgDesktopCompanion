@@ -66,9 +66,14 @@ public class ManaRepartitionPanel extends JPanel{
 		plot.setSectionPaint("Multi", Color.YELLOW);
 		plot.setSectionPaint("Uncolor", Color.GRAY);
 		plot.setSimpleLabels(true);
-		 PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
-		    plot.setLabelGenerator(generator);
+		
+		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
+		plot.setLabelGenerator(generator);
+		
 		this.add(pane);
+		this.revalidate();
+		this.repaint();
+		
 	}
 	
 	private PieDataset getManaRepartitionDataSet() 

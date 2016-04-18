@@ -64,6 +64,7 @@ import javax.swing.JTabbedPane;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
+import org.magic.gui.components.MagicCardDetailPanel;
 
 public class CollectionPanelGUI extends JPanel {
 
@@ -82,7 +83,7 @@ public class CollectionPanelGUI extends JPanel {
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
-
+	private MagicCardDetailPanel magicCardDetailPanel;
 	
 	
 	
@@ -157,7 +158,6 @@ public class CollectionPanelGUI extends JPanel {
 		final JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/xls.png")));
 						btnExportCSV.setToolTipText("Export as CSV");
 						
-						
 		btnExportCSV.setEnabled(false);
 		btnExportCSV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -202,6 +202,7 @@ public class CollectionPanelGUI extends JPanel {
 		panneauHaut.add(progressBar);
 
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setMinimumSize(new Dimension(250, 23));
 
 		tableEditions = new JTable();
 		tableEditions.setModel(model);
@@ -248,7 +249,7 @@ public class CollectionPanelGUI extends JPanel {
 		modelPrices = new CardsPriceTableModel();
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		panneauBas.add(tabbedPane, BorderLayout.EAST);
+		panneauBas.add(tabbedPane, BorderLayout.CENTER);
 		
 				JScrollPane scrollPrices = new JScrollPane();
 				tabbedPane.addTab("Prices", null, scrollPrices, null);
@@ -264,6 +265,9 @@ public class CollectionPanelGUI extends JPanel {
 				
 				rarityRepartitionPanel = new RarityRepartitionPanel();
 				tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
+				
+				magicCardDetailPanel = new MagicCardDetailPanel();
+				tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
 				
 						tablePrices.addMouseListener(new MouseAdapter() {
 							@Override
@@ -312,9 +316,18 @@ public class CollectionPanelGUI extends JPanel {
 							}
 					}).start();
 					selectedcol = (MagicCollection) curr.getUserObject();
+					btnExportCSV.setEnabled(true);
+					btnExportPriceCatalog.setEnabled(true);
 				} 
+				
+				
+				
 				if(curr.getUserObject() instanceof MagicEdition)
 				{
+					
+					btnExportCSV.setEnabled(true);
+					btnExportPriceCatalog.setEnabled(true);
+
 					new Thread(new Runnable() {
 						public void run() {
 								try{
@@ -324,6 +337,9 @@ public class CollectionPanelGUI extends JPanel {
 									rarityRepartitionPanel.init(dao.getCardsFromCollection(c,(MagicEdition)curr.getUserObject()));
 									typeRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
 									manaRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
+									
+									
+									
 								}catch(Exception e)
 								{
 									logger.error(e);
@@ -332,15 +348,15 @@ public class CollectionPanelGUI extends JPanel {
 							}
 					}).start();
 				}
-				
-				{
-					btnExportCSV.setEnabled(false);
-					btnExportPriceCatalog.setEnabled(false);
-				}
 
+				
 				if (curr.getUserObject() instanceof MagicCard) {
 					final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
-
+					btnExportCSV.setEnabled(false);
+					btnExportPriceCatalog.setEnabled(false);
+					
+					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
+					
 					new Thread(new Runnable() {
 
 						@Override
