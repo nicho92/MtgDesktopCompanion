@@ -1,8 +1,12 @@
 package org.magic.tools;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Properties;
 import java.util.Set;
 
 import org.magic.api.dao.impl.HsqlDAO;
@@ -26,6 +30,11 @@ public class MagicFactory {
 	private List<MagicPricesProvider> pricers;
 	private List<MagicCardsProvider> cardsProviders;
 	private List<MagicDAO> daoProviders;
+	
+	private File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
+	private Properties props;
+
+	
 	
 	public static MagicFactory getInstance()
 	{
@@ -60,7 +69,43 @@ public class MagicFactory {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		
+		props=new Properties();
+		try {
+			File f = new File(confdir, "mtgcompanion.conf");
+			
+			if(f.exists())
+			{	
+				FileInputStream fis = new FileInputStream(f);
+				props.load(fis);
+				fis.close();
+			}
+			else
+			{
+				
+				//default;
+				
+				save();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
 	}
+	
+	public void save()
+	{
+		try {
+			File f = new File(confdir, "mtgcompanion.conf");
+		
+			FileOutputStream fos = new FileOutputStream(f);
+			props.store(fos,"");
+			fos.close();
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+	}
+	
 	
 	public List<MagicPricesProvider> getEnabledPricers()
 	{

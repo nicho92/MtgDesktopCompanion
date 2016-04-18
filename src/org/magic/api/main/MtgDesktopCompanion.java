@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
@@ -40,9 +41,9 @@ public class MtgDesktopCompanion {
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
 				MagicGUI gui = new MagicGUI();
 				gui.setDefaultLanguage("English");
+				gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 				gui.setVisible(true);
 
 			}
