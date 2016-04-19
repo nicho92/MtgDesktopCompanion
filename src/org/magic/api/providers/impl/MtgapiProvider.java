@@ -35,6 +35,20 @@ public class MtgapiProvider implements MagicCardsProvider{
 	
 	CloseableHttpClient httpclient;
 
+
+	private boolean enable;
+
+	@Override
+	public void enable(boolean enabled) {
+		this.enable=enabled;
+		
+	}
+
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
+	
 	
 	public MtgapiProvider() {
 		httpclient = HttpClients.createDefault();

@@ -61,10 +61,22 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	private List<MagicEdition> eds;
 	private String version;
+	private boolean enable;
 	
 	
 	static final Logger logger = LogManager.getLogger(MtgjsonProvider.class.getName());
 
+	
+	@Override
+	public void enable(boolean enabled) {
+		this.enable=enabled;
+		
+	}
+
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
 	
 	public MtgjsonProvider() {
 		init();

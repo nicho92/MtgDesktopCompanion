@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 public class DeckbrewProvider implements MagicCardsProvider {
 	private final String urldeckbrewJSON = "https://api.deckbrew.com/mtg";
 	private Gson gson;
+	private boolean enable;
 	
 	static final Logger logger = LogManager.getLogger(DeckbrewProvider.class.getName());
 
@@ -160,6 +161,17 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	@Override
 	public URL getWebSite() throws MalformedURLException {
 		return new URL("https://deckbrew.com/api/");
+	}
+
+	@Override
+	public void enable(boolean enabled) {
+		this.enable=enabled;
+		
+	}
+
+	@Override
+	public boolean isEnable() {
+		return enable;
 	}
 
 

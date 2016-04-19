@@ -34,4 +34,8 @@ public interface MagicCardsProvider {
 	
 	public URL getWebSite() throws MalformedURLException;
 	
+	public void enable(boolean enabled);
+	public boolean isEnable();
+	
+	
 }

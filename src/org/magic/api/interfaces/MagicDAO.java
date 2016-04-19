@@ -14,10 +14,10 @@ public interface MagicDAO {
 	public Properties getProperties();
 	public void init() throws ClassNotFoundException, SQLException ;
 	public String getName();
-	public boolean isEnable();
 	public void save();
 	public void load();
 	public void enable(boolean enabled);
+	public boolean isEnable();
 	
 	
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException;
