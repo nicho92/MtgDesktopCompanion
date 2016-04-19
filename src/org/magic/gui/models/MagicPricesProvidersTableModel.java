@@ -131,6 +131,11 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
         	if(column==2)
         	{
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
+        		String path = "pricers/pricer[@name='"+selectedProvider.getClass().getName()+"']/enable";
+        		logger.debug(path);
+        		MagicFactory.getInstance().setProperty(path, selectedProvider.isEnable());
+        		
+        		
         	}
         }
         if(node instanceof Entry )
@@ -138,7 +143,6 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
 	    	{
 	        	String k = (String)((Entry)node).getKey();
 	        	selectedProvider.setProperties(k, strValue);
-	        	//pricers.add(selectedProvider);
 	        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
 	        	selectedProvider.save();
 	    	}    

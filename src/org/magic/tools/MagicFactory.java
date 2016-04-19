@@ -2,12 +2,17 @@ package org.magic.tools;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Properties;
 import java.util.Set;
+
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
@@ -30,7 +35,7 @@ public class MagicFactory {
 	XMLConfiguration config;
 	private ClassLoader classLoader ;
 	static final Logger logger = LogManager.getLogger(MagicFactory.class.getName());
-
+	FileBasedConfigurationBuilder<XMLConfiguration> builder;
 
 	public static MagicFactory getInstance()
 	{
@@ -40,10 +45,25 @@ public class MagicFactory {
 		return inst;
 	}
 	
-	
-	public XMLConfiguration getConfig()
+	public void setProperty(String k, Object c)
 	{
-		return config;
+		try {
+			config.addProperty(k, c);
+			
+			TransformerFactory tf = TransformerFactory.newInstance();
+			Transformer transformer = tf.newTransformer();
+			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+			StringWriter writer = new StringWriter();
+			transformer.transform(new DOMSource(config.getDocument()), new StreamResult(writer));
+			String output = writer.getBuffer().toString().replaceAll("\n|\r", "");
+			
+			logger.debug(output);
+			
+			builder.save();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
@@ -60,10 +80,11 @@ public class MagicFactory {
 			}
 		
 		Parameters params = new Parameters();
-		FileBasedConfigurationBuilder<XMLConfiguration> builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class)
+		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class)
 		    	.configure(params.xml()
-		        .setFile(new File(confdir,"mtgcompanion-conf.xml")));
-		    
+		        .setFile(new File(confdir,"mtgcompanion-conf.xml"))
+		        );
+		
 		classLoader = MagicFactory.class.getClassLoader();
 		
 		try {
