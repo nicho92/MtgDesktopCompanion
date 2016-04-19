@@ -40,6 +40,13 @@ public class MagicFactory {
 		return inst;
 	}
 	
+	
+	public XMLConfiguration getConfig()
+	{
+		return config;
+	}
+	
+	
 	private MagicFactory()
 	{
 		File conf = new File(confdir,"mtgcompanion-conf.xml");
