@@ -480,7 +480,7 @@ public class DeckBuilderGUI extends JPanel{
 				public void run() {
 					try {
 						String searchName=URLEncoder.encode(txtSearch.getText(),"UTF-8");
-						List<MagicCard> cards = provider.searchCardByCriteria(cboAttributs.getSelectedItem().toString(),searchName);
+						List<MagicCard> cards = provider.searchCardByCriteria(cboAttributs.getSelectedItem().toString(),searchName,null);
 						
 						
 						for(MagicCard m : cards)
@@ -515,7 +515,7 @@ public class DeckBuilderGUI extends JPanel{
 					String name = l.substring(l.indexOf(" "),l.length()); 
 					//Scanner s = new Scanner(input).useDelimiter("\\s*\\s*");
 					try {
-						MagicCard mc = provider.searchCardByCriteria("name", name.trim()).get(0);
+						MagicCard mc = provider.searchCardByCriteria("name", name.trim(),null).get(0);
 						
 						if(mc!=null)
 							{

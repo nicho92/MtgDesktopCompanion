@@ -45,7 +45,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	
 	
 	
-	public List<MagicCard> searchCardByCriteria(String att,String crit) throws IOException {
+	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition me) throws IOException {
 		String url = urldeckbrewJSON+"/cards";
 		
 		crit=att+"="+crit;

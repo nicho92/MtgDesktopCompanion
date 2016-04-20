@@ -515,7 +515,7 @@ public class CollectionPanelGUI extends JPanel {
 
 				if (res == JOptionPane.YES_OPTION)
 					try {
-						List<MagicCard> list = provider.searchCardByCriteria("set", ed.getId());
+						List<MagicCard> list = provider.searchCardByCriteria("set", ed.getId(),null);
 
 						for (MagicCard mc : list) {
 							MagicCollection col = new MagicCollection();
@@ -651,7 +651,7 @@ public class CollectionPanelGUI extends JPanel {
 
 								MagicCollection mc = new MagicCollection();
 								mc.setName(collec);
-								List<MagicCard> sets = provider.searchCardByCriteria("set", me.getId());
+								List<MagicCard> sets = provider.searchCardByCriteria("set", me.getId(),null);
 								for (int i = 0; i < node.getChildCount(); i++) {
 									MagicCard c = (MagicCard) ((DefaultMutableTreeNode) node.getChildAt(i))
 											.getUserObject();

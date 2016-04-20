@@ -213,10 +213,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MagicCard getCardById(String id) throws Exception {
-		return searchCardByCriteria("id", id).get(0);
+		return searchCardByCriteria("id", id,null).get(0);
 	}
 	
-	public List<MagicCard> searchCardByCriteria(String att,String crit) throws IOException{
+	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed) throws IOException{
 		
 		String jsquery="$..cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
 
@@ -249,6 +249,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		if(att.equalsIgnoreCase("foreignNames"))
 		{
 			jsquery="$..cards[*]."+att+"[?(@.name =~ /^.*"+crit+".*$/i)]";
+		}
+		
+		if(ed !=null)
+		{
+			jsquery="$."+ed.getId()+".cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
 		}
 				
 		

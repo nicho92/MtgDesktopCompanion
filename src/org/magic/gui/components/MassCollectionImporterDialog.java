@@ -34,7 +34,7 @@ public class MassCollectionImporterDialog extends JDialog{
 	
 	
 	public MassCollectionImporterDialog(MagicDAO dao,MagicCardsProvider provider,List<MagicEdition> list) {
-		setSize(new Dimension(538, 290));
+		setSize(new Dimension(646, 290));
 		setTitle("Mass Cards Importer");
 		
 		this.dao=dao;
@@ -138,7 +138,7 @@ public class MassCollectionImporterDialog extends JDialog{
 								if(cboByType.getSelectedItem().equals("number"))
 									mc=provider.getCardByNumber(id, ed);
 								else
-									mc=provider.searchCardByCriteria("name", id).get(0);
+									mc=provider.searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),(MagicEdition)cboEditions.getSelectedItem()).get(0);
 								
 								
 								dao.saveCard(mc, col);

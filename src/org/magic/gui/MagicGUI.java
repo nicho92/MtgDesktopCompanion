@@ -636,7 +636,7 @@ public class MagicGUI extends JFrame {
 								if(cboCollections.isVisible())
 									cards = dao.getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 								else
-									cards = provider.searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName);
+									cards = provider.searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
 
 								cardsModeltable.init(cards);
 								cardsModeltable.fireTableDataChanged();
