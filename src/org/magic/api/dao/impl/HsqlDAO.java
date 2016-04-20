@@ -105,6 +105,10 @@ public class HsqlDAO extends AbstractMagicDAO{
 		if(me==null)
 			sql ="select * from cards where collection= ?";
 		
+		if(collection==null)
+			sql="select * from cards";
+		
+		
 		PreparedStatement pst=con.prepareStatement(sql);	
 		pst.setString(1, collection.getName());
 		

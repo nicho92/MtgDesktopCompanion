@@ -6,32 +6,26 @@ import java.sql.SQLException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.dao.impl.HsqlDAO;
+import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.providers.impl.MtgjsonProvider;
 
 public class UpdateDB {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		HsqlDAO dao = new HsqlDAO();
-		MtgjsonProvider prov = new MtgjsonProvider();
-						prov.init();
+			dao.init();
+		MysqlDAO daom = new MysqlDAO();
+			daom.init();
 		
-		
-		MagicCollection col = new MagicCollection();
-						col.setName("Needed");
-						
-
-		  for(MagicCard mc : dao.getCardsFromCollection(col))
+		for(MagicCollection col : dao.getCollections())
+			for(MagicCard mc : dao.getCardsFromCollection(col))
 			{
-			
-		  	try {
-					MagicCard temp = prov.getCardById(mc.getId());
-					//dao.update(temp,mc.getEditions().get(0),col);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				try {
+					daom.saveCard(mc, col);
+					} catch (Exception e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 			}
-	
-
 	}
 }
