@@ -131,6 +131,8 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
         	if(column==2)
         	{
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
+        		MagicFactory.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+        		
         	}
         }
         if(node instanceof Entry )

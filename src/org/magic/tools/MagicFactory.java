@@ -2,21 +2,15 @@ package org.magic.tools;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -30,7 +24,6 @@ public class MagicFactory {
 	private List<MagicPricesProvider> pricers;
 	private List<MagicCardsProvider> cardsProviders;
 	private List<MagicDAO> daoProviders;
-	
 	private File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	XMLConfiguration config;
 	private ClassLoader classLoader ;
@@ -45,28 +38,33 @@ public class MagicFactory {
 		return inst;
 	}
 	
-	public void setProperty(String k, Object c)
+	
+	public void setProperty(Object k, Object c)
 	{
 		try {
-			config.addProperty(k, c);
+			String path ="";
 			
-			TransformerFactory tf = TransformerFactory.newInstance();
-			Transformer transformer = tf.newTransformer();
-			transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
-			StringWriter writer = new StringWriter();
-			transformer.transform(new DOMSource(config.getDocument()), new StreamResult(writer));
-			String output = writer.getBuffer().toString().replaceAll("\n|\r", "");
+			if (k instanceof MagicPricesProvider) {
+				path = "pricers/pricer[class='"+k.getClass().getName()+"']/enable";
+			}
+    		
+			if (k instanceof MagicCardsProvider) {
+				path = "providers/provider[class='"+k.getClass().getName()+"']/enable";
+			}
+
+			if (k instanceof MagicDAO) {
+				path = "daos/dao[class='"+k.getClass().getName()+"']/enable";
+			}
+			logger.info("set " + k + " to " + c);
 			
-			logger.debug(output);
-			
+			config.setProperty(path, c);
 			builder.save();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 	
-	
+		
 	private MagicFactory()
 	{
 		File conf = new File(confdir,"mtgcompanion-conf.xml");
@@ -75,7 +73,9 @@ public class MagicFactory {
 				logger.info("conf file doesn't exist. creating one from default file");
 				FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"), new File(confdir,"mtgcompanion-conf.xml"));
 				logger.info("conf file created");
-			} catch (IOException e1) {
+			}
+			catch (IOException e1) 
+			{
 				logger.error(e1);
 			}
 		
@@ -83,7 +83,12 @@ public class MagicFactory {
 		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class)
 		    	.configure(params.xml()
 		        .setFile(new File(confdir,"mtgcompanion-conf.xml"))
+		        .setSchemaValidation(false)
+		        .setValidating(false)
+		        .setEncoding("ISO-8859-15")
+		        .setExpressionEngine(new XPathExpressionEngine())
 		        );
+		
 		
 		classLoader = MagicFactory.class.getClassLoader();
 		
@@ -91,43 +96,42 @@ public class MagicFactory {
 			
 		    config = builder.getConfiguration();
 			
-			
 			logger.info("loading pricers");
 			pricers=new ArrayList<>();
 			
-			for(int i=0;i<config.getList("pricers.pricer.name").size();i++)
+			for(int i=1;i<=config.getList("//pricer/class").size();i++)
 			{
-				String s = config.getString("pricers.pricer("+i+").name");
-				MagicPricesProvider prov = loadItem(MagicPricesProvider.class, s.toString());
-				prov.enable(config.getBoolean("pricers.pricer("+i+").enable"));
+				String s = config.getString("pricers/pricer["+i+"]/class");
+				MagicPricesProvider prov = loadItem(MagicPricesProvider.class, s);
+				prov.enable(config.getBoolean("pricers/pricer["+i+"]/enable"));
 				pricers.add(prov);
 			}
-			
 			
 			logger.info("loading cards provider");
 			cardsProviders= new ArrayList<MagicCardsProvider>();
 
-			for(int i=0;i<config.getList("providers.provider.name").size();i++)
+			for(int i=1;i<=config.getList("//provider/class").size();i++)
 			{
-				String s = config.getString("providers.provider("+i+").name");
+				String s = config.getString("providers/provider["+i+"]/class");
 				MagicCardsProvider prov = loadItem(MagicCardsProvider.class, s.toString());
-				prov.enable(config.getBoolean("providers.provider("+i+").enable"));
+				prov.enable(config.getBoolean("providers/provider["+i+"]/enable"));
 				cardsProviders.add(prov);
 			}
 			
 			
 			logger.info("loading DAOs");
 			daoProviders=new ArrayList<>();
-			for(int i=0;i<config.getList("daos.dao.name").size();i++)
+			for(int i=1;i<=config.getList("//dao/class").size();i++)
 			{
-				String s = config.getString("daos.dao("+i+").name");
+				String s = config.getString("daos/dao["+i+"]/class");
 				MagicDAO prov = loadItem(MagicDAO.class, s.toString());
-						 prov.enable(config.getBoolean("daos.dao("+i+").enable"));
+						 prov.enable(config.getBoolean("daos/dao["+i+"]/enable"));
 				daoProviders.add(prov);
 			}
 			
 			
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e);
 		}
 		
@@ -136,7 +140,7 @@ public class MagicFactory {
 	
 	public <T> T loadItem(Class <T> cls, String classname) throws InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
-		logger.debug("loading " + classname );
+		logger.debug(" start module :  " + classname );
 		return (T)classLoader.loadClass(classname).newInstance();
 	}
 	

@@ -5,6 +5,7 @@ import java.net.URL;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.jfree.util.BooleanList;
 import org.magic.tools.MagicFactory;
 
 public class ProvidersTableModel extends DefaultTableModel {
@@ -34,7 +35,7 @@ public class ProvidersTableModel extends DefaultTableModel {
 			case 0 :return MagicFactory.getInstance().getListProviders().get(row);
 			case 1 : return MagicFactory.getInstance().getListProviders().get(row).getVersion();
 			case 2 : try {return MagicFactory.getInstance().getListProviders().get(row).getWebSite();} catch (MalformedURLException e) { return null;}
-			case 3 : return true;
+			case 3 : return MagicFactory.getInstance().getListProviders().get(row).isEnable();
 			default : return null;
 			}
 		}
@@ -50,8 +51,21 @@ public class ProvidersTableModel extends DefaultTableModel {
 			
 		return super.getColumnClass(columnIndex);
 		}
-
 		
+		@Override
+		public void setValueAt(Object aValue, int row, int column) {
+			MagicFactory.getInstance().getListProviders().get(row).enable(Boolean.parseBoolean(aValue.toString()));	
+			MagicFactory.getInstance().setProperty(MagicFactory.getInstance().getListProviders().get(row), aValue);
+			
+		}
+
+		@Override
+		public boolean isCellEditable(int row, int column) {
+			if(column==3)
+				return true;
+			
+			else return false;
+		}
 	
 	
 }

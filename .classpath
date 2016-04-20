@@ -29,5 +29,6 @@
 	<classpathentry kind="lib" path="D:/programmation/mysql-connector-java-5.1.38-bin.jar"/>
 	<classpathentry kind="lib" path="lib/commons-configuration2-2.0.jar"/>
 	<classpathentry kind="lib" path="lib/commons-lang3-3.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-jxpath-1.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

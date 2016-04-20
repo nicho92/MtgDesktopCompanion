@@ -131,9 +131,7 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
         	if(column==2)
         	{
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
-        		String path = "pricers/pricer[@name='"+selectedProvider.getClass().getName()+"']/enable";
-        		logger.debug(path);
-        		MagicFactory.getInstance().setProperty(path, selectedProvider.isEnable());
+        		MagicFactory.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
         		
         		
         	}
