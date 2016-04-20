@@ -23,15 +23,18 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import javax.swing.DefaultComboBoxModel;
 
 public class MassCollectionImporterDialog extends JDialog{
 	
 	private MagicCardsProvider provider;
 	private MagicDAO dao;
 	private List<MagicEdition> list;
-
+	private String[] ids;
+	
+	
 	public MassCollectionImporterDialog(MagicDAO dao,MagicCardsProvider provider,List<MagicEdition> list) {
-		setSize(new Dimension(500, 290));
+		setSize(new Dimension(538, 290));
 		setTitle("Mass Cards Importer");
 		
 		this.dao=dao;
@@ -59,13 +62,17 @@ public class MassCollectionImporterDialog extends JDialog{
 		
 		List lc = dao.getCollections();
 		
+		JLabel lblNewLabel = new JLabel("by");
+		panelCollectionInput.add(lblNewLabel);
+		
+		final JComboBox cboByType = new JComboBox();
+		cboByType.setModel(new DefaultComboBoxModel(new String[] {"number", "name"}));
+		panelCollectionInput.add(cboByType);
+		
 		JLabel lblIn = new JLabel("in");
 		panelCollectionInput.add(lblIn);
 		final JComboBox cboCollections = new JComboBox(lc.toArray());
 		panelCollectionInput.add(cboCollections);
-		
-		JLabel lblThisNumber = new JLabel(" theses numbers : ");
-		panelCollectionInput.add(lblThisNumber);
 		
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
@@ -111,7 +118,11 @@ public class MassCollectionImporterDialog extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				final MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
 				final MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
-				final String[] ids = txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" ");
+				
+				if(cboByType.getSelectedItem().equals("number"))
+					ids = txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" ");
+				else
+					ids = txtNumbersInput.getText().split("\n");
 				progressBar.setMaximum(ids.length);
 				
 				new Thread(new Runnable() {
@@ -122,7 +133,14 @@ public class MassCollectionImporterDialog extends JDialog{
 						for(String id : ids)
 						{
 							try {
-								MagicCard mc = provider.getCardByNumber(id, ed);
+								MagicCard mc = null;
+								
+								if(cboByType.getSelectedItem().equals("number"))
+									mc=provider.getCardByNumber(id, ed);
+								else
+									mc=provider.searchCardByCriteria("name", id).get(0);
+								
+								
 								dao.saveCard(mc, col);
 								progressBar.setValue(i++);
 							} catch (Exception e1) {
