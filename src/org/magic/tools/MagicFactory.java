@@ -140,13 +140,17 @@ public class MagicFactory {
 	
 	public <T> T loadItem(Class <T> cls, String classname) throws InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
-		logger.debug(" start module :  " + classname );
+		logger.debug(" load module :  " + classname );
 		return (T)classLoader.loadClass(classname).newInstance();
 	}
 	
-	public MagicDAO getEnabledDAO() {
-		return daoProviders.get(0);
+
+	
+	public List<MagicCardsProvider> getListProviders()
+	{
+		  return cardsProviders;
 	}
+	
 	
 	public List<MagicDAO> getDaoProviders() {
 		return daoProviders;
@@ -168,11 +172,25 @@ public class MagicFactory {
 		return pricersE;
 	}
 	
-	public List<MagicCardsProvider> getListProviders()
+	public List<MagicCardsProvider> getEnabledProviders()
 	{
-		  return cardsProviders;
+		List<MagicCardsProvider> prov= new ArrayList<MagicCardsProvider>();
+		
+		for(MagicCardsProvider p : getListProviders())
+			if(p.isEnable())
+				prov.add(p);
+		
+		return prov;
 	}
 	
+	
+	public MagicDAO getEnabledDAO() {
+		for(MagicDAO p : getDaoProviders())
+			if(p.isEnable())
+				return p;
+		
+		return null;
+	}
 
 	
 }

@@ -311,7 +311,7 @@ public class MagicGUI extends JFrame {
 		}
 		ButtonGroup group = new ButtonGroup();
 		
-		for(final MagicCardsProvider provider : MagicFactory.getInstance().getListProviders())
+		for(final MagicCardsProvider provider : MagicFactory.getInstance().getEnabledProviders())
 		{
 		   JRadioButtonMenuItem it = new JRadioButtonMenuItem(provider.toString());
 			group.add(it);
