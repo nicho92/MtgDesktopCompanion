@@ -325,8 +325,8 @@ public class CollectionPanelGUI extends JPanel {
 				if(curr.getUserObject() instanceof MagicEdition)
 				{
 					
-					btnExportCSV.setEnabled(true);
-					btnExportPriceCatalog.setEnabled(true);
+					btnExportCSV.setEnabled(false);
+					btnExportPriceCatalog.setEnabled(false);
 
 					new Thread(new Runnable() {
 						public void run() {
