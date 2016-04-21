@@ -19,8 +19,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.AbstractMagicDAO;
 
-import sun.org.mozilla.javascript.internal.ast.ThrowStatement;
-
 public class HsqlDAO extends AbstractMagicDAO{
 
 	static final Logger logger = LogManager.getLogger(HsqlDAO.class.getName());
