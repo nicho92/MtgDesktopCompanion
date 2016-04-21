@@ -13,6 +13,7 @@ public interface MagicDAO {
 
 	public Properties getProperties();
 	public void init() throws ClassNotFoundException, SQLException ;
+	
 	public String getName();
 	public void save();
 	public void load();
@@ -29,6 +30,7 @@ public interface MagicDAO {
 	
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException;
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException;
+	public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException;
 	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException;
 	
 	public MagicCollection getCollection(String name)throws SQLException;

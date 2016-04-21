@@ -76,6 +76,8 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public void enable(boolean enabled) {
 		this.enable=enabled;
 	}
+	
+	
 	public abstract void saveCard(MagicCard mc, MagicCollection collection) throws SQLException ;
 	public abstract void removeCard(MagicCard mc, MagicCollection collection) throws SQLException ;
 	public abstract MagicCard loadCard(String name, MagicCollection collection) throws SQLException;
@@ -92,6 +94,8 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public abstract List<MagicDeck> listDeck()throws SQLException;
 	public abstract void saveDeck(MagicDeck d)throws SQLException;
 	public abstract void deleteDeck(MagicDeck d)throws SQLException;
+	public abstract List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException;
+	
 
 	
 	public abstract String getDBLocation() ;

@@ -42,9 +42,9 @@ public class MtgDesktopCompanion {
 					e.printStackTrace();
 				}
 				MagicGUI gui = new MagicGUI();
-				gui.setDefaultLanguage("English");
-				gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
-				gui.setVisible(true);
+						gui.setDefaultLanguage("English");
+						gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
+						gui.setVisible(true);
 
 			}
 		});

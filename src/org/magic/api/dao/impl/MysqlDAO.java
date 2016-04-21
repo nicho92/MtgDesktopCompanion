@@ -255,8 +255,16 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public long getDBSize() {
-		// TODO Auto-generated method stub
-		return 0;
+		String sql = "SELECT Round(Sum(data_length + index_length) / 1024 / 1024, 1) FROM   information_schema.tables WHERE  table_schema = 'mtgdesktopclient'";
+		PreparedStatement pst;
+		try {
+			pst = con.prepareStatement(sql);
+			ResultSet rs = pst.executeQuery();
+			return (long)rs.getDouble(1);
+		} catch (SQLException e) {
+			return 0;
+		}	
+	
 	}
 
 	@Override
@@ -283,6 +291,13 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void deleteDeck(MagicDeck d) throws SQLException {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public List<MagicCollection> getCollectionFromCards(MagicCard mc) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

@@ -25,11 +25,12 @@ public class MagicFactory {
 	private List<MagicCardsProvider> cardsProviders;
 	private List<MagicDAO> daoProviders;
 	private File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
-	XMLConfiguration config;
+	private XMLConfiguration config;
 	private ClassLoader classLoader ;
+	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
+	
 	static final Logger logger = LogManager.getLogger(MagicFactory.class.getName());
-	FileBasedConfigurationBuilder<XMLConfiguration> builder;
-
+	
 	public static MagicFactory getInstance()
 	{
 		if(inst == null)
@@ -37,7 +38,6 @@ public class MagicFactory {
 		
 		return inst;
 	}
-	
 	
 	public void setProperty(Object k, Object c)
 	{
@@ -47,13 +47,13 @@ public class MagicFactory {
 			if (k instanceof MagicPricesProvider) {
 				path = "pricers/pricer[class='"+k.getClass().getName()+"']/enable";
 			}
-    		
-			if (k instanceof MagicCardsProvider) {
+			else if (k instanceof MagicCardsProvider) {
 				path = "providers/provider[class='"+k.getClass().getName()+"']/enable";
-			}
-
-			if (k instanceof MagicDAO) {
+			}else if (k instanceof MagicDAO) {
 				path = "daos/dao[class='"+k.getClass().getName()+"']/enable";
+			}
+			else{
+				logger.error(k + "is not regonized");
 			}
 			logger.info("set " + k + " to " + c);
 			
@@ -64,20 +64,25 @@ public class MagicFactory {
 		}
 	}
 	
+	
+	public String getVersion()
+	{
+		return "v"+config.getString("version");
+	}
 		
 	private MagicFactory()
 	{
 		File conf = new File(confdir,"mtgcompanion-conf.xml");
 		if(!conf.exists())
-			try {
-				logger.info("conf file doesn't exist. creating one from default file");
-				FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"), new File(confdir,"mtgcompanion-conf.xml"));
-				logger.info("conf file created");
-			}
-			catch (IOException e1) 
-			{
-				logger.error(e1);
-			}
+		try {
+			logger.info("conf file doesn't exist. creating one from default file");
+			FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"), new File(confdir,"mtgcompanion-conf.xml"));
+			logger.info("conf file created");
+		}
+		catch (IOException e1) 
+		{
+			logger.error(e1);
+		}
 		
 		Parameters params = new Parameters();
 		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class)
@@ -89,13 +94,11 @@ public class MagicFactory {
 		        .setExpressionEngine(new XPathExpressionEngine())
 		        );
 		
-		
 		classLoader = MagicFactory.class.getClassLoader();
 		
 		try {
 			
 		    config = builder.getConfiguration();
-			
 			logger.info("loading pricers");
 			pricers=new ArrayList<>();
 			
@@ -140,17 +143,14 @@ public class MagicFactory {
 	
 	public <T> T loadItem(Class <T> cls, String classname) throws InstantiationException, IllegalAccessException, ClassNotFoundException
 	{
-		logger.debug(" load module :  " + classname );
+		logger.debug("-load module :  " + classname );
 		return (T)classLoader.loadClass(classname).newInstance();
 	}
-	
-
 	
 	public List<MagicCardsProvider> getListProviders()
 	{
 		  return cardsProviders;
 	}
-	
 	
 	public List<MagicDAO> getDaoProviders() {
 		return daoProviders;

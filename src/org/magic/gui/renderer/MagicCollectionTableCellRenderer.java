@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -51,6 +52,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 				try
 				{
 					BufferedImage im = ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+value+"_set.png"));
+					//BufferedImage im = ImageIO.read(new URL("https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/res/set/icons/"+value+"_set.png"));
 					ImageIcon ic = new ImageIcon(im.getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
 					JLabel l = new JLabel(ic);
 					l.setOpaque(false);

@@ -50,9 +50,6 @@ public class ConfigurationPanelGUI extends JPanel {
 		table = new JTable(mod);
 		applicationConfigPanel.setViewportView(table);
 		
-		JPanel webSiteConfigPanel = new JPanel();
-		tabbedPane.addTab("WebSite", null, webSiteConfigPanel, null);
-		
 		
 		JPanel providerConfigPanel = new JPanel();
 		tabbedPane.addTab("Providers", null, providerConfigPanel, null);

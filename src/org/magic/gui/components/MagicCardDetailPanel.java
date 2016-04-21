@@ -28,13 +28,18 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.dao.impl.HsqlDAO;
+import org.magic.tools.MagicFactory;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -61,9 +66,13 @@ public class MagicCardDetailPanel extends JPanel {
 	private JLabel lblLogoSet;
 	private JLabel lblLegal;
 	private JList<MagicFormat> lstFormats;
+	private JList<MagicCollection> listCollection;
 	private JScrollPane scrollLegality;
 	private JLabel lblWatermark;
 	private JTextField txtWatermark;
+	private JScrollPane scrollCollections;
+	static final Logger logger = LogManager.getLogger(MagicCardDetailPanel.class.getName());
+	 
 	
 	public void enableThumbnail(boolean val)
 	{
@@ -80,9 +89,9 @@ public class MagicCardDetailPanel extends JPanel {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 38, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 						
 		JLabel nameLabel = new JLabel("Name:");
@@ -240,8 +249,9 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				scrollLegality = new JScrollPane();
 				GridBagConstraints gbc_scrollLegality = new GridBagConstraints();
+				gbc_scrollLegality.gridheight = 2;
 				gbc_scrollLegality.gridwidth = 2;
-				gbc_scrollLegality.insets = new Insets(0, 0, 0, 5);
+				gbc_scrollLegality.insets = new Insets(0, 0, 5, 5);
 				gbc_scrollLegality.fill = GridBagConstraints.BOTH;
 				gbc_scrollLegality.gridx = 1;
 				gbc_scrollLegality.gridy = 8;
@@ -330,10 +340,23 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				lblLegal = new JLabel("Legal:");
 				GridBagConstraints gbc_lblLegal = new GridBagConstraints();
-				gbc_lblLegal.insets = new Insets(0, 0, 0, 5);
+				gbc_lblLegal.insets = new Insets(0, 0, 5, 5);
 				gbc_lblLegal.gridx = 0;
 				gbc_lblLegal.gridy = 8;
 				add(lblLegal, gbc_lblLegal);
+				
+				scrollCollections = new JScrollPane();
+				GridBagConstraints gbc_scrollCollections = new GridBagConstraints();
+				gbc_scrollCollections.gridheight = 2;
+				gbc_scrollCollections.gridwidth = 3;
+				gbc_scrollCollections.insets = new Insets(0, 0, 5, 5);
+				gbc_scrollCollections.fill = GridBagConstraints.BOTH;
+				gbc_scrollCollections.gridx = 4;
+				gbc_scrollCollections.gridy = 8;
+				add(scrollCollections, gbc_scrollCollections);
+				
+				listCollection = new JList<MagicCollection>(new DefaultListModel<MagicCollection>());
+				scrollCollections.setViewportView(listCollection);
 						
 				
 				
@@ -432,7 +455,7 @@ public class MagicCardDetailPanel extends JPanel {
 				URL iconURL = new URL(url);
 				lblLogoSet.setIcon(new ImageIcon(iconURL));
 			} catch (MalformedURLException e) {
-				e.printStackTrace();
+				logger.error(e);
 			}
 	}
 	
@@ -534,11 +557,25 @@ public class MagicCardDetailPanel extends JPanel {
 			}).start();
 		}
 		
+
+		
+		try{
+				((DefaultListModel)listCollection.getModel()).removeAllElements();
+				for(MagicCollection col : MagicFactory.getInstance().getEnabledDAO().getCollectionFromCards(magicCard))
+					((DefaultListModel)listCollection.getModel()).addElement(col);
+			}
+			catch(Exception e)
+			{	
+				logger.error(e);
+			}
+			
+		
+		
 		((DefaultListModel)lstFormats.getModel()).removeAllElements();
-		
-		
 		for(MagicFormat mf : magicCard.getLegalities())
 			((DefaultListModel)lstFormats.getModel()).addElement(mf);
+		
+		
 		
 		//
 		BindingGroup bindingGroup = new BindingGroup();

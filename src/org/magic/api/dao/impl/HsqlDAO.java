@@ -19,6 +19,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.AbstractMagicDAO;
 
+import sun.org.mozilla.javascript.internal.ast.ThrowStatement;
+
 public class HsqlDAO extends AbstractMagicDAO{
 
 	static final Logger logger = LogManager.getLogger(HsqlDAO.class.getName());
@@ -121,6 +123,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		{
 			list.add((MagicCard) rs.getObject("mcard"));
 		}
+		
 	
 	return list;
 	}
@@ -312,6 +315,29 @@ public class HsqlDAO extends AbstractMagicDAO{
 	public void deleteDeck(MagicDeck d) throws SQLException {
 		// TODO Auto-generated method stub
 		
+	}
+
+
+	@Override
+	public List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException {
+		
+		if(mc.getEditions().size()==0)
+			throw new SQLException("No edition defined");
+		
+		PreparedStatement pst = con.prepareStatement("SELECT COLLECTION FROM CARDS WHERE name=? and edition=?");
+		 pst.setString(1, mc.getName());
+		 pst.setString(2, mc.getEditions().get(0).getId());
+		 logger.debug("SELECT COLLECTION FROM CARDS WHERE name='"+mc.getName()+"' and edition='"+mc.getEditions().get(0).getId()+"'");
+		 ResultSet rs = pst.executeQuery();
+		 List<MagicCollection> cols = new ArrayList<MagicCollection>();
+		 while(rs.next())
+		 {
+			 MagicCollection col = new MagicCollection();
+			 col.setName(rs.getString("COLLECTION"));
+			 cols.add(col);
+		 }
+		 
+		 return cols;
 	}
 
 
