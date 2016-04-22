@@ -1,20 +1,26 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URI;
 import java.net.URL;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
+import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableCellRenderer;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 import org.magic.gui.models.ShopItemTableModel;
 
@@ -26,7 +32,7 @@ public class ShopperPanel extends JPanel {
 	JPanel panel = new JPanel();
 	JLabel lblSearch = new JLabel("search :");
 	JScrollPane shopItemScrollPane = new JScrollPane();
-
+	ShopItemTableModel mod;
 	
 	public ShopperPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -50,8 +56,29 @@ public class ShopperPanel extends JPanel {
 		panel.add(btnSearch);
 		
 		add(shopItemScrollPane, BorderLayout.CENTER);
+		mod = new ShopItemTableModel();
+		tableItemShop = new JTable(mod);
 		
-		tableItemShop = new JTable(new ShopItemTableModel());
+		DefaultRowSorter sorter = new TableRowSorter<DefaultTableModel>(mod);
+		tableItemShop.setRowSorter(sorter);
+		tableItemShop.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
+
+			    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy HH:mm");
+
+			    public Component getTableCellRendererComponent(JTable table,
+			            Object value, boolean isSelected, boolean hasFocus,
+			            int row, int column) {
+			        if( value instanceof Date) {
+			            value = f.format(value);
+			        }
+			        return super.getTableCellRendererComponent(table, value, isSelected,
+			                hasFocus, row, column);
+			    }
+			}
+				); 
+			
+		
+		
 		tableItemShop.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
@@ -80,8 +107,8 @@ public class ShopperPanel extends JPanel {
 					
 					@Override
 					public void run() {
-						((ShopItemTableModel)tableItemShop.getModel()).init(txtSearch.getText());
-						((ShopItemTableModel)tableItemShop.getModel()).fireTableDataChanged();
+							mod.init(txtSearch.getText());
+							mod.fireTableDataChanged();
 					}
 				}).start();
 				

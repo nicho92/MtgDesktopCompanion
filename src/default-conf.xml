@@ -57,5 +57,9 @@
 			<class>org.magic.api.shopping.impl.LeboncoinShopper</class>
 			<enable>true</enable>
 		</shopper>
+		<shopper>
+			<class>org.magic.api.shopping.impl.EbayShopper</class>
+			<enable>true</enable>
+		</shopper>
 	</shoppers>
 </conf>
