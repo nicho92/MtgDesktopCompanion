@@ -10,12 +10,10 @@ import java.util.List;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.magic.api.beans.ShopItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.AbstractMagicPricesProvider;
-import org.magic.api.interfaces.MagicShopper;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
