@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conf>
+	<version>0.5 beta</version>
+	
 	<pricers>
 		<pricer>
 				<class>org.magic.api.pricers.impl.EbayPricer</class>
@@ -33,11 +35,11 @@
 		</provider>
 		<provider>
 			<class>org.magic.api.providers.impl.DeckbrewProvider</class>
-			<enable>true</enable>
+			<enable>false</enable>
 		</provider>
 		<provider>
 			<class>org.magic.api.providers.impl.MtgapiProvider</class>
-			<enable>true</enable>
+			<enable>false</enable>
 		</provider>
 	</providers>
 	<daos>
@@ -50,4 +52,10 @@
 			<enable>false</enable>
 		</dao>
 	</daos>
+	<shoppers>
+		<shopper>
+			<class>org.magic.api.shopping.impl.LeboncoinShopper</class>
+			<enable>true</enable>
+		</shopper>
+	</shoppers>
 </conf>
