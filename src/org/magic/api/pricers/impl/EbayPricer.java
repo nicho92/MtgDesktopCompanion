@@ -43,6 +43,7 @@ public class EbayPricer extends AbstractMagicPricesProvider
 	}
 	
 	
+	
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<MagicPrice>();
 		

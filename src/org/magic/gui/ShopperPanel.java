@@ -22,25 +22,33 @@ public class ShopperPanel extends JPanel {
 	private JTextField txtSearch;
 	private JTable tableItemShop;
 	
+	JButton btnSearch = new JButton("search");
+	JPanel panel = new JPanel();
+	JLabel lblSearch = new JLabel("search :");
+	JScrollPane shopItemScrollPane = new JScrollPane();
+
 	
 	public ShopperPanel() {
 		setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
+		
 		add(panel, BorderLayout.NORTH);
 		
-		JLabel lblSearch = new JLabel("search :");
 		panel.add(lblSearch);
 		
 		txtSearch = new JTextField();
 		panel.add(txtSearch);
-		txtSearch.setColumns(10);
+		txtSearch.setColumns(35);
+		txtSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				btnSearch.doClick();
+
+			}
+		});
 		
-		JButton btnSearch = new JButton("search");
 		
 		panel.add(btnSearch);
 		
-		JScrollPane shopItemScrollPane = new JScrollPane();
 		add(shopItemScrollPane, BorderLayout.CENTER);
 		
 		tableItemShop = new JTable(new ShopItemTableModel());
