@@ -71,14 +71,26 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 		props.put("MAX", "5");
 		save();
     	}
-		 
-    	System.setProperty("javax.net.ssl.trustStore",props.getProperty("KEYSTORE_NAME"));
-  	   
-    }
+    	
+    	try {
+    		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
+    			InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
+    	    
+    		System.setProperty("javax.net.ssl.trustStore",new File(confdir,props.getProperty("KEYSTORE_NAME")).getAbsolutePath());
+    		
+		} catch (Exception e1) {
+			logger.error(e1);
+		}
+    	
+    	
+    	
+     }
   
     public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
     	
     try{
+       	
+    	
     	
     	lists = new ArrayList<MagicPrice>();
     	_lastCode = 0;
@@ -133,12 +145,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     }
     catch(SSLHandshakeException e)
     {
-    	try {
-    		logger.error("No authority found, install it from " + props.getProperty("CERT_SERV"));
-			InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
-		} catch (Exception e1) {
-			logger.error(e1);
-		}
+    	logger.error(e);
     	
     } catch (NoSuchAlgorithmException|InvalidKeyException e) {
 		logger.error(e);

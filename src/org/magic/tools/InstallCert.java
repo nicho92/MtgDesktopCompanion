@@ -41,16 +41,18 @@ public class InstallCert {
     public static void install(String website,String filename, String pass) throws Exception {
         String host;
         int port;
-        File  dir = new File(System.getProperty("java.home") + File.separatorChar+ "lib" + File.separatorChar + "security");
+    	File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
+    	
+        File  defaultF = new File(System.getProperty("java.home") + File.separatorChar+ "lib" + File.separatorChar + "security");
         char[] passphrase;
             String[] c = website.split(":");
             host = c[0];
             port = 443;
             passphrase = pass.toCharArray();
        
-            File keystoreFile = new File(dir, filename);
-            if (keystoreFile.isFile() == false) {
-                keystoreFile = new File(dir, "cacerts");
+            File keystoreFile = new File(confdir,filename);
+            if (keystoreFile.exists() == false) {
+                keystoreFile = new File(defaultF, "cacerts");
             }
         
         logger.debug("Loading KeyStore " + keystoreFile.getAbsolutePath() + "...");
@@ -101,12 +103,13 @@ public class InstallCert {
         String alias = host + "-" + (i++);
         ks.setCertificateEntry(alias, cert);
 
-        File s = new File(dir, filename);
-        OutputStream out = new FileOutputStream(filename);
+        
+        OutputStream out = new FileOutputStream(new File(confdir,filename));
         ks.store(out, passphrase);
         out.close();
 
-        logger.debug("Added certificate to keystore '"+keystoreFile.getAbsolutePath()+"' using alias '"+ alias + "'");
+        logger.debug("Added certificate to keystore '"+new File(confdir,filename)+"' using alias '"+ alias + "'");
+        
         }
     }
 

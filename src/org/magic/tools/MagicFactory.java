@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MagicShopper;
 
 public class MagicFactory {
 
@@ -24,6 +25,7 @@ public class MagicFactory {
 	private List<MagicPricesProvider> pricers;
 	private List<MagicCardsProvider> cardsProviders;
 	private List<MagicDAO> daoProviders;
+	private List<MagicShopper> cardsShoppers;
 	private File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
@@ -132,6 +134,16 @@ public class MagicFactory {
 				daoProviders.add(prov);
 			}
 			
+			logger.info("loading Shoppers");
+			cardsShoppers=new ArrayList<>();
+			for(int i=1;i<=config.getList("//shopper/class").size();i++)
+			{
+				String s = config.getString("shoppers/shopper["+i+"]/class");
+				MagicShopper prov = loadItem(MagicShopper.class, s.toString());
+						 prov.enable(config.getBoolean("shoppers/shopper["+i+"]/enable"));
+				cardsShoppers.add(prov);
+			}
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -190,6 +202,10 @@ public class MagicFactory {
 				return p;
 		
 		return null;
+	}
+
+	public List<MagicShopper> getShoppers() {
+		return cardsShoppers;
 	}
 
 	

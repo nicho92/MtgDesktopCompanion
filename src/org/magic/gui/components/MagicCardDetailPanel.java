@@ -38,7 +38,6 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.dao.impl.HsqlDAO;
 import org.magic.tools.MagicFactory;
 
 public class MagicCardDetailPanel extends JPanel {

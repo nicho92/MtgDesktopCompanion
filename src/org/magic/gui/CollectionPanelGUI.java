@@ -31,6 +31,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.event.TreeSelectionEvent;
@@ -49,10 +50,14 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicCardsTree;
 import org.magic.gui.components.MassCollectionImporterDialog;
 import org.magic.gui.components.PriceCatalogExportDialog;
 import org.magic.gui.components.WebSiteGeneratorDialog;
+import org.magic.gui.components.charts.ManaRepartitionPanel;
+import org.magic.gui.components.charts.RarityRepartitionPanel;
+import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
@@ -60,11 +65,6 @@ import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicWebSiteGenerator;
 import org.magic.tools.TableColumnAdjuster;
-import javax.swing.JTabbedPane;
-import org.magic.gui.components.charts.TypeRepartitionPanel;
-import org.magic.gui.components.charts.ManaRepartitionPanel;
-import org.magic.gui.components.charts.RarityRepartitionPanel;
-import org.magic.gui.components.MagicCardDetailPanel;
 
 public class CollectionPanelGUI extends JPanel {
 

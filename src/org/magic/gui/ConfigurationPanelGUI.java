@@ -1,12 +1,7 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.sql.SQLException;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -18,24 +13,22 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MagicShopper;
 import org.magic.gui.models.MagicDAOProvidersTableModel;
 import org.magic.gui.models.MagicPricesProvidersTableModel;
+import org.magic.gui.models.MagicShoppersTableModel;
 import org.magic.gui.models.ProvidersTableModel;
 import org.magic.gui.models.SystemTableModel;
 
 public class ConfigurationPanelGUI extends JPanel {
-	private MagicCardsProvider provider;
-	private MagicDAO dao;
 	private JTable table;
 	private JTable cardsProviderTable;
 	private JXTreeTable priceProviderTable;
 	private JXTreeTable daoProviderTable;
-		
+	private JXTreeTable shopperTreeTable;
 	
-	public ConfigurationPanelGUI(MagicCardsProvider provider,MagicDAO dao) {
+	public ConfigurationPanelGUI() {
 		
-		this.dao=dao;
-		this.provider=provider;
 		
 		setLayout(new BorderLayout(0, 0));
 		
@@ -90,6 +83,19 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		});
 		daoProviderScrollPane.setViewportView(daoProviderTable);
+		
+		JScrollPane shopperScrollPane = new JScrollPane();
+		subTabbedProviders.addTab("Shoppers", null, shopperScrollPane, null);
+		
+		shopperTreeTable = new JXTreeTable(new MagicShoppersTableModel());
+		shopperTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1);
+						((MagicShoppersTableModel)shopperTreeTable.getTreeTableModel()).setSelectedNode((MagicShopper)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		});
+		shopperScrollPane.setViewportView(shopperTreeTable);
 		
 		
 	}

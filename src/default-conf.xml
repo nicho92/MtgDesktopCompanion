@@ -52,4 +52,10 @@
 			<enable>false</enable>
 		</dao>
 	</daos>
+	<shoppers>
+		<shopper>
+			<class>org.magic.api.shopping.impl.LeboncoinShopper</class>
+			<enable>true</enable>
+		</shopper>
+	</shoppers>
 </conf>

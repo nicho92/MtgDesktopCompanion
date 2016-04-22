@@ -7,7 +7,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.dao.impl.HsqlDAO;
 import org.magic.api.dao.impl.MysqlDAO;
-import org.magic.api.providers.impl.MtgjsonProvider;
 
 public class UpdateDB {
 

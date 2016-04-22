@@ -37,6 +37,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 				props.put("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
 				props.put("WEBSITE", "http://www.magic-ville.com/");
 				props.put("KEYWORD", "");	
+				props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 				save();
 		}
 		
@@ -100,7 +101,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 		logger.info(getName() +" looking for prices " + url );
 		
-		doc = Jsoup.connect(url).get();
+		doc = Jsoup.connect(url).userAgent(props.getProperty("USER_AGENT")).get();
 		Element table =null;
 		try{
 		table = doc.select("table[width=98%]").get(2); //select the first table.
