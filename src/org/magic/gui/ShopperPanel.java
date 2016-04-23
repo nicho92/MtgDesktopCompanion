@@ -12,6 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.DefaultRowSorter;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -22,7 +23,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
+import java.awt.Dimension;
 
 public class ShopperPanel extends JPanel {
 	private JTextField txtSearch;
@@ -33,6 +36,9 @@ public class ShopperPanel extends JPanel {
 	JLabel lblSearch = new JLabel("search :");
 	JScrollPane shopItemScrollPane = new JScrollPane();
 	ShopItemTableModel mod;
+	private final JPanel panneauCentral = new JPanel();
+	private final JPanel panneauEast = new JPanel();
+	private final JLabel lblPicShopItem = new JLabel("");
 	
 	public ShopperPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -54,12 +60,12 @@ public class ShopperPanel extends JPanel {
 		
 		
 		panel.add(btnSearch);
-		
-		add(shopItemScrollPane, BorderLayout.CENTER);
 		mod = new ShopItemTableModel();
-		tableItemShop = new JTable(mod);
 		
 		DefaultRowSorter sorter = new TableRowSorter<DefaultTableModel>(mod);
+		
+		add(panneauCentral, BorderLayout.CENTER);
+		tableItemShop = new JTable(mod);
 		tableItemShop.setRowSorter(sorter);
 		tableItemShop.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
 
@@ -76,27 +82,36 @@ public class ShopperPanel extends JPanel {
 			    }
 			}
 				); 
-			
+		
 		
 		
 		tableItemShop.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent ev) {
-				if(ev.getClickCount()==2 && !ev.isConsumed())
-				{
-					ev.consume();
-					try {
-						URL url = (URL)tableItemShop.getValueAt(tableItemShop.getSelectedRow(), 5);
-						Desktop.getDesktop().browse(url.toURI());
-					} catch (Exception e) {
-						e.printStackTrace();
-					}
-
-				}
+		@Override
+		public void mouseClicked(MouseEvent ev) {
+			if(ev.getClickCount()==2 && !ev.isConsumed())
+			{
+				ev.consume();
+				try {
+					URL url = (URL)tableItemShop.getValueAt(tableItemShop.getSelectedRow(), 5);
+					Desktop.getDesktop().browse(url.toURI());
+				} catch (Exception e) {}
 
 			}
+			else
+			{
+				ShopItem it = mod.getItem(tableItemShop.getSelectedRow());
+				lblPicShopItem.setIcon(new ImageIcon(it.getImage()));
+			}
+
+		}
 		});
+		panneauCentral.setLayout(new BorderLayout(0, 0));
+		panneauCentral.add(shopItemScrollPane);
 		shopItemScrollPane.setViewportView(tableItemShop);
+		
+		panneauCentral.add(panneauEast, BorderLayout.EAST);
+		
+		panneauEast.add(lblPicShopItem);
 
 		
 		btnSearch.addActionListener(new ActionListener() {

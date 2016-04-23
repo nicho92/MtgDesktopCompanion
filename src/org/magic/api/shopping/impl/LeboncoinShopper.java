@@ -87,7 +87,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 						{
 							 html = props.getProperty("URL")
 							 .replaceAll("%SEARCH%", search)
-							 .replaceAll("%PAGE%", String.valueOf(maxPage))
+							 .replaceAll("%PAGE%", String.valueOf(p))
 							 .replaceAll("%TITLE_ONLY%",props.getProperty("TITLE_ONLY"));
 							
 							 logger.debug("parsing item from " + html) ;

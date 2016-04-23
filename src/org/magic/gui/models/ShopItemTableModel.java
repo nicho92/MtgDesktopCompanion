@@ -86,6 +86,10 @@ public class ShopItemTableModel extends DefaultTableModel {
 		}
 	}
 	
+	public ShopItem getItem(int row)
+	{
+		return items.get(row);
+	}
 	
 	@Override
 	public Object getValueAt(int row, int column) {
