@@ -202,7 +202,7 @@ public class CollectionPanelGUI extends JPanel {
 		panneauHaut.add(progressBar);
 
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setMinimumSize(new Dimension(250, 23));
+		scrollPane.setMinimumSize(new Dimension(270, 23));
 
 		tableEditions = new JTable();
 		tableEditions.setModel(model);
@@ -242,20 +242,21 @@ public class CollectionPanelGUI extends JPanel {
 		panneauTreeSearch.add(panneauBas, BorderLayout.SOUTH);
 		panneauBas.setLayout(new BorderLayout(0, 0));
 
-		final JLabel lblCard = new JLabel("");
-		lblCard.setPreferredSize(new Dimension(250, 0));
-		panneauBas.add(lblCard, BorderLayout.WEST);
-
 		modelPrices = new CardsPriceTableModel();
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		panneauBas.add(tabbedPane, BorderLayout.CENTER);
 		
 				JScrollPane scrollPrices = new JScrollPane();
-				tabbedPane.addTab("Prices", null, scrollPrices, null);
 				tablePrices = new JXTable(modelPrices);
 				tablePrices.setColumnControlVisible(true);
 				scrollPrices.setViewportView(tablePrices);
+				
+				magicCardDetailPanel = new MagicCardDetailPanel();
+				tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
+				
+				tabbedPane.addTab("Prices", null, scrollPrices, null);
+				
 				
 				typeRepartitionPanel = new TypeRepartitionPanel();
 				tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
@@ -266,8 +267,6 @@ public class CollectionPanelGUI extends JPanel {
 				rarityRepartitionPanel = new RarityRepartitionPanel();
 				tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
 				
-				magicCardDetailPanel = new MagicCardDetailPanel();
-				tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
 				
 						tablePrices.addMouseListener(new MouseAdapter() {
 							@Override
@@ -356,6 +355,7 @@ public class CollectionPanelGUI extends JPanel {
 					btnExportPriceCatalog.setEnabled(false);
 					
 					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
+					magicCardDetailPanel.enableThumbnail(true);
 					
 					new Thread(new Runnable() {
 
@@ -363,13 +363,12 @@ public class CollectionPanelGUI extends JPanel {
 						public void run() {
 							ImageIcon icon;
 							try {
-								icon = new ImageIcon(
+								/*icon = new ImageIcon(
 										new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="
-												+ card.getEditions().get(0).getMultiverse_id() + "&type=card"));
-								lblCard.setIcon(icon);
+												+ card.getEditions().get(0).getMultiverse_id() + "&type=card"));*/
 								modelPrices.init(card, card.getEditions().get(0));
 								modelPrices.fireTableDataChanged();
-							} catch (MalformedURLException e) {
+							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}

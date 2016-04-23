@@ -87,7 +87,7 @@ public class MagicCardDetailPanel extends JPanel {
 	public MagicCardDetailPanel() {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 38, 0 };
+		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 77, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
@@ -139,7 +139,7 @@ public class MagicCardDetailPanel extends JPanel {
 				lblThumbnail = new JLabel("");
 				GridBagConstraints gbc_lblThumbnail = new GridBagConstraints();
 				gbc_lblThumbnail.insets = new Insets(0, 0, 5, 0);
-				gbc_lblThumbnail.gridheight = 8;
+				gbc_lblThumbnail.gridheight = 10;
 				gbc_lblThumbnail.gridx = 7;
 				gbc_lblThumbnail.gridy = 0;
 				add(lblThumbnail, gbc_lblThumbnail);
@@ -535,8 +535,8 @@ public class MagicCardDetailPanel extends JPanel {
 					try {
 						icon = new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+magicCard.getEditions().get(0).getMultiverse_id()+"&type=card"));
 						Image img = icon.getImage();
-						Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
-						lblThumbnail.setIcon( new ImageIcon(newimg));
+						//Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
+						lblThumbnail.setIcon( new ImageIcon(img));
 					} catch (MalformedURLException e) {
 						//e.printStackTrace();
 					}

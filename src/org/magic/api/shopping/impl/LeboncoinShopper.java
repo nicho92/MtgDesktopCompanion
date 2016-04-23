@@ -133,7 +133,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		
 		String aujourdhui="Aujourd'hui, ";
 		String hier="Hier, ";
-		
+		e=e.replaceAll("Urgent", "");
 		Calendar cal = GregorianCalendar.getInstance(Locale.getDefault());
 		
 		if(e.contains(aujourdhui))

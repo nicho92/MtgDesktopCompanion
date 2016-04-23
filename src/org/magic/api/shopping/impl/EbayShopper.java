@@ -76,7 +76,7 @@ public class EbayShopper extends AbstractMagicShopper {
 	 		String consultURL = el.getAsJsonObject().get("viewItemURL").getAsString();
 	 		double price = el.getAsJsonObject().get("sellingStatus").getAsJsonArray().get(0).getAsJsonObject().get("currentPrice").getAsJsonArray().get(0).getAsJsonObject().get("__value__").getAsDouble();
 	 		URL image =new URL(el.getAsJsonObject().get("galleryURL").getAsJsonArray().get(0).getAsString());
-	 		Date d = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(el.getAsJsonObject().get("listingInfo").getAsJsonArray().get(0).getAsJsonObject().get("startTime").getAsString());
+	 		Date d = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").parse(el.getAsJsonObject().get("listingInfo").getAsJsonArray().get(0).getAsJsonObject().get("endTime").getAsString());
 	 		String id =  el.getAsJsonObject().get("itemId").getAsString();
 	 		mp.setName(title);
 	 		mp.setUrl(new URL(consultURL));
