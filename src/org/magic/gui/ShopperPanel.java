@@ -94,7 +94,7 @@ public class ShopperPanel extends JPanel {
 				try {
 					URL url = (URL)tableItemShop.getValueAt(tableItemShop.getSelectedRow(), 5);
 					Desktop.getDesktop().browse(url.toURI());
-				} catch (Exception e) {}
+				} catch (Exception e) { e.printStackTrace();}
 
 			}
 			else
