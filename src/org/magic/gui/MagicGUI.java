@@ -483,7 +483,7 @@ public class MagicGUI extends JFrame {
 						
 						filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
 						filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
-						IFilterEditor editor = filterHeader.getFilterEditor(1);
+						//IFilterEditor editor = filterHeader.getFilterEditor(1);
 						
 						
 						

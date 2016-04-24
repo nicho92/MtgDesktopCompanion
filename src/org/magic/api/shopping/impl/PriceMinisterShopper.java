@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
+import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,6 +44,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 				props.put("NB_PRODUCT_PAGE", "20");
 				props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 				props.put("WEBSITE", "http://www.priceminister.com/");
+				props.put("ENCODING", "UTF-8");
 		save();
 		}
 		
@@ -70,22 +73,34 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 					.replace("%SCOPE%", props.getProperty("SCOPE"))
 					.replace("%NB_PRODUCT_PAGE%", props.getProperty("NB_PRODUCT_PAGE"))
 					.replace("%CATEGORIE%",props.getProperty("CATEGORIE"))
-					.replace("%KEYWORD%",search);
+					.replace("%KEYWORD%",URLEncoder.encode(search,props.getProperty("ENCODING")));
 		
 		 logger.debug("parsing item from " + url) ;
 			
 		 Document doc = dBuilder.parse(url);
 		 doc.getDocumentElement().normalize();
-		 
-		NodeList lst =  doc.getElementsByTagName("products");
-		for (int temp = 0; temp < lst.getLength(); temp++) {
-			 Node nNode = lst.item(temp);
-			 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-	               Element eElement = (Element) nNode;
-	               System.out.println(eElement);
-			 }
-		}
 		
+				NodeList lst =  doc.getElementsByTagName("product");
+				for (int temp = 0; temp < lst.getLength(); temp++) {
+					 Node nNode = lst.item(temp);
+					 if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+			             Element e = (Element)nNode;
+			             ShopItem it = new ShopItem();
+			             it.setId(e.getElementsByTagName("productid").item(0).getTextContent());
+						 it.setType(e.getElementsByTagName("topic").item(0).getTextContent());
+						 it.setUrl(new URL(e.getElementsByTagName("url").item(0).getTextContent()));
+						 it.setImage(new URL(e.getElementsByTagName("image").item(0).getTextContent()));
+						 it.setName(e.getElementsByTagName("headline").item(0).getTextContent());
+						 it.setShopName(getShopName());
+						 it.setPrice(Double.parseDouble(parsePrice((Element)e.getElementsByTagName("global").item(0))));
+						 list.add(it);
+						 
+						
+					}
+					 
+					
+				}
+		return list;
 		 
 		}
 		catch(Exception e)
@@ -98,6 +113,19 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 		return list;
 	}
 	
+	private String parsePrice(Element item) {
+		try{
+			String price = ((Element)item.getElementsByTagName("advertprice").item(0)).getElementsByTagName("amount").item(0).getTextContent();
+			return price;
+		}
+		catch(Exception e)
+		{
+			logger.error(item);
+			return "0.0";
+		}
+	}
+
+
 	public static void printDocument(Document doc, OutputStream out) throws IOException, TransformerException {
 	    TransformerFactory tf = TransformerFactory.newInstance();
 	    Transformer transformer = tf.newTransformer();

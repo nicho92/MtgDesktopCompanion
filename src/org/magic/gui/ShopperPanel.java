@@ -1,6 +1,7 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.event.ActionEvent;
@@ -25,6 +26,10 @@ import javax.swing.table.TableRowSorter;
 
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
+
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.TableFilterHeader;
+
 import java.awt.Dimension;
 
 public class ShopperPanel extends JPanel {
@@ -39,7 +44,8 @@ public class ShopperPanel extends JPanel {
 	private final JPanel panneauCentral = new JPanel();
 	private final JPanel panneauEast = new JPanel();
 	private final JLabel lblPicShopItem = new JLabel("");
-	
+    private TableFilterHeader filterHeader;
+
 	public ShopperPanel() {
 		setLayout(new BorderLayout(0, 0));
 		
@@ -67,6 +73,8 @@ public class ShopperPanel extends JPanel {
 		add(panneauCentral, BorderLayout.CENTER);
 		tableItemShop = new JTable(mod);
 		tableItemShop.setRowSorter(sorter);
+		filterHeader = new TableFilterHeader(tableItemShop, AutoChoices.ENABLED);
+		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 		tableItemShop.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
 
 			    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy HH:mm");
