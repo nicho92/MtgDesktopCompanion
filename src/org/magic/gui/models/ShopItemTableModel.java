@@ -1,6 +1,7 @@
 package org.magic.gui.models;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -19,7 +20,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 
 	  static final Logger logger = LogManager.getLogger(ShopItemTableModel.class.getName());
 
-	  String columns[] = new String[]{"Site","Name","Price","date","type","url"};
+	  String columns[] = new String[]{"Site","Name","Price","date","type","url","note"};
 			
 	List<MagicShopper> shopProviders;
 	MagicCard mc;
@@ -77,18 +78,13 @@ public class ShopItemTableModel extends DefaultTableModel {
 		switch(columnIndex)
 		{
 		case 0:return String.class;
-		case 1 : return String.class;
+		case 1 : return ShopItem.class;
 		case 2: return Double.class;
 		case 3: return Date.class;
 		case 4: return String.class;
 		case 5 : return URL.class;
 		default : return String.class;
 		}
-	}
-	
-	public ShopItem getItem(int row)
-	{
-		return items.get(row);
 	}
 	
 	@Override
@@ -100,24 +96,38 @@ public class ShopItemTableModel extends DefaultTableModel {
 		switch(column)
 		{
 			case 0: return mp.getShopName();
-			case 1 : return mp.getName();
+			case 1 : return mp;
 			case 2: return mp.getPrice();
 			case 3 : return mp.getDate();
 			case 4: return mp.getType();
 			case 5 : return mp.getUrl();
+			case 6 : return MagicFactory.getInstance().getEnabledDAO().getSavedShopItemAnotation(mp);
 		default : return 0;
 		}
-		}catch(IndexOutOfBoundsException ioob)
+		}catch(Exception ioob)
 		{
 			logger.error(ioob);
 			return null;
+		}
+	}
+	
+	@Override
+	public void setValueAt(Object aValue, int row, int column) {
+		ShopItem mp = items.get(row);
+		try {
+			MagicFactory.getInstance().getEnabledDAO().saveShopItem(mp,aValue.toString());
+		} catch (SQLException e) {
+			logger.error(e);
 		}
 	}
 
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return false;
+		if(column==6)
+			return true;
+		else
+			return false;
 	}
 
 	

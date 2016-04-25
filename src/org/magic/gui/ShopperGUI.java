@@ -8,13 +8,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -24,19 +24,18 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
-import java.awt.Dimension;
-
-public class ShopperPanel extends JPanel {
+public class ShopperGUI extends JPanel {
 	private JTextField txtSearch;
-	private JTable tableItemShop;
+	private JXTable tableItemShop;
 	
-	JButton btnSearch = new JButton("search");
+	JButton btnSearch = new JButton(new ImageIcon(ShopperGUI.class.getResource("/res/search.png")));
 	JPanel panel = new JPanel();
 	JLabel lblSearch = new JLabel("search :");
 	JScrollPane shopItemScrollPane = new JScrollPane();
@@ -45,8 +44,9 @@ public class ShopperPanel extends JPanel {
 	private final JPanel panneauEast = new JPanel();
 	private final JLabel lblPicShopItem = new JLabel("");
     private TableFilterHeader filterHeader;
+    private final JCheckBox chkUpdate = new JCheckBox("update ?");
 
-	public ShopperPanel() {
+	public ShopperGUI() {
 		setLayout(new BorderLayout(0, 0));
 		
 		
@@ -66,12 +66,14 @@ public class ShopperPanel extends JPanel {
 		
 		
 		panel.add(btnSearch);
+		
+		panel.add(chkUpdate);
 		mod = new ShopItemTableModel();
 		
 		DefaultRowSorter sorter = new TableRowSorter<DefaultTableModel>(mod);
 		
 		add(panneauCentral, BorderLayout.CENTER);
-		tableItemShop = new JTable(mod);
+		tableItemShop = new JXTable(mod);
 		tableItemShop.setRowSorter(sorter);
 		filterHeader = new TableFilterHeader(tableItemShop, AutoChoices.ENABLED);
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
@@ -96,18 +98,21 @@ public class ShopperPanel extends JPanel {
 		tableItemShop.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent ev) {
+			
+			int modelrow= tableItemShop.convertRowIndexToModel(tableItemShop.getSelectedRow());
+			ShopItem it = (ShopItem)tableItemShop.getModel().getValueAt(modelrow, 1);
+			
+			
 			if(ev.getClickCount()==2 && !ev.isConsumed())
 			{
 				ev.consume();
 				try {
-					URL url = (URL)tableItemShop.getValueAt(tableItemShop.getSelectedRow(), 5);
-					Desktop.getDesktop().browse(url.toURI());
+					Desktop.getDesktop().browse(it.getUrl().toURI());
 				} catch (Exception e) { e.printStackTrace();}
 
 			}
 			else
 			{
-				ShopItem it = mod.getItem(tableItemShop.getSelectedRow());
 				lblPicShopItem.setIcon(new ImageIcon(it.getImage()));
 			}
 

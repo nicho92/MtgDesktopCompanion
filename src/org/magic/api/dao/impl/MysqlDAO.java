@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.AbstractMagicDAO;
 
 public class MysqlDAO extends AbstractMagicDAO{
@@ -50,6 +51,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 try{
 		 	logger.debug("Create table Cards");
 		 	con.createStatement().executeUpdate("create table cards (name varchar(250), mcard BLOB, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 	logger.debug("Create table Shop");
+		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("populate collections");
@@ -296,6 +299,20 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<MagicCollection> getCollectionFromCards(MagicCard mc) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void saveShopItem(ShopItem mp, String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public String getSavedShopItemAnotation(ShopItem id) {
 		// TODO Auto-generated method stub
 		return null;
 	}

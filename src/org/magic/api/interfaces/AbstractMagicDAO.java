@@ -11,6 +11,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.ShopItem;
 
 public abstract class AbstractMagicDAO implements MagicDAO {
 
@@ -95,7 +96,8 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public abstract void saveDeck(MagicDeck d)throws SQLException;
 	public abstract void deleteDeck(MagicDeck d)throws SQLException;
 	public abstract List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException;
-	
+	public abstract void saveShopItem(ShopItem mp, String string) throws SQLException;
+	public abstract String getSavedShopItemAnotation(ShopItem id) throws SQLException;
 
 	
 	public abstract String getDBLocation() ;

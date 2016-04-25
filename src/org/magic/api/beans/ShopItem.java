@@ -79,7 +79,7 @@ public class ShopItem {
 	}
 	
 	public String toString(){
-		return getName() +" (" + getPrice() + ")"; 
+		return getName(); 
 	}
 	public String getDescription() {
 		return description;

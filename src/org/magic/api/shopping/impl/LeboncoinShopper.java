@@ -125,6 +125,12 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 				} catch (IOException e) {
 					logger.error(e);
 				}
+		
+		
+		if(list.size()>Integer.parseInt(props.get("MAX_RESULT").toString()))
+			 if(Integer.parseInt(props.get("MAX_RESULT").toString())>-1)
+				 return list.subList(0, Integer.parseInt(props.get("MAX_RESULT").toString()));
+		 
 		return list;
 	}
 	

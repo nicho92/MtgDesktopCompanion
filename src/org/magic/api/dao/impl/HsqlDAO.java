@@ -17,6 +17,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.AbstractMagicDAO;
 
 public class HsqlDAO extends AbstractMagicDAO{
@@ -56,6 +57,8 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 	logger.debug("Create table decks");
 		 	con.createStatement().executeUpdate("create table collections (name varchar(250) PRIMARY KEY)");
 		 	logger.debug("Create table collections");
+		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
+		 	logger.debug("Create table shopp");
 		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
 		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
 		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
@@ -336,6 +339,37 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 }
 		 
 		 return cols;
+	}
+
+
+	@Override
+	public void saveShopItem(ShopItem mp, String string) throws SQLException {
+			logger.debug("trying to update " + mp);
+			PreparedStatement pst = con.prepareStatement("update shop set statut=? where id=?");
+			pst.setString(1, string);
+			pst.setString(2, mp.getId());
+			if(pst.executeUpdate()==0)
+			{
+				logger.debug("trying to insert " + mp);
+				pst = con.prepareStatement("insert into shop values (?,?)");
+				pst.setString(1, mp.getId());
+				pst.setString(2, string);
+				pst.executeUpdate();
+			}
+	}
+
+
+	@Override
+	public String getSavedShopItemAnotation(ShopItem it) throws SQLException {
+		PreparedStatement pst = con.prepareStatement("SELECT statut from shop where id=?");
+		pst.setString(1, it.getId());
+		//logger.debug("looking for shopItem : SELECT statut from shop where id=" + it.getId());
+		ResultSet rs = pst.executeQuery(); 
+		if(rs.next())
+			return rs.getString("statut");
+		else
+			return "";
+		
 	}
 
 

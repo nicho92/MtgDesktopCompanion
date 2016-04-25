@@ -8,6 +8,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.ShopItem;
 
 public interface MagicDAO {
 
@@ -44,6 +45,10 @@ public interface MagicDAO {
 	public void saveDeck(MagicDeck d)throws SQLException;
 	public void deleteDeck(MagicDeck d)throws SQLException;
  
+	public void saveShopItem(ShopItem mp, String string) throws SQLException;
+	public String getSavedShopItemAnotation(ShopItem id) throws SQLException;
+
+	
 	public String getDBLocation();
 	public long getDBSize();
 	
