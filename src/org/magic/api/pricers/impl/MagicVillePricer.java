@@ -101,7 +101,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 		logger.info(getName() +" looking for prices " + url );
 		
-		doc = Jsoup.connect(url).userAgent(props.getProperty("USER_AGENT")).get();
+		doc = Jsoup.connect(url).userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
 		Element table =null;
 		try{
 		table = doc.select("table[width=98%]").get(2); //select the first table.
