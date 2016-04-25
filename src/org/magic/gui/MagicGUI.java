@@ -8,7 +8,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.SystemTray;
 import java.awt.Toolkit;
+import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -84,7 +86,6 @@ import org.magic.tools.MagicFactory;
 import org.magic.tools.MagicPDFGenerator;
 
 import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.IFilterEditor;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class MagicGUI extends JFrame {
@@ -92,6 +93,9 @@ public class MagicGUI extends JFrame {
 	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
 
 	private static final int INDEX_PRICES = 2;
+
+	TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/bottom.png")));
+	public final SystemTray tray = SystemTray.getSystemTray();
 
 	private MagicCard selected;
 	private MagicEdition selectedEdition;
@@ -865,6 +869,22 @@ public class MagicGUI extends JFrame {
 				}
 				
 			});
+			
+			
+			if (SystemTray.isSupported()) {
+				tray.add(trayIcon);
+
+				trayIcon.displayMessage(getTitle(),"Application started\n",TrayIcon.MessageType.INFO);
+				trayIcon.addActionListener(new ActionListener() {
+					
+					public void actionPerformed(ActionEvent e) {
+						if(!isVisible())
+							setVisible(true);
+						else
+							setVisible(false);
+					}
+				});
+			}		
 			
 			
 		} 

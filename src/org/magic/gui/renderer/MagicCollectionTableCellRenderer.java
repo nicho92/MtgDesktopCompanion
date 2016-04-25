@@ -23,7 +23,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 			
 			Component pane = super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column);
 			
-			if((int)table.getValueAt(row, 4)<5)
+		if((int)table.getValueAt(row, 4)<5)
 			{
 				pane.setBackground(table.getBackground());
 				pane.setForeground(Color.BLACK);

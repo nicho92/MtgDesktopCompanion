@@ -76,11 +76,12 @@ public class ShopperGUI extends JPanel {
 		tableItemShop = new JXTable(mod);
 		tableItemShop.setRowSorter(sorter);
 		filterHeader = new TableFilterHeader(tableItemShop, AutoChoices.ENABLED);
+		
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 		tableItemShop.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
 
 			    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy HH:mm");
-
+			    
 			    public Component getTableCellRendererComponent(JTable table,
 			            Object value, boolean isSelected, boolean hasFocus,
 			            int row, int column) {

@@ -45,6 +45,9 @@ public class MtgDesktopCompanion {
 						gui.setDefaultLanguage("English");
 						gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						gui.setVisible(true);
+						
+						
+						
 
 			}
 		});
