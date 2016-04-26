@@ -66,4 +66,10 @@
 			<enable>true</enable>
 		</shopper>
 	</shoppers>
+	<dashboards>
+		<dashboard>
+			<class>org.magic.api.shopping.impl.LeboncoinShopper</class>
+			<enable>true</enable>
+		</dashboard>
+	</dashboards>
 </conf>

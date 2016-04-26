@@ -16,6 +16,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -55,6 +56,8 @@ public class CardsPicPanel extends JXPanel {
 	
 	private boolean moveable=true;
 
+	private URL photoBack;
+
 	public CardsPicPanel()
 	{
 		initGUI();
@@ -68,13 +71,25 @@ public class CardsPicPanel extends JXPanel {
     	return image;
 	}
 	
-	public void showPhoto(final URL photo,final URL photoBack) {
+	public void showPhoto(final URL photo,URL bottom) {
 		
+		this.photoBack=bottom;
+		
+		if(bottom==null)
+			try {
+				photoBack=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card");
+			} catch (MalformedURLException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+	
 		new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
 				try {
+					
+					
 					imgFront=renderer.appendReflection(ImageIO.read(photo));
 					back=mirroring(ImageIO.read(photoBack));
 					back=renderer.appendReflection(back);
