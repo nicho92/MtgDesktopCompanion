@@ -53,14 +53,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		
 		try {
-			System.out.println(doc.getElementsByClass("timeago").get(0).attr("title"));
 			updateTime= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(doc.getElementsByClass("timeago").get(0).attr("title"));
 		
 		} catch (ParseException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		logger.debug("Parsing dashboard "+getName()+" http://www.mtggoldfish.com/movers-details/"+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+weekordaly);
+		logger.debug("Parsing dashboard "+getName()+props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+weekordaly);
 		
 		Element table =null;
 		try{

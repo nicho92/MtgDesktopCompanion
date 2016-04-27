@@ -58,8 +58,8 @@ public class MagicFactory {
 			}else if (k instanceof MagicShopper) {
 				path = "shoppers/shopper[class='"+k.getClass().getName()+"']/enable";
 			
-			}else if (k instanceof MagicShopper) {
-				path = "shoppers/shopper[class='"+k.getClass().getName()+"']/enable";
+			}else if (k instanceof DashBoard) {
+				path = "dashboards/dashboard[class='"+k.getClass().getName()+"']/enable";
 			}
 			else{
 				logger.error(k + "is not regonized");
@@ -69,7 +69,7 @@ public class MagicFactory {
 			config.setProperty(path, c);
 			builder.save();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 	
@@ -152,7 +152,7 @@ public class MagicFactory {
 			}
 			
 			logger.info("loading DashBoard");
-			dashboards=new ArrayList<>();
+			dashboards=new ArrayList<DashBoard>();
 			for(int i=1;i<=config.getList("//dashboard/class").size();i++)
 			{
 				String s = config.getString("dashboards/dashboard["+i+"]/class");

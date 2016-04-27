@@ -12,17 +12,17 @@ import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.tools.MagicFactory;
 
-public class DashBoardTableModel extends AbstractTreeTableModel {
+public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
 	    private DashBoard selectedProvider = null;
-	    private List<DashBoard> pricers = MagicFactory.getInstance().getDashBoards();
-	    static final Logger logger = LogManager.getLogger(DashBoardTableModel.class.getName());
+	    private List<DashBoard> lstDashboard ;
+	    static final Logger logger = LogManager.getLogger(DashBoardProviderTreeTableModel.class.getName());
 
 	    
 	    
-	    public DashBoardTableModel() {
-	        super(new Object());
-	        
+	    public DashBoardProviderTreeTableModel() {
+	    	 super(new Object());
+	        lstDashboard = MagicFactory.getInstance().getDashBoards();
 	    }
 	    
 	    @Override
@@ -55,9 +55,9 @@ public class DashBoardTableModel extends AbstractTreeTableModel {
 	    public int getChildCount(Object parent) {
 	        if (parent instanceof DashBoard) {
 	        	DashBoard dept = (DashBoard) parent;
-	            return dept.getProperties().size();
+	           return dept.getProperties().size();
 	        }
-	        return pricers.size();
+	        return lstDashboard.size();
 	    }
 
 	    @Override
@@ -67,7 +67,7 @@ public class DashBoardTableModel extends AbstractTreeTableModel {
 	        	DashBoard dept = (DashBoard) parent;
 	            return getPropByIndex(dept,index);
 	        }
-	        return new ArrayList(pricers).get(index);
+	        return new ArrayList(lstDashboard).get(index);
 	    }
 
 	    private Entry<String,Object> getPropByIndex(DashBoard dept, int index)
