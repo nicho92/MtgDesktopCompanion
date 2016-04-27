@@ -1,8 +1,12 @@
 package org.magic.api.dashboard.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
@@ -12,39 +16,51 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.AbstractDashBoard;
+import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard{
 
 	static final Logger logger = LogManager.getLogger(MTGoldFishDashBoard.class.getName());
-	private ONLINE_PAPER support;
 
+	private Date updateTime;
+	
 	public MTGoldFishDashBoard() 
 	{
-	
+		super();
+
+		if(!new File(confdir, getName()+".conf").exists()){
+		props.put("URL", "http://www.mtggoldfish.com/movers-details/");
+		props.put("WEBSITE", "http://www.mtggoldfish.com/");
+		props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+		props.put("FORMAT", "paper");
+		props.put("TIMEOUT", "0");
+		save();
+		}
 	}
 	
-	/**
-	 * @param sup can be "online" or "paper"
-	 * */
-	public void setSupportType(ONLINE_PAPER onlineOrPaper)
-	{
-		this.support=onlineOrPaper;
-	}
 
 	public List<CardShake> getShakerFor(String gameFormat,String weekordaly) throws IOException
 	{
-		Document doc = Jsoup.connect("http://www.mtggoldfish.com/movers-details/"+support+"/"+gameFormat.toString()+"/winners/"+weekordaly)
-							.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
-							.timeout(0)
+		Document doc = Jsoup.connect(props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+weekordaly)
+							.userAgent(props.getProperty("USER_AGENT"))
+							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 							.get();
 		
-		Document doc2 = Jsoup.connect("http://www.mtggoldfish.com/movers-details/"+support+"/"+gameFormat+"/losers/"+weekordaly)
-				.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
-				.timeout(0)
+		Document doc2 = Jsoup.connect(props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+weekordaly)
+				.userAgent(props.getProperty("USER_AGENT"))
+				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 				.get();
 		
-		logger.debug("parse dashboard : http://www.mtggoldfish.com/movers-details/"+support+"/"+gameFormat+"/losers/"+weekordaly);
+		
+		try {
+			System.out.println(doc.getElementsByClass("timeago").get(0).attr("title"));
+			updateTime= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(doc.getElementsByClass("timeago").get(0).attr("title"));
+		
+		} catch (ParseException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		logger.debug("Parsing dashboard "+getName()+" http://www.mtggoldfish.com/movers-details/"+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+weekordaly);
 		
 		Element table =null;
 		try{
@@ -85,11 +101,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException
 	{
-		String urlEditionChecker = "http://www.mtggoldfish.com/index/"+edition.getSet()+"#"+support;
+		String urlEditionChecker = "http://www.mtggoldfish.com/index/"+edition.getSet()+"#"+props.getProperty("FORMAT");
 		
 		Document doc = Jsoup.connect(urlEditionChecker)
-							.userAgent("Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6")
-							.timeout(0)
+							.userAgent(props.getProperty("USER_AGENT"))
+							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 							.get();
 		
 		Element table =null;
@@ -136,5 +152,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	public String getName() {
 		return "MTGoldFish";
 	}
+
+	@Override
+	public Date getUpdatedDate() {
+		return updateTime;
+	}
+
+
 	
 }

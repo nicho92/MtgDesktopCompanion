@@ -11,7 +11,7 @@ import java.util.List;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
-import org.magic.api.interfaces.AbstractMagicShopper;
+import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.api.pricers.impl.EbayPricer;
 
 import com.google.gson.JsonArray;

@@ -20,7 +20,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.ShopItem;
-import org.magic.api.interfaces.AbstractMagicShopper;
+import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.tools.InstallCert;
 
 public class LeboncoinShopper extends AbstractMagicShopper  {

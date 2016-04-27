@@ -18,7 +18,7 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 			if(((Double)value).doubleValue()<0)
 				return new JLabel(new ImageIcon(CardShakeRenderer.class.getResource("/res/down.png")));
 			
-			return super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column);
+			return super.getTableCellRendererComponent(table, "", isSelected,hasFocus, row, column);
 		}
 	}
 	

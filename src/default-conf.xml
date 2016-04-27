@@ -68,7 +68,7 @@
 	</shoppers>
 	<dashboards>
 		<dashboard>
-			<class>org.magic.api.shopping.impl.LeboncoinShopper</class>
+			<class>org.magic.api.dashboard.impl.MTGoldFishDashBoard</class>
 			<enable>true</enable>
 		</dashboard>
 	</dashboards>

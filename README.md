@@ -9,20 +9,23 @@ Download last version here https://github.com/nicho92/MtgDesktopCompanion/blob/m
 
 
 Features :
+
+> search for cards
 > Create and Manage decks
+> manage your collection
+> Generate a website of your collections with your own template.
+> get dashboard of cards prices variation
+> lookup for cards in auction websites
+> 
 
-> multiple Prices providers, in real time.
+> Modularity : 
+- manage your prices provider
+- manage your cards provider
+- manage your dashboard provider
+- manage your online shops
+- manage your database providers
 
-> Multiple json providers
-
-> Collection manager
-
-> manacurve, card statistics
-
-> simulate drawing
-
-> Website collection generator
-
+> manacurve, color and type repartition
 
 
 Main interface :

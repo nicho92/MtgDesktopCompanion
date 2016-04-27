@@ -14,6 +14,7 @@ import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
@@ -30,6 +31,7 @@ public class MagicFactory {
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
+	private List<DashBoard> dashboards;
 	
 	static final Logger logger = LogManager.getLogger(MagicFactory.class.getName());
 	
@@ -144,6 +146,15 @@ public class MagicFactory {
 				cardsShoppers.add(prov);
 			}
 			
+			logger.info("loading DashBoard");
+			dashboards=new ArrayList<>();
+			for(int i=1;i<=config.getList("//dashboard/class").size();i++)
+			{
+				String s = config.getString("dashboards/dashboard["+i+"]/class");
+				DashBoard prov = loadItem(DashBoard.class, s.toString());
+						 prov.enable(config.getBoolean("dashboards/dashboard["+i+"]/enable"));
+				dashboards.add(prov);
+			}
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -206,6 +217,18 @@ public class MagicFactory {
 
 	public List<MagicShopper> getShoppers() {
 		return cardsShoppers;
+	}
+
+	public DashBoard getEnabledDashBoard() {
+		for(DashBoard p : getDashBoards())
+			if(p.isEnable())
+				return p;
+		
+		return null;
+	}
+
+	private List<DashBoard> getDashBoards() {
+		return dashboards;
 	}
 
 	

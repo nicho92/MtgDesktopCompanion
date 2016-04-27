@@ -16,7 +16,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.AbstractMagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 
 public class MagicVillePricer extends AbstractMagicPricesProvider {
 

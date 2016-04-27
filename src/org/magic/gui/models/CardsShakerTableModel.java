@@ -1,25 +1,16 @@
 package org.magic.gui.models;
 
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicPrice;
-import org.magic.api.dashboard.impl.MTGoldFishDashBoard;
-import org.magic.api.interfaces.AbstractDashBoard;
-import org.magic.api.interfaces.AbstractDashBoard.FORMAT;
-import org.magic.api.interfaces.AbstractDashBoard.ONLINE_PAPER;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.tools.MagicFactory;
 
 public class CardsShakerTableModel extends DefaultTableModel {
@@ -28,14 +19,27 @@ public class CardsShakerTableModel extends DefaultTableModel {
 
 	String columns[] = new String[]{"Card","Edition","Price","Daily","Daily%","Check"};
 			
-	AbstractDashBoard provider;
+	DashBoard provider;
 	List<CardShake> list;
 	
 	
 	public CardsShakerTableModel() {
-		provider=new MTGoldFishDashBoard();
-		provider.setSupportType(ONLINE_PAPER.paper);
+		provider=MagicFactory.getInstance().getEnabledDashBoard();
 		list=new ArrayList<CardShake>();
+	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		switch (columnIndex) {
+		case 0: return CardShake.class;
+		case 1 : return String.class;
+		case 2 : return Double.class;
+				
+		default:return super.getColumnClass(columnIndex);
+		
+		}
+		
+		
 	}
 	
 	

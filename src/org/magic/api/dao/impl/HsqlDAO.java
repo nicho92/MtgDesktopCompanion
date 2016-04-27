@@ -18,7 +18,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
-import org.magic.api.interfaces.AbstractMagicDAO;
+import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 
 public class HsqlDAO extends AbstractMagicDAO{
 
