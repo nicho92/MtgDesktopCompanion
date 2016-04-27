@@ -82,7 +82,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 			case 1 : return mp.getEd();
 			case 2: return mp.getPrice();
 			case 3 : return mp.getPriceDayChange();
-			case 4 : return mp.getPercentDChange();
+			case 4 : return mp.getPercentDayChange();
 			case 5 : return mp.getPriceDayChange();
 		default : return 0;
 		}

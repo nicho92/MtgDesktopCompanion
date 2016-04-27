@@ -78,7 +78,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			cs.setImg(new URL(e.getElementsByTag("TD").get(3).getElementsByTag("a").get(0).attr("data-full-image")));
 			cs.setPrice(parseDouble(e.getElementsByTag("TD").get(4).text()));
 			cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(1).text()));
-			cs.setPercentDChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
+			cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
 			cs.setEd(e.getElementsByTag("TD").get(2).getElementsByTag("img").get(0).attr("alt"));
 			
 			list.add(cs);
@@ -123,11 +123,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 				cs.setRarity(e.getElementsByTag("TD").get(2).text());
 				cs.setPrice(parseDouble(e.getElementsByTag("TD").get(3).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(4).text()));
-				cs.setPercentDChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
+				cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
 				cs.setPriceWeekChange(parseDouble(e.getElementsByTag("TD").get(6).text()));
 				cs.setPercentWeekChange(parseDouble(e.getElementsByTag("TD").get(7).text()));
 				cs.setEd(e.getElementsByTag("TD").get(1).text());
-			
+				cs.setDateUpdate(new Date());
 			list.add(cs);
 		}
 		return list;

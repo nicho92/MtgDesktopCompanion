@@ -172,6 +172,20 @@ public class DashBoardGUI extends JPanel {
 			
 			@Override
 			public void run() {
+			
+				CardsShakerTableModel modStandard = new CardsShakerTableModel();
+				 modStandard.init(AbstractDashBoard.FORMAT.standard);
+				tableStandard.setModel(modStandard);
+				tableStandard.setRowSorter(new TableRowSorter(modStandard) );
+				modStandard.fireTableDataChanged();
+
+				
+				CardsShakerTableModel modLegacy = new CardsShakerTableModel();
+									  modLegacy.init(AbstractDashBoard.FORMAT.legacy);
+				tableLegacy.setModel(modLegacy);
+				tableLegacy.setRowSorter(new TableRowSorter(modLegacy) );
+				modLegacy.fireTableDataChanged();
+			
 				
 				CardsShakerTableModel modModern = new CardsShakerTableModel();
 									  modModern.init(AbstractDashBoard.FORMAT.modern);
@@ -179,17 +193,6 @@ public class DashBoardGUI extends JPanel {
 				tableModern.setRowSorter(new TableRowSorter(modModern) );
 				modModern.fireTableDataChanged();
 				
-				CardsShakerTableModel modStandard = new CardsShakerTableModel();
-									 modStandard.init(AbstractDashBoard.FORMAT.standard);
-				tableStandard.setModel(modStandard);
-				tableStandard.setRowSorter(new TableRowSorter(modStandard) );
-				modStandard.fireTableDataChanged();
-				
-				CardsShakerTableModel modLegacy = new CardsShakerTableModel();
-									  modLegacy.init(AbstractDashBoard.FORMAT.legacy);
-				tableLegacy.setModel(modLegacy);
-				tableLegacy.setRowSorter(new TableRowSorter(modLegacy) );
-				modLegacy.fireTableDataChanged();
 				
 				CardsShakerTableModel modVintage = new CardsShakerTableModel();
 									  modVintage.init(AbstractDashBoard.FORMAT.vintage);

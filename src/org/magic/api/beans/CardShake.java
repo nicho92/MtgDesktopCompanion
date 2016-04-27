@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.net.URL;
+import java.util.Date;
 
 public class CardShake {
 
@@ -15,9 +16,15 @@ public class CardShake {
 	private double percentWeekChange;
 	private MagicCard card;
 	private String ed;
+	private Date dateUpdate;
 	
 	
-	
+	public Date getDateUpdate() {
+		return dateUpdate;
+	}
+	public void setDateUpdate(Date dateUpdate) {
+		this.dateUpdate = dateUpdate;
+	}
 	public String getName() {
 		return name;
 	}
@@ -54,10 +61,10 @@ public class CardShake {
 	public void setPriceDayChange(double priceDayChange) {
 		this.priceDayChange = priceDayChange;
 	}
-	public double getPercentDChange() {
+	public double getPercentDayChange() {
 		return percentDayChange;
 	}
-	public void setPercentDChange(double percentDChange) {
+	public void setPercentDayChange(double percentDChange) {
 		this.percentDayChange = percentDChange;
 	}
 	public double getPriceWeekChange() {

@@ -10,10 +10,11 @@ import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
 import org.jdesktop.swingx.JXTreeTable;
-import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
+import org.magic.gui.models.DashBoardTableModel;
 import org.magic.gui.models.MagicDAOProvidersTableModel;
 import org.magic.gui.models.MagicPricesProvidersTableModel;
 import org.magic.gui.models.MagicShoppersTableModel;
@@ -26,6 +27,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable priceProviderTable;
 	private JXTreeTable daoProviderTable;
 	private JXTreeTable shopperTreeTable;
+	private JXTreeTable dashboardTreeTable;
 	
 	public ConfigurationPanelGUI() {
 		
@@ -96,6 +98,20 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		});
 		shopperScrollPane.setViewportView(shopperTreeTable);
+		
+		JScrollPane dashboardScrollPane = new JScrollPane();
+		subTabbedProviders.addTab("DashBoards", null, dashboardScrollPane, null);
+		
+		dashboardTreeTable = new JXTreeTable();
+		dashboardScrollPane.setViewportView(dashboardTreeTable);
+		
+		shopperTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1);
+						((DashBoardTableModel)dashboardTreeTable.getTreeTableModel()).setSelectedNode((DashBoard)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		});
 		
 		
 	}

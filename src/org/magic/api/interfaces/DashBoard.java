@@ -3,6 +3,7 @@ package org.magic.api.interfaces;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Properties;
 
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
@@ -15,6 +16,9 @@ public interface DashBoard {
 	
 	public String getName();
 	public Date getUpdatedDate();
+	public Properties getProperties();
+	public void save();
+	public void load();
 	void setProperties(String k, Object value);
 	boolean isEnable();
 	void enable(boolean t);

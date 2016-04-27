@@ -55,6 +55,11 @@ public class MagicFactory {
 				path = "providers/provider[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof MagicDAO) {
 				path = "daos/dao[class='"+k.getClass().getName()+"']/enable";
+			}else if (k instanceof MagicShopper) {
+				path = "shoppers/shopper[class='"+k.getClass().getName()+"']/enable";
+			
+			}else if (k instanceof MagicShopper) {
+				path = "shoppers/shopper[class='"+k.getClass().getName()+"']/enable";
 			}
 			else{
 				logger.error(k + "is not regonized");
@@ -157,8 +162,7 @@ public class MagicFactory {
 			}
 			
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e);
+		logger.error(e);
 		}
 		
 	}
@@ -227,7 +231,7 @@ public class MagicFactory {
 		return null;
 	}
 
-	private List<DashBoard> getDashBoards() {
+	public List<DashBoard> getDashBoards() {
 		return dashboards;
 	}
 

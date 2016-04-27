@@ -1,4 +1,4 @@
-package org.magic.api.interfaces;
+package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
+import org.magic.api.interfaces.MagicDAO;
 
 public abstract class AbstractMagicDAO implements MagicDAO {
 

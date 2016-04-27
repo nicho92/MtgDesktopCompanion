@@ -1,4 +1,4 @@
-package org.magic.api.interfaces;
+package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,27 +6,39 @@ import java.io.FileOutputStream;
 import java.util.List;
 import java.util.Properties;
 
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicPrice;
+import org.magic.api.beans.ShopItem;
+import org.magic.api.interfaces.MagicShopper;
 
-public abstract class AbstractMagicPricesProvider implements MagicPricesProvider {
+public abstract class AbstractMagicShopper implements MagicShopper {
 
+	
 	private boolean enable=true;
 	protected Properties props;
 	protected File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
-	
-	
-	@Override
-	public abstract List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception ;
-	
-	@Override
-	public abstract String getName() ;
 
+	
+	public abstract List<ShopItem> search(String search);
+	public abstract String getShopName();
+	
+	public AbstractMagicShopper() {
+		props=new Properties();
+		load();
+	}
+	
+	
+
+	public Properties getProperties() {
+		return props;
+	}
+	
+	public void setProperties(String k, Object value) {
+		props.put(k,value);
+	}
+	
 	public void load()
 	{
 		try {
-			File f = new File(confdir, getName()+".conf");
+			File f = new File(confdir, getShopName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -46,7 +58,7 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 	public void save()
 	{
 		try {
-			File f = new File(confdir, getName()+".conf");
+			File f = new File(confdir, getShopName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");
@@ -56,40 +68,17 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 		} 
 	}
 	
-	
-	public AbstractMagicPricesProvider() {
-		props=new Properties();
-		load();
-	}
-	
-
-	public Properties getProperties() {
-		return props;
-	}
-
-	@Override
-	public void setProperties(String k, Object value) {
-		props.put(k,value);
-	}
-
-	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
-	}
-
-	@Override
 	public boolean isEnable() {
 		return enable;
 	}
 
-	@Override
 	public void enable(boolean t) {
 		this.enable=t;
 		
 	}
-	@Override
+	
 	public int hashCode() {
-		return getName().hashCode();
+		return getShopName().hashCode();
 	}
 
 	@Override
@@ -99,7 +88,6 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 	
 	@Override
 	public String toString() {
-		return getName();
+		return getShopName();
 	}
-
 }
