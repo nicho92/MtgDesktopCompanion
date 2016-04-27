@@ -43,6 +43,9 @@ Collection Manager :
 Check for price variation :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/dashboard.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/dashboard.png)
 
+lookup for cards in auction website :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png)
+
 
 Generate Website of your collections :
 
