@@ -14,7 +14,7 @@ import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
-import org.magic.gui.models.DashBoardTableModel;
+import org.magic.gui.models.DashBoardProviderTreeTableModel;
 import org.magic.gui.models.MagicDAOProvidersTableModel;
 import org.magic.gui.models.MagicPricesProvidersTableModel;
 import org.magic.gui.models.MagicShoppersTableModel;
@@ -102,16 +102,16 @@ public class ConfigurationPanelGUI extends JPanel {
 		JScrollPane dashboardScrollPane = new JScrollPane();
 		subTabbedProviders.addTab("DashBoards", null, dashboardScrollPane, null);
 		
-		dashboardTreeTable = new JXTreeTable();
-		dashboardScrollPane.setViewportView(dashboardTreeTable);
-		
-		shopperTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
+		dashboardTreeTable = new JXTreeTable(new DashBoardProviderTreeTableModel());
+		dashboardTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1);
-						((DashBoardTableModel)dashboardTreeTable.getTreeTableModel()).setSelectedNode((DashBoard)e.getNewLeadSelectionPath().getPathComponent(1));
+						((DashBoardProviderTreeTableModel)dashboardTreeTable.getTreeTableModel()).setSelectedNode((DashBoard)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
+		dashboardScrollPane.setViewportView(dashboardTreeTable);
+		
 		
 		
 	}
