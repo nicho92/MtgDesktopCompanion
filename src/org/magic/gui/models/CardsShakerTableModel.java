@@ -46,7 +46,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 	public void init(FORMAT f)
 	{
 		try {
-			list=provider.getShakerFor(f.toString(), "dod");
+			list=provider.getShakerFor(f.toString());
 			
 		} catch (IOException e) {
 			logger.error(e);

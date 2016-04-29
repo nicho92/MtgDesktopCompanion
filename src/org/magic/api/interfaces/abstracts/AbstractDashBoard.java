@@ -18,7 +18,7 @@ public abstract class AbstractDashBoard implements DashBoard {
 	public static enum ONLINE_PAPER {online, paper};
 
 	
-	public abstract List<CardShake> getShakerFor(String gameFormat,String weekordaly) throws IOException;
+	public abstract List<CardShake> getShakerFor(String gameFormat) throws IOException;
 	public abstract List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException;
 	
 	

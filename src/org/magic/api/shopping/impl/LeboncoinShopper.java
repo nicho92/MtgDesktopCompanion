@@ -154,6 +154,8 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		
 		if(e.contains(hier))
 		{
+			if(e.startsWith(" "))
+				e=e.substring(1, e.length());
 			String hour = e.substring(hier.length(),hier.length()+2);
 			String minute = e.substring(hier.length()+3,hier.length()+5);
 			cal.setTime(new Date());

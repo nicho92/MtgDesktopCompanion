@@ -34,19 +34,20 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 		props.put("FORMAT", "paper");
 		props.put("TIMEOUT", "0");
+		props.put("DAILY_WEEKLY", "wow");
 		save();
 		}
 	}
 	
 
-	public List<CardShake> getShakerFor(String gameFormat,String weekordaly) throws IOException
+	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
-		Document doc = Jsoup.connect(props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+weekordaly)
+		Document doc = Jsoup.connect(props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+props.getProperty("DAILY_WEEKLY"))
 							.userAgent(props.getProperty("USER_AGENT"))
 							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 							.get();
 		
-		Document doc2 = Jsoup.connect(props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+weekordaly)
+		Document doc2 = Jsoup.connect(props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"))
 				.userAgent(props.getProperty("USER_AGENT"))
 				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 				.get();
@@ -59,7 +60,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		logger.debug("Parsing dashboard "+getName()+props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+weekordaly);
+		logger.debug("Parsing dashboard "+getName()+props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"));
 		
 		Element table =null;
 		try{
@@ -157,6 +158,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		return updateTime;
 	}
 
-
+	 @Override
+	public String toString() {
+		return getName();
+	}
 	
 }

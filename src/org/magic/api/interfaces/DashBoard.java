@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicEdition;
 
 public interface DashBoard {
 
-	public List<CardShake> getShakerFor(String gameFormat,String weekordaly) throws IOException;
+	public List<CardShake> getShakerFor(String gameFormat) throws IOException;
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException;
 	
 	

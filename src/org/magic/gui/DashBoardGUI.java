@@ -26,6 +26,9 @@ import org.magic.tools.MagicFactory;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DashBoardGUI extends JPanel {
 	private JTable tableEdition;
@@ -33,8 +36,13 @@ public class DashBoardGUI extends JPanel {
 	private JTable tableModern;
 	private JTable tableLegacy;
 	private JTable tableVintage;
-     private JLabel lblDashBoardInfo;
-    
+    private JLabel lblDashBoardInfo;
+	private CardsShakerTableModel modStandard;
+	private CardsShakerTableModel modModern;
+	private CardsShakerTableModel modLegacy;
+	private CardsShakerTableModel modVintage;
+	
+	
   
 	public DashBoardGUI() {
 		setLayout(new BorderLayout(0, 0));
@@ -131,9 +139,14 @@ public class DashBoardGUI extends JPanel {
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
 		
-		JComboBox comboBox = new JComboBox();
-		panneauHaut.add(comboBox);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"Daily", "Weekly"}));
+		JButton btnRefresh = new JButton("Refresh");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				update();
+			}
+
+		});
+		panneauHaut.add(btnRefresh);
 		
 		JPanel panneauBas = new JPanel();
 		add(panneauBas, BorderLayout.SOUTH);
@@ -141,63 +154,51 @@ public class DashBoardGUI extends JPanel {
 		lblDashBoardInfo = new JLabel("");
 		panneauBas.add(lblDashBoardInfo);
 		
-//		tableLegacy.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent arg0) {
-//				showCard(tableLegacy.getSelectedRow(),(CardsShakerTableModel)tableLegacy.getModel());
-//			}
-//		});
-//		
-//		tableModern.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent arg0) {
-//				showCard(tableModern.getSelectedRow(),(CardsShakerTableModel)tableModern.getModel());
-//			}
-//		});
-//		tableStandard.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent arg0) {
-//				showCard(tableStandard.getSelectedRow(),(CardsShakerTableModel)tableStandard.getModel());
-//			}
-//		});
-//		tableVintage.addMouseListener(new MouseAdapter() {
-//			@Override
-//			public void mouseClicked(MouseEvent arg0) {
-//				showCard(tableVintage.getSelectedRow(),(CardsShakerTableModel)tableVintage.getModel());
-//			}
-//		});
 		
 		
-		new Thread(new Runnable() {
+		modLegacy= new CardsShakerTableModel();
+		modModern = new CardsShakerTableModel();
+		modStandard= new CardsShakerTableModel();
+		modVintage = new CardsShakerTableModel();
+		
+		new TableFilterHeader(tableVintage, AutoChoices.ENABLED);
+		new TableFilterHeader(tableModern, AutoChoices.ENABLED);
+		new TableFilterHeader(tableStandard, AutoChoices.ENABLED);
+		new TableFilterHeader(tableLegacy, AutoChoices.ENABLED);
+		
+		update();
+	}
+
+	private void update() {
+			new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
 			
-				CardsShakerTableModel modStandard = new CardsShakerTableModel();
-				 modStandard.init(AbstractDashBoard.FORMAT.standard);
+				modStandard.init(AbstractDashBoard.FORMAT.standard);
 				tableStandard.setModel(modStandard);
 				tableStandard.setRowSorter(new TableRowSorter(modStandard) );
 				modStandard.fireTableDataChanged();
 
 				
-				CardsShakerTableModel modLegacy = new CardsShakerTableModel();
-									  modLegacy.init(AbstractDashBoard.FORMAT.legacy);
+				modLegacy.init(AbstractDashBoard.FORMAT.legacy);
 				tableLegacy.setModel(modLegacy);
 				tableLegacy.setRowSorter(new TableRowSorter(modLegacy) );
 				modLegacy.fireTableDataChanged();
 			
 				
-				CardsShakerTableModel modModern = new CardsShakerTableModel();
-									  modModern.init(AbstractDashBoard.FORMAT.modern);
+				modModern.init(AbstractDashBoard.FORMAT.modern);
 				tableModern.setModel(modModern);
 				tableModern.setRowSorter(new TableRowSorter(modModern) );
 				modModern.fireTableDataChanged();
 				
 				
-				CardsShakerTableModel modVintage = new CardsShakerTableModel();
-									  modVintage.init(AbstractDashBoard.FORMAT.vintage);
+				
+				modVintage.init(AbstractDashBoard.FORMAT.vintage);
 				tableVintage.setModel(modVintage);
 				tableVintage.setRowSorter(new TableRowSorter(modVintage) );
+				modVintage.fireTableDataChanged();
+				
 				
 				List<SortKey> keys = new ArrayList<SortKey>();
 				SortKey sortKey = new SortKey(2, SortOrder.DESCENDING);//column index 2
@@ -214,26 +215,19 @@ public class DashBoardGUI extends JPanel {
 
 				((TableRowSorter)tableModern.getRowSorter()).setSortKeys(keys);
 				((TableRowSorter)tableModern.getRowSorter()).sort();
-
-				
-				
-				modVintage.fireTableDataChanged();
-				
+		
 				
 				tableVintage.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 				tableModern.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 				tableStandard.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 				tableLegacy.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 				
-				new TableFilterHeader(tableVintage, AutoChoices.ENABLED);
-				new TableFilterHeader(tableModern, AutoChoices.ENABLED);
-				new TableFilterHeader(tableStandard, AutoChoices.ENABLED);
-				new TableFilterHeader(tableLegacy, AutoChoices.ENABLED);
+			
 				
 				lblDashBoardInfo.setText(MagicFactory.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MagicFactory.getInstance().getEnabledDashBoard().getUpdatedDate())+")");
 				
 			}
 		}).start();
+		
 	}
-
 }
