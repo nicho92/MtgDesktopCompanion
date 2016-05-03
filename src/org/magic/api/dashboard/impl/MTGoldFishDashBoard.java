@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -29,7 +30,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		super();
 
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("URL", "http://www.mtggoldfish.com/movers-details/");
+		props.put("URL_MOVERS", "http://www.mtggoldfish.com/movers-details/");
+		props.put("URL_EDITIONS", "http://www.mtggoldfish.com/index/");
 		props.put("WEBSITE", "http://www.mtggoldfish.com/");
 		props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 		props.put("FORMAT", "paper");
@@ -42,12 +44,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
-		Document doc = Jsoup.connect(props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+props.getProperty("DAILY_WEEKLY"))
+		Document doc = Jsoup.connect(props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+props.getProperty("DAILY_WEEKLY"))
 							.userAgent(props.getProperty("USER_AGENT"))
 							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 							.get();
 		
-		Document doc2 = Jsoup.connect(props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"))
+		Document doc2 = Jsoup.connect(props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"))
 				.userAgent(props.getProperty("USER_AGENT"))
 				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 				.get();
@@ -60,7 +62,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		logger.debug("Parsing dashboard "+getName()+props.getProperty("URL")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"));
+		logger.debug("Parsing dashboard "+getName()+props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"));
 		
 		Element table =null;
 		try{
@@ -98,15 +100,18 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 	}
 	
-
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException
 	{
-		String urlEditionChecker = "http://www.mtggoldfish.com/index/"+edition.getSet()+"#"+props.getProperty("FORMAT");
+		String urlEditionChecker = props.getProperty("URL_EDITIONS")+edition.getId()+"#"+props.getProperty("FORMAT");
 		
 		Document doc = Jsoup.connect(urlEditionChecker)
 							.userAgent(props.getProperty("USER_AGENT"))
 							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 							.get();
+		
+		
+		logger.debug("Parsing dashboard "+ urlEditionChecker);
+		
 		
 		Element table =null;
 		try{
@@ -128,6 +133,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 				cs.setPercentWeekChange(parseDouble(e.getElementsByTag("TD").get(7).text()));
 				cs.setEd(e.getElementsByTag("TD").get(1).text());
 				cs.setDateUpdate(new Date());
+				
 			list.add(cs);
 		}
 		return list;

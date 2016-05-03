@@ -19,8 +19,10 @@ import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableRowSorter;
 
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.gui.models.CardsShakerTableModel;
+import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.tools.MagicFactory;
 
@@ -41,7 +43,9 @@ public class DashBoardGUI extends JPanel {
 	private CardsShakerTableModel modModern;
 	private CardsShakerTableModel modLegacy;
 	private CardsShakerTableModel modVintage;
+	private EditionsShakerTableModel modEdition;
 	
+	private JComboBox cboEdition;
 	
   
 	public DashBoardGUI() {
@@ -50,8 +54,35 @@ public class DashBoardGUI extends JPanel {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 		
+		List<MagicEdition> eds= new ArrayList<>();
+		try {
+			eds=MagicFactory.getInstance().getEnabledProviders().get(0).searchSetByCriteria(null, null);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		JPanel panneauBas = new JPanel();
+		add(panneauBas, BorderLayout.SOUTH);
+		
+		lblDashBoardInfo = new JLabel("");
+		panneauBas.add(lblDashBoardInfo);
+		
+		
+		
+		modLegacy= new CardsShakerTableModel();
+		modModern = new CardsShakerTableModel();
+		modStandard= new CardsShakerTableModel();
+		modVintage = new CardsShakerTableModel();
+		modEdition = new EditionsShakerTableModel();
+		
+		
+		JPanel panneauShakers = new JPanel();
+		tabbedPane.addTab("DashBoard", null, panneauShakers, null);
+		panneauShakers.setLayout(new BorderLayout(0, 0));
+		
 		JPanel panneauFormat = new JPanel();
-		tabbedPane.addTab("Format", null, panneauFormat, null);
+		panneauShakers.add(panneauFormat);
 		panneauFormat.setLayout(new GridLayout(2, 2, 0, 0));
 		
 		JPanel panel_1 = new JPanel();
@@ -119,25 +150,16 @@ public class DashBoardGUI extends JPanel {
 		lblVintage.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_4.add(lblVintage, BorderLayout.NORTH);
 		
-		JPanel panneauEdition = new JPanel();
-		tabbedPane.addTab("Editions", null, panneauEdition, null);
-		panneauEdition.setLayout(new BorderLayout(0, 0));
+		new TableFilterHeader(tableVintage, AutoChoices.ENABLED);
+		new TableFilterHeader(tableModern, AutoChoices.ENABLED);
+		new TableFilterHeader(tableStandard, AutoChoices.ENABLED);
+		new TableFilterHeader(tableLegacy, AutoChoices.ENABLED);
 		
-		JPanel panel = new JPanel();
-		panneauEdition.add(panel, BorderLayout.NORTH);
+		new TableFilterHeader(tableEdition, AutoChoices.ENABLED);
 		
-		JComboBox cboEdition = new JComboBox();
-		panel.add(cboEdition);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		panneauEdition.add(scrollPane, BorderLayout.CENTER);
-		
-		tableEdition = new JTable();
-		
-		scrollPane.setViewportView(tableEdition);
 		
 		JPanel panneauHaut = new JPanel();
-		add(panneauHaut, BorderLayout.NORTH);
+		panneauShakers.add(panneauHaut, BorderLayout.NORTH);
 		
 		JButton btnRefresh = new JButton("Refresh");
 		btnRefresh.addActionListener(new ActionListener() {
@@ -148,23 +170,30 @@ public class DashBoardGUI extends JPanel {
 		});
 		panneauHaut.add(btnRefresh);
 		
-		JPanel panneauBas = new JPanel();
-		add(panneauBas, BorderLayout.SOUTH);
+		JPanel panneauEdition = new JPanel();
+		tabbedPane.addTab("Editions", null, panneauEdition, null);
+		panneauEdition.setLayout(new BorderLayout(0, 0));
 		
-		lblDashBoardInfo = new JLabel("");
-		panneauBas.add(lblDashBoardInfo);
+		JPanel panel = new JPanel();
+		panneauEdition.add(panel, BorderLayout.NORTH);
+		cboEdition = new JComboBox(eds.toArray());
+		cboEdition.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				MagicEdition ed = (MagicEdition)cboEdition.getSelectedItem();
+				modEdition.init(ed);
+				modEdition.fireTableDataChanged();
+				tableEdition.setRowSorter(new TableRowSorter(modEdition) );
+			}
+		});
+		panel.add(cboEdition);
 		
+		JScrollPane scrollPane = new JScrollPane();
+		panneauEdition.add(scrollPane, BorderLayout.CENTER);
 		
+		tableEdition = new JTable(modEdition);
 		
-		modLegacy= new CardsShakerTableModel();
-		modModern = new CardsShakerTableModel();
-		modStandard= new CardsShakerTableModel();
-		modVintage = new CardsShakerTableModel();
-		
-		new TableFilterHeader(tableVintage, AutoChoices.ENABLED);
-		new TableFilterHeader(tableModern, AutoChoices.ENABLED);
-		new TableFilterHeader(tableStandard, AutoChoices.ENABLED);
-		new TableFilterHeader(tableLegacy, AutoChoices.ENABLED);
+		scrollPane.setViewportView(tableEdition);
 		
 		update();
 	}
