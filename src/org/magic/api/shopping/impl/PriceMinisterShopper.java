@@ -89,6 +89,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 			             it.setId(e.getElementsByTagName("productid").item(0).getTextContent());
 						 it.setType(e.getElementsByTagName("topic").item(0).getTextContent());
 						 it.setUrl(new URL(e.getElementsByTagName("url").item(0).getTextContent()));
+						 
 						 it.setImage(new URL(e.getElementsByTagName("image").item(0).getTextContent()));
 						 it.setName(e.getElementsByTagName("headline").item(0).getTextContent());
 						 it.setShopName(getShopName());
