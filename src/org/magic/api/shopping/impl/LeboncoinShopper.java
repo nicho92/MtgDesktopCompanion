@@ -119,6 +119,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 											
 											a.setDate(parseDate(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(2).text()));
 											
+											a.setUrgent(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(2).text().startsWith("Urgent"));
 											list.add(a);
 								}
 						}
@@ -136,16 +137,16 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	
 	private Date parseDate(String e)
 	{
-		
+		//logger.debug("parsing " + e);
 		String aujourdhui="Aujourd'hui, ";
 		String hier="Hier, ";
-		e=e.replaceAll("Urgent", "");
+		e=e.replaceAll("Urgent ", "");
 		Calendar cal = GregorianCalendar.getInstance(Locale.getDefault());
 		
 		if(e.contains(aujourdhui))
 		{
-			String hour = e.substring(aujourdhui.length(),aujourdhui.length()+2);
-			String minute = e.substring(aujourdhui.length()+3,aujourdhui.length()+5);
+			String hour = e.substring(aujourdhui.length(),aujourdhui.length()+2).trim();
+			String minute = e.substring(aujourdhui.length()+3,aujourdhui.length()+5).trim();
 			cal.setTime(new Date());
 			cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour));
 			cal.set(Calendar.MINUTE, Integer.parseInt(minute));
@@ -156,8 +157,8 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		{
 			if(e.startsWith(" "))
 				e=e.substring(1, e.length());
-			String hour = e.substring(hier.length(),hier.length()+2);
-			String minute = e.substring(hier.length()+3,hier.length()+5);
+			String hour = e.substring(hier.length(),hier.length()+2).trim();
+			String minute = e.substring(hier.length()+3,hier.length()+5).trim();
 			cal.setTime(new Date());
 			cal.add(Calendar.DATE, -1);
 			cal.set(Calendar.HOUR_OF_DAY, Integer.parseInt(hour));
