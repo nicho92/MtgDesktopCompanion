@@ -246,11 +246,12 @@ public class DashBoardGUI extends JPanel {
 				((TableRowSorter)tableModern.getRowSorter()).sort();
 		
 				
-				tableVintage.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
-				tableModern.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
-				tableStandard.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
-				tableLegacy.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
-				
+				tableVintage.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+				tableModern.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+				tableStandard.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+				tableLegacy.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+				tableEdition.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+				tableEdition.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 			
 				
 				lblDashBoardInfo.setText(MagicFactory.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MagicFactory.getInstance().getEnabledDashBoard().getUpdatedDate())+")");

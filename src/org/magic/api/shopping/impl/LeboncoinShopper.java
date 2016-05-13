@@ -172,7 +172,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 			
 			return cal.getTime();
 		} catch (ParseException e1) {
-			System.err.println(e1.getMessage());
+			logger.error(e1.getMessage());
 		}
 		return null;
 	}

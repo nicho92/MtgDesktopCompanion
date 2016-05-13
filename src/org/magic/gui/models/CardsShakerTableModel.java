@@ -17,7 +17,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 
 	 static final Logger logger = LogManager.getLogger(CardsShakerTableModel.class.getName());
 
-	String columns[] = new String[]{"Card","Edition","Price","Daily","Daily%","Check"};
+	String columns[] = new String[]{"Card","Edition","Price","Daily","Daily%"};
 			
 	DashBoard provider;
 	List<CardShake> list;
@@ -34,12 +34,9 @@ public class CardsShakerTableModel extends DefaultTableModel {
 		case 0: return CardShake.class;
 		case 1 : return String.class;
 		case 2 : return Double.class;
-				
 		default:return super.getColumnClass(columnIndex);
 		
 		}
-		
-		
 	}
 	
 	
