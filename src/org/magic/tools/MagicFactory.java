@@ -73,11 +73,11 @@ public class MagicFactory {
 		}
 	}
 	
-	
-	public String getVersion()
+	public String get(String prop)
 	{
-		return "v"+config.getString("version");
+		return config.getString(prop);
 	}
+	
 		
 	private MagicFactory()
 	{

@@ -77,7 +77,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		
-		logger.debug("saving " + mc +" in " + collection);
+		logger.info("saving " + mc +" in " + collection);
 		
 		PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?)");
 		 pst.setString(1, mc.getName());
@@ -92,7 +92,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		logger.debug("remove " + mc + " from " + collection);
+		logger.info("remove " + mc + " from " + collection);
 		PreparedStatement pst = con.prepareStatement("delete from cards where name=? and edition=? and collection=?");
 		 pst.setString(1, mc.getName());
 		 pst.setString(2, mc.getEditions().get(0).getId());
@@ -197,7 +197,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void removeEdition(MagicEdition me, MagicCollection col) throws SQLException {
-		logger.debug("remove " + me + " from " + col);
+		logger.info("remove " + me + " from " + col);
 		PreparedStatement pst = con.prepareStatement("delete from cards where edition=? and collection=?");
 		 pst.setString(1, me.getId());
 		 pst.setString(2, col.getName());

@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 
 import org.magic.gui.MagicGUI;
+import org.magic.tools.MagicFactory;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
@@ -36,7 +37,7 @@ public class MtgDesktopCompanion {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					UIManager.setLookAndFeel("com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel");
+					UIManager.setLookAndFeel(MagicFactory.getInstance().get("lookAndFeel"));
 					UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
 				} catch (Exception e) {
 					e.printStackTrace();

@@ -225,7 +225,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		{
 			if(cacheCard.get(crit)!=null)
 			{
-				logger.info(crit + " is already in cache. Loading from it");
+				logger.debug(crit + " is already in cache. Loading from it");
 				return cacheCard.get(crit);
 			}
 			
