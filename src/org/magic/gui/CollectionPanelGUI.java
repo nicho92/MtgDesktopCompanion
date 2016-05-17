@@ -253,6 +253,7 @@ public class CollectionPanelGUI extends JPanel {
 				scrollPrices.setViewportView(tablePrices);
 				
 				magicCardDetailPanel = new MagicCardDetailPanel();
+				magicCardDetailPanel.enableThumbnail(true);
 				tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
 				
 				tabbedPane.addTab("Prices", null, scrollPrices, null);

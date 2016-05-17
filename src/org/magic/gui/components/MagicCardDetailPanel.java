@@ -538,7 +538,7 @@ public class MagicCardDetailPanel extends JPanel {
 						//Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
 						lblThumbnail.setIcon( new ImageIcon(img));
 					} catch (MalformedURLException e) {
-						//e.printStackTrace();
+						logger.error(e);
 					}
 					
 				}
