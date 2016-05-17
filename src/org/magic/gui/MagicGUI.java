@@ -192,6 +192,7 @@ public class MagicGUI extends JFrame {
 	{
 		try {
 			UIManager.setLookAndFeel(lookAndFeel);
+			MagicFactory.getInstance().setProperty("lookAndFeel", lookAndFeel);
 		} catch (Exception e) {
 			logger.error(e.getStackTrace());
 		}

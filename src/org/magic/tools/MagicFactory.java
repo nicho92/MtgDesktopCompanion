@@ -62,7 +62,7 @@ public class MagicFactory {
 				path = "dashboards/dashboard[class='"+k.getClass().getName()+"']/enable";
 			}
 			else{
-				logger.error(k + "is not regonized");
+				path=k.toString();
 			}
 			logger.info("set " + k + " to " + c);
 			

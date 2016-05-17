@@ -69,6 +69,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	}
 	
 	private static String prefixZeros(String value, int len) {
+		logger.debug("parsingNumber " + value + " "+  len) ;
 	    char[] t = new char[len];
 	    int l = value.trim().length();
 	    int k = len-l;
@@ -88,7 +89,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 		String keyword ="";
 		try{
-		keyword = getMGVILLCodeEdition(me)+prefixZeros(me.getNumber().replaceAll("a", ""),3);
+		keyword = getMGVILLCodeEdition(me)+prefixZeros(me.getNumber().replaceAll("a", "").trim(),3);
 		}
 		catch(Exception e)
 		{
