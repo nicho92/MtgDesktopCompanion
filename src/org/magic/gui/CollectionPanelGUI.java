@@ -587,7 +587,7 @@ public class CollectionPanelGUI extends JPanel {
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 					}
-					model.fireTableDataChanged();
+					//model.fireTableDataChanged();
 					tree.refresh();
 
 				}
