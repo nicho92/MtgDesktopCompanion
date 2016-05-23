@@ -42,7 +42,7 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 				comp=new JLabel(value.toString(), down,JLabel.CENTER);
 			
 			if(((Double)value).doubleValue()==0)
-				comp=new JLabel(value.toString());
+				comp=new JLabel(value.toString(),JLabel.CENTER);
 			
 			
 		//	comp.setBackground(c);

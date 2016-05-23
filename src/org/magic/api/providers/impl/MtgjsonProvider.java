@@ -150,7 +150,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		}
 	}
 	
-	
 	public void init()
 	{
 		logger.info("init " + this +" ");
@@ -342,7 +341,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 					  mc.setNumber(mciN);
 	 			   }
 	 		   }
-	 		   
+	 		  
 	 		   
 	 		  if(map.get("loyalty")!=null)
 	 			  mc.setLoyalty((int)(double)map.get("loyalty"));

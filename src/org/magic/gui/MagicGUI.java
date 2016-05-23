@@ -191,8 +191,11 @@ public class MagicGUI extends JFrame {
 	public void setLookAndFeel(String lookAndFeel)
 	{
 		try {
+			UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
 			UIManager.setLookAndFeel(lookAndFeel);
 			MagicFactory.getInstance().setProperty("lookAndFeel", lookAndFeel);
+			
+			
 		} catch (Exception e) {
 			logger.error(e.getStackTrace());
 		}

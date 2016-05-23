@@ -36,13 +36,9 @@ public class MtgDesktopCompanion {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				try {
-					UIManager.setLookAndFeel(MagicFactory.getInstance().get("lookAndFeel"));
-					UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+			
 				MagicGUI gui = new MagicGUI();
+						gui.setLookAndFeel(MagicFactory.getInstance().get("lookAndFeel"));
 						gui.setDefaultLanguage("English");
 						gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						gui.setVisible(true);
