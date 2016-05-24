@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import javax.swing.JScrollPane;
 
 public class MassCollectionImporterDialog extends JDialog{
 	
@@ -31,7 +32,7 @@ public class MassCollectionImporterDialog extends JDialog{
 	private MagicDAO dao;
 	private List<MagicEdition> list;
 	private String[] ids;
-	
+	JTextPane txtNumbersInput;
 	
 	public MassCollectionImporterDialog(MagicDAO dao,MagicCardsProvider provider,List<MagicEdition> list) {
 		setSize(new Dimension(646, 290));
@@ -76,9 +77,6 @@ public class MassCollectionImporterDialog extends JDialog{
 		
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
-		
-		final JTextPane txtNumbersInput = new JTextPane();
-		getContentPane().add(txtNumbersInput, BorderLayout.CENTER);
 		final JProgressBar progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
 		
@@ -164,6 +162,11 @@ public class MassCollectionImporterDialog extends JDialog{
 		
 		panneauBas.add(progressBar);
 		
+		txtNumbersInput = new JTextPane();
+		
+		JScrollPane scrollPane = new JScrollPane();
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		scrollPane.setViewportView(txtNumbersInput);
 		
 		setModal(true);
 		
