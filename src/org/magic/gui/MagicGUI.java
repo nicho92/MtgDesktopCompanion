@@ -85,6 +85,7 @@ import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicFactory;
 import org.magic.tools.MagicPDFGenerator;
 
+import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
@@ -302,6 +303,7 @@ public class MagicGUI extends JFrame {
 		});
 		
 		mnuAbout.add(mntmReportBug);
+		
 		for(LookAndFeelInfo ui : UIManager.getInstalledLookAndFeels())
 		{
 			final JMenuItem it = new JMenuItem(ui.getClassName());
@@ -312,6 +314,15 @@ public class MagicGUI extends JFrame {
 			});
 			jmnuLook.add(it);
 		}
+		
+		final JMenuItem it2 = new JMenuItem(new SyntheticaStandardLookAndFeel().getClass().getName());
+			it2.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				setLookAndFeel(it2.getText());
+			}
+		});
+		jmnuLook.add(it2);
+		
 		ButtonGroup group = new ButtonGroup();
 		
 		for(final MagicCardsProvider provider : MagicFactory.getInstance().getEnabledProviders())
