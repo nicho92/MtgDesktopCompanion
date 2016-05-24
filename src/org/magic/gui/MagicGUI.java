@@ -22,6 +22,7 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -85,6 +86,7 @@ import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicFactory;
 import org.magic.tools.MagicPDFGenerator;
 
+import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -304,9 +306,19 @@ public class MagicGUI extends JFrame {
 		
 		mnuAbout.add(mntmReportBug);
 		
-		for(LookAndFeelInfo ui : UIManager.getInstalledLookAndFeels())
+		List<String> looks = new ArrayList<String>();
+		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
+			looks.add(i.getClassName());
+		
+		looks.add(new SyntheticaStandardLookAndFeel().getClass().getName());
+		looks.add(new SyntheticaPlainLookAndFeel().getClass().getName());
+		
+		
+		
+		
+		for(String ui : looks)
 		{
-			final JMenuItem it = new JMenuItem(ui.getClassName());
+			final JMenuItem it = new JMenuItem(ui);
 			it.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					setLookAndFeel(it.getText());
@@ -315,13 +327,6 @@ public class MagicGUI extends JFrame {
 			jmnuLook.add(it);
 		}
 		
-		final JMenuItem it2 = new JMenuItem(new SyntheticaStandardLookAndFeel().getClass().getName());
-			it2.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				setLookAndFeel(it2.getText());
-			}
-		});
-		jmnuLook.add(it2);
 		
 		ButtonGroup group = new ButtonGroup();
 		
