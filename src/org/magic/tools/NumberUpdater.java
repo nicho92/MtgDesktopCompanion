@@ -22,14 +22,13 @@ public class NumberUpdater {
 	
 	public static void main(String[] args) throws Exception {
 		String unavailableEds[] = {"LEA","LEB","ARN","2ED","ATQ","3ED","FEM","4ED","ICE","CHR","HML","ALL","RQS","MIR","MGB","ITP","5ED","POR","VAN","WTH","TMP","STH","PO2","ATH","BRB","S00","DDQ"};
-		
-		JsonObject jsObj = new Gson().fromJson(new FileReader(new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json")), JsonObject.class);
 		MtgjsonProvider prov = new MtgjsonProvider();
 		
+		JsonObject jsObj = new Gson().fromJson(new FileReader(new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json")), JsonObject.class);
+	
 		for(String ed : unavailableEds)
-		//String ed = "LEA";
+		//String ed = "5ED";
 		{	
-			System.out.println("modify " + ed);
 			mc = updateNumber(ed, prov);
 			JsonArray cards = jsObj.getAsJsonObject(ed).getAsJsonArray("cards");
 			for(int i=0;i<cards.size();i++)
@@ -49,6 +48,14 @@ public class NumberUpdater {
 		
 	}
 	
+	
+	private static boolean isBasic(MagicCard mc)
+	{
+		if(mc.getName().equals("Plains")||mc.getName().equals("Island")||mc.getName().equals("Swamp")||mc.getName().equals("Mountain")||mc.getName().equals("Forest"))
+			return true;
+			else
+			return false;
+	}
 	
 	private static String getVal(String id) {
 		for(MagicCard c : mc)
@@ -94,8 +101,30 @@ public class NumberUpdater {
 				mc.setNumber(String.valueOf(index++));
 		
 		for(MagicCard mc : editionsCards)
-			if(mc.getColors().size()==0 && mc.getTypes().get(0).equals("Land"))
+			if(mc.getColors().size()==0 && mc.getTypes().get(0).equals("Land") && !isBasic(mc))
 				mc.setNumber(String.valueOf(index++));
+
+		for(MagicCard mc : editionsCards)
+			if(mc.getColors().size()==0 && mc.getTypes().get(0).equals("Land") && mc.getName().equals("Plains"))
+				mc.setNumber(String.valueOf(index++));
+
+		for(MagicCard mc : editionsCards)
+			if(mc.getColors().size()==0 && mc.getTypes().get(0).equals("Land") && mc.getName().equals("Island"))
+				mc.setNumber(String.valueOf(index++));
+
+		for(MagicCard mc : editionsCards)
+			if(mc.getColors().size()==0 && mc.getTypes().get(0).equals("Land") && mc.getName().equals("Swamp"))
+				mc.setNumber(String.valueOf(index++));
+
+		for(MagicCard mc : editionsCards)
+			if(mc.getColors().size()==0 && mc.getTypes().get(0).equals("Land") && mc.getName().equals("Mountain"))
+				mc.setNumber(String.valueOf(index++));
+
+		for(MagicCard mc : editionsCards)
+			if(mc.getColors().size()==0 && mc.getTypes().get(0).equals("Land") && mc.getName().equals("Forest"))
+				mc.setNumber(String.valueOf(index++));
+
+		
 		
 		
 		return editionsCards;

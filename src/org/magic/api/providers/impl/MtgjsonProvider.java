@@ -330,7 +330,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		   if(map.get("number")!=null)
 	 			  mc.setNumber(String.valueOf(map.get("number")));
 	 		  
-	 		   if(map.get("number")==null)
+	 		  /* if(map.get("number")==null)
 	 		   {
 	 			   if(map.get("mciNumber")!=null)
 	 			   {
@@ -340,7 +340,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 				   else
 	 					  mc.setNumber(mciN);
 	 			   }
-	 		   }
+	 		   }*/
 	 		  
 	 		   
 	 		  if(map.get("loyalty")!=null)
