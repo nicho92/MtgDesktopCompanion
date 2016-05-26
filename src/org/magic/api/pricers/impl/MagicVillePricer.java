@@ -89,7 +89,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 		String keyword ="";
 		try{
-		keyword = getMGVILLCodeEdition(me)+prefixZeros(me.getNumber().replaceAll("a", "").trim(),3);
+		keyword = getMGVILLCodeEdition(me)+prefixZeros(card.getNumber().replaceAll("a", "").trim(),3);
 		}
 		catch(Exception e)
 		{

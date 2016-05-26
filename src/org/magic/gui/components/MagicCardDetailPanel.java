@@ -71,6 +71,7 @@ public class MagicCardDetailPanel extends JPanel {
 	private JTextField txtWatermark;
 	private JScrollPane scrollCollections;
 	static final Logger logger = LogManager.getLogger(MagicCardDetailPanel.class.getName());
+	private JTextField rarityJTextField;
 	 
 	
 	public void enableThumbnail(boolean val)
@@ -89,7 +90,7 @@ public class MagicCardDetailPanel extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 77, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 						
@@ -138,7 +139,6 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				lblThumbnail = new JLabel("");
 				GridBagConstraints gbc_lblThumbnail = new GridBagConstraints();
-				gbc_lblThumbnail.insets = new Insets(0, 0, 5, 0);
 				gbc_lblThumbnail.gridheight = 10;
 				gbc_lblThumbnail.gridx = 7;
 				gbc_lblThumbnail.gridy = 0;
@@ -243,6 +243,16 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_lstFormats.gridx = 4;
 				gbc_lstFormats.gridy = 3;
 				
+				rarityJTextField = new JTextField();
+				rarityJTextField.setEditable(false);
+				GridBagConstraints gbc_rarityJTextField = new GridBagConstraints();
+				gbc_rarityJTextField.insets = new Insets(0, 0, 5, 5);
+				gbc_rarityJTextField.fill = GridBagConstraints.HORIZONTAL;
+				gbc_rarityJTextField.gridx = 4;
+				gbc_rarityJTextField.gridy = 3;
+				add(rarityJTextField, gbc_rarityJTextField);
+				rarityJTextField.setColumns(10);
+				
 				lstFormats = new JList<MagicFormat>(new DefaultListModel<MagicFormat>());
 				lstFormats.setVisibleRowCount(4);
 				
@@ -250,7 +260,7 @@ public class MagicCardDetailPanel extends JPanel {
 				GridBagConstraints gbc_scrollLegality = new GridBagConstraints();
 				gbc_scrollLegality.gridheight = 2;
 				gbc_scrollLegality.gridwidth = 2;
-				gbc_scrollLegality.insets = new Insets(0, 0, 5, 5);
+				gbc_scrollLegality.insets = new Insets(0, 0, 0, 5);
 				gbc_scrollLegality.fill = GridBagConstraints.BOTH;
 				gbc_scrollLegality.gridx = 1;
 				gbc_scrollLegality.gridy = 8;
@@ -348,7 +358,7 @@ public class MagicCardDetailPanel extends JPanel {
 				GridBagConstraints gbc_scrollCollections = new GridBagConstraints();
 				gbc_scrollCollections.gridheight = 2;
 				gbc_scrollCollections.gridwidth = 3;
-				gbc_scrollCollections.insets = new Insets(0, 0, 5, 5);
+				gbc_scrollCollections.insets = new Insets(0, 0, 0, 5);
 				gbc_scrollCollections.fill = GridBagConstraints.BOTH;
 				gbc_scrollCollections.gridx = 4;
 				gbc_scrollCollections.gridy = 8;
@@ -524,6 +534,15 @@ public class MagicCardDetailPanel extends JPanel {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, waterProperty, txtWatermark, textProperty_14);
 		autoBinding_13.bind();
 		
+		
+		try{
+			rarityJTextField.setText(magicCard.getEditions().get(0).getRarity());
+		}
+		catch(Exception e)
+			{
+				rarityJTextField.setText("");
+			}
+	
 		
 		updateIcon();
 		
