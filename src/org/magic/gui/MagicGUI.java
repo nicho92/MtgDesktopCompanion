@@ -24,6 +24,7 @@ import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 import javax.swing.ButtonGroup;
@@ -351,7 +352,22 @@ public class MagicGUI extends JFrame {
 
 		DefaultRowSorter sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
 		sorterCards = new TableRowSorter<DefaultTableModel>(cardsModeltable);
-
+		sorterCards.setComparator(6, new Comparator<String>() {
+		   public int compare(String num1, String num2) {
+		        	try{
+		        		num1=num1.replaceAll("a","").replaceAll("b", "").trim();
+		        		num2=num2.replaceAll("a","").replaceAll("b", "").trim();
+			   			if(Integer.parseInt(num1)>Integer.parseInt(num2))
+			   				return 1;
+			   			else
+			   				return -1;
+					}
+					catch(NumberFormatException e)
+					{
+						return -1;
+					}
+		    }
+		});
 		loading(false,null);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 

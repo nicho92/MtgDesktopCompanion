@@ -180,7 +180,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		try 
 		{	
 			
-		  	
+		  	logger.debug("loading file " + fileSetJson);
 		  	  	
 			if(!fileSetJson.exists())
 			{
