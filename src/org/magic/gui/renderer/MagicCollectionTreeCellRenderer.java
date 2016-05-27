@@ -12,6 +12,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.ManaPanel;
+import org.magic.tools.ColorParser;
 
 public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 	
@@ -44,7 +45,7 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		    			}
 		    			if(mc.getColors().size()==1)
 						{
-		    				setIcon(new ImageIcon(pane.getManaSymbol(parse(mc.getColors().get(0))).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+		    				setIcon(new ImageIcon(pane.getManaSymbol(ColorParser.parse(mc.getColors().get(0))).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 						}
 		    			if(mc.getColors().size()>1)
 		    			{
@@ -67,22 +68,5 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 	 	}
      }
 
-	private String parse(String string) {
-		if(string.equals("White"))
-			return "{W}";
-		else
-			if(string.equals("Blue"))
-				return "{U}";
-			else
-				if(string.equals("Black"))
-					return "{B}";
-				else
-					if(string.equals("Red"))
-						return "{R}";
-					else
-						if(string.equals("Green"))
-							return "{G}";
-							
-							return string;
-	}
+	
 }
