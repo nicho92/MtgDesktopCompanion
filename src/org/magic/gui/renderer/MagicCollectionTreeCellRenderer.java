@@ -27,23 +27,27 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
     		Image back= ImageIO.read(ManaCellRenderer.class.getResource("/res/bottom.png"));
     	 
     		
+    		
     			if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicEdition)
     			{
     				setIcon(new ImageIcon(back.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
     			}
     			else
-		    	if(isLeaf)
+		    	if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicCard)
 		    	{ 
 		    			MagicCard mc=(MagicCard)((DefaultMutableTreeNode)value).getUserObject();
+		    			
+		    			System.out.println(mc.getColors());
+				    	
 		    			//if(mc.getColors().contains(").size()<1)
 		    			{
 		    				setIcon(new ImageIcon(pane.getManaSymbol("{C}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 		    			}
-		    			if(mc.getColorIdentity().size()==1)
+		    			if(mc.getColors().size()==1)
 						{
-		    				setIcon(new ImageIcon(pane.getManaSymbol(mc.getColorIdentity().get(0)).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+		    				setIcon(new ImageIcon(pane.getManaSymbol(parse(mc.getColors().get(0))).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 						}
-		    			if(mc.getColorIdentity().size()>1)
+		    			if(mc.getColors().size()>1)
 		    			{
 		    				setIcon(new ImageIcon(gold.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 		    			}
@@ -63,4 +67,23 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 	 			return c;
 	 	}
      }
+
+	private String parse(String string) {
+		if(string.equals("White"))
+			return "{W}";
+		else
+			if(string.equals("Blue"))
+				return "{U}";
+			else
+				if(string.equals("Black"))
+					return "{B}";
+				else
+					if(string.equals("Red"))
+						return "{R}";
+					else
+						if(string.equals("Green"))
+							return "{G}";
+							
+							return string;
+	}
 }
