@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conf>
 	<version>0.5 beta</version>
+	<langage>French</langage>
 	<lookAndFeel>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
 	<debug>INFO</debug>
 	<pricers>

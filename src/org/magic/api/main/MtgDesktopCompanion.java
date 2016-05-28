@@ -39,7 +39,7 @@ public class MtgDesktopCompanion {
 			
 				MagicGUI gui = new MagicGUI();
 						gui.setLookAndFeel(MagicFactory.getInstance().get("lookAndFeel"));
-						gui.setDefaultLanguage("English");
+						gui.setDefaultLanguage(MagicFactory.getInstance().get("langage"));
 						gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						gui.setVisible(true);
 						

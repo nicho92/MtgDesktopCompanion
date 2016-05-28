@@ -118,6 +118,7 @@ public class MagicGUI extends JFrame {
 	private JMenu mnView;
 	private JMenu mnuAbout;
 	private JMenu mnuProviders;
+	private JMenu mnuLang;
 	private JMenuItem mntmExit;
 	private JMenuItem mntmAboutMagicDesktop;
 	private JMenuItem mntmReportBug;
@@ -180,8 +181,11 @@ public class MagicGUI extends JFrame {
 	private URL front;
 	private URL back;
 
+
 	public void setDefaultLanguage(String language) {
 		defaultLanguage=language;
+		MagicFactory.getInstance().setProperty("langage", language);
+		
 
 	}
 
@@ -279,8 +283,11 @@ public class MagicGUI extends JFrame {
 		menuBar.add(jmnuLook);
 		
 		
-		mnuProviders = new JMenu("Providers");
-		menuBar.add(mnuProviders);
+		//mnuProviders = new JMenu("Providers");
+		//menuBar.add(mnuProviders);
+		
+		mnuLang= new JMenu("Langage");
+		menuBar.add(mnuLang);
 		
 		
 		mnuAbout = new JMenu("?");
@@ -328,9 +335,19 @@ public class MagicGUI extends JFrame {
 			jmnuLook.add(it);
 		}
 		
+		for(String l : provider.getLanguages())
+		{
+			final JMenuItem it = new JMenuItem(l);
+			it.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setDefaultLanguage(it.getText());
+				}
+			});
+			mnuLang.add(it);
+		}
 		
+		/*
 		ButtonGroup group = new ButtonGroup();
-		
 		for(final MagicCardsProvider provider : MagicFactory.getInstance().getEnabledProviders())
 		{
 		   JRadioButtonMenuItem it = new JRadioButtonMenuItem(provider.toString());
@@ -347,12 +364,12 @@ public class MagicGUI extends JFrame {
 			
 			mnuProviders.add(it);
 		}
-		
+		*/
 
 
 		DefaultRowSorter sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
 		sorterCards = new TableRowSorter<DefaultTableModel>(cardsModeltable);
-		sorterCards.setComparator(6, new Comparator<String>() {
+		sorterCards.setComparator(7, new Comparator<String>() {
 		   public int compare(String num1, String num2) {
 		        	try{
 		        		num1=num1.replaceAll("a","").replaceAll("b", "").trim();
@@ -518,7 +535,6 @@ public class MagicGUI extends JFrame {
 				
 						tableCards.setRowHeight(ManaPanel.row_height);
 						tableCards.setModel(cardsModeltable);
-						tableCards.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 						tableCards.setRowSorter(sorterCards);
 						
 						filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
@@ -674,8 +690,13 @@ public class MagicGUI extends JFrame {
 									cards = dao.getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 								else
 									cards = provider.searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
-
-								cardsModeltable.init(cards);
+								
+								
+								
+								cardsModeltable.init(cards,defaultLanguage);
+								//cardsModeltable.fireTableStructureChanged();
+								tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+								
 								cardsModeltable.fireTableDataChanged();
 								thumbnailPanel.initThumbnails(cards);
 								cmcChart.init(cards);
@@ -783,7 +804,7 @@ public class MagicGUI extends JFrame {
 				}
 			});
 
-			cboLanguages.addMouseListener(new MouseAdapter() {
+			/*cboLanguages.addMouseListener(new MouseAdapter() {
 				public void mouseReleased(MouseEvent e) {
 					MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
 					if(selLang!=null)
@@ -791,7 +812,7 @@ public class MagicGUI extends JFrame {
 						defaultLanguage=selLang.getLanguage();
 					}
 				}
-			});
+			});*/
 
 
 			cboLanguages.addActionListener(new ActionListener() {
@@ -1010,10 +1031,10 @@ public class MagicGUI extends JFrame {
 			for(MagicCardNames mcn : selected.getForeignNames())
 			{
 				cboLanguages.addItem(mcn);
-				if(mcn.getLanguage().startsWith(defaultLanguage))
+				/*if(mcn.getLanguage().startsWith(defaultLanguage))
 				{
 					cboLanguages.setSelectedItem(mcn);
-				}
+				}*/
 			}
 
 			if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
