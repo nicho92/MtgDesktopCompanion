@@ -133,7 +133,7 @@ public class MassCollectionImporterDialog extends JDialog{
 							try {
 								MagicCard mc = null;
 								
-								if(cboByType.getSelectedItem().equals("number"))
+								if(cboByType.getSelectedItem().toString().equalsIgnoreCase("number"))
 									mc=provider.getCardByNumber(id, ed);
 								else
 									mc=provider.searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),(MagicEdition)cboEditions.getSelectedItem()).get(0);

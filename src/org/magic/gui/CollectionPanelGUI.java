@@ -653,8 +653,7 @@ public class CollectionPanelGUI extends JPanel {
 								mc.setName(collec);
 								List<MagicCard> sets = provider.searchCardByCriteria("set", me.getId(),null);
 								for (int i = 0; i < node.getChildCount(); i++) {
-									MagicCard c = (MagicCard) ((DefaultMutableTreeNode) node.getChildAt(i))
-											.getUserObject();
+									MagicCard c = (MagicCard) ((DefaultMutableTreeNode) node.getChildAt(i)).getUserObject();
 									sets.remove(c);
 								}
 

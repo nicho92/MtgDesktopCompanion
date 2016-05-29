@@ -637,36 +637,29 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws Exception {
-		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.number =~ /^.*"+num+".*$/)]";
-		List<Map<String,Object>> cardsElement = ctx.read(jsquery,List.class);
-		Map<String,Object> map;
-		int parseId=0;
-		String id = "";
+		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.number == "+num+")]";
+		logger.debug("search " +jsquery);
 		
-		if(cardsElement.size()>0)
-		{
-			map=cardsElement.get(0);
-			id = map.get("id").toString();
-		}
-		else //for old edition, number is at null. So we take his position in 'cards' array
-		{
-			
-			try{ 
-				parseId= Integer.parseInt(num);
-				jsquery="$."+me.getId().toUpperCase()+".cards["+(parseId-1)+"]";
-				id = ctx.read(jsquery,JsonElement.class).getAsJsonObject().get("id").getAsString();
-			}catch(NumberFormatException nfe)
-			{
-				logger.error("could not parse " + num);
-			}
-			
-		}
-		
-			MagicCard mc = getCardById(id);
-						me.setNumber(String.valueOf(parseId-1));
+//		List<Map<String,Object>> cardsElement = ctx.read(jsquery,List.class);
+//		Map<String,Object> map;
+//		String id = "";
+//		
+//		if(cardsElement.size()>0)
+//		{
+//			map=cardsElement.get(0);
+//			id = map.get("id").toString();
+//		}
+			try{
+					MagicCard mc = search(jsquery, "number", num).get(0);//getCardById(id);
+					  //me.setNumber(String.valueOf(parseId-1));
 					  mc.getEditions().add(me);
-					  
 					  return mc;
+			}
+			catch(Exception e)
+			{
+				logger.error(e);
+				return null;
+			}
 		
 		
 	}
