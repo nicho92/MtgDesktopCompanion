@@ -293,6 +293,8 @@ public class DeckBuilderGUI extends JPanel{
 		
 		tableSide = new JTable();
 		tableSide.setModel(deckSidemodel);
+		tableSide.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+		
 		scrollSideboard.setViewportView(tableSide);
 		
 		tableDeck.addMouseListener(new MouseAdapter() {

@@ -7,7 +7,7 @@ import org.magic.api.beans.MagicDeck;
 
 public class DeckModel extends DefaultTableModel {
 
-	String[] columns = new String[]{"name","type","cost","color","edition","Qty"};
+	String[] columns = new String[]{"name","type","cost","edition","Qty"};
 
 	private MagicDeck deck;
 	public static enum TYPE { DECK,SIDE };
@@ -68,12 +68,9 @@ public class DeckModel extends DefaultTableModel {
 			return mc.getCost();
 		
 		if(column==3)
-			return mc.getColors();
-
-		if(column==4)
 			return mc.getEditions();
 		
-		if(column==5)
+		if(column==4)
 		{
 			switch(t)
 			{

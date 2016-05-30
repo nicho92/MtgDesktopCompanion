@@ -637,7 +637,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws Exception {
-		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.number == "+num+")]";
+		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.number == '"+num+"')]";
 		logger.debug("search " +jsquery);
 		
 //		List<Map<String,Object>> cardsElement = ctx.read(jsquery,List.class);
