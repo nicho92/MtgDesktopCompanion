@@ -161,12 +161,15 @@ public class CollectionPanelGUI extends JPanel {
 		btnExportCSV.setEnabled(false);
 		btnExportCSV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jf = new JFileChooser();
-				jf.showSaveDialog(null);
-				File f = jf.getSelectedFile();
 				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 				MagicCollection mc = (MagicCollection) curr.getUserObject();
-
+				
+				JFileChooser jf = new JFileChooser();
+				jf.setSelectedFile(new File(mc.getName()+".csv"));
+				jf.showSaveDialog(null);
+				File f = jf.getSelectedFile();
+				
+				if(f!=null)
 				try {
 					MagicExporter exp = new MagicExporter();
 					exp.exportCSV(dao.getCardsFromCollection(mc), f);
