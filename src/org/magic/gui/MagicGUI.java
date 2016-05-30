@@ -639,7 +639,7 @@ public class MagicGUI extends JFrame {
 
 	protected void setProvider(MagicCardsProvider provider2) throws Exception {
 		
-		logger.debug("replace provider '" + provider + "' by '" + provider2 +"'" ) ;
+		logger.debug("set provider '" + provider + "' by '" + provider2 +"'" ) ;
 		this.provider=provider2;
 		cboQuereableItems.removeAll();
 		cboQuereableItems.setModel(new DefaultComboBoxModel<>(provider.getQueryableAttributs()));
@@ -662,14 +662,15 @@ public class MagicGUI extends JFrame {
 
 		try {
 			priceModel=new CardsPriceTableModel();
+			cardsModeltable = new MagicCardTableModel();
 			
-			provider=MagicFactory.getInstance().getListProviders().get(0);
+			provider = MagicFactory.getInstance().getEnabledProviders().get(0);
+			logger.info("set provider : " + provider);
+			
 			dao=MagicFactory.getInstance().getEnabledDAO();
-			
 			dao.init();
 			
-			cardsModeltable = new MagicCardTableModel();
-
+			
 			initGUI();
 
 

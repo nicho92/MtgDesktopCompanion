@@ -76,7 +76,6 @@ public class DeckbrewProvider implements MagicCardsProvider {
 			res = gson.fromJson(reader, MagicCard[].class);
 			retour.addAll(Arrays.asList(res));
 		}
-	
 		
 		return retour;
 	}
@@ -138,7 +137,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 
 	@Override
 	public String[]  getLanguages() {
-		return null;
+		return new String[]{"English"};
 	}
 
 	@Override

@@ -126,7 +126,7 @@ public class MagicFactory {
 			{
 				String s = config.getString("providers/provider["+i+"]/class");
 				MagicCardsProvider prov = loadItem(MagicCardsProvider.class, s.toString());
-				prov.enable(config.getBoolean("providers/provider["+i+"]/enable"));
+								   prov.enable(config.getBoolean("providers/provider["+i+"]/enable"));
 				cardsProviders.add(prov);
 			}
 			

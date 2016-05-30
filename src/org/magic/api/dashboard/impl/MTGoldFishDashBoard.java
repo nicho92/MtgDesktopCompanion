@@ -57,10 +57,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		try {
 			updateTime= new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'").parse(doc.getElementsByClass("timeago").get(0).attr("title"));
-		
 		} catch (ParseException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			logger.error(e1);
 		}
 		logger.debug("Parsing dashboard "+getName()+props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"));
 		
@@ -102,7 +100,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException
 	{
-		String urlEditionChecker = props.getProperty("URL_EDITIONS")+edition.getId()+"#"+props.getProperty("FORMAT");
+		
+		
+		
+		
+		String urlEditionChecker = props.getProperty("URL_EDITIONS")+replace(edition.getId())+"#"+props.getProperty("FORMAT");
 		
 		Document doc = Jsoup.connect(urlEditionChecker)
 							.userAgent(props.getProperty("USER_AGENT"))
@@ -149,6 +151,22 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 	}
 	
+	private String replace(String id) {
+		
+		
+		switch(id){
+		case "TMP" : return "TE";
+		case "STH" : return "ST";
+		case "PCY" : return "PR";
+		case "MIR" : return "MI";
+		case "UDS" : return "UD";
+		case "ULG" : return "UL";
+		case "USG" : return "UZ";
+		default : return id;
+		}
+	}
+
+
 	private double parseDouble(String number)
 	{
 		return Double.parseDouble(number.replaceAll(",","").replaceAll("%", ""));
