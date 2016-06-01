@@ -1,6 +1,5 @@
 package org.magic.gui.components.charts;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -9,12 +8,9 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.data.time.SimpleTimePeriod;
-import org.jfree.data.time.TimePeriodValues;
-import org.jfree.data.time.TimePeriodValuesCollection;
+import org.jfree.data.time.Day;
+import org.jfree.data.time.TimeSeries;
+import org.jfree.data.time.TimeSeriesCollection;
 
 public class HistoryPricesPanel extends JPanel{
 	ChartPanel pane;
@@ -31,22 +27,20 @@ public class HistoryPricesPanel extends JPanel{
 	{
 		this.removeAll();
 		
-		TimePeriodValues  serie = new TimePeriodValues("Date");
-		
-		for(Date d : map.keySet())
-			serie.add(new SimpleTimePeriod(d, d),map.get(d).doubleValue());
-		
-		
-		TimePeriodValuesCollection dataset = new TimePeriodValuesCollection();
-		dataset.addSeries(serie);
+		  TimeSeries series1 = new TimeSeries("value");
+			for(Date d : map.keySet())
+				series1.add(new Day(d),map.get(d).doubleValue());
+
+		  TimeSeriesCollection dataset = new TimeSeriesCollection();
+		    dataset.addSeries(series1);
 		
 		
-		JFreeChart chart = ChartFactory.createHistogram(
+		
+		JFreeChart chart = ChartFactory.createTimeSeriesChart(
                 "Price Variation",
                 "date",
-                "value",
+                "Price",
                 dataset,
-                PlotOrientation.VERTICAL,
                 true,
                 true,
                 false
