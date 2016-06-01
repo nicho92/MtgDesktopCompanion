@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -63,8 +64,10 @@ import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.tools.MagicExporter;
+import org.magic.tools.MagicFactory;
 import org.magic.tools.MagicWebSiteGenerator;
 import org.magic.tools.TableColumnAdjuster;
+import org.magic.gui.components.charts.HistoryPricesPanel;
 
 public class CollectionPanelGUI extends JPanel {
 
@@ -84,7 +87,7 @@ public class CollectionPanelGUI extends JPanel {
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
-	
+	private HistoryPricesPanel historyPricesPanel;
 	
 	
 	public CollectionPanelGUI(MagicCardsProvider provider, MagicDAO dao) throws Exception {
@@ -271,6 +274,9 @@ public class CollectionPanelGUI extends JPanel {
 				rarityRepartitionPanel = new RarityRepartitionPanel();
 				tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
 				
+				historyPricesPanel = new HistoryPricesPanel();
+				tabbedPane.addTab("Variation", null, historyPricesPanel, null);
+				
 				
 						tablePrices.addMouseListener(new MouseAdapter() {
 							@Override
@@ -311,6 +317,7 @@ public class CollectionPanelGUI extends JPanel {
 									rarityRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
 									typeRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
 									 manaRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
+									 
 								}catch(Exception e)
 								{
 									logger.error(e);
@@ -372,6 +379,7 @@ public class CollectionPanelGUI extends JPanel {
 												+ card.getEditions().get(0).getMultiverse_id() + "&type=card"));*/
 								modelPrices.init(card, card.getEditions().get(0));
 								modelPrices.fireTableDataChanged();
+								
 							} catch (Exception e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -379,6 +387,12 @@ public class CollectionPanelGUI extends JPanel {
 
 						}
 					}).start();
+					
+					try {
+						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null));
+					} catch (IOException e) {
+						logger.error(e);
+					}
 					
 				}
 			}
