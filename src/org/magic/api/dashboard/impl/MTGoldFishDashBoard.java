@@ -10,9 +10,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.concurrent.SynchronousQueue;
-
-import javax.script.ScriptException;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -23,10 +20,9 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-
-import sun.org.mozilla.javascript.internal.Parser;
-import sun.org.mozilla.javascript.internal.ast.AstNode;
-import sun.org.mozilla.javascript.internal.ast.NodeVisitor;
+import org.mozilla.javascript.Parser;
+import org.mozilla.javascript.ast.AstNode;
+import org.mozilla.javascript.ast.NodeVisitor;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard{
 
@@ -34,7 +30,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 
 	private Date updateTime;
 	Map<Date,Double> historyPrice;
-	
+    boolean stop ;	    
+	 	
 	
 	public MTGoldFishDashBoard() 
 	{
@@ -52,33 +49,55 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		}
 	}
 	
+	public static void main(String[] args) throws IOException {
+		MagicCard mc = new MagicCard();
+		mc.setName("Scroll of Avacyn");
+		
+		MagicEdition me = new MagicEdition();
+		me.setSet("Avacyn Restored");
+		
+		
+		
+		Map<Date,Double> vals = new MTGoldFishDashBoard().getPriceVariation(mc, me);
+		System.out.println(vals.size());
+		for(Date d: vals.keySet())
+			System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(d) + " " + vals.get(d));
+		
+	}
+	
 		
 	
 	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
-		     
+		 
+		stop = false;	    
+		
 		 if(me==null)
 			 me=mc.getEditions().get(0);
 		 
 		 historyPrice = new TreeMap<Date,Double>();
 		 
-		 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "");
-		 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "");
+		 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
+		 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
 		try{
 		 
 		 logger.debug(props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT"));
-	     Document d = Jsoup.connect(props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT"))
+	    
+		 Document d = Jsoup.connect(props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT"))
 	    		 	.userAgent(props.getProperty("USER_AGENT"))
 					.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 					.get();
 	     Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(5);
-	    	    
-	 	 AstNode node = new Parser().parse(js.html(), "", 1);
+	     
+	   
+	     AstNode node = new Parser().parse(js.html(), "", 1);
 	     		 node.visit( new NodeVisitor() {
 	 	        	
 	    	         public boolean visit(AstNode node) {
 	    	        	
 	    	        	 if(node.getType()==133)
 	    	        	 {
+	    	        		 
+	    	        		 if(stop==false)
 	    	        		 if(node.toSource().startsWith("d"))
 	    	        		 {
 	    	        			 String val = node.toSource();
@@ -94,8 +113,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	    								historyPrice.put(d, Double.parseDouble(res[1]));
 	    							
 	    						} catch (Exception e) {
-	    							e.printStackTrace();
+	    							logger.error(e);
 	    						} 
+	    	        		 }
+	    	        		 
+	    	        		 if(node.toSource().startsWith("g ="))
+	    	        		 {
+	    	        			 stop=true;
 	    	        		 }
 	    	        	 }
 	    	        	return true;
