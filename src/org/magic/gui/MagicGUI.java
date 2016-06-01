@@ -77,6 +77,7 @@ import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.ThumbnailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
+import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
@@ -136,6 +137,7 @@ public class MagicGUI extends JFrame {
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private CmcChartPanel cmcChart;
 	private CardsPicPanel cardsPicPanel;
+	private HistoryPricesPanel historyChartPanel;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardDetailPanel detailCardPanel;
 
@@ -474,6 +476,11 @@ public class MagicGUI extends JFrame {
 		listEdition.setModel(new DefaultListModel<MagicEdition>());
 		panneauCard.add(cboLanguages, BorderLayout.NORTH);
 		
+		historyChartPanel = new HistoryPricesPanel();
+		historyChartPanel.setPreferredSize(new Dimension(400, 10));
+	
+		
+		
 		cardsPicPanel = new CardsPicPanel();
 		cardsPicPanel.setPreferredSize(new Dimension(400, 10));
 		panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
@@ -519,6 +526,7 @@ public class MagicGUI extends JFrame {
 		panelEditionRight.add(btnGenerateBooster);
 		tabbedCardsInfo.addTab("Prices", null, scrollPanePrices, null);
 		tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
+		tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
 		
 		panelResultsCards = new JPanel();
 		tabbedCardsView.addTab("Results", null, panelResultsCards, null);
@@ -1040,6 +1048,9 @@ public class MagicGUI extends JFrame {
 
 			if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 				updatePrices();
+			
+			
+			historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition));
 			
 			
 		} catch (Exception e1) {

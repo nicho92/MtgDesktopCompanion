@@ -6,9 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 
@@ -20,7 +22,7 @@ public abstract class AbstractDashBoard implements DashBoard {
 	
 	public abstract List<CardShake> getShakerFor(String gameFormat) throws IOException;
 	public abstract List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException;
-	
+	public abstract Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException;
 	
 	public abstract String getName();
 	public abstract Date getUpdatedDate();

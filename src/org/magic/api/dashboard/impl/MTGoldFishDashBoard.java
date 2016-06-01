@@ -8,7 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 import java.util.concurrent.SynchronousQueue;
+
+import javax.script.ScriptException;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -16,14 +20,21 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+
+import sun.org.mozilla.javascript.internal.Parser;
+import sun.org.mozilla.javascript.internal.ast.AstNode;
+import sun.org.mozilla.javascript.internal.ast.NodeVisitor;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard{
 
 	static final Logger logger = LogManager.getLogger(MTGoldFishDashBoard.class.getName());
 
 	private Date updateTime;
+	Map<Date,Double> historyPrice = new TreeMap<Date,Double>();
+	
 	
 	public MTGoldFishDashBoard() 
 	{
@@ -40,6 +51,59 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		save();
 		}
 	}
+	
+		
+	
+	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
+		     
+		 if(me==null)
+			 me=mc.getEditions().get(0);
+		 
+		 
+		 
+		 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "");
+		 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "");
+		
+		 
+		 logger.debug(props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT"));
+	     Document d = Jsoup.connect(props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT"))
+	    		 	.userAgent(props.getProperty("USER_AGENT"))
+					.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+					.get();
+	     Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(5);
+	    	    
+	 	 AstNode node = new Parser().parse(js.html(), "", 1);
+	     		 node.visit( new NodeVisitor() {
+	 	        	
+	    	         public boolean visit(AstNode node) {
+	    	        	
+	    	        	 if(node.getType()==133)
+	    	        	 {
+	    	        		 if(node.toSource().startsWith("d"))
+	    	        		 {
+	    	        			 String val = node.toSource();
+	    	        			 val=val.replaceAll("d \\+\\= ", "");
+	    	        			 val=val.replaceAll("\\\\n", "");
+	    	        			 val=val.replaceAll(";", "");
+	    	        			 val=val.replaceAll("\"", "");
+	    	        			String[] res = val.split(",");
+	    	        				
+	    	        			try {
+	    	        				Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0]+ " 00:00");
+	    							if(historyPrice.get(d)==null)
+	    								historyPrice.put(d, Double.parseDouble(res[1]));
+	    							
+	    						} catch (Exception e) {
+	    							e.printStackTrace();
+	    						} 
+	    	        		 }
+	    	        	 }
+	    	        	return true;
+	    	         }});
+
+	    return historyPrice; 		 
+	}
+	
 	
 
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
