@@ -1,5 +1,6 @@
 package org.magic.gui.components.charts;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
@@ -8,7 +9,9 @@ import javax.swing.JPanel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.DateAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.SimpleTimePeriod;
 import org.jfree.data.time.TimePeriodValues;
 import org.jfree.data.time.TimePeriodValuesCollection;
@@ -48,7 +51,6 @@ public class HistoryPricesPanel extends JPanel{
                 true,
                 false
                 );
-	
 		
 		pane = new ChartPanel(chart);
 		

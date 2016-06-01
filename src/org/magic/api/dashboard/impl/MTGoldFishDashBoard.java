@@ -33,7 +33,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	static final Logger logger = LogManager.getLogger(MTGoldFishDashBoard.class.getName());
 
 	private Date updateTime;
-	Map<Date,Double> historyPrice = new TreeMap<Date,Double>();
+	Map<Date,Double> historyPrice;
 	
 	
 	public MTGoldFishDashBoard() 
@@ -59,11 +59,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		 if(me==null)
 			 me=mc.getEditions().get(0);
 		 
-		 
+		 historyPrice = new TreeMap<Date,Double>();
 		 
 		 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "");
 		 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "");
-		
+		try{
 		 
 		 logger.debug(props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT"));
 	     Document d = Jsoup.connect(props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT"))
@@ -101,7 +101,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	    	        	return true;
 	    	         }});
 
-	    return historyPrice; 		 
+	    return historyPrice;
+	    
+		}catch(Exception e)
+		{
+			logger.error(e);
+			return historyPrice;
+		}
 	}
 	
 	
