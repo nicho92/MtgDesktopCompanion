@@ -389,7 +389,7 @@ public class CollectionPanelGUI extends JPanel {
 					}).start();
 					
 					try {
-						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null));
+						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card);
 					} catch (IOException e) {
 						logger.error(e);
 					}

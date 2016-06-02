@@ -1,11 +1,15 @@
 package org.magic.gui.components.charts;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
 
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import org.jfree.chart.ChartFactory;
@@ -17,12 +21,9 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.tools.MagicFactory;
-import java.awt.BorderLayout;
-import javax.swing.JCheckBox;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class HistoryPricesPanel extends JPanel{
 	
@@ -49,10 +50,12 @@ public class HistoryPricesPanel extends JPanel{
 	
 	ChartPanel pane;
 	private Map<Date, Double> map;
+	private MagicCard mc;
 	
-	public void init(Map<Date,Double> map)
+	public void init(Map<Date,Double> map,MagicCard mc)
 	{
 		this.map=map;
+		this.mc=mc;
 		refresh();
 	}
 	
@@ -60,7 +63,7 @@ public class HistoryPricesPanel extends JPanel{
 	{
 
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
-		TimeSeries series1 = new TimeSeries("value");
+		TimeSeries series1 = new TimeSeries(mc.getName());
 			for(Date d : map.keySet())
 				series1.add(new Day(d),map.get(d).doubleValue());
 
