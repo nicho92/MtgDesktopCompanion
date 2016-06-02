@@ -59,7 +59,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		
 		Map<Date,Double> vals = new MTGoldFishDashBoard().getPriceVariation(mc, me);
-		System.out.println(vals.size());
+		
 		for(Date d: vals.keySet())
 			System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(d) + " " + vals.get(d));
 		
