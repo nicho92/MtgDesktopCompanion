@@ -19,8 +19,34 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
 import org.magic.api.beans.MagicEdition;
 import org.magic.tools.MagicFactory;
+import java.awt.BorderLayout;
+import javax.swing.JCheckBox;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class HistoryPricesPanel extends JPanel{
+	
+	boolean showEdition=true;
+	JCheckBox chckbxShowEditions;
+	
+	
+	public HistoryPricesPanel() {
+		setLayout(new BorderLayout(0, 0));
+		JPanel panel = new JPanel();
+		add(panel, BorderLayout.EAST);
+		pane = new ChartPanel(null);
+		chckbxShowEditions = new JCheckBox("Show Editions");
+		chckbxShowEditions.setSelected(showEdition);
+		chckbxShowEditions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showEdition=chckbxShowEditions.isSelected();
+				refresh();
+			}
+		});
+		panel.add(chckbxShowEditions);
+	}
+	
+	
 	ChartPanel pane;
 	private Map<Date, Double> map;
 	
@@ -32,7 +58,7 @@ public class HistoryPricesPanel extends JPanel{
 	
 	private void refresh()
 	{
-		this.removeAll();
+
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 		TimeSeries series1 = new TimeSeries("value");
 			for(Date d : map.keySet())
@@ -51,7 +77,7 @@ public class HistoryPricesPanel extends JPanel{
 	                );	
 			
 			
-			
+		if(showEdition)	
 		try{
 				for(MagicEdition me: MagicFactory.getInstance().getEnabledProviders().get(0).searchSetByCriteria(null, null))
 					{
@@ -64,7 +90,7 @@ public class HistoryPricesPanel extends JPanel{
 						  double x = item.getPeriod().getFirstMillisecond();
 						  double y = item.getValue().doubleValue();
 						  XYTextAnnotation  annot = new XYTextAnnotation (me.getId(),x,y);
-						  
+						  					annot.setToolTipText(me.getSet());
 						  XYPlot plot = (XYPlot) chart.getPlot();
 						  plot.addAnnotation(annot);
 						}
@@ -76,7 +102,8 @@ public class HistoryPricesPanel extends JPanel{
 			}
 			
 		
-		pane = new ChartPanel(chart);
+		
+		pane.setChart(chart);
 		pane.addMouseWheelListener(new MouseWheelListener() {
 	        public void mouseWheelMoved(MouseWheelEvent arg0) {
 	            if (arg0.getWheelRotation() > 0) {
@@ -86,7 +113,7 @@ public class HistoryPricesPanel extends JPanel{
 	            }
 	        }
 	    });
-		this.add(pane);
+		this.add(pane,BorderLayout.CENTER);
 		chart.fireChartChanged();
 	}
 }
