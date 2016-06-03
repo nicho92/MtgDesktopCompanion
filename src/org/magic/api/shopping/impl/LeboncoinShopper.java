@@ -45,7 +45,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		props.put("PROTOCOLE", "http:");
 		props.put("WEBSITE", "http://www.leboncoin.fr/");
 		props.put("DATE_FORMAT", "dd MMM H:m");
-		props.put("ROOT_TAG", "section[class=dontSwitch]");
+		props.put("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
 		props.put("CERT_SERV", "www.leboncoin.fr");
 		props.put("KEYSTORE_PASS", "changeit");
 		props.put("KEYSTORE_NAME", "jssecacert");
