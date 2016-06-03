@@ -257,7 +257,7 @@ public class DashBoardGUI extends JPanel {
 				lblDashBoardInfo.setText(MagicFactory.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MagicFactory.getInstance().getEnabledDashBoard().getUpdatedDate())+")");
 				
 			}
-		}).start();
+		},"Thread-UpdateDashBoard").start();
 		
 	}
 }

@@ -690,6 +690,9 @@ public class MagicGUI extends JFrame {
 						return;
 					
 					Thread tsearch = new Thread(new Runnable() {
+						
+						
+						
 						public void run() {
 							loading(true,"searching");
 							try {
@@ -721,10 +724,10 @@ public class MagicGUI extends JFrame {
 							}
 							loading(false,"");
 						}
-					});
+					},"Thread-SearchCards");
 
 					tsearch.start();
-
+					
 
 
 				}
@@ -790,7 +793,7 @@ public class MagicGUI extends JFrame {
 								} catch (IOException e) {
 									logger.error(e);
 								}
-							}}).start();
+							}},"Thread-changeEdition").start();
 
 					
 				}
@@ -868,7 +871,7 @@ public class MagicGUI extends JFrame {
 							JOptionPane.showMessageDialog(null, "Export PDF Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 
 						}
-					}).start();
+					},"Thread-exportSearchPDF").start();
 
 				}
 			});
@@ -1055,7 +1058,7 @@ public class MagicGUI extends JFrame {
 			
 			
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			logger.error(e1);
 		}
 
 	}

@@ -81,7 +81,7 @@ public class MagicCardsTree extends JXTree {
 								refresh();
 								expandPath(getPathForRow(0));
 							}
-						}).start();
+						},"Thread-TreeUpdate").start();
 					}
 				}
 			));

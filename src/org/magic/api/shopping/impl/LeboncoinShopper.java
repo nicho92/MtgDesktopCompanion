@@ -31,6 +31,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 
 	static final Logger logger = LogManager.getLogger(LeboncoinShopper.class.getName());
 
+
 	public LeboncoinShopper() {
 		super();	
 		
@@ -44,7 +45,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		props.put("PROTOCOLE", "http:");
 		props.put("WEBSITE", "http://www.leboncoin.fr/");
 		props.put("DATE_FORMAT", "dd MMM H:m");
-		props.put("ROOT_TAG", "ul[class=dontSwitch]");
+		props.put("ROOT_TAG", "section[class=dontSwitch]");
 		props.put("CERT_SERV", "www.leboncoin.fr");
 		props.put("KEYSTORE_PASS", "changeit");
 		props.put("KEYSTORE_NAME", "jssecacert");
@@ -93,6 +94,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 							 logger.debug("parsing item from " + html) ;
 							
 							 doc = Jsoup.connect(html).userAgent(props.getProperty("USER_AGENT")).get();
+							 
 							Elements listElements = doc.select(props.getProperty("ROOT_TAG")).get(0).getElementsByTag("li");
 								 
 							for(int i=0;i<listElements.size();i++)

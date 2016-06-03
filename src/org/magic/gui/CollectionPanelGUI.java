@@ -324,7 +324,7 @@ public class CollectionPanelGUI extends JPanel {
 									
 								}
 							}
-					}).start();
+					},"Thread-TreeSelectionCollection").start();
 					selectedcol = (MagicCollection) curr.getUserObject();
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
@@ -356,7 +356,7 @@ public class CollectionPanelGUI extends JPanel {
 									
 								}
 							}
-					}).start();
+					},"Thread-TreeSelectionEdition").start();
 				}
 
 				
@@ -386,7 +386,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						}
-					}).start();
+					},"Thread-TreeSelectionCard").start();
 					
 					try {
 						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card);
@@ -467,7 +467,7 @@ public class CollectionPanelGUI extends JPanel {
 						}
 
 					}
-				}).start();
+				},"Thread-ExportPriceCatalog").start();
 			}
 		});
 
@@ -519,7 +519,7 @@ public class CollectionPanelGUI extends JPanel {
 						}
 
 					}
-				}).start();
+				},"Thread-GenerateWebSite").start();
 
 			}
 		});
@@ -683,7 +683,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						}
-					}).start();
+					},"Thread-AddCardsCollection").start();
 
 				}
 			});

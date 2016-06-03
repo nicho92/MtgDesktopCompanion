@@ -46,6 +46,7 @@ public class ShopperGUI extends JPanel {
     private TableFilterHeader filterHeader;
     private final JCheckBox chkUpdate = new JCheckBox("update ?");
 
+    
 	public ShopperGUI() {
 		setLayout(new BorderLayout(0, 0));
 		
@@ -139,7 +140,7 @@ public class ShopperGUI extends JPanel {
 							mod.init(txtSearch.getText());
 							mod.fireTableDataChanged();
 					}
-				}).start();
+				},"Thread-ShopSearch").start();
 				
 				
 			}
