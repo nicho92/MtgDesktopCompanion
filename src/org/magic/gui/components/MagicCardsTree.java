@@ -14,6 +14,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.tools.ThreadManager;
 
 public class MagicCardsTree extends JXTree {
 	
@@ -43,7 +44,7 @@ public class MagicCardsTree extends JXTree {
 				new DefaultMutableTreeNode("Collections") {
 					{
 						
-						new Thread(new Runnable() {
+						ThreadManager.getInstance().execute(new Runnable() {
 							public void run() {
 								List<MagicCollection> collection = null;
 								try {
@@ -81,7 +82,7 @@ public class MagicCardsTree extends JXTree {
 								refresh();
 								expandPath(getPathForRow(0));
 							}
-						},"Thread-TreeUpdate").start();
+						});
 					}
 				}
 			));

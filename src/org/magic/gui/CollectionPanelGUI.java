@@ -9,9 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -23,7 +21,6 @@ import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -56,6 +53,7 @@ import org.magic.gui.components.MagicCardsTree;
 import org.magic.gui.components.MassCollectionImporterDialog;
 import org.magic.gui.components.PriceCatalogExportDialog;
 import org.magic.gui.components.WebSiteGeneratorDialog;
+import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
@@ -67,7 +65,7 @@ import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicFactory;
 import org.magic.tools.MagicWebSiteGenerator;
 import org.magic.tools.TableColumnAdjuster;
-import org.magic.gui.components.charts.HistoryPricesPanel;
+import org.magic.tools.ThreadManager;
 
 public class CollectionPanelGUI extends JPanel {
 
@@ -311,7 +309,7 @@ public class CollectionPanelGUI extends JPanel {
 				{
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
-					new Thread(new Runnable() {
+					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 								try{
 									rarityRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
@@ -324,7 +322,7 @@ public class CollectionPanelGUI extends JPanel {
 									
 								}
 							}
-					},"Thread-TreeSelectionCollection").start();
+					});
 					selectedcol = (MagicCollection) curr.getUserObject();
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
@@ -338,7 +336,7 @@ public class CollectionPanelGUI extends JPanel {
 					btnExportCSV.setEnabled(false);
 					btnExportPriceCatalog.setEnabled(false);
 
-					new Thread(new Runnable() {
+					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 								try{
 									
@@ -356,7 +354,7 @@ public class CollectionPanelGUI extends JPanel {
 									
 								}
 							}
-					},"Thread-TreeSelectionEdition").start();
+					});
 				}
 
 				
@@ -368,7 +366,7 @@ public class CollectionPanelGUI extends JPanel {
 					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
 					magicCardDetailPanel.enableThumbnail(true);
 					
-					new Thread(new Runnable() {
+					ThreadManager.getInstance().execute(new Runnable() {
 
 						@Override
 						public void run() {
@@ -386,7 +384,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						}
-					},"Thread-TreeSelectionCard").start();
+					});
 					
 					try {
 						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card);
@@ -438,7 +436,7 @@ public class CollectionPanelGUI extends JPanel {
 		btnExportPriceCatalog.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				new Thread(new Runnable() {
+				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
 						try {
 							PriceCatalogExportDialog diag = new PriceCatalogExportDialog(selectedcol);
@@ -467,14 +465,14 @@ public class CollectionPanelGUI extends JPanel {
 						}
 
 					}
-				},"Thread-ExportPriceCatalog").start();
+				});
 			}
 		});
 
 		btnGenerateWebSite.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
-				new Thread(new Runnable() {
+				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
 						try {
 
@@ -519,7 +517,7 @@ public class CollectionPanelGUI extends JPanel {
 						}
 
 					}
-				},"Thread-GenerateWebSite").start();
+				});
 
 			}
 		});
@@ -658,7 +656,7 @@ public class CollectionPanelGUI extends JPanel {
 				public void actionPerformed(ActionEvent e) {
 
 					final String collec = ((JMenuItem) e.getSource()).getText();
-					new Thread(new Runnable() {
+					ThreadManager.getInstance().execute(new Runnable() {
 
 						@Override
 						public void run() {
@@ -683,7 +681,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						}
-					},"Thread-AddCardsCollection").start();
+					});
 
 				}
 			});

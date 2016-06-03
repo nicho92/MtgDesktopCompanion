@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import org.magic.api.beans.MagicCard;
@@ -24,7 +25,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import javax.swing.JScrollPane;
+import org.magic.tools.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog{
 	
@@ -123,7 +124,7 @@ public class MassCollectionImporterDialog extends JDialog{
 					ids = txtNumbersInput.getText().split("\n");
 				progressBar.setMaximum(ids.length);
 				
-				new Thread(new Runnable() {
+				ThreadManager.getInstance().execute(new Runnable() {
 					
 					@Override
 					public void run() {
@@ -153,7 +154,7 @@ public class MassCollectionImporterDialog extends JDialog{
 						}
 						
 					}
-				}).start();
+				});
 				
 				
 			}

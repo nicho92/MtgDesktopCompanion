@@ -58,6 +58,7 @@ import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicSerializer;
+import org.magic.tools.ThreadManager;
 
 public class DeckBuilderGUI extends JPanel{
 	
@@ -478,7 +479,7 @@ public class DeckBuilderGUI extends JPanel{
 			
 			resultListModel.removeAllElements();
 			
-			Thread tsearch = new Thread(new Runnable() {
+			ThreadManager.getInstance().execute(new Runnable() {
 				public void run() {
 					try {
 						String searchName=URLEncoder.encode(txtSearch.getText(),"UTF-8");
@@ -498,7 +499,6 @@ public class DeckBuilderGUI extends JPanel{
 				}
 			});
 		
-			tsearch.start();
 		}
 	});
 	}
@@ -506,7 +506,7 @@ public class DeckBuilderGUI extends JPanel{
 	
 
 	protected void importDeckFromString(final String stringDeck) {
-		new Thread(new Runnable() {
+		ThreadManager.getInstance().execute(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -536,7 +536,7 @@ public class DeckBuilderGUI extends JPanel{
 				
 				
 			}
-		}).start();;
+		});
 		
 		
 	}

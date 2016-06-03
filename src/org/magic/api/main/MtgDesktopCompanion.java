@@ -10,6 +10,8 @@ import javax.swing.UIManager;
 
 import org.magic.gui.MagicGUI;
 import org.magic.tools.MagicFactory;
+import org.magic.tools.ThreadManager;
+import org.magic.tools.ThreadMonitor;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
@@ -44,8 +46,6 @@ public class MtgDesktopCompanion {
 						gui.setVisible(true);
 						
 						
-						
-
 			}
 		});
 

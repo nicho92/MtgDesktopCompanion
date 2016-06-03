@@ -39,6 +39,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
 import org.magic.tools.MagicFactory;
+import org.magic.tools.ThreadManager;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -548,7 +549,7 @@ public class MagicCardDetailPanel extends JPanel {
 		
 		if(thumbnail)
 		{
-			new Thread(new Runnable() {
+			ThreadManager.getInstance().execute(new Runnable() {
 				public void run() {
 					ImageIcon icon;
 					try {
@@ -561,7 +562,7 @@ public class MagicCardDetailPanel extends JPanel {
 					}
 					
 				}
-			}).start();
+			});
 		}
 	
 		if(magicCard.getEditions().size()>0)

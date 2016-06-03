@@ -27,6 +27,7 @@ import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
+import org.magic.tools.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -133,14 +134,14 @@ public class ShopperGUI extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				
-				new Thread(new Runnable() {
+				ThreadManager.getInstance().execute(new Runnable() {
 					
 					@Override
 					public void run() {
 							mod.init(txtSearch.getText());
 							mod.fireTableDataChanged();
 					}
-				},"Thread-ShopSearch").start();
+				});
 				
 				
 			}

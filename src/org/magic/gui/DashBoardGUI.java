@@ -3,11 +3,13 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -25,12 +27,10 @@ import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.tools.MagicFactory;
+import org.magic.tools.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class DashBoardGUI extends JPanel {
 	private JTable tableEdition;
@@ -199,7 +199,7 @@ public class DashBoardGUI extends JPanel {
 	}
 
 	private void update() {
-			new Thread(new Runnable() {
+			ThreadManager.getInstance().execute(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -257,7 +257,7 @@ public class DashBoardGUI extends JPanel {
 				lblDashBoardInfo.setText(MagicFactory.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MagicFactory.getInstance().getEnabledDashBoard().getUpdatedDate())+")");
 				
 			}
-		},"Thread-UpdateDashBoard").start();
+		});
 		
 	}
 }

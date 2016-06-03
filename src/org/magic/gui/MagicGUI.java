@@ -87,6 +87,8 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicFactory;
 import org.magic.tools.MagicPDFGenerator;
+import org.magic.tools.ThreadManager;
+import org.magic.tools.ThreadMonitor;
 
 import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;
@@ -149,6 +151,7 @@ public class MagicGUI extends JFrame {
 	private JPanel editionDetailPanel;
 	private JPanel panneauHaut;
 	private JPanel panneauCard = new JPanel();
+	private JPanel panneauBas;
   
 	private JTextArea txtRulesArea;
 	private JTextField txtFilter;
@@ -638,6 +641,19 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab("Shopping", new ImageIcon(MagicGUI.class.getResource("/res/shop.gif")), new ShopperGUI(), null);
 		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), panneauBuilder, null);
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
+
+		
+		panneauBas = new JPanel();
+		JLabel lab = new JLabel();
+		/*
+		ThreadMonitor t = new ThreadMonitor(ThreadManager.getInstance().getExecutor(),3);
+		new Thread(t).start();
+		lab.setText(t.getInfo());
+		panneauBas.add(lab);
+		
+		
+		globalPanel.add(panneauBas, BorderLayout.SOUTH);
+		*/
 		
 		initPopupCollection();
 
@@ -689,10 +705,7 @@ public class MagicGUI extends JFrame {
 					if(txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
 						return;
 					
-					Thread tsearch = new Thread(new Runnable() {
-						
-						
-						
+					Runnable r = new Runnable() {
 						public void run() {
 							loading(true,"searching");
 							try {
@@ -724,12 +737,9 @@ public class MagicGUI extends JFrame {
 							}
 							loading(false,"");
 						}
-					},"Thread-SearchCards");
-
-					tsearch.start();
+					};
 					
-
-
+					ThreadManager.getInstance().execute(r);
 				}
 			});
 
@@ -779,7 +789,8 @@ public class MagicGUI extends JFrame {
 						selectedEdition = listEdition.getSelectedValue();
 						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);
-						new Thread(new Runnable() {
+						
+						ThreadManager.getInstance().execute(new Runnable() {
 							public void run() {
 								try {
 									loading(true,"loading edition");
@@ -793,9 +804,8 @@ public class MagicGUI extends JFrame {
 								} catch (IOException e) {
 									logger.error(e);
 								}
-							}},"Thread-changeEdition").start();
-
-					
+							}
+						});
 				}
 			});
 
@@ -854,7 +864,7 @@ public class MagicGUI extends JFrame {
 			btnExportSearchPDF.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 
-					new Thread(new Runnable() {
+					ThreadManager.getInstance().execute(new Runnable() {
 
 						@Override
 						public void run() {
@@ -871,7 +881,7 @@ public class MagicGUI extends JFrame {
 							JOptionPane.showMessageDialog(null, "Export PDF Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 
 						}
-					},"Thread-exportSearchPDF").start();
+					});
 
 				}
 			});
@@ -977,7 +987,7 @@ public class MagicGUI extends JFrame {
 	}
 
 	public void updatePrices() {
-		new Thread(new Runnable() {
+		ThreadManager.getInstance().execute(new Runnable() {
 
 			@Override
 			public void run() {
@@ -988,7 +998,7 @@ public class MagicGUI extends JFrame {
 				loading(false,"");
 
 			}
-		}).start();
+		});
 		
 	}
 	public void updateCards() {

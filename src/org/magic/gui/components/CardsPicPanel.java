@@ -26,6 +26,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.util.PaintUtils;
+import org.magic.tools.ThreadManager;
 
 
 
@@ -83,7 +84,7 @@ public class CardsPicPanel extends JXPanel {
 				e1.printStackTrace();
 			}
 	
-		new Thread(new Runnable() {
+		ThreadManager.getInstance().execute(new Runnable() {
 			
 			@Override
 			public void run() {
@@ -111,7 +112,7 @@ public class CardsPicPanel extends JXPanel {
 				repaint();
 				
 			}
-		}).start();
+		});
 	}
 
 	
