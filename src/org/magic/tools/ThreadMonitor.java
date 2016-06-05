@@ -2,18 +2,22 @@ package org.magic.tools;
 
 import java.util.concurrent.ThreadPoolExecutor;
 
+import javax.swing.JLabel;
 import javax.swing.SwingWorker;
 
-public class ThreadMonitor extends SwingWorker<Void, String>
+public class ThreadMonitor implements Runnable
 {
     private ThreadPoolExecutor executor;
     private int seconds;
     private boolean run=true;
     private String info="";
-    public ThreadMonitor(ThreadPoolExecutor executor, int delay)
+    private JLabel lab;
+    
+    public ThreadMonitor(ThreadPoolExecutor executor, int delay, JLabel lab)
     {
         this.executor = executor;
         this.seconds=delay;
+        this.lab=lab;
     }
     public void shutdown(){
         this.run=false;
@@ -25,29 +29,26 @@ public class ThreadMonitor extends SwingWorker<Void, String>
     }
     
     
-     public void runs() {
-    	while(run){
+     public void run() {
+    	while(run)
+    	{
             info=
-                String.format("[monitor] [%d/%d] Active: %d, Completed: %d, Task: %d, isShutdown: %s, isTerminated: %s",
+                String.format("[monitor] [%d/%d] Active: %d, Completed: %d, Task: %d",
                     this.executor.getPoolSize(),
                     this.executor.getCorePoolSize(),
                     this.executor.getActiveCount(),
                     this.executor.getCompletedTaskCount(),
-                    this.executor.getTaskCount(),
-                    this.executor.isShutdown(),
-                    this.executor.isTerminated());
+                    this.executor.getTaskCount()
+                   );
+            
+            lab.setText(info);
             try {
                 Thread.sleep(seconds*1000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-    }
+           }
 		
 	}
-	@Override
-	protected Void doInBackground() throws Exception {
-		publish(info);
-		return null;
-		
-	}
+	
 }

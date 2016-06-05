@@ -645,15 +645,16 @@ public class MagicGUI extends JFrame {
 		
 		panneauBas = new JPanel();
 		JLabel lab = new JLabel();
-		/*
-		ThreadMonitor t = new ThreadMonitor(ThreadManager.getInstance().getExecutor(),3);
+		
+		
+		ThreadMonitor t = new ThreadMonitor(ThreadManager.getInstance().getExecutor(),3,lab);
 		new Thread(t).start();
-		lab.setText(t.getInfo());
+		
 		panneauBas.add(lab);
 		
 		
 		globalPanel.add(panneauBas, BorderLayout.SOUTH);
-		*/
+		
 		
 		initPopupCollection();
 
