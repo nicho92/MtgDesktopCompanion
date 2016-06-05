@@ -257,6 +257,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		case "ULG" : return "UL";
 		case "USG" : return "UZ";
 		case "WTH" : return "WL";
+		case "ODY" : return "OD";
 		default : return id;
 		}
 	}
