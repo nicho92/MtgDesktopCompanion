@@ -425,8 +425,9 @@ public class CollectionPanelGUI extends JPanel {
 								public void actionPerformed(ActionEvent e) {
 									MassMoverDialog d = new MassMoverDialog((MagicCollection)node.getUserObject());
 									d.setVisible(true);
+									logger.debug("closing mass import with change =" + d.hasChange());
 									if(d.hasChange())
-										tree.refresh();
+										tree.init();
 									
 								}
 							});

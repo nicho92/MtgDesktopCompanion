@@ -39,6 +39,7 @@ public class MassMoverDialog extends JDialog {
 
 	public MassMoverDialog(MagicCollection col) {
 		setTitle("Mass mover " + col);
+		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		dao = MagicFactory.getInstance().getEnabledDAO();
