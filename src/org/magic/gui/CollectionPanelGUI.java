@@ -51,6 +51,7 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicCardsTree;
 import org.magic.gui.components.MassCollectionImporterDialog;
+import org.magic.gui.components.MassMoverDialog;
 import org.magic.gui.components.PriceCatalogExportDialog;
 import org.magic.gui.components.WebSiteGeneratorDialog;
 import org.magic.gui.components.charts.HistoryPricesPanel;
@@ -403,7 +404,7 @@ public class CollectionPanelGUI extends JPanel {
 					int row = tree.getClosestRowForLocation(e.getX(), e.getY());
 					tree.setSelectionRow(row);
 					
-						DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+						final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
 						
 						if (node.getUserObject() instanceof MagicEdition)
 						{
@@ -414,7 +415,23 @@ public class CollectionPanelGUI extends JPanel {
 						{
 							popupMenuCards.show(e.getComponent(), e.getX(), e.getY());
 						}
-						
+						if (node.getUserObject() instanceof MagicCollection)
+						{
+							JPopupMenu p = new JPopupMenu();
+							JMenuItem it = new JMenuItem("Mass movement");
+							p.add(it);
+							
+							it.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									MassMoverDialog d = new MassMoverDialog((MagicCollection)node.getUserObject());
+									d.setVisible(true);
+									if(d.hasChange())
+										tree.refresh();
+									
+								}
+							});
+							p.show(e.getComponent(), e.getX(), e.getY());
+						}
 						
 
 				}
@@ -540,8 +557,7 @@ public class CollectionPanelGUI extends JPanel {
 						model.calculate();
 						model.fireTableDataChanged();
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						logger.error(e);
 					}
 			}
 		});

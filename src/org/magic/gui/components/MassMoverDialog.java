@@ -1,0 +1,118 @@
+package org.magic.gui.components;
+
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCollection;
+import org.magic.api.interfaces.MagicDAO;
+import org.magic.gui.models.MagicCardTableModel;
+import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.tools.MagicFactory;
+
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.TableFilterHeader;
+
+public class MassMoverDialog extends JDialog {
+	private JTable tableCards;
+	private MagicCardTableModel model;
+	private MagicDAO dao;
+	private MagicCollection toSaveCol;
+	private boolean change=false;
+	private JComboBox cboCollections;
+	
+	
+	static final Logger logger = LogManager.getLogger(MassMoverDialog.class.getName());
+
+	public MassMoverDialog(MagicCollection col) {
+		setTitle("Mass mover " + col);
+		getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		dao = MagicFactory.getInstance().getEnabledDAO();
+		this.toSaveCol=col;
+		
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.NORTH);
+		
+		JButton btnNewButton = new JButton("Move to");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				if(tableCards.getSelectedRowCount()>0)
+				{
+					for (int i = 0; i < tableCards.getSelectedRowCount(); i++) 
+					{ 
+						int viewRow = tableCards.getSelectedRows()[i];
+						int modelRow = tableCards.convertRowIndexToModel(viewRow);
+						MagicCard mc = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
+						try {
+							dao.removeCard(mc, toSaveCol);
+							dao.saveCard(mc, (MagicCollection)cboCollections.getSelectedItem() );
+							change=true;
+						} 
+						catch (SQLException e1) 
+						{
+							logger.error(e1);
+							JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					try {
+						model.init(dao.getCardsFromCollection(toSaveCol), MagicFactory.getInstance().get("langage"));
+					} catch (SQLException e) {
+						logger.error(e);
+					}
+					model.fireTableDataChanged();
+				}
+				
+			}
+		});
+		panel.add(btnNewButton);
+		
+		cboCollections = null;
+		try {
+			cboCollections = new JComboBox(dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+		panel.add(cboCollections);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
+		model = new MagicCardTableModel();
+		try {
+			model.init(dao.getCardsFromCollection(col), MagicFactory.getInstance().get("langage"));
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+		
+		tableCards = new JTable(model);
+		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+		
+		scrollPane.setViewportView(tableCards);
+		
+		TableFilterHeader filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
+		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+		filterHeader.setTable(tableCards);
+		pack();
+		
+	}
+
+	public boolean hasChange() {
+		return change;
+	}
+
+}

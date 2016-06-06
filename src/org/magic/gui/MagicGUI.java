@@ -242,7 +242,7 @@ public class MagicGUI extends JFrame {
 						try {
 							dao.saveCard(mc, dao.getCollection(collec));
 						} catch (SQLException e1) {
-							e1.printStackTrace();
+							logger.error(e1);
 							JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
 						}
 
@@ -645,15 +645,6 @@ public class MagicGUI extends JFrame {
 		
 		panneauBas = new JPanel();
 		JLabel lab = new JLabel();
-		
-		
-		ThreadMonitor t = new ThreadMonitor(ThreadManager.getInstance().getExecutor(),3,lab);
-		new Thread(t).start();
-		
-		panneauBas.add(lab);
-		
-		
-		globalPanel.add(panneauBas, BorderLayout.SOUTH);
 		
 		
 		initPopupCollection();

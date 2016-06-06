@@ -93,10 +93,18 @@ public class HsqlDAO extends AbstractMagicDAO{
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.info("remove " + mc + " from " + collection);
-		PreparedStatement pst = con.prepareStatement("delete from cards where name=? and edition=? and collection=?");
+		
+		String sql = "delete from cards where name=? and edition=? ";
+		if(collection !=null)
+			sql+=" and collection=?";
+		
+		
+		PreparedStatement pst = con.prepareStatement(sql);
 		 pst.setString(1, mc.getName());
 		 pst.setString(2, mc.getEditions().get(0).getId());
-		 pst.setString(3, collection.getName());
+		 if(collection !=null)
+			 pst.setString(3, collection.getName());
+		 
 		 pst.executeUpdate();
 	}
 

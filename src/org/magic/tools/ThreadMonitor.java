@@ -23,6 +23,13 @@ public class ThreadMonitor implements Runnable
         this.run=false;
     }
     
+    public void run(boolean r)
+    {
+    	run=r;
+    }
+    
+    
+    
     public String getInfo()
     {
     	return info;
@@ -34,11 +41,11 @@ public class ThreadMonitor implements Runnable
     	{
             info=
                 String.format("[monitor] [%d/%d] Active: %d, Completed: %d, Task: %d",
-                    this.executor.getPoolSize(),
-                    this.executor.getCorePoolSize(),
-                    this.executor.getActiveCount(),
-                    this.executor.getCompletedTaskCount(),
-                    this.executor.getTaskCount()
+                    executor.getPoolSize(),
+                    executor.getCorePoolSize(),
+                    executor.getActiveCount(),
+                    executor.getCompletedTaskCount(),
+                    executor.getTaskCount()
                    );
             
             lab.setText(info);
