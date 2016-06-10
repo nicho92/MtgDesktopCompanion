@@ -210,6 +210,20 @@ public class CollectionPanelGUI extends JPanel {
 		scrollPane.setMinimumSize(new Dimension(270, 23));
 
 		tableEditions = new JTable();
+		tableEditions.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				try {
+					int row = tableEditions.getSelectedRow();
+					MagicEdition ed = new MagicEdition();
+					ed.setId(tableEditions.getValueAt(row, 0).toString());
+					ed.setSet(tableEditions.getValueAt(row, 1).toString());
+					historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,ed),ed.getSet());
+				} catch (IOException e) {
+					logger.error(e);
+				}
+			}
+		});
 		tableEditions.setModel(model);
 		tableEditions.setDefaultRenderer(Object.class, new MagicCollectionTableCellRenderer());
 		tableEditions.setRowHeight(25);
@@ -336,12 +350,12 @@ public class CollectionPanelGUI extends JPanel {
 					
 					btnExportCSV.setEnabled(false);
 					btnExportPriceCatalog.setEnabled(false);
-
+					
 					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 								try{
 									
-									MagicCollection c = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
+									 MagicCollection c = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
 									
 									rarityRepartitionPanel.init(dao.getCardsFromCollection(c,(MagicEdition)curr.getUserObject()));
 									typeRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
@@ -356,6 +370,11 @@ public class CollectionPanelGUI extends JPanel {
 								}
 							}
 					});
+					try {
+						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,(MagicEdition)curr.getUserObject()),curr.getUserObject().toString());
+					} catch (IOException e) {
+						logger.error(e);
+					}
 				}
 
 				
@@ -388,7 +407,7 @@ public class CollectionPanelGUI extends JPanel {
 					});
 					
 					try {
-						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card);
+						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card.getName());
 					} catch (IOException e) {
 						logger.error(e);
 					}

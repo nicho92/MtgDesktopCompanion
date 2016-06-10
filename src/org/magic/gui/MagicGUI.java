@@ -789,7 +789,7 @@ public class MagicGUI extends JFrame {
 										cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card"),
 																new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card"));//backcard
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
-										historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected);
+										historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 											updatePrices();
 									loading(false,"");
@@ -1056,7 +1056,7 @@ public class MagicGUI extends JFrame {
 				updatePrices();
 			
 			
-			historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected);
+			historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 			
 			
 		} catch (Exception e1) {

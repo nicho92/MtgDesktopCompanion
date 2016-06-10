@@ -50,12 +50,12 @@ public class HistoryPricesPanel extends JPanel{
 	
 	ChartPanel pane;
 	private Map<Date, Double> map;
-	private MagicCard mc;
+	private String mc;
 	
-	public void init(Map<Date,Double> map,MagicCard mc)
+	public void init(Map<Date,Double> map,String title)
 	{
 		this.map=map;
-		this.mc=mc;
+		this.mc=title;
 		refresh();
 	}
 	
@@ -63,7 +63,7 @@ public class HistoryPricesPanel extends JPanel{
 	{
 
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
-		TimeSeries series1 = new TimeSeries(mc.getName());
+		TimeSeries series1 = new TimeSeries(mc);
 			for(Date d : map.keySet())
 				series1.add(new Day(d),map.get(d).doubleValue());
 

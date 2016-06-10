@@ -51,14 +51,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	
 	public static void main(String[] args) throws IOException {
 		MagicCard mc = new MagicCard();
-		mc.setName("Scroll of Avacyn");
+		mc.setName("Mana Crypt");
 		
 		MagicEdition me = new MagicEdition();
-		me.setSet("Avacyn Restored");
+		me.setSet("Eternal Masters");
+		me.setId("EMA");
 		
 		
-		
-		Map<Date,Double> vals = new MTGoldFishDashBoard().getPriceVariation(mc, me);
+		Map<Date,Double> vals = new MTGoldFishDashBoard().getPriceVariation(null, me);
 		
 		for(Date d: vals.keySet())
 			System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(d) + " " + vals.get(d));
@@ -70,25 +70,39 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
 		 
 		stop = false;	    
+		String url ="";
+		historyPrice = new TreeMap<Date,Double>();
+		int index=0;
 		
-		 if(me==null)
+		if(me==null)
 			 me=mc.getEditions().get(0);
 		 
-		 historyPrice = new TreeMap<Date,Double>();
+		 if(mc==null)
+		 {
+			 url = props.getProperty("URL_EDITIONS")+replace(me.getId())+"#"+props.getProperty("FORMAT");
+			 index=3;
+		 }
+		 else
+		 {
+			 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
+			 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
+			 url =props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT");
+			 index=5;
+		
+		 }
 		 
-		 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
-		 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
+		 
 		try{
 		 
-		 logger.debug(props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT"));
+		 logger.debug(url);
 	    
-		 Document d = Jsoup.connect(props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT"))
+		 Document d = Jsoup.connect(url)
 	    		 	.userAgent(props.getProperty("USER_AGENT"))
 					.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 					.get();
-	     Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(5);
-	     
-	   
+		 
+		 
+	     Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(index);
 	     AstNode node = new Parser().parse(js.html(), "", 1);
 	     		 node.visit( new NodeVisitor() {
 	 	        	
