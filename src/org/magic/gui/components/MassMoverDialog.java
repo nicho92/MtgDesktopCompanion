@@ -25,6 +25,8 @@ import org.magic.tools.MagicFactory;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.JLabel;
+import java.awt.Dimension;
 
 public class MassMoverDialog extends JDialog {
 	private JTable tableCards;
@@ -38,6 +40,7 @@ public class MassMoverDialog extends JDialog {
 	static final Logger logger = LogManager.getLogger(MassMoverDialog.class.getName());
 
 	public MassMoverDialog(MagicCollection col) {
+		setSize(new Dimension(640, 370));
 		setTitle("Mass mover " + col);
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
@@ -46,7 +49,7 @@ public class MassMoverDialog extends JDialog {
 		this.toSaveCol=col;
 		
 		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.NORTH);
+		getContentPane().add(panel, BorderLayout.SOUTH);
 		
 		JButton btnNewButton = new JButton("Move to");
 		btnNewButton.addActionListener(new ActionListener() {
@@ -108,7 +111,7 @@ public class MassMoverDialog extends JDialog {
 		TableFilterHeader filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 		filterHeader.setTable(tableCards);
-		pack();
+		//pack();
 		
 	}
 

@@ -62,6 +62,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
 		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
 		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
+		 	con.createStatement().executeUpdate("insert into collections values ('Favorites')");
 		 	logger.debug("populate collections");
 		 	
 		 	
