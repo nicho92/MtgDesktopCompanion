@@ -26,8 +26,8 @@ public class NumberUpdater {
 		
 		JsonObject jsObj = new Gson().fromJson(new FileReader(new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json")), JsonObject.class);
 	
-		for(String ed : unavailableEds)
-		//String ed = "VIS";
+		//for(String ed : unavailableEds)
+		String ed = "EXO";
 		{	
 			mc = updateNumber(ed, prov);
 			JsonArray cards = jsObj.getAsJsonObject(ed).getAsJsonArray("cards");
