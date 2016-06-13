@@ -14,7 +14,7 @@ import org.magic.api.interfaces.MagicDAO;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 
-	String[] columns = new String[] {"code","edition","cards numbers","date","%","qte"};
+	String[] columns = new String[] {"code","edition","cards numbers","date","%","qte","Type"};
 	
 	List<MagicEdition> list;
 
@@ -100,6 +100,11 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 			
 			if(column==5)
 				return mapCount.get(e);
+			
+			if(column==6)
+				return e.getType();
+			
+			
 			
 		return "";
 		

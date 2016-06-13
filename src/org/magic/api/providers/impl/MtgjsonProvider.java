@@ -500,6 +500,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					me.setReleaseDate(ctx.read("$."+id+".releaseDate",String.class));
 					me.setBorder(ctx.read("$."+id+".border",String.class));
 					me.setType(ctx.read("$."+id+".type",String.class));
+					me.setBlock(ctx.read("$."+id+".block",String.class));
+					
 					
 					if(me.getCardCount()==0)
 						me.setCardCount(ctx.read("$."+id+".cards", List.class).size());//long !

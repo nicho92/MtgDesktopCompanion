@@ -24,7 +24,10 @@ public class MagicEditionDetailPanel extends JPanel {
 	private JTextField releaseDateJTextField;
 	private JTextField setJTextField;
 	private JTextField typeJTextField;
-
+	private JLabel lblBlock;
+	private JTextField blockJTextField;
+	
+	
 	public MagicEditionDetailPanel(org.magic.api.beans.MagicEdition newMagicEdition) {
 		this();
 		setMagicEdition(newMagicEdition);
@@ -91,28 +94,43 @@ public class MagicEditionDetailPanel extends JPanel {
 				labelGbc_2.gridy = 3;
 				add(borderLabel, labelGbc_2);
 								
-										borderJTextField = new JTextField();
-										GridBagConstraints componentGbc_2 = new GridBagConstraints();
-										componentGbc_2.fill = GridBagConstraints.HORIZONTAL;
-										componentGbc_2.insets = new Insets(5, 0, 5, 0);
-										componentGbc_2.gridx = 1;
-										componentGbc_2.gridy = 3;
-										add(borderJTextField, componentGbc_2);
+				borderJTextField = new JTextField();
+				GridBagConstraints componentGbc_2 = new GridBagConstraints();
+				componentGbc_2.fill = GridBagConstraints.HORIZONTAL;
+				componentGbc_2.insets = new Insets(5, 0, 5, 0);
+				componentGbc_2.gridx = 1;
+				componentGbc_2.gridy = 3;
+				add(borderJTextField, componentGbc_2);
+
+				JLabel cardCountLabel = new JLabel("CardCount:");
+				GridBagConstraints labelGbc_3 = new GridBagConstraints();
+				labelGbc_3.insets = new Insets(5, 5, 5, 5);
+				labelGbc_3.gridx = 0;
+				labelGbc_3.gridy = 4;
+				add(cardCountLabel, labelGbc_3);
 						
-								JLabel cardCountLabel = new JLabel("CardCount:");
-								GridBagConstraints labelGbc_3 = new GridBagConstraints();
-								labelGbc_3.insets = new Insets(5, 5, 5, 5);
-								labelGbc_3.gridx = 0;
-								labelGbc_3.gridy = 4;
-								add(cardCountLabel, labelGbc_3);
-												
-														cardCountTextField = new JTextField();
-														GridBagConstraints componentGbc_3 = new GridBagConstraints();
-														componentGbc_3.insets = new Insets(5, 0, 5, 0);
-														componentGbc_3.fill = GridBagConstraints.HORIZONTAL;
-														componentGbc_3.gridx = 1;
-														componentGbc_3.gridy = 4;
-														add(cardCountTextField, componentGbc_3);
+				cardCountTextField = new JTextField();
+				GridBagConstraints componentGbc_3 = new GridBagConstraints();
+				componentGbc_3.insets = new Insets(5, 0, 5, 0);
+				componentGbc_3.fill = GridBagConstraints.HORIZONTAL;
+				componentGbc_3.gridx = 1;
+				componentGbc_3.gridy = 4;
+				add(cardCountTextField, componentGbc_3);
+				
+				lblBlock = new JLabel("Block : ");
+				GridBagConstraints gbc_lblBlock = new GridBagConstraints();
+				gbc_lblBlock.insets = new Insets(0, 0, 0, 5);
+				gbc_lblBlock.gridx = 0;
+				gbc_lblBlock.gridy = 5;
+				add(lblBlock, gbc_lblBlock);
+				
+				blockJTextField = new JTextField();
+				GridBagConstraints gbc_blockJTextField = new GridBagConstraints();
+				gbc_blockJTextField.fill = GridBagConstraints.HORIZONTAL;
+				gbc_blockJTextField.gridx = 1;
+				gbc_blockJTextField.gridy = 5;
+				add(blockJTextField, gbc_blockJTextField);
+				blockJTextField.setColumns(10);
 
 		if (magicEdition != null) {
 			m_bindingGroup = initDataBindings();
@@ -164,6 +182,12 @@ public class MagicEditionDetailPanel extends JPanel {
 		BeanProperty<JTextField, String> textProperty_10 = BeanProperty.create("text");
 		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_11 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, typeProperty, typeJTextField, textProperty_10);
 		autoBinding_11.bind();
+		
+		BeanProperty<MagicEdition, String> blockProperty = BeanProperty.create("block");
+		BeanProperty<JTextField, String> textProperty_11 = BeanProperty.create("text");
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_12 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, blockProperty, blockJTextField, textProperty_11);
+		autoBinding_12.bind();
+
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
@@ -172,6 +196,7 @@ public class MagicEditionDetailPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding_7);
 		bindingGroup.addBinding(autoBinding_8);
 		bindingGroup.addBinding(autoBinding_11);
+		bindingGroup.addBinding(autoBinding_12);
 		return bindingGroup;
 	}
 }

@@ -3,6 +3,7 @@ package org.magic.api.beans;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 
@@ -26,8 +27,19 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	private String block;
 	private String border;
 	private List<Object> booster;
+	private Map<String,String> translations;
+	public static final long serialVersionUID = 4136786369066180196L;
 	
 	
+	
+	public Map<String, String> getTranslations() {
+		return translations;
+	}
+
+	public void setTranslations(Map<String, String> translations) {
+		this.translations = translations;
+	}
+
 	public MagicEdition() {
 		booster=new ArrayList<Object>();
 	}

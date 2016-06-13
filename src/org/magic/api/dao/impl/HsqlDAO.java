@@ -18,7 +18,10 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
+import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.api.providers.impl.MtgjsonProvider;
+import org.magic.tools.MagicFactory;
 
 public class HsqlDAO extends AbstractMagicDAO{
 
@@ -51,7 +54,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 	 public boolean createDB()
 	 {
 		 try{
-		 	con.createStatement().executeUpdate("create table cards (name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 	con.createStatement().executeUpdate("create table cards (id varchar(250), name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Cards");
 		 	con.createStatement().executeUpdate("create table decks (name varchar(45),mcard OBJECT)");
 		 	logger.debug("Create table decks");
@@ -131,7 +134,20 @@ public class HsqlDAO extends AbstractMagicDAO{
 		List<MagicCard> list = new ArrayList<MagicCard>();
 		while(rs.next())
 		{
-			list.add((MagicCard) rs.getObject("mcard"));
+			try{
+				list.add((MagicCard) rs.getObject("mcard"));
+			}
+			catch(Exception e)
+			{
+				/*MagicCardsProvider prov = MagicFactory.getInstance().getEnabledProviders().get(0);
+				
+				try {
+					updateSerializedCard(prov.searchCardByCriteria("name", rs.getString("name"), me).get(0), me.getId(), collection.getName());
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}*/
+				throw new SQLException("Erreur " + rs.getString("name") + " " + rs.getString("edition") + " " + rs.getString("collection") + ": " + e.getMessage());
+			}
 		}
 		
 	
@@ -280,7 +296,12 @@ public class HsqlDAO extends AbstractMagicDAO{
 		List<MagicCard> list = new ArrayList<MagicCard>();
 		while(rs.next())
 		{
-			list.add((MagicCard) rs.getObject("mcard"));
+			try{
+				list.add((MagicCard) rs.getObject("mcard"));
+			}catch(Exception e)
+			{
+				throw new SQLException("Erreur " + rs.getString("name") + " " + rs.getString("edition") + " " + rs.getString("collection") + ": " + e.getMessage());
+			}
 		}
 	
 	return list;
@@ -303,7 +324,6 @@ public class HsqlDAO extends AbstractMagicDAO{
 		{
 			list.add((MagicDeck) rs.getObject("mcard"));
 		}
-	
 	return list;
 	}
 
@@ -380,6 +400,35 @@ public class HsqlDAO extends AbstractMagicDAO{
 			return "";
 		
 	}
+	
+	public ResultSet executeQuery(String query) throws SQLException
+	{
+		PreparedStatement pst = con.prepareStatement(query);
+		ResultSet rs = pst.executeQuery();
+		
+		return rs;
+	}
+	
+	public int updateSerializedCard(MagicCard mc,String editionCode,String collection) 
+	{
+		try{
+		String sql ="update cards set mcard=? where  name=? and edition=? and collection=? ";
+		PreparedStatement pst = con.prepareStatement(sql);
+		pst.setObject(1, mc);
+		pst.setString(2, mc.getName());
+		pst.setString(3, editionCode);
+		pst.setString(4, collection);
+		return pst.executeUpdate();
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+			return -1;
+		}
+		
+	}
+	
+	
 
 
 }
