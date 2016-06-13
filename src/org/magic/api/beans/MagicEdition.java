@@ -29,9 +29,17 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	private List<Object> booster;
 	private Map<String,String> translations;
 	public static final long serialVersionUID = 4136786369066180196L;
+	private boolean onlineOnly;
 	
 	
-	
+	public boolean isOnlineOnly() {
+		return onlineOnly;
+	}
+
+	public void setOnlineOnly(boolean onlineOnly) {
+		this.onlineOnly = onlineOnly;
+	}
+
 	public Map<String, String> getTranslations() {
 		return translations;
 	}
@@ -99,9 +107,6 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	
 	public String getId()
 	{
-//		if(id==null)
-//			return getSet_url().substring(getSet_url().lastIndexOf("/")+1, getSet_url().length());
-//		
 		return id;
 	}
 	

@@ -31,7 +31,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 
-import com.google.gson.JsonElement;
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.EvaluationListener;
 import com.jayway.jsonpath.JsonPath;
@@ -482,7 +481,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			}).read(jsquery,List.class);
 		
 		eds = new ArrayList<MagicEdition>();
-
 		for(String codeedition : codeEd)
 		{
 			eds.add(getSetById(codeedition));
@@ -494,27 +492,46 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	public MagicEdition getSetById(String id)  {
 		MagicEdition me = new MagicEdition();
-		try{
+		
 					me.setId(id);
 					me.setSet(ctx.read("$."+id+".name",String.class));
 					me.setReleaseDate(ctx.read("$."+id+".releaseDate",String.class));
 					me.setBorder(ctx.read("$."+id+".border",String.class));
 					me.setType(ctx.read("$."+id+".type",String.class));
-					me.setBlock(ctx.read("$."+id+".block",String.class));
-					
 					
 					if(me.getCardCount()==0)
 						me.setCardCount(ctx.read("$."+id+".cards", List.class).size());//long !
 					
-				
-		
-			me.setBooster(ctx.read("$."+id+".booster",List.class));
-		}
-		catch(PathNotFoundException ex)
-		{	//logger.debug(ex);		
-			
-		}
-		
+					try{
+						me.setOnlineOnly(ctx.read("$."+id+".onlineOnly",Boolean.class));
+					}
+					catch(Exception e)
+					{
+						me.setOnlineOnly(false);
+					}
+					
+					
+					try
+					{
+						me.setBooster(ctx.read("$."+id+".booster",List.class));
+					}
+					catch(PathNotFoundException e)
+					{}
+					
+					try
+					{
+						me.setBlock(ctx.read("$."+id+".block",String.class));
+					}
+					catch(PathNotFoundException e)
+					{}
+					
+					try
+					{
+					me.setTranslations(ctx.read("$."+id+".translations",Map.class));
+					}
+					catch(PathNotFoundException e)
+					{}
+	
 		return me;
 		
 	}

@@ -14,7 +14,7 @@ import org.magic.api.interfaces.MagicDAO;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 
-	String[] columns = new String[] {"code","edition","cards numbers","date","%","qte","Type"};
+	String[] columns = new String[] {"code","edition","cards numbers","date","%","qte","Type","Block", "Online"};
 	
 	List<MagicEdition> list;
 
@@ -103,7 +103,12 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 			
 			if(column==6)
 				return e.getType();
+
+			if(column==7)
+				return e.getBlock();
 			
+			if(column==8)
+				return e.isOnlineOnly();
 			
 			
 		return "";
@@ -121,6 +126,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		case 3 : return String.class;
 		case 4 : return double.class;
 		case 5 : return Integer.class;
+		case 8 : return Boolean.class;
 		default : return Object.class;
 		}
 		
@@ -132,5 +138,10 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		return columns.length;
 	}
 	
+	
+	@Override
+	public boolean isCellEditable(int row, int column) {
+		return false;
+	}
 	
 }

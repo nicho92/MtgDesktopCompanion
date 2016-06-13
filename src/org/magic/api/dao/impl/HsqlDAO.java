@@ -54,7 +54,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 	 public boolean createDB()
 	 {
 		 try{
-		 	con.createStatement().executeUpdate("create table cards (id varchar(250), name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 	con.createStatement().executeUpdate("create table cards (ID varchar(250), name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Cards");
 		 	con.createStatement().executeUpdate("create table decks (name varchar(45),mcard OBJECT)");
 		 	logger.debug("Create table decks");
@@ -83,12 +83,13 @@ public class HsqlDAO extends AbstractMagicDAO{
 		
 		logger.info("saving " + mc +" in " + collection);
 		
-		PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?)");
+		PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)");
 		 pst.setString(1, mc.getName());
 		 pst.setObject(2, mc);
 		 pst.setString(3, mc.getEditions().get(0).getId());
 		 pst.setString(4, "");
 		 pst.setString(5, collection.getName());
+		 pst.setString(6, mc.getId());
 		 
 		 pst.executeUpdate();
 		
@@ -139,13 +140,6 @@ public class HsqlDAO extends AbstractMagicDAO{
 			}
 			catch(Exception e)
 			{
-				/*MagicCardsProvider prov = MagicFactory.getInstance().getEnabledProviders().get(0);
-				
-				try {
-					updateSerializedCard(prov.searchCardByCriteria("name", rs.getString("name"), me).get(0), me.getId(), collection.getName());
-				} catch (Exception e1) {
-					e1.printStackTrace();
-				}*/
 				throw new SQLException("Erreur " + rs.getString("name") + " " + rs.getString("edition") + " " + rs.getString("collection") + ": " + e.getMessage());
 			}
 		}
@@ -403,30 +397,37 @@ public class HsqlDAO extends AbstractMagicDAO{
 	
 	public ResultSet executeQuery(String query) throws SQLException
 	{
-		PreparedStatement pst = con.prepareStatement(query);
-		ResultSet rs = pst.executeQuery();
+		Statement pst = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+		ResultSet rs = pst.executeQuery(query);
 		
 		return rs;
 	}
 	
-	public int updateSerializedCard(MagicCard mc,String editionCode,String collection) 
+	public int executeUpdate(String query) throws SQLException
 	{
-		try{
-		String sql ="update cards set mcard=? where  name=? and edition=? and collection=? ";
-		PreparedStatement pst = con.prepareStatement(sql);
-		pst.setObject(1, mc);
-		pst.setString(2, mc.getName());
-		pst.setString(3, editionCode);
-		pst.setString(4, collection);
+		PreparedStatement pst = con.prepareStatement(query);
 		return pst.executeUpdate();
-		}
-		catch(Exception e)
-		{
-			e.printStackTrace();
-			return -1;
-		}
 		
 	}
+	
+//	public int updateSerializedCard(MagicCard mc,String editionCode,String collection) 
+//	{
+//		try{
+//		String sql ="update cards set mcard=? where  name=? and edition=? and collection=? ";
+//		PreparedStatement pst = con.prepareStatement(sql);
+//		pst.setObject(1, mc);
+//		pst.setString(2, mc.getName());
+//		pst.setString(3, editionCode);
+//		pst.setString(4, collection);
+//		return pst.executeUpdate();
+//		}
+//		catch(Exception e)
+//		{
+//			e.printStackTrace();
+//			return -1;
+//		}
+//		
+//	}
 	
 	
 
