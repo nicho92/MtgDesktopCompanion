@@ -212,7 +212,7 @@ public class DashBoardGUI extends JPanel {
 	{
 		final MagicCardDetailPanel pane = new MagicCardDetailPanel();
 				pane.enableThumbnail(true);
-				pane.setPreferredSize(new Dimension(880, 320));
+				pane.setPreferredSize(new Dimension(880, 350));
 				
 		final JPopupMenu popUp = new JPopupMenu("Customized Tool Tip");
 
