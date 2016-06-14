@@ -210,8 +210,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	{
 		
 		
-		
-		
+
+		String oldID=edition.getId();
 		String urlEditionChecker = props.getProperty("URL_EDITIONS")+replace(edition.getId())+"#"+props.getProperty("FORMAT");
 		
 		Document doc = Jsoup.connect(urlEditionChecker)
@@ -241,7 +241,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 				cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
 				cs.setPriceWeekChange(parseDouble(e.getElementsByTag("TD").get(6).text()));
 				cs.setPercentWeekChange(parseDouble(e.getElementsByTag("TD").get(7).text()));
-				cs.setEd(e.getElementsByTag("TD").get(1).text());
+				//cs.setEd(e.getElementsByTag("TD").get(1).text());
+				cs.setEd(oldID);
 				cs.setDateUpdate(new Date());
 				
 			list.add(cs);
@@ -259,7 +260,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 	}
 	
-	private String replace(String id) {
+	public String replace(String id) {
 		
 		
 		switch(id){
@@ -273,6 +274,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		case "WTH" : return "WL";
 		case "ODY" : return "OD";
 		case "EXO": return "EX";
+		case "APC": return "AP";
+		case "pGRU": return "PRM-GUR";
+		case "PLS" : return "PS";
+		case "INV" : return "IN";
 		default : return id;
 		}
 	}

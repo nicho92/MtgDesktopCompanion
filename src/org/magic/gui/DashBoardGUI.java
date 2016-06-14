@@ -1,10 +1,10 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -21,10 +21,10 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
+import javax.swing.border.LineBorder;
 import javax.swing.table.TableRowSorter;
 
 import org.magic.api.beans.MagicCard;
@@ -54,7 +54,6 @@ public class DashBoardGUI extends JPanel {
 	private EditionsShakerTableModel modEdition;
 	
 	private JComboBox cboEdition;
-	
   
 	public DashBoardGUI() {
 		setLayout(new BorderLayout(0, 0));
@@ -206,11 +205,6 @@ public class DashBoardGUI extends JPanel {
 		update();
 		
 		
-		initToolTip(tableVintage);
-		initToolTip(tableModern);
-		initToolTip(tableStandard);
-		initToolTip(tableLegacy);
-		initToolTip(tableEdition);
 	
 	}
 	
@@ -218,7 +212,7 @@ public class DashBoardGUI extends JPanel {
 	{
 		final MagicCardDetailPanel pane = new MagicCardDetailPanel();
 				pane.enableThumbnail(true);
-				pane.setPreferredSize(new Dimension(900, 320));
+				pane.setPreferredSize(new Dimension(880, 320));
 				
 		final JPopupMenu popUp = new JPopupMenu("Customized Tool Tip");
 
@@ -226,7 +220,6 @@ public class DashBoardGUI extends JPanel {
 		    
 			public void mouseClicked(MouseEvent e) {
 				int row = table.rowAtPoint(e.getPoint());
-				int column = table.columnAtPoint(e.getPoint());
 				
 				table.setRowSelectionInterval(row, row);
 				String cardName = table.getValueAt(row, 0).toString();
@@ -238,13 +231,13 @@ public class DashBoardGUI extends JPanel {
 				{
 					MagicCard mc =  MagicFactory.getInstance().getEnabledProviders().get(0).searchCardByCriteria("name", cardName,ed).get(0);
 					pane.setMagicCard(mc);
-					
-					 Rectangle bounds = table.getCellRect(row, column, true);
-
+					pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
+						popUp.setBorder(new LineBorder(Color.black));
 					    popUp.setVisible(false);
 					    popUp.removeAll();
-					    popUp.add(pane);
-					    popUp.show(table, bounds.x, bounds.y + bounds.height);
+					    popUp.setLayout(new BorderLayout());
+					    popUp.add(pane,BorderLayout.CENTER);
+					    popUp.show(table, e.getX(), e.getY());// + bounds.height);
 					    popUp.setVisible(true);
 				}
 				catch (Exception ex) 
@@ -312,6 +305,13 @@ public class DashBoardGUI extends JPanel {
 				tableEdition.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 				tableEdition.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 			
+				initToolTip(tableVintage);
+				initToolTip(tableModern);
+				initToolTip(tableStandard);
+				initToolTip(tableLegacy);
+				initToolTip(tableEdition);
+				
+				
 				
 				lblDashBoardInfo.setText(MagicFactory.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MagicFactory.getInstance().getEnabledDashBoard().getUpdatedDate())+")");
 				

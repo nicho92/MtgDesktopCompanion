@@ -141,11 +141,11 @@ public class MagicEditionDetailPanel extends JPanel {
 		return magicEdition;
 	}
 
-	public void setMagicEdition(org.magic.api.beans.MagicEdition newMagicEdition) {
+	public void setMagicEdition(MagicEdition newMagicEdition) {
 		setMagicEdition(newMagicEdition, true);
 	}
 
-	public void setMagicEdition(org.magic.api.beans.MagicEdition newMagicEdition, boolean update) {
+	public void setMagicEdition(MagicEdition newMagicEdition, boolean update) {
 		magicEdition = newMagicEdition;
 		if (update) {
 			if (m_bindingGroup != null) {
