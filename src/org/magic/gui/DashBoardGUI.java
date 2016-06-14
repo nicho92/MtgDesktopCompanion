@@ -1,10 +1,14 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,16 +17,20 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.SwingConstants;
 import javax.swing.table.TableRowSorter;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
@@ -154,8 +162,8 @@ public class DashBoardGUI extends JPanel {
 		new TableFilterHeader(tableModern, AutoChoices.ENABLED);
 		new TableFilterHeader(tableStandard, AutoChoices.ENABLED);
 		new TableFilterHeader(tableLegacy, AutoChoices.ENABLED);
-		
 		new TableFilterHeader(tableEdition, AutoChoices.ENABLED);
+		
 		
 		
 		JPanel panneauHaut = new JPanel();
@@ -196,7 +204,58 @@ public class DashBoardGUI extends JPanel {
 		scrollPane.setViewportView(tableEdition);
 		
 		update();
+		
+		
+		initToolTip(tableVintage);
+		initToolTip(tableModern);
+		initToolTip(tableStandard);
+		initToolTip(tableLegacy);
+		initToolTip(tableEdition);
+	
 	}
+	
+	private void initToolTip(final JTable table)
+	{
+		final MagicCardDetailPanel pane = new MagicCardDetailPanel();
+				pane.enableThumbnail(true);
+				pane.setPreferredSize(new Dimension(900, 320));
+				
+		final JPopupMenu popUp = new JPopupMenu("Customized Tool Tip");
+
+		table.addMouseListener(new MouseAdapter() {
+		    
+			public void mouseClicked(MouseEvent e) {
+				int row = table.rowAtPoint(e.getPoint());
+				int column = table.columnAtPoint(e.getPoint());
+				
+				table.setRowSelectionInterval(row, row);
+				String cardName = table.getValueAt(row, 0).toString();
+				
+				String edID = table.getValueAt(row, 1).toString();
+			    MagicEdition ed = new MagicEdition();
+				ed.setId(edID);
+				try 
+				{
+					MagicCard mc =  MagicFactory.getInstance().getEnabledProviders().get(0).searchCardByCriteria("name", cardName,ed).get(0);
+					pane.setMagicCard(mc);
+					
+					 Rectangle bounds = table.getCellRect(row, column, true);
+
+					    popUp.setVisible(false);
+					    popUp.removeAll();
+					    popUp.add(pane);
+					    popUp.show(table, bounds.x, bounds.y + bounds.height);
+					    popUp.setVisible(true);
+				}
+				catch (Exception ex) 
+				{
+					ex.printStackTrace();
+				}
+		   }
+		});
+	}
+	
+	
 
 	private void update() {
 			ThreadManager.getInstance().execute(new Runnable() {

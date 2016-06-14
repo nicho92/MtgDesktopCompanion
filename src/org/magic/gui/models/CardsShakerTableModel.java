@@ -9,6 +9,8 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.tools.MagicFactory;
@@ -27,6 +29,9 @@ public class CardsShakerTableModel extends DefaultTableModel {
 		provider=MagicFactory.getInstance().getEnabledDashBoard();
 		list=new ArrayList<CardShake>();
 	}
+	
+	
+	
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {

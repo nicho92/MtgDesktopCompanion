@@ -1,17 +1,13 @@
 package org.magic.api.main;
 
-import java.awt.Color;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 
 import org.magic.gui.MagicGUI;
 import org.magic.tools.MagicFactory;
-import org.magic.tools.ThreadManager;
-import org.magic.tools.ThreadMonitor;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
