@@ -329,7 +329,7 @@ public class CollectionPanelGUI extends JPanel {
 								try{
 									rarityRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
 									typeRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
-									 manaRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
+									manaRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
 									 
 								}catch(Exception e)
 								{
@@ -360,7 +360,7 @@ public class CollectionPanelGUI extends JPanel {
 									rarityRepartitionPanel.init(dao.getCardsFromCollection(c,(MagicEdition)curr.getUserObject()));
 									typeRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
 									manaRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
-									
+									historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,(MagicEdition)curr.getUserObject()),curr.getUserObject().toString());
 									
 									
 								}catch(Exception e)
@@ -370,11 +370,6 @@ public class CollectionPanelGUI extends JPanel {
 								}
 							}
 					});
-					try {
-						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,(MagicEdition)curr.getUserObject()),curr.getUserObject().toString());
-					} catch (IOException e) {
-						logger.error(e);
-					}
 				}
 
 				
@@ -387,31 +382,28 @@ public class CollectionPanelGUI extends JPanel {
 					magicCardDetailPanel.enableThumbnail(true);
 					
 					ThreadManager.getInstance().execute(new Runnable() {
-
-						@Override
 						public void run() {
 							ImageIcon icon;
 							try {
-								/*icon = new ImageIcon(
-										new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="
-												+ card.getEditions().get(0).getMultiverse_id() + "&type=card"));*/
 								modelPrices.init(card, card.getEditions().get(0));
 								modelPrices.fireTableDataChanged();
-								
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+								logger.error(e);
 							}
 
 						}
 					});
 					
-					try {
-						historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card.getName());
-					} catch (IOException e) {
-						logger.error(e);
-					}
-					
+					ThreadManager.getInstance().execute(new Runnable() {
+						public void run() {
+							try {
+								historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card.getName());
+							} catch (Exception e) {
+								logger.error(e);
+							}
+
+						}
+					});
 				}
 			}
 		});

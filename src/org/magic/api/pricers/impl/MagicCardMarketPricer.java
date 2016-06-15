@@ -119,7 +119,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
             
 				              
            _lastCode = connection.getResponseCode();
-           
+           logger.debug(getName() + " response :  " + _lastCode);
            
            BufferedReader rd = new BufferedReader(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream()));  
            StringBuffer sb = new StringBuffer();  
