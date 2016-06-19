@@ -19,6 +19,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 	public MagicCollectionTableCellRenderer() {
 		cache=new HashMap<>();
 	}
+	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		{
@@ -28,7 +29,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 			
 			Component pane = super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column);
 			
-		if((int)table.getValueAt(row, 4)<5)
+			if((int)table.getValueAt(row, 4)<5)
 			{
 				pane.setBackground(table.getBackground());
 				pane.setForeground(Color.BLACK);
@@ -58,12 +59,18 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 					BufferedImage im ;
 					if(cache.get(value.toString())==null)
 					{
-						im = ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+value+"_set.png"));
+					
+						if(value.toString().startsWith("p"))
+							im=ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/VAN_set.png"));
+						else
+							im = ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+value+"_set.png"));
+					
+						
 						cache.put(value.toString(),im);
 					}
 					else
 					{
-						im=cache.get(value.toString());
+							im=cache.get(value.toString());
 					}
 					
 					
@@ -74,7 +81,8 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 					return l;
 				}
 				catch(Exception e)
-				{}
+				{
+					}
 			}
 		
 			return pane;
