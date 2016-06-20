@@ -209,9 +209,14 @@ public class DeckDetailsPanel extends JPanel {
 		if(!magicDeck.isCompatibleFormat(mf))
 			lbvin.setBackground(Color.RED);
 
+		
 		mf.setFormat("Commander");
 		if(!magicDeck.isCompatibleFormat(mf))
 			lbcmd.setBackground(Color.RED);
+		
+		if(magicDeck.getNbCards()!=100)
+			lbcmd.setBackground(Color.RED);
+		
 	}
 	
 	

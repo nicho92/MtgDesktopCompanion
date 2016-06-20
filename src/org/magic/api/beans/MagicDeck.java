@@ -8,6 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.magic.tools.ColorParser;
+
 public class MagicDeck implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -55,8 +57,8 @@ public class MagicDeck implements Serializable{
 		for(MagicCard mc : mapDeck.keySet())
 		{
 			if((mc.getCmc()!=null))
-				for(String c : mc.getColorIdentity())
-					cmap.add("{"+c+"}");
+				for(String c : mc.getColors())
+					cmap.add(ColorParser.parse(c));
 		}
 		return cmap.toString();
 	}

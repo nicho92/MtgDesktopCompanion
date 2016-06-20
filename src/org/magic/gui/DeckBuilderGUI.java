@@ -266,7 +266,7 @@ public class DeckBuilderGUI extends JPanel{
 		JPanel panneauBas = new JPanel();
 		add(panneauBas, BorderLayout.SOUTH);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.RIGHT);
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 		
 		JSplitPane panneauDeck = new JSplitPane();
@@ -314,12 +314,15 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		
-		
-		class TypePieceEditor extends DefaultCellEditor {
-			  public TypePieceEditor(String[] typeDocuments) {
-			    super(new JComboBox(typeDocuments));
-			  }
+		tableSide.addMouseListener(new MouseAdapter() {
+			
+			public void mouseClicked(MouseEvent ev) {
+				
+				MagicCard mc = (MagicCard)tableSide.getValueAt(tableSide.getSelectedRow(),0);
+				magicCardDetailPanel.setMagicCard(mc);
+				
 			}
+		});
 		
 		tableDeck.addKeyListener(new KeyAdapter() {
 			

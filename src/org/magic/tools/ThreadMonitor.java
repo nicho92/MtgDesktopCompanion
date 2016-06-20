@@ -11,13 +11,12 @@ public class ThreadMonitor implements Runnable
     private int seconds;
     private boolean run=true;
     private String info="";
-    private JLabel lab;
     
-    public ThreadMonitor(ThreadPoolExecutor executor, int delay, JLabel lab)
+    public ThreadMonitor(ThreadPoolExecutor executor, int delay)
     {
         this.executor = executor;
         this.seconds=delay;
-        this.lab=lab;
+      
     }
     public void shutdown(){
         this.run=false;
@@ -48,7 +47,6 @@ public class ThreadMonitor implements Runnable
                     executor.getTaskCount()
                    );
             
-            lab.setText(info);
             try {
                 Thread.sleep(seconds*1000);
             } catch (InterruptedException e) {

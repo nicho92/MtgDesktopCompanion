@@ -180,9 +180,14 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	}
 	
 	private Double parsePrice(String price) {
+		try{
+			price = price.substring(0, price.length()-2).trim().replaceAll(" ", "");
+			return Double.parseDouble(price);
+		}catch(Exception e)
+		{
+			return 0.0;
+		}
 		
-		price = price.substring(0, price.length()-2).trim().replaceAll(" ", "");
-		return Double.parseDouble(price);
 	}
 
 	@Override
