@@ -1,6 +1,7 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -15,6 +16,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -36,6 +38,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -43,6 +46,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.DeckDetailsPanel;
@@ -68,7 +72,8 @@ public class DeckBuilderGUI extends JPanel{
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel; 
-
+	private MagicCardDetailPanel magicCardDetailPanel;
+	
 	private JTextField txtSearch;
 	private JComboBox<String> cboAttributs;
 
@@ -84,7 +89,8 @@ public class DeckBuilderGUI extends JPanel{
 
 	private JTable tableDeck;
 	private JTable tableSide;
-
+	private JList listResult;
+	
 	public static final int MAIN=0;
 	public static final int SIDE=1;
 	
@@ -252,7 +258,7 @@ public class DeckBuilderGUI extends JPanel{
 		JScrollPane scrollResult = new JScrollPane();
 		add(scrollResult, BorderLayout.WEST);
 		
-		final JList listResult = new JList(new DefaultListModel<MagicCard>());
+		listResult = new JList(new DefaultListModel<MagicCard>());
 		listResult.setMinimumSize(new Dimension(100, 0));
 		listResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollResult.setViewportView(listResult);
@@ -269,7 +275,7 @@ public class DeckBuilderGUI extends JPanel{
 		DefaultRowSorter sorterCards = new TableRowSorter<DefaultTableModel>(deckmodel);
 		
 		
-		final MagicCardDetailPanel magicCardDetailPanel = new MagicCardDetailPanel();
+		magicCardDetailPanel = new MagicCardDetailPanel();
 		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
 		panneauDeck.setRightComponent(magicCardDetailPanel);
@@ -307,6 +313,13 @@ public class DeckBuilderGUI extends JPanel{
 				
 			}
 		});
+		
+		
+		class TypePieceEditor extends DefaultCellEditor {
+			  public TypePieceEditor(String[] typeDocuments) {
+			    super(new JComboBox(typeDocuments));
+			  }
+			}
 		
 		tableDeck.addKeyListener(new KeyAdapter() {
 			
@@ -359,7 +372,7 @@ public class DeckBuilderGUI extends JPanel{
 		rarityRepartitionPanel = new RarityRepartitionPanel();
 		
 		JPanel randomHandPanel = new JPanel();
-		
+	
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 		
 		thumbnailPanel = new ThumbnailPanel();
@@ -559,5 +572,7 @@ public class DeckBuilderGUI extends JPanel{
 		manaRepartitionPanel.init(deck);;
 		rarityRepartitionPanel.init(deck);
 		
+		
 	}	
 }
+

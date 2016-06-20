@@ -108,7 +108,7 @@ public class DeckModel extends DefaultTableModel {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		
-		if(column==columns.length-1)
+		if(column==3 || column==4)
 			return true;
 		
 		return false;
@@ -117,6 +117,8 @@ public class DeckModel extends DefaultTableModel {
 	
 	
 	public void setValueAt(Object aValue, int row, int column) {
+		
+		if(column==4)
 		if(Integer.valueOf(aValue.toString())==0)
 		{
 			deck.getMap().remove(deck.getValueAt(row));
