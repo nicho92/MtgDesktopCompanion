@@ -6,6 +6,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Scanner;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -35,7 +36,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("URL", "http://ws.decktutor.com/app/v2");
+		props.put("URL", "https://ws.decktutor.com/app/v2");
 		props.put("WEBSITE", "http://www.decktutor.com");
 		props.put("LANG", "en");
 		props.put("LOGIN", "login");
@@ -53,7 +54,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		try {
 			pric.getPrice(null, null);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -80,11 +80,16 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
 			HttpClient httpClient = HttpClientBuilder.create().build();
-		 HttpPost request = new HttpPost(props.getProperty("URL")+"/account/login");
+			HttpPost request = new HttpPost(props.getProperty("URL")+"/account/login");
+			request.addHeader("content-type", "application/json");
+	        
 		 	StringEntity params =new StringEntity("{\"login\":\""+props.getProperty("LOGIN")+"\",\"password\":\""+props.getProperty("PASSWORD")+"\"} ");
-		 	request.addHeader("content-type", "application/json");
-	        request.setEntity(params);
+		 	
+		 	request.setEntity(params);
+	        
 	        HttpResponse response = httpClient.execute(request);
+	        
+	        
 	        JsonReader reader = new JsonReader(new InputStreamReader(response.getEntity().getContent()));
 	        reader.beginObject();
 	        
@@ -101,21 +106,27 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	        
 	        String signature = getMD5(sequence+":"+auth_token_secret);
 	        
-	        	        
 	        List<NameValuePair> paramsearch = new LinkedList<NameValuePair>();
 	        paramsearch.add(new BasicNameValuePair("game","mtg"));
 	        paramsearch.add(new BasicNameValuePair("query","Jace, the mind"));
 	      
-	        HttpGet get = new HttpGet(props.getProperty("URL")+"/search/card/name"+URLEncodedUtils.format(paramsearch, "utf-8"));
-	        get.addHeader("x-dt-Auth-Token: ", auth_token);
-	        get.addHeader("x-dt-Sequence: ", String.valueOf(sequence));
-	        get.addHeader("x-dt-Signature: ", signature);
-	        
+	        HttpGet get = new HttpGet(props.getProperty("URL")+"/search/card/name?"+URLEncodedUtils.format(paramsearch, "utf-8"));
+//			        get.addHeader("x-dt-Auth-Token: ", auth_token);
+//			        get.addHeader("x-dt-Sequence: ", String.valueOf(sequence));
+//			        get.addHeader("x-dt-Signature: ", signature);
+//			        get.addHeader("content-type", "application/json");
+//			        get.addHeader("Accept", "application/json");
+			        get.addHeader("x-dt-language","french");
+			        
+			        
 	        response = httpClient.execute(get);
+	      
+	        Scanner s = new java.util.Scanner(response.getEntity().getContent()).useDelimiter("\\A");
+	        System.out.println(s.next());
 	        
 	        
 	        
-	        System.out.println(props.getProperty("URL")+"/search/card/name?"+URLEncodedUtils.format(paramsearch, "utf-8") +" " + response);
+	        this.toString();
 	        
 		return null;
 	}
