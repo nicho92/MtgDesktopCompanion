@@ -89,9 +89,6 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
     	
     try{
-       	
-    	
-    	
     	lists = new ArrayList<MagicPrice>();
     	_lastCode = 0;
         _lastContent = "";
@@ -238,7 +235,8 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 		} 
     	
 	}
-	@Override
+	
+	
 	public String getName() {
 		return "Magic Card Market";
 	}

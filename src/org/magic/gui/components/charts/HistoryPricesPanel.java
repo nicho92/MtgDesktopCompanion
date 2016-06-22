@@ -82,7 +82,7 @@ public class HistoryPricesPanel extends JPanel{
 			
 		if(showEdition)	
 		try{
-				for(MagicEdition me: MagicFactory.getInstance().getEnabledProviders().get(0).searchSetByCriteria(null, null))
+				for(MagicEdition me: MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null))
 					{
 						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(me.getReleaseDate()+" 00:00");
 						TimeSeriesDataItem  item = series1.getDataItem(new Day(d));

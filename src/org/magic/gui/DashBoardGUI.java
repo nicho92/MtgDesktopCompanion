@@ -63,9 +63,8 @@ public class DashBoardGUI extends JPanel {
 		
 		List<MagicEdition> eds= new ArrayList<>();
 		try {
-			eds=MagicFactory.getInstance().getEnabledProviders().get(0).searchSetByCriteria(null, null);
+			eds=MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -229,7 +228,7 @@ public class DashBoardGUI extends JPanel {
 				ed.setId(edID);
 				try 
 				{
-					MagicCard mc =  MagicFactory.getInstance().getEnabledProviders().get(0).searchCardByCriteria("name", cardName,ed).get(0);
+					MagicCard mc =  MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed).get(0);
 					pane.setMagicCard(mc);
 					pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
 						popUp.setBorder(new LineBorder(Color.black));

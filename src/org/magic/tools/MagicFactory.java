@@ -199,15 +199,15 @@ public class MagicFactory {
 		return pricersE;
 	}
 	
-	public List<MagicCardsProvider> getEnabledProviders()
+	public MagicCardsProvider getEnabledProviders()
 	{
 		List<MagicCardsProvider> prov= new ArrayList<MagicCardsProvider>();
 		
 		for(MagicCardsProvider p : getListProviders())
 			if(p.isEnable())
-				prov.add(p);
+				return p;
 		
-		return prov;
+		return null;
 	}
 	
 	
