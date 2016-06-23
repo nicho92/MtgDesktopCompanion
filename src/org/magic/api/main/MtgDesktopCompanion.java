@@ -8,6 +8,8 @@ import javax.swing.SwingUtilities;
 
 import org.magic.gui.MagicGUI;
 import org.magic.tools.MagicFactory;
+import org.magic.tools.ThreadManager;
+import org.magic.tools.ThreadMonitor;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
@@ -34,14 +36,14 @@ public class MtgDesktopCompanion {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-			
+				new Thread(new ThreadMonitor(ThreadManager.getInstance().getExecutor(), 2)).start();	
 				MagicGUI gui = new MagicGUI();
 						gui.setLookAndFeel(MagicFactory.getInstance().get("lookAndFeel"));
 						gui.setDefaultLanguage(MagicFactory.getInstance().get("langage"));
 						gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						gui.setVisible(true);
 						
-						
+				
 			}
 		});
 

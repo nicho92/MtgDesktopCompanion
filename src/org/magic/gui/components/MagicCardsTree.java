@@ -48,11 +48,12 @@ public class MagicCardsTree extends JXTree {
 							public void run() {
 								List<MagicCollection> collection = null;
 								try {
+									logger.debug("load db collections");
 									collection = dao.getCollections();
 								} catch (Exception e) {
 									logger.error(e);
 								}
-								
+								logger.debug("loadings collection in tree");
 								for(MagicCollection me : collection)
 								{
 									logger.info("loading cards from " + me);
@@ -79,6 +80,7 @@ public class MagicCardsTree extends JXTree {
 										logger.error(e);
 									}
 								}
+								logger.debug("loadings collection in tree end");
 								refresh();
 								expandPath(getPathForRow(0));
 							}
@@ -95,6 +97,7 @@ public class MagicCardsTree extends JXTree {
 		getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
 		this.provider=provider;
 		this.dao=dao;
+		logger.debug("init tree");
 		init();
 	
 	}

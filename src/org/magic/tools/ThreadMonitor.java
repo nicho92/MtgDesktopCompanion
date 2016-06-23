@@ -46,7 +46,7 @@ public class ThreadMonitor implements Runnable
                     executor.getCompletedTaskCount(),
                     executor.getTaskCount()
                    );
-            
+            	System.out.println(info);
             try {
                 Thread.sleep(seconds*1000);
             } catch (InterruptedException e) {

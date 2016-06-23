@@ -3,6 +3,7 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -88,7 +89,6 @@ public class CollectionPanelGUI extends JPanel {
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
 	
-	
 	public CollectionPanelGUI(MagicCardsProvider provider, MagicDAO dao) throws Exception {
 		this.provider = provider;
 		this.dao = dao;
@@ -100,6 +100,7 @@ public class CollectionPanelGUI extends JPanel {
 		logger.debug("init collection panel");
 		setLayout(new BorderLayout(0, 0));
 		model = new MagicEditionsTableModel(dao);
+		
 		model.init(provider.searchSetByCriteria(null, null));
 
 		JPanel panneauHaut = new JPanel();

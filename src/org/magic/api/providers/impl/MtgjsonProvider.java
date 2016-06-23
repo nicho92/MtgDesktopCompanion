@@ -116,7 +116,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	    	zis.close();
 	    	fileSetJsonTemp.delete();
 	    }catch(IOException ex){
-	       ex.printStackTrace(); 
+	     logger.error(ex);
 	    }
 	   }    
 	
