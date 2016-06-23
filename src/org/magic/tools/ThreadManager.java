@@ -30,12 +30,19 @@ public class ThreadManager {
 	private ThreadManager()
 	{
 		threadFactory = Executors.defaultThreadFactory();
-		executor=new ThreadPoolExecutor(3, 4, 10, TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(2),threadFactory, new RejectedExecutionHandlerImpl());
+		executor=new ThreadPoolExecutor(4, 5, 10, TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(2),threadFactory, new RejectedExecutionHandlerImpl());
 	}
 	
 	public void execute(Runnable task)
 	{
 		executor.execute(task);
+		logger.info(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d",
+                executor.getPoolSize(),
+                executor.getCorePoolSize(),
+                executor.getActiveCount(),
+                executor.getCompletedTaskCount(),
+                executor.getTaskCount()));
+		
 		
 	}
 

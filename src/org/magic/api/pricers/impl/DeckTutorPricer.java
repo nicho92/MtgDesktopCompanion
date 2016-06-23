@@ -55,7 +55,8 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+			
+		} 
 	}
 	
 	private String getMD5(String chaine) throws NoSuchAlgorithmException
@@ -75,7 +76,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		
 		return hexString.toString();
 	}
-	
 	
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {

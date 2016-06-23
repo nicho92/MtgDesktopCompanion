@@ -96,6 +96,8 @@ public class CollectionPanelGUI extends JPanel {
 	}
 
 	public void initGUI() throws Exception {
+		
+		logger.debug("init collection panel");
 		setLayout(new BorderLayout(0, 0));
 		model = new MagicEditionsTableModel(dao);
 		model.init(provider.searchSetByCriteria(null, null));

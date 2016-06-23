@@ -27,6 +27,8 @@ import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.table.TableRowSorter;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
@@ -54,8 +56,13 @@ public class DashBoardGUI extends JPanel {
 	private EditionsShakerTableModel modEdition;
 	
 	private JComboBox cboEdition;
-  
+	static final Logger logger = LogManager.getLogger(DashBoardGUI.class.getName());
+
+	
 	public DashBoardGUI() {
+		logger.debug("init dashboard panel");
+		
+		
 		setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);

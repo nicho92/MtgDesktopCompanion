@@ -108,6 +108,7 @@ public class DeckBuilderGUI extends JPanel{
 	}
 	
 	public DeckBuilderGUI(MagicCardsProvider provider,MagicDAO dao) {
+		logger.debug("init Deck panel");
 		
 		deck = new MagicDeck();
 		this.provider=provider;

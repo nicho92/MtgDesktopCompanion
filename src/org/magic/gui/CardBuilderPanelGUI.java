@@ -29,6 +29,8 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.CropImagePanel;
@@ -62,10 +64,12 @@ public class CardBuilderPanelGUI extends JPanel {
 	private JComboBox<String> cboColor;
 	private JTextField txtAuthor;
 
+	static final Logger logger = LogManager.getLogger(CardBuilderPanelGUI.class.getName());
 
 	
 	private void init()
 	{
+		logger.debug("init cardsbuilder panel");
 		card = new MagicCard();
 		MagicEdition ed = new MagicEdition();
 		card.getEditions().add(ed);

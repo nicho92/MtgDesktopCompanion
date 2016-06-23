@@ -24,6 +24,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
@@ -46,9 +48,12 @@ public class ShopperGUI extends JPanel {
 	private final JLabel lblPicShopItem = new JLabel("");
     private TableFilterHeader filterHeader;
     private final JCheckBox chkUpdate = new JCheckBox("update ?");
+	static final Logger logger = LogManager.getLogger(ShopperGUI.class.getName());
 
     
 	public ShopperGUI() {
+		
+		logger.debug("init shopper panel");
 		setLayout(new BorderLayout(0, 0));
 		
 		
