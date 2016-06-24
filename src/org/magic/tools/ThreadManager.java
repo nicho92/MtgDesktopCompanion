@@ -74,3 +74,16 @@ class RejectedExecutionHandlerImpl implements RejectedExecutionHandler {
        logger.error(r.toString() + " is rejected");
     }
 }
+
+
+class NamedThreadFactory implements ThreadFactory
+{
+	
+	
+	@Override
+	public Thread newThread(Runnable r) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+}
