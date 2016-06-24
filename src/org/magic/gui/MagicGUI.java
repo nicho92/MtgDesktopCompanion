@@ -731,7 +731,7 @@ public class MagicGUI extends JFrame {
 						}
 					};
 					
-					ThreadManager.getInstance().execute(r);
+					ThreadManager.getInstance().execute(r,"SearchCards");
 				}
 			});
 
@@ -797,7 +797,7 @@ public class MagicGUI extends JFrame {
 									logger.error(e);
 								}
 							}
-						});
+						},"changeEdition");
 				}
 			});
 
@@ -873,7 +873,7 @@ public class MagicGUI extends JFrame {
 							JOptionPane.showMessageDialog(null, "Export PDF Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 
 						}
-					});
+					},"exportPDF");
 
 				}
 			});
@@ -990,7 +990,7 @@ public class MagicGUI extends JFrame {
 				loading(false,"");
 
 			}
-		});
+		},"updatePrices");
 		
 	}
 	public void updateCards() {

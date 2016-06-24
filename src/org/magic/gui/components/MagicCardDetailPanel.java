@@ -563,7 +563,7 @@ public class MagicCardDetailPanel extends JPanel {
 					}
 					
 				}
-			});
+			},"loadThumbnails");
 		}
 	
 		if(magicCard.getEditions().size()>0)

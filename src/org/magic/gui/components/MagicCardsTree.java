@@ -1,14 +1,15 @@
 package org.magic.gui.components;
 
+import java.awt.Graphics;
 import java.util.List;
 
+import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeSelectionModel;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.jdesktop.swingx.JXTree;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
@@ -16,7 +17,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.tools.ThreadManager;
 
-public class MagicCardsTree extends JXTree {
+public class MagicCardsTree extends JTree {
 	
 	DefaultMutableTreeNode nodeSet;
 	private MagicDAO dao;
@@ -84,7 +85,7 @@ public class MagicCardsTree extends JXTree {
 								refresh();
 								expandPath(getPathForRow(0));
 							}
-						});
+						},"CardsTree setModel");
 					}
 				}
 			));

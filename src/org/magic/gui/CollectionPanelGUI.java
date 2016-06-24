@@ -95,6 +95,8 @@ public class CollectionPanelGUI extends JPanel {
 		initGUI();
 	}
 
+	
+	
 	public void initGUI() throws Exception {
 		
 		logger.debug("init collection panel");
@@ -340,7 +342,7 @@ public class CollectionPanelGUI extends JPanel {
 									
 								}
 							}
-					});
+					},"addTreeSelectionListener init graph Collection");
 					selectedcol = (MagicCollection) curr.getUserObject();
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
@@ -372,7 +374,7 @@ public class CollectionPanelGUI extends JPanel {
 									
 								}
 							}
-					});
+					},"addTreeSelectionListener init graph edition");
 				}
 
 				
@@ -395,7 +397,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						}
-					});
+					},"addTreeSelectionListener init graph cards");
 					
 					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
@@ -406,7 +408,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						}
-					});
+					},"addTreeSelectionListener init graph historyDashboard");
 				}
 			}
 		});
@@ -497,7 +499,7 @@ public class CollectionPanelGUI extends JPanel {
 						}
 
 					}
-				});
+				},"btnExportPriceCatalog export Prices");
 			}
 		});
 
@@ -549,7 +551,7 @@ public class CollectionPanelGUI extends JPanel {
 						}
 
 					}
-				});
+				},"btnGenerateWebSite generate website");
 
 			}
 		});
@@ -712,7 +714,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						}
-					});
+					},"btnAdds addCardsCollection");
 
 				}
 			});

@@ -514,7 +514,7 @@ public class DeckBuilderGUI extends JPanel{
 						JOptionPane.showMessageDialog(null, e.getMessage(),"ERREUR",JOptionPane.ERROR_MESSAGE);
 					}
 				}
-			});
+			},"DeckSearchCards");
 		
 		}
 	});
@@ -553,7 +553,7 @@ public class DeckBuilderGUI extends JPanel{
 				
 				
 			}
-		});
+		},"importDeckFromString");
 		
 		
 	}

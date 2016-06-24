@@ -154,7 +154,7 @@ public class MassCollectionImporterDialog extends JDialog{
 						}
 						
 					}
-				});
+				},"btnImport importCards");
 				
 				
 			}

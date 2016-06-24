@@ -112,7 +112,7 @@ public class CardsPicPanel extends JXPanel {
 				repaint();
 				
 			}
-		});
+		},"showPhoto");
 	}
 
 	

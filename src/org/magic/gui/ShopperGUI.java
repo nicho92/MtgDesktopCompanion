@@ -146,7 +146,7 @@ public class ShopperGUI extends JPanel {
 							mod.init(txtSearch.getText());
 							mod.fireTableDataChanged();
 					}
-				});
+				},"updateShopperInfo");
 				
 				
 			}

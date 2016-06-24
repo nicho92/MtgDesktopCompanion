@@ -3,6 +3,8 @@ package org.magic.tools;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionHandler;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -33,10 +35,11 @@ public class ThreadManager {
 		executor=new ThreadPoolExecutor(4, 5, 10, TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(2),threadFactory, new RejectedExecutionHandlerImpl());
 	}
 	
-	public void execute(Runnable task)
+	public void execute(Runnable task,String name)
 	{
+		
 		executor.execute(task);
-		logger.info(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d",
+		logger.info(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d " + name,
                 executor.getPoolSize(),
                 executor.getCorePoolSize(),
                 executor.getActiveCount(),
