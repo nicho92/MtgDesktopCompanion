@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
@@ -44,7 +43,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
-import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -88,7 +86,6 @@ import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicFactory;
 import org.magic.tools.MagicPDFGenerator;
 import org.magic.tools.ThreadManager;
-import org.magic.tools.ThreadMonitor;
 
 import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;
@@ -167,7 +164,6 @@ public class MagicGUI extends JFrame {
     private DeckBuilderGUI deckBuilderGUI;
 	private CardBuilderPanelGUI panneauBuilder;
 	private CollectionPanelGUI collectionPanelGUI;
-   
 	private JXTable tableCards;
 	private JXTable tablePrice;
     private DefaultRowSorter sorterCards ;
@@ -303,6 +299,15 @@ public class MagicGUI extends JFrame {
 		
 		
 		mntmAboutMagicDesktop = new JMenuItem("About Magic Desktop Companion");
+		mntmAboutMagicDesktop.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				new AboutDialog().setVisible(true);
+				
+			}
+		});
+		
 		mnuAbout.add(mntmAboutMagicDesktop);
 		
 		mntmReportBug = new JMenuItem("Report Bug");
@@ -640,8 +645,8 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI(), null);
 		tabbedPane.addTab("Shopping", new ImageIcon(MagicGUI.class.getResource("/res/shop.gif")), new ShopperGUI(), null);
 		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), panneauBuilder, null);
+		tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), new RssGUI(), null);
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
-
 		
 		panneauBas = new JPanel();
 		JLabel lab = new JLabel();

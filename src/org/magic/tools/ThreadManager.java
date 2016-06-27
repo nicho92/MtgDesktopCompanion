@@ -78,12 +78,13 @@ class RejectedExecutionHandlerImpl implements RejectedExecutionHandler {
 
 class NamedThreadFactory implements ThreadFactory
 {
-	
-	
+	String name;
+	public NamedThreadFactory(String name) {
+		this.name=name;
+	}
 	@Override
 	public Thread newThread(Runnable r) {
-		// TODO Auto-generated method stub
-		return null;
+		return new Thread(r,name);
 	}
 	
 }
