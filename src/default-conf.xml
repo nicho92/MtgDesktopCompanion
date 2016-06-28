@@ -74,4 +74,52 @@
 			<enable>true</enable>
 		</dashboard>
 	</dashboards>
+	<rss>
+		<flux>
+			<category>Spoil</category>
+			<name>Magic Spoiler</name>
+			<url>http://www.magicspoiler.com/feed/</url>
+		</flux>
+		<flux>
+			<category>Spoil</category>
+			<name>MTGSalvation</name>
+			<url>http://www.mtgsalvation.com/spoilers.rss</url>
+		</flux>
+		<flux>
+			<category>News En</category>
+			<name>Channel Fireball</name>
+			<url>http://www.channelfireball.com/feed/</url>
+		</flux>
+		<flux>
+			<category>News En</category>
+			<name>Daily MTG</name>
+			<url>http://magic.wizards.com/rss/rss.xml</url>
+		</flux>
+		<flux>
+			<category>News En</category>
+			<name>MTGSalvation</name>
+			<url>http://www.mtgsalvation.com/articles.rss</url>
+		</flux>
+		<flux>
+			<category>News FR</category>
+			<name>MagicTrade</name>
+			<url>https://magictrade.org/articles/infos-rumeurs/feed/</url>
+		</flux>
+		<flux>
+			<category>News FR</category>
+			<name>MagicCorporation</name>
+			<url>http://www.magiccorporation.com/gathering-news-last-rss.html</url>
+		</flux>
+		<flux>
+			<category>News FR</category>
+			<name>SMFCorp</name>
+			<url>http://www.smfcorp.net/rss/dataRSS.php?listId=1</url>
+		</flux>
+		<flux>
+			<category>Tradding</category>
+			<name>MTGGoldFish</name>
+			<url>http://www.mtggoldfish.com/feed.rss</url>
+		</flux>
+	</rss>
+	
 </conf>

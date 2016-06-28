@@ -315,9 +315,6 @@ public class CollectionPanelGUI extends JPanel {
 		initPopupCollection();
 
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
-			
-			
-			
 			public void valueChanged(TreeSelectionEvent tse) {
 				path = tse.getPath();
 
