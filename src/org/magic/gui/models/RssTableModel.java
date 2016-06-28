@@ -15,7 +15,7 @@ import com.rometools.rome.io.XmlReader;
 
 public class RssTableModel extends DefaultTableModel{
 
-	private final static String[] COLUMN_NAMES = {"Date","Title"};
+	private final static String[] COLUMN_NAMES = {"Title","Date"};
 	
 	SyndFeedInput input;
 	
@@ -54,8 +54,8 @@ public class RssTableModel extends DefaultTableModel{
 	@Override
 	public Object getValueAt(int row, int column) {
 		switch(column){
-			case 0 : return feed.getEntries().get(row).getUpdatedDate();
-			case 1 : return feed.getEntries().get(row).getTitle();
+			case 0 : return feed.getEntries().get(row).getTitle();
+			case 1 : return feed.getEntries().get(row).getPublishedDate();
 			default : return "";
 		}
 	}
