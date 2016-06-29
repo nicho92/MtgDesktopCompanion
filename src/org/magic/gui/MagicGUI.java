@@ -17,6 +17,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.URL;
@@ -58,6 +59,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
@@ -786,6 +788,13 @@ public class MagicGUI extends JFrame {
 						selectedEdition = listEdition.getSelectedValue();
 						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);
+						
+						try {
+							logger.debug("LOADING ED " + BeanUtils.describe(selectedEdition));
+						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
+							// TODO Auto-generated catch block
+							e1.printStackTrace();
+						}
 						
 						ThreadManager.getInstance().execute(new Runnable() {
 							public void run() {

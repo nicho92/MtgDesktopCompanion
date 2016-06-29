@@ -385,14 +385,15 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			   codeEd=currentSet.get(indexSet++);
 	 			   
  			   MagicEdition me = getSetById(codeEd);
-	 			me.setRarity(String.valueOf(map.get("rarity")));
-	 			me.setNumber(mc.getNumber());
+	 						me.setRarity(String.valueOf(map.get("rarity")));
+ 							me.setNumber(mc.getNumber());
+	 			
 	 			if(mc.getMultiverseid()==null)
 	 			   	me.setMultiverse_id(String.valueOf(0));
 	 			else
 	 			   	me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
 	 			
-	 			   mc.getEditions().add(me);
+	 			mc.getEditions().add(me);
 	 			
 	 			   
 	 			  /*get other sets*/
@@ -582,6 +583,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		String jsquery="$."+edCode+".cards[?(@.name=~ /^.*"+mc.getName()+".*$/i)]";
 		logger.debug("initOtherEditionVars" + jsquery);
+		
 		List<Map<String,Object>> cardsElement = null;
 		try{
 			cardsElement = ctx.read(jsquery,List.class);
@@ -599,7 +601,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					me.setRarity(String.valueOf(map.get("rarity")));
 				} catch (Exception e) {
 					logger.error("initOtherEditionCardsVar rarity not found");
-					me.setRarity("");
+					me.setRarity(mc.getRarity());
 				}
 				
 				try {
@@ -617,6 +619,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				}catch(Exception e)
 				{
 					logger.debug("multiverseNotFound " + e);
+					me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
 				}
 			}
 	}

@@ -38,7 +38,20 @@ public class MagicCard implements Serializable {
 		private String layout;
 		private Integer multiverseid;
 		private List<MagicFormat> legalities;
+		private String rarity;
 		
+		
+		
+		public String getRarity() {
+			return rarity;
+		}
+
+
+		public void setRarity(String rarity) {
+			this.rarity = rarity;
+		}
+
+
 		public MagicCard() {
 			editions=new ArrayList<MagicEdition>();
 			types = new ArrayList<String>();
