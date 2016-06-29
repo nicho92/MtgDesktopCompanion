@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -21,6 +22,7 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -383,28 +385,29 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			   codeEd=currentSet.get(indexSet++);
 	 			   
  			   MagicEdition me = getSetById(codeEd);
-	 			    me.setRarity(String.valueOf(map.get("rarity")));
-	 			    me.setNumber(mc.getNumber());
-	 			    if(mc.getMultiverseid()==null)
-	 			    	me.setMultiverse_id(String.valueOf(0));
-	 			    else
-	 			    	me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
+	 			me.setRarity(String.valueOf(map.get("rarity")));
+	 			me.setNumber(mc.getNumber());
+	 			if(mc.getMultiverseid()==null)
+	 			   	me.setMultiverse_id(String.valueOf(0));
+	 			else
+	 			   	me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
 	 			
-	 			    mc.getEditions().add(me);
-	 					
-					/*get other sets*/
-	 			    
+	 			   mc.getEditions().add(me);
+	 			
+	 			   
+	 			  /*get other sets*/
 	 			   if(!me.getRarity().equals("Basic Land"))//too much elements, so, remove all re-printings information
 	 			   {   
 	 				   if(map.get("printings")!=null)
 	 				   for(String print : (List<String>)map.get("printings"))
 		 			   {
-		 				   if(!print.equalsIgnoreCase(codeEd)){
+		 				   if(!print.equalsIgnoreCase(codeEd))
+		 				   {
 		 					  MagicEdition meO = getSetById(print);
-			 			    if(mc.getMultiverseid()==null)
+			 			      if(mc.getMultiverseid()==null)
 			 			    	meO.setMultiverse_id(String.valueOf(0));
-			 			    else
-			 			    	initEditionVars(mc, meO);
+		 					  else
+			 			    	initOtherEditionCardsVar(mc, meO);
 			 			    
 			 			    mc.getEditions().add(meO); 
 		 				   }
@@ -439,6 +442,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			   }
 	 		   }
 	 		  list.add(mc);
+	 		  
 		}
 		currentSet.clear();
 		
@@ -491,13 +495,18 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MagicEdition getSetById(String id)  {
-		MagicEdition me = new MagicEdition();
+				MagicEdition me = new MagicEdition();
 		
 					me.setId(id);
 					me.setSet(ctx.read("$."+id+".name",String.class));
 					me.setReleaseDate(ctx.read("$."+id+".releaseDate",String.class));
 					me.setBorder(ctx.read("$."+id+".border",String.class));
 					me.setType(ctx.read("$."+id+".type",String.class));
+					
+					try{
+						me.setRarity(ctx.read("$."+id+".rarity",String.class));
+					}catch(Exception e)
+					{}
 					
 					if(me.getCardCount()==0)
 						me.setCardCount(ctx.read("$."+id+".cards", List.class).size());//long !
@@ -558,23 +567,46 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		return new String[]{"English","Chinese Simplified","Chinese Traditional","French","German","Italian","Japanese","Korean","Portugese","Russian","Spanish"};
 	}
 
-	private void initEditionVars(MagicCard mc,MagicEdition me)
+	
+	
+	private void initOtherEditionCardsVar(MagicCard mc,MagicEdition me)
 	{
-		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.name=~ /^.*"+mc.getName()+".*$/i)]";
+		String edCode=me.getId();
+		if(!edCode.startsWith("p"))
+			edCode=edCode.toUpperCase();
 		
-		try {
-			List<Map<String,Object>> cardsElement = ctx.read(jsquery,List.class);
-			
+		String jsquery="$."+edCode+".cards[?(@.name=~ /^.*"+mc.getName()+".*$/i)]";
+		List<Map<String,Object>> cardsElement = null;
+		try{
+			cardsElement = ctx.read(jsquery,List.class);
+		}catch(Exception e)
+		{
+			logger.error(e);
+		}
+		
+		if(cardsElement!=null)
 			for(Map<String,Object> map : cardsElement)
 			{
-				me.setRarity(String.valueOf(map.get("rarity")));
-				me.setNumber(String.valueOf(map.get("number")));
-				 if(map.get("multiverseid")!=null)
+				try {
+					me.setRarity(String.valueOf(map.get("rarity")));
+				} catch (Exception e) {
+					logger.error("initOtherEditionCardsVar rarity not found");
+					me.setRarity("");
+				}
+				
+				try {
+					me.setNumber(String.valueOf(map.get("number")));
+				}
+				catch(Exception e)
+				{
+					logger.error("initOtherEditionCardsVar number not found");
+					me.setNumber(mc.getNumber());
+				}
+				
+				
+				if(map.get("multiverseid")!=null)
 		 			   me.setMultiverse_id(String.valueOf((int)(double)map.get("multiverseid")));
 			}
-		} catch (Exception e) {
-			//e.printStackTrace();
-		}
 	}
 	
 	public List<MagicCard> openBooster(MagicEdition me) {
@@ -597,7 +629,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 						  
 						  MagicEdition edition = new MagicEdition();  
 						   		edition.setId(me.getId());
-						   		initEditionVars(mc, edition);
+						   		initOtherEditionCardsVar(mc, edition);
 						   		
 						  mc.getEditions().add(edition);
 						  
@@ -616,7 +648,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				 			   mc.setMultiverseid((int)(double)map.get("multiverseid"));
 						   MagicEdition edition = new MagicEdition();  
 					   		edition.setId(me.getId());
-					   		initEditionVars(mc, edition);
+					   		initOtherEditionCardsVar(mc, edition);
 					   		
 					  mc.getEditions().add(edition);
 						   
@@ -637,7 +669,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 						   
 						   MagicEdition edition = new MagicEdition();  
 					   		edition.setId(me.getId());
-					   		initEditionVars(mc, edition);
+					   		initOtherEditionCardsVar(mc, edition);
 					   		
 					  mc.getEditions().add(edition);
 						   
@@ -658,16 +690,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws Exception {
 		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.number == '"+num+"')]";
 		logger.debug("search " +jsquery);
-		
-//		List<Map<String,Object>> cardsElement = ctx.read(jsquery,List.class);
-//		Map<String,Object> map;
-//		String id = "";
-//		
-//		if(cardsElement.size()>0)
-//		{
-//			map=cardsElement.get(0);
-//			id = map.get("id").toString();
-//		}
 			try{
 					MagicCard mc = search(jsquery, "number", num).get(0);//getCardById(id);
 					  //me.setNumber(String.valueOf(parseId-1));

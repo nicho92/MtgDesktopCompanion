@@ -1,7 +1,6 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
@@ -11,12 +10,12 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -38,15 +37,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.DeckDetailsPanel;
@@ -59,6 +57,8 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.DeckModel;
+import org.magic.gui.renderer.MagicEditionEditor;
+import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.MagicExporter;
 import org.magic.tools.MagicSerializer;
@@ -94,9 +94,6 @@ public class DeckBuilderGUI extends JPanel{
 	public static final int MAIN=0;
 	public static final int SIDE=1;
 	
-	private int type=0;
-	
-	
 	static final Logger logger = LogManager.getLogger(DeckBuilderGUI.class.getName());
 
 	File deckDirectory = new File(System.getProperty("user.home")+"/magicDeskCompanion/decks");
@@ -119,7 +116,6 @@ public class DeckBuilderGUI extends JPanel{
 
 	public void setType(int side)
 	{
-		this.type=side;
 	}
 	
 	public void setDeck(MagicDeck deck)
@@ -202,6 +198,7 @@ public class DeckBuilderGUI extends JPanel{
 				}
 				catch(Exception ex)
 				{
+					ex.printStackTrace();
 					JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -296,6 +293,8 @@ public class DeckBuilderGUI extends JPanel{
 		tableDeck.setRowHeight(ManaPanel.row_height);
 		tableDeck.setRowSorter(sorterCards);
 		
+		
+		
 		JScrollPane scrollSideboard = new JScrollPane();
 		tabbedDeck_side.addTab("SideBoard", null, scrollSideboard, null);
 		
@@ -347,7 +346,7 @@ public class DeckBuilderGUI extends JPanel{
 		      }
 		    });
 		
-		tableDeck.getDefaultEditor(Object.class).addCellEditorListener(new CellEditorListener() {
+		tableDeck.getDefaultEditor(String.class).addCellEditorListener(new CellEditorListener() {
 			
 			@Override
 			public void editingStopped(ChangeEvent e) {
@@ -361,6 +360,9 @@ public class DeckBuilderGUI extends JPanel{
 				
 			}
 		});
+		
+		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
+		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionEditor());
 		
 		JPanel panelInfoDeck = new JPanel();
 		tabbedPane.addTab("Info", null, panelInfoDeck, null);

@@ -2,8 +2,12 @@ package org.magic.gui.models;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
+
+import com.itextpdf.text.List;
 
 public class DeckModel extends DefaultTableModel {
 
@@ -13,6 +17,16 @@ public class DeckModel extends DefaultTableModel {
 	public static enum TYPE { DECK,SIDE };
 	
 	private TYPE t;
+	
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		
+		if(columnIndex==3)
+			return List.class;
+		
+		return super.getColumnClass(columnIndex);
+	}
 	
 	public DeckModel(TYPE t) {
 		this.t=t;
@@ -118,15 +132,26 @@ public class DeckModel extends DefaultTableModel {
 	
 	public void setValueAt(Object aValue, int row, int column) {
 		
-		if(column==4)
-		if(Integer.valueOf(aValue.toString())==0)
+		if(column==3)
 		{
-			deck.getMap().remove(deck.getValueAt(row));
+			MagicEdition ed = (MagicEdition)aValue;
+			
+			
+			
+			deck.getValueAt(row).getEditions().remove(ed);
+			deck.getValueAt(row).getEditions().add(0, (MagicEdition)aValue);
 		}
-		else
-		{	
-			deck.getMap().put(deck.getValueAt(row),Integer.valueOf(aValue.toString()));
-		}
+		
+		
+		if(column==4)
+			if(Integer.valueOf(aValue.toString())==0)
+			{
+				deck.getMap().remove(deck.getValueAt(row));
+			}
+			else
+			{	
+				deck.getMap().put(deck.getValueAt(row),Integer.valueOf(aValue.toString()));
+			}
 	}
 	
 	
