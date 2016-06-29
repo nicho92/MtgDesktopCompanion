@@ -69,6 +69,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 		props.put("CRYPT", "HMAC-SHA1");
 		props.put("REF_PRICE", "LOW");
 		props.put("MAX", "5");
+		props.put("COMMONCHECK", "false");
 		save();
     	}
     	
@@ -92,6 +93,20 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     	lists = new ArrayList<MagicPrice>();
     	_lastCode = 0;
         _lastContent = "";
+        
+        
+        if(props.getProperty("COMMONCHECK").equals("false") && me.getRarity().equalsIgnoreCase("Common"))
+        {
+        	MagicPrice mp = new MagicPrice();
+        	mp.setCurrency("EUR");
+        	mp.setValue(0.10);
+        	mp.setSite(getName());
+        	mp.setSeller("Not checked common");
+        	
+        	lists.add(mp);
+        	return lists;
+        }
+        
     
         String url = props.getProperty("URL");
 		   url = url.replaceAll("%GAME%", props.get("GAME_ID").toString());

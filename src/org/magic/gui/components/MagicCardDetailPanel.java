@@ -456,10 +456,10 @@ public class MagicCardDetailPanel extends JPanel {
 		}
 	}
 	
-	public JLabel getNumberInSetLabel()
-	{
-		return lblnumberInSet;
-	}
+//	public JLabel getNumberInSetLabel()
+//	{
+//		return lblnumberInSet;
+//	}
 	
 	public void setMagicLogo(String set,String rarity) {
 			try {
@@ -573,7 +573,7 @@ public class MagicCardDetailPanel extends JPanel {
 			ThreadManager.getInstance().execute(new Runnable() {
 				public void run() {
 						setMagicLogo(magicCard.getEditions().get(0).getId(),magicCard.getEditions().get(0).getRarity());
-						getNumberInSetLabel().setText(magicCard.getNumber()+"/"+magicCard.getEditions().get(0).getCardCount());
+						lblnumberInSet.setText(magicCard.getEditions().get(0).getNumber()+"/"+magicCard.getEditions().get(0).getCardCount());
 				}
 			},"loadLogo");
 		}
