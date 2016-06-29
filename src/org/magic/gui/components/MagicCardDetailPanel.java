@@ -564,18 +564,18 @@ public class MagicCardDetailPanel extends JPanel {
 					}
 					
 				}
-			},"loadThumbnails");
+			},"loadThumbnail");
 		}
 	
 		if(magicCard.getEditions().size()>0)
 		{ 
 			
-			new Thread(new Runnable() {
+			ThreadManager.getInstance().execute(new Runnable() {
 				public void run() {
 						setMagicLogo(magicCard.getEditions().get(0).getId(),magicCard.getEditions().get(0).getRarity());
 						getNumberInSetLabel().setText(magicCard.getNumber()+"/"+magicCard.getEditions().get(0).getCardCount());
 				}
-			}).start();
+			},"loadLogo");
 		}
 		
 

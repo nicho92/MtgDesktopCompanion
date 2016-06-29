@@ -407,8 +407,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		 					  MagicEdition meO = getSetById(print);
 			 			      if(mc.getMultiverseid()==null)
 			 			    	meO.setMultiverse_id(String.valueOf(0));
-		 					  else
-			 			    	initOtherEditionCardsVar(mc, meO);
+		 				  	
+			 			      initOtherEditionCardsVar(mc, meO);
 			 			    
 			 			    mc.getEditions().add(meO); 
 		 				   }
@@ -504,15 +504,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					me.setBorder(ctx.read("$."+id+".border",String.class));
 					me.setType(ctx.read("$."+id+".type",String.class));
 					
-					/*try
-					{
-						me.setRarity(ctx.read("$."+id+".rarity",String.class));
-					}
-					catch(Exception e)
-					{
-						logger.error(id + " rarity not found " + e); 
-					}*/
-					
 					if(me.getCardCount()==0)
 						me.setCardCount(ctx.read("$."+id+".cards", List.class).size());//long !
 					
@@ -545,7 +536,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					}
 					catch(PathNotFoundException e)
 					{}
-	
 		return me;
 		
 	}
