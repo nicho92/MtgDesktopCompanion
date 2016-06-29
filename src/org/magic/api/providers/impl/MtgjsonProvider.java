@@ -503,10 +503,14 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					me.setBorder(ctx.read("$."+id+".border",String.class));
 					me.setType(ctx.read("$."+id+".type",String.class));
 					
-					try{
+					/*try
+					{
 						me.setRarity(ctx.read("$."+id+".rarity",String.class));
-					}catch(Exception e)
-					{}
+					}
+					catch(Exception e)
+					{
+						logger.error(id + " rarity not found " + e); 
+					}*/
 					
 					if(me.getCardCount()==0)
 						me.setCardCount(ctx.read("$."+id+".cards", List.class).size());//long !
@@ -568,21 +572,25 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 
 	
-	
+	//TODO : reforge this function
 	private void initOtherEditionCardsVar(MagicCard mc,MagicEdition me)
 	{
 		String edCode=me.getId();
+		
 		if(!edCode.startsWith("p"))
 			edCode=edCode.toUpperCase();
 		
 		String jsquery="$."+edCode+".cards[?(@.name=~ /^.*"+mc.getName()+".*$/i)]";
+		logger.debug("initOtherEditionVars" + jsquery);
 		List<Map<String,Object>> cardsElement = null;
 		try{
 			cardsElement = ctx.read(jsquery,List.class);
-		}catch(Exception e)
+		}
+		catch(Exception e)
 		{
 			logger.error(e);
 		}
+		
 		
 		if(cardsElement!=null)
 			for(Map<String,Object> map : cardsElement)
@@ -604,8 +612,12 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				}
 				
 				
-				if(map.get("multiverseid")!=null)
+				try {
 		 			   me.setMultiverse_id(String.valueOf((int)(double)map.get("multiverseid")));
+				}catch(Exception e)
+				{
+					logger.debug("multiverseNotFound " + e);
+				}
 			}
 	}
 	
