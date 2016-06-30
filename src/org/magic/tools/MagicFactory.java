@@ -64,6 +64,9 @@ public class MagicFactory {
 			}else if (k instanceof DashBoard) {
 				path = "dashboards/dashboard[class='"+k.getClass().getName()+"']/enable";
 			}
+			else if (k instanceof RSSBean) {
+				path = "rss";
+			}
 			else{
 				path=k.toString();
 			}

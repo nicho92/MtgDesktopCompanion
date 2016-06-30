@@ -346,6 +346,13 @@ public class DeckBuilderGUI extends JPanel{
 		      }
 		    });
 		
+		tableSide.getModel().addTableModelListener(new TableModelListener() {
+		      public void tableChanged(TableModelEvent e) {
+		    	  updatePanels();
+		      }
+		    });
+		
+		
 		tableDeck.getDefaultEditor(String.class).addCellEditorListener(new CellEditorListener() {
 			
 			@Override
@@ -363,6 +370,10 @@ public class DeckBuilderGUI extends JPanel{
 		
 		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
 		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionEditor());
+		
+		tableSide.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
+		tableSide.getColumnModel().getColumn(3).setCellEditor(new MagicEditionEditor());
+		
 		
 		JPanel panelInfoDeck = new JPanel();
 		tabbedPane.addTab("Info", null, panelInfoDeck, null);

@@ -131,26 +131,38 @@ public class DeckModel extends DefaultTableModel {
 	
 	
 	public void setValueAt(Object aValue, int row, int column) {
+	
+		MagicCard mc = (this.t == TYPE.DECK )  ? deck.getValueAt(row): deck.getSideValueAt(row);
 		
 		if(column==3)
 		{
 			MagicEdition ed = (MagicEdition)aValue;
-			
-			
-			
-			deck.getValueAt(row).getEditions().remove(ed);
-			deck.getValueAt(row).getEditions().add(0, (MagicEdition)aValue);
+			mc.getEditions().remove(ed);
+			mc.getEditions().add(0, (MagicEdition)aValue);
 		}
-		
 		
 		if(column==4)
 			if(Integer.valueOf(aValue.toString())==0)
 			{
-				deck.getMap().remove(deck.getValueAt(row));
+				if(t==TYPE.DECK)
+				{
+					deck.getMap().remove(deck.getValueAt(row));
+				}
+				else
+				{
+					deck.getMapSideBoard().remove(deck.getValueAt(row));
+				}
 			}
 			else
 			{	
-				deck.getMap().put(deck.getValueAt(row),Integer.valueOf(aValue.toString()));
+				if(t==TYPE.DECK)
+				{	
+					deck.getMap().put(deck.getValueAt(row),Integer.valueOf(aValue.toString()));
+				}
+				else
+				{
+					deck.getMapSideBoard().put(deck.getSideValueAt(row),Integer.valueOf(aValue.toString()));
+				}
 			}
 	}
 	

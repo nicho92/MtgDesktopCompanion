@@ -132,8 +132,6 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
         	{
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
         		MagicFactory.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
-        		
-        		
         	}
         }
         if(node instanceof Entry )

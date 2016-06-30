@@ -13,7 +13,7 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
-public class RssTableModel extends DefaultTableModel{
+public class RssContentTableModel extends DefaultTableModel{
 
 	private final static String[] COLUMN_NAMES = {"Title","Date"};
 	
@@ -21,7 +21,7 @@ public class RssTableModel extends DefaultTableModel{
 	
 	SyndFeed feed;
 	
-	public RssTableModel() {
+	public RssContentTableModel() {
 		input = new SyndFeedInput();
 	}
 	

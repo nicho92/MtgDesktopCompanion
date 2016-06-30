@@ -102,7 +102,10 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 
 	@Override
 	public boolean equals(Object obj) {
-		return getId().equals(((MagicEdition)obj).getId());
+		if(obj!=null)
+			return getId().equals(((MagicEdition)obj).getId());
+		return
+				false;
 	}
 	
 	public String getId()

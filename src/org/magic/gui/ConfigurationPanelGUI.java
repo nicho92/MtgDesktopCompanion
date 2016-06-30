@@ -9,6 +9,7 @@ import javax.swing.JTable;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
+import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.MagicDAO;
@@ -19,7 +20,12 @@ import org.magic.gui.models.MagicDAOProvidersTableModel;
 import org.magic.gui.models.MagicPricesProvidersTableModel;
 import org.magic.gui.models.MagicShoppersTableModel;
 import org.magic.gui.models.ProvidersTableModel;
+import org.magic.gui.models.RssBeanTableModel;
 import org.magic.gui.models.SystemTableModel;
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable table;
@@ -28,6 +34,8 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable daoProviderTable;
 	private JXTreeTable shopperTreeTable;
 	private JXTreeTable dashboardTreeTable;
+	private JXTable rssTable;
+	
 	
 	public ConfigurationPanelGUI() {
 		
@@ -111,6 +119,36 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		});
 		dashboardScrollPane.setViewportView(dashboardTreeTable);
+		
+		JPanel panel = new JPanel();
+		subTabbedProviders.addTab("RSS", null, panel, null);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane rssScrollPane = new JScrollPane();
+		panel.add(rssScrollPane);
+		
+		rssTable = new JXTable(new RssBeanTableModel());
+		rssScrollPane.setViewportView(rssTable);
+		
+		JPanel panneauhaut = new JPanel();
+		panel.add(panneauhaut, BorderLayout.NORTH);
+		
+		JButton btnNew = new JButton("");
+		btnNew.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+			}
+		});
+		btnNew.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/res/new.png")));
+		panneauhaut.add(btnNew);
+		
+		JButton btnDelete = new JButton("");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		btnDelete.setEnabled(false);
+		btnDelete.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/res/delete.png")));
+		panneauhaut.add(btnDelete);
 		
 		
 		

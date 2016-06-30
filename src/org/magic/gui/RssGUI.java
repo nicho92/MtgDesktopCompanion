@@ -22,7 +22,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.magic.api.beans.RSSBean;
-import org.magic.gui.models.RssTableModel;
+import org.magic.gui.models.RssContentTableModel;
 import org.magic.tools.MagicFactory;
 
 import com.rometools.rome.feed.synd.SyndEntry;
@@ -33,7 +33,7 @@ import java.awt.event.MouseEvent;
 
 public class RssGUI extends JPanel {
 	private JTable table;
-	private RssTableModel model;
+	private RssContentTableModel model;
 	private JEditorPane editorPane;
 	
 	
@@ -41,7 +41,7 @@ public class RssGUI extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollTable = new JScrollPane();
-		model = new RssTableModel();
+		model = new RssContentTableModel();
 		table = new JTable(model);
 		
 		scrollTable.setViewportView(table);
