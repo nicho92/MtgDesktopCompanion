@@ -571,7 +571,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		if(!edCode.startsWith("p"))
 			edCode=edCode.toUpperCase();
 		
-		String jsquery="$."+edCode+".cards[?(@.name=~ /^.*"+mc.getName()+".*$/i)]";
+		String jsquery="$."+edCode+".cards[?(@.name=='"+mc.getName()+"')]";
 		logger.debug("initOtherEditionVars" + jsquery);
 		
 		List<Map<String,Object>> cardsElement = null;
@@ -590,7 +590,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				try {
 					me.setRarity(String.valueOf(map.get("rarity")));
 				} catch (Exception e) {
-					logger.error("initOtherEditionCardsVar rarity not found");
 					me.setRarity(mc.getRarity());
 				}
 				
