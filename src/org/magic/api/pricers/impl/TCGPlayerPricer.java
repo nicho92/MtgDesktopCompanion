@@ -87,7 +87,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 					
 			   doc.getDocumentElement().normalize();
 			   
-			   
+			   logger.debug(doc);
 			   
 			   NodeList nodes = doc.getElementsByTagName("product");
 			   
