@@ -13,7 +13,6 @@ public class Player {
 
 	private int life;
 	private String name;
-	
 	private MagicDeck deck;
 	private List<MagicCard> graveyard;
 	private List<MagicCard> exil;
