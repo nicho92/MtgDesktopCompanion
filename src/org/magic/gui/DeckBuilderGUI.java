@@ -60,9 +60,10 @@ import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.tools.MagicExporter;
-import org.magic.tools.MagicSerializer;
-import org.magic.tools.ThreadManager;
+import org.magic.services.exports.MagicExporter;
+import org.magic.services.exports.MagicSerializer;
+import org.magic.services.games.Player;
+import org.magic.services.threads.ThreadManager;
 
 public class DeckBuilderGUI extends JPanel{
 	
@@ -73,7 +74,7 @@ public class DeckBuilderGUI extends JPanel{
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel; 
 	private MagicCardDetailPanel magicCardDetailPanel;
-	
+	private Player p ;
 	private JTextField txtSearch;
 	private JComboBox<String> cboAttributs;
 
@@ -114,16 +115,14 @@ public class DeckBuilderGUI extends JPanel{
 
 	}
 
-	public void setType(int side)
-	{
-	}
+	
 	
 	public void setDeck(MagicDeck deck)
 	{
 		this.deck=deck;
 		deckDetailsPanel.setMagicDeck(deck);
 		deckmodel.init(deck);
-		
+		p=new Player(deck);
 		
 	}
 	
@@ -167,6 +166,7 @@ public class DeckBuilderGUI extends JPanel{
 				deckmodel.fireTableDataChanged();
 				deckSidemodel.load(newDeck);
 				deckSidemodel.fireTableDataChanged();
+				
 				//updatePanels();
 			}
 		});
@@ -192,6 +192,7 @@ public class DeckBuilderGUI extends JPanel{
 					deckSidemodel.load(deck);
 					deckmodel.fireTableDataChanged();
 					deckSidemodel.fireTableDataChanged();
+					p=new Player(deck);
 					updatePanels();
 	
 					
@@ -411,24 +412,23 @@ public class DeckBuilderGUI extends JPanel{
 		tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
 		tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
 		tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
-		tabbedPane.addTab("Random Hand", null, randomHandPanel, null);
+		tabbedPane.addTab("Try a game", null, randomHandPanel, null);
 	
 		
 		
 		btnDrawHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				List<MagicCard> d = deck.getAsList();
-				Collections.shuffle(d);
-			    thumbnailPanel.initThumbnails(d.subList(0, 7));
+				p.mixHandAndLibrary();
+				p.shuffleLibrary();
+				p.drawCard(7);
+			    thumbnailPanel.initThumbnails(p.getHand());
 			}
 		});
 		
 		btnDrawCard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				List<MagicCard> d = deck.getAsList();
-				Collections.shuffle(d);
-			    thumbnailPanel.initThumbnails(d.subList(0, 1));
+				p.drawCard(1);
+			    thumbnailPanel.initThumbnails(p.getHand());
 			}
 		});
 		

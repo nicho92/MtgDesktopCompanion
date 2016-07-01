@@ -40,8 +40,8 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
-import org.magic.tools.MagicFactory;
-import org.magic.tools.ThreadManager;
+import org.magic.services.MagicFactory;
+import org.magic.services.threads.ThreadManager;
 
 public class MagicCardDetailPanel extends JPanel {
 

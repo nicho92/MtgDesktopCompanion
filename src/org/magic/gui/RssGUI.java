@@ -23,7 +23,7 @@ import javax.swing.tree.TreePath;
 
 import org.magic.api.beans.RSSBean;
 import org.magic.gui.models.RssContentTableModel;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;

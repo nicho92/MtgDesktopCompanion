@@ -12,7 +12,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 public class EditionsShakerTableModel extends DefaultTableModel {
 

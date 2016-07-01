@@ -10,7 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MagicShopper;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 public class MagicShoppersTableModel extends AbstractTreeTableModel {
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};

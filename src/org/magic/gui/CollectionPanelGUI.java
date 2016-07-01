@@ -63,11 +63,11 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
-import org.magic.tools.MagicExporter;
-import org.magic.tools.MagicFactory;
-import org.magic.tools.MagicWebSiteGenerator;
+import org.magic.services.MagicFactory;
+import org.magic.services.exports.MagicExporter;
+import org.magic.services.exports.MagicWebSiteGenerator;
+import org.magic.services.threads.ThreadManager;
 import org.magic.tools.TableColumnAdjuster;
-import org.magic.tools.ThreadManager;
 
 public class CollectionPanelGUI extends JPanel {
 

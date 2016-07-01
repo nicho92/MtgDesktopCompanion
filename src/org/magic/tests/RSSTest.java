@@ -3,7 +3,7 @@ package org.magic.tests;
 import java.io.IOException;
 
 import org.magic.api.beans.RSSBean;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;

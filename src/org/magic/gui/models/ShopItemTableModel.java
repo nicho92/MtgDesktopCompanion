@@ -14,7 +14,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicShopper;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 public class ShopItemTableModel extends DefaultTableModel {
 

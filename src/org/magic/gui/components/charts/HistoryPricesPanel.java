@@ -23,7 +23,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 public class HistoryPricesPanel extends JPanel{
 	

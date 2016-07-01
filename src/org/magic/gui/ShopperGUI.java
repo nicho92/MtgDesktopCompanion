@@ -29,7 +29,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
-import org.magic.tools.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;

@@ -26,7 +26,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.util.PaintUtils;
-import org.magic.tools.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 
 
 

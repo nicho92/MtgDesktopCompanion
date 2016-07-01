@@ -36,8 +36,8 @@ import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
-import org.magic.tools.MagicFactory;
-import org.magic.tools.ThreadManager;
+import org.magic.services.MagicFactory;
+import org.magic.services.threads.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;

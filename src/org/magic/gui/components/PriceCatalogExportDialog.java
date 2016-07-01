@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 public class PriceCatalogExportDialog extends JDialog {
 	private JTextField txtDest;

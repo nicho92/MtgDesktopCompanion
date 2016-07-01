@@ -5,7 +5,7 @@ import java.net.URL;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 public class ProvidersTableModel extends DefaultTableModel {
 	

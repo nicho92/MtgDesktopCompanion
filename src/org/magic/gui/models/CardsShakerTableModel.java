@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 public class CardsShakerTableModel extends DefaultTableModel {
 

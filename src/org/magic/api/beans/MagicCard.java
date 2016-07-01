@@ -39,7 +39,7 @@ public class MagicCard implements Serializable {
 		private Integer multiverseid;
 		private List<MagicFormat> legalities;
 		private String rarity;
-		
+	
 		
 		
 		public String getRarity() {

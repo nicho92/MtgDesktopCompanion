@@ -15,7 +15,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.tools.ThreadManager;
+import org.magic.services.threads.ThreadManager;
 
 public class MagicCardsTree extends JTree {
 	

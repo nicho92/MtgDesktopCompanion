@@ -81,10 +81,17 @@ public class RarityRepartitionPanel extends JPanel{
 
 	private Double count(String string) {
 		double count=0;
-			for(MagicCard mc : cards)
-					if(mc.getEditions().get(0).getRarity().equals(string))
-						count++;
-
+		
+				for(MagicCard mc : cards)
+				{	
+					try{
+						if(mc.getEditions().get(0).getRarity().equals(string))
+							count++;
+						
+					}catch (Exception e) {
+						System.err.println(mc + " "+ e.getMessage());
+					}
+				}
 			
 			return count;
 			

@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services.threads;
 
 import java.util.concurrent.ThreadPoolExecutor;
 

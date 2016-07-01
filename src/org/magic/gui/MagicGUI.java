@@ -84,10 +84,10 @@ import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.tools.MagicExporter;
-import org.magic.tools.MagicFactory;
-import org.magic.tools.MagicPDFGenerator;
-import org.magic.tools.ThreadManager;
+import org.magic.services.MagicFactory;
+import org.magic.services.exports.MagicExporter;
+import org.magic.services.exports.MagicPDFGenerator;
+import org.magic.services.threads.ThreadManager;
 
 import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;

@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.RSSBean;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 public class RssBeanTableModel extends DefaultTableModel{
 

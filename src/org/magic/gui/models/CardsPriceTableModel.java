@@ -14,7 +14,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.tools.MagicFactory;
+import org.magic.services.MagicFactory;
 
 public class CardsPriceTableModel extends DefaultTableModel {
 
