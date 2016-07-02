@@ -1,47 +1,37 @@
 package org.magic.services.games;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.exports.MagicSerializer;
 
 public class GameManager {
 
-	private Player player1;
-	private Player player2;
+	private List<Player> players;
 	
+	private static GameManager instance;
 	
-	
-	public GameManager(Player p1, Player p2) {
-		player1=p1;
-		player2=p2;
+	public static GameManager getInstance()
+	{
+		if(instance==null)
+			instance = new GameManager();
+		
+		return instance;
 	}
 	
 	
+	private GameManager() {
+		
+		players = new ArrayList<Player>();
+	}
 	
-	public Player getPlayer1() {
-		return player1;
+	public void addPlayer(Player player) {
+		
+		players.add(player);
+		
 	}
-
-
-
-	public void setPlayer1(Player player1) {
-		this.player1 = player1;
-	}
-
-
-
-	public Player getPlayer2() {
-		return player2;
-	}
-
-
-
-	public void setPlayer2(Player player2) {
-		this.player2 = player2;
-	}
-
-
 
 	public static void main(String[] args) throws Exception {
 		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Mr Toad's Wild Ride.deck"), MagicDeck.class));

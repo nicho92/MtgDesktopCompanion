@@ -18,6 +18,8 @@ public class Player {
 	private List<MagicCard> exil;
 	private List<MagicCard> library;
 	private List<MagicCard> hand;
+	private BattleField battlefield;
+	private int poisonCounter;
 	
 	private Map<String,Integer> manaPool;
 	
@@ -30,7 +32,7 @@ public class Player {
 		exil=new ArrayList<MagicCard>();
 		hand=new ArrayList<MagicCard>();
 		library=deck.getAsList();
-		
+		battlefield=new BattleField();
 		manaPool = new HashMap<String,Integer>();
 	}
 	
@@ -43,6 +45,32 @@ public class Player {
 		hand=new ArrayList<MagicCard>();
 		library=deck.getAsList();
 		manaPool = new HashMap<String,Integer>();
+	}
+
+	
+	
+	public BattleField getBattlefield() {
+		return battlefield;
+	}
+
+	public void setBattlefield(BattleField battlefield) {
+		this.battlefield = battlefield;
+	}
+
+	public int getPoisonCounter() {
+		return poisonCounter;
+	}
+
+	public void setPoisonCounter(int poisonCounter) {
+		this.poisonCounter = poisonCounter;
+	}
+
+	public Map<String, Integer> getManaPool() {
+		return manaPool;
+	}
+
+	public void setManaPool(Map<String, Integer> manaPool) {
+		this.manaPool = manaPool;
 	}
 
 	public void addMana(String color, int number)
@@ -73,6 +101,16 @@ public class Player {
 			library.remove(i);
 		}
 	}
+	
+	public void discardTopCardFromLibrary(int number)
+	{
+		for(int i=0;i<number;i++)
+		{
+			graveyard.add(library.get(i));
+			library.remove(i);
+		}
+	}
+	
 	
 	public void discardCardFromHand(MagicCard mc)
 	{
