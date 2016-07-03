@@ -10,9 +10,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URLEncoder;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -40,7 +38,6 @@ import javax.swing.event.TableModelListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -56,6 +53,7 @@ import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
+import org.magic.gui.game.GamePanel;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
@@ -68,7 +66,7 @@ import org.magic.services.threads.ThreadManager;
 public class DeckBuilderGUI extends JPanel{
 	
 	private DeckDetailsPanel deckDetailsPanel;
-	private ThumbnailPanel thumbnailPanel;
+	private GamePanel gamePanel;
 	private CmcChartPanel cmcChartPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private TypeRepartitionPanel typeRepartitionPanel;
@@ -111,6 +109,7 @@ public class DeckBuilderGUI extends JPanel{
 		deck = new MagicDeck();
 		this.provider=provider;
 		this.dao=dao;
+		p=new Player(new MagicDeck());
 		initGUI();
 
 	}
@@ -393,10 +392,8 @@ public class DeckBuilderGUI extends JPanel{
 	
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 		
-		thumbnailPanel = new ThumbnailPanel();
-		thumbnailPanel.setThumbnailSize(224, 300);
-		thumbnailPanel.setRupture(4);
-		randomHandPanel.add(thumbnailPanel, BorderLayout.CENTER);
+		gamePanel = new GamePanel(p);
+		randomHandPanel.add(gamePanel, BorderLayout.CENTER);
 		
 		JPanel panneauDraw = new JPanel();
 		randomHandPanel.add(panneauDraw, BorderLayout.NORTH);
@@ -421,14 +418,14 @@ public class DeckBuilderGUI extends JPanel{
 				p.mixHandAndLibrary();
 				p.shuffleLibrary();
 				p.drawCard(7);
-			    thumbnailPanel.initThumbnails(p.getHand());
+			    gamePanel.getThumbnailPanel().initThumbnails(p.getHand());
 			}
 		});
 		
 		btnDrawCard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				p.drawCard(1);
-			    thumbnailPanel.initThumbnails(p.getHand());
+			    gamePanel.getThumbnailPanel().initThumbnails(p.getHand());
 			}
 		});
 		
