@@ -23,7 +23,20 @@ public class GamePanel extends JPanel {
 	private JSpinner spinLife;
 	private JSpinner spinPoison;
 	private ThumbnailPanel thumbnailPanel;
-	public GamePanel(Player p) {
+	
+	private JLabel lblLibraryCountCard;
+	
+	private Player player;
+	
+	public void initPlayer(Player p)
+	{
+		this.player=p;
+		spinLife.setValue(p.getLife());
+		spinPoison.setValue(p.getPoisonCounter());
+		
+	}
+	
+	public GamePanel() {
 		
 		setLayout(new BorderLayout(0, 0));
 		
@@ -41,7 +54,6 @@ public class GamePanel extends JPanel {
 		lifePanel.add(lblLife);
 		
 		spinLife = new JSpinner();
-		spinLife.setValue(p.getLife());
 		lifePanel.add(spinLife);
 		
 		JLabel lblPoison = new JLabel("");
@@ -50,7 +62,6 @@ public class GamePanel extends JPanel {
 		lifePanel.add(lblPoison);
 		
 		spinPoison = new JSpinner();
-		spinPoison.setValue(p.getPoisonCounter());
 		
 		lifePanel.add(spinPoison);
 		
@@ -76,6 +87,9 @@ public class GamePanel extends JPanel {
 		lblLibrary.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				player.drawCard(1);
+				thumbnailPanel.initThumbnails(player.getHand());
+				lblLibraryCountCard.setText(""+player.getLibrary().size());
 			}
 		});
 		
@@ -83,13 +97,12 @@ public class GamePanel extends JPanel {
 		try {
 			lblLibrary.setIcon(new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card")));
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
 		panelDeck.add(lblLibrary);
 		
-		JLabel lblLibraryCountCard = new JLabel("60");
+		lblLibraryCountCard = new JLabel("");
 		lblLibraryCountCard.setHorizontalAlignment(SwingConstants.CENTER);
 		panelDeck.add(lblLibraryCountCard);
 		
@@ -110,5 +123,9 @@ public class GamePanel extends JPanel {
 	}
 	public ThumbnailPanel getThumbnailPanel() {
 		return thumbnailPanel;
+	}
+	
+	public JLabel getLblLibraryCountCard() {
+		return lblLibraryCountCard;
 	}
 }

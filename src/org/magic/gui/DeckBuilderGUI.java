@@ -72,7 +72,6 @@ public class DeckBuilderGUI extends JPanel{
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel; 
 	private MagicCardDetailPanel magicCardDetailPanel;
-	private Player p ;
 	private JTextField txtSearch;
 	private JComboBox<String> cboAttributs;
 
@@ -97,6 +96,7 @@ public class DeckBuilderGUI extends JPanel{
 
 	File deckDirectory = new File(System.getProperty("user.home")+"/magicDeskCompanion/decks");
 	private MagicDAO dao;
+	private Player p;
 	
 	
 	public MagicDeck getDeck() {
@@ -109,7 +109,6 @@ public class DeckBuilderGUI extends JPanel{
 		deck = new MagicDeck();
 		this.provider=provider;
 		this.dao=dao;
-		p=new Player(new MagicDeck());
 		initGUI();
 
 	}
@@ -121,7 +120,8 @@ public class DeckBuilderGUI extends JPanel{
 		this.deck=deck;
 		deckDetailsPanel.setMagicDeck(deck);
 		deckmodel.init(deck);
-		p=new Player(deck);
+		p = new Player(deck);
+		gamePanel.initPlayer(p);
 		
 	}
 	
@@ -191,7 +191,7 @@ public class DeckBuilderGUI extends JPanel{
 					deckSidemodel.load(deck);
 					deckmodel.fireTableDataChanged();
 					deckSidemodel.fireTableDataChanged();
-					p=new Player(deck);
+					setDeck(deck);
 					updatePanels();
 	
 					
@@ -392,7 +392,7 @@ public class DeckBuilderGUI extends JPanel{
 	
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 		
-		gamePanel = new GamePanel(p);
+		gamePanel = new GamePanel();
 		randomHandPanel.add(gamePanel, BorderLayout.CENTER);
 		
 		JPanel panneauDraw = new JPanel();
