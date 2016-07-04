@@ -15,16 +15,21 @@ import java.io.IOException;
 import javax.swing.JPanel;
 
 import org.magic.gui.game.DisplayableCard;
-import org.magic.services.games.Player;
+import org.magic.gui.game.DragDestinationPanel;
 
 public class MagicCardTargetAdapter extends DropTargetAdapter {
 
     private DropTarget dropTarget;
-    private JPanel panel;
+    
+    
+    private DragDestinationPanel destination;
+    private DragDestinationPanel source;
      
-    public MagicCardTargetAdapter(JPanel il) {
-    	panel = il;
-    	dropTarget = new DropTarget(il, DnDConstants.ACTION_MOVE, this, true, null);
+    DisplayableCard dc;
+    public MagicCardTargetAdapter(DragDestinationPanel source, DragDestinationPanel dest) {
+    	destination = dest;
+    	this.source=source;
+    	dropTarget = new DropTarget(destination, DnDConstants.ACTION_MOVE, this, true, null);
     }
 
     
@@ -32,12 +37,12 @@ public class MagicCardTargetAdapter extends DropTargetAdapter {
     
     public void reject()
     {
-    	panel.setCursor(DragSource.DefaultCopyNoDrop);
+    	destination.setCursor(DragSource.DefaultCopyNoDrop);
     }
     
     @Override
     public void dragExit(DropTargetEvent dte) {
-	    panel.setCursor(Cursor.getDefaultCursor());
+	    destination.setCursor(Cursor.getDefaultCursor());
     }
     
     public void dragOver(DropTargetDragEvent event) {
@@ -45,8 +50,8 @@ public class MagicCardTargetAdapter extends DropTargetAdapter {
     	 Transferable tr = event.getTransferable();
     	 try 
     	 {
-			DisplayableCard i = (DisplayableCard)tr.getTransferData(TransferableCard.displayableCardFlavor);
-			i.setBounds((int)event.getLocation().getX(),(int)event.getLocation().getY(),i.getWidth(),i.getHeight());
+			dc = (DisplayableCard)tr.getTransferData(TransferableCard.displayableCardFlavor);
+			dc.setBounds((int)event.getLocation().getX(),(int)event.getLocation().getY(),dc.getWidth(),dc.getHeight());
 		}
 		catch (UnsupportedFlavorException | IOException e) {
 			e.printStackTrace();
@@ -57,16 +62,24 @@ public class MagicCardTargetAdapter extends DropTargetAdapter {
     try {
 
       Transferable tr = event.getTransferable();
-      DisplayableCard i = (DisplayableCard) tr.getTransferData(TransferableCard.displayableCardFlavor);
+      dc = (DisplayableCard) tr.getTransferData(TransferableCard.displayableCardFlavor);
 
         if (event.isDataFlavorSupported(TransferableCard.displayableCardFlavor)) {
 
           event.acceptDrop(DnDConstants.ACTION_MOVE);
-          	i.setBounds((int)event.getLocation().getX(),(int)event.getLocation().getY(),i.getWidth(),i.getHeight());
+          dc.setBounds((int)event.getLocation().getX(),(int)event.getLocation().getY(),dc.getWidth(),dc.getHeight());
+         
+          
+          	System.out.println(dc.getOrigine() + " " + destination.getOrigine());
           	
-            panel.add(i);
-	        panel.revalidate();
-	        panel.repaint();
+          	if(dc.getOrigine()!=destination.getOrigine())
+          		destination.add(dc);
+          	else
+          		 dc.setOrigine(destination.getOrigine());	
+          	
+          	
+	        destination.revalidate();
+	        destination.repaint();
 	         
 	        
           event.dropComplete(true);

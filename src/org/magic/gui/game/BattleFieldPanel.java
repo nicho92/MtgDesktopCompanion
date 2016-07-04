@@ -1,15 +1,14 @@
 package org.magic.gui.game;
 
 import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JPanel;
-
-import org.magic.gui.game.transfert.MagicCardTargetAdapter;
 import org.magic.services.games.PositionEnum;
 
-public class BattleFieldPanel extends JPanel {
+public class BattleFieldPanel extends DragDestinationPanel implements MouseListener{
 
 	private List<DisplayableCard> stack;
 	private DisplayableCard selectedCard;
@@ -17,9 +16,9 @@ public class BattleFieldPanel extends JPanel {
 	
 	public BattleFieldPanel() {
 		setBackground(Color.DARK_GRAY);
-		new MagicCardTargetAdapter(this);
 		setLayout(null);
 		stack=new ArrayList<DisplayableCard>();
+		this.addMouseListener(this);
 	}
 	
 	
@@ -30,6 +29,49 @@ public class BattleFieldPanel extends JPanel {
 		this.add(card);
 	}
 
+
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		
+	}
+
+
+	@Override
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public void mousePressed(MouseEvent e) {
+		System.out.println(e.getPoint());
+		
+	}
+
+
+	@Override
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public PositionEnum getOrigine() {
+		return PositionEnum.BATTLEFIELD;
+	}
+
+	
+	
 
 
 	

@@ -16,6 +16,7 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 
+import org.magic.gui.game.transfert.MagicCardTargetAdapter;
 import org.magic.services.games.Player;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -149,6 +150,9 @@ public class GamePanel extends JPanel {
 		scrollPane.setViewportView(handPanel);
 
 
+		new MagicCardTargetAdapter(handPanel,panelBattleField);
+		
+		
 		
 	}
 	public JSpinner getSpinLife() {

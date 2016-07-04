@@ -7,14 +7,14 @@ import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.services.games.PositionEnum;
 
 
 
-public class ThumbnailPanel extends JPanel {
+public class ThumbnailPanel extends DragDestinationPanel {
 
 	GridBagConstraints c;
 	int index=0;
@@ -116,7 +116,7 @@ public class ThumbnailPanel extends JPanel {
 				{
 					
 					DisplayableCard lab = new DisplayableCard(mc,width,height);
-					  	  
+					  	 lab.setOrigine(getOrigine()); 
 					try {
 						
 						if(mc.getEditions().get(0).getMultiverse_id()=="0")
@@ -142,6 +142,11 @@ public class ThumbnailPanel extends JPanel {
 		t.start();
 		
 		}
+
+	@Override
+	public PositionEnum getOrigine() {
+		return PositionEnum.HAND;
+	}
 
 
 		
