@@ -72,7 +72,6 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.components.MagicCardLabel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.ThumbnailPanel;
@@ -81,6 +80,7 @@ import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
+import org.magic.gui.game.DisplayableCard;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
@@ -150,7 +150,6 @@ public class MagicGUI extends JFrame {
 	private JPanel editionDetailPanel;
 	private JPanel panneauHaut;
 	private JPanel panneauCard = new JPanel();
-	private JPanel panneauBas;
   
 	private JTextArea txtRulesArea;
 	private JTextField txtFilter;
@@ -650,7 +649,6 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), new RssGUI(), null);
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
 		
-		panneauBas = new JPanel();
 		JLabel lab = new JLabel();
 		
 		
@@ -708,7 +706,7 @@ public class MagicGUI extends JFrame {
 						public void run() {
 							loading(true,"searching");
 							try {
-								String searchName=URLEncoder.encode(txtMagicSearch.getText(),"UTF-8");
+								String searchName=txtMagicSearch.getText();
 								
 								if(cboCollections.isVisible())
 									cards = dao.getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
@@ -950,8 +948,8 @@ public class MagicGUI extends JFrame {
 			
 			thumbnailPanel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
-					MagicCardLabel lab = (MagicCardLabel)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
-					selected = lab.getMagicCard();
+					DisplayableCard lab = (DisplayableCard)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
+					selected = lab.getMc();
 					updateCards();
 				}
 				

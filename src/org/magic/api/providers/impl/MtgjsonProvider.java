@@ -8,10 +8,12 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
@@ -217,6 +219,9 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed) throws IOException{
+		
+		crit=URLEncoder.encode(crit,"UTF-8");
+		
 		
 		String jsquery="$..cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
 
@@ -571,7 +576,9 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		if(!edCode.startsWith("p"))
 			edCode=edCode.toUpperCase();
 		
-		String jsquery="$."+edCode+".cards[?(@.name=='"+mc.getName()+"')]";
+		String jsquery="";
+			jsquery = "$."+edCode+".cards[?(@.name=='"+mc.getName()+"')]";
+		
 		logger.debug("initOtherEditionVars" + jsquery);
 		
 		List<Map<String,Object>> cardsElement = null;

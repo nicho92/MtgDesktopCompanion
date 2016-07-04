@@ -1,20 +1,17 @@
 package org.magic.gui.components;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
-import java.awt.Image;
 import java.awt.Insets;
-import java.net.URL;
 import java.util.List;
 
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.gui.game.DisplayableCard;
 
 
 
@@ -25,7 +22,19 @@ public class ThumbnailPanel extends JPanel {
 	int width=112;
 	int height=155;
 	int val=7;
+	boolean dragging=false;
 	
+	
+	
+	
+	public boolean isDragging() {
+		return dragging;
+	}
+
+	public void enableDragging(boolean dragging) {
+		this.dragging = dragging;
+	}
+
 	public void setThumbnailSize(int w,int h)
 	{
 		this.width=w;
@@ -42,7 +51,7 @@ public class ThumbnailPanel extends JPanel {
 		setLayout(new GridBagLayout());
 	}
 	
-	public void addComponent(JLabel i)
+	public void addComponent(DisplayableCard i)
 	{
 		if(index>=val)
 		{
@@ -84,28 +93,20 @@ public class ThumbnailPanel extends JPanel {
 				for(MagicCard mc : cards)
 				{
 					
-					MagicCardLabel lab = new MagicCardLabel(mc.getName());
-					  	   lab.setMagicCard(mc);
-						   lab.setSize(new Dimension(width, height));
+					DisplayableCard lab = new DisplayableCard(mc,width,height);
+					  	   
 						   lab.setHorizontalTextPosition(JLabel.CENTER);
 						   lab.setVerticalTextPosition(JLabel.BOTTOM);
+						   lab.enbableDrag(dragging);
 					try {
 						
 						if(mc.getEditions().get(0).getMultiverse_id()=="0")
 						{
 							lab.setText(mc.getName());
 						}
-						
-						ImageIcon icon = new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+mc.getEditions().get(0).getMultiverse_id()+"&type=card"));
-						Image img = icon.getImage(); 
-						Image newimg = img.getScaledInstance(lab.getWidth(), lab.getHeight(),  java.awt.Image.SCALE_SMOOTH);
-						lab.setIcon( new ImageIcon(newimg));
-						
 						addComponent(lab);
-						
 						revalidate();
-						repaint();
-						
+						//repaint();
 					} catch (Exception e) {
 						lab.setText(mc.getName());
 						lab.setBorder(new LineBorder(Color.BLACK));
