@@ -148,10 +148,6 @@ public class DisplayableCard extends JLabel implements MouseListener, MouseMotio
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		setBorder(new LineBorder(Color.red));
-		
-		System.out.println(magicCard + " " + getOrigine());
-		
-		
 		if(isDraggable())
 			this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
 		
@@ -161,20 +157,18 @@ public class DisplayableCard extends JLabel implements MouseListener, MouseMotio
 	@Override
 	public void mouseExited(MouseEvent arg0) {
 		setBorder(null);
-		
-		
 	}
 
 
 	@Override
 	public void mousePressed(MouseEvent me) {
-		//this.setLocation(me.getPoint());
+		 
 	}
 
 
 	@Override
 	public void mouseReleased(MouseEvent me) {
-		
+		this.setLocation(me.getPoint());
 	}
 
 

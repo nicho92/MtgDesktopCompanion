@@ -46,16 +46,20 @@ public class MagicCardTargetAdapter extends DropTargetAdapter {
     }
     
     public void dragOver(DropTargetDragEvent event) {
-    	
     	 Transferable tr = event.getTransferable();
     	 try 
     	 {
-			dc = (DisplayableCard)tr.getTransferData(TransferableCard.displayableCardFlavor);
-			dc.setBounds((int)event.getLocation().getX(),(int)event.getLocation().getY(),dc.getWidth(),dc.getHeight());
-		}
-		catch (UnsupportedFlavorException | IOException e) {
+			
+    		dc = (DisplayableCard)tr.getTransferData(TransferableCard.displayableCardFlavor);
+			
+			
+			
+			dc.setLocation(event.getLocation());
+			destination.repaint();
+    	 }
+    	 catch (UnsupportedFlavorException | IOException e) {
 			e.printStackTrace();
-		}
+    	 }
     }
     
   public void drop(DropTargetDropEvent event) {
@@ -67,16 +71,14 @@ public class MagicCardTargetAdapter extends DropTargetAdapter {
         if (event.isDataFlavorSupported(TransferableCard.displayableCardFlavor)) {
 
           event.acceptDrop(DnDConstants.ACTION_MOVE);
-          dc.setBounds((int)event.getLocation().getX(),(int)event.getLocation().getY(),dc.getWidth(),dc.getHeight());
-         
-          
-          	System.out.println(dc.getOrigine() + " " + destination.getOrigine());
-          	
-          	if(dc.getOrigine()!=destination.getOrigine())
+          	dc.setBounds((int)event.getLocation().getX(),(int)event.getLocation().getY(),dc.getWidth(),dc.getHeight());
+         	if(dc.getOrigine()!=destination.getOrigine())
+          	{
+          		dc.setOrigine(destination.getOrigine());	
           		destination.add(dc);
-          	else
-          		 dc.setOrigine(destination.getOrigine());	
-          	
+          	}
+
+         	
           	
 	        destination.revalidate();
 	        destination.repaint();
