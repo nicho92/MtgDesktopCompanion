@@ -48,12 +48,12 @@ import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.ManualImportFrame;
-import org.magic.gui.components.ThumbnailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.game.GamePanel;
+import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
@@ -395,39 +395,11 @@ public class DeckBuilderGUI extends JPanel{
 		gamePanel = new GamePanel();
 		randomHandPanel.add(gamePanel, BorderLayout.CENTER);
 		
-		JPanel panneauDraw = new JPanel();
-		randomHandPanel.add(panneauDraw, BorderLayout.NORTH);
-		
-		JButton btnDrawHand = new JButton("Draw a hand");
-		panneauDraw.add(btnDrawHand);
-		
-		JButton btnDrawCard = new JButton("Draw a card");
-		
-		panneauDraw.add(btnDrawCard);
-		
 		tabbedPane.addTab("Cmc", null, cmcChartPanel, null);
 		tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
 		tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
 		tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
 		tabbedPane.addTab("Try a game", null, randomHandPanel, null);
-	
-		
-		
-		btnDrawHand.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				p.mixHandAndLibrary();
-				p.shuffleLibrary();
-				p.drawCard(7);
-			    gamePanel.getThumbnailPanel().initThumbnails(p.getHand());
-			}
-		});
-		
-		btnDrawCard.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				p.drawCard(1);
-			    gamePanel.getThumbnailPanel().initThumbnails(p.getHand());
-			}
-		});
 		
 		btnExportAsCsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {

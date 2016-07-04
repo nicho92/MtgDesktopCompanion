@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.game;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.game.DisplayableCard;
 
 
 
@@ -27,6 +26,22 @@ public class ThumbnailPanel extends JPanel {
 	
 	
 	
+	public int getCardWidth() {
+		return width;
+	}
+
+	public void setCardWidth(int width) {
+		this.width = width;
+	}
+
+	public int getCardHeight() {
+		return height;
+	}
+
+	public void setCardHeight(int height) {
+		this.height = height;
+	}
+
 	public boolean isDragging() {
 		return dragging;
 	}
@@ -53,6 +68,7 @@ public class ThumbnailPanel extends JPanel {
 	
 	public void addComponent(DisplayableCard i)
 	{
+		
 		if(index>=val)
 		{
 			c.gridy=c.gridy+1;
@@ -60,6 +76,12 @@ public class ThumbnailPanel extends JPanel {
 			index=0;
 		}
 		c.gridx=c.gridx+1;
+		
+		 
+	   i.setHorizontalTextPosition(JLabel.CENTER);
+	   i.setVerticalTextPosition(JLabel.BOTTOM);
+	   i.enableDrag(dragging);
+		
 		add(i,c);
 		index++;
 		
@@ -94,10 +116,7 @@ public class ThumbnailPanel extends JPanel {
 				{
 					
 					DisplayableCard lab = new DisplayableCard(mc,width,height);
-					  	   
-						   lab.setHorizontalTextPosition(JLabel.CENTER);
-						   lab.setVerticalTextPosition(JLabel.BOTTOM);
-						   lab.enbableDrag(dragging);
+					  	  
 					try {
 						
 						if(mc.getEditions().get(0).getMultiverse_id()=="0")
