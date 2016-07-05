@@ -18,42 +18,50 @@ public class Player {
 	private List<MagicCard> exil;
 	private List<MagicCard> library;
 	private List<MagicCard> hand;
-	private BattleField battlefield;
+	private List<MagicCard> battlefield;
 	private int poisonCounter;
+	private List<Turn> turns;
+	
 	
 	private Map<String,Integer> manaPool;
 	
+	
+	private void init()
+	{
+		graveyard=new ArrayList<MagicCard>();
+		exil=new ArrayList<MagicCard>();
+		hand=new ArrayList<MagicCard>();
+		library=deck.getAsList();
+		battlefield=new ArrayList<MagicCard>();
+		manaPool = new HashMap<String,Integer>();
+		turns = new ArrayList<Turn>();
+	}
 	
 	public Player(MagicDeck deck) {
 		name="player 1";
 		life=20;
 		this.deck=deck;
-		graveyard=new ArrayList<MagicCard>();
-		exil=new ArrayList<MagicCard>();
-		hand=new ArrayList<MagicCard>();
-		library=deck.getAsList();
-		battlefield=new BattleField();
-		manaPool = new HashMap<String,Integer>();
+		init();
+		
 	}
 	
 	public Player(String name,int life,MagicDeck deck) {
 		this.name=name;
 		this.life=life;
 		this.deck=deck;
-		graveyard=new ArrayList<MagicCard>();
-		exil=new ArrayList<MagicCard>();
-		hand=new ArrayList<MagicCard>();
-		library=deck.getAsList();
-		manaPool = new HashMap<String,Integer>();
+		init();
 	}
 
-	
-	
-	public BattleField getBattlefield() {
+	public void nextTurn()
+	{
+		turns.add(new Turn());
+	}
+
+	public List<MagicCard> getBattlefield() {
 		return battlefield;
 	}
 
-	public void setBattlefield(BattleField battlefield) {
+	public void setBattlefield(List<MagicCard> battlefield) {
 		this.battlefield = battlefield;
 	}
 
@@ -75,7 +83,19 @@ public class Player {
 
 	public void addMana(String color, int number)
 	{
-		manaPool.put(color, manaPool.get(color)+number);
+		try{
+			manaPool.put(color, manaPool.get(color)+number);
+		}catch(NullPointerException e)
+		{
+			manaPool.put(color, number);
+		}
+	}
+	
+	public void setMana(String color, int number)
+	{
+		
+			manaPool.put(color, number);
+		
 	}
 	
 	public void lifeLoose(int lost)
@@ -102,15 +122,11 @@ public class Player {
 		}
 	}
 	
-	public void discardTopCardFromLibrary(int number)
-	{
-		for(int i=0;i<number;i++)
-		{
-			graveyard.add(library.get(i));
-			library.remove(i);
-		}
+	public void discardCardFromBattleField(MagicCard mc) {
+		battlefield.remove(mc);
+		graveyard.add(mc);
+		
 	}
-	
 	
 	public void discardCardFromHand(MagicCard mc)
 	{
@@ -124,6 +140,12 @@ public class Player {
 		graveyard.add(mc);
 	}
 
+
+	public void exileCardFromBattleField(MagicCard mc) {
+		battlefield.remove(mc);
+		exil.add(mc);
+		
+	}
 	
 	public void exileCardFromLibrary(MagicCard mc)
 	{
@@ -135,6 +157,25 @@ public class Player {
 	{
 		hand.remove(mc);
 		exil.add(mc);
+	}
+	
+	public void exileCardFromGraveyard(MagicCard mc) {
+		graveyard.remove(mc);
+		exil.add(mc);
+		
+	}
+
+	
+	
+	public void returnCardFromBattleField(MagicCard mc)
+	{
+		battlefield.remove(mc);
+		hand.add(mc);
+	}
+	public void returnCardFromGraveyard(MagicCard mc)
+	{
+		graveyard.remove(mc);
+		hand.add(mc);
 	}
 	
 	public void mixGraveyardAndLibrary()
@@ -204,5 +245,36 @@ public class Player {
 	public void setLibrary(List<MagicCard> library) {
 		this.library = library;
 	}
+
+	public void playCard(MagicCard mc) {
+		hand.remove(mc);
+		battlefield.add(mc);
+		
+	}
+
+	@Override
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		
+		build.append("Library :" ).append(library.size()).append("\n");
+		build.append("Graveyard :" ).append(graveyard.size()).append("\n");
+		build.append("Hand:" ).append(hand.size()).append("\n");
+		build.append("BattleField :" ).append(battlefield.size()).append("\n");
+		build.append("Exile :" ).append(exil.size()).append("\n");
+		for(String key : manaPool.keySet())
+			build.append(key).append(":").append(manaPool.get(key));
+		
+		build.append("\n");
+		
+		
+		return build.toString();
+	}
+
+	public List<Turn> getTurns() {
+		return turns;
+	}
+	
+	
+	
 
 }

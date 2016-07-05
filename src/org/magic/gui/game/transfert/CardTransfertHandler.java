@@ -106,6 +106,7 @@ public class CardTransfertHandler extends TransferHandler  {
 		
 		window.setLocation(pt);
 		window.setVisible(true);
+		dragIcon.setIcon(p.getIcon());
 		
 		return MOVE;
 	}
@@ -119,8 +120,11 @@ public class CardTransfertHandler extends TransferHandler  {
 		DraggablePanel target = (DraggablePanel) support.getComponent();
 		try {
 			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
+			((DraggablePanel)src.getParent()).moveCard(src.getMc(), target.getOrigine());
 			target.addComponent(src);
+			System.out.println(GameManager.getInstance().getPlayer());
 			target.revalidate();
+			src.getParent().revalidate();
 			return true;
 		} catch (UnsupportedFlavorException ufe) {
 			ufe.printStackTrace();
@@ -135,12 +139,9 @@ public class CardTransfertHandler extends TransferHandler  {
 		DisplayableCard src = (DisplayableCard) c;
 		if (action == TransferHandler.MOVE) {
 			DraggablePanel dest = ((DraggablePanel)c.getParent());
-			src.setBounds(dest.getMousePosition().x, dest.getMousePosition().y, src.getWidth(), src.getHeight());  
-			
-			
-			src.setOrigine(dest.getOrigine());
+			src.setLocation(dest.getMousePosition());  
 			dest.repaint();
-			
+			dragIcon.setIcon(null);
 		}
 		
 		window.setVisible(false);

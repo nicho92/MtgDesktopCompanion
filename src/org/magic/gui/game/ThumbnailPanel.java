@@ -10,6 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.services.games.GameManager;
 import org.magic.services.games.PositionEnum;
 
 
@@ -18,43 +19,22 @@ public class ThumbnailPanel extends DraggablePanel {
 
 	GridBagConstraints c;
 	int index=0;
-	int width=112;
-	int height=155;
 	int val=7;
 	boolean dragging=false;
 	
 	
+	@Override
+	public void moveCard(MagicCard mc, PositionEnum to) {
+		switch (to) {
+			case BATTLEFIELD:GameManager.getInstance().getPlayer().playCard(mc);break;
+			case EXIL:GameManager.getInstance().getPlayer().exileCardFromHand(mc);break;
+			case GRAVEYARD:GameManager.getInstance().getPlayer().discardCardFromHand(mc);break;
+			default:break;
+		}
+		
+	}
 	
 	
-	public int getCardWidth() {
-		return width;
-	}
-
-	public void setCardWidth(int width) {
-		this.width = width;
-	}
-
-	public int getCardHeight() {
-		return height;
-	}
-
-	public void setCardHeight(int height) {
-		this.height = height;
-	}
-
-	public boolean isDragging() {
-		return dragging;
-	}
-
-	public void enableDragging(boolean dragging) {
-		this.dragging = dragging;
-	}
-
-	public void setThumbnailSize(int w,int h)
-	{
-		this.width=w;
-		this.height=h;
-	}
 	
 	public void setRupture(int val)
 	{
@@ -116,8 +96,7 @@ public class ThumbnailPanel extends DraggablePanel {
 				{
 					
 					DisplayableCard lab = new DisplayableCard(mc,width,height);
-					  	 lab.setOrigine(getOrigine()); 
-					try {
+				try {
 						
 						if(mc.getEditions().get(0).getMultiverse_id()=="0")
 						{

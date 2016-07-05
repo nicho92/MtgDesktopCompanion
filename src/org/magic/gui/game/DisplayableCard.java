@@ -1,34 +1,37 @@
 package org.magic.gui.game;
 
-import java.awt.Color;
-import java.awt.Cursor;
+import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.game.transfert.CardTransfertHandler;
-import org.magic.services.games.PositionEnum;
 
 
-public class DisplayableCard extends JLabel {
+public class DisplayableCard extends JLabel  {
 
 	
 	private MagicCard magicCard;
 	private boolean tapped=false;
 	private ImageIcon image;
 	private boolean draggable=true;
-	private PositionEnum origine;
 	
 	
+	public ImageIcon getImageIcon() {
+		return image;
+	}
+
+
+	public void setImage(ImageIcon image) {
+		this.image = image;
+	}
 	private String title;
 	private String bottom;
 	
@@ -44,15 +47,6 @@ public class DisplayableCard extends JLabel {
 		this.dndHandler = dndHandler;
 	}
 
-
-	public PositionEnum getOrigine() {
-		return origine;
-	}
-
-
-	public void setOrigine(PositionEnum origine) {
-		this.origine = origine;
-	}
 
 
 	public String getTitle() {
@@ -90,7 +84,6 @@ public class DisplayableCard extends JLabel {
 		setSize(width, height);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
-		
 		magicCard=mc;
 		
 		dndHandler = new CardTransfertHandler();
@@ -107,6 +100,29 @@ public class DisplayableCard extends JLabel {
 	
 		
 	}
+	
+	public void tap(boolean t) {
+			
+			int angle=0;
+			if(t)
+				angle=90;
+			else
+				angle=-90;
+		
+	        int w = getWidth();
+	        int h = getHeight();
+	        int type = BufferedImage.TYPE_INT_RGB;  // other options, see api
+	        BufferedImage image = new BufferedImage(h, w, type);
+	        Graphics2D g2 = image.createGraphics();
+	        double x = (h - w)/2.0;
+	        double y = (w - h)/2.0;
+	        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
+	        at.rotate(Math.toRadians(angle), w/2.0, h/2.0);
+	        g2.drawImage(getImageIcon().getImage(), at,null);
+	        g2.dispose();
+	        this.setIcon(new ImageIcon(image));
+	}
+	
 	
 	@Override
 	public Icon getIcon() {
@@ -130,6 +146,8 @@ public class DisplayableCard extends JLabel {
 	public void setTapped(boolean tapped) {
 		this.tapped = tapped;
 	}
+
+
 
 		
 }

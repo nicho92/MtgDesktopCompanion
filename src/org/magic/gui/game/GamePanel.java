@@ -34,6 +34,8 @@ public class GamePanel extends JPanel {
 	
 	
 	private JLabel lblLibraryCountCard;
+	private JLabel lblTurns;
+	
 	
 	private Player player;
 	private JLabel lblLibrary;
@@ -81,8 +83,20 @@ public class GamePanel extends JPanel {
 		ManaPoolPanel manaPoolPanel = new ManaPoolPanel();
 		panelInfo.add(manaPoolPanel);
 		
+		JPanel panelTurns = new JPanel();
+		panelInfo.add(panelTurns);
+		
+		lblTurns = new JLabel("1");
+		panelTurns.add(lblTurns);
+		
 		JButton btnEndTurn = new JButton("End Turn");
-		panelInfo.add(btnEndTurn);
+		panelTurns.add(btnEndTurn);
+		btnEndTurn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				player.nextTurn();
+				lblTurns.setText(""+(player.getTurns().size()+1));
+			}
+		});
 		
 		panelBattleField = new BattleFieldPanel();
 		add(panelBattleField, BorderLayout.CENTER);

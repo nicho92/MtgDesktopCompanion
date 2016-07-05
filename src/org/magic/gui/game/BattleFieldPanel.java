@@ -4,12 +4,13 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.magic.api.beans.MagicCard;
+import org.magic.services.games.GameManager;
 import org.magic.services.games.PositionEnum;
 
 public class BattleFieldPanel extends DraggablePanel  {
 
 	private List<DisplayableCard> stack;
-	private DisplayableCard selectedCard;
 	
 	
 	public BattleFieldPanel() {
@@ -24,7 +25,6 @@ public class BattleFieldPanel extends DraggablePanel  {
 	
 	public void addComponent(DisplayableCard card)
 	{
-		card.setOrigine(PositionEnum.BATTLEFIELD);
 		stack.add(card);
 		this.add(card);
 	}
@@ -32,6 +32,18 @@ public class BattleFieldPanel extends DraggablePanel  {
 	@Override
 	public PositionEnum getOrigine() {
 		return PositionEnum.BATTLEFIELD;
+	}
+
+
+	@Override
+	public void moveCard(MagicCard mc, PositionEnum to) {
+		switch (to) {
+			case GRAVEYARD:GameManager.getInstance().getPlayer().discardCardFromBattleField(mc);break;
+			case EXIL:GameManager.getInstance().getPlayer().exileCardFromBattleField(mc);break;
+			case HAND:GameManager.getInstance().getPlayer().returnCardFromBattleField(mc);break;
+			default:break;
+		}
+		
 	}
 
 	

@@ -12,10 +12,16 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import org.magic.gui.components.ManaPanel;
+import org.magic.services.games.GameManager;
+import org.magic.services.games.Player;
 import org.jdesktop.beansbinding.ELProperty;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import javax.swing.JLabel;
+import java.awt.Font;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class ManaPoolPanel extends JScrollPane{
 	private JSpinner spinW;
@@ -26,6 +32,7 @@ public class ManaPoolPanel extends JScrollPane{
 	private JSpinner spinC;
 	
 	private Map<String,Integer> manapool;
+	private JLabel lblPoolSize;
 	
 	public ManaPoolPanel() {
 		
@@ -34,9 +41,9 @@ public class ManaPoolPanel extends JScrollPane{
 		setViewportView(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{40, 66, 0};
-		gbl_panel.rowHeights = new int[]{32, 33, 33, 33, 33, 33, 0};
+		gbl_panel.rowHeights = new int[]{32, 33, 33, 33, 33, 33, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		ManaPanel panelW = new ManaPanel();
@@ -49,6 +56,11 @@ public class ManaPoolPanel extends JScrollPane{
 		panel.add(panelW, gbc_panelW);
 		
 		spinW = new JSpinner();
+		spinW.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				GameManager.getInstance().getPlayer().setMana("{B}", (int)spinW.getValue());
+			}
+		});
 		spinW.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinW = new GridBagConstraints();
 		gbc_spinW.fill = GridBagConstraints.BOTH;
@@ -67,6 +79,11 @@ public class ManaPoolPanel extends JScrollPane{
 		panel.add(panelU, gbc_panelU);
 		
 		spinU = new JSpinner();
+		spinU.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				GameManager.getInstance().getPlayer().setMana("{U}", (int)spinU.getValue());
+			}
+		});
 		spinU.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinU = new GridBagConstraints();
 		gbc_spinU.fill = GridBagConstraints.BOTH;
@@ -85,6 +102,11 @@ public class ManaPoolPanel extends JScrollPane{
 		panel.add(panelB, gbc_panelB);
 		
 		spinB = new JSpinner();
+		spinB.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				GameManager.getInstance().getPlayer().setMana("{B}", (int)spinB.getValue());
+			}
+		});
 		spinB.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinB = new GridBagConstraints();
 		gbc_spinB.fill = GridBagConstraints.BOTH;
@@ -103,6 +125,11 @@ public class ManaPoolPanel extends JScrollPane{
 		panel.add(panelR, gbc_panelR);
 		
 		spinR = new JSpinner();
+		spinR.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				GameManager.getInstance().getPlayer().setMana("{R}", (int)spinR.getValue());
+			}
+		});
 		spinR.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinR = new GridBagConstraints();
 		gbc_spinR.fill = GridBagConstraints.BOTH;
@@ -121,6 +148,11 @@ public class ManaPoolPanel extends JScrollPane{
 		panel.add(panelG, gbc_panelG);
 		
 		spinG = new JSpinner();
+		spinG.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				GameManager.getInstance().getPlayer().setMana("{G}", (int)spinG.getValue());
+			}
+		});
 		spinG.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinG = new GridBagConstraints();
 		gbc_spinG.fill = GridBagConstraints.BOTH;
@@ -133,18 +165,33 @@ public class ManaPoolPanel extends JScrollPane{
 		panelC.setManaCost("{C}");
 		GridBagConstraints gbc_panelC = new GridBagConstraints();
 		gbc_panelC.fill = GridBagConstraints.VERTICAL;
-		gbc_panelC.insets = new Insets(0, 0, 0, 5);
+		gbc_panelC.insets = new Insets(0, 0, 5, 5);
 		gbc_panelC.gridx = 0;
 		gbc_panelC.gridy = 5;
 		panel.add(panelC, gbc_panelC);
 		
 		spinC = new JSpinner();
+		spinC.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				GameManager.getInstance().getPlayer().setMana("{C}", (int)spinC.getValue());
+			}
+		});
 		spinC.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinC = new GridBagConstraints();
+		gbc_spinC.insets = new Insets(0, 0, 5, 0);
 		gbc_spinC.fill = GridBagConstraints.BOTH;
 		gbc_spinC.gridx = 1;
 		gbc_spinC.gridy = 5;
 		panel.add(spinC, gbc_spinC);
+		
+		lblPoolSize = new JLabel("0");
+		lblPoolSize.setFont(new Font("Tahoma", Font.BOLD, 13));
+		GridBagConstraints gbc_lblPoolSize = new GridBagConstraints();
+		gbc_lblPoolSize.gridwidth = 2;
+		gbc_lblPoolSize.insets = new Insets(0, 0, 0, 5);
+		gbc_lblPoolSize.gridx = 0;
+		gbc_lblPoolSize.gridy = 6;
+		panel.add(lblPoolSize, gbc_lblPoolSize);
 		
 		
 	}
@@ -168,4 +215,7 @@ public class ManaPoolPanel extends JScrollPane{
 		return spinC;
 	}
 	
+	public JLabel getLblPoolSize() {
+		return lblPoolSize;
+	}
 }

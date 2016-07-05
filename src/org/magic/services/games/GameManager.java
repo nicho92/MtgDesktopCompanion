@@ -36,10 +36,10 @@ public class GameManager {
 
 
 	public static void main(String[] args) throws Exception {
-		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Mr Toad's Wild Ride.deck"), MagicDeck.class));
+		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/GW TOKENS.deck"), MagicDeck.class));
 		
 		GameManager.getInstance().setPlayer(p1);
-		JFrame f = new JFrame("test");
+		JFrame f = new JFrame(p1.getName() +"->" + p1.getDeck().getName());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GamePanel p = new GamePanel();
 		p.initGame();
