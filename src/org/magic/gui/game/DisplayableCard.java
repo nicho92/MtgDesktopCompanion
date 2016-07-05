@@ -3,11 +3,6 @@ package org.magic.gui.game;
 import java.awt.Color;
 import java.awt.Cursor;
 import java.awt.Image;
-import java.awt.Point;
-import java.awt.dnd.DnDConstants;
-import java.awt.dnd.DragGestureEvent;
-import java.awt.dnd.DragGestureListener;
-import java.awt.dnd.DragSource;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -20,25 +15,36 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.game.transfert.TransferableCard;
+import org.magic.gui.game.transfert.CardTransfertHandler;
 import org.magic.services.games.PositionEnum;
 
-public class DisplayableCard extends JLabel implements MouseListener, MouseMotionListener, DragGestureListener{
+
+public class DisplayableCard extends JLabel {
 
 	
 	private MagicCard magicCard;
 	private boolean tapped=false;
 	private ImageIcon image;
-	private boolean draggable=false;
+	private boolean draggable=true;
 	private PositionEnum origine;
 	
 	
 	private String title;
 	private String bottom;
-	private int x,y;
+	
+	private CardTransfertHandler dndHandler;
 	
 	
-	
+	public CardTransfertHandler getDndHandler() {
+		return dndHandler;
+	}
+
+
+	public void setDndHandler(CardTransfertHandler dndHandler) {
+		this.dndHandler = dndHandler;
+	}
+
+
 	public PositionEnum getOrigine() {
 		return origine;
 	}
@@ -87,11 +93,8 @@ public class DisplayableCard extends JLabel implements MouseListener, MouseMotio
 		
 		magicCard=mc;
 		
-		addMouseListener(this);
-		addMouseMotionListener(this);
-		
-		DragSource ds = new DragSource();
-		ds.createDefaultDragGestureRecognizer(this,DnDConstants.ACTION_MOVE, this);
+		dndHandler = new CardTransfertHandler();
+		setTransferHandler(dndHandler);
 		
 		
 		URL url;
@@ -102,13 +105,14 @@ public class DisplayableCard extends JLabel implements MouseListener, MouseMotio
 			e.printStackTrace();
 		}
 	
+		
 	}
 	
 	@Override
 	public Icon getIcon() {
 		
 		if(magicCard != null)
-				return image;
+			return image;
 		
 		return super.getIcon();
 	}
@@ -127,69 +131,5 @@ public class DisplayableCard extends JLabel implements MouseListener, MouseMotio
 		this.tapped = tapped;
 	}
 
-
-	@Override
-	public void dragGestureRecognized(DragGestureEvent event) {
-		Cursor cursor = null;
-        if (event.getDragAction() == DnDConstants.ACTION_MOVE) {
-            cursor = DragSource.DefaultMoveDrop;
-        }
-       	event.startDrag(cursor, new TransferableCard(this));
-	}
-
-
-	@Override
-	public void mouseClicked(MouseEvent arg0) {
 		
-		
-	}
-
-
-	@Override
-	public void mouseEntered(MouseEvent arg0) {
-		setBorder(new LineBorder(Color.red));
-		if(isDraggable())
-			this.setCursor(new Cursor(Cursor.MOVE_CURSOR));
-		
-	}
-
-
-	@Override
-	public void mouseExited(MouseEvent arg0) {
-		setBorder(null);
-	}
-
-
-	@Override
-	public void mousePressed(MouseEvent me) {
-		 
-	}
-
-
-	@Override
-	public void mouseReleased(MouseEvent me) {
-		this.setLocation(me.getPoint());
-	}
-
-
-	
-	public String toString()
-	{
-		return getText(); 
-	}
-
-
-	@Override
-	public void mouseDragged(MouseEvent me) {
-		
-		
-	}
-
-
-	@Override
-	public void mouseMoved(MouseEvent me) {
-		// TODO Auto-generated method stub
-		
-	}
-	
 }

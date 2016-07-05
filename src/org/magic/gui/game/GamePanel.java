@@ -3,6 +3,7 @@ package org.magic.gui.game;
 import java.awt.BorderLayout;
 import java.awt.Cursor;
 import java.awt.GridLayout;
+import java.awt.dnd.DnDConstants;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
@@ -16,7 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 
-import org.magic.gui.game.transfert.MagicCardTargetAdapter;
+import org.magic.gui.game.transfert.CardTransfertHandler;
+import org.magic.services.games.GameManager;
 import org.magic.services.games.Player;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -34,12 +36,14 @@ public class GamePanel extends JPanel {
 	private JLabel lblLibraryCountCard;
 	
 	private Player player;
+	private JLabel lblLibrary;
+	private GraveyardPanel panelGrave;
 	
-	public void initPlayer(Player p)
+	public void initGame()
 	{
-		this.player=p;
-		spinLife.setValue(p.getLife());
-		spinPoison.setValue(p.getPoisonCounter());
+		player=GameManager.getInstance().getPlayer();
+		spinLife.setValue(player.getLife());
+		spinPoison.setValue(player.getPoisonCounter());
 		
 	}
 	
@@ -92,7 +96,7 @@ public class GamePanel extends JPanel {
 		JPanel panelDeck = new JPanel();
 		panelLibraryAndGrave.add(panelDeck);
 		
-		JLabel lblLibrary = new JLabel("");
+		lblLibrary = new JLabel("");
 		lblLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		
 		
@@ -134,7 +138,7 @@ public class GamePanel extends JPanel {
 		
 		panelDeck.add(btnDrawHand);
 		
-		JPanel panelGrave = new JPanel();
+		panelGrave = new GraveyardPanel();
 		panelLibraryAndGrave.add(panelGrave);
 		
 		handPanel = new ThumbnailPanel();
@@ -148,11 +152,11 @@ public class GamePanel extends JPanel {
 		add(scrollPane, BorderLayout.SOUTH);
 		
 		scrollPane.setViewportView(handPanel);
-
-
-		new MagicCardTargetAdapter(handPanel,panelBattleField);
 		
+	/*	new MagicCardTargetAdapter(handPanel,panelBattleField,DnDConstants.ACTION_MOVE);
+		new MagicCardTargetAdapter(handPanel,panelGrave,DnDConstants.ACTION_MOVE);
 		
+		*/
 		
 	}
 	public JSpinner getSpinLife() {
@@ -167,5 +171,11 @@ public class GamePanel extends JPanel {
 	
 	public JLabel getLblLibraryCountCard() {
 		return lblLibraryCountCard;
+	}
+	public JLabel getLblLibrary() {
+		return lblLibrary;
+	}
+	public GraveyardPanel getPanelGrave() {
+		return panelGrave;
 	}
 }

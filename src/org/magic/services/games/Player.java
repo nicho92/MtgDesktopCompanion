@@ -204,5 +204,5 @@ public class Player {
 	public void setLibrary(List<MagicCard> library) {
 		this.library = library;
 	}
-	
+
 }

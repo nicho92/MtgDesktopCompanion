@@ -60,6 +60,7 @@ import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.exports.MagicExporter;
 import org.magic.services.exports.MagicSerializer;
+import org.magic.services.games.GameManager;
 import org.magic.services.games.Player;
 import org.magic.services.threads.ThreadManager;
 
@@ -121,7 +122,8 @@ public class DeckBuilderGUI extends JPanel{
 		deckDetailsPanel.setMagicDeck(deck);
 		deckmodel.init(deck);
 		p = new Player(deck);
-		gamePanel.initPlayer(p);
+		GameManager.getInstance().setPlayer(p);
+		gamePanel.initGame();
 		
 	}
 	

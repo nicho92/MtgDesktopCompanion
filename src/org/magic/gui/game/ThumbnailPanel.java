@@ -14,7 +14,7 @@ import org.magic.services.games.PositionEnum;
 
 
 
-public class ThumbnailPanel extends DragDestinationPanel {
+public class ThumbnailPanel extends DraggablePanel {
 
 	GridBagConstraints c;
 	int index=0;
@@ -63,7 +63,9 @@ public class ThumbnailPanel extends DragDestinationPanel {
 	
 	
 	public ThumbnailPanel() {
+		super();
 		setLayout(new GridBagLayout());
+		
 	}
 	
 	public void addComponent(DisplayableCard i)
@@ -104,11 +106,9 @@ public class ThumbnailPanel extends DragDestinationPanel {
 		  c.anchor = GridBagConstraints.NORTHWEST;
 		
 		  this.removeAll();
-		index=0;
-		
-		  
-		
-		t = new Thread(new Runnable() {
+		  index=0;
+
+		  t = new Thread(new Runnable() {
 			
 			@Override
 			public void run() {
