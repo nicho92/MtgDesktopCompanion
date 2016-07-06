@@ -53,6 +53,10 @@ lookup for cards in auction website :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png)
 
 
+Try your deck in game simulator :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png)
+
+
 Generate Website of your collections :
 
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png)
