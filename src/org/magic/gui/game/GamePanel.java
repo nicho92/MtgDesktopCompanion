@@ -39,6 +39,9 @@ import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.Bindings;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import java.util.Map;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class GamePanel extends JPanel {
 	private JSpinner spinLife;
@@ -123,21 +126,12 @@ public class GamePanel extends JPanel {
 		JPanel panelDeck = new JPanel();
 		panelLibraryAndGrave.add(panelDeck);
 		
-		lblLibrary = new JLabel("");
-		lblLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		
-		
-		try {
-			lblLibrary.setIcon(new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card")));
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		}
-		panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
-		panelDeck.add(lblLibrary);
-		
-		lblLibraryCountCard = new JLabel();
-		lblLibraryCountCard.setHorizontalAlignment(SwingConstants.CENTER);
-		panelDeck.add(lblLibraryCountCard);
+		GridBagLayout gbl_panelDeck = new GridBagLayout();
+		gbl_panelDeck.columnWidths = new int[]{223, 0};
+		gbl_panelDeck.rowHeights = new int[]{310, 23, 23, 0};
+		gbl_panelDeck.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panelDeck.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelDeck.setLayout(gbl_panelDeck);
 		
 		JButton btnDrawHand = new JButton("Draw Hand");
 		
@@ -151,10 +145,26 @@ public class GamePanel extends JPanel {
 			}
 		});
 		
+		lblLibrary = new JLabel("");
+		lblLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		try {
+			lblLibrary.setIcon(new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card")));
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		GridBagConstraints gbc_lblLibrary = new GridBagConstraints();
+		gbc_lblLibrary.anchor = GridBagConstraints.WEST;
+		gbc_lblLibrary.insets = new Insets(0, 0, 5, 0);
+		gbc_lblLibrary.gridx = 0;
+		gbc_lblLibrary.gridy = 0;
+		panelDeck.add(lblLibrary, gbc_lblLibrary);
+		
 		
 		lblLibrary.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+
 				player.drawCard(1);
 				DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight());
 				c.enableDrag(true);
@@ -164,7 +174,34 @@ public class GamePanel extends JPanel {
 			}
 		});
 		
-		panelDeck.add(btnDrawHand);
+		lblLibraryCountCard = new JLabel();
+		lblLibraryCountCard.setHorizontalAlignment(SwingConstants.CENTER);
+		GridBagConstraints gbc_lblLibraryCountCard = new GridBagConstraints();
+		gbc_lblLibraryCountCard.anchor = GridBagConstraints.WEST;
+		gbc_lblLibraryCountCard.insets = new Insets(0, 0, 5, 0);
+		gbc_lblLibraryCountCard.gridx = 0;
+		gbc_lblLibraryCountCard.gridy = 1;
+		panelDeck.add(lblLibraryCountCard, gbc_lblLibraryCountCard);
+		
+		GridBagConstraints gbc_btnDrawHand = new GridBagConstraints();
+		gbc_btnDrawHand.insets = new Insets(0, 0, 5, 0);
+		gbc_btnDrawHand.gridx = 0;
+		gbc_btnDrawHand.gridy = 1;
+		panelDeck.add(btnDrawHand, gbc_btnDrawHand);
+		
+		JButton btnSearch = new JButton("Search");
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				SearchLibraryFrame f = new SearchLibraryFrame();
+				f.setVisible(true);
+				
+			}
+		});
+		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
+		gbc_btnSearch.gridx = 0;
+		gbc_btnSearch.gridy = 2;
+		panelDeck.add(btnSearch, gbc_btnSearch);
 		
 		panelGrave = new GraveyardPanel();
 		panelLibraryAndGrave.add(panelGrave);
