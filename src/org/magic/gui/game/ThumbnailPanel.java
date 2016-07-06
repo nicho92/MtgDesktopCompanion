@@ -10,8 +10,8 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.services.games.GameManager;
-import org.magic.services.games.PositionEnum;
+import org.magic.game.GameManager;
+import org.magic.game.PositionEnum;
 
 
 
@@ -20,7 +20,6 @@ public class ThumbnailPanel extends DraggablePanel {
 	GridBagConstraints c;
 	int index=0;
 	int val=7;
-	boolean dragging=false;
 	
 	
 	@Override
@@ -50,6 +49,7 @@ public class ThumbnailPanel extends DraggablePanel {
 	
 	public void addComponent(DisplayableCard i)
 	{
+		
 		
 		if(index>=val)
 		{

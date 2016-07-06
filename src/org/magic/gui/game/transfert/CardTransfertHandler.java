@@ -9,6 +9,8 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceMotionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -20,29 +22,35 @@ import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
+import org.magic.game.GameManager;
 import org.magic.gui.game.DisplayableCard;
 import org.magic.gui.game.DraggablePanel;
-import org.magic.services.games.GameManager;
 
 
 public class CardTransfertHandler extends TransferHandler  {
 
 	private final DataFlavor localObjectFlavor;
-	private final JWindow window = new JWindow();
-	public static JLabel dragIcon = new JLabel();
+	private static JWindow window = new JWindow();
+	private static JLabel dragLab = new JLabel();
+	
 	
 	public CardTransfertHandler() {
 		localObjectFlavor = new ActivationDataFlavor(DisplayableCard.class, DataFlavor.javaJVMLocalObjectMimeType, "DisplayableCard");
-		window.setBackground(new Color(0, true));
+		window.add(dragLab);
+		window.setBackground(new Color(0,true));
 		DragSource.getDefaultDragSource().addDragSourceMotionListener(new DragSourceMotionListener() {
 			@Override
 			public void dragMouseMoved(DragSourceDragEvent dsde) {
+				
 				Point pt = dsde.getLocation();
 				pt.translate(5, 5); // offset
 				window.setLocation(pt);
-				window.add(dragIcon);
+				window.setVisible(true);
+				window.pack();
 			}
 		});
+		
+		
 	}
 	
 	@Override
@@ -99,15 +107,11 @@ public class CardTransfertHandler extends TransferHandler  {
 	public int getSourceActions(JComponent c)
 	{
 		DisplayableCard p = (DisplayableCard) c;
-		window.pack();
-		
 		Point pt = p.getLocation();
 		SwingUtilities.convertPointToScreen(pt, p);
-		
+		dragLab.setIcon(p.getIcon());
 		window.setLocation(pt);
-		window.setVisible(true);
-		dragIcon.setIcon(p.getIcon());
-		
+	
 		return MOVE;
 	}
 	
@@ -119,18 +123,15 @@ public class CardTransfertHandler extends TransferHandler  {
 		
 		DraggablePanel target = (DraggablePanel) support.getComponent();
 		try {
+			
 			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
 			((DraggablePanel)src.getParent()).moveCard(src.getMc(), target.getOrigine());
 			target.addComponent(src);
-			System.out.println(GameManager.getInstance().getPlayer());
-			target.revalidate();
-			src.getParent().revalidate();
+			GameManager.getInstance().getPlayer().logAction("");
 			return true;
-		} catch (UnsupportedFlavorException ufe) {
+		} catch (Exception ufe) {
 			ufe.printStackTrace();
-		} catch (java.io.IOException ioe) {
-			ioe.printStackTrace();
-		}
+		} 
 		return false;
 	}
 	
@@ -138,12 +139,15 @@ public class CardTransfertHandler extends TransferHandler  {
 	protected void exportDone(JComponent c, Transferable data, int action) {
 		DisplayableCard src = (DisplayableCard) c;
 		if (action == TransferHandler.MOVE) {
+			dragLab.setIcon(null);
+			window.setVisible(false);
 			DraggablePanel dest = ((DraggablePanel)c.getParent());
-			src.setLocation(dest.getMousePosition());  
+			src.setLocation(dest.getMousePosition());
+			
+			src.getParent().revalidate();
+			dest.revalidate();
 			dest.repaint();
-			dragIcon.setIcon(null);
+			src.getParent().repaint();
 		}
-		
-		window.setVisible(false);
 	}
 }

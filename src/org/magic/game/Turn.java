@@ -1,4 +1,4 @@
-package org.magic.services.games;
+package org.magic.game;
 
 import java.util.ArrayList;
 import java.util.List;

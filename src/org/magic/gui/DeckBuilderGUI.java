@@ -44,6 +44,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.game.GameManager;
+import org.magic.game.Player;
 import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ManaPanel;
@@ -60,8 +62,6 @@ import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.exports.MagicExporter;
 import org.magic.services.exports.MagicSerializer;
-import org.magic.services.games.GameManager;
-import org.magic.services.games.Player;
 import org.magic.services.threads.ThreadManager;
 
 public class DeckBuilderGUI extends JPanel{

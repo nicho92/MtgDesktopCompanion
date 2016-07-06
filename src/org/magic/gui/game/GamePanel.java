@@ -17,14 +17,28 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 
+import org.magic.game.GameManager;
+import org.magic.game.Player;
 import org.magic.gui.game.transfert.CardTransfertHandler;
-import org.magic.services.games.GameManager;
-import org.magic.services.games.Player;
+
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JScrollPane;
 import java.awt.Font;
+import java.awt.Component;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.BindingGroup;
+
+import java.util.List;
+import org.magic.api.beans.MagicCard;
+import org.jdesktop.beansbinding.ELProperty;
+import org.jdesktop.beansbinding.ObjectProperty;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
+import java.util.Map;
 
 public class GamePanel extends JPanel {
 	private JSpinner spinLife;
@@ -46,7 +60,6 @@ public class GamePanel extends JPanel {
 		player=GameManager.getInstance().getPlayer();
 		spinLife.setValue(player.getLife());
 		spinPoison.setValue(player.getPoisonCounter());
-		
 	}
 	
 	public GamePanel() {
@@ -122,7 +135,7 @@ public class GamePanel extends JPanel {
 		panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
 		panelDeck.add(lblLibrary);
 		
-		lblLibraryCountCard = new JLabel("");
+		lblLibraryCountCard = new JLabel();
 		lblLibraryCountCard.setHorizontalAlignment(SwingConstants.CENTER);
 		panelDeck.add(lblLibraryCountCard);
 		
@@ -145,6 +158,7 @@ public class GamePanel extends JPanel {
 				player.drawCard(1);
 				DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight());
 				c.enableDrag(true);
+				
 				handPanel.addComponent(c);
 				lblLibraryCountCard.setText(""+player.getLibrary().size());
 			}
@@ -156,6 +170,7 @@ public class GamePanel extends JPanel {
 		panelLibraryAndGrave.add(panelGrave);
 		
 		handPanel = new ThumbnailPanel();
+		handPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		handPanel.enableDragging(true);
 		handPanel.setThumbnailSize(179, 240);
 		handPanel.setRupture(7);
@@ -167,10 +182,6 @@ public class GamePanel extends JPanel {
 		
 		scrollPane.setViewportView(handPanel);
 		
-	/*	new MagicCardTargetAdapter(handPanel,panelBattleField,DnDConstants.ACTION_MOVE);
-		new MagicCardTargetAdapter(handPanel,panelGrave,DnDConstants.ACTION_MOVE);
-		
-		*/
 		
 	}
 	public JSpinner getSpinLife() {
@@ -192,4 +203,5 @@ public class GamePanel extends JPanel {
 	public GraveyardPanel getPanelGrave() {
 		return panelGrave;
 	}
+	
 }

@@ -1,24 +1,23 @@
 package org.magic.gui.game;
 
 import java.awt.Component;
+import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.game.PositionEnum;
 import org.magic.gui.game.transfert.CardTransfertHandler;
-import org.magic.services.games.PositionEnum;
 
-public abstract class DraggablePanel extends JPanel implements MouseListener{
-
-  protected CardTransfertHandler dndHandler = new CardTransfertHandler();	
+public abstract class DraggablePanel extends JPanel {
 
   	int width=112;
 	int height=155;
-    boolean dragging;
+	
+    boolean dragging=true;
 
 	public boolean isDragging() {
 		return dragging;
@@ -52,51 +51,22 @@ public abstract class DraggablePanel extends JPanel implements MouseListener{
 
  
   public DraggablePanel() {
-	  setTransferHandler(dndHandler);
-	  addMouseListener(this);
-
+	  setTransferHandler(new CardTransfertHandler());
+	  /*addMouseListener(new MouseAdapter() {
+		  public void mousePressed(MouseEvent me) {
+			  DraggablePanel p = (DraggablePanel) me.getSource();
+			  Component c = SwingUtilities.getDeepestComponentAt(p, me.getX(), me.getY());
+			  if (c != null && c instanceof DisplayableCard) {
+				  
+				  if(dragging)
+					  p.getTransferHandler().exportAsDrag((DisplayableCard)c, me, TransferHandler.MOVE);
+			  }
+			}
+	  });*/
   }
   
   public abstract void moveCard(MagicCard mc, PositionEnum to);
 
-  
-  
-  @Override
-	public void mousePressed(MouseEvent me) {
-	  DraggablePanel p = (DraggablePanel) me.getSource();
-	  Component c = SwingUtilities.getDeepestComponentAt(this, me.getX(), me.getY());
-	  if (c != null && c instanceof DisplayableCard) {
-		p.getTransferHandler().exportAsDrag((DisplayableCard)c, me, TransferHandler.MOVE);
-	  }
-	}
-	
-  @Override
-  public void mouseClicked(MouseEvent me) {
-	  Component c = SwingUtilities.getDeepestComponentAt(this, me.getX(), me.getY());
-	  System.out.println(c);
-	  if (c != null && c instanceof DisplayableCard) {
-		((DisplayableCard)c).tap(true);
-	  }
-	}
-  
-  @Override
-	public void mouseExited(MouseEvent e) {
-	  
-		
-	}
-  
-  @Override
-	public void mouseReleased(MouseEvent e) {
-	  
-		
-	}
-  
-
-	@Override
-	public void mouseEntered(MouseEvent e) {
-		
-		
-	}
   
   
   public abstract void addComponent(DisplayableCard i);

@@ -1,7 +1,12 @@
 package org.magic.gui.game;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -9,13 +14,18 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JComponent;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
+import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 
 
-public class DisplayableCard extends JLabel  {
+public class DisplayableCard extends JLabel
+{
 
 	
 	private MagicCard magicCard;
@@ -35,17 +45,6 @@ public class DisplayableCard extends JLabel  {
 	private String title;
 	private String bottom;
 	
-	private CardTransfertHandler dndHandler;
-	
-	
-	public CardTransfertHandler getDndHandler() {
-		return dndHandler;
-	}
-
-
-	public void setDndHandler(CardTransfertHandler dndHandler) {
-		this.dndHandler = dndHandler;
-	}
 
 
 
@@ -86,8 +85,42 @@ public class DisplayableCard extends JLabel  {
 		setVerticalAlignment(JLabel.CENTER);
 		magicCard=mc;
 		
-		dndHandler = new CardTransfertHandler();
-		setTransferHandler(dndHandler);
+		addMouseListener(new MouseAdapter() {
+			public void mouseEntered(MouseEvent me) {
+				 ((DisplayableCard)me.getComponent()).setBorder(new LineBorder(Color.RED));
+			}
+			 
+			@Override
+			public void mouseExited(MouseEvent me) {
+				 ((DisplayableCard)me.getComponent()).setBorder(null);
+			}
+			
+			
+			 public void mousePressed(MouseEvent me) {
+				 if(SwingUtilities.isRightMouseButton(me))
+				 {
+					 DisplayableCard c =  ((DisplayableCard)me.getComponent());
+					 if(c.isTapped())
+						 c.tap(false);
+					 else
+						 c.tap(true);
+				 }
+				 else
+				 {
+					  Component c = me.getComponent();
+					  if (c != null && c instanceof DisplayableCard) {
+						  if(draggable)
+							  ((DraggablePanel)c.getParent()).getTransferHandler().exportAsDrag((DisplayableCard)c, me, TransferHandler.MOVE);
+					  }
+					}
+				  	 
+				 }
+				 
+				 
+			
+		  });
+		
+		setTransferHandler(new CardTransfertHandler());
 		
 		
 		URL url;
@@ -97,12 +130,13 @@ public class DisplayableCard extends JLabel  {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	
+		
+		
+		
 		
 	}
 	
 	public void tap(boolean t) {
-			
 			int angle=0;
 			if(t)
 				angle=90;
@@ -112,15 +146,17 @@ public class DisplayableCard extends JLabel  {
 	        int w = getWidth();
 	        int h = getHeight();
 	        int type = BufferedImage.TYPE_INT_RGB;  // other options, see api
-	        BufferedImage image = new BufferedImage(h, w, type);
-	        Graphics2D g2 = image.createGraphics();
+	        BufferedImage bfImage = new BufferedImage(h, w, type);
+	        Graphics2D g2 = bfImage.createGraphics();
 	        double x = (h - w)/2.0;
 	        double y = (w - h)/2.0;
 	        AffineTransform at = AffineTransform.getTranslateInstance(x, y);
 	        at.rotate(Math.toRadians(angle), w/2.0, h/2.0);
 	        g2.drawImage(getImageIcon().getImage(), at,null);
 	        g2.dispose();
-	        this.setIcon(new ImageIcon(image));
+	        this.image=new ImageIcon((Image)bfImage);
+	        this.setSize(h, w);
+	        this.tapped=t;
 	}
 	
 	

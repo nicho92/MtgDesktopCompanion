@@ -1,13 +1,20 @@
 package org.magic.gui.game;
 
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+
+import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MagicCard;
-import org.magic.services.games.GameManager;
-import org.magic.services.games.PositionEnum;
+import org.magic.game.GameManager;
+import org.magic.game.PositionEnum;
 
 public class GraveyardPanel extends DraggablePanel {
 
 	public GraveyardPanel() {
 		super();
+		setLayout(null);
 	}
 	
 	@Override
@@ -18,8 +25,6 @@ public class GraveyardPanel extends DraggablePanel {
 	@Override
 	public void addComponent(DisplayableCard i) {
 		add(i);
-		
-		
 	}
 
 
@@ -32,6 +37,14 @@ public class GraveyardPanel extends DraggablePanel {
 			default:break;
 		}
 		
+	}
+	
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		 super.paintComponents(g);
+		Image bg = new ImageIcon(getClass().getResource("/res/graveyard.png")).getImage();
+		g.drawImage(bg,0,0,null);
 	}
 	
 

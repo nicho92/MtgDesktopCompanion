@@ -499,6 +499,7 @@ public class MagicGUI extends JFrame {
 		tabbedCardsInfo = new JTabbedPane(JTabbedPane.TOP);
 		scrollThumbnails = new JScrollPane();
 		thumbnailPanel = new ThumbnailPanel();
+		thumbnailPanel.enableDragging(false);
 
 		rarityRepartitionPanel = new RarityRepartitionPanel();
 		JScrollPane scrollPaneRules = new JScrollPane();

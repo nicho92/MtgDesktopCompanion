@@ -1,4 +1,4 @@
-package org.magic.services.games;
+package org.magic.game;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -34,9 +34,10 @@ public class GameManager {
 		return player;
 	}
 
+	
 
 	public static void main(String[] args) throws Exception {
-		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/GW TOKENS.deck"), MagicDeck.class));
+		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Mr Toad's Wild Ride.deck"), MagicDeck.class));
 		
 		GameManager.getInstance().setPlayer(p1);
 		JFrame f = new JFrame(p1.getName() +"->" + p1.getDeck().getName());

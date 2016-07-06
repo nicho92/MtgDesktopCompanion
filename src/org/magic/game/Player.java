@@ -1,4 +1,4 @@
-package org.magic.services.games;
+package org.magic.game;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -35,6 +35,7 @@ public class Player {
 		battlefield=new ArrayList<MagicCard>();
 		manaPool = new HashMap<String,Integer>();
 		turns = new ArrayList<Turn>();
+		nextTurn();
 	}
 	
 	public Player(MagicDeck deck) {
@@ -164,8 +165,6 @@ public class Player {
 		exil.add(mc);
 		
 	}
-
-	
 	
 	public void returnCardFromBattleField(MagicCard mc)
 	{
@@ -260,11 +259,12 @@ public class Player {
 		build.append("Graveyard :" ).append(graveyard.size()).append("\n");
 		build.append("Hand:" ).append(hand.size()).append("\n");
 		build.append("BattleField :" ).append(battlefield.size()).append("\n");
-		build.append("Exile :" ).append(exil.size()).append("\n");
+		build.append("Exil :" ).append(exil.size()).append("\n");
+		build.append("Pool : [ " );
 		for(String key : manaPool.keySet())
 			build.append(key).append(":").append(manaPool.get(key));
 		
-		build.append("\n");
+		build.append("]\n");
 		
 		
 		return build.toString();
@@ -272,6 +272,11 @@ public class Player {
 
 	public List<Turn> getTurns() {
 		return turns;
+	}
+
+	public void logAction(String string) {
+		getTurns().get(getTurns().size()-1).getActions().add(string);
+		
 	}
 	
 	

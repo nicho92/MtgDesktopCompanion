@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.services.games.GameManager;
-import org.magic.services.games.PositionEnum;
+import org.magic.game.GameManager;
+import org.magic.game.PositionEnum;
 
 public class BattleFieldPanel extends DraggablePanel  {
 

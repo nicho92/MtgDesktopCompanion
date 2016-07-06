@@ -11,9 +11,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import org.magic.game.GameManager;
+import org.magic.game.Player;
 import org.magic.gui.components.ManaPanel;
-import org.magic.services.games.GameManager;
-import org.magic.services.games.Player;
 import org.jdesktop.beansbinding.ELProperty;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.Bindings;
