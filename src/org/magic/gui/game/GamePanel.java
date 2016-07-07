@@ -13,6 +13,7 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
@@ -130,6 +131,17 @@ public class GamePanel extends JPanel {
 			}
 		});
 		panelTools.add(btnShuffle);
+		
+		JButton btnScry = new JButton("Scry");
+		btnScry.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String res = JOptionPane.showInputDialog("How many scry card ?");
+				new SearchLibraryFrame(GameManager.getInstance().getPlayer().scry(Integer.parseInt(res))).setVisible(true);
+				
+			}
+		});
+		panelTools.add(btnScry);
 		
 		btnDrawHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
