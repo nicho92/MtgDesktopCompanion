@@ -1,10 +1,8 @@
 package org.magic.gui.game;
 
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Image;
+import java.awt.Color;
 
-import javax.swing.ImageIcon;
+import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.GameManager;
@@ -15,6 +13,7 @@ public class GraveyardPanel extends DraggablePanel {
 	public GraveyardPanel() {
 		super();
 		setLayout(null);
+		setBorder(new LineBorder(Color.BLACK));
 	}
 	
 	@Override
@@ -40,12 +39,12 @@ public class GraveyardPanel extends DraggablePanel {
 	}
 	
 	
-	@Override
+	/*@Override
 	public void paintComponent(Graphics g) {
 		 super.paintComponents(g);
 		Image bg = new ImageIcon(getClass().getResource("/res/graveyard.png")).getImage();
 		g.drawImage(bg,0,0,null);
 	}
-	
+	*/
 
 }

@@ -93,6 +93,13 @@ public class Player {
 		}
 	}
 	
+	public List<MagicCard> scry(int number)
+	{
+		List<MagicCard> list = library.subList(0, number);
+		return list;
+	}
+	
+	
 	public void setMana(String color, int number)
 	{
 			logAction("Set " + number + " " + color + " to manapool" );
