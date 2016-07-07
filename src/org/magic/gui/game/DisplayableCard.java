@@ -21,6 +21,7 @@ import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.game.GameManager;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 
 
@@ -29,6 +30,8 @@ public class DisplayableCard extends JLabel
 
 	
 	private MagicCard magicCard;
+	private MagicCard flippedCard;
+	
 	private boolean tapped=false;
 	private ImageIcon image;
 	private boolean draggable=true;
@@ -85,6 +88,17 @@ public class DisplayableCard extends JLabel
 		setVerticalAlignment(JLabel.CENTER);
 		magicCard=mc;
 		
+		
+	StringBuilder b = new StringBuilder();
+		b.append("<html>");
+		b.append("<b>").append(getMc().getName()).append("</b><i> (").append(getMc().getFullType()).append(")</i>");
+		b.append("&nbsp;&nbsp;<b>").append(getMc().getCost()).append("</b>");
+		b.append("<br>").append(getMc().getText().replaceAll("\n", "<br>"));
+		b.append("</html>");
+		
+		setToolTipText(b.toString());
+		
+		
 		addMouseListener(new MouseAdapter() {
 			public void mouseEntered(MouseEvent me) {
 				 ((DisplayableCard)me.getComponent()).setBorder(new LineBorder(Color.RED));
@@ -101,9 +115,15 @@ public class DisplayableCard extends JLabel
 				 {
 					 DisplayableCard c =  ((DisplayableCard)me.getComponent());
 					 if(c.isTapped())
+					 {
 						 c.tap(false);
+						 GameManager.getInstance().getPlayer().logAction("Untap " + c.getMc() );
+					 }
 					 else
+					 {
 						 c.tap(true);
+						 GameManager.getInstance().getPlayer().logAction("Tap " + c.getMc() + " (" + getMc().getText()+")");
+					 }
 				 }
 				 else
 				 {
@@ -135,6 +155,12 @@ public class DisplayableCard extends JLabel
 		
 		
 	}
+	
+	public void flip(boolean t)
+	{
+		
+	}
+	
 	
 	public void tap(boolean t) {
 			int angle=0;
@@ -184,6 +210,4 @@ public class DisplayableCard extends JLabel
 	}
 
 
-
-		
 }

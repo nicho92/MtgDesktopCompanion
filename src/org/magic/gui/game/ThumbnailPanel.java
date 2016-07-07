@@ -20,8 +20,7 @@ public class ThumbnailPanel extends DraggablePanel {
 	GridBagConstraints c;
 	int index=0;
 	int val=7;
-	
-	
+
 	@Override
 	public void moveCard(MagicCard mc, PositionEnum to) {
 		switch (to) {

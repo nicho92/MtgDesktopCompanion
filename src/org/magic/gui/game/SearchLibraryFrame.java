@@ -1,26 +1,28 @@
 package org.magic.gui.game;
 
-import javax.swing.JFrame;
+import java.awt.Dimension;
+
+import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 
 import org.magic.game.GameManager;
+import org.magic.game.PositionEnum;
 
-public class SearchLibraryFrame extends JFrame {
+public class SearchLibraryFrame extends JDialog {
 
-	ThumbnailPanel pane;
+	LibraryPanel pane;
 	JScrollPane scPane;
 	
 	DisplayableCard selectedCard;
 	
 	public SearchLibraryFrame() {
+		setSize(new Dimension(800, 600));
 		scPane = new JScrollPane();
-		pane=new ThumbnailPanel();
+		pane=new LibraryPanel();
 		pane.setThumbnailSize(179, 240);
 		scPane.setViewportView(pane);
 		getContentPane().add(scPane);
 		pane.initThumbnails(GameManager.getInstance().getPlayer().getLibrary());
-		
-		pack();
 		
 	}
 	

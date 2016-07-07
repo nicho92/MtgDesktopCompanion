@@ -40,6 +40,7 @@ public class GameManager {
 		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Mr Toad's Wild Ride.deck"), MagicDeck.class));
 		
 		GameManager.getInstance().setPlayer(p1);
+		GameManager.getInstance().initGame();
 		JFrame f = new JFrame(p1.getName() +"->" + p1.getDeck().getName());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GamePanel p = new GamePanel();
@@ -47,6 +48,12 @@ public class GameManager {
 		f.getContentPane().add(p);
 		f.setVisible(true);
 		f.setSize(1024, 800);
+	}
+
+
+	public void initGame() {
+		player.init();
+		
 	}
 	
 }

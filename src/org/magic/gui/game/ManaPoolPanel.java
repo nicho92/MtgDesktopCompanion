@@ -1,29 +1,23 @@
 package org.magic.gui.game;
 
 
+import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Map;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.magic.game.GameManager;
-import org.magic.game.Player;
 import org.magic.gui.components.ManaPanel;
-import org.jdesktop.beansbinding.ELProperty;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import javax.swing.JLabel;
-import java.awt.Font;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
-public class ManaPoolPanel extends JScrollPane{
+public class ManaPoolPanel extends JPanel{
 	private JSpinner spinW;
 	private JSpinner spinU;
 	private JSpinner spinB;
@@ -38,7 +32,7 @@ public class ManaPoolPanel extends JScrollPane{
 		
 		
 		JPanel panel = new JPanel();
-		setViewportView(panel);
+		add(panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{40, 66, 0};
 		gbl_panel.rowHeights = new int[]{32, 33, 33, 33, 33, 33, 0, 0};

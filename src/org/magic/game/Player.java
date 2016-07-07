@@ -26,7 +26,7 @@ public class Player {
 	private Map<String,Integer> manaPool;
 	
 	
-	private void init()
+	public void init()
 	{
 		graveyard=new ArrayList<MagicCard>();
 		exil=new ArrayList<MagicCard>();
@@ -85,6 +85,7 @@ public class Player {
 	public void addMana(String color, int number)
 	{
 		try{
+			logAction("Add " + number + " " + color + " to manapool" );
 			manaPool.put(color, manaPool.get(color)+number);
 		}catch(NullPointerException e)
 		{
@@ -94,28 +95,32 @@ public class Player {
 	
 	public void setMana(String color, int number)
 	{
-		
+			logAction("Set " + number + " " + color + " to manapool" );
 			manaPool.put(color, number);
 		
 	}
 	
 	public void lifeLoose(int lost)
 	{
+		logAction("Loose " + lost + " life" );
 		life=life-lost;
 	}
 	
 	public void lifeGain(int gain)
 	{
+		logAction("Loose " + gain + " life" );
 		life=life+gain;
 	}
 	
 	public void shuffleLibrary()
 	{
+		logAction("Shuffle his library" );
 		Collections.shuffle(library);
 	}
 	
 	public void drawCard(int number)
 	{
+		logAction("Draw " + number +" cards" );
 		for(int i=0;i<number;i++)
 		{ 
 			hand.add(library.get(i));
@@ -124,6 +129,8 @@ public class Player {
 	}
 	
 	public void discardCardFromBattleField(MagicCard mc) {
+		logAction("Sacrifice " + mc);
+		
 		battlefield.remove(mc);
 		graveyard.add(mc);
 		
@@ -131,18 +138,24 @@ public class Player {
 	
 	public void discardCardFromHand(MagicCard mc)
 	{
+		logAction("Discard " + mc );
+		
 		hand.remove(mc);
 		graveyard.add(mc);
 	}
 	
 	public void discardCardFromLibrary(MagicCard mc)
 	{
+		logAction("Discard " + mc +" from library" );
+		
 		library.remove(mc);
 		graveyard.add(mc);
 	}
 
 
 	public void exileCardFromBattleField(MagicCard mc) {
+		logAction("Exil " + mc + " from battlefield");
+		
 		battlefield.remove(mc);
 		exil.add(mc);
 		
@@ -150,17 +163,23 @@ public class Player {
 	
 	public void exileCardFromLibrary(MagicCard mc)
 	{
+		logAction("Exil " + mc +" from library" );
+		
 		library.remove(mc);
 		exil.add(mc);
 	}
 	
 	public void exileCardFromHand(MagicCard mc)
 	{
+		logAction("Exil " + mc +" from Hand" );
+		
 		hand.remove(mc);
 		exil.add(mc);
 	}
 	
 	public void exileCardFromGraveyard(MagicCard mc) {
+		logAction("Exil " + mc +" from graveyard" );
+		
 		graveyard.remove(mc);
 		exil.add(mc);
 		
@@ -168,23 +187,31 @@ public class Player {
 	
 	public void returnCardFromBattleField(MagicCard mc)
 	{
+		logAction("get " + mc +" back in hand" );
+		
 		battlefield.remove(mc);
 		hand.add(mc);
 	}
 	public void returnCardFromGraveyard(MagicCard mc)
 	{
+		logAction("return " + mc +" from graveyard in hand" );
+		
 		graveyard.remove(mc);
 		hand.add(mc);
 	}
 	
 	public void mixGraveyardAndLibrary()
 	{
+		logAction("Shuffle graveyard in library" );
+		
 		library.addAll(graveyard);
 		graveyard.clear();
 	}
 	
 	public void mixHandAndLibrary()
 	{
+		logAction("Shuffle hand in library" );
+		
 		library.addAll(hand);
 		hand.clear();
 	}
@@ -246,6 +273,8 @@ public class Player {
 	}
 
 	public void playCard(MagicCard mc) {
+		logAction("Play " + mc );
+		
 		hand.remove(mc);
 		battlefield.add(mc);
 		
@@ -264,6 +293,19 @@ public class Player {
 		for(String key : manaPool.keySet())
 			build.append(key).append(":").append(manaPool.get(key));
 		
+		build.append("]\n " );
+		build.append("Actions : " );
+		for(int i = 0;i<turns.size();i++)
+		{   
+			Turn t = turns.get(i);
+			build.append("\nTurn ").append(i).append("[");
+			for(String s : t.getActions())
+			{
+				build.append("\n\t").append(s);
+			}
+			build.append("\n]");
+					
+		}
 		build.append("]\n");
 		
 		
@@ -276,6 +318,20 @@ public class Player {
 
 	public void logAction(String string) {
 		getTurns().get(getTurns().size()-1).getActions().add(string);
+		
+	}
+
+	public void playCardFromLibrary(MagicCard mc) {
+		logAction("play " + mc + " from library");
+		battlefield.add(mc);
+		library.remove(mc);
+		
+	}
+
+	public void searchCardFromLibrary(MagicCard mc) {
+		logAction("search " + mc + " from library into hand");
+		hand.add(mc);
+		library.remove(mc);
 		
 	}
 	

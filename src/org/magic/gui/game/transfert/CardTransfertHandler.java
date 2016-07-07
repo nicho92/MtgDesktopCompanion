@@ -123,11 +123,12 @@ public class CardTransfertHandler extends TransferHandler  {
 		
 		DraggablePanel target = (DraggablePanel) support.getComponent();
 		try {
-			
 			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
+			//GameManager.getInstance().getPlayer().logAction("play " + src.getMc() + " from " + ((DraggablePanel)src.getParent()).getOrigine() + " to " + target.getOrigine());
 			((DraggablePanel)src.getParent()).moveCard(src.getMc(), target.getOrigine());
 			target.addComponent(src);
-			GameManager.getInstance().getPlayer().logAction("");
+			
+			System.out.println(GameManager.getInstance().getPlayer());
 			return true;
 		} catch (Exception ufe) {
 			ufe.printStackTrace();
