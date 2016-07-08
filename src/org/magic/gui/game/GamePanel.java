@@ -2,57 +2,57 @@ package org.magic.gui.game;
 
 import java.awt.BorderLayout;
 import java.awt.Cursor;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
-import java.awt.dnd.DnDConstants;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.BoxLayout;
+import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 import org.magic.game.GameManager;
 import org.magic.game.Player;
-import org.magic.gui.game.transfert.CardTransfertHandler;
-
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JScrollPane;
-import java.awt.Font;
-import java.awt.Component;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.BindingGroup;
-
-import java.util.List;
-import org.magic.api.beans.MagicCard;
-import org.jdesktop.beansbinding.ELProperty;
-import org.jdesktop.beansbinding.ObjectProperty;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
-import java.util.Map;
+import javax.swing.ListSelectionModel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Color;
+import java.awt.SystemColor;
+import java.awt.Component;
 
-public class GamePanel extends JPanel {
+public class GamePanel extends JPanel implements Observer {
+	
+	
 	private JSpinner spinLife;
 	private JSpinner spinPoison;
 	private ThumbnailPanel handPanel;
 	private BattleFieldPanel panelBattleField;
-	
-	
+	private JPanel panneauGauche;
+	private JPanel panneauDroit;
+	private JList listActions;
 	private JLabel lblLibraryCountCard;
-	
+	private JLabel lblPlayer;
 	
 	private Player player;
 	private JLabel lblLibrary;
@@ -60,7 +60,6 @@ public class GamePanel extends JPanel {
 	
 	public void initGame()
 	{
-		player=GameManager.getInstance().getPlayer();
 		spinLife.setValue(player.getLife());
 		spinPoison.setValue(player.getPoisonCounter());
 	}
@@ -69,38 +68,112 @@ public class GamePanel extends JPanel {
 		
 		setLayout(new BorderLayout(0, 0));
 		
+		panneauGauche = new JPanel();
+		panneauDroit = new JPanel();
+		
+		
+		JSplitPane splitPane = new JSplitPane();
+		add(splitPane, BorderLayout.CENTER);
+		
+		splitPane.setLeftComponent(panneauGauche);
+		panneauGauche.setLayout(new BorderLayout(0, 0));
+		
+		JScrollPane scrollActions = new JScrollPane();
+		panneauGauche.add(scrollActions);
+		
+		listActions = new JList();
+		listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		listActions.setValueIsAdjusting(true);
+		listActions.setModel(new DefaultListModel<String>());
+		scrollActions.setViewportView(listActions);
+		
+		
+		splitPane.setRightComponent(panneauDroit);
+		panneauDroit.setLayout(new BorderLayout(0, 0));
+		
 		JPanel panelInfo = new JPanel();
-		add(panelInfo, BorderLayout.WEST);
-		panelInfo.setLayout(new BoxLayout(panelInfo, BoxLayout.Y_AXIS));
+		panneauDroit.add(panelInfo, BorderLayout.WEST);
+		panelInfo.setLayout(new BorderLayout(0, 0));
 		
 		JPanel lifePanel = new JPanel();
-		panelInfo.add(lifePanel);
-		lifePanel.setLayout(new GridLayout(2, 2, 0, 0));
-		
-		JLabel lblLife = new JLabel("");
-		lblLife.setHorizontalAlignment(SwingConstants.CENTER);
-		lblLife.setIcon(new ImageIcon(GamePanel.class.getResource("/res/heart.png")));
-		lifePanel.add(lblLife);
-		
-		spinLife = new JSpinner();
-		spinLife.setFont(new Font("Tahoma", Font.BOLD, 17));
-		lifePanel.add(spinLife);
-		
-		JLabel lblPoison = new JLabel("");
-		lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
-		lblPoison.setIcon(new ImageIcon(GamePanel.class.getResource("/res/poison.png")));
-		lifePanel.add(lblPoison);
-		
-		spinPoison = new JSpinner();
-		spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
-		
-		lifePanel.add(spinPoison);
+		lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		panelInfo.add(lifePanel, BorderLayout.NORTH);
+		GridBagLayout gbl_lifePanel = new GridBagLayout();
+		gbl_lifePanel.columnWidths = new int[]{29, 53, 32, 41, 0};
+		gbl_lifePanel.rowHeights = new int[] {0, 25, 0, 0};
+		gbl_lifePanel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_lifePanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		lifePanel.setLayout(gbl_lifePanel);
+						
+						lblPlayer = new JLabel("");
+						lblPlayer.setIcon(new ImageIcon(GamePanel.class.getResource("/res/planeswalker.png")));
+						GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
+						gbc_lblPlayer.gridwidth = 3;
+						gbc_lblPlayer.insets = new Insets(0, 0, 5, 5);
+						gbc_lblPlayer.gridx = 0;
+						gbc_lblPlayer.gridy = 0;
+						lifePanel.add(lblPlayer, gbc_lblPlayer);
+				
+						
+						JLabel lblLife = new JLabel("");
+						lblLife.setHorizontalAlignment(SwingConstants.CENTER);
+						lblLife.setIcon(new ImageIcon(GamePanel.class.getResource("/res/heart.png")));
+						GridBagConstraints gbc_lblLife = new GridBagConstraints();
+						gbc_lblLife.anchor = GridBagConstraints.WEST;
+						gbc_lblLife.insets = new Insets(0, 0, 0, 5);
+						gbc_lblLife.gridx = 0;
+						gbc_lblLife.gridy = 2;
+						lifePanel.add(lblLife, gbc_lblLife);
+				
+				spinLife = new JSpinner();
+				spinLife.setFont(new Font("Tahoma", Font.BOLD, 17));
+				GridBagConstraints gbc_spinLife = new GridBagConstraints();
+				gbc_spinLife.insets = new Insets(0, 0, 0, 5);
+				gbc_spinLife.gridx = 1;
+				gbc_spinLife.gridy = 2;
+				lifePanel.add(spinLife, gbc_spinLife);
+				spinLife.addChangeListener(new ChangeListener() {
+					
+					public void stateChanged(ChangeEvent e) {
+						if(player !=null) 
+							player.setLife((int)spinLife.getValue());
+						
+					}
+				});
+				
+				JLabel lblPoison = new JLabel("");
+				lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
+				lblPoison.setIcon(new ImageIcon(GamePanel.class.getResource("/res/poison.png")));
+				GridBagConstraints gbc_lblPoison = new GridBagConstraints();
+				gbc_lblPoison.anchor = GridBagConstraints.WEST;
+				gbc_lblPoison.insets = new Insets(0, 0, 0, 5);
+				gbc_lblPoison.gridx = 2;
+				gbc_lblPoison.gridy = 2;
+				lifePanel.add(lblPoison, gbc_lblPoison);
+				
+				spinPoison = new JSpinner();
+				spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
+				GridBagConstraints gbc_spinPoison = new GridBagConstraints();
+				gbc_spinPoison.gridx = 3;
+				gbc_spinPoison.gridy = 2;
+				lifePanel.add(spinPoison, gbc_spinPoison);
+				
+				spinPoison.addChangeListener(new ChangeListener() {
+					
+					public void stateChanged(ChangeEvent e) {
+						if(player !=null)
+							player.setPoisonCounter((int)spinPoison.getValue());
+						
+					}
+				});
 		
 		ManaPoolPanel manaPoolPanel = new ManaPoolPanel();
-		panelInfo.add(manaPoolPanel);
+		manaPoolPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		panelInfo.add(manaPoolPanel, BorderLayout.CENTER);
 		
 		JPanel panelTools = new JPanel();
-		panelInfo.add(panelTools);
+		panelTools.setAlignmentY(Component.TOP_ALIGNMENT);
+		panelInfo.add(panelTools, BorderLayout.SOUTH);
 		panelTools.setLayout(new GridLayout(4, 2, 0, 0));
 		
 		JButton btnNewGame = new JButton("New Game");
@@ -114,9 +187,6 @@ public class GamePanel extends JPanel {
 		});
 		panelTools.add(btnNewGame);
 		
-		JButton btnEndTurn = new JButton("End Turn");
-		panelTools.add(btnEndTurn);
-		
 		JButton btnSearch = new JButton("Search");
 		panelTools.add(btnSearch);
 		
@@ -127,7 +197,7 @@ public class GamePanel extends JPanel {
 		btnShuffle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
-				GameManager.getInstance().getPlayer().shuffleLibrary();
+				player.shuffleLibrary();
 			}
 		});
 		panelTools.add(btnShuffle);
@@ -143,36 +213,17 @@ public class GamePanel extends JPanel {
 		});
 		panelTools.add(btnScry);
 		
-		btnDrawHand.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				player.mixHandAndLibrary();
-				player.shuffleLibrary();
-				player.drawCard(7);
-			    handPanel.initThumbnails(player.getHand());
-				
-			}
-		});
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				SearchLibraryFrame f = new SearchLibraryFrame();
-				f.setVisible(true);
-				
-			}
-		});
+		JButton btnEndTurn = new JButton("End Turn");
+		panelTools.add(btnEndTurn);
 		btnEndTurn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				player.nextTurn();
+				GameManager.getInstance().nextTurn();
 			}
 		});
-		
-		panelBattleField = new BattleFieldPanel();
-		add(panelBattleField, BorderLayout.CENTER);
-		panelBattleField.setLayout(null);
 		
 		
 		JPanel panelLibraryAndGrave = new JPanel();
-		add(panelLibraryAndGrave, BorderLayout.EAST);
+		panneauDroit.add(panelLibraryAndGrave, BorderLayout.EAST);
 		panelLibraryAndGrave.setLayout(new BoxLayout(panelLibraryAndGrave, BoxLayout.Y_AXIS));
 		
 		JPanel panelDeck = new JPanel();
@@ -182,9 +233,9 @@ public class GamePanel extends JPanel {
 		lblLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		try {
 			lblLibrary.setIcon(new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card")));
-		} catch (MalformedURLException e) {
+		} catch (MalformedURLException e1) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			e1.printStackTrace();
 		}
 		panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
 		panelDeck.add(lblLibrary);
@@ -217,12 +268,31 @@ public class GamePanel extends JPanel {
 		handPanel.setRupture(7);
 		
 		JScrollPane scrollPane = new JScrollPane();
-					scrollPane.setPreferredSize(new Dimension(2, handPanel.getCardHeight()));
-		
-		add(scrollPane, BorderLayout.SOUTH);
+		panneauDroit.add(scrollPane, BorderLayout.SOUTH);
+		scrollPane.setPreferredSize(new Dimension(2, handPanel.getCardHeight()));
 		
 		scrollPane.setViewportView(handPanel);
 		
+		panelBattleField = new BattleFieldPanel();
+		panneauDroit.add(panelBattleField, BorderLayout.CENTER);
+		panelBattleField.setLayout(null);
+		
+		btnDrawHand.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				player.mixHandAndLibrary();
+				player.shuffleLibrary();
+				player.drawCard(7);
+			    handPanel.initThumbnails(player.getHand());
+			}
+		});
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				SearchLibraryFrame f = new SearchLibraryFrame();
+				f.setVisible(true);
+				
+			}
+		});
 		
 	}
 	public JSpinner getSpinLife() {
@@ -243,5 +313,19 @@ public class GamePanel extends JPanel {
 	}
 	public GraveyardPanel getPanelGrave() {
 		return panelGrave;
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		String act = player.getName() +" " + arg.toString();
+		((DefaultListModel)listActions.getModel()).addElement(act);
+	}
+
+	public void setPlayer(Player p1) {
+		this.player=p1;
+		lblPlayer.setText(p1.getName());
+		player.addObserver(this);
+		spinLife.setValue(p1.getLife());
+		spinPoison.setValue(p1.getPoisonCounter());
 	}
 }

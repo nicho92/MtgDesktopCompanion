@@ -5,11 +5,12 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 
-public class Player {
+public class Player extends Observable{
 
 	private int life;
 	private String name;
@@ -19,11 +20,9 @@ public class Player {
 	private List<MagicCard> library;
 	private List<MagicCard> hand;
 	private List<MagicCard> battlefield;
-	private int poisonCounter;
-	private List<Turn> turns;
-	
-	
 	private Map<String,Integer> manaPool;
+
+	private int poisonCounter;
 	
 	
 	public void init()
@@ -34,11 +33,11 @@ public class Player {
 		library=deck.getAsList();
 		battlefield=new ArrayList<MagicCard>();
 		manaPool = new HashMap<String,Integer>();
-		turns = new ArrayList<Turn>();
-		nextTurn();
+		
 	}
 	
 	public Player(MagicDeck deck) {
+		super();
 		name="player 1";
 		life=20;
 		this.deck=deck;
@@ -47,16 +46,14 @@ public class Player {
 	}
 	
 	public Player(String name,int life,MagicDeck deck) {
+		super();
 		this.name=name;
 		this.life=life;
 		this.deck=deck;
 		init();
 	}
 
-	public void nextTurn()
-	{
-		turns.add(new Turn());
-	}
+	
 
 	public List<MagicCard> getBattlefield() {
 		return battlefield;
@@ -71,6 +68,7 @@ public class Player {
 	}
 
 	public void setPoisonCounter(int poisonCounter) {
+		logAction("has " + poisonCounter + " poison counter");
 		this.poisonCounter = poisonCounter;
 	}
 
@@ -95,6 +93,7 @@ public class Player {
 	
 	public List<MagicCard> scry(int number)
 	{
+		logAction("Scry " + number + " cards");
 		List<MagicCard> list = library.subList(0, number);
 		return list;
 	}
@@ -109,13 +108,13 @@ public class Player {
 	
 	public void lifeLoose(int lost)
 	{
-		logAction("Loose " + lost + " life" );
+		logAction("Loose " + lost + " life (" + life +")"  );
 		life=life-lost;
 	}
 	
 	public void lifeGain(int gain)
 	{
-		logAction("Loose " + gain + " life" );
+		logAction("Gain " + gain + " life (" + life +")");
 		life=life+gain;
 	}
 	
@@ -227,8 +226,19 @@ public class Player {
 		return life;
 	}
 
-	public void setLife(int life) {
-		this.life = life;
+	public void setLife(int l) {
+		
+		int previouslife = this.life;
+		
+		if(previouslife>l)
+			lifeLoose(previouslife-l);
+		
+		if(previouslife<l)
+			lifeGain(l-previouslife);
+		
+		
+		
+		//this.life = life;
 	}
 
 	public String getName() {
@@ -301,30 +311,14 @@ public class Player {
 			build.append(key).append(":").append(manaPool.get(key));
 		
 		build.append("]\n " );
-		build.append("Actions : " );
-		for(int i = 0;i<turns.size();i++)
-		{   
-			Turn t = turns.get(i);
-			build.append("\nTurn ").append(i).append("[");
-			for(String s : t.getActions())
-			{
-				build.append("\n\t").append(s);
-			}
-			build.append("\n]");
-					
-		}
-		build.append("]\n");
-		
 		
 		return build.toString();
 	}
 
-	public List<Turn> getTurns() {
-		return turns;
-	}
-
 	public void logAction(String string) {
-		getTurns().get(getTurns().size()-1).getActions().add(string);
+		setChanged();
+		notifyObservers(string);
+		GameManager.getInstance().getActualTurn().getActions().add(string);
 		
 	}
 

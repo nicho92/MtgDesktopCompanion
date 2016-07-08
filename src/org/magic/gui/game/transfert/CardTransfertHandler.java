@@ -127,8 +127,6 @@ public class CardTransfertHandler extends TransferHandler  {
 			//GameManager.getInstance().getPlayer().logAction("play " + src.getMc() + " from " + ((DraggablePanel)src.getParent()).getOrigine() + " to " + target.getOrigine());
 			((DraggablePanel)src.getParent()).moveCard(src.getMc(), target.getOrigine());
 			target.addComponent(src);
-			
-			System.out.println(GameManager.getInstance().getPlayer());
 			return true;
 		} catch (Exception ufe) {
 			ufe.printStackTrace();

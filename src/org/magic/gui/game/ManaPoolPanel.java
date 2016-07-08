@@ -26,7 +26,6 @@ public class ManaPoolPanel extends JPanel{
 	private JSpinner spinC;
 	
 	private Map<String,Integer> manapool;
-	private JLabel lblPoolSize;
 	
 	public ManaPoolPanel() {
 		
@@ -43,7 +42,6 @@ public class ManaPoolPanel extends JPanel{
 		ManaPanel panelW = new ManaPanel();
 		panelW.setManaCost("{W}");
 		GridBagConstraints gbc_panelW = new GridBagConstraints();
-		gbc_panelW.fill = GridBagConstraints.VERTICAL;
 		gbc_panelW.insets = new Insets(0, 0, 5, 5);
 		gbc_panelW.gridx = 0;
 		gbc_panelW.gridy = 0;
@@ -57,7 +55,7 @@ public class ManaPoolPanel extends JPanel{
 		});
 		spinW.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinW = new GridBagConstraints();
-		gbc_spinW.fill = GridBagConstraints.BOTH;
+		gbc_spinW.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinW.insets = new Insets(0, 0, 5, 0);
 		gbc_spinW.gridx = 1;
 		gbc_spinW.gridy = 0;
@@ -66,7 +64,6 @@ public class ManaPoolPanel extends JPanel{
 		ManaPanel panelU = new ManaPanel();
 		panelU.setManaCost("{U}");
 		GridBagConstraints gbc_panelU = new GridBagConstraints();
-		gbc_panelU.fill = GridBagConstraints.VERTICAL;
 		gbc_panelU.insets = new Insets(0, 0, 5, 5);
 		gbc_panelU.gridx = 0;
 		gbc_panelU.gridy = 1;
@@ -80,7 +77,7 @@ public class ManaPoolPanel extends JPanel{
 		});
 		spinU.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinU = new GridBagConstraints();
-		gbc_spinU.fill = GridBagConstraints.BOTH;
+		gbc_spinU.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinU.insets = new Insets(0, 0, 5, 0);
 		gbc_spinU.gridx = 1;
 		gbc_spinU.gridy = 1;
@@ -89,7 +86,6 @@ public class ManaPoolPanel extends JPanel{
 		ManaPanel panelB = new ManaPanel();
 		panelB.setManaCost("{B}");
 		GridBagConstraints gbc_panelB = new GridBagConstraints();
-		gbc_panelB.fill = GridBagConstraints.VERTICAL;
 		gbc_panelB.insets = new Insets(0, 0, 5, 5);
 		gbc_panelB.gridx = 0;
 		gbc_panelB.gridy = 2;
@@ -103,7 +99,7 @@ public class ManaPoolPanel extends JPanel{
 		});
 		spinB.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinB = new GridBagConstraints();
-		gbc_spinB.fill = GridBagConstraints.BOTH;
+		gbc_spinB.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinB.insets = new Insets(0, 0, 5, 0);
 		gbc_spinB.gridx = 1;
 		gbc_spinB.gridy = 2;
@@ -112,7 +108,6 @@ public class ManaPoolPanel extends JPanel{
 		ManaPanel panelR = new ManaPanel();
 		panelR.setManaCost("{R}");
 		GridBagConstraints gbc_panelR = new GridBagConstraints();
-		gbc_panelR.fill = GridBagConstraints.VERTICAL;
 		gbc_panelR.insets = new Insets(0, 0, 5, 5);
 		gbc_panelR.gridx = 0;
 		gbc_panelR.gridy = 3;
@@ -126,7 +121,7 @@ public class ManaPoolPanel extends JPanel{
 		});
 		spinR.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinR = new GridBagConstraints();
-		gbc_spinR.fill = GridBagConstraints.BOTH;
+		gbc_spinR.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinR.insets = new Insets(0, 0, 5, 0);
 		gbc_spinR.gridx = 1;
 		gbc_spinR.gridy = 3;
@@ -135,7 +130,6 @@ public class ManaPoolPanel extends JPanel{
 		ManaPanel panelG = new ManaPanel();
 		panelG.setManaCost("{G}");
 		GridBagConstraints gbc_panelG = new GridBagConstraints();
-		gbc_panelG.fill = GridBagConstraints.VERTICAL;
 		gbc_panelG.insets = new Insets(0, 0, 5, 5);
 		gbc_panelG.gridx = 0;
 		gbc_panelG.gridy = 4;
@@ -149,7 +143,7 @@ public class ManaPoolPanel extends JPanel{
 		});
 		spinG.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinG = new GridBagConstraints();
-		gbc_spinG.fill = GridBagConstraints.BOTH;
+		gbc_spinG.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinG.insets = new Insets(0, 0, 5, 0);
 		gbc_spinG.gridx = 1;
 		gbc_spinG.gridy = 4;
@@ -158,7 +152,6 @@ public class ManaPoolPanel extends JPanel{
 		ManaPanel panelC = new ManaPanel();
 		panelC.setManaCost("{C}");
 		GridBagConstraints gbc_panelC = new GridBagConstraints();
-		gbc_panelC.fill = GridBagConstraints.VERTICAL;
 		gbc_panelC.insets = new Insets(0, 0, 5, 5);
 		gbc_panelC.gridx = 0;
 		gbc_panelC.gridy = 5;
@@ -173,19 +166,10 @@ public class ManaPoolPanel extends JPanel{
 		spinC.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		GridBagConstraints gbc_spinC = new GridBagConstraints();
 		gbc_spinC.insets = new Insets(0, 0, 5, 0);
-		gbc_spinC.fill = GridBagConstraints.BOTH;
+		gbc_spinC.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinC.gridx = 1;
 		gbc_spinC.gridy = 5;
 		panel.add(spinC, gbc_spinC);
-		
-		lblPoolSize = new JLabel("0");
-		lblPoolSize.setFont(new Font("Tahoma", Font.BOLD, 13));
-		GridBagConstraints gbc_lblPoolSize = new GridBagConstraints();
-		gbc_lblPoolSize.gridwidth = 2;
-		gbc_lblPoolSize.insets = new Insets(0, 0, 0, 5);
-		gbc_lblPoolSize.gridx = 0;
-		gbc_lblPoolSize.gridy = 6;
-		panel.add(lblPoolSize, gbc_lblPoolSize);
 		
 		
 	}
@@ -209,7 +193,4 @@ public class ManaPoolPanel extends JPanel{
 		return spinC;
 	}
 	
-	public JLabel getLblPoolSize() {
-		return lblPoolSize;
-	}
 }

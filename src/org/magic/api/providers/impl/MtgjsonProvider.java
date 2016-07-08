@@ -220,7 +220,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed) throws IOException{
 		
-		crit=URLEncoder.encode(crit,"UTF-8");
+		//crit=URLEncoder.encode(crit,"UTF-8");
 		
 		
 		String jsquery="$..cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";

@@ -75,7 +75,7 @@ public class DeckBuilderGUI extends JPanel{
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private JTextField txtSearch;
 	private JComboBox<String> cboAttributs;
-
+	private JScrollPane scrollResult;
 	protected int selectedIndex=0;
 
 	private DeckModel deckSidemodel;
@@ -89,6 +89,7 @@ public class DeckBuilderGUI extends JPanel{
 	private JTable tableDeck;
 	private JTable tableSide;
 	private JList listResult;
+	private JTabbedPane tabbedPane;
 	
 	public static final int MAIN=0;
 	public static final int SIDE=1;
@@ -123,7 +124,7 @@ public class DeckBuilderGUI extends JPanel{
 		deckmodel.init(deck);
 		p = new Player(deck);
 		GameManager.getInstance().setPlayer(p);
-		gamePanel.initGame();
+		gamePanel.setPlayer(p);
 		
 	}
 	
@@ -255,7 +256,7 @@ public class DeckBuilderGUI extends JPanel{
 		btnExportAsCsv.setToolTipText("Export as CSV");
 		panneauHaut.add(btnExportAsCsv);
 		
-		JScrollPane scrollResult = new JScrollPane();
+		scrollResult = new JScrollPane();
 		add(scrollResult, BorderLayout.WEST);
 		
 		listResult = new JList(new DefaultListModel<MagicCard>());
@@ -266,7 +267,23 @@ public class DeckBuilderGUI extends JPanel{
 		JPanel panneauBas = new JPanel();
 		add(panneauBas, BorderLayout.SOUTH);
 		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		
+		
+		tabbedPane.addChangeListener(new ChangeListener() {
+			
+			@Override
+			public void stateChanged(ChangeEvent e) {
+				 int index = tabbedPane.getSelectedIndex();
+				 
+				 if(index==6)
+					 scrollResult.setVisible(false);
+				 else
+					 scrollResult.setVisible(true);
+			}
+		});
+		
+		
 		add(tabbedPane, BorderLayout.CENTER);
 		
 		JSplitPane panneauDeck = new JSplitPane();
@@ -395,6 +412,7 @@ public class DeckBuilderGUI extends JPanel{
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 		
 		gamePanel = new GamePanel();
+		
 		randomHandPanel.add(gamePanel, BorderLayout.CENTER);
 		
 		tabbedPane.addTab("Cmc", null, cmcChartPanel, null);
