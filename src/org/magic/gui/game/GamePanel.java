@@ -31,8 +31,13 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.magic.api.beans.MagicCard;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
+import org.magic.game.tokens.CreatureToken;
+import org.magic.game.tokens.TokenFactory;
+
 import javax.swing.ListSelectionModel;
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
@@ -40,6 +45,10 @@ import java.awt.Insets;
 import java.awt.Color;
 import java.awt.SystemColor;
 import java.awt.Component;
+import org.magic.gui.components.CardsPicPanel;
+import java.awt.CardLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class GamePanel extends JPanel implements Observer {
 	
@@ -167,10 +176,6 @@ public class GamePanel extends JPanel implements Observer {
 					}
 				});
 		
-		ManaPoolPanel manaPoolPanel = new ManaPoolPanel();
-		manaPoolPanel.setAlignmentY(Component.TOP_ALIGNMENT);
-		panelInfo.add(manaPoolPanel, BorderLayout.CENTER);
-		
 		JPanel panelTools = new JPanel();
 		panelTools.setAlignmentY(Component.TOP_ALIGNMENT);
 		panelInfo.add(panelTools, BorderLayout.SOUTH);
@@ -215,8 +220,43 @@ public class GamePanel extends JPanel implements Observer {
 		
 		JButton btnEndTurn = new JButton("End Turn");
 		panelTools.add(btnEndTurn);
+		
+		JButton btnToken = new JButton("Token");
+		btnToken.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				
+				for(Component c : panelBattleField.getComponents())
+				{
+					if(((DisplayableCard)c).isSelected())
+					{
+						try{
+							MagicCard tok = new TokenFactory().analyseText(  ((DisplayableCard)c).getMagicCard()  );
+							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
+							dc.setMagicCard(tok);
+							panelBattleField.addComponent(dc);
+							panelBattleField.revalidate();
+							panelBattleField.repaint();
+						}
+						catch (Exception e) {
+							e.printStackTrace();
+						}
+
+					}
+				}
+			}
+		});
+		panelTools.add(btnToken);
+		
+		JPanel panel = new JPanel();
+		panelInfo.add(panel, BorderLayout.CENTER);
+		
+		ManaPoolPanel manaPoolPanel = new ManaPoolPanel();
+		manaPoolPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		
+		panel.setLayout(new BorderLayout(0, 0));
+		panel.add(manaPoolPanel, BorderLayout.NORTH);
 		btnEndTurn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent ae) {
 				GameManager.getInstance().nextTurn();
 			}
 		});
@@ -232,9 +272,8 @@ public class GamePanel extends JPanel implements Observer {
 		lblLibrary = new JLabel("");
 		lblLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 		try {
-			lblLibrary.setIcon(new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card")));
-		} catch (MalformedURLException e1) {
-			// TODO Auto-generated catch block
+			lblLibrary.setIcon(new ImageIcon(new GathererPicturesProvider().getBackPicture()));
+		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 		panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));

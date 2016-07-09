@@ -40,6 +40,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.threads.ThreadManager;
 
@@ -463,9 +464,8 @@ public class MagicCardDetailPanel extends JPanel {
 	
 	public void setMagicLogo(String set,String rarity) {
 			try {
-				String url = "http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size=medium&rarity="+rarity.substring(0,1);
-				URL iconURL = new URL(url);
-				lblLogoSet.setIcon(new ImageIcon(iconURL));
+				
+				lblLogoSet.setIcon(new ImageIcon(new GathererPicturesProvider().getPicture(set, rarity)));
 			} catch (Exception e) {
 				logger.error(e);
 			}
@@ -555,11 +555,11 @@ public class MagicCardDetailPanel extends JPanel {
 				public void run() {
 					ImageIcon icon;
 					try {
-						icon = new ImageIcon(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+magicCard.getEditions().get(0).getMultiverse_id()+"&type=card"));
+						icon = new ImageIcon(new GathererPicturesProvider().getPicture(magicCard));
 						Image img = icon.getImage();
 						//Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
 						lblThumbnail.setIcon( new ImageIcon(img));
-					} catch (MalformedURLException e) {
+					} catch (Exception e) {
 						logger.error(e);
 					}
 					

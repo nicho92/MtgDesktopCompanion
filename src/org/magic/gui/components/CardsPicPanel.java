@@ -16,6 +16,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -26,6 +27,7 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.util.PaintUtils;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.services.threads.ThreadManager;
 
 
@@ -42,7 +44,6 @@ public class CardsPicPanel extends JXPanel {
 	private Shape selectedShape = null;
 	private ReflectionRenderer renderer;
 	private Point pointInitial = null;
-	private boolean isCtrlPressed = false;
 
 	
 	 private BufferedImage printed;
@@ -57,7 +58,6 @@ public class CardsPicPanel extends JXPanel {
 	
 	private boolean moveable=true;
 
-	private URL photoBack;
 
 	public CardsPicPanel()
 	{
@@ -72,18 +72,25 @@ public class CardsPicPanel extends JXPanel {
     	return image;
 	}
 	
-	public void showPhoto(final URL photo,URL bottom) {
+	public void showPhoto(final String idFront,String bottom) {
 		
-		this.photoBack=bottom;
-		
+	
 		if(bottom==null)
+		{
 			try {
-				photoBack=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card");
-			} catch (MalformedURLException e1) {
-				// TODO Auto-generated catch block
+				back=new GathererPicturesProvider().getBackPicture();
+			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
-	
+		}
+		else
+		{
+			try {
+				back = new GathererPicturesProvider().getPicture(bottom);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		ThreadManager.getInstance().execute(new Runnable() {
 			
 			@Override
@@ -91,8 +98,8 @@ public class CardsPicPanel extends JXPanel {
 				try {
 					
 					
-					imgFront=renderer.appendReflection(ImageIO.read(photo));
-					back=mirroring(ImageIO.read(photoBack));
+					imgFront=renderer.appendReflection(new GathererPicturesProvider().getPicture(idFront));
+					back=mirroring(back);
 					back=renderer.appendReflection(back);
 					
 					

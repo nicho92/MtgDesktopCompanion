@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -29,6 +30,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -63,9 +65,12 @@ public class CardBuilderPanelGUI extends JPanel {
 	private JComboBox<Integer> cboUn = new JComboBox<Integer>(data);
 	private JComboBox<String> cboColor;
 	private JTextField txtAuthor;
-
+	
+	
 	static final Logger logger = LogManager.getLogger(CardBuilderPanelGUI.class.getName());
 
+	String url ="";
+	
 	
 	private void init()
 	{
@@ -75,10 +80,11 @@ public class CardBuilderPanelGUI extends JPanel {
 		card.getEditions().add(ed);
 	}
 	
-	public void updateCard()
+	public void updateCard()//TODO use magiccardmaker
 	{
 		try {
-		String url = "http://www.mtgcardmaker.com/mcmaker/createcard.php?"
+
+		url = "http://www.mtgcardmaker.com/mcmaker/createcard.php?"
 				+ "name="+URLEncoder.encode(txtName.getText(),"UTF-8")
 				+ "&color="+cboColor.getSelectedItem()
 				+ "&mana_r="+cboR.getSelectedItem()

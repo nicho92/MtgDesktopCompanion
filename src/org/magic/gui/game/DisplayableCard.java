@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -14,14 +13,16 @@ import java.net.URL;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
+import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.game.GameManager;
+import org.magic.gui.CardBuilderPanelGUI;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 
 
@@ -30,13 +31,27 @@ public class DisplayableCard extends JLabel
 
 	
 	private MagicCard magicCard;
-	private MagicCard flippedCard;
 	
 	private boolean tapped=false;
 	private ImageIcon image;
 	private boolean draggable=true;
+
+	
+	private boolean selected;
 	
 	
+	
+	
+	public boolean isSelected() {
+		return selected;
+	}
+
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+
 	public ImageIcon getImageIcon() {
 		return image;
 	}
@@ -48,6 +63,7 @@ public class DisplayableCard extends JLabel
 	private String title;
 	private String bottom;
 	
+
 
 
 
@@ -91,22 +107,23 @@ public class DisplayableCard extends JLabel
 		
 	StringBuilder b = new StringBuilder();
 		b.append("<html>");
-		b.append("<b>").append(getMc().getName()).append("</b><i> (").append(getMc().getFullType()).append(")</i>");
-		b.append("&nbsp;&nbsp;<b>").append(getMc().getCost()).append("</b>");
-		b.append("<br>").append(getMc().getText().replaceAll("\n", "<br>"));
+		b.append("<b>").append(getMagicCard().getName()).append("</b><i> (").append(getMagicCard().getFullType()).append(")</i>");
+		b.append("&nbsp;&nbsp;<b>").append(getMagicCard().getCost()).append("</b>");
+		b.append("<br>").append(getMagicCard().getText().replaceAll("\n", "<br>"));
 		b.append("</html>");
 		
 		setToolTipText(b.toString());
 		
 		
 		addMouseListener(new MouseAdapter() {
+			
 			public void mouseEntered(MouseEvent me) {
-				 ((DisplayableCard)me.getComponent()).setBorder(new LineBorder(Color.RED));
 			}
 			 
 			@Override
 			public void mouseExited(MouseEvent me) {
-				 ((DisplayableCard)me.getComponent()).setBorder(null);
+				// ((DisplayableCard)me.getComponent()).setBorder(null);
+
 			}
 			
 			
@@ -117,20 +134,33 @@ public class DisplayableCard extends JLabel
 					 if(c.isTapped())
 					 {
 						 c.tap(false);
-						 GameManager.getInstance().getPlayer().logAction("Untap " + c.getMc() );
+						 GameManager.getInstance().getPlayer().logAction("Untap " + c.getMagicCard() );
 					 }
 					 else
 					 {
 						 c.tap(true);
-						 GameManager.getInstance().getPlayer().logAction("Tap " + c.getMc() + " (" + getMc().getText()+")");
+						 GameManager.getInstance().getPlayer().logAction("Tap " + c.getMagicCard() + " (" + getMagicCard().getText()+")");
 					 }
 				 }
 				 else
 				 {
 					  Component c = me.getComponent();
-					  if (c != null && c instanceof DisplayableCard) {
+					  if (c != null && c instanceof DisplayableCard) 
+					  {
+						  DisplayableCard card= ((DisplayableCard)c);
+						  
+						  if(card.isSelected())
+						  {	  
+							  card.setBorder(null);
+						  	  card.setSelected(false);
+						  }
+						  else
+						  {
+							  card.setBorder(new LineBorder(Color.RED));
+						  	  card.setSelected(true);
+						  }
 						  if(draggable)
-							  ((DraggablePanel)c.getParent()).getTransferHandler().exportAsDrag((DisplayableCard)c, me, TransferHandler.MOVE);
+							  ((DraggablePanel)c.getParent()).getTransferHandler().exportAsDrag(card, me, TransferHandler.MOVE);
 					  }
 					}
 				  	 
@@ -142,11 +172,16 @@ public class DisplayableCard extends JLabel
 		
 		setTransferHandler(new CardTransfertHandler());
 		
-		
-		URL url;
 		try {
-			url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+mc.getEditions().get(0).getMultiverse_id()+"&type=card");
-			image = new ImageIcon(ImageIO.read(url).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			
+			if(mc.isToken()==false)
+			{
+				image = new ImageIcon(new GathererPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			}
+			else
+			{
+				image = new ImageIcon(new MTGCardMakerPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			}
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -161,6 +196,10 @@ public class DisplayableCard extends JLabel
 		
 	}
 	
+	public void transform(boolean t)
+	{
+		
+	}
 	
 	public void tap(boolean t) {
 			int angle=0;
@@ -196,10 +235,10 @@ public class DisplayableCard extends JLabel
 	}
 	
 	
-	public MagicCard getMc() {
+	public MagicCard getMagicCard() {
 		return magicCard;
 	}
-	public void setMc(MagicCard mc) {
+	public void setMagicCard(MagicCard mc) {
 		this.magicCard = mc;
 	}
 	public boolean isTapped() {

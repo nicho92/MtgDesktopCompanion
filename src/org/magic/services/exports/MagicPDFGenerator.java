@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
@@ -77,9 +78,12 @@ public class MagicPDFGenerator {
 					 break;
 				 }
 		 
-		 
-		 
-		 Image image1 = Image.getInstance(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+id+"&type=card"));
+		 Image image1=null;
+		try {
+			image1 = Image.getInstance(new GathererPicturesProvider().getPictureURL(id));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		   	   image1.scalePercent(60);
 		   
 		   PdfPCell cell = new PdfPCell(image1, false);

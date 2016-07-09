@@ -70,6 +70,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
@@ -180,8 +181,8 @@ public class MagicGUI extends JFrame {
 	
 	private JList<MagicEdition> listEdition;
 
-	private URL front;
-	private URL back;
+	private String front;
+	private String back;
 
 
 	public void setDefaultLanguage(String language) {
@@ -800,8 +801,7 @@ public class MagicGUI extends JFrame {
 							public void run() {
 								try {
 									loading(true,"loading edition");
-										cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card"),
-																new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card"));//backcard
+										cardsPicPanel.showPhoto(selectedEdition.getMultiverse_id(),null);//backcard
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
 										historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
@@ -850,11 +850,9 @@ public class MagicGUI extends JFrame {
 					try {
 						if(selLang!=null)
 						{
-							//logger.debug("loading " + selLang + " " + "http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selLang.getGathererId()+"&type=card");
-							cardsPicPanel.showPhoto(new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selLang.getGathererId()+"&type=card"),
-													back);
+							cardsPicPanel.showPhoto(""+selLang.getGathererId(),back);
 						}
-					} catch (MalformedURLException e1) {}
+					} catch (Exception e1) {}
 				}
 
 			});
@@ -951,7 +949,7 @@ public class MagicGUI extends JFrame {
 			thumbnailPanel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					DisplayableCard lab = (DisplayableCard)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
-					selected = lab.getMc();
+					selected = lab.getMagicCard();
 					updateCards();
 				}
 				
@@ -1007,6 +1005,7 @@ public class MagicGUI extends JFrame {
 		},"updatePrices");
 		
 	}
+	
 	public void updateCards() {
 		try {
 			cboLanguages.removeAllItems();
@@ -1019,13 +1018,13 @@ public class MagicGUI extends JFrame {
 				((DefaultListModel<MagicEdition>)listEdition.getModel()).addElement(me);
 
 			if(selectedEdition!=null)
-				front = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selectedEdition.getMultiverse_id()+"&type=card");
+				front = selectedEdition.getMultiverse_id();
 			else
-				front = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+selected.getMultiverseid()+"&type=card");
+				front = ""+selected.getMultiverseid();
 			
 			String nb = selected.getNumber();
 			
-			back=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card");
+			back=null;
 			
 			
 			
@@ -1038,7 +1037,7 @@ public class MagicGUI extends JFrame {
 						nb=nb.replace("b", "a");
 					
 					MagicCard flipC = provider.getCardByNumber(nb, selectedEdition);
-					back=new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+flipC.getEditions().get(0).getMultiverse_id()+"&type=card");
+					back=flipC.getEditions().get(0).getMultiverse_id();
 				}
 			
 			
@@ -1074,6 +1073,7 @@ public class MagicGUI extends JFrame {
 			
 			
 		} catch (Exception e1) {
+			e1.printStackTrace();
 			logger.error(e1);
 		}
 
