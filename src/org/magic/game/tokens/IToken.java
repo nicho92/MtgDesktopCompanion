@@ -8,8 +8,5 @@ public interface IToken {
 	
 	public abstract TYPE_TOKEN getType(); 
 	
-	public abstract void setModificator(int strength,int toughness);
-	public abstract void setLoyalty(int loyalty);
-	public abstract MagicCard creature(String name, String color, int s, int t, String text);
 	
 }

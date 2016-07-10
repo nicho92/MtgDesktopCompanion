@@ -58,10 +58,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		me.setId("EMA");
 		
 		
-		Map<Date,Double> vals = new MTGoldFishDashBoard().getPriceVariation(null, me);
+		List<CardShake> vals = new MTGoldFishDashBoard().getShakeForEdition(me);
 		
-		for(Date d: vals.keySet())
-			System.out.println(new SimpleDateFormat("dd/MM/yyyy").format(d) + " " + vals.get(d));
+		for(CardShake d: vals)
+			System.out.println(vals);
 		
 	}
 	
@@ -180,10 +180,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		for(Element e : table.getElementsByTag("tr"))
 		{
-			
+			System.out.println(e);
 			CardShake cs = new CardShake();
 			cs.setName(e.getElementsByTag("TD").get(3).text().replaceAll("\\(RL\\)", "").trim());
-			cs.setImg(new URL(e.getElementsByTag("TD").get(3).getElementsByTag("a").get(0).attr("data-full-image")));
+			cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(3).getElementsByTag("a").get(0).attr("data-full-image")));
 			cs.setPrice(parseDouble(e.getElementsByTag("TD").get(4).text()));
 			cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(1).text()));
 			cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
@@ -208,9 +208,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException
 	{
-		
-		
-
 		String oldID=edition.getId();
 		String urlEditionChecker = props.getProperty("URL_EDITIONS")+replace(edition.getId())+"#"+props.getProperty("FORMAT");
 		
@@ -234,7 +231,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			CardShake cs = new CardShake();
 				
 				cs.setName(e.getElementsByTag("TD").get(0).text().replaceAll("\\(RL\\)", "").trim());
-				cs.setImg(new URL(e.getElementsByTag("TD").get(0).getElementsByTag("a").get(0).attr("data-full-image")));
+				cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(0).getElementsByTag("a").get(0).attr("data-full-image")));
 				cs.setRarity(e.getElementsByTag("TD").get(2).text());
 				cs.setPrice(parseDouble(e.getElementsByTag("TD").get(3).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(4).text()));

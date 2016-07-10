@@ -16,9 +16,8 @@ public class TokenFactory {
 	{
 		switch (type)
 		{
-		case LOYALITY_TOKEN : return new PlaneswalkerToken();
-		case COUNTER_TOKEN : return new ModifierToken();
-		case CREATURE_TOKEN : return new CreatureToken();
+		case LOYALITY_TOKEN : return new Loyalty();
+		case COUNTER_TOKEN : return new Counter();
 		}
 		return null;
 	}
