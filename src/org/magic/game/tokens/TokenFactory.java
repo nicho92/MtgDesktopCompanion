@@ -28,6 +28,7 @@ public class TokenFactory {
 		
 		MagicCard token = new MagicCard();
 		
+		
 		String text = mc.getText();
 		
 		text=text.toLowerCase();

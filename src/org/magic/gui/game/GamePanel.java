@@ -239,6 +239,7 @@ public class GamePanel extends JPanel implements Observer {
 						try{
 							MagicCard tok = new TokenFactory().analyseText(  ((DisplayableCard)c).getMagicCard()  );
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
+							dc.addMouseListener(new MouseAction(player));
 							dc.setMagicCard(tok);
 							panelBattleField.addComponent(dc);
 							panelBattleField.revalidate();
