@@ -60,8 +60,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		List<CardShake> vals = new MTGoldFishDashBoard().getShakeForEdition(me);
 		
-		for(CardShake d: vals)
-			System.out.println(vals);
 		
 	}
 	
@@ -180,7 +178,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		for(Element e : table.getElementsByTag("tr"))
 		{
-			System.out.println(e);
 			CardShake cs = new CardShake();
 			cs.setName(e.getElementsByTag("TD").get(3).text().replaceAll("\\(RL\\)", "").trim());
 			cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(3).getElementsByTag("a").get(0).attr("data-full-image")));
