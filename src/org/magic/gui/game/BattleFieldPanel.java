@@ -7,6 +7,7 @@ import java.util.List;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.GameManager;
 import org.magic.game.PositionEnum;
+import org.magic.gui.game.actions.MouseAction;
 
 public class BattleFieldPanel extends DraggablePanel  {
 
@@ -38,9 +39,9 @@ public class BattleFieldPanel extends DraggablePanel  {
 	@Override
 	public void moveCard(MagicCard mc, PositionEnum to) {
 		switch (to) {
-			case GRAVEYARD:GameManager.getInstance().getPlayer().discardCardFromBattleField(mc);break;
-			case EXIL:GameManager.getInstance().getPlayer().exileCardFromBattleField(mc);break;
-			case HAND:GameManager.getInstance().getPlayer().returnCardFromBattleField(mc);break;
+			case GRAVEYARD:player.discardCardFromBattleField(mc);break;
+			case EXIL:player.exileCardFromBattleField(mc);break;
+			case HAND:player.returnCardFromBattleField(mc);break;
 			default:break;
 		}
 		

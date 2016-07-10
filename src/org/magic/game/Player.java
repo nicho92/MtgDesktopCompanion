@@ -55,6 +55,14 @@ public class Player extends Observable{
 
 	
 
+	public Player() {
+		super();
+		name="player 1";
+		life=20;
+		deck = new MagicDeck();
+		init();
+	}
+
 	public List<MagicCard> getBattlefield() {
 		return battlefield;
 	}
@@ -120,7 +128,7 @@ public class Player extends Observable{
 	
 	public void shuffleLibrary()
 	{
-		logAction("Shuffle his library" );
+		logAction("Shuffle his library");
 		Collections.shuffle(library);
 	}
 	
@@ -255,6 +263,7 @@ public class Player extends Observable{
 
 	public void setDeck(MagicDeck deck) {
 		this.deck = deck;
+		init();
 	}
 
 	public List<MagicCard> getGraveyard() {

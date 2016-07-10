@@ -38,6 +38,7 @@ import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.game.tokens.TokenFactory;
+import org.magic.gui.game.actions.MouseAction;
 
 public class GamePanel extends JPanel implements Observer {
 	
@@ -46,6 +47,7 @@ public class GamePanel extends JPanel implements Observer {
 	private JSpinner spinPoison;
 	private ThumbnailPanel handPanel;
 	private BattleFieldPanel panelBattleField;
+	private ManaPoolPanel manaPoolPanel ;
 	private JPanel panneauGauche;
 	private JPanel panneauDroit;
 	private JList listActions;
@@ -55,12 +57,28 @@ public class GamePanel extends JPanel implements Observer {
 	private Player player;
 	private JLabel lblLibrary;
 	private GraveyardPanel panelGrave;
+	private SearchLibraryFrame libraryFrame;
+	
 	
 	public void initGame()
 	{
-		spinLife.setValue(player.getLife());
-		spinPoison.setValue(player.getPoisonCounter());
+		player.init();
 	}
+	
+	public void setPlayer(Player p1) {
+		player=p1;
+		lblPlayer.setText(p1.getName());
+		player.addObserver(this);
+		spinLife.setValue(p1.getLife());
+		spinPoison.setValue(p1.getPoisonCounter());
+		
+		handPanel.setPlayer(p1);
+		panelGrave.setPlayer(p1);
+		manaPoolPanel.setPlayer(p1);
+		panelBattleField.setPlayer(p1);
+
+	}
+	
 	
 	public GamePanel() {
 		
@@ -201,7 +219,7 @@ public class GamePanel extends JPanel implements Observer {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				String res = JOptionPane.showInputDialog("How many scry card ?");
-				new SearchLibraryFrame(GameManager.getInstance().getPlayer().scry(Integer.parseInt(res))).setVisible(true);
+				new SearchLibraryFrame(player,player.scry(Integer.parseInt(res))).setVisible(true);
 				
 			}
 		});
@@ -239,7 +257,7 @@ public class GamePanel extends JPanel implements Observer {
 		JPanel panel = new JPanel();
 		panelInfo.add(panel, BorderLayout.CENTER);
 		
-		ManaPoolPanel manaPoolPanel = new ManaPoolPanel();
+		manaPoolPanel = new ManaPoolPanel();
 		manaPoolPanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		
 		panel.setLayout(new BorderLayout(0, 0));
@@ -276,7 +294,7 @@ public class GamePanel extends JPanel implements Observer {
 				player.drawCard(1);
 				DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight());
 				c.enableDrag(true);
-				
+				c.addMouseListener(new MouseAction(player));
 				handPanel.addComponent(c);
 				lblLibraryCountCard.setText(""+player.getLibrary().size());
 			}
@@ -313,15 +331,17 @@ public class GamePanel extends JPanel implements Observer {
 			    handPanel.initThumbnails(player.getHand());
 			}
 		});
+		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				SearchLibraryFrame f = new SearchLibraryFrame();
+				SearchLibraryFrame f = new SearchLibraryFrame(player);
 				f.setVisible(true);
 				
 			}
 		});
 		
+	
 	}
 	public JSpinner getSpinLife() {
 		return spinLife;
@@ -349,11 +369,5 @@ public class GamePanel extends JPanel implements Observer {
 		((DefaultListModel)listActions.getModel()).addElement(act);
 	}
 
-	public void setPlayer(Player p1) {
-		this.player=p1;
-		lblPlayer.setText(p1.getName());
-		player.addObserver(this);
-		spinLife.setValue(p1.getLife());
-		spinPoison.setValue(p1.getPoisonCounter());
-	}
+	
 }

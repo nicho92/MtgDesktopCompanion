@@ -1,20 +1,18 @@
 package org.magic.gui.game;
 
 
-import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.util.Map;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.magic.game.GameManager;
+import org.magic.game.Player;
 import org.magic.gui.components.ManaPanel;
 
 public class ManaPoolPanel extends JPanel{
@@ -24,8 +22,15 @@ public class ManaPoolPanel extends JPanel{
 	private JSpinner spinR;
 	private JSpinner spinG;
 	private JSpinner spinC;
+	private Player player;
 	
+	public void setPlayer(Player player) {
+		this.player = player;
+	}
 	private Map<String,Integer> manapool;
+	
+	
+	
 	
 	public ManaPoolPanel() {
 		
@@ -50,7 +55,7 @@ public class ManaPoolPanel extends JPanel{
 		spinW = new JSpinner();
 		spinW.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				GameManager.getInstance().getPlayer().setMana("{B}", (int)spinW.getValue());
+				player.setMana("{B}", (int)spinW.getValue());
 			}
 		});
 		spinW.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -72,7 +77,7 @@ public class ManaPoolPanel extends JPanel{
 		spinU = new JSpinner();
 		spinU.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				GameManager.getInstance().getPlayer().setMana("{U}", (int)spinU.getValue());
+				player.setMana("{U}", (int)spinU.getValue());
 			}
 		});
 		spinU.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -94,7 +99,7 @@ public class ManaPoolPanel extends JPanel{
 		spinB = new JSpinner();
 		spinB.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				GameManager.getInstance().getPlayer().setMana("{B}", (int)spinB.getValue());
+				player.setMana("{B}", (int)spinB.getValue());
 			}
 		});
 		spinB.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -116,7 +121,7 @@ public class ManaPoolPanel extends JPanel{
 		spinR = new JSpinner();
 		spinR.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				GameManager.getInstance().getPlayer().setMana("{R}", (int)spinR.getValue());
+				player.setMana("{R}", (int)spinR.getValue());
 			}
 		});
 		spinR.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -138,7 +143,7 @@ public class ManaPoolPanel extends JPanel{
 		spinG = new JSpinner();
 		spinG.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				GameManager.getInstance().getPlayer().setMana("{G}", (int)spinG.getValue());
+				player.setMana("{G}", (int)spinG.getValue());
 			}
 		});
 		spinG.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
@@ -160,7 +165,7 @@ public class ManaPoolPanel extends JPanel{
 		spinC = new JSpinner();
 		spinC.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent arg0) {
-				GameManager.getInstance().getPlayer().setMana("{C}", (int)spinC.getValue());
+				player.setMana("{C}", (int)spinC.getValue());
 			}
 		});
 		spinC.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));

@@ -20,6 +20,7 @@ public class GameManager {
 	private GameManager()
 	{
 		turns = new ArrayList<Turn>();
+	
 	}
 	
 
@@ -40,6 +41,12 @@ public class GameManager {
 		
 	}
 	
+	public void logAction(Player p, String action)
+	{
+		p.logAction(action);
+	}
+	
+	
 	
 	public static GameManager getInstance()
 	{
@@ -50,18 +57,11 @@ public class GameManager {
 	}
 	
 	
-	public void setPlayer(Player p) {
+	public void addPlayer(Player p) {
 		player=p;
-		nextTurn();
+	
 	}
 	
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	
-
 	public static void main(String[] args) throws Exception {
 		//Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Jund.deck"), MagicDeck.class));
 		
@@ -69,8 +69,9 @@ public class GameManager {
 		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/GW TOKENS.deck"), MagicDeck.class));
 		
 		
-		GameManager.getInstance().setPlayer(p1);
+		GameManager.getInstance().addPlayer(p1);
 		GameManager.getInstance().initGame();
+		GameManager.getInstance().nextTurn();
 		JFrame f = new JFrame(p1.getName() +"->" + p1.getDeck().getName());
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GamePanel p = new GamePanel();

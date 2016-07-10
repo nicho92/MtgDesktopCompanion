@@ -23,6 +23,7 @@ import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.gui.CardBuilderPanelGUI;
+import org.magic.gui.game.actions.MouseAction;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 
 
@@ -115,60 +116,7 @@ public class DisplayableCard extends JLabel
 		setToolTipText(b.toString());
 		
 		
-		addMouseListener(new MouseAdapter() {
-			
-			public void mouseEntered(MouseEvent me) {
-			}
-			 
-			@Override
-			public void mouseExited(MouseEvent me) {
-				// ((DisplayableCard)me.getComponent()).setBorder(null);
-
-			}
-			
-			
-			 public void mousePressed(MouseEvent me) {
-				 if(SwingUtilities.isRightMouseButton(me))
-				 {
-					 DisplayableCard c =  ((DisplayableCard)me.getComponent());
-					 if(c.isTapped())
-					 {
-						 c.tap(false);
-						 GameManager.getInstance().getPlayer().logAction("Untap " + c.getMagicCard() );
-					 }
-					 else
-					 {
-						 c.tap(true);
-						 GameManager.getInstance().getPlayer().logAction("Tap " + c.getMagicCard() + " (" + getMagicCard().getText()+")");
-					 }
-				 }
-				 else
-				 {
-					  Component c = me.getComponent();
-					  if (c != null && c instanceof DisplayableCard) 
-					  {
-						  DisplayableCard card= ((DisplayableCard)c);
-						  
-						  if(card.isSelected())
-						  {	  
-							  card.setBorder(null);
-						  	  card.setSelected(false);
-						  }
-						  else
-						  {
-							  card.setBorder(new LineBorder(Color.RED));
-						  	  card.setSelected(true);
-						  }
-						  if(draggable)
-							  ((DraggablePanel)c.getParent()).getTransferHandler().exportAsDrag(card, me, TransferHandler.MOVE);
-					  }
-					}
-				  	 
-				 }
-				 
-				 
-			
-		  });
+		//addMouseListener(new MouseAction());
 		
 		setTransferHandler(new CardTransfertHandler());
 		

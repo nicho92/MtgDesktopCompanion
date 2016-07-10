@@ -7,16 +7,16 @@ public class ColorParser {
 		if(fullColorName.toLowerCase().equals("white"))
 			return "{W}";
 		else
-			if(fullColorName.equals("blue"))
+			if(fullColorName.toLowerCase().equals("blue"))
 				return "{U}";
 			else
-				if(fullColorName.equals("black"))
+				if(fullColorName.toLowerCase().equals("black"))
 					return "{B}";
 				else
-					if(fullColorName.equals("red"))
+					if(fullColorName.toLowerCase().equals("red"))
 						return "{R}";
 					else
-						if(fullColorName.equals("green"))
+						if(fullColorName.toLowerCase().equals("green"))
 							return "{G}";
 							
 							return "{C}";

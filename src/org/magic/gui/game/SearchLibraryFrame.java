@@ -7,7 +7,7 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.GameManager;
+import org.magic.game.Player;
 
 public class SearchLibraryFrame extends JDialog {
 
@@ -16,27 +16,28 @@ public class SearchLibraryFrame extends JDialog {
 	
 	DisplayableCard selectedCard;
 	
-	public SearchLibraryFrame() {
+	public SearchLibraryFrame(Player p) {
 		setSize(new Dimension(800, 600));
 		scPane = new JScrollPane();
 		pane=new LibraryPanel();
 		pane.setThumbnailSize(179, 240);
 		scPane.setViewportView(pane);
 		getContentPane().add(scPane);
-		pane.initThumbnails(GameManager.getInstance().getPlayer().getLibrary());
-		
+		pane.setPlayer(p);
+		pane.initThumbnails(p.getLibrary());
+			
 	}
 	
-	public SearchLibraryFrame(List<MagicCard> list) {
+	public SearchLibraryFrame(Player p,List<MagicCard> list) {
 		setSize(new Dimension(800, 600));
 		scPane = new JScrollPane();
 		pane=new LibraryPanel();
+
 		pane.setThumbnailSize(179, 240);
 		scPane.setViewportView(pane);
 		getContentPane().add(scPane);
 		pane.initThumbnails(list);
 		
 	}
-	
 	
 }

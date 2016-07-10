@@ -12,6 +12,7 @@ import javax.swing.border.LineBorder;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.GameManager;
 import org.magic.game.PositionEnum;
+import org.magic.gui.game.actions.MouseAction;
 
 
 
@@ -24,9 +25,9 @@ public class ThumbnailPanel extends DraggablePanel {
 	@Override
 	public void moveCard(MagicCard mc, PositionEnum to) {
 		switch (to) {
-			case BATTLEFIELD:GameManager.getInstance().getPlayer().playCard(mc);break;
-			case EXIL:GameManager.getInstance().getPlayer().exileCardFromHand(mc);break;
-			case GRAVEYARD:GameManager.getInstance().getPlayer().discardCardFromHand(mc);break;
+			case BATTLEFIELD:player.playCard(mc);break;
+			case EXIL:player.exileCardFromHand(mc);break;
+			case GRAVEYARD:player.discardCardFromHand(mc);break;
 			default:break;
 		}
 		
@@ -43,13 +44,13 @@ public class ThumbnailPanel extends DraggablePanel {
 	public ThumbnailPanel() {
 		super();
 		setLayout(new GridBagLayout());
+		c = new GridBagConstraints();
 		
 	}
 	
 	public void addComponent(DisplayableCard i)
 	{
-		
-		
+		i.addMouseListener(new MouseAction(player));
 		if(index>=val)
 		{
 			c.gridy=c.gridy+1;
@@ -70,13 +71,14 @@ public class ThumbnailPanel extends DraggablePanel {
 	
 	Thread t;
 	public void initThumbnails(final List<MagicCard> cards) {
-		
 		if(t!=null)
 			if(t.isAlive())
 				t.stop();
 		
 		
-		c = new GridBagConstraints();
+		addMouseListener(new MouseAction(player));
+		
+		
 		  c.weightx = 1;
 		  c.weighty = 1;
 		  c.gridx = 0;
@@ -95,6 +97,7 @@ public class ThumbnailPanel extends DraggablePanel {
 				{
 					
 					DisplayableCard lab = new DisplayableCard(mc,width,height);
+					
 				try {
 						
 						if(mc.getEditions().get(0).getMultiverse_id()=="0")

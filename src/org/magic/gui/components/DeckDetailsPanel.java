@@ -23,7 +23,7 @@ import org.magic.api.beans.MagicFormat;
 public class DeckDetailsPanel extends JPanel {
 
 	private BindingGroup m_bindingGroup;
-	private org.magic.api.beans.MagicDeck magicDeck = new MagicDeck();
+	private MagicDeck magicDeck = new MagicDeck();
 	private JTextField nameJTextField;
 	private JTextArea textArea;
 	private ManaPanel manaPanel;
