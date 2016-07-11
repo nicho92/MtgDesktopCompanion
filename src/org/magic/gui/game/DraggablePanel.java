@@ -67,5 +67,8 @@ public abstract class DraggablePanel extends JPanel {
 	  this.player=p;
   }
   
+  public Player getPlayer() {
+	return player;
+}
  
 }

@@ -55,7 +55,7 @@ public class ThumbnailPanel extends DraggablePanel {
 	
 	public void addComponent(DisplayableCard i)
 	{
-		i.addMouseListener(new MouseAction(player));
+		
 		if(index>=val)
 		{
 			c.gridy=c.gridy+1;
@@ -79,7 +79,7 @@ public class ThumbnailPanel extends DraggablePanel {
 				t.stop();
 		
 		
-		addMouseListener(new MouseAction(player));
+	//	addMouseListener(new MouseAction(player));
 		
 		  c.weightx = 1;
 		  c.weighty = 1;

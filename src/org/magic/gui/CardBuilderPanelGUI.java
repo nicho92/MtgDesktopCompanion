@@ -37,6 +37,11 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.CropImagePanel;
 import org.magic.gui.components.ManaPanel;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.beansbinding.ObjectProperty;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.Bindings;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 
 public class CardBuilderPanelGUI extends JPanel {
 	

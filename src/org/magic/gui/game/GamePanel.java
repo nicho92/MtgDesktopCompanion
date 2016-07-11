@@ -38,10 +38,8 @@ import javax.swing.event.ChangeListener;
 import org.magic.api.analyzer.TokenAnalyzer;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
-import org.magic.game.tokens.TokenFactory;
 import org.magic.gui.game.actions.MouseAction;
 import org.magic.services.exports.MagicSerializer;
 
@@ -59,7 +57,7 @@ public class GamePanel extends JPanel implements Observer {
 	private JLabel lblLibraryCountCard;
 	private JLabel lblPlayer;
 	
-	private Player player;
+	public static Player player;
 	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
 	private SearchLibraryFrame libraryFrame;
@@ -258,7 +256,7 @@ public class GamePanel extends JPanel implements Observer {
 						try{
 							MagicCard tok = TokenAnalyzer.generateTokenFrom(  ((DisplayableCard)c).getMagicCard()  );
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
-							dc.addMouseListener(new MouseAction(player));
+							//dc.addMouseListener(new MouseAction(player));
 							dc.setMagicCard(tok);
 							panelBattleField.addComponent(dc);
 							panelBattleField.revalidate();
@@ -311,6 +309,7 @@ public class GamePanel extends JPanel implements Observer {
 				DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight());
 				c.enableDrag(true);
 				c.addMouseListener(new MouseAction(player));
+				
 				handPanel.addComponent(c);
 				lblLibraryCountCard.setText(""+player.getLibrary().size());
 			}

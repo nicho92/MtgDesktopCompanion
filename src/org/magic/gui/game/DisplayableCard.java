@@ -6,6 +6,8 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -115,7 +117,6 @@ public class DisplayableCard extends JLabel
 		
 		setToolTipText(b.toString());
 		
-		
 		//addMouseListener(new MouseAction());
 		
 		setTransferHandler(new CardTransfertHandler());
@@ -134,7 +135,9 @@ public class DisplayableCard extends JLabel
 			e.printStackTrace();
 		}
 		
-		
+			//TODO HORRIBLE !!!
+		  addMouseListener(new MouseAction(GamePanel.player));
+		  addMouseWheelListener(new MouseAction(GamePanel.player));
 		
 		
 	}

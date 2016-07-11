@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
 
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
@@ -17,6 +18,11 @@ public class MouseAction extends MouseAdapter {
 
 	
 	private Player p;
+	
+	@Override
+	public void mouseWheelMoved(MouseWheelEvent e) {
+		System.out.println(e);
+	}
 	
 	
 	public MouseAction(Player player) {
