@@ -22,6 +22,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -32,6 +33,7 @@ import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -40,8 +42,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
-import org.magic.gui.game.actions.MouseAction;
+import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.services.exports.MagicSerializer;
+import javax.swing.JEditorPane;
 
 public class GamePanel extends JPanel implements Observer {
 	
@@ -56,7 +59,7 @@ public class GamePanel extends JPanel implements Observer {
 	private JList listActions;
 	private JLabel lblLibraryCountCard;
 	private JLabel lblPlayer;
-	
+	private JEditorPane editorPane;
 	public static Player player;
 	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
@@ -280,6 +283,13 @@ public class GamePanel extends JPanel implements Observer {
 		
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(manaPoolPanel, BorderLayout.NORTH);
+		
+		JScrollPane scrollPane_1 = new JScrollPane();
+		panel.add(scrollPane_1, BorderLayout.SOUTH);
+		
+		editorPane = new JEditorPane();
+		scrollPane_1.setViewportView(editorPane);
+		
 		btnEndTurn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				GameManager.getInstance().nextTurn();
@@ -308,7 +318,7 @@ public class GamePanel extends JPanel implements Observer {
 				player.drawCard(1);
 				DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight());
 				c.enableDrag(true);
-				c.addMouseListener(new MouseAction(player));
+				//c.addMouseListener(new DisplayableCardActions(player));
 				
 				handPanel.addComponent(c);
 				lblLibraryCountCard.setText(""+player.getLibrary().size());
@@ -355,8 +365,6 @@ public class GamePanel extends JPanel implements Observer {
 				
 			}
 		});
-		
-	
 	}
 	public JSpinner getSpinLife() {
 		return spinLife;
@@ -383,6 +391,4 @@ public class GamePanel extends JPanel implements Observer {
 		String act = player.getName() +" " + arg.toString();
 		((DefaultListModel)listActions.getModel()).addElement(act);
 	}
-
-	
 }

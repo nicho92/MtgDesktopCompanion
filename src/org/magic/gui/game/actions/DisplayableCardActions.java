@@ -14,7 +14,7 @@ import org.magic.game.Player;
 import org.magic.gui.game.DisplayableCard;
 import org.magic.gui.game.DraggablePanel;
 
-public class MouseAction extends MouseAdapter {
+public class DisplayableCardActions extends MouseAdapter {
 
 	
 	private Player p;
@@ -25,20 +25,23 @@ public class MouseAction extends MouseAdapter {
 	}
 	
 	
-	public MouseAction(Player player) {
+	
+	public DisplayableCardActions(Player player) {
 		this.p=player;
 	}
 
 
 
 	public void mouseEntered(MouseEvent me) {
+		((DisplayableCard)me.getComponent()).getPopUp().show(me.getComponent(),me.getX(),me.getY());
+		((DisplayableCard)me.getComponent()).setVisible(true);
 	}
 	
 	
 	
 	@Override
 	public void mouseExited(MouseEvent me) {
-		// ((DisplayableCard)me.getComponent()).setBorder(null);
+		((DisplayableCard)me.getComponent()).setVisible(false);
 
 	}
 	

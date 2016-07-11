@@ -1,32 +1,30 @@
 package org.magic.gui.game;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
-import java.net.URL;
 
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
-import javax.swing.TransferHandler;
+import javax.swing.JPopupMenu;
+import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
-import org.magic.game.GameManager;
-import org.magic.gui.CardBuilderPanelGUI;
-import org.magic.gui.game.actions.MouseAction;
+import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
+import org.magic.services.MagicFactory;
 
 
 public class DisplayableCard extends JLabel
@@ -38,13 +36,16 @@ public class DisplayableCard extends JLabel
 	private boolean tapped=false;
 	private ImageIcon image;
 	private boolean draggable=true;
-
 	
 	private boolean selected;
+	private JPopupMenu popUp;
 	
 	
-	
-	
+	public JPopupMenu getPopUp() {
+		return popUp;
+	}
+
+
 	public boolean isSelected() {
 		return selected;
 	}
@@ -107,7 +108,6 @@ public class DisplayableCard extends JLabel
 		setVerticalAlignment(JLabel.CENTER);
 		magicCard=mc;
 		
-		
 	StringBuilder b = new StringBuilder();
 		b.append("<html>");
 		b.append("<b>").append(getMagicCard().getName()).append("</b><i> (").append(getMagicCard().getFullType()).append(")</i>");
@@ -116,8 +116,6 @@ public class DisplayableCard extends JLabel
 		b.append("</html>");
 		
 		setToolTipText(b.toString());
-		
-		//addMouseListener(new MouseAction());
 		
 		setTransferHandler(new CardTransfertHandler());
 		
@@ -136,9 +134,9 @@ public class DisplayableCard extends JLabel
 		}
 		
 			//TODO HORRIBLE !!!
-		  addMouseListener(new MouseAction(GamePanel.player));
-		  addMouseWheelListener(new MouseAction(GamePanel.player));
-		
+		  addMouseListener(new DisplayableCardActions(GamePanel.player));
+		  addMouseWheelListener(new DisplayableCardActions(GamePanel.player));
+		  addMouseMotionListener(new DisplayableCardActions(GamePanel.player));
 		
 	}
 	

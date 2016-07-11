@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.GameManager;
 import org.magic.game.PositionEnum;
-import org.magic.gui.game.actions.MouseAction;
+import org.magic.gui.game.actions.DisplayableCardActions;
 
 
 
