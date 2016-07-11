@@ -3,6 +3,7 @@ package org.magic.gui.game;
 import javax.swing.JPanel;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.Player;
 import org.magic.game.PositionEnum;
 import org.magic.gui.game.transfert.CardTransfertHandler;
@@ -11,6 +12,8 @@ public abstract class DraggablePanel extends JPanel {
 
   	int width=112;
 	int height=155;
+	
+	protected GathererPicturesProvider gatherer;
 	
     boolean dragging=true;
 	protected Player player;
@@ -47,6 +50,7 @@ public abstract class DraggablePanel extends JPanel {
 
  
   public DraggablePanel() {
+	  gatherer = new GathererPicturesProvider();
 	  setTransferHandler(new CardTransfertHandler());
   }
   
@@ -55,6 +59,8 @@ public abstract class DraggablePanel extends JPanel {
   public abstract void addComponent(DisplayableCard i);
 	
   public abstract PositionEnum getOrigine();
+  
+  public abstract void postTreatment();
   
   public void setPlayer(Player p)
   {

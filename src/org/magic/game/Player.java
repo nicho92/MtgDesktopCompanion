@@ -99,6 +99,58 @@ public class Player extends Observable{
 		}
 	}
 	
+	
+	public void reoderCardInLibrary(MagicCard mc,boolean top)
+	{
+		logAction("todo change order");
+	}
+	
+	
+	public void putCardInLibraryFromHand(MagicCard mc,boolean top)
+	{
+		if(top)
+		{
+			library.add(0, mc);
+			logAction("put a card on top of library from hand");
+		}
+		else
+		{
+			library.add(mc);
+			logAction("put a card on bottom of library from hand");
+		}
+		hand.remove(mc);
+	}
+	
+	public void putCardInLibraryFromBattlefield(MagicCard mc,boolean top)
+	{
+		if(top)
+		{
+			library.add(0, mc);
+			logAction("put "+mc+" on top of library from battlefield");
+		}
+		else
+		{
+			library.add(mc);
+			logAction("put "+mc+" on bottom of library from battlefield");
+		}
+		battlefield.remove(mc);
+	}
+	
+	public void putCardInLibraryFromGraveyard(MagicCard mc,boolean top)
+	{
+		if(top)
+		{
+			library.add(0, mc);
+			logAction("put a card on top of library from graveyard");
+		}
+		else
+		{
+			library.add(mc);
+			logAction("put a card on bottom of library from graveyard");
+		}
+		graveyard.remove(mc);
+	}
+	
 	public List<MagicCard> scry(int number)
 	{
 		logAction("Scry " + number + " cards");

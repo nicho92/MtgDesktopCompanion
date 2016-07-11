@@ -10,9 +10,14 @@ import org.magic.api.interfaces.PictureProvider;
 
 public class GathererPicturesProvider implements PictureProvider {
 
+	BufferedImage back;
+	
 	public BufferedImage getBackPicture() throws Exception
 	{
-		return getPicture("132667");
+		if(back==null)
+			back = getPicture("132667");
+		
+		return back;
 	}
 	
 	@Override

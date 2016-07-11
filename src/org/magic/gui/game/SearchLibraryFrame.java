@@ -8,10 +8,11 @@ import javax.swing.JScrollPane;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.Player;
+import org.magic.game.PositionEnum;
 
 public class SearchLibraryFrame extends JDialog {
 
-	LibraryPanel pane;
+	ThumbnailPanel pane;
 	JScrollPane scPane;
 	
 	DisplayableCard selectedCard;
@@ -19,20 +20,21 @@ public class SearchLibraryFrame extends JDialog {
 	public SearchLibraryFrame(Player p) {
 		setSize(new Dimension(800, 600));
 		scPane = new JScrollPane();
-		pane=new LibraryPanel();
+		pane=new ThumbnailPanel();
+		pane.setOrigine(PositionEnum.LIBRARY);
 		pane.setThumbnailSize(179, 240);
 		scPane.setViewportView(pane);
 		getContentPane().add(scPane);
 		pane.setPlayer(p);
 		pane.initThumbnails(p.getLibrary());
-			
 	}
 	
 	public SearchLibraryFrame(Player p,List<MagicCard> list) {
 		setSize(new Dimension(800, 600));
 		scPane = new JScrollPane();
-		pane=new LibraryPanel();
-
+		pane=new ThumbnailPanel();
+		pane.setOrigine(PositionEnum.LIBRARY);
+		
 		pane.setThumbnailSize(179, 240);
 		scPane.setViewportView(pane);
 		getContentPane().add(scPane);

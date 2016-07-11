@@ -21,13 +21,19 @@ public class ThumbnailPanel extends DraggablePanel {
 	GridBagConstraints c;
 	int index=0;
 	int val=7;
+	
+	private PositionEnum origine = PositionEnum.HAND;
+
 
 	@Override
 	public void moveCard(MagicCard mc, PositionEnum to) {
+		
 		switch (to) {
 			case BATTLEFIELD:player.playCard(mc);break;
 			case EXIL:player.exileCardFromHand(mc);break;
 			case GRAVEYARD:player.discardCardFromHand(mc);break;
+			case LIBRARY:player.putCardInLibraryFromHand(mc, true);
+			
 			default:break;
 		}
 		
@@ -45,7 +51,6 @@ public class ThumbnailPanel extends DraggablePanel {
 		super();
 		setLayout(new GridBagLayout());
 		c = new GridBagConstraints();
-		
 	}
 	
 	public void addComponent(DisplayableCard i)
@@ -58,8 +63,6 @@ public class ThumbnailPanel extends DraggablePanel {
 			index=0;
 		}
 		c.gridx=c.gridx+1;
-		
-		 
 	   i.setHorizontalTextPosition(JLabel.CENTER);
 	   i.setVerticalTextPosition(JLabel.BOTTOM);
 	   i.enableDrag(dragging);
@@ -78,7 +81,6 @@ public class ThumbnailPanel extends DraggablePanel {
 		
 		addMouseListener(new MouseAction(player));
 		
-		
 		  c.weightx = 1;
 		  c.weighty = 1;
 		  c.gridx = 0;
@@ -95,7 +97,6 @@ public class ThumbnailPanel extends DraggablePanel {
 			public void run() {
 				for(MagicCard mc : cards)
 				{
-					
 					DisplayableCard lab = new DisplayableCard(mc,width,height);
 					
 				try {
@@ -126,7 +127,22 @@ public class ThumbnailPanel extends DraggablePanel {
 
 	@Override
 	public PositionEnum getOrigine() {
-		return PositionEnum.HAND;
+		return origine;
+	}
+
+
+
+	public void setOrigine(PositionEnum or) {
+		origine=or;
+		
+	}
+
+
+
+	@Override
+	public void postTreatment() {
+		// TODO Auto-generated method stub
+		
 	}
 
 

@@ -22,6 +22,9 @@ import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.magic.api.providers.impl.MtgapiProvider;
 import org.magic.game.GameManager;
 import org.magic.gui.game.DisplayableCard;
 import org.magic.gui.game.DraggablePanel;
@@ -33,6 +36,8 @@ public class CardTransfertHandler extends TransferHandler  {
 	private static JWindow window = new JWindow();
 	private static JLabel dragLab = new JLabel();
 	
+	static final Logger logger = LogManager.getLogger(CardTransfertHandler.class.getName());
+
 	
 	public CardTransfertHandler() {
 		localObjectFlavor = new ActivationDataFlavor(DisplayableCard.class, DataFlavor.javaJVMLocalObjectMimeType, "DisplayableCard");
@@ -124,8 +129,15 @@ public class CardTransfertHandler extends TransferHandler  {
 		DraggablePanel target = (DraggablePanel) support.getComponent();
 		try {
 			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
-			//GameManager.getInstance().getPlayer().logAction("play " + src.getMc() + " from " + ((DraggablePanel)src.getParent()).getOrigine() + " to " + target.getOrigine());
 			((DraggablePanel)src.getParent()).moveCard(src.getMagicCard(), target.getOrigine());
+			logger.info("move " + src.getMagicCard().getName()+ " from " + ((DraggablePanel)src.getParent()).getOrigine() + " to " + target.getOrigine());
+					
+			src.getParent().revalidate();
+			target.revalidate();
+			target.repaint();
+			src.getParent().repaint();
+			
+			
 			target.addComponent(src);
 			return true;
 		} catch (Exception ufe) {
@@ -141,12 +153,17 @@ public class CardTransfertHandler extends TransferHandler  {
 			dragLab.setIcon(null);
 			window.setVisible(false);
 			DraggablePanel dest = ((DraggablePanel)c.getParent());
+	
 			src.setLocation(dest.getMousePosition());
 			
 			src.getParent().revalidate();
 			dest.revalidate();
 			dest.repaint();
 			src.getParent().repaint();
+			
+			dest.postTreatment();
+			
+			
 		}
 	}
 }

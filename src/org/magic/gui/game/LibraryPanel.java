@@ -1,13 +1,35 @@
 package org.magic.gui.game;
 
+import java.awt.Graphics;
+import java.awt.Image;
+
 import org.magic.api.beans.MagicCard;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.PositionEnum;
+import java.awt.Dimension;
 
-public class LibraryPanel extends ThumbnailPanel {
+public class LibraryPanel extends DraggablePanel {
 
+	Image i;
 	
 	public LibraryPanel() {
 		super();
+		
+		try {
+			i=gatherer.getBackPicture();
+			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	DisplayableCard addedCard;
+	@Override
+	public void addComponent(DisplayableCard i) {
+		add(i);
+		addedCard=i;
 	}
 	
 	@Override
@@ -17,6 +39,8 @@ public class LibraryPanel extends ThumbnailPanel {
 			case BATTLEFIELD:player.playCardFromLibrary(mc);break;
 			case EXIL:player.exileCardFromLibrary(mc);break;
 			case HAND:player.searchCardFromLibrary(mc);break;
+			case LIBRARY:player.reoderCardInLibrary(mc, true);
+			
 		default:break;
 	}
 		
@@ -29,4 +53,23 @@ public class LibraryPanel extends ThumbnailPanel {
 		return PositionEnum.LIBRARY;
 	}
 	
+	
+	@Override
+	public void paint(Graphics g) {
+		
+		try {
+			g.drawImage(i, 0, 0, null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+	}
+
+
+
+	@Override
+	public void postTreatment() {
+	remove(addedCard);
+		
+	}
 }

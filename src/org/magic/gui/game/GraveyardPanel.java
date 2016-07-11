@@ -1,20 +1,30 @@
 package org.magic.gui.game;
 
 import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
 
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.GameManager;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.PositionEnum;
-import org.magic.gui.game.actions.MouseAction;
 
 public class GraveyardPanel extends DraggablePanel {
-
+	Image i;
+	
 	public GraveyardPanel() {
 		super();
 		setLayout(null);
 		setBorder(new LineBorder(Color.BLACK));
+		setBackground(Color.GRAY);
+		
+		try {
+			i=gatherer.getBackPicture();
+		} catch (Exception e) {
+			//e.printStackTrace();
+		}
+		setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 	}
 	
 	@Override
@@ -24,6 +34,8 @@ public class GraveyardPanel extends DraggablePanel {
 
 	@Override
 	public void addComponent(DisplayableCard i) {
+		if(i.isTapped())
+			i.tap(false);
 		add(i);
 	}
 
@@ -34,8 +46,15 @@ public class GraveyardPanel extends DraggablePanel {
 			case BATTLEFIELD:player.returnCardFromGraveyard(mc);break;
 			case EXIL:player.exileCardFromGraveyard(mc);break;
 			case HAND:player.returnCardFromGraveyard(mc);break;
+			case LIBRARY:player.putCardInLibraryFromGraveyard(mc, true);
 			default:break;
 		}
+		
+	}
+
+	@Override
+	public void postTreatment() {
+		// TODO Auto-generated method stub
 		
 	}
 	

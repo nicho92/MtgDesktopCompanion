@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
@@ -21,6 +22,7 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -33,12 +35,15 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.magic.api.analyzer.TokenAnalyzer;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.game.tokens.TokenFactory;
 import org.magic.gui.game.actions.MouseAction;
+import org.magic.services.exports.MagicSerializer;
 
 public class GamePanel extends JPanel implements Observer {
 	
@@ -55,7 +60,7 @@ public class GamePanel extends JPanel implements Observer {
 	private JLabel lblPlayer;
 	
 	private Player player;
-	private JLabel lblLibrary;
+	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
 	private SearchLibraryFrame libraryFrame;
 	
@@ -76,7 +81,7 @@ public class GamePanel extends JPanel implements Observer {
 		panelGrave.setPlayer(p1);
 		manaPoolPanel.setPlayer(p1);
 		panelBattleField.setPlayer(p1);
-
+		panelLibrary.setPlayer(p1);
 	}
 	
 	
@@ -191,10 +196,24 @@ public class GamePanel extends JPanel implements Observer {
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				GameManager.getInstance().initGame();
-				handPanel.removeAll();
-				panelBattleField.removeAll();
-				panelGrave.removeAll();
+				JFileChooser choose = new JFileChooser(new File(System.getProperty("user.home")+"/magicDeskCompanion/decks"));
+				choose.showOpenDialog(null);
+				try {
+					MagicDeck deck = MagicSerializer.read(choose.getSelectedFile(),MagicDeck.class);
+					
+					Player p = new Player(deck);
+					GameManager.getInstance().addPlayer(p);
+					GameManager.getInstance().initGame();
+					GameManager.getInstance().nextTurn();
+					setPlayer(p);
+					handPanel.removeAll();
+					panelBattleField.removeAll();
+					panelGrave.removeAll();
+
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		panelTools.add(btnNewGame);
@@ -237,7 +256,7 @@ public class GamePanel extends JPanel implements Observer {
 					if(((DisplayableCard)c).isSelected())
 					{
 						try{
-							MagicCard tok = new TokenFactory().analyseText(  ((DisplayableCard)c).getMagicCard()  );
+							MagicCard tok = TokenAnalyzer.generateTokenFrom(  ((DisplayableCard)c).getMagicCard()  );
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
 							dc.addMouseListener(new MouseAction(player));
 							dc.setMagicCard(tok);
@@ -272,23 +291,19 @@ public class GamePanel extends JPanel implements Observer {
 		
 		JPanel panelLibraryAndGrave = new JPanel();
 		panneauDroit.add(panelLibraryAndGrave, BorderLayout.EAST);
-		panelLibraryAndGrave.setLayout(new BoxLayout(panelLibraryAndGrave, BoxLayout.Y_AXIS));
+		panelLibraryAndGrave.setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelDeck = new JPanel();
-		panelLibraryAndGrave.add(panelDeck);
+		panelLibraryAndGrave.add(panelDeck, BorderLayout.NORTH);
 		
-		lblLibrary = new JLabel("");
-		lblLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		try {
-			lblLibrary.setIcon(new ImageIcon(new GathererPicturesProvider().getBackPicture()));
-		} catch (Exception e1) {
-			e1.printStackTrace();
-		}
+		panelLibrary = new LibraryPanel();
+		panelLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+
 		panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
-		panelDeck.add(lblLibrary);
+		panelDeck.add(panelLibrary);
 		
 		
-		lblLibrary.addMouseListener(new MouseAdapter() {
+		panelLibrary.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 
@@ -357,8 +372,8 @@ public class GamePanel extends JPanel implements Observer {
 	public JLabel getLblLibraryCountCard() {
 		return lblLibraryCountCard;
 	}
-	public JLabel getLblLibrary() {
-		return lblLibrary;
+	public LibraryPanel getLblLibrary() {
+		return panelLibrary;
 	}
 	public GraveyardPanel getPanelGrave() {
 		return panelGrave;

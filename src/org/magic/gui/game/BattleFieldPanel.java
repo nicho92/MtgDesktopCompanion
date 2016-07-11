@@ -42,8 +42,16 @@ public class BattleFieldPanel extends DraggablePanel  {
 			case GRAVEYARD:player.discardCardFromBattleField(mc);break;
 			case EXIL:player.exileCardFromBattleField(mc);break;
 			case HAND:player.returnCardFromBattleField(mc);break;
+			case LIBRARY:player.putCardInLibraryFromBattlefield(mc, true);
 			default:break;
 		}
+		
+	}
+
+
+	@Override
+	public void postTreatment() {
+		// TODO Auto-generated method stub
 		
 	}
 
