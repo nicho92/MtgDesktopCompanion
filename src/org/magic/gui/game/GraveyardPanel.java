@@ -21,10 +21,11 @@ public class GraveyardPanel extends DraggablePanel {
 		
 		try {
 			i=gatherer.getBackPicture();
+			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
+
 		} catch (Exception e) {
 			//e.printStackTrace();
 		}
-		setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 	}
 	
 	@Override

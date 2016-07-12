@@ -16,7 +16,6 @@ public class GathererPicturesProvider implements PictureProvider {
 	{
 		if(back==null)
 			back = getPicture("132667");
-		
 		return back;
 	}
 	

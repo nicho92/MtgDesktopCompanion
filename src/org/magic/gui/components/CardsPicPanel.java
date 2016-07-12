@@ -114,7 +114,7 @@ public class CardsPicPanel extends JXPanel {
 				  
 					
 				} catch (Exception e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				} 
 				repaint();
 				
