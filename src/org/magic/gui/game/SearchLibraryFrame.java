@@ -34,10 +34,10 @@ public class SearchLibraryFrame extends JDialog {
 		scPane = new JScrollPane();
 		pane=new ThumbnailPanel();
 		pane.setOrigine(PositionEnum.LIBRARY);
-		
 		pane.setThumbnailSize(179, 240);
 		scPane.setViewportView(pane);
 		getContentPane().add(scPane);
+		pane.setPlayer(p);
 		pane.initThumbnails(list);
 		
 	}
