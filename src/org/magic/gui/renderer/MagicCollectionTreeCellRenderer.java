@@ -2,6 +2,8 @@ package org.magic.gui.renderer;
 
 import java.awt.Component;
 import java.awt.Image;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -16,22 +18,41 @@ import org.magic.tools.ColorParser;
 
 public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 	
-	ManaPanel pane=new ManaPanel();
+	ManaPanel pane;
+	ImageIcon gold, uncolor,back;
+	Map<String,ImageIcon> map;
+	
+	
+	public MagicCollectionTreeCellRenderer() {
+		try{
+			pane = new ManaPanel();
+			map = new HashMap<String,ImageIcon>();
+			gold= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/res/gold.png")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+			uncolor= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/res/uncolor.jpg")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+			back= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/res/bottom.png")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+			
+			map.put("{W}", new ImageIcon(pane.getManaSymbol("{W}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );
+			map.put("{U}", new ImageIcon(pane.getManaSymbol("{U}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );
+			map.put("{B}", new ImageIcon(pane.getManaSymbol("{B}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );
+			map.put("{R}", new ImageIcon(pane.getManaSymbol("{R}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );
+			map.put("{G}", new ImageIcon(pane.getManaSymbol("{G}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );
+			map.put("{X}", new ImageIcon(pane.getManaSymbol("{X}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+	 
+	}
 	
      public Component getTreeCellRendererComponent(JTree tree,Object value, boolean selected, boolean expanded,boolean isLeaf, int row, boolean focused) 
      {
     	Component c = super.getTreeCellRendererComponent(tree, value,selected, expanded, isLeaf, row, focused);
     	try 
     	{
-    		Image gold= ImageIO.read(ManaCellRenderer.class.getResource("/res/gold.png"));
-    		Image uncolor= ImageIO.read(ManaCellRenderer.class.getResource("/res/uncolor.jpg"));
-    		Image back= ImageIO.read(ManaCellRenderer.class.getResource("/res/bottom.png"));
-    	 
-    		
-    		
     			if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicEdition)
     			{
-    				setIcon(new ImageIcon(back.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+    				setIcon(back);
     			}
     			else
 		    	if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicCard)
@@ -41,23 +62,23 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		    		
 		    			//if(mc.getColors().contains(").size()<1)
 		    			{
-		    				setIcon(new ImageIcon(pane.getManaSymbol("{C}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+		    				setIcon(uncolor);
 		    			}
 		    			if(mc.getColors().size()==1)
 						{
-		    				setIcon(new ImageIcon(pane.getManaSymbol(ColorParser.parse(mc.getColors().get(0))).getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+		    				setIcon(map.get(ColorParser.parse(mc.getColors().get(0))));
 						}
 		    			if(mc.getColors().size()>1)
 		    			{
-		    				setIcon(new ImageIcon(gold.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+		    				setIcon(gold);
 		    			}
 		    			if(mc.getFullType().toLowerCase().contains("artifact"))
 		    			{
-		    				setIcon(new ImageIcon(pane.getManaSymbol("{X}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+		    				setIcon(map.get("{X}"));
 		    			}
 		    			if(mc.getFullType().toLowerCase().contains("land"))
 		    			{
-		    				setIcon(new ImageIcon(uncolor.getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
+		    				setIcon(uncolor);
 		    			}
 		    				
 		    	}

@@ -13,6 +13,7 @@ import javax.swing.border.LineBorder;
 import org.magic.game.Player;
 import org.magic.gui.game.DisplayableCard;
 import org.magic.gui.game.DraggablePanel;
+import org.magic.gui.game.GamePanel;
 
 public class DisplayableCardActions extends MouseAdapter {
 
@@ -21,28 +22,29 @@ public class DisplayableCardActions extends MouseAdapter {
 	
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
-		System.out.println(e);
+		if(e.getWheelRotation()>0)
+			System.out.println("down");
+		else
+			System.out.println("up");
 	}
 	
 	
 	
-	public DisplayableCardActions(Player player) {
-		this.p=player;
+	public DisplayableCardActions() {
+		this.p=GamePanel.getInstance().getPlayer();
 	}
 
 
 
 	public void mouseEntered(MouseEvent me) {
-		((DisplayableCard)me.getComponent()).getPopUp().show(me.getComponent(),me.getX(),me.getY());
-		((DisplayableCard)me.getComponent()).setVisible(true);
+		GamePanel.getInstance().getTextCardPane().setText(((DisplayableCard)me.getComponent()).getMagicCard().getText());
 	}
 	
 	
 	
 	@Override
 	public void mouseExited(MouseEvent me) {
-		((DisplayableCard)me.getComponent()).setVisible(false);
-
+		
 	}
 	
 	

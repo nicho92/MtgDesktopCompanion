@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
@@ -59,11 +60,24 @@ public class GamePanel extends JPanel implements Observer {
 	private JList listActions;
 	private JLabel lblLibraryCountCard;
 	private JLabel lblPlayer;
-	private JEditorPane editorPane;
-	public static Player player;
+	private JTextArea editorPane;
+	public  Player player;
 	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
 	private SearchLibraryFrame libraryFrame;
+	
+	
+	private static GamePanel instance;
+	
+	
+	public static GamePanel getInstance()
+	{
+		if (instance==null)
+			instance = new GamePanel();
+		
+		return instance;
+	}
+	
 	
 	
 	public void initGame()
@@ -86,7 +100,7 @@ public class GamePanel extends JPanel implements Observer {
 	}
 	
 	
-	public GamePanel() {
+	private GamePanel() {
 		
 		setLayout(new BorderLayout(0, 0));
 		
@@ -239,7 +253,8 @@ public class GamePanel extends JPanel implements Observer {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				String res = JOptionPane.showInputDialog("How many scry card ?");
-				new SearchLibraryFrame(player,player.scry(Integer.parseInt(res))).setVisible(true);
+				if(res!=null)
+					new SearchLibraryFrame(player,player.scry(Integer.parseInt(res))).setVisible(true);
 				
 			}
 		});
@@ -285,9 +300,12 @@ public class GamePanel extends JPanel implements Observer {
 		panel.add(manaPoolPanel, BorderLayout.NORTH);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		panel.add(scrollPane_1, BorderLayout.SOUTH);
+		panel.add(scrollPane_1, BorderLayout.CENTER);
 		
-		editorPane = new JEditorPane();
+		editorPane = new JTextArea();
+		editorPane.setLineWrap(true);
+		editorPane.setWrapStyleWord(true);
+		editorPane.setEditable(false);
 		scrollPane_1.setViewportView(editorPane);
 		
 		btnEndTurn.addActionListener(new ActionListener() {
@@ -390,5 +408,14 @@ public class GamePanel extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		String act = player.getName() +" " + arg.toString();
 		((DefaultListModel)listActions.getModel()).addElement(act);
+	}
+
+
+
+	public Player getPlayer() {
+		return player;
+	}
+	public JTextArea getTextCardPane() {
+		return editorPane;
 	}
 }

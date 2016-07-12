@@ -55,7 +55,6 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.game.GamePanel;
-import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
@@ -67,7 +66,6 @@ import org.magic.services.threads.ThreadManager;
 public class DeckBuilderGUI extends JPanel{
 	
 	private DeckDetailsPanel deckDetailsPanel;
-	private GamePanel gamePanel;
 	private CmcChartPanel cmcChartPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private TypeRepartitionPanel typeRepartitionPanel;
@@ -130,7 +128,7 @@ public class DeckBuilderGUI extends JPanel{
 		p=new Player(deck);
 		GameManager.getInstance().addPlayer(p);
 		GameManager.getInstance().nextTurn();
-		gamePanel.setPlayer(p);
+		GamePanel.getInstance().setPlayer(p);
 
 		
 	}
@@ -417,10 +415,9 @@ public class DeckBuilderGUI extends JPanel{
 		JPanel randomHandPanel = new JPanel();
 	
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
+
 		
-		gamePanel = new GamePanel();
-		
-		randomHandPanel.add(gamePanel, BorderLayout.CENTER);
+		randomHandPanel.add(GamePanel.getInstance(), BorderLayout.CENTER);
 		
 		tabbedPane.addTab("Cmc", null, cmcChartPanel, null);
 		tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);

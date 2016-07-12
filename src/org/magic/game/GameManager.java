@@ -1,5 +1,6 @@
 package org.magic.game;
 
+import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +13,7 @@ import org.magic.services.exports.MagicSerializer;
 
 public class GameManager {
 
-	private Player player;
+	private List<Player> players;
 	
 	private static GameManager instance;
 	private List<Turn> turns;
@@ -20,7 +21,7 @@ public class GameManager {
 	private GameManager()
 	{
 		turns = new ArrayList<Turn>();
-	
+		players=new ArrayList<Player>();
 	}
 	
 
@@ -37,7 +38,9 @@ public class GameManager {
 	public void nextTurn()
 	{
 		turns.add(new Turn());
-		player.logAction("New turn : " + turns.size());
+		
+		for(Player player : players)
+			player.logAction("New turn : " + turns.size());
 		
 	}
 	
@@ -58,20 +61,29 @@ public class GameManager {
 	
 	
 	public void addPlayer(Player p) {
-		player=p;
+		players.add(p);
 	
 	}
 	
+
+	public List<Player> getPlayers() {
+		return players;
+	}
+
+	
 	public static void main(String[] args) throws Exception {
-		//Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Jund.deck"), MagicDeck.class));
-		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/GW TOKENS.deck"), MagicDeck.class));
+		Player p1 = new Player(System.getProperty("user.name"), 20,MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Jund.deck"), MagicDeck.class));
+		Player p2 = new Player("Player 2", 20,MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Mr Toad's Wild Ride.deck"), MagicDeck.class));
+		
+		//Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/GW TOKENS.deck"), MagicDeck.class));
 		
 		GameManager.getInstance().addPlayer(p1);
+		GameManager.getInstance().addPlayer(p2);
 		GameManager.getInstance().initGame();
 		GameManager.getInstance().nextTurn();
-		JFrame f = new JFrame(p1.getName());
+		JFrame f = new JFrame("Game Simulator " + GameManager.getInstance().getPlayers().size() + " players");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GamePanel p = new GamePanel();
+		GamePanel p = GamePanel.getInstance();
 		
 		p.setPlayer(p1);
 		f.getContentPane().add(p);
@@ -80,9 +92,11 @@ public class GameManager {
 	}
 
 
+
 	public void initGame() {
+		for(Player player : players)
+			player.init();
 		
-		player.init();
 		turns = new ArrayList<Turn>();
 	}
 	

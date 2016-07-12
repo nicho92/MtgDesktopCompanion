@@ -117,10 +117,8 @@ public class ManaPanel extends JPanel {
 		}
 		catch(NumberFormatException ne)
 		{
-			
 			switch(el)
 			{
-
 			case "X":val=21;break;
 			case "Y":val=22;break;
 			case "Z":val=23;break;

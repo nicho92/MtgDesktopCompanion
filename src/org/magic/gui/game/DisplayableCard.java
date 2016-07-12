@@ -1,30 +1,19 @@
 package org.magic.gui.game;
 
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
-import javax.swing.JPopupMenu;
-import javax.swing.JTable;
-import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
-import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
-import org.magic.services.MagicFactory;
 
 
 public class DisplayableCard extends JLabel
@@ -36,15 +25,9 @@ public class DisplayableCard extends JLabel
 	private boolean tapped=false;
 	private ImageIcon image;
 	private boolean draggable=true;
-	
+	private String title;
+	private String bottom;
 	private boolean selected;
-	private JPopupMenu popUp;
-	
-	
-	public JPopupMenu getPopUp() {
-		return popUp;
-	}
-
 
 	public boolean isSelected() {
 		return selected;
@@ -64,8 +47,8 @@ public class DisplayableCard extends JLabel
 	public void setImage(ImageIcon image) {
 		this.image = image;
 	}
-	private String title;
-	private String bottom;
+	
+	
 	
 
 
@@ -133,10 +116,9 @@ public class DisplayableCard extends JLabel
 			e.printStackTrace();
 		}
 		
-			//TODO HORRIBLE !!!
-		  addMouseListener(new DisplayableCardActions(GamePanel.player));
-		  addMouseWheelListener(new DisplayableCardActions(GamePanel.player));
-		  addMouseMotionListener(new DisplayableCardActions(GamePanel.player));
+		addMouseListener(new DisplayableCardActions());
+		addMouseWheelListener(new DisplayableCardActions());
+		addMouseMotionListener(new DisplayableCardActions());
 		
 	}
 	

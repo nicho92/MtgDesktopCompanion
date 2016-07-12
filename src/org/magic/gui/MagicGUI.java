@@ -793,8 +793,7 @@ public class MagicGUI extends JFrame {
 						try {
 							logger.debug("LOADING ED " + BeanUtils.describe(selectedEdition));
 						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
+							logger.error(e1);
 						}
 						
 						ThreadManager.getInstance().execute(new Runnable() {
