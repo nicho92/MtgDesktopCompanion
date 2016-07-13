@@ -24,7 +24,7 @@ import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
-public class LazyTree {
+public class TestTree {
 
     public static class MyTreeNode extends DefaultMutableTreeNode {
 
@@ -65,7 +65,7 @@ public class LazyTree {
                 protected List<MyTreeNode> doInBackground() throws Exception {
                     // Here access database if needed
                     setProgress(0);
-                    List<MyTreeNode> children = new ArrayList<LazyTree.MyTreeNode>();
+                    List<MyTreeNode> children = new ArrayList<TestTree.MyTreeNode>();
                     if (depth < 5) {
                         for (int i = 0; i < 5; i++) {
                             // Simulate DB access time
@@ -101,7 +101,7 @@ public class LazyTree {
     }
 
     protected void initUI() {
-        JFrame frame = new JFrame(LazyTree.class.getSimpleName());
+        JFrame frame = new JFrame(TestTree.class.getSimpleName());
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         MyTreeNode root = new MyTreeNode(1, 0);
         final DefaultTreeModel model = new DefaultTreeModel(root);
@@ -155,7 +155,7 @@ public class LazyTree {
 
             @Override
             public void run() {
-                new LazyTree().initUI();
+                new TestTree().initUI();
             }
         });
     }

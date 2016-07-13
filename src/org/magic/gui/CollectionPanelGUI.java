@@ -258,6 +258,7 @@ public class CollectionPanelGUI extends JPanel {
 				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 				
 						JScrollPane scrollPaneCollections = new JScrollPane();
+						scrollPaneCollections.setMinimumSize(new Dimension(23, 250));
 						splitPane.setLeftComponent(scrollPaneCollections);
 						
 								tree = new LazyLoadingTree();

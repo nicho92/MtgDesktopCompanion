@@ -72,10 +72,11 @@ public class GameManager {
 
 	
 	public static void main(String[] args) throws Exception {
-		Player p1 = new Player(System.getProperty("user.name"), 20,MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Jund.deck"), MagicDeck.class));
-		Player p2 = new Player("Player 2", 20,MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Mr Toad's Wild Ride.deck"), MagicDeck.class));
+		//Player p1 = new Player(System.getProperty("user.name"), 20,MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Jund.deck"), MagicDeck.class));
+		//Player p2 = new Player("Player 2", 20,MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Mr Toad's Wild Ride.deck"), MagicDeck.class));
 		
-		//Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/GW TOKENS.deck"), MagicDeck.class));
+		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/GW TOKENS.deck"), MagicDeck.class));
+		Player p2 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/Jeskai mentor.deck"), MagicDeck.class));
 		
 		GameManager.getInstance().addPlayer(p1);
 		GameManager.getInstance().addPlayer(p2);

@@ -299,7 +299,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		  mc.setId(String.valueOf(map.get("id")));
 	 		   
 	 		  mc.setText(String.valueOf(map.get("text")));
-	 		   
+	 		  
 	 		  if(map.get("cmc")!=null)
 	 			  mc.setCmc((int)Double.parseDouble(String.valueOf(map.get("cmc"))));
 	 		   
@@ -401,8 +401,23 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			mc.getEditions().add(me);
 	 			
 	 			   
+	 			 
+		 		   if(me.getRarity().equals("Basic Land")) //mtgjson give null text for basic Land. Modify it for adding mana color
+		 		   {
+		 			   mc.setText(mc.getOriginalText());
+		 			   switch(mc.getName())
+		 		   		{
+		 		   			case "Plains" : mc.setText("{W}");break; 
+		 		   			case "Island" : mc.setText("{U}");break;
+		 		   			case "Swamp" : mc.setText("{B}");break;
+		 		   			case "Mountain" : mc.setText("{R}");break;
+		 		   			case "Forest" : mc.setText("{G}");break;
+		 		   
+		 		   		}
+		 		   }
+	 			
 	 			  /*get other sets*/
-	 			   if(!me.getRarity().equals("Basic Land"))//too much elements, so, remove all re-printings information
+	 			   if(!me.getRarity().equals("Basic Land"))//too much elements, so, remove all re-printings information for basic lands
 	 			   {   
 	 				   if(map.get("printings")!=null)
 	 				   for(String print : (List<String>)map.get("printings"))

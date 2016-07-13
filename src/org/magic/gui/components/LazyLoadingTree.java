@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JFrame;
-import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import javax.swing.SwingWorker;
 import javax.swing.event.TreeExpansionEvent;
@@ -21,17 +19,15 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.dao.impl.HsqlDAO;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MagicFactory;
 
 public class LazyLoadingTree extends JTree {
 
 	private DefaultTreeModel model;
 	private MagicDAO dao;
-	private DefaultMutableTreeNode root;
+	private MyNode root;
 	private MagicCardsProvider prov;
 	
 	static final Logger logger = LogManager.getLogger(LazyLoadingTree.class.getName());
@@ -47,6 +43,8 @@ public class LazyLoadingTree extends JTree {
 		
 		setModel(model);
 		setShowsRootHandles(true);
+		
+		root.loadChildren(model);
 		
 		addTreeWillExpandListener(new TreeWillExpandListener() {
 
@@ -81,7 +79,7 @@ public class LazyLoadingTree extends JTree {
             }
         });
 		
-		//expandPath(getPathForRow(0));
+		
 		
 	}
 
@@ -105,7 +103,7 @@ public class MyNode extends DefaultMutableTreeNode
 	{
 		userObject=c;
 		setUserObject(c);
-		setAllowsChildren(true);
+		add(new DefaultMutableTreeNode("Loading...", false));
 		if(c instanceof MagicCard)
 		{
 			setAllowsChildren(false);
@@ -121,7 +119,7 @@ public class MyNode extends DefaultMutableTreeNode
         for (MutableTreeNode node : children) {
             add(node);
         }
-        loaded = true;
+        setLoaded(true);
     }
 	
 	public void loadChildren(final DefaultTreeModel model) 
@@ -141,7 +139,7 @@ public class MyNode extends DefaultMutableTreeNode
 		if(userObject instanceof MagicEdition)
 		{
 			 MagicCollection col = new MagicCollection();
-	        	col.setName(getPath()[1].toString());
+	        				 col.setName(getPath()[1].toString());
 	       
 			loadCardsFromEdition(col,(MagicEdition)userObject);
 		}
@@ -230,7 +228,6 @@ public class MyNode extends DefaultMutableTreeNode
                     model.nodeStructureChanged(MyNode.this);
                 } catch (Exception e) {
                     e.printStackTrace();
-                    // Notify user of error.
                 }
                 super.done();
             }

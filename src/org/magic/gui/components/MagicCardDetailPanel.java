@@ -250,9 +250,10 @@ public class MagicCardDetailPanel extends JPanel {
 				rarityJTextField = new JTextField();
 				rarityJTextField.setEditable(false);
 				GridBagConstraints gbc_rarityJTextField = new GridBagConstraints();
+				gbc_rarityJTextField.gridwidth = 3;
 				gbc_rarityJTextField.insets = new Insets(0, 0, 5, 5);
 				gbc_rarityJTextField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_rarityJTextField.gridx = 4;
+				gbc_rarityJTextField.gridx = 3;
 				gbc_rarityJTextField.gridy = 3;
 				add(rarityJTextField, gbc_rarityJTextField);
 				rarityJTextField.setColumns(10);
