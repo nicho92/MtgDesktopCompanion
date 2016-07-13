@@ -3,7 +3,6 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -38,7 +37,7 @@ import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
+//import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.LogManager;
@@ -49,8 +48,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.components.MagicCardsTree;
 import org.magic.gui.components.MassCollectionImporterDialog;
 import org.magic.gui.components.MassMoverDialog;
 import org.magic.gui.components.PriceCatalogExportDialog;
@@ -74,7 +73,7 @@ public class CollectionPanelGUI extends JPanel {
 	private JTable tableEditions;
 	private MagicCardsProvider provider;
 	private MagicDAO dao;
-	private MagicCardsTree tree;
+	private LazyLoadingTree tree;
 	private MagicEditionsTableModel model;
 	private JProgressBar progressBar;
 	private TreePath path;
@@ -121,11 +120,10 @@ public class CollectionPanelGUI extends JPanel {
 				mc.setName(name);
 				try {
 					dao.saveCollection(mc);
-					((DefaultMutableTreeNode)getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));
-					DefaultTreeModel mod = (DefaultTreeModel) getJTree().getModel();
-					mod.reload();
-					
-				} catch (SQLException ex) {
+					((LazyLoadingTree.MyNode)getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));//todo recalculate
+					getJTree().refresh();
+					initPopupCollection();
+				} catch (Exception ex) {
 					logger.error(ex);
 					JOptionPane.showMessageDialog(null, ex,"Error",JOptionPane.ERROR_MESSAGE);
 				}
@@ -140,10 +138,11 @@ public class CollectionPanelGUI extends JPanel {
 
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				tree.init();
+			//	tree.init();
 				tree.refresh();
 				try {
 					model.calculate();
+					
 				} catch (Exception e) {
 				}
 				model.fireTableDataChanged();
@@ -248,52 +247,50 @@ public class CollectionPanelGUI extends JPanel {
 		splitListPanel.setLeftComponent(scrollPane);
 
 		JPanel panneauDroite = new JPanel();
-		panneauDroite.setLayout(new BorderLayout(0, 0));
+		panneauDroite.setLayout(new BorderLayout());
 		splitListPanel.setRightComponent(panneauDroite);
 
-		JPanel panneauTreeSearch = new JPanel();
-		panneauDroite.add(panneauTreeSearch, BorderLayout.CENTER);
-		panneauTreeSearch.setLayout(new BorderLayout(0, 0));
-
-		JScrollPane scrollPaneCollections = new JScrollPane();
-		panneauTreeSearch.add(scrollPaneCollections);
-
-		tree = new MagicCardsTree(provider, dao);
-		tree.setCellRenderer(new MagicCollectionTreeCellRenderer());
-		scrollPaneCollections.setViewportView(tree);
-
-		JPanel panneauBas = new JPanel();
-		panneauTreeSearch.add(panneauBas, BorderLayout.SOUTH);
-		panneauBas.setLayout(new BorderLayout(0, 0));
-
+	
 		modelPrices = new CardsPriceTableModel();
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		panneauBas.add(tabbedPane, BorderLayout.CENTER);
-		
-				JScrollPane scrollPrices = new JScrollPane();
-				tablePrices = new JXTable(modelPrices);
-				tablePrices.setColumnControlVisible(true);
-				scrollPrices.setViewportView(tablePrices);
 				
-				magicCardDetailPanel = new MagicCardDetailPanel();
-				magicCardDetailPanel.enableThumbnail(true);
-				tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
+				JSplitPane splitPane = new JSplitPane();
+				panneauDroite.add(splitPane, BorderLayout.CENTER);
+				splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 				
-				tabbedPane.addTab("Prices", null, scrollPrices, null);
-				
-				
-				typeRepartitionPanel = new TypeRepartitionPanel();
-				tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
-				
-				manaRepartitionPanel = new ManaRepartitionPanel();
-				tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
-				
-				rarityRepartitionPanel = new RarityRepartitionPanel();
-				tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
-				
-				historyPricesPanel = new HistoryPricesPanel();
-				tabbedPane.addTab("Variation", null, historyPricesPanel, null);
+						JScrollPane scrollPaneCollections = new JScrollPane();
+						splitPane.setLeftComponent(scrollPaneCollections);
+						
+								tree = new LazyLoadingTree();
+								tree.setCellRenderer(new MagicCollectionTreeCellRenderer());
+								scrollPaneCollections.setViewportView(tree);
+								
+								JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+								splitPane.setRightComponent(tabbedPane);
+								
+								
+										JScrollPane scrollPrices = new JScrollPane();
+										tablePrices = new JXTable(modelPrices);
+										tablePrices.setColumnControlVisible(true);
+										scrollPrices.setViewportView(tablePrices);
+										
+										magicCardDetailPanel = new MagicCardDetailPanel();
+										magicCardDetailPanel.enableThumbnail(true);
+										tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
+										
+										tabbedPane.addTab("Prices", null, scrollPrices, null);
+										
+										
+										typeRepartitionPanel = new TypeRepartitionPanel();
+										tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
+										
+										manaRepartitionPanel = new ManaRepartitionPanel();
+										tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
+										
+										rarityRepartitionPanel = new RarityRepartitionPanel();
+										tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
+										
+										historyPricesPanel = new HistoryPricesPanel();
+										tabbedPane.addTab("Variation", null, historyPricesPanel, null);
 				
 				
 						tablePrices.addMouseListener(new MouseAdapter() {
@@ -311,146 +308,146 @@ public class CollectionPanelGUI extends JPanel {
 				
 							}
 						});
+						
+								tree.addTreeSelectionListener(new TreeSelectionListener() {
+									public void valueChanged(TreeSelectionEvent tse) {
+										path = tse.getPath();
+						
+										final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+						
+										logger.debug("click on " + curr );
+										
+										if (curr.getUserObject() instanceof MagicCollection) 
+										{
+											btnExportCSV.setEnabled(true);
+											btnExportPriceCatalog.setEnabled(true);
+											ThreadManager.getInstance().execute(new Runnable() {
+												public void run() {
+														try{
+															rarityRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
+															typeRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
+															manaRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
+															 
+														}catch(Exception e)
+														{
+															logger.error(e);
+															
+														}
+													}
+											},"addTreeSelectionListener init graph Collection");
+											selectedcol = (MagicCollection) curr.getUserObject();
+											btnExportCSV.setEnabled(true);
+											btnExportPriceCatalog.setEnabled(true);
+										} 
+										
+										
+										
+										if(curr.getUserObject() instanceof MagicEdition)
+										{
+											
+											btnExportCSV.setEnabled(false);
+											btnExportPriceCatalog.setEnabled(false);
+											
+											ThreadManager.getInstance().execute(new Runnable() {
+												public void run() {
+														try{
+															
+															 MagicCollection c = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
+															
+															rarityRepartitionPanel.init(dao.getCardsFromCollection(c,(MagicEdition)curr.getUserObject()));
+															typeRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
+															manaRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
+															historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,(MagicEdition)curr.getUserObject()),curr.getUserObject().toString());
+															
+															
+														}catch(Exception e)
+														{
+															logger.error(e);
+															
+														}
+													}
+											},"addTreeSelectionListener init graph edition");
+										}
+						
+										
+										if (curr.getUserObject() instanceof MagicCard) {
+											final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
+											btnExportCSV.setEnabled(false);
+											btnExportPriceCatalog.setEnabled(false);
+											
+											magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
+											magicCardDetailPanel.enableThumbnail(true);
+											
+											ThreadManager.getInstance().execute(new Runnable() {
+												public void run() {
+													ImageIcon icon;
+													try {
+														modelPrices.init(card, card.getEditions().get(0));
+														modelPrices.fireTableDataChanged();
+													} catch (Exception e) {
+														logger.error(e);
+													}
+						
+												}
+											},"addTreeSelectionListener init graph cards");
+											
+											ThreadManager.getInstance().execute(new Runnable() {
+												public void run() {
+													try {
+														historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card.getName());
+													} catch (Exception e) {
+														logger.error(e);
+													}
+						
+												}
+											},"addTreeSelectionListener init graph historyDashboard");
+										}
+									}
+								});
+								
+										tree.addMouseListener(new MouseAdapter() {
+											@Override
+											public void mouseClicked(MouseEvent e) {
+												if (SwingUtilities.isRightMouseButton(e)) {
+													int row = tree.getClosestRowForLocation(e.getX(), e.getY());
+													tree.setSelectionRow(row);
+													
+														final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+														
+														if (node.getUserObject() instanceof MagicEdition)
+														{
+															popupMenuEdition.show(e.getComponent(), e.getX(), e.getY());
+															
+														}
+														if (node.getUserObject() instanceof MagicCard)
+														{
+															popupMenuCards.show(e.getComponent(), e.getX(), e.getY());
+														}
+														if (node.getUserObject() instanceof MagicCollection)
+														{
+															JPopupMenu p = new JPopupMenu();
+															JMenuItem it = new JMenuItem("Mass movement");
+															p.add(it);
+															
+															it.addActionListener(new ActionListener() {
+																public void actionPerformed(ActionEvent e) {
+																	MassMoverDialog d = new MassMoverDialog((MagicCollection)node.getUserObject());
+																	d.setVisible(true);
+																	logger.debug("closing mass import with change =" + d.hasChange());
+																	/*if(d.hasChange())
+																		tree.reload();
+																	*/
+																}
+															});
+															p.show(e.getComponent(), e.getX(), e.getY());
+														}
+														
+								
+												}
+											}
+										});
 
 		initPopupCollection();
-
-		tree.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent tse) {
-				path = tse.getPath();
-
-				final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-
-				logger.debug("click on " + curr );
-				
-				if (curr.getUserObject() instanceof MagicCollection) 
-				{
-					btnExportCSV.setEnabled(true);
-					btnExportPriceCatalog.setEnabled(true);
-					ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
-								try{
-									rarityRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
-									typeRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
-									manaRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
-									 
-								}catch(Exception e)
-								{
-									logger.error(e);
-									
-								}
-							}
-					},"addTreeSelectionListener init graph Collection");
-					selectedcol = (MagicCollection) curr.getUserObject();
-					btnExportCSV.setEnabled(true);
-					btnExportPriceCatalog.setEnabled(true);
-				} 
-				
-				
-				
-				if(curr.getUserObject() instanceof MagicEdition)
-				{
-					
-					btnExportCSV.setEnabled(false);
-					btnExportPriceCatalog.setEnabled(false);
-					
-					ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
-								try{
-									
-									 MagicCollection c = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
-									
-									rarityRepartitionPanel.init(dao.getCardsFromCollection(c,(MagicEdition)curr.getUserObject()));
-									typeRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
-									manaRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
-									historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,(MagicEdition)curr.getUserObject()),curr.getUserObject().toString());
-									
-									
-								}catch(Exception e)
-								{
-									logger.error(e);
-									
-								}
-							}
-					},"addTreeSelectionListener init graph edition");
-				}
-
-				
-				if (curr.getUserObject() instanceof MagicCard) {
-					final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
-					btnExportCSV.setEnabled(false);
-					btnExportPriceCatalog.setEnabled(false);
-					
-					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
-					magicCardDetailPanel.enableThumbnail(true);
-					
-					ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
-							ImageIcon icon;
-							try {
-								modelPrices.init(card, card.getEditions().get(0));
-								modelPrices.fireTableDataChanged();
-							} catch (Exception e) {
-								logger.error(e);
-							}
-
-						}
-					},"addTreeSelectionListener init graph cards");
-					
-					ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
-							try {
-								historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card.getName());
-							} catch (Exception e) {
-								logger.error(e);
-							}
-
-						}
-					},"addTreeSelectionListener init graph historyDashboard");
-				}
-			}
-		});
-
-		tree.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				if (SwingUtilities.isRightMouseButton(e)) {
-					int row = tree.getClosestRowForLocation(e.getX(), e.getY());
-					tree.setSelectionRow(row);
-					
-						final DefaultMutableTreeNode node = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
-						
-						if (node.getUserObject() instanceof MagicEdition)
-						{
-							popupMenuEdition.show(e.getComponent(), e.getX(), e.getY());
-							
-						}
-						if (node.getUserObject() instanceof MagicCard)
-						{
-							popupMenuCards.show(e.getComponent(), e.getX(), e.getY());
-						}
-						if (node.getUserObject() instanceof MagicCollection)
-						{
-							JPopupMenu p = new JPopupMenu();
-							JMenuItem it = new JMenuItem("Mass movement");
-							p.add(it);
-							
-							it.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									MassMoverDialog d = new MassMoverDialog((MagicCollection)node.getUserObject());
-									d.setVisible(true);
-									logger.debug("closing mass import with change =" + d.hasChange());
-									if(d.hasChange())
-										tree.init();
-									
-								}
-							});
-							p.show(e.getComponent(), e.getX(), e.getY());
-						}
-						
-
-				}
-			}
-		});
 
 		btnMassCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -460,7 +457,7 @@ public class CollectionPanelGUI extends JPanel {
 				} catch (Exception e) {
 				}
 				model.fireTableDataChanged();
-				tree.init();
+				//tree.init();
 			}
 		});
 
@@ -579,8 +576,7 @@ public class CollectionPanelGUI extends JPanel {
 		btnRemove.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent evt) {
 
-				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1))
-						.getUserObject();
+				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 				int res = 0;
 
 				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
@@ -646,6 +642,12 @@ public class CollectionPanelGUI extends JPanel {
 	
 	
 	public void initPopupCollection() throws Exception {
+		
+		popupMenuEdition = new JPopupMenu();
+		popupMenuCards = new JPopupMenu();
+	
+		
+		
 		JMenu menuItemAdd = new JMenu("Add missing cards in ");
 		JMenu menuItemMove = new JMenu("Move this card to ");
 		
@@ -728,7 +730,7 @@ public class CollectionPanelGUI extends JPanel {
 		this.provider = provider;
 	}
 
-	public MagicCardsTree getJTree() {
+	public LazyLoadingTree getJTree() {
 		return tree;
 	}
 

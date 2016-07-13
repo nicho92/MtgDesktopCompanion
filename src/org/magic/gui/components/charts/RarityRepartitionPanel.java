@@ -1,5 +1,6 @@
 package org.magic.gui.components.charts;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -23,6 +24,10 @@ public class RarityRepartitionPanel extends JPanel{
 
 	private List<MagicCard> cards;
 	ChartPanel pane;
+	
+	public RarityRepartitionPanel() {
+		setLayout(new BorderLayout(0, 0));
+	}
 
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<MagicCard>();
@@ -63,7 +68,7 @@ public class RarityRepartitionPanel extends JPanel{
 		
 		 PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
 		    plot.setLabelGenerator(generator);
-		this.add(pane);
+		this.add(pane,BorderLayout.CENTER);
 	}
 	
 	private PieDataset getRarityRepartitionDataSet() 

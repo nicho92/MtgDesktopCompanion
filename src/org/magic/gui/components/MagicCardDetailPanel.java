@@ -54,7 +54,7 @@ public class MagicCardDetailPanel extends JPanel {
 	private JTextField loyaltyJTextField;
 	private JTextField nameJTextField;
 	private JTextField powerJTextField;
-	private JTextPane txtTextPane;
+	private MagicTextPane txtTextPane;
 	private JTextField toughnessJTextField;
 	private JLabel lblFlavor;
 	private JTextPane txtFlavorArea;
@@ -279,7 +279,7 @@ public class MagicCardDetailPanel extends JPanel {
 				labelGbc_8.gridy = 4;
 				add(textLabel, labelGbc_8);
 		
-				txtTextPane = new JTextPane();
+				txtTextPane = new MagicTextPane();
 				txtTextPane.setBorder(new LineBorder(Color.GRAY));
 				txtTextPane.setBackground(Color.WHITE);
 				txtTextPane.setEditable(false);
@@ -380,62 +380,6 @@ public class MagicCardDetailPanel extends JPanel {
 		}
 	}
 
-	private void updateIcon() {
-		
-		txtTextPane.setText(txtTextPane.getText().replaceAll("CHAOS", "{CHAOS}"));
-		
-		String regex ="\\{(.*?)\\}";
-		Pattern p = Pattern.compile(regex);
-		Matcher m = p.matcher(txtTextPane.getText());
-		
-		String text = txtTextPane.getText();
-		 StyleContext context = new StyleContext();
-		 StyledDocument document = new DefaultStyledDocument(context);
-		 
-		 Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
-		
-		 Style italic =context.addStyle("italicStyle", labelStyle); 
-		 StyleConstants.setItalic(italic, true);
-				 
-		 int cumule=0;
-		 try {
-			document.insertString(0, text, null);
-			while(m.find()) {
-				 Image ic = manaPanel.getManaSymbol(m.group());
-				
-				 int width=15;
-				 if(m.group().equals("{100}"))
-					 width=30;
-				 
-				
-				 JLabel label = new JLabel(new ImageIcon(ic.getScaledInstance(width, 15, Image.SCALE_DEFAULT)));
-				 		label.setAlignmentY(JLabel.TOP);
-				 
-				 StyleConstants.setComponent(labelStyle, label);
-
-				 document.remove(m.start()+cumule, (m.end()-m.start()));
-				 document.insertString(m.start()+cumule, m.group(), labelStyle);
-			}
-			
-			//italic style
-//			if(text.contains("("))
-//			{
-//				int posD = text.indexOf("(");
-//				int posF = text.lastIndexOf(")");
-//				document.setCharacterAttributes(posD, posF-posD, italic,true);
-//				
-//			}
-			
-			txtTextPane.setDocument(document);
-		 } 
-		 catch (BadLocationException e) {
-				txtTextPane.setText(text);
-		}
-			
-		
-	}
-
-
 	public MagicCard getMagicCard() {
 		return magicCard;
 	}
@@ -456,11 +400,7 @@ public class MagicCardDetailPanel extends JPanel {
 			}
 		}
 	}
-	
-//	public JLabel getNumberInSetLabel()
-//	{
-//		return lblnumberInSet;
-//	}
+
 	
 	public void setMagicLogo(String set,String rarity) {
 			try {
@@ -504,8 +444,8 @@ public class MagicCardDetailPanel extends JPanel {
 		autoBinding_6.bind();
 		//
 		BeanProperty<MagicCard, String> textProperty_8 = BeanProperty.create("text");
-		BeanProperty<JTextPane, String> textProperty_9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextPane, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty_8, txtTextPane, textProperty_9);
+		BeanProperty<MagicTextPane, String> textProperty_9 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty_8, txtTextPane, textProperty_9);
 		autoBinding_8.bind();
 		//
 		BeanProperty<MagicCard, String> toughnessProperty = BeanProperty.create("toughness");
@@ -546,7 +486,7 @@ public class MagicCardDetailPanel extends JPanel {
 			}
 	
 		
-		updateIcon();
+		txtTextPane.updateTextWithIcons();
 		
 		if(thumbnail)
 		{

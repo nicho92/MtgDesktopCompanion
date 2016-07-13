@@ -43,6 +43,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
+import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.services.exports.MagicSerializer;
 import javax.swing.JEditorPane;
@@ -60,7 +61,7 @@ public class GamePanel extends JPanel implements Observer {
 	private JList listActions;
 	private JLabel lblLibraryCountCard;
 	private JLabel lblPlayer;
-	private JTextArea editorPane;
+	private MagicTextPane editorPane;
 	public  Player player;
 	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
@@ -137,7 +138,7 @@ public class GamePanel extends JPanel implements Observer {
 		GridBagLayout gbl_lifePanel = new GridBagLayout();
 		gbl_lifePanel.columnWidths = new int[]{29, 53, 32, 41, 0};
 		gbl_lifePanel.rowHeights = new int[] {0, 25, 0, 0};
-		gbl_lifePanel.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbl_lifePanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gbl_lifePanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 		lifePanel.setLayout(gbl_lifePanel);
 						
@@ -302,9 +303,8 @@ public class GamePanel extends JPanel implements Observer {
 		JScrollPane scrollPane_1 = new JScrollPane();
 		panel.add(scrollPane_1, BorderLayout.CENTER);
 		
-		editorPane = new JTextArea();
-		editorPane.setLineWrap(true);
-		editorPane.setWrapStyleWord(true);
+		editorPane = new MagicTextPane();
+		editorPane.setMaximumSize(new Dimension(120, 200));
 		editorPane.setEditable(false);
 		scrollPane_1.setViewportView(editorPane);
 		
@@ -415,7 +415,7 @@ public class GamePanel extends JPanel implements Observer {
 	public Player getPlayer() {
 		return player;
 	}
-	public JTextArea getTextCardPane() {
+	public MagicTextPane getMagicTextPane() {
 		return editorPane;
 	}
 }

@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 
-	HashMap<String, BufferedImage> cache;
+	HashMap<String, ImageIcon> cache;
 	
 	public MagicCollectionTableCellRenderer() {
 		cache=new HashMap<>();
@@ -56,14 +56,14 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 			{
 				try
 				{
-					BufferedImage im ;
+					ImageIcon im ;
 					if(cache.get(value.toString())==null)
 					{
 					
 						if(value.toString().startsWith("p"))
-							im=ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/VAN_set.png"));
+							im=new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/VAN_set.png")).getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
 						else
-							im = ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+value+"_set.png"));
+							im = new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+value+"_set.png")).getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
 					
 						
 						cache.put(value.toString(),im);
@@ -73,9 +73,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 							im=cache.get(value.toString());
 					}
 					
-					
-					ImageIcon ic = new ImageIcon(im.getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
-					JLabel l = new JLabel(ic);
+					JLabel l = new JLabel(im);
 					l.setOpaque(false);
 					l.setBackground(pane.getBackground());
 					return l;

@@ -1,5 +1,6 @@
 package org.magic.gui.components.charts;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -24,6 +25,10 @@ public class ManaRepartitionPanel extends JPanel{
 	private List<MagicCard> cards;
 	ChartPanel pane;
 
+	public ManaRepartitionPanel() {
+		setLayout(new BorderLayout(0, 0));
+	}
+	
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<MagicCard>();
 		for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
@@ -68,7 +73,7 @@ public class ManaRepartitionPanel extends JPanel{
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
 		
-		this.add(pane);
+		this.add(pane,BorderLayout.CENTER);
 		this.revalidate();
 		this.repaint();
 		
