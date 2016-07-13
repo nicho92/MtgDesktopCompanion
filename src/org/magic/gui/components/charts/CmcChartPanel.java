@@ -1,5 +1,6 @@
 package org.magic.gui.components.charts;
 
+import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
@@ -24,7 +25,7 @@ public class CmcChartPanel extends JPanel{
 
 
 	public CmcChartPanel() {
-		
+		setLayout(new BorderLayout(0, 0));
 	}
 	
 
@@ -62,7 +63,7 @@ public class CmcChartPanel extends JPanel{
 		
 		pane = new ChartPanel(chart);
 		
-		this.add(pane);
+		this.add(pane,BorderLayout.CENTER);
 		chart.fireChartChanged();
 	}
 
