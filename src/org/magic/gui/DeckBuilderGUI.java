@@ -111,11 +111,6 @@ public class DeckBuilderGUI extends JPanel{
 		this.provider=provider;
 		this.dao=dao;
 		initGUI();
-		
-		/*p=new Player(deck);
-		GameManager.getInstance().addPlayer(p);
-		gamePanel.setPlayer(p);
-		*/
 		setDeck(deck);
 	}
 
@@ -127,7 +122,7 @@ public class DeckBuilderGUI extends JPanel{
 		deckDetailsPanel.setMagicDeck(deck);
 		deckmodel.init(deck);
 		p=new Player(deck);
-		GameManager.getInstance().addPlayer(p);
+		GameManager.getInstance().setPlayer(p);
 		GameManager.getInstance().nextTurn();
 		GamePanel.getInstance().setPlayer(p);
 

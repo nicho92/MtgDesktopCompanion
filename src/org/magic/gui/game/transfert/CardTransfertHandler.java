@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.providers.impl.MtgapiProvider;
 import org.magic.game.GameManager;
 import org.magic.gui.game.DisplayableCard;
+import org.magic.gui.game.Draggable;
 import org.magic.gui.game.DraggablePanel;
 
 
@@ -129,8 +130,8 @@ public class CardTransfertHandler extends TransferHandler  {
 		DraggablePanel target = (DraggablePanel) support.getComponent();
 		try {
 			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
-			((DraggablePanel)src.getParent()).moveCard(src.getMagicCard(), target.getOrigine());
-			logger.info("move " + src.getMagicCard().getName()+ " from " + ((DraggablePanel)src.getParent()).getOrigine() + " to " + target.getOrigine());
+			((Draggable)src.getParent()).moveCard(src.getMagicCard(), target.getOrigine());
+			logger.info("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
 					
 			src.getParent().revalidate();
 			target.revalidate();

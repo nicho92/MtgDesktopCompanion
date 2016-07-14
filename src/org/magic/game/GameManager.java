@@ -49,7 +49,11 @@ public class GameManager {
 		p.logAction(action);
 	}
 	
-	
+	public void setPlayer(Player p)
+	{
+		players.clear();
+		players.add(p);
+	}
 	
 	public static GameManager getInstance()
 	{

@@ -8,7 +8,7 @@ import org.magic.game.Player;
 import org.magic.game.PositionEnum;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 
-public abstract class DraggablePanel extends JPanel {
+public abstract class DraggablePanel  extends JPanel implements Draggable{
 
   	int width=112;
 	int height=155;
@@ -54,11 +54,23 @@ public abstract class DraggablePanel extends JPanel {
 	  setTransferHandler(new CardTransfertHandler());
   }
   
-  public abstract void moveCard(MagicCard mc, PositionEnum to);
+  /* (non-Javadoc)
+ * @see org.magic.gui.game.Draggable#moveCard(org.magic.api.beans.MagicCard, org.magic.game.PositionEnum)
+ */
+@Override
+public abstract void moveCard(MagicCard mc, PositionEnum to);
   
-  public abstract void addComponent(DisplayableCard i);
+  /* (non-Javadoc)
+ * @see org.magic.gui.game.Draggable#addComponent(org.magic.gui.game.DisplayableCard)
+ */
+@Override
+public abstract void addComponent(DisplayableCard i);
 	
-  public abstract PositionEnum getOrigine();
+  /* (non-Javadoc)
+ * @see org.magic.gui.game.Draggable#getOrigine()
+ */
+@Override
+public abstract PositionEnum getOrigine();
   
   public abstract void postTreatment();
   
