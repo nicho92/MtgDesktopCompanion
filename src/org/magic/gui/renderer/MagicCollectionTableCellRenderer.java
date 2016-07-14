@@ -15,19 +15,23 @@ import javax.swing.table.DefaultTableCellRenderer;
 public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 
 	HashMap<String, ImageIcon> cache;
+	Color c ;
 	
 	public MagicCollectionTableCellRenderer() {
 		cache=new HashMap<>();
 	}
 	
+	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		{
-			
 			if(column==4)
 				value=value.toString()+"%";
 			
-			Component pane = super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column);
+			JLabel pane = (JLabel)super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column);
+			pane.setIcon(null);
+			pane.setHorizontalAlignment(JLabel.LEFT);
+			pane.setBackground(c);
 			
 			if((int)table.getValueAt(row, 4)<5)
 			{
@@ -53,7 +57,6 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 				pane.setForeground(Color.BLACK);
 			}
 			
-			
 			if(column==0)
 			{
 				try
@@ -74,18 +77,17 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 					{
 							im=cache.get(value.toString());
 					}
+					pane.setIcon(im);
+					pane.setText(null);
+					pane.setHorizontalAlignment(JLabel.CENTER);
 					
-					JLabel l = new JLabel(im);
-					l.setOpaque(false);
-					l.setBackground(pane.getBackground());
-					return l;
-				}
+				} 
 				catch(Exception e)
 				{ 
 				//	e.printStackTrace();
 				}
+				c=pane.getBackground();
 			}
-		
 			return pane;
 		}
 
