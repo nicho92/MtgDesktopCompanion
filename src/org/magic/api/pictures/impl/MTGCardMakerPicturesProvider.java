@@ -41,7 +41,7 @@ public class MTGCardMakerPicturesProvider implements PictureProvider {
 					+ "&power="+mc.getPower()
 					+ "&toughness="+mc.getToughness()
 					+ "&artist="+URLEncoder.encode(mc.getArtist(),"UTF-8")
-					+ "&bottom="+URLEncoder.encode("","UTF-8")
+					+ "&bottom="+URLEncoder.encode("™ & © 1993-2016 Wizards of the Coast LLC","UTF-8")
 					+ "&set1="
 					+ "&set2="
 					+ "&setname=";

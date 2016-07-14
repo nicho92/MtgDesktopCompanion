@@ -44,11 +44,13 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 			if((int)table.getValueAt(row, 4)>=50)
 			{
 				pane.setBackground(Color.ORANGE);
+				pane.setForeground(Color.BLACK);
 			}
 			
 			if((int)table.getValueAt(row, 4)==100)
 			{
 				pane.setBackground(Color.GREEN);
+				pane.setForeground(Color.BLACK);
 			}
 			
 			
@@ -79,8 +81,9 @@ public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
 					return l;
 				}
 				catch(Exception e)
-				{
-					}
+				{ 
+				//	e.printStackTrace();
+				}
 			}
 		
 			return pane;

@@ -137,9 +137,13 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		return list;
 	}
 	
+	public static void main(String[] args) {
+		new LeboncoinShopper().search("Lot cartes magic");
+	}
+	
+	
 	private Date parseDate(String e)
 	{
-		//logger.debug("parsing " + e);
 		String aujourdhui="Aujourd'hui, ";
 		String hier="Hier, ";
 		e=e.replaceAll("Urgent ", "");
