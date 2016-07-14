@@ -56,6 +56,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.game.GamePanel;
 import org.magic.gui.models.DeckModel;
+import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
@@ -86,7 +87,7 @@ public class DeckBuilderGUI extends JPanel{
 
 	private JTable tableDeck;
 	private JTable tableSide;
-	private JList listResult;
+	private JList<MagicCard> listResult;
 	private JTabbedPane tabbedPane;
 	
 	public static final int MAIN=0;
@@ -265,6 +266,7 @@ public class DeckBuilderGUI extends JPanel{
 		add(scrollResult, BorderLayout.WEST);
 		
 		listResult = new JList(new DefaultListModel<MagicCard>());
+		listResult.setCellRenderer(new MagicCardListRenderer());  
 		listResult.setMinimumSize(new Dimension(100, 0));
 		listResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		scrollResult.setViewportView(listResult);
