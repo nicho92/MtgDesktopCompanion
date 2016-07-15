@@ -107,24 +107,6 @@ public class DeckbrewProvider implements MagicCardsProvider {
 
 
 	@Override
-	public List<String> getListType() throws IOException {
-		String url = urldeckbrewJSON+"/types";
-		
-		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
-		return Arrays.asList(gson.fromJson(reader, String[].class));
-	}
-
-
-	@Override
-	public List<String> getListSubTypes() throws IOException {
-		String url = urldeckbrewJSON+"/subtypes";
-		
-		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
-		return Arrays.asList(gson.fromJson(reader, String[].class));
-	}
-
-
-	@Override
 	public String[] getQueryableAttributs() {
 		return new String[]{"name","type","subtype","supertype","oracle","set","rarity","color","multicolor","multiverseid","format","status"};
 		

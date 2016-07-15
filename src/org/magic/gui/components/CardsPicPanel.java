@@ -27,7 +27,10 @@ import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.util.PaintUtils;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
+import org.magic.services.MagicFactory;
 import org.magic.services.threads.ThreadManager;
 
 
@@ -58,6 +61,10 @@ public class CardsPicPanel extends JXPanel {
 	
 	private boolean moveable=true;
 
+	private MagicCard card;
+
+	private MagicEdition edition;
+
 
 	public CardsPicPanel()
 	{
@@ -72,10 +79,12 @@ public class CardsPicPanel extends JXPanel {
     	return image;
 	}
 	
-	public void showPhoto(final String idFront,String bottom) {
+	public void showPhoto(MagicCard mc, MagicEdition ed) {
 		
-	
-		if(bottom==null)
+		this.card=mc;
+		this.edition=ed;
+		
+		if(!mc.isTranformable())
 		{
 			try {
 				back=new GathererPicturesProvider().getBackPicture();
@@ -86,7 +95,8 @@ public class CardsPicPanel extends JXPanel {
 		else
 		{
 			try {
-				back = new GathererPicturesProvider().getPicture(bottom);
+				MagicCard flipC = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name",card.getRotatedCardName(),card.getEditions().get(0)).get(0);
+				back = new GathererPicturesProvider().getPicture(String.valueOf(flipC.getMultiverseid()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -97,8 +107,11 @@ public class CardsPicPanel extends JXPanel {
 			public void run() {
 				try {
 					
+					if(edition==null)
+						imgFront=renderer.appendReflection(new GathererPicturesProvider().getPicture(String.valueOf(card.getEditions().get(0).getMultiverse_id())));
+					else
+						imgFront=renderer.appendReflection(new GathererPicturesProvider().getPicture(String.valueOf(edition.getMultiverse_id())));
 					
-					imgFront=renderer.appendReflection(new GathererPicturesProvider().getPicture(idFront));
 					back=mirroring(back);
 					back=renderer.appendReflection(back);
 					
@@ -132,20 +145,19 @@ public class CardsPicPanel extends JXPanel {
 		
 		if(printed !=null)
 		{
-			
 			 pX = (int)((getWidth() - (printed.getWidth() * xScale)) / 2);
              pY = (getHeight() - printed.getHeight()) / 2;
 
             AffineTransform at = new AffineTransform();
+            				at.translate(pX, pY);
+            				at.scale(xScale, 1);
             
-            at.translate(pX, pY);
-            at.scale(xScale, 1);
-            
-            g2.setTransform(at);
-            if(xScale<0)
-            	printed=back;
-            else
-            	printed=imgFront;
+            				g2.setTransform(at);
+
+            				if(xScale<0)
+				            	printed=back;
+				            else
+				            	printed=imgFront;
             
 			
 			

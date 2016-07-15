@@ -91,7 +91,7 @@ public class DisplayableCard extends JLabel
 		setVerticalAlignment(JLabel.CENTER);
 		magicCard=mc;
 		
-	StringBuilder b = new StringBuilder();
+	/*StringBuilder b = new StringBuilder();
 		b.append("<html>");
 		b.append("<b>").append(getMagicCard().getName()).append("</b><i> (").append(getMagicCard().getFullType()).append(")</i>");
 		b.append("&nbsp;&nbsp;<b>").append(getMagicCard().getCost()).append("</b>");
@@ -99,7 +99,7 @@ public class DisplayableCard extends JLabel
 		b.append("</html>");
 		
 		setToolTipText(b.toString());
-		
+		*/
 		setTransferHandler(new CardTransfertHandler());
 		
 		try {
