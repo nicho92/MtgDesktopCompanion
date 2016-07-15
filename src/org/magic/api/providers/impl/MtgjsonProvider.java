@@ -316,6 +316,9 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		   if(map.get("originalType")!=null)
 	 			 mc.setOriginalType(String.valueOf(map.get("originalType")));
 	 		   
+	 		  if(map.get("supertypes")!=null)
+	 			   mc.getSupertypes().addAll((List<String>)map.get("supertypes"));
+	 		   
 	 		   if(map.get("types")!=null)
 	 			  mc.getTypes().addAll((List<String>)map.get("types"));
 	 		   

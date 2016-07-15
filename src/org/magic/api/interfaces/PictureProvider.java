@@ -10,6 +10,6 @@ public interface PictureProvider {
 	
 	public BufferedImage getPicture(MagicCard mc) throws Exception;
 	public URL getPictureURL(String id) throws Exception;
-	public BufferedImage getPicture(String setID,String rarity) throws Exception;
+	public BufferedImage getSetLogo(String setID,String rarity) throws Exception;
 	public BufferedImage getPicture(String multiverseid) throws Exception;
 }

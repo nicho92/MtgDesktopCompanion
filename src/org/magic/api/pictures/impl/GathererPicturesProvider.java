@@ -32,7 +32,7 @@ public class GathererPicturesProvider implements PictureProvider {
 	
 
 	@Override
-	public BufferedImage getPicture(String set, String rarity) throws Exception {
+	public BufferedImage getSetLogo(String set, String rarity) throws Exception {
 		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size=medium&rarity="+rarity.substring(0,1));
 		return ImageIO.read(url);
 	}

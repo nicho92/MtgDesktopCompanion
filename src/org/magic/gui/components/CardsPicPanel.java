@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
@@ -9,6 +10,7 @@ import java.awt.RenderingHints;
 import java.awt.Shape;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseWheelEvent;
@@ -16,11 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
 
-import javax.imageio.ImageIO;
 import javax.swing.Timer;
 
 import org.jdesktop.swingx.JXPanel;
@@ -56,7 +54,8 @@ public class CardsPicPanel extends JXPanel {
      boolean launched=false;
      private Timer timer;
      int pX, pY;
-	
+     double rotate;
+     GathererPicturesProvider picsProvider;
 	
 	
 	private boolean moveable=true;
@@ -68,6 +67,8 @@ public class CardsPicPanel extends JXPanel {
 
 	public CardsPicPanel()
 	{
+		setLayout(new BorderLayout(0, 0));
+		picsProvider=new GathererPicturesProvider();
 		initGUI();
 	}
 
@@ -87,7 +88,7 @@ public class CardsPicPanel extends JXPanel {
 		if(!mc.isTranformable())
 		{
 			try {
-				back=new GathererPicturesProvider().getBackPicture();
+				back=picsProvider.getBackPicture();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -96,7 +97,7 @@ public class CardsPicPanel extends JXPanel {
 		{
 			try {
 				MagicCard flipC = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name",card.getRotatedCardName(),card.getEditions().get(0)).get(0);
-				back = new GathererPicturesProvider().getPicture(String.valueOf(flipC.getMultiverseid()));
+				back = picsProvider.getPicture(String.valueOf(flipC.getMultiverseid()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -108,9 +109,9 @@ public class CardsPicPanel extends JXPanel {
 				try {
 					
 					if(edition==null)
-						imgFront=renderer.appendReflection(new GathererPicturesProvider().getPicture(String.valueOf(card.getEditions().get(0).getMultiverse_id())));
+						imgFront=renderer.appendReflection(picsProvider.getPicture(String.valueOf(card.getEditions().get(0).getMultiverse_id())));
 					else
-						imgFront=renderer.appendReflection(new GathererPicturesProvider().getPicture(String.valueOf(edition.getMultiverse_id())));
+						imgFront=renderer.appendReflection(picsProvider.getPicture(String.valueOf(edition.getMultiverse_id())));
 					
 					back=mirroring(back);
 					back=renderer.appendReflection(back);
@@ -145,6 +146,7 @@ public class CardsPicPanel extends JXPanel {
 		
 		if(printed !=null)
 		{
+			
 			 pX = (int)((getWidth() - (printed.getWidth() * xScale)) / 2);
              pY = (getHeight() - printed.getHeight()) / 2;
 
@@ -153,17 +155,25 @@ public class CardsPicPanel extends JXPanel {
             				at.scale(xScale, 1);
             
             				g2.setTransform(at);
-
+            				
+            				
+							if(card.isFlippable())
+            					g2.rotate(Math.toRadians(rotate));
+            				
+            				
             				if(xScale<0)
 				            	printed=back;
 				            else
 				            	printed=imgFront;
-            
+			
 			
 			
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0));   
 			g2.draw(selectedShape);
 			g2.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1));
+		
+			
+			
 			
 			g2.drawImage(printed, (int)selectedShape.getBounds().getX(),
   		  			  			   (int)selectedShape.getBounds().getY(),
@@ -248,8 +258,7 @@ public class CardsPicPanel extends JXPanel {
 			
 			public void mousePressed(MouseEvent e)
 		    {
-			  if(moveable)
-		      if (selectedShape.contains(e.getPoint()))
+			  if (selectedShape.contains(e.getPoint()))
 		      {
 		            pointInitial = e.getPoint();
 		            mainPanel.repaint();
@@ -261,14 +270,14 @@ public class CardsPicPanel extends JXPanel {
 		    public void mouseDragged(MouseEvent e) {
 		    	
 		    	if(moveable) 
-		    	if (selectedShape != null) {
-		           int deltaX = e.getX() - pointInitial.x;
-		           int deltaY = e.getY() - pointInitial.y;
-		           pointInitial = e.getPoint();
-		           AffineTransform at = AffineTransform.getTranslateInstance(deltaX,deltaY);
-		           selectedShape = at.createTransformedShape(selectedShape);
-		           mainPanel.repaint();
-		        }
+			    	if (selectedShape != null) {
+			           int deltaX = e.getX() - pointInitial.x;
+			           int deltaY = e.getY() - pointInitial.y;
+			           pointInitial = e.getPoint();
+			           AffineTransform at = AffineTransform.getTranslateInstance(deltaX,deltaY);
+			           selectedShape = at.createTransformedShape(selectedShape);
+			           mainPanel.repaint();
+			        }
 		     }
 
 		   

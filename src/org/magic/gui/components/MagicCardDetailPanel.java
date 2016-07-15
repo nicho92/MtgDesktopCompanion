@@ -405,7 +405,7 @@ public class MagicCardDetailPanel extends JPanel {
 	
 	public void setMagicLogo(String set,String rarity) {
 			try {
-				lblLogoSet.setIcon(new ImageIcon(new GathererPicturesProvider().getPicture(set, rarity)));
+				lblLogoSet.setIcon(new ImageIcon(new GathererPicturesProvider().getSetLogo(set, rarity)));
 			} catch (Exception e) {
 				lblLogoSet.setIcon(null);			
 				}

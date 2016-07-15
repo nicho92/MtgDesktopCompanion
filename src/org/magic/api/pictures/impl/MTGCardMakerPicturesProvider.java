@@ -72,7 +72,7 @@ public class MTGCardMakerPicturesProvider implements PictureProvider {
 	}
 
 	@Override
-	public BufferedImage getPicture(String setID, String rarity) throws Exception {
+	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
