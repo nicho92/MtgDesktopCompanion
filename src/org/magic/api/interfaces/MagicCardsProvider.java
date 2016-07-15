@@ -21,9 +21,6 @@ public interface MagicCardsProvider {
 	public List<MagicEdition> searchSetByCriteria(String att,String crit) throws Exception;
 	public MagicEdition getSetById(String id) throws Exception;
 	
-	public List<String> getListType() throws Exception;
-	public List<String> getListSubTypes() throws Exception;
-	
 	public String[] getLanguages();
 	
 	public String[] getQueryableAttributs();

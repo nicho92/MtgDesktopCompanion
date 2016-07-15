@@ -18,10 +18,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -70,7 +67,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
@@ -180,9 +176,6 @@ public class MagicGUI extends JFrame {
 	private JLabel lblLoading = new JLabel("");
 	
 	private JList<MagicEdition> listEdition;
-
-	private String front;
-	private String back;
 
 
 	public void setDefaultLanguage(String language) {
@@ -766,11 +759,6 @@ public class MagicGUI extends JFrame {
 					if(SwingUtilities.isRightMouseButton(evt))
 					{
 						Point point = evt.getPoint();
-						//					 		int rowNumber = tableCards.rowAtPoint( point );
-						//							ListSelectionModel model = tableCards.getSelectionModel();
-						//							model.setSelectionInterval( rowNumber, rowNumber );
-						//						
-
 						popupMenu.show(tableCards, (int)point.getX(), (int)point.getY());
 					}
 					else
@@ -800,7 +788,9 @@ public class MagicGUI extends JFrame {
 							public void run() {
 								try {
 									loading(true,"loading edition");
-										cardsPicPanel.showPhoto(selectedEdition.getMultiverse_id(),null);//backcard
+									
+										cardsPicPanel.showPhoto(selected,selectedEdition);//backcard
+										
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
 										historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
@@ -849,7 +839,9 @@ public class MagicGUI extends JFrame {
 					try {
 						if(selLang!=null)
 						{
-							cardsPicPanel.showPhoto(""+selLang.getGathererId(),back);
+							MagicEdition ed = new MagicEdition();
+								ed.setMultiverse_id(""+selLang.getGathererId());
+							cardsPicPanel.showPhoto(selected,ed);
 						}
 					} catch (Exception e1) {}
 				}
@@ -1016,33 +1008,6 @@ public class MagicGUI extends JFrame {
 			for(MagicEdition me : selected.getEditions())
 				((DefaultListModel<MagicEdition>)listEdition.getModel()).addElement(me);
 
-			if(selectedEdition!=null)
-				front = selectedEdition.getMultiverse_id();
-			else
-				front = ""+selected.getMultiverseid();
-			
-			String nb = selected.getNumber();
-			
-			back=null;
-			
-			
-			
-			if(selected.getLayout()!=null)
-				if(selected.getLayout().equalsIgnoreCase("double-faced"))
-				{
-					if(nb.contains("a"))
-						nb=nb.replace("a", "b");
-					else
-						nb=nb.replace("b", "a");
-					
-					MagicCard flipC = provider.getCardByNumber(nb, selectedEdition);
-					back=flipC.getEditions().get(0).getMultiverse_id();
-				}
-			
-			
-			cardsPicPanel.showPhoto(front,back);
-									
-
 			detailCardPanel.setMagicCard(selected,true);
 			magicEditionDetailPanel.setMagicEdition(selected.getEditions().get(0));
 
@@ -1056,14 +1021,9 @@ public class MagicGUI extends JFrame {
 
 
 			for(MagicCardNames mcn : selected.getForeignNames())
-			{
 				cboLanguages.addItem(mcn);
-				/*if(mcn.getLanguage().startsWith(defaultLanguage))
-				{
-					cboLanguages.setSelectedItem(mcn);
-				}*/
-			}
 
+			
 			if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 				updatePrices();
 			
@@ -1072,7 +1032,6 @@ public class MagicGUI extends JFrame {
 			
 			
 		} catch (Exception e1) {
-			e1.printStackTrace();
 			logger.error(e1);
 		}
 

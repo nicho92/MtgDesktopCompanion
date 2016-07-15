@@ -9,9 +9,8 @@ public class SearchTest {
 	
 	public static void main(String[] args) throws IOException {
 		MtgjsonProvider prov = new MtgjsonProvider();
-		//prov.init();
 		
-		System.out.println(prov.searchCardByCriteria("name", "Sigarda, Heron's Grace", null));
+		System.out.println(prov.searchCardByCriteria("name", "Avacyn", null));
 	}
 	
 	

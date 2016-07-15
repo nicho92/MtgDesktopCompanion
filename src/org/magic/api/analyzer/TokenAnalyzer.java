@@ -86,6 +86,8 @@ public class TokenAnalyzer {
 				token.setArtist("MTG Desktop Companion");		
 				token.setWatermarks("");
 				token.setToken(true);
+				token.setLayout("Token");
+
 				
 				if(artifact>-1)
 					token.getTypes().add("Artifact");

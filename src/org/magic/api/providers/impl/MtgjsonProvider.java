@@ -291,7 +291,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			
 			MagicCard mc = new MagicCard();
 	 		   mc.setName(map.get("name").toString());
-	 		  
+	 		   mc.setFlippable(false);
+	 		   mc.setTranformable(false);
 	 		   if(map.get("multiverseid")!=null)
 	 			   mc.setMultiverseid((int)(double)map.get("multiverseid"));
 
@@ -336,6 +337,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		   if(map.get("number")!=null)
 	 			  mc.setNumber(String.valueOf(map.get("number")));
 	 		  
+	 		   if(map.get("gathererCode")!=null)
+	 			  mc.setGathererCode(String.valueOf(map.get("gathererCode"))); 
+	 			  
+	 		 
+	 		   
 	 		  /* if(map.get("number")==null)
 	 		   {
 	 			   if(map.get("mciNumber")!=null)
@@ -437,6 +443,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			   }
 	 			   
 	 			   
+	 			
+	 			   
 	 			   
 	 		   MagicCardNames defnames = new MagicCardNames();
 	 		  		defnames.setLanguage("English");
@@ -462,6 +470,24 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			    mc.getForeignNames().add(fnames);
 	 			   }
 	 		   }
+	 		   
+	 		  if(map.get("names")!=null)
+	 		   {
+				 ((List)map.get("names")).remove(mc.getName());
+				 String rotateName=((List)map.get("names")).get(0).toString() ;
+	 			 mc.setRotatedCardName(rotateName);
+	 			 
+	 			 if(mc.getLayout().equals("flip"))
+	 				 mc.setFlippable(true);
+	 			 if(mc.getLayout().equals("double-faced"))
+	 				 mc.setTranformable(true);
+	 			 
+	 			 
+	 		   }
+	 		   
+	 		 
+	 		   
+	 		   
 	 		  list.add(mc);
 	 		  
 		}
@@ -560,16 +586,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 	}
 
-	public List<String> getListType() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public List<String> getListSubTypes() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 	public String[] getQueryableAttributs() {
 		return new String[]{"name","foreignNames","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout"};
 	}
@@ -581,7 +597,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	public String[]  getLanguages() {
 		return new String[]{"English","Chinese Simplified","Chinese Traditional","French","German","Italian","Japanese","Korean","Portugese","Russian","Spanish"};
 	}
-
 	
 	//TODO : reforge this function
 	private void initOtherEditionCardsVar(MagicCard mc,MagicEdition me)
@@ -734,8 +749,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	public String getVersion() {
 		return version;
 	}
-
-
+	
 	@Override
 	public URL getWebSite() throws MalformedURLException {
 		return new URL("http://mtgjson.com/");

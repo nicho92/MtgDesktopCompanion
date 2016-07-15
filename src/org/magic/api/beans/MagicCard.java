@@ -40,9 +40,54 @@ public class MagicCard implements Serializable {
 		private Integer multiverseid;
 		private List<MagicFormat> legalities;
 		private String rarity;
+		private String gathererCode;
 	
+		private boolean flippable;
+		private boolean tranformable;
+		
+		public boolean isFlippable() {
+			return flippable;
+		}
+
+
+		public void setFlippable(boolean flippable) {
+			this.flippable = flippable;
+		}
 		
 		
+
+		public boolean isTranformable() {
+			return tranformable;
+		}
+
+
+		public void setTranformable(boolean tranformable) {
+			this.tranformable = tranformable;
+		}
+
+
+		public String getGathererCode() {
+			return gathererCode;
+		}
+
+
+		public void setGathererCode(String gathererCode) {
+			this.gathererCode = gathererCode;
+		}
+
+
+		private String rotatedCardName;
+		
+		public String getRotatedCardName() {
+			return rotatedCardName;
+		}
+
+
+		public void setRotatedCardName(String rotatedCardName) {
+			this.rotatedCardName = rotatedCardName;
+		}
+
+
 		public String getRarity() {
 			return rarity;
 		}

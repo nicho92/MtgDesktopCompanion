@@ -348,7 +348,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 
 	@Override
 	public String getVersion() {
-		return "v2";
+		return "v2 (abandonned)";
 	}
 
 	@Override
