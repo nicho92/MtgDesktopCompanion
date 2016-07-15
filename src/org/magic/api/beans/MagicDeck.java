@@ -1,5 +1,6 @@
 package org.magic.api.beans;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,6 +16,8 @@ public class MagicDeck implements Serializable{
 	private static final long serialVersionUID = 1L;
 	Map<MagicCard,Integer> mapDeck;
 	Map<MagicCard,Integer> mapSideBoard;
+	
+	private BufferedImage icon;
 	
 	String description;
 	String name;
@@ -35,6 +38,14 @@ public class MagicDeck implements Serializable{
 	}
 
 
+
+	public BufferedImage getIcon() {
+		return icon;
+	}
+
+	public void setIcon(BufferedImage icon) {
+		this.icon = icon;
+	}
 
 	public void setMapSideBoard(Map<MagicCard, Integer> mapSideBoard) {
 		this.mapSideBoard = mapSideBoard;
