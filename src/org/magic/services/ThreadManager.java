@@ -1,10 +1,10 @@
-package org.magic.services.threads;
+package org.magic.services;
 
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
@@ -18,6 +18,8 @@ public class ThreadManager {
 	static ThreadManager inst;
 	static final Logger logger = LogManager.getLogger(ThreadManager.class.getName());
 
+	private String name;
+	private String info;
 	ThreadPoolExecutor executor;
 	ThreadFactory threadFactory ;
 	
@@ -29,23 +31,46 @@ public class ThreadManager {
 		return inst;
 	}
 	
+	public String getInfo() {
+		return info;
+	}
+
 	private ThreadManager()
 	{
 		threadFactory = Executors.defaultThreadFactory();
-		executor=new ThreadPoolExecutor(4, 5, 10, TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(2),threadFactory, new RejectedExecutionHandlerImpl());
+		//executor=new ThreadPoolExecutor(4, 5, 10, TimeUnit.MILLISECONDS,new ArrayBlockingQueue<Runnable>(2),threadFactory, new RejectedExecutionHandlerImpl());
+		 executor = new ThreadPoolExecutor(4, 5,  10, TimeUnit.MILLISECONDS,  new LinkedBlockingQueue<Runnable>())
+		 {   
+			    protected void beforeExecute(Thread t, Runnable r) { 
+			         t.setName(name);
+			    }
+
+			    protected void afterExecute(Runnable r, Throwable t) { 
+			        // Thread.currentThread().setName("");
+			    } 
+
+			    protected <V> RunnableFuture<V> newTaskFor(final Runnable runnable, V v) {
+			         return new FutureTask<V>(runnable, v) {
+			             public String toString() {
+			                return runnable.toString();
+			             }
+			         };
+			     };
+		 };
 	}
 	
 	public void execute(Runnable task,String name)
 	{
-		
+		this.name=name;
 		executor.execute(task);
-		logger.info(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d " + name,
+		info =(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d ",
                 executor.getPoolSize(),
                 executor.getCorePoolSize(),
                 executor.getActiveCount(),
                 executor.getCompletedTaskCount(),
                 executor.getTaskCount()));
 		
+		logger.info(info);
 		
 	}
 
@@ -73,18 +98,4 @@ class RejectedExecutionHandlerImpl implements RejectedExecutionHandler {
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
        logger.error(r.toString() + " is rejected");
     }
-}
-
-
-class NamedThreadFactory implements ThreadFactory
-{
-	String name;
-	public NamedThreadFactory(String name) {
-		this.name=name;
-	}
-	@Override
-	public Thread newThread(Runnable r) {
-		return new Thread(r,name);
-	}
-	
-}
+} 

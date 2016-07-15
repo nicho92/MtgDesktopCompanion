@@ -42,7 +42,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.services.MagicFactory;
-import org.magic.services.threads.ThreadManager;
+import org.magic.services.ThreadManager;
 
 public class MagicCardDetailPanel extends JPanel {
 

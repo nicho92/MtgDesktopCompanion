@@ -25,7 +25,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.services.threads.ThreadManager;
+import org.magic.services.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog{
 	

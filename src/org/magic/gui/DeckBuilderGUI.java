@@ -60,9 +60,9 @@ import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.ThreadManager;
 import org.magic.services.exports.MagicExporter;
 import org.magic.services.exports.MagicSerializer;
-import org.magic.services.threads.ThreadManager;
 
 public class DeckBuilderGUI extends JPanel{
 	

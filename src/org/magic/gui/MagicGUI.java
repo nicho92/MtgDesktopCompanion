@@ -82,9 +82,9 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MagicFactory;
+import org.magic.services.ThreadManager;
 import org.magic.services.exports.MagicExporter;
 import org.magic.services.exports.MagicPDFGenerator;
-import org.magic.services.threads.ThreadManager;
 
 import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;
@@ -290,8 +290,24 @@ public class MagicGUI extends JFrame {
 		menuBar.add(mnuAbout);
 		
 		
+		JMenuItem mntmThreadItem = new JMenuItem("Threads");
+		mntmThreadItem.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent e) {
+
+				SwingUtilities.invokeLater(new Runnable(){
+					@Override
+					public void run() {
+						new ThreadMonitorFrame().setVisible(true);
+						
+					}
+				});
+				
+				
+			}
+		});
 		
-		
+		mnuAbout.add(mntmThreadItem);
 		
 		mntmAboutMagicDesktop = new JMenuItem("About Magic Desktop Companion");
 		mntmAboutMagicDesktop.addActionListener(new ActionListener() {

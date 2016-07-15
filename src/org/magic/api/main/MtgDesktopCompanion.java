@@ -7,9 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.magic.gui.MagicGUI;
+import org.magic.gui.ThreadMonitorFrame;
 import org.magic.services.MagicFactory;
-import org.magic.services.threads.ThreadManager;
-import org.magic.services.threads.ThreadMonitor;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
@@ -42,10 +41,11 @@ public class MtgDesktopCompanion {
 						gui.setDefaultLanguage(MagicFactory.getInstance().get("langage"));
 						gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						gui.setVisible(true);
-						
 				
 			}
 		});
+		
+		
 
 	}
 

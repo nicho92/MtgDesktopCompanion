@@ -67,9 +67,9 @@ import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.services.MagicFactory;
+import org.magic.services.ThreadManager;
 import org.magic.services.exports.MagicExporter;
 import org.magic.services.exports.MagicWebSiteGenerator;
-import org.magic.services.threads.ThreadManager;
 import org.magic.tools.TableColumnAdjuster;
 
 public class CollectionPanelGUI extends JPanel {
