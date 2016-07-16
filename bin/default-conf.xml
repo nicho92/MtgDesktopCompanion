@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conf>
-	<version>0.5 beta</version>
+	<version>0.6 beta</version>
 	<langage>French</langage>
 	<lookAndFeel>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
 	<debug>INFO</debug>
@@ -37,6 +37,10 @@
 		</provider>
 		<provider>
 			<class>org.magic.api.providers.impl.DeckbrewProvider</class>
+			<enable>false</enable>
+		</provider>
+		<provider>
+			<class>org.magic.api.providers.impl.MagicTheGatheringIOProvider</class>
 			<enable>false</enable>
 		</provider>
 		<provider>

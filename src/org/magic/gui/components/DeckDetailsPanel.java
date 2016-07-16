@@ -195,24 +195,33 @@ public class DeckDetailsPanel extends JPanel {
 				
 		mf.setFormat("Standard");
 		if(!magicDeck.isCompatibleFormat(mf))
-				lbstd.setBackground(Color.RED);
-
+			lbstd.setBackground(Color.RED);
+		else
+			lbstd.setBackground(Color.GREEN);
+		
 		mf.setFormat("Modern");
 		if(!magicDeck.isCompatibleFormat(mf))
-				lbmnd.setBackground(Color.RED);
+			lbmnd.setBackground(Color.RED);
+		else
+			lbmnd.setBackground(Color.GREEN);
 		
 		mf.setFormat("Legacy");
 		if(!magicDeck.isCompatibleFormat(mf))
-				lbLeg.setBackground(Color.RED);
-
+			lbLeg.setBackground(Color.RED);
+		else
+			lbLeg.setBackground(Color.GREEN);
+		
 		mf.setFormat("Vintage");
 		if(!magicDeck.isCompatibleFormat(mf))
 			lbvin.setBackground(Color.RED);
-
+		else
+			lbvin.setBackground(Color.GREEN);
 		
 		mf.setFormat("Commander");
 		if(!magicDeck.isCompatibleFormat(mf))
 			lbcmd.setBackground(Color.RED);
+		else
+			lbcmd.setBackground(Color.GREEN);
 		
 		if(magicDeck.getNbCards()!=100)
 			lbcmd.setBackground(Color.RED);

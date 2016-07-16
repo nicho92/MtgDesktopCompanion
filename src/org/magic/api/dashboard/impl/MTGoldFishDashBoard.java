@@ -272,6 +272,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		case "pGRU": return "PRM-GUR";
 		case "PLS" : return "PS";
 		case "INV" : return "IN";
+		case "MMQ" : return "MM";
 		default : return id;
 		}
 	}

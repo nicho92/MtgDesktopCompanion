@@ -63,7 +63,7 @@ public class ThreadManager {
 	{
 		this.name=name;
 		executor.execute(task);
-		info =(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d ",
+		info =(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d " + name,
                 executor.getPoolSize(),
                 executor.getCorePoolSize(),
                 executor.getActiveCount(),
