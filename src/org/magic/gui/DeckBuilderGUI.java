@@ -54,7 +54,7 @@ import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
-import org.magic.gui.game.GamePanel;
+import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionEditor;
@@ -76,7 +76,7 @@ public class DeckBuilderGUI extends JPanel{
 	private JComboBox<String> cboAttributs;
 	private JScrollPane scrollResult;
 	protected int selectedIndex=0;
-
+	private ThumbnailPanel thumbnail;
 	private DeckModel deckSidemodel;
 	private DeckModel deckmodel ;
 	
@@ -122,11 +122,6 @@ public class DeckBuilderGUI extends JPanel{
 		deckDetailsPanel.setMagicDeck(deck);
 		deckmodel.init(deck);
 		p=new Player(deck);
-		GameManager.getInstance().setPlayer(p);
-		GameManager.getInstance().nextTurn();
-		GamePanel.getInstance().setPlayer(p);
-
-		
 	}
 	
 	private void initGUI() {
@@ -136,7 +131,9 @@ public class DeckBuilderGUI extends JPanel{
 		deckSidemodel = new DeckModel(DeckModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
 		
-		
+		thumbnail = new ThumbnailPanel();
+		thumbnail.setThumbnailSize(223, 311);
+		thumbnail.enableDragging(false);
 		JPanel panneauHaut = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
@@ -272,20 +269,6 @@ public class DeckBuilderGUI extends JPanel{
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		
 		
-		tabbedPane.addChangeListener(new ChangeListener() {
-			
-			@Override
-			public void stateChanged(ChangeEvent e) {
-				 int index = tabbedPane.getSelectedIndex();
-				 
-				 if(index==6)
-					 scrollResult.setVisible(false);
-				 else
-					 scrollResult.setVisible(true);
-			}
-		});
-		
-		
 		add(tabbedPane, BorderLayout.CENTER);
 		
 		JSplitPane panneauDeck = new JSplitPane();
@@ -414,13 +397,28 @@ public class DeckBuilderGUI extends JPanel{
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 
 		
-		randomHandPanel.add(GamePanel.getInstance(), BorderLayout.CENTER);
+		randomHandPanel.add(thumbnail, BorderLayout.CENTER);
 		
 		tabbedPane.addTab("Cmc", null, cmcChartPanel, null);
 		tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
 		tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
 		tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
-		tabbedPane.addTab("Try a game", null, randomHandPanel, null);
+		tabbedPane.addTab("Sample Hand", null, randomHandPanel, null);
+		
+		JPanel panel = new JPanel();
+		randomHandPanel.add(panel, BorderLayout.NORTH);
+		
+		JButton btnDrawAHand = new JButton("Draw a hand");
+		btnDrawAHand.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				thumbnail.removeAll();
+				p.mixHandAndLibrary();
+				p.shuffleLibrary();
+				p.drawCard(7);
+				thumbnail.initThumbnails(p.getHand());
+			}
+		});
+		panel.add(btnDrawAHand);
 		
 		btnExportAsCsv.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {

@@ -8,7 +8,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.gui.game.GamePanel;
+import org.magic.gui.game.GamePanelGUI;
 import org.magic.services.exports.MagicSerializer;
 
 public class GameManager {
@@ -31,6 +31,9 @@ public class GameManager {
 
 	public Turn getActualTurn()
 	{
+		if(turns.size()==0)
+			return new Turn();
+		
 		return turns.get(turns.size()-1);
 	}
 	
@@ -88,7 +91,7 @@ public class GameManager {
 		GameManager.getInstance().nextTurn();
 		JFrame f = new JFrame("Game Simulator " + GameManager.getInstance().getPlayers().size() + " players");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GamePanel p = GamePanel.getInstance();
+		GamePanelGUI p = GamePanelGUI.getInstance();
 		
 		p.setPlayer(p1);
 		f.getContentPane().add(p);

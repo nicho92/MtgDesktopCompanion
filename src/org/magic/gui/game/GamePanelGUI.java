@@ -48,7 +48,7 @@ import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.services.exports.MagicSerializer;
 import javax.swing.JEditorPane;
 
-public class GamePanel extends JPanel implements Observer {
+public class GamePanelGUI extends JPanel implements Observer {
 	
 	
 	private JSpinner spinLife;
@@ -68,13 +68,13 @@ public class GamePanel extends JPanel implements Observer {
 	private SearchLibraryFrame libraryFrame;
 	
 	
-	private static GamePanel instance;
+	private static GamePanelGUI instance;
 	
 	
-	public static GamePanel getInstance()
+	public static GamePanelGUI getInstance()
 	{
 		if (instance==null)
-			instance = new GamePanel();
+			instance = new GamePanelGUI();
 		
 		return instance;
 	}
@@ -101,7 +101,7 @@ public class GamePanel extends JPanel implements Observer {
 	}
 	
 	
-	private GamePanel() {
+	private GamePanelGUI() {
 		
 		setLayout(new BorderLayout(0, 0));
 		
@@ -143,7 +143,7 @@ public class GamePanel extends JPanel implements Observer {
 		lifePanel.setLayout(gbl_lifePanel);
 						
 						lblPlayer = new JLabel("");
-						lblPlayer.setIcon(new ImageIcon(GamePanel.class.getResource("/res/planeswalker.png")));
+						lblPlayer.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/planeswalker.png")));
 						GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
 						gbc_lblPlayer.gridwidth = 3;
 						gbc_lblPlayer.insets = new Insets(0, 0, 5, 5);
@@ -154,7 +154,7 @@ public class GamePanel extends JPanel implements Observer {
 						
 						JLabel lblLife = new JLabel("");
 						lblLife.setHorizontalAlignment(SwingConstants.CENTER);
-						lblLife.setIcon(new ImageIcon(GamePanel.class.getResource("/res/heart.png")));
+						lblLife.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/heart.png")));
 						GridBagConstraints gbc_lblLife = new GridBagConstraints();
 						gbc_lblLife.anchor = GridBagConstraints.WEST;
 						gbc_lblLife.insets = new Insets(0, 0, 0, 5);
@@ -180,7 +180,7 @@ public class GamePanel extends JPanel implements Observer {
 				
 				JLabel lblPoison = new JLabel("");
 				lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
-				lblPoison.setIcon(new ImageIcon(GamePanel.class.getResource("/res/poison.png")));
+				lblPoison.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/poison.png")));
 				GridBagConstraints gbc_lblPoison = new GridBagConstraints();
 				gbc_lblPoison.anchor = GridBagConstraints.WEST;
 				gbc_lblPoison.insets = new Insets(0, 0, 0, 5);

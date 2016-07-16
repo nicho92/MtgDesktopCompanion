@@ -13,7 +13,7 @@ import javax.swing.border.LineBorder;
 import org.magic.game.Player;
 import org.magic.gui.game.DisplayableCard;
 import org.magic.gui.game.DraggablePanel;
-import org.magic.gui.game.GamePanel;
+import org.magic.gui.game.GamePanelGUI;
 
 public class DisplayableCardActions extends MouseAdapter {
 
@@ -31,14 +31,14 @@ public class DisplayableCardActions extends MouseAdapter {
 	
 	
 	public DisplayableCardActions() {
-		this.p=GamePanel.getInstance().getPlayer();
+		this.p=GamePanelGUI.getInstance().getPlayer();
 	}
 
 
 
 	public void mouseEntered(MouseEvent me) {
-		GamePanel.getInstance().getMagicTextPane().setText(((DisplayableCard)me.getComponent()).getMagicCard().getText());
-		GamePanel.getInstance().getMagicTextPane().updateTextWithIcons();
+		GamePanelGUI.getInstance().getMagicTextPane().setText(((DisplayableCard)me.getComponent()).getMagicCard().getText());
+		GamePanelGUI.getInstance().getMagicTextPane().updateTextWithIcons();
 	}
 	
 	
