@@ -565,7 +565,7 @@ public class MagicGUI extends JFrame {
 						tableCards.setRowHeight(ManaPanel.row_height);
 						tableCards.setModel(cardsModeltable);
 						tableCards.setRowSorter(sorterCards);
-						
+						tableCards.setShowVerticalLines(false);
 						filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
 						filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 						//IFilterEditor editor = filterHeader.getFilterEditor(1);
@@ -732,6 +732,7 @@ public class MagicGUI extends JFrame {
 								tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 								
 								cardsModeltable.fireTableDataChanged();
+								
 								thumbnailPanel.initThumbnails(cards);
 								cmcChart.init(cards);
 								typeRepartitionPanel.init(cards);

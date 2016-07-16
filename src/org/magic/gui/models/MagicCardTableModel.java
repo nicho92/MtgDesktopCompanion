@@ -13,7 +13,7 @@ public class MagicCardTableModel extends DefaultTableModel{
 
 	List<MagicCard> cards;
 	String langage;
-	String columns[] = new String[] {"name","langage","manacost","type","power","rarity","Editions","N°"};
+	String columns[] = new String[] {"name","langage","manacost","type","power","rarity","Editions","N°","Color"};
 	
 	
 	public MagicCardTableModel() {
@@ -69,6 +69,7 @@ public class MagicCardTableModel extends DefaultTableModel{
 			case 5 : return mc.getEditions().get(0).getRarity();
 			case 6 : return mc.getEditions();
 			case 7 : return mc.getNumber();
+			case 8 : return mc.getColors();
 			default : return mc;
 		}
 		
