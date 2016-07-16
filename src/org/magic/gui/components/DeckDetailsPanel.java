@@ -46,16 +46,16 @@ public class DeckDetailsPanel extends JPanel {
 	public DeckDetailsPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 132, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 28, 30, 35, 60, 38, 31, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 81, 31, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 0.0, 1.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
 				JLabel nameLabel = new JLabel("Name:");
 				GridBagConstraints labelGbc_1 = new GridBagConstraints();
 				labelGbc_1.insets = new Insets(5, 5, 5, 5);
 				labelGbc_1.gridx = 1;
-				labelGbc_1.gridy = 1;
+				labelGbc_1.gridy = 0;
 				add(nameLabel, labelGbc_1);
 		
 				nameJTextField = new JTextField();
@@ -63,14 +63,14 @@ public class DeckDetailsPanel extends JPanel {
 				componentGbc_1.insets = new Insets(5, 0, 5, 5);
 				componentGbc_1.fill = GridBagConstraints.HORIZONTAL;
 				componentGbc_1.gridx = 2;
-				componentGbc_1.gridy = 1;
+				componentGbc_1.gridy = 0;
 				add(nameJTextField, componentGbc_1);
 		
 		JLabel lblLegalities = new JLabel("Legalities");
 		GridBagConstraints gbc_lblLegalities = new GridBagConstraints();
 		gbc_lblLegalities.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLegalities.gridx = 1;
-		gbc_lblLegalities.gridy = 2;
+		gbc_lblLegalities.gridy = 1;
 		add(lblLegalities, gbc_lblLegalities);
 		
 		panelLegalities = new JPanel();
@@ -81,14 +81,14 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_panelLegalities.insets = new Insets(0, 0, 5, 5);
 		gbc_panelLegalities.fill = GridBagConstraints.BOTH;
 		gbc_panelLegalities.gridx = 2;
-		gbc_panelLegalities.gridy = 2;
+		gbc_panelLegalities.gridy = 1;
 		add(panelLegalities, gbc_panelLegalities);
 		
 		JLabel lblColor = new JLabel("Color :");
 		GridBagConstraints gbc_lblColor = new GridBagConstraints();
 		gbc_lblColor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblColor.gridx = 1;
-		gbc_lblColor.gridy = 3;
+		gbc_lblColor.gridy = 2;
 		add(lblColor, gbc_lblColor);
 				
 				manaPanel = new ManaPanel();
@@ -96,32 +96,31 @@ public class DeckDetailsPanel extends JPanel {
 				gbc_manaPanel.insets = new Insets(0, 0, 5, 5);
 				gbc_manaPanel.fill = GridBagConstraints.BOTH;
 				gbc_manaPanel.gridx = 2;
-				gbc_manaPanel.gridy = 3;
+				gbc_manaPanel.gridy = 2;
 				add(manaPanel, gbc_manaPanel);
 		
 				JLabel descriptionLabel = new JLabel("Description:");
 				GridBagConstraints labelGbc_0 = new GridBagConstraints();
 				labelGbc_0.insets = new Insets(5, 5, 5, 5);
 				labelGbc_0.gridx = 1;
-				labelGbc_0.gridy = 4;
+				labelGbc_0.gridy = 3;
 				add(descriptionLabel, labelGbc_0);
 		
 		textArea = new JTextArea();
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
 		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.gridheight = 2;
 		gbc_textArea.insets = new Insets(0, 0, 5, 5);
 		gbc_textArea.fill = GridBagConstraints.BOTH;
 		gbc_textArea.gridx = 2;
-		gbc_textArea.gridy = 4;
+		gbc_textArea.gridy = 3;
 		add(textArea, gbc_textArea);
 
 		JLabel nbCardsLabel = new JLabel("NbCards:");
 		GridBagConstraints labelGbc_2 = new GridBagConstraints();
 		labelGbc_2.insets = new Insets(5, 5, 5, 5);
 		labelGbc_2.gridx = 1;
-		labelGbc_2.gridy = 6;
+		labelGbc_2.gridy = 4;
 		add(nbCardsLabel, labelGbc_2);
 		
 		nbCardsProgress = new JProgressBar();
@@ -130,7 +129,7 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_nbCardsProgress.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nbCardsProgress.insets = new Insets(0, 0, 5, 5);
 		gbc_nbCardsProgress.gridx = 2;
-		gbc_nbCardsProgress.gridy = 6;
+		gbc_nbCardsProgress.gridy = 4;
 		add(nbCardsProgress, gbc_nbCardsProgress);
 
 		
@@ -161,7 +160,7 @@ public class DeckDetailsPanel extends JPanel {
 		GridBagConstraints gbc_lblSideboard = new GridBagConstraints();
 		gbc_lblSideboard.insets = new Insets(0, 0, 0, 5);
 		gbc_lblSideboard.gridx = 1;
-		gbc_lblSideboard.gridy = 7;
+		gbc_lblSideboard.gridy = 5;
 		add(lblSideboard, gbc_lblSideboard);
 		
 		nbSideProgress = new JProgressBar();
@@ -171,7 +170,7 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_nbSideProgress.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nbSideProgress.insets = new Insets(0, 0, 0, 5);
 		gbc_nbSideProgress.gridx = 2;
-		gbc_nbSideProgress.gridy = 7;
+		gbc_nbSideProgress.gridy = 5;
 		add(nbSideProgress, gbc_nbSideProgress);
 		
 		

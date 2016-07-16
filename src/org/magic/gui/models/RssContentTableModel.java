@@ -1,7 +1,6 @@
 package org.magic.gui.models;
 
 import java.io.IOException;
-import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 

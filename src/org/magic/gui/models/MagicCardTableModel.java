@@ -7,7 +7,6 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicEdition;
 
 public class MagicCardTableModel extends DefaultTableModel{
 

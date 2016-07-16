@@ -7,7 +7,6 @@ import java.awt.Image;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.PositionEnum;
 
 public class GraveyardPanel extends DraggablePanel {

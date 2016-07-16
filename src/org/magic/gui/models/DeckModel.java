@@ -2,7 +2,6 @@ package org.magic.gui.models;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;

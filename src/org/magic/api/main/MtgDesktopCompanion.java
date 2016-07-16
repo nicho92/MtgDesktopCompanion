@@ -7,7 +7,6 @@ import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import org.magic.gui.MagicGUI;
-import org.magic.gui.ThreadMonitorFrame;
 import org.magic.services.MagicFactory;
 
 import com.jayway.jsonpath.JsonPath;

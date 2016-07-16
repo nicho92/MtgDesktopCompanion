@@ -1,14 +1,7 @@
 package org.magic.game.tokens;
 
-import java.lang.reflect.InvocationTargetException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.analyzer.TokenAnalyzer;
 import org.magic.api.beans.MagicCard;
-import org.magic.tools.ColorParser;
 
 public class TokenFactory {
 

@@ -17,7 +17,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.Date;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -30,18 +29,12 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.CropImagePanel;
 import org.magic.gui.components.ManaPanel;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.ObjectProperty;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 
 public class CardBuilderPanelGUI extends JPanel {
 	

@@ -3,10 +3,10 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.util.Calendar;
 
-import javax.swing.JDialog;
-import javax.swing.JTextArea;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JTextArea;
 
 public class AboutDialog extends JDialog {
 	public AboutDialog() {

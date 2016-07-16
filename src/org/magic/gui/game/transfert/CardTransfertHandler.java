@@ -1,7 +1,6 @@
 package org.magic.gui.game.transfert;
 
 import java.awt.Color;
-import java.awt.MouseInfo;
 import java.awt.Point;
 import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
@@ -9,8 +8,6 @@ import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DragSource;
 import java.awt.dnd.DragSourceDragEvent;
 import java.awt.dnd.DragSourceMotionListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -24,8 +21,6 @@ import javax.swing.TransferHandler;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.magic.api.providers.impl.MtgapiProvider;
-import org.magic.game.GameManager;
 import org.magic.gui.game.DisplayableCard;
 import org.magic.gui.game.Draggable;
 import org.magic.gui.game.DraggablePanel;

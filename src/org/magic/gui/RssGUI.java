@@ -3,7 +3,8 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,10 +27,6 @@ import org.magic.gui.models.RssContentTableModel;
 import org.magic.services.MagicFactory;
 
 import com.rometools.rome.feed.synd.SyndEntry;
-import com.rometools.rome.feed.synd.SyndFeed;
-import com.rometools.rome.io.FeedException;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class RssGUI extends JPanel {
 	private JTable table;

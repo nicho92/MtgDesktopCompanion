@@ -1,12 +1,11 @@
 package org.magic.gui.game;
 
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.PositionEnum;
-import java.awt.Dimension;
 
 public class LibraryPanel extends DraggablePanel {
 

@@ -1,7 +1,6 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultCellEditor;

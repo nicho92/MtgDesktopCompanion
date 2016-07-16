@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -15,8 +16,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.magic.services.ThreadManager;
-
-import javax.swing.JLabel;
 
 public class ThreadMonitorFrame extends JFrame {
 	private JTable table;

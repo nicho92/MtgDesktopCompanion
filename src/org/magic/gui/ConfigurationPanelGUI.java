@@ -1,7 +1,11 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -22,10 +26,6 @@ import org.magic.gui.models.MagicShoppersTableModel;
 import org.magic.gui.models.ProvidersTableModel;
 import org.magic.gui.models.RssBeanTableModel;
 import org.magic.gui.models.SystemTableModel;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable table;

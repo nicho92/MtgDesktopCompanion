@@ -1,6 +1,5 @@
 package org.magic.gui.components;
 
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 import java.util.regex.Matcher;
@@ -9,7 +8,6 @@ import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
-import javax.swing.plaf.ComponentUI;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;

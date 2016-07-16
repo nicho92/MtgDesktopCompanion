@@ -44,7 +44,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.MagicCardDetailPanel;

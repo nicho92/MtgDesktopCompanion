@@ -1,6 +1,5 @@
 package org.magic.game;
 
-import java.awt.Component;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;

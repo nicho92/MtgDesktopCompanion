@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -25,8 +26,6 @@ import org.magic.services.MagicFactory;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
-import javax.swing.JLabel;
-import java.awt.Dimension;
 
 public class MassMoverDialog extends JDialog {
 	private JTable tableCards;

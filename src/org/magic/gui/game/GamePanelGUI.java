@@ -22,7 +22,6 @@ import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -31,10 +30,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
-import javax.swing.JTextArea;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -44,9 +41,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.gui.components.MagicTextPane;
-import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.services.exports.MagicSerializer;
-import javax.swing.JEditorPane;
 
 public class GamePanelGUI extends JPanel implements Observer {
 	
