@@ -14,6 +14,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
@@ -38,9 +39,13 @@ import javax.swing.event.ChangeListener;
 import org.magic.api.analyzer.TokenAnalyzer;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
+import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.gui.components.MagicTextPane;
+import org.magic.services.MagicFactory;
 import org.magic.services.exports.MagicSerializer;
 
 public class GamePanelGUI extends JPanel implements Observer {
@@ -284,6 +289,52 @@ public class GamePanelGUI extends JPanel implements Observer {
 			}
 		});
 		panelTools.add(btnToken);
+		
+		JButton btnFlip = new JButton("FLip");
+		btnFlip.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(Component c : panelBattleField.getComponents())
+				{
+					MagicCard mc = ((DisplayableCard)c).getMagicCard();
+					if(((DisplayableCard)c).isSelected())
+					{
+						
+						if(mc.isTranformable())
+						{	
+							try {
+								mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", mc.getRotatedCardName(), mc.getEditions().get(0)).get(0);
+								((DisplayableCard)c).setMagicCard(mc);
+								((DisplayableCard)c).revalidate();
+								((DisplayableCard)c).repaint();
+								player.logAction("transform " + mc);
+								
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+						}
+						else
+						{
+							try {
+								((DisplayableCard)c).setImage(new ImageIcon(new GathererPicturesProvider().getBackPicture().getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
+							} catch (Exception e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							((DisplayableCard)c).revalidate();
+							((DisplayableCard)c).repaint();
+							player.logAction("rotate " + mc);
+						}
+						
+					}
+					
+					
+				}
+				
+				
+			}
+		});
+		panelTools.add(btnFlip);
 		
 		JPanel panel = new JPanel();
 		panelInfo.add(panel, BorderLayout.CENTER);

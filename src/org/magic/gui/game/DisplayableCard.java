@@ -91,15 +91,7 @@ public class DisplayableCard extends JLabel
 		setVerticalAlignment(JLabel.CENTER);
 		magicCard=mc;
 		
-	/*StringBuilder b = new StringBuilder();
-		b.append("<html>");
-		b.append("<b>").append(getMagicCard().getName()).append("</b><i> (").append(getMagicCard().getFullType()).append(")</i>");
-		b.append("&nbsp;&nbsp;<b>").append(getMagicCard().getCost()).append("</b>");
-		b.append("<br>").append(getMagicCard().getText().replaceAll("\n", "<br>"));
-		b.append("</html>");
-		
-		setToolTipText(b.toString());
-		*/
+	
 		setTransferHandler(new CardTransfertHandler());
 		
 		try {
@@ -171,6 +163,12 @@ public class DisplayableCard extends JLabel
 	}
 	public void setMagicCard(MagicCard mc) {
 		this.magicCard = mc;
+		try {
+			image = new ImageIcon(new GathererPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	public boolean isTapped() {
 		return tapped;
