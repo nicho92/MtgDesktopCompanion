@@ -53,14 +53,13 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private ManaPoolPanel manaPoolPanel ;
 	private JPanel panneauGauche;
 	private JPanel panneauDroit;
-	private JList listActions;
+	private JList<String> listActions;
 	private JLabel lblLibraryCountCard;
 	private JLabel lblPlayer;
 	private MagicTextPane editorPane;
 	public  Player player;
 	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
-	private SearchLibraryFrame libraryFrame;
 	
 	
 	private static GamePanelGUI instance;
@@ -113,7 +112,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		JScrollPane scrollActions = new JScrollPane();
 		panneauGauche.add(scrollActions);
 		
-		listActions = new JList();
+		listActions = new JList<String>();
 		listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listActions.setValueIsAdjusting(true);
 		listActions.setModel(new DefaultListModel<String>());
@@ -372,7 +371,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		
 		btnSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+				player.logAction("search in library");
 				SearchLibraryFrame f = new SearchLibraryFrame(player);
 				f.setVisible(true);
 				
