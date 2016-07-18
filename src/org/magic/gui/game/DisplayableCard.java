@@ -14,6 +14,7 @@ import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
+import org.magic.services.MagicFactory;
 
 
 public class DisplayableCard extends JLabel
@@ -117,11 +118,28 @@ public class DisplayableCard extends JLabel
 	public void flip(boolean t)
 	{
 		
+		MagicCard mc;
+		try {
+			mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
+			setMagicCard(mc);
+			revalidate();
+			repaint();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void transform(boolean t)
 	{
-		
+		try {
+			MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
+			setMagicCard(mc);
+			revalidate();
+			repaint();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public void tap(boolean t) {
