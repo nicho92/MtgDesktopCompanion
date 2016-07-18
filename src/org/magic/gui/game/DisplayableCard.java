@@ -163,10 +163,13 @@ public class DisplayableCard extends JLabel
 	}
 	public void setMagicCard(MagicCard mc) {
 		this.magicCard = mc;
+		
 		try {
-			image = new ImageIcon(new GathererPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			if(!mc.isToken())//TODO get picture of caller card
+				image = new ImageIcon(new GathererPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			else
+				image = new ImageIcon(new MTGCardMakerPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}

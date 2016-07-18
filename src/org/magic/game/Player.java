@@ -15,7 +15,7 @@ public class Player extends Observable{
 	private int life;
 	private String name;
 	private MagicDeck deck;
-	private List<MagicCard> graveyard;
+	private Graveyard graveyard;
 	private List<MagicCard> exil;
 	private List<MagicCard> library;
 	private List<MagicCard> hand;
@@ -27,7 +27,7 @@ public class Player extends Observable{
 	
 	public void init()
 	{
-		graveyard=new ArrayList<MagicCard>();
+		graveyard=new Graveyard();
 		exil=new ArrayList<MagicCard>();
 		hand=new ArrayList<MagicCard>();
 		library=deck.getAsList();
@@ -270,7 +270,7 @@ public class Player extends Observable{
 	{
 		logAction("Shuffle graveyard in library" );
 		
-		library.addAll(graveyard);
+		library.addAll(graveyard.getCards());
 		graveyard.clear();
 	}
 	
@@ -318,11 +318,11 @@ public class Player extends Observable{
 		init();
 	}
 
-	public List<MagicCard> getGraveyard() {
+	public Graveyard getGraveyard() {
 		return graveyard;
 	}
 
-	public void setGraveyard(List<MagicCard> graveyard) {
+	public void setGraveyard(Graveyard graveyard) {
 		this.graveyard = graveyard;
 	}
 
@@ -363,7 +363,7 @@ public class Player extends Observable{
 		StringBuilder build = new StringBuilder();
 		
 		build.append("Library :" ).append(library.size()).append("\n");
-		build.append("Graveyard :" ).append(graveyard.size()).append("\n");
+		build.append("Graveyard :" ).append(graveyard).append("\n");
 		build.append("Hand:" ).append(hand.size()).append("\n");
 		build.append("BattleField :" ).append(battlefield.size()).append("\n");
 		build.append("Exil :" ).append(exil.size()).append("\n");

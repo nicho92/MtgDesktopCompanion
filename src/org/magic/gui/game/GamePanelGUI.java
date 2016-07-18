@@ -279,6 +279,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 							panelBattleField.addComponent(dc);
 							panelBattleField.revalidate();
 							panelBattleField.repaint();
+							
+							player.logAction("generate " + tok + " token");
 						}
 						catch (Exception e) {
 							e.printStackTrace();

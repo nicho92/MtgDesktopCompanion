@@ -1,6 +1,7 @@
 package org.magic.gui.game;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Image;
 
@@ -54,7 +55,22 @@ public class GraveyardPanel extends DraggablePanel {
 
 	@Override
 	public void postTreatment() {
-		// TODO Auto-generated method stub
+		
+		int NB=0;
+		for(int i=getComponents().length-1;i>=0;i--)
+		{
+			DisplayableCard card = (DisplayableCard)getComponent(i);
+			card.setBounds(5, 10+NB, card.getWidth(), card.getHeight());
+			NB=NB+30;
+		}
+
+//		for(int i=0;i<getComponents().length;i++)
+//		{
+//			DisplayableCard card = (DisplayableCard)getComponent(i);
+//			card.setBounds(5, 10+NB, card.getWidth(), card.getHeight());
+//			NB=NB+30;
+//		}
+
 		
 	}
 	

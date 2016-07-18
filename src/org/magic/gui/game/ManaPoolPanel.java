@@ -14,6 +14,9 @@ import javax.swing.event.ChangeListener;
 
 import org.magic.game.Player;
 import org.magic.gui.components.ManaPanel;
+import java.awt.GridLayout;
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
 
 public class ManaPoolPanel extends JPanel{
 	private JSpinner spinW;
@@ -33,24 +36,16 @@ public class ManaPoolPanel extends JPanel{
 	
 	
 	public ManaPoolPanel() {
+		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		
 		
 		JPanel panel = new JPanel();
 		add(panel);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{40, 66, 0};
-		gbl_panel.rowHeights = new int[]{32, 33, 33, 33, 33, 33, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		panel.setLayout(new GridLayout(3, 4, 0, 0));
 		
 		ManaPanel panelW = new ManaPanel();
 		panelW.setManaCost("{W}");
-		GridBagConstraints gbc_panelW = new GridBagConstraints();
-		gbc_panelW.insets = new Insets(0, 0, 5, 5);
-		gbc_panelW.gridx = 0;
-		gbc_panelW.gridy = 0;
-		panel.add(panelW, gbc_panelW);
+		panel.add(panelW);
 		
 		spinW = new JSpinner();
 		spinW.addChangeListener(new ChangeListener() {
@@ -59,20 +54,13 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinW.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		GridBagConstraints gbc_spinW = new GridBagConstraints();
-		gbc_spinW.fill = GridBagConstraints.HORIZONTAL;
-		gbc_spinW.insets = new Insets(0, 0, 5, 0);
-		gbc_spinW.gridx = 1;
-		gbc_spinW.gridy = 0;
-		panel.add(spinW, gbc_spinW);
+		panel.add(spinW);
 		
 		ManaPanel panelU = new ManaPanel();
+		FlowLayout flowLayout_2 = (FlowLayout) panelU.getLayout();
+		flowLayout_2.setAlignment(FlowLayout.CENTER);
 		panelU.setManaCost("{U}");
-		GridBagConstraints gbc_panelU = new GridBagConstraints();
-		gbc_panelU.insets = new Insets(0, 0, 5, 5);
-		gbc_panelU.gridx = 0;
-		gbc_panelU.gridy = 1;
-		panel.add(panelU, gbc_panelU);
+		panel.add(panelU);
 		
 		spinU = new JSpinner();
 		spinU.addChangeListener(new ChangeListener() {
@@ -81,20 +69,11 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinU.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		GridBagConstraints gbc_spinU = new GridBagConstraints();
-		gbc_spinU.fill = GridBagConstraints.HORIZONTAL;
-		gbc_spinU.insets = new Insets(0, 0, 5, 0);
-		gbc_spinU.gridx = 1;
-		gbc_spinU.gridy = 1;
-		panel.add(spinU, gbc_spinU);
+		panel.add(spinU);
 		
 		ManaPanel panelB = new ManaPanel();
 		panelB.setManaCost("{B}");
-		GridBagConstraints gbc_panelB = new GridBagConstraints();
-		gbc_panelB.insets = new Insets(0, 0, 5, 5);
-		gbc_panelB.gridx = 0;
-		gbc_panelB.gridy = 2;
-		panel.add(panelB, gbc_panelB);
+		panel.add(panelB);
 		
 		spinB = new JSpinner();
 		spinB.addChangeListener(new ChangeListener() {
@@ -103,20 +82,13 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinB.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		GridBagConstraints gbc_spinB = new GridBagConstraints();
-		gbc_spinB.fill = GridBagConstraints.HORIZONTAL;
-		gbc_spinB.insets = new Insets(0, 0, 5, 0);
-		gbc_spinB.gridx = 1;
-		gbc_spinB.gridy = 2;
-		panel.add(spinB, gbc_spinB);
+		panel.add(spinB);
 		
 		ManaPanel panelR = new ManaPanel();
+		FlowLayout flowLayout_1 = (FlowLayout) panelR.getLayout();
+		flowLayout_1.setAlignment(FlowLayout.CENTER);
 		panelR.setManaCost("{R}");
-		GridBagConstraints gbc_panelR = new GridBagConstraints();
-		gbc_panelR.insets = new Insets(0, 0, 5, 5);
-		gbc_panelR.gridx = 0;
-		gbc_panelR.gridy = 3;
-		panel.add(panelR, gbc_panelR);
+		panel.add(panelR);
 		
 		spinR = new JSpinner();
 		spinR.addChangeListener(new ChangeListener() {
@@ -125,20 +97,11 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinR.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		GridBagConstraints gbc_spinR = new GridBagConstraints();
-		gbc_spinR.fill = GridBagConstraints.HORIZONTAL;
-		gbc_spinR.insets = new Insets(0, 0, 5, 0);
-		gbc_spinR.gridx = 1;
-		gbc_spinR.gridy = 3;
-		panel.add(spinR, gbc_spinR);
+		panel.add(spinR);
 		
 		ManaPanel panelG = new ManaPanel();
 		panelG.setManaCost("{G}");
-		GridBagConstraints gbc_panelG = new GridBagConstraints();
-		gbc_panelG.insets = new Insets(0, 0, 5, 5);
-		gbc_panelG.gridx = 0;
-		gbc_panelG.gridy = 4;
-		panel.add(panelG, gbc_panelG);
+		panel.add(panelG);
 		
 		spinG = new JSpinner();
 		spinG.addChangeListener(new ChangeListener() {
@@ -147,20 +110,13 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinG.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		GridBagConstraints gbc_spinG = new GridBagConstraints();
-		gbc_spinG.fill = GridBagConstraints.HORIZONTAL;
-		gbc_spinG.insets = new Insets(0, 0, 5, 0);
-		gbc_spinG.gridx = 1;
-		gbc_spinG.gridy = 4;
-		panel.add(spinG, gbc_spinG);
+		panel.add(spinG);
 		
 		ManaPanel panelC = new ManaPanel();
+		FlowLayout flowLayout = (FlowLayout) panelC.getLayout();
+		flowLayout.setAlignment(FlowLayout.CENTER);
 		panelC.setManaCost("{C}");
-		GridBagConstraints gbc_panelC = new GridBagConstraints();
-		gbc_panelC.insets = new Insets(0, 0, 5, 5);
-		gbc_panelC.gridx = 0;
-		gbc_panelC.gridy = 5;
-		panel.add(panelC, gbc_panelC);
+		panel.add(panelC);
 		
 		spinC = new JSpinner();
 		spinC.addChangeListener(new ChangeListener() {
@@ -169,12 +125,7 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinC.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		GridBagConstraints gbc_spinC = new GridBagConstraints();
-		gbc_spinC.insets = new Insets(0, 0, 5, 0);
-		gbc_spinC.fill = GridBagConstraints.HORIZONTAL;
-		gbc_spinC.gridx = 1;
-		gbc_spinC.gridy = 5;
-		panel.add(spinC, gbc_spinC);
+		panel.add(spinC);
 		
 		
 	}
