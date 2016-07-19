@@ -289,7 +289,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		});
 		panelTools.add(btnToken);
 		
-		JButton btnFlip = new JButton("FLip");
+		JButton btnFlip = new JButton("Rotate");
 		btnFlip.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				for(Component c : panelBattleField.getComponents())

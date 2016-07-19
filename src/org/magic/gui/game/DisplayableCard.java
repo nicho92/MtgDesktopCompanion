@@ -3,6 +3,7 @@ package org.magic.gui.game;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
+import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 
 import javax.swing.Icon;
@@ -29,7 +30,9 @@ public class DisplayableCard extends JLabel
 	private String title;
 	private String bottom;
 	private boolean selected;
-
+	private boolean rotated; 
+	
+	
 	public boolean isSelected() {
 		return selected;
 	}
@@ -49,12 +52,6 @@ public class DisplayableCard extends JLabel
 		this.image = image;
 	}
 	
-	
-	
-
-
-
-
 	public String getTitle() {
 		return title;
 	}
@@ -97,7 +94,7 @@ public class DisplayableCard extends JLabel
 		
 		try {
 			
-			if(mc.isToken()==false)
+			if(!mc.isToken())
 			{
 				image = new ImageIcon(new GathererPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 			}
@@ -122,6 +119,18 @@ public class DisplayableCard extends JLabel
 		try {
 			mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
 			setMagicCard(mc);
+	        BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
+	    		
+			AffineTransform tx = AffineTransform.getScaleInstance(-1, -1);
+		    tx.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
+		    AffineTransformOp op = new AffineTransformOp(tx,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+		    bufferedImage = op.filter(bufferedImage, null);
+			
+	        Graphics2D g2 = bufferedImage.createGraphics();
+			           g2.drawImage(image.getImage(), tx,null);
+			           g2.dispose();
+	        setImage(new ImageIcon(bufferedImage));
+	        
 			revalidate();
 			repaint();
 		} catch (Exception e) {
