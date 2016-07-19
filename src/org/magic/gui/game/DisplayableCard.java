@@ -131,8 +131,12 @@ public class DisplayableCard extends JLabel
 			           g2.dispose();
 	        setImage(new ImageIcon(bufferedImage));
 	        
+	        rotated=true;
+	        
 			revalidate();
 			repaint();
+			
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
