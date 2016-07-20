@@ -1,9 +1,6 @@
 package org.magic.api.pictures.impl;
 
 import java.awt.Graphics;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -22,43 +19,33 @@ public class MTGCardMakerPicturesProvider implements PictureProvider {
 		JFrame f = new JFrame();
 		MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", "Liliana's elite", null).get(0);
 		
-		MTGCardMakerPicturesProvider pics = new MTGCardMakerPicturesProvider();
-		final BufferedImage pic = pics.getPicture(mc);
-		
 		GathererPicturesProvider gather = new GathererPicturesProvider();
-		final BufferedImage pic2 = gather.extractPicture(mc);
+		BufferedImage pic2 = gather.extractPicture(mc);
+		
+		
+		MTGCardMakerPicturesProvider pics = new MTGCardMakerPicturesProvider();
+		final BufferedImage pic = pics.getPicture(mc,pic2);
+		
 		
 		f.getContentPane().add(new JPanel(){
 			
 			@Override
 			public void paint(Graphics g) {
 				g.drawImage( pic, 0, 0, null);
-				g.drawImage( pic2,35, 68, 329, 242, null);
 			}
-			
 		});
 		
-		f.getContentPane().getComponent(0).addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mousePressed(MouseEvent e) {
-				System.out.println("POINT X=" + e.getX() + " Y=" + e.getY());
-			}
-		});
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 	}
 	
-	
-	public BufferedImage appendPicture(MagicCard mc)
+	public BufferedImage getPicture(MagicCard mc, final BufferedImage pic)
 	{
-		BufferedImage cadre = getPicture(mc);
-		
-		
-		
-		
-		return cadre;
-		
+				BufferedImage cadre = getPicture(mc);
+			Graphics g = cadre.createGraphics();
+			g.drawImage( pic,35, 68, 329, 242, null);
+			g.dispose();
+			return cadre;
 	}
 	
 	

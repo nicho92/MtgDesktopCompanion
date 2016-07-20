@@ -6,6 +6,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -42,6 +43,7 @@ import org.magic.api.analyzer.CardAnalyser;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
+import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.gui.components.MagicTextPane;
@@ -276,11 +278,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 					if(((DisplayableCard)c).isSelected())
 					{
 						try{
-							MagicCard tok = CardAnalyser.generateTokenFrom(  ((DisplayableCard)c).getMagicCard()  );
+							MagicCard tok = CardAnalyser.generateTokenFrom(  ((DisplayableCard)c).getMagicCard() );
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
-							
-							//dc.addMouseListener(new MouseAction(player));
+									//dc.addMouseListener(new MouseAction(player));
 							dc.setMagicCard(tok);
+							dc.setImage(new ImageIcon(new MTGCardMakerPicturesProvider().getPicture(tok, new GathererPicturesProvider().extractPicture(((DisplayableCard)c).getMagicCard())).getScaledInstance(c.getWidth(),c.getHeight(), BufferedImage.SCALE_SMOOTH)));
+							
 							panelBattleField.addComponent(dc);
 							panelBattleField.revalidate();
 							panelBattleField.repaint();
@@ -350,6 +353,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 							MagicCard tok = CardAnalyser.generateEmblemFrom(((DisplayableCard)c).getMagicCard()  );
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
 							dc.setMagicCard(tok);
+							
+							dc.setImage(new ImageIcon(new MTGCardMakerPicturesProvider().getPicture(tok, new GathererPicturesProvider().extractPicture(((DisplayableCard)c).getMagicCard())).getScaledInstance(c.getWidth(),c.getHeight(), BufferedImage.SCALE_SMOOTH)));
+							
 							panelBattleField.addComponent(dc);
 							panelBattleField.revalidate();
 							panelBattleField.repaint();
