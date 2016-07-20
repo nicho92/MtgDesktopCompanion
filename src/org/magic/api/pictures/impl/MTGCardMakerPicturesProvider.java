@@ -1,16 +1,67 @@
 package org.magic.api.pictures.impl;
 
+import java.awt.Graphics;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.net.URLEncoder;
 
 import javax.imageio.ImageIO;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.PictureProvider;
+import org.magic.services.MagicFactory;
 
 public class MTGCardMakerPicturesProvider implements PictureProvider {
 
+	public static void main(String[] args) throws Exception {
+		JFrame f = new JFrame();
+		MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", "Liliana's elite", null).get(0);
+		
+		MTGCardMakerPicturesProvider pics = new MTGCardMakerPicturesProvider();
+		final BufferedImage pic = pics.getPicture(mc);
+		
+		GathererPicturesProvider gather = new GathererPicturesProvider();
+		final BufferedImage pic2 = gather.extractPicture(mc);
+		
+		f.getContentPane().add(new JPanel(){
+			
+			@Override
+			public void paint(Graphics g) {
+				g.drawImage( pic, 0, 0, null);
+				g.drawImage( pic2,35, 68, 329, 242, null);
+			}
+			
+		});
+		
+		f.getContentPane().getComponent(0).addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				System.out.println("POINT X=" + e.getX() + " Y=" + e.getY());
+			}
+		});
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.setVisible(true);
+	}
+	
+	
+	public BufferedImage appendPicture(MagicCard mc)
+	{
+		BufferedImage cadre = getPicture(mc);
+		
+		
+		
+		
+		return cadre;
+		
+	}
+	
+	
 	String url;
 	public BufferedImage getPicture(MagicCard mc) {
 		try{

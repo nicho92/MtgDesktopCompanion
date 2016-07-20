@@ -12,6 +12,8 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -36,7 +38,7 @@ import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.magic.api.analyzer.TokenAnalyzer;
+import org.magic.api.analyzer.CardAnalyser;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
@@ -113,6 +115,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 		
 		JScrollPane scrollActions = new JScrollPane();
 		panneauGauche.add(scrollActions);
+		
+		scrollActions.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+	        public void adjustmentValueChanged(AdjustmentEvent e) {  
+	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+	        }
+	    });
 		
 		listActions = new JList<String>();
 		listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -223,7 +231,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 					panelGrave.removeAll();
 
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
 			}
@@ -269,8 +276,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 					if(((DisplayableCard)c).isSelected())
 					{
 						try{
-							MagicCard tok = TokenAnalyzer.generateTokenFrom(  ((DisplayableCard)c).getMagicCard()  );
+							MagicCard tok = CardAnalyser.generateTokenFrom(  ((DisplayableCard)c).getMagicCard()  );
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
+							
 							//dc.addMouseListener(new MouseAction(player));
 							dc.setMagicCard(tok);
 							panelBattleField.addComponent(dc);
@@ -330,6 +338,33 @@ public class GamePanelGUI extends JPanel implements Observer {
 			}
 		});
 		panelTools.add(btnFlip);
+		
+		JButton btnEmblem = new JButton("Emblem");
+		btnEmblem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(Component c : panelBattleField.getComponents())
+				{
+					if(((DisplayableCard)c).isSelected())
+					{
+						try{
+							MagicCard tok = CardAnalyser.generateEmblemFrom(((DisplayableCard)c).getMagicCard()  );
+							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
+							dc.setMagicCard(tok);
+							panelBattleField.addComponent(dc);
+							panelBattleField.revalidate();
+							panelBattleField.repaint();
+							
+							player.logAction("generate " + tok + " emblem");
+						}
+						catch (Exception e) {
+							e.printStackTrace();
+						}
+
+					}
+				}
+			}
+		});
+		panelTools.add(btnEmblem);
 		
 		JPanel panel = new JPanel();
 		panelInfo.add(panel, BorderLayout.CENTER);
@@ -410,7 +445,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 			public void actionPerformed(ActionEvent arg0) {
 				player.mixHandAndLibrary();
 				player.shuffleLibrary();
-				player.drawCard(7);
+				try{
+					player.drawCard(7);
+				}catch (IndexOutOfBoundsException e)
+				{
+					JOptionPane.showMessageDialog(null, "Not enougth cards in hands","Error",JOptionPane.ERROR_MESSAGE);
+				}
 			    handPanel.initThumbnails(player.getHand());
 			}
 		});

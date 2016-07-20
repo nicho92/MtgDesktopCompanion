@@ -19,6 +19,11 @@ public class GathererPicturesProvider implements PictureProvider {
 		return back;
 	}
 	
+	public BufferedImage extractPicture(MagicCard mc) throws Exception
+	{
+		return getPicture(mc).getSubimage(15, 34, 184, 132);
+	}
+	
 	@Override
 	public BufferedImage getPicture(MagicCard mc) throws Exception{
 		return getPicture(mc.getEditions().get(0).getMultiverse_id());

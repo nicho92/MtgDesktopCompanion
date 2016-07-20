@@ -3,8 +3,41 @@ package org.magic.api.analyzer;
 import org.magic.api.beans.MagicCard;
 import org.magic.tools.ColorParser;
 
-public class TokenAnalyzer {
+public class CardAnalyser {
 
+	public static MagicCard generateEmblemFrom(MagicCard mc) throws Exception
+	{
+		MagicCard emblem = new MagicCard();
+		
+		emblem.setLegalities(mc.getLegalities());
+		emblem.setMultiverseid(Integer.valueOf(mc.getEditions().get(0).getMultiverse_id()));
+		emblem.setEditions(mc.getEditions());
+		emblem.setFlavor("");
+		emblem.setArtist("MTG Desktop Companion");		
+		emblem.setWatermarks("");
+		emblem.setToken(true);
+		emblem.setLayout("Emblem");
+		emblem.setNumber("E");
+		emblem.setRarity("Common");
+		emblem.setCmc(0);
+		emblem.getTypes().add("Emblem");
+		emblem.getSubtypes().add(mc.getName());
+		emblem.setCost("");
+		emblem.getColors().addAll(mc.getColors());
+		emblem.setName("Emblem");
+		
+		String text = mc.getText();
+		
+		int start = text.indexOf("You get an emblem with \"")+"You get an emblem with \"".length();
+		int end = text.indexOf("\"", start);
+		emblem.setText(text.substring(start, end));
+		
+		return emblem;
+		
+	}
+	
+	
+	
 	public static MagicCard generateTokenFrom(MagicCard mc) throws Exception
 	{
 		
