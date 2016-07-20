@@ -15,31 +15,7 @@ import org.magic.services.MagicFactory;
 
 public class MTGCardMakerPicturesProvider implements PictureProvider {
 
-	public static void main(String[] args) throws Exception {
-		JFrame f = new JFrame();
-		MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", "Liliana's elite", null).get(0);
-		
-		GathererPicturesProvider gather = new GathererPicturesProvider();
-		BufferedImage pic2 = gather.extractPicture(mc);
-		
-		
-		MTGCardMakerPicturesProvider pics = new MTGCardMakerPicturesProvider();
-		final BufferedImage pic = pics.getPicture(mc,pic2);
-		
-		
-		f.getContentPane().add(new JPanel(){
-			
-			@Override
-			public void paint(Graphics g) {
-				g.drawImage( pic, 0, 0, null);
-			}
-		});
-		
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-	}
-	
-	public BufferedImage getPicture(MagicCard mc, final BufferedImage pic)
+	public BufferedImage getPicture(MagicCard mc, BufferedImage pic)
 	{
 				BufferedImage cadre = getPicture(mc);
 			Graphics g = cadre.createGraphics();
