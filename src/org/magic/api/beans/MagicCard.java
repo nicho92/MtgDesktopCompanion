@@ -41,7 +41,8 @@ public class MagicCard implements Serializable {
 		private List<MagicFormat> legalities;
 		private String rarity;
 		private String gathererCode;
-	
+		
+		
 		private boolean flippable;
 		private boolean tranformable;
 		

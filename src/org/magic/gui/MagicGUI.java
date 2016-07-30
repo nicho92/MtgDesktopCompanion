@@ -68,6 +68,7 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.CardsPicPanel;
+import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ManaPanel;
@@ -139,7 +140,7 @@ public class MagicGUI extends JFrame {
 	private HistoryPricesPanel historyChartPanel;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardDetailPanel detailCardPanel;
-
+	private JSONPanel jsonCardPanel;
 	private JPanel panelEditionRight;
 	private JPanel panelResultsCards;
 	private JPanel panelFilters;
@@ -499,7 +500,7 @@ public class MagicGUI extends JFrame {
 		historyChartPanel = new HistoryPricesPanel();
 		historyChartPanel.setPreferredSize(new Dimension(400, 10));
 	
-		
+		jsonCardPanel=new JSONPanel();
 		
 		cardsPicPanel = new CardsPicPanel();
 		cardsPicPanel.setPreferredSize(new Dimension(400, 10));
@@ -549,6 +550,7 @@ public class MagicGUI extends JFrame {
 		tabbedCardsInfo.addTab("Prices", null, scrollPanePrices, null);
 		tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
 		tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
+		tabbedCardsInfo.addTab("Json", null,jsonCardPanel,null);
 		
 		panelResultsCards = new JPanel();
 		tabbedCardsView.addTab("Results", null, panelResultsCards, null);
@@ -646,7 +648,6 @@ public class MagicGUI extends JFrame {
 
 		tabbedCardsView.addTab("Types", null, typeRepartitionPanel, null);
 		tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
-
 		deckBuilderGUI = new DeckBuilderGUI(provider,dao);
 
 
@@ -1048,6 +1049,7 @@ public class MagicGUI extends JFrame {
 			
 			historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 			
+			jsonCardPanel.showCard(selected);
 			
 		} catch (Exception e1) {
 			logger.error(e1);

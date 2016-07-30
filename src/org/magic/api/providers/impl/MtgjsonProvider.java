@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.HashMap;
@@ -281,11 +282,15 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			}
 		}).read(jsquery,List.class);
 		
+		
+		
+		
 		int indexSet=0;
 		for(Map<String,Object> map : cardsElement)
 		{
 			
-			MagicCard mc = new MagicCard();
+				MagicCard mc = new MagicCard();
+			   logger.debug("Loading Data " + Arrays.toString(map.entrySet().toArray()));
 	 		   mc.setName(map.get("name").toString());
 	 		   mc.setFlippable(false);
 	 		   mc.setTranformable(false);
