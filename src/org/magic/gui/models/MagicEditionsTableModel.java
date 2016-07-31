@@ -48,7 +48,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		 
 		for(MagicEdition me : list)
 		{
-			mapCount.put(me, dao.getCardsFromCollection(mc, me).size());
+			mapCount.put(me, dao.getCardsCount(mc, me));
 		}
 		
 	}

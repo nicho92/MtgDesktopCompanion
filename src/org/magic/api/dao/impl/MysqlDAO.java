@@ -50,7 +50,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	 {
 		 try{
 		 	logger.debug("Create table Cards");
-		 	con.createStatement().executeUpdate("create table cards (name varchar(250), mcard BLOB, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 	con.createStatement().executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard BLOB, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Shop");
 		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table collections");
@@ -59,6 +59,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 			con.createStatement().executeUpdate("insert into collections values ('Library')");
 		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
 		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
+		 	con.createStatement().executeUpdate("insert into collections values ('Favorites')");
+			
 		 	
 		 	return true;
 		 }
@@ -98,6 +100,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public MagicCard loadCard(String name, MagicCollection collection) throws SQLException {
+		logger.debug("load card " + name + " in " + collection);
 		PreparedStatement pst=con.prepareStatement("select * from cards where collection= ? and name= ?");	
 		pst.setString(1, collection.getName());
 		pst.setString(2, name);
@@ -107,6 +110,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
+		logger.debug("list all cards");
+		
 		String sql ="select * from cards";
 		
 		PreparedStatement pst=con.prepareStatement(sql);	
@@ -122,11 +127,18 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 
 	@Override
-	public int getCardsCount(MagicCollection cols) throws SQLException {
-		String sql = "select count(*) from cards ";
+	public int getCardsCount(MagicCollection cols,MagicEdition me) throws SQLException {
+		
+		
+		String sql = "select count(name) from cards ";
 		
 		if(cols!=null)
 			sql+=" where collection = '" + cols.getName()+"'";
+		
+		if(me!=null)
+			sql+=" and edition = '" + me.getId()+"'";
+		
+		logger.debug(sql);
 		
 		
 		Statement st = con.createStatement();
@@ -145,6 +157,9 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
+		
+		logger.debug("getCardsFromCollection " + collection + " " + me);
+		
 		String sql ="select * from cards where collection= ? and edition = ?";
 		
 		if(me==null)

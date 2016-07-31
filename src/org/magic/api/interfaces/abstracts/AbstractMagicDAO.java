@@ -84,7 +84,7 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public abstract void removeCard(MagicCard mc, MagicCollection collection) throws SQLException ;
 	public abstract MagicCard loadCard(String name, MagicCollection collection) throws SQLException;
 	public abstract List<MagicCard> listCards() throws SQLException ;
-	public abstract int getCardsCount(MagicCollection list) throws SQLException ;
+	public abstract int getCardsCount(MagicCollection list,MagicEdition me) throws SQLException ;
 	public abstract List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException ;
 	public abstract List<MagicCard> getCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException ;
 	public abstract List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException;

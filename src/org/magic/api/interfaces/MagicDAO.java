@@ -27,7 +27,8 @@ public interface MagicDAO {
 	public MagicCard loadCard(String name, MagicCollection collection)throws SQLException;
 	public List<MagicCard> listCards()throws SQLException;
 	
-	public int getCardsCount(MagicCollection list)throws SQLException;
+	public int getCardsCount(MagicCollection list,MagicEdition me) throws SQLException;
+	
 	
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException;
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException;

@@ -106,9 +106,7 @@ public class CollectionPanelGUI extends JPanel {
 		logger.debug("init collection panel");
 		setLayout(new BorderLayout(0, 0));
 		model = new MagicEditionsTableModel(dao);
-		
 		model.init(provider.searchSetByCriteria(null, null));
-
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
 
@@ -490,7 +488,7 @@ public class CollectionPanelGUI extends JPanel {
 								progressBar.setVisible(true);
 								progressBar.setStringPainted(true);
 								progressBar.setMinimum(0);
-								progressBar.setMaximum(dao.getCardsCount(selectedcol));
+								progressBar.setMaximum(dao.getCardsCount(selectedcol,null));
 								MagicExporter exp = new MagicExporter();
 								exp.addObserver(new Observer() {
 									public void update(Observable o, Object arg) {
@@ -530,7 +528,7 @@ public class CollectionPanelGUI extends JPanel {
 
 								int max = 0;
 								for (MagicCollection col : diag.getSelectedCollections())
-									max += dao.getCardsCount(col);
+									max += dao.getCardsCount(col,null);
 
 								progressBar.setMaximum(max);
 								progressBar.setValue(0);
@@ -629,7 +627,7 @@ public class CollectionPanelGUI extends JPanel {
 				if (curr.getUserObject() instanceof MagicCollection) {
 					try {
 						res = JOptionPane.showConfirmDialog(null,
-								"Are you sure you wan't delete " + col + " ? (" + dao.getCardsCount(col) + " cards)");
+								"Are you sure you wan't delete " + col + " ? (" + dao.getCardsCount(col,null) + " cards)");
 						if (res == JOptionPane.YES_OPTION) {
 							dao.removeCollection(col);
 							curr.removeFromParent();

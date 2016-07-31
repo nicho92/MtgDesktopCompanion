@@ -112,6 +112,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException
 	{
+		logger.debug("cards count for " + collection + " " + me);
 		
 		String sql ="select * from cards where collection= ? and edition = ?";
 		
@@ -221,19 +222,21 @@ public class HsqlDAO extends AbstractMagicDAO{
 		
 	}
 
+	
 	@Override
-	public int getCardsCount(MagicCollection cols) throws SQLException {
+	public int getCardsCount(MagicCollection cols,MagicEdition me) throws SQLException {
 		
 		String sql = "select count(*) from cards ";
 			
 		if(cols!=null)
 			sql+=" where collection = '" + cols.getName()+"'";
 		
-		
-		Statement st = con.createStatement();
+		if(me!=null)
+			sql+=" and edition = '" + me.getId()+"'";
+	
 		logger.debug(sql);
 		
-		
+		Statement st = con.createStatement();
 		ResultSet rs = st.executeQuery(sql);
 		rs.next();
 		return rs.getInt(1);
@@ -279,6 +282,8 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
+		logger.debug("list all cards");
+		
 		String sql ="select * from cards";
 		
 		PreparedStatement pst=con.prepareStatement(sql);	
@@ -406,6 +411,9 @@ public class HsqlDAO extends AbstractMagicDAO{
 		return pst.executeUpdate();
 		
 	}
+
+
+
 	
 //	public int updateSerializedCard(MagicCard mc,String editionCode,String collection) 
 //	{
