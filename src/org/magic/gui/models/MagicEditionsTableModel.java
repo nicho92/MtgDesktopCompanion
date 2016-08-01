@@ -45,12 +45,13 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		
 		MagicCollection mc = new MagicCollection();
 						mc.setName("Library");
-		 
+					
+		Map<String,Integer> temp = dao.getCardsCountGlobal(mc);
+		
 		for(MagicEdition me : list)
 		{
-			mapCount.put(me, dao.getCardsCount(mc, me));
+			mapCount.put(me, (temp.get(me.getId())==null)?0:temp.get(me.getId()));
 		}
-		
 	}
 
 

@@ -2,6 +2,7 @@ package org.magic.api.interfaces;
 
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
@@ -28,7 +29,7 @@ public interface MagicDAO {
 	public List<MagicCard> listCards()throws SQLException;
 	
 	public int getCardsCount(MagicCollection list,MagicEdition me) throws SQLException;
-	
+	public Map<String,Integer> getCardsCountGlobal(MagicCollection c) throws SQLException;
 	
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException;
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException;

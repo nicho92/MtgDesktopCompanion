@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Map;
 import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
@@ -79,7 +80,8 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 		this.enable=enabled;
 	}
 	
-	
+	@Override
+	public abstract Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException;
 	public abstract void saveCard(MagicCard mc, MagicCollection collection) throws SQLException ;
 	public abstract void removeCard(MagicCard mc, MagicCollection collection) throws SQLException ;
 	public abstract MagicCard loadCard(String name, MagicCollection collection) throws SQLException;

@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -127,6 +129,26 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 
 	@Override
+	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
+		String sql = "select edition, count(name) from cards where collection=? group by edition";
+		PreparedStatement pst=con.prepareStatement(sql);	
+		pst.setString(1, c.getName());
+		ResultSet rs = pst.executeQuery();
+		
+		Map<String,Integer> map= new HashMap<String,Integer>();
+		
+		while(rs.next())
+		{
+			map.put(rs.getString(1), rs.getInt(2));
+		}
+		
+		return map;
+	}
+
+
+	
+	
+	@Override
 	public int getCardsCount(MagicCollection cols,MagicEdition me) throws SQLException {
 		
 		
@@ -140,10 +162,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		
 		logger.debug(sql);
 		
-		
 		Statement st = con.createStatement();
-		logger.debug(sql);
-		
 		
 		ResultSet rs = st.executeQuery(sql);
 		rs.next();
@@ -313,9 +332,25 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 
 	@Override
-	public List<MagicCollection> getCollectionFromCards(MagicCard mc) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException{
+		
+		if(mc.getEditions().size()==0)
+			throw new SQLException("No edition defined");
+		
+		PreparedStatement pst = con.prepareStatement("SELECT collection FROM cards WHERE name=? and edition=?");
+		 pst.setString(1, mc.getName());
+		 pst.setString(2, mc.getEditions().get(0).getId());
+		 
+		 ResultSet rs = pst.executeQuery();
+		 List<MagicCollection> cols = new ArrayList<MagicCollection>();
+		 while(rs.next())
+		 {
+			 MagicCollection col = new MagicCollection();
+			 col.setName(rs.getString("collection"));
+			 cols.add(col);
+		 }
+		 
+		 return cols;
 	}
 
 
@@ -333,7 +368,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 
 
-	
+
 
 
 }

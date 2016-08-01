@@ -4,6 +4,7 @@
 	<langage>French</langage>
 	<lookAndFeel>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
 	<debug>INFO</debug>
+	<default-library>Library</default-library>
 	<pricers>
 		<pricer>
 				<class>org.magic.api.pricers.impl.EbayPricer</class>

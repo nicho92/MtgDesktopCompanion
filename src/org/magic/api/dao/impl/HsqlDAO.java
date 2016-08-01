@@ -8,7 +8,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -221,12 +223,29 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 pst.executeUpdate();
 		
 	}
+	
+	@Override
+	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
+		String sql = "select edition, count(name) from cards where collection=? group by edition";
+		PreparedStatement pst=con.prepareStatement(sql);	
+		pst.setString(1, c.getName());
+		ResultSet rs = pst.executeQuery();
+		
+		Map<String,Integer> map= new HashMap<String,Integer>();
+		
+		while(rs.next())
+		{
+			map.put(rs.getString(1), rs.getInt(2));
+		}
+		
+		return map;
+	}
 
 	
 	@Override
 	public int getCardsCount(MagicCollection cols,MagicEdition me) throws SQLException {
 		
-		String sql = "select count(*) from cards ";
+		String sql = "select count(name) from cards ";
 			
 		if(cols!=null)
 			sql+=" where collection = '" + cols.getName()+"'";

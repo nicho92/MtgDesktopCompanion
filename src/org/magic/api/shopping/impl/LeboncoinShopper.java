@@ -138,7 +138,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	}
 	
 	public static void main(String[] args) {
-		new LeboncoinShopper().search("Lot cartes magic");
+		System.out.println(new LeboncoinShopper().search("Lot cartes magic"));
 	}
 	
 	
