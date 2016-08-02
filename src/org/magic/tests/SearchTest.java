@@ -1,22 +1,20 @@
 package org.magic.tests;
 
+import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Map;
+import java.sql.SQLException;
 
-import org.apache.commons.beanutils.BeanUtils;
-import org.magic.api.providers.impl.MtgjsonProvider;
+import org.magic.api.dao.impl.MysqlDAO;
+import org.magic.api.interfaces.MagicDAO;
 
 public class SearchTest {
 
 	
-	public static void main(String[] args) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		MtgjsonProvider prov = new MtgjsonProvider();
+	public static void main(String[] args) throws IOException, IllegalAccessException, InvocationTargetException, NoSuchMethodException, ClassNotFoundException, SQLException {
 		
-		Map<String,String> c = BeanUtils.describe(prov.searchCardByCriteria("name", "Rune-Tail", null).get(0));
-		
-		for(String k : c.keySet())
-			System.out.println(k+"="+c.get(k));
+		MagicDAO dao = new MysqlDAO();
+		dao.backup(new File("c:/dump.sql"));
 	}
 	
 	

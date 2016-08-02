@@ -432,6 +432,13 @@ public class HsqlDAO extends AbstractMagicDAO{
 	}
 
 
+	@Override
+	public void backup(File f) {
+		File dir = new File(props.getProperty("URL"));
+		
+	}
+
+
 
 	
 //	public int updateSerializedCard(MagicCard mc,String editionCode,String collection) 

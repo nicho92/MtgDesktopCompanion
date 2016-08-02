@@ -34,9 +34,6 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 		return props;
 	}
 
-	public abstract void init() throws ClassNotFoundException, SQLException;
-	public abstract String getName();
-
 	@Override
 	public boolean isEnable() {
 		return enable;
@@ -79,31 +76,7 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public void enable(boolean enabled) {
 		this.enable=enabled;
 	}
-	
-	@Override
-	public abstract Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException;
-	public abstract void saveCard(MagicCard mc, MagicCollection collection) throws SQLException ;
-	public abstract void removeCard(MagicCard mc, MagicCollection collection) throws SQLException ;
-	public abstract MagicCard loadCard(String name, MagicCollection collection) throws SQLException;
-	public abstract List<MagicCard> listCards() throws SQLException ;
-	public abstract int getCardsCount(MagicCollection list,MagicEdition me) throws SQLException ;
-	public abstract List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException ;
-	public abstract List<MagicCard> getCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException ;
-	public abstract List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException;
-	public abstract MagicCollection getCollection(String name) throws SQLException ;
-	public abstract void saveCollection(MagicCollection c) throws SQLException ;
-	public abstract void removeCollection(MagicCollection c) throws SQLException;
-	public abstract List<MagicCollection> getCollections() throws SQLException;
-	public abstract void removeEdition(MagicEdition ed, MagicCollection col) throws SQLException ;
-	public abstract List<MagicDeck> listDeck()throws SQLException;
-	public abstract void saveDeck(MagicDeck d)throws SQLException;
-	public abstract void deleteDeck(MagicDeck d)throws SQLException;
-	public abstract List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException;
-	public abstract void saveShopItem(ShopItem mp, String string) throws SQLException;
-	public abstract String getSavedShopItemAnotation(ShopItem id) throws SQLException;
 
 	
-	public abstract String getDBLocation() ;
-	public abstract long getDBSize() ;
-
+	
 }

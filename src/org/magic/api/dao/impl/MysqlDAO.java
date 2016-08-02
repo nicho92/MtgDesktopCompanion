@@ -1,6 +1,8 @@
 package org.magic.api.dao.impl;
 
 import java.io.File;
+import java.io.InputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -31,7 +33,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 	    super();	
 		if(!new File(confdir, getName()+".conf").exists()){
 			 props.put("DRIVER", "com.mysql.jdbc.Driver");
-			 props.put("URL","jdbc:mysql://localhost:3306");
+			 props.put("SERVERNAME","localhost");
+			 props.put("SERVERPORT", "3306");
 			 props.put("DB_NAME", "mtgdesktopclient");
 			 props.put("LOGIN", "mtgdesktopclient");
 			 props.put("PASSWORD", "mtgdesktopclient");
@@ -44,7 +47,9 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void init() throws SQLException, ClassNotFoundException {
 		
 		 Class.forName(props.getProperty("DRIVER"));
-		 con=DriverManager.getConnection(props.getProperty("URL")+"/"+props.getProperty("DB_NAME")+props.getProperty("PARAMS"),props.getProperty("LOGIN"),props.getProperty("PASSWORD"));
+		 String url = "jdbc:mysql://"+props.getProperty("SERVERNAME")+":"+props.getProperty("SERVERPORT");
+			
+		 con=DriverManager.getConnection(url+"/"+props.getProperty("DB_NAME")+props.getProperty("PARAMS"),props.getProperty("LOGIN"),props.getProperty("PASSWORD"));
 		 createDB();
 	}
 
@@ -365,6 +370,32 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public String getSavedShopItemAnotation(ShopItem id) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	@Override
+	public void backup(File f) {
+		String dumpCommand = "mysqldump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASSWORD");
+		Runtime rt = Runtime.getRuntime();
+		PrintStream ps;
+		logger.info("begin Backup " + props.getProperty("DB_NAME"));
+		
+		try{
+		Process child = rt.exec(dumpCommand);
+		ps=new PrintStream(f);
+		InputStream in = child.getInputStream();
+		int ch;
+		while ((ch = in.read()) != -1) 
+		{
+			ps.write(ch);
+		}
+		ps.close();
+		logger.info("Backup " + props.getProperty("DB_NAME") + " done");
+		
+		}catch(Exception exc) {
+			logger.error(exc);
+		}
+		
 	}
 
 
