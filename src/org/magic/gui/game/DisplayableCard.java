@@ -11,8 +11,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.pictures.impl.CockatriceTokenProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 import org.magic.services.MagicFactory;
@@ -87,25 +87,8 @@ public class DisplayableCard extends JLabel
 		setSize(width, height);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
-		magicCard=mc;
-		
-	
+		setMagicCard(mc);
 		setTransferHandler(new CardTransfertHandler());
-		
-		try {
-			
-			if(!mc.isToken())
-			{
-				image = new ImageIcon(new GathererPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
-			}
-			else
-			{
-				image = new ImageIcon(new MTGCardMakerPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		
 		addMouseListener(new DisplayableCardActions());
 		addMouseWheelListener(new DisplayableCardActions());
 		addMouseMotionListener(new DisplayableCardActions());
@@ -192,14 +175,27 @@ public class DisplayableCard extends JLabel
 	public MagicCard getMagicCard() {
 		return magicCard;
 	}
+	
 	public void setMagicCard(MagicCard mc) {
 		this.magicCard = mc;
 		
 		try {
-			if(!mc.isToken())//TODO get picture of caller card
-				image = new ImageIcon(new GathererPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			if(mc.getLayout().equals(MagicCard.LAYOUT.Token.toString()))
+			{
+				fullResPics = new CockatriceTokenProvider().getToken(mc);
+				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			}
+			else if (mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
+			{
+				fullResPics = new CockatriceTokenProvider().getEmblem(mc);
+				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			}
 			else
-				image = new ImageIcon(new MTGCardMakerPicturesProvider().getPicture(mc).getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			{
+				fullResPics = new GathererPicturesProvider().getPicture(mc);
+				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -209,6 +205,12 @@ public class DisplayableCard extends JLabel
 	}
 	public void setTapped(boolean tapped) {
 		this.tapped = tapped;
+	}
+
+	private Image fullResPics;
+	
+	public Image getFullResPics() {
+		return fullResPics;
 	}
 
 

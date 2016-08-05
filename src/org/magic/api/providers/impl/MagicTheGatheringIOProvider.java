@@ -127,7 +127,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	}
 	
 	public String toString() {
-		return "MTG Developpers.io";
+		return "MTG Developpers.io  (dev)";
 	}
 
 }

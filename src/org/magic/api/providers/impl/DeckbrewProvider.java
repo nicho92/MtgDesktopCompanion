@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,7 +49,10 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition me) throws IOException {
 		String url = urldeckbrewJSON+"/cards";
 		
-		crit=att+"="+crit;
+		crit=att+"="+URLEncoder.encode(crit,"UTF-8");
+		
+		
+		
 		/*if(crit!=null)*/
 			url = urldeckbrewJSON +"/cards?"+crit;
 		
@@ -114,7 +118,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	
 	@Override
 	public String toString() {
-		return "DeckBrew Provider";
+		return "DeckBrew Provider (dev)";
 	}
 
 	@Override

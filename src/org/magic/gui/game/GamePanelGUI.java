@@ -6,7 +6,6 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.Graphics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -34,6 +33,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.event.ChangeEvent;
@@ -42,8 +42,8 @@ import javax.swing.event.ChangeListener;
 import org.magic.api.analyzer.CardAnalyser;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.pictures.impl.CockatriceTokenProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.gui.components.MagicTextPane;
@@ -66,7 +66,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public  Player player;
 	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
-	
+	private JLabel lblThumbnailPics;
 	
 	private static GamePanelGUI instance;
 	
@@ -280,9 +280,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 						try{
 							MagicCard tok = CardAnalyser.generateTokenFrom(  ((DisplayableCard)c).getMagicCard() );
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
-									//dc.addMouseListener(new MouseAction(player));
 							dc.setMagicCard(tok);
-							dc.setImage(new ImageIcon(new MTGCardMakerPicturesProvider().getPicture(tok, new GathererPicturesProvider().extractPicture(((DisplayableCard)c).getMagicCard())).getScaledInstance(c.getWidth(),c.getHeight(), BufferedImage.SCALE_SMOOTH)));
+							//dc.setImage(new ImageIcon(new CockatriceTokenProvider().getToken(tok).getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
 							
 							panelBattleField.addComponent(dc);
 							panelBattleField.revalidate();
@@ -354,7 +353,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
 							dc.setMagicCard(tok);
 							
-							dc.setImage(new ImageIcon(new MTGCardMakerPicturesProvider().getPicture(tok, new GathererPicturesProvider().extractPicture(((DisplayableCard)c).getMagicCard())).getScaledInstance(c.getWidth(),c.getHeight(), BufferedImage.SCALE_SMOOTH)));
+							//dc.setImage(new ImageIcon(new CockatriceTokenProvider().getEmblem(tok).getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
 							
 							panelBattleField.addComponent(dc);
 							panelBattleField.revalidate();
@@ -381,13 +380,32 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panel.setLayout(new BorderLayout(0, 0));
 		panel.add(manaPoolPanel, BorderLayout.NORTH);
 		
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		panel.add(tabbedPane, BorderLayout.CENTER);
+		
+		JPanel pane = new JPanel();
+		pane.setLayout(new BorderLayout());
+		
+		JPanel panneauHaut = new JPanel();
+		pane.add(panneauHaut, BorderLayout.NORTH);
+		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		panel.add(scrollPane_1, BorderLayout.CENTER);
+		pane.add(scrollPane_1);
+		
+		tabbedPane.addTab("Description", null, pane, null);
+		
 		
 		editorPane = new MagicTextPane();
 		editorPane.setMaximumSize(new Dimension(120, 200));
 		editorPane.setEditable(false);
 		scrollPane_1.setViewportView(editorPane);
+		
+		JPanel panelPics = new JPanel();
+		tabbedPane.addTab("Picture", null, panelPics, null);
+		panelPics.setLayout(new BorderLayout(0, 0));
+		
+		lblThumbnailPics = new JLabel("");
+		panelPics.add(lblThumbnailPics);
 		
 		btnEndTurn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -501,7 +519,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public Player getPlayer() {
 		return player;
 	}
-	public MagicTextPane getMagicTextPane() {
-		return editorPane;
+	
+	public void describeCard(DisplayableCard mc) 
+	{
+		editorPane.setText(mc.getMagicCard().getText());
+		lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223,310, BufferedImage.SCALE_SMOOTH)));
+		editorPane.updateTextWithIcons();
 	}
 }

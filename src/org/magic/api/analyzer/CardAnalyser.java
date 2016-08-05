@@ -1,5 +1,6 @@
 package org.magic.api.analyzer;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.tools.ColorParser;
 
@@ -15,8 +16,7 @@ public class CardAnalyser {
 		emblem.setFlavor("");
 		emblem.setArtist("MTG Desktop Companion");		
 		emblem.setWatermarks("");
-		emblem.setToken(true);
-		emblem.setLayout("Emblem");
+		emblem.setLayout(MagicCard.LAYOUT.Emblem.toString());
 		emblem.setNumber("E");
 		emblem.setRarity("Common");
 		emblem.setCmc(0);
@@ -24,7 +24,7 @@ public class CardAnalyser {
 		emblem.getSubtypes().add(mc.getName());
 		emblem.setCost("");
 		emblem.getColors().addAll(mc.getColors());
-		emblem.setName("Emblem");
+		emblem.setName(mc.getName());
 		
 		String text = mc.getText();
 		
@@ -88,10 +88,12 @@ public class CardAnalyser {
 		
 			if(named>-1)
 				token.setName(text.substring(named+5,onto).trim());
+			else if (artifact>-1)
+				token.setName(text.substring(endColor, artifact).trim());
 			else
 				token.setName(text.substring(endColor, creature).trim());
 			
-		
+			token.setName(WordUtils.capitalize(token.getName()));
 	
 		
 				if(artifact>-1)
@@ -118,8 +120,7 @@ public class CardAnalyser {
 				token.setFlavor("");
 				token.setArtist("MTG Desktop Companion");		
 				token.setWatermarks("");
-				token.setToken(true);
-				token.setLayout("Token");
+				token.setLayout(MagicCard.LAYOUT.Token.toString());
 
 				
 				if(artifact>-1)

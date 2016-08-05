@@ -36,8 +36,8 @@ public class DisplayableCardActions extends MouseAdapter {
 
 
 	public void mouseEntered(MouseEvent me) {
-		GamePanelGUI.getInstance().getMagicTextPane().setText(((DisplayableCard)me.getComponent()).getMagicCard().getText());
-		GamePanelGUI.getInstance().getMagicTextPane().updateTextWithIcons();
+		GamePanelGUI.getInstance().describeCard(((DisplayableCard)me.getComponent()));
+		
 	}
 	
 	

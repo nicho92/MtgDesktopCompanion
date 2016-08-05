@@ -60,6 +60,7 @@ import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.ThreadManager;
+import org.magic.services.exports.CocatriceDeckExport;
 import org.magic.services.exports.MagicExporter;
 import org.magic.services.exports.MagicSerializer;
 
@@ -252,6 +253,27 @@ public class DeckBuilderGUI extends JPanel{
 		JButton btnExportAsCsv = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/xls.png")));
 		btnExportAsCsv.setToolTipText("Export as CSV");
 		panneauHaut.add(btnExportAsCsv);
+		
+		JButton btnExportCockatrice = new JButton("");
+		btnExportCockatrice.setToolTipText("Export as cockatrice deck");
+		btnExportCockatrice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jf =new JFileChooser(new File(getDeck().getName()+".cod"));
+				jf.showSaveDialog(null);
+				File f=jf.getSelectedFile();
+				
+				try {
+					CocatriceDeckExport exp = new CocatriceDeckExport();
+					exp.export(getDeck(), f);
+					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					logger.error(e);
+					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnExportCockatrice.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/cockatrice_logo.png")));
+		panneauHaut.add(btnExportCockatrice);
 		
 		scrollResult = new JScrollPane();
 		add(scrollResult, BorderLayout.WEST);

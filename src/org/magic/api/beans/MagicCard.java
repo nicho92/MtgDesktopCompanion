@@ -9,8 +9,10 @@ public class MagicCard implements Serializable {
 		/**
 	 * 
 	 */
+	
+	public enum LAYOUT { Token, Normal, Emblem};
+	
 	private static final long serialVersionUID = 1L;
-		private boolean token;
 		private String name;
 		private String id;
 		private String url;
@@ -110,7 +112,7 @@ public class MagicCard implements Serializable {
 			variations = new ArrayList<Integer>();
 			colorIdentity = new ArrayList<String>();
 			legalities = new ArrayList<MagicFormat>();
-			token=false;
+			
 		}
 		
 		
@@ -382,15 +384,5 @@ public class MagicCard implements Serializable {
 		}
 
 
-		public boolean isToken() {
-			return token;
-		}
-
-
-		public void setToken(boolean token) {
-			this.token = token;
-		}
-
-
-		
+			
 }

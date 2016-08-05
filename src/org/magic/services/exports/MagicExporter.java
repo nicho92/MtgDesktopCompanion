@@ -17,12 +17,9 @@ import org.magic.api.interfaces.MagicPricesProvider;
 
 public class MagicExporter extends Observable{
 
-	
-	
-	
 	String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions"};
 	String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
-	String exportedPricesProperties[] = new String[]{	"site","seller","value","currency","language","quality","foil"};
+	String exportedPricesProperties[] = new String[]{ "site","seller","value","currency","language","quality","foil"};
 	
 	
 	//TODO export card prices catalog

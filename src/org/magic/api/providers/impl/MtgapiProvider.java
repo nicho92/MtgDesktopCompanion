@@ -322,7 +322,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 	}
 	
 	public String toString() {
-		return "MTG API Provider";
+		return "MTG API Provider (abandonned)";
 	}
 
 	@Override
@@ -332,10 +332,6 @@ public class MtgapiProvider implements MagicCardsProvider{
 
 	@Override
 	public List<MagicCard> openBooster(MagicEdition me) {
-		for(Object o : me.getBooster())
-		{
-			System.out.println(o);
-		}
 		
 		return null;
 	}
@@ -348,12 +344,12 @@ public class MtgapiProvider implements MagicCardsProvider{
 
 	@Override
 	public String getVersion() {
-		return "v2 (abandonned)";
+		return "v2";
 	}
 
 	@Override
 	public URL getWebSite() throws MalformedURLException {
-		return new URL("https://mtgapi.com/");
+		return new URL("https://mtgapi.com/" );
 	}
 
 

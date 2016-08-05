@@ -27,8 +27,7 @@ public class MagicSerializer {
 //		BufferedWriter bw = new BufferedWriter(fw);
 //		bw.write(GSON.toJson(deck));
 //		bw.close();
-		
-		
+	
 	}
 
 	public static <T> T read(File f, Class<T> class1) throws Exception {

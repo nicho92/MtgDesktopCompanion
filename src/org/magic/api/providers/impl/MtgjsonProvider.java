@@ -613,7 +613,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		String jsquery="";
 			jsquery = "$."+edCode+".cards[?(@.name==\""+mc.getName()+"\")]";
 		
-		logger.debug("initOtherEditionVars" + jsquery);
+	//	logger.debug("initOtherEditionVars" + jsquery);
 		
 		List<Map<String,Object>> cardsElement = null;
 		try{

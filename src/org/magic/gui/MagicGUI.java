@@ -513,6 +513,7 @@ public class MagicGUI extends JFrame {
 		thumbnailPanel = new ThumbnailPanel();
 		thumbnailPanel.setThumbnailSize(179, 240);
 		thumbnailPanel.enableDragging(false);
+		
 
 		rarityRepartitionPanel = new RarityRepartitionPanel();
 		JScrollPane scrollPaneRules = new JScrollPane();

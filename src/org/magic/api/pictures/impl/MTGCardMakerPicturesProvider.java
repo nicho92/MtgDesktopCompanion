@@ -17,7 +17,7 @@ public class MTGCardMakerPicturesProvider implements PictureProvider {
 
 	public BufferedImage getPicture(MagicCard mc, BufferedImage pic)
 	{
-				BufferedImage cadre = getPicture(mc);
+			BufferedImage cadre = getPicture(mc);
 			Graphics g = cadre.createGraphics();
 			g.drawImage( pic,35, 68, 329, 242, null);
 			g.dispose();
