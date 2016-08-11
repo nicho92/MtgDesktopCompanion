@@ -58,10 +58,10 @@ public class ManaPanel extends JPanel {
 	
 	public void setManaCost(String manaCost) {
 	
+		this.removeAll();
+		
 		if(manaCost==null)
 			return;
-		
-		this.removeAll();
 		
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(manaCost);

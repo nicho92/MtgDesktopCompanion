@@ -1,8 +1,8 @@
 package org.magic.services;
 
-import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.ThreadFactory;
@@ -38,8 +38,8 @@ public class ThreadManager {
 	private ThreadManager()
 	{
 		threadFactory = Executors.defaultThreadFactory();
-		//LinkedBlockingQueue
-		 executor = new ThreadPoolExecutor(4, 5,  10, TimeUnit.MILLISECONDS,  new ArrayBlockingQueue<Runnable>(4))
+		//LinkedBlockingQueue // ArrayBlockingQueue
+		 executor = new ThreadPoolExecutor(4, 5,  10, TimeUnit.MILLISECONDS,  new LinkedBlockingQueue<Runnable>(5))
 		 {   
 			    protected void beforeExecute(Thread t, Runnable r) { 
 			         t.setName(name);
@@ -63,6 +63,8 @@ public class ThreadManager {
 	{
 		this.name=name;
 		executor.execute(task);
+		//new Thread(task).start();
+		
 		info =(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d " + name,
                 executor.getPoolSize(),
                 executor.getCorePoolSize(),
@@ -70,7 +72,7 @@ public class ThreadManager {
                 executor.getCompletedTaskCount(),
                 executor.getTaskCount()));
 		
-		logger.info(info);
+		logger.debug(info);
 		
 	}
 

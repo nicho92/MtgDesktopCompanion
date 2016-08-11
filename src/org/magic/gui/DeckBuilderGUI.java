@@ -258,7 +258,8 @@ public class DeckBuilderGUI extends JPanel{
 		btnExportCockatrice.setToolTipText("Export as cockatrice deck");
 		btnExportCockatrice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jf =new JFileChooser(new File(getDeck().getName()+".cod"));
+				JFileChooser jf =new JFileChooser(".");
+				jf.setSelectedFile(new File(getDeck().getName()+".cod"));
 				jf.showSaveDialog(null);
 				File f=jf.getSelectedFile();
 				

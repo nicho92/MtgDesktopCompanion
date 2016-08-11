@@ -507,16 +507,20 @@ public class MagicCardDetailPanel extends JPanel {
 		}
 		
 
-		
-		try{
-				((DefaultListModel)listCollection.getModel()).removeAllElements();
-				for(MagicCollection col : MagicFactory.getInstance().getEnabledDAO().getCollectionFromCards(magicCard))
-					((DefaultListModel)listCollection.getModel()).addElement(col);
+		ThreadManager.getInstance().execute(new Runnable() {
+			public void run() {
+				try{
+					((DefaultListModel)listCollection.getModel()).removeAllElements();
+					for(MagicCollection col : MagicFactory.getInstance().getEnabledDAO().getCollectionFromCards(magicCard))
+						((DefaultListModel)listCollection.getModel()).addElement(col);
+				}
+				catch(Exception e)
+				{	
+					//logger.error(e);
+				}
 			}
-			catch(Exception e)
-			{	
-				//logger.error(e);
-			}
+		},"loadCollections");
+			
 			
 		
 		

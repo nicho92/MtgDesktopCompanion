@@ -783,7 +783,6 @@ public class MagicGUI extends JFrame {
 					}
 					else
 					{
-						
 						selected = (MagicCard)tableCards.getValueAt(tableCards.getSelectedRow(), 0);
 						selectedEdition = selected.getEditions().get(0);
 						updateCards();
@@ -1021,8 +1020,7 @@ public class MagicGUI extends JFrame {
 		try {
 			cboLanguages.removeAllItems();
 			txtRulesArea.setText("");
-
-
+			
 			((DefaultListModel<MagicEdition>)listEdition.getModel()).removeAllElements();
 
 			for(MagicEdition me : selected.getEditions())
@@ -1030,16 +1028,14 @@ public class MagicGUI extends JFrame {
 
 			detailCardPanel.setMagicCard(selected,true);
 			magicEditionDetailPanel.setMagicEdition(selected.getEditions().get(0));
-
+			
 
 			for(MagicRuling mr : selected.getRulings())
 			{
 				txtRulesArea.append(mr.toString());
 				txtRulesArea.append("\n");
 			}
-
-
-
+		
 			for(MagicCardNames mcn : selected.getForeignNames())
 				cboLanguages.addItem(mcn);
 

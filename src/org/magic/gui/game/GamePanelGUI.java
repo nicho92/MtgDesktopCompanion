@@ -62,11 +62,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JList<String> listActions;
 	private JLabel lblLibraryCountCard;
 	private JLabel lblPlayer;
-	private MagicTextPane editorPane;
 	public  Player player;
 	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
 	private JLabel lblThumbnailPics;
+	private LightDescribeCardPanel panneauHaut;
+	
 	
 	private static GamePanelGUI instance;
 	
@@ -386,19 +387,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 		JPanel pane = new JPanel();
 		pane.setLayout(new BorderLayout());
 		
-		JPanel panneauHaut = new JPanel();
-		pane.add(panneauHaut, BorderLayout.NORTH);
-		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		pane.add(scrollPane_1);
+		panneauHaut = new LightDescribeCardPanel();
+		pane.add(panneauHaut, BorderLayout.CENTER);
 		
 		tabbedPane.addTab("Description", null, pane, null);
 		
-		
-		editorPane = new MagicTextPane();
-		editorPane.setMaximumSize(new Dimension(120, 200));
-		editorPane.setEditable(false);
-		scrollPane_1.setViewportView(editorPane);
 		
 		JPanel panelPics = new JPanel();
 		tabbedPane.addTab("Picture", null, panelPics, null);
@@ -522,8 +515,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 	
 	public void describeCard(DisplayableCard mc) 
 	{
-		editorPane.setText(mc.getMagicCard().getText());
+		panneauHaut.setCard(mc.getMagicCard());
 		lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223,310, BufferedImage.SCALE_SMOOTH)));
-		editorPane.updateTextWithIcons();
+		//
 	}
 }
