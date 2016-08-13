@@ -60,15 +60,14 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JPanel panneauGauche;
 	private JPanel panneauDroit;
 	private JList<String> listActions;
-	private JLabel lblLibraryCountCard;
 	private JLabel lblPlayer;
 	public  Player player;
 	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
 	private JLabel lblThumbnailPics;
 	private LightDescribeCardPanel panneauHaut;
-	
-	
+	private JLabel lblHandCount;
+	private JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
 	
 	
@@ -211,10 +210,10 @@ public class GamePanelGUI extends JPanel implements Observer {
 					}
 				});
 		
-		JPanel panelTools = new JPanel();
-		panelTools.setAlignmentY(Component.TOP_ALIGNMENT);
-		panelInfo.add(panelTools, BorderLayout.SOUTH);
-		panelTools.setLayout(new GridLayout(4, 2, 0, 0));
+		JPanel panelActions = new JPanel();
+		panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
+		panelInfo.add(panelActions, BorderLayout.SOUTH);
+		panelActions.setLayout(new GridLayout(4, 2, 0, 0));
 		
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
@@ -238,13 +237,13 @@ public class GamePanelGUI extends JPanel implements Observer {
 				}
 			}
 		});
-		panelTools.add(btnNewGame);
+		panelActions.add(btnNewGame);
 		
 		JButton btnSearch = new JButton("Search");
-		panelTools.add(btnSearch);
+		panelActions.add(btnSearch);
 		
 		JButton btnDrawHand = new JButton("Draw Hand");
-		panelTools.add(btnDrawHand);
+		panelActions.add(btnDrawHand);
 		
 		JButton btnShuffle = new JButton("Shuffle");
 		btnShuffle.addActionListener(new ActionListener() {
@@ -253,7 +252,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 				player.shuffleLibrary();
 			}
 		});
-		panelTools.add(btnShuffle);
+		panelActions.add(btnShuffle);
 		
 		JButton btnScry = new JButton("Scry");
 		btnScry.addActionListener(new ActionListener() {
@@ -265,10 +264,10 @@ public class GamePanelGUI extends JPanel implements Observer {
 				
 			}
 		});
-		panelTools.add(btnScry);
+		panelActions.add(btnScry);
 		
 		JButton btnEndTurn = new JButton("End Turn");
-		panelTools.add(btnEndTurn);
+		panelActions.add(btnEndTurn);
 		
 		JButton btnToken = new JButton("Token");
 		btnToken.addActionListener(new ActionListener() {
@@ -298,7 +297,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 				}
 			}
 		});
-		panelTools.add(btnToken);
+		panelActions.add(btnToken);
 		
 		JButton btnFlip = new JButton("Rotate");
 		btnFlip.addActionListener(new ActionListener() {
@@ -340,7 +339,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 				
 			}
 		});
-		panelTools.add(btnFlip);
+		panelActions.add(btnFlip);
 		
 		JButton btnEmblem = new JButton("Emblem");
 		btnEmblem.addActionListener(new ActionListener() {
@@ -370,19 +369,39 @@ public class GamePanelGUI extends JPanel implements Observer {
 				}
 			}
 		});
-		panelTools.add(btnEmblem);
+		panelActions.add(btnEmblem);
 		
-		JPanel panel = new JPanel();
-		panelInfo.add(panel, BorderLayout.CENTER);
+		JPanel panelPoolandDescribes = new JPanel();
+		panelInfo.add(panelPoolandDescribes, BorderLayout.CENTER);
+		
+		panelPoolandDescribes.setLayout(new BorderLayout(0, 0));
+		
+		JPanel panelPoolandHandsLib = new JPanel();
+		panelPoolandDescribes.add(panelPoolandHandsLib, BorderLayout.NORTH);
+		panelPoolandHandsLib.setLayout(new BorderLayout(0, 0));
 		
 		manaPoolPanel = new ManaPoolPanel();
-		manaPoolPanel.setAlignmentY(Component.TOP_ALIGNMENT);
+		panelPoolandHandsLib.add(manaPoolPanel);
 		
-		panel.setLayout(new BorderLayout(0, 0));
-		panel.add(manaPoolPanel, BorderLayout.NORTH);
+		JPanel panelHandLib = new JPanel();
+		panelPoolandHandsLib.add(panelHandLib, BorderLayout.EAST);
+		panelHandLib.setLayout(new GridLayout(2, 1, 0, 0));
+		
+		lblHandCount = new JLabel("0");
+		lblHandCount.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblHandCount.setHorizontalTextPosition(JLabel.CENTER);
+		lblHandCount.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/hand.png")));
+		panelHandLib.add(lblHandCount);
+		
+		lblLibraryCount = new JLabel("");
+		lblLibraryCount.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblLibraryCount.setHorizontalAlignment(SwingConstants.CENTER);
+		lblLibraryCount.setFont(new Font("Tahoma", Font.BOLD, 18));
+		lblLibraryCount.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/librarysize.png")));
+		panelHandLib.add(lblLibraryCount);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		panel.add(tabbedPane, BorderLayout.CENTER);
+		panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
 		
 		JPanel pane = new JPanel();
 		pane.setLayout(new BorderLayout());
@@ -431,13 +450,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 				//c.addMouseListener(new DisplayableCardActions(player));
 				
 				handPanel.addComponent(c);
-				lblLibraryCountCard.setText(""+player.getLibrary().size());
 			}
 		});
-		
-		lblLibraryCountCard = new JLabel();
-		lblLibraryCountCard.setHorizontalAlignment(SwingConstants.CENTER);
-		panelDeck.add(lblLibraryCountCard);
 		
 		panelGrave = new GraveyardPanel();
 		panelLibraryAndGrave.add(panelGrave);
@@ -464,6 +478,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 				player.shuffleLibrary();
 				try{
 					player.drawCard(7);
+					lblHandCount.setText(String.valueOf(player.getHand().size()));
+					lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));
 				}catch (IndexOutOfBoundsException e)
 				{
 					JOptionPane.showMessageDialog(null, "Not enougth cards in hands","Error",JOptionPane.ERROR_MESSAGE);
@@ -491,9 +507,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 		return handPanel;
 	}
 	
-	public JLabel getLblLibraryCountCard() {
-		return lblLibraryCountCard;
-	}
 	public LibraryPanel getLblLibrary() {
 		return panelLibrary;
 	}
@@ -505,6 +518,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		String act = player.getName() +" " + arg.toString();
 		((DefaultListModel)listActions.getModel()).addElement(act);
+		lblHandCount.setText(String.valueOf(player.getHand().size()));
+		lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));
 	}
 
 

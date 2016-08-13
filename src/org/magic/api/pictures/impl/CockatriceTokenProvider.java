@@ -13,7 +13,10 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
+import org.magic.gui.CardBuilderPanelGUI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -24,7 +27,8 @@ public class CockatriceTokenProvider {
 	DocumentBuilderFactory builderFactory;
 	DocumentBuilder builder;
 	Document document;
-	
+	static final Logger logger = LogManager.getLogger(CockatriceTokenProvider.class.getName());
+
 	
 	public CockatriceTokenProvider() {
 		builderFactory =DocumentBuilderFactory.newInstance();
@@ -114,6 +118,8 @@ public class CockatriceTokenProvider {
 					map.put(set, pic);
 				}
 		}
+		logger.debug("GetImage " + map.get(tok.getEditions().get(0).getId()) +" for " + tok);
+		
 		URLConnection connection = new URL(map.get(tok.getEditions().get(0).getId())).openConnection();
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 		

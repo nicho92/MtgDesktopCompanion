@@ -85,8 +85,8 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
-import org.magic.services.exports.MagicExporter;
-import org.magic.services.exports.MagicPDFGenerator;
+import org.magic.services.exports.CSVExport;
+import org.magic.services.exports.PDFExport;
 
 import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;
@@ -890,7 +890,7 @@ public class MagicGUI extends JFrame {
 								f=new File("temp.pdf");
 
 							loading(false,"exporting pdf");
-							MagicPDFGenerator.generatePDF(cards,f,defaultLanguage);
+							PDFExport.export(cards,f);
 							loading(false,"");
 							JOptionPane.showMessageDialog(null, "Export PDF Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 
@@ -917,8 +917,8 @@ public class MagicGUI extends JFrame {
 				
 					
 					try {
-						MagicExporter exp = new MagicExporter();
-						exp.exportCSV(cardsModeltable.getListCards(),f);
+						CSVExport exp = new CSVExport();
+						exp.export(cardsModeltable.getListCards(),f);
 					} catch (Exception e1) {
 						logger.error(e1);
 						JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);

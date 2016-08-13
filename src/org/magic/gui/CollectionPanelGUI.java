@@ -68,7 +68,7 @@ import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
-import org.magic.services.exports.MagicExporter;
+import org.magic.services.exports.CSVExport;
 import org.magic.services.exports.MagicWebSiteGenerator;
 import org.magic.tools.TableColumnAdjuster;
 
@@ -180,8 +180,8 @@ public class CollectionPanelGUI extends JPanel {
 				
 				if(f!=null)
 				try {
-					MagicExporter exp = new MagicExporter();
-					exp.exportCSV(dao.getCardsFromCollection(mc), f);
+					CSVExport exp = new CSVExport();
+					exp.export(dao.getCardsFromCollection(mc), f);
 					JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					logger.error(e);
@@ -486,7 +486,7 @@ public class CollectionPanelGUI extends JPanel {
 								progressBar.setStringPainted(true);
 								progressBar.setMinimum(0);
 								progressBar.setMaximum(dao.getCardsCount(selectedcol,null));
-								MagicExporter exp = new MagicExporter();
+								CSVExport exp = new CSVExport();
 								exp.addObserver(new Observer() {
 									public void update(Observable o, Object arg) {
 										progressBar.setValue((int) arg);

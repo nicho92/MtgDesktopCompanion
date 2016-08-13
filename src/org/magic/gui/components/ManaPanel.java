@@ -59,7 +59,8 @@ public class ManaPanel extends JPanel {
 	public void setManaCost(String manaCost) {
 	
 		this.removeAll();
-		
+		this.revalidate();
+		this.repaint();
 		if(manaCost==null)
 			return;
 		
@@ -70,7 +71,6 @@ public class ManaPanel extends JPanel {
 		
 		fl.setVgap(0);
 		fl.setHgap(0);
-		
 		while(m.find()) {
 			{
 			JLabel lab = new JLabel();

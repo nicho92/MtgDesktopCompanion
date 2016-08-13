@@ -15,7 +15,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 
 
-public class MagicExporter extends Observable{
+public class CSVExport extends Observable{
 
 	String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions"};
 	String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
@@ -72,7 +72,7 @@ public class MagicExporter extends Observable{
 	}
 	
 	
-	public void exportCSV(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
+	public void export(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
 			BufferedWriter bw;
 			FileWriter out;
 				
@@ -94,13 +94,9 @@ public class MagicExporter extends Observable{
 			}
 			bw.close();
 			out.close();
-		
-		
-			bw.close();
-			out.close();
 	}
 
-	public void export(MagicDeck deck, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException{
+	public void exportDeck(MagicDeck deck, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException{
 		BufferedWriter bw;
 		FileWriter out;
 		out = new FileWriter(f);

@@ -61,7 +61,7 @@ import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.ThreadManager;
 import org.magic.services.exports.CocatriceDeckExport;
-import org.magic.services.exports.MagicExporter;
+import org.magic.services.exports.CSVExport;
 import org.magic.services.exports.MagicSerializer;
 
 public class DeckBuilderGUI extends JPanel{
@@ -449,8 +449,8 @@ public class DeckBuilderGUI extends JPanel{
 				File f=jf.getSelectedFile();
 				
 				try {
-					MagicExporter exp = new MagicExporter();
-					exp.export(getDeck(), f);
+					CSVExport exp = new CSVExport();
+					exp.exportDeck(getDeck(), f);
 					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					logger.error(e);
@@ -460,7 +460,12 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		
-		
+		btnExportPDF.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+					JOptionPane.showMessageDialog(null, "Not implemented yet","Error",JOptionPane.ERROR_MESSAGE);
+				
+			}
+		});
 		
 		listResult.addMouseListener(new MouseAdapter() {
 			

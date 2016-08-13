@@ -20,14 +20,11 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-public class MagicPDFGenerator {
+public class PDFExport {
 
-		static String language;
-	
-	 public static void generatePDF(List<MagicCard> cards,File f,String lang) {
+	 public static void export(List<MagicCard> cards,File f) {
 
-		 language=lang;
-		 Document document = new Document(PageSize.A4,5,5,10,5);
+			 Document document = new Document(PageSize.A4,5,5,10,5);
 
 				  document.addAuthor("Nicolas Pihen");
 				  document.addCreationDate();
@@ -68,16 +65,8 @@ public class MagicPDFGenerator {
 	 private static PdfPCell getCells(MagicCard card) throws BadElementException, MalformedURLException, IOException
 	 {
 		 
-		 String id = card.getEditions().get(0).getMultiverse_id();
-		 for(MagicCardNames mcn : card.getForeignNames())
-			 if(mcn.getLanguage()!=null)
-				 if(mcn.getLanguage().startsWith(language))
-				 {
-					 id = String.valueOf(mcn.getGathererId());
-					 break;
-				 }
-		 
-		 Image image1=null;
+		String id = card.getEditions().get(0).getMultiverse_id();
+		Image image1=null;
 		try {
 			image1 = Image.getInstance(new GathererPicturesProvider().getPictureURL(id));
 		} catch (Exception e) {

@@ -76,8 +76,9 @@ public class Player extends Observable{
 	}
 
 	public void setPoisonCounter(int poisonCounter) {
-		logAction("has " + poisonCounter + " poison counter");
 		this.poisonCounter = poisonCounter;
+		logAction("has " + poisonCounter + " poison counter");
+
 	}
 
 	public Map<String, Integer> getManaPool() {
@@ -91,8 +92,9 @@ public class Player extends Observable{
 	public void addMana(String color, int number)
 	{
 		try{
-			logAction("Add " + number + " " + color + " to manapool" );
 			manaPool.put(color, manaPool.get(color)+number);
+			logAction("Add " + number + " " + color + " to manapool" );
+			
 		}catch(NullPointerException e)
 		{
 			manaPool.put(color, number);
@@ -119,6 +121,8 @@ public class Player extends Observable{
 			logAction("put a card on bottom of library from hand");
 		}
 		hand.remove(mc);
+		
+		
 	}
 	
 	public void putCardInLibraryFromBattlefield(MagicCard mc,boolean top)
@@ -153,133 +157,148 @@ public class Player extends Observable{
 	
 	public List<MagicCard> scry(int number)
 	{
-		logAction("Scry " + number + " cards");
 		List<MagicCard> list = library.subList(0, number);
+		logAction("Scry " + number + " cards");
+
 		return list;
 	}
 	
 	
 	public void setMana(String color, int number)
 	{
-			logAction("Set " + number + " " + color + " to manapool" );
 			manaPool.put(color, number);
+			logAction("Set " + number + " " + color + " to manapool" );
+			
 		
 	}
 	
 	public void lifeLoose(int lost)
 	{
-		logAction("Loose " + lost + " life (" + life +")"  );
 		life=life-lost;
+		logAction("Loose " + lost + " life (" + life +")"  );
+		
 	}
 	
 	public void lifeGain(int gain)
 	{
-		logAction("Gain " + gain + " life (" + life +")");
 		life=life+gain;
+		logAction("Gain " + gain + " life (" + life +")");
+
 	}
 	
 	public void shuffleLibrary()
 	{
-		logAction("Shuffle his library");
 		Collections.shuffle(library);
+		logAction("Shuffle his library");
+
 	}
 	
 	public void drawCard(int number)
 	{
-		logAction("Draw " + number +" cards" );
 		for(int i=0;i<number;i++)
 		{ 
 			hand.add(library.get(i));
 			library.remove(i);
 		}
+		logAction("Draw " + number +" cards" );
+		
 	}
 	
 	public void discardCardFromBattleField(MagicCard mc) {
-		logAction("Sacrifice " + mc);
-		
 		battlefield.remove(mc);
 		graveyard.add(mc);
+		logAction("Sacrifice " + mc);
+		
 		
 	}
 	
 	public void discardCardFromHand(MagicCard mc)
 	{
-		logAction("Discard " + mc );
-		
 		hand.remove(mc);
 		graveyard.add(mc);
+		logAction("Discard " + mc );
+		
+		
 	}
 	
 	public void discardCardFromLibrary(MagicCard mc)
 	{
-		logAction("Discard " + mc +" from library" );
-		
 		library.remove(mc);
 		graveyard.add(mc);
+		logAction("Discard " + mc +" from library" );
+		
+		
 	}
 
 
 	public void exileCardFromBattleField(MagicCard mc) {
-		logAction("Exil " + mc + " from battlefield");
-		
 		battlefield.remove(mc);
 		exil.add(mc);
+		logAction("Exil " + mc + " from battlefield");
 		
+
 	}
 	
 	public void exileCardFromLibrary(MagicCard mc)
 	{
-		logAction("Exil " + mc +" from library" );
-		
 		library.remove(mc);
 		exil.add(mc);
+		logAction("Exil " + mc +" from library" );
+		
+		
 	}
 	
 	public void exileCardFromHand(MagicCard mc)
 	{
-		logAction("Exil " + mc +" from Hand" );
-		
 		hand.remove(mc);
 		exil.add(mc);
+		logAction("Exil " + mc +" from Hand" );
+		
+
 	}
 	
 	public void exileCardFromGraveyard(MagicCard mc) {
-		logAction("Exil " + mc +" from graveyard" );
-		
 		graveyard.remove(mc);
 		exil.add(mc);
+		logAction("Exil " + mc +" from graveyard" );
+		
+
 		
 	}
 	
 	public void returnCardFromBattleField(MagicCard mc)
 	{
-		logAction("get " + mc +" back in hand" );
-		
 		battlefield.remove(mc);
 		hand.add(mc);
+		logAction("get " + mc +" back in hand" );
+		
+
 	}
 	public void returnCardFromGraveyard(MagicCard mc)
 	{
-		logAction("return " + mc +" from graveyard in hand" );
-		
 		graveyard.remove(mc);
 		hand.add(mc);
+		logAction("return " + mc +" from graveyard in hand" );
+		
+
 	}
 	
 	public void mixGraveyardAndLibrary()
 	{
-		logAction("Shuffle graveyard in library" );
-		
 		library.addAll(graveyard.getCards());
 		graveyard.clear();
+		logAction("Shuffle graveyard in library" );
+		
+
 	}
 	
 	public void mixHandAndLibrary()
 	{
-		logAction("Shuffle hand in library" );
-		
 		library.addAll(hand);
 		hand.clear();
+		logAction("Shuffle hand in library" );
+		
+
 	}
 
 	public int getLife() {
@@ -295,9 +314,7 @@ public class Player extends Observable{
 		
 		if(previouslife<l)
 			lifeGain(l-previouslife);
-		
-		
-		
+	
 		//this.life = life;
 	}
 
@@ -351,11 +368,9 @@ public class Player extends Observable{
 	}
 
 	public void playCard(MagicCard mc) {
-		logAction("Play " + mc );
-		
 		hand.remove(mc);
 		battlefield.add(mc);
-		
+		logAction("Play " + mc );
 	}
 
 	@Override
@@ -391,9 +406,10 @@ public class Player extends Observable{
 	}
 
 	public void searchCardFromLibrary(MagicCard mc) {
-		logAction("search " + mc + " from library into hand");
 		hand.add(mc);
 		library.remove(mc);
+		logAction("search " + mc + " from library into hand");
+		
 		
 	}
 	
