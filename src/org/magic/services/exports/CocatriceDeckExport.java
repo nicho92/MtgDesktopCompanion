@@ -24,6 +24,15 @@ public class CocatriceDeckExport {
 			temp.append("<card number='").append(deck.getMap().get(mc)).append("' price='0' name=\"").append(mc.getName()).append("\"/>");
 		}
 		temp.append("</zone>");
+		temp.append("<zone name='side'>");
+		for(MagicCard mc : deck.getMapSideBoard().keySet())
+		{
+			temp.append("<card number='").append(deck.getMapSideBoard().get(mc)).append("' price='0' name=\"").append(mc.getName()).append("\"/>");
+		}
+		temp.append("</zone>");
+		
+		
+		
 		temp.append("</cockatrice_deck>");
 		
 		FileWriter out = new FileWriter(dest);
