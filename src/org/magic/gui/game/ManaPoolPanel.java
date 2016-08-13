@@ -17,6 +17,7 @@ import org.magic.gui.components.ManaPanel;
 import java.awt.GridLayout;
 import java.awt.BorderLayout;
 import java.awt.FlowLayout;
+import javax.swing.JLabel;
 
 public class ManaPoolPanel extends JPanel{
 	private JSpinner spinW;
@@ -36,16 +37,6 @@ public class ManaPoolPanel extends JPanel{
 	
 	
 	public ManaPoolPanel() {
-		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		
-		
-		JPanel panel = new JPanel();
-		add(panel);
-		panel.setLayout(new GridLayout(3, 4, 0, 0));
-		
-		ManaPanel panelW = new ManaPanel();
-		panelW.setManaCost("{W}");
-		panel.add(panelW);
 		
 		spinW = new JSpinner();
 		spinW.addChangeListener(new ChangeListener() {
@@ -53,14 +44,21 @@ public class ManaPoolPanel extends JPanel{
 				player.setMana("{B}", (int)spinW.getValue());
 			}
 		});
+		setLayout(new GridLayout(0, 2, 0, 0));
+		
+		ManaPanel panelW = new ManaPanel();
+		FlowLayout flowLayout_5 = (FlowLayout) panelW.getLayout();
+		flowLayout_5.setAlignment(FlowLayout.CENTER);
+		panelW.setManaCost("{W}");
+		add(panelW);
 		spinW.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		panel.add(spinW);
+		add(spinW);
 		
 		ManaPanel panelU = new ManaPanel();
 		FlowLayout flowLayout_2 = (FlowLayout) panelU.getLayout();
 		flowLayout_2.setAlignment(FlowLayout.CENTER);
 		panelU.setManaCost("{U}");
-		panel.add(panelU);
+		add(panelU);
 		
 		spinU = new JSpinner();
 		spinU.addChangeListener(new ChangeListener() {
@@ -69,11 +67,13 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinU.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		panel.add(spinU);
+		add(spinU);
 		
 		ManaPanel panelB = new ManaPanel();
+		FlowLayout flowLayout_4 = (FlowLayout) panelB.getLayout();
+		flowLayout_4.setAlignment(FlowLayout.CENTER);
 		panelB.setManaCost("{B}");
-		panel.add(panelB);
+		add(panelB);
 		
 		spinB = new JSpinner();
 		spinB.addChangeListener(new ChangeListener() {
@@ -82,13 +82,13 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinB.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		panel.add(spinB);
+		add(spinB);
 		
 		ManaPanel panelR = new ManaPanel();
 		FlowLayout flowLayout_1 = (FlowLayout) panelR.getLayout();
 		flowLayout_1.setAlignment(FlowLayout.CENTER);
 		panelR.setManaCost("{R}");
-		panel.add(panelR);
+		add(panelR);
 		
 		spinR = new JSpinner();
 		spinR.addChangeListener(new ChangeListener() {
@@ -97,11 +97,13 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinR.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		panel.add(spinR);
+		add(spinR);
 		
 		ManaPanel panelG = new ManaPanel();
+		FlowLayout flowLayout_3 = (FlowLayout) panelG.getLayout();
+		flowLayout_3.setAlignment(FlowLayout.CENTER);
 		panelG.setManaCost("{G}");
-		panel.add(panelG);
+		add(panelG);
 		
 		spinG = new JSpinner();
 		spinG.addChangeListener(new ChangeListener() {
@@ -110,13 +112,13 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinG.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		panel.add(spinG);
+		add(spinG);
 		
 		ManaPanel panelC = new ManaPanel();
 		FlowLayout flowLayout = (FlowLayout) panelC.getLayout();
 		flowLayout.setAlignment(FlowLayout.CENTER);
 		panelC.setManaCost("{C}");
-		panel.add(panelC);
+		add(panelC);
 		
 		spinC = new JSpinner();
 		spinC.addChangeListener(new ChangeListener() {
@@ -125,7 +127,7 @@ public class ManaPoolPanel extends JPanel{
 			}
 		});
 		spinC.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		panel.add(spinC);
+		add(spinC);
 		
 		
 	}

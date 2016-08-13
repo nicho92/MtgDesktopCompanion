@@ -141,74 +141,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 		JPanel lifePanel = new JPanel();
 		lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		panelInfo.add(lifePanel, BorderLayout.NORTH);
-		GridBagLayout gbl_lifePanel = new GridBagLayout();
-		gbl_lifePanel.columnWidths = new int[]{29, 53, 32, 41, 0};
-		gbl_lifePanel.rowHeights = new int[] {0, 25, 0, 0};
-		gbl_lifePanel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_lifePanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		lifePanel.setLayout(gbl_lifePanel);
+						lifePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 						
 						lblPlayer = new JLabel("");
 						lblPlayer.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/planeswalker.png")));
-						GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
-						gbc_lblPlayer.gridwidth = 3;
-						gbc_lblPlayer.insets = new Insets(0, 0, 5, 5);
-						gbc_lblPlayer.gridx = 0;
-						gbc_lblPlayer.gridy = 0;
-						lifePanel.add(lblPlayer, gbc_lblPlayer);
-				
-						
-						JLabel lblLife = new JLabel("");
-						lblLife.setHorizontalAlignment(SwingConstants.CENTER);
-						lblLife.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/heart.png")));
-						GridBagConstraints gbc_lblLife = new GridBagConstraints();
-						gbc_lblLife.anchor = GridBagConstraints.WEST;
-						gbc_lblLife.insets = new Insets(0, 0, 0, 5);
-						gbc_lblLife.gridx = 0;
-						gbc_lblLife.gridy = 2;
-						lifePanel.add(lblLife, gbc_lblLife);
-				
-				spinLife = new JSpinner();
-				spinLife.setFont(new Font("Tahoma", Font.BOLD, 17));
-				GridBagConstraints gbc_spinLife = new GridBagConstraints();
-				gbc_spinLife.insets = new Insets(0, 0, 0, 5);
-				gbc_spinLife.gridx = 1;
-				gbc_spinLife.gridy = 2;
-				lifePanel.add(spinLife, gbc_spinLife);
-				spinLife.addChangeListener(new ChangeListener() {
-					
-					public void stateChanged(ChangeEvent e) {
-						if(player !=null) 
-							player.setLife((int)spinLife.getValue());
-						
-					}
-				});
-				
-				JLabel lblPoison = new JLabel("");
-				lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
-				lblPoison.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/poison.png")));
-				GridBagConstraints gbc_lblPoison = new GridBagConstraints();
-				gbc_lblPoison.anchor = GridBagConstraints.WEST;
-				gbc_lblPoison.insets = new Insets(0, 0, 0, 5);
-				gbc_lblPoison.gridx = 2;
-				gbc_lblPoison.gridy = 2;
-				lifePanel.add(lblPoison, gbc_lblPoison);
-				
-				spinPoison = new JSpinner();
-				spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
-				GridBagConstraints gbc_spinPoison = new GridBagConstraints();
-				gbc_spinPoison.gridx = 3;
-				gbc_spinPoison.gridy = 2;
-				lifePanel.add(spinPoison, gbc_spinPoison);
-				
-				spinPoison.addChangeListener(new ChangeListener() {
-					
-					public void stateChanged(ChangeEvent e) {
-						if(player !=null)
-							player.setPoisonCounter((int)spinPoison.getValue());
-						
-					}
-				});
+						lifePanel.add(lblPlayer);
 		
 		JPanel panelActions = new JPanel();
 		panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -248,7 +185,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 		JButton btnShuffle = new JButton("Shuffle");
 		btnShuffle.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
 				player.shuffleLibrary();
 			}
 		});
@@ -400,6 +336,46 @@ public class GamePanelGUI extends JPanel implements Observer {
 		lblLibraryCount.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/librarysize.png")));
 		panelHandLib.add(lblLibraryCount);
 		
+		JPanel panel = new JPanel();
+		panelPoolandHandsLib.add(panel, BorderLayout.WEST);
+				panel.setLayout(new GridLayout(2, 2, 0, 0));
+		
+				
+				JLabel lblLife = new JLabel("");
+				panel.add(lblLife);
+				lblLife.setHorizontalAlignment(SwingConstants.CENTER);
+				lblLife.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/heart.png")));
+				
+				spinLife = new JSpinner();
+				panel.add(spinLife);
+				spinLife.setFont(new Font("Tahoma", Font.BOLD, 17));
+				
+				JLabel lblPoison = new JLabel("");
+				panel.add(lblPoison);
+				lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
+				lblPoison.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/poison.png")));
+				
+				spinPoison = new JSpinner();
+				panel.add(spinPoison);
+				spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
+				
+				spinPoison.addChangeListener(new ChangeListener() {
+					
+					public void stateChanged(ChangeEvent e) {
+						if(player !=null)
+							player.setPoisonCounter((int)spinPoison.getValue());
+						
+					}
+				});
+				spinLife.addChangeListener(new ChangeListener() {
+					
+					public void stateChanged(ChangeEvent e) {
+						if(player !=null) 
+							player.setLife((int)spinLife.getValue());
+						
+					}
+				});
+		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
 		
@@ -417,6 +393,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelPics.setLayout(new BorderLayout(0, 0));
 		
 		lblThumbnailPics = new JLabel("");
+		lblThumbnailPics.setHorizontalTextPosition(SwingConstants.CENTER);
+		lblThumbnailPics.setHorizontalAlignment(SwingConstants.CENTER);
 		panelPics.add(lblThumbnailPics);
 		
 		btnEndTurn.addActionListener(new ActionListener() {
