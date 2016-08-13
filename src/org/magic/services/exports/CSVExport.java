@@ -15,7 +15,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 
 
-public class CSVExport extends Observable{
+public class CSVExport extends Observable implements DeckExporter{
 
 	String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions"};
 	String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
@@ -96,7 +96,7 @@ public class CSVExport extends Observable{
 			out.close();
 	}
 
-	public void exportDeck(MagicDeck deck, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException{
+	public void export(MagicDeck deck, File f) throws IOException{
 		BufferedWriter bw;
 		FileWriter out;
 		out = new FileWriter(f);
@@ -113,7 +113,12 @@ public class CSVExport extends Observable{
 		for (MagicCard mc : deck.getMap().keySet()){
 			bw.write(deck.getMap().get(mc)+";");
 			for(String k : exportedDeckProperties){
-				String val = BeanUtils.getProperty(mc, k);
+				String val=null;
+				try {
+					val = BeanUtils.getProperty(mc, k);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				if(val==null)
 					val="";
 				bw.write(val.replaceAll("\n", "")+";");
@@ -130,7 +135,12 @@ public class CSVExport extends Observable{
 		for (MagicCard mc : deck.getMapSideBoard().keySet()){
 			bw.write(deck.getMapSideBoard().get(mc)+";");
 			for(String k : exportedDeckProperties){
-				String val = BeanUtils.getProperty(mc, k);
+				String val=null;
+				try {
+					val = BeanUtils.getProperty(mc, k);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 				if(val==null)
 					val="";
 				bw.write(val.replaceAll("\n", "")+";");
@@ -140,6 +150,12 @@ public class CSVExport extends Observable{
 		
 		bw.close();
 		out.close();
+	}
+
+
+	@Override
+	public String getFileExtension() {
+		return ".csv";
 	}
 
 

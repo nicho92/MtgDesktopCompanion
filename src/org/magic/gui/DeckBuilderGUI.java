@@ -61,6 +61,7 @@ import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.ThreadManager;
 import org.magic.services.exports.CocatriceDeckExport;
+import org.magic.services.exports.MTGODeckExport;
 import org.magic.services.exports.CSVExport;
 import org.magic.services.exports.MagicSerializer;
 
@@ -276,6 +277,28 @@ public class DeckBuilderGUI extends JPanel{
 		btnExportCockatrice.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/cockatrice_logo.png")));
 		panneauHaut.add(btnExportCockatrice);
 		
+		JButton btnMtgoExport = new JButton("");
+		btnMtgoExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JFileChooser jf =new JFileChooser(".");
+				jf.setSelectedFile(new File(getDeck().getName()+".dec"));
+				jf.showSaveDialog(null);
+				File f=jf.getSelectedFile();
+				
+				try {
+					MTGODeckExport exp = new MTGODeckExport();
+					exp.export(getDeck(), f);
+					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
+				} catch (Exception e) {
+					logger.error(e);
+					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnMtgoExport.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/mtgo.png")));
+		btnMtgoExport.setToolTipText("Export As MTGO Deck File");
+		panneauHaut.add(btnMtgoExport);
+		
 		scrollResult = new JScrollPane();
 		add(scrollResult, BorderLayout.WEST);
 		
@@ -450,7 +473,7 @@ public class DeckBuilderGUI extends JPanel{
 				
 				try {
 					CSVExport exp = new CSVExport();
-					exp.exportDeck(getDeck(), f);
+					exp.export(getDeck(), f);
 					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					logger.error(e);

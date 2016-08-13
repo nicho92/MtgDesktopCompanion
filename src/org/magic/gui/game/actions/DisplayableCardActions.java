@@ -18,7 +18,7 @@ public class DisplayableCardActions extends MouseAdapter {
 
 	
 	private Player p;
-	
+	/*
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent e) {
 		if(e.getWheelRotation()>0)
@@ -27,7 +27,7 @@ public class DisplayableCardActions extends MouseAdapter {
 			System.out.println("up");
 	}
 	
-	
+	*/
 	
 	public DisplayableCardActions() {
 		this.p=GamePanelGUI.getInstance().getPlayer();

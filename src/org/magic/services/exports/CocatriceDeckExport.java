@@ -7,10 +7,15 @@ import java.io.IOException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 
-public class CocatriceDeckExport {
+public class CocatriceDeckExport implements DeckExporter{
 
 	
-	public static void export(MagicDeck deck , File dest) throws IOException
+	public String getFileExtension()
+	{
+		return ".cod";
+	}
+	
+	public void export(MagicDeck deck , File dest) throws IOException
 	{
 		StringBuffer temp = new StringBuffer();
 		
