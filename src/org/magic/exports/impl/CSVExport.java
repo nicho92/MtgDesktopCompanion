@@ -1,4 +1,4 @@
-package org.magic.services.exports;
+package org.magic.exports.impl;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -12,6 +12,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.DeckExporter;
 import org.magic.api.interfaces.MagicPricesProvider;
 
 
@@ -20,6 +21,11 @@ public class CSVExport extends Observable implements DeckExporter{
 	String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions"};
 	String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
 	String exportedPricesProperties[] = new String[]{ "site","seller","value","currency","language","quality","foil"};
+	
+	@Override
+	public String getName() {
+		return "CSV";
+	}
 	
 	
 	//TODO export card prices catalog
@@ -156,6 +162,13 @@ public class CSVExport extends Observable implements DeckExporter{
 	@Override
 	public String getFileExtension() {
 		return ".csv";
+	}
+
+
+	@Override
+	public MagicDeck importDeck(File f) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 

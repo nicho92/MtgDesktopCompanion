@@ -100,7 +100,6 @@ public class CardAnalyser {
 					token.getSubtypes().add(text.substring(endColor, artifact).trim());
 				else
 					token.getSubtypes().add(text.substring(endColor, creature).trim());
-				token.getSubtypes().add("Token");
 				
 				token.setCost("");
 				for(String c : token.getColors())
@@ -132,6 +131,7 @@ public class CardAnalyser {
 				if(text.substring(0,slash).contains("legendary"))
 					token.getSupertypes().add("Legendary");
 				
+				token.getSupertypes().add("Token");
 				
 				if(with>-1)
 				{

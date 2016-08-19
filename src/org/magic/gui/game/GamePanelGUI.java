@@ -44,10 +44,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.pictures.impl.CockatriceTokenProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
+import org.magic.exports.impl.SerializerDeckExport;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.gui.components.MagicTextPane;
-import org.magic.services.exports.MagicSerializer;
 
 public class GamePanelGUI extends JPanel implements Observer {
 	
@@ -158,7 +158,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 				JFileChooser choose = new JFileChooser(new File(System.getProperty("user.home")+"/magicDeskCompanion/decks"));
 				choose.showOpenDialog(null);
 				try {
-					MagicDeck deck = MagicSerializer.read(choose.getSelectedFile(),MagicDeck.class);
+					MagicDeck deck = SerializerDeckExport.read(choose.getSelectedFile(),MagicDeck.class);
 					
 					Player p = new Player(deck);
 					GameManager.getInstance().addPlayer(p);

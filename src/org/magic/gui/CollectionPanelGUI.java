@@ -52,6 +52,8 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.exports.impl.CSVExport;
+import org.magic.exports.impl.MagicWebSiteGenerator;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MassCollectionImporterDialog;
@@ -68,8 +70,6 @@ import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
-import org.magic.services.exports.CSVExport;
-import org.magic.services.exports.MagicWebSiteGenerator;
 import org.magic.tools.TableColumnAdjuster;
 
 public class CollectionPanelGUI extends JPanel {

@@ -1,4 +1,4 @@
-package org.magic.services.exports;
+package org.magic.api.interfaces;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,5 +10,9 @@ public interface DeckExporter {
 	public String getFileExtension();
 
 	public void export(MagicDeck deck, File dest) throws IOException;
+	
+	public MagicDeck importDeck(File f) throws Exception;
+	
+	public String getName();
 
 }

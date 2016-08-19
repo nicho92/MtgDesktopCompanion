@@ -1,18 +1,24 @@
-package org.magic.services.exports;
+package org.magic.exports.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.DeckExporter;
 
-public class MagicSerializer {
+public class SerializerDeckExport implements DeckExporter  {
 
 	
+	@Override
+	public String getName() {
+		return "MTGDesktopCompanion";
+	}
 	
-	public static void serialize(MagicDeck deck,String name) throws Exception
+	public void export(MagicDeck deck, File name) throws IOException
 	{
 		FileOutputStream fos = new FileOutputStream(name);
 		
@@ -20,14 +26,6 @@ public class MagicSerializer {
 		oos.writeObject(deck);
 		oos.flush();
 		oos.close();
-		
-//		File f = new File(name+".json");
-//		Gson GSON = new Gson();
-//		FileWriter fw = new FileWriter(f.getAbsoluteFile());
-//		BufferedWriter bw = new BufferedWriter(fw);
-//		bw.write(GSON.toJson(deck));
-//		bw.close();
-	
 	}
 
 	public static <T> T read(File f, Class<T> class1) throws Exception {
@@ -38,5 +36,16 @@ public class MagicSerializer {
 		return bean;
 		/*return new Gson().fromJson(new FileReader(f), class1);*/
 	}
-	
+
+	@Override
+	public String getFileExtension() {
+		return ".deck";
+	}
+
+	@Override
+	public MagicDeck importDeck(File f) throws Exception {
+		return read(f, MagicDeck.class);
+	}
+
+
 }

@@ -123,7 +123,8 @@ public class RssGUI extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 				SyndEntry sel = model.getEntryAt(table.getSelectedRow());
-				editorPane.setText(sel.getDescription().getValue());
+				if(sel.getDescription()!=null)
+					editorPane.setText(sel.getDescription().getValue());
 				
 			}
 		});

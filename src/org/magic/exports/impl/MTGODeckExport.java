@@ -1,4 +1,4 @@
-package org.magic.services.exports;
+package org.magic.exports.impl;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -6,10 +6,14 @@ import java.io.IOException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.DeckExporter;
 
 public class MTGODeckExport implements DeckExporter {
 	
-	
+	@Override
+	public String getName() {
+		return "MTGO";
+	}
 	
 	@Override
 	public String getFileExtension()
@@ -40,5 +44,11 @@ public class MTGODeckExport implements DeckExporter {
 		out.close();
 		
 		
+	}
+
+	@Override
+	public MagicDeck importDeck(File f) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

@@ -67,6 +67,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.exports.impl.CSVExport;
+import org.magic.exports.impl.PDFExport;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -85,8 +87,6 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
-import org.magic.services.exports.CSVExport;
-import org.magic.services.exports.PDFExport;
 
 import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;

@@ -7,8 +7,8 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.magic.api.beans.MagicDeck;
+import org.magic.exports.impl.SerializerDeckExport;
 import org.magic.gui.game.GamePanelGUI;
-import org.magic.services.exports.MagicSerializer;
 
 public class GameManager {
 
@@ -81,7 +81,7 @@ public class GameManager {
 		//Player p1 = new Player(System.getProperty("user.name"), 20,MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Jund.deck"), MagicDeck.class));
 		//Player p2 = new Player("Player 2", 20,MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Mr Toad's Wild Ride.deck"), MagicDeck.class));
 		
-		Player p1 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/Jeskai mentor.deck"), MagicDeck.class));
+		Player p1 = new Player(SerializerDeckExport.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/Jeskai mentor.deck"), MagicDeck.class));
 		//Player p2 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/Jeskai mentor.deck"), MagicDeck.class));
 		
 		GameManager.getInstance().addPlayer(p1);

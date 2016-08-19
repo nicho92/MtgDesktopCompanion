@@ -44,6 +44,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.exports.impl.CSVExport;
+import org.magic.exports.impl.CocatriceDeckExport;
+import org.magic.exports.impl.MTGODeckExport;
+import org.magic.exports.impl.SerializerDeckExport;
 import org.magic.game.Player;
 import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -60,10 +64,6 @@ import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.ThreadManager;
-import org.magic.services.exports.CocatriceDeckExport;
-import org.magic.services.exports.MTGODeckExport;
-import org.magic.services.exports.CSVExport;
-import org.magic.services.exports.MagicSerializer;
 
 public class DeckBuilderGUI extends JPanel{
 	
@@ -187,7 +187,7 @@ public class DeckBuilderGUI extends JPanel{
 					
 					File f = choose.getSelectedFile();
 					
-					deck = MagicSerializer.read(f,MagicDeck.class);
+					deck = SerializerDeckExport.read(f,MagicDeck.class);
 					deckDetailsPanel.setMagicDeck(deck);
 					deckmodel.load(deck);
 					deckSidemodel.load(deck);
@@ -221,8 +221,9 @@ public class DeckBuilderGUI extends JPanel{
 					if(!deckDirectory.exists())
 						deckDirectory.mkdir();
 					
+					SerializerDeckExport serialis = new SerializerDeckExport();
 					
-					MagicSerializer.serialize(deck, deckDirectory+"/"+name+".deck");
+					serialis.export(deck, new File(deckDirectory+"/"+name+serialis.getFileExtension()));
 					dao.saveDeck(deck);
 					
 				}

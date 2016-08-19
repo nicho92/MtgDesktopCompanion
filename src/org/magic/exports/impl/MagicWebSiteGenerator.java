@@ -1,4 +1,4 @@
-package org.magic.services.exports;
+package org.magic.exports.impl;
 
 import java.io.File;
 import java.io.FileFilter;
