@@ -65,10 +65,10 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
+import org.magic.api.exports.impl.CSVExport;
+import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.exports.impl.CSVExport;
-import org.magic.exports.impl.PDFExport;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -890,7 +890,7 @@ public class MagicGUI extends JFrame {
 								f=new File("temp.pdf");
 
 							loading(false,"exporting pdf");
-							PDFExport.export(cards,f);
+							new PDFExport().export(cards,f);
 							loading(false,"");
 							JOptionPane.showMessageDialog(null, "Export PDF Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
 

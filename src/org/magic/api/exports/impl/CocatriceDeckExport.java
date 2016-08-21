@@ -1,15 +1,27 @@
-package org.magic.exports.impl;
+package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
+
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.DeckExporter;
+import org.magic.api.interfaces.CardExporter;
+import org.magic.gui.DeckBuilderGUI;
 
-public class CocatriceDeckExport implements DeckExporter{
+public class CocatriceDeckExport implements CardExporter{
 
+	private boolean enable;
+	
+	@Override
+	public void enable(boolean b) {
+		this.enable=b;
+		
+	}
 	@Override
 	public String getName() {
 		return "Cockatrice";
@@ -57,4 +69,20 @@ public class CocatriceDeckExport implements DeckExporter{
 		// TODO Auto-generated method stub
 		return null;
 	}
+	
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
+	@Override
+	public void export(List<MagicCard> cards, File f) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(CocatriceDeckExport.class.getResource("/res/cockatrice_logo.png"));
+	}
+	
 }

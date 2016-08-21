@@ -18,6 +18,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
@@ -35,6 +36,7 @@ public class MagicFactory {
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private List<DashBoard> dashboards;
+	private ArrayList<CardExporter> exports;
 	
 	static final Logger logger = LogManager.getLogger(MagicFactory.class.getName());
 	
@@ -63,6 +65,9 @@ public class MagicFactory {
 			
 			}else if (k instanceof DashBoard) {
 				path = "dashboards/dashboard[class='"+k.getClass().getName()+"']/enable";
+			}
+			else if (k instanceof CardExporter) {
+				path = "deckexports/export[class='"+k.getClass().getName()+"']/enable";
 			}
 			else if (k instanceof RSSBean) {
 				path = "rss";
@@ -167,6 +172,16 @@ public class MagicFactory {
 				dashboards.add(prov);
 			}
 			
+			logger.info("loading Deck Exports");
+			exports=new ArrayList<CardExporter>();
+			for(int i=1;i<=config.getList("//export/class").size();i++)
+			{
+				String s = config.getString("deckexports/export["+i+"]/class");
+				CardExporter prov = loadItem(CardExporter.class, s.toString());
+						 prov.enable(config.getBoolean("deckexports/export["+i+"]/enable"));
+						 exports.add(prov);
+			}
+			
 		} catch (Exception e) {
 		logger.error(e);
 		}
@@ -241,6 +256,21 @@ public class MagicFactory {
 		return dashboards;
 	}
 
+	
+	public List<CardExporter> getDeckExports()
+	{
+		return exports;
+	}
+	
+	public List<CardExporter> getEnabledDeckExports() {
+		List<CardExporter> enable = new ArrayList<CardExporter>();
+		for(CardExporter p : getDeckExports())
+			if(p.isEnable())
+				enable.add(p);
+		
+		return enable;
+	}
+	
 	public List<RSSBean> getRss() {
 		List<RSSBean> list = new ArrayList<>();
 		

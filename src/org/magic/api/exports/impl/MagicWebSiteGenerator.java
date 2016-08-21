@@ -1,4 +1,4 @@
-package org.magic.exports.impl;
+package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -21,6 +21,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.services.MagicFactory;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
@@ -40,14 +41,14 @@ public class MagicWebSiteGenerator extends Observable{
 	private List<MagicPricesProvider> pricesProvider;
 	private List<MagicCollection> cols;
 	
-	public MagicWebSiteGenerator(MagicDAO dao,String template,String dest) throws IOException, ClassNotFoundException, SQLException {
+	public MagicWebSiteGenerator(String template,String dest) throws IOException, ClassNotFoundException, SQLException {
 		cfg = new Configuration(Configuration.VERSION_2_3_23);
 		cfg.setDirectoryForTemplateLoading(new File("./templates"+"/"+template));
 		cfg.setDefaultEncoding("UTF-8");
 		//cfg.setNumberFormat("#");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER );
 		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_23).build());
-		this.dao=dao;
+		dao=MagicFactory.getInstance().getEnabledDAO();
 		this.dest = dest;
 		FileUtils.copyDirectory(new File("./templates/"+template), new File(dest),new FileFilter() {
 			public boolean accept(File pathname) {

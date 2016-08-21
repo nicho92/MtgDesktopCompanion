@@ -1,8 +1,10 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -22,8 +24,10 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
@@ -42,12 +46,11 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.exports.impl.CSVExport;
+import org.magic.api.exports.impl.MTGDesktopCompanionExport;
+import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.exports.impl.CSVExport;
-import org.magic.exports.impl.CocatriceDeckExport;
-import org.magic.exports.impl.MTGODeckExport;
-import org.magic.exports.impl.SerializerDeckExport;
 import org.magic.game.Player;
 import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -63,6 +66,7 @@ import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
 
 public class DeckBuilderGUI extends JPanel{
@@ -187,7 +191,7 @@ public class DeckBuilderGUI extends JPanel{
 					
 					File f = choose.getSelectedFile();
 					
-					deck = SerializerDeckExport.read(f,MagicDeck.class);
+					deck = new MTGDesktopCompanionExport().importDeck(f);
 					deckDetailsPanel.setMagicDeck(deck);
 					deckmodel.load(deck);
 					deckSidemodel.load(deck);
@@ -221,7 +225,7 @@ public class DeckBuilderGUI extends JPanel{
 					if(!deckDirectory.exists())
 						deckDirectory.mkdir();
 					
-					SerializerDeckExport serialis = new SerializerDeckExport();
+					MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
 					
 					serialis.export(deck, new File(deckDirectory+"/"+name+serialis.getFileExtension()));
 					dao.saveDeck(deck);
@@ -248,57 +252,45 @@ public class DeckBuilderGUI extends JPanel{
 		});
 		panneauHaut.add(btnManualImport);
 		
-		JButton btnExportPDF = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/pdf.png")));
-		btnExportPDF.setToolTipText("Export as PDF");
-		panneauHaut.add(btnExportPDF);
-		
-		JButton btnExportAsCsv = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/xls.png")));
-		btnExportAsCsv.setToolTipText("Export as CSV");
-		panneauHaut.add(btnExportAsCsv);
-		
-		JButton btnExportCockatrice = new JButton("");
-		btnExportCockatrice.setToolTipText("Export as cockatrice deck");
-		btnExportCockatrice.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jf =new JFileChooser(".");
-				jf.setSelectedFile(new File(getDeck().getName()+".cod"));
-				jf.showSaveDialog(null);
-				File f=jf.getSelectedFile();
+		JButton btnExports = new JButton();
+		btnExports.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/export.png")));
+		btnExports.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				JPopupMenu menu = new JPopupMenu();
 				
-				try {
-					CocatriceDeckExport exp = new CocatriceDeckExport();
-					exp.export(getDeck(), f);
-					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					logger.error(e);
-					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+				for(final CardExporter exp : MagicFactory.getInstance().getEnabledDeckExports())
+				{
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							JFileChooser jf =new JFileChooser(".");
+							jf.setSelectedFile(new File(getDeck().getName()+exp.getFileExtension()));
+							jf.showSaveDialog(null);
+							File f=jf.getSelectedFile();
+							
+							try {
+								exp.export(getDeck(), f);
+								JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
+							} catch (Exception e) {
+								logger.error(e);
+								JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					});
+					
+					menu.add(it);
 				}
+				
+				Component b=(Component)ae.getSource();
+				System.out.println(b);
+		        Point p=b.getLocationOnScreen();
+		        menu.show(b,0,0);
+		        menu.setLocation(p.x,p.y+b.getHeight());
 			}
 		});
-		btnExportCockatrice.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/cockatrice_logo.png")));
-		panneauHaut.add(btnExportCockatrice);
-		
-		JButton btnMtgoExport = new JButton("");
-		btnMtgoExport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser jf =new JFileChooser(".");
-				jf.setSelectedFile(new File(getDeck().getName()+".dec"));
-				jf.showSaveDialog(null);
-				File f=jf.getSelectedFile();
-				
-				try {
-					MTGODeckExport exp = new MTGODeckExport();
-					exp.export(getDeck(), f);
-					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					logger.error(e);
-					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
-				}
-			}
-		});
-		btnMtgoExport.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/mtgo.png")));
-		btnMtgoExport.setToolTipText("Export As MTGO Deck File");
-		panneauHaut.add(btnMtgoExport);
+		panneauHaut.add(btnExports);
 		
 		scrollResult = new JScrollPane();
 		add(scrollResult, BorderLayout.WEST);
@@ -465,31 +457,6 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		panel.add(btnDrawAHand);
-		
-		btnExportAsCsv.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				JFileChooser jf =new JFileChooser();
-				jf.showSaveDialog(null);
-				File f=jf.getSelectedFile();
-				
-				try {
-					CSVExport exp = new CSVExport();
-					exp.export(getDeck(), f);
-					JOptionPane.showMessageDialog(null, "Export Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					logger.error(e);
-					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
-				}
-				
-			}
-		});
-		
-		btnExportPDF.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-					JOptionPane.showMessageDialog(null, "Not implemented yet","Error",JOptionPane.ERROR_MESSAGE);
-				
-			}
-		});
 		
 		listResult.addMouseListener(new MouseAdapter() {
 			

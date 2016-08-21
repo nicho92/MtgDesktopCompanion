@@ -1,4 +1,4 @@
-package org.magic.exports.impl;
+package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -6,12 +6,30 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.DeckExporter;
+import org.magic.api.interfaces.CardExporter;
 
-public class SerializerDeckExport implements DeckExporter  {
+public class MTGDesktopCompanionExport implements CardExporter  {
 
+private boolean enable;
+	
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
+
+
+	@Override
+	public void enable(boolean b) {
+		this.enable=b;
+		
+	}
 	
 	@Override
 	public String getName() {
@@ -28,7 +46,7 @@ public class SerializerDeckExport implements DeckExporter  {
 		oos.close();
 	}
 
-	public static <T> T read(File f, Class<T> class1) throws Exception {
+	private <T> T read(File f, Class<T> class1) throws Exception {
 		FileInputStream fos = new FileInputStream(f);
 		ObjectInputStream oos = new ObjectInputStream(fos);
 		T bean = (T)oos.readObject();
@@ -45,6 +63,19 @@ public class SerializerDeckExport implements DeckExporter  {
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
 		return read(f, MagicDeck.class);
+	}
+
+
+	@Override
+	public void export(List<MagicCard> cards, File f) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/res/logo.gif"));
 	}
 
 

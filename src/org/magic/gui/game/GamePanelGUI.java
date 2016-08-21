@@ -42,9 +42,9 @@ import javax.swing.event.ChangeListener;
 import org.magic.api.analyzer.CardAnalyser;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.pictures.impl.CockatriceTokenProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.exports.impl.SerializerDeckExport;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.gui.components.MagicTextPane;
@@ -158,7 +158,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 				JFileChooser choose = new JFileChooser(new File(System.getProperty("user.home")+"/magicDeskCompanion/decks"));
 				choose.showOpenDialog(null);
 				try {
-					MagicDeck deck = SerializerDeckExport.read(choose.getSelectedFile(),MagicDeck.class);
+					MagicDeck deck = new MTGDesktopCompanionExport().importDeck(choose.getSelectedFile());
 					
 					Player p = new Player(deck);
 					GameManager.getInstance().addPlayer(p);

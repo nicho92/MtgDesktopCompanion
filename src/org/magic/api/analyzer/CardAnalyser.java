@@ -28,7 +28,7 @@ public class CardAnalyser {
 		
 		String text = mc.getText();
 		
-		int start = text.indexOf("You get an emblem with \"")+"You get an emblem with \"".length();
+		int start = text.indexOf(" an emblem with \"")+" an emblem with \"".length();
 		int end = text.indexOf("\"", start);
 		emblem.setText(text.substring(start, end));
 		

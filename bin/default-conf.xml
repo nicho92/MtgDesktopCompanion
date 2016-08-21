@@ -79,6 +79,24 @@
 			<enable>true</enable>
 		</dashboard>
 	</dashboards>
+	<deckexports>
+		<export>
+			<class>org.magic.api.exports.impl.CocatriceDeckExport</class>
+			<enable>true</enable>
+		</export>
+		<export>
+			<class>org.magic.api.exports.impl.CSVExport</class>
+			<enable>true</enable>
+		</export>
+		<export>
+			<class>org.magic.api.exports.impl.PDFExport</class>
+			<enable>true</enable>
+		</export>
+		<export>
+			<class>org.magic.api.exports.impl.MTGDesktopCompanionExport</class>
+			<enable>true</enable>
+		</export>
+	</deckexports>
 	<rss>
 		<flux>
 			<category>Spoil</category>

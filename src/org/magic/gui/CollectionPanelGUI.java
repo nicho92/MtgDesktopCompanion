@@ -50,10 +50,10 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.exports.impl.CSVExport;
+import org.magic.api.exports.impl.MagicWebSiteGenerator;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.exports.impl.CSVExport;
-import org.magic.exports.impl.MagicWebSiteGenerator;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MassCollectionImporterDialog;
@@ -530,7 +530,7 @@ public class CollectionPanelGUI extends JPanel {
 								progressBar.setMaximum(max);
 								progressBar.setValue(0);
 
-								MagicWebSiteGenerator gen = new MagicWebSiteGenerator(dao, diag.getTemplate(),
+								MagicWebSiteGenerator gen = new MagicWebSiteGenerator( diag.getTemplate(),
 										diag.getDest().getAbsolutePath());
 
 								gen.addObserver(new Observer() {
