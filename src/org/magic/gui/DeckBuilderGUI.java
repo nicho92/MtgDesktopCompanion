@@ -85,6 +85,8 @@ public class DeckBuilderGUI extends JPanel{
 	private DeckModel deckSidemodel;
 	private DeckModel deckmodel ;
 	
+	private JButton btnExports;
+	
 	private MagicCardsProvider provider;
 	private MagicDeck deck;
 	
@@ -252,7 +254,9 @@ public class DeckBuilderGUI extends JPanel{
 		});
 		panneauHaut.add(btnManualImport);
 		
-		JButton btnExports = new JButton();
+		btnExports = new JButton();
+		btnExports.setEnabled(false);
+		btnExports.setToolTipText("Export as");
 		btnExports.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/export.png")));
 		btnExports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -594,7 +598,7 @@ public class DeckBuilderGUI extends JPanel{
 		typeRepartitionPanel.init(deck);
 		manaRepartitionPanel.init(deck);;
 		rarityRepartitionPanel.init(deck);
-		
+		btnExports.setEnabled(true);
 		
 	}	
 }
