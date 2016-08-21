@@ -288,7 +288,6 @@ public class DeckBuilderGUI extends JPanel{
 				}
 				
 				Component b=(Component)ae.getSource();
-				System.out.println(b);
 		        Point p=b.getLocationOnScreen();
 		        menu.show(b,0,0);
 		        menu.setLocation(p.x,p.y+b.getHeight());

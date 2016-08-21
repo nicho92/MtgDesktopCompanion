@@ -24,6 +24,11 @@ private boolean enable;
 		return enable;
 	}
 
+	@Override
+	public String toString() {
+		return getName();
+	}
+
 
 	@Override
 	public void enable(boolean b) {

@@ -85,4 +85,10 @@ public class CocatriceDeckExport implements CardExporter{
 		return new ImageIcon(CocatriceDeckExport.class.getResource("/res/cockatrice_logo.png"));
 	}
 	
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 }

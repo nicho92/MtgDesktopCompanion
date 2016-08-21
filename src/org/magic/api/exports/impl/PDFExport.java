@@ -39,6 +39,12 @@ public class PDFExport implements CardExporter{
 	}
 	
 	@Override
+	public String toString() {
+		return getName();
+	}
+
+	
+	@Override
 	public boolean isEnable() {
 		return enable;
 	}

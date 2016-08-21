@@ -20,6 +20,7 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.gui.models.DashBoardProviderTreeTableModel;
+import org.magic.gui.models.ExportsTableModel;
 import org.magic.gui.models.MagicDAOProvidersTableModel;
 import org.magic.gui.models.MagicPricesProvidersTableModel;
 import org.magic.gui.models.MagicShoppersTableModel;
@@ -35,7 +36,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable shopperTreeTable;
 	private JXTreeTable dashboardTreeTable;
 	private JXTable rssTable;
-	
+	private JTable exportsTable;
 	
 	public ConfigurationPanelGUI() {
 		
@@ -66,6 +67,8 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		cardsProviderTable = new JTable();
 		cardsProvidersScrollPane.setViewportView(cardsProviderTable);
+		
+		
 		
 		JScrollPane priceProviderScrollPane = new JScrollPane();
 		subTabbedProviders.addTab("Pricers", null, priceProviderScrollPane, null);
@@ -106,6 +109,13 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		});
 		shopperScrollPane.setViewportView(shopperTreeTable);
+		
+		JScrollPane exportsScrollPane = new JScrollPane();
+		subTabbedProviders.addTab("Exports", null, exportsScrollPane, null);
+		exportsTable = new JTable();
+		exportsScrollPane.setViewportView(exportsTable);
+		exportsTable.setModel(new ExportsTableModel());
+	
 		
 		JScrollPane dashboardScrollPane = new JScrollPane();
 		subTabbedProviders.addTab("DashBoards", null, dashboardScrollPane, null);

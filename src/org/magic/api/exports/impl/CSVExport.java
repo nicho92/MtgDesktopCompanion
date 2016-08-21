@@ -29,6 +29,12 @@ public class CSVExport extends Observable implements CardExporter{
 	private boolean enable;
 
 	@Override
+	public String toString() {
+		return getName();
+	}
+
+	
+	@Override
 	public void enable(boolean b) {
 		this.enable=b;
 

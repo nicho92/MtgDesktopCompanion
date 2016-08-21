@@ -67,9 +67,7 @@ public class DeckModel extends DefaultTableModel {
 			case SIDE : mc = deck.getSideValueAt(row);break;
 			default : mc = deck.getValueAt(row);break;
 		}
-		
-		
- 
+
 		if(column==0)
 			return mc;
 		
