@@ -20,19 +20,6 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 	
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		{
-		/*	Color c;
-			if (isSelected) {
-			    c=table.getSelectionBackground();
-			}
-			else {
-			    if ( row % 2 == 0 ) {
-			    	c=UIManager.getColor("Table.alternateRowColor");
-			    } else { 
-			    	c=table.getBackground();
-			    }
-			}
-			
-			*/
 			if(((Double)value).doubleValue()>0)
 				comp = new JLabel(value.toString(), up,JLabel.CENTER);
 			
@@ -42,13 +29,8 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 			if(((Double)value).doubleValue()==0)
 				comp=new JLabel(value.toString(),JLabel.CENTER);
 			
-			
-		//	comp.setBackground(c);
 			comp.setOpaque(false);
 			return comp;
-		
-			//return super.getTableCellRendererComponent(table, 0, isSelected,hasFocus, row, column);
-			
 		}
 	}
 	

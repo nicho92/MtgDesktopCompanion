@@ -19,14 +19,14 @@ import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
-import org.magic.gui.models.DashBoardProviderTreeTableModel;
-import org.magic.gui.models.ExportsTableModel;
-import org.magic.gui.models.MagicDAOProvidersTableModel;
-import org.magic.gui.models.MagicPricesProvidersTableModel;
-import org.magic.gui.models.MagicShoppersTableModel;
-import org.magic.gui.models.ProvidersTableModel;
-import org.magic.gui.models.RssBeanTableModel;
-import org.magic.gui.models.SystemTableModel;
+import org.magic.gui.models.conf.DashBoardProviderTreeTableModel;
+import org.magic.gui.models.conf.ExportsTableModel;
+import org.magic.gui.models.conf.MagicDAOProvidersTableModel;
+import org.magic.gui.models.conf.MagicPricesProvidersTableModel;
+import org.magic.gui.models.conf.MagicShoppersTableModel;
+import org.magic.gui.models.conf.ProvidersTableModel;
+import org.magic.gui.models.conf.RssBeanTableModel;
+import org.magic.gui.models.conf.SystemTableModel;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable table;

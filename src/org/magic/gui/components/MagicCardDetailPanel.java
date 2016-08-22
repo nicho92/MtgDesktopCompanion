@@ -65,6 +65,8 @@ public class MagicCardDetailPanel extends JPanel {
 	static final Logger logger = LogManager.getLogger(MagicCardDetailPanel.class.getName());
 	private JTextField rarityJTextField;
 	 
+	GridBagLayout gridBagLayout ;
+	
 	
 	public void enableThumbnail(boolean val)
 	{
@@ -79,7 +81,7 @@ public class MagicCardDetailPanel extends JPanel {
 
 	public MagicCardDetailPanel() {
 		
-		GridBagLayout gridBagLayout = new GridBagLayout();
+		gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 77, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };

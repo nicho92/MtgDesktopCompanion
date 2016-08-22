@@ -231,7 +231,8 @@ public class DashBoardGUI extends JPanel {
 				String cardName = table.getValueAt(row, 0).toString();
 				
 				String edID = table.getValueAt(row, 1).toString();
-			    MagicEdition ed = new MagicEdition();
+				
+				MagicEdition ed = new MagicEdition();
 				ed.setId(edID);
 				try 
 				{
@@ -266,20 +267,16 @@ public class DashBoardGUI extends JPanel {
 				tableStandard.setModel(modStandard);
 				tableStandard.setRowSorter(new TableRowSorter(modStandard) );
 				modStandard.fireTableDataChanged();
-
 				
 				modLegacy.init(AbstractDashBoard.FORMAT.legacy);
 				tableLegacy.setModel(modLegacy);
 				tableLegacy.setRowSorter(new TableRowSorter(modLegacy) );
 				modLegacy.fireTableDataChanged();
 			
-				
 				modModern.init(AbstractDashBoard.FORMAT.modern);
 				tableModern.setModel(modModern);
 				tableModern.setRowSorter(new TableRowSorter(modModern) );
 				modModern.fireTableDataChanged();
-				
-				
 				
 				modVintage.init(AbstractDashBoard.FORMAT.vintage);
 				tableVintage.setModel(modVintage);
@@ -288,7 +285,7 @@ public class DashBoardGUI extends JPanel {
 				
 				
 				List<SortKey> keys = new ArrayList<SortKey>();
-				SortKey sortKey = new SortKey(2, SortOrder.DESCENDING);//column index 2
+				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);//column index 2
 				keys.add(sortKey);
 				
 				((TableRowSorter)tableVintage.getRowSorter()).setSortKeys(keys);

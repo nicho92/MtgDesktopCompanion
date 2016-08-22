@@ -15,6 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -99,7 +100,7 @@ public class MagicGUI extends JFrame {
 
 	private static final int INDEX_PRICES = 2;
 
-	TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/bottom.png")));
+	TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public final SystemTray tray = SystemTray.getSystemTray();
 
 	private MagicCard selected;

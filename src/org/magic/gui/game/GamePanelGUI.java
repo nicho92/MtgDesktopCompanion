@@ -165,9 +165,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 					GameManager.getInstance().initGame();
 					GameManager.getInstance().nextTurn();
 					setPlayer(p);
-					handPanel.removeAll();
-					panelBattleField.removeAll();
-					panelGrave.removeAll();
+					clean();
 
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -500,7 +498,24 @@ public class GamePanelGUI extends JPanel implements Observer {
 		lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));
 	}
 
-
+	private void clean() {
+		handPanel.removeAll();
+		panelBattleField.removeAll();
+		panelGrave.removeAll();
+	
+		handPanel.revalidate();
+		panelBattleField.revalidate();
+		panelGrave.revalidate();
+		
+		handPanel.repaint();
+		panelBattleField.repaint();
+		panelGrave.repaint();
+		
+		
+		lblHandCount.setText(String.valueOf(player.getHand().size()));
+		lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));
+		
+	}
 
 	public Player getPlayer() {
 		return player;

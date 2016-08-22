@@ -1,28 +1,28 @@
-package org.magic.gui.models;
+package org.magic.gui.models.conf;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MagicFactory;
 
-public class MagicPricesProvidersTableModel extends AbstractTreeTableModel 
+public class MagicDAOProvidersTableModel extends AbstractTreeTableModel 
 {
-    private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
-    private MagicPricesProvider selectedProvider = null;
-    private Set<MagicPricesProvider> pricers = MagicFactory.getInstance().getSetPricers();
-    static final Logger logger = LogManager.getLogger(MagicPricesProvidersTableModel.class.getName());
+    private final static String[] COLUMN_NAMES = {"DBProvider","Value","Enabled"};
+    private MagicDAO selectedProvider = null;
+    private List<MagicDAO> daos = MagicFactory.getInstance().getDaoProviders();
+    static final Logger logger = LogManager.getLogger(MagicDAOProvidersTableModel.class.getName());
 
     
     
-    public MagicPricesProvidersTableModel() {
+    public MagicDAOProvidersTableModel() {
         super(new Object());
         
     }
@@ -55,24 +55,24 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
 
     @Override
     public int getChildCount(Object parent) {
-        if (parent instanceof MagicPricesProvider) {
-        	MagicPricesProvider dept = (MagicPricesProvider) parent;
+        if (parent instanceof MagicDAO) {
+        	MagicDAO dept = (MagicDAO) parent;
             return dept.getProperties().size();
         }
-        return pricers.size();
+        return daos.size();
     }
 
     @Override
     public Object getChild(Object parent, int index) 
     {
-    	  if (parent instanceof MagicPricesProvider) {
-        	MagicPricesProvider dept = (MagicPricesProvider) parent;
+    	  if (parent instanceof MagicDAO) {
+    		  MagicDAO dept = (MagicDAO) parent;
             return getPropByIndex(dept,index);
         }
-        return new ArrayList(pricers).get(index);
+        return new ArrayList(daos).get(index);
     }
 
-    private Entry<String,Object> getPropByIndex(MagicPricesProvider dept, int index)
+    private Entry<String,Object> getPropByIndex(MagicDAO dept, int index)
     {
     	return (Map.Entry<String,Object>)dept.getProperties().entrySet().toArray()[index];
     }
@@ -81,7 +81,7 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
     // This is not called in the JTree's default mode: use a native implementation.
     @Override
     public int getIndexOfChild(Object parent, Object child) {
-    	MagicPricesProvider dept = (MagicPricesProvider) parent;
+    	MagicDAO dept = (MagicDAO) parent;
         Entry k = (Entry) child;
         return getPosition(k,dept.getProperties());
     }
@@ -98,9 +98,9 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
 
     @Override
     public Object getValueAt(Object node, int column) {
-       if (node instanceof MagicPricesProvider) 
+       if (node instanceof MagicDAO) 
        {
-    	   MagicPricesProvider prov = (MagicPricesProvider) node;
+    	   MagicDAO prov = (MagicDAO) node;
             switch (column) {
                 case 0:return prov.getName();
                 case 2: return prov.isEnable();
@@ -125,20 +125,24 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
     	
         String strValue = String.valueOf(value);
         
-        if(node instanceof MagicPricesProvider )
+        if(node instanceof MagicDAO )
         {
-        	selectedProvider=(MagicPricesProvider)node;
+        	selectedProvider=(MagicDAO)node;
         	if(column==2)
         	{
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
         		MagicFactory.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+        		
         	}
         }
         if(node instanceof Entry )
 	        if(column==1)
 	    	{
 	        	String k = (String)((Entry)node).getKey();
-	        	selectedProvider.setProperties(k, strValue);
+	        	selectedProvider.getProperties().put(k, strValue);
+	        	//pricers.add(selectedProvider);
+	        	
+	        	
 	        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
 	        	selectedProvider.save();
 	    	}    
@@ -155,7 +159,7 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
 
 
 
-	public void setSelectedNode(MagicPricesProvider pathComponent) {
+	public void setSelectedNode(MagicDAO pathComponent) {
 		selectedProvider=pathComponent;
 	}
     
