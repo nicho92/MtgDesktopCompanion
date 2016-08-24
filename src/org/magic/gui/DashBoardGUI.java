@@ -163,12 +163,6 @@ public class DashBoardGUI extends JPanel {
 		lblVintage.setHorizontalAlignment(SwingConstants.CENTER);
 		panel_4.add(lblVintage, BorderLayout.NORTH);
 		
-		new TableFilterHeader(tableVintage, AutoChoices.ENABLED);
-		new TableFilterHeader(tableModern, AutoChoices.ENABLED);
-		new TableFilterHeader(tableStandard, AutoChoices.ENABLED);
-		new TableFilterHeader(tableLegacy, AutoChoices.ENABLED);
-		new TableFilterHeader(tableEdition, AutoChoices.ENABLED);
-		
 		
 		
 		JPanel panneauHaut = new JPanel();
@@ -207,6 +201,15 @@ public class DashBoardGUI extends JPanel {
 		tableEdition = new JTable(modEdition);
 		
 		scrollPane.setViewportView(tableEdition);
+		
+		
+		new TableFilterHeader(tableVintage, AutoChoices.ENABLED);
+		new TableFilterHeader(tableModern, AutoChoices.ENABLED);
+		new TableFilterHeader(tableStandard, AutoChoices.ENABLED);
+		new TableFilterHeader(tableLegacy, AutoChoices.ENABLED);
+		new TableFilterHeader(tableEdition, AutoChoices.ENABLED);
+		
+
 		
 		update();
 		

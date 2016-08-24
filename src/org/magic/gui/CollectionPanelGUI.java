@@ -196,8 +196,7 @@ public class CollectionPanelGUI extends JPanel {
 		panneauHaut.add(btnMassCollection);
 		panneauHaut.add(btnExportCSV);
 
-		final JButton btnExportPriceCatalog = new JButton(
-				new ImageIcon(CollectionPanelGUI.class.getResource("/res/euro.png")));
+		final JButton btnExportPriceCatalog = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/euro.png")));
 		btnExportPriceCatalog.setToolTipText("Export prices catalog for collection");
 		btnExportPriceCatalog.setEnabled(false);
 

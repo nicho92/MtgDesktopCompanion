@@ -768,8 +768,7 @@ public class MagicGUI extends JFrame {
 						thumbnailPanel.initThumbnails( provider.openBooster(selectedEdition));
 
 					} catch (Exception e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
+						logger.error(e);
 					}
 				}
 			});

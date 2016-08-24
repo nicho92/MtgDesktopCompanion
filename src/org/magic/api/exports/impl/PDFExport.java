@@ -115,8 +115,7 @@ public class PDFExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		throw new Exception("Can't generate deck from PDF");
 	}
 
 

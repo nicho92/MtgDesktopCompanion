@@ -1,6 +1,8 @@
 package org.magic.api.exports.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -10,6 +12,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.DeckBuilderGUI;
@@ -61,9 +64,41 @@ public class MTGODeckExport extends AbstractCardExport  {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public MagicDeck importDeck(File f) throws Exception {
+		BufferedReader read = new BufferedReader(new FileReader(f));
+		MagicDeck deck = new MagicDeck();
+		
+		String line = read.readLine();
+		
+		while(line!=null)
+		{
+			if(!line.startsWith("//") && line.length()>0)
+			{
+				int sep = line.indexOf(" ");
+				String name = line.substring(sep, line.length()).trim();
+				String qte =  line.substring(0, sep).trim();
+			
+				if(line.startsWith("SB: "))
+				{
+					line=line.replaceAll("SB: ", "");
+					sep = line.indexOf(" ");
+					name = line.substring(sep, line.length()).trim();
+					qte =  line.substring(0, sep).trim();
+					List<MagicCard> list = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null);
+					deck.getMapSideBoard().put(list.get(0),Integer.parseInt(qte));
+				}
+				else
+				{
+					List<MagicCard> list = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null);
+					deck.getMap().put(list.get(0),Integer.parseInt(qte));
+				}
+			}
+			line=read.readLine();
+			
+		}
+		
+		read.close();
+		return deck;
 	}
 
 

@@ -39,7 +39,7 @@ public class PriceCatalogExportDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		txtDest = new JTextField(new File(".").getAbsolutePath()+selectedcol.getName()+".csv");
+		txtDest = new JTextField(new File(MagicFactory.CONF_DIR,selectedcol.getName()+".csv").getAbsolutePath());
 		
 		panel.add(txtDest);
 		txtDest.setColumns(20);

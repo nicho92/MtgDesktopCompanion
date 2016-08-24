@@ -1,7 +1,9 @@
 package org.magic.api.exports.impl;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -14,6 +16,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicPricesProvider;
@@ -42,8 +45,9 @@ public class CSVExport extends AbstractCardExport{
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("exportedProperties", "number,name,cost,supertypes,types,subtypes,editions");
-			props.put("exportedDeckProperties", "name,cost,supertypes,types,subtypes,editions");
+			props.put("exportedDeckProperties", "name,cost,supertypes,types,subtypes,editions[0].id");
 			props.put("exportedPricesProperties", "site,seller,value,currency,language,quality,foil");
+			props.put("importDeckCharSeparator", ";");
 			save();
 		}
 	}
@@ -94,6 +98,7 @@ public class CSVExport extends AbstractCardExport{
 		out.close();
 	}
 
+	@Override
 	public void export(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
 		BufferedWriter bw;
 		FileWriter out;
@@ -119,6 +124,7 @@ public class CSVExport extends AbstractCardExport{
 		out.close();
 	}
 
+	@Override
 	public void export(MagicDeck deck, File f) throws IOException{
 		
 		exportedDeckProperties=getProperty("exportedDeckProperties").toString().split(",");
@@ -186,9 +192,29 @@ public class CSVExport extends AbstractCardExport{
 
 
 	@Override
-	public MagicDeck importDeck(File f) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public MagicDeck importDeck(File f) throws Exception {
+		BufferedReader read = new BufferedReader(new FileReader(f));
+		MagicDeck deck = new MagicDeck();
+		
+		String line = read.readLine();
+		
+		while(line!=null)
+		{
+			String part[]= line.split(getProperty("importDeckCharSeparator").toString());
+			String name = part[0];
+			String qte = part[1];
+			String set = part[2];
+			
+			MagicEdition ed = new MagicEdition();
+			ed.setId(set);
+			List<MagicCard> list = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", name, ed);
+			
+			deck.getMap().put(list.get(0),Integer.parseInt(qte));
+			line=read.readLine();
+		}
+		
+		read.close();
+		return deck;
 	}
 	
 	@Override
