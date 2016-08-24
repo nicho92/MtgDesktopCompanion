@@ -1,38 +1,41 @@
 <!DOCTYPE html>
 <html>
+
   <head>
     <meta charset='utf-8'>
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <link href='https://fonts.googleapis.com/css?family=Architects+Daughter' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" type="text/css" href="stylesheets/stylesheet.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/github-light.css" media="screen">
-    <link rel="stylesheet" type="text/css" href="stylesheets/print.css" media="print">
+    <meta name="description" content="MTG Desktop Companion : Magic the Gathering cards manager">
 
-    <!--[if lt IE 9]>
-    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-    <![endif]-->
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
-    <title>MTG Desktop Companion by nicho92</title>
+    <title>MTG Desktop Companion</title>
   </head>
 
   <body>
-    <header>
-      <div class="inner">
-        <h1>MTG Desktop Companion</h1>
-        <h2>Magic the Gathering cards manager</h2>
-        <a href="https://github.com/nicho92/MtgDesktopCompanion" class="button"><small>View project on</small> GitHub</a>
-      </div>
-    </header>
 
-    <div id="content-wrapper">
-      <div class="inner clearfix">
-        <section id="main-content">
-          <h1>
-<a id="magic-the-gathering-desktop-companion" class="anchor" href="#magic-the-gathering-desktop-companion" aria-hidden="true"><span class="octicon octicon-link"></span></a>Magic The Gathering Desktop Companion</h1>
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/nicho92/MtgDesktopCompanion">View on GitHub</a>
+
+          <h1 id="project_title">MTG Desktop Companion</h1>
+          <h2 id="project_tagline">Magic the Gathering cards manager</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/nicho92/MtgDesktopCompanion/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/nicho92/MtgDesktopCompanion/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a id="magic-the-gathering-desktop-companion" class="anchor" href="#magic-the-gathering-desktop-companion" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Magic The Gathering Desktop Companion</h1>
 
 <h2>
-<a id="personal-magic-the-gathering-manager" class="anchor" href="#personal-magic-the-gathering-manager" aria-hidden="true"><span class="octicon octicon-link"></span></a>Personal Magic the Gathering manager</h2>
+<a id="personal-magic-the-gathering-manager" class="anchor" href="#personal-magic-the-gathering-manager" aria-hidden="true"><span aria-hidden="true" class="octicon octicon-link"></span></a>Personal Magic the Gathering manager</h2>
 
 <p>Download last version here <a href="https://github.com/nicho92/MtgDesktopCompanion/blob/master/executable/mtgcompanion.zip?raw=true">https://github.com/nicho92/MtgDesktopCompanion/blob/master/executable/mtgcompanion.zip?raw=true</a> 
 (just download and unzip. execute run.bat)</p>
@@ -40,24 +43,33 @@
 <p>Features :</p>
 
 <blockquote>
-<p>Create and Manage decks</p>
+<p>search for cards
+Create and Manage decks
+manage your collection
+Generate a website of your collections with your own template.
+get dashboard of cards prices variation
+lookup for cards in auction websites
+import / export in multiple format</p>
 
-<p>multiple Prices providers, in real time.</p>
+<p>Modularity : </p>
 
-<p>Multiple json providers</p>
+<ul>
+<li>manage your prices provider</li>
+<li>manage your cards provider</li>
+<li>manage your dashboard provider</li>
+<li>manage your online shops</li>
+<li>manage your database providers</li>
+</ul>
 
-<p>Collection manager</p>
-
-<p>manacurve, card statistics</p>
-
-<p>simulate drawing</p>
-
-<p>Website collection generator</p>
+<p>manacurve, color and type repartition</p>
 </blockquote>
 
 <p>Main interface :
 <img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png">
 <img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicThumbnail.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicThumbnail.png"></p>
+
+<p>Get realtime prices on seller websites :
+<img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardsprices.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardsprices.png"></p>
 
 <p>Deck Manager :
 <img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager.png">
@@ -66,6 +78,19 @@
 <p>Collection Manager :
 <img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png"></p>
 
+<p>Check for price variation :
+<img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/dashboard.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/dashboard.png">
+<img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png"></p>
+
+<p>lookup for cards in auction website :
+<img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png"></p>
+
+<p>import or export your card list / deck :
+<img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png"></p>
+
+<p>Try your deck in game simulator :
+<img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png"></p>
+
 <p>Generate Website of your collections :</p>
 
 <p><img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png">
@@ -73,25 +98,18 @@
 
 <p>Create your own cards :
 <img src="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardmaker.png" alt="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardmaker.png"></p>
-        </section>
-
-        <aside id="sidebar">
-          <a href="https://github.com/nicho92/MtgDesktopCompanion/zipball/master" class="button">
-            <small>Download</small>
-            .zip file
-          </a>
-          <a href="https://github.com/nicho92/MtgDesktopCompanion/tarball/master" class="button">
-            <small>Download</small>
-            .tar.gz file
-          </a>
-
-          <p class="repo-owner"><a href="https://github.com/nicho92/MtgDesktopCompanion"></a> is maintained by <a href="https://github.com/nicho92">nicho92</a>.</p>
-
-          <p>This page was generated by <a href="https://pages.github.com">GitHub Pages</a> using the Architect theme by <a href="https://twitter.com/jasonlong">Jason Long</a>.</p>
-        </aside>
-      </div>
+      </section>
     </div>
 
-  
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">MTG Desktop Companion maintained by <a href="https://github.com/nicho92">nicho92</a></p>
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
   </body>
 </html>
