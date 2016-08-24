@@ -24,7 +24,7 @@ public class MKMWantList extends AbstractCardExport {
 	
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		throw new Exception("Cannot generate deck");
+		throw new Exception(getName() + " can't generate deck");
 	}
 
 	@Override
