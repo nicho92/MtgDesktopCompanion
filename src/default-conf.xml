@@ -89,6 +89,10 @@
 			<enable>true</enable>
 		</export>
 		<export>
+			<class>org.magic.api.exports.impl.MKMWantList</class>
+			<enable>true</enable>
+		</export>
+		<export>
 			<class>org.magic.api.exports.impl.PDFExport</class>
 			<enable>true</enable>
 		</export>
