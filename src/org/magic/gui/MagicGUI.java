@@ -420,6 +420,7 @@ public class MagicGUI extends JFrame {
 
 		btnSearch = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/search.png")));
 		btnExport = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/export.png")));
+		btnExport.setToolTipText("Export Result");
 		
 		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
 		cboQuereableItems.addItem("collections");

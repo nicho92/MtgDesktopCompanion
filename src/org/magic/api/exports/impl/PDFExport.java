@@ -40,10 +40,7 @@ public class PDFExport extends AbstractCardExport {
 			save();
 		}
 		
-		document = new Document(PageSize.A4,5,5,10,5);
-		document.addAuthor(getProperty("AUTHOR").toString());
-		document.addCreationDate();
-		document.addCreator("Magic Desktop Companion");
+		
 	}
 	
 	public void export(List<MagicCard> cards,File f) {
@@ -55,6 +52,10 @@ public class PDFExport extends AbstractCardExport {
 
 		try
 		{
+			document = new Document(PageSize.A4,5,5,10,5);
+			document.addAuthor(getProperty("AUTHOR").toString());
+			document.addCreationDate();
+			document.addCreator("Magic Desktop Companion");
 
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f+".pdf"));
 			document.open();
