@@ -39,6 +39,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.TableModelEvent;
 import javax.swing.event.TableModelListener;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -96,6 +97,8 @@ public class DeckBuilderGUI extends JPanel{
 	private JTable tableSide;
 	private JList<MagicCard> listResult;
 	private JTabbedPane tabbedPane;
+	JLabel lblExport = new JLabel("");
+	
 	
 	public static final int MAIN=0;
 	public static final int SIDE=1;
@@ -105,6 +108,12 @@ public class DeckBuilderGUI extends JPanel{
 	File deckDirectory = new File(MagicFactory.CONF_DIR,"decks");
 	private MagicDAO dao;
 	private Player p;
+	
+	public void loading(boolean show,String text)
+	{
+		lblExport.setText(text);
+		lblExport.setVisible(show);
+	}
 	
 	
 	public MagicDeck getDeck() {
@@ -132,6 +141,9 @@ public class DeckBuilderGUI extends JPanel{
 	}
 	
 	private void initGUI() {
+		
+		lblExport.setIcon(new ImageIcon(MagicGUI.class.getResource("/res/load.gif")));
+		lblExport.setVisible(false);
 		
 		setLayout(new BorderLayout(0, 0));
 		deckmodel = new DeckModel(DeckModel.TYPE.DECK);
@@ -173,8 +185,6 @@ public class DeckBuilderGUI extends JPanel{
 				deckmodel.fireTableDataChanged();
 				deckSidemodel.load(newDeck);
 				deckSidemodel.fireTableDataChanged();
-				
-				//updatePanels();
 			}
 		});
 		
@@ -240,19 +250,92 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		
-		JButton btnManualImport = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/import.png")));
-				btnManualImport.setToolTipText("Import deck manualy");
+		JButton btnImport = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/import.png")));
+				btnImport.setToolTipText("Import deck as ");
 				
-		btnManualImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				ManualImportFrame fimport = new ManualImportFrame();
-				fimport.setVisible(true);
+		btnImport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				JPopupMenu menu = new JPopupMenu();
 				
-				if(!fimport.getStringDeck().equals(""))
-					importDeckFromString(fimport.getStringDeck());
+				
+				JMenuItem manuel = new JMenuItem("Manual Import");
+						manuel.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/manual.png")));
+						manuel.addActionListener(new ActionListener() {
+							
+							@Override
+							public void actionPerformed(ActionEvent arg0) {
+								ManualImportFrame fimport = new ManualImportFrame();
+								fimport.setVisible(true);
+								
+								if(!fimport.getStringDeck().equals(""))
+									importDeckFromString(fimport.getStringDeck());
+								
+							}
+						});
+				menu.add(manuel);
+				
+				for(final CardExporter exp : MagicFactory.getInstance().getEnabledDeckExports())
+				{
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							JFileChooser jf =new JFileChooser(".");
+							jf.setFileFilter(new FileFilter() {
+								
+								@Override
+								public String getDescription() {
+									return exp.getName();
+								}
+								
+								@Override
+								public boolean accept(File f) {
+									return f.getName().endsWith(exp.getFileExtension());
+								}
+							});
+							jf.showOpenDialog(null);
+							final File f=jf.getSelectedFile();
+								ThreadManager.getInstance().execute(new Runnable() {
+									
+									@Override
+									public void run() {
+										try {
+											loading(true, "loading from " + exp);
+											deck = exp.importDeck(f);
+											deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
+											JOptionPane.showMessageDialog(null, "Import Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
+											setDeck(deck);
+											loading(false, "");
+											deckmodel.load(deck);
+											deckSidemodel.load(deck);
+											deckmodel.fireTableDataChanged();
+											deckSidemodel.fireTableDataChanged();
+											setDeck(deck);
+											updatePanels();
+											
+										} catch (Exception e) {
+											logger.error(e);
+											loading(false, "");
+											JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+										}
+										
+									}
+								}, "import " + exp);
+						}
+					});
+					
+					menu.add(it);
+				}
+				
+				Component b=(Component)ae.getSource();
+		        Point p=b.getLocationOnScreen();
+		        menu.show(b,0,0);
+		        menu.setLocation(p.x,p.y+b.getHeight());
 			}
 		});
-		panneauHaut.add(btnManualImport);
+		
+		panneauHaut.add(btnImport);
 		
 		btnExports = new JButton();
 		btnExports.setEnabled(false);
@@ -294,6 +377,9 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		panneauHaut.add(btnExports);
+		
+		
+		panneauHaut.add(lblExport);
 		
 		scrollResult = new JScrollPane();
 		add(scrollResult, BorderLayout.WEST);

@@ -95,7 +95,6 @@ public class CollectionPanelGUI extends JPanel {
 	public CollectionPanelGUI() throws Exception {
 		this.provider = MagicFactory.getInstance().getEnabledProviders();
 		this.dao = MagicFactory.getInstance().getEnabledDAO();
-		
 		initGUI();
 	}
 

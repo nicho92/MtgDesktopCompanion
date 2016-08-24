@@ -102,7 +102,6 @@ public class MagicGUI extends JFrame {
 
 	TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public final SystemTray tray = SystemTray.getSystemTray();
-
 	private MagicCard selected;
 	private MagicEdition selectedEdition;
 	private List<MagicCard> cards;
@@ -119,7 +118,6 @@ public class MagicGUI extends JFrame {
 	private JMenu mnFile;
 	private JMenu mnView;
 	private JMenu mnuAbout;
-	private JMenu mnuProviders;
 	private JMenu mnuLang;
 	private JMenuItem mntmExit;
 	private JMenuItem mntmAboutMagicDesktop;
@@ -571,8 +569,7 @@ public class MagicGUI extends JFrame {
 						tableCards.setModel(cardsModeltable);
 						tableCards.setRowSorter(sorterCards);
 						tableCards.setShowVerticalLines(false);
-						filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
-						filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+						
 						//IFilterEditor editor = filterHeader.getFilterEditor(1);
 						
 						
@@ -942,6 +939,8 @@ public class MagicGUI extends JFrame {
 			
 			mntmShowhideFilters.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
+					filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
+					filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 					if(panelFilters.isVisible())
 					{
 						panelFilters.setVisible(false);
