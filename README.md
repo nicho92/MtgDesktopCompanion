@@ -16,7 +16,7 @@ Features :
 > Generate a website of your collections with your own template.
 > get dashboard of cards prices variation
 > lookup for cards in auction websites
-> 
+> import / export in multiple format
 
 > Modularity : 
 - manage your prices provider
@@ -51,6 +51,9 @@ Check for price variation :
 
 lookup for cards in auction website :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/shopping.png)
+
+import or export your card list / deck :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png)
 
 
 Try your deck in game simulator :

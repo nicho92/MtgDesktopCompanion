@@ -2,6 +2,7 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -68,6 +69,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.exports.impl.CSVExport;
 import org.magic.api.exports.impl.PDFExport;
+import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.CardsPicPanel;
@@ -171,8 +173,7 @@ public class MagicGUI extends JFrame {
     private JButton btnClear;
 	private JButton btnGenerateBooster;
 	private JButton btnSearch;
-	private JButton btnExportSearchCSV;
-	private JButton btnExportSearchPDF;
+	private JButton btnExport;
 
 	private JLabel lblLoading = new JLabel("");
 	
@@ -418,8 +419,7 @@ public class MagicGUI extends JFrame {
 
 
 		btnSearch = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/search.png")));
-		btnExportSearchPDF = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/pdf.png")));
-		btnExportSearchCSV = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/xls.png")));
+		btnExport = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/export.png")));
 		
 		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
 		cboQuereableItems.addItem("collections");
@@ -473,8 +473,7 @@ public class MagicGUI extends JFrame {
 		});
 		panneauHaut.add(cboEdition);
 		panneauHaut.add(btnSearch);
-		panneauHaut.add(btnExportSearchPDF);
-		panneauHaut.add(btnExportSearchCSV);
+		panneauHaut.add(btnExport);
 		
 		panneauHaut.add(lblLoading);
 		panneauCard = new JPanel();
@@ -872,28 +871,53 @@ public class MagicGUI extends JFrame {
 				}
 			});
 
-			btnExportSearchPDF.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-
-					ThreadManager.getInstance().execute(new Runnable() {
-
-						@Override
-						public void run() {
-							JFileChooser choose = new JFileChooser(".");
-							choose.showSaveDialog(null);
-
-							File f = choose.getSelectedFile();
-							if(f==null)
-								f=new File("temp.pdf");
-
-							loading(false,"exporting pdf");
-							new PDFExport().export(cards,f);
-							loading(false,"");
-							JOptionPane.showMessageDialog(null, "Export PDF Finished","Finished",JOptionPane.INFORMATION_MESSAGE);
-
-						}
-					},"exportPDF");
-
+			
+			btnExport.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent ae) {
+					JPopupMenu menu = new JPopupMenu();
+					
+					for(final CardExporter exp : MagicFactory.getInstance().getEnabledDeckExports())
+					{
+						JMenuItem it = new JMenuItem();
+						it.setIcon(exp.getIcon());
+						it.setText(exp.getName());
+						it.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								JFileChooser jf =new JFileChooser(".");
+								jf.setSelectedFile(new File("search"+exp.getFileExtension()));
+								jf.showSaveDialog(null);
+								final File f=jf.getSelectedFile();
+								
+								
+									ThreadManager.getInstance().execute(new Runnable() {
+										
+										@Override
+										public void run() {
+											try {
+											loading(true, "export " + exp);
+											exp.export(cardsModeltable.getListCards(), f);
+											loading(false, "");
+											JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
+											} catch (Exception e) {
+												logger.error(e);
+												loading(false, "");
+												JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+											}	
+										
+										}
+										}, "export search " + exp);
+									
+								
+							}
+						});
+						
+						menu.add(it);
+					}
+					
+					Component b=(Component)ae.getSource();
+			        Point p=b.getLocationOnScreen();
+			        menu.show(b,0,0);
+			        menu.setLocation(p.x,p.y+b.getHeight());
 				}
 			});
 			
@@ -906,26 +930,6 @@ public class MagicGUI extends JFrame {
 				}
 			});
 
-			btnExportSearchCSV.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					JFileChooser jf =new JFileChooser();
-					jf.showSaveDialog(null);
-					File f=jf.getSelectedFile();
-				
-					
-					try {
-						CSVExport exp = new CSVExport();
-						exp.export(cardsModeltable.getListCards(),f);
-					} catch (Exception e1) {
-						logger.error(e1);
-						JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
-
-					}
-
-				}
-			});
-			
-			
 			txtFilter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					String text = txtFilter.getText();

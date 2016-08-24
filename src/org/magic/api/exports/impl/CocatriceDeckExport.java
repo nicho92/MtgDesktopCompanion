@@ -110,7 +110,26 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
-		// TODO Auto-generated method stub
+
+		
+		StringBuffer temp = new StringBuffer();
+		
+		temp.append("<?xml version='1.0' encoding='UTF-8'?>");
+		temp.append("<cockatrice_deck version='"+getProperty("VERSION")+"'>");
+		temp.append("<deckname>search</deckname>");
+		temp.append("<comments>Result of MTG Companion search</comments>");
+		temp.append("<zone name='main'>");
+		for(MagicCard mc : cards)
+		{
+			temp.append("<card number='1' price='"+getProperty("DEFAULT_PRICE")+"' name=\"").append(mc.getName()).append("\"/>");
+		}
+		temp.append("</zone>");
+		
+		temp.append("</cockatrice_deck>");
+		
+		FileWriter out = new FileWriter(f);
+		out.write(temp.toString());
+		out.close();
 		
 	}
 
