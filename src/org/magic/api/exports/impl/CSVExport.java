@@ -17,33 +17,36 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.DeckBuilderGUI;
+import org.magic.services.MagicFactory;
 
 
-public class CSVExport extends Observable implements CardExporter{
+public class CSVExport extends AbstractCardExport{
 
-	String exportedProperties[] = new String[]{	"number","name","cost","supertypes","types","subtypes","editions"};
-	String exportedDeckProperties[] = new String[]{	"name","cost","supertypes","types","subtypes","editions"};
-	String exportedPricesProperties[] = new String[]{ "site","seller","value","currency","language","quality","foil"};
-
-	private boolean enable;
+	String exportedProperties[] ;
+	String exportedDeckProperties[];
+	String exportedPricesProperties[];
 
 	@Override
 	public String toString() {
 		return getName();
 	}
 
-	
-	@Override
-	public void enable(boolean b) {
-		this.enable=b;
-
-	}
 	@Override
 	public String getName() {
 		return "CSV";
 	}
 
+	public CSVExport() {
+		super();
+		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+			props.put("exportedProperties", "number,name,cost,supertypes,types,subtypes,editions");
+			props.put("exportedDeckProperties", "name,cost,supertypes,types,subtypes,editions");
+			props.put("exportedPricesProperties", "site,seller,value,currency,language,quality,foil");
+			save();
+		}
+	}
 
 	//TODO export card prices catalog
 	public void exportPriceCatalog(List<MagicCard> cards, File f,MagicPricesProvider prov) throws Exception
@@ -54,8 +57,9 @@ public class CSVExport extends Observable implements CardExporter{
 		out = new FileWriter(f);
 		bw=new BufferedWriter(out);
 
-
-
+		exportedProperties=getProperty("exportedProperties").toString().split(",");
+		exportedPricesProperties=getProperty("exportedPricesProperties").toString().split(",");
+		
 		for(String k : exportedProperties)
 			bw.write(k+";");
 		for(String k : exportedPricesProperties)
@@ -93,7 +97,8 @@ public class CSVExport extends Observable implements CardExporter{
 	public void export(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
 		BufferedWriter bw;
 		FileWriter out;
-
+		exportedProperties=getProperty("exportedProperties").toString().split(",");
+		
 		out = new FileWriter(f);
 		bw=new BufferedWriter(out);
 		for(String k : exportedProperties)
@@ -115,6 +120,9 @@ public class CSVExport extends Observable implements CardExporter{
 	}
 
 	public void export(MagicDeck deck, File f) throws IOException{
+		
+		exportedDeckProperties=getProperty("exportedDeckProperties").toString().split(",");
+		
 		BufferedWriter bw;
 		FileWriter out;
 		out = new FileWriter(f);
@@ -182,12 +190,7 @@ public class CSVExport extends Observable implements CardExporter{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
+	
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(CSVExport.class.getResource("/res/xls.png"));

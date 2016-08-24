@@ -14,31 +14,22 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MagicFactory;
 
-public class MTGDesktopCompanionExport implements CardExporter  {
+public class MTGDesktopCompanionExport extends AbstractCardExport  {
 
-private boolean enable;
-	
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
-	@Override
-	public String toString() {
-		return getName();
-	}
-
-
-	@Override
-	public void enable(boolean b) {
-		this.enable=b;
-		
-	}
-	
 	@Override
 	public String getName() {
 		return "MTGDesktopCompanion";
+	}
+	
+	public MTGDesktopCompanionExport() {
+		super();
+		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+			props.put("VERSION", "1.0");
+			save();
+		}
 	}
 	
 	public void export(MagicDeck deck, File name) throws IOException

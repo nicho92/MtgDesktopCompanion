@@ -13,8 +13,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.gui.DeckBuilderGUI;
+import org.magic.services.MagicFactory;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
@@ -26,36 +28,24 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 
-public class PDFExport implements CardExporter{
+public class PDFExport extends AbstractCardExport {
 
-	private boolean enable;
 	Document document;
 	
 	public PDFExport() {
+		super();
+		
+		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+			props.put("AUTHOR", "Nicolas PIHEN");
+			save();
+		}
+		
 		document = new Document(PageSize.A4,5,5,10,5);
-		document.addAuthor("Nicolas Pihen");
+		document.addAuthor(getProperty("AUTHOR").toString());
 		document.addCreationDate();
 		document.addCreator("Magic Desktop Companion");
 	}
 	
-	@Override
-	public String toString() {
-		return getName();
-	}
-
-	
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
-
-	@Override
-	public void enable(boolean b) {
-		this.enable=b;
-
-	}
-
 	public void export(List<MagicCard> cards,File f) {
 
 		document.addTitle(f.getName());

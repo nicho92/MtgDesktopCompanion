@@ -13,6 +13,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
+import org.magic.services.MagicFactory;
 
 public abstract class AbstractDashBoard implements DashBoard {
 
@@ -30,12 +31,11 @@ public abstract class AbstractDashBoard implements DashBoard {
 	
 	private boolean enable=true;
 	protected Properties props;
-	protected File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	
 	public void load()
 	{
 		try {
-			File f = new File(confdir, getName()+".conf");
+			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -55,7 +55,7 @@ public abstract class AbstractDashBoard implements DashBoard {
 	public void save()
 	{
 		try {
-			File f = new File(confdir, getName()+".conf");
+			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");

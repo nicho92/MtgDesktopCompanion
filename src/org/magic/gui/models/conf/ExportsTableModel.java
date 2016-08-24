@@ -1,67 +1,165 @@
 package org.magic.gui.models.conf;
 
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Properties;
+import java.util.Map.Entry;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
+import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.services.MagicFactory;
 
-public class ExportsTableModel extends DefaultTableModel {
+public class ExportsTableModel extends AbstractTreeTableModel {
 	
-	
-		String columns[] = new String[]{"Exports","Enable"};
-	
-		@Override
-		public int getRowCount() {
-			return MagicFactory.getInstance().getDeckExports().size();
-		}
+	   	private CardExporter selectedProvider = null;
+	    private List<CardExporter> exports =MagicFactory.getInstance().getDeckExports();
+	    static final Logger logger = LogManager.getLogger(ExportsTableModel.class.getName());
+	    private final static String[] COLUMN_NAMES = {"Exporter","Value","Enabled"};
 		
-		@Override
-		public int getColumnCount() {
-			return 2;
-		}
-		
-		@Override
-		public String getColumnName(int column) {
-			return columns[column];
-		}
-		
-		@Override
-		public Object getValueAt(int row, int column) {
-			switch(column)
-			{
-			case 0 :return MagicFactory.getInstance().getDeckExports().get(row);
-			case 1 : return MagicFactory.getInstance().getDeckExports().get(row).isEnable();
-			default : return null;
-			}
-		}
-		
-		@Override
-		public Class<?> getColumnClass(int columnIndex) {
-			switch(columnIndex)
-			{
-			case 0 : return CardExporter.class;
-			case 1 : return Boolean.class;
-			default : return Object.class;
-			}
-		}
-		
-		@Override
-		public void setValueAt(Object aValue, int row, int column) {
-			MagicFactory.getInstance().getDeckExports().get(row).enable(Boolean.parseBoolean(aValue.toString()));	
-			MagicFactory.getInstance().setProperty(MagicFactory.getInstance().getDeckExports().get(row), aValue);
-			
-		}
 
-		@Override
-		public boolean isCellEditable(int row, int column) {
-			if(column==1)
-				return true;
-			
-			else return false;
+	    
+	    public ExportsTableModel() {
+	        super(new Object());
+	        
+	    }
+	    
+	    @Override
+	    public int getColumnCount() {
+	        return COLUMN_NAMES.length;
+	    }
+
+	    @Override
+	    public String getColumnName(int column) {
+	        return COLUMN_NAMES[column];
+	    }
+	    
+	    @Override
+	    public boolean isCellEditable(Object node, int column) {
+	        if (node instanceof Entry && column == 1) {
+	            return true;
+	        }
+	        if(column==2)
+	        	return true;
+	        
+	        return false;
+	    }
+
+	    @Override
+	    public boolean isLeaf(Object node) {
+	        return node instanceof Entry;
+	    }
+
+	    @Override
+	    public int getChildCount(Object parent) {
+	        if (parent instanceof CardExporter) {
+	        	CardExporter dept = (CardExporter) parent;
+	            return dept.getProperties().size();
+	        }
+	        return exports.size();
+	    }
+
+	    @Override
+	    public Object getChild(Object parent, int index) 
+	    {
+	    	  if (parent instanceof CardExporter) {
+	        	CardExporter dept = (CardExporter) parent;
+	            return getPropByIndex(dept,index);
+	        }
+	        return new ArrayList(exports).get(index);
+	    }
+
+	    private Entry<String,Object> getPropByIndex(CardExporter dept, int index)
+	    {
+	    	return (Map.Entry<String,Object>)dept.getProperties().entrySet().toArray()[index];
+	    }
+	    
+	    
+	    // This is not called in the JTree's default mode: use a native implementation.
+	    @Override
+	    public int getIndexOfChild(Object parent, Object child) {
+	    	CardExporter dept = (CardExporter) parent;
+	        Entry k = (Entry) child;
+	        return getPosition(k,dept.getProperties());
+	    }
+	    
+	    private int getPosition(Entry k, Properties p)
+	    {
+	    	for(int i=0;i<p.keySet().size();i++)
+	    	{
+	    		if(p.keySet().toArray()[i].toString().equals(k.getKey()))
+	    			return i;
+	    	}
+	    	return -1;
+	    }
+
+	    @Override
+	    public Object getValueAt(Object node, int column) {
+	       if (node instanceof CardExporter) 
+	       {
+	    	   CardExporter prov = (CardExporter) node;
+	            switch (column) {
+	                case 0:return prov.getName();
+	                case 2: return prov.isEnable();
+	            }
+	        } 
+	        else if (node instanceof Entry) 
+	        {
+	        	Entry emp = (Entry) node;
+	        	  switch (column) {
+	                case 0:
+	                    return emp.getKey();
+	                case 1:
+	                    return emp.getValue();
+	            }
+	        }
+	        return null;
+	    }
+
+	    
+	    
+	    public void setValueAt(Object value, Object node, int column) {
+	    	
+	        String strValue = String.valueOf(value);
+	        
+	        if(node instanceof CardExporter )
+	        {
+	        	selectedProvider=(CardExporter)node;
+	        	if(column==2)
+	        	{
+	        		selectedProvider.enable(Boolean.parseBoolean(strValue));
+	        		MagicFactory.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+	        		
+	        		
+	        	}
+	        }
+	        if(node instanceof Entry )
+		        if(column==1)
+		    	{
+		        	String k = (String)((Entry)node).getKey();
+		        	selectedProvider.setProperties(k, strValue);
+		        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
+		        	selectedProvider.save();
+		    	}    
+	   }
+	    
+	    
+	    @Override
+	    public Class<?> getColumnClass(int column) {
+	    	if(column==2)
+	    		return Boolean.class;
+	    	
+	    	return super.getColumnClass(column);
+	    }
+
+
+
+		public void setSelectedNode(CardExporter pathComponent) {
+			selectedProvider=pathComponent;
 		}
-	
-	
 }

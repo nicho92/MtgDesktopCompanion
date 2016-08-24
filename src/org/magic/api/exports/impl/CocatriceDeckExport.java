@@ -10,21 +10,21 @@ import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.CardExporter;
-import org.magic.gui.DeckBuilderGUI;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MagicFactory;
 
-public class CocatriceDeckExport implements CardExporter{
+public class CocatriceDeckExport extends AbstractCardExport{
 
-	private boolean enable;
 	
-	@Override
-	public void enable(boolean b) {
-		this.enable=b;
+	public CocatriceDeckExport() {
+		super();
 		
-	}
-	@Override
-	public String getName() {
-		return "Cockatrice";
+
+		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+			props.put("VERSION", "1.0");
+			props.put("DEFAULT_PRICE", "0");
+			save();
+		}
 	}
 	
 	public String getFileExtension()
@@ -37,19 +37,19 @@ public class CocatriceDeckExport implements CardExporter{
 		StringBuffer temp = new StringBuffer();
 		
 		temp.append("<?xml version='1.0' encoding='UTF-8'?>");
-		temp.append("<cockatrice_deck version='1'>");
+		temp.append("<cockatrice_deck version='"+getProperty("VERSION")+"'>");
 		temp.append("<deckname>").append(deck.getName()).append("</deckname>");
 		temp.append("<comments>").append(deck.getDescription()).append("</comments>");
 		temp.append("<zone name='main'>");
 		for(MagicCard mc : deck.getMap().keySet())
 		{
-			temp.append("<card number='").append(deck.getMap().get(mc)).append("' price='0' name=\"").append(mc.getName()).append("\"/>");
+			temp.append("<card number='").append(deck.getMap().get(mc)).append("' price='"+getProperty("DEFAULT_PRICE")+"' name=\"").append(mc.getName()).append("\"/>");
 		}
 		temp.append("</zone>");
 		temp.append("<zone name='side'>");
 		for(MagicCard mc : deck.getMapSideBoard().keySet())
 		{
-			temp.append("<card number='").append(deck.getMapSideBoard().get(mc)).append("' price='0' name=\"").append(mc.getName()).append("\"/>");
+			temp.append("<card number='").append(deck.getMapSideBoard().get(mc)).append("' price='"+getProperty("DEFAULT_PRICE")+"' name=\"").append(mc.getName()).append("\"/>");
 		}
 		temp.append("</zone>");
 		
@@ -71,10 +71,6 @@ public class CocatriceDeckExport implements CardExporter{
 	}
 	
 	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
 		// TODO Auto-generated method stub
 		
@@ -85,10 +81,10 @@ public class CocatriceDeckExport implements CardExporter{
 		return new ImageIcon(CocatriceDeckExport.class.getResource("/res/cockatrice_logo.png"));
 	}
 	
-	
+
 	@Override
-	public String toString() {
-		return getName();
+	public String getName() {
+		return "Cockatrice";
 	}
 	
 }

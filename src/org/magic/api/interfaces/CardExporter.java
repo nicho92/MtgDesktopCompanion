@@ -3,6 +3,7 @@ package org.magic.api.interfaces;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.Icon;
 
@@ -19,10 +20,14 @@ public interface CardExporter {
 	
 	public String getName();
 
-	public void enable(boolean boolean1);
-
-	public boolean isEnable();
-
 	public Icon getIcon();
+
+	public Properties getProperties();
+	public void save();
+	public void load();
+	public void setProperties(String k, Object value);
+	public Object getProperty(String k);	
+	public boolean isEnable();
+	public void enable(boolean t);
 
 }

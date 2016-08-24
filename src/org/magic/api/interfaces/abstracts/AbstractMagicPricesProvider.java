@@ -10,12 +10,12 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.services.MagicFactory;
 
 public abstract class AbstractMagicPricesProvider implements MagicPricesProvider {
 
 	private boolean enable=true;
 	protected Properties props;
-	protected File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	
 	
 	@Override
@@ -27,7 +27,7 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 	public void load()
 	{
 		try {
-			File f = new File(confdir, getName()+".conf");
+			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -47,7 +47,7 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 	public void save()
 	{
 		try {
-			File f = new File(confdir, getName()+".conf");
+			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");

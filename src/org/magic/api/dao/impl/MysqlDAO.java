@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.services.MagicFactory;
 
 public class MysqlDAO extends AbstractMagicDAO{
 
@@ -31,7 +32,7 @@ public class MysqlDAO extends AbstractMagicDAO{
     
 	public MysqlDAO() throws ClassNotFoundException, SQLException {
 	    super();	
-		if(!new File(confdir, getName()+".conf").exists()){
+		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
 			 props.put("DRIVER", "com.mysql.jdbc.Driver");
 			 props.put("SERVERNAME","localhost");
 			 props.put("SERVERPORT", "3306");

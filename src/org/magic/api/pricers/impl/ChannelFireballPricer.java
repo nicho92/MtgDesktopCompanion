@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MagicFactory;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -28,7 +29,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	public ChannelFireballPricer() {
 		super();
 		
-		if(!new File(confdir, getName()+".conf").exists()){
+		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
 		props.put("MAX", "5");
 		props.put("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
 		props.put("WEBSITE", "http://store.channelfireball.com/");

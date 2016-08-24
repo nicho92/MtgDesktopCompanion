@@ -22,6 +22,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.services.MagicFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -34,7 +35,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 	public PriceMinisterShopper() {
 		super();	
 		
-		if(!new File(confdir, getShopName()+".conf").exists()){
+		if(!new File(MagicFactory.CONF_DIR, getShopName()+".conf").exists()){
 				props.put("LOGIN", "login");
 				props.put("PASSWORD", "password");
 				props.put("VERSION", "2015-07-05");

@@ -8,13 +8,13 @@ import java.util.Properties;
 
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicShopper;
+import org.magic.services.MagicFactory;
 
 public abstract class AbstractMagicShopper implements MagicShopper {
 
 	
 	private boolean enable=true;
 	protected Properties props;
-	protected File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 
 	
 	public abstract List<ShopItem> search(String search);
@@ -38,7 +38,7 @@ public abstract class AbstractMagicShopper implements MagicShopper {
 	public void load()
 	{
 		try {
-			File f = new File(confdir, getShopName()+".conf");
+			File f = new File(MagicFactory.CONF_DIR, getShopName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -58,7 +58,7 @@ public abstract class AbstractMagicShopper implements MagicShopper {
 	public void save()
 	{
 		try {
-			File f = new File(confdir, getShopName()+".conf");
+			File f = new File(MagicFactory.CONF_DIR, getShopName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");

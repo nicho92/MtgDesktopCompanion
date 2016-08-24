@@ -21,6 +21,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.services.MagicFactory;
 
 public class HsqlDAO extends AbstractMagicDAO{
 
@@ -30,9 +31,9 @@ public class HsqlDAO extends AbstractMagicDAO{
     
     public HsqlDAO() throws ClassNotFoundException, SQLException {
     	 super();	
- 		if(!new File(confdir, getName()+".conf").exists()){
+ 		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
  			props.put("DRIVER", "org.hsqldb.jdbc.JDBCDriver");
- 			props.put("URL", System.getProperty("user.home")+"/magicDeskCompanion/db");
+ 			props.put("URL", MagicFactory.CONF_DIR.getAbsolutePath()+"/db");
  			props.put("DBNAME", "magicDB");
  			props.put("LOGIN", "SA");
  			props.put("PASS", "");

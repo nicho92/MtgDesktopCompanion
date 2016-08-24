@@ -102,7 +102,7 @@ public class DeckBuilderGUI extends JPanel{
 	
 	static final Logger logger = LogManager.getLogger(DeckBuilderGUI.class.getName());
 
-	File deckDirectory = new File(System.getProperty("user.home")+"/magicDeskCompanion/decks");
+	File deckDirectory = new File(MagicFactory.CONF_DIR,"decks");
 	private MagicDAO dao;
 	private Player p;
 	

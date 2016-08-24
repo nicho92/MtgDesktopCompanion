@@ -9,6 +9,7 @@ import java.util.List;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.providers.impl.MtgjsonProvider;
+import org.magic.services.MagicFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -24,7 +25,7 @@ public class NumberUpdater {
 		String unavailableEds[] = {"LEA","LEB","ARN","2ED","ATQ","3ED","FEM","4ED","ICE","CHR","HML","ALL","RQS","VIS","MIR","MGB","ITP","5ED","POR","VAN","WTH","TMP","STH","PO2","ATH","BRB","S00","DDQ"};
 		MtgjsonProvider prov = new MtgjsonProvider();
 		
-		JsonObject jsObj = new Gson().fromJson(new FileReader(new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json")), JsonObject.class);
+		JsonObject jsObj = new Gson().fromJson(new FileReader(new File(MagicFactory.CONF_DIR,"AllSets-x.json")), JsonObject.class);
 	
 		//for(String ed : unavailableEds)
 		String ed = "ALL";
@@ -39,7 +40,7 @@ public class NumberUpdater {
 			}
 			
 		}
-		FileWriter fw = new FileWriter(new File(System.getProperty("user.home")+"/magicDeskCompanion/AllSets-x.json").getAbsolutePath());
+		FileWriter fw = new FileWriter(new File(MagicFactory.CONF_DIR,"AllSets-x.json").getAbsolutePath());
 		BufferedWriter bw = new BufferedWriter(fw);
 		bw.write(jsObj.toString());
 		bw.close();

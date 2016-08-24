@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MagicFactory;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
@@ -23,7 +24,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 	public MagicTradersPricer() {
 		super();
 		
-		if(!new File(confdir, getName()+".conf").exists()){
+		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
 		props.put("MAX", "5");
 		props.put("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
 		props.put("WEBSITE", "http://classic.magictraders.com");

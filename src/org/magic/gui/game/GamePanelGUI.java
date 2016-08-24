@@ -48,6 +48,7 @@ import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.gui.components.MagicTextPane;
+import org.magic.services.MagicFactory;
 
 public class GamePanelGUI extends JPanel implements Observer {
 	
@@ -155,7 +156,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser choose = new JFileChooser(new File(System.getProperty("user.home")+"/magicDeskCompanion/decks"));
+				JFileChooser choose = new JFileChooser(new File(MagicFactory.CONF_DIR,"decks"));
 				choose.showOpenDialog(null);
 				try {
 					MagicDeck deck = new MTGDesktopCompanionExport().importDeck(choose.getSelectedFile());

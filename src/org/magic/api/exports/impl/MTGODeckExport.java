@@ -11,27 +11,12 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.DeckBuilderGUI;
+import org.magic.services.MagicFactory;
 
-public class MTGODeckExport implements CardExporter {
-	private boolean enable;
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
-	@Override
-	public String toString() {
-		return getName();
-	}
-
-
-	@Override
-	public void enable(boolean b) {
-		this.enable=b;
-
-	}
+public class MTGODeckExport extends AbstractCardExport  {
+	
 	@Override
 	public String getName() {
 		return "MTGO";
@@ -43,6 +28,13 @@ public class MTGODeckExport implements CardExporter {
 		return ".dec";
 	}
 
+	public MTGODeckExport() {
+		super();
+		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+			props.put("VERSION", "1.0");
+			save();
+		}
+	}
 
 	@Override
 	public void export(MagicDeck deck , File dest) throws IOException

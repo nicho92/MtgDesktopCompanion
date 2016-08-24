@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MagicFactory;
 
 import com.google.gson.JsonObject;
 import com.google.gson.stream.JsonReader;
@@ -31,7 +32,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	public DeckTutorPricer() {
 		super();
 		
-		if(!new File(confdir, getName()+".conf").exists()){
+		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
 		props.put("URL", "https://ws.decktutor.com/app/v2");
 		props.put("WEBSITE", "http://www.decktutor.com");
 		props.put("LANG", "en");

@@ -14,6 +14,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MagicFactory;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -30,7 +31,7 @@ public class EbayPricer extends AbstractMagicPricesProvider
 	public EbayPricer() {
 		super();	
 		
-		if(!new File(confdir, getName()+".conf").exists()){
+		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
 		props.put("MAX", "10");
 		props.put("COUNTRY", "EBAY-FR");
 		props.put("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");

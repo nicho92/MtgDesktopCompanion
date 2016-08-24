@@ -17,6 +17,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MagicFactory;
 
 public class MagicVillePricer extends AbstractMagicPricesProvider {
 
@@ -32,7 +33,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		list=new ArrayList<MagicPrice>();
 		httpclient = HttpClients.createDefault();
 		
-		if(!new File(confdir, getName()+".conf").exists()){
+		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
 				props.put("MAX", "5");
 				props.put("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
 				props.put("WEBSITE", "http://www.magic-ville.com/");

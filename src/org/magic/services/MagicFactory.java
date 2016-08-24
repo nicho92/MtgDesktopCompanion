@@ -31,7 +31,7 @@ public class MagicFactory {
 	private List<MagicCardsProvider> cardsProviders;
 	private List<MagicDAO> daoProviders;
 	private List<MagicShopper> cardsShoppers;
-	private File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
+	public static File CONF_DIR = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
@@ -44,7 +44,6 @@ public class MagicFactory {
 	{
 		if(inst == null)
 			inst = new MagicFactory();
-		
 		return inst;
 	}
 	
@@ -92,11 +91,11 @@ public class MagicFactory {
 		
 	private MagicFactory()
 	{
-		File conf = new File(confdir,"mtgcompanion-conf.xml");
+		File conf = new File(CONF_DIR,"mtgcompanion-conf.xml");
 		if(!conf.exists())
 		try {
 			logger.info("conf file doesn't exist. creating one from default file");
-			FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"), new File(confdir,"mtgcompanion-conf.xml"));
+			FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"), new File(CONF_DIR,"mtgcompanion-conf.xml"));
 			logger.info("conf file created");
 		}
 		catch (IOException e1) 
@@ -107,7 +106,7 @@ public class MagicFactory {
 		Parameters params = new Parameters();
 		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class)
 		    	.configure(params.xml()
-		        .setFile(new File(confdir,"mtgcompanion-conf.xml"))
+		        .setFile(new File(CONF_DIR,"mtgcompanion-conf.xml"))
 		        .setSchemaValidation(false)
 		        .setValidating(false)
 		        .setEncoding("ISO-8859-15")

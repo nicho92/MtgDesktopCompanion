@@ -20,6 +20,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.services.MagicFactory;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 import org.mozilla.javascript.ast.NodeVisitor;
@@ -37,7 +38,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	{
 		super();
 
-		if(!new File(confdir, getName()+".conf").exists()){
+		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
 		props.put("URL_MOVERS", "http://www.mtggoldfish.com/movers-details/");
 		props.put("URL_EDITIONS", "http://www.mtggoldfish.com/index/");
 		props.put("WEBSITE", "http://www.mtggoldfish.com/");

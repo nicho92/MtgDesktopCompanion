@@ -15,6 +15,7 @@ import javax.swing.event.TreeSelectionListener;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
+import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
@@ -36,7 +37,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable shopperTreeTable;
 	private JXTreeTable dashboardTreeTable;
 	private JXTable rssTable;
-	private JTable exportsTable;
+	private JXTreeTable exportsTable;
 	
 	public ConfigurationPanelGUI() {
 		
@@ -112,9 +113,15 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		JScrollPane exportsScrollPane = new JScrollPane();
 		subTabbedProviders.addTab("Exports", null, exportsScrollPane, null);
-		exportsTable = new JTable();
+		exportsTable = new JXTreeTable(new ExportsTableModel());
+		exportsTable.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1);
+						((ExportsTableModel)exportsTable.getTreeTableModel()).setSelectedNode((CardExporter)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		});
 		exportsScrollPane.setViewportView(exportsTable);
-		exportsTable.setModel(new ExportsTableModel());
 	
 		
 		JScrollPane dashboardScrollPane = new JScrollPane();

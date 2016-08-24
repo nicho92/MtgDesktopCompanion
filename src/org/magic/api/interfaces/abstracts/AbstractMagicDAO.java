@@ -14,13 +14,13 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.services.MagicFactory;
 
 public abstract class AbstractMagicDAO implements MagicDAO {
 
 	
 	private boolean enable=true;
 	protected Properties props;
-	protected File confdir = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 
 	
 	public AbstractMagicDAO() {
@@ -42,7 +42,7 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public void load()
 	{
 		try {
-			File f = new File(confdir, getName()+".conf");
+			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -62,7 +62,7 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public void save()
 	{
 		try {
-			File f = new File(confdir, getName()+".conf");
+			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");
