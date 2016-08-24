@@ -81,6 +81,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     		System.setProperty("javax.net.ssl.trustStore",new File(MagicFactory.CONF_DIR,props.getProperty("KEYSTORE_NAME")).getAbsolutePath());
     		
 		} catch (Exception e1) {
+			
 			logger.error(e1);
 		}
     	
@@ -159,7 +160,8 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     catch(SSLHandshakeException e)
     {
     	logger.error(e);
-    	
+		System.out.println(System.getProperty("javax.net.ssl.trustStore"));
+
     } catch (NoSuchAlgorithmException|InvalidKeyException e) {
 		logger.error(e);
 	} 

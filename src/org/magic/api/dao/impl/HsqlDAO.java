@@ -1,6 +1,9 @@
 package org.magic.api.dao.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -434,9 +439,25 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 
 	@Override
-	public void backup(File f) {
-		File dir = new File(props.getProperty("URL"));
+	public void backup(File dir) throws IOException {
+		File base = new File(props.getProperty("URL"));
+		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(new File(dir,"backup.zip")));
 		
+			for(File doc :base.listFiles())
+			{
+				if(!doc.getName().endsWith(".tmp"))
+				{
+					FileInputStream in = new FileInputStream(doc);
+					out.putNextEntry(new ZipEntry(doc.getName()));
+					int len;
+					while ((len = in.read(new byte[4096])) > 0) {
+						out.write(new byte[4096], 0, len);
+					}
+					out.closeEntry();
+					in.close();
+				}
+			}
+		out.close();
 	}
 
 

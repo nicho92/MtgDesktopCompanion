@@ -32,7 +32,6 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 
 	static final Logger logger = LogManager.getLogger(LeboncoinShopper.class.getName());
 
-
 	public LeboncoinShopper() {
 		super();	
 		
@@ -45,11 +44,11 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 		props.put("PROTOCOLE", "http:");
 		props.put("WEBSITE", "http://www.leboncoin.fr/");
-		props.put("DATE_FORMAT", "dd MMM H:m");
+		props.put("DATE_FORMAT", "dd MMMM. H:m");
 		props.put("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
 		props.put("CERT_SERV", "www.leboncoin.fr");
 		props.put("KEYSTORE_PASS", "changeit");
-		props.put("KEYSTORE_NAME", "jssecacert");
+		props.put("KEYSTORE_NAME", "jssecacerts");
 
 		
 		save();
@@ -108,7 +107,6 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 											a.setType(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(0).text());
 											a.setId(url.substring(url.lastIndexOf("/")+1, url.lastIndexOf(".")).trim());
 											a.setShopName(getShopName());
-					
 											try{
 												a.setImage(new URL(props.getProperty("PROTOCOLE")+listElements.get(i).getElementsByClass("lazyload").get(0).attr("data-imgsrc")));
 											}
