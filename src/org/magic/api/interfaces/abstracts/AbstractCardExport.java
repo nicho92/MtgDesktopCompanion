@@ -23,10 +23,12 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 	private boolean enable;
 	protected Properties props;
 
+	protected File confdir = new File(MagicFactory.CONF_DIR, "exports");
+	
 	public void load()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf");
+			File f = new File(confdir,getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -46,7 +48,7 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 	public void save()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf");
+			File f = new File(confdir, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");
@@ -59,6 +61,9 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 	
 	public AbstractCardExport() {
 		props=new Properties();
+
+		if(!confdir.exists())
+			confdir.mkdir();
 		load();
 	}
 	

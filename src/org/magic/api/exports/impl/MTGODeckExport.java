@@ -30,7 +30,7 @@ public class MTGODeckExport extends AbstractCardExport  {
 
 	public MTGODeckExport() {
 		super();
-		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("VERSION", "1.0");
 			save();
 		}

@@ -22,9 +22,13 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	private boolean enable=true;
 	protected Properties props;
 
+	protected File confdir = new File(MagicFactory.CONF_DIR, "dao");
+
 	
 	public AbstractMagicDAO() {
 		props=new Properties();
+		if(!confdir.exists())
+			confdir.mkdir();
 		load();
 	}
 	
@@ -42,7 +46,7 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public void load()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
+			File f = new File(confdir, getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -62,7 +66,7 @@ public abstract class AbstractMagicDAO implements MagicDAO {
 	public void save()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
+			File f = new File(confdir, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");

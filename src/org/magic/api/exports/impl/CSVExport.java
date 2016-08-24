@@ -40,7 +40,7 @@ public class CSVExport extends AbstractCardExport{
 
 	public CSVExport() {
 		super();
-		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("exportedProperties", "number,name,cost,supertypes,types,subtypes,editions");
 			props.put("exportedDeckProperties", "name,cost,supertypes,types,subtypes,editions");
 			props.put("exportedPricesProperties", "site,seller,value,currency,language,quality,foil");

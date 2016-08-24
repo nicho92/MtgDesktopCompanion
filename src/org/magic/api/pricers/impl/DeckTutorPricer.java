@@ -32,7 +32,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	public DeckTutorPricer() {
 		super();
 		
-		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 		props.put("URL", "https://ws.decktutor.com/app/v2");
 		props.put("WEBSITE", "http://www.decktutor.com");
 		props.put("LANG", "en");

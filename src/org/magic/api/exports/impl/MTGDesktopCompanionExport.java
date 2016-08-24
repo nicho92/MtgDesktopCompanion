@@ -26,7 +26,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 	
 	public MTGDesktopCompanionExport() {
 		super();
-		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("VERSION", "1.0");
 			save();
 		}

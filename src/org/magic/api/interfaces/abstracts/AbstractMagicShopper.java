@@ -20,8 +20,13 @@ public abstract class AbstractMagicShopper implements MagicShopper {
 	public abstract List<ShopItem> search(String search);
 	public abstract String getShopName();
 	
+	protected File confdir = new File(MagicFactory.CONF_DIR, "shoppers");
+
+	
 	public AbstractMagicShopper() {
 		props=new Properties();
+		if(!confdir.exists())
+			confdir.mkdir();
 		load();
 	}
 	
@@ -38,7 +43,7 @@ public abstract class AbstractMagicShopper implements MagicShopper {
 	public void load()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, getShopName()+".conf");
+			File f = new File(confdir, getShopName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -58,7 +63,7 @@ public abstract class AbstractMagicShopper implements MagicShopper {
 	public void save()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, getShopName()+".conf");
+			File f = new File(confdir, getShopName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");

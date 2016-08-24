@@ -38,7 +38,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	{
 		super();
 
-		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 		props.put("URL_MOVERS", "http://www.mtggoldfish.com/movers-details/");
 		props.put("URL_EDITIONS", "http://www.mtggoldfish.com/index/");
 		props.put("WEBSITE", "http://www.mtggoldfish.com/");

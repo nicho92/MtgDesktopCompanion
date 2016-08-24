@@ -24,7 +24,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 	public MagicTradersPricer() {
 		super();
 		
-		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 		props.put("MAX", "5");
 		props.put("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
 		props.put("WEBSITE", "http://classic.magictraders.com");

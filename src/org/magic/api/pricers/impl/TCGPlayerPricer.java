@@ -25,7 +25,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	public TCGPlayerPricer() {
 		super();
 		
-		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 		props.put("MAX", "-1");
 		props.put("API_KEY", "MGCASSTNT");
 		props.put("URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%");

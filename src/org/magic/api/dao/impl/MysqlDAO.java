@@ -32,7 +32,7 @@ public class MysqlDAO extends AbstractMagicDAO{
     
 	public MysqlDAO() throws ClassNotFoundException, SQLException {
 	    super();	
-		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 			 props.put("DRIVER", "com.mysql.jdbc.Driver");
 			 props.put("SERVERNAME","localhost");
 			 props.put("SERVERPORT", "3306");

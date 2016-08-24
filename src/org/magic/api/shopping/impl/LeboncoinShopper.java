@@ -36,7 +36,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	public LeboncoinShopper() {
 		super();	
 		
-		if(!new File(MagicFactory.CONF_DIR, getShopName()+".conf").exists()){
+		if(!new File(confdir, getShopName()+".conf").exists()){
 
 		props.put("TITLE_ONLY", "0");
 		props.put("MAX_PAGE", "2");

@@ -28,6 +28,8 @@ public abstract class AbstractDashBoard implements DashBoard {
 	public abstract String getName();
 	public abstract Date getUpdatedDate();
 
+	protected File confdir = new File(MagicFactory.CONF_DIR, "dashboards");
+
 	
 	private boolean enable=true;
 	protected Properties props;
@@ -35,7 +37,7 @@ public abstract class AbstractDashBoard implements DashBoard {
 	public void load()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
+			File f = new File(confdir, getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -55,7 +57,7 @@ public abstract class AbstractDashBoard implements DashBoard {
 	public void save()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
+			File f = new File(confdir, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");
@@ -68,6 +70,8 @@ public abstract class AbstractDashBoard implements DashBoard {
 	
 	public AbstractDashBoard() {
 		props=new Properties();
+		if(!confdir.exists())
+			confdir.mkdir();
 		load();
 	}
 	

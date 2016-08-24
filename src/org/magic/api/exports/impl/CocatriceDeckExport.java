@@ -20,7 +20,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 		super();
 		
 
-		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+		if(!new File(confdir,  getName()+".conf").exists()){
 			props.put("VERSION", "1.0");
 			props.put("DEFAULT_PRICE", "0");
 			save();

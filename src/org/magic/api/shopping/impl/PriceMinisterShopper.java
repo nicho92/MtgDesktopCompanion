@@ -35,7 +35,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 	public PriceMinisterShopper() {
 		super();	
 		
-		if(!new File(MagicFactory.CONF_DIR, getShopName()+".conf").exists()){
+		if(!new File(confdir, getShopName()+".conf").exists()){
 				props.put("LOGIN", "login");
 				props.put("PASSWORD", "password");
 				props.put("VERSION", "2015-07-05");

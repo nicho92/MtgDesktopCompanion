@@ -50,7 +50,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     	super();
     	
     	
-    	if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
+    	if(!new File(confdir, getName()+".conf").exists()){
     	props.put("APP_TOKEN", "YwlAAFW7VTANkQ0N");
 		props.put("APP_SECRET", "");
 		props.put("APP_ACCESS_TOKEN", "bARV5r0kGsqELWQyFdpYhVVeadzfqbQk");

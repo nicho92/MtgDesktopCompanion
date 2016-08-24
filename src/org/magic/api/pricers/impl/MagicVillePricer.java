@@ -33,7 +33,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		list=new ArrayList<MagicPrice>();
 		httpclient = HttpClients.createDefault();
 		
-		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 				props.put("MAX", "5");
 				props.put("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
 				props.put("WEBSITE", "http://www.magic-ville.com/");

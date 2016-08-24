@@ -16,7 +16,8 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 
 	private boolean enable=true;
 	protected Properties props;
-	
+	protected File confdir = new File(MagicFactory.CONF_DIR, "pricers");
+
 	
 	@Override
 	public abstract List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception ;
@@ -27,7 +28,7 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 	public void load()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
+			File f = new File(confdir, getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -47,7 +48,7 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 	public void save()
 	{
 		try {
-			File f = new File(MagicFactory.CONF_DIR, getName()+".conf");
+			File f = new File(confdir, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");
@@ -60,6 +61,8 @@ public abstract class AbstractMagicPricesProvider implements MagicPricesProvider
 	
 	public AbstractMagicPricesProvider() {
 		props=new Properties();
+		if(!confdir.exists())
+			confdir.mkdir();
 		load();
 	}
 	

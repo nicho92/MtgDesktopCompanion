@@ -35,7 +35,7 @@ public class PDFExport extends AbstractCardExport {
 	public PDFExport() {
 		super();
 		
-		if(!new File(MagicFactory.CONF_DIR, "exp-"+getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("AUTHOR", "Nicolas PIHEN");
 			save();
 		}

@@ -31,7 +31,7 @@ public class HsqlDAO extends AbstractMagicDAO{
     
     public HsqlDAO() throws ClassNotFoundException, SQLException {
     	 super();	
- 		if(!new File(MagicFactory.CONF_DIR, getName()+".conf").exists()){
+ 		if(!new File(confdir, getName()+".conf").exists()){
  			props.put("DRIVER", "org.hsqldb.jdbc.JDBCDriver");
  			props.put("URL", MagicFactory.CONF_DIR.getAbsolutePath()+"/db");
  			props.put("DBNAME", "magicDB");
