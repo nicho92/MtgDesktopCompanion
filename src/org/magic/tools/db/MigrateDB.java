@@ -17,10 +17,10 @@ public class MigrateDB {
 			mysql.init();
 			
 			
-		for(MagicCollection col : hsql.getCollections())
-			for(MagicCard mc : hsql.getCardsFromCollection(col))
+		for(MagicCollection col : mysql.getCollections())
+			for(MagicCard mc : mysql.getCardsFromCollection(col))
 			{
-				mysql.saveCard(mc, col);
+				hsql.saveCard(mc, col);
 			}
 		
 		

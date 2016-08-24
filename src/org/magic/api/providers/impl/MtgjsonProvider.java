@@ -51,8 +51,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private String urlVersion = "http://mtgjson.com/json/version.json";
 	
 	private File fileSetJsonTemp = new File(MagicFactory.CONF_DIR,"AllSets-x.json.zip");
-	private File fileSetJson = new File(MagicFactory.CONF_DIR+"AllSets-x.json");
-	private File fversion = new File(MagicFactory.CONF_DIR+"version");
+	private File fileSetJson = new File(MagicFactory.CONF_DIR,"AllSets-x.json");
+	private File fversion = new File(MagicFactory.CONF_DIR,"version");
 	
 	private List<MagicCard> list;
 	private ReadContext ctx;
