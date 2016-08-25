@@ -44,9 +44,6 @@ public class PDFExport extends AbstractCardExport {
 	}
 	
 	public void export(List<MagicCard> cards,File f) {
-
-		document.addTitle(f.getName());
-
 		PdfPTable table = new PdfPTable(3); 
 		table.setHorizontalAlignment(Element.ALIGN_CENTER);
 
@@ -56,6 +53,7 @@ public class PDFExport extends AbstractCardExport {
 			document.addAuthor(getProperty("AUTHOR").toString());
 			document.addCreationDate();
 			document.addCreator("Magic Desktop Companion");
+			document.addTitle(f.getName());
 
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f+".pdf"));
 			document.open();

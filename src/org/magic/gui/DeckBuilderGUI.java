@@ -290,7 +290,13 @@ public class DeckBuilderGUI extends JPanel{
 								
 								@Override
 								public boolean accept(File f) {
-									return f.getName().endsWith(exp.getFileExtension());
+									if(f.isDirectory())
+										return true;
+									
+									if(f.getName().endsWith(exp.getFileExtension()))
+											return true;
+									
+									return false;
 								}
 							});
 							jf.showOpenDialog(null);

@@ -160,8 +160,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     catch(SSLHandshakeException e)
     {
     	logger.error(e);
-		System.out.println(System.getProperty("javax.net.ssl.trustStore"));
-
+	
     } catch (NoSuchAlgorithmException|InvalidKeyException e) {
 		logger.error(e);
 	} 
