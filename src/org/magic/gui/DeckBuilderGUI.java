@@ -53,6 +53,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.game.Player;
 import org.magic.gui.components.DeckDetailsPanel;
+import org.magic.gui.components.DeckSnifferDialog;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.ManualImportFrame;
@@ -272,6 +273,32 @@ public class DeckBuilderGUI extends JPanel{
 							}
 						});
 				menu.add(manuel);
+				
+				
+				JMenuItem webSite = new JMenuItem("Import from website");
+				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/website.png")));
+				webSite.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						DeckSnifferDialog diag = new DeckSnifferDialog();
+						diag.setModal(true);
+						diag.setVisible(true);
+						
+						if(diag.getSelectedDeck()!=null)
+						{
+							deckmodel.load(diag.getSelectedDeck());
+							deckSidemodel.load(diag.getSelectedDeck());
+							deckmodel.fireTableDataChanged();
+							deckSidemodel.fireTableDataChanged();
+							setDeck(diag.getSelectedDeck());
+							updatePanels();
+							deckmodel.fireTableDataChanged();
+							deckSidemodel.fireTableDataChanged();
+						}
+					}
+				});
+				menu.add(webSite);
 				
 				for(final CardExporter exp : MagicFactory.getInstance().getEnabledDeckExports())
 				{

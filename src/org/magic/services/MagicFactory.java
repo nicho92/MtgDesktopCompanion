@@ -18,6 +18,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.DeckSniffer;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
@@ -31,6 +32,9 @@ public class MagicFactory {
 	private List<MagicCardsProvider> cardsProviders;
 	private List<MagicDAO> daoProviders;
 	private List<MagicShopper> cardsShoppers;
+	private List<DeckSniffer> deckSniffers;
+	
+	
 	public static File CONF_DIR = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
@@ -67,6 +71,9 @@ public class MagicFactory {
 			}
 			else if (k instanceof CardExporter) {
 				path = "deckexports/export[class='"+k.getClass().getName()+"']/enable";
+			}
+			else if (k instanceof DeckSniffer) {
+				path = "decksniffer/sniffer[class='"+k.getClass().getName()+"']/enable";
 			}
 			else if (k instanceof RSSBean) {
 				path = "rss";
@@ -181,7 +188,18 @@ public class MagicFactory {
 						 exports.add(prov);
 			}
 			
+			logger.info("loading Deck Sniffer");
+			deckSniffers=new ArrayList<DeckSniffer>();
+			for(int i=1;i<=config.getList("//sniffer/class").size();i++)
+			{
+				String s = config.getString("decksniffer/sniffer["+i+"]/class");
+				DeckSniffer prov = loadItem(DeckSniffer.class, s.toString());
+						prov.enable(config.getBoolean("decksniffer/sniffer["+i+"]/enable"));
+					deckSniffers.add(prov);
+			}
+			
 		} catch (Exception e) {
+			e.printStackTrace();
 		logger.error(e);
 		}
 		
@@ -237,6 +255,20 @@ public class MagicFactory {
 				return p;
 		
 		return null;
+	}
+	
+	public List<DeckSniffer> getEnabledDeckSniffer() {
+		List<DeckSniffer> prov= new ArrayList<DeckSniffer>();
+		
+		for(DeckSniffer p : getDeckSniffers())
+			if(p.isEnable())
+				prov.add(p);
+		
+		return prov;
+	}
+
+	public List<DeckSniffer> getDeckSniffers() {
+		return deckSniffers;
 	}
 
 	public List<MagicShopper> getShoppers() {

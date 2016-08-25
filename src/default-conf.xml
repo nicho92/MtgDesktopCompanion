@@ -79,6 +79,12 @@
 			<enable>true</enable>
 		</dashboard>
 	</dashboards>
+	<decksniffer>
+		<sniffer>
+			<class>org.magic.api.decksniffer.impl.TappedOutDeckSniffer</class>
+			<enable>true</enable>
+		</sniffer>
+	</decksniffer>
 	<deckexports>
 		<export>
 			<class>org.magic.api.exports.impl.CocatriceDeckExport</class>
