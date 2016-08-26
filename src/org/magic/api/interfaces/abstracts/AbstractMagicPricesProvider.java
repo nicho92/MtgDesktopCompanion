@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
@@ -12,7 +13,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.services.MagicFactory;
 
-public abstract class AbstractMagicPricesProvider implements MagicPricesProvider {
+public abstract class AbstractMagicPricesProvider extends Observable implements MagicPricesProvider {
 
 	private boolean enable=true;
 	protected Properties props;

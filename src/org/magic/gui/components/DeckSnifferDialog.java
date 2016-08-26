@@ -64,6 +64,8 @@ public class DeckSnifferDialog extends JDialog{
 					for(String s:selectedSniffer.listFilter())
 						cboFormats.addItem(s);
 					
+					cboFormats.setSelectedItem(selectedSniffer.getProperty("FORMAT"));
+					
 				} catch (Exception e1) {
 					e1.printStackTrace();
 				}

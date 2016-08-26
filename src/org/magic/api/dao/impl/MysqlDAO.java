@@ -29,6 +29,10 @@ public class MysqlDAO extends AbstractMagicDAO{
 	static final Logger logger = LogManager.getLogger(MysqlDAO.class.getName());
     Connection con;
  
+    @Override
+    public String toString() {
+    	return getName();
+    }
     
 	public MysqlDAO() throws ClassNotFoundException, SQLException {
 	    super();	

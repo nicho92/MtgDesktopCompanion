@@ -82,11 +82,14 @@ public class CmcChartPanel extends JPanel{
 		
 			for(MagicCard mc : cards)
 			{
-			
-					if(mc.getCmc()==null)
-						temp.put(0,count(0) );
-					else
+				if(mc.getCmc()!=null)
+					if(!mc.getTypes().contains("Land"))
 						temp.put(mc.getCmc(),count(mc.getCmc()) );
+				
+//					if(mc.getCmc()==null)
+//						temp.put(0,count(0) );
+//					else
+//						temp.put(mc.getCmc(),count(mc.getCmc()) );
 				
 			}
 			for(Integer k : temp.keySet())
@@ -102,10 +105,12 @@ public class CmcChartPanel extends JPanel{
 		
 		for(MagicCard mc : cards)
 		{
-			int cm = (mc.getCmc()==null)? 0 : mc.getCmc();
-
-			if(cm==cmc)
-				count++;
+			if(!mc.getTypes().contains("Land"))
+			{
+				int cm = (mc.getCmc()==null)? 0 : mc.getCmc();
+				if(cm==cmc)
+					count++;
+			}
 		}
 		return count;
 				

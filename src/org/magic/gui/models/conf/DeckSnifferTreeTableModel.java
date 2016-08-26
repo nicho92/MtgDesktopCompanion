@@ -11,20 +11,21 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
-import org.magic.api.interfaces.CardExporter;
-import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.DeckSniffer;
 import org.magic.services.MagicFactory;
 
-public class ExportsTableModel extends AbstractTreeTableModel {
+public class DeckSnifferTreeTableModel extends AbstractTreeTableModel {
 	
-	   	private CardExporter selectedProvider = null;
-	    private List<CardExporter> exports =MagicFactory.getInstance().getDeckExports();
-	    static final Logger logger = LogManager.getLogger(ExportsTableModel.class.getName());
-	    private final static String[] COLUMN_NAMES = {"Exporter","Value","Enabled"};
+	   	private DeckSniffer selectedProvider = null;
+	    private List<DeckSniffer> exports =MagicFactory.getInstance().getDeckSniffers();
+	    static final Logger logger = LogManager.getLogger(DeckSnifferTreeTableModel.class.getName());
+	    private final static String[] COLUMN_NAMES = {"Deck Website","Value","Enabled"};
 		
 
 	    
-	    public ExportsTableModel() {
+	    public DeckSnifferTreeTableModel() {
 	        super(new Object());
 	        
 	    }
@@ -57,8 +58,8 @@ public class ExportsTableModel extends AbstractTreeTableModel {
 
 	    @Override
 	    public int getChildCount(Object parent) {
-	        if (parent instanceof CardExporter) {
-	        	CardExporter dept = (CardExporter) parent;
+	        if (parent instanceof DeckSniffer) {
+	        	DeckSniffer dept = (DeckSniffer) parent;
 	            return dept.getProperties().size();
 	        }
 	        return exports.size();
@@ -67,14 +68,14 @@ public class ExportsTableModel extends AbstractTreeTableModel {
 	    @Override
 	    public Object getChild(Object parent, int index) 
 	    {
-	    	  if (parent instanceof CardExporter) {
-	        	CardExporter dept = (CardExporter) parent;
+	    	  if (parent instanceof DeckSniffer) {
+	        	DeckSniffer dept = (DeckSniffer) parent;
 	            return getPropByIndex(dept,index);
 	        }
 	        return new ArrayList(exports).get(index);
 	    }
 
-	    private Entry<String,Object> getPropByIndex(CardExporter dept, int index)
+	    private Entry<String,Object> getPropByIndex(DeckSniffer dept, int index)
 	    {
 	    	return (Map.Entry<String,Object>)dept.getProperties().entrySet().toArray()[index];
 	    }
@@ -83,7 +84,7 @@ public class ExportsTableModel extends AbstractTreeTableModel {
 	    // This is not called in the JTree's default mode: use a native implementation.
 	    @Override
 	    public int getIndexOfChild(Object parent, Object child) {
-	    	CardExporter dept = (CardExporter) parent;
+	    	DeckSniffer dept = (DeckSniffer) parent;
 	        Entry k = (Entry) child;
 	        return getPosition(k,dept.getProperties());
 	    }
@@ -100,9 +101,9 @@ public class ExportsTableModel extends AbstractTreeTableModel {
 
 	    @Override
 	    public Object getValueAt(Object node, int column) {
-	       if (node instanceof CardExporter) 
+	       if (node instanceof DeckSniffer) 
 	       {
-	    	   CardExporter prov = (CardExporter) node;
+	    	   DeckSniffer prov = (DeckSniffer) node;
 	            switch (column) {
 	                case 0:return prov.getName();
 	                case 2: return prov.isEnable();
@@ -127,9 +128,9 @@ public class ExportsTableModel extends AbstractTreeTableModel {
 	    	
 	        String strValue = String.valueOf(value);
 	        
-	        if(node instanceof CardExporter )
+	        if(node instanceof DeckSniffer )
 	        {
-	        	selectedProvider=(CardExporter)node;
+	        	selectedProvider=(DeckSniffer)node;
 	        	if(column==2)
 	        	{
 	        		selectedProvider.enable(Boolean.parseBoolean(strValue));
@@ -159,7 +160,7 @@ public class ExportsTableModel extends AbstractTreeTableModel {
 
 
 
-		public void setSelectedNode(CardExporter pathComponent) {
+		public void setSelectedNode(DeckSniffer pathComponent) {
 			selectedProvider=pathComponent;
 		}
 }

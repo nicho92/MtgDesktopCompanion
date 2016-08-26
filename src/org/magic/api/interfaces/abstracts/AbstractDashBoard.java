@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.beans.CardShake;
@@ -15,7 +16,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.services.MagicFactory;
 
-public abstract class AbstractDashBoard implements DashBoard {
+public abstract class AbstractDashBoard extends Observable implements DashBoard {
 
 	public static enum FORMAT { standard,legacy,vintage,modern};
 	public static enum ONLINE_PAPER {online, paper};

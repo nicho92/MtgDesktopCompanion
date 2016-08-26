@@ -17,17 +17,20 @@ import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.DeckSniffer;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.gui.models.conf.DashBoardProviderTreeTableModel;
-import org.magic.gui.models.conf.ExportsTableModel;
+import org.magic.gui.models.conf.DeckSnifferTreeTableModel;
+import org.magic.gui.models.conf.ExportsTreeTableModel;
 import org.magic.gui.models.conf.MagicDAOProvidersTableModel;
 import org.magic.gui.models.conf.MagicPricesProvidersTableModel;
 import org.magic.gui.models.conf.MagicShoppersTableModel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.gui.models.conf.SystemTableModel;
+import org.magic.gui.components.ConfigurationPanel;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable table;
@@ -36,6 +39,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable daoProviderTable;
 	private JXTreeTable shopperTreeTable;
 	private JXTreeTable dashboardTreeTable;
+	private JXTreeTable importTreeTable;
 	private JXTable rssTable;
 	private JXTreeTable exportsTable;
 	
@@ -46,11 +50,17 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
-		
-		JScrollPane applicationConfigPanel = new JScrollPane();
-		tabbedPane.addTab("Application", null, applicationConfigPanel, null);
 
 		SystemTableModel mod = new SystemTableModel();
+		
+		JTabbedPane tabbedConf = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addTab("Configuration", null, tabbedConf, null);
+		
+		ConfigurationPanel configurationPanel = new ConfigurationPanel();
+		tabbedConf.addTab("Administration", null, configurationPanel, null);
+		
+		JScrollPane applicationConfigPanel = new JScrollPane();
+		tabbedConf.addTab("Java", null, applicationConfigPanel, null);
 		
 		table = new JTable(mod);
 		applicationConfigPanel.setViewportView(table);
@@ -113,16 +123,28 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		JScrollPane exportsScrollPane = new JScrollPane();
 		subTabbedProviders.addTab("Exports", null, exportsScrollPane, null);
-		exportsTable = new JXTreeTable(new ExportsTableModel());
+		exportsTable = new JXTreeTable(new ExportsTreeTableModel());
 		exportsTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1);
-						((ExportsTableModel)exportsTable.getTreeTableModel()).setSelectedNode((CardExporter)e.getNewLeadSelectionPath().getPathComponent(1));
+						((ExportsTreeTableModel)exportsTable.getTreeTableModel()).setSelectedNode((CardExporter)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
 		exportsScrollPane.setViewportView(exportsTable);
-	
+		
+		JScrollPane importScrollPane = new JScrollPane();
+		subTabbedProviders.addTab("Import", null, importScrollPane, null);
+		
+		importTreeTable = new JXTreeTable(new DeckSnifferTreeTableModel());
+		importScrollPane.setViewportView(importTreeTable);
+		importTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1);
+						((DeckSnifferTreeTableModel)importTreeTable.getTreeTableModel()).setSelectedNode((DeckSniffer)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		});
 		
 		JScrollPane dashboardScrollPane = new JScrollPane();
 		subTabbedProviders.addTab("DashBoards", null, dashboardScrollPane, null);
@@ -137,18 +159,18 @@ public class ConfigurationPanelGUI extends JPanel {
 		});
 		dashboardScrollPane.setViewportView(dashboardTreeTable);
 		
-		JPanel panel = new JPanel();
-		subTabbedProviders.addTab("RSS", null, panel, null);
-		panel.setLayout(new BorderLayout(0, 0));
+		JPanel rssPanel = new JPanel();
+		subTabbedProviders.addTab("RSS", null, rssPanel, null);
+		rssPanel.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane rssScrollPane = new JScrollPane();
-		panel.add(rssScrollPane);
+		rssPanel.add(rssScrollPane);
 		
 		rssTable = new JXTable(new RssBeanTableModel());
 		rssScrollPane.setViewportView(rssTable);
 		
 		JPanel panneauhaut = new JPanel();
-		panel.add(panneauhaut, BorderLayout.NORTH);
+		rssPanel.add(panneauhaut, BorderLayout.NORTH);
 		
 		JButton btnNew = new JButton("");
 		btnNew.addActionListener(new ActionListener() {

@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
+import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.beans.MagicDeck;
@@ -11,7 +12,7 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.services.MagicFactory;
 
-public abstract class AbstractDeckSniffer implements DeckSniffer {
+public abstract class AbstractDeckSniffer extends Observable implements DeckSniffer {
 
 	private boolean enable;
 	protected Properties props;

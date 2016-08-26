@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
@@ -16,7 +17,7 @@ import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MagicFactory;
 
-public abstract class AbstractMagicDAO implements MagicDAO {
+public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
 
 	
 	private boolean enable=true;

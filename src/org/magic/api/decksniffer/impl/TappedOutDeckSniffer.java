@@ -27,12 +27,15 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.gui.models.conf.DeckSnifferTreeTableModel;
 import org.magic.services.MagicFactory;
 
 import com.google.gson.JsonArray;
@@ -45,7 +48,9 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private CookieStore cookieStore;
 	private HttpClient httpclient;
 	private HttpContext httpContext; 
+    static final Logger logger = LogManager.getLogger(TappedOutDeckSniffer.class.getName());
 
+    
 	@Override
 	public String toString() {
 		return getName();
@@ -136,12 +141,27 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			String position =inv.get(1).getAsJsonObject().get("b").getAsString();
 			int qte = inv.get(1).getAsJsonObject().get("qty").getAsInt();
 			
+			
+			//remove foil if present
+			cardName=cardName.replaceAll("\\*.+?\\*", "").trim();
+			
+			
+			//ged ed if present
 			String idSet = null;
 			Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(cardName);
 		    while(m.find()) {
 		      idSet = (m.group(1));    
 		    }
 		    cardName=cardName.replaceAll("\\(([^)]+)\\)", "").trim();
+		    
+		    
+		    //remove behavior if present
+		    if (cardName.contains("#"))
+		    {
+		    	cardName=cardName.substring(0,cardName.indexOf("#")).trim();
+		    }
+		    
+		    
 		    
 		    List<MagicCard> ret ;
 			if(idSet==null)
@@ -157,6 +177,9 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			
 			if(ret.size()>0)
 			{
+				setChanged();
+				notifyObservers(deck.getMap());
+				
 				if(position.equalsIgnoreCase("main"))
 					deck.getMap().put(ret.get(0), qte);
 				else

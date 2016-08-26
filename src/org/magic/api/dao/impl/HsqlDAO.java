@@ -34,6 +34,11 @@ public class HsqlDAO extends AbstractMagicDAO{
     Connection con;
     List<MagicCard> listNeeded ;
     
+    @Override
+    public String toString() {
+    	return getName();
+    }
+    
     public HsqlDAO() throws ClassNotFoundException, SQLException {
     	 super();	
  		if(!new File(confdir, getName()+".conf").exists()){
