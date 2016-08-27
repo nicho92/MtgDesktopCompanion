@@ -31,7 +31,7 @@ public class DeckSnifferDialog extends JDialog{
 	private DeckSniffer selectedSniffer;
 	
 	public DeckSnifferDialog() {
-		setSize(new Dimension(450, 300));
+		setSize(new Dimension(500, 300));
 		setTitle("Import Deck");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -114,6 +114,7 @@ public class DeckSnifferDialog extends JDialog{
 			}
 		});
 		panel_1.add(btnImport);
+		setLocationRelativeTo(null);
 	}
 
 	public MagicDeck getSelectedDeck() {

@@ -111,7 +111,7 @@ public class MassMoverDialog extends JDialog {
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 		filterHeader.setTable(tableCards);
 		//pack();
-		
+		setLocationRelativeTo(null);
 	}
 
 	public boolean hasChange() {

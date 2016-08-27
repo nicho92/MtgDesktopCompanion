@@ -82,6 +82,7 @@ public class PriceCatalogExportDialog extends JDialog {
 				
 			}
 		});
+		setLocationRelativeTo(null);
 	}
 	public boolean value() {
 		return value;

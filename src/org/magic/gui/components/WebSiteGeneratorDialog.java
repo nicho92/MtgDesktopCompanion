@@ -145,6 +145,8 @@ public class WebSiteGeneratorDialog extends JDialog {
 				
 			}
 		});
+		
+		setLocationRelativeTo(null);
 	}
 
 

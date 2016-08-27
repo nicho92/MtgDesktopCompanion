@@ -170,7 +170,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		scrollPane.setViewportView(txtNumbersInput);
 		
 		setModal(true);
-		
+		setLocationRelativeTo(null);
 		
 	}
 	
