@@ -84,7 +84,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		 else
 		 {
 			 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
-			 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
+			 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "").replaceAll(":","");
 			 url =props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT");
 			 index=5;
 		
@@ -209,13 +209,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		String oldID=edition.getId();
 		String urlEditionChecker = props.getProperty("URL_EDITIONS")+replace(edition.getId())+"#"+props.getProperty("FORMAT");
 		
+		logger.debug("Parsing dashboard "+ urlEditionChecker);
+		
 		Document doc = Jsoup.connect(urlEditionChecker)
 							.userAgent(props.getProperty("USER_AGENT"))
 							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 							.get();
 		
 		
-		logger.debug("Parsing dashboard "+ urlEditionChecker);
 		
 		
 		Element table =null;

@@ -37,8 +37,8 @@ public class CardsShakerTableModel extends DefaultTableModel {
 		case 0: return CardShake.class;
 		case 1 : return String.class;
 		case 2 : return Double.class;
-		case 3 : return Double.class;
-		case 4 : return Double.class;
+		/*case 3 : return Double.class;
+		case 4 : return Double.class;*/
 		default:return super.getColumnClass(columnIndex);
 		}
 	}
