@@ -48,7 +48,13 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 
 	@Override
 	public void setProperties(String k, Object value) {
+		try{
 		props.put(k, value);
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 
 	}
 

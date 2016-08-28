@@ -76,12 +76,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		return deck;
 	}
 
-	public static void main(String[] args) throws Exception {
-		MTGoldFishDeck snif = new MTGoldFishDeck();
-		snif.getDeckList();
-		//snif.getDeck(snif.getDeckList().get(0));
-	}
-	
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		Document d = Jsoup.connect(props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT"))
     		 	.userAgent(props.getProperty("USER_AGENT"))

@@ -62,12 +62,14 @@ public class DeckSnifferDialog extends JDialog{
 				try {
 					selectedSniffer.connect();
 					cboFormats.removeAllItems();
+					
 					for(String s:selectedSniffer.listFilter())
 						cboFormats.addItem(s);
 					
-					cboFormats.setSelectedItem(selectedSniffer.getProperty("FORMAT"));
+					//cboFormats.setSelectedItem(selectedSniffer.getProperty("FORMAT"));
 					
 				} catch (Exception e1) {
+					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 				}
 			}
