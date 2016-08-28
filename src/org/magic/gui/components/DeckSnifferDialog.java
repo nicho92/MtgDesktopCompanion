@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
@@ -67,7 +68,7 @@ public class DeckSnifferDialog extends JDialog{
 					cboFormats.setSelectedItem(selectedSniffer.getProperty("FORMAT"));
 					
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -82,8 +83,7 @@ public class DeckSnifferDialog extends JDialog{
 					model.init(selectedSniffer);
 					model.fireTableDataChanged();
 				} catch (Exception e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -108,7 +108,7 @@ public class DeckSnifferDialog extends JDialog{
 					importedDeck =  selectedSniffer.getDeck((RetrievableDeck)model.getValueAt(table.getSelectedRow(), 0));
 					dispose();
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 					importedDeck=null;
 				}
 			}
