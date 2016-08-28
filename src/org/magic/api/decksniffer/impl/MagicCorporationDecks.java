@@ -47,7 +47,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 		{
 			for(Element li : ul.select("li") )
 			{
-					System.out.println(li.getElementsByTag("img"));
+					String name = li.getElementsByTag("a").attr("title");
 			}
 		}
 		
