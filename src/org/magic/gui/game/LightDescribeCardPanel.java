@@ -1,36 +1,24 @@
 package org.magic.gui.game;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
-import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicFormat;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
-
-import java.awt.GridBagLayout;
-import java.awt.Image;
-
-import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-
-import java.awt.Dimension;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import org.magic.gui.components.MagicTextPane;
-import javax.swing.JTextField;
-import javax.swing.JTextPane;
-
 import org.magic.gui.components.ManaPanel;
-import org.magic.services.MagicFactory;
-import org.magic.services.ThreadManager;
-import java.awt.FlowLayout;
-import javax.swing.JScrollPane;
 
 public class LightDescribeCardPanel extends JPanel {
 	private JTextField txtName;

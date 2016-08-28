@@ -6,10 +6,7 @@ import java.awt.Cursor;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
@@ -43,11 +40,9 @@ import org.magic.api.analyzer.CardAnalyser;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
-import org.magic.api.pictures.impl.CockatriceTokenProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
-import org.magic.gui.components.MagicTextPane;
 import org.magic.services.MagicFactory;
 
 public class GamePanelGUI extends JPanel implements Observer {
@@ -213,7 +208,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 					if(((DisplayableCard)c).isSelected())
 					{
 						try{
-							MagicCard tok = CardAnalyser.generateTokenFrom(  ((DisplayableCard)c).getMagicCard() );
+							MagicCard tok = CardAnalyser.createTokenCardFrom(  ((DisplayableCard)c).getMagicCard() );
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
 							dc.setMagicCard(tok);
 							//dc.setImage(new ImageIcon(new CockatriceTokenProvider().getToken(tok).getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
@@ -284,7 +279,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 					if(((DisplayableCard)c).isSelected())
 					{
 						try{
-							MagicCard tok = CardAnalyser.generateEmblemFrom(((DisplayableCard)c).getMagicCard()  );
+							MagicCard tok = CardAnalyser.createEmblemCardFrom(((DisplayableCard)c).getMagicCard()  );
 							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
 							dc.setMagicCard(tok);
 							

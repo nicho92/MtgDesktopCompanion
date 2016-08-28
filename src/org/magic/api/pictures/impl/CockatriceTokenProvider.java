@@ -16,7 +16,6 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.CardBuilderPanelGUI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;

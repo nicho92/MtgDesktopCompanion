@@ -33,9 +33,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.gui.models.conf.DeckSnifferTreeTableModel;
 import org.magic.services.MagicFactory;
 
 import com.google.gson.JsonArray;
@@ -208,6 +206,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			RetrievableDeck deck = new RetrievableDeck();
 			deck.setName(obj.get("name").getAsString());
 			deck.setUrl(new URI(obj.get("resource_uri").getAsString()));
+			deck.setAuthor(obj.get("user").getAsString());
+			
 			list.add(deck);
 		}
         

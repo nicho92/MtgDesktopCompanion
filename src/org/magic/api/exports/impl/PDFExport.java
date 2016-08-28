@@ -10,13 +10,9 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.gui.DeckBuilderGUI;
-import org.magic.services.MagicFactory;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;

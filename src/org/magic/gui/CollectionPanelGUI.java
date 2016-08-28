@@ -170,17 +170,34 @@ public class CollectionPanelGUI extends JPanel {
 		btnExportCSV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-				MagicCollection mc = (MagicCollection) curr.getUserObject();
-				
 				JFileChooser jf = new JFileChooser();
+				
+				MagicCollection mc=null;
+				MagicEdition ed=null;
+				
+				if(curr.getUserObject() instanceof MagicEdition)
+				{
+					ed = (MagicEdition) curr.getUserObject();
+					mc = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
+				}
+				else
+				{
+					mc = (MagicCollection) curr.getUserObject();
+				}
+				
 				jf.setSelectedFile(new File(mc.getName()+".csv"));
-				jf.showSaveDialog(null);
+				int result = jf.showSaveDialog(null);
 				File f = jf.getSelectedFile();
 				
-				if(f!=null)
+				if(result==JFileChooser.APPROVE_OPTION)
 				try {
 					CSVExport exp = new CSVExport();
-					exp.export(dao.getCardsFromCollection(mc), f);
+					
+					if(ed==null)
+						exp.export(dao.getCardsFromCollection(mc), f);
+					else
+						exp.export(dao.getCardsFromCollection(mc,ed), f);
+					
 					JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
 				} catch (Exception e) {
 					logger.error(e);
@@ -326,7 +343,15 @@ public class CollectionPanelGUI extends JPanel {
 				final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 
 				logger.debug("click on " + curr );
-
+				
+				if(curr.getUserObject() instanceof String)
+				{
+					btnExportCSV.setEnabled(false);
+					btnExportPriceCatalog.setEnabled(false);
+					
+				}
+				
+				
 				if (curr.getUserObject() instanceof MagicCollection) 
 				{
 					btnExportCSV.setEnabled(true);
@@ -355,7 +380,7 @@ public class CollectionPanelGUI extends JPanel {
 				if(curr.getUserObject() instanceof MagicEdition)
 				{
 
-					btnExportCSV.setEnabled(false);
+					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(false);
 
 					ThreadManager.getInstance().execute(new Runnable() {

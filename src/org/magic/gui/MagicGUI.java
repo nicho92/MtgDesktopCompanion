@@ -67,8 +67,6 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
-import org.magic.api.exports.impl.CSVExport;
-import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
@@ -421,6 +419,7 @@ public class MagicGUI extends JFrame {
 		btnSearch = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/search.png")));
 		btnExport = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/export.png")));
 		btnExport.setToolTipText("Export Result");
+		btnExport.setEnabled(false);
 		
 		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
 		cboQuereableItems.addItem("collections");
@@ -741,6 +740,7 @@ public class MagicGUI extends JFrame {
 								rarityRepartitionPanel.init(cards);
 								tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
 								
+								btnExport.setEnabled(tableCards.getRowCount()>0);
 
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -886,17 +886,19 @@ public class MagicGUI extends JFrame {
 							public void actionPerformed(ActionEvent arg0) {
 								JFileChooser jf =new JFileChooser(".");
 								jf.setSelectedFile(new File("search"+exp.getFileExtension()));
-								jf.showSaveDialog(null);
+								int result = jf.showSaveDialog(null);
 								final File f=jf.getSelectedFile();
 								
-								
+								if(result==JFileChooser.APPROVE_OPTION)
 									ThreadManager.getInstance().execute(new Runnable() {
 										
 										@Override
 										public void run() {
 											try {
 											loading(true, "export " + exp);
-											exp.export(cardsModeltable.getListCards(), f);
+											
+											List<MagicCard> export = ((MagicCardTableModel)tableCards.getRowSorter().getModel()).getListCards();
+											exp.export(export, f);
 											loading(false, "");
 											JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
 											} catch (Exception e) {

@@ -1,23 +1,22 @@
 package org.magic.gui.components;
 
-import javax.swing.JDialog;
 import java.awt.BorderLayout;
-import javax.swing.JScrollPane;
-import javax.swing.JPanel;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
-import org.magic.gui.models.DeckModel;
 import org.magic.gui.models.DeckSnifferModel;
 import org.magic.services.MagicFactory;
-
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import java.awt.Dimension;
 
 public class DeckSnifferDialog extends JDialog{
 	private JTable table;

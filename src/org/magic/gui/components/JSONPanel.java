@@ -1,7 +1,6 @@
 package org.magic.gui.components;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextPane;
 
 import org.magic.api.beans.MagicCard;

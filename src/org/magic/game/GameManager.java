@@ -6,7 +6,6 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.gui.game.GamePanelGUI;
 

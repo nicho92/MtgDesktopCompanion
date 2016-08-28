@@ -6,12 +6,9 @@ import java.net.URL;
 import java.net.URLEncoder;
 
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.JPanel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.PictureProvider;
-import org.magic.services.MagicFactory;
 
 public class MTGCardMakerPicturesProvider implements PictureProvider {
 

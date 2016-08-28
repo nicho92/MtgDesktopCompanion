@@ -21,6 +21,7 @@ import org.magic.api.interfaces.DeckSniffer;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
+import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.models.conf.DashBoardProviderTreeTableModel;
 import org.magic.gui.models.conf.DeckSnifferTreeTableModel;
 import org.magic.gui.models.conf.ExportsTreeTableModel;
@@ -30,7 +31,6 @@ import org.magic.gui.models.conf.MagicShoppersTableModel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.gui.models.conf.SystemTableModel;
-import org.magic.gui.components.ConfigurationPanel;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable table;

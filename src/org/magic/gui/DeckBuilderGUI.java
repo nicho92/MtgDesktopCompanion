@@ -326,9 +326,11 @@ public class DeckBuilderGUI extends JPanel{
 									return false;
 								}
 							});
-							jf.showOpenDialog(null);
+							int res = jf.showOpenDialog(null);
 							final File f=jf.getSelectedFile();
-								ThreadManager.getInstance().execute(new Runnable() {
+							
+							if(res==JFileChooser.APPROVE_OPTION)
+							ThreadManager.getInstance().execute(new Runnable() {
 									
 									@Override
 									public void run() {
@@ -715,7 +717,7 @@ public class DeckBuilderGUI extends JPanel{
 		typeRepartitionPanel.init(deck);
 		manaRepartitionPanel.init(deck);;
 		rarityRepartitionPanel.init(deck);
-		btnExports.setEnabled(true);
+		btnExports.setEnabled(deck.getAsList().size()>0);
 		
 	}	
 }

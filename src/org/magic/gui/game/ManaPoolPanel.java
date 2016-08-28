@@ -1,9 +1,8 @@
 package org.magic.gui.game;
 
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.util.Map;
 
 import javax.swing.JPanel;
@@ -14,10 +13,6 @@ import javax.swing.event.ChangeListener;
 
 import org.magic.game.Player;
 import org.magic.gui.components.ManaPanel;
-import java.awt.GridLayout;
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
 
 public class ManaPoolPanel extends JPanel{
 	private JSpinner spinW;

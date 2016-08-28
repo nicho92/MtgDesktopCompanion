@@ -8,7 +8,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.Observable;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -18,10 +17,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.gui.DeckBuilderGUI;
 import org.magic.services.MagicFactory;
 
 

@@ -15,7 +15,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MagicFactory;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 

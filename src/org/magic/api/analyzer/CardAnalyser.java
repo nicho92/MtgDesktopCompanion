@@ -6,7 +6,7 @@ import org.magic.tools.ColorParser;
 
 public class CardAnalyser {
 
-	public static MagicCard generateEmblemFrom(MagicCard mc) throws Exception
+	public static MagicCard createEmblemCardFrom(MagicCard mc) throws Exception
 	{
 		MagicCard emblem = new MagicCard();
 		
@@ -38,7 +38,7 @@ public class CardAnalyser {
 	
 	
 	
-	public static MagicCard generateTokenFrom(MagicCard mc) throws Exception
+	public static MagicCard createTokenCardFrom(MagicCard mc) throws Exception
 	{
 		
 		MagicCard token = new MagicCard();
