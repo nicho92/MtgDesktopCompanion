@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.gui.models.DeckSnifferModel;
+import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MagicFactory;
 
 public class DeckSnifferDialog extends JDialog{
@@ -114,6 +115,8 @@ public class DeckSnifferDialog extends JDialog{
 		});
 		panel_1.add(btnImport);
 		setLocationRelativeTo(null);
+		
+		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 	}
 
 	public MagicDeck getSelectedDeck() {

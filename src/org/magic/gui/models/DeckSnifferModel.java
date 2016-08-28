@@ -10,7 +10,7 @@ import org.magic.api.interfaces.DeckSniffer;
 
 public class DeckSnifferModel extends DefaultTableModel {
 
-	final String[] columns = new String[]{"name"};
+	final String[] columns = new String[]{"name","color","key cards","author"};
 
 	List<RetrievableDeck> decks;
 	
@@ -38,7 +38,16 @@ public class DeckSnifferModel extends DefaultTableModel {
 	
 	@Override
 	public Object getValueAt(int row, int column) {
-		return decks.get(row);
+		
+		switch(column)
+		{
+		case 0 : return decks.get(row);
+		case 1 : return decks.get(row).getColor();
+		case 2 : return decks.get(row).getKeycards();
+		case 3 : return decks.get(row).getAuthor();
+		default : return null;
+		}
+		
 	}
 	
 	@Override

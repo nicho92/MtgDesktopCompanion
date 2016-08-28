@@ -78,11 +78,47 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	public static void main(String[] args) throws Exception {
 		MTGoldFishDeck snif = new MTGoldFishDeck();
-		snif.getDeck(snif.getDeckList().get(0));
+		snif.getDeckList();
+		//snif.getDeck(snif.getDeckList().get(0));
 	}
 	
+	public List<RetrievableDeck> getDeckList() throws Exception {
+		Document d = Jsoup.connect(props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT"))
+    		 	.userAgent(props.getProperty("USER_AGENT"))
+				.get();
+		
+		
+		Elements e = d.select("div.archetype-tile" );
+		
+		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
+		for(Element cont : e)
+		{
+			
+			Elements desc = cont.select("span.deck-price-"+props.getProperty("SUPPORT") +"> a" );
+			Elements colors = cont.select("span.manacost > img" );
+			String deckColor="";
+			for(Element c : colors)
+				deckColor+="{"+c.attr("alt").toUpperCase()+"}";
+			
+			
+			RetrievableDeck deck = new RetrievableDeck();
+			deck.setName(desc.get(0).text());
+			deck.setUrl(new URI(props.get("URL")+desc.get(0).attr("href")));
+			deck.setAuthor("MtgGoldFish");
+			deck.setColor(deckColor);
+			
+			for(Element mc : cont.getElementsByTag("li"))
+			{
+				deck.getKeycards().add(mc.text());
+			}
+			
+			
+			list.add(deck);
+		}
+		return list;
+	}
 	
-	@Override
+	/*@Override
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		Document d = Jsoup.connect(props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT"))
     		 	.userAgent(props.getProperty("USER_AGENT"))
@@ -97,10 +133,11 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			RetrievableDeck deck = new RetrievableDeck();
 			deck.setName(div.text());
 			deck.setUrl(new URI(props.get("URL")+div.attr("href")));
+			deck.setAuthor("MtgGoldFish");
 			list.add(deck);
 		}
 		return list;
-	}
+	}*/
 
 	@Override
 	public void connect() throws Exception {
