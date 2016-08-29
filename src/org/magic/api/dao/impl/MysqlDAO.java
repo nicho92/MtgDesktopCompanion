@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.services.MagicFactory;
 
 public class MysqlDAO extends AbstractMagicDAO{
 
@@ -256,7 +257,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
 		
-		if(c.getName().equals("Library"))
+		if(c.getName().equals(MagicFactory.getInstance().get("default-library")))
 			throw new SQLException(c.getName() + " can not be deleted");
 		
 		PreparedStatement pst = con.prepareStatement("delete from collections where name = ?");

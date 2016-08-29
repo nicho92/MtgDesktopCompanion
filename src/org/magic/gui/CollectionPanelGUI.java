@@ -377,12 +377,14 @@ public class CollectionPanelGUI extends JPanel {
 				{
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
-					ThreadManager.getInstance().execute(new Runnable() {
+					
+					/*ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try{
-								rarityRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
-								typeRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
-								manaRepartitionPanel.init(dao.getCardsFromCollection(((MagicCollection)curr.getUserObject())));
+								List<MagicCard> list = dao.getCardsFromCollection(((MagicCollection)curr.getUserObject()));
+								rarityRepartitionPanel.init(list);
+								typeRepartitionPanel.init(list);
+								manaRepartitionPanel.init(list);
 
 							}catch(Exception e)
 							{
@@ -391,6 +393,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 						}
 					},"addTreeSelectionListener init graph Collection");
+					*/
 					selectedcol = (MagicCollection) curr.getUserObject();
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
@@ -409,10 +412,10 @@ public class CollectionPanelGUI extends JPanel {
 							try{
 
 								MagicCollection c = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
-
-								rarityRepartitionPanel.init(dao.getCardsFromCollection(c,(MagicEdition)curr.getUserObject()));
-								typeRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
-								manaRepartitionPanel.init(dao.getCardsFromCollection(c,((MagicEdition)curr.getUserObject())));
+								List<MagicCard> list = dao.getCardsFromCollection(c,(MagicEdition)curr.getUserObject());
+								rarityRepartitionPanel.init(list);
+								typeRepartitionPanel.init(list);
+								manaRepartitionPanel.init(list);
 								historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,(MagicEdition)curr.getUserObject()),curr.getUserObject().toString());
 
 
@@ -436,7 +439,6 @@ public class CollectionPanelGUI extends JPanel {
 
 					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
-							ImageIcon icon;
 							try {
 								modelPrices.init(card, card.getEditions().get(0));
 								modelPrices.fireTableDataChanged();

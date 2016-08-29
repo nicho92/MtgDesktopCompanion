@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JTree;
@@ -22,6 +23,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MagicFactory;
+
+
 
 public class LazyLoadingTree extends JTree {
 
@@ -83,7 +86,7 @@ public class LazyLoadingTree extends JTree {
 		
 	}
 
-public class MyNode extends DefaultMutableTreeNode
+public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
 {
 	private boolean loaded;
 	private Object userObject;
@@ -220,7 +223,7 @@ public class MyNode extends DefaultMutableTreeNode
                 	MyNode n = new MyNode(prov.getSetById(ed));
                 	children.add(n);
             	}
-               
+               Collections.sort(children);
                 return children;
             }
 
@@ -238,6 +241,11 @@ public class MyNode extends DefaultMutableTreeNode
         };
         worker.execute();
 		
+	}
+	
+	@Override
+	public int compareTo(MyNode o) {
+		return this.toString().compareTo(o.toString());
 	}
     }
 
