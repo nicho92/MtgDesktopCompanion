@@ -181,7 +181,8 @@ public class MyNode extends DefaultMutableTreeNode
         SwingWorker<List<MyNode>, Void> worker = new SwingWorker<List<MyNode>, Void>() {
             @Override
             protected List<MyNode> doInBackground() throws Exception {
-
+            	logger.debug("loading cards from " + col+"/"+ed);
+                
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
                 for(MagicCard card : dao.getCardsFromCollection(col, ed))
                 {
@@ -194,6 +195,7 @@ public class MyNode extends DefaultMutableTreeNode
             @Override
             protected void done() {
                 try {
+                	logger.debug("loading cards from " + col+"/"+ed +" done");
                     setChildren(get());
                     model.nodeStructureChanged(MyNode.this);
                 } catch (Exception e) {
@@ -211,19 +213,21 @@ public class MyNode extends DefaultMutableTreeNode
         SwingWorker<List<MyNode>, Void> worker = new SwingWorker<List<MyNode>, Void>() {
             @Override
             protected List<MyNode> doInBackground() throws Exception {
-
+            	logger.debug("loading editions from " + c);
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
                 for(String ed : dao.getEditionsIDFromCollection(c))
                 {
                 	MyNode n = new MyNode(prov.getSetById(ed));
                 	children.add(n);
             	}
+               
                 return children;
             }
 
             @Override
             protected void done() {
                 try {
+                	 logger.debug("loading editions from " + c +  " done");
                     setChildren(get());
                     model.nodeStructureChanged(MyNode.this);
                 } catch (Exception e) {

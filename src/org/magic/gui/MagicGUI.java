@@ -8,7 +8,9 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.MenuItem;
 import java.awt.Point;
+import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.Toolkit;
 import java.awt.TrayIcon;
@@ -26,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.concurrent.SynchronousQueue;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -191,6 +194,11 @@ public class MagicGUI extends JFrame {
 		lblLoading.setVisible(show);
 	}
 
+	
+	public void setSelectedTab(int id)
+	{
+		tabbedPane.setSelectedIndex(id);
+	}
 
 	public void setLookAndFeel(String lookAndFeel)
 	{
@@ -205,7 +213,6 @@ public class MagicGUI extends JFrame {
 		}
 		
 	}
-
 
 	public void initPopupCollection() throws Exception
 	{
@@ -648,19 +655,17 @@ public class MagicGUI extends JFrame {
 		tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
 		deckBuilderGUI = new DeckBuilderGUI(provider,dao);
 
-
+		collectionPanelGUI = new CollectionPanelGUI();
 
 		tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/res/search.gif")), globalPanel, null);
 		tabbedPane.addTab("Deck", new ImageIcon(MagicGUI.class.getResource("/res/book_icon.jpg")), deckBuilderGUI, null);
 		tabbedPane.addTab("Game", new ImageIcon(MagicGUI.class.getResource("/res/bottom.png")), GamePanelGUI.getInstance(), null);
-		collectionPanelGUI = new CollectionPanelGUI();
 		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), collectionPanelGUI, null);
 		tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI(), null);
 		tabbedPane.addTab("Shopping", new ImageIcon(MagicGUI.class.getResource("/res/shop.gif")), new ShopperGUI(), null);
 		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), panneauBuilder, null);
 		tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), new RssGUI(), null);
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
-		
 		
 		
 		
@@ -985,13 +990,33 @@ public class MagicGUI extends JFrame {
 							setVisible(false);
 					}
 				});
+				
+				PopupMenu menuTray = new PopupMenu();
+				
+				
+				for(int index_tab = 0;index_tab<tabbedPane.getTabCount();index_tab++)
+				{
+					final int index = index_tab;
+					MenuItem it = new MenuItem(tabbedPane.getTitleAt(index_tab));
+					it.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent e) {
+								setVisible(true);
+								setSelectedTab(index);
+								
+						}
+					});
+					menuTray.add(it);
+				}
+				
+				trayIcon.setPopupMenu(menuTray);
+				trayIcon.setToolTip("MTG Desktop Companion");
 			}		
 			
 			
 		} 
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			logger.error(e);
 			
 			JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 		}

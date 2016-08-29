@@ -71,15 +71,18 @@ public class EbayPricer extends AbstractMagicPricesProvider
 			
 		JsonElement articles=root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray().get(0).getAsJsonObject().get("searchResult");
 		
-		logger.debug(articles);
-		
-		
 		if(articles.getAsJsonArray().get(0).getAsJsonObject().get("item")==null)
+		{
+			logger.info(getName() + " find nothing");
 			return prices;
+		}
 		
 		
-		 	JsonArray items = articles.getAsJsonArray().get(0).getAsJsonObject().get("item").getAsJsonArray();
-		 	
+			JsonArray items = articles.getAsJsonArray().get(0).getAsJsonObject().get("item").getAsJsonArray();
+
+			
+			
+			
 		 	
 		 	
 		 	for(JsonElement el : items)
