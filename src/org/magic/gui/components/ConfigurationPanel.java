@@ -5,6 +5,7 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,14 +21,14 @@ import org.magic.services.MagicFactory;
 public class ConfigurationPanel extends JPanel {
 	private JTextField textField;
 	private JComboBox cboTargetDAO;
-	
+	private JComboBox cboCollections;
 	
 	public ConfigurationPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblBackupDao = new JLabel("Backup dao : ");
@@ -61,7 +62,7 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblDuplicateDb = new JLabel("Duplicate DB :");
 		GridBagConstraints gbc_lblDuplicateDb = new GridBagConstraints();
 		gbc_lblDuplicateDb.anchor = GridBagConstraints.EAST;
-		gbc_lblDuplicateDb.insets = new Insets(0, 0, 0, 5);
+		gbc_lblDuplicateDb.insets = new Insets(0, 0, 5, 5);
 		gbc_lblDuplicateDb.gridx = 1;
 		gbc_lblDuplicateDb.gridy = 2;
 		add(lblDuplicateDb, gbc_lblDuplicateDb);
@@ -75,7 +76,7 @@ public class ConfigurationPanel extends JPanel {
 			}
 		
 		GridBagConstraints gbc_cboTargetDAO = new GridBagConstraints();
-		gbc_cboTargetDAO.insets = new Insets(0, 0, 0, 5);
+		gbc_cboTargetDAO.insets = new Insets(0, 0, 5, 5);
 		gbc_cboTargetDAO.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboTargetDAO.gridx = 2;
 		gbc_cboTargetDAO.gridy = 2;
@@ -99,10 +100,57 @@ public class ConfigurationPanel extends JPanel {
 			}
 		});
 		GridBagConstraints gbc_btnDuplicate = new GridBagConstraints();
-		gbc_btnDuplicate.insets = new Insets(0, 0, 0, 5);
+		gbc_btnDuplicate.insets = new Insets(0, 0, 5, 5);
 		gbc_btnDuplicate.gridx = 3;
 		gbc_btnDuplicate.gridy = 2;
 		add(btnDuplicate, gbc_btnDuplicate);
+		
+		JLabel lblMainCol = new JLabel("Main Collection :");
+		GridBagConstraints gbc_lblMainCol = new GridBagConstraints();
+		gbc_lblMainCol.anchor = GridBagConstraints.EAST;
+		gbc_lblMainCol.insets = new Insets(0, 0, 0, 5);
+		gbc_lblMainCol.gridx = 1;
+		gbc_lblMainCol.gridy = 3;
+		add(lblMainCol, gbc_lblMainCol);
+		
+		cboCollections = new JComboBox();
+		try {
+			for(MagicCollection col :  MagicFactory.getInstance().getEnabledDAO().getCollections())
+			{
+				cboCollections.addItem(col);
+				if(col.getName().equalsIgnoreCase(MagicFactory.getInstance().get("default-library")))
+				{
+					cboCollections.setSelectedItem(col);
+				}
+			}
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
+		
+		GridBagConstraints gbc_cboCollections = new GridBagConstraints();
+		gbc_cboCollections.insets = new Insets(0, 0, 0, 5);
+		gbc_cboCollections.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboCollections.gridx = 2;
+		gbc_cboCollections.gridy = 3;
+		add(cboCollections, gbc_cboCollections);
+		
+		JButton btnSave = new JButton("Save");
+		GridBagConstraints gbc_btnSave = new GridBagConstraints();
+		gbc_btnSave.insets = new Insets(0, 0, 0, 5);
+		gbc_btnSave.gridx = 3;
+		gbc_btnSave.gridy = 3;
+		add(btnSave, gbc_btnSave);
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				try{
+						MagicFactory.getInstance().setProperty("default-library", (MagicCollection)cboCollections.getSelectedItem());
+				}catch(Exception e)
+				{
+					e.printStackTrace();
+				}
+			}
+		});
 	}
 
 }

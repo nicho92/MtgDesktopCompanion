@@ -589,7 +589,7 @@ public class CollectionPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
 
-				int res = JOptionPane.showConfirmDialog(null, "Are you sure you adding " + ed + " to Library ?");
+				int res = JOptionPane.showConfirmDialog(null, "Are you sure you adding " + ed + " to "+MagicFactory.getInstance().get("default-library")+" ?");
 
 				if (res == JOptionPane.YES_OPTION)
 					try {
@@ -597,7 +597,7 @@ public class CollectionPanelGUI extends JPanel {
 
 						for (MagicCard mc : list) {
 							MagicCollection col = new MagicCollection();
-							col.setName("Library");
+							col.setName(MagicFactory.getInstance().get("default-library"));
 							dao.saveCard(mc, col);
 						}
 						model.calculate();

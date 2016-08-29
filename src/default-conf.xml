@@ -92,6 +92,10 @@
 			<class>org.magic.api.decksniffer.impl.MagicCorporationDecks</class>
 			<enable>true</enable>
 		</sniffer>
+		<sniffer>
+			<class>org.magic.api.decksniffer.impl.LotusNoirDecks</class>
+			<enable>true</enable>
+		</sniffer>
 	</decksniffer>
 	<deckexports>
 		<export>

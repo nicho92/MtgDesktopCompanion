@@ -95,6 +95,11 @@ public class MagicFactory {
 		return config.getString(prop);
 	}
 	
+	public void reload()
+	{
+		inst=new MagicFactory();
+	}
+	
 		
 	private MagicFactory()
 	{

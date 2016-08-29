@@ -47,7 +47,10 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 		{
 			for(Element li : ul.select("li") )
 			{
+				
+					Integer qte = Integer.parseInt(li.text().substring(0,li.text().indexOf(" ")));
 					String name = li.getElementsByTag("a").attr("title");
+					System.out.println(qte + " " + name);//TODO : have to find english name for french cards.
 			}
 		}
 		

@@ -207,7 +207,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			deck.setName(obj.get("name").getAsString());
 			deck.setUrl(new URI(obj.get("resource_uri").getAsString()));
 			deck.setAuthor(obj.get("user").getAsString());
-			
+			deck.setColor("");
 			list.add(deck);
 		}
         

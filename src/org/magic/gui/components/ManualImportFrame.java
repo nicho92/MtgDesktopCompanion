@@ -55,7 +55,7 @@ public class ManualImportFrame extends JDialog {
 		editorPane = new JEditorPane();
 		editorPane.setPreferredSize(new Dimension(106, 300));
 		scrollPane.setViewportView(editorPane);
-	
+		setLocationRelativeTo(null);
 	}
 
 }
