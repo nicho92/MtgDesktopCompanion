@@ -48,16 +48,29 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
 		
-		Elements e = d.select("span.card_title_us" );
+		Elements e = d.select("div.demi_page>table").select("tr");
+		boolean sideboard = false;
 		for(Element cont : e)
 		{
+			Elements cont2= cont.select("span.card_title_us" );
 			
-			Integer qte = Integer.parseInt(cont.text().substring(0,cont.text().indexOf(" ")));
-			String cardName = cont.text().substring(cont.text().indexOf(" "),cont.text().length()).trim();
+			if(cont.text().startsWith("Réserve"))
+				sideboard=true;
 			
-			MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
-			
-			deck.getMap().put(mc, qte);
+			if(cont2.text().length()>0)
+			{
+				Integer qte = Integer.parseInt(cont2.text().substring(0,cont2.text().indexOf(" ")));
+				String cardName = cont2.text().substring(cont2.text().indexOf(" "),cont2.text().length()).trim();
+				
+				if(cardName.contains("//")) // for transformatble cards
+					cardName=cardName.substring(0, cardName.indexOf("//")).trim();
+				
+				MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+				if(!sideboard)
+					deck.getMap().put(mc, qte);
+				else
+					deck.getMapSideBoard().put(mc, qte);
+			}
 		}
 		return deck;
 	}

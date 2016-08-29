@@ -1,5 +1,6 @@
 package org.magic.gui.renderer;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.util.HashMap;
@@ -80,7 +81,20 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		    			{
 		    				setIcon(uncolor);
 		    			}
-		    				
+		    			
+		    		/*	
+		    			if(mc.getEditions().get(0).getRarity().startsWith("Common"))
+		    				setForeground(Color.BLACK);
+		    			else
+		    			if(mc.getEditions().get(0).getRarity().startsWith("Uncommon"))
+		    				setForeground(new Color(32, 32, 32));
+		    			else
+		    			if(mc.getEditions().get(0).getRarity().startsWith("Rare"))
+		    				setForeground(new Color(255, 213, 112));
+		    			else
+		    			if(mc.getEditions().get(0).getRarity().startsWith("Mythic"))
+		    				setForeground(new Color(196, 108, 21));
+		    				*/
 		    	}
 	    	return c;
 	   	}
