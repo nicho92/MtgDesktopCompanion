@@ -118,7 +118,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	
 	@Override
 	public String toString() {
-		return "DeckBrew Provider (dev)";
+		return "DeckBrew Provider";
 	}
 
 	@Override
@@ -157,6 +157,11 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	@Override
 	public boolean isEnable() {
 		return enable;
+	}
+
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
 	}
 
 

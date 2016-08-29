@@ -9,7 +9,8 @@ import org.magic.api.beans.MagicEdition;
 
 public interface MagicCardsProvider {
 
-		
+	public enum STATUT { DEV, STABLE, ABANDONNED};
+	
 	public void init() ;
 	
 	public MagicCard getCardById(String id) throws Exception;
@@ -34,5 +35,6 @@ public interface MagicCardsProvider {
 	public void enable(boolean enabled);
 	public boolean isEnable();
 	
+	public STATUT getStatut();
 	
 }

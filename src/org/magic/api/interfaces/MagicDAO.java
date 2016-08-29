@@ -55,6 +55,6 @@ public interface MagicDAO {
 	
 	public String getDBLocation();
 	public long getDBSize();
-	public void backup(File dir) throws IOException;
+	public void backup(File dir) throws Exception;
 	
 }

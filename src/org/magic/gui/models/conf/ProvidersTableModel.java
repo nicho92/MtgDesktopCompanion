@@ -10,7 +10,7 @@ import org.magic.services.MagicFactory;
 public class ProvidersTableModel extends DefaultTableModel {
 	
 	
-		String columns[] = new String[]{"Provider","Version","URL","Enable"};
+		String columns[] = new String[]{"Provider","Version","State","URL","Enable"};
 	
 		@Override
 		public int getRowCount() {
@@ -33,8 +33,9 @@ public class ProvidersTableModel extends DefaultTableModel {
 			{
 			case 0 :return MagicFactory.getInstance().getListProviders().get(row);
 			case 1 : return MagicFactory.getInstance().getListProviders().get(row).getVersion();
-			case 2 : try {return MagicFactory.getInstance().getListProviders().get(row).getWebSite();} catch (MalformedURLException e) { return null;}
-			case 3 : return MagicFactory.getInstance().getListProviders().get(row).isEnable();
+			case 2 : return MagicFactory.getInstance().getListProviders().get(row).getStatut();
+			case 3 : try {return MagicFactory.getInstance().getListProviders().get(row).getWebSite();} catch (MalformedURLException e) { return null;}
+			case 4 : return MagicFactory.getInstance().getListProviders().get(row).isEnable();
 			default : return null;
 			}
 		}
@@ -42,10 +43,10 @@ public class ProvidersTableModel extends DefaultTableModel {
 		@Override
 		public Class<?> getColumnClass(int columnIndex) {
 		
-			if(columnIndex==2)
+			if(columnIndex==3)
 				return URL.class;
 			
-			if(columnIndex==3)
+			if(columnIndex==4)
 				return Boolean.class;
 			
 		return super.getColumnClass(columnIndex);

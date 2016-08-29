@@ -1,8 +1,10 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -52,6 +54,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.CSVExport;
 import org.magic.api.exports.impl.MagicWebSiteGenerator;
+import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.LazyLoadingTree;
@@ -65,6 +68,7 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.CardsPriceTableModel;
+import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
@@ -163,46 +167,63 @@ public class CollectionPanelGUI extends JPanel {
 
 		panneauHaut.add(btnAddAllSet);
 
-		final JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/xls.png")));
-						btnExportCSV.setToolTipText("Export as CSV");
+		final JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/export.png")));
+						btnExportCSV.setToolTipText("Export as ");
 						
 		btnExportCSV.setEnabled(false);
 		btnExportCSV.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-				JFileChooser jf = new JFileChooser();
+			public void actionPerformed(ActionEvent ae) {
+				JPopupMenu menu = new JPopupMenu();
 				
-				MagicCollection mc=null;
-				MagicEdition ed=null;
-				
-				if(curr.getUserObject() instanceof MagicEdition)
+				for(final CardExporter exp : MagicFactory.getInstance().getEnabledDeckExports())
 				{
-					ed = (MagicEdition) curr.getUserObject();
-					mc = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
-				}
-				else
-				{
-					mc = (MagicCollection) curr.getUserObject();
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+							JFileChooser jf = new JFileChooser();
+							
+							MagicCollection mc=null;
+							MagicEdition ed=null;
+							
+							if(curr.getUserObject() instanceof MagicEdition)
+							{
+								ed = (MagicEdition) curr.getUserObject();
+								mc = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
+							}
+							else
+							{
+								mc = (MagicCollection) curr.getUserObject();
+							}
+							
+							jf.setSelectedFile(new File(mc.getName()+exp.getFileExtension()));
+							int result = jf.showSaveDialog(null);
+							File f = jf.getSelectedFile();
+							
+							if(result==JFileChooser.APPROVE_OPTION)
+							try {
+								if(ed==null)
+									exp.export(dao.getCardsFromCollection(mc), f);
+								else
+									exp.export(dao.getCardsFromCollection(mc,ed), f);
+								
+								JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
+							} catch (Exception e) {
+								logger.error(e);
+								JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+							}
+						}
+					});
+					
+					menu.add(it);
 				}
 				
-				jf.setSelectedFile(new File(mc.getName()+".csv"));
-				int result = jf.showSaveDialog(null);
-				File f = jf.getSelectedFile();
-				
-				if(result==JFileChooser.APPROVE_OPTION)
-				try {
-					CSVExport exp = new CSVExport();
-					
-					if(ed==null)
-						exp.export(dao.getCardsFromCollection(mc), f);
-					else
-						exp.export(dao.getCardsFromCollection(mc,ed), f);
-					
-					JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
-				} catch (Exception e) {
-					logger.error(e);
-					JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
-				}
+				Component b=(Component)ae.getSource();
+		        Point p=b.getLocationOnScreen();
+		        menu.show(b,0,0);
+		        menu.setLocation(p.x,p.y+b.getHeight());
 			}
 		});
 

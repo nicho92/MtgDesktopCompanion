@@ -20,6 +20,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -322,7 +323,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 	}
 	
 	public String toString() {
-		return "MTG API Provider (abandonned)";
+		return "MTG API Provider";
 	}
 
 	@Override
@@ -352,5 +353,9 @@ public class MtgapiProvider implements MagicCardsProvider{
 		return new URL("https://mtgapi.com/" );
 	}
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.ABANDONNED;
+	}
 
 }

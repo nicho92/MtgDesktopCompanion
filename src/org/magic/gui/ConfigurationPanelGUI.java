@@ -53,18 +53,6 @@ public class ConfigurationPanelGUI extends JPanel {
 
 		SystemTableModel mod = new SystemTableModel();
 		
-		JTabbedPane tabbedConf = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("Configuration", null, tabbedConf, null);
-		
-		ConfigurationPanel configurationPanel = new ConfigurationPanel();
-		tabbedConf.addTab("Administration", null, configurationPanel, null);
-		
-		JScrollPane applicationConfigPanel = new JScrollPane();
-		tabbedConf.addTab("Java", null, applicationConfigPanel, null);
-		
-		table = new JTable(mod);
-		applicationConfigPanel.setViewportView(table);
-		
 		
 		JPanel providerConfigPanel = new JPanel();
 		tabbedPane.addTab("Providers", null, providerConfigPanel, null);
@@ -188,6 +176,18 @@ public class ConfigurationPanelGUI extends JPanel {
 		btnDelete.setEnabled(false);
 		btnDelete.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/res/delete.png")));
 		panneauhaut.add(btnDelete);
+		
+		JTabbedPane tabbedConf = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane.addTab("Configuration", null, tabbedConf, null);
+		
+		ConfigurationPanel configurationPanel = new ConfigurationPanel();
+		tabbedConf.addTab("Administration", null, configurationPanel, null);
+		
+		JScrollPane applicationConfigPanel = new JScrollPane();
+		tabbedConf.addTab("Java", null, applicationConfigPanel, null);
+		
+		table = new JTable(mod);
+		applicationConfigPanel.setViewportView(table);
 		
 		
 		

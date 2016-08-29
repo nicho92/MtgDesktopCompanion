@@ -31,6 +31,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.services.MagicFactory;
 
 import com.jayway.jsonpath.Configuration;
@@ -760,6 +761,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		return new URL("http://mtgjson.com/");
 	}
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
 
 
 }

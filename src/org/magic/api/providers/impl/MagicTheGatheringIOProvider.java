@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.Option;
@@ -127,7 +128,11 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	}
 	
 	public String toString() {
-		return "MTG Developpers.io  (dev)";
+		return "MTG Developpers.io";
+	}
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
 	}
 
 }

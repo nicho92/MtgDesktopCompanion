@@ -43,6 +43,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			 props.put("LOGIN", "mtgdesktopclient");
 			 props.put("PASSWORD", "mtgdesktopclient");
 			 props.put("PARAMS", "?autoDeserialize=true");
+			 props.put("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
 		save();
 		}
 	}
@@ -377,13 +378,19 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 
 	@Override
-	public void backup(File f) {
-		String dumpCommand = "mysqldump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASSWORD");
+	public void backup(File f) throws Exception {
+		
+		
+		if(props.getProperty("MYSQL_DUMP_PATH").length()<=0)
+		{
+			throw new Exception("Please fill MYSQL_DUMP_PATH var");
+		}
+		
+		String dumpCommand = props.getProperty("MYSQL_DUMP_PATH")+"/mysqldump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASSWORD");
 		Runtime rt = Runtime.getRuntime();
 		PrintStream ps;
 		logger.info("begin Backup " + props.getProperty("DB_NAME"));
 		
-		try{
 		Process child = rt.exec(dumpCommand);
 		ps=new PrintStream(f);
 		InputStream in = child.getInputStream();
@@ -395,9 +402,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 		ps.close();
 		logger.info("Backup " + props.getProperty("DB_NAME") + " done");
 		
-		}catch(Exception exc) {
-			logger.error(exc);
-		}
 		
 	}
 
