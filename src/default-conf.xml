@@ -4,6 +4,7 @@
 	<langage>French</langage>
 	<lookAndFeel>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
 	<debug>INFO</debug>
+	<default-website-dir>c:/</default-website-dir>
 	<default-library>Library</default-library>
 	<pricers>
 		<pricer>

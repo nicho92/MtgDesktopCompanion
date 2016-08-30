@@ -29,6 +29,11 @@ public class DeckSnifferModel extends DefaultTableModel {
 	}
 	
 	@Override
+	public boolean isCellEditable(int row, int column) {
+		return false;
+	}
+	
+	@Override
 	public int getRowCount() {
 		if(decks!=null)
 			return decks.size();

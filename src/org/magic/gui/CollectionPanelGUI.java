@@ -89,7 +89,7 @@ public class CollectionPanelGUI extends JPanel {
 	private JXTable tablePrices;
 	private CardsPriceTableModel modelPrices;
 	private MagicCollection selectedcol;
-
+	private JTabbedPane tabbedPane; 
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
@@ -312,7 +312,7 @@ public class CollectionPanelGUI extends JPanel {
 		tree.setCellRenderer(new MagicCollectionTreeCellRenderer());
 		scrollPaneCollections.setViewportView(tree);
 
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		splitPane.setRightComponent(tabbedPane);
 
 
@@ -378,6 +378,7 @@ public class CollectionPanelGUI extends JPanel {
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
 					
+					//too memory
 					/*ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try{
@@ -437,6 +438,8 @@ public class CollectionPanelGUI extends JPanel {
 					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
 					magicCardDetailPanel.enableThumbnail(true);
 
+					
+					//if(tabbedPane.getSelectedIndex()==1)
 					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try {
@@ -544,7 +547,6 @@ public class CollectionPanelGUI extends JPanel {
 								JOptionPane.showMessageDialog(null, "Catalog generated");
 								progressBar.setVisible(false);
 							}
-
 						} catch (Exception e) {
 							// TODO Auto-generated catch block
 							e.printStackTrace();

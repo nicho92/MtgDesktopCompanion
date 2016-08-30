@@ -62,7 +62,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	
 		panel.add(cboTemplates);
 		
-		txtDest = new JTextField(new File("\\\\SYNOLOGY\\tomcat\\magic").getAbsolutePath());
+		txtDest = new JTextField(new File(MagicFactory.getInstance().get("default-website-dir")).getAbsolutePath());
 		
 		panel.add(txtDest);
 		txtDest.setColumns(20);
