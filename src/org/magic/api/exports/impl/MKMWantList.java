@@ -75,7 +75,7 @@ public class MKMWantList extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(CSVExport.class.getResource("/res/mkm.png"));
+		return new ImageIcon(MKMWantList.class.getResource("/res/mkm.png"));
 	}
 
 }

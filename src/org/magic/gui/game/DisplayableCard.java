@@ -178,7 +178,6 @@ public class DisplayableCard extends JLabel
 	
 	public void setMagicCard(MagicCard mc) {
 		this.magicCard = mc;
-		
 		try {
 			if(mc.getLayout().equals(MagicCard.LAYOUT.Token.toString()))
 			{

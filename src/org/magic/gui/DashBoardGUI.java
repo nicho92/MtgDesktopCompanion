@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -168,7 +169,7 @@ public class DashBoardGUI extends JPanel {
 		JPanel panneauHaut = new JPanel();
 		panneauShakers.add(panneauHaut, BorderLayout.NORTH);
 		
-		JButton btnRefresh = new JButton("Refresh");
+		JButton btnRefresh = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/refresh.png")));
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				update();

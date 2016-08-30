@@ -75,7 +75,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 					.replace("%CATEGORIE%",props.getProperty("CATEGORIE"))
 					.replace("%KEYWORD%",URLEncoder.encode(search,props.getProperty("ENCODING")));
 		
-		 logger.debug("parsing item from " + url) ;
+		 logger.debug(getShopName() + " parsing item from " + url) ;
 			
 		 Document doc = dBuilder.parse(url);
 		 doc.getDocumentElement().normalize();
@@ -101,6 +101,8 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 					 
 					
 				}
+		logger.debug(getShopName() +" found " + list.size() +" items") ;
+							
 		return list;
 		 
 		}

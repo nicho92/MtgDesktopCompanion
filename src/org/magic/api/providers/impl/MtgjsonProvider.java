@@ -285,8 +285,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		}).read(jsquery,List.class);
 		
 		
-		
-		
 		int indexSet=0;
 		for(Map<String,Object> map : cardsElement)
 		{
@@ -447,10 +445,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		 			   }
 	 			   
 	 			   }
-	 			   
-	 			   
-	 			
-	 			   
 	 			   
 	 		   MagicCardNames defnames = new MagicCardNames();
 	 		  		defnames.setLanguage("English");
@@ -671,6 +665,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				MagicCard mc = new MagicCard();
 						  mc.setId(String.valueOf(map.get("id")));
 						  mc.setName(String.valueOf(map.get("name")));
+						  mc.setLayout(String.valueOf(map.get("layout")));
 						   if(map.get("multiverseid")!=null)
 				 			   mc.setMultiverseid((int)(double)map.get("multiverseid"));
 						  
@@ -691,6 +686,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				MagicCard mc = new MagicCard();
 						  mc.setId(String.valueOf(map.get("id")));
 						  mc.setName(String.valueOf(map.get("name")));
+						  mc.setLayout(String.valueOf(map.get("layout")));
 						   if(map.get("multiverseid")!=null)
 				 			   mc.setMultiverseid((int)(double)map.get("multiverseid"));
 						   MagicEdition edition = new MagicEdition();  
@@ -711,6 +707,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				MagicCard mc = new MagicCard();
 						  mc.setId(String.valueOf(map.get("id")));
 						  mc.setName(String.valueOf(map.get("name")));
+						  mc.setLayout(String.valueOf(map.get("layout")));
 						   if(map.get("multiverseid")!=null)
 				 			   mc.setMultiverseid((int)(double)map.get("multiverseid"));
 						   
@@ -730,7 +727,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			resList.addAll(common.subList(0, 10));
 			resList.addAll(uncommon.subList(0, 4));
 			resList.add(rare.get(0));
-			
+			logger.debug("Booster : " + resList);
 		return resList;
 	}
 	
