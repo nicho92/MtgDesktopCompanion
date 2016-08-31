@@ -286,6 +286,7 @@ public class CollectionPanelGUI extends JPanel {
 		//new TableColumnAdjuster(tableEditions).adjustColumns();
 		tableEditions.packAll();
 		
+		
 		scrollPane.setViewportView(tableEditions);
 		
 		

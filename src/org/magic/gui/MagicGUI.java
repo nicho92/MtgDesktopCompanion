@@ -209,7 +209,7 @@ public class MagicGUI extends JFrame {
 			SwingUtilities.updateComponentTreeUI(this);
 			
 		} catch (Exception e) {
-			logger.error(e.getStackTrace());
+			logger.error(e.getMessage());
 		}
 		
 	}

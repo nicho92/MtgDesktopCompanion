@@ -11,6 +11,7 @@ import javax.swing.table.DefaultTableModel;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.services.MagicFactory;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 
@@ -44,7 +45,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	public void calculate() throws SQLException, Exception {
 		
 		MagicCollection mc = new MagicCollection();
-						mc.setName("Library");
+						mc.setName(MagicFactory.getInstance().get("default-library"));
 					
 		Map<String,Integer> temp = dao.getCardsCountGlobal(mc);
 		
