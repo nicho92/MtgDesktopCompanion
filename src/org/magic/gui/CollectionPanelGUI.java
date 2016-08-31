@@ -78,7 +78,7 @@ import org.magic.tools.TableColumnAdjuster;
 
 public class CollectionPanelGUI extends JPanel {
 
-	private JTable tableEditions;
+	private JXTable tableEditions;
 	private MagicCardsProvider provider;
 	private MagicDAO dao;
 	private LazyLoadingTree tree;
@@ -252,7 +252,7 @@ public class CollectionPanelGUI extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setMinimumSize(new Dimension(270, 23));
 
-		tableEditions = new JTable();
+		tableEditions = new JXTable();
 		tableEditions.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -283,8 +283,8 @@ public class CollectionPanelGUI extends JPanel {
 		sorterEditions.setSortKeys(keys);
 		
 		tableEditions.setRowSorter(sorterEditions);
-		new TableColumnAdjuster(tableEditions).adjustColumns();
-		
+		//new TableColumnAdjuster(tableEditions).adjustColumns();
+		tableEditions.packAll();
 		
 		scrollPane.setViewportView(tableEditions);
 		

@@ -167,7 +167,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     return lists;
     }
     
-    private String generateOAuthSignature(String link) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException {
+    public String generateOAuthSignature(String link) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException {
 
         String realm = link ;
         String oauth_version =  props.get("OAUTH_VERSION").toString() ;

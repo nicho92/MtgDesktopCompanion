@@ -21,7 +21,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	public MTGoldFishDeck() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("SUPPORT", "paper");//budget
+			props.put("SUPPORT", "paper");
 			props.put("FORMAT", "modern");
 			props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
 			props.put("URL", "http://www.mtggoldfish.com/");

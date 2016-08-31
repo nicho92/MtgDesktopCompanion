@@ -9,9 +9,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 
-public class MagicCollectionTableCellRenderer extends DefaultTableCellRenderer {
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+
+public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
 	HashMap<String, ImageIcon> cache;
 	Color c ;
