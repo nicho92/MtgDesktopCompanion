@@ -24,7 +24,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		{
+	{
 			if(column==4)
 				value=value.toString()+"%";
 			
@@ -57,14 +57,13 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 				pane.setForeground(Color.BLACK);
 			}
 			
-			if(column==0)
+			/*if(column==0)
 			{
 				try
 				{
 					ImageIcon im ;
 					if(cache.get(value.toString())==null)
 					{
-					
 						if(value.toString().startsWith("p"))
 							im=new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/VAN_set.png")).getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
 						else
@@ -75,19 +74,19 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 					}
 					else
 					{
-							im=cache.get(value.toString());
+						System.out.println(value.toString() + " loaded from cache");
+						im=cache.get(value.toString());
 					}
 					pane.setIcon(im);
 					pane.setText(null);
 					pane.setHorizontalAlignment(JLabel.CENTER);
-					
 				} 
 				catch(Exception e)
 				{ 
 				//	e.printStackTrace();
 				}
 				c=pane.getBackground();
-			}
+			}*/
 			return pane;
 		}
 

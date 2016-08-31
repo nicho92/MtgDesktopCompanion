@@ -346,8 +346,8 @@ public class MagicGUI extends JFrame {
 		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
 			looks.add(i.getClassName());
 		
-		looks.add(new SyntheticaStandardLookAndFeel().getClass().getName());
-		looks.add(new SyntheticaPlainLookAndFeel().getClass().getName());
+	//	looks.add(new SyntheticaStandardLookAndFeel().getClass().getName());
+	//	looks.add(new SyntheticaPlainLookAndFeel().getClass().getName());
 		
 		
 		

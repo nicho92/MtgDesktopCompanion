@@ -549,7 +549,6 @@ public class CollectionPanelGUI extends JPanel {
 								progressBar.setVisible(false);
 							}
 						} catch (Exception e) {
-							// TODO Auto-generated catch block
 							e.printStackTrace();
 						}
 
