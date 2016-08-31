@@ -1,17 +1,23 @@
 package org.magic.api.pricers.impl;
 
 import java.io.File;
-import java.io.InputStreamReader;
+import java.io.IOException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
-import java.util.Scanner;
 
+import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.protocol.BasicHttpContext;
+import org.apache.http.util.EntityUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -19,14 +25,37 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.stream.JsonReader;
+import com.google.gson.JsonParser;
 
 public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
 	static final Logger logger = LogManager.getLogger(DeckTutorPricer.class.getName());
 	
 	private int sequence=1;
+
+	private BasicCookieStore cookieStore;
+
+	private BasicHttpContext httpContext;
+	
+	ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+
+	    public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+	      	 int status = response.getStatusLine().getStatusCode();
+	         HttpEntity entity = response.getEntity();
+	     	
+	         if (status >= 200 && status < 300) 
+	           {
+	           	return entity != null ? EntityUtils.toString(entity) : null;
+	           } 
+	           else {
+	           	  throw new ClientProtocolException("Unexpected response status: " + status + ":" + EntityUtils.toString(entity));
+	           }
+	        }
+	    };
+	    
+	
 	
 	public DeckTutorPricer() {
 		super();
@@ -41,6 +70,9 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		props.put("KEYWORD", "");
 		save();
 		}
+		
+		cookieStore = new BasicCookieStore();
+		httpContext = new BasicHttpContext();
 	}
 
 	
@@ -71,62 +103,49 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
 			HttpClient httpClient = HttpClientBuilder.create().build();
-			HttpPost request = new HttpPost(props.getProperty("URL")+"/account/login");
-			request.addHeader("content-type", "application/json");
+			httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
+			JsonObject jsonparams = new JsonObject();
+			   jsonparams.addProperty("login", props.getProperty("LOGIN"));    
+			   jsonparams.addProperty("password", props.getProperty("PASSWORD"));
+	
+
+			HttpPost reqCredential = new HttpPost(props.getProperty("URL")+"/account/login");
+					 reqCredential.addHeader("content-type", "application/json");
+	                 reqCredential.setEntity(new StringEntity(jsonparams.toString()));
 	        
-			JsonObject json = new JsonObject();
-    		json.addProperty("login", props.getProperty("LOGIN"));    
-    		json.addProperty("password", props.getProperty("PASSWORD"));
-			
-		 	StringEntity params =new StringEntity(json.toString());
-		 	request.setEntity(params);
+	        String response = httpClient.execute(reqCredential, responseHandler,httpContext);
+
 	        
-	        HttpResponse response = httpClient.execute(request);
+	        JsonElement root = new JsonParser().parse(response);
+	        String auth_token=  root.getAsJsonObject().get("auth_token").getAsString();
+	        String expir = root.getAsJsonObject().get("auth_token_expiration").getAsString();
+	        String auth_token_secret = root.getAsJsonObject().get("auth_token_secret").getAsString();
 	        
-	        
-	        JsonReader reader = new JsonReader(new InputStreamReader(response.getEntity().getContent()));
-	        reader.beginObject();
-	        
-	        reader.nextName();
-	        String auth_token=  reader.nextString();
-	        
-	        reader.nextName();
-	        String expir = reader.nextString();
-	        
-	        reader.nextName();
-	        String auth_token_secret = reader.nextString();
-	        
-	        reader.close();
-	        
+	       
 	        String signature = getMD5(sequence+":"+auth_token_secret);
 	        
-	        request= new HttpPost(props.getProperty("URL")+"/search/serp");
-			        request.addHeader("x-dt-Auth-Token: ", auth_token);
-			        request.addHeader("x-dt-Sequence: ", String.valueOf(sequence));
-			        request.addHeader("x-dt-Signature: ", signature);
-			        request.addHeader("content-type", "application/json");
-			        request.addHeader("Accept", "application/json");
-			        request.addHeader("x-dt-cdb-Language","fr");
-		
+	        HttpPost reqSearch= new HttpPost(props.getProperty("URL")+"/search/serp");
+			        reqSearch.addHeader("x-dt-Auth-Token: ", auth_token);
+			        reqSearch.addHeader("x-dt-Sequence: ", String.valueOf(sequence));
+			        reqSearch.addHeader("x-dt-Signature: ", signature);
+			        reqSearch.addHeader("Content-type", "application/json");
+			        reqSearch.addHeader("Accept", "application/json");
+			        reqSearch.addHeader("x-dt-cdb-Language","fr");
+			        reqSearch.addHeader("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 			        
-			        json = new JsonObject();
-			    		json.addProperty("name", "Vindicate");
-			    		json.addProperty("game", "mtg");
-			    		JsonObject obj = new JsonObject();
-			    		obj.add("search", json);
-			    		
-			    	System.out.println(obj);
-			    	params =new StringEntity(obj.toString());
+			        jsonparams = new JsonObject();
+		    		jsonparams.addProperty("name", "Vindicate");
+		    		jsonparams.addProperty("game", "mtg");
+			    	JsonObject obj = new JsonObject();
+			    			   obj.add("search", jsonparams);
+			    			   obj.addProperty("limit","2");
 			    	
-			    	request.setEntity(params);   
-			        
-	        response = httpClient.execute(request);
+			    			   System.out.println(obj);
+			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
+			        response = httpClient.execute(reqSearch, responseHandler,httpContext);
 	      
-	        Scanner s = new java.util.Scanner(response.getEntity().getContent()).useDelimiter("\\A");
-	       while(s.hasNext())
-	        System.out.println(s.next());
 	        
-	        
+	        sequence++;
 	        
 	        this.toString();
 	        

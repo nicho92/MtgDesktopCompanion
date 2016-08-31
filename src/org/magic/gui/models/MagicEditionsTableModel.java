@@ -1,16 +1,21 @@
 package org.magic.gui.models;
 
+import java.awt.Image;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.MagicFactory;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
@@ -21,7 +26,9 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 
 	private MagicDAO dao;
 	private Map<MagicEdition,Integer> mapCount;
-		
+	HashMap<String, ImageIcon> cache;
+	
+	
 	public List<MagicEdition> getEditions()
 	{
 		return list;
@@ -52,17 +59,37 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		for(MagicEdition me : list)
 		{
 			mapCount.put(me, (temp.get(me.getId())==null)?0:temp.get(me.getId()));
+			initCache(me);
 		}
 	}
 
 
 
 
-	public MagicEditionsTableModel(MagicDAO dao) {
+	public MagicEditionsTableModel() {
 		list = new ArrayList<MagicEdition>();
-		this.dao =dao;
+		this.dao =MagicFactory.getInstance().getEnabledDAO();
+		cache=new HashMap<>();
+		
 	}
 	
+	private void initCache(MagicEdition e) {
+		try{
+		ImageIcon im;
+		if(e.getId().startsWith("p"))
+			im=new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/VAN_set.png")).getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
+		else
+			im = new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+e.getId()+"_set.png")).getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
+	
+		cache.put(e.getId(),im);
+		}
+		catch(Exception ex)
+		{
+			cache.put(e.getId(), new ImageIcon());
+		}
+		
+	}
+
 	@Override
 	public String getColumnName(int column) {
 		return columns[column];
@@ -81,7 +108,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		MagicEdition e =  list.get(row);
 		
 			if(column==0)
-				return e.getId();
+				return cache.get(e.getId());
 		
 			if(column==1)
 				return e;
@@ -117,12 +144,38 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		
 			
 	}
+	
+	private ImageIcon getIcon(MagicEdition e) {
+		try
+		{
+			ImageIcon im ;
+			if(cache.get(e.getId())==null)
+			{
+				if(e.getId().startsWith("p"))
+					im=new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/VAN_set.png")).getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
+				else
+					im = new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+e.getId()+"_set.png")).getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
+			
+				cache.put(e.getId(),im);
+				return im;
+			}
+			else
+			{
+				return cache.get(e.getId().toString());
+			}
+		} 
+		catch(Exception ex)
+		{ 
+			return new ImageIcon();
+		}
+	}
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		
 		switch(columnIndex)
 		{
-		case 0:return String.class;
+		case 0:return ImageIcon.class;
 		case 1 : return MagicEdition.class;
 		case 2: return Integer.class;
 		case 3 : return String.class;

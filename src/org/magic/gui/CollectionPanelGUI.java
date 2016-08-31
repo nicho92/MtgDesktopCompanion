@@ -108,7 +108,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 		logger.debug("init collection panel");
 		setLayout(new BorderLayout(0, 0));
-		model = new MagicEditionsTableModel(dao);
+		model = new MagicEditionsTableModel();
 		model.init(provider.searchSetByCriteria(null, null));
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
@@ -271,6 +271,7 @@ public class CollectionPanelGUI extends JPanel {
 		MagicCollectionTableCellRenderer render = new MagicCollectionTableCellRenderer();
 		
 		tableEditions.setDefaultRenderer(Object.class,render);
+		tableEditions.setDefaultRenderer(String.class,render);
 		tableEditions.setDefaultRenderer(Integer.class, render);
 		tableEditions.setDefaultRenderer(double.class, render);
 		

@@ -3,7 +3,7 @@
 	<version>0.8 beta</version>
 	<langage>French</langage>
 	<lookAndFeel>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
-	<debug>INFO</debug>
+	<loglevel>INFO</loglevel>
 	<default-website-dir>c:/</default-website-dir>
 	<default-library>Library</default-library>
 	<pricers>

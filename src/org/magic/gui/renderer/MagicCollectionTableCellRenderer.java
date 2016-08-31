@@ -18,7 +18,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	Color c ;
 	
 	public MagicCollectionTableCellRenderer() {
-		cache=new HashMap<>();
+		cache=new HashMap<String,ImageIcon>();
 	}
 	
 	
@@ -56,8 +56,8 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 				pane.setBackground(Color.GREEN);
 				pane.setForeground(Color.BLACK);
 			}
-			
-			/*if(column==0)
+			/*
+			if(column==0)
 			{
 				try
 				{
