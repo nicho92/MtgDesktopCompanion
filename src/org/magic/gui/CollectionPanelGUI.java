@@ -271,6 +271,7 @@ public class CollectionPanelGUI extends JPanel {
 		MagicCollectionTableCellRenderer render = new MagicCollectionTableCellRenderer();
 		
 		tableEditions.setDefaultRenderer(Object.class,render);
+		//tableEditions.setDefaultRenderer(ImageIcon.class,render);
 		tableEditions.setDefaultRenderer(String.class,render);
 		tableEditions.setDefaultRenderer(Integer.class, render);
 		tableEditions.setDefaultRenderer(double.class, render);
@@ -284,7 +285,6 @@ public class CollectionPanelGUI extends JPanel {
 		sorterEditions.setSortKeys(keys);
 		
 		tableEditions.setRowSorter(sorterEditions);
-		//new TableColumnAdjuster(tableEditions).adjustColumns();
 		tableEditions.packAll();
 		
 		
