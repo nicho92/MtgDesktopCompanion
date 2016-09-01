@@ -80,8 +80,6 @@ public class MagicWebSiteGenerator extends Observable{
 			template.process(root, out);
 		
 		generateCollectionsTemplate();
-		
-		
 	}
 	
 	
