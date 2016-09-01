@@ -184,7 +184,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			
 		  	logger.debug("loading file " + fileSetJson);
 		  	  	
-			if(!fileSetJson.exists())
+			if(!fileSetJson.exists()|| fileSetJson.length()==0)
 			{
 				logger.info("datafile does not exist. Downloading it");
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlSetJsonZip)), fileSetJsonTemp);

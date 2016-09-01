@@ -16,9 +16,12 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
+import org.magic.tools.db.NumberUpdater;
+
 import javax.swing.ImageIcon;
 
 public class ConfigurationPanel extends JPanel {
@@ -28,6 +31,7 @@ public class ConfigurationPanel extends JPanel {
 	private JComboBox cboLogLevels;
 	private JLabel lblLoading ;
 	private JTextField txtdirWebsite;
+	private JComboBox cboEditions;
 	
 	public void loading(boolean show,String text)
 	{
@@ -39,7 +43,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 106, 212, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -205,9 +209,6 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnReload.gridy = 4;
 		add(btnReload, gbc_btnReload);
 		
-		lblLoading = new JLabel("");
-		lblLoading.setVisible(false);
-		
 		JLabel lblWebsiteDir = new JLabel("Website dir :");
 		GridBagConstraints gbc_lblWebsiteDir = new GridBagConstraints();
 		gbc_lblWebsiteDir.anchor = GridBagConstraints.EAST;
@@ -282,11 +283,55 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnSaveLoglevel.gridx = 3;
 		gbc_btnSaveLoglevel.gridy = 6;
 		add(btnSaveLoglevel, gbc_btnSaveLoglevel);
+		
+		JLabel lblForceNumberFor = new JLabel("Force Number for Edition :");
+		GridBagConstraints gbc_lblForceNumberFor = new GridBagConstraints();
+		gbc_lblForceNumberFor.anchor = GridBagConstraints.EAST;
+		gbc_lblForceNumberFor.insets = new Insets(0, 0, 5, 5);
+		gbc_lblForceNumberFor.gridx = 1;
+		gbc_lblForceNumberFor.gridy = 7;
+		add(lblForceNumberFor, gbc_lblForceNumberFor);
+		
+		cboEditions = new JComboBox(NumberUpdater.unavailableEds);
+		GridBagConstraints gbc_cboEditions = new GridBagConstraints();
+		gbc_cboEditions.insets = new Insets(0, 0, 5, 5);
+		gbc_cboEditions.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboEditions.gridx = 2;
+		gbc_cboEditions.gridy = 7;
+		add(cboEditions, gbc_cboEditions);
+		
+		JButton btnUpdate = new JButton("Update");
+		GridBagConstraints gbc_btnUpdate = new GridBagConstraints();
+		gbc_btnUpdate.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnUpdate.insets = new Insets(0, 0, 5, 5);
+		gbc_btnUpdate.gridx = 3;
+		gbc_btnUpdate.gridy = 7;
+		add(btnUpdate, gbc_btnUpdate);
+		
+		btnUpdate.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				ThreadManager.getInstance().execute(new Runnable() {
+					public void run() {
+							loading(true,"update " + cboEditions.getSelectedItem().toString() + " numbers");
+							try {
+								NumberUpdater.update(cboEditions.getSelectedItem().toString());
+							} catch (Exception e) {
+								e.printStackTrace();
+							}
+							loading(false,"");
+					}
+				}, "updating "  + cboEditions.getSelectedItem() + " numbers");
+			}
+		});
+		
+		
+		lblLoading = new JLabel("");
+		lblLoading.setVisible(false);
 		lblLoading.setIcon(new ImageIcon(ConfigurationPanel.class.getResource("/res/load.gif")));
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
-		gbc_lblLoading.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLoading.insets = new Insets(0, 0, 0, 5);
 		gbc_lblLoading.gridx = 2;
-		gbc_lblLoading.gridy = 7;
+		gbc_lblLoading.gridy = 8;
 		add(lblLoading, gbc_lblLoading);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
