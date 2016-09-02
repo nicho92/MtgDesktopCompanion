@@ -1,4 +1,4 @@
-package org.magic.api.exports.impl;
+package org.magic.test;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -32,7 +32,7 @@ import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateNotFoundException;
 
-public class MagicWebSiteGenerator extends Observable{
+public class MagicWebSiteGenerator2 extends Observable{
 	
 	Template template ;
 	Configuration cfg ;
@@ -40,8 +40,10 @@ public class MagicWebSiteGenerator extends Observable{
 	private String dest;
 	private List<MagicPricesProvider> pricesProvider;
 	private List<MagicCollection> cols;
+	Map<String,Object> root;
 	
-	public MagicWebSiteGenerator(String template,String dest) throws IOException, ClassNotFoundException, SQLException {
+	
+	public MagicWebSiteGenerator2(String template,String dest) throws IOException, ClassNotFoundException, SQLException {
 		cfg = new Configuration(Configuration.VERSION_2_3_23);
 		cfg.setDirectoryForTemplateLoading(new File("./templates"+"/"+template));
 		cfg.setDefaultEncoding("UTF-8");
@@ -73,7 +75,7 @@ public class MagicWebSiteGenerator extends Observable{
 		Template template = cfg.getTemplate("index.html");
 			Writer out = new FileWriter(new File(dest+"\\index.htm"));
 		
-			Map root = new HashMap();
+			root = new HashMap();
 			for(MagicCollection col : cols)
 				root.put(col.getName(), dao.getCardsFromCollection(col));
 			

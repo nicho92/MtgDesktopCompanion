@@ -53,7 +53,7 @@ public class DisplayableCardActions extends MouseAdapter {
 			 else
 			 {
 				 card.tap(true);
-				 p.logAction("Tap " + card.getMagicCard() + " (" + card.getMagicCard().getText()+")");
+				 p.logAction("Tap " + card.getMagicCard());
 			 }
 		 }
 		 else
