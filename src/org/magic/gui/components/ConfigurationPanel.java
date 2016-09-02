@@ -43,7 +43,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 106, 212, 0, 0, 0};
 		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
@@ -284,7 +284,7 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnSaveLoglevel.gridy = 6;
 		add(btnSaveLoglevel, gbc_btnSaveLoglevel);
 		
-		JLabel lblForceNumberFor = new JLabel("Force Number for Edition :");
+		JLabel lblForceNumberFor = new JLabel("update Number for Edition :");
 		GridBagConstraints gbc_lblForceNumberFor = new GridBagConstraints();
 		gbc_lblForceNumberFor.anchor = GridBagConstraints.EAST;
 		gbc_lblForceNumberFor.insets = new Insets(0, 0, 5, 5);

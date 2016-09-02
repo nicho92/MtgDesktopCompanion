@@ -24,24 +24,34 @@ public class NumberUpdater {
 	
 	
 	public static void update(String ed) throws Exception {
-		JsonObject jsObj = new Gson().fromJson(new FileReader(new File(MagicFactory.CONF_DIR,"AllSets-x.json")), JsonObject.class);
-	
-		//for(String ed : unavailableEds)
-		{	
-			mc = updateNumber(ed);
-			JsonArray cards = jsObj.getAsJsonObject(ed).getAsJsonArray("cards");
-			for(int i=0;i<cards.size();i++)
-			{
-				JsonObject card = cards.get(i).getAsJsonObject();
-				if(card.get("number") == null)
-					card.addProperty("number", getVal(card.getAsJsonPrimitive("id").getAsString()));
-			}
+		
+		if(MagicFactory.getInstance().getEnabledProviders() instanceof MtgjsonProvider)
+		{
+				JsonObject jsObj = new Gson().fromJson(new FileReader(new File(MagicFactory.CONF_DIR,"AllSets-x.json")), JsonObject.class);
 			
+				//for(String ed : unavailableEds)
+				{	
+					mc = updateNumber(ed);
+					JsonArray cards = jsObj.getAsJsonObject(ed).getAsJsonArray("cards");
+					for(int i=0;i<cards.size();i++)
+					{
+						JsonObject card = cards.get(i).getAsJsonObject();
+						if(card.get("number") == null)
+							card.addProperty("number", getVal(card.getAsJsonPrimitive("id").getAsString()));
+					}
+					
+				}
+				FileWriter fw = new FileWriter(new File(MagicFactory.CONF_DIR,"AllSets-x.json").getAbsolutePath());
+				BufferedWriter bw = new BufferedWriter(fw);
+				bw.write(jsObj.toString());
+				bw.close();
 		}
-		FileWriter fw = new FileWriter(new File(MagicFactory.CONF_DIR,"AllSets-x.json").getAbsolutePath());
-		BufferedWriter bw = new BufferedWriter(fw);
-		bw.write(jsObj.toString());
-		bw.close();
+		else
+		{
+			throw new Exception("Provider should be MtgjsonProvider");
+		}
+	
+
 	}
 	
 	

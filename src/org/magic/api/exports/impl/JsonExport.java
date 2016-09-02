@@ -1,8 +1,12 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -15,7 +19,10 @@ import org.magic.services.MagicFactory;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 public class JsonExport  extends AbstractCardExport {
 
@@ -32,8 +39,38 @@ public class JsonExport  extends AbstractCardExport {
 	
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		JsonReader reader = new JsonReader(new FileReader(f));
+		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		
+		MagicDeck deck  = new MagicDeck();
+				  deck.setName(root.get("name").getAsString());
+				  deck.setDescription(root.get("description").getAsString());
+				  
+		JsonArray main = root.get("main").getAsJsonArray();
+		
+		for(int i = 0;i<main.size();i++)
+		{
+			JsonObject line = main.get(i).getAsJsonObject();
+			int qte = line.get("qty").getAsInt();
+			MagicCard mc = new Gson().fromJson(line.get("card"), MagicCard.class);
+			deck.getMap().put(mc, qte);
+		}
+		
+		JsonArray side = root.get("side").getAsJsonArray();
+		
+		for(int i = 0;i<side.size();i++)
+		{
+			JsonObject line = side.get(i).getAsJsonObject();
+			int qte = line.get("qty").getAsInt();
+			MagicCard mc = new Gson().fromJson(line.get("card"), MagicCard.class);
+			deck.getMapSideBoard().put(mc, qte);
+			
+		}
+		
+		
+		
+		
+		return deck;
 	}
 
 	@Override
@@ -68,7 +105,7 @@ public class JsonExport  extends AbstractCardExport {
 		for(MagicCard mc : deck.getMap().keySet())
 		{
 			JsonObject card = new JsonObject();
-				card.addProperty("count",(Number)deck.getMap().get(mc));
+				card.addProperty("qty",(Number)deck.getMap().get(mc));
 				card.add("card", new Gson().toJsonTree(mc));
 				main.add(card);
 		}
@@ -78,7 +115,7 @@ public class JsonExport  extends AbstractCardExport {
 		for(MagicCard mc : deck.getMapSideBoard().keySet())
 		{
 			JsonObject card = new JsonObject();
-				card.addProperty("count",(Number)deck.getMapSideBoard().get(mc));
+				card.addProperty("qty",(Number)deck.getMapSideBoard().get(mc));
 				card.add("card", new Gson().toJsonTree(mc));
 				side.add(card);
 		}
@@ -88,7 +125,6 @@ public class JsonExport  extends AbstractCardExport {
 		FileWriter out = new FileWriter(dest);
 		out.write(json.toString());
 		out.close();
-		
 	}
 
 	@Override
