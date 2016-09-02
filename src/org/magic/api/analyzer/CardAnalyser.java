@@ -18,7 +18,7 @@ public class CardAnalyser {
 		emblem.setWatermarks("");
 		emblem.setLayout(MagicCard.LAYOUT.Emblem.toString());
 		emblem.setNumber("E");
-		emblem.setRarity("Common");
+		//emblem.setRarity("Common");
 		emblem.setCmc(0);
 		emblem.getTypes().add("Emblem");
 		emblem.getSubtypes().add(mc.getName());
@@ -107,7 +107,7 @@ public class CardAnalyser {
 				
 				
 				token.setNumber("T");
-				token.setRarity("Common");
+				//token.setRarity("Common");
 				token.setCmc(0);
 				
 				for(String c : token.getColors())

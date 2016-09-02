@@ -45,7 +45,6 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 		T bean = (T)oos.readObject();
 		oos.close();
 		return bean;
-		/*return new Gson().fromJson(new FileReader(f), class1);*/
 	}
 
 	@Override

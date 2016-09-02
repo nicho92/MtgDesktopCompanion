@@ -156,6 +156,7 @@ public class ManaPanel extends JPanel {
 			case "\u221e" : val=52;break;//infinity symbol
 			case "\u00BD" : val=53;break;//1/2 symbol
 			case "CHAOS" : val=67;break; 
+			case "E" : val=68;break;
 			default:val=0;
 			}
 		}
