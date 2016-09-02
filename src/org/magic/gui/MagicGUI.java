@@ -738,7 +738,9 @@ public class MagicGUI extends JFrame {
 								
 								cardsModeltable.fireTableDataChanged();
 								
-								thumbnailPanel.initThumbnails(cards);
+								thumbnailPanel.initThumbnails(cards,false);
+								
+								
 								cmcChart.init(cards);
 								typeRepartitionPanel.init(cards);
 								manaRepartitionPanel.init(cards);
@@ -767,7 +769,7 @@ public class MagicGUI extends JFrame {
 
 					try {
 						tabbedCardsView.setSelectedIndex(1);
-						thumbnailPanel.initThumbnails( provider.openBooster(selectedEdition));
+						thumbnailPanel.initThumbnails( provider.openBooster(selectedEdition),false);
 
 					} catch (Exception e) {
 						logger.error(e);

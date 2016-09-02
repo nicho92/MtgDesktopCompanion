@@ -26,7 +26,7 @@ public class SearchLibraryFrame extends JDialog {
 		scPane.setViewportView(pane);
 		getContentPane().add(scPane);
 		pane.setPlayer(p);
-		pane.initThumbnails(p.getLibrary());
+		pane.initThumbnails(p.getLibrary(),true);
 	}
 	
 	public SearchLibraryFrame(Player p,List<MagicCard> list) {
@@ -38,7 +38,7 @@ public class SearchLibraryFrame extends JDialog {
 		scPane.setViewportView(pane);
 		getContentPane().add(scPane);
 		pane.setPlayer(p);
-		pane.initThumbnails(list);
+		pane.initThumbnails(list,true);
 		
 	}
 	

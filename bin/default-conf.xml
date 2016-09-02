@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conf>
-	<version>0.6 beta</version>
+	<version>0.9 beta</version>
 	<langage>French</langage>
 	<lookAndFeel>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
-	<debug>INFO</debug>
+	<loglevel>INFO</loglevel>
+	<default-website-dir>c:/</default-website-dir>
 	<default-library>Library</default-library>
 	<pricers>
 		<pricer>
@@ -79,6 +80,24 @@
 			<enable>true</enable>
 		</dashboard>
 	</dashboards>
+	<decksniffer>
+		<sniffer>
+			<class>org.magic.api.decksniffer.impl.TappedOutDeckSniffer</class>
+			<enable>true</enable>
+		</sniffer>
+		<sniffer>
+			<class>org.magic.api.decksniffer.impl.MTGoldFishDeck</class>
+			<enable>true</enable>
+		</sniffer>
+		<sniffer>
+			<class>org.magic.api.decksniffer.impl.MagicCorporationDecks</class>
+			<enable>true</enable>
+		</sniffer>
+		<sniffer>
+			<class>org.magic.api.decksniffer.impl.LotusNoirDecks</class>
+			<enable>true</enable>
+		</sniffer>
+	</decksniffer>
 	<deckexports>
 		<export>
 			<class>org.magic.api.exports.impl.CocatriceDeckExport</class>

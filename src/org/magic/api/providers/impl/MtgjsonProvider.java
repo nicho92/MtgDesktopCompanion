@@ -474,7 +474,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		  if(map.get("names")!=null)
 	 		   {
 				 ((List)map.get("names")).remove(mc.getName());
-				 String rotateName=((List)map.get("names")).get(0).toString() ;
+				 String rotateName=((List)map.get("names")).get( ((List)map.get("names")).size()-1).toString() ;
 	 			 mc.setRotatedCardName(rotateName);
 	 			 
 	 			 if(mc.getLayout().equals("flip"))

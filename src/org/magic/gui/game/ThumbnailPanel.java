@@ -71,7 +71,9 @@ public class ThumbnailPanel extends DraggablePanel {
 	}
 	
 	Thread t;
-	public void initThumbnails(final List<MagicCard> cards) {
+	public void initThumbnails(final List<MagicCard> cards, final boolean activateCards) {
+		
+		
 		if(t!=null)
 			if(t.isAlive())
 				t.stop();
@@ -96,6 +98,7 @@ public class ThumbnailPanel extends DraggablePanel {
 				for(MagicCard mc : cards)
 				{
 					DisplayableCard lab = new DisplayableCard(mc,width,height);
+					lab.setTappable(activateCards);
 					
 				try {
 						

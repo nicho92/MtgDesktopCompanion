@@ -456,7 +456,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 				{
 					JOptionPane.showMessageDialog(null, "Not enougth cards in hands","Error",JOptionPane.ERROR_MESSAGE);
 				}
-			    handPanel.initThumbnails(player.getHand());
+			    handPanel.initThumbnails(player.getHand(),true);
 			}
 		});
 		

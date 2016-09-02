@@ -27,12 +27,23 @@ public class DisplayableCard extends JLabel
 	private boolean tapped=false;
 	private ImageIcon image;
 	private boolean draggable=true;
+	private boolean tappable=true;
 	private String title;
 	private String bottom;
 	private boolean selected;
 	private boolean rotated; 
 	
 	
+	public boolean isTappable() {
+		return tappable;
+	}
+
+
+	public void setTappable(boolean tappable) {
+		this.tappable = tappable;
+	}
+
+
 	public boolean isSelected() {
 		return selected;
 	}
@@ -139,6 +150,10 @@ public class DisplayableCard extends JLabel
 	}
 	
 	public void tap(boolean t) {
+			
+			if(!tappable)
+				return;
+		
 			int angle=0;
 			if(t)
 				angle=90;
@@ -199,6 +214,7 @@ public class DisplayableCard extends JLabel
 			e.printStackTrace();
 		}
 	}
+	
 	public boolean isTapped() {
 		return tapped;
 	}

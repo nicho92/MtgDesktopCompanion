@@ -576,7 +576,7 @@ public class DeckBuilderGUI extends JPanel{
 				p.mixHandAndLibrary();
 				p.shuffleLibrary();
 				p.drawCard(7);
-				thumbnail.initThumbnails(p.getHand());
+				thumbnail.initThumbnails(p.getHand(),false);
 			}
 		});
 		panel.add(btnDrawAHand);
