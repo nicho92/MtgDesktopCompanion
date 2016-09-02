@@ -51,7 +51,7 @@ public class PDFExport extends AbstractCardExport {
 			document.addCreator("Magic Desktop Companion");
 			document.addTitle(f.getName());
 
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f+".pdf"));
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f));
 			document.open();
 			for(MagicCard card : cards)
 			{

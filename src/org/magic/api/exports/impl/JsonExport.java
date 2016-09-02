@@ -38,16 +38,7 @@ public class JsonExport  extends AbstractCardExport {
 
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
-		Gson g = new GsonBuilder().setPrettyPrinting().create();
-		
-		JsonObject jsonparams = new JsonObject();
-		JsonObject obj = new JsonObject();
-		
-	//	for(MagicCard mc : cards)
-    			// obj.add("card", g.toJson(mc));
-		
-		System.out.println(jsonparams);
-		
+		//todo
 	}
 
 	@Override
@@ -57,8 +48,7 @@ public class JsonExport  extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
-		Gson g = new GsonBuilder().setPrettyPrinting().create();
-		System.out.println(g.toJson(deck));
+		//todo
 		
 	}
 
