@@ -137,9 +137,6 @@ public class MagicWebSiteGenerator2 extends Observable{
 			out.close();
 	}
 	
-	
-	
-	
 	int i=0;
 	private void generateCardsTemplate(MagicCard mc) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-card.html");
