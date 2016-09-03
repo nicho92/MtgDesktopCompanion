@@ -1019,7 +1019,7 @@ public class MagicGUI extends JFrame {
 		catch(Exception e)
 		{
 			logger.error(e);
-			
+			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 		}
 
