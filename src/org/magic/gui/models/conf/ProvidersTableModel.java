@@ -10,7 +10,7 @@ import org.magic.services.MagicFactory;
 public class ProvidersTableModel extends DefaultTableModel {
 	
 	
-		String columns[] = new String[]{"Provider","Version","State","URL","Enable"};
+		static final String columns[] = new String[]{"Provider","Version","State","URL","Enable"};
 	
 		@Override
 		public int getRowCount() {
@@ -19,7 +19,7 @@ public class ProvidersTableModel extends DefaultTableModel {
 		
 		@Override
 		public int getColumnCount() {
-			return 4;
+			return columns.length;
 		}
 		
 		@Override
