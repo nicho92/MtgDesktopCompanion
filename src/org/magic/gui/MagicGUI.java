@@ -23,6 +23,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -306,7 +307,6 @@ public class MagicGUI extends JFrame {
 					@Override
 					public void run() {
 						new ThreadMonitorFrame().setVisible(true);
-						
 					}
 				});
 				
@@ -315,6 +315,22 @@ public class MagicGUI extends JFrame {
 		});
 		
 		mnuAbout.add(mntmThreadItem);
+		
+		JMenuItem mntmHelp = new JMenuItem("Read the f***g manual");
+		mntmHelp.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String url ="https://github.com/nicho92/MtgDesktopCompanion/wiki";
+				try {
+					Desktop.getDesktop().browse(new URI(url));
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			}
+		});
+		mnuAbout.add(mntmHelp);
+		
 		
 		mntmAboutMagicDesktop = new JMenuItem("About Magic Desktop Companion");
 		mntmAboutMagicDesktop.addActionListener(new ActionListener() {
@@ -1056,6 +1072,9 @@ public class MagicGUI extends JFrame {
 			
 			((DefaultListModel<MagicEdition>)listEdition.getModel()).removeAllElements();
 
+			for(MagicCardNames mcn : selected.getForeignNames())
+				cboLanguages.addItem(mcn);
+			
 			for(MagicEdition me : selected.getEditions())
 				((DefaultListModel<MagicEdition>)listEdition.getModel()).addElement(me);
 
@@ -1069,9 +1088,6 @@ public class MagicGUI extends JFrame {
 				txtRulesArea.append("\n");
 			}
 		
-			for(MagicCardNames mcn : selected.getForeignNames())
-				cboLanguages.addItem(mcn);
-
 			
 			if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 				updatePrices();

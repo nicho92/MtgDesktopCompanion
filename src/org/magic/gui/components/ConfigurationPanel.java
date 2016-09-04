@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
 import org.magic.tools.db.NumberUpdater;
@@ -307,6 +308,8 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnUpdate.gridx = 3;
 		gbc_btnUpdate.gridy = 7;
 		add(btnUpdate, gbc_btnUpdate);
+		btnUpdate.setEnabled(MagicFactory.getInstance().getEnabledProviders() instanceof MtgjsonProvider);//only for mtgjson provider
+		
 		
 		btnUpdate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
