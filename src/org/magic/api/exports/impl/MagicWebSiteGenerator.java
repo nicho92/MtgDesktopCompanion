@@ -106,7 +106,7 @@ public class MagicWebSiteGenerator extends Observable{
 				FileWriter out = new FileWriter(new File(dest+"\\page-col-"+col.getName()+".htm"));
 				template.process(rootEd, out);
 				
-				for(String ed : dao.getEditionsIDFromCollection(col))
+				//for(String ed : dao.getEditionsIDFromCollection(col))
 				{
 					generateEditionsTemplate(eds,col);
 				}

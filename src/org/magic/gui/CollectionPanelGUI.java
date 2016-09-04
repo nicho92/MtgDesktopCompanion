@@ -258,9 +258,7 @@ public class CollectionPanelGUI extends JPanel {
 			public void mouseClicked(MouseEvent arg0) {
 				try {
 					int row = tableEditions.getSelectedRow();
-					MagicEdition ed = new MagicEdition();
-					ed.setId(tableEditions.getValueAt(row, 0).toString());
-					ed.setSet(tableEditions.getValueAt(row, 1).toString());
+					MagicEdition ed = (MagicEdition)tableEditions.getValueAt(row, 1);
 					historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,ed),ed.getSet());
 				} catch (IOException e) {
 					logger.error(e);
