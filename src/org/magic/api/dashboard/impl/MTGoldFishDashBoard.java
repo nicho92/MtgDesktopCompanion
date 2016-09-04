@@ -274,6 +274,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		case "PLS" : return "PS";
 		case "INV" : return "IN";
 		case "MMQ" : return "MM";
+		case "VIS" : return "VI";
 		default : return id;
 		}
 	}

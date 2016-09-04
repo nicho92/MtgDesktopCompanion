@@ -15,7 +15,7 @@ public class MkmWantList {
 	
 	public static void main(String[] args) throws InvalidKeyException, NoSuchAlgorithmException, IOException {
 		
-	  String link = "https://www.mkmapi.eu/ws/v1.1/wantslist/934374";
+	  String link = "https://www.mkmapi.eu/ws/v1.1/wantslist";
 	  String authorizationProperty = new MagicCardMarketPricer().generateOAuthSignature(link);
 	  HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			            connection.addRequestProperty("Authorization", authorizationProperty) ;

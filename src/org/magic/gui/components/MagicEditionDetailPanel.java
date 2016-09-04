@@ -4,9 +4,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.DefaultRowSorter;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -14,6 +18,8 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
+import org.magic.gui.models.EditionsShakerTableModel;
+import org.magic.services.ThreadManager;
 
 public class MagicEditionDetailPanel extends JPanel {
 
@@ -26,19 +32,23 @@ public class MagicEditionDetailPanel extends JPanel {
 	private JTextField typeJTextField;
 	private JLabel lblBlock;
 	private JTextField blockJTextField;
+	private JLabel lblId;
+	private JTextField idJtextField;
+	private JScrollPane scrollPane;
+	private JTable table;
+	private EditionsShakerTableModel mod;
 	
-	
-	public MagicEditionDetailPanel(org.magic.api.beans.MagicEdition newMagicEdition) {
+	public MagicEditionDetailPanel(MagicEdition newMagicEdition) {
 		this();
 		setMagicEdition(newMagicEdition);
 	}
 
 	public MagicEditionDetailPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 104, 333, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		gridBagLayout.columnWidths = new int[] { 104, 333, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
 				1.0E-4 };
 		setLayout(gridBagLayout);
 				
@@ -51,7 +61,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				
 						setJTextField = new JTextField();
 						GridBagConstraints componentGbc_8 = new GridBagConstraints();
-						componentGbc_8.insets = new Insets(5, 0, 5, 0);
+						componentGbc_8.insets = new Insets(5, 0, 5, 5);
 						componentGbc_8.fill = GridBagConstraints.HORIZONTAL;
 						componentGbc_8.gridx = 1;
 						componentGbc_8.gridy = 0;
@@ -66,7 +76,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				
 						typeJTextField = new JTextField();
 						GridBagConstraints componentGbc_11 = new GridBagConstraints();
-						componentGbc_11.insets = new Insets(5, 0, 5, 0);
+						componentGbc_11.insets = new Insets(5, 0, 5, 5);
 						componentGbc_11.fill = GridBagConstraints.HORIZONTAL;
 						componentGbc_11.gridx = 1;
 						componentGbc_11.gridy = 1;
@@ -81,7 +91,7 @@ public class MagicEditionDetailPanel extends JPanel {
 
 		releaseDateJTextField = new JTextField();
 		GridBagConstraints componentGbc_7 = new GridBagConstraints();
-		componentGbc_7.insets = new Insets(5, 0, 5, 0);
+		componentGbc_7.insets = new Insets(5, 0, 5, 5);
 		componentGbc_7.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc_7.gridx = 1;
 		componentGbc_7.gridy = 2;
@@ -97,7 +107,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				borderJTextField = new JTextField();
 				GridBagConstraints componentGbc_2 = new GridBagConstraints();
 				componentGbc_2.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_2.insets = new Insets(5, 0, 5, 0);
+				componentGbc_2.insets = new Insets(5, 0, 5, 5);
 				componentGbc_2.gridx = 1;
 				componentGbc_2.gridy = 3;
 				add(borderJTextField, componentGbc_2);
@@ -111,7 +121,7 @@ public class MagicEditionDetailPanel extends JPanel {
 						
 				cardCountTextField = new JTextField();
 				GridBagConstraints componentGbc_3 = new GridBagConstraints();
-				componentGbc_3.insets = new Insets(5, 0, 5, 0);
+				componentGbc_3.insets = new Insets(5, 0, 5, 5);
 				componentGbc_3.fill = GridBagConstraints.HORIZONTAL;
 				componentGbc_3.gridx = 1;
 				componentGbc_3.gridy = 4;
@@ -119,18 +129,49 @@ public class MagicEditionDetailPanel extends JPanel {
 				
 				lblBlock = new JLabel("Block : ");
 				GridBagConstraints gbc_lblBlock = new GridBagConstraints();
-				gbc_lblBlock.insets = new Insets(0, 0, 0, 5);
+				gbc_lblBlock.insets = new Insets(0, 0, 5, 5);
 				gbc_lblBlock.gridx = 0;
 				gbc_lblBlock.gridy = 5;
 				add(lblBlock, gbc_lblBlock);
 				
 				blockJTextField = new JTextField();
 				GridBagConstraints gbc_blockJTextField = new GridBagConstraints();
+				gbc_blockJTextField.insets = new Insets(0, 0, 5, 5);
 				gbc_blockJTextField.fill = GridBagConstraints.HORIZONTAL;
 				gbc_blockJTextField.gridx = 1;
 				gbc_blockJTextField.gridy = 5;
 				add(blockJTextField, gbc_blockJTextField);
 				blockJTextField.setColumns(10);
+				
+				lblId = new JLabel("ID :");
+				GridBagConstraints gbc_lblId = new GridBagConstraints();
+				gbc_lblId.insets = new Insets(0, 0, 5, 5);
+				gbc_lblId.gridx = 0;
+				gbc_lblId.gridy = 6;
+				add(lblId, gbc_lblId);
+				
+				idJtextField = new JTextField();
+				GridBagConstraints gbc_txtID = new GridBagConstraints();
+				gbc_txtID.insets = new Insets(0, 0, 5, 5);
+				gbc_txtID.fill = GridBagConstraints.HORIZONTAL;
+				gbc_txtID.gridx = 1;
+				gbc_txtID.gridy = 6;
+				add(idJtextField, gbc_txtID);
+				idJtextField.setColumns(10);
+				
+				scrollPane = new JScrollPane();
+				GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+				gbc_scrollPane.gridwidth = 2;
+				gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
+				gbc_scrollPane.fill = GridBagConstraints.BOTH;
+				gbc_scrollPane.gridx = 0;
+				gbc_scrollPane.gridy = 7;
+				add(scrollPane, gbc_scrollPane);
+				
+				mod= new EditionsShakerTableModel();
+				table = new JTable(mod);
+				table.setRowSorter(new TableRowSorter(mod));
+				scrollPane.setViewportView(table);
 
 		if (magicEdition != null) {
 			m_bindingGroup = initDataBindings();
@@ -156,7 +197,21 @@ public class MagicEditionDetailPanel extends JPanel {
 				m_bindingGroup = initDataBindings();
 			}
 		}
+		
+		
+		ThreadManager.getInstance().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				mod.init(magicEdition);
+				mod.fireTableDataChanged();
+				
+			}
+		}, "load prices for" + magicEdition);
+		
 	}
+	
+	
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicEdition, String> borderProperty = BeanProperty.create("border");
 		BeanProperty<JTextField, String> textProperty_2 = BeanProperty.create("text");
@@ -187,6 +242,11 @@ public class MagicEditionDetailPanel extends JPanel {
 		BeanProperty<JTextField, String> textProperty_11 = BeanProperty.create("text");
 		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_12 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, blockProperty, blockJTextField, textProperty_11);
 		autoBinding_12.bind();
+		
+		BeanProperty<MagicEdition, String> idProperty = BeanProperty.create("id");
+		BeanProperty<JTextField, String> textProperty_12 = BeanProperty.create("text");
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, idProperty, idJtextField, textProperty_12);
+		autoBinding_13.bind();
 
 		//
 		BindingGroup bindingGroup = new BindingGroup();
