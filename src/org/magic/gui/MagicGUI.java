@@ -74,6 +74,7 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.pictures.impl.BoosterPicturesProvider;
 import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -144,7 +145,7 @@ public class MagicGUI extends JFrame {
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardDetailPanel detailCardPanel;
 	private JSONPanel jsonCardPanel;
-	private JPanel panelEditionRight;
+	private JPanel boosterPanel;
 	private JPanel panelResultsCards;
 	private JPanel panelFilters;
     private JPanel panelmana;
@@ -180,7 +181,10 @@ public class MagicGUI extends JFrame {
 	private JLabel lblLoading = new JLabel("");
 	
 	private JList<MagicEdition> listEdition;
+	private JLabel lblBoosterPic;
 
+	BoosterPicturesProvider boosterProvider;
+	
 
 	public void setDefaultLanguage(String language) {
 		defaultLanguage=language;
@@ -269,9 +273,6 @@ public class MagicGUI extends JFrame {
 		setJMenuBar(menuBar);
 
 		menuBar.add(mnFile);
-		
-		
-		
 		mnFile.add(mntmExit);
 
 		panneauBuilder = new CardBuilderPanelGUI();
@@ -409,7 +410,7 @@ public class MagicGUI extends JFrame {
 			mnuProviders.add(it);
 		}
 		*/
-
+		boosterProvider = new BoosterPicturesProvider();
 
 		DefaultRowSorter sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
 		sorterCards = new TableRowSorter<DefaultTableModel>(cardsModeltable);
@@ -563,12 +564,16 @@ public class MagicGUI extends JFrame {
 		magicEditionDetailPanel = new MagicEditionDetailPanel();
 		editionDetailPanel.add(magicEditionDetailPanel, BorderLayout.CENTER);
 
-		panelEditionRight = new JPanel();
-		editionDetailPanel.add(panelEditionRight, BorderLayout.EAST);
+		boosterPanel = new JPanel();
+		editionDetailPanel.add(boosterPanel, BorderLayout.EAST);
+		boosterPanel.setLayout(new BorderLayout(0, 0));
 
 		btnGenerateBooster = new JButton("Open a Booster");
 
-		panelEditionRight.add(btnGenerateBooster);
+		boosterPanel.add(btnGenerateBooster, BorderLayout.NORTH);
+		
+		lblBoosterPic = new JLabel("");
+		boosterPanel.add(lblBoosterPic);
 		tabbedCardsInfo.addTab("Prices", null, scrollPanePrices, null);
 		tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
 		tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
@@ -1081,7 +1086,16 @@ public class MagicGUI extends JFrame {
 			detailCardPanel.setMagicCard(selected,true);
 			magicEditionDetailPanel.setMagicEdition(selected.getEditions().get(0));
 			
-
+			
+			ThreadManager.getInstance().execute(new Runnable() {
+				public void run() {
+					lblBoosterPic.setIcon(boosterProvider.getBoosterFor(selectedEdition));
+				}
+			}, "load booster pic for " + selectedEdition);
+			
+			
+			
+			
 			for(MagicRuling mr : selected.getRulings())
 			{
 				txtRulesArea.append(mr.toString());
@@ -1098,6 +1112,7 @@ public class MagicGUI extends JFrame {
 			jsonCardPanel.showCard(selected);
 			
 		} catch (Exception e1) {
+			e1.printStackTrace();
 			logger.error(e1);
 		}
 
