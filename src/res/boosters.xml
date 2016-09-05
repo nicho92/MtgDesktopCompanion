@@ -1,7 +1,5 @@
 <boosterUrls>
 	<booster id='REN' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/b/bb/REN_Booster_French.jpg'/>
-	
-	
 	<booster id='LEA' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/e/ee/Alpha_booster.jpg'/>
 	<booster id='LEB' url='http://www.abugames.com/mtg-strategy/pictures/leb/pack.jpg'/>
 	<booster id='ARN' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/a/a4/Arabian_Nights_booster.jpg'/>
@@ -104,7 +102,62 @@
 	<booster id='MBS' url='http://www.magic-collector.net/extensions/mirrodinbesieged/booster2.jpg'/>
 	<booster id='DDG' url='https://images-na.ssl-images-amazon.com/images/I/51H4JXCnu9L._SY355_.jpg'/>
 	<booster id='NPH' url='http://media.wizards.com/images/magic/daily/arcana/694_booster3.jpg'/>
-	
-	
+	<booster id='CMD' url='http://magic.wizards.com/sites/mtg/files/image_legacy_migration/images/magic/daily/stf/stf146_decks.jpg'/>
+	<booster id='M12' url='http://www.magic-collector.net/extensions/2012/booster1.jpg'/>
+	<booster id='V11' url='http://static.starcitygames.com/sales/cardscans/MAG_V11/MTG_V11_BoxSet.jpg'/>
+	<booster id='DDH' url='https://images-na.ssl-images-amazon.com/images/I/71xKKVo8unL._SY450_.jpg'/>
+	<booster id='ISD' url='http://i.tcgplayer.com/47787_200w.jpg'/>
+	<booster id='PD3' url='http://assets.dacw.co/itemimages/mtggraverbbx3.jpg'/>
+	<booster id='DKA' url='http://static.starcitygames.com/sales/cardscans/MAG_DKA/MTG_DKA_BoosterPack.jpg'/>
+	<booster id='DDI' url='http://static.starcitygames.com/sales/cardscans/MAG_VVK/MTG_VVK_BoxSet.jpg'/>
+	<booster id='AVR' url='http://static.starcitygames.com/sales/cardscans/MAG_AVR/MTG_AVR_BoosterPack.jpg'/>
+	<booster id='PC2' url='https://images-na.ssl-images-amazon.com/images/I/51Ng%2B59qvWL._SX355_.jpg'/>
+	<booster id='M13' url='http://www.magic-collector.net/extensions/2013/booster3.jpg'/>
+	<booster id='V12' url='http://i.tcgplayer.com/60149_200w.jpg'/>
+	<booster id='DDJ' url='http://t2.gstatic.com/images?q=tbn:ANd9GcSWoBVCya7hSBLOzrHjSnLo-4uvPUQjcxhQuhoeBqD4RW_bSpPPrWd-njA'/>
+	<booster id='RTR' url='http://static.starcitygames.com/sales/cardscans/MAG_RTR/RTR_BoosterPack.jpg'/>
+	<booster id='CM1' url='http://i.tcgplayer.com/71419_200w.jpg'/>
+	<booster id='GTC' url='http://magic.wizards.com/sites/mtg/files/image_legacy_migration/images/magic/daily/arcana/1137_3_1imutg088j.jpg'/>
+	<booster id='DDK' url='http://static.starcitygames.com/sales/cardscans/MAG_SVT/DDSorinVsTibalt.jpg'/>
+	<booster id='DGM' url='http://i.tcgplayer.com/67752_200w.jpg'/>
+	<booster id='MMA' url='http://i.tcgplayer.com/68105_200w.jpg'/>
+	<booster id='M14' url='http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_M14.jpg'/>
+	<booster id='V13' url='http://static.starcitygames.com/sales/cardscans/MTG/V13/FTVTwentyBox.jpg'/>
+	<booster id='DDL' url='https://www.magic-feel.de/images/produkte/i61/Heroes-vs--Monsters-MtG-Magic-the-Gathering-Duel-Decks-e.jpg'/>
+	<booster id='C13' url='http://www.magicspoiler.com/wp-content/uploads/2013/07/Commander-2013-Decks-615x589.jpg'/>
+	<booster id='THS' url='https://dyn0.media.forbiddenplanet.com/products/107707a.jpg.jpg'/>
+	<booster id='BNG' url='http://universegames.com/images/ccgpacks/magicthegathering/bngbooster.jpg'/>
+	<booster id='DDM' url='http://static.starcitygames.com/sales//cardscans/MTG/JVV/en/JaceVsVraska_lg.jpg'/>
+	<booster id='JOU' url='https://dyn0.media.forbiddenplanet.com/products/118749c.jpg.jpg'/>
+	<booster id='MD1' url='http://media.wizards.com/images/magic/daily/features/2014/featmd1_wk19_299_product.jpg'/>
+	<booster id='CNS' url='http://assets.dacw.co/itemimages/mtgconspiracypk1.jpg'/>
+	<booster id='VMA' url='http://www.mtgotraders.com/store/media/products/boosters/Vintage_Masters_Booster.jpg'/>
+	<booster id='M15' url='http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_Black.jpg'/>
+	<booster id='V14' url='https://i.ytimg.com/vi/DK-Sqk3shlE/maxresdefault.jpg'/>
+	<booster id='DDN' url='http://www.cardkingdom.com/images/magic-the-gathering/duel-decks-speed-vs-cunning/duel-decks-speed-vs-cunning-40670-medium.jpg'/>
+	<booster id='KTK' url='http://www.magicspoiler.com/wp-content/uploads/2014/09/Khans-of-Tarkir-Booster-04.jpg'/>
+	<booster id='C14' url='http://geeklyinc.com/wp-content/uploads/2015/02/Commander2014Splash.jpg'/>
+	<booster id='DD3_DVD' url='http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n'/>
+	<booster id='DD3_EVG' url='http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n'/>
+	<booster id='DD3_GVL' url='http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n'/>
+	<booster id='DD3_JVC' url='http://wpn.wizards.com/sites/wpn/files/styles/product-detail--product-section-image/public/mtgdd3.png?itok=6MfmsC6n'/>
+	<booster id='FRF_UGIN' url='http://media.wizards.com/2015/images/daily/EN_Ugin_Booster_01.png'/>
+	<booster id='FRF' url='http://media.wizards.com/2014/ujehvsbfrf153/co5sseipua_en_bstr_01.png'/>
+	<booster id='DDO' url='http://media.wizards.com/2014/c14/aakdfnppleih2/thao3q9rp0_product_ddo_en.jpg'/>
+	<booster id='DTK' url='http://media.wizards.com/2015/images/daily/EN_p8gq9l4qup_b0ost3r_3.png'/>
+	<booster id='TPR' url='http://media.wizards.com/2015/mtgo/TPR_booster_pack.png'/>
+	<booster id='MM2' url='https://www.wizardscupboard.com/images/modernmasters2boosterpack.jpg'/>
+	<booster id='ORI' url='http://media.wizards.com/2015/images/daily/EN_rcg0o6xwzv_Bs7rS_02.png'/>
+	<booster id='V15' url='https://assets1.mtggoldfish.com/assets/shop/v15-box-e076f4adf36c5df3c77fee97639f1ca5df31cd3ea40c9fb242a2d330feaa77d5.png'/>
+	<booster id='DDP' url='http://media.wizards.com/2015/images/daily/EN_6rvvchitua.png'/>
+	<booster id='BFZ' url='http://i.tcgplayer.com/102716_200w.jpg'/>
+	<booster id='C15' url='https://assets1.mtggoldfish.com/assets/shop/c15-5pack-025dc83d4c030495ac3c7e72fb6da6cc7f21b5621f68eadaeb613d2aaa86fb82.jpg'/>
+	<booster id='OGW' url='http://www.blackborder.com/images/prods/Magic-The-Gathering-Boosters-In-Print-Oath-of-the-Gatewatch-Booster-Pack.jpg'/>
+	<booster id='DDQ' url='http://static.starcitygames.com/sales/cardscans/MTG/DDQ/en/sealed/DDQ_Box.jpg'/>
+	<booster id='SOI' url='http://i.tcgplayer.com/112708_200w.jpg'/>
+	<booster id='EMA' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/thumb/3/31/EMA_booster.png/300px-EMA_booster.png?version=a829973ff44ebe5e8126dbd8987fd238'/>
+	<booster id='EMN' url='http://www.svenskamagic.com/bilder/boosters/eldritchmoon.booster.jpg'/>
+	<booster id='V16' url='https://cdn1.mtggoldfish.com/images/gf/From%2Bthe%2BVault%253A%2BLore%2B%255BSEALED%255D.jpg'/>
+	<booster id='CN2' url='http://cdn1.philibertnet.com/281406-large/booster-magic-the-gathering-conspiracy-take-the-crown.jpg'/>
 </boosterUrls>
 		
