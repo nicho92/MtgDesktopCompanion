@@ -821,7 +821,6 @@ public class MagicGUI extends JFrame {
 						selectedEdition = listEdition.getSelectedValue();
 						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);
-						
 						try {
 							logger.debug("LOADING ED " + BeanUtils.describe(selectedEdition));
 						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
@@ -834,7 +833,7 @@ public class MagicGUI extends JFrame {
 									loading(true,"loading edition");
 									
 										cardsPicPanel.showPhoto(selected,selectedEdition);//backcard
-										
+										lblBoosterPic.setIcon(boosterProvider.getBoosterFor(selectedEdition));
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
 										historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
