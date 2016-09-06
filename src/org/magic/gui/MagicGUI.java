@@ -93,6 +93,7 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
+import org.magic.services.VersionChecker;
 
 import de.javasoft.plaf.synthetica.SyntheticaPlainLookAndFeel;
 import de.javasoft.plaf.synthetica.SyntheticaStandardLookAndFeel;
@@ -183,7 +184,8 @@ public class MagicGUI extends JFrame {
 	private JList<MagicEdition> listEdition;
 	private JLabel lblBoosterPic;
 
-	BoosterPicturesProvider boosterProvider;
+	private BoosterPicturesProvider boosterProvider;
+	private VersionChecker serviceUpdate;
 	
 
 	public void setDefaultLanguage(String language) {
@@ -287,10 +289,6 @@ public class MagicGUI extends JFrame {
 		JMenu jmnuLook = new JMenu("Look");
 		menuBar.add(jmnuLook);
 		
-		
-		//mnuProviders = new JMenu("Providers");
-		//menuBar.add(mnuProviders);
-		
 		mnuLang= new JMenu("Langage");
 		menuBar.add(mnuLang);
 		
@@ -359,6 +357,22 @@ public class MagicGUI extends JFrame {
 		
 		mnuAbout.add(mntmReportBug);
 		
+		if(serviceUpdate.hasNewVersion())
+		{
+			JMenuItem newversion = new JMenuItem("Download latest version : " + serviceUpdate.getOnlineVersion() );
+			newversion.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					String url ="https://github.com/nicho92/MtgDesktopCompanion/blob/master/executable/mtgcompanion.zip?raw=true";
+					try {
+						Desktop.getDesktop().browse(new URI(url));
+					} catch (Exception e1) {
+						logger.error(e1.getMessage());
+					}
+				}
+			});
+			mnuAbout.add(newversion);
+		}
+		
 		List<String> looks = new ArrayList<String>();
 		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
 			looks.add(i.getClassName());
@@ -391,26 +405,6 @@ public class MagicGUI extends JFrame {
 			mnuLang.add(it);
 		}
 		
-		/*
-		ButtonGroup group = new ButtonGroup();
-		for(final MagicCardsProvider provider : MagicFactory.getInstance().getEnabledProviders())
-		{
-		   JRadioButtonMenuItem it = new JRadioButtonMenuItem(provider.toString());
-			group.add(it);
-			it.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					try {
-						setProvider(provider);
-					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(),"ERREUR",JOptionPane.ERROR_MESSAGE);
-					}					
-				}
-			});
-			
-			mnuProviders.add(it);
-		}
-		*/
-		boosterProvider = new BoosterPicturesProvider();
 
 		DefaultRowSorter sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
 		sorterCards = new TableRowSorter<DefaultTableModel>(cardsModeltable);
@@ -668,12 +662,11 @@ public class MagicGUI extends JFrame {
 
 
 		tabbedCardsView.addTab("Mana Curve", null, cmcChart, null);
-
 		tabbedCardsView.addTab("Colors", null, manaRepartitionPanel, null);
-
-
 		tabbedCardsView.addTab("Types", null, typeRepartitionPanel, null);
 		tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
+
+		
 		deckBuilderGUI = new DeckBuilderGUI(provider,dao);
 
 		collectionPanelGUI = new CollectionPanelGUI();
@@ -702,7 +695,6 @@ public class MagicGUI extends JFrame {
 		this.provider=provider2;
 		cboQuereableItems.removeAll();
 		cboQuereableItems.setModel(new DefaultComboBoxModel<>(provider.getQueryableAttributs()));
-		//cboQuereableItems.updateUI();
 		cboQuereableItems.addItem("collections");
 		
 		List li = provider.searchSetByCriteria(null, null);
@@ -729,6 +721,11 @@ public class MagicGUI extends JFrame {
 			dao=MagicFactory.getInstance().getEnabledDAO();
 			dao.init();
 			
+			boosterProvider = new BoosterPicturesProvider();
+			serviceUpdate = new VersionChecker();
+
+			
+
 			
 			initGUI();
 
@@ -865,17 +862,6 @@ public class MagicGUI extends JFrame {
 				}
 			});
 
-			/*cboLanguages.addMouseListener(new MouseAdapter() {
-				public void mouseReleased(MouseEvent e) {
-					MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
-					if(selLang!=null)
-					{
-						defaultLanguage=selLang.getLanguage();
-					}
-				}
-			});*/
-
-
 			cboLanguages.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
@@ -891,7 +877,6 @@ public class MagicGUI extends JFrame {
 
 			});
 
-
 			mntmExit.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					System.exit(0);
@@ -899,7 +884,6 @@ public class MagicGUI extends JFrame {
 				}
 			});
 
-			
 			btnExport.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent ae) {
 					JPopupMenu menu = new JPopupMenu();
@@ -1002,7 +986,9 @@ public class MagicGUI extends JFrame {
 			if (SystemTray.isSupported()) {
 				tray.add(trayIcon);
 
-				trayIcon.displayMessage(getTitle(),"Application started\n",TrayIcon.MessageType.INFO);
+				if(serviceUpdate.hasNewVersion())
+					trayIcon.displayMessage(getTitle(),"New version " + serviceUpdate.getOnlineVersion() + " available",TrayIcon.MessageType.INFO);
+				
 				trayIcon.addActionListener(new ActionListener() {
 					
 					public void actionPerformed(ActionEvent e) {

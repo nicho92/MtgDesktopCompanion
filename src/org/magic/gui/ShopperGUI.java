@@ -47,7 +47,6 @@ public class ShopperGUI extends JPanel {
 	private final JPanel panneauEast = new JPanel();
 	private final JLabel lblPicShopItem = new JLabel("");
     private TableFilterHeader filterHeader;
-    private final JCheckBox chkUpdate = new JCheckBox("update ?");
 	static final Logger logger = LogManager.getLogger(ShopperGUI.class.getName());
 
     
@@ -73,8 +72,6 @@ public class ShopperGUI extends JPanel {
 		
 		
 		panel.add(btnSearch);
-		
-		panel.add(chkUpdate);
 		mod = new ShopItemTableModel();
 		
 		DefaultRowSorter sorter = new TableRowSorter<DefaultTableModel>(mod);

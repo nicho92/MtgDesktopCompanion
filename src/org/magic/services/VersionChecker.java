@@ -1,4 +1,4 @@
-package org.magic.test;
+package org.magic.services;
 
 import java.io.IOException;
 import java.net.URL;
@@ -9,13 +9,15 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.ONLINE_PAPER;
-import org.magic.services.MagicFactory;
+import org.magic.gui.CollectionPanelGUI;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-public class TestVersion {
+public class VersionChecker {
 
 	DocumentBuilderFactory builderFactory;
 	DocumentBuilder builder;
@@ -26,9 +28,10 @@ public class TestVersion {
 	String actualVersion = MagicFactory.getInstance().get("version");
 	String onlineVersion;
 	
+	static final Logger logger = LogManager.getLogger(VersionChecker.class.getName());
+
 	
-	
-	public TestVersion() {
+	public VersionChecker() {
 		
 		builderFactory =DocumentBuilderFactory.newInstance();
 		try {
@@ -43,6 +46,7 @@ public class TestVersion {
 			
 			onlineVersion=item.getTextContent();
 		} catch (Exception e) {
+			logger.error(e.getMessage());
 			e.printStackTrace();
 		}
 	}
@@ -54,14 +58,16 @@ public class TestVersion {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			logger.error(e.getMessage());
 			return false;
 		}
 	}
-	
-	
-	public static void main(String[] args) throws IOException {
-		System.out.println(new TestVersion().hasNewVersion());
-			
+
+	public String getOnlineVersion() {
+		return onlineVersion;
 	}
+
+	
+	
+	
 }
