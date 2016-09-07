@@ -89,12 +89,13 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saving " + mc +" in " + collection);
 		
-		PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?)");
-		 pst.setString(1, mc.getName());
-		 pst.setObject(2, mc);
-		 pst.setString(3, mc.getEditions().get(0).getId());
-		 pst.setString(4, "");
-		 pst.setString(5, collection.getName());
+		PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)");
+		 pst.setString(1, mc.getId()); 
+		 pst.setString(2, mc.getName());
+		 pst.setObject(3, mc);
+		 pst.setString(4, mc.getEditions().get(0).getId());
+		 pst.setString(5, MagicFactory.getInstance().getEnabledProviders().toString());
+		 pst.setString(6, collection.getName());
 		 
 		 pst.executeUpdate();
 	}
@@ -406,8 +407,30 @@ public class MysqlDAO extends AbstractMagicDAO{
 		
 	}
 
+/*
+	private void updateid() throws Exception{
+		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
+		 ResultSet rs = stmt.executeQuery("select * from cards");
+		 while(rs.next())
+		 {
+			 MagicCard mc = (MagicCard) rs.getObject("mcard");
+			 rs.updateString("id", mc.getId());
+			 rs.updateString("provider", "MTG Json Provider");
+			 rs.updateRow();
+		 }
+	}
 
 
+	
+	
+	
+	public static void main(String[] args) throws Exception{
+		MysqlDAO dao = new MysqlDAO();
+		dao.init();
+		dao.updateid();
+	
+	}*/
 
+	
 
 }
