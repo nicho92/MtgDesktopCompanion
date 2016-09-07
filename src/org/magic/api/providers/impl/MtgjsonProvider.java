@@ -250,10 +250,15 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			jsquery="$..cards[?(@."+att+" == "+crit+")]";
 		}
 		
-		if(att.equalsIgnoreCase("foreignNames"))
+	/*	if(att.equalsIgnoreCase("foreignNames"))
 		{
 			jsquery="$..cards[*]."+att+"[?(@.name =~ /^.*"+crit+".*$/i)]";
 		}
+		
+		if(att.equalsIgnoreCase("format"))
+		{
+			jsquery="$..cards[*].legalities[?(@.format =~ /^.*"+crit+".*$/i)]";
+		}*/
 		
 		if(ed !=null)
 		{
@@ -264,7 +269,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		return search(jsquery,att,crit);
 	}
 	
-	private List<MagicCard> search(String jsquery,String att,String crit) throws IOException {
+	public List<MagicCard> search(String jsquery,String att,String crit) throws IOException {
 		
 
 		currentSet=new ArrayList<String>();
@@ -274,10 +279,9 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 		List<Map<String,Object>> cardsElement = ctx.withListeners(new EvaluationListener() {
 			public EvaluationContinuation resultFound(FoundResult fr) {
-				
 				if(fr.path().startsWith("$"))
 				{
-					//logger.info(fr.path());
+					logger.info(fr.path());
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
 				}
 				return null;
@@ -291,8 +295,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			
 				MagicCard mc = new MagicCard();
 			   logger.debug("Loading Data " + Arrays.toString(map.entrySet().toArray()));
-	 		   mc.setName(map.get("name").toString());
-	 		   mc.setFlippable(false);
+			   
+			   if(map.get("name")!=null)
+				   mc.setName(map.get("name").toString());
+	 		   
+			   mc.setFlippable(false);
 	 		   mc.setTranformable(false);
 	 		   if(map.get("multiverseid")!=null)
 	 			   mc.setMultiverseid((int)(double)map.get("multiverseid"));
@@ -344,21 +351,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		   if(map.get("gathererCode")!=null)
 	 			  mc.setGathererCode(String.valueOf(map.get("gathererCode"))); 
 	 			  
-	 		 
-	 		   
-	 		  /* if(map.get("number")==null)
-	 		   {
-	 			   if(map.get("mciNumber")!=null)
-	 			   {
-	 				   String mciN = String.valueOf(map.get("mciNumber"));
-	 				   if(mciN.lastIndexOf("/")>-1)
-	 					   mc.setNumber(mciN.substring(mciN.lastIndexOf("/")+1));
-	 				   else
-	 					  mc.setNumber(mciN);
-	 			   }
-	 		   }*/
-	 		  
-	 		   
 	 		  if(map.get("loyalty")!=null)
 	 			  mc.setLoyalty((int)(double)map.get("loyalty"));
 	 		   
@@ -430,19 +422,19 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			   if(!me.getRarity().equals("Basic Land"))//too much elements, so, remove all re-printings information for basic lands
 	 			   {   
 	 				   if(map.get("printings")!=null)
-	 				   for(String print : (List<String>)map.get("printings"))
-		 			   {
-		 				   if(!print.equalsIgnoreCase(codeEd))
-		 				   {
-		 					  MagicEdition meO = getSetById(print);
-			 			      if(mc.getMultiverseid()==null)
-			 			    	meO.setMultiverse_id(String.valueOf(0));
-		 				  	
-			 			      initOtherEditionCardsVar(mc, meO);
-			 			    
-			 			    mc.getEditions().add(meO); 
-		 				   }
-		 			   }
+		 				   for(String print : (List<String>)map.get("printings"))
+			 			   {
+			 				   if(!print.equalsIgnoreCase(codeEd))
+			 				   {
+			 					  MagicEdition meO = getSetById(print);
+				 			      if(mc.getMultiverseid()==null)
+				 			    	meO.setMultiverse_id(String.valueOf(0));
+			 				  	
+				 			      initOtherEditionCardsVar(mc, meO);
+				 			    
+				 			    mc.getEditions().add(meO); 
+			 				   }
+			 			   }
 	 			   
 	 			   }
 	 			   
@@ -587,7 +579,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 
 	public String[] getQueryableAttributs() {
-		return new String[]{"name","foreignNames","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout"};
+		return new String[]{"name","foreignNames","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout"/*,"format"*/};
 	}
 
 	public String toString() {
