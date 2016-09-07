@@ -34,7 +34,6 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
@@ -68,17 +67,20 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.CardsPriceTableModel;
-import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
-import org.magic.tools.TableColumnAdjuster;
+
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.TableFilterHeader;
+import net.coderazzi.filters.gui.TableFilterHeader.Position;
 
 public class CollectionPanelGUI extends JPanel {
 
 	private JXTable tableEditions;
+	private TableFilterHeader filter;
 	private MagicCardsProvider provider;
 	private MagicDAO dao;
 	private LazyLoadingTree tree;
@@ -95,6 +97,8 @@ public class CollectionPanelGUI extends JPanel {
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
+	
+	
 	
 	public CollectionPanelGUI() throws Exception {
 		this.provider = MagicFactory.getInstance().getEnabledProviders();
@@ -248,33 +252,7 @@ public class CollectionPanelGUI extends JPanel {
 		progressBar = new JProgressBar();
 		progressBar.setVisible(false);
 		panneauHaut.add(progressBar);
-
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setMinimumSize(new Dimension(270, 23));
-
-		tableEditions = new JXTable();
-		tableEditions.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				try {
-					int row = tableEditions.getSelectedRow();
-					MagicEdition ed = (MagicEdition)tableEditions.getValueAt(row, 1);
-					historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,ed),ed.getSet());
-				} catch (IOException e) {
-					logger.error(e);
-				}
-			}
-		});
-		tableEditions.setModel(model);
 		MagicCollectionTableCellRenderer render = new MagicCollectionTableCellRenderer();
-		
-		tableEditions.setDefaultRenderer(Object.class,render);
-		//tableEditions.setDefaultRenderer(ImageIcon.class,render);
-		tableEditions.setDefaultRenderer(String.class,render);
-		tableEditions.setDefaultRenderer(Integer.class, render);
-		tableEditions.setDefaultRenderer(double.class, render);
-		
-		tableEditions.setRowHeight(25);
 		DefaultRowSorter sorterEditions = new TableRowSorter<DefaultTableModel>(model);
 
 		List<SortKey> keys = new ArrayList<SortKey>();
@@ -282,16 +260,9 @@ public class CollectionPanelGUI extends JPanel {
 		keys.add(sortKey);
 		sorterEditions.setSortKeys(keys);
 		
-		tableEditions.setRowSorter(sorterEditions);
-		tableEditions.packAll();
-		
-		
-		scrollPane.setViewportView(tableEditions);
-		
 		
 		JSplitPane splitListPanel = new JSplitPane();
 		add(splitListPanel, BorderLayout.CENTER);
-		splitListPanel.setLeftComponent(scrollPane);
 
 		JPanel panneauDroite = new JPanel();
 		panneauDroite.setLayout(new BorderLayout());
@@ -321,6 +292,8 @@ public class CollectionPanelGUI extends JPanel {
 		tablePrices.setColumnControlVisible(true);
 		scrollPrices.setViewportView(tablePrices);
 
+		
+		
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		magicCardDetailPanel.enableThumbnail(true);
 		tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
@@ -339,6 +312,45 @@ public class CollectionPanelGUI extends JPanel {
 
 		historyPricesPanel = new HistoryPricesPanel();
 		tabbedPane.addTab("Variation", null, historyPricesPanel, null);
+				
+				JPanel panneauGauche = new JPanel();
+				splitListPanel.setLeftComponent(panneauGauche);
+				panneauGauche.setLayout(new BorderLayout(0, 0));
+		
+				JScrollPane scrollPane = new JScrollPane();
+				panneauGauche.add(scrollPane);
+				scrollPane.setMinimumSize(new Dimension(270, 23));
+				
+						tableEditions = new JXTable();
+						filter = new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
+						
+						tableEditions.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent arg0) {
+								try {
+									int row = tableEditions.getSelectedRow();
+									MagicEdition ed = (MagicEdition)tableEditions.getValueAt(row, 1);
+									historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,ed),ed.getSet());
+								} catch (IOException e) {
+									logger.error(e);
+								}
+							}
+						});
+						tableEditions.setModel(model);
+						
+						tableEditions.setDefaultRenderer(Object.class,render);
+						//tableEditions.setDefaultRenderer(ImageIcon.class,render);
+						tableEditions.setDefaultRenderer(String.class,render);
+						tableEditions.setDefaultRenderer(Integer.class, render);
+						tableEditions.setDefaultRenderer(double.class, render);
+						
+						tableEditions.setRowHeight(25);
+						
+						tableEditions.setRowSorter(sorterEditions);
+						tableEditions.packAll();
+						
+						
+						scrollPane.setViewportView(tableEditions);
 
 
 		tablePrices.addMouseListener(new MouseAdapter() {
