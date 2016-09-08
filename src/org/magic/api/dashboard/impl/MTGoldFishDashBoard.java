@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -31,40 +32,27 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	private Date updateTime;
 	Map<Date,Double> historyPrice;
     boolean stop ;	    
-	 	
+	
+	Map<String,String> mapConcordance = new HashMap<String,String>();
+	
+
 	
 	public MTGoldFishDashBoard() 
 	{
 		super();
-
+		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("URL_MOVERS", "http://www.mtggoldfish.com/movers-details/");
-		props.put("URL_EDITIONS", "http://www.mtggoldfish.com/index/");
-		props.put("WEBSITE", "http://www.mtggoldfish.com/");
-		props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
-		props.put("FORMAT", "paper");
-		props.put("TIMEOUT", "0");
-		props.put("DAILY_WEEKLY", "wow");
+			props.put("URL_MOVERS", "http://www.mtggoldfish.com/movers-details/");
+			props.put("URL_EDITIONS", "http://www.mtggoldfish.com/index/");
+			props.put("WEBSITE", "http://www.mtggoldfish.com/");
+			props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+			props.put("FORMAT", "paper");
+			props.put("TIMEOUT", "0");
+			props.put("DAILY_WEEKLY", "wow");
 		save();
 		}
 	}
-	
-	public static void main(String[] args) throws IOException {
-		MagicCard mc = new MagicCard();
-		mc.setName("Mana Crypt");
-		
-		MagicEdition me = new MagicEdition();
-		me.setSet("Eternal Masters");
-		me.setId("EMA");
-		
-		
-		List<CardShake> vals = new MTGoldFishDashBoard().getShakeForEdition(me);
-		
-		
-	}
-	
-		
-	
+
 	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
 		 
 		stop = false;	    
@@ -259,22 +247,22 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		
 		switch(id){
-		case "TMP" : return "TE";
-		case "STH" : return "ST";
-		case "PCY" : return "PR";
-		case "MIR" : return "MI";
-		case "UDS" : return "UD";
-		case "ULG" : return "UL";
-		case "USG" : return "UZ";
-		case "WTH" : return "WL";
-		case "ODY" : return "OD";
-		case "EXO": return "EX";
-		case "APC": return "AP";
-		case "pGRU": return "PRM-GUR";
-		case "PLS" : return "PS";
-		case "INV" : return "IN";
-		case "MMQ" : return "MM";
-		case "VIS" : return "VI";
+			case "TMP" : return "TE";
+			case "STH" : return "ST";
+			case "PCY" : return "PR";
+			case "MIR" : return "MI";
+			case "UDS" : return "UD";
+			case "ULG" : return "UL";
+			case "USG" : return "UZ";
+			case "WTH" : return "WL";
+			case "ODY" : return "OD";
+			case "EXO": return "EX";
+			case "APC": return "AP";
+			case "pGRU": return "PRM-GUR";
+			case "PLS" : return "PS";
+			case "INV" : return "IN";
+			case "MMQ" : return "MM";
+			case "VIS" : return "VI";
 		default : return id;
 		}
 	}

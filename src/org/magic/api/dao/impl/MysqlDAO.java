@@ -388,7 +388,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			throw new Exception("Please fill MYSQL_DUMP_PATH var");
 		}
 		
-		String dumpCommand = props.getProperty("MYSQL_DUMP_PATH")+"/mysqldump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASSWORD");
+		String dumpCommand = props.getProperty("MYSQL_DUMP_PATH")+"/mysqldump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASSWORD")+" --port " + props.getProperty("SERVERPORT");
 		Runtime rt = Runtime.getRuntime();
 		PrintStream ps;
 		logger.info("begin Backup " + props.getProperty("DB_NAME"));

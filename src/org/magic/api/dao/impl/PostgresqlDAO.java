@@ -421,10 +421,16 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				throw new Exception("Please fill URL_PGDUMP var");
 			}
 			
-			String dumpCommand = props.getProperty("URL_PGDUMP")+"/pg_dump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASSWORD");
+			String dumpCommand = props.getProperty("URL_PGDUMP")+"/pg_dump"+
+						" -d" + props.getProperty("DB_NAME") + 
+						" -h" + props.getProperty("SERVERNAME") + 
+						" -U" + props.getProperty("LOGIN") +
+						" -p" + props.getProperty("SERVERPORT");
+			
+			
 			Runtime rt = Runtime.getRuntime();
 			PrintStream ps;
-			logger.info("begin Backup " + props.getProperty("DB_NAME"));
+			logger.info("begin Backup :" + dumpCommand);
 			
 			Process child = rt.exec(dumpCommand);
 			ps=new PrintStream(f);

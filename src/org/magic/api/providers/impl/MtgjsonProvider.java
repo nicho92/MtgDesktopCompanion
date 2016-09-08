@@ -31,7 +31,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.services.MagicFactory;
 
 import com.jayway.jsonpath.Configuration;
@@ -281,13 +280,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			public EvaluationContinuation resultFound(FoundResult fr) {
 				if(fr.path().startsWith("$"))
 				{
-					logger.info(fr.path());
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
 				}
 				return null;
 			}
 		}).read(jsquery,List.class);
-		
 		
 		int indexSet=0;
 		for(Map<String,Object> map : cardsElement)
