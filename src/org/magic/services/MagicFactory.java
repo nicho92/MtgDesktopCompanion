@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -95,9 +96,11 @@ public class MagicFactory {
 		return config.getString(prop);
 	}
 	
-	public void reload()
+	public void reload() throws Exception
 	{
 		inst=new MagicFactory();
+		inst.getEnabledProviders().init();
+		inst.getEnabledDAO().init();
 	}
 	
 		
@@ -205,7 +208,7 @@ public class MagicFactory {
 			
 		} catch (Exception e) {
 			e.printStackTrace();
-		logger.error(e);
+			logger.error(e);
 		}
 		
 	}

@@ -29,17 +29,14 @@ import org.magic.services.MagicFactory;
 public class LazyLoadingTree extends JTree {
 
 	private DefaultTreeModel model;
-	private MagicDAO dao;
 	private MyNode root;
-	private MagicCardsProvider prov;
 	
 	static final Logger logger = LogManager.getLogger(LazyLoadingTree.class.getName());
 
 	
 	public LazyLoadingTree() throws ClassNotFoundException, SQLException {
 		
-		dao=MagicFactory.getInstance().getEnabledDAO();
-		prov=MagicFactory.getInstance().getEnabledProviders();
+		
 		
 		root = new MyNode("Collection");
 		model = new DefaultTreeModel(root);
@@ -155,7 +152,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             protected List<MyNode> doInBackground() throws Exception {
 
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
-                for(MagicCollection c : dao.getCollections())
+                for(MagicCollection c : MagicFactory.getInstance().getEnabledDAO().getCollections())
                 {
                 	MyNode n = new MyNode(c);
                 	children.add(n);
@@ -187,7 +184,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             	logger.debug("loading cards from " + col+"/"+ed);
                 
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
-                for(MagicCard card : dao.getCardsFromCollection(col, ed))
+                for(MagicCard card : MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection(col, ed))
                 {
                 	MyNode n = new MyNode(card);
                 	children.add(n);
@@ -218,9 +215,9 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             protected List<MyNode> doInBackground() throws Exception {
             	logger.debug("loading editions from " + c);
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
-                for(String ed : dao.getEditionsIDFromCollection(c))
+                for(String ed : MagicFactory.getInstance().getEnabledDAO().getEditionsIDFromCollection(c))
                 {
-                	MyNode n = new MyNode(prov.getSetById(ed));
+                	MyNode n = new MyNode(MagicFactory.getInstance().getEnabledProviders().getSetById(ed));
                 	children.add(n);
             	}
                Collections.sort(children);

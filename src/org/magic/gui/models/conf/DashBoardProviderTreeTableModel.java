@@ -10,6 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MagicFactory;
 
 public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
@@ -131,6 +132,15 @@ public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	        		selectedProvider.enable(Boolean.parseBoolean(strValue));
 	        		MagicFactory.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 	        		
+	        		for(DashBoard daos : MagicFactory.getInstance().getDashBoards())
+	        		{
+	        			if(daos!=selectedProvider)
+	        			{
+	        				daos.enable(false);
+	        				MagicFactory.getInstance().setProperty(daos, daos.isEnable());
+	        	        	
+	        			}
+	        		}
 	        		
 	        	}
 	        }

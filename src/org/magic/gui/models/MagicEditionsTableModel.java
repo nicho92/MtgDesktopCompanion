@@ -24,7 +24,6 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	
 	List<MagicEdition> list;
 
-	private MagicDAO dao;
 	private Map<MagicEdition,Integer> mapCount;
 	HashMap<String, ImageIcon> cache;
 	
@@ -54,7 +53,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		MagicCollection mc = new MagicCollection();
 						mc.setName(MagicFactory.getInstance().get("default-library"));
 					
-		Map<String,Integer> temp = dao.getCardsCountGlobal(mc);
+		Map<String,Integer> temp = MagicFactory.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
 		
 		for(MagicEdition me : list)
 		{
@@ -68,7 +67,6 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 
 	public MagicEditionsTableModel() {
 		list = new ArrayList<MagicEdition>();
-		this.dao =MagicFactory.getInstance().getEnabledDAO();
 		cache=new HashMap<>();
 		
 	}

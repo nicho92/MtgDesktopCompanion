@@ -5,6 +5,7 @@ import java.net.URL;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MagicFactory;
@@ -59,15 +60,15 @@ public class ProvidersTableModel extends DefaultTableModel {
 			MagicFactory.getInstance().getListProviders().get(row).enable(Boolean.parseBoolean(aValue.toString()));	
 			MagicFactory.getInstance().setProperty(MagicFactory.getInstance().getListProviders().get(row), aValue);
 			
-		/*	for(MagicCardsProvider daos : MagicFactory.getInstance().getListProviders())
+			for(MagicCardsProvider daos : MagicFactory.getInstance().getListProviders())
     		{
 				if(daos!=MagicFactory.getInstance().getListProviders().get(row))
     			{
     				daos.enable(false);
     				MagicFactory.getInstance().setProperty(daos, daos.isEnable());
-    	        	
     			}
-    		}*/
+    		}
+			fireTableDataChanged();
 		}
 
 		@Override
@@ -77,6 +78,4 @@ public class ProvidersTableModel extends DefaultTableModel {
 			
 			else return false;
 		}
-	
-	
 }

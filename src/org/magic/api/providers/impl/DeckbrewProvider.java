@@ -1,5 +1,6 @@
 package org.magic.api.providers.impl;
 
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -8,25 +9,33 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 
 public class DeckbrewProvider implements MagicCardsProvider {
 	private final String urldeckbrewJSON = "https://api.deckbrew.com/mtg";
 	private Gson gson;
 	private boolean enable;
-	
+	List<MagicEdition> list;
 	static final Logger logger = LogManager.getLogger(DeckbrewProvider.class.getName());
 
 	public DeckbrewProvider() {
 		gson = new Gson();
+		list = new ArrayList<MagicEdition>();
 		init();
 	}
 	
@@ -56,17 +65,13 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		/*if(crit!=null)*/
 			url = urldeckbrewJSON +"/cards?"+crit;
 		
-		logger.info("Connexion to " + url);
 		
 		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
-		
-		MagicCard[] res = gson.fromJson(reader, MagicCard[].class);
-		
 		List<MagicCard> retour=new ArrayList<MagicCard>();
-		retour.addAll(Arrays.asList(res));
-		
+		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
 		int page=1;
-		while(res.length==100)
+		
+		//while(root.size()==100)
 		{
 			String pagination;
 			if(crit==null)
@@ -75,38 +80,131 @@ public class DeckbrewProvider implements MagicCardsProvider {
 				pagination="&";
 				
 			
-			reader = new InputStreamReader(new URL(url+pagination+"page="+page++).openStream(),"UTF-8");
+			URL u = new URL(url);//+pagination+"page="+page++);
+			logger.info("Connexion to " + u);
 			
-			res = gson.fromJson(reader, MagicCard[].class);
-			retour.addAll(Arrays.asList(res));
+			reader = new InputStreamReader(u.openStream(),"UTF-8");
+			root = new JsonParser().parse(reader).getAsJsonArray();
+			for(int i = 0;i<root.size();i++)
+			{
+				JsonObject e = root.get(i).getAsJsonObject();
+				MagicCard mc = new MagicCard();
+					
+					if(e.get("name")!=null)
+						mc.setName(e.get("name").getAsString());
+					
+					if(e.get("id")!=null)
+						mc.setId(e.get("id").getAsString());
+					
+					if(e.get("cmc")!=null)
+						mc.setCmc(e.get("cmc").getAsInt());
+					
+					if(e.get("cost")!=null)
+						mc.setCost(e.get("cost").getAsString());
+					
+					if(e.get("text")!=null)
+						mc.setText(e.get("text").getAsString());
+					
+					if(e.get("power")!=null)
+						mc.setPower(e.get("power").getAsString());
+					
+					if(e.get("toughness")!=null)
+						mc.setToughness(e.get("toughness").getAsString());
+					
+					
+					Iterator<JsonElement> it = e.get("types").getAsJsonArray().iterator();
+					while(it.hasNext())
+					{
+						mc.getTypes().add(it.next().getAsString());
+					}
+					
+					if(e.get("subtypes")!=null){
+						Iterator<JsonElement> it2 = e.get("subtypes").getAsJsonArray().iterator();
+						while(it2.hasNext())
+						{
+							mc.getSubtypes().add(it2.next().getAsString());
+						}
+					}
+					
+					if(e.get("colors")!=null){
+						Iterator<JsonElement> it3 = e.get("colors").getAsJsonArray().iterator();
+						while(it3.hasNext())
+						{
+							mc.getColors().add(it3.next().getAsString());
+						}
+					}
+					
+					JsonArray editions = e.getAsJsonArray("editions");
+					for(int j=0;j<editions.size();j++)
+					{
+						JsonObject obj = editions.get(j).getAsJsonObject();
+						MagicEdition ed = getSetById(obj.get("set_id").getAsString());
+									 ed.setArtist(obj.get("artist").getAsString());
+									 ed.setMultiverse_id(obj.get("multiverse_id").getAsString());
+									 ed.setRarity(obj.get("rarity").getAsString());
+									 mc.setLayout(obj.get("layout").getAsString());
+									 mc.getEditions().add(ed);
+									 
+									 MagicCardNames name = new MagicCardNames();
+									 name.setName(mc.getName());
+									 name.setLanguage("English");
+									 name.setGathererId(Integer.parseInt(ed.getMultiverse_id()));
+									 mc.getForeignNames().add(name);
+					}
+				retour.add(mc);
+			}
+			
 		}
 		
 		return retour;
 	}
+	
+	
 	
 	public List<MagicEdition> searchSetByCriteria(String att,String crit) throws IOException  {
 		
 		String url = urldeckbrewJSON+"/sets";
 		
 		if(crit!=null)
+		{
 			url = urldeckbrewJSON+"/sets?"+att+"="+crit;
+			
+			if(att.equals("id"))
+				url = urldeckbrewJSON+"/sets/"+crit;
+		}
 		
-		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
-		List<MagicEdition> list =  Arrays.asList(gson.fromJson(reader, MagicEdition[].class));
-		for(MagicEdition me : list)
-				{
-					me.setSet(me.getId());
-				}
+		
+		
+		JsonReader reader= new JsonReader(new InputStreamReader(new URL(url).openStream()));
+		
+		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
+		
+		if(list.size()==0)
+			for(int i = 0;i<root.size();i++)
+			{
+				JsonObject e = root.get(i).getAsJsonObject();
+				MagicEdition ed = getSetById(e.get("id").getAsString());
+				list.add(ed);
+			}
 		
 		return list;
+		
 	}
 
 	public MagicEdition getSetById(String id) throws IOException   {
 
 		String url = urldeckbrewJSON+"/sets/"+id;
 		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
-		logger.info("Get Set By ID "  + url);
-		return gson.fromJson(reader, MagicEdition.class);
+		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		
+		MagicEdition ed = new MagicEdition();
+					 ed.setId(root.get("id").getAsString());
+					 ed.setBorder(root.get("border").getAsString());
+					 ed.setSet(root.get("name").getAsString());
+					 ed.setType(root.get("type").getAsString());
+
+		return ed;
+		
 	}
 
 

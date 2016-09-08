@@ -9,6 +9,7 @@ import java.io.File;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -207,7 +208,11 @@ public class ConfigurationPanel extends JPanel {
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				loading(true,"reload config");
-				MagicFactory.getInstance().reload();
+				try {
+					MagicFactory.getInstance().reload();
+				} catch (Exception e) {
+					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+				}
 				loading(false,"");
 				
 			}
