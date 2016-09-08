@@ -122,23 +122,32 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnDuplicate = new JButton("duplicate");
 		btnDuplicate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				try{
-						MagicDAO dao = (MagicDAO)cboTargetDAO.getSelectedItem();
-						loading(true,"duplicate " + MagicFactory.getInstance().getEnabledDAO() +" database to" + dao);
+			
+				
+				ThreadManager.getInstance().execute(new Runnable() {
+					
+					@Override
+					public void run() {
+						try{
+							MagicDAO dao = (MagicDAO)cboTargetDAO.getSelectedItem();
+							loading(true,"duplicate " + MagicFactory.getInstance().getEnabledDAO() +" database to" + dao);
+							
+							dao.init();
+							for(MagicCollection col : MagicFactory.getInstance().getEnabledDAO().getCollections())
+								for(MagicCard mc : MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection(col))
+									{
+										dao.saveCard(mc, col);
+									}
+							
+						loading(false,"");
+					}catch(Exception e)
+					{
+						loading(false,"");
+						e.printStackTrace();
+					}
 						
-						dao.init();
-						for(MagicCollection col : MagicFactory.getInstance().getEnabledDAO().getCollections())
-							for(MagicCard mc : MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection(col))
-								{
-									dao.saveCard(mc, col);
-								}
-						
-					loading(false,"");
-				}catch(Exception e)
-				{
-					loading(false,"");
-					e.printStackTrace();
-				}
+					}
+				}, "duplicate " + MagicFactory.getInstance().getEnabledDAO() + " to " + cboTargetDAO.getSelectedItem() );
 			}
 		});
 		GridBagConstraints gbc_btnDuplicate = new GridBagConstraints();

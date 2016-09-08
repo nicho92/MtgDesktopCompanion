@@ -3,7 +3,11 @@ package org.magic.api.dao.impl;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.PrintStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -25,6 +29,7 @@ import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MagicFactory;
 
+
 public class PostgresqlDAO extends AbstractMagicDAO {
 
 	static final Logger logger = LogManager.getLogger(PostgresqlDAO.class.getName());
@@ -39,6 +44,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			 props.put("DB_NAME", "mtgdesktopcompanion");
 			 props.put("LOGIN", "postgres");
 			 props.put("PASSWORD", "postgres");
+			 props.put("URL_PGDUMP", "C:/Program Files (x86)/PostgreSQL/9.5/bin");
 		
 		save();
 		}
@@ -92,23 +98,38 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		 
 	 }
 
-
+	 ObjectInputStream oin;
+	 private <T> T readObject(Class <T> T, InputStream o )
+	 {
+		try {
+			oin = new ObjectInputStream(o);
+			return (T)oin.readObject();
+		} catch (Exception e) {
+			return null;
+		}
+		 
+	 }
+	 ByteArrayOutputStream baos;
+	 private ByteArrayInputStream convertObject(Object c) throws IOException
+	 {
+		 	baos = new ByteArrayOutputStream();
+			ObjectOutputStream oos = new ObjectOutputStream(baos);
+			oos.writeObject(c);
+			oos.close();
+			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
+			return bais;
+	 }
 		
 		@Override
 		public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 			logger.debug("saving " + mc +" in " + collection);
 			try{
-			ByteArrayOutputStream baos = new ByteArrayOutputStream();
-			ObjectOutputStream oos = new ObjectOutputStream(baos);
-			oos.writeObject(mc);
-			oos.close();
-			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
 			
 			
 			PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)");
 			 pst.setString(1, mc.getId()); 
 			 pst.setString(2, mc.getName());
-			 pst.setBinaryStream(3, bais);
+			 pst.setBinaryStream(3, convertObject(mc));
 			 pst.setString(4, mc.getEditions().get(0).getId());
 			 pst.setString(5, MagicFactory.getInstance().getEnabledProviders().toString());
 			 pst.setString(6, collection.getName());
@@ -139,7 +160,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			pst.setString(1, collection.getName());
 			pst.setString(2, name);
 			ResultSet rs = pst.executeQuery();
-			return (MagicCard) rs.getObject("mcard");
+			return readObject(MagicCard.class, rs.getBinaryStream("mcard"));
 		}
 
 		@Override
@@ -154,7 +175,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			List<MagicCard> list = new ArrayList<MagicCard>();
 			while(rs.next())
 			{
-				list.add((MagicCard) rs.getObject("mcard"));
+				list.add(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
 			}
 		
 		return list;
@@ -226,7 +247,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			List<MagicCard> list = new ArrayList<MagicCard>();
 			while(rs.next())
 			{
-				list.add((MagicCard) rs.getObject("mcard"));
+				list.add(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
 			}
 		
 		return list;
@@ -395,6 +416,26 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		@Override
 		public void backup(File f) throws Exception {
 			
+			if(props.getProperty("URL_PGDUMP").length()<=0)
+			{
+				throw new Exception("Please fill URL_PGDUMP var");
+			}
+			
+			String dumpCommand = props.getProperty("URL_PGDUMP")+"/pg_dump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASSWORD");
+			Runtime rt = Runtime.getRuntime();
+			PrintStream ps;
+			logger.info("begin Backup " + props.getProperty("DB_NAME"));
+			
+			Process child = rt.exec(dumpCommand);
+			ps=new PrintStream(f);
+			InputStream in = child.getInputStream();
+			int ch;
+			while ((ch = in.read()) != -1) 
+			{
+				ps.write(ch);
+			}
+			ps.close();
+			logger.info("Backup " + props.getProperty("DB_NAME") + " done");
 		
 			
 		}
