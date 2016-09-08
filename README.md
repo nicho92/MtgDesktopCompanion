@@ -1,5 +1,6 @@
 # Magic The Gathering Desktop Companion
-##Personal Magic the Gathering manager##
+##Personal Magic the Gathering card manager Deck Builder and Collection Editor##
+
 
 
 
