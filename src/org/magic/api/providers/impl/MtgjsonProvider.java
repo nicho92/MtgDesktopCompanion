@@ -93,7 +93,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	  	return connection.getInputStream();
 	}
 	
-	
 	public void unZipIt(File zipFile){
 
 	     byte[] buffer = new byte[1024];
@@ -504,8 +503,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			logger.info("editions already loaded. return cache");
 			return eds;
 		}
-		
-		
 		
 		final List<String> codeEd=new ArrayList<String>();
 		ctx.withListeners(new EvaluationListener() {

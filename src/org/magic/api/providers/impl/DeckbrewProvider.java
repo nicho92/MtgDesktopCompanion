@@ -1,6 +1,5 @@
 package org.magic.api.providers.impl;
 
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -8,15 +7,16 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MagicCardsProvider;
 
 import com.google.gson.Gson;
@@ -70,8 +70,10 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		List<MagicCard> retour=new ArrayList<MagicCard>();
 		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
 		int page=1;
+		boolean gonextpage=true;
 		
-		//while(root.size()==100)
+		
+		while(gonextpage)
 		{
 			String pagination;
 			if(crit==null)
@@ -79,8 +81,18 @@ public class DeckbrewProvider implements MagicCardsProvider {
 			else
 				pagination="&";
 				
+			URL u =null;
+			if(root.size()==100)
+			{
+				u = new URL(url+pagination+"page="+page++);
+				gonextpage=true;
+			}
+			else
+			{
+				u = new URL(url);
+				gonextpage=false;
+			}
 			
-			URL u = new URL(url);//+pagination+"page="+page++);
 			logger.info("Connexion to " + u);
 			
 			reader = new InputStreamReader(u.openStream(),"UTF-8");
@@ -111,13 +123,13 @@ public class DeckbrewProvider implements MagicCardsProvider {
 					if(e.get("toughness")!=null)
 						mc.setToughness(e.get("toughness").getAsString());
 					
-					
-					Iterator<JsonElement> it = e.get("types").getAsJsonArray().iterator();
-					while(it.hasNext())
-					{
-						mc.getTypes().add(it.next().getAsString());
+					if(e.get("types")!=null){
+						Iterator<JsonElement> it = e.get("types").getAsJsonArray().iterator();
+						while(it.hasNext())
+						{
+							mc.getTypes().add(it.next().getAsString());
+						}
 					}
-					
 					if(e.get("subtypes")!=null){
 						Iterator<JsonElement> it2 = e.get("subtypes").getAsJsonArray().iterator();
 						while(it2.hasNext())
@@ -142,15 +154,30 @@ public class DeckbrewProvider implements MagicCardsProvider {
 									 ed.setArtist(obj.get("artist").getAsString());
 									 ed.setMultiverse_id(obj.get("multiverse_id").getAsString());
 									 ed.setRarity(obj.get("rarity").getAsString());
-									 mc.setLayout(obj.get("layout").getAsString());
-									 mc.getEditions().add(ed);
+									 ed.setNumber(obj.get("number").getAsString());
 									 
 									 MagicCardNames name = new MagicCardNames();
-									 name.setName(mc.getName());
-									 name.setLanguage("English");
-									 name.setGathererId(Integer.parseInt(ed.getMultiverse_id()));
+									 				name.setName(mc.getName());
+									 				name.setLanguage("English");
+									 				name.setGathererId(Integer.parseInt(ed.getMultiverse_id()));
 									 mc.getForeignNames().add(name);
+									 mc.setLayout(obj.get("layout").getAsString());
+									 mc.getEditions().add(ed);
+									 mc.setNumber(ed.getNumber());
+									 
 					}
+					if(e.get("formats")!=null){
+						JsonObject obj = e.get("formats").getAsJsonObject();
+						for(Entry<String,JsonElement> k : obj.entrySet())
+						{
+								MagicFormat format = new MagicFormat();
+								format.setFormat(k.getKey());
+								format.setLegality(k.getValue().getAsString());
+								mc.getLegalities().add(format);
+						}
+					}
+					
+					
 				retour.add(mc);
 			}
 			

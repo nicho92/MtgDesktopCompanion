@@ -68,6 +68,13 @@ public class ManaRepartitionPanel extends JPanel{
 		plot.setSectionPaint("Red", Color.RED);
 		plot.setSectionPaint("Multi", Color.YELLOW);
 		plot.setSectionPaint("Uncolor", Color.GRAY);
+		plot.setSectionPaint("black", Color.BLACK);
+		plot.setSectionPaint("white", Color.WHITE);
+		plot.setSectionPaint("blue", Color.BLUE);
+		plot.setSectionPaint("green", Color.GREEN);
+		plot.setSectionPaint("red", Color.RED);
+		plot.setSectionPaint("multi", Color.YELLOW);
+		plot.setSectionPaint("uncolor", Color.GRAY);
 		plot.setSimpleLabels(true);
 		
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
