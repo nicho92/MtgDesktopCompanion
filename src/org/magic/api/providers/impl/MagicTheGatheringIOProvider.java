@@ -6,18 +6,24 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.Map.Entry;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MagicCardsProvider;
 
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
@@ -74,22 +80,179 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
 	@Override
 	public MagicCard getCardById(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return searchCardByCriteria("id", id,null).get(0);
 	}
 
+	
+	public static void main(String[] args) throws Exception {
+		MagicTheGatheringIOProvider prov = new MagicTheGatheringIOProvider();
+		
+		prov.searchCardByCriteria("name", "emrak", null);
+	}
+	
+	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<MagicCard> lists= new ArrayList<MagicCard>();
+		
+		String url = jsonUrl+"/cards?"+att+"="+crit;
+		JsonReader reader= new JsonReader(new InputStreamReader(getStream(url),"UTF-8"));
+		
+		JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");
+		
+		for(int i=0;i<jsonList.size();i++)
+		{
+			lists.add(generateCard(jsonList.get(i).getAsJsonObject()));
+		}
+		
+		return lists;
 	}
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return searchCardByCriteria("number", id,me).get(0);
 	}
 	
+	private MagicCard generateCard(JsonObject obj) throws Exception
+	{
+		MagicCard mc = new MagicCard();
+			
+			if(obj.get("name")!=null)
+				mc.setName(obj.get("name").getAsString());
+			
+			if(obj.get("manaCost")!=null)
+				mc.setCost(obj.get("manaCost").getAsString());
+			
+			if(obj.get("text")!=null)
+				mc.setText(obj.get("text").getAsString());
+			
+			if(obj.get("originalText")!=null)
+				mc.setOriginalText(obj.get("originalText").getAsString());
+			
+			if(obj.get("id")!=null)
+				mc.setId(obj.get("id").getAsString());
+			
+			if(obj.get("artist")!=null)
+				mc.setArtist(obj.get("artist").getAsString());
+			
+			if(obj.get("cmc")!=null)
+				mc.setCmc(obj.get("cmc").getAsInt());
+			
+			if(obj.get("layout")!=null)
+				mc.setLayout(obj.get("layout").getAsString());
+			
+			if(obj.get("rarity")!=null)
+				mc.setRarity(obj.get("rarity").getAsString());
+			
+			if(obj.get("number")!=null)
+				mc.setNumber(obj.get("number").getAsString());
+			
+			if(obj.get("power")!=null)
+				mc.setPower(obj.get("power").getAsString());
+			
+			if(obj.get("toughness")!=null)
+				mc.setToughness(obj.get("toughness").getAsString());
+			
+			if(obj.get("loyalty")!=null)
+				mc.setLoyalty(obj.get("loyalty").getAsInt());
+	
+			
+			if(obj.get("colors")!=null){
+				Iterator<JsonElement> it = obj.get("colors").getAsJsonArray().iterator();
+				while(it.hasNext())
+					mc.getColors().add(it.next().getAsString());
+			}
+			
+			if(obj.get("types")!=null){
+				Iterator<JsonElement> it = obj.get("types").getAsJsonArray().iterator();
+				while(it.hasNext())
+					mc.getTypes().add(it.next().getAsString());
+			}
+			
+			if(obj.get("supertypes")!=null){
+				Iterator<JsonElement> it = obj.get("supertypes").getAsJsonArray().iterator();
+				while(it.hasNext())
+					mc.getSupertypes().add(it.next().getAsString());
+			}
+			
+			if(obj.get("subtypes")!=null){
+				Iterator<JsonElement> it = obj.get("subtypes").getAsJsonArray().iterator();
+				while(it.hasNext())
+					mc.getSubtypes().add(it.next().getAsString());
+			}
+			
+		
+			if(obj.get("legalities")!=null){
+				JsonArray arr = obj.get("legalities").getAsJsonArray();
+				for(int i=0;i<arr.size();i++)
+				{
+					JsonObject k = arr.get(i).getAsJsonObject();
+						MagicFormat format = new MagicFormat();
+						format.setFormat(k.get("format").getAsString());
+						format.setLegality(k.get("legality").getAsString());
+						mc.getLegalities().add(format);
+				}
+			}
+			
+			String currentSet = obj.get("set").getAsString(); 
+			MagicEdition currentEd = getSetById(currentSet);
+			
+			if(obj.get("multiverseid")!=null)
+			{
+				currentEd.setMultiverse_id(obj.get("multiverseid").getAsString());
+				currentEd.setRarity(mc.getRarity());
+			}
+			mc.getEditions().add(currentEd);
+			
+			if(obj.get("printings")!=null){
+				JsonArray arr = obj.get("printings").getAsJsonArray();
+				for(int i=0;i<arr.size();i++)
+				{
+						String k = arr.get(i).getAsString();
+						if(!k.equals(currentSet))
+						{
+							MagicEdition ed = getSetById(k);
+							//todo load other edition value
+							ed.setRarity(mc.getRarity());
+							mc.getEditions().add(ed);
+						}
+				}
+			}
+			
+				MagicCardNames defaultMcn = new MagicCardNames();
+				defaultMcn.setName(mc.getName());
+				defaultMcn.setLanguage("English");
+				try{
+					defaultMcn.setGathererId(Integer.parseInt(currentEd.getMultiverse_id()));	
+				}
+				catch(Exception e)
+				{
+					defaultMcn.setGathererId(0);
+				}
+				
+				
+			mc.getForeignNames().add(defaultMcn);	
+			
+			if(obj.get("foreignNames")!=null){
+				JsonArray arr = obj.get("foreignNames").getAsJsonArray();
+				for(int i=0;i<arr.size();i++)
+				{
+					JsonObject lang = arr.get(i).getAsJsonObject();
+					MagicCardNames mcn = new MagicCardNames();
+								mcn.setName(lang.get("name").getAsString());
+								mcn.setLanguage(lang.get("language").getAsString());
+								
+								if(lang.get("multiverseid")!=null)
+									mcn.setGathererId(lang.get("multiverseid").getAsInt());
+								
+								mc.getForeignNames().add(mcn);
+				}
+				
+			
+				
+			}
+		return mc;
+	}
 	
 	private MagicEdition generateEdition(JsonObject obj)
 	{
@@ -99,8 +262,6 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			ed.setType(obj.get("type").getAsString());
 			ed.setBorder(obj.get("border").getAsString());
 			ed.setReleaseDate(obj.get("releaseDate").getAsString());
-			
-			List<String> list = new ArrayList<String>();
 			if(obj.get("booster")!=null)
 			{
 				JsonArray arr = obj.get("booster").getAsJsonArray();
@@ -132,22 +293,33 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	@Override
 	public List<MagicEdition> searchSetByCriteria(String att, String crit) throws Exception {
 		String url = jsonUrl+"/sets";
+		String rootKey="sets";
 		
 		if(crit!=null)
 		{
-			url = jsonUrl+"/sets?"+att+"="+crit;
 			
-			if(crit.equals("set"))
+			if(att.equals("set"))
+			{
 				url = jsonUrl+"/sets/"+crit;
+				rootKey="set";
+			}
+			else
+			{
+				url = jsonUrl+"/sets?"+att+"="+crit;
+				rootKey="sets";
+			}
+			
+			
 		}
+		logger.info("connect to " + url);
 		
-		JsonReader reader= new JsonReader(new InputStreamReader(getStream(url)));
+		JsonReader reader= new JsonReader(new InputStreamReader(getStream(url),"UTF-8"));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 
 		if(list.size()==0)
-			for(int i = 0;i<root.get("sets").getAsJsonArray().size();i++)
+			for(int i = 0;i<root.get(rootKey).getAsJsonArray().size();i++)
 			{
-				JsonObject e = root.get("sets").getAsJsonArray().get(i).getAsJsonObject();
+				JsonObject e = root.get(rootKey).getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
 				list.add(ed);
 			}
@@ -158,7 +330,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	@Override
 	public MagicEdition getSetById(String id) throws Exception {
 		
-		JsonReader reader= new JsonReader(new InputStreamReader(getStream(jsonUrl+"/sets/"+id)));
+		JsonReader reader= new JsonReader(new InputStreamReader(getStream(jsonUrl+"/sets/"+id),"UTF-8"));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		return generateEdition(root.getAsJsonObject("set"));
 	}

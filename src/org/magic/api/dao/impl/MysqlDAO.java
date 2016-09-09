@@ -43,7 +43,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			 props.put("DB_NAME", "mtgdesktopclient");
 			 props.put("LOGIN", "mtgdesktopclient");
 			 props.put("PASSWORD", "mtgdesktopclient");
-			 props.put("PARAMS", "?autoDeserialize=true");
+			 props.put("PARAMS", "?autoDeserialize=true&autoReconnect=true");
 			 props.put("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
 		save();
 		}

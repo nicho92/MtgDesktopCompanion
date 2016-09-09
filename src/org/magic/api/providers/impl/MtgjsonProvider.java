@@ -80,7 +80,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MtgjsonProvider() {
-		init();
+		//init();
 	}
 	
 	

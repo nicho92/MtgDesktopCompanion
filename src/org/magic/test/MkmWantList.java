@@ -8,6 +8,11 @@ import java.net.URL;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
+import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.pricers.impl.MagicCardMarketPricer;
 
 public class MkmWantList {
@@ -15,7 +20,7 @@ public class MkmWantList {
 	
 	public static void main(String[] args) throws InvalidKeyException, NoSuchAlgorithmException, IOException {
 		
-	  String link = "https://www.mkmapi.eu/ws/v1.1/wantslist/1029865";
+	  String link = "https://www.mkmapi.eu/ws/v1.1/wantslist";
 	  String authorizationProperty = new MagicCardMarketPricer().generateOAuthSignature(link);
 	  HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 			            connection.addRequestProperty("Authorization", authorizationProperty) ;
@@ -33,7 +38,5 @@ public class MkmWantList {
       String _lastContent = sb.toString();
         
       System.out.println(_lastContent);
-       
 	}
-
 }

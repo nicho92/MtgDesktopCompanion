@@ -15,6 +15,12 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class MKMWantList extends AbstractCardExport {
 
+	/**
+	 * todo CSP : remove Magic the gathering -
+	 * todo TSP : remove timeshifted label
+	 * */
+	
+	
 	public MKMWantList() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){

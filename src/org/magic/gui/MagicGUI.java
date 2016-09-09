@@ -109,9 +109,6 @@ public class MagicGUI extends JFrame {
 	private List<MagicCard> cards;
 	private MagicDAO dao;
 	private String defaultLanguage;
-	private MagicCardsProvider provider;
-
-	
 	
 	private CardsPriceTableModel priceModel;
 	private MagicCardTableModel cardsModeltable;
@@ -141,7 +138,6 @@ public class MagicGUI extends JFrame {
 	private HistoryPricesPanel historyChartPanel;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardDetailPanel detailCardPanel;
-	private JSONPanel jsonCardPanel;
 	private JPanel boosterPanel;
 	private JPanel panelResultsCards;
 	private JPanel panelFilters;
@@ -390,7 +386,7 @@ public class MagicGUI extends JFrame {
 			jmnuLook.add(it);
 		}
 		
-		for(String l : provider.getLanguages())
+		for(String l : MagicFactory.getInstance().getEnabledProviders().getLanguages())
 		{
 			final JMenuItem it = new JMenuItem(l);
 			it.addActionListener(new ActionListener() {
@@ -435,7 +431,7 @@ public class MagicGUI extends JFrame {
 		btnExport.setToolTipText("Export Result");
 		btnExport.setEnabled(false);
 		
-		cboQuereableItems = new JComboBox(provider.getQueryableAttributs());
+		cboQuereableItems = new JComboBox(MagicFactory.getInstance().getEnabledProviders().getQueryableAttributs());
 		cboQuereableItems.addItem("collections");
 		cboCollections= new JComboBox<MagicCollection>(dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
 		cboCollections.setVisible(false);
@@ -476,7 +472,7 @@ public class MagicGUI extends JFrame {
 		panneauHaut.add(cboCollections);
 		panneauHaut.add(txtMagicSearch);
 		
-		List li = provider.searchSetByCriteria(null, null);
+		List li = MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null);
 		Collections.sort(li);
 		cboEdition = new JComboBox(li.toArray());
 		cboEdition.setVisible(false);
@@ -512,8 +508,6 @@ public class MagicGUI extends JFrame {
 		historyChartPanel = new HistoryPricesPanel();
 		historyChartPanel.setPreferredSize(new Dimension(400, 10));
 	
-		jsonCardPanel=new JSONPanel();
-		
 		cardsPicPanel = new CardsPicPanel();
 		cardsPicPanel.setPreferredSize(new Dimension(400, 10));
 		panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
@@ -567,7 +561,6 @@ public class MagicGUI extends JFrame {
 		tabbedCardsInfo.addTab("Prices", null, scrollPanePrices, null);
 		tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
 		tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
-		tabbedCardsInfo.addTab("Json", null,jsonCardPanel,null);
 		
 		panelResultsCards = new JPanel();
 		tabbedCardsView.addTab("Results", null, panelResultsCards, null);
@@ -663,7 +656,7 @@ public class MagicGUI extends JFrame {
 		tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
 
 		
-		deckBuilderGUI = new DeckBuilderGUI(provider,dao);
+		deckBuilderGUI = new DeckBuilderGUI(MagicFactory.getInstance().getEnabledProviders(),dao);
 
 		collectionPanelGUI = new CollectionPanelGUI();
 
@@ -685,19 +678,19 @@ public class MagicGUI extends JFrame {
 	}
 
 
-	protected void setProvider(MagicCardsProvider provider2) throws Exception {
-		
-		logger.debug("set provider '" + provider + "' by '" + provider2 +"'" ) ;
-		this.provider=provider2;
-		cboQuereableItems.removeAll();
-		cboQuereableItems.setModel(new DefaultComboBoxModel<>(provider.getQueryableAttributs()));
-		cboQuereableItems.addItem("collections");
-		
-		List li = provider.searchSetByCriteria(null, null);
-		Collections.sort(li);
-		cboEdition.removeAll();
-		cboEdition.setModel(new DefaultComboBoxModel(li.toArray()));
-	}
+//	protected void setProvider(MagicCardsProvider provider2) throws Exception {
+//		
+//		logger.debug("set provider '" + MagicFactory.getInstance().getEnabledProviders() + "' by '" + provider2 +"'" ) ;
+//		this.provider=provider2;
+//		cboQuereableItems.removeAll();
+//		cboQuereableItems.setModel(new DefaultComboBoxModel<>(provider.getQueryableAttributs()));
+//		cboQuereableItems.addItem("collections");
+//		
+//		List li = MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null);
+//		Collections.sort(li);
+//		cboEdition.removeAll();
+//		cboEdition.setModel(new DefaultComboBoxModel(li.toArray()));
+//	}
 
 	public void setSelectedCard(MagicCard mc)
 	{
@@ -711,8 +704,8 @@ public class MagicGUI extends JFrame {
 			priceModel=new CardsPriceTableModel();
 			cardsModeltable = new MagicCardTableModel();
 			
-			provider = MagicFactory.getInstance().getEnabledProviders();
-			logger.info("set provider : " + provider);
+			MagicFactory.getInstance().getEnabledProviders().init();
+			logger.info("set provider : " + MagicFactory.getInstance().getEnabledProviders());
 			
 			dao=MagicFactory.getInstance().getEnabledDAO();
 			dao.init();
@@ -742,7 +735,7 @@ public class MagicGUI extends JFrame {
 								if(cboCollections.isVisible())
 									cards = dao.getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 								else
-									cards = provider.searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
+									cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
 								
 								
 								
@@ -783,7 +776,7 @@ public class MagicGUI extends JFrame {
 
 					try {
 						tabbedCardsView.setSelectedIndex(1);
-						thumbnailPanel.initThumbnails( provider.openBooster(selectedEdition),false);
+						thumbnailPanel.initThumbnails( MagicFactory.getInstance().getEnabledProviders().openBooster(selectedEdition),false);
 
 					} catch (Exception e) {
 						logger.error(e);
@@ -1089,8 +1082,6 @@ public class MagicGUI extends JFrame {
 			
 			
 			historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
-			
-			jsonCardPanel.showCard(selected);
 			
 		} catch (Exception e1) {
 			e1.printStackTrace();
