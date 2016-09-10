@@ -6,13 +6,14 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
-import java.nio.charset.StandardCharsets;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.EnumSet;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-import java.util.Map.Entry;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -20,6 +21,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 
 import com.google.gson.JsonArray;
@@ -41,7 +43,8 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	private boolean enable;
 	private String jsonUrl ="https://api.magicthegathering.io/v1";
 	
-	List<MagicEdition> list;
+	Map<String , MagicEdition> cache;
+	
 
 	
 	
@@ -75,7 +78,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		});
 		Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
 		
-		list=new ArrayList<MagicEdition>();
+		cache=new HashMap<String,MagicEdition>();
 	}
 
 	@Override
@@ -95,7 +98,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me) throws Exception {
 		List<MagicCard> lists= new ArrayList<MagicCard>();
 		
-		String url = jsonUrl+"/cards?"+att+"="+crit;
+		String url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8");
 		JsonReader reader= new JsonReader(new InputStreamReader(getStream(url),"UTF-8"));
 		
 		JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");
@@ -194,15 +197,53 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 				}
 			}
 			
+			if(obj.get("rulings")!=null){
+				JsonArray arr = obj.get("rulings").getAsJsonArray();
+				for(int i=0;i<arr.size();i++)
+				{
+					JsonObject k = arr.get(i).getAsJsonObject();
+						MagicRuling rule = new MagicRuling();
+						rule.setDate(k.get("date").getAsString());
+						rule.setText(k.get("text").getAsString());
+						mc.getRulings().add(rule);
+				}
+			}
+			
+			
+			if(obj.get("names")!=null)
+			{
+				 JsonArray arr = obj.get("names").getAsJsonArray();
+				 
+				 List<String> list = new ArrayList();
+				 for (int i = 0; i < arr.size();list.add(arr.get(i++).getAsString()));
+				 
+				 list.remove(mc.getName());
+				 
+				 String rotateName=(list.get(list.size()-1)) ;
+	 			 mc.setRotatedCardName(rotateName);
+	 			 
+	 			 if(mc.getLayout().equals("flip"))
+	 				 mc.setFlippable(true);
+	 			 if(mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld") )
+	 				 mc.setTranformable(true);
+			}
+			
+			
+			
+			
+			
+			
 			String currentSet = obj.get("set").getAsString(); 
 			MagicEdition currentEd = getSetById(currentSet);
 			
 			if(obj.get("multiverseid")!=null)
-			{
 				currentEd.setMultiverse_id(obj.get("multiverseid").getAsString());
-				currentEd.setRarity(mc.getRarity());
-			}
-			mc.getEditions().add(currentEd);
+			
+			currentEd.setRarity(mc.getRarity());
+			
+			
+			
+			mc.getEditions().add(0,currentEd);
 			
 			if(obj.get("printings")!=null){
 				JsonArray arr = obj.get("printings").getAsJsonArray();
@@ -278,6 +319,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	private InputStream getStream(String url)
 	{
 		try {
+			logger.debug("get stream from " + url);
 			URLConnection connection = new URL(url).openConnection();
 			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 			connection.connect();
@@ -316,19 +358,25 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		JsonReader reader= new JsonReader(new InputStreamReader(getStream(url),"UTF-8"));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 
-		if(list.size()==0)
+		if(cache.size()==0)
 			for(int i = 0;i<root.get(rootKey).getAsJsonArray().size();i++)
 			{
 				JsonObject e = root.get(rootKey).getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
-				list.add(ed);
+				cache.put(ed.getId(), ed);
 			}
 		
-		return list;
+		return new ArrayList<MagicEdition>(cache.values());
 	}
 
 	@Override
 	public MagicEdition getSetById(String id) throws Exception {
+		logger.debug("get Set " + id);
+		if(cache.get(id.toString())!=null)
+		{
+			logger.debug("loadgin " + id + " from cache");
+			return cache.get(id.toString());
+		}
 		
 		JsonReader reader= new JsonReader(new InputStreamReader(getStream(jsonUrl+"/sets/"+id),"UTF-8"));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();

@@ -407,29 +407,30 @@ public class MysqlDAO extends AbstractMagicDAO{
 		
 	}
 
-/*
-	private void updateid() throws Exception{
-		Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-		 ResultSet rs = stmt.executeQuery("select * from cards");
-		 while(rs.next())
-		 {
-			 MagicCard mc = (MagicCard) rs.getObject("mcard");
-			 rs.updateString("id", mc.getId());
-			 rs.updateString("provider", "MTG Json Provider");
-			 rs.updateRow();
-		 }
+
+	private void updateid(MagicCard mc, MagicCollection col) throws Exception{
+		 PreparedStatement stmt = con.prepareStatement("update cards set id=? where name=? and edition=? and collection=?");
+		 				   stmt.setString(1, mc.getId());
+		 				   stmt.setString(2, mc.getName());
+		 				   stmt.setString(3, mc.getEditions().get(0).getId());
+		 				   stmt.setString(4, col.getName());
+		 
+		 stmt.executeUpdate();
+		 System.out.println(mc + " updated");
+		 
 	}
 
-
-	
-	
-	
 	public static void main(String[] args) throws Exception{
 		MysqlDAO dao = new MysqlDAO();
 		dao.init();
-		dao.updateid();
+		for(MagicCollection col : dao.getCollections())
+		{
+			System.out.println("update " + col.getName());
+			for(MagicCard mc : dao.getCardsFromCollection(col))
+				dao.updateid(mc,col);
+		}
 	
-	}*/
+	}
 
 	
 
