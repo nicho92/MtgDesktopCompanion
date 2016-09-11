@@ -30,8 +30,17 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	private Map<String,String> translations;
 	public static final long serialVersionUID = 4136786369066180196L;
 	private boolean onlineOnly;
+	private String magicCardsInfoCode;
 	
 	
+	public String getMagicCardsInfoCode() {
+		return magicCardsInfoCode;
+	}
+
+	public void setMagicCardsInfoCode(String magicCardsInfoCode) {
+		this.magicCardsInfoCode = magicCardsInfoCode;
+	}
+
 	public boolean isOnlineOnly() {
 		return onlineOnly;
 	}

@@ -410,7 +410,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		 		   			case "Swamp" : mc.setText("{T} : Add {B} to your mana pool");break;
 		 		   			case "Mountain" : mc.setText("{T} : Add {R} to your mana pool");break;
 		 		   			case "Forest" : mc.setText("{T} : Add {G} to your mana pool");break;
-		 		   
 		 		   		}
 		 		   }
 	 			
@@ -538,6 +537,15 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					
 					if(me.getCardCount()==0)
 						me.setCardCount(ctx.read("$."+id+".cards", List.class).size());//long !
+					
+					try{
+						me.setMagicCardsInfoCode(ctx.read("$."+id+".magicCardsInfoCode",String.class));
+					}
+					catch(Exception e)
+					{
+					
+					}
+					
 					
 					try{
 						me.setOnlineOnly(ctx.read("$."+id+".onlineOnly",Boolean.class));

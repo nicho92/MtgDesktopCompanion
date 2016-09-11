@@ -26,7 +26,9 @@ import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.PictureProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
+import org.magic.api.pictures.impl.MagicCardInfoPicturesProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
 
@@ -54,7 +56,7 @@ public class CardsPicPanel extends JXPanel {
      private Timer timer;
      int pX, pY;
      double rotate;
-     GathererPicturesProvider picsProvider;
+     PictureProvider picsProvider;
 	
 	
 	private boolean moveable=true;
@@ -96,7 +98,7 @@ public class CardsPicPanel extends JXPanel {
 		{
 			try {
 				MagicCard flipC = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name",card.getRotatedCardName(),card.getEditions().get(0)).get(0);
-				back = picsProvider.getPicture(String.valueOf(flipC.getMultiverseid()));
+				//back = picsProvider.getPicture(String.valueOf(flipC.getMultiverseid()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -108,9 +110,9 @@ public class CardsPicPanel extends JXPanel {
 				try {
 					
 					if(edition==null)
-						imgFront=renderer.appendReflection(picsProvider.getPicture(String.valueOf(card.getEditions().get(0).getMultiverse_id())));
+						imgFront=renderer.appendReflection(picsProvider.getPicture(card,null));
 					else
-						imgFront=renderer.appendReflection(picsProvider.getPicture(String.valueOf(edition.getMultiverse_id())));
+						imgFront=renderer.appendReflection(picsProvider.getPicture(card,edition));
 					
 					back=mirroring(back);
 					back=renderer.appendReflection(back);

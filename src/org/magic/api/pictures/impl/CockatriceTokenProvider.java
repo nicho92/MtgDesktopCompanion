@@ -51,16 +51,6 @@ public class CockatriceTokenProvider {
 		
 		for (int i = 0; i < nodeList.getLength(); i++) {
 				Element value = (Element) nodeList.item(i);
-		/*		String name = value.getElementsByTagName("name").item(0).getTextContent();
-				
-				String color="";
-				if(value.getElementsByTagName("color").item(0)!=null)
-					color = value.getElementsByTagName("color").item(0).getTextContent();
-				
-				String text = "";
-				if(value.getElementsByTagName("text").item(0)!=null)
-					value.getElementsByTagName("text").item(0).getTextContent();
-				*/
 				NodeList sets = value.getElementsByTagName("set");
 				map = new HashMap<>();
 				for (int s = 0; s < sets.getLength(); s++) {
@@ -90,22 +80,6 @@ public class CockatriceTokenProvider {
 		
 		for (int i = 0; i < nodeList.getLength(); i++) {
 				Element value = (Element) nodeList.item(i);
-				/*String name = value.getElementsByTagName("name").item(0).getTextContent();
-				
-				String color="";
-				if(value.getElementsByTagName("color").item(0)!=null)
-					color = value.getElementsByTagName("color").item(0).getTextContent();
-				
-				String manacost = value.getElementsByTagName("manacost").item(0).getTextContent();
-				String type = value.getElementsByTagName("type").item(0).getTextContent();
-				String pt = "";
-				if(value.getElementsByTagName("pt").item(0)!=null)
-					value.getElementsByTagName("pt").item(0).getTextContent();
-				
-				String text = "";
-				if(value.getElementsByTagName("text").item(0)!=null)
-					value.getElementsByTagName("text").item(0).getTextContent();
-				*/
 				NodeList sets = value.getElementsByTagName("set");
 				map = new HashMap<>();
 				for (int s = 0; s < sets.getLength(); s++) {

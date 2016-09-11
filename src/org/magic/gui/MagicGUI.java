@@ -859,6 +859,7 @@ public class MagicGUI extends JFrame {
 						{
 							MagicEdition ed = new MagicEdition();
 								ed.setMultiverse_id(""+selLang.getGathererId());
+								ed.setId(selectedEdition.getId());
 							cardsPicPanel.showPhoto(selected,ed);
 						}
 					} catch (Exception e1) {}

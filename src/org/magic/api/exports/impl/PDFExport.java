@@ -82,7 +82,7 @@ public class PDFExport extends AbstractCardExport {
 		String id = card.getEditions().get(0).getMultiverse_id();
 		Image image1=null;
 		try {
-			image1 = Image.getInstance(new GathererPicturesProvider().getPictureURL(id));
+			image1 = Image.getInstance(new GathererPicturesProvider().getPictureURL(card));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

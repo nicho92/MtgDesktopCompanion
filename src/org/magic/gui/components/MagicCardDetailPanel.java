@@ -28,6 +28,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.interfaces.PictureProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
@@ -64,8 +65,8 @@ public class MagicCardDetailPanel extends JPanel {
 	private JScrollPane scrollCollections;
 	static final Logger logger = LogManager.getLogger(MagicCardDetailPanel.class.getName());
 	private JTextField rarityJTextField;
-	 
 	GridBagLayout gridBagLayout ;
+	private PictureProvider picProvider;
 	
 	
 	public void enableThumbnail(boolean val)
@@ -80,6 +81,8 @@ public class MagicCardDetailPanel extends JPanel {
 	}
 
 	public MagicCardDetailPanel() {
+		
+		picProvider = new GathererPicturesProvider();
 		
 		gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 77, 0 };
@@ -395,7 +398,7 @@ public class MagicCardDetailPanel extends JPanel {
 	
 	public void setMagicLogo(String set,String rarity) {
 			try {
-				lblLogoSet.setIcon(new ImageIcon(new GathererPicturesProvider().getSetLogo(set, rarity)));
+				lblLogoSet.setIcon(new ImageIcon(picProvider.getSetLogo(set, rarity)));
 			} catch (Exception e) {
 				lblLogoSet.setIcon(null);			
 				}
@@ -485,7 +488,7 @@ public class MagicCardDetailPanel extends JPanel {
 				public void run() {
 					ImageIcon icon;
 					try {
-						icon = new ImageIcon(new GathererPicturesProvider().getPicture(magicCard));
+						icon = new ImageIcon(picProvider.getPicture(magicCard,null));
 						Image img = icon.getImage();
 						//Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
 						lblThumbnail.setIcon( new ImageIcon(img));
