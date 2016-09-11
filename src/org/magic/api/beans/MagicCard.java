@@ -43,11 +43,23 @@ public class MagicCard implements Serializable {
 		private List<MagicFormat> legalities;
 		private String rarity;
 		private String gathererCode;
-		
+		private String mciNumber;
 		
 		private boolean flippable;
 		private boolean tranformable;
 		
+		
+		
+		public String getMciNumber() {
+			return mciNumber;
+		}
+
+
+		public void setMciNumber(String mciNumber) {
+			this.mciNumber = mciNumber;
+		}
+
+
 		public boolean isFlippable() {
 			return flippable;
 		}

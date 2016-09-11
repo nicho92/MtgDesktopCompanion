@@ -30,6 +30,11 @@ public class MagicCardInfoPicturesProvider implements PictureProvider {
 		if(mc.getEditions().get(0).getMagicCardsInfoCode()==null)
 			url=new URL("http://magiccards.info/scans/en/"+mc.getEditions().get(0).getId().toLowerCase()+"/"+mc.getEditions().get(0).getNumber()+".jpg");
 
+		
+		if(mc.getMciNumber()!=null)
+			url=new URL("http://magiccards.info/scans/en/"+mc.getEditions().get(0).getId().toLowerCase()+"/"+mc.getMciNumber()+".jpg");
+		
+		
 		URLConnection connection = url.openConnection();
 		
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");

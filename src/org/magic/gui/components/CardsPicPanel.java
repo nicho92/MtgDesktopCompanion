@@ -98,7 +98,7 @@ public class CardsPicPanel extends JXPanel {
 		{
 			try {
 				MagicCard flipC = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name",card.getRotatedCardName(),card.getEditions().get(0)).get(0);
-				//back = picsProvider.getPicture(String.valueOf(flipC.getMultiverseid()));
+				back = picsProvider.getPicture(flipC,null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
