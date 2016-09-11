@@ -57,5 +57,10 @@ public class GathererPicturesProvider implements PictureProvider {
 		return url;
 		
 	}
+	
+	@Override
+	public String getName() {
+		return "Gatherer";
+	}
 
 }

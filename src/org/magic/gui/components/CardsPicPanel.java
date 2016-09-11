@@ -129,7 +129,7 @@ public class CardsPicPanel extends JXPanel {
 				  
 					
 				} catch (Exception e) {
-					//e.printStackTrace();
+					imgFront=back;
 				} 
 				repaint();
 				

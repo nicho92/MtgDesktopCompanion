@@ -8,6 +8,8 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.PictureProvider;
@@ -16,7 +18,8 @@ import org.magic.api.interfaces.PictureProvider;
 public class MagicCardInfoPicturesProvider implements PictureProvider {
 
 	private int w,h;
-	
+	static final Logger logger = LogManager.getLogger(MagicCardInfoPicturesProvider.class.getName());
+
 	public MagicCardInfoPicturesProvider() {
 		
 		w=223;
@@ -26,21 +29,28 @@ public class MagicCardInfoPicturesProvider implements PictureProvider {
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception {
 
-		URL url=new URL("http://magiccards.info/scans/en/"+mc.getEditions().get(0).getMagicCardsInfoCode()+"/"+mc.getEditions().get(0).getNumber()+".jpg");
-		if(mc.getEditions().get(0).getMagicCardsInfoCode()==null)
-			url=new URL("http://magiccards.info/scans/en/"+mc.getEditions().get(0).getId().toLowerCase()+"/"+mc.getEditions().get(0).getNumber()+".jpg");
+		String infocode=mc.getEditions().get(0).getMagicCardsInfoCode();
 
 		
+		
+		if(infocode==null)
+			infocode=mc.getEditions().get(0).getId().toLowerCase();
+		
+		
+		URL url=new URL("http://magiccards.info/scans/en/"+infocode+"/"+mc.getEditions().get(0).getNumber()+".jpg");
+	
+		
 		if(mc.getMciNumber()!=null)
-			url=new URL("http://magiccards.info/scans/en/"+mc.getEditions().get(0).getId().toLowerCase()+"/"+mc.getMciNumber()+".jpg");
+			url=new URL("http://magiccards.info/scans/en/"+infocode+"/"+mc.getMciNumber()+".jpg");
+		
+		
+		logger.debug(getName() +" get card pic from " + url);
 		
 		
 		URLConnection connection = url.openConnection();
-		
-		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
-	
-		
-		connection.connect();
+					  connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+					  connection.connect();
+					  
 		Image img = ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
 		
 		BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null),
@@ -76,6 +86,11 @@ public class MagicCardInfoPicturesProvider implements PictureProvider {
 	public BufferedImage getBackPicture() throws Exception {
 		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card");
 		return ImageIO.read(url);
+	}
+
+	@Override
+	public String getName() {
+		return "MagicCardInfo";
 	}
 
 }

@@ -113,7 +113,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	    								historyPrice.put(d, Double.parseDouble(res[1]));
 	    							
 	    						} catch (Exception e) {
-	    							logger.error(e);
+	    							//logger.error(e);
 	    						} 
 	    	        		 }
 	    	        		 

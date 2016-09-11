@@ -89,4 +89,10 @@ public class MTGCardMakerPicturesProvider implements PictureProvider {
 		return null;
 	}
 
+
+	@Override
+	public String getName() {
+		return "MTGCardMaker";
+	}
+
 }

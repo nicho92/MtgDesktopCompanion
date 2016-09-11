@@ -14,4 +14,5 @@ public interface PictureProvider {
 	public BufferedImage getSetLogo(String setID,String rarity) throws Exception;
 //	public BufferedImage getPicture(String multiverseid) throws Exception;
 	public BufferedImage getBackPicture() throws Exception;
+	public String getName();
 }
