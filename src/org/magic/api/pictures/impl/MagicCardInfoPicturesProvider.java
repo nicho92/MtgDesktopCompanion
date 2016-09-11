@@ -21,8 +21,6 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	private int w,h;
 	static final Logger logger = LogManager.getLogger(MagicCardInfoPicturesProvider.class.getName());
 	
-	String website = "";
-	String lang ="";
 	
 	
 	
@@ -36,8 +34,6 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		
 		w=223;
 		h=311;
-		website = "http://magiccards.info/scans/";
-		lang="en";
 	}
 	
 	@Override
@@ -49,14 +45,14 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 			infocode=mc.getEditions().get(0).getId().toLowerCase();
 		
 		
-		URL url=new URL(website+"/"+lang+"/"+infocode+"/"+mc.getEditions().get(0).getNumber()+".jpg");
+		URL url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber()+".jpg");
 		
 		if(mc.getMciNumber()!=null)
 		{
 			if(mc.getMciNumber().contains("/"))
-				url=new URL(website+"/"+lang+"/"+infocode+"/"+mc.getMciNumber().substring(mc.getMciNumber().lastIndexOf("/"))+".jpg");
+				url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getMciNumber().substring(mc.getMciNumber().lastIndexOf("/"))+".jpg");
 			else	
-				url=new URL(website+"/"+lang+"/"+infocode+"/"+mc.getMciNumber()+".jpg");
+				url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getMciNumber()+".jpg");
 		}
 		
 		logger.debug(getName() +" get card pic from " + url);

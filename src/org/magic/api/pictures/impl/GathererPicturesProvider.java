@@ -28,7 +28,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	public BufferedImage getBackPicture() throws Exception
 	{
 		if(back==null)
-			back = getPicture("132667");
+			back = getPicture(props.getProperty("BACKGROUND_ID"));
 		return back;
 	}
 	
