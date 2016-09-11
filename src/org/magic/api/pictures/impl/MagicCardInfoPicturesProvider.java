@@ -3,6 +3,7 @@ package org.magic.api.pictures.impl;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -12,40 +13,53 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 
 
-public class MagicCardInfoPicturesProvider implements PictureProvider {
+public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 	private int w,h;
 	static final Logger logger = LogManager.getLogger(MagicCardInfoPicturesProvider.class.getName());
-
+	
+	String website = "";
+	String lang ="";
+	
+	
+	
 	public MagicCardInfoPicturesProvider() {
+		super();
+		if(!new File(confdir, getName()+".conf").exists()){
+			props.put("WEBSITE", "http://magiccards.info/scans/");
+			props.put("LANG", "en");
+			save();
+		}
 		
 		w=223;
 		h=311;
+		website = "http://magiccards.info/scans/";
+		lang="en";
 	}
 	
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception {
 
 		String infocode=mc.getEditions().get(0).getMagicCardsInfoCode();
-
-		
 		
 		if(infocode==null)
 			infocode=mc.getEditions().get(0).getId().toLowerCase();
 		
 		
-		URL url=new URL("http://magiccards.info/scans/en/"+infocode+"/"+mc.getEditions().get(0).getNumber()+".jpg");
-	
+		URL url=new URL(website+"/"+lang+"/"+infocode+"/"+mc.getEditions().get(0).getNumber()+".jpg");
 		
 		if(mc.getMciNumber()!=null)
-			url=new URL("http://magiccards.info/scans/en/"+infocode+"/"+mc.getMciNumber()+".jpg");
-		
+		{
+			if(mc.getMciNumber().contains("/"))
+				url=new URL(website+"/"+lang+"/"+infocode+"/"+mc.getMciNumber().substring(mc.getMciNumber().lastIndexOf("/"))+".jpg");
+			else	
+				url=new URL(website+"/"+lang+"/"+infocode+"/"+mc.getMciNumber()+".jpg");
+		}
 		
 		logger.debug(getName() +" get card pic from " + url);
-		
 		
 		URLConnection connection = url.openConnection();
 					  connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
@@ -64,11 +78,6 @@ public class MagicCardInfoPicturesProvider implements PictureProvider {
 		return bufferedImage ;
 	}
 
-	@Override
-	public URL getPictureURL(MagicCard mc) throws Exception {
-		URL connection = new URL("http://magiccards.info/scans/en/"+mc.getEditions().get(0).getMagicCardsInfoCode()+"/"+mc.getEditions().get(0).getNumber()+".jpg");
-			return connection;
-	}
 
 	@Override
 	public BufferedImage getSetLogo(String set, String rarity) throws Exception {
@@ -76,11 +85,6 @@ public class MagicCardInfoPicturesProvider implements PictureProvider {
 		return ImageIO.read(url);
 	}
 
-//	@Override
-//	public BufferedImage getPicture(String multiverseid) throws Exception {
-//		// TODO Auto-generated method stub
-//		return null;
-//	}
 
 	@Override
 	public BufferedImage getBackPicture() throws Exception {
@@ -91,6 +95,11 @@ public class MagicCardInfoPicturesProvider implements PictureProvider {
 	@Override
 	public String getName() {
 		return "MagicCardInfo";
+	}
+
+	@Override
+	public BufferedImage extractPicture(MagicCard mc) throws Exception {
+		return getPicture(mc,null).getSubimage(15, 34, 184, 132);
 	}
 
 }

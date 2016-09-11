@@ -24,6 +24,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
+import org.magic.api.interfaces.PictureProvider;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.models.conf.DashBoardProviderTreeTableModel;
 import org.magic.gui.models.conf.DeckSnifferTreeTableModel;
@@ -31,6 +32,7 @@ import org.magic.gui.models.conf.ExportsTreeTableModel;
 import org.magic.gui.models.conf.MagicDAOProvidersTableModel;
 import org.magic.gui.models.conf.MagicPricesProvidersTableModel;
 import org.magic.gui.models.conf.MagicShoppersTableModel;
+import org.magic.gui.models.conf.PicturesProvidersTableModel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.gui.models.conf.SystemTableModel;
@@ -45,6 +47,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable importTreeTable;
 	private JXTable rssTable;
 	private JXTreeTable exportsTable;
+	private JXTreeTable picturesProviderTable;
 	
 	public ConfigurationPanelGUI() {
 		
@@ -70,6 +73,18 @@ public class ConfigurationPanelGUI extends JPanel {
 		cardsProviderTable = new JTable();
 		cardsProvidersScrollPane.setViewportView(cardsProviderTable);
 		
+		JScrollPane picturesScollPane = new JScrollPane();
+		subTabbedProviders.addTab("Pictures", null, picturesScollPane, null);
+		
+		picturesProviderTable = new JXTreeTable(new PicturesProvidersTableModel());
+		picturesScollPane.setViewportView(picturesProviderTable);
+		picturesProviderTable.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1);
+						((PicturesProvidersTableModel)picturesProviderTable.getTreeTableModel()).setSelectedNode((PictureProvider)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		});
 		
 		
 		JScrollPane priceProviderScrollPane = new JScrollPane();

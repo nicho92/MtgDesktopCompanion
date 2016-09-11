@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.PictureProvider;
 
-public class MTGCardMakerPicturesProvider implements PictureProvider {
+public class MTGCardMakerPicturesProvider  {
 
 	public BufferedImage generatePictureForCard(MagicCard mc, BufferedImage pic)
 	{
@@ -73,26 +73,6 @@ public class MTGCardMakerPicturesProvider implements PictureProvider {
 				+ "&set2="
 				+ "&setname=");
 		
-	}
-
-	@Override
-	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-	@Override
-	public BufferedImage getBackPicture() throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public String getName() {
-		return "MTGCardMaker";
 	}
 
 }

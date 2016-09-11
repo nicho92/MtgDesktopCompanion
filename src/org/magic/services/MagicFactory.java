@@ -25,6 +25,9 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
+import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
+import org.magic.api.pictures.impl.MagicCardInfoPicturesProvider;
 
 public class MagicFactory {
 
@@ -34,7 +37,7 @@ public class MagicFactory {
 	private List<MagicDAO> daoProviders;
 	private List<MagicShopper> cardsShoppers;
 	private List<DeckSniffer> deckSniffers;
-	
+	private List<PictureProvider> picturesProviders;
 	
 	public static File CONF_DIR = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	private XMLConfiguration config;
@@ -75,6 +78,9 @@ public class MagicFactory {
 			}
 			else if (k instanceof DeckSniffer) {
 				path = "decksniffer/sniffer[class='"+k.getClass().getName()+"']/enable";
+			}
+			else if (k instanceof PictureProvider) {
+				path = "pictures/picture[class='"+k.getClass().getName()+"']/enable";
 			}
 			else if (k instanceof RSSBean) {
 				path = "rss";
@@ -206,6 +212,16 @@ public class MagicFactory {
 					deckSniffers.add(prov);
 			}
 			
+			logger.info("loading Pictures provider");
+			picturesProviders=new ArrayList<PictureProvider>();
+			for(int i=1;i<=config.getList("//picture/class").size();i++)
+			{
+				String s = config.getString("pictures/picture["+i+"]/class");
+				PictureProvider prov = loadItem(PictureProvider.class, s.toString());
+						prov.enable(config.getBoolean("pictures/picture["+i+"]/enable"));
+						picturesProviders.add(prov);
+			}
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e);
@@ -229,6 +245,11 @@ public class MagicFactory {
 		return daoProviders;
 	}
 	
+	public List<PictureProvider> getPicturesProviders()
+	{
+		return picturesProviders;
+	}
+	
 	public Set<MagicPricesProvider> getSetPricers()
 	{
 		  return new HashSet<MagicPricesProvider>(pricers);
@@ -247,14 +268,23 @@ public class MagicFactory {
 	
 	public MagicCardsProvider getEnabledProviders()
 	{
-		List<MagicCardsProvider> prov= new ArrayList<MagicCardsProvider>();
-		
 		for(MagicCardsProvider p : getListProviders())
 			if(p.isEnable())
 				return p;
 		
 		return null;
 	}
+	
+	
+	public PictureProvider getEnabledPicturesProvider()
+	{
+		for(PictureProvider p : getPicturesProviders())
+			if(p.isEnable())
+				return p;
+		
+		return null;
+	}
+	
 	
 	
 	public MagicDAO getEnabledDAO() {
@@ -327,6 +357,7 @@ public class MagicFactory {
 		}
 		return list;
 	}
+
 
 	
 }

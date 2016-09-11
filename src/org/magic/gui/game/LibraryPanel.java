@@ -6,6 +6,7 @@ import java.awt.Image;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.PositionEnum;
+import org.magic.services.MagicFactory;
 
 public class LibraryPanel extends DraggablePanel {
 
@@ -15,7 +16,7 @@ public class LibraryPanel extends DraggablePanel {
 		super();
 		
 		try {
-			i=gatherer.getBackPicture();
+			i=MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture();
 			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 			
 		} catch (Exception e) {

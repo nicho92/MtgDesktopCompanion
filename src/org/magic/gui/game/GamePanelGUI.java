@@ -40,7 +40,6 @@ import org.magic.api.analyzer.CardAnalyser;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.services.MagicFactory;
@@ -251,7 +250,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						else
 						{
 							try {
-								((DisplayableCard)c).setImage(new ImageIcon(new GathererPicturesProvider().getBackPicture().getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
+								((DisplayableCard)c).setImage(new ImageIcon(MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
 								player.logAction("Rotate " + mc);
 							} catch (Exception e) {
 								e.printStackTrace();

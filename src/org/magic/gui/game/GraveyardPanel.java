@@ -8,6 +8,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.PositionEnum;
+import org.magic.services.MagicFactory;
 
 public class GraveyardPanel extends DraggablePanel {
 	Image i;
@@ -19,7 +20,7 @@ public class GraveyardPanel extends DraggablePanel {
 		setBackground(Color.GRAY);
 		
 		try {
-			i=gatherer.getBackPicture();
+			i=MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture();
 			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 
 		} catch (Exception e) {

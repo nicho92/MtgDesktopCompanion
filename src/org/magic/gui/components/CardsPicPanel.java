@@ -26,9 +26,6 @@ import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.PictureProvider;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.api.pictures.impl.MagicCardInfoPicturesProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
 
@@ -56,8 +53,7 @@ public class CardsPicPanel extends JXPanel {
      private Timer timer;
      int pX, pY;
      double rotate;
-     PictureProvider picsProvider;
-	
+    
 	
 	private boolean moveable=true;
 
@@ -69,8 +65,7 @@ public class CardsPicPanel extends JXPanel {
 	public CardsPicPanel()
 	{
 		setLayout(new BorderLayout(0, 0));
-		picsProvider=new GathererPicturesProvider();
-		initGUI();
+			initGUI();
 	}
 
 	private BufferedImage mirroring(BufferedImage image) {
@@ -89,7 +84,7 @@ public class CardsPicPanel extends JXPanel {
 		if(!mc.isTranformable())
 		{
 			try {
-				back=picsProvider.getBackPicture();
+				back=MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -98,7 +93,7 @@ public class CardsPicPanel extends JXPanel {
 		{
 			try {
 				MagicCard flipC = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name",card.getRotatedCardName(),card.getEditions().get(0)).get(0);
-				back = picsProvider.getPicture(flipC,null);
+				back = MagicFactory.getInstance().getEnabledPicturesProvider().getPicture(flipC,null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -110,9 +105,9 @@ public class CardsPicPanel extends JXPanel {
 				try {
 					
 					if(edition==null)
-						imgFront=renderer.appendReflection(picsProvider.getPicture(card,null));
+						imgFront=renderer.appendReflection(MagicFactory.getInstance().getEnabledPicturesProvider().getPicture(card,null));
 					else
-						imgFront=renderer.appendReflection(picsProvider.getPicture(card,edition));
+						imgFront=renderer.appendReflection(MagicFactory.getInstance().getEnabledPicturesProvider().getPicture(card,edition));
 					
 					back=mirroring(back);
 					back=renderer.appendReflection(back);

@@ -11,9 +11,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.PictureProvider;
 import org.magic.api.pictures.impl.CockatriceTokenProvider;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 import org.magic.services.MagicFactory;
@@ -33,8 +31,6 @@ public class DisplayableCard extends JLabel
 	private String bottom;
 	private boolean selected;
 	private boolean rotated; 
-	
-	private PictureProvider picProvider;
 	
 	public boolean isTappable() {
 		return tappable;
@@ -98,7 +94,6 @@ public class DisplayableCard extends JLabel
 
 	public DisplayableCard(MagicCard mc,int width,int height) {
 		
-		picProvider=new GathererPicturesProvider();
 		setSize(width, height);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
@@ -210,7 +205,7 @@ public class DisplayableCard extends JLabel
 			}
 			else
 			{
-				fullResPics = picProvider.getPicture(mc,null);
+				fullResPics = MagicFactory.getInstance().getEnabledPicturesProvider().getPicture(mc,null);
 				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 			}
 			

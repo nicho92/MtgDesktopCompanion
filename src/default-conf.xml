@@ -84,6 +84,16 @@
 			<enable>true</enable>
 		</dashboard>
 	</dashboards>
+	<pictures>
+		<picture>
+			<class>org.magic.api.pictures.impl.GathererPicturesProvider</class>
+			<enable>true</enable>
+		</picture>
+		<picture>
+			<class>org.magic.api.pictures.impl.MagicCardInfoPicturesProvider</class>
+			<enable>true</enable>
+		</picture>
+	</pictures>
 	<decksniffer>
 		<sniffer>
 			<class>org.magic.api.decksniffer.impl.TappedOutDeckSniffer</class>

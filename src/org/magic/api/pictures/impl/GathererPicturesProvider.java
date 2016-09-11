@@ -1,18 +1,30 @@
 package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 
-public class GathererPicturesProvider implements PictureProvider {
+public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
 	
+	
+	public GathererPicturesProvider() {
+		super();
+		if(!new File(confdir, getName()+".conf").exists()){
+			props.put("BACKGROUND_ID", "132667");
+			save();
+		}
+	}
+	
+	
+	@Override
 	public BufferedImage getBackPicture() throws Exception
 	{
 		if(back==null)
@@ -20,6 +32,7 @@ public class GathererPicturesProvider implements PictureProvider {
 		return back;
 	}
 	
+	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws Exception
 	{
 		return getPicture(mc,null).getSubimage(15, 34, 184, 132);
@@ -51,16 +64,10 @@ public class GathererPicturesProvider implements PictureProvider {
 		return ImageIO.read(url);
 	}
 
-
-	public URL getPictureURL(MagicCard id) throws Exception {
-		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+id.getEditions().get(0).getMultiverse_id()+"&type=card");
-		return url;
-		
-	}
-	
 	@Override
 	public String getName() {
 		return "Gatherer";
 	}
+
 
 }
