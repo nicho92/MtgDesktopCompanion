@@ -112,27 +112,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		return list;
 	}
 	
-	/*@Override
-	public List<RetrievableDeck> getDeckList() throws Exception {
-		Document d = Jsoup.connect(props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT"))
-    		 	.userAgent(props.getProperty("USER_AGENT"))
-				.get();
-		
-		
-		Elements e = d.select("span.deck-price-"+props.getProperty("SUPPORT") +"> a" );
-		
-		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
-		for(Element div : e)
-		{
-			RetrievableDeck deck = new RetrievableDeck();
-			deck.setName(div.text());
-			deck.setUrl(new URI(props.get("URL")+div.attr("href")));
-			deck.setAuthor("MtgGoldFish");
-			list.add(deck);
-		}
-		return list;
-	}*/
-
 	@Override
 	public void connect() throws Exception {
 		// Nothing todo

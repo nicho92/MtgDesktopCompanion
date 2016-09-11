@@ -20,7 +20,17 @@ import com.google.gson.JsonObject;
 public class NumberUpdater {
 
 	static List<MagicCard> mc;
-	public static String unavailableEds[] = {"LEA","LEB","ARN","2ED","ATQ","3ED","FEM","4ED","ICE","CHR","HML","ALL","RQS","VIS","MIR","MGB","ITP","5ED","POR","VAN","WTH","TMP","STH","PO2","ATH","BRB","S00","DDQ"};
+	public static String unavailableEds[] = {"LEA","LEB","ARN","2ED","ATQ","3ED","FEM","4ED","ICE","CHR","HML","ALL","RQS","VIS","MIR","MGB","ITP","5ED","POR","VAN","WTH","TMP","STH","PO2","ATH","BRB","S00","DDQ","CED","CEI","DKM"};
+	
+	public static void main(String[] args) {
+		try {
+			MagicFactory.getInstance().getEnabledProviders() .init();
+			NumberUpdater.update("CEI");
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 	
 	
 	public static void update(String ed) throws Exception {

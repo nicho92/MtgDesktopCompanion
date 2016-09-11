@@ -33,7 +33,7 @@ public class GathererPicturesProvider implements PictureProvider {
 		if(ed==null)
 			selected = mc.getEditions().get(0);
 
-		if(selected.getId().startsWith("p"))
+		if(selected.getId().startsWith("p") || selected.getId().equals("CEI")|| selected.getId().equals("CED"))
 			return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
 		
 		return getPicture(selected.getMultiverse_id());

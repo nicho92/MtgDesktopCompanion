@@ -81,11 +81,12 @@ public class DeckSnifferDialog extends JDialog{
 			public void actionPerformed(ActionEvent e) {
 				try {
 					
-					selectedSniffer.setProperties("FORMAT", cboFormats.getSelectedItem().toString());
+					selectedSniffer.setProperties("FORMAT", cboFormats.getSelectedItem());
 					model.init(selectedSniffer);
 					model.fireTableDataChanged();
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
+//					e1.printStackTrace();
+//					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
