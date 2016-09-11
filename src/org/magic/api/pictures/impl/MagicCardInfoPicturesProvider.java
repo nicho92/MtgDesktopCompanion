@@ -29,6 +29,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("WEBSITE", "http://magiccards.info/scans/");
 			props.put("LANG", "en");
+			props.put("USER_AGENT","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 			save();
 		}
 		
@@ -58,7 +59,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		logger.debug(getName() +" get card pic from " + url);
 		
 		URLConnection connection = url.openConnection();
-					  connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+					  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));
 					  connection.connect();
 					  
 		Image img = ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
