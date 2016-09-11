@@ -1,4 +1,4 @@
-package org.magic.api.pictures.impl;
+package org.magic.services;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;

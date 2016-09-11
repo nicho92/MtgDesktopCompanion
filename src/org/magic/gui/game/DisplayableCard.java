@@ -11,9 +11,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.pictures.impl.CockatriceTokenProvider;
 import org.magic.gui.game.actions.DisplayableCardActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
+import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MagicFactory;
 
 
