@@ -1,4 +1,4 @@
-package org.magic.api.pictures.impl;
+package org.magic.services;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -18,7 +18,6 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.MagicFactory;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
