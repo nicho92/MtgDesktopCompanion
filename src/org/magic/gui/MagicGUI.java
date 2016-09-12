@@ -747,7 +747,6 @@ public class MagicGUI extends JFrame {
 								
 								thumbnailPanel.initThumbnails(cards,false);
 								
-								
 								cmcChart.init(cards);
 								typeRepartitionPanel.init(cards);
 								manaRepartitionPanel.init(cards);
@@ -967,6 +966,7 @@ public class MagicGUI extends JFrame {
 				public void mouseClicked(MouseEvent e) {
 					DisplayableCard lab = (DisplayableCard)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
 					selected = lab.getMagicCard();
+					cardsPicPanel.showPhoto(selected, null);
 					updateCards();
 				}
 				

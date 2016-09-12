@@ -62,17 +62,26 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 					  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));
 					  connection.connect();
 					  
-		Image img = ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
-		
-		BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null),
-		        BufferedImage.TYPE_INT_RGB);
+		Image img = null;
+				
+				try{
+					img = ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
+					BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null),
+					        BufferedImage.TYPE_INT_RGB);
 
-		    Graphics g = bufferedImage.createGraphics();
-		    g.drawImage(img, 0, 0, null);
-		    g.dispose();
+					    Graphics g = bufferedImage.createGraphics();
+					    g.drawImage(img, 0, 0, null);
+					    g.dispose();
 
+					
+					return bufferedImage ;
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+				}
 		
-		return bufferedImage ;
+		return getBackPicture();
 	}
 
 

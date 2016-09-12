@@ -92,16 +92,20 @@ public class DisplayableCard extends JLabel
 	}
 
 
-	public DisplayableCard(MagicCard mc,int width,int height) {
+	public DisplayableCard(MagicCard mc,int width,int height, boolean activateCards) {
 		
 		setSize(width, height);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
 		setMagicCard(mc);
 		setTransferHandler(new CardTransfertHandler());
-		addMouseListener(new DisplayableCardActions());
-		addMouseWheelListener(new DisplayableCardActions());
-		addMouseMotionListener(new DisplayableCardActions());
+		
+		if(activateCards)
+		{ 
+			addMouseListener(new DisplayableCardActions());
+			addMouseWheelListener(new DisplayableCardActions());
+			addMouseMotionListener(new DisplayableCardActions());
+		}
 		
 	}
 	

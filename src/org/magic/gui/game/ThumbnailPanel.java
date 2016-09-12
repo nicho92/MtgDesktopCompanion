@@ -97,7 +97,7 @@ public class ThumbnailPanel extends DraggablePanel {
 			public void run() {
 				for(MagicCard mc : cards)
 				{
-					DisplayableCard lab = new DisplayableCard(mc,width,height);
+					DisplayableCard lab = new DisplayableCard(mc,width,height,activateCards);
 					lab.setTappable(activateCards);
 					
 				try {

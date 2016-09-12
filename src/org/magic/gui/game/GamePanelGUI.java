@@ -208,7 +208,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 					{
 						try{
 							MagicCard tok = CardAnalyser.createTokenCardFrom(  ((DisplayableCard)c).getMagicCard() );
-							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
+							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(),true);
 							dc.setMagicCard(tok);
 							//dc.setImage(new ImageIcon(new CockatriceTokenProvider().getToken(tok).getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
 							
@@ -279,7 +279,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 					{
 						try{
 							MagicCard tok = CardAnalyser.createEmblemCardFrom(((DisplayableCard)c).getMagicCard()  );
-							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight());
+							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(),true);
 							dc.setMagicCard(tok);
 							
 							//dc.setImage(new ImageIcon(new CockatriceTokenProvider().getEmblem(tok).getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
@@ -416,7 +416,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 			public void mouseClicked(MouseEvent arg0) {
 
 				player.drawCard(1);
-				DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight());
+				DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight(),true);
 				c.enableDrag(true);
 				//c.addMouseListener(new DisplayableCardActions(player));
 				

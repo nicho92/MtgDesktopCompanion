@@ -96,7 +96,7 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnBackup.gridy = 1;
 		add(btnBackup, gbc_btnBackup);
 		
-		JLabel lblDuplicateDb = new JLabel("Duplicate DB :");
+		JLabel lblDuplicateDb = new JLabel("Duplicate " + MagicFactory.getInstance().getEnabledDAO() +  " DB to :");
 		GridBagConstraints gbc_lblDuplicateDb = new GridBagConstraints();
 		gbc_lblDuplicateDb.anchor = GridBagConstraints.EAST;
 		gbc_lblDuplicateDb.insets = new Insets(0, 0, 5, 5);

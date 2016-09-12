@@ -91,7 +91,7 @@
 		</picture>
 		<picture>
 			<class>org.magic.api.pictures.impl.MagicCardInfoPicturesProvider</class>
-			<enable>true</enable>
+			<enable>false</enable>
 		</picture>
 	</pictures>
 	<decksniffer>
