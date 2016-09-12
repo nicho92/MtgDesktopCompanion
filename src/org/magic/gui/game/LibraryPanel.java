@@ -3,6 +3,7 @@ package org.magic.gui.game;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.PositionEnum;
@@ -16,8 +17,8 @@ public class LibraryPanel extends DraggablePanel {
 		super();
 		
 		try {
-			i=MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture();
-			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
+			i=MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(179, 240, BufferedImage.SCALE_SMOOTH);
+				setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 			
 		} catch (Exception e) {
 			e.printStackTrace();

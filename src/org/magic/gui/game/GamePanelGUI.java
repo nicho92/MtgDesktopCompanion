@@ -418,8 +418,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 				player.drawCard(1);
 				DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight(),true);
 				c.enableDrag(true);
-				//c.addMouseListener(new DisplayableCardActions(player));
-				
 				handPanel.addComponent(c);
 			}
 		});
