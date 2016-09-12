@@ -69,6 +69,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		if(editionName.equals("Ugins+Fate+promos"))
 			return "Ugins+Fate+Promos";			
 		
+		if(editionName.equals("Magic+Game+Day"))
+			return "Game+Day+Promos";
+		
 		return editionName;
 	}
 	
@@ -286,7 +289,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		mapConcordance.put("MMQ", "MM");
 		mapConcordance.put("VIS", "VI");
 		mapConcordance.put("7ED", "7E");
-		
+		mapConcordance.put("pMGD", "PRM-GDP");
 	}
 	
 	
