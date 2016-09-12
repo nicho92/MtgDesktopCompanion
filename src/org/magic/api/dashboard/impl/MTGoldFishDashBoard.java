@@ -10,6 +10,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Objects;
 import java.util.TreeMap;
 
 import org.apache.log4j.LogManager;
@@ -33,14 +35,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	Map<Date,Double> historyPrice;
     boolean stop ;	    
 	
-	Map<String,String> mapConcordance = new HashMap<String,String>();
+	Map<String,String> mapConcordance;;
 	
 
 	
 	public MTGoldFishDashBoard() 
 	{
 		super();
-		
+		initConcordance();
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("URL_MOVERS", "http://www.mtggoldfish.com/movers-details/");
 			props.put("URL_EDITIONS", "http://www.mtggoldfish.com/index/");
@@ -52,6 +54,24 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		save();
 		}
 	}
+	
+	
+	private String convert(String editionName)
+	{
+		
+		if(editionName.equals("Prerelease+Events"))
+			return "Prerelease+Cards";
+		
+		
+		if(editionName.equals("Champs+and+States"))
+			return "Champs+Promos";
+		
+		if(editionName.equals("Ugins+Fate+promos"))
+			return "Ugins+Fate+Promos";			
+		
+		return editionName;
+	}
+	
 
 	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
 		 
@@ -65,14 +85,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		 
 		 if(mc==null)
 		 {
-			 url = props.getProperty("URL_EDITIONS")+replace(me.getId())+"#"+props.getProperty("FORMAT");
+			 url = props.getProperty("URL_EDITIONS")+replace(me.getId(),false)+"#"+props.getProperty("FORMAT");
 			 index=3;
 		 }
 		 else
 		 {
 			 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
 			 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "").replaceAll(":","");
-			 url =props.getProperty("WEBSITE")+"/price/"+editionName+"/"+cardName+"#"+props.getProperty("FORMAT");
+			 url =props.getProperty("WEBSITE")+"/price/"+convert(editionName)+"/"+cardName+"#"+props.getProperty("FORMAT");
 			 index=5;
 		
 		 }
@@ -172,7 +192,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			cs.setPrice(parseDouble(e.getElementsByTag("TD").get(4).text()));
 			cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(1).text()));
 			cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
-			cs.setEd(e.getElementsByTag("TD").get(2).getElementsByTag("img").get(0).attr("alt"));
+			
+			String set = e.getElementsByTag("TD").get(2).getElementsByTag("img").get(0).attr("alt");
+			cs.setEd(replace(set,true));
 			
 			list.add(cs);
 			
@@ -194,7 +216,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException
 	{
 		String oldID=edition.getId();
-		String urlEditionChecker = props.getProperty("URL_EDITIONS")+replace(edition.getId())+"#"+props.getProperty("FORMAT");
+		String urlEditionChecker = props.getProperty("URL_EDITIONS")+replace(edition.getId(),false)+"#"+props.getProperty("FORMAT");
 		
 		logger.debug("Parsing dashboard "+ urlEditionChecker);
 		
@@ -243,28 +265,52 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 	}
 	
-	public String replace(String id) {
+	
+	private void initConcordance() {
+		mapConcordance = new HashMap<String,String>();
 		
+		mapConcordance.put("TMP", "TE");
+		mapConcordance.put("STH", "ST");
+		mapConcordance.put("PCY", "PR");
+		mapConcordance.put("MIR", "MI");
+		mapConcordance.put("UDS", "UD");
+		mapConcordance.put("ULG", "UL");
+		mapConcordance.put("USG", "UZ");
+		mapConcordance.put("WTH", "WL");
+		mapConcordance.put("ODY", "OD");
+		mapConcordance.put("EXO", "EX");
+		mapConcordance.put("APC", "AP");
+		mapConcordance.put("pGRU", "PRM-GUR");
+		mapConcordance.put("PLS", "PS");
+		mapConcordance.put("INV", "IN");
+		mapConcordance.put("MMQ", "MM");
+		mapConcordance.put("VIS", "VI");
+		mapConcordance.put("7ED", "7E");
 		
-		switch(id){
-			case "TMP" : return "TE";
-			case "STH" : return "ST";
-			case "PCY" : return "PR";
-			case "MIR" : return "MI";
-			case "UDS" : return "UD";
-			case "ULG" : return "UL";
-			case "USG" : return "UZ";
-			case "WTH" : return "WL";
-			case "ODY" : return "OD";
-			case "EXO": return "EX";
-			case "APC": return "AP";
-			case "pGRU": return "PRM-GUR";
-			case "PLS" : return "PS";
-			case "INV" : return "IN";
-			case "MMQ" : return "MM";
-			case "VIS" : return "VI";
-		default : return id;
+	}
+	
+	
+	public String replace(String id, boolean byValue) {
+		
+		if(byValue)
+		{
+			 for (Entry<String, String> entry : mapConcordance.entrySet()) {
+			        if (Objects.equals(id, entry.getValue())) {
+			            return entry.getKey();
+			        }
+			    }
 		}
+		else
+		{ 
+			if(mapConcordance.get(id)!=null)
+				return mapConcordance.get(id);
+		}
+			
+		
+		
+		return id;
+		
+		
 	}
 
 

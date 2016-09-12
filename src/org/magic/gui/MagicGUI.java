@@ -972,7 +972,6 @@ public class MagicGUI extends JFrame {
 				
 			});
 			
-			
 			if (SystemTray.isSupported()) {
 				tray.add(trayIcon);
 

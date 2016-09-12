@@ -51,9 +51,14 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		if(mc.getMciNumber()!=null)
 		{
 			if(mc.getMciNumber().contains("/"))
-				url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getMciNumber().substring(mc.getMciNumber().lastIndexOf("/"))+".jpg");
+			{
+				String mcinumber=mc.getMciNumber().substring(mc.getMciNumber().lastIndexOf("/")).replaceAll(".html", "");
+				url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mcinumber+".jpg");
+			}
 			else	
+			{
 				url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getMciNumber()+".jpg");
+			}
 		}
 		
 		logger.debug(getName() +" get card pic from " + url);
