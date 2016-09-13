@@ -14,12 +14,13 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.pricers.impl.MagicCardMarketPricer;
+import org.magic.services.MagicFactory;
 
 public class MkmWantList {
 
 	
-	public static void main(String[] args) throws InvalidKeyException, NoSuchAlgorithmException, IOException {
-		
+	public static void main(String[] args) throws Exception {
+		/*
 	  String link = "https://www.mkmapi.eu/ws/v1.1/wantslist";
 	  String authorizationProperty = new MagicCardMarketPricer().generateOAuthSignature(link);
 	  HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
@@ -38,5 +39,14 @@ public class MkmWantList {
       String _lastContent = sb.toString();
         
       System.out.println(_lastContent);
+      */
+		MagicFactory.getInstance().getEnabledProviders().init();
+		
+		for(MagicEdition ed : MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null))
+		{
+			System.out.println("map.put(\""+ed.getId()+"\","+ ed.getCardCount() +");");
+		}
+		
+		
 	}
 }

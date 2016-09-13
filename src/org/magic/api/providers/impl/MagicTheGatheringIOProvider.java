@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.services.EditionCardCount;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -311,7 +312,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 					ed.getBooster().add(arr.get(i));
 				}
 			}
-			
+			ed.setCardCount(EditionCardCount.getInstance().getCardCount(ed));
 		return ed;
 	}
 	
