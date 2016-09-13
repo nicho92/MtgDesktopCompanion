@@ -13,6 +13,7 @@ import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.Observable;
@@ -43,6 +44,11 @@ import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.services.MagicFactory;
+import javax.swing.JTextPane;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JTextField;
 
 public class GamePanelGUI extends JPanel implements Observer {
 	
@@ -64,6 +70,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JLabel lblHandCount;
 	private JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
+	private JTextField txtChat;
 	
 	
 	public static GamePanelGUI getInstance()
@@ -145,7 +152,19 @@ public class GamePanelGUI extends JPanel implements Observer {
 		JPanel panelActions = new JPanel();
 		panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
 		panelInfo.add(panelActions, BorderLayout.SOUTH);
-		panelActions.setLayout(new GridLayout(4, 2, 0, 0));
+		GridBagLayout gbl_panelActions = new GridBagLayout();
+		gbl_panelActions.columnWidths = new int[]{86, 86, 86, 0};
+		gbl_panelActions.rowHeights = new int[]{23, 23, 23, 0, 0};
+		gbl_panelActions.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelActions.setLayout(gbl_panelActions);
+		
+		JButton btnShuffle = new JButton("Shuffle");
+		btnShuffle.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				player.shuffleLibrary();
+			}
+		});
 		
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
@@ -167,36 +186,59 @@ public class GamePanelGUI extends JPanel implements Observer {
 				}
 			}
 		});
-		panelActions.add(btnNewGame);
+		GridBagConstraints gbc_btnNewGame = new GridBagConstraints();
+		gbc_btnNewGame.fill = GridBagConstraints.BOTH;
+		gbc_btnNewGame.insets = new Insets(0, 0, 5, 5);
+		gbc_btnNewGame.gridx = 0;
+		gbc_btnNewGame.gridy = 0;
+		panelActions.add(btnNewGame, gbc_btnNewGame);
 		
 		JButton btnSearch = new JButton("Search");
-		panelActions.add(btnSearch);
+		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
+		gbc_btnSearch.fill = GridBagConstraints.BOTH;
+		gbc_btnSearch.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSearch.gridx = 1;
+		gbc_btnSearch.gridy = 0;
+		panelActions.add(btnSearch, gbc_btnSearch);
+		
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				player.logAction("search in library");
+				SearchLibraryFrame f = new SearchLibraryFrame(player);
+				f.setVisible(true);
+				
+			}
+		});
 		
 		JButton btnDrawHand = new JButton("Draw Hand");
-		panelActions.add(btnDrawHand);
+		GridBagConstraints gbc_btnDrawHand = new GridBagConstraints();
+		gbc_btnDrawHand.fill = GridBagConstraints.BOTH;
+		gbc_btnDrawHand.insets = new Insets(0, 0, 5, 0);
+		gbc_btnDrawHand.gridx = 2;
+		gbc_btnDrawHand.gridy = 0;
+		panelActions.add(btnDrawHand, gbc_btnDrawHand);
 		
-		JButton btnShuffle = new JButton("Shuffle");
-		btnShuffle.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				player.shuffleLibrary();
-			}
-		});
-		panelActions.add(btnShuffle);
-		
-		JButton btnScry = new JButton("Scry");
-		btnScry.addActionListener(new ActionListener() {
+		btnDrawHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				String res = JOptionPane.showInputDialog("How many scry card ?");
-				if(res!=null)
-					new SearchLibraryFrame(player,player.scry(Integer.parseInt(res))).setVisible(true);
-				
+				player.mixHandAndLibrary();
+				player.shuffleLibrary();
+				try{
+					player.drawCard(7);
+					lblHandCount.setText(String.valueOf(player.getHand().size()));
+					lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));
+				}catch (IndexOutOfBoundsException e)
+				{
+					JOptionPane.showMessageDialog(null, "Not enougth cards in library","Error",JOptionPane.ERROR_MESSAGE);
+				}
+			    handPanel.initThumbnails(player.getHand(),true);
 			}
 		});
-		panelActions.add(btnScry);
-		
-		JButton btnEndTurn = new JButton("End Turn");
-		panelActions.add(btnEndTurn);
+		GridBagConstraints gbc_btnShuffle = new GridBagConstraints();
+		gbc_btnShuffle.fill = GridBagConstraints.BOTH;
+		gbc_btnShuffle.insets = new Insets(0, 0, 5, 5);
+		gbc_btnShuffle.gridx = 0;
+		gbc_btnShuffle.gridy = 1;
+		panelActions.add(btnShuffle, gbc_btnShuffle);
 		
 		JButton btnToken = new JButton("Token");
 		btnToken.addActionListener(new ActionListener() {
@@ -226,7 +268,72 @@ public class GamePanelGUI extends JPanel implements Observer {
 				}
 			}
 		});
-		panelActions.add(btnToken);
+		
+		JButton btnScry = new JButton("Scry");
+		btnScry.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				String res = JOptionPane.showInputDialog("How many scry card ?");
+				if(res!=null)
+					new SearchLibraryFrame(player,player.scry(Integer.parseInt(res))).setVisible(true);
+				
+			}
+		});
+		GridBagConstraints gbc_btnScry = new GridBagConstraints();
+		gbc_btnScry.fill = GridBagConstraints.BOTH;
+		gbc_btnScry.insets = new Insets(0, 0, 5, 5);
+		gbc_btnScry.gridx = 1;
+		gbc_btnScry.gridy = 1;
+		panelActions.add(btnScry, gbc_btnScry);
+		
+		JButton btnEndTurn = new JButton("End Turn");
+		GridBagConstraints gbc_btnEndTurn = new GridBagConstraints();
+		gbc_btnEndTurn.fill = GridBagConstraints.BOTH;
+		gbc_btnEndTurn.insets = new Insets(0, 0, 5, 0);
+		gbc_btnEndTurn.gridx = 2;
+		gbc_btnEndTurn.gridy = 1;
+		panelActions.add(btnEndTurn, gbc_btnEndTurn);
+		
+		btnEndTurn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				GameManager.getInstance().nextTurn();
+			}
+		});
+		GridBagConstraints gbc_btnToken = new GridBagConstraints();
+		gbc_btnToken.fill = GridBagConstraints.BOTH;
+		gbc_btnToken.insets = new Insets(0, 0, 5, 5);
+		gbc_btnToken.gridx = 0;
+		gbc_btnToken.gridy = 2;
+		panelActions.add(btnToken, gbc_btnToken);
+		
+		JButton btnEmblem = new JButton("Emblem");
+		btnEmblem.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				for(Component c : panelBattleField.getComponents())
+				{
+					if(((DisplayableCard)c).isSelected())
+					{
+						try{
+							MagicCard tok = CardAnalyser.createEmblemCardFrom(((DisplayableCard)c).getMagicCard()  );
+							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(),true);
+							dc.setMagicCard(tok);
+							
+							//dc.setImage(new ImageIcon(new CockatriceTokenProvider().getEmblem(tok).getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
+							
+							panelBattleField.addComponent(dc);
+							panelBattleField.revalidate();
+							panelBattleField.repaint();
+							
+							player.logAction("generate " + tok + " emblem");
+						}
+						catch (Exception e) {
+							e.printStackTrace();
+						}
+
+					}
+				}
+			}
+		});
 		
 		JButton btnFlip = new JButton("Rotate");
 		btnFlip.addActionListener(new ActionListener() {
@@ -268,37 +375,43 @@ public class GamePanelGUI extends JPanel implements Observer {
 				
 			}
 		});
-		panelActions.add(btnFlip);
+		GridBagConstraints gbc_btnFlip = new GridBagConstraints();
+		gbc_btnFlip.fill = GridBagConstraints.BOTH;
+		gbc_btnFlip.insets = new Insets(0, 0, 5, 5);
+		gbc_btnFlip.gridx = 1;
+		gbc_btnFlip.gridy = 2;
+		panelActions.add(btnFlip, gbc_btnFlip);
+		GridBagConstraints gbc_btnEmblem = new GridBagConstraints();
+		gbc_btnEmblem.insets = new Insets(0, 0, 5, 0);
+		gbc_btnEmblem.fill = GridBagConstraints.BOTH;
+		gbc_btnEmblem.gridx = 2;
+		gbc_btnEmblem.gridy = 2;
+		panelActions.add(btnEmblem, gbc_btnEmblem);
 		
-		JButton btnEmblem = new JButton("Emblem");
-		btnEmblem.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				for(Component c : panelBattleField.getComponents())
-				{
-					if(((DisplayableCard)c).isSelected())
-					{
-						try{
-							MagicCard tok = CardAnalyser.createEmblemCardFrom(((DisplayableCard)c).getMagicCard()  );
-							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(),true);
-							dc.setMagicCard(tok);
-							
-							//dc.setImage(new ImageIcon(new CockatriceTokenProvider().getEmblem(tok).getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
-							
-							panelBattleField.addComponent(dc);
-							panelBattleField.revalidate();
-							panelBattleField.repaint();
-							
-							player.logAction("generate " + tok + " emblem");
-						}
-						catch (Exception e) {
-							e.printStackTrace();
-						}
-
-					}
-				}
+		txtChat = new JTextField("Say something");
+		txtChat.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtChat.setText("");
 			}
 		});
-		panelActions.add(btnEmblem);
+		
+		
+		txtChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				player.say(txtChat.getText());
+				txtChat.setText("");
+			}
+		});
+		GridBagConstraints gbc_txtChat = new GridBagConstraints();
+		gbc_txtChat.gridwidth = 2;
+		gbc_txtChat.insets = new Insets(0, 0, 0, 5);
+		gbc_txtChat.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtChat.gridx = 0;
+		gbc_txtChat.gridy = 3;
+		panelActions.add(txtChat, gbc_txtChat);
+		txtChat.setColumns(10);
 		
 		JPanel panelPoolandDescribes = new JPanel();
 		panelInfo.add(panelPoolandDescribes, BorderLayout.CENTER);
@@ -390,12 +503,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 		lblThumbnailPics.setHorizontalAlignment(SwingConstants.CENTER);
 		panelPics.add(lblThumbnailPics);
 		
-		btnEndTurn.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				GameManager.getInstance().nextTurn();
-			}
-		});
-		
 		
 		JPanel panelLibraryAndGrave = new JPanel();
 		panneauDroit.add(panelLibraryAndGrave, BorderLayout.EAST);
@@ -440,31 +547,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panelBattleField = new BattleFieldPanel();
 		panneauDroit.add(panelBattleField, BorderLayout.CENTER);
 		panelBattleField.setLayout(null);
-		
-		btnDrawHand.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				player.mixHandAndLibrary();
-				player.shuffleLibrary();
-				try{
-					player.drawCard(7);
-					lblHandCount.setText(String.valueOf(player.getHand().size()));
-					lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));
-				}catch (IndexOutOfBoundsException e)
-				{
-					JOptionPane.showMessageDialog(null, "Not enougth cards in hands","Error",JOptionPane.ERROR_MESSAGE);
-				}
-			    handPanel.initThumbnails(player.getHand(),true);
-			}
-		});
-		
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				player.logAction("search in library");
-				SearchLibraryFrame f = new SearchLibraryFrame(player);
-				f.setVisible(true);
-				
-			}
-		});
 	}
 	public JSpinner getSpinLife() {
 		return spinLife;

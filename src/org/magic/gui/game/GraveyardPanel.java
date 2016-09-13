@@ -11,7 +11,6 @@ import org.magic.game.PositionEnum;
 import org.magic.services.MagicFactory;
 
 public class GraveyardPanel extends DraggablePanel {
-	Image i;
 	
 	public GraveyardPanel() {
 		super();
@@ -19,13 +18,6 @@ public class GraveyardPanel extends DraggablePanel {
 		setBorder(new LineBorder(Color.BLACK));
 		setBackground(Color.GRAY);
 		
-		try {
-			i=MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture();
-			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
-
-		} catch (Exception e) {
-			//e.printStackTrace();
-		}
 	}
 	
 	@Override

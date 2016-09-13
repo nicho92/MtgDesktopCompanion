@@ -412,6 +412,11 @@ public class Player extends Observable{
 		
 		
 	}
+
+	public void say(String text) {
+		logAction("say:" + text);
+		
+	}
 	
 	
 	

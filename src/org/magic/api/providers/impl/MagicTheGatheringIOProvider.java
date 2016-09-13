@@ -160,6 +160,9 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			if(obj.get("loyalty")!=null)
 				mc.setLoyalty(obj.get("loyalty").getAsInt());
 	
+			if(obj.get("mciNumber")!=null)
+		 		 mc.setMciNumber(String.valueOf(obj.get("mciNumber")));
+		 
 			
 			if(obj.get("colors")!=null){
 				Iterator<JsonElement> it = obj.get("colors").getAsJsonArray().iterator();
@@ -256,6 +259,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 							MagicEdition ed = getSetById(k);
 							//todo load other edition value
 							ed.setRarity(mc.getRarity());
+							ed.setNumber(mc.getNumber());
 							mc.getEditions().add(ed);
 						}
 				}
@@ -304,6 +308,11 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			ed.setType(obj.get("type").getAsString());
 			ed.setBorder(obj.get("border").getAsString());
 			ed.setReleaseDate(obj.get("releaseDate").getAsString());
+			
+			if(obj.get("magicCardsInfoCode")!=null)
+				ed.setMagicCardsInfoCode(obj.get("magicCardsInfoCode").getAsString());
+			
+			
 			if(obj.get("booster")!=null)
 			{
 				JsonArray arr = obj.get("booster").getAsJsonArray();
