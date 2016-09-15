@@ -102,6 +102,8 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		String url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8");
 		JsonReader reader= new JsonReader(new InputStreamReader(getStream(url),"UTF-8"));
 		
+		logger.debug("search " + url);
+		
 		JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");
 		
 		for(int i=0;i<jsonList.size();i++)
@@ -218,7 +220,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			{
 				 JsonArray arr = obj.get("names").getAsJsonArray();
 				 
-				 List<String> list = new ArrayList();
+				 List<String> list = new ArrayList<String>();
 				 for (int i = 0; i < arr.size();list.add(arr.get(i++).getAsString()));
 				 
 				 list.remove(mc.getName());
@@ -244,7 +246,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 				currentEd.setMultiverse_id(obj.get("multiverseid").getAsString());
 			
 			currentEd.setRarity(mc.getRarity());
-			
+			currentEd.setNumber(mc.getNumber());
 			
 			
 			mc.getEditions().add(0,currentEd);
