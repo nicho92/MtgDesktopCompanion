@@ -4,15 +4,16 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
+import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -26,8 +27,6 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.api.pictures.impl.MagicCardInfoPicturesProvider;
 
 public class MagicFactory {
 
@@ -54,6 +53,20 @@ public class MagicFactory {
 			inst = new MagicFactory();
 		return inst;
 	}
+	
+	public void addProperty(String path, String classname)
+	{
+		config.addProperty(path+".class", classname);
+		config.addProperty(path+".enable", "false");
+		
+		try {
+			builder.save();
+		} catch (ConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	
 	public void setProperty(Object k, Object c)
 	{

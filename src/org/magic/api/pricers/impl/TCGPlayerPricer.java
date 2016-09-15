@@ -1,6 +1,7 @@
 package org.magic.api.pricers.impl;
 
 import java.io.File;
+import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -75,7 +76,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			   Document doc = null; 
 					   
 					try{   
-					  doc=dBuilder.parse(link);
+					  doc=dBuilder.parse(new URL(link).openStream());
 					  logger.debug(doc);
 					   
 					}
