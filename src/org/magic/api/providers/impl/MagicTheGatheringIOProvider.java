@@ -7,6 +7,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -126,7 +127,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		URLConnection con =null;
 		int page=1;
 		String url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8");
-		con = getStream(url);
+		con = getConnection(url);
 		JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 		
 		int count = 0;
@@ -135,7 +136,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		while(count<totalcount)
 		{
 			url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8")+"&page="+page++;
-			con = getStream(url);
+			con = getConnection(url);
 			reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 			JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");
 			for(int i=0;i<jsonList.size();i++)
@@ -292,9 +293,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 						if(!k.equals(currentSet))
 						{
 							MagicEdition ed = getSetById(k);
-							//todo load other edition value
-							ed.setRarity(mc.getRarity());
-							ed.setNumber(mc.getNumber());
+							initOtherEdVariable(mc,ed);
 							mc.getEditions().add(ed);
 						}
 				}
@@ -332,6 +331,29 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		return mc;
 	}
 	
+	private void initOtherEdVariable(MagicCard mc, MagicEdition ed)
+	{
+		JsonReader reader;
+		try {
+			reader = new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/cards?set="+ed.getId()+"&name="+URLEncoder.encode(mc.getName(),"UTF-8")).getInputStream(),"UTF-8"));
+			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+			
+			JsonObject temp = root.get("cards").getAsJsonArray().get(0).getAsJsonObject();
+			
+			if(temp.get("rarity")!=null)
+				ed.setRarity(temp.get("rarity").getAsString());
+			if(temp.get("multiverseid")!=null)
+				ed.setMultiverse_id(temp.get("multiverseid").getAsString());
+			if(temp.get("number")!=null)
+				ed.setNumber(temp.get("number").getAsString());
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} 
+		
+	}
+	
+	
 	private MagicEdition generateEdition(JsonObject obj)
 	{
 		MagicEdition ed = new MagicEdition();
@@ -358,13 +380,14 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 				ed.setCardCount(Integer.parseInt(propsCache.getProperty(ed.getId())));
 			else
 				ed.setCardCount(getCount(ed.getId()));
+			
 		return ed;
 	}
 	
 	
 	private int getCount(String id) 
 	{
-		int count = getStream(jsonUrl+"/cards?set="+id).getHeaderFieldInt("Total-Count", 0);
+		int count = getConnection(jsonUrl+"/cards?set="+id).getHeaderFieldInt("Total-Count", 0);
 		propsCache.put(id, String.valueOf(count));
 		try {
 			logger.info("update cache " + id );
@@ -377,7 +400,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		return count;
 	}
 
-	private URLConnection getStream(String url)
+	private URLConnection getConnection(String url)
 	{
 		try {
 			logger.debug("get stream from " + url);
@@ -416,7 +439,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		}
 		logger.info("connect to " + url);
 		
-		URLConnection con = getStream(url);
+		URLConnection con = getConnection(url);
 		
 		JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
@@ -441,7 +464,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			return cache.get(id.toString());
 		}
 		
-		JsonReader reader= new JsonReader(new InputStreamReader(getStream(jsonUrl+"/sets/"+id).getInputStream(),"UTF-8"));
+		JsonReader reader= new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/sets/"+id).getInputStream(),"UTF-8"));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		return generateEdition(root.getAsJsonObject("set"));
 	}

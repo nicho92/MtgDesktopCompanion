@@ -240,6 +240,7 @@ public class MagicGUI extends JFrame {
 							dao.saveCard(mc, dao.getCollection(collec));
 						} catch (SQLException e1) {
 							logger.error(e1);
+							e1.printStackTrace();
 							JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
 						}
 
