@@ -18,7 +18,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.services.EditionCardCount;
+import org.magic.tools.EditionCardCount;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

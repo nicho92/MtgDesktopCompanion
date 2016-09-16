@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicEdition;
 
 public interface MagicCardsProvider {
 
-	public enum STATUT { DEV, STABLE, ABANDONNED};
+	public enum STATUT { DEV, BETA, STABLE, ABANDONNED};
 	
 	public void init() ;
 	

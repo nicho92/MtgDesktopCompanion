@@ -29,8 +29,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.services.EditionCardCount;
 import org.magic.services.MagicFactory;
+import org.magic.tools.EditionCardCount;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -488,7 +488,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	}
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 
 }
