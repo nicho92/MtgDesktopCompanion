@@ -123,19 +123,27 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me) throws Exception {
 		List<MagicCard> lists= new ArrayList<MagicCard>();
-		
+		URLConnection con =null;
+		int page=1;
 		String url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8");
-		JsonReader reader= new JsonReader(new InputStreamReader(getStream(url).getInputStream(),"UTF-8"));
+		con = getStream(url);
+		JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 		
-		logger.debug("search " + url);
-		
-		JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");
-		
-		for(int i=0;i<jsonList.size();i++)
+		int count = 0;
+		int totalcount= con.getHeaderFieldInt("Total-Count", 0);
+	
+		while(count<totalcount)
 		{
-			lists.add(generateCard(jsonList.get(i).getAsJsonObject()));
+			url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8")+"&page="+page++;
+			con = getStream(url);
+			reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+			JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");
+			for(int i=0;i<jsonList.size();i++)
+			{
+				lists.add(generateCard(jsonList.get(i).getAsJsonObject()));
+			}
+			count += con.getHeaderFieldInt("Count", 0);
 		}
-		
 		return lists;
 	}
 
@@ -345,6 +353,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 					ed.getBooster().add(arr.get(i));
 				}
 			}
+			
 			if(propsCache.getProperty(ed.getId())!=null)
 				ed.setCardCount(Integer.parseInt(propsCache.getProperty(ed.getId())));
 			else
@@ -353,7 +362,8 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	}
 	
 	
-	private int getCount(String id) {
+	private int getCount(String id) 
+	{
 		int count = getStream(jsonUrl+"/cards?set="+id).getHeaderFieldInt("Total-Count", 0);
 		propsCache.put(id, String.valueOf(count));
 		try {
