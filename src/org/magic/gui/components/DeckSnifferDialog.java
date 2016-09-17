@@ -19,6 +19,10 @@ import org.magic.api.interfaces.DeckSniffer;
 import org.magic.gui.models.DeckSnifferModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MagicFactory;
+import org.magic.services.ThreadManager;
+
+import javax.swing.JLabel;
+import javax.swing.ImageIcon;
 
 public class DeckSnifferDialog extends JDialog{
 	private JTable table;
@@ -27,8 +31,8 @@ public class DeckSnifferDialog extends JDialog{
 	private DeckSnifferModel model;
 	
 	private MagicDeck importedDeck;
-	
-	
+	private JLabel lblLoad;
+	private JButton btnImport;
 	private DeckSniffer selectedSniffer;
 	
 	public DeckSnifferDialog() {
@@ -104,19 +108,39 @@ public class DeckSnifferDialog extends JDialog{
 		});
 		panel_1.add(btnClose);
 		
-		JButton btnImport = new JButton("Import");
+		btnImport = new JButton("Import");
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					importedDeck =  selectedSniffer.getDeck((RetrievableDeck)model.getValueAt(table.getSelectedRow(), 0));
-					dispose();
-				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
-					importedDeck=null;
-				}
+				
+					ThreadManager.getInstance().execute(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+								lblLoad.setVisible(true);
+								btnImport.setEnabled(false);
+								importedDeck =  selectedSniffer.getDeck((RetrievableDeck)model.getValueAt(table.getSelectedRow(), 0));
+								lblLoad.setVisible(false);
+								btnImport.setEnabled(true);
+								dispose();
+							} catch (Exception e1) {
+								JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
+								importedDeck=null;
+								lblLoad.setVisible(false);
+								btnImport.setEnabled(true);
+							}
+							
+						}
+					}, "Import deck");					
+			
 			}
 		});
 		panel_1.add(btnImport);
+		
+		lblLoad = new JLabel("");
+		lblLoad.setIcon(new ImageIcon(DeckSnifferDialog.class.getResource("/res/load.gif")));
+		lblLoad.setVisible(false);
+		panel_1.add(lblLoad);
 		setLocationRelativeTo(null);
 		
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());

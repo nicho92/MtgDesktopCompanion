@@ -25,7 +25,7 @@ public class NumberUpdater {
 	public static void main(String[] args) {
 		try {
 			MagicFactory.getInstance().getEnabledProviders() .init();
-			NumberUpdater.update("MIR");
+			NumberUpdater.update("VIS");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
