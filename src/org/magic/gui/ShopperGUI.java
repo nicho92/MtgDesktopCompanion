@@ -8,6 +8,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -27,12 +29,15 @@ import javax.swing.table.TableRowSorter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
+import org.jsoup.Jsoup;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.JEditorPane;
+import java.awt.Dimension;
 
 public class ShopperGUI extends JPanel {
 	private JTextField txtSearch;
@@ -48,13 +53,14 @@ public class ShopperGUI extends JPanel {
 	private final JLabel lblPicShopItem = new JLabel("");
     private TableFilterHeader filterHeader;
 	static final Logger logger = LogManager.getLogger(ShopperGUI.class.getName());
+	private JEditorPane editorPane;
+	private final JScrollPane scrollPane = new JScrollPane();
 
     
 	public ShopperGUI() {
 		
 		logger.debug("init shopper panel");
 		setLayout(new BorderLayout(0, 0));
-		
 		
 		add(panel, BorderLayout.NORTH);
 		
@@ -128,8 +134,16 @@ public class ShopperGUI extends JPanel {
 		shopItemScrollPane.setViewportView(tableItemShop);
 		
 		panneauCentral.add(panneauEast, BorderLayout.EAST);
+		panneauEast.setLayout(new BorderLayout(0, 0));
 		
-		panneauEast.add(lblPicShopItem);
+		panneauEast.add(lblPicShopItem, BorderLayout.NORTH);
+		scrollPane.setPreferredSize(new Dimension(100, 2));
+		
+		panneauEast.add(scrollPane, BorderLayout.CENTER);
+		
+		editorPane = new JEditorPane();
+		scrollPane.setViewportView(editorPane);
+		editorPane.setContentType("text/html");
 
 		
 		btnSearch.addActionListener(new ActionListener() {
