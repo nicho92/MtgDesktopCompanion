@@ -21,6 +21,9 @@ public class ManaPoolPanel extends JPanel{
 	private JSpinner spinR;
 	private JSpinner spinG;
 	private JSpinner spinC;
+	private JSpinner spinE;
+	
+	
 	private Player player;
 	
 	public void setPlayer(Player player) {
@@ -124,6 +127,22 @@ public class ManaPoolPanel extends JPanel{
 		spinC.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		add(spinC);
 		
+		ManaPanel panelE = new ManaPanel();
+		FlowLayout flowLayout_6 = (FlowLayout) panelE.getLayout();
+		flowLayout_6.setAlignment(FlowLayout.CENTER);
+		add(panelE);
+		
+		spinE = new JSpinner();
+		panelE.setManaCost("{E}");
+		
+		spinE.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				player.setMana("{E}", (int)spinE.getValue());
+			}
+		});
+		spinE.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		add(spinE);
+		
 		
 	}
 
@@ -144,6 +163,9 @@ public class ManaPoolPanel extends JPanel{
 	}
 	public JSpinner getSpinC() {
 		return spinC;
+	}
+	public JSpinner getSpinE() {
+		return spinE;
 	}
 	
 }
