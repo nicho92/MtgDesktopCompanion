@@ -82,23 +82,17 @@ public class MagicFactory {
 				path = "daos/dao[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof MagicShopper) {
 				path = "shoppers/shopper[class='"+k.getClass().getName()+"']/enable";
-			
 			}else if (k instanceof DashBoard) {
 				path = "dashboards/dashboard[class='"+k.getClass().getName()+"']/enable";
-			}
-			else if (k instanceof CardExporter) {
+			}else if (k instanceof CardExporter) {
 				path = "deckexports/export[class='"+k.getClass().getName()+"']/enable";
-			}
-			else if (k instanceof DeckSniffer) {
+			}else if (k instanceof DeckSniffer) {
 				path = "decksniffer/sniffer[class='"+k.getClass().getName()+"']/enable";
-			}
-			else if (k instanceof PictureProvider) {
+			}else if (k instanceof PictureProvider) {
 				path = "pictures/picture[class='"+k.getClass().getName()+"']/enable";
-			}
-			else if (k instanceof RSSBean) {
+			}else if (k instanceof RSSBean) {
 				path = "rss";
-			}
-			else{
+			}else{
 				path=k.toString();
 			}
 			logger.info("set " + k + " to " + c);
