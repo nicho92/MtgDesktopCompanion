@@ -10,7 +10,10 @@ import java.util.List;
 public class ModuleInstaller {
 
 	
-	 private static List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
+	private boolean hasUpdated=false;
+	
+	
+	 private List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
 	        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 	        assert classLoader != null;
 	        String path = packageName.replace('.', '/');
@@ -28,7 +31,7 @@ public class ModuleInstaller {
 	    }
 	
 	 
-	 private static List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
+	 private List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
 	        List<Class> classes = new ArrayList();
 	        if (!directory.exists()) {
 	            return classes;
@@ -44,10 +47,55 @@ public class ModuleInstaller {
 	        }
 	        return classes;
 	    }
-	 
 	
-	public static void main(String[] args) throws ClassNotFoundException, IOException {
-		System.out.println(getClasses("org.magic.api.exports.impl"));
+	 public boolean updateConfigWithNewModule() throws ClassNotFoundException, IOException {
+		
+		for(Class c : extractMissing("org.magic.api.dao.impl", "/daos/dao"))
+			 MagicFactory.getInstance().addProperty("/daos/dao", c);
+		
+		for(Class c : extractMissing("org.magic.api.pricers.impl", "/pricers/pricer"))
+			 MagicFactory.getInstance().addProperty("/pricers/pricer", c);
+		
+		for(Class c : extractMissing("org.magic.api.providers.impl", "/providers/provider"))
+			 MagicFactory.getInstance().addProperty("/providers/provider", c);
+		
+		for(Class c : extractMissing("org.magic.api.shopping.impl", "/shoppers/shopper"))
+			 MagicFactory.getInstance().addProperty("/shoppers/shopper", c);
+	
+		for(Class c : extractMissing("org.magic.api.dashboard.impl", "/dashboards/dashboard"))
+			 MagicFactory.getInstance().addProperty("/dashboards/dashboard", c);
+	
+		for(Class c : extractMissing("org.magic.api.pictures.impl", "/pictures/picture"))
+			 MagicFactory.getInstance().addProperty("/pictures/picture", c);
+	
+		for(Class c : extractMissing("org.magic.api.decksniffer.impl", "/decksniffer/sniffer"))
+			 MagicFactory.getInstance().addProperty("/decksniffer/sniffer", c);
+	
+		for(Class c : extractMissing("org.magic.api.exports.impl", "/deckexports/export"))
+			 MagicFactory.getInstance().addProperty("/deckexports/export", c);
+
+		return hasUpdated;
+		
+	 }
+	 
+	 
+	private List<Class> extractMissing(String packages,String k) throws ClassNotFoundException, IOException {
+	
+		List<Class> retour = new ArrayList<Class>();
+		for(Class c : getClasses(packages))
+		{
+			if(!c.isAnonymousClass())
+			{
+				String path = k+"[class='"+c.getName()+"']/class";
+				String s = MagicFactory.getInstance().get(path);
+				if(s==null)
+				{
+					hasUpdated=true;
+					retour.add(c);
+				}
+			}
+		}
+		return retour;
 	}
 
 }

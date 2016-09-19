@@ -5,9 +5,7 @@ import java.net.URL;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MagicFactory;
 
 public class ProvidersTableModel extends DefaultTableModel {

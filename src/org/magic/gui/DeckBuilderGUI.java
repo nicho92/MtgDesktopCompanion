@@ -49,8 +49,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.CardExporter;
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicDAO;
 import org.magic.game.Player;
 import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.DeckSnifferDialog;
@@ -88,7 +86,6 @@ public class DeckBuilderGUI extends JPanel{
 	
 	private JButton btnExports;
 	
-	private MagicCardsProvider provider;
 	private MagicDeck deck;
 	
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<MagicCard>();
@@ -106,7 +103,6 @@ public class DeckBuilderGUI extends JPanel{
 	static final Logger logger = LogManager.getLogger(DeckBuilderGUI.class.getName());
 
 	File deckDirectory = new File(MagicFactory.CONF_DIR,"decks");
-	private MagicDAO dao;
 	private Player p;
 	
 	public void loading(boolean show,String text)
@@ -120,12 +116,10 @@ public class DeckBuilderGUI extends JPanel{
 		return deck;
 	}
 	
-	public DeckBuilderGUI(MagicCardsProvider provider,MagicDAO dao) {
+	public DeckBuilderGUI() {
 		logger.debug("init Deck panel");
 		
 		deck = new MagicDeck();
-		this.provider=provider;
-		this.dao=dao;
 		initGUI();
 		setDeck(deck);
 	}
@@ -158,7 +152,7 @@ public class DeckBuilderGUI extends JPanel{
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panneauHaut, BorderLayout.NORTH);
 		
-		cboAttributs = new JComboBox(provider.getQueryableAttributs());
+		cboAttributs = new JComboBox(MagicFactory.getInstance().getEnabledProviders().getQueryableAttributs());
 		panneauHaut.add(cboAttributs);
 		
 		txtSearch = new JTextField();
@@ -240,7 +234,7 @@ public class DeckBuilderGUI extends JPanel{
 					MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
 					
 					serialis.export(deck, new File(deckDirectory+"/"+name+serialis.getFileExtension()));
-					dao.saveDeck(deck);
+					MagicFactory.getInstance().getEnabledDAO().saveDeck(deck);
 					
 				}
 				catch(Exception ex)
@@ -643,7 +637,7 @@ public class DeckBuilderGUI extends JPanel{
 				public void run() {
 					try {
 						String searchName=URLEncoder.encode(txtSearch.getText(),"UTF-8");
-						List<MagicCard> cards = provider.searchCardByCriteria(cboAttributs.getSelectedItem().toString(),searchName,null);
+						List<MagicCard> cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(cboAttributs.getSelectedItem().toString(),searchName,null);
 						
 						
 						for(MagicCard m : cards)
@@ -677,7 +671,7 @@ public class DeckBuilderGUI extends JPanel{
 					String name = l.substring(l.indexOf(" "),l.length()); 
 					//Scanner s = new Scanner(input).useDelimiter("\\s*\\s*");
 					try {
-						MagicCard mc = provider.searchCardByCriteria("name", name.trim(),null).get(0);
+						MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(),null).get(0);
 						
 						if(mc!=null)
 							{

@@ -9,12 +9,10 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.swing.JLabel;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.MagicFactory;
 

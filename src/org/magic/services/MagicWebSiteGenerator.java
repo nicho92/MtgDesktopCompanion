@@ -1,4 +1,4 @@
-package org.magic.api.exports.impl;
+package org.magic.services;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -21,7 +21,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.services.MagicFactory;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;

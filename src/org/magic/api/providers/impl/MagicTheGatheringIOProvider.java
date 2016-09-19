@@ -5,9 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -31,7 +29,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MagicFactory;
-import org.magic.tools.EditionCardCount;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

@@ -6,6 +6,8 @@ import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -17,14 +19,11 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
 import org.magic.tools.db.NumberUpdater;
-
-import javax.swing.ImageIcon;
 
 public class ConfigurationPanel extends JPanel {
 	private JTextField textField;

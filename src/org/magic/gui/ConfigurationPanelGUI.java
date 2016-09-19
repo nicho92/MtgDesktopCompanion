@@ -3,8 +3,6 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,7 +18,6 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.DeckSniffer;
-import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;

@@ -1,14 +1,11 @@
 package org.magic.gui.game;
 
 import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Image;
 
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.PositionEnum;
-import org.magic.services.MagicFactory;
 
 public class GraveyardPanel extends DraggablePanel {
 	

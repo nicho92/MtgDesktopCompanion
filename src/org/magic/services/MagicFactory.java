@@ -6,14 +6,12 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
-import org.apache.commons.configuration2.ex.ConfigurationException;
 import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -54,14 +52,17 @@ public class MagicFactory {
 		return inst;
 	}
 	
-	public void addProperty(String path, String classname)
+	public void addProperty(String path, Class classname)
 	{
-		config.addProperty(path+".class", classname);
-		config.addProperty(path+".enable", "false");
+		String[] k = path.split("/");
 		
+		String root = k[1];
+		String elem = k[2];
 		try {
-			builder.save();
-		} catch (ConfigurationException e) {
+			config.addProperty("/"+root +" "+ elem+"/class", classname.getName());
+			logger.debug("add module " + path + " " + classname.getName());
+			setProperty(classname.newInstance(),new Boolean(false));
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -75,8 +76,7 @@ public class MagicFactory {
 			
 			if (k instanceof MagicPricesProvider) {
 				path = "pricers/pricer[class='"+k.getClass().getName()+"']/enable";
-			}
-			else if (k instanceof MagicCardsProvider) {
+			}else if (k instanceof MagicCardsProvider) {
 				path = "providers/provider[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof MagicDAO) {
 				path = "daos/dao[class='"+k.getClass().getName()+"']/enable";
@@ -100,6 +100,7 @@ public class MagicFactory {
 			config.setProperty(path, c);
 			builder.save();
 		} catch (Exception e) {
+			e.printStackTrace();
 			logger.error(e);
 		}
 	}
@@ -229,11 +230,17 @@ public class MagicFactory {
 						picturesProviders.add(prov);
 			}
 			
+			logger.debug("Check for new modules");
+			
 		} catch (Exception e) {
 			e.printStackTrace();
 			logger.error(e);
 		}
-		
+	}
+	
+	public boolean updateConfigMods() throws ClassNotFoundException, IOException
+	{
+		return new ModuleInstaller().updateConfigWithNewModule();
 	}
 
 	

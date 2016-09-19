@@ -29,7 +29,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -70,10 +69,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.CardExporter;
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.CardsPicPanel;
-import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ManaPanel;
@@ -107,7 +103,6 @@ public class MagicGUI extends JFrame {
 	private MagicCard selected;
 	private MagicEdition selectedEdition;
 	private List<MagicCard> cards;
-	private MagicDAO dao;
 	private String defaultLanguage;
 	
 	private CardsPriceTableModel priceModel;
@@ -217,8 +212,9 @@ public class MagicGUI extends JFrame {
 	{
 		JMenu menuItemAdd = new JMenu("Add");
 
-		for(MagicCollection mc : dao.getCollections())
+		for(MagicCollection mc : MagicFactory.getInstance().getEnabledDAO().getCollections())
 		{
+			
 			JMenuItem adds = new JMenuItem(mc.getName());
 			adds.addActionListener(new ActionListener() {
 
@@ -237,7 +233,7 @@ public class MagicGUI extends JFrame {
 						
 						MagicCard mc = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
 						try {
-							dao.saveCard(mc, dao.getCollection(collec));
+							MagicFactory.getInstance().getEnabledDAO().saveCard(mc, MagicFactory.getInstance().getEnabledDAO().getCollection(collec));
 						} catch (SQLException e1) {
 							logger.error(e1);
 							e1.printStackTrace();
@@ -434,7 +430,7 @@ public class MagicGUI extends JFrame {
 		
 		cboQuereableItems = new JComboBox(MagicFactory.getInstance().getEnabledProviders().getQueryableAttributs());
 		cboQuereableItems.addItem("collections");
-		cboCollections= new JComboBox<MagicCollection>(dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
+		cboCollections= new JComboBox<MagicCollection>(MagicFactory.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MagicFactory.getInstance().getEnabledDAO().getCollections().size()]));
 		cboCollections.setVisible(false);
 		
 		cboQuereableItems.addActionListener(new ActionListener() {
@@ -657,7 +653,7 @@ public class MagicGUI extends JFrame {
 		tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
 
 		
-		deckBuilderGUI = new DeckBuilderGUI(MagicFactory.getInstance().getEnabledProviders(),dao);
+		deckBuilderGUI = new DeckBuilderGUI();
 
 		collectionPanelGUI = new CollectionPanelGUI();
 
@@ -708,8 +704,7 @@ public class MagicGUI extends JFrame {
 			MagicFactory.getInstance().getEnabledProviders().init();
 			logger.info("set provider : " + MagicFactory.getInstance().getEnabledProviders());
 			
-			dao=MagicFactory.getInstance().getEnabledDAO();
-			dao.init();
+			MagicFactory.getInstance().getEnabledDAO().init();;
 			
 			boosterProvider = new BoosterPicturesProvider();
 			serviceUpdate = new VersionChecker();
@@ -734,7 +729,7 @@ public class MagicGUI extends JFrame {
 								String searchName=txtMagicSearch.getText();
 								
 								if(cboCollections.isVisible())
-									cards = dao.getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
+									cards = MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 								else
 									cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
 								

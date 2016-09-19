@@ -4,19 +4,18 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.net.URLConnection;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JCheckBox;
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,15 +28,12 @@ import javax.swing.table.TableRowSorter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
-import org.jsoup.Jsoup;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
-import javax.swing.JEditorPane;
-import java.awt.Dimension;
 
 public class ShopperGUI extends JPanel {
 	private JTextField txtSearch;

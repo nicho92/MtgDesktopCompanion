@@ -5,9 +5,11 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,9 +22,6 @@ import org.magic.gui.models.DeckSnifferModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
-
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 
 public class DeckSnifferDialog extends JDialog{
 	private JTable table;

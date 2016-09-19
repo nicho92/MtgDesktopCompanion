@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -9,8 +10,6 @@ import java.awt.event.MouseMotionListener;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
-
-import sun.awt.image.ToolkitImage;
 
 public class CropImagePanel extends JPanel implements MouseListener, MouseMotionListener
 {
@@ -34,6 +33,26 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
+	
+	private static BufferedImage toBufferedImage(Image img)
+	{
+	    if (img instanceof BufferedImage)
+	    {
+	        return (BufferedImage) img;
+	    }
+
+	    // Create a buffered image with transparency
+	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+
+	    // Draw the image on to the buffered image
+	    Graphics2D bGr = bimage.createGraphics();
+	    bGr.drawImage(img, 0, 0, null);
+	    bGr.dispose();
+
+	    // Return the buffered image
+	    return bimage;
+	}
+	
 
 	public BufferedImage getCroppedImage() {
 		try{
@@ -41,7 +60,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 		int h = c2 - c4;
 		w = w * -1;
 		h = h * -1;
-		BufferedImage img = ((ToolkitImage)selectedImage).getBufferedImage();
+		BufferedImage img = toBufferedImage(selectedImage);
 		return img.getSubimage(c1, c2, w, h);
 		}
 		catch(Exception nue)

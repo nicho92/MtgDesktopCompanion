@@ -34,7 +34,14 @@ public class MtgDesktopCompanion {
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
-				//new Thread(new ThreadMonitor(ThreadManager.getInstance().getExecutor(), 2)).start();	
+				try {
+					if(MagicFactory.getInstance().updateConfigMods())
+						MagicFactory.getInstance().reload();
+					
+				}catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				MagicGUI gui = new MagicGUI();
 						gui.setLookAndFeel(MagicFactory.getInstance().get("lookAndFeel"));
 						gui.setDefaultLanguage(MagicFactory.getInstance().get("langage"));

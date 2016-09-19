@@ -7,7 +7,6 @@ import java.io.FileWriter;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MagicFactory;
 
