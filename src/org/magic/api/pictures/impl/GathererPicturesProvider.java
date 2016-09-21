@@ -19,6 +19,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("BACKGROUND_ID", "132667");
+			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK");
 			save();
 		}
 	}
@@ -46,9 +47,13 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		if(ed==null)
 			selected = mc.getEditions().get(0);
 
-		if(selected.getId().startsWith("p") || selected.getId().equals("CEI")|| selected.getId().equals("CED") || selected.getId().equals("CPK"))
-			return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
 		
+		for(String k : props.getProperty("CALL_MCI_FOR").split(","))
+		{
+			if(selected.getId().startsWith(k))
+				return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
+		}
+			
 		return getPicture(selected.getMultiverse_id());
 	}
 	
