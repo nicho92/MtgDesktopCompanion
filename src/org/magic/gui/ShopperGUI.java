@@ -49,8 +49,6 @@ public class ShopperGUI extends JPanel {
 	private final JLabel lblPicShopItem = new JLabel("");
     private TableFilterHeader filterHeader;
 	static final Logger logger = LogManager.getLogger(ShopperGUI.class.getName());
-	private JEditorPane editorPane;
-	private final JScrollPane scrollPane = new JScrollPane();
 
     
 	public ShopperGUI() {
@@ -133,13 +131,6 @@ public class ShopperGUI extends JPanel {
 		panneauEast.setLayout(new BorderLayout(0, 0));
 		
 		panneauEast.add(lblPicShopItem, BorderLayout.NORTH);
-		scrollPane.setPreferredSize(new Dimension(100, 2));
-		
-		panneauEast.add(scrollPane, BorderLayout.CENTER);
-		
-		editorPane = new JEditorPane();
-		scrollPane.setViewportView(editorPane);
-		editorPane.setContentType("text/html");
 
 		
 		btnSearch.addActionListener(new ActionListener() {
