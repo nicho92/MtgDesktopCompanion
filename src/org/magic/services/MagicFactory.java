@@ -1,7 +1,11 @@
 package org.magic.services;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -103,6 +107,18 @@ public class MagicFactory {
 			e.printStackTrace();
 			logger.error(e);
 		}
+	}
+	
+	public String getVersion()
+	{
+		InputStream input = getClass().getResourceAsStream("/res/version");
+		BufferedReader read = new BufferedReader(new InputStreamReader(input));
+		try {
+			return read.readLine();
+		} catch (IOException e) {
+			return "";
+		}
+		
 	}
 	
 	public String get(String prop)

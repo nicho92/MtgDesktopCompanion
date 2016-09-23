@@ -1,6 +1,11 @@
 package org.magic.services;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
+import java.net.URLConnection;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -21,8 +26,8 @@ public class VersionChecker {
 	Document document;
 	NodeList nodeList;
 	
-	String urlVersion ="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/default-conf.xml";
-	String actualVersion = MagicFactory.getInstance().get("version");
+	String urlVersion ="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/res/version";
+	String actualVersion = MagicFactory.getInstance().getVersion();
 	String onlineVersion;
 	
 	static final Logger logger = LogManager.getLogger(VersionChecker.class.getName());
@@ -32,16 +37,14 @@ public class VersionChecker {
 		
 		builderFactory =DocumentBuilderFactory.newInstance();
 		try {
-			builder = builderFactory.newDocumentBuilder();
-			document = builder.parse(new URL(urlVersion).openStream());
 			
-			XPath xPath =  XPathFactory.newInstance().newXPath();
-			String expression = "//conf/version";
-			
-			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			Node item = nodeList.item(0);
-			
-			onlineVersion=item.getTextContent();
+			InputStream input = new URL(urlVersion).openConnection().getInputStream();
+			BufferedReader read = new BufferedReader(new InputStreamReader(input));
+			try {
+				onlineVersion= read.readLine();
+			} catch (IOException e) {
+				onlineVersion="";
+			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 			e.printStackTrace();

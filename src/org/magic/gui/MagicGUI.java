@@ -258,7 +258,7 @@ public class MagicGUI extends JFrame {
 		mntmExit = new JMenuItem("Exit");
 
 		setSize(new Dimension(1420, 900));
-		setTitle("Magic Desktop Companion ( v" + MagicFactory.getInstance().get("version")+")");
+		setTitle("Magic Desktop Companion ( v" + MagicFactory.getInstance().getVersion()+")");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")));
 		setJMenuBar(menuBar);
