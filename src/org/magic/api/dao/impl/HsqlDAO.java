@@ -20,7 +20,9 @@ import java.util.zip.ZipOutputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -71,7 +73,11 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 	con.createStatement().executeUpdate("create table collections (name varchar(250) PRIMARY KEY)");
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
-		 	logger.debug("Create table shopp");
+		 	logger.debug("Create table shop");
+		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
+		 	logger.debug("Create table stocks");
+		 	
+		 	
 		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
 		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
 		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
@@ -464,6 +470,82 @@ public class HsqlDAO extends AbstractMagicDAO{
 			}
 		out.close();
 	}
+
+
+
+	@Override
+	public void deleteStock(MagicCardStock state) throws SQLException {
+		logger.debug("remove " + state  + " ID=" + state.getIdstock());
+		PreparedStatement pst = con.prepareStatement("delete from stocks where idstock=?");
+		 pst.setInt(1, state.getIdstock());
+		 pst.executeUpdate();
+		
+	}
+
+	
+	@Override
+	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
+		PreparedStatement pst=con.prepareStatement("select * from stocks where idmc=? and collection=?");	
+		pst.setString(1, mc.getId());
+		pst.setString(2, col.getName());
+		ResultSet rs = pst.executeQuery();
+		List<MagicCardStock> colls = new ArrayList<MagicCardStock>();
+		while(rs.next())
+		{
+			MagicCardStock state = new MagicCardStock();
+			
+				state.setComment(rs.getString("comments"));
+				state.setIdstock(rs.getInt("idstock"));
+				state.setMagicCard(mc);
+				state.setMagicCollection(col);
+				state.setCondition( EnumCondition.valueOf(rs.getString("conditions")) );
+				state.setFoil(rs.getBoolean("foil"));
+				state.setSigned(rs.getBoolean("signedcard"));
+				state.setLanguage(rs.getString("langage"));
+				state.setQte(rs.getInt("qte"));
+				
+				colls.add(state);
+		}
+		logger.debug("load " + colls.size() +" item from stock for " + mc );
+		return colls;
+	}
+
+	@Override
+	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
+		PreparedStatement pst;
+		if(state.getIdstock()<0)
+		{
+			
+			logger.debug("save "  + state);
+			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection) values (?,?,?,?,?,?,?,?)");
+			pst.setString(1, state.getCondition().toString());
+			pst.setBoolean(2,state.isFoil());
+			pst.setBoolean(3, state.isSigned());
+			pst.setString(4, state.getLanguage());
+			pst.setInt(5, state.getQte());
+			pst.setString(6, state.getComment());
+			pst.setString(7, state.getMagicCard().getId());
+			pst.setString(8, state.getMagicCollection().getName());
+			
+			state.setIdstock(pst.executeUpdate());
+		}
+		else
+		{
+			logger.debug("update "  + state);
+			pst=con.prepareStatement("update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? where idstock=?");
+			
+			pst.setString(1,state.getComment());
+			pst.setString(2, state.getCondition().toString());
+			pst.setBoolean(3,state.isFoil());
+			pst.setBoolean(4, state.isSigned());
+			pst.setString(5, state.getLanguage());
+			pst.setInt(6, state.getQte());
+			pst.setInt(7, state.getIdstock());
+			
+			pst.executeUpdate();
+		}
+	}
+
 
 
 

@@ -37,6 +37,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
@@ -57,6 +59,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.MassCollectionImporterDialog;
 import org.magic.gui.components.MassMoverDialog;
 import org.magic.gui.components.PriceCatalogExportDialog;
@@ -96,7 +99,7 @@ public class CollectionPanelGUI extends JPanel {
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
-	
+	private CardStockPanel statsPanel;
 	
 	
 	public CollectionPanelGUI() throws Exception {
@@ -309,6 +312,9 @@ public class CollectionPanelGUI extends JPanel {
 		rarityRepartitionPanel = new RarityRepartitionPanel();
 		tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
 
+		statsPanel = new CardStockPanel();
+		tabbedPane.addTab("Stock", null, statsPanel, null);
+		
 		historyPricesPanel = new HistoryPricesPanel();
 		tabbedPane.addTab("Variation", null, historyPricesPanel, null);
 				
@@ -380,7 +386,7 @@ public class CollectionPanelGUI extends JPanel {
 				{
 					btnExportCSV.setEnabled(false);
 					btnExportPriceCatalog.setEnabled(false);
-					
+					statsPanel.enabledAdd(false);
 				}
 				
 				
@@ -407,6 +413,7 @@ public class CollectionPanelGUI extends JPanel {
 					},"addTreeSelectionListener init graph Collection");
 					*/
 					selectedcol = (MagicCollection) curr.getUserObject();
+					statsPanel.enabledAdd(false);
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
 				} 
@@ -418,7 +425,7 @@ public class CollectionPanelGUI extends JPanel {
 
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(false);
-
+					statsPanel.enabledAdd(false);
 					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try{
@@ -448,21 +455,16 @@ public class CollectionPanelGUI extends JPanel {
 
 					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
 					magicCardDetailPanel.enableThumbnail(true);
-
 					
-					//if(tabbedPane.getSelectedIndex()==1)
-					ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
-							try {
-								modelPrices.init(card, card.getEditions().get(0));
-								modelPrices.fireTableDataChanged();
-							} catch (Exception e) {
-								logger.error(e);
-							}
-
-						}
-					},"addTreeSelectionListener init graph cards");
-
+					statsPanel.initMagicCardStock(card,(MagicCollection)((DefaultMutableTreeNode)curr.getParent().getParent()).getUserObject() );
+					statsPanel.enabledAdd(true);
+					
+					if(tabbedPane.getSelectedIndex()==1)
+					{ 
+						loadPrices(card);
+					}
+					
+					
 					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try {
@@ -476,6 +478,15 @@ public class CollectionPanelGUI extends JPanel {
 				}
 			}
 		});
+		
+		tabbedPane.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+				if(tabbedPane.getSelectedIndex()==1)
+					if(((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() instanceof MagicCard)
+						loadPrices((MagicCard)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() );
+			}
+		});
+		
 
 		tree.addMouseListener(new MouseAdapter() {
 			@Override
@@ -705,6 +716,21 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 
+	}
+
+	protected void loadPrices(final MagicCard card) {
+		ThreadManager.getInstance().execute(new Runnable() {
+			public void run() {
+				try {
+					modelPrices.init(card, card.getEditions().get(0));
+					modelPrices.fireTableDataChanged();
+				} catch (Exception e) {
+					logger.error(e);
+				}
+
+			}
+		},"addTreeSelectionListener init graph cards");
+		
 	}
 
 	private JPopupMenu popupMenuEdition = new JPopupMenu();

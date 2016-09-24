@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -51,9 +52,14 @@ public interface MagicDAO {
 	public void saveShopItem(ShopItem mp, String string) throws SQLException;
 	public String getSavedShopItemAnotation(ShopItem id) throws SQLException;
 
+	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException;
+	public void saveOrUpdateStock(MagicCardStock state) throws SQLException;
+	public void deleteStock(MagicCardStock state) throws SQLException;
+		
 	
 	public String getDBLocation();
 	public long getDBSize();
 	public void backup(File dir) throws Exception;
+
 	
 }
