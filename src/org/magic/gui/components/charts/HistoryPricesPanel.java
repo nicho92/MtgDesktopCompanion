@@ -26,7 +26,7 @@ import org.magic.services.MagicFactory;
 
 public class HistoryPricesPanel extends JPanel{
 	
-	boolean showEdition=true;
+	boolean showEdition=false;
 	JCheckBox chckbxShowEditions;
 	
 	

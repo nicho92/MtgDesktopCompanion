@@ -395,7 +395,7 @@ public class CollectionPanelGUI extends JPanel {
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
 					
-					//too memory
+					//too memory for big collection
 					/*ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try{
@@ -456,8 +456,20 @@ public class CollectionPanelGUI extends JPanel {
 					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
 					magicCardDetailPanel.enableThumbnail(true);
 					
-					statsPanel.initMagicCardStock(card,(MagicCollection)((DefaultMutableTreeNode)curr.getParent().getParent()).getUserObject() );
-					statsPanel.enabledAdd(true);
+					
+					ThreadManager.getInstance().execute(new Runnable() {
+						
+						@Override
+						public void run() {
+							statsPanel.initMagicCardStock(card,(MagicCollection)((DefaultMutableTreeNode)curr.getParent().getParent()).getUserObject() );
+							statsPanel.enabledAdd(true);
+							
+							
+						}
+					}, "loading stock for " + curr.getUserObject() );
+					
+					
+					
 					
 					if(tabbedPane.getSelectedIndex()==1)
 					{ 

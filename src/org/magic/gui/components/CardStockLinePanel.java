@@ -1,33 +1,29 @@
 package org.magic.gui.components;
 
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MagicFactory;
-
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.sql.SQLException;
-import java.awt.event.ActionEvent;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 public class CardStockLinePanel extends JPanel {
 	  private JTextField txtComment;
@@ -76,14 +72,25 @@ public class CardStockLinePanel extends JPanel {
 		cboSigned = new JCheckBox("Signed");
 		add(cboSigned);
 		
-		JButton btnNewButton = new JButton("-");
+		JButton btnNewButton = new JButton("");
+		
+		Image img = new ImageIcon(CardStockLinePanel.class.getResource("/res/delete.png")).getImage() ;  
+		Image newimg = img.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+		
+		btnNewButton.setIcon(new ImageIcon(newimg));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				delete();
 			}
 		});
 		
-		JButton btnSave = new JButton("save");
+		JButton btnSave = new JButton("");
+
+		Image img2 = new ImageIcon(CardStockLinePanel.class.getResource("/res/check.png")).getImage() ;  
+		Image newimg2 = img2.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
+		
+		btnSave.setIcon(new ImageIcon(newimg2));	
+		
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				
