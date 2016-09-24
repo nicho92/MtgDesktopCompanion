@@ -971,8 +971,6 @@ public class MagicGUI extends JFrame {
 			if (SystemTray.isSupported()) {
 				tray.add(trayIcon);
 
-				if(serviceUpdate.hasNewVersion())
-					trayIcon.displayMessage(getTitle(),"New version " + serviceUpdate.getOnlineVersion() + " available",TrayIcon.MessageType.INFO);
 				
 				trayIcon.addActionListener(new ActionListener() {
 					
@@ -1003,6 +1001,9 @@ public class MagicGUI extends JFrame {
 				
 				trayIcon.setPopupMenu(menuTray);
 				trayIcon.setToolTip("MTG Desktop Companion");
+				if(serviceUpdate.hasNewVersion())
+					trayIcon.displayMessage(getTitle(),"New version " + serviceUpdate.getOnlineVersion() + " available",TrayIcon.MessageType.INFO);
+			
 			}		
 			
 			

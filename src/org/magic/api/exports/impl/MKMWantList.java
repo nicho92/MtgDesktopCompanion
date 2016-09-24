@@ -10,8 +10,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MagicFactory;
 
 public class MKMWantList extends AbstractCardExport {
 
@@ -41,6 +43,7 @@ public class MKMWantList extends AbstractCardExport {
 		bw=new BufferedWriter(out);
 		for (MagicCard mc : cards){
 			StringBuffer temp = new StringBuffer();
+			
 			temp.append("1").append(" ").append(mc.getName()).append(" (").append(mc.getEditions().get(0).getSet()).append(")");
 			bw.write(temp.toString()+"\n");
 		}

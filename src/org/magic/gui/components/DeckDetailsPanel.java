@@ -19,6 +19,7 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import javax.swing.JScrollPane;
 
 public class DeckDetailsPanel extends JPanel {
 
@@ -36,6 +37,7 @@ public class DeckDetailsPanel extends JPanel {
 	private JLabel lbLeg;
 	private JLabel lblSideboard;
 	private JProgressBar nbSideProgress;
+	private JScrollPane scrollPane;
 
 	
 	public DeckDetailsPanel(org.magic.api.beans.MagicDeck newMagicDeck) {
@@ -45,9 +47,9 @@ public class DeckDetailsPanel extends JPanel {
 
 	public DeckDetailsPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 132, 0, 0, 0 };
+		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 81, 31, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 0.0, 1.0E-4 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
@@ -109,12 +111,7 @@ public class DeckDetailsPanel extends JPanel {
 		textArea = new JTextArea();
 		textArea.setLineWrap(true);
 		textArea.setWrapStyleWord(true);
-		GridBagConstraints gbc_textArea = new GridBagConstraints();
-		gbc_textArea.insets = new Insets(0, 0, 5, 5);
-		gbc_textArea.fill = GridBagConstraints.BOTH;
-		gbc_textArea.gridx = 2;
-		gbc_textArea.gridy = 3;
-		add(textArea, gbc_textArea);
+		
 
 		JLabel nbCardsLabel = new JLabel("NbCards:");
 		GridBagConstraints labelGbc_2 = new GridBagConstraints();
@@ -172,6 +169,15 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_nbSideProgress.gridx = 2;
 		gbc_nbSideProgress.gridy = 5;
 		add(nbSideProgress, gbc_nbSideProgress);
+		
+		scrollPane = new JScrollPane();
+		scrollPane.setViewportView(textArea);
+		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
+		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
+		gbc_scrollPane.fill = GridBagConstraints.BOTH;
+		gbc_scrollPane.gridx = 2;
+		gbc_scrollPane.gridy = 3;
+		add(scrollPane, gbc_scrollPane);
 		
 		
 		if (magicDeck != null) {

@@ -28,10 +28,7 @@ public class CSVExport extends AbstractCardExport{
 	String exportedDeckProperties[];
 	String exportedPricesProperties[];
 
-	@Override
-	public String toString() {
-		return getName();
-	}
+
 
 	@Override
 	public String getName() {

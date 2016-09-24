@@ -53,7 +53,11 @@ public class VersionChecker {
 	
 	public boolean hasNewVersion()
 	{
+		
+		
+		
 		try{
+			logger.debug("check new version of app ");
 			return Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
 		}
 		catch(Exception e)
