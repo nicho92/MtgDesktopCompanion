@@ -72,7 +72,8 @@ public class JsonExport  extends AbstractCardExport {
 		
 		return deck;
 	}
-
+	
+	
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
 		JsonArray jsonparams = new JsonArray();
