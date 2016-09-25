@@ -5,9 +5,9 @@
 	<loglevel>INFO</loglevel>
 	<default-website-dir>c:/</default-website-dir>
 	<default-library>Library</default-library>
-	<server>
-		<port>8080</port>
-	</servers>
+	<server-port>8080</server-port>
+	
+	
 	<pricers>
 		<pricer>
 				<class>org.magic.api.pricers.impl.EbayPricer</class>

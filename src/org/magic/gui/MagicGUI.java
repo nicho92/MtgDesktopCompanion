@@ -84,6 +84,7 @@ import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.server.MTGDesktopCompanionServer;
 import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
@@ -174,7 +175,11 @@ public class MagicGUI extends JFrame {
 	private BoosterPicturesProvider boosterProvider;
 	private VersionChecker serviceUpdate;
 	
+	private JMenuItem mnuServerStart ;
+	private JMenuItem mnuServerStop; 
 
+	private MTGDesktopCompanionServer serveur;
+	
 	public void setDefaultLanguage(String language) {
 		defaultLanguage=language;
 		MagicFactory.getInstance().setProperty("langage", language);
@@ -282,8 +287,45 @@ public class MagicGUI extends JFrame {
 		menuBar.add(mnuLang);
 		
 		
+
+		JMenu jmnuServer = new JMenu("Server");
+		
+		mnuServerStart = new JMenuItem("Start");
+		mnuServerStop = new JMenuItem("Stop");
+		
+		
+		mnuServerStart.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				try {
+					serveur.start();
+					mnuServerStart.setEnabled(false);
+					mnuServerStop.setEnabled(true);
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+		
+		mnuServerStop.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				serveur.stop();
+				mnuServerStart.setEnabled(true);
+				mnuServerStop.setEnabled(false);
+				
+			}
+		});
+
+		
+		
+		jmnuServer.add(mnuServerStart);
+		jmnuServer.add(mnuServerStop);
+		
+		menuBar.add(jmnuServer);
+		
 		mnuAbout = new JMenu("?");
 		menuBar.add(mnuAbout);
+		
 		
 		
 		JMenuItem mntmThreadItem = new JMenuItem("Threads");
@@ -674,21 +716,6 @@ public class MagicGUI extends JFrame {
 
 	}
 
-
-//	protected void setProvider(MagicCardsProvider provider2) throws Exception {
-//		
-//		logger.debug("set provider '" + MagicFactory.getInstance().getEnabledProviders() + "' by '" + provider2 +"'" ) ;
-//		this.provider=provider2;
-//		cboQuereableItems.removeAll();
-//		cboQuereableItems.setModel(new DefaultComboBoxModel<>(provider.getQueryableAttributs()));
-//		cboQuereableItems.addItem("collections");
-//		
-//		List li = MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null);
-//		Collections.sort(li);
-//		cboEdition.removeAll();
-//		cboEdition.setModel(new DefaultComboBoxModel(li.toArray()));
-//	}
-
 	public void setSelectedCard(MagicCard mc)
 	{
 		this.selected=mc;
@@ -709,7 +736,7 @@ public class MagicGUI extends JFrame {
 			boosterProvider = new BoosterPicturesProvider();
 			serviceUpdate = new VersionChecker();
 
-			
+			serveur= new MTGDesktopCompanionServer();
 
 			
 			initGUI();

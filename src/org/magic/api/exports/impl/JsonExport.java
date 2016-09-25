@@ -82,7 +82,6 @@ public class JsonExport  extends AbstractCardExport {
 		{
 			jsonparams.add(new Gson().toJsonTree(mc));
 		}
-		
 		FileWriter out = new FileWriter(f);
 		out.write(jsonparams.toString());
 		out.close();
