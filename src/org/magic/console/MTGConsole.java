@@ -8,6 +8,7 @@ import java.util.Map;
 
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
+import org.magic.services.MagicFactory;
 
 
 public class MTGConsole {
@@ -38,6 +39,9 @@ public class MTGConsole {
 				io.setLocationRelativeTo(null);
 				io.setVisible(true);
 				io.println("Welcome to MTG Console. Type help for commands",Color.CYAN);
+				
+				MagicFactory.getInstance().getEnabledProviders().init();
+				
 				
 		//Console.io.print(getPrompt());
 		Command c = null;
