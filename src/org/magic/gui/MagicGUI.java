@@ -84,7 +84,7 @@ import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.server.MTGDesktopCompanionServer;
+import org.magic.server.JSONHttpServer;
 import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
@@ -178,7 +178,7 @@ public class MagicGUI extends JFrame {
 	private JMenuItem mnuServerStart ;
 	private JMenuItem mnuServerStop; 
 
-	private MTGDesktopCompanionServer serveur;
+	private JSONHttpServer serveur;
 	
 	public void setDefaultLanguage(String language) {
 		defaultLanguage=language;
@@ -736,7 +736,7 @@ public class MagicGUI extends JFrame {
 			boosterProvider = new BoosterPicturesProvider();
 			serviceUpdate = new VersionChecker();
 
-			serveur= new MTGDesktopCompanionServer();
+			serveur= new JSONHttpServer();
 
 			
 			initGUI();

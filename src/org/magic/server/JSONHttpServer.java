@@ -19,10 +19,10 @@ import com.google.gson.JsonObject;
 
 import fi.iki.elonen.NanoHTTPD;
 
-public class MTGDesktopCompanionServer  extends NanoHTTPD
+public class JSONHttpServer  extends NanoHTTPD
 {
 	
-	static final Logger logger = LogManager.getLogger(MTGDesktopCompanionServer.class.getName());
+	static final Logger logger = LogManager.getLogger(JSONHttpServer.class.getName());
 
 
 	public boolean isRunning()
@@ -30,7 +30,7 @@ public class MTGDesktopCompanionServer  extends NanoHTTPD
 		return super.isAlive();
 	}
 	
-    public MTGDesktopCompanionServer() throws IOException {
+    public JSONHttpServer() throws IOException {
 		super(Integer.parseInt(MagicFactory.getInstance().get("server-port")));
 	}
     
@@ -50,7 +50,7 @@ public class MTGDesktopCompanionServer  extends NanoHTTPD
 	public static void main(String[] args) throws Exception {
 		MagicFactory.getInstance().getEnabledProviders().init();
 		MagicFactory.getInstance().getEnabledDAO().init();
-    	new MTGDesktopCompanionServer().start();	
+    	new JSONHttpServer().start();	
     }
     
 	@Override
