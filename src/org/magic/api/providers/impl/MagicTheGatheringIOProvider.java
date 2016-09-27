@@ -178,8 +178,8 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			if(obj.get("layout")!=null)
 				mc.setLayout(obj.get("layout").getAsString());
 			
-			if(obj.get("rarity")!=null)
-				mc.setRarity(obj.get("rarity").getAsString());
+//			if(obj.get("rarity")!=null)
+//				mc.setRarity(obj.get("rarity").getAsString());
 			
 			if(obj.get("number")!=null)
 				mc.setNumber(obj.get("number").getAsString());
@@ -275,8 +275,10 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			
 			if(obj.get("multiverseid")!=null)
 				currentEd.setMultiverse_id(obj.get("multiverseid").getAsString());
+			if(obj.get("rarity")!=null)
+				currentEd.setRarity(obj.get("rarity").getAsString());
+				//currentEd.setRarity(mc.getRarity());
 			
-			currentEd.setRarity(mc.getRarity());
 			currentEd.setNumber(mc.getNumber());
 			
 			
