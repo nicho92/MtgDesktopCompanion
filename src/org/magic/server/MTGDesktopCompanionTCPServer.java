@@ -56,10 +56,9 @@ class TimeServerHandler extends IoHandlerAdapter
         {
         	String[] cmd = str.trim().split(" ");
         	
-        	String typeSearch = cmd[1];
+        	String command = cmd[1];
         	String att = cmd[2];
         	String value = cmd[3];
-        	
         	
         	List<MagicCard> cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(att, value, null);
         	session.write( cards);
@@ -69,7 +68,7 @@ class TimeServerHandler extends IoHandlerAdapter
     @Override
     public void sessionIdle( IoSession session, IdleStatus status ) throws Exception
     {
-        System.out.println( "IDLE " + session.getIdleCount( status ));
+        //System.out.println( "IDLE " + session.getIdleCount( status ));
     }
 }
 
