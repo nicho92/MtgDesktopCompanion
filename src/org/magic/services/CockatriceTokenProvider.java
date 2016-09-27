@@ -93,10 +93,16 @@ public class CockatriceTokenProvider {
 		}
 		logger.debug("GetImage " + map.get(tok.getEditions().get(0).getId()) +" for " + tok);
 		
+		try {
 		URLConnection connection = new URL(map.get(tok.getEditions().get(0).getId())).openConnection();
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
-		
 		return ImageIO.read(connection.getInputStream());
+		}
+		catch(Exception e)
+		{
+			MTGCardMakerPicturesProvider prov2 = new MTGCardMakerPicturesProvider();
+			return prov2.generatePictureForCard(tok, MagicFactory.getInstance().getEnabledPicturesProvider().extractPicture(tok));
+		}
 	}
 
 }
