@@ -1,7 +1,10 @@
 package org.magic.server;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
+import java.io.UnsupportedEncodingException;
 import java.net.InetSocketAddress;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.mina.core.service.IoAcceptor;
@@ -10,8 +13,10 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
-import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.asciitable.ASCIITable;
+import org.asciitable.impl.CollectionASCIITableAware;
+import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.MagicCard;
 import org.magic.services.MagicFactory;
 
@@ -40,11 +45,9 @@ class TimeServerHandler extends IoHandlerAdapter
 	
 	@Override  
     public void sessionOpened(IoSession session) throws Exception {  
-  
         System.out.println("client connection : " + session.getRemoteAddress());  
-        session.write("client started");  
-        session.write("Hello World!"); 
-  
+        
+        session.write("Hello\r\n");
     }  
 	
 	public void sessionClosed(IoSession session) throws Exception {  
@@ -63,6 +66,8 @@ class TimeServerHandler extends IoHandlerAdapter
     {
     	
     	System.out.println("message recived "  + message);
+    	
+    	
         String str = message.toString();
         if( str.trim().equalsIgnoreCase("quit") ) {
             session.closeNow();
@@ -77,8 +82,13 @@ class TimeServerHandler extends IoHandlerAdapter
         	String att = cmd[1];
         	String value = cmd[2];
         	
+        	
+        	
+        	
         	List<MagicCard> cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(att, value, null);
-        	session.write( cards);
+        	String s = showList(cards);
+        	
+        	session.write(s);
         }
         
     }
@@ -87,5 +97,18 @@ class TimeServerHandler extends IoHandlerAdapter
     {
         //System.out.println( "IDLE " + session.getIdleCount( status ));
     }
+    
+    private String showList(List<MagicCard> list) throws UnsupportedEncodingException
+    {
+    	
+    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
+    	PrintStream ps = new PrintStream(baos);
+    	
+    	IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(list,"name","types", "rarity", "colors", "cost");
+    	ASCIITable.getInstance(ps).printTable(asciiTableAware);
+    	
+    	return new String(baos.toByteArray(),StandardCharsets.UTF_8);
+    }
+    
 }
 
