@@ -27,8 +27,7 @@ public class MTGDesktopCompanionTCPServer {
 		MagicFactory.getInstance().getEnabledDAO().init();
 		
 		IoAcceptor acceptor = new NioSocketAcceptor();
-	        acceptor.getFilterChain().addLast( "logger", new LoggingFilter() );
-	        acceptor.getFilterChain().addLast( "codec", new ProtocolCodecFilter( new TextLineCodecFactory( Charset.forName( "UTF-8" ))));
+	        acceptor.getFilterChain().addLast( "codec", new ProtocolCodecFilter( new TextLineCodecFactory()));
 	        acceptor.setHandler( new TimeServerHandler() );
 	        acceptor.getSessionConfig().setReadBufferSize( 2048 );
 	        acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, 10 );
@@ -38,6 +37,22 @@ public class MTGDesktopCompanionTCPServer {
 }
 class TimeServerHandler extends IoHandlerAdapter
 {
+	
+	@Override  
+    public void sessionOpened(IoSession session) throws Exception {  
+  
+        System.out.println("client connection : " + session.getRemoteAddress());  
+        session.write("client started");  
+        session.write("Hello World!"); 
+  
+    }  
+	
+	public void sessionClosed(IoSession session) throws Exception {  
+		  
+        System.out.println("client disconnection : " +session.getRemoteAddress() + " is Disconnection");  
+  
+    }  
+	
     @Override
     public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
     {
@@ -46,6 +61,8 @@ class TimeServerHandler extends IoHandlerAdapter
     @Override
     public void messageReceived( IoSession session, Object message ) throws Exception
     {
+    	
+    	System.out.println("message recived "  + message);
         String str = message.toString();
         if( str.trim().equalsIgnoreCase("quit") ) {
             session.closeNow();
@@ -56,9 +73,9 @@ class TimeServerHandler extends IoHandlerAdapter
         {
         	String[] cmd = str.trim().split(" ");
         	
-        	String command = cmd[1];
-        	String att = cmd[2];
-        	String value = cmd[3];
+        	String command = cmd[0];
+        	String att = cmd[1];
+        	String value = cmd[2];
         	
         	List<MagicCard> cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(att, value, null);
         	session.write( cards);
