@@ -85,7 +85,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	
 		 	logger.debug("Create table stocks");
-		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY SERIAL, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
+		 	con.createStatement().executeUpdate("create table stocks (idstock SERIAL PRIMARY KEY , idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
 		 
 		 	
 		 	logger.debug("populate collections");
