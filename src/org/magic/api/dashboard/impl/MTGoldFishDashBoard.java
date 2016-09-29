@@ -75,6 +75,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		if(editionName.equals("Media+Inserts"))
 			return "Media+Promos";
 		
+		if(editionName.equals("Judge+Gift+Program"))
+			return "Judge+Promos";
 		
 		
 		
@@ -289,14 +291,15 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		mapConcordance.put("ODY", "OD");
 		mapConcordance.put("EXO", "EX");
 		mapConcordance.put("APC", "AP");
-		mapConcordance.put("pGRU", "PRM-GUR");
 		mapConcordance.put("PLS", "PS");
 		mapConcordance.put("INV", "IN");
 		mapConcordance.put("MMQ", "MM");
 		mapConcordance.put("VIS", "VI");
 		mapConcordance.put("7ED", "7E");
+		mapConcordance.put("pGRU", "PRM-GUR");
 		mapConcordance.put("pMGD", "PRM-GDP");
 		mapConcordance.put("pMEI", "PRM-MED");
+		mapConcordance.put("pJGP", "PRM-JUD");
 	}
 	
 	
