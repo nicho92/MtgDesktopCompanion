@@ -342,6 +342,15 @@ public class MagicFactory {
 	public List<MagicShopper> getShoppers() {
 		return cardsShoppers;
 	}
+	
+	public List<MagicShopper> getEnabledShoppers() {
+		List<MagicShopper> enable = new ArrayList<MagicShopper>();
+		for(MagicShopper p : getShoppers())
+			if(p.isEnable())
+				enable.add(p);
+		
+		return enable;
+	}
 
 	public DashBoard getEnabledDashBoard() {
 		for(DashBoard p : getDashBoards())

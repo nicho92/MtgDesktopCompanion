@@ -22,7 +22,6 @@ public class ShopItemTableModel extends DefaultTableModel {
 
 	  String columns[] = new String[]{"Site","Name","Price","date","type","url","note"};
 			
-	List<MagicShopper> shopProviders;
 	MagicCard mc;
 	MagicEdition me;
 	
@@ -32,11 +31,10 @@ public class ShopItemTableModel extends DefaultTableModel {
 	public void init(String search)
 	{
 		items.clear();
-		for(MagicShopper prov : shopProviders)
+		for(MagicShopper prov : MagicFactory.getInstance().getEnabledShoppers())
 		{
 			try {
-				if(prov.isEnable())
-					items.addAll(prov.search(search));
+				items.addAll(prov.search(search));
 			} catch (Exception e) {
 				logger.error(e);
 				e.printStackTrace();
@@ -46,9 +44,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 	
 
 	public ShopItemTableModel() {
-		shopProviders = new ArrayList<MagicShopper>();
 		items=new ArrayList<ShopItem>();
-		shopProviders=MagicFactory.getInstance().getShoppers();
 	}
 	
 	
