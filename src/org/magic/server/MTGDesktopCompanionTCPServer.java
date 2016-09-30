@@ -15,6 +15,7 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.asciitable.ASCIITable;
+import org.asciitable.impl.ASCIITableImpl;
 import org.asciitable.impl.CollectionASCIITableAware;
 import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.MagicCard;
@@ -47,7 +48,7 @@ class TimeServerHandler extends IoHandlerAdapter
     public void sessionOpened(IoSession session) throws Exception {  
         System.out.println("client connection : " + session.getRemoteAddress());  
         
-        session.write("Hello\r\n");
+        session.write("Welcome to MTG Desktop Companion Server\r\n");
     }  
 	
 	public void sessionClosed(IoSession session) throws Exception {  
@@ -81,31 +82,22 @@ class TimeServerHandler extends IoHandlerAdapter
         	String command = cmd[0];
         	String att = cmd[1];
         	String value = cmd[2];
-        	
-        	
-        	
-        	
+       	
         	List<MagicCard> cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(att, value, null);
         	String s = showList(cards);
-        	
         	session.write(s);
         }
         
     }
-    @Override
-    public void sessionIdle( IoSession session, IdleStatus status ) throws Exception
-    {
-        //System.out.println( "IDLE " + session.getIdleCount( status ));
-    }
+   
     
     private String showList(List<MagicCard> list) throws UnsupportedEncodingException
     {
-    	
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
     	PrintStream ps = new PrintStream(baos);
     	
-    	IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(list,"name","types", "rarity", "colors", "cost");
-    	ASCIITable.getInstance(ps).printTable(asciiTableAware);
+    	IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(list,"name","fullType", "rarity", "colors", "cost");
+    	new ASCIITableImpl(ps).printTable(asciiTableAware);
     	
     	return new String(baos.toByteArray(),StandardCharsets.UTF_8);
     }
