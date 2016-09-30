@@ -967,21 +967,25 @@ public class MagicGUI extends JFrame {
 				}
 			});
 			
+			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
+			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+			filterHeader.setVisible(false);
+			panelFilters.setVisible(false);
+			
 			mntmShowhideFilters.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
-					filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
-					filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 					if(panelFilters.isVisible())
 					{
 						panelFilters.setVisible(false);
-						filterHeader.setTable(null);
+						filterHeader.setVisible(false);
+						
 					}
 					else
 					{
 						panelFilters.setVisible(true);
-						filterHeader.setTable(tableCards);
+						filterHeader.setVisible(true);
+						
 					}
-					
 				}
 			});
 			
