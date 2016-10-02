@@ -354,8 +354,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 		if(mc.getEditions().size()==0)
 			throw new SQLException("No edition defined");
 		
-		PreparedStatement pst = con.prepareStatement("SELECT collection FROM cards WHERE name=? and edition=?");
-		 pst.setString(1, mc.getName());
+		PreparedStatement pst = con.prepareStatement("SELECT collection FROM cards WHERE id=? and edition=?");
+		 pst.setString(1, mc.getId());
 		 pst.setString(2, mc.getEditions().get(0).getId());
 		 
 		 ResultSet rs = pst.executeQuery();
@@ -487,31 +487,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 		
 		
 	}
-
-	/*
-	private void updateid(MagicCard mc, MagicCollection col) throws Exception{
-		 PreparedStatement stmt = con.prepareStatement("update cards set id=? where name=? and edition=? and collection=?");
-		 				   stmt.setString(1, mc.getId());
-		 				   stmt.setString(2, mc.getName());
-		 				   stmt.setString(3, mc.getEditions().get(0).getId());
-		 				   stmt.setString(4, col.getName());
-		 
-		 stmt.executeUpdate();
-	}
-
-	
-	
-	public static void main(String[] args) throws Exception{
-		MysqlDAO dao = new MysqlDAO();
-		dao.init();
-		for(MagicCollection col : dao.getCollections())
-		{
-			System.out.println("update " + col.getName());
-			for(MagicCard mc : dao.getCardsFromCollection(col))
-				dao.updateid(mc,col);
-		}
-	
-	}*/
 
 
 
