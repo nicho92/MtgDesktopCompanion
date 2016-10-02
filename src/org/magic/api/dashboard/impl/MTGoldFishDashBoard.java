@@ -56,33 +56,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	}
 	
 	
-	private String convert(String editionName)
-	{
-		
-		if(editionName.equals("Prerelease+Events"))
-			return "Prerelease+Cards";
-		
-		
-		if(editionName.equals("Champs+and+States"))
-			return "Champs+Promos";
-		
-		if(editionName.equals("Ugins+Fate+promos"))
-			return "Ugins+Fate+Promos";			
-		
-		if(editionName.equals("Magic+Game+Day"))
-			return "Game+Day+Promos";
-		
-		if(editionName.equals("Media+Inserts"))
-			return "Media+Promos";
-		
-		if(editionName.equals("Judge+Gift+Program"))
-			return "Judge+Promos";
-		
-		
-		
-		return editionName;
-	}
-	
 
 	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
 		 
@@ -276,6 +249,23 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 	}
 	
+	private String convert(String editionName)
+	{
+		
+		switch(editionName){
+			case "Grand+Prix"        : return "Grand+Prix+Promos";
+			case "Prerelease+Events" : return "Prerelease+Cards";
+			case "Champs+and+States" : return "Champs+Promos";
+			case "Ugins+Fate+promos" : return "Ugins+Fate+Promos";
+			case "Magic+Game+Day"    : return "Game+Day+Promos";
+			case "Media+Inserts"     : return "Media+Promos";
+			case "Judge+Gift+Program": return "Judge+Promos";
+			default : return editionName;
+		}
+	}
+	
+
+	
 	
 	private void initConcordance() {
 		mapConcordance = new HashMap<String,String>();
@@ -300,6 +290,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		mapConcordance.put("pMGD", "PRM-GDP");
 		mapConcordance.put("pMEI", "PRM-MED");
 		mapConcordance.put("pJGP", "PRM-JUD");
+		mapConcordance.put("pGPX", "PRM-GPP");
+		
 	}
 	
 	

@@ -25,6 +25,9 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	private Map<MagicEdition,Integer> mapCount;
 	HashMap<String, ImageIcon> cache;
 	
+	int countTotal=0;
+	int countDefaultLibrary=0;
+
 	
 	public List<MagicEdition> getEditions()
 	{
@@ -44,8 +47,6 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	}
 	
 	
-	
-	
 	public void calculate() throws SQLException, Exception {
 		
 		MagicCollection mc = new MagicCollection();
@@ -56,12 +57,34 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		for(MagicEdition me : list)
 		{
 			mapCount.put(me, (temp.get(me.getId())==null)?0:temp.get(me.getId()));
+			
+			countDefaultLibrary+=mapCount.get(me);
 			initCache(me);
 		}
+	
+		for(MagicEdition me : list)
+			countTotal+=me.getCardCount();
+
 	}
 
 
 
+
+	public int getCountTotal() {
+		return countTotal;
+	}
+
+	public void setCountTotal(int countTotal) {
+		this.countTotal = countTotal;
+	}
+
+	public int getCountDefaultLibrary() {
+		return countDefaultLibrary;
+	}
+
+	public void setCountDefaultLibrary(int countDefaultLibrary) {
+		this.countDefaultLibrary = countDefaultLibrary;
+	}
 
 	public MagicEditionsTableModel() {
 		list = new ArrayList<MagicEdition>();

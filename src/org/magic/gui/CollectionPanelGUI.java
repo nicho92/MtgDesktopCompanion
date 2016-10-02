@@ -78,6 +78,7 @@ import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.JLabel;
 
 public class CollectionPanelGUI extends JPanel {
 
@@ -100,7 +101,7 @@ public class CollectionPanelGUI extends JPanel {
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
 	private CardStockPanel statsPanel;
-	
+	private JLabel lblTotal ;
 	
 	public CollectionPanelGUI() throws Exception {
 		this.provider = MagicFactory.getInstance().getEnabledProviders();
@@ -116,6 +117,9 @@ public class CollectionPanelGUI extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		model = new MagicEditionsTableModel();
 		model.init(provider.searchSetByCriteria(null, null));
+		lblTotal = new JLabel();
+		
+		lblTotal.setText("Total : " + model.getCountDefaultLibrary() +"/" + model.getCountTotal());
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
 
@@ -233,6 +237,7 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 
+		
 		JButton btnMassCollection = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/import.png")));
 		btnMassCollection.setToolTipText("Import collection");
 
@@ -356,6 +361,12 @@ public class CollectionPanelGUI extends JPanel {
 						
 						
 						scrollPane.setViewportView(tableEditions);
+						
+						JPanel panelTotal = new JPanel();
+						panneauGauche.add(panelTotal, BorderLayout.SOUTH);
+						
+						
+						panelTotal.add(lblTotal);
 
 
 		tablePrices.addMouseListener(new MouseAdapter() {

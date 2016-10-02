@@ -157,6 +157,8 @@ public class ManaPanel extends JPanel {
 			case "\u00BD" : val=53;break;//1/2 symbol
 			case "CHAOS" : val=67;break; 
 			case "E" : val=68;break;
+			case "hr" : val=58;break; // half red unghined
+			case "hw" : val=57;break; // half white unghined
 			default:val=0;
 			}
 		}

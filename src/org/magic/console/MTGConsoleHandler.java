@@ -13,6 +13,8 @@ public class MTGConsoleHandler extends IoHandlerAdapter
 	public static String[] att_cols = {"name"};
 
 	public static String[] att_shop ={"name","description","price","shopName"};
+
+	public static String[] att_shake={"name","ed","price","percentDayChange","priceDayChange"};
 	
 	
 	
