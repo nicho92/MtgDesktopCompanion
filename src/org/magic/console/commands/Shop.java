@@ -31,7 +31,7 @@ public class Shop implements Command {
 	}
 	
 	@Override
-	public void run(String[] array, IoSession session) throws Exception {
+	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws Exception {
 		CommandLine cl = parser.parse(opts, array);
 		this.session=session;
 	

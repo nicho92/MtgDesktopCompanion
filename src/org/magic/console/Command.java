@@ -12,7 +12,7 @@ public interface Command {
 	Options opts = new Options();
 	
 	
-	public void run(String[] array, IoSession session) throws Exception ;
+	public void run(String[] array, IoSession session, MTGConsoleHandler mtgConsoleHandler) throws Exception ;
 	
 	public void usage();
 	

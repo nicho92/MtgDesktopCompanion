@@ -35,7 +35,7 @@ public class Search implements Command {
 	}
 	
 	@Override
-	public void run(String[] args,IoSession session) throws Exception {
+	public void run(String[] args,IoSession session,MTGConsoleHandler mtgConsoleHandler) throws Exception {
 		CommandLine cl = parser.parse(opts, args);
 		this.session=session;
 		if(cl.hasOption("c"))

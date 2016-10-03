@@ -29,10 +29,11 @@ public class Shake implements Command {
 
 	public Shake() {
 		opts.addOption("f","format",true,"show movement for format");
+		opts.addOption("?","help",false,"show usage");
 	}
 	
 	@Override
-	public void run(String[] array, IoSession session) throws Exception {
+	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws Exception {
 		CommandLine cl = parser.parse(opts, array);
 		this.session=session;
 	
@@ -41,6 +42,11 @@ public class Shake implements Command {
 			String att = cl.getOptionValue("f");
 			List<CardShake> list = MagicFactory.getInstance().getEnabledDashBoard().getShakerFor(att);
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_shake)));
+		}
+		
+		if(cl.hasOption("?"))
+		{
+			usage();
 		}
 	}
 
