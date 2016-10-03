@@ -11,9 +11,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter
 	public static String[] att_cards ={"name","fullType", "rarity", "colors", "cost"};
 	public static String[] att_set ={"id","set", "cardCount", "releaseDate", "block"};
 	public static String[] att_cols = {"name"};
-
 	public static String[] att_shop ={"name","description","price","shopName"};
-
 	public static String[] att_shake={"name","ed","price","percentDayChange","priceDayChange"};
 	
 	
@@ -38,8 +36,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter
    	{
    		String clazz = Character.toUpperCase(name.charAt(0)) + name.substring(1);
    		Class myCommand = classLoader.loadClass("org.magic.console.commands."+clazz);
-           Command c = (Command)myCommand.newInstance();
-           return c;
+        return (Command)myCommand.newInstance();
    	}
     
     @Override
