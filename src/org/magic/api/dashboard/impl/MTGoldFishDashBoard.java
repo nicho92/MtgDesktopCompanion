@@ -142,6 +142,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
+		logger.debug("Parsing dashboard "+getName()+props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"));
+		
 		Document doc = Jsoup.connect(props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+props.getProperty("DAILY_WEEKLY"))
 							.userAgent(props.getProperty("USER_AGENT"))
 							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
@@ -158,7 +160,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		} catch (ParseException e1) {
 			logger.error(e1);
 		}
-		logger.debug("Parsing dashboard "+getName()+props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"));
 		
 		Element table =null;
 		try{
@@ -171,11 +172,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		for(Element e : table.getElementsByTag("tr"))
 		{
 			CardShake cs = new CardShake();
-			cs.setName(e.getElementsByTag("TD").get(3).text().replaceAll("\\(RL\\)", "").trim());
-			cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(3).getElementsByTag("a").get(0).attr("data-full-image")));
-			cs.setPrice(parseDouble(e.getElementsByTag("TD").get(4).text()));
-			cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(1).text()));
-			cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
+					cs.setName(e.getElementsByTag("TD").get(3).text().replaceAll("\\(RL\\)", "").trim());
+					cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(3).getElementsByTag("a").get(0).attr("data-full-image")));
+					cs.setPrice(parseDouble(e.getElementsByTag("TD").get(4).text()));
+					cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(1).text()));
+					cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
 			
 			String set = e.getElementsByTag("TD").get(2).getElementsByTag("img").get(0).attr("alt");
 			cs.setEd(replace(set,true));
