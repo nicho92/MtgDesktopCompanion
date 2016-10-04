@@ -828,6 +828,7 @@ public class MagicGUI extends JFrame {
 				public void mouseClicked(MouseEvent mev) {
 						selectedEdition = listEdition.getSelectedValue();
 						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
+						
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);
 						try {
 							logger.debug("LOADING ED " + BeanUtils.describe(selectedEdition));
@@ -843,7 +844,10 @@ public class MagicGUI extends JFrame {
 										cardsPicPanel.showPhoto(selected,selectedEdition);//backcard
 										lblBoosterPic.setIcon(boosterProvider.getBoosterFor(selectedEdition));
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
+										
 										historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
+										
+										
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 											updatePrices();
 									loading(false,"");

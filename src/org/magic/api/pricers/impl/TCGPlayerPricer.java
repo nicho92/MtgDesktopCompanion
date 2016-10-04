@@ -67,7 +67,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			   link=link.replaceAll("%CARTE%", name);
 
 			   
-			   logger.info(getName()  + " looking "+ " " + link);
+			   logger.info(getName()  + " looking "+ " for " + link);
 		
 			   DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			   DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -87,8 +87,6 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 					}
 					
 			   doc.getDocumentElement().normalize();
-			   
-			   logger.debug(doc);
 			   
 			   NodeList nodes = doc.getElementsByTagName("product");
 			   
@@ -113,7 +111,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public String getName() {
-		return "Trading Card Game";
+		return "TCGPlayer";
 	}
 	
 }
