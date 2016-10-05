@@ -161,6 +161,8 @@ public class DeckModel extends DefaultTableModel {
 					deck.getMapSideBoard().put(deck.getSideValueAt(row),Integer.valueOf(aValue.toString()));
 				}
 			}
+		
+		fireTableDataChanged();
 	}
 	
 	
