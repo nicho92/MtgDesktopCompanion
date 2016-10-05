@@ -7,11 +7,11 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
-import org.magic.server.MTGDesktopCompanionTCPServer;
+import org.magic.servers.impl.ConsoleServer;
 
 public class MTGConsoleHandler extends IoHandlerAdapter
 {
-	ClassLoader classLoader = MTGDesktopCompanionTCPServer.class.getClassLoader();
+	ClassLoader classLoader = ConsoleServer.class.getClassLoader();
 
 	public static String[] att_cards ={"name","fullType", "rarity", "colors", "cost"};
 	public static String[] att_set ={"id","set", "cardCount", "releaseDate", "block"};

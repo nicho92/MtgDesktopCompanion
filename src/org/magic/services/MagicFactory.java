@@ -24,6 +24,7 @@ import org.magic.api.beans.RSSBean;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
@@ -39,13 +40,15 @@ public class MagicFactory {
 	private List<MagicShopper> cardsShoppers;
 	private List<DeckSniffer> deckSniffers;
 	private List<PictureProvider> picturesProviders;
+	private List<DashBoard> dashboards;
+	private List<CardExporter> exports;
+	private List<MTGServer> servers;
 	
 	public static File CONF_DIR = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
-	private List<DashBoard> dashboards;
-	private ArrayList<CardExporter> exports;
+	
 	
 	static final Logger logger = LogManager.getLogger(MagicFactory.class.getName());
 	
@@ -94,6 +97,8 @@ public class MagicFactory {
 				path = "decksniffer/sniffer[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof PictureProvider) {
 				path = "pictures/picture[class='"+k.getClass().getName()+"']/enable";
+			}else if (k instanceof MTGServer) {
+				path = "servers/server[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof RSSBean) {
 				path = "rss";
 			}else{
@@ -246,6 +251,16 @@ public class MagicFactory {
 						picturesProviders.add(prov);
 			}
 			
+			logger.info("loading Servers");
+			servers=new ArrayList<MTGServer>();
+			for(int i=1;i<=config.getList("//server/class").size();i++)
+			{
+				String s = config.getString("servers/server["+i+"]/class");
+				MTGServer prov = loadItem(MTGServer.class, s.toString());
+						 prov.enable(config.getBoolean("servers/server["+i+"]/enable"));
+						 servers.add(prov);
+			}
+			
 			logger.debug("Check for new modules");
 			
 		} catch (Exception e) {
@@ -364,6 +379,18 @@ public class MagicFactory {
 		return dashboards;
 	}
 
+	public List<MTGServer> getServers()
+	{
+		return servers;
+	}
+	
+	public List<MTGServer> getEnabledServers() {
+		List<MTGServer> enable = new ArrayList<MTGServer>();
+		for(MTGServer p : getServers())
+			if(p.isEnable())
+				enable.add(p);
+		return enable;
+	}
 	
 	public List<CardExporter> getDeckExports()
 	{

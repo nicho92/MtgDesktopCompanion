@@ -5,9 +5,19 @@
 	<loglevel>INFO</loglevel>
 	<default-website-dir>c:/</default-website-dir>
 	<default-library>Library</default-library>
-	<server-port>8080</server-port>
-	<console-port>8081</console-port>
-	
+
+
+	<servers>
+		<server>
+			<class>org.magic.servers.impl.ConsoleServer</class>
+			<enable>true</enable>
+		</server>
+		<server>
+			<class>org.magic.servers.impl.JSONHttpServer</class>
+			<enable>true</enable>
+		</server>
+	</servers>
+
 	<pricers>
 		<pricer>
 				<class>org.magic.api.pricers.impl.EbayPricer</class>

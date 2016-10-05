@@ -18,6 +18,7 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
@@ -32,6 +33,7 @@ import org.magic.gui.models.conf.MagicShoppersTableModel;
 import org.magic.gui.models.conf.PicturesProvidersTableModel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
+import org.magic.gui.models.conf.ServersTreeTableModel;
 import org.magic.gui.models.conf.SystemTableModel;
 
 public class ConfigurationPanelGUI extends JPanel {
@@ -45,6 +47,8 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTable rssTable;
 	private JXTreeTable exportsTable;
 	private JXTreeTable picturesProviderTable;
+	private JXTreeTable serversTreeTable;
+	
 	
 	public ConfigurationPanelGUI() {
 		
@@ -161,6 +165,20 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		});
 		dashboardScrollPane.setViewportView(dashboardTreeTable);
+		
+		JScrollPane serversScrollPane = new JScrollPane();
+		subTabbedProviders.addTab("Servers", null, serversScrollPane, null);
+		serversTreeTable = new JXTreeTable(new ServersTreeTableModel());
+		serversTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1);
+						((ServersTreeTableModel)serversTreeTable.getTreeTableModel()).setSelectedNode((MTGServer)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		});
+		serversScrollPane.setViewportView(serversTreeTable);
+		
+		
 		
 		JPanel rssPanel = new JPanel();
 		subTabbedProviders.addTab("RSS", null, rssPanel, null);

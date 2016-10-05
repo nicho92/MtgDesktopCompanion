@@ -196,17 +196,17 @@ public class DeckBuilderGUI extends JPanel{
 					choose.showOpenDialog(null);
 					
 					File f = choose.getSelectedFile();
-					
-					deck = new MTGDesktopCompanionExport().importDeck(f);
-					deckDetailsPanel.setMagicDeck(deck);
-					deckmodel.load(deck);
-					deckSidemodel.load(deck);
-					deckmodel.fireTableDataChanged();
-					deckSidemodel.fireTableDataChanged();
-					setDeck(deck);
-					updatePanels();
+					if(f!=null){
+						deck = new MTGDesktopCompanionExport().importDeck(f);
+						deckDetailsPanel.setMagicDeck(deck);
+						deckmodel.load(deck);
+						deckSidemodel.load(deck);
+						deckmodel.fireTableDataChanged();
+						deckSidemodel.fireTableDataChanged();
+						setDeck(deck);
+						updatePanels();
 	
-					
+					}
 				}
 				catch(Exception ex)
 				{

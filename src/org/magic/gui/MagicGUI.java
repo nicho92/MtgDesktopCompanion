@@ -84,7 +84,7 @@ import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.server.JSONHttpServer;
+import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;

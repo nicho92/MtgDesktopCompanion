@@ -33,7 +33,6 @@ public class ConfigurationPanel extends JPanel {
 	private JLabel lblLoading ;
 	private JTextField txtdirWebsite;
 	private JComboBox cboEditions;
-	private JTextField txtPortServer;
 	
 	public void loading(boolean show,String text)
 	{
@@ -345,37 +344,7 @@ public class ConfigurationPanel extends JPanel {
 		lblLoading = new JLabel("");
 		lblLoading.setVisible(false);
 		
-		JLabel lblServerPort = new JLabel("Server port :");
-		GridBagConstraints gbc_lblServerPort = new GridBagConstraints();
-		gbc_lblServerPort.insets = new Insets(0, 0, 5, 5);
-		gbc_lblServerPort.gridx = 1;
-		gbc_lblServerPort.gridy = 8;
-		add(lblServerPort, gbc_lblServerPort);
-		
-		txtPortServer = new JTextField(MagicFactory.getInstance().get("server-port"));
-		GridBagConstraints gbc_txtPortServer = new GridBagConstraints();
-		gbc_txtPortServer.insets = new Insets(0, 0, 5, 5);
-		gbc_txtPortServer.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtPortServer.gridx = 2;
-		gbc_txtPortServer.gridy = 8;
-		add(txtPortServer, gbc_txtPortServer);
-		txtPortServer.setColumns(10);
-		
-		
-		JButton btnSavePortServer = new JButton("Save");
-		GridBagConstraints gbc_btnSavePortServer = new GridBagConstraints();
-		gbc_btnSavePortServer.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnSavePortServer.insets = new Insets(0, 0, 5, 5);
-		gbc_btnSavePortServer.gridx = 3;
-		gbc_btnSavePortServer.gridy = 8;
-		add(btnSavePortServer, gbc_btnSavePortServer);
-	
-		btnSavePortServer.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				MagicFactory.getInstance().setProperty("server-port", txtPortServer.getText());
-			}
-		});
-	
+			
 		
 		lblLoading.setIcon(new ImageIcon(ConfigurationPanel.class.getResource("/res/load.gif")));
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
