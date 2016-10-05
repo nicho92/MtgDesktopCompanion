@@ -13,7 +13,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter
 {
 	ClassLoader classLoader = ConsoleServer.class.getClassLoader();
 
-	public static String[] att_cards ={"name","fullType", "rarity", "colors", "cost"};
+	public static String[] att_cards ={"name","fullType", "editions[0].rarity", "colors", "cost"};
 	public static String[] att_set ={"id","set", "cardCount", "releaseDate", "block"};
 	public static String[] att_cols = {"name"};
 	public static String[] att_shop ={"name","description","price","shopName"};
@@ -64,11 +64,10 @@ public class MTGConsoleHandler extends IoHandlerAdapter
     @Override
     public void messageReceived( IoSession session, Object message ) throws Exception
     {
-    	logger.info("message = " + message);
+    	logger.debug("message = " + message);
     	
     	if(message==null)
     		return;
-    	
     	
     	if(message.toString().equals("cls")|| message.toString().equals("clear"))
 		{

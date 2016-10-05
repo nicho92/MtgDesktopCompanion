@@ -161,9 +161,13 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     {
     	logger.error(e);
 	
-    } catch (NoSuchAlgorithmException|InvalidKeyException e) {
+    } catch (InvalidKeyException e) {
 		logger.error(e);
+	} catch (NoSuchAlgorithmException e) {
+		logger.error(e);
+		
 	} 
+    
     return lists;
     }
     

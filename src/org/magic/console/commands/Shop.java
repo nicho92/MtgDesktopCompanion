@@ -51,8 +51,13 @@ public class Shop implements Command {
 		HelpFormatter formatter = new HelpFormatter();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
     	PrintWriter ps = new PrintWriter(baos);
-    	formatter.printUsage(ps, 50, "search", opts);
-     	session.write(new String(baos.toByteArray(),StandardCharsets.UTF_8));
+    	formatter.printHelp(ps,50, "shop", null, opts, 0, 0, null);
+    	ps.close();
+     	try {
+			session.write(baos.toString("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
    
 	}
 

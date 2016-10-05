@@ -67,7 +67,6 @@ public class ServerStatePanel extends JPanel {
 		
 		btnStartStop = new JButton((server.isAlive()?"Stop":"Start"));
 		GridBagConstraints gbc_btnStartStop = new GridBagConstraints();
-		gbc_btnStartStop.anchor = GridBagConstraints.NORTH;
 		gbc_btnStartStop.gridx = 4;
 		gbc_btnStartStop.gridy = 0;
 		add(btnStartStop, gbc_btnStartStop);
