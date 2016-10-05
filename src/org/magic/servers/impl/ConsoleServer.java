@@ -65,7 +65,13 @@ public class ConsoleServer extends AbstractMTGServer{
 
 	@Override
 	public boolean isAlive() {
+		try{
 		return acceptor.isActive();
+		}catch(Exception e)
+		{
+			logger.error(e);
+			return false;
+		}
 		
 	}
 

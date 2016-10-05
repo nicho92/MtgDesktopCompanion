@@ -31,7 +31,14 @@ public class JSONHttpServer extends AbstractMTGServer
 
 	public boolean isAlive()
 	{
-		return server.isAlive();
+		try{
+			return server.isAlive();
+		}
+		catch(Exception e)
+		{
+				logger.error(e);
+				return false;
+		}
 	}
 	
     public JSONHttpServer() throws IOException {

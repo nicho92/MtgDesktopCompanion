@@ -84,11 +84,12 @@ import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.servers.impl.JSONHttpServer;
 import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+
+import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -121,7 +122,7 @@ public class MagicGUI extends JFrame {
     
 	private JTabbedPane tabbedCardsView;
 	private JTabbedPane tabbedCardsInfo ;
-	private JTabbedPane tabbedPane;
+	private JTabbedPane  tabbedPane;
 	
 	private JScrollPane scrollThumbnails;
 	
@@ -174,11 +175,6 @@ public class MagicGUI extends JFrame {
 
 	private BoosterPicturesProvider boosterProvider;
 	private VersionChecker serviceUpdate;
-	
-	private JMenuItem mnuServerStart ;
-	private JMenuItem mnuServerStop; 
-
-	private JSONHttpServer serveur;
 	
 	public void setDefaultLanguage(String language) {
 		defaultLanguage=language;
@@ -287,42 +283,6 @@ public class MagicGUI extends JFrame {
 		menuBar.add(mnuLang);
 		
 		
-
-		JMenu jmnuServer = new JMenu("Server");
-		
-		mnuServerStart = new JMenuItem("Start");
-		mnuServerStop = new JMenuItem("Stop");
-		
-		
-		mnuServerStart.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				try {
-					serveur.start();
-					mnuServerStart.setEnabled(false);
-					mnuServerStop.setEnabled(true);
-				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
-				}
-				
-			}
-		});
-		
-		mnuServerStop.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				serveur.stop();
-				mnuServerStart.setEnabled(true);
-				mnuServerStop.setEnabled(false);
-				
-			}
-		});
-
-		
-		
-		jmnuServer.add(mnuServerStart);
-		jmnuServer.add(mnuServerStop);
-		
-		menuBar.add(jmnuServer);
-		
 		mnuAbout = new JMenu("?");
 		menuBar.add(mnuAbout);
 		
@@ -408,7 +368,7 @@ public class MagicGUI extends JFrame {
 		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
 			looks.add(i.getClassName());
 		
-	//	looks.add(new SyntheticaStandardLookAndFeel().getClass().getName());
+		looks.add(new SeaGlassLookAndFeel().getClass().getName());
 	//	looks.add(new SyntheticaPlainLookAndFeel().getClass().getName());
 		
 		
@@ -698,7 +658,7 @@ public class MagicGUI extends JFrame {
 		deckBuilderGUI = new DeckBuilderGUI();
 
 		collectionPanelGUI = new CollectionPanelGUI();
-
+		
 		tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/res/search.gif")), globalPanel, null);
 		tabbedPane.addTab("Deck", new ImageIcon(MagicGUI.class.getResource("/res/book_icon.jpg")), deckBuilderGUI, null);
 		tabbedPane.addTab("Game", new ImageIcon(MagicGUI.class.getResource("/res/bottom.png")), GamePanelGUI.getInstance(), null);
@@ -708,6 +668,7 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), panneauBuilder, null);
 		tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), new RssGUI(), null);
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
+		tabbedPane.addTab("Servers", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ServersGUI(), null);
 		
 		
 		
@@ -736,9 +697,6 @@ public class MagicGUI extends JFrame {
 			boosterProvider = new BoosterPicturesProvider();
 			serviceUpdate = new VersionChecker();
 
-			serveur= new JSONHttpServer();
-
-			
 			initGUI();
 
 
