@@ -10,7 +10,7 @@ public interface MTGServer {
 	
 	public void stop() throws Exception;
 	
-	public boolean isAlive() throws Exception;
+	public boolean isAlive();
 	
 	
 	public Properties getProperties();
