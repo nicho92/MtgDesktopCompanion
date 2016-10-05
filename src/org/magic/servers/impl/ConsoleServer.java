@@ -39,7 +39,7 @@ public class ConsoleServer extends AbstractMTGServer{
 			props.put("IDLE-TIME", "10");
 			props.put("BUFFER-SIZE", "2048");
 			props.put("ENCODING", "UTF-8");
-			props.put("AUTOTSTART", "false");
+			props.put("AUTOSTART", "false");
 			save();
 		}
 		

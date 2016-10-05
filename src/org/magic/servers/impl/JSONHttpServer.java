@@ -46,7 +46,7 @@ public class JSONHttpServer extends AbstractMTGServer
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("SERVER-PORT", "8080");
-			props.put("AUTOTSTART", "false");
+			props.put("AUTOSTART", "false");
 			save();
 		}
 		
