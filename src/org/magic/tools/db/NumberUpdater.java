@@ -23,8 +23,8 @@ public class NumberUpdater {
 	
 	public static void main(String[] args) {
 		try {
-			MagicFactory.getInstance().getEnabledProviders() .init();
-			NumberUpdater.update("VIS");
+			MagicFactory.getInstance().getEnabledProviders().init();
+			NumberUpdater.update("ALL");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
