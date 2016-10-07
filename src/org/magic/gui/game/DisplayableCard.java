@@ -114,7 +114,6 @@ public class DisplayableCard extends JLabel
 		if(activateCards)
 		{ 
 			addMouseListener(new SelectionActions());
-			addMouseMotionListener(new SelectionActions());
 			
 			menu.add(new JMenuItem(new TapActions("Tap","tap the card",KeyEvent.VK_T,this)));
 			

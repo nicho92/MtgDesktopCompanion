@@ -3,6 +3,8 @@ package org.magic.api.pictures.impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.imageio.ImageIO;
 
@@ -13,10 +15,12 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
-	
+	Map<String,BufferedImage> cache;
 	
 	public GathererPicturesProvider() {
 		super();
+		cache=new HashMap<String,BufferedImage>();
+		
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("BACKGROUND_ID", "132667");
 			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK");
@@ -58,8 +62,14 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	private BufferedImage getPicture(String multiverseid) throws Exception{
-		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+multiverseid+"&type=card");
-		return ImageIO.read(url);
+		if(cache.get(multiverseid)==null)
+		{
+			URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+multiverseid+"&type=card");
+			cache.put(multiverseid, ImageIO.read(url));
+		}
+		
+		return cache.get(multiverseid);
+		
 	}
 	
 
