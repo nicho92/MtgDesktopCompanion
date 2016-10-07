@@ -28,6 +28,8 @@ public class Shop implements Command {
 
 	public Shop() {
 		opts.addOption("s","search",true,"search item ");
+		opts.addOption("l","list",false,"list providers");
+		opts.addOption("?","help",false,"show usage");
 	}
 	
 	@Override
@@ -43,6 +45,14 @@ public class Shop implements Command {
 				list.addAll(ms.search(att));
 			
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_shop)));
+		}
+		if(cl.hasOption("l"))
+		{
+			session.write(showList(MagicFactory.getInstance().getShoppers(),Arrays.asList(new String[]{"shopName","enable"})));
+		}
+		if(cl.hasOption("?"))
+		{
+			usage();
 		}
 	}
 

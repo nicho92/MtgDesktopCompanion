@@ -43,8 +43,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 			 props.put("SERVERNAME","localhost");
 			 props.put("SERVERPORT", "3306");
 			 props.put("DB_NAME", "mtgdesktopclient");
-			 props.put("LOGIN", "mtgdesktopclient");
-			 props.put("PASSWORD", "mtgdesktopclient");
+			 props.put("LOGIN", "login");
+			 props.put("PASSWORD", "password");
 			 props.put("PARAMS", "?autoDeserialize=true&autoReconnect=true");
 			 props.put("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
 		save();
@@ -109,8 +109,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("remove " + mc + " from " + collection);
-		PreparedStatement pst = con.prepareStatement("delete from cards where name=? and edition=? and collection=?");
-		 pst.setString(1, mc.getName());
+		PreparedStatement pst = con.prepareStatement("delete from cards where id=? and edition=? and collection=?");
+		 pst.setString(1, mc.getId());
 		 pst.setString(2, mc.getEditions().get(0).getId());
 		 pst.setString(3, collection.getName());
 		 pst.executeUpdate();

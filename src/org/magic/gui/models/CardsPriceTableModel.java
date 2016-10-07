@@ -22,7 +22,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 
 	  String columns[] = new String[]{"Site","Price","Currency","Seller","quality","langage","url"};
 			
-	Set<MagicPricesProvider> providers;
+	List<MagicPricesProvider> providers;
 	MagicCard mc;
 	MagicEdition me;
 	
@@ -46,9 +46,9 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	
 
 	public CardsPriceTableModel() {
-		providers = new HashSet<MagicPricesProvider>();
+		providers = new ArrayList<MagicPricesProvider>();
 		prices=new ArrayList<MagicPrice>();
-		providers=MagicFactory.getInstance().getSetPricers();
+		providers=MagicFactory.getInstance().getPricers();
 	}
 	
 	

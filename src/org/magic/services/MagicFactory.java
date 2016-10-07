@@ -192,7 +192,7 @@ public class MagicFactory {
 			
 			
 			logger.info("loading DAOs");
-			daoProviders=new ArrayList<>();
+			daoProviders=new ArrayList<MagicDAO>();
 			for(int i=1;i<=config.getList("//dao/class").size();i++)
 			{
 				String s = config.getString("daos/dao["+i+"]/class");
@@ -202,7 +202,7 @@ public class MagicFactory {
 			}
 			
 			logger.info("loading Shoppers");
-			cardsShoppers=new ArrayList<>();
+			cardsShoppers=new ArrayList<MagicShopper>();
 			for(int i=1;i<=config.getList("//shopper/class").size();i++)
 			{
 				String s = config.getString("shoppers/shopper["+i+"]/class");
@@ -295,16 +295,16 @@ public class MagicFactory {
 		return picturesProviders;
 	}
 	
-	public Set<MagicPricesProvider> getSetPricers()
+	public List<MagicPricesProvider> getPricers()
 	{
-		  return new HashSet<MagicPricesProvider>(pricers);
+		  return pricers;
 	}
 
 	public List<MagicPricesProvider> getEnabledPricers()
 	{
 		List<MagicPricesProvider> pricersE= new ArrayList<MagicPricesProvider>();
 		
-		for(MagicPricesProvider p : getSetPricers())
+		for(MagicPricesProvider p : getPricers())
 			if(p.isEnable())
 				pricersE.add(p);
 		

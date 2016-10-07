@@ -2,10 +2,10 @@ package org.magic.gui.models.conf;
 
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -17,7 +17,7 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
 {
     private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
     private MagicPricesProvider selectedProvider = null;
-    private Set<MagicPricesProvider> pricers = MagicFactory.getInstance().getSetPricers();
+    private List<MagicPricesProvider> pricers = MagicFactory.getInstance().getPricers();
     static final Logger logger = LogManager.getLogger(MagicPricesProvidersTableModel.class.getName());
 
     
