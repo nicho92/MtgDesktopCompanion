@@ -304,6 +304,23 @@ public class GamePanelGUI extends JPanel implements Observer {
 		gbc_btnToken.gridy = 2;
 		panelActions.add(btnToken, gbc_btnToken);
 		
+		txtChat = new JTextField("Say something");
+		txtChat.addMouseListener(new MouseAdapter() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtChat.setText("");
+			}
+		});
+		
+		
+		txtChat.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				player.say(txtChat.getText());
+				txtChat.setText("");
+			}
+		});
+		
 		JButton btnEmblem = new JButton("Emblem");
 		btnEmblem.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -332,76 +349,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 				}
 			}
 		});
-		
-		JButton btnFlip = new JButton("Rotate");
-		btnFlip.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				for(Component c : panelBattleField.getComponents())
-				{
-					MagicCard mc = ((DisplayableCard)c).getMagicCard();
-					if(((DisplayableCard)c).isSelected())
-					{
-						
-						if(mc.isTranformable())
-						{
-							((DisplayableCard)c).transform(true);
-							player.logAction("Transform " + mc);
-						}
-						else if(mc.isFlippable())
-						{
-							((DisplayableCard)c).flip(true);
-							player.logAction("Flip " + mc);
-						}
-						else
-						{
-							try {
-								((DisplayableCard)c).setImage(new ImageIcon(MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
-								player.logAction("Rotate " + mc);
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							((DisplayableCard)c).revalidate();
-							((DisplayableCard)c).repaint();
-							player.logAction("rotate " + mc);
-						}
-						
-					}
-					
-					
-				}
-				
-				
-			}
-		});
-		GridBagConstraints gbc_btnFlip = new GridBagConstraints();
-		gbc_btnFlip.fill = GridBagConstraints.BOTH;
-		gbc_btnFlip.insets = new Insets(0, 0, 5, 5);
-		gbc_btnFlip.gridx = 1;
-		gbc_btnFlip.gridy = 2;
-		panelActions.add(btnFlip, gbc_btnFlip);
 		GridBagConstraints gbc_btnEmblem = new GridBagConstraints();
-		gbc_btnEmblem.insets = new Insets(0, 0, 5, 0);
+		gbc_btnEmblem.insets = new Insets(0, 0, 5, 5);
 		gbc_btnEmblem.fill = GridBagConstraints.BOTH;
-		gbc_btnEmblem.gridx = 2;
+		gbc_btnEmblem.gridx = 1;
 		gbc_btnEmblem.gridy = 2;
 		panelActions.add(btnEmblem, gbc_btnEmblem);
-		
-		txtChat = new JTextField("Say something");
-		txtChat.addMouseListener(new MouseAdapter() {
-			
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				txtChat.setText("");
-			}
-		});
-		
-		
-		txtChat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				player.say(txtChat.getText());
-				txtChat.setText("");
-			}
-		});
 		GridBagConstraints gbc_txtChat = new GridBagConstraints();
 		gbc_txtChat.gridwidth = 2;
 		gbc_txtChat.insets = new Insets(0, 0, 0, 5);

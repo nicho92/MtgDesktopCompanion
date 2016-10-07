@@ -2,6 +2,7 @@ package org.magic.gui.game;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.KeyEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
@@ -9,9 +10,14 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.game.actions.DisplayableCardActions;
+import org.magic.gui.game.actions.SelectionActions;
+import org.magic.gui.game.actions.FlipActions;
+import org.magic.gui.game.actions.TapActions;
+import org.magic.gui.game.actions.TransformActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MagicFactory;
@@ -20,7 +26,7 @@ import org.magic.services.MagicFactory;
 public class DisplayableCard extends JLabel
 {
 
-	
+	JPopupMenu menu = new JPopupMenu();
 	private MagicCard magicCard;
 	
 	private boolean tapped=false;
@@ -32,10 +38,15 @@ public class DisplayableCard extends JLabel
 	private boolean selected;
 	private boolean rotated; 
 	
+	
+	public boolean isRotated(){
+		return rotated;
+	}
+	
 	public boolean isTappable() {
 		return tappable;
 	}
-
+	
 
 	public void setTappable(boolean tappable) {
 		this.tappable = tappable;
@@ -99,13 +110,24 @@ public class DisplayableCard extends JLabel
 		setVerticalAlignment(JLabel.CENTER);
 		setMagicCard(mc);
 		setTransferHandler(new CardTransfertHandler());
-		
+			
 		if(activateCards)
 		{ 
-			addMouseListener(new DisplayableCardActions());
-			addMouseWheelListener(new DisplayableCardActions());
-			addMouseMotionListener(new DisplayableCardActions());
+			addMouseListener(new SelectionActions());
+			addMouseMotionListener(new SelectionActions());
+			
+			menu.add(new JMenuItem(new TapActions("Tap","tap the card",KeyEvent.VK_T,this)));
+			
+			if(magicCard.isTranformable())
+				menu.add(new JMenuItem(new TransformActions("Transform","Transform the card",KeyEvent.VK_A,this)));
+
+			if(magicCard.isFlippable())
+				menu.add(new JMenuItem(new FlipActions("Flip","Flip the card",KeyEvent.VK_F,this)));
+
+			
+			setComponentPopupMenu(menu);
 		}
+		
 		
 	}
 	
@@ -139,7 +161,7 @@ public class DisplayableCard extends JLabel
 		}
 	}
 	
-	public void transform(boolean t)
+	public void transform()
 	{
 		try {
 			MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
@@ -147,7 +169,6 @@ public class DisplayableCard extends JLabel
 			revalidate();
 			repaint();
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -179,7 +200,6 @@ public class DisplayableCard extends JLabel
 	        this.tapped=t;
 	}
 	
-	
 	@Override
 	public Icon getIcon() {
 		
@@ -188,7 +208,6 @@ public class DisplayableCard extends JLabel
 		
 		return super.getIcon();
 	}
-	
 	
 	public MagicCard getMagicCard() {
 		return magicCard;
