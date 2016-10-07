@@ -20,9 +20,10 @@ public class SelectionActions extends MouseAdapter {
 	}
 
 	
+	
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		System.out.println(e);
+		
 		 DisplayableCard card =  ((DisplayableCard)e.getComponent());
 		 if(!SwingUtilities.isRightMouseButton(e))
 		 {
@@ -40,7 +41,7 @@ public class SelectionActions extends MouseAdapter {
 	}
 	
 	public void mousePressed(MouseEvent me) {
-		 DisplayableCard card =  ((DisplayableCard)me.getComponent());
+		DisplayableCard card =  ((DisplayableCard)me.getComponent());
 		 if(!SwingUtilities.isRightMouseButton(me))
 		 {
 			  if(card.isDraggable())
