@@ -241,9 +241,13 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		return new String[]{"name","type","subtype","supertype","oracle","set","rarity","color","multicolor","multiverseid","format","status"};
 		
 	}
-	
 	@Override
 	public String toString() {
+		return getName();
+	}
+
+	@Override
+	public String getName() {
 		return "DeckBrew Provider";
 	}
 

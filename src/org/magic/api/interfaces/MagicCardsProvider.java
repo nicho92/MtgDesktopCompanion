@@ -37,4 +37,6 @@ public interface MagicCardsProvider {
 	
 	public STATUT getStatut();
 	
+	public String getName();
+	
 }

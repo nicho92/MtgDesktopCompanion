@@ -3,23 +3,25 @@ package org.magic.api.pictures.impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.cache.FileCache;
+import org.magic.api.cache.MemoryCache;
+import org.magic.api.interfaces.PicturesCache;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 
 public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
-	Map<String,BufferedImage> cache;
+	PicturesCache cache = new MemoryCache();
+	
+	
 	
 	public GathererPicturesProvider() {
 		super();
-		cache=new HashMap<String,BufferedImage>();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("BACKGROUND_ID", "132667");
@@ -43,8 +45,13 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		return getPicture(mc,null).getSubimage(15, 34, 184, 132);
 	}
 	
+	
+	
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception{
+		
+	//	if(cache.getPic(mc)!=null)
+	//		return cache.getPic(mc);
 		
 		MagicEdition selected =ed;
 		
@@ -57,20 +64,18 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 			if(selected.getId().startsWith(k))
 				return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
 		}
-			
-		return getPicture(selected.getMultiverse_id());
+		BufferedImage im = getPicture(selected.getMultiverse_id());
+		
+	//	cache.put(im, mc);
+		return im;
 	}
 	
 	private BufferedImage getPicture(String multiverseid) throws Exception{
-		if(cache.get(multiverseid)==null)
-		{
 			URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+multiverseid+"&type=card");
-			cache.put(multiverseid, ImageIO.read(url));
-		}
-		
-		return cache.get(multiverseid);
-		
+			BufferedImage im = ImageIO.read(url);
+			return im;
 	}
+	
 	
 
 	@Override

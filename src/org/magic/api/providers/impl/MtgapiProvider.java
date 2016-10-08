@@ -321,7 +321,13 @@ public class MtgapiProvider implements MagicCardsProvider{
 		return new String[]{"name","artist","border","cmc","colors","flavor","foreignNames","hand","layout","legalities","life","loyalty","manaCost","multiversid","names","number","originalText","originalType","power","printings","rarity","rulings","set","subtypes","supertypes","text","toughness","type","types","variations","watermark"};
 	}
 	
+	@Override
 	public String toString() {
+		return getName();
+	}
+
+	
+	public String getName() {
 		return "MTG API Provider";
 	}
 

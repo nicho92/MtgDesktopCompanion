@@ -499,13 +499,18 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		this.enable=enabled;
 		
 	}
+	@Override
+	public String toString() {
+		return getName();
+	}
+
 
 	@Override
 	public boolean isEnable() {
 		return enable;
 	}
 	
-	public String toString() {
+	public String getName() {
 		return "MTG Developpers.io";
 	}
 	@Override

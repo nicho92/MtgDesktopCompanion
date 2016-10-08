@@ -42,6 +42,10 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 		String infocode=mc.getEditions().get(0).getMagicCardsInfoCode();
 		
+		if(ed!=null)
+			infocode=ed.getMagicCardsInfoCode();
+		
+		
 		if(infocode==null)
 			infocode=mc.getEditions().get(0).getId().toLowerCase();
 		

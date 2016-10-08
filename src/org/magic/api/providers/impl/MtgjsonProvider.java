@@ -589,7 +589,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		return new String[]{"name","foreignNames","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout"/*,"format"*/};
 	}
 
-	public String toString() {
+	public String getName() {
 		return "MTG Json Provider";
 	}
 
@@ -760,6 +760,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 
 
