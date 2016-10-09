@@ -21,4 +21,29 @@ public class ColorParser {
 							
 							return "{C}";
 	}
+	
+	public static String getNameByCode(String code) {
+		
+		if(code==null)
+			return "";
+		
+		if(code.toLowerCase().contains("W"))
+			return "White";
+		else
+			if(code.toLowerCase().contains("U"))
+				return "Blue";
+			else
+				if(code.toLowerCase().contains("B"))
+					return "Black";
+				else
+					if(code.toLowerCase().contains("R"))
+						return "Red";
+					else
+						if(code.toLowerCase().contains("G"))
+							return "Green";
+							
+							return "";
+	}
+	
+	
 }

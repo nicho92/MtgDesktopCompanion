@@ -221,14 +221,9 @@ public class DisplayableCard extends JLabel
 	public void setMagicCard(MagicCard mc) {
 		this.magicCard = mc;
 		try {
-			if(mc.getLayout().equals(MagicCard.LAYOUT.Token.toString()))
+			if(mc.getLayout().equals(MagicCard.LAYOUT.Token.toString()) || mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
 			{
-				fullResPics = new CockatriceTokenProvider().getToken(mc);
-				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
-			}
-			else if (mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
-			{
-				fullResPics = new CockatriceTokenProvider().getEmblem(mc);
+				fullResPics = new CockatriceTokenProvider().getTokenPics(mc);
 				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 			}
 			else
