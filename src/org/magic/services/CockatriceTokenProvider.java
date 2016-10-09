@@ -43,20 +43,6 @@ public class CockatriceTokenProvider {
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
-		String name = "Gideon, Ally of Zendikar";
-		MagicFactory.getInstance().getEnabledProviders().init();
-		
-		MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null).get(0);
-		
-		CockatriceTokenProvider prov = new CockatriceTokenProvider();
-		
-		System.out.println(BeanUtils.describe(prov.generateEmblemFor(mc)));
-		System.out.println(BeanUtils.describe(prov.generateTokenFor(mc)));
-		prov.getTokenPics(prov.generateEmblemFor(mc));
-		
-	}
-	
 	public boolean isTokenizer(MagicCard mc)
 	{
 		String expression = "//card[reverse-related='"+mc.getName()+"'][not(contains(name,'emblem'))]";
@@ -215,9 +201,7 @@ public class CockatriceTokenProvider {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
-			MTGCardMakerPicturesProvider prov2 = new MTGCardMakerPicturesProvider();
-			return prov2.generatePictureForCard(tok, MagicFactory.getInstance().getEnabledPicturesProvider().extractPicture(tok));
+		throw new Exception("Could not find token for " + tok.getName() + " : " + e);
 		}
 	}
 
