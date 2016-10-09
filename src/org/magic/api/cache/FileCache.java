@@ -21,30 +21,23 @@ public class FileCache implements PicturesCache {
 		if(!directory.exists())
 			directory.mkdir();
 		
-		directory = new File(directory,MagicFactory.getInstance().getEnabledProviders().toString());
-		if(!directory.exists())
-			directory.mkdir();
-	
-		
-		
-		
 	}
 	
 	
 	@Override
 	public String getName() {
-		return "Memory Cache";
+		return "File Cache";
 	}
 
 	@Override
 	public BufferedImage getPic(MagicCard mc){
 		try {
 			
-			File f = new File(directory,mc.getEditions().get(0).getId());
-			if(!directory.exists())
-				directory.mkdir();
+			File save = new File(directory,mc.getEditions().get(0).getId());
+			if(!save.exists())
+				save.mkdir();
 			
-			return ImageIO.read(new File(directory,mc.getId()+".jpg"));
+			return ImageIO.read(new File(save,mc.getId()+".jpg"));
 		} catch (IOException e) {
 			return null;
 		}
@@ -55,10 +48,10 @@ public class FileCache implements PicturesCache {
 	public void put(BufferedImage im, MagicCard mc) throws IOException {
 	
 		File f = new File(directory,mc.getEditions().get(0).getId());
-		if(!directory.exists())
-			directory.mkdir();
+		if(!f.exists())
+			f.mkdir();
 		
-		ImageIO.write(im, "jpg", new File(directory,mc.getId()+".jpg"));
+		ImageIO.write(im, "jpg", new File(f,mc.getId()+".jpg"));
 		
 	}
 

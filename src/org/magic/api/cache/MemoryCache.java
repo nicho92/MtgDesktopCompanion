@@ -33,7 +33,11 @@ public class MemoryCache implements PicturesCache {
 	@Override
 	public void put(BufferedImage im, MagicCard mc) throws Exception{
 		if(cache.get(mc.getId())==null)
+		{
+			logger.debug("put " + mc + " in cache");
 			cache.put(mc.getId(), im);
+		}
+			
 	
 		
 	}

@@ -16,7 +16,7 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
-	PicturesCache cache = new MemoryCache();
+//	PicturesCache cache = new MemoryCache();
 	
 	
 	
@@ -50,8 +50,8 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception{
 		
-	//	if(cache.getPic(mc)!=null)
-	//		return cache.getPic(mc);
+//		if(cache.getPic(mc)!=null)
+//		return cache.getPic(mc);
 		
 		MagicEdition selected =ed;
 		
@@ -66,7 +66,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		}
 		BufferedImage im = getPicture(selected.getMultiverse_id());
 		
-	//	cache.put(im, mc);
+//		cache.put(im, mc);
 		return im;
 	}
 	
