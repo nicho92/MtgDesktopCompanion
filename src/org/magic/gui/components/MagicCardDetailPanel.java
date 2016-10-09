@@ -12,6 +12,7 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -26,10 +27,14 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -64,6 +69,7 @@ public class MagicCardDetailPanel extends JPanel {
 	static final Logger logger = LogManager.getLogger(MagicCardDetailPanel.class.getName());
 	private JTextField rarityJTextField;
 	GridBagLayout gridBagLayout ;
+	private JButton btnAlert;
 	
 	
 	public void enableThumbnail(boolean val)
@@ -128,12 +134,31 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_lblLogoSet.gridy = 0;
 				add(lblLogoSet, gbc_lblLogoSet);
 				
+				btnAlert = new JButton("");
+				btnAlert.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						
+						MagicCardAlert alert = new MagicCardAlert();
+						alert.setCard(magicCard);
+						
+						String price = JOptionPane.showInputDialog(null, "Select your maximum price", "Add Alert for " + magicCard , JOptionPane.QUESTION_MESSAGE);
+						alert.setPrice(Double.parseDouble(price));
+						MagicFactory.getInstance().getAlerts().add(alert);
+					}
+				});
+				btnAlert.setIcon(new ImageIcon(MagicCardDetailPanel.class.getResource("/res/bell.png")));
+				GridBagConstraints gbc_btnAlert = new GridBagConstraints();
+				gbc_btnAlert.insets = new Insets(0, 0, 5, 0);
+				gbc_btnAlert.gridx = 7;
+				gbc_btnAlert.gridy = 0;
+				add(btnAlert, gbc_btnAlert);
+				
 				
 				lblThumbnail = new JLabel("");
 				GridBagConstraints gbc_lblThumbnail = new GridBagConstraints();
-				gbc_lblThumbnail.gridheight = 10;
+				gbc_lblThumbnail.gridheight = 9;
 				gbc_lblThumbnail.gridx = 7;
-				gbc_lblThumbnail.gridy = 0;
+				gbc_lblThumbnail.gridy = 1;
 				add(lblThumbnail, gbc_lblThumbnail);
 		
 				JLabel fullTypeLabel = new JLabel("Type:");

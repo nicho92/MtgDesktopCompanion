@@ -20,6 +20,7 @@ import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.RSSBean;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
@@ -424,6 +425,13 @@ public class MagicFactory {
 		return list;
 	}
 
+	//TODO make the function
+	List<MagicCardAlert> list = new ArrayList<MagicCardAlert>();
+	public List<MagicCardAlert> getAlerts()
+	{
+		return list;
+	}
+	
 
 	
 }
