@@ -1,6 +1,7 @@
 package org.magic.gui.game.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractAction;
@@ -15,18 +16,27 @@ public class RotateActions extends AbstractAction {
 	
 	private DisplayableCard card;
 
-	public RotateActions(String text, String desc,Integer mnemonic, DisplayableCard card) {
-			super(text);
-			putValue(SHORT_DESCRIPTION, desc);
-	        putValue(MNEMONIC_KEY, mnemonic);
+	public RotateActions(DisplayableCard card) {
+			super("Rotate");
+			putValue(SHORT_DESCRIPTION, "Return the card");
+	        putValue(MNEMONIC_KEY, KeyEvent.VK_R);
 	        this.card = card;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			card.setImage(new ImageIcon(MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
-			GamePanelGUI.getInstance().getPlayer().logAction("Rotate " + card.getMagicCard());
+			if(!card.isRotated())
+			{
+				card.setImage(new ImageIcon(MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
+				GamePanelGUI.getInstance().getPlayer().logAction("Rotate " + card.getMagicCard());
+				card.setRotated(true);
+			}
+			else
+			{
+				card.setImage(new ImageIcon(MagicFactory.getInstance().getEnabledPicturesProvider().getPicture(card.getMagicCard(), null).getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
+				card.setRotated(false);
+			}
 		} catch (Exception ex) {
 			ex.printStackTrace();
 		}

@@ -44,7 +44,6 @@ public class FileCache implements PicturesCache {
 			if(!directory.exists())
 				directory.mkdir();
 			
-			
 			return ImageIO.read(new File(directory,mc.getId()+".jpg"));
 		} catch (IOException e) {
 			return null;
@@ -54,6 +53,11 @@ public class FileCache implements PicturesCache {
 
 	@Override
 	public void put(BufferedImage im, MagicCard mc) throws IOException {
+	
+		File f = new File(directory,mc.getEditions().get(0).getId());
+		if(!directory.exists())
+			directory.mkdir();
+		
 		ImageIO.write(im, "jpg", new File(directory,mc.getId()+".jpg"));
 		
 	}

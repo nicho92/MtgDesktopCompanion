@@ -14,9 +14,11 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.game.actions.SelectionActions;
 import org.magic.gui.game.actions.FlipActions;
+import org.magic.gui.game.actions.RotateActions;
+import org.magic.gui.game.actions.SelectionActions;
 import org.magic.gui.game.actions.TapActions;
+import org.magic.gui.game.actions.TransferActions;
 import org.magic.gui.game.actions.TransformActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
@@ -113,15 +115,19 @@ public class DisplayableCard extends JLabel
 			
 		if(activateCards)
 		{ 
-			addMouseListener(new SelectionActions());
+			addMouseListener(new TransferActions());
 			
-			menu.add(new JMenuItem(new TapActions("Tap","tap the card",KeyEvent.VK_T,this)));
+			menu.add(new JMenuItem(new TapActions(this)));
+			menu.add(new JMenuItem(new SelectionActions(this)));
+			menu.add(new JMenuItem(new RotateActions(this)));
+			
+			
 			
 			if(magicCard.isTranformable())
-				menu.add(new JMenuItem(new TransformActions("Transform","Transform the card",KeyEvent.VK_A,this)));
+				menu.add(new JMenuItem(new TransformActions(this)));
 
 			if(magicCard.isFlippable())
-				menu.add(new JMenuItem(new FlipActions("Flip","Flip the card",KeyEvent.VK_F,this)));
+				menu.add(new JMenuItem(new FlipActions(this)));
 
 			
 			setComponentPopupMenu(menu);
@@ -247,6 +253,11 @@ public class DisplayableCard extends JLabel
 	
 	public Image getFullResPics() {
 		return fullResPics;
+	}
+
+	public void setRotated(boolean b) {
+		this.rotated=b;
+		
 	}
 
 

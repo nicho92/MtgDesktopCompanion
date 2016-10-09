@@ -1,6 +1,7 @@
 package org.magic.gui.game.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
@@ -12,10 +13,10 @@ public class TransformActions extends AbstractAction {
 	
 	private DisplayableCard card;
 
-	public TransformActions(String text, String desc,Integer mnemonic, DisplayableCard card) {
-			super(text);
-			putValue(SHORT_DESCRIPTION, desc);
-	        putValue(MNEMONIC_KEY, mnemonic);
+	public TransformActions(DisplayableCard card) {
+			super("Transform");
+			putValue(SHORT_DESCRIPTION,"Transform the card");
+	        putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	        this.card = card;
 	}
 	

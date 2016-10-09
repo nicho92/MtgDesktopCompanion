@@ -1,6 +1,7 @@
 package org.magic.gui.game.actions;
 
 import java.awt.event.ActionEvent;
+import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
@@ -14,10 +15,10 @@ public class TapActions extends AbstractAction {
 	
 	private DisplayableCard card;
 
-	public TapActions(String text, String desc,Integer mnemonic, DisplayableCard card) {
-			super(text);
-			putValue(SHORT_DESCRIPTION, desc);
-	        putValue(MNEMONIC_KEY, mnemonic);
+	public TapActions(DisplayableCard card) {
+			super("Tap");
+			putValue(SHORT_DESCRIPTION,"tap the card");
+	        putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 	        this.card = card;
 	}
 	
