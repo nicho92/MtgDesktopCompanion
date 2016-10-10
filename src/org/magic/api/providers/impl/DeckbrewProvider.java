@@ -18,7 +18,6 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.tools.EditionCardCount;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -230,7 +229,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 					 ed.setBorder(root.get("border").getAsString());
 					 ed.setSet(root.get("name").getAsString());
 					 ed.setType(root.get("type").getAsString());
-					 ed.setCardCount(EditionCardCount.getInstance().getCardCount(ed));
+					 ed.setCardCount(0);//TODO need to check information
 		return ed;
 		
 	}

@@ -18,11 +18,10 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MagicFactory;
 
@@ -71,6 +70,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("Create table stocks");
 		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
+			logger.debug("Create table Alerts");
+		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard BLOB, amount DECIMAL)");
 		 	
 		 	
 		 	logger.debug("populate collections");
@@ -326,7 +327,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		return "MySQL";
 	}
 
-
+/*
 	@Override
 	public List<MagicDeck> listDeck() throws SQLException {
 		// TODO Auto-generated method stub
@@ -345,7 +346,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void deleteDeck(MagicDeck d) throws SQLException {
 		// TODO Auto-generated method stub
 		
-	}
+	}*/
 
 
 	@Override
@@ -445,7 +446,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		}
 	}
 	
-	
+	/*
 	@Override
 	public void saveShopItem(ShopItem mp, String string) {
 		// TODO Auto-generated method stub
@@ -458,7 +459,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		// TODO Auto-generated method stub
 		return null;
 	}
-
+*/
 
 	@Override
 	public void backup(File f) throws Exception {
@@ -485,6 +486,70 @@ public class MysqlDAO extends AbstractMagicDAO{
 		ps.close();
 		logger.info("Backup " + props.getProperty("DB_NAME") + " done");
 		
+		
+	}
+
+	List<MagicCardAlert> list;
+	@Override
+	public List<MagicCardAlert> getAlerts() {
+		
+		if(list!=null)
+			return list;
+		try
+		{
+				PreparedStatement pst=con.prepareStatement("select * from alerts");	
+				list = new ArrayList<MagicCardAlert>();
+				ResultSet rs = pst.executeQuery();
+				while(rs.next())
+				{
+					MagicCardAlert alert = new MagicCardAlert();
+								   alert.setCard((MagicCard)rs.getObject("mcard"));
+								   alert.setId(rs.getString("id"));
+								   alert.setPrice(rs.getDouble("amount"));
+								   
+								   list.add(alert);
+				}
+				return list;
+		}catch(Exception e)
+		{
+			//e.printStackTrace();
+			//	logger.error(e);
+			return null;
+		}
+	}
+
+	@Override
+	public void saveAlert(MagicCardAlert alert) throws SQLException {
+		PreparedStatement pst;
+				pst=con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)");
+				pst.setString(1, alert.getCard().getId());
+				pst.setObject(2,alert.getCard());
+				pst.setDouble(3, alert.getPrice());
+				pst.executeUpdate();
+		list.add(alert);
+		
+	}
+	
+	@Override
+	public void updateAlert(MagicCardAlert alert) throws SQLException {
+		PreparedStatement pst;
+				pst=con.prepareStatement("update alerts set amount=? where id=?");
+				pst.setDouble(1, alert.getPrice());
+				pst.setString(2, alert.getId());
+				pst.executeUpdate();
+		list.remove(alert);
+		list.add(alert);
+		
+	}
+
+	@Override
+	public void deleteAlert(MagicCardAlert alert) throws SQLException {
+		logger.debug("delete "  + alert);
+		PreparedStatement pst;
+		pst=con.prepareStatement("delete from alerts where id=?");
+		pst.setString(1, alert.getCard().getId());
+		pst.executeUpdate();
+		list.remove(alert);
 		
 	}
 

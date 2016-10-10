@@ -234,7 +234,7 @@ public class DeckBuilderGUI extends JPanel{
 					MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
 					
 					serialis.export(deck, new File(deckDirectory+"/"+name+serialis.getFileExtension()));
-					MagicFactory.getInstance().getEnabledDAO().saveDeck(deck);
+					//MagicFactory.getInstance().getEnabledDAO().saveDeck(deck);
 					
 				}
 				catch(Exception ex)

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
@@ -45,21 +46,29 @@ public interface MagicDAO {
 
 	public void removeEdition(MagicEdition ed, MagicCollection col)throws SQLException;
 	
-	public List<MagicDeck> listDeck()throws SQLException;
+	/*public List<MagicDeck> listDeck()throws SQLException;
 	public void saveDeck(MagicDeck d)throws SQLException;
 	public void deleteDeck(MagicDeck d)throws SQLException;
  
 	public void saveShopItem(ShopItem mp, String string) throws SQLException;
 	public String getSavedShopItemAnotation(ShopItem id) throws SQLException;
-
+*/
+	
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException;
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException;
 	public void deleteStock(MagicCardStock state) throws SQLException;
-		
+	
+	
+	public List<MagicCardAlert> getAlerts();
+	public void saveAlert(MagicCardAlert alert) throws Exception;
+	public void deleteAlert(MagicCardAlert alert) throws Exception;
+	
+	
 	
 	public String getDBLocation();
 	public long getDBSize();
 	public void backup(File dir) throws Exception;
+	public void updateAlert(MagicCardAlert alert) throws Exception;
 
 	
 }

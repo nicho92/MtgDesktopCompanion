@@ -34,6 +34,7 @@ import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 import java.awt.event.ActionEvent;
 
 public class MagicCardDetailPanel extends JPanel {
@@ -86,10 +87,10 @@ public class MagicCardDetailPanel extends JPanel {
 	public MagicCardDetailPanel() {
 		
 		gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 77, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 0, 77, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 						
 		JLabel nameLabel = new JLabel("Name:");
@@ -135,29 +136,40 @@ public class MagicCardDetailPanel extends JPanel {
 				add(lblLogoSet, gbc_lblLogoSet);
 				
 				btnAlert = new JButton("");
+				btnAlert.setToolTipText("add a alert !");
+				btnAlert.setEnabled(false);
+				ImageIcon ic = new ImageIcon(MagicCardDetailPanel.class.getResource("/res/bell.png"));
+				Image b = ic.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH);
+				btnAlert.setIcon(new ImageIcon(b)); 
 				btnAlert.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {
 						
 						MagicCardAlert alert = new MagicCardAlert();
 						alert.setCard(magicCard);
-						
 						String price = JOptionPane.showInputDialog(null, "Select your maximum price", "Add Alert for " + magicCard , JOptionPane.QUESTION_MESSAGE);
 						alert.setPrice(Double.parseDouble(price));
-						MagicFactory.getInstance().getAlerts().add(alert);
+						
+						try {
+							MagicFactory.getInstance().getEnabledDAO().saveAlert(alert);
+						} catch (Exception e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				});
-				btnAlert.setIcon(new ImageIcon(MagicCardDetailPanel.class.getResource("/res/bell.png")));
+				
 				GridBagConstraints gbc_btnAlert = new GridBagConstraints();
 				gbc_btnAlert.insets = new Insets(0, 0, 5, 0);
-				gbc_btnAlert.gridx = 7;
+				gbc_btnAlert.gridx = 8;
 				gbc_btnAlert.gridy = 0;
 				add(btnAlert, gbc_btnAlert);
 				
 				
 				lblThumbnail = new JLabel("");
 				GridBagConstraints gbc_lblThumbnail = new GridBagConstraints();
+				gbc_lblThumbnail.insets = new Insets(0, 0, 5, 0);
 				gbc_lblThumbnail.gridheight = 9;
-				gbc_lblThumbnail.gridx = 7;
+				gbc_lblThumbnail.gridx = 8;
 				gbc_lblThumbnail.gridy = 1;
 				add(lblThumbnail, gbc_lblThumbnail);
 		
@@ -278,7 +290,7 @@ public class MagicCardDetailPanel extends JPanel {
 				GridBagConstraints gbc_scrollLegality = new GridBagConstraints();
 				gbc_scrollLegality.gridheight = 2;
 				gbc_scrollLegality.gridwidth = 2;
-				gbc_scrollLegality.insets = new Insets(0, 0, 0, 5);
+				gbc_scrollLegality.insets = new Insets(0, 0, 5, 5);
 				gbc_scrollLegality.fill = GridBagConstraints.BOTH;
 				gbc_scrollLegality.gridx = 1;
 				gbc_scrollLegality.gridy = 8;
@@ -376,7 +388,7 @@ public class MagicCardDetailPanel extends JPanel {
 				GridBagConstraints gbc_scrollCollections = new GridBagConstraints();
 				gbc_scrollCollections.gridheight = 2;
 				gbc_scrollCollections.gridwidth = 3;
-				gbc_scrollCollections.insets = new Insets(0, 0, 0, 5);
+				gbc_scrollCollections.insets = new Insets(0, 0, 5, 5);
 				gbc_scrollCollections.fill = GridBagConstraints.BOTH;
 				gbc_scrollCollections.gridx = 4;
 				gbc_scrollCollections.gridy = 8;
@@ -384,8 +396,8 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				listCollection = new JList<MagicCollection>(new DefaultListModel<MagicCollection>());
 				scrollCollections.setViewportView(listCollection);
-						
 				
+					
 				
 				
 
@@ -404,6 +416,14 @@ public class MagicCardDetailPanel extends JPanel {
 
 	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
+		
+		if(magicCard.getName()!=null)
+		{
+			
+			
+			btnAlert.setEnabled(true);
+		}
+		
 		if (update) {
 			if (m_bindingGroup != null) {
 				m_bindingGroup.unbind();
@@ -547,8 +567,6 @@ public class MagicCardDetailPanel extends JPanel {
 		},"loadCollections");
 			
 			
-		
-		
 		((DefaultListModel)lstFormats.getModel()).removeAllElements();
 		for(MagicFormat mf : magicCard.getLegalities())
 			((DefaultListModel)lstFormats.getModel()).addElement(mf);

@@ -74,6 +74,9 @@ public class ModuleInstaller {
 		for(Class c : extractMissing("org.magic.api.exports.impl", "/deckexports/export"))
 			 MagicFactory.getInstance().addProperty("/deckexports/export", c);
 
+		for(Class c : extractMissing("org.magic.api.servers.impl", "/servers/server"))
+			 MagicFactory.getInstance().addProperty("/servers/server", c);
+		
 		return hasUpdated;
 		
 	 }

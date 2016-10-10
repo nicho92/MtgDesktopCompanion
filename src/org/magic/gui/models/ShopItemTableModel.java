@@ -20,7 +20,8 @@ public class ShopItemTableModel extends DefaultTableModel {
 
 	  static final Logger logger = LogManager.getLogger(ShopItemTableModel.class.getName());
 
-	  String columns[] = new String[]{"Site","Name","Price","date","type","url","note"};
+	 // String columns[] = new String[]{"Site","Name","Price","date","type","url","note"};
+	  String columns[] = new String[]{"Site","Name","Price","date","type","url"};
 			
 	MagicCard mc;
 	MagicEdition me;
@@ -97,7 +98,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 			case 3 : return mp.getDate();
 			case 4: return mp.getType();
 			case 5 : return mp.getUrl();
-			case 6 : return MagicFactory.getInstance().getEnabledDAO().getSavedShopItemAnotation(mp);
+			//case 6 : return MagicFactory.getInstance().getEnabledDAO().getSavedShopItemAnotation(mp);
 		default : return 0;
 		}
 		}catch(Exception ioob)
@@ -106,7 +107,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 			return null;
 		}
 	}
-	
+	/*
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		ShopItem mp = items.get(row);
@@ -117,7 +118,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 		}
 	}
 
-	
+	*/
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		if(column==6)

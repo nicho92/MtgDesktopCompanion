@@ -337,7 +337,6 @@ public class MagicFactory {
 		for(MagicDAO p : getDaoProviders())
 			if(p.isEnable())
 				return p;
-		
 		return null;
 	}
 	
@@ -424,14 +423,5 @@ public class MagicFactory {
 		}
 		return list;
 	}
-
-	//TODO make the function
-	List<MagicCardAlert> list = new ArrayList<MagicCardAlert>();
-	public List<MagicCardAlert> getAlerts()
-	{
-		return list;
-	}
-	
-
 	
 }

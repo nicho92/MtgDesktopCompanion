@@ -687,13 +687,14 @@ public class MagicGUI extends JFrame {
 	public MagicGUI() {
 
 		try {
+			
+			MagicFactory.getInstance().getEnabledProviders().init();
+			MagicFactory.getInstance().getEnabledDAO().init();
+			
+			
 			priceModel=new CardsPriceTableModel();
 			cardsModeltable = new MagicCardTableModel();
 			
-			MagicFactory.getInstance().getEnabledProviders().init();
-			logger.info("set provider : " + MagicFactory.getInstance().getEnabledProviders());
-			
-			MagicFactory.getInstance().getEnabledDAO().init();;
 			
 			boosterProvider = new BoosterPicturesProvider();
 			serviceUpdate = new VersionChecker();

@@ -23,6 +23,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
@@ -83,10 +84,11 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
-		 	
 		 	logger.debug("Create table stocks");
 		 	con.createStatement().executeUpdate("create table stocks (idstock SERIAL PRIMARY KEY , idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
-		 
+		 	logger.debug("Create table Alerts");
+		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard bytea, amount decimal)");
+		 	
 		 	
 		 	logger.debug("populate collections");
 		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
@@ -361,7 +363,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			return "PostGreSQL";
 		}
 
-
+/*
 		@Override
 		public List<MagicDeck> listDeck() throws SQLException {
 			// TODO Auto-generated method stub
@@ -381,7 +383,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			// TODO Auto-generated method stub
 			
 		}
-
+*/
 
 		@Override
 		public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException{
@@ -405,7 +407,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			 return cols;
 		}
 
-
+/*
 		@Override
 		public void saveShopItem(ShopItem mp, String string) {
 			// TODO Auto-generated method stub
@@ -417,7 +419,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		public String getSavedShopItemAnotation(ShopItem id) {
 			// TODO Auto-generated method stub
 			return null;
-		}
+		}*/
 
 
 		@Override
@@ -453,6 +455,8 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			
 		}
 
+		
+		
 
 
 		@Override
@@ -527,6 +531,70 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				pst.executeUpdate();
 			}
 		}
+		List<MagicCardAlert> list;
+		@Override
+		public List<MagicCardAlert> getAlerts()  {
+		
+			try{
+			
+			PreparedStatement pst=con.prepareStatement("select * from alerts");	
+			list = new ArrayList<MagicCardAlert>();
+			ResultSet rs = pst.executeQuery();
+			while(rs.next())
+			{
+			
+					MagicCardAlert alert = new MagicCardAlert();
+								   alert.setCard(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
+								   alert.setId(rs.getString("id"));
+								   alert.setPrice(rs.getDouble("amount"));
+								   
+								   list.add(alert);
+			}
+			return list;
+			
+			}catch(Exception e)
+			{
+				return null;
+			}
+		}
+		
+		@Override
+		public void updateAlert(MagicCardAlert alert) throws SQLException {
+			PreparedStatement pst;
+					pst=con.prepareStatement("update alerts set amount=? where id=?");
+					pst.setDouble(1, alert.getPrice());
+					pst.setString(2, alert.getId());
+					pst.executeUpdate();
+			list.remove(alert);
+			list.add(alert);
+			
+		}
+
+		@Override
+		public void saveAlert(MagicCardAlert alert) throws Exception {
+			logger.debug("save "  + alert);
+			PreparedStatement pst;
+			pst=con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)");
+			pst.setString(1, alert.getCard().getId());
+			pst.setObject(2,convertObject(alert.getCard()));
+			pst.setDouble(3, alert.getPrice());
+			list.add(alert);
+			pst.executeUpdate();
+			
+		}
+
+		@Override
+		public void deleteAlert(MagicCardAlert alert) throws SQLException {
+			logger.debug("delete "  + alert);
+			PreparedStatement pst;
+			pst=con.prepareStatement("delete from alerts where id=?");
+			pst.setString(1, alert.getCard().getId());
+			list.remove(alert);
+			pst.executeUpdate();
+			
+		}
+
+
 
 
 }
