@@ -409,14 +409,13 @@ public class MagicCardDetailPanel extends JPanel {
 		return magicCard;
 	}
 
-	public void setMagicCard(org.magic.api.beans.MagicCard newMagicCard) {
+	public void setMagicCard(MagicCard newMagicCard) {
 		setMagicCard(newMagicCard, true);
 	}
 
 	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
-		
-	if (update) {
+		if (update) {
 			if (m_bindingGroup != null) {
 				m_bindingGroup.unbind();
 				m_bindingGroup = null;
