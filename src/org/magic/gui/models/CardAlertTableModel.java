@@ -45,10 +45,10 @@ public class CardAlertTableModel extends DefaultTableModel {
 	public Class<?> getColumnClass(int columnIndex) {
 		switch(columnIndex)
 		{
-			case 0 : return MagicCard.class;
+			case 0 : return MagicCardAlert.class;
 			case 1 : return MagicEdition.class;
 			case 2 : return Double.class;
-			case 3 : return List.class;
+			case 3 : return Integer.class;
 			default : return super.getColumnClass(columnIndex);
 		}
 		
@@ -70,10 +70,10 @@ public class CardAlertTableModel extends DefaultTableModel {
 		
 		switch(column)
 		{
-			case 0 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row).getCard();
+			case 0 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row);
 			case 1 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row).getCard().getEditions().get(0);
 			case 2 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row).getPrice();
-			case 3 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row).getOffers();
+			case 3 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row).getOffers().size();
 		default : return "";
 		}
 	}

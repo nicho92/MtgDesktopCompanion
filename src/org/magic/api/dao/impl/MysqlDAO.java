@@ -512,12 +512,25 @@ public class MysqlDAO extends AbstractMagicDAO{
 				return list;
 		}catch(Exception e)
 		{
-			//e.printStackTrace();
-			//	logger.error(e);
 			return null;
 		}
 	}
 
+	@Override
+	public boolean hasAlert(MagicCard mc) {
+		try
+		{
+				PreparedStatement pst=con.prepareStatement("select * from alerts where id=?");
+				pst.setString(1, mc.getId());
+				ResultSet rs = pst.executeQuery();
+				return rs.next();
+		}catch(Exception e)
+		{
+			return false;
+		}
+		
+	}
+	
 	@Override
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
 		PreparedStatement pst;
@@ -544,7 +557,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void deleteAlert(MagicCardAlert alert) throws SQLException {
-		logger.debug("delete "  + alert);
+		logger.debug("delete alert "  + alert);
 		PreparedStatement pst;
 		pst=con.prepareStatement("delete from alerts where id=?");
 		pst.setString(1, alert.getCard().getId());

@@ -10,11 +10,11 @@ public class MagicCardAlert {
 	private Double price;
 	private List<MagicPrice> offers;
 	
-	/*@Override
+	@Override
 	public String toString() {
 		return String.valueOf(card);
 	}
-	*/
+	
 	public String getId() {
 		return id;
 	}

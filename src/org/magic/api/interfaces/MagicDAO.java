@@ -62,7 +62,7 @@ public interface MagicDAO {
 	public List<MagicCardAlert> getAlerts();
 	public void saveAlert(MagicCardAlert alert) throws Exception;
 	public void deleteAlert(MagicCardAlert alert) throws Exception;
-	
+	public boolean hasAlert(MagicCard mc);
 	
 	
 	public String getDBLocation();

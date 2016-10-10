@@ -64,7 +64,7 @@ public class EbayPricer extends AbstractMagicPricesProvider
 		
 		String link=url.replaceAll("%KEYWORD%", KEYWORD);
 		
-		logger.info(getName() + " looking for " + link);
+		logger.info(getName() + " looking for " + KEYWORD);
 		
 		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), "UTF-8"));
 		JsonElement root = new JsonParser().parse(reader);

@@ -569,6 +569,21 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			list.add(alert);
 			
 		}
+		
+		@Override
+		public boolean hasAlert(MagicCard mc) {
+			try
+			{
+					PreparedStatement pst=con.prepareStatement("select * from alerts where id=?");
+					pst.setString(1, mc.getId());
+					ResultSet rs = pst.executeQuery();
+					return rs.next();
+			}catch(Exception e)
+			{
+				return false;
+			}
+			
+		}
 
 		@Override
 		public void saveAlert(MagicCardAlert alert) throws Exception {

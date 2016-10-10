@@ -136,7 +136,6 @@ public class MagicCardDetailPanel extends JPanel {
 				add(lblLogoSet, gbc_lblLogoSet);
 				
 				btnAlert = new JButton("");
-				btnAlert.setToolTipText("add a alert !");
 				btnAlert.setEnabled(false);
 				ImageIcon ic = new ImageIcon(MagicCardDetailPanel.class.getResource("/res/bell.png"));
 				Image b = ic.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH);
@@ -417,14 +416,7 @@ public class MagicCardDetailPanel extends JPanel {
 	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
 		
-		if(magicCard.getName()!=null)
-		{
-			
-			
-			btnAlert.setEnabled(true);
-		}
-		
-		if (update) {
+	if (update) {
 			if (m_bindingGroup != null) {
 				m_bindingGroup.unbind();
 				m_bindingGroup = null;
@@ -566,6 +558,23 @@ public class MagicCardDetailPanel extends JPanel {
 			}
 		},"loadCollections");
 			
+		ThreadManager.getInstance().execute(new Runnable() {
+			public void run() {
+					if(MagicFactory.getInstance().getEnabledDAO().hasAlert(magicCard))
+					{
+						btnAlert.setToolTipText("Has a alert");
+						btnAlert.setEnabled(false);
+					}
+					else
+					{
+						btnAlert.setToolTipText("add an alert !");
+						btnAlert.setEnabled(true);
+					}
+			}
+		},"check alerts");
+		
+	
+		
 			
 		((DefaultListModel)lstFormats.getModel()).removeAllElements();
 		for(MagicFormat mf : magicCard.getLegalities())
