@@ -16,6 +16,10 @@
 			<class>org.magic.servers.impl.JSONHttpServer</class>
 			<enable>true</enable>
 		</server>
+		<server>
+			<class>org.magic.servers.impl.PricesCheckerTimer</class>
+			<enable>true</enable>
+		</server>
 	</servers>
 
 	<pricers>
