@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
@@ -19,31 +21,41 @@ import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicPriceComponent;
 import org.magic.gui.models.CardAlertTableModel;
+import org.magic.services.MagicFactory;
+
+import javax.swing.JButton;
+import javax.swing.ImageIcon;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;
 	private CardAlertTableModel model;
 	private MagicCardDetailPanel magicCardDetailPanel ;
-	private  DefaultListModel<MagicPrice> resultListModel;
+	private DefaultListModel<MagicPrice> resultListModel;
 	private JList list;
-	
+	private JSplitPane splitPanel;
+	private JPanel panel;
+	private JButton btnRefresh;
+	private JButton btnDelete;
 	
 	public AlarmGUI() {
 		setLayout(new BorderLayout());
 		
 		
-		JSplitPane panel = new JSplitPane();
-		panel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		add(panel, BorderLayout.CENTER);
+		splitPanel = new JSplitPane();
+		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		add(splitPanel, BorderLayout.CENTER);
 		
 		JScrollPane scrollTable = new JScrollPane();
 		scrollTable.setPreferredSize(new Dimension(2, 200));
-		panel.setLeftComponent(scrollTable);
+		splitPanel.setLeftComponent(scrollTable);
 		
 		table = new JTable();
 		model = new CardAlertTableModel();
@@ -70,7 +82,7 @@ public class AlarmGUI extends JPanel {
 		scrollTable.setViewportView(table);
 		
 		magicCardDetailPanel = new MagicCardDetailPanel();
-		panel.setRightComponent(magicCardDetailPanel);
+		splitPanel.setRightComponent(magicCardDetailPanel);
 		magicCardDetailPanel.enableThumbnail(true);
 		
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -91,7 +103,6 @@ public class AlarmGUI extends JPanel {
 		resultListModel= new DefaultListModel<MagicPrice>();
 			
 		list = new JList(resultListModel);
-		
 		list.setCellRenderer(new ListCellRenderer<MagicPrice>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends MagicPrice> list, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus) {
@@ -119,6 +130,46 @@ public class AlarmGUI extends JPanel {
 		});
 		scrollPane.setViewportView(list);
 		
+		panel = new JPanel();
+		add(panel, BorderLayout.NORTH);
+		
+		btnRefresh = new JButton("");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				model.fireTableDataChanged();
+			}
+		});
+		btnRefresh.setIcon(new ImageIcon(AlarmGUI.class.getResource("/res/refresh.png")));
+		panel.add(btnRefresh);
+		
+		btnDelete = new JButton("");
+		btnDelete.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int row =table.getSelectedRow();
+				if(row>0)
+				{
+					try {
+						MagicCardAlert alert = (MagicCardAlert)model.getValueAt(row,0);
+						MagicFactory.getInstance().getEnabledDAO().deleteAlert(alert);
+						model.fireTableDataChanged();
+					} catch (Exception e1) {
+						JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
+					}
+				}
+				
+				
+			}
+		});
+		btnDelete.setIcon(new ImageIcon(AlarmGUI.class.getResource("/res/delete.png")));
+		panel.add(btnDelete);
+		addComponentListener(new ComponentAdapter() {
+		      public void componentShown(ComponentEvent componentEvent) {
+		    	  splitPanel.setDividerLocation(.5);
+		    	  model.fireTableDataChanged();
+		    	  removeComponentListener(this);
+		      }
+
+		    });
 		
 	}
 

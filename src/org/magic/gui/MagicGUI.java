@@ -669,7 +669,7 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), panneauBuilder, null);
 		tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), new RssGUI(), null);
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
-		tabbedPane.addTab("Servers", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ServersGUI(), null);
+		//tabbedPane.addTab("Servers", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ServersGUI(), null);
 		
 
 		filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);

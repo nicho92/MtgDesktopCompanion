@@ -88,9 +88,9 @@ public class MagicCardDetailPanel extends JPanel {
 		
 		gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 52, 382, 76, 0, 57, 32, 51, 0, 77, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 44, 0, 65, 25, 21, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 						
 		JLabel nameLabel = new JLabel("Name:");
@@ -166,7 +166,6 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				lblThumbnail = new JLabel("");
 				GridBagConstraints gbc_lblThumbnail = new GridBagConstraints();
-				gbc_lblThumbnail.insets = new Insets(0, 0, 5, 0);
 				gbc_lblThumbnail.gridheight = 9;
 				gbc_lblThumbnail.gridx = 8;
 				gbc_lblThumbnail.gridy = 1;
@@ -289,7 +288,7 @@ public class MagicCardDetailPanel extends JPanel {
 				GridBagConstraints gbc_scrollLegality = new GridBagConstraints();
 				gbc_scrollLegality.gridheight = 2;
 				gbc_scrollLegality.gridwidth = 2;
-				gbc_scrollLegality.insets = new Insets(0, 0, 5, 5);
+				gbc_scrollLegality.insets = new Insets(0, 0, 0, 5);
 				gbc_scrollLegality.fill = GridBagConstraints.BOTH;
 				gbc_scrollLegality.gridx = 1;
 				gbc_scrollLegality.gridy = 8;
@@ -387,7 +386,7 @@ public class MagicCardDetailPanel extends JPanel {
 				GridBagConstraints gbc_scrollCollections = new GridBagConstraints();
 				gbc_scrollCollections.gridheight = 2;
 				gbc_scrollCollections.gridwidth = 3;
-				gbc_scrollCollections.insets = new Insets(0, 0, 5, 5);
+				gbc_scrollCollections.insets = new Insets(0, 0, 0, 5);
 				gbc_scrollCollections.fill = GridBagConstraints.BOTH;
 				gbc_scrollCollections.gridx = 4;
 				gbc_scrollCollections.gridy = 8;

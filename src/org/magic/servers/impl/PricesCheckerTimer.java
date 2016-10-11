@@ -54,6 +54,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 								if(p.getValue()<=alert.getPrice())
 									alert.getOffers().add(p);
 							
+							alert.orderDesc();
 						} catch (Exception e) {
 							logger.error(e);
 						}

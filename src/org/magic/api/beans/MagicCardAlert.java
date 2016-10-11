@@ -1,6 +1,8 @@
 package org.magic.api.beans;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class MagicCardAlert {
@@ -57,6 +59,18 @@ public class MagicCardAlert {
 		return ((MagicCardAlert)obj).getId().equals(getId());
 	}
 
+	
+	public void orderDesc()
+	{
+		Collections.sort(this.offers, new Comparator<MagicPrice >() {
+	        @Override public int compare(MagicPrice b1, MagicPrice b2) {
+	        	int  val = ( b1.getValue()<b2.getValue() ? -1: 1);
+	        	return val;
+	        }
+
+	    });
+	}
+	
 	
 	
 }

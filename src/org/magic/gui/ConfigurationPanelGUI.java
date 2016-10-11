@@ -222,6 +222,9 @@ public class ConfigurationPanelGUI extends JPanel {
 		table = new JTable(mod);
 		applicationConfigPanel.setViewportView(table);
 		
+		ServersGUI serversGUI = new ServersGUI();
+		tabbedPane.addTab("Active Servers", null, serversGUI, null);
+		
 		
 		
 	}

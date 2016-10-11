@@ -12,12 +12,17 @@ import java.awt.Insets;
 import javax.swing.border.MatteBorder;
 import java.awt.Color;
 import javax.swing.border.LineBorder;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.SystemColor;
 
 public class MagicPriceComponent extends JPanel {
 
 	MagicPrice price;
-	
+
 	public MagicPriceComponent(MagicPrice price) {
+		setBackground(SystemColor.inactiveCaptionBorder);
+		
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		this.price=price;
 		GridBagLayout gridBagLayout = new GridBagLayout();
