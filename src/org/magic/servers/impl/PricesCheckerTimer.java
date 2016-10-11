@@ -56,7 +56,6 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 							
 						} catch (Exception e) {
 							logger.error(e);
-							//e.printStackTrace();
 						}
                 	}
                 }

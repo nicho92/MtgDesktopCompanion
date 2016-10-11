@@ -16,11 +16,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.MagicPriceComponent;
 import org.magic.gui.models.CardAlertTableModel;
 
 public class AlarmGUI extends JPanel {
@@ -89,6 +91,15 @@ public class AlarmGUI extends JPanel {
 		resultListModel= new DefaultListModel<MagicPrice>();
 			
 		list = new JList(resultListModel);
+		
+		list.setCellRenderer(new ListCellRenderer<MagicPrice>() {
+			@Override
+			public Component getListCellRendererComponent(JList<? extends MagicPrice> list, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus) {
+				return new MagicPriceComponent(value);
+			}
+		});
+		
+		
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {

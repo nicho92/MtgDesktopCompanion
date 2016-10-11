@@ -93,13 +93,10 @@ public class ServerStatePanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				try {
 					if(server.isAlive())
-					{
 						server.stop();
-					}
 					else
-					{
 						server.start();
-					}
+
 					lblLogs.setText("");
 				} catch (Exception e1) {
 					lblLogs.setText(e1.getMessage());

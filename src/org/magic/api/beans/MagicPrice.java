@@ -13,6 +13,9 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	
 	
 	public String getQuality() {
+		if(quality==null)
+			return "";
+		
 		return quality;
 	}
 	public void setQuality(String quality) {
@@ -25,6 +28,8 @@ public class MagicPrice implements Comparable<MagicPrice> {
 		this.foil = foil;
 	}
 	public String getLanguage() {
+		if(language==null)
+			return "";
 		return language;
 	}
 	public void setLanguage(String language) {
