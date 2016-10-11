@@ -62,10 +62,6 @@ public class JSONHttpServer extends AbstractMTGServer
 			  }
     		}
 		};
-		
-		if(props.getProperty("AUTOSTART").equalsIgnoreCase("true"))
-			start();
-		
 	}
     
     public void stop()
@@ -110,8 +106,7 @@ public class JSONHttpServer extends AbstractMTGServer
   	  } 
   	  catch (Exception e) 
   	  {
-  		  e.printStackTrace();
-  		 return NanoHTTPD.newFixedLengthResponse("Usage : /prices?name=<i>cardname</i>&set=<i>IDSET</i>");
+  		 return NanoHTTPD.newFixedLengthResponse(e+"Usage : /prices?name=<i>cardname</i>&set=<i>IDSET</i>");
   	  }
 	}
 
@@ -128,8 +123,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	  } 
 	  catch (Exception e) 
 	  {
-		  e.printStackTrace();
-		  return NanoHTTPD.newFixedLengthResponse("Usage : /search?<i>att</i>=<i>value</i>");
+		  return NanoHTTPD.newFixedLengthResponse(e+"Usage : /search?<i>att</i>=<i>value</i>");
 	  }
 	}
 	
@@ -152,7 +146,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	  catch (Exception e) 
 	  {
 		  e.printStackTrace();
-		  return NanoHTTPD.newFixedLengthResponse("Usage : /collection?col=<i>value</i>");
+		  return NanoHTTPD.newFixedLengthResponse(e+"Usage : /collection?col=<i>value</i>");
 	  }
 	}
 
@@ -161,5 +155,10 @@ public class JSONHttpServer extends AbstractMTGServer
 		return "Json Http Server";
 	}
 
+	
+	@Override
+	public boolean isAutostart() {
+		return props.getProperty("AUTOSTART").equals("true");
+	}
     
 }

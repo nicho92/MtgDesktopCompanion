@@ -671,11 +671,309 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
 		tabbedPane.addTab("Servers", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ServersGUI(), null);
 		
+
+		filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
+		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
+		filterHeader.setVisible(false);
+		panelFilters.setVisible(false);
 		
 		
 		initPopupCollection();
 
+		btnSearch.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 
+				selectedEdition=null;
+				if(txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
+					return;
+				
+				Runnable r = new Runnable() {
+					public void run() {
+						loading(true,"searching");
+						try {
+							String searchName=txtMagicSearch.getText();
+							
+							if(cboCollections.isVisible())
+								cards = MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
+							else
+								cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
+							
+							
+							
+							cardsModeltable.init(cards,defaultLanguage);
+							//cardsModeltable.fireTableStructureChanged();
+							tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+							
+							cardsModeltable.fireTableDataChanged();
+							
+							thumbnailPanel.initThumbnails(cards,false);
+							
+							cmcChart.init(cards);
+							typeRepartitionPanel.init(cards);
+							manaRepartitionPanel.init(cards);
+							rarityRepartitionPanel.init(cards);
+							tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
+							
+							btnExport.setEnabled(tableCards.getRowCount()>0);
+
+						} catch (Exception e) {
+							e.printStackTrace();
+							JOptionPane.showMessageDialog(null, e.getMessage(),"ERREUR",JOptionPane.ERROR_MESSAGE);
+						}
+						loading(false,"");
+					}
+				};
+				
+				ThreadManager.getInstance().execute(r,"SearchCards");
+			}
+		});
+
+		btnGenerateBooster.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				if(selectedEdition==null)
+					selectedEdition = selected.getEditions().get(0);
+
+				try {
+					tabbedCardsView.setSelectedIndex(1);
+					thumbnailPanel.initThumbnails( MagicFactory.getInstance().getEnabledProviders().openBooster(selectedEdition),false);
+
+				} catch (Exception e) {
+					logger.error(e);
+				}
+			}
+		});
+
+		tableCards.addMouseListener(new java.awt.event.MouseAdapter() {
+			public void mouseClicked(java.awt.event.MouseEvent evt) {
+
+				if(SwingUtilities.isRightMouseButton(evt))
+				{
+					Point point = evt.getPoint();
+					popupMenu.show(tableCards, (int)point.getX(), (int)point.getY());
+				}
+				else
+				{
+					selected = (MagicCard)tableCards.getValueAt(tableCards.getSelectedRow(), 0);
+					selectedEdition = selected.getEditions().get(0);
+					updateCards();
+
+				}
+			}
+		});
+
+		listEdition.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent mev) {
+					selectedEdition = listEdition.getSelectedValue();
+					detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
+					
+					magicEditionDetailPanel.setMagicEdition(selectedEdition);
+					try {
+						logger.debug("LOADING ED " + BeanUtils.describe(selectedEdition));
+					} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
+						logger.error(e1);
+					}
+					
+					ThreadManager.getInstance().execute(new Runnable() {
+						public void run() {
+							try {
+								loading(true,"loading edition");
+								
+									cardsPicPanel.showPhoto(selected,selectedEdition);//backcard
+									lblBoosterPic.setIcon(boosterProvider.getBoosterFor(selectedEdition));
+									magicEditionDetailPanel.setMagicEdition(selectedEdition);
+									
+									historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
+									
+									
+									if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
+										updatePrices();
+								loading(false,"");
+							} catch (IOException e) {
+								logger.error(e);
+							}
+						}
+					},"changeEdition");
+			}
+		});
+
+		tablePrice.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent ev) {
+				if(ev.getClickCount()==2 && !ev.isConsumed())
+				{
+					ev.consume();
+					try {
+						String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), 6).toString();
+						Desktop.getDesktop().browse(new URI(url));
+					} catch (Exception e) {
+						logger.error(e);
+					}
+
+				}
+
+			}
+		});
+
+		cboLanguages.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
+				try {
+					if(selLang!=null)
+					{
+						MagicEdition ed = new MagicEdition();
+							ed.setMultiverse_id(""+selLang.getGathererId());
+							ed.setId(selectedEdition.getId());
+						cardsPicPanel.showPhoto(selected,ed);
+					}
+				} catch (Exception e1) {}
+			}
+
+		});
+
+		mntmExit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+
+			}
+		});
+
+		btnExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				JPopupMenu menu = new JPopupMenu();
+				
+				for(final CardExporter exp : MagicFactory.getInstance().getEnabledDeckExports())
+				{
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							JFileChooser jf =new JFileChooser(".");
+							jf.setSelectedFile(new File("search"+exp.getFileExtension()));
+							int result = jf.showSaveDialog(null);
+							final File f=jf.getSelectedFile();
+							
+							if(result==JFileChooser.APPROVE_OPTION)
+								ThreadManager.getInstance().execute(new Runnable() {
+									
+									@Override
+									public void run() {
+										try {
+										loading(true, "export " + exp);
+										
+										List<MagicCard> export = ((MagicCardTableModel)tableCards.getRowSorter().getModel()).getListCards();
+										exp.export(export, f);
+										loading(false, "");
+										JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
+										} catch (Exception e) {
+											logger.error(e);
+											loading(false, "");
+											JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+										}	
+									
+									}
+									}, "export search " + exp);
+								
+							
+						}
+					});
+					
+					menu.add(it);
+				}
+				
+				Component b=(Component)ae.getSource();
+		        Point p=b.getLocationOnScreen();
+		        menu.show(b,0,0);
+		        menu.setLocation(p.x,p.y+b.getHeight());
+			}
+		});
+		
+		tabbedCardsInfo.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent e) {
+
+					if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
+						updatePrices();
+				
+			}
+		});
+
+		txtFilter.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				String text = txtFilter.getText();
+		          if (text.length() == 0) {
+		        	  sorterCards.setRowFilter(null);
+		          } else {
+		        	  sorterCards.setRowFilter(RowFilter.regexFilter(text));
+		          }
+			}
+		});
+		
+		
+		mntmShowhideFilters.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if(panelFilters.isVisible())
+				{
+					panelFilters.setVisible(false);
+					filterHeader.setVisible(false);
+					
+				}
+				else
+				{
+					panelFilters.setVisible(true);
+					filterHeader.setVisible(true);
+					
+				}
+			}
+		});
+		
+		thumbnailPanel.addMouseListener(new MouseAdapter() {
+			public void mouseClicked(MouseEvent e) {
+				DisplayableCard lab = (DisplayableCard)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
+				selected = lab.getMagicCard();
+				cardsPicPanel.showPhoto(selected, null);
+				updateCards();
+			}
+			
+		});
+		
+		if (SystemTray.isSupported()) {
+			tray.add(trayIcon);
+
+			
+			trayIcon.addActionListener(new ActionListener() {
+				
+				public void actionPerformed(ActionEvent e) {
+					if(!isVisible())
+						setVisible(true);
+					else
+						setVisible(false);
+				}
+			});
+			
+			PopupMenu menuTray = new PopupMenu();
+			
+			
+			for(int index_tab = 0;index_tab<tabbedPane.getTabCount();index_tab++)
+			{
+				final int index = index_tab;
+				MenuItem it = new MenuItem(tabbedPane.getTitleAt(index_tab));
+				it.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+							setVisible(true);
+							setSelectedTab(index);
+							
+					}
+				});
+				menuTray.add(it);
+			}
+			
+			trayIcon.setPopupMenu(menuTray);
+			trayIcon.setToolTip("MTG Desktop Companion");
+			if(serviceUpdate.hasNewVersion())
+				trayIcon.displayMessage(getTitle(),"New version " + serviceUpdate.getOnlineVersion() + " available",TrayIcon.MessageType.INFO);
+		
+		}		
 	}
 
 	public void setSelectedCard(MagicCard mc)
@@ -701,305 +999,7 @@ public class MagicGUI extends JFrame {
 
 			initGUI();
 
-
-			btnSearch.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-
-					selectedEdition=null;
-					if(txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
-						return;
-					
-					Runnable r = new Runnable() {
-						public void run() {
-							loading(true,"searching");
-							try {
-								String searchName=txtMagicSearch.getText();
-								
-								if(cboCollections.isVisible())
-									cards = MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
-								else
-									cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
-								
-								
-								
-								cardsModeltable.init(cards,defaultLanguage);
-								//cardsModeltable.fireTableStructureChanged();
-								tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-								
-								cardsModeltable.fireTableDataChanged();
-								
-								thumbnailPanel.initThumbnails(cards,false);
-								
-								cmcChart.init(cards);
-								typeRepartitionPanel.init(cards);
-								manaRepartitionPanel.init(cards);
-								rarityRepartitionPanel.init(cards);
-								tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
-								
-								btnExport.setEnabled(tableCards.getRowCount()>0);
-
-							} catch (Exception e) {
-								e.printStackTrace();
-								JOptionPane.showMessageDialog(null, e.getMessage(),"ERREUR",JOptionPane.ERROR_MESSAGE);
-							}
-							loading(false,"");
-						}
-					};
-					
-					ThreadManager.getInstance().execute(r,"SearchCards");
-				}
-			});
-
-			btnGenerateBooster.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-
-					if(selectedEdition==null)
-						selectedEdition = selected.getEditions().get(0);
-
-					try {
-						tabbedCardsView.setSelectedIndex(1);
-						thumbnailPanel.initThumbnails( MagicFactory.getInstance().getEnabledProviders().openBooster(selectedEdition),false);
-
-					} catch (Exception e) {
-						logger.error(e);
-					}
-				}
-			});
-
-			tableCards.addMouseListener(new java.awt.event.MouseAdapter() {
-				public void mouseClicked(java.awt.event.MouseEvent evt) {
-
-					if(SwingUtilities.isRightMouseButton(evt))
-					{
-						Point point = evt.getPoint();
-						popupMenu.show(tableCards, (int)point.getX(), (int)point.getY());
-					}
-					else
-					{
-						selected = (MagicCard)tableCards.getValueAt(tableCards.getSelectedRow(), 0);
-						selectedEdition = selected.getEditions().get(0);
-						updateCards();
-
-					}
-				}
-			});
-
-			listEdition.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent mev) {
-						selectedEdition = listEdition.getSelectedValue();
-						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
-						
-						magicEditionDetailPanel.setMagicEdition(selectedEdition);
-						try {
-							logger.debug("LOADING ED " + BeanUtils.describe(selectedEdition));
-						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
-							logger.error(e1);
-						}
-						
-						ThreadManager.getInstance().execute(new Runnable() {
-							public void run() {
-								try {
-									loading(true,"loading edition");
-									
-										cardsPicPanel.showPhoto(selected,selectedEdition);//backcard
-										lblBoosterPic.setIcon(boosterProvider.getBoosterFor(selectedEdition));
-										magicEditionDetailPanel.setMagicEdition(selectedEdition);
-										
-										historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
-										
-										
-										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
-											updatePrices();
-									loading(false,"");
-								} catch (IOException e) {
-									logger.error(e);
-								}
-							}
-						},"changeEdition");
-				}
-			});
-
-			tablePrice.addMouseListener(new MouseAdapter() {
-				@Override
-				public void mouseClicked(MouseEvent ev) {
-					if(ev.getClickCount()==2 && !ev.isConsumed())
-					{
-						ev.consume();
-						try {
-							String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), 6).toString();
-							Desktop.getDesktop().browse(new URI(url));
-						} catch (Exception e) {
-							logger.error(e);
-						}
-
-					}
-
-				}
-			});
-
-			cboLanguages.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
-					try {
-						if(selLang!=null)
-						{
-							MagicEdition ed = new MagicEdition();
-								ed.setMultiverse_id(""+selLang.getGathererId());
-								ed.setId(selectedEdition.getId());
-							cardsPicPanel.showPhoto(selected,ed);
-						}
-					} catch (Exception e1) {}
-				}
-
-			});
-
-			mntmExit.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					System.exit(0);
-
-				}
-			});
-
-			btnExport.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ae) {
-					JPopupMenu menu = new JPopupMenu();
-					
-					for(final CardExporter exp : MagicFactory.getInstance().getEnabledDeckExports())
-					{
-						JMenuItem it = new JMenuItem();
-						it.setIcon(exp.getIcon());
-						it.setText(exp.getName());
-						it.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								JFileChooser jf =new JFileChooser(".");
-								jf.setSelectedFile(new File("search"+exp.getFileExtension()));
-								int result = jf.showSaveDialog(null);
-								final File f=jf.getSelectedFile();
-								
-								if(result==JFileChooser.APPROVE_OPTION)
-									ThreadManager.getInstance().execute(new Runnable() {
-										
-										@Override
-										public void run() {
-											try {
-											loading(true, "export " + exp);
-											
-											List<MagicCard> export = ((MagicCardTableModel)tableCards.getRowSorter().getModel()).getListCards();
-											exp.export(export, f);
-											loading(false, "");
-											JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
-											} catch (Exception e) {
-												logger.error(e);
-												loading(false, "");
-												JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
-											}	
-										
-										}
-										}, "export search " + exp);
-									
-								
-							}
-						});
-						
-						menu.add(it);
-					}
-					
-					Component b=(Component)ae.getSource();
-			        Point p=b.getLocationOnScreen();
-			        menu.show(b,0,0);
-			        menu.setLocation(p.x,p.y+b.getHeight());
-				}
-			});
 			
-			tabbedCardsInfo.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent e) {
-
-						if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
-							updatePrices();
-					
-				}
-			});
-
-			txtFilter.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					String text = txtFilter.getText();
-			          if (text.length() == 0) {
-			        	  sorterCards.setRowFilter(null);
-			          } else {
-			        	  sorterCards.setRowFilter(RowFilter.regexFilter(text));
-			          }
-				}
-			});
-			
-			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
-			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
-			filterHeader.setVisible(false);
-			panelFilters.setVisible(false);
-			
-			mntmShowhideFilters.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if(panelFilters.isVisible())
-					{
-						panelFilters.setVisible(false);
-						filterHeader.setVisible(false);
-						
-					}
-					else
-					{
-						panelFilters.setVisible(true);
-						filterHeader.setVisible(true);
-						
-					}
-				}
-			});
-			
-			thumbnailPanel.addMouseListener(new MouseAdapter() {
-				public void mouseClicked(MouseEvent e) {
-					DisplayableCard lab = (DisplayableCard)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
-					selected = lab.getMagicCard();
-					cardsPicPanel.showPhoto(selected, null);
-					updateCards();
-				}
-				
-			});
-			
-			if (SystemTray.isSupported()) {
-				tray.add(trayIcon);
-
-				
-				trayIcon.addActionListener(new ActionListener() {
-					
-					public void actionPerformed(ActionEvent e) {
-						if(!isVisible())
-							setVisible(true);
-						else
-							setVisible(false);
-					}
-				});
-				
-				PopupMenu menuTray = new PopupMenu();
-				
-				
-				for(int index_tab = 0;index_tab<tabbedPane.getTabCount();index_tab++)
-				{
-					final int index = index_tab;
-					MenuItem it = new MenuItem(tabbedPane.getTitleAt(index_tab));
-					it.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent e) {
-								setVisible(true);
-								setSelectedTab(index);
-								
-						}
-					});
-					menuTray.add(it);
-				}
-				
-				trayIcon.setPopupMenu(menuTray);
-				trayIcon.setToolTip("MTG Desktop Companion");
-				if(serviceUpdate.hasNewVersion())
-					trayIcon.displayMessage(getTitle(),"New version " + serviceUpdate.getOnlineVersion() + " available",TrayIcon.MessageType.INFO);
-			
-			}		
 			
 			
 		} 

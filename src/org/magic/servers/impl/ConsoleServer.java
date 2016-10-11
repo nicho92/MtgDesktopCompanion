@@ -42,10 +42,6 @@ public class ConsoleServer extends AbstractMTGServer{
 			props.put("AUTOSTART", "false");
 			save();
 		}
-		
-		if(props.getProperty("AUTOSTART").equalsIgnoreCase("true"))
-			start();
-
 	}
  	
  	
@@ -83,6 +79,11 @@ public class ConsoleServer extends AbstractMTGServer{
 	@Override
 	public String getName() {
 		return "Console Server";
+	}
+	
+	@Override
+	public boolean isAutostart() {
+		return props.getProperty("AUTOSTART").equals("true");
 	}
 }
 

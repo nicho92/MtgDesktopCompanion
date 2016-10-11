@@ -33,15 +33,12 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 		}
 		
 		timer = new Timer();
-		
-		if(props.getProperty("AUTOSTART").equals("true"))
-        	start();
-        
 	}
 	
 
 	public void start()
 	{
+		running=true;
 		tache = new TimerTask() {    
             public void run() {
             	
@@ -59,7 +56,6 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 							
 						} catch (Exception e) {
 							logger.error(e);
-							//e.printStackTrace();
 						}
                 	}
                 }
@@ -67,7 +63,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
         };
 		
 		timer.scheduleAtFixedRate(tache,0,Long.parseLong(props.getProperty("TIMEOUT")));
-		running=true;
+		
 	}
 	
 	public void stop()
@@ -86,6 +82,12 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 	public String getName() {
 		return "Price Timer";
 		
+	}
+
+
+	@Override
+	public boolean isAutostart() {
+		return props.getProperty("AUTOSTART").equals("true");
 	}
 	
 	
