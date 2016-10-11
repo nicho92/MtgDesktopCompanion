@@ -5,6 +5,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -71,6 +73,20 @@ public class ServerStatePanel extends JPanel {
 		gbc_btnStartStop.gridy = 0;
 		add(btnStartStop, gbc_btnStartStop);
 		
+		
+		TimerTask tache = new TimerTask() {    
+            public void run() {
+            	if(server.isAlive())
+            		btnStartStop.setText("Stop");
+            	else
+            		btnStartStop.setText("Start");
+            	lblalive.setIcon(icons.get(server.isAlive()));
+            }
+		};
+		Timer timer = new Timer();
+		timer.scheduleAtFixedRate(tache,0,1000);
+
+		
 		btnStartStop.addActionListener(new ActionListener() {
 			
 			@Override
@@ -79,23 +95,15 @@ public class ServerStatePanel extends JPanel {
 					if(server.isAlive())
 					{
 						server.stop();
-						btnStartStop.setText("Start");
-						
 					}
 					else
 					{
 						server.start();
-						btnStartStop.setText("Stop");
 					}
-					
-					lblalive.setIcon(icons.get(server.isAlive()));
 					lblLogs.setText("");
 				} catch (Exception e1) {
 					lblLogs.setText(e1.getMessage());
 				}
-				
-				
-				
 			}
 		});
 		
