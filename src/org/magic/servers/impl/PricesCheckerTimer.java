@@ -38,6 +38,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 
 	public void start()
 	{
+		running=true;
 		tache = new TimerTask() {    
             public void run() {
             	
@@ -63,7 +64,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
         };
 		
 		timer.scheduleAtFixedRate(tache,0,Long.parseLong(props.getProperty("TIMEOUT")));
-		running=true;
+		
 	}
 	
 	public void stop()

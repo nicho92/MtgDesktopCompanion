@@ -21,6 +21,7 @@ public class MkmWantList {
       BufferedReader rd = new BufferedReader(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream()));  
       StringBuffer sb = new StringBuffer(); 
       String line;
+      System.out.println("res : " + _lastCode);
       while ((line = rd.readLine()) != null) {  
            sb.append(line);  
       }

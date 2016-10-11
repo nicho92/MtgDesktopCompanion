@@ -55,7 +55,7 @@ public class MtgDesktopCompanion {
 								try {
 									serv.start();
 								} catch (Exception e) {
-									e.printStackTrace();
+									System.err.println(e.getMessage());
 								}
 						
 								

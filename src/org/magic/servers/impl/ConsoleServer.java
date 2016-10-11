@@ -42,10 +42,6 @@ public class ConsoleServer extends AbstractMTGServer{
 			props.put("AUTOSTART", "false");
 			save();
 		}
-		
-		if(props.getProperty("AUTOSTART").equalsIgnoreCase("true"))
-			start();
-
 	}
  	
  	
