@@ -161,5 +161,10 @@ public class JSONHttpServer extends AbstractMTGServer
 		return "Json Http Server";
 	}
 
+	
+	@Override
+	public boolean isAutostart() {
+		return props.getProperty("AUTOSTART").equals("true");
+	}
     
 }

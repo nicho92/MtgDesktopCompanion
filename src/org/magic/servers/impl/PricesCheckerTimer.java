@@ -33,10 +33,6 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 		}
 		
 		timer = new Timer();
-		
-		if(props.getProperty("AUTOSTART").equals("true"))
-        	start();
-        
 	}
 	
 
@@ -86,6 +82,12 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 	public String getName() {
 		return "Price Timer";
 		
+	}
+
+
+	@Override
+	public boolean isAutostart() {
+		return props.getProperty("AUTOSTART").equals("true");
 	}
 	
 	
