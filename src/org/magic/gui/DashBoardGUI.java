@@ -319,8 +319,13 @@ public class DashBoardGUI extends JPanel {
 				initToolTip(tableEdition);
 				
 				
+				try{
+					lblDashBoardInfo.setText(MagicFactory.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MagicFactory.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
+				}catch(Exception e)
+				{
+					
+				}
 				
-				lblDashBoardInfo.setText(MagicFactory.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MagicFactory.getInstance().getEnabledDashBoard().getUpdatedDate())+")");
 				
 			}
 		},"updateDashBoard");

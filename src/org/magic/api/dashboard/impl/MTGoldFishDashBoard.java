@@ -37,8 +37,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	
 	Map<String,String> mapConcordance;;
 	
-
-	
 	public MTGoldFishDashBoard() 
 	{
 		super();
@@ -55,8 +53,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		}
 	}
 	
-	
-
 	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
 		 
 		stop = false;	    
@@ -84,7 +80,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		 
 		try{
 		 
-		 logger.debug(url);
+		 logger.debug("get shakes from " + url);
 	    
 		 Document d = Jsoup.connect(url)
 	    		 	.userAgent(props.getProperty("USER_AGENT"))
