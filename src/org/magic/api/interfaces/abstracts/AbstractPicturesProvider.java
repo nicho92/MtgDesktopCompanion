@@ -3,12 +3,13 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.services.MagicFactory;
 
-public abstract class AbstractPicturesProvider implements PictureProvider {
+public abstract class AbstractPicturesProvider extends Observable implements PictureProvider {
 
 	
 	protected File confdir = new File(MagicFactory.CONF_DIR, "pictures");

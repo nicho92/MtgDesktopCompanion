@@ -3,12 +3,13 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.interfaces.MTGServer;
 import org.magic.services.MagicFactory;
 
-public abstract class AbstractMTGServer implements MTGServer {
+public abstract class AbstractMTGServer extends Observable implements MTGServer {
 
 	private boolean enable;
 	protected Properties props;
