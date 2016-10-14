@@ -37,7 +37,7 @@ public class AlarmGUI extends JPanel {
 	private CardAlertTableModel model;
 	private MagicCardDetailPanel magicCardDetailPanel ;
 	private DefaultListModel<MagicPrice> resultListModel;
-	private JList list;
+	private JList<MagicPrice> list;
 	private JSplitPane splitPanel;
 	private JPanel panel;
 	private JButton btnRefresh;
@@ -100,7 +100,7 @@ public class AlarmGUI extends JPanel {
 		
 		resultListModel= new DefaultListModel<MagicPrice>();
 			
-		list = new JList(resultListModel);
+		list = new JList<MagicPrice>(resultListModel);
 		list.setCellRenderer(new ListCellRenderer<MagicPrice>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends MagicPrice> list, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus) {
