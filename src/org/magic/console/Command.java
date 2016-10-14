@@ -2,7 +2,6 @@ package org.magic.console;
 
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.mina.core.session.IoSession;
 

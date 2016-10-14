@@ -1,20 +1,17 @@
 package org.magic.gui.components;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.SystemColor;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicPrice;
-import javax.swing.JLabel;
-import java.awt.Font;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import javax.swing.border.MatteBorder;
-import java.awt.Color;
-import javax.swing.border.LineBorder;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.SystemColor;
 
 public class MagicPriceComponent extends JPanel {
 

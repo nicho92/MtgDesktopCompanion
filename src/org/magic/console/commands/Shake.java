@@ -5,7 +5,6 @@ import java.io.PrintStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,8 +15,6 @@ import org.asciitable.impl.ASCIITableImpl;
 import org.asciitable.impl.CollectionASCIITableAware;
 import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.ShopItem;
-import org.magic.api.interfaces.MagicShopper;
 import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MagicFactory;

@@ -8,9 +8,6 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.cache.FileCache;
-import org.magic.api.cache.MemoryCache;
-import org.magic.api.interfaces.PicturesCache;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 
 public class GathererPicturesProvider extends AbstractPicturesProvider {

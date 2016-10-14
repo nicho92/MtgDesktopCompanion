@@ -5,16 +5,14 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MagicFactory;
-
-import javax.swing.ImageIcon;
 
 public class CardStockPanel extends JPanel {
 	

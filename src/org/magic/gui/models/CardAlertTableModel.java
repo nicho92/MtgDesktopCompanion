@@ -1,10 +1,7 @@
 package org.magic.gui.models;
 
-import java.util.List;
-
 import javax.swing.table.DefaultTableModel;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MagicFactory;
@@ -13,7 +10,7 @@ import org.magic.services.MagicFactory;
 public class CardAlertTableModel extends DefaultTableModel {
 
 	
-	static final String columns[] = new String[]{"Card","Edition","Price","Offers"};
+	static final String columns[] = new String[]{"Card","Edition","Maximum bid","Offers"};
 	
 	
 	

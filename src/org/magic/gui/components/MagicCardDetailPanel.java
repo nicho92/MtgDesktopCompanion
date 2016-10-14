@@ -7,9 +7,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -32,10 +36,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
-import java.awt.event.ActionEvent;
 
 public class MagicCardDetailPanel extends JPanel {
 

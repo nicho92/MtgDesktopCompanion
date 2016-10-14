@@ -1,6 +1,5 @@
 package org.magic.api.interfaces;
 
-import java.io.IOException;
 import java.util.Properties;
 
 public interface MTGServer {

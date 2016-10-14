@@ -10,10 +10,8 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MagicFactory;
 
 public class MKMWantList extends AbstractCardExport {
 

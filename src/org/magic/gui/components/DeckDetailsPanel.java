@@ -9,6 +9,7 @@ import java.awt.Insets;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -19,7 +20,6 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
-import javax.swing.JScrollPane;
 
 public class DeckDetailsPanel extends JPanel {
 

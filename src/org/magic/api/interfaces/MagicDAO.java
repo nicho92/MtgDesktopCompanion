@@ -10,9 +10,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.ShopItem;
 
 public interface MagicDAO {
 

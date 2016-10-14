@@ -1,12 +1,10 @@
 package org.magic.gui.game.actions;
 
-import java.awt.Color;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
-import javax.swing.border.LineBorder;
 
 import org.magic.gui.game.DisplayableCard;
 import org.magic.gui.game.DraggablePanel;

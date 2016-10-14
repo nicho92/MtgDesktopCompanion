@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -57,9 +58,9 @@ import org.magic.api.exports.impl.CSVExport;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.MassCollectionImporterDialog;
 import org.magic.gui.components.MassMoverDialog;
 import org.magic.gui.components.PriceCatalogExportDialog;
@@ -78,7 +79,6 @@ import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
-import javax.swing.JLabel;
 
 public class CollectionPanelGUI extends JPanel {
 

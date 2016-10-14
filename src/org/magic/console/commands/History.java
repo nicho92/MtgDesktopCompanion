@@ -3,7 +3,6 @@ package org.magic.console.commands;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;

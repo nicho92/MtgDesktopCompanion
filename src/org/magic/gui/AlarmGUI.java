@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -12,6 +14,8 @@ import java.awt.event.MouseEvent;
 import java.net.URI;
 
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -21,18 +25,12 @@ import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicPriceComponent;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.services.MagicFactory;
-
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;

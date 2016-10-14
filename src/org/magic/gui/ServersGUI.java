@@ -1,11 +1,12 @@
 package org.magic.gui;
 
+import java.awt.GridLayout;
+
 import javax.swing.JPanel;
 
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.components.ServerStatePanel;
 import org.magic.services.MagicFactory;
-import java.awt.GridLayout;
 
 public class ServersGUI extends JPanel {
 
