@@ -32,6 +32,7 @@ public class MagicPriceComponent extends JPanel {
 		JLabel lblName = new JLabel(price.getSite());
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
+		gbc_lblName.anchor = GridBagConstraints.WEST;
 		gbc_lblName.gridwidth = 2;
 		gbc_lblName.fill = GridBagConstraints.VERTICAL;
 		gbc_lblName.insets = new Insets(0, 0, 5, 0);

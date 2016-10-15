@@ -1,8 +1,11 @@
 package org.magic.test;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -15,6 +18,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 public class MkmWantList {
 
@@ -45,17 +51,16 @@ public class MkmWantList {
     	  String name= (el.getElementsByTagName("name").item(1).getTextContent());
       }
       
-      NodeList nodes2 = getWantList("1032260");
-      for (int i = 0; i < nodes2.getLength(); i++) {
-    	  Element el = (Element) nodes2.item(i);
-    	  System.out.println(el.getTextContent());
+      List<Want> nodes2 = getProductsFromWantListID("1032260");
+      
+      for(Want w : nodes2)
+      {
+    	  System.out.println(getProduct(w.getIdProduct()));
       }
-      
-      
 	}
 	
 	
-	public NodeList getWantList(String id) throws Exception
+	public List<Want> getProductsFromWantListID(String id) throws Exception
 	{
 		String url="https://www.mkmapi.eu/ws/v1.1/wantslist/"+id;
 		connection = (HttpURLConnection) new URL(url).openConnection();
@@ -64,10 +69,75 @@ public class MkmWantList {
         connection.connect();
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
-    	return d.getChildNodes();
+        prettyPrint(d);
+        NodeList res = d.getElementsByTagName("want");
+        List<Want> ret = new ArrayList<Want>();
+        for (int i = 0; i < res.getLength(); i++) {
+      	  Want w = new Want();
+      	  w.setIdProduct(((Element)res.item(i)).getElementsByTagName("idProduct").item(0).getTextContent());
+      	  w.setQte(((Element)res.item(i)).getElementsByTagName("count").item(0).getTextContent());
+      	  ret.add(w);
+        }
+        return ret;
         
         
 	}
 	
+	public String getProduct(String id) throws Exception
+	{
+		String url="https://www.mkmapi.eu/ws/v1.1/articles/"+id;
+		connection = (HttpURLConnection) new URL(url).openConnection();
+		authorizationProperty = new MagicCardMarketPricer().generateOAuthSignature(url);
+        connection.addRequestProperty("Authorization", authorizationProperty) ;
+        connection.connect();
+        int _lastCode = connection.getResponseCode();
+        Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
+        prettyPrint(d);
+        return d.toString();
+	}
+	
+	
+	
+	
+	
+	static void prettyPrint(Document doc) throws IOException
+	{
+		OutputFormat format = new OutputFormat(doc);
+        format.setIndenting(true);
+        XMLSerializer serializer = new XMLSerializer(System.out, format);
+        serializer.serialize(doc);
+	}
+}
+
+
+
+
+
+class Want
+{
+	String idProduct;
+	String qte;
+	
+	
+	public String getIdProduct() {
+		return idProduct;
+	}
+	public void setIdProduct(String idProduct) {
+		this.idProduct = idProduct;
+	}
+	public String getQte() {
+		return qte;
+	}
+	public void setQte(String qte) {
+		this.qte = qte;
+	}
+	
+	@Override
+	public String toString() {
+		return getIdProduct() +" (" + getQte() +")";
+	}
+	
+	
 	
 }
+

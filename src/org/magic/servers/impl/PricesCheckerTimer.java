@@ -28,7 +28,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("AUTOSTART", "true");
-			props.put("TIMEOUT", "60000");
+			props.put("TIMEOUT_MINUTE", "120");
 			save();
 		}
 		
@@ -63,8 +63,9 @@ public class PricesCheckerTimer extends AbstractMTGServer{
             }
         };
 		
-		timer.scheduleAtFixedRate(tache,0,Long.parseLong(props.getProperty("TIMEOUT")));
-		
+		timer.scheduleAtFixedRate(tache,0,Long.parseLong(props.getProperty("TIMEOUT_MINUTE"))*60000);
+		logger.info("Server start with "+ props.getProperty("TIMEOUT_MINUTE")+" min timeout");
+	    
 	}
 	
 	public void stop()

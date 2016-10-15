@@ -144,7 +144,7 @@ public class AlarmGUI extends JPanel {
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				int row =table.getSelectedRow();
-				if(row>0)
+				if(row>-1)
 				{
 					try {
 						MagicCardAlert alert = (MagicCardAlert)model.getValueAt(row,0);

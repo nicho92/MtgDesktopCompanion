@@ -253,7 +253,7 @@ public class DashBoardGUI extends JPanel {
 				}
 				catch (Exception ex) 
 				{
-					ex.printStackTrace();
+					logger.error(cardName +" " + edID + ":" + ex.getMessage());
 				}
 		   }
 		});

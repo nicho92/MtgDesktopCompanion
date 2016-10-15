@@ -22,7 +22,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("BACKGROUND_ID", "132667");
-			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK");
+			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
 			save();
 		}
 	}

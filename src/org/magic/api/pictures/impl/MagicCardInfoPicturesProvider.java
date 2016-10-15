@@ -50,7 +50,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 			infocode=mc.getEditions().get(0).getId().toLowerCase();
 		
 		
-		URL url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber()+".jpg");
+		URL url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
 		
 		if(mc.getMciNumber()!=null)
 		{
