@@ -24,9 +24,9 @@ public class MagicPriceComponent extends JPanel {
 		this.price=price;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{55, 108, 0};
-		gridBagLayout.rowHeights = new int[]{28, 25, 20, 0};
+		gridBagLayout.rowHeights = new int[]{28, 25, 0, 20, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblName = new JLabel(price.getSite());
@@ -56,19 +56,35 @@ public class MagicPriceComponent extends JPanel {
 		gbc_lblpriceValue.gridy = 1;
 		add(lblpriceValue, gbc_lblpriceValue);
 		
+		JLabel lblSeller = new JLabel("Seller :");
+		lblSeller.setFont(new Font("Tahoma", Font.BOLD, 11));
+		GridBagConstraints gbc_lblSeller = new GridBagConstraints();
+		gbc_lblSeller.anchor = GridBagConstraints.WEST;
+		gbc_lblSeller.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSeller.gridx = 0;
+		gbc_lblSeller.gridy = 2;
+		add(lblSeller, gbc_lblSeller);
+		
+		JLabel lblSellerinfo = new JLabel(price.getSeller());
+		GridBagConstraints gbc_lblSellerinfo = new GridBagConstraints();
+		gbc_lblSellerinfo.insets = new Insets(0, 0, 5, 0);
+		gbc_lblSellerinfo.gridx = 1;
+		gbc_lblSellerinfo.gridy = 2;
+		add(lblSellerinfo, gbc_lblSellerinfo);
+		
 		JLabel lblInfos = new JLabel("Infos :");
 		lblInfos.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblInfos = new GridBagConstraints();
 		gbc_lblInfos.anchor = GridBagConstraints.WEST;
 		gbc_lblInfos.insets = new Insets(0, 0, 0, 5);
 		gbc_lblInfos.gridx = 0;
-		gbc_lblInfos.gridy = 2;
+		gbc_lblInfos.gridy = 3;
 		add(lblInfos, gbc_lblInfos);
 		
 		JLabel lblNewLabel = new JLabel(price.getLanguage()+"/"+price.getQuality()+""+(price.isFoil()?"/Foil":""));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 2;
+		gbc_lblNewLabel.gridy = 3;
 		add(lblNewLabel, gbc_lblNewLabel);
 	}
 }

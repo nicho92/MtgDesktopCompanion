@@ -18,6 +18,7 @@ Features :
 > get dashboard of cards prices variation
 > lookup for cards in auction websites
 > import / export in multiple format
+> get alerted for cards you want !
 
 > Modularity : 
 - manage your prices provider
@@ -55,6 +56,9 @@ lookup for cards in auction website :
 
 import or export your card list / deck :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_export.png)
+
+Be alerted for your wanted cards :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/alerts.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/alerts.png)
 
 
 Try your deck in game simulator :
