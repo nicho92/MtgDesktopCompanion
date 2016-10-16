@@ -19,6 +19,7 @@ import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MagicFactory;
@@ -33,6 +34,7 @@ public class ConfigurationPanel extends JPanel {
 	private JLabel lblLoading ;
 	private JTextField txtdirWebsite;
 	private JComboBox cboEditions;
+	private JComboBox<MagicEdition> cboEditionLands;
 	
 	public void loading(boolean show,String text)
 	{
@@ -343,6 +345,51 @@ public class ConfigurationPanel extends JPanel {
 		
 		lblLoading = new JLabel("");
 		lblLoading.setVisible(false);
+		
+		JLabel lblDefaultLandManuel = new JLabel("Default Land Manuel deck import :");
+		GridBagConstraints gbc_lblDefaultLandManuel = new GridBagConstraints();
+		gbc_lblDefaultLandManuel.anchor = GridBagConstraints.EAST;
+		gbc_lblDefaultLandManuel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDefaultLandManuel.gridx = 1;
+		gbc_lblDefaultLandManuel.gridy = 8;
+		add(lblDefaultLandManuel, gbc_lblDefaultLandManuel);
+		
+		cboEditionLands=new JComboBox<MagicEdition>();
+		try {
+				for(MagicEdition col :  MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null))
+				{
+					cboEditionLands.addItem(col);
+					if(col.getId().equalsIgnoreCase(MagicFactory.getInstance().get("default-land-deck")))
+					{
+						cboEditionLands.setSelectedItem(col);
+					}
+				}
+			
+			
+			
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		GridBagConstraints gbc_cboEditionLands = new GridBagConstraints();
+		gbc_cboEditionLands.insets = new Insets(0, 0, 5, 5);
+		gbc_cboEditionLands.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboEditionLands.gridx = 2;
+		gbc_cboEditionLands.gridy = 8;
+		add(cboEditionLands, gbc_cboEditionLands);
+		
+		JButton btnSave_1 = new JButton("save");
+		btnSave_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MagicFactory.getInstance().setProperty("default-land-deck", ((MagicEdition)cboEditionLands.getSelectedItem()).getId());
+				
+			}
+		});
+		GridBagConstraints gbc_btnSave_1 = new GridBagConstraints();
+		gbc_btnSave_1.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSave_1.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSave_1.gridx = 3;
+		gbc_btnSave_1.gridy = 8;
+		add(btnSave_1, gbc_btnSave_1);
 		
 			
 		

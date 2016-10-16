@@ -5,8 +5,7 @@
 	<loglevel>INFO</loglevel>
 	<default-website-dir>c:/</default-website-dir>
 	<default-library>Library</default-library>
-
-
+	<default-land-deck>KLD</default-land-deck>
 	<servers>
 		<server>
 			<class>org.magic.servers.impl.ConsoleServer</class>

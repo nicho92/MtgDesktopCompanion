@@ -47,6 +47,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.game.Player;
@@ -551,8 +552,6 @@ public class DeckBuilderGUI extends JPanel{
 		JPanel randomHandPanel = new JPanel();
 	
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
-
-		
 		randomHandPanel.add(thumbnail, BorderLayout.CENTER);
 		
 		tabbedPane.addTab("Cmc", null, cmcChartPanel, null);
@@ -668,18 +667,28 @@ public class DeckBuilderGUI extends JPanel{
 				for(String l : line)
 				{
 					int nb = Integer.parseInt(l.substring(0,l.indexOf(" ")));
-					String name = l.substring(l.indexOf(" "),l.length()); 
+					String name = l.substring(l.indexOf(" "),l.length());
 					//Scanner s = new Scanner(input).useDelimiter("\\s*\\s*");
 					try {
-						MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(),null).get(0);
+						MagicCard mc;
+						if(name.trim().equalsIgnoreCase("Plains")||name.trim().equalsIgnoreCase("Island")||name.trim().equalsIgnoreCase("Swamp")||name.trim().equalsIgnoreCase("Mountain")||name.trim().equalsIgnoreCase("Forest"))
+						{	
+							MagicEdition ed = new MagicEdition();
+										 ed.setId(MagicFactory.getInstance().get("default-land-deck"));
+							mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(),ed).get(0);
+						}
+						else	
+						{
+							mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(),null).get(0);
+						}
 						
 						if(mc!=null)
 							{
-							getSelectedMap().put(mc, nb);
-							setDeck(deck);
-							updatePanels();
-							deckmodel.fireTableDataChanged();
-							deckSidemodel.fireTableDataChanged();
+								getSelectedMap().put(mc, nb);
+								setDeck(deck);
+								updatePanels();
+								deckmodel.fireTableDataChanged();
+								deckSidemodel.fireTableDataChanged();
 							}
 					} catch (Exception e) {
 						
