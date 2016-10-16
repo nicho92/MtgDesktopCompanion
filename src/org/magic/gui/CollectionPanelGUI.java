@@ -116,7 +116,7 @@ public class CollectionPanelGUI extends JPanel {
 		logger.debug("init collection panel");
 		setLayout(new BorderLayout(0, 0));
 		model = new MagicEditionsTableModel();
-		model.init(provider.searchSetByCriteria(null, null));
+		model.init(provider.loadEditions());
 		lblTotal = new JLabel();
 		
 		lblTotal.setText("Total : " + model.getCountDefaultLibrary() +"/" + model.getCountTotal());

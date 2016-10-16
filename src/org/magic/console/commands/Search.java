@@ -47,7 +47,7 @@ public class Search implements Command {
 		
 		if(cl.hasOption("s"))
 		{
-			List<MagicEdition> list = MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null);
+			List<MagicEdition> list = MagicFactory.getInstance().getEnabledProviders().loadEditions();
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_set)));
 		}
 		

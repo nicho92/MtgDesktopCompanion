@@ -416,27 +416,14 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	}
 
 	@Override
-	public List<MagicEdition> searchSetByCriteria(String att, String crit) throws Exception {
+	public List<MagicEdition> loadEditions() throws Exception {
 		String url = jsonUrl+"/sets";
 		String rootKey="sets";
 		
-		if(crit!=null)
-		{
-			
-			if(att.equals("set"))
-			{
-				url = jsonUrl+"/sets/"+crit;
-				rootKey="set";
-			}
-			else
-			{
-				url = jsonUrl+"/sets?"+att+"="+crit;
-				rootKey="sets";
-			}
-			
-			
-		}
-		logger.info("connect to " + url);
+			url = jsonUrl+"/sets";
+			rootKey="sets";
+	
+			logger.info("connect to " + url);
 		
 		URLConnection con = getConnection(url);
 		

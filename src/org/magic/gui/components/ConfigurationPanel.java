@@ -356,7 +356,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		cboEditionLands=new JComboBox<MagicEdition>();
 		try {
-				for(MagicEdition col :  MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null))
+				for(MagicEdition col :  MagicFactory.getInstance().getEnabledProviders().loadEditions())
 				{
 					cboEditionLands.addItem(col);
 					if(col.getId().equalsIgnoreCase(MagicFactory.getInstance().get("default-land-deck")))

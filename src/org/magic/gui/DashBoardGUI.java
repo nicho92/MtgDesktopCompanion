@@ -71,7 +71,7 @@ public class DashBoardGUI extends JPanel {
 		
 		List<MagicEdition> eds= new ArrayList<>();
 		try {
-			eds=MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null);
+			eds=MagicFactory.getInstance().getEnabledProviders().loadEditions();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

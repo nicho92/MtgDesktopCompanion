@@ -230,7 +230,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 		
 	}
 	@Override
-	public List<MagicEdition> searchSetByCriteria(String att,String crit) {
+	public List<MagicEdition> loadEditions() {
 		// TODO Auto-generated method stub
 		return null;
 	}

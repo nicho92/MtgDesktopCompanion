@@ -492,15 +492,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 	}
 
-	public List<MagicEdition> searchSetByCriteria(String att,String crit) throws IOException {
+	public List<MagicEdition> loadEditions() throws IOException {
 		
-		String jsquery="";
-		if(crit==null)
-			jsquery="$.*";
-		else //TODO : check
-			jsquery="$..(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
+		String jsquery="$.*";
 		
-		logger.info("get edition with " + att +"="+crit);
+		logger.info("load editions");
 		
 		if(eds!=null)
 		{

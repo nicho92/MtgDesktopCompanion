@@ -88,7 +88,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	    		String val = session.getParameters().get("set").get(0).toString();
 	    		
 	    		MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", att, null).get(0);
-	    		MagicEdition ed = MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria("id", val).get(0);
+	    		MagicEdition ed = MagicFactory.getInstance().getEnabledProviders().getSetById(val);
 	    		
 	  		  	List<MagicPrice> pricesret = new ArrayList<MagicPrice>();
 	  		

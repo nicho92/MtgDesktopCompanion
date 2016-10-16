@@ -471,7 +471,7 @@ public class MagicGUI extends JFrame {
 		panneauHaut.add(cboCollections);
 		panneauHaut.add(txtMagicSearch);
 		
-		List li = MagicFactory.getInstance().getEnabledProviders().searchSetByCriteria(null, null);
+		List li = MagicFactory.getInstance().getEnabledProviders().loadEditions();
 		Collections.sort(li);
 		cboEdition = new JComboBox(li.toArray());
 		cboEdition.setVisible(false);

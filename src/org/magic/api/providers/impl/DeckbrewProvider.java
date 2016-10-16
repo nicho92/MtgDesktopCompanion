@@ -188,19 +188,9 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	
 	
 	
-	public List<MagicEdition> searchSetByCriteria(String att,String crit) throws IOException  {
+	public List<MagicEdition> loadEditions() throws IOException  {
 		
 		String url = urldeckbrewJSON+"/sets";
-		
-		if(crit!=null)
-		{
-			url = urldeckbrewJSON+"/sets?"+att+"="+crit;
-			
-			if(att.equals("id"))
-				url = urldeckbrewJSON+"/sets/"+crit;
-		}
-		
-		
 		
 		JsonReader reader= new JsonReader(new InputStreamReader(new URL(url).openStream()));
 		
