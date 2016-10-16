@@ -34,10 +34,8 @@ import org.magic.gui.models.conf.PicturesProvidersTableModel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.gui.models.conf.ServersTreeTableModel;
-import org.magic.gui.models.conf.SystemTableModel;
 
 public class ConfigurationPanelGUI extends JPanel {
-	private JTable table;
 	private JTable cardsProviderTable;
 	private JXTreeTable priceProviderTable;
 	private JXTreeTable daoProviderTable;
@@ -58,8 +56,6 @@ public class ConfigurationPanelGUI extends JPanel {
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		add(tabbedPane, BorderLayout.CENTER);
 
-		SystemTableModel mod = new SystemTableModel();
-		
 		
 		JPanel providerConfigPanel = new JPanel();
 		tabbedPane.addTab("Providers", null, providerConfigPanel, null);
@@ -210,17 +206,8 @@ public class ConfigurationPanelGUI extends JPanel {
 		btnDelete.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/res/delete.png")));
 		panneauhaut.add(btnDelete);
 		
-		JTabbedPane tabbedConf = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("Configuration", null, tabbedConf, null);
-		
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();
-		tabbedConf.addTab("Administration", null, configurationPanel, null);
-		
-		JScrollPane applicationConfigPanel = new JScrollPane();
-		tabbedConf.addTab("Java", null, applicationConfigPanel, null);
-		
-		table = new JTable(mod);
-		applicationConfigPanel.setViewportView(table);
+		tabbedPane.addTab("Configuration", null, configurationPanel, null);
 		
 		ServersGUI serversGUI = new ServersGUI();
 		tabbedPane.addTab("Active Servers", null, serversGUI, null);
