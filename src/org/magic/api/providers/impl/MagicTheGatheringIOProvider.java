@@ -54,9 +54,6 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	
 	Map<String , MagicEdition> cache;
 	
-
-	
-	
 	public MagicTheGatheringIOProvider() {
 		init();
 		
@@ -113,8 +110,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	
 	public static void main(String[] args) throws Exception {
 		MagicTheGatheringIOProvider prov = new MagicTheGatheringIOProvider();
-		
-		prov.searchCardByCriteria("name", "emrak", null);
+			System.out.println(prov.searchCardByCriteria("set", "KLD", null));
 	}
 	
 	
@@ -333,11 +329,13 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	private void initOtherEdVariable(MagicCard mc, MagicEdition ed)
 	{
 		JsonReader reader;
+		JsonObject root = null;
+		JsonObject temp=null;
 		try {
 			reader = new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/cards?set="+ed.getId()+"&name="+URLEncoder.encode(mc.getName(),"UTF-8")).getInputStream(),"UTF-8"));
-			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+			root = new JsonParser().parse(reader).getAsJsonObject();
 			
-			JsonObject temp = root.get("cards").getAsJsonArray().get(0).getAsJsonObject();
+			temp = root.get("cards").getAsJsonArray().get(0).getAsJsonObject();
 			
 			if(temp.get("rarity")!=null)
 				ed.setRarity(temp.get("rarity").getAsString());
@@ -347,11 +345,10 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 				ed.setNumber(temp.get("number").getAsString());
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("ERROR on " + ed.getId() +" " + mc.getName()  + ": " + e);
 		} 
 		
 	}
-	
 	
 	private MagicEdition generateEdition(JsonObject obj)
 	{
@@ -446,7 +443,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		logger.debug("get Set " + id);
 		if(cache.get(id.toString())!=null)
 		{
-			logger.debug("loadgin " + id + " from cache");
+			logger.debug("loadin " + id + " from cache");
 			return cache.get(id.toString());
 		}
 		
