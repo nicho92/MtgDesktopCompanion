@@ -37,6 +37,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -170,13 +171,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 		gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelActions.setLayout(gbl_panelActions);
 		
-		JButton btnShuffle = new JButton("Shuffle");
-		btnShuffle.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				player.shuffleLibrary();
-			}
-		});
-		
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -204,28 +198,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 		gbc_btnNewGame.gridy = 0;
 		panelActions.add(btnNewGame, gbc_btnNewGame);
 		
-		JButton btnSearch = new JButton("Search");
-		GridBagConstraints gbc_btnSearch = new GridBagConstraints();
-		gbc_btnSearch.fill = GridBagConstraints.BOTH;
-		gbc_btnSearch.insets = new Insets(0, 0, 5, 5);
-		gbc_btnSearch.gridx = 1;
-		gbc_btnSearch.gridy = 0;
-		panelActions.add(btnSearch, gbc_btnSearch);
-		
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				player.logAction("search in library");
-				SearchLibraryFrame f = new SearchLibraryFrame(player);
-				f.setVisible(true);
-				
-			}
-		});
-		
 		JButton btnDrawHand = new JButton("Draw Hand");
 		GridBagConstraints gbc_btnDrawHand = new GridBagConstraints();
 		gbc_btnDrawHand.fill = GridBagConstraints.BOTH;
-		gbc_btnDrawHand.insets = new Insets(0, 0, 5, 0);
-		gbc_btnDrawHand.gridx = 2;
+		gbc_btnDrawHand.insets = new Insets(0, 0, 5, 5);
+		gbc_btnDrawHand.gridx = 1;
 		gbc_btnDrawHand.gridy = 0;
 		panelActions.add(btnDrawHand, gbc_btnDrawHand);
 		
@@ -244,37 +221,20 @@ public class GamePanelGUI extends JPanel implements Observer {
 			    handPanel.initThumbnails(player.getHand(),true);
 			}
 		});
-		GridBagConstraints gbc_btnShuffle = new GridBagConstraints();
-		gbc_btnShuffle.fill = GridBagConstraints.BOTH;
-		gbc_btnShuffle.insets = new Insets(0, 0, 5, 5);
-		gbc_btnShuffle.gridx = 0;
-		gbc_btnShuffle.gridy = 1;
-		panelActions.add(btnShuffle, gbc_btnShuffle);
-		
-		
-		JButton btnScry = new JButton("Scry");
-		btnScry.addActionListener(new ActionListener() {
+		JButton btnFlipACoin = new JButton("Flip a coin");
+		btnFlipACoin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				String res = JOptionPane.showInputDialog("How many scry card ?");
-				if(res!=null)
-					new SearchLibraryFrame(player,player.scry(Integer.parseInt(res))).setVisible(true);
-				
+				player.flipCoin();
 			}
 		});
-		GridBagConstraints gbc_btnScry = new GridBagConstraints();
-		gbc_btnScry.fill = GridBagConstraints.BOTH;
-		gbc_btnScry.insets = new Insets(0, 0, 5, 5);
-		gbc_btnScry.gridx = 1;
-		gbc_btnScry.gridy = 1;
-		panelActions.add(btnScry, gbc_btnScry);
+		
 		
 		JButton btnEndTurn = new JButton("End Turn");
 		GridBagConstraints gbc_btnEndTurn = new GridBagConstraints();
 		gbc_btnEndTurn.fill = GridBagConstraints.BOTH;
 		gbc_btnEndTurn.insets = new Insets(0, 0, 5, 0);
 		gbc_btnEndTurn.gridx = 2;
-		gbc_btnEndTurn.gridy = 1;
+		gbc_btnEndTurn.gridy = 0;
 		panelActions.add(btnEndTurn, gbc_btnEndTurn);
 		
 		btnEndTurn.addActionListener(new ActionListener() {
@@ -282,6 +242,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 				GameManager.getInstance().nextTurn();
 			}
 		});
+		GridBagConstraints gbc_btnFlipACoin = new GridBagConstraints();
+		gbc_btnFlipACoin.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnFlipACoin.insets = new Insets(0, 0, 5, 5);
+		gbc_btnFlipACoin.gridx = 0;
+		gbc_btnFlipACoin.gridy = 1;
+		panelActions.add(btnFlipACoin, gbc_btnFlipACoin);
 		
 		txtChat = new JTextField("Say something");
 		txtChat.addMouseListener(new MouseAdapter() {
@@ -299,26 +265,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 				txtChat.setText("");
 			}
 		});
-		
-		
-		JButton btnFlipACoin = new JButton("Flip a coin");
-		btnFlipACoin.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				player.flipCoin();
-			}
-		});
-		GridBagConstraints gbc_btnFlipACoin = new GridBagConstraints();
-		gbc_btnFlipACoin.fill = GridBagConstraints.HORIZONTAL;
-		gbc_btnFlipACoin.insets = new Insets(0, 0, 5, 5);
-		gbc_btnFlipACoin.gridx = 0;
-		gbc_btnFlipACoin.gridy = 2;
-		panelActions.add(btnFlipACoin, gbc_btnFlipACoin);
 		GridBagConstraints gbc_txtChat = new GridBagConstraints();
-		gbc_txtChat.gridwidth = 2;
-		gbc_txtChat.insets = new Insets(0, 0, 0, 5);
-		gbc_txtChat.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtChat.insets = new Insets(0, 0, 5, 0);
+		gbc_txtChat.gridwidth = 3;
+		gbc_txtChat.fill = GridBagConstraints.BOTH;
 		gbc_txtChat.gridx = 0;
-		gbc_txtChat.gridy = 3;
+		gbc_txtChat.gridy = 2;
 		panelActions.add(txtChat, gbc_txtChat);
 		txtChat.setColumns(10);
 		
@@ -429,12 +381,15 @@ public class GamePanelGUI extends JPanel implements Observer {
 		
 		panelLibrary.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent arg0) {
+			public void mouseClicked(MouseEvent me) {
 
-				player.drawCard(1);
-				DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight(),true);
-				c.enableDrag(true);
-				handPanel.addComponent(c);
+				if(SwingUtilities.isLeftMouseButton(me))
+				{	player.drawCard(1);
+					DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight(),true);
+					c.enableDrag(true);
+					handPanel.addComponent(c);
+				}
+				
 			}
 		});
 		

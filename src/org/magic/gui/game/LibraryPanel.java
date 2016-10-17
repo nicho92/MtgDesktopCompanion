@@ -5,8 +5,13 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 
+import javax.swing.JMenuItem;
+
 import org.magic.api.beans.MagicCard;
 import org.magic.game.PositionEnum;
+import org.magic.gui.game.actions.library.ScryActions;
+import org.magic.gui.game.actions.library.SearchActions;
+import org.magic.gui.game.actions.library.ShuffleActions;
 import org.magic.services.MagicFactory;
 
 public class LibraryPanel extends DraggablePanel {
@@ -16,6 +21,12 @@ public class LibraryPanel extends DraggablePanel {
 	public LibraryPanel() {
 		super();
 		
+		menu.add(new JMenuItem(new SearchActions()));
+		menu.add(new JMenuItem(new ScryActions()));
+		menu.add(new JMenuItem(new ShuffleActions()));
+		
+		
+		setComponentPopupMenu(menu);
 		try {
 			i=MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(179, 240, BufferedImage.SCALE_SMOOTH);
 				setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));

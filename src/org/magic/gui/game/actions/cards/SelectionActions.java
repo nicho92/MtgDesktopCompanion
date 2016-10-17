@@ -1,4 +1,4 @@
-package org.magic.gui.game.actions;
+package org.magic.gui.game.actions.cards;
 
 import java.awt.Color;
 import java.awt.event.ActionEvent;

@@ -1,6 +1,7 @@
 package org.magic.gui.game;
 
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.Player;
@@ -11,6 +12,9 @@ public abstract class DraggablePanel  extends JPanel implements Draggable{
 
   	int width=112;
 	int height=155;
+	
+	JPopupMenu menu = new JPopupMenu();
+
 	
     boolean dragging=true;
 	protected Player player;

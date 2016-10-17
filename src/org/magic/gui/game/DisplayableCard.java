@@ -15,16 +15,16 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.game.actions.ChangeCreaturePTActions;
-import org.magic.gui.game.actions.EmblemActions;
-import org.magic.gui.game.actions.FlipActions;
-import org.magic.gui.game.actions.LoyaltyActions;
-import org.magic.gui.game.actions.RotateActions;
-import org.magic.gui.game.actions.SelectionActions;
-import org.magic.gui.game.actions.TapActions;
-import org.magic.gui.game.actions.TokensActions;
-import org.magic.gui.game.actions.TransferActions;
-import org.magic.gui.game.actions.TransformActions;
+import org.magic.gui.game.actions.cards.ChangeCreaturePTActions;
+import org.magic.gui.game.actions.cards.EmblemActions;
+import org.magic.gui.game.actions.cards.FlipActions;
+import org.magic.gui.game.actions.cards.LoyaltyActions;
+import org.magic.gui.game.actions.cards.RotateActions;
+import org.magic.gui.game.actions.cards.SelectionActions;
+import org.magic.gui.game.actions.cards.TapActions;
+import org.magic.gui.game.actions.cards.TokensActions;
+import org.magic.gui.game.actions.cards.TransferActions;
+import org.magic.gui.game.actions.cards.TransformActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MagicFactory;
@@ -142,6 +142,10 @@ public class DisplayableCard extends JLabel
 	}
 	
 	public void initActions() {
+		
+		menu.removeAll();
+		
+		
 		addMouseListener(new TransferActions());
 		
 		menu.add(new JMenuItem(new TapActions(this)));
