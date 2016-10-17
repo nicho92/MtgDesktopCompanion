@@ -9,6 +9,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
@@ -146,25 +147,30 @@ public class DisplayableCard extends JLabel
 		menu.add(new JMenuItem(new TapActions(this)));
 		menu.add(new JMenuItem(new SelectionActions(this)));
 		menu.add(new JMenuItem(new RotateActions(this)));
-		
-		menu.add(new JSeparator());
+	
 		if(magicCard.getTypes().contains("Creature"))
 		{
-			menu.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Strength));
-			menu.add(new ChangeCreaturePTActions(this, -1, ChangeCreaturePTActions.TypeCounter.Strength));
-			menu.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Toughness));
-			menu.add(new ChangeCreaturePTActions(this, 0, ChangeCreaturePTActions.TypeCounter.Both));
 			
+			JMenu mnuModifier = new JMenu("P/T");
+						
+			mnuModifier.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Strength));
+			mnuModifier.add(new ChangeCreaturePTActions(this, -1, ChangeCreaturePTActions.TypeCounter.Strength));
+			mnuModifier.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Toughness));
+			mnuModifier.add(new ChangeCreaturePTActions(this, -1, ChangeCreaturePTActions.TypeCounter.Toughness));
+			mnuModifier.add(new ChangeCreaturePTActions(this, 0, ChangeCreaturePTActions.TypeCounter.Both));
+
+			menu.add(mnuModifier);
 		}
-		menu.add(new JSeparator());
 		
 		if(magicCard.getTypes().contains("Planeswalker"))
 		{
-			menu.add(new LoyaltyActions(this, 1));
-			menu.add(new LoyaltyActions(this, -1));
+			JMenu mnuModifier = new JMenu("Loyalty");
+			
+			mnuModifier.add(new LoyaltyActions(this, 1));
+			mnuModifier.add(new LoyaltyActions(this, -1));
+			menu.add(mnuModifier);
 			
 		}
-		menu.add(new JSeparator());
 		
 		if(magicCard.isTranformable())
 			menu.add(new JMenuItem(new TransformActions(this)));
@@ -172,7 +178,6 @@ public class DisplayableCard extends JLabel
 		if(magicCard.isFlippable())
 			menu.add(new JMenuItem(new FlipActions(this)));
 
-		menu.add(new JSeparator());
 		
 		if(GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
 			menu.add(new JMenuItem(new TokensActions(this)));

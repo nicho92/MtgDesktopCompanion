@@ -33,7 +33,7 @@ public class LoyaltyActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		card.getMagicCard().setLoyalty(card.getMagicCard().getLoyalty()+val);
-		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() +" loyalty to " + val);
+		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() +" loyalty to " +  card.getMagicCard().getLoyalty());
 	}
 
 }
