@@ -24,7 +24,7 @@ public class MagicDeck implements Serializable{
 	
 	public String toString()
 	{
-		return getName() +" ("+mapDeck.size()+")";
+		return getName();
 	}
 	
 	public void setMapDeck(Map<MagicCard, Integer> mapDeck) {
