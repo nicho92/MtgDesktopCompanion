@@ -22,7 +22,7 @@ public class LoyaltyActions extends AbstractAction {
 		}
 		else
 		{
-			putValue(NAME,"remova a loyalty counter");
+			putValue(NAME,"remove a loyalty counter");
 			putValue(SHORT_DESCRIPTION,"remove "+ val +" loyalty");
 
 		}

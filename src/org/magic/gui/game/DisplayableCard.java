@@ -1,8 +1,5 @@
 package org.magic.gui.game;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -15,15 +12,16 @@ import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
-import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.game.actions.ChangeCreaturePTActions;
+import org.magic.gui.game.actions.EmblemActions;
 import org.magic.gui.game.actions.FlipActions;
 import org.magic.gui.game.actions.LoyaltyActions;
 import org.magic.gui.game.actions.RotateActions;
 import org.magic.gui.game.actions.SelectionActions;
 import org.magic.gui.game.actions.TapActions;
+import org.magic.gui.game.actions.TokensActions;
 import org.magic.gui.game.actions.TransferActions;
 import org.magic.gui.game.actions.TransformActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
@@ -83,14 +81,6 @@ public class DisplayableCard extends JLabel
 		
 		return super.getIcon();
 	}
-	
-//	@Override
-//	public void paintComponent(Graphics g) {
-//		//super.paintComponent(g);
-//		setSize(width, height);
-//		g.drawImage(image.getImage(),0,0,width,height,null);
-//	}
-	
 	
 	public void setImage(ImageIcon image) {
 		this.image = image;
@@ -174,8 +164,7 @@ public class DisplayableCard extends JLabel
 			menu.add(new LoyaltyActions(this, -1));
 			
 		}
-		
-		
+		menu.add(new JSeparator());
 		
 		if(magicCard.isTranformable())
 			menu.add(new JMenuItem(new TransformActions(this)));
@@ -183,6 +172,14 @@ public class DisplayableCard extends JLabel
 		if(magicCard.isFlippable())
 			menu.add(new JMenuItem(new FlipActions(this)));
 
+		menu.add(new JSeparator());
+		
+		if(GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
+			menu.add(new JMenuItem(new TokensActions(this)));
+		
+		if(GamePanelGUI.getInstance().getTokenGenerator().isEmblemizer(magicCard))
+			menu.add(new JMenuItem(new EmblemActions(this)));
+		
 		
 		setComponentPopupMenu(menu);
 		

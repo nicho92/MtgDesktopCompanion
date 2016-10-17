@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Observable;
+import java.util.Random;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -415,6 +416,21 @@ public class Player extends Observable{
 
 	public void say(String text) {
 		logAction("say:" + text);
+		
+	}
+
+	public void flipCoin() {
+		
+		boolean b = new Random().nextBoolean();
+		
+		if(b)
+			logAction("Flip a coin : Tails");
+		else
+			logAction("Flip a coin : Heads");
+		
+		
+		
+		// TODO Auto-generated method stub
 		
 	}
 	

@@ -69,7 +69,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
 	private JTextField txtChat;
-	
+	private CockatriceTokenProvider tokenGenerator;
 	
 	public static GamePanelGUI getInstance()
 	{
@@ -81,6 +81,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 	
 	
 	
+	public BattleFieldPanel getPanelBattleField() {
+		return panelBattleField;
+	}
+
+
+
 	public void initGame()
 	{
 		player.init();
@@ -101,6 +107,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 	}
 	
 	
+	public CockatriceTokenProvider getTokenGenerator() {
+		return tokenGenerator;
+	}
+
+
+
 	private GamePanelGUI() {
 		
 		setLayout(new BorderLayout(0, 0));
@@ -108,6 +120,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panneauGauche = new JPanel();
 		panneauDroit = new JPanel();
 		
+		tokenGenerator= new CockatriceTokenProvider();
 		
 		JSplitPane splitPane = new JSplitPane();
 		add(splitPane, BorderLayout.CENTER);
@@ -238,34 +251,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 		gbc_btnShuffle.gridy = 1;
 		panelActions.add(btnShuffle, gbc_btnShuffle);
 		
-		JButton btnToken = new JButton("Token");
-		btnToken.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				
-				for(Component c : panelBattleField.getComponents())
-				{
-					if(((DisplayableCard)c).isSelected())
-					{
-						try{
-							MagicCard tok = new CockatriceTokenProvider().generateTokenFor( ((DisplayableCard)c).getMagicCard() );
-							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(),true);
-							dc.setMagicCard(tok);
-							//dc.setImage(new ImageIcon(new CockatriceTokenProvider().getToken(tok).getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
-							
-							panelBattleField.addComponent(dc);
-							panelBattleField.revalidate();
-							panelBattleField.repaint();
-							
-							player.logAction("generate " + tok + " token");
-						}
-						catch (Exception e) {
-							e.printStackTrace();
-						}
-
-					}
-				}
-			}
-		});
 		
 		JButton btnScry = new JButton("Scry");
 		btnScry.addActionListener(new ActionListener() {
@@ -297,12 +282,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 				GameManager.getInstance().nextTurn();
 			}
 		});
-		GridBagConstraints gbc_btnToken = new GridBagConstraints();
-		gbc_btnToken.fill = GridBagConstraints.BOTH;
-		gbc_btnToken.insets = new Insets(0, 0, 5, 5);
-		gbc_btnToken.gridx = 0;
-		gbc_btnToken.gridy = 2;
-		panelActions.add(btnToken, gbc_btnToken);
 		
 		txtChat = new JTextField("Say something");
 		txtChat.addMouseListener(new MouseAdapter() {
@@ -321,40 +300,19 @@ public class GamePanelGUI extends JPanel implements Observer {
 			}
 		});
 		
-		JButton btnEmblem = new JButton("Emblem");
-		btnEmblem.addActionListener(new ActionListener() {
+		
+		JButton btnFlipACoin = new JButton("Flip a coin");
+		btnFlipACoin.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				for(Component c : panelBattleField.getComponents())
-				{
-					if(((DisplayableCard)c).isSelected())
-					{
-						try{
-							MagicCard tok = new CockatriceTokenProvider().generateEmblemFor(((DisplayableCard)c).getMagicCard()  );
-							DisplayableCard dc = new DisplayableCard( tok, ((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(),true);
-							dc.setMagicCard(tok);
-							
-							//dc.setImage(new ImageIcon(new CockatriceTokenProvider().getEmblem(tok).getScaledInstance(((DisplayableCard)c).getWidth(), ((DisplayableCard)c).getHeight(), BufferedImage.SCALE_SMOOTH)));
-							
-							panelBattleField.addComponent(dc);
-							panelBattleField.revalidate();
-							panelBattleField.repaint();
-							
-							player.logAction("generate " + tok + " emblem");
-						}
-						catch (Exception e) {
-							e.printStackTrace();
-						}
-
-					}
-				}
+				player.flipCoin();
 			}
 		});
-		GridBagConstraints gbc_btnEmblem = new GridBagConstraints();
-		gbc_btnEmblem.insets = new Insets(0, 0, 5, 5);
-		gbc_btnEmblem.fill = GridBagConstraints.BOTH;
-		gbc_btnEmblem.gridx = 1;
-		gbc_btnEmblem.gridy = 2;
-		panelActions.add(btnEmblem, gbc_btnEmblem);
+		GridBagConstraints gbc_btnFlipACoin = new GridBagConstraints();
+		gbc_btnFlipACoin.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnFlipACoin.insets = new Insets(0, 0, 5, 5);
+		gbc_btnFlipACoin.gridx = 0;
+		gbc_btnFlipACoin.gridy = 2;
+		panelActions.add(btnFlipACoin, gbc_btnFlipACoin);
 		GridBagConstraints gbc_txtChat = new GridBagConstraints();
 		gbc_txtChat.gridwidth = 2;
 		gbc_txtChat.insets = new Insets(0, 0, 0, 5);
