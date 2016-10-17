@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.game.actions.ChangeCreaturePTActions;
 import org.magic.gui.game.actions.FlipActions;
+import org.magic.gui.game.actions.LoyaltyActions;
 import org.magic.gui.game.actions.RotateActions;
 import org.magic.gui.game.actions.SelectionActions;
 import org.magic.gui.game.actions.TapActions;
@@ -143,37 +144,50 @@ public class DisplayableCard extends JLabel
 				
 		if(activateCards)
 		{ 
-			addMouseListener(new TransferActions());
-			
-			menu.add(new JMenuItem(new TapActions(this)));
-			menu.add(new JMenuItem(new SelectionActions(this)));
-			menu.add(new JMenuItem(new RotateActions(this)));
-			
-			menu.add(new JSeparator());
-			if(magicCard.getTypes().contains("Creature"))
-			{
-				menu.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Strength));
-				menu.add(new ChangeCreaturePTActions(this, -1, ChangeCreaturePTActions.TypeCounter.Strength));
-				menu.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Toughness));
-				menu.add(new ChangeCreaturePTActions(this, 0, ChangeCreaturePTActions.TypeCounter.Both));
-				
-			}
-			menu.add(new JSeparator());
-			
-			
-			if(magicCard.isTranformable())
-				menu.add(new JMenuItem(new TransformActions(this)));
-
-			if(magicCard.isFlippable())
-				menu.add(new JMenuItem(new FlipActions(this)));
-
-			
-			setComponentPopupMenu(menu);
+			initActions();
 		}
 		
 		
 	}
 	
+	public void initActions() {
+		addMouseListener(new TransferActions());
+		
+		menu.add(new JMenuItem(new TapActions(this)));
+		menu.add(new JMenuItem(new SelectionActions(this)));
+		menu.add(new JMenuItem(new RotateActions(this)));
+		
+		menu.add(new JSeparator());
+		if(magicCard.getTypes().contains("Creature"))
+		{
+			menu.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Strength));
+			menu.add(new ChangeCreaturePTActions(this, -1, ChangeCreaturePTActions.TypeCounter.Strength));
+			menu.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Toughness));
+			menu.add(new ChangeCreaturePTActions(this, 0, ChangeCreaturePTActions.TypeCounter.Both));
+			
+		}
+		menu.add(new JSeparator());
+		
+		if(magicCard.getTypes().contains("Planeswalker"))
+		{
+			menu.add(new LoyaltyActions(this, 1));
+			menu.add(new LoyaltyActions(this, -1));
+			
+		}
+		
+		
+		
+		if(magicCard.isTranformable())
+			menu.add(new JMenuItem(new TransformActions(this)));
+
+		if(magicCard.isFlippable())
+			menu.add(new JMenuItem(new FlipActions(this)));
+
+		
+		setComponentPopupMenu(menu);
+		
+	}
+
 	public void flip(boolean t)
 	{
 		

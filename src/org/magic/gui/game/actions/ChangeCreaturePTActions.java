@@ -7,6 +7,7 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import org.magic.gui.game.DisplayableCard;
+import org.magic.gui.game.GamePanelGUI;
 
 public class ChangeCreaturePTActions  extends AbstractAction{
 
@@ -76,8 +77,9 @@ public class ChangeCreaturePTActions  extends AbstractAction{
 			card.getMagicCard().setPower(counts[0]);
 			card.getMagicCard().setToughness(counts[1]);
 		}
-		
 		card.showPT(true);
+		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() +" P/T to " + card.getMagicCard().getPower()+"/"+card.getMagicCard().getToughness());
+
 	}
 
 }

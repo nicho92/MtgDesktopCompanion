@@ -24,6 +24,7 @@ public class TransformActions extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		GamePanelGUI.getInstance().getPlayer().logAction("Transform " + card.getMagicCard());
 		card.transform();
+		card.initActions();
 		
 	}
 
