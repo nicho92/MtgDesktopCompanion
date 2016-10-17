@@ -155,9 +155,6 @@ public class MagicGUI extends JFrame {
 	private JComboBox<String> cboQuereableItems;
 	private JComboBox<MagicCollection> cboCollections;
 	
-    private DeckBuilderGUI deckBuilderGUI;
-	private CardBuilderPanelGUI panneauBuilder;
-	private CollectionPanelGUI collectionPanelGUI;
 	private JXTable tableCards;
 	private JXTable tablePrice;
     private DefaultRowSorter sorterCards ;
@@ -253,7 +250,7 @@ public class MagicGUI extends JFrame {
 
 	public void initGUI() throws Exception
 	{
-		logger.debug("construction of GUI");
+		logger.debug("init main GUI");
 		menuBar = new JMenuBar();
 		mnFile = new JMenu("File");
 		mntmExit = new JMenuItem("Exit");
@@ -266,8 +263,6 @@ public class MagicGUI extends JFrame {
 
 		menuBar.add(mnFile);
 		mnFile.add(mntmExit);
-
-		panneauBuilder = new CardBuilderPanelGUI();
 		
 		mnView = new JMenu("View");
 		menuBar.add(mnView);
@@ -655,21 +650,16 @@ public class MagicGUI extends JFrame {
 		tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
 
 		
-		deckBuilderGUI = new DeckBuilderGUI();
-
-		collectionPanelGUI = new CollectionPanelGUI();
-		
 		tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/res/search.gif")), globalPanel, null);
-		tabbedPane.addTab("Deck", new ImageIcon(MagicGUI.class.getResource("/res/book_icon.jpg")), deckBuilderGUI, null);
+		tabbedPane.addTab("Deck", new ImageIcon(MagicGUI.class.getResource("/res/book_icon.jpg")), new DeckBuilderGUI(), null);
 		tabbedPane.addTab("Game", new ImageIcon(MagicGUI.class.getResource("/res/bottom.png")), GamePanelGUI.getInstance(), null);
-		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), collectionPanelGUI, null);
+		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), new CollectionPanelGUI(), null);
 		tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI(), null);
 		tabbedPane.addTab("Shopping", new ImageIcon(MagicGUI.class.getResource("/res/shop.gif")), new ShopperGUI(), null);
 		tabbedPane.addTab("Alert", new ImageIcon(MagicGUI.class.getResource("/res/bell.png")), new AlarmGUI(), null);
-		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), panneauBuilder, null);
+		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), new CardBuilderPanelGUI(), null);
 		tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), new RssGUI(), null);
-		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI (), null);
-		//tabbedPane.addTab("Servers", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ServersGUI(), null);
+		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI(), null);
 		
 
 		filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);

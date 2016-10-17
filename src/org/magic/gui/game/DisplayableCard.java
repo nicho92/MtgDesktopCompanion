@@ -1,5 +1,8 @@
 package org.magic.gui.game;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
@@ -11,8 +14,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
+import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.gui.game.actions.ChangeCreaturePTActions;
 import org.magic.gui.game.actions.FlipActions;
 import org.magic.gui.game.actions.RotateActions;
 import org.magic.gui.game.actions.SelectionActions;
@@ -37,7 +43,8 @@ public class DisplayableCard extends JLabel
 	private String title;
 	private String bottom;
 	private boolean selected;
-	private boolean rotated; 
+	private boolean rotated;
+	private boolean showPT; 
 	
 	
 	public boolean isRotated(){
@@ -67,10 +74,26 @@ public class DisplayableCard extends JLabel
 	public ImageIcon getImageIcon() {
 		return image;
 	}
-
-
+	
+	@Override
+	public Icon getIcon() {
+		if(magicCard != null)
+			return image;
+		
+		return super.getIcon();
+	}
+	
+//	@Override
+//	public void paintComponent(Graphics g) {
+//		//super.paintComponent(g);
+//		setSize(width, height);
+//		g.drawImage(image.getImage(),0,0,width,height,null);
+//	}
+	
+	
 	public void setImage(ImageIcon image) {
 		this.image = image;
+		repaint();
 	}
 	
 	public String getTitle() {
@@ -104,14 +127,20 @@ public class DisplayableCard extends JLabel
 	}
 
 
+	public void showPT(boolean t)
+	{
+		showPT=t;
+	}
+	
 	public DisplayableCard(MagicCard mc,int width,int height, boolean activateCards) {
-		
-		setSize(width, height);
+	
+	        
+		setSize(width,height);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
 		setMagicCard(mc);
 		setTransferHandler(new CardTransfertHandler());
-			
+				
 		if(activateCards)
 		{ 
 			addMouseListener(new TransferActions());
@@ -120,6 +149,16 @@ public class DisplayableCard extends JLabel
 			menu.add(new JMenuItem(new SelectionActions(this)));
 			menu.add(new JMenuItem(new RotateActions(this)));
 			
+			menu.add(new JSeparator());
+			if(magicCard.getTypes().contains("Creature"))
+			{
+				menu.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Strength));
+				menu.add(new ChangeCreaturePTActions(this, -1, ChangeCreaturePTActions.TypeCounter.Strength));
+				menu.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Toughness));
+				menu.add(new ChangeCreaturePTActions(this, 0, ChangeCreaturePTActions.TypeCounter.Both));
+				
+			}
+			menu.add(new JSeparator());
 			
 			
 			if(magicCard.isTranformable())
@@ -203,16 +242,7 @@ public class DisplayableCard extends JLabel
 	        this.setSize(h, w);
 	        this.tapped=t;
 	}
-	
-	@Override
-	public Icon getIcon() {
-		
-		if(magicCard != null)
-			return image;
-		
-		return super.getIcon();
-	}
-	
+
 	public MagicCard getMagicCard() {
 		return magicCard;
 	}
