@@ -1,24 +1,21 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
@@ -43,11 +40,28 @@ public class JDeckChooserDialog extends JDialog {
 		new JDeckChooserDialog().setVisible(true);;
 	}
 	
+	
+	
+	
 	public JDeckChooserDialog() {
 		setTitle("Choose your deck");
 		setSize(750, 400);
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
+		
+		addWindowListener(new WindowAdapter() 
+					{
+					  public void windowClosed(WindowEvent e)
+					  {
+					    selectedDeck=null;
+					  }
+			
+					  public void windowClosing(WindowEvent e)
+					  {
+						  selectedDeck=null;
+					  }
+					});
 		
 		table = new JXTable(new DeckSelectionModel());
 		table.addMouseListener(new MouseAdapter() {
@@ -107,7 +121,7 @@ public class JDeckChooserDialog extends JDialog {
 		panelRight.add(cmcChartPanel, BorderLayout.SOUTH);
 		
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
-		
+		table.packAll();
 		setLocationRelativeTo(null);
 		setModal(true);
 	}
