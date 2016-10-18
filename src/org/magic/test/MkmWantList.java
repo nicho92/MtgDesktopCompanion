@@ -19,8 +19,8 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
+import freemarker.core.OutputFormat;
+
 
 public class MkmWantList {
 
@@ -102,10 +102,10 @@ public class MkmWantList {
 	
 	static void prettyPrint(Document doc) throws IOException
 	{
-		OutputFormat format = new OutputFormat(doc);
+		/*OutputFormat format = new OutputFormat(doc);
         format.setIndenting(true);
         XMLSerializer serializer = new XMLSerializer(System.out, format);
-        serializer.serialize(doc);
+        serializer.serialize(doc);*/
 	}
 }
 

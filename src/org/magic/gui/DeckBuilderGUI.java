@@ -53,6 +53,7 @@ import org.magic.api.interfaces.CardExporter;
 import org.magic.game.Player;
 import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.DeckSnifferDialog;
+import org.magic.gui.components.JDeckChooserDialog;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.ManualImportFrame;
@@ -192,13 +193,10 @@ public class DeckBuilderGUI extends JPanel{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try{
-					//TO DO use DAO for loading
-					JFileChooser choose = new JFileChooser(deckDirectory);
-					choose.showOpenDialog(null);
-					
-					File f = choose.getSelectedFile();
-					if(f!=null){
-						deck = new MTGDesktopCompanionExport().importDeck(f);
+					JDeckChooserDialog choose = new JDeckChooserDialog();
+					choose.setVisible(true);
+					deck =  choose.getSelectedDeck();
+					if(deck!=null){
 						deckDetailsPanel.setMagicDeck(deck);
 						deckmodel.load(deck);
 						deckSidemodel.load(deck);

@@ -46,6 +46,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
+import org.magic.gui.components.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MagicFactory;
 
@@ -174,18 +175,18 @@ public class GamePanelGUI extends JPanel implements Observer {
 		JButton btnNewGame = new JButton("New Game");
 		btnNewGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				JFileChooser choose = new JFileChooser(new File(MagicFactory.CONF_DIR,"decks"));
-				choose.showOpenDialog(null);
+				JDeckChooserDialog choose = new JDeckChooserDialog();
+				choose.setVisible(true);
 				try {
-					MagicDeck deck = new MTGDesktopCompanionExport().importDeck(choose.getSelectedFile());
-					
-					Player p = new Player(deck);
-					GameManager.getInstance().addPlayer(p);
-					GameManager.getInstance().initGame();
-					GameManager.getInstance().nextTurn();
-					setPlayer(p);
-					clean();
-
+					MagicDeck deck = choose.getSelectedDeck();
+					if(deck!=null){
+						Player p = new Player(deck);
+						GameManager.getInstance().addPlayer(p);
+						GameManager.getInstance().initGame();
+						GameManager.getInstance().nextTurn();
+						setPlayer(p);
+						clean();
+					}
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
