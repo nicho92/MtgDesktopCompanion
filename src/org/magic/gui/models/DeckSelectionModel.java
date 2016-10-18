@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.services.MagicFactory;
+import org.magic.services.ThreadManager;
 
 public class DeckSelectionModel extends DefaultTableModel {
 
@@ -23,14 +24,24 @@ public class DeckSelectionModel extends DefaultTableModel {
 		
 		decks = new ArrayList<MagicDeck>();
 		
-		for(File f : new File(MagicFactory.CONF_DIR,"decks").listFiles() )
-		{
-			try {
-				MagicDeck deck = new MTGDesktopCompanionExport().importDeck(f);
-				decks.add(deck);
-			} catch (Exception e) {
+		ThreadManager.getInstance().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				for(File f : new File(MagicFactory.CONF_DIR,"decks").listFiles() )
+				{
+					try {
+						MagicDeck deck = new MTGDesktopCompanionExport().importDeck(f);
+						decks.add(deck);
+						fireTableDataChanged();
+					} catch (Exception e) {
+					}
+				}
+				
 			}
-		}
+		}, "loading decks");
+		
+		
 	}
 	
 	@Override
