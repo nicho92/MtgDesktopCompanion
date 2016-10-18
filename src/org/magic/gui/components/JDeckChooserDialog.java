@@ -67,7 +67,7 @@ public class JDeckChooserDialog extends JDialog {
 	    
 	    if(selectedDeck!=null)
 	        {
-	        	for(MagicCard mc : selectedDeck.getMap().keySet())
+    			for(MagicCard mc : selectedDeck.getMap().keySet())
 	        	{
 	        		if(mc.getTypes().contains("Creature") && !mc.getTypes().contains("Artifact"))
 	        			creatureNode.add(new DefaultMutableTreeNode(selectedDeck.getMap().get(mc) + " " + mc));
