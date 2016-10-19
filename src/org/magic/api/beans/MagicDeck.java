@@ -51,6 +51,13 @@ public class MagicDeck implements Serializable{
 		this.mapSideBoard = mapSideBoard;
 	}
 
+	
+	public boolean hasCard(MagicCard mc)
+	{
+		return mapDeck.containsKey(mc);
+	}
+	
+	
 	public Set<MagicFormat> getLegality() {
 		Set<MagicFormat> cmap = new LinkedHashSet<MagicFormat>();
 		for(MagicCard mc : mapDeck.keySet())
