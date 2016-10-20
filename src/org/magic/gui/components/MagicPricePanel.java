@@ -13,11 +13,11 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicPrice;
 
-public class MagicPriceComponent extends JPanel {
+public class MagicPricePanel extends JPanel {
 
 	MagicPrice price;
 
-	public MagicPriceComponent(MagicPrice price) {
+	public MagicPricePanel(MagicPrice price) {
 		setBackground(SystemColor.inactiveCaptionBorder);
 		
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));

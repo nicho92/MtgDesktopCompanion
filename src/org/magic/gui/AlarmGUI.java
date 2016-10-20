@@ -28,7 +28,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.components.MagicPriceComponent;
+import org.magic.gui.components.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.services.MagicFactory;
 
@@ -104,7 +104,7 @@ public class AlarmGUI extends JPanel {
 		list.setCellRenderer(new ListCellRenderer<MagicPrice>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends MagicPrice> list, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus) {
-				return new MagicPriceComponent(value);
+				return new MagicPricePanel(value);
 			}
 		});
 		

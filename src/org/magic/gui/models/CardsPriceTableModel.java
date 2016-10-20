@@ -40,6 +40,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 				e.printStackTrace();
 			}
 		}
+		fireTableDataChanged();
 	}
 	
 
