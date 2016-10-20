@@ -160,7 +160,7 @@ public class JDeckChooserDialog extends JDialog {
 		JPanel panelBas = new JPanel();
 		getContentPane().add(panelBas, BorderLayout.SOUTH);
 		
-		JButton btnSelect = new JButton("Select");
+		JButton btnSelect = new JButton("Open");
 		btnSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(selectedDeck==null)
@@ -179,6 +179,21 @@ public class JDeckChooserDialog extends JDialog {
 			}
 		});
 		panelBas.add(btnCancel);
+		
+		JButton btnNewButton = new JButton("Delete");
+		btnNewButton.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				int res = JOptionPane.showConfirmDialog(null, "Delete " + selectedDeck.getName() +" ?","Are you sure ?",JOptionPane.YES_NO_OPTION);
+				
+				if(res==JOptionPane.YES_OPTION)
+				{
+					((DeckSelectionModel)table.getModel()).remove(selectedDeck);
+				}
+				
+			}
+		});
+		panelBas.add(btnNewButton);
 		
 		JSplitPane panelRight = new JSplitPane();
 		panelRight.setOrientation(JSplitPane.VERTICAL_SPLIT);

@@ -101,5 +101,12 @@ public class DeckSelectionModel extends DefaultTableModel {
 		return magicDeck.isCompatibleFormat(mf);
 		
 	}
+
+	public void remove(MagicDeck selectedDeck) {
+		 new File(MagicFactory.CONF_DIR.getAbsolutePath()+"/decks",selectedDeck.getName()+".deck").delete();
+		 decks.remove(selectedDeck);
+		 fireTableDataChanged();
+		
+	}
 	
 }
