@@ -4,8 +4,11 @@ import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.image.BufferedImage;
 
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -18,8 +21,14 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import org.magic.services.MagicFactory;
+import org.magic.services.ThreadManager;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DeckDetailsPanel extends JPanel {
 
@@ -38,6 +47,8 @@ public class DeckDetailsPanel extends JPanel {
 	private JLabel lblSideboard;
 	private JProgressBar nbSideProgress;
 	private JScrollPane scrollPane;
+	private JLabel lblCover;
+	private JButton btnUpdateLegalities;
 
 	
 	public DeckDetailsPanel(org.magic.api.beans.MagicDeck newMagicDeck) {
@@ -48,9 +59,9 @@ public class DeckDetailsPanel extends JPanel {
 	public DeckDetailsPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 81, 31, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 132, 31, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
 				JLabel nameLabel = new JLabel("Name:");
@@ -153,9 +164,30 @@ public class DeckDetailsPanel extends JPanel {
 		panelLegalities.add(lbmnd);
 		panelLegalities.add(lbcmd);
 		
+		btnUpdateLegalities = new JButton("");
+		btnUpdateLegalities.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				for(MagicCard mc : magicDeck.getAsList())
+				{
+					try {
+						mc.setLegalities(MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("id", mc.getId(), mc.getEditions().get(0)).get(0).getLegalities());
+						setLegalities();
+					} catch (Exception e) {
+					}
+				}
+				
+			}
+		});
+		btnUpdateLegalities.setToolTipText("Refresh cards legalities");
+		ImageIcon ic = new ImageIcon(MagicCardDetailPanel.class.getResource("/res/refresh.png"));
+		Image b = ic.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH);
+		btnUpdateLegalities.setIcon(new ImageIcon(b)); 
+		panelLegalities.add(btnUpdateLegalities);
+		
 		lblSideboard = new JLabel("SideBoard :");
 		GridBagConstraints gbc_lblSideboard = new GridBagConstraints();
-		gbc_lblSideboard.insets = new Insets(0, 0, 0, 5);
+		gbc_lblSideboard.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSideboard.gridx = 1;
 		gbc_lblSideboard.gridy = 5;
 		add(lblSideboard, gbc_lblSideboard);
@@ -165,7 +197,7 @@ public class DeckDetailsPanel extends JPanel {
 		nbSideProgress.setStringPainted(true);
 		GridBagConstraints gbc_nbSideProgress = new GridBagConstraints();
 		gbc_nbSideProgress.fill = GridBagConstraints.HORIZONTAL;
-		gbc_nbSideProgress.insets = new Insets(0, 0, 0, 5);
+		gbc_nbSideProgress.insets = new Insets(0, 0, 5, 5);
 		gbc_nbSideProgress.gridx = 2;
 		gbc_nbSideProgress.gridy = 5;
 		add(nbSideProgress, gbc_nbSideProgress);
@@ -178,6 +210,13 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_scrollPane.gridx = 2;
 		gbc_scrollPane.gridy = 3;
 		add(scrollPane, gbc_scrollPane);
+		
+		lblCover = new JLabel("");
+		GridBagConstraints gbc_lblCover = new GridBagConstraints();
+		gbc_lblCover.insets = new Insets(0, 0, 0, 5);
+		gbc_lblCover.gridx = 2;
+		gbc_lblCover.gridy = 6;
+		add(lblCover, gbc_lblCover);
 		
 		
 		if (magicDeck != null) {
@@ -273,6 +312,21 @@ public class DeckDetailsPanel extends JPanel {
 		AutoBinding<MagicDeck, String, ManaPanel, String> autoBinding_4 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, colorIdentityProperty, manaPanel, manaCostProperty_3);
 		autoBinding_4.bind();
 		//
+		ThreadManager.getInstance().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					lblCover.setIcon(new ImageIcon(MagicFactory.getInstance().getEnabledPicturesProvider().extractPicture(magicDeck.getAsList().get(0))));
+					lblCover.setToolTipText(magicDeck.getAsList().get(0).toString());
+				} catch (Exception e) {
+					
+				}
+				
+				
+			}
+		}, "extract deck pictures");
+		
 		
 		BindingGroup bindingGroup = new BindingGroup();
 		//

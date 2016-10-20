@@ -32,12 +32,14 @@ public class CmcChartPanel extends JPanel{
 
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<MagicCard>();
-		for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
-		{
-			MagicCard mc = cci.getKey();
-			for(int i=0;i<cci.getValue();i++)
-				cards.add(mc);
-		}
+		if(deck!=null)
+			if(deck.getMap()!=null)
+				for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
+				{
+					MagicCard mc = cci.getKey();
+					for(int i=0;i<cci.getValue();i++)
+						cards.add(mc);
+				}
 		refresh();
 	}
 	
