@@ -1,11 +1,8 @@
 package org.magic.gui.models;
 
-import java.awt.Color;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -17,7 +14,7 @@ import org.magic.services.ThreadManager;
 
 public class DeckSelectionModel extends DefaultTableModel {
 
-	final static String[] columns={"Deck","Color","Standard","Modern","Legacy","Vintage","Count"};
+	final static String[] columns={"Deck","Color","Standard","Modern","Legacy","Vintage","Cards"};
 	List<MagicDeck> decks;
 	
 	public DeckSelectionModel() {
