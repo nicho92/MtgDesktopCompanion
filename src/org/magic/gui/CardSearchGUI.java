@@ -295,7 +295,8 @@ public class CardSearchGUI extends JPanel {
 			panneauHaut.add(cboEdition);
 			panneauHaut.add(btnSearch);
 			
-			btnFilter = new JButton("Filter");
+			btnFilter = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/filter.png")));
+			btnFilter.setToolTipText("Filter result");
 			btnFilter.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					if(panelFilters.isVisible())

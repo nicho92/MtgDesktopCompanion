@@ -73,6 +73,7 @@ import org.magic.gui.components.CardsPicPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ManaPanel;
+import org.magic.gui.components.ThreadMonitorFrame;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;

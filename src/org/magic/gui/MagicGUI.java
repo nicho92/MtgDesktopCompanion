@@ -29,6 +29,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.gui.components.ThreadMonitorFrame;
 import org.magic.gui.game.GamePanelGUI;
 import org.magic.services.MagicFactory;
 import org.magic.services.VersionChecker;
