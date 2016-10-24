@@ -69,7 +69,6 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.game.DisplayableCard;
-import org.magic.gui.game.GamePanelGUI;
 import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
@@ -77,7 +76,6 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MagicFactory;
 import org.magic.services.ThreadManager;
-import org.magic.services.VersionChecker;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;

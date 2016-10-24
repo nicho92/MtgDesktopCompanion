@@ -22,7 +22,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
@@ -33,7 +32,6 @@ import org.apache.log4j.Logger;
 import org.magic.gui.game.GamePanelGUI;
 import org.magic.services.MagicFactory;
 import org.magic.services.VersionChecker;
-
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
 public class MagicGUI extends JFrame {
@@ -253,10 +251,7 @@ public class MagicGUI extends JFrame {
 
 		if (SystemTray.isSupported()) {
 			tray.add(trayIcon);
-
-			
 			trayIcon.addActionListener(new ActionListener() {
-				
 				public void actionPerformed(ActionEvent e) {
 					if(!isVisible())
 						setVisible(true);
@@ -266,8 +261,7 @@ public class MagicGUI extends JFrame {
 			});
 			
 			PopupMenu menuTray = new PopupMenu();
-			
-			
+
 			for(int index_tab = 0;index_tab<tabbedPane.getTabCount();index_tab++)
 			{
 				final int index = index_tab;
