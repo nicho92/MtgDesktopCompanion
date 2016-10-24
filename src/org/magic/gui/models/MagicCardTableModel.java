@@ -7,11 +7,11 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
+import org.magic.services.MagicFactory;
 
 public class MagicCardTableModel extends DefaultTableModel{
 
 	List<MagicCard> cards;
-	String langage;
 	String columns[] = new String[] {"name","langage","manacost","type","power","rarity","Editions","N°","Color"};
 	
 	
@@ -77,7 +77,7 @@ public class MagicCardTableModel extends DefaultTableModel{
 	private String getName(List<MagicCardNames> foreignNames) {
 		for(MagicCardNames name: foreignNames)
 		{
-			if(name.getLanguage().equals(langage))
+			if(name.getLanguage().equals(MagicFactory.getInstance().get("langage")))
 				return name.getName();
 		}
 		return "";
@@ -93,10 +93,8 @@ public class MagicCardTableModel extends DefaultTableModel{
 						
 	}
 
-	public void init(List<MagicCard> cards2,String lang) {
+	public void init(List<MagicCard> cards2) {
 		this.cards=cards2;
-		columns[1]=lang;
-		this.langage=lang;
 	}
 
 	public List<MagicCard> getListCards() {

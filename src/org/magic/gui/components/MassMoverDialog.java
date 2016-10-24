@@ -73,7 +73,7 @@ public class MassMoverDialog extends JDialog {
 						}
 					}
 					try {
-						model.init(dao.getCardsFromCollection(toSaveCol), MagicFactory.getInstance().get("langage"));
+						model.init(dao.getCardsFromCollection(toSaveCol));
 					} catch (SQLException e) {
 						logger.error(e);
 					}
@@ -97,7 +97,7 @@ public class MassMoverDialog extends JDialog {
 		
 		model = new MagicCardTableModel();
 		try {
-			model.init(dao.getCardsFromCollection(col), MagicFactory.getInstance().get("langage"));
+			model.init(dao.getCardsFromCollection(col));
 		} catch (SQLException e) {
 			logger.error(e);
 		}

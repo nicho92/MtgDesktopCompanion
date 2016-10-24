@@ -41,19 +41,24 @@ public class MtgDesktopCompanion {
 					if(MagicFactory.getInstance().updateConfigMods())
 						MagicFactory.getInstance().reload();
 					
+					LogManager.getRootLogger().setLevel(Level.toLevel(MagicFactory.getInstance().get("loglevel")));
+					
+					MagicFactory.getInstance().getEnabledProviders().init();
+					MagicFactory.getInstance().getEnabledDAO().init();
+			
+					
 				}catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				LogManager.getRootLogger().setLevel(Level.toLevel(MagicFactory.getInstance().get("loglevel")));
+			
 				
 				MagicGUI gui = new MagicGUI();
 					
 						gui.setLookAndFeel(MagicFactory.getInstance().get("lookAndFeel"));
-						gui.setDefaultLanguage(MagicFactory.getInstance().get("langage"));
 						gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						gui.setVisible(true);
-						for(MTGServer serv : MagicFactory.getInstance().getEnabledServers())
+				
+				for(MTGServer serv : MagicFactory.getInstance().getEnabledServers())
 							if(serv.isAutostart())
 								try {
 									serv.start();
