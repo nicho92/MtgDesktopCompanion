@@ -96,15 +96,16 @@ public class MagicGUI extends JFrame {
 	
 	public void initGUI() throws Exception
 	{
-		logger.debug("init main GUI");
-		menuBar = new JMenuBar();
-		mnFile = new JMenu("File");
-		mntmExit = new JMenuItem("Exit");
-
+	
 		setSize(new Dimension(1420, 900));
 		setTitle("Magic Desktop Companion ( v" + MagicFactory.getInstance().getVersion()+")");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")));
+
+		
+		menuBar = new JMenuBar();
+		mnFile = new JMenu("File");
+		mntmExit = new JMenuItem("Exit");
 		setJMenuBar(menuBar);
 
 		menuBar.add(mnFile);

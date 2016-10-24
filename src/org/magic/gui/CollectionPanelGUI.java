@@ -113,7 +113,7 @@ public class CollectionPanelGUI extends JPanel {
 	
 	public void initGUI() throws Exception {
 		
-		logger.debug("init collection panel");
+		logger.debug("init collection GUI");
 		setLayout(new BorderLayout(0, 0));
 		model = new MagicEditionsTableModel();
 		model.init(provider.loadEditions());

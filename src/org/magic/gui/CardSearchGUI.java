@@ -209,7 +209,7 @@ public class CardSearchGUI extends JPanel {
 
 		public void initGUI() throws Exception
 		{
-			logger.debug("init main GUI");
+			logger.debug("init search GUI");
 					
 
 			DefaultRowSorter sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);

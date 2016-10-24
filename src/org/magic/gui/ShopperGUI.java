@@ -51,7 +51,7 @@ public class ShopperGUI extends JPanel {
     
 	public ShopperGUI() {
 		
-		logger.debug("init shopper panel");
+		logger.debug("init shopper GUI");
 		setLayout(new BorderLayout(0, 0));
 		
 		add(panel, BorderLayout.NORTH);

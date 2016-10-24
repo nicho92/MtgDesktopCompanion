@@ -138,6 +138,9 @@ public class DeckBuilderGUI extends JPanel{
 	
 	private void initGUI() {
 		
+		logger.debug("init deckBuilder GUI");
+		
+		
 		lblExport.setIcon(new ImageIcon(MagicGUI.class.getResource("/res/load.gif")));
 		lblExport.setVisible(false);
 		
