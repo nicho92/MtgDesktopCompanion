@@ -15,6 +15,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.game.PositionEnum;
 import org.magic.gui.game.actions.cards.ChangeCreaturePTActions;
 import org.magic.gui.game.actions.cards.EmblemActions;
 import org.magic.gui.game.actions.cards.FlipActions;
@@ -30,7 +31,7 @@ import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MagicFactory;
 
 
-public class DisplayableCard extends JLabel
+public class DisplayableCard extends JLabel implements Draggable
 {
 
 	JPopupMenu menu = new JPopupMenu();
@@ -302,6 +303,23 @@ public class DisplayableCard extends JLabel
 	public void setRotated(boolean b) {
 		this.rotated=b;
 		
+	}
+
+	@Override
+	public void moveCard(MagicCard mc, PositionEnum to) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void addComponent(DisplayableCard i) {
+		System.out.println("merge " + this + " " + i);
+		
+	}
+
+	@Override
+	public PositionEnum getOrigine() {
+		return PositionEnum.CARD;
 	}
 
 
