@@ -39,19 +39,18 @@ public class MagicGUI extends JFrame {
 
 	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
 
-	TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public final SystemTray tray = SystemTray.getSystemTray();
-
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenu mnuAbout;
 	private JMenu mnuLang;
+	private JMenu jmnuLook;
 	private JMenuItem mntmExit;
-	private JMenuItem mntmAboutMagicDesktop;
-	private JMenuItem mntmReportBug;
+
  	private JTabbedPane  tabbedPane;
 	private VersionChecker serviceUpdate;
-	
+	private TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+
 	
 	public MagicGUI() {
 
@@ -70,9 +69,6 @@ public class MagicGUI extends JFrame {
 	}
 	
 	
-	public void setDefaultLanguage(String language) {
-		MagicFactory.getInstance().setProperty("langage", language);
-	}
 
 	public void setSelectedTab(int id)
 	{
@@ -96,36 +92,40 @@ public class MagicGUI extends JFrame {
 	
 	public void initGUI() throws Exception
 	{
-	
+		logger.debug("init GUI");
 		setSize(new Dimension(1420, 900));
 		setTitle("Magic Desktop Companion ( v" + MagicFactory.getInstance().getVersion()+")");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")));
-
+		getContentPane().setLayout(new BorderLayout());
 		
 		menuBar = new JMenuBar();
-		mnFile = new JMenu("File");
-		mntmExit = new JMenuItem("Exit");
 		setJMenuBar(menuBar);
 
+		
+		mnFile = new JMenu("File");
+		mnuLang= new JMenu("Langage");
+		mnuAbout = new JMenu("?");
+		jmnuLook = new JMenu("Look");
+			
+		mntmExit = new JMenuItem("Exit");
+		
+		JMenuItem mntmHelp = new JMenuItem("Read the f***g manual");
+		JMenuItem mntmThreadItem = new JMenuItem("Threads");
+		JMenuItem mntmAboutMagicDesktop = new JMenuItem("About Magic Desktop Companion");
+		JMenuItem mntmReportBug = new JMenuItem("Report Bug");
+		
+		
 		menuBar.add(mnFile);
 		mnFile.add(mntmExit);
-		
-		
-		
-		JMenu jmnuLook = new JMenu("Look");
 		menuBar.add(jmnuLook);
-		
-		mnuLang= new JMenu("Langage");
 		menuBar.add(mnuLang);
-		
-		
-		mnuAbout = new JMenu("?");
 		menuBar.add(mnuAbout);
+		mnuAbout.add(mntmThreadItem);
+		mnuAbout.add(mntmHelp);
+		mnuAbout.add(mntmAboutMagicDesktop);
+		mnuAbout.add(mntmReportBug);
 		
-		
-		
-		JMenuItem mntmThreadItem = new JMenuItem("Threads");
 		mntmThreadItem.addActionListener(new ActionListener() {
 			
 			public void actionPerformed(ActionEvent e) {
@@ -140,10 +140,7 @@ public class MagicGUI extends JFrame {
 				
 			}
 		});
-		
-		mnuAbout.add(mntmThreadItem);
-		
-		JMenuItem mntmHelp = new JMenuItem("Read the f***g manual");
+			
 		mntmHelp.addActionListener(new ActionListener() {
 			
 			@Override
@@ -156,10 +153,7 @@ public class MagicGUI extends JFrame {
 				}
 			}
 		});
-		mnuAbout.add(mntmHelp);
-		
-		
-		mntmAboutMagicDesktop = new JMenuItem("About Magic Desktop Companion");
+	
 		mntmAboutMagicDesktop.addActionListener(new ActionListener() {
 			
 			@Override
@@ -169,9 +163,6 @@ public class MagicGUI extends JFrame {
 			}
 		});
 		
-		mnuAbout.add(mntmAboutMagicDesktop);
-		
-		mntmReportBug = new JMenuItem("Report Bug");
 		mntmReportBug.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -182,8 +173,6 @@ public class MagicGUI extends JFrame {
 				}
 			}
 		});
-		
-		mnuAbout.add(mntmReportBug);
 		
 		if(serviceUpdate.hasNewVersion())
 		{
@@ -201,16 +190,14 @@ public class MagicGUI extends JFrame {
 			mnuAbout.add(newversion);
 		}
 		
+		
+		
+		//INIT AVAILABLE LOOK AND FEELS
 		List<String> looks = new ArrayList<String>();
 		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
 			looks.add(i.getClassName());
 		
 		looks.add(new SeaGlassLookAndFeel().getClass().getName());
-	//	looks.add(new SyntheticaPlainLookAndFeel().getClass().getName());
-		
-		
-		
-		
 		for(String ui : looks)
 		{
 			final JMenuItem it = new JMenuItem(ui);
@@ -222,23 +209,20 @@ public class MagicGUI extends JFrame {
 			jmnuLook.add(it);
 		}
 		
+		//INIT AVAILABLE LANGAGES
 		for(String l : MagicFactory.getInstance().getEnabledProviders().getLanguages())
 		{
 			final JMenuItem it = new JMenuItem(l);
 			it.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					setDefaultLanguage(it.getText());
+					MagicFactory.getInstance().setProperty("langage", it.getText());
 				}
 			});
 			mnuLang.add(it);
 		}
 		
-
-		getContentPane().setLayout(new BorderLayout(0, 0));
-
+	
 		tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-		getContentPane().add(tabbedPane, BorderLayout.CENTER);
-
 		tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/res/search.gif")), new CardSearchGUI(), null);
 		tabbedPane.addTab("Deck", new ImageIcon(MagicGUI.class.getResource("/res/book_icon.jpg")), new DeckBuilderGUI(), null);
 		tabbedPane.addTab("Game", new ImageIcon(MagicGUI.class.getResource("/res/bottom.png")), GamePanelGUI.getInstance(), null);
@@ -250,7 +234,8 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), new RssGUI(), null);
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI(), null);
 		
-
+		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
 		if (SystemTray.isSupported()) {
 			tray.add(trayIcon);
 			trayIcon.addActionListener(new ActionListener() {
@@ -261,9 +246,7 @@ public class MagicGUI extends JFrame {
 						setVisible(false);
 				}
 			});
-			
 			PopupMenu menuTray = new PopupMenu();
-
 			for(int index_tab = 0;index_tab<tabbedPane.getTabCount();index_tab++)
 			{
 				final int index = index_tab;

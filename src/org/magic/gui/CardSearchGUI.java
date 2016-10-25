@@ -89,7 +89,6 @@ public class CardSearchGUI extends JPanel {
 
 		private MagicCard selected;
 		private MagicEdition selectedEdition;
-		private List<MagicCard> cards;
 		
 		private CardsPriceTableModel priceModel;
 		private MagicCardTableModel cardsModeltable;
@@ -97,7 +96,6 @@ public class CardSearchGUI extends JPanel {
 		private JTabbedPane tabbedCardsView;
 		private JTabbedPane tabbedCardsInfo ;
 		
-		private JScrollPane scrollThumbnails;
 		
 		private ThumbnailPanel thumbnailPanel;
 		private ManaRepartitionPanel manaRepartitionPanel;
@@ -129,21 +127,22 @@ public class CardSearchGUI extends JPanel {
 		
 		private JXTable tableCards;
 		private JXTable tablePrice;
-	    private DefaultRowSorter sorterCards ;
+	    private DefaultRowSorter<DefaultTableModel, Integer> sorterCards ;
 	    private TableFilterHeader filterHeader;
 
 	    private JButton btnClear;
 		private JButton btnGenerateBooster;
 		private JButton btnSearch;
 		private JButton btnExport;
-
-		private JLabel lblLoading = new JLabel("");
-		
-		private JList<MagicEdition> listEdition;
-		private JLabel lblBoosterPic;
-
-		private BoosterPicturesProvider boosterProvider;
 		private JButton btnFilter;
+		
+		private List<MagicCard> cards;
+		private JList<MagicEdition> listEdition;
+		
+		private JLabel lblBoosterPic;
+		private JLabel lblLoading;
+		
+		private BoosterPicturesProvider boosterProvider;
 		
 		public void loading(boolean show,String text)
 		{
@@ -210,9 +209,8 @@ public class CardSearchGUI extends JPanel {
 		public void initGUI() throws Exception
 		{
 			logger.debug("init search GUI");
-					
 
-			DefaultRowSorter sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
+			DefaultRowSorter<DefaultTableModel, Integer> sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
 			sorterCards = new TableRowSorter<DefaultTableModel>(cardsModeltable);
 			sorterCards.setComparator(7, new Comparator<String>() {
 			   public int compare(String num1, String num2) {
@@ -230,21 +228,250 @@ public class CardSearchGUI extends JPanel {
 						}
 			    }
 			});
-			setLayout(new BorderLayout(0, 0));
 
+			List<MagicEdition> li = MagicFactory.getInstance().getEnabledProviders().loadEditions();
+			Collections.sort(li);
 		
-			setLayout(new BorderLayout());
-
-
+			
+			
+////////INIT COMPONENTS
+			JScrollPane scrollEditions = new JScrollPane();
+			JScrollPane scrollThumbnails = new JScrollPane();
+			JScrollPane scrollPaneRules = new JScrollPane();
+			JScrollPane scrollPanePrices = new JScrollPane();
+			JScrollPane scrollCards = new JScrollPane();
+			JSplitPane panneauCentral = new JSplitPane();
+		
+			panneauHaut = new JPanel();
+			panneauCard = new JPanel();
+			boosterPanel = new JPanel();
+			editionDetailPanel = new JPanel();
+			panelResultsCards = new JPanel();
+			cmcChart = new CmcChartPanel();
+			manaRepartitionPanel = new ManaRepartitionPanel();
+			typeRepartitionPanel = new TypeRepartitionPanel();
+			historyChartPanel = new HistoryPricesPanel();
+			cardsPicPanel = new CardsPicPanel();
+			rarityRepartitionPanel = new RarityRepartitionPanel();
+			detailCardPanel = new MagicCardDetailPanel(new MagicCard());
+			magicEditionDetailPanel = new MagicEditionDetailPanel();
+			panelmana = new JPanel();
+			panelFilters = new JPanel();
+			ManaPanel pan = new ManaPanel();
+			
+			tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
+			tabbedCardsInfo = new JTabbedPane(JTabbedPane.TOP);
+			thumbnailPanel = new ThumbnailPanel();
+			
+			
+			
 			btnSearch = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/search.png")));
 			btnExport = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/export.png")));
+			btnFilter = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/filter.png")));
+			btnClear = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/09_clear_location.png")));
+			btnGenerateBooster = new JButton("Open a Booster");
+			
+			cboQuereableItems = new JComboBox<String>(MagicFactory.getInstance().getEnabledProviders().getQueryableAttributs());
+			cboCollections= new JComboBox<MagicCollection>(MagicFactory.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MagicFactory.getInstance().getEnabledDAO().getCollections().size()]));
+			cboLanguages = new JComboBox<MagicCardNames>();
+			
+			tablePrice = new JXTable();
+			tableCards = new JXTable();
+			
+			lblBoosterPic = new JLabel();
+			lblLoading = new JLabel(new ImageIcon(MagicGUI.class.getResource("/res/load.gif")));
+			JLabel lblFilter = new JLabel();
+			
+			listEdition = new JList<MagicEdition>();
+			txtMagicSearch = new JTextField();
+			txtRulesArea = new JTextArea();
+			txtFilter = new JTextField();
+
+			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
+			
+			cboEdition = new JComboBox<MagicEdition>(li.toArray(new MagicEdition[li.size()]));
+			
+			
+			
+/////////CONFIGURE COMPONENTS			
+			txtRulesArea.setLineWrap(true);
+			txtRulesArea.setWrapStyleWord(true);
+			txtRulesArea.setEditable(false);
+			btnFilter.setToolTipText("Filter result");
 			btnExport.setToolTipText("Export Result");
 			btnExport.setEnabled(false);
-			
-			cboQuereableItems = new JComboBox(MagicFactory.getInstance().getEnabledProviders().getQueryableAttributs());
+			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 			cboQuereableItems.addItem("collections");
-			cboCollections= new JComboBox<MagicCollection>(MagicFactory.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MagicFactory.getInstance().getEnabledDAO().getCollections().size()]));
+			tablePrice.setRowSorter(sorterPrice);
+			listEdition.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+			thumbnailPanel.enableDragging(false);
+			panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
+			panneauCentral.setRightComponent(tabbedCardsInfo);
+			panneauCentral.setLeftComponent(tabbedCardsView);
+			tableCards.setRowHeight(ManaPanel.row_height);
+			tableCards.setRowSorter(sorterCards);
+
+///////LAYOUT		
+			setLayout(new BorderLayout());
+			panneauCard.setLayout(new BorderLayout());
+			editionDetailPanel.setLayout(new BorderLayout());
+			boosterPanel.setLayout(new BorderLayout());
+			panelResultsCards.setLayout(new BorderLayout(0, 0));
+			panelmana.setLayout(new GridLayout(1, 0, 2, 2));
+			
+			FlowLayout fl_panelFilters = (FlowLayout) panelFilters.getLayout();
+			fl_panelFilters.setAlignment(FlowLayout.LEFT);
+			
+			FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
+			flowLayout.setAlignment(FlowLayout.LEFT);
+
+	
+			
+		
+////////MODELS
+			
+			listEdition.setModel(new DefaultListModel<MagicEdition>());
+			tablePrice.setModel(priceModel);
+			tableCards.setModel(cardsModeltable);
+
+///////DIMENSION	
+			thumbnailPanel.setThumbnailSize(179, 240);
+			tabbedCardsInfo.setPreferredSize(new Dimension(0, 350));
+			historyChartPanel.setPreferredSize(new Dimension(400, 10));
+			cardsPicPanel.setPreferredSize(new Dimension(400, 10));
+			tabbedCardsInfo.setMinimumSize(new Dimension(23,200));
+			scrollCards.setMinimumSize(new Dimension(0, 0));
+			scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
+			txtFilter.setColumns(25);
+			txtMagicSearch.setColumns(35);
+
+		
+///////VISIBILITY
+			tableCards.setColumnControlVisible(true);
+			filterHeader.setVisible(false);
+			panelFilters.setVisible(false);
+			lblLoading.setVisible(false);
 			cboCollections.setVisible(false);
+			tableCards.setShowVerticalLines(false);
+			cboEdition.setVisible(false);
+			
+			
+//////ADD PANELS	
+			
+			
+			for(String s : new String[]{"W","U","B","R","G","C","1"})
+			{
+				final JButton btnG = new JButton();
+				btnG.setToolTipText(s);
+				if(s.equals("1"))
+					btnG.setToolTipText("[0-9]*");
+
+				btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+				btnG.setForeground(btnG.getBackground());
+				btnG.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						txtFilter.setText("\\{" + btnG.getToolTipText()+"}");
+						sorterCards.setRowFilter(RowFilter.regexFilter(txtFilter.getText()));
+						
+					}
+				});
+				panelmana.add(btnG);
+					
+			}
+			scrollEditions.setViewportView(listEdition);							
+			scrollPanePrices.setViewportView(tablePrice);
+			scrollCards.setViewportView(tableCards);
+			scrollPaneRules.setViewportView(txtRulesArea);
+			scrollThumbnails.setViewportView(thumbnailPanel);
+	
+			
+			panneauHaut.add(cboQuereableItems);
+			panneauHaut.add(cboCollections);
+			panneauHaut.add(txtMagicSearch);
+			panneauHaut.add(cboEdition);
+			panneauHaut.add(btnSearch);
+			panneauHaut.add(btnFilter);
+			panneauHaut.add(btnExport);
+			panneauHaut.add(lblLoading);
+
+			
+			panneauCard.add(cboLanguages, BorderLayout.NORTH);
+			panneauCard.add(scrollEditions, BorderLayout.SOUTH);
+			panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
+	
+			boosterPanel.add(btnGenerateBooster, BorderLayout.NORTH);
+			boosterPanel.add(lblBoosterPic);
+			
+			panelResultsCards.add(panelFilters, BorderLayout.NORTH);
+			panelResultsCards.add(scrollCards);
+		
+			
+			editionDetailPanel.add(magicEditionDetailPanel, BorderLayout.CENTER);
+			editionDetailPanel.add(boosterPanel, BorderLayout.EAST);
+		
+			
+			panelFilters.add(lblFilter);
+			panelFilters.add(txtFilter);
+			panelFilters.add(btnClear);
+			panelFilters.add(panelmana);
+	
+
+			tabbedCardsInfo.addTab("Details", null, detailCardPanel, null);
+			tabbedCardsInfo.addTab("Edition", null, editionDetailPanel, null);
+			tabbedCardsInfo.addTab("Prices", null, scrollPanePrices, null);
+			tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
+			tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
+
+		
+			tabbedCardsView.addTab("Results", null, panelResultsCards, null);
+			tabbedCardsView.addTab("Thumbnail", null, scrollThumbnails, null);
+			tabbedCardsView.addTab("Mana Curve", null, cmcChart, null);
+			tabbedCardsView.addTab("Colors", null, manaRepartitionPanel, null);
+			tabbedCardsView.addTab("Types", null, typeRepartitionPanel, null);
+			tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
+
+			
+			add(panneauHaut, BorderLayout.NORTH);
+			add(panneauCard, BorderLayout.EAST);
+			add(panneauCentral, BorderLayout.CENTER);
+	
+			
+			
+///////Right click			
+			initPopupCollection();
+
+			
+			
+///////Action listners 
+			
+			cboEdition.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					txtMagicSearch.setText(((MagicEdition)cboEdition.getSelectedItem()).getId());
+				}
+			});
+			
+			
+			btnClear.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					txtFilter.setText("");
+					sorterCards.setRowFilter(null);
+				}
+			});
+			
+			btnFilter.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent arg0) {
+					if(panelFilters.isVisible())
+					{
+						panelFilters.setVisible(false);
+						filterHeader.setVisible(false);
+					}
+					else
+					{
+						panelFilters.setVisible(true);
+						filterHeader.setVisible(true);
+					}
+				}
+			});
 			
 			cboQuereableItems.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
@@ -268,230 +495,7 @@ public class CardSearchGUI extends JPanel {
 					}
 				}
 			});
-			txtMagicSearch = new JTextField();
-			panneauHaut = new JPanel();
-			add(panneauHaut, BorderLayout.NORTH);
-
-			FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
-			flowLayout.setAlignment(FlowLayout.LEFT);
-
-			txtMagicSearch.setColumns(35);
-			lblLoading.setVisible(false);
-			lblLoading.setIcon(new ImageIcon(MagicGUI.class.getResource("/res/load.gif")));
-
-			panneauHaut.add(cboQuereableItems);
-			panneauHaut.add(cboCollections);
-			panneauHaut.add(txtMagicSearch);
-			
-			List li = MagicFactory.getInstance().getEnabledProviders().loadEditions();
-			Collections.sort(li);
-			cboEdition = new JComboBox(li.toArray());
-			cboEdition.setVisible(false);
-			cboEdition.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					txtMagicSearch.setText(((MagicEdition)cboEdition.getSelectedItem()).getId());
-				}
-			});
-			panneauHaut.add(cboEdition);
-			panneauHaut.add(btnSearch);
-			
-			btnFilter = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/filter.png")));
-			btnFilter.setToolTipText("Filter result");
-			btnFilter.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					if(panelFilters.isVisible())
-					{
-						panelFilters.setVisible(false);
-						filterHeader.setVisible(false);
-					}
-					else
-					{
-						panelFilters.setVisible(true);
-						filterHeader.setVisible(true);
-					}
-				}
-			});
-			panneauHaut.add(btnFilter);
-			panneauHaut.add(btnExport);
-			
-			panneauHaut.add(lblLoading);
-			panneauCard = new JPanel();
-			add(panneauCard, BorderLayout.EAST);
-			cboLanguages = new JComboBox<MagicCardNames>();
-			JScrollPane scrollEditions = new JScrollPane();
-			panneauCard.setLayout(new BorderLayout(0, 0));
-
-
-			cmcChart = new CmcChartPanel();
-			manaRepartitionPanel = new ManaRepartitionPanel();
-			typeRepartitionPanel = new TypeRepartitionPanel();
-
-			panneauCard.add(scrollEditions, BorderLayout.SOUTH);
-			listEdition = new JList<MagicEdition>();
-			scrollEditions.setViewportView(listEdition);							
-
-			listEdition.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-			listEdition.setModel(new DefaultListModel<MagicEdition>());
-			panneauCard.add(cboLanguages, BorderLayout.NORTH);
-			
-			historyChartPanel = new HistoryPricesPanel();
-			historyChartPanel.setPreferredSize(new Dimension(400, 10));
 		
-			cardsPicPanel = new CardsPicPanel();
-			cardsPicPanel.setPreferredSize(new Dimension(400, 10));
-			panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
-			tablePrice = new JXTable();
-			detailCardPanel = new MagicCardDetailPanel(new MagicCard());
-			tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
-			tabbedCardsInfo = new JTabbedPane(JTabbedPane.TOP);
-			scrollThumbnails = new JScrollPane();
-			thumbnailPanel = new ThumbnailPanel();
-			thumbnailPanel.setThumbnailSize(179, 240);
-			thumbnailPanel.enableDragging(false);
-			
-
-			rarityRepartitionPanel = new RarityRepartitionPanel();
-			JScrollPane scrollPaneRules = new JScrollPane();
-			JScrollPane scrollPanePrices = new JScrollPane();
-			JSplitPane panneauCentral = new JSplitPane();
-			add(panneauCentral, BorderLayout.CENTER);
-			
-
-			tablePrice.setModel(priceModel);
-			tablePrice.setRowSorter(sorterPrice);
-
-			scrollPanePrices.setViewportView(tablePrice);
-
-			panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
-			panneauCentral.setRightComponent(tabbedCardsInfo);
-			panneauCentral.setLeftComponent(tabbedCardsView);
-
-			tabbedCardsInfo.setPreferredSize(new Dimension(0, 350));
-
-			tabbedCardsInfo.addTab("Details", null, detailCardPanel, null);
-
-			editionDetailPanel = new JPanel();
-			tabbedCardsInfo.addTab("Edition", null, editionDetailPanel, null);
-			editionDetailPanel.setLayout(new BorderLayout(0, 0));
-
-			magicEditionDetailPanel = new MagicEditionDetailPanel();
-			editionDetailPanel.add(magicEditionDetailPanel, BorderLayout.CENTER);
-
-			boosterPanel = new JPanel();
-			editionDetailPanel.add(boosterPanel, BorderLayout.EAST);
-			boosterPanel.setLayout(new BorderLayout(0, 0));
-
-			btnGenerateBooster = new JButton("Open a Booster");
-
-			boosterPanel.add(btnGenerateBooster, BorderLayout.NORTH);
-			
-			lblBoosterPic = new JLabel("");
-			boosterPanel.add(lblBoosterPic);
-			tabbedCardsInfo.addTab("Prices", null, scrollPanePrices, null);
-			tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
-			tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
-			
-			panelResultsCards = new JPanel();
-			tabbedCardsView.addTab("Results", null, panelResultsCards, null);
-					panelResultsCards.setLayout(new BorderLayout(0, 0));
-			
-					tableCards = new JXTable();
-					
-					tableCards.setColumnControlVisible(true);
-					JScrollPane scrollCards = new JScrollPane();
-					panelResultsCards.add(scrollCards);
-					scrollCards.setViewportView(tableCards);
-					scrollCards.setMinimumSize(new Dimension(0, 0));
-					
-					
-							tableCards.setRowHeight(ManaPanel.row_height);
-							tableCards.setModel(cardsModeltable);
-							tableCards.setRowSorter(sorterCards);
-							tableCards.setShowVerticalLines(false);
-							
-							//IFilterEditor editor = filterHeader.getFilterEditor(1);
-							
-							
-							
-							panelFilters = new JPanel();
-							panelFilters.setVisible(false);
-							FlowLayout fl_panelFilters = (FlowLayout) panelFilters.getLayout();
-							fl_panelFilters.setAlignment(FlowLayout.LEFT);
-							panelResultsCards.add(panelFilters, BorderLayout.NORTH);
-							
-							JLabel lblFilter = new JLabel("Filter :");
-							panelFilters.add(lblFilter);
-							
-							txtFilter = new JTextField();
-							
-							panelFilters.add(txtFilter);
-							txtFilter.setColumns(25);
-							
-							btnClear = new JButton("");
-							btnClear.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent arg0) {
-									txtFilter.setText("");
-									sorterCards.setRowFilter(null);
-								}
-							});
-							btnClear.setIcon(new ImageIcon(MagicGUI.class.getResource("/res/09_clear_location.png")));
-							panelFilters.add(btnClear);
-							
-							panelmana = new JPanel();
-							panelFilters.add(panelmana);
-							panelmana.setLayout(new GridLayout(1, 0, 2, 2));
-							
-							String[] symbolcs = new String[]{"W","U","B","R","G","C","1"};
-							ManaPanel pan = new ManaPanel();
-							
-							for(String s : symbolcs)
-							{
-								final JButton btnG = new JButton();
-								btnG.setToolTipText(s);
-								if(s.equals("1"))
-									btnG.setToolTipText("[0-9]*");
-
-								btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
-								btnG.setForeground(btnG.getBackground());
-								
-								btnG.addActionListener(new ActionListener() {
-									public void actionPerformed(ActionEvent e) {
-										txtFilter.setText("\\{" + btnG.getToolTipText()+"}");
-										sorterCards.setRowFilter(RowFilter.regexFilter(txtFilter.getText()));
-										
-									}
-								});
-								panelmana.add(btnG);
-									
-							}
-							
-							
-			tabbedCardsView.addTab("Thumbnail", null, scrollThumbnails, null);
-
-			txtRulesArea = new JTextArea();
-			txtRulesArea.setLineWrap(true);
-			txtRulesArea.setWrapStyleWord(true);
-			txtRulesArea.setEditable(false);
-			scrollPaneRules.setViewportView(txtRulesArea);
-			scrollThumbnails.setViewportView(thumbnailPanel);
-			scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
-			tabbedCardsInfo.setMinimumSize(new Dimension(23,200));
-
-
-
-			tabbedCardsView.addTab("Mana Curve", null, cmcChart, null);
-			tabbedCardsView.addTab("Colors", null, manaRepartitionPanel, null);
-			tabbedCardsView.addTab("Types", null, typeRepartitionPanel, null);
-			tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
-
-			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
-			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
-			filterHeader.setVisible(false);
-			panelFilters.setVisible(false);
-			
-			
-			initPopupCollection();
-
 			btnSearch.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 
