@@ -198,6 +198,8 @@ public class MagicGUI extends JFrame {
 			looks.add(i.getClassName());
 		
 		looks.add(new SeaGlassLookAndFeel().getClass().getName());
+		
+		
 		for(String ui : looks)
 		{
 			final JMenuItem it = new JMenuItem(ui);

@@ -26,7 +26,6 @@ public class LibraryPanel extends DraggablePanel {
 		menu.add(new JMenuItem(new ShuffleActions()));
 		
 		
-		setComponentPopupMenu(menu);
 		try {
 			i=MagicFactory.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(179, 240, BufferedImage.SCALE_SMOOTH);
 				setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));

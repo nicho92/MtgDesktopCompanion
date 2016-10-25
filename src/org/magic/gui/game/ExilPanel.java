@@ -8,9 +8,9 @@ import javax.swing.border.LineBorder;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.PositionEnum;
 
-public class GraveyardPanel extends DraggablePanel {
+public class ExilPanel extends DraggablePanel {
 	
-	public GraveyardPanel() {
+	public ExilPanel() {
 		super();
 		setLayout(null);
 		setBorder(new LineBorder(Color.BLACK));
@@ -20,7 +20,7 @@ public class GraveyardPanel extends DraggablePanel {
 	
 	@Override
 	public PositionEnum getOrigine() {
-		return PositionEnum.GRAVEYARD;
+		return PositionEnum.EXIL;
 	}
 
 	@Override
@@ -33,37 +33,20 @@ public class GraveyardPanel extends DraggablePanel {
 
 	@Override
 	public void moveCard(MagicCard mc, PositionEnum to) {
-		switch (to) {
+		/*switch (to) {
 			case BATTLEFIELD:player.returnCardFromGraveyard(mc);break;
 			case EXIL:player.exileCardFromGraveyard(mc);break;
 			case HAND:player.returnCardFromGraveyard(mc);break;
 			case LIBRARY:player.putCardInLibraryFromGraveyard(mc, true);
 			default:break;
-		}
+		}*/
 		
 	}
 	
 	@Override
 	public void postTreatment() {
 		
-		int NB=0;
-		for(int i=getComponents().length-1;i>=0;i--)
-		{
-			DisplayableCard card = (DisplayableCard)getComponent(i);
-			card.setBounds(5, 10+NB, card.getWidth(), card.getHeight());
-			NB=NB+30;
-		}
 		
-		getParent().getParent().revalidate();
-		getParent().getParent().repaint();
-
-//		for(int i=0;i<getComponents().length;i++)
-//		{
-//			DisplayableCard card = (DisplayableCard)getComponent(i);
-//			card.setBounds(5, 10+NB, card.getWidth(), card.getHeight());
-//			NB=NB+30;
-//		}
-
 		
 	}
 	

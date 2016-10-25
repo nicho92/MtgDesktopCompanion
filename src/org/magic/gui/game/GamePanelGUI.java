@@ -395,6 +395,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		});
 		
 		panelGrave = new GraveyardPanel();
+		
 		panelLibraryAndGrave.add(panelGrave);
 		
 		handPanel = new ThumbnailPanel();

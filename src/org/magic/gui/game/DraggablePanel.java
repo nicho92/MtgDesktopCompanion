@@ -50,28 +50,18 @@ public abstract class DraggablePanel  extends JPanel implements Draggable{
 	}
 
  
-  public DraggablePanel() {
-	  setTransferHandler(new CardTransfertHandler());
-  }
+	public DraggablePanel() {
+		  setTransferHandler(new CardTransfertHandler());
+			setComponentPopupMenu(menu);
+			
+	}
   
-  /* (non-Javadoc)
- * @see org.magic.gui.game.Draggable#moveCard(org.magic.api.beans.MagicCard, org.magic.game.PositionEnum)
- */
-@Override
-public abstract void moveCard(MagicCard mc, PositionEnum to);
-  
-  /* (non-Javadoc)
- * @see org.magic.gui.game.Draggable#addComponent(org.magic.gui.game.DisplayableCard)
- */
-@Override
-public abstract void addComponent(DisplayableCard i);
+	public abstract void moveCard(MagicCard mc, PositionEnum to);
+	  
+	public abstract void addComponent(DisplayableCard i);
 	
-  /* (non-Javadoc)
- * @see org.magic.gui.game.Draggable#getOrigine()
- */
-@Override
-public abstract PositionEnum getOrigine();
-  
+	public abstract PositionEnum getOrigine();
+	  
   public abstract void postTreatment();
   
   public void setPlayer(Player p)
