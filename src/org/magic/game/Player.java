@@ -206,10 +206,10 @@ public class Player extends Observable{
 	}
 	
 	public void discardCardFromBattleField(MagicCard mc) {
+		
 		battlefield.remove(mc);
 		graveyard.add(mc);
 		logAction("Sacrifice " + mc);
-		
 		
 	}
 	

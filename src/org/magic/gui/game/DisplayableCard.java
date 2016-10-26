@@ -5,6 +5,8 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -12,10 +14,10 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
-import javax.swing.JSeparator;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.PositionEnum;
+import org.magic.gui.game.actions.cards.AttachActions;
 import org.magic.gui.game.actions.cards.ChangeCreaturePTActions;
 import org.magic.gui.game.actions.cards.EmblemActions;
 import org.magic.gui.game.actions.cards.FlipActions;
@@ -46,7 +48,18 @@ public class DisplayableCard extends JLabel implements Draggable
 	private boolean selected;
 	private boolean rotated;
 	private boolean showPT; 
+	private List<DisplayableCard> attachedCards;
 	
+	
+	@Override
+	public String toString() {
+		return String.valueOf(magicCard);
+	}
+	
+	public List<DisplayableCard> getAttachedCards()
+	{
+		return attachedCards;
+	}
 	
 	public boolean isRotated(){
 		return rotated;
@@ -127,7 +140,7 @@ public class DisplayableCard extends JLabel implements Draggable
 	
 	public DisplayableCard(MagicCard mc,int width,int height, boolean activateCards) {
 	
-	        
+		attachedCards = new ArrayList<DisplayableCard>();    
 		setSize(width,height);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
@@ -175,6 +188,11 @@ public class DisplayableCard extends JLabel implements Draggable
 			mnuModifier.add(new LoyaltyActions(this, -1));
 			menu.add(mnuModifier);
 			
+		}
+		
+		if(magicCard.getSubtypes().contains("Aura")||magicCard.getSubtypes().contains("Equipment"))
+		{
+			menu.add(new AttachActions(this));
 		}
 		
 		if(magicCard.isTranformable())
@@ -307,9 +325,10 @@ public class DisplayableCard extends JLabel implements Draggable
 
 	@Override
 	public void moveCard(MagicCard mc, PositionEnum to) {
-		// TODO Auto-generated method stub
-		
+		System.out.println(mc +" " + to);
 	}
+		
+	
 
 	@Override
 	public void addComponent(DisplayableCard i) {

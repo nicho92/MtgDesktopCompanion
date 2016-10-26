@@ -11,6 +11,12 @@ public class BattleFieldPanel extends DraggablePanel  {
 
 	private List<DisplayableCard> stack;
 	
+	public List<DisplayableCard> getCards()
+	{
+		return stack;
+	}
+	
+	
 	
 	public BattleFieldPanel() {
 		

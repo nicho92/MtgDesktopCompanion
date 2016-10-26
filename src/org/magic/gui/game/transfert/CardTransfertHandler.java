@@ -119,6 +119,7 @@ public class CardTransfertHandler extends TransferHandler  {
 	@Override
 	public boolean importData(TransferSupport support)
 	{
+		
 		if (!canImport(support))
 			return false;
 		
@@ -126,6 +127,8 @@ public class CardTransfertHandler extends TransferHandler  {
 		try {
 			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
 			((Draggable)src.getParent()).moveCard(src.getMagicCard(), target.getOrigine());
+			
+			
 			logger.info("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
 					
 			src.getParent().revalidate();
@@ -133,11 +136,10 @@ public class CardTransfertHandler extends TransferHandler  {
 			target.repaint();
 			src.getParent().repaint();
 			
-			
 			target.addComponent(src);
 			return true;
 		} catch (Exception ufe) {
-			ufe.printStackTrace();
+			logger.error(ufe);
 		} 
 		return false;
 	}
@@ -150,13 +152,13 @@ public class CardTransfertHandler extends TransferHandler  {
 			window.setVisible(false);
 			DraggablePanel dest = ((DraggablePanel)c.getParent());
 	
-			src.setLocation(dest.getMousePosition());
 			
+			
+			src.setLocation(dest.getMousePosition());
 			src.getParent().revalidate();
 			dest.revalidate();
 			dest.repaint();
 			src.getParent().repaint();
-			
 			dest.postTreatment();
 			
 			
