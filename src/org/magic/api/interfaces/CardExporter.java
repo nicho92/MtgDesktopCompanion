@@ -17,11 +17,9 @@ public interface CardExporter {
 	public void export(MagicDeck deck, File dest) throws IOException;
 	public MagicDeck importDeck(File f) throws Exception;
 	public void export(List<MagicCard> cards, File f) throws Exception;
-	
-	public String getName();
-
 	public Icon getIcon();
 
+	public String getName();
 	public Properties getProperties();
 	public void save();
 	public void load();

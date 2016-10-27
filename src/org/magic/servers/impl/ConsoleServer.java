@@ -29,7 +29,7 @@ public class ConsoleServer extends AbstractMTGServer{
 		MTGDesktopCompanionControler.getInstance().getEnabledDAO().init();
 	
 		ConsoleServer serv = new ConsoleServer();
-		   		     serv.start();
+		   		      serv.start();
 	}
  	
  	public ConsoleServer() throws NumberFormatException, IOException {
@@ -44,7 +44,6 @@ public class ConsoleServer extends AbstractMTGServer{
 		}
 	}
  	
- 	
 
 	@Override
 	public void start() throws NumberFormatException, IOException {
@@ -54,7 +53,7 @@ public class ConsoleServer extends AbstractMTGServer{
           acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(props.getProperty("IDLE-TIME")) );
 		  acceptor.setHandler( new MTGConsoleHandler() );
 		  acceptor.bind( new InetSocketAddress(Integer.parseInt(props.getProperty("SERVER-PORT"))) );
-		  logger.info("Server startup on port " + props.getProperty("SERVER-PORT"));
+		  logger.info("Server started on port " + props.getProperty("SERVER-PORT"));
 	}
 
 	@Override
