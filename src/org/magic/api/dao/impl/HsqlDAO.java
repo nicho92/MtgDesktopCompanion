@@ -27,7 +27,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class HsqlDAO extends AbstractMagicDAO{
 
@@ -44,7 +44,7 @@ public class HsqlDAO extends AbstractMagicDAO{
     	 super();	
  		if(!new File(confdir, getName()+".conf").exists()){
  			props.put("DRIVER", "org.hsqldb.jdbc.JDBCDriver");
- 			props.put("URL", MagicFactory.CONF_DIR.getAbsolutePath()+"/db");
+ 			props.put("URL", MTGDesktopCompanionControler.CONF_DIR.getAbsolutePath()+"/db");
  			props.put("DBNAME", "magicDB");
  			props.put("LOGIN", "SA");
  			props.put("PASS", "");

@@ -74,7 +74,7 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.BoosterPicturesProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
@@ -155,7 +155,7 @@ public class CardSearchGUI extends JPanel {
 			try {
 				UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
 				UIManager.setLookAndFeel(lookAndFeel);
-				MagicFactory.getInstance().setProperty("lookAndFeel", lookAndFeel);
+				MTGDesktopCompanionControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 				SwingUtilities.updateComponentTreeUI(this);
 				
 			} catch (Exception e) {
@@ -168,7 +168,7 @@ public class CardSearchGUI extends JPanel {
 		{
 			JMenu menuItemAdd = new JMenu("Add");
 
-			for(MagicCollection mc : MagicFactory.getInstance().getEnabledDAO().getCollections())
+			for(MagicCollection mc : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections())
 			{
 				
 				JMenuItem adds = new JMenuItem(mc.getName());
@@ -189,7 +189,7 @@ public class CardSearchGUI extends JPanel {
 							
 							MagicCard mc = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
 							try {
-								MagicFactory.getInstance().getEnabledDAO().saveCard(mc, MagicFactory.getInstance().getEnabledDAO().getCollection(collec));
+								MTGDesktopCompanionControler.getInstance().getEnabledDAO().saveCard(mc, MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollection(collec));
 							} catch (SQLException e1) {
 								logger.error(e1);
 								e1.printStackTrace();
@@ -229,7 +229,7 @@ public class CardSearchGUI extends JPanel {
 			    }
 			});
 
-			List<MagicEdition> li = MagicFactory.getInstance().getEnabledProviders().loadEditions();
+			List<MagicEdition> li = MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions();
 			Collections.sort(li);
 		
 			
@@ -271,8 +271,8 @@ public class CardSearchGUI extends JPanel {
 			btnClear = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/09_clear_location.png")));
 			btnGenerateBooster = new JButton("Open a Booster");
 			
-			cboQuereableItems = new JComboBox<String>(MagicFactory.getInstance().getEnabledProviders().getQueryableAttributs());
-			cboCollections= new JComboBox<MagicCollection>(MagicFactory.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MagicFactory.getInstance().getEnabledDAO().getCollections().size()]));
+			cboQuereableItems = new JComboBox<String>(MTGDesktopCompanionControler.getInstance().getEnabledProviders().getQueryableAttributs());
+			cboCollections= new JComboBox<MagicCollection>(MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections().size()]));
 			cboLanguages = new JComboBox<MagicCardNames>();
 			
 			tablePrice = new JXTable();
@@ -510,9 +510,9 @@ public class CardSearchGUI extends JPanel {
 								String searchName=txtMagicSearch.getText();
 								
 								if(cboCollections.isVisible())
-									cards = MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
+									cards = MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 								else
-									cards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
+									cards = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
 								
 								
 								
@@ -551,7 +551,7 @@ public class CardSearchGUI extends JPanel {
 
 					try {
 						tabbedCardsView.setSelectedIndex(1);
-						thumbnailPanel.initThumbnails( MagicFactory.getInstance().getEnabledProviders().openBooster(selectedEdition),false);
+						thumbnailPanel.initThumbnails( MTGDesktopCompanionControler.getInstance().getEnabledProviders().openBooster(selectedEdition),false);
 
 					} catch (Exception e) {
 						logger.error(e);
@@ -598,7 +598,7 @@ public class CardSearchGUI extends JPanel {
 										lblBoosterPic.setIcon(boosterProvider.getBoosterFor(selectedEdition));
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
 										
-										historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
+										historyChartPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 										
 										
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
@@ -650,7 +650,7 @@ public class CardSearchGUI extends JPanel {
 				public void actionPerformed(ActionEvent ae) {
 					JPopupMenu menu = new JPopupMenu();
 					
-					for(final CardExporter exp : MagicFactory.getInstance().getEnabledDeckExports())
+					for(final CardExporter exp : MTGDesktopCompanionControler.getInstance().getEnabledDeckExports())
 					{
 						JMenuItem it = new JMenuItem();
 						it.setIcon(exp.getIcon());
@@ -816,7 +816,7 @@ public class CardSearchGUI extends JPanel {
 					updatePrices();
 				
 				
-				historyChartPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
+				historyChartPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();

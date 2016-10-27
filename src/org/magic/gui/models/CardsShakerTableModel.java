@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class CardsShakerTableModel extends DefaultTableModel {
 
@@ -24,7 +24,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 	
 	
 	public CardsShakerTableModel() {
-		provider=MagicFactory.getInstance().getEnabledDashBoard();
+		provider=MTGDesktopCompanionControler.getInstance().getEnabledDashBoard();
 		list=new ArrayList<CardShake>();
 	}
 	

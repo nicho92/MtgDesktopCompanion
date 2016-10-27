@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.PicturesCache;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class FileCache implements PicturesCache {
 
@@ -16,7 +16,7 @@ public class FileCache implements PicturesCache {
 	File directory ;
 	
 	public FileCache() {
-		directory = new File(MagicFactory.CONF_DIR,"cache");
+		directory = new File(MTGDesktopCompanionControler.CONF_DIR,"cache");
 		if(!directory.exists())
 			directory.mkdir();
 		

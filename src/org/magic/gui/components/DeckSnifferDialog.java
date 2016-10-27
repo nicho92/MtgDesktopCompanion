@@ -20,7 +20,7 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.gui.models.DeckSnifferModel;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
 
 public class DeckSnifferDialog extends JDialog{
@@ -50,13 +50,13 @@ public class DeckSnifferDialog extends JDialog{
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		cboSniffers = new JComboBox(MagicFactory.getInstance().getEnabledDeckSniffer().toArray());
+		cboSniffers = new JComboBox(MTGDesktopCompanionControler.getInstance().getEnabledDeckSniffer().toArray());
 		cboSniffers.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectedSniffer=(DeckSniffer)cboSniffers.getSelectedItem();
 			}
 		});
-		selectedSniffer = MagicFactory.getInstance().getEnabledDeckSniffer().get(0);
+		selectedSniffer = MTGDesktopCompanionControler.getInstance().getEnabledDeckSniffer().get(0);
 		panel.add(cboSniffers);
 		
 		JButton btnConnect = new JButton("Connect");

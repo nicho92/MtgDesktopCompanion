@@ -24,7 +24,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
 import javax.swing.JButton;
 import java.awt.event.ActionListener;
@@ -171,7 +171,7 @@ public class DeckDetailsPanel extends JPanel {
 				for(MagicCard mc : magicDeck.getAsList())
 				{
 					try {
-						mc.setLegalities(MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("id", mc.getId(), mc.getEditions().get(0)).get(0).getLegalities());
+						mc.setLegalities(MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("id", mc.getId(), mc.getEditions().get(0)).get(0).getLegalities());
 						setLegalities();
 					} catch (Exception e) {
 					}
@@ -317,7 +317,7 @@ public class DeckDetailsPanel extends JPanel {
 			@Override
 			public void run() {
 				try {
-					lblCover.setIcon(new ImageIcon(MagicFactory.getInstance().getEnabledPicturesProvider().extractPicture(magicDeck.getAsList().get(0))));
+					lblCover.setIcon(new ImageIcon(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().extractPicture(magicDeck.getAsList().get(0))));
 					lblCover.setToolTipText(magicDeck.getAsList().get(0).toString());
 				} catch (Exception e) {
 					

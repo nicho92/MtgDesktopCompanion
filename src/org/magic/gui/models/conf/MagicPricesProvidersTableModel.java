@@ -11,13 +11,13 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class MagicPricesProvidersTableModel extends AbstractTreeTableModel 
 {
     private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
     private MagicPricesProvider selectedProvider = null;
-    private List<MagicPricesProvider> pricers = MagicFactory.getInstance().getPricers();
+    private List<MagicPricesProvider> pricers = MTGDesktopCompanionControler.getInstance().getPricers();
     static final Logger logger = LogManager.getLogger(MagicPricesProvidersTableModel.class.getName());
 
     
@@ -131,7 +131,7 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
         	if(column==2)
         	{
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
-        		MagicFactory.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+        		MTGDesktopCompanionControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
         	}
         }
         if(node instanceof Entry )

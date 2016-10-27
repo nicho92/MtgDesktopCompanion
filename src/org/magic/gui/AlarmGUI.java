@@ -30,7 +30,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;
@@ -148,7 +148,7 @@ public class AlarmGUI extends JPanel {
 				{
 					try {
 						MagicCardAlert alert = (MagicCardAlert)model.getValueAt(row,0);
-						MagicFactory.getInstance().getEnabledDAO().deleteAlert(alert);
+						MTGDesktopCompanionControler.getInstance().getEnabledDAO().deleteAlert(alert);
 						model.fireTableDataChanged();
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);

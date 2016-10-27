@@ -47,7 +47,7 @@ public class MagicWebSiteGenerator extends Observable{
 		//cfg.setNumberFormat("#");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER );
 		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_23).build());
-		dao=MagicFactory.getInstance().getEnabledDAO();
+		dao=MTGDesktopCompanionControler.getInstance().getEnabledDAO();
 		this.dest = dest;
 		FileUtils.copyDirectory(new File("./templates/"+template), new File(dest),new FileFilter() {
 			public boolean accept(File pathname) {

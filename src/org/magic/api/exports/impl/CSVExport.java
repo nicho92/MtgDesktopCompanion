@@ -19,7 +19,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 
 public class CSVExport extends AbstractCardExport{
@@ -201,7 +201,7 @@ public class CSVExport extends AbstractCardExport{
 			
 			MagicEdition ed = new MagicEdition();
 			ed.setId(set);
-			List<MagicCard> list = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", name, ed);
+			List<MagicCard> list = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, ed);
 			
 			deck.getMap().put(list.get(0),Integer.parseInt(qte));
 			line=read.readLine();

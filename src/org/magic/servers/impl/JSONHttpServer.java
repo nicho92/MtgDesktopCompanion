@@ -14,7 +14,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -77,8 +77,8 @@ public class JSONHttpServer extends AbstractMTGServer
     
 
 	public static void main(String[] args) throws Exception {
-		MagicFactory.getInstance().getEnabledProviders().init();
-		MagicFactory.getInstance().getEnabledDAO().init();
+		MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
+		MTGDesktopCompanionControler.getInstance().getEnabledDAO().init();
     	new JSONHttpServer().start();	
     }
     
@@ -87,12 +87,12 @@ public class JSONHttpServer extends AbstractMTGServer
 	    		String att = session.getParameters().get("name").get(0).toString();
 	    		String val = session.getParameters().get("set").get(0).toString();
 	    		
-	    		MagicCard mc = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", att, null).get(0);
-	    		MagicEdition ed = MagicFactory.getInstance().getEnabledProviders().getSetById(val);
+	    		MagicCard mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", att, null).get(0);
+	    		MagicEdition ed = MTGDesktopCompanionControler.getInstance().getEnabledProviders().getSetById(val);
 	    		
 	  		  	List<MagicPrice> pricesret = new ArrayList<MagicPrice>();
 	  		
-	  		  	for(MagicPricesProvider prices : MagicFactory.getInstance().getEnabledPricers())
+	  		  	for(MagicPricesProvider prices : MTGDesktopCompanionControler.getInstance().getEnabledPricers())
 	  		  		pricesret.addAll(prices.getPrice(ed, mc));
 	  		  
 	  		  	JsonObject card = new JsonObject();
@@ -116,7 +116,7 @@ public class JSONHttpServer extends AbstractMTGServer
 		  String att=session.getParameters().keySet().toArray()[0].toString();
 		  String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
 		  
-		  List<MagicCard> list = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria(att, name, null);
+		  List<MagicCard> list = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria(att, name, null);
 		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list));
 		  resp.addHeader("Content-Type", "application/json");
 		  return resp;
@@ -138,7 +138,7 @@ public class JSONHttpServer extends AbstractMTGServer
 		  
 		  MagicCollection col = new MagicCollection();
 		  col.setName(name);
-		  List<MagicCard> list = MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection(col);
+		  List<MagicCard> list = MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCardsFromCollection(col);
 		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list));
 		  resp.addHeader("Content-Type", "application/json");
 		  return resp;

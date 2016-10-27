@@ -6,7 +6,7 @@ import java.net.URL;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class ProvidersTableModel extends DefaultTableModel {
 	
@@ -15,7 +15,7 @@ public class ProvidersTableModel extends DefaultTableModel {
 	
 		@Override
 		public int getRowCount() {
-			return MagicFactory.getInstance().getListProviders().size();
+			return MTGDesktopCompanionControler.getInstance().getListProviders().size();
 		}
 		
 		@Override
@@ -32,11 +32,11 @@ public class ProvidersTableModel extends DefaultTableModel {
 		public Object getValueAt(int row, int column) {
 			switch(column)
 			{
-			case 0 :return MagicFactory.getInstance().getListProviders().get(row);
-			case 1 : return MagicFactory.getInstance().getListProviders().get(row).getVersion();
-			case 2 : return MagicFactory.getInstance().getListProviders().get(row).getStatut();
-			case 3 : try {return MagicFactory.getInstance().getListProviders().get(row).getWebSite();} catch (MalformedURLException e) { return null;}
-			case 4 : return MagicFactory.getInstance().getListProviders().get(row).isEnable();
+			case 0 :return MTGDesktopCompanionControler.getInstance().getListProviders().get(row);
+			case 1 : return MTGDesktopCompanionControler.getInstance().getListProviders().get(row).getVersion();
+			case 2 : return MTGDesktopCompanionControler.getInstance().getListProviders().get(row).getStatut();
+			case 3 : try {return MTGDesktopCompanionControler.getInstance().getListProviders().get(row).getWebSite();} catch (MalformedURLException e) { return null;}
+			case 4 : return MTGDesktopCompanionControler.getInstance().getListProviders().get(row).isEnable();
 			default : return null;
 			}
 		}
@@ -55,15 +55,15 @@ public class ProvidersTableModel extends DefaultTableModel {
 		
 		@Override
 		public void setValueAt(Object aValue, int row, int column) {
-			MagicFactory.getInstance().getListProviders().get(row).enable(Boolean.parseBoolean(aValue.toString()));	
-			MagicFactory.getInstance().setProperty(MagicFactory.getInstance().getListProviders().get(row), aValue);
+			MTGDesktopCompanionControler.getInstance().getListProviders().get(row).enable(Boolean.parseBoolean(aValue.toString()));	
+			MTGDesktopCompanionControler.getInstance().setProperty(MTGDesktopCompanionControler.getInstance().getListProviders().get(row), aValue);
 			
-			for(MagicCardsProvider daos : MagicFactory.getInstance().getListProviders())
+			for(MagicCardsProvider daos : MTGDesktopCompanionControler.getInstance().getListProviders())
     		{
-				if(daos!=MagicFactory.getInstance().getListProviders().get(row))
+				if(daos!=MTGDesktopCompanionControler.getInstance().getListProviders().get(row))
     			{
     				daos.enable(false);
-    				MagicFactory.getInstance().setProperty(daos, daos.isEnable());
+    				MTGDesktopCompanionControler.getInstance().setProperty(daos, daos.isEnable());
     			}
     		}
 			fireTableDataChanged();

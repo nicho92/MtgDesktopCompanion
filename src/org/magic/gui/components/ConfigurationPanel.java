@@ -22,7 +22,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.providers.impl.MtgjsonProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.db.NumberUpdater;
 
@@ -76,16 +76,16 @@ public class ConfigurationPanel extends JPanel {
 						@Override
 						public void run() {
 							try {
-								loading(true,"backup " + MagicFactory.getInstance().getEnabledDAO() +" database");
-								MagicFactory.getInstance().getEnabledDAO().backup(new File(textField.getText()));
-								loading(false,"backup " + MagicFactory.getInstance().getEnabledDAO() +" end");
+								loading(true,"backup " + MTGDesktopCompanionControler.getInstance().getEnabledDAO() +" database");
+								MTGDesktopCompanionControler.getInstance().getEnabledDAO().backup(new File(textField.getText()));
+								loading(false,"backup " + MTGDesktopCompanionControler.getInstance().getEnabledDAO() +" end");
 								
 							} 
 							catch (Exception e1) {
 								e1.printStackTrace();
 							}
 						}
-					}, "backup " + MagicFactory.getInstance().getEnabledDAO() +" database");
+					}, "backup " + MTGDesktopCompanionControler.getInstance().getEnabledDAO() +" database");
 					
 				
 			}
@@ -97,7 +97,7 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnBackup.gridy = 1;
 		add(btnBackup, gbc_btnBackup);
 		
-		JLabel lblDuplicateDb = new JLabel("Duplicate " + MagicFactory.getInstance().getEnabledDAO() +  " DB to :");
+		JLabel lblDuplicateDb = new JLabel("Duplicate " + MTGDesktopCompanionControler.getInstance().getEnabledDAO() +  " DB to :");
 		GridBagConstraints gbc_lblDuplicateDb = new GridBagConstraints();
 		gbc_lblDuplicateDb.anchor = GridBagConstraints.EAST;
 		gbc_lblDuplicateDb.insets = new Insets(0, 0, 5, 5);
@@ -107,8 +107,8 @@ public class ConfigurationPanel extends JPanel {
 		
 		cboTargetDAO = new JComboBox();
 		
-		for(MagicDAO daos :  MagicFactory.getInstance().getDaoProviders())
-			if(!daos.getName().equals(MagicFactory.getInstance().getEnabledDAO().getName()))
+		for(MagicDAO daos :  MTGDesktopCompanionControler.getInstance().getDaoProviders())
+			if(!daos.getName().equals(MTGDesktopCompanionControler.getInstance().getEnabledDAO().getName()))
 			{
 			
 				cboTargetDAO.addItem(daos);
@@ -132,11 +132,11 @@ public class ConfigurationPanel extends JPanel {
 					public void run() {
 						try{
 							MagicDAO dao = (MagicDAO)cboTargetDAO.getSelectedItem();
-							loading(true,"duplicate " + MagicFactory.getInstance().getEnabledDAO() +" database to" + dao);
+							loading(true,"duplicate " + MTGDesktopCompanionControler.getInstance().getEnabledDAO() +" database to" + dao);
 							
 							dao.init();
-							for(MagicCollection col : MagicFactory.getInstance().getEnabledDAO().getCollections())
-								for(MagicCard mc : MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection(col))
+							for(MagicCollection col : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections())
+								for(MagicCard mc : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCardsFromCollection(col))
 									{
 										dao.saveCard(mc, col);
 									}
@@ -149,7 +149,7 @@ public class ConfigurationPanel extends JPanel {
 					}
 						
 					}
-				}, "duplicate " + MagicFactory.getInstance().getEnabledDAO() + " to " + cboTargetDAO.getSelectedItem() );
+				}, "duplicate " + MTGDesktopCompanionControler.getInstance().getEnabledDAO() + " to " + cboTargetDAO.getSelectedItem() );
 			}
 		});
 		GridBagConstraints gbc_btnDuplicate = new GridBagConstraints();
@@ -169,10 +169,10 @@ public class ConfigurationPanel extends JPanel {
 		
 		cboCollections = new JComboBox();
 		try {
-			for(MagicCollection col :  MagicFactory.getInstance().getEnabledDAO().getCollections())
+			for(MagicCollection col :  MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections())
 			{
 				cboCollections.addItem(col);
-				if(col.getName().equalsIgnoreCase(MagicFactory.getInstance().get("default-library")))
+				if(col.getName().equalsIgnoreCase(MTGDesktopCompanionControler.getInstance().get("default-library")))
 				{
 					cboCollections.setSelectedItem(col);
 				}
@@ -210,7 +210,7 @@ public class ConfigurationPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				loading(true,"reload config");
 				try {
-					MagicFactory.getInstance().reload();
+					MTGDesktopCompanionControler.getInstance().reload();
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
 				}
@@ -233,7 +233,7 @@ public class ConfigurationPanel extends JPanel {
 		gbc_lblWebsiteDir.gridy = 5;
 		add(lblWebsiteDir, gbc_lblWebsiteDir);
 		
-		txtdirWebsite = new JTextField(MagicFactory.getInstance().get("default-website-dir"));
+		txtdirWebsite = new JTextField(MTGDesktopCompanionControler.getInstance().get("default-website-dir"));
 		GridBagConstraints gbc_txtdirWebsite = new GridBagConstraints();
 		gbc_txtdirWebsite.insets = new Insets(0, 0, 5, 5);
 		gbc_txtdirWebsite.fill = GridBagConstraints.HORIZONTAL;
@@ -245,7 +245,7 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnWebsiteSave = new JButton("Save");
 		btnWebsiteSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MagicFactory.getInstance().setProperty("default-website-dir", txtdirWebsite.getText());
+				MTGDesktopCompanionControler.getInstance().setProperty("default-website-dir", txtdirWebsite.getText());
 			}
 		});
 		GridBagConstraints gbc_btnportsavePort = new GridBagConstraints();
@@ -266,7 +266,7 @@ public class ConfigurationPanel extends JPanel {
 		cboLogLevels = new JComboBox(new Level[]{Level.DEBUG,Level.INFO,Level.ERROR});
 		for(int i=0;i<cboLogLevels.getItemCount();i++)
 		{
-			if(cboLogLevels.getItemAt(i).toString().equals(MagicFactory.getInstance().get("loglevel")))
+			if(cboLogLevels.getItemAt(i).toString().equals(MTGDesktopCompanionControler.getInstance().get("loglevel")))
 				cboLogLevels.setSelectedIndex(i);
 			
 		}
@@ -289,7 +289,7 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnSaveLoglevel = new JButton("Save");
 		btnSaveLoglevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MagicFactory.getInstance().setProperty("loglevel", (Level)cboLogLevels.getSelectedItem());
+				MTGDesktopCompanionControler.getInstance().setProperty("loglevel", (Level)cboLogLevels.getSelectedItem());
 				LogManager.getRootLogger().setLevel((Level)cboLogLevels.getSelectedItem());
 			}
 		});
@@ -323,7 +323,7 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnUpdate.gridx = 3;
 		gbc_btnUpdate.gridy = 7;
 		add(btnUpdate, gbc_btnUpdate);
-		btnUpdate.setEnabled(MagicFactory.getInstance().getEnabledProviders() instanceof MtgjsonProvider);//only for mtgjson provider
+		btnUpdate.setEnabled(MTGDesktopCompanionControler.getInstance().getEnabledProviders() instanceof MtgjsonProvider);//only for mtgjson provider
 		
 		
 		btnUpdate.addActionListener(new ActionListener() {
@@ -356,10 +356,10 @@ public class ConfigurationPanel extends JPanel {
 		
 		cboEditionLands=new JComboBox<MagicEdition>();
 		try {
-				for(MagicEdition col :  MagicFactory.getInstance().getEnabledProviders().loadEditions())
+				for(MagicEdition col :  MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions())
 				{
 					cboEditionLands.addItem(col);
-					if(col.getId().equalsIgnoreCase(MagicFactory.getInstance().get("default-land-deck")))
+					if(col.getId().equalsIgnoreCase(MTGDesktopCompanionControler.getInstance().get("default-land-deck")))
 					{
 						cboEditionLands.setSelectedItem(col);
 					}
@@ -380,7 +380,7 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnSave_1 = new JButton("save");
 		btnSave_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MagicFactory.getInstance().setProperty("default-land-deck", ((MagicEdition)cboEditionLands.getSelectedItem()).getId());
+				MTGDesktopCompanionControler.getInstance().setProperty("default-land-deck", ((MagicEdition)cboEditionLands.getSelectedItem()).getId());
 				
 			}
 		});
@@ -403,7 +403,7 @@ public class ConfigurationPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 					
-					MagicFactory.getInstance().setProperty("default-library", (MagicCollection)cboCollections.getSelectedItem());
+					MTGDesktopCompanionControler.getInstance().setProperty("default-library", (MagicCollection)cboCollections.getSelectedItem());
 				}catch(Exception e)
 				{
 					e.printStackTrace();

@@ -8,7 +8,7 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.providers.impl.MtgjsonProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -23,7 +23,7 @@ public class NumberUpdater {
 	
 	public static void main(String[] args) {
 		try {
-			MagicFactory.getInstance().getEnabledProviders().init();
+			MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
 			NumberUpdater.update("ALL");
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -34,9 +34,9 @@ public class NumberUpdater {
 	
 	public static void update(String ed) throws Exception {
 		
-		if(MagicFactory.getInstance().getEnabledProviders() instanceof MtgjsonProvider)
+		if(MTGDesktopCompanionControler.getInstance().getEnabledProviders() instanceof MtgjsonProvider)
 		{
-				JsonObject jsObj = new Gson().fromJson(new FileReader(new File(MagicFactory.CONF_DIR,"AllSets-x.json")), JsonObject.class);
+				JsonObject jsObj = new Gson().fromJson(new FileReader(new File(MTGDesktopCompanionControler.CONF_DIR,"AllSets-x.json")), JsonObject.class);
 			
 				//for(String ed : unavailableEds)
 				{	
@@ -50,7 +50,7 @@ public class NumberUpdater {
 					}
 					
 				}
-				FileWriter fw = new FileWriter(new File(MagicFactory.CONF_DIR,"AllSets-x.json").getAbsolutePath());
+				FileWriter fw = new FileWriter(new File(MTGDesktopCompanionControler.CONF_DIR,"AllSets-x.json").getAbsolutePath());
 				BufferedWriter bw = new BufferedWriter(fw);
 				bw.write(jsObj.toString());
 				bw.close();
@@ -84,7 +84,7 @@ public class NumberUpdater {
 	private static List<MagicCard> updateNumber(String ed) throws Exception {
 		
 	
-		List<MagicCard> editionsCards = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("set",ed,null);
+		List<MagicCard> editionsCards = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("set",ed,null);
 		
 		int index=1;
 		for(MagicCard mc : editionsCards)

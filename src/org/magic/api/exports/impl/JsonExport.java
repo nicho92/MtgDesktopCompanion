@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -25,7 +25,7 @@ public class JsonExport  extends AbstractCardExport {
 	
 	public static void main(String[] args) throws Exception {
 		JsonExport exp = new JsonExport();
-		exp.export(new MTGDesktopCompanionExport().importDeck(new File(MagicFactory.CONF_DIR,"\\decks\\RW Angels.deck")),new File("c:/test.json"));
+		exp.export(new MTGDesktopCompanionExport().importDeck(new File(MTGDesktopCompanionControler.CONF_DIR,"\\decks\\RW Angels.deck")),new File("c:/test.json"));
 	}
 	
 	public JsonExport() {

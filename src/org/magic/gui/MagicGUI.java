@@ -31,7 +31,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.gui.components.ThreadMonitorFrame;
 import org.magic.gui.game.GamePanelGUI;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.VersionChecker;
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
@@ -39,7 +39,7 @@ public class MagicGUI extends JFrame {
 
 	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
 
-	public final SystemTray tray = SystemTray.getSystemTray();
+	private final SystemTray tray = SystemTray.getSystemTray();
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenu mnuAbout;
@@ -49,7 +49,7 @@ public class MagicGUI extends JFrame {
 
  	private JTabbedPane  tabbedPane;
 	private VersionChecker serviceUpdate;
-	private TrayIcon trayIcon = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+	public static TrayIcon trayNotifier = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 
 	
 	public MagicGUI() {
@@ -80,7 +80,7 @@ public class MagicGUI extends JFrame {
 		try {
 			UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
 			UIManager.setLookAndFeel(lookAndFeel);
-			MagicFactory.getInstance().setProperty("lookAndFeel", lookAndFeel);
+			MTGDesktopCompanionControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(this);
 			
 		} catch (Exception e) {
@@ -94,7 +94,7 @@ public class MagicGUI extends JFrame {
 	{
 		logger.debug("init GUI");
 		setSize(new Dimension(1420, 900));
-		setTitle("Magic Desktop Companion ( v" + MagicFactory.getInstance().getVersion()+")");
+		setTitle("Magic Desktop Companion ( v" + MTGDesktopCompanionControler.getInstance().getVersion()+")");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")));
 		getContentPane().setLayout(new BorderLayout());
@@ -212,12 +212,12 @@ public class MagicGUI extends JFrame {
 		}
 		
 		//INIT AVAILABLE LANGAGES
-		for(String l : MagicFactory.getInstance().getEnabledProviders().getLanguages())
+		for(String l : MTGDesktopCompanionControler.getInstance().getEnabledProviders().getLanguages())
 		{
 			final JMenuItem it = new JMenuItem(l);
 			it.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					MagicFactory.getInstance().setProperty("langage", it.getText());
+					MTGDesktopCompanionControler.getInstance().setProperty("langage", it.getText());
 				}
 			});
 			mnuLang.add(it);
@@ -239,8 +239,8 @@ public class MagicGUI extends JFrame {
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
 		if (SystemTray.isSupported()) {
-			tray.add(trayIcon);
-			trayIcon.addActionListener(new ActionListener() {
+			tray.add(trayNotifier);
+			trayNotifier.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					if(!isVisible())
 						setVisible(true);
@@ -263,10 +263,10 @@ public class MagicGUI extends JFrame {
 				menuTray.add(it);
 			}
 			
-			trayIcon.setPopupMenu(menuTray);
-			trayIcon.setToolTip("MTG Desktop Companion");
+			trayNotifier.setPopupMenu(menuTray);
+			trayNotifier.setToolTip("MTG Desktop Companion");
 			if(serviceUpdate.hasNewVersion())
-				trayIcon.displayMessage(getTitle(),"New version " + serviceUpdate.getOnlineVersion() + " available",TrayIcon.MessageType.INFO);
+				trayNotifier.displayMessage(getTitle(),"New version " + serviceUpdate.getOnlineVersion() + " available",TrayIcon.MessageType.INFO);
 		
 		}		
 	}

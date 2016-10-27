@@ -48,7 +48,7 @@ import org.magic.game.GameManager;
 import org.magic.game.Player;
 import org.magic.gui.components.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class GamePanelGUI extends JPanel implements Observer {
 	

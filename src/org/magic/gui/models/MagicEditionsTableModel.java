@@ -14,7 +14,7 @@ import javax.swing.table.DefaultTableModel;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 
@@ -50,9 +50,9 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	public void calculate() throws SQLException, Exception {
 		
 		MagicCollection mc = new MagicCollection();
-						mc.setName(MagicFactory.getInstance().get("default-library"));
+						mc.setName(MTGDesktopCompanionControler.getInstance().get("default-library"));
 					
-		Map<String,Integer> temp = MagicFactory.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
+		Map<String,Integer> temp = MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
 		
 		for(MagicEdition me : list)
 		{

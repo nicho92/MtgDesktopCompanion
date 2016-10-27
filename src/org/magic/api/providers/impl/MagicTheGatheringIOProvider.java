@@ -28,7 +28,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -48,7 +48,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
 	private boolean enable;
 	private String jsonUrl ="https://api.magicthegathering.io/v1";
-	private File fcacheCount = new File(MagicFactory.CONF_DIR,"mtgio.cache"); 
+	private File fcacheCount = new File(MTGDesktopCompanionControler.CONF_DIR,"mtgio.cache"); 
 	
 	Properties propsCache;
 	

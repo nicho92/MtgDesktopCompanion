@@ -1,5 +1,6 @@
 package org.magic.servers.impl;
 
+import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.util.List;
 import java.util.Timer;
@@ -11,7 +12,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class PricesCheckerTimer extends AbstractMTGServer{
 
@@ -31,7 +32,6 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 			props.put("TIMEOUT_MINUTE", "120");
 			save();
 		}
-		
 		timer = new Timer();
 	}
 	
@@ -41,25 +41,36 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 		running=true;
 		tache = new TimerTask() {    
             public void run() {
-            	
-            	if(MagicFactory.getInstance().getEnabledDAO().getAlerts()!=null)
-            	for(MagicCardAlert alert : MagicFactory.getInstance().getEnabledDAO().getAlerts())
+            	StringBuffer message=new StringBuffer();
+            	boolean notify=false;
+            	if(MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts()!=null)
+            	for(MagicCardAlert alert : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts())
                 {
             		alert.getOffers().clear();
-                	for(MagicPricesProvider prov : MagicFactory.getInstance().getEnabledPricers())
+                	for(MagicPricesProvider prov : MTGDesktopCompanionControler.getInstance().getEnabledPricers())
                 	{
                 		try {
 							List<MagicPrice> list=prov.getPrice(alert.getCard().getEditions().get(0), alert.getCard());
 							for(MagicPrice p : list)
 								if(p.getValue()<=alert.getPrice())
+								{
 									alert.getOffers().add(p);
-							
+									notify=true;
+								}
+						
 							alert.orderDesc();
 						} catch (Exception e) {
 							logger.error(e);
 						}
                 	}
+                	
+                	if(notify)
+                		message.append(alert.getCard()).append(" : ").append(alert.getOffers().size()).append(" offers").append("\n");
+					
                 }
+            	
+            	MTGDesktopCompanionControler.getInstance().notify("New offers", message.toString(), MessageType.INFO);
+            	
             }
         };
 		

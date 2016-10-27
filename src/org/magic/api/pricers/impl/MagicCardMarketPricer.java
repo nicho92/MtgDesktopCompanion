@@ -30,7 +30,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.tools.InstallCert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -78,7 +78,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
     			InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
     	    
-    		System.setProperty("javax.net.ssl.trustStore",new File(MagicFactory.CONF_DIR,props.getProperty("KEYSTORE_NAME")).getAbsolutePath());
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,props.getProperty("KEYSTORE_NAME")).getAbsolutePath());
     		
 		} catch (Exception e1) {
 			

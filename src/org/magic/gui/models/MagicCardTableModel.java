@@ -7,7 +7,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class MagicCardTableModel extends DefaultTableModel{
 
@@ -77,7 +77,7 @@ public class MagicCardTableModel extends DefaultTableModel{
 	private String getName(List<MagicCardNames> foreignNames) {
 		for(MagicCardNames name: foreignNames)
 		{
-			if(name.getLanguage().equals(MagicFactory.getInstance().get("langage")))
+			if(name.getLanguage().equals(MTGDesktopCompanionControler.getInstance().get("langage")))
 				return name.getName();
 		}
 		return "";

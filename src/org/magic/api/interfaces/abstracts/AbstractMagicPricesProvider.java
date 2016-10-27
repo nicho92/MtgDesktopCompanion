@@ -11,13 +11,13 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public abstract class AbstractMagicPricesProvider extends Observable implements MagicPricesProvider {
 
 	private boolean enable=true;
 	protected Properties props;
-	protected File confdir = new File(MagicFactory.CONF_DIR, "pricers");
+	protected File confdir = new File(MTGDesktopCompanionControler.CONF_DIR, "pricers");
 
 	
 	@Override

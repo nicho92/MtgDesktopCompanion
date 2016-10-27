@@ -12,7 +12,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class CardsPriceTableModel extends DefaultTableModel {
 
@@ -47,7 +47,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	public CardsPriceTableModel() {
 		providers = new ArrayList<MagicPricesProvider>();
 		prices=new ArrayList<MagicPrice>();
-		providers=MagicFactory.getInstance().getPricers();
+		providers=MTGDesktopCompanionControler.getInstance().getPricers();
 	}
 	
 	

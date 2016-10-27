@@ -10,12 +10,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.CardExporter;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class ExportsTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private CardExporter selectedProvider = null;
-	    private List<CardExporter> exports =MagicFactory.getInstance().getDeckExports();
+	    private List<CardExporter> exports =MTGDesktopCompanionControler.getInstance().getDeckExports();
 	    static final Logger logger = LogManager.getLogger(ExportsTreeTableModel.class.getName());
 	    private final static String[] COLUMN_NAMES = {"Exporter","Value","Enabled"};
 		
@@ -130,7 +130,7 @@ public class ExportsTreeTableModel extends AbstractTreeTableModel {
 	        	if(column==2)
 	        	{
 	        		selectedProvider.enable(Boolean.parseBoolean(strValue));
-	        		MagicFactory.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+	        		MTGDesktopCompanionControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 	        		
 	        		
 	        	}

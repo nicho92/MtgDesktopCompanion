@@ -10,12 +10,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class ServersTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private MTGServer selectedProvider = null;
-	    private List<MTGServer> exports =MagicFactory.getInstance().getServers();
+	    private List<MTGServer> exports =MTGDesktopCompanionControler.getInstance().getServers();
 	    static final Logger logger = LogManager.getLogger(ServersTreeTableModel.class.getName());
 	    private final static String[] COLUMN_NAMES = {"Deck Website","Value","Enabled"};
 		
@@ -130,7 +130,7 @@ public class ServersTreeTableModel extends AbstractTreeTableModel {
 	        	if(column==2)
 	        	{
 	        		selectedProvider.enable(Boolean.parseBoolean(strValue));
-	        		MagicFactory.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+	        		MTGDesktopCompanionControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 	        		
 	        		
 	        	}

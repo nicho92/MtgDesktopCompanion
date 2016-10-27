@@ -22,7 +22,7 @@ public class VersionChecker {
 	NodeList nodeList;
 	
 	String urlVersion ="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/res/version";
-	String actualVersion = MagicFactory.getInstance().getVersion();
+	String actualVersion = MTGDesktopCompanionControler.getInstance().getVersion();
 	String onlineVersion;
 	
 	static final Logger logger = LogManager.getLogger(VersionChecker.class.getName());

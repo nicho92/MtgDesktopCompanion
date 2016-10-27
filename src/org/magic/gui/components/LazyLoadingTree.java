@@ -20,7 +20,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 
 
@@ -150,7 +150,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             protected List<MyNode> doInBackground() throws Exception {
 
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
-                for(MagicCollection c : MagicFactory.getInstance().getEnabledDAO().getCollections())
+                for(MagicCollection c : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections())
                 {
                 	MyNode n = new MyNode(c);
                 	children.add(n);
@@ -182,7 +182,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             	logger.debug("loading cards from " + col+"/"+ed);
                 
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
-                for(MagicCard card : MagicFactory.getInstance().getEnabledDAO().getCardsFromCollection(col, ed))
+                for(MagicCard card : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed))
                 {
                 	MyNode n = new MyNode(card);
                 	children.add(n);
@@ -213,9 +213,9 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             protected List<MyNode> doInBackground() throws Exception {
             	logger.debug("loading editions from " + c);
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
-                for(String ed : MagicFactory.getInstance().getEnabledDAO().getEditionsIDFromCollection(c))
+                for(String ed : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getEditionsIDFromCollection(c))
                 {
-                	MyNode n = new MyNode(MagicFactory.getInstance().getEnabledProviders().getSetById(ed));
+                	MyNode n = new MyNode(MTGDesktopCompanionControler.getInstance().getEnabledProviders().getSetById(ed));
                 	children.add(n);
             	}
                Collections.sort(children);

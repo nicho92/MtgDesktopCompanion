@@ -73,7 +73,7 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.ThreadManager;
 
@@ -104,8 +104,8 @@ public class CollectionPanelGUI extends JPanel {
 	private JLabel lblTotal ;
 	
 	public CollectionPanelGUI() throws Exception {
-		this.provider = MagicFactory.getInstance().getEnabledProviders();
-		this.dao = MagicFactory.getInstance().getEnabledDAO();
+		this.provider = MTGDesktopCompanionControler.getInstance().getEnabledProviders();
+		this.dao = MTGDesktopCompanionControler.getInstance().getEnabledDAO();
 		initGUI();
 	}
 
@@ -185,7 +185,7 @@ public class CollectionPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();
 				
-				for(final CardExporter exp : MagicFactory.getInstance().getEnabledDeckExports())
+				for(final CardExporter exp : MTGDesktopCompanionControler.getInstance().getEnabledDeckExports())
 				{
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
@@ -340,7 +340,7 @@ public class CollectionPanelGUI extends JPanel {
 								try {
 									int row = tableEditions.getSelectedRow();
 									MagicEdition ed = (MagicEdition)tableEditions.getValueAt(row, 1);
-									historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,ed),ed.getSet());
+									historyPricesPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(null,ed),ed.getSet());
 								} catch (IOException e) {
 									logger.error(e);
 								}
@@ -446,7 +446,7 @@ public class CollectionPanelGUI extends JPanel {
 								rarityRepartitionPanel.init(list);
 								typeRepartitionPanel.init(list);
 								manaRepartitionPanel.init(list);
-								historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(null,(MagicEdition)curr.getUserObject()),curr.getUserObject().toString());
+								historyPricesPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(null,(MagicEdition)curr.getUserObject()),curr.getUserObject().toString());
 
 
 							}catch(Exception e)
@@ -491,7 +491,7 @@ public class CollectionPanelGUI extends JPanel {
 					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try {
-								historyPricesPanel.init(MagicFactory.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card.getName());
+								historyPricesPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card.getName());
 							} catch (Exception e) {
 								logger.error(e);
 							}
@@ -658,7 +658,7 @@ public class CollectionPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
 
-				int res = JOptionPane.showConfirmDialog(null, "Are you sure you adding " + ed + " to "+MagicFactory.getInstance().get("default-library")+" ?");
+				int res = JOptionPane.showConfirmDialog(null, "Are you sure you adding " + ed + " to "+MTGDesktopCompanionControler.getInstance().get("default-library")+" ?");
 
 				if (res == JOptionPane.YES_OPTION)
 					try {
@@ -666,7 +666,7 @@ public class CollectionPanelGUI extends JPanel {
 
 						for (MagicCard mc : list) {
 							MagicCollection col = new MagicCollection();
-							col.setName(MagicFactory.getInstance().get("default-library"));
+							col.setName(MTGDesktopCompanionControler.getInstance().get("default-library"));
 							dao.saveCard(mc, col);
 						}
 						model.calculate();
@@ -851,7 +851,7 @@ public class CollectionPanelGUI extends JPanel {
 
 	
 	public static void main(String[] args) throws Exception {
-		MagicFactory.getInstance().getEnabledDAO().init();
+		MTGDesktopCompanionControler.getInstance().getEnabledDAO().init();
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().add(new CollectionPanelGUI());

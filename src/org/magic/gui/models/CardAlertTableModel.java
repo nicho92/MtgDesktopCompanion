@@ -4,7 +4,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 
 public class CardAlertTableModel extends DefaultTableModel {
@@ -27,8 +27,8 @@ public class CardAlertTableModel extends DefaultTableModel {
 	@Override
 	public int getRowCount() {
 		try{
-			if(MagicFactory.getInstance().getEnabledDAO().getAlerts()!=null)
-			return MagicFactory.getInstance().getEnabledDAO().getAlerts().size();
+			if(MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts()!=null)
+			return MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts().size();
 			
 		}catch(Exception e)
 		{
@@ -67,20 +67,20 @@ public class CardAlertTableModel extends DefaultTableModel {
 		
 		switch(column)
 		{
-			case 0 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row);
-			case 1 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row).getCard().getEditions().get(0);
-			case 2 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row).getPrice();
-			case 3 : return MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row).getOffers().size();
+			case 0 : return MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts().get(row);
+			case 1 : return MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts().get(row).getCard().getEditions().get(0);
+			case 2 : return MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts().get(row).getPrice();
+			case 3 : return MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts().get(row).getOffers().size();
 		default : return "";
 		}
 	}
 	
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		MagicCardAlert alert = MagicFactory.getInstance().getEnabledDAO().getAlerts().get(row);
+		MagicCardAlert alert = MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts().get(row);
 		alert.setPrice(Double.parseDouble(aValue.toString()));
 		try {
-			MagicFactory.getInstance().getEnabledDAO().updateAlert(alert);
+			MTGDesktopCompanionControler.getInstance().getEnabledDAO().updateAlert(alert);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

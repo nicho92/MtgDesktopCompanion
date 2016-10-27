@@ -23,7 +23,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class MysqlDAO extends AbstractMagicDAO{
 
@@ -101,7 +101,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 pst.setString(2, mc.getName());
 		 pst.setObject(3, mc);
 		 pst.setString(4, mc.getEditions().get(0).getId());
-		 pst.setString(5, MagicFactory.getInstance().getEnabledProviders().toString());
+		 pst.setString(5, MTGDesktopCompanionControler.getInstance().getEnabledProviders().toString());
 		 pst.setString(6, collection.getName());
 		 
 		 pst.executeUpdate();
@@ -265,7 +265,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
 		
-		if(c.getName().equals(MagicFactory.getInstance().get("default-library")))
+		if(c.getName().equals(MTGDesktopCompanionControler.getInstance().get("default-library")))
 			throw new SQLException(c.getName() + " can not be deleted");
 		
 		PreparedStatement pst = con.prepareStatement("delete from collections where name = ?");

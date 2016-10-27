@@ -34,7 +34,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -164,13 +164,13 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		    List<MagicCard> ret ;
 			if(idSet==null)
 			{
-				ret = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null);
+				ret = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null);
 			}
 			else
 			{
 				MagicEdition ed = new MagicEdition();
 				ed.setId(idSet);
-				ret = MagicFactory.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed);
+				ret = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed);
 			}
 			
 			if(ret.size()>0)

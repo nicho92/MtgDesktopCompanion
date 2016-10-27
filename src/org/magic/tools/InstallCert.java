@@ -28,7 +28,7 @@ import javax.net.ssl.X509TrustManager;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 /**
  * Class used to add the server's certificate to the KeyStore
@@ -50,7 +50,7 @@ public class InstallCert {
             port = 443;
             passphrase = pass.toCharArray();
        
-            File keystoreFile = new File(MagicFactory.CONF_DIR,filename);
+            File keystoreFile = new File(MTGDesktopCompanionControler.CONF_DIR,filename);
             if (keystoreFile.exists() == false) {
                 keystoreFile = new File(defaultF, "cacerts");
             }
@@ -104,11 +104,11 @@ public class InstallCert {
         ks.setCertificateEntry(alias, cert);
 
         
-        OutputStream out = new FileOutputStream(new File(MagicFactory.CONF_DIR,filename));
+        OutputStream out = new FileOutputStream(new File(MTGDesktopCompanionControler.CONF_DIR,filename));
         ks.store(out, passphrase);
         out.close();
 
-        logger.debug("Added certificate to keystore '"+new File(MagicFactory.CONF_DIR,filename)+"' using alias '"+ alias + "'");
+        logger.debug("Added certificate to keystore '"+new File(MTGDesktopCompanionControler.CONF_DIR,filename)+"' using alias '"+ alias + "'");
         
         }
     }

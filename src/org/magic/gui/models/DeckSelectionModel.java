@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
 
 public class DeckSelectionModel extends DefaultTableModel {
@@ -25,7 +25,7 @@ public class DeckSelectionModel extends DefaultTableModel {
 			
 			@Override
 			public void run() {
-				for(File f : new File(MagicFactory.CONF_DIR,"decks").listFiles() )
+				for(File f : new File(MTGDesktopCompanionControler.CONF_DIR,"decks").listFiles() )
 				{
 					try {
 						MagicDeck deck = new MTGDesktopCompanionExport().importDeck(f);
@@ -103,7 +103,7 @@ public class DeckSelectionModel extends DefaultTableModel {
 	}
 
 	public void remove(MagicDeck selectedDeck) {
-		 new File(MagicFactory.CONF_DIR.getAbsolutePath()+"/decks",selectedDeck.getName()+".deck").delete();
+		 new File(MTGDesktopCompanionControler.CONF_DIR.getAbsolutePath()+"/decks",selectedDeck.getName()+".deck").delete();
 		 decks.remove(selectedDeck);
 		 fireTableDataChanged();
 		

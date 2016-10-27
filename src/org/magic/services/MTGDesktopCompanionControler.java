@@ -1,5 +1,6 @@
 package org.magic.services;
 
+import java.awt.TrayIcon.MessageType;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -27,10 +28,11 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
+import org.magic.gui.MagicGUI;
 
-public class MagicFactory {
+public class MTGDesktopCompanionControler {
 
-	private static MagicFactory inst;
+	private static MTGDesktopCompanionControler inst;
 	private List<MagicPricesProvider> pricers;
 	private List<MagicCardsProvider> cardsProviders;
 	private List<MagicDAO> daoProviders;
@@ -47,12 +49,18 @@ public class MagicFactory {
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	
 	
-	static final Logger logger = LogManager.getLogger(MagicFactory.class.getName());
+	static final Logger logger = LogManager.getLogger(MTGDesktopCompanionControler.class.getName());
 	
-	public static MagicFactory getInstance()
+	public void notify(String caption,String text,MessageType type)
+	{
+		MagicGUI.trayNotifier.displayMessage(caption, text, type);
+	}
+	
+	
+	public static MTGDesktopCompanionControler getInstance()
 	{
 		if(inst == null)
-			inst = new MagicFactory();
+			inst = new MTGDesktopCompanionControler();
 		return inst;
 	}
 	
@@ -130,13 +138,13 @@ public class MagicFactory {
 	
 	public void reload() throws Exception
 	{
-		inst=new MagicFactory();
+		inst=new MTGDesktopCompanionControler();
 		inst.getEnabledProviders().init();
 		inst.getEnabledDAO().init();
 	}
 	
 		
-	private MagicFactory()
+	private MTGDesktopCompanionControler()
 	{
 		File conf = new File(CONF_DIR,"mtgcompanion-conf.xml");
 		if(!conf.exists())
@@ -160,7 +168,7 @@ public class MagicFactory {
 		        .setExpressionEngine(new XPathExpressionEngine())
 		        );
 		
-		classLoader = MagicFactory.class.getClassLoader();
+		classLoader = MTGDesktopCompanionControler.class.getClassLoader();
 		
 		try {
 			

@@ -12,7 +12,7 @@ import javax.swing.JPanel;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
-import org.magic.services.MagicFactory;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class CardStockPanel extends JPanel {
 	
@@ -61,7 +61,7 @@ public class CardStockPanel extends JPanel {
 		content.removeAll();
 		content.setLayout(layout);
 		try {
-				for(MagicCardStock stat : MagicFactory.getInstance().getEnabledDAO().getStocks(mc,col))
+				for(MagicCardStock stat : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getStocks(mc,col))
 				{
 					CardStockLinePanel pane = new CardStockLinePanel(mc, col);
 					pane.setMagicCardState(stat);
