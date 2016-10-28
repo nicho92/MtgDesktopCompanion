@@ -8,7 +8,9 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.Header;
 import org.apache.http.HttpEntity;
+import org.apache.http.HttpRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
@@ -26,6 +28,7 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
+import org.apache.http.protocol.HttpCoreContext;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -35,6 +38,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -47,7 +51,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private HttpClient httpclient;
 	private HttpContext httpContext; 
     static final Logger logger = LogManager.getLogger(TappedOutDeckSniffer.class.getName());
-
     
 	@Override
 	public String toString() {
@@ -63,9 +66,19 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				props.put("FORMAT", "standard");
 				props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
 				props.put("URL_JSON", "http://tappedout.net/api/deck/latest/%FORMAT%");
+				props.put("CERT_SERV", "www.tappedout.net");
+				props.put("KEYSTORE_NAME", "jssecacerts");
+				props.put("KEYSTORE_PASS", "changeit");
 				save();
 		}
 		
+		try {
+    		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
+    		InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
+    	    System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,props.getProperty("KEYSTORE_NAME")).getAbsolutePath());
+		} catch (Exception e1) {
+			logger.error(e1);
+		}
 	}
 	
 	@Override
@@ -75,21 +88,30 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	
 	ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
-    public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
-      	 int status = response.getStatusLine().getStatusCode();
-         HttpEntity entity = response.getEntity();
-     	
-         if (status >= 200 && status < 300) 
-           {
+    public String handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
+    	int status = response.getStatusLine().getStatusCode();
+    	HttpEntity entity = response.getEntity();
+    	
+        if (status >= 200 && status < 300) 
            	return entity != null ? EntityUtils.toString(entity) : null;
-           } 
-           else {
-           	  throw new ClientProtocolException("Unexpected response status: " + status);
-           }
+        else
+        	throw new ClientProtocolException("Unexpected response status: " + status);
+           
         }
     };
     
-	
+    public static void main(String[] args) {
+		try {
+			TappedOutDeckSniffer sniff = new TappedOutDeckSniffer();
+				sniff.connect();
+				RetrievableDeck temp = sniff.getDeckList().get(15);
+				sniff.getDeck(temp);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+ 	
 	@Override
 	public String getName() {
 		return "Tapped Out";
@@ -107,26 +129,34 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 					.setUserAgent(props.getProperty("USER_AGENT"))
 					.setRedirectStrategy(new LaxRedirectStrategy())
 					.build();
-
-		httpclient.execute(new HttpGet("http://tappedout.net/accounts/login"), responseHandler,httpContext); //get CSRF
-	       
-
-		 HttpPost login = new HttpPost("http://tappedout.net/accounts/login/");
-	        List <NameValuePair> nvps = new ArrayList <NameValuePair>();
-	        					 nvps.add(new BasicNameValuePair("next", "/"));
-						         nvps.add(new BasicNameValuePair("username", props.getProperty("LOGIN")));
-						         nvps.add(new BasicNameValuePair("password", props.getProperty("PASSWORD")));
-						         nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", getCookieValue(cookieStore, "csrftoken")));
-				login.setEntity(new UrlEncodedFormEntity(nvps));
-				
-			httpclient.execute(login, responseHandler,httpContext);
+		
+		
+		httpclient.execute(new HttpGet("https://tappedout.net/accounts/login"), responseHandler,httpContext); //get CSRF
+		
+		
+		HttpPost login = new HttpPost("https://tappedout.net/accounts/login");
+	    List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+	       					 nvps.add(new BasicNameValuePair("next", "/"));
+					         nvps.add(new BasicNameValuePair("username", props.getProperty("LOGIN")));
+					         nvps.add(new BasicNameValuePair("password", props.getProperty("PASSWORD")));
+					         nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", getCookieValue("csrftoken")));
+		login.setEntity(new UrlEncodedFormEntity(nvps));
+		
+		
+		
+		httpclient.execute(login, responseHandler,httpContext);
+		
+		//System.out.println(httpContext.getAttribute(HttpCoreContext.HTTP_REQUEST));
+			
 	}
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws Exception
 	{
+		HttpGet get = new HttpGet(info.getUrl());
+		String responseBody = httpclient.execute(get, responseHandler, httpContext);
 		
-		String responseBody = httpclient.execute(new HttpGet(info.getUrl()), responseHandler, httpContext);
+		
 		MagicDeck deck = new MagicDeck();
 		
 		JsonElement root = new JsonParser().parse(responseBody);
@@ -188,10 +218,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.magic.api.decksniffer.impl.DeckSniffer#getDeckList()
-	 */
-	@Override
 	public List<RetrievableDeck> getDeckList() throws Exception {
 
 		String tappedJson = props.getProperty("URL_JSON").replaceAll("%FORMAT%", props.getProperty("FORMAT"));
@@ -215,7 +241,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	
-	private String getCookieValue(CookieStore cookieStore, String cookieName) 
+	private String getCookieValue(String cookieName) 
 	{
 		String value = null;
 		for (Cookie cookie: cookieStore.getCookies()) {
