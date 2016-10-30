@@ -1,22 +1,15 @@
 package org.magic.api.decksniffer.impl;
 		
 import java.io.File;
-import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpRequest;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.ResponseHandler;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
@@ -28,7 +21,6 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.apache.http.protocol.HttpCoreContext;
 import org.apache.http.util.EntityUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -51,8 +43,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private HttpClient httpclient;
 	private HttpContext httpContext; 
     static final Logger logger = LogManager.getLogger(TappedOutDeckSniffer.class.getName());
-    
-	@Override
+ 
+    @Override
 	public String toString() {
 		return getName();
 	}
@@ -73,7 +65,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		}
 		
 		try {
-    		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
     		InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
     	    System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,props.getProperty("KEYSTORE_NAME")).getAbsolutePath());
 		} catch (Exception e1) {
@@ -85,20 +76,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	public String[] listFilter(){
 		return new String[]{"latest","standard","modern","legacy","vintage","edh","tops","pauper","aggro","budget","control"};
 	}
-	
-	ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
-
-    public String handleResponse(HttpResponse response) throws ClientProtocolException, IOException {
-    	int status = response.getStatusLine().getStatusCode();
-    	HttpEntity entity = response.getEntity();
-    	
-        if (status >= 200 && status < 300) 
-           	return entity != null ? EntityUtils.toString(entity) : null;
-        else
-        	throw new ClientProtocolException("Unexpected response status: " + status);
-           
-        }
-    };
     
     public static void main(String[] args) {
 		try {
@@ -130,31 +107,28 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 					.setRedirectStrategy(new LaxRedirectStrategy())
 					.build();
 		
-		
-		httpclient.execute(new HttpGet("https://tappedout.net/accounts/login"), responseHandler,httpContext); //get CSRF
-		
-		
-		HttpPost login = new HttpPost("https://tappedout.net/accounts/login");
+		httpclient.execute(new HttpGet("https://tappedout.net/accounts/login/?next=/"), httpContext); //get csrfmiddlewaretoken in cookies
+	
+		HttpPost login = new HttpPost("https://tappedout.net/accounts/login/"); //cookies need have tapped=buxy7qwywslb2tslv85ewqikh52xtztl;
 	    List <NameValuePair> nvps = new ArrayList <NameValuePair>();
 	       					 nvps.add(new BasicNameValuePair("next", "/"));
 					         nvps.add(new BasicNameValuePair("username", props.getProperty("LOGIN")));
 					         nvps.add(new BasicNameValuePair("password", props.getProperty("PASSWORD")));
 					         nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", getCookieValue("csrftoken")));
-		login.setEntity(new UrlEncodedFormEntity(nvps));
+				 login.setEntity(new UrlEncodedFormEntity(nvps));
+				 login.addHeader("Referer", "https://tappedout.net/accounts/login/?next=/");
+				 login.addHeader("Upgrade-Insecure-Requests","1");
+				 login.addHeader("Origin","https://tappedout.net");
+				 httpclient.execute(login, httpContext);
+	
 		
-		
-		
-		httpclient.execute(login, responseHandler,httpContext);
-		
-		//System.out.println(httpContext.getAttribute(HttpCoreContext.HTTP_REQUEST));
-			
 	}
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws Exception
 	{
 		HttpGet get = new HttpGet(info.getUrl());
-		String responseBody = httpclient.execute(get, responseHandler, httpContext);
+		String responseBody = EntityUtils.toString(httpclient.execute(get, httpContext).getEntity());
 		
 		
 		MagicDeck deck = new MagicDeck();
@@ -221,7 +195,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws Exception {
 
 		String tappedJson = props.getProperty("URL_JSON").replaceAll("%FORMAT%", props.getProperty("FORMAT"));
-		String responseBody = httpclient.execute(new HttpGet(tappedJson), responseHandler,httpContext);
+		String responseBody = EntityUtils.toString(httpclient.execute(new HttpGet(tappedJson), httpContext).getEntity());
         JsonElement root = new JsonParser().parse(responseBody);
 		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
 		
@@ -239,7 +213,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
         
         return list;
 	}
-	
 	
 	private String getCookieValue(String cookieName) 
 	{
