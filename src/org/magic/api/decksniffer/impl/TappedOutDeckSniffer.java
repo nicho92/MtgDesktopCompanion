@@ -44,10 +44,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private HttpContext httpContext; 
     static final Logger logger = LogManager.getLogger(TappedOutDeckSniffer.class.getName());
  
-    @Override
-	public String toString() {
-		return getName();
-	}
+  
 	
 	public TappedOutDeckSniffer() throws Exception {
 		super();

@@ -81,7 +81,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
     		 	.userAgent(props.getProperty("USER_AGENT"))
 				.get();
 		
-		
 		Elements e = d.select("div.archetype-tile" );
 		
 		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
@@ -118,10 +117,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	}
 
-	@Override
-	public String toString() {
-		return getName();
-	}
+	
 	@Override
 	public String getName() {
 		return "MTGGoldFish Deck";

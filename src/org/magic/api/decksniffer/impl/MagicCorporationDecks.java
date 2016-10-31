@@ -119,9 +119,5 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 		return "MagicCorporation";
 	}
 
-	@Override
-	public String toString() {
-		return getName();
-	}
 	
 }

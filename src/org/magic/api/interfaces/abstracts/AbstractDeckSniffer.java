@@ -19,6 +19,10 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 
 	protected File confdir = new File(MTGDesktopCompanionControler.CONF_DIR, "decksniffers");
 
+	@Override
+	public String toString() {
+		return getName();
+	}
 	
 	public AbstractDeckSniffer() {
 		props=new Properties();
