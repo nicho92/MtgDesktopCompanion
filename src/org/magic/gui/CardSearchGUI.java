@@ -113,7 +113,7 @@ public class CardSearchGUI extends JPanel {
 		private JPanel editionDetailPanel;
 		private JPanel panneauHaut;
 		private JPanel panneauCard = new JPanel();
-	  
+		private JPanel panneauStat;
 		private JTextArea txtRulesArea;
 		private JTextField txtFilter;
 		private JTextField txtMagicSearch;
@@ -241,7 +241,7 @@ public class CardSearchGUI extends JPanel {
 			JScrollPane scrollPanePrices = new JScrollPane();
 			JScrollPane scrollCards = new JScrollPane();
 			JSplitPane panneauCentral = new JSplitPane();
-		
+			panneauStat = new JPanel();
 			panneauHaut = new JPanel();
 			panneauCard = new JPanel();
 			boosterPanel = new JPanel();
@@ -313,6 +313,7 @@ public class CardSearchGUI extends JPanel {
 
 ///////LAYOUT		
 			setLayout(new BorderLayout());
+			panneauStat.setLayout(new GridLayout(2, 2, 0, 0));
 			panneauCard.setLayout(new BorderLayout());
 			editionDetailPanel.setLayout(new BorderLayout());
 			boosterPanel.setLayout(new BorderLayout());
@@ -422,13 +423,15 @@ public class CardSearchGUI extends JPanel {
 			tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
 			tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
 
-		
+			
+			panneauStat.add(cmcChart);
+			panneauStat.add(manaRepartitionPanel);
+			panneauStat.add(typeRepartitionPanel);
+			panneauStat.add(rarityRepartitionPanel);
+			
 			tabbedCardsView.addTab("Results", null, panelResultsCards, null);
 			tabbedCardsView.addTab("Thumbnail", null, scrollThumbnails, null);
-			tabbedCardsView.addTab("Mana Curve", null, cmcChart, null);
-			tabbedCardsView.addTab("Colors", null, manaRepartitionPanel, null);
-			tabbedCardsView.addTab("Types", null, typeRepartitionPanel, null);
-			tabbedCardsView.addTab("Rarity", null, rarityRepartitionPanel, null);
+			tabbedCardsView.addTab("Stats", null, panneauStat , null);
 
 			
 			add(panneauHaut, BorderLayout.NORTH);
