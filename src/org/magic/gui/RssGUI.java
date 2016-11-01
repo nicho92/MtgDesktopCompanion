@@ -25,6 +25,7 @@ import javax.swing.tree.TreePath;
 import org.magic.api.beans.RSSBean;
 import org.magic.gui.models.RssContentTableModel;
 import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.ThreadManager;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 
@@ -32,6 +33,8 @@ public class RssGUI extends JPanel {
 	private JTable table;
 	private RssContentTableModel model;
 	private JEditorPane editorPane;
+	
+	DefaultMutableTreeNode curr;
 	
 	
 	public RssGUI() {
@@ -103,19 +106,26 @@ public class RssGUI extends JPanel {
 		btnNewButton.setIcon(new ImageIcon(RssGUI.class.getResource("/res/refresh.png")));
 		panelHaut.add(btnNewButton);
 		
-		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent tse) {
 				TreePath path = tse.getPath();
-				DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+				curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 				
 				if(curr.getUserObject() instanceof RSSBean)
-					try {
-						model.init((RSSBean)curr.getUserObject());
-					} catch (Exception e) {
-						e.printStackTrace();
-					} 
-					model.fireTableDataChanged();
+					ThreadManager.getInstance().execute(new Runnable() {
+						public void run() {
+							try {
+								model.init((RSSBean)curr.getUserObject());
+							} catch (Exception e) {
+								e.printStackTrace();
+							} 
+							model.fireTableDataChanged();
+							
+						}
+					}, "load RSS " + curr.getUserObject());
+					
+					
+					
 			}
 		});
 

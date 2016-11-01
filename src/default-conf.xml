@@ -128,7 +128,7 @@
 		</sniffer>
 		<sniffer>
 			<class>org.magic.api.decksniffer.impl.MagicCorporationDecks</class>
-			<enable>true</enable>
+			<enable>false</enable>
 		</sniffer>
 		<sniffer>
 			<class>org.magic.api.decksniffer.impl.LotusNoirDecks</class>

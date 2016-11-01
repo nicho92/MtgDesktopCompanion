@@ -69,6 +69,7 @@ import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
+import java.awt.GridLayout;
 
 public class DeckBuilderGUI extends JPanel{
 	
@@ -551,14 +552,18 @@ public class DeckBuilderGUI extends JPanel{
 		rarityRepartitionPanel = new RarityRepartitionPanel();
 		
 		JPanel randomHandPanel = new JPanel();
-	
+		JPanel statPanel = new JPanel();
+		
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 		randomHandPanel.add(thumbnail, BorderLayout.CENTER);
 		
-		tabbedPane.addTab("Cmc", null, cmcChartPanel, null);
-		tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
-		tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
-		tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
+		statPanel.setLayout(new GridLayout(2, 2, 0, 0));
+		statPanel.add(manaRepartitionPanel);
+		statPanel.add(typeRepartitionPanel);
+		statPanel.add(rarityRepartitionPanel);
+		statPanel.add(cmcChartPanel);
+		
+		tabbedPane.addTab("Stats", null, statPanel, null);
 		tabbedPane.addTab("Sample Hand", null, randomHandPanel, null);
 		
 		JPanel panel = new JPanel();

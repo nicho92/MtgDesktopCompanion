@@ -331,9 +331,4 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		return updateTime;
 	}
 
-	 @Override
-	public String toString() {
-		return getName();
-	}
-	
 }

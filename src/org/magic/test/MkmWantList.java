@@ -19,7 +19,9 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-import freemarker.core.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
+
 
 
 public class MkmWantList {
@@ -45,22 +47,30 @@ public class MkmWantList {
 	  XPathExpression expr = xpath.compile("//wantslist");
 	  Object result = expr.evaluate(d, XPathConstants.NODESET);
 	  NodeList nodes = (NodeList) result;
+	  
+	  List<WantList> list = new ArrayList<WantList>();
+	  
       for (int i = 0; i < nodes.getLength(); i++) {
+    	 
+    	  WantList wants = new WantList();
+    	  
     	  Element el = (Element) nodes.item(i);
     	  String id = (el.getElementsByTagName("idWantsList").item(0).getTextContent());
     	  String name= (el.getElementsByTagName("name").item(1).getTextContent());
+    	  
+    	  wants.setId(id);
+    	  wants.setName(name);
+    	  wants.setWants(getWantsFromID(id));
+    	  list.add(wants);
       }
+     
+      System.out.println(list);
       
-      List<Want> nodes2 = getProductsFromWantListID("1032260");
       
-      for(Want w : nodes2)
-      {
-    	  System.out.println(getProduct(w.getIdProduct()));
-      }
 	}
 	
 	
-	public List<Want> getProductsFromWantListID(String id) throws Exception
+	public List<Want> getWantsFromID(String id) throws Exception
 	{
 		String url="https://www.mkmapi.eu/ws/v1.1/wantslist/"+id;
 		connection = (HttpURLConnection) new URL(url).openConnection();
@@ -69,7 +79,6 @@ public class MkmWantList {
         connection.connect();
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
-        prettyPrint(d);
         NodeList res = d.getElementsByTagName("want");
         List<Want> ret = new ArrayList<Want>();
         for (int i = 0; i < res.getLength(); i++) {
@@ -83,7 +92,7 @@ public class MkmWantList {
         
 	}
 	
-	public String getProduct(String id) throws Exception
+	public Product getProduct(String id) throws Exception
 	{
 		String url="https://www.mkmapi.eu/ws/v1.1/articles/"+id;
 		connection = (HttpURLConnection) new URL(url).openConnection();
@@ -92,32 +101,136 @@ public class MkmWantList {
         connection.connect();
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
+        NodeList res = d.getElementsByTagName("article");
         prettyPrint(d);
-        return d.toString();
+        		
+        Product p = new Product();
+        for (int i = 0; i < res.getLength(); i++) {
+        	
+        }
+        return p;
 	}
-	
-	
-	
-	
 	
 	static void prettyPrint(Document doc) throws IOException
 	{
-		/*OutputFormat format = new OutputFormat(doc);
+		OutputFormat format = new OutputFormat(doc);
         format.setIndenting(true);
         XMLSerializer serializer = new XMLSerializer(System.out, format);
-        serializer.serialize(doc);*/
+        serializer.serialize(doc);
 	}
 }
 
 
 
+class WantList
+{
+	String id;
+	String name;
+	List<Want> wants;
+	
+	public WantList() {
+		wants = new ArrayList<Want>();
+	}
+	
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public List<Want> getWants() {
+		return wants;
+	}
+	public void setWants(List<Want> wants) {
+		this.wants = wants;
+	}
+	
+	@Override
+	public String toString() {
+		return getId() + " " + getName() +" (" + wants.size() +")";
+	}
+	
+	
+}
+
+class Product
+{
+
+        int idProduct;
+        int idMetaproduct;
+        int countReprints;
+        List<String> name;
+        String expansion;
+        
+        public Product() {
+			name = new ArrayList<String>();
+		}
+
+		public int getIdProduct() {
+			return idProduct;
+		}
+
+		public void setIdProduct(int idProduct) {
+			this.idProduct = idProduct;
+		}
+
+		public int getIdMetaproduct() {
+			return idMetaproduct;
+		}
+
+		public void setIdMetaproduct(int idMetaproduct) {
+			this.idMetaproduct = idMetaproduct;
+		}
+
+		public int getCountReprints() {
+			return countReprints;
+		}
+
+		public void setCountReprints(int countReprints) {
+			this.countReprints = countReprints;
+		}
+
+		public List<String> getName() {
+			return name;
+		}
+
+		public void setName(List<String> name) {
+			this.name = name;
+		}
+
+		public String getExpansion() {
+			return expansion;
+		}
+
+		public void setExpansion(String expansion) {
+			this.expansion = expansion;
+		}
+        
+        
+        
+}
+
+class Article
+{
+	
+}
 
 
 class Want
 {
 	String idProduct;
 	String qte;
+	List<String> languages;
 	
+	public Want() {
+		languages = new ArrayList<String>();
+	}
 	
 	public String getIdProduct() {
 		return idProduct;

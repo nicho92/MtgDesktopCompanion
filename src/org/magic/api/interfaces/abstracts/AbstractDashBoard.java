@@ -35,6 +35,12 @@ public abstract class AbstractDashBoard extends Observable implements DashBoard 
 	private boolean enable=true;
 	protected Properties props;
 	
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 	public void load()
 	{
 		try {
