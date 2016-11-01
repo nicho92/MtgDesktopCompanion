@@ -8,11 +8,12 @@
 	<default-land-deck>KLD</default-land-deck>
 	<keystore-name>jssecacerts</keystore-name>
 	<keystore-pass>changeit</keystore-pass>
-	
-	
+	<min-price-alert>0</min-price-alert>
 	<lookAndFeels>
 		<lookAndFeel>com.seaglasslookandfeel.SeaGlassLookAndFeel</lookAndFeel>
 	</lookAndFeels>
+	
+	
 	
 	<servers>
 		<server>

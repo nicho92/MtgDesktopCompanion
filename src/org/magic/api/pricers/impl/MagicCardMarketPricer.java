@@ -63,8 +63,6 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 		props.put("CERT_SERV", "www.mkmapi.eu");
 		props.put("URL", "https://www.mkmapi.eu/ws/%VERSION%/products/%KEYWORD%/%GAME%/%LANG%/%IS_EXACT%");
 		props.put("WEBSITE", "https://www.magiccardmarket.eu");
-		props.put("KEYSTORE_PASS", "changeit");
-		props.put("KEYSTORE_NAME", "jssecacerts");
 		props.put("REF_PRICE", "LOW");
 		props.put("OAUTH_VERSION", "1.0");
 		props.put("CRYPT", "HMAC-SHA1");
@@ -76,9 +74,9 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     	
     	try {
     		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
-    			InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
+    			InstallCert.install(props.getProperty("CERT_SERV"), MTGDesktopCompanionControler.KEYSTORE_NAME, MTGDesktopCompanionControler.KEYSTORE_PASS);
     	    
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,props.getProperty("KEYSTORE_NAME")).getAbsolutePath());
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,MTGDesktopCompanionControler.KEYSTORE_NAME).getAbsolutePath());
     		
 		} catch (Exception e1) {
 			

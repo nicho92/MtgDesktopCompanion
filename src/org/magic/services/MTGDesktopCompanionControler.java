@@ -49,6 +49,10 @@ public class MTGDesktopCompanionControler {
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	
 	
+	public static final String KEYSTORE_NAME = "jssecacerts"; 
+	public static final String KEYSTORE_PASS = "changeit";
+	
+	
 	static final Logger logger = LogManager.getLogger(MTGDesktopCompanionControler.class.getName());
 	
 	public void notify(String caption,String text,MessageType type)

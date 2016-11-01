@@ -47,10 +47,6 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		props.put("DATE_FORMAT", "dd MMMM. H:m");
 		props.put("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
 		props.put("CERT_SERV", "www.leboncoin.fr");
-		props.put("KEYSTORE_PASS", "changeit");
-		props.put("KEYSTORE_NAME", "jssecacerts");
-
-		
 		save();
 		
 		}
@@ -63,13 +59,12 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		formatter=new SimpleDateFormat(props.getProperty("DATE_FORMAT"));
 		
 		try {
-			//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
-	    		InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
+    		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
+    			InstallCert.install(props.getProperty("CERT_SERV"), MTGDesktopCompanionControler.KEYSTORE_NAME, MTGDesktopCompanionControler.KEYSTORE_PASS);
+    			System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,MTGDesktopCompanionControler.KEYSTORE_NAME).getAbsolutePath());
+		} catch (Exception e1) {
 			
-		    System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,props.getProperty("KEYSTORE_NAME")).getAbsolutePath());
-		    
-		} catch (Exception e) {
-			logger.error(e);
+			logger.error(e1);
 		}
 	}
 	

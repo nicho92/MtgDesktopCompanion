@@ -35,6 +35,7 @@ public class ConfigurationPanel extends JPanel {
 	private JTextField txtdirWebsite;
 	private JComboBox cboEditions;
 	private JComboBox<MagicEdition> cboEditionLands;
+	private JTextField txtMinPrice;
 	
 	public void loading(boolean show,String text)
 	{
@@ -45,9 +46,9 @@ public class ConfigurationPanel extends JPanel {
 	public ConfigurationPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 106, 212, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblBackupDao = new JLabel("Backup dao file : ");
@@ -391,13 +392,44 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnSave_1.gridy = 8;
 		add(btnSave_1, gbc_btnSave_1);
 		
+		JLabel lblDontTakeAlert = new JLabel("don't show alert with price < than");
+		GridBagConstraints gbc_lblDontTakeAlert = new GridBagConstraints();
+		gbc_lblDontTakeAlert.anchor = GridBagConstraints.EAST;
+		gbc_lblDontTakeAlert.insets = new Insets(0, 0, 5, 5);
+		gbc_lblDontTakeAlert.gridx = 1;
+		gbc_lblDontTakeAlert.gridy = 9;
+		add(lblDontTakeAlert, gbc_lblDontTakeAlert);
+		
+		txtMinPrice = new JTextField(MTGDesktopCompanionControler.getInstance().get("min-price-alert"));
+		GridBagConstraints gbc_txtMinPrice = new GridBagConstraints();
+		gbc_txtMinPrice.insets = new Insets(0, 0, 5, 5);
+		gbc_txtMinPrice.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtMinPrice.gridx = 2;
+		gbc_txtMinPrice.gridy = 9;
+		add(txtMinPrice, gbc_txtMinPrice);
+		txtMinPrice.setColumns(10);
+		
+		JButton btnSavePrice = new JButton("Save");
+		btnSavePrice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MTGDesktopCompanionControler.getInstance().setProperty("min-price-alert", txtMinPrice.getText());
+				
+			}
+		});
+		GridBagConstraints gbc_btnSavePrice = new GridBagConstraints();
+		gbc_btnSavePrice.fill = GridBagConstraints.BOTH;
+		gbc_btnSavePrice.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSavePrice.gridx = 3;
+		gbc_btnSavePrice.gridy = 9;
+		add(btnSavePrice, gbc_btnSavePrice);
+		
 			
 		
 		lblLoading.setIcon(new ImageIcon(ConfigurationPanel.class.getResource("/res/load.gif")));
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
 		gbc_lblLoading.insets = new Insets(0, 0, 0, 5);
 		gbc_lblLoading.gridx = 2;
-		gbc_lblLoading.gridy = 9;
+		gbc_lblLoading.gridy = 10;
 		add(lblLoading, gbc_lblLoading);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

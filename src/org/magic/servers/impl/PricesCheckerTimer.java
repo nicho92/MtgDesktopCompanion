@@ -52,7 +52,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
                 		try {
 							List<MagicPrice> list=prov.getPrice(alert.getCard().getEditions().get(0), alert.getCard());
 							for(MagicPrice p : list)
-								if(p.getValue()<=alert.getPrice())
+								if(p.getValue()<=alert.getPrice() && p.getValue()>Double.parseDouble(MTGDesktopCompanionControler.getInstance().get("min-price-alert")))
 								{
 									alert.getOffers().add(p);
 									notify=true;

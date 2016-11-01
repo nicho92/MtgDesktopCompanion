@@ -56,15 +56,13 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
 				props.put("URL_JSON", "http://tappedout.net/api/deck/latest/%FORMAT%");
 				props.put("CERT_SERV", "www.tappedout.net");
-				props.put("KEYSTORE_NAME", "jssecacerts");
-				props.put("KEYSTORE_PASS", "changeit");
 				save();
 		}
 		
 		try {
-    		InstallCert.install(props.getProperty("CERT_SERV"), props.getProperty("KEYSTORE_NAME"), props.getProperty("KEYSTORE_PASS"));
-    	    System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,props.getProperty("KEYSTORE_NAME")).getAbsolutePath());
-		} catch (Exception e1) {
+   			InstallCert.install(props.getProperty("CERT_SERV"), MTGDesktopCompanionControler.KEYSTORE_NAME, MTGDesktopCompanionControler.KEYSTORE_PASS);
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,MTGDesktopCompanionControler.KEYSTORE_NAME).getAbsolutePath());
+ 		} catch (Exception e1) {
 			logger.error(e1);
 		}
 	}
