@@ -19,12 +19,10 @@ public class CardsShakerTableModel extends DefaultTableModel {
 
 	String columns[] = new String[]{"Card","Edition","Price","Daily","Daily%"};
 			
-	DashBoard provider;
 	List<CardShake> list;
 	
 	
 	public CardsShakerTableModel() {
-		provider=MTGDesktopCompanionControler.getInstance().getEnabledDashBoard();
 		list=new ArrayList<CardShake>();
 	}
 	
@@ -47,7 +45,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 	public void init(FORMAT f)
 	{
 		try {
-			list=provider.getShakerFor(f.toString());
+			list=MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getShakerFor(f.toString());
 			
 		} catch (IOException e) {
 			logger.error(e);
