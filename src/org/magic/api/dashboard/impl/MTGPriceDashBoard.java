@@ -24,6 +24,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGDesktopCompanionControler;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	static final Logger logger = LogManager.getLogger(MTGPriceDashBoard.class.getName());
@@ -129,8 +134,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	private String getCodeForExt(String name)
 	{
 		try {
-			
-			
 			for(MagicEdition ed : MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions())
 				if(ed.getSet().toUpperCase().contains(name.toUpperCase()))
 					return ed.getId();
@@ -143,30 +146,42 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	@Override
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
-		String url = "http://www.mtgprice.com/spoiler_lists/Dragons_of_Tarkir";
+		
+		String name = edition.getSet().replaceAll(" ", "_");
+		
+		
+		String url = "http://www.mtgprice.com/spoiler_lists/"+name;
 		
 		Document doc = Jsoup.connect(url)
 				.userAgent(props.getProperty("USER_AGENT"))
 				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 				.get();
 		
-			Element table =doc.getElementById("setTable");
+			Element table =doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 		
 			List<CardShake> list = new ArrayList<CardShake>();
-			
-			System.out.println(table);
-			/*
-			for(Element e : table.select("tr"))
+			String data = table.html();
+			data = data.substring(data.indexOf("["),data.indexOf("]")+1);
+			JsonElement root = new JsonParser().parse(data);
+			JsonArray arr = root.getAsJsonArray();
+			for(int i = 0;i<arr.size();i++)
 			{
-				CardShake cs = new CardShake();
-						cs.setName(e.getElementsByTag("TD").get(0).text().trim());
-						cs.setPrice(parseDouble(e.getElementsByTag("TD").get(2).text()));
-						cs.setEd(edition.getId());
-			
-				list.add(cs);
-				System.out.println(cs.getName() + " " + cs.getPrice());
+				JsonObject card = arr.get(i).getAsJsonObject();
+				CardShake shake = new CardShake();
+				
+				shake.setName(card.get("name").getAsString());
+				shake.setEd(edition.getId());
+				shake.setPrice(card.get("fair_price").getAsDouble());
+				shake.setPercentDayChange(card.get("percentageChangeSinceYesterday").getAsDouble());
+				shake.setPercentWeekChange(card.get("percentageChangeSinceOneWeekAgo").getAsDouble());
+				shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
+				shake.setPriceWeekChange(card.get("absoluteChangeSinceOneWeekAgo").getAsDouble());
+				
+				
+				
+				list.add(shake);
 			}
-			*/
+			
 			
 		return list;
 	}
