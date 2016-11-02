@@ -2,7 +2,6 @@ package org.magic.api.dashboard.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,6 +9,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -20,6 +22,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class MTGPriceDashBoard extends AbstractDashBoard {
 
@@ -29,10 +32,13 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	
 	
 	public static void main(String[] args) throws IOException {
-		MTGPriceDashBoard dash = new MTGPriceDashBoard();
-						  dash.getShakerFor("standard");
 		
-		System.out.println(dash.getUpdatedDate());
+		//MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
+		
+		MTGPriceDashBoard dash = new MTGPriceDashBoard();
+						  dash.getShakeForEdition(null);
+		
+		
 	}
 	
 	public MTGPriceDashBoard() 
@@ -46,7 +52,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		save();
 		}
 	}
-	
 	
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
@@ -62,7 +67,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		} catch (ParseException e1) {
 			logger.error(e1);
 		}
-		
 		
 		if(gameFormat.toUpperCase().equals("STANDARD"))
 			gameFormat="Standard";
@@ -90,7 +94,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 						cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(4).text()));
 						
 						String set = e.getElementsByTag("TD").get(1).text();
-				//		cs.setEd(set);
+						set =set.replaceAll("_\\(Foil\\)", "");
+						cs.setEd(getCodeForExt(set));
 			
 				list.add(cs);
 				
@@ -104,7 +109,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 						cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(4).text()));
 						
 						String set = e.getElementsByTag("TD").get(1).text();
-					//	cs.setEd(set);
+						set =set.replaceAll("_\\(Foil\\)", "");
+						cs.setEd(getCodeForExt(set));
 				list.add(cs);
 			}
 			
@@ -115,21 +121,90 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		return null;
 	}
 		
-		private double parseDouble(String number)
-		{
-			return Double.parseDouble(number.replaceAll("\\$", ""));
+	private double parseDouble(String number)
+	{
+		return Double.parseDouble(number.replaceAll("\\$", ""));
+	}
+		
+	private String getCodeForExt(String name)
+	{
+		try {
+			
+			
+			for(MagicEdition ed : MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions())
+				if(ed.getSet().toUpperCase().contains(name.toUpperCase()))
+					return ed.getId();
+		} catch (Exception e) {
+			logger.error(e);
 		}
+		
+		return name;
+	}
 
 	@Override
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		String url = "http://www.mtgprice.com/spoiler_lists/Dragons_of_Tarkir";
+		
+		Document doc = Jsoup.connect(url)
+				.userAgent(props.getProperty("USER_AGENT"))
+				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+				.get();
+		
+			Element table =doc.getElementById("setTable");
+		
+			List<CardShake> list = new ArrayList<CardShake>();
+			
+			System.out.println(table);
+			/*
+			for(Element e : table.select("tr"))
+			{
+				CardShake cs = new CardShake();
+						cs.setName(e.getElementsByTag("TD").get(0).text().trim());
+						cs.setPrice(parseDouble(e.getElementsByTag("TD").get(2).text()));
+						cs.setEd(edition.getId());
+			
+				list.add(cs);
+				System.out.println(cs.getName() + " " + cs.getPrice());
+			}
+			*/
+			
+		return list;
 	}
 
 	@Override
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		Map<Date,Double> historyPrice = new TreeMap<Date,Double>();
+		
+		String name=mc.getName().replaceAll(" ", "_");
+		String edition="";
+		
+		if(me==null)
+			edition=mc.getEditions().get(0).getSet();
+		else
+			edition=me.getSet();	
+		
+		edition=edition.replaceAll(" ", "_");
+		
+		 Document d = Jsoup.connect("http://www.mtgprice.com/sets/"+edition+"/"+name)
+	    		 	.userAgent(props.getProperty("USER_AGENT"))
+					.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+					.get();
+		 
+		 Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(30);
+		 String html = js.html();
+		 html=html.substring(html.indexOf("[[")+1, html.indexOf("]]")+1);
+		 
+		 Pattern p = Pattern.compile("\\[(.*?)\\]");
+		 Matcher m = p.matcher(html);	
+		 while(m.find()) {
+			    
+			 Date date = new Date(Long.parseLong(m.group(1).split(",")[0]));
+			 Double val = Double.parseDouble(m.group(1).split(",")[1]);
+			 
+			 historyPrice.put(date, val);
+		 }
+		return historyPrice;
 	}
 
 	@Override

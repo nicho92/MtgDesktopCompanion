@@ -496,11 +496,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		String jsquery="$.*";
 		
-		logger.info("load editions");
+		logger.debug("load editions");
 		
 		if(eds!=null)
 		{
-			logger.info("editions already loaded. return cache");
+			logger.debug("editions already loaded. return cache");
 			return eds;
 		}
 		
