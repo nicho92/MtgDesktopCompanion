@@ -140,17 +140,17 @@ public class AlarmGUI extends JPanel {
 				
 				if(!MTGDesktopCompanionControler.getInstance().isRunning(new PricesCheckerTimer()))
 				{
-					//int res = JOptionPane.showConfirmDialog(null, "Price Timer is not running. Do you want to launch it ?", "Time server stopped", JOptionPane.YES_NO_OPTION);
+					int res = JOptionPane.showConfirmDialog(null, "Price Timer is not running. Do you want to launch it ?", "Time server stopped", JOptionPane.YES_NO_OPTION);
 					
-					//if(res==JOptionPane.YES_OPTION)
-						/*for(MTGServer serv : MTGDesktopCompanionControler.getInstance().getEnabledServers())
+					if(res==JOptionPane.YES_OPTION)
+						for(MTGServer serv : MTGDesktopCompanionControler.getInstance().getEnabledServers())
 							if(serv.getName().equals(new PricesCheckerTimer().getName()))
 								try {
 									serv.start();
 								} catch (Exception e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
-								}*/
+								}
 				}
 				
 				model.fireTableDataChanged();

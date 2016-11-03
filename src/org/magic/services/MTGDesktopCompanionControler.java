@@ -434,9 +434,8 @@ public class MTGDesktopCompanionControler {
 	
 	public boolean isRunning(MTGServer server)
 	{
-	
 		for(MTGServer serv : getEnabledServers())
-			if(serv.getName().equals(server))
+			if(serv.getName().equals(server.getName()))
 				return serv.isAlive();
 				
 		
