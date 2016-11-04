@@ -6,9 +6,13 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.util.Iterator;
 
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -26,9 +30,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
-import javax.swing.JButton;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class DeckDetailsPanel extends JPanel {
 
@@ -47,8 +48,8 @@ public class DeckDetailsPanel extends JPanel {
 	private JLabel lblSideboard;
 	private JProgressBar nbSideProgress;
 	private JScrollPane scrollPane;
-	private JLabel lblCover;
 	private JButton btnUpdateLegalities;
+	private JPanel panel;
 
 	
 	public DeckDetailsPanel(org.magic.api.beans.MagicDeck newMagicDeck) {
@@ -60,8 +61,8 @@ public class DeckDetailsPanel extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 132, 31, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
 				JLabel nameLabel = new JLabel("Name:");
@@ -211,12 +212,15 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_scrollPane.gridy = 3;
 		add(scrollPane, gbc_scrollPane);
 		
-		lblCover = new JLabel("");
-		GridBagConstraints gbc_lblCover = new GridBagConstraints();
-		gbc_lblCover.insets = new Insets(0, 0, 0, 5);
-		gbc_lblCover.gridx = 2;
-		gbc_lblCover.gridy = 6;
-		add(lblCover, gbc_lblCover);
+		panel = new JPanel();
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 0, 5);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 2;
+		gbc_panel.gridy = 6;
+		add(panel, gbc_panel);
+		
+	
 		
 		
 		if (magicDeck != null) {
@@ -282,9 +286,39 @@ public class DeckDetailsPanel extends JPanel {
 			}
 			if (magicDeck != null) {
 				m_bindingGroup = initDataBindings();
+				
+				
 			}
 		}
 	}
+	
+	public void updatePicture()
+	{
+			ThreadManager.getInstance().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					panel.removeAll();
+					for(int i=0;i<4;i++)
+					{
+						JLabel lab = new JLabel();
+						MagicCard mc =  (MagicCard)magicDeck.getMap().keySet().toArray()[i];
+						lab.setIcon(new ImageIcon(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().extractPicture(mc)));
+						lab.setToolTipText(mc.getName());
+						panel.add(lab);
+					}
+					panel.revalidate();
+					panel.repaint();
+					
+				} catch (Exception e) {
+					
+				}
+			}
+		}, "extract deck pictures");
+	}
+	
+	
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicDeck, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty_1 = BeanProperty.create("text");
@@ -312,21 +346,6 @@ public class DeckDetailsPanel extends JPanel {
 		AutoBinding<MagicDeck, String, ManaPanel, String> autoBinding_4 = Bindings.createAutoBinding(UpdateStrategy.READ, magicDeck, colorIdentityProperty, manaPanel, manaCostProperty_3);
 		autoBinding_4.bind();
 		//
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					lblCover.setIcon(new ImageIcon(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().extractPicture(magicDeck.getAsList().get(0))));
-					lblCover.setToolTipText(magicDeck.getAsList().get(0).toString());
-				} catch (Exception e) {
-					
-				}
-				
-				
-			}
-		}, "extract deck pictures");
-		
 		
 		BindingGroup bindingGroup = new BindingGroup();
 		//

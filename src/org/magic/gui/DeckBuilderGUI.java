@@ -133,6 +133,7 @@ public class DeckBuilderGUI extends JPanel{
 	{
 		this.deck=deck;
 		deckDetailsPanel.setMagicDeck(deck);
+		deckDetailsPanel.updatePicture();
 		deckmodel.init(deck);
 		p=new Player(deck);
 	}
