@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +17,8 @@ import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -33,6 +36,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
@@ -48,6 +52,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.game.Player;
@@ -69,7 +74,6 @@ import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
-import java.awt.GridLayout;
 
 public class DeckBuilderGUI extends JPanel{
 	
@@ -97,8 +101,8 @@ public class DeckBuilderGUI extends JPanel{
 	private JTable tableSide;
 	private JList<MagicCard> listResult;
 	private JTabbedPane tabbedPane;
-	JLabel lblExport = new JLabel("");
-	
+	private JLabel lblExport = new JLabel("");
+	private ButtonGroup groupsFilterResult;
 	
 	public static final int MAIN=0;
 	public static final int SIDE=1;
@@ -414,15 +418,6 @@ public class DeckBuilderGUI extends JPanel{
 		
 		panneauHaut.add(lblExport);
 		
-		scrollResult = new JScrollPane();
-		add(scrollResult, BorderLayout.WEST);
-		
-		listResult = new JList(new DefaultListModel<MagicCard>());
-		listResult.setCellRenderer(new MagicCardListRenderer());  
-		listResult.setMinimumSize(new Dimension(100, 0));
-		listResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollResult.setViewportView(listResult);
-		
 		JPanel panneauBas = new JPanel();
 		add(panneauBas, BorderLayout.SOUTH);
 		
@@ -582,6 +577,56 @@ public class DeckBuilderGUI extends JPanel{
 		});
 		panel.add(btnDrawAHand);
 		
+		JPanel panneauGauche = new JPanel();
+		add(panneauGauche, BorderLayout.WEST);
+		panneauGauche.setLayout(new BorderLayout(0, 0));
+		
+		scrollResult = new JScrollPane();
+		panneauGauche.add(scrollResult);
+		
+		listResult = new JList(new DefaultListModel<MagicCard>());
+		listResult.setCellRenderer(new MagicCardListRenderer());  
+		listResult.setMinimumSize(new Dimension(100, 0));
+		listResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+		scrollResult.setViewportView(listResult);
+		
+		JPanel panneauResultFilter = new JPanel();
+		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
+		
+		
+		groupsFilterResult = new ButtonGroup (){
+			@Override
+			  public void setSelected(ButtonModel model, boolean selected) {
+			    if (selected) {
+			      super.setSelected(model, selected);
+			    } else {
+			      clearSelection();
+			    }
+			  }
+		};
+		
+		JToggleButton tglbtnStd = new JToggleButton("STD");
+		tglbtnStd.setActionCommand("Standard");
+		panneauResultFilter.add(tglbtnStd);
+		
+		JToggleButton tglbtnMdn = new JToggleButton("MDN");
+		tglbtnMdn.setActionCommand("Modern");
+		panneauResultFilter.add(tglbtnMdn);
+		
+		JToggleButton tglbtnLeg = new JToggleButton("LEG");
+		tglbtnLeg.setActionCommand("Legacy");
+		panneauResultFilter.add(tglbtnLeg);
+		
+		JToggleButton tglbtnVin = new JToggleButton("VIN");
+		tglbtnVin.setActionCommand("Vintage");
+		panneauResultFilter.add(tglbtnVin);
+	
+		groupsFilterResult.add(tglbtnStd);
+		groupsFilterResult.add(tglbtnMdn);
+		groupsFilterResult.add(tglbtnLeg);
+		groupsFilterResult.add(tglbtnVin);
+				
+		
 		listResult.addMouseListener(new MouseAdapter() {
 			
 			public void mouseClicked(MouseEvent ev) {
@@ -644,21 +689,29 @@ public class DeckBuilderGUI extends JPanel{
 					try {
 						String searchName=URLEncoder.encode(txtSearch.getText(),"UTF-8");
 						List<MagicCard> cards = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria(cboAttributs.getSelectedItem().toString(),searchName,null);
-						
+						MagicFormat form = new MagicFormat();
 						
 						for(MagicCard m : cards)
-							resultListModel.addElement(m);
-					
+						{
+							if(groupsFilterResult.getSelection()!=null)
+							{
+								form.setFormat(groupsFilterResult.getSelection().getActionCommand());
+								if(m.getLegalities().contains(form))
+									resultListModel.addElement(m);
+							}
+							else
+							{
+								resultListModel.addElement(m);
+							}
+						}
 						listResult.setModel(resultListModel);
-						
-						lblCards.setText(cards.size() +" results");
+						lblCards.setText(resultListModel.size() +" results");
 						
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),"ERREUR",JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			},"DeckSearchCards");
-		
 		}
 	});
 	}

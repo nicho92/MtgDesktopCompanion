@@ -81,6 +81,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 		alert.setPrice(Double.parseDouble(aValue.toString()));
 		try {
 			MTGDesktopCompanionControler.getInstance().getEnabledDAO().updateAlert(alert);
+			fireTableDataChanged();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
