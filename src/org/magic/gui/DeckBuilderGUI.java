@@ -765,6 +765,20 @@ public class DeckBuilderGUI extends JPanel{
 	}
 
 	
+	private void filterResult(String format)
+	{
+		while(resultListModel.elements().hasMoreElements())
+		{
+			MagicCard mc = resultListModel.elements().nextElement();
+			MagicFormat form = new MagicFormat();
+			form.setFormat(groupsFilterResult.getSelection().getActionCommand());
+			if(mc.getLegalities().contains(form))
+				resultListModel.removeElement(mc);
+			
+		}
+	}
+	
+	
 	public Map<MagicCard,Integer> getSelectedMap()
 	{
 		if(selectedIndex==0)
