@@ -47,8 +47,8 @@ public class MkmWantList {
       
 			        
 	  List<WantList> list = getWantList();
-	  
       List<Want> nodes2 = getWants(list.get(0));
+
       
       System.out.println("==========="+list.get(2));
       for(Want w : nodes2)
