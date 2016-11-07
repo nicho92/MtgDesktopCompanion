@@ -697,13 +697,8 @@ public class DeckBuilderGUI extends JPanel{
 							if(groupsFilterResult.getSelection()!=null)
 							{
 								form.setFormat(groupsFilterResult.getSelection().getActionCommand());
-								System.out.println(form + " " + m.getLegalities().contains(form));
-
 								if(m.getLegalities().contains(form))
-								{
-									
 									resultListModel.addElement(m);
-								}
 							}
 							else
 							{
@@ -770,7 +765,7 @@ public class DeckBuilderGUI extends JPanel{
 								deckSidemodel.fireTableDataChanged();
 							}
 					} catch (Exception e) {
-						
+						logger.error(e);
 					}
 					
 					

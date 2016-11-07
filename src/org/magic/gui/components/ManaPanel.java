@@ -92,7 +92,6 @@ public class ManaPanel extends JPanel {
 		if(cached==false)
 		{
 			imgs = new BufferedImage[chunks];
-		
 			try {
 				image = ImageIO.read(ManaCellRenderer.class.getResource("/res/Mana.png"));
 				for (int x = 0; x < rows; x++) {  
@@ -104,8 +103,7 @@ public class ManaPanel extends JPanel {
 		                gr.dispose(); 
 		            }  
 	        }  
-			
-				cached=true;
+			cached=true;
 				
 			} catch (IOException e) {
 				e.printStackTrace();
