@@ -184,8 +184,10 @@ public class MTGDesktopCompanionControler {
 			{
 				String s = config.getString("pricers/pricer["+i+"]/class");
 				MagicPricesProvider prov = loadItem(MagicPricesProvider.class, s);
-				prov.enable(config.getBoolean("pricers/pricer["+i+"]/enable"));
-				pricers.add(prov);
+				if(prov!=null){
+					prov.enable(config.getBoolean("pricers/pricer["+i+"]/enable"));
+					pricers.add(prov);
+				}
 			}
 			
 			logger.info("loading cards provider");
@@ -195,8 +197,10 @@ public class MTGDesktopCompanionControler {
 			{
 				String s = config.getString("providers/provider["+i+"]/class");
 				MagicCardsProvider prov = loadItem(MagicCardsProvider.class, s.toString());
-								   prov.enable(config.getBoolean("providers/provider["+i+"]/enable"));
-				cardsProviders.add(prov);
+				if(prov!=null){
+					prov.enable(config.getBoolean("providers/provider["+i+"]/enable"));
+					cardsProviders.add(prov);
+				}
 			}
 			
 			
@@ -206,8 +210,10 @@ public class MTGDesktopCompanionControler {
 			{
 				String s = config.getString("daos/dao["+i+"]/class");
 				MagicDAO prov = loadItem(MagicDAO.class, s.toString());
-						 prov.enable(config.getBoolean("daos/dao["+i+"]/enable"));
-				daoProviders.add(prov);
+				if(prov!=null){
+					prov.enable(config.getBoolean("daos/dao["+i+"]/enable"));
+					daoProviders.add(prov);
+				}
 			}
 			
 			logger.info("loading Shoppers");
@@ -216,8 +222,10 @@ public class MTGDesktopCompanionControler {
 			{
 				String s = config.getString("shoppers/shopper["+i+"]/class");
 				MagicShopper prov = loadItem(MagicShopper.class, s.toString());
-						 prov.enable(config.getBoolean("shoppers/shopper["+i+"]/enable"));
-				cardsShoppers.add(prov);
+				if(prov!=null){
+					prov.enable(config.getBoolean("shoppers/shopper["+i+"]/enable"));
+					cardsShoppers.add(prov);
+				}
 			}
 			
 			logger.info("loading DashBoard");
@@ -226,8 +234,10 @@ public class MTGDesktopCompanionControler {
 			{
 				String s = config.getString("dashboards/dashboard["+i+"]/class");
 				DashBoard prov = loadItem(DashBoard.class, s.toString());
-						 prov.enable(config.getBoolean("dashboards/dashboard["+i+"]/enable"));
-				dashboards.add(prov);
+				if(prov!=null){
+					prov.enable(config.getBoolean("dashboards/dashboard["+i+"]/enable"));
+					dashboards.add(prov);
+				}
 			}
 			
 			logger.info("loading Deck Exports");
@@ -236,8 +246,10 @@ public class MTGDesktopCompanionControler {
 			{
 				String s = config.getString("deckexports/export["+i+"]/class");
 				CardExporter prov = loadItem(CardExporter.class, s.toString());
-						 prov.enable(config.getBoolean("deckexports/export["+i+"]/enable"));
-						 exports.add(prov);
+				if(prov!=null){
+					prov.enable(config.getBoolean("deckexports/export["+i+"]/enable"));
+					exports.add(prov);
+				}
 			}
 			
 			logger.info("loading Deck Sniffer");
@@ -246,8 +258,10 @@ public class MTGDesktopCompanionControler {
 			{
 				String s = config.getString("decksniffer/sniffer["+i+"]/class");
 				DeckSniffer prov = loadItem(DeckSniffer.class, s.toString());
-						prov.enable(config.getBoolean("decksniffer/sniffer["+i+"]/enable"));
+				if(prov!=null){	
+					prov.enable(config.getBoolean("decksniffer/sniffer["+i+"]/enable"));
 					deckSniffers.add(prov);
+				}
 			}
 			
 			logger.info("loading Pictures provider");
@@ -256,8 +270,10 @@ public class MTGDesktopCompanionControler {
 			{
 				String s = config.getString("pictures/picture["+i+"]/class");
 				PictureProvider prov = loadItem(PictureProvider.class, s.toString());
-						prov.enable(config.getBoolean("pictures/picture["+i+"]/enable"));
-						picturesProviders.add(prov);
+				if(prov!=null){
+					prov.enable(config.getBoolean("pictures/picture["+i+"]/enable"));
+					picturesProviders.add(prov);
+				}	
 			}
 			
 			logger.info("loading Servers");
@@ -266,8 +282,11 @@ public class MTGDesktopCompanionControler {
 			{
 				String s = config.getString("servers/server["+i+"]/class");
 				MTGServer prov = loadItem(MTGServer.class, s.toString());
-						 prov.enable(config.getBoolean("servers/server["+i+"]/enable"));
-						 servers.add(prov);
+						 
+				if(prov!=null){
+					prov.enable(config.getBoolean("servers/server["+i+"]/enable"));
+					servers.add(prov);
+				}
 			}
 			
 			logger.debug("Check for new modules");
@@ -284,10 +303,16 @@ public class MTGDesktopCompanionControler {
 	}
 
 	
-	public <T> T loadItem(Class <T> cls, String classname) throws InstantiationException, IllegalAccessException, ClassNotFoundException
+	public <T> T loadItem(Class <T> cls, String classname) 
 	{
+		try{
 		logger.debug("-load module :  " + classname );
-		return (T)classLoader.loadClass(classname).newInstance();
+			return (T)classLoader.loadClass(classname).newInstance();
+		}catch(Exception e)
+		{
+			logger.error(e);
+			return null;
+		}
 	}
 	
 	public List<MagicCardsProvider> getListProviders()

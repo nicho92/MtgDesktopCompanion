@@ -29,7 +29,8 @@ public class ManaPanel extends JPanel {
 	int rows =7;
 	int chunkWidth=100;
 	int chunkHeight=100;
-	BufferedImage imgs[];
+	static BufferedImage imgs[];
+	static boolean cached=false;
 	
 	public static int row_height=18;
 	public static int row_width=18;
@@ -87,22 +88,29 @@ public class ManaPanel extends JPanel {
 	
 	private void init() {
 		BufferedImage image;
-		imgs = new BufferedImage[chunks];
 		
-		try {
-			image = ImageIO.read(ManaCellRenderer.class.getResource("/res/Mana.png"));
-			for (int x = 0; x < rows; x++) {  
-	            for (int y = 0; y < cols; y++) 
-	            {  
-	                imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());  
-	                Graphics2D gr = imgs[count++].createGraphics();  
-	                gr.drawImage(image, 0, 0, chunkWidth, chunkHeight, chunkWidth * y, chunkHeight * x, chunkWidth * y + chunkWidth, chunkHeight * x + chunkHeight, null);  
-	                gr.dispose(); 
-	            }  
-        }  
+		if(cached==false)
+		{
+			imgs = new BufferedImage[chunks];
 		
-		} catch (IOException e) {
-			e.printStackTrace();
+			try {
+				image = ImageIO.read(ManaCellRenderer.class.getResource("/res/Mana.png"));
+				for (int x = 0; x < rows; x++) {  
+		            for (int y = 0; y < cols; y++) 
+		            {  
+		                imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());  
+		                Graphics2D gr = imgs[count++].createGraphics();  
+		                gr.drawImage(image, 0, 0, chunkWidth, chunkHeight, chunkWidth * y, chunkHeight * x, chunkWidth * y + chunkWidth, chunkHeight * x + chunkHeight, null);  
+		                gr.dispose(); 
+		            }  
+	        }  
+			
+				cached=true;
+				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		
 		}
 		
 	}
