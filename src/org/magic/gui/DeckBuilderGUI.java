@@ -25,6 +25,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -696,16 +697,24 @@ public class DeckBuilderGUI extends JPanel{
 							if(groupsFilterResult.getSelection()!=null)
 							{
 								form.setFormat(groupsFilterResult.getSelection().getActionCommand());
+								System.out.println(form + " " + m.getLegalities().contains(form));
+
 								if(m.getLegalities().contains(form))
+								{
+									
 									resultListModel.addElement(m);
+								}
 							}
 							else
 							{
 								resultListModel.addElement(m);
 							}
 						}
-						listResult.setModel(resultListModel);
 						lblCards.setText(resultListModel.size() +" results");
+						listResult.setModel(resultListModel);
+						listResult.updateUI();
+				
+						
 						
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),"ERREUR",JOptionPane.ERROR_MESSAGE);
@@ -715,7 +724,17 @@ public class DeckBuilderGUI extends JPanel{
 		}
 	});
 	}
+	/*
 	
+	public static void main(String[] args) {
+		
+		MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
+		JFrame f = new JFrame();
+		f.getContentPane().add(new DeckBuilderGUI());
+		f.pack();
+		f.setVisible(true);
+	}
+	*/
 	
 
 	protected void importDeckFromString(final String stringDeck) {
