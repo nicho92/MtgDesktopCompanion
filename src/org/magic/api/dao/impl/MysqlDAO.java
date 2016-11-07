@@ -52,11 +52,13 @@ public class MysqlDAO extends AbstractMagicDAO{
 	
 
 	public void init() throws SQLException, ClassNotFoundException {
-		 logger.debug("init " + getName());
+		 logger.info("init " + getName());
 		 Class.forName(props.getProperty("DRIVER"));
 		 String url = "jdbc:mysql://"+props.getProperty("SERVERNAME")+":"+props.getProperty("SERVERPORT");
 		 con=DriverManager.getConnection(url+"/"+props.getProperty("DB_NAME")+props.getProperty("PARAMS"),props.getProperty("LOGIN"),props.getProperty("PASSWORD"));
 		 createDB();
+		 logger.info("init " + getName() +" done");
+		 
 	}
 
 	 public boolean createDB()

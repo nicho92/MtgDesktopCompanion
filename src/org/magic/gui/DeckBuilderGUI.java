@@ -125,7 +125,7 @@ public class DeckBuilderGUI extends JPanel{
 	}
 	
 	public DeckBuilderGUI() {
-		logger.debug("init Deck panel");
+		logger.info("init DeckBuilder GUI");
 		
 		deck = new MagicDeck();
 		initGUI();

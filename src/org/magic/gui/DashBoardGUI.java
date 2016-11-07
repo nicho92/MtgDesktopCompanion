@@ -61,7 +61,7 @@ public class DashBoardGUI extends JPanel {
 
 	
 	public DashBoardGUI() {
-		logger.debug("init dashboard GUI");
+		logger.info("init dashboard GUI");
 		
 		
 		setLayout(new BorderLayout(0, 0));

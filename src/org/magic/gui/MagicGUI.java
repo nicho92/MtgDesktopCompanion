@@ -65,7 +65,7 @@ public class MagicGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 		}
 
-		logger.debug("construction of GUI : done");
+		logger.info("construction of GUI : done");
 	}
 	
 	
@@ -92,7 +92,7 @@ public class MagicGUI extends JFrame {
 	
 	public void initGUI() throws Exception
 	{
-		logger.debug("init GUI");
+		logger.info("init GUI");
 		setSize(new Dimension(1420, 900));
 		setTitle("Magic Desktop Companion ( v" + MTGDesktopCompanionControler.getInstance().getVersion()+")");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

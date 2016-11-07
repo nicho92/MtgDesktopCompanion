@@ -51,6 +51,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	public ConfigurationPanelGUI() {
 		
 		
+		
 		setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);

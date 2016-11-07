@@ -29,8 +29,6 @@ public class VersionChecker {
 
 	
 	public VersionChecker() {
-		
-		
 		builderFactory =DocumentBuilderFactory.newInstance();
 		try {
 			
@@ -49,11 +47,8 @@ public class VersionChecker {
 	
 	public boolean hasNewVersion()
 	{
-		
-		
-		
 		try{
-			logger.debug("check new version of app ");
+			logger.info("check new version of app ");
 			return Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
 		}
 		catch(Exception e)

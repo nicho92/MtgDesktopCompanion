@@ -72,7 +72,7 @@ public class CardBuilderPanelGUI extends JPanel {
 	
 	private void init()
 	{
-		logger.debug("init cardsbuilder panel");
+		logger.info("init cardsbuilder panel");
 		card = new MagicCard();
 		MagicEdition ed = new MagicEdition();
 		card.getEditions().add(ed);
