@@ -3,23 +3,30 @@ package org.magic.test;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.pricers.impl.MagicCardMarketPricer;
+import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
@@ -54,6 +61,10 @@ public class MkmWantList {
       {
     	  System.out.println(w.getProduct());
       }
+	  
+	  
+	  
+	  
 	}
 	
 	public List<WantList> getWantList() throws Exception
@@ -93,8 +104,46 @@ public class MkmWantList {
         }
         wl.setCardCount(res.getLength());
         return ret;
-        
-        
+	}
+	
+	public Product getProductByCard(MagicCard mc) throws Exception
+	{
+		String url ="https://www.mkmapi.eu/ws/v1.1/products/"+mc.getName()+"/1/1/false";
+		connection = (HttpURLConnection) new URL(url).openConnection();
+		authorizationProperty = mkmPricer.generateOAuthSignature(url);
+        connection.addRequestProperty("Authorization", authorizationProperty) ;
+        connection.connect();
+        int _lastCode = connection.getResponseCode();
+        Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
+        return parseProductDocument(d);
+	}
+	
+	private Product parseProductDocument(Document d) throws XPathExpressionException, MalformedURLException, DOMException
+	{
+		    XPath xpath = XPathFactory.newInstance().newXPath();
+		    XPathExpression expr = xpath.compile("//product");
+		    Element n = (Element)expr.evaluate(d, XPathConstants.NODE);
+	        
+			Product p = new Product();
+					p.setIdProduct(n.getElementsByTagName("idProduct").item(0).getTextContent());
+					p.setNumber(n.getElementsByTagName("number").item(0).getTextContent());
+					p.setRarity(n.getElementsByTagName("rarity").item(0).getTextContent());
+					p.setExpension(n.getElementsByTagName("expansion").item(0).getTextContent());
+					p.setWebSite(new URL("https://www.magiccardmarket.eu"+n.getElementsByTagName("website").item(0).getTextContent()));
+					p.setIdSet(Integer.parseInt(n.getElementsByTagName("expIcon").item(0).getTextContent()));
+			NodeList names = n.getElementsByTagName("name");
+			for(int i =0;i<names.getLength();i++)
+			{
+				Element e = (Element)names.item(i);
+				MagicCardNames aName = new MagicCardNames();
+							   aName.setLanguage(e.getElementsByTagName("languageName").item(0).getTextContent());
+							   aName.setName(e.getElementsByTagName("productName").item(0).getTextContent());
+					p.getNames().add(aName);
+						
+					if(aName.getLanguage().toLowerCase().startsWith("english"))
+						p.setName(aName.getName());
+			}
+			return p;
 	}
 	
 	public Product getProductById(String id) throws Exception
@@ -106,31 +155,7 @@ public class MkmWantList {
         connection.connect();
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
-        prettyPrint(d);
-        XPath xpath = XPathFactory.newInstance().newXPath();
-	    XPathExpression expr = xpath.compile("//product");
-	    Element n = (Element)expr.evaluate(d, XPathConstants.NODE);
-        
-		Product p = new Product();
-				p.setIdProduct(n.getElementsByTagName("idProduct").item(0).getTextContent());
-				p.setNumber(n.getElementsByTagName("number").item(0).getTextContent());
-				p.setRarity(n.getElementsByTagName("rarity").item(0).getTextContent());
-				p.setExpension(n.getElementsByTagName("expansion").item(0).getTextContent());
-				p.setWebSite(new URL("https://www.magiccardmarket.eu"+n.getElementsByTagName("website").item(0).getTextContent()));
-				p.setIdSet(Integer.parseInt(n.getElementsByTagName("expIcon").item(0).getTextContent()));
-		NodeList names = n.getElementsByTagName("name");
-		for(int i =0;i<names.getLength();i++)
-		{
-			Element e = (Element)names.item(i);
-			MagicCardNames aName = new MagicCardNames();
-						   aName.setLanguage(e.getElementsByTagName("languageName").item(0).getTextContent());
-						   aName.setName(e.getElementsByTagName("productName").item(0).getTextContent());
-				p.getNames().add(aName);
-					
-				if(aName.getLanguage().toLowerCase().startsWith("english"))
-					p.setName(aName.getName());
-		}
-		return p;
+        return parseProductDocument(d);
 	}
 	
 	static void prettyPrint(Document doc) throws IOException
