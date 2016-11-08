@@ -48,8 +48,7 @@ public class MkmWantList {
 			        
 	  List<WantList> list = getWantList();
       List<Want> nodes2 = getWants(list.get(0));
-
-      
+     
       System.out.println("==========="+list.get(2));
       for(Want w : nodes2)
       {
@@ -88,16 +87,17 @@ public class MkmWantList {
         List<Want> ret = new ArrayList<Want>();
         for (int i = 0; i < res.getLength(); i++) {
       	  Want w = new Want();
-      	  w.setProduct(getProduct(((Element)res.item(i)).getElementsByTagName("idProduct").item(0).getTextContent()));
-      	  w.setQte(((Element)res.item(i)).getElementsByTagName("count").item(0).getTextContent());
+      	  w.setProduct(getProductById(((Element)res.item(i)).getElementsByTagName("idProduct").item(0).getTextContent()));
+      	  w.setQte(Integer.parseInt(((Element)res.item(i)).getElementsByTagName("count").item(0).getTextContent()));
       	  ret.add(w);
         }
+        wl.setCardCount(res.getLength());
         return ret;
         
         
 	}
 	
-	public Product getProduct(String id) throws Exception
+	public Product getProductById(String id) throws Exception
 	{
 		String url="https://www.mkmapi.eu/ws/v1.1/product/"+id;
 		connection = (HttpURLConnection) new URL(url).openConnection();
@@ -106,30 +106,29 @@ public class MkmWantList {
         connection.connect();
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
-        
+        prettyPrint(d);
         XPath xpath = XPathFactory.newInstance().newXPath();
 	    XPathExpression expr = xpath.compile("//product");
 	    Element n = (Element)expr.evaluate(d, XPathConstants.NODE);
         
 		Product p = new Product();
-		
-		p.setIdProduct(n.getElementsByTagName("idProduct").item(0).getTextContent());
-		p.setNumber(n.getElementsByTagName("number").item(0).getTextContent());
-		p.setRarity(n.getElementsByTagName("rarity").item(0).getTextContent());
-		p.setExpension(n.getElementsByTagName("expansion").item(0).getTextContent());
-		p.setWebSite(new URL("https://www.magiccardmarket.eu"+n.getElementsByTagName("website").item(0).getTextContent()));
-		
+				p.setIdProduct(n.getElementsByTagName("idProduct").item(0).getTextContent());
+				p.setNumber(n.getElementsByTagName("number").item(0).getTextContent());
+				p.setRarity(n.getElementsByTagName("rarity").item(0).getTextContent());
+				p.setExpension(n.getElementsByTagName("expansion").item(0).getTextContent());
+				p.setWebSite(new URL("https://www.magiccardmarket.eu"+n.getElementsByTagName("website").item(0).getTextContent()));
+				p.setIdSet(Integer.parseInt(n.getElementsByTagName("expIcon").item(0).getTextContent()));
 		NodeList names = n.getElementsByTagName("name");
 		for(int i =0;i<names.getLength();i++)
 		{
 			Element e = (Element)names.item(i);
 			MagicCardNames aName = new MagicCardNames();
-					aName.setLanguage(e.getElementsByTagName("languageName").item(0).getTextContent());
-					aName.setName(e.getElementsByTagName("productName").item(0).getTextContent());
-					p.getNames().add(aName);
+						   aName.setLanguage(e.getElementsByTagName("languageName").item(0).getTextContent());
+						   aName.setName(e.getElementsByTagName("productName").item(0).getTextContent());
+				p.getNames().add(aName);
 					
-					if(aName.getLanguage().startsWith("Engli"))
-						p.setName(aName.getName());
+				if(aName.getLanguage().toLowerCase().startsWith("english"))
+					p.setName(aName.getName());
 		}
 		return p;
 	}
@@ -153,7 +152,17 @@ class Product
 	String expension;
 	String rarity;
 	String number;
+	int idSet;
 	
+	
+	public int getIdSet() {
+		return idSet;
+	}
+
+	public void setIdSet(int idSet) {
+		this.idSet = idSet;
+	}
+
 	@Override
 	public String toString() {
 		return getName();
@@ -217,9 +226,19 @@ class WantList
 {
 	String id;
 	String name;
+	int qte;
 	
 	public WantList() { }
 	
+	public void setCardCount(int length) {
+		this.qte=length;
+	}
+	
+	public int getCardCount()
+	{
+		return qte;
+	}
+
 	public WantList(String id,String name)
 	{
 		setId(id);
@@ -249,19 +268,19 @@ class WantList
 
 class Want
 {
-	Product idProduct;
-	String qte;
+	Product product;
+	int qte;
 
 	public Product getProduct() {
-		return idProduct;
+		return product;
 	}
 	public void setProduct(Product idProduct) {
-		this.idProduct = idProduct;
+		this.product = idProduct;
 	}
-	public String getQte() {
+	public int getQte() {
 		return qte;
 	}
-	public void setQte(String qte) {
+	public void setQte(int qte) {
 		this.qte = qte;
 	}
 	

@@ -140,6 +140,16 @@ public class MagicGUI extends JFrame {
 				
 			}
 		});
+		
+		
+		mntmExit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.exit(0);
+				
+			}
+		});
 			
 		mntmHelp.addActionListener(new ActionListener() {
 			
