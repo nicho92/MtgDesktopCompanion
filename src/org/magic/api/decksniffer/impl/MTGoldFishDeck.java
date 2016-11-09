@@ -26,7 +26,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
 			props.put("URL", "http://www.mtggoldfish.com/");
 			save();
-	}
+		}
 	}
 	
 	@Override
@@ -75,13 +75,23 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		}
 		return deck;
 	}
+	
+	public static void main(String[] args) throws Exception {
+		new MTGoldFishDeck().getDeckList();
+	}
+	
 
 	public List<RetrievableDeck> getDeckList() throws Exception {
-		Document d = Jsoup.connect(props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT"))
+		//String url ="https://www.mtggoldfish.com/deck/custom/"+props.getProperty("FORMAT")+"#"+props.getProperty("SUPPORT");
+		
+		String url=props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT");
+		
+		Document d = Jsoup.connect(url)
     		 	.userAgent(props.getProperty("USER_AGENT"))
 				.get();
 		
 		Elements e = d.select("div.archetype-tile" );
+		//Elements e = d.select("div.deck-tile" );
 		
 		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
 		for(Element cont : e)
