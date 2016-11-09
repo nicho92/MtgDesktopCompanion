@@ -107,9 +107,9 @@ public class MassMoverDialog extends JDialog {
 		
 		scrollPane.setViewportView(tableCards);
 		
-		TableFilterHeader filterHeader = new TableFilterHeader(null, AutoChoices.ENABLED);
+		TableFilterHeader filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
-		filterHeader.setTable(tableCards);
+		//filterHeader.setTable(tableCards);
 		//pack();
 		setLocationRelativeTo(null);
 	}

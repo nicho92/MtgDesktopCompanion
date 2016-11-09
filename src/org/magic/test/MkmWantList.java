@@ -2,16 +2,14 @@ package org.magic.test;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
@@ -26,7 +24,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
@@ -54,18 +51,55 @@ public class MkmWantList {
       
 			        
 	  List<WantList> list = getWantList();
-      List<Want> nodes2 = getWants(list.get(0));
+      List<Want> nodes2 = getWants(list.get(2));
      
       System.out.println("==========="+list.get(2));
       for(Want w : nodes2)
       {
-    	  System.out.println(w.getProduct());
+    	  System.out.println(w.getProduct() + " " + w.getLanguages());
       }
-	  
-	  
-	  
-	  
 	}
+	
+	public void addWant(WantList li, List<Want> list) throws Exception
+	{
+		String url ="https://www.mkmapi.eu/ws/v1.1/wantslist/"+li.getId();
+		connection = (HttpURLConnection) new URL(url).openConnection();
+		authorizationProperty = mkmPricer.generateOAuthSignature(url);
+		connection.addRequestProperty("Authorization", authorizationProperty) ;
+		connection.setDoOutput(true);
+		connection.setRequestMethod("PUT");
+		connection.connect();
+		OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+		
+		StringBuffer temp = new StringBuffer();
+		
+		temp.append("<?xml version='1.0' encoding='UTF-8' ?>");
+		temp.append("<request><action>add</action>");
+		    
+		for(Want w : list)
+		{
+			temp.append("<product>");
+			temp.append("<idProduct>"+w.getProduct().getIdProduct()+"</idProduct>");
+			temp.append("<count>"+w.getQte()+"</count>");
+			
+			for(String s : w.getLanguages())
+				temp.append("<idLanguage>"+s+"</idLanguage>");
+			
+			temp.append("<minCondition>"+w.getMinCondition()+"</minCondition>");
+			temp.append("<wishPrice>"+w.getWishPrice()+"</wishPrice>");
+			temp.append("</product>");
+		}		    
+		    
+		temp.append("</request>");
+
+		
+		
+		out.write(temp.toString());
+		out.close();
+        
+	}
+	
+	
 	
 	public List<WantList> getWantList() throws Exception
 	{
@@ -80,7 +114,8 @@ public class MkmWantList {
 	    	  Element el = (Element) nodes.item(i);
 	    	  String id = (el.getElementsByTagName("idWantsList").item(0).getTextContent());
 	    	  String name= (el.getElementsByTagName("name").item(1).getTextContent());
-	    	  list.add(new WantList(id, name));
+	    	  int qte = Integer.parseInt(el.getElementsByTagName("itemCount").item(0).getTextContent());
+	    	  list.add(new WantList(id, name,qte));
 	      }
 	      return list;
 	}
@@ -94,18 +129,40 @@ public class MkmWantList {
         connection.connect();
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
+        
+        prettyPrint(d);
+        
         NodeList res = d.getElementsByTagName("want");
         List<Want> ret = new ArrayList<Want>();
         for (int i = 0; i < res.getLength(); i++) {
       	  Want w = new Want();
-      	  w.setProduct(getProductById(((Element)res.item(i)).getElementsByTagName("idProduct").item(0).getTextContent()));
-      	  w.setQte(Integer.parseInt(((Element)res.item(i)).getElementsByTagName("count").item(0).getTextContent()));
+	      	  w.setProduct(getProductById(((Element)res.item(i)).getElementsByTagName("idProduct").item(0).getTextContent()));
+	      	  w.setQte(Integer.parseInt(((Element)res.item(i)).getElementsByTagName("count").item(0).getTextContent()));
+	      	  w.setFoil((parseBool(((Element)res.item(i)).getElementsByTagName("isFoil").item(0).getTextContent())));
+	      	  w.setSigned((parseBool(((Element)res.item(i)).getElementsByTagName("isSigned").item(0).getTextContent())));
+	      	  w.setPlayset((parseBool(((Element)res.item(i)).getElementsByTagName("isPlayset").item(0).getTextContent())));
+	      	  w.setAltered((parseBool(((Element)res.item(i)).getElementsByTagName("isAltered").item(0).getTextContent())));
+	      	  w.setMinCondition(((Element)res.item(i)).getElementsByTagName("minCondition").item(0).getTextContent());
+	      	NodeList names = ((Element)res.item(i)).getElementsByTagName("langName");
+			for(int j =0;j<names.getLength();j++)
+			{
+				Element e = (Element)names.item(j);
+				w.getLanguages().add(e.getTextContent());
+			}
+      	  
       	  ret.add(w);
         }
         wl.setCardCount(res.getLength());
         return ret;
 	}
 	
+	private boolean parseBool(String b) {
+		if(b.equalsIgnoreCase("Y"))
+			return true;
+		
+		return false;
+	}
+
 	public Product getProductByCard(MagicCard mc) throws Exception
 	{
 		String url ="https://www.mkmapi.eu/ws/v1.1/products/"+mc.getName()+"/1/1/false";
@@ -264,10 +321,18 @@ class WantList
 		return qte;
 	}
 
+	public WantList(String id,String name,int qte)
+	{
+		setId(id);
+		setName(name);
+		setCardCount(qte);;
+	}
+	
 	public WantList(String id,String name)
 	{
 		setId(id);
 		setName(name);
+		qte=0;
 	}
 	
 	public String getId() {
@@ -285,7 +350,7 @@ class WantList
 	
 	@Override
 	public String toString() {
-		return getName();
+		return getName() +" ("+getCardCount()+")";
 	}
 	
 	
@@ -294,6 +359,62 @@ class WantList
 class Want
 {
 	Product product;
+	double wishPrice;
+	List<String> languages;
+	String minCondition;
+	boolean foil;
+	boolean signed;
+	boolean playset;
+	boolean altered;
+	
+	
+	public Want() {
+		languages=new ArrayList<String>();
+	}
+	
+	public double getWishPrice() {
+		return wishPrice;
+	}
+	public void setWishPrice(double wishPrice) {
+		this.wishPrice = wishPrice;
+	}
+	public List<String> getLanguages() {
+		return languages;
+	}
+	public void setLanguages(List<String> languages) {
+		this.languages = languages;
+	}
+	public String getMinCondition() {
+		return minCondition;
+	}
+	public void setMinCondition(String minCondition) {
+		this.minCondition = minCondition;
+	}
+	public boolean isFoil() {
+		return foil;
+	}
+	public void setFoil(boolean foil) {
+		this.foil = foil;
+	}
+	public boolean isSigned() {
+		return signed;
+	}
+	public void setSigned(boolean signed) {
+		this.signed = signed;
+	}
+	public boolean isPlayset() {
+		return playset;
+	}
+	public void setPlayset(boolean playset) {
+		this.playset = playset;
+	}
+	public boolean isAltered() {
+		return altered;
+	}
+	public void setAltered(boolean altered) {
+		this.altered = altered;
+	}
+
 	int qte;
 
 	public Product getProduct() {
