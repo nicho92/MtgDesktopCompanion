@@ -58,7 +58,15 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
+		MagicDeck d = new MagicDeck();
+				  d.setName("Search Result");
+
+		for(MagicCard mc : cards)
+		{
+			d.getMap().put(mc, 1);
+		}
 		
+		export(d,f);
 		
 	}
 
