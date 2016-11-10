@@ -165,6 +165,10 @@
 			<class>org.magic.api.exports.impl.JsonExport</class>
 			<enable>true</enable>
 		</export>
+		<export>
+			<class>org.magic.api.exports.impl.DCIDeckSheetExport</class>
+			<enable>true</enable>
+		</export>
 	</deckexports>
 	<rss>
 		<flux>
