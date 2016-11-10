@@ -191,14 +191,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(PDFExport.class.getResource("/res/pdf.png"));
-	}
-
-	public static void main(String[] args) throws Exception {
-		MagicDeck d = new MTGDesktopCompanionExport().importDeck(new File("C:/Users/Pihen/magicDeskCompanion/decks/Jund.deck"));
-		
-		new DCIDeckSheetExport().export(d, new File("c:/deck.pdf"));
-
+		return new ImageIcon(PDFExport.class.getResource("/res/sheet.png"));
 	}
 
 }
