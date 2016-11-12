@@ -155,13 +155,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
   			 if(Integer.parseInt(props.get("MAX").toString())>-1)
   				 return lists.subList(0, Integer.parseInt(props.get("MAX").toString()));
     }
-    catch(SSLHandshakeException e)
-    {
-    	logger.error(e);
-	
-    } catch (InvalidKeyException e) {
-		logger.error(e);
-	} catch (NoSuchAlgorithmException e) {
+    catch(Exception e) {
 		logger.error(e);
 		
 	} 
@@ -238,8 +232,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     			if(Integer.parseInt(ids.item(i).getTextContent())==1)
     			{
     			MagicPrice mp = new MagicPrice();
-    			
-					mp.setUrl(props.getProperty("WEBSITE")+e.getElementsByTagName("website").item(0).getTextContent());
+    				mp.setUrl(props.getProperty("WEBSITE")+e.getElementsByTagName("website").item(0).getTextContent());
 					mp.setSite(getName());
 					mp.setCurrency("EUR");
 					mp.setSeller(e.getElementsByTagName("expansion").item(0).getTextContent());

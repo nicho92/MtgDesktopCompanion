@@ -123,6 +123,8 @@ public class DeckSnifferDialog extends JDialog{
 								btnImport.setEnabled(true);
 								dispose();
 							} catch (Exception e1) {
+								e1.printStackTrace();
+								
 								JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 								importedDeck=null;
 								lblLoad.setVisible(false);
