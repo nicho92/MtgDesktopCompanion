@@ -29,7 +29,7 @@ import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 
-public class MkmWantList {
+public class MkmProductProvider {
 
 	HttpURLConnection connection;
 	String authorizationProperty;
@@ -37,10 +37,12 @@ public class MkmWantList {
 	
 	
 	 public static void main(String[] args) throws Exception {
-		new MkmWantList();
+		MKMListFrame frame = new MKMListFrame();
+		frame.pack();
+		frame.setVisible(true);
 	}
 	 
-	public MkmWantList() throws Exception {
+	public MkmProductProvider() throws Exception {
 		
 	  mkmPricer = new MagicCardMarketPricer();
 	  String link = "https://www.mkmapi.eu/ws/v1.1/wantslist";
@@ -48,16 +50,7 @@ public class MkmWantList {
 	  				connection = (HttpURLConnection) new URL(link).openConnection();
 			        connection.addRequestProperty("Authorization", authorizationProperty) ;
 			        connection.connect();
-      
-			        
-	  List<WantList> list = getWantList();
-      List<Want> nodes2 = getWants(list.get(2));
-     
-      System.out.println("==========="+list.get(2));
-      for(Want w : nodes2)
-      {
-    	  System.out.println(w.getProduct() + " " + w.getLanguages());
-      }
+    
 	}
 	
 	public void addWant(WantList li, List<Want> list) throws Exception
@@ -130,7 +123,7 @@ public class MkmWantList {
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
         
-        prettyPrint(d);
+        //prettyPrint(d);
         
         NodeList res = d.getElementsByTagName("want");
         List<Want> ret = new ArrayList<Want>();
@@ -212,6 +205,7 @@ public class MkmWantList {
         connection.connect();
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
+       // prettyPrint(d);
         return parseProductDocument(d);
 	}
 	
@@ -225,83 +219,7 @@ public class MkmWantList {
 }
 
 
-class Product
-{
-	String idProduct;
-	String name;
-	List<MagicCardNames> names;
-	URL webSite;
-	String expension;
-	String rarity;
-	String number;
-	int idSet;
-	
-	
-	public int getIdSet() {
-		return idSet;
-	}
 
-	public void setIdSet(int idSet) {
-		this.idSet = idSet;
-	}
-
-	@Override
-	public String toString() {
-		return getName();
-	}
-	
-	public List<MagicCardNames> getNames() {
-		return names;
-	}
-
-	public void setNames(List<MagicCardNames> names) {
-		this.names = names;
-	}
-
-	public Product() {
-		names=new ArrayList<MagicCardNames>();
-	}
-	
-	public String getIdProduct() {
-		return idProduct;
-	}
-	public void setIdProduct(String idProduct) {
-		this.idProduct = idProduct;
-	}
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public URL getWebSite() {
-		return webSite;
-	}
-	public void setWebSite(URL webSite) {
-		this.webSite = webSite;
-	}
-	public String getExpension() {
-		return expension;
-	}
-	public void setExpension(String expension) {
-		this.expension = expension;
-	}
-	public String getRarity() {
-		return rarity;
-	}
-	public void setRarity(String rarity) {
-		this.rarity = rarity;
-	}
-	public String getNumber() {
-		return number;
-	}
-	public void setNumber(String number) {
-		this.number = number;
-	}
-	
-	
-	
-}
 
 
 class WantList
@@ -356,82 +274,4 @@ class WantList
 	
 }
 
-class Want
-{
-	Product product;
-	double wishPrice;
-	List<String> languages;
-	String minCondition;
-	boolean foil;
-	boolean signed;
-	boolean playset;
-	boolean altered;
-	
-	
-	public Want() {
-		languages=new ArrayList<String>();
-	}
-	
-	public double getWishPrice() {
-		return wishPrice;
-	}
-	public void setWishPrice(double wishPrice) {
-		this.wishPrice = wishPrice;
-	}
-	public List<String> getLanguages() {
-		return languages;
-	}
-	public void setLanguages(List<String> languages) {
-		this.languages = languages;
-	}
-	public String getMinCondition() {
-		return minCondition;
-	}
-	public void setMinCondition(String minCondition) {
-		this.minCondition = minCondition;
-	}
-	public boolean isFoil() {
-		return foil;
-	}
-	public void setFoil(boolean foil) {
-		this.foil = foil;
-	}
-	public boolean isSigned() {
-		return signed;
-	}
-	public void setSigned(boolean signed) {
-		this.signed = signed;
-	}
-	public boolean isPlayset() {
-		return playset;
-	}
-	public void setPlayset(boolean playset) {
-		this.playset = playset;
-	}
-	public boolean isAltered() {
-		return altered;
-	}
-	public void setAltered(boolean altered) {
-		this.altered = altered;
-	}
 
-	int qte;
-
-	public Product getProduct() {
-		return product;
-	}
-	public void setProduct(Product idProduct) {
-		this.product = idProduct;
-	}
-	public int getQte() {
-		return qte;
-	}
-	public void setQte(int qte) {
-		this.qte = qte;
-	}
-	
-	@Override
-	public String toString() {
-		return getProduct() +" (" + getQte() +")";
-	}
-}
