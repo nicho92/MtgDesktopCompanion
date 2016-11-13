@@ -18,6 +18,9 @@ import org.magic.services.MTGDesktopCompanionControler;
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	
+	private boolean metagames=false;
+
+
 	public MTGoldFishDeck() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
@@ -25,13 +28,18 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			props.put("FORMAT", "modern");
 			props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
 			props.put("URL", "http://www.mtggoldfish.com/");
+			props.put("MAX_PAGE", "2");
+			props.put("METAGAME", "false");
 			save();
 		}
 	}
 	
 	@Override
 	public String[] listFilter() {
-		return new String[] { "standard","modern","pauper","legacy","vintage","commander","tiny_leaders"};
+		if(metagames)
+			return new String[] { "standard","modern","pauper","legacy","vintage","commander","tiny_leaders"};
+		else
+			return new String[] { "standard","modern","pauper","legacy","vintage","block","commander","limited","frontier","canadian_highlander","penny_dreadful","tiny_Leaders","free_Form"};
 	}
 
 	@Override
@@ -75,25 +83,50 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		}
 		return deck;
 	}
-	
-	public static void main(String[] args) throws Exception {
-		new MTGoldFishDeck().getDeckList();
-	}
-	
 
 	public List<RetrievableDeck> getDeckList() throws Exception {
-		//String url ="https://www.mtggoldfish.com/deck/custom/"+props.getProperty("FORMAT")+"#"+props.getProperty("SUPPORT");
+		String url="";
 		
-		String url=props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT");
 		
+		
+		metagames=props.getProperty("METAGAME").equals("true");
+
+		
+		if(!metagames)
+				url =props.getProperty("URL")+"/deck/custom/"+props.getProperty("FORMAT")+"?page=1#"+props.getProperty("SUPPORT");
+		else
+				url=props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT");
+		
+		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
+		
+		int nbPage=1;
+		int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
+		
+		
+		if(metagames)
+			maxPage=1;
+		
+		
+		for(int i=1;i<=maxPage;i++)
+		{
+		
+			if(!metagames)
+				url =props.getProperty("URL")+"/deck/custom/"+props.getProperty("FORMAT")+"?page="+nbPage+"#"+props.getProperty("SUPPORT");
+			else
+				url=props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT");
+	
+			
 		Document d = Jsoup.connect(url)
     		 	.userAgent(props.getProperty("USER_AGENT"))
 				.get();
 		
-		Elements e = d.select("div.archetype-tile" );
-		//Elements e = d.select("div.deck-tile" );
+		Elements e = null;
 		
-		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
+		if(!metagames)
+			e = d.select("div.deck-tile" );
+		else
+			e = d.select("div.archetype-tile" );
+			
 		for(Element cont : e)
 		{
 			
@@ -107,7 +140,12 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			RetrievableDeck deck = new RetrievableDeck();
 			deck.setName(desc.get(0).text());
 			deck.setUrl(new URI(props.get("URL")+desc.get(0).attr("href")));
-			deck.setAuthor("MtgGoldFish");
+			
+			if(metagames)
+				deck.setAuthor("MtgGoldFish");
+			else
+				deck.setAuthor(cont.select("div.deck-author").text());
+		
 			deck.setColor(deckColor);
 			
 			for(Element mc : cont.getElementsByTag("li"))
@@ -117,6 +155,9 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			
 			
 			list.add(deck);
+			
+		}
+		nbPage++;
 		}
 		return list;
 	}
@@ -126,7 +167,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		// Nothing todo
 
 	}
-
 	
 	@Override
 	public String getName() {
