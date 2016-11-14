@@ -21,6 +21,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -250,6 +251,21 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		return false;
 	}
 
+	
+	public static void main(String[] args) throws Exception {
+		
+		MKMOnlineWantListExport exp = new MKMOnlineWantListExport();
+		MtgjsonProvider prov = new MtgjsonProvider();
+		prov.init();
+		MagicCard mc =prov.searchCardByCriteria("name", "Rhox War Monk", null).get(1); 
+		
+		//exp.getSet();
+		
+		System.out.println(mc.getName() + " " + mc.getEditions().get(0));
+		System.out.println(exp.getProductByCard(mc).getExpension());
+		
+	}
+	
 	public Product getProductByCard(MagicCard mc) throws Exception
 	{
 		
@@ -261,13 +277,23 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
         connection.connect();
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
-        return parseProductDocument(d);
+       // return parseProductDocument(d,mc.getEditions().get(0));
+        return parseProductDocument(d,null);
 	}
 	
-	private Product parseProductDocument(Document d) throws XPathExpressionException, MalformedURLException, DOMException
+	private Product parseProductDocument(Document d,MagicEdition ed) throws Exception
 	{
 		    XPath xpath = XPathFactory.newInstance().newXPath();
-		    XPathExpression expr = xpath.compile("//product");
+		    XPathExpression expr = null;
+		    
+		    if(ed!=null)
+		    {
+		    	String sed = ed.getSet();//.replaceAll("Limited Edition", "");
+		    	expr=xpath.compile("//product[contains(expansion,'"+sed.trim()+"')]");
+		    }
+		    else
+		    	expr=xpath.compile("//product");
+		    
 		    Element n = (Element)expr.evaluate(d, XPathConstants.NODE);
 	        
 			Product p = new Product();
@@ -298,6 +324,19 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 			}
 	}
 	
+	private void getSet() throws Exception
+	{
+		String url="https://www.mkmapi.eu/ws/v1.1/expansion/1";
+		connection = (HttpURLConnection) new URL(url).openConnection();
+		authorizationProperty = mkmPricer.generateOAuthSignature(url,"GET");
+		connection.addRequestProperty("Authorization", authorizationProperty) ;
+		connection.connect();
+		 int _lastCode = connection.getResponseCode();
+		  Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
+	      prettyPrint(d);
+	}
+	
+	
 	private Product getProductById(String id) throws Exception
 	{
 		String url="https://www.mkmapi.eu/ws/v1.1/product/"+id;
@@ -308,7 +347,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
        // prettyPrint(d);
-        return parseProductDocument(d);
+        return parseProductDocument(d,null);
 	}
 	
 	static void prettyPrint(Document doc) throws IOException
