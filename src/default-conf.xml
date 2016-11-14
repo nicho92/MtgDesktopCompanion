@@ -107,6 +107,10 @@
 			<class>org.magic.api.dashboard.impl.MTGoldFishDashBoard</class>
 			<enable>true</enable>
 		</dashboard>
+		<dashboard>
+			<class>org.magic.api.dashboard.impl.MTGPriceDashBoard</class>
+			<enable>false</enable>
+		</dashboard>
 	</dashboards>
 	<pictures>
 		<picture>
@@ -147,6 +151,10 @@
 		</export>
 		<export>
 			<class>org.magic.api.exports.impl.MKMFileWantListExport</class>
+			<enable>true</enable>
+		</export>
+		<export>
+			<class>org.magic.api.exports.impl.MKMOnlineWantListExport</class>
 			<enable>true</enable>
 		</export>
 		<export>
