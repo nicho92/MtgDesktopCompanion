@@ -221,6 +221,7 @@ public class CollectionPanelGUI extends JPanel {
 								
 								JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
 							} catch (Exception e) {
+								e.printStackTrace();
 								logger.error(e);
 								JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
 							}

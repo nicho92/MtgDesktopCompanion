@@ -146,7 +146,7 @@
 			<enable>true</enable>
 		</export>
 		<export>
-			<class>org.magic.api.exports.impl.MKMWantList</class>
+			<class>org.magic.api.exports.impl.MKMFileWantListExport</class>
 			<enable>true</enable>
 		</export>
 		<export>

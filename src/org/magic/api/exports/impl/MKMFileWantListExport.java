@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
-public class MKMWantList extends AbstractCardExport {
+public class MKMFileWantListExport extends AbstractCardExport {
 
 	/**
 	 * todo CSP : remove Magic the gathering -
@@ -21,7 +21,7 @@ public class MKMWantList extends AbstractCardExport {
 	 * */
 	
 	
-	public MKMWantList() {
+	public MKMFileWantListExport() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
 			save();
@@ -77,12 +77,12 @@ public class MKMWantList extends AbstractCardExport {
 
 	@Override
 	public String getName() {
-		return "MKM Want List";
+		return "MKM File WantList";
 	}
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MKMWantList.class.getResource("/res/mkm.png"));
+		return new ImageIcon(MKMFileWantListExport.class.getResource("/res/mkm.png"));
 	}
 
 }

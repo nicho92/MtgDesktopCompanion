@@ -16,7 +16,7 @@ import org.magic.services.MTGDesktopCompanionControler;
 public abstract class AbstractCardExport extends Observable implements CardExporter {
 
 	public abstract String getFileExtension();
-	public abstract void export(MagicDeck deck, File dest) throws IOException ;
+	public abstract void export(MagicDeck deck, File dest) throws Exception ;
 	public abstract String getName() ;
 	public abstract Icon getIcon() ;
 	

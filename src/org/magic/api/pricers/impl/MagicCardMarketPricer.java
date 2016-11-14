@@ -51,24 +51,24 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     	
     	
     	if(!new File(confdir, getName()+".conf").exists()){
-    	props.put("APP_TOKEN", "YwlAAFW7VTANkQ0N");
-		props.put("APP_SECRET", "");
-		props.put("APP_ACCESS_TOKEN", "bARV5r0kGsqELWQyFdpYhVVeadzfqbQk");
-		props.put("APP_ACCESS_TOKEN_SECRET", "");
-		props.put("GAME_ID", "1");
-		props.put("ENCODING", "UTF-8");
-		props.put("LANGUAGE_ID", "1");
-		props.put("IS_EXACT", "false");
-		props.put("WS_VERSION", "v1.1");
-		props.put("CERT_SERV", "www.mkmapi.eu");
-		props.put("URL", "https://www.mkmapi.eu/ws/%VERSION%/products/%KEYWORD%/%GAME%/%LANG%/%IS_EXACT%");
-		props.put("WEBSITE", "https://www.magiccardmarket.eu");
-		props.put("REF_PRICE", "LOW");
-		props.put("OAUTH_VERSION", "1.0");
-		props.put("CRYPT", "HMAC-SHA1");
-		props.put("REF_PRICE", "LOW");
-		props.put("MAX", "5");
-		props.put("COMMONCHECK", "false");
+	    	props.put("APP_TOKEN", "YwlAAFW7VTANkQ0N");
+			props.put("APP_SECRET", "");
+			props.put("APP_ACCESS_TOKEN", "bARV5r0kGsqELWQyFdpYhVVeadzfqbQk");
+			props.put("APP_ACCESS_TOKEN_SECRET", "");
+			props.put("GAME_ID", "1");
+			props.put("ENCODING", "UTF-8");
+			props.put("LANGUAGE_ID", "1");
+			props.put("IS_EXACT", "false");
+			props.put("WS_VERSION", "v1.1");
+			props.put("CERT_SERV", "www.mkmapi.eu");
+			props.put("URL", "https://www.mkmapi.eu/ws/%VERSION%/products/%KEYWORD%/%GAME%/%LANG%/%IS_EXACT%");
+			props.put("WEBSITE", "https://www.magiccardmarket.eu");
+			props.put("REF_PRICE", "LOW");
+			props.put("OAUTH_VERSION", "1.0");
+			props.put("CRYPT", "HMAC-SHA1");
+			props.put("REF_PRICE", "LOW");
+			props.put("MAX", "5");
+			props.put("COMMONCHECK", "false");
 		save();
     	}
     	
@@ -124,7 +124,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 		   
 		   logger.info(getName() +" looking for price : " + link);
 		   
-		   String authorizationProperty = generateOAuthSignature(link);
+		   String authorizationProperty = generateOAuthSignature(link,"GET");
 		     HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 				              connection.addRequestProperty("Authorization", authorizationProperty) ;
 				              connection.connect() ;
@@ -163,7 +163,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     return lists;
     }
     
-    public String generateOAuthSignature(String link) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException {
+    public String generateOAuthSignature(String link,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException {
 
         String realm = link ;
         String oauth_version =  props.get("OAUTH_VERSION").toString() ;
@@ -174,7 +174,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
         String oauth_nonce = "" + System.currentTimeMillis() ;
         
        
-        String baseString = "GET&" + URLEncoder.encode(link,props.get("ENCODING").toString()) + "&" ;
+        String baseString = method+"&" + URLEncoder.encode(link,props.get("ENCODING").toString()) + "&" ;
         
         String paramString = "oauth_consumer_key=" + URLEncoder.encode(oauth_consumer_key,props.get("ENCODING").toString()) + "&" +
                              "oauth_nonce=" + URLEncoder.encode(oauth_nonce,props.get("ENCODING").toString()) + "&" +

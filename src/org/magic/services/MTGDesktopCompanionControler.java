@@ -79,8 +79,7 @@ public class MTGDesktopCompanionControler {
 			logger.debug("add module " + path + " " + classname.getName());
 			setProperty(classname.newInstance(),new Boolean(false));
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
 	
