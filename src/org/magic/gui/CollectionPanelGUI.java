@@ -59,6 +59,7 @@ import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.CardStockPanel;
+import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MassCollectionImporterDialog;
@@ -102,6 +103,7 @@ public class CollectionPanelGUI extends JPanel {
 	private HistoryPricesPanel historyPricesPanel;
 	private CardStockPanel statsPanel;
 	private JLabel lblTotal ;
+	private JSONPanel jsonPanel;
 	
 	public CollectionPanelGUI() throws Exception {
 		this.provider = MTGDesktopCompanionControler.getInstance().getEnabledProviders();
@@ -321,8 +323,12 @@ public class CollectionPanelGUI extends JPanel {
 		statsPanel = new CardStockPanel();
 		tabbedPane.addTab("Stock", null, statsPanel, null);
 		
+		
 		historyPricesPanel = new HistoryPricesPanel();
 		tabbedPane.addTab("Variation", null, historyPricesPanel, null);
+		
+		jsonPanel = new JSONPanel();
+		tabbedPane.addTab("Json", null, jsonPanel, null);
 				
 				JPanel panneauGauche = new JPanel();
 				splitListPanel.setLeftComponent(panneauGauche);
@@ -467,7 +473,7 @@ public class CollectionPanelGUI extends JPanel {
 
 					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
 					magicCardDetailPanel.enableThumbnail(true);
-					
+					jsonPanel.showCard((MagicCard)curr.getUserObject());
 					
 					ThreadManager.getInstance().execute(new Runnable() {
 						

@@ -1,6 +1,7 @@
 package org.magic.api.dao.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
@@ -23,6 +24,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MTGDesktopCompanionControler;
 
 public class MysqlDAO extends AbstractMagicDAO{
@@ -569,5 +571,41 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 
 
+	public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
+		MtgjsonProvider prov = new MtgjsonProvider();
+		MysqlDAO dao = new MysqlDAO();
+		
+		prov.init();
+		dao.init();
+		
+		
+		Statement stat = dao.con.createStatement(); 
+		ResultSet rs = stat.executeQuery("SELECT DISTINCT(ID) FROM cards");
+		
+		PreparedStatement prep = dao.con.prepareStatement("UPDATE cards set mcard=? where ID=?");
+		String id = "";
+		while(rs.next())
+		{
+			try {
+				id = rs.getString("ID");
+				MagicCard mc = prov.getCardById(id);
+				prep.setObject(1, mc);
+				prep.setString(2, id);
+				prep.executeUpdate();
+				
+				System.out.println(id+"\tOK");
+				
+			} catch (Exception e) {
+				System.out.println(id+"\tKO\t"+e.getMessage());
+			}
+		}
+		
+		
+		
+		
+		
+	}
+	
+	
 
 }
