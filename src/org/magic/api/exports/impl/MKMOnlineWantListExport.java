@@ -251,21 +251,6 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		return false;
 	}
 
-	
-	public static void main(String[] args) throws Exception {
-		
-		MKMOnlineWantListExport exp = new MKMOnlineWantListExport();
-		MtgjsonProvider prov = new MtgjsonProvider();
-		prov.init();
-		MagicCard mc =prov.searchCardByCriteria("name", "Rhox War Monk", null).get(1); 
-		
-		//exp.getSet();
-		
-		System.out.println(mc.getName() + " " + mc.getEditions().get(0));
-		System.out.println(exp.getProductByCard(mc).getExpension());
-		
-	}
-	
 	public Product getProductByCard(MagicCard mc) throws Exception
 	{
 		
@@ -277,8 +262,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
         connection.connect();
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
-       // return parseProductDocument(d,mc.getEditions().get(0));
-        return parseProductDocument(d,null);
+        return parseProductDocument(d,mc.getEditions().get(0));
 	}
 	
 	private Product parseProductDocument(Document d,MagicEdition ed) throws Exception
@@ -288,8 +272,10 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		    
 		    if(ed!=null)
 		    {
-		    	String sed = ed.getSet();//.replaceAll("Limited Edition", "");
-		    	expr=xpath.compile("//product[contains(expansion,'"+sed.trim()+"')]");
+		    	if(ed.getMkm_name()!=null)
+		    		expr=xpath.compile("//product[contains(expansion,'"+ed.getMkm_name()+"')]");
+		    	else
+		    		expr=xpath.compile("//product[contains(expansion,'"+ed.getSet()+"')]");
 		    }
 		    else
 		    	expr=xpath.compile("//product");

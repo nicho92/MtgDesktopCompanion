@@ -31,8 +31,28 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	public static final long serialVersionUID = 4136786369066180196L;
 	private boolean onlineOnly;
 	private String magicCardsInfoCode;
+	private Integer mkm_id;
+	private String mkm_name;
 	
 	
+	
+	
+	public Integer getMkm_id() {
+		return mkm_id;
+	}
+
+	public void setMkm_id(Integer mkm_id) {
+		this.mkm_id = mkm_id;
+	}
+
+	public String getMkm_name() {
+		return mkm_name;
+	}
+
+	public void setMkm_name(String mkm_name) {
+		this.mkm_name = mkm_name;
+	}
+
 	public String getMagicCardsInfoCode() {
 		return magicCardsInfoCode;
 	}

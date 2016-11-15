@@ -358,6 +358,11 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			ed.setType(obj.get("type").getAsString());
 			ed.setBorder(obj.get("border").getAsString());
 			ed.setReleaseDate(obj.get("releaseDate").getAsString());
+		
+			if(obj.get("mkm_id")!=null){
+				ed.setMkm_id(obj.get("mkm_id").getAsInt());
+				ed.setMkm_name(obj.get("mkm_name").getAsString());
+			}
 			
 			if(obj.get("magicCardsInfoCode")!=null)
 				ed.setMagicCardsInfoCode(obj.get("magicCardsInfoCode").getAsString());

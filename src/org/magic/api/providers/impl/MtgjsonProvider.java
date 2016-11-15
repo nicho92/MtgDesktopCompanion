@@ -547,6 +547,18 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					
 					}
 					
+					try{
+						me.setMkm_id(ctx.read("$."+id+".mkm_id",Integer.class));
+						me.setMkm_name(ctx.read("$."+id+".mkm_name",String.class));
+					}
+					catch(Exception e)
+					{
+					
+					}
+					
+					
+					
+					
 					
 					try{
 						me.setOnlineOnly(ctx.read("$."+id+".onlineOnly",Boolean.class));
@@ -627,6 +639,17 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				
 				try {
 					me.setNumber(String.valueOf(map.get("number")));
+				}
+				catch(Exception e)
+				{
+					logger.error("initOtherEditionCardsVar number not found");
+					me.setNumber(mc.getNumber());
+				}
+				
+				
+				try {
+					me.setMkm_id(Integer.parseInt(String.valueOf(map.get("mkm_id"))));
+					me.setMkm_name(String.valueOf(map.get("mkm_name")));
 				}
 				catch(Exception e)
 				{

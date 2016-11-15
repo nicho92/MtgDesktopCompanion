@@ -680,6 +680,7 @@ public class CardSearchGUI extends JPanel {
 											loading(false, "");
 											JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
 											} catch (Exception e) {
+												e.printStackTrace();
 												logger.error(e);
 												loading(false, "");
 												JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
