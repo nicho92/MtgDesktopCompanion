@@ -1,6 +1,8 @@
 package org.magic.api.dao.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
@@ -571,7 +573,29 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 
 
+	
+	public static String getDone() throws IOException
+	{
+		BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\XXX\\Google Drive\\DONE MC.txt"));
+		try {
+		    StringBuilder sb = new StringBuilder();
+		    String line = br.readLine();
+
+		    while (line != null) {
+		        sb.append("'"+line.split("\t")[0]+"',");
+		        line = br.readLine();
+		    }
+		    String l = sb.toString().substring(0,sb.toString().length()-1);
+		    return l;
+		    
+		    
+		} finally {
+		    br.close();
+		}
+	}
+	
 	public static void main(String[] args) throws IOException, SQLException, ClassNotFoundException {
+		
 		MtgjsonProvider prov = new MtgjsonProvider();
 		MysqlDAO dao = new MysqlDAO();
 		
@@ -580,7 +604,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		
 		
 		Statement stat = dao.con.createStatement(); 
-		ResultSet rs = stat.executeQuery("SELECT DISTINCT(ID) FROM cards");
+		ResultSet rs = stat.executeQuery("SELECT DISTINCT(ID) FROM cards where ID not in ("+getDone()+")");
 		
 		PreparedStatement prep = dao.con.prepareStatement("UPDATE cards set mcard=? where ID=?");
 		String id = "";
@@ -599,11 +623,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 				System.out.println(id+"\tKO\t"+e.getMessage());
 			}
 		}
-		
-		
-		
-		
-		
 	}
 	
 	
