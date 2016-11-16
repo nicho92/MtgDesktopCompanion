@@ -74,25 +74,26 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				}
 				deck.getMap().put(mc, qte);
 		}
+		try{
 
 		Elements s = d.select("table#cards_sideboard").select("tr");
 		s.remove(0);
 		s.remove(0);
 	//	s.remove(s.size()-1);
-		for(Element cont : s)
-		{
-			try{
-				Integer qte = Integer.parseInt(cont.getElementsByClass("card_amount").get(0).text());
-				String cardName = cont.getElementsByClass("deck_card_name").get(0).text().trim();
-				MagicCard mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
-				deck.getMapSideBoard().put(mc, qte);
-			}
-			catch(IndexOutOfBoundsException ex)
+			for(Element cont : s)
 			{
 				
+					Integer qte = Integer.parseInt(cont.getElementsByClass("card_amount").get(0).text());
+					String cardName = cont.getElementsByClass("deck_card_name").get(0).text().trim();
+					MagicCard mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+					deck.getMapSideBoard().put(mc, qte);
 			}
 		}
-		
+		catch(Exception ex)
+		{
+			
+		}
+
 		return deck;
 	}
 
