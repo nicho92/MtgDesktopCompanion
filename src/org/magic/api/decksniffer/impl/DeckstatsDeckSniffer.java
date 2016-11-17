@@ -3,7 +3,9 @@ package org.magic.api.decksniffer.impl;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -18,6 +20,7 @@ import org.magic.services.MTGDesktopCompanionControler;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
+	Map<Integer,String> cacheColor;
 	
 	public DeckstatsDeckSniffer() {
 		super();
@@ -29,12 +32,55 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 			props.put("MAX_PAGE", "2");
 			save();
 		}
+		cacheColor = new HashMap<Integer,String>();
+		initcache();
 	}
 	
+	private void initcache() {
+		cacheColor.put(1, "{W}");
+		cacheColor.put(2, "{U}");
+		cacheColor.put(3, "{W}{U}");
+		cacheColor.put(4, "{B}");
+		cacheColor.put(5, "{W}{B}");
+		cacheColor.put(6, "{U}{B}");
+		cacheColor.put(7, "{W}{U}{B}");
+		cacheColor.put(8, "{R}");
+		cacheColor.put(9, "{W}{R}");
+		cacheColor.put(10, "{U}{R}");
+		cacheColor.put(11, "{W}{U}{R}");
+		cacheColor.put(12, "{B}{R}");
+		cacheColor.put(13, "{W}{B}{R}");
+		cacheColor.put(14, "{U}{B}{R}");
+		cacheColor.put(15, "{W}{U}{B}{R}");
+		cacheColor.put(16, "{G}");
+		cacheColor.put(17, "{W}{G}");
+		cacheColor.put(18, "{U}{G}");
+		cacheColor.put(19, "{W}{U}{G}");
+		cacheColor.put(20, "{B}{R}");
+		cacheColor.put(21, "{W}{B}{G}");
+		cacheColor.put(22, "{U}{B}{G}");
+		cacheColor.put(23, "{W}{U}{B}{G}");
+		cacheColor.put(24, "{R}{G}");
+		cacheColor.put(25, "{W}{R}{G}");
+		cacheColor.put(26, "{U}{R}{G}");
+		cacheColor.put(27, "{W}{U}{R}{G}");
+		cacheColor.put(28, "{B}{R}{G}");
+		cacheColor.put(29, "{W}{B}{R}{G}");
+		cacheColor.put(30, "{U}{B}{R}{G}");
+		cacheColor.put(31, "{W}{U}{B}{R}{G}");
+	}
+
 	@Override
 	public String[] listFilter() {
 		return new String[]{"casual","standard","modern","legacy","edh-commander","highlander","frontier","pauper","vintage","extended","vube","tiny-leaders","peasant","other"};
 	}
+	
+	
+	public static void main(String[] args) throws Exception {
+		DeckstatsDeckSniffer snif = new DeckstatsDeckSniffer();
+		snif.getDeckList();
+	}
+	
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
@@ -124,8 +170,8 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 			{
 				RetrievableDeck deck = new RetrievableDeck();
 				Element info = cont.select("a").get(0);
-				
-				
+				String idColor = cont.select("img").get(0).attr("src");
+				idColor=idColor.substring(idColor.lastIndexOf("/")+1,idColor.lastIndexOf("."));
 				String name = info.text();
 				String url = info.attr("href");
 				String auteur = cont.select("a").get(1).text();
@@ -133,7 +179,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				deck.setName(name);
 				deck.setUrl(new URI(url));
 				deck.setAuthor(auteur);
-				deck.setColor("");
+				deck.setColor(cacheColor.get(Integer.parseInt(idColor)));
 				
 				list.add(deck);
 			}
