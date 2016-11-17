@@ -31,6 +31,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		
 	}
 	
+	
 	@Override
 	public String[] listFilter() {
 		return new String[]{"derniers-decks","decks-du-moment","decks-populaires"};
@@ -77,6 +78,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	
 	
 	public static void main(String[] args) throws Exception {
+		MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
 		DeckSniffer snif = new LotusNoirDecks();
 		RetrievableDeck d = snif.getDeckList().get(0);
 		snif.getDeck(d);

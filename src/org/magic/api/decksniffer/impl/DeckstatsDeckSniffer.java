@@ -74,12 +74,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public String[] listFilter() {
 		return new String[]{"casual","standard","modern","legacy","edh-commander","highlander","frontier","pauper","vintage","extended","vube","tiny-leaders","peasant","other"};
 	}
-	
-	
-	public static void main(String[] args) throws Exception {
-		DeckstatsDeckSniffer snif = new DeckstatsDeckSniffer();
-		snif.getDeckList();
-	}
+
 	
 
 	@Override
