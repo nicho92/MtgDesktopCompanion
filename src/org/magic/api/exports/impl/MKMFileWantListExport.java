@@ -1,7 +1,9 @@
 package org.magic.api.exports.impl;
 
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
@@ -12,6 +14,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGDesktopCompanionControler;
 
 public class MKMFileWantListExport extends AbstractCardExport {
 
@@ -30,7 +33,24 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		throw new Exception(getName() + " can't generate deck");
+		
+		BufferedReader read = new BufferedReader(new FileReader(f));
+		MagicDeck deck = new MagicDeck();
+		deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
+		
+		String line = read.readLine();
+		
+		while(line!=null)
+		{
+			int qte = Integer.parseInt(line.substring(0, line.indexOf(" ")));
+			String name = line.substring(line.indexOf(" "),line.indexOf("("));
+			
+			deck.getMap().put(MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(), null).get(0), qte);
+			line=read.readLine();
+		}
+		//throw new Exception(getName() + " can't generate deck");
+		
+		return deck;
 	}
 
 	@Override

@@ -653,7 +653,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				}
 				catch(Exception e)
 				{
-					logger.error("initOtherEditionCardsVar number not found");
+				//	logger.error("initOtherEditionCardsVar mkm_id not found");
 					me.setNumber(mc.getNumber());
 				}
 				

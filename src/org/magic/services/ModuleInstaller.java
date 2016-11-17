@@ -89,12 +89,15 @@ public class ModuleInstaller {
 		{
 			if(!c.isAnonymousClass())
 			{
-				String path = k+"[class='"+c.getName()+"']/class";
-				String s = MTGDesktopCompanionControler.getInstance().get(path);
-				if(s==null)
+				if(!c.getName().contains("$"))
 				{
-					hasUpdated=true;
-					retour.add(c);
+					String path = k+"[class='"+c.getName()+"']/class";
+					String s = MTGDesktopCompanionControler.getInstance().get(path);
+					if(s==null)
+					{
+						hasUpdated=true;
+						retour.add(c);
+					}
 				}
 			}
 		}
