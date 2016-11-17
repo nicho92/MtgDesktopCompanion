@@ -191,6 +191,11 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 	
 	public List<WantList> getWantList() throws Exception
 	{
+		  String url="https://www.mkmapi.eu/ws/v1.1/wantslist";
+		  connection = (HttpURLConnection) new URL(url).openConnection();
+		  authorizationProperty = mkmPricer.generateOAuthSignature(url,"GET");
+		  connection.addRequestProperty("Authorization", authorizationProperty) ;
+			
 		  int _lastCode = connection.getResponseCode();
 		  Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
 		  XPath xpath = XPathFactory.newInstance().newXPath();
@@ -218,27 +223,28 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
         int _lastCode = connection.getResponseCode();
         Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
         
-        //prettyPrint(d);
-        
         NodeList res = d.getElementsByTagName("want");
         List<Want> ret = new ArrayList<Want>();
         for (int i = 0; i < res.getLength(); i++) {
       	  Want w = new Want();
-	      	  w.setProduct(getProductById(((Element)res.item(i)).getElementsByTagName("idProduct").item(0).getTextContent()));
+	      	 
+      	  if(!((Element)res.item(i)).getElementsByTagName("type").item(0).getTextContent().equals("metaproduct"))
+      	  {
+      		  w.setProduct(getProductById(((Element)res.item(i)).getElementsByTagName("idProduct").item(0).getTextContent()));
 	      	  w.setQte(Integer.parseInt(((Element)res.item(i)).getElementsByTagName("count").item(0).getTextContent()));
 	      	  w.setFoil((parseBool(((Element)res.item(i)).getElementsByTagName("isFoil").item(0).getTextContent())));
 	      	  w.setSigned((parseBool(((Element)res.item(i)).getElementsByTagName("isSigned").item(0).getTextContent())));
 	      	  w.setPlayset((parseBool(((Element)res.item(i)).getElementsByTagName("isPlayset").item(0).getTextContent())));
 	      	  w.setAltered((parseBool(((Element)res.item(i)).getElementsByTagName("isAltered").item(0).getTextContent())));
 	      	  w.setMinCondition(((Element)res.item(i)).getElementsByTagName("minCondition").item(0).getTextContent());
-	      	NodeList names = ((Element)res.item(i)).getElementsByTagName("langName");
-			for(int j =0;j<names.getLength();j++)
-			{
+	      	  NodeList names = ((Element)res.item(i)).getElementsByTagName("langName");
+	      	  for(int j =0;j<names.getLength();j++)
+	      	  {
 				Element e = (Element)names.item(j);
 				w.getLanguages().add(e.getTextContent());
-			}
-      	  
-      	  ret.add(w);
+	      	  }
+	      	  ret.add(w);
+      	  }
         }
         wl.setCardCount(res.getLength());
         return ret;
@@ -317,9 +323,9 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		authorizationProperty = mkmPricer.generateOAuthSignature(url,"GET");
 		connection.addRequestProperty("Authorization", authorizationProperty) ;
 		connection.connect();
-		 int _lastCode = connection.getResponseCode();
-		  Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
-	      prettyPrint(d);
+		int _lastCode = connection.getResponseCode();
+		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
+	    prettyPrint(d);
 	}
 	
 	
@@ -343,10 +349,33 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
         XMLSerializer serializer = new XMLSerializer(System.out, format);
         serializer.serialize(doc);
 	}
+	
+	public static void main(String[] args) throws Exception {
+		new MKMOnlineWantListExport().importDeck(new File("Invasion -2"));
+	}
+	
 
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		throw new Exception(getName() + " can't import deck");
+		
+	
+		MagicDeck d = new MagicDeck();
+			d.setName(f.getName());
+			WantList list = null;
+			for(WantList l  : getWantList())
+				if(l.getName().equalsIgnoreCase(d.getName()))
+					list=l;
+			
+			if(list==null)
+				throw new Exception(getName() + " can't import deck for " + f.getName());
+			
+			for(Want w : getWants(list))
+			{
+				System.out.println(w);
+				d.getMap().put(MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", w.getProduct().getName(), null).get(0), w.getQte());
+			}
+			
+			return d;
 	}
 
 	@Override
@@ -394,7 +423,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 
 	@Override
 	public String getName() {
-		return "MKM Online WantList Export";
+		return "MKM Online WantList";
 	}
 
 	@Override

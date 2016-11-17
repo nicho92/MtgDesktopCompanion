@@ -189,6 +189,7 @@ public class CSVExport extends AbstractCardExport{
 	public MagicDeck importDeck(File f) throws Exception {
 		BufferedReader read = new BufferedReader(new FileReader(f));
 		MagicDeck deck = new MagicDeck();
+		deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
 		
 		String line = read.readLine();
 		

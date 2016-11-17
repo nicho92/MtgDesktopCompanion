@@ -136,7 +136,7 @@ public class MTGDesktopCompanionControler {
 	
 	public String get(String prop)
 	{
-		return config.getString(prop);
+		return config.getString(prop,"");
 	}
 	
 	public void reload() throws Exception

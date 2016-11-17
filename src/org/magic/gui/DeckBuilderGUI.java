@@ -339,7 +339,6 @@ public class DeckBuilderGUI extends JPanel{
 										try {
 											loading(true, "loading from " + exp);
 											deck = exp.importDeck(f);
-											deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
 											JOptionPane.showMessageDialog(null, "Import Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
 											setDeck(deck);
 											loading(false, "");
