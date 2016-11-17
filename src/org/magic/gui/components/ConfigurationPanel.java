@@ -25,17 +25,23 @@ import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.db.NumberUpdater;
+import javax.swing.DefaultComboBoxModel;
 
 public class ConfigurationPanel extends JPanel {
+	
+	
 	private JTextField textField;
-	private JComboBox cboTargetDAO;
-	private JComboBox cboCollections;
-	private JComboBox cboLogLevels;
+	private JComboBox<MagicDAO> cboTargetDAO;
+	private JComboBox<MagicCollection> cboCollections;
+	private JComboBox<Level> cboLogLevels;
 	private JLabel lblLoading ;
 	private JTextField txtdirWebsite;
-	private JComboBox cboEditions;
+	private JComboBox<MagicEdition> cboEditions;
 	private JComboBox<MagicEdition> cboEditionLands;
 	private JTextField txtMinPrice;
+	private JComboBox<String> cbojsonView;
+	
+	
 	
 	public void loading(boolean show,String text)
 	{
@@ -46,9 +52,9 @@ public class ConfigurationPanel extends JPanel {
 	public ConfigurationPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 106, 212, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblBackupDao = new JLabel("Backup dao file : ");
@@ -423,13 +429,44 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnSavePrice.gridy = 9;
 		add(btnSavePrice, gbc_btnSavePrice);
 		
+		JLabel lblShowJsonPanel = new JLabel("Show Json Panel");
+		GridBagConstraints gbc_lblShowJsonPanel = new GridBagConstraints();
+		gbc_lblShowJsonPanel.anchor = GridBagConstraints.EAST;
+		gbc_lblShowJsonPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_lblShowJsonPanel.gridx = 1;
+		gbc_lblShowJsonPanel.gridy = 10;
+		add(lblShowJsonPanel, gbc_lblShowJsonPanel);
+		
+		cbojsonView = new JComboBox<String>();
+		cbojsonView.setModel(new DefaultComboBoxModel<String>(new String[] {"true", "false"}));
+		cbojsonView.setSelectedItem(MTGDesktopCompanionControler.getInstance().get("debug-json-panel"));
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.insets = new Insets(0, 0, 5, 5);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 2;
+		gbc_comboBox.gridy = 10;
+		add(cbojsonView, gbc_comboBox);
+		
+		JButton btnSaveJson = new JButton("save");
+		GridBagConstraints gbc_btnSaveJson = new GridBagConstraints();
+		gbc_btnSaveJson.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnSaveJson.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSaveJson.gridx = 3;
+		gbc_btnSaveJson.gridy = 10;
+		add(btnSaveJson, gbc_btnSaveJson);
+		btnSaveJson.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MTGDesktopCompanionControler.getInstance().setProperty("debug-json-panel", cbojsonView.getSelectedItem());
+				
+			}
+		});
 			
 		
 		lblLoading.setIcon(new ImageIcon(ConfigurationPanel.class.getResource("/res/load.gif")));
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
-		gbc_lblLoading.insets = new Insets(0, 0, 0, 5);
+		gbc_lblLoading.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLoading.gridx = 2;
-		gbc_lblLoading.gridy = 10;
+		gbc_lblLoading.gridy = 11;
 		add(lblLoading, gbc_lblLoading);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

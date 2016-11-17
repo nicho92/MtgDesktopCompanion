@@ -9,6 +9,7 @@
 	<keystore-name>jssecacerts</keystore-name>
 	<keystore-pass>changeit</keystore-pass>
 	<min-price-alert>0</min-price-alert>
+	<debug-json-panel>false</debug-json-panel>
 	<lookAndFeels>
 		<lookAndFeel>com.seaglasslookandfeel.SeaGlassLookAndFeel</lookAndFeel>
 	</lookAndFeels>

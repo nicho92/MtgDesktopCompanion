@@ -327,8 +327,11 @@ public class CollectionPanelGUI extends JPanel {
 		historyPricesPanel = new HistoryPricesPanel();
 		tabbedPane.addTab("Variation", null, historyPricesPanel, null);
 		
+		
 		jsonPanel = new JSONPanel();
-		tabbedPane.addTab("Json", null, jsonPanel, null);
+		
+		if(MTGDesktopCompanionControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
+			tabbedPane.addTab("Json", null, jsonPanel, null);
 				
 				JPanel panneauGauche = new JPanel();
 				splitListPanel.setLeftComponent(panneauGauche);

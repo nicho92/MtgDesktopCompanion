@@ -62,6 +62,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.gui.components.CardsPicPanel;
+import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.ManaPanel;
@@ -119,6 +120,8 @@ public class CardSearchGUI extends JPanel {
 		private JTextArea txtRulesArea;
 		private JTextField txtFilter;
 		private JTextField txtMagicSearch;
+		private JSONPanel panelJson;
+		
 		
 		private JPopupMenu popupMenu = new JPopupMenu();
 	    
@@ -260,6 +263,7 @@ public class CardSearchGUI extends JPanel {
 			panelmana = new JPanel();
 			panelFilters = new JPanel();
 			ManaPanel pan = new ManaPanel();
+			panelJson = new JSONPanel();
 			
 			tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
 			tabbedCardsInfo = new JTabbedPane(JTabbedPane.TOP);
@@ -424,7 +428,9 @@ public class CardSearchGUI extends JPanel {
 			tabbedCardsInfo.addTab("Prices", null, scrollPanePrices, null);
 			tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
 			tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
-
+			
+			if(MTGDesktopCompanionControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
+				tabbedCardsInfo.addTab("Json", null, panelJson, null);
 			
 			panneauStat.add(cmcChart);
 			panneauStat.add(manaRepartitionPanel);
@@ -822,6 +828,7 @@ public class CardSearchGUI extends JPanel {
 					updatePrices();
 				
 				
+				panelJson.showCard(selected);
 				historyChartPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 				
 			} catch (Exception e1) {
