@@ -158,6 +158,7 @@ public class DeckBuilderGUI extends JPanel{
 		thumbnail = new ThumbnailPanel();
 		thumbnail.setThumbnailSize(223, 311);
 		thumbnail.enableDragging(false);
+		thumbnail.setMaxCardsRow(4);
 		JPanel panneauHaut = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);

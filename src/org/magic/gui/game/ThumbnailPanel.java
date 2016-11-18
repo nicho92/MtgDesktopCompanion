@@ -53,7 +53,6 @@ public class ThumbnailPanel extends DraggablePanel {
 	
 	public void addComponent(DisplayableCard i)
 	{
-		
 		if(index>=val)
 		{
 			c.gridy=c.gridy+1;
@@ -143,6 +142,13 @@ public class ThumbnailPanel extends DraggablePanel {
 	@Override
 	public void postTreatment() {
 		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void setMaxCardsRow(int i) {
+		val=i;
 		
 	}
 
