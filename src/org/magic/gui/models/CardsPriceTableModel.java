@@ -37,7 +37,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 					prices.addAll(prov.getPrice(me, mc));
 			} catch (Exception e) {
 				logger.error(e);
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		fireTableDataChanged();
@@ -110,7 +110,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		}
 		}catch(IndexOutOfBoundsException ioob)
 		{
-			logger.error(ioob);
+			//logger.error(ioob);
 			return null;
 		}
 	}

@@ -12,6 +12,9 @@ import org.magic.services.MTGDesktopCompanionControler;
 public class Test {
 
 	public static void main(String[] args) {
+
+		
+		
 		TipOfTheDayModel.Tip tip1;
 		tip1 = new DefaultTip ("Tip 1",
 		      "<html>You can <strong>embed</strong> various " +

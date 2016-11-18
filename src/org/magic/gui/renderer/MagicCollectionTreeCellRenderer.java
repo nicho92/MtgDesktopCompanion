@@ -59,10 +59,14 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		    	{ 
 		    			MagicCard mc=(MagicCard)((DefaultMutableTreeNode)value).getUserObject();
 		    			
-		    		
+		    			
 		    			//if(mc.getColors().contains(").size()<1)
 		    			{
 		    				setIcon(uncolor);
+		    			}
+		    			if(mc.getFullType().toLowerCase().contains("artifact"))
+		    			{
+		    				setIcon(map.get("{X}"));
 		    			}
 		    			if(mc.getColors().size()==1)
 						{
@@ -72,10 +76,7 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		    			{
 		    				setIcon(gold);
 		    			}
-		    			if(mc.getFullType().toLowerCase().contains("artifact"))
-		    			{
-		    				setIcon(map.get("{X}"));
-		    			}
+		    			
 		    			if(mc.getFullType().toLowerCase().contains("land"))
 		    			{
 		    				setIcon(uncolor);
