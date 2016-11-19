@@ -108,6 +108,8 @@ public class DeckBuilderGUI extends JPanel{
 	public static final int MAIN=0;
 	public static final int SIDE=1;
 	
+	private File exportedFile;
+	
 	static final Logger logger = LogManager.getLogger(DeckBuilderGUI.class.getName());
 
 	File deckDirectory = new File(MTGDesktopCompanionControler.CONF_DIR,"decks");
@@ -273,6 +275,8 @@ public class DeckBuilderGUI extends JPanel{
 								if(!fimport.getStringDeck().equals(""))
 									importDeckFromString(fimport.getStringDeck());
 								
+								
+								
 							}
 						});
 				menu.add(manuel);
@@ -392,15 +396,24 @@ public class DeckBuilderGUI extends JPanel{
 							JFileChooser jf =new JFileChooser(".");
 							jf.setSelectedFile(new File(getDeck().getName()+exp.getFileExtension()));
 							jf.showSaveDialog(null);
-							File f=jf.getSelectedFile();
+							exportedFile=jf.getSelectedFile();
+								ThreadManager.getInstance().execute(new Runnable() {
+									
+									@Override
+									public void run() {
+										try {
+											loading(true,"Export " + getDeck() + " to " + exp);
+											exp.export(getDeck(), exportedFile);
+											JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
+											loading(false,"");
+										} catch (Exception e) {
+												logger.error(e);
+												loading(false,"");
+												JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+										}
+									}
+								},"Export "  + getDeck() +" to " + exp.getName());
 							
-							try {
-								exp.export(getDeck(), f);
-								JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
-							} catch (Exception e) {
-								logger.error(e);
-								JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
-							}
 						}
 					});
 					

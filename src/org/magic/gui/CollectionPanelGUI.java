@@ -194,39 +194,53 @@ public class CollectionPanelGUI extends JPanel {
 					it.setText(exp.getName());
 					it.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
-							DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-							JFileChooser jf = new JFileChooser();
-							
-							MagicCollection mc=null;
-							MagicEdition ed=null;
-							
-							if(curr.getUserObject() instanceof MagicEdition)
-							{
-								ed = (MagicEdition) curr.getUserObject();
-								mc = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
-							}
-							else
-							{
-								mc = (MagicCollection) curr.getUserObject();
-							}
-							
-							jf.setSelectedFile(new File(mc.getName()+exp.getFileExtension()));
-							int result = jf.showSaveDialog(null);
-							File f = jf.getSelectedFile();
-							
-							if(result==JFileChooser.APPROVE_OPTION)
-							try {
-								if(ed==null)
-									exp.export(dao.getCardsFromCollection(mc), f);
-								else
-									exp.export(dao.getCardsFromCollection(mc,ed), f);
+							ThreadManager.getInstance().execute(new Runnable() {
 								
-								JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
-							} catch (Exception e) {
-								e.printStackTrace();
-								logger.error(e);
-								JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
-							}
+								@Override
+								public void run() {
+									try {
+										DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+										JFileChooser jf = new JFileChooser();
+									
+										MagicCollection mc=null;
+										MagicEdition ed=null;
+										
+										if(curr.getUserObject() instanceof MagicEdition)
+										{
+											ed = (MagicEdition) curr.getUserObject();
+											mc = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
+										}
+										else
+										{
+											mc = (MagicCollection) curr.getUserObject();
+										}
+										
+										jf.setSelectedFile(new File(mc.getName()+exp.getFileExtension()));
+										int result = jf.showSaveDialog(null);
+										File f = jf.getSelectedFile();
+										
+										if(result==JFileChooser.APPROVE_OPTION)
+										
+										if(ed==null)
+											exp.export(dao.getCardsFromCollection(mc), f);
+										else
+											exp.export(dao.getCardsFromCollection(mc,ed), f);
+										
+										JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
+									} catch (Exception e) {
+										e.printStackTrace();
+										logger.error(e);
+										JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+									}
+									
+								}
+							}, "export collection with " + exp);
+								
+							
+							
+							
+							
+							
 						}
 					});
 					
