@@ -127,7 +127,6 @@ public class JDeckChooserDialog extends JDialog {
 		
 		table = new JXTable(new DeckSelectionModel());
 		
-		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {

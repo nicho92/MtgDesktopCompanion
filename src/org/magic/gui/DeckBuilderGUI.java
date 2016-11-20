@@ -25,7 +25,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
@@ -221,7 +220,7 @@ public class DeckBuilderGUI extends JPanel{
 				}
 				catch(Exception ex)
 				{
-					ex.printStackTrace();
+					logger.error(ex);
 					JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -243,13 +242,12 @@ public class DeckBuilderGUI extends JPanel{
 						deckDirectory.mkdir();
 					
 					MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
-					
-					serialis.export(deck, new File(deckDirectory+"/"+name+serialis.getFileExtension()));
-					//MagicFactory.getInstance().getEnabledDAO().saveDeck(deck);
+											  serialis.export(deck, new File(deckDirectory+"/"+name+serialis.getFileExtension()));
 					
 				}
 				catch(Exception ex)
 				{
+					logger.error(ex);
 					JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			}
@@ -274,9 +272,6 @@ public class DeckBuilderGUI extends JPanel{
 								
 								if(!fimport.getStringDeck().equals(""))
 									importDeckFromString(fimport.getStringDeck());
-								
-								
-								
 							}
 						});
 				menu.add(manuel);
@@ -731,17 +726,6 @@ public class DeckBuilderGUI extends JPanel{
 		}
 	});
 	}
-	/*
-	
-	public static void main(String[] args) {
-		
-		MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
-		JFrame f = new JFrame();
-		f.getContentPane().add(new DeckBuilderGUI());
-		f.pack();
-		f.setVisible(true);
-	}
-	*/
 	
 
 	protected void importDeckFromString(final String stringDeck) {
