@@ -133,13 +133,9 @@ public class JDeckChooserDialog extends JDialog {
 			public void mouseClicked(MouseEvent event) {
 				
 				//((DefaultListModel)list.getModel()).removeAllElements();
-				selectedDeck = (MagicDeck)table.getModel().getValueAt(table.getSelectedRow(),0);
-				
-				//for(MagicCard mc : selectedDeck.getMap().keySet())
-				//	((DefaultListModel)list.getModel()).addElement( selectedDeck.getMap().get(mc)+" "+ mc);
-				
+				selectedDeck = (MagicDeck)table.getValueAt(table.getSelectedRow(), 0);
+	
 				initTree();
-				
 				
 				cmcChartPanel.init(selectedDeck);
 				cmcChartPanel.revalidate();
