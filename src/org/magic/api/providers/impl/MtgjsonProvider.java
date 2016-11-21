@@ -251,7 +251,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		if(att.equalsIgnoreCase("foreignNames"))
 		{
-			//jsquery="$"+filter_ed+".cards[*]."+att+"[?(@.name =~ /^.*"+crit+".*$/i)]";
+			//jsquery="$"+filter_ed+".cards[?(@..name =~ /^.*"+crit+".*$/i)]";
 			jsquery="$"+filter_ed+".cards[?(@."+att+".name =~ /^.*"+crit+".*$/i)]";
 		}
 		/*	
@@ -270,7 +270,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		MagicEdition ed = new MagicEdition();
 		ed.setId("KLD");
-		List<MagicCard> lsit = prov.searchCardByCriteria("foreignNames", "Fragmentation", ed);
+		List<MagicCard> lsit = prov.searchCardByCriteria("foreignNames", "fra", ed);
 		
 		for(MagicCard mc : lsit)
 			System.out.println(mc + " " + mc.getFullType());
