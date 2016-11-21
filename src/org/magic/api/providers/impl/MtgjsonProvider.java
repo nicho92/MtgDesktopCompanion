@@ -83,7 +83,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		//init();
 	}
 	
-	
 	private InputStream getStreamFromUrl(URL u) throws IOException
 	{
 	  	URLConnection connection = u.openConnection();
@@ -217,11 +216,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed) throws IOException{
 		
-		//crit=URLEncoder.encode(crit,"UTF-8");
+		String filter_ed=".";
+		
+		if(ed !=null)
+			filter_ed=filter_ed+ed.getId();
 		
 		
-		String jsquery="$..cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
-
+		String jsquery="$"+filter_ed+".cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
 		
 		if(att.equalsIgnoreCase("set"))
 		{
@@ -245,31 +246,38 @@ public class MtgjsonProvider implements MagicCardsProvider{
 
 		if(att.equalsIgnoreCase("multiverseid")|| att.equalsIgnoreCase("cmc"))
 		{
-			jsquery="$..cards[?(@."+att+" == "+crit+")]";
+			jsquery="$"+filter_ed+".cards[?(@."+att+" == "+crit+")]";
 		}
 		
-	/*	if(att.equalsIgnoreCase("foreignNames"))
+		if(att.equalsIgnoreCase("foreignNames"))
 		{
-			jsquery="$..cards[*]."+att+"[?(@.name =~ /^.*"+crit+".*$/i)]";
+			//jsquery="$"+filter_ed+".cards[*]."+att+"[?(@.name =~ /^.*"+crit+".*$/i)]";
+			jsquery="$"+filter_ed+".cards[?(@."+att+".name =~ /^.*"+crit+".*$/i)]";
 		}
-		
+		/*	
 		if(att.equalsIgnoreCase("format"))
 		{
 			jsquery="$..cards[*].legalities[?(@.format =~ /^.*"+crit+".*$/i)]";
 		}*/
-		
-		if(ed !=null)
-		{
-			jsquery="$."+ed.getId()+".cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
-		}
-				
-		
 		return search(jsquery,att,crit);
+	}
+	
+	
+	public static void main(String[] args) throws IOException {
+		
+		MtgjsonProvider prov = new MtgjsonProvider();
+		prov.init();
+		
+		MagicEdition ed = new MagicEdition();
+		ed.setId("KLD");
+		List<MagicCard> lsit = prov.searchCardByCriteria("foreignNames", "Fragmentation", ed);
+		
+		for(MagicCard mc : lsit)
+			System.out.println(mc + " " + mc.getFullType());
 	}
 	
 	public List<MagicCard> search(String jsquery,String att,String crit) throws IOException {
 		
-
 		currentSet=new ArrayList<String>();
 		list= new ArrayList<MagicCard>();
 
