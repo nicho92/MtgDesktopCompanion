@@ -71,7 +71,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	@Override
 	public void enable(boolean enabled) {
 		this.enable=enabled;
-		
 	}
 
 	@Override
@@ -243,16 +242,15 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				jsquery="$."+crit.toUpperCase()+".cards";	
 			}
 		}
-
 		if(att.equalsIgnoreCase("multiverseid")|| att.equalsIgnoreCase("cmc"))
 		{
 			jsquery="$"+filter_ed+".cards[?(@."+att+" == "+crit+")]";
 		}
-		
 		if(att.equalsIgnoreCase("foreignNames"))
 		{
-			//jsquery="$"+filter_ed+".cards[?(@..name =~ /^.*"+crit+".*$/i)]";
-			jsquery="$"+filter_ed+".cards[?(@."+att+".name =~ /^.*"+crit+".*$/i)]";
+			//jsquery="$"+filter_ed+".cards[*].foreignNames[?(@.name =~ /^.*"+crit+".*$/i)]";
+			//jsquery="$"+filter_ed+".cards[?(@."+att+".name =~ /^.*"+crit+".*$/i)]";
+			jsquery="$"+filter_ed+".cards[foreignNames][?(@.name =~ /^.*"+crit+".*$/i)]";
 		}
 		/*	
 		if(att.equalsIgnoreCase("format"))
@@ -284,14 +282,17 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		logger.info("searchCardByCriteria : " + jsquery);
 	
 		List<Map<String,Object>> cardsElement = ctx.withListeners(new EvaluationListener() {
+			
 			public EvaluationContinuation resultFound(FoundResult fr) {
 				if(fr.path().startsWith("$"))
 				{
+					System.out.println(fr.path());
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
 				}
 				return null;
 			}
 		}).read(jsquery,List.class);
+
 		
 		int indexSet=0;
 		for(Map<String,Object> map : cardsElement)
@@ -563,10 +564,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					{
 					
 					}
-					
-					
-					
-					
 					
 					try{
 						me.setOnlineOnly(ctx.read("$."+id+".onlineOnly",Boolean.class));

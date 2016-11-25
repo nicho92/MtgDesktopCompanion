@@ -134,6 +134,11 @@ public class MTGDesktopCompanionControler {
 		
 	}
 	
+	public String get(String prop,String defaut)
+	{
+		return config.getString(prop,defaut);
+	}
+	
 	public String get(String prop)
 	{
 		return config.getString(prop,"");

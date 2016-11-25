@@ -1,12 +1,10 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -18,30 +16,21 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.decksniffer.impl.TappedOutDeckSniffer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer;
-import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MTGDesktopCompanionControler;
-import org.magic.tools.InstallCert;
-import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
-
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 
 public class MKMOnlineWantListExport extends AbstractCardExport {
@@ -325,7 +314,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		connection.connect();
 		int _lastCode = connection.getResponseCode();
 		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
-	    prettyPrint(d);
+	   // prettyPrint(d);
 	}
 	
 	
@@ -341,14 +330,14 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
        // prettyPrint(d);
         return parseProductDocument(d,null);
 	}
-	
+	/*
 	static void prettyPrint(Document doc) throws IOException
 	{
 		OutputFormat format = new OutputFormat(doc);
         format.setIndenting(true);
         XMLSerializer serializer = new XMLSerializer(System.out, format);
         serializer.serialize(doc);
-	}
+	}*/
 	
 	public static void main(String[] args) throws Exception {
 		new MKMOnlineWantListExport().importDeck(new File("Invasion -2"));
@@ -514,7 +503,6 @@ class Want
 	}
 }
 
-
 class WantList
 {
 	String id;
@@ -631,8 +619,6 @@ class Product
 	public void setIdSet(int idSet) {
 		this.idSet = idSet;
 	}
-	
-	@Override
 	public String toString() {
 		return getName();
 	}

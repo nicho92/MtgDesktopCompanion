@@ -36,7 +36,7 @@ public class Test {
 	      {
 	       public boolean isShowingOnStartup ()
 	       {
-	        return MTGDesktopCompanionControler.getInstance().get("tooltip").equalsIgnoreCase("true");
+	        return MTGDesktopCompanionControler.getInstance().get("tooltip","true").equalsIgnoreCase("true");
 	       }
 
 	       public void setShowingOnStartup (boolean x)
