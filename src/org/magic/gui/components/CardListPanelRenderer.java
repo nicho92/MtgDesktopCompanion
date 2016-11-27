@@ -16,6 +16,7 @@ import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 
 import javax.swing.border.LineBorder;
 import java.awt.Color;
+import java.awt.SystemColor;
 
 public class CardListPanelRenderer extends JPanel{
 	public CardListPanelRenderer(MagicCard mc) {
