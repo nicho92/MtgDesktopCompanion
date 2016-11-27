@@ -25,7 +25,7 @@ public class CardListPanelRenderer extends JPanel{
 		
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{181, 124, 0};
+		gridBagLayout.columnWidths = new int[]{230, 106, 0};
 		gridBagLayout.rowHeights = new int[]{14, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
@@ -42,6 +42,7 @@ public class CardListPanelRenderer extends JPanel{
 		
 		JLabel lblType = new JLabel(mc.getFullType());
 		GridBagConstraints gbc_lblType = new GridBagConstraints();
+		gbc_lblType.gridwidth = 2;
 		gbc_lblType.insets = new Insets(0, 0, 5, 0);
 		gbc_lblType.anchor = GridBagConstraints.WEST;
 		gbc_lblType.gridx = 0;
@@ -50,6 +51,7 @@ public class CardListPanelRenderer extends JPanel{
 		
 		JLabel lblEdition = new JLabel(mc.getEditions().get(0).toString());
 		GridBagConstraints gbc_lblEdition = new GridBagConstraints();
+		gbc_lblEdition.gridwidth = 2;
 		gbc_lblEdition.anchor = GridBagConstraints.WEST;
 		gbc_lblEdition.insets = new Insets(0, 0, 0, 5);
 		gbc_lblEdition.gridx = 0;
@@ -71,7 +73,7 @@ public class CardListPanelRenderer extends JPanel{
 		manaPanel.setBackground(Color.WHITE);
 		manaPanel.setManaCost(mc.getCost());
 		GridBagConstraints gbc_manaPanel = new GridBagConstraints();
-		gbc_manaPanel.anchor = GridBagConstraints.WEST;
+		gbc_manaPanel.anchor = GridBagConstraints.EAST;
 		gbc_manaPanel.fill = GridBagConstraints.VERTICAL;
 		gbc_manaPanel.gridx = 1;
 		gbc_manaPanel.gridy = 0;
