@@ -286,7 +286,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			public EvaluationContinuation resultFound(FoundResult fr) {
 				if(fr.path().startsWith("$"))
 				{
-					System.out.println(fr.path());
+				//	System.out.println(fr.path());
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
 				}
 				return null;

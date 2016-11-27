@@ -66,8 +66,6 @@ public class CockatriceTokenProvider {
 		}
 	}
 	
-	
-	
 	public MagicCard generateTokenFor(MagicCard mc) {
 		String expression = "//card[reverse-related='"+mc.getName()+"'][not(contains(name,'emblem'))]";
 		XPath xPath =  XPathFactory.newInstance().newXPath();
@@ -133,7 +131,6 @@ public class CockatriceTokenProvider {
 		}
 	}
 
-
 	public MagicCard generateEmblemFor(MagicCard mc) throws Exception {
 		String expression = "//card[reverse-related='"+mc.getName()+"'][contains(name,'emblem')]";
 		
@@ -173,6 +170,7 @@ public class CockatriceTokenProvider {
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		
 		String expression = "//card[name='"+tok.getName()+"']";
+	
 		if(tok.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
 			expression ="//card[name='"+tok.getName()+" (emblem)']";
 

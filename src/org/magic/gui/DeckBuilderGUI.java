@@ -69,6 +69,7 @@ import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
+import org.magic.gui.renderer.MagicDeckQtyEditor;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
@@ -83,14 +84,17 @@ public class DeckBuilderGUI extends JPanel{
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel; 
 	private MagicCardDetailPanel magicCardDetailPanel;
-	private JTextField txtSearch;
-	private JComboBox<String> cboAttributs;
-	private JScrollPane scrollResult;
-	protected int selectedIndex=0;
 	private ThumbnailPanel thumbnail;
+	
+	private JTextField txtSearch;
+	
+	private JComboBox<String> cboAttributs;
+	
+	private JScrollPane scrollResult;
+	
 	private DeckModel deckSidemodel;
 	private DeckModel deckmodel ;
-	
+	private JButton btnSearch;
 	private JButton btnExports;
 	
 	private MagicDeck deck;
@@ -106,6 +110,8 @@ public class DeckBuilderGUI extends JPanel{
 	
 	public static final int MAIN=0;
 	public static final int SIDE=1;
+	
+	protected int selectedIndex=0;
 	
 	private File exportedFile;
 	
@@ -146,6 +152,9 @@ public class DeckBuilderGUI extends JPanel{
 	private void initGUI() {
 		
 		logger.debug("init deckBuilder GUI");
+		JPanel panneauHaut = new JPanel();
+		
+		
 		
 		
 		lblExport.setIcon(new ImageIcon(MagicGUI.class.getResource("/res/load.gif")));
@@ -160,7 +169,7 @@ public class DeckBuilderGUI extends JPanel{
 		thumbnail.setThumbnailSize(223, 311);
 		thumbnail.enableDragging(false);
 		thumbnail.setMaxCardsRow(4);
-		JPanel panneauHaut = new JPanel();
+		
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panneauHaut, BorderLayout.NORTH);
@@ -172,7 +181,7 @@ public class DeckBuilderGUI extends JPanel{
 		panneauHaut.add(txtSearch);
 		txtSearch.setColumns(25);
 		
-		final JButton btnSearch = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/search.png")));
+		btnSearch = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/search.png")));
 		panneauHaut.add(btnSearch);
 		
 		final JLabel lblCards = new JLabel("");
@@ -541,6 +550,9 @@ public class DeckBuilderGUI extends JPanel{
 		tableSide.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
 		tableSide.getColumnModel().getColumn(3).setCellEditor(new MagicEditionEditor());
 		
+		tableDeck.getColumnModel().getColumn(4).setCellEditor(new MagicDeckQtyEditor());
+		tableSide.getColumnModel().getColumn(4).setCellEditor(new MagicDeckQtyEditor());
+		
 		
 		JPanel panelInfoDeck = new JPanel();
 		tabbedPane.addTab("Info", null, panelInfoDeck, null);
@@ -602,7 +614,8 @@ public class DeckBuilderGUI extends JPanel{
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 		
 		
-		groupsFilterResult = new ButtonGroup (){
+		groupsFilterResult = new ButtonGroup ()
+		{
 			@Override
 			  public void setSelected(ButtonModel model, boolean selected) {
 			    if (selected) {
@@ -774,19 +787,19 @@ public class DeckBuilderGUI extends JPanel{
 		
 	}
 
-	
-	private void filterResult(String format)
-	{
-		while(resultListModel.elements().hasMoreElements())
-		{
-			MagicCard mc = resultListModel.elements().nextElement();
-			MagicFormat form = new MagicFormat();
-			form.setFormat(groupsFilterResult.getSelection().getActionCommand());
-			if(mc.getLegalities().contains(form))
-				resultListModel.removeElement(mc);
-			
-		}
-	}
+//	
+//	private void filterResult(String format)
+//	{
+//		while(resultListModel.elements().hasMoreElements())
+//		{
+//			MagicCard mc = resultListModel.elements().nextElement();
+//			MagicFormat form = new MagicFormat();
+//			form.setFormat(groupsFilterResult.getSelection().getActionCommand());
+//			if(mc.getLegalities().contains(form))
+//				resultListModel.removeElement(mc);
+//			
+//		}
+//	}
 	
 	
 	public Map<MagicCard,Integer> getSelectedMap()
