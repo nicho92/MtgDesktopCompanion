@@ -18,8 +18,8 @@ import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.SystemColor;
 
-public class CardListPanelRenderer extends JPanel{
-	public CardListPanelRenderer(MagicCard mc) {
+public class CardListPanel extends JPanel{
+	public CardListPanel(MagicCard mc) {
 		setBackground(Color.WHITE);
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
