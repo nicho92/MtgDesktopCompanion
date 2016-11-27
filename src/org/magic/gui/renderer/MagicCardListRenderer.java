@@ -8,6 +8,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.gui.components.CardListPanelRenderer;
 
 public class MagicCardListRenderer implements ListCellRenderer<MagicCard> {
 
@@ -15,10 +16,7 @@ public class MagicCardListRenderer implements ListCellRenderer<MagicCard> {
 	
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MagicCard> list, MagicCard value, int index,boolean isSelected, boolean cellHasFocus) {
-		 JLabel lab = (JLabel) defaultRenderer.getListCellRendererComponent(list, value, index,isSelected, cellHasFocus);
-		 
-		 lab.setText(value.getName() + " ["+value.getEditions().get(0).getId()+"]");
-		return lab;
+		return new CardListPanelRenderer(value);
 	}
 
 }
