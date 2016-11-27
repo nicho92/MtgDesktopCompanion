@@ -10,16 +10,16 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.components.CardListPanelRenderer;
+import org.magic.gui.components.CardListPanel;
 
 public class MagicCardListRenderer implements ListCellRenderer<MagicCard> {
 
 	DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
-	CardListPanelRenderer render;
+	CardListPanel render;
 	
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MagicCard> list, MagicCard value, int index,boolean isSelected, boolean cellHasFocus) {
-		render =new CardListPanelRenderer(value); 
+		render =new CardListPanel(value); 
 		 if (isSelected) {
              render.setBackground(SystemColor.inactiveCaption);
          }
