@@ -170,10 +170,13 @@ public class CockatriceTokenProvider {
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		
 		String expression = "//card[name='"+tok.getName()+"']";
-	
+		
 		if(tok.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
 			expression ="//card[name='"+tok.getName()+" (emblem)']";
 
+		logger.debug(expression + " for " + tok.getName() + " " + tok.getEditions().get(0).getId());
+		
+		
 		NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 		Map<String,String> map = null;
 		
@@ -191,6 +194,8 @@ public class CockatriceTokenProvider {
 				}
 		}
 		
+		logger.debug(map);
+		
 		try {
 		URLConnection connection = new URL(map.get(tok.getEditions().get(0).getId())).openConnection();
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
@@ -198,6 +203,7 @@ public class CockatriceTokenProvider {
 		}
 		catch(Exception e)
 		{
+			
 		throw new Exception("Could not find token for " + tok.getName() + " : " + e);
 		}
 	}

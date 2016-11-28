@@ -2,6 +2,7 @@ package org.magic.api.shopping.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -76,7 +77,6 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 			
 		List<ShopItem> list = new ArrayList<ShopItem>();
 		String html ="";
-		try {
 						int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
 			
 						for(int p=1;p<=maxPage;p++)
@@ -88,7 +88,11 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 							
 							 logger.debug("parsing item from " + html) ;
 							
-							 doc = Jsoup.connect(html).userAgent(props.getProperty("USER_AGENT")).get();
+							 try {
+								doc = Jsoup.connect(html).userAgent(props.getProperty("USER_AGENT")).get();
+							} catch (IOException e1) {
+								logger.error(e1);
+							}
 							 
 							Elements listElements = doc.select(props.getProperty("ROOT_TAG")).get(0).getElementsByTag("li");
 								 
@@ -97,7 +101,11 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 									String url =listElements.get(i).getElementsByTag("a").get(0).attr("href");
 									ShopItem a = new ShopItem();
 											a.setName(listElements.get(i).getElementsByTag("a").get(0).attr("title"));
-											a.setUrl(new URL(props.getProperty("PROTOCOLE")+url));
+											try {
+												a.setUrl(new URL(props.getProperty("PROTOCOLE")+url));
+											} catch (MalformedURLException e1) {
+												a.setUrl(null);
+											}
 											a.setLieu(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(1).text());
 											a.setType(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(0).text());
 											a.setId(url.substring(url.lastIndexOf("/")+1, url.lastIndexOf(".")).trim());
@@ -107,21 +115,33 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 											}
 											catch(IndexOutOfBoundsException e)
 											{
-												a.setImage(new URL(props.getProperty("PROTOCOLE")+"//static.leboncoin.fr/img/no-picture.png"));
+													try {
+														a.setImage(new URL(props.getProperty("PROTOCOLE")+"//static.leboncoin.fr/img/no-picture.png"));
+													} catch (MalformedURLException e1) {
+														logger.error(e1);
+													}
+											}
+											catch(MalformedURLException e1)
+											{
+												logger.error(e1);
 											}
 											
 											if(listElements.get(i).getElementsByClass("item_price").size()>0)
 												a.setPrice(parsePrice(listElements.get(i).getElementsByClass("item_price").get(0).text()));
 											
+											try{
 											a.setDate(parseDate(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(2).text()));
-											
+											}
+											catch(Exception e)
+											{
+												logger.error(e);
+											}
 											a.setUrgent(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(2).text().startsWith("Urgent"));
 											list.add(a);
+											
 								}
 						}
-				} catch (IOException e) {
-					logger.error(e);
-				}
+				
 		
 		
 		if(list.size()>Integer.parseInt(props.get("MAX_RESULT").toString()))
