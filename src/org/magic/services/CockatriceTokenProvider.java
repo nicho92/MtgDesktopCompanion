@@ -193,11 +193,14 @@ public class CockatriceTokenProvider {
 					map.put(set, pic);
 				}
 		}
-		
-		logger.debug(map);
-		
+	
 		try {
-		URLConnection connection = new URL(map.get(tok.getEditions().get(0).getId())).openConnection();
+			URLConnection connection;
+			if(map.get(tok.getEditions().get(0).getId())!=null)
+				connection = new URL(map.get(tok.getEditions().get(0).getId())).openConnection();
+			else
+				connection = new URL(map.get(map.keySet().iterator().next())).openConnection();
+			
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 		return ImageIO.read(connection.getInputStream());
 		}
