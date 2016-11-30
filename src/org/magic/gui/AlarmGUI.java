@@ -30,7 +30,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.main.MtgDesktopCompanion;
 import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.components.MagicPricePanel;
+import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGDesktopCompanionControler;

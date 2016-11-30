@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;

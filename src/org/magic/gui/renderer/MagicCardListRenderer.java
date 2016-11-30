@@ -10,7 +10,7 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.gui.components.CardListPanel;
+import org.magic.gui.components.renderer.CardListPanel;
 
 public class MagicCardListRenderer implements ListCellRenderer<MagicCard> {
 

@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.renderer;
 
 import java.awt.Font;
 import java.awt.GridBagConstraints;
@@ -12,7 +12,9 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.gui.components.ManaPanel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
+import org.magic.services.IconSetProvider;
 
 import javax.swing.border.LineBorder;
 import java.awt.Color;
@@ -59,15 +61,8 @@ public class CardListPanel extends JPanel{
 		gbc_lblEdition.gridy = 2;
 		add(lblEdition, gbc_lblEdition);
 		
-		try {
-
-			if(mc.getEditions().get(0).getId().startsWith("p"))
-				lblEdition.setIcon(new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/VAN_set.png"))));
-			else
-				lblEdition.setIcon(new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+mc.getEditions().get(0).getId()+"_set.png"))));
-		} catch (Exception e) {
-			
-		}
+		lblEdition.setIcon(IconSetProvider.getInstance().get(mc.getEditions().get(0).getId()));
+	
 	
 		
 		ManaPanel manaPanel = new ManaPanel();

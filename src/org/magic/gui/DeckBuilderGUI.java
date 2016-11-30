@@ -57,15 +57,15 @@ import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.game.Player;
 import org.magic.gui.components.DeckDetailsPanel;
-import org.magic.gui.components.DeckSnifferDialog;
-import org.magic.gui.components.JDeckChooserDialog;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ManaPanel;
-import org.magic.gui.components.ManualImportFrame;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
+import org.magic.gui.components.dialog.DeckSnifferDialog;
+import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.components.dialog.ManualImportFrame;
 import org.magic.gui.game.ThumbnailPanel;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
@@ -151,11 +151,7 @@ public class DeckBuilderGUI extends JPanel{
 	
 	private void initGUI() {
 		
-		logger.debug("init deckBuilder GUI");
 		JPanel panneauHaut = new JPanel();
-		
-		
-		
 		
 		lblExport.setIcon(new ImageIcon(MagicGUI.class.getResource("/res/load.gif")));
 		lblExport.setVisible(false);

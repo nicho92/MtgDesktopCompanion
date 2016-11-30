@@ -46,7 +46,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.game.GameManager;
 import org.magic.game.Player;
-import org.magic.gui.components.JDeckChooserDialog;
+import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MTGDesktopCompanionControler;
 

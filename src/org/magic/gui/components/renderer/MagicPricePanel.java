@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.renderer;
 
 import java.awt.Color;
 import java.awt.Font;
