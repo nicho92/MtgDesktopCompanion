@@ -21,15 +21,9 @@ public class CardBuilder2GUI extends JPanel{
 		tabbedPane.addTab("Set", null, panelSets, null);
 		panelSets.setLayout(new BorderLayout(0, 0));
 		
-		JPanel panel = new JPanel();
-		panelSets.add(panel, BorderLayout.EAST);
-		
-		MagicCardDetailPanel magicCardDetailPanel = new MagicCardDetailPanel();
-		magicCardDetailPanel.setEditable(true);
-		panelSets.add(magicCardDetailPanel, BorderLayout.CENTER);
-		
 		JPanel panelCards = new JPanel();
 		tabbedPane.addTab("Cards", null, panelCards, null);
+		panelCards.setLayout(new BorderLayout(0, 0));
 		
 	}
 

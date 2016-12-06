@@ -66,6 +66,7 @@ public class MagicEditionDetailPanel extends JSplitPane {
 						panneauHaut.add(setLabel, labelGbc_8);
 				
 						setJTextField = new JTextField();
+						
 						GridBagConstraints componentGbc_8 = new GridBagConstraints();
 						componentGbc_8.insets = new Insets(5, 0, 5, 5);
 						componentGbc_8.fill = GridBagConstraints.HORIZONTAL;
@@ -96,6 +97,7 @@ public class MagicEditionDetailPanel extends JSplitPane {
 		panneauHaut.add(releaseDateLabel, labelGbc_7);
 
 		releaseDateJTextField = new JTextField();
+
 		GridBagConstraints componentGbc_7 = new GridBagConstraints();
 		componentGbc_7.insets = new Insets(5, 0, 5, 5);
 		componentGbc_7.fill = GridBagConstraints.HORIZONTAL;
@@ -126,6 +128,7 @@ public class MagicEditionDetailPanel extends JSplitPane {
 				panneauHaut.add(cardCountLabel, labelGbc_3);
 						
 				cardCountTextField = new JTextField();
+
 				GridBagConstraints componentGbc_3 = new GridBagConstraints();
 				componentGbc_3.insets = new Insets(5, 0, 5, 5);
 				componentGbc_3.fill = GridBagConstraints.HORIZONTAL;
@@ -157,6 +160,7 @@ public class MagicEditionDetailPanel extends JSplitPane {
 				panneauHaut.add(lblId, gbc_lblId);
 				
 				idJtextField = new JTextField();
+
 				GridBagConstraints gbc_txtID = new GridBagConstraints();
 				gbc_txtID.insets = new Insets(0, 0, 5, 5);
 				gbc_txtID.fill = GridBagConstraints.HORIZONTAL;
@@ -185,7 +189,21 @@ public class MagicEditionDetailPanel extends JSplitPane {
 		if (magicEdition != null) {
 			m_bindingGroup = initDataBindings();
 		}
+		
+		setEditable(false);
 	}
+	
+	public void setEditable(boolean b)
+	{
+		idJtextField.setEditable(b);
+		blockJTextField.setEditable(b);
+		borderJTextField.setEditable(b);
+		cardCountTextField.setEditable(b);
+		releaseDateJTextField.setEditable(b);
+		typeJTextField.setEditable(b);
+		setJTextField.setEditable(b);
+	}
+	
 
 	public org.magic.api.beans.MagicEdition getMagicEdition() {
 		return magicEdition;
