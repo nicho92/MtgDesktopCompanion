@@ -38,16 +38,28 @@ public class MagicEditionDetailPanel extends JSplitPane {
 	private JTable table;
 	private EditionsShakerTableModel mod;
 	private JPanel panneauHaut;
+	private boolean showPrices;
 	
+	
+	public MagicEditionDetailPanel(boolean showTablePrice) {
+		showPrices=showTablePrice;
+		initGUI();
+	}
+
 	
 	public MagicEditionDetailPanel(MagicEdition newMagicEdition) {
 		setMagicEdition(newMagicEdition);
 	}
-
+	
 	public MagicEditionDetailPanel() {
+		showPrices=true;
+		initGUI();
+	}
+	
+
+	public void initGUI() {
 		setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panneauHaut = new JPanel();
-		
 		
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -169,22 +181,23 @@ public class MagicEditionDetailPanel extends JSplitPane {
 				panneauHaut.add(idJtextField, gbc_txtID);
 				idJtextField.setColumns(10);
 				
+				setLeftComponent(panneauHaut);
+				
+				if(showPrices)
+				{
 				scrollPane = new JScrollPane();
-//				GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-//				gbc_scrollPane.gridwidth = 2;
-//				gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
-//				gbc_scrollPane.fill = GridBagConstraints.BOTH;
-//				gbc_scrollPane.gridx = 0;
-//				gbc_scrollPane.gridy = 7;
-//				panneauHaut.add(scrollPane, gbc_scrollPane);
-//				
 				mod= new EditionsShakerTableModel();
 				table = new JTable(mod);
 				table.setRowSorter(new TableRowSorter(mod));
 				scrollPane.setViewportView(table);
-				
-				setLeftComponent(panneauHaut);
 				setRightComponent(scrollPane);
+				}
+				else
+				{
+					setRightComponent(null);
+				}
+				
+				
 
 		if (magicEdition != null) {
 			m_bindingGroup = initDataBindings();
