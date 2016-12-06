@@ -72,6 +72,22 @@ public class MagicCardDetailPanel extends JPanel {
 	GridBagLayout gridBagLayout ;
 	private JButton btnAlert;
 	
+	public void setEditable(boolean b)
+	{
+		txtWatermark.setEditable(b);
+		txtArtist.setEditable(b);
+		txtFlavorArea.setEditable(b);
+		txtTextPane.setEditable(b);
+		rarityJTextField.setEditable(b);
+		txtLayoutField.setEditable(b);
+		toughnessJTextField.setEditable(b);
+		powerJTextField.setEditable(b);
+		loyaltyJTextField.setEditable(b);
+		fullTypeJTextField.setEditable(b);
+		nameJTextField.setEditable(b);
+		cmcJTextField.setEditable(b);
+
+	}
 	
 	public void enableThumbnail(boolean val)
 	{
@@ -79,7 +95,7 @@ public class MagicCardDetailPanel extends JPanel {
 	}
 	
 	
-	public MagicCardDetailPanel(org.magic.api.beans.MagicCard newMagicCard) {
+	public MagicCardDetailPanel(MagicCard newMagicCard) {
 		this();
 		setMagicCard(newMagicCard);
 	}
@@ -101,7 +117,7 @@ public class MagicCardDetailPanel extends JPanel {
 		add(nameLabel, labelGbc_5);
 
 		nameJTextField = new JTextField();
-		nameJTextField.setEditable(false);
+
 		GridBagConstraints componentGbc_5 = new GridBagConstraints();
 		componentGbc_5.insets = new Insets(5, 0, 5, 5);
 		componentGbc_5.fill = GridBagConstraints.HORIZONTAL;
@@ -118,7 +134,6 @@ public class MagicCardDetailPanel extends JPanel {
 		add(cmcLabel, labelGbc_0);
 
 		cmcJTextField = new JTextField();
-		cmcJTextField.setEditable(false);
 		GridBagConstraints componentGbc_0 = new GridBagConstraints();
 		componentGbc_0.insets = new Insets(5, 0, 5, 5);
 		componentGbc_0.fill = GridBagConstraints.HORIZONTAL;
@@ -179,7 +194,6 @@ public class MagicCardDetailPanel extends JPanel {
 				add(fullTypeLabel, labelGbc_2);
 		
 				fullTypeJTextField = new JTextField();
-				fullTypeJTextField.setEditable(false);
 				GridBagConstraints componentGbc_2 = new GridBagConstraints();
 				componentGbc_2.insets = new Insets(5, 0, 5, 5);
 				componentGbc_2.fill = GridBagConstraints.HORIZONTAL;
@@ -211,15 +225,12 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_loyaltyLabel.gridy = 2;
 				add(loyaltyLabel, gbc_loyaltyLabel);
 				loyaltyJTextField = new JTextField();
-				loyaltyJTextField.setEditable(false);
 				loyaltyJTextField.setColumns(5);
 				JLabel powerLabel = new JLabel("Power:");
 				powerJTextField = new JTextField();
-				powerJTextField.setEditable(false);
 				powerJTextField.setColumns(5);
 				JLabel toughnessLabel = new JLabel("/");
 				toughnessJTextField = new JTextField();
-				toughnessJTextField.setEditable(false);
 				toughnessJTextField.setColumns(5);
 								
 				
@@ -255,7 +266,7 @@ public class MagicCardDetailPanel extends JPanel {
 				add(lblLayout, gbc_lblLayout);
 				
 				txtLayoutField = new JTextField();
-				txtLayoutField.setEditable(false);
+
 				GridBagConstraints gbc_txtLayoutField = new GridBagConstraints();
 				gbc_txtLayoutField.insets = new Insets(0, 0, 5, 5);
 				gbc_txtLayoutField.fill = GridBagConstraints.HORIZONTAL;
@@ -271,7 +282,6 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_lstFormats.gridy = 3;
 				
 				rarityJTextField = new JTextField();
-				rarityJTextField.setEditable(false);
 				GridBagConstraints gbc_rarityJTextField = new GridBagConstraints();
 				gbc_rarityJTextField.gridwidth = 3;
 				gbc_rarityJTextField.insets = new Insets(0, 0, 5, 5);
@@ -306,7 +316,7 @@ public class MagicCardDetailPanel extends JPanel {
 				txtTextPane = new MagicTextPane();
 				txtTextPane.setBorder(new LineBorder(Color.GRAY));
 				txtTextPane.setBackground(Color.WHITE);
-				txtTextPane.setEditable(false);
+
 				txtTextPane.setFont(new Font("Arial", Font.PLAIN, 12));
 
 				GridBagConstraints gbc_txtTextPane = new GridBagConstraints();
@@ -327,7 +337,6 @@ public class MagicCardDetailPanel extends JPanel {
 				add(lblFlavor, gbc_lblFlavor);
 				
 				txtFlavorArea = new JTextPane();
-				txtFlavorArea.setEditable(false);
 			//	txtFlavorArea.setLineWrap(true);
 			//	txtFlavorArea.setWrapStyleWord(true);
 				txtFlavorArea.setFont(new Font("Arial", Font.ITALIC, 11));
@@ -347,7 +356,6 @@ public class MagicCardDetailPanel extends JPanel {
 				add(lblArtist, gbc_lblArtist);
 				
 				txtArtist = new JTextField();
-				txtArtist.setEditable(false);
 				GridBagConstraints gbc_txtArtist = new GridBagConstraints();
 				gbc_txtArtist.insets = new Insets(0, 0, 5, 5);
 				gbc_txtArtist.fill = GridBagConstraints.HORIZONTAL;
@@ -365,7 +373,7 @@ public class MagicCardDetailPanel extends JPanel {
 				add(lblWatermark, gbc_lblWatermark);
 				
 				txtWatermark = new JTextField();
-				txtWatermark.setEditable(false);
+
 				GridBagConstraints gbc_txtWatermark = new GridBagConstraints();
 				gbc_txtWatermark.gridwidth = 3;
 				gbc_txtWatermark.insets = new Insets(0, 0, 5, 5);
@@ -395,13 +403,11 @@ public class MagicCardDetailPanel extends JPanel {
 				listCollection = new JList<MagicCollection>(new DefaultListModel<MagicCollection>());
 				scrollCollections.setViewportView(listCollection);
 				
-					
-				
-				
-
 		if (magicCard != null) {
 			m_bindingGroup = initDataBindings();
 		}
+		
+		setEditable(false);
 	}
 
 	public MagicCard getMagicCard() {
