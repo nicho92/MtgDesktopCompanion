@@ -20,6 +20,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.services.ThreadManager;
+import javax.swing.JCheckBox;
 
 public class MagicEditionDetailPanel extends JSplitPane {
 
@@ -39,6 +40,8 @@ public class MagicEditionDetailPanel extends JSplitPane {
 	private EditionsShakerTableModel mod;
 	private JPanel panneauHaut;
 	private boolean showPrices;
+	private JLabel lblOnlineSet;
+	private JCheckBox chkOnline;
 	
 	
 	public MagicEditionDetailPanel(boolean showTablePrice) {
@@ -64,9 +67,9 @@ public class MagicEditionDetailPanel extends JSplitPane {
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 104, 333, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0,
 				1.0E-4 };
 		panneauHaut.setLayout(gridBagLayout);
 				
@@ -183,6 +186,20 @@ public class MagicEditionDetailPanel extends JSplitPane {
 				
 				setLeftComponent(panneauHaut);
 				
+				lblOnlineSet = new JLabel("Online Set :");
+				GridBagConstraints gbc_lblOnlineSet = new GridBagConstraints();
+				gbc_lblOnlineSet.insets = new Insets(0, 0, 5, 5);
+				gbc_lblOnlineSet.gridx = 0;
+				gbc_lblOnlineSet.gridy = 7;
+				panneauHaut.add(lblOnlineSet, gbc_lblOnlineSet);
+				
+				chkOnline = new JCheckBox("");
+				GridBagConstraints gbc_chkOnline = new GridBagConstraints();
+				gbc_chkOnline.insets = new Insets(0, 0, 5, 5);
+				gbc_chkOnline.gridx = 1;
+				gbc_chkOnline.gridy = 7;
+				panneauHaut.add(chkOnline, gbc_chkOnline);
+				
 				if(showPrices)
 				{
 				scrollPane = new JScrollPane();
@@ -215,6 +232,8 @@ public class MagicEditionDetailPanel extends JSplitPane {
 		releaseDateJTextField.setEditable(b);
 		typeJTextField.setEditable(b);
 		setJTextField.setEditable(b);
+		chkOnline.setEnabled(b);
+		
 	}
 	
 
@@ -255,38 +274,45 @@ public class MagicEditionDetailPanel extends JSplitPane {
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicEdition, String> borderProperty = BeanProperty.create("border");
 		BeanProperty<JTextField, String> textProperty_2 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, borderProperty, borderJTextField, textProperty_2);
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, borderProperty, borderJTextField, textProperty_2);
 		autoBinding_2.bind();
 		//
 		BeanProperty<MagicEdition, Integer> cardCountProperty = BeanProperty.create("cardCount");
 		BeanProperty<JTextField, String> valueProperty = BeanProperty.create("text");
-		AutoBinding<MagicEdition, Integer, JTextField, String> autoBinding_3 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, cardCountProperty, cardCountTextField, valueProperty);
+		AutoBinding<MagicEdition, Integer, JTextField, String> autoBinding_3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, cardCountProperty, cardCountTextField, valueProperty);
 		autoBinding_3.bind();
 		//
 		BeanProperty<MagicEdition, String> releaseDateProperty = BeanProperty.create("releaseDate");
 		BeanProperty<JTextField, String> textProperty_6 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_7 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, releaseDateProperty, releaseDateJTextField, textProperty_6);
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, releaseDateProperty, releaseDateJTextField, textProperty_6);
 		autoBinding_7.bind();
 		//
 		BeanProperty<MagicEdition, String> setProperty = BeanProperty.create("set");
 		BeanProperty<JTextField, String> textProperty_7 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, setProperty, setJTextField, textProperty_7);
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, setProperty, setJTextField, textProperty_7);
 		autoBinding_8.bind();
 		//
 		BeanProperty<MagicEdition, String> typeProperty = BeanProperty.create("type");
 		BeanProperty<JTextField, String> textProperty_10 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_11 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, typeProperty, typeJTextField, textProperty_10);
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, typeProperty, typeJTextField, textProperty_10);
 		autoBinding_11.bind();
 		
 		BeanProperty<MagicEdition, String> blockProperty = BeanProperty.create("block");
 		BeanProperty<JTextField, String> textProperty_11 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_12 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, blockProperty, blockJTextField, textProperty_11);
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, blockProperty, blockJTextField, textProperty_11);
 		autoBinding_12.bind();
 		
 		BeanProperty<MagicEdition, String> idProperty = BeanProperty.create("id");
 		BeanProperty<JTextField, String> textProperty_12 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ, magicEdition, idProperty, idJtextField, textProperty_12);
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, textProperty_12);
 		autoBinding_13.bind();
+		
+		BeanProperty<MagicEdition, String> onlineProperty = BeanProperty.create("onlineOnly");
+		BeanProperty<JCheckBox, String> chkProperty_13 = BeanProperty.create("selected");
+		AutoBinding<MagicEdition, String, JCheckBox, String> autoBinding_14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty_13);
+		autoBinding_14.bind();
+		
+		
 
 		//
 		BindingGroup bindingGroup = new BindingGroup();
@@ -297,6 +323,8 @@ public class MagicEditionDetailPanel extends JSplitPane {
 		bindingGroup.addBinding(autoBinding_8);
 		bindingGroup.addBinding(autoBinding_11);
 		bindingGroup.addBinding(autoBinding_12);
+		bindingGroup.addBinding(autoBinding_13);
+		bindingGroup.addBinding(autoBinding_14);
 		return bindingGroup;
 	}
 }

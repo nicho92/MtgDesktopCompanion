@@ -299,7 +299,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		{
 			
 				MagicCard mc = new MagicCard();
-			   logger.debug("Loading Data " + Arrays.toString(map.entrySet().toArray()));
+			 //  logger.debug("Loading Data " + Arrays.toString(map.entrySet().toArray()));
 			   
 			   if(map.get("name")!=null)
 				   mc.setName(map.get("name").toString());

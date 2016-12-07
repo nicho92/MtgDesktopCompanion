@@ -22,12 +22,6 @@ import com.google.gson.stream.JsonReader;
 
 public class JsonExport  extends AbstractCardExport {
 
-	
-	public static void main(String[] args) throws Exception {
-		JsonExport exp = new JsonExport();
-		exp.export(new MTGDesktopCompanionExport().importDeck(new File(MTGDesktopCompanionControler.CONF_DIR,"\\decks\\RW Angels.deck")),new File("c:/test.json"));
-	}
-	
 	public JsonExport() {
 		super();
 	}
