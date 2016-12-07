@@ -43,7 +43,7 @@ public class PersonnalSetManager {
 			} catch (JsonIOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
-			} catch (FileNotFoundException e) {
+			}  catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
@@ -64,18 +64,36 @@ public class PersonnalSetManager {
 			confdir.mkdir();
 	}
 	
-	public void addCard(MagicEdition me, MagicCard mc) throws IOException
+	public List<MagicCard> getCards(MagicEdition me) throws IOException
 	{
-		FileWriter out = new FileWriter(new File(confdir,me.getId()));
-		
-		
+		JsonReader reader = new JsonReader(new FileReader(new File(confdir,me.getId()+".json")));
+		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		JsonArray arr = (JsonArray) root.get("cards");
+		return (List<MagicCard>)new Gson().fromJson(arr, List.class);
 	}
 	
 	
-	public MagicEdition getEdition(File f) throws JsonSyntaxException, JsonIOException, FileNotFoundException
+	public void addCard(MagicEdition me, MagicCard mc) throws IOException
+	{
+		File f = new File(confdir,me.getId()+".json");
+		JsonReader reader = new JsonReader(new FileReader(f));
+		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		JsonArray cards = root.get("cards").getAsJsonArray();
+				  cards.add(new Gson().toJsonTree(mc));
+		reader.close();
+		
+		
+		FileWriter out = new FileWriter(f);
+		out.write(root.toString());
+		out.close();
+	}
+	
+	
+	public MagicEdition getEdition(File f) throws JsonSyntaxException, JsonIOException, IOException
 	{
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		reader.close();
 		return new Gson().fromJson(root.get("main"),MagicEdition.class);
 	}
 	
@@ -92,7 +110,7 @@ public class PersonnalSetManager {
 	}
 	
 	
-	public static void main(String[] args) throws JsonSyntaxException, JsonIOException, FileNotFoundException {
+	public static void main(String[] args) throws JsonSyntaxException, JsonIOException, IOException {
 		PersonnalSetManager manager = new PersonnalSetManager();
 		
 		System.out.println(manager.getEdition(new File(manager.confdir,"p3ED.json")));

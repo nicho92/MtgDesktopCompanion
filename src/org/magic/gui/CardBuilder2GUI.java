@@ -5,15 +5,20 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 import javax.swing.JButton;
+import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGDesktopCompanionControler;
@@ -23,9 +28,10 @@ public class CardBuilder2GUI extends JPanel{
 	
 	private JTable table;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
+	private MagicCardDetailPanel magicCardDetailPanel;
 	private MagicEditionsTableModel mod;
 	private PersonnalSetManager editor;
-	
+	private JComboBox<MagicEdition> cboSets;
 	public CardBuilder2GUI() {
 		
 		editor=new PersonnalSetManager();
@@ -42,6 +48,35 @@ public class CardBuilder2GUI extends JPanel{
 		JPanel panelCards = new JPanel();
 		tabbedPane.addTab("Cards", null, panelCards, null);
 		panelCards.setLayout(new BorderLayout(0, 0));
+		
+		magicCardDetailPanel = new MagicCardDetailPanel();
+		magicCardDetailPanel.setEditable(true);
+		panelCards.add(magicCardDetailPanel, BorderLayout.CENTER);
+		
+		JPanel panneauHaut = new JPanel();
+		panelCards.add(panneauHaut, BorderLayout.NORTH);
+		
+		cboSets = new JComboBox<MagicEdition>(editor.listEditions().toArray(new MagicEdition[editor.listEditions().size()]));
+		
+		panneauHaut.add(cboSets);
+		
+		JButton btnAdd_1 = new JButton("Add");
+		btnAdd_1.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MagicEdition me = (MagicEdition)cboSets.getSelectedItem();
+				MagicCard mc = magicCardDetailPanel.getMagicCard();
+				System.out.println("save " + mc);
+				try {
+					editor.addCard(me, mc);
+				} catch (IOException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+				
+				
+			}
+		});
+		panneauHaut.add(btnAdd_1);
 		
 		JPanel panelSets = new JPanel();
 		tabbedPane.addTab("Set", null, panelSets, null);
