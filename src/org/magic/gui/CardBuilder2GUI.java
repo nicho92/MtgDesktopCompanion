@@ -22,7 +22,7 @@ import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGDesktopCompanionControler;
-import org.magic.services.PersonnalSetManager;
+import org.magic.services.PrivateMTGSetProvider;
 
 public class CardBuilder2GUI extends JPanel{
 	
@@ -30,11 +30,13 @@ public class CardBuilder2GUI extends JPanel{
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private MagicEditionsTableModel mod;
-	private PersonnalSetManager editor;
+	private PrivateMTGSetProvider editor;
 	private JComboBox<MagicEdition> cboSets;
+	
+	
 	public CardBuilder2GUI() {
-		
-		editor=new PersonnalSetManager();
+		try{
+		editor=new PrivateMTGSetProvider();
 		
 		setLayout(new BorderLayout(0, 0));
 		
@@ -42,7 +44,7 @@ public class CardBuilder2GUI extends JPanel{
 		add(tabbedPane);
 		mod = new MagicEditionsTableModel();
 		
-		mod.init(editor.listEditions());
+		mod.init(editor.loadEditions());
 		mod.fireTableDataChanged();
 		
 		JPanel panelCards = new JPanel();
@@ -56,7 +58,7 @@ public class CardBuilder2GUI extends JPanel{
 		JPanel panneauHaut = new JPanel();
 		panelCards.add(panneauHaut, BorderLayout.NORTH);
 		
-		cboSets = new JComboBox<MagicEdition>(editor.listEditions().toArray(new MagicEdition[editor.listEditions().size()]));
+		cboSets = new JComboBox<MagicEdition>(editor.loadEditions().toArray(new MagicEdition[editor.loadEditions().size()]));
 		
 		panneauHaut.add(cboSets);
 		
@@ -96,9 +98,9 @@ public class CardBuilder2GUI extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					editor.saveEdition(magicEditionDetailPanel.getMagicEdition());
-					mod.init(editor.listEditions());
+					mod.init(editor.loadEditions());
 					mod.fireTableDataChanged();
-				} catch (IOException e) {
+				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
@@ -120,7 +122,11 @@ public class CardBuilder2GUI extends JPanel{
 		magicEditionDetailPanel = new MagicEditionDetailPanel(false);
 		magicEditionDetailPanel.setEditable(true);
 		panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
-		
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
