@@ -5,7 +5,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -18,7 +17,7 @@ import javax.swing.JTable;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.MagicCardEditorPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGDesktopCompanionControler;
@@ -28,7 +27,7 @@ public class CardBuilder2GUI extends JPanel{
 	
 	private JTable table;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
-	private MagicCardDetailPanel magicCardDetailPanel;
+	private MagicCardEditorPanel magicCardEditorPanel;
 	private MagicEditionsTableModel mod;
 	private PrivateMTGSetProvider editor;
 	private JComboBox<MagicEdition> cboSets;
@@ -51,14 +50,13 @@ public class CardBuilder2GUI extends JPanel{
 		tabbedPane.addTab("Cards", null, panelCards, null);
 		panelCards.setLayout(new BorderLayout(0, 0));
 		
-		magicCardDetailPanel = new MagicCardDetailPanel();
-		magicCardDetailPanel.setEditable(true);
-		panelCards.add(magicCardDetailPanel, BorderLayout.CENTER);
+		magicCardEditorPanel = new MagicCardEditorPanel();
+		panelCards.add(magicCardEditorPanel, BorderLayout.CENTER);
 		
 		JPanel panneauHaut = new JPanel();
 		panelCards.add(panneauHaut, BorderLayout.NORTH);
 		
-		cboSets = new JComboBox<MagicEdition>(editor.loadEditions().toArray(new MagicEdition[editor.loadEditions().size()]));
+		cboSets = new JComboBox<MagicEdition>();//(editor.loadEditions().toArray(new MagicEdition[editor.loadEditions().size()]));
 		
 		panneauHaut.add(cboSets);
 		
@@ -66,7 +64,7 @@ public class CardBuilder2GUI extends JPanel{
 		btnAdd_1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MagicEdition me = (MagicEdition)cboSets.getSelectedItem();
-				MagicCard mc = magicCardDetailPanel.getMagicCard();
+				MagicCard mc = magicCardEditorPanel.getMagicCard();
 				System.out.println("save " + mc);
 				try {
 					editor.addCard(me, mc);
