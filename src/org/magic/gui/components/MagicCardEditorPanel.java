@@ -1,23 +1,28 @@
 package org.magic.gui.components;
 
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import javax.swing.JTextField;
 
 import org.jdesktop.beansbinding.AutoBinding;
@@ -26,8 +31,6 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
-import java.util.List;
-import javax.swing.JButton;
 
 public class MagicCardEditorPanel extends JPanel {
 
@@ -68,7 +71,7 @@ public class MagicCardEditorPanel extends JPanel {
 
 	public MagicCardEditorPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[] { 0, 192, 122, 103, 0 };
+		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
@@ -97,6 +100,56 @@ public class MagicCardEditorPanel extends JPanel {
 				add(costLabel, labelGbc_2);
 		
 				costJTextField = new JTextField();
+				costJTextField.addMouseListener(new MouseAdapter() {
+					
+					@Override
+					public void mouseClicked(MouseEvent e) {
+						JDialog g = new JDialog();
+						g.getContentPane().setLayout(new FlowLayout());
+						
+						
+						Integer[] data = {0,1,2,3,4,5,6,7,8,9,10};
+						final JComboBox<Integer> cboW = new JComboBox<Integer>(data);
+						final JComboBox<Integer> cboU = new JComboBox<Integer>(data);
+						final JComboBox<Integer> cboB = new JComboBox<Integer>(data);
+						final JComboBox<Integer> cboR = new JComboBox<Integer>(data);
+						final JComboBox<Integer> cboG = new JComboBox<Integer>(data);
+						final JComboBox<Integer> cboC = new JComboBox<Integer>(data);
+						final JComboBox<Integer> cboUn = new JComboBox<Integer>(data);
+						JButton btn = new JButton("set Cost");
+						btn.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+							
+								
+								costJTextField.setText("");
+								
+							}
+						});
+						
+						
+						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.add(cboUn);
+						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.add(cboW);
+						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("U").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.add(cboU);
+						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("B").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.add(cboB);
+						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("R").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.add(cboR);
+						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("G").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.add(cboG);
+						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.add(cboC);
+						
+						g.setLocationRelativeTo(null);
+						g.pack();
+						g.setVisible(true);
+				
+					}
+					
+				});
+				
 				GridBagConstraints componentGbc_2 = new GridBagConstraints();
 				componentGbc_2.insets = new Insets(5, 0, 5, 0);
 				componentGbc_2.fill = GridBagConstraints.HORIZONTAL;
