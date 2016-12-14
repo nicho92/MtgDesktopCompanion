@@ -2,10 +2,14 @@ package org.magic.gui.components;
 
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JEditorPane;
@@ -22,6 +26,8 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
+import java.util.List;
+import javax.swing.JButton;
 
 public class MagicCardEditorPanel extends JPanel {
 
@@ -49,10 +55,11 @@ public class MagicCardEditorPanel extends JPanel {
 	private JLabel lblType;
 	private JPanel panel_1;
 	private JComboBox<String> cboSuperType;
-	private JList<? extends String> list;
+	private JList<? extends String> listTypes;
 	private JScrollPane scrollPane;
 	private JTextField txtSubTypes;
-
+	private JPanel panel_2;
+	private ManaPanel pan = new ManaPanel();
 	
 	public MagicCardEditorPanel(org.magic.api.beans.MagicCard newMagicCard) {
 		this();
@@ -62,9 +69,9 @@ public class MagicCardEditorPanel extends JPanel {
 	public MagicCardEditorPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 192, 122, 103, 0 };
-		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
 				JLabel nameLabel = new JLabel("Name:");
@@ -169,9 +176,9 @@ public class MagicCardEditorPanel extends JPanel {
 				gbc_scrollPane.gridy = 0;
 				panel_1.add(scrollPane, gbc_scrollPane);
 				
-				list = new JList<String>();
-				list.setVisibleRowCount(3);
-				list.setModel(new AbstractListModel() {
+				listTypes = new JList<String>();
+				listTypes.setVisibleRowCount(3);
+				listTypes.setModel(new AbstractListModel() {
 					String[] values = new String[] {"", "Arcane", "Artifact", "Aura", "Basic", "Clue", "Conspiracy", "Continuous", "Contraption", "Creature", "Curse", "Elite", "Enchantment", "Equipment", "Fortification", "Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Legendary", "Local", "Mana source", "Mono", "Ongoing", "Permanent", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scheme", "Shrine", "Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World"};
 					public int getSize() {
 						return values.length;
@@ -180,7 +187,7 @@ public class MagicCardEditorPanel extends JPanel {
 						return values[index];
 					}
 				});
-				scrollPane.setViewportView(list);
+				scrollPane.setViewportView(listTypes);
 				
 				txtSubTypes = new JTextField();
 				GridBagConstraints gbc_txtSubTypes = new GridBagConstraints();
@@ -189,13 +196,39 @@ public class MagicCardEditorPanel extends JPanel {
 				gbc_txtSubTypes.gridy = 0;
 				panel_1.add(txtSubTypes, gbc_txtSubTypes);
 				txtSubTypes.setColumns(10);
-		
-				JLabel textLabel = new JLabel("Text:");
-				GridBagConstraints labelGbc_16 = new GridBagConstraints();
-				labelGbc_16.insets = new Insets(5, 5, 5, 5);
-				labelGbc_16.gridx = 0;
-				labelGbc_16.gridy = 3;
-				add(textLabel, labelGbc_16);
+						
+						panel_2 = new JPanel();
+						GridBagConstraints gbc_panel_2 = new GridBagConstraints();
+						gbc_panel_2.gridwidth = 2;
+						gbc_panel_2.insets = new Insets(0, 0, 5, 5);
+						gbc_panel_2.fill = GridBagConstraints.BOTH;
+						gbc_panel_2.gridx = 1;
+						gbc_panel_2.gridy = 3;
+						add(panel_2, gbc_panel_2);
+						
+						String[] symbolcs = new String[]{"W","U","B","R","G","C","T","E"};
+						for(String s : symbolcs)
+						{
+							final JButton btnG = new JButton();
+							btnG.setToolTipText(s);
+							btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
+							btnG.setForeground(btnG.getBackground());
+							
+							btnG.addActionListener(new ActionListener() {
+								public void actionPerformed(ActionEvent e) {
+									textJEditorPane.setText(textJEditorPane.getText()+ " {" + btnG.getToolTipText()+"}");
+									
+								}
+							});
+							panel_2.add(btnG);
+								
+						}
+							JLabel textLabel = new JLabel("Text:");
+						GridBagConstraints labelGbc_16 = new GridBagConstraints();
+						labelGbc_16.insets = new Insets(5, 5, 5, 5);
+						labelGbc_16.gridx = 0;
+						labelGbc_16.gridy = 4;
+						add(textLabel, labelGbc_16);
 		
 				textJEditorPane = new JEditorPane();
 				GridBagConstraints componentGbc_16 = new GridBagConstraints();
@@ -204,14 +237,14 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_16.insets = new Insets(5, 0, 5, 0);
 				componentGbc_16.fill = GridBagConstraints.BOTH;
 				componentGbc_16.gridx = 1;
-				componentGbc_16.gridy = 3;
+				componentGbc_16.gridy = 4;
 				add(textJEditorPane, componentGbc_16);
 
 		JLabel flavorLabel = new JLabel("Flavor:");
 		GridBagConstraints labelGbc_3 = new GridBagConstraints();
 		labelGbc_3.insets = new Insets(5, 5, 5, 5);
 		labelGbc_3.gridx = 0;
-		labelGbc_3.gridy = 5;
+		labelGbc_3.gridy = 6;
 		add(flavorLabel, labelGbc_3);
 
 		flavorJTextField = new JTextField();
@@ -220,14 +253,14 @@ public class MagicCardEditorPanel extends JPanel {
 		componentGbc_3.insets = new Insets(5, 0, 5, 0);
 		componentGbc_3.fill = GridBagConstraints.HORIZONTAL;
 		componentGbc_3.gridx = 1;
-		componentGbc_3.gridy = 5;
+		componentGbc_3.gridy = 6;
 		add(flavorJTextField, componentGbc_3);
 				
 						JLabel layoutLabel = new JLabel("Layout:");
 						GridBagConstraints labelGbc_6 = new GridBagConstraints();
 						labelGbc_6.insets = new Insets(5, 5, 5, 5);
 						labelGbc_6.gridx = 0;
-						labelGbc_6.gridy = 6;
+						labelGbc_6.gridy = 7;
 						add(layoutLabel, labelGbc_6);
 				
 						layoutJComboBox = new JComboBox();
@@ -235,14 +268,14 @@ public class MagicCardEditorPanel extends JPanel {
 						componentGbc_6.insets = new Insets(5, 0, 5, 5);
 						componentGbc_6.fill = GridBagConstraints.HORIZONTAL;
 						componentGbc_6.gridx = 1;
-						componentGbc_6.gridy = 6;
+						componentGbc_6.gridy = 7;
 						add(layoutJComboBox, componentGbc_6);
 						
 								JLabel powerLabel = new JLabel("Power / Toughness :");
 								GridBagConstraints labelGbc_13 = new GridBagConstraints();
 								labelGbc_13.insets = new Insets(5, 5, 5, 5);
 								labelGbc_13.gridx = 2;
-								labelGbc_13.gridy = 6;
+								labelGbc_13.gridy = 7;
 								add(powerLabel, labelGbc_13);
 						
 						panel = new JPanel();
@@ -250,7 +283,7 @@ public class MagicCardEditorPanel extends JPanel {
 						gbc_panel.insets = new Insets(0, 0, 5, 0);
 						gbc_panel.fill = GridBagConstraints.BOTH;
 						gbc_panel.gridx = 3;
-						gbc_panel.gridy = 6;
+						gbc_panel.gridy = 7;
 						add(panel, gbc_panel);
 						
 								powerJTextField = new JTextField();
@@ -268,7 +301,7 @@ public class MagicCardEditorPanel extends JPanel {
 														GridBagConstraints labelGbc_19 = new GridBagConstraints();
 														labelGbc_19.insets = new Insets(5, 5, 5, 5);
 														labelGbc_19.gridx = 0;
-														labelGbc_19.gridy = 7;
+														labelGbc_19.gridy = 8;
 														add(watermarksLabel, labelGbc_19);
 												
 														watermarksJTextField = new JTextField();
@@ -276,14 +309,14 @@ public class MagicCardEditorPanel extends JPanel {
 														componentGbc_19.insets = new Insets(5, 0, 5, 5);
 														componentGbc_19.fill = GridBagConstraints.HORIZONTAL;
 														componentGbc_19.gridx = 1;
-														componentGbc_19.gridy = 7;
+														componentGbc_19.gridy = 8;
 														add(watermarksJTextField, componentGbc_19);
 										
 												JLabel loyaltyLabel = new JLabel("Loyalty:");
 												GridBagConstraints labelGbc_7 = new GridBagConstraints();
 												labelGbc_7.insets = new Insets(5, 5, 5, 5);
 												labelGbc_7.gridx = 2;
-												labelGbc_7.gridy = 7;
+												labelGbc_7.gridy = 8;
 												add(loyaltyLabel, labelGbc_7);
 								
 										loyaltyJTextField = new JTextField();
@@ -291,14 +324,14 @@ public class MagicCardEditorPanel extends JPanel {
 										componentGbc_7.insets = new Insets(5, 0, 5, 0);
 										componentGbc_7.fill = GridBagConstraints.HORIZONTAL;
 										componentGbc_7.gridx = 3;
-										componentGbc_7.gridy = 7;
+										componentGbc_7.gridy = 8;
 										add(loyaltyJTextField, componentGbc_7);
 						
 								JLabel numberLabel = new JLabel("Number:");
 								GridBagConstraints labelGbc_11 = new GridBagConstraints();
 								labelGbc_11.insets = new Insets(5, 5, 5, 5);
 								labelGbc_11.gridx = 0;
-								labelGbc_11.gridy = 8;
+								labelGbc_11.gridy = 9;
 								add(numberLabel, labelGbc_11);
 						
 								numberJTextField = new JTextField();
@@ -306,14 +339,14 @@ public class MagicCardEditorPanel extends JPanel {
 								componentGbc_11.insets = new Insets(5, 0, 5, 5);
 								componentGbc_11.fill = GridBagConstraints.HORIZONTAL;
 								componentGbc_11.gridx = 1;
-								componentGbc_11.gridy = 8;
+								componentGbc_11.gridy = 9;
 								add(numberJTextField, componentGbc_11);
 				
 						JLabel tranformableLabel = new JLabel("Tranformable:");
 						GridBagConstraints labelGbc_18 = new GridBagConstraints();
 						labelGbc_18.insets = new Insets(5, 5, 5, 5);
 						labelGbc_18.gridx = 2;
-						labelGbc_18.gridy = 8;
+						labelGbc_18.gridy = 9;
 						add(tranformableLabel, labelGbc_18);
 		
 				tranformableJCheckBox = new JCheckBox();
@@ -321,14 +354,14 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_18.insets = new Insets(5, 0, 5, 0);
 				componentGbc_18.fill = GridBagConstraints.HORIZONTAL;
 				componentGbc_18.gridx = 3;
-				componentGbc_18.gridy = 8;
+				componentGbc_18.gridy = 9;
 				add(tranformableJCheckBox, componentGbc_18);
 				
 						JLabel mciNumberLabel = new JLabel("MciNumber:");
 						GridBagConstraints labelGbc_8 = new GridBagConstraints();
 						labelGbc_8.insets = new Insets(5, 5, 5, 5);
 						labelGbc_8.gridx = 0;
-						labelGbc_8.gridy = 9;
+						labelGbc_8.gridy = 10;
 						add(mciNumberLabel, labelGbc_8);
 				
 						mciNumberJTextField = new JTextField();
@@ -336,14 +369,14 @@ public class MagicCardEditorPanel extends JPanel {
 						componentGbc_8.insets = new Insets(5, 0, 5, 5);
 						componentGbc_8.fill = GridBagConstraints.HORIZONTAL;
 						componentGbc_8.gridx = 1;
-						componentGbc_8.gridy = 9;
+						componentGbc_8.gridy = 10;
 						add(mciNumberJTextField, componentGbc_8);
 		
 				JLabel flippableLabel = new JLabel("Flippable:");
 				GridBagConstraints labelGbc_4 = new GridBagConstraints();
 				labelGbc_4.insets = new Insets(5, 5, 5, 5);
 				labelGbc_4.gridx = 2;
-				labelGbc_4.gridy = 9;
+				labelGbc_4.gridy = 10;
 				add(flippableLabel, labelGbc_4);
 		
 				flippableJCheckBox = new JCheckBox();
@@ -351,14 +384,14 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_4.insets = new Insets(5, 0, 5, 0);
 				componentGbc_4.fill = GridBagConstraints.HORIZONTAL;
 				componentGbc_4.gridx = 3;
-				componentGbc_4.gridy = 9;
+				componentGbc_4.gridy = 10;
 				add(flippableJCheckBox, componentGbc_4);
 								
 										JLabel gathererCodeLabel = new JLabel("GathererCode:");
 										GridBagConstraints labelGbc_5 = new GridBagConstraints();
 										labelGbc_5.insets = new Insets(5, 5, 5, 5);
 										labelGbc_5.gridx = 0;
-										labelGbc_5.gridy = 10;
+										labelGbc_5.gridy = 11;
 										add(gathererCodeLabel, labelGbc_5);
 								
 										gathererCodeJTextField = new JTextField();
@@ -366,14 +399,14 @@ public class MagicCardEditorPanel extends JPanel {
 										componentGbc_5.insets = new Insets(5, 0, 5, 5);
 										componentGbc_5.fill = GridBagConstraints.HORIZONTAL;
 										componentGbc_5.gridx = 1;
-										componentGbc_5.gridy = 10;
+										componentGbc_5.gridy = 11;
 										add(gathererCodeJTextField, componentGbc_5);
 						
 								JLabel rotatedCardNameLabel = new JLabel("RotatedCardName:");
 								GridBagConstraints labelGbc_15 = new GridBagConstraints();
 								labelGbc_15.insets = new Insets(5, 5, 5, 5);
 								labelGbc_15.gridx = 2;
-								labelGbc_15.gridy = 10;
+								labelGbc_15.gridy = 11;
 								add(rotatedCardNameLabel, labelGbc_15);
 						
 								rotatedCardNameJTextField = new JTextField();
@@ -381,7 +414,7 @@ public class MagicCardEditorPanel extends JPanel {
 								componentGbc_15.insets = new Insets(5, 0, 5, 0);
 								componentGbc_15.fill = GridBagConstraints.HORIZONTAL;
 								componentGbc_15.gridx = 3;
-								componentGbc_15.gridy = 10;
+								componentGbc_15.gridy = 11;
 								add(rotatedCardNameJTextField, componentGbc_15);
 
 		if (magicCard != null) {
@@ -435,14 +468,14 @@ public class MagicCardEditorPanel extends JPanel {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding_5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, gathererCodeProperty, gathererCodeJTextField, textProperty_3);
 		autoBinding_5.bind();
 		//
-		BeanProperty<MagicCard, String> layoutProperty = BeanProperty.create("layout");
-		BeanProperty<JComboBox, String> selectedIndexProperty = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, String, JComboBox, String> autoBinding_6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, layoutProperty, layoutJComboBox, selectedIndexProperty);
+		BeanProperty<MagicCard, Object> layoutProperty = BeanProperty.create("layout");
+		BeanProperty<JComboBox, Object> selectedIndexProperty = BeanProperty.create("selectedItem");
+		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding_6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, layoutProperty, layoutJComboBox, selectedIndexProperty);
 		autoBinding_6.bind();
 		//
-		BeanProperty<MagicCard, String> loyaltyProperty = BeanProperty.create("loyalty");
-		BeanProperty<JTextField, String> valueProperty_1 = BeanProperty.create("value");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, valueProperty_1);
+		BeanProperty<MagicCard, Object> loyaltyProperty = BeanProperty.create("loyalty");
+		BeanProperty<JTextField, Object> valueProperty_1 = BeanProperty.create("value");
+		AutoBinding<MagicCard, Object, JTextField, Object> autoBinding_7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, valueProperty_1);
 		autoBinding_7.bind();
 		//
 		BeanProperty<MagicCard, String> mciNumberProperty = BeanProperty.create("mciNumber");
@@ -465,9 +498,9 @@ public class MagicCardEditorPanel extends JPanel {
 		AutoBinding<MagicCard, String, JTextField, Object> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, powerProperty, powerJTextField, valueProperty_4);
 		autoBinding_13.bind();
 		//
-		BeanProperty<MagicCard, String> rarityProperty = BeanProperty.create("rarity");
-		BeanProperty<JComboBox, String> selectedIndexProperty_1 = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, String, JComboBox, String> autoBinding_14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty_1);
+		BeanProperty<MagicCard, Object> rarityProperty = BeanProperty.create("rarity");
+		BeanProperty<JComboBox, Object> selectedIndexProperty_1 = BeanProperty.create("selectedItem");
+		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding_14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty_1);
 		autoBinding_14.bind();
 		//
 		BeanProperty<MagicCard, String> rotatedCardNameProperty = BeanProperty.create("rotatedCardName");
@@ -495,6 +528,11 @@ public class MagicCardEditorPanel extends JPanel {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding_19 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, watermarksProperty, watermarksJTextField, textProperty_10);
 		autoBinding_19.bind();
 		//
+		BeanProperty<MagicCard, List<String>> magicCardBeanProperty = BeanProperty.create("types");
+		BeanProperty<JList, List<String>> jListBeanProperty = BeanProperty.create("selectedElements");
+		AutoBinding<MagicCard, List<String>, JList, List<String>> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, magicCardBeanProperty, listTypes, jListBeanProperty, "autoBinding_20");
+		autoBinding_1.bind();
+		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding);
@@ -514,6 +552,7 @@ public class MagicCardEditorPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding_17);
 		bindingGroup.addBinding(autoBinding_18);
 		bindingGroup.addBinding(autoBinding_19);
+		bindingGroup.addBinding(autoBinding_1);
 		return bindingGroup;
 	}
 }
