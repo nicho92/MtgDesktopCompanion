@@ -257,17 +257,16 @@ public class MagicEditionDetailPanel extends JSplitPane {
 			}
 		}
 		
-		
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
-				mod.init(magicEdition);
-				mod.fireTableDataChanged();
-				
-			}
-		}, "load prices for" + magicEdition);
-		
+		if(showPrices)
+		{ 
+				ThreadManager.getInstance().execute(new Runnable() {
+				public void run() {
+					mod.init(magicEdition);
+					mod.fireTableDataChanged();
+					
+				}
+			}, "load prices for" + magicEdition);
+		}		
 	}
 	
 	

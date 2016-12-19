@@ -52,9 +52,7 @@ import javax.swing.table.TableRowSorter;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.JXTable;
-import org.jdesktop.swingx.JXTitledPanel;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
@@ -153,6 +151,10 @@ public class CardSearchGUI extends JPanel {
 		{
 			lblLoading.setText(text);
 			lblLoading.setVisible(show);
+		}
+
+		public MagicCard getSelected() {
+			return selected;
 		}
 
 		public void setLookAndFeel(String lookAndFeel)

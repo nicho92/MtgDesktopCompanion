@@ -33,6 +33,7 @@ import org.magic.gui.components.dialog.ThreadMonitorFrame;
 import org.magic.gui.game.GamePanelGUI;
 import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.VersionChecker;
+
 import com.seaglasslookandfeel.SeaGlassLookAndFeel;
 
 public class MagicGUI extends JFrame {
@@ -242,7 +243,7 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI(), null);
 		tabbedPane.addTab("Shopping", new ImageIcon(MagicGUI.class.getResource("/res/shop.png")), new ShopperGUI(), null);
 		tabbedPane.addTab("Alert", new ImageIcon(MagicGUI.class.getResource("/res/bell.png")), new AlarmGUI(), null);
-		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), new CardBuilderPanelGUI(), null);
+		tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/res/create.png")), new CardBuilder2GUI(), null);
 		tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), new RssGUI(), null);
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI(), null);
 		

@@ -7,11 +7,16 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.magic.api.providers.impl.MtgjsonProvider;
+
 public class ModuleInstaller {
 
 	
 	private boolean hasUpdated=false;
-	
+	static final Logger logger = LogManager.getLogger(ModuleInstaller.class.getName());
+
 	
 	 private List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
 	        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
@@ -93,7 +98,7 @@ public class ModuleInstaller {
 				{
 					String path = k+"[class='"+c.getName()+"']/class";
 					String s = MTGDesktopCompanionControler.getInstance().get(path);
-					if(s==null)
+					if(s=="")
 					{
 						hasUpdated=true;
 						retour.add(c);

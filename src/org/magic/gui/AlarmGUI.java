@@ -25,6 +25,8 @@ import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGServer;
@@ -45,8 +47,12 @@ public class AlarmGUI extends JPanel {
 	private JPanel panel;
 	private JButton btnRefresh;
 	private JButton btnDelete;
+	static final Logger logger = LogManager.getLogger(AlarmGUI.class.getName());
+
 	
 	public AlarmGUI() {
+		
+		logger.info("init Alarm GUI");
 		setLayout(new BorderLayout());
 		
 		

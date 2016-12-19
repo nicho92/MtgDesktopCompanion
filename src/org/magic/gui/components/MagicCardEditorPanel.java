@@ -9,9 +9,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.List;
+import java.util.HashSet;
 
-import javax.swing.AbstractListModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -20,11 +19,10 @@ import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.japura.gui.model.DefaultListCheckModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -57,9 +55,8 @@ public class MagicCardEditorPanel extends JPanel {
 	private JLabel label;
 	private JLabel lblType;
 	private JPanel panel_1;
-	private JComboBox<String> cboSuperType;
-	private JList<? extends String> listTypes;
-	private JScrollPane scrollPane;
+	private JCheckableListBox<String> cboSuperType;
+	private JCheckableListBox<String> cboTypes;
 	private JTextField txtSubTypes;
 	private JPanel panel_2;
 	private ManaPanel pan = new ManaPanel();
@@ -100,52 +97,120 @@ public class MagicCardEditorPanel extends JPanel {
 				add(costLabel, labelGbc_2);
 		
 				costJTextField = new JTextField();
+				costJTextField.setEditable(false);
 				costJTextField.addMouseListener(new MouseAdapter() {
 					
 					@Override
 					public void mouseClicked(MouseEvent e) {
-						JDialog g = new JDialog();
+						final JDialog g = new JDialog();
 						g.getContentPane().setLayout(new FlowLayout());
 						
 						
-						Integer[] data = {0,1,2,3,4,5,6,7,8,9,10};
-						final JComboBox<Integer> cboW = new JComboBox<Integer>(data);
-						final JComboBox<Integer> cboU = new JComboBox<Integer>(data);
-						final JComboBox<Integer> cboB = new JComboBox<Integer>(data);
-						final JComboBox<Integer> cboR = new JComboBox<Integer>(data);
-						final JComboBox<Integer> cboG = new JComboBox<Integer>(data);
-						final JComboBox<Integer> cboC = new JComboBox<Integer>(data);
-						final JComboBox<Integer> cboUn = new JComboBox<Integer>(data);
+						String[] data = {"0","1","2","3","4","5","6","7","8","9","10"};
+						final JComboBox<String> cboW = new JComboBox<String>(data);
+						final JComboBox<String> cboU = new JComboBox<String>(data);
+						final JComboBox<String> cboB = new JComboBox<String>(data);
+						final JComboBox<String> cboR = new JComboBox<String>(data);
+						final JComboBox<String> cboG = new JComboBox<String>(data);
+						final JComboBox<String> cboC = new JComboBox<String>(data);
+						final JComboBox<String> cboUn = new JComboBox<String>(data);
+						cboUn.addItem("X");
+						
+						
 						JButton btn = new JButton("set Cost");
 						btn.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-							
+								String cost="";
+								int cmc=0;
+								HashSet<String> colors = new HashSet<String>();
 								
-								costJTextField.setText("");
+								if(!cboUn.getSelectedItem().equals("X"))
+								{
+									if(cboUn.getSelectedIndex()>0)
+									{
+										cost+="{"+cboUn.getSelectedIndex()+"}";
+										cmc+=cboUn.getSelectedIndex();
+									}
+								}
+								else
+								{
+									cost+="{X}";
+								}
+
+								for(int i=0;i<cboC.getSelectedIndex();i++)
+								{
+									cost+="{C}";
+									cmc+=1;
+								}
+								
+								for(int i=0;i<cboW.getSelectedIndex();i++)
+								{
+									cost+="{W}";
+									cmc+=1;
+									colors.add("White");
+								}
+								
+								for(int i=0;i<cboU.getSelectedIndex();i++)
+								{
+									cost+="{U}";
+									cmc+=1;
+									colors.add("Blue");
+								}
+								
+								for(int i=0;i<cboB.getSelectedIndex();i++)
+								{
+									cost+="{B}";
+									cmc+=1;
+									colors.add("Black");
+								}
+								
+								for(int i=0;i<cboR.getSelectedIndex();i++)
+								{
+									cost+="{R}";
+									cmc+=1;
+									colors.add("Red");
+								}
+								
+								for(int i=0;i<cboG.getSelectedIndex();i++)
+								{
+									cost+="{G}";
+									cmc+=1;
+									colors.add("Green");
+								}
+								
+								magicCard.setCmc(cmc);
+								magicCard.getColors().removeAll(magicCard.getColors());
+								magicCard.getColors().addAll(colors);
+								
+								magicCard.getColorIdentity().addAll(magicCard.getColors());
+								
+								costJTextField.setText(cost);
+								g.dispose();
 								
 							}
 						});
 						
 						
-						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-						g.add(cboUn);
-						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-						g.add(cboW);
-						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("U").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-						g.add(cboU);
-						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("B").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-						g.add(cboB);
-						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("R").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-						g.add(cboR);
-						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("G").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-						g.add(cboG);
-						g.add(new JLabel(new ImageIcon(pan.getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
-						g.add(cboC);
-						
+						g.getContentPane().add(new JLabel(new ImageIcon(pan.getManaSymbol("1").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.getContentPane().add(cboUn);
+						g.getContentPane().add(new JLabel(new ImageIcon(pan.getManaSymbol("W").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.getContentPane().add(cboW);
+						g.getContentPane().add(new JLabel(new ImageIcon(pan.getManaSymbol("U").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.getContentPane().add(cboU);
+						g.getContentPane().add(new JLabel(new ImageIcon(pan.getManaSymbol("B").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.getContentPane().add(cboB);
+						g.getContentPane().add(new JLabel(new ImageIcon(pan.getManaSymbol("R").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.getContentPane().add(cboR);
+						g.getContentPane().add(new JLabel(new ImageIcon(pan.getManaSymbol("G").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.getContentPane().add(cboG);
+						g.getContentPane().add(new JLabel(new ImageIcon(pan.getManaSymbol("C").getScaledInstance(10, 10, Image.SCALE_SMOOTH))));
+						g.getContentPane().add(cboC);
+						g.getContentPane().add(btn);
 						g.setLocationRelativeTo(null);
 						g.pack();
 						g.setVisible(true);
-				
+						
+						
 					}
 					
 				});
@@ -157,37 +222,37 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_2.gridy = 0;
 				add(costJTextField, componentGbc_2);
 
-		JLabel artistLabel = new JLabel("Artist:");
-		GridBagConstraints labelGbc_0 = new GridBagConstraints();
-		labelGbc_0.insets = new Insets(5, 5, 5, 5);
-		labelGbc_0.gridx = 0;
-		labelGbc_0.gridy = 1;
-		add(artistLabel, labelGbc_0);
-
-		artistJTextField = new JTextField();
-		GridBagConstraints componentGbc_0 = new GridBagConstraints();
-		componentGbc_0.insets = new Insets(5, 0, 5, 5);
-		componentGbc_0.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc_0.gridx = 1;
-		componentGbc_0.gridy = 1;
-		add(artistJTextField, componentGbc_0);
+				JLabel artistLabel = new JLabel("Artist:");
+				GridBagConstraints labelGbc_0 = new GridBagConstraints();
+				labelGbc_0.insets = new Insets(5, 5, 5, 5);
+				labelGbc_0.gridx = 0;
+				labelGbc_0.gridy = 1;
+				add(artistLabel, labelGbc_0);
+		
+				artistJTextField = new JTextField();
+				GridBagConstraints componentGbc_0 = new GridBagConstraints();
+				componentGbc_0.insets = new Insets(5, 0, 5, 5);
+				componentGbc_0.fill = GridBagConstraints.HORIZONTAL;
+				componentGbc_0.gridx = 1;
+				componentGbc_0.gridy = 1;
+				add(artistJTextField, componentGbc_0);
 				
-						JLabel rarityLabel = new JLabel("Rarity:");
-						GridBagConstraints labelGbc_14 = new GridBagConstraints();
-						labelGbc_14.insets = new Insets(5, 5, 5, 5);
-						labelGbc_14.gridx = 2;
-						labelGbc_14.gridy = 1;
-						add(rarityLabel, labelGbc_14);
-				
-						rarityJComboBox = new JComboBox();
-						rarityJComboBox.setModel(new DefaultComboBoxModel(new String[] {"Common", "Uncommon", "Rare", "Mythic Rare", "Special"}));
-						GridBagConstraints componentGbc_14 = new GridBagConstraints();
-						componentGbc_14.insets = new Insets(5, 0, 5, 0);
-						componentGbc_14.fill = GridBagConstraints.HORIZONTAL;
-						componentGbc_14.gridx = 3;
-						componentGbc_14.gridy = 1;
-						add(rarityJComboBox, componentGbc_14);
-				
+				JLabel rarityLabel = new JLabel("Rarity:");
+				GridBagConstraints labelGbc_14 = new GridBagConstraints();
+				labelGbc_14.insets = new Insets(5, 5, 5, 5);
+				labelGbc_14.gridx = 2;
+				labelGbc_14.gridy = 1;
+				add(rarityLabel, labelGbc_14);
+		
+				rarityJComboBox = new JComboBox();
+				rarityJComboBox.setModel(new DefaultComboBoxModel(new String[] {"Common", "Uncommon", "Rare", "Mythic Rare", "Special"}));
+				GridBagConstraints componentGbc_14 = new GridBagConstraints();
+				componentGbc_14.insets = new Insets(5, 0, 5, 0);
+				componentGbc_14.fill = GridBagConstraints.HORIZONTAL;
+				componentGbc_14.gridx = 3;
+				componentGbc_14.gridy = 1;
+				add(rarityJComboBox, componentGbc_14);
+		
 				lblType = new JLabel("Type :");
 				GridBagConstraints gbc_lblType = new GridBagConstraints();
 				gbc_lblType.insets = new Insets(0, 0, 5, 5);
@@ -203,54 +268,35 @@ public class MagicCardEditorPanel extends JPanel {
 				gbc_panel_1.gridx = 1;
 				gbc_panel_1.gridy = 2;
 				add(panel_1, gbc_panel_1);
-				GridBagLayout gbl_panel_1 = new GridBagLayout();
-				gbl_panel_1.columnWidths = new int[]{82, 76, 63, 0, 0};
-				gbl_panel_1.rowHeights = new int[]{20, 0};
-				gbl_panel_1.columnWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-				gbl_panel_1.rowWeights = new double[]{0.0, Double.MIN_VALUE};
-				panel_1.setLayout(gbl_panel_1);
+				panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 				
-				cboSuperType = new JComboBox();
-				cboSuperType.setModel(new DefaultComboBoxModel(new String[] {"", "Basic", "Elite", "Legendary", "Ongoing", "Snow", "World"}));
-				GridBagConstraints gbc_cboSuperType = new GridBagConstraints();
-				gbc_cboSuperType.anchor = GridBagConstraints.NORTHWEST;
-				gbc_cboSuperType.insets = new Insets(0, 0, 0, 5);
-				gbc_cboSuperType.gridx = 0;
-				gbc_cboSuperType.gridy = 0;
-				panel_1.add(cboSuperType, gbc_cboSuperType);
+				cboSuperType = new JCheckableListBox<String>();
+				DefaultListCheckModel modelSt = new DefaultListCheckModel();
+				cboSuperType.setModel(modelSt);
+				for (String t : new String[] {"", "Basic", "Elite", "Legendary", "Ongoing", "Snow", "World"}) { 
+					modelSt.addElement(t); 
+				} 
+				panel_1.add(cboSuperType);
 				
-				scrollPane = new JScrollPane();
-				GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-				gbc_scrollPane.fill = GridBagConstraints.VERTICAL;
-				gbc_scrollPane.gridwidth = 2;
-				gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
-				gbc_scrollPane.anchor = GridBagConstraints.WEST;
-				gbc_scrollPane.gridx = 1;
-				gbc_scrollPane.gridy = 0;
-				panel_1.add(scrollPane, gbc_scrollPane);
 				
-				listTypes = new JList<String>();
-				listTypes.setVisibleRowCount(3);
-				listTypes.setModel(new AbstractListModel() {
-					String[] values = new String[] {"", "Arcane", "Artifact", "Aura", "Basic", "Clue", "Conspiracy", "Continuous", "Contraption", "Creature", "Curse", "Elite", "Enchantment", "Equipment", "Fortification", "Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Legendary", "Local", "Mana source", "Mono", "Ongoing", "Permanent", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scheme", "Shrine", "Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World"};
-					public int getSize() {
-						return values.length;
-					}
-					public Object getElementAt(int index) {
-						return values[index];
-					}
-				});
-				scrollPane.setViewportView(listTypes);
+				cboTypes = new JCheckableListBox<String>();
+				DefaultListCheckModel model = new DefaultListCheckModel();
+				cboTypes.setModel(model);
+				for (String t : new String[] {"", "Arcane", "Artifact", "Aura", "Basic", "Clue", "Conspiracy", "Continuous", "Contraption", "Creature", "Curse", "Elite", "Enchantment", "Equipment", "Fortification", "Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Legendary", "Local", "Mana source", "Mono", "Ongoing", "Permanent", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scheme", "Shrine", "Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World"}) { 
+				   model.addElement(t); 
+				} 
+			
+				panel_1.add(cboTypes);
 				
+				cboTypes.setModel(model);
+		
 				txtSubTypes = new JTextField();
-				GridBagConstraints gbc_txtSubTypes = new GridBagConstraints();
-				gbc_txtSubTypes.fill = GridBagConstraints.HORIZONTAL;
-				gbc_txtSubTypes.gridx = 3;
-				gbc_txtSubTypes.gridy = 0;
-				panel_1.add(txtSubTypes, gbc_txtSubTypes);
+				panel_1.add(txtSubTypes);
 				txtSubTypes.setColumns(10);
 						
 						panel_2 = new JPanel();
+						FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
+						flowLayout.setAlignment(FlowLayout.LEFT);
 						GridBagConstraints gbc_panel_2 = new GridBagConstraints();
 						gbc_panel_2.gridwidth = 2;
 						gbc_panel_2.insets = new Insets(0, 0, 5, 5);
@@ -316,7 +362,7 @@ public class MagicCardEditorPanel extends JPanel {
 						labelGbc_6.gridy = 7;
 						add(layoutLabel, labelGbc_6);
 				
-						layoutJComboBox = new JComboBox();
+						layoutJComboBox = new JComboBox(MagicCard.LAYOUT.values());
 						GridBagConstraints componentGbc_6 = new GridBagConstraints();
 						componentGbc_6.insets = new Insets(5, 0, 5, 5);
 						componentGbc_6.fill = GridBagConstraints.HORIZONTAL;
@@ -475,15 +521,18 @@ public class MagicCardEditorPanel extends JPanel {
 		}
 	}
 
-	public org.magic.api.beans.MagicCard getMagicCard() {
+	public MagicCard getMagicCard() {
+		
+		magicCard.setTypes(cboTypes.getSelectedElements());
+		magicCard.setSupertypes(cboSuperType.getSelectedElements());
 		return magicCard;
 	}
 
-	public void setMagicCard(org.magic.api.beans.MagicCard newMagicCard) {
+	public void setMagicCard(MagicCard newMagicCard) {
 		setMagicCard(newMagicCard, true);
 	}
 
-	public void setMagicCard(org.magic.api.beans.MagicCard newMagicCard, boolean update) {
+	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
 		if (update) {
 			if (m_bindingGroup != null) {
@@ -494,6 +543,11 @@ public class MagicCardEditorPanel extends JPanel {
 				m_bindingGroup = initDataBindings();
 			}
 		}
+		
+		cboSuperType.setSelectedElements(magicCard.getSupertypes());
+		cboTypes.setSelectedElements(magicCard.getTypes());
+		
+		
 	}
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, String> artistProperty = BeanProperty.create("artist");
@@ -581,10 +635,10 @@ public class MagicCardEditorPanel extends JPanel {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding_19 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, watermarksProperty, watermarksJTextField, textProperty_10);
 		autoBinding_19.bind();
 		//
-		BeanProperty<MagicCard, List<String>> magicCardBeanProperty = BeanProperty.create("types");
-		BeanProperty<JList, List<String>> jListBeanProperty = BeanProperty.create("selectedElements");
-		AutoBinding<MagicCard, List<String>, JList, List<String>> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, magicCardBeanProperty, listTypes, jListBeanProperty, "autoBinding_20");
-		autoBinding_1.bind();
+		/*BeanProperty<MagicCard, List<String>> magicCardBeanProperty = BeanProperty.create("types");
+		BeanProperty<JCheckBox, Object> textProperty_11 = BeanProperty.create("selectedElements");
+		AutoBinding<MagicCard, List<String>, JCheckBox, Object> autoBinding_1 = new JCheckBoxBinding(UpdateStrategy.READ_WRITE, magicCard, magicCardBeanProperty, cboTypes, textProperty_11,"");
+		autoBinding_1.bind();*/
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
@@ -605,7 +659,7 @@ public class MagicCardEditorPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding_17);
 		bindingGroup.addBinding(autoBinding_18);
 		bindingGroup.addBinding(autoBinding_19);
-		bindingGroup.addBinding(autoBinding_1);
+		//bindingGroup.addBinding(autoBinding_1);
 		return bindingGroup;
 	}
 }

@@ -1,18 +1,24 @@
-package org.magic.services;
+package org.magic.api.providers.impl;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
+import org.apache.commons.beanutils.BeanUtils;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.services.MTGDesktopCompanionControler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -20,14 +26,15 @@ import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 public class PrivateMTGSetProvider implements MagicCardsProvider {
-
 	
 	File confdir = new File(MTGDesktopCompanionControler.CONF_DIR,"sets");
 	private boolean enabled;
-	
+	static final Logger logger = LogManager.getLogger(PrivateMTGSetProvider.class.getName());
+
 	public boolean removeEdition(MagicEdition me)
 	{
 		return new File(confdir,me.getId()+".json").delete();
@@ -44,7 +51,8 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 		JsonReader reader = new JsonReader(new FileReader(new File(confdir,me.getId()+".json")));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		JsonArray arr = (JsonArray) root.get("cards");
-		return (List<MagicCard>)new Gson().fromJson(arr, List.class);
+		Type listType = new TypeToken<ArrayList<MagicCard>>(){}.getType();
+		return (List<MagicCard>)new Gson().fromJson(arr,listType);
 	}
 	
 	public void addCard(MagicEdition me, MagicCard mc) throws IOException
@@ -82,12 +90,6 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	}
 	
 	
-	public static void main(String[] args) throws JsonSyntaxException, JsonIOException, IOException {
-		PrivateMTGSetProvider manager = new PrivateMTGSetProvider();
-		
-		System.out.println(manager.getEdition(new File(manager.confdir,"p3ED.json")));
-	}
-
 	@Override
 	public void init() {
 		// TODO Auto-generated method stub
@@ -96,20 +98,55 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 
 	@Override
 	public MagicCard getCardById(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return searchCardByCriteria("id", id, null).get(0);
 	}
 
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<MagicCard> res = new ArrayList<MagicCard>();
+		
+		if(me==null)
+		{
+			for(MagicEdition ed : loadEditions())
+				for(MagicCard mc : getCards(ed))
+					if(hasValue(mc, att, crit))
+						res.add(mc);
+		}
+		else
+		{
+			for(MagicCard mc : getCards(me))
+			{
+				if(hasValue(mc, att, crit))
+					res.add(mc);
+			}
+		}
+		
+		return res;
 	}
+	
+	private boolean hasValue(MagicCard mc,String att, String val)
+	{
+		try {
+			logger.debug(mc +" " + att +" " + val);
+			return BeanUtils.getProperty(mc, att).toUpperCase().contains(val.toUpperCase());
+		} catch (Exception e) {
+			logger.error(e);
+			return false;
+		} 
+	}
+	
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
+		MagicEdition ed = getSetById(me.getId());
+		
+		for(MagicCard mc : getCards(ed))
+			if(mc.getNumber().equals(id))
+				return mc;
+		
 		return null;
+		
 	}
 
 	public List<MagicEdition> loadEditions() throws Exception {
@@ -139,19 +176,23 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+			Set<String> keys = BeanUtils.describe(new MagicCard()).keySet();
+			return keys.toArray(new String[keys.size()]);
+		} catch (Exception e) {
+			logger.error(e);
+			return new String[0];
+		} 
 	}
 
 	@Override
 	public List<MagicCard> openBooster(MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public String getVersion() {
-		return "0.5";
+		return "0.1";
 	}
 
 	@Override
@@ -177,9 +218,12 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 
 	@Override
 	public String getName() {
-		return "Personnal Data Set";
+		return "Personnal Data Set Provider";
 	}
 	
-	
+	@Override
+	public String toString() {
+		return getName();
+	}
 	
 }
