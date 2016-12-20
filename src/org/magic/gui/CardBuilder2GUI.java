@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
@@ -12,6 +13,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -29,7 +31,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 import javax.swing.border.LineBorder;
 
 import org.apache.commons.codec.digest.DigestUtils;
@@ -38,6 +39,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.gui.components.CropImagePanel;
 import org.magic.gui.components.JSONPanel;
@@ -67,7 +69,7 @@ public class CardBuilder2GUI extends JPanel{
 	private JTabbedPane tabbedPane;
 	static final Logger logger = LogManager.getLogger(CardBuilder2GUI.class.getName());
 
-	
+	private PersonalSetPicturesProvider picturesProvider;
 	
 	public CardBuilder2GUI() {
 		try{
@@ -84,7 +86,7 @@ public class CardBuilder2GUI extends JPanel{
 		JScrollPane scrollTableEdition = new JScrollPane();
 		JPanel panelCards = new JPanel();
 		JPanel panelCardsHaut = new JPanel();
-		JButton btnOpen = new JButton("");
+		JButton btnImport = new JButton("");
 		JButton btnImage = new JButton("Image");
 		JScrollPane scrollTableCards = new JScrollPane();
 		JButton btnSaveCard = new JButton("");
@@ -96,6 +98,8 @@ public class CardBuilder2GUI extends JPanel{
 ////////////////////////////////////////////////////INIT GLOBAL COMPONENTS		
 		editionModel = new MagicEditionsTableModel();
 		provider=new PrivateMTGSetProvider();
+		picturesProvider= new PersonalSetPicturesProvider();
+		
 		picProvider = new MTGCardMakerPicturesProvider();
 		cardsModel = new MagicCardTableModel();
 		jsonPanel = new JSONPanel();
@@ -152,7 +156,7 @@ public class CardBuilder2GUI extends JPanel{
 		panelSets.add(splitcardEdPanel, BorderLayout.CENTER);
 		panelCardsHaut.add(cboSets);
 		panelCardsHaut.add(btnNewCard);
-		panelCardsHaut.add(btnOpen);
+		panelCardsHaut.add(btnImport);
 		panelCardsHaut.add(btnSaveCard);
 		panelCardsHaut.add(btnRefresh);
 		panelCards.add(magicCardEditorPanel, BorderLayout.CENTER);
@@ -174,12 +178,12 @@ public class CardBuilder2GUI extends JPanel{
 		scrollTableEdition.setViewportView(editionsTable);
 		splitcardEdPanel.setRightComponent(scrollTableCards);
 		scrollTableCards.setViewportView(cardsTable);
-		btnOpen.setToolTipText("Import existing card");
+		btnImport.setToolTipText("Import existing card");
 		panelImage.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btnSaveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/save.png")));
 		btnNewSet.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/new.png")));
 		btnRemoveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/delete.png")));
-		btnOpen.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/import.png")));
+		btnImport.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/import.png")));
 		btnSaveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/save.png")));
 		btnRefresh.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/refresh.png")));
 		btnRemoveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/delete.png")));
@@ -227,8 +231,7 @@ public class CardBuilder2GUI extends JPanel{
 					editionModel.init(provider.loadEditions());
 					editionModel.fireTableDataChanged();
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -245,7 +248,7 @@ public class CardBuilder2GUI extends JPanel{
 				panelImage.repaint();
 			}
 		});
-		btnOpen.addActionListener(new ActionListener() {
+		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final JDialog l = new JDialog();
 				final CardSearchGUI searchPane = new CardSearchGUI();
@@ -286,7 +289,7 @@ public class CardBuilder2GUI extends JPanel{
 						editionModel.init(provider.loadEditions());
 						editionModel.fireTableDataChanged();
 					} catch (Exception e) {
-						e.printStackTrace();
+						JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 					}
 				}				
 			}
@@ -313,8 +316,7 @@ public class CardBuilder2GUI extends JPanel{
 					cardsModel.init(provider.getCards(ed));
 					cardsModel.fireTableDataChanged();
 				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -332,6 +334,15 @@ public class CardBuilder2GUI extends JPanel{
 					mc.getEditions().add(me);
 				try {
 					provider.addCard(me, mc);
+					
+					BufferedImage bi = new BufferedImage(panelPictures.getSize().width, 560, BufferedImage.TYPE_INT_ARGB); 
+					Graphics2D g = bi.createGraphics();
+					panelPictures.paint(g);  
+					g.dispose();
+					
+					
+					picturesProvider.savePicture(bi, mc,me);
+					
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
@@ -348,7 +359,7 @@ public class CardBuilder2GUI extends JPanel{
 					jsonPanel.showCard(magicCardEditorPanel.getMagicCard());
 					
 				} catch (Exception e) {
-					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 				} 
 			}
 		});
@@ -357,7 +368,7 @@ public class CardBuilder2GUI extends JPanel{
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 		}
 	}
 

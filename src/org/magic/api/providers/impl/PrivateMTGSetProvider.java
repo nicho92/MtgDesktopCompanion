@@ -32,7 +32,7 @@ import com.google.gson.stream.JsonReader;
 
 public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
-	File confdir = new File(MTGDesktopCompanionControler.CONF_DIR,"sets");
+	public static File confdir = new File(MTGDesktopCompanionControler.CONF_DIR,"sets");
 	private boolean enabled;
 	static final Logger logger = LogManager.getLogger(PrivateMTGSetProvider.class.getName());
 

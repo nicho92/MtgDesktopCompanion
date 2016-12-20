@@ -23,5 +23,11 @@ public class JCheckableListBox<T> extends CheckComboBox {
 		
 	}
 	
+	public void unselectAll()
+	{
+		getModel().removeChecks();
+	}
+	
+	
 
 }

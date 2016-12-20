@@ -105,7 +105,7 @@ public class MagicCardEditorPanel extends JPanel {
 					public void mouseClicked(MouseEvent e) {
 						final JDialog g = new JDialog();
 						g.getContentPane().setLayout(new FlowLayout());
-						
+						g.setModal(true);
 						
 						String[] data = {"0","1","2","3","4","5","6","7","8","9","10"};
 						final JComboBox<String> cboW = new JComboBox<String>(data);
@@ -532,6 +532,9 @@ public class MagicCardEditorPanel extends JPanel {
 
 	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
+		cboSuperType.unselectAll();
+		cboTypes.unselectAll();
+		
 		if (update) {
 			if (m_bindingGroup != null) {
 				m_bindingGroup.unbind();
