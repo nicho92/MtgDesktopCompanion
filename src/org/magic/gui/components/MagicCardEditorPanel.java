@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 import javax.swing.DefaultComboBoxModel;
@@ -33,7 +34,7 @@ import org.magic.api.beans.MagicCard;
 public class MagicCardEditorPanel extends JPanel {
 
 	private BindingGroup m_bindingGroup;
-	private org.magic.api.beans.MagicCard magicCard = new org.magic.api.beans.MagicCard();
+	private MagicCard magicCard = new MagicCard();
 	private JTextField artistJTextField;
 	private JTextField costJTextField;
 	private JTextField flavorJTextField;
@@ -47,7 +48,7 @@ public class MagicCardEditorPanel extends JPanel {
 	private JTextField powerJTextField;
 	private JComboBox<String> rarityJComboBox;
 	private JTextField rotatedCardNameJTextField;
-	private JEditorPane textJEditorPane;
+	private MagicTextPane textJEditorPane;
 	private JTextField toughnessJTextField;
 	private JCheckBox tranformableJCheckBox;
 	private JTextField watermarksJTextField;
@@ -179,11 +180,8 @@ public class MagicCardEditorPanel extends JPanel {
 								}
 								
 								magicCard.setCmc(cmc);
-								magicCard.getColors().removeAll(magicCard.getColors());
-								magicCard.getColors().addAll(colors);
-								
-								magicCard.getColorIdentity().addAll(magicCard.getColors());
-								
+								magicCard.setColors(new ArrayList<String>(colors));
+								magicCard.setColorIdentity(new ArrayList<String>(colors));
 								costJTextField.setText(cost);
 								g.dispose();
 								
@@ -329,7 +327,7 @@ public class MagicCardEditorPanel extends JPanel {
 						labelGbc_16.gridy = 4;
 						add(textLabel, labelGbc_16);
 		
-				textJEditorPane = new JEditorPane();
+				textJEditorPane = new MagicTextPane();
 				GridBagConstraints componentGbc_16 = new GridBagConstraints();
 				componentGbc_16.gridwidth = 3;
 				componentGbc_16.gridheight = 2;

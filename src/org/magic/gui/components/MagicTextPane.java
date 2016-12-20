@@ -8,6 +8,8 @@ import java.util.regex.Pattern;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTextPane;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.DefaultStyledDocument;
 import javax.swing.text.Style;
@@ -16,6 +18,8 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import org.magic.api.beans.MagicCard;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class MagicTextPane extends JTextPane{
 	
@@ -25,6 +29,12 @@ public class MagicTextPane extends JTextPane{
 	public MagicTextPane() {
 		manaPanel=new ManaPanel();
 		setPreferredSize(new Dimension(200,150));
+		
+		addKeyListener(new KeyAdapter() {
+			public void keyReleased(KeyEvent e) {
+				updateTextWithIcons();
+			}
+		});
 	}
 	
 
@@ -65,6 +75,7 @@ public class MagicTextPane extends JTextPane{
 				 document.insertString(m.start()+cumule, m.group(), labelStyle);
 			}
 			setDocument(document);
+			setCaretPosition(document.getLength());
 		 } 
 		 catch (BadLocationException e) {
 				setText(text);

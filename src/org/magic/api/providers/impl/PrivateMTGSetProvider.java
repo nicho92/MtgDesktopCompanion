@@ -22,6 +22,7 @@ import org.magic.services.MTGDesktopCompanionControler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
@@ -40,6 +41,29 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 		return new File(confdir,me.getId()+".json").delete();
 
 	}
+	
+	public boolean removeCard(MagicEdition me,MagicCard mc) throws IOException
+	{
+		File f = new File(confdir,me.getId()+".json");
+		JsonReader reader = new JsonReader(new FileReader(f));
+		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		JsonArray cards = root.get("cards").getAsJsonArray();
+		
+		for(int i=0;i<cards.size();i++)
+		{
+			JsonElement el = cards.get(i);
+			if(el.getAsJsonObject().get("id").getAsString().equals(mc.getId()))
+			{
+				cards.remove(el);
+				FileWriter out = new FileWriter(new File(confdir,me.getId()+".json"));
+				out.write(root.toString());
+				out.close();
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	
 	public PrivateMTGSetProvider() {
 		if(!confdir.exists())
@@ -61,7 +85,19 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		JsonArray cards = root.get("cards").getAsJsonArray();
-				  cards.add(new Gson().toJsonTree(mc));
+		
+		int index = indexOf(mc,cards);
+		
+		if(index>-1)
+		{
+			cards.set(index, new Gson().toJsonTree(mc));
+		}
+		else
+		{
+			cards.add(new Gson().toJsonTree(mc));
+			me.setCardCount(me.getCardCount()+1);
+			root.addProperty("cardCount", me.getCardCount());
+		}
 		reader.close();
 		
 		
@@ -70,6 +106,15 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 		out.close();
 	}
 	
+	private int indexOf(MagicCard mc, JsonArray arr) {
+		for(int i=0;i<arr.size();i++)
+			if(arr.get(i).getAsJsonObject().get("id")!=null)
+				if(arr.get(i).getAsJsonObject().get("id").getAsString().equals(mc.getId()))
+					return i;
+		
+		return -1;
+	}
+
 	private MagicEdition getEdition(File f) throws JsonSyntaxException, JsonIOException, IOException
 	{
 		JsonReader reader = new JsonReader(new FileReader(f));
@@ -80,25 +125,49 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
 	public void saveEdition(MagicEdition me) throws IOException
 	{
+		int cardCount=0;
+		try{
+			cardCount=getCards(me).size();
+			
+		}
+		catch(Exception e)
+		{	}
+		
+		me.setCardCount(cardCount);
+		
 		JsonObject jsonparams = new JsonObject();
 				   jsonparams.add("main",new Gson().toJsonTree(me));
-				   jsonparams.add("cards",new JsonArray());
+				  
+				   if(cardCount==0)
+					   jsonparams.add("cards",new JsonArray());
+				   else
+					   jsonparams.add("cards",new Gson().toJsonTree(getCards(me)));
 		
 		FileWriter out = new FileWriter(new File(confdir,me.getId()+".json"));
 		out.write(jsonparams.toString());
 		out.close();
 	}
 	
-	
-	@Override
 	public void init() {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public MagicCard getCardById(String id,MagicEdition ed){
+		try {
+			return searchCardByCriteria("id", id, ed).get(0);
+		} catch (Exception e) {
+			return null;
+		}
+	}
+	
 	@Override
-	public MagicCard getCardById(String id) throws Exception {
-		return searchCardByCriteria("id", id, null).get(0);
+	public MagicCard getCardById(String id){
+		try {
+			return searchCardByCriteria("id", id, null).get(0);
+		} catch (Exception e) {
+			return null;
+		}
 	}
 
 	@Override
@@ -139,6 +208,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
+		
 		MagicEdition ed = getSetById(me.getId());
 		
 		for(MagicCard mc : getCards(ed))

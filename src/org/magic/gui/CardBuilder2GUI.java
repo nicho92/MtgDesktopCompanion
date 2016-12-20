@@ -79,7 +79,7 @@ public class CardBuilder2GUI extends JPanel{
 		JPanel panelSets = new JPanel();
 		JButton btnSaveEdition = new JButton("Save");
 		JButton btnNewSet = new JButton("New Set");
-		JButton btnRemove = new JButton("Remove");
+		JButton btnRemoveEdition = new JButton("Remove");
 		JSplitPane splitcardEdPanel = new JSplitPane();
 		JScrollPane scrollTableEdition = new JScrollPane();
 		JPanel panelCards = new JPanel();
@@ -87,10 +87,11 @@ public class CardBuilder2GUI extends JPanel{
 		JButton btnOpen = new JButton("");
 		JButton btnImage = new JButton("Image");
 		JScrollPane scrollTableCards = new JScrollPane();
-		JButton btnAdd_1 = new JButton("");
-		JButton update = new JButton("");
+		JButton btnSaveCard = new JButton("");
+		JButton btnRefresh = new JButton("");
 		JTabbedPane tabbedPane_1 = new JTabbedPane(JTabbedPane.TOP);
-		
+		JButton btnRemoveCard = new JButton("");
+		JButton btnNewCard = new JButton("");
 		
 ////////////////////////////////////////////////////INIT GLOBAL COMPONENTS		
 		editionModel = new MagicEditionsTableModel();
@@ -105,6 +106,7 @@ public class CardBuilder2GUI extends JPanel{
 		cardsTable = new JXTable();
 		panelImage = new CropImagePanel();
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		cboSets = new JComboBox<MagicEdition>();
 		panelPictures = new JPanel(){
 			protected void paintComponent(Graphics g) {
 					super.paintComponent(g);
@@ -136,6 +138,7 @@ public class CardBuilder2GUI extends JPanel{
 ////////////////////////////////////////////////////MODELS INIT		
 		editionsTable.setModel(editionModel);
 		cardsTable.setModel(cardsModel);
+		cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
 		
 
 ////////////////////////////////////////////////////PANEL ADDS		
@@ -144,22 +147,21 @@ public class CardBuilder2GUI extends JPanel{
 		panelSets.add(panelEditionHaut, BorderLayout.NORTH);
 		panelEditionHaut.add(btnNewSet);
 		panelEditionHaut.add(btnSaveEdition);
-		panelEditionHaut.add(btnRemove);
+		panelEditionHaut.add(btnRemoveEdition);
 		panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
 		panelSets.add(splitcardEdPanel, BorderLayout.CENTER);
-		cboSets = new JComboBox<MagicEdition>();
-		cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
 		panelCardsHaut.add(cboSets);
+		panelCardsHaut.add(btnNewCard);
 		panelCardsHaut.add(btnOpen);
-		panelCardsHaut.add(btnAdd_1);
-		panelCardsHaut.add(update);
+		panelCardsHaut.add(btnSaveCard);
+		panelCardsHaut.add(btnRefresh);
 		panelCards.add(magicCardEditorPanel, BorderLayout.CENTER);
 		magicCardEditorPanel.add(btnImage, gbc_btnImage);
 		magicCardEditorPanel.add(panelImage, gbc_cropImagePanel);
 		panelCards.add(tabbedPane_1, BorderLayout.EAST);
+		panelCardsHaut.add(btnRemoveCard);
 		tabbedPane.addTab("Set", null, panelSets, null);
 		tabbedPane.addTab("Cards", null, panelCards, null);
-		
 		tabbedPane_1.addTab("Pictures", null, panelPictures, null);
 		tabbedPane_1.addTab("JSON", jsonPanel);
 		
@@ -176,16 +178,47 @@ public class CardBuilder2GUI extends JPanel{
 		panelImage.setBorder(new LineBorder(new Color(0, 0, 0)));
 		btnSaveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/save.png")));
 		btnNewSet.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/new.png")));
-		btnRemove.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/delete.png")));
+		btnRemoveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/delete.png")));
 		btnOpen.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/import.png")));
-		btnAdd_1.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/save.png")));
-		update.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/refresh.png")));
+		btnSaveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/save.png")));
+		btnRefresh.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/refresh.png")));
+		btnRemoveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/delete.png")));
+		btnNewCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/new.png")));
+		
+		
 		cardsTable.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());	
 		
 		panelPictures.setBackground(Color.WHITE);
 		panelPictures.setPreferredSize(new Dimension(400, 10));
 		
 ////////////////////////////////////////////////////ACTION LISTENER		
+		
+		btnNewCard.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MagicCard mc = new MagicCard();
+					try 
+					{
+						mc.setNumber(String.valueOf(provider.getCards((MagicEdition)cboSets.getSelectedItem()).size()+1));
+						logger.debug("create new card for " + cboSets.getSelectedItem()  + " num = " + mc.getNumber() );
+					} catch (IOException e1) {
+					}
+				magicCardEditorPanel.setMagicCard(mc);
+			}
+		});
+		btnRemoveCard.addActionListener(new ActionListener() {
+			
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					provider.removeCard((MagicEdition)cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
+					magicCardEditorPanel.setMagicCard(new MagicCard());
+				} catch (IOException e) {
+					e.printStackTrace();
+					JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
 		btnSaveEdition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
@@ -228,6 +261,7 @@ public class CardBuilder2GUI extends JPanel{
 				l.getContentPane().setLayout(new BorderLayout());
 				l.getContentPane().add(searchPane,BorderLayout.CENTER);
 				l.getContentPane().add(selectCard,BorderLayout.SOUTH);
+				l.setModal(true);
 				l.pack();
 				l.setVisible(true);
 			}
@@ -238,12 +272,23 @@ public class CardBuilder2GUI extends JPanel{
 				magicEditionDetailPanel.setMagicEdition(new MagicEdition(),true);
 			}
 		});
-		btnRemove.addActionListener(new ActionListener() {
+		btnRemoveEdition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				provider.removeEdition((MagicEdition)editionsTable.getValueAt(editionsTable.getSelectedRow(), 1));
-			//	mod.removeRow(table.getSelectedRow());
-				editionModel.fireTableDataChanged();
+				MagicEdition ed = (MagicEdition)editionsTable.getValueAt(editionsTable.getSelectedRow(), 1);
+				
+				int res = JOptionPane.showConfirmDialog(null,"Delete", "Delete " + ed + " ?",JOptionPane.YES_NO_OPTION);
+				
+				if(res==JOptionPane.YES_OPTION)
+				{ 
+					provider.removeEdition(ed);
+					try {
+						editionModel.init(provider.loadEditions());
+						editionModel.fireTableDataChanged();
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}				
 			}
 		});
 		
@@ -273,7 +318,7 @@ public class CardBuilder2GUI extends JPanel{
 				}
 			}
 		});
-		btnAdd_1.addActionListener(new ActionListener() {
+		btnSaveCard.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MagicEdition me = (MagicEdition)cboSets.getSelectedItem();
 				MagicCard mc = magicCardEditorPanel.getMagicCard();
@@ -281,8 +326,10 @@ public class CardBuilder2GUI extends JPanel{
 					me.setRarity(mc.getRarity());
 					me.setArtist(mc.getArtist());
 					me.setFlavor(mc.getFlavor());
-				mc.setId(DigestUtils.sha1Hex(me.getSet()+mc.getName()+mc.getId()));
-				mc.getEditions().add(me);
+					if(mc.getId()==null)
+						mc.setId(DigestUtils.sha1Hex(me.getSet()+mc.getId()));
+					
+					mc.getEditions().add(me);
 				try {
 					provider.addCard(me, mc);
 				} catch (IOException e) {
@@ -292,7 +339,7 @@ public class CardBuilder2GUI extends JPanel{
 				
 			}
 		});
-		update.addActionListener(new ActionListener() {
+		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					cardImage = ImageIO.read(picProvider.getPictureURL(magicCardEditorPanel.getMagicCard()));
