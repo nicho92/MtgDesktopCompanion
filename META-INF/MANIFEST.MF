@@ -3,7 +3,7 @@ Rsrc-Class-Path: ./ httpclient-4.5.2.jar httpcore-4.4.4.jar jsoup-1.7.
  3.jar log4j-1.2.17.jar hsqldb.jar beansbinding-1.2.1.jar glazedlists_
  java15-1.9.1.jar commons-io-2.4.jar slf4j-api-1.7.13.jar commons-logg
  ing-1.2.jar jfreechart-1.0.19.jar jcommon-1.0.23.jar itextpdf-5.5.8.j
- ar gson-2.8.jar swingx-all-1.6.4.jar commons-beanutils-1.9.2.jar free
+ ar gson-2.8.0.jar swingx-all-1.6.4.jar commons-beanutils-1.9.2.jar free
  marker.jar tablefilter-swing-5.2.1.jar jdom2-2.0.5.jar rome-1.5.1.jar
   rome-utils-1.5.0.jar commons-collections-3.2.2.jar json-path-2.2.0.j
  ar commons-dbutils-1.6.jar mysql-connector-java-5.1.38-bin.jar common
