@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.editor;
 
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
@@ -30,6 +30,8 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
+import org.magic.gui.components.MagicTextPane;
+import org.magic.gui.components.ManaPanel;
 
 public class MagicCardEditorPanel extends JPanel {
 
@@ -360,7 +362,9 @@ public class MagicCardEditorPanel extends JPanel {
 						labelGbc_6.gridy = 7;
 						add(layoutLabel, labelGbc_6);
 				
-						layoutJComboBox = new JComboBox(MagicCard.LAYOUT.values());
+						layoutJComboBox = new JComboBox();
+						layoutJComboBox.setModel(new DefaultComboBoxModel<>(new String[]{"normal", "split", "flip", "double-faced", "token", "plane", "scheme", "phenomenon", "leveler", "vanguard", "meld","token"}));
+						
 						GridBagConstraints componentGbc_6 = new GridBagConstraints();
 						componentGbc_6.insets = new Insets(5, 0, 5, 5);
 						componentGbc_6.fill = GridBagConstraints.HORIZONTAL;

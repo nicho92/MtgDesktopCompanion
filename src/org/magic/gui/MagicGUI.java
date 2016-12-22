@@ -34,8 +34,6 @@ import org.magic.gui.game.GamePanelGUI;
 import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.VersionChecker;
 
-import com.seaglasslookandfeel.SeaGlassLookAndFeel;
-
 public class MagicGUI extends JFrame {
 
 	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
@@ -207,9 +205,6 @@ public class MagicGUI extends JFrame {
 		List<String> looks = new ArrayList<String>();
 		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
 			looks.add(i.getClassName());
-		
-		looks.add(new SeaGlassLookAndFeel().getClass().getName());
-		
 		
 		for(String ui : looks)
 		{
