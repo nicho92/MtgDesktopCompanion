@@ -130,6 +130,7 @@ public class CardBuilder2GUI extends JPanel{
 		cardsTable = new JXTable();
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		cboSets = new JComboBox<MagicEdition>();
+		
 		panelImage = new CropImagePanel();
 		magicCardEditorPanel = new MagicCardEditorPanel();
 		panelPictures = new JPanel(){
@@ -148,11 +149,14 @@ public class CardBuilder2GUI extends JPanel{
 ////////////////////////////////////////////////////MODELS INIT		
 		editionsTable.setModel(editionModel);
 		cardsTable.setModel(cardsModel);
-		cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
 		spinCommon.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spinUnco.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
 		spinRare.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-
+		try {
+			cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 ////////////////////////////////////////////////////LAYOUT CONFIGURATION			
 		setLayout(new BorderLayout(0, 0));
 		GridBagLayout gridBagLayout = (GridBagLayout) magicCardEditorPanel.getLayout();
@@ -309,6 +313,7 @@ public class CardBuilder2GUI extends JPanel{
 				
 				try {
 					provider.removeCard((MagicEdition)cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
+					picturesProvider.removePicture((MagicEdition)cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
 					initCard(new MagicCard());
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -330,7 +335,12 @@ public class CardBuilder2GUI extends JPanel{
 						boos.add(new String[]{"rare","mythic rare"});
 					ed.setBooster(boos);
 					provider.saveEdition(ed);
-					cboSets.addItem(magicEditionDetailPanel.getMagicEdition());
+					try {
+						cboSets.removeAllItems();
+						cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
 					editionModel.init(provider.loadEditions());
 					editionModel.fireTableDataChanged();
 				} catch (Exception e) {
@@ -469,6 +479,8 @@ public class CardBuilder2GUI extends JPanel{
 		magicCardEditorPanel.setMagicCard(mc);
 		foreignNamesEditorPanel.setMagicCard(mc);
 		btnRefresh.doClick();
+		
+
 	}
 	
 	protected void initEdition(MagicEdition ed) {

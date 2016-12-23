@@ -33,6 +33,14 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	
+
+
+	public void removePicture(MagicEdition ed, MagicCard mc) {
+		File mainDir = new File(props.getProperty("PICS_DIR"));
+		File edDir = new File(mainDir,ed.getId());
+		new File(edDir,mc.getId()+"."+props.getProperty("FORMAT")).delete();
+	}
+	
 	public PersonalSetPicturesProvider() {
 		super();
 		
