@@ -393,8 +393,8 @@ public class CardBuilder2GUI extends JPanel{
 				MagicCard ed = (MagicCard)cardsTable.getValueAt(cardsTable.getSelectedRow(), 0);
 				
 				if(arg0.getClickCount()==2){
-				initCard(ed);
-				tabbedPane.setSelectedIndex(1);
+					initCard(ed);
+					tabbedPane.setSelectedIndex(1);
 				}
 				
 			}
@@ -420,21 +420,20 @@ public class CardBuilder2GUI extends JPanel{
 					me.setRarity(mc.getRarity());
 					me.setArtist(mc.getArtist());
 					me.setFlavor(mc.getFlavor());
+					
 					if(mc.getId()==null)
 						mc.setId(DigestUtils.sha1Hex(me.getSet()+mc.getId()));
 					
-					mc.getEditions().add(me);
+					
+					if(!mc.getEditions().contains(me))
+						mc.getEditions().add(0,me);
 				try {
 					provider.addCard(me, mc);
-					
 					BufferedImage bi = new BufferedImage(panelPictures.getSize().width, 560, BufferedImage.TYPE_INT_ARGB); 
 					Graphics2D g = bi.createGraphics();
 					panelPictures.paint(g);  
 					g.dispose();
-					
-					
 					picturesProvider.savePicture(bi, mc,me);
-					
 				} catch (IOException e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
@@ -451,7 +450,8 @@ public class CardBuilder2GUI extends JPanel{
 					jsonPanel.showCard(magicCardEditorPanel.getMagicCard());
 					
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					e.printStackTrace();
+					//JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
 				} 
 			}
 		});

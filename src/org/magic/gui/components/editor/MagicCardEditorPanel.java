@@ -21,6 +21,7 @@ import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import org.japura.gui.model.DefaultListCheckModel;
@@ -65,7 +66,6 @@ public class MagicCardEditorPanel extends JPanel {
 	private ManaPanel pan = new ManaPanel();
 	
 	public MagicCardEditorPanel(org.magic.api.beans.MagicCard newMagicCard) {
-		this();
 		setMagicCard(newMagicCard);
 	}
 
