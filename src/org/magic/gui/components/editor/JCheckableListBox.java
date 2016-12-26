@@ -11,6 +11,14 @@ public class JCheckableListBox<T> extends CheckComboBox {
 		super();
 	}
 	
+	public void addElement(T element,boolean checked)
+	{
+		getModel().addElement(element);
+		if(checked)
+			getModel().addCheck(element);
+	}
+	
+	
 	public List<T> getSelectedElements()
 	{
 		return (List<T>) getModel().getCheckeds();

@@ -64,6 +64,7 @@ public class MagicCardEditorPanel extends JPanel {
 	private JTextField txtSubTypes;
 	private JPanel panel_2;
 	private ManaPanel pan = new ManaPanel();
+	private JCheckableListBox<String> cboSubtypes;
 	
 	public MagicCardEditorPanel(org.magic.api.beans.MagicCard newMagicCard) {
 		setMagicCard(newMagicCard);
@@ -289,8 +290,17 @@ public class MagicCardEditorPanel extends JPanel {
 				panel_1.add(cboTypes);
 				
 				cboTypes.setModel(model);
+				
+				cboSubtypes = new JCheckableListBox<String>();
+				panel_1.add(cboSubtypes);
 		
 				txtSubTypes = new JTextField();
+				txtSubTypes.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						cboSubtypes.addElement(txtSubTypes.getText(),true);
+						txtSubTypes.setText("");
+					}
+				});
 				panel_1.add(txtSubTypes);
 				txtSubTypes.setColumns(10);
 						
@@ -527,6 +537,7 @@ public class MagicCardEditorPanel extends JPanel {
 		
 		magicCard.setTypes(cboTypes.getSelectedElements());
 		magicCard.setSupertypes(cboSuperType.getSelectedElements());
+		magicCard.setSubtypes(cboSubtypes.getSelectedElements());
 		return magicCard;
 	}
 
@@ -538,6 +549,7 @@ public class MagicCardEditorPanel extends JPanel {
 		magicCard = newMagicCard;
 		cboSuperType.unselectAll();
 		cboTypes.unselectAll();
+		cboSubtypes.unselectAll();
 		
 		if (update) {
 			if (m_bindingGroup != null) {
@@ -551,7 +563,7 @@ public class MagicCardEditorPanel extends JPanel {
 		
 		cboSuperType.setSelectedElements(magicCard.getSupertypes());
 		cboTypes.setSelectedElements(magicCard.getTypes());
-		
+		cboSubtypes.setSelectedElements(magicCard.getSubtypes());
 		
 	}
 	protected BindingGroup initDataBindings() {
