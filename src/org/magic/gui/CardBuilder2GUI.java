@@ -459,10 +459,11 @@ public class CardBuilder2GUI extends JPanel{
 		btnRemoveEdition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				MagicEdition ed = (MagicEdition)editionsTable.getValueAt(editionsTable.getSelectedRow(), 1);
+				int viewRow = editionsTable.getSelectedRow();
+				int modelRow = editionsTable.convertRowIndexToModel(viewRow);
+				MagicEdition ed = (MagicEdition)editionsTable.getModel().getValueAt(modelRow, 1);
 				
-				int res = JOptionPane.showConfirmDialog(null,"Delete", "Delete " + ed + " ?",JOptionPane.YES_NO_OPTION);
-				
+				int res = JOptionPane.showConfirmDialog(null,"Delete " + ed + " ?","Delete", JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 				{ 
 					provider.removeEdition(ed);
