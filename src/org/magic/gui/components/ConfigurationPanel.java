@@ -24,6 +24,7 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.InstallCert;
 import org.magic.tools.db.NumberUpdater;
 import javax.swing.DefaultComboBoxModel;
 
@@ -40,6 +41,7 @@ public class ConfigurationPanel extends JPanel {
 	private JComboBox<MagicEdition> cboEditionLands;
 	private JTextField txtMinPrice;
 	private JComboBox<String> cbojsonView;
+	private JTextField txtWebSiteCertificate;
 	
 	
 	
@@ -52,7 +54,7 @@ public class ConfigurationPanel extends JPanel {
 	public ConfigurationPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 106, 212, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0, 0, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0, 0, 24, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
@@ -460,13 +462,49 @@ public class ConfigurationPanel extends JPanel {
 				
 			}
 		});
+		
+		JLabel lblAddWebsiteCertificate = new JLabel("Add Website Certificate : ");
+		GridBagConstraints gbc_lblAddWebsiteCertificate = new GridBagConstraints();
+		gbc_lblAddWebsiteCertificate.anchor = GridBagConstraints.EAST;
+		gbc_lblAddWebsiteCertificate.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAddWebsiteCertificate.gridx = 1;
+		gbc_lblAddWebsiteCertificate.gridy = 11;
+		add(lblAddWebsiteCertificate, gbc_lblAddWebsiteCertificate);
+		
+		txtWebSiteCertificate = new JTextField();
+		txtWebSiteCertificate.setText("www.");
+		GridBagConstraints gbc_txtWebSiteCertificate = new GridBagConstraints();
+		gbc_txtWebSiteCertificate.insets = new Insets(0, 0, 5, 5);
+		gbc_txtWebSiteCertificate.fill = GridBagConstraints.HORIZONTAL;
+		gbc_txtWebSiteCertificate.gridx = 2;
+		gbc_txtWebSiteCertificate.gridy = 11;
+		add(txtWebSiteCertificate, gbc_txtWebSiteCertificate);
+		txtWebSiteCertificate.setColumns(10);
+		
+		JButton btnAdd = new JButton("add");
+		btnAdd.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					InstallCert.install(txtdirWebsite.getText(), MTGDesktopCompanionControler.KEYSTORE_NAME, MTGDesktopCompanionControler.KEYSTORE_PASS);
+				} catch (Exception e) {
+					JOptionPane.showConfirmDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		GridBagConstraints gbc_btnAdd = new GridBagConstraints();
+		gbc_btnAdd.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnAdd.insets = new Insets(0, 0, 5, 5);
+		gbc_btnAdd.gridx = 3;
+		gbc_btnAdd.gridy = 11;
+		add(btnAdd, gbc_btnAdd);
 			
 		
 		lblLoading.setIcon(new ImageIcon(ConfigurationPanel.class.getResource("/res/load.gif")));
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
-		gbc_lblLoading.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLoading.insets = new Insets(0, 0, 0, 5);
 		gbc_lblLoading.gridx = 2;
-		gbc_lblLoading.gridy = 11;
+		gbc_lblLoading.gridy = 12;
 		add(lblLoading, gbc_lblLoading);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

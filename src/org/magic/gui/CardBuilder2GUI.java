@@ -66,6 +66,7 @@ import java.awt.FlowLayout;
 import java.awt.CardLayout;
 import javax.swing.BoxLayout;
 import javax.swing.SwingConstants;
+import javax.swing.border.TitledBorder;
 
 public class CardBuilder2GUI extends JPanel{
 	
@@ -124,6 +125,12 @@ public class CardBuilder2GUI extends JPanel{
 		JPanel panelMisc = new JPanel();
 		JPanel panelCardEditions = new JPanel();
 		JPanel legalitiesPanel = new JPanel();
+		legalitiesPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		
+		JToggleButton tglStd = new JToggleButton("STD");
+		JToggleButton tglMdn = new JToggleButton("MDN");
+		JToggleButton tglVin = new JToggleButton("VIN");
+		JToggleButton tglLeg = new JToggleButton("LEG");
 		
 ////////////////////////////////////////////////////INIT GLOBAL COMPONENTS		
 		editionModel = new MagicEditionsTableModel();
@@ -268,6 +275,10 @@ public class CardBuilder2GUI extends JPanel{
 		tabbedCards.addTab("Editions", null, panelCardEditions, null);
 		tabbedCards.addTab("Misc", null, panelMisc, null);
 		panelMisc.add(legalitiesPanel, BorderLayout.SOUTH);
+		legalitiesPanel.add(tglStd);
+		legalitiesPanel.add(tglMdn);
+		legalitiesPanel.add(tglLeg);
+		legalitiesPanel.add(tglVin);
 		
 ////////////////////////////////////////////////////COMPONENT CONFIG
 		editionModel.init(provider.loadEditions());
@@ -317,6 +328,13 @@ public class CardBuilder2GUI extends JPanel{
 				buttonsForeignNamesPanel.add(btnAddName);
 				
 				JButton btnRemoveName = new JButton("Remove");
+				btnRemoveName.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent arg0) {
+						int row = listNames.getSelectedRow();
+						namesModel.removeRow(row);
+						namesModel.fireTableDataChanged();
+					}
+				});
 				buttonsForeignNamesPanel.add(btnRemoveName);
 				
 				
@@ -367,9 +385,15 @@ public class CardBuilder2GUI extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-					provider.removeCard((MagicEdition)cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
-					picturesProvider.removePicture((MagicEdition)cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
-					initCard(new MagicCard());
+					
+					int res = JOptionPane.showConfirmDialog(null, "Are you sure you want to delete " + magicCardEditorPanel.getMagicCard() +" ?");
+					
+					if(res==JOptionPane.YES_OPTION)
+					{ 
+						provider.removeCard((MagicEdition)cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
+						picturesProvider.removePicture((MagicEdition)cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
+						initCard(new MagicCard());
+					}
 				} catch (IOException e) {
 					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
