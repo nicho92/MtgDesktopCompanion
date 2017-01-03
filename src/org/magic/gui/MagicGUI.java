@@ -12,6 +12,7 @@ import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.magic.gui.components.dialog.ThreadMonitorFrame;
 import org.magic.gui.game.GamePanelGUI;
 import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
 
 public class MagicGUI extends JFrame {
@@ -274,6 +276,21 @@ public class MagicGUI extends JFrame {
 			if(serviceUpdate.hasNewVersion())
 				trayNotifier.displayMessage(getTitle(),"New version " + serviceUpdate.getOnlineVersion() + " available",TrayIcon.MessageType.INFO);
 		
+			
+			ThreadManager.getInstance().execute(new Runnable() {
+				
+				@Override
+				public void run() {
+					try {
+						new TipsOfTheDayDialog().show();
+					} catch (IOException e) {
+					//	e.printStackTrace();
+					}
+					
+				}
+			}, "launch tooltip");
+			
+			
 		}		
 	}
 

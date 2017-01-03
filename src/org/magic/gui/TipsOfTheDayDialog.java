@@ -1,7 +1,5 @@
-package org.magic.test;
+package org.magic.gui;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
@@ -10,18 +8,21 @@ import org.jdesktop.swingx.tips.TipLoader;
 import org.jdesktop.swingx.tips.TipOfTheDayModel;
 import org.magic.services.MTGDesktopCompanionControler;
 
-public class TestToolTip {
+public class TipsOfTheDayDialog extends JXTipOfTheDay{
 
-	public static void main(String[] args) throws FileNotFoundException, IOException {
+	private static final long serialVersionUID = 1L;
 
+	public TipsOfTheDayDialog() throws IOException {
 		Properties tips = new Properties();
-		tips.load(TestToolTip.class.getResource("/res/tips.properties").openStream());
-		
+		tips.load(TipsOfTheDayDialog.class.getResource("/res/tips.properties").openStream());
 		TipOfTheDayModel model = TipLoader.load(tips);
+		setModel(model);
 		
-		JXTipOfTheDay totd = new JXTipOfTheDay (model);
-		
-		totd.showDialog (null, new JXTipOfTheDay.ShowOnStartupChoice ()
+	}
+	
+	public void show()
+	{
+		showDialog (null, new JXTipOfTheDay.ShowOnStartupChoice ()
 	      {
 	       public boolean isShowingOnStartup ()
 	       {
@@ -36,7 +37,7 @@ public class TestToolTip {
 	        	MTGDesktopCompanionControler.getInstance().setProperty("tooltip", "false");
 	       }
 	      });
-		
 	}
-
+	
+	
 }
