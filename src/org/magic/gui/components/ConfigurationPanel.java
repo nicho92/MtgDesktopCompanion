@@ -27,6 +27,9 @@ import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
 import org.magic.tools.db.NumberUpdater;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.JCheckBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class ConfigurationPanel extends JPanel {
 	
@@ -42,7 +45,7 @@ public class ConfigurationPanel extends JPanel {
 	private JTextField txtMinPrice;
 	private JComboBox<String> cbojsonView;
 	private JTextField txtWebSiteCertificate;
-	
+	private JCheckBox chkToolTip ;
 	
 	
 	public void loading(boolean show,String text)
@@ -54,9 +57,9 @@ public class ConfigurationPanel extends JPanel {
 	public ConfigurationPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{0, 106, 212, 0, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0, 0, 24, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 27, 0, 21, 0, 0, 0, 24, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblBackupDao = new JLabel("Backup dao file : ");
@@ -486,9 +489,9 @@ public class ConfigurationPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-					InstallCert.install(txtdirWebsite.getText(), MTGDesktopCompanionControler.KEYSTORE_NAME, MTGDesktopCompanionControler.KEYSTORE_PASS);
+					InstallCert.install(txtWebSiteCertificate.getText(), MTGDesktopCompanionControler.KEYSTORE_NAME, MTGDesktopCompanionControler.KEYSTORE_PASS);
 				} catch (Exception e) {
-					JOptionPane.showConfirmDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -498,13 +501,35 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnAdd.gridx = 3;
 		gbc_btnAdd.gridy = 11;
 		add(btnAdd, gbc_btnAdd);
+		
+		JLabel lblShowTooltip = new JLabel("Show Tooltip :");
+		GridBagConstraints gbc_lblShowTooltip = new GridBagConstraints();
+		gbc_lblShowTooltip.anchor = GridBagConstraints.EAST;
+		gbc_lblShowTooltip.insets = new Insets(0, 0, 5, 5);
+		gbc_lblShowTooltip.gridx = 1;
+		gbc_lblShowTooltip.gridy = 12;
+		add(lblShowTooltip, gbc_lblShowTooltip);
+		
+		chkToolTip = new JCheckBox("");
+		chkToolTip.setSelected(MTGDesktopCompanionControler.getInstance().get("tooltip").equals("true"));
+		chkToolTip.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				
+				MTGDesktopCompanionControler.getInstance().setProperty("tooltip",chkToolTip.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chkToolTip = new GridBagConstraints();
+		gbc_chkToolTip.insets = new Insets(0, 0, 5, 5);
+		gbc_chkToolTip.gridx = 2;
+		gbc_chkToolTip.gridy = 12;
+		add(chkToolTip, gbc_chkToolTip);
 			
 		
 		lblLoading.setIcon(new ImageIcon(ConfigurationPanel.class.getResource("/res/load.gif")));
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
 		gbc_lblLoading.insets = new Insets(0, 0, 0, 5);
 		gbc_lblLoading.gridx = 2;
-		gbc_lblLoading.gridy = 12;
+		gbc_lblLoading.gridy = 13;
 		add(lblLoading, gbc_lblLoading);
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
