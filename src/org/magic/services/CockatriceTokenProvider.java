@@ -107,8 +107,9 @@ public class CockatriceTokenProvider {
 							  tok.setPower(value.getElementsByTagName("pt").item(0).getTextContent().substring(0, value.getElementsByTagName("pt").item(0).getTextContent().indexOf("/")).trim());
 							  tok.setToughness(value.getElementsByTagName("pt").item(0).getTextContent().substring(value.getElementsByTagName("pt").item(0).getTextContent().indexOf("/")+1).trim());
 						  }
-						  		
-						  tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
+						  if(value.getElementsByTagName("text").item(0)!=null)		
+							  tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
+						  
 						  tok.getEditions().add(mc.getEditions().get(0));
 						  tok.setNumber("T");
 						  

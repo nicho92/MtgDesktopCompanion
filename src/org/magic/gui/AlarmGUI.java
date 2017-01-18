@@ -11,6 +11,7 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.net.URI;
 
 import javax.swing.DefaultListModel;
@@ -32,10 +33,12 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.main.MtgDesktopCompanion;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGDesktopCompanionControler;
+import javax.swing.JTabbedPane;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;
@@ -47,7 +50,9 @@ public class AlarmGUI extends JPanel {
 	private JPanel panel;
 	private JButton btnRefresh;
 	private JButton btnDelete;
+	private HistoryPricesPanel variationPanel;
 	static final Logger logger = LogManager.getLogger(AlarmGUI.class.getName());
+	private JTabbedPane tabbedPane;
 
 	
 	public AlarmGUI() {
@@ -63,7 +68,6 @@ public class AlarmGUI extends JPanel {
 		JScrollPane scrollTable = new JScrollPane();
 		scrollTable.setPreferredSize(new Dimension(2, 200));
 		splitPanel.setLeftComponent(scrollTable);
-		
 		table = new JTable();
 		model = new CardAlertTableModel();
 		table.setModel(model);
@@ -88,21 +92,34 @@ public class AlarmGUI extends JPanel {
 		
 		scrollTable.setViewportView(table);
 		
-		magicCardDetailPanel = new MagicCardDetailPanel();
-		splitPanel.setRightComponent(magicCardDetailPanel);
-		magicCardDetailPanel.enableThumbnail(true);
-		
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
 			public void mouseClicked(MouseEvent evt) {
 					
 				resultListModel.removeAllElements();
 				MagicCardAlert selected = (MagicCardAlert)table.getValueAt(table.getSelectedRow(), 0);
 					magicCardDetailPanel.setMagicCard(selected.getCard());
-					
+					try {
+						variationPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(selected.getCard(), null), selected.getCard().getName());
+					} catch (IOException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					for(MagicPrice mp : selected.getOffers())
 						resultListModel.addElement(mp);
 				}
 		});
+		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		splitPanel.setRightComponent(tabbedPane);
+		
+		magicCardDetailPanel = new MagicCardDetailPanel();
+		variationPanel = new HistoryPricesPanel();
+		
+		
+		tabbedPane.addTab("Card", null, magicCardDetailPanel, null);
+		tabbedPane.addTab("Variations", null, variationPanel , null);
+		
+		magicCardDetailPanel.enableThumbnail(true);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.EAST);
