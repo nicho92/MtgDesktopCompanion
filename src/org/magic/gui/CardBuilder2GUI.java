@@ -101,9 +101,10 @@ public class CardBuilder2GUI extends JPanel{
 ////////////////////////////////////////////////////INIT LOCAL COMPONENTS			
 		JPanel panelEditionHaut = new JPanel();
 		JPanel panelSets = new JPanel();
-		JButton btnSaveEdition = new JButton("Save");
-		JButton btnNewSet = new JButton("New Set");
-		JButton btnRemoveEdition = new JButton("Remove");
+		JButton btnSaveEdition = new JButton("");
+		JButton btnNewSet = new JButton("");
+		JButton btnRemoveEdition = new JButton("");
+		
 		JSplitPane splitcardEdPanel = new JSplitPane();
 		JScrollPane scrollTableEdition = new JScrollPane();
 		JPanel panelCards = new JPanel();
@@ -288,10 +289,20 @@ public class CardBuilder2GUI extends JPanel{
 		scrollTableEdition.setViewportView(editionsTable);
 		splitcardEdPanel.setRightComponent(scrollTableCards);
 		scrollTableCards.setViewportView(cardsTable);
-		btnImport.setToolTipText("Import existing card");
 		btnSaveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/save.png")));
 		btnNewSet.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/new.png")));
 		btnRemoveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/delete.png")));
+	
+		btnSaveEdition.setToolTipText("Save the set");
+		btnNewSet.setToolTipText("New set");
+		btnRemoveEdition.setToolTipText("Delete Set");
+		btnImport.setToolTipText("Import existing card");
+		btnSaveCard.setToolTipText("Save the card");
+		btnRefresh.setToolTipText("Refresh");
+		btnNewCard.setToolTipText("New Card");
+		btnRemoveCard.setToolTipText("Delete the card");
+		
+		
 		panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
 		magicEditionDetailPanel.setEditable(true);
 		magicEditionDetailPanel.setRightComponent(panelBooster);
