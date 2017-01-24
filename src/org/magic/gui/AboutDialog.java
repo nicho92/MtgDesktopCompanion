@@ -14,6 +14,7 @@ import javax.swing.SwingConstants;
 public class AboutDialog extends JDialog {
 	public AboutDialog() {
 		setTitle("About");
+		setResizable(false);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JTextArea txtrWizardsOfThe = new JTextArea();

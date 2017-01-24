@@ -1,6 +1,5 @@
 package org.magic.api.pictures.impl;
 
-import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +7,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
@@ -17,6 +18,9 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
 //	PicturesCache cache = new MemoryCache();
+	
+	static final Logger logger = LogManager.getLogger(PersonalSetPicturesProvider.class.getName());
+	
 	
 	
 	public void savePicture(BufferedImage bi,MagicCard mc,MagicEdition ed) throws IOException
@@ -75,7 +79,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception{
 		File mainDir = new File(props.getProperty("PICS_DIR"));
 		File edDir = new File(mainDir,ed.getId());
-		
+		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
 		if(edDir.exists())
 			return ImageIO.read(new File(edDir,mc.getId()+"."+props.getProperty("FORMAT")));
 		else

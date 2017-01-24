@@ -1,11 +1,8 @@
 package org.magic.gui.models;
 
-import java.util.List;
-
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
 
 public class MagicCardNamesTableModel extends DefaultTableModel {
 

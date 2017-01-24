@@ -1,16 +1,12 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
-import java.util.List;
 import java.util.Locale;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
-
-import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicEdition;
 
 public class MagicCardNameEditor extends DefaultCellEditor {
 

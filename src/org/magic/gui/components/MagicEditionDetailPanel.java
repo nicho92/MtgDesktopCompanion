@@ -4,6 +4,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -20,7 +21,6 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.services.ThreadManager;
-import javax.swing.JCheckBox;
 
 public class MagicEditionDetailPanel extends JSplitPane {
 

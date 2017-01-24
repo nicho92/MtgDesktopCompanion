@@ -1,16 +1,13 @@
 package org.magic.services;
 
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.net.URLEncoder;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
-import javax.swing.JLabel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;

@@ -5,7 +5,6 @@ import java.awt.Component;
 import javax.swing.AbstractCellEditor;
 import javax.swing.JSpinner;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.TableCellEditor;
 

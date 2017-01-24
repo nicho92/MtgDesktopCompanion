@@ -1,6 +1,5 @@
 package org.magic.api.beans;
 
-import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -6,7 +6,6 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import org.magic.gui.game.GamePanelGUI;
-import org.magic.gui.game.SearchLibraryFrame;
 
 public class ShuffleActions extends AbstractAction {
 

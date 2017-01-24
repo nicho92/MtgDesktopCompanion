@@ -1,11 +1,9 @@
 package org.magic.gui.renderer;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.SystemColor;
 
 import javax.swing.DefaultListCellRenderer;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 

@@ -1,24 +1,18 @@
 package org.magic.gui.components.renderer;
 
+import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.ManaPanel;
-import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.IconSetProvider;
-
-import javax.swing.border.LineBorder;
-import java.awt.Color;
-import java.awt.SystemColor;
 
 public class CardListPanel extends JPanel{
 	public CardListPanel(MagicCard mc) {

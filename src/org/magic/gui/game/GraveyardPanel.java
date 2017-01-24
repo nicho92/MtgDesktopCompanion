@@ -1,7 +1,6 @@
 package org.magic.gui.game;
 
 import java.awt.Color;
-import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
 

@@ -22,6 +22,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -31,14 +32,12 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.main.MtgDesktopCompanion;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGDesktopCompanionControler;
-import javax.swing.JTabbedPane;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;

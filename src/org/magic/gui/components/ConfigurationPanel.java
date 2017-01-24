@@ -5,10 +5,14 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -26,10 +30,6 @@ import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
 import org.magic.tools.db.NumberUpdater;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JCheckBox;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class ConfigurationPanel extends JPanel {
 	

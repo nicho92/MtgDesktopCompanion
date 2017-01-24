@@ -1,19 +1,16 @@
 package org.magic.gui.models;
 
-import java.awt.Image;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.IconSetProvider;
 import org.magic.services.MTGDesktopCompanionControler;
 

@@ -4,7 +4,6 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
-import org.magic.game.GameManager;
 import org.magic.gui.game.DisplayableCard;
 import org.magic.gui.game.GamePanelGUI;
 

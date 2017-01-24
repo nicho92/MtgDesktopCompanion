@@ -1,9 +1,6 @@
 package org.magic.api.dao.impl;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
@@ -26,7 +23,6 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
-import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MTGDesktopCompanionControler;
 
 public class MysqlDAO extends AbstractMagicDAO{
