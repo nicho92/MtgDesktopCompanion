@@ -208,11 +208,6 @@
 		</flux>
 		<flux>
 			<category>News FR</category>
-			<name>MagicTrade</name>
-			<url>https://magictrade.org/articles/infos-rumeurs/feed/</url>
-		</flux>
-		<flux>
-			<category>News FR</category>
 			<name>MagicCorporation</name>
 			<url>http://www.magiccorporation.com/gathering-news-last-rss.html</url>
 		</flux>

@@ -518,7 +518,7 @@ public class CardBuilder2GUI extends JPanel{
 					me.setFlavor(mc.getFlavor());
 					
 					if(mc.getId()==null)
-						mc.setId(DigestUtils.sha1Hex(me.getSet()+mc.getId()));
+						mc.setId(DigestUtils.sha1Hex(me.getSet()+mc.getId()+mc.getName()));
 					
 					
 					if(!mc.getEditions().contains(me))
