@@ -40,9 +40,7 @@ public class MTGCardMakerPicturesProvider  {
 			
 	}
 	
-	public static void main(String[] args) {
-	}
-
+	
 
 	public int count(String manaCost , String item)
 	{
@@ -83,7 +81,6 @@ public class MTGCardMakerPicturesProvider  {
 			mc.setCost("");
 		
 		
-		System.out.println("\u2122 & \u169e 1993-"+new Date().getYear()+" Wizards of the Coast LLC");
 		
 		return new URL("http://www.mtgcardmaker.com/mcmaker/createcard.php?"
 				+ "name="+URLEncoder.encode(String.valueOf(mc.getName()),"UTF-8")
@@ -104,7 +101,7 @@ public class MTGCardMakerPicturesProvider  {
 				+ "&power="+mc.getPower()
 				+ "&toughness="+mc.getToughness()
 				+ "&artist="+URLEncoder.encode(String.valueOf(mc.getArtist()),"UTF-8")
-				+ "&bottom="+URLEncoder.encode("\u2122 & \u169e 1993-"+new Date().getYear()+" Wizards of the Coast LLC","UTF-8")
+				+ "&bottom="+URLEncoder.encode("\u2122 & \u00A9 1993-"+new Date().getYear()+" Wizards of the Coast LLC","UTF-8")
 				+ "&set1="
 				+ "&set2="
 				+ "&setname=");

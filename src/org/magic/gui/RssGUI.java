@@ -22,6 +22,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.gui.models.RssContentTableModel;
 import org.magic.services.MTGDesktopCompanionControler;
@@ -35,9 +37,11 @@ public class RssGUI extends JPanel {
 	private JEditorPane editorPane;
 	
 	DefaultMutableTreeNode curr;
-	
+	static final Logger logger = LogManager.getLogger(RssGUI.class.getName());
+
 	
 	public RssGUI() {
+		logger.info("init RSS GUI");
 		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollTable = new JScrollPane();
