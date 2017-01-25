@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -82,6 +83,8 @@ public class MTGCardMakerPicturesProvider  {
 			mc.setCost("");
 		
 		
+		System.out.println("\u2122 & \u169e 1993-"+new Date().getYear()+" Wizards of the Coast LLC");
+		
 		return new URL("http://www.mtgcardmaker.com/mcmaker/createcard.php?"
 				+ "name="+URLEncoder.encode(String.valueOf(mc.getName()),"UTF-8")
 				+ "&color="+color
@@ -101,10 +104,12 @@ public class MTGCardMakerPicturesProvider  {
 				+ "&power="+mc.getPower()
 				+ "&toughness="+mc.getToughness()
 				+ "&artist="+URLEncoder.encode(String.valueOf(mc.getArtist()),"UTF-8")
-				+ "&bottom="+URLEncoder.encode("� & � 1993-2016 Wizards of the Coast LLC","UTF-8")
+				+ "&bottom="+URLEncoder.encode("\u2122 & \u169e 1993-"+new Date().getYear()+" Wizards of the Coast LLC","UTF-8")
 				+ "&set1="
 				+ "&set2="
 				+ "&setname=");
+		
+		
 		
 	}
 
