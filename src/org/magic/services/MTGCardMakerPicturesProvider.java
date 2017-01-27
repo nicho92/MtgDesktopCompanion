@@ -80,8 +80,6 @@ public class MTGCardMakerPicturesProvider  {
 		if(mc.getCost()==null)
 			mc.setCost("");
 		
-		
-		
 		return new URL("http://www.mtgcardmaker.com/mcmaker/createcard.php?"
 				+ "name="+URLEncoder.encode(String.valueOf(mc.getName()),"UTF-8")
 				+ "&color="+color
