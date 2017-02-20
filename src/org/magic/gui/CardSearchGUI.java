@@ -22,6 +22,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -279,8 +280,8 @@ public class CardSearchGUI extends JPanel {
 			btnClear = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/09_clear_location.png")));
 			btnGenerateBooster = new JButton("Open a Booster");
 			
-			cboQuereableItems = new JComboBox<String>(MTGDesktopCompanionControler.getInstance().getEnabledProviders().getQueryableAttributs());
-			cboCollections= new JComboBox<MagicCollection>(MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections().size()]));
+			cboQuereableItems = new JComboBox<String>(new DefaultComboBoxModel(MTGDesktopCompanionControler.getInstance().getEnabledProviders().getQueryableAttributs()));
+			cboCollections= new JComboBox<MagicCollection>(new DefaultComboBoxModel(MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections().size()])));
 			cboLanguages = new JComboBox<MagicCardNames>();
 			
 			tablePrice = new JXTable();
@@ -297,7 +298,7 @@ public class CardSearchGUI extends JPanel {
 
 			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
 			
-			cboEdition = new JComboBox<MagicEdition>(li.toArray(new MagicEdition[li.size()]));
+			cboEdition = new JComboBox<MagicEdition>(new DefaultComboBoxModel(li.toArray(new MagicEdition[li.size()])));
 			
 			
 			
