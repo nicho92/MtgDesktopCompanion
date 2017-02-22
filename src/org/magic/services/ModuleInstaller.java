@@ -78,7 +78,7 @@ public class ModuleInstaller {
 		for(Class c : extractMissing("org.magic.api.exports.impl", "/deckexports/export"))
 			 MTGDesktopCompanionControler.getInstance().addProperty("/deckexports/export", c);
 
-		for(Class c : extractMissing("org.magic.api.servers.impl", "/servers/server"))
+		for(Class c : extractMissing("org.magic.servers.impl", "/servers/server"))
 			 MTGDesktopCompanionControler.getInstance().addProperty("/servers/server", c);
 		
 		return hasUpdated;

@@ -1,6 +1,7 @@
 package org.magic.test;
 
 import java.net.InetSocketAddress;
+import java.util.List;
 
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoConnector;
@@ -14,39 +15,38 @@ import org.magic.game.Player;
 public class MinaClient extends IoHandlerAdapter{
 
    private IoConnector connector;
-   private  IoSession session;
- 	
-
-   public IoSession getSession() {
-	return session;
-}
+   private IoSession session;
    
-   public MinaClient() {
+   public IoSession getSession() {
+		return session;
+   }
+	   
+   public MinaClient(String server, int port) {
      connector = new NioSocketConnector();
      connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));  
      connector.setHandler(this);
-     ConnectFuture connFuture = connector.connect(new InetSocketAddress("localhost", MinaServer.PORT));
+     
+     ConnectFuture connFuture = connector.connect(new InetSocketAddress(server, port));
      connFuture.awaitUninterruptibly();
      session = connFuture.getSession();
+     session.getConfig().setUseReadOperation(true);
 	}       
-	     
-   
-   @Override
-	public void messageReceived(IoSession session, Object message) throws Exception {
-		System.out.println(message);
+
+   	public void messageReceived(IoSession session, Object message) throws Exception {
+   		System.out.println("RECEIVED " + message);
 	}
    
 	
-	public static void main(String[] args) throws InterruptedException {
-		MinaClient client = new MinaClient();
-		  
-		    Player p = new Player();
-		    p.setName("Nicho");
-		    client.getSession().write(p);
-			//client.connector.dispose(true);
-			
-			
-			
+	public void join(Player p)
+	{
+	   session.write(p);
 	}
+	
+	public void listPlayers()
+	{
+		session.write("LIST_PLAYER");
+		System.out.println(session.read().getMessage());
+	}
+	
 	
 }

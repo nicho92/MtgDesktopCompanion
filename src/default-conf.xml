@@ -30,6 +30,10 @@
 			<class>org.magic.servers.impl.PricesCheckerTimer</class>
 			<enable>true</enable>
 		</server>
+		<server>
+			<class>org.magic.servers.impl.MTGGameRoomServer</class>
+			<enable>true</enable>
+		</server>
 	</servers>
 
 	<pricers>
