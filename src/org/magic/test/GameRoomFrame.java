@@ -13,11 +13,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.services.ThreadManager;
 
 public class GameRoomFrame extends JFrame {
 	private JTextField txtServer;
@@ -25,6 +27,7 @@ public class GameRoomFrame extends JFrame {
 	private JTable table;
 	private MinaClient client;
 	private PlayerTableModel mod;
+	private JTextField txtName;
 	
 	public static void main(String[] args) {
 		new GameRoomFrame().setVisible(true);
@@ -55,7 +58,7 @@ public class GameRoomFrame extends JFrame {
 		panel.add(txtPort);
 		txtPort.setColumns(10);
 		
-		JButton btnConnect = new JButton("Connect");
+		final JToggleButton btnConnect = new JToggleButton("Connect");
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
@@ -64,13 +67,30 @@ public class GameRoomFrame extends JFrame {
 				MagicDeck d = diag.getSelectedDeck();
 				Player p = new Player();
 				p.setDeck(d);
-				p.setName(JOptionPane.showInputDialog("Name ?"));
+				p.setName(txtName.getText());
 				client.join(p);
-				//List<Player> list = client.listPlayers();
-				client.listPlayers();
-				//mod.setPlayers(list);
+				
+				ThreadManager.getInstance().execute(new Runnable() {
+					
+					@Override
+					public void run() {
+						while(true)
+							btnConnect.setSelected(client.getSession().isActive());
+							
+						
+					}
+				}, "live connection");
+				
+				
 			}
 		});
+		
+		JLabel lblName = new JLabel("Name :");
+		panel.add(lblName);
+		
+		txtName = new JTextField();
+		panel.add(txtName);
+		txtName.setColumns(10);
 		panel.add(btnConnect);
 		
 		JScrollPane scrollPane = new JScrollPane();

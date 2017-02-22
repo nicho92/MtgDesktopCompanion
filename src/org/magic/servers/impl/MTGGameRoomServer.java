@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map.Entry;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -23,12 +24,9 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  static final Logger logger = LogManager.getLogger(MTGGameRoomServer.class.getName());
  private IoAcceptor acceptor;
  private IoHandlerAdapter adapter = new IoHandlerAdapter() {
- 		
- 		private List<Player> players= new ArrayList<Player>();
- 		
  		@Override
  		public void sessionCreated(IoSession session) throws Exception {
- 	 		//System.out.println("Session created");
+ 			logger.debug("CREATE SESSION"  + session);
  		}
  	 	
  	 	@Override
@@ -41,17 +39,8 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 		if(message instanceof Player)
  	 		{
  	 			Player p = (Player)message;
- 	 			players.add(p);
- 	 			logger.info("Connexion : " + p.getName() );
+ 	 			session.setAttribute("PLAYER", p);
  	 		}
- 	 		if(message instanceof String)
- 	 		{
- 	 			logger.debug(message);
- 	 			if(message.equals("LIST_PLAYER"))
- 	 				session.write(players);
- 	 		}
- 	 		
- 	 		
  	 	}
  	 	
 
@@ -76,11 +65,10 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		
     	acceptor = new NioSocketAcceptor();
         acceptor.setHandler(adapter);
-        acceptor.getFilterChain().addLast( "logger", new LoggingFilter() );
+        //acceptor.getFilterChain().addLast( "logger", new LoggingFilter() );
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
         acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(props.getProperty("BUFFER-SIZE")) );
         acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(props.getProperty("IDLE-TIME")) );
-        acceptor.getSessionConfig().setUseReadOperation(true);
 	}
  	
  	

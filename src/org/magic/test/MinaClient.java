@@ -1,7 +1,6 @@
 package org.magic.test;
 
 import java.net.InetSocketAddress;
-import java.util.List;
 
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoConnector;
@@ -29,11 +28,11 @@ public class MinaClient extends IoHandlerAdapter{
      ConnectFuture connFuture = connector.connect(new InetSocketAddress(server, port));
      connFuture.awaitUninterruptibly();
      session = connFuture.getSession();
-     session.getConfig().setUseReadOperation(true);
 	}       
-
+   
+   	
    	public void messageReceived(IoSession session, Object message) throws Exception {
-   		System.out.println("RECEIVED " + message);
+   		
 	}
    
 	
@@ -41,12 +40,5 @@ public class MinaClient extends IoHandlerAdapter{
 	{
 	   session.write(p);
 	}
-	
-	public void listPlayers()
-	{
-		session.write("LIST_PLAYER");
-		System.out.println(session.read().getMessage());
-	}
-	
 	
 }

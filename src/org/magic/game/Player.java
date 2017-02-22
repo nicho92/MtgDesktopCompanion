@@ -1,10 +1,12 @@
 package org.magic.game;
 
+import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Random;
@@ -23,10 +25,25 @@ public class Player extends Observable implements Serializable{
 	private List<MagicCard> hand;
 	private List<MagicCard> battlefield;
 	private Map<String,Integer> manaPool;
-
+	private Locale local;
+	private BufferedImage icon;
+	
 	private int poisonCounter;
 	
 	
+	public BufferedImage getIcon() {
+		return icon;
+	}
+
+	public void setIcon(BufferedImage icon) {
+		this.icon = icon;
+	}
+
+	public Locale getLocal() {
+		return local;
+	}
+	
+
 	public void init()
 	{
 		graveyard=new Graveyard();
@@ -43,6 +60,7 @@ public class Player extends Observable implements Serializable{
 		name="player 1";
 		life=20;
 		this.deck=deck;
+		local=Locale.getDefault();
 		init();
 		
 	}
@@ -377,6 +395,11 @@ public class Player extends Observable implements Serializable{
 
 	@Override
 	public String toString() {
+		return getName();
+	}
+	
+	
+	public String toDetailledString() {
 		StringBuilder build = new StringBuilder();
 		
 		build.append("Library :" ).append(library.size()).append("\n");
