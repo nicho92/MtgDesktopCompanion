@@ -1,5 +1,6 @@
 package org.magic.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -11,7 +12,7 @@ import java.util.Random;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 
-public class Player extends Observable{
+public class Player extends Observable implements Serializable{
 
 	private int life;
 	private String name;

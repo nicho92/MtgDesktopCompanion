@@ -1,5 +1,6 @@
 package org.magic.game;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Set;
 
 import org.magic.api.beans.MagicCard;
 
-public class Graveyard {
+public class Graveyard implements Serializable{
 
 	private List<MagicCard> cards;
 
