@@ -52,7 +52,7 @@ public class Player extends Observable implements Serializable{
 		library=deck.getAsList();
 		battlefield=new ArrayList<MagicCard>();
 		manaPool = new HashMap<String,Integer>();
-		
+		local=Locale.getDefault();
 	}
 	
 	public Player(MagicDeck deck) {

@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -15,8 +14,8 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
-import org.apache.mina.filter.logging.LoggingFilter;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.game.Player;
 
@@ -26,12 +25,13 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  private IoHandlerAdapter adapter = new IoHandlerAdapter() {
  		@Override
  		public void sessionCreated(IoSession session) throws Exception {
- 			logger.debug("CREATE SESSION"  + session);
+ 			logger.debug("New Session " + session.getRemoteAddress());
+ 			session.write(props.getProperty("WELCOME_MESSAGE"));
  		}
  	 	
  	 	@Override
  		public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
- 	 		//System.out.println( "IDLE " + session.getIdleCount( status ));
+ 	 		initPlayer(session); //refresh list users
  		}
  	 
  	 	@Override
@@ -40,6 +40,17 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 		{
  	 			Player p = (Player)message;
  	 			session.setAttribute("PLAYER", p);
+ 	 			sendRoomMessage(p + " is now connected");
+ 	 		}
+ 	 		else if(message instanceof MagicDeck)
+ 	 		{
+ 	 			Player p = (Player)session.getAttribute("PLAYER");
+ 	 			p.setDeck((MagicDeck)message);
+ 	 			session.setAttribute("PLAYER", p);
+ 	 		}
+ 	 		else if (message instanceof String)
+ 	 		{
+ 	 			sendRoomMessage(message);
  	 		}
  	 	}
  	 	
@@ -48,8 +59,25 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
  	    {
  	      logger.error(cause);
+ 	      initPlayer(session);
  	    }
 	};
+	
+	public void sendRoomMessage(Object message)
+	{
+		for(IoSession s : acceptor.getManagedSessions().values())
+				s.write(message.toString());
+	}
+	
+	
+	public void initPlayer(IoSession session)
+	{
+		List<Player> list = new ArrayList<Player>();
+			for(IoSession s : acceptor.getManagedSessions().values())
+				list.add((Player)s.getAttribute("PLAYER"));
+			
+			session.write(list);
+	}
 	
 	public MTGGameRoomServer() throws IOException {
 		
@@ -59,6 +87,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 			props.put("IDLE-TIME", "10");
 			props.put("BUFFER-SIZE", "2048");
 			props.put("AUTOSTART", "false");
+			props.put("WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room");
 			save();
 		}
 		
@@ -83,6 +112,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	public void start() throws Exception {
 		 acceptor.bind( new InetSocketAddress(Integer.parseInt(props.getProperty("SERVER-PORT"))) );
 		 logger.info("Server started on port " + props.getProperty("SERVER-PORT") +" ...");
+		
 	}
 
 

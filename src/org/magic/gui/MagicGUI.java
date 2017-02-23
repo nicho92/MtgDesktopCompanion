@@ -235,7 +235,7 @@ public class MagicGUI extends JFrame {
 		tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 		tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/res/search.gif")), new CardSearchGUI(), null);
 		tabbedPane.addTab("Deck", new ImageIcon(MagicGUI.class.getResource("/res/book_icon.jpg")), new DeckBuilderGUI(), null);
-		tabbedPane.addTab("Game", new ImageIcon(MagicGUI.class.getResource("/res/bottom.png")), GamePanelGUI.getInstance(), null);
+		tabbedPane.addTab("Game", new ImageIcon(MagicGUI.class.getResource("/res/bottom.png")), new GamingRoomGUI(), null);
 		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), new CollectionPanelGUI(), null);
 		tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI(), null);
 		tabbedPane.addTab("Shopping", new ImageIcon(MagicGUI.class.getResource("/res/shop.png")), new ShopperGUI(), null);
