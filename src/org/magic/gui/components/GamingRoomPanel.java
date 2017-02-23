@@ -22,7 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
-import org.magic.services.MinaClient;
+import org.magic.gui.game.network.MinaClient;
 import org.magic.services.ThreadManager;
 
 import javax.swing.JTextPane;

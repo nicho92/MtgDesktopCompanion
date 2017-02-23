@@ -1,4 +1,4 @@
-package org.magic.services;
+package org.magic.gui.game.network;
 
 import java.net.InetSocketAddress;
 import java.util.Observable;
