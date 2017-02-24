@@ -41,11 +41,13 @@ public class GamingRoomPanel extends JPanel {
 	private JTextField txtName;
 	private JList list = new JList(new DefaultListModel());
 	private JButton btnPlayGame;
+	private JButton btnConnect;
 	
 	
 	Player p = new Player();
 	Player otherplayer =null;
 	
+
 	private Observer obs = new Observer() {
 		
 		@Override
@@ -67,7 +69,8 @@ public class GamingRoomPanel extends JPanel {
 			if(arg instanceof PlayAction)
 			{
 				PlayAction lpa = (PlayAction)arg;
-				((DefaultListModel)list.getModel()).addElement("New game request from " + lpa.getP1() + " !" );
+				int res = JOptionPane.showConfirmDialog(null, lpa.getP1() +" ask you to play a game. Accept ?","New Game Request !",JOptionPane.YES_NO_OPTION);
+				
 			}
 			
 		}
@@ -95,7 +98,7 @@ public class GamingRoomPanel extends JPanel {
 		panneauHaut.add(txtPort);
 		txtPort.setColumns(10);
 		
-		final JButton btnConnect = new JButton("Connect");
+		btnConnect = new JButton("Connect");
 		
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -176,15 +179,12 @@ public class GamingRoomPanel extends JPanel {
 		JButton btnDeck = new JButton("Change deck");
 		panneauBas.add(btnDeck);
 		
-		btnPlayGame = new JButton("Play Game");
+		btnPlayGame = new JButton("Ask for Game");
 		btnPlayGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
-				
 				int res = JOptionPane.showConfirmDialog(null, "Want to play with " + otherplayer+" ?","Gaming request",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					client.playwith(otherplayer);
-				
 			}
 		});
 		btnPlayGame.setEnabled(false);
