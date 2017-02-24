@@ -3,6 +3,8 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
@@ -15,11 +17,13 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.ShopItem;
 import org.magic.game.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.game.network.MinaClient;
@@ -39,9 +43,11 @@ public class GamingRoomPanel extends JPanel {
 	private PlayerTableModel mod;
 	private JTextField txtName;
 	private JList list = new JList(new DefaultListModel());
+	private JButton btnPlayGame;
+	
 	
 	Player p = new Player();
-	
+	Player otherplayer =null;
 	
 	private Observer obs = new Observer() {
 		
@@ -103,6 +109,7 @@ public class GamingRoomPanel extends JPanel {
 							txtServer.setEnabled(true);
 							txtPort.setEnabled(true);
 							btnConnect.setEnabled(true);
+							btnLogout.setEnabled(false);
 	
 						}
 				}, "live connection");
@@ -133,15 +140,24 @@ public class GamingRoomPanel extends JPanel {
 		btnLogout.setEnabled(false);
 		panneauHaut.add(btnLogout);
 		
+		mod = new PlayerTableModel();
+		table = new JTable(mod);
+		
 		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.addMouseListener(new MouseAdapter() {
+		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
+				int modelrow= table.convertRowIndexToModel(table.getSelectedRow());
+				otherplayer = (Player) table.getModel().getValueAt(modelrow, 0);
+				
+				if(otherplayer!=null)
+					if(otherplayer.getDeck()!=null)
+						btnPlayGame.setEnabled(true);
+					
 			}
 		});
 		add(scrollPane, BorderLayout.CENTER);
-		mod = new PlayerTableModel();
-		table = new JTable(mod);
+	
 		scrollPane.setViewportView(table);
 		
 		JPanel panneauBas = new JPanel();
@@ -150,7 +166,18 @@ public class GamingRoomPanel extends JPanel {
 		JButton btnDeck = new JButton("Change deck");
 		panneauBas.add(btnDeck);
 		
-		JButton btnPlayGame = new JButton("Play Game");
+		btnPlayGame = new JButton("Play Game");
+		btnPlayGame.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				
+				int res = JOptionPane.showConfirmDialog(null, "Want to play with " + otherplayer+" ?","Gaming request",JOptionPane.YES_NO_OPTION);
+				if(res==JOptionPane.YES_OPTION)
+					client.playwith(otherplayer);
+				
+			}
+		});
+		btnPlayGame.setEnabled(false);
 		panneauBas.add(btnPlayGame);
 		
 		JPanel panel = new JPanel();
@@ -166,15 +193,23 @@ public class GamingRoomPanel extends JPanel {
 		panel.add(panel_1, BorderLayout.SOUTH);
 		panel_1.setLayout(new BorderLayout(0, 0));
 		
-		final JTextField editorPane = new JTextField();
+		final JTextArea editorPane = new JTextArea();
+		editorPane.setLineWrap(true);
+		editorPane.setWrapStyleWord(true);
+		editorPane.setRows(3);
 		
 		panel_1.add(editorPane, BorderLayout.CENTER);
 	
-		editorPane.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				client.sendMessage(p.getName() +": "+editorPane.getText());
-				editorPane.setText("");
-			}
+		editorPane.addKeyListener(new KeyAdapter() {
+			public void keyReleased(java.awt.event.KeyEvent e) {
+				if(e.getKeyCode()==KeyEvent.VK_ENTER)
+				{ 
+				 client.sendMessage(p.getName() +": "+editorPane.getText());
+				 editorPane.setText("");
+				}
+				
+			};
+			
 		});
 		
 		btnDeck.addActionListener(new ActionListener() {
@@ -231,7 +266,7 @@ class PlayerTableModel extends DefaultTableModel
 	public Object getValueAt(int row, int column) {
 		switch(column)
 		{
-		case 0: return players.get(row).getName();
+		case 0: return players.get(row);
 		case 1: return players.get(row).getDeck();
 		case 2: return players.get(row).getDeck().getLegality();
 		case 3: return players.get(row).getLocal();

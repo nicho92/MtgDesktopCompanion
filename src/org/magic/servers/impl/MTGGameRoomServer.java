@@ -18,6 +18,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.game.Player;
+import org.magic.gui.game.network.actions.GamingAction;
 
 public class MTGGameRoomServer extends AbstractMTGServer{
  static final Logger logger = LogManager.getLogger(MTGGameRoomServer.class.getName());
@@ -36,13 +37,8 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 
  	 	@Override
  	 	public void messageReceived(IoSession session, Object message) throws Exception {
- 	 		if(message instanceof Player)
- 	 		{
- 	 			Player p = (Player)message;
- 	 			session.setAttribute("PLAYER", p);
- 	 			sendRoomMessage(p + " is now connected");
- 	 		}
- 	 		else if(message instanceof MagicDeck)
+ 	 		
+ 	 		if(message instanceof MagicDeck)
  	 		{
  	 			Player p = (Player)session.getAttribute("PLAYER");
  	 			p.setDeck((MagicDeck)message);
@@ -52,13 +48,26 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 		{
  	 			sendRoomMessage(message);
  	 		}
+ 	 		else if(message instanceof GamingAction)
+ 	 		{
+ 	 			GamingAction act = (GamingAction)message;
+ 	 			
+ 	 			switch (act.getAct()) {
+ 	 				case PLAY: play(act.getObject());break;
+ 	 				case JOIN: join(session, (Player)act.getObject());
+ 	 				
+				default:
+				
+				}
+ 	 		}
  	 	}
  	 	
 
  	  @Override
  	    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
  	    {
- 	      logger.error(cause);
+ 	      cause.printStackTrace();
+ 		  logger.error(cause);
  	      initPlayer(session);
  	    }
 	};
@@ -69,7 +78,24 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 				s.write(message.toString());
 	}
 	
+	private void join(IoSession session, Player p)
+	{
+		session.setAttribute("PLAYER", p);
+			p.setId(session.getId());
+			sendRoomMessage(p + " is now connected");
+	}
 	
+	
+	protected void play(Object message) {
+		Player p = (Player)message;
+		
+		for(IoSession s : acceptor.getManagedSessions().values())
+			if(p.getId()==s.getId())
+				s.write("GAMING REQUEST !" );
+		
+	}
+
+
 	public void initPlayer(IoSession session)
 	{
 		List<Player> list = new ArrayList<Player>();

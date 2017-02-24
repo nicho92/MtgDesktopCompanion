@@ -12,6 +12,7 @@ import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactor
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.Player;
+import org.magic.gui.game.network.actions.GamingAction;
 
 public class MinaClient extends Observable {
 
@@ -44,7 +45,7 @@ public class MinaClient extends Observable {
    
 	public void join(Player p)
 	{
-	   session.write(p);
+	   session.write(new GamingAction(GamingAction.ACTIONS.JOIN,p));
 	}
 
 	public void updateDeck(MagicDeck d) {
@@ -58,6 +59,11 @@ public class MinaClient extends Observable {
 	public void logout()
 	{
 		session.closeOnFlush();
+	}
+
+	public void playwith(Player otherplayer) {
+		session.write(new GamingAction(GamingAction.ACTIONS.PLAY,otherplayer));
+		
 	}
 	
 }

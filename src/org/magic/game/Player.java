@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicDeck;
 
 public class Player extends Observable implements Serializable{
 
+	private Long id;
 	private int life;
 	private String name;
 	private MagicDeck deck;
@@ -43,6 +44,14 @@ public class Player extends Observable implements Serializable{
 		return local;
 	}
 	
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public void init()
 	{
