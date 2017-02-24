@@ -18,11 +18,17 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.game.Player;
-import org.magic.gui.game.network.actions.GamingAction;
+import org.magic.gui.game.network.actions.AbstractGamingAction;
+import org.magic.gui.game.network.actions.ChangeDeckAction;
+import org.magic.gui.game.network.actions.JoinAction;
+import org.magic.gui.game.network.actions.ListPlayersAction;
+import org.magic.gui.game.network.actions.PlayAction;
+import org.magic.gui.game.network.actions.SpeakAction;
 
 public class MTGGameRoomServer extends AbstractMTGServer{
  static final Logger logger = LogManager.getLogger(MTGGameRoomServer.class.getName());
  private IoAcceptor acceptor;
+ 
  private IoHandlerAdapter adapter = new IoHandlerAdapter() {
  		@Override
  		public void sessionCreated(IoSession session) throws Exception {
@@ -32,32 +38,21 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 	
  	 	@Override
  		public void sessionIdle(IoSession session, IdleStatus status) throws Exception {
- 	 		initPlayer(session); //refresh list users
+ 	 		refreshPlayers(session); //refresh list users
  		}
  	 
  	 	@Override
  	 	public void messageReceived(IoSession session, Object message) throws Exception {
  	 		
- 	 		if(message instanceof MagicDeck)
+ 	 		if(message instanceof AbstractGamingAction)
  	 		{
- 	 			Player p = (Player)session.getAttribute("PLAYER");
- 	 			p.setDeck((MagicDeck)message);
- 	 			session.setAttribute("PLAYER", p);
- 	 		}
- 	 		else if (message instanceof String)
- 	 		{
- 	 			sendRoomMessage(message);
- 	 		}
- 	 		else if(message instanceof GamingAction)
- 	 		{
- 	 			GamingAction act = (GamingAction)message;
- 	 			
+ 	 			AbstractGamingAction act = (AbstractGamingAction)message;
  	 			switch (act.getAct()) {
- 	 				case PLAY: play(act.getObject());break;
- 	 				case JOIN: join(session, (Player)act.getObject());
- 	 				
-				default:
-				
+ 	 				case PLAY: play(session,(PlayAction)act);break;
+ 	 				case JOIN: join(session, (JoinAction)act);break;
+ 	 				case CHANGE_DECK: changeDeck(session,(ChangeDeckAction)act);break;
+ 	 				case SPEAK: speak((SpeakAction)act);break;	
+ 	 				default:break;
 				}
  	 		}
  	 	}
@@ -66,43 +61,50 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	  @Override
  	    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
  	    {
- 	      cause.printStackTrace();
+ 	      //cause.printStackTrace();
  		  logger.error(cause);
- 	      initPlayer(session);
+ 	      refreshPlayers(session);
  	    }
 	};
 	
-	public void sendRoomMessage(Object message)
+	public void speak(SpeakAction sa)
 	{
 		for(IoSession s : acceptor.getManagedSessions().values())
-				s.write(message.toString());
+				s.write(sa);
 	}
 	
-	private void join(IoSession session, Player p)
+	private void join(IoSession session, JoinAction ja)
 	{
-		session.setAttribute("PLAYER", p);
+		Player p = ja.getPlayer();
+			session.setAttribute("PLAYER",p);
 			p.setId(session.getId());
-			sendRoomMessage(p + " is now connected");
+			speak(new SpeakAction(p, " is now connected"));
 	}
 	
 	
-	protected void play(Object message) {
-		Player p = (Player)message;
+	protected void changeDeck(IoSession session, ChangeDeckAction cda) {
+			Player p = (Player)session.getAttribute("PLAYER");
+			p.setDeck(cda.getDeck());
+			session.setAttribute("PLAYER", p);
 		
+	}
+
+	protected void play(IoSession session, PlayAction p) {
 		for(IoSession s : acceptor.getManagedSessions().values())
-			if(p.getId()==s.getId())
-				s.write("GAMING REQUEST !" );
+			if(p.getP2().getId()==s.getId())
+				s.write(p);
 		
 	}
 
+	
 
-	public void initPlayer(IoSession session)
+	public void refreshPlayers(IoSession session)
 	{
 		List<Player> list = new ArrayList<Player>();
 			for(IoSession s : acceptor.getManagedSessions().values())
 				list.add((Player)s.getAttribute("PLAYER"));
 			
-			session.write(list);
+			session.write(new ListPlayersAction(list));
 	}
 	
 	public MTGGameRoomServer() throws IOException {

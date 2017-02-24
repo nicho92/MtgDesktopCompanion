@@ -466,6 +466,12 @@ public class Player extends Observable implements Serializable{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public boolean equals(Object paramObject) {
+		Player p2 = (Player)paramObject;
+		return getId()==p2.getId();
+	}
 	
 	
 	

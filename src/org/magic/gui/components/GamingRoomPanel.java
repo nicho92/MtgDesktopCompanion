@@ -5,35 +5,32 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JToggleButton;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.ShopItem;
 import org.magic.game.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.game.network.MinaClient;
+import org.magic.gui.game.network.actions.ListPlayersAction;
+import org.magic.gui.game.network.actions.PlayAction;
+import org.magic.gui.game.network.actions.SpeakAction;
 import org.magic.services.ThreadManager;
-
-import javax.swing.JTextPane;
-import javax.swing.JList;
-import javax.swing.JEditorPane;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class GamingRoomPanel extends JPanel {
 	private JTextField txtServer;
@@ -53,12 +50,25 @@ public class GamingRoomPanel extends JPanel {
 		
 		@Override
 		public void update(Observable o, Object arg) {
-			if(arg instanceof List)
-				mod.init((List)arg);
+			if(arg instanceof ListPlayersAction)
+			{
+				ListPlayersAction lpa = (ListPlayersAction)arg;
+				lpa.getList().remove(p);
+				mod.init(lpa.getList());
+			}
 			
-			if(arg instanceof String)
-				((DefaultListModel)list.getModel()).addElement(arg);
+			if(arg instanceof SpeakAction)
+			{
+				SpeakAction lpa = (SpeakAction)arg;
+				((DefaultListModel)list.getModel()).addElement(lpa.getP() +":"+lpa.getText());
+			}
 		
+
+			if(arg instanceof PlayAction)
+			{
+				PlayAction lpa = (PlayAction)arg;
+				((DefaultListModel)list.getModel()).addElement("New game request from " + lpa.getP1() + " !" );
+			}
 			
 		}
 	};
@@ -133,7 +143,7 @@ public class GamingRoomPanel extends JPanel {
 		
 		btnLogout.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				client.sendMessage(p.getName() + " logout");
+				client.sendMessage("logged out");
 				client.logout();
 			}
 		});
@@ -204,7 +214,7 @@ public class GamingRoomPanel extends JPanel {
 			public void keyReleased(java.awt.event.KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER)
 				{ 
-				 client.sendMessage(p.getName() +": "+editorPane.getText());
+				 client.sendMessage(editorPane.getText());
 				 editorPane.setText("");
 				}
 				
