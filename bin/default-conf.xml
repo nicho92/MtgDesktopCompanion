@@ -1,11 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <conf>
-	<version>0.9 beta</version>
 	<langage>French</langage>
 	<lookAndFeel>com.sun.java.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
 	<loglevel>INFO</loglevel>
 	<default-website-dir>c:/</default-website-dir>
 	<default-library>Library</default-library>
+	<default-land-deck>KLD</default-land-deck>
+	<keystore-name>jssecacerts</keystore-name>
+	<keystore-pass>changeit</keystore-pass>
+	<min-price-alert>0</min-price-alert>
+	<debug-json-panel>false</debug-json-panel>
+	<tooltip>true</tooltip>
+	<lookAndFeels>
+		<lookAndFeel>com.seaglasslookandfeel.SeaGlassLookAndFeel</lookAndFeel>
+	</lookAndFeels>
+	
+	
+	
+	<servers>
+		<server>
+			<class>org.magic.servers.impl.ConsoleServer</class>
+			<enable>true</enable>
+		</server>
+		<server>
+			<class>org.magic.servers.impl.JSONHttpServer</class>
+			<enable>true</enable>
+		</server>
+		<server>
+			<class>org.magic.servers.impl.PricesCheckerTimer</class>
+			<enable>true</enable>
+		</server>
+		<server>
+			<class>org.magic.servers.impl.MTGGameRoomServer</class>
+			<enable>true</enable>
+		</server>
+	</servers>
+
 	<pricers>
 		<pricer>
 				<class>org.magic.api.pricers.impl.EbayPricer</class>
@@ -59,6 +89,10 @@
 			<class>org.magic.api.dao.impl.MysqlDAO</class>
 			<enable>false</enable>
 		</dao>
+		<dao>
+			<class>org.magic.api.dao.impl.PostgresqlDAO</class>
+			<enable>false</enable>
+		</dao>
 	</daos>
 	<shoppers>
 		<shopper>
@@ -79,7 +113,21 @@
 			<class>org.magic.api.dashboard.impl.MTGoldFishDashBoard</class>
 			<enable>true</enable>
 		</dashboard>
+		<dashboard>
+			<class>org.magic.api.dashboard.impl.MTGPriceDashBoard</class>
+			<enable>false</enable>
+		</dashboard>
 	</dashboards>
+	<pictures>
+		<picture>
+			<class>org.magic.api.pictures.impl.GathererPicturesProvider</class>
+			<enable>true</enable>
+		</picture>
+		<picture>
+			<class>org.magic.api.pictures.impl.MagicCardInfoPicturesProvider</class>
+			<enable>false</enable>
+		</picture>
+	</pictures>
 	<decksniffer>
 		<sniffer>
 			<class>org.magic.api.decksniffer.impl.TappedOutDeckSniffer</class>
@@ -91,7 +139,7 @@
 		</sniffer>
 		<sniffer>
 			<class>org.magic.api.decksniffer.impl.MagicCorporationDecks</class>
-			<enable>true</enable>
+			<enable>false</enable>
 		</sniffer>
 		<sniffer>
 			<class>org.magic.api.decksniffer.impl.LotusNoirDecks</class>
@@ -108,7 +156,11 @@
 			<enable>true</enable>
 		</export>
 		<export>
-			<class>org.magic.api.exports.impl.MKMWantList</class>
+			<class>org.magic.api.exports.impl.MKMFileWantListExport</class>
+			<enable>true</enable>
+		</export>
+		<export>
+			<class>org.magic.api.exports.impl.MKMOnlineWantListExport</class>
 			<enable>true</enable>
 		</export>
 		<export>
@@ -121,6 +173,14 @@
 		</export>
 		<export>
 			<class>org.magic.api.exports.impl.MTGODeckExport</class>
+			<enable>true</enable>
+		</export>
+		<export>
+			<class>org.magic.api.exports.impl.JsonExport</class>
+			<enable>true</enable>
+		</export>
+		<export>
+			<class>org.magic.api.exports.impl.DCIDeckSheetExport</class>
 			<enable>true</enable>
 		</export>
 	</deckexports>
@@ -149,11 +209,6 @@
 			<category>News En</category>
 			<name>MTGSalvation</name>
 			<url>http://www.mtgsalvation.com/articles.rss</url>
-		</flux>
-		<flux>
-			<category>News FR</category>
-			<name>MagicTrade</name>
-			<url>https://magictrade.org/articles/infos-rumeurs/feed/</url>
 		</flux>
 		<flux>
 			<category>News FR</category>

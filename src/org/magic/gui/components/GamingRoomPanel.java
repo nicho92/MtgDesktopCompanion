@@ -26,9 +26,12 @@ import javax.swing.table.DefaultTableModel;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.game.GamePanelGUI;
 import org.magic.gui.game.network.MinaClient;
 import org.magic.gui.game.network.actions.ListPlayersAction;
-import org.magic.gui.game.network.actions.PlayAction;
+import org.magic.gui.game.network.actions.ReponseAction;
+import org.magic.gui.game.network.actions.ReponseAction.CHOICE;
+import org.magic.gui.game.network.actions.RequestPlayAction;
 import org.magic.gui.game.network.actions.SpeakAction;
 import org.magic.services.ThreadManager;
 
@@ -48,6 +51,12 @@ public class GamingRoomPanel extends JPanel {
 	Player otherplayer =null;
 	
 
+	private void printMessage(String string) {
+		((DefaultListModel)list.getModel()).addElement(string);
+		
+	}
+	
+
 	private Observer obs = new Observer() {
 		
 		@Override
@@ -62,18 +71,41 @@ public class GamingRoomPanel extends JPanel {
 			if(arg instanceof SpeakAction)
 			{
 				SpeakAction lpa = (SpeakAction)arg;
-				((DefaultListModel)list.getModel()).addElement(lpa.getP() +":"+lpa.getText());
+				printMessage(lpa.getP() +":"+lpa.getText());
+				
 			}
 		
 
-			if(arg instanceof PlayAction)
+			if(arg instanceof RequestPlayAction)
 			{
-				PlayAction lpa = (PlayAction)arg;
+				RequestPlayAction lpa = (RequestPlayAction)arg;
 				int res = JOptionPane.showConfirmDialog(null, lpa.getP1() +" ask you to play a game. Accept ?","New Game Request !",JOptionPane.YES_NO_OPTION);
+				
+				if(res==JOptionPane.YES_OPTION)
+				{
+					client.reponse(lpa,CHOICE.YES);
+			//		GamePanelGUI.getInstance().setPlayer(p);
+			//		GamePanelGUI.getInstance().initGame();
+				}
+				else
+				{
+					client.reponse(lpa,CHOICE.NO);
+				}
 				
 			}
 			
+			if(arg instanceof ReponseAction)
+			{
+				ReponseAction resp = (ReponseAction)arg;
+				switch(resp.getReponse())
+				{
+					case YES: printMessage(resp.getRequest().getP2() +" accept your challenge"); break;
+					case NO: printMessage(resp.getRequest().getP2() +" decline your challenge");break;
+				}
+			}
+			
 		}
+
 	};
 	
 	public GamingRoomPanel() {
@@ -184,7 +216,7 @@ public class GamingRoomPanel extends JPanel {
 			public void actionPerformed(ActionEvent e) {
 				int res = JOptionPane.showConfirmDialog(null, "Want to play with " + otherplayer+" ?","Gaming request",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
-					client.playwith(otherplayer);
+					client.requestPlay(otherplayer);
 			}
 		});
 		btnPlayGame.setEnabled(false);

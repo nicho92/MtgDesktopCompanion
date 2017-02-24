@@ -15,14 +15,14 @@ import org.apache.mina.core.session.IoSession;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.game.Player;
 import org.magic.gui.game.network.actions.AbstractGamingAction;
 import org.magic.gui.game.network.actions.ChangeDeckAction;
 import org.magic.gui.game.network.actions.JoinAction;
 import org.magic.gui.game.network.actions.ListPlayersAction;
-import org.magic.gui.game.network.actions.PlayAction;
+import org.magic.gui.game.network.actions.ReponseAction;
+import org.magic.gui.game.network.actions.RequestPlayAction;
 import org.magic.gui.game.network.actions.SpeakAction;
 
 public class MTGGameRoomServer extends AbstractMTGServer{
@@ -48,20 +48,23 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 		{
  	 			AbstractGamingAction act = (AbstractGamingAction)message;
  	 			switch (act.getAct()) {
- 	 				case PLAY: play(session,(PlayAction)act);break;
+ 	 				case REQUEST_PLAY: requestGaming(session,(RequestPlayAction)act);break;
+ 	 				case RESPONSE: response(session,(ReponseAction)act);break;
  	 				case JOIN: join(session, (JoinAction)act);break;
  	 				case CHANGE_DECK: changeDeck(session,(ChangeDeckAction)act);break;
  	 				case SPEAK: speak((SpeakAction)act);break;	
+ 	 				
  	 				default:break;
 				}
  	 		}
  	 	}
  	 	
 
- 	  @Override
+
+	@Override
  	    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
  	    {
- 	      //cause.printStackTrace();
+ 	      cause.printStackTrace();
  		  logger.error(cause);
  	      refreshPlayers(session);
  	    }
@@ -89,15 +92,20 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		
 	}
 
-	protected void play(IoSession session, PlayAction p) {
+	protected void requestGaming(IoSession session, RequestPlayAction p) {
 		for(IoSession s : acceptor.getManagedSessions().values())
 			if(p.getP2().getId()==s.getId())
 				s.write(p);
 		
 	}
 
-	
 
+	private void response(IoSession session, ReponseAction act) {
+		for(IoSession s : acceptor.getManagedSessions().values())
+			if(act.getRequest().getP1().getId()==s.getId())
+				s.write(act);
+	}
+	
 	public void refreshPlayers(IoSession session)
 	{
 		List<Player> list = new ArrayList<Player>();

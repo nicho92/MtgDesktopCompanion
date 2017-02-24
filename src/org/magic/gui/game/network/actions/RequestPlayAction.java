@@ -2,13 +2,13 @@ package org.magic.gui.game.network.actions;
 
 import org.magic.game.Player;
 
-public class PlayAction extends AbstractGamingAction {
+public class RequestPlayAction extends AbstractGamingAction {
 	
 	Player p1;
 	Player p2;
 	
-	public PlayAction(Player p1,Player p2) {
-		setAct(ACTIONS.PLAY);
+	public RequestPlayAction(Player p1,Player p2) {
+		setAct(ACTIONS.REQUEST_PLAY);
 		this.p1=p1;
 		this.p2=p2;
 	}

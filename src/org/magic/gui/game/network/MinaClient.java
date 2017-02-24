@@ -16,7 +16,9 @@ import org.magic.gui.game.network.actions.AbstractGamingAction;
 import org.magic.gui.game.network.actions.ChangeDeckAction;
 import org.magic.gui.game.network.actions.SpeakAction;
 import org.magic.gui.game.network.actions.JoinAction;
-import org.magic.gui.game.network.actions.PlayAction;
+import org.magic.gui.game.network.actions.RequestPlayAction;
+import org.magic.gui.game.network.actions.ReponseAction;
+import org.magic.gui.game.network.actions.ReponseAction.CHOICE;
 
 public class MinaClient extends Observable {
 
@@ -67,9 +69,14 @@ public class MinaClient extends Observable {
 		session.closeOnFlush();
 	}
 
-	public void playwith(Player otherplayer) {
-		session.write(new PlayAction(p,otherplayer));
+	public void requestPlay(Player otherplayer) {
+		session.write(new RequestPlayAction(p,otherplayer));
 		
+	}
+
+	public void reponse(RequestPlayAction pa,CHOICE c)
+	{
+		session.write(new ReponseAction(pa, c));
 	}
 	
 }
