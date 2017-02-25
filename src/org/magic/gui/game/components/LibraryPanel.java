@@ -1,4 +1,4 @@
-package org.magic.gui.game;
+package org.magic.gui.game.components;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -8,7 +8,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.JMenuItem;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.PositionEnum;
+import org.magic.game.model.PositionEnum;
 import org.magic.gui.game.actions.library.ScryActions;
 import org.magic.gui.game.actions.library.SearchActions;
 import org.magic.gui.game.actions.library.ShuffleActions;

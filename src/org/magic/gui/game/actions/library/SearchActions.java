@@ -5,8 +5,8 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import org.magic.gui.game.GamePanelGUI;
-import org.magic.gui.game.SearchLibraryFrame;
+import org.magic.gui.game.components.GamePanelGUI;
+import org.magic.gui.game.components.SearchLibraryFrame;
 
 public class SearchActions extends AbstractAction {
 

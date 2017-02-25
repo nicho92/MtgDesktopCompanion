@@ -6,9 +6,9 @@ import java.awt.event.MouseEvent;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
-import org.magic.gui.game.DisplayableCard;
-import org.magic.gui.game.DraggablePanel;
-import org.magic.gui.game.GamePanelGUI;
+import org.magic.gui.game.components.DisplayableCard;
+import org.magic.gui.game.components.DraggablePanel;
+import org.magic.gui.game.components.GamePanelGUI;
 
 public class TransferActions extends MouseAdapter {
 

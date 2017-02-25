@@ -1,4 +1,4 @@
-package org.magic.gui.game;
+package org.magic.gui.game.components;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;

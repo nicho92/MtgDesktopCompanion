@@ -1,6 +1,6 @@
-package org.magic.gui.game.network.actions;
+package org.magic.game.network.actions;
 
-import org.magic.game.Player;
+import org.magic.game.model.Player;
 
 public class JoinAction extends AbstractGamingAction{
 
@@ -14,6 +14,11 @@ public class JoinAction extends AbstractGamingAction{
 
 	public Player getPlayer() {
 		return p1;
+	}
+	
+	@Override
+	public String toString() {
+		return getPlayer() + " join the channel";
 	}
 	
 	

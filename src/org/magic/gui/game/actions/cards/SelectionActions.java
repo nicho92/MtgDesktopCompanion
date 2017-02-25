@@ -7,7 +7,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.border.LineBorder;
 
-import org.magic.gui.game.DisplayableCard;
+import org.magic.gui.game.components.DisplayableCard;
 
 public class SelectionActions extends AbstractAction {
 

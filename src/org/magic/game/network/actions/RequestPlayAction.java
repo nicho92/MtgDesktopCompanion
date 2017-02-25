@@ -1,6 +1,6 @@
-package org.magic.gui.game.network.actions;
+package org.magic.game.network.actions;
 
-import org.magic.game.Player;
+import org.magic.game.model.Player;
 
 public class RequestPlayAction extends AbstractGamingAction {
 	
@@ -19,6 +19,11 @@ public class RequestPlayAction extends AbstractGamingAction {
 	
 	public Player getP2() {
 		return p2;
+	}
+	
+	@Override
+	public String toString() {
+		return getP1() +" request " + getP2() + " to play a game"; 
 	}
 
 }

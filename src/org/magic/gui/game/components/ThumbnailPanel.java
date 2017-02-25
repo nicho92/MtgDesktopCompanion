@@ -1,4 +1,4 @@
-package org.magic.gui.game;
+package org.magic.gui.game.components;
 
 import java.awt.Color;
 import java.awt.GridBagConstraints;
@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.PositionEnum;
+import org.magic.game.model.PositionEnum;
 
 
 

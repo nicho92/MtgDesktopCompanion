@@ -1,4 +1,4 @@
-package org.magic.gui.game.network.actions;
+package org.magic.game.network.actions;
 
 import java.io.Serializable;
 

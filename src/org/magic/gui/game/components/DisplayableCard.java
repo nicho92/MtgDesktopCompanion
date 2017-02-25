@@ -1,4 +1,4 @@
-package org.magic.gui.game;
+package org.magic.gui.game.components;
 
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -16,7 +16,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.PositionEnum;
+import org.magic.game.model.PositionEnum;
 import org.magic.gui.game.actions.cards.AttachActions;
 import org.magic.gui.game.actions.cards.ChangeCreaturePTActions;
 import org.magic.gui.game.actions.cards.EmblemActions;

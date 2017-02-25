@@ -7,8 +7,8 @@ import java.awt.image.BufferedImage;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
-import org.magic.gui.game.DisplayableCard;
-import org.magic.gui.game.GamePanelGUI;
+import org.magic.gui.game.components.DisplayableCard;
+import org.magic.gui.game.components.GamePanelGUI;
 import org.magic.services.MTGDesktopCompanionControler;
 
 public class RotateActions extends AbstractAction {

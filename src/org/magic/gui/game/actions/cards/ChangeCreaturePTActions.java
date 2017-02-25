@@ -6,8 +6,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
-import org.magic.gui.game.DisplayableCard;
-import org.magic.gui.game.GamePanelGUI;
+import org.magic.gui.game.components.DisplayableCard;
+import org.magic.gui.game.components.GamePanelGUI;
 
 public class ChangeCreaturePTActions  extends AbstractAction{
 

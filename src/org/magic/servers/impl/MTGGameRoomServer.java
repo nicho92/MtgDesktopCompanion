@@ -16,14 +16,14 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.game.Player;
-import org.magic.gui.game.network.actions.AbstractGamingAction;
-import org.magic.gui.game.network.actions.ChangeDeckAction;
-import org.magic.gui.game.network.actions.JoinAction;
-import org.magic.gui.game.network.actions.ListPlayersAction;
-import org.magic.gui.game.network.actions.ReponseAction;
-import org.magic.gui.game.network.actions.RequestPlayAction;
-import org.magic.gui.game.network.actions.SpeakAction;
+import org.magic.game.model.Player;
+import org.magic.game.network.actions.AbstractGamingAction;
+import org.magic.game.network.actions.ChangeDeckAction;
+import org.magic.game.network.actions.JoinAction;
+import org.magic.game.network.actions.ListPlayersAction;
+import org.magic.game.network.actions.ReponseAction;
+import org.magic.game.network.actions.RequestPlayAction;
+import org.magic.game.network.actions.SpeakAction;
 
 public class MTGGameRoomServer extends AbstractMTGServer{
  static final Logger logger = LogManager.getLogger(MTGGameRoomServer.class.getName());
@@ -33,7 +33,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  		@Override
  		public void sessionCreated(IoSession session) throws Exception {
  			logger.debug("New Session " + session.getRemoteAddress());
- 			session.write(props.getProperty("WELCOME_MESSAGE"));
+ 			session.write(new SpeakAction(null, props.getProperty("WELCOME_MESSAGE")));
  		}
  	 	
  	 	@Override
@@ -43,7 +43,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 
  	 	@Override
  	 	public void messageReceived(IoSession session, Object message) throws Exception {
- 	 		
+ 	 		logger.info(message);
  	 		if(message instanceof AbstractGamingAction)
  	 		{
  	 			AbstractGamingAction act = (AbstractGamingAction)message;
@@ -78,10 +78,10 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	
 	private void join(IoSession session, JoinAction ja)
 	{
-		Player p = ja.getPlayer();
-			session.setAttribute("PLAYER",p);
-			p.setId(session.getId());
-			speak(new SpeakAction(p, " is now connected"));
+		ja.getPlayer().setId(session.getId());
+		session.setAttribute("PLAYER",ja.getPlayer());
+		speak(new SpeakAction(ja.getPlayer(), " is now connected"));
+		refreshPlayers(session);
 	}
 	
 	
@@ -93,26 +93,32 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	}
 
 	protected void requestGaming(IoSession session, RequestPlayAction p) {
-		for(IoSession s : acceptor.getManagedSessions().values())
-			if(p.getP2().getId()==s.getId())
-				s.write(p);
+		IoSession s = acceptor.getManagedSessions().get(p.getP2().getId());
+		s.write(p);
 		
 	}
 
 
 	private void response(IoSession session, ReponseAction act) {
-		for(IoSession s : acceptor.getManagedSessions().values())
-			if(act.getRequest().getP1().getId()==s.getId())
-				s.write(act);
+		IoSession s = acceptor.getManagedSessions().get(act.getRequest().getP1().getId());
+		s.write(act);
+		
+//		for(IoSession s : acceptor.getManagedSessions().values())
+//		{ 	
+//			if(act.getRequest().getP2().getId()==s.getId())
+//				s.write(act);
+//		}
 	}
 	
 	public void refreshPlayers(IoSession session)
 	{
 		List<Player> list = new ArrayList<Player>();
 			for(IoSession s : acceptor.getManagedSessions().values())
+			{
 				list.add((Player)s.getAttribute("PLAYER"));
+			}
 			
-			session.write(new ListPlayersAction(list));
+		session.write(new ListPlayersAction(list));
 	}
 	
 	public MTGGameRoomServer() throws IOException {
@@ -134,6 +140,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
         acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(props.getProperty("BUFFER-SIZE")) );
         acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(props.getProperty("IDLE-TIME")) );
+        
 	}
  	
  	

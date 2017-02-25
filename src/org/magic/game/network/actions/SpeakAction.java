@@ -1,6 +1,6 @@
-package org.magic.gui.game.network.actions;
+package org.magic.game.network.actions;
 
-import org.magic.game.Player;
+import org.magic.game.model.Player;
 
 public class SpeakAction extends AbstractGamingAction {
 
@@ -27,6 +27,11 @@ public class SpeakAction extends AbstractGamingAction {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+	
+	@Override
+	public String toString() {
+		return getP() + " says " + getText();
 	}
 	
 	

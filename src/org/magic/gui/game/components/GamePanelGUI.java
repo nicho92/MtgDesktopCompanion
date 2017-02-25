@@ -1,4 +1,4 @@
-package org.magic.gui.game;
+package org.magic.gui.game.components;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
@@ -40,8 +40,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.game.GameManager;
-import org.magic.game.Player;
+import org.magic.game.model.GameManager;
+import org.magic.game.model.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
 

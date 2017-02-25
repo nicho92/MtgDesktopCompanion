@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 
-import org.magic.gui.game.DisplayableCard;
-import org.magic.gui.game.DisplayableCardsChooser;
-import org.magic.gui.game.GamePanelGUI;
+import org.magic.gui.game.components.DisplayableCard;
+import org.magic.gui.game.components.DisplayableCardsChooser;
+import org.magic.gui.game.components.GamePanelGUI;
 
 public class AttachActions extends AbstractAction {
 

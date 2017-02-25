@@ -24,15 +24,14 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.game.Player;
+import org.magic.game.model.Player;
+import org.magic.game.network.MinaClient;
+import org.magic.game.network.actions.ListPlayersAction;
+import org.magic.game.network.actions.ReponseAction;
+import org.magic.game.network.actions.ReponseAction.CHOICE;
+import org.magic.game.network.actions.RequestPlayAction;
+import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
-import org.magic.gui.game.GamePanelGUI;
-import org.magic.gui.game.network.MinaClient;
-import org.magic.gui.game.network.actions.ListPlayersAction;
-import org.magic.gui.game.network.actions.ReponseAction;
-import org.magic.gui.game.network.actions.ReponseAction.CHOICE;
-import org.magic.gui.game.network.actions.RequestPlayAction;
-import org.magic.gui.game.network.actions.SpeakAction;
 import org.magic.services.ThreadManager;
 
 public class GamingRoomPanel extends JPanel {
@@ -64,15 +63,17 @@ public class GamingRoomPanel extends JPanel {
 			if(arg instanceof ListPlayersAction)
 			{
 				ListPlayersAction lpa = (ListPlayersAction)arg;
-				lpa.getList().remove(p);
+			//	lpa.getList().remove(p);
 				mod.init(lpa.getList());
 			}
 			
 			if(arg instanceof SpeakAction)
 			{
 				SpeakAction lpa = (SpeakAction)arg;
-				printMessage(lpa.getP() +":"+lpa.getText());
-				
+				if(lpa.getP()!=null)
+					printMessage(lpa.getP() +":"+lpa.getText());
+				else
+					printMessage(lpa.getText());
 			}
 		
 

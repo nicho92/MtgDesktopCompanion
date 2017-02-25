@@ -21,9 +21,9 @@ import javax.swing.TransferHandler;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.magic.gui.game.DisplayableCard;
-import org.magic.gui.game.Draggable;
-import org.magic.gui.game.DraggablePanel;
+import org.magic.gui.game.components.DisplayableCard;
+import org.magic.gui.game.components.Draggable;
+import org.magic.gui.game.components.DraggablePanel;
 
 
 public class CardTransfertHandler extends TransferHandler  {

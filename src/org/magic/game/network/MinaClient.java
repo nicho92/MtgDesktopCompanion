@@ -1,4 +1,4 @@
-package org.magic.gui.game.network;
+package org.magic.game.network;
 
 import java.net.InetSocketAddress;
 import java.util.Observable;
@@ -11,14 +11,14 @@ import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.magic.api.beans.MagicDeck;
-import org.magic.game.Player;
-import org.magic.gui.game.network.actions.AbstractGamingAction;
-import org.magic.gui.game.network.actions.ChangeDeckAction;
-import org.magic.gui.game.network.actions.SpeakAction;
-import org.magic.gui.game.network.actions.JoinAction;
-import org.magic.gui.game.network.actions.RequestPlayAction;
-import org.magic.gui.game.network.actions.ReponseAction;
-import org.magic.gui.game.network.actions.ReponseAction.CHOICE;
+import org.magic.game.model.Player;
+import org.magic.game.network.actions.AbstractGamingAction;
+import org.magic.game.network.actions.ChangeDeckAction;
+import org.magic.game.network.actions.JoinAction;
+import org.magic.game.network.actions.ReponseAction;
+import org.magic.game.network.actions.RequestPlayAction;
+import org.magic.game.network.actions.SpeakAction;
+import org.magic.game.network.actions.ReponseAction.CHOICE;
 
 public class MinaClient extends Observable {
 
@@ -53,6 +53,7 @@ public class MinaClient extends Observable {
 	public void join(Player p)
 	{
 	   this.p=p;
+	   p.setId(session.getId());
 	   session.write(new JoinAction(p));
 	}
 
@@ -70,6 +71,7 @@ public class MinaClient extends Observable {
 	}
 
 	public void requestPlay(Player otherplayer) {
+		
 		session.write(new RequestPlayAction(p,otherplayer));
 		
 	}

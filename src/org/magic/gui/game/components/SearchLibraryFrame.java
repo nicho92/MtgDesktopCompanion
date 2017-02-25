@@ -1,4 +1,4 @@
-package org.magic.gui.game;
+package org.magic.gui.game.components;
 
 import java.awt.Dimension;
 import java.util.List;
@@ -7,8 +7,8 @@ import javax.swing.JDialog;
 import javax.swing.JScrollPane;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.Player;
-import org.magic.game.PositionEnum;
+import org.magic.game.model.Player;
+import org.magic.game.model.PositionEnum;
 
 public class SearchLibraryFrame extends JDialog {
 

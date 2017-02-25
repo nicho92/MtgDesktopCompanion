@@ -1,7 +1,7 @@
-package org.magic.gui.game.network.actions;
+package org.magic.game.network.actions;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.game.Player;
+import org.magic.game.model.Player;
 
 public class ChangeDeckAction extends AbstractGamingAction {
 
@@ -31,6 +31,10 @@ public class ChangeDeckAction extends AbstractGamingAction {
 		this.deck = deck;
 	}
 	
+	@Override
+	public String toString() {
+		return getPlayer() + " change his deck with " + getDeck();
+	}
 	
 	
 }

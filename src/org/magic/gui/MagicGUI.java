@@ -31,7 +31,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.gui.components.dialog.ThreadMonitorFrame;
-import org.magic.gui.game.GamePanelGUI;
+import org.magic.gui.game.components.GamePanelGUI;
 import org.magic.services.MTGDesktopCompanionControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;

@@ -1,11 +1,11 @@
-package org.magic.gui.game;
+package org.magic.gui.game.components;
 
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.PositionEnum;
+import org.magic.game.model.PositionEnum;
 
 public class BattleFieldPanel extends DraggablePanel  {
 

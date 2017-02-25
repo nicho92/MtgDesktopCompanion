@@ -1,8 +1,8 @@
-package org.magic.gui.game.network.actions;
+package org.magic.game.network.actions;
 
 import java.util.List;
 
-import org.magic.game.Player;
+import org.magic.game.model.Player;
 
 public class ListPlayersAction extends AbstractGamingAction {
 

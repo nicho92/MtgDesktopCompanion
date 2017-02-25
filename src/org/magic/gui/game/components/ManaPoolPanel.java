@@ -1,4 +1,4 @@
-package org.magic.gui.game;
+package org.magic.gui.game.components;
 
 
 import java.awt.FlowLayout;
@@ -11,7 +11,7 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import org.magic.game.Player;
+import org.magic.game.model.Player;
 import org.magic.gui.components.ManaPanel;
 
 public class ManaPoolPanel extends JPanel{

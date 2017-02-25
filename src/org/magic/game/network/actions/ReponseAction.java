@@ -1,4 +1,4 @@
-package org.magic.gui.game.network.actions;
+package org.magic.game.network.actions;
 
 public class ReponseAction extends AbstractGamingAction {
 
@@ -27,5 +27,9 @@ public class ReponseAction extends AbstractGamingAction {
 
 	public RequestPlayAction getRequest() {
 		return request;
+	}
+	
+	public String toString(){
+		return getRequest().getP2() + " answer to "+ getRequest().getP1() + ": "+ reponse;
 	}
 }

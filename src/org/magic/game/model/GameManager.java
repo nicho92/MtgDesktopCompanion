@@ -1,4 +1,4 @@
-package org.magic.game;
+package org.magic.game.model;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
-import org.magic.gui.game.GamePanelGUI;
+import org.magic.gui.game.components.GamePanelGUI;
 
 public class GameManager {
 
