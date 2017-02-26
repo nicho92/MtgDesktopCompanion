@@ -12,13 +12,12 @@ import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactor
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
-import org.magic.game.network.actions.AbstractGamingAction;
 import org.magic.game.network.actions.ChangeDeckAction;
 import org.magic.game.network.actions.JoinAction;
 import org.magic.game.network.actions.ReponseAction;
+import org.magic.game.network.actions.ReponseAction.CHOICE;
 import org.magic.game.network.actions.RequestPlayAction;
 import org.magic.game.network.actions.SpeakAction;
-import org.magic.game.network.actions.ReponseAction.CHOICE;
 
 public class MinaClient extends Observable {
 

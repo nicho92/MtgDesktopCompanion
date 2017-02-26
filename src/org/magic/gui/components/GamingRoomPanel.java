@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
@@ -13,6 +14,7 @@ import java.util.Observer;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JColorChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -32,7 +34,6 @@ import org.magic.game.network.actions.ReponseAction.CHOICE;
 import org.magic.game.network.actions.RequestPlayAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
-import org.magic.gui.game.components.GamePanelGUI;
 import org.magic.services.ThreadManager;
 
 public class GamingRoomPanel extends JPanel {
@@ -50,9 +51,18 @@ public class GamingRoomPanel extends JPanel {
 	Player p = new Player();
 	Player otherplayer =null;
 	
-
-	private void printMessage(String string) {
-		((DefaultListModel)list.getModel()).addElement(string);
+	private void printMessage(String text)
+	{
+		((DefaultListModel)list.getModel()).addElement(text);
+	}
+	
+	
+	private void printMessage(SpeakAction sa) {
+		
+		if(sa.getP()==null)
+			((DefaultListModel)list.getModel()).addElement(sa.getText());
+		else
+			((DefaultListModel)list.getModel()).addElement(sa.getP() +": "+sa.getText());
 		
 	}
 	
@@ -71,10 +81,7 @@ public class GamingRoomPanel extends JPanel {
 			if(arg instanceof SpeakAction)
 			{
 				SpeakAction lpa = (SpeakAction)arg;
-				if(lpa.getP()!=null)
-					printMessage(lpa.getP() +":"+lpa.getText());
-				else
-					printMessage(lpa.getText());
+					printMessage(lpa);
 			}
 		
 
@@ -244,6 +251,15 @@ public class GamingRoomPanel extends JPanel {
 		editorPane.setRows(3);
 		
 		panel_1.add(editorPane, BorderLayout.CENTER);
+		
+		JButton btnColorChoose = new JButton("New button");
+		btnColorChoose.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				Color c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
+				editorPane.setForeground(c);
+			}
+		});
+		panel_1.add(btnColorChoose, BorderLayout.NORTH);
 	
 		editorPane.addKeyListener(new KeyAdapter() {
 			public void keyReleased(java.awt.event.KeyEvent e) {
