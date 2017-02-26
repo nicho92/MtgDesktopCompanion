@@ -30,6 +30,6 @@ public class ReponseAction extends AbstractGamingAction {
 	}
 	
 	public String toString(){
-		return getRequest().getP2() + " answer to "+ getRequest().getP1() + ": "+ reponse;
+		return getRequest().getAskedPlayer() + " answer to "+ getRequest().getRequestPlayer() + ": "+ reponse;
 	}
 }

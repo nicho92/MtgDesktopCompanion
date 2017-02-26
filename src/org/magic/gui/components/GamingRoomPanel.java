@@ -32,6 +32,7 @@ import org.magic.game.network.actions.ReponseAction.CHOICE;
 import org.magic.game.network.actions.RequestPlayAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.game.components.GamePanelGUI;
 import org.magic.services.ThreadManager;
 
 public class GamingRoomPanel extends JPanel {
@@ -80,13 +81,14 @@ public class GamingRoomPanel extends JPanel {
 			if(arg instanceof RequestPlayAction)
 			{
 				RequestPlayAction lpa = (RequestPlayAction)arg;
-				int res = JOptionPane.showConfirmDialog(null, lpa.getP1() +" ask you to play a game. Accept ?","New Game Request !",JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(null, lpa.getRequestPlayer() +" ask you to play a game. Accept ?","New Game Request !",JOptionPane.YES_NO_OPTION);
 				
 				if(res==JOptionPane.YES_OPTION)
 				{
 					client.reponse(lpa,CHOICE.YES);
-			//		GamePanelGUI.getInstance().setPlayer(p);
-			//		GamePanelGUI.getInstance().initGame();
+					
+					//GamePanelGUI.getInstance().setPlayer(p);
+					//GamePanelGUI.getInstance().initGame();
 				}
 				else
 				{
@@ -100,8 +102,8 @@ public class GamingRoomPanel extends JPanel {
 				ReponseAction resp = (ReponseAction)arg;
 				switch(resp.getReponse())
 				{
-					case YES: printMessage(resp.getRequest().getP2() +" accept your challenge"); break;
-					case NO: printMessage(resp.getRequest().getP2() +" decline your challenge");break;
+					case YES: printMessage(resp.getRequest().getAskedPlayer() +" accept your challenge"); break;
+					case NO: printMessage(resp.getRequest().getAskedPlayer() +" decline your challenge");break;
 				}
 			}
 			

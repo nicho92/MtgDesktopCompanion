@@ -13,17 +13,17 @@ public class RequestPlayAction extends AbstractGamingAction {
 		this.p2=p2;
 	}
 	
-	public Player getP1() {
+	public Player getRequestPlayer() {
 		return p1;
 	}
 	
-	public Player getP2() {
+	public Player getAskedPlayer() {
 		return p2;
 	}
 	
 	@Override
 	public String toString() {
-		return getP1() +" request " + getP2() + " to play a game"; 
+		return getRequestPlayer() +" request " + getAskedPlayer() + " to play a game"; 
 	}
 
 }

@@ -93,21 +93,19 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	}
 
 	protected void requestGaming(IoSession session, RequestPlayAction p) {
-		IoSession s = acceptor.getManagedSessions().get(p.getP2().getId());
+		IoSession s = acceptor.getManagedSessions().get(p.getAskedPlayer().getId());
 		s.write(p);
 		
 	}
 
 
 	private void response(IoSession session, ReponseAction act) {
-		IoSession s = acceptor.getManagedSessions().get(act.getRequest().getP1().getId());
-		s.write(act);
+		IoSession s = acceptor.getManagedSessions().get(act.getRequest().getRequestPlayer().getId());
+		IoSession s2 = acceptor.getManagedSessions().get(act.getRequest().getAskedPlayer().getId());
 		
-//		for(IoSession s : acceptor.getManagedSessions().values())
-//		{ 	
-//			if(act.getRequest().getP2().getId()==s.getId())
-//				s.write(act);
-//		}
+		
+		s.write(act);
+		s2.write(act);
 	}
 	
 	public void refreshPlayers(IoSession session)
