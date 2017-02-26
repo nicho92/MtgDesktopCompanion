@@ -102,7 +102,7 @@ public class GamingRoomPanel extends JPanel {
 				ReponseAction resp = (ReponseAction)arg;
 				switch(resp.getReponse())
 				{
-					case YES: printMessage(resp.getRequest().getAskedPlayer() +" accept your challenge"); break;
+					case YES: printMessage("Challenge Accepted ! " + resp.getRequest().getRequestPlayer() + " vs " + resp.getRequest().getAskedPlayer()); break;
 					case NO: printMessage(resp.getRequest().getAskedPlayer() +" decline your challenge");break;
 				}
 			}
