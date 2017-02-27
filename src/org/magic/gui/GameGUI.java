@@ -8,8 +8,9 @@ import org.magic.gui.game.components.GamePanelGUI;
 public class GameGUI extends JTabbedPane {
 
 	
+	
 	public GameGUI() {
-		addTab("GameBoard", GamePanelGUI.getInstance());
+		addTab("Game", GamePanelGUI.getInstance());
 		addTab("Chat Room", new GamingRoomPanel());
 	}
 }

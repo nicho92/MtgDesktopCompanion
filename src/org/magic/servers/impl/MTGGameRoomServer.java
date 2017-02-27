@@ -135,7 +135,8 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		List<Player> list = new ArrayList<Player>();
 			for(IoSession s : acceptor.getManagedSessions().values())
 			{
-				list.add((Player)s.getAttribute("PLAYER"));
+				if(session.getId()!=((Player)s.getAttribute("PLAYER")).getId())
+					list.add((Player)s.getAttribute("PLAYER"));
 			}
 			
 		session.write(new ListPlayersAction(list));

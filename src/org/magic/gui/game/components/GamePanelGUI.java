@@ -76,13 +76,15 @@ public class GamePanelGUI extends JPanel implements Observer {
 		return instance;
 	}
 	
+	public static GamePanelGUI newInstance()
+	{
+		return new GamePanelGUI();
+	}
 	
 	
 	public BattleFieldPanel getPanelBattleField() {
 		return panelBattleField;
 	}
-
-
 
 	public void initGame()
 	{

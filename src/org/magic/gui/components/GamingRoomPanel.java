@@ -61,12 +61,6 @@ public class GamingRoomPanel extends JPanel {
 	
 	Player otherplayer =null;
 	
-	private void printMessage(String text)
-	{
-		((DefaultListModel)list.getModel()).addElement(text);
-	}
-	
-	
 	private void printMessage(SpeakAction sa) {
 		((DefaultListModel)list.getModel()).addElement(sa);
 	}
@@ -111,12 +105,14 @@ public class GamingRoomPanel extends JPanel {
 				ReponseAction resp = (ReponseAction)arg;
 				switch(resp.getReponse())
 				{
-					case YES: printMessage("Challenge Accepted ! ");
+					case YES: 
+							printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(), "Challenge Accepted ! "));
 							client.changeStatus(STATE.GAMING);
 							GamePanelGUI.getInstance().setPlayer(client.getP());
 							GamePanelGUI.getInstance().initGame();
+							System.out.println(getRootPane());
 							break;
-					case NO: printMessage(resp.getRequest().getAskedPlayer() +" decline your challenge");break;
+					case NO: printMessage(new SpeakAction(resp.getRequest().getAskedPlayer()," decline your challenge"));break;
 				}
 			}
 			
