@@ -2,6 +2,7 @@ package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
@@ -17,6 +18,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
@@ -41,6 +43,7 @@ import org.magic.game.network.actions.ReponseAction.CHOICE;
 import org.magic.game.network.actions.RequestPlayAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.game.components.GamePanelGUI;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.ThreadManager;
 
@@ -65,12 +68,7 @@ public class GamingRoomPanel extends JPanel {
 	
 	
 	private void printMessage(SpeakAction sa) {
-		
-		if(sa.getP()==null)
-			((DefaultListModel)list.getModel()).addElement(sa.getText());
-		else
-			((DefaultListModel)list.getModel()).addElement(sa.getP() +": "+sa.getText());
-		
+		((DefaultListModel)list.getModel()).addElement(sa);
 	}
 	
 
@@ -100,9 +98,6 @@ public class GamingRoomPanel extends JPanel {
 				if(res==JOptionPane.YES_OPTION)
 				{
 					client.reponse(lpa,CHOICE.YES);
-					
-					//GamePanelGUI.getInstance().setPlayer(p);
-					//GamePanelGUI.getInstance().initGame();
 				}
 				else
 				{
@@ -116,7 +111,11 @@ public class GamingRoomPanel extends JPanel {
 				ReponseAction resp = (ReponseAction)arg;
 				switch(resp.getReponse())
 				{
-					case YES: printMessage("Challenge Accepted ! "); break;
+					case YES: printMessage("Challenge Accepted ! ");
+							client.changeStatus(STATE.GAMING);
+							GamePanelGUI.getInstance().setPlayer(client.getP());
+							GamePanelGUI.getInstance().initGame();
+							break;
 					case NO: printMessage(resp.getRequest().getAskedPlayer() +" decline your challenge");break;
 				}
 			}
@@ -201,6 +200,17 @@ public class GamingRoomPanel extends JPanel {
 		});
 		btnLogout.setEnabled(false);
 		panneauHaut.add(btnLogout);
+		
+		
+		list.setCellRenderer(new DefaultListCellRenderer(){
+		     @Override
+		     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+		        JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+		        label.setForeground(((SpeakAction)value).getColor());
+		        return label;
+		     }
+		  });
+		
 		
 		mod = new PlayerTableModel();
 		table = new JTable(mod);
@@ -294,7 +304,7 @@ public class GamingRoomPanel extends JPanel {
 			public void keyReleased(java.awt.event.KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER)
 				{ 
-				 client.sendMessage(editorPane.getText());
+				 client.sendMessage(editorPane.getText(),editorPane.getForeground());
 				 editorPane.setText("");
 				}
 				
@@ -320,7 +330,7 @@ public class GamingRoomPanel extends JPanel {
 class PlayerTableModel extends DefaultTableModel
 {
 	
-	private static final String[] columns = {"Player","Deck","Color","Format", "Country","State","ID"};
+	private static final String[] columns = {"Player","Deck","Color","Format", "Country","State"};
 	private List<Player> players ;
 	
 	public void init(List<Player> play)
@@ -362,7 +372,6 @@ class PlayerTableModel extends DefaultTableModel
 		case 3: return players.get(row).getDeck().getLegality();
 		case 4: return players.get(row).getLocal();
 		case 5: return players.get(row).getState();
-		case 6: return players.get(row).getId();
 		default: return null;
 		}
 	}

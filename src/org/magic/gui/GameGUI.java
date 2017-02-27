@@ -5,10 +5,10 @@ import javax.swing.JTabbedPane;
 import org.magic.gui.components.GamingRoomPanel;
 import org.magic.gui.game.components.GamePanelGUI;
 
-public class GamingRoomGUI extends JTabbedPane {
+public class GameGUI extends JTabbedPane {
 
 	
-	public GamingRoomGUI() {
+	public GameGUI() {
 		addTab("GameBoard", GamePanelGUI.getInstance());
 		addTab("Chat Room", new GamingRoomPanel());
 	}

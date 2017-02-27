@@ -1,5 +1,6 @@
 package org.magic.game.network;
 
+import java.awt.Color;
 import java.net.InetSocketAddress;
 import java.util.Observable;
 
@@ -48,11 +49,7 @@ public class MinaClient extends Observable {
 	return p;
 }
 
-public void setP(Player p) {
-	this.p = p;
-}
-
-public IoSession getSession() {
+   public IoSession getSession() {
 		return session;
    }
 	   
@@ -74,11 +71,19 @@ public IoSession getSession() {
 	}
 
 	public void updateDeck(MagicDeck d) {
+		p.setDeck(d);
 		session.write(new ChangeDeckAction(p, d));
 	}
 
 	public void sendMessage(String text) {
-		session.write(new SpeakAction(p,text));
+		SpeakAction act = new SpeakAction(p,text);
+		session.write(act);
+	}
+	
+	public void sendMessage(String text,Color c) {
+		SpeakAction act = new SpeakAction(p,text);
+		act.setColor(c);
+		session.write(act);
 	}
 	
 	public void logout()

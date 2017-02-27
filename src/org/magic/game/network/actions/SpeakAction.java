@@ -7,13 +7,21 @@ public class SpeakAction extends AbstractGamingAction {
 
 	Player p;
 	String text;
-	
+	Color color;
 	
 	public SpeakAction(Player p, String text) {
 		this.p=p;
 		this.text=text;
-
+		color=Color.BLACK;
 		setAct(ACTIONS.SPEAK);
+	}
+
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
 	}
 
 	public Player getP() {
@@ -34,7 +42,10 @@ public class SpeakAction extends AbstractGamingAction {
 	
 	@Override
 	public String toString() {
-		return getP() + " says " + getText();
+		if(getP()!=null)
+			return getP() + " : " + getText();
+		else
+			return getText();
 	}
 	
 	
