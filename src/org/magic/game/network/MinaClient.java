@@ -12,7 +12,9 @@ import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactor
 import org.apache.mina.transport.socket.nio.NioSocketConnector;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
+import org.magic.game.model.Player.STATE;
 import org.magic.game.network.actions.ChangeDeckAction;
+import org.magic.game.network.actions.ChangeStatusAction;
 import org.magic.game.network.actions.JoinAction;
 import org.magic.game.network.actions.ReponseAction;
 import org.magic.game.network.actions.ReponseAction.CHOICE;
@@ -28,18 +30,35 @@ public class MinaClient extends Observable {
    private IoHandlerAdapter adapter = new IoHandlerAdapter() {
 	 	
 	   	public void messageReceived(IoSession session, Object m) throws Exception {
-	   		setChanged();
-	   		notifyObservers(m);
+	   		
+	   		if(m instanceof Long)
+	   		{
+	   			p.setId((Long)m); //get id from server.
+	   		}
+	   		else
+	   		{
+	   			setChanged();
+	   			notifyObservers(m);
+	   		}
 		}
    };
    
    
-   public IoSession getSession() {
+   public Player getP() {
+	return p;
+}
+
+public void setP(Player p) {
+	this.p = p;
+}
+
+public IoSession getSession() {
 		return session;
    }
 	   
    public MinaClient(String server, int port) {
-	  
+	   
+	 p = new Player();
      connector = new NioSocketConnector();
      connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));  
      connector.setHandler(adapter);
@@ -49,10 +68,8 @@ public class MinaClient extends Observable {
      session = connFuture.getSession();
 	}
    
-	public void join(Player p)
+	public void join()
 	{
-	   this.p=p;
-	   p.setId(session.getId());
 	   session.write(new JoinAction(p));
 	}
 
@@ -70,7 +87,6 @@ public class MinaClient extends Observable {
 	}
 
 	public void requestPlay(Player otherplayer) {
-		
 		session.write(new RequestPlayAction(p,otherplayer));
 		
 	}
@@ -78,6 +94,11 @@ public class MinaClient extends Observable {
 	public void reponse(RequestPlayAction pa,CHOICE c)
 	{
 		session.write(new ReponseAction(pa, c));
+	}
+
+	public void changeStatus(STATE selectedItem) {
+		p.setState(selectedItem);
+		session.write(new ChangeStatusAction(p));
 	}
 	
 }

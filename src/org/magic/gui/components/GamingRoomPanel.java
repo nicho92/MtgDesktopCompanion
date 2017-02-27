@@ -4,6 +4,10 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -12,9 +16,11 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -27,6 +33,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
+import org.magic.game.model.Player.STATE;
 import org.magic.game.network.MinaClient;
 import org.magic.game.network.actions.ListPlayersAction;
 import org.magic.game.network.actions.ReponseAction;
@@ -34,9 +41,11 @@ import org.magic.game.network.actions.ReponseAction.CHOICE;
 import org.magic.game.network.actions.RequestPlayAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
+import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.ThreadManager;
 
 public class GamingRoomPanel extends JPanel {
+	private static final String INTROTEXT = "Type your text and press enter";
 	private JTextField txtServer;
 	private JTextField txtPort;
 	private JTable table;
@@ -47,8 +56,6 @@ public class GamingRoomPanel extends JPanel {
 	private JButton btnPlayGame;
 	private JButton btnConnect;
 	
-	
-	Player p = new Player();
 	Player otherplayer =null;
 	
 	private void printMessage(String text)
@@ -88,7 +95,7 @@ public class GamingRoomPanel extends JPanel {
 			if(arg instanceof RequestPlayAction)
 			{
 				RequestPlayAction lpa = (RequestPlayAction)arg;
-				int res = JOptionPane.showConfirmDialog(null, lpa.getRequestPlayer() +" ask you to play a game. Accept ?","New Game Request !",JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(getRootPane(), lpa.getRequestPlayer() +" ask you to play a game. Accept ?","New Game Request !",JOptionPane.YES_NO_OPTION);
 				
 				if(res==JOptionPane.YES_OPTION)
 				{
@@ -109,7 +116,7 @@ public class GamingRoomPanel extends JPanel {
 				ReponseAction resp = (ReponseAction)arg;
 				switch(resp.getReponse())
 				{
-					case YES: printMessage("Challenge Accepted ! " + resp.getRequest().getRequestPlayer() + " vs " + resp.getRequest().getAskedPlayer()); break;
+					case YES: printMessage("Challenge Accepted ! "); break;
 					case NO: printMessage(resp.getRequest().getAskedPlayer() +" decline your challenge");break;
 				}
 			}
@@ -147,8 +154,8 @@ public class GamingRoomPanel extends JPanel {
 				try{ 
 					client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
 					client.addObserver(obs);
-					p.setName(txtName.getText());
-					client.join(p);
+					client.getP().setName(txtName.getText());
+					client.join();
 					
 					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
@@ -172,7 +179,7 @@ public class GamingRoomPanel extends JPanel {
 				}
 				catch(Exception e)
 				{
-					JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getRootPane(), e,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
@@ -197,7 +204,7 @@ public class GamingRoomPanel extends JPanel {
 		
 		mod = new PlayerTableModel();
 		table = new JTable(mod);
-		
+		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		JScrollPane scrollPane = new JScrollPane();
 		table.addMouseListener(new MouseAdapter() {
 			@Override
@@ -224,7 +231,7 @@ public class GamingRoomPanel extends JPanel {
 		btnPlayGame = new JButton("Ask for Game");
 		btnPlayGame.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int res = JOptionPane.showConfirmDialog(null, "Want to play with " + otherplayer+" ?","Gaming request",JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(getRootPane(), "Want to play with " + otherplayer+" ?","Gaming request",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					client.requestPlay(otherplayer);
 			}
@@ -241,26 +248,48 @@ public class GamingRoomPanel extends JPanel {
 		
 		scrollPane_1.setViewportView(list);
 		
-		JPanel panel_1 = new JPanel();
-		panel.add(panel_1, BorderLayout.SOUTH);
-		panel_1.setLayout(new BorderLayout(0, 0));
+		JPanel panelChatBox = new JPanel();
+		panel.add(panelChatBox, BorderLayout.SOUTH);
+		panelChatBox.setLayout(new BorderLayout(0, 0));
 		
 		final JTextArea editorPane = new JTextArea();
+		editorPane.setText(INTROTEXT);
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
-		editorPane.setRows(3);
+		editorPane.setRows(2);
 		
-		panel_1.add(editorPane, BorderLayout.CENTER);
+		panelChatBox.add(editorPane, BorderLayout.CENTER);
 		
-		JButton btnColorChoose = new JButton("New button");
+		JPanel panel_1 = new JPanel();
+		panelChatBox.add(panel_1, BorderLayout.NORTH);
+		
+		JButton btnColorChoose = new JButton("Color");
+		panel_1.add(btnColorChoose);
+		
+		final JComboBox cboStates = new JComboBox(new DefaultComboBoxModel<STATE>(STATE.values()));
+		cboStates.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				client.changeStatus((STATE)cboStates.getSelectedItem());
+			}
+		});
+		panel_1.add(cboStates);
 		btnColorChoose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				Color c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
 				editorPane.setForeground(c);
 			}
 		});
-		panel_1.add(btnColorChoose, BorderLayout.NORTH);
 	
+		editorPane.addFocusListener(new FocusAdapter() {
+			
+			@Override
+			public void focusGained(FocusEvent e) {
+				if(editorPane.getText().equals(INTROTEXT))
+					editorPane.setText("");
+			}
+		});
+		
+		
 		editorPane.addKeyListener(new KeyAdapter() {
 			public void keyReleased(java.awt.event.KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER)
@@ -291,7 +320,7 @@ public class GamingRoomPanel extends JPanel {
 class PlayerTableModel extends DefaultTableModel
 {
 	
-	private static final String[] columns = {"Player","Deck","Format", "Country"};
+	private static final String[] columns = {"Player","Deck","Color","Format", "Country","State","ID"};
 	private List<Player> players ;
 	
 	public void init(List<Player> play)
@@ -329,8 +358,11 @@ class PlayerTableModel extends DefaultTableModel
 		{
 		case 0: return players.get(row);
 		case 1: return players.get(row).getDeck();
-		case 2: return players.get(row).getDeck().getLegality();
-		case 3: return players.get(row).getLocal();
+		case 2: return players.get(row).getDeck().getColors();
+		case 3: return players.get(row).getDeck().getLegality();
+		case 4: return players.get(row).getLocal();
+		case 5: return players.get(row).getState();
+		case 6: return players.get(row).getId();
 		default: return null;
 		}
 	}

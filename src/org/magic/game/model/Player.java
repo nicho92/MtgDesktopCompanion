@@ -16,7 +16,11 @@ import org.magic.api.beans.MagicDeck;
 
 public class Player extends Observable implements Serializable{
 
+	public static enum STATE { CONNECTED, BUSY, AWAY, GAMING};
+	
+	
 	private Long id;
+	private STATE state;
 	private int life;
 	private String name;
 	private MagicDeck deck;
@@ -32,6 +36,14 @@ public class Player extends Observable implements Serializable{
 	private int poisonCounter;
 	
 	
+	public STATE getState() {
+		return state;
+	}
+
+	public void setState(STATE state) {
+		this.state = state;
+	}
+
 	public BufferedImage getIcon() {
 		return icon;
 	}
@@ -86,7 +98,7 @@ public class Player extends Observable implements Serializable{
 
 	public Player() {
 		super();
-		name="player 1";
+		name="";
 		life=20;
 		deck = new MagicDeck();
 		init();
@@ -460,10 +472,6 @@ public class Player extends Observable implements Serializable{
 			logAction("Flip a coin : Tails");
 		else
 			logAction("Flip a coin : Heads");
-		
-		
-		
-		// TODO Auto-generated method stub
 		
 	}
 

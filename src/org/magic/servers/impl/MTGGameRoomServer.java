@@ -17,8 +17,10 @@ import org.apache.mina.filter.codec.serialization.ObjectSerializationCodecFactor
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.game.model.Player;
+import org.magic.game.model.Player.STATE;
 import org.magic.game.network.actions.AbstractGamingAction;
 import org.magic.game.network.actions.ChangeDeckAction;
+import org.magic.game.network.actions.ChangeStatusAction;
 import org.magic.game.network.actions.JoinAction;
 import org.magic.game.network.actions.ListPlayersAction;
 import org.magic.game.network.actions.ReponseAction;
@@ -48,16 +50,18 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 		{
  	 			AbstractGamingAction act = (AbstractGamingAction)message;
  	 			switch (act.getAct()) {
- 	 				case REQUEST_PLAY: requestGaming(session,(RequestPlayAction)act);break;
- 	 				case RESPONSE: response(session,(ReponseAction)act);break;
+ 	 				case REQUEST_PLAY: requestGaming((RequestPlayAction)act);break;
+ 	 				case RESPONSE: response((ReponseAction)act);break;
  	 				case JOIN: join(session, (JoinAction)act);break;
  	 				case CHANGE_DECK: changeDeck(session,(ChangeDeckAction)act);break;
  	 				case SPEAK: speak((SpeakAction)act);break;	
+ 	 				case CHANGE_STATUS:playerUpdate((ChangeStatusAction)act);break;
  	 				default:break;
 				}
  	 		}
  	 	}
  	 	
+
 
 
 	@Override
@@ -72,7 +76,12 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	public void speak(SpeakAction sa)
 	{
 		for(IoSession s : acceptor.getManagedSessions().values())
-				s.write(sa);
+			s.write(sa);
+	}
+	
+
+	private void playerUpdate(ChangeStatusAction act) {
+		((Player)acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute("PLAYER")).setState(act.getPlayer().getState());	
 	}
 	
 	private void join(IoSession session, JoinAction ja) throws Exception
@@ -86,9 +95,12 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 				return;
 			}
 		}
+		ja.getPlayer().setState(STATE.CONNECTED);
 		ja.getPlayer().setId(session.getId());
 		session.setAttribute("PLAYER",ja.getPlayer());
 		speak(new SpeakAction(ja.getPlayer(), " is now connected"));
+		session.write(session.getId());
+		
 		refreshPlayers(session);
 	}
 	
@@ -100,19 +112,22 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		
 	}
 
-	protected void requestGaming(IoSession session, RequestPlayAction p) {
+	protected void requestGaming(RequestPlayAction p) {
 		IoSession s = acceptor.getManagedSessions().get(p.getAskedPlayer().getId());
 		s.write(p);
 		
 	}
 
 
-	private void response(IoSession session, ReponseAction act) {
+	private void response(ReponseAction act) {
 		IoSession s = acceptor.getManagedSessions().get(act.getRequest().getRequestPlayer().getId());
 		IoSession s2 = acceptor.getManagedSessions().get(act.getRequest().getAskedPlayer().getId());
-		
 		s.write(act);
 		s2.write(act);
+		
+		
+		
+		
 	}
 	
 	public void refreshPlayers(IoSession session)
