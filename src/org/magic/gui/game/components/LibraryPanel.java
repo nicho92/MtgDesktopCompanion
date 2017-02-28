@@ -12,7 +12,7 @@ import org.magic.game.model.PositionEnum;
 import org.magic.gui.game.actions.library.ScryActions;
 import org.magic.gui.game.actions.library.SearchActions;
 import org.magic.gui.game.actions.library.ShuffleActions;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class LibraryPanel extends DraggablePanel {
 
@@ -27,7 +27,7 @@ public class LibraryPanel extends DraggablePanel {
 		
 		
 		try {
-			i=MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(179, 240, BufferedImage.SCALE_SMOOTH);
+			i=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(179, 240, BufferedImage.SCALE_SMOOTH);
 				setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 			
 		} catch (Exception e) {

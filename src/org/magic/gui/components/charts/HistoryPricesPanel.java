@@ -22,7 +22,7 @@ import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class HistoryPricesPanel extends JPanel{
 	
@@ -81,7 +81,7 @@ public class HistoryPricesPanel extends JPanel{
 			
 		if(showEdition)	
 		try{
-				for(MagicEdition me: MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions())
+				for(MagicEdition me: MTGControler.getInstance().getEnabledProviders().loadEditions())
 					{
 						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(me.getReleaseDate()+" 00:00");
 						TimeSeriesDataItem  item = series1.getDataItem(new Day(d));

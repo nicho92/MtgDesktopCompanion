@@ -12,7 +12,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.MagicGUI;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 import com.jayway.jsonpath.JsonPath;
 import com.jayway.jsonpath.spi.cache.Cache;
@@ -43,13 +43,13 @@ public class MtgDesktopCompanion {
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					if(MTGDesktopCompanionControler.getInstance().updateConfigMods())
-						MTGDesktopCompanionControler.getInstance().reload();
+					if(MTGControler.getInstance().updateConfigMods())
+						MTGControler.getInstance().reload();
 					
-					LogManager.getRootLogger().setLevel(Level.toLevel(MTGDesktopCompanionControler.getInstance().get("loglevel")));
+					LogManager.getRootLogger().setLevel(Level.toLevel(MTGControler.getInstance().get("loglevel")));
 					
-					MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
-					MTGDesktopCompanionControler.getInstance().getEnabledDAO().init();
+					MTGControler.getInstance().getEnabledProviders().init();
+					MTGControler.getInstance().getEnabledDAO().init();
 			
 					
 				}catch (Exception e) {
@@ -58,11 +58,11 @@ public class MtgDesktopCompanion {
 			
 				
 				MagicGUI gui = new MagicGUI();
-						 gui.setLookAndFeel(MTGDesktopCompanionControler.getInstance().get("lookAndFeel"));
+						 gui.setLookAndFeel(MTGControler.getInstance().get("lookAndFeel"));
 						 gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						 gui.setVisible(true);
 				
-				for(MTGServer serv : MTGDesktopCompanionControler.getInstance().getEnabledServers())
+				for(MTGServer serv : MTGControler.getInstance().getEnabledServers())
 					if(serv.isAutostart())
 						try {
 								serv.start();

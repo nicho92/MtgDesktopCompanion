@@ -11,11 +11,10 @@
 	<min-price-alert>0</min-price-alert>
 	<debug-json-panel>false</debug-json-panel>
 	<tooltip>true</tooltip>
-	<lookAndFeels>
-		<lookAndFeel>com.seaglasslookandfeel.SeaGlassLookAndFeel</lookAndFeel>
-	</lookAndFeels>
-	
-	
+	<player-profil>
+		<name>Player 1</name>
+		<avatar></avatar>
+	</player-profil>
 	
 	<servers>
 		<server>

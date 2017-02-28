@@ -32,7 +32,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.gui.components.dialog.ThreadMonitorFrame;
 import org.magic.gui.game.components.GamePanelGUI;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
 
@@ -81,7 +81,7 @@ public class MagicGUI extends JFrame {
 		try {
 			UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
 			UIManager.setLookAndFeel(lookAndFeel);
-			MTGDesktopCompanionControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
+			MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(this);
 			
 		} catch (Exception e) {
@@ -95,7 +95,7 @@ public class MagicGUI extends JFrame {
 	{
 		logger.info("init GUI");
 		setSize(new Dimension(1420, 900));
-		setTitle("Magic Desktop Companion ( v" + MTGDesktopCompanionControler.getInstance().getVersion()+")");
+		setTitle("Magic Desktop Companion ( v" + MTGControler.getInstance().getVersion()+")");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")));
 		getContentPane().setLayout(new BorderLayout());
@@ -220,12 +220,12 @@ public class MagicGUI extends JFrame {
 		}
 		
 		//INIT AVAILABLE LANGAGES
-		for(String l : MTGDesktopCompanionControler.getInstance().getEnabledProviders().getLanguages())
+		for(String l : MTGControler.getInstance().getEnabledProviders().getLanguages())
 		{
 			final JMenuItem it = new JMenuItem(l);
 			it.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					MTGDesktopCompanionControler.getInstance().setProperty("langage", it.getText());
+					MTGControler.getInstance().setProperty("langage", it.getText());
 				}
 			});
 			mnuLang.add(it);

@@ -11,13 +11,13 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.PictureProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class PicturesProvidersTableModel extends AbstractTreeTableModel 
 {
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
 	    private PictureProvider selectedProvider = null;
-	    private List<PictureProvider> daos = MTGDesktopCompanionControler.getInstance().getPicturesProviders();
+	    private List<PictureProvider> daos = MTGControler.getInstance().getPicturesProviders();
 	    static final Logger logger = LogManager.getLogger(PicturesProvidersTableModel.class.getName());
 
 	    
@@ -130,14 +130,14 @@ public class PicturesProvidersTableModel extends AbstractTreeTableModel
 	        	if(column==2)
 	        	{
 	        		selectedProvider.enable(Boolean.parseBoolean(strValue));
-	        		MTGDesktopCompanionControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+	        		MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 	        		
-	        		for(PictureProvider daos : MTGDesktopCompanionControler.getInstance().getPicturesProviders())
+	        		for(PictureProvider daos : MTGControler.getInstance().getPicturesProviders())
 	        		{
 	        			if(daos!=selectedProvider)
 	        			{
 	        				daos.enable(false);
-	        				MTGDesktopCompanionControler.getInstance().setProperty(daos, daos.isEnable());
+	        				MTGControler.getInstance().setProperty(daos, daos.isEnable());
 	        	        	
 	        			}
 	        		}

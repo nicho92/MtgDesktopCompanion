@@ -9,7 +9,7 @@ import java.util.Properties;
 
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicShopper;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractMagicShopper extends Observable implements MagicShopper {
 
@@ -21,7 +21,7 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 	public abstract List<ShopItem> search(String search);
 	public abstract String getShopName();
 	
-	protected File confdir = new File(MTGDesktopCompanionControler.CONF_DIR, "shoppers");
+	protected File confdir = new File(MTGControler.CONF_DIR, "shoppers");
 
 	
 	public AbstractMagicShopper() {

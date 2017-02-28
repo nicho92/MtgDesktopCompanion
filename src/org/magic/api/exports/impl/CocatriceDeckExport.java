@@ -17,7 +17,7 @@ import javax.xml.xpath.XPathFactory;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -95,7 +95,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 		{
 			String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 			Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-			deck.getMap().put(MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0), qte);
+			deck.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0), qte);
 		}
 	    expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'side')]/card");
 		result = ((NodeList)expr.evaluate(d, XPathConstants.NODESET));
@@ -103,7 +103,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 		{
 			String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 			Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-			deck.getMapSideBoard().put(MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0), qte);
+			deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0), qte);
 		}
 		return deck;
 	}

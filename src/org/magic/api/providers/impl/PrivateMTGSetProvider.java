@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -32,7 +32,7 @@ import com.google.gson.stream.JsonReader;
 
 public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
-	public static File confdir = new File(MTGDesktopCompanionControler.CONF_DIR,"sets");
+	public static File confdir = new File(MTGControler.CONF_DIR,"sets");
 	private boolean enabled;
 	static final Logger logger = LogManager.getLogger(PrivateMTGSetProvider.class.getName());
 

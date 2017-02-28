@@ -6,7 +6,7 @@ import java.util.Properties;
 import org.jdesktop.swingx.JXTipOfTheDay;
 import org.jdesktop.swingx.tips.TipLoader;
 import org.jdesktop.swingx.tips.TipOfTheDayModel;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class TipsOfTheDayDialog extends JXTipOfTheDay{
 
@@ -26,15 +26,15 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay{
 	      {
 	       public boolean isShowingOnStartup ()
 	       {
-	        return MTGDesktopCompanionControler.getInstance().get("tooltip","true").equalsIgnoreCase("true");
+	        return MTGControler.getInstance().get("tooltip","true").equalsIgnoreCase("true");
 	       }
 
 	       public void setShowingOnStartup (boolean x)
 	       {
 	        if (x)
-	        	MTGDesktopCompanionControler.getInstance().setProperty("tooltip", "true");
+	        	MTGControler.getInstance().setProperty("tooltip", "true");
 	        else
-	        	MTGDesktopCompanionControler.getInstance().setProperty("tooltip", "false");
+	        	MTGControler.getInstance().setProperty("tooltip", "false");
 	       }
 	      });
 	}

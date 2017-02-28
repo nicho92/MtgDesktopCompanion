@@ -19,7 +19,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class Search implements Command {
 
@@ -41,19 +41,19 @@ public class Search implements Command {
 		{
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			List<MagicCard> list = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria(att, val, null);
+			List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, val, null);
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_cards)));
 		}
 		
 		if(cl.hasOption("s"))
 		{
-			List<MagicEdition> list = MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions();
+			List<MagicEdition> list = MTGControler.getInstance().getEnabledProviders().loadEditions();
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_set)));
 		}
 		
 		if(cl.hasOption("col"))
 		{
-			List<MagicCollection> list = MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections();
+			List<MagicCollection> list = MTGControler.getInstance().getEnabledDAO().getCollections();
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_cols)));
 		}
 		

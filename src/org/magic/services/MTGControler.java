@@ -11,6 +11,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
@@ -28,11 +30,12 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
+import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 
-public class MTGDesktopCompanionControler {
+public class MTGControler {
 
-	private static MTGDesktopCompanionControler inst;
+	private static MTGControler inst;
 	private List<MagicPricesProvider> pricers;
 	private List<MagicCardsProvider> cardsProviders;
 	private List<MagicDAO> daoProviders;
@@ -53,7 +56,7 @@ public class MTGDesktopCompanionControler {
 	public static final String KEYSTORE_PASS = "changeit";
 	
 	
-	static final Logger logger = LogManager.getLogger(MTGDesktopCompanionControler.class.getName());
+	static final Logger logger = LogManager.getLogger(MTGControler.class.getName());
 	
 	public void notify(String caption,String text,MessageType type)
 	{
@@ -61,10 +64,10 @@ public class MTGDesktopCompanionControler {
 	}
 	
 	
-	public static MTGDesktopCompanionControler getInstance()
+	public static MTGControler getInstance()
 	{
 		if(inst == null)
-			inst = new MTGDesktopCompanionControler();
+			inst = new MTGControler();
 		return inst;
 	}
 	
@@ -146,13 +149,31 @@ public class MTGDesktopCompanionControler {
 	
 	public void reload() throws Exception
 	{
-		inst=new MTGDesktopCompanionControler();
+		inst=new MTGControler();
 		inst.getEnabledProviders().init();
 		inst.getEnabledDAO().init();
 	}
 	
+	public Player getProfilPlayer()
+	{
+		Player p = new Player();
+		p.setName(config.getString("/player-profil/name"));
 		
-	private MTGDesktopCompanionControler()
+		String url = config.getString("/player-profil/avatar");
+		try{
+			p.setIcon(ImageIO.read(new URL(url)));	
+		}
+		catch(Exception e)
+		{
+			e.printStackTrace();
+		}
+		return p;
+		
+	}
+	
+	
+		
+	private MTGControler()
 	{
 		File conf = new File(CONF_DIR,"mtgcompanion-conf.xml");
 		if(!conf.exists())
@@ -176,7 +197,7 @@ public class MTGDesktopCompanionControler {
 		        .setExpressionEngine(new XPathExpressionEngine())
 		        );
 		
-		classLoader = MTGDesktopCompanionControler.class.getClassLoader();
+		classLoader = MTGControler.class.getClassLoader();
 		
 		try {
 			

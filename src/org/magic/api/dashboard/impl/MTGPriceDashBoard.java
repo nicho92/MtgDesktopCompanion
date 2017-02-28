@@ -22,7 +22,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -134,7 +134,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	private String getCodeForExt(String name)
 	{
 		try {
-			for(MagicEdition ed : MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions())
+			for(MagicEdition ed : MTGControler.getInstance().getEnabledProviders().loadEditions())
 				if(ed.getSet().toUpperCase().contains(name.toUpperCase()))
 					return ed.getId();
 		} catch (Exception e) {

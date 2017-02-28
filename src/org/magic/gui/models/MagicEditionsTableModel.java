@@ -12,7 +12,7 @@ import javax.swing.table.DefaultTableModel;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.IconSetProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 
@@ -47,9 +47,9 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	public void calculate() throws SQLException, Exception {
 		
 		MagicCollection mc = new MagicCollection();
-						mc.setName(MTGDesktopCompanionControler.getInstance().get("default-library"));
+						mc.setName(MTGControler.getInstance().get("default-library"));
 					
-		Map<String,Integer> temp = MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
+		Map<String,Integer> temp = MTGControler.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
 		
 		for(MagicEdition me : list)
 		{

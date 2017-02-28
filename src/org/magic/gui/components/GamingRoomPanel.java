@@ -13,16 +13,20 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListCellRenderer;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JColorChooser;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -67,7 +71,6 @@ public class GamingRoomPanel extends JPanel {
 	
 
 	private Observer obs = new Observer() {
-		
 		@Override
 		public void update(Observable o, Object arg) {
 			if(arg instanceof ListPlayersAction)
@@ -76,14 +79,11 @@ public class GamingRoomPanel extends JPanel {
 			//	lpa.getList().remove(p);
 				mod.init(lpa.getList());
 			}
-			
 			if(arg instanceof SpeakAction)
 			{
 				SpeakAction lpa = (SpeakAction)arg;
 					printMessage(lpa);
 			}
-		
-
 			if(arg instanceof RequestPlayAction)
 			{
 				RequestPlayAction lpa = (RequestPlayAction)arg;
@@ -97,9 +97,7 @@ public class GamingRoomPanel extends JPanel {
 				{
 					client.reponse(lpa,CHOICE.NO);
 				}
-				
 			}
-			
 			if(arg instanceof ReponseAction)
 			{
 				ReponseAction resp = (ReponseAction)arg;
@@ -110,14 +108,11 @@ public class GamingRoomPanel extends JPanel {
 							client.changeStatus(STATE.GAMING);
 							GamePanelGUI.getInstance().setPlayer(client.getP());
 							GamePanelGUI.getInstance().initGame();
-							System.out.println(getRootPane());
 							break;
 					case NO: printMessage(new SpeakAction(resp.getRequest().getAskedPlayer()," decline your challenge"));break;
 				}
 			}
-			
 		}
-
 	};
 	
 	public GamingRoomPanel() {
@@ -269,7 +264,8 @@ public class GamingRoomPanel extends JPanel {
 		JPanel panel_1 = new JPanel();
 		panelChatBox.add(panel_1, BorderLayout.NORTH);
 		
-		JButton btnColorChoose = new JButton("Color");
+		JButton btnColorChoose = new JButton("");
+		btnColorChoose.setIcon(new ImageIcon(GamingRoomPanel.class.getResource("/res/colors.gif")));
 		panel_1.add(btnColorChoose);
 		
 		final JComboBox cboStates = new JComboBox(new DefaultComboBoxModel<STATE>(STATE.values()));

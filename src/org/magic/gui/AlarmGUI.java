@@ -37,7 +37,7 @@ import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.servers.impl.PricesCheckerTimer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;
@@ -58,7 +58,6 @@ public class AlarmGUI extends JPanel {
 		
 		logger.info("init Alarm GUI");
 		setLayout(new BorderLayout());
-		
 		
 		splitPanel = new JSplitPane();
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -98,7 +97,7 @@ public class AlarmGUI extends JPanel {
 				MagicCardAlert selected = (MagicCardAlert)table.getValueAt(table.getSelectedRow(), 0);
 					magicCardDetailPanel.setMagicCard(selected.getCard());
 					try {
-						variationPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(selected.getCard(), null), selected.getCard().getName());
+						variationPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(selected.getCard(), null), selected.getCard().getName());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -160,12 +159,12 @@ public class AlarmGUI extends JPanel {
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				if(!MTGDesktopCompanionControler.getInstance().isRunning(new PricesCheckerTimer()))
+				if(!MTGControler.getInstance().isRunning(new PricesCheckerTimer()))
 				{
 					int res = JOptionPane.showConfirmDialog(null, "Price Timer is not running. Do you want to launch it ?", "Time server stopped", JOptionPane.YES_NO_OPTION);
 					
 					if(res==JOptionPane.YES_OPTION)
-						for(MTGServer serv : MTGDesktopCompanionControler.getInstance().getEnabledServers())
+						for(MTGServer serv : MTGControler.getInstance().getEnabledServers())
 							if(serv.getName().equals(new PricesCheckerTimer().getName()))
 								try {
 									serv.start();
@@ -189,7 +188,7 @@ public class AlarmGUI extends JPanel {
 				{
 					try {
 						MagicCardAlert alert = (MagicCardAlert)model.getValueAt(row,0);
-						MTGDesktopCompanionControler.getInstance().getEnabledDAO().deleteAlert(alert);
+						MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
 						model.fireTableDataChanged();
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);

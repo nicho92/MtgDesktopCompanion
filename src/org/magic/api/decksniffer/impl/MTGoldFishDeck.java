@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
@@ -67,7 +67,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				
 				int qte = Integer.parseInt(tr.select("td.deck-col-qty").text());
 				String cardName = tr.select("td.deck-col-card").text();
-				MagicCard mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
 				if(!sideboard)
 				{
 					deck.getMap().put(mc, qte);

@@ -12,7 +12,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
@@ -82,7 +82,7 @@ public class PDFExport extends AbstractCardExport {
 		String id = card.getEditions().get(0).getMultiverse_id();
 		Image image1=null;
 		try {
-			image1 = Image.getInstance(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getPicture(card,null),null);
+			image1 = Image.getInstance(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card,null),null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

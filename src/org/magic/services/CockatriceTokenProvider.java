@@ -120,7 +120,7 @@ public class CockatriceTokenProvider {
 							  if(idSet.equals(mc.getEditions().get(0).getId()))
 							  try {
 								  MagicEdition ed = new MagicEdition();
-								  ed=MTGDesktopCompanionControler.getInstance().getEnabledProviders().getSetById(idSet);
+								  ed=MTGControler.getInstance().getEnabledProviders().getSetById(idSet);
 								  tok.getEditions().add(ed);
 							} catch (Exception e) {}
 							  
@@ -155,7 +155,7 @@ public class CockatriceTokenProvider {
 							  if(idSet.equals(mc.getEditions().get(0).getId()))
 							  try {
 								  MagicEdition ed = new MagicEdition();
-								  ed=MTGDesktopCompanionControler.getInstance().getEnabledProviders().getSetById(idSet);
+								  ed=MTGControler.getInstance().getEnabledProviders().getSetById(idSet);
 								  tok.getEditions().add(ed);
 							} catch (Exception e) {}
 							  

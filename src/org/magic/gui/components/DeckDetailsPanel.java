@@ -27,7 +27,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class DeckDetailsPanel extends JPanel {
@@ -171,7 +171,7 @@ public class DeckDetailsPanel extends JPanel {
 				for(MagicCard mc : magicDeck.getAsList())
 				{
 					try {
-						mc.setLegalities(MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("id", mc.getId(), mc.getEditions().get(0)).get(0).getLegalities());
+						mc.setLegalities(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("id", mc.getId(), mc.getEditions().get(0)).get(0).getLegalities());
 						setLegalities();
 					} catch (Exception e) {
 					}
@@ -303,7 +303,7 @@ public class DeckDetailsPanel extends JPanel {
 					{
 						JLabel lab = new JLabel();
 						MagicCard mc =  (MagicCard)magicDeck.getMap().keySet().toArray()[i];
-						lab.setIcon(new ImageIcon(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().extractPicture(mc)));
+						lab.setIcon(new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().extractPicture(mc)));
 						lab.setToolTipText(mc.getName());
 						panel.add(lab);
 					}

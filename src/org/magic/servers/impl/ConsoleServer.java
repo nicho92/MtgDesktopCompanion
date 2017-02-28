@@ -14,7 +14,7 @@ import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.console.MTGConsoleHandler;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 
 public class ConsoleServer extends AbstractMTGServer{
@@ -25,8 +25,8 @@ public class ConsoleServer extends AbstractMTGServer{
     
  	public static void main(String[] args) throws Exception {
 		 
-		MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
-		MTGDesktopCompanionControler.getInstance().getEnabledDAO().init();
+		MTGControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledDAO().init();
 	
 		ConsoleServer serv = new ConsoleServer();
 		   		      serv.start();

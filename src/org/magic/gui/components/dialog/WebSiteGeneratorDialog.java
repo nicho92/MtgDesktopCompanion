@@ -23,7 +23,7 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class WebSiteGeneratorDialog extends JDialog {
 	private JTextField txtDest;
@@ -62,7 +62,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	
 		panel.add(cboTemplates);
 		
-		txtDest = new JTextField(new File(MTGDesktopCompanionControler.getInstance().get("default-website-dir")).getAbsolutePath());
+		txtDest = new JTextField(new File(MTGControler.getInstance().get("default-website-dir")).getAbsolutePath());
 		
 		panel.add(txtDest);
 		txtDest.setColumns(20);
@@ -109,7 +109,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		gbc_scrollPane.gridy = 1;
 		panneaucentral.add(scrollPane, gbc_scrollPane);
 		list = new JList<MagicCollection>(cols.toArray(new MagicCollection[cols.size()]));
-		lstProviders = new JList<MagicPricesProvider>(MTGDesktopCompanionControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGDesktopCompanionControler.getInstance().getEnabledPricers().size() ]));
+		lstProviders = new JList<MagicPricesProvider>(MTGControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
 		
 		scrollPane.setViewportView(list);
 		

@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.interfaces.PicturesCache;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class NoCache implements PicturesCache {
 
@@ -21,7 +21,7 @@ public class NoCache implements PicturesCache {
 	@Override
 	public BufferedImage getPic(MagicCard mc) {
 		try {
-			return MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
+			return MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
 		} catch (Exception e) {
 			return null;
 		}

@@ -22,7 +22,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 
 public class LeboncoinShopper extends AbstractMagicShopper  {
@@ -61,8 +61,8 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		
 		try {
     		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
-    			InstallCert.install(props.getProperty("CERT_SERV"), MTGDesktopCompanionControler.KEYSTORE_NAME, MTGDesktopCompanionControler.KEYSTORE_PASS);
-    			System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,MTGDesktopCompanionControler.KEYSTORE_NAME).getAbsolutePath());
+    			InstallCert.install(props.getProperty("CERT_SERV"), MTGControler.KEYSTORE_NAME, MTGControler.KEYSTORE_PASS);
+    			System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
 		} catch (Exception e1) {
 			
 			logger.error(e1);

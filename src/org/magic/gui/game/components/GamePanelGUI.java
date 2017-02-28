@@ -146,18 +146,22 @@ public class GamePanelGUI extends JPanel implements Observer {
 		splitPane.setRightComponent(panneauDroit);
 		panneauDroit.setLayout(new BorderLayout(0, 0));
 		
+		PlayerBoardPanel playerBoardPanel = new PlayerBoardPanel();
+		panneauDroit.add(playerBoardPanel, BorderLayout.CENTER);
+		playerBoardPanel.setLayout(new BorderLayout(0, 0));
+		
 		JPanel panelInfo = new JPanel();
-		panneauDroit.add(panelInfo, BorderLayout.WEST);
+		playerBoardPanel.add(panelInfo, BorderLayout.WEST);
 		panelInfo.setLayout(new BorderLayout(0, 0));
 		
 		JPanel lifePanel = new JPanel();
 		lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
 		panelInfo.add(lifePanel, BorderLayout.NORTH);
-						lifePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-						
-						lblPlayer = new JLabel("");
-						lblPlayer.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/planeswalker.png")));
-						lifePanel.add(lblPlayer);
+		lifePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
+		
+		lblPlayer = new JLabel("");
+		lblPlayer.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/planeswalker.png")));
+		lifePanel.add(lblPlayer);
 		
 		JPanel panelActions = new JPanel();
 		panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
@@ -264,6 +268,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 			}
 		});
 		GridBagConstraints gbc_txtChat = new GridBagConstraints();
+		gbc_txtChat.gridheight = 2;
 		gbc_txtChat.insets = new Insets(0, 0, 5, 0);
 		gbc_txtChat.gridwidth = 3;
 		gbc_txtChat.fill = GridBagConstraints.BOTH;
@@ -303,7 +308,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		
 		JPanel panel = new JPanel();
 		panelPoolandHandsLib.add(panel, BorderLayout.WEST);
-				panel.setLayout(new GridLayout(2, 2, 0, 0));
+		panel.setLayout(new GridLayout(2, 2, 0, 0));
 		
 				
 				JLabel lblLife = new JLabel("");
@@ -340,76 +345,76 @@ public class GamePanelGUI extends JPanel implements Observer {
 						
 					}
 				});
-		
-		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
-		
-		JPanel pane = new JPanel();
-		pane.setLayout(new BorderLayout());
-		
-		panneauHaut = new LightDescribeCardPanel();
-		pane.add(panneauHaut, BorderLayout.CENTER);
-		
-		tabbedPane.addTab("Description", null, pane, null);
-		
-		
-		JPanel panelPics = new JPanel();
-		tabbedPane.addTab("Picture", null, panelPics, null);
-		panelPics.setLayout(new BorderLayout(0, 0));
-		
-		lblThumbnailPics = new JLabel("");
-		lblThumbnailPics.setHorizontalTextPosition(SwingConstants.CENTER);
-		lblThumbnailPics.setHorizontalAlignment(SwingConstants.CENTER);
-		panelPics.add(lblThumbnailPics);
-		
-		
-		JPanel panelLibraryAndGrave = new JPanel();
-		panneauDroit.add(panelLibraryAndGrave, BorderLayout.EAST);
-		panelLibraryAndGrave.setLayout(new BorderLayout(0, 0));
-		
-		JPanel panelDeck = new JPanel();
-		panelLibraryAndGrave.add(panelDeck, BorderLayout.NORTH);
-		
-		panelLibrary = new LibraryPanel();
-		panelLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-
-		panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
-		panelDeck.add(panelLibrary);
-		
-		
-		panelLibrary.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent me) {
-
-				if(SwingUtilities.isLeftMouseButton(me))
-				{	player.drawCard(1);
-					DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight(),true);
-					c.enableDrag(true);
-					handPanel.addComponent(c);
-				}
 				
-			}
-		});
-		
-		panelGrave = new GraveyardPanel();
-		
-		panelLibraryAndGrave.add(panelGrave);
-		
-		handPanel = new ThumbnailPanel();
-		handPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
-		handPanel.enableDragging(true);
-		handPanel.setThumbnailSize(179, 240);
-		handPanel.setRupture(7);
-		
-		JScrollPane scrollPane = new JScrollPane();
-		panneauDroit.add(scrollPane, BorderLayout.SOUTH);
-		scrollPane.setPreferredSize(new Dimension(2, handPanel.getCardHeight()));
-		
-		scrollPane.setViewportView(handPanel);
-		
-		panelBattleField = new BattleFieldPanel();
-		panneauDroit.add(panelBattleField, BorderLayout.CENTER);
-		panelBattleField.setLayout(null);
+				JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+				panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
+				
+				JPanel pane = new JPanel();
+				pane.setLayout(new BorderLayout());
+				
+				panneauHaut = new LightDescribeCardPanel();
+				pane.add(panneauHaut, BorderLayout.CENTER);
+				
+				tabbedPane.addTab("Description", null, pane, null);
+				
+				
+				JPanel panelPics = new JPanel();
+				tabbedPane.addTab("Picture", null, panelPics, null);
+				panelPics.setLayout(new BorderLayout(0, 0));
+				
+				lblThumbnailPics = new JLabel("");
+				lblThumbnailPics.setHorizontalTextPosition(SwingConstants.CENTER);
+				lblThumbnailPics.setHorizontalAlignment(SwingConstants.CENTER);
+				panelPics.add(lblThumbnailPics);
+				
+				
+				JPanel panelLibraryAndGrave = new JPanel();
+				playerBoardPanel.add(panelLibraryAndGrave, BorderLayout.EAST);
+				panelLibraryAndGrave.setLayout(new BorderLayout(0, 0));
+				
+				JPanel panelDeck = new JPanel();
+				panelLibraryAndGrave.add(panelDeck, BorderLayout.NORTH);
+				
+				panelLibrary = new LibraryPanel();
+				panelLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+				
+						panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
+						panelDeck.add(panelLibrary);
+						
+						
+						panelLibrary.addMouseListener(new MouseAdapter() {
+							@Override
+							public void mouseClicked(MouseEvent me) {
+
+								if(SwingUtilities.isLeftMouseButton(me))
+								{	player.drawCard(1);
+									DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight(),true);
+									c.enableDrag(true);
+									handPanel.addComponent(c);
+								}
+								
+							}
+						});
+						
+						panelGrave = new GraveyardPanel();
+						
+						panelLibraryAndGrave.add(panelGrave);
+						
+						handPanel = new ThumbnailPanel();
+						handPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
+						handPanel.enableDragging(true);
+						handPanel.setThumbnailSize(179, 240);
+						handPanel.setRupture(7);
+						
+						JScrollPane scrollPane = new JScrollPane();
+						playerBoardPanel.add(scrollPane, BorderLayout.SOUTH);
+						scrollPane.setPreferredSize(new Dimension(2, handPanel.getCardHeight()));
+						
+						scrollPane.setViewportView(handPanel);
+						
+						panelBattleField = new BattleFieldPanel();
+						playerBoardPanel.add(panelBattleField, BorderLayout.CENTER);
+						panelBattleField.setLayout(null);
 	}
 	public JSpinner getSpinLife() {
 		return spinLife;

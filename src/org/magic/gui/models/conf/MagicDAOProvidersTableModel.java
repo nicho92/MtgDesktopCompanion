@@ -11,13 +11,13 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class MagicDAOProvidersTableModel extends AbstractTreeTableModel 
 {
     private final static String[] COLUMN_NAMES = {"DBProvider","Value","Enabled"};
     private MagicDAO selectedProvider = null;
-    private List<MagicDAO> daos = MTGDesktopCompanionControler.getInstance().getDaoProviders();
+    private List<MagicDAO> daos = MTGControler.getInstance().getDaoProviders();
     static final Logger logger = LogManager.getLogger(MagicDAOProvidersTableModel.class.getName());
 
     
@@ -131,14 +131,14 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
         	if(column==2)
         	{
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
-        		MTGDesktopCompanionControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+        		MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
         		
-        		for(MagicDAO daos : MTGDesktopCompanionControler.getInstance().getDaoProviders())
+        		for(MagicDAO daos : MTGControler.getInstance().getDaoProviders())
         		{
         			if(daos!=selectedProvider)
         			{
         				daos.enable(false);
-        				MTGDesktopCompanionControler.getInstance().setProperty(daos, daos.isEnable());
+        				MTGControler.getInstance().setProperty(daos, daos.isEnable());
         	        	
         			}
         		}

@@ -30,7 +30,7 @@ import org.magic.gui.game.actions.cards.TransferActions;
 import org.magic.gui.game.actions.cards.TransformActions;
 import org.magic.gui.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 
 public class DisplayableCard extends JLabel implements Draggable
@@ -218,7 +218,7 @@ public class DisplayableCard extends JLabel implements Draggable
 		
 		MagicCard mc;
 		try {
-			mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
+			mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
 			setMagicCard(mc);
 	        BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
 	    		
@@ -246,7 +246,7 @@ public class DisplayableCard extends JLabel implements Draggable
 	public void transform()
 	{
 		try {
-			MagicCard mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
 			setMagicCard(mc);
 			revalidate();
 			repaint();
@@ -296,7 +296,7 @@ public class DisplayableCard extends JLabel implements Draggable
 			}
 			else
 			{
-				fullResPics = MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getPicture(mc,null);
+				fullResPics = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc,null);
 				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 			}
 			

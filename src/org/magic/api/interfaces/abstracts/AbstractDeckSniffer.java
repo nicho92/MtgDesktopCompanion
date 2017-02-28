@@ -10,14 +10,14 @@ import java.util.Properties;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractDeckSniffer extends Observable implements DeckSniffer {
 
 	private boolean enable;
 	protected Properties props;
 
-	protected File confdir = new File(MTGDesktopCompanionControler.CONF_DIR, "decksniffers");
+	protected File confdir = new File(MTGControler.CONF_DIR, "decksniffers");
 
 	@Override
 	public String toString() {

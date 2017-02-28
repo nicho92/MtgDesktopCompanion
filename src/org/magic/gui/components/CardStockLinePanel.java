@@ -23,7 +23,7 @@ import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class CardStockLinePanel extends JPanel {
 	  private JTextField txtComment;
@@ -56,7 +56,7 @@ public class CardStockLinePanel extends JPanel {
 		cboState = new JComboBox(EnumCondition.values());
 		add(cboState);
 		
-		cboLanguage = new JComboBox(MTGDesktopCompanionControler.getInstance().getEnabledProviders().getLanguages());
+		cboLanguage = new JComboBox(MTGControler.getInstance().getEnabledProviders().getLanguages());
 		add(cboLanguage);
 		
 		JLabel lblComment = new JLabel("Comment :");
@@ -96,7 +96,7 @@ public class CardStockLinePanel extends JPanel {
 				
 				try {
 					generateState();
-					MTGDesktopCompanionControler.getInstance().getEnabledDAO().saveOrUpdateStock(state);
+					MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(state);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -122,7 +122,7 @@ public class CardStockLinePanel extends JPanel {
 		
 		generateState();
 		try {
-			MTGDesktopCompanionControler.getInstance().getEnabledDAO().deleteStock(state);
+			MTGControler.getInstance().getEnabledDAO().deleteStock(state);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}

@@ -7,7 +7,7 @@ import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
 
@@ -15,7 +15,7 @@ public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
 	private boolean enable=true;
 	protected Properties props;
 
-	protected File confdir = new File(MTGDesktopCompanionControler.CONF_DIR, "dao");
+	protected File confdir = new File(MTGControler.CONF_DIR, "dao");
 
 	
 	public AbstractMagicDAO() {

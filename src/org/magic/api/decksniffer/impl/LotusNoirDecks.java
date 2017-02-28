@@ -14,7 +14,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class LotusNoirDecks extends AbstractDeckSniffer {
 
@@ -66,7 +66,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				if(cardName.contains("//")) // for transformatble cards
 					cardName=cardName.substring(0, cardName.indexOf("//")).trim();
 				
-				MagicCard mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
 				if(!sideboard)
 					deck.getMap().put(mc, qte);
 				else
@@ -78,7 +78,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	
 	
 	public static void main(String[] args) throws Exception {
-		MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledProviders().init();
 		DeckSniffer snif = new LotusNoirDecks();
 		RetrievableDeck d = snif.getDeckList().get(0);
 		snif.getDeck(d);

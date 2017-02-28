@@ -26,7 +26,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -361,7 +361,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		for(Want w : getWants(list))
 		{
 			System.out.println(w);
-			d.getMap().put(MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", w.getProduct().getName(), null).get(0), w.getQte());
+			d.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", w.getProduct().getName(), null).get(0), w.getQte());
 		}
 
 		return d;

@@ -37,7 +37,7 @@ import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
@@ -71,7 +71,7 @@ public class DashBoardGUI extends JPanel {
 		
 		List<MagicEdition> eds= new ArrayList<>();
 		try {
-			eds=MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions();
+			eds=MTGControler.getInstance().getEnabledProviders().loadEditions();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -240,7 +240,7 @@ public class DashBoardGUI extends JPanel {
 				ed.setId(edID);
 				try 
 				{
-					MagicCard mc =  MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed).get(0);
+					MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed).get(0);
 					pane.setMagicCard(mc);
 					pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
 						popUp.setBorder(new LineBorder(Color.black));
@@ -320,7 +320,7 @@ public class DashBoardGUI extends JPanel {
 				
 				
 				try{
-					lblDashBoardInfo.setText(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
+					lblDashBoardInfo.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
 				}catch(Exception e)
 				{
 					

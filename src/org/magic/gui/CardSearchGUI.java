@@ -76,7 +76,7 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.BoosterPicturesProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
@@ -163,7 +163,7 @@ public class CardSearchGUI extends JPanel {
 			try {
 				UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
 				UIManager.setLookAndFeel(lookAndFeel);
-				MTGDesktopCompanionControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
+				MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 				SwingUtilities.updateComponentTreeUI(this);
 				
 			} catch (Exception e) {
@@ -176,7 +176,7 @@ public class CardSearchGUI extends JPanel {
 		{
 			JMenu menuItemAdd = new JMenu("Add");
 
-			for(MagicCollection mc : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections())
+			for(MagicCollection mc : MTGControler.getInstance().getEnabledDAO().getCollections())
 			{
 				
 				JMenuItem adds = new JMenuItem(mc.getName());
@@ -197,7 +197,7 @@ public class CardSearchGUI extends JPanel {
 							
 							MagicCard mc = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
 							try {
-								MTGDesktopCompanionControler.getInstance().getEnabledDAO().saveCard(mc, MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollection(collec));
+								MTGControler.getInstance().getEnabledDAO().saveCard(mc, MTGControler.getInstance().getEnabledDAO().getCollection(collec));
 							} catch (SQLException e1) {
 								logger.error(e1);
 								e1.printStackTrace();
@@ -237,7 +237,7 @@ public class CardSearchGUI extends JPanel {
 			    }
 			});
 
-			List<MagicEdition> li = MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions();
+			List<MagicEdition> li = MTGControler.getInstance().getEnabledProviders().loadEditions();
 			Collections.sort(li);
 		
 			
@@ -280,8 +280,8 @@ public class CardSearchGUI extends JPanel {
 			btnClear = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/09_clear_location.png")));
 			btnGenerateBooster = new JButton("Open a Booster");
 			
-			cboQuereableItems = new JComboBox<String>(new DefaultComboBoxModel(MTGDesktopCompanionControler.getInstance().getEnabledProviders().getQueryableAttributs()));
-			cboCollections= new JComboBox<MagicCollection>(new DefaultComboBoxModel(MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollections().size()])));
+			cboQuereableItems = new JComboBox<String>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
+			cboCollections= new JComboBox<MagicCollection>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
 			cboLanguages = new JComboBox<MagicCardNames>();
 			
 			tablePrice = new JXTable();
@@ -432,7 +432,7 @@ public class CardSearchGUI extends JPanel {
 			tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
 			tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
 			
-			if(MTGDesktopCompanionControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
+			if(MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 				tabbedCardsInfo.addTab("Json", null, panelJson, null);
 			
 			panneauStat.add(cmcChart);
@@ -524,9 +524,9 @@ public class CardSearchGUI extends JPanel {
 								String searchName=txtMagicSearch.getText();
 								
 								if(cboCollections.isVisible())
-									cards = MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
+									cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 								else
-									cards = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
+									cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
 								
 								
 								
@@ -565,7 +565,7 @@ public class CardSearchGUI extends JPanel {
 
 					try {
 						tabbedCardsView.setSelectedIndex(1);
-						thumbnailPanel.initThumbnails( MTGDesktopCompanionControler.getInstance().getEnabledProviders().openBooster(selectedEdition),false);
+						thumbnailPanel.initThumbnails( MTGControler.getInstance().getEnabledProviders().openBooster(selectedEdition),false);
 
 					} catch (Exception e) {
 						logger.error(e);
@@ -612,7 +612,7 @@ public class CardSearchGUI extends JPanel {
 										lblBoosterPic.setIcon(boosterProvider.getBoosterFor(selectedEdition));
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
 										
-										historyChartPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
+										historyChartPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 										
 										
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
@@ -664,7 +664,7 @@ public class CardSearchGUI extends JPanel {
 				public void actionPerformed(ActionEvent ae) {
 					JPopupMenu menu = new JPopupMenu();
 					
-					for(final CardExporter exp : MTGDesktopCompanionControler.getInstance().getEnabledDeckExports())
+					for(final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports())
 					{
 						JMenuItem it = new JMenuItem();
 						it.setIcon(exp.getIcon());
@@ -832,7 +832,7 @@ public class CardSearchGUI extends JPanel {
 				
 				
 				panelJson.showCard(selected);
-				historyChartPanel.init(MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
+				historyChartPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();

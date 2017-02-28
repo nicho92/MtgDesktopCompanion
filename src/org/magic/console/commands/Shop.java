@@ -19,7 +19,7 @@ import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class Shop implements Command {
 
@@ -41,14 +41,14 @@ public class Shop implements Command {
 		{
 			String att = cl.getOptionValue("s");
 			List<ShopItem> list = new ArrayList<ShopItem>();
-			for(MagicShopper ms : MTGDesktopCompanionControler.getInstance().getShoppers())
+			for(MagicShopper ms : MTGControler.getInstance().getShoppers())
 				list.addAll(ms.search(att));
 			
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_shop)));
 		}
 		if(cl.hasOption("l"))
 		{
-			session.write(showList(MTGDesktopCompanionControler.getInstance().getShoppers(),Arrays.asList(new String[]{"shopName","enable"})));
+			session.write(showList(MTGControler.getInstance().getShoppers(),Arrays.asList(new String[]{"shopName","enable"})));
 		}
 		if(cl.hasOption("?"))
 		{

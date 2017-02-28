@@ -73,7 +73,7 @@ import org.magic.gui.renderer.MagicDeckQtyEditor;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class DeckBuilderGUI extends JPanel{
@@ -117,7 +117,7 @@ public class DeckBuilderGUI extends JPanel{
 	
 	static final Logger logger = LogManager.getLogger(DeckBuilderGUI.class.getName());
 
-	File deckDirectory = new File(MTGDesktopCompanionControler.CONF_DIR,"decks");
+	File deckDirectory = new File(MTGControler.CONF_DIR,"decks");
 	private Player p;
 	
 	public void loading(boolean show,String text)
@@ -170,7 +170,7 @@ public class DeckBuilderGUI extends JPanel{
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panneauHaut, BorderLayout.NORTH);
 		
-		cboAttributs = new JComboBox(MTGDesktopCompanionControler.getInstance().getEnabledProviders().getQueryableAttributs());
+		cboAttributs = new JComboBox(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs());
 		panneauHaut.add(cboAttributs);
 		
 		txtSearch = new JTextField();
@@ -307,7 +307,7 @@ public class DeckBuilderGUI extends JPanel{
 				});
 				menu.add(webSite);
 				
-				for(final CardExporter exp : MTGDesktopCompanionControler.getInstance().getEnabledDeckExports())
+				for(final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports())
 				{
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
@@ -386,7 +386,7 @@ public class DeckBuilderGUI extends JPanel{
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();
 				
-				for(final CardExporter exp : MTGDesktopCompanionControler.getInstance().getEnabledDeckExports())
+				for(final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports())
 				{
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
@@ -705,7 +705,7 @@ public class DeckBuilderGUI extends JPanel{
 				public void run() {
 					try {
 						String searchName=URLEncoder.encode(txtSearch.getText(),"UTF-8");
-						List<MagicCard> cards = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria(cboAttributs.getSelectedItem().toString(),searchName,null);
+						List<MagicCard> cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboAttributs.getSelectedItem().toString(),searchName,null);
 						MagicFormat form = new MagicFormat();
 						
 						for(MagicCard m : cards)
@@ -753,12 +753,12 @@ public class DeckBuilderGUI extends JPanel{
 						if(name.trim().equalsIgnoreCase("Plains")||name.trim().equalsIgnoreCase("Island")||name.trim().equalsIgnoreCase("Swamp")||name.trim().equalsIgnoreCase("Mountain")||name.trim().equalsIgnoreCase("Forest"))
 						{	
 							MagicEdition ed = new MagicEdition();
-										 ed.setId(MTGDesktopCompanionControler.getInstance().get("default-land-deck"));
-							mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(),ed).get(0);
+										 ed.setId(MTGControler.getInstance().get("default-land-deck"));
+							mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(),ed).get(0);
 						}
 						else	
 						{
-							mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(),null).get(0);
+							mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(),null).get(0);
 						}
 						
 						if(mc!=null)

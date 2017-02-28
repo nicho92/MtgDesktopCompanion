@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class EditionsShakerTableModel extends DefaultTableModel {
 
@@ -24,7 +24,7 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 	
 	
 	public EditionsShakerTableModel() {
-		provider=MTGDesktopCompanionControler.getInstance().getEnabledDashBoard();
+		provider=MTGControler.getInstance().getEnabledDashBoard();
 		list=new ArrayList<CardShake>();
 	}
 	

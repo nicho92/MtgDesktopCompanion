@@ -10,7 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.DashBoard;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
@@ -22,7 +22,7 @@ public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	    
 	    public DashBoardProviderTreeTableModel() {
 	    	 super(new Object());
-	        lstDashboard = MTGDesktopCompanionControler.getInstance().getDashBoards();
+	        lstDashboard = MTGControler.getInstance().getDashBoards();
 	    }
 	    
 	    @Override
@@ -129,14 +129,14 @@ public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	        	if(column==2)
 	        	{
 	        		selectedProvider.enable(Boolean.parseBoolean(strValue));
-	        		MTGDesktopCompanionControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+	        		MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 	        		
-	        		for(DashBoard daos : MTGDesktopCompanionControler.getInstance().getDashBoards())
+	        		for(DashBoard daos : MTGControler.getInstance().getDashBoards())
 	        		{
 	        			if(daos!=selectedProvider)
 	        			{
 	        				daos.enable(false);
-	        				MTGDesktopCompanionControler.getInstance().setProperty(daos, daos.isEnable());
+	        				MTGControler.getInstance().setProperty(daos, daos.isEnable());
 	        	        	
 	        			}
 	        		}

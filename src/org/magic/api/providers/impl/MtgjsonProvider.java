@@ -30,7 +30,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.EvaluationListener;
@@ -49,9 +49,9 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private String urlSetJsonZip = "http://mtgjson.com/json/AllSets-x.json.zip";
 	private String urlVersion = "http://mtgjson.com/json/version.json";
 	
-	private File fileSetJsonTemp = new File(MTGDesktopCompanionControler.CONF_DIR,"AllSets-x.json.zip");
-	private File fileSetJson = new File(MTGDesktopCompanionControler.CONF_DIR,"AllSets-x.json");
-	private File fversion = new File(MTGDesktopCompanionControler.CONF_DIR,"version");
+	private File fileSetJsonTemp = new File(MTGControler.CONF_DIR,"AllSets-x.json.zip");
+	private File fileSetJson = new File(MTGControler.CONF_DIR,"AllSets-x.json");
+	private File fversion = new File(MTGControler.CONF_DIR,"version");
 	
 	private List<MagicCard> list;
 	private ReadContext ctx;

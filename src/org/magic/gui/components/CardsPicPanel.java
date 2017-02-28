@@ -26,7 +26,7 @@ import org.jdesktop.swingx.painter.MattePainter;
 import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 
@@ -84,7 +84,7 @@ public class CardsPicPanel extends JXPanel {
 		if(!mc.isTranformable())
 		{
 			try {
-				back=MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getBackPicture();
+				back=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
 			} catch (Exception e1) {
 				e1.printStackTrace();
 			}
@@ -92,8 +92,8 @@ public class CardsPicPanel extends JXPanel {
 		else
 		{
 			try {
-				MagicCard flipC = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name",card.getRotatedCardName(),card.getEditions().get(0)).get(0);
-				back = MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getPicture(flipC,null);
+				MagicCard flipC = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name",card.getRotatedCardName(),card.getEditions().get(0)).get(0);
+				back = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(flipC,null);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -105,9 +105,9 @@ public class CardsPicPanel extends JXPanel {
 				try {
 					
 					if(edition==null)
-						imgFront=renderer.appendReflection(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getPicture(card,null));
+						imgFront=renderer.appendReflection(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card,null));
 					else
-						imgFront=renderer.appendReflection(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getPicture(card,edition));
+						imgFront=renderer.appendReflection(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card,edition));
 					
 					back=mirroring(back);
 					back=renderer.appendReflection(back);

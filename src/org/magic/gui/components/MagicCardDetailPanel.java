@@ -34,7 +34,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class MagicCardDetailPanel extends JPanel {
@@ -164,7 +164,7 @@ public class MagicCardDetailPanel extends JPanel {
 						alert.setPrice(Double.parseDouble(price));
 						
 						try {
-							MTGDesktopCompanionControler.getInstance().getEnabledDAO().saveAlert(alert);
+							MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
 						} catch (Exception e) {
 							e.printStackTrace();
 							JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
@@ -434,7 +434,7 @@ public class MagicCardDetailPanel extends JPanel {
 	
 	public void setMagicLogo(String set,String rarity) {
 			try {
-				lblLogoSet.setIcon(new ImageIcon(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getSetLogo(set, rarity)));
+				lblLogoSet.setIcon(new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getSetLogo(set, rarity)));
 			} catch (Exception e) {
 				lblLogoSet.setIcon(null);			
 				}
@@ -524,7 +524,7 @@ public class MagicCardDetailPanel extends JPanel {
 				public void run() {
 					ImageIcon icon;
 					try {
-						icon = new ImageIcon(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getPicture(magicCard,null));
+						icon = new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(magicCard,null));
 						Image img = icon.getImage();
 						//Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
 						lblThumbnail.setIcon( new ImageIcon(img));
@@ -552,7 +552,7 @@ public class MagicCardDetailPanel extends JPanel {
 			public void run() {
 				try{
 					((DefaultListModel)listCollection.getModel()).removeAllElements();
-					for(MagicCollection col : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getCollectionFromCards(magicCard))
+					for(MagicCollection col : MTGControler.getInstance().getEnabledDAO().getCollectionFromCards(magicCard))
 						((DefaultListModel)listCollection.getModel()).addElement(col);
 				}
 				catch(Exception e)
@@ -564,7 +564,7 @@ public class MagicCardDetailPanel extends JPanel {
 			
 		ThreadManager.getInstance().execute(new Runnable() {
 			public void run() {
-					if(MTGDesktopCompanionControler.getInstance().getEnabledDAO().hasAlert(magicCard))
+					if(MTGControler.getInstance().getEnabledDAO().hasAlert(magicCard))
 					{
 						btnAlert.setToolTipText("Has a alert");
 						btnAlert.setEnabled(false);

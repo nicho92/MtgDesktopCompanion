@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class MTGODeckExport extends AbstractCardExport  {
 	
@@ -82,12 +82,12 @@ public class MTGODeckExport extends AbstractCardExport  {
 					sep = line.indexOf(" ");
 					name = line.substring(sep, line.length()).trim();
 					qte =  line.substring(0, sep).trim();
-					List<MagicCard> list = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null);
+					List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null);
 					deck.getMapSideBoard().put(list.get(0),Integer.parseInt(qte));
 				}
 				else
 				{
-					List<MagicCard> list = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null);
+					List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null);
 					deck.getMap().put(list.get(0),Integer.parseInt(qte));
 				}
 			}

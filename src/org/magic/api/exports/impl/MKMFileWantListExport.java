@@ -14,7 +14,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class MKMFileWantListExport extends AbstractCardExport {
 
@@ -45,7 +45,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 			int qte = Integer.parseInt(line.substring(0, line.indexOf(" ")));
 			String name = line.substring(line.indexOf(" "),line.indexOf("("));
 			
-			deck.getMap().put(MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(), null).get(0), qte);
+			deck.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(), null).get(0), qte);
 			line=read.readLine();
 		}
 		//throw new Exception(getName() + " can't generate deck");

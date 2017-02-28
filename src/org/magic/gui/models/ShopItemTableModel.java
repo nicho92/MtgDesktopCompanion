@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicShopper;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class ShopItemTableModel extends DefaultTableModel {
 
@@ -31,7 +31,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 	public void init(String search)
 	{
 		items.clear();
-		for(MagicShopper prov : MTGDesktopCompanionControler.getInstance().getEnabledShoppers())
+		for(MagicShopper prov : MTGControler.getInstance().getEnabledShoppers())
 		{
 			try {
 				items.addAll(prov.search(search));

@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.RSSBean;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class RssBeanTableModel extends DefaultTableModel{
 
@@ -16,7 +16,7 @@ public class RssBeanTableModel extends DefaultTableModel{
 	List<RSSBean> listRSS;
 	
 	public RssBeanTableModel() {
-		listRSS = MTGDesktopCompanionControler.getInstance().getRss();
+		listRSS = MTGControler.getInstance().getRss();
 	}
 	
 	@Override

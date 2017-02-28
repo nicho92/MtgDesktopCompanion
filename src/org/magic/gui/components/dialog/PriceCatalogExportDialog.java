@@ -16,7 +16,7 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class PriceCatalogExportDialog extends JDialog {
 	private JTextField txtDest;
@@ -39,7 +39,7 @@ public class PriceCatalogExportDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		txtDest = new JTextField(new File(MTGDesktopCompanionControler.CONF_DIR,selectedcol.getName()+".csv").getAbsolutePath());
+		txtDest = new JTextField(new File(MTGControler.CONF_DIR,selectedcol.getName()+".csv").getAbsolutePath());
 		
 		panel.add(txtDest);
 		txtDest.setColumns(20);
@@ -54,7 +54,7 @@ public class PriceCatalogExportDialog extends JDialog {
 		JButton btnGenerate = new JButton("Export");
 		
 		panneauBas.add(btnGenerate);
-		lstProviders = new JComboBox<MagicPricesProvider>(MTGDesktopCompanionControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGDesktopCompanionControler.getInstance().getEnabledPricers().size() ]));
+		lstProviders = new JComboBox<MagicPricesProvider>(MTGControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
 		
 		JScrollPane scrollProviders = new JScrollPane();
 		getContentPane().add(scrollProviders, BorderLayout.CENTER);

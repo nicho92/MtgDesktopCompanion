@@ -22,7 +22,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -44,7 +44,7 @@ public class MassMoverDialog extends JDialog {
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		dao = MTGDesktopCompanionControler.getInstance().getEnabledDAO();
+		dao = MTGControler.getInstance().getEnabledDAO();
 		this.toSaveCol=col;
 		
 		JPanel panel = new JPanel();

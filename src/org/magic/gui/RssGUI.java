@@ -26,7 +26,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.gui.models.RssContentTableModel;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 import com.rometools.rome.feed.synd.SyndEntry;
@@ -59,7 +59,7 @@ public class RssGUI extends JPanel {
 				
 				{
 					Set<String> catg = new HashSet<String>();
-					for(RSSBean r : MTGDesktopCompanionControler.getInstance().getRss())
+					for(RSSBean r : MTGControler.getInstance().getRss())
 					{
 							catg.add(r.getCategorie());
 					}
@@ -67,7 +67,7 @@ public class RssGUI extends JPanel {
 					for(String cat : catg)
 					{	
 						DefaultMutableTreeNode node_1 = new DefaultMutableTreeNode(cat);
-						for(RSSBean r : MTGDesktopCompanionControler.getInstance().getRss())
+						for(RSSBean r : MTGControler.getInstance().getRss())
 						{
 							if(r.getCategorie().equals(cat))
 								node_1.add(new DefaultMutableTreeNode(r));

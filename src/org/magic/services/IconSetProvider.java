@@ -35,7 +35,7 @@ public class IconSetProvider {
 	
 	private void initCache() throws Exception {
 		
-		for(MagicEdition e : MTGDesktopCompanionControler.getInstance().getEnabledProviders().loadEditions())
+		for(MagicEdition e : MTGControler.getInstance().getEnabledProviders().loadEditions())
 			try{
 			ImageIcon im;
 			if(e.getId().startsWith("p"))
@@ -65,7 +65,7 @@ public class IconSetProvider {
 	
 	
 	public static void main(String[] args) {
-		MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledProviders().init();
 		IconSetProvider.getInstance().get("EMN");
 	}
 	

@@ -12,7 +12,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class PricesCheckerTimer extends AbstractMTGServer{
 
@@ -43,16 +43,16 @@ public class PricesCheckerTimer extends AbstractMTGServer{
             public void run() {
             	StringBuffer message=new StringBuffer();
             	boolean notify=false;
-            	if(MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts()!=null)
-            	for(MagicCardAlert alert : MTGDesktopCompanionControler.getInstance().getEnabledDAO().getAlerts())
+            	if(MTGControler.getInstance().getEnabledDAO().getAlerts()!=null)
+            	for(MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().getAlerts())
                 {
             		alert.getOffers().clear();
-                	for(MagicPricesProvider prov : MTGDesktopCompanionControler.getInstance().getEnabledPricers())
+                	for(MagicPricesProvider prov : MTGControler.getInstance().getEnabledPricers())
                 	{
                 		try {
 							List<MagicPrice> list=prov.getPrice(alert.getCard().getEditions().get(0), alert.getCard());
 							for(MagicPrice p : list)
-								if(p.getValue()<=alert.getPrice() && p.getValue()>Double.parseDouble(MTGDesktopCompanionControler.getInstance().get("min-price-alert")))
+								if(p.getValue()<=alert.getPrice() && p.getValue()>Double.parseDouble(MTGControler.getInstance().get("min-price-alert")))
 								{
 									alert.getOffers().add(p);
 									notify=true;
@@ -69,7 +69,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 					
                 }
             	
-            	MTGDesktopCompanionControler.getInstance().notify("New offers", message.toString(), MessageType.INFO);
+            	MTGControler.getInstance().notify("New offers", message.toString(), MessageType.INFO);
             	
             }
         };

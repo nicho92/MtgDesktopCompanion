@@ -7,12 +7,12 @@ import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.interfaces.PictureProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractPicturesProvider extends Observable implements PictureProvider {
 
 	
-	protected File confdir = new File(MTGDesktopCompanionControler.CONF_DIR, "pictures");
+	protected File confdir = new File(MTGControler.CONF_DIR, "pictures");
 	private boolean enable=true;
 	protected Properties props;
 

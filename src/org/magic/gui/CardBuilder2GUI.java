@@ -61,7 +61,7 @@ import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardNameEditor;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGCardMakerPicturesProvider;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class CardBuilder2GUI extends JPanel{
 	
@@ -590,8 +590,8 @@ public class CardBuilder2GUI extends JPanel{
 	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
-		MTGDesktopCompanionControler.getInstance().getEnabledDAO().init();
+		MTGControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledDAO().init();
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().add(new CardBuilder2GUI());

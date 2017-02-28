@@ -17,7 +17,7 @@ import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.CardShake;
 import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class Shake implements Command {
 
@@ -37,7 +37,7 @@ public class Shake implements Command {
 		if(cl.hasOption("f"))
 		{
 			String att = cl.getOptionValue("f");
-			List<CardShake> list = MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getShakerFor(att);
+			List<CardShake> list = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(att);
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_shake)));
 		}
 		

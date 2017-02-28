@@ -14,7 +14,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractDashBoard extends Observable implements DashBoard {
 
@@ -29,7 +29,7 @@ public abstract class AbstractDashBoard extends Observable implements DashBoard 
 	public abstract String getName();
 	public abstract Date getUpdatedDate();
 
-	protected File confdir = new File(MTGDesktopCompanionControler.CONF_DIR, "dashboards");
+	protected File confdir = new File(MTGControler.CONF_DIR, "dashboards");
 
 	
 	private boolean enable=true;

@@ -9,7 +9,7 @@ import javax.swing.ImageIcon;
 
 import org.magic.gui.game.components.DisplayableCard;
 import org.magic.gui.game.components.GamePanelGUI;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class RotateActions extends AbstractAction {
 
@@ -28,13 +28,13 @@ public class RotateActions extends AbstractAction {
 		try {
 			if(!card.isRotated())
 			{
-				card.setImage(new ImageIcon(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
+				card.setImage(new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
 				GamePanelGUI.getInstance().getPlayer().logAction("Rotate " + card.getMagicCard());
 				card.setRotated(true);
 			}
 			else
 			{
-				card.setImage(new ImageIcon(MTGDesktopCompanionControler.getInstance().getEnabledPicturesProvider().getPicture(card.getMagicCard(), null).getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
+				card.setImage(new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card.getMagicCard(), null).getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
 				card.setRotated(false);
 			}
 		} catch (Exception ex) {

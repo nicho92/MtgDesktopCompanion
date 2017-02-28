@@ -10,7 +10,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class CardsShakerTableModel extends DefaultTableModel {
 
@@ -44,7 +44,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 	public void init(FORMAT f)
 	{
 		try {
-			list=MTGDesktopCompanionControler.getInstance().getEnabledDashBoard().getShakerFor(f.toString());
+			list=MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f.toString());
 			
 		} catch (IOException e) {
 			logger.error(e);

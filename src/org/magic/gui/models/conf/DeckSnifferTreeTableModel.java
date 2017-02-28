@@ -10,12 +10,12 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.DeckSniffer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class DeckSnifferTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private DeckSniffer selectedProvider = null;
-	    private List<DeckSniffer> exports =MTGDesktopCompanionControler.getInstance().getDeckSniffers();
+	    private List<DeckSniffer> exports =MTGControler.getInstance().getDeckSniffers();
 	    static final Logger logger = LogManager.getLogger(DeckSnifferTreeTableModel.class.getName());
 	    private final static String[] COLUMN_NAMES = {"Deck Website","Value","Enabled"};
 		
@@ -130,7 +130,7 @@ public class DeckSnifferTreeTableModel extends AbstractTreeTableModel {
 	        	if(column==2)
 	        	{
 	        		selectedProvider.enable(Boolean.parseBoolean(strValue));
-	        		MTGDesktopCompanionControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+	        		MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
 	        		
 	        		
 	        	}

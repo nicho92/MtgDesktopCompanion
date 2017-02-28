@@ -29,7 +29,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonArray;
@@ -60,8 +60,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		}
 		
 		try {
-   			InstallCert.install(props.getProperty("CERT_SERV"), MTGDesktopCompanionControler.KEYSTORE_NAME, MTGDesktopCompanionControler.KEYSTORE_PASS);
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGDesktopCompanionControler.CONF_DIR,MTGDesktopCompanionControler.KEYSTORE_NAME).getAbsolutePath());
+   			InstallCert.install(props.getProperty("CERT_SERV"), MTGControler.KEYSTORE_NAME, MTGControler.KEYSTORE_PASS);
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
@@ -163,13 +163,13 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		    List<MagicCard> ret ;
 			if(idSet==null)
 			{
-				ret = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null);
+				ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null);
 			}
 			else
 			{
 				MagicEdition ed = new MagicEdition();
 				ed.setId(idSet);
-				ret = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed);
+				ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed);
 			}
 			
 			if(ret.size()>0)

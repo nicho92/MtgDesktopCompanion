@@ -10,7 +10,7 @@ import javax.swing.Icon;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractCardExport extends Observable implements CardExporter {
 
@@ -22,7 +22,7 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 	private boolean enable;
 	protected Properties props;
 
-	protected File confdir = new File(MTGDesktopCompanionControler.CONF_DIR, "exports");
+	protected File confdir = new File(MTGControler.CONF_DIR, "exports");
 	
 	public void load()
 	{

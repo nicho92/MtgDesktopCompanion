@@ -7,13 +7,13 @@ import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.interfaces.MTGServer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public abstract class AbstractMTGServer extends Observable implements MTGServer {
 
 	private boolean enable;
 	protected Properties props;
-	protected File confdir = new File(MTGDesktopCompanionControler.CONF_DIR, "servers");
+	protected File confdir = new File(MTGControler.CONF_DIR, "servers");
 	
 	
 	public AbstractMTGServer() {

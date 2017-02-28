@@ -55,31 +55,31 @@ public class ModuleInstaller {
 	 public boolean updateConfigWithNewModule() throws ClassNotFoundException, IOException {
 		
 		for(Class c : extractMissing("org.magic.api.dao.impl", "/daos/dao"))
-			 MTGDesktopCompanionControler.getInstance().addProperty("/daos/dao", c);
+			 MTGControler.getInstance().addProperty("/daos/dao", c);
 		
 		for(Class c : extractMissing("org.magic.api.pricers.impl", "/pricers/pricer"))
-			 MTGDesktopCompanionControler.getInstance().addProperty("/pricers/pricer", c);
+			 MTGControler.getInstance().addProperty("/pricers/pricer", c);
 		
 		for(Class c : extractMissing("org.magic.api.providers.impl", "/providers/provider"))
-			 MTGDesktopCompanionControler.getInstance().addProperty("/providers/provider", c);
+			 MTGControler.getInstance().addProperty("/providers/provider", c);
 		
 		for(Class c : extractMissing("org.magic.api.shopping.impl", "/shoppers/shopper"))
-			 MTGDesktopCompanionControler.getInstance().addProperty("/shoppers/shopper", c);
+			 MTGControler.getInstance().addProperty("/shoppers/shopper", c);
 	
 		for(Class c : extractMissing("org.magic.api.dashboard.impl", "/dashboards/dashboard"))
-			 MTGDesktopCompanionControler.getInstance().addProperty("/dashboards/dashboard", c);
+			 MTGControler.getInstance().addProperty("/dashboards/dashboard", c);
 	
 		for(Class c : extractMissing("org.magic.api.pictures.impl", "/pictures/picture"))
-			 MTGDesktopCompanionControler.getInstance().addProperty("/pictures/picture", c);
+			 MTGControler.getInstance().addProperty("/pictures/picture", c);
 	
 		for(Class c : extractMissing("org.magic.api.decksniffer.impl", "/decksniffer/sniffer"))
-			 MTGDesktopCompanionControler.getInstance().addProperty("/decksniffer/sniffer", c);
+			 MTGControler.getInstance().addProperty("/decksniffer/sniffer", c);
 	
 		for(Class c : extractMissing("org.magic.api.exports.impl", "/deckexports/export"))
-			 MTGDesktopCompanionControler.getInstance().addProperty("/deckexports/export", c);
+			 MTGControler.getInstance().addProperty("/deckexports/export", c);
 
 		for(Class c : extractMissing("org.magic.servers.impl", "/servers/server"))
-			 MTGDesktopCompanionControler.getInstance().addProperty("/servers/server", c);
+			 MTGControler.getInstance().addProperty("/servers/server", c);
 		
 		return hasUpdated;
 		
@@ -96,7 +96,7 @@ public class ModuleInstaller {
 				if(!c.getName().contains("$"))
 				{
 					String path = k+"[class='"+c.getName()+"']/class";
-					String s = MTGDesktopCompanionControler.getInstance().get(path);
+					String s = MTGControler.getInstance().get(path);
 					if(s=="")
 					{
 						hasUpdated=true;

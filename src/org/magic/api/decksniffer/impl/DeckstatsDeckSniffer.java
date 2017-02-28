@@ -16,7 +16,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGDesktopCompanionControler;
+import org.magic.services.MTGControler;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
@@ -105,13 +105,13 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				MagicCard mc = null;
 				if(set==null)
 				{
-					mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
 				}
 				else
 				{
 					MagicEdition me = new MagicEdition();
 								 me.setId(set);
-					mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, me).get(0);
+					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, me).get(0);
 				}
 				deck.getMap().put(mc, qte);
 		}
@@ -126,7 +126,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				
 					Integer qte = Integer.parseInt(cont.getElementsByClass("card_amount").get(0).text());
 					String cardName = cont.getElementsByClass("deck_card_name").get(0).text().trim();
-					MagicCard mc = MTGDesktopCompanionControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+					MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
 					deck.getMapSideBoard().put(mc, qte);
 			}
 		}
