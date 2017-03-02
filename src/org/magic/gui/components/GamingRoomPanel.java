@@ -107,6 +107,7 @@ public class GamingRoomPanel extends JPanel {
 							printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(), "Challenge Accepted ! "));
 							client.changeStatus(STATE.GAMING);
 							GamePanelGUI.getInstance().setPlayer(client.getP());
+							GamePanelGUI.getInstance().addPlayer(resp.getRequest().getAskedPlayer());
 							GamePanelGUI.getInstance().initGame();
 							break;
 					case NO: printMessage(new SpeakAction(resp.getRequest().getAskedPlayer()," decline your challenge"));break;

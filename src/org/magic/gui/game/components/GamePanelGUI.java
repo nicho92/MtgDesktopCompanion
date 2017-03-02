@@ -67,6 +67,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private static GamePanelGUI instance;
 	private JTextField txtChat;
 	private CockatriceTokenProvider tokenGenerator;
+	private PlayerGameBoard playerGameBoard;
+	
 	
 	public static GamePanelGUI getInstance()
 	{
@@ -411,6 +413,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										panelBattleField = new BattleFieldPanel();
 										panneauDroit.add(panelBattleField, BorderLayout.CENTER);
 										panelBattleField.setLayout(null);
+									
 	}
 	public JSpinner getSpinLife() {
 		return spinLife;
@@ -466,4 +469,19 @@ public class GamePanelGUI extends JPanel implements Observer {
 		lblThumbnailPics.setIcon(new ImageIcon(mc.getFullResPics().getScaledInstance(223,310, BufferedImage.SCALE_SMOOTH)));
 		//
 	}
+	
+	public void addPlayer(Player p)
+	{
+		
+		playerGameBoard = new PlayerGameBoard();
+		playerGameBoard.setPlayer(p);
+		panneauDroit.add(playerGameBoard, BorderLayout.NORTH);
+	}
+	
+	public void removePlayer()
+	{
+		
+		panneauDroit.remove(playerGameBoard);
+	}
+	
 }
