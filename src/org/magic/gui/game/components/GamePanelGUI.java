@@ -105,6 +105,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		manaPoolPanel.setPlayer(p1);
 		panelBattleField.setPlayer(p1);
 		panelLibrary.setPlayer(p1);
+		GameManager.getInstance().addPlayer(p1);
 	}
 	
 	
@@ -171,7 +172,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 						panelActions.setLayout(gbl_panelActions);
 						
-						JButton btnNewGame = new JButton("New Game");
+						JButton btnNewGame = new JButton("New Local Game");
 						btnNewGame.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
 								JDeckChooserDialog choose = new JDeckChooserDialog();
@@ -472,7 +473,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	
 	public void addPlayer(Player p)
 	{
-		
+		GameManager.getInstance().addPlayer(p);
 		playerGameBoard = new PlayerGameBoard();
 		playerGameBoard.setPlayer(p);
 		panneauDroit.add(playerGameBoard, BorderLayout.NORTH);
@@ -480,7 +481,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 	
 	public void removePlayer()
 	{
-		
 		panneauDroit.remove(playerGameBoard);
 	}
 	

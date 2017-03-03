@@ -14,6 +14,7 @@
 	<player-profil>
 		<name>Player 1</name>
 		<avatar></avatar>
+		<foreground></foreground>
 	</player-profil>
 	
 	<servers>

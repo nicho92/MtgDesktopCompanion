@@ -44,6 +44,8 @@ import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class PlayerGameBoard extends JPanel implements Observer {
 	
@@ -52,11 +54,8 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	private JSpinner spinPoison;
 	private BattleFieldPanel panelBattleField;
 	private ManaPoolPanel manaPoolPanel ;
-	private JPanel panneauDroit;
 	private JLabel lblPlayer;
 	public  Player player;
-	private LibraryPanel panelLibrary;
-	private GraveyardPanel panelGrave;
 	private JLabel lblHandCount;
 	private JLabel lblLibraryCount;
 	private static PlayerGameBoard instance;
@@ -91,10 +90,8 @@ public class PlayerGameBoard extends JPanel implements Observer {
 		player.addObserver(this);
 		spinLife.setValue(p1.getLife());
 		spinPoison.setValue(p1.getPoisonCounter());
-		panelGrave.setPlayer(p1);
 		manaPoolPanel.setPlayer(p1);
 		panelBattleField.setPlayer(p1);
-		panelLibrary.setPlayer(p1);
 	}
 	
 	
@@ -105,119 +102,97 @@ public class PlayerGameBoard extends JPanel implements Observer {
 
 
 	public PlayerGameBoard() {
+		setBorder(new LineBorder(Color.RED, 2));
 		
 		setLayout(new BorderLayout(0, 0));
 		
 		tokenGenerator= new CockatriceTokenProvider();
-										panneauDroit = new JPanel();
-										add(panneauDroit, BorderLayout.CENTER);
-										panneauDroit.setLayout(new BorderLayout(0, 0));
-										
-										JPanel panelInfo = new JPanel();
-										panneauDroit.add(panelInfo, BorderLayout.WEST);
-										panelInfo.setLayout(new BorderLayout(0, 0));
-										
-										JPanel lifePanel = new JPanel();
-										lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
-										panelInfo.add(lifePanel, BorderLayout.NORTH);
-										lifePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-										
-										lblPlayer = new JLabel("");
-										lblPlayer.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/planeswalker.png")));
-										lifePanel.add(lblPlayer);
-										
-										JPanel panelPoolandDescribes = new JPanel();
-										panelInfo.add(panelPoolandDescribes, BorderLayout.CENTER);
-										
-										panelPoolandDescribes.setLayout(new BorderLayout(0, 0));
-										
-										JPanel panelPoolandHandsLib = new JPanel();
-										panelPoolandDescribes.add(panelPoolandHandsLib, BorderLayout.NORTH);
-										panelPoolandHandsLib.setLayout(new BorderLayout(0, 0));
-										
-										manaPoolPanel = new ManaPoolPanel();
-										panelPoolandHandsLib.add(manaPoolPanel);
-										
-										JPanel panelHandLib = new JPanel();
-										panelPoolandHandsLib.add(panelHandLib, BorderLayout.EAST);
-										panelHandLib.setLayout(new GridLayout(2, 1, 0, 0));
-										
-										lblHandCount = new JLabel("0");
-										lblHandCount.setFont(new Font("Tahoma", Font.BOLD, 18));
-										lblHandCount.setHorizontalTextPosition(JLabel.CENTER);
-										lblHandCount.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/hand.png")));
-										panelHandLib.add(lblHandCount);
-										
-										lblLibraryCount = new JLabel("");
-										lblLibraryCount.setHorizontalTextPosition(SwingConstants.CENTER);
-										lblLibraryCount.setHorizontalAlignment(SwingConstants.CENTER);
-										lblLibraryCount.setFont(new Font("Tahoma", Font.BOLD, 18));
-										lblLibraryCount.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/librarysize.png")));
-										panelHandLib.add(lblLibraryCount);
-										
-										JPanel panel = new JPanel();
-										panelPoolandHandsLib.add(panel, BorderLayout.WEST);
-										panel.setLayout(new GridLayout(2, 2, 0, 0));
-										
-												
-												JLabel lblLife = new JLabel("");
-												panel.add(lblLife);
-												lblLife.setHorizontalAlignment(SwingConstants.CENTER);
-												lblLife.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/heart.png")));
-												
-												spinLife = new JSpinner();
-												panel.add(spinLife);
-												spinLife.setFont(new Font("Tahoma", Font.BOLD, 17));
-												
-												JLabel lblPoison = new JLabel("");
-												panel.add(lblPoison);
-												lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
-												lblPoison.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/poison.png")));
-												
-												spinPoison = new JSpinner();
-												panel.add(spinPoison);
-												spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
-												
-												spinPoison.addChangeListener(new ChangeListener() {
-													
-													public void stateChanged(ChangeEvent e) {
-														if(player !=null)
-															player.setPoisonCounter((int)spinPoison.getValue());
 														
-													}
-												});
-												spinLife.addChangeListener(new ChangeListener() {
-													
-													public void stateChanged(ChangeEvent e) {
-														if(player !=null) 
-															player.setLife((int)spinLife.getValue());
+														JPanel panelInfo = new JPanel();
+														add(panelInfo, BorderLayout.WEST);
+														panelInfo.setLayout(new BorderLayout(0, 0));
 														
-													}
-												});
-												
-												
-												JPanel panelLibraryAndGrave = new JPanel();
-												panneauDroit.add(panelLibraryAndGrave, BorderLayout.EAST);
-												panelLibraryAndGrave.setLayout(new BorderLayout(0, 0));
-												
-												JPanel panelDeck = new JPanel();
-												panelLibraryAndGrave.add(panelDeck, BorderLayout.NORTH);
-												
-												panelLibrary = new LibraryPanel();
-												panelLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-												
-														panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
-														panelDeck.add(panelLibrary);
+														JPanel lifePanel = new JPanel();
+														lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
+														panelInfo.add(lifePanel, BorderLayout.NORTH);
+														lifePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 														
+														lblPlayer = new JLabel("");
+														lblPlayer.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/planeswalker.png")));
+														lifePanel.add(lblPlayer);
 														
+														JPanel panelPoolandDescribes = new JPanel();
+														panelInfo.add(panelPoolandDescribes, BorderLayout.CENTER);
 														
-														panelGrave = new GraveyardPanel();
+														panelPoolandDescribes.setLayout(new BorderLayout(0, 0));
 														
-														panelLibraryAndGrave.add(panelGrave);
+														JPanel panelPoolandHandsLib = new JPanel();
+														panelPoolandDescribes.add(panelPoolandHandsLib, BorderLayout.NORTH);
+														panelPoolandHandsLib.setLayout(new BorderLayout(0, 0));
 														
-														panelBattleField = new BattleFieldPanel();
-														panneauDroit.add(panelBattleField, BorderLayout.CENTER);
-														panelBattleField.setLayout(null);
+														manaPoolPanel = new ManaPoolPanel();
+														panelPoolandHandsLib.add(manaPoolPanel);
+														
+														JPanel panelHandLib = new JPanel();
+														panelPoolandHandsLib.add(panelHandLib, BorderLayout.EAST);
+														panelHandLib.setLayout(new GridLayout(2, 1, 0, 0));
+														
+														lblHandCount = new JLabel("0");
+														lblHandCount.setFont(new Font("Tahoma", Font.BOLD, 18));
+														lblHandCount.setHorizontalTextPosition(JLabel.CENTER);
+														lblHandCount.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/hand.png")));
+														panelHandLib.add(lblHandCount);
+														
+														lblLibraryCount = new JLabel("");
+														lblLibraryCount.setHorizontalTextPosition(SwingConstants.CENTER);
+														lblLibraryCount.setHorizontalAlignment(SwingConstants.CENTER);
+														lblLibraryCount.setFont(new Font("Tahoma", Font.BOLD, 18));
+														lblLibraryCount.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/librarysize.png")));
+														panelHandLib.add(lblLibraryCount);
+														
+														JPanel panel = new JPanel();
+														panelPoolandHandsLib.add(panel, BorderLayout.WEST);
+														panel.setLayout(new GridLayout(2, 2, 0, 0));
+														
+																
+																JLabel lblLife = new JLabel("");
+																panel.add(lblLife);
+																lblLife.setHorizontalAlignment(SwingConstants.CENTER);
+																lblLife.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/heart.png")));
+																
+																spinLife = new JSpinner();
+																panel.add(spinLife);
+																spinLife.setFont(new Font("Tahoma", Font.BOLD, 17));
+																
+																JLabel lblPoison = new JLabel("");
+																panel.add(lblPoison);
+																lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
+																lblPoison.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/res/poison.png")));
+																
+																spinPoison = new JSpinner();
+																panel.add(spinPoison);
+																spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
+																
+																panelBattleField = new BattleFieldPanel();
+																add(panelBattleField, BorderLayout.CENTER);
+																panelBattleField.setLayout(null);
+																
+																spinPoison.addChangeListener(new ChangeListener() {
+																	
+																	public void stateChanged(ChangeEvent e) {
+																		if(player !=null)
+																			player.setPoisonCounter((int)spinPoison.getValue());
+																		
+																	}
+																});
+																spinLife.addChangeListener(new ChangeListener() {
+																	
+																	public void stateChanged(ChangeEvent e) {
+																		if(player !=null) 
+																			player.setLife((int)spinLife.getValue());
+																		
+																	}
+																});
 	}
 	public JSpinner getSpinLife() {
 		return spinLife;
@@ -227,13 +202,6 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	}
 
 	
-	public LibraryPanel getLblLibrary() {
-		return panelLibrary;
-	}
-	public GraveyardPanel getPanelGrave() {
-		return panelGrave;
-	}
-
 	@Override
 	public void update(Observable o, Object arg) {
 		String act = player.getName() +" " + arg.toString();

@@ -38,6 +38,7 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicDeck;
+import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 import org.magic.game.network.MinaClient;
