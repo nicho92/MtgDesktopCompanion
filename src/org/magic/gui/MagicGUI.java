@@ -30,6 +30,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.dialog.ThreadMonitorFrame;
 import org.magic.gui.game.components.GamePanelGUI;
 import org.magic.services.MTGControler;
@@ -233,7 +234,7 @@ public class MagicGUI extends JFrame {
 		
 	
 		tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
-		tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/res/search.gif")), new CardSearchGUI(), null);
+		tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/res/search.gif")), new CardSearchPanel(), null);
 		tabbedPane.addTab("Deck", new ImageIcon(MagicGUI.class.getResource("/res/book_icon.jpg")), new DeckBuilderGUI(), null);
 		tabbedPane.addTab("Game", new ImageIcon(MagicGUI.class.getResource("/res/bottom.png")), new GameGUI(), null);
 		tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), new CollectionPanelGUI(), null);

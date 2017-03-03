@@ -1,4 +1,4 @@
-package org.magic.gui;
+package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -60,11 +60,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.CardExporter;
-import org.magic.gui.components.CardsPicPanel;
-import org.magic.gui.components.JSONPanel;
-import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.components.MagicEditionDetailPanel;
-import org.magic.gui.components.ManaPanel;
+import org.magic.gui.MagicGUI;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -74,6 +70,7 @@ import org.magic.gui.game.components.DisplayableCard;
 import org.magic.gui.game.components.ThumbnailPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
+import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MTGControler;
@@ -83,7 +80,7 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 
-public class CardSearchGUI extends JPanel {
+public class CardSearchPanel extends JPanel {
 
 		static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
 
@@ -319,6 +316,8 @@ public class CardSearchGUI extends JPanel {
 			panneauCentral.setLeftComponent(tabbedCardsView);
 			tableCards.setRowHeight(ManaPanel.row_height);
 			tableCards.setRowSorter(sorterCards);
+			
+			
 
 ///////LAYOUT		
 			setLayout(new BorderLayout());
@@ -544,6 +543,9 @@ public class CardSearchGUI extends JPanel {
 								tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
 								
 								btnExport.setEnabled(tableCards.getRowCount()>0);
+								
+								//tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionRenderer());
+
 
 							} catch (Exception e) {
 								e.printStackTrace();
@@ -757,7 +759,7 @@ public class CardSearchGUI extends JPanel {
 			updateCards();
 		}
 
-		public CardSearchGUI() {
+		public CardSearchPanel() {
 		
 			try {
 				

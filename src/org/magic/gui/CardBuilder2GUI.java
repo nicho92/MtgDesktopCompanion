@@ -51,6 +51,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
+import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.editor.CropImagePanel;
@@ -436,7 +437,7 @@ public class CardBuilder2GUI extends JPanel{
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final JDialog l = new JDialog();
-				final CardSearchGUI searchPane = new CardSearchGUI();
+				final CardSearchPanel searchPane = new CardSearchPanel();
 				JButton selectCard = new JButton(new ImageIcon(CardBuilder2GUI.class.getResource("/res/import.png")));
 				selectCard.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
