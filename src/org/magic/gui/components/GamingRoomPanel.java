@@ -50,6 +50,7 @@ import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.game.components.GamePanelGUI;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class GamingRoomPanel extends JPanel {
@@ -182,6 +183,7 @@ public class GamingRoomPanel extends JPanel {
 		txtName = new JTextField();
 		panneauHaut.add(txtName);
 		txtName.setColumns(10);
+		txtName.setText(MTGControler.getInstance().get("/player-profil/name"));
 		panneauHaut.add(btnConnect);
 		
 		
@@ -260,6 +262,12 @@ public class GamingRoomPanel extends JPanel {
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(2);
+		try{
+			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/player-profil/foreground"))));
+		}catch(Exception e)
+		{
+			editorPane.setForeground(Color.BLACK);
+		}
 		
 		panelChatBox.add(editorPane, BorderLayout.CENTER);
 		
@@ -281,6 +289,7 @@ public class GamingRoomPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Color c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
 				editorPane.setForeground(c);
+				MTGControler.getInstance().setProperty("/player-profil/foreground", c.getRGB());
 			}
 		});
 	
