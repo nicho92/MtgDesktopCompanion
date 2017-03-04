@@ -32,7 +32,10 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  private IoAcceptor acceptor;
  
  private IoHandlerAdapter adapter = new IoHandlerAdapter() {
- 		@Override
+ 		
+	
+	 
+	 	@Override
  		public void sessionCreated(IoSession session) throws Exception {
  			logger.debug("New Session " + session.getRemoteAddress());
  			session.write(new SpeakAction(null, props.getProperty("WELCOME_MESSAGE")));
@@ -72,6 +75,12 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	      refreshPlayers(session);
  	    }
 	};
+	
+	
+ 	@Override
+    public String description() {
+    	return "Enable local player room server";
+    }
 	
 	public void speak(SpeakAction sa)
 	{

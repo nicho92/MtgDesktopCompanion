@@ -24,6 +24,9 @@ public abstract class AbstractMTGServer extends Observable implements MTGServer 
 	}
 	
 	
+	@Override
+	public abstract String description() ;
+	
 	
 	@Override
 	public String toString() {

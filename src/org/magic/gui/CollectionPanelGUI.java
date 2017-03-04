@@ -156,14 +156,24 @@ public class CollectionPanelGUI extends JPanel {
 
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-			//	tree.init();
-				tree.refresh();
-				try {
-					model.calculate();
+
+				ThreadManager.getInstance().execute(new Runnable() {
 					
-				} catch (Exception e) {
-				}
-				model.fireTableDataChanged();
+					@Override
+					public void run() {
+						progressBar.setVisible(true);
+						tree.refresh();
+						try {
+							model.calculate();
+							
+						} catch (Exception e) {
+						}
+						model.fireTableDataChanged();
+						progressBar.setVisible(false);
+						
+					}
+				}, "update Tree");
+				
 			}
 		});
 		panneauHaut.add(btnRefresh);

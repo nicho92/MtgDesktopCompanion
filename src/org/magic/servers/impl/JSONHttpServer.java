@@ -29,6 +29,12 @@ public class JSONHttpServer extends AbstractMTGServer
 	static final Logger logger = LogManager.getLogger(JSONHttpServer.class.getName());
 	NanoHTTPD server;
 
+	
+	  @Override
+	    public String description() {
+	    	return "Acces to mtg desktop companion via json http server";
+	    }
+	
 	public boolean isAlive()
 	{
 		try{

@@ -22,6 +22,10 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 	private boolean running=false;
 	static final Logger logger = LogManager.getLogger(PricesCheckerTimer.class.getName());
 
+	@Override
+    public String description() {
+    	return "AutoCheck prices for cards";
+    }
 	
 	public PricesCheckerTimer() {
 		

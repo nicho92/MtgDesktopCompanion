@@ -23,6 +23,12 @@ public class ConsoleServer extends AbstractMTGServer{
 
     IoAcceptor acceptor = new NioSocketAcceptor();
     
+    @Override
+    public String description() {
+    	return "use mtg desktop companion via telnet connection";
+    }
+    
+    
  	public static void main(String[] args) throws Exception {
 		 
 		MTGControler.getInstance().getEnabledProviders().init();

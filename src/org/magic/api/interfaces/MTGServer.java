@@ -9,6 +9,7 @@ public interface MTGServer {
 	public void stop() throws Exception;
 	public boolean isAlive();
 	public boolean isAutostart();
+	public String description();
 	
 	public Properties getProperties();
 	public void setProperties(String k,Object value);
