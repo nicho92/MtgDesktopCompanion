@@ -1,4 +1,4 @@
-package org.magic.gui;
+package org.magic.gui.components.dialog;
 
 import java.io.IOException;
 import java.util.Properties;

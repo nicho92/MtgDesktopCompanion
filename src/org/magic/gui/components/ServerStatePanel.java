@@ -42,6 +42,7 @@ public class ServerStatePanel extends JPanel {
 		
 		
 		JLabel lblName = new JLabel(server.getName());
+		lblName.setToolTipText(server.description());
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblName = new GridBagConstraints();
 		gbc_lblName.anchor = GridBagConstraints.WEST;

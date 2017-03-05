@@ -32,6 +32,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.dialog.ThreadMonitorFrame;
+import org.magic.gui.components.dialog.TipsOfTheDayDialog;
 import org.magic.gui.game.components.GamePanelGUI;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
