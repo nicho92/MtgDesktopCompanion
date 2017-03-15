@@ -48,6 +48,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 			props.put("QUALITY", "GD");
 			props.put("DEFAULT_QTE", "1");
 			props.put("LANGUAGES", "1,2");
+			props.put("MAX_WANTLIST_SIZE", "150");
 			save();
 		}
 	}
@@ -317,7 +318,6 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		// prettyPrint(d);
 	}
 
-
 	private Product getProductById(String id) throws Exception
 	{
 		String url="https://www.mkmapi.eu/ws/v1.1/product/"+id;
@@ -407,7 +407,27 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 				wants.add(w);
 			}
 		}
-		addWant(l,wants);
+		
+		int max = Integer.parseInt(props.getProperty("MAX_WANTLIST_SIZE"));
+		if(wants.size()<=max)
+		{
+			addWant(l,wants);	
+		}
+		else //si max , alors on découpe par tranche
+		{
+			int count = max; 
+			addWant(l,wants.subList(0, count));
+			/*
+			while(count>0)
+			{
+				
+				wants=wants.subList(0, count);
+				
+				count=count-wants.size();
+			}*/
+			
+			
+		}
 	}
 
 	@Override
