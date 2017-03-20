@@ -129,12 +129,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		InputStreamReader fr = new InputStreamReader( getStreamFromUrl(new URL(urlVersion)),"ISO-8859-1");
   	  	BufferedReader br = new BufferedReader(fr);
   	  	version =  br.readLine();
-  	  	
-  	  
-  	  	
+ 
   	  	br.close();
   	  	if(!version.equals(temp))
+  	  	{
+  	  		logger.info("new version datafile exist ("+temp+"). Downloading it");
   	  		return true;
+  	  	}
   	 
   	  	logger.info("check new version of " + this + ": up to date ("+version+")");
   	  	return false;
@@ -190,7 +191,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			
 			if(hasNewVersion())
 			{
-				logger.info("new version datafile exist. Downloading it");
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlSetJsonZip)), fileSetJsonTemp);
 				unZipIt(fileSetJsonTemp);
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlVersion)), fversion);
