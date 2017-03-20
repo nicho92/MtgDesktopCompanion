@@ -133,7 +133,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
   	  	br.close();
   	  	if(!version.equals(temp))
   	  	{
-  	  		logger.info("new version datafile exist ("+temp+"). Downloading it");
+  	  		logger.info("new version datafile exist ("+version+"). Downloading it");
   	  		return true;
   	  	}
   	 
