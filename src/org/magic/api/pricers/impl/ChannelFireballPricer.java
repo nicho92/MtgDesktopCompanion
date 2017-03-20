@@ -73,6 +73,10 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 			
 		ArrayList<MagicPrice> list = new ArrayList<MagicPrice>();
 							list.add(mp);
+							
+							
+		logger.info(getName() +" found " + list.size() +" item(s)" );
+							
 		return list;
 	}
 

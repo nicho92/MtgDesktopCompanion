@@ -64,6 +64,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		case "ALA" : return "soa";
 		case "TMP" : return "tem";
 		case "CN2" : return "2cn";
+		case "MM3" : return "mmc";
 		default : return me.getId();
 		}
 		

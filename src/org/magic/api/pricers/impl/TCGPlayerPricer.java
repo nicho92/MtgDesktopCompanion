@@ -52,13 +52,18 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		else
 			set = URLEncoder.encode(me.getSet(),props.getProperty("ENCODING"));
 		
-				
+		if(set.contains("Edition"))
+			set =set.replaceAll("Edition", "");
 		
 		
 		String name = card.getName();
 			   name = name.replaceAll(" \\(.*$", "");
 			   name = name.replaceAll("'", "%27");
 			   name = name.replaceAll(" ", "+");
+		
+			   
+			   
+			   
 			   
 			   props.put("KEYWORD", "s="+set+"p="+name);
 			   
@@ -104,7 +109,9 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 					 if(Integer.parseInt(props.get("MAX").toString())>-1)
 						 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
 			   	
-			   	
+				 logger.info(getName() +" found " + list.size() +" item(s)" );
+					
+			    
 		return list;
 
 	}
