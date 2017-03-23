@@ -82,7 +82,8 @@ public class ServerStatePanel extends JPanel {
             	lblalive.setIcon(icons.get(server.isAlive()));
             }
 		};
-		Timer timer = new Timer();
+		Timer timer = new Timer("Timer-"+server.getName());
+		
 		timer.scheduleAtFixedRate(tache,0,1000);
 
 		

@@ -137,7 +137,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
   	  		return true;
   	  	}
   	 
-  	  	logger.info("check new version of " + this + ": up to date ("+version+")");
+  	  	logger.info("check new version of " + this + ": up to date");
   	  	return false;
 		}
 		catch(Exception e)
@@ -146,6 +146,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			logger.error("Error getting last version " +e);
 			return false;
 		}
+		
+		
 	}
 	
 	public void init()
