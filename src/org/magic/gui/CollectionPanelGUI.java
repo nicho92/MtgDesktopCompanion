@@ -485,6 +485,7 @@ public class CollectionPanelGUI extends JPanel {
 
 							}catch(Exception e)
 							{
+								//e.printStackTrace();
 								logger.error(e);
 
 							}
@@ -840,7 +841,7 @@ public class CollectionPanelGUI extends JPanel {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 
-					final String collec = ((JMenuItem) e.getSource()).getText();
+					final String destinationCollection = ((JMenuItem) e.getSource()).getText();
 					ThreadManager.getInstance().execute(new Runnable() {
 
 						@Override
@@ -850,13 +851,16 @@ public class CollectionPanelGUI extends JPanel {
 								MagicEdition me = (MagicEdition) node.getUserObject();
 
 								MagicCollection mc = new MagicCollection();
-								mc.setName(collec);
+								mc.setName(destinationCollection);
 								List<MagicCard> sets = provider.searchCardByCriteria("set", me.getId(),null);
-								for (int i = 0; i < node.getChildCount(); i++) {
-									MagicCard c = (MagicCard) ((DefaultMutableTreeNode) node.getChildAt(i)).getUserObject();
-									sets.remove(c);
-								}
-
+								
+								MagicCollection sourceCol = new MagicCollection();
+								sourceCol.setName(node.getPath()[1].toString());
+								
+								
+								List<MagicCard> list = dao.getCardsFromCollection(sourceCol, me);
+								sets.removeAll(list);
+						
 								for (MagicCard m : sets)
 									dao.saveCard(m, mc);
 
