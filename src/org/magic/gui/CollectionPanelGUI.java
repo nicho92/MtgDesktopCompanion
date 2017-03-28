@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -305,7 +307,7 @@ public class CollectionPanelGUI extends JPanel {
 	
 		modelPrices = new CardsPriceTableModel();
 				
-		JSplitPane splitPane = new JSplitPane();
+		final JSplitPane splitPane = new JSplitPane();
 		panneauDroite.add(splitPane, BorderLayout.CENTER);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
@@ -391,7 +393,7 @@ public class CollectionPanelGUI extends JPanel {
 						tableEditions.setRowHeight(25);
 						
 						tableEditions.setRowSorter(sorterEditions);
-						tableEditions.packAll();
+						//tableEditions.packAll();
 						
 						
 						scrollPane.setViewportView(tableEditions);
@@ -401,6 +403,15 @@ public class CollectionPanelGUI extends JPanel {
 						
 						
 						panelTotal.add(lblTotal);
+						
+						splitPane.addComponentListener(new ComponentAdapter() {
+
+						      @Override
+						      public void componentShown(ComponentEvent componentEvent) {
+						        splitPane.setDividerLocation(.5);
+						        removeComponentListener(this);
+						      }
+						    });
 
 
 		tablePrices.addMouseListener(new MouseAdapter() {

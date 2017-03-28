@@ -1,5 +1,6 @@
 package org.magic.api.providers.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -18,6 +19,8 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.services.MTGControler;
+import org.magic.tools.InstallCert;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -37,10 +40,20 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		gson = new Gson();
 		list = new ArrayList<MagicEdition>();
 		init();
+		
 	}
 	
 	public void init() {
-		
+		try {
+    		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
+    			InstallCert.install("api.deckbrew.com", MTGControler.KEYSTORE_NAME, MTGControler.KEYSTORE_PASS);
+    	    
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
+    		
+		} catch (Exception e1) {
+			
+			logger.error(e1);
+		}
 	}
 	
 	

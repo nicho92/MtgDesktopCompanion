@@ -43,6 +43,7 @@ public class InstallCert {
         String host;
         int port;
     	
+        
         File  defaultF = new File(System.getProperty("java.home") + File.separatorChar+ "lib" + File.separatorChar + "security");
         char[] passphrase;
             String[] c = website.split(":");
