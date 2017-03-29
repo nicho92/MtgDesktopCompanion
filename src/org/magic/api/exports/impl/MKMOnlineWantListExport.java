@@ -18,6 +18,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.collections4.ListUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -385,8 +386,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws Exception {
-
-		WantList l= addWantList(deck.getName());
+	
 		List<Want> wants = new ArrayList<Want>();
 		for(MagicCard mc : deck.getMap().keySet())
 		{
@@ -411,21 +411,19 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		int max = Integer.parseInt(props.getProperty("MAX_WANTLIST_SIZE"));
 		if(wants.size()<=max)
 		{
+			WantList l= addWantList(deck.getName());
 			addWant(l,wants);	
 		}
 		else //si max , alors on découpe par tranche
 		{
-			int count = max; 
-			addWant(l,wants.subList(0, count));
-			/*
-			while(count>0)
-			{
-				
-				wants=wants.subList(0, count);
-				
-				count=count-wants.size();
-			}*/
 			
+			List<List<Want>> decoupes = ListUtils.partition(wants, max);
+			
+			for(int i=0;i<decoupes.size();i++)
+			{
+				WantList wl= addWantList(deck.getName()+"-"+(i+1));
+				addWant(wl, decoupes.get(i));
+			}
 			
 		}
 	}
