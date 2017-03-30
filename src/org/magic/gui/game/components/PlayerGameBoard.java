@@ -60,7 +60,15 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	private JLabel lblLibraryCount;
 	private static PlayerGameBoard instance;
 	private CockatriceTokenProvider tokenGenerator;
+	private JPanel panelInfo ;
 	
+	
+	
+	public JPanel getPanelInfo() {
+		return panelInfo;
+	}
+
+
 	public static PlayerGameBoard getInstance()
 	{
 		if (instance==null)
@@ -108,7 +116,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 		
 		tokenGenerator= new CockatriceTokenProvider();
 														
-														JPanel panelInfo = new JPanel();
+														panelInfo = new JPanel();
 														add(panelInfo, BorderLayout.WEST);
 														panelInfo.setLayout(new BorderLayout(0, 0));
 														

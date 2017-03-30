@@ -68,7 +68,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JTextField txtChat;
 	private CockatriceTokenProvider tokenGenerator;
 	private PlayerGameBoard playerGameBoard;
-	
+	private JPanel panelInfo;
 	
 	public static GamePanelGUI getInstance()
 	{
@@ -149,7 +149,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		splitPane.setRightComponent(panneauDroit);
 		panneauDroit.setLayout(new BorderLayout(0, 0));
 						
-						JPanel panelInfo = new JPanel();
+						panelInfo = new JPanel();
 						panneauDroit.add(panelInfo, BorderLayout.WEST);
 						panelInfo.setLayout(new BorderLayout(0, 0));
 						
@@ -476,7 +476,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 		GameManager.getInstance().addPlayer(p);
 		playerGameBoard = new PlayerGameBoard();
 		playerGameBoard.setPlayer(p);
+		playerGameBoard.getPanelInfo().setPreferredSize(new Dimension(panelInfo.getWidth(), panneauDroit.getHeight()/3));
 		panneauDroit.add(playerGameBoard, BorderLayout.NORTH);
+		
 	}
 	
 	public void removePlayer()
