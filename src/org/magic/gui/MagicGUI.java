@@ -52,7 +52,7 @@ public class MagicGUI extends JFrame {
 
  	private JTabbedPane  tabbedPane;
 	private VersionChecker serviceUpdate;
-	public static TrayIcon trayNotifier = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+	public static TrayIcon trayNotifier;
 
 	
 	public MagicGUI() {
@@ -101,6 +101,13 @@ public class MagicGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")));
 		getContentPane().setLayout(new BorderLayout());
+		
+		try{
+			 trayNotifier = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+		}
+		catch (Exception e) {
+			logger.error(e);
+		}
 		
 		menuBar = new JMenuBar();
 		setJMenuBar(menuBar);

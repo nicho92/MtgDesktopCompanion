@@ -412,6 +412,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		if(wants.size()<=max)
 		{
 			WantList l= addWantList(deck.getName());
+			logger.debug("Create " + l + " list with " + wants.size() + " items");
 			addWant(l,wants);	
 		}
 		else //si max , alors on découpe par tranche
@@ -422,6 +423,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 			for(int i=0;i<decoupes.size();i++)
 			{
 				WantList wl= addWantList(deck.getName()+"-"+(i+1));
+				logger.debug("Create " + wl + " list with " + decoupes.get(i).size() + " items");
 				addWant(wl, decoupes.get(i));
 			}
 			
