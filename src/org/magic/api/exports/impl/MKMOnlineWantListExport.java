@@ -250,7 +250,16 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 
 	public Product getProductByCard(MagicCard mc) throws Exception
 	{
-
+		
+		try{
+			if(mc.getEditions().get(0).getMkm_id()>0)
+				return getProductById(String.valueOf(mc.getEditions().get(0).getMkm_id()));
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+		}
+		
 		String KEYWORD=URLEncoder.encode(mc.getName(),"UTF-8");
 		String url ="https://www.mkmapi.eu/ws/v1.1/products/"+KEYWORD+"/1/1/true";
 		connection = (HttpURLConnection) new URL(url).openConnection();
@@ -361,7 +370,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 
 		for(Want w : getWants(list))
 		{
-			System.out.println(w);
+			
 			d.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", w.getProduct().getName(), null).get(0), w.getQte());
 		}
 
