@@ -261,9 +261,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		}
 	}
 	
-
-	
-	
 	private void initConcordance() {
 		mapConcordance = new HashMap<String,String>();
 		

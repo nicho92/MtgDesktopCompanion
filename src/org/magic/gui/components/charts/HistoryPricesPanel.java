@@ -23,6 +23,10 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
+import javax.swing.JButton;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
 
 public class HistoryPricesPanel extends JPanel{
 	
@@ -35,6 +39,12 @@ public class HistoryPricesPanel extends JPanel{
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.EAST);
 		pane = new ChartPanel(null);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{91, 0};
+		gbl_panel.rowHeights = new int[]{23, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
 		chckbxShowEditions = new JCheckBox("Show Editions");
 		chckbxShowEditions.setSelected(showEdition);
 		chckbxShowEditions.addActionListener(new ActionListener() {
@@ -43,7 +53,12 @@ public class HistoryPricesPanel extends JPanel{
 				refresh();
 			}
 		});
-		panel.add(chckbxShowEditions);
+		GridBagConstraints gbc_chckbxShowEditions = new GridBagConstraints();
+		gbc_chckbxShowEditions.anchor = GridBagConstraints.NORTHWEST;
+		gbc_chckbxShowEditions.insets = new Insets(0, 0, 5, 0);
+		gbc_chckbxShowEditions.gridx = 0;
+		gbc_chckbxShowEditions.gridy = 0;
+		panel.add(chckbxShowEditions, gbc_chckbxShowEditions);
 	}
 	
 	
