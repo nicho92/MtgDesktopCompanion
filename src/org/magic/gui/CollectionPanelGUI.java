@@ -308,11 +308,12 @@ public class CollectionPanelGUI extends JPanel {
 		modelPrices = new CardsPriceTableModel();
 				
 		final JSplitPane splitPane = new JSplitPane();
+		splitPane.setMinimumSize(new Dimension(0, 0));
 		panneauDroite.add(splitPane, BorderLayout.CENTER);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
 		JScrollPane scrollPaneCollections = new JScrollPane();
-		scrollPaneCollections.setMinimumSize(new Dimension(23, 250));
+		scrollPaneCollections.setMinimumSize(new Dimension(0, 0));
 		splitPane.setLeftComponent(scrollPaneCollections);
 
 		tree = new LazyLoadingTree();
@@ -331,6 +332,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 		
 		magicCardDetailPanel = new MagicCardDetailPanel();
+		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
 		tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
 
@@ -365,7 +367,6 @@ public class CollectionPanelGUI extends JPanel {
 		
 				JScrollPane scrollPane = new JScrollPane();
 				panneauGauche.add(scrollPane);
-				scrollPane.setMinimumSize(new Dimension(270, 23));
 				
 						tableEditions = new JXTable();
 						filter = new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
@@ -393,7 +394,8 @@ public class CollectionPanelGUI extends JPanel {
 						tableEditions.setRowHeight(25);
 						
 						tableEditions.setRowSorter(sorterEditions);
-						//tableEditions.packAll();
+						tableEditions.packAll();
+						
 						
 						
 						scrollPane.setViewportView(tableEditions);
