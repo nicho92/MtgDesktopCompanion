@@ -298,6 +298,10 @@ public class CollectionPanelGUI extends JPanel {
 		
 		
 		JSplitPane splitListPanel = new JSplitPane();
+		splitListPanel.setDividerLocation(0.5);
+		splitListPanel.setResizeWeight(0.5);
+		
+		
 		add(splitListPanel, BorderLayout.CENTER);
 
 		JPanel panneauDroite = new JPanel();
@@ -308,7 +312,7 @@ public class CollectionPanelGUI extends JPanel {
 		modelPrices = new CardsPriceTableModel();
 				
 		final JSplitPane splitPane = new JSplitPane();
-		splitPane.setMinimumSize(new Dimension(0, 0));
+		splitPane.setResizeWeight(0.5);
 		panneauDroite.add(splitPane, BorderLayout.CENTER);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 
