@@ -45,8 +45,8 @@ public class MagicCard implements Serializable {
 		private String gathererCode;
 		private String mciNumber;
 		
-		private boolean flippable;
-		private boolean tranformable;
+		private boolean flippable=false;
+		private boolean tranformable=false;
 		
 		
 		
