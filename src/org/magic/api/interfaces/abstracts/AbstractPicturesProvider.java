@@ -20,7 +20,6 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 	protected File confdir = new File(MTGControler.CONF_DIR, "pictures");
 	private boolean enable=true;
 	protected Properties props;
-	protected BufferedImage DEFAULT_BACK ; 
 	
 	
 	@Override
@@ -29,12 +28,6 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 	}
 	
 	public AbstractPicturesProvider() {
-		
-		try {
-			DEFAULT_BACK = ImageIO.read(AbstractPicturesProvider.class.getResource("/res/back.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-		} 
 		
 		props=new Properties();
 		if(!confdir.exists())

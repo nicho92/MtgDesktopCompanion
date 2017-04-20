@@ -76,7 +76,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 			}
 			catch(Exception e)
 			{
-				return DEFAULT_BACK;
+				return null;
 			}
 	}
 	
