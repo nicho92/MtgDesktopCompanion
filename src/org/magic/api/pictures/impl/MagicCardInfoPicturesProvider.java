@@ -103,8 +103,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getBackPicture() throws Exception {
-		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card");
-		return ImageIO.read(url);
+		return DEFAULT_BACK;
 	}
 
 	@Override

@@ -1,12 +1,17 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.Observable;
 import java.util.Properties;
 
+import javax.imageio.ImageIO;
+
 import org.magic.api.interfaces.PictureProvider;
+import org.magic.gui.MagicGUI;
 import org.magic.services.MTGControler;
 
 public abstract class AbstractPicturesProvider extends Observable implements PictureProvider {
@@ -15,7 +20,7 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 	protected File confdir = new File(MTGControler.CONF_DIR, "pictures");
 	private boolean enable=true;
 	protected Properties props;
-
+	protected BufferedImage DEFAULT_BACK ; 
 	
 	
 	@Override
@@ -24,6 +29,13 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 	}
 	
 	public AbstractPicturesProvider() {
+		
+		try {
+			DEFAULT_BACK = ImageIO.read(AbstractPicturesProvider.class.getResource("/res/back.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		} 
+		
 		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
