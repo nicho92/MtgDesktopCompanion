@@ -668,7 +668,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		 			   me.setMultiverse_id(String.valueOf((int)(double)map.get("multiverseid")));
 				}catch(Exception e)
 				{
-					logger.debug("multiverseNotFound " + e);
+					logger.debug("multiverseNotFound for " + me);
 					me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
 				}
 			}

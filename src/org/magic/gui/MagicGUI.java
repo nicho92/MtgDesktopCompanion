@@ -46,7 +46,6 @@ public class MagicGUI extends JFrame {
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenu mnuAbout;
-	private JMenu mnuLang;
 	private JMenu jmnuLook;
 	private JMenuItem mntmExit;
 
@@ -114,7 +113,6 @@ public class MagicGUI extends JFrame {
 
 		
 		mnFile = new JMenu("File");
-		mnuLang= new JMenu("Langage");
 		mnuAbout = new JMenu("?");
 		jmnuLook = new JMenu("Look");
 			
@@ -129,7 +127,6 @@ public class MagicGUI extends JFrame {
 		menuBar.add(mnFile);
 		mnFile.add(mntmExit);
 		menuBar.add(jmnuLook);
-		menuBar.add(mnuLang);
 		menuBar.add(mnuAbout);
 		mnuAbout.add(mntmThreadItem);
 		mnuAbout.add(mntmHelp);
@@ -227,19 +224,6 @@ public class MagicGUI extends JFrame {
 			});
 			jmnuLook.add(it);
 		}
-		
-		//INIT AVAILABLE LANGAGES
-		for(String l : MTGControler.getInstance().getEnabledProviders().getLanguages())
-		{
-			final JMenuItem it = new JMenuItem(l);
-			it.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					MTGControler.getInstance().setProperty("langage", it.getText());
-				}
-			});
-			mnuLang.add(it);
-		}
-		
 	
 		tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
 		tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/res/search.gif")), new CardSearchPanel(), null);
