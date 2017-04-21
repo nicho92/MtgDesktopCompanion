@@ -64,6 +64,7 @@ public class MassMoverDialog extends JDialog {
 						try {
 							dao.removeCard(mc, toSaveCol);
 							dao.saveCard(mc, (MagicCollection)cboCollections.getSelectedItem() );
+							logger.info("moving " + mc +" to "  + cboCollections.getSelectedItem() );
 							change=true;
 						} 
 						catch (SQLException e1) 
