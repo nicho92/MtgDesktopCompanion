@@ -33,7 +33,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 	public Apprentice2DeckExport() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("VERSION", "1.0");
+			props.put("VERSION", "2.0");
 			save();
 		}
 	}
@@ -78,6 +78,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 		while(line!=null)
 		{
 			String[] elements = line.split(",");
+			
 			MagicEdition ed = new MagicEdition();
 			ed.setId(elements[3]);
 			
@@ -89,10 +90,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 				deck.getMap().put(mc, qte);
 			else
 				deck.getMapSideBoard().put(mc, qte);
-			
-			
 			line=read.readLine();
-			
 		}
 		
 		read.close();

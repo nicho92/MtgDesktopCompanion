@@ -4,12 +4,21 @@ import java.awt.Color;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JMenuItem;
+import javax.swing.JPopupMenu;
+
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.PositionEnum;
+import org.magic.gui.game.actions.battlefield.UntapAllAction;
+import org.magic.gui.game.actions.cards.TapActions;
+import org.magic.gui.game.actions.cards.TransferActions;
 
 public class BattleFieldPanel extends DraggablePanel  {
 
 	private List<DisplayableCard> stack;
+	JPopupMenu menu = new JPopupMenu();
+	
+	
 	
 	public List<DisplayableCard> getCards()
 	{
@@ -25,6 +34,9 @@ public class BattleFieldPanel extends DraggablePanel  {
 		setLayout(null);
 		stack=new ArrayList<DisplayableCard>();
 		
+		menu.removeAll();
+		menu.add(new JMenuItem(new UntapAllAction(this)));
+		setComponentPopupMenu(menu);
 	}
 	
 	
