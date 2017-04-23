@@ -143,6 +143,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			cardName=cardName.replaceAll("\\*.+?\\*", "").trim();
 			
 			
+			
 			//ged ed if present
 			String idSet = null;
 			Matcher m = Pattern.compile("\\(([^)]+)\\)").matcher(cardName);
@@ -154,10 +155,11 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		    
 		    //remove behavior if present
 		    if (cardName.contains("#"))
-		    {
 		    	cardName=cardName.substring(0,cardName.indexOf("#")).trim();
-		    }
-		    
+
+		    if(cardName.contains("//"))
+				cardName=cardName.substring(0, cardName.indexOf("//")).trim();
+		
 		    
 		    
 		    List<MagicCard> ret ;

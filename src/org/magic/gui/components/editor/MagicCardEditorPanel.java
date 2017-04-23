@@ -372,7 +372,7 @@ public class MagicCardEditorPanel extends JPanel {
 						add(layoutLabel, labelGbc_6);
 				
 						layoutJComboBox = new JComboBox();
-						layoutJComboBox.setModel(new DefaultComboBoxModel<>(new String[]{"normal", "split", "flip", "double-faced", "token", "plane", "scheme", "phenomenon", "leveler", "vanguard", "meld","token"}));
+						layoutJComboBox.setModel(new DefaultComboBoxModel<>(new String[]{"normal", "split", "flip", "double-faced", "token", "plane", "scheme", "phenomenon", "leveler", "vanguard", "meld","token","aftermath"}));
 						
 						GridBagConstraints componentGbc_6 = new GridBagConstraints();
 						componentGbc_6.insets = new Insets(5, 0, 5, 5);
