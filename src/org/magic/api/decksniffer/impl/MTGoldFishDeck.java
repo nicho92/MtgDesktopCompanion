@@ -11,6 +11,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
@@ -67,7 +68,18 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				
 				int qte = Integer.parseInt(tr.select("td.deck-col-qty").text());
 				String cardName = tr.select("td.deck-col-card").text();
-				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+				MagicEdition ed = null;
+				if(cardName.trim().equalsIgnoreCase("Plains")||cardName.trim().equalsIgnoreCase("Island")||cardName.trim().equalsIgnoreCase("Swamp")||cardName.trim().equalsIgnoreCase("Mountain")||cardName.trim().equalsIgnoreCase("Forest"))
+				{
+					ed = new MagicEdition();
+					ed.setId(MTGControler.getInstance().get("default-land-deck"));
+				}
+				
+				if(cardName.contains("//"))
+						cardName=cardName.substring(0, cardName.indexOf("//")).trim();
+				
+				
+				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed).get(0);
 				if(!sideboard)
 				{
 					deck.getMap().put(mc, qte);

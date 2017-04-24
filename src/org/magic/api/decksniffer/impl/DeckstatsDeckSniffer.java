@@ -110,6 +110,8 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				MagicCard mc = null;
 				if(set==null)
 				{
+					//todo default land deck 
+					
 					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
 				}
 				else
