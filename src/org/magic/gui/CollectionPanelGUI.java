@@ -106,7 +106,10 @@ public class CollectionPanelGUI extends JPanel {
 	private CardStockPanel statsPanel;
 	private JLabel lblTotal ;
 	private JSONPanel jsonPanel;
+	private JPopupMenu popupMenuEdition = new JPopupMenu();
+	private JPopupMenu popupMenuCards = new JPopupMenu();
 	
+
 	public CollectionPanelGUI() throws Exception {
 		this.provider = MTGControler.getInstance().getEnabledProviders();
 		this.dao = MTGControler.getInstance().getEnabledDAO();
@@ -122,7 +125,6 @@ public class CollectionPanelGUI extends JPanel {
 		model = new MagicEditionsTableModel();
 		model.init(provider.loadEditions());
 		lblTotal = new JLabel();
-		
 		lblTotal.setText("Total : " + model.getCountDefaultLibrary() +"/" + model.getCountTotal());
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
@@ -130,6 +132,31 @@ public class CollectionPanelGUI extends JPanel {
 		
 		JButton btnAdd = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/new.png")));
 		btnAdd.setToolTipText("Add a new collection");
+
+		
+		panneauHaut.add(btnAdd);
+		
+		JButton btnRefresh = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/refresh.png")));
+		btnRefresh.setToolTipText("Refresh collections");
+
+		panneauHaut.add(btnRefresh);
+
+		JButton btnRemove = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/delete.png")));
+		btnRemove.setToolTipText("remove selected item");
+		btnRemove.setEnabled(true);
+
+		panneauHaut.add(btnRemove);
+
+		JButton btnAddAllSet = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/check.png")));
+		btnAddAllSet.setToolTipText("Mark set as full");
+
+		panneauHaut.add(btnAddAllSet);
+
+		final JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/export.png")));
+						btnExportCSV.setToolTipText("Export as ");
+						
+		btnExportCSV.setEnabled(false);
+		
 
 		btnAdd.addActionListener(new ActionListener() {
 			
@@ -151,11 +178,6 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 		
-		panneauHaut.add(btnAdd);
-		
-		JButton btnRefresh = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/refresh.png")));
-		btnRefresh.setToolTipText("Refresh collections");
-
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 
@@ -178,23 +200,7 @@ public class CollectionPanelGUI extends JPanel {
 				
 			}
 		});
-		panneauHaut.add(btnRefresh);
-
-		JButton btnRemove = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/delete.png")));
-		btnRemove.setToolTipText("remove selected item");
-		btnRemove.setEnabled(true);
-
-		panneauHaut.add(btnRemove);
-
-		JButton btnAddAllSet = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/check.png")));
-		btnAddAllSet.setToolTipText("Mark set as full");
-
-		panneauHaut.add(btnAddAllSet);
-
-		final JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/export.png")));
-						btnExportCSV.setToolTipText("Export as ");
-						
-		btnExportCSV.setEnabled(false);
+		
 		btnExportCSV.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();
@@ -645,7 +651,7 @@ public class CollectionPanelGUI extends JPanel {
 								progressBar.setVisible(false);
 							}
 						} catch (Exception e) {
-							e.printStackTrace();
+							logger.error(e);
 						}
 
 					}
@@ -710,7 +716,7 @@ public class CollectionPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
 
-				int res = JOptionPane.showConfirmDialog(null, "Are you sure you adding " + ed + " to "+MTGControler.getInstance().get("default-library")+" ?");
+				int res = JOptionPane.showConfirmDialog(null, "Are you sure adding " + ed + " to "+MTGControler.getInstance().get("default-library")+" ?");
 
 				if (res == JOptionPane.YES_OPTION)
 					try {
@@ -724,6 +730,7 @@ public class CollectionPanelGUI extends JPanel {
 						model.calculate();
 						model.fireTableDataChanged();
 					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
 						logger.error(e);
 					}
 			}
@@ -741,7 +748,7 @@ public class CollectionPanelGUI extends JPanel {
 
 					try {
 						res = JOptionPane.showConfirmDialog(null,
-								"Are you sure you wan't delete " + card + " from " + col + "?");
+								"Are you sure you wan't to delete " + card + " from " + col + "?");
 						if (res == JOptionPane.YES_OPTION) {
 							dao.removeCard(card, col);
 							curr.removeFromParent();
@@ -807,10 +814,6 @@ public class CollectionPanelGUI extends JPanel {
 		},"addTreeSelectionListener init graph cards");
 		
 	}
-
-	private JPopupMenu popupMenuEdition = new JPopupMenu();
-	private JPopupMenu popupMenuCards = new JPopupMenu();
-	
 	
 	public void initPopupCollection() throws Exception {
 		
@@ -889,24 +892,24 @@ public class CollectionPanelGUI extends JPanel {
 				}
 			});
 			
-			/*
-			JMenuItem it = new JMenuItem("Mass movement");
-			it.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
-					MassMoverDialog d = new MassMoverDialog(col,(MagicEdition)node.getUserObject());
-					d.setVisible(true);
-					logger.debug("closing mass import with change =" + d.hasChange());
-				}
-			});
-			popupMenuEdition.add(it);
-			*/
-			
-			
 			menuItemAdd.add(adds);
 			menuItemMove.add(movs);
 		}
 
+		
+		JMenuItem it = new JMenuItem("Mass movement");
+		it.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+				MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
+				MassMoverDialog d = new MassMoverDialog(col,edition);
+				d.setVisible(true);
+				logger.debug("closing mass import with change =" + d.hasChange());
+			}
+		});
+		popupMenuEdition.add(it);
+		
+		
 		popupMenuEdition.add(menuItemAdd);
 		popupMenuCards.add(menuItemMove);
 	}
@@ -915,14 +918,4 @@ public class CollectionPanelGUI extends JPanel {
 		return tree;
 	}
 
-	
-	public static void main(String[] args) throws Exception {
-		MTGControler.getInstance().getEnabledDAO().init();
-		JFrame f = new JFrame();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().add(new CollectionPanelGUI());
-		f.pack();
-		f.setVisible(true);
-	}
-	
 }

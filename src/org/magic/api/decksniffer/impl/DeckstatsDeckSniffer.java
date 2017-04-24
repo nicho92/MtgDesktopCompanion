@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -21,7 +23,8 @@ import org.magic.services.MTGControler;
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	Map<Integer,String> cacheColor;
-	
+	   static final Logger logger = LogManager.getLogger(DeckstatsDeckSniffer.class.getName());
+	   
 	public DeckstatsDeckSniffer() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
@@ -82,6 +85,8 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		// 
 		
 		MagicDeck deck = new MagicDeck();
+		
+		logger.debug("get deck " + info.getUrl());
 		Document d = Jsoup.connect(info.getUrl().toString())
     		 	.userAgent(props.getProperty("USER_AGENT"))
     		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
