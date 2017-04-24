@@ -17,8 +17,9 @@ Features :
 > Generate a website of your collections with your own template.
 > get dashboard of cards prices variation
 > lookup for cards in auction websites
-> import / export in multiple format
+> import / export decks and list cards in multiple format (mtgo,dci sheet, csv, cockatrice,..) 
 > get alerted for wanted cards !
+> import your deck from website (tappedout, deckstat,mtggoldfish,...)
 
 > Modularity : 
 - manage your prices provider
@@ -42,6 +43,8 @@ Get realtime prices on seller websites :
 Deck Manager :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager.png)
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager2.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/deckManager2.png)
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_deck.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/import_deck.png)
+
 
 Collection Manager :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png)
@@ -62,7 +65,6 @@ Be alerted for your wanted cards :
 
 Manage your stock :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png)
-
 
 Try your deck in game simulator :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png)
