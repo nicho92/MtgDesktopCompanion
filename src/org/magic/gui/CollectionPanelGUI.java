@@ -589,7 +589,7 @@ public class CollectionPanelGUI extends JPanel {
 
 						it.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								MassMoverDialog d = new MassMoverDialog((MagicCollection)node.getUserObject());
+								MassMoverDialog d = new MassMoverDialog((MagicCollection)node.getUserObject(),null);
 								d.setVisible(true);
 								logger.debug("closing mass import with change =" + d.hasChange());
 								/*if(d.hasChange())
@@ -817,8 +817,6 @@ public class CollectionPanelGUI extends JPanel {
 		popupMenuEdition = new JPopupMenu();
 		popupMenuCards = new JPopupMenu();
 	
-		
-		
 		JMenu menuItemAdd = new JMenu("Add missing cards in ");
 		JMenu menuItemMove = new JMenu("Move this card to ");
 		
@@ -851,7 +849,6 @@ public class CollectionPanelGUI extends JPanel {
 					}
 				}
 			});
-			
 			
 			adds.addActionListener(new ActionListener() {
 
@@ -891,6 +888,20 @@ public class CollectionPanelGUI extends JPanel {
 
 				}
 			});
+			
+			/*
+			JMenuItem it = new JMenuItem("Mass movement");
+			it.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+					MassMoverDialog d = new MassMoverDialog(col,(MagicEdition)node.getUserObject());
+					d.setVisible(true);
+					logger.debug("closing mass import with change =" + d.hasChange());
+				}
+			});
+			popupMenuEdition.add(it);
+			*/
+			
 			
 			menuItemAdd.add(adds);
 			menuItemMove.add(movs);
