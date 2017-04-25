@@ -7,7 +7,7 @@ import java.util.List;
 import javax.swing.JFrame;
 
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
-import org.magic.gui.game.components.GamePanelGUI;
+import org.magic.game.gui.components.GamePanelGUI;
 
 public class GameManager {
 
