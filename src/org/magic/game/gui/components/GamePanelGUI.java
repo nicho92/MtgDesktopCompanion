@@ -53,7 +53,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private ThumbnailPanel handPanel;
 	private BattleFieldPanel panelBattleField;
 	private ManaPoolPanel manaPoolPanel ;
-	private JPanel panneauGauche;
 	private JPanel panneauDroit;
 	private JList<String> listActions;
 	private JLabel lblPlayer;
@@ -119,34 +118,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 		
 		setLayout(new BorderLayout(0, 0));
 		
-		panneauGauche = new JPanel();
 		panneauDroit = new JPanel();
 		
 		tokenGenerator= new CockatriceTokenProvider();
 		
-		JSplitPane splitPane = new JSplitPane();
-		add(splitPane, BorderLayout.CENTER);
-		
-		splitPane.setLeftComponent(panneauGauche);
-		panneauGauche.setLayout(new BorderLayout(0, 0));
-		
-		JScrollPane scrollActions = new JScrollPane();
-		panneauGauche.add(scrollActions);
-		
-		scrollActions.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-	        public void adjustmentValueChanged(AdjustmentEvent e) {  
-	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-	        }
-	    });
-		
-		listActions = new JList<String>();
-		listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		listActions.setValueIsAdjusting(true);
-		listActions.setModel(new DefaultListModel<String>());
-		scrollActions.setViewportView(listActions);
-		
-		
-		splitPane.setRightComponent(panneauDroit);
+		add(panneauDroit, BorderLayout.CENTER);
 		panneauDroit.setLayout(new BorderLayout(0, 0));
 						
 						panelInfo = new JPanel();
@@ -347,6 +323,21 @@ public class GamePanelGUI extends JPanel implements Observer {
 								
 								JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 								panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
+								
+								JScrollPane scrollActions = new JScrollPane();
+								tabbedPane.addTab("Events", null, scrollActions, null);
+								
+								scrollActions.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+	        public void adjustmentValueChanged(AdjustmentEvent e) {  
+	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+	        }
+	    });
+								
+								listActions = new JList<String>();
+								listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+								listActions.setValueIsAdjusting(true);
+								listActions.setModel(new DefaultListModel<String>());
+								scrollActions.setViewportView(listActions);
 								
 								JPanel pane = new JPanel();
 								pane.setLayout(new BorderLayout());
