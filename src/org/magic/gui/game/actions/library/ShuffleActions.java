@@ -13,7 +13,7 @@ public class ShuffleActions extends AbstractAction {
 	public ShuffleActions() {
 		putValue(NAME,"Shuffle library");
 		putValue(SHORT_DESCRIPTION,"Shuffle the Library");
-		 putValue(MNEMONIC_KEY, KeyEvent.VK_F);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_F);
 	}
 
 	@Override

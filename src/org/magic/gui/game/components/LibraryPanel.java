@@ -9,6 +9,7 @@ import javax.swing.JMenuItem;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.PositionEnum;
+import org.magic.gui.game.actions.library.MoveGraveyardActions;
 import org.magic.gui.game.actions.library.ScryActions;
 import org.magic.gui.game.actions.library.SearchActions;
 import org.magic.gui.game.actions.library.ShuffleActions;
@@ -24,7 +25,7 @@ public class LibraryPanel extends DraggablePanel {
 		menu.add(new JMenuItem(new SearchActions()));
 		menu.add(new JMenuItem(new ScryActions()));
 		menu.add(new JMenuItem(new ShuffleActions()));
-		
+		menu.add(new JMenuItem(new MoveGraveyardActions()));
 		
 		try {
 			i=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(179, 240, BufferedImage.SCALE_SMOOTH);
@@ -51,7 +52,7 @@ public class LibraryPanel extends DraggablePanel {
 			case EXIL:player.exileCardFromLibrary(mc);break;
 			case HAND:player.searchCardFromLibrary(mc);break;
 			case LIBRARY:player.reoderCardInLibrary(mc, true);
-			
+			case GRAVEYARD:player.discardCardFromLibrary(mc);
 		default:break;
 	}
 		

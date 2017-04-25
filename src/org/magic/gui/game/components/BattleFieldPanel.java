@@ -49,7 +49,6 @@ public class BattleFieldPanel extends DraggablePanel  {
 		setComponentPopupMenu(menu);
 	}
 	
-	
 	public void addComponent(DisplayableCard card)
 	{
 		stack.add(card);

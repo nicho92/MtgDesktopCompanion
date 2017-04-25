@@ -14,6 +14,12 @@ public class Library {
 		return cards;
 	}
 
+	public Library(List<MagicCard> cards)
+	{
+		this.cards=cards;
+	}
+	
+	
 	public Library() {
 		cards = new ArrayList<MagicCard>();
 	}

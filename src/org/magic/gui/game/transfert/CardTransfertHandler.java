@@ -135,7 +135,6 @@ public class CardTransfertHandler extends TransferHandler  {
 			target.revalidate();
 			target.repaint();
 			src.getParent().repaint();
-			
 			target.addComponent(src);
 			return true;
 		} catch (Exception ufe) {

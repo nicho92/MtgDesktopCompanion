@@ -26,7 +26,7 @@ public class Player extends Observable implements Serializable{
 	private MagicDeck deck;
 	private Graveyard graveyard;
 	private List<MagicCard> exil;
-	private List<MagicCard> library;
+	private Library library;
 	private List<MagicCard> hand;
 	private List<MagicCard> battlefield;
 	private Map<String,Integer> manaPool;
@@ -70,7 +70,7 @@ public class Player extends Observable implements Serializable{
 		graveyard=new Graveyard();
 		exil=new ArrayList<MagicCard>();
 		hand=new ArrayList<MagicCard>();
-		library=deck.getAsList();
+		library=new Library(deck.getAsList());
 		battlefield=new ArrayList<MagicCard>();
 		manaPool = new HashMap<String,Integer>();
 		local=Locale.getDefault();
@@ -229,7 +229,7 @@ public class Player extends Observable implements Serializable{
 	
 	public void shuffleLibrary()
 	{
-		Collections.shuffle(library);
+		library.shuffle();
 		logAction("Shuffle his library");
 
 	}
@@ -238,8 +238,8 @@ public class Player extends Observable implements Serializable{
 	{
 		for(int i=0;i<number;i++)
 		{ 
-			hand.add(library.get(i));
-			library.remove(i);
+			hand.add(library.getCards().get(i));
+			library.getCards().remove(i);
 		}
 		logAction("Draw " + number +" cards" );
 		
@@ -271,6 +271,23 @@ public class Player extends Observable implements Serializable{
 		
 	}
 
+	
+
+	public void discardCardFromLibrary(int parseInt) {
+		
+		for(int i=0;i<parseInt;i++)
+		{
+			MagicCard mc = library.getCards().get(i);
+			graveyard.add(mc);
+			library.getCards().remove(i);
+			
+		}
+		
+		logAction("Discard " + parseInt +" cards from library" );
+		
+	}
+	
+	
 
 	public void exileCardFromBattleField(MagicCard mc) {
 		battlefield.remove(mc);
@@ -326,7 +343,7 @@ public class Player extends Observable implements Serializable{
 	
 	public void mixGraveyardAndLibrary()
 	{
-		library.addAll(graveyard.getCards());
+		library.getCards().addAll(graveyard.getCards());
 		graveyard.clear();
 		logAction("Shuffle graveyard in library" );
 		
@@ -335,7 +352,7 @@ public class Player extends Observable implements Serializable{
 	
 	public void mixHandAndLibrary()
 	{
-		library.addAll(hand);
+		library.getCards().addAll(hand);
 		hand.clear();
 		logAction("Shuffle hand in library" );
 		
@@ -400,11 +417,11 @@ public class Player extends Observable implements Serializable{
 		this.hand = hand;
 	}
 
-	public List<MagicCard> getLibrary() {
+	public Library getLibrary() {
 		return library;
 	}
 
-	public void setLibrary(List<MagicCard> library) {
+	public void setLibrary(Library library) {
 		this.library = library;
 	}
 
@@ -480,8 +497,7 @@ public class Player extends Observable implements Serializable{
 		Player p2 = (Player)paramObject;
 		return getId()==p2.getId();
 	}
-	
-	
+
 	
 
 }
