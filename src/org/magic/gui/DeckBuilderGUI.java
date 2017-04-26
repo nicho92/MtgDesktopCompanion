@@ -232,28 +232,22 @@ public class DeckBuilderGUI extends JPanel{
 		});
 		
 		btnUpdate = new JButton("");
+		btnUpdate.setToolTipText("Update the deck");
 		btnUpdate.addActionListener(new ActionListener() {
+			
 			public void actionPerformed(ActionEvent arg0) {
-				
-				
 				ThreadManager.getInstance().execute(new Runnable() {
-					
-					@Override
 					public void run() {
-						
 						btnUpdate.setEnabled(false);
-						
 						for(MagicCard mc : deck.getMap().keySet())
 						{
 							try {
 								deck.getMap().put(MTGControler.getInstance().getEnabledProviders().getCardById(mc.getId()),deck.getMap().get(mc));
 							} catch (Exception e) {
-								// TODO Auto-generated catch block
 								e.printStackTrace();
 								btnUpdate.setEnabled(true);
 							}
 						}
-						
 						for(MagicCard mc : deck.getMapSideBoard().keySet())
 						{
 							try {
@@ -274,7 +268,7 @@ public class DeckBuilderGUI extends JPanel{
 			}
 		});
 		btnUpdate.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/refresh.png")));
-		btnUpdate.setToolTipText("Update the deck");
+		
 		panneauHaut.add(btnUpdate);
 		
 		JButton btnSave = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/res/save.png")));
