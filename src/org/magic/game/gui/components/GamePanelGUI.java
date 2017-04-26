@@ -69,6 +69,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private PlayerGameBoard playerGameBoard;
 	private JPanel panelInfo;
 	
+	public static int CARD_WIDTH=154;
+	public static int CARD_HEIGHT=215;
+	
 	public static GamePanelGUI getInstance()
 	{
 		if (instance==null)
@@ -129,22 +132,13 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panneauDroit.add(panelInfo, BorderLayout.WEST);
 						panelInfo.setLayout(new BorderLayout(0, 0));
 						
-						JPanel lifePanel = new JPanel();
-						lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
-						panelInfo.add(lifePanel, BorderLayout.NORTH);
-						lifePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-						
-						lblPlayer = new JLabel("");
-						lblPlayer.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/planeswalker.png")));
-						lifePanel.add(lblPlayer);
-						
 						JPanel panelActions = new JPanel();
 						panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
 						panelInfo.add(panelActions, BorderLayout.SOUTH);
 						GridBagLayout gbl_panelActions = new GridBagLayout();
 						gbl_panelActions.columnWidths = new int[]{86, 86, 86, 0};
 						gbl_panelActions.rowHeights = new int[]{23, 23, 23, 0, 0};
-						gbl_panelActions.columnWeights = new double[]{1.0, 0.0, 0.0, Double.MIN_VALUE};
+						gbl_panelActions.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
 						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 						panelActions.setLayout(gbl_panelActions);
 						
@@ -244,7 +238,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 						});
 						GridBagConstraints gbc_txtChat = new GridBagConstraints();
 						gbc_txtChat.gridheight = 2;
-						gbc_txtChat.insets = new Insets(0, 0, 5, 0);
 						gbc_txtChat.gridwidth = 3;
 						gbc_txtChat.fill = GridBagConstraints.BOTH;
 						gbc_txtChat.gridx = 0;
@@ -262,7 +255,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panelPoolandHandsLib.setLayout(new BorderLayout(0, 0));
 						
 						manaPoolPanel = new ManaPoolPanel();
-						panelPoolandHandsLib.add(manaPoolPanel);
+						manaPoolPanel.setMinimumSize(new Dimension(0, 0));
+						panelPoolandHandsLib.add(manaPoolPanel, BorderLayout.CENTER);
 						
 						JPanel panelHandLib = new JPanel();
 						panelPoolandHandsLib.add(panelHandLib, BorderLayout.EAST);
@@ -281,28 +275,53 @@ public class GamePanelGUI extends JPanel implements Observer {
 						lblLibraryCount.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/librarysize.png")));
 						panelHandLib.add(lblLibraryCount);
 						
-						JPanel panel = new JPanel();
-						panelPoolandHandsLib.add(panel, BorderLayout.WEST);
-						panel.setLayout(new GridLayout(2, 2, 0, 0));
+						JPanel lifePanel = new JPanel();
+						panelPoolandHandsLib.add(lifePanel, BorderLayout.WEST);
+						lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
+						GridBagLayout gbl_lifePanel = new GridBagLayout();
+						gbl_lifePanel.columnWidths = new int[]{60, 0};
+						gbl_lifePanel.rowHeights = new int[]{64, 0, 0};
+						gbl_lifePanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+						gbl_lifePanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+						lifePanel.setLayout(gbl_lifePanel);
 						
+						lblPlayer = new JLabel("");
+						lblPlayer.setVerticalAlignment(SwingConstants.BOTTOM);
+						lblPlayer.setVerticalTextPosition(SwingConstants.BOTTOM);
+						lblPlayer.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/planeswalker.png")));
+						GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
+						gbc_lblPlayer.anchor = GridBagConstraints.WEST;
+						gbc_lblPlayer.insets = new Insets(0, 0, 5, 0);
+						gbc_lblPlayer.gridx = 0;
+						gbc_lblPlayer.gridy = 0;
+						lifePanel.add(lblPlayer, gbc_lblPlayer);
 								
-								JLabel lblLife = new JLabel("");
-								panel.add(lblLife);
-								lblLife.setHorizontalAlignment(SwingConstants.CENTER);
-								lblLife.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/heart.png")));
+								JPanel panel = new JPanel();
+								GridBagConstraints gbc_panel = new GridBagConstraints();
+								gbc_panel.anchor = GridBagConstraints.NORTHWEST;
+								gbc_panel.gridx = 0;
+								gbc_panel.gridy = 1;
+								lifePanel.add(panel, gbc_panel);
+								panel.setLayout(new GridLayout(2, 2, 0, 0));
 								
-								spinLife = new JSpinner();
-								panel.add(spinLife);
-								spinLife.setFont(new Font("Tahoma", Font.BOLD, 17));
-								
-								JLabel lblPoison = new JLabel("");
-								panel.add(lblPoison);
-								lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
-								lblPoison.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/poison.png")));
-								
-								spinPoison = new JSpinner();
-								panel.add(spinPoison);
-								spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
+										
+										JLabel lblLife = new JLabel("");
+										panel.add(lblLife);
+										lblLife.setHorizontalAlignment(SwingConstants.CENTER);
+										lblLife.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/heart.png")));
+										
+										spinLife = new JSpinner();
+										panel.add(spinLife);
+										spinLife.setFont(new Font("Tahoma", Font.BOLD, 17));
+										
+										JLabel lblPoison = new JLabel("");
+										panel.add(lblPoison);
+										lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
+										lblPoison.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/poison.png")));
+										
+										spinPoison = new JSpinner();
+										panel.add(spinPoison);
+										spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
 								
 								spinPoison.addChangeListener(new ChangeListener() {
 									
@@ -393,7 +412,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										handPanel = new ThumbnailPanel();
 										handPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 										handPanel.enableDragging(true);
-										handPanel.setThumbnailSize(179, 240);
+										handPanel.setThumbnailSize(CARD_WIDTH, CARD_HEIGHT);
 										handPanel.setRupture(7);
 										
 										JScrollPane scrollPane = new JScrollPane();

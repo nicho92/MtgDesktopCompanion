@@ -13,7 +13,7 @@ public abstract class DraggablePanel  extends JPanel implements Draggable{
   	int width=112;
 	int height=155;
 	
-	JPopupMenu menu = new JPopupMenu();
+	public JPopupMenu menu = new JPopupMenu();
 
 	
     boolean dragging=true;

@@ -164,26 +164,7 @@ public class DeckDetailsPanel extends JPanel {
 		panelLegalities.add(lbmnd);
 		panelLegalities.add(lbcmd);
 		
-		btnUpdateLegalities = new JButton("");
-		btnUpdateLegalities.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				for(MagicCard mc : magicDeck.getAsList())
-				{
-					try {
-						mc.setLegalities(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("id", mc.getId(), mc.getEditions().get(0)).get(0).getLegalities());
-						setLegalities();
-					} catch (Exception e) {
-					}
-				}
-				
-			}
-		});
-		btnUpdateLegalities.setToolTipText("Refresh cards legalities");
-		ImageIcon ic = new ImageIcon(MagicCardDetailPanel.class.getResource("/res/refresh.png"));
-		Image b = ic.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH);
-		btnUpdateLegalities.setIcon(new ImageIcon(b)); 
-		panelLegalities.add(btnUpdateLegalities);
+		
 		
 		lblSideboard = new JLabel("SideBoard :");
 		GridBagConstraints gbc_lblSideboard = new GridBagConstraints();
