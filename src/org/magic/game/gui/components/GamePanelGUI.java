@@ -136,9 +136,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
 						panelInfo.add(panelActions, BorderLayout.SOUTH);
 						GridBagLayout gbl_panelActions = new GridBagLayout();
-						gbl_panelActions.columnWidths = new int[]{86, 86, 86, 0};
+						gbl_panelActions.columnWidths = new int[]{30, 20, 0};
 						gbl_panelActions.rowHeights = new int[]{23, 23, 23, 0, 0};
-						gbl_panelActions.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+						gbl_panelActions.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 						panelActions.setLayout(gbl_panelActions);
 						
@@ -172,7 +172,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						JButton btnDrawHand = new JButton("Draw Hand");
 						GridBagConstraints gbc_btnDrawHand = new GridBagConstraints();
 						gbc_btnDrawHand.fill = GridBagConstraints.BOTH;
-						gbc_btnDrawHand.insets = new Insets(0, 0, 5, 5);
+						gbc_btnDrawHand.insets = new Insets(0, 0, 5, 0);
 						gbc_btnDrawHand.gridx = 1;
 						gbc_btnDrawHand.gridy = 0;
 						panelActions.add(btnDrawHand, gbc_btnDrawHand);
@@ -198,21 +198,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 								player.flipCoin();
 							}
 						});
-						
-						
-						JButton btnEndTurn = new JButton("End Turn");
-						GridBagConstraints gbc_btnEndTurn = new GridBagConstraints();
-						gbc_btnEndTurn.fill = GridBagConstraints.BOTH;
-						gbc_btnEndTurn.insets = new Insets(0, 0, 5, 0);
-						gbc_btnEndTurn.gridx = 2;
-						gbc_btnEndTurn.gridy = 0;
-						panelActions.add(btnEndTurn, gbc_btnEndTurn);
-						
-						btnEndTurn.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent ae) {
-								GameManager.getInstance().nextTurn();
-							}
-						});
 						GridBagConstraints gbc_btnFlipACoin = new GridBagConstraints();
 						gbc_btnFlipACoin.fill = GridBagConstraints.HORIZONTAL;
 						gbc_btnFlipACoin.insets = new Insets(0, 0, 5, 5);
@@ -236,9 +221,24 @@ public class GamePanelGUI extends JPanel implements Observer {
 								txtChat.setText("");
 							}
 						});
+						
+						
+						JButton btnEndTurn = new JButton("End Turn");
+						GridBagConstraints gbc_btnEndTurn = new GridBagConstraints();
+						gbc_btnEndTurn.fill = GridBagConstraints.BOTH;
+						gbc_btnEndTurn.insets = new Insets(0, 0, 5, 0);
+						gbc_btnEndTurn.gridx = 1;
+						gbc_btnEndTurn.gridy = 1;
+						panelActions.add(btnEndTurn, gbc_btnEndTurn);
+						
+						btnEndTurn.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent ae) {
+								GameManager.getInstance().nextTurn();
+							}
+						});
 						GridBagConstraints gbc_txtChat = new GridBagConstraints();
 						gbc_txtChat.gridheight = 2;
-						gbc_txtChat.gridwidth = 3;
+						gbc_txtChat.gridwidth = 2;
 						gbc_txtChat.fill = GridBagConstraints.BOTH;
 						gbc_txtChat.gridx = 0;
 						gbc_txtChat.gridy = 2;
@@ -259,8 +259,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panelPoolandHandsLib.add(manaPoolPanel, BorderLayout.CENTER);
 						
 						JPanel panelHandLib = new JPanel();
-						panelPoolandHandsLib.add(panelHandLib, BorderLayout.EAST);
-						panelHandLib.setLayout(new GridLayout(2, 1, 0, 0));
+						panelPoolandHandsLib.add(panelHandLib, BorderLayout.SOUTH);
+						panelHandLib.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 						
 						lblHandCount = new JLabel("0");
 						lblHandCount.setFont(new Font("Tahoma", Font.BOLD, 18));
@@ -287,7 +287,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 						
 						lblPlayer = new JLabel("");
 						lblPlayer.setVerticalAlignment(SwingConstants.BOTTOM);
-						lblPlayer.setVerticalTextPosition(SwingConstants.BOTTOM);
 						lblPlayer.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/res/planeswalker.png")));
 						GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
 						gbc_lblPlayer.anchor = GridBagConstraints.WEST;

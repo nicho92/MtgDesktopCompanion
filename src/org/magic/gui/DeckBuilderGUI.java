@@ -239,6 +239,7 @@ public class DeckBuilderGUI extends JPanel{
 				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
 						btnUpdate.setEnabled(false);
+						lblExport.setVisible(true);
 						for(MagicCard mc : deck.getMap().keySet())
 						{
 							try {
@@ -246,6 +247,7 @@ public class DeckBuilderGUI extends JPanel{
 							} catch (Exception e) {
 								e.printStackTrace();
 								btnUpdate.setEnabled(true);
+								lblExport.setVisible(false);
 							}
 						}
 						for(MagicCard mc : deck.getMapSideBoard().keySet())
@@ -254,9 +256,11 @@ public class DeckBuilderGUI extends JPanel{
 								deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledProviders().getCardById(mc.getId()),deck.getMapSideBoard().get(mc));
 							} catch (Exception e) {
 								btnUpdate.setEnabled(true);
+								lblExport.setVisible(false);
 							}
 						}
 						btnUpdate.setEnabled(true);
+						lblExport.setVisible(false);
 						deckmodel.fireTableDataChanged();
 						deckSidemodel.fireTableDataChanged();
 						JOptionPane.showMessageDialog(null, "Deck Updated","Update",JOptionPane.INFORMATION_MESSAGE);
