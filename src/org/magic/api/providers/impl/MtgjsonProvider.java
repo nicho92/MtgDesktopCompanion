@@ -481,13 +481,12 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			 
 	 			 if(mc.getLayout().equals("flip"))
 	 				 mc.setFlippable(true);
-	 			 if(mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld") )
-	 				 mc.setTranformable(true);
-	 			 
 	 			 
 	 		   }
 	 		   
-	 		 
+	 		 if(mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld") )
+ 				 mc.setTranformable(true);
+ 		 
 	 		   
 	 		   
 	 		  list.add(mc);
