@@ -16,9 +16,9 @@ import org.magic.services.MTGControler;
 
 public class CardsPriceTableModel extends DefaultTableModel {
 
-	  static final Logger logger = LogManager.getLogger(CardsPriceTableModel.class.getName());
+	static final Logger logger = LogManager.getLogger(CardsPriceTableModel.class.getName());
 
-	  String columns[] = new String[]{"Site","Price","Currency","Seller","quality","langage","url"};
+	String columns[] = new String[]{"Site","Price","Currency","Seller","quality","langage","url"};
 			
 	List<MagicPricesProvider> providers;
 	MagicCard mc;
@@ -34,7 +34,10 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		{
 			try {
 				if(prov.isEnable())
+				{
 					prices.addAll(prov.getPrice(me, mc));
+					fireTableDataChanged();
+				}
 			} catch (Exception e) {
 				logger.error(e);
 				//e.printStackTrace();

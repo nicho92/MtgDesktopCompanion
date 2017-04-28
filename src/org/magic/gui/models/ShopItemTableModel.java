@@ -35,6 +35,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 		{
 			try {
 				items.addAll(prov.search(search));
+				fireTableDataChanged();
 			} catch (Exception e) {
 				logger.error(e);
 				e.printStackTrace();
