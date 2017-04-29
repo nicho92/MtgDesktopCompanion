@@ -14,7 +14,7 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay{
 
 	public TipsOfTheDayDialog() throws IOException {
 		Properties tips = new Properties();
-		tips.load(TipsOfTheDayDialog.class.getResource("/res/tips.properties").openStream());
+		tips.load(TipsOfTheDayDialog.class.getResource("/res/data/tips.properties").openStream());
 		TipOfTheDayModel model = TipLoader.load(tips);
 		setModel(model);
 		

@@ -127,7 +127,7 @@ public class MTGControler {
 	
 	public String getVersion()
 	{
-		InputStream input = getClass().getResourceAsStream("/res/version");
+		InputStream input = getClass().getResourceAsStream("/res/data/version");
 		BufferedReader read = new BufferedReader(new InputStreamReader(input));
 		try {
 			return read.readLine();

@@ -21,7 +21,7 @@ public class VersionChecker {
 	Document document;
 	NodeList nodeList;
 	
-	String urlVersion ="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/res/version";
+	String urlVersion ="https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/res/data/version";
 	String actualVersion = MTGControler.getInstance().getVersion();
 	String onlineVersion;
 	

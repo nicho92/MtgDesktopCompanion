@@ -258,6 +258,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			case "Media+Inserts"     : return "Media+Promos";
 			case "Judge+Gift+Program": return "Judge+Promos";
 			case "Friday+Night+Magic": return "FNM+Promos";
+			case "Masterpiece+Series+Amonkhet+Invocations" : return "Amonkhet+Invocations";
+			case "Masterpiece+Series+Kaladesh+Inventions" : return "Kaladesh+Inventions";
 			default : return editionName;
 		}
 	}
