@@ -139,7 +139,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 						  mc.setToughness(arr.get(i).getAsJsonObject().get("toughness").getAsString());
 					  
 					  if(!arr.get(i).getAsJsonObject().get("loyalty").isJsonNull())
-						  mc.setLoyalty(arr.get(i).getAsJsonObject().get("loyalty").getAsString());
+						  mc.setLoyalty(arr.get(i).getAsJsonObject().get("loyalty").getAsInt());
 					  
 					  
 					 MagicEdition me = getSetById(arr.get(i).getAsJsonObject().get("set").getAsString());

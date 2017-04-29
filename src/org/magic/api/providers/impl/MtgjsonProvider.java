@@ -365,11 +365,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		  if(map.get("loyalty")!=null)
 	 		  {
 	 			 try{
-	 				 mc.setLoyalty(String.valueOf((int)Double.parseDouble(map.get("loyalty").toString())));
+	 				 mc.setLoyalty((int)Double.parseDouble(map.get("loyalty").toString()));
 	 			 }
 	 			 catch(Exception e)
 	 			 {
-	 				 mc.setLoyalty(String.valueOf(map.get("loyalty")));
+	 				 mc.setLoyalty(0);
 	 			 }
 	 		  }
 	 		   

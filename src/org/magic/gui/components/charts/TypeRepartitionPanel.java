@@ -31,6 +31,8 @@ public class TypeRepartitionPanel extends JPanel{
 
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<MagicCard>();
+		
+		if(deck!=null)
 		for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
 		{
 			MagicCard mc = cci.getKey();
