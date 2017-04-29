@@ -363,7 +363,15 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			  mc.setGathererCode(String.valueOf(map.get("gathererCode"))); 
 	 			  
 	 		  if(map.get("loyalty")!=null)
-	 			  mc.setLoyalty((int)(double)map.get("loyalty"));
+	 		  {
+	 			 try{
+	 				 mc.setLoyalty(String.valueOf((int)Double.parseDouble(map.get("loyalty").toString())));
+	 			 }
+	 			 catch(Exception e)
+	 			 {
+	 				 mc.setLoyalty(String.valueOf(map.get("loyalty")));
+	 			 }
+	 		  }
 	 		   
 	 		  if(map.get("manaCost")!=null)
 	 			  mc.setCost(String.valueOf(map.get("manaCost")));

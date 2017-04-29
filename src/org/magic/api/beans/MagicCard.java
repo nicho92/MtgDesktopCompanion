@@ -30,7 +30,7 @@ public class MagicCard implements Serializable {
 		private String originalType;
 		private String power;
 		private String toughness;
-		private Integer loyalty;
+		private String loyalty;
 		private String artist;
 		private String flavor;
 		private List<MagicRuling> rulings;
@@ -218,12 +218,12 @@ public class MagicCard implements Serializable {
 		}
 
 
-		public Integer getLoyalty() {
+		public String getLoyalty() {
 			return loyalty;
 		}
 
 
-		public void setLoyalty(Integer loyalty) {
+		public void setLoyalty(String loyalty) {
 			this.loyalty = loyalty;
 		}
 

@@ -187,7 +187,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 				mc.setToughness(obj.get("toughness").getAsString());
 			
 			if(obj.get("loyalty")!=null)
-				mc.setLoyalty(obj.get("loyalty").getAsInt());
+				mc.setLoyalty(obj.get("loyalty").getAsString());
 	
 			if(obj.get("mciNumber")!=null)
 		 		 mc.setMciNumber(String.valueOf(obj.get("mciNumber")));
