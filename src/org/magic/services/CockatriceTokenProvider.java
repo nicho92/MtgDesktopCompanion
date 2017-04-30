@@ -44,7 +44,9 @@ public class CockatriceTokenProvider {
 	
 	public boolean isTokenizer(MagicCard mc)
 	{
-		String expression = "//card[reverse-related='"+mc.getName()+"'][not(contains(name,'emblem'))]";
+		String expression = "//card[reverse-related=\""+mc.getName()+"\"][not(contains(name,'emblem'))]";
+		logger.debug("looking for token : " + expression);
+		
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -56,7 +58,7 @@ public class CockatriceTokenProvider {
 	
 	public boolean isEmblemizer(MagicCard mc)
 	{
-		String expression = "//card[reverse-related='"+mc.getName()+"'][contains(name,'emblem')]";
+		String expression = "//card[reverse-related=\""+mc.getName()+"\"][contains(name,'emblem')]";
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -67,7 +69,7 @@ public class CockatriceTokenProvider {
 	}
 	
 	public MagicCard generateTokenFor(MagicCard mc) {
-		String expression = "//card[reverse-related='"+mc.getName()+"'][not(contains(name,'emblem'))]";
+		String expression = "//card[reverse-related=\""+mc.getName()+"\"][not(contains(name,'emblem'))]";
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -133,7 +135,7 @@ public class CockatriceTokenProvider {
 	}
 
 	public MagicCard generateEmblemFor(MagicCard mc) throws Exception {
-		String expression = "//card[reverse-related='"+mc.getName()+"'][contains(name,'emblem')]";
+		String expression = "//card[reverse-related=\""+mc.getName()+"\"][contains(name,'emblem')]";
 		
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		try {
@@ -170,10 +172,10 @@ public class CockatriceTokenProvider {
 	public BufferedImage getTokenPics(MagicCard tok) throws Exception {
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		
-		String expression = "//card[name='"+tok.getName()+"']";
+		String expression = "//card[name=\""+tok.getName()+"\"]";
 		
 		if(tok.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
-			expression ="//card[name='"+tok.getName()+" (emblem)']";
+			expression ="//card[name=\""+tok.getName()+" (emblem)\"]";
 
 		logger.debug(expression + " for " + tok.getName() + " " + tok.getEditions().get(0).getId());
 		
