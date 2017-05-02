@@ -834,7 +834,18 @@ public class CardSearchPanel extends JPanel {
 				
 				
 				panelJson.showCard(selected);
-				historyChartPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
+				
+
+				ThreadManager.getInstance().execute(new Runnable() {
+					public void run() {
+						try {
+							historyChartPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
+						} catch (IOException e) {
+							logger.error(e);
+						}
+					}
+				}, "load history for " + selectedEdition);
+				
 				
 			} catch (Exception e1) {
 				e1.printStackTrace();

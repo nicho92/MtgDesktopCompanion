@@ -39,7 +39,7 @@ public class ThreadManager {
 	{
 		threadFactory = Executors.defaultThreadFactory();
 		//LinkedBlockingQueue // ArrayBlockingQueue
-		 executor = new ThreadPoolExecutor(4, 10,  10, TimeUnit.MILLISECONDS,  new LinkedBlockingQueue<Runnable>(5))
+		 executor = new ThreadPoolExecutor(10, 5,  20, TimeUnit.MILLISECONDS,  new LinkedBlockingQueue<Runnable>(5))
 		 {   
 			    protected void beforeExecute(Thread t, Runnable r) { 
 			         t.setName(name);
