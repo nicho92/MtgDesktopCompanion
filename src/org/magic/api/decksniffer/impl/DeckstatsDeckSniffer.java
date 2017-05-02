@@ -108,11 +108,19 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				
 				String set = cont.getElementsByClass("deck_col_set").get(0).getElementsByTag("a").text().trim();
 				MagicCard mc = null;
-				if(set==null)
+				
+				if(set.equals(""))
 				{
-					//todo default land deck 
-					
-					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+					if(cardName.trim().equalsIgnoreCase("Plains")||cardName.trim().equalsIgnoreCase("Island")||cardName.trim().equalsIgnoreCase("Swamp")||cardName.trim().equalsIgnoreCase("Mountain")||cardName.trim().equalsIgnoreCase("Forest"))
+					{
+						MagicEdition ed = new MagicEdition();
+						ed.setId(MTGControler.getInstance().get("default-land-deck"));
+						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed).get(0);
+					}
+					else
+					{
+						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+					}
 				}
 				else
 				{
