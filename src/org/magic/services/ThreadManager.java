@@ -72,7 +72,7 @@ public class ThreadManager {
                 executor.getCompletedTaskCount(),
                 executor.getTaskCount()));
 		
-		//logger.debug(info);
+		logger.debug(info);
 		
 	}
 
