@@ -103,12 +103,13 @@ public class HsqlDAO extends AbstractMagicDAO{
 		logger.info("saving " + mc +" in " + collection);
 		
 		PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)");
-		 pst.setString(1, mc.getName());
-		 pst.setObject(2, mc);
-		 pst.setString(3, mc.getEditions().get(0).getId());
-		 pst.setString(4, "");
-		 pst.setString(5, collection.getName());
-		 pst.setString(6, mc.getId());
+		 pst.setString(1, mc.getId()); 
+		 pst.setString(2, mc.getName());
+		 pst.setObject(3, mc);
+		 pst.setString(4, mc.getEditions().get(0).getId());
+		 pst.setString(5, "");
+		 pst.setString(6, collection.getName());
+		 
 		 
 		 pst.executeUpdate();
 		
