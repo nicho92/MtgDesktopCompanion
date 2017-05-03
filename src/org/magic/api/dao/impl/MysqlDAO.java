@@ -445,21 +445,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 		}
 	}
 	
-	/*
-	@Override
-	public void saveShopItem(ShopItem mp, String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public String getSavedShopItemAnotation(ShopItem id) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-*/
-
 	@Override
 	public void backup(File f) throws Exception {
 		
