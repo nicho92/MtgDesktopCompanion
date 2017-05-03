@@ -631,7 +631,20 @@ public class HsqlDAO extends AbstractMagicDAO{
 		}
 		
 	}
-
+/*
+	@Override
+	public void moveCards(MagicCollection from, MagicCollection to, List<MagicCard> cards) throws SQLException {
+		for(MagicCard mc : cards)
+		{
+			PreparedStatement pst=con.prepareStatement("update cards set collection=? where collection=? and id=?");
+			pst.setString(1, to.getName());
+			pst.setString(2, from.getName());
+			pst.setString(3, mc.getId());
+			pst.executeUpdate();
+		}
+		
+	}
+*/
 	
 //	public int updateSerializedCard(MagicCard mc,String editionCode,String collection) 
 //	{
