@@ -23,7 +23,7 @@ import javax.swing.JPopupMenu;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.AttachActions;
-import org.magic.game.actions.cards.ChangeCreaturePTActions;
+import org.magic.game.actions.cards.BonusCounterActions;
 import org.magic.game.actions.cards.EmblemActions;
 import org.magic.game.actions.cards.FlipActions;
 import org.magic.game.actions.cards.LoyaltyActions;
@@ -34,6 +34,9 @@ import org.magic.game.actions.cards.TokensActions;
 import org.magic.game.actions.cards.TransferActions;
 import org.magic.game.actions.cards.TransformActions;
 import org.magic.game.model.PositionEnum;
+import org.magic.game.model.counters.AbstractCounter;
+import org.magic.game.model.counters.BonusCounter;
+import org.magic.game.model.counters.LoyaltyCounter;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MTGControler;
@@ -55,6 +58,21 @@ public class DisplayableCard extends JLabel implements Draggable
 	private boolean rotated;
 	private boolean showPT; 
 	private List<DisplayableCard> attachedCards;
+	private List<AbstractCounter> counters;
+	private Image fullResPics;
+	private boolean showLoyalty;
+
+	public void addCounter(AbstractCounter c)
+	{
+		counters.add(c);
+		c.apply(this);
+	}
+	
+	public void removeCounter(AbstractCounter c)
+	{
+		counters.remove(c);
+		c.remove(this);
+	}
 	
 	
 	@Override
@@ -114,9 +132,6 @@ public class DisplayableCard extends JLabel implements Draggable
 			
 			if(showLoyalty)
 				drawString(g, ""+magicCard.getLoyalty(), Color.BLACK, Color.WHITE, this.getWidth()-23, this.getHeight()-15);
-			
-			
-			
 		}
 		//super.paint(g);
 	}
@@ -175,18 +190,18 @@ public class DisplayableCard extends JLabel implements Draggable
 	}
 	
 	public DisplayableCard(MagicCard mc,int width,int height, boolean activateCards) {
-		attachedCards = new ArrayList<DisplayableCard>();    
+		attachedCards = new ArrayList<DisplayableCard>();
+		counters = new ArrayList<AbstractCounter>();
 		setSize(width,height);
 		setPreferredSize(new Dimension(width, height));
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
 		setMagicCard(mc);
 		setTransferHandler(new CardTransfertHandler());
-				
+		//setToolTipText(mc.getText());
+		
 		if(activateCards)
-		{ 
 			initActions();
-		}
 	}
 	
 	public void initActions() {
@@ -202,15 +217,13 @@ public class DisplayableCard extends JLabel implements Draggable
 	
 		if(magicCard.getTypes().contains("Creature"))
 		{
-			
 			JMenu mnuModifier = new JMenu("P/T");
-						
-			mnuModifier.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Strength));
-			mnuModifier.add(new ChangeCreaturePTActions(this, -1, ChangeCreaturePTActions.TypeCounter.Strength));
-			mnuModifier.add(new ChangeCreaturePTActions(this, 1, ChangeCreaturePTActions.TypeCounter.Toughness));
-			mnuModifier.add(new ChangeCreaturePTActions(this, -1, ChangeCreaturePTActions.TypeCounter.Toughness));
-			mnuModifier.add(new ChangeCreaturePTActions(this, 0, ChangeCreaturePTActions.TypeCounter.Both));
-
+			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
+			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
+			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, 1)));
+			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, -1)));
+			mnuModifier.add(new BonusCounterActions(this,  new BonusCounter(1, 1)));
+			mnuModifier.add(new BonusCounterActions(this,  new BonusCounter(-1, -1)));
 			menu.add(mnuModifier);
 		}
 		
@@ -218,8 +231,8 @@ public class DisplayableCard extends JLabel implements Draggable
 		{
 			JMenu mnuModifier = new JMenu("Loyalty");
 			
-			mnuModifier.add(new LoyaltyActions(this, 1));
-			mnuModifier.add(new LoyaltyActions(this, -1));
+			mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(1)));
+			mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(-1)));
 			menu.add(mnuModifier);
 			
 		}
@@ -345,8 +358,6 @@ public class DisplayableCard extends JLabel implements Draggable
 		this.tapped = tapped;
 	}
 
-	private Image fullResPics;
-	private boolean showLoyalty;
 	
 	public Image getFullResPics() {
 		return fullResPics;
