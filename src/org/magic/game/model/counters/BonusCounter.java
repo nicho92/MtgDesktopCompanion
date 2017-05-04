@@ -41,7 +41,27 @@ public class BonusCounter extends AbstractCounter {
 
 	@Override
 	public void remove(DisplayableCard displayableCard) {
-		// TODO Auto-generated method stub
+		int power=0;
+		int toughness=0;
+		
+		try{
+			power = Integer.parseInt(displayableCard.getMagicCard().getPower());
+		}
+		catch(Exception e)
+		{	}
+		
+		
+		try{
+			toughness = Integer.parseInt(displayableCard.getMagicCard().getToughness());
+		}
+		catch(Exception e)
+		{	}
+		
+		power = power - powerModifier;
+		toughness = toughness - toughnessModifier;
+		
+		displayableCard.getMagicCard().setPower(String.valueOf(power));
+		displayableCard.getMagicCard().setToughness(String.valueOf(toughness));
 		
 	}
 

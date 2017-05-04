@@ -30,7 +30,7 @@ public class LoyaltyCounter extends AbstractCounter {
 		}catch(Exception e)
 		{		}
 		
-		displayableCard.getMagicCard().setLoyalty(loy+value);
+		displayableCard.getMagicCard().setLoyalty(loy-value);
 		
 	}
 
