@@ -151,6 +151,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 									MagicDeck deck = choose.getSelectedDeck();
 									if(deck!=null){
 										Player p = new Player(deck);
+										listActions.removeAll();
 										GameManager.getInstance().addPlayer(p);
 										GameManager.getInstance().initGame();
 										GameManager.getInstance().nextTurn();

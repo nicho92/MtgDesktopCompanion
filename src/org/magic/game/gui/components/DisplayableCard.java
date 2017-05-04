@@ -1,8 +1,14 @@
 package org.magic.game.gui.components;
 
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.geom.AffineTransform;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -89,13 +95,43 @@ public class DisplayableCard extends JLabel implements Draggable
 		return image;
 	}
 	
-	@Override
-	public Icon getIcon() {
+	
+	public Icon toIcon() {
 		if(magicCard != null)
 			return image;
 		
 		return super.getIcon();
 	}
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		if(magicCard != null)
+		{
+			g.drawImage(image.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
+			
+			if(showPT)
+				drawString(g, magicCard.getPower()+"/"+magicCard.getToughness(), Color.BLACK, Color.WHITE, this.getWidth()-33, this.getHeight()-10);
+			
+			if(showLoyalty)
+				drawString(g, ""+magicCard.getLoyalty(), Color.BLACK, Color.WHITE, this.getWidth()-23, this.getHeight()-15);
+			
+			
+			
+		}
+		//super.paint(g);
+	}
+	
+	private void drawString(Graphics g, String s,Color background,Color foreground,int x,int y)
+	{
+		g.setFont(new Font("default", Font.BOLD, 12));
+		g.setColor(background);
+		FontMetrics fm = g.getFontMetrics();
+		Rectangle2D rect = fm.getStringBounds(s, g);
+		g.fillRect(x,y - fm.getAscent(),(int) rect.getWidth(),(int) rect.getHeight());g.setColor(foreground);
+		g.drawString(s,x,y);
+	}
+	
+	
 	
 	public void setImage(ImageIcon image) {
 		this.image = image;
@@ -139,9 +175,9 @@ public class DisplayableCard extends JLabel implements Draggable
 	}
 	
 	public DisplayableCard(MagicCard mc,int width,int height, boolean activateCards) {
-	
 		attachedCards = new ArrayList<DisplayableCard>();    
 		setSize(width,height);
+		setPreferredSize(new Dimension(width, height));
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
 		setMagicCard(mc);
@@ -151,8 +187,6 @@ public class DisplayableCard extends JLabel implements Draggable
 		{ 
 			initActions();
 		}
-		
-		
 	}
 	
 	public void initActions() {
@@ -190,7 +224,7 @@ public class DisplayableCard extends JLabel implements Draggable
 			
 		}
 		
-		if(magicCard.getSubtypes().contains("Aura")||magicCard.getSubtypes().contains("Equipment"))
+		if(magicCard.getSubtypes().contains("Aura")|| magicCard.getSubtypes().contains("Equipment"))
 		{
 			menu.add(new AttachActions(this));
 		}
@@ -200,7 +234,6 @@ public class DisplayableCard extends JLabel implements Draggable
 
 		if(magicCard.isFlippable())
 			menu.add(new JMenuItem(new FlipActions(this)));
-
 		
 		if(GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
 			menu.add(new JMenuItem(new TokensActions(this)));
@@ -313,6 +346,7 @@ public class DisplayableCard extends JLabel implements Draggable
 	}
 
 	private Image fullResPics;
+	private boolean showLoyalty;
 	
 	public Image getFullResPics() {
 		return fullResPics;
@@ -339,6 +373,11 @@ public class DisplayableCard extends JLabel implements Draggable
 	@Override
 	public PositionEnum getOrigine() {
 		return PositionEnum.CARD;
+	}
+
+	public void showLoyalty(boolean b) {
+		showLoyalty=b;
+		
 	}
 
 

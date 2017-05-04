@@ -78,6 +78,8 @@ public class ChangeCreaturePTActions  extends AbstractAction{
 			card.getMagicCard().setToughness(counts[1]);
 		}
 		card.showPT(true);
+		card.revalidate();
+		card.repaint();
 		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() +" P/T to " + card.getMagicCard().getPower()+"/"+card.getMagicCard().getToughness());
 
 	}

@@ -381,7 +381,6 @@ public class CardSearchPanel extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 						txtFilter.setText("\\{" + btnG.getToolTipText()+"}");
 						sorterCards.setRowFilter(RowFilter.regexFilter(txtFilter.getText()));
-						
 					}
 				});
 				panelmana.add(btnG);

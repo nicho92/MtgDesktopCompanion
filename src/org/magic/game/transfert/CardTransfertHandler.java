@@ -110,7 +110,7 @@ public class CardTransfertHandler extends TransferHandler  {
 		DisplayableCard p = (DisplayableCard) c;
 		Point pt = p.getLocation();
 		SwingUtilities.convertPointToScreen(pt, p);
-		dragLab.setIcon(p.getIcon());
+		dragLab.setIcon(p.toIcon());
 		window.setLocation(pt);
 	
 		return MOVE;

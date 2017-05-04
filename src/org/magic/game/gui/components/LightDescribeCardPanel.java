@@ -39,9 +39,9 @@ public class LightDescribeCardPanel extends JPanel {
 	public LightDescribeCardPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{52, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 0, 27, 0, 27, 0, 0, 0};
+		gridBagLayout.rowHeights = new int[]{0, 27, 0, 27, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblName = new JLabel("Name :");
@@ -49,7 +49,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_lblName.anchor = GridBagConstraints.EAST;
 		gbc_lblName.insets = new Insets(0, 0, 5, 5);
 		gbc_lblName.gridx = 0;
-		gbc_lblName.gridy = 1;
+		gbc_lblName.gridy = 0;
 		add(lblName, gbc_lblName);
 		
 		txtName = new JTextField();
@@ -58,7 +58,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_txtName.insets = new Insets(0, 0, 5, 0);
 		gbc_txtName.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtName.gridx = 1;
-		gbc_txtName.gridy = 1;
+		gbc_txtName.gridy = 0;
 		add(txtName, gbc_txtName);
 		txtName.setColumns(10);
 		
@@ -67,7 +67,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_lblCost.anchor = GridBagConstraints.EAST;
 		gbc_lblCost.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCost.gridx = 0;
-		gbc_lblCost.gridy = 2;
+		gbc_lblCost.gridy = 1;
 		add(lblCost, gbc_lblCost);
 		
 		manaPanel = new ManaPanel();
@@ -75,7 +75,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_manaPanel.insets = new Insets(0, 0, 5, 0);
 		gbc_manaPanel.fill = GridBagConstraints.BOTH;
 		gbc_manaPanel.gridx = 1;
-		gbc_manaPanel.gridy = 2;
+		gbc_manaPanel.gridy = 1;
 		add(manaPanel, gbc_manaPanel);
 		
 		JLabel lblType = new JLabel("Type :");
@@ -83,7 +83,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_lblType.anchor = GridBagConstraints.EAST;
 		gbc_lblType.insets = new Insets(0, 0, 5, 5);
 		gbc_lblType.gridx = 0;
-		gbc_lblType.gridy = 3;
+		gbc_lblType.gridy = 2;
 		add(lblType, gbc_lblType);
 		
 		txtType = new JTextField();
@@ -92,7 +92,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_txtType.insets = new Insets(0, 0, 5, 0);
 		gbc_txtType.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtType.gridx = 1;
-		gbc_txtType.gridy = 3;
+		gbc_txtType.gridy = 2;
 		add(txtType, gbc_txtType);
 		txtType.setColumns(10);
 		
@@ -101,7 +101,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_lblSt.anchor = GridBagConstraints.EAST;
 		gbc_lblSt.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSt.gridx = 0;
-		gbc_lblSt.gridy = 4;
+		gbc_lblSt.gridy = 3;
 		add(lblSt, gbc_lblSt);
 		
 		panel = new JPanel();
@@ -111,7 +111,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_panel.insets = new Insets(0, 0, 5, 0);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 4;
+		gbc_panel.gridy = 3;
 		add(panel, gbc_panel);
 		
 		txtPower = new JTextField();
@@ -132,7 +132,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_lblLoyalty.anchor = GridBagConstraints.EAST;
 		gbc_lblLoyalty.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLoyalty.gridx = 0;
-		gbc_lblLoyalty.gridy = 5;
+		gbc_lblLoyalty.gridy = 4;
 		add(lblLoyalty, gbc_lblLoyalty);
 		
 		txtLoyalty = new JTextField();
@@ -141,7 +141,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_txtLoyalty.insets = new Insets(0, 0, 5, 0);
 		gbc_txtLoyalty.fill = GridBagConstraints.HORIZONTAL;
 		gbc_txtLoyalty.gridx = 1;
-		gbc_txtLoyalty.gridy = 5;
+		gbc_txtLoyalty.gridy = 4;
 		add(txtLoyalty, gbc_txtLoyalty);
 		txtLoyalty.setColumns(10);
 		
@@ -150,7 +150,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbc_scrollPane.gridwidth = 2;
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 6;
+		gbc_scrollPane.gridy = 5;
 		add(scrollPane, gbc_scrollPane);
 		
 		magicTextPane = new MagicTextPane();
