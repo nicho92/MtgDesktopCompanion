@@ -12,22 +12,21 @@ import org.magic.game.model.counters.BonusCounter;
 public class BonusCounterActions  extends AbstractAction{
 
 	private DisplayableCard card;
-	private int val;
 	private BonusCounter bonusCounter;
 	
 	public BonusCounterActions(DisplayableCard displayableCard, BonusCounter bonusCounter) 
 	{
 			this.card = displayableCard;
 			this.bonusCounter=bonusCounter;
-			putValue(NAME,bonusCounter.describe());
-			putValue(SHORT_DESCRIPTION,bonusCounter.describe());
+			putValue(NAME,"put a " + bonusCounter.describe());
+			putValue(SHORT_DESCRIPTION,"put a " + bonusCounter.describe());
 	}
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
 		card.addCounter(bonusCounter);
+		card.initActions();
 		card.showPT(true);
 		card.revalidate();
 		card.repaint();

@@ -7,6 +7,8 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
@@ -27,6 +29,7 @@ import org.magic.game.actions.cards.BonusCounterActions;
 import org.magic.game.actions.cards.EmblemActions;
 import org.magic.game.actions.cards.FlipActions;
 import org.magic.game.actions.cards.LoyaltyActions;
+import org.magic.game.actions.cards.RemoveCounterActions;
 import org.magic.game.actions.cards.RotateActions;
 import org.magic.game.actions.cards.SelectionActions;
 import org.magic.game.actions.cards.TapActions;
@@ -230,16 +233,22 @@ public class DisplayableCard extends JLabel implements Draggable
 		if(magicCard.getTypes().contains("Planeswalker"))
 		{
 			JMenu mnuModifier = new JMenu("Loyalty");
-			
 			mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(1)));
-			mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(-1)));
 			menu.add(mnuModifier);
-			
 		}
 		
 		if(magicCard.getSubtypes().contains("Aura")|| magicCard.getSubtypes().contains("Equipment"))
 		{
 			menu.add(new AttachActions(this));
+		}
+		
+		
+		if(counters.size()>0){
+			JMenu mnuModifier = new JMenu("Remove Counter");
+			for(final AbstractCounter count : counters)
+				mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count)));
+
+			menu.add(mnuModifier);
 		}
 		
 		if(magicCard.isTranformable())

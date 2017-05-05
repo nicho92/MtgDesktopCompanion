@@ -9,4 +9,15 @@ public abstract class AbstractCounter {
 	public abstract void remove(DisplayableCard displayableCard) ;
 
 	public abstract String describe();
+	
+	public String toString()
+	{
+		return describe();
+	}
+	
+	@Override
+	public int hashCode() {
+		return describe().hashCode();
+	}
+	
 }

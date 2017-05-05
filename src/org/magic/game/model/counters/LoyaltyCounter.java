@@ -36,9 +36,6 @@ public class LoyaltyCounter extends AbstractCounter {
 
 	@Override
 	public String describe() {
-		if(value==1)
-			return "put a loyalty counter";
-		else
-			return "put "+value+" loyalty counter";
+		return value+" loyalty counter";
 	}
 }
