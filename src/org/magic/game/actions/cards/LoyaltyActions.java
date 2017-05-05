@@ -25,7 +25,7 @@ public class LoyaltyActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		card.addCounter(val);
-		card.initActions();
+	//	card.initActions();
 		card.showLoyalty(true);
 		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() +" loyalty to " +  card.getMagicCard().getLoyalty());
 	}

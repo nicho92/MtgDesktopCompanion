@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
 import org.magic.game.actions.cards.EmblemActions;
+import org.magic.game.actions.cards.FixCreaturePowerActions;
 import org.magic.game.actions.cards.FlipActions;
 import org.magic.game.actions.cards.ItemCounterActions;
 import org.magic.game.actions.cards.LoyaltyActions;
@@ -68,12 +69,25 @@ public class DisplayableCard extends JLabel implements Draggable
 	{
 		counters.add(c);
 		c.apply(this);
+		initActions();
 	}
 	
 	public void removeCounter(AbstractCounter c)
 	{
 		counters.remove(c);
 		c.remove(this);
+		initActions();
+	}
+	
+
+	public void removeAllCounters() {
+		for(AbstractCounter c : counters)
+		{
+			c.remove(this);
+		}
+		counters.clear();
+		initActions();
+		
 	}
 	
 	public String toString() {
@@ -227,7 +241,10 @@ public class DisplayableCard extends JLabel implements Draggable
 			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, -1)));
 			mnuModifier.add(new BonusCounterActions(this,  new BonusCounter(1, 1)));
 			mnuModifier.add(new BonusCounterActions(this,  new BonusCounter(-1, -1)));
+			mnuModifier.add(new FixCreaturePowerActions(this));
 			menu.add(mnuModifier);
+			
+
 		}
 		
 		JMenu mnuCounter = new JMenu("Counter");
@@ -412,6 +429,7 @@ public class DisplayableCard extends JLabel implements Draggable
 		showLoyalty=b;
 		
 	}
+
 
 
 }
