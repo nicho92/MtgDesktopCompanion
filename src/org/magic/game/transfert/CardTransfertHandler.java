@@ -127,15 +127,15 @@ public class CardTransfertHandler extends TransferHandler  {
 		try {
 			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
 			((Draggable)src.getParent()).moveCard(src.getMagicCard(), target.getOrigine());
-			
-			
-			logger.info("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
-					
-			src.getParent().revalidate();
-			target.revalidate();
-			target.repaint();
-			src.getParent().repaint();
-			target.addComponent(src);
+			if(! ( ((Draggable)src.getParent()).getOrigine() == target.getOrigine()))
+			{
+				src.getParent().revalidate();
+				target.revalidate();
+				target.repaint();
+				src.getParent().repaint();
+				logger.info("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
+				target.addComponent(src);
+			}
 			return true;
 		} catch (Exception ufe) {
 			logger.error(ufe);
@@ -150,17 +150,14 @@ public class CardTransfertHandler extends TransferHandler  {
 			dragLab.setIcon(null);
 			window.setVisible(false);
 			DraggablePanel dest = ((DraggablePanel)c.getParent());
-	
-			
-			
+
 			src.setLocation(dest.getMousePosition());
-			src.getParent().revalidate();
+			/*src.getParent().revalidate();
 			dest.revalidate();
 			dest.repaint();
 			src.getParent().repaint();
+			*/
 			dest.postTreatment();
-			
-			
 		}
 	}
 }

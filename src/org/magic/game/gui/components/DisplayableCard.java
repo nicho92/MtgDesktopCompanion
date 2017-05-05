@@ -50,7 +50,6 @@ public class DisplayableCard extends JLabel implements Draggable
 
 	JPopupMenu menu = new JPopupMenu();
 	private MagicCard magicCard;
-	
 	private boolean tapped=false;
 	private ImageIcon image;
 	private boolean draggable=true;
@@ -77,8 +76,6 @@ public class DisplayableCard extends JLabel implements Draggable
 		c.remove(this);
 	}
 	
-	
-	@Override
 	public String toString() {
 		return String.valueOf(magicCard);
 	}
@@ -135,6 +132,9 @@ public class DisplayableCard extends JLabel implements Draggable
 			
 			if(showLoyalty)
 				drawString(g, ""+magicCard.getLoyalty(), Color.BLACK, Color.WHITE, this.getWidth()-23, this.getHeight()-15);
+			
+			
+			
 		}
 		//super.paint(g);
 	}
@@ -218,10 +218,6 @@ public class DisplayableCard extends JLabel implements Draggable
 		menu.add(new JMenuItem(new SelectionActions(this)));
 		menu.add(new JMenuItem(new RotateActions(this)));
 	
-		
-		
-		
-		
 		if(magicCard.getTypes().contains("Creature"))
 		{
 			JMenu mnuModifier = new JMenu("P/T");
@@ -326,6 +322,12 @@ public class DisplayableCard extends JLabel implements Draggable
 			if(!tappable)
 				return;
 		
+			 if(isTapped())
+					GamePanelGUI.getInstance().getPlayer().logAction("Untap " + magicCard);
+				else
+					GamePanelGUI.getInstance().getPlayer().logAction("Tap " + magicCard);
+			
+			
 			int angle=0;
 			if(t)
 				angle=90;

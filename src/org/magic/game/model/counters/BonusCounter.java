@@ -67,17 +67,24 @@ public class BonusCounter extends AbstractCounter {
 
 	@Override
 	public String describe() {
-		if(powerModifier>0 && toughnessModifier==0)
-			return "+"+powerModifier+"/+0 counter";
-		else if(powerModifier<0 && toughnessModifier==0)
-			return powerModifier+"/+0 counter";
-		else if(powerModifier==0 && toughnessModifier<0)
-			return "+0/"+toughnessModifier+" counter";
-		else if(powerModifier==0 && toughnessModifier>0)
-			return "+0/+"+toughnessModifier+" counter";
-		else
-			return powerModifier+"/"+toughnessModifier+ " counter";
 		
+		StringBuilder build = new StringBuilder();
+		
+		if(powerModifier>=0)
+			build.append("+").append(powerModifier);
+		else
+			build.append(powerModifier);
+		
+		build.append("/");	
+			
+		if(toughnessModifier>=0)
+			build.append("+").append(toughnessModifier);
+		else
+			build.append(toughnessModifier);
+		
+		build.append(" counter");
+		return build.toString();
+
 	}
 	
 	

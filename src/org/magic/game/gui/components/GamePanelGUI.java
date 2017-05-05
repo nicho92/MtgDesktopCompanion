@@ -152,6 +152,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 									if(deck!=null){
 										Player p = new Player(deck);
 										listActions.removeAll();
+										GameManager.getInstance().removePlayers();
 										GameManager.getInstance().addPlayer(p);
 										GameManager.getInstance().initGame();
 										GameManager.getInstance().nextTurn();
@@ -353,8 +354,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 	    });
 								
 								listActions = new JList<String>();
-								listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 								listActions.setValueIsAdjusting(true);
+								listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 								listActions.setModel(new DefaultListModel<String>());
 								scrollActions.setViewportView(listActions);
 								

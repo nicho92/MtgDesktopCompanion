@@ -23,23 +23,16 @@ public class TransferActions extends MouseAdapter {
 			 
 		
 			if(SwingUtilities.isLeftMouseButton(e)){
-			if(card.isDraggable())
-			  ((DraggablePanel)card.getParent()).getTransferHandler().exportAsDrag(card, e, TransferHandler.MOVE); //block click event
+			
+				if(card.isDraggable())
+					((DraggablePanel)card.getParent()).getTransferHandler().exportAsDrag(card, e, TransferHandler.MOVE); //block click event
 			 
 			 
 			 
 			 if(e.getClickCount()==2)
 				  if(card.isTappable())
-					if(card.isTapped())
-					{
-						card.tap(false);
-						GamePanelGUI.getInstance().getPlayer().logAction("Untap " + card.getMagicCard());
-					}
-					else
-					{
-						card.tap(true);
-						GamePanelGUI.getInstance().getPlayer().logAction("Tap " + card.getMagicCard());
-					}
+						card.tap(!card.isTapped());
+				
 			 
 			}
 		

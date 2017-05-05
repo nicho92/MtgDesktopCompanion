@@ -9,29 +9,23 @@ import org.magic.game.gui.components.BattleFieldPanel;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 
-public class UntapAllAction extends AbstractAction {
+public class SelectedTapActions extends AbstractAction {
 
 	BattleFieldPanel battleFieldPanel;
 	
-	public UntapAllAction(BattleFieldPanel battleFieldPanel) {
-			super("Untap All Cards");
-			putValue(SHORT_DESCRIPTION,"untap the cards on battlefields");
+	public SelectedTapActions(BattleFieldPanel battleFieldPanel) {
+			super("(Un)Tap Selected Cards");
+			putValue(SHORT_DESCRIPTION,"Tap/Untap the cards on battlefields");
 	        putValue(MNEMONIC_KEY, KeyEvent.VK_U);
 	        this.battleFieldPanel=battleFieldPanel;
 	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for(DisplayableCard card : battleFieldPanel.getCards())
+		for(DisplayableCard card : battleFieldPanel.getSelectedCards())
 		{
 			if(card.isTappable())
-			{
-				if(card.isTapped())
-				{
-					card.tap(false);
-					GamePanelGUI.getInstance().getPlayer().logAction("Untap " + card.getMagicCard());
-				}
-			}
+				card.tap(!card.isTapped());
 		}
 
 	}

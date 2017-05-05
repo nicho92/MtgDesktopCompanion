@@ -28,7 +28,7 @@ public class Player extends Observable implements Serializable{
 	private List<MagicCard> exil;
 	private Library library;
 	private List<MagicCard> hand;
-	private List<MagicCard> battlefield;
+	private BattleField battlefield;
 	private Map<String,Integer> manaPool;
 	private Locale local;
 	private BufferedImage icon;
@@ -71,7 +71,7 @@ public class Player extends Observable implements Serializable{
 		exil=new ArrayList<MagicCard>();
 		hand=new ArrayList<MagicCard>();
 		library=new Library(deck.getAsList());
-		battlefield=new ArrayList<MagicCard>();
+		battlefield=new BattleField();
 		manaPool = new HashMap<String,Integer>();
 		local=Locale.getDefault();
 	}
@@ -104,11 +104,11 @@ public class Player extends Observable implements Serializable{
 		init();
 	}
 
-	public List<MagicCard> getBattlefield() {
+	public BattleField getBattlefield() {
 		return battlefield;
 	}
 
-	public void setBattlefield(List<MagicCard> battlefield) {
+	public void setBattlefield(BattleField battlefield) {
 		this.battlefield = battlefield;
 	}
 

@@ -81,7 +81,7 @@ public class LibraryPanel extends DraggablePanel {
 
 	@Override
 	public void postTreatment() {
-	remove(addedCard);
+		remove(addedCard);
 		
 	}
 }

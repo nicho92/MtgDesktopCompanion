@@ -105,5 +105,11 @@ public class GameManager {
 		
 		turns = new ArrayList<Turn>();
 	}
+
+
+	public void removePlayers() {
+		players.clear();
+		
+	}
 	
 }

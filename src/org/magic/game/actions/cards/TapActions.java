@@ -23,20 +23,8 @@ public class TapActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if(card.isTappable())
-		{
-				
-				if(card.isTapped())
-				{
-					card.tap(false);
-					GamePanelGUI.getInstance().getPlayer().logAction("Untap " + card.getMagicCard());
-				}
-				else
-				{
-					card.tap(true);
-					GamePanelGUI.getInstance().getPlayer().logAction("Tap " + card.getMagicCard());
-				}
-		}
-
+			card.tap(!card.isTapped());
+			
 	}
 
 }
