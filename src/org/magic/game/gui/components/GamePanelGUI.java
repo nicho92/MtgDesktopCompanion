@@ -99,6 +99,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		player=p1;
 		lblPlayer.setText(p1.getName());
 		player.addObserver(this);
+		
 		spinLife.setValue(p1.getLife());
 		spinPoison.setValue(p1.getPoisonCounter());
 		
@@ -107,6 +108,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		manaPoolPanel.setPlayer(p1);
 		panelBattleField.setPlayer(p1);
 		panelLibrary.setPlayer(p1);
+		
 		GameManager.getInstance().addPlayer(p1);
 	}
 	
@@ -345,6 +347,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
 								
 								JScrollPane scrollActions = new JScrollPane();
+								scrollActions.setPreferredSize(new Dimension(CARD_WIDTH, 0));
 								tabbedPane.addTab("Events", null, scrollActions, null);
 								
 								listActions = new JList<String>();

@@ -58,7 +58,7 @@ public class CockatriceTokenProvider {
 	
 	public boolean isEmblemizer(MagicCard mc)
 	{
-		if(mc.getLayout().equals(MagicCard.LAYOUT.Token.toString()))
+		if(mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
 			return false;
 		
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][contains(name,'emblem')]";
