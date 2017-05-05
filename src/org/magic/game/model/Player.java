@@ -81,16 +81,15 @@ public class Player extends Observable implements Serializable{
 		name="player 1";
 		life=20;
 		this.deck=deck;
-		local=Locale.getDefault();
 		init();
 		
 	}
 	
-	public Player(String name,int life,MagicDeck deck) {
+	public Player(String name,int life,MagicDeck d) {
 		super();
 		this.name=name;
 		this.life=life;
-		this.deck=deck;
+		this.deck=d;
 		init();
 	}
 

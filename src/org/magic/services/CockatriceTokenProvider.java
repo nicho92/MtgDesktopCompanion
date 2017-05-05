@@ -130,6 +130,7 @@ public class CockatriceTokenProvider {
 						  return tok;
 			
 		} catch (XPathExpressionException e) {
+			logger.error(e);
 			return null;
 		}
 	}
@@ -150,7 +151,8 @@ public class CockatriceTokenProvider {
 						  tok.getSubtypes().add(types.substring(types.indexOf("—")+1));
 						  tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 						  tok.setNumber("E");
-						  NodeList sets = value.getElementsByTagName("set");
+						  
+						  /* NodeList sets = value.getElementsByTagName("set");
 						  for (int s = 0; s < sets.getLength(); s++) {
 							  String idSet = sets.item(s).getTextContent();
 							  
@@ -161,7 +163,8 @@ public class CockatriceTokenProvider {
 								  tok.getEditions().add(ed);
 							} catch (Exception e) {}
 							  
-						  }
+						  }*/
+						  tok.getEditions().add(mc.getEditions().get(0));
 						  return tok;
 			
 		} catch (XPathExpressionException e) {
@@ -169,15 +172,15 @@ public class CockatriceTokenProvider {
 		}
 	}
 	
-	public BufferedImage getTokenPics(MagicCard tok) throws Exception {
+	public BufferedImage getPictures(MagicCard tok) throws Exception {
 		XPath xPath =  XPathFactory.newInstance().newXPath();
 		
 		String expression = "//card[name=\""+tok.getName()+"\"]";
 		
 		if(tok.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
 			expression ="//card[name=\""+tok.getName()+" (emblem)\"]";
-
-		logger.debug(expression + " for " + tok.getName() + " " + tok.getEditions().get(0).getId());
+		
+		logger.debug(expression + " for " + tok.getEditions().get(0));
 		
 		
 		NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);

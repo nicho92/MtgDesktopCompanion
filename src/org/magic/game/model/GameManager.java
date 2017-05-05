@@ -8,6 +8,7 @@ import javax.swing.JFrame;
 
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.gui.components.dialog.JDeckChooserDialog;
 
 public class GameManager {
 
@@ -36,13 +37,10 @@ public class GameManager {
 	}
 	
 	
-	public void nextTurn()
+	public void endTurn(Player p)
 	{
+		p.logAction("End the turn " + turns.size());
 		turns.add(new Turn());
-		
-		for(Player player : players)
-			player.logAction("New turn : " + turns.size());
-		
 	}
 	
 	public void logAction(Player p, String action)
@@ -77,16 +75,11 @@ public class GameManager {
 
 	
 	public static void main(String[] args) throws Exception {
-		Player p1 = new Player(System.getProperty("user.name"), 20,new MTGDesktopCompanionExport().importDeck(new File("C:/Users/Pihen/magicDeskCompanion/decks/Jund.deck")));
-		//Player p2 = new Player("Player 2", 20,MagicSerializer.read(new File("C:/Users/Pihen/magicDeskCompanion/decks/Mr Toad's Wild Ride.deck"), MagicDeck.class));
 		
-		//Player p1 = new Player(new MTGDesktopCompanionExport().importDeck(new File("C:/Users/Nicolas/magicDeskCompanion/decks/RW Angels.deck")));
-		//Player p2 = new Player(MagicSerializer.read(new File("C:/Users/Nicolas/magicDeskCompanion/decks/Jeskai mentor.deck"), MagicDeck.class));
-		
-		GameManager.getInstance().addPlayer(p1);
-		//GameManager.getInstance().addPlayer(p2);
+		Player p1 = new Player();
+
 		GameManager.getInstance().initGame();
-		GameManager.getInstance().nextTurn();
+		GameManager.getInstance().endTurn(p1);
 		JFrame f = new JFrame("Game Simulator " + GameManager.getInstance().getPlayers().size() + " players");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		GamePanelGUI p = GamePanelGUI.getInstance();

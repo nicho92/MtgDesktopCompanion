@@ -1,5 +1,6 @@
 package org.magic.game.actions.cards;
 
+import java.awt.event.InputEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -23,8 +24,13 @@ public class TransferActions extends MouseAdapter {
 					((DraggablePanel)card.getParent()).getTransferHandler().exportAsDrag(card, e, TransferHandler.MOVE); //block click event
 			 
 			 if(e.getClickCount()==2)
-				  if(card.isTappable())
+			 {	  if(card.isTappable())
 						card.tap(!card.isTapped());
+			 	return;
+			 }
+			 if(e.getClickCount()==1)
+			 {
+			 }
 				
 			}
 	 }

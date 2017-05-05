@@ -155,7 +155,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										GameManager.getInstance().removePlayers();
 										GameManager.getInstance().addPlayer(p);
 										GameManager.getInstance().initGame();
-										GameManager.getInstance().nextTurn();
+										GameManager.getInstance().endTurn(p);
 										setPlayer(p);
 										clean();
 									}
@@ -235,7 +235,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						
 						btnEndTurn.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent ae) {
-								GameManager.getInstance().nextTurn();
+								GameManager.getInstance().endTurn(player);
 							}
 						});
 						GridBagConstraints gbc_txtChat = new GridBagConstraints();
@@ -347,14 +347,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								JScrollPane scrollActions = new JScrollPane();
 								tabbedPane.addTab("Events", null, scrollActions, null);
 								
-								scrollActions.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-	        public void adjustmentValueChanged(AdjustmentEvent e) {  
-	            e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-	        }
-	    });
-								
 								listActions = new JList<String>();
-								listActions.setValueIsAdjusting(true);
 								listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 								listActions.setModel(new DefaultListModel<String>());
 								scrollActions.setViewportView(listActions);

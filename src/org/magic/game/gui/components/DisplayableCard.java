@@ -20,6 +20,8 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.AttachActions;
@@ -57,7 +59,7 @@ public class DisplayableCard extends JLabel implements Draggable
 	private boolean tappable=true;
 	private String title;
 	private String bottom;
-	private boolean selected;
+	private boolean selected=false;
 	private boolean rotated;
 	private boolean showPT; 
 	private List<DisplayableCard> attachedCards;
@@ -79,6 +81,16 @@ public class DisplayableCard extends JLabel implements Draggable
 		initActions();
 	}
 	
+	
+	@Override
+	public Border getBorder() {
+		 if(isSelected())
+		  return new LineBorder(Color.RED);
+		 else
+			 return null;
+		 
+		
+	}
 
 	public void removeAllCounters() {
 		for(AbstractCounter c : counters)
@@ -137,10 +149,10 @@ public class DisplayableCard extends JLabel implements Draggable
 	
 	@Override
 	public void paintComponent(Graphics g) {
-		if(magicCard != null)
+		if(image != null)
 		{
 			g.drawImage(image.getImage(), 0, 0, this.getWidth(), this.getHeight(), null);
-			
+
 			if(showPT)
 				drawString(g, magicCard.getPower()+"/"+magicCard.getToughness(), Color.BLACK, Color.WHITE, this.getWidth()-33, this.getHeight()-10);
 			
@@ -284,8 +296,9 @@ public class DisplayableCard extends JLabel implements Draggable
 		if(GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
 			menu.add(new JMenuItem(new TokensActions(this)));
 		
+		
 		if(GamePanelGUI.getInstance().getTokenGenerator().isEmblemizer(magicCard))
-			menu.add(new JMenuItem(new EmblemActions(this)));
+				menu.add(new JMenuItem(new EmblemActions(this)));
 		
 		
 		setComponentPopupMenu(menu);
@@ -376,7 +389,7 @@ public class DisplayableCard extends JLabel implements Draggable
 		try {
 			if(mc.getLayout().equals(MagicCard.LAYOUT.Token.toString()) || mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
 			{
-				fullResPics = new CockatriceTokenProvider().getTokenPics(mc);
+				fullResPics = new CockatriceTokenProvider().getPictures(mc);
 				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 			}
 			else

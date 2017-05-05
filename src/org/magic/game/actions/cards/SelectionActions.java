@@ -25,15 +25,16 @@ public class SelectionActions extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 			 if(card.isSelected())
 			 {	  
-			  card.setBorder(null);
+			//  card.setBorder(null);
 		  	  card.setSelected(false);
 			 }
 			 else
 			 {
-			  card.setBorder(new LineBorder(Color.RED));
+			  //card.setBorder(new LineBorder(Color.RED));
 		  	  card.setSelected(true);
 			 }
 		
+			 card.repaint();
 	}
 	
 }
