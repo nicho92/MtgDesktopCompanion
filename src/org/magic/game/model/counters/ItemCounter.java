@@ -14,10 +14,21 @@ public class ItemCounter extends AbstractCounter{
 		this.name=name;
 		this.color=c;
 	}
+	
+	public ItemCounter(Color c)
+	{
+		this.name=c.toString();
+		this.color=c;
+	}
+	
+	public void setName(String name)
+	{
+		this.name=name;
+	}
 
 	@Override
 	public void apply(DisplayableCard displayableCard) {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
@@ -29,8 +40,7 @@ public class ItemCounter extends AbstractCounter{
 
 	@Override
 	public String describe() {
-		// TODO Auto-generated method stub
-		return null;
+		return name +" counter";
 	}
 	
 }

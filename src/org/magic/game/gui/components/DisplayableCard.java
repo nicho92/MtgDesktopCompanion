@@ -7,8 +7,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.AffineTransformOp;
@@ -28,6 +26,7 @@ import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
 import org.magic.game.actions.cards.EmblemActions;
 import org.magic.game.actions.cards.FlipActions;
+import org.magic.game.actions.cards.ItemCounterActions;
 import org.magic.game.actions.cards.LoyaltyActions;
 import org.magic.game.actions.cards.RemoveCounterActions;
 import org.magic.game.actions.cards.RotateActions;
@@ -39,6 +38,7 @@ import org.magic.game.actions.cards.TransformActions;
 import org.magic.game.model.PositionEnum;
 import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
+import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
@@ -218,6 +218,10 @@ public class DisplayableCard extends JLabel implements Draggable
 		menu.add(new JMenuItem(new SelectionActions(this)));
 		menu.add(new JMenuItem(new RotateActions(this)));
 	
+		
+		
+		
+		
 		if(magicCard.getTypes().contains("Creature"))
 		{
 			JMenu mnuModifier = new JMenu("P/T");
@@ -229,6 +233,14 @@ public class DisplayableCard extends JLabel implements Draggable
 			mnuModifier.add(new BonusCounterActions(this,  new BonusCounter(-1, -1)));
 			menu.add(mnuModifier);
 		}
+		
+		JMenu mnuCounter = new JMenu("Counter");
+		
+		mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Yellow", Color.YELLOW)));
+		mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Green", Color.GREEN)));
+		mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Orange", Color.ORANGE)));
+		menu.add(mnuCounter);
+		
 		
 		if(magicCard.getTypes().contains("Planeswalker"))
 		{
@@ -247,7 +259,6 @@ public class DisplayableCard extends JLabel implements Draggable
 			JMenu mnuModifier = new JMenu("Remove Counter");
 			for(final AbstractCounter count : counters)
 				mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count)));
-
 			menu.add(mnuModifier);
 		}
 		
