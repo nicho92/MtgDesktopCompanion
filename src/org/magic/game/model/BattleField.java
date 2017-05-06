@@ -37,5 +37,10 @@ public class BattleField implements Serializable{
 	{
 		return cards.size();
 	}
+
+	public void removeAll() {
+		cards.clear();
+		
+	}
 	
 }

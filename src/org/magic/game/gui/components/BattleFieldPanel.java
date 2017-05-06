@@ -1,6 +1,7 @@
 package org.magic.game.gui.components;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -16,7 +17,6 @@ import org.magic.game.model.PositionEnum;
 
 public class BattleFieldPanel extends DraggablePanel  {
 
-	private List<DisplayableCard> stack;
 	JPopupMenu menu = new JPopupMenu();
 	private BufferedImage image;
 	
@@ -24,22 +24,31 @@ public class BattleFieldPanel extends DraggablePanel  {
 	public void removeAll()
 	{
 		super.removeAll();
-		stack.clear();
 	}
 	
 	
 	public List<DisplayableCard> getCards()
 	{
-		return stack;
+		List<DisplayableCard> selected = new ArrayList<DisplayableCard>();
+		for(Component c : getComponents())
+		{
+			DisplayableCard card = (DisplayableCard)c;
+			selected.add(card);
+		}
+		
+		return selected;
 	}
+	
 	
 	
 	public List<DisplayableCard> getSelectedCards()
 	{
 		List<DisplayableCard> selected = new ArrayList<DisplayableCard>();
-			for(DisplayableCard c : stack)
-				if(c.isSelected())
-					selected.add(c);
+			for(DisplayableCard card : getCards())
+			{
+				if(card.isSelected())
+					selected.add(card);
+			}
 		
 		return selected;
 		
@@ -59,7 +68,6 @@ public class BattleFieldPanel extends DraggablePanel  {
 		super();
 		setBackground(Color.DARK_GRAY);
 		setLayout(null);
-		stack=new ArrayList<DisplayableCard>();
 		
 		menu.removeAll();
 		menu.add(new JMenuItem(new SelectedTapActions(this)));
@@ -69,7 +77,6 @@ public class BattleFieldPanel extends DraggablePanel  {
 	
 	public void addComponent(DisplayableCard card)
 	{
-		stack.add(card);
 		this.add(card);
 	}
 

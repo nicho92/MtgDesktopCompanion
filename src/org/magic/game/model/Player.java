@@ -457,7 +457,7 @@ public class Player extends Observable implements Serializable{
 		setChanged();
 		notifyObservers(string);
 		GameManager.getInstance().getActualTurn().getActions().add(string);
-		
+		System.out.println(toDetailledString());
 	}
 
 	public void playCardFromLibrary(MagicCard mc) {
