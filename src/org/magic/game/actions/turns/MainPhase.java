@@ -12,8 +12,8 @@ public class MainPhase extends AbstractAction {
 
 	int step;
 	
-	String detail="-Abilities that trigger at the beginning of the main phase go onto the stack.\n"
-				+ "-The active player gains priority.";
+	String detail="<html>Abilities that trigger at the beginning of the main phase go onto the stack.<br/>"
+				+ "The active player gains priority.";
 	
 	
 	public MainPhase(int step) {

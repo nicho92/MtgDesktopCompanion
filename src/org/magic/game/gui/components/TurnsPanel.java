@@ -21,6 +21,8 @@ import org.magic.game.actions.turns.UntapPhase;
 import org.magic.game.actions.turns.UpkeepPhase;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
+import javax.swing.border.LineBorder;
+import java.awt.Color;
 
 public class TurnsPanel extends JPanel {
 
