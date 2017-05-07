@@ -3,7 +3,6 @@ package org.magic.game.gui.components;
 import java.awt.Component;
 import java.awt.FlowLayout;
 
-import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -21,8 +20,6 @@ import org.magic.game.actions.turns.UntapPhase;
 import org.magic.game.actions.turns.UpkeepPhase;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
-import javax.swing.border.LineBorder;
-import java.awt.Color;
 
 public class TurnsPanel extends JPanel {
 
@@ -34,7 +31,7 @@ public class TurnsPanel extends JPanel {
 		flowLayout.setVgap(1);
 		flowLayout.setHgap(1);
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		lblTurnNumber = new JLabel("Turn 1");
+		lblTurnNumber = new JLabel("Turn "+GameManager.getInstance().getTurns().size());
 		add(lblTurnNumber);
 		
 		add(new JButton(new UntapPhase()));
@@ -50,7 +47,6 @@ public class TurnsPanel extends JPanel {
 		add(new JButton(new EndPhase()));
 		add(new JButton(new CleanUpPhase()));
 	}
-
 
 	public void initTurn()
 	{

@@ -239,9 +239,8 @@ public class DisplayableCard extends JLabel implements Draggable
 		
 		
 		addMouseListener(new TransferActions());
-		
-		menu.add(new JMenuItem(new TapActions(this)));
 		menu.add(new JMenuItem(new SelectionActions(this)));
+		menu.add(new JMenuItem(new TapActions(this)));
 		menu.add(new JMenuItem(new RotateActions(this)));
 	
 		if(magicCard.getTypes().contains("Creature"))
