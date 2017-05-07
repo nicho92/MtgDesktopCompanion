@@ -75,6 +75,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public static int CARD_WIDTH=154;
 	public static int CARD_HEIGHT=215;
 	
+
 	public static GamePanelGUI getInstance()
 	{
 		if (instance==null)
@@ -82,6 +83,13 @@ public class GamePanelGUI extends JPanel implements Observer {
 		
 		return instance;
 	}
+	
+	public TurnsPanel getTurnsPanel()
+	{
+		return turnsPanel;
+		
+	}
+	
 	
 	public static GamePanelGUI newInstance()
 	{
@@ -161,6 +169,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										GameManager.getInstance().addPlayer(p);
 										GameManager.getInstance().initGame();
 										GameManager.getInstance().endTurn(p);
+										turnsPanel.initTurn();
 										setPlayer(p);
 										clean();
 									}

@@ -4,9 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
+import javax.swing.JButton;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.Player;
 
 public class UpkeepPhase extends AbstractAction {
 
@@ -16,13 +18,17 @@ public class UpkeepPhase extends AbstractAction {
 			+ "-During this step, all upkeep costs are paid.";
 	
 			
-	public UpkeepPhase() {
+	public UpkeepPhase(Player p) {
 		super("Upkeep");
 		putValue(SHORT_DESCRIPTION, detail);
+		setEnabled(false);
 	}
 	
 	@Override
-	public void actionPerformed(ActionEvent arg0) {
+	public void actionPerformed(ActionEvent ae) {
+		
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonTo((JButton)ae.getSource());
+		
 		setEnabled(false);
 		
 	}

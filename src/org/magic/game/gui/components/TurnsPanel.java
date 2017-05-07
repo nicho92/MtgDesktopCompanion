@@ -2,6 +2,8 @@ package org.magic.game.gui.components;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -26,6 +28,7 @@ public class TurnsPanel extends JPanel {
 	JLabel lblTurnNumber;
 	Player p;
 	
+	
 	public TurnsPanel() {
 		FlowLayout flowLayout = (FlowLayout) getLayout();
 		flowLayout.setVgap(1);
@@ -34,20 +37,42 @@ public class TurnsPanel extends JPanel {
 		lblTurnNumber = new JLabel("Turn "+GameManager.getInstance().getTurns().size());
 		add(lblTurnNumber);
 		
-		add(new JButton(new UntapPhase()));
-		add(new JButton(new UpkeepPhase()));
-		add(new JButton(new DrawPhase()));
-		add(new JButton(new MainPhase(1)));
-		add(new JButton(new CombatPhase()));
-		add(new JButton(new AttackPhase()));
-		add(new JButton(new BlockPhase()));
-		add(new JButton(new DamagePhase()));
-		add(new JButton(new EndCombatPhase()));
-		add(new JButton(new MainPhase(2)));
-		add(new JButton(new EndPhase()));
-		add(new JButton(new CleanUpPhase()));
+		add(new JButton(new UntapPhase(p)));
+		add(new JButton(new UpkeepPhase(p)));
+		add(new JButton(new DrawPhase(p)));
+		add(new JButton(new MainPhase(1,p)));
+		add(new JButton(new CombatPhase(p)));
+		add(new JButton(new AttackPhase(p)));
+		add(new JButton(new BlockPhase(p)));
+		add(new JButton(new DamagePhase(p)));
+		add(new JButton(new EndCombatPhase(p)));
+		add(new JButton(new MainPhase(2,p)));
+		add(new JButton(new EndPhase(p)));
+		add(new JButton(new CleanUpPhase(p)));
+		
+	}
+	
+	
+	public void disableButtonTo(JButton b)
+	{
+		for(Component c : getComponents())
+		{
+			if(c instanceof JButton)
+			{
+				JButton but = (JButton)c;
+				if(!but.equals(b))
+				{
+					but.getAction().setEnabled(false);
+				}
+				else
+				{
+					return;
+				}
+			}
+		}
 	}
 
+	
 	public void initTurn()
 	{
 		for(Component c : getComponents())
