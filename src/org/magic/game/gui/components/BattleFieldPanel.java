@@ -13,6 +13,7 @@ import javax.swing.JPopupMenu;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.battlefield.ChangeBackGroundAction;
 import org.magic.game.actions.battlefield.SelectedTapActions;
+import org.magic.game.actions.battlefield.UnselectAllAction;
 import org.magic.game.model.PositionEnum;
 
 public class BattleFieldPanel extends DraggablePanel  {
@@ -70,6 +71,7 @@ public class BattleFieldPanel extends DraggablePanel  {
 		setLayout(null);
 		
 		menu.removeAll();
+		menu.add(new JMenuItem(new UnselectAllAction(this)));
 		menu.add(new JMenuItem(new SelectedTapActions(this)));
 		menu.add(new JMenuItem(new ChangeBackGroundAction(this)));
 		setComponentPopupMenu(menu);

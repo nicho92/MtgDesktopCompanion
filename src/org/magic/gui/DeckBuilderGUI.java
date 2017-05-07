@@ -296,6 +296,7 @@ public class DeckBuilderGUI extends JPanel{
 				}
 				catch(Exception ex)
 				{
+					ex.printStackTrace();
 					logger.error(ex);
 					JOptionPane.showMessageDialog(null, ex,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}

@@ -68,6 +68,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private CockatriceTokenProvider tokenGenerator;
 	private PlayerGameBoard playerGameBoard;
 	private JPanel panelInfo;
+	private TurnsPanel turnsPanel;
+	
+	
 	
 	public static int CARD_WIDTH=154;
 	public static int CARD_HEIGHT=215;
@@ -108,7 +111,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		manaPoolPanel.setPlayer(p1);
 		panelBattleField.setPlayer(p1);
 		panelLibrary.setPlayer(p1);
-		
+
 		GameManager.getInstance().addPlayer(p1);
 	}
 	
@@ -238,6 +241,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						btnEndTurn.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent ae) {
 								GameManager.getInstance().endTurn(player);
+								turnsPanel.initTurn();
 							}
 						});
 						GridBagConstraints gbc_txtChat = new GridBagConstraints();
@@ -388,16 +392,13 @@ public class GamePanelGUI extends JPanel implements Observer {
 										panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
 										panelDeck.add(panelLibrary);
 										
-										
 										panelLibrary.addMouseListener(new MouseAdapter() {
 											@Override
 											public void mouseClicked(MouseEvent me) {
 
 												if(SwingUtilities.isLeftMouseButton(me))
-												{	player.drawCard(1);
-													DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight(),true);
-													c.enableDrag(true);
-													handPanel.addComponent(c);
+												{	
+													drawAction();
 												}
 												
 											}
@@ -407,23 +408,40 @@ public class GamePanelGUI extends JPanel implements Observer {
 										
 										panelLibraryAndGrave.add(panelGrave);
 										
+										panelBattleField = new BattleFieldPanel();
+										panneauDroit.add(panelBattleField, BorderLayout.CENTER);
+										panelBattleField.setLayout(null);
+										
+										JPanel panelBottom = new JPanel();
+										panneauDroit.add(panelBottom, BorderLayout.SOUTH);
+										
 										handPanel = new ThumbnailPanel();
 										handPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 										handPanel.enableDragging(true);
 										handPanel.setThumbnailSize(CARD_WIDTH, CARD_HEIGHT);
+										panelBottom.setLayout(new BorderLayout(0, 0));
 										handPanel.setRupture(7);
 										
 										JScrollPane scrollPane = new JScrollPane();
-										panneauDroit.add(scrollPane, BorderLayout.SOUTH);
+										panelBottom.add(scrollPane);
 										scrollPane.setPreferredSize(new Dimension(2, handPanel.getCardHeight()));
 										
 										scrollPane.setViewportView(handPanel);
 										
-										panelBattleField = new BattleFieldPanel();
-										panneauDroit.add(panelBattleField, BorderLayout.CENTER);
-										panelBattleField.setLayout(null);
+										turnsPanel = new TurnsPanel();
+										panelBottom.add(turnsPanel, BorderLayout.NORTH);
 									
 	}
+	
+	
+	public  void drawAction() {
+		player.drawCard(1);
+		DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight(),true);
+		c.enableDrag(true);
+		handPanel.addComponent(c);
+		
+	}
+
 	public JSpinner getSpinLife() {
 		return spinLife;
 	}
