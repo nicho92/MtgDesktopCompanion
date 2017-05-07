@@ -22,7 +22,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("DIRECTORY", MTGControler.CONF_DIR+"/cachePics");
-			props.put("FORMAT", "jpg");
+			props.put("FORMAT", "png");
 		save();
 		}
 	
