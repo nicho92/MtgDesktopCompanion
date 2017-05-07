@@ -18,6 +18,7 @@ import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
@@ -27,6 +28,7 @@ import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.models.conf.DashBoardProviderTreeTableModel;
 import org.magic.gui.models.conf.DeckSnifferTreeTableModel;
 import org.magic.gui.models.conf.ExportsTreeTableModel;
+import org.magic.gui.models.conf.MTGPicsCacheProviderTreeTableModel;
 import org.magic.gui.models.conf.MagicDAOProvidersTableModel;
 import org.magic.gui.models.conf.MagicPricesProvidersTableModel;
 import org.magic.gui.models.conf.MagicShoppersTableModel;
@@ -46,7 +48,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable exportsTable;
 	private JXTreeTable picturesProviderTable;
 	private JXTreeTable serversTreeTable;
-	
+	private JXTreeTable cachesTreeTable;
 	
 	public ConfigurationPanelGUI() {
 		
@@ -174,6 +176,18 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		});
 		serversScrollPane.setViewportView(serversTreeTable);
+		
+		JScrollPane cachesScrollPane = new JScrollPane();
+		subTabbedProviders.addTab("Caches", null, cachesScrollPane, null);
+		cachesTreeTable = new JXTreeTable(new MTGPicsCacheProviderTreeTableModel());
+		cachesTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
+			public void valueChanged(TreeSelectionEvent e) {
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1);
+						((MTGPicsCacheProviderTreeTableModel)cachesTreeTable.getTreeTableModel()).setSelectedNode((MTGPicturesCache)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		});
+		cachesScrollPane.setViewportView(cachesTreeTable);
 		
 		
 		

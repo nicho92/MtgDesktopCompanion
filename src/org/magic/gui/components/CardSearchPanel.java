@@ -737,6 +737,7 @@ public class CardSearchPanel extends JPanel {
 				public void mouseClicked(MouseEvent e) {
 					DisplayableCard lab = (DisplayableCard)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
 					selected = lab.getMagicCard();
+					selectedEdition = lab.getMagicCard().getEditions().get(0);
 					cardsPicPanel.showPhoto(selected, null);
 					updateCards();
 				}

@@ -21,15 +21,18 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
+import org.magic.api.cache.impl.MemoryCache;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 
@@ -45,6 +48,8 @@ public class MTGControler {
 	private List<DashBoard> dashboards;
 	private List<CardExporter> exports;
 	private List<MTGServer> servers;
+	private List<MTGPicturesCache> caches;
+	
 	
 	public static File CONF_DIR = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	private XMLConfiguration config;
@@ -110,6 +115,8 @@ public class MTGControler {
 				path = "pictures/picture[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof MTGServer) {
 				path = "servers/server[class='"+k.getClass().getName()+"']/enable";
+			}else if (k instanceof MTGPicturesCache) {
+				path = "caches/cache[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof RSSBean) {
 				path = "rss";
 			}else{
@@ -314,6 +321,19 @@ public class MTGControler {
 				}
 			}
 			
+			logger.info("loading Caches");
+			caches=new ArrayList<MTGPicturesCache>();
+			for(int i=1;i<=config.getList("//cache/class").size();i++)
+			{
+				String s = config.getString("caches/cache["+i+"]/class");
+				MTGPicturesCache prov = loadItem(MTGPicturesCache.class, s.toString());
+						 
+				if(prov!=null){
+					prov.enable(config.getBoolean("caches/cache["+i+"]/enable"));
+					caches.add(prov);
+				}
+			}
+			
 			logger.debug("Check for new modules");
 			
 		} catch (Exception e) {
@@ -338,6 +358,21 @@ public class MTGControler {
 			logger.error(e);
 			return null;
 		}
+	}
+	
+	
+	public MTGPicturesCache getEnabledCache()
+	{
+		for(MTGPicturesCache p : getListCaches())
+			if(p.isEnable())
+				return p;
+		
+		return null;
+	}
+	
+	public List<MTGPicturesCache> getListCaches()
+	{
+		  return caches;
 	}
 	
 	public List<MagicCardsProvider> getListProviders()

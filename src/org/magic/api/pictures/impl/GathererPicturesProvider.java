@@ -8,14 +8,14 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.cache.impl.MemoryCache;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.services.MTGControler;
 
 public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
-//	PicturesCache cache = new MemoryCache();
-	
-	
 	
 	public GathererPicturesProvider() {
 		super();
@@ -23,6 +23,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("BACKGROUND_ID", "132667");
 			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
+			//props.put("ENABLE_CACHE", "true");
 			save();
 		}
 	}
@@ -47,8 +48,8 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception{
 		
-//		if(cache.getPic(mc)!=null)
-//		return cache.getPic(mc);
+		if(MTGControler.getInstance().getEnabledCache().getPic(mc,ed)!=null)
+			return MTGControler.getInstance().getEnabledCache().getPic(mc,ed);
 		
 		MagicEdition selected =ed;
 		
@@ -63,7 +64,9 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		}
 		BufferedImage im = getPicture(selected.getMultiverse_id());
 		
-//		cache.put(im, mc);
+		if(im!=null)
+			MTGControler.getInstance().getEnabledCache().put(im, mc,ed);
+		
 		return im;
 	}
 	

@@ -50,11 +50,12 @@ public class BoosterPicturesProvider {
 	
 	public Icon getBoosterFor(MagicEdition me)
 	{
-		XPath xPath =  XPathFactory.newInstance().newXPath();
-		String expression = "//booster[contains(@id,'"+me.getId()+"')]";
-		NodeList nodeList;
+	
 		String url=""; 
 			try {
+				XPath xPath =  XPathFactory.newInstance().newXPath();
+				String expression = "//booster[contains(@id,'"+me.getId()+"')]";
+				NodeList nodeList;
 				nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 				Node item = nodeList.item(0);
 				url = item.getAttributes().getNamedItem("url").getNodeValue();
