@@ -25,9 +25,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 			props.put("FORMAT", "jpg");
 		save();
 		}
-		
-		
-		
+	
 		directory = new File(props.getProperty("DIRECTORY"));
 		if(!directory.exists())
 			directory.mkdir();

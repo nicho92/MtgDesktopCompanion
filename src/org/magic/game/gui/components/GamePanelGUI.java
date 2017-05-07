@@ -347,6 +347,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								panelPoolandDescribes.add(tabbedPane, BorderLayout.CENTER);
 								
 								JScrollPane scrollActions = new JScrollPane();
+								
 								scrollActions.setPreferredSize(new Dimension(CARD_WIDTH, 0));
 								tabbedPane.addTab("Events", null, scrollActions, null);
 								
@@ -444,6 +445,10 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public void update(Observable o, Object arg) {
 		String act = player.getName() +" " + arg.toString();
 		((DefaultListModel)listActions.getModel()).addElement(act);
+		
+		listActions.setSelectedIndex(listActions.getModel().getSize()-1);
+		listActions.ensureIndexIsVisible(listActions.getSelectedIndex());
+		
 		lblHandCount.setText(String.valueOf(player.getHand().size()));
 		lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));
 	}
