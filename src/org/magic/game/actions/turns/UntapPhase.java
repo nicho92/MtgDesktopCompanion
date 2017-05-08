@@ -7,7 +7,9 @@ import javax.swing.JButton;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
+import org.magic.game.model.Turn;
 
 public class UntapPhase extends AbstractAction {
 
@@ -26,6 +28,8 @@ public class UntapPhase extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		
+		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Untap);
 		
 		for(DisplayableCard c : GamePanelGUI.getInstance().getPanelBattleField().getCards())
 			if(c.isTapped())

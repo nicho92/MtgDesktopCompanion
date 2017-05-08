@@ -8,7 +8,9 @@ import javax.swing.JButton;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
+import org.magic.game.model.Turn;
 
 public class AttackPhase extends AbstractAction {
 
@@ -21,7 +23,8 @@ public class AttackPhase extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		
+		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Attack);
+
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonTo((JButton)ae.getSource());
 		setEnabled(false);
 		

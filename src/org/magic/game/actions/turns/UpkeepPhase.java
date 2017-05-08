@@ -8,7 +8,9 @@ import javax.swing.JButton;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
+import org.magic.game.model.Turn;
 
 public class UpkeepPhase extends AbstractAction {
 
@@ -28,6 +30,7 @@ public class UpkeepPhase extends AbstractAction {
 	public void actionPerformed(ActionEvent ae) {
 		
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonTo((JButton)ae.getSource());
+		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Upkeep);
 		
 		setEnabled(false);
 		

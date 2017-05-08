@@ -8,7 +8,9 @@ import javax.swing.JButton;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
+import org.magic.game.model.Turn;
 
 public class CleanUpPhase extends AbstractAction {
 
@@ -25,6 +27,8 @@ public class CleanUpPhase extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Cleanup);
+
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonTo((JButton)ae.getSource());
 		setEnabled(false);
 		

@@ -439,6 +439,8 @@ public class Player extends Observable implements Serializable{
 	public String toDetailledString() {
 		StringBuilder build = new StringBuilder();
 		
+		build.append("Turn :" ).append(GameManager.getInstance().getTurns().size()).append("\n");
+		build.append("Phases:" ).append(GameManager.getInstance().getActualTurn().currentPhase()).append("\n");
 		build.append("Library :" ).append(library.size()).append("\n");
 		build.append("Graveyard :" ).append(graveyard).append("\n");
 		build.append("Hand:" ).append(hand.size()).append("\n");
@@ -471,8 +473,6 @@ public class Player extends Observable implements Serializable{
 		hand.add(mc);
 		library.remove(mc);
 		logAction("search " + mc + " from library into hand");
-		
-		
 	}
 
 	public void say(String text) {
