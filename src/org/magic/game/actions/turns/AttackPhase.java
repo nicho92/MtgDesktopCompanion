@@ -25,7 +25,7 @@ public class AttackPhase extends AbstractAction {
 	public void actionPerformed(ActionEvent ae) {
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Attack);
 
-		GamePanelGUI.getInstance().getTurnsPanel().disableButtonTo((JButton)ae.getSource());
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		setEnabled(false);
 		
 	}

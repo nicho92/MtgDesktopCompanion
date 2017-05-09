@@ -15,9 +15,9 @@ import org.magic.game.model.Turn;
 public class UpkeepPhase extends AbstractAction {
 
 	
-	String detail = "-At the beginning of the upkeep step, any abilities that trigger either during the untap step or at the beginning of upkeep go on the stack.\n"
-			+ "-Then the active player gains priority the first time during his or her turn.\n"
-			+ "-During this step, all upkeep costs are paid.";
+	String detail = "<html>-At the beginning of the upkeep step, any abilities that trigger either during the untap step or at the beginning of upkeep go on the stack.<br/>"
+			+ "-Then the active player gains priority the first time during his or her turn.<br/>"
+			+ "-During this step, all upkeep costs are paid.</html>";
 	
 			
 	public UpkeepPhase(Player p) {
@@ -29,7 +29,7 @@ public class UpkeepPhase extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
-		GamePanelGUI.getInstance().getTurnsPanel().disableButtonTo((JButton)ae.getSource());
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Upkeep);
 		
 		setEnabled(false);

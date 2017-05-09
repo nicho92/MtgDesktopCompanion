@@ -31,7 +31,7 @@ public class DrawPhase extends AbstractAction {
 	public void actionPerformed(ActionEvent ae) {
 	
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Draw);
-		GamePanelGUI.getInstance().getTurnsPanel().disableButtonTo((JButton)ae.getSource());
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		
 		GamePanelGUI.getInstance().drawAction();
 		

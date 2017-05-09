@@ -70,10 +70,12 @@ public class CardBuilder2GUI extends JPanel{
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardEditorPanel magicCardEditorPanel;
 	private MagicEditionsTableModel editionModel;
+	
 	private PrivateMTGSetProvider provider;
 	private JComboBox<MagicEdition> cboSets;
 	private CropImagePanel panelImage;
 	private MTGCardMakerPicturesProvider picProvider;
+	private PersonalSetPicturesProvider recordedProvider;
 	private Image cardImage;
 	private JPanel panelPictures;
 	private JXTable cardsTable;
@@ -132,6 +134,7 @@ public class CardBuilder2GUI extends JPanel{
 ////////////////////////////////////////////////////INIT GLOBAL COMPONENTS		
 		editionModel = new MagicEditionsTableModel();
 		provider=new PrivateMTGSetProvider();
+		recordedProvider = new PersonalSetPicturesProvider();
 		btnRefresh = new JButton("");
 		picturesProvider= new PersonalSetPicturesProvider();
 		spinCommon = new JSpinner();
@@ -566,6 +569,12 @@ public class CardBuilder2GUI extends JPanel{
 		magicCardEditorPanel.setMagicCard(mc);
 		btnRefresh.doClick();
 		namesModel.init(mc);
+		try {
+			cardImage = recordedProvider.getPicture(mc, mc.getEditions().get(0));
+			panelPictures.repaint();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
 	}
 	

@@ -53,7 +53,7 @@ public class TurnsPanel extends JPanel {
 	}
 	
 	
-	public void disableButtonTo(JButton b)
+	public void disableButtonsTo(JButton b)
 	{
 		for(Component c : getComponents())
 		{

@@ -26,7 +26,7 @@ public class DamagePhase extends AbstractAction {
 	
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Damage);
 
-		GamePanelGUI.getInstance().getTurnsPanel().disableButtonTo((JButton)ae.getSource());
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		setEnabled(false);
 		
 	}

@@ -16,8 +16,8 @@ public class CombatPhase extends AbstractAction {
 
 	
 	
-	String detail="-Abilities that trigger at the beginning of the main phase go onto the stack."
-			+ "-The active player gains priority.";
+	String detail="<html>-The active player gains priority.<br/>"
+			+ "-Creatures assigned in this step are attacking.</html>";
 
 	
 	public CombatPhase(Player p) {
@@ -29,7 +29,7 @@ public class CombatPhase extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Combat);
-		GamePanelGUI.getInstance().getTurnsPanel().disableButtonTo((JButton)ae.getSource());
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		setEnabled(false);
 		
 	}
