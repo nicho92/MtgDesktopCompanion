@@ -155,19 +155,26 @@ public class CockatriceTokenProvider {
 						  tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 						  tok.setNumber("E");
 						  
-						  /* NodeList sets = value.getElementsByTagName("set");
+						  try{
+						  NodeList sets = value.getElementsByTagName("set");
 						  for (int s = 0; s < sets.getLength(); s++) {
 							  String idSet = sets.item(s).getTextContent();
 							  
 							  if(idSet.equals(mc.getEditions().get(0).getId()))
-							  try {
+							  {
 								  MagicEdition ed = new MagicEdition();
 								  ed=MTGControler.getInstance().getEnabledProviders().getSetById(idSet);
 								  tok.getEditions().add(ed);
-							} catch (Exception e) {}
+							  } 
 							  
-						  }*/
+						  }
 						  tok.getEditions().add(mc.getEditions().get(0));
+						  }catch(Exception e)
+						  {
+							  
+						  }
+						  
+						  
 						  return tok;
 			
 		} catch (XPathExpressionException e) {
