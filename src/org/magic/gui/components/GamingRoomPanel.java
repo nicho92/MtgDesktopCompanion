@@ -43,10 +43,12 @@ import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 import org.magic.game.network.MinaClient;
+import org.magic.game.network.actions.AbstractGamingAction;
 import org.magic.game.network.actions.ListPlayersAction;
 import org.magic.game.network.actions.ReponseAction;
 import org.magic.game.network.actions.ReponseAction.CHOICE;
 import org.magic.game.network.actions.RequestPlayAction;
+import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.renderer.ManaCellRenderer;
@@ -67,7 +69,7 @@ public class GamingRoomPanel extends JPanel {
 	
 	Player otherplayer =null;
 	
-	private void printMessage(SpeakAction sa) {
+	private void printMessage(AbstractGamingAction sa) {
 		((DefaultListModel)list.getModel()).addElement(sa);
 	}
 	
@@ -75,6 +77,11 @@ public class GamingRoomPanel extends JPanel {
 	private Observer obs = new Observer() {
 		@Override
 		public void update(Observable o, Object arg) {
+			if(arg instanceof ShareDeckAction)
+			{
+				ShareDeckAction lpa = (ShareDeckAction)arg;
+				printMessage(lpa);
+			}
 			if(arg instanceof ListPlayersAction)
 			{
 				ListPlayersAction lpa = (ListPlayersAction)arg;
@@ -273,6 +280,20 @@ public class GamingRoomPanel extends JPanel {
 		
 		JPanel panel_1 = new JPanel();
 		panelChatBox.add(panel_1, BorderLayout.NORTH);
+		
+		JButton btnShareDeck = new JButton("");
+		btnShareDeck.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				JDeckChooserDialog diag = new JDeckChooserDialog();
+				diag.setVisible(true);
+				MagicDeck d = diag.getSelectedDeck();
+				Player p = (Player)table.getModel().getValueAt(table.getSelectedRow(), 0);
+				client.sendDeck(d, p);
+			}
+		});
+		btnShareDeck.setToolTipText("Share a deck");
+		btnShareDeck.setIcon(new ImageIcon(GamingRoomPanel.class.getResource("/res/bottom.png")));
+		panel_1.add(btnShareDeck);
 		
 		JButton btnColorChoose = new JButton("");
 		btnColorChoose.setIcon(new ImageIcon(GamingRoomPanel.class.getResource("/res/colors.gif")));

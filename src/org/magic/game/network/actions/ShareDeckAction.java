@@ -7,11 +7,15 @@ import java.awt.Color;
 public class ShareDeckAction extends AbstractGamingAction {
 
 	Player p;
+	Player to;
+	
+	
 	private MagicDeck deck;
 	
-	public ShareDeckAction(Player p, MagicDeck d) {
+	public ShareDeckAction(Player p, MagicDeck d,Player to) {
 		this.p=p;
 		this.deck=d;
+		this.to=to;
 		setAct(ACTIONS.SHARE);
 	}
 
@@ -23,6 +27,9 @@ public class ShareDeckAction extends AbstractGamingAction {
 		this.p = p;
 	}
 	
+	public Player getTo() {
+		return to;
+	}
 	
 	
 	public MagicDeck getDeck() {

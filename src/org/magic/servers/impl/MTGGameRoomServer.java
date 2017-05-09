@@ -25,6 +25,7 @@ import org.magic.game.network.actions.JoinAction;
 import org.magic.game.network.actions.ListPlayersAction;
 import org.magic.game.network.actions.ReponseAction;
 import org.magic.game.network.actions.RequestPlayAction;
+import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
 
 public class MTGGameRoomServer extends AbstractMTGServer{
@@ -59,13 +60,12 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 				case CHANGE_DECK: changeDeck(session,(ChangeDeckAction)act);break;
  	 				case SPEAK: speak((SpeakAction)act);break;	
  	 				case CHANGE_STATUS:playerUpdate((ChangeStatusAction)act);break;
+ 	 				case SHARE:sendDeck(session,(ShareDeckAction)act);break;
  	 				default:break;
 				}
  	 		}
  	 	}
  	 	
-
-
 
 	@Override
  	    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
@@ -92,6 +92,13 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	private void playerUpdate(ChangeStatusAction act) {
 		((Player)acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute("PLAYER")).setState(act.getPlayer().getState());	
 	}
+	
+
+	private void sendDeck(IoSession session, ShareDeckAction act) {
+			
+		acceptor.getManagedSessions().get(act.getTo().getId()).write(act);
+	}
+
 	
 	private void join(IoSession session, JoinAction ja) throws Exception
 	{

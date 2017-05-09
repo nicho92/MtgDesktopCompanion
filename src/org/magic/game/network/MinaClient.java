@@ -20,6 +20,7 @@ import org.magic.game.network.actions.JoinAction;
 import org.magic.game.network.actions.ReponseAction;
 import org.magic.game.network.actions.ReponseAction.CHOICE;
 import org.magic.game.network.actions.RequestPlayAction;
+import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
 
 public class MinaClient extends Observable {
@@ -78,6 +79,11 @@ public class MinaClient extends Observable {
 	public void sendMessage(String text) {
 		SpeakAction act = new SpeakAction(p,text);
 		session.write(act);
+	}
+	
+	public void sendDeck(MagicDeck d, Player to)
+	{
+		session.write(new ShareDeckAction(p, d,to));
 	}
 	
 	public void sendMessage(String text,Color c) {
