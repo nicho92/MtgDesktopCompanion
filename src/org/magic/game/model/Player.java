@@ -13,6 +13,7 @@ import java.util.Random;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.game.network.actions.SpeakAction;
 
 public class Player extends Observable implements Serializable{
 
@@ -457,7 +458,7 @@ public class Player extends Observable implements Serializable{
 
 	public void logAction(String string) {
 		setChanged();
-		notifyObservers(string);
+		notifyObservers(new SpeakAction(this, string));
 		GameManager.getInstance().getActualTurn().getActions().add(string);
 		System.out.println(toDetailledString());
 	}

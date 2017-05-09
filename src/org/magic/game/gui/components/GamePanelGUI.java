@@ -12,8 +12,6 @@ import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -30,7 +28,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -42,6 +39,8 @@ import javax.swing.event.ChangeListener;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
+import org.magic.game.network.actions.AbstractGamingAction;
+import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
 
@@ -54,7 +53,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private BattleFieldPanel panelBattleField;
 	private ManaPoolPanel manaPoolPanel ;
 	private JPanel panneauDroit;
-	private JList<String> listActions;
+	private JList<AbstractGamingAction> listActions;
 	private JLabel lblPlayer;
 	public  Player player;
 	private LibraryPanel panelLibrary;
@@ -150,9 +149,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panelInfo.add(panelActions, BorderLayout.SOUTH);
 						GridBagLayout gbl_panelActions = new GridBagLayout();
 						gbl_panelActions.columnWidths = new int[]{30, 20, 0};
-						gbl_panelActions.rowHeights = new int[]{23, 23, 23, 0, 0};
-						gbl_panelActions.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+						gbl_panelActions.rowHeights = new int[]{23, 23, 23, 0, 0, 0};
+						gbl_panelActions.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 						panelActions.setLayout(gbl_panelActions);
 						
 						JButton btnNewGame = new JButton("New Local Game");
@@ -221,23 +220,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 						gbc_btnFlipACoin.gridy = 1;
 						panelActions.add(btnFlipACoin, gbc_btnFlipACoin);
 						
-						txtChat = new JTextField("Say something");
-						txtChat.addMouseListener(new MouseAdapter() {
-							
-							@Override
-							public void mouseClicked(MouseEvent e) {
-								txtChat.setText("");
-							}
-						});
-						
-						
-						txtChat.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								player.say(txtChat.getText());
-								txtChat.setText("");
-							}
-						});
-						
 						
 						JButton btnEndTurn = new JButton("End Turn");
 						GridBagConstraints gbc_btnEndTurn = new GridBagConstraints();
@@ -253,13 +235,35 @@ public class GamePanelGUI extends JPanel implements Observer {
 								turnsPanel.initTurn();
 							}
 						});
-						GridBagConstraints gbc_txtChat = new GridBagConstraints();
-						gbc_txtChat.gridheight = 2;
-						gbc_txtChat.gridwidth = 2;
-						gbc_txtChat.fill = GridBagConstraints.BOTH;
-						gbc_txtChat.gridx = 0;
-						gbc_txtChat.gridy = 2;
-						panelActions.add(txtChat, gbc_txtChat);
+						
+						JPanel panel_1 = new JPanel();
+						GridBagConstraints gbc_panel_1 = new GridBagConstraints();
+						gbc_panel_1.gridheight = 2;
+						gbc_panel_1.gridwidth = 2;
+						gbc_panel_1.insets = new Insets(0, 0, 5, 5);
+						gbc_panel_1.fill = GridBagConstraints.BOTH;
+						gbc_panel_1.gridx = 0;
+						gbc_panel_1.gridy = 2;
+						panelActions.add(panel_1, gbc_panel_1);
+						panel_1.setLayout(new BorderLayout(0, 0));
+						
+						txtChat = new JTextField("Say something");
+						panel_1.add(txtChat);
+						txtChat.addMouseListener(new MouseAdapter() {
+							
+							@Override
+							public void mouseClicked(MouseEvent e) {
+								txtChat.setText("");
+							}
+						});
+						
+						
+						txtChat.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent arg0) {
+								player.say(txtChat.getText());
+								txtChat.setText("");
+							}
+						});
 						txtChat.setColumns(10);
 						
 						JPanel panelPoolandDescribes = new JPanel();
@@ -364,9 +368,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 								scrollActions.setPreferredSize(new Dimension(CARD_WIDTH, 0));
 								tabbedPane.addTab("Events", null, scrollActions, null);
 								
-								listActions = new JList<String>();
+								listActions = new JList<AbstractGamingAction>();
 								listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-								listActions.setModel(new DefaultListModel<String>());
+								listActions.setModel(new DefaultListModel<AbstractGamingAction>());
 								scrollActions.setViewportView(listActions);
 								
 								JPanel pane = new JPanel();
@@ -470,8 +474,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 	@Override
 	public void update(Observable o, Object arg) {
-		String act = player.getName() +" " + arg.toString();
-		((DefaultListModel)listActions.getModel()).addElement(act);
+		((DefaultListModel)listActions.getModel()).addElement(arg);
 		
 		listActions.setSelectedIndex(listActions.getModel().getSize()-1);
 		listActions.ensureIndexIsVisible(listActions.getSelectedIndex());
@@ -524,5 +527,4 @@ public class GamePanelGUI extends JPanel implements Observer {
 	{
 		panneauDroit.remove(playerGameBoard);
 	}
-	
 }
