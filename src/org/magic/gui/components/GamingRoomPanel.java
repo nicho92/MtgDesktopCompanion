@@ -208,7 +208,13 @@ public class GamingRoomPanel extends JPanel {
 		     @Override
 		     public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
 		        JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
-		        label.setForeground(((SpeakAction)value).getColor());
+		        try{
+		        	label.setForeground(((SpeakAction)value).getColor());
+		        }
+		        catch(Exception e)
+		        {
+		        	
+		        }
 		        return label;
 		     }
 		  });
