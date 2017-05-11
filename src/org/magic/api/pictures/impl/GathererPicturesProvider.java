@@ -2,6 +2,7 @@ package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -32,9 +33,15 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getBackPicture() throws Exception
 	{
-		if(back==null)
+		/*if(back==null)
 			back = getPicture(props.getProperty("BACKGROUND_ID"));
-		return back;
+		return back;*/
+		try {
+			return ImageIO.read(AbstractPicturesProvider.class.getResource("/res/back.jpg"));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		} 
 	}
 	
 	@Override
@@ -55,12 +62,13 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		
 		if(ed==null)
 			selected = mc.getEditions().get(0);
-
 		
 		for(String k : props.getProperty("CALL_MCI_FOR").split(","))
 		{
 			if(selected.getId().startsWith(k))
+			{
 				return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
+			}
 		}
 		BufferedImage im = getPicture(selected.getMultiverse_id());
 		
