@@ -17,8 +17,12 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicRuling;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+import javax.swing.JEditorPane;
 
 public class LightDescribeCardPanel extends JPanel {
 	private JTextField txtName;
@@ -35,13 +39,16 @@ public class LightDescribeCardPanel extends JPanel {
 	private JLabel label;
 	private JTextField txtT;
 	private JScrollPane scrollPane;
+	private JTabbedPane tabbedPane;
+	private JScrollPane scrollPane_1;
+	private JEditorPane rulesTextPane;
 	
 	public LightDescribeCardPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{52, 0, 0};
-		gridBagLayout.rowHeights = new int[]{0, 27, 0, 27, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{52, 152, 0};
+		gridBagLayout.rowHeights = new int[]{0, 27, 0, 27, 0, 0, 0, 0};
+		gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		JLabel lblName = new JLabel("Name :");
@@ -145,19 +152,30 @@ public class LightDescribeCardPanel extends JPanel {
 		add(txtLoyalty, gbc_txtLoyalty);
 		txtLoyalty.setColumns(10);
 		
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
+		gbc_tabbedPane.gridheight = 2;
+		gbc_tabbedPane.gridwidth = 2;
+		gbc_tabbedPane.insets = new Insets(0, 0, 5, 5);
+		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
+		gbc_tabbedPane.gridx = 0;
+		gbc_tabbedPane.gridy = 5;
+		add(tabbedPane, gbc_tabbedPane);
+		
 		scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.gridwidth = 2;
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 5;
-		add(scrollPane, gbc_scrollPane);
+		tabbedPane.addTab("Text", null, scrollPane, null);
 		
 		magicTextPane = new MagicTextPane();
 		scrollPane.setViewportView(magicTextPane);
 		
 		magicTextPane.setMaximumSize(new Dimension(120, 200));
 		magicTextPane.setEditable(false);
+		
+		scrollPane_1 = new JScrollPane();
+		tabbedPane.addTab("Rules", null, scrollPane_1, null);
+		
+		rulesTextPane = new JEditorPane();
+		scrollPane_1.setViewportView(rulesTextPane);
 		
 		if (card != null) {
 			m_bindingGroup = initDataBindings();
@@ -216,6 +234,13 @@ public class LightDescribeCardPanel extends JPanel {
 		BeanProperty<JTextField, String> textPropertyT = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBindingT = Bindings.createAutoBinding(UpdateStrategy.READ, card, tProperty, txtT, textPropertyT);
 		autoBindingT.bind();
+		
+		String rules = "";
+		for(MagicRuling rul : card.getRulings())
+			rules += "-"+rul.getText()+"\n";
+		
+			
+		rulesTextPane.setText(rules);
 		
 		//
 		BindingGroup bindingGroup = new BindingGroup();

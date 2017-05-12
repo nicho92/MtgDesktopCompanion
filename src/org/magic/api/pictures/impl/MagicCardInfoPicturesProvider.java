@@ -32,7 +32,6 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 			props.put("WEBSITE", "http://magiccards.info/scans/");
 			props.put("LANG", "en");
 			props.put("USER_AGENT","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
-			//props.put("ENABLE_CACHE", "true");
 			save();
 		}
 	
@@ -56,10 +55,9 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		if(infocode==null)
 			infocode=mc.getEditions().get(0).getId().toLowerCase();
 		
-		URL url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
+		URL url;//new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
 		
 		
-		logger.debug(getName() +" get card pic from " + url);
 		
 		if(mc.getMciNumber()!=null)
 		{
@@ -73,8 +71,13 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 				url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getMciNumber()+".jpg");
 			}
 		}
+		else
+		{
+			url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
+		}
 		
-		
+		logger.debug(getName() +" get card pic from " + url);
+
 		URLConnection connection = url.openConnection();
 					  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));
 					  connection.connect();
@@ -112,7 +115,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getBackPicture() throws Exception {
 		try {
-			return  ImageIO.read(AbstractPicturesProvider.class.getResource("/res/back.jpg"));
+			return ImageIO.read(AbstractPicturesProvider.class.getResource("/res/back.jpg"));
 		} catch (IOException e) {
 			e.printStackTrace();
 			return null;
