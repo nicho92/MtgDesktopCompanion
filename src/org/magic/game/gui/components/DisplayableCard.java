@@ -45,6 +45,7 @@ import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
+import org.magic.services.KeyWordManager;
 import org.magic.services.MTGControler;
 
 
@@ -66,7 +67,8 @@ public class DisplayableCard extends JLabel implements Draggable
 	private List<AbstractCounter> counters;
 	private Image fullResPics;
 	private boolean showLoyalty;
-
+	private KeyWordManager keywordsManager;
+	
 	public void addCounter(AbstractCounter c)
 	{
 		counters.add(c);
@@ -228,6 +230,8 @@ public class DisplayableCard extends JLabel implements Draggable
 		setMagicCard(mc);
 		setTransferHandler(new CardTransfertHandler());
 		//setToolTipText(mc.getText());
+		keywordsManager = new KeyWordManager();
+		
 		
 		if(activateCards)
 			initActions();
@@ -237,6 +241,7 @@ public class DisplayableCard extends JLabel implements Draggable
 		
 		menu.removeAll();
 		
+		MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 		
 		addMouseListener(new TransferActions());
 		menu.add(new JMenuItem(new SelectionActions(this)));

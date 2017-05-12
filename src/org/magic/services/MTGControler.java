@@ -21,7 +21,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
-import org.magic.api.cache.impl.MemoryCache;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.DeckSniffer;
@@ -32,7 +31,6 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
-import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 
@@ -50,6 +48,7 @@ public class MTGControler {
 	private List<MTGServer> servers;
 	private List<MTGPicturesCache> caches;
 	
+	private KeyWordManager keyWordManager;
 	
 	public static File CONF_DIR = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
 	private XMLConfiguration config;
@@ -335,6 +334,8 @@ public class MTGControler {
 			}
 			
 			logger.debug("Check for new modules");
+			keyWordManager = new KeyWordManager();
+			
 			
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -342,6 +343,14 @@ public class MTGControler {
 		}
 	}
 	
+	
+	
+	
+	public KeyWordManager getKeyWordManager() {
+		return keyWordManager;
+	}
+
+
 	public boolean updateConfigMods() throws ClassNotFoundException, IOException
 	{
 		return new ModuleInstaller().updateConfigWithNewModule();

@@ -4,16 +4,34 @@ public class KeyWord {
 
 	private String keyword;
 	private String description;
+	public static enum TYPE {Evergreen,Actions,Expert,Ability,Discontinued};
+	private TYPE type;
 	
 	public KeyWord() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public KeyWord(String k)
+	public KeyWord(String k,TYPE t,String description)
 	{
 		this.keyword=k;
+		this.type=t;
+		this.description=description;
 	}
 	
+	
+	
+	public KeyWord(String keyword2) {
+		this.keyword=keyword2;
+	}
+
+	public TYPE getType() {
+		return type;
+	}
+
+	public void setType(TYPE type) {
+		this.type = type;
+	}
+
 	public String getKeyword() {
 		return keyword;
 	}
@@ -26,11 +44,18 @@ public class KeyWord {
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	
+	/*
 	@Override
 	public boolean equals(Object obj) {
-		return ((KeyWord)obj).getKeyword().equals(this.getKeyword());
+		KeyWord k = (KeyWord)obj;
+		
+		return k.getKeyword().toLowerCase().equals(getKeyword().toLowerCase());
 	}
+	
+	@Override
+	public int hashCode() {
+		return getKeyword().hashCode();
+	}*/
 	
 	@Override
 	public String toString() {
