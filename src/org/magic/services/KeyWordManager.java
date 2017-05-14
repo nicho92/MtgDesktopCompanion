@@ -3,11 +3,13 @@ package org.magic.services;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.magic.api.beans.KeyWord;
+import org.magic.api.beans.MTGKeyWord;
+import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 
 import com.google.gson.Gson;
@@ -15,9 +17,9 @@ import com.google.gson.reflect.TypeToken;
 
 public class KeyWordManager {
 
-	List<KeyWord> list;
+	List<MTGKeyWord> list;
 	
-	public List<KeyWord> getList() {
+	public List<MTGKeyWord> getList() {
 		return list;
 	}
 	
@@ -25,33 +27,46 @@ public class KeyWordManager {
 		
 		Gson s = new Gson();
 		
-		Type listType = new TypeToken<ArrayList<KeyWord>>(){}.getType();
+		Type listType = new TypeToken<ArrayList<MTGKeyWord>>(){}.getType();
 		list = s.fromJson(new InputStreamReader(this.getClass().getResourceAsStream("/res/data/keywords.json")), listType);
 	}
 	
-	public KeyWord generateFromString(String key)
+	public MTGKeyWord generateFromString(String key)
 	{
-		for(KeyWord k : list)
+		for(MTGKeyWord k : list)
 			if(key.toLowerCase().equals(k.getKeyword().toLowerCase()))
 				return k;
 		
 		return null;
 	}
 	
-	public Set<KeyWord> getKeywordsFrom(MagicCard mc)
+	
+	
+	
+	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc)
 	{
 		String[] text = mc.getText().split(" ");
-		Set<KeyWord> l = new LinkedHashSet<KeyWord>();
+		Set<MTGKeyWord> l = new LinkedHashSet<MTGKeyWord>();
 		for(String s : text)
 		{	
-			KeyWord k = generateFromString(s);
+			MTGKeyWord k = generateFromString(s);
 			if(k!=null)
 				l.add(k);
 		}
-		
-		System.out.println(l);
 		return l;
 		
+	}
+
+	public Set<MTGKeyWord> getKeywordsFrom(MagicCard magicCard, TYPE t) {
+		Set<MTGKeyWord> s = getKeywordsFrom(magicCard);
+		Set<MTGKeyWord> ret = new HashSet<MTGKeyWord>();
+		
+		for(MTGKeyWord k : s)
+			if(k.getType()==t)
+				ret.add(k);
+		
+		
+		return ret;
 	}
 	
 }

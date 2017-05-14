@@ -1,17 +1,31 @@
 package org.magic.api.beans;
 
-public class KeyWord {
+import javax.swing.AbstractAction;
+
+public class MTGKeyWord {
 
 	private String keyword;
 	private String description;
 	public static enum TYPE {Evergreen,Actions,Expert,Ability,Discontinued};
 	private TYPE type;
+	private AbstractAction action;
 	
-	public KeyWord() {
+	
+	
+	
+	public AbstractAction getAction() {
+		return action;
+	}
+
+	public void setAction(AbstractAction action) {
+		this.action = action;
+	}
+
+	public MTGKeyWord() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public KeyWord(String k,TYPE t,String description)
+	public MTGKeyWord(String k,TYPE t,String description)
 	{
 		this.keyword=k;
 		this.type=t;
@@ -20,7 +34,7 @@ public class KeyWord {
 	
 	
 	
-	public KeyWord(String keyword2) {
+	public MTGKeyWord(String keyword2) {
 		this.keyword=keyword2;
 	}
 

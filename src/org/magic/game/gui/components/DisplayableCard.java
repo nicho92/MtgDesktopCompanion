@@ -13,6 +13,7 @@ import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -23,7 +24,9 @@ import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
 import org.magic.game.actions.cards.EmblemActions;
@@ -241,7 +244,6 @@ public class DisplayableCard extends JLabel implements Draggable
 		
 		menu.removeAll();
 		
-		MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 		
 		addMouseListener(new TransferActions());
 		menu.add(new JMenuItem(new SelectionActions(this)));
@@ -259,8 +261,6 @@ public class DisplayableCard extends JLabel implements Draggable
 			mnuModifier.add(new BonusCounterActions(this,  new BonusCounter(-1, -1)));
 			mnuModifier.add(new FixCreaturePowerActions(this));
 			menu.add(mnuModifier);
-			
-
 		}
 		
 		JMenu mnuCounter = new JMenu("Counter");
@@ -283,6 +283,17 @@ public class DisplayableCard extends JLabel implements Draggable
 			menu.add(new AttachActions(this));
 		}
 		
+
+		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard,TYPE.Expert);
+		if(l.size()>0){
+			JMenu abilities = new JMenu("Activate");
+			for(MTGKeyWord k : l)
+			{
+				abilities.add(new JMenuItem(k.getKeyword()));
+			}
+			menu.add(abilities);
+		}
+	
 		
 		if(counters.size()>0){
 			JMenu mnuModifier = new JMenu("Remove Counter");
@@ -300,9 +311,12 @@ public class DisplayableCard extends JLabel implements Draggable
 		if(GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
 			menu.add(new JMenuItem(new TokensActions(this)));
 		
-		
 		if(GamePanelGUI.getInstance().getTokenGenerator().isEmblemizer(magicCard))
 				menu.add(new JMenuItem(new EmblemActions(this)));
+		
+		
+		
+		
 		
 		
 		setComponentPopupMenu(menu);
