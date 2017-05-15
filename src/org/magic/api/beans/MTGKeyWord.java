@@ -4,15 +4,24 @@ import javax.swing.AbstractAction;
 
 public class MTGKeyWord {
 
+	public static enum TYPE {Evergreen,Actions,Expert,Ability,Discontinued};
+
+	
 	private String keyword;
 	private String description;
-	public static enum TYPE {Evergreen,Actions,Expert,Ability,Discontinued};
 	private TYPE type;
 	private AbstractAction action;
+	private String ability;
 	
 	
-	
-	
+	public String getAbility() {
+		return ability;
+	}
+
+	public void setAbility(String ability) {
+		this.ability = ability;
+	}
+
 	public AbstractAction getAction() {
 		return action;
 	}

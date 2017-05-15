@@ -23,10 +23,16 @@ public class KeyWordManager {
 		return list;
 	}
 	
+	public static void main(String[] args) {
+		
+	}
+	
+	
+	
+	
 	public KeyWordManager() {
 		
 		Gson s = new Gson();
-		
 		Type listType = new TypeToken<ArrayList<MTGKeyWord>>(){}.getType();
 		list = s.fromJson(new InputStreamReader(this.getClass().getResourceAsStream("/res/data/keywords.json")), listType);
 	}
@@ -46,14 +52,14 @@ public class KeyWordManager {
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc)
 	{
 		String[] text = mc.getText().split(" ");
-		Set<MTGKeyWord> l = new LinkedHashSet<MTGKeyWord>();
+		Set<MTGKeyWord> ret = new LinkedHashSet<MTGKeyWord>();
 		for(String s : text)
 		{	
 			MTGKeyWord k = generateFromString(s);
 			if(k!=null)
-				l.add(k);
+				ret.add(k);
 		}
-		return l;
+		return ret;
 		
 	}
 
