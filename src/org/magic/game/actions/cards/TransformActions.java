@@ -13,6 +13,8 @@ public class TransformActions extends AbstractAction {
 	
 	private DisplayableCard card;
 
+	
+	
 	public TransformActions(DisplayableCard card) {
 			super("Transform");
 			putValue(SHORT_DESCRIPTION,"Transform the card");

@@ -10,7 +10,6 @@ public class MTGKeyWord {
 	private String keyword;
 	private String description;
 	private TYPE type;
-	private AbstractAction action;
 	private String ability;
 	
 	
@@ -20,14 +19,6 @@ public class MTGKeyWord {
 
 	public void setAbility(String ability) {
 		this.ability = ability;
-	}
-
-	public AbstractAction getAction() {
-		return action;
-	}
-
-	public void setAction(AbstractAction action) {
-		this.action = action;
 	}
 
 	public MTGKeyWord() {

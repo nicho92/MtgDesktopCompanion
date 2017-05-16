@@ -8,6 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.swing.AbstractAction;
+
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
@@ -22,12 +24,6 @@ public class KeyWordManager {
 	public List<MTGKeyWord> getList() {
 		return list;
 	}
-	
-	public static void main(String[] args) {
-		
-	}
-	
-	
 	
 	
 	public KeyWordManager() {
@@ -46,6 +42,29 @@ public class KeyWordManager {
 		return null;
 	}
 	
+	
+	public static void main(String[] args) {
+		KeyWordManager k = new KeyWordManager();
+		
+		MTGKeyWord act = k.generateFromString("Transform");
+		
+		System.out.println(act.getDescription());
+		System.out.println(k.generateActionFrom(act));
+		
+	}
+	
+	
+	public AbstractAction generateActionFrom(MTGKeyWord k)
+	{
+		try{
+				ClassLoader classLoader = KeyWordManager.class.getClassLoader();
+				return (AbstractAction)classLoader.loadClass("org.magic.game.actions.cards."+k.getKeyword()+"Actions").newInstance();
+			}catch(Exception e)
+			{
+				e.printStackTrace();
+				return null;
+			}
+	}
 	
 	
 	

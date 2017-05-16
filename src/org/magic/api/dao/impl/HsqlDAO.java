@@ -645,6 +645,12 @@ public class HsqlDAO extends AbstractMagicDAO{
 		
 	}
 */
+
+	@Override
+	public void moveCards(MagicCollection from, MagicCollection to, MagicCard mc) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
 	
 //	public int updateSerializedCard(MagicCard mc,String editionCode,String collection) 
 //	{

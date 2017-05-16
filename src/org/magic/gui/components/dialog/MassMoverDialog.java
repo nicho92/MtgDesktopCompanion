@@ -119,6 +119,8 @@ public class MassMoverDialog extends JDialog {
 								try {
 									dao.removeCard(mc, toSaveCol);
 									dao.saveCard(mc, (MagicCollection)cboCollections.getSelectedItem() );
+								//	dao.moveCards(toSaveCol, (MagicCollection)cboCollections.getSelectedItem(), mc);
+									
 									logger.info("moving " + mc +" to "  + cboCollections.getSelectedItem() );
 									change=true;
 									lblWaiting.setText("moving " + mc);
