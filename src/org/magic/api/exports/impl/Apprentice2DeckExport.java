@@ -27,13 +27,14 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 	@Override
 	public String getFileExtension()
 	{
-		return ".deck";
+		return ".dec";
 	}
 
 	public Apprentice2DeckExport() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("VERSION", "2.0");
+			props.put("SEPARATOR", ",");
 			save();
 		}
 	}
@@ -74,22 +75,34 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 		deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
 		
 		String line = read.readLine();
+		int ecart=0;
 		
 		while(line!=null)
 		{
-			String[] elements = line.split(",");
+			line=line.trim();
+			if(!line.startsWith("//"))
+			{
+				String[] elements = line.split(props.getProperty("SEPARATOR"));
+				MagicEdition ed = null;
+				try{
+				ed = new MagicEdition();
+				ed.setId(elements[3]);
+				}
+				catch(Exception e)
+				{
+				ed=null;
+				ecart=1;
+				}
+				String name=elements[2-ecart].replaceAll("\"", "");
+				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name ,ed).get(0);
+				Integer qte = Integer.parseInt(elements[1-ecart]);
 			
-			MagicEdition ed = new MagicEdition();
-			ed.setId(elements[3]);
-			
-			String name=elements[2].replaceAll("\"", "");
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name ,ed).get(0);
-			Integer qte = Integer.parseInt(elements[1]);
-			
-			if(line.startsWith("MD"))
-				deck.getMap().put(mc, qte);
-			else
-				deck.getMapSideBoard().put(mc, qte);
+				if(line.startsWith("SB"))
+					deck.getMapSideBoard().put(mc, qte);
+				else
+					deck.getMap().put(mc, qte);
+				
+			}
 			line=read.readLine();
 		}
 		
