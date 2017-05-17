@@ -15,7 +15,7 @@ public class ScryActions extends AbstractAction {
 	public ScryActions() {
 		putValue(NAME,"Scry X cards");
 		putValue(SHORT_DESCRIPTION,"");
-		 putValue(MNEMONIC_KEY, KeyEvent.VK_C);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 	}
 
 	@Override
