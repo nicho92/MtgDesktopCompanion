@@ -1,20 +1,21 @@
 <boosterUrls>
-	<booster id='REN' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/b/bb/REN_Booster_French.jpg'/>
+	<booster id='REN' url='http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/119235.jpg'/>
 	<booster id='LEA' url='https://hydra-media.cursecdn.com/mtg.gamepedia.com/e/ee/Alpha_booster.jpg?version=a69655ec1d7c16ff448b5530c310579b'/>
 	<booster id='LEB' url='http://www.abugames.com/mtg-strategy/pictures/leb/pack.jpg'/>
-	<booster id='ARN' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/a/a4/Arabian_Nights_booster.jpg'/>
-	<booster id='2ED' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/6/6d/Unlimited_booster.jpg'/>
+	<booster id='ARN' url='http://mtgboosters.com/wp-content/uploads/2015/07/arabiannights-e1437860633605.jpg'/>
+	<booster id='2ED' url='http://crystal-cdn1.crystalcommerce.com/photos/30696/large/q3ugk8SpK2HeQsTm.jpg'/>
 	<booster id='CED' url='http://assets.dacw.co/itemimages/mtgcei2.jpg'/>
-	<booster id='ATQ' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/8/8c/Antiquities_booster.jpg'/>
-	<booster id='3ED' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/0/09/Revised_booster.jpg'/>
-	<booster id='LEG' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/6/61/Legends_booster.jpg'/>
+	<booster id='ATQ' url='https://hydra-media.cursecdn.com/mtg.gamepedia.com/8/8c/Antiquities_booster.jpg?version=24c6b748b8d3b218ecb926dd9c18516d'/>
+	<booster id='3ED' url='https://hydra-media.cursecdn.com/mtg.gamepedia.com/0/09/Revised_booster.jpg?version=49a556a0c8381eb295674d5672f29de7'/>
+	<booster id='LEG' url='https://hydra-media.cursecdn.com/mtg.gamepedia.com/6/61/Legends_booster.jpg?version=5ec59434883203faa4d2a7780de78478'/>
 	<booster id='DRK' url='http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/117075.jpg'/>
 	<booster id='FEM' url='http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/82523.jpg'/>
 	<booster id='4ED' url='http://static.starcitygames.com/sales/cardscans/MAGBOX/BoosterPack_4thEdition.jpg'/>
 	<booster id='ICE' url='http://lib.store.yahoo.net/lib/inmint/magic-iceage-pack.jpg'/>
+	<booster id='ALL' url='https://hydra-media.cursecdn.com/mtg.gamepedia.com/8/85/ALL_booster.jpg?version=7c1c1e5a36718ad58d86fc54d8cbb462'/>
+	
 	<booster id='CHR' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/d/de/CHR_Booster.jpg'/>
 	<booster id='HML' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/2/2b/HML_booster.jpg'/>
-	<booster id='ALL' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/8/85/ALL_booster.jpg'/>
 	<booster id='RQS' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/thumb/1/16/Rivals2.jpg/300px-Rivals2.jpg?version=a43e7a2c63eae04b001a693f9635296b'/>
 	<booster id='MIR' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/9/9e/MIR_booster.jpg'/>
 	<booster id='MGB' url='http://assets.dacw.co/itemimages/magic-multiverse-gift-box.jpg'/>
@@ -155,7 +156,7 @@
 	<booster id='OGW' url='http://www.blackborder.com/images/prods/Magic-The-Gathering-Boosters-In-Print-Oath-of-the-Gatewatch-Booster-Pack.jpg'/>
 	<booster id='DDQ' url='http://static.starcitygames.com/sales/cardscans/MTG/DDQ/en/sealed/DDQ_Box.jpg'/>
 	<booster id='SOI' url='http://i.tcgplayer.com/112708_200w.jpg'/>
-	<booster id='EMA' url='https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/thumb/3/31/EMA_booster.png/300px-EMA_booster.png?version=a829973ff44ebe5e8126dbd8987fd238'/>
+	<booster id='EMA' url='http://static.starcitygames.com/sales/cardscans/MTG/EMA/en/sealed/EMABoosterPack.jpg'/>
 	<booster id='EMN' url='http://www.svenskamagic.com/bilder/boosters/eldritchmoon.booster.jpg'/>
 	<booster id='V16' url='https://cdn1.mtggoldfish.com/images/gf/From%2Bthe%2BVault%253A%2BLore%2B%255BSEALED%255D.jpg'/>
 	<booster id='CN2' url='http://cdn1.philibertnet.com/281406-large/booster-magic-the-gathering-conspiracy-take-the-crown.jpg'/>

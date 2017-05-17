@@ -79,8 +79,18 @@ public class KeyWordManager {
 				ret.add(k);
 		}
 		return ret;
-		
 	}
+	
+	public boolean hasKeyWord(MagicCard mc, MTGKeyWord k)
+	{
+		for(MTGKeyWord kw : getKeywordsFrom(mc))
+		{
+			if(kw.equals(k))
+				return true;
+		}
+		return false;
+	}
+	
 
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard magicCard, TYPE t) {
 		Set<MTGKeyWord> s = getKeywordsFrom(magicCard);
