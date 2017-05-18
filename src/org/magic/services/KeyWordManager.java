@@ -11,6 +11,7 @@ import java.util.Set;
 import javax.swing.AbstractAction;
 
 import org.magic.api.beans.MTGKeyWord;
+import org.magic.api.beans.MTGKeyWord.SUBTYPE;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 
@@ -28,9 +29,12 @@ public class KeyWordManager {
 	
 	public KeyWordManager() {
 		
-		Gson s = new Gson();
-		Type listType = new TypeToken<ArrayList<MTGKeyWord>>(){}.getType();
-		list = s.fromJson(new InputStreamReader(this.getClass().getResourceAsStream("/res/data/keywords.json")), listType);
+			Gson s = new Gson();
+			Type listType = new TypeToken<ArrayList<MTGKeyWord>>(){}.getType();
+			list = s.fromJson(new InputStreamReader(this.getClass().getResourceAsStream("/res/data/keywords.json")), listType);
+			if(list==null)
+				list=new ArrayList<MTGKeyWord>();
+		
 	}
 	
 	public MTGKeyWord generateFromString(String key)
@@ -44,28 +48,40 @@ public class KeyWordManager {
 	
 	
 	public static void main(String[] args) {
-		KeyWordManager k = new KeyWordManager();
+		KeyWordManager manager = new KeyWordManager();
 		
-		MTGKeyWord act = k.generateFromString("Transform");
 		
-		System.out.println(act.getDescription());
-		System.out.println(k.generateActionFrom(act));
+		String[] actions = "Activate Attach Cast Counter Create Destroy Discard Exchange Exile Fight Play Reveal Sacrifice Scry Search Shuffle Tap Untap Ante Bury Regenerate".split(" ");
+		String[] activated = "Equip".split(",");
+		String[] statics = "Deathtouch,Defender,Double strike,Enchant,First strike,Flash,Flying,Haste,Hexproof,Indestructible,Lifelink,Menace,Reach,Trample,Vigilance,Banding,Fear,Shroud,Intimidate,Landwalk,Protection".split(",");
+		String[] triggered="Prowess".split(",");
+		
+		for(String s : actions)
+		{
+			MTGKeyWord k = manager.generateFromString(s);
+			k.setAction("Action");
+		}
+		
+		
+		System.out.println(new Gson().toJson(manager.getList()));
+		
+		
 		
 	}
 	
-	
-	public AbstractAction generateActionFrom(MTGKeyWord k)
-	{
-		try{
-				ClassLoader classLoader = KeyWordManager.class.getClassLoader();
-				return (AbstractAction)classLoader.loadClass("org.magic.game.actions.cards."+k.getKeyword()+"Actions").newInstance();
-			}catch(Exception e)
-			{
-				e.printStackTrace();
-				return null;
-			}
-	}
-	
+//	
+//	public AbstractAction generateActionFrom(MTGKeyWord k)
+//	{
+//		try{
+//				ClassLoader classLoader = KeyWordManager.class.getClassLoader();
+//				return (AbstractAction)classLoader.loadClass("org.magic.game.actions.cards."+k.getKeyword()+"Actions").newInstance();
+//			}catch(Exception e)
+//			{
+//				e.printStackTrace();
+//				return null;
+//			}
+//	}
+//	
 	
 	
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc)

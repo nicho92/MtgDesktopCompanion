@@ -1,41 +1,41 @@
 package org.magic.api.beans;
 
-import javax.swing.AbstractAction;
-
 public class MTGKeyWord {
 
-	public static enum TYPE {Evergreen,Actions,Expert,Ability,Discontinued};
-
+	public static enum TYPE { Abilities, Action,Word};
+	public static enum SUBTYPE {Evergreen,Other};
+	//public static enum action {spell,statik,activated,triggered};
 	
 	private String keyword;
 	private String description;
+	
 	private TYPE type;
-	private String ability;
+	private SUBTYPE subtype;
+	private String action;
 	
-	
-	public String getAbility() {
-		return ability;
-	}
-
-	public void setAbility(String ability) {
-		this.ability = ability;
-	}
-
 	public MTGKeyWord() {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public MTGKeyWord(String k,TYPE t,String description)
-	{
-		this.keyword=k;
-		this.type=t;
-		this.description=description;
+	@Override
+	public String toString() {
+		return getKeyword();
 	}
-	
-	
-	
-	public MTGKeyWord(String keyword2) {
-		this.keyword=keyword2;
+
+	public String getKeyword() {
+		return keyword;
+	}
+
+	public void setKeyword(String keyword) {
+		this.keyword = keyword;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public TYPE getType() {
@@ -46,35 +46,23 @@ public class MTGKeyWord {
 		this.type = type;
 	}
 
-	public String getKeyword() {
-		return keyword;
+	public SUBTYPE getSubtype() {
+		return subtype;
 	}
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
+
+	public void setSubtype(SUBTYPE subtype) {
+		this.subtype = subtype;
 	}
-	public String getDescription() {
-		return description;
+
+	public String getAction() {
+		return action;
 	}
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	/*
-	@Override
-	public boolean equals(Object obj) {
-		KeyWord k = (KeyWord)obj;
-		
-		return k.getKeyword().toLowerCase().equals(getKeyword().toLowerCase());
+
+	public void setAction(String action) {
+		this.action = action;
 	}
 	
-	@Override
-	public int hashCode() {
-		return getKeyword().hashCode();
-	}*/
 	
-	@Override
-	public String toString() {
-		return getKeyword();
-	}
 	
 		
 }

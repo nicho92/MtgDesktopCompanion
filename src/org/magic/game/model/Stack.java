@@ -5,10 +5,10 @@ import java.util.List;
 
 public class Stack {
 
-	java.util.Stack<Ability> stack;
+	java.util.Stack<Stackable> stack;
 	
 	public Stack() {
-		stack= new java.util.Stack<Ability>();
+		stack= new java.util.Stack<Stackable>();
 	}
 	
 	public void clean()
@@ -16,19 +16,19 @@ public class Stack {
 		stack.clear();
 	}
 	
-	public void put(Ability a)
+	public void put(Stackable a)
 	{
 		stack.push(a);
 	}
 	
-	public Ability pop()
+	public Stackable pop()
 	{
 		return stack.pop();
 	}
 	
-	public List<Ability> toList()
+	public List<Stackable> toList()
 	{
-		return new ArrayList<Ability>(stack);
+		return new ArrayList<Stackable>(stack);
 	}
 	
 	public String toString() {

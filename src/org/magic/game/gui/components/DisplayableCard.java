@@ -284,7 +284,7 @@ public class DisplayableCard extends JLabel implements Draggable
 		}
 		
 
-		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard,TYPE.Expert);
+		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 		if(l.size()>0){
 			JMenu abilities = new JMenu("Activate");
 			for(MTGKeyWord k : l)

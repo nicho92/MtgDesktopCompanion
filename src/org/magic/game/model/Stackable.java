@@ -1,5 +1,5 @@
 package org.magic.game.model;
 
-public class Ability {
+public interface Stackable{
 
 }

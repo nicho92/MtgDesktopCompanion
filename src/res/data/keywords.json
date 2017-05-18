@@ -1,853 +1,1374 @@
-[{
-	"keyword": "Deathtouch",
-	"description": "Deathtouch is a static ability that causes a creature to be destroyed as a result of having been dealt damage by a source with deathtouch. In this way, for a creature with deathtouch, any nonzero amount of damage it deals to another creature is considered enough to kill it. Deathtouch appears mostly on black cards and green cards. Prior to the introduction of the keyword, similar abilities have appeared mostly on green and black cards, but in most cases those abilities were functionally different (typically triggering on combat damage and/or at end of combat). This ability was first printed on a single timeshifted creature from Future Sight, Thornweald Archer. Older cards with this ability, such as Cruel Deceiver, were not changed to gain deathtouch. If a 15/15 was blocked by a 1/1 with deathtouch, both would die",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Defender",
-	"description": "Creatures with defender can\u0027t attack. This ability was formerly associated with Walls, as the creature type Wall had implicit \"rules baggage\" that prevented such creatures from attacking. The rules baggage was removed and the keyword was first used in the Kamigawa block.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Double strike",
-	"description": "A creature with double strike deals both first strike and normal combat damage.[5] For instance, a 1/2 creature with double strike such as Boros Swiftblade would defeat a 2/1 creature in combat and survive, due to destroying it with first strike damage. It would also destroy a 2/2 creature, though be destroyed itself because the opposing creature survived the first strike to deal its own damage. As with first strike, double strike appears mostly on red and white cards. Double strike was first keyworded in Legions and first used in a Core Set in Tenth Edition.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Enchant",
-	"description": "This ability is written Enchant (quality) and appears on Auras, a subtype of enchantments. An Aura enters the battlefield attached to a permanent with the quality of its Enchant ability, and can only be attached to a permanent with that quality. If an Aura is not attached to a permanent with the required quality (such as if the object it enchants leaves the battlefield), it is put into its owner\u0027s graveyard. Like protection, the quality can be almost anything, but it normally has a permanent type associated with it, such as \"Enchant creature.\" This ability was formerly seen in the type line instead of \"Enchantment — Aura.\" The wording changed in the Ninth Edition core set, which introduced the Aura subtype.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Equip",
-	"description": "This ability is written Equip (cost). It is found only on Equipment, a subtype of artifacts that first appeared in Mirrodin. A player may pay the Equip cost as a sorcery (only during his or her own main phase when the stack is empty) to attach it to a creature he or she controls. That creature becomes \"equipped\" and can then be referenced by the Equipment as the \"equipped creature.\" If the Equipment is already attached to a creature, its controller may pay the Equip cost again to move it to another creature. However, the Equipment cannot simply be \"dropped\" by the equipped creature by paying the Equip cost. When a creature leaves the battlefield or stops being a creature by some effect, any Equipment attached to it \"falls off,\" becoming unattached but remaining on the battlefield. Similarly, an Equipment that becomes a creature will \"fall off\" a creature it is attached to. On the other hand, Equipment does not \"fall off\" if another player gains control of either the creature or the Equipment. In the first case, the original controller still controls the Equipment, and so can pay the Equip cost to move it to a creature he or she still controls. In the second case, the original controller still controls the creature, but the other player can pay the Equip cost to move the Equipment to a creature he or she controls.",
-	"type": "Evergreen",
-	"ability": "activated"
-},
-{
-	"keyword": "First strike",
-	"description": "Creatures with first strike deal damage before other creatures in combat. Therefore, if a creature with first strike deals sufficient damage to kill an opposing creature without this ability, it will not suffer any combat damage from that creature in return. First strike is often found on red and white creatures, especially soldiers and knights who carry pikes or lances.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Flash",
-	"description": "Flash is the keyword of an ability that has existed as far back as Mirage.[6] Artifacts, creatures or enchantments with flash may be played any time their controller could play an instant. Older cards with that ability have been updated via rules errata to have flash; this allows them to work with cards such as Mystical Teachings.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Flying",
-	"description": "Creatures with flying can\u0027t be blocked except by other creatures with flying and/or reach. Flying is the most common Magic keyword, and appears in all five colors, but chiefly in blue and white. Creatures with flying are often Dragons, Angels, Birds, and other creatures that have wings. Also, some monks can have the flying ability, as can the Djinn.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Haste",
-	"description": "Creatures with the haste ability are able to attack and use abilities that involve the tap symbol (so cards that have abilities that simply say \"tap\" may be used on the turn they are played even if they don\u0027t have haste e.g. Heritage Druid) on the turn a player gains control of them, instead of waiting until their controller\u0027s next turn (an effect dubbed \"summoning sickness\" prevents a creature from attacking or using abilities with the tap symbol unless its controller controlled it since the start of their most recent turn). Haste is an example of a retroactive keywording, as cards from almost every earlier set have possessed \"may attack the turn [they] come into play\" or \"unaffected by summoning sickness,\" which was replaced by the word \"haste.\" It was later changed to include untapping to activate abilities as well. Creatures with haste are most often red.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Hexproof",
-	"description": "Hexproof is a static ability of permanents and players. A player or permanent with hexproof cannot be the target of spells or abilities controlled by that player\u0027s opponents (or that permanent\u0027s controller\u0027s opponents). This is similar to shroud, but it does not deny the player (or his or her allies) the ability to target his or her own hexproof permanents. Cards that previously had or granted this ability, such as Troll Ascetic and Imperial Mask, were errataed to have hexproof with the release of the Commander decks.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Indestructible",
-	"description": "A permanent with indestructible can\u0027t be destroyed by effects that say \"Destroy\" (such as Doom Blade or Wrath of God) or by lethal damage. They can still be countered, exiled, returned to the hand or library, sacrificed, or killed with effects that give negative toughness. Indestructible is now a keyword, not anymore a quality that\u0027s true about a permanent, meaning that the indestructible ability can now be removed from a card, making it susceptible to being destroyed(23). Indestructible first appeared in Darksteel, chiefly among artifacts made of the titular metal, and has appeared in colored creatures in subsequent sets.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Lifelink",
-	"description": "Permanents with lifelink cause their controller to gain life whenever they deal damage. Lifelink as a keyword was introduced in Future Sight, though the ability itself already existed on numerous cards, which were all issued rules errata to have or grant lifelink. Cards with similar abilities, such as Spirit Link, were not changed in this way. Lifelink was a triggered ability when it was issued but is now a static ability due to the Magic 2010 rules changes. Cards that previously had a lifelink-like ability have been issued further errata to return them to their original functionality (the lone exception to this is the Mirrodin card Loxodon Warhammer, which, since it was reprinted in Tenth Edition with the lifelink keyword, retains that rather than the original functionality on all editions). Lifelink is found mostly on white cards, and secondarily on black cards.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Menace",
-	"description": "A creature with menace can\u0027t be blocked except by two or more creatures. Menace was instituted as a keyword in Magic Origins, and was retroactively applied to previous cards with that ability. Menace appears chiefly on black cards and red cards.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Prowess",
-	"description": "Prowess is a triggered ability. A creature with prowess gets +1/+1 (until end of turn) whenever a noncreature spell is cast by its controller. If a creature has multiple instances of prowess, each triggers separately. Prowess was introduced in Khans of Tarkir and became an evergreen keyword with Magic Origins. Prowess appears chiefly on blue cards, secondarily on red cards, and tertiarily on white cards.",
-	"type": "Evergreen",
-	"ability": "triggered"
-},
-{
-	"keyword": "Reach",
-	"description": "Reach is an ability which allows a creature to block creatures with flying. The keyword was introduced in Future Sight, and the flying rules themselves were changed to clarify this interaction. Older cards with the ability to \"block as though [they] had flying\" were issued rules errata to have reach instead. Reach is found primarily in green creatures, especially Spiders.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Scry",
-	"description": "To scry X, a player looks at the top X cards of his or her library, then puts any number of them on the bottom of their library and the rest on top in any order. Scry originally appeared in Fifth Dawn as a keyword ability, primarily on instants and sorceries as \"Scry 2,\" though it was designed to allow other values. Future Sight added values \"Scry 1\" through \"Scry 4\" and redefined scry to be a keyword action, allowing it to be placed in the middle of an ability rather than as a \"tack-on\" to other abilities. Scry then appeared in the Core Set Magic 2011, becoming the first mechanic to be revisited in a core set. Scry also returned in Theros Block before becoming an evergreen keyword in Magic Origins.",
-	"type": "Evergreen",
-	"ability": "action"
-},
-{
-	"keyword": "Trample",
-	"description": "Creatures with trample may deal \"excess\" damage to the defending player if they are blocked. For example, under normal circumstances, if a 6/3 attacker is blocked by a 1/1 creature, the attacker\u0027s 6 damage is all directed at the defending creature, despite it being only able to take 1 damage before being killed. If, however, the attacker has trample, the attacking player may choose to have the difference (in this case, 5) between the attacker\u0027s power and the defenders\u0027 total toughness \"trample over\" and be assigned to the defending player; this choice is to be made by the attacking player, and circumstances can arise in which \"overkilling\" the blocking creature is a more advantageous move. Even if the blocker does not take the damage (if it is prevented, for instance) the trample damage is still assigned to the defending player. Trample only applies when a creature with trample is attacking; if a 6/3 creature with trample blocks a 1/1 attacker, the blocker\u0027s extra 5 damage cannot be assigned to the attacking player. Creatures with trample are most often green or red.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Vigilance",
-	"description": "Vigilance is a keyword of an ability that existed as far back as Limited Edition Alpha with Serra Angel, but was retroactively keyworded beginning with the Kamigawa block. Creatures with vigilance do not tap when attacking (Prior to being keyworded, these creatures\u0027 rules text read \"Attacking doesn\u0027t cause this creature to tap\"), meaning they can still be used during the opponent\u0027s turn to block. Most creatures with vigilance are white.",
-	"type": "Evergreen",
-	"ability": "static"
-},
-{
-	"keyword": "Attach",
-	"description": "The term attach is used primarily on cards which can provide effects to certain other cards for an indeterminate amount of time, particularly Auras (see Enchant), Equipment (see Equip), and Fortifications (see Fortify). These types of cards are used by designating something (usually a permanent) for them to be \"attached\" to.",
-	"type": "Actions",
-	"ability": "action"
-},
-{
-	"keyword": "Counter",
-	"description": "To counter a spell or ability is to remove it from the stack without resolving its effects, putting it directly into its owner\u0027s graveyard. Some spells and abilities have an additional clause that replaces the graveyard with another game zone, such as Remand. There are instant spells that will explicitly counter other spells, generally known as \"counterspells\" after the original card with the effect: Counterspell. Spells and abilities that have one or more targets are also countered by the game rules if they no longer have any legal targets, as would be the case if a targeted creature was returned to its owner\u0027s hand or if it gained hexproof. A spell that is countered this way is said to have \"fizzled.\" Some cards specify that they \"cannot be countered by spells or abilities.\" This only prevents the explicit method of countering spells; such a spell can still be countered by the game rules.",
-	"type": "Actions",
-	"ability": "action"
-},
-{
-	"keyword": "Exile",
-	"description": "To exile a card is to put it into the exile zone, usually as part of a card\u0027s effect. With few exceptions, exiled cards can no longer have an effect on the game. Starting from the Magic 2010 rules changes, cards that \"remove [something] from the game\" or \"set [something] aside\" were issued errata to say \"exile [something]\" instead.",
-	"type": "Actions",
-	"ability": "action"
-},
-{
-	"keyword": "Fight",
-	"description": "When two creatures fight each other, each creature deals damage equal to its power to the other creature. Multiple creatures may fight each other at the same time. Fight is a keyword action that has been sporadically printed in some form since the card Gargantuan Gorilla, but it was not keyworded until Innistrad.",
-	"type": "Actions",
-	"ability": "action"
-},
-{
-	"keyword": "Regenerate",
-	"description": "Regenerate describes a replacement effect for destruction, is generally written as \"Cost: Regenerate (this permanent)\", and is an ability only held by permanents. When the ability is activated, a \"regeneration shield\" is set up on the permanent. The next time that permanent would be destroyed, instead (if applicable) all damage is removed from it, it is removed from combat, it is tapped, and a regeneration shield is removed from it. Otherwise, the regeneration shield remains until the end of the turn. This ability is generally found on creatures, though any permanent can be regenerated.",
-	"type": "Actions",
-	"ability": "action"
-},
-{
-	"keyword": "Sacrifice",
-	"description": "To sacrifice a permanent is to put it into its owner\u0027s graveyard. A player can only sacrifice a permanent he or she controls. Note that this term is separate from other ways permanents can be put into their owners\u0027 graveyards, such as destruction (meaning regeneration has no effect on sacrifice) and state-based actions (a creature having 0 toughness, for example). Players are not allowed to sacrifice unless prompted to by a game effect.",
-	"type": "Actions",
-	"ability": "action"
-},
-{
-	"keyword": "Tap/Untap",
-	"description": "To tap a permanent is to rotate the card 90 degrees. This indicates it is being used, often as a cost, or to indicate that a creature is attacking (except for creatures with vigilance). Creatures a player controls that have not been under his or her control since the beginning of his or her most recent turn are said to have \"summoning sickness\" and cannot be tapped for their abilities that include the \"tap symbol,\" nor can they attack, but they can be tapped for costs that use the word \"tap\" (for example, \"Tap two untapped creatures you control\").",
-	"type": "Actions",
-	"ability": "action"
-},
-{
-	"keyword": "Absorb",
-	"description": "This ability is written absorb X. If a creature with absorb would be dealt damage, X of that damage is prevented. This ability appears on a single timeshifted creature from Future Sight, Lymph Sliver. Older cards with this ability were not changed to grant absorb.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Affinity",
-	"description": "This ability is written Affinity for (quality). A card with affinity costs 1 generic mana less to cast for each permanent with that quality under the caster\u0027s control. For instance, a Frogmite, which is an artifact creature that costs 4 generic mana and has \u0027Affinity for artifacts\u0027, would be free if the player casting it controls four or more artifacts, whereas Thoughtcast, a sorcery with a printed cost of 4 generic mana and 1 blue mana, will cost a single blue mana regardless of whether its caster controls four or five (or more) artifacts. Affinity appeared throughout the Mirrodin block, usually for artifacts. A cycle of five cards in Darksteel had affinity for each of the basic land types.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Aftermath",
-	"description": "Aftermath is an ability that appears on instant and sorcery split cards (a physical card with two separate card images printed on its face next to one another). Only one of the pair of card images contains the Aftermath ability. The half of the pair without the Aftermath ability can be cast from the player\u0027s hand as normal. Once the physical card is in the player\u0027s graveyard (whether after being cast or through some other means), the second half of the card-image pair that has the Aftermath ability can be cast from the graveyard for the cost printed on the upper right of that card, after which the physical card is exiled. Functionally, this ability is a hybrid of the Kicker and Flashback abilities. As with Kicker, cards with Aftermath have a primary effect, and a secondary, optional effect that can be produced by paying an additional, different cost. As with Flashback, the second effect can be cast from the graveyard at a time of the player\u0027s choosing. Aftermath appears in Amonkhet. Aftermath appears in all five colors, but only at rarities of uncommon and above.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Amplify",
-	"description": "This ability is written Amplify X. As a creature with amplify enters the battlefield, its controller may reveal any number of creature cards in his or her hand that share a creature type with the creature. That creature enters the battlefield with X +1/+1 counters on it for each card so revealed. Amplify only appears in Legions.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Annihilator",
-	"description": "This ability is written Annihilator X. Whenever a creature with annihilator attacks, the defending player sacrifices X permanents. Annihilator abilities trigger and resolve during the declare attackers step. The defending player chooses and sacrifices the required number of permanents before he or she declares blockers. This is a triggered ability that appears exclusively on colorless Eldrazi cards from Rise of the Eldrazi.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Aura swap",
-	"description": "This ability is written Aura swap (cost). By paying the aura swap cost, the player may exchange the Aura with this ability with an Aura card in his or her hand, if he or she controls and owns the Aura with aura swap. This ability appears on a single timeshifted Aura from Future Sight, Arcanum Wings.",
-	"type": "Expert",
-	"ability": "activated"
-},
-{
-	"keyword": "Bands with other",
-	"description": "This ability is a limited version of banding, written as Bands with other (quality). A creature with this ability has banding, but can only band with creatures that have the same ability, e.g. are of the creature type or sub-type (quality), are of the color (quality), and so on. Unlike normal banding, in an attacking band only one creature is required to have the bands with other (quality) ability, so long as all other creatures in the band have the specified quality. All other banding rules apply.",
-	"type": "Expert",
-	"ability": "static"
-	
-},
-{
-	"keyword": "Battle cry",
-	"description": "When a creature with battle cry attacks, all other attacking creatures get +1/+0 until the end of the turn. Battle cry was introduced in Mirrodin Besieged and appears on Mirran cards.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Bestow",
-	"description": "A creature with bestow gives the player the option to cast it as an Aura that enchants a creature, granting that creature its power, toughness, and abilities, such as Chromanticore. A bestow card cast for its bestow cost will enter the stack as a creature spell. By choosing to pay the alternative cost, which is a static ability, it becomes an Enchantment-Aura spell, meaning cards like Aurelia\u0027s Fury can\u0027t prevent the damaged player to cast a bestow card for its bestow cost. It\u0027s an Aura spell with enchant creature, so you have to target a creature to cast it. If the creature it targets leaves the battlefield before the bestow card resolves, or after the bestow card is already enchanting the creature, the bestow card enters the battlefield as an enchantment creature, unlike a regular aura card which would become unattached and go to the graveyard. This mechanic first appeared on some enchantment creatures from the Theros block.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Bolster",
-	"description": "The ability is written Bolster X. When Bolster is activated, the player puts on the stack an action to choose one of his creatures with the lowest toughness among them and put X +1/+1 counters on it. The choice is done at the resolution of the ability. It first appeared in Fate Reforged.",
-	"type": "Expert",
-	"ability": "action"
-},
-{
-	"keyword": "Bloodthirst",
-	"description": "This ability is written Bloodthirst X. A creature with bloodthirst X enters the battlefield with X +1/+1 counters on it if an opponent had been damaged during that turn. Bloodthirst appears in Guildpact and is the ability associated with the Gruul Clans. It is the returning mechanic in Magic 2012, where it can be found mostly on black and red cards.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Bushido",
-	"description": "This ability is written Bushido X. When a creature with bushido blocks or becomes blocked, it gets +X/+X until end of turn. Bushido appears on all Samurai in the Kamigawa block, and only on Samurai. Earlier cards with this ability were not given errata to have bushido.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Buyback",
-	"description": "This ability is written Buyback (cost). It appears on instants and sorceries and is an additional, optional cost when casting the card. If the buyback cost was paid, the card returns to its owner\u0027s hand upon resolving, instead of going to the graveyard. Buyback first appears in the Tempest block.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Cascade",
-	"description": "When a spell with cascade is cast, its controller reveals cards from the top of his or her library until a nonland card that has a lower converted mana cost is revealed. In addition to the original spell, that player may then cast the revealed spell without paying its mana cost; all other revealed cards are put on the bottom of the library in a random order. Cascade was introduced in Alara Reborn and is the main feature of the \"Chaos Reigns\" deck from the Planechase 2012 expansion.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Champion",
-	"description": "This ability is written Champion a (type). It is an evolution-style mechanic that mimics a creature changing into a \"new improved version.\" When a creature with champion enters the battlefield, its controller must exile a card he or she controls of the appropriate type, or sacrifice the champion. When the creature with champion leaves the battlefield, the creature it \"championed\" (the exiled card) is returned to the battlefield. Most creatures with champion replace a creature that shares their own creature type, but those with the changeling ability have the generic \"Champion a creature.\" Champion was introduced in Lorwyn.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Changeling",
-	"description": "Changeling is a keyword that gives a card all possible creature types, similar to the ability of Mistform Ultimus. It appears on certain shapeshifter creatures and tribal spells in Lorwyn.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Cipher",
-	"description": "Cipher is printed on sorceries and represents two effects. When a spell with cipher resolves, its controller may exile the spell \"encoded\" on a creature he or she controls. Then, whenever that creature deals combat damage to an opponent, its controller can cast a free copy of the encoded spell. Cipher appears in Gatecrash as the guild keyword of House Dimir.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Clash",
-	"description": "Clash is a keyword action that determines the results of a spell. When a card says to clash, its controller chooses an opponent to clash with, and each player involved in the clash reveals the top card of his or her library, and then puts it on the top or bottom of that library. The winner of the clash is the player who revealed the card with the highest converted mana cost. If there is a tie, there is no winner. All cards with clash grant a bonus effect if their controller wins the clash. Clash was introduced in Lorwyn.",
-	"type": "Expert",
-	"ability": "action"
-},
-{
-	"keyword": "Conspire",
-	"description": "As a player casts a spell with conspire, he or she may pay the optional, additional cost of tapping two creatures that share a color with the spell. He or she then copies the spell and may choose new targets for the copy. Conspire appears on instants and sorceries in Shadowmoor.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Convoke",
-	"description": "As a spell with convoke is cast, its controller may tap any number of creatures. Each creature tapped reduces the card\u0027s mana cost by 1 generic mana or 1 mana of the tapped creature\u0027s color. For example, a player may pay for Conclave\u0027s Blessing, which costs 3 generic and 1 white mana, by tapping four creatures, at least one of which must be white. Convoke appears in Ravnica: City of Guilds and is the ability associated with the Selesnya Conclave. Convoke is also the returning keyword mechanic for the Magic 2015 core set, where it appears in all colors.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Cumulative upkeep",
-	"description": "This ability is written Cumulative upkeep (cost). At the beginning of each of its controller\u0027s upkeeps, an \"age counter\" is put on the card. Then the player must either pay the cumulative upkeep cost for each age counter on the permanent, or sacrifice it. The ability was originally designed to represent an ever-climbing cost, eventually forcing the player to sacrifice the card and lose its benefits, although later incarnations provide a benefit for the number of age counters on the card. The ability first appeared on the card Cyclone from Arabian Nights, but was first keyworded in Ice Age. The mechanic also appeared in Mirage block, with Weatherlight offering a number of twists on the upkeep cost, and in Coldsnap.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Cycling",
-	"description": "This ability is written Cycling (cost). A player with a card with cycling in hand may pay the cycling cost, discard the card, and draw a new card. Cycling cards appeared in the Urza block, the Onslaught block, and the Alara block. A variant of this keyword is typecycling.",
-	"type": "Expert",
-	"ability": "activated"
-},
-{
-	"keyword": "Dash",
-	"description": "This ability is written Dash (Cost), on creature spells. A player casting a card with Dash may opt to pay its Dash cost instead of the normal cost. If the Dash cost is chosen, the creature gains Haste until the end of turn, and is returned to its owner hand at the end of turn. The mechanic first appeared in Fate Reforged.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Delve",
-	"description": "When playing a card with delve, its controller may exile any number of cards in his or her graveyard. For each card exiled, the spell costs 1 colorless mana less to play. This ability first appeared on timeshifted cards from Future Sight, but was brought back for the set Khans of Tarkir .",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Detain",
-	"description": "Detain is a keyword action introduced in Return to Ravnica that appears on blue and white cards of the Azorius guild. When a player detains a permanent, until the start of his or her next turn, the detained permanent can\u0027t attack, block, or activate abilities.[11]",
-	"type": "Expert",
-	"ability": "action"
-},
-{
-	"keyword": "Devour",
-	"description": "This ability is written Devour X. As a creature with devour enters the battlefield, its controller may sacrifice any number of creatures in order to put X +1/+1 counters on the devouring creature for each creature sacrificed. Devour appears on Jund cards in the Alara block.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Dredge",
-	"description": "This ability is written Dredge X. Any time a player would draw a card, if a card with dredge is in his or her graveyard, the player may instead put the top X cards of his or her library into the graveyard and return the card with dredge to his or her hand. A player can\u0027t do this if there are fewer than X cards in his or her library. Dredge appears in Ravnica: City of Guilds and is the ability associated with the Golgari Swarm.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Echo",
-	"description": "This ability is written Echo (cost). Cards with echo require their echo cost to be paid at the beginning of their controller\u0027s upkeep, the turn after the card was played or gained control of. If the echo cost is not paid, then the card is sacrificed.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Embalm",
-	"description": "This ability is written Embalm (cost) and appears on creature cards. When a card with this ability is in a player\u0027s graveyard, that player may pay its embalm cost to exile the card and put a token into play that is a copy of the creature, except that it is a Zombie in addition to the creature\u0027s other creature types (e.g., a Zombie Angel instead of just an Angel). This allows a player to get a second use from a card, and to gain benefits from other cards in play that interact with zombie creatures. Embalm is an activated ability (the token is created, not cast) and may be played only whenever the player could cast a sorcery. This keyword is similar to Flashback, but is found on creature cards rather than instant and sorcery cards. Embalm appears in Amonkhet. Embalm primarily appears on blue and white cards, but also appears on one red and one green rare card.",
-	"type": "Expert",
-	"ability": "activated"
-},
-{
-	"keyword": "Entwine",
-	"description": "This ability is written Entwine (cost). All cards with entwine are modal spells with two choices. Normally, a player chooses one mode or the other. If the card\u0027s entwine cost is paid in addition to its regular cost, both effects happen. Entwine appears in the Mirrodin block.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Epic",
-	"description": "Epic has two effects: first, after a player casts a spell with epic, he or she can no longer cast spells for the remainder of the game. However, at the beginning of each of his or her upkeeps for the rest of the game, the player puts a new copy of the epic spell on the stack. This doesn\u0027t count as \"casting\" it (so it doesn\u0027t become a useless ability) and no mana payment is required. Epic appears only on a cycle of five rare sorceries in Saviors of Kamigawa.",
-	"type": "Expert",
-	"ability": "???"
-},
-{
-	"keyword": "Evolve",
-	"description": "Evolve is a keyword on creatures which allows them to grow larger. Whenever a creature enters the battlefield under your control, if that creature has larger power or toughness than your creature with evolve, you can put a +1/+1 counter on your creature with evolve. Evolve was designed by a contestant during The Great Designer Search II and appears in Gatecrash as the guild keyword of the Simic Combine.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Evoke",
-	"description": "This ability is written as Evoke (cost) and is an alternate cost for a creature, generally a far lower cost, with the condition that the creature must be sacrificed upon entering the battlefield. All cards with evoke have additional effects upon entering, or leaving, the battlefield. The creature\u0027s controller may choose whether the sacrifice occurs before or after the additional effect(s).[12] Evoke appears in Lorwyn and Morningtide.",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Exalted",
-	"description": "Exalted originally appeared on cards within the Bant colors in the Alara block. When it reoccurred in Magic 2013, 5 Black cards were given the mechanic. When any creature a player controls attacks alone, it receives +1/+1 until end of turn for each permanent with the exalted keyword that player controls.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Exert",
-	"description": "Exert is an ability that appears on creature cards. When a creature with Exert is declared as an attacker, its controller has the option of exerting the creature. If the creature is exerted, it gains a bonus specified on the card (e.g., it gains flying until end of turn). The exerted creature continues attacking, but does not untap during its controller\u0027s next untap phase. In other words, a creature with Exert can attack every other turn with the exertion bonus, or attack every turn without it. Exert appears in Amonkhet. Exert appears exclusively on green, red, and white cards.",
-	"type": "Expert",
-	"ability": "???"
-},
-{
-	"keyword": "Exploit",
-	"description": "Exploit is an ability that appears on creatures. It gives the player who casts it the option to sacrifice a creature they control when it enters the battlefield, and that if they do so, an ability will trigger dependent on what the creature specifies. Exploit appears in Dragons of Tarkir.",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Extort",
-	"description": "Extort is a keyword which allows you to slowly drain life from your opponent. Whenever you play a spell, you may pay one white or black mana for each permanent you control with extort. For each mana you pay, each opponent loses one life, and you gain that much life. Extort appeared in Gatecrash as the guild keyword for the Orzhov Syndicate",
-	"type": "Expert",
-	"ability": "triggered"
-},
-{
-	"keyword": "Fading",
-	"description": "This ability is written as fading X. A permanent with fading enters the battlefield with X fade counters on it. At the beginning of its controller\u0027s upkeep, a fade counter is removed; if a counter cannot be removed, the card is sacrificed. Fading is exclusive to Nemesis. It is extremely similar to the Planar Chaos keyword vanishing.[13]",
-	"type": "Expert",
-	"ability": "static"
-},
-{
-	"keyword": "Fateseal",
-	"description": "This keyword action is written Fateseal X. To fateseal, a player looks at the top X cards of an opponent\u0027s library, and may put any number of those cards on the bottom of that player\u0027s library. Thus, this ability is functionally a scry on the opponent\u0027s library; fateseal was dubbed \"evil scry\" while in design.[14] Fateseal exclusively appears on timeshifted cards from Future Sight.",
-	"type": "Expert",
-	"ability": "action"
-},
-{
-	"keyword": "Flanking",
-	"description": "When a creature with flanking is blocked by a creature without this ability, the blocking creature gets -1/-1 until end of turn. The effect is cumulative; multiple instances of flanking will effect a greater penalty, though a blocking creature only needs one instance to avoid the effect. Flanking first appears in the Mirage block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Flashback",
-	"description": "This ability is written Flashback (cost) and appears on instants and sorceries. When a card with this ability is in a player\u0027s graveyard, that player may pay its flashback cost and cast the card from the graveyard. Then, instead of the card going to the graveyard, it is exiled. This allows a player to get a second use from a card. Flashback was introduced in the Odyssey block, where cards with an ability that acted from the graveyard have small headstone markers in front of their names. They reappeared in Time Spiral and Innistrad blocks; these subsequent releases do not use the headstone marker.",
-	"type": "Expert"
-},
-{
-	"keyword": "Flip",
-	"description": "Flip is a keyword action that deals with specially printed cards known as \"flip cards.\" Each of these cards has two sets of normal card attributes (e.g. name, rules text, power and toughness): one right-side-up above the card\u0027s image and one upside-down (with no mana cost) below the image. Flip cards enter the battlefield unflipped, with only the former set of attributes applying. Once certain conditions are met, the player flips the card (by rotating it 180 degrees) into a different version—the latter set of attributes are now in effect. Once flipped, a card cannot be unflipped (except by leaving the battlefield and returning), and effects that would \"flip\" a card that is already \"flipped\" do nothing. Flip cards appear in the Kamigawa block. Although morphing and transforming cards is often colloquially referred to as \"flipping\", they are distinct mechanics.",
-	"type": "Expert"
-},
-{
-	"keyword": "Forecast",
-	"description": "This ability is written Forecast — Cost: Effect. During a player\u0027s upkeep, if he or she has a card with forecast in his or her hand, he or she may pay the forecast cost to activate its forecast ability. The cost always includes revealing the card until the end of the upkeep. A player can only do this once per turn per forecast card. Forecast appears in Dissension and is the ability associated with the Azorius Senate.",
-	"type": "Expert"
-},
-{
-	"keyword": "Fortify",
-	"description": "This ability is written Fortify (cost). It is found only on Fortifications, a subtype of artifacts. A player pays the Fortify cost as a sorcery (only during their own main phase when the stack is empty) and attaches it to a land he or she controls. That land becomes \"fortified\" and can then be referenced by the Fortification as the \"fortified land.\" Other than attaching to lands instead of creatures, the rules for Fortifications are similar to those for Equipment. Fortify appears on a single timeshifted artifact from Future Sight, Darksteel Garrison.",
-	"type": "Expert"
-},
-{
-	"keyword": "Frenzy",
-	"description": "This ability is written Frenzy X. When a creature with frenzy attacks and is not blocked, it gets +X/+0 until end of turn. This ability appears on a single timeshifted creature from Future Sight, Frenzy Sliver.",
-	"type": "Expert"
-},
-{
-	"keyword": "Graft",
-	"description": "This ability is written Graft X. All creatures with graft are 0/0 creatures that enter the battlefield with X +1/+1 counters on them. Whenever another creature enters the battlefield, a player may move one +1/+1 counter from any number of creatures with graft he or she controls onto that creature. Graft appears in Dissension and is the ability associated with the Simic Combine.",
-	"type": "Expert"
-},
-{
-	"keyword": "Gravestorm",
-	"description": "When a player casts a spell with gravestorm, he or she puts a copy of that spell on the stack for each permanent that was previously put into a graveyard this turn. This ability is similar to storm. This ability appears on a single timeshifted card from Future Sight, Bitter Ordeal.",
-	"type": "Expert"
-},
-{
-	"keyword": "Haunt",
-	"description": "Haunt appears on creatures, instants, and sorceries. When a creature or spell with haunt would be put into a graveyard from the battlefield, instead it is exiled \"haunting\" a creature. Haunt allows a player to use an effect twice: once when the spell is played (or the creature enters the battlefield), and once when the creature it haunts is put into a graveyard. Haunt appears in Guildpact and is the ability associated with the Orzhov Syndicate.",
-	"type": "Expert"
-},
-{
-	"keyword": "Hideaway",
-	"description": "When a card with hideaway enters the battlefield, its controller chooses one card from the top four of his or her library and exiles that card face-down. Each card with hideaway also has another ability that allows its controller to play the \"hidden\" card, without paying its mana cost, under certain conditions. Hideaway appears only on a cycle of lands from Lorwyn.",
-	"type": "Expert"
-},
-{
-	"keyword": "Horsemanship",
-	"description": "Horsemanship parallels flying in that creatures with horsemanship can only be blocked by other creatures with horsemanship. However, no analogue to reach exists that allows creatures without horsemanship to block creatures with the ability. Horsemanship is unique to the Portal Three Kingdoms set, so very few cards make use of the keyword.",
-	"type": "Expert"
-},
-{
-	"keyword": "Infect",
-	"description": "Creatures with infect deal damage to other creatures in the form of -1/-1 counters, similar to wither, and to players in the form of poison counters. Infect appears on Phyrexian cards in the Scars of Mirrodin block. A player who receives 10 poison counters loses the game.",
-	"type": "Expert"
-},
-{
-	"keyword": "Kicker",
-	"description": "This ability is written Kicker (cost). The kicker cost is an additional and optional cost that can be paid when the card is cast. If the card is \"kicked,\" an ability of the card takes effect. Some cards have multiple kicker abilities; a player may choose to pay any, all, or none of these. Kicker was introduced in the Invasion block and is the returning mechanic in the Zendikar block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Landfall",
-	"description": "The Landfall ability lets many things happen when a land enters the battlefield. Your creatures may get stronger, or certain abilities can trigger. It appeared in both Zendikar blocks in all five colors.",
-	"type": "Expert"
-},
-{
-	"keyword": "Level up",
-	"description": "This ability is written Level up (cost). Any time he or she could cast a sorcery, a player may activate the level up ability of a \"leveler\" creature to put a level counter on it. Leveler creatures increase in power and gain new abilities as they accumulate level counters, as indicated by the three striped bands in the text box. Level up appears in Rise of the Eldrazi.",
-	"type": "Expert"
-},
-{
-	"keyword": "Living weapon",
-	"description": "When an Equipment with living weapon enters the battlefield, its controller puts a 0/0 black Germ creature token onto the battlefield then attaches that Equipment to the token. All cards with living weapon give the equipped creature a toughness increase to compensate for the Germ\u0027s 0 toughness; the player may attach the Equipment to a different creature, but the Germ will be instantly sent to the graveyard. Living weapon was introduced in Mirrodin Besieged and appears on Phyrexian cards.",
-	"type": "Expert"
-},
-{
-	"keyword": "Madness",
-	"description": "This ability is written Madness (cost). At the time a player discards a card with madness, he or she may pay its madness cost and cast the card. Madness first appeared in Torment, and the rules for madness were subtly shifted for the reappearance of madness in Time Spiral block, where the vast majority of madness cards were black. A madness cost is usually cheaper than the normal mana cost of a card, but the Future Sight set introduced a card whose madness cost is more expensive than its normal cost (Ichor Slick). The rules for madness were changed again when it was reintroduced for Shadows over Innistrad.",
-	"type": "Expert"
-},
-{
-	"keyword": "Manifest",
-	"description": "This ability is written Manifest the top card of your library. When you manifest a card, you put it onto the battlefield face down. This disguises its true identity from your opponents. While face down, it\u0027s a 2/2 colorless creature with no name, no abilities, and no creature types. Face-down creatures are creatures in every way. They can attack and block, and spells and abilities that target creatures can target them. They can be enchanted by Auras and equipped by Equipment.",
-	"type": "Expert"
-},
-{
-	"keyword": "Meld",
-	"description": "Meld is a mechanic where you have to control two or more creatures, then you can Transform them, and attach the cards to each other as if one of them was an Enchantment-Aura. This mechanic is featured in the Eldritch Moon set expansion.",
-	"type": "Expert"
-},
-{
-	"keyword": "Miracle",
-	"description": "This ability is written Miracle (cost). If the first card a player draws during any turn has miracle, he or she may reveal the card. If the card is revealed, the player may then cast the card for its miracle cost. Miracle appears in Avacyn Restored. Cards with miracle have a special border that appears as the art is bathed in light. So far, there have never been any black cards printed with miracle.",
-	"type": "Expert"
-},
-{
-	"keyword": "Modular",
-	"description": "This ability is written Modular X and only appears on artifact creatures with \"Arcbound\" in the title. A creature with modular enters the battlefield with X +1/+1 counters on it, and when that creature is put into a graveyard, its controller may put all the +1/+1 counters on that creature onto a target artifact creature. Modular appeared in Darksteel and on one card in Fifth Dawn (Arcbound Wanderer).",
-	"type": "Expert"
-},
-{
-	"keyword": "Monstrosity",
-	"description": "This ability is written (Cost):Monstrosity X. If a creature is not monstrous yet, this ability makes that creatures monstrous and it gets X +1/+1 counters.",
-	"type": "Expert"
-},
-{
-	"keyword": "Morph",
-	"description": "This ability is written Morph (cost). A card with morph may be cast face-down by paying 3 colorless mana. While face-down, the creature is a colorless, nameless and typeless 2/2 creature. At any time, a player may pay the creature\u0027s morph cost and turn the creature face-up. Many cards with morph have additional abilities when they are turned face-up. Morph was introduced in the Onslaught block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Multikicker",
-	"description": "Multikicker is a variant of the kicker keyword, written Multikicker (cost), where the cost can be paid any number of times when the card is played, as opposed to the limit of one as defined in the original kicker ability. Cards with multikicker have an ability that references the number of times the card was \"kicked.\" Multikicker appears in the Worldwake set.",
-	"type": "Expert"
-},
-{
-	"keyword": "Ninjutsu",
-	"description": "This ability is written Ninjutsu (cost). If a player has a Ninja in hand and controls an attacking creature the opponent has declined to block, he or she may pay its ninjutsu cost, return the unblocked creature to his or her hand, and put the Ninja onto the battlefield tapped and attacking. Ninjutsu appears only in Betrayers of Kamigawa and only on Ninja creatures.",
-	"type": "Expert"
-},
-{
-	"keyword": "Offering",
-	"description": "This ability is written (Creature type) offering. A player may cast a creature with the offering ability as if it were an instant (see flash) if he or she sacrifices a creature with the appropriate creature type, then pays the difference in mana costs between the sacrificed creature and the creature with offering. Offering only appears on a cycle of five legendary Spirits in Betrayers of Kamigawa.",
-	"type": "Expert"
-},
-{
-	"keyword": "Overload",
-	"description": "Overload is a keyword for instants and sorceries used by the Izzet League in Return to Ravnica. By paying the more expensive Overload cost instead of the regular mana cost, the spell can affect all possible targets, rather than just a single one.[11]",
-	"type": "Expert"
-},
-{
-	"keyword": "Persist",
-	"description": "When a creature with persist is put into a graveyard from the battlefield, if it had no -1/-1 counters on it, it is returned to the battlefield under its owner\u0027s control with a -1/-1 counter on it. Persist appears in Shadowmoor and Eventide.",
-	"type": "Expert"
-},
-{
-	"keyword": "Phasing",
-	"description": "Phasing introduced a new rule to the game. Cards with the status \"phased out\" are treated as though they do not exist except for cards that specifically interact with phased-out cards. At the beginning of each player\u0027s turn, all permanents the player controls which have phasing become \"phased out\", along with anything attached to the phasing cards. Any cards the player controls which were phased out become \"phased in\" and return to the battlefield at the same time. Phasing in or out does not tap or untap the permanent. A token that phases out ceases to exist, while anything attached to it phases out and does not phase in on the token\u0027s controller\u0027s next turn. Phasing appears in the Mirage block. The earlier cards Oubliette and Tawnos\u0027s Coffin were reworded to use phasing as well for a time; however, these errata were removed in 2007.[15]",
-	"type": "Expert"
-},
-{
-	"keyword": "Poisonous",
-	"description": "This creature ability, written Poisonous X, is an old ability originating from the Legends set. Whenever a creature with poisonous deals combat damage to a player, that player gets X poison counters. A player with ten poison counters loses the game. Cards with the ability appeared in small quantities up to the release of Fifth Edition, after which the ability was retired until Time Spiral block. Poisonous was keyworded in Future Sight, though older cards with the ability have not been changed to have poisonous due to minor text variations between cards. This ability was supplanted by the infect ability of the Scars of Mirrodin block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Populate",
-	"description": "Populate is a keyword action introduced in Return to Ravnica that appears on green and white cards of the Selesnya Conclave. To populate, a player puts a token onto the battlefield that’s a copy of a creature token he/she controls.[11]",
-	"type": "Expert"
-},
-{
-	"keyword": "Proliferate",
-	"description": "Proliferate is a keyword action introduced in Scars of Mirrodin. To proliferate, a player chooses any number of permanents and/or players with a counter (Examples are: A Planeswalker Loyalty Counter, +1/+1 Counter, Poison Counter), then gives each exactly one additional counter of a kind that permanent or player already has.",
-	"type": "Expert"
-},
-{
-	"keyword": "Provoke",
-	"description": "When a creature with provoke attacks, its controller may have target creature the defending player controls untap (if it is tapped) and block the attacking creature if the chosen creature is able to do so. The ability can choose a creature that can\u0027t block the creature with provoke. Provoke is cumulative, though no creature has more than one instance of it. Provoke only appears in Legions.",
-	"type": "Expert"
-},
-{
-	"keyword": "Prowl",
-	"description": "This ability is written Prowl (cost) and is an alternate cost. A player can cast a card for its prowl cost if a creature controlled by that player shares a creature type with the prowl card, and dealt combat damage to a player that turn. Most cards with prowl have an additional effect if cast for their prowl cost. Prowl appears in Morningtide exclusively on cards that contain the Rogue subtype.",
-	"type": "Expert"
-},
-{
-	"keyword": "Rampage",
-	"description": "This ability is written Rampage X. When a creature with rampage becomes blocked, the creature gains +X/+X until end of turn for each creature beyond the first assigned to block. Mirage was the last set to print new cards with rampage (although Time Spiral reprinted Craw Giant), and 5th Edition was the only Core Set to ever include cards with rampage.",
-	"type": "Expert"
-},
-{
-	"keyword": "Rebound",
-	"description": "The rebound ability allows a player to cast an instant or sorcery spell more than once. When a spell with rebound is cast from a player\u0027s hand, that player exiles it, and during his or her next upkeep may cast the spell again without paying its mana cost (similar to suspend). Rebound was introduced in Rise of the Eldrazi and was brought back in Dragons of Tarkir.",
-	"type": "Expert"
-},
-{
-	"keyword": "Recover",
-	"description": "This ability is written Recover (cost). Whenever a creature is put into your graveyard from the battlefield, all cards with recover in that player\u0027s graveyard trigger. That player may then pay each card’s recover cost; if the cost is paid, the card is put into the player\u0027s hand, but if it is not paid, the card is exiled. Recover appears in Coldsnap.",
-	"type": "Expert"
-},
-{
-	"keyword": "Reinforce",
-	"description": "This ability is written Reinforce X — (cost). A player may discard a card with reinforce from his or her hand, pay its reinforce cost, and put X +1/+1 counters on a target creature. Reinforce appears in Morningtide.",
-	"type": "Expert"
-},
-{
-	"keyword": "Renown",
-	"description": "This ability is written Renown X (When this creature deals combat damage to a player, if it isn\u0027t renowned, put X +1/+1 counters on it and it becomes renowned.) Renown appears in Magic Origins.",
-	"type": "Expert"
-},
-{
-	"keyword": "Replicate",
-	"description": "This ability is written Replicate (cost). When a player casts a spell with replicate, he or she may pay the replicate cost any number of times, then put a copy of the spell on the stack for each time the replicate cost was paid. Replicate appears in Guildpact and is the ability associated with the Izzet League.",
-	"type": "Expert"
-},
-{
-	"keyword": "Retrace",
-	"description": "Retrace appears on instants and sorceries. It allows players to replay a spell from the graveyard by paying its mana cost and all associated costs with the additional cost of discarding a land card. Unlike with flashback, a card cast from the graveyard with retrace is not exiled, and returns to the graveyard after it resolves. Retrace appears in Eventide.",
-	"type": "Expert"
-},
-{
-	"keyword": "Ripple",
-	"description": "This ability is written Ripple X. When a spell with ripple is cast, its controller may reveal the top X cards of his or her library. If any of them have the same name as the spell with ripple that was cast, then he or she can cast those cards without paying their mana costs (this triggers their ripple abilities, so a player can ripple again). Any cards not thus cast are then put on the bottom of that player\u0027s library. Ripple appears in Coldsnap, where all cards with the mechanic have ripple 4.",
-	"type": "Expert"
-},
-{
-	"keyword": "Scavenge",
-	"description": "This ability is written Scavenge (cost). Any time he or she could cast a sorcery, a player may exile a card with scavenge from his or her graveyard to put a number of +1/+1 counters onto target creature equal to the power of the creature with scavenge. Scavenge appears on green and black cards of the Golgari Swarm in Return to Ravnica.[11]",
-	"type": "Expert"
-},
-{
-	"keyword": "Scry",
-	"description": "To scry X, a player looks at the top X cards of his library, then puts any number of them on the bottom of his library and the rest on top of his library in any order. Scry originally appeared in Fifth Dawn as a keyword ability, primarily on instants and sorceries as \"Scry 2,\" though it was designed to allow other values. Future Sight added values \"Scry 1\" through \"Scry 4\" and redefined scry to be a keyword action, allowing it to be placed in the middle of an ability rather than as a \"tack-on\" to other abilities. Scry also appeared in the Core Set Magic 2011 as the game\u0027s first ever \"keyword cameo,\" (i.e. returning mechanic), meaning it will not become evergreen and a different mechanic will appear in the next Core Set. Scry returns also in Theros Block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Shadow",
-	"description": "Creatures with shadow can only block or be blocked by other creatures with the shadow ability. Shadow was introduced in the Tempest block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Soulbond",
-	"description": "Creatures with soulbond can be paired with other creatures (with or without soulbond) when either creature enters the battlefield. When paired, each of the paired creatures receives the ability printed on the soulbond creature\u0027s card (if both creatures have soulbond, they each receive both abilities). Creatures remain paired as long as they remain under the control of the caster. Soulbond appears in Avacyn Restored.",
-	"type": "Expert"
-},
-{
-	"keyword": "Soulshift",
-	"description": "This ability is written Soulshift X. When a creature with soulshift is put into a graveyard from the battlefield, its controller may return a Spirit card with converted mana cost X or less from his or her graveyard to his or her hand. Almost all cards with Soulshift are Spirits with a soulshift number one less than their converted mana cost (to prevent them from returning themselves); a notable exception is Promised Kannushi. Soulshift appears in the Kamigawa block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Splice",
-	"description": "This ability is written Splice onto (quality) (cost). As a player casts a spell with a given quality, he or she may reveal any number of cards in his or her hand with splice onto that quality, and pay their splice costs; each splicing card\u0027s effects are added to those of the spell cast, while the cards spliced onto the spell are kept in the player\u0027s hand. These effects are placed after the played spell\u0027s effects. One card, Evermind, has no mana cost (meaning it can\u0027t be cast normally), but it does have a splice cost. Splice appears in the Kamigawa block, where the quality was limited to Arcane.",
-	"type": "Expert"
-},
-{
-	"keyword": "Split second",
-	"description": "As long as a spell with split second is on the stack, players can\u0027t cast spells or activate non-mana abilities. Triggered abilities, as well as certain special actions that don\u0027t use the stack (such as un-morphing a face down permanent), can be played as normal while the spell is on the stack. Split second is similar to the defunct interrupt card type, except that one card with split second cannot be cast while another card with split second is on the stack, whereas one interrupt card could be played in response to another. Split second appears in the Time Spiral block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Storm",
-	"description": "When a player played a spell with storm, he or she puts a copy of that spell on the stack for each spell cast before the storm spell this turn. For example, if the storm spell was the fifth spell played in the turn, four copies of the spell are put on the stack, so the player gets five instances of the spell. Storm was introduced in Scourge.",
-	"type": "Expert"
-},
-{
-	"keyword": "Sunburst",
-	"description": "A permanent with sunburst enters the battlefield with a +1/+1 counter (if it\u0027s a creature) or a charge counter (if it\u0027s not a creature) for each different color of mana spent to pay its mana cost. Sunburst appears in Fifth Dawn and only on artifacts.",
-	"type": "Expert"
-},
-{
-	"keyword": "Suspend",
-	"description": "This ability is written Suspend X — (cost). Any time a player could cast a spell with suspend, he or she may instead pay its suspend cost to exile it with X time counters on it. The player removes a time counter every time his or her upkeep step begins. (Note that other spells or effects can add or remove time counters from suspended cards.) When the last counter is removed, the spell is cast without paying its mana cost and, if it\u0027s a creature, it gains haste. Cards may be given suspend and have time counters put on them when they are exiled by an effect. In particular, a cycle of cards from the Future Sight set can \"re-suspend\" themselves after they resolve. Suspend appears in the Time Spiral block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Totem armor",
-	"description": "Totem armor is an ability which appears on Auras. When the enchanted creature would be destroyed, an attached Aura with totem armor is destroyed instead. Totem armor appears in Rise of the Eldrazi.",
-	"type": "Expert"
-},
-{
-	"keyword": "Transfigure",
-	"description": "This ability is written Transfigure (cost). A player who controls a creature with transfigure, any time a sorcery could be cast, may pay its transfigure cost and sacrifice it to search his or her library for a creature with the same converted mana cost as the sacrificed creature and put it directly onto the battlefield. It is a variant on the transmute ability. This ability appears on a single timeshifted creature in Future Sight, Fleshwrither.",
-	"type": "Expert"
-},
-{
-	"keyword": "Transform",
-	"description": "Transform is a keyword action that appears on double-faced cards. Each double-faced card has a front face, with a sun symbol in the upper-left-hand corner, and a back face with different card text and a corresponding moon symbol instead of a standard Magic card back. Each transform card enters the battlefield with its front face up, and when certain conditions are met, the player turns the card over to its other face to transform it. Only double-faced cards can transform. Transform and double-faced cards were introduced in Innistrad block. All Werewolf cards from Innistrad and Dark Ascension, among other cards (mostly creatures), have the ability. Transforming a card does not leave the battlefield and as such does not lose any enchantments or counters placed on the original card\u0027s identity.",
-	"type": "Expert"
-},
-{
-	"keyword": "Transmute",
-	"description": "This ability is written Transmute (cost). A player who has a card with transmute in his hand may, as a sorcery, pay its transmute cost and discard it to search his library for a card with the same converted mana cost as that card and put it in his hand. Note that it is the converted mana cost of the card, not the transmute cost, that is used when finding another card. Transmute appears in Ravnica: City of Guilds and is the ability associated with House Dimir.",
-	"type": "Expert"
-},
-{
-	"keyword": "Typecycling",
-	"description": "Typecycling is a variant of cycling that is worded (card type)cycling (cost). When the ability is used the player discards the card, then may search his or her library for any card containing the indicated subtype and put it in his or her hand. It first appeared in Scourge as \"Landcycling,\" indicating cards which could search for basic lands. Typecycling was redefined with the release of Future Sight to allow searching for other types of cards, and also appears in Alara block. Typecycling is considered a form of cycling, and thus triggers anything that would trigger on cycling.",
-	"type": "Expert"
-},
-{
-	"keyword": "Undying",
-	"description": "When a creature with undying is put into a graveyard from the battlefield, if it had no +1/+1 counters on it, it is returned to the battlefield under its owner\u0027s control with a +1/+1 counter on it. Undying first appeared in Dark Ascension. This keyword is very similar to persist.",
-	"type": "Expert"
-},
-{
-	"keyword": "Unearth",
-	"description": "This ability is written Unearth (cost). If a creature with unearth is in a player\u0027s graveyard, any time a sorcery could be played, that player may pay its unearth cost to return that creature to the battlefield. The creature gains haste and is exiled at the beginning of the next end step, or if it would otherwise leave the battlefield. Unearth appears on Grixis cards in the Alara block.",
-	"type": "Expert"
-},
-{
-	"keyword": "Unleash",
-	"description": "A player may choose to have a creature with unleash enter the battlefield with a +1/+1 counter on it. If a creature with unleash has a +1/+1 counter on it (whether put there by its own ability or another source), that creature can\u0027t block. Unleash appears on red and black cards of the Cult of Rakdos in Return to Ravnica.[11]",
-	"type": "Expert"
-},
-{
-	"keyword": "Vanishing",
-	"description": "This ability is written Vanishing X. A permanent with vanishing enters the battlefield with X time counters on it. At the beginning of its controller\u0027s upkeep, a time counter is removed. When the last counter is removed, the card is sacrificed. Vanishing was introduced in Time Spiral and is an updated version of an older mechanic, fading. Vanishing uses time counters to interact with other Time Spiral cards.",
-	"type": "Expert"
-},
-{
-	"keyword": "Wither",
-	"description": "Wither is a replacement ability that modifies damage. Normally nonlethal damage marked on a creature goes away at the end of the turn. However, whenever a source with wither deals damage to a creature, that creature receives a number of -1/-1 counters equal to the amount of damage dealt to it. Unlike infect when it deals damage to a player, that player will receive regular damage. Wither was introduced in Shadowmoor.",
-	"type": "Expert"
-},
-{
-	"keyword": "Battalion",
-	"description": "Battalion is a creature ability word which gives one an advantage whenever the creature attacks with at least two other creatures. It was designed by a contestant during The Great Designer Search II and appears in Gatecrash as the guild keyword of the Boros Legion",
-	"type": "Ability"
-},
-{
-	"keyword": "Bloodrush",
-	"description": "Bloodrush is an ability word which allows you to pay a cost and discard a creature card to give a temporary boost to an attacking creature. It has appeared only on creatures and gives the attacking creature a boost equal to the discarded creatures power and toughness as well as temporarily granting the discarded creatures abilities. Bloodrush appeared in Gatecrash as the guild-keyword of the Gruul Clans",
-	"type": "Ability"
-},
-{
-	"keyword": "Channel",
-	"description": "All cards with channel have the ability to be discarded for a cost to yield a specified effect. Channel appears in Saviors of Kamigawa, where it only appears on creatures with the \"Spirit\" type. The mechanical reason behind this was to interact better with soulshift.[18]",
-	"type": "Ability"
-},
-{
-	"keyword": "Chroma",
-	"description": "Chroma is an ability of a permanent or spell that checks for specific mana symbols of cards in specific zones. When a card with chroma is played, it will indicate a specified effect or characteristic defining ability and repeat it for every color symbol in the checked zone. Chroma was first introduced in Eventide, though a card from Future Sight, Phosphorescent Feast, was issued errata to have the ability word.",
-	"type": "Ability"
-},
-{
-	"keyword": "Domain",
-	"description": "Domain refers to an effect that may be stronger or weaker depending on the number of basic land types (Plains, Island, Swamp, Mountain, and/or Forest) among lands a player controls. The mechanic first appeared in Invasion without the keyword printed on the cards. Domain officially became an ability word in the Conflux set.",
-	"type": "Ability"
-},
-{
-	"keyword": "Fateful hour",
-	"description": "Cards with the fateful hour an ability word gain an additional ability if controlled by a player with 5 life or less. This ability first appeared on Human-themed cards in Dark Ascension.",
-	"type": "Ability"
-},
-{
-	"keyword": "Ferocious",
-	"description": "Cards with ferocious gain an additional ability if their controller controls a creature with power four or more. This ability appears on cards belonging to the Temur clan in Khans of Tarkir and Fate Reforged.",
-	"type": "Ability"
-},
-{
-	"keyword": "Grandeur",
-	"description": "Grandeur is an ability written as Discard another card named (name of card): (effect). Grandeur is an ability word which has only appeared on legendary creatures, and was designed as a means of reducing the drawback of drawing multiple copies of the same legendary permanent. This ability appears exclusively on timeshifted legendary cards from Future Sight.",
-	"type": "Ability"
-},
-{
-	"keyword": "Hellbent",
-	"description": "Cards with the hellbent ability word have greater effects if their controller has no cards in his or her hand. Hellbent appears in Dissension and is associated with the Cult of Rakdos; many other cards pertaining to the Cult function better while their controller has fewer cards in hand.",
-	"type": "Ability"
-},
-{
-	"keyword": "Heroic",
-	"description": "Cards with the Heroic ability gain an advantage when you target them with a spell. Although there are many Heroic effects, the most common use of this mechanic is to give a creature a +1/+1 counter. This mechanic first appeared with creatures from the Theros block.",
-	"type": "Ability"
-},
-{
-	"keyword": "Imprint",
-	"description": "Imprint is an ability word which only appears on artifacts and creatures. All cards with imprint have either an activated (Cost: Effect) or triggered (When/ever/at trigger condition, effect) ability which allows the player to exile a card to grant abilities to the artifact with imprint. Imprint was introduced as a keyword in the Mirrodin block and became an ability word in the Scars of Mirrodin block.",
-	"type": "Ability"
-},
-{
-	"keyword": "Join forces",
-	"description": "Join forces is an ability word geared toward multiplayer variants. An effect denoted with join forces allows all players to contribute to it, usually by paying mana, though that effect might not be mutually beneficial. For example, Minds Aglow has each player draw a number of cards equal to the total amount paid by all players (so each player will draw the same number of cards), while Mana-Charged Dragon will gain power equal to that amount (which is usually beneficial only to the dragon\u0027s controller and his or her teammates). Join forces appears in Commander.",
-	"type": "Ability"
-},
-{
-	"keyword": "Kinship",
-	"description": "Kinship is an ability word that appears in Morningtide. All cards with kinship are creatures that check, at the beginning of their controller\u0027s upkeep, whether the card on top of that player\u0027s library shares a creature type with the creature that has the kinship ability; if it does, the player may reveal it for a bonus effect.",
-	"type": "Ability"
-},
-{
-	"keyword": "Landfall",
-	"description": "Landfall is an ability word is associated with bonuses given to players for playing lands. Landfall first appeared in Zendikar with abilities of the form Whenever a land enters the battlefield under your control, (effect). The follow-up set, Worldwake, introduced a modified form of landfall on instant cards written as If a land entered the battlefield under your control this turn, (effect).",
-	"type": "Ability"
-},
-{
-	"keyword": "Metalcraft",
-	"description": "Cards with the metalcraft ability word gain an additional effect as long as their controller controls three or more artifacts. Metalcraft appears in the Scars of Mirrodin block and is associated with the Mirran faction.",
-	"type": "Ability"
-},
-{
-	"keyword": "Morbid",
-	"description": "Cards with the morbid ability word gain an additional effect during a turn in which a creature died. Morbid was introduced in the Innistrad block.",
-	"type": "Ability"
-},
-{
-	"keyword": "Radiance",
-	"description": "The radiance ability word denotes abilities that target one permanent, but affect all permanents of the same type that share a color with the target. Radiance appears in Ravnica: City of Guilds and is associated with the Boros Legion.",
-	"type": "Ability"
-},
-{
-	"keyword": "Raid",
-	"description": "A card with raid gains an additional effect if their controller attacked the turn they are played. Raid is associated with the Mardu and appears in Khans of Tarkir.",
-	"type": "Ability"
-},
-{
-	"keyword": "Rally",
-	"description": "The \"rally\" mechanic is associated with ally creatures from Zendikar. It was first introduced in the Battle for Zendikar set, although it is essentially a keyword given to the abilities of allies from the original Zendikar set. A creature with a rally ability triggers whenever an ally enters the battlefield under their control and gives some kind of bonus to all of that player\u0027s creatures, even non-ally creatures.",
-	"type": "Ability"
-},
-{
-	"keyword": "Sweep",
-	"description": "Sweep is an ability word used on spells with effects which can be strengthened by returning any number of lands of a single basic land type to their owners\u0027 hands. Sweep only appears on four cards in Saviors of Kamigawa. Mark Rosewater has opined that labeling this mechanic with an ability word was \"a mistake.\"[19]",
-	"type": "Ability"
-},
-{
-	"keyword": "Threshold",
-	"description": "This ability was originally written Threshold — ability. Whenever a player has seven or more cards in the graveyard, his or her cards gain any threshold abilities they might have. A player can\u0027t activate an ability tied to threshold unless he or she has seven or more cards in the graveyard. Threshold appears in Odyssey block and on some timeshifted cards in Time Spiral.",
-	"type": "Ability"
-},
-{
-	"keyword": "Banding",
-	"description": "Banding is an ability that has two parts. First, a defending player determines how combat damage is dealt by an opposing creature if at least one of the creatures blocking the opposing creature has banding; normally the controller of the creature dealing the damage determines this. Second, an attacking player may form \"bands\" of creatures with banding, though one non-banding creature can be included in a band. If one creature in the band becomes blocked, the whole band becomes blocked as well, whether or not the defender could block other creatures in the band. This can allow many small creatures to \"gang up\" on a single bigger creature that would survive blocking any one of these smaller creatures.",
-	"type": "Discontinued"
-},
-{
-	"keyword": "Bury",
-	"description": "The term bury or buried was used in some early sets, where it served as shorthand for a two-part effect: destroying a permanent, and preventing that permanent from regenerating. Functionally it is still present in the game, with newer cards using a complete explanation for each part of the effect. (e.g. \"Destroy target creature. It cannot be regenerated.\") Bury is found only in sets prior to Tempest; all cards which contained the term have been issued new wording to use either a \"destroy\" or \"sacrifice\" effect. (e.g. Wrath of God or Abyssal Gatekeeper or abu jafar, respectively)",
-	"type": "Discontinued"
-},
-{
-	"keyword": "Fear",
-	"description": "Fear is an example of \"retroactive keywording,\" meaning it was an ability that had existed long before it was given a keyword; its eponymous card, Fear, was in the original set Limited Edition Alpha. Creatures with fear can\u0027t be blocked except by black creatures and by artifact creatures. Fear has, with few exceptions, always appeared on black creatures. Fear was replaced as a viable keyword by intimidate.",
-	"type": "Discontinued"
-},
-{
-	"keyword": "Intimidate",
-	"description": "A creature with intimidate can\u0027t be blocked except by artifact creatures and/or creatures that share a color with it. It first appeared in Zendikar. In 2009, Intimidate was announced as an evergreen keyword to replace fear, though it did not appear in a Core Set until Hideous Visage was printed in Magic 2012. As with fear, intimidate appeared on predominantly black colors, but did bleed to other colors, particularly red. With Magic Origins, intimidate was phased out and supplanted by menace.[23]",
-	"type": "Discontinued"
-},
-{
-	"keyword": "Landhome",
-	"description": "This ability is written as (land type)home. A creature with landhome may only attack a player who controls a land of the specified land type, and must be sacrificed if its controller does not control at least one land of that same type. The ability has been present since the Limited Editions of the game, but was first keyworded in Mirage with Kukemssa Serpent. The keyworded ability was only printed on blue cards, and in the \"islandhome\" variety. The last card to be printed with a keyworded landhome ability was Manta Ray from Weatherlight.",
-	"type": "Discontinued"
-},
-{
-	"keyword": "Landwalk",
-	"description": "This ability is written as (Land type)walk. A creature with this ability can not be blocked as long as the defending player controls at least one land with the printed land type (e.g. a creature with swampwalk can not be blocked if the opponent has a swamp on the battlefield). This ability is somewhat rare, with swampwalk and plainswalk being the most common and least common, respectively. Landwalk is not limited to the five basic lands; for example, cards with legendary landwalk, snow landwalk, and nonbasic landwalk have been printed. Landwalk was discontinued starting in Magic Origins.",
-	"type": "Discontinued",
-	"ability": "static"
-},
-{
-	"keyword": "Protection",
-	"description": "This ability is written as Protection from (quality). A creature with protection from a quality cannot be enchanted, equipped, blocked, or targeted by anything with that quality, and all damage that would be dealt by a source of that quality is prevented, barring exceptions which explicitly state otherwise. For example, a creature with protection from red cannot be enchanted by red Auras, blocked by red creatures, targeted by red spells and abilities, or take damage from red sources. A common mnemonic for which effects are prevented by protection is the acronym DEBT, standing for \"Damage, Enchant (or Equip), Block, Target\". Note that the protection ability does not prevent effects that do not target. For example, though Black Knight has protection from white, it would still be destroyed by Wrath of God since Wrath of God does not target a creature.",
-	"type": "Discontinued",
-	"ability": "static"
-},
-{
-	"keyword": "Regenerate",
-	"description": "Playing the regeneration cost on a creature with regenerate that received a lethal amount of damage would tap that creature (if it was untapped) and prevent that creature form being set to the graveyard.",
-	"type": "Discontinued"
-},
-{
-	"keyword": "Shroud",
-	"description": "A player or permanent with shroud cannot be the target of spells or abilities (even his or her own). While the keyword \"shroud\" was introduced in Future Sight, the ability itself existed long before, first appearing on Spectral Cloak; cards which featured this ability were all issued rules errata to have or grant \"shroud.\" Creatures with shroud are most often blue or green. Today it has been supplanted completely by the more flexible Hexproof.",
-	"type": "Discontinued"
-},
-{
-	"keyword": "Substance",
-	"description": "Substance was a static ability with no effect which was never printed on a Magic card. It was originally created for the Magic: The Gathering Online release of Mirage, as a cycle of cards such as Armor of Thorns did not work as originally intended under the rules established with the release of 6th Edition. These cards were all enchantments that could be played as instants, but only lasted for a turn if played as an instant. Under the newer rules, the original wording would cause the enchantment to leave the battlefield before damage was removed from creatures. The creation of substance restored the cards\u0027 intended functionality.[24] With the rule changes announced in July 2009,[25] all cards edited to use this keyword were re-edited to no longer use it. The official text of such cards now reads: \"If you cast [this card] any time a sorcery couldn\u0027t have been cast, the controller of the permanent it becomes sacrifices it at the beginning of the next cleanup step.\" This maintained the same functionality as the substance keyword, but without some unintended rules quirks.",
-	"type": "Discontinued",
-	"ability": "static"
-}]
+[
+	{
+		"keyword": "Deathtouch",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Defender",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Double Strike",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Enchant",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Equip",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "First Strike",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Flash",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Flying",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Haste",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Hexproof",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Indestructible",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Lifelink",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Menace",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Prowess",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Reach",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Trample",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Vigilance",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Absorb",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Affinity",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Aftermath",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Amplify",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Annihilator",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Aura Swap",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Awaken",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Banding",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Battle Cry",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Bestow",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Bloodthirst",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Bushido",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Buyback",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Cascade",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Champion",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Changeling",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Cipher",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Conspire",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Convoke",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Crew",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Cumulative Upkeep",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Cycling",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Dash",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Delve",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Dethrone",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Devoid",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Devour",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Dredge",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Echo",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Embalm",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Emerge",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Entwine",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Epic",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Escalate",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Evoke",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Evolve",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Exalted",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Exploit",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Extort",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Fabricate",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Fading",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Fear",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Flanking",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Flashback",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Forecast",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Fortify",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Frenzy",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Fuse",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Graft",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Gravestorm",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Haunt",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Hidden Agenda",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Double Agenda",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Hideaway",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Horsemanship",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Improvise",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Infect",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Ingest",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Intimidate",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Kicker",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Multikicker",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Landwalk",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Level Up",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Living Weapon",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Madness",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Melee",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Miracle",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Modular",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Morph",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Megamorph",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Myriad",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Ninjutsu",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Offering",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Outlast",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Overload",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Partner",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Persist",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Phasing",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Poisonous",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Protection",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Provoke",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Prowl",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Rampage",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Rebound",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Recover",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Reinforce",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Renown",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Replicate",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Retrace",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Ripple",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Scavenge",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Shadow",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Shroud",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Skulk",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Soulbond",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Soulshift",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Splice",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Split Second",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Storm",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Sunburst",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Surge",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Suspend",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Totem Armor",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Transfigure",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Transmute",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Tribute",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Undaunted",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Undying",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Unearth",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Unleash",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Vanishing",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Wither",
+		"description": "",
+		"type": "Abilities",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Activate",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Attach",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Cast",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Counter",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Create",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Destroy",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Discard",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Exchange",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Exile",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Fight",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Play",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Reveal",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Sacrifice",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Scry",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Search",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Shuffle",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Tap",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Untap",
+		"description": "",
+		"type": "Action",
+		"subtype": "Evergreen",
+		"action": "??"
+	},
+	{
+		"keyword": "Abandon",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Bolster",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Clash",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Detain",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Exert",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Fateseal",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Goad",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Investigate",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Manifest",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Meld",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Monstrosity",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Planeswalk",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Populate",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Proliferate",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Regenerate",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Set in Motion",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Support",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Transform",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Vote",
+		"description": "",
+		"type": "Action",
+		"subtype": "Other",
+		"action": "??"
+	},
+	{
+		"keyword": "Battalion",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Bloodrush",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Channel",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Chroma",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Cohort",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Constellation",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Converge",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Council\u0027s Dilemma",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Delirium",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Domain",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Fateful Hour",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Ferocious",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Formidable",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Grandeur",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Hellbent",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Heroic",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Imprint",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Inspired",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Join Forces",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Kinship",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Landfall",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Lieutenant",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Metalcraft",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Morbid",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Parley",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Radiance",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Raid",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Rally",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Revolt",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Spell Mastery",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Strive",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Sweep",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Tempting Offer",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Threshold",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	},
+	{
+		"keyword": "Will of the Council",
+		"description": "",
+		"type": "Word",
+		"action": "??"
+	}
+]
