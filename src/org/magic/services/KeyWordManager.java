@@ -1,22 +1,27 @@
 package org.magic.services;
 
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import javax.swing.AbstractAction;
-
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGKeyWord;
-import org.magic.api.beans.MTGKeyWord.SUBTYPE;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
 
 public class KeyWordManager {
 
@@ -50,23 +55,10 @@ public class KeyWordManager {
 	public static void main(String[] args) {
 		KeyWordManager manager = new KeyWordManager();
 		
-		
-		String[] actions = "Activate Attach Cast Counter Create Destroy Discard Exchange Exile Fight Play Reveal Sacrifice Scry Search Shuffle Tap Untap Ante Bury Regenerate".split(" ");
-		String[] activated = "Equip".split(",");
-		String[] statics = "Deathtouch,Defender,Double strike,Enchant,First strike,Flash,Flying,Haste,Hexproof,Indestructible,Lifelink,Menace,Reach,Trample,Vigilance,Banding,Fear,Shroud,Intimidate,Landwalk,Protection".split(",");
-		String[] triggered="Prowess".split(",");
-		
-		for(String s : actions)
-		{
-			MTGKeyWord k = manager.generateFromString(s);
-			k.setAction("Action");
-		}
-		
-		
-		System.out.println(new Gson().toJson(manager.getList()));
-		
-		
-		
+	
+		for(MTGKeyWord k : manager.getList())
+				System.out.println(k.getAction());
+				
 	}
 	
 //	

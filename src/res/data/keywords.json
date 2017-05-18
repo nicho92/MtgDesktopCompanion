@@ -1,1374 +1,1372 @@
-[
-	{
-		"keyword": "Deathtouch",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Defender",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Double Strike",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Enchant",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Equip",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "First Strike",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Flash",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Flying",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Haste",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Hexproof",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Indestructible",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Lifelink",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Menace",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Prowess",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Reach",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Trample",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Vigilance",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Absorb",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Affinity",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Aftermath",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Amplify",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Annihilator",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Aura Swap",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Awaken",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Banding",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Battle Cry",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Bestow",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Bloodthirst",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Bushido",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Buyback",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Cascade",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Champion",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Changeling",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Cipher",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Conspire",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Convoke",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Crew",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Cumulative Upkeep",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Cycling",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Dash",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Delve",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Dethrone",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Devoid",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Devour",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Dredge",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Echo",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Embalm",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Emerge",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Entwine",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Epic",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Escalate",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Evoke",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Evolve",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Exalted",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Exploit",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Extort",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Fabricate",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Fading",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Fear",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Flanking",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Flashback",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Forecast",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Fortify",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Frenzy",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Fuse",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Graft",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Gravestorm",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Haunt",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Hidden Agenda",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Double Agenda",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Hideaway",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Horsemanship",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Improvise",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Infect",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Ingest",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Intimidate",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Kicker",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Multikicker",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Landwalk",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Level Up",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Living Weapon",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Madness",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Melee",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Miracle",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Modular",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Morph",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Megamorph",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Myriad",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Ninjutsu",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Offering",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Outlast",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Overload",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Partner",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Persist",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Phasing",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Poisonous",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Protection",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Provoke",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Prowl",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Rampage",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Rebound",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Recover",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Reinforce",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Renown",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Replicate",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Retrace",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Ripple",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Scavenge",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Shadow",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Shroud",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Skulk",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Soulbond",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Soulshift",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Splice",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Split Second",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Storm",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Sunburst",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Surge",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Suspend",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Totem Armor",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Transfigure",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Transmute",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Tribute",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Undaunted",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Undying",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Unearth",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Unleash",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Vanishing",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Wither",
-		"description": "",
-		"type": "Abilities",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Activate",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Attach",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Cast",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Counter",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Create",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Destroy",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Discard",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Exchange",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Exile",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Fight",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Play",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Reveal",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Sacrifice",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Scry",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Search",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Shuffle",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Tap",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Untap",
-		"description": "",
-		"type": "Action",
-		"subtype": "Evergreen",
-		"action": "??"
-	},
-	{
-		"keyword": "Abandon",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Bolster",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Clash",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Detain",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Exert",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Fateseal",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Goad",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Investigate",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Manifest",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Meld",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Monstrosity",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Planeswalk",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Populate",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Proliferate",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Regenerate",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Set in Motion",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Support",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Transform",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Vote",
-		"description": "",
-		"type": "Action",
-		"subtype": "Other",
-		"action": "??"
-	},
-	{
-		"keyword": "Battalion",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Bloodrush",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Channel",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Chroma",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Cohort",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Constellation",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Converge",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Council\u0027s Dilemma",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Delirium",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Domain",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Fateful Hour",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Ferocious",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Formidable",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Grandeur",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Hellbent",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Heroic",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Imprint",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Inspired",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Join Forces",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Kinship",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Landfall",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Lieutenant",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Metalcraft",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Morbid",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Parley",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Radiance",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Raid",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Rally",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Revolt",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Spell Mastery",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Strive",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Sweep",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Tempting Offer",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Threshold",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	},
-	{
-		"keyword": "Will of the Council",
-		"description": "",
-		"type": "Word",
-		"action": "??"
-	}
-]
+[{
+	"keyword": "Deathtouch",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Defender",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Double Strike",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Enchant",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Equip",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Activated"
+},
+{
+	"keyword": "First Strike",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Flash",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Flying",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Haste",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Hexproof",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Indestructible",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Lifelink",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Menace",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Prowess",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Triggered"
+},
+{
+	"keyword": "Reach",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Trample",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Vigilance",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Evergreen",
+	"action": "Static"
+},
+{
+	"keyword": "Absorb",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Affinity",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Aftermath",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Amplify",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Annihilator",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Aura Swap",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Awaken",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Banding",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Battle Cry",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Bestow",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Bloodthirst",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Bushido",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Buyback",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Cascade",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Champion",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Changeling",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Cipher",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Conspire",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Convoke",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Crew",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Cumulative Upkeep",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Cycling",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Dash",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Delve",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Dethrone",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Devoid",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Devour",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Dredge",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Echo",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Embalm",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Emerge",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Entwine",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Epic",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Spell"
+},
+{
+	"keyword": "Escalate",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Evoke",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Evolve",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Exalted",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Exploit",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Extort",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Fabricate",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Fading",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Fear",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Flanking",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Flashback",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Forecast",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Fortify",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Frenzy",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Fuse",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Graft",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Gravestorm",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Haunt",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Hidden Agenda",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Double Agenda",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Hideaway",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Horsemanship",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Evasion"
+},
+{
+	"keyword": "Improvise",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Infect",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Ingest",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered?"
+},
+{
+	"keyword": "Intimidate",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Kicker",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Multikicker",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Landwalk",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Level Up",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Living Weapon",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Madness",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Melee",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Miracle",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Modular",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Morph",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Megamorph",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Myriad",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Ninjutsu",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Offering",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Outlast",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Overload",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Partner",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Characteristic"
+},
+{
+	"keyword": "Persist",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Phasing",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Poisonous",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Protection",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Provoke",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Prowl",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Rampage",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Rebound",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Recover",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Reinforce",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Renown",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Replicate",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Retrace",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Ripple",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Scavenge",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Shadow",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Evasion"
+},
+{
+	"keyword": "Shroud",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Skulk",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Evasion"
+},
+{
+	"keyword": "Soulbond",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Soulshift",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Splice",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Split Second",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Storm",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Sunburst",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Surge",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Suspend",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Totem Armor",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Transfigure",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Transmute",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Tribute",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Undaunted",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Undying",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Triggered"
+},
+{
+	"keyword": "Unearth",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Activated"
+},
+{
+	"keyword": "Unleash",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Vanishing",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Wither",
+	"description": "",
+	"type": "Abilities",
+	"subtype": "Other",
+	"action": "Static"
+},
+{
+	"keyword": "Activate",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Attach",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Cast",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Counter",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Create",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Destroy",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Discard",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Exchange",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Exile",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Fight",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Play",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Reveal",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Sacrifice",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Scry",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Search",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Shuffle",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Tap",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Untap",
+	"description": "",
+	"type": "Action",
+	"subtype": "Evergreen",
+	"action": "Action"
+},
+{
+	"keyword": "Abandon",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Bolster",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Clash",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Detain",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Exert",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Fateseal",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Goad",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Investigate",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Manifest",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Meld",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Monstrosity",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Planeswalk",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Populate",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Proliferate",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Regenerate",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Set in Motion",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Support",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Transform",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Vote",
+	"description": "",
+	"type": "Action",
+	"subtype": "Other",
+	"action": "Action"
+},
+{
+	"keyword": "Battalion",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Bloodrush",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Channel",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Chroma",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Cohort",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Constellation",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Converge",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Council\u0027s Dilemma",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Delirium",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Domain",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Fateful Hour",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Ferocious",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Formidable",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Grandeur",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Hellbent",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Heroic",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Imprint",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Inspired",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Join Forces",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Kinship",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Landfall",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Lieutenant",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Metalcraft",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Morbid",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Parley",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Radiance",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Raid",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Rally",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Revolt",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Spell Mastery",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Strive",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Sweep",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Tempting Offer",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Threshold",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+},
+{
+	"keyword": "Will of the Council",
+	"description": "",
+	"type": "Word",
+	"action": "Ability"
+}]
