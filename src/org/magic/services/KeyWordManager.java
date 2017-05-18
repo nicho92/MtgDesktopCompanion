@@ -57,8 +57,10 @@ public class KeyWordManager {
 		
 	
 		for(MTGKeyWord k : manager.getList())
-				System.out.println(k.getAction());
-				
+			System.out.println(k.getAction());	
+			
+		
+		
 	}
 	
 //	
