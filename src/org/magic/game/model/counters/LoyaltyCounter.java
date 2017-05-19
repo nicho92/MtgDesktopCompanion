@@ -5,9 +5,11 @@ import org.magic.game.gui.components.DisplayableCard;
 public class LoyaltyCounter extends AbstractCounter {
 
 	int value;
+	String label;
 	
-	public LoyaltyCounter(int value) {
+	public LoyaltyCounter(int value,String label) {
 		this.value=value;
+		this.label=label;
 	}
 
 	@Override
@@ -36,6 +38,12 @@ public class LoyaltyCounter extends AbstractCounter {
 
 	@Override
 	public String describe() {
-		return value+" loyalty counter";
+		String plus="";
+		
+		if(value>0)
+			plus="+";
+		
+		
+		return plus+value+":"+label;
 	}
 }

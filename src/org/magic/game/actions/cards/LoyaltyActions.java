@@ -15,7 +15,7 @@ public class LoyaltyActions extends AbstractAction {
 	private LoyaltyCounter val;
 
 	public LoyaltyActions(DisplayableCard card,LoyaltyCounter loyaltyCounter) {
-		putValue(NAME,"put a " + loyaltyCounter.describe());
+		putValue(NAME,loyaltyCounter.describe());
 		putValue(SHORT_DESCRIPTION,loyaltyCounter.describe());
 	
 		this.card = card;

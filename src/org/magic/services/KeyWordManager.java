@@ -10,7 +10,6 @@ import java.util.Set;
 
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MTGKeyWord.EVENT;
-import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 
 import com.google.gson.Gson;

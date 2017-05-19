@@ -275,7 +275,9 @@ public class DisplayableCard extends JLabel implements Draggable
 		if(magicCard.getTypes().contains("Planeswalker"))
 		{
 			JMenu mnuModifier = new JMenu("Loyalty");
-			mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(1)));
+			
+			for(LoyaltyCounter count : listLoyalty())
+				mnuModifier.add(new LoyaltyActions(this, count));
 			menu.add(mnuModifier);
 		}
 		
@@ -401,6 +403,34 @@ public class DisplayableCard extends JLabel implements Draggable
 	        this.tapped=t;
 	}
 
+	
+	private List<LoyaltyCounter> listLoyalty(){
+		String[] values = magicCard.getText().split("\n");
+		List<LoyaltyCounter> actions = new ArrayList<LoyaltyCounter>();
+					
+					for(String s:values)
+					{
+						
+						if(s.startsWith("+"))
+						{
+							LoyaltyCounter act = new LoyaltyCounter(Integer.parseInt(s.substring(s.indexOf("+"),s.indexOf(":")).trim()), s.substring(s.indexOf(":")+1).trim());
+							actions.add(act);
+						}
+						else if(s.startsWith("0"))
+						{
+							LoyaltyCounter act = new LoyaltyCounter(0, s.substring(s.indexOf(":")+1).trim());
+							actions.add(act);
+						}
+						else
+						{
+							LoyaltyCounter act = new LoyaltyCounter(Integer.parseInt("-"+s.substring(1,s.indexOf(":")).trim()), s.substring(s.indexOf(":")+1).trim());
+							actions.add(act);
+						}
+					}
+					return actions;
+	}
+	
+	
 	public MagicCard getMagicCard() {
 		return magicCard;
 	}
