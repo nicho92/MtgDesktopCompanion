@@ -1,27 +1,20 @@
 package org.magic.services;
 
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 import org.magic.api.beans.MTGKeyWord;
+import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.api.beans.MagicCard;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 
 public class KeyWordManager {
 
@@ -57,7 +50,7 @@ public class KeyWordManager {
 		
 	
 		for(MTGKeyWord k : manager.getList())
-			System.out.println(k.getAction());	
+			System.out.println(k + " " + k.getEvent());	
 			
 		
 		
@@ -80,13 +73,11 @@ public class KeyWordManager {
 	
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc)
 	{
-		String[] text = mc.getText().split(" ");
 		Set<MTGKeyWord> ret = new LinkedHashSet<MTGKeyWord>();
-		for(String s : text)
+		for(MTGKeyWord s : list)
 		{	
-			MTGKeyWord k = generateFromString(s);
-			if(k!=null)
-				ret.add(k);
+			if(mc.getText().toLowerCase().contains(s.getKeyword().toLowerCase()))
+				ret.add(s);
 		}
 		return ret;
 	}
@@ -102,13 +93,14 @@ public class KeyWordManager {
 	}
 	
 
-	public Set<MTGKeyWord> getKeywordsFrom(MagicCard magicCard, TYPE t) {
+	public Set<MTGKeyWord> getKeywordsFrom(MagicCard magicCard, EVENT... t) {
 		Set<MTGKeyWord> s = getKeywordsFrom(magicCard);
 		Set<MTGKeyWord> ret = new HashSet<MTGKeyWord>();
 		
 		for(MTGKeyWord k : s)
-			if(k.getType()==t)
-				ret.add(k);
+			for(EVENT ev : t)
+				if(k.getEvent().equals(ev))
+						ret.add(k);
 		
 		
 		return ret;

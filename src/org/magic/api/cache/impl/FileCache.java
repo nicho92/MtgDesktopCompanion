@@ -44,7 +44,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 			
 			if(ed==null)
 				ed=mc.getEditions().get(0);
-			
+	
 			File save = new File(directory,ed.getId());
 			if(!save.exists())
 				save.mkdir();
@@ -61,7 +61,6 @@ public class FileCache extends AbstractMTGPicturesCache {
 	
 		if(ed==null)
 			ed=mc.getEditions().get(0);
-		
 		
 		File f = new File(directory,ed.getId());
 		if(!f.exists())

@@ -26,6 +26,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MTGKeyWord.EVENT;
 import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
@@ -286,10 +287,12 @@ public class DisplayableCard extends JLabel implements Draggable
 
 		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 		if(l.size()>0){
-			JMenu abilities = new JMenu("Activate");
+			JMenu abilities = new JMenu("KeyWords");
 			for(MTGKeyWord k : l)
 			{
-				abilities.add(new JMenuItem(k.getKeyword()));
+				JMenuItem it = new JMenuItem(k.getKeyword());
+						  it.setToolTipText(k.getDescription());
+				abilities.add(it);
 			}
 			menu.add(abilities);
 		}

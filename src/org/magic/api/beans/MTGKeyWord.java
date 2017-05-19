@@ -4,18 +4,19 @@ public class MTGKeyWord {
 
 	public static enum TYPE { Abilities, Action,Word};
 	public static enum SUBTYPE {Evergreen,Other};
-	//public static enum action {spell,statik,activated,triggered};
+	public static enum EVENT {SPELL,STATIC,ACTIVATED,TRIGGERED,ACTION,ABILITY};
 	
 	private String keyword;
 	private String description;
 	
 	private TYPE type;
 	private SUBTYPE subtype;
-	private String action;
+	private EVENT event;
 	
 	public MTGKeyWord() {
 		// TODO Auto-generated constructor stub
 	}
+	
 	
 	@Override
 	public String toString() {
@@ -54,12 +55,12 @@ public class MTGKeyWord {
 		this.subtype = subtype;
 	}
 
-	public String getAction() {
-		return action;
+	public EVENT getEvent() {
+		return event;
 	}
 
-	public void setAction(String action) {
-		this.action = action;
+	public void setEvent(EVENT action) {
+		this.event = event;
 	}
 	
 	

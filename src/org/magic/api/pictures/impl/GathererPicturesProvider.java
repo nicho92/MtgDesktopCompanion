@@ -55,13 +55,14 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception{
 		
-		if(MTGControler.getInstance().getEnabledCache().getPic(mc,ed)!=null)
-			return MTGControler.getInstance().getEnabledCache().getPic(mc,ed);
 		
-		MagicEdition selected =ed;
+		MagicEdition selected=ed;
 		
 		if(ed==null)
 			selected = mc.getEditions().get(0);
+		
+		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
+			return MTGControler.getInstance().getEnabledCache().getPic(mc,selected);
 		
 		for(String k : props.getProperty("CALL_MCI_FOR").split(","))
 		{

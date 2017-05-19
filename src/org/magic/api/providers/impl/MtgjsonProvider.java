@@ -414,11 +414,14 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 						me.setRarity(String.valueOf(map.get("rarity")));
  							me.setNumber(mc.getNumber());
 	 			
-	 			if(mc.getMultiverseid()==null)
-	 			   	me.setMultiverse_id(String.valueOf(0));
-	 			else
-	 			   	me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
+//	 			if(mc.getMultiverseid()==null)
+//	 			   	me.setMultiverse_id(String.valueOf(0));
+//	 			else
+//	 			   	me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
 	 			
+ 				if(mc.getMultiverseid()!=null)			
+ 					me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));			
+ 							
 	 			mc.getEditions().add(me);
 	 			
 	 			   
