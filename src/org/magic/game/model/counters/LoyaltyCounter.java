@@ -42,8 +42,9 @@ public class LoyaltyCounter extends AbstractCounter {
 		
 		if(value>0)
 			plus="+";
+		else if(value==0)
+			plus=" ";
 		
-		
-		return plus+value+":"+label;
+		return plus+value+": "+label;
 	}
 }
