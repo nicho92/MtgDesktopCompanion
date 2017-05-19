@@ -17,7 +17,9 @@ import javax.xml.xpath.XPathFactory;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGControler;
 import org.w3c.dom.Document;
+import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
@@ -72,6 +74,13 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		
 	}
 	
+	public static void main(String[] args) throws Exception {
+		OCTGNDeckExport exp = new OCTGNDeckExport();
+		
+		exp.importDeck(new File("D:\\Téléchargements\\The Deck by Brian Weissman.o8d"));
+	}
+	
+	
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
 		MagicDeck deck = new MagicDeck();
@@ -80,9 +89,31 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new FileReader(f)));
 		XPath xpath = XPathFactory.newInstance().newXPath();
 	    
-		XPathExpression expr = xpath.compile("//");
+		XPathExpression expr = xpath.compile("//section[@name='Main']/card");
 	    NodeList result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
-	  
+	    for(int i=0;i<result.getLength();i++)
+	    {
+	    	Node it = result.item(i);
+	    	String name = it.getTextContent();
+	    	String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
+	    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0);
+	    	
+	    	deck.getMap().put(mc, Integer.parseInt(qte));
+	    }
+	    
+	    expr = xpath.compile("//section[@name='Sideboard']/card");
+	    result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
+	    for(int i=0;i<result.getLength();i++)
+	    {
+	    	Node it = result.item(i);
+	    	String name = it.getTextContent();
+	    	String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
+	    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0);
+	    	
+	    	deck.getMapSideBoard().put(mc, Integer.parseInt(qte));
+	    }
+	    
+	    
 		return deck;
 	}
 	
