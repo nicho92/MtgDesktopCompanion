@@ -231,8 +231,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						
 						btnEndTurn.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent ae) {
-								GameManager.getInstance().endTurn(player);
-								turnsPanel.initTurn();
+								
 							}
 						});
 						

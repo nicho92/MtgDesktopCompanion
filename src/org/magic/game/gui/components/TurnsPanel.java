@@ -2,8 +2,6 @@ package org.magic.game.gui.components;
 
 import java.awt.Component;
 import java.awt.FlowLayout;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -49,7 +47,7 @@ public class TurnsPanel extends JPanel {
 		add(new JButton(new MainPhase(2,p)));
 		add(new JButton(new EndPhase(p)));
 		add(new JButton(new CleanUpPhase(p)));
-		
+		//add(new JButton(new EndTurnPhase(p)));
 	}
 	
 	

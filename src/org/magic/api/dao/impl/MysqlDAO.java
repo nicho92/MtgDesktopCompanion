@@ -134,7 +134,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public List<MagicCard> listCards() throws SQLException {
 		logger.debug("list all cards");
 		
-		String sql ="select * from cards";
+		String sql ="select mcard from cards";
 		
 		PreparedStatement pst=con.prepareStatement(sql);	
 		

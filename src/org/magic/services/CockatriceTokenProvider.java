@@ -155,7 +155,7 @@ public class CockatriceTokenProvider {
 						  tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 						  tok.setNumber("E");
 						  
-						  try{
+						 /* try{
 						  NodeList sets = value.getElementsByTagName("set");
 						  for (int s = 0; s < sets.getLength(); s++) {
 							  String idSet = sets.item(s).getTextContent();
@@ -172,8 +172,8 @@ public class CockatriceTokenProvider {
 						  }catch(Exception e)
 						  {
 							  
-						  }
-						  
+						  }*/
+						  tok.getEditions().add(mc.getEditions().get(0));
 						  
 						  return tok;
 			
@@ -190,11 +190,11 @@ public class CockatriceTokenProvider {
 		if(tok.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
 			expression ="//card[name=\""+tok.getName()+" (emblem)\"]";
 		
-		logger.debug(expression + " for " + tok.getEditions().get(0));
+		logger.debug(expression + " for " + tok);
 		
 		
 		NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-		Map<String,String> map = null;
+		Map<String,URL> map = null;
 		
 		for (int i = 0; i < nodeList.getLength(); i++) {
 				Element value = (Element) nodeList.item(i);
@@ -205,25 +205,27 @@ public class CockatriceTokenProvider {
 					String pic = "";
 					if(sets.item(s).getAttributes().getNamedItem("picURL")!=null)
 						pic = sets.item(s).getAttributes().getNamedItem("picURL").getNodeValue();
-					
-					map.put(set, pic);
+					map.put(set, new URL(pic));
 				}
 		}
-	
+		
+		System.out.println(tok.getEditions() +" " + map);
+		
 		try {
 			URLConnection connection;
-			if(map.get(tok.getEditions().get(0).getId())!=null)
-				connection = new URL(map.get(tok.getEditions().get(0).getId())).openConnection();
+			if(map.get(tok.getEditions().get(0).getId())!=null) //error on 
+				connection = map.get(tok.getEditions().get(0).getId()).openConnection();
 			else
-				connection = new URL(map.get(map.keySet().iterator().next())).openConnection();
+				connection = map.get(map.keySet().iterator().next()).openConnection();
 			
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 		return ImageIO.read(connection.getInputStream());
 		}
 		catch(Exception e)
 		{
-			
-		throw new Exception("Could not find token for " + tok.getName() + " : " + e);
+			e.printStackTrace();
+			//throw new Exception("Could not find token for " + tok.getName() + " : " + e);
+			return MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
 		}
 	}
 
