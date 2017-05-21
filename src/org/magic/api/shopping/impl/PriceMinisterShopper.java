@@ -39,7 +39,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 				props.put("PASSWORD", "password");
 				props.put("VERSION", "2015-07-05");
 				props.put("CATEGORIE", "");
-				props.put("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing&login=%LOGIN%&pwd=%PASSWORD%&version=%VERSION%&scope=%SCOPE%&nbproductsperpage=%NB_PRODUCT_PAGE%&kw=%KEYWORD%&nav=%CACTEGORIE%");
+				props.put("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing&login=%LOGIN%&pwd=%PASSWORD%&version=%VERSION%&scope=%SCOPE%&nbproductsperpage=%NB_PRODUCT_PAGE%&kw=%KEYWORD%&nav=%CATEGORIE%");
 				props.put("SCOPE", "PRICING");
 				props.put("NB_PRODUCT_PAGE", "20");
 				props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
@@ -54,7 +54,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 	
 	
 	public static void main(String[] args) {
-		new PriceMinisterShopper().search("cartes magic");
+		new PriceMinisterShopper().search("magic the gathering");
 	}
 	
 	@Override
