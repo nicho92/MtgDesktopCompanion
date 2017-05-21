@@ -118,8 +118,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 		manaPoolPanel.setPlayer(p1);
 		panelBattleField.setPlayer(p1);
 		panelLibrary.setPlayer(p1);
-
-		GameManager.getInstance().addPlayer(p1);
 	}
 	
 	
@@ -162,14 +160,23 @@ public class GamePanelGUI extends JPanel implements Observer {
 								try {
 									MagicDeck deck = choose.getSelectedDeck();
 									if(deck!=null){
-										Player p = new Player(deck);
-										listActions.removeAll();
+										
 										GameManager.getInstance().removePlayers();
-										GameManager.getInstance().addPlayer(p);
+										
+										Player p1 = new Player("Player 1",20);
+										Player p2 = new Player("Player 2",20);
+										p1.setDeck(deck);
+										
+										setPlayer(p1);
+										
+										GameManager.getInstance().addPlayer(p1);
+										GameManager.getInstance().addPlayer(p2);
 										GameManager.getInstance().initGame();
-										GameManager.getInstance().endTurn(p);
+										
+										listActions.removeAll();
+										//GameManager.getInstance().endTurn(p);
 										turnsPanel.initTurn();
-										setPlayer(p);
+										
 										clean();
 									}
 								} catch (Exception e) {
@@ -231,7 +238,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 						
 						btnEndTurn.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent ae) {
-								
+								GameManager.getInstance().endTurn(player);
+ 								turnsPanel.initTurn();
 							}
 						});
 						

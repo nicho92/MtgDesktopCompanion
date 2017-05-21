@@ -2,6 +2,7 @@ package org.magic.game.model;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JFrame;
@@ -41,6 +42,7 @@ public class GameManager {
 	{
 		p.logAction("End the turn " + turns.size());
 		turns.add(new Turn());
+	//	Collections.rotate(players, 1);
 	}
 	
 	public void logAction(Player p, String action)
@@ -75,17 +77,9 @@ public class GameManager {
 
 	
 	public static void main(String[] args) throws Exception {
-		
-		Player p1 = new Player();
-
-		GameManager.getInstance().initGame();
-		GameManager.getInstance().endTurn(p1);
-		JFrame f = new JFrame("Game Simulator " + GameManager.getInstance().getPlayers().size() + " players");
+		JFrame f = new JFrame("Game Simulator");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		GamePanelGUI p = GamePanelGUI.getInstance();
-		
-		p.setPlayer(p1);
-		f.getContentPane().add(p);
+		f.getContentPane().add(GamePanelGUI.getInstance());
 		f.setVisible(true);
 		f.setSize(1024, 800);
 	}
