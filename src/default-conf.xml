@@ -144,6 +144,14 @@
 			<class>org.magic.api.pictures.impl.MagicCardInfoPicturesProvider</class>
 			<enable>false</enable>
 		</picture>
+		<picture>
+			<class>org.magic.api.pictures.impl.DeckMasterPicturesProvider</class>
+			<enable>true</enable>
+		</picture>
+		<picture>
+			<class>org.magic.api.pictures.impl.PersonalSetPicturesProvider</class>
+			<enable>true</enable>
+		</picture>
 	</pictures>
 	<decksniffer>
 		<sniffer>
