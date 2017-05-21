@@ -208,9 +208,7 @@ public class CockatriceTokenProvider {
 					map.put(set, new URL(pic));
 				}
 		}
-		
-		System.out.println(tok.getEditions() +" " + map);
-		
+	
 		try {
 			URLConnection connection;
 			if(map.get(tok.getEditions().get(0).getId())!=null) //error on 
