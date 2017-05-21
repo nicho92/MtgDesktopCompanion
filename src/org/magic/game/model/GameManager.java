@@ -42,7 +42,8 @@ public class GameManager {
 	{
 		p.logAction("End the turn " + turns.size());
 		turns.add(new Turn());
-	//	Collections.rotate(players, 1);
+		Collections.rotate(players, 1);
+		System.out.println(players);
 	}
 	
 	public void logAction(Player p, String action)
@@ -79,7 +80,7 @@ public class GameManager {
 	public static void main(String[] args) throws Exception {
 		JFrame f = new JFrame("Game Simulator");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().add(GamePanelGUI.getInstance());
+		f.getContentPane().add(GamePanelGUI.newInstance());
 		f.setVisible(true);
 		f.setSize(1024, 800);
 	}
