@@ -69,8 +69,6 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		if(ed==null)
 			selected = mc.getEditions().get(0);
 		
-		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
-			return MTGControler.getInstance().getEnabledCache().getPic(mc,selected);
 		
 		for(String k : props.getProperty("CALL_MCI_FOR").split(","))
 		{
@@ -79,6 +77,10 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 				return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
 			}
 		}
+		
+		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
+			return MTGControler.getInstance().getEnabledCache().getPic(mc,selected);
+
 		
 		BufferedImage im = getPicture(selected.getMultiverse_id());
 		

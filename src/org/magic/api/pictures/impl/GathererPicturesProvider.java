@@ -22,7 +22,6 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("BACKGROUND_ID", "132667");
 			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
 			//props.put("ENABLE_CACHE", "true");
 			save();
@@ -33,9 +32,6 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getBackPicture() throws Exception
 	{
-		/*if(back==null)
-			back = getPicture(props.getProperty("BACKGROUND_ID"));
-		return back;*/
 		try {
 			return ImageIO.read(AbstractPicturesProvider.class.getResource("/res/back.jpg"));
 		} catch (IOException e) {
@@ -61,9 +57,6 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		if(ed==null)
 			selected = mc.getEditions().get(0);
 		
-		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
-			return MTGControler.getInstance().getEnabledCache().getPic(mc,selected);
-		
 		for(String k : props.getProperty("CALL_MCI_FOR").split(","))
 		{
 			if(selected.getId().startsWith(k))
@@ -71,6 +64,11 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 				return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
 			}
 		}
+		
+		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
+			return MTGControler.getInstance().getEnabledCache().getPic(mc,selected);
+	
+		
 		BufferedImage im = getPicture(selected.getMultiverse_id());
 		
 		if(im!=null)
