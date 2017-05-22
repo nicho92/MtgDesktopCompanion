@@ -31,11 +31,16 @@ public class ManaRepartitionPanel extends JPanel{
 	
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<MagicCard>();
-		for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
+		try{
+			for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
+			{
+				MagicCard mc = cci.getKey();
+				for(int i=0;i<cci.getValue();i++)
+					cards.add(mc);
+			}
+		}catch(Exception e)
 		{
-			MagicCard mc = cci.getKey();
-			for(int i=0;i<cci.getValue();i++)
-				cards.add(mc);
+			
 		}
 		refresh();
 	}
