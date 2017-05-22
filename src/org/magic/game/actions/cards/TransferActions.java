@@ -24,10 +24,12 @@ public class TransferActions extends MouseAdapter {
 					((DraggablePanel)card.getParent()).getTransferHandler().exportAsDrag(card, e, TransferHandler.MOVE); //block click event
 			 
 			 if(e.getClickCount()==2)
-			 {	  if(card.isTappable())
+			 {
+				 if(card.isTappable())
 						card.tap(!card.isTapped());
 			 	return;
 			 }
+			 
 			 if(e.getClickCount()==1)
 			 {
 			 }

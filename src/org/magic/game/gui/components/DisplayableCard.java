@@ -165,8 +165,7 @@ public class DisplayableCard extends JLabel implements Draggable
 			if(showLoyalty)
 				drawString(g, ""+magicCard.getLoyalty(), Color.BLACK, Color.WHITE, this.getWidth()-23, this.getHeight()-15);
 			
-			
-			
+			validate();
 		}
 		//super.paint(g);
 	}
@@ -236,6 +235,7 @@ public class DisplayableCard extends JLabel implements Draggable
 		//setToolTipText(mc.getText());
 		keywordsManager = new KeyWordManager();
 		
+		addMouseListener(new TransferActions());
 		
 		if(activateCards)
 			initActions();
@@ -246,7 +246,6 @@ public class DisplayableCard extends JLabel implements Draggable
 		menu.removeAll();
 		
 		
-		addMouseListener(new TransferActions());
 		menu.add(new JMenuItem(new SelectionActions(this)));
 		menu.add(new JMenuItem(new TapActions(this)));
 		menu.add(new JMenuItem(new RotateActions(this)));
@@ -361,6 +360,9 @@ public class DisplayableCard extends JLabel implements Draggable
 	public void transform()
 	{
 		try {
+			
+			removeAllCounters();
+			
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
 			setMagicCard(mc);
 			revalidate();

@@ -80,7 +80,7 @@ public class GameManager {
 	public static void main(String[] args) throws Exception {
 		JFrame f = new JFrame("Game Simulator");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().add(GamePanelGUI.newInstance());
+		f.getContentPane().add(GamePanelGUI.getInstance());
 		f.setVisible(true);
 		f.setSize(1024, 800);
 	}
