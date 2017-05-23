@@ -42,7 +42,9 @@ import org.magic.game.actions.cards.TapActions;
 import org.magic.game.actions.cards.TokensActions;
 import org.magic.game.actions.cards.TransferActions;
 import org.magic.game.actions.cards.TransformActions;
+import org.magic.game.model.GameManager;
 import org.magic.game.model.PositionEnum;
+import org.magic.game.model.Turn.PHASES;
 import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
 import org.magic.game.model.counters.ItemCounter;
@@ -378,11 +380,17 @@ public class DisplayableCard extends JLabel implements Draggable
 				return;
 		
 			 if(isTapped())
-					GamePanelGUI.getInstance().getPlayer().logAction("Untap " + magicCard);
+			 {
+				 GamePanelGUI.getInstance().getPlayer().logAction("Untap " + magicCard);
+			 }
+			 else
+			 {
+				if(GameManager.getInstance().getActualTurn().currentPhase()==PHASES.Attack)
+					GamePanelGUI.getInstance().getPlayer().logAction("Attack with " + magicCard);
 				else
 					GamePanelGUI.getInstance().getPlayer().logAction("Tap " + magicCard);
-			
-			
+			 }
+
 			int angle=0;
 			if(t)
 				angle=90;
