@@ -4,6 +4,8 @@ package org.magic.game.gui.components;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.util.Map;
+import java.util.Observable;
+import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -29,7 +31,6 @@ public class ManaPoolPanel extends JPanel{
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
-	private Map<String,Integer> manapool;
 	
 	
 	

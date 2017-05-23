@@ -30,7 +30,7 @@ public class Player extends Observable implements Serializable{
 	private Library library;
 	private List<MagicCard> hand;
 	private BattleField battlefield;
-	private Map<String,Integer> manaPool;
+	private ManaPool manaPool;
 	private Locale local;
 	private BufferedImage icon;
 	
@@ -73,7 +73,7 @@ public class Player extends Observable implements Serializable{
 		hand=new ArrayList<MagicCard>();
 		library=new Library(deck.getAsList());
 		battlefield=new BattleField();
-		manaPool = new HashMap<String,Integer>();
+		manaPool = new ManaPool();
 		local=Locale.getDefault();
 	}
 	
@@ -122,26 +122,25 @@ public class Player extends Observable implements Serializable{
 
 	}
 
-	public Map<String, Integer> getManaPool() {
+	public ManaPool getManaPool() {
 		return manaPool;
 	}
 
-	public void setManaPool(Map<String, Integer> manaPool) {
+	public void setManaPool(ManaPool manaPool) {
 		this.manaPool = manaPool;
 	}
 
 	public void addMana(String color, int number)
 	{
-		try{
-			manaPool.put(color, manaPool.get(color)+number);
-			logAction("Add " + number + " " + color + " to manapool" );
-			
-		}catch(NullPointerException e)
-		{
-			manaPool.put(color, number);
-		}
+		manaPool.addMana(color, number);
+		logAction("Add " + number + " " + color + " to manapool" );
 	}
 	
+	public void setMana(String color,int number)
+	{
+		manaPool.setMana(color, number);
+		logAction("set " + number + " " + color + " to manapool" );
+	}
 	
 	public void reoderCardInLibrary(MagicCard mc,boolean top)
 	{
@@ -205,13 +204,6 @@ public class Player extends Observable implements Serializable{
 	}
 	
 	
-	public void setMana(String color, int number)
-	{
-			manaPool.put(color, number);
-			logAction("Set " + number + " " + color + " to manapool" );
-			
-		
-	}
 	
 	public void lifeLoose(int lost)
 	{
@@ -447,11 +439,7 @@ public class Player extends Observable implements Serializable{
 		build.append("Hand:" ).append(hand.size()).append("\n");
 		build.append("BattleField :" ).append(battlefield.size()).append("\n");
 		build.append("Exil :" ).append(exil.size()).append("\n");
-		build.append("Pool : [ " );
-		for(String key : manaPool.keySet())
-			build.append(key).append(":").append(manaPool.get(key));
-		
-		build.append("]\n " );
+		build.append("Pool : [ ").append(manaPool).append("]\n " );
 		
 		return build.toString();
 	}

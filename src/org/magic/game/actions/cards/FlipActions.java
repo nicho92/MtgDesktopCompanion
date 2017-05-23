@@ -25,5 +25,10 @@ public class FlipActions extends AbstractAction {
 		card.flip(true);
 		GamePanelGUI.getInstance().getPlayer().logAction("Flip " + card.getMagicCard());
 	}
+	
+	@Override
+	public String toString() {
+		return "Flip " + card.getMagicCard();
+	}
 
 }
