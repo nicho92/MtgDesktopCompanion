@@ -265,17 +265,19 @@ public class Player extends Observable implements Serializable{
 
 	
 
-	public void discardCardFromLibrary(int parseInt) {
+	public List<MagicCard> discardCardFromLibrary(int parseInt) {
 		
+		List<MagicCard> ret = new ArrayList<MagicCard>();
 		for(int i=0;i<parseInt;i++)
 		{
 			MagicCard mc = library.getCards().get(i);
+			ret.add(mc);
 			graveyard.add(mc);
 			library.getCards().remove(i);
 			
 		}
-		
 		logAction("Discard " + parseInt +" cards from library" );
+		return ret;
 		
 	}
 	

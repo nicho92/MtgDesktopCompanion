@@ -70,7 +70,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private TurnsPanel turnsPanel;
 	
 	
-	
+	//TODO load from xml config file
 	public static int CARD_WIDTH=154;
 	public static int CARD_HEIGHT=215;
 	

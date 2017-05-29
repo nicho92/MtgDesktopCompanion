@@ -7,7 +7,8 @@ import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.gui.components.SearchLibraryFrame;
+import org.magic.game.gui.components.SearchCardFrame;
+import org.magic.game.model.PositionEnum;
 
 public class ScryActions extends AbstractAction {
 
@@ -20,10 +21,10 @@ public class ScryActions extends AbstractAction {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		String res = JOptionPane.showInputDialog("How many scry card ?");
+		String res = JOptionPane.showInputDialog("How many scry cards ?");
 		if(res!=null)
 		{
-			new SearchLibraryFrame(GamePanelGUI.getInstance().getPlayer(),GamePanelGUI.getInstance().getPlayer().scry(Integer.parseInt(res))).setVisible(true);
+			new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(),GamePanelGUI.getInstance().getPlayer().scry(Integer.parseInt(res)),PositionEnum.LIBRARY).setVisible(true);
 		}
 		
 	}

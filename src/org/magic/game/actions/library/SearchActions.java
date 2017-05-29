@@ -6,7 +6,8 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.gui.components.SearchLibraryFrame;
+import org.magic.game.gui.components.SearchCardFrame;
+import org.magic.game.model.PositionEnum;
 
 public class SearchActions extends AbstractAction {
 
@@ -20,7 +21,7 @@ public class SearchActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GamePanelGUI.getInstance().getPlayer().logAction("search in library");
-		SearchLibraryFrame f = new SearchLibraryFrame(GamePanelGUI.getInstance().getPlayer());
+		SearchCardFrame f = new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(),PositionEnum.LIBRARY);
 		f.setVisible(true);
 		
 	}
