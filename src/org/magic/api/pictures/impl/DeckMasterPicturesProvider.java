@@ -1,5 +1,7 @@
 package org.magic.api.pictures.impl;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,6 +32,8 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
 			props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
 			props.put("CERT_SERV", "deckmaster.info");
+			props.put("CARD_SIZE_WIDTH", "223");
+			props.put("CARD_SIZE_HEIGHT", "310");
 			save();
 		}
 		try {
@@ -59,7 +63,21 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			logger.error(e);
 			return null;
 		}
-}
+	}
+	
+	
+	private BufferedImage resize(BufferedImage img) {  
+	    int newW = Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
+	    int newH = Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+	    BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+	    Graphics2D g2d = dimg.createGraphics();
+	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.dispose();
+
+	    return dimg;
+	}  
 	
 	
 	@Override
@@ -79,7 +97,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		}
 		
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
-			return MTGControler.getInstance().getEnabledCache().getPic(mc,selected);
+			return resize(MTGControler.getInstance().getEnabledCache().getPic(mc,selected));
 
 		
 		BufferedImage im = getPicture(selected.getMultiverse_id());
@@ -87,7 +105,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		if(im!=null)
 			MTGControler.getInstance().getEnabledCache().put(im, mc,ed);
 		
-		return im;
+		return resize(im);
 	}
 
 	@Override
