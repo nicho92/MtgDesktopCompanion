@@ -43,6 +43,7 @@ import org.magic.game.network.actions.AbstractGamingAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
+import org.magic.services.MTGControler;
 
 public class GamePanelGUI extends JPanel implements Observer {
 	
@@ -69,10 +70,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
 	
-	
-	//TODO load from xml config file
-	public static int CARD_WIDTH=154;
-	public static int CARD_HEIGHT=215;
 	
 
 	public static GamePanelGUI getInstance()
@@ -372,7 +369,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								
 								JScrollPane scrollActions = new JScrollPane();
 								
-								scrollActions.setPreferredSize(new Dimension(CARD_WIDTH, 0));
+								scrollActions.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth(), 0));
 								tabbedPane.addTab("Events", null, scrollActions, null);
 								
 								listActions = new JList<AbstractGamingAction>();
@@ -438,7 +435,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										handPanel = new ThumbnailPanel();
 										handPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 										handPanel.enableDragging(true);
-										handPanel.setThumbnailSize(CARD_WIDTH, CARD_HEIGHT);
+										handPanel.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
 										panelBottom.setLayout(new BorderLayout(0, 0));
 										handPanel.setRupture(7);
 										
@@ -456,7 +453,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	
 	public  void drawAction() {
 		player.drawCard(1);
-		DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),handPanel.getCardWidth(),handPanel.getCardHeight(),true);
+		DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),MTGControler.getInstance().getCardsDimension(),true);
 		c.enableDrag(true);
 		handPanel.addComponent(c);
 		

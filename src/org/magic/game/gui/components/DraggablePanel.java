@@ -1,5 +1,7 @@
 package org.magic.game.gui.components;
 
+import java.awt.Dimension;
+
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
@@ -27,10 +29,10 @@ public abstract class DraggablePanel  extends JPanel implements Draggable{
 		this.dragging = dragging;
 	}
 
-	public void setThumbnailSize(int w,int h)
+	public void setThumbnailSize(Dimension d)
 	{
-		this.width=w;
-		this.height=h;
+		this.width=(int)d.getWidth();
+		this.height=(int)d.getHeight();
 	}
 	
 	public int getCardWidth() {

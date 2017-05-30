@@ -225,11 +225,11 @@ public class DisplayableCard extends JLabel implements Draggable
 		showPT=t;
 	}
 	
-	public DisplayableCard(MagicCard mc,int width,int height, boolean activateCards) {
+	public DisplayableCard(MagicCard mc,Dimension d, boolean activateCards) {
 		attachedCards = new ArrayList<DisplayableCard>();
 		counters = new ArrayList<AbstractCounter>();
-		setSize(width,height);
-		setPreferredSize(new Dimension(width, height));
+		setSize(d);
+		setPreferredSize(d);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
 		setMagicCard(mc);

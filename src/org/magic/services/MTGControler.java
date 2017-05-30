@@ -1,5 +1,6 @@
 package org.magic.services;
 
+import java.awt.Dimension;
 import java.awt.TrayIcon.MessageType;
 import java.io.BufferedReader;
 import java.io.File;
@@ -74,6 +75,14 @@ public class MTGControler {
 			inst = new MTGControler();
 		return inst;
 	}
+	
+	public Dimension getCardsDimension()
+	{
+		int w = Integer.parseInt(MTGControler.getInstance().get("/game/cards/card-width"));
+		int h = Integer.parseInt(MTGControler.getInstance().get("/game/cards/card-height"));
+		return new Dimension(w, h);
+	}
+	
 	
 	public void addProperty(String path, Class classname)
 	{

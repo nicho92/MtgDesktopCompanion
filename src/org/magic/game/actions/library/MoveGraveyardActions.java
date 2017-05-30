@@ -10,6 +10,7 @@ import javax.swing.JOptionPane;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.services.MTGControler;
 
 public class MoveGraveyardActions extends AbstractAction {
 
@@ -30,7 +31,7 @@ public class MoveGraveyardActions extends AbstractAction {
 			
 			for(MagicCard mc : disc)
 			{
-				GamePanelGUI.getInstance().getPanelGrave().addComponent(new DisplayableCard(mc, GamePanelGUI.CARD_WIDTH, GamePanelGUI.CARD_HEIGHT, true));
+				GamePanelGUI.getInstance().getPanelGrave().addComponent(new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true));
 			}
 			GamePanelGUI.getInstance().getPanelGrave().postTreatment();
 		}

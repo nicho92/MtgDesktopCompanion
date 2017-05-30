@@ -11,6 +11,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.PositionEnum;
+import org.magic.services.MTGControler;
 
 
 
@@ -96,7 +97,7 @@ public class ThumbnailPanel extends DraggablePanel {
 			public void run() {
 				for(MagicCard mc : cards)
 				{
-					DisplayableCard lab = new DisplayableCard(mc,width,height,activateCards);
+					DisplayableCard lab = new DisplayableCard(mc,MTGControler.getInstance().getCardsDimension(),activateCards);
 					lab.setTappable(activateCards);
 					
 				try {

@@ -28,7 +28,7 @@ public class LibraryPanel extends DraggablePanel {
 		menu.add(new JMenuItem(new MoveGraveyardActions()));
 		
 		try {
-			i=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(GamePanelGUI.CARD_WIDTH, GamePanelGUI.CARD_HEIGHT, BufferedImage.SCALE_SMOOTH);
+			i=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance((int)MTGControler.getInstance().getCardsDimension().getWidth(),(int)MTGControler.getInstance().getCardsDimension().getHeight(), BufferedImage.SCALE_SMOOTH);
 				setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 			
 		} catch (Exception e) {

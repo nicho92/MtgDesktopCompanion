@@ -162,7 +162,7 @@ public class DeckBuilderGUI extends JPanel{
 		deckDetailsPanel = new DeckDetailsPanel();
 		
 		thumbnail = new ThumbnailPanel();
-		thumbnail.setThumbnailSize(223, 311);
+		thumbnail.setThumbnailSize(new Dimension(223, 311));
 		thumbnail.enableDragging(false);
 		thumbnail.setMaxCardsRow(4);
 		

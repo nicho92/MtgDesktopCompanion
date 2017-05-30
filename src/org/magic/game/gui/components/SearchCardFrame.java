@@ -9,6 +9,7 @@ import javax.swing.JScrollPane;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
+import org.magic.services.MTGControler;
 
 public class SearchCardFrame extends JDialog {
 
@@ -31,7 +32,7 @@ public class SearchCardFrame extends JDialog {
 	//used by SearchAction.
 	public SearchCardFrame(Player p,PositionEnum source) {
 		init(p,source);
-		pane.setThumbnailSize(GamePanelGUI.CARD_WIDTH, GamePanelGUI.CARD_HEIGHT);
+		pane.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
 		switch(source)
 		{
 			case GRAVEYARD:pane.initThumbnails(p.getGraveyard().getCards(),true);break;
@@ -45,7 +46,7 @@ public class SearchCardFrame extends JDialog {
 	//used by ScryActions.
 	public SearchCardFrame(Player p,List<MagicCard> list,PositionEnum source) {
 		init(p,source);
-		pane.setThumbnailSize(179, 240);
+		pane.setThumbnailSize(new Dimension(179, 240));
 		pane.initThumbnails(list,true);
 	}
 	

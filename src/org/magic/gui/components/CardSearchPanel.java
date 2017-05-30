@@ -344,7 +344,7 @@ public class CardSearchPanel extends JPanel {
 			tableCards.setModel(cardsModeltable);
 
 ///////DIMENSION	
-			thumbnailPanel.setThumbnailSize(179, 240);
+			thumbnailPanel.setThumbnailSize(new Dimension(179, 240));
 			tabbedCardsInfo.setPreferredSize(new Dimension(0, 350));
 			historyChartPanel.setPreferredSize(new Dimension(400, 10));
 			cardsPicPanel.setPreferredSize(new Dimension(400, 10));
