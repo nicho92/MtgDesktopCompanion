@@ -1,17 +1,17 @@
 package org.magic.gui.components;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -19,19 +19,14 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.ListCellRenderer;
-import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -40,7 +35,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.providers.impl.MtgjsonProvider;
-import org.magic.gui.MagicGUI;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
@@ -63,6 +57,8 @@ public class ConfigurationPanel extends JPanel {
 	private JLabel lblLoading = new JLabel();
 	private JTextField txtName;
 	private JLabel lblIconAvatar;
+	private JTextField txtCardW;
+	private JTextField txtCardH;
 	
 	public void loading(boolean show,String text)
 	{
@@ -586,7 +582,7 @@ public class ConfigurationPanel extends JPanel {
 		panelWebSite.add(btnAdd, gbc_btnAdd);
 		
 		JPanel panelProfil = new JPanel();
-		panelProfil.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Profil", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(64, 64, 64)));
+		panelProfil.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Game", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(64, 64, 64)));
 		GridBagConstraints gbc_panelProfil = new GridBagConstraints();
 		gbc_panelProfil.insets = new Insets(0, 0, 5, 5);
 		gbc_panelProfil.fill = GridBagConstraints.BOTH;
@@ -632,6 +628,19 @@ public class ConfigurationPanel extends JPanel {
 		{
 			lblIconAvatar = new JLabel();
 		}
+
+		lblIconAvatar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent paramMouseEvent) {
+				JFileChooser jf = new JFileChooser();
+				jf.setFileFilter(new FileNameExtensionFilter("Images", "bmp", "gif", "jpg", "jpeg", "png"));
+				 int result = jf.showOpenDialog(null);
+				if(result==JFileChooser.APPROVE_OPTION)
+				{
+					MTGControler.getInstance().setProperty("/game/player-profil/avatar",jf.getSelectedFile().getAbsolutePath());
+				}
+			}
+		});
 		
 		lblIconAvatar.setBorder(new LineBorder(Color.RED, 1, true));
 		GridBagConstraints gbc_lblIconAvatar = new GridBagConstraints();
@@ -647,12 +656,38 @@ public class ConfigurationPanel extends JPanel {
 		btnSave_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MTGControler.getInstance().setProperty("/game/player-profil/name",txtName.getText());
+				MTGControler.getInstance().setProperty("/game/cards/card-width",txtCardW.getText());
+				MTGControler.getInstance().setProperty("/game/cards/card-heigth",txtCardH.getText());
 			}
 		});
+		
+		JPanel panelSubGame = new JPanel();
+		GridBagConstraints gbc_panelSubGame = new GridBagConstraints();
+		gbc_panelSubGame.gridheight = 3;
+		gbc_panelSubGame.insets = new Insets(0, 0, 5, 5);
+		gbc_panelSubGame.fill = GridBagConstraints.BOTH;
+		gbc_panelSubGame.gridx = 3;
+		gbc_panelSubGame.gridy = 1;
+		panelProfil.add(panelSubGame, gbc_panelSubGame);
+		panelSubGame.setLayout(new GridLayout(3, 2, 0, 0));
+		
+		JLabel lblCardW = new JLabel("Card Width :");
+		panelSubGame.add(lblCardW);
+		
+		txtCardW = new JTextField(MTGControler.getInstance().get("/game/cards/card-width"));
+		panelSubGame.add(txtCardW);
+		txtCardW.setColumns(10);
+		
+		JLabel lblCardH = new JLabel("Card Height :");
+		panelSubGame.add(lblCardH);
+		
+		txtCardH = new JTextField(MTGControler.getInstance().get("/game/cards/card-height"));
+		panelSubGame.add(txtCardH);
+		txtCardH.setColumns(10);
 		GridBagConstraints gbc_btnSave_2 = new GridBagConstraints();
-		gbc_btnSave_2.insets = new Insets(0, 0, 5, 5);
+		gbc_btnSave_2.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSave_2.gridx = 3;
-		gbc_btnSave_2.gridy = 3;
+		gbc_btnSave_2.gridy = 4;
 		panelProfil.add(btnSave_2, gbc_btnSave_2);
 		
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
