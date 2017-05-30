@@ -110,6 +110,15 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
+		
+		switch(setID)
+		{
+		case "ICE":setID="IA";break;
+		case "FEM":setID="FE";break;
+		default : break;
+		}
+		
+		
 		URL u = new URL("https://deckmaster.info/images/sets/"+setID.toUpperCase()+"_"+rarity.substring(0, 1).toUpperCase()+".png");
 		HttpURLConnection con = (HttpURLConnection)u.openConnection();
 		con.setRequestProperty("User-Agent",props.getProperty("USER_AGENT"));

@@ -23,6 +23,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
+			props.put("SET_SIZE", "large");
 			//props.put("ENABLE_CACHE", "true");
 			save();
 		}
@@ -94,7 +95,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getSetLogo(String set, String rarity) throws Exception {
-		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size=medium&rarity="+rarity.substring(0,1));
+		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size="+props.getProperty("SET_SIZE")+"&rarity="+rarity.substring(0,1));
 		return ImageIO.read(url);
 	}
 
