@@ -12,15 +12,17 @@
 	<debug-json-panel>false</debug-json-panel>
 	<tooltip>true</tooltip>
 	<game>
-		<card-width>154</card-width>
-		<card-height>215</card-height>
+		<cards>
+			<card-width>154</card-width>
+			<card-height>215</card-height>
+		</cards>
+		<player-profil>
+			<name>Player 1</name>
+			<avatar></avatar>
+			<foreground></foreground>
+			<background></background>
+		</player-profil>
 	</game>	
-	<player-profil>
-		<name>Player 1</name>
-		<avatar></avatar>
-		<foreground></foreground>
-		<background></background>
-	</player-profil>
 	<caches>
 		<cache>
 			<class>org.magic.api.cache.impl.FileCache</class>

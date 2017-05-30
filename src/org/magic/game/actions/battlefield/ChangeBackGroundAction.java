@@ -24,9 +24,9 @@ public class ChangeBackGroundAction extends AbstractAction {
 	        this.battleFieldPanel=battleFieldPanel;
 	        
 	        
-	        if(MTGControler.getInstance().get("/player-profil/background")!=null)
+	        if(MTGControler.getInstance().get("/game/player-profil/background")!=null)
 	        try {
-	        	BufferedImage im = ImageIO.read(new File(MTGControler.getInstance().get("/player-profil/background")));
+	        	BufferedImage im = ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
 				battleFieldPanel.setBackgroundPicture(im);
 			} catch (IOException e1) {
 				e1.printStackTrace();
@@ -47,7 +47,7 @@ public class ChangeBackGroundAction extends AbstractAction {
 				battleFieldPanel.setBackgroundPicture(im);
 				battleFieldPanel.repaint();
 				
-				MTGControler.getInstance().setProperty("/player-profil/background", choose.getSelectedFile().getAbsolutePath());
+				MTGControler.getInstance().setProperty("/game/player-profil/background", choose.getSelectedFile().getAbsolutePath());
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}

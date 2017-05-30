@@ -190,7 +190,7 @@ public class GamingRoomPanel extends JPanel {
 		txtName = new JTextField();
 		panneauHaut.add(txtName);
 		txtName.setColumns(10);
-		txtName.setText(MTGControler.getInstance().get("/player-profil/name"));
+		txtName.setText(MTGControler.getInstance().get("/game/player-profil/name"));
 		panneauHaut.add(btnConnect);
 		
 		
@@ -276,7 +276,7 @@ public class GamingRoomPanel extends JPanel {
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(2);
 		try{
-			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/player-profil/foreground"))));
+			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
 		}catch(Exception e)
 		{
 			editorPane.setForeground(Color.BLACK);
@@ -316,7 +316,7 @@ public class GamingRoomPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				Color c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
 				editorPane.setForeground(c);
-				MTGControler.getInstance().setProperty("/player-profil/foreground", c.getRGB());
+				MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
 			}
 		});
 	

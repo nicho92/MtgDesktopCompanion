@@ -608,7 +608,7 @@ public class ConfigurationPanel extends JPanel {
 		gbc_lblName.gridy = 0;
 		panelProfil.add(lblName, gbc_lblName);
 		
-		txtName = new JTextField(MTGControler.getInstance().get("/player-profil/name"));
+		txtName = new JTextField(MTGControler.getInstance().get("/game/player-profil/name"));
 		GridBagConstraints gbc_txtName = new GridBagConstraints();
 		gbc_txtName.gridwidth = 3;
 		gbc_txtName.insets = new Insets(0, 0, 5, 5);
@@ -626,7 +626,7 @@ public class ConfigurationPanel extends JPanel {
 		panelProfil.add(lblAvatar, gbc_lblAvatar);
 		
 		try{
-			lblIconAvatar = new JLabel(new ImageIcon(ImageIO.read(new File(MTGControler.getInstance().get("/player-profil/avatar")))));
+			lblIconAvatar = new JLabel(new ImageIcon(ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar")))));
 		}
 		catch(Exception e)
 		{
@@ -646,7 +646,7 @@ public class ConfigurationPanel extends JPanel {
 		JButton btnSave_2 = new JButton("Save");
 		btnSave_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MTGControler.getInstance().setProperty("/player-profil/name",txtName.getText());
+				MTGControler.getInstance().setProperty("/game/player-profil/name",txtName.getText());
 			}
 		});
 		GridBagConstraints gbc_btnSave_2 = new GridBagConstraints();

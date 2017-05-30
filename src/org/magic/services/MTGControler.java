@@ -163,9 +163,9 @@ public class MTGControler {
 	public Player getProfilPlayer()
 	{
 		Player p = new Player();
-		p.setName(config.getString("/player-profil/name"));
+		p.setName(config.getString("/game/player-profil/name"));
 		
-		String url = config.getString("/player-profil/avatar");
+		String url = config.getString("/game/player-profil/avatar");
 		try{
 			p.setIcon(ImageIO.read(new URL(url)));	
 		}
