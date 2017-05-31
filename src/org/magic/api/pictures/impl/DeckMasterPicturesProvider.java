@@ -34,6 +34,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			props.put("CERT_SERV", "deckmaster.info");
 			props.put("CARD_SIZE_WIDTH", "223");
 			props.put("CARD_SIZE_HEIGHT", "310");
+			props.put("ICON_SET_SIZE","medium");
 			save();
 		}
 		try {
@@ -66,9 +67,31 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	
-	private BufferedImage resize(BufferedImage img) {  
+	private BufferedImage resizeCard(BufferedImage img) {  
 	    int newW = Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
 	    int newH = Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+	    BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+	    Graphics2D g2d = dimg.createGraphics();
+	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.dispose();
+
+	    return dimg;
+	}  
+	
+	private BufferedImage resizeIconSet(BufferedImage img) {  
+	    String mode = props.getProperty("ICON_SET_SIZE","medium");
+	    
+	    int newW=27;
+	    int newH=30;
+	    
+	    if(mode.equalsIgnoreCase("large")){
+	    	newW=118;
+	    	newH=130;
+	    }
+	    
+	    
 	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 	    BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
 
@@ -97,7 +120,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		}
 		
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
-			return resize(MTGControler.getInstance().getEnabledCache().getPic(mc,selected));
+			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected));
 
 		
 		BufferedImage im = getPicture(selected.getMultiverse_id());
@@ -105,7 +128,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		if(im!=null)
 			MTGControler.getInstance().getEnabledCache().put(im, mc,ed);
 		
-		return resize(im);
+		return resizeCard(im);
 	}
 
 	@Override
@@ -115,6 +138,12 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		{
 		case "ICE":setID="IA";break;
 		case "FEM":setID="FE";break;
+		case "LEA":setID="1E";break;
+		case "LEB":setID="2E";break;
+		case "2ED":setID="2U";break;
+		case "LEG":setID="LE";break;
+		case "ATQ":setID="AQ";break;
+		case "ARN":setID="AN";break;
 		default : break;
 		}
 		
@@ -123,7 +152,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		HttpURLConnection con = (HttpURLConnection)u.openConnection();
 		con.setRequestProperty("User-Agent",props.getProperty("USER_AGENT"));
 		BufferedImage im = ImageIO.read(con.getInputStream());
-		return im;
+		return resizeIconSet(im);
 	}
 
 	@Override
