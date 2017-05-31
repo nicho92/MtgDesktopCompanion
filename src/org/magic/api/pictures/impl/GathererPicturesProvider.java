@@ -23,7 +23,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
-			props.put("SET_SIZE", "large");
+			props.put("SET_SIZE", "medium");
 			//props.put("ENABLE_CACHE", "true");
 			save();
 		}
