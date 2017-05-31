@@ -14,7 +14,7 @@ public class MTGKeyWord {
 	private EVENT event;
 	
 	public MTGKeyWord() {
-		// TODO Auto-generated constructor stub
+	
 	}
 	
 	

@@ -379,8 +379,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void deleteDeck(MagicDeck d) throws SQLException {
-		// TODO Auto-generated method stub
-		
+				
 	}
 */
 
