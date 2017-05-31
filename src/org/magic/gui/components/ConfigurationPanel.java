@@ -23,9 +23,12 @@ import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Level;
@@ -39,6 +42,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
 import org.magic.tools.db.NumberUpdater;
+import javax.swing.SpinnerNumberModel;
 
 public class ConfigurationPanel extends JPanel {
 	
@@ -57,8 +61,8 @@ public class ConfigurationPanel extends JPanel {
 	private JLabel lblLoading = new JLabel();
 	private JTextField txtName;
 	private JLabel lblIconAvatar;
-	private JTextField txtCardW;
-	private JTextField txtCardH;
+	private JSpinner spinCardW;
+	private JSpinner spinCardH;
 	
 	public void loading(boolean show,String text)
 	{
@@ -656,8 +660,8 @@ public class ConfigurationPanel extends JPanel {
 		btnSave_2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MTGControler.getInstance().setProperty("/game/player-profil/name",txtName.getText());
-				MTGControler.getInstance().setProperty("/game/cards/card-width",txtCardW.getText());
-				MTGControler.getInstance().setProperty("/game/cards/card-heigth",txtCardH.getText());
+				MTGControler.getInstance().setProperty("/game/cards/card-width",spinCardW.getValue());
+				MTGControler.getInstance().setProperty("/game/cards/card-heigth",spinCardH.getValue());
 			}
 		});
 		
@@ -674,16 +678,29 @@ public class ConfigurationPanel extends JPanel {
 		JLabel lblCardW = new JLabel("Card Width :");
 		panelSubGame.add(lblCardW);
 		
-		txtCardW = new JTextField(MTGControler.getInstance().get("/game/cards/card-width"));
-		panelSubGame.add(txtCardW);
-		txtCardW.setColumns(10);
+		spinCardW = new JSpinner();
+		spinCardW.setModel(new SpinnerNumberModel(new Integer(154), new Integer(0), null, new Integer(1)));
+		spinCardW.setValue(Integer.parseInt(MTGControler.getInstance().get("/game/cards/card-width")));
+//		spinCardW.addChangeListener(new ChangeListener() {
+//			
+//			@Override
+//			public void stateChanged(ChangeEvent e) {
+//				System.out.println("value " + spinCardW.getValue());
+//				
+//			}
+//		});
+		
+		
+		panelSubGame.add(spinCardW);
 		
 		JLabel lblCardH = new JLabel("Card Height :");
 		panelSubGame.add(lblCardH);
 		
-		txtCardH = new JTextField(MTGControler.getInstance().get("/game/cards/card-height"));
-		panelSubGame.add(txtCardH);
-		txtCardH.setColumns(10);
+		spinCardH = new JSpinner();
+		spinCardH.setModel(new SpinnerNumberModel(new Integer(215), new Integer(0), null, new Integer(1)));
+		spinCardH.setValue(Integer.parseInt(MTGControler.getInstance().get("/game/cards/card-height")));
+		panelSubGame.add(spinCardH);
+		
 		GridBagConstraints gbc_btnSave_2 = new GridBagConstraints();
 		gbc_btnSave_2.insets = new Insets(0, 0, 0, 5);
 		gbc_btnSave_2.gridx = 3;
