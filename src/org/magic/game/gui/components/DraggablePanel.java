@@ -12,8 +12,7 @@ import org.magic.game.transfert.CardTransfertHandler;
 
 public abstract class DraggablePanel  extends JPanel implements Draggable{
 
-  	int width=112;
-	int height=155;
+  	Dimension d ;
 	
 	public JPopupMenu menu = new JPopupMenu();
 
@@ -31,26 +30,16 @@ public abstract class DraggablePanel  extends JPanel implements Draggable{
 
 	public void setThumbnailSize(Dimension d)
 	{
-		this.width=(int)d.getWidth();
-		this.height=(int)d.getHeight();
+		this.d=d;
 	}
 	
 	public int getCardWidth() {
-		return width;
-	}
-
-	public void setCardWidth(int width) {
-		this.width = width;
+		return (int)d.getWidth();
 	}
 
 	public int getCardHeight() {
-		return height;
+		return (int)d.getHeight();
 	}
-
-	public void setCardHeight(int height) {
-		this.height = height;
-	}
-
  
 	public DraggablePanel() {
 		  setTransferHandler(new CardTransfertHandler());

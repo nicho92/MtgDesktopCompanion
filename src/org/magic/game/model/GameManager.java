@@ -31,6 +31,8 @@ public class GameManager {
 
 	public Turn getActualTurn()
 	{
+		if(turns.size()==0)
+			return new Turn();
 		return turns.get(turns.size()-1);
 	}
 	

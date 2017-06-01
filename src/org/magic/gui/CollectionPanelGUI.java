@@ -213,7 +213,6 @@ public class CollectionPanelGUI extends JPanel {
 					it.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
 							ThreadManager.getInstance().execute(new Runnable() {
-								
 								@Override
 								public void run() {
 									try {
