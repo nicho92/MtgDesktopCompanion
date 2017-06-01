@@ -80,6 +80,7 @@ public class BattleFieldPanel extends DraggablePanel  {
 	public void addComponent(DisplayableCard card)
 	{
 		this.add(card);
+		card.setPosition(getOrigine());
 	}
 
 	@Override

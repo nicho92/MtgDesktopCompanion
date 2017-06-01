@@ -27,19 +27,13 @@ public class ExilPanel extends DraggablePanel {
 		if(i.isTapped())
 			i.tap(false);
 		add(i);
+		i.setPosition(getOrigine());
 	}
 
 
 	@Override
 	public void moveCard(MagicCard mc, PositionEnum to) {
-		/*switch (to) {
-			case BATTLEFIELD:player.returnCardFromGraveyard(mc);break;
-			case EXIL:player.exileCardFromGraveyard(mc);break;
-			case HAND:player.returnCardFromGraveyard(mc);break;
-			case LIBRARY:player.putCardInLibraryFromGraveyard(mc, true);
-			default:break;
-		}*/
-		
+	
 	}
 	
 	@Override

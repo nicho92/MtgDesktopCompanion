@@ -26,7 +26,7 @@ public class Player extends Observable implements Serializable{
 	private String name;
 	private MagicDeck deck;
 	private Graveyard graveyard;
-	private List<MagicCard> exil;
+	private Exile exil;
 	private Library library;
 	private List<MagicCard> hand;
 	private BattleField battlefield;
@@ -69,7 +69,7 @@ public class Player extends Observable implements Serializable{
 	public void init()
 	{
 		graveyard=new Graveyard();
-		exil=new ArrayList<MagicCard>();
+		exil=new Exile();
 		hand=new ArrayList<MagicCard>();
 		library=new Library(deck.getAsList());
 		battlefield=new BattleField();
@@ -98,7 +98,7 @@ public class Player extends Observable implements Serializable{
 
 	public Player() {
 		super();
-		name="";
+		name="Player";
 		life=20;
 		deck = new MagicDeck();
 		init();
@@ -395,11 +395,11 @@ public class Player extends Observable implements Serializable{
 		this.graveyard = graveyard;
 	}
 
-	public List<MagicCard> getExil() {
+	public Exile getExil() {
 		return exil;
 	}
 
-	public void setExil(List<MagicCard> exil) {
+	public void setExil(Exile exil) {
 		this.exil = exil;
 	}
 

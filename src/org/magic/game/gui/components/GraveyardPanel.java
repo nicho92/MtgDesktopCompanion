@@ -1,11 +1,13 @@
 package org.magic.game.gui.components;
 
 import java.awt.Color;
+import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.PositionEnum;
+import org.magic.services.MTGControler;
 
 public class GraveyardPanel extends DraggablePanel {
 	
@@ -14,7 +16,7 @@ public class GraveyardPanel extends DraggablePanel {
 		setLayout(null);
 		setBorder(new LineBorder(Color.BLACK));
 		setBackground(Color.GRAY);
-		
+		setPreferredSize(new Dimension(0, (int) (MTGControler.getInstance().getCardsDimension().getHeight()*30)));
 	}
 	
 	@Override
@@ -27,6 +29,7 @@ public class GraveyardPanel extends DraggablePanel {
 		if(i.isTapped())
 			i.tap(false);
 		add(i);
+		i.setPosition(getOrigine());
 	}
 
 

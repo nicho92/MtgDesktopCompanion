@@ -420,10 +420,10 @@ public class GamePanelGUI extends JPanel implements Observer {
 												
 											}
 										});
-										
+										JScrollPane js = new JScrollPane();
 										panelGrave = new GraveyardPanel();
-										
-										panelLibraryAndGrave.add(panelGrave);
+										js.setViewportView(panelGrave);
+										panelLibraryAndGrave.add(js);
 										
 										panelBattleField = new BattleFieldPanel();
 										panneauDroit.add(panelBattleField, BorderLayout.CENTER);

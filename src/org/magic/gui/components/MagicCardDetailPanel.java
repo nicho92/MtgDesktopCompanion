@@ -432,12 +432,21 @@ public class MagicCardDetailPanel extends JPanel {
 	}
 
 	
-	public void setMagicLogo(String set,String rarity) {
-			try {
-				lblLogoSet.setIcon(new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getSetLogo(set, rarity)));
-			} catch (Exception e) {
-				lblLogoSet.setIcon(null);			
-				}
+	public void setMagicLogo(final String set,final String rarity) {
+		ThreadManager.getInstance().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					lblLogoSet.setIcon(new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getSetLogo(set, rarity)));
+				} catch (Exception e) {
+					lblLogoSet.setIcon(null);			
+					}
+				
+			}
+		}, "retrieve logo " + set + " " + rarity);	
+		
+		
 	}
 	
 	

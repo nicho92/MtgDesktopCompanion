@@ -26,8 +26,6 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MTGKeyWord.EVENT;
-import org.magic.api.beans.MTGKeyWord.TYPE;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
 import org.magic.game.actions.cards.EmblemActions;
@@ -74,7 +72,18 @@ public class DisplayableCard extends JLabel implements Draggable
 	private Image fullResPics;
 	private boolean showLoyalty;
 	private KeyWordManager keywordsManager;
+	private PositionEnum position;
 	
+	
+	
+	public PositionEnum getPosition() {
+		return position;
+	}
+
+	public void setPosition(PositionEnum position) {
+		this.position = position;
+	}
+
 	public void addCounter(AbstractCounter c)
 	{
 		counters.add(c);
@@ -182,7 +191,10 @@ public class DisplayableCard extends JLabel implements Draggable
 		g.drawString(s,x,y);
 	}
 	
-	
+	public void position()
+	{
+		System.out.println(getParent());
+	}
 	
 	public void setImage(ImageIcon image) {
 		this.image = image;

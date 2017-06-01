@@ -67,7 +67,7 @@ public class ThumbnailPanel extends DraggablePanel {
 		
 		add(i,c);
 		index++;
-		
+		i.setPosition(getOrigine());
 	}
 	
 	Thread t;

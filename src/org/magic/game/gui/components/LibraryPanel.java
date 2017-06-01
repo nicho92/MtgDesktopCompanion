@@ -42,6 +42,7 @@ public class LibraryPanel extends DraggablePanel {
 	public void addComponent(DisplayableCard i) {
 		add(i);
 		addedCard=i;
+		addedCard.setPosition(getOrigine());
 	}
 	
 	@Override

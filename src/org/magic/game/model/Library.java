@@ -39,6 +39,12 @@ public class Library implements Serializable {
 		cards.add(mc);
 	}
 	
+	public void putCardAt(MagicCard mc,int position)
+	{
+		cards.set(position, mc);
+	}
+	
+	
 	public void clear()
 	{
 		cards.clear();

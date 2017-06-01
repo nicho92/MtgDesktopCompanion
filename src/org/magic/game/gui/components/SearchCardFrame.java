@@ -38,7 +38,7 @@ public class SearchCardFrame extends JDialog {
 			case GRAVEYARD:pane.initThumbnails(p.getGraveyard().getCards(),true);break;
 			case LIBRARY:pane.initThumbnails(p.getLibrary().getCards(),true);break;
 			case BATTLEFIELD:pane.initThumbnails(p.getBattlefield().getCards(),true);break;
-			case EXIL:pane.initThumbnails(p.getExil(),true);break;
+			case EXIL:pane.initThumbnails(p.getExil().getCards(),true);break;
 			default:break;
 		}
 	}
