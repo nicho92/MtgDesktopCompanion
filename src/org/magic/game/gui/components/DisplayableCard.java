@@ -7,14 +7,19 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
-import java.awt.image.AffineTransformOp;
 import java.awt.image.BufferedImage;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -24,6 +29,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.AttachActions;
@@ -37,9 +43,10 @@ import org.magic.game.actions.cards.RemoveCounterActions;
 import org.magic.game.actions.cards.RotateActions;
 import org.magic.game.actions.cards.SelectionActions;
 import org.magic.game.actions.cards.TapActions;
-import org.magic.game.actions.cards.TokensActions;
+import org.magic.game.actions.cards.CreateActions;
 import org.magic.game.actions.cards.TransferActions;
 import org.magic.game.actions.cards.TransformActions;
+import org.magic.game.gui.components.dialog.DescribeCardDialog;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.PositionEnum;
 import org.magic.game.model.Turn.PHASES;
@@ -51,12 +58,13 @@ import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.KeyWordManager;
 import org.magic.services.MTGControler;
+import org.postgresql.core.Keyword;
 
 
 public class DisplayableCard extends JLabel implements Draggable
 {
 
-	JPopupMenu menu = new JPopupMenu();
+	private JPopupMenu menu;
 	private MagicCard magicCard;
 	private boolean tapped=false;
 	private ImageIcon image;
@@ -71,11 +79,14 @@ public class DisplayableCard extends JLabel implements Draggable
 	private List<AbstractCounter> counters;
 	private Image fullResPics;
 	private boolean showLoyalty;
-	private KeyWordManager keywordsManager;
 	private PositionEnum position;
 	
 	
 	
+	public ImageIcon getImage() {
+		return image;
+	}
+
 	public PositionEnum getPosition() {
 		return position;
 	}
@@ -191,11 +202,6 @@ public class DisplayableCard extends JLabel implements Draggable
 		g.drawString(s,x,y);
 	}
 	
-	public void position()
-	{
-		System.out.println(getParent());
-	}
-	
 	public void setImage(ImageIcon image) {
 		this.image = image;
 		repaint();
@@ -237,8 +243,15 @@ public class DisplayableCard extends JLabel implements Draggable
 		showPT=t;
 	}
 	
+	public void debug()
+	{
+		new DescribeCardDialog(this).setVisible(true);;
+	}
+	
+	
 	public DisplayableCard(MagicCard mc,Dimension d, boolean activateCards) {
 		attachedCards = new ArrayList<DisplayableCard>();
+		menu = new JPopupMenu();
 		counters = new ArrayList<AbstractCounter>();
 		setSize(d);
 		setPreferredSize(d);
@@ -246,14 +259,33 @@ public class DisplayableCard extends JLabel implements Draggable
 		setVerticalAlignment(JLabel.CENTER);
 		setMagicCard(mc);
 		setTransferHandler(new CardTransfertHandler());
-		//setToolTipText(mc.getText());
-		keywordsManager = new KeyWordManager();
 		
 		addMouseListener(new TransferActions());
 		
 		if(activateCards)
 			initActions();
+		
+		menu.add(new AbstractAction("Describe") {
+			public void actionPerformed(ActionEvent arg0) {
+				debug();
+			}
+		});
+		
 	}
+	
+	private AbstractAction generateActionFrom(MTGKeyWord k) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
+	{
+		Class a = DisplayableCard.class.getClassLoader().loadClass("org.magic.game.actions.cards."+k.toString()+"Actions");
+		Constructor ctor = a.getDeclaredConstructor(DisplayableCard.class);
+		AbstractAction aaction = (AbstractAction) ctor.newInstance(this);
+		return aaction;
+	}
+	
+	private void execute(AbstractAction act,ActionEvent e) {
+			act.actionPerformed(e);
+	}
+
+	
 	
 	public void initActions() {
 		
@@ -303,10 +335,25 @@ public class DisplayableCard extends JLabel implements Draggable
 		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 		if(l.size()>0){
 			JMenu abilities = new JMenu("KeyWords");
-			for(MTGKeyWord k : l)
+			for(final MTGKeyWord k : l)
 			{
-				JMenuItem it = new JMenuItem(k.getKeyword());
-						  it.setToolTipText(k.getDescription());
+				JMenuItem it;
+				try {
+					it = new JMenuItem(generateActionFrom(k));
+				} catch (Exception e) {
+					it=new JMenuItem(k.getKeyword());
+				}
+//						  it.setToolTipText(k.getDescription());
+//						  it.addActionListener(new ActionListener() {
+//							@Override
+//							public void actionPerformed(ActionEvent e) {
+//								execute(generateActionFrom(k),e);
+//								
+//							}
+
+//				});
+				
+				
 				abilities.add(it);
 			}
 			menu.add(abilities);
@@ -327,7 +374,7 @@ public class DisplayableCard extends JLabel implements Draggable
 			menu.add(new JMenuItem(new FlipActions(this)));
 		
 		if(GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
-			menu.add(new JMenuItem(new TokensActions(this)));
+			menu.add(new JMenuItem(new CreateActions(this)));
 		
 		if(GamePanelGUI.getInstance().getTokenGenerator().isEmblemizer(magicCard))
 				menu.add(new JMenuItem(new EmblemActions(this)));
@@ -341,51 +388,6 @@ public class DisplayableCard extends JLabel implements Draggable
 		
 	}
 
-	public void flip(boolean t)
-	{
-		
-		MagicCard mc;
-		try {
-			mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
-			setMagicCard(mc);
-	        BufferedImage bufferedImage = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
-	    		
-			AffineTransform tx = AffineTransform.getScaleInstance(-1, -1);
-		    tx.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
-		    AffineTransformOp op = new AffineTransformOp(tx,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		    bufferedImage = op.filter(bufferedImage, null);
-			
-	        Graphics2D g2 = bufferedImage.createGraphics();
-			           g2.drawImage(image.getImage(), tx,null);
-			           g2.dispose();
-	        setImage(new ImageIcon(bufferedImage));
-	        
-	        rotated=true;
-	        
-			revalidate();
-			repaint();
-			
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	public void transform()
-	{
-		try {
-			
-			removeAllCounters();
-			
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", getMagicCard().getRotatedCardName(), getMagicCard().getEditions().get(0)).get(0);
-			setMagicCard(mc);
-			revalidate();
-			repaint();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	public void tap(boolean t) {
 			
 			if(!tappable)

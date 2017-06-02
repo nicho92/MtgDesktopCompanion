@@ -20,7 +20,6 @@ public class DiscardActions extends AbstractAction{
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		card.flip(true);
 		switch(card.getOrigine())
 		{
 		case BATTLEFIELD:GamePanelGUI.getInstance().getPlayer().discardCardFromBattleField(card.getMagicCard());

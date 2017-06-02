@@ -10,13 +10,13 @@ import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
 
-public class TokensActions extends AbstractAction {
+public class CreateActions extends AbstractAction {
 
 			
 			private DisplayableCard card;
 
-			public TokensActions(DisplayableCard card) {
-				super("Generate a token");
+			public CreateActions(DisplayableCard card) {
+				super("Create a token");
 				putValue(SHORT_DESCRIPTION, "Generate a token");
 		        putValue(MNEMONIC_KEY, KeyEvent.VK_T);
 		        this.card = card;

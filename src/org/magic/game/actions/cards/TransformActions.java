@@ -5,8 +5,10 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.services.MTGControler;
 
 public class TransformActions extends AbstractAction {
 
@@ -25,8 +27,20 @@ public class TransformActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GamePanelGUI.getInstance().getPlayer().logAction("Transform " + card.getMagicCard());
-		card.transform();
-		card.initActions();
+		
+		try {
+			
+			card.removeAllCounters();
+			
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0)).get(0);
+			card.setMagicCard(mc);
+			card.revalidate();
+			card.repaint();
+			card.initActions();
+			
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
 		
 	}
 

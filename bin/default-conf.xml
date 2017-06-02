@@ -11,10 +11,33 @@
 	<min-price-alert>0</min-price-alert>
 	<debug-json-panel>false</debug-json-panel>
 	<tooltip>true</tooltip>
-	<player-profil>
-		<name>Player 1</name>
-		<avatar></avatar>
-	</player-profil>
+	<game>
+		<cards>
+			<card-width>154</card-width>
+			<card-height>215</card-height>
+		</cards>
+		<player-profil>
+			<name>Player 1</name>
+			<avatar></avatar>
+			<foreground></foreground>
+			<background></background>
+		</player-profil>
+	</game>	
+	<caches>
+		<cache>
+			<class>org.magic.api.cache.impl.FileCache</class>
+			<enable>false</enable>
+		</cache>
+		<cache>
+			<class>org.magic.api.cache.impl.MemoryCache</class>
+			<enable>false</enable>
+		</cache>
+		<cache>
+			<class>org.magic.api.cache.impl.NoCache</class>
+			<enable>true</enable>
+		</cache>
+	</caches>
+	
 	
 	<servers>
 		<server>
@@ -126,6 +149,14 @@
 			<class>org.magic.api.pictures.impl.MagicCardInfoPicturesProvider</class>
 			<enable>false</enable>
 		</picture>
+		<picture>
+			<class>org.magic.api.pictures.impl.DeckMasterPicturesProvider</class>
+			<enable>true</enable>
+		</picture>
+		<picture>
+			<class>org.magic.api.pictures.impl.PersonalSetPicturesProvider</class>
+			<enable>true</enable>
+		</picture>
 	</pictures>
 	<decksniffer>
 		<sniffer>
@@ -180,6 +211,10 @@
 		</export>
 		<export>
 			<class>org.magic.api.exports.impl.DCIDeckSheetExport</class>
+			<enable>true</enable>
+		</export>
+		<export>
+			<class>org.magic.api.exports.impl.Apprentice2DeckExport</class>
 			<enable>true</enable>
 		</export>
 	</deckexports>

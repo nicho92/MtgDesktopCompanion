@@ -6,7 +6,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.gui.components.SearchCardFrame;
+import org.magic.game.gui.components.dialog.SearchCardFrame;
 import org.magic.game.model.PositionEnum;
 
 public class SearchActions extends AbstractAction {

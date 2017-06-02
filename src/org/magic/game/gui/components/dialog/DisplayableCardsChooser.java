@@ -1,4 +1,4 @@
-package org.magic.game.gui.components;
+package org.magic.game.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -7,6 +7,8 @@ import java.util.List;
 
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+
+import org.magic.game.gui.components.DisplayableCard;
 
 public class DisplayableCardsChooser extends JDialog {
 

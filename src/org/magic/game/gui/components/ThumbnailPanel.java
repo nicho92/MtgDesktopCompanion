@@ -60,11 +60,14 @@ public class ThumbnailPanel extends DraggablePanel {
 			c.gridx=0;
 			index=0;
 		}
-		c.gridx=c.gridx+1;
+	   c.gridx=c.gridx+1;
 	   i.setHorizontalTextPosition(JLabel.CENTER);
 	   i.setVerticalTextPosition(JLabel.BOTTOM);
 	   i.enableDrag(dragging);
-		
+	   
+	   if(i.isTapped())
+			i.tap(false);
+	   
 		add(i,c);
 		index++;
 		i.setPosition(getOrigine());
