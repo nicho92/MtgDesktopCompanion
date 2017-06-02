@@ -8,7 +8,6 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -16,7 +15,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
 import javax.swing.AbstractAction;
@@ -31,21 +29,19 @@ import javax.swing.JSeparator;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
+import org.magic.game.actions.cards.CreateActions;
 import org.magic.game.actions.cards.EmblemActions;
 import org.magic.game.actions.cards.FixCreaturePowerActions;
 import org.magic.game.actions.cards.FlipActions;
 import org.magic.game.actions.cards.ItemCounterActions;
 import org.magic.game.actions.cards.LoyaltyActions;
 import org.magic.game.actions.cards.RemoveCounterActions;
-import org.magic.game.actions.cards.RotateActions;
 import org.magic.game.actions.cards.SelectionActions;
 import org.magic.game.actions.cards.TapActions;
-import org.magic.game.actions.cards.CreateActions;
 import org.magic.game.actions.cards.TransferActions;
 import org.magic.game.actions.cards.TransformActions;
 import org.magic.game.gui.components.dialog.DescribeCardDialog;
@@ -58,9 +54,7 @@ import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
-import org.magic.services.KeyWordManager;
 import org.magic.services.MTGControler;
-import org.postgresql.core.Keyword;
 
 
 public class DisplayableCard extends JLabel implements Draggable
@@ -287,7 +281,6 @@ public class DisplayableCard extends JLabel implements Draggable
 		
 		menu.add(new JMenuItem(new SelectionActions(this)));
 		menu.add(new JMenuItem(new TapActions(this)));
-		menu.add(new JMenuItem(new RotateActions(this)));
 	
 		if(magicCard.getTypes().contains("Creature"))
 		{

@@ -138,6 +138,7 @@ public class CardTransfertHandler extends TransferHandler  {
 			}
 			return true;
 		} catch (Exception ufe) {
+			ufe.printStackTrace();
 			logger.error(ufe);
 		} 
 		return false;
