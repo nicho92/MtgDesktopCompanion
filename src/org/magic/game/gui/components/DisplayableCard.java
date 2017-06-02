@@ -20,12 +20,14 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.swing.AbstractAction;
+import javax.swing.Action;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
+import javax.swing.JSeparator;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -265,11 +267,7 @@ public class DisplayableCard extends JLabel implements Draggable
 		if(activateCards)
 			initActions();
 		
-		menu.add(new AbstractAction("Describe") {
-			public void actionPerformed(ActionEvent arg0) {
-				debug();
-			}
-		});
+		
 		
 	}
 	
@@ -278,14 +276,9 @@ public class DisplayableCard extends JLabel implements Draggable
 		Class a = DisplayableCard.class.getClassLoader().loadClass("org.magic.game.actions.cards."+k.toString()+"Actions");
 		Constructor ctor = a.getDeclaredConstructor(DisplayableCard.class);
 		AbstractAction aaction = (AbstractAction) ctor.newInstance(this);
+		aaction.putValue(Action.SHORT_DESCRIPTION, k.getDescription());
 		return aaction;
 	}
-	
-	private void execute(AbstractAction act,ActionEvent e) {
-			act.actionPerformed(e);
-	}
-
-	
 	
 	public void initActions() {
 		
@@ -334,7 +327,7 @@ public class DisplayableCard extends JLabel implements Draggable
 
 		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 		if(l.size()>0){
-			JMenu abilities = new JMenu("KeyWords");
+			JMenu abilities = new JMenu("Actions");
 			for(final MTGKeyWord k : l)
 			{
 				JMenuItem it;
@@ -342,18 +335,8 @@ public class DisplayableCard extends JLabel implements Draggable
 					it = new JMenuItem(generateActionFrom(k));
 				} catch (Exception e) {
 					it=new JMenuItem(k.getKeyword());
+					it.setToolTipText(k.getDescription());
 				}
-//						  it.setToolTipText(k.getDescription());
-//						  it.addActionListener(new ActionListener() {
-//							@Override
-//							public void actionPerformed(ActionEvent e) {
-//								execute(generateActionFrom(k),e);
-//								
-//							}
-
-//				});
-				
-				
 				abilities.add(it);
 			}
 			menu.add(abilities);
@@ -367,11 +350,14 @@ public class DisplayableCard extends JLabel implements Draggable
 			menu.add(mnuModifier);
 		}
 		
+		
 		if(magicCard.isTranformable())
 			menu.add(new JMenuItem(new TransformActions(this)));
 
 		if(magicCard.isFlippable())
 			menu.add(new JMenuItem(new FlipActions(this)));
+		
+		
 		
 		if(GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
 			menu.add(new JMenuItem(new CreateActions(this)));
@@ -380,10 +366,12 @@ public class DisplayableCard extends JLabel implements Draggable
 				menu.add(new JMenuItem(new EmblemActions(this)));
 		
 		
-		
-		
-		
-		
+		menu.add(new JSeparator());
+		menu.add(new AbstractAction("Describe") {
+			public void actionPerformed(ActionEvent arg0) {
+				debug();
+			}
+		});
 		setComponentPopupMenu(menu);
 		
 	}
