@@ -331,6 +331,13 @@ public class Player extends Observable implements Serializable{
 		graveyard.remove(mc);
 		hand.add(mc);
 		logAction("return " + mc +" from graveyard in hand" );
+	}
+	
+	public void playCardFromGraveyard(MagicCard mc)
+	{
+		graveyard.remove(mc);
+		battlefield.add(mc);
+		logAction("play " + mc +" from graveyard" );
 		
 
 	}

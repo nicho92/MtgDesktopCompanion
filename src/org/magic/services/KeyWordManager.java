@@ -43,18 +43,6 @@ public class KeyWordManager {
 		return null;
 	}
 	
-	
-	public static void main(String[] args) {
-		KeyWordManager manager = new KeyWordManager();
-		
-	
-		for(MTGKeyWord k : manager.getList())
-			System.out.println(k + " " + k.getEvent());	
-			
-		
-		
-	}
-	
 //	
 //	public AbstractAction generateActionFrom(MTGKeyWord k)
 //	{
@@ -73,24 +61,31 @@ public class KeyWordManager {
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc)
 	{
 		Set<MTGKeyWord> ret = new LinkedHashSet<MTGKeyWord>();
+		
+		String[] texts = mc.getText().split(" ");
 		for(MTGKeyWord s : list)
 		{	
-			if(mc.getText().toLowerCase().contains(s.getKeyword().toLowerCase()))
-				ret.add(s);
+			/*for(String st : texts)
+			{
+				if(st.equalsIgnoreCase(s.getKeyword()))
+					ret.add(s);
+			}*/
+				if(mc.getText().toLowerCase().contains(s.getKeyword().toLowerCase()))
+					ret.add(s);
 		}
 		return ret;
 	}
-	
-	public boolean hasKeyWord(MagicCard mc, MTGKeyWord k)
-	{
-		for(MTGKeyWord kw : getKeywordsFrom(mc))
-		{
-			if(kw.equals(k))
-				return true;
-		}
-		return false;
-	}
-	
+//	
+//	public boolean hasKeyWord(MagicCard mc, MTGKeyWord k)
+//	{
+//		for(MTGKeyWord kw : getKeywordsFrom(mc))
+//		{
+//			if(kw.equals(k))
+//				return true;
+//		}
+//		return false;
+//	}
+//	
 
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard magicCard, EVENT... t) {
 		Set<MTGKeyWord> s = getKeywordsFrom(magicCard);

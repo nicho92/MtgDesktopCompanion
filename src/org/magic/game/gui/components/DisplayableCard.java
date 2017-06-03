@@ -428,7 +428,13 @@ public class DisplayableCard extends JLabel implements Draggable
 						}
 						else
 						{
-							LoyaltyCounter act = new LoyaltyCounter(Integer.parseInt("-"+s.substring(1,s.indexOf(":")).trim()), s.substring(s.indexOf(":")+1).trim());
+							LoyaltyCounter act;//TODO correction for -X abilities
+							try{
+								act = new LoyaltyCounter(Integer.parseInt("-"+s.substring(1,s.indexOf(":")).trim()), s.substring(s.indexOf(":")+1).trim());
+							}catch(Exception e)
+							{
+								act = new LoyaltyCounter(0,s.substring(s.indexOf(":")+1).trim());
+							}
 							actions.add(act);
 						}
 					}
