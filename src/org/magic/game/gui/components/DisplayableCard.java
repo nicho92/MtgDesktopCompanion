@@ -77,8 +77,6 @@ public class DisplayableCard extends JLabel implements Draggable
 	private boolean showLoyalty;
 	private PositionEnum position;
 	
-	
-	
 	public ImageIcon getImage() {
 		return image;
 	}

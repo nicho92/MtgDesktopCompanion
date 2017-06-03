@@ -1,5 +1,6 @@
 package org.magic.game.actions.cards;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -8,6 +9,7 @@ import javax.swing.AbstractAction;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.counters.ItemCounter;
 import org.magic.services.MTGControler;
 
 public class EmbalmActions extends AbstractAction {
@@ -27,6 +29,8 @@ public class EmbalmActions extends AbstractAction {
 				try{
 					MagicCard tok = GamePanelGUI.getInstance().getTokenGenerator().generateTokenFor(card.getMagicCard() );
 					DisplayableCard dc = new DisplayableCard( tok, MTGControler.getInstance().getCardsDimension(),true);
+					dc.addCounter(new ItemCounter("Embalm", Color.YELLOW));
+					
 					dc.setMagicCard(tok);
 					GamePanelGUI.getInstance().getPlayer().exileCardFromGraveyard(card.getMagicCard());
 					GamePanelGUI.getInstance().getPanelGrave().remove(card);
