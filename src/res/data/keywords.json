@@ -322,7 +322,7 @@
 },
 {
 	"keyword": "Embalm",
-	"description": "Embalm is a keyword ability introduced in Amonkhet. Embalm is centered in white and blue.[6]",
+	"description": "Embalm is a keyword ability introduced in Amonkhet. The embalm ability can only be activated if the creature is in the graveyard. When activated, the card is exiled and creates a token copy of itself. This creature token is a copy of the embalmed creature, except that it is a zombie in addition to its other creature types and monocolored white.",
 	"type": "Abilities",
 	"subtype": "Other",
 	"event": "ACTIVATED"
