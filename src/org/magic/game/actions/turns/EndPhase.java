@@ -19,7 +19,7 @@ public class EndPhase extends AbstractAction {
 			+ "before the next player's turn starts.</html>";
 	
 	
-	public EndPhase(Player p) {
+	public EndPhase() {
 		super("End");
 		putValue(SHORT_DESCRIPTION, detail);
 		setEnabled(false);

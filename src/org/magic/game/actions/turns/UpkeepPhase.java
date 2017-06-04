@@ -20,7 +20,7 @@ public class UpkeepPhase extends AbstractAction {
 			+ "-During this step, all upkeep costs are paid.</html>";
 	
 			
-	public UpkeepPhase(Player p) {
+	public UpkeepPhase() {
 		super("Upkeep");
 		putValue(SHORT_DESCRIPTION, detail);
 		setEnabled(false);

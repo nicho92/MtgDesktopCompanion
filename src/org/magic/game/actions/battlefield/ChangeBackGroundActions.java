@@ -13,11 +13,11 @@ import javax.swing.JFileChooser;
 import org.magic.game.gui.components.BattleFieldPanel;
 import org.magic.services.MTGControler;
 
-public class ChangeBackGroundAction extends AbstractAction {
+public class ChangeBackGroundActions extends AbstractAction {
 
 	BattleFieldPanel battleFieldPanel;
 	
-	public ChangeBackGroundAction(BattleFieldPanel battleFieldPanel) {
+	public ChangeBackGroundActions(BattleFieldPanel battleFieldPanel) {
 			super("Change Background");
 			putValue(SHORT_DESCRIPTION,"Change the background of Battlefield");
 	        putValue(MNEMONIC_KEY, KeyEvent.VK_B);

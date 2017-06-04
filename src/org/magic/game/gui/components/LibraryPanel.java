@@ -9,6 +9,8 @@ import javax.swing.JMenuItem;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.ScryActions;
+import org.magic.game.actions.library.DrawActions;
+import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.actions.library.MoveGraveyardActions;
 import org.magic.game.actions.library.SearchActions;
 import org.magic.game.actions.library.ShuffleActions;
@@ -21,7 +23,8 @@ public class LibraryPanel extends DraggablePanel {
 	
 	public LibraryPanel() {
 		super();
-		
+		menu.add(new JMenuItem(new DrawHandActions()));
+		menu.add(new JMenuItem(new DrawActions()));
 		menu.add(new JMenuItem(new SearchActions()));
 		menu.add(new JMenuItem(new ScryActions(null)));
 		menu.add(new JMenuItem(new ShuffleActions()));

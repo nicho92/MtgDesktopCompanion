@@ -19,7 +19,7 @@ public class UntapPhase extends AbstractAction {
 	
 	Player p;
 	
-	public UntapPhase(Player p) {
+	public UntapPhase() {
 		super("Untap");
 		putValue(SHORT_DESCRIPTION, detail);
 		this.p=p;

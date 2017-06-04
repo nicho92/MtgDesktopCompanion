@@ -11,7 +11,7 @@ import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.actions.battlefield.ChangeBackGroundAction;
+import org.magic.game.actions.battlefield.ChangeBackGroundActions;
 import org.magic.game.actions.battlefield.SelectedTapActions;
 import org.magic.game.actions.battlefield.UnselectAllAction;
 import org.magic.game.model.PositionEnum;
@@ -73,13 +73,22 @@ public class BattleFieldPanel extends DraggablePanel  {
 		menu.removeAll();
 		menu.add(new JMenuItem(new UnselectAllAction(this)));
 		menu.add(new JMenuItem(new SelectedTapActions(this)));
-		menu.add(new JMenuItem(new ChangeBackGroundAction(this)));
+		menu.add(new JMenuItem(new ChangeBackGroundActions(this)));
 		setComponentPopupMenu(menu);
 	}
 	
 	public void addComponent(DisplayableCard card)
 	{
 		this.add(card);
+//		switch(card.getPosition())
+//		{
+//		case BATTLEFIELD:break;
+//		case EXIL:player.playCardFromExile(card.getMagicCard());
+//		case HAND:player.playCard(card.getMagicCard());break;
+//		case GRAVEYARD:player.discardCardFromBattleField(card.getMagicCard());break;
+//		case LIBRARY:player.putCardInLibraryFromBattlefield(card.getMagicCard(), true);
+//		}
+		
 		card.setPosition(getOrigine());
 	}
 

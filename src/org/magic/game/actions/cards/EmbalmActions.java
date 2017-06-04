@@ -38,6 +38,7 @@ public class EmbalmActions extends AbstractAction {
 					GamePanelGUI.getInstance().getPanelBattleField().revalidate();
 					GamePanelGUI.getInstance().getPanelBattleField().repaint();
 					GamePanelGUI.getInstance().getPanelGrave().postTreatment();
+					GamePanelGUI.getInstance().getPlayer().playToken(tok);
 					GamePanelGUI.getInstance().getPlayer().logAction("Embalm "+  card);
 				}
 				catch (Exception ex) {

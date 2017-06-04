@@ -11,8 +11,11 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Random;
 
+import javax.swing.AbstractAction;
+
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.network.actions.SpeakAction;
 
 public class Player extends Observable implements Serializable{
@@ -75,6 +78,8 @@ public class Player extends Observable implements Serializable{
 		battlefield=new BattleField();
 		manaPool = new ManaPool();
 		local=Locale.getDefault();
+		mixHandAndLibrary();
+		shuffleLibrary();
 	}
 	
 	public Player(MagicDeck deck) {
@@ -142,6 +147,8 @@ public class Player extends Observable implements Serializable{
 		logAction("set " + number + " " + color + " to manapool" );
 	}
 	
+	
+	
 	public void reoderCardInLibrary(MagicCard mc,boolean top)
 	{
 		logAction("todo change order");
@@ -203,8 +210,6 @@ public class Player extends Observable implements Serializable{
 		return list;
 	}
 	
-	
-	
 	public void lifeLoose(int lost)
 	{
 		life=life-lost;
@@ -233,7 +238,10 @@ public class Player extends Observable implements Serializable{
 			hand.add(library.getCards().get(i));
 			library.getCards().remove(i);
 		}
-		logAction("Draw " + number +" cards" );
+		if(number>1)
+			logAction("Draw " + number +" cards" );
+		else
+			logAction("Draw " + number +" card" );
 		
 	}
 	
@@ -338,6 +346,15 @@ public class Player extends Observable implements Serializable{
 		graveyard.remove(mc);
 		battlefield.add(mc);
 		logAction("play " + mc +" from graveyard" );
+		
+
+	}
+	
+	public void playCardFromExile(MagicCard mc)
+	{
+		exil.remove(mc);
+		battlefield.add(mc);
+		logAction("play " + mc +" from exile" );
 		
 
 	}
@@ -459,6 +476,13 @@ public class Player extends Observable implements Serializable{
 		GameManager.getInstance().getActualTurn().getActions().add(string);
 		System.out.println(toDetailledString());
 	}
+	
+	public void logAction(AbstractAction act) {
+		setChanged();
+		notifyObservers(act);
+		GameManager.getInstance().getActualTurn().getActions().add(act.toString());
+	}
+	
 
 	public void playCardFromLibrary(MagicCard mc) {
 		logAction("play " + mc + " from library");
@@ -477,6 +501,13 @@ public class Player extends Observable implements Serializable{
 		logAction("say:" + text);
 		
 	}
+	
+	
+	public void moveCard(PositionEnum from,PositionEnum to,MagicCard mc)
+	{
+		
+	}
+	
 
 	public void flipCoin() {
 		
@@ -493,6 +524,12 @@ public class Player extends Observable implements Serializable{
 	public boolean equals(Object paramObject) {
 		Player p2 = (Player)paramObject;
 		return getId()==p2.getId();
+	}
+
+	public void playToken(MagicCard tok) {
+		battlefield.add(tok);
+		logAction("Create token "+tok);
+		
 	}
 
 	

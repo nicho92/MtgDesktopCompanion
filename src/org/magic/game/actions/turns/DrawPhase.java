@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
 
+import org.magic.game.actions.library.DrawActions;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.model.GameManager;
@@ -21,7 +22,7 @@ public class DrawPhase extends AbstractAction {
 
 
 	
-	public DrawPhase(Player p) {
+	public DrawPhase() {
 		super("Draw");
 		putValue(SHORT_DESCRIPTION, detail);
 		setEnabled(false);
@@ -32,9 +33,7 @@ public class DrawPhase extends AbstractAction {
 	
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Draw);
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
-		
-		GamePanelGUI.getInstance().drawAction();
-		
+		new DrawActions().actionPerformed(ae);
 		setEnabled(false);
 		
 	}

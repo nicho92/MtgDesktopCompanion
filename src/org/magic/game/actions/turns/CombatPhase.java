@@ -20,7 +20,7 @@ public class CombatPhase extends AbstractAction {
 			+ "-Creatures assigned in this step are attacking.</html>";
 
 	
-	public CombatPhase(Player p) {
+	public CombatPhase() {
 		super("Combat");
 		putValue(SHORT_DESCRIPTION, detail);
 		setEnabled(false);

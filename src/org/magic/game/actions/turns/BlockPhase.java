@@ -15,7 +15,7 @@ import org.magic.game.model.Turn;
 public class BlockPhase extends AbstractAction {
 
 	
-	public BlockPhase(Player p) {
+	public BlockPhase() {
 		super("Block");
 		putValue(SHORT_DESCRIPTION, "Block Phase");
 		setEnabled(false);

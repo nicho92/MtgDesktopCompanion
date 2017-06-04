@@ -15,6 +15,7 @@ import org.magic.game.actions.turns.DamagePhase;
 import org.magic.game.actions.turns.DrawPhase;
 import org.magic.game.actions.turns.EndCombatPhase;
 import org.magic.game.actions.turns.EndPhase;
+import org.magic.game.actions.turns.EndTurnPhase;
 import org.magic.game.actions.turns.MainPhase;
 import org.magic.game.actions.turns.UntapPhase;
 import org.magic.game.actions.turns.UpkeepPhase;
@@ -24,8 +25,6 @@ import org.magic.game.model.Player;
 public class TurnsPanel extends JPanel {
 
 	JLabel lblTurnNumber;
-	Player p;
-	
 	
 	public TurnsPanel() {
 		FlowLayout flowLayout = (FlowLayout) getLayout();
@@ -35,19 +34,19 @@ public class TurnsPanel extends JPanel {
 		lblTurnNumber = new JLabel("Turn "+GameManager.getInstance().getTurns().size());
 		add(lblTurnNumber);
 		
-		add(new JButton(new UntapPhase(p)));
-		add(new JButton(new UpkeepPhase(p)));
-		add(new JButton(new DrawPhase(p)));
-		add(new JButton(new MainPhase(1,p)));
-		add(new JButton(new CombatPhase(p)));
-		add(new JButton(new AttackPhase(p)));
-		add(new JButton(new BlockPhase(p)));
-		add(new JButton(new DamagePhase(p)));
-		add(new JButton(new EndCombatPhase(p)));
-		add(new JButton(new MainPhase(2,p)));
-		add(new JButton(new EndPhase(p)));
-		add(new JButton(new CleanUpPhase(p)));
-		//add(new JButton(new EndTurnPhase(p)));
+		add(new JButton(new UntapPhase()));
+		add(new JButton(new UpkeepPhase()));
+		add(new JButton(new DrawPhase()));
+		add(new JButton(new MainPhase(1)));
+		add(new JButton(new CombatPhase()));
+		add(new JButton(new AttackPhase()));
+		add(new JButton(new BlockPhase()));
+		add(new JButton(new DamagePhase()));
+		add(new JButton(new EndCombatPhase()));
+		add(new JButton(new MainPhase(2)));
+		add(new JButton(new EndPhase()));
+		add(new JButton(new CleanUpPhase()));
+		add(new JButton(new EndTurnPhase()));
 	}
 	
 	
@@ -80,11 +79,5 @@ public class TurnsPanel extends JPanel {
 		lblTurnNumber.setText("Turn " + GameManager.getInstance().getTurns().size());;
 	}
 
-	public void setPlayer(Player p1) {
-		this.p=p1;
-		
-	}
-	
-	
 	
 }

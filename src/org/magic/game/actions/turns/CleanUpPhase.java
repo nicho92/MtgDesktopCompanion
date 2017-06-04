@@ -19,7 +19,7 @@ public class CleanUpPhase extends AbstractAction {
 			+ "In that case, those state-based actions are performed and/or those abilities go on the stack and the active player gets priority and players may cast spells and activate abilities.<br/>"
 			+ " Once all players pass priority when the stack is empty, the step repeats.</html>";
 	
-	public CleanUpPhase(Player p) {
+	public CleanUpPhase() {
 		super("Clean Up");
 		putValue(SHORT_DESCRIPTION, detail);
 		setEnabled(false);
@@ -28,7 +28,6 @@ public class CleanUpPhase extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Cleanup);
-
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		setEnabled(false);
 		

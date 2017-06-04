@@ -15,7 +15,7 @@ import org.magic.game.model.Turn;
 public class AttackPhase extends AbstractAction {
 
 	
-	public AttackPhase(Player p) {
+	public AttackPhase() {
 		super("Attack");
 		putValue(SHORT_DESCRIPTION, "Attack Phase");
 		setEnabled(false);

@@ -18,7 +18,7 @@ public class MainPhase extends AbstractAction {
 				+ "The active player gains priority.";
 	
 	
-	public MainPhase(int step, Player p) {
+	public MainPhase(int step) {
 		super("Main");
 		this.step=step;
 		putValue(SHORT_DESCRIPTION, detail);

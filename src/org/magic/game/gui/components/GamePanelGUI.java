@@ -37,6 +37,8 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.magic.api.beans.MagicDeck;
+import org.magic.game.actions.library.DrawActions;
+import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.game.network.actions.AbstractGamingAction;
@@ -144,14 +146,14 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panelInfo.add(panelActions, BorderLayout.SOUTH);
 						GridBagLayout gbl_panelActions = new GridBagLayout();
 						gbl_panelActions.columnWidths = new int[]{30, 20, 0};
-						gbl_panelActions.rowHeights = new int[]{23, 23, 23, 0, 0, 0};
+						gbl_panelActions.rowHeights = new int[]{23, 23, 0, 0, 0};
 						gbl_panelActions.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 						panelActions.setLayout(gbl_panelActions);
 						
 						JButton btnNewGame = new JButton("New Local Game");
 						btnNewGame.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
+							public void actionPerformed(ActionEvent ae) {
 								JDeckChooserDialog choose = new JDeckChooserDialog();
 								choose.setVisible(true);
 								try {
@@ -160,7 +162,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										
 										GameManager.getInstance().removePlayers();
 										
-										Player p1 = new Player("Player 1",20);
+										Player p1 = MTGControler.getInstance().getProfilPlayer();
 										Player p2 = new Player("Player 2",20);
 										p1.setDeck(deck);
 										
@@ -169,10 +171,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 										GameManager.getInstance().addPlayer(p1);
 										GameManager.getInstance().addPlayer(p2);
 										GameManager.getInstance().initGame();
-										
 										listActions.removeAll();
-										//GameManager.getInstance().endTurn(p);
 										turnsPanel.initTurn();
+										new DrawHandActions().actionPerformed(ae);
 										
 										clean();
 									}
@@ -188,7 +189,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						gbc_btnNewGame.gridy = 0;
 						panelActions.add(btnNewGame, gbc_btnNewGame);
 						
-						JButton btnDrawHand = new JButton("Draw Hand");
+						/*JButton btnDrawHand = new JButton("Draw Hand");
 						GridBagConstraints gbc_btnDrawHand = new GridBagConstraints();
 						gbc_btnDrawHand.fill = GridBagConstraints.BOTH;
 						gbc_btnDrawHand.insets = new Insets(0, 0, 5, 0);
@@ -210,7 +211,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								}
 							    handPanel.initThumbnails(player.getHand(),true);
 							}
-						});
+						});*/
 						JButton btnFlipACoin = new JButton("Flip a coin");
 						btnFlipACoin.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
@@ -219,35 +220,19 @@ public class GamePanelGUI extends JPanel implements Observer {
 						});
 						GridBagConstraints gbc_btnFlipACoin = new GridBagConstraints();
 						gbc_btnFlipACoin.fill = GridBagConstraints.HORIZONTAL;
-						gbc_btnFlipACoin.insets = new Insets(0, 0, 5, 5);
-						gbc_btnFlipACoin.gridx = 0;
-						gbc_btnFlipACoin.gridy = 1;
+						gbc_btnFlipACoin.insets = new Insets(0, 0, 5, 0);
+						gbc_btnFlipACoin.gridx = 1;
+						gbc_btnFlipACoin.gridy = 0;
 						panelActions.add(btnFlipACoin, gbc_btnFlipACoin);
-						
-						
-						JButton btnEndTurn = new JButton("End Turn");
-						GridBagConstraints gbc_btnEndTurn = new GridBagConstraints();
-						gbc_btnEndTurn.fill = GridBagConstraints.BOTH;
-						gbc_btnEndTurn.insets = new Insets(0, 0, 5, 0);
-						gbc_btnEndTurn.gridx = 1;
-						gbc_btnEndTurn.gridy = 1;
-						panelActions.add(btnEndTurn, gbc_btnEndTurn);
-						
-						btnEndTurn.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent ae) {
-								GameManager.getInstance().endTurn(player);
- 								turnsPanel.initTurn();
-							}
-						});
 						
 						JPanel panel_1 = new JPanel();
 						GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 						gbc_panel_1.gridheight = 2;
 						gbc_panel_1.gridwidth = 2;
-						gbc_panel_1.insets = new Insets(0, 0, 5, 5);
+						gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 						gbc_panel_1.fill = GridBagConstraints.BOTH;
 						gbc_panel_1.gridx = 0;
-						gbc_panel_1.gridy = 2;
+						gbc_panel_1.gridy = 1;
 						panelActions.add(panel_1, gbc_panel_1);
 						panel_1.setLayout(new BorderLayout(0, 0));
 						
@@ -415,7 +400,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 												if(SwingUtilities.isLeftMouseButton(me))
 												{	
-													drawAction();
+													new DrawActions().actionPerformed( new ActionEvent(me.getSource(), me.getID(), me.paramString()));
 												}
 												
 											}
@@ -450,14 +435,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 									
 	}
 	
-	
-	public  void drawAction() {
-		player.drawCard(1);
-		DisplayableCard c = new DisplayableCard(player.getHand().get(player.getHand().size()-1),MTGControler.getInstance().getCardsDimension(),true);
-		c.enableDrag(true);
-		handPanel.addComponent(c);
-		
-	}
 
 	public JSpinner getSpinLife() {
 		return spinLife;
@@ -465,7 +442,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public JSpinner getSpinPoison() {
 		return spinPoison;
 	}
-	public ThumbnailPanel getThumbnailPanel() {
+	public ThumbnailPanel getHandPanel() {
 		return handPanel;
 	}
 	
@@ -517,6 +494,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		//
 	}
 	
+	
 	public void addPlayer(Player p)
 	{
 		GameManager.getInstance().addPlayer(p);
@@ -530,5 +508,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public void removePlayer()
 	{
 		panneauDroit.remove(playerGameBoard);
+	}
+
+	public JLabel getLblHandCount() {
+		return lblHandCount;
 	}
 }

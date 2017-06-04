@@ -35,7 +35,6 @@ public class ThumbnailPanel extends DraggablePanel {
 			
 			default:break;
 		}
-		
 	}
 	
 	

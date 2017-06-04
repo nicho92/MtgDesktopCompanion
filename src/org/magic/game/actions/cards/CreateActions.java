@@ -31,7 +31,7 @@ public class CreateActions extends AbstractAction {
 					GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);
 					GamePanelGUI.getInstance().getPanelBattleField().revalidate();
 					GamePanelGUI.getInstance().getPanelBattleField().repaint();
-					GamePanelGUI.getInstance().getPlayer().logAction("generate " + tok + " token");
+					GamePanelGUI.getInstance().getPlayer().playToken(tok);
 				}
 				catch (Exception ex) {
 					ex.printStackTrace();

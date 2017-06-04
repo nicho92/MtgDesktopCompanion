@@ -25,7 +25,7 @@ public class CyclingActions extends AbstractAction {
 		
 		GamePanelGUI.getInstance().getPlayer().logAction("Cycling " + card);
 		GamePanelGUI.getInstance().getPlayer().discardCardFromHand(card.getMagicCard());
-		GamePanelGUI.getInstance().getThumbnailPanel().remove(card);
+		GamePanelGUI.getInstance().getHandPanel().remove(card);
 		
 		GamePanelGUI.getInstance().getPanelGrave().addComponent(card);
 		GamePanelGUI.getInstance().getPanelGrave().postTreatment();
