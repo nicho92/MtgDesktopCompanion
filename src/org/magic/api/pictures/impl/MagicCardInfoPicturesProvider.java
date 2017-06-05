@@ -93,7 +93,9 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 					    g.drawImage(img, 0, 0, null);
 					    g.dispose();
 
-					MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,ed);
+					if(bufferedImage!=null)
+						MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,ed);
+						 
 					return bufferedImage ;
 				}
 				catch(Exception e)
