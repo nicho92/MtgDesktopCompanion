@@ -32,7 +32,13 @@ public class Stack {
 	}
 	
 	public String toString() {
-		return stack.toString();
+		StringBuilder b = new StringBuilder();
+		for(Stackable s : stack)
+		{
+			b.append(s);
+		}
+		return b.toString();
+		
 	}
 	
 }

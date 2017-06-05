@@ -3,7 +3,7 @@ package org.magic.game.network.actions;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 
-public class ChangeStatusAction extends AbstractGamingAction {
+public class ChangeStatusAction extends AbstractNetworkAction {
 
 	private Player player;
 

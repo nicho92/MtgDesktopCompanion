@@ -47,6 +47,7 @@ import org.magic.game.actions.cards.TransformActions;
 import org.magic.game.gui.components.dialog.DescribeCardDialog;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.PositionEnum;
+import org.magic.game.model.Stackable;
 import org.magic.game.model.Turn.PHASES;
 import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
@@ -57,7 +58,7 @@ import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MTGControler;
 
 
-public class DisplayableCard extends JLabel implements Draggable
+public class DisplayableCard extends JLabel implements Draggable, Stackable
 {
 
 	private JPopupMenu menu;
@@ -501,6 +502,11 @@ public class DisplayableCard extends JLabel implements Draggable
 	public void showLoyalty(boolean b) {
 		showLoyalty=b;
 		
+	}
+
+	@Override
+	public boolean isStackable() {
+		return true;
 	}
 
 

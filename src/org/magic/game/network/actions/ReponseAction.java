@@ -1,6 +1,6 @@
 package org.magic.game.network.actions;
 
-public class ReponseAction extends AbstractGamingAction {
+public class ReponseAction extends AbstractNetworkAction {
 
 	public static enum CHOICE {YES,NO};
 	

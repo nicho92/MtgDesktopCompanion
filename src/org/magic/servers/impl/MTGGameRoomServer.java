@@ -18,7 +18,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
-import org.magic.game.network.actions.AbstractGamingAction;
+import org.magic.game.network.actions.AbstractNetworkAction;
 import org.magic.game.network.actions.ChangeDeckAction;
 import org.magic.game.network.actions.ChangeStatusAction;
 import org.magic.game.network.actions.JoinAction;
@@ -50,9 +50,9 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 	@Override
  	 	public void messageReceived(IoSession session, Object message) throws Exception {
  	 		logger.info(message);
- 	 		if(message instanceof AbstractGamingAction)
+ 	 		if(message instanceof AbstractNetworkAction)
  	 		{
- 	 			AbstractGamingAction act = (AbstractGamingAction)message;
+ 	 			AbstractNetworkAction act = (AbstractNetworkAction)message;
  	 			switch (act.getAct()) {
  	 				case REQUEST_PLAY: requestGaming((RequestPlayAction)act);break;
  	 				case RESPONSE: response((ReponseAction)act);break;

@@ -36,13 +36,7 @@ public class ManaPoolPanel extends JPanel implements Observer{
 	@Override
 	public void update(Observable o, Object arg) {
 		ManaPool p = (ManaPool)arg;
-		spinW.setValue(p.getMana("{W}"));
-		spinU.setValue(p.getMana("{U}"));;
-		spinB.setValue(p.getMana("{B}"));;
-		spinR.setValue(p.getMana("{R}"));;
-		spinG.setValue(p.getMana("{G}"));;
-		spinC.setValue(p.getMana("{C}"));;
-		spinE.setValue(p.getMana("{E}"));;
+		init(p);
 		
 		
 	}
@@ -181,6 +175,18 @@ public class ManaPoolPanel extends JPanel implements Observer{
 	}
 	public JSpinner getSpinE() {
 		return spinE;
+	}
+
+
+	public void init(ManaPool p) {
+		spinW.setValue(p.getMana("{W}"));
+		spinU.setValue(p.getMana("{U}"));
+		spinB.setValue(p.getMana("{B}"));
+		spinR.setValue(p.getMana("{R}"));
+		spinG.setValue(p.getMana("{G}"));
+		spinC.setValue(p.getMana("{C}"));
+		spinE.setValue(p.getMana("{E}"));
+		
 	}
 
 

@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.magic.game.model.Player;
 
-public class ListPlayersAction extends AbstractGamingAction {
+public class ListPlayersAction extends AbstractNetworkAction {
 
 	
 	List<Player> list;

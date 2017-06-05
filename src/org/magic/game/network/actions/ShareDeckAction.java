@@ -4,7 +4,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
 import java.awt.Color;
 
-public class ShareDeckAction extends AbstractGamingAction {
+public class ShareDeckAction extends AbstractNetworkAction {
 
 	Player p;
 	Player to;

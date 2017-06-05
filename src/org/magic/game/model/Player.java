@@ -471,7 +471,8 @@ public class Player extends Observable implements Serializable{
 		build.append("Hand:" ).append(hand.size()).append("\n");
 		build.append("BattleField :" ).append(battlefield.size()).append("\n");
 		build.append("Exil :" ).append(exil.size()).append("\n");
-		build.append("Pool : [ ").append(manaPool).append("]\n " );
+		build.append("Pool : [ ").append(manaPool).append("]\n" );
+		build.append("Stack : [ ").append(GameManager.getInstance().getStack()).append("]\n" );
 		
 		return build.toString();
 	}

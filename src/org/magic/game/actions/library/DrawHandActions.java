@@ -12,7 +12,7 @@ public class DrawHandActions extends AbstractAction{
 	
 	public DrawHandActions() {
 		super("Draw Hand");
-		putValue(SHORT_DESCRIPTION,"Draw Hand");
+		putValue(SHORT_DESCRIPTION,"Draw a new Hand");
         putValue(MNEMONIC_KEY, KeyEvent.VK_D);
         
 	}
@@ -21,6 +21,7 @@ public class DrawHandActions extends AbstractAction{
 	public void actionPerformed(ActionEvent e) {
 		
 		try{
+			GamePanelGUI.getInstance().getPlayer().mixHandAndLibrary();
 			GamePanelGUI.getInstance().getPlayer().drawCard(7);
 			GamePanelGUI.getInstance().getLblHandCount().setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getHand().size()));
 			GamePanelGUI.getInstance().getLblHandCount().setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getLibrary().size()));

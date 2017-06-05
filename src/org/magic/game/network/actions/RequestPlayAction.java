@@ -2,7 +2,7 @@ package org.magic.game.network.actions;
 
 import org.magic.game.model.Player;
 
-public class RequestPlayAction extends AbstractGamingAction {
+public class RequestPlayAction extends AbstractNetworkAction {
 	
 	Player p1;
 	Player p2;

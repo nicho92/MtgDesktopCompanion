@@ -41,7 +41,7 @@ import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
-import org.magic.game.network.actions.AbstractGamingAction;
+import org.magic.game.network.actions.AbstractNetworkAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
@@ -56,7 +56,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private BattleFieldPanel panelBattleField;
 	private ManaPoolPanel manaPoolPanel ;
 	private JPanel panneauDroit;
-	private JList<AbstractGamingAction> listActions;
+	private JList<AbstractNetworkAction> listActions;
 	private JLabel lblPlayer;
 	public  Player player;
 	private LibraryPanel panelLibrary;
@@ -171,6 +171,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										GameManager.getInstance().addPlayer(p1);
 										GameManager.getInstance().addPlayer(p2);
 										GameManager.getInstance().initGame();
+										manaPoolPanel.init(p1.getManaPool());
 										((DefaultListModel)listActions.getModel()).removeAllElements();
 										turnsPanel.initTurn();
 										new DrawHandActions().actionPerformed(ae);
@@ -357,9 +358,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 								scrollActions.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth(), 0));
 								tabbedPane.addTab("Events", null, scrollActions, null);
 								
-								listActions = new JList<AbstractGamingAction>();
+								listActions = new JList<AbstractNetworkAction>();
 								listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-								listActions.setModel(new DefaultListModel<AbstractGamingAction>());
+								listActions.setModel(new DefaultListModel<AbstractNetworkAction>());
 								scrollActions.setViewportView(listActions);
 								
 								JPanel pane = new JPanel();

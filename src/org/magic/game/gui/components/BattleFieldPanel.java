@@ -80,15 +80,6 @@ public class BattleFieldPanel extends DraggablePanel  {
 	public void addComponent(DisplayableCard card)
 	{
 		this.add(card);
-//		switch(card.getPosition())
-//		{
-//		case BATTLEFIELD:break;
-//		case EXIL:player.playCardFromExile(card.getMagicCard());
-//		case HAND:player.playCard(card.getMagicCard());break;
-//		case GRAVEYARD:player.discardCardFromBattleField(card.getMagicCard());break;
-//		case LIBRARY:player.putCardInLibraryFromBattlefield(card.getMagicCard(), true);
-//		}
-		
 		card.setPosition(getOrigine());
 	}
 

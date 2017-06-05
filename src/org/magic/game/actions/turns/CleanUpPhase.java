@@ -27,6 +27,13 @@ public class CleanUpPhase extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		
+		
+		GamePanelGUI.getInstance().getPlayer().getManaPool().clean();
+		GamePanelGUI.getInstance().getManaPoolPanel().init(GamePanelGUI.getInstance().getPlayer().getManaPool());
+		
+		GameManager.getInstance().getStack().clean();
+		
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Cleanup);
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		setEnabled(false);

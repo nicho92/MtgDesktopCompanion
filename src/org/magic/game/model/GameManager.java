@@ -20,10 +20,13 @@ public class GameManager {
 	private static GameManager instance;
 	private List<Turn> turns;
 
+	private Stack stack;
+
 	private GameManager()
 	{
 		turns = new ArrayList<Turn>();
 		players=new ArrayList<Player>();
+		stack=new Stack();
 	}
 	
 	public List<Turn> getTurns() {
@@ -104,5 +107,10 @@ public class GameManager {
 		players.clear();
 		
 	}
+
+	public Stack getStack() {
+		return stack;
+	}
 	
+
 }

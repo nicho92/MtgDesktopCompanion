@@ -43,7 +43,7 @@ import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
 import org.magic.game.network.MinaClient;
-import org.magic.game.network.actions.AbstractGamingAction;
+import org.magic.game.network.actions.AbstractNetworkAction;
 import org.magic.game.network.actions.ListPlayersAction;
 import org.magic.game.network.actions.ReponseAction;
 import org.magic.game.network.actions.ReponseAction.CHOICE;
@@ -69,7 +69,7 @@ public class GamingRoomPanel extends JPanel {
 	
 	Player otherplayer =null;
 	
-	private void printMessage(AbstractGamingAction sa) {
+	private void printMessage(AbstractNetworkAction sa) {
 		((DefaultListModel)list.getModel()).addElement(sa);
 	}
 	

@@ -3,7 +3,7 @@ package org.magic.game.network.actions;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
 
-public class ChangeDeckAction extends AbstractGamingAction {
+public class ChangeDeckAction extends AbstractNetworkAction {
 
 	
 	Player player;
