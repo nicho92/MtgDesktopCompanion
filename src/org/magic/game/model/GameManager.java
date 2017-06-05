@@ -7,7 +7,9 @@ import java.util.List;
 
 import javax.swing.JFrame;
 
+import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
+import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 
@@ -24,7 +26,6 @@ public class GameManager {
 		players=new ArrayList<Player>();
 	}
 	
-
 	public List<Turn> getTurns() {
 		return turns;
 	}

@@ -165,17 +165,17 @@ public class GamePanelGUI extends JPanel implements Observer {
 										Player p1 = MTGControler.getInstance().getProfilPlayer();
 										Player p2 = new Player("Player 2",20);
 										p1.setDeck(deck);
-										
 										setPlayer(p1);
 										
+										clean();
 										GameManager.getInstance().addPlayer(p1);
 										GameManager.getInstance().addPlayer(p2);
 										GameManager.getInstance().initGame();
-										listActions.removeAll();
+										((DefaultListModel)listActions.getModel()).removeAllElements();
 										turnsPanel.initTurn();
 										new DrawHandActions().actionPerformed(ae);
 										
-										clean();
+										
 									}
 								} catch (Exception e) {
 									e.printStackTrace();
@@ -512,5 +512,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 	public JLabel getLblHandCount() {
 		return lblHandCount;
+	}
+
+	public ManaPoolPanel getManaPoolPanel() {
+		return manaPoolPanel;
 	}
 }

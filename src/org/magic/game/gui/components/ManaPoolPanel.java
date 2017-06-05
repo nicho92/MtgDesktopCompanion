@@ -13,10 +13,11 @@ import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.magic.game.model.ManaPool;
 import org.magic.game.model.Player;
 import org.magic.gui.components.ManaPanel;
 
-public class ManaPoolPanel extends JPanel{
+public class ManaPoolPanel extends JPanel implements Observer{
 	private JSpinner spinW;
 	private JSpinner spinU;
 	private JSpinner spinB;
@@ -25,13 +26,26 @@ public class ManaPoolPanel extends JPanel{
 	private JSpinner spinC;
 	private JSpinner spinE;
 	
-	
 	private Player player;
 	
 	public void setPlayer(Player player) {
 		this.player = player;
 	}
 	
+	
+	@Override
+	public void update(Observable o, Object arg) {
+		ManaPool p = (ManaPool)arg;
+		spinW.setValue(p.getMana("{W}"));
+		spinU.setValue(p.getMana("{U}"));;
+		spinB.setValue(p.getMana("{B}"));;
+		spinR.setValue(p.getMana("{R}"));;
+		spinG.setValue(p.getMana("{G}"));;
+		spinC.setValue(p.getMana("{C}"));;
+		spinE.setValue(p.getMana("{E}"));;
+		
+		
+	}
 	
 	
 	
@@ -168,5 +182,7 @@ public class ManaPoolPanel extends JPanel{
 	public JSpinner getSpinE() {
 		return spinE;
 	}
+
+
 	
 }

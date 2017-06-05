@@ -36,6 +36,8 @@ public class ManaPanel extends JPanel {
 	public static int row_width=18;
 	
 	String regex ="\\{(.*?)\\}";
+	
+	
 	FlowLayout fl =new FlowLayout();
 	
 	int chunks = rows * cols;  

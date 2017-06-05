@@ -138,13 +138,18 @@ public class Player extends Observable implements Serializable{
 	public void addMana(String color, int number)
 	{
 		manaPool.addMana(color, number);
-		logAction("Add " + number + " " + color + " to manapool" );
+		
+		String mana="";
+		for(int i=0;i<number;i++)
+			mana+=color;
+		
+		logAction("Add " + mana + " to manapool" );
 	}
 	
 	public void setMana(String color,int number)
 	{
 		manaPool.setMana(color, number);
-		logAction("set " + number + " " + color + " to manapool" );
+		logAction("set manapool to " + manaPool);
 	}
 	
 	
@@ -445,6 +450,7 @@ public class Player extends Observable implements Serializable{
 
 	public void playCard(MagicCard mc) {
 		hand.remove(mc);
+		manaPool.useMana(mc);
 		battlefield.add(mc);
 		logAction("Play " + mc );
 	}
