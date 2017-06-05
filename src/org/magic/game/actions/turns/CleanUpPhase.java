@@ -28,9 +28,7 @@ public class CleanUpPhase extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
-		
-		GamePanelGUI.getInstance().getPlayer().getManaPool().clean();
-		GamePanelGUI.getInstance().getManaPoolPanel().init(GamePanelGUI.getInstance().getPlayer().getManaPool());
+		GamePanelGUI.getInstance().getManaPoolPanel().clean();
 		
 		GameManager.getInstance().getStack().clean();
 		

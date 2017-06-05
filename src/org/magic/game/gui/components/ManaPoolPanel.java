@@ -176,6 +176,12 @@ public class ManaPoolPanel extends JPanel implements Observer{
 	public JSpinner getSpinE() {
 		return spinE;
 	}
+	
+	public void clean()
+	{
+		GamePanelGUI.getInstance().getPlayer().getManaPool().clean();
+		init(GamePanelGUI.getInstance().getPlayer().getManaPool());
+	}
 
 
 	public void init(ManaPool p) {
