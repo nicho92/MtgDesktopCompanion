@@ -109,10 +109,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 		player=p1;
 		lblPlayer.setText(p1.getName());
 		player.addObserver(this);
-		
 		spinLife.setValue(p1.getLife());
 		spinPoison.setValue(p1.getPoisonCounter());
-		
 		handPanel.setPlayer(p1);
 		panelGrave.setPlayer(p1);
 		manaPoolPanel.setPlayer(p1);
@@ -215,11 +213,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 								GameManager.getInstance().initGame();
 								manaPoolPanel.init(player.getManaPool());
 								((DefaultListModel)listActions.getModel()).removeAllElements();
-								
 								player.shuffleLibrary();
 								turnsPanel.initTurn();
 								new DrawHandActions().actionPerformed(ae);
-								
 								clean();
 							}
 						});
