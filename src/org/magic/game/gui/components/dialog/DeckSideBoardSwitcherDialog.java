@@ -38,17 +38,12 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		this.savedDeck=deck;
 		this.bckDeck=deck;
 		
-		
+		lblDecksize = new JLabel();
 		modMain=new DefaultListModel<MagicCard>();
 		modSide=new DefaultListModel<MagicCard>();
 		
 		
-		for(MagicCard mc : deck.getAsList())
-			modMain.addElement(mc);
-		
-		for(MagicCard mc : deck.getSideAsList())
-			modSide.addElement(mc);
-		
+		init();
 		
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.WEST);
@@ -116,6 +111,8 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		});
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(btnRemove);
+		panel.add(lblDecksize);
+		
 		
 		JPanel panel_1 = new JPanel();
 		getContentPane().add(panel_1, BorderLayout.SOUTH);
@@ -127,8 +124,6 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 			}
 		});
 		
-		lblDecksize = new JLabel("DeckSize : " + deck.getNbCards());
-		panel_1.add(lblDecksize);
 		panel_1.add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancel");
@@ -143,7 +138,30 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		});
 		panel_1.add(btnCancel);
 		
+		JButton btnRestore = new JButton("Restore");
+		btnRestore.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				savedDeck=bckDeck;
+				init();
+			}
+		});
+		panel_1.add(btnRestore);
+		
 		pack();
+	}
+
+	private void init() {
+		
+		modMain.removeAllElements();
+		modSide.removeAllElements();
+		
+		for(MagicCard mc : bckDeck.getAsList())
+			modMain.addElement(mc);
+		
+		for(MagicCard mc : bckDeck.getSideAsList())
+			modSide.addElement(mc);
+		
+		lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());
 	}
 
 	public MagicDeck getDeck() {
