@@ -39,6 +39,7 @@ import javax.swing.event.ChangeListener;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
+import org.magic.game.gui.components.dialog.DeckSideBoardSwitcherDialog;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.game.network.actions.AbstractNetworkAction;
@@ -146,12 +147,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panelInfo.add(panelActions, BorderLayout.SOUTH);
 						GridBagLayout gbl_panelActions = new GridBagLayout();
 						gbl_panelActions.columnWidths = new int[]{30, 20, 0};
-						gbl_panelActions.rowHeights = new int[]{23, 23, 0, 0, 0};
+						gbl_panelActions.rowHeights = new int[]{23, 0, 23, 0, 0, 0};
 						gbl_panelActions.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 						panelActions.setLayout(gbl_panelActions);
 						
-						JButton btnNewGame = new JButton("New Local Game");
+						JButton btnNewGame = new JButton("Select Deck");
 						btnNewGame.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent ae) {
 								JDeckChooserDialog choose = new JDeckChooserDialog();
@@ -160,23 +161,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 									MagicDeck deck = choose.getSelectedDeck();
 									if(deck!=null){
 										
-										GameManager.getInstance().removePlayers();
-										
 										Player p1 = MTGControler.getInstance().getProfilPlayer();
-										Player p2 = new Player("Player 2",20);
 										p1.setDeck(deck);
 										setPlayer(p1);
-										
-										clean();
-										GameManager.getInstance().addPlayer(p1);
-										GameManager.getInstance().addPlayer(p2);
-										GameManager.getInstance().initGame();
-										manaPoolPanel.init(p1.getManaPool());
-										((DefaultListModel)listActions.getModel()).removeAllElements();
-										turnsPanel.initTurn();
-										new DrawHandActions().actionPerformed(ae);
-										
-										
 									}
 								} catch (Exception e) {
 									e.printStackTrace();
@@ -190,29 +177,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 						gbc_btnNewGame.gridy = 0;
 						panelActions.add(btnNewGame, gbc_btnNewGame);
 						
-						/*JButton btnDrawHand = new JButton("Draw Hand");
-						GridBagConstraints gbc_btnDrawHand = new GridBagConstraints();
-						gbc_btnDrawHand.fill = GridBagConstraints.BOTH;
-						gbc_btnDrawHand.insets = new Insets(0, 0, 5, 0);
-						gbc_btnDrawHand.gridx = 1;
-						gbc_btnDrawHand.gridy = 0;
-						panelActions.add(btnDrawHand, gbc_btnDrawHand);
-						
-						btnDrawHand.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								player.mixHandAndLibrary();
-								player.shuffleLibrary();
-								try{
-									player.drawCard(7);
-									lblHandCount.setText(String.valueOf(player.getHand().size()));
-									lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));
-								}catch (IndexOutOfBoundsException e)
-								{
-									JOptionPane.showMessageDialog(null, "Not enougth cards in library","Error",JOptionPane.ERROR_MESSAGE);
-								}
-							    handPanel.initThumbnails(player.getHand(),true);
-							}
-						});*/
 						JButton btnFlipACoin = new JButton("Flip a coin");
 						btnFlipACoin.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent arg0) {
@@ -226,6 +190,46 @@ public class GamePanelGUI extends JPanel implements Observer {
 						gbc_btnFlipACoin.gridy = 0;
 						panelActions.add(btnFlipACoin, gbc_btnFlipACoin);
 						
+						JButton btnSideboard = new JButton("SideBoard");
+						btnSideboard.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent e) {
+								DeckSideBoardSwitcherDialog gui = new DeckSideBoardSwitcherDialog(player.getDeck());
+								gui.setVisible(true);
+								player.setDeck(gui.getDeck());
+							}
+						});
+						GridBagConstraints gbc_btnSideboard = new GridBagConstraints();
+						gbc_btnSideboard.fill = GridBagConstraints.HORIZONTAL;
+						gbc_btnSideboard.insets = new Insets(0, 0, 5, 5);
+						gbc_btnSideboard.gridx = 0;
+						gbc_btnSideboard.gridy = 1;
+						panelActions.add(btnSideboard, gbc_btnSideboard);
+						
+						JButton btnStart = new JButton("Start");
+						btnStart.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent ae) {
+								GameManager.getInstance().removePlayers();
+								GameManager.getInstance().addPlayer(player);
+								GameManager.getInstance().addPlayer(new Player("Player 2",20));
+								
+								GameManager.getInstance().initGame();
+								manaPoolPanel.init(player.getManaPool());
+								((DefaultListModel)listActions.getModel()).removeAllElements();
+								
+								player.shuffleLibrary();
+								turnsPanel.initTurn();
+								new DrawHandActions().actionPerformed(ae);
+								
+								clean();
+							}
+						});
+						GridBagConstraints gbc_btnStart = new GridBagConstraints();
+						gbc_btnStart.fill = GridBagConstraints.HORIZONTAL;
+						gbc_btnStart.insets = new Insets(0, 0, 5, 0);
+						gbc_btnStart.gridx = 1;
+						gbc_btnStart.gridy = 1;
+						panelActions.add(btnStart, gbc_btnStart);
+						
 						JPanel panel_1 = new JPanel();
 						GridBagConstraints gbc_panel_1 = new GridBagConstraints();
 						gbc_panel_1.gridheight = 2;
@@ -233,7 +237,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						gbc_panel_1.insets = new Insets(0, 0, 5, 0);
 						gbc_panel_1.fill = GridBagConstraints.BOTH;
 						gbc_panel_1.gridx = 0;
-						gbc_panel_1.gridy = 1;
+						gbc_panel_1.gridy = 2;
 						panelActions.add(panel_1, gbc_panel_1);
 						panel_1.setLayout(new BorderLayout(0, 0));
 						

@@ -25,6 +25,7 @@ public class LaunchSpell extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		
 		GameManager.getInstance().getStack().put(mc);
 		
 	}
