@@ -29,7 +29,6 @@ public class MagicDeck implements Serializable{
 	}
 
 
-
 	public Map<MagicCard, Integer> getMapSideBoard() {
 		return mapSideBoard;
 	}

@@ -1,6 +1,7 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
@@ -32,6 +33,9 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
 
 public class MKMOnlineWantListExport extends AbstractCardExport {
@@ -250,7 +254,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 
 	public Product getProductByCard(MagicCard mc) throws Exception
 	{
-		
+		/*//TODO : correction
 		try{
 			if(mc.getEditions().get(0).getMkm_id()>0)
 				return getProductById(String.valueOf(mc.getEditions().get(0).getMkm_id()));
@@ -259,13 +263,14 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		{
 			logger.error(e);
 		}
-		
+		*/
 		String KEYWORD=URLEncoder.encode(mc.getName(),"UTF-8");
 		String url ="https://www.mkmapi.eu/ws/v1.1/products/"+KEYWORD+"/1/1/true";
 		connection = (HttpURLConnection) new URL(url).openConnection();
 		authorizationProperty = mkmPricer.generateOAuthSignature(url,"GET");
 		connection.addRequestProperty("Authorization", authorizationProperty) ;
 		connection.connect();
+		logger.debug("Parsing :" + url);
 		int _lastCode = connection.getResponseCode();
 		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream())));
 		return parseProductDocument(d,mc.getEditions().get(0));
@@ -273,21 +278,29 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 
 	private Product parseProductDocument(Document d,MagicEdition ed) throws Exception
 	{
+		//prettyPrint(d);
 		XPath xpath = XPathFactory.newInstance().newXPath();
 		XPathExpression expr = null;
 
 		if(ed!=null)
 		{
 			if(ed.getMkm_name()!=null)
+			{
 				expr=xpath.compile("//product[contains(expansion,'"+ed.getMkm_name()+"')]");
+			}
 			else
+			{
 				expr=xpath.compile("//product[contains(expansion,'"+ed.getSet()+"')]");
+			}
 		}
 		else
 			expr=xpath.compile("//product");
 
+		
 		Element n = (Element)expr.evaluate(d, XPathConstants.NODE);
-
+		
+		
+		
 		Product p = new Product();
 
 		try{
@@ -340,19 +353,14 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		// prettyPrint(d);
 		return parseProductDocument(d,null);
 	}
-	/*
+	
 	static void prettyPrint(Document doc) throws IOException
 	{
 		OutputFormat format = new OutputFormat(doc);
         format.setIndenting(true);
         XMLSerializer serializer = new XMLSerializer(System.out, format);
         serializer.serialize(doc);
-	}*/
-
-	public static void main(String[] args) throws Exception {
-		new MKMOnlineWantListExport().importDeck(new File("Invasion -2"));
 	}
-
 
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
