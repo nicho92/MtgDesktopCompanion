@@ -34,11 +34,14 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 	DefaultListModel<MagicCard> modSide;
 	
 	public DeckSideBoardSwitcherDialog(MagicDeck deck) {
+		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		
 		this.savedDeck=deck;
 		this.bckDeck=deck;
 		
+		setTitle("Switch Sideboard " + deck.getName());
 		lblDecksize = new JLabel();
+		lblDecksize.setAlignmentX(Component.CENTER_ALIGNMENT);
 		modMain=new DefaultListModel<MagicCard>();
 		modSide=new DefaultListModel<MagicCard>();
 		
@@ -111,6 +114,16 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		});
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(btnRemove);
+		
+		JButton btnRestore = new JButton("Restore");
+		btnRestore.setAlignmentX(Component.CENTER_ALIGNMENT);
+		panel.add(btnRestore);
+		btnRestore.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				savedDeck=bckDeck;
+				init();
+			}
+		});
 		panel.add(lblDecksize);
 		
 		
@@ -137,15 +150,6 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 			}
 		});
 		panel_1.add(btnCancel);
-		
-		JButton btnRestore = new JButton("Restore");
-		btnRestore.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				savedDeck=bckDeck;
-				init();
-			}
-		});
-		panel_1.add(btnRestore);
 		
 		pack();
 	}

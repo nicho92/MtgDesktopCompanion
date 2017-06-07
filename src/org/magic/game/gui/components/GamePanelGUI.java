@@ -47,6 +47,7 @@ import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MTGControler;
+import java.awt.Color;
 
 public class GamePanelGUI extends JPanel implements Observer {
 	
@@ -390,6 +391,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								panelLibraryAndGrave.add(panelDeck, BorderLayout.NORTH);
 								
 								panelLibrary = new LibraryPanel();
+								panelLibrary.setPreferredSize(new Dimension(170, 215));
 								panelLibrary.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
 								
 										panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
