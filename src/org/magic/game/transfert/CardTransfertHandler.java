@@ -126,15 +126,17 @@ public class CardTransfertHandler extends TransferHandler  {
 		Draggable target = (Draggable) support.getComponent();
 		try {
 			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
-			((Draggable)src.getParent()).moveCard(src.getMagicCard(), target.getOrigine());
+		
 			if(! ( ((Draggable)src.getParent()).getOrigine() == target.getOrigine()))
 			{
 				src.getParent().revalidate();
 				target.update();
 				src.getParent().repaint();
 				logger.debug("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
+				((Draggable)src.getParent()).moveCard(src, target.getOrigine());
 				target.addComponent(src);
 			}
+		
 			return true;
 		} catch (Exception ufe) {
 			//ufe.printStackTrace();

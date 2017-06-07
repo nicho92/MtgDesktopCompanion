@@ -13,10 +13,13 @@ import java.util.Random;
 
 import javax.swing.AbstractAction;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.network.actions.SpeakAction;
+import org.magic.gui.CollectionPanelGUI;
 
 public class Player extends Observable implements Serializable{
 
@@ -39,7 +42,8 @@ public class Player extends Observable implements Serializable{
 	
 	private int poisonCounter;
 	
-	
+	static final Logger logger = LogManager.getLogger(Player.class.getName());
+
 	public STATE getState() {
 		return state;
 	}
@@ -481,7 +485,7 @@ public class Player extends Observable implements Serializable{
 		setChanged();
 		notifyObservers(new SpeakAction(this, string));
 		GameManager.getInstance().getActualTurn().getActions().add(string);
-		System.out.println(toDetailledString());
+		logger.debug(toDetailledString());
 	}
 	
 	public void logAction(AbstractAction act) {

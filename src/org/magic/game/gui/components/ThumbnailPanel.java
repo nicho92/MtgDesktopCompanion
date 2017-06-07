@@ -25,14 +25,14 @@ public class ThumbnailPanel extends DraggablePanel {
 
 
 	@Override
-	public void moveCard(MagicCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, PositionEnum to) {
 		
 		switch (to) {
-			case BATTLEFIELD:player.playCard(mc);break;
-			case EXIL:player.exileCardFromHand(mc);break;
-			case GRAVEYARD:player.discardCardFromHand(mc);break;
-			case LIBRARY:player.putCardInLibraryFromHand(mc, true);
-			case CARD:player.playCard(mc);
+			case BATTLEFIELD:player.playCard(mc.getMagicCard());break;
+			case EXIL:player.exileCardFromHand(mc.getMagicCard());break;
+			case GRAVEYARD:player.discardCardFromHand(mc.getMagicCard());break;
+			case LIBRARY:player.putCardInLibraryFromHand(mc.getMagicCard(), true);
+			case CARD:System.out.println(mc.getOrigine());
 			default:break;
 		}
 	}

@@ -49,14 +49,14 @@ public class LibraryPanel extends DraggablePanel {
 	}
 	
 	@Override
-	public void moveCard(MagicCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, PositionEnum to) {
 		
 		switch (to) {
-			case BATTLEFIELD:player.playCardFromLibrary(mc);break;
-			case EXIL:player.exileCardFromLibrary(mc);break;
-			case HAND:player.searchCardFromLibrary(mc);break;
-			case LIBRARY:player.reoderCardInLibrary(mc, true);
-			case GRAVEYARD:player.discardCardFromLibrary(mc);
+			case BATTLEFIELD:player.playCardFromLibrary(mc.getMagicCard());break;
+			case EXIL:player.exileCardFromLibrary(mc.getMagicCard());break;
+			case HAND:player.searchCardFromLibrary(mc.getMagicCard());break;
+			case LIBRARY:player.reoderCardInLibrary(mc.getMagicCard(), true);
+			case GRAVEYARD:player.discardCardFromLibrary(mc.getMagicCard());
 		default:break;
 	}
 		

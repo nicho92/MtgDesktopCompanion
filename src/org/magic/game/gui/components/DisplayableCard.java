@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
@@ -79,8 +80,6 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	private Image fullResPics;
 	private boolean showLoyalty;
 	private PositionEnum position;
-	private Player owner;
-	
 	
 	public ImageIcon getImage() {
 		return image;
@@ -246,7 +245,6 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	{
 		new DescribeCardDialog(this).setVisible(true);;
 	}
-	
 	
 	public DisplayableCard(MagicCard mc,Dimension d, boolean activateCards) {
 		attachedCards = new ArrayList<DisplayableCard>();
@@ -486,7 +484,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	}
 
 	@Override
-	public void moveCard(MagicCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, PositionEnum to) {
 		((DraggablePanel)getParent()).moveCard(mc, to);
 	}
 		
@@ -494,13 +492,30 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 
 	@Override
 	public void addComponent(DisplayableCard i) {
-		//int res = JOptionPane.showConfirmDialog(this, "attach " + i + " with " + this +" ?");
-		((DraggablePanel)getParent()).addComponent(i);
+//		if(i.getMagicCard().getSubtypes().contains("Aura"))
+//		{
+//			int res = JOptionPane.showConfirmDialog(this, "attach " + i + " with " + this +" ?");
+//			if(res==JOptionPane.YES_OPTION)
+//			{
+//				getAttachedCards().add(i);
+//				((DraggablePanel)getParent()).addComponent(i);
+//			}
+//			else
+//			{
+//				((DraggablePanel)getParent()).addComponent(i);
+//			}
+//		}
+//		else
+		{
+			((DraggablePanel)getParent()).addComponent(i);
+		}
+		
+		
 	}
 
 	@Override
 	public PositionEnum getOrigine() {
-		return PositionEnum.CARD;
+		return ((DraggablePanel)getParent()).getOrigine();
 	}
 
 	public void showLoyalty(boolean b) {
@@ -516,6 +531,12 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	@Override
 	public void update() {
 		//do nothing
+	}
+
+	@Override
+	public void postTreatment() {
+	
+		
 	}
 
 

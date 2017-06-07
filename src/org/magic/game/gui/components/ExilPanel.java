@@ -32,7 +32,7 @@ public class ExilPanel extends DraggablePanel {
 
 
 	@Override
-	public void moveCard(MagicCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, PositionEnum to) {
 	
 	}
 	

@@ -90,12 +90,12 @@ public class BattleFieldPanel extends DraggablePanel  {
 
 
 	@Override
-	public void moveCard(MagicCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, PositionEnum to) {
 		switch (to) {
-			case GRAVEYARD:player.discardCardFromBattleField(mc);break;
-			case EXIL:player.exileCardFromBattleField(mc);break;
-			case HAND:player.returnCardFromBattleField(mc);break;
-			case LIBRARY:player.putCardInLibraryFromBattlefield(mc, true);
+			case GRAVEYARD:player.discardCardFromBattleField(mc.getMagicCard());break;
+			case EXIL:player.exileCardFromBattleField(mc.getMagicCard());break;
+			case HAND:player.returnCardFromBattleField(mc.getMagicCard());break;
+			case LIBRARY:player.putCardInLibraryFromBattlefield(mc.getMagicCard(), true);
 			default:break;
 		}
 		
