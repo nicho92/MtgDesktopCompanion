@@ -32,7 +32,6 @@ public class ThumbnailPanel extends DraggablePanel {
 			case EXIL:player.exileCardFromHand(mc.getMagicCard());break;
 			case GRAVEYARD:player.discardCardFromHand(mc.getMagicCard());break;
 			case LIBRARY:player.putCardInLibraryFromHand(mc.getMagicCard(), true);
-			case CARD:System.out.println(mc.getOrigine());
 			default:break;
 		}
 	}
