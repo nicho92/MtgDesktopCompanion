@@ -50,8 +50,6 @@ public class CardTransfertHandler extends TransferHandler  {
 				window.pack();
 			}
 		});
-		
-		
 	}
 	
 	@Override
@@ -134,9 +132,11 @@ public class CardTransfertHandler extends TransferHandler  {
 				src.getParent().repaint();
 				logger.debug("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
 				((Draggable)src.getParent()).moveCard(src, target.getOrigine());
+				
 				target.addComponent(src);
 			}
-		
+			//TODO if move only, put card on first position of container's order
+			
 			return true;
 		} catch (Exception ufe) {
 			//ufe.printStackTrace();
