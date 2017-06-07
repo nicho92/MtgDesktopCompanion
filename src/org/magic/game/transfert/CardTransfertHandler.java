@@ -123,25 +123,21 @@ public class CardTransfertHandler extends TransferHandler  {
 		if (!canImport(support))
 			return false;
 		
-		DraggablePanel target = (DraggablePanel) support.getComponent();
+		Draggable target = (Draggable) support.getComponent();
 		try {
 			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
 			((Draggable)src.getParent()).moveCard(src.getMagicCard(), target.getOrigine());
 			if(! ( ((Draggable)src.getParent()).getOrigine() == target.getOrigine()))
 			{
 				src.getParent().revalidate();
-				target.revalidate();
-				target.repaint();
+				target.update();
 				src.getParent().repaint();
-				logger.info("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
-				
-				
-				
+				logger.debug("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
 				target.addComponent(src);
 			}
 			return true;
 		} catch (Exception ufe) {
-			ufe.printStackTrace();
+			//ufe.printStackTrace();
 			logger.error(ufe);
 		} 
 		return false;
@@ -153,15 +149,13 @@ public class CardTransfertHandler extends TransferHandler  {
 		if (action == TransferHandler.MOVE) {
 			dragLab.setIcon(null);
 			window.setVisible(false);
-			DraggablePanel dest = ((DraggablePanel)c.getParent());
-
-			src.setLocation(dest.getMousePosition());
-			/*src.getParent().revalidate();
-			dest.revalidate();
-			dest.repaint();
-			src.getParent().repaint();
-			*/
-			dest.postTreatment();
+			
+			if(c.getParent() instanceof DraggablePanel)
+			{	
+				DraggablePanel dest = ((DraggablePanel)c.getParent());
+				src.setLocation(dest.getMousePosition());
+				dest.postTreatment();
+			}
 		}
 	}
 }

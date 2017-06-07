@@ -10,7 +10,7 @@ import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
 import org.magic.game.transfert.CardTransfertHandler;
 
-public abstract class DraggablePanel  extends JPanel implements Draggable{
+public abstract class DraggablePanel extends JPanel implements Draggable{
 
   	Dimension d ;
 	
@@ -54,6 +54,12 @@ public abstract class DraggablePanel  extends JPanel implements Draggable{
 	public abstract PositionEnum getOrigine();
 	  
   public abstract void postTreatment();
+  
+   public void update() {
+	  revalidate();
+	  repaint();
+    	
+    }  
   
   public void setPlayer(Player p)
   {

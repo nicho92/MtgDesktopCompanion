@@ -32,7 +32,7 @@ public class ThumbnailPanel extends DraggablePanel {
 			case EXIL:player.exileCardFromHand(mc);break;
 			case GRAVEYARD:player.discardCardFromHand(mc);break;
 			case LIBRARY:player.putCardInLibraryFromHand(mc, true);
-			
+			case CARD:player.playCard(mc);
 			default:break;
 		}
 	}

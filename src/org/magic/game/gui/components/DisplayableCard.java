@@ -24,6 +24,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
 import javax.swing.border.Border;
@@ -46,6 +47,7 @@ import org.magic.game.actions.cards.TransferActions;
 import org.magic.game.actions.cards.TransformActions;
 import org.magic.game.gui.components.dialog.DescribeCardDialog;
 import org.magic.game.model.GameManager;
+import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
 import org.magic.game.model.Stackable;
 import org.magic.game.model.Turn.PHASES;
@@ -77,6 +79,8 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	private Image fullResPics;
 	private boolean showLoyalty;
 	private PositionEnum position;
+	private Player owner;
+	
 	
 	public ImageIcon getImage() {
 		return image;
@@ -483,15 +487,15 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 
 	@Override
 	public void moveCard(MagicCard mc, PositionEnum to) {
-		System.out.println(mc +" " + to);
+		((DraggablePanel)getParent()).moveCard(mc, to);
 	}
 		
 	
 
 	@Override
 	public void addComponent(DisplayableCard i) {
-		System.out.println("merge " + this + " " + i);
-		
+		//int res = JOptionPane.showConfirmDialog(this, "attach " + i + " with " + this +" ?");
+		((DraggablePanel)getParent()).addComponent(i);
 	}
 
 	@Override
@@ -507,6 +511,11 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	@Override
 	public boolean isStackable() {
 		return true;
+	}
+
+	@Override
+	public void update() {
+		//do nothing
 	}
 
 

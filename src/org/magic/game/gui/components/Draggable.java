@@ -10,5 +10,9 @@ public interface Draggable {
 	void addComponent(DisplayableCard i);
 
 	PositionEnum getOrigine();
-
+	
+	void update();
+	
+	
+	
 }

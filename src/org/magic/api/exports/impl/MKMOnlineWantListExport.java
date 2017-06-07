@@ -460,7 +460,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 
 
 
-	class Want
+	public class Want
 	{
 		Product product;
 		Double wishPrice;
@@ -540,7 +540,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		}
 	}
 
-	class WantList
+	public class WantList
 	{
 		String id;
 		String name;
@@ -586,13 +586,13 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 
 		@Override
 		public String toString() {
-			return getName() +" ("+getCardCount()+")";
+			return getName();
 		}
 
 
 	}
 
-	class Product
+	public class Product
 	{
 		String idProduct;
 		String name;
