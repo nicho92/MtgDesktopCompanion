@@ -36,15 +36,15 @@ public class CardTransfertHandler extends TransferHandler  {
 
 	
 	public CardTransfertHandler() {
+		
 		localObjectFlavor = new ActivationDataFlavor(DisplayableCard.class, DataFlavor.javaJVMLocalObjectMimeType, "DisplayableCard");
 		window.add(dragLab);
 		window.setBackground(new Color(0,true));
+		
 		DragSource.getDefaultDragSource().addDragSourceMotionListener(new DragSourceMotionListener() {
-			@Override
 			public void dragMouseMoved(DragSourceDragEvent dsde) {
-				
 				Point pt = dsde.getLocation();
-				pt.translate(5, 5); // offset
+					  pt.translate(5, 5); // offset
 				window.setLocation(pt);
 				window.setVisible(true);
 				window.pack();
@@ -86,7 +86,6 @@ public class CardTransfertHandler extends TransferHandler  {
 			}
 	
 		};
-		
 	}
 	
 	
@@ -97,7 +96,6 @@ public class CardTransfertHandler extends TransferHandler  {
 			return false;
 		}
 		return true;
-		
 	}
 	
 	
@@ -110,36 +108,30 @@ public class CardTransfertHandler extends TransferHandler  {
 		SwingUtilities.convertPointToScreen(pt, p);
 		dragLab.setIcon(p.toIcon());
 		window.setLocation(pt);
-	
 		return MOVE;
 	}
 	
 	@Override
 	public boolean importData(TransferSupport support)
 	{
-		
 		if (!canImport(support))
 			return false;
-		
-		Draggable target = (Draggable) support.getComponent();
 		try {
-			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
-		
-			if(! ( ((Draggable)src.getParent()).getOrigine() == target.getOrigine()))
-			{
-				src.getParent().revalidate();
-				target.update();
-				src.getParent().repaint();
-				logger.debug("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
-				((Draggable)src.getParent()).moveCard(src, target.getOrigine());
-				
-				target.addComponent(src);
-			}
-			//TODO if move only, put card on first position of container's order
+			Draggable target = (Draggable) support.getComponent();
 			
+					DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
+					if(! ( ((Draggable)src.getParent()).getOrigine() == target.getOrigine()))
+					{
+						  src.getParent().revalidate();
+						  target.updatePanel();
+						  src.getParent().repaint();
+						  logger.debug("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
+						  ((Draggable)src.getParent()).moveCard(src, target.getOrigine());
+						  target.addComponent(src);
+					}
+			//TODO if move only, put card on first position of container's order
 			return true;
 		} catch (Exception ufe) {
-			//ufe.printStackTrace();
 			logger.error(ufe);
 		} 
 		return false;

@@ -158,6 +158,10 @@ public class ThumbnailPanel extends DraggablePanel {
 		
 	}
 
+	@Override
+	public String toString() {
+		return "ThumbnailPanel";
+	}
 
 		
 	

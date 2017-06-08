@@ -69,5 +69,9 @@ public class GraveyardPanel extends DraggablePanel {
 
 		
 	}
+	@Override
+	public String toString() {
+		return "GraveyardPanel";
+	}
 	
 }

@@ -7,8 +7,10 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Point;
 import java.awt.event.ActionEvent;
+import java.awt.event.InputEvent;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
@@ -25,9 +27,10 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPopupMenu;
 import javax.swing.JSeparator;
+import javax.swing.SwingUtilities;
+import javax.swing.TransferHandler;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
@@ -44,11 +47,9 @@ import org.magic.game.actions.cards.LoyaltyActions;
 import org.magic.game.actions.cards.RemoveCounterActions;
 import org.magic.game.actions.cards.SelectionActions;
 import org.magic.game.actions.cards.TapActions;
-import org.magic.game.actions.cards.TransferActions;
 import org.magic.game.actions.cards.TransformActions;
 import org.magic.game.gui.components.dialog.DescribeCardDialog;
 import org.magic.game.model.GameManager;
-import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
 import org.magic.game.model.Stackable;
 import org.magic.game.model.Turn.PHASES;
@@ -255,16 +256,52 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
 		setMagicCard(mc);
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				describe();
+			}
+			public void mouseClicked(MouseEvent e) {
+				if(e.getClickCount()==1)
+				{
+					if(e.isControlDown()) 
+					{
+						setSelected(!isSelected());
+						repaint();
+					}
+				}
+				if(e.getClickCount()==2)
+				{
+					 if(isTappable())
+							tap(!isTapped());
+					 return;
+				}
+			}
+		});
+		
+		addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent e) {
+				if(isDraggable())
+					enableDrag(e);
+			}
+		});
+		
 		setTransferHandler(new CardTransfertHandler());
-		
-		addMouseListener(new TransferActions());
-		
+				
 		if(activateCards)
 			initActions();
-		
-		
-		
 	}
+	
+	private void describe()
+	{
+		GamePanelGUI.getInstance().describeCard(this);
+	}
+	
+	private void enableDrag(MouseEvent e)
+	{
+		((DraggablePanel)getParent()).getTransferHandler().exportAsDrag(this, e, TransferHandler.MOVE);; //block click event
+	}
+	
 	
 	private AbstractAction generateActionFrom(MTGKeyWord k) throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException
 	{
@@ -529,7 +566,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	}
 
 	@Override
-	public void update() {
+	public void updatePanel() {
 		//do nothing
 	}
 

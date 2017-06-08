@@ -43,4 +43,9 @@ public class BattleField implements Serializable{
 		
 	}
 	
+	@Override
+	public String toString() {
+		return "BattleFieldPanel";
+	}
+	
 }

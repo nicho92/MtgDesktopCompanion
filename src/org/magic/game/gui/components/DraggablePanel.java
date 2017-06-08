@@ -1,11 +1,12 @@
 package org.magic.game.gui.components;
 
 import java.awt.Dimension;
+import java.awt.event.MouseEvent;
 
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
+import javax.swing.TransferHandler;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
 import org.magic.game.transfert.CardTransfertHandler;
@@ -20,6 +21,10 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
     boolean dragging=true;
 	protected Player player;
 
+	public void executeDragging(DisplayableCard card,MouseEvent e){
+		
+	}
+	
 	public boolean isDragging() {
 		return dragging;
 	}
@@ -55,7 +60,7 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
 	  
 	public abstract void postTreatment();
   
-   public void update() {
+   public void updatePanel() {
 	  revalidate();
 	  repaint();
     	
