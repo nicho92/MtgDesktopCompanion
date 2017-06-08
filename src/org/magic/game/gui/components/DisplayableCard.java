@@ -256,36 +256,40 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
 		setMagicCard(mc);
-		addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				describe();
-			}
-			public void mouseClicked(MouseEvent e) {
-				if(e.getClickCount()==1)
-				{
-					if(e.isControlDown()) 
-					{
-						setSelected(!isSelected());
-						repaint();
+		if(activateCards)
+		{
+			addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseEntered(MouseEvent e) {
+					
+						describe();
+				}
+				public void mouseClicked(MouseEvent e) {
+						if(e.getClickCount()==1)
+						{
+							if(e.isControlDown()) 
+							{
+								setSelected(!isSelected());
+								repaint();
+							}
+						}
+						if(e.getClickCount()==2)
+						{
+							 if(isTappable())
+									tap(!isTapped());
+							 return;
+						}
+					
+				}
+			});
+			
+			addMouseMotionListener(new MouseAdapter() {
+					public void mouseDragged(MouseEvent e) {
+							if(isDraggable())
+								enableDrag(e);
 					}
-				}
-				if(e.getClickCount()==2)
-				{
-					 if(isTappable())
-							tap(!isTapped());
-					 return;
-				}
-			}
-		});
-		
-		addMouseMotionListener(new MouseAdapter() {
-			public void mouseDragged(MouseEvent e) {
-				if(isDraggable())
-					enableDrag(e);
-			}
-		});
-		
+			});
+		}
 		setTransferHandler(new CardTransfertHandler());
 				
 		if(activateCards)
