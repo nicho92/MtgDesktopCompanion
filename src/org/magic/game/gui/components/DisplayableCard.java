@@ -265,6 +265,9 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 					describe();
 				}
 				public void mouseClicked(MouseEvent e) {
+					
+					if(SwingUtilities.isLeftMouseButton(e))
+					{
 						if(e.getClickCount()==1)
 						{
 							if(e.isControlDown()) 
@@ -279,6 +282,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 									tap(!isTapped());
 							 return;
 						}
+					}
 					
 				}
 			});
