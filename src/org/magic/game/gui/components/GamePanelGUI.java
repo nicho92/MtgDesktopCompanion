@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.util.Observable;
 import java.util.Observer;
 
+import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
@@ -58,7 +59,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private BattleFieldPanel panelBattleField;
 	private ManaPoolPanel manaPoolPanel ;
 	private JPanel panneauDroit;
-	private JList<AbstractNetworkAction> listActions;
+	private JList<AbstractAction> listActions;
 	private JLabel lblPlayer;
 	public  Player player;
 	private LibraryPanel panelLibrary;
@@ -359,9 +360,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 								scrollActions.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth(), 0));
 								tabbedPane.addTab("Events", null, scrollActions, null);
 								
-								listActions = new JList<AbstractNetworkAction>();
+								listActions = new JList<AbstractAction>();
 								listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-								listActions.setModel(new DefaultListModel<AbstractNetworkAction>());
+								listActions.setModel(new DefaultListModel<AbstractAction>());
 								scrollActions.setViewportView(listActions);
 								
 								JPanel pane = new JPanel();

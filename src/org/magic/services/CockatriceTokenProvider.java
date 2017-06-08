@@ -14,6 +14,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -80,7 +81,6 @@ public class CockatriceTokenProvider {
 				MagicCard tok = new MagicCard();
 						  tok.setLayout(MagicCard.LAYOUT.Token.toString());
 						  tok.setCmc(0);
-						  
 						  tok.setName(value.getElementsByTagName("name").item(0).getTextContent());
 						 
 						  if(value.getElementsByTagName("color").item(0)!=null)
@@ -130,6 +130,9 @@ public class CockatriceTokenProvider {
 							} catch (Exception e) {}
 							  
 						  }
+						  
+						  tok.setId(DigestUtils.sha1Hex(tok.getEditions().get(0).getId()+tok.getName()));
+						  
 						  return tok;
 			
 		} catch (XPathExpressionException e) {
