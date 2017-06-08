@@ -65,7 +65,6 @@ public class CardTransfertHandler extends TransferHandler  {
 				} 
 				return null;
 			}
-
 			@Override
 			public DataFlavor[] getTransferDataFlavors() {
 				ArrayList<DataFlavor> list = new ArrayList<>();
@@ -74,7 +73,6 @@ public class CardTransfertHandler extends TransferHandler  {
 				}
 				return list.toArray(dh.getTransferDataFlavors());
 			}
-
 			@Override
 			public boolean isDataFlavorSupported(DataFlavor flavor) {
 				for (DataFlavor f : getTransferDataFlavors()) {
@@ -84,10 +82,8 @@ public class CardTransfertHandler extends TransferHandler  {
 				}
 				return false;
 			}
-	
 		};
 	}
-	
 	
 	@Override
 	public boolean canImport(TransferSupport support)
@@ -98,8 +94,6 @@ public class CardTransfertHandler extends TransferHandler  {
 		return true;
 	}
 	
-	
-
 	@Override
 	public int getSourceActions(JComponent c)
 	{
@@ -117,18 +111,17 @@ public class CardTransfertHandler extends TransferHandler  {
 		if (!canImport(support))
 			return false;
 		try {
-			Draggable target = (Draggable) support.getComponent();
-			
-					DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
-					if(! ( ((Draggable)src.getParent()).getOrigine() == target.getOrigine()))
-					{
-						  src.getParent().revalidate();
-						  target.updatePanel();
-						  src.getParent().repaint();
-						  logger.debug("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
-						  ((Draggable)src.getParent()).moveCard(src, target.getOrigine());
-						  target.addComponent(src);
-					}
+				Draggable target = (Draggable) support.getComponent();
+				DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
+				if(! ( ((Draggable)src.getParent()).getOrigine() == target.getOrigine()))
+				{
+					  src.getParent().revalidate();
+					  target.updatePanel();
+					  src.getParent().repaint();
+					  logger.debug("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
+					  ((Draggable)src.getParent()).moveCard(src, target.getOrigine());
+					  target.addComponent(src);
+				}
 			//TODO if move only, put card on first position of container's order
 			return true;
 		} catch (Exception ufe) {

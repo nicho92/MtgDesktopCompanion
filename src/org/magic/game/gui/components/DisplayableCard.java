@@ -251,6 +251,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 		attachedCards = new ArrayList<DisplayableCard>();
 		menu = new JPopupMenu();
 		counters = new ArrayList<AbstractCounter>();
+	
 		setSize(d);
 		setPreferredSize(d);
 		setHorizontalAlignment(JLabel.CENTER);
@@ -261,8 +262,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
-					
-						describe();
+					describe();
 				}
 				public void mouseClicked(MouseEvent e) {
 						if(e.getClickCount()==1)
@@ -312,14 +312,13 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 		Class a = DisplayableCard.class.getClassLoader().loadClass("org.magic.game.actions.cards."+k.toString()+"Actions");
 		Constructor ctor = a.getDeclaredConstructor(DisplayableCard.class);
 		AbstractAction aaction = (AbstractAction) ctor.newInstance(this);
-		aaction.putValue(Action.SHORT_DESCRIPTION, k.getDescription());
+					   aaction.putValue(Action.SHORT_DESCRIPTION, k.getDescription());
 		return aaction;
 	}
 	
 	public void initActions() {
 		
 		menu.removeAll();
-		
 		
 		menu.add(new JMenuItem(new SelectionActions(this)));
 		menu.add(new JMenuItem(new TapActions(this)));
@@ -382,9 +381,9 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 			JMenu mnuModifier = new JMenu("Remove Counter");
 			for(final AbstractCounter count : counters)
 				mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count)));
+			
 			menu.add(mnuModifier);
 		}
-		
 		
 		if(magicCard.isTranformable())
 			menu.add(new JMenuItem(new TransformActions(this)));
@@ -411,6 +410,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 		
 	}
 
+	
 	public void tap(boolean t) {
 			
 			if(!tappable)
@@ -449,7 +449,6 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	        this.setSize(h, w);
 	        this.tapped=t;
 	}
-
 	
 	private List<LoyaltyCounter> listLoyalty(){
 		String[] values = magicCard.getText().split("\n");
@@ -490,7 +489,8 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	
 	public void setMagicCard(MagicCard mc) {
 		this.magicCard = mc;
-		try {
+		try 
+		{
 			if(mc.getLayout().equals(MagicCard.LAYOUT.Token.toString()) || mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
 			{
 				fullResPics = new CockatriceTokenProvider().getPictures(mc);
@@ -533,19 +533,21 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 
 	@Override
 	public void addComponent(DisplayableCard i) {
-//		if(i.getMagicCard().getSubtypes().contains("Aura"))
-//		{
+		if(i.getMagicCard().getSubtypes().contains("Aura"))
+		{
+			
+			System.out.println("attach " + i + "to "+ this);
 //			int res = JOptionPane.showConfirmDialog(this, "attach " + i + " with " + this +" ?");
 //			if(res==JOptionPane.YES_OPTION)
 //			{
-//				getAttachedCards().add(i);
+				getAttachedCards().add(i);
 //				((DraggablePanel)getParent()).addComponent(i);
 //			}
 //			else
 //			{
 //				((DraggablePanel)getParent()).addComponent(i);
 //			}
-//		}
+		}
 //		else
 		{
 			((DraggablePanel)getParent()).addComponent(i);
