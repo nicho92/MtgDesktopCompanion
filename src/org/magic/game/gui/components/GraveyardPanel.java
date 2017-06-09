@@ -1,6 +1,7 @@
 package org.magic.game.gui.components;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
@@ -29,7 +30,14 @@ public class GraveyardPanel extends DraggablePanel {
 		if(i.isTapped())
 			i.tap(false);
 		add(i);
+		
 		i.setPosition(getOrigine());
+		setComponentZOrder(i, 0);
+		for(int y=getComponentCount()-1;y==1;y--)
+		{
+			setComponentZOrder(getComponent(y), y);
+		}
+		
 		i.removeAllCounters();
 	}
 
@@ -50,25 +58,15 @@ public class GraveyardPanel extends DraggablePanel {
 	public void postTreatment(DisplayableCard c) {
 		
 		int NB=0;
+		
 		for(int i=getComponents().length-1;i>=0;i--)
 		{
 			DisplayableCard card = (DisplayableCard)getComponent(i);
-			
 			card.setBounds(5, 10+NB, card.getWidth(), card.getHeight());
 			NB=NB+30;
 		}
-		
 		getParent().getParent().revalidate();
 		getParent().getParent().repaint();
-
-//		for(int i=0;i<getComponents().length;i++)
-//		{
-//			DisplayableCard card = (DisplayableCard)getComponent(i);
-//			card.setBounds(5, 10+NB, card.getWidth(), card.getHeight());
-//			NB=NB+30;
-//		}
-
-		
 	}
 	@Override
 	public String toString() {
