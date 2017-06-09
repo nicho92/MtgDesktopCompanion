@@ -296,8 +296,10 @@ public class CardSearchPanel extends JPanel {
 			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
 			
 			cboEdition = new JComboBox<MagicEdition>(new DefaultComboBoxModel(li.toArray(new MagicEdition[li.size()])));
-			
-			
+////////MODELS
+				listEdition.setModel(new DefaultListModel<MagicEdition>());
+				tablePrice.setModel(priceModel);
+				tableCards.setModel(cardsModeltable);
 			
 /////////CONFIGURE COMPONENTS			
 			txtRulesArea.setLineWrap(true);
@@ -337,11 +339,6 @@ public class CardSearchPanel extends JPanel {
 	
 			
 		
-////////MODELS
-			
-			listEdition.setModel(new DefaultListModel<MagicEdition>());
-			tablePrice.setModel(priceModel);
-			tableCards.setModel(cardsModeltable);
 
 ///////DIMENSION	
 			thumbnailPanel.setThumbnailSize(new Dimension(179, 240));
