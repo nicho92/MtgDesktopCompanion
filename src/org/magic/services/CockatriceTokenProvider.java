@@ -30,15 +30,18 @@ public class CockatriceTokenProvider {
 	DocumentBuilderFactory builderFactory;
 	DocumentBuilder builder;
 	Document document;
+	XPath xPath;
 	static final Logger logger = LogManager.getLogger(CockatriceTokenProvider.class.getName());
 	
 	public CockatriceTokenProvider() {
 		builderFactory =DocumentBuilderFactory.newInstance();
 		try {
+			
 			builder = builderFactory.newDocumentBuilder();
 			document = builder.parse(new URL(url).openStream() );
+			xPath=  XPathFactory.newInstance().newXPath();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 		
 	}
@@ -47,8 +50,6 @@ public class CockatriceTokenProvider {
 	{
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][not(contains(name,'emblem'))]";
 		logger.debug("looking for token : " + expression);
-		
-		XPath xPath =  XPathFactory.newInstance().newXPath();
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength()>0);
@@ -63,7 +64,6 @@ public class CockatriceTokenProvider {
 			return false;
 		
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][contains(name,'emblem')]";
-		XPath xPath =  XPathFactory.newInstance().newXPath();
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength()>0);
@@ -74,7 +74,6 @@ public class CockatriceTokenProvider {
 	
 	public MagicCard generateTokenFor(MagicCard mc) {
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][not(contains(name,'emblem'))]";
-		XPath xPath =  XPathFactory.newInstance().newXPath();
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 				Element value = (Element) nodeList.item(0);
@@ -143,8 +142,6 @@ public class CockatriceTokenProvider {
 
 	public MagicCard generateEmblemFor(MagicCard mc) throws Exception {
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][contains(name,'emblem')]";
-		
-		XPath xPath =  XPathFactory.newInstance().newXPath();
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 				Element value = (Element) nodeList.item(0);
@@ -186,7 +183,6 @@ public class CockatriceTokenProvider {
 	}
 	
 	public BufferedImage getPictures(MagicCard tok) throws Exception {
-		XPath xPath =  XPathFactory.newInstance().newXPath();
 		
 		String expression = "//card[name=\""+tok.getName()+"\"]";
 		

@@ -396,7 +396,6 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 			menu.add(new JMenuItem(new FlipActions(this)));
 		
 		
-		
 		if(GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
 			menu.add(new JMenuItem(new CreateActions(this)));
 		

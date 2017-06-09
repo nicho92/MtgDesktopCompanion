@@ -7,6 +7,8 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.cache.impl.MemoryCache;
@@ -17,6 +19,8 @@ import org.magic.services.MTGControler;
 public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
+	static final Logger logger = LogManager.getLogger(GathererPicturesProvider.class.getName());
+	
 	
 	public GathererPicturesProvider() {
 		super();
@@ -67,7 +71,10 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		}
 		
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
+		{
+			logger.debug("cached " + mc + " found");
 			return MTGControler.getInstance().getEnabledCache().getPic(mc,selected);
+		}
 	
 		
 		BufferedImage im = getPicture(selected.getMultiverse_id());
