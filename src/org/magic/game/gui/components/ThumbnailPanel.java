@@ -146,7 +146,7 @@ public class ThumbnailPanel extends DraggablePanel {
 
 
 	@Override
-	public void postTreatment() {
+	public void postTreatment(DisplayableCard c) {
 		// TODO Auto-generated method stub
 		
 	}

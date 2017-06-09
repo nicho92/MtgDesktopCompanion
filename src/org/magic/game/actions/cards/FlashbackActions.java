@@ -53,7 +53,7 @@ public class FlashbackActions extends AbstractAction {
 		GamePanelGUI.getInstance().getPlayer().playCardFromGraveyard(card.getMagicCard());
 		GamePanelGUI.getInstance().getPlayer().logAction("Flashback " + card +" for " + parse());
 		GamePanelGUI.getInstance().getPanelGrave().remove(card);
-		GamePanelGUI.getInstance().getPanelGrave().postTreatment();
+		GamePanelGUI.getInstance().getPanelGrave().postTreatment(card);
 		GamePanelGUI.getInstance().getPanelBattleField().addComponent(card);
 		GamePanelGUI.getInstance().getPanelBattleField().revalidate();
 		GamePanelGUI.getInstance().getPanelBattleField().repaint();

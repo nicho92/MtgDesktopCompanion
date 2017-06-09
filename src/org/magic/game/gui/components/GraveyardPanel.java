@@ -30,6 +30,7 @@ public class GraveyardPanel extends DraggablePanel {
 			i.tap(false);
 		add(i);
 		i.setPosition(getOrigine());
+		i.removeAllCounters();
 	}
 
 
@@ -46,13 +47,13 @@ public class GraveyardPanel extends DraggablePanel {
 	}
 	
 	@Override
-	public void postTreatment() {
+	public void postTreatment(DisplayableCard c) {
 		
 		int NB=0;
 		for(int i=getComponents().length-1;i>=0;i--)
 		{
 			DisplayableCard card = (DisplayableCard)getComponent(i);
-			card.removeAllCounters();
+			
 			card.setBounds(5, 10+NB, card.getWidth(), card.getHeight());
 			NB=NB+30;
 		}

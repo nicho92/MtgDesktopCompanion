@@ -581,11 +581,9 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 	}
 
 	@Override
-	public void postTreatment() {
-	
+	public void postTreatment(DisplayableCard c) {
+		((DraggablePanel)getParent()).postTreatment(c);
 		
 	}
-
-
 
 }

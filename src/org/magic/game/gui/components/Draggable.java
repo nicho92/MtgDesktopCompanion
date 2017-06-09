@@ -8,6 +8,6 @@ public interface Draggable {
 	public void addComponent(DisplayableCard i);
 	public PositionEnum getOrigine();
 	public void updatePanel();
-	public void postTreatment();
+	public void postTreatment(DisplayableCard c);
 	
 }

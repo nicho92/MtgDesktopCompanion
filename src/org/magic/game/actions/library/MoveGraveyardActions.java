@@ -33,7 +33,7 @@ public class MoveGraveyardActions extends AbstractAction {
 			{
 				GamePanelGUI.getInstance().getPanelGrave().addComponent(new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true));
 			}
-			GamePanelGUI.getInstance().getPanelGrave().postTreatment();
+			GamePanelGUI.getInstance().getPanelGrave().postTreatment(null);
 		}
 		
 	}

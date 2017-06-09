@@ -40,12 +40,10 @@ public class LibraryPanel extends DraggablePanel {
 	}
 	
 	
-	DisplayableCard addedCard;
 	@Override
 	public void addComponent(DisplayableCard i) {
 		add(i);
-		addedCard=i;
-		addedCard.setPosition(getOrigine());
+		i.setPosition(getOrigine());
 	}
 	
 	@Override
@@ -81,11 +79,9 @@ public class LibraryPanel extends DraggablePanel {
 		
 	}
 
-
-
 	@Override
-	public void postTreatment() {
-		remove(addedCard);
+	public void postTreatment(DisplayableCard c) {
+		remove(c);
 		
 	}
 }

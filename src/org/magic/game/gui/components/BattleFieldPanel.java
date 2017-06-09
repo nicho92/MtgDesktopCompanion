@@ -5,6 +5,8 @@ import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.JMenuItem;
@@ -103,9 +105,8 @@ public class BattleFieldPanel extends DraggablePanel  {
 
 
 	@Override
-	public void postTreatment() {
-		// TODO Auto-generated method stub
-		
+	public void postTreatment(DisplayableCard c) {
+		setComponentZOrder(c, 0);
 	}
 
 

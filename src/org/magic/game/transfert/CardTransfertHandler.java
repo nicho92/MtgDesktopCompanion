@@ -122,6 +122,10 @@ public class CardTransfertHandler extends TransferHandler  {
 					  ((Draggable)src.getParent()).moveCard(src, target.getOrigine());
 					  target.addComponent(src);
 				}
+				else
+				{
+					target.postTreatment(src);
+				}
 			//TODO if move only, put card on first position of container's order
 			return true;
 		} catch (Exception ufe) {
@@ -142,7 +146,7 @@ public class CardTransfertHandler extends TransferHandler  {
 			{	
 				DraggablePanel dest = ((DraggablePanel)c.getParent());
 				src.setLocation(dest.getMousePosition());
-				dest.postTreatment();
+				dest.postTreatment(src);
 			}
 		}
 	}

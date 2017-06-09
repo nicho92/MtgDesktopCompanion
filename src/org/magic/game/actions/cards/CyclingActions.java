@@ -29,7 +29,7 @@ public class CyclingActions extends AbstractAction {
 		GamePanelGUI.getInstance().getHandPanel().remove(card);
 		
 		GamePanelGUI.getInstance().getPanelGrave().addComponent(card);
-		GamePanelGUI.getInstance().getPanelGrave().postTreatment();
+		GamePanelGUI.getInstance().getPanelGrave().postTreatment(card);
 		
 		//TODO get cost, use pool
 		

@@ -58,7 +58,7 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
 	
 	public abstract PositionEnum getOrigine();
 	  
-	public abstract void postTreatment();
+	public abstract void postTreatment(DisplayableCard c);
   
    public void updatePanel() {
 	  revalidate();
