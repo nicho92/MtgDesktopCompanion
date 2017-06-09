@@ -70,6 +70,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
+import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.BoosterPicturesProvider;
@@ -296,6 +297,7 @@ public class CardSearchPanel extends JPanel {
 			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
 			
 			cboEdition = new JComboBox<MagicEdition>(new DefaultComboBoxModel(li.toArray(new MagicEdition[li.size()])));
+			cboEdition.setRenderer(new MagicEditionListRenderer());
 ////////MODELS
 				listEdition.setModel(new DefaultListModel<MagicEdition>());
 				tablePrice.setModel(priceModel);

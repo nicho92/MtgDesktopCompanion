@@ -13,6 +13,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -37,6 +38,7 @@ import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
+import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
@@ -56,7 +58,7 @@ public class DashBoardGUI extends JPanel {
 	private CardsShakerTableModel modVintage;
 	private EditionsShakerTableModel modEdition;
 	
-	private JComboBox cboEdition;
+	private JComboBox<MagicEdition> cboEdition;
 	static final Logger logger = LogManager.getLogger(DashBoardGUI.class.getName());
 
 	
@@ -184,7 +186,8 @@ public class DashBoardGUI extends JPanel {
 		
 		JPanel panel = new JPanel();
 		panneauEdition.add(panel, BorderLayout.NORTH);
-		cboEdition = new JComboBox(eds.toArray());
+		cboEdition = new JComboBox(new DefaultComboBoxModel(eds.toArray(new MagicEdition[eds.size()])));
+		cboEdition.setRenderer(new MagicEditionListRenderer());
 		cboEdition.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
