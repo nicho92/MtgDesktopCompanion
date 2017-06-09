@@ -195,6 +195,7 @@ public class MagicEditionDetailPanel extends JSplitPane {
 				
 				chkOnline = new JCheckBox("");
 				GridBagConstraints gbc_chkOnline = new GridBagConstraints();
+				gbc_chkOnline.anchor = GridBagConstraints.WEST;
 				gbc_chkOnline.insets = new Insets(0, 0, 5, 5);
 				gbc_chkOnline.gridx = 1;
 				gbc_chkOnline.gridy = 7;
@@ -306,9 +307,9 @@ public class MagicEditionDetailPanel extends JSplitPane {
 		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, textProperty_12);
 		autoBinding_13.bind();
 		
-		BeanProperty<MagicEdition, String> onlineProperty = BeanProperty.create("onlineOnly");
-		BeanProperty<JCheckBox, String> chkProperty_13 = BeanProperty.create("selected");
-		AutoBinding<MagicEdition, String, JCheckBox, String> autoBinding_14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty_13);
+		BeanProperty<MagicEdition, Boolean> onlineProperty = BeanProperty.create("onlineOnly");
+		BeanProperty<JCheckBox, Boolean> chkProperty_13 = BeanProperty.create("selected");
+		AutoBinding<MagicEdition, Boolean, JCheckBox, Boolean> autoBinding_14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty_13);
 		autoBinding_14.bind();
 		
 		

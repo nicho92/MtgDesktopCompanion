@@ -290,6 +290,7 @@ public class CardSearchPanel extends JPanel {
 			JLabel lblFilter = new JLabel();
 			
 			listEdition = new JList<MagicEdition>();
+			listEdition.setCellRenderer(new MagicEditionListRenderer());
 			txtMagicSearch = new JTextField();
 			txtRulesArea = new JTextArea();
 			txtFilter = new JTextField();

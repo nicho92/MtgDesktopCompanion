@@ -1,10 +1,14 @@
 package org.magic.game.model;
 
+import java.awt.BorderLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import org.magic.api.beans.MagicCard;
@@ -86,7 +90,19 @@ public class GameManager {
 	public static void main(String[] args) throws Exception {
 		JFrame f = new JFrame("Game Simulator");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().add(GamePanelGUI.getInstance());
+		f.getContentPane().setLayout(new BorderLayout());
+		f.getContentPane().add(GamePanelGUI.getInstance(),BorderLayout.CENTER);
+		JButton b = new JButton("Add Player");
+		b.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				
+				GamePanelGUI.getInstance().addPlayer(new Player("Toto", 25));
+				
+			}
+		});
+		f.getContentPane().add(b,BorderLayout.NORTH);
 		f.setVisible(true);
 		f.setSize(1024, 800);
 	}
