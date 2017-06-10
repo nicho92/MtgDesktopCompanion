@@ -289,6 +289,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable
 			
 			addMouseMotionListener(new MouseAdapter() {
 					public void mouseDragged(MouseEvent e) {
+						if(SwingUtilities.isLeftMouseButton(e))
 							if(isDraggable())
 								enableDrag(e);
 					}
