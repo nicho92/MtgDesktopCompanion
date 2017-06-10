@@ -45,7 +45,7 @@ public class GraveyardPanel extends DraggablePanel {
 	@Override
 	public void moveCard(DisplayableCard mc, PositionEnum to) {
 		switch (to) {
-			case BATTLEFIELD:player.returnCardFromGraveyard(mc.getMagicCard());break;
+			case BATTLEFIELD:player.playCardFromGraveyard(mc.getMagicCard());break;
 			case EXIL:player.exileCardFromGraveyard(mc.getMagicCard());break;
 			case HAND:player.returnCardFromGraveyard(mc.getMagicCard());break;
 			case LIBRARY:player.putCardInLibraryFromGraveyard(mc.getMagicCard(), true);

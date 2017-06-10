@@ -6,11 +6,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -32,6 +34,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 	
 	public void export(MagicDeck deck, File name) throws IOException
 	{
+		
 		FileOutputStream fos = new FileOutputStream(name);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(deck);

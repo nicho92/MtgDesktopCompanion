@@ -367,15 +367,15 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			if(obj.get("magicCardsInfoCode")!=null)
 				ed.setMagicCardsInfoCode(obj.get("magicCardsInfoCode").getAsString());
 			
-			
+			/*
 			if(obj.get("booster")!=null)
 			{
 				JsonArray arr = obj.get("booster").getAsJsonArray();
 				for(int i = 0;i<arr.size();i++)
 				{
-					ed.getBooster().add(arr.get(i));
+					ed.getBooster().add(arr.get(i));//TODO correct JsonArray
 				}
-			}
+			}*/
 			
 			if(propsCache.getProperty(ed.getId())!=null)
 				ed.setCardCount(Integer.parseInt(propsCache.getProperty(ed.getId())));
