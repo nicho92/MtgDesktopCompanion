@@ -64,7 +64,7 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
 			{
 				try {
 					DisplayableCard card = (DisplayableCard)c;
-					if(BeanUtils.describe(card.getMagicCard()).get(prop).equals(value))
+					if(BeanUtils.describe(card.getMagicCard()).get(prop).equalsIgnoreCase(value))
 						ret.add(card);
 				} catch (Exception e) {
 					

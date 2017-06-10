@@ -1,5 +1,6 @@
 package org.magic.game.actions.cards;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -70,7 +71,9 @@ public class MeldActions extends AbstractAction {
 				MagicCard mc;
 				try {
 					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0)).get(0);
-					DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true);
+					
+					Dimension d = new Dimension((int)(MTGControler.getInstance().getCardsDimension().getWidth()*1.5),(int)(MTGControler.getInstance().getCardsDimension().getHeight()*1.5));
+					DisplayableCard c = new DisplayableCard(mc,d, true);
 					c.initActions();
 					GamePanelGUI.getInstance().getPanelBattleField().addComponent(c);
 				} catch (Exception e1) {
