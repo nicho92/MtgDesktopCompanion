@@ -520,7 +520,7 @@ public class Player extends Observable implements Serializable{
 		setChanged();
 		notifyObservers(new SpeakAction(this, string));
 		GameManager.getInstance().getActualTurn().getActions().add(string);
-		//logger.debug(toDetailledString());
+		logger.info(toDetailledString());
 	}
 	
 	public void logAction(AbstractAction act) {
@@ -555,16 +555,7 @@ public class Player extends Observable implements Serializable{
 	}
 	
 
-	public void flipCoin() {
-		
-		boolean b = new Random().nextBoolean();
-		
-		if(b)
-			logAction("Flip a coin : Tails");
-		else
-			logAction("Flip a coin : Heads");
-		
-	}
+	
 
 	@Override
 	public boolean equals(Object paramObject) {

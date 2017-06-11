@@ -24,13 +24,13 @@ public class GameManager {
 	private static GameManager instance;
 	private List<Turn> turns;
 
-	private Stack stack;
+	private SpellStack stack;
 
 	private GameManager()
 	{
 		turns = new ArrayList<Turn>();
 		players=new ArrayList<Player>();
-		stack=new Stack();
+		stack=new SpellStack();
 	}
 	
 	public List<Turn> getTurns() {
@@ -113,7 +113,7 @@ public class GameManager {
 		
 	}
 
-	public Stack getStack() {
+	public SpellStack getStack() {
 		return stack;
 	}
 	

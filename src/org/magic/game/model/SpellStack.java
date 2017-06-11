@@ -2,12 +2,13 @@ package org.magic.game.model;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
-public class Stack {
+public class SpellStack {
 
-	java.util.Stack<Stackable> stack;
+	Stack<Stackable> stack;
 	
-	public Stack() {
+	public SpellStack() {
 		stack= new java.util.Stack<Stackable>();
 	}
 	
@@ -18,7 +19,8 @@ public class Stack {
 	
 	public void put(Stackable a)
 	{
-		stack.push(a);
+		if(a.isStackable())
+			stack.push(a);
 	}
 	
 	public Stackable pop()
@@ -35,10 +37,9 @@ public class Stack {
 		StringBuilder b = new StringBuilder();
 		for(Stackable s : stack)
 		{
-			b.append(s);
+			b.append(s).append("\n");
 		}
 		return b.toString();
-		
 	}
 	
 }
