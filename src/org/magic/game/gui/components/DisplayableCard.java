@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.MenuItem;
 import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -222,7 +223,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable {
 
 	public void debug() {
 		new DescribeCardDialog(this).setVisible(true);
-		;
+		
 	}
 
 	public DisplayableCard(MagicCard mc, Dimension d, boolean activateCards) {
@@ -269,6 +270,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable {
 				}
 			});
 		}
+		
 		setTransferHandler(new CardTransfertHandler());
 
 		if (activateCards)
@@ -329,7 +331,7 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable {
 		}
 
 		if (magicCard.getSubtypes().contains("Aura") || magicCard.getSubtypes().contains("Equipment")) {
-			menu.add(new AttachActions(this));
+			menu.add(new JMenuItem(new AttachActions(this)));
 		}
 
 		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
@@ -500,23 +502,10 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable {
 		if (i.getMagicCard().getSubtypes().contains("Aura")) {
 
 			System.out.println("attach " + i + "to " + this);
-			// int res = JOptionPane.showConfirmDialog(this, "attach " + i + "
-			// with " + this +" ?");
-			// if(res==JOptionPane.YES_OPTION)
-			// {
 			getAttachedCards().add(i);
-			// ((DraggablePanel)getParent()).addComponent(i);
-			// }
-			// else
-			// {
-			// ((DraggablePanel)getParent()).addComponent(i);
-			// }
-		}
-		// else
-		{
-			((DraggablePanel) getParent()).addComponent(i);
 		}
 
+		((DraggablePanel) getParent()).addComponent(i);
 	}
 
 	@Override
