@@ -1154,6 +1154,13 @@
 	"event": "ACTION"
 },
 {
+	"keyword": "Flip",
+	"description": "Flip cards are two cards in one. When something is triggered, the card is flipped and becomes the 'other' part of the card.",
+	"type": "Action",
+	"subtype": "Other",
+	"event": "ACTION"
+},
+{
 	"keyword": "Vote",
 	"description": "Vote is a keyword action.",
 	"type": "Action",

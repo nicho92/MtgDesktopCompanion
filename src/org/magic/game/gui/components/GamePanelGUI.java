@@ -92,6 +92,10 @@ public class GamePanelGUI extends JPanel implements Observer {
 	}
 	
 	
+	public LibraryPanel getPanelLibrary() {
+		return panelLibrary;
+	}
+
 	public static GamePanelGUI newInstance()
 	{
 		return new GamePanelGUI();
@@ -118,6 +122,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		manaPoolPanel.setPlayer(p1);
 		panelBattleField.setPlayer(p1);
 		panelLibrary.setPlayer(p1);
+		exilPanel.setPlayer(p1);
 	}
 	
 	

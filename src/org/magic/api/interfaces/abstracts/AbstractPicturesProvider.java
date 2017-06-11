@@ -10,9 +10,13 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.gui.MagicGUI;
 import org.magic.services.MTGControler;
+
+import com.itextpdf.awt.geom.Dimension;
 
 public abstract class AbstractPicturesProvider extends Observable implements PictureProvider {
 
@@ -63,7 +67,7 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 	public boolean isEnable() {
 		return enable;
 	}
-
+	
 	public void load()
 	{
 		try {
