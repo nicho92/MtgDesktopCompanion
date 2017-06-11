@@ -92,17 +92,6 @@ public class GameManager {
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.getContentPane().setLayout(new BorderLayout());
 		f.getContentPane().add(GamePanelGUI.getInstance(),BorderLayout.CENTER);
-		JButton b = new JButton("Add Player");
-		b.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				
-				GamePanelGUI.getInstance().addPlayer(new Player("Toto", 25));
-				
-			}
-		});
-		f.getContentPane().add(b,BorderLayout.NORTH);
 		f.setVisible(true);
 		f.setSize(1024, 800);
 	}

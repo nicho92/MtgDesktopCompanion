@@ -8,14 +8,15 @@ import javax.swing.JScrollPane;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
-import org.magic.game.gui.components.ThumbnailPanel;
+import org.magic.game.gui.components.DraggablePanel;
+import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
 import org.magic.services.MTGControler;
 
 public class SearchCardFrame extends JDialog {
 
-	ThumbnailPanel pane;
+	HandPanel pane;
 	JScrollPane scPane;
 	
 	DisplayableCard selectedCard;
@@ -24,7 +25,7 @@ public class SearchCardFrame extends JDialog {
 	{
 		setSize(new Dimension(800, 600));
 		scPane = new JScrollPane();
-		pane=new ThumbnailPanel();
+		pane=new HandPanel();
 		pane.setPlayer(p);
 		pane.setOrigine(source);
 		scPane.setViewportView(pane);
@@ -34,7 +35,9 @@ public class SearchCardFrame extends JDialog {
 	//used by SearchAction.
 	public SearchCardFrame(Player p,PositionEnum source) {
 		init(p,source);
+		setTitle(p.getName() +"'s" + source.toString());
 		pane.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
+		
 		switch(source)
 		{
 			case GRAVEYARD:pane.initThumbnails(p.getGraveyard().getCards(),true);break;

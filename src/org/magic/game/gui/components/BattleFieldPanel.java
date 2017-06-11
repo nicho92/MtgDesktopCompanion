@@ -4,24 +4,31 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
+import javax.imageio.ImageIO;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.battlefield.ChangeBackGroundActions;
+import org.magic.game.actions.battlefield.FlipaCoinActions;
 import org.magic.game.actions.battlefield.SelectedTapActions;
 import org.magic.game.actions.battlefield.UnselectAllAction;
 import org.magic.game.model.PositionEnum;
+import org.magic.services.MTGControler;
 
 public class BattleFieldPanel extends DraggablePanel  {
 
 	JPopupMenu menu = new JPopupMenu();
 	private BufferedImage image;
+	
+	
 	
 	@Override
 	public void removeAll()
@@ -69,13 +76,23 @@ public class BattleFieldPanel extends DraggablePanel  {
 	public BattleFieldPanel() {
 		
 		super();
-		setBackground(Color.DARK_GRAY);
 		setLayout(null);
 		
+		if(MTGControler.getInstance().get("/game/player-profil/background")!=null)
+	        try {
+	        	BufferedImage im = ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
+	        	setBackgroundPicture(im);
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+			
+		
+		
 		menu.removeAll();
-		menu.add(new JMenuItem(new UnselectAllAction(this)));
-		menu.add(new JMenuItem(new SelectedTapActions(this)));
-		menu.add(new JMenuItem(new ChangeBackGroundActions(this)));
+		menu.add(new JMenuItem(new UnselectAllAction()));
+		menu.add(new JMenuItem(new SelectedTapActions()));
+		menu.add(new JMenuItem(new FlipaCoinActions()));
+		menu.add(new JMenuItem(new ChangeBackGroundActions()));
 		setComponentPopupMenu(menu);
 	}
 	

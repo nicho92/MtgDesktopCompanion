@@ -271,6 +271,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			
 			if(obj.get("multiverseid")!=null)
 				currentEd.setMultiverse_id(obj.get("multiverseid").getAsString());
+			
 			if(obj.get("rarity")!=null)
 				currentEd.setRarity(obj.get("rarity").getAsString());
 				//currentEd.setRarity(mc.getRarity());
@@ -279,6 +280,13 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			
 			
 			mc.getEditions().add(0,currentEd);
+			
+			//TODO remove reprint information for basic lands
+			 /*get other sets*/
+			   
+			
+			
+			
 			
 			if(obj.get("printings")!=null){
 				JsonArray arr = obj.get("printings").getAsJsonArray();

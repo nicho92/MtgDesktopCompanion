@@ -53,7 +53,6 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
 	public DraggablePanel() {
 		  setTransferHandler(new CardTransfertHandler());
 		  setComponentPopupMenu(menu);
-			
 	}
 	
 	public List<DisplayableCard> lookupCardBy(String prop,String value)

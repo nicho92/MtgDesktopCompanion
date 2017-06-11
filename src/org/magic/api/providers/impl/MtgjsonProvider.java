@@ -377,7 +377,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 			  mc.setCost(String.valueOf(map.get("manaCost")));
 	 		  else
 	 			  mc.setCost("");
-	 			  
+	 		
 	 		 if(map.get("legalities")!=null) 
 	 		 {
 	 			 for(Map<String,Object> mapFormats : (List<Map>)map.get("legalities"))
@@ -391,8 +391,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		  
 	 		  
 	 		  
- 			   if(map.get("rulings")!=null)
- 			   {
+ 			  if(map.get("rulings")!=null)
+ 			  {
  				  for(Map<String,Object> mapRules : (List<Map>)map.get("rulings"))
  				  {
  					  MagicRuling mr = new MagicRuling();
@@ -413,11 +413,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
  			   MagicEdition me = getSetById(codeEd);
 	 						me.setRarity(String.valueOf(map.get("rarity")));
  							me.setNumber(mc.getNumber());
-	 			
-//	 			if(mc.getMultiverseid()==null)
-//	 			   	me.setMultiverse_id(String.valueOf(0));
-//	 			else
-//	 			   	me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
 	 			
  				if(mc.getMultiverseid()!=null)			
  					me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));			

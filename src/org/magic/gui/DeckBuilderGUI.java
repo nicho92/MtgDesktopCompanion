@@ -55,7 +55,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.CardExporter;
-import org.magic.game.gui.components.ThumbnailPanel;
+import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
@@ -84,7 +84,7 @@ public class DeckBuilderGUI extends JPanel{
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel; 
 	private MagicCardDetailPanel magicCardDetailPanel;
-	private ThumbnailPanel thumbnail;
+	private HandPanel thumbnail;
 	
 	private JTextField txtSearch;
 	
@@ -161,7 +161,7 @@ public class DeckBuilderGUI extends JPanel{
 		deckSidemodel = new DeckModel(DeckModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
 		
-		thumbnail = new ThumbnailPanel();
+		thumbnail = new HandPanel();
 		thumbnail.setThumbnailSize(new Dimension(223, 311));
 		thumbnail.enableDragging(false);
 		thumbnail.setMaxCardsRow(4);

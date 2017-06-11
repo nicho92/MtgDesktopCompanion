@@ -61,7 +61,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.game.gui.components.DisplayableCard;
-import org.magic.game.gui.components.ThumbnailPanel;
+import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
@@ -97,7 +97,7 @@ public class CardSearchPanel extends JPanel {
 		private JTabbedPane tabbedCardsInfo ;
 		
 		
-		private ThumbnailPanel thumbnailPanel;
+		private HandPanel thumbnailPanel;
 		private ManaRepartitionPanel manaRepartitionPanel;
 		private TypeRepartitionPanel typeRepartitionPanel;
 		private RarityRepartitionPanel rarityRepartitionPanel;
@@ -268,7 +268,7 @@ public class CardSearchPanel extends JPanel {
 			
 			tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
 			tabbedCardsInfo = new JTabbedPane(JTabbedPane.TOP);
-			thumbnailPanel = new ThumbnailPanel();
+			thumbnailPanel = new HandPanel();
 			
 			
 			

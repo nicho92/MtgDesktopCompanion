@@ -11,27 +11,16 @@ import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 
 import org.magic.game.gui.components.BattleFieldPanel;
+import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
 
 public class ChangeBackGroundActions extends AbstractAction {
-
-	BattleFieldPanel battleFieldPanel;
-	
-	public ChangeBackGroundActions(BattleFieldPanel battleFieldPanel) {
+	public ChangeBackGroundActions() {
 			super("Change Background");
 			putValue(SHORT_DESCRIPTION,"Change the background of Battlefield");
 	        putValue(MNEMONIC_KEY, KeyEvent.VK_B);
-	        this.battleFieldPanel=battleFieldPanel;
 	        
 	        
-	        if(MTGControler.getInstance().get("/game/player-profil/background")!=null)
-	        try {
-	        	BufferedImage im = ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
-				battleFieldPanel.setBackgroundPicture(im);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
-			
 	}
 	
 	@Override
@@ -44,8 +33,8 @@ public class ChangeBackGroundActions extends AbstractAction {
 			BufferedImage im;
 			try {
 				im = ImageIO.read(choose.getSelectedFile());
-				battleFieldPanel.setBackgroundPicture(im);
-				battleFieldPanel.repaint();
+				GamePanelGUI.getInstance().getPanelBattleField().setBackgroundPicture(im);
+				GamePanelGUI.getInstance().getPanelBattleField().repaint();
 				
 				MTGControler.getInstance().setProperty("/game/player-profil/background", choose.getSelectedFile().getAbsolutePath());
 			} catch (IOException e1) {

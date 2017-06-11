@@ -12,8 +12,8 @@ import org.magic.game.actions.cards.ScryActions;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.actions.library.MoveGraveyardActions;
-import org.magic.game.actions.library.SearchActions;
 import org.magic.game.actions.library.ShuffleActions;
+import org.magic.game.actions.player.SearchActions;
 import org.magic.game.model.PositionEnum;
 import org.magic.services.MTGControler;
 
@@ -25,7 +25,7 @@ public class LibraryPanel extends DraggablePanel {
 		super();
 		menu.add(new JMenuItem(new DrawHandActions()));
 		menu.add(new JMenuItem(new DrawActions()));
-		menu.add(new JMenuItem(new SearchActions()));
+		menu.add(new JMenuItem(new SearchActions(getOrigine())));
 		menu.add(new JMenuItem(new ScryActions(null)));
 		menu.add(new JMenuItem(new ShuffleActions()));
 		menu.add(new JMenuItem(new MoveGraveyardActions()));

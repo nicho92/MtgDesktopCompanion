@@ -15,7 +15,7 @@ import org.magic.services.MTGControler;
 
 
 
-public class ThumbnailPanel extends DraggablePanel {
+public class HandPanel extends DraggablePanel {
 
 	GridBagConstraints c;
 	int index=0;
@@ -44,7 +44,7 @@ public class ThumbnailPanel extends DraggablePanel {
 	}
 	
 	
-	public ThumbnailPanel() {
+	public HandPanel() {
 		super();
 		setLayout(new GridBagLayout());
 		c = new GridBagConstraints();

@@ -55,7 +55,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	
 	private JSpinner spinLife;
 	private JSpinner spinPoison;
-	private ThumbnailPanel handPanel;
+	private HandPanel handPanel;
 	private BattleFieldPanel panelBattleField;
 	private ManaPoolPanel manaPoolPanel ;
 	private JPanel panneauDroit;
@@ -74,7 +74,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private PlayerGameBoard playerGameBoard;
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
-	
+	private ExilPanel exilPanel;
 	
 
 	public static GamePanelGUI getInstance()
@@ -177,18 +177,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						gbc_btnNewGame.gridy = 0;
 						panelActions.add(btnNewGame, gbc_btnNewGame);
 						
-						JButton btnFlipACoin = new JButton("Flip a coin");
-						btnFlipACoin.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
-								player.flipCoin();
-							}
-						});
-						GridBagConstraints gbc_btnFlipACoin = new GridBagConstraints();
-						gbc_btnFlipACoin.fill = GridBagConstraints.HORIZONTAL;
-						gbc_btnFlipACoin.insets = new Insets(0, 0, 5, 0);
-						gbc_btnFlipACoin.gridx = 1;
-						gbc_btnFlipACoin.gridy = 0;
-						panelActions.add(btnFlipACoin, gbc_btnFlipACoin);
+						
 						
 						JButton btnSideboard = new JButton("SideBoard");
 						btnSideboard.addActionListener(new ActionListener() {
@@ -398,6 +387,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 										panelDeck.setLayout(new BoxLayout(panelDeck, BoxLayout.Y_AXIS));
 										panelDeck.add(panelLibrary);
 										
+										exilPanel = new ExilPanel();
+										exilPanel.setPreferredSize(new Dimension(0, 50));
+										
+										panelDeck.add(exilPanel);
+										
 										panelLibrary.addMouseListener(new MouseAdapter() {
 											@Override
 											public void mouseClicked(MouseEvent me) {
@@ -421,7 +415,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										JPanel panelBottom = new JPanel();
 										panneauDroit.add(panelBottom, BorderLayout.SOUTH);
 										
-										handPanel = new ThumbnailPanel();
+										handPanel = new HandPanel();
 										handPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 										handPanel.enableDragging(true);
 										handPanel.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
@@ -439,6 +433,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 									
 	}
 	
+	public ExilPanel getExilPanel() {
+		return exilPanel;
+	}
 
 	public JSpinner getSpinLife() {
 		return spinLife;
@@ -446,7 +443,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public JSpinner getSpinPoison() {
 		return spinPoison;
 	}
-	public ThumbnailPanel getHandPanel() {
+	public HandPanel getHandPanel() {
 		return handPanel;
 	}
 	
@@ -472,15 +469,17 @@ public class GamePanelGUI extends JPanel implements Observer {
 		handPanel.removeAll();
 		panelBattleField.removeAll();
 		panelGrave.removeAll();
-	
+		exilPanel.removeAll();
+		
 		handPanel.revalidate();
 		panelBattleField.revalidate();
 		panelGrave.revalidate();
+		exilPanel.revalidate();
 		
 		handPanel.repaint();
 		panelBattleField.repaint();
 		panelGrave.repaint();
-		
+		exilPanel.repaint();
 		
 		lblHandCount.setText(String.valueOf(player.getHand().size()));
 		lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));

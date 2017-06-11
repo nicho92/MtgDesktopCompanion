@@ -29,6 +29,7 @@ public class GraveyardPanel extends DraggablePanel {
 	public void addComponent(DisplayableCard i) {
 		if(i.isTapped())
 			i.tap(false);
+		
 		add(i);
 		
 		i.setPosition(getOrigine());

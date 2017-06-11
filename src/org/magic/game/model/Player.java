@@ -164,6 +164,24 @@ public class Player extends Observable implements Serializable{
 	}
 	
 	
+
+	public void putCardInLibraryFromExile(MagicCard mc, boolean b) {
+		if(b)
+		{
+			library.add(0, mc);
+			logAction("put a card on top of library from exile");
+		}
+		else
+		{
+			library.add(mc);
+			logAction("put a card on bottom of library from exile");
+		}
+		exil.remove(mc);
+		
+	}
+
+
+	
 	public void putCardInLibraryFromHand(MagicCard mc,boolean top)
 	{
 		if(top)
@@ -254,6 +272,14 @@ public class Player extends Observable implements Serializable{
 		
 	}
 	
+	public void discardCardFromExile(MagicCard mc) {
+		exil.remove(mc);
+		graveyard.add(mc);
+		logAction("put " + mc +" from exil to graveyard");
+		
+	}
+
+	
 	public void discardCardFromBattleField(MagicCard mc) {
 		
 		battlefield.remove(mc);
@@ -334,6 +360,15 @@ public class Player extends Observable implements Serializable{
 
 		
 	}
+	
+
+	public void returnCardFromExile(MagicCard mc) {
+		exil.remove(mc);
+		hand.add(mc);
+		logAction("get " + mc +" back in hand from exil" );
+	}
+	
+
 	
 	public void returnCardFromBattleField(MagicCard mc)
 	{
@@ -496,9 +531,9 @@ public class Player extends Observable implements Serializable{
 	
 
 	public void playCardFromLibrary(MagicCard mc) {
-		logAction("play " + mc + " from library");
 		battlefield.add(mc);
 		library.remove(mc);
+		logAction("play " + mc + " from library");
 		
 	}
 
@@ -543,6 +578,5 @@ public class Player extends Observable implements Serializable{
 		
 	}
 
-	
 
 }
