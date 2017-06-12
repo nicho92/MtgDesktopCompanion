@@ -6,10 +6,10 @@ import java.util.Stack;
 
 public class SpellStack {
 
-	Stack<Stackable> stack;
+	Stack<AbstractSpell> stack;
 	
 	public SpellStack() {
-		stack= new java.util.Stack<Stackable>();
+		stack= new java.util.Stack<AbstractSpell>();
 	}
 	
 	public void clean()
@@ -17,25 +17,25 @@ public class SpellStack {
 		stack.clear();
 	}
 	
-	public void put(Stackable a)
+	public void put(AbstractSpell a)
 	{
 		if(a.isStackable())
 			stack.push(a);
 	}
 	
-	public Stackable pop()
+	public AbstractSpell pop()
 	{
 		return stack.pop();
 	}
 	
-	public List<Stackable> toList()
+	public List<AbstractSpell> toList()
 	{
-		return new ArrayList<Stackable>(stack);
+		return new ArrayList<AbstractSpell>(stack);
 	}
 	
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-		for(Stackable s : stack)
+		for(AbstractSpell s : stack)
 		{
 			b.append(s).append("\n");
 		}

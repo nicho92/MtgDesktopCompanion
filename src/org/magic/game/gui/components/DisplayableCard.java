@@ -7,8 +7,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.MenuItem;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -49,7 +47,6 @@ import org.magic.game.actions.cards.TapActions;
 import org.magic.game.gui.components.dialog.DescribeCardDialog;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.PositionEnum;
-import org.magic.game.model.Stackable;
 import org.magic.game.model.Turn.PHASES;
 import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
@@ -59,7 +56,7 @@ import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MTGControler;
 
-public class DisplayableCard extends JLabel implements Draggable, Stackable {
+public class DisplayableCard extends JLabel implements Draggable {
 
 	private JPopupMenu menu;
 	private MagicCard magicCard;
@@ -337,13 +334,11 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable {
 		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
 		JMenu abilities = new JMenu("Actions");
 		
-		if(l.size()==0)
-			if(magicCard.getLayout().equalsIgnoreCase("aftermath"))
-				l.add(MTGControler.getInstance().getKeyWordManager().generateFromString("Aftermath"));
+		if(magicCard.getLayout().equalsIgnoreCase("aftermath"))
+			l.add(MTGControler.getInstance().getKeyWordManager().generateFromString("Aftermath"));
 		
 		
 		if (l.size() > 0) {
-			
 			for (final MTGKeyWord k : l) {
 				JMenuItem it;
 				try {
@@ -525,10 +520,6 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable {
 
 	}
 
-	@Override
-	public boolean isStackable() {
-		return true;
-	}
 
 	@Override
 	public void updatePanel() {

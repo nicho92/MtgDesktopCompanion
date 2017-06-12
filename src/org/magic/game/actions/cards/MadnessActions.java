@@ -52,7 +52,6 @@ public class MadnessActions extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		
 		GamePanelGUI.getInstance().getPlayer().exileCardFromHand(card.getMagicCard());
-		GameManager.getInstance().getStack().put(card);
 		GamePanelGUI.getInstance().getPlayer().logAction("Play madness capacity of " + card +" for " + parse());
 		GamePanelGUI.getInstance().getHandPanel().remove(card);
 		GamePanelGUI.getInstance().getHandPanel().postTreatment(card);
