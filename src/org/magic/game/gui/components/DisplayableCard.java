@@ -335,8 +335,15 @@ public class DisplayableCard extends JLabel implements Draggable, Stackable {
 		}
 
 		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
+		JMenu abilities = new JMenu("Actions");
+		
+		if(l.size()==0)
+			if(magicCard.getLayout().equalsIgnoreCase("aftermath"))
+				l.add(MTGControler.getInstance().getKeyWordManager().generateFromString("Aftermath"));
+		
+		
 		if (l.size() > 0) {
-			JMenu abilities = new JMenu("Actions");
+			
 			for (final MTGKeyWord k : l) {
 				JMenuItem it;
 				try {
