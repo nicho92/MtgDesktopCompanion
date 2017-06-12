@@ -10,32 +10,40 @@ import javax.swing.AbstractAction;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.AbilitySpell;
 import org.magic.services.MTGControler;
 
-public class AftermathActions extends AbstractAction {
+public class AftermathActions extends AbilitySpell {
 
 	
-	private DisplayableCard card;
 	private String cost;
 	private String k = "Aftermath";
 	
+	MagicCard mc;
 	
 	public AftermathActions(DisplayableCard card) {
-			super("Aftermath");
-			putValue(SHORT_DESCRIPTION,"Aftermath " + card.getMagicCard().getRotatedCardName());
+			super("Aftermath","Aftermath " + card.getMagicCard().getRotatedCardName(),card);
 	        putValue(MNEMONIC_KEY, KeyEvent.VK_A);
-	        this.card = card;
+	        
+	        try {
+				mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0)).get(0);
+				cost=mc.getCost();
+	        }
+	        catch(Exception e)
+	        {
+	        	
+	        }
+	        
+	        
 	}
 	
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
-		MagicCard mc;
 		try {
-			mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0)).get(0);
 			DisplayableCard card2 = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true);
-			GamePanelGUI.getInstance().getPlayer().logAction("Aftermath " + card2 +" for " + mc.getCost());
+			
+			GamePanelGUI.getInstance().getPlayer().logAction("Aftermath " + card2 +" for " + cost);
 			
 			
 			GamePanelGUI.getInstance().getPlayer().getGraveyard().remove(card.getMagicCard());
@@ -53,6 +61,18 @@ public class AftermathActions extends AbstractAction {
 		}
 		
 		
+	}
+
+
+	@Override
+	public String getCost() {
+		return cost;
+	}
+
+
+	@Override
+	public boolean isStackable() {
+		return true;
 	}
 
 }

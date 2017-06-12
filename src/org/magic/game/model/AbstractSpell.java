@@ -14,23 +14,20 @@ public abstract class AbstractSpell extends AbstractAction{
 	
 	public abstract String getCost();
 	public abstract boolean isStackable(); 
-
-	protected DisplayableCard card;
 	
 	public String getDescription()
 	{
 		return getValue(SHORT_DESCRIPTION).toString();
 	}
 	
-	public AbstractSpell(String name, String description,DisplayableCard card,KeyEvent k) {
+	public AbstractSpell(String name, String description,KeyEvent k) {
 		super(name);
 		putValue(SHORT_DESCRIPTION,description);
 		putValue(MNEMONIC_KEY, k);
-		this.card=card;
 	}
 	
 	
-	public AbstractSpell(String name, String description,DisplayableCard card) {
+	public AbstractSpell(String name, String description) {
 		super(name);
 		putValue(SHORT_DESCRIPTION,description);
 	}
