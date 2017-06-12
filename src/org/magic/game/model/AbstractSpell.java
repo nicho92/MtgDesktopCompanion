@@ -20,6 +20,11 @@ public abstract class AbstractSpell extends AbstractAction{
 		return getValue(SHORT_DESCRIPTION).toString();
 	}
 	
+	public String getName()
+	{
+		return getValue(NAME).toString();
+	}
+	
 	public AbstractSpell(String name, String description,KeyEvent k) {
 		super(name);
 		putValue(SHORT_DESCRIPTION,description);

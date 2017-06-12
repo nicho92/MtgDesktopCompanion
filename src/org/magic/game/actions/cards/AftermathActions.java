@@ -41,6 +41,7 @@ public class AftermathActions extends AbilitySpell {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
+			super.actionPerformed(e);
 			DisplayableCard card2 = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true);
 			
 			GamePanelGUI.getInstance().getPlayer().logAction("Aftermath " + card2 +" for " + cost);

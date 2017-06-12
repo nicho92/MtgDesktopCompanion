@@ -16,9 +16,15 @@ public abstract class AbilitySpell extends AbstractSpell{
 	
 	@Override
 	public void actionPerformed(ActionEvent paramActionEvent) {
-		// TODO Auto-generated method stub
+		GameManager.getInstance().getStack().put(this);
 		
 	}
+	
+	@Override
+	public String toString() {
+		return getName() +" :" + getDescription();
+	}
+	
 
 	@Override
 	public abstract String getCost();

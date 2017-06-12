@@ -42,27 +42,12 @@ public class KeyWordManager {
 		
 		return null;
 	}
-	
-//	
-//	public AbstractAction generateActionFrom(MTGKeyWord k)
-//	{
-//		try{
-//				ClassLoader classLoader = KeyWordManager.class.getClassLoader();
-//				return (AbstractAction)classLoader.loadClass("org.magic.game.actions.cards."+k.getKeyword()+"Actions").newInstance();
-//			}catch(Exception e)
-//			{
-//				e.printStackTrace();
-//				return null;
-//			}
-//	}
-//	
-	
+
 	
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc)
 	{
 		Set<MTGKeyWord> ret = new LinkedHashSet<MTGKeyWord>();
 		
-		String[] texts = mc.getText().split(" ");
 		for(MTGKeyWord s : list)
 		{	
 			/*for(String st : texts)

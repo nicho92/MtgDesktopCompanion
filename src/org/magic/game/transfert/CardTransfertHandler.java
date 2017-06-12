@@ -24,6 +24,8 @@ import org.apache.log4j.Logger;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.Draggable;
 import org.magic.game.gui.components.DraggablePanel;
+import org.magic.game.model.CardSpell;
+import org.magic.game.model.GameManager;
 
 
 public class CardTransfertHandler extends TransferHandler  {
@@ -121,6 +123,7 @@ public class CardTransfertHandler extends TransferHandler  {
 					  logger.debug("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
 					  ((Draggable)src.getParent()).moveCard(src, target.getOrigine());
 					  target.addComponent(src);
+					  GameManager.getInstance().getStack().put(new CardSpell(src.getName(), src.getText(), src));
 				}
 				else
 				{

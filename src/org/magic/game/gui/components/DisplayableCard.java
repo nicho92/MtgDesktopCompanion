@@ -289,7 +289,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 				.loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
 		Constructor ctor = a.getDeclaredConstructor(DisplayableCard.class);
 		AbstractAction aaction = (AbstractAction) ctor.newInstance(this);
-		aaction.putValue(Action.SHORT_DESCRIPTION, k.getDescription());
+		aaction.putValue(Action.LONG_DESCRIPTION, k.getDescription());
 		return aaction;
 	}
 
