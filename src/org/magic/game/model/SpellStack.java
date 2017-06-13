@@ -9,7 +9,7 @@ public class SpellStack {
 	Stack<AbstractSpell> stack;
 	
 	public SpellStack() {
-		stack= new java.util.Stack<AbstractSpell>();
+		stack= new Stack<AbstractSpell>();
 	}
 	
 	public void clean()

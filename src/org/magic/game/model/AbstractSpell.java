@@ -11,7 +11,6 @@ public abstract class AbstractSpell extends AbstractAction{
 
 	@Override
 	public abstract void actionPerformed(ActionEvent paramActionEvent);
-	
 	public abstract String getCost();
 	public abstract boolean isStackable(); 
 	
@@ -36,6 +35,10 @@ public abstract class AbstractSpell extends AbstractAction{
 		super(name);
 		putValue(SHORT_DESCRIPTION,description);
 	}
+	/*
+	public abstract void resolve();
 	
+	public abstract void unresolve();
+	*/
 
 }

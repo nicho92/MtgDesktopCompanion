@@ -8,7 +8,9 @@ public abstract class AbilitySpell extends AbstractSpell{
 
 	
 	protected DisplayableCard card;
-
+	protected String manaspent;
+	
+	
 	public AbilitySpell(String name, String description,DisplayableCard card) {
 		super(name, description);
 		this.card=card;
@@ -25,6 +27,10 @@ public abstract class AbilitySpell extends AbstractSpell{
 		return getName() +" :" + getDescription();
 	}
 	
+	public void spendMana(String mana)
+	{
+		this.manaspent=mana;
+	}
 
 	@Override
 	public abstract String getCost();

@@ -18,6 +18,12 @@ public class CardSpell extends AbstractSpell{
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public DisplayableCard getDisplayableCard(){
+		return c;
+	}
+	
+	
 
 	@Override
 	public String getCost() {
