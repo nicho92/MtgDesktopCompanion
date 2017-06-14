@@ -37,15 +37,28 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
+public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
     
     private int _lastCode;
     private String _lastContent;
     private List<MagicPrice> lists;
     
-    static final Logger logger = LogManager.getLogger(MagicCardMarketPricer.class.getName());
+    static final Logger logger = LogManager.getLogger(MagicCardMarket2Pricer.class.getName());
 
-    public MagicCardMarketPricer() {
+    
+    public static void main(String[] args) throws IOException {
+    	MagicCardMarket2Pricer manager = new MagicCardMarket2Pricer();
+    	MagicCard mc = new MagicCard();
+    			mc.setName("Liliana");
+    	MagicEdition ed = new MagicEdition();
+    		ed.setRarity("Rare");
+    			
+    			
+    	manager.getPrice(ed, mc);
+	}
+    
+    
+    public MagicCardMarket2Pricer() {
     	super();
     	
     	
@@ -58,9 +71,9 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 			props.put("ENCODING", "UTF-8");
 			props.put("LANGUAGE_ID", "1");
 			props.put("IS_EXACT", "false");
-			props.put("WS_VERSION", "v1.1");
+			props.put("WS_VERSION", "v2.0");
 			props.put("CERT_SERV", "www.mkmapi.eu");
-			props.put("URL", "https://www.mkmapi.eu/ws/%VERSION%/products/%KEYWORD%/%GAME%/%LANG%/%IS_EXACT%");
+			props.put("URL", "https://www.mkmapi.eu/ws/%VERSION%/products/find?idGame=%GAME%&idLanguage=%LANG%&search=%KEYWORD%");
 			props.put("WEBSITE", "https://www.magiccardmarket.eu");
 			props.put("REF_PRICE", "LOW");
 			props.put("OAUTH_VERSION", "1.0");
@@ -155,6 +168,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
   				 return lists.subList(0, Integer.parseInt(props.get("MAX").toString()));
     }
     catch(Exception e) {
+    	e.printStackTrace();
 		logger.error(e);
 		
 	} 
@@ -249,7 +263,7 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 	
 	
 	public String getName() {
-		return "Magic Card Market";
+		return "Magic Card Market 2";
 	}
 
 	
