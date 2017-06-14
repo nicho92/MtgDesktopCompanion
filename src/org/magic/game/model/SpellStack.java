@@ -35,9 +35,10 @@ public class SpellStack {
 	
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-		for(AbstractSpell s : stack)
+		
+		for(int i=stack.size()-1;i>=0;i--)
 		{
-			b.append(s).append("\n");
+			b.append(stack.get(i)).append("\n");
 		}
 		return b.toString();
 	}
