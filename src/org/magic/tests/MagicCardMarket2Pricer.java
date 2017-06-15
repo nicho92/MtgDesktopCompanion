@@ -1,19 +1,16 @@
 package org.magic.tests;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.StringReader;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -22,11 +19,6 @@ import java.util.TreeMap;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -34,11 +26,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
 
 public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
     
@@ -62,73 +49,29 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
 			props.put("APP_SECRET", "");
 			props.put("APP_ACCESS_TOKEN", "");
 			props.put("APP_ACCESS_TOKEN_SECRET", "");
-			props.put("GAME_ID", "1");
-			props.put("ENCODING", "UTF-8");
-			props.put("LANGUAGE_ID", "1");
-			props.put("IS_EXACT", "false");
-			props.put("WS_VERSION", "v2.0");
-			props.put("CERT_SERV", "www.mkmapi.eu");
-			props.put("URL", "https://www.mkmapi.eu/ws/v2.0/metaproducts/find");
-			props.put("WEBSITE", "https://www.magiccardmarket.eu");
-			props.put("REF_PRICE", "LOW");
-			props.put("OAUTH_VERSION", "1.0");
-			props.put("CRYPT", "HMAC-SHA1");
-			props.put("REF_PRICE", "LOW");
-			props.put("MAX", "5");
-			props.put("COMMONCHECK", "false");
-		save();
+			props.put("URL", "https://www.mkmapi.eu/ws/v2.0/products/find");
+			save();
     	}
      }
   
     public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
+    	 try{
+		    	String link = props.getProperty("URL")+"?search=Tarmogoyf&idGame=1&idLanguage=1";
+		    	
+		    	 String authorizationProperty = generateOAuthSignature(link,"GET");
+			     HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+					              connection.addRequestProperty("Authorization", authorizationProperty) ;
+					              connection.connect() ;
+					              
+				_lastCode = connection.getResponseCode();
+				logger.debug(getName() + " response :  " + _lastCode);
+    	 }
+    	 catch(Exception e)
+    	 {
+    		 System.err.println(e);
+    	 }
+		return lists;
     	
-    try{
-    	lists = new ArrayList<MagicPrice>();
-    	_lastCode = 0;
-        _lastContent = "";
-    
-        	String url = props.getProperty("URL")+"?search=Tarmogoyf&idGame=1&idLanguage=1";
-		   
-		   String authorizationProperty = generateOAuthSignature(url,"GET");
-		   HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-		   					 connection.addRequestProperty("Authorization", authorizationProperty) ;
-		   					 connection.addRequestProperty("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8");
-				             connection.connect();
-				             
-           _lastCode = connection.getResponseCode();
-           
-           
-           logger.debug(getName() + " response :  " + _lastCode);
-           
-           BufferedReader rd = new BufferedReader(new InputStreamReader(_lastCode==200?connection.getInputStream():connection.getErrorStream()));  
-           StringBuffer sb = new StringBuffer();  
-           String line;  
-           while ((line = rd.readLine()) != null) {  
-               sb.append(line);  
-           }
-           rd.close();
-           _lastContent = sb.toString();
-            
-           if (200 == _lastCode) 
-           {
-        	  completeListFromXML(_lastContent);
-           }
-           else	   
-           {
-                logger.error(_lastContent);
-           }
-           
-           if(lists.size()>Integer.parseInt(props.get("MAX").toString()))
-  			 if(Integer.parseInt(props.get("MAX").toString())>-1)
-  				 return lists.subList(0, Integer.parseInt(props.get("MAX").toString()));
-    }
-    catch(Exception e) {
-    	e.printStackTrace();
-		logger.error(e);
-		
-	} 
-    
-    return lists;
     }
     
     private Map<String,String> parseQueryString(String query)
@@ -150,72 +93,84 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
     }
     
     
-    public String generateOAuthSignature(String link,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException, MalformedURLException {
+    public String generateOAuthSignature(String url,String method) throws InvalidKeyException, UnsupportedEncodingException, NoSuchAlgorithmException{
+    	
+    	 Map<String,String> headerParams = new HashMap<String,String>();
+         Map<String,String> encodedParams = new TreeMap<String, String>();
 
-        String realm = props.getProperty("URL").toString();
-        String oauth_version =  props.get("OAUTH_VERSION").toString() ;
-        String oauth_consumer_key = props.get("APP_TOKEN").toString() ;
-        String oauth_token = props.get("APP_ACCESS_TOKEN").toString() ;
-        String oauth_signature_method = props.get("CRYPT").toString();
-        String oauth_timestamp = ""+ (System.currentTimeMillis()/1000) ;
-        String oauth_nonce = "" + System.currentTimeMillis() ;
-        String encode = props.get("ENCODING").toString();
-        
-        String baseString = method+"&" + URLEncoder.encode(realm,encode) ;
-       
-        Map<String,String> headerParams = new TreeMap<String,String>();
-        	headerParams.put("realm",realm);
-        	headerParams.put("oauth_consumer_key",oauth_consumer_key);
-        	headerParams.put("oauth_nonce",oauth_nonce) ;
-			headerParams.put("oauth_signature_method",oauth_signature_method) ;
-			headerParams.put("oauth_timestamp",oauth_timestamp) ;
-			headerParams.put("oauth_token",oauth_token) ;
-			headerParams.put("oauth_version",oauth_version) ;
-        
-        int index=link.indexOf("?");
-	
-        if(index>0)
-		{
-			String urlParams = link.substring(index);
-			headerParams.putAll(parseQueryString(urlParams));;
-		}
-
-        System.out.println(headerParams);
-        
-        for(String k : headerParams.keySet())
-        {
-            if (k.equals("realm")==false)
-            {
-            	baseString +="&"+URLEncoder.encode(k,encode)+"="+URLEncoder.encode(headerParams.get(k),encode) ;
-            }
-        }
-        
-        System.out.println(baseString);
+    	 String accessSecret = props.getProperty("APP_ACCESS_TOKEN_SECRET");
+         String accessToken = props.getProperty("APP_ACCESS_TOKEN");
+         String appSecret = props.getProperty("APP_SECRET");
+         String appToken = props.getProperty("APP_TOKEN");
+         String signatureMethod = "HMAC-SHA1";
+         String version = "1.0";
+         String encode="UTF-8";
+         String nonce="" + System.currentTimeMillis();
+         String timestamp=""+ (System.currentTimeMillis()/1000);
+         String baseUri = props.getProperty("URL");
+         String signatureKey = URLEncoder.encode(appSecret,encode) + "&" + URLEncoder.encode(accessSecret,encode);
          
-	    baseString += baseString ;
-	    String signatureKey = URLEncoder.encode( props.get("APP_SECRET").toString(),encode) + "&" + URLEncoder.encode(props.get("APP_ACCESS_TOKEN_SECRET").toString(),encode) ;
-        Mac mac = Mac.getInstance("HmacSHA1");
-        SecretKeySpec secret = new SecretKeySpec(signatureKey.getBytes(), mac.getAlgorithm());
-        mac.init(secret);
-        byte[] digest = mac.doFinal(baseString.getBytes());
-        String oauth_signature = DatatypeConverter.printBase64Binary(digest); //Base64.encode(digest).trim() ;     
+         headerParams = new TreeMap<String, String>();
+         headerParams.put("oauth_consumer_key", appToken);
+         headerParams.put("oauth_token", accessToken);
+         headerParams.put("oauth_nonce", nonce);
+         headerParams.put("oauth_timestamp", timestamp);
+         headerParams.put("oauth_signature_method", signatureMethod);
+         headerParams.put("oauth_version", version);
+         headerParams.put("realm", baseUri);
+         
+         
+         String baseString = method.toUpperCase()
+                 + "&"
+                 + URLEncoder.encode(url, encode)
+                 + "&";
+         
+         int index = url.indexOf("?");
+         
+         if (index > 0)
+         {
+             String urlParams = url.substring(index+1);
+             Map<String,String> args = parseQueryString(urlParams);
+
+             for (String k : args.keySet())
+                 headerParams.put(k, args.get(k));
+         }
+         
+         for (String k : headerParams.keySet())
+         {
+             if (false == k.equalsIgnoreCase("realm"))
+             {
+                 encodedParams.put(URLEncoder.encode(k,encode), URLEncoder.encode(headerParams.get(k),encode));
+             }
+         }
+         
+         List<String> paramStrings = new ArrayList<String>();
         
-        headerParams.put("oauth_signature", oauth_signature);
-      
-        List<String> headerParamStrings = new ArrayList<String>();
-        for (String s : headerParams.keySet())
-        {
-            headerParamStrings.add(s + "=\"" + headerParams.get(s) + "\"");
-        }
-        
-        
-        String authHeader = "OAuth "+join(headerParamStrings, ", ");
-        
-      
-        System.out.println(authHeader);
-        
-        return authHeader;
-	}
+         for(String parameter:encodedParams.keySet())
+             paramStrings.add(parameter + "=" + encodedParams.get(parameter));
+         
+         String paramString = URLEncoder.encode(join(paramStrings, "&"),encode);
+         
+         baseString += paramString;
+         
+         Mac mac = Mac.getInstance("HmacSHA1");
+         SecretKeySpec secret = new SecretKeySpec(signatureKey.getBytes(), mac.getAlgorithm());
+         mac.init(secret);
+         byte[] digest = mac.doFinal(baseString.getBytes());
+         String oAuthSignature = DatatypeConverter.printBase64Binary(digest);    
+         headerParams.put("oauth_signature", oAuthSignature);
+         
+         List<String> headerParamStrings = new ArrayList<String>();
+    
+         for(String parameter:headerParams.keySet())
+             headerParamStrings.add(parameter + "=\"" + headerParams.get(parameter) + "\"");
+         
+         String authHeader = "OAuth " + join(headerParamStrings,", ");
+         
+         System.out.println(authHeader);
+		return authHeader;
+         
+    }
 
     
     private String join(Collection<?> s, String delimiter) {
@@ -231,44 +186,6 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
         return builder.toString();
     }
     
-	private void completeListFromXML(String xmlContent) {
-    	
-    	logger.debug(xmlContent);
-    	try {
-    		
-    		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new StringReader(xmlContent)));
-    		NodeList nodes =d.getElementsByTagName("product");
-    		
-    		 XPath xpath = XPathFactory.newInstance().newXPath();
-    		    XPathExpression expr = xpath.compile("//response/product/category/idCategory");
-    		    Object result = expr.evaluate(d, XPathConstants.NODESET);
-    		    NodeList ids = (NodeList) result;
-    		
-    		for(int i = 0; i<nodes.getLength();i++)
-    		{
-    		
-    			Node n = nodes.item(i);
-    			Element e =  (Element) n.getChildNodes();
-    			
-    			if(Integer.parseInt(ids.item(i).getTextContent())==1)
-    			{
-    			MagicPrice mp = new MagicPrice();
-    				mp.setUrl(props.getProperty("WEBSITE")+e.getElementsByTagName("website").item(0).getTextContent());
-					mp.setSite(getName());
-					mp.setCurrency("EUR");
-					mp.setSeller(e.getElementsByTagName("expansion").item(0).getTextContent());
-					mp.setValue(Double.parseDouble(((Element)e.getElementsByTagName("priceGuide").item(0)).getElementsByTagName(props.getProperty("REF_PRICE")).item(0).getTextContent()));
-				lists.add(mp);
-    			}
-    		}
-    		 logger.info(getName() +" found " + lists.size() + " items");
-    	
-		} catch (Exception e) {
-			 logger.error(e);
-		} 
-    	
-	}
-	
 	public String getName() {
 		return "Magic Card Market 2";
 	}
