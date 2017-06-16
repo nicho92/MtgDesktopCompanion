@@ -2,10 +2,12 @@ package org.magic.tests;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
@@ -20,12 +22,22 @@ import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.modele.Article;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.w3c.dom.Document;
+
+import com.sun.org.apache.xml.internal.serialize.OutputFormat;
+import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamImplicit;
+import com.thoughtworks.xstream.io.xml.StaxDriver;
+import com.thoughtworks.xstream.security.AnyTypePermission;
 
 public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
     
@@ -54,23 +66,39 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
   
     public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
     	 try{
-		    	String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search=Tarmogoyf&idGame=1&idLanguage=1";
-		    	
-		    	 String authorizationProperty = generateOAuthSignature(link,"GET");
-			     HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
-					              connection.addRequestProperty("Authorization", authorizationProperty) ;
-					              connection.connect() ;
-					              
+    		 XStream xstream = new XStream(new StaxDriver());
+    		 		XStream.setupDefaultSecurity(xstream);
+    		 		xstream.addPermission(AnyTypePermission.ANY);
+    		 		xstream.alias("article", Article.class);
+    		 		xstream.ignoreUnknownElements();
+    		 		
+    		 //   String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search=Tarmogoyf&idGame=1&idLanguage=1";
+    		 	String link = "https://www.mkmapi.eu/ws/v2.0/articles/15145?idLanguage=1&maxResults=5";//
+		    	String authorizationProperty = generateOAuthSignature(link,"GET");
+			    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
+					               connection.addRequestProperty("Authorization", authorizationProperty) ;
+					               connection.connect() ;
 				_lastCode = connection.getResponseCode();
-				logger.debug(getName() + " response :  " + _lastCode);
+				String xml= IOUtils.toString((_lastCode==200?connection.getInputStream():connection.getErrorStream()), StandardCharsets.UTF_8);
+				xml = xml.replaceAll("<response>", "").replaceAll("</response>", "");
+				System.out.println(xml);
+				List<Article> newJoe = (List)xstream.fromXML(xml);
     	 }
     	 catch(Exception e)
     	 {
-    		 System.err.println(e);
+    		 e.printStackTrace();
     	 }
 		return lists;
     	
     }
+    
+    static void prettyPrint(Document doc,PrintStream os) throws IOException
+	{
+		OutputFormat format = new OutputFormat(doc);
+        format.setIndenting(true);
+        XMLSerializer serializer = new XMLSerializer(os, format);
+        serializer.serialize(doc);
+	}
     
     private Map<String,String> parseQueryString(String query)
     {
@@ -162,10 +190,7 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
              headerParamStrings.add(parameter + "=\"" + headerParams.get(parameter) + "\"");
          
          String authHeader = "OAuth " + join(headerParamStrings,", ");
-         
-         System.out.println(authHeader);
-		return authHeader;
-         
+     	return authHeader;
     }
 
     
