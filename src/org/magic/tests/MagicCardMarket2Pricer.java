@@ -30,7 +30,6 @@ import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
     
     private int _lastCode;
-    private String _lastContent;
     private List<MagicPrice> lists;
     
     static final Logger logger = LogManager.getLogger(MagicCardMarket2Pricer.class.getName());
@@ -49,14 +48,13 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
 			props.put("APP_SECRET", "");
 			props.put("APP_ACCESS_TOKEN", "");
 			props.put("APP_ACCESS_TOKEN_SECRET", "");
-			props.put("URL", "https://www.mkmapi.eu/ws/v2.0/products/find");
 			save();
     	}
      }
   
     public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
     	 try{
-		    	String link = props.getProperty("URL")+"?search=Tarmogoyf&idGame=1&idLanguage=1";
+		    	String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search=Tarmogoyf&idGame=1&idLanguage=1";
 		    	
 		    	 String authorizationProperty = generateOAuthSignature(link,"GET");
 			     HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
@@ -97,7 +95,7 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
     	
     	 Map<String,String> headerParams = new HashMap<String,String>();
          Map<String,String> encodedParams = new TreeMap<String, String>();
-
+         int index = url.indexOf("?");
     	 String accessSecret = props.getProperty("APP_ACCESS_TOKEN_SECRET");
          String accessToken = props.getProperty("APP_ACCESS_TOKEN");
          String appSecret = props.getProperty("APP_SECRET");
@@ -107,7 +105,7 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
          String encode="UTF-8";
          String nonce="" + System.currentTimeMillis();
          String timestamp=""+ (System.currentTimeMillis()/1000);
-         String baseUri = props.getProperty("URL");
+         String baseUri = (index>0?url.substring(0,index):url);
          String signatureKey = URLEncoder.encode(appSecret,encode) + "&" + URLEncoder.encode(accessSecret,encode);
          
          headerParams = new TreeMap<String, String>();
@@ -122,10 +120,8 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
          
          String baseString = method.toUpperCase()
                  + "&"
-                 + URLEncoder.encode(url, encode)
+                 + URLEncoder.encode(baseUri, encode)
                  + "&";
-         
-         int index = url.indexOf("?");
          
          if (index > 0)
          {
