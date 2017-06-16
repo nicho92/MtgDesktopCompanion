@@ -6,10 +6,10 @@ public class Localization {
 	private String name;
 	private String languageName;
 	
-	public Localization() {
-		// TODO Auto-generated constructor stub
+	@Override
+	public String toString() {
+		return getLanguageName();
 	}
-	
 	
 	public int getIdLanguage() {
 		return idLanguage;

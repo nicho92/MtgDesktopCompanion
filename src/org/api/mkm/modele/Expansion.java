@@ -6,6 +6,11 @@ public class Expansion {
 	private String enName;
 	private int expansionIcon;
 	
+	@Override
+	public String toString() {
+		return getEnName();
+	}
+	
 	public int getIdExpansion() {
 		return idExpansion;
 	}

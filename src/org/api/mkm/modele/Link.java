@@ -8,6 +8,8 @@ public class Link {
 	private String action;
 	private int idArticle;
 	
+	
+	
 	public String getRel() {
 		return rel;
 	}

@@ -66,8 +66,7 @@ public class ArticleService {
 			               connection.addRequestProperty("Authorization", auth.generateOAuthSignature(link,"GET")) ;
 			               connection.connect() ;
 		String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
-		System.out.println(xml);
-		Response<Article> res = (Response<Article>)xstream.fromXML(xml);
+		Response res = (Response)xstream.fromXML(xml);
 		return res.getArticle();
 	}
 	

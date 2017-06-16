@@ -4,7 +4,7 @@ public class Article
 {
 	private int idArticle;
 	private int idProduct;
-	private Language language;
+	private Localization language;
 	private String comments;
 	private double price;
 	private int count;
@@ -26,10 +26,10 @@ public class Article
 	public void setProduct(Product product) {
 		this.product = product;
 	}
-	public Language getLanguage() {
+	public Localization getLanguage() {
 		return language;
 	}
-	public void setLanguage(Language language) {
+	public void setLanguage(Localization language) {
 		this.language = language;
 	}
 	public int getIdArticle() {

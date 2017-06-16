@@ -2,19 +2,19 @@ package org.api.mkm.modele;
 
 import java.util.List;
 
-public class Response<T> {
+public class Response {
 	
-	List<T> product;
-	List<T> article;
+	List<Product> product;
+	List<Article> article;
 	List<Link> links;
 	
 	
 	
 	
-	public List<T> getProduct() {
+	public List<Product> getProduct() {
 		return product;
 	}
-	public void setProduct(List<T> product) {
+	public void setProduct(List<Product> product) {
 		this.product = product;
 	}
 	public List<Link> getLinks() {
@@ -23,10 +23,10 @@ public class Response<T> {
 	public void setLinks(List<Link> links) {
 		this.links = links;
 	}
-	public List<T> getArticle() {
+	public List<Article> getArticle() {
 		return article;
 	}
-	public void setArticle(List<T> article) {
+	public void setArticle(List<Article> article) {
 		this.article = article;
 	}
 	

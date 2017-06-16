@@ -1,6 +1,5 @@
 package org.api.mkm.modele.tests;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.security.InvalidKeyException;
@@ -9,9 +8,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.api.mkm.modele.Product;
+import org.apache.commons.beanutils.BeanUtils;
+import org.api.mkm.modele.Article;
+import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
+import org.api.mkm.modele.services.ArticleService;
 import org.api.mkm.modele.services.ProductServices;
 import org.api.mkm.modele.tools.MkmAPIConfig;
 import org.magic.api.pricers.impl.MagicCardMarketPricer;
@@ -45,21 +47,27 @@ public class TestProducts {
 		*/
 		
 		
-		ProductServices artServices = new ProductServices();
-		Map<PRODUCT_ATTS, String> map = new HashMap<PRODUCT_ATTS,String>();
-		
-		map.put(PRODUCT_ATTS.idLanguage, "1");
-		map.put(PRODUCT_ATTS.idGame, "1");
-		map.put(PRODUCT_ATTS.start, "0");
-		map.put(PRODUCT_ATTS.maxResults, "5");
+		ProductServices prodServices = new ProductServices();
+		ArticleService artServices = new ArticleService();
+		Map<ARTICLES_ATT, String> map = new HashMap<ARTICLES_ATT,String>();
 		
 		
-		List<Product> pcs = artServices.find("Tarmog",map);
+		Product p = prodServices.getById("15145");
 		
-		for(Product p : pcs)
-			System.out.println(BeanUtils.describe(p));
+		map.put(ARTICLES_ATT.start, "0");
+		map.put(ARTICLES_ATT.maxResults,"20");
+		map.put(ARTICLES_ATT.idLanguage, "1");
+		map.put(ARTICLES_ATT.minCondition, "NM");
 		
+		System.out.println(p.getPriceGuide().getAVG());
 		
+		List<Article> arts = artServices.find(p, map);
+		
+		for(Article art : arts)
+		{
+			art.setProduct(p);
+			System.out.println(BeanUtils.describe(art.getLinks()));
+		}
 		
 
 	}
