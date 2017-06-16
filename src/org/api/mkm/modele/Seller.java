@@ -22,6 +22,16 @@ public class Seller {
 	private int soldItems;
 	private int avgShippingTime;
 	private boolean onVacation;
+	
+	/*
+	 * <name>
+        <company>Karmacrow Ltd. &amp; Co KG</company>
+        <firstName>Michael</firstName>
+        <lastName>Steinke</lastName>
+      </name>
+	 */
+	
+	
 	public int getIdUser() {
 		return idUser;
 	}

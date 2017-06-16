@@ -7,6 +7,7 @@ public class Link {
 	private String method;
 	private String action;
 	private int idArticle;
+	
 	public String getRel() {
 		return rel;
 	}

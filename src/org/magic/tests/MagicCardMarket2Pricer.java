@@ -26,16 +26,15 @@ import org.apache.commons.io.IOUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
+import org.api.mkm.modele.Link;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.w3c.dom.Document;
-
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.annotations.XStreamImplicit;
 import com.thoughtworks.xstream.io.xml.StaxDriver;
 import com.thoughtworks.xstream.security.AnyTypePermission;
 
@@ -67,22 +66,31 @@ public class MagicCardMarket2Pricer extends AbstractMagicPricesProvider{
     public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
     	 try{
     		 XStream xstream = new XStream(new StaxDriver());
-    		 		XStream.setupDefaultSecurity(xstream);
+    				XStream.setupDefaultSecurity(xstream);
     		 		xstream.addPermission(AnyTypePermission.ANY);
     		 		xstream.alias("article", Article.class);
+    		 		xstream.alias("response", List.class);
+    		 		xstream.alias("links", Link.class);
     		 		xstream.ignoreUnknownElements();
     		 		
     		 //   String link = "https://www.mkmapi.eu/ws/v2.0/products/find?search=Tarmogoyf&idGame=1&idLanguage=1";
-    		 	String link = "https://www.mkmapi.eu/ws/v2.0/articles/15145?idLanguage=1&maxResults=5";//
+    		 	String link = "https://www.mkmapi.eu/ws/v2.0/articles/15145?idLanguage=1&idGame=1&start=0&maxResults=10";//
 		    	String authorizationProperty = generateOAuthSignature(link,"GET");
 			    HttpURLConnection connection = (HttpURLConnection) new URL(link).openConnection();
 					               connection.addRequestProperty("Authorization", authorizationProperty) ;
 					               connection.connect() ;
 				_lastCode = connection.getResponseCode();
-				String xml= IOUtils.toString((_lastCode==200?connection.getInputStream():connection.getErrorStream()), StandardCharsets.UTF_8);
-				xml = xml.replaceAll("<response>", "").replaceAll("</response>", "");
+				System.out.println(_lastCode);
+				String xml= IOUtils.toString(connection.getInputStream(), StandardCharsets.UTF_8);
+				//xml = xml.replaceAll("<response>", "").replaceAll("</response>", "");
 				System.out.println(xml);
-				List<Article> newJoe = (List)xstream.fromXML(xml);
+				List<Article> res = (List<Article>)xstream.fromXML(xml,new Article());
+				
+				for(Object a : res)
+				{
+					System.out.println(a);
+				}
+				
     	 }
     	 catch(Exception e)
     	 {
