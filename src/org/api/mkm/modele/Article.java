@@ -9,15 +9,23 @@ public class Article
 	private double price;
 	private int count;
 	private boolean inShoppingCart;
-	private Seller seller;
+	private User seller;
 	private String condition;
 	private boolean isFoil;
 	private boolean isSigned;
 	private boolean isPlayset;
+	private Product product;
 	private Link links;
 	
+	public static enum ARTICLES_ATT {start,maxResults,userType ,minUserScore ,idLanguage ,minCondition,isFoil ,isSigned,isAltered,minAvailable};
+
 	
-	
+	public Product getProduct() {
+		return product;
+	}
+	public void setProduct(Product product) {
+		this.product = product;
+	}
 	public Language getLanguage() {
 		return language;
 	}
@@ -61,10 +69,10 @@ public class Article
 	public void setInShoppingCart(boolean inShoppingCart) {
 		this.inShoppingCart = inShoppingCart;
 	}
-	public Seller getSeller() {
+	public User getSeller() {
 		return seller;
 	}
-	public void setSeller(Seller seller) {
+	public void setSeller(User seller) {
 		this.seller = seller;
 	}
 	public String getCondition() {

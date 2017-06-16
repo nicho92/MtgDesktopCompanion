@@ -2,7 +2,7 @@ package org.api.mkm.modele;
 
 import java.util.Date;
 
-public class Seller {
+public class User {
 	private int idUser;
 	private String username;
 	private Date registrationDate;
@@ -30,7 +30,10 @@ public class Seller {
         <lastName>Steinke</lastName>
       </name>
 	 */
-	
+	@Override
+	public String toString() {
+		return getUsername();
+	}
 	
 	public int getIdUser() {
 		return idUser;
