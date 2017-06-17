@@ -183,7 +183,7 @@ public class MKMOnlineWantListExport extends AbstractCardExport {
 		String id = (nodes.getElementsByTagName("idWantsList").item(0).getTextContent());
 		return new WantList(id,name);
 	}
-
+	
 	public List<WantList> getWantList() throws Exception
 	{
 		String url="https://www.mkmapi.eu/ws/v1.1/wantslist";

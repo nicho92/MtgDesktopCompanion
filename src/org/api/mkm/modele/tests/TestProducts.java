@@ -36,18 +36,6 @@ public class TestProducts {
 		
 		WantsService wanServices = new WantsService();
 		
-		Wantslist wl= wanServices.getWantList().get(0);
-		wanServices.loadItems(wl);
-		
-		for(Link link : wl.getLinks())
-			System.out.println(BeanUtils.describe(link));
-		
-		for(WantItem it : wl.getItem())
-		{
-			System.out.println(it.getProduct());
-		}
-		
-		wanServices.createWantList("TOTOF");
 		
 		/*
 		ArticleService artServices = new ArticleService();
