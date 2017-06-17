@@ -16,6 +16,7 @@ import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Link;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Response;
+import org.api.mkm.modele.User;
 import org.api.mkm.modele.tools.MkmAPIConfig;
 import org.api.mkm.modele.tools.Tools;
 
@@ -40,6 +41,13 @@ public class ArticleService {
 	 		xstream.addImplicitCollection(Response.class,"links",Link.class);
 	 		xstream.ignoreUnknownElements();
 	}
+	
+	public List<Article> find(User u,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
+	{
+		//https://www.mkmapi.eu/ws/v2.0/users/karmacrow/articles?start=0&maxResults=100
+		return null;
+	}
+	
 	
 	public List<Article> find(Product p,Map<ARTICLES_ATT,String> atts) throws InvalidKeyException, NoSuchAlgorithmException, IOException
 	{

@@ -7,10 +7,16 @@ public class Response {
 	List<Product> product;
 	List<Article> article;
 	List<Link> links;
+	List<Wantslist> wantslist;
 	
 	
 	
-	
+	public List<Wantslist> getWantslist() {
+		return wantslist;
+	}
+	public void setWantslist(List<Wantslist> wantlist) {
+		this.wantslist = wantlist;
+	}
 	public List<Product> getProduct() {
 		return product;
 	}
