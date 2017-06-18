@@ -1,4 +1,4 @@
-package org.magic.api.pricers.impl;
+package org.magic.tests.todelete;
 
 import java.io.BufferedReader;
 import java.io.File;

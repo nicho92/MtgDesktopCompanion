@@ -1,4 +1,4 @@
-package org.magic.api.exports.impl;
+package org.magic.tests.todelete;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,8 +26,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.exports.impl.MKMFileWantListExport;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.api.pricers.impl.MagicCardMarketPricer;
 import org.magic.services.MTGControler;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
