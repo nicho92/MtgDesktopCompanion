@@ -190,7 +190,7 @@
 			<enable>true</enable>
 		</export>
 		<export>
-			<class>org.magic.api.exports.impl.MKMOnlineWantListExport</class>
+			<class>org.magic.api.exports.impl.MKMOnlineWantListExport2</class>
 			<enable>true</enable>
 		</export>
 		<export>
