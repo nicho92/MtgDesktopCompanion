@@ -17,9 +17,13 @@ Features :
 > Generate a website of your collections with your own template.
 > get dashboard of cards prices variation
 > lookup for cards in auction websites
-> import / export decks and list cards in multiple format (mtgo,dci sheet, csv, cockatrice,..) 
+> import / export decks and list cards in multiple format (mtgo,dci sheet, csv, cockatrice,MagicCardMarket wantlist..) 
 > get alerted for wanted cards !
 > import your deck from website (tappedout, deckstat,mtggoldfish,...)
+> manacurve, color and type repartition
+> Standalone servers (game room, console server, http server, price checking).
+> New magiccardMarket Pricer : Stay tunned !!,  when you're alerted by a good bid for your wanted cards, it's automatically added to your cart ! 
+
 
 > Modularity : 
 - manage your prices provider
@@ -27,8 +31,9 @@ Features :
 - manage your dashboard provider
 - manage your online shops
 - manage your database providers
+- manage your pictures providers
+- manage your cache providers
 
-> manacurve, color and type repartition
 
 
 Main interface :
