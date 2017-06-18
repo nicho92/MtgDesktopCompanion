@@ -135,7 +135,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
        Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
 		atts.put(PRODUCT_ATTS.idGame, "1");
 		atts.put(PRODUCT_ATTS.exact,props.getProperty("IS_EXACT"));
-		atts.put(PRODUCT_ATTS.idLanguage,props.getProperty("LANGUAGE_ID"));
+		if(!props.getProperty("LANGUAGE_ID").equals(""))
+			atts.put(PRODUCT_ATTS.idLanguage,props.getProperty("LANGUAGE_ID"));
 
 		List<Product> list = pService.find(card.getName(), atts);
 		
@@ -172,9 +173,12 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		Map<ARTICLES_ATT,String> aatts = new HashMap<ARTICLES_ATT, String>();
 		aatts.put(ARTICLES_ATT.start, "0");
 		aatts.put(ARTICLES_ATT.maxResults, props.getProperty("MAX"));
+		
+		if(!props.getProperty("LANGUAGE_ID").equals(""))
 		aatts.put(ARTICLES_ATT.idLanguage, props.getProperty("LANGUAGE_ID"));
+		
 		if(!props.getProperty("MIN_CONDITION").equals(""))
-			aatts.put(ARTICLES_ATT.minAvailable,props.getProperty("MIN_CONDITION"));
+			aatts.put(ARTICLES_ATT.minCondition,props.getProperty("MIN_CONDITION"));
 
 		
 		List<Article> articles = aServ.find(resultat, aatts);
