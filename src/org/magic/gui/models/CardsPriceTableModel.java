@@ -35,12 +35,17 @@ public class CardsPriceTableModel extends DefaultTableModel {
 			try {
 				if(prov.isEnable())
 				{
-					prices.addAll(prov.getPrice(me, mc));
+					List<MagicPrice> list = prov.getPrice(me, mc);
+					
+					if(list!=null)
+						if(list.size()>0)
+							prices.addAll(list);
+					
 					fireTableDataChanged();
 				}
 			} catch (Exception e) {
 				logger.error(e);
-				//e.printStackTrace();
+				
 			}
 		}
 		fireTableDataChanged();
