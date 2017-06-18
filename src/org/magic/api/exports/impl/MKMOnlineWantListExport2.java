@@ -137,8 +137,6 @@ public class MKMOnlineWantListExport2 extends AbstractCardExport {
 		return "";
 	}
 	
-
-
 	@Override
 	public void export(MagicDeck deck, File dest) throws Exception {
 		WantsService wlService = new WantsService();
@@ -148,7 +146,6 @@ public class MKMOnlineWantListExport2 extends AbstractCardExport {
 		for(MagicCard mc : deck.getMap().keySet())
 		{
 			Product p = mkmPricer.getProductFromCard(mc,pService.find(mc.getName(), atts));
-			logger.debug("could not export " + mc);
 			if(p!=null)
 			{ 
 				WantItem w = new WantItem();
@@ -163,6 +160,10 @@ public class MKMOnlineWantListExport2 extends AbstractCardExport {
 				
 				wants.add(w);
 				
+			}
+			else
+			{
+				logger.debug("could not export " + mc);
 			}
 		}
 		
