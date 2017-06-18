@@ -64,12 +64,12 @@
 				<enable>true</enable>
 		</pricer>
 		<pricer>
-				<class>org.magic.api.pricers.impl.MagicTradersPricer</class>
-				<enable>false</enable>
+				<class>org.magic.api.pricers.impl.MagicCardMarketPricer2</class>
+				<enable>true</enable>
 		</pricer>
 		<pricer>
-				<class>org.magic.api.pricers.impl.MagicCardMarketPricer</class>
-				<enable>true</enable>
+				<class>org.magic.api.pricers.impl.MagicTradersPricer</class>
+				<enable>false</enable>
 		</pricer>
 		<pricer>
 				<class>org.magic.api.pricers.impl.MagicVillePricer</class>

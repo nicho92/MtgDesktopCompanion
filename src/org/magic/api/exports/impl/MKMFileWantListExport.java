@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 
+
 public class MKMFileWantListExport extends AbstractCardExport {
 
 	/**

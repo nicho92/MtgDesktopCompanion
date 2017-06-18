@@ -37,7 +37,7 @@ import org.xml.sax.InputSource;
 import com.sun.org.apache.xml.internal.serialize.OutputFormat;
 import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
 
-
+@Deprecated
 public class MKMOnlineWantListExport extends AbstractCardExport {
 
 	HttpURLConnection connection;

@@ -37,6 +37,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
+@Deprecated
 public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
     
     private int _lastCode;
