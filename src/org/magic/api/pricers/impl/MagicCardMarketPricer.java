@@ -253,5 +253,11 @@ public class MagicCardMarketPricer extends AbstractMagicPricesProvider{
 		return "Magic Card Market";
 	}
 
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }

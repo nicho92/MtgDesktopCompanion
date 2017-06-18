@@ -96,4 +96,11 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 	public String getName() {
 		return "Magic Traders";
 	}
+
+
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		// TODO Auto-generated method stub
+		
+	}
 }

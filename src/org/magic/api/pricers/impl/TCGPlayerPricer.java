@@ -120,5 +120,11 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	public String getName() {
 		return "TCGPlayer";
 	}
+
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

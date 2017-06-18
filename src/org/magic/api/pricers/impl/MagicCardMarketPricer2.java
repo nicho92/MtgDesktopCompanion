@@ -28,7 +28,9 @@ import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.services.ArticleService;
+import org.api.mkm.services.CartServices;
 import org.api.mkm.services.ProductServices;
+import org.api.mkm.services.StockService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -44,13 +46,13 @@ import org.xml.sax.InputSource;
 
 public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     
-   private List<MagicPrice> lists;
+    private List<MagicPrice> lists;
+    private CartServices cart;
     
     static final Logger logger = LogManager.getLogger(MagicCardMarketPricer2.class.getName());
 
     public MagicCardMarketPricer2() {
     	super();
-    	
     	
     	if(!new File(confdir, getName()+".conf").exists()){
 	    	props.put("APP_TOKEN", "");
@@ -61,7 +63,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			props.put("IS_EXACT", "false");
 			props.put("COMMONCHECK", "false");
 			props.put("MAX", "10");
-			props.put("MODE_SELLER", "false");
+			props.put("USER_ARTICLE", "false");
+			props.put("AUTOMATIC_ADD_CARD_ALERT", "false");
 		save();
 		
 		MkmAPIConfig.getInstance().init(
@@ -69,6 +72,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     			props.getProperty("APP_ACCESS_TOKEN").toString(),
     			props.getProperty("APP_SECRET").toString(),
     			props.getProperty("APP_TOKEN").toString());
+		
+		
     	}
     	try {
     		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
@@ -123,12 +128,12 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
        ProductServices pService = new ProductServices();
        Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
 		atts.put(PRODUCT_ATTS.idGame, "1");
-		atts.put(PRODUCT_ATTS.idLanguage, props.getProperty("LANGUAGE_ID"));
 		atts.put(PRODUCT_ATTS.exact,props.getProperty("IS_EXACT"));
+		atts.put(PRODUCT_ATTS.idLanguage,props.getProperty("LANGUAGE_ID"));
 		
 		List<Product> list = pService.find(card.getName(), atts);
 		
-		if(props.getProperty("MODE_SELLER").equals("false"))
+		if(props.getProperty("USER_ARTICLE").equals("false"))
 		{
 			for(Product p : list)
 			{
@@ -140,9 +145,11 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 				   mp.setSite("magiccardmarket.eu");
 				   mp.setFoil(false);
 				   mp.setCurrency("EUR");
-				   mp.setLanguage(null);
+				   mp.setLanguage(String.valueOf(p.getLocalization()));
 				   lists.add(mp);
 			}
+			logger.debug(getName() +" found "  + lists.size() +" items");
+			
 		}
 		else
 		{
@@ -159,8 +166,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		Map<ARTICLES_ATT,String> aatts = new HashMap<ARTICLES_ATT, String>();
 		aatts.put(ARTICLES_ATT.start, "0");
 		aatts.put(ARTICLES_ATT.maxResults, props.getProperty("MAX"));
-		
+		aatts.put(ARTICLES_ATT.idLanguage, props.getProperty("LANGUAGE_ID"));
 		List<Article> articles = aServ.find(resultat, aatts);
+		
+		logger.debug(getName() +" found "  + articles.size() +" items");
 		for(Article a : articles)
 		{
 			MagicPrice mp = new MagicPrice();
@@ -168,10 +177,12 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 					   mp.setValue(a.getPrice());
 					   mp.setQuality(a.getCondition());
 					   mp.setUrl("https://www.magiccardmarket.eu"+resultat.getWebsite());
-					   mp.setSite("magiccardmarket.eu");
+					   mp.setSite("MagicCardMarket");
 					   mp.setFoil(a.isFoil());
 					   mp.setCurrency("EUR");
 					   mp.setLanguage(a.getLanguage().toString());
+					   mp.setShopItem(a);
+					   
 			lists.add(mp);
 		}
 		}
@@ -179,6 +190,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
        
     }
     catch(Exception e) {
+    	e.printStackTrace();
     	logger.error(e);
 		
 	} 
@@ -189,6 +201,37 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
  
 	public String getName() {
 		return "Magic Card Market 2";
+	}
+
+
+
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		
+		if(p.size()>0)
+		{
+			if(props.getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
+			{
+				CartServices cart = new CartServices();
+				try {
+					List<Article> list = new ArrayList<Article>();
+					
+					for(MagicPrice mp : p)
+					{
+						Article a = (Article)mp.getShopItem();
+						a.setCount(1);
+						list.add(a);
+					}
+					
+					boolean res = cart.addArticles(list);
+					logger.info("add " + list + " to card :"  + res);
+				} catch (Exception e) {
+					e.printStackTrace();
+					logger.error("Could not add " + p +" to cart");
+				}
+			}
+		}
+		
 	}
 
 	

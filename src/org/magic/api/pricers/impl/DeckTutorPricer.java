@@ -156,6 +156,13 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	public String getName() {
 		return "Deck Tutor";
 	}
+
+
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

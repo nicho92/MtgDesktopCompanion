@@ -154,6 +154,13 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	public String getName() {
 		return "Magic-Villois";
 	}
+
+
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }
 

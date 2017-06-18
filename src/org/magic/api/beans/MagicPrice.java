@@ -11,13 +11,27 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	private String language;
 	private String quality;
 	
+	private Object shopItem;
 	
+	
+	public Object getShopItem() {
+		return shopItem;
+	}
+
+	public void setShopItem(Object shopItem) {
+		this.shopItem = shopItem;
+	}
+
+
+
 	public String getQuality() {
 		if(quality==null)
 			return "";
 		
 		return quality;
 	}
+	
+
 	public void setQuality(String quality) {
 		this.quality = quality;
 	}

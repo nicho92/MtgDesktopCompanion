@@ -2,6 +2,7 @@ package org.magic.servers.impl;
 
 import java.awt.TrayIcon.MessageType;
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -53,17 +54,21 @@ public class PricesCheckerTimer extends AbstractMTGServer{
             		alert.getOffers().clear();
                 	for(MagicPricesProvider prov : MTGControler.getInstance().getEnabledPricers())
                 	{
+                		List<MagicPrice> okz = new ArrayList<MagicPrice>();
                 		try {
 							List<MagicPrice> list=prov.getPrice(alert.getCard().getEditions().get(0), alert.getCard());
 							for(MagicPrice p : list)
-								if(p.getValue()<=alert.getPrice() && p.getValue()>Double.parseDouble(MTGControler.getInstance().get("min-price-alert")))
+							{	if(p.getValue()<=alert.getPrice() && p.getValue()>Double.parseDouble(MTGControler.getInstance().get("min-price-alert")))
 								{
 									alert.getOffers().add(p);
+									okz.add(p);
 									notify=true;
 								}
-						
+							}
+							prov.alertDetected(okz);
 							alert.orderDesc();
 						} catch (Exception e) {
+							e.printStackTrace();
 							logger.error(e);
 						}
                 	}

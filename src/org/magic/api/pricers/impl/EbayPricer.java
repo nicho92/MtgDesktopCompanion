@@ -122,4 +122,12 @@ public class EbayPricer extends AbstractMagicPricesProvider
 		return "Ebay";
 	}
 
+
+
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

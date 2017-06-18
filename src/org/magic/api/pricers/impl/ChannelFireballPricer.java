@@ -84,6 +84,12 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	public String getName() {
 		return "Channel Fireball";
 	}
+
+	@Override
+	public void alertDetected(List<MagicPrice> p) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

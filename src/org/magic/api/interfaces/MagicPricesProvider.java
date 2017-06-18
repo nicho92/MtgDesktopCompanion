@@ -18,5 +18,6 @@ public interface MagicPricesProvider {
 	public void save();
 	public void load();
 	public void enable(boolean t);
+	public void alertDetected(List<MagicPrice> okz);
 
 }
