@@ -22,6 +22,11 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 	TimerTask tache ;
 	private boolean running=false;
 	static final Logger logger = LogManager.getLogger(PricesCheckerTimer.class.getName());
+	private boolean enableNotify=true;
+	
+	public void enableGUINotify(boolean enableNotify) {
+		this.enableNotify = enableNotify;
+	}
 
 	@Override
     public String description() {
@@ -62,6 +67,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 								{
 									alert.getOffers().add(p);
 									okz.add(p);
+									logger.info("Found offer " + prov + ":" + alert.getCard() + " "+ p.getValue() +p.getCurrency() );
 									notify=true;
 								}
 							}
@@ -73,12 +79,13 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 						}
                 	}
                 	
-                	if(notify)
                 		message.append(alert.getCard()).append(" : ").append(alert.getOffers().size()).append(" offers").append("\n");
 					
                 }
             	
-            	MTGControler.getInstance().notify("New offers", message.toString(), MessageType.INFO);
+            	if(enableNotify)
+            		if(notify)
+            			MTGControler.getInstance().notify("New offers", message.toString(), MessageType.INFO);
             	
             }
         };
