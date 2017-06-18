@@ -37,6 +37,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -61,6 +62,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			props.put("APP_ACCESS_TOKEN_SECRET", "");
 			props.put("LANGUAGE_ID", "1");
 			props.put("IS_EXACT", "false");
+			props.put("MIN_CONDITION", "");
 			props.put("COMMONCHECK", "false");
 			props.put("MAX", "10");
 			props.put("USER_ARTICLE", "false");
@@ -134,7 +136,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		atts.put(PRODUCT_ATTS.idGame, "1");
 		atts.put(PRODUCT_ATTS.exact,props.getProperty("IS_EXACT"));
 		atts.put(PRODUCT_ATTS.idLanguage,props.getProperty("LANGUAGE_ID"));
-		
+
 		List<Product> list = pService.find(card.getName(), atts);
 		
 		if(props.getProperty("USER_ARTICLE").equals("false"))
@@ -171,6 +173,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		aatts.put(ARTICLES_ATT.start, "0");
 		aatts.put(ARTICLES_ATT.maxResults, props.getProperty("MAX"));
 		aatts.put(ARTICLES_ATT.idLanguage, props.getProperty("LANGUAGE_ID"));
+		if(!props.getProperty("MIN_CONDITION").equals(""))
+			aatts.put(ARTICLES_ATT.minAvailable,props.getProperty("MIN_CONDITION"));
+
+		
 		List<Article> articles = aServ.find(resultat, aatts);
 		
 		logger.debug(getName() +" found "  + articles.size() +" items");
@@ -210,31 +216,39 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 
 
 	@Override
-	public void alertDetected(List<MagicPrice> p) {
+	public void alertDetected(final List<MagicPrice> p) {
 		
-		if(p.size()>0)
-		{
-			if(props.getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
-			{
-				CartServices cart = new CartServices();
-				try {
-					List<Article> list = new ArrayList<Article>();
-					
-					for(MagicPrice mp : p)
+		
+		ThreadManager.getInstance().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				if(p.size()>0)
+				{
+					if(props.getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
 					{
-						Article a = (Article)mp.getShopItem();
-						a.setCount(1);
-						list.add(a);
+						CartServices cart = new CartServices();
+						try {
+							List<Article> list = new ArrayList<Article>();
+							
+							for(MagicPrice mp : p)
+							{
+								Article a = (Article)mp.getShopItem();
+								a.setCount(1);
+								list.add(a);
+							}
+							boolean res = cart.addArticles(list);
+							logger.info("add " + list + " to card :"  + res);
+						} catch (Exception e) {
+							e.printStackTrace();
+							logger.error("Could not add " + p +" to cart");
+						}
 					}
-					
-					boolean res = cart.addArticles(list);
-					logger.info("add " + list + " to card :"  + res);
-				} catch (Exception e) {
-					e.printStackTrace();
-					logger.error("Could not add " + p +" to cart");
 				}
+				
 			}
-		}
+		}, "addCart");
+
 		
 	}
 
