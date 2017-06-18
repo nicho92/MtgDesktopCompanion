@@ -95,7 +95,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			if(mc.getEditions().get(0).getMkm_name()!=null)
 				edName=mc.getEditions().get(0).getMkm_name();
 			
-			if(p.getExpansionName().startsWith(edName))
+			if(edName.startsWith(p.getExpansionName()))
 			{
 				resultat=p;
 				break;
@@ -114,6 +114,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     
     	lists = new ArrayList<MagicPrice>();
     	
+    	logger.info(getName() + " looking for " + card +" " + me);
+    	
     	if(props.getProperty("COMMONCHECK").equals("false") && me.getRarity().equalsIgnoreCase("Common"))
         {
         	MagicPrice mp = new MagicPrice();
@@ -124,6 +126,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
         	lists.add(mp);
         	return lists;
         }
+    	
+    	
     	
        ProductServices pService = new ProductServices();
        Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
@@ -148,7 +152,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 				   mp.setLanguage(String.valueOf(p.getLocalization()));
 				   lists.add(mp);
 			}
-			logger.debug(getName() +" found "  + lists.size() +" items");
+			logger.info(getName() +" found "  + lists.size() +" items");
 			
 		}
 		else
@@ -157,7 +161,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		Product resultat = getProductFromCard(card, list);
 		if(resultat==null)
 		{
-			logger.debug(getName() + " found no item");
+			logger.info(getName() + " found no item");
 			return lists;
 		}
 		
