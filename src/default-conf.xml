@@ -11,6 +11,17 @@
 	<min-price-alert>0</min-price-alert>
 	<debug-json-panel>false</debug-json-panel>
 	<tooltip>true</tooltip>
+	<modules>
+		<search></search>
+		<dashboard></dashboard>
+		<deckbuilder></deckbuilder>
+		<game></game>
+		<rss></rss>
+		<alarm></alarm>
+		<shopper></shopper>
+		<cardbuilder></cardbuilder>
+	</modules>
+	
 	<game>
 		<cards>
 			<card-width>154</card-width>
