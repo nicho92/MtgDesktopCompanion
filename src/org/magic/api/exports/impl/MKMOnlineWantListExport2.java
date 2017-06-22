@@ -21,6 +21,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -155,12 +156,11 @@ public class MKMOnlineWantListExport2 extends AbstractCardExport {
 						 w.setFoil(new MkmBoolean(false));
 						 w.setMinCondition(props.getProperty("QUALITY"));
 						 w.setAltered(new MkmBoolean(false));
+						 w.setType("product");
 						 w.setSigned(new MkmBoolean(false));
 				for(String s : props.getProperty("LANGUAGES").split(","))
 					w.getIdLanguage().add(Integer.parseInt(s));
-				
 				wants.add(w);
-				
 			}
 			else
 			{
