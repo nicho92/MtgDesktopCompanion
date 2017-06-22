@@ -25,6 +25,7 @@ import org.apache.commons.collections4.ListUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Localization;
+import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.WantItem;
@@ -151,10 +152,10 @@ public class MKMOnlineWantListExport2 extends AbstractCardExport {
 				WantItem w = new WantItem();
 						 w.setProduct(p);
 						 w.setCount(deck.getMap().get(mc));
-						 w.setFoil(false);
+						 w.setFoil(new MkmBoolean(false));
 						 w.setMinCondition(props.getProperty("QUALITY"));
-						 w.setAltered(false);
-						 w.setSigned(false);
+						 w.setAltered(new MkmBoolean(false));
+						 w.setSigned(new MkmBoolean(false));
 				for(String s : props.getProperty("LANGUAGES").split(","))
 					w.getIdLanguage().add(Integer.parseInt(s));
 				
