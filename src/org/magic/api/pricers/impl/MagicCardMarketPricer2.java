@@ -138,7 +138,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		if(!props.getProperty("LANGUAGE_ID").equals(""))
 			atts.put(PRODUCT_ATTS.idLanguage,props.getProperty("LANGUAGE_ID"));
 
-		List<Product> list = pService.find(card.getName(), atts);
+		List<Product> list = pService.findProduct(card.getName(), atts);
 		
 		if(props.getProperty("USER_ARTICLE").equals("false"))
 		{

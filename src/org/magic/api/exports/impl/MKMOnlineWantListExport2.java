@@ -145,7 +145,7 @@ public class MKMOnlineWantListExport2 extends AbstractCardExport {
 		
 		for(MagicCard mc : deck.getMap().keySet())
 		{
-			Product p = mkmPricer.getProductFromCard(mc,pService.find(mc.getName(), atts));
+			Product p = mkmPricer.getProductFromCard(mc,pService.findProduct(mc.getName(), atts));
 			if(p!=null)
 			{ 
 				WantItem w = new WantItem();
