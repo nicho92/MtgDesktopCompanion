@@ -23,6 +23,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.Product;
@@ -69,14 +70,21 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			props.put("AUTOMATIC_ADD_CARD_ALERT", "false");
 		save();
 		
+		try{
 		MkmAPIConfig.getInstance().init(
 				props.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
     			props.getProperty("APP_ACCESS_TOKEN").toString(),
     			props.getProperty("APP_SECRET").toString(),
     			props.getProperty("APP_TOKEN").toString());
-		
+		}
+		catch(MkmException e)
+		{
+			logger.error(e);
+		}
 		
     	}
+    	
+    	
     	try {
     		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
     			InstallCert.install("www.mkmapi.eu", MTGControler.KEYSTORE_NAME, MTGControler.KEYSTORE_PASS);
