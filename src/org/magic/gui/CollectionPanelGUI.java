@@ -64,6 +64,7 @@ import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
@@ -102,6 +103,7 @@ public class CollectionPanelGUI extends JPanel {
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
+	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
 	private CardStockPanel statsPanel;
 	private JLabel lblTotal ;
@@ -337,13 +339,14 @@ public class CollectionPanelGUI extends JPanel {
 		tablePrices.setColumnControlVisible(true);
 		scrollPrices.setViewportView(tablePrices);
 
+		magicEditionDetailPanel = new MagicEditionDetailPanel();
 		
 		
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
 		tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
-
+		tabbedPane.addTab("Edition", null, magicEditionDetailPanel, null);
 		tabbedPane.addTab("Prices", null, scrollPrices, null);
 
 
@@ -385,6 +388,7 @@ public class CollectionPanelGUI extends JPanel {
 								try {
 									int row = tableEditions.getSelectedRow();
 									MagicEdition ed = (MagicEdition)tableEditions.getValueAt(row, 1);
+									magicEditionDetailPanel.setMagicEdition(ed);
 									historyPricesPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(null,ed),ed.getSet());
 								} catch (IOException e) {
 									logger.error(e);
@@ -488,7 +492,7 @@ public class CollectionPanelGUI extends JPanel {
 
 				if(curr.getUserObject() instanceof MagicEdition)
 				{
-
+					magicEditionDetailPanel.setMagicEdition((MagicEdition)curr.getUserObject());
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(false);
 					statsPanel.enabledAdd(false);
@@ -521,6 +525,7 @@ public class CollectionPanelGUI extends JPanel {
 					btnExportPriceCatalog.setEnabled(false);
 
 					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
+					magicEditionDetailPanel.setMagicEdition(card.getEditions().get(0));
 					magicCardDetailPanel.enableThumbnail(true);
 					jsonPanel.showCard((MagicCard)curr.getUserObject());
 					

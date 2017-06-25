@@ -71,7 +71,6 @@ import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionListRenderer;
-import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MTGControler;
@@ -80,7 +79,7 @@ import org.magic.services.ThreadManager;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
-
+//TODO merge magiccarddetailpanel and boosterlabel
 public class CardSearchPanel extends JPanel {
 
 		static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
@@ -260,7 +259,6 @@ public class CardSearchPanel extends JPanel {
 			cardsPicPanel = new CardsPicPanel();
 			rarityRepartitionPanel = new RarityRepartitionPanel();
 			detailCardPanel = new MagicCardDetailPanel(new MagicCard());
-			magicEditionDetailPanel = new MagicEditionDetailPanel();
 			panelmana = new JPanel();
 			panelFilters = new JPanel();
 			ManaPanel pan = new ManaPanel();
@@ -412,8 +410,9 @@ public class CardSearchPanel extends JPanel {
 			
 			panelResultsCards.add(panelFilters, BorderLayout.NORTH);
 			panelResultsCards.add(scrollCards);
-		
+			magicEditionDetailPanel = new MagicEditionDetailPanel();
 			
+				
 			editionDetailPanel.add(magicEditionDetailPanel, BorderLayout.CENTER);
 			editionDetailPanel.add(boosterPanel, BorderLayout.EAST);
 		
