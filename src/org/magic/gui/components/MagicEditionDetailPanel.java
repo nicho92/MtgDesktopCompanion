@@ -3,6 +3,8 @@ package org.magic.gui.components;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
@@ -13,16 +15,24 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableRowSorter;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
+import org.magic.gui.CardBuilder2GUI;
+import org.magic.gui.MagicGUI;
 import org.magic.gui.models.EditionsShakerTableModel;
+import org.magic.services.BoosterPicturesProvider;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import java.awt.BorderLayout;
+import javax.swing.JButton;
 
-public class MagicEditionDetailPanel extends JSplitPane {
+public class MagicEditionDetailPanel extends JPanel {
 
 	private BindingGroup m_bindingGroup;
 	private org.magic.api.beans.MagicEdition magicEdition = new org.magic.api.beans.MagicEdition();
@@ -42,28 +52,42 @@ public class MagicEditionDetailPanel extends JSplitPane {
 	private boolean showPrices;
 	private JLabel lblOnlineSet;
 	private JCheckBox chkOnline;
+	private JSplitPane splitPane;
+	private JPanel panneauBooster;
+	private JButton btnOpenBooster;
+	private JLabel lblBoosterPic;
+	private BoosterPicturesProvider boosterProvider;
+	private boolean openBooster;
 	
+	static final Logger logger = LogManager.getLogger(MagicEditionDetailPanel.class.getName());
+
 	
-	public MagicEditionDetailPanel(boolean showTablePrice) {
+	public MagicEditionDetailPanel(boolean showTablePrice,boolean openBooster) {
 		showPrices=showTablePrice;
+		this.openBooster=openBooster;
+		
 		initGUI();
 	}
 
-	
-	public MagicEditionDetailPanel(MagicEdition newMagicEdition) {
-		setMagicEdition(newMagicEdition);
-	}
-	
 	public MagicEditionDetailPanel() {
 		showPrices=true;
+		openBooster=true;
 		initGUI();
 	}
 	
 
 	public void initGUI() {
-		setOrientation(JSplitPane.VERTICAL_SPLIT);
+		
+		boosterProvider = new BoosterPicturesProvider();
+		
+		setLayout(new BorderLayout(0, 0));
+		
+		splitPane = new JSplitPane();
+		
+		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panneauHaut = new JPanel();
 		
+		this.add(splitPane);
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 104, 333, 0, 0 };
@@ -184,7 +208,7 @@ public class MagicEditionDetailPanel extends JSplitPane {
 				panneauHaut.add(idJtextField, gbc_txtID);
 				idJtextField.setColumns(10);
 				
-				setLeftComponent(panneauHaut);
+				splitPane.setLeftComponent(panneauHaut);
 				
 				lblOnlineSet = new JLabel("Online Set :");
 				GridBagConstraints gbc_lblOnlineSet = new GridBagConstraints();
@@ -201,6 +225,31 @@ public class MagicEditionDetailPanel extends JSplitPane {
 				gbc_chkOnline.gridy = 7;
 				panneauHaut.add(chkOnline, gbc_chkOnline);
 				
+				panneauBooster = new JPanel();
+				add(panneauBooster, BorderLayout.EAST);
+				panneauBooster.setLayout(new BorderLayout(0, 0));
+				
+				if(openBooster)
+				{ 
+				  btnOpenBooster = new JButton("Open Booster");
+				  panneauBooster.add(btnOpenBooster, BorderLayout.NORTH);
+				  btnOpenBooster.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							try {
+								CardSearchPanel.inst.thumbnail(MTGControler.getInstance().getEnabledProviders().openBooster(magicEdition));
+							} catch (Exception e) {
+								logger.error(e);
+							}
+						}
+					});
+					
+				}
+				
+				
+				
+				lblBoosterPic = new JLabel();
+				panneauBooster.add(lblBoosterPic);
+				
 				if(showPrices)
 				{
 				scrollPane = new JScrollPane();
@@ -208,11 +257,11 @@ public class MagicEditionDetailPanel extends JSplitPane {
 				table = new JTable(mod);
 				table.setRowSorter(new TableRowSorter(mod));
 				scrollPane.setViewportView(table);
-				setRightComponent(scrollPane);
+				splitPane.setRightComponent(scrollPane);
 				}
 				else
 				{
-					setRightComponent(null);
+					splitPane.setRightComponent(null);
 				}
 				
 				
@@ -267,7 +316,19 @@ public class MagicEditionDetailPanel extends JSplitPane {
 					
 				}
 			}, "load prices for" + magicEdition);
-		}		
+		}
+
+		ThreadManager.getInstance().execute(new Runnable() {
+			public void run() {
+				
+				lblBoosterPic.setIcon(boosterProvider.getBoosterFor(magicEdition));
+			}
+		}, "load booster pic for " + magicEdition);
+		
+		
+		
+		
+		
 	}
 	
 	

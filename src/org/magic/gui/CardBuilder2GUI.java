@@ -162,7 +162,7 @@ public class CardBuilder2GUI extends JPanel{
 		listNames = new JTable();
 		panelImage = new CropImagePanel();
 		magicCardEditorPanel = new MagicCardEditorPanel();
-		magicEditionDetailPanel = new MagicEditionDetailPanel(false);
+		magicEditionDetailPanel = new MagicEditionDetailPanel(false,false);
 		
 
 ////////////////////////////////////////////////////MODELS INIT		
@@ -304,7 +304,6 @@ public class CardBuilder2GUI extends JPanel{
 		
 		panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
 		magicEditionDetailPanel.setEditable(true);
-		magicEditionDetailPanel.setRightComponent(panelBooster);
 		
 	
 		btnImport.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/res/import.png")));

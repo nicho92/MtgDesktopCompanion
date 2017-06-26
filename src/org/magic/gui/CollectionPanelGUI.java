@@ -339,7 +339,7 @@ public class CollectionPanelGUI extends JPanel {
 		tablePrices.setColumnControlVisible(true);
 		scrollPrices.setViewportView(tablePrices);
 
-		magicEditionDetailPanel = new MagicEditionDetailPanel();
+		magicEditionDetailPanel = new MagicEditionDetailPanel(true,false);
 		
 		
 		magicCardDetailPanel = new MagicCardDetailPanel();

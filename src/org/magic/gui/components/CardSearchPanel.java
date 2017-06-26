@@ -72,20 +72,20 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
-//TODO merge magiccarddetailpanel and boosterlabel
 public class CardSearchPanel extends JPanel {
 
 		static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
 
-		private static final int INDEX_PRICES = 2;
-
+		public static final int INDEX_PRICES = 2;
+		public static final int INDEX_THUMB = 1;
+		
+		
 		private MagicCard selected;
 		private MagicEdition selectedEdition;
 		
@@ -95,6 +95,7 @@ public class CardSearchPanel extends JPanel {
 		private JTabbedPane tabbedCardsView;
 		private JTabbedPane tabbedCardsInfo ;
 		
+		public static CardSearchPanel inst;
 		
 		private HandPanel thumbnailPanel;
 		private ManaRepartitionPanel manaRepartitionPanel;
@@ -105,7 +106,6 @@ public class CardSearchPanel extends JPanel {
 		private HistoryPricesPanel historyChartPanel;
 		private MagicEditionDetailPanel magicEditionDetailPanel;
 		private MagicCardDetailPanel detailCardPanel;
-		private JPanel boosterPanel;
 		private JPanel panelResultsCards;
 		private JPanel panelFilters;
 	    private JPanel panelmana;
@@ -132,7 +132,6 @@ public class CardSearchPanel extends JPanel {
 	    private TableFilterHeader filterHeader;
 
 	    private JButton btnClear;
-		private JButton btnGenerateBooster;
 		private JButton btnSearch;
 		private JButton btnExport;
 		private JButton btnFilter;
@@ -140,10 +139,8 @@ public class CardSearchPanel extends JPanel {
 		private List<MagicCard> cards;
 		private JList<MagicEdition> listEdition;
 		
-		private JLabel lblBoosterPic;
 		private JLabel lblLoading;
 		
-		private BoosterPicturesProvider boosterProvider;
 		
 		public void loading(boolean show,String text)
 		{
@@ -214,7 +211,7 @@ public class CardSearchPanel extends JPanel {
 		public void initGUI() throws Exception
 		{
 			logger.info("init search GUI");
-
+			inst=this;
 			DefaultRowSorter<DefaultTableModel, Integer> sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
 			sorterCards = new TableRowSorter<DefaultTableModel>(cardsModeltable);
 			sorterCards.setComparator(7, new Comparator<String>() {
@@ -249,7 +246,6 @@ public class CardSearchPanel extends JPanel {
 			panneauStat = new JPanel();
 			panneauHaut = new JPanel();
 			panneauCard = new JPanel();
-			boosterPanel = new JPanel();
 			editionDetailPanel = new JPanel();
 			panelResultsCards = new JPanel();
 			cmcChart = new CmcChartPanel();
@@ -274,7 +270,6 @@ public class CardSearchPanel extends JPanel {
 			btnExport = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/export.png")));
 			btnFilter = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/filter.png")));
 			btnClear = new JButton(new ImageIcon(MagicGUI.class.getResource("/res/09_clear_location.png")));
-			btnGenerateBooster = new JButton("Open a Booster");
 			
 			cboQuereableItems = new JComboBox<String>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
 			cboCollections= new JComboBox<MagicCollection>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
@@ -283,7 +278,6 @@ public class CardSearchPanel extends JPanel {
 			tablePrice = new JXTable();
 			tableCards = new JXTable();
 			
-			lblBoosterPic = new JLabel();
 			lblLoading = new JLabel(new ImageIcon(MagicGUI.class.getResource("/res/load.gif")));
 			JLabel lblFilter = new JLabel();
 			
@@ -327,7 +321,6 @@ public class CardSearchPanel extends JPanel {
 			panneauStat.setLayout(new GridLayout(2, 2, 0, 0));
 			panneauCard.setLayout(new BorderLayout());
 			editionDetailPanel.setLayout(new BorderLayout());
-			boosterPanel.setLayout(new BorderLayout());
 			panelResultsCards.setLayout(new BorderLayout(0, 0));
 			panelmana.setLayout(new GridLayout(1, 0, 2, 2));
 			
@@ -364,8 +357,6 @@ public class CardSearchPanel extends JPanel {
 			
 			
 //////ADD PANELS	
-			
-			
 			for(String s : new String[]{"W","U","B","R","G","C","1"})
 			{
 				final JButton btnG = new JButton();
@@ -405,8 +396,6 @@ public class CardSearchPanel extends JPanel {
 			panneauCard.add(scrollEditions, BorderLayout.SOUTH);
 			panneauCard.add(cardsPicPanel, BorderLayout.CENTER);
 	
-			boosterPanel.add(btnGenerateBooster, BorderLayout.NORTH);
-			boosterPanel.add(lblBoosterPic);
 			
 			panelResultsCards.add(panelFilters, BorderLayout.NORTH);
 			panelResultsCards.add(scrollCards);
@@ -414,7 +403,6 @@ public class CardSearchPanel extends JPanel {
 			
 				
 			editionDetailPanel.add(magicEditionDetailPanel, BorderLayout.CENTER);
-			editionDetailPanel.add(boosterPanel, BorderLayout.EAST);
 		
 			
 			panelFilters.add(lblFilter);
@@ -557,21 +545,7 @@ public class CardSearchPanel extends JPanel {
 				}
 			});
 
-			btnGenerateBooster.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-
-					if(selectedEdition==null)
-						selectedEdition = selected.getEditions().get(0);
-
-					try {
-						tabbedCardsView.setSelectedIndex(1);
-						thumbnailPanel.initThumbnails( MTGControler.getInstance().getEnabledProviders().openBooster(selectedEdition),false);
-
-					} catch (Exception e) {
-						logger.error(e);
-					}
-				}
-			});
+			
 
 			tableCards.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -609,7 +583,6 @@ public class CardSearchPanel extends JPanel {
 									loading(true,"loading edition");
 									
 										cardsPicPanel.showPhoto(selected,selectedEdition);//backcard
-										lblBoosterPic.setIcon(boosterProvider.getBoosterFor(selectedEdition));
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
 										
 										historyChartPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
@@ -617,6 +590,8 @@ public class CardSearchPanel extends JPanel {
 										
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 											updatePrices();
+										
+										
 									loading(false,"");
 								} catch (IOException e) {
 									logger.error(e);
@@ -751,6 +726,13 @@ public class CardSearchPanel extends JPanel {
 			});
 		
 		}
+		
+		public void thumbnail(List<MagicCard> cards)
+		{
+			tabbedCardsView.setSelectedIndex(INDEX_THUMB);
+			thumbnailPanel.initThumbnails(cards,false);
+		}
+		
 
 		public void setSelectedCard(MagicCard mc)
 		{
@@ -765,7 +747,7 @@ public class CardSearchPanel extends JPanel {
 				
 				priceModel=new CardsPriceTableModel();
 				cardsModeltable = new MagicCardTableModel();
-				boosterProvider = new BoosterPicturesProvider();
+				
 
 				initGUI();
 			} 
@@ -795,6 +777,12 @@ public class CardSearchPanel extends JPanel {
 			
 		}
 		
+		public HandPanel getThumbnailPanel()
+		{
+			return thumbnailPanel;
+		}
+		
+		
 		public void updateCards() {
 			try {
 				cboLanguages.removeAllItems();
@@ -810,13 +798,6 @@ public class CardSearchPanel extends JPanel {
 
 				detailCardPanel.setMagicCard(selected,true);
 				magicEditionDetailPanel.setMagicEdition(selected.getEditions().get(0));
-				
-				
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
-						lblBoosterPic.setIcon(boosterProvider.getBoosterFor(selectedEdition));
-					}
-				}, "load booster pic for " + selectedEdition);
 				
 				
 				

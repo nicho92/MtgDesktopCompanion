@@ -166,7 +166,7 @@ public class MagicGUI extends JFrame {
 				try {
 					Desktop.getDesktop().browse(new URI(url));
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					logger.error(e1);
 				}
 			}
 		});
@@ -290,19 +290,15 @@ public class MagicGUI extends JFrame {
 		
 			
 			ThreadManager.getInstance().execute(new Runnable() {
-				
-				@Override
 				public void run() {
 					try {
 						new TipsOfTheDayDialog().show();
 					} catch (IOException e) {
-					//	e.printStackTrace();
+						logger.error(e);
 					}
 					
 				}
 			}, "launch tooltip");
-			
-			
 		}		
 	}
 
