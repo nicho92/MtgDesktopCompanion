@@ -12,14 +12,15 @@
 	<debug-json-panel>false</debug-json-panel>
 	<tooltip>true</tooltip>
 	<modules>
-		<search></search>
-		<dashboard></dashboard>
-		<deckbuilder></deckbuilder>
-		<game></game>
-		<rss></rss>
-		<alarm></alarm>
-		<shopper></shopper>
-		<cardbuilder></cardbuilder>
+		<search>true</search>
+		<dashboard>true</dashboard>
+		<deckbuilder>true</deckbuilder>
+		<collection>true</collection>
+		<game>true</game>
+		<rss>false</rss>
+		<alarm>true</alarm>
+		<shopper>true</shopper>
+		<cardbuilder>true</cardbuilder>
 	</modules>
 	
 	<game>

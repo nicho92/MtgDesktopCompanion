@@ -64,6 +64,19 @@ public class ConfigurationPanel extends JPanel {
 	private JSpinner spinCardW;
 	private JSpinner spinCardH;
 	
+	
+	private JCheckBox chckbxSearch;
+	private JCheckBox chckbxCollection;
+	private JCheckBox chckbxDashboard;
+	private JCheckBox chckbxGame;
+	private JCheckBox chckbxDeckBuilder;
+	private JCheckBox chckbxShopper;
+	private JCheckBox chckbxAlert;
+	private JCheckBox chckbxRss;
+	private JCheckBox chckbxCardBuilder;
+
+	
+	
 	public void loading(boolean show,String text)
 	{
 		lblLoading.setText(text);
@@ -86,7 +99,7 @@ public class ConfigurationPanel extends JPanel {
 		gridBagLayout.columnWidths = new int[]{396, 212, 0};
 		gridBagLayout.rowHeights = new int[]{179, 0, 0, 0, 0};
 		gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
 		for(MagicDAO daos :  MTGControler.getInstance().getDaoProviders())
@@ -706,6 +719,149 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnSave_2.gridx = 3;
 		gbc_btnSave_2.gridy = 4;
 		panelProfil.add(btnSave_2, gbc_btnSave_2);
+		
+		JPanel panel = new JPanel();
+		panel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Modules", TitledBorder.LEADING, TitledBorder.TOP, null, new Color(64, 64, 64)));
+		GridBagConstraints gbc_panel = new GridBagConstraints();
+		gbc_panel.insets = new Insets(0, 0, 5, 0);
+		gbc_panel.fill = GridBagConstraints.BOTH;
+		gbc_panel.gridx = 1;
+		gbc_panel.gridy = 2;
+		add(panel, gbc_panel);
+		GridBagLayout gbl_panel = new GridBagLayout();
+		gbl_panel.columnWidths = new int[]{0, 0, 0, 103, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gbl_panel);
+		
+		
+		
+		chckbxSearch = new JCheckBox("Search ");
+		chckbxSearch.setSelected(MTGControler.getInstance().get("modules/search").equals("true"));
+		chckbxSearch.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/search",chckbxSearch.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxSearch = new GridBagConstraints();
+		gbc_chckbxSearch.anchor = GridBagConstraints.WEST;
+		gbc_chckbxSearch.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxSearch.gridx = 1;
+		gbc_chckbxSearch.gridy = 0;
+		panel.add(chckbxSearch, gbc_chckbxSearch);
+		
+		chckbxCollection = new JCheckBox("Collection");
+		chckbxCollection.setSelected(MTGControler.getInstance().get("modules/collection").equals("true"));
+		chckbxCollection.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/collection",chckbxCollection.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxCollection = new GridBagConstraints();
+		gbc_chckbxCollection.anchor = GridBagConstraints.WEST;
+		gbc_chckbxCollection.insets = new Insets(0, 0, 5, 0);
+		gbc_chckbxCollection.gridx = 3;
+		gbc_chckbxCollection.gridy = 0;
+		panel.add(chckbxCollection, gbc_chckbxCollection);
+		
+		chckbxDashboard = new JCheckBox("DashBoard");
+		chckbxDashboard.setSelected(MTGControler.getInstance().get("modules/dashboard").equals("true"));
+		chckbxDashboard.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/dashboard",chckbxDashboard.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxDashboard = new GridBagConstraints();
+		gbc_chckbxDashboard.anchor = GridBagConstraints.WEST;
+		gbc_chckbxDashboard.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxDashboard.gridx = 1;
+		gbc_chckbxDashboard.gridy = 1;
+		panel.add(chckbxDashboard, gbc_chckbxDashboard);
+		
+		chckbxGame = new JCheckBox("Game");
+		chckbxGame.setSelected(MTGControler.getInstance().get("modules/game").equals("true"));
+		chckbxGame.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/game",chckbxGame.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxGame = new GridBagConstraints();
+		gbc_chckbxGame.anchor = GridBagConstraints.WEST;
+		gbc_chckbxGame.insets = new Insets(0, 0, 5, 0);
+		gbc_chckbxGame.gridx = 3;
+		gbc_chckbxGame.gridy = 1;
+		panel.add(chckbxGame, gbc_chckbxGame);
+		
+		chckbxDeckBuilder = new JCheckBox("Deck Builder");
+		chckbxDeckBuilder.setSelected(MTGControler.getInstance().get("modules/deckbuilder").equals("true"));
+		chckbxDeckBuilder.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/deckbuilder",chckbxDeckBuilder.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxDeckBuilder = new GridBagConstraints();
+		gbc_chckbxDeckBuilder.anchor = GridBagConstraints.WEST;
+		gbc_chckbxDeckBuilder.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxDeckBuilder.gridx = 1;
+		gbc_chckbxDeckBuilder.gridy = 2;
+		panel.add(chckbxDeckBuilder, gbc_chckbxDeckBuilder);
+		
+		chckbxShopper = new JCheckBox("Shopper");
+		chckbxShopper.setSelected(MTGControler.getInstance().get("modules/shopper").equals("true"));
+		chckbxShopper.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/shopper",chckbxShopper.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxShopper = new GridBagConstraints();
+		gbc_chckbxShopper.anchor = GridBagConstraints.WEST;
+		gbc_chckbxShopper.insets = new Insets(0, 0, 5, 0);
+		gbc_chckbxShopper.gridx = 3;
+		gbc_chckbxShopper.gridy = 2;
+		panel.add(chckbxShopper, gbc_chckbxShopper);
+		
+		chckbxAlert = new JCheckBox("Alert");
+		chckbxAlert.setSelected(MTGControler.getInstance().get("modules/alarm").equals("true"));
+		chckbxAlert.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/alarm",chckbxAlert.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxAlert = new GridBagConstraints();
+		gbc_chckbxAlert.anchor = GridBagConstraints.WEST;
+		gbc_chckbxAlert.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxAlert.gridx = 1;
+		gbc_chckbxAlert.gridy = 3;
+		panel.add(chckbxAlert, gbc_chckbxAlert);
+		
+		chckbxRss = new JCheckBox("Rss");
+		chckbxRss.setSelected(MTGControler.getInstance().get("modules/rss").equals("true"));
+		chckbxRss.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/rss",chckbxRss.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxRss = new GridBagConstraints();
+		gbc_chckbxRss.anchor = GridBagConstraints.WEST;
+		gbc_chckbxRss.insets = new Insets(0, 0, 5, 0);
+		gbc_chckbxRss.gridx = 3;
+		gbc_chckbxRss.gridy = 3;
+		panel.add(chckbxRss, gbc_chckbxRss);
+		
+		chckbxCardBuilder = new JCheckBox("Card Builder");
+		chckbxCardBuilder.setSelected(MTGControler.getInstance().get("modules/cardbuilder").equals("true"));
+		chckbxCardBuilder.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/cardbuilder",chckbxCardBuilder.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxCardBuilder = new GridBagConstraints();
+		gbc_chckbxCardBuilder.anchor = GridBagConstraints.WEST;
+		gbc_chckbxCardBuilder.insets = new Insets(0, 0, 0, 5);
+		gbc_chckbxCardBuilder.gridx = 1;
+		gbc_chckbxCardBuilder.gridy = 4;
+		panel.add(chckbxCardBuilder, gbc_chckbxCardBuilder);
 		
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
 		gbc_lblLoading.gridwidth = 2;
