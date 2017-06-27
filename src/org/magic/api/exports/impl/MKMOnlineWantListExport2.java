@@ -1,13 +1,7 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -15,17 +9,10 @@ import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
@@ -35,23 +22,10 @@ import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.services.MTGControler;
-import org.magic.tests.todelete.MKMOnlineWantListExport.Want;
-import org.magic.tests.todelete.MKMOnlineWantListExport.WantList;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.NodeList;
-import org.xml.sax.InputSource;
-
-import com.sun.org.apache.xml.internal.serialize.OutputFormat;
-import com.sun.org.apache.xml.internal.serialize.XMLSerializer;
-
-import sun.net.www.content.audio.wav;
 
 
 public class MKMOnlineWantListExport2 extends AbstractCardExport {

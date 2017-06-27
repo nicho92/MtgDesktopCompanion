@@ -11,6 +11,18 @@
 	<min-price-alert>0</min-price-alert>
 	<debug-json-panel>false</debug-json-panel>
 	<tooltip>true</tooltip>
+	<modules>
+		<search>true</search>
+		<dashboard>true</dashboard>
+		<deckbuilder>true</deckbuilder>
+		<collection>true</collection>
+		<game>true</game>
+		<rss>false</rss>
+		<alarm>true</alarm>
+		<shopper>true</shopper>
+		<cardbuilder>true</cardbuilder>
+	</modules>
+	
 	<game>
 		<cards>
 			<card-width>154</card-width>
@@ -64,12 +76,12 @@
 				<enable>true</enable>
 		</pricer>
 		<pricer>
-				<class>org.magic.api.pricers.impl.MagicTradersPricer</class>
-				<enable>false</enable>
+				<class>org.magic.api.pricers.impl.MagicCardMarketPricer2</class>
+				<enable>true</enable>
 		</pricer>
 		<pricer>
-				<class>org.magic.api.pricers.impl.MagicCardMarketPricer</class>
-				<enable>true</enable>
+				<class>org.magic.api.pricers.impl.MagicTradersPricer</class>
+				<enable>false</enable>
 		</pricer>
 		<pricer>
 				<class>org.magic.api.pricers.impl.MagicVillePricer</class>
@@ -190,7 +202,7 @@
 			<enable>true</enable>
 		</export>
 		<export>
-			<class>org.magic.api.exports.impl.MKMOnlineWantListExport</class>
+			<class>org.magic.api.exports.impl.MKMOnlineWantListExport2</class>
 			<enable>true</enable>
 		</export>
 		<export>
