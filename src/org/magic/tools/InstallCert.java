@@ -26,6 +26,7 @@ import javax.net.ssl.TrustManager;
 import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGControler;
@@ -39,7 +40,7 @@ public class InstallCert {
 	static final Logger logger = LogManager.getLogger(InstallCert.class.getName());
 
 	
-    public static void install(String website,String filename, String pass) throws Exception {
+    public static void install(String website) throws Exception {
         String host;
         int port;
     	
@@ -49,11 +50,12 @@ public class InstallCert {
             String[] c = website.split(":");
             host = c[0];
             port = 443;
-            passphrase = pass.toCharArray();
+            passphrase = MTGControler.KEYSTORE_PASS.toCharArray();
        
-            File keystoreFile = new File(MTGControler.CONF_DIR,filename);
+            File keystoreFile = new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME);
             if (keystoreFile.exists() == false) {
-                keystoreFile = new File(defaultF, "cacerts");
+            	keystoreFile.createNewFile();
+            	FileUtils.copyFile(new File(defaultF, "cacerts"),keystoreFile);
             }
         
         logger.debug("Loading KeyStore " + keystoreFile.getAbsolutePath() + "...");
@@ -105,11 +107,11 @@ public class InstallCert {
         ks.setCertificateEntry(alias, cert);
 
         
-        OutputStream out = new FileOutputStream(new File(MTGControler.CONF_DIR,filename));
+        OutputStream out = new FileOutputStream(new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME));
         ks.store(out, passphrase);
         out.close();
 
-        logger.debug("Added certificate to keystore '"+new File(MTGControler.CONF_DIR,filename)+"' using alias '"+ alias + "'");
+        logger.debug("Added certificate to keystore '"+new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME)+"' using alias '"+ alias + "'");
         
         }
     }

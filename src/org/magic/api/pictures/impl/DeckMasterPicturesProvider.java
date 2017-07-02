@@ -38,7 +38,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			save();
 		}
 		try {
-   			InstallCert.install(props.getProperty("CERT_SERV"), MTGControler.KEYSTORE_NAME, MTGControler.KEYSTORE_PASS);
+   			InstallCert.install(props.getProperty("CERT_SERV"));
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
  		} catch (Exception e1) {
 			logger.error(e1);

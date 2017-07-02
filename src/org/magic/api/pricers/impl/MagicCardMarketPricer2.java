@@ -87,7 +87,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     	
     	try {
     		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
-    			InstallCert.install("www.mkmapi.eu", MTGControler.KEYSTORE_NAME, MTGControler.KEYSTORE_PASS);
+    			InstallCert.install("www.mkmapi.eu");
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
     	} catch (Exception e1) {
 			logger.error(e1);

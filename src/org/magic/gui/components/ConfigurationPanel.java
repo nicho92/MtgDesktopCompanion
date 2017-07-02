@@ -872,7 +872,7 @@ public class ConfigurationPanel extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 				
 				try {
-					InstallCert.install(txtWebSiteCertificate.getText(), MTGControler.KEYSTORE_NAME, MTGControler.KEYSTORE_PASS);
+					InstallCert.install(txtWebSiteCertificate.getText());
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}

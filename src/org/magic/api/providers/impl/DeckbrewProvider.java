@@ -46,7 +46,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	public void init() {
 		try {
     		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
-    			InstallCert.install("api.deckbrew.com", MTGControler.KEYSTORE_NAME, MTGControler.KEYSTORE_PASS);
+    			InstallCert.install("api.deckbrew.com");
     	    
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
     		
