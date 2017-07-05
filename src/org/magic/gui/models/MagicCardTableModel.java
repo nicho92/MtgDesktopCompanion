@@ -65,7 +65,12 @@ public class MagicCardTableModel extends DefaultTableModel{
 			case 2: return mc.getCost();
 			case 3 : return mc.getFullType();
 			case 4:  return contains(mc.getTypes(),"creature")? mc.getPower() +"/"+mc.getToughness() : contains(mc.getTypes(),"planeswalker")? mc.getLoyalty() : "";
-			case 5 : return mc.getEditions().get(0).getRarity();
+			case 5 : try{ 
+				return mc.getEditions().get(0).getRarity();
+			}catch(Exception e)
+			{
+				return null;
+			}
 			case 6 : return mc.getEditions();
 			case 7 : return mc.getNumber();
 			case 8 : return mc.getColors();

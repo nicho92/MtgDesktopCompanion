@@ -120,6 +120,8 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		URLConnection con =null;
 		int page=1;
 		String url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8");
+		logger.debug(url);
+		
 		con = getConnection(url);
 		JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 		
@@ -129,6 +131,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		while(count<totalcount)
 		{
 			url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8")+"&page="+page++;
+			logger.debug(url);
 			con = getConnection(url);
 			reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 			JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");

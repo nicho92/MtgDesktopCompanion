@@ -32,6 +32,10 @@ public class IconSetProvider {
 		return inst;
 	}
 	
+	public Map<String, ImageIcon> getCache() {
+		return cache;
+	}
+	
 	
 	private void initCache() throws Exception {
 		
@@ -66,7 +70,7 @@ public class IconSetProvider {
 	
 	public static void main(String[] args) {
 		MTGControler.getInstance().getEnabledProviders().init();
-		IconSetProvider.getInstance().get("EMN");
+		IconSetProvider.getInstance().get("CMA");
 	}
 	
 }
