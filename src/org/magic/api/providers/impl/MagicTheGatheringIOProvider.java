@@ -396,7 +396,6 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		return ed;
 	}
 	
-	
 	private int getCount(String id) 
 	{
 		int count = getConnection(jsonUrl+"/cards?set="+id).getHeaderFieldInt("Total-Count", 0);
@@ -430,38 +429,38 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
 	@Override
 	public List<MagicEdition> loadEditions() throws Exception {
-		String url = jsonUrl+"/sets";
-		String rootKey="sets";
-		
-			url = jsonUrl+"/sets";
-			rootKey="sets";
-	
-			logger.info("connect to " + url);
-		
-		URLConnection con = getConnection(url);
-		
-		JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
-		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
-
 		if(cache.size()==0)
+		{
+			String url = jsonUrl+"/sets";
+			String rootKey="sets";
+			
+				url = jsonUrl+"/sets";
+				rootKey="sets";
+		
+				logger.info("connect to " + url);
+			
+			URLConnection con = getConnection(url);
+			
+			JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 			for(int i = 0;i<root.get(rootKey).getAsJsonArray().size();i++)
 			{
 				JsonObject e = root.get(rootKey).getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
-				
 				cache.put(ed.getId(), ed);
 			}
+		}
 		return new ArrayList<MagicEdition>(cache.values());
 	}
 
 	@Override
 	public MagicEdition getSetById(String id) throws Exception {
 		logger.debug("get Set " + id);
-		if(cache.get(id.toString())!=null)
+		/*if(cache.get(id.toString())!=null)
 		{
-			logger.debug("loadin " + id + " from cache");
+			logger.debug("loading " + id + " from cache");
 			return cache.get(id.toString());
-		}
+		}*/
 		
 		JsonReader reader= new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/sets/"+id).getInputStream(),"UTF-8"));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
