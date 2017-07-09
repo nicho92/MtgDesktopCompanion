@@ -180,6 +180,10 @@
 			<enable>true</enable>
 		</sniffer>
 		<sniffer>
+			<class>org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer</class>
+			<enable>false</enable>
+		</sniffer>
+		<sniffer>
 			<class>org.magic.api.decksniffer.impl.MagicCorporationDecks</class>
 			<enable>false</enable>
 		</sniffer>
