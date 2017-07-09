@@ -1,6 +1,7 @@
 package org.magic.services;
 
 import java.awt.Dimension;
+import java.awt.SystemTray;
 import java.awt.TrayIcon.MessageType;
 import java.io.BufferedReader;
 import java.io.File;
@@ -65,7 +66,8 @@ public class MTGControler {
 	
 	public void notify(String caption,String text,MessageType type)
 	{
-		MagicGUI.trayNotifier.displayMessage(caption, text, type);
+		if(SystemTray.isSupported())
+			MagicGUI.trayNotifier.displayMessage(caption, text, type);
 	}
 	
 	

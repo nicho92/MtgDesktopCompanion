@@ -42,7 +42,7 @@ public class MagicGUI extends JFrame {
 
 	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
 
-	private final SystemTray tray = SystemTray.getSystemTray();
+	private SystemTray tray;
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenu mnuAbout;
@@ -102,6 +102,7 @@ public class MagicGUI extends JFrame {
 		getContentPane().setLayout(new BorderLayout());
 		
 		try{
+			tray=SystemTray.getSystemTray();
 			 trayNotifier = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 		}
 		catch (Exception e) {
