@@ -166,8 +166,9 @@
 	<booster id='AER' url="http://media.wizards.com/2016/images/daily/pIFZeAMYk1.png"/>
 	<booster id='PCA' url="https://fr.magiccardmarket.eu/img/09add4538c5aa934fe9a8f46afea9792/items/8/290610.jpg"/>
 	<booster id='MM3' url="http://i.tcgplayer.com/127068_200w.jpg"/>
-	<booster id='AKH' url="https://www.magiclibrarities.net/images/edition_comment/3637.png"/>
+	<booster id='AKH' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1102276.jpg"/>
 	<booster id='DDS' url="http://www.magicspoiler.com/wp-content/uploads/2017/03/Duel-Decks-Mind-vs-Might-Packaging.png"/>
-	
+	<booster id='HOU' url="https://cdn1.mtggoldfish.com/images/gf/Hour%2Bof%2BDevastation%2BBooster%2B%255BBOOSTER%255D.jpg"/>
+	<booster id='CMA' url="https://2nains.ch/images/com_hikashop/upload/magic-commander-anthology.png"/>	
 </boosterUrls>
 		
