@@ -41,13 +41,6 @@ public class DeckModel extends DefaultTableModel {
 		return deck;
 	}
 	
-	
-	public void load(MagicDeck deck)
-	{
-		this.deck=deck;
-	}
-	
-	
 	@Override
 	public int getColumnCount() {
 		return columns.length;
@@ -113,6 +106,7 @@ public class DeckModel extends DefaultTableModel {
 	public void init(MagicDeck deck)
 	{
 		this.deck=deck;
+		fireTableDataChanged();
 	}
 	
 
