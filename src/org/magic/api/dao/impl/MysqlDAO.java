@@ -120,6 +120,16 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	}
 
+	private MagicCard loadCard(String param, String value) throws SQLException {
+		PreparedStatement pst=con.prepareStatement("select * from cards where "+param+"= ?");	
+		pst.setString(1, value);
+		ResultSet rs = pst.executeQuery();
+		rs.next();
+		return (MagicCard) rs.getObject("mcard");
+	}
+
+	
+	
 	@Override
 	public MagicCard loadCard(String name, MagicCollection collection) throws SQLException {
 		logger.debug("load card " + name + " in " + collection);
@@ -326,27 +336,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 		return "MySQL";
 	}
 
-/*
-	@Override
-	public List<MagicDeck> listDeck() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void saveDeck(MagicDeck d) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void deleteDeck(MagicDeck d) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}*/
-
 
 	@Override
 	public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException{
@@ -408,6 +397,31 @@ public class MysqlDAO extends AbstractMagicDAO{
 		logger.debug("load " + colls.size() +" item from stock for " + mc );
 		return colls;
 	}
+	
+	public List<MagicCardStock> getStocks() throws SQLException {
+		PreparedStatement pst=con.prepareStatement("select * from stocks");	
+		ResultSet rs = pst.executeQuery();
+		List<MagicCardStock> colls = new ArrayList<MagicCardStock>();
+		while(rs.next())
+		{
+			MagicCardStock state = new MagicCardStock();
+			
+				state.setComment(rs.getString("comments"));
+				state.setIdstock(rs.getInt("idstock"));
+				state.setMagicCard(loadCard("id",rs.getString("idmc")));
+				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+				state.setCondition( EnumCondition.valueOf(rs.getString("conditions")) );
+				state.setFoil(rs.getBoolean("foil"));
+				state.setSigned(rs.getBoolean("signedcard"));
+				state.setLanguage(rs.getString("langage"));
+				state.setQte(rs.getInt("qte"));
+				
+				colls.add(state);
+		}
+		logger.debug("load " + colls.size() +" item(s) from stock");
+		return colls;
+	}
+	
 
 	@Override
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {

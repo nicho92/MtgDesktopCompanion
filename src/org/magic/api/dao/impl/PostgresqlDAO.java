@@ -626,6 +626,12 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			
 		}
 
+		@Override
+		public List<MagicCardStock> getStocks() throws SQLException {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
 
 
 

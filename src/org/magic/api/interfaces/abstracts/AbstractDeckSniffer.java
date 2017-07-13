@@ -57,7 +57,7 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
 
 	}

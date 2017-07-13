@@ -650,6 +650,12 @@ public class HsqlDAO extends AbstractMagicDAO{
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public List<MagicCardStock> getStocks() throws SQLException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 	
 //	public int updateSerializedCard(MagicCard mc,String editionCode,String collection) 
 //	{
