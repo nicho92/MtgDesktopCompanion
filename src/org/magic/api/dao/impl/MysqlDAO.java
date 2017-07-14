@@ -428,7 +428,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		{
 			
 			logger.debug("save "  + state);
-			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard) values (?,?,?,?,?,?,?,?,?)");
+			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard) values (?,?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 			pst.setString(1, String.valueOf(state.getCondition()));
 			pst.setBoolean(2,state.isFoil());
 			pst.setBoolean(3, state.isSigned());
@@ -438,7 +438,11 @@ public class MysqlDAO extends AbstractMagicDAO{
 			pst.setString(7, state.getMagicCard().getId());
 			pst.setString(8, state.getMagicCollection().getName());
 			pst.setObject(9, state.getMagicCard());
-			state.setIdstock(pst.executeUpdate());
+			pst.executeUpdate();
+			ResultSet rs = pst.getGeneratedKeys();
+			rs.next();
+			state.setIdstock( rs.getInt(1));
+			
 		}
 		else
 		{

@@ -40,6 +40,8 @@ import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.event.ListSelectionEvent;
 
 public class StockPanelGUI extends JPanel {
 	private JXTable table;
@@ -59,7 +61,7 @@ public class StockPanelGUI extends JPanel {
     private TableFilterHeader filterHeader;
 
 	private MagicCardStock selectedStock;
-	private MagicCard selectedCard;
+	private List<MagicCard> selectedCard;
 	private JButton btnReload;
     
 	static final Logger logger = LogManager.getLogger(StockPanelGUI.class.getName());
@@ -70,19 +72,19 @@ public class StockPanelGUI extends JPanel {
 		
 		initGUI();
 		
-		listResult.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				selectedCard=listResult.getSelectedValue();
+		listResult.addListSelectionListener(new ListSelectionListener() {
+			public void valueChanged(ListSelectionEvent arg0) {
+				selectedCard=listResult.getSelectedValuesList();
 				
 				if(selectedCard!=null)
 				{
 					btnAdd.setEnabled(true);
-					magicCardDetailPanel.setMagicCard(selectedCard);
+					magicCardDetailPanel.setMagicCard(selectedCard.get(0));
 				}
 				
 			}
 		});
+		
 		
 		txtSearch.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -126,16 +128,23 @@ public class StockPanelGUI extends JPanel {
 						} catch (SQLException e1) {
 							JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR ON : " + String.valueOf(ms),JOptionPane.ERROR_MESSAGE);
 						}
+				
+				model.fireTableDataChanged();
 			}
+			
 		});
 		
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				MagicCardStock ms = new MagicCardStock();
-				ms.setIdstock(-1);
-				ms.setUpdate(true);
-				ms.setMagicCard(selectedCard);
-				model.add(ms);
+				
+				for(MagicCard mc : selectedCard)
+				{
+					MagicCardStock ms = new MagicCardStock();
+					ms.setIdstock(-1);
+					ms.setUpdate(true);
+					ms.setMagicCard(mc);
+					model.add(ms);
+				}
 			}
 		});
 		
@@ -161,13 +170,14 @@ public class StockPanelGUI extends JPanel {
 					JOptionPane.showMessageDialog(null, "Choose a stock line before","ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 				else
-				{	try {
+				{	
+					try {
 						int res = JOptionPane.showConfirmDialog(null, "Delete " + selectedStock + " ?","Confirm delete",JOptionPane.YES_NO_OPTION);
-						
 						if(res==JOptionPane.YES_OPTION)
 						{
 							model.remove(selectedStock);
-							MTGControler.getInstance().getEnabledDAO().deleteStock(selectedStock);
+							if(selectedStock.getIdstock()>-1)
+								MTGControler.getInstance().getEnabledDAO().deleteStock(selectedStock);
 						}
 					} catch (SQLException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
@@ -201,6 +211,7 @@ public class StockPanelGUI extends JPanel {
 		model = new CardStockTableModel();
 		
 		listResult = new JList<MagicCard>(resultListModel);
+		
 		
 		add(leftPanel, BorderLayout.WEST);
 		leftPanel.setLayout(new BorderLayout(0, 0));
