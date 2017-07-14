@@ -73,7 +73,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table shop");
-		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
+		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard OBJECT)");
 		 	logger.debug("Create table stocks");
 		 	con.createStatement().executeUpdate("create table alerts (id varchar(250),mcard OBJECT, amount DECIMAL)");
 		 	logger.debug("Create table Alerts");
@@ -404,38 +404,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 
 		 return cols;
 	}
-/*
 
-	@Override
-	public void saveShopItem(ShopItem mp, String string) throws SQLException {
-			logger.debug("trying to update " + mp);
-			PreparedStatement pst = con.prepareStatement("update shop set statut=? where id=?");
-			pst.setString(1, string);
-			pst.setString(2, mp.getId());
-			if(pst.executeUpdate()==0)
-			{
-				logger.debug("trying to insert " + mp);
-				pst = con.prepareStatement("insert into shop values (?,?)");
-				pst.setString(1, mp.getId());
-				pst.setString(2, string);
-				pst.executeUpdate();
-			}
-	}
-
-
-	@Override
-	public String getSavedShopItemAnotation(ShopItem it) throws SQLException {
-		PreparedStatement pst = con.prepareStatement("SELECT statut from shop where id=?");
-		pst.setString(1, it.getId());
-		//logger.debug("looking for shopItem : SELECT statut from shop where id=" + it.getId());
-		ResultSet rs = pst.executeQuery(); 
-		if(rs.next())
-			return rs.getString("statut");
-		else
-			return "";
-		
-	}*/
-	
 	public ResultSet executeQuery(String query) throws SQLException
 	{
 		Statement pst = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
@@ -630,54 +599,31 @@ public class HsqlDAO extends AbstractMagicDAO{
 		}
 		
 	}
-/*
-	@Override
-	public void moveCards(MagicCollection from, MagicCollection to, List<MagicCard> cards) throws SQLException {
-		for(MagicCard mc : cards)
-		{
-			PreparedStatement pst=con.prepareStatement("update cards set collection=? where collection=? and id=?");
-			pst.setString(1, to.getName());
-			pst.setString(2, from.getName());
-			pst.setString(3, mc.getId());
-			pst.executeUpdate();
-		}
-		
-	}
-*/
 
-	@Override
-	public void moveCards(MagicCollection from, MagicCollection to, MagicCard mc) throws SQLException {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
 	public List<MagicCardStock> getStocks() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		PreparedStatement pst=con.prepareStatement("select * from stocks");	
+		ResultSet rs = pst.executeQuery();
+		List<MagicCardStock> colls = new ArrayList<MagicCardStock>();
+		while(rs.next())
+		{
+			MagicCardStock state = new MagicCardStock();
+			
+				state.setComment(rs.getString("comments"));
+				state.setIdstock(rs.getInt("idstock"));
+				state.setMagicCard((MagicCard)rs.getObject("mcard"));
+				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+				state.setCondition( EnumCondition.valueOf(rs.getString("conditions")) );
+				state.setFoil(rs.getBoolean("foil"));
+				state.setSigned(rs.getBoolean("signedcard"));
+				state.setLanguage(rs.getString("langage"));
+				state.setQte(rs.getInt("qte"));
+				
+				colls.add(state);
+		}
+		logger.debug("load " + colls.size() +" item(s) from stock");
+		return colls;
 	}
-	
-//	public int updateSerializedCard(MagicCard mc,String editionCode,String collection) 
-//	{
-//		try{
-//		String sql ="update cards set mcard=? where  name=? and edition=? and collection=? ";
-//		PreparedStatement pst = con.prepareStatement(sql);
-//		pst.setObject(1, mc);
-//		pst.setString(2, mc.getName());
-//		pst.setString(3, editionCode);
-//		pst.setString(4, collection);
-//		return pst.executeUpdate();
-//		}
-//		catch(Exception e)
-//		{
-//			e.printStackTrace();
-//			return -1;
-//		}
-//		
-//	}
-	
-	
-
 
 }
 

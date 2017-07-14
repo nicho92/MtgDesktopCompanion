@@ -71,7 +71,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("Create table stocks");
-		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
+		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard BLOB, collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
 			logger.debug("Create table Alerts");
 		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard BLOB, amount DECIMAL)");
 		 	
@@ -359,8 +359,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 return cols;
 	}
 
-
-
 	@Override
 	public void deleteStock(MagicCardStock state) throws SQLException {
 		logger.debug("remove " + state  + " ID=" + state.getIdstock());
@@ -408,7 +406,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			
 				state.setComment(rs.getString("comments"));
 				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard(loadCard("id",rs.getString("idmc")));
+				state.setMagicCard((MagicCard)rs.getObject("mcard"));
 				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 				state.setCondition( EnumCondition.valueOf(rs.getString("conditions")) );
 				state.setFoil(rs.getBoolean("foil"));
@@ -430,7 +428,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		{
 			
 			logger.debug("save "  + state);
-			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection) values (?,?,?,?,?,?,?,?)");
+			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard) values (?,?,?,?,?,?,?,?,?)");
 			pst.setString(1, state.getCondition().toString());
 			pst.setBoolean(2,state.isFoil());
 			pst.setBoolean(3, state.isSigned());
@@ -439,7 +437,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			pst.setString(6, state.getComment());
 			pst.setString(7, state.getMagicCard().getId());
 			pst.setString(8, state.getMagicCollection().getName());
-			
+			pst.setObject(9, state.getMagicCard());
 			state.setIdstock(pst.executeUpdate());
 		}
 		else
@@ -563,15 +561,15 @@ public class MysqlDAO extends AbstractMagicDAO{
 		list.remove(alert);
 		
 	}
-
-	@Override
-	public void moveCards(MagicCollection from, MagicCollection to, MagicCard mc) throws SQLException {
-			PreparedStatement pst=con.prepareStatement("update cards set collection=? where collection=? and id=?");
-			pst.setString(1, to.getName());
-			pst.setString(2, from.getName());
-			pst.setString(3, mc.getId());
-			pst.executeUpdate();
-		
-		
-	}
+//
+//	@Override
+//	public void moveCards(MagicCollection from, MagicCollection to, MagicCard mc) throws SQLException {
+//			PreparedStatement pst=con.prepareStatement("update cards set collection=? where collection=? and id=?");
+//			pst.setString(1, to.getName());
+//			pst.setString(2, from.getName());
+//			pst.setString(3, mc.getId());
+//			pst.executeUpdate();
+//		
+//		
+//	}
 }

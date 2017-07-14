@@ -83,7 +83,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("Create table stocks");
-		 	con.createStatement().executeUpdate("create table stocks (idstock SERIAL PRIMARY KEY , idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
+		 	con.createStatement().executeUpdate("create table stocks (idstock SERIAL PRIMARY KEY , idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard bytea)");
 		 	logger.debug("Create table Alerts");
 		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard bytea, amount decimal)");
 		 	
@@ -493,6 +493,32 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			logger.debug("load " + colls.size() +" item from stock for " + mc );
 			return colls;
 		}
+		
+		@Override
+		public List<MagicCardStock> getStocks() throws SQLException {
+			PreparedStatement pst=con.prepareStatement("select * from stocks");	
+			ResultSet rs = pst.executeQuery();
+			List<MagicCardStock> colls = new ArrayList<MagicCardStock>();
+			while(rs.next())
+			{
+				MagicCardStock state = new MagicCardStock();
+				
+					state.setComment(rs.getString("comments"));
+					state.setIdstock(rs.getInt("idstock"));
+					state.setMagicCard(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
+					state.setMagicCollection(new MagicCollection(rs.getString("collection")));
+					state.setCondition( EnumCondition.valueOf(rs.getString("conditions")) );
+					state.setFoil(rs.getBoolean("foil"));
+					state.setSigned(rs.getBoolean("signedcard"));
+					state.setLanguage(rs.getString("langage"));
+					state.setQte(rs.getInt("qte"));
+					
+					colls.add(state);
+			}
+			return colls;
+		}
+
+
 
 		@Override
 		public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
@@ -619,19 +645,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			}
 			
 		}*/
-
-		@Override
-		public void moveCards(MagicCollection from, MagicCollection to, MagicCard mc) throws SQLException {
-			// TODO Auto-generated method stub
-			
-		}
-
-		@Override
-		public List<MagicCardStock> getStocks() throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
 
 
 
