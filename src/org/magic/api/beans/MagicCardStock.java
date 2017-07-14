@@ -11,15 +11,26 @@ public class MagicCardStock {
 	private String comment;
 	private boolean foil;
 	private boolean signed;
-	
+	private boolean update;
 	
 	public MagicCardStock() {
 		idstock=-1;
 	}
 	
+	public boolean isUpdate() {
+		return update;
+	}
+
+	public void setUpdate(boolean update) {
+		this.update = update;
+	}
+
+
+
+
 	@Override
 	public String toString() {
-		return getQte() + " " + magicCard +" ("+getLanguage()+") in " + getMagicCollection() +" state :" + getCondition();
+		return String.valueOf(idstock);
 	}
 	
 	public int getIdstock() {

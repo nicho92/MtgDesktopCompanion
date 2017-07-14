@@ -74,6 +74,7 @@ public class ConfigurationPanel extends JPanel {
 	private JCheckBox chckbxAlert;
 	private JCheckBox chckbxRss;
 	private JCheckBox chckbxCardBuilder;
+	private JCheckBox chckbxStock;
 
 	
 	
@@ -862,6 +863,20 @@ public class ConfigurationPanel extends JPanel {
 		gbc_chckbxCardBuilder.gridx = 1;
 		gbc_chckbxCardBuilder.gridy = 4;
 		panel.add(chckbxCardBuilder, gbc_chckbxCardBuilder);
+		
+		chckbxStock = new JCheckBox("Stock");
+		chckbxStock.setSelected(MTGControler.getInstance().get("modules/stock").equals("true"));
+		
+		chckbxStock.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/stock",chckbxStock.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxStock = new GridBagConstraints();
+		gbc_chckbxStock.anchor = GridBagConstraints.WEST;
+		gbc_chckbxStock.gridx = 3;
+		gbc_chckbxStock.gridy = 4;
+		panel.add(chckbxStock, gbc_chckbxStock);
 		
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
 		gbc_lblLoading.gridwidth = 2;

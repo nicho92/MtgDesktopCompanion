@@ -239,6 +239,9 @@ public class MagicGUI extends JFrame {
 		
 		if(MTGControler.getInstance().get("modules/collection").equals("true"))
 			tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/res/collection.png")), new CollectionPanelGUI(), null);
+
+		if(MTGControler.getInstance().get("modules/stock").equals("true"))
+			tabbedPane.addTab("Stock", new ImageIcon(MagicGUI.class.getResource("/res/stock.png")), new StockPanelGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/dashboard").equals("true"))
 			tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI(), null);
@@ -254,6 +257,9 @@ public class MagicGUI extends JFrame {
 		
 		if(MTGControler.getInstance().get("modules/rss").equals("true"))
 			tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/res/rss.png")), new RssGUI(), null);
+		
+
+		
 		
 		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/res/build.png")), new ConfigurationPanelGUI(), null);
 		

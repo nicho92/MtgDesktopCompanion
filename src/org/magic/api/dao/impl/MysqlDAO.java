@@ -429,7 +429,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			
 			logger.debug("save "  + state);
 			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard) values (?,?,?,?,?,?,?,?,?)");
-			pst.setString(1, state.getCondition().toString());
+			pst.setString(1, String.valueOf(state.getCondition()));
 			pst.setBoolean(2,state.isFoil());
 			pst.setBoolean(3, state.isSigned());
 			pst.setString(4, state.getLanguage());

@@ -21,6 +21,7 @@
 		<alarm>true</alarm>
 		<shopper>true</shopper>
 		<cardbuilder>true</cardbuilder>
+		<stock>true</stock>
 	</modules>
 	
 	<game>
