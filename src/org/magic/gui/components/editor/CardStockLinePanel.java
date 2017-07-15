@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.gui.components.editor;
 
 import java.awt.Color;
 import java.awt.ComponentOrientation;
@@ -34,6 +34,7 @@ public class CardStockLinePanel extends JPanel {
 	  private JSpinner txtQte;
 	  
 	  private MagicCardStock state;
+	  private JCheckBox cboAltered;
 	  
 	   
 	public CardStockLinePanel(MagicCard selectedCard, MagicCollection selectedCol) {
@@ -103,6 +104,9 @@ public class CardStockLinePanel extends JPanel {
 				}
 			}
 		});
+		
+		cboAltered = new JCheckBox("Altered");
+		add(cboAltered);
 		add(btnSave);
 		add(btnNewButton);
 	}
@@ -116,6 +120,7 @@ public class CardStockLinePanel extends JPanel {
 		state.setSigned(cboSigned.isSelected());
 		state.setFoil(cboFoil.isSelected());
 		state.setLanguage(cboLanguage.getSelectedItem().toString());
+		state.setAltered(cboAltered.isSelected());
 	}
 	
 	public void delete() {

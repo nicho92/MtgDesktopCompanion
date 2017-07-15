@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.gui.components.editor.CardStockLinePanel;
 import org.magic.services.MTGControler;
 
 public class CardStockPanel extends JPanel {
