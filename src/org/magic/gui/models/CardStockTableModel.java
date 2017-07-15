@@ -17,7 +17,7 @@ import org.magic.services.ThreadManager;
 public class CardStockTableModel extends DefaultTableModel {
 
 	
-	static final String columns[] = new String[]{"Id","Card","Edition","Collection","Condition","Qte","Language","Comment"};
+	static final String columns[] = new String[]{"Id","Card","Edition","Collection","Condition","Qte","Language","Foil","Signed","Altered","Comment"};
 	List<MagicCardStock> list;
 	
 	
@@ -72,7 +72,10 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 4 : return EnumCondition.class;
 			case 5 : return Integer.class;
 			case 6 : return String.class;
-			case 7 : return String.class;
+			case 7 : return Boolean.class;
+			case 8 : return Boolean.class;
+			case 9 : return Boolean.class;
+			case 10 : return String.class;
 			
 			default : return super.getColumnClass(columnIndex);
 		}
@@ -102,7 +105,12 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 4 : return list.get(row).getCondition();
 			case 5 : return list.get(row).getQte();
 			case 6 : return list.get(row).getLanguage();
-			case 7 : return list.get(row).getComment();
+			
+			case 7 : return list.get(row).isFoil();
+			case 8 : return list.get(row).isSigned();
+			case 9 : return list.get(row).isAltered();
+			
+			case 10 : return list.get(row).getComment();
 			
 		default : return "";
 		}
@@ -116,7 +124,12 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 4 : list.get(row).setCondition((EnumCondition)aValue);break;
 			case 5 : list.get(row).setQte((Integer)aValue);break;
 			case 6 : list.get(row).setLanguage(String.valueOf(aValue));break;
-			case 7 : list.get(row).setComment(String.valueOf(aValue));break;
+			
+			case 7 : list.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));break;
+			case 8 : list.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));break;
+			case 9 : list.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));break;
+			
+			case 10 : list.get(row).setComment(String.valueOf(aValue));break;
 		}
 		list.get(row).setUpdate(true);
 	}

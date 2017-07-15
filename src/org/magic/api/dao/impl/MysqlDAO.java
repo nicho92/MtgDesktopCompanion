@@ -71,7 +71,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("Create table stocks");
-		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard BLOB, collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer)");
+		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard BLOB, collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean)");
 			logger.debug("Create table Alerts");
 		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard BLOB, amount DECIMAL)");
 		 	
@@ -388,6 +388,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 				state.setFoil(rs.getBoolean("foil"));
 				state.setSigned(rs.getBoolean("signedcard"));
 				state.setLanguage(rs.getString("langage"));
+				state.setAltered(rs.getBoolean("altered"));
 				state.setQte(rs.getInt("qte"));
 				
 				colls.add(state);
@@ -413,7 +414,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 				state.setSigned(rs.getBoolean("signedcard"));
 				state.setLanguage(rs.getString("langage"));
 				state.setQte(rs.getInt("qte"));
-				
+				state.setAltered(rs.getBoolean("altered"));
 				colls.add(state);
 		}
 		logger.debug("load " + colls.size() +" item(s) from stock");
@@ -428,7 +429,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		{
 			
 			logger.debug("save "  + state);
-			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard) values (?,?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
+			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,mcard,altered) values (?,?,?,?,?,?,?,?,?,?)",Statement.RETURN_GENERATED_KEYS);
 			pst.setString(1, String.valueOf(state.getCondition()));
 			pst.setBoolean(2,state.isFoil());
 			pst.setBoolean(3, state.isSigned());
@@ -438,6 +439,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			pst.setString(7, state.getMagicCard().getId());
 			pst.setString(8, state.getMagicCollection().getName());
 			pst.setObject(9, state.getMagicCard());
+			pst.setBoolean(10, state.isAltered());
 			pst.executeUpdate();
 			ResultSet rs = pst.getGeneratedKeys();
 			rs.next();
@@ -447,7 +449,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		else
 		{
 			logger.debug("update "  + state);
-			pst=con.prepareStatement("update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? where idstock=?");
+			pst=con.prepareStatement("update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=? where idstock=?");
 			
 			pst.setString(1,state.getComment());
 			pst.setString(2, state.getCondition().toString());
@@ -455,7 +457,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 			pst.setBoolean(4, state.isSigned());
 			pst.setString(5, state.getLanguage());
 			pst.setInt(6, state.getQte());
-			pst.setInt(7, state.getIdstock());
+			pst.setBoolean(7, state.isAltered());
+			pst.setInt(8, state.getIdstock());
 			
 			pst.executeUpdate();
 		}

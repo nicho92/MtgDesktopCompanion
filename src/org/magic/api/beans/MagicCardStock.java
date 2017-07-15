@@ -11,6 +11,7 @@ public class MagicCardStock {
 	private String comment;
 	private boolean foil;
 	private boolean signed;
+	private boolean altered;
 	private boolean update;
 	
 	public MagicCardStock() {
@@ -25,8 +26,13 @@ public class MagicCardStock {
 		this.update = update;
 	}
 
-
-
+	public boolean isAltered() {
+		return altered;
+	}
+	
+	public void setAltered(boolean altered) {
+		this.altered = altered;
+	}
 
 	@Override
 	public String toString() {
