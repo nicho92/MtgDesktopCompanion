@@ -73,7 +73,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table shop");
-		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard OBJECT)");
+		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard OBJECT,altered boolean)");
 		 	logger.debug("Create table stocks");
 		 	con.createStatement().executeUpdate("create table alerts (id varchar(250),mcard OBJECT, amount DECIMAL)");
 		 	logger.debug("Create table Alerts");
@@ -489,7 +489,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		{
 			
 			logger.debug("save "  + state);
-			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection) values (?,?,?,?,?,?,?,?)");
+			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,altered) values (?,?,?,?,?,?,?,?,?)");
 			pst.setString(1, state.getCondition().toString());
 			pst.setBoolean(2,state.isFoil());
 			pst.setBoolean(3, state.isSigned());
@@ -498,13 +498,13 @@ public class HsqlDAO extends AbstractMagicDAO{
 			pst.setString(6, state.getComment());
 			pst.setString(7, state.getMagicCard().getId());
 			pst.setString(8, state.getMagicCollection().getName());
-			
+			pst.setBoolean(9, state.isAltered());
 			state.setIdstock(pst.executeUpdate());
 		}
 		else
 		{
 			logger.debug("update "  + state);
-			pst=con.prepareStatement("update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? where idstock=?");
+			pst=con.prepareStatement("update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=?,altered=? where idstock=?");
 			
 			pst.setString(1,state.getComment());
 			pst.setString(2, state.getCondition().toString());
@@ -512,7 +512,8 @@ public class HsqlDAO extends AbstractMagicDAO{
 			pst.setBoolean(4, state.isSigned());
 			pst.setString(5, state.getLanguage());
 			pst.setInt(6, state.getQte());
-			pst.setInt(7, state.getIdstock());
+			pst.setBoolean(7, state.isAltered());
+			pst.setInt(8, state.getIdstock());
 			
 			pst.executeUpdate();
 		}
