@@ -200,7 +200,6 @@ public class StockPanelGUI extends JPanel {
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	int viewRow = table.getSelectedRow();
-	        	
 	        	if(viewRow>-1)
 	        	{
 	        		int modelRow = table.convertRowIndexToModel(viewRow);
@@ -221,6 +220,8 @@ public class StockPanelGUI extends JPanel {
 							for(int i : table.getSelectedRows())
 							{
 								MagicCardStock s = (MagicCardStock)table.getModel().getValueAt(table.getSelectedRows()[i], 0);
+								//MagicCardStock s = (MagicCardStock)table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
+								
 								model.remove(s);
 								if(s.getIdstock()>-1)
 									MTGControler.getInstance().getEnabledDAO().deleteStock(selectedStock);
@@ -490,7 +491,7 @@ public class StockPanelGUI extends JPanel {
 				{
 					for(int i : table.getSelectedRows())
 					{
-					MagicCardStock s = (MagicCardStock)table.getValueAt(table.getSelectedRows()[i], 0);
+						MagicCardStock s = (MagicCardStock)table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
 						s.setUpdate(true);
 						if(((Integer)spinner.getValue()).intValue()>0);
 							s.setQte((Integer)spinner.getValue());
