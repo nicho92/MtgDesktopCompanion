@@ -2,7 +2,7 @@
 
 import javax.swing.JFrame;
 
-import org.magic.gui.components.GamingRoomPanel;
+import org.magic.game.gui.components.GamingRoomPanel;
 
 public class GameRoomClient {
 

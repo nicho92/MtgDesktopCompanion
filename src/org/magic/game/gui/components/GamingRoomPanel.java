@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.game.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -38,7 +38,6 @@ import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;

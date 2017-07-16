@@ -3,7 +3,7 @@ package org.magic.gui;
 import javax.swing.JTabbedPane;
 
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.gui.components.GamingRoomPanel;
+import org.magic.game.gui.components.GamingRoomPanel;
 
 public class GameGUI extends JTabbedPane {
 

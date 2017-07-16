@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Locale;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -45,6 +46,14 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.JLabel;
 import org.magic.gui.components.editor.CardStockLinePanel;
 import org.magic.api.beans.MagicCollection;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import javax.swing.JCheckBox;
+import javax.swing.JSpinner;
+import javax.swing.JTextPane;
+import java.awt.Font;
+import javax.swing.SpinnerNumberModel;
 
 public class StockPanelGUI extends JPanel {
 	private JXTable table;
@@ -69,7 +78,25 @@ public class StockPanelGUI extends JPanel {
     
 	static final Logger logger = LogManager.getLogger(StockPanelGUI.class.getName());
 	private JLabel lblLoading;
+	private JPanel rightPanel;
+	private JLabel lblQte;
+	private JLabel lblLanguage;
+	private JLabel lblComment;
+	private JSpinner spinner;
+	private JComboBox<String> cboLanguages;
+	private JTextPane textPane;
+	private JComboBox<Boolean> cboFoil;
+	private JLabel lblFoil;
+	private JLabel lblSigned;
+	private JLabel lblAltered;
+	private JComboBox<Boolean> cboSigned;
+	private JComboBox<Boolean> cboAltered;
+	private JButton btnshowMassPanel;
+	private JButton btnApplyModification;
 	
+	private static Boolean[] values = {null,true,false};
+	private JLabel lblQuality;
+	private JComboBox<EnumCondition> cboQuality;
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -283,6 +310,16 @@ public class StockPanelGUI extends JPanel {
 				
 				lblLoading = new JLabel("");
 				lblLoading.setVisible(false);
+				
+				btnshowMassPanel = new JButton("");
+				btnshowMassPanel.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						rightPanel.setVisible(!rightPanel.isVisible());
+					}
+				});
+				btnshowMassPanel.setToolTipText("Mass Modification");
+				btnshowMassPanel.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/manual.png")));
+				actionPanel.add(btnshowMassPanel);
 				lblLoading.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/load.gif")));
 				actionPanel.add(lblLoading);
 				
@@ -307,6 +344,182 @@ public class StockPanelGUI extends JPanel {
 		centerPanel.add(splitPane, BorderLayout.CENTER);
 		splitPane.setLeftComponent(scrollTable);
 		splitPane.setRightComponent(magicCardDetailPanel);
+		
+		rightPanel = new JPanel();
+		rightPanel.setVisible(false);
+		add(rightPanel, BorderLayout.EAST);
+		GridBagLayout gbl_rightPanel = new GridBagLayout();
+		gbl_rightPanel.columnWidths = new int[]{84, 103, 0};
+		gbl_rightPanel.rowHeights = new int[]{83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_rightPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gbl_rightPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		rightPanel.setLayout(gbl_rightPanel);
+		
+		lblQte = new JLabel("Qte : ");
+		GridBagConstraints gbc_lblQte = new GridBagConstraints();
+		gbc_lblQte.anchor = GridBagConstraints.EAST;
+		gbc_lblQte.insets = new Insets(0, 0, 5, 5);
+		gbc_lblQte.gridx = 0;
+		gbc_lblQte.gridy = 1;
+		rightPanel.add(lblQte, gbc_lblQte);
+		
+		spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		GridBagConstraints gbc_spinner = new GridBagConstraints();
+		gbc_spinner.fill = GridBagConstraints.HORIZONTAL;
+		gbc_spinner.insets = new Insets(0, 0, 5, 0);
+		gbc_spinner.gridx = 1;
+		gbc_spinner.gridy = 1;
+		rightPanel.add(spinner, gbc_spinner);
+		
+		lblLanguage = new JLabel("Language :");
+		GridBagConstraints gbc_lblLanguage = new GridBagConstraints();
+		gbc_lblLanguage.anchor = GridBagConstraints.EAST;
+		gbc_lblLanguage.insets = new Insets(0, 0, 5, 5);
+		gbc_lblLanguage.gridx = 0;
+		gbc_lblLanguage.gridy = 2;
+		rightPanel.add(lblLanguage, gbc_lblLanguage);
+		
+		DefaultComboBoxModel lModel = new DefaultComboBoxModel();
+		for(Locale l : Locale.getAvailableLocales())
+			 lModel.addElement(l.getDisplayLanguage(Locale.US));
+		
+		cboLanguages = new JComboBox(lModel);
+		GridBagConstraints gbc_cboLanguages = new GridBagConstraints();
+		gbc_cboLanguages.insets = new Insets(0, 0, 5, 0);
+		gbc_cboLanguages.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboLanguages.gridx = 1;
+		gbc_cboLanguages.gridy = 2;
+		rightPanel.add(cboLanguages, gbc_cboLanguages);
+		
+		lblFoil = new JLabel("Foil :");
+		GridBagConstraints gbc_lblFoil = new GridBagConstraints();
+		gbc_lblFoil.anchor = GridBagConstraints.EAST;
+		gbc_lblFoil.insets = new Insets(0, 0, 5, 5);
+		gbc_lblFoil.gridx = 0;
+		gbc_lblFoil.gridy = 3;
+		rightPanel.add(lblFoil, gbc_lblFoil);
+		
+		cboFoil = new JComboBox(new DefaultComboBoxModel<Boolean>(values));
+		GridBagConstraints gbc_cboFoil = new GridBagConstraints();
+		gbc_cboFoil.insets = new Insets(0, 0, 5, 0);
+		gbc_cboFoil.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboFoil.gridx = 1;
+		gbc_cboFoil.gridy = 3;
+		rightPanel.add(cboFoil, gbc_cboFoil);
+		
+		lblSigned = new JLabel("Signed :");
+		GridBagConstraints gbc_lblSigned = new GridBagConstraints();
+		gbc_lblSigned.anchor = GridBagConstraints.EAST;
+		gbc_lblSigned.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSigned.gridx = 0;
+		gbc_lblSigned.gridy = 4;
+		rightPanel.add(lblSigned, gbc_lblSigned);
+		
+		cboSigned = new JComboBox(new DefaultComboBoxModel<Boolean>(values));
+		GridBagConstraints gbc_cboSigned = new GridBagConstraints();
+		gbc_cboSigned.insets = new Insets(0, 0, 5, 0);
+		gbc_cboSigned.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboSigned.gridx = 1;
+		gbc_cboSigned.gridy = 4;
+		rightPanel.add(cboSigned, gbc_cboSigned);
+		
+		lblAltered = new JLabel("Altered :");
+		GridBagConstraints gbc_lblAltered = new GridBagConstraints();
+		gbc_lblAltered.anchor = GridBagConstraints.EAST;
+		gbc_lblAltered.insets = new Insets(0, 0, 5, 5);
+		gbc_lblAltered.gridx = 0;
+		gbc_lblAltered.gridy = 5;
+		rightPanel.add(lblAltered, gbc_lblAltered);
+		
+		cboAltered = new JComboBox(new DefaultComboBoxModel<Boolean>(values));
+		GridBagConstraints gbc_cboAltered = new GridBagConstraints();
+		gbc_cboAltered.insets = new Insets(0, 0, 5, 0);
+		gbc_cboAltered.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboAltered.gridx = 1;
+		gbc_cboAltered.gridy = 5;
+		rightPanel.add(cboAltered, gbc_cboAltered);
+		
+		lblQuality = new JLabel("Quality :");
+		GridBagConstraints gbc_lblQuality = new GridBagConstraints();
+		gbc_lblQuality.anchor = GridBagConstraints.EAST;
+		gbc_lblQuality.insets = new Insets(0, 0, 5, 5);
+		gbc_lblQuality.gridx = 0;
+		gbc_lblQuality.gridy = 6;
+		rightPanel.add(lblQuality, gbc_lblQuality);
+		
+		DefaultComboBoxModel qModel = new DefaultComboBoxModel();
+		qModel.addElement(null);
+		for(EnumCondition l : EnumCondition.values())
+			 qModel.addElement(l);
+		
+		
+		cboQuality = new JComboBox<EnumCondition>(qModel);
+		
+		
+		
+		GridBagConstraints gbc_cboQuality = new GridBagConstraints();
+		gbc_cboQuality.insets = new Insets(0, 0, 5, 0);
+		gbc_cboQuality.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboQuality.gridx = 1;
+		gbc_cboQuality.gridy = 6;
+		rightPanel.add(cboQuality, gbc_cboQuality);
+		
+		lblComment = new JLabel("Comment :");
+		GridBagConstraints gbc_lblComment = new GridBagConstraints();
+		gbc_lblComment.insets = new Insets(0, 0, 5, 5);
+		gbc_lblComment.gridx = 0;
+		gbc_lblComment.gridy = 7;
+		rightPanel.add(lblComment, gbc_lblComment);
+		
+		textPane = new JTextPane();
+		GridBagConstraints gbc_textPane = new GridBagConstraints();
+		gbc_textPane.insets = new Insets(0, 0, 5, 0);
+		gbc_textPane.gridwidth = 2;
+		gbc_textPane.gridheight = 2;
+		gbc_textPane.fill = GridBagConstraints.BOTH;
+		gbc_textPane.gridx = 0;
+		gbc_textPane.gridy = 8;
+		rightPanel.add(textPane, gbc_textPane);
+		
+		btnApplyModification = new JButton("Apply");
+		btnApplyModification.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int res = JOptionPane.showConfirmDialog(null, "Change " + table.getSelectedRowCount() + " item(s)", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+				if(res==JOptionPane.YES_OPTION)
+				{
+					for(int i : table.getSelectedRows())
+					{
+					MagicCardStock s = (MagicCardStock)table.getValueAt(table.getSelectedRows()[i], 0);
+						s.setUpdate(true);
+						if(((Integer)spinner.getValue()).intValue()>0);
+							s.setQte((Integer)spinner.getValue());
+						if(!textPane.getText().equals(""))
+							s.setComment(textPane.getText());
+						if(cboAltered.getSelectedItem()!=null)
+							s.setAltered((Boolean)cboAltered.getSelectedItem());
+						if(cboSigned.getSelectedItem()!=null)
+							s.setSigned((Boolean)cboSigned.getSelectedItem());
+						if(cboFoil.getSelectedItem()!=null)
+							s.setFoil((Boolean)cboFoil.getSelectedItem());
+						if(cboLanguages!=null)
+							s.setLanguage(String.valueOf(cboLanguages.getSelectedItem()));
+						if(cboQuality.getSelectedItem()!=null)
+							s.setCondition((EnumCondition)cboQuality.getSelectedItem());
+						
+						
+					}
+					model.fireTableDataChanged();
+				}
+				
+				
+			}
+		});
+		GridBagConstraints gbc_btnApplyModification = new GridBagConstraints();
+		gbc_btnApplyModification.gridwidth = 2;
+		gbc_btnApplyModification.gridx = 0;
+		gbc_btnApplyModification.gridy = 11;
+		rightPanel.add(btnApplyModification, gbc_btnApplyModification);
 	}
 	
 	
