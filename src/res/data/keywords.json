@@ -1381,7 +1381,6 @@
 	"keyword": "Eternalize",
 	"description": "a keyword ability which is an evolved Embalm. Eternalize can only be activated if the creature is in the graveyard. When activated, the card is exiled and creates a token copy of itself. This creature token is a copy of the eternalized creature, except that it is a zombie in addition to its other creature types and monocolored black. Its power/toughness becomes 4/4. Many creatures with eternalize have abilities that get better because of their increased power.",
 	"type": "Abilities",
-	"subtype": "Other",
 	"event": "ACTIVATED"
 },
 {

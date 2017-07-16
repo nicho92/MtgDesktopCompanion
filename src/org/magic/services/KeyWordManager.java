@@ -55,7 +55,7 @@ public class KeyWordManager {
 				if(st.equalsIgnoreCase(s.getKeyword()))
 					ret.add(s);
 			}*/
-				if(mc.getText().toLowerCase().contains(s.getKeyword().toLowerCase()))
+			if(String.valueOf(mc.getText()).toLowerCase().contains(s.getKeyword().toLowerCase()))
 					ret.add(s);
 		}
 		return ret;
