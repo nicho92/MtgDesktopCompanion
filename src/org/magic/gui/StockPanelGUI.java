@@ -269,8 +269,7 @@ public class StockPanelGUI extends JPanel {
 				rightPanel.setVisible(!rightPanel.isVisible());
 			}
 		});
-		
-		
+			
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();
