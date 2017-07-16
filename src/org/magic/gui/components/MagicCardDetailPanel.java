@@ -36,6 +36,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import javax.swing.JCheckBox;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -71,6 +72,7 @@ public class MagicCardDetailPanel extends JPanel {
 	private JTextField rarityJTextField;
 	GridBagLayout gridBagLayout ;
 	private JButton btnAlert;
+	private JCheckBox chckbxReserved;
 	
 	public void setEditable(boolean b)
 	{
@@ -280,6 +282,13 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_lstFormats.fill = GridBagConstraints.HORIZONTAL;
 				gbc_lstFormats.gridx = 4;
 				gbc_lstFormats.gridy = 3;
+				
+				chckbxReserved = new JCheckBox("(R)");
+				GridBagConstraints gbc_chckbxReserved = new GridBagConstraints();
+				gbc_chckbxReserved.insets = new Insets(0, 0, 5, 5);
+				gbc_chckbxReserved.gridx = 2;
+				gbc_chckbxReserved.gridy = 3;
+				add(chckbxReserved, gbc_chckbxReserved);
 				
 				rarityJTextField = new JTextField();
 				GridBagConstraints gbc_rarityJTextField = new GridBagConstraints();
@@ -515,6 +524,11 @@ public class MagicCardDetailPanel extends JPanel {
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, waterProperty, txtWatermark, textProperty_14);
 		autoBinding_13.bind();
 		
+		BeanProperty<MagicCard, Boolean> reservedProperty = BeanProperty.create("reserved");
+		BeanProperty<JCheckBox, Boolean> chkProperty_15 = BeanProperty.create("selected");
+		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding_15 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, reservedProperty, chckbxReserved, chkProperty_15);
+		autoBinding_15.bind();
+		
 		
 		try{
 			rarityJTextField.setText(magicCard.getEditions().get(0).getRarity());
@@ -563,6 +577,8 @@ public class MagicCardDetailPanel extends JPanel {
 					((DefaultListModel)listCollection.getModel()).removeAllElements();
 					for(MagicCollection col : MTGControler.getInstance().getEnabledDAO().getCollectionFromCards(magicCard))
 						((DefaultListModel)listCollection.getModel()).addElement(col);
+				//	listCollection.updateUI();
+					
 				}
 				catch(Exception e)
 				{	
@@ -610,6 +626,7 @@ public class MagicCardDetailPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding_11);
 		bindingGroup.addBinding(autoBinding_12);
 		bindingGroup.addBinding(autoBinding_13);
+		bindingGroup.addBinding(autoBinding_15);
 		return bindingGroup;
 	}
 	

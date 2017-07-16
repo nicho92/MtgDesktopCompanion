@@ -361,6 +361,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	 		  
 	 		   if(map.get("gathererCode")!=null)
 	 			  mc.setGathererCode(String.valueOf(map.get("gathererCode"))); 
+	 		   
+	 		  if(map.get("reserved")!=null)
+	 			  mc.setReserved(Boolean.valueOf(String.valueOf(map.get("reserved")))); 
+	 		   
 	 			  
 	 		  if(map.get("loyalty")!=null)
 	 		  {
@@ -613,7 +617,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 
 	public String[] getQueryableAttributs() {
-		return new String[]{"name","foreignNames","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout"/*,"format"*/};
+		return new String[]{"name","foreignNames","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout","reserved"/*,"format"*/};
 	}
 
 	public String getName() {

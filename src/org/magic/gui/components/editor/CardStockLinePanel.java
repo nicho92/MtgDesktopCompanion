@@ -35,6 +35,7 @@ public class CardStockLinePanel extends JPanel {
 	  
 	  private MagicCardStock state;
 	  private JCheckBox cboAltered;
+	
 	  
 	   
 	public CardStockLinePanel(MagicCard selectedCard, MagicCollection selectedCol) {

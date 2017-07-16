@@ -43,6 +43,8 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JLabel;
+import org.magic.gui.components.editor.CardStockLinePanel;
+import org.magic.api.beans.MagicCollection;
 
 public class StockPanelGUI extends JPanel {
 	private JXTable table;
@@ -67,7 +69,7 @@ public class StockPanelGUI extends JPanel {
     
 	static final Logger logger = LogManager.getLogger(StockPanelGUI.class.getName());
 	private JLabel lblLoading;
-
+	
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -75,21 +77,21 @@ public class StockPanelGUI extends JPanel {
 		initGUI();
 		
 		listResult.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent arg0) {
-				selectedCard=listResult.getSelectedValuesList();
+			public void valueChanged(ListSelectionEvent lse) {
 				
+				selectedCard=listResult.getSelectedValuesList();
 				if(selectedCard!=null)
 				{
 					btnAdd.setEnabled(true);
 					magicCardDetailPanel.setMagicCard(selectedCard.get(0));
 				}
 				
+				
 			}
 		});
 		
-		
 		txtSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent ae) {
 				btnSearch.doClick();
 			}
 		});
@@ -168,7 +170,6 @@ public class StockPanelGUI extends JPanel {
 			}
 		});
 		
-		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	int viewRow = table.getSelectedRow();
@@ -182,8 +183,6 @@ public class StockPanelGUI extends JPanel {
 	        	}
 	        }
 	    });
-		
-		
 		
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {

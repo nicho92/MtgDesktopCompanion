@@ -21,11 +21,29 @@ public class StockTableRenderer extends DefaultTableRenderer {
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
     	pane = super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column);
-    	pane.setForeground(Color.BLACK);
+    //	pane.setForeground(Color.BLACK);
+    	
+    
+    	
 		if(((MagicCardStock)table.getValueAt(row, 0)).isUpdate())
-    		pane.setBackground(Color.GREEN);
+		{
+			pane.setBackground(Color.GREEN);
+			pane.setForeground(table.getForeground());
+		}
     	else
-    		pane.setBackground(table.getBackground());
+    		if(isSelected)
+        	{
+        		pane.setBackground(table.getSelectionBackground());
+        		pane.setForeground(table.getSelectionForeground());
+        	}
+        	else
+        	{
+        		pane.setBackground(table.getBackground());
+        		pane.setForeground(table.getForeground());
+        	}
+		
+		
+		
 		return pane;
     }
 	

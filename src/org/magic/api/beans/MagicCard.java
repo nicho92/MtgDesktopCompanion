@@ -48,8 +48,19 @@ public class MagicCard implements Serializable {
 		private boolean flippable=false;
 		private boolean tranformable=false;
 		
+		private boolean reserved;
 		
 		
+		public boolean isReserved() {
+			return reserved;
+		}
+
+
+		public void setReserved(boolean reserved) {
+			this.reserved = reserved;
+		}
+
+
 		public String getMciNumber() {
 			return mciNumber;
 		}
