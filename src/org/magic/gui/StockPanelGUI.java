@@ -1,10 +1,12 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.net.URLEncoder;
 import java.sql.SQLException;
 import java.util.List;
@@ -15,10 +17,13 @@ import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
@@ -31,10 +36,14 @@ import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.dialog.DeckSnifferDialog;
+import org.magic.gui.components.dialog.ManualImportFrame;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicDeckQtyEditor;
-import org.magic.gui.renderer.MagicStockEditor;
+import org.magic.gui.renderer.MagicEditionEditor;
+import org.magic.gui.renderer.MagicEditionRenderer;
+import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
@@ -42,13 +51,20 @@ import org.magic.services.ThreadManager;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.JLabel;
 import org.magic.gui.components.editor.CardStockLinePanel;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.CardExporter;
+
 import java.awt.GridBagLayout;
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
+import java.awt.Point;
+
 import javax.swing.JCheckBox;
 import javax.swing.JSpinner;
 import javax.swing.JTextPane;
@@ -97,6 +113,9 @@ public class StockPanelGUI extends JPanel {
 	private static Boolean[] values = {null,true,false};
 	private JLabel lblQuality;
 	private JComboBox<EnumCondition> cboQuality;
+	private JButton btnImport;
+	private JLabel lblCollection;
+	private JComboBox cboCollection;
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -244,8 +263,134 @@ public class StockPanelGUI extends JPanel {
 				}
 			}
 		});
-
+	
+		btnshowMassPanel.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rightPanel.setVisible(!rightPanel.isVisible());
+			}
+		});
 		
+		
+		btnImport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				JPopupMenu menu = new JPopupMenu();
+
+				JMenuItem manuel = new JMenuItem("Manual Import");
+				manuel.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/manual.png")));
+				manuel.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						ManualImportFrame fimport = new ManualImportFrame();
+						fimport.setVisible(true);
+
+						if (!fimport.getStringDeck().equals(""))
+						{
+							//TODO IMPORT
+						}
+					}
+				});
+				menu.add(manuel);
+
+				JMenuItem webSite = new JMenuItem("Import from website");
+				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/website.png")));
+				webSite.addActionListener(new ActionListener() {
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						DeckSnifferDialog diag = new DeckSnifferDialog();
+						diag.setModal(true);
+						diag.setVisible(true);
+
+						if (diag.getSelectedDeck() != null) {
+							lblLoading.setVisible(true);
+							MagicDeck deck = diag.getSelectedDeck();
+							importFromDeck(deck);
+							model.fireTableDataChanged();
+							lblLoading.setVisible(false);
+						}
+					}
+				});
+				menu.add(webSite);
+
+				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							JFileChooser jf = new JFileChooser(".");
+							jf.setFileFilter(new FileFilter() {
+
+								@Override
+								public String getDescription() {
+									return exp.getName();
+								}
+
+								@Override
+								public boolean accept(File f) {
+									if (f.isDirectory())
+										return true;
+
+									if (f.getName().endsWith(exp.getFileExtension()))
+										return true;
+
+									return false;
+								}
+							});
+							int res = jf.showOpenDialog(null);
+							final File f = jf.getSelectedFile();
+
+							if (res == JFileChooser.APPROVE_OPTION)
+								ThreadManager.getInstance().execute(new Runnable() {
+
+									@Override
+									public void run() {
+										try {
+											lblLoading.setVisible(true);
+											MagicDeck deck = exp.importDeck(f);
+											importFromDeck(deck);
+											model.fireTableDataChanged();
+											lblLoading.setVisible(false);
+											JOptionPane.showMessageDialog(null, "Import Finished",exp.getName() + " Finished", JOptionPane.INFORMATION_MESSAGE);
+
+										} catch (Exception e) {
+											logger.error(e);
+											lblLoading.setVisible(false);
+											JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+										}
+
+									}
+								}, "import " + exp);
+						}
+					});
+
+					menu.add(it);
+				}
+
+				Component b = (Component) ae.getSource();
+				Point p = b.getLocationOnScreen();
+				menu.show(b, 0, 0);
+				menu.setLocation(p.x, p.y + b.getHeight());
+			}
+		});
+		
+		
+		
+	}
+	
+	private void importFromDeck(MagicDeck deck)
+	{
+		for(MagicCard mc : deck.getMap().keySet())
+		{
+			MagicCardStock stock = new MagicCardStock();
+				stock.setMagicCard(mc);
+				stock.setQte(deck.getMap().get(mc));
+				stock.setComment("import from " + deck.getName());
+				stock.setIdstock(-1);
+				stock.setUpdate(true);
+				model.add(stock);
+		}
 	}
 	
 	private void initGUI()
@@ -313,11 +458,12 @@ public class StockPanelGUI extends JPanel {
 				lblLoading.setVisible(false);
 				
 				btnshowMassPanel = new JButton("");
-				btnshowMassPanel.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						rightPanel.setVisible(!rightPanel.isVisible());
-					}
-				});
+				
+				
+				btnImport = new JButton();
+				btnImport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/import.png")));
+				btnImport.setToolTipText("Import");
+				actionPanel.add(btnImport);
 				btnshowMassPanel.setToolTipText("Mass Modification");
 				btnshowMassPanel.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/manual.png")));
 				actionPanel.add(btnshowMassPanel);
@@ -330,8 +476,10 @@ public class StockPanelGUI extends JPanel {
 		StockTableRenderer render = new StockTableRenderer();
 		
 		table.setDefaultRenderer(Object.class,render);
-		table.setDefaultEditor(EnumCondition.class, new MagicStockEditor());
+		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
 		table.setDefaultEditor(Integer.class, new MagicDeckQtyEditor());
+		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionEditor());
+		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionRenderer());
 		
 		table.packAll();
 		filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
@@ -351,9 +499,9 @@ public class StockPanelGUI extends JPanel {
 		add(rightPanel, BorderLayout.EAST);
 		GridBagLayout gbl_rightPanel = new GridBagLayout();
 		gbl_rightPanel.columnWidths = new int[]{84, 103, 0};
-		gbl_rightPanel.rowHeights = new int[]{83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_rightPanel.rowHeights = new int[]{83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_rightPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_rightPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_rightPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		rightPanel.setLayout(gbl_rightPanel);
 		
 		lblQte = new JLabel("Qte : ");
@@ -466,11 +614,39 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboQuality.gridy = 6;
 		rightPanel.add(cboQuality, gbc_cboQuality);
 		
+		lblCollection = new JLabel("Collection :");
+		GridBagConstraints gbc_lblCollection = new GridBagConstraints();
+		gbc_lblCollection.anchor = GridBagConstraints.EAST;
+		gbc_lblCollection.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCollection.gridx = 0;
+		gbc_lblCollection.gridy = 7;
+		rightPanel.add(lblCollection, gbc_lblCollection);
+		
+		
+
+		DefaultComboBoxModel<MagicCollection> cModel = new DefaultComboBoxModel<MagicCollection>();
+		cModel.addElement(null);
+		try {
+			for(MagicCollection l : MTGControler.getInstance().getEnabledDAO().getCollections())
+				 cModel.addElement(l);
+		} catch (SQLException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+		cboCollection = new JComboBox<MagicCollection>(cModel);
+		GridBagConstraints gbc_cboCollection = new GridBagConstraints();
+		gbc_cboCollection.insets = new Insets(0, 0, 5, 0);
+		gbc_cboCollection.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboCollection.gridx = 1;
+		gbc_cboCollection.gridy = 7;
+		rightPanel.add(cboCollection, gbc_cboCollection);
+		
 		lblComment = new JLabel("Comment :");
 		GridBagConstraints gbc_lblComment = new GridBagConstraints();
 		gbc_lblComment.insets = new Insets(0, 0, 5, 5);
 		gbc_lblComment.gridx = 0;
-		gbc_lblComment.gridy = 7;
+		gbc_lblComment.gridy = 8;
 		rightPanel.add(lblComment, gbc_lblComment);
 		
 		textPane = new JTextPane();
@@ -480,7 +656,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_textPane.gridheight = 2;
 		gbc_textPane.fill = GridBagConstraints.BOTH;
 		gbc_textPane.gridx = 0;
-		gbc_textPane.gridy = 8;
+		gbc_textPane.gridy = 9;
 		rightPanel.add(textPane, gbc_textPane);
 		
 		btnApplyModification = new JButton("Apply");
@@ -507,7 +683,8 @@ public class StockPanelGUI extends JPanel {
 							s.setLanguage(String.valueOf(cboLanguages.getSelectedItem()));
 						if(cboQuality.getSelectedItem()!=null)
 							s.setCondition((EnumCondition)cboQuality.getSelectedItem());
-						
+						if(cboCollection.getSelectedItem()!=null)
+							s.setMagicCollection((MagicCollection)cboCollection.getSelectedItem());
 						
 					}
 					model.fireTableDataChanged();
@@ -519,7 +696,7 @@ public class StockPanelGUI extends JPanel {
 		GridBagConstraints gbc_btnApplyModification = new GridBagConstraints();
 		gbc_btnApplyModification.gridwidth = 2;
 		gbc_btnApplyModification.gridx = 0;
-		gbc_btnApplyModification.gridy = 11;
+		gbc_btnApplyModification.gridy = 12;
 		rightPanel.add(btnApplyModification, gbc_btnApplyModification);
 	}
 	

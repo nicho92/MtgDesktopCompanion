@@ -67,7 +67,7 @@ public class CardStockTableModel extends DefaultTableModel {
 		{
 			case 0 : return MagicCardStock.class;
 			case 1 : return MagicCard.class;
-			case 2 : return MagicEdition.class;
+			case 2 : return List.class;
 			case 3 : return MagicCollection.class;
 			case 4 : return EnumCondition.class;
 			case 5 : return Integer.class;
@@ -84,7 +84,7 @@ public class CardStockTableModel extends DefaultTableModel {
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return column>2;
+		return column>1;
 	}
 	
 	
@@ -100,7 +100,7 @@ public class CardStockTableModel extends DefaultTableModel {
 		{
 			case 0 : return list.get(row);
 			case 1 : return list.get(row).getMagicCard();
-			case 2 : return list.get(row).getMagicCard().getEditions().get(0);
+			case 2 : return list.get(row).getMagicCard().getEditions();
 			case 3 : return list.get(row).getMagicCollection();
 			case 4 : return list.get(row).getCondition();
 			case 5 : return list.get(row).getQte();
@@ -120,6 +120,7 @@ public class CardStockTableModel extends DefaultTableModel {
 	public void setValueAt(Object aValue, int row, int column) {
 		switch(column)
 		{
+			case 2 : updateEdition(list.get(row),(MagicEdition)aValue);break;
 			case 3 : list.get(row).setMagicCollection(new MagicCollection(aValue.toString()));break;
 			case 4 : list.get(row).setCondition((EnumCondition)aValue);break;
 			case 5 : list.get(row).setQte((Integer)aValue);break;
@@ -132,6 +133,14 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 10 : list.get(row).setComment(String.valueOf(aValue));break;
 		}
 		list.get(row).setUpdate(true);
+	}
+
+
+	private void updateEdition(MagicCardStock magicCardStock, MagicEdition aValue) {
+		MagicEdition ed = (MagicEdition)aValue;
+		magicCardStock.getMagicCard().getEditions().remove(ed);
+		magicCardStock.getMagicCard().getEditions().add(0, (MagicEdition)aValue);
+		
 	}
 
 
