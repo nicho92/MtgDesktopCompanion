@@ -538,7 +538,7 @@ public class CollectionPanelGUI extends JPanel {
 					
 					
 					
-					if(tabbedPane.getSelectedIndex()==1)
+					if(tabbedPane.getSelectedIndex()==2)
 					{ 
 						loadPrices(card);
 					}
@@ -560,7 +560,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 		tabbedPane.addChangeListener(new ChangeListener() {
 			public void stateChanged(ChangeEvent e) {
-				if(tabbedPane.getSelectedIndex()==1)
+				if(tabbedPane.getSelectedIndex()==2)
 					if(((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() instanceof MagicCard)
 						loadPrices((MagicCard)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() );
 			}

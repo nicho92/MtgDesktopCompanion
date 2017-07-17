@@ -143,6 +143,9 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
        Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
 		atts.put(PRODUCT_ATTS.idGame, "1");
 		atts.put(PRODUCT_ATTS.exact,props.getProperty("IS_EXACT"));
+		
+		
+		
 		if(!props.getProperty("LANGUAGE_ID").equals(""))
 			atts.put(PRODUCT_ATTS.idLanguage,props.getProperty("LANGUAGE_ID"));
 
