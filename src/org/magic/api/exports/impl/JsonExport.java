@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -134,22 +135,33 @@ public class JsonExport  extends AbstractCardExport {
 
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
-				MagicDeck d = new MagicDeck();
-				d.setName(f.getName());
 				
-			for(MagicCardStock mcs : stock)
+			JsonArray jsonparams = new JsonArray();
+			   
+			for(MagicCardStock mc : stock)
 			{
-				d.getMap().put(mcs.getMagicCard(), mcs.getQte());
+				jsonparams.add(new Gson().toJsonTree(mc));
 			}
-			
-			export(d, f);
+			FileWriter out = new FileWriter(f);
+			out.write(jsonparams.toString());
+			out.close();
 		
 	}
 
 
 	@Override
 	public List<MagicCardStock> importStock(File f) throws Exception {
-		return importFromDeck(importDeck(f));
+		JsonReader reader = new JsonReader(new FileReader(f));
+		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
+		List<MagicCardStock> list = new ArrayList<MagicCardStock>();
+		for(int i = 0;i<root.size();i++)
+		{
+			JsonObject line = root.get(i).getAsJsonObject();
+			MagicCardStock mc = new Gson().fromJson(line, MagicCardStock.class);
+			list.add(mc);
+		}
+		
+		return list;
 	}
 
 }

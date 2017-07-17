@@ -13,14 +13,18 @@ import javax.swing.ImageIcon;
 import org.apache.commons.collections4.ListUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.modele.Article;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
 import org.api.mkm.modele.WantItem;
 import org.api.mkm.modele.Wantslist;
+import org.api.mkm.services.ArticleService;
 import org.api.mkm.services.ProductServices;
+import org.api.mkm.services.StockService;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
+import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -29,16 +33,16 @@ import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.services.MTGControler;
 
 
-public class MKMOnlineWantListExport2 extends AbstractCardExport {
+public class MkmOnlineExport extends AbstractCardExport {
 
 	HttpURLConnection connection;
 	MagicCardMarketPricer2 mkmPricer;
 	Map<PRODUCT_ATTS, String> atts;
 	ProductServices pService;
 	
-	static final Logger logger = LogManager.getLogger(MKMOnlineWantListExport2.class.getName());
+	static final Logger logger = LogManager.getLogger(MkmOnlineExport.class.getName());
 
-	public MKMOnlineWantListExport2() throws Exception {
+	public MkmOnlineExport() throws Exception {
 		super();
 		mkmPricer = new MagicCardMarketPricer2();
 
@@ -178,7 +182,7 @@ public class MKMOnlineWantListExport2 extends AbstractCardExport {
 
 	@Override
 	public String getName() {
-		return "MKM Online WantList 2";
+		return "MagicCardMarket";
 	}
 
 	@Override
@@ -188,13 +192,65 @@ public class MKMOnlineWantListExport2 extends AbstractCardExport {
 
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
-		// TODO Auto-generated method stub
 		
+		StockService serv = new StockService();
+		ProductServices prods = new ProductServices();
+		Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
+		atts.put(PRODUCT_ATTS.idGame, "1");
+		atts.put(PRODUCT_ATTS.exact, "true");
+		
+		List<Article> list = new ArrayList<Article>();
+		for(MagicCardStock mcs : stock)
+		{
+			Article a = new Article();
+			a.setAltered(mcs.isAltered());
+			a.setSigned(mcs.isSigned());
+			a.setCount(mcs.getQte());
+			a.setFoil(mcs.isFoil());
+			Product p = prods.findProduct(mcs.getMagicCard().getName(), atts).get(0);
+			a.setProduct(p);
+			a.setIdProduct(p.getIdProduct());
+			list.add(a);
+		}
+		serv.addArticles(list);
 	}
 
 	@Override
 	public List<MagicCardStock> importStock(File f) throws Exception {
-		// TODO Auto-generated method stub
+		StockService serv = new StockService();
+		List<Article> list = serv.getStock();
+		List<MagicCardStock> stock = new ArrayList<MagicCardStock>();
+		for(Article a : list)
+		{
+			MagicCardStock mcs = new MagicCardStock();
+			mcs.setUpdate(true);
+			mcs.setIdstock(-1);
+			mcs.setComment(a.getComments());
+			mcs.setLanguage(a.getLanguage().getLanguageName());
+			mcs.setQte(a.getCount());
+			mcs.setFoil(a.isFoil());
+			mcs.setSigned(a.isSigned());
+			mcs.setAltered(a.isAltered());
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", a.getProduct().getEnName(), null).get(0);
+			mcs.setMagicCard(mc);
+			mcs.setCondition(convert(a.getCondition()));
+			stock.add(mcs);
+			
+		}
+		return stock;
+	}
+
+	private EnumCondition convert(String condition) {
+		switch(condition)
+		{
+			case "MT" : return EnumCondition.MINT;
+			case "NM" : return EnumCondition.NEAR_MINT;
+			case "EX" : return EnumCondition.NEAR_MINT;
+			case "GD" : return EnumCondition.NEAR_MINT;
+			case "LP" : return EnumCondition.LIGHTLY_PLAYED;
+			case "PL" : return EnumCondition.PLAYED;
+			case "PO" : return EnumCondition.POOR;
+		}
 		return null;
 	}
 }
