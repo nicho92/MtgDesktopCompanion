@@ -579,23 +579,19 @@ public class CardSearchPanel extends JPanel {
 						
 						ThreadManager.getInstance().execute(new Runnable() {
 							public void run() {
-								try {
 									loading(true,"loading edition");
 									
 										cardsPicPanel.showPhoto(selected,selectedEdition);//backcard
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
 										
-										historyChartPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
+										historyChartPanel.init(selected, selectedEdition,selected.getName());
 										
 										
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 											updatePrices();
 										
-										
 									loading(false,"");
-								} catch (IOException e) {
-									logger.error(e);
-								}
+								
 							}
 						},"changeEdition");
 				}
@@ -818,11 +814,7 @@ public class CardSearchPanel extends JPanel {
 
 				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
-						try {
-							historyChartPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(selected, selectedEdition),selected.getName());
-						} catch (IOException e) {
-							logger.error(e);
-						}
+						historyChartPanel.init(selected, selectedEdition,selected.getName());
 					}
 				}, "load history for " + selectedEdition);
 				

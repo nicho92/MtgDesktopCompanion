@@ -529,6 +529,7 @@ public class StockPanelGUI extends JPanel {
 		rightPanel.add(lblLanguage, gbc_lblLanguage);
 		
 		DefaultComboBoxModel lModel = new DefaultComboBoxModel();
+		lModel.addElement(null);
 		for(Locale l : Locale.getAvailableLocales())
 			 lModel.addElement(l.getDisplayLanguage(Locale.US));
 		
@@ -652,7 +653,7 @@ public class StockPanelGUI extends JPanel {
 		GridBagConstraints gbc_textPane = new GridBagConstraints();
 		gbc_textPane.insets = new Insets(0, 0, 5, 0);
 		gbc_textPane.gridwidth = 2;
-		gbc_textPane.gridheight = 2;
+		gbc_textPane.gridheight = 3;
 		gbc_textPane.fill = GridBagConstraints.BOTH;
 		gbc_textPane.gridx = 0;
 		gbc_textPane.gridy = 9;

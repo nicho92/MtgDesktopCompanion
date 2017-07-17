@@ -385,14 +385,11 @@ public class CollectionPanelGUI extends JPanel {
 						tableEditions.addMouseListener(new MouseAdapter() {
 							@Override
 							public void mouseClicked(MouseEvent arg0) {
-								try {
 									int row = tableEditions.getSelectedRow();
 									MagicEdition ed = (MagicEdition)tableEditions.getValueAt(row, 1);
 									magicEditionDetailPanel.setMagicEdition(ed);
-									historyPricesPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(null,ed),ed.getSet());
-								} catch (IOException e) {
-									logger.error(e);
-								}
+									historyPricesPanel.init(null,ed,ed.getSet());
+							
 							}
 						});
 						tableEditions.setModel(model);
@@ -449,8 +446,6 @@ public class CollectionPanelGUI extends JPanel {
 				path = tse.getPath();
 
 				final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-
-				logger.debug("click on " + curr );
 				
 				if(curr.getUserObject() instanceof String)
 				{
@@ -505,12 +500,12 @@ public class CollectionPanelGUI extends JPanel {
 								rarityRepartitionPanel.init(list);
 								typeRepartitionPanel.init(list);
 								manaRepartitionPanel.init(list);
-								historyPricesPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(null,(MagicEdition)curr.getUserObject()),curr.getUserObject().toString());
+								historyPricesPanel.init(null,(MagicEdition)curr.getUserObject(),curr.getUserObject().toString());
 
 
 							}catch(Exception e)
 							{
-								//e.printStackTrace();
+								e.printStackTrace();
 								logger.error(e);
 
 							}
@@ -552,7 +547,7 @@ public class CollectionPanelGUI extends JPanel {
 					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try {
-								historyPricesPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(card,null),card.getName());
+								historyPricesPanel.init(card,null,card.getName());
 							} catch (Exception e) {
 								logger.error(e);
 							}

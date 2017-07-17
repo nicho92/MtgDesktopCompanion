@@ -96,12 +96,8 @@ public class AlarmGUI extends JPanel {
 				resultListModel.removeAllElements();
 				MagicCardAlert selected = (MagicCardAlert)table.getValueAt(table.getSelectedRow(), 0);
 					magicCardDetailPanel.setMagicCard(selected.getCard());
-					try {
-						variationPanel.init(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(selected.getCard(), null), selected.getCard().getName());
-					} catch (IOException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
+					variationPanel.init(selected.getCard(), null, selected.getCard().getName());
+					
 					for(MagicPrice mp : selected.getOffers())
 						resultListModel.addElement(mp);
 				}

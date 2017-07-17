@@ -35,17 +35,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	private Date updateTime;
 	
-	
-	public static void main(String[] args) throws IOException {
-		
-		//MTGDesktopCompanionControler.getInstance().getEnabledProviders().init();
-		
-		MTGPriceDashBoard dash = new MTGPriceDashBoard();
-						  dash.getShakeForEdition(null);
-		
-		
-	}
-	
 	public MTGPriceDashBoard() 
 	{
 		super();
@@ -149,8 +138,11 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		
 		String name = edition.getSet().replaceAll(" ", "_");
 		
-		
+	
 		String url = "http://www.mtgprice.com/spoiler_lists/"+name;
+		logger.debug("get Prices for " + name + " " + url);
+		
+		
 		
 		Document doc = Jsoup.connect(url)
 				.userAgent(props.getProperty("USER_AGENT"))
@@ -172,8 +164,16 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				shake.setName(card.get("name").getAsString());
 				shake.setEd(edition.getId());
 				shake.setPrice(card.get("fair_price").getAsDouble());
-				shake.setPercentDayChange(card.get("percentageChangeSinceYesterday").getAsDouble());
-				shake.setPercentWeekChange(card.get("percentageChangeSinceOneWeekAgo").getAsDouble());
+				try {
+					shake.setPercentDayChange(card.get("percentageChangeSinceYesterday").getAsDouble());
+				} catch (Exception e) {
+					
+				}
+				try {
+					shake.setPercentWeekChange(card.get("percentageChangeSinceOneWeekAgo").getAsDouble());
+				} catch (Exception e) {
+					
+				}
 				shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
 				shake.setPriceWeekChange(card.get("absoluteChangeSinceOneWeekAgo").getAsDouble());
 				
@@ -190,8 +190,12 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
 		
 		Map<Date,Double> historyPrice = new TreeMap<Date,Double>();
+		String name="";
 		
-		String name=mc.getName().replaceAll(" ", "_");
+		if(mc!=null)
+			name=mc.getName().replaceAll(" ", "_");
+		
+		
 		String edition="";
 		
 		if(me==null)
@@ -201,12 +205,17 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		
 		edition=edition.replaceAll(" ", "_");
 		
-		 Document d = Jsoup.connect("http://www.mtgprice.com/sets/"+edition+"/"+name)
+		 String url = "http://www.mtgprice.com/sets/"+edition+"/"+name;
+		 Document d = Jsoup.connect(url)
 	    		 	.userAgent(props.getProperty("USER_AGENT"))
 					.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 					.get();
 		 
-		 Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(30);
+		 logger.debug("get Prices for " + name + " " + url);
+			
+		 
+		 Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(29);
+	 
 		 String html = js.html();
 		 html=html.substring(html.indexOf("[[")+1, html.indexOf("]]")+1);
 		 

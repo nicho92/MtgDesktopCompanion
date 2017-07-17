@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -21,6 +22,7 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
 import javax.swing.JButton;
@@ -31,8 +33,9 @@ import java.awt.Insets;
 public class HistoryPricesPanel extends JPanel{
 	
 	boolean showEdition=false;
+	boolean showAll=false;
 	JCheckBox chckbxShowEditions;
-	
+	JCheckBox chckbxShowAllDashboard;
 	
 	public HistoryPricesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -59,6 +62,19 @@ public class HistoryPricesPanel extends JPanel{
 		gbc_chckbxShowEditions.gridx = 0;
 		gbc_chckbxShowEditions.gridy = 0;
 		panel.add(chckbxShowEditions, gbc_chckbxShowEditions);
+		
+		chckbxShowAllDashboard = new JCheckBox("Show all dashboard");
+		chckbxShowAllDashboard.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				showAll=chckbxShowAllDashboard.isSelected();
+				refresh();
+			}
+		});
+		
+		GridBagConstraints gbc_chckbxShowAllDashboard = new GridBagConstraints();
+		gbc_chckbxShowAllDashboard.gridx = 0;
+		gbc_chckbxShowAllDashboard.gridy = 1;
+		panel.add(chckbxShowAllDashboard, gbc_chckbxShowAllDashboard);
 	}
 	
 	
@@ -66,11 +82,17 @@ public class HistoryPricesPanel extends JPanel{
 	private Map<Date, Double> map;
 	private String mc;
 	
-	public void init(Map<Date,Double> map,String title)
+	public void init(MagicCard card, MagicEdition me,String title)
 	{
-		this.map=map;
-		this.mc=title;
-		refresh();
+		try {
+			this.map=MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(card,me);
+			this.mc=title;
+			refresh();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 	
 	private void refresh()
