@@ -13,7 +13,16 @@ public class MagicCardStock {
 	private boolean signed;
 	private boolean altered;
 	private boolean update;
+	private double price;
 	
+	public double getPrice() {
+		return price;
+	}
+
+	public void setPrice(double price) {
+		this.price = price;
+	}
+
 	public MagicCardStock() {
 		idstock=-1;
 	}

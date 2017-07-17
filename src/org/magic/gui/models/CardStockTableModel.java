@@ -17,7 +17,7 @@ import org.magic.services.ThreadManager;
 public class CardStockTableModel extends DefaultTableModel {
 
 	
-	static final String columns[] = new String[]{"Id","Card","Edition","Collection","Condition","Qte","Language","Foil","Signed","Altered","Comment"};
+	static final String columns[] = new String[]{"Id","Card","Edition","Collection","Condition","Qte","Language","Foil","Signed","Altered","Price","Comment"};
 	List<MagicCardStock> list;
 	
 	
@@ -75,7 +75,8 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 7 : return Boolean.class;
 			case 8 : return Boolean.class;
 			case 9 : return Boolean.class;
-			case 10 : return String.class;
+			case 10 : return Double.class;
+			case 11 : return String.class;
 			
 			default : return super.getColumnClass(columnIndex);
 		}
@@ -109,8 +110,8 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 7 : return list.get(row).isFoil();
 			case 8 : return list.get(row).isSigned();
 			case 9 : return list.get(row).isAltered();
-			
-			case 10 : return list.get(row).getComment();
+			case 10 : return list.get(row).getPrice();
+			case 11 : return list.get(row).getComment();
 			
 		default : return "";
 		}
@@ -129,8 +130,8 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 7 : list.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));break;
 			case 8 : list.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));break;
 			case 9 : list.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));break;
-			
-			case 10 : list.get(row).setComment(String.valueOf(aValue));break;
+			case 10 : list.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));break;
+			case 11 : list.get(row).setComment(String.valueOf(aValue));break;
 		}
 		list.get(row).setUpdate(true);
 	}

@@ -214,7 +214,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 					a.setSigned(mcs.isSigned());
 					a.setCount(mcs.getQte());
 					a.setFoil(mcs.isFoil());
-			
+					a.setPrice(mcs.getPrice());
 			if(props.getProperty("STOCK_PRICE_FROM_DASHBOARD").toString().equals("true"))
 			{ 
 				Collection<Double> prices = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mcs.getMagicCard(),null).values();
@@ -251,6 +251,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setFoil(a.isFoil());
 			mcs.setSigned(a.isSigned());
 			mcs.setAltered(a.isAltered());
+			mcs.setPrice(a.getPrice());
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", a.getProduct().getEnName(), null).get(0);
 			mcs.setMagicCard(mc);
 			mcs.setCondition(convert(a.getCondition()));
