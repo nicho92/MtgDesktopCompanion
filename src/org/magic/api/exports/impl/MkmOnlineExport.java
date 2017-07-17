@@ -55,6 +55,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			props.put("DEFAULT_QTE", "1");
 			props.put("LANGUAGES", "1,2");
 			props.put("MAX_WANTLIST_SIZE", "150");
+			props.put("STOCK_USE", "true");
 			save();
 		}
 		
@@ -137,8 +138,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 //				p = pService.getProductById(mc.getEditions().get(0).getMkm_id());
 //			else
 				p = mkmPricer.getProductFromCard(mc,pService.findProduct(mc.getName(), atts));
-			
-			
 			if(p!=null)
 			{ 
 				WantItem w = new WantItem();
@@ -197,35 +196,57 @@ public class MkmOnlineExport extends AbstractCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
 		
-		StockService serv = new StockService();
-		ProductServices prods = new ProductServices();
-		Map<PRODUCT_ATTS,String> atts = new HashMap<PRODUCT_ATTS, String>();
-		
-		atts.put(PRODUCT_ATTS.idGame, "1");
-		atts.put(PRODUCT_ATTS.exact, "true");
-		
-		List<Article> list = new ArrayList<Article>();
-		for(MagicCardStock mcs : stock)
+		if(!props.get("STOCK_USE").toString().equals("true"))
 		{
-			Product p = prods.findProduct(mcs.getMagicCard().getName(), atts).get(0);
-			Article a = new Article();
-					a.setAltered(mcs.isAltered());
-					a.setSigned(mcs.isSigned());
-					a.setCount(mcs.getQte());
-					a.setFoil(mcs.isFoil());
-					a.setPrice(mcs.getPrice());
-			
-			a.setCondition(convert(mcs.getCondition()));
-			a.setLanguage(convertLang(mcs.getLanguage()));
-			a.setProduct(p);
-			a.setIdProduct(p.getIdProduct());
-			list.add(a);
+				MagicDeck d = new MagicDeck();
+			 		d.setName(f.getName());
+			 		for(MagicCardStock mcs : stock)
+			 		{
+			 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
+			 		}
+			 		export(d, f);
 		}
-		serv.addArticles(list);
+		else
+		{
+			
+			
+			StockService serv = new StockService();
+			ProductServices prods = new ProductServices();
+			Map<PRODUCT_ATTS,String> atts = new HashMap<PRODUCT_ATTS, String>();
+			
+			atts.put(PRODUCT_ATTS.idGame, "1");
+			atts.put(PRODUCT_ATTS.exact, "true");
+			
+			List<Article> list = new ArrayList<Article>();
+			for(MagicCardStock mcs : stock)
+			{
+				Product p = prods.findProduct(mcs.getMagicCard().getName(), atts).get(0);
+				Article a = new Article();
+						a.setAltered(mcs.isAltered());
+						a.setSigned(mcs.isSigned());
+						a.setCount(mcs.getQte());
+						a.setFoil(mcs.isFoil());
+						a.setPrice(mcs.getPrice());
+				
+				a.setCondition(convert(mcs.getCondition()));
+				a.setLanguage(convertLang(mcs.getLanguage()));
+				a.setProduct(p);
+				a.setIdProduct(p.getIdProduct());
+				list.add(a);
+			}
+			serv.addArticles(list);
+		}
 	}
 
 	@Override
 	public List<MagicCardStock> importStock(File f) throws Exception {
+		
+		
+		if(!props.getProperty("STOCK_USE").toString().equals("true"))
+			return importFromDeck(importDeck(f));
+		
+		
+		
 		StockService serv = new StockService();
 		List<Article> list = serv.getStock();
 		List<MagicCardStock> stock = new ArrayList<MagicCardStock>();
