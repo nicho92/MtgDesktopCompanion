@@ -401,6 +401,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		PreparedStatement pst=con.prepareStatement("select * from stocks");	
 		ResultSet rs = pst.executeQuery();
 		List<MagicCardStock> colls = new ArrayList<MagicCardStock>();
+		
 		while(rs.next())
 		{
 			MagicCardStock state = new MagicCardStock();

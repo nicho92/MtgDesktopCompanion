@@ -255,6 +255,7 @@ public class StockPanelGUI extends JPanel {
 				{
 					logger.debug("reload collection");
 					model.init();
+					
 				}
 			}
 		});
@@ -438,12 +439,16 @@ public class StockPanelGUI extends JPanel {
 							Double price=0.0;
 							try {
 								prices = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(s.getMagicCard(),null).values();
-								price = (Double)prices.toArray()[prices.size()-1];
+								if(prices.size()>0)
+									price = (Double)prices.toArray()[prices.size()-1];
+								else
+									price=0.0;
 							} catch (IOException e) {
 								price=0.0;
 							}
 							s.setPrice(price);
 							s.setUpdate(true);
+							model.fireTableDataChanged();
 						}
 						lblLoading.setVisible(false);
 					}

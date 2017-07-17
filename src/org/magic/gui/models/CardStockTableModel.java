@@ -1,6 +1,7 @@
 package org.magic.gui.models;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
@@ -33,8 +34,8 @@ public class CardStockTableModel extends DefaultTableModel {
 			@Override
 			public void run() {
 				try {
-				
-					list = MTGControler.getInstance().getEnabledDAO().getStocks();
+					list.clear();
+					list.addAll(MTGControler.getInstance().getEnabledDAO().getStocks());
 					fireTableDataChanged();
 				} catch (SQLException e) {
 					e.printStackTrace();
@@ -44,6 +45,7 @@ public class CardStockTableModel extends DefaultTableModel {
 	}
 	
 	public CardStockTableModel() {
+			list=new ArrayList<MagicCardStock>();
 			init();
 	}
 	
