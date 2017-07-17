@@ -3,9 +3,11 @@ package org.magic.api.exports.impl;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import javax.swing.ImageIcon;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
@@ -46,6 +49,30 @@ public class CSVExport extends AbstractCardExport{
 		}
 	}
 
+	
+	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+		FileWriter out= new FileWriter(f);
+		BufferedWriter bw=new BufferedWriter(out);
+		bw.write("id;Card Name;Edition;Language;Qte;Condition;Collection;Comment\n");
+		for(MagicCardStock mcs : stock)
+		{
+			bw.write(mcs.getIdstock()+";");
+			bw.write(mcs.getMagicCard().getName()+";");
+			bw.write(mcs.getMagicCard().getEditions().get(0)+";");
+			bw.write(mcs.getLanguage()+";");
+			bw.write(mcs.getQte()+";");
+			bw.write(mcs.getCondition()+";");
+			bw.write(mcs.getMagicCollection()+";");
+			bw.write(mcs.getComment()+";");
+			bw.write("\n");
+		}
+		
+		bw.close();
+		out.close();
+		
+	}
+	
+	
 	//TODO export card prices catalog
 	public void exportPriceCatalog(List<MagicCard> cards, File f,MagicPricesProvider prov) throws Exception
 	{

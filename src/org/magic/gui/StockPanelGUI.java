@@ -58,6 +58,7 @@ import org.magic.gui.components.editor.CardStockLinePanel;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.exports.impl.CSVExport;
 import org.magic.api.interfaces.CardExporter;
 
 import java.awt.GridBagLayout;
@@ -116,6 +117,7 @@ public class StockPanelGUI extends JPanel {
 	private JButton btnImport;
 	private JLabel lblCollection;
 	private JComboBox cboCollection;
+	private JButton btnCSVExport;
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -374,7 +376,71 @@ public class StockPanelGUI extends JPanel {
 			}
 		});
 		
+		btnCSVExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent paramActionEvent) {
+				JFileChooser choose = new JFileChooser();
+				int userSelection = choose.showSaveDialog(null);
+				 
+				if (userSelection == JFileChooser.APPROVE_OPTION) {
+				    final File fileToSave = choose.getSelectedFile();
+				   
+				    
+				    ThreadManager.getInstance().execute(new Runnable() {
+						
+						@Override
+						public void run() {
+
+						    
+						    try {
+						    	CSVExport exp = new CSVExport();
+						    	exp.exportStock(model.getList(), fileToSave);
+								JOptionPane.showMessageDialog(null,"Export " + model.getRowCount() + " item(s)","Export done",JOptionPane.INFORMATION_MESSAGE);
+							} catch (Exception e) {
+								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+							}
+							
+						}
+					}, "Export CSV Stock");
+				    
+				    
+				}
+			}
+		});
 		
+		
+		btnApplyModification.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				int res = JOptionPane.showConfirmDialog(null, "Change " + table.getSelectedRowCount() + " item(s)", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+				if(res==JOptionPane.YES_OPTION)
+				{
+					for(int i : table.getSelectedRows())
+					{
+						MagicCardStock s = (MagicCardStock)table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
+						s.setUpdate(true);
+						if(((Integer)spinner.getValue()).intValue()>0);
+							s.setQte((Integer)spinner.getValue());
+						if(!textPane.getText().equals(""))
+							s.setComment(textPane.getText());
+						if(cboAltered.getSelectedItem()!=null)
+							s.setAltered((Boolean)cboAltered.getSelectedItem());
+						if(cboSigned.getSelectedItem()!=null)
+							s.setSigned((Boolean)cboSigned.getSelectedItem());
+						if(cboFoil.getSelectedItem()!=null)
+							s.setFoil((Boolean)cboFoil.getSelectedItem());
+						if(cboLanguages!=null)
+							s.setLanguage(String.valueOf(cboLanguages.getSelectedItem()));
+						if(cboQuality.getSelectedItem()!=null)
+							s.setCondition((EnumCondition)cboQuality.getSelectedItem());
+						if(cboCollection.getSelectedItem()!=null)
+							s.setMagicCollection((MagicCollection)cboCollection.getSelectedItem());
+						
+					}
+					model.fireTableDataChanged();
+				}
+				
+				
+			}
+		});
 		
 	}
 	
@@ -463,6 +529,12 @@ public class StockPanelGUI extends JPanel {
 				btnImport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/import.png")));
 				btnImport.setToolTipText("Import");
 				actionPanel.add(btnImport);
+				
+				btnCSVExport = new JButton("");
+				
+				btnCSVExport.setToolTipText("Export Stock as CSV");
+				btnCSVExport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/xls.png")));
+				actionPanel.add(btnCSVExport);
 				btnshowMassPanel.setToolTipText("Mass Modification");
 				btnshowMassPanel.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/manual.png")));
 				actionPanel.add(btnshowMassPanel);
@@ -660,39 +732,8 @@ public class StockPanelGUI extends JPanel {
 		rightPanel.add(textPane, gbc_textPane);
 		
 		btnApplyModification = new JButton("Apply");
-		btnApplyModification.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				int res = JOptionPane.showConfirmDialog(null, "Change " + table.getSelectedRowCount() + " item(s)", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
-				if(res==JOptionPane.YES_OPTION)
-				{
-					for(int i : table.getSelectedRows())
-					{
-						MagicCardStock s = (MagicCardStock)table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
-						s.setUpdate(true);
-						if(((Integer)spinner.getValue()).intValue()>0);
-							s.setQte((Integer)spinner.getValue());
-						if(!textPane.getText().equals(""))
-							s.setComment(textPane.getText());
-						if(cboAltered.getSelectedItem()!=null)
-							s.setAltered((Boolean)cboAltered.getSelectedItem());
-						if(cboSigned.getSelectedItem()!=null)
-							s.setSigned((Boolean)cboSigned.getSelectedItem());
-						if(cboFoil.getSelectedItem()!=null)
-							s.setFoil((Boolean)cboFoil.getSelectedItem());
-						if(cboLanguages!=null)
-							s.setLanguage(String.valueOf(cboLanguages.getSelectedItem()));
-						if(cboQuality.getSelectedItem()!=null)
-							s.setCondition((EnumCondition)cboQuality.getSelectedItem());
-						if(cboCollection.getSelectedItem()!=null)
-							s.setMagicCollection((MagicCollection)cboCollection.getSelectedItem());
-						
-					}
-					model.fireTableDataChanged();
-				}
-				
-				
-			}
-		});
+		
+		
 		GridBagConstraints gbc_btnApplyModification = new GridBagConstraints();
 		gbc_btnApplyModification.gridwidth = 2;
 		gbc_btnApplyModification.gridx = 0;
