@@ -222,7 +222,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     
  
 	public String getName() {
-		return "Magic Card Market 2";
+		return "MagicCardMarket";
 	}
 
 

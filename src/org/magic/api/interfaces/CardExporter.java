@@ -18,6 +18,7 @@ public interface CardExporter {
 	public MagicDeck importDeck(File f) throws Exception;
 	
 	public void export(List<MagicCard> cards, File f) throws Exception;
+	
 	public void exportStock(List<MagicCardStock> stock,File f)throws Exception;
 	public List<MagicCardStock> importStock(File f)throws Exception;
 	

@@ -3,6 +3,8 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,6 +16,8 @@ import org.apache.commons.collections4.ListUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
+import org.api.mkm.modele.Localization;
+import org.api.mkm.modele.Article.ARTICLES_ATT;
 import org.api.mkm.modele.MkmBoolean;
 import org.api.mkm.modele.Product;
 import org.api.mkm.modele.Product.PRODUCT_ATTS;
@@ -51,6 +55,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			props.put("DEFAULT_QTE", "1");
 			props.put("LANGUAGES", "1,2");
 			props.put("MAX_WANTLIST_SIZE", "150");
+			props.put("STOCK_PRICE_FROM_DASHBOARD", "false");
 			save();
 		}
 		
@@ -195,19 +200,36 @@ public class MkmOnlineExport extends AbstractCardExport {
 		
 		StockService serv = new StockService();
 		ProductServices prods = new ProductServices();
-		Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
+		Map<PRODUCT_ATTS,String> atts = new HashMap<PRODUCT_ATTS, String>();
+		
 		atts.put(PRODUCT_ATTS.idGame, "1");
 		atts.put(PRODUCT_ATTS.exact, "true");
 		
 		List<Article> list = new ArrayList<Article>();
 		for(MagicCardStock mcs : stock)
 		{
-			Article a = new Article();
+			Product p = prods.findProduct(mcs.getMagicCard().getName(), atts).get(0);
+			Article a = new Article();//new Article();//arts.find(p, artAtts).get(0);
 			a.setAltered(mcs.isAltered());
 			a.setSigned(mcs.isSigned());
 			a.setCount(mcs.getQte());
 			a.setFoil(mcs.isFoil());
-			Product p = prods.findProduct(mcs.getMagicCard().getName(), atts).get(0);
+			
+			if(props.getProperty("STOCK_PRICE_FROM_DASHBOARD").toString().equals("true"))
+			{ 
+				Collection<Double> prices = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mcs.getMagicCard(),null).values();
+				Double price = (Double)prices.toArray()[prices.size()-1];
+				a.setPrice(price);
+			}
+			else
+			{
+				a.setPrice(10000);
+			}
+			
+			
+			a.setCondition(convert(mcs.getCondition()));
+			a.setLanguage(convertLang(mcs.getLanguage()));
+			//a.setPrice();
 			a.setProduct(p);
 			a.setIdProduct(p.getIdProduct());
 			list.add(a);
@@ -240,6 +262,27 @@ public class MkmOnlineExport extends AbstractCardExport {
 		return stock;
 	}
 
+	
+	private Localization convertLang(String s)
+	{
+		Localization l = new Localization();
+		l.setIdLanguage(1);
+		return l;
+	}
+	
+	
+	private String convert(EnumCondition condition) {
+		switch(condition)
+		{
+			case MINT : return "MT";
+			case NEAR_MINT : return "NM";
+			case LIGHTLY_PLAYED : return "LP";
+			case PLAYED : return "PL";
+			case POOR : return "PO";
+		}
+		return null;
+	}
+	
 	private EnumCondition convert(String condition) {
 		switch(condition)
 		{
