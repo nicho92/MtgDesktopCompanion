@@ -209,11 +209,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 		for(MagicCardStock mcs : stock)
 		{
 			Product p = prods.findProduct(mcs.getMagicCard().getName(), atts).get(0);
-			Article a = new Article();//new Article();//arts.find(p, artAtts).get(0);
-			a.setAltered(mcs.isAltered());
-			a.setSigned(mcs.isSigned());
-			a.setCount(mcs.getQte());
-			a.setFoil(mcs.isFoil());
+			Article a = new Article();
+					a.setAltered(mcs.isAltered());
+					a.setSigned(mcs.isSigned());
+					a.setCount(mcs.getQte());
+					a.setFoil(mcs.isFoil());
 			
 			if(props.getProperty("STOCK_PRICE_FROM_DASHBOARD").toString().equals("true"))
 			{ 
@@ -226,10 +226,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 				a.setPrice(10000);
 			}
 			
-			
 			a.setCondition(convert(mcs.getCondition()));
 			a.setLanguage(convertLang(mcs.getLanguage()));
-			//a.setPrice();
 			a.setProduct(p);
 			a.setIdProduct(p.getIdProduct());
 			list.add(a);
