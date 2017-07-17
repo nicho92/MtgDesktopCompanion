@@ -16,8 +16,10 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
@@ -54,10 +56,25 @@ public class CSVExport extends AbstractCardExport{
 		BufferedReader read = new BufferedReader(new FileReader(f));
 		List<MagicCardStock> stock= new ArrayList<MagicCardStock>();
 		String line = read.readLine();
+		
+		line=read.readLine();//skip header
 		while(line!=null)
 		{
 			String part[]= line.split(";");
-			//TODO import CSV
+			MagicCardStock mcs = new MagicCardStock();
+			System.out.println(part[1]);
+				mcs.setMagicCard(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", part[1], null).get(0));
+				mcs.setLanguage(part[3]);
+				mcs.setQte(Integer.parseInt(part[4]));
+				mcs.setCondition(EnumCondition.valueOf(part[5]));
+				mcs.setFoil(Boolean.valueOf(part[6]));
+				mcs.setAltered(Boolean.valueOf(part[7]));
+				mcs.setSigned(Boolean.valueOf(part[8]));
+				mcs.setMagicCollection(new MagicCollection(part[9]));
+				mcs.setPrice(Double.valueOf(part[10]));
+				mcs.setComment(part[11]);
+				mcs.setIdstock(-1);
+				mcs.setUpdate(true);
 			line=read.readLine();
 		}
 		
@@ -70,7 +87,7 @@ public class CSVExport extends AbstractCardExport{
 	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
 		FileWriter out= new FileWriter(f);
 		BufferedWriter bw=new BufferedWriter(out);
-		bw.write("id;Card Name;Edition;Language;Qte;Condition;Collection;Comment\n");
+		bw.write("id;Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment\n");
 		for(MagicCardStock mcs : stock)
 		{
 			bw.write(mcs.getIdstock()+";");
@@ -79,7 +96,13 @@ public class CSVExport extends AbstractCardExport{
 			bw.write(mcs.getLanguage()+";");
 			bw.write(mcs.getQte()+";");
 			bw.write(mcs.getCondition()+";");
+			
+			bw.write(mcs.isFoil()+";");
+			bw.write(mcs.isAltered()+";");
+			bw.write(mcs.isSigned()+";");
+			
 			bw.write(mcs.getMagicCollection()+";");
+			bw.write(mcs.getPrice()+";");
 			bw.write(mcs.getComment()+";");
 			bw.write("\n");
 		}
