@@ -62,7 +62,7 @@ public class CSVExport extends AbstractCardExport{
 		{
 			String part[]= line.split(";");
 			MagicCardStock mcs = new MagicCardStock();
-			System.out.println(part[1]);
+		
 				mcs.setMagicCard(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", part[1], null).get(0));
 				mcs.setLanguage(part[3]);
 				mcs.setQte(Integer.parseInt(part[4]));
