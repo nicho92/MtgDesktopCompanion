@@ -33,6 +33,7 @@ public class CardStockTableModel extends DefaultTableModel {
 			@Override
 			public void run() {
 				try {
+				
 					list = MTGControler.getInstance().getEnabledDAO().getStocks();
 					fireTableDataChanged();
 				} catch (SQLException e) {
@@ -83,6 +84,7 @@ public class CardStockTableModel extends DefaultTableModel {
 		
 	}
 	
+	
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return column>1;
@@ -106,7 +108,6 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 4 : return list.get(row).getCondition();
 			case 5 : return list.get(row).getQte();
 			case 6 : return list.get(row).getLanguage();
-			
 			case 7 : return list.get(row).isFoil();
 			case 8 : return list.get(row).isSigned();
 			case 9 : return list.get(row).isAltered();
@@ -126,7 +127,6 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 4 : list.get(row).setCondition((EnumCondition)aValue);break;
 			case 5 : list.get(row).setQte((Integer)aValue);break;
 			case 6 : list.get(row).setLanguage(String.valueOf(aValue));break;
-			
 			case 7 : list.get(row).setFoil(Boolean.parseBoolean(aValue.toString()));break;
 			case 8 : list.get(row).setSigned(Boolean.parseBoolean(aValue.toString()));break;
 			case 9 : list.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));break;

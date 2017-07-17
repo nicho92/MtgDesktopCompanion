@@ -2,13 +2,17 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Component;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
 
@@ -19,15 +23,21 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
-import javax.swing.ListSelectionModel;
+import javax.swing.JTextPane;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -35,42 +45,23 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.CardExporter;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
-import org.magic.gui.components.dialog.ManualImportFrame;
 import org.magic.gui.models.CardStockTableModel;
+import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicDeckQtyEditor;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
-import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
-import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.JLabel;
-import org.magic.gui.components.editor.CardStockLinePanel;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.exports.impl.CSVExport;
-import org.magic.api.interfaces.CardExporter;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Point;
-
-import javax.swing.JCheckBox;
-import javax.swing.JSpinner;
-import javax.swing.JTextPane;
-import java.awt.Font;
-import javax.swing.SpinnerNumberModel;
 
 public class StockPanelGUI extends JPanel {
 	private JXTable table;
@@ -118,6 +109,7 @@ public class StockPanelGUI extends JPanel {
 	private JLabel lblCollection;
 	private JComboBox cboCollection;
 	private JButton btnExport;
+	private JButton btnGeneratePrice;
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -261,6 +253,7 @@ public class StockPanelGUI extends JPanel {
 				int res = JOptionPane.showConfirmDialog(null, "Cancel all changes ?","Confirm Undo",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 				{
+					logger.debug("reload collection");
 					model.init();
 				}
 			}
@@ -430,7 +423,36 @@ public class StockPanelGUI extends JPanel {
 			}
 		});
 		
-		
+		btnGeneratePrice.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				ThreadManager.getInstance().execute(new Runnable() {
+					
+					@Override
+					public void run() {
+						lblLoading.setVisible(true);
+						for(int i : table.getSelectedRows())
+						{
+							MagicCardStock s = (MagicCardStock)table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
+							Collection<Double> prices;
+							Double price=0.0;
+							try {
+								prices = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(s.getMagicCard(),null).values();
+								price = (Double)prices.toArray()[prices.size()-1];
+							} catch (IOException e) {
+								price=0.0;
+							}
+							s.setPrice(price);
+							s.setUpdate(true);
+						}
+						lblLoading.setVisible(false);
+					}
+				}, "generate prices for stock");
+				
+				
+				
+			}
+		});
 		
 		btnApplyModification.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -560,6 +582,12 @@ public class StockPanelGUI extends JPanel {
 				btnExport.setToolTipText("Export Stock as CSV");
 				btnExport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/export.png")));
 				actionPanel.add(btnExport);
+				
+				btnGeneratePrice = new JButton("");
+				
+				btnGeneratePrice.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/euro.png")));
+				btnGeneratePrice.setToolTipText("Generate Price from dashboard");
+				actionPanel.add(btnGeneratePrice);
 				btnshowMassPanel.setToolTipText("Mass Modification");
 				btnshowMassPanel.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/manual.png")));
 				actionPanel.add(btnshowMassPanel);
@@ -574,6 +602,7 @@ public class StockPanelGUI extends JPanel {
 		table.setDefaultRenderer(Object.class,render);
 		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
 		table.setDefaultEditor(Integer.class, new MagicDeckQtyEditor());
+		
 		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionEditor());
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionRenderer());
 		

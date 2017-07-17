@@ -1,15 +1,13 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
-import java.sql.SQLException;
 
 import javax.swing.DefaultCellEditor;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 
-import org.magic.api.beans.MagicCollection;
-import org.magic.services.MTGControler;
+import org.magic.api.beans.EnumCondition;
 
 public class EnumConditionEditor extends DefaultCellEditor {
 
@@ -23,13 +21,9 @@ public class EnumConditionEditor extends DefaultCellEditor {
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
              model.removeAllElements();
-           try {
-			for(MagicCollection e : MTGControler.getInstance().getEnabledDAO().getCollections())
+        	for(EnumCondition e : EnumCondition.values())
 				   model.addElement(e);
-		} catch (SQLException e) {
-			
-		}
-             
+		     
         return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);
      }
     }

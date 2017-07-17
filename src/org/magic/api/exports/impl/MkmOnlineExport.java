@@ -55,7 +55,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 			props.put("DEFAULT_QTE", "1");
 			props.put("LANGUAGES", "1,2");
 			props.put("MAX_WANTLIST_SIZE", "150");
-			props.put("STOCK_PRICE_FROM_DASHBOARD", "false");
 			save();
 		}
 		
@@ -215,16 +214,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 					a.setCount(mcs.getQte());
 					a.setFoil(mcs.isFoil());
 					a.setPrice(mcs.getPrice());
-			if(props.getProperty("STOCK_PRICE_FROM_DASHBOARD").toString().equals("true"))
-			{ 
-				Collection<Double> prices = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mcs.getMagicCard(),null).values();
-				Double price = (Double)prices.toArray()[prices.size()-1];
-				a.setPrice(price);
-			}
-			else
-			{
-				a.setPrice(10000);
-			}
 			
 			a.setCondition(convert(mcs.getCondition()));
 			a.setLanguage(convertLang(mcs.getLanguage()));
