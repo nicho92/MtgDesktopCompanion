@@ -23,7 +23,7 @@ Features :
 - manacurve, color and type repartition
 - Standalone servers (game room, console server, http server, price checking).
 - New magiccardMarket Pricer : Stay tunned !!,  when you're alerted by a good bid for your wanted cards, it's automatically added to your cart ! 
-
+- Manage your stock card, mass modification, import/export from deck, website. Update your Mkm Seller Account stock, Automaticaly update prices !
 
 > Modularity : 
 - manage your prices provider
@@ -33,7 +33,6 @@ Features :
 - manage your database providers
 - manage your pictures providers
 - manage your cache providers
-
 
 
 Main interface :
@@ -70,6 +69,8 @@ Be alerted for your wanted cards :
 
 Manage your stock :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stockManagement.png)
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stock.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/stock.png)
+
 
 Try your deck in game simulator :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/tryDeck.png)
