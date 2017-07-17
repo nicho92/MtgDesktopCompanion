@@ -15,6 +15,7 @@ import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
@@ -139,6 +140,25 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	@Override
 	public String getName() {
 		return "OCTGN";
+	}
+
+	@Override
+	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+		MagicDeck d = new MagicDeck();
+		d.setName(f.getName());
+		
+		for(MagicCardStock mcs : stock)
+		{
+			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
+		}
+		
+		export(d, f);
+		
+	}
+
+	@Override
+	public List<MagicCardStock> importStock(File f) throws Exception {
+		return importFromDeck(importDeck(f));
 	}
 	
 }

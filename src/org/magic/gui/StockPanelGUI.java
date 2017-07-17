@@ -117,7 +117,7 @@ public class StockPanelGUI extends JPanel {
 	private JButton btnImport;
 	private JLabel lblCollection;
 	private JComboBox cboCollection;
-	private JButton btnCSVExport;
+	private JButton btnExport;
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -276,23 +276,6 @@ public class StockPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();
 
-				JMenuItem manuel = new JMenuItem("Manual Import");
-				manuel.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/manual.png")));
-				manuel.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						ManualImportFrame fimport = new ManualImportFrame();
-						fimport.setVisible(true);
-
-						if (!fimport.getStringDeck().equals(""))
-						{
-							//TODO IMPORT
-						}
-					}
-				});
-				menu.add(manuel);
-
 				JMenuItem webSite = new JMenuItem("Import from website");
 				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/website.png")));
 				webSite.addActionListener(new ActionListener() {
@@ -306,7 +289,7 @@ public class StockPanelGUI extends JPanel {
 						if (diag.getSelectedDeck() != null) {
 							lblLoading.setVisible(true);
 							MagicDeck deck = diag.getSelectedDeck();
-							importFromDeck(deck);
+							importFromWebSite(deck);
 							model.fireTableDataChanged();
 							lblLoading.setVisible(false);
 						}
@@ -349,8 +332,13 @@ public class StockPanelGUI extends JPanel {
 									public void run() {
 										try {
 											lblLoading.setVisible(true);
-											MagicDeck deck = exp.importDeck(f);
-											importFromDeck(deck);
+											List<MagicCardStock> list = exp.importStock(f);
+											for(MagicCardStock mc : list)
+											{
+													mc.setIdstock(-1);
+													mc.setUpdate(true);
+													model.add(mc);
+											}
 											model.fireTableDataChanged();
 											lblLoading.setVisible(false);
 											JOptionPane.showMessageDialog(null, "Import Finished",exp.getName() + " Finished", JOptionPane.INFORMATION_MESSAGE);
@@ -376,36 +364,72 @@ public class StockPanelGUI extends JPanel {
 			}
 		});
 		
-		btnCSVExport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent paramActionEvent) {
-				JFileChooser choose = new JFileChooser();
-				int userSelection = choose.showSaveDialog(null);
-				 
-				if (userSelection == JFileChooser.APPROVE_OPTION) {
-				    final File fileToSave = choose.getSelectedFile();
-				   
-				    
-				    ThreadManager.getInstance().execute(new Runnable() {
-						
-						@Override
-						public void run() {
+		btnExport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent ae) {
+				JPopupMenu menu = new JPopupMenu();
 
-						    
-						    try {
-						    	CSVExport exp = new CSVExport();
-						    	exp.exportStock(model.getList(), fileToSave);
-								JOptionPane.showMessageDialog(null,"Export " + model.getRowCount() + " item(s)","Export done",JOptionPane.INFORMATION_MESSAGE);
-							} catch (Exception e) {
-								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
-							}
-							
+				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(new ActionListener() {
+						public void actionPerformed(ActionEvent arg0) {
+							JFileChooser jf = new JFileChooser(".");
+							jf.setFileFilter(new FileFilter() {
+
+								@Override
+								public String getDescription() {
+									return exp.getName();
+								}
+
+								@Override
+								public boolean accept(File f) {
+									if (f.isDirectory())
+										return true;
+
+									if (f.getName().endsWith(exp.getFileExtension()))
+										return true;
+
+									return false;
+								}
+							});
+							int res = jf.showSaveDialog(null);
+							final File f = jf.getSelectedFile();
+
+							if (res == JFileChooser.APPROVE_OPTION)
+								ThreadManager.getInstance().execute(new Runnable() {
+
+									@Override
+									public void run() {
+										try {
+											lblLoading.setVisible(true);
+											
+											exp.exportStock(model.getList(), f);
+											
+											lblLoading.setVisible(false);
+											JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished", JOptionPane.INFORMATION_MESSAGE);
+
+										} catch (Exception e) {
+											logger.error(e);
+											lblLoading.setVisible(false);
+											JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+										}
+
+									}
+								}, "export " + exp);
 						}
-					}, "Export CSV Stock");
-				    
-				    
+					});
+
+					menu.add(it);
 				}
+
+				Component b = (Component) ae.getSource();
+				Point p = b.getLocationOnScreen();
+				menu.show(b, 0, 0);
+				menu.setLocation(p.x, p.y + b.getHeight());
 			}
 		});
+		
 		
 		
 		btnApplyModification.addActionListener(new ActionListener() {
@@ -444,7 +468,8 @@ public class StockPanelGUI extends JPanel {
 		
 	}
 	
-	private void importFromDeck(MagicDeck deck)
+	
+	private void importFromWebSite(MagicDeck deck)
 	{
 		for(MagicCard mc : deck.getMap().keySet())
 		{
@@ -457,7 +482,7 @@ public class StockPanelGUI extends JPanel {
 				model.add(stock);
 		}
 	}
-	
+
 	private void initGUI()
 	{
 		setLayout(new BorderLayout(0, 0));
@@ -530,11 +555,11 @@ public class StockPanelGUI extends JPanel {
 				btnImport.setToolTipText("Import");
 				actionPanel.add(btnImport);
 				
-				btnCSVExport = new JButton("");
+				btnExport = new JButton("");
 				
-				btnCSVExport.setToolTipText("Export Stock as CSV");
-				btnCSVExport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/xls.png")));
-				actionPanel.add(btnCSVExport);
+				btnExport.setToolTipText("Export Stock as CSV");
+				btnExport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/export.png")));
+				actionPanel.add(btnExport);
 				btnshowMassPanel.setToolTipText("Mass Modification");
 				btnshowMassPanel.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/manual.png")));
 				actionPanel.add(btnshowMassPanel);

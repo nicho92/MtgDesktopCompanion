@@ -9,6 +9,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -48,8 +49,24 @@ public class CSVExport extends AbstractCardExport{
 			save();
 		}
 	}
-
+	@Override
+	public List<MagicCardStock> importStock(File f) throws Exception {
+		BufferedReader read = new BufferedReader(new FileReader(f));
+		List<MagicCardStock> stock= new ArrayList<MagicCardStock>();
+		String line = read.readLine();
+		while(line!=null)
+		{
+			String part[]= line.split(";");
+			//TODO import CSV
+			line=read.readLine();
+		}
+		
+		read.close();
+		return stock;
+	}
 	
+	
+	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
 		FileWriter out= new FileWriter(f);
 		BufferedWriter bw=new BufferedWriter(out);

@@ -3,11 +3,15 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Properties;
 
 import javax.swing.Icon;
 
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.services.MTGControler;
@@ -107,5 +111,22 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 	}
 
 
+	
+	protected List<MagicCardStock> importFromDeck(MagicDeck deck)
+	{
+		List<MagicCardStock> mcs = new ArrayList<MagicCardStock>();
+		
+		for(MagicCard mc : deck.getMap().keySet())
+		{
+			MagicCardStock stock = new MagicCardStock();
+				stock.setMagicCard(mc);
+				stock.setQte(deck.getMap().get(mc));
+				stock.setComment("import from " + deck.getName());
+				stock.setIdstock(-1);
+				stock.setUpdate(true);
+				mcs.add(stock);
+		}
+		return mcs;
+	}
 
 }

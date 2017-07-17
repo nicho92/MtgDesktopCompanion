@@ -22,6 +22,7 @@ import org.api.mkm.services.ProductServices;
 import org.api.mkm.services.WantsService;
 import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
@@ -183,6 +184,18 @@ public class MKMOnlineWantListExport2 extends AbstractCardExport {
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(MKMFileWantListExport.class.getResource("/res/mkm.png"));
+	}
+
+	@Override
+	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public List<MagicCardStock> importStock(File f) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
 

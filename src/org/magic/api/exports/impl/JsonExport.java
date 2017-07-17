@@ -10,6 +10,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
@@ -128,6 +129,27 @@ public class JsonExport  extends AbstractCardExport {
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(CSVExport.class.getResource("/res/json.png"));
+	}
+
+
+	@Override
+	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+				MagicDeck d = new MagicDeck();
+				d.setName(f.getName());
+				
+			for(MagicCardStock mcs : stock)
+			{
+				d.getMap().put(mcs.getMagicCard(), mcs.getQte());
+			}
+			
+			export(d, f);
+		
+	}
+
+
+	@Override
+	public List<MagicCardStock> importStock(File f) throws Exception {
+		return importFromDeck(importDeck(f));
 	}
 
 }
