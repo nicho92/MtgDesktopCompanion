@@ -236,8 +236,6 @@ public class StockPanelGUI extends JPanel {
 						model.removeRows(selected);
 					}
 				}
-				
-			
 		});
 		
 		btnReload.addActionListener(new ActionListener() {
