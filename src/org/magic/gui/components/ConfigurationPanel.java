@@ -479,6 +479,19 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnReload.gridx = 4;
 		gbc_btnReload.gridy = 8;
 		panelConfig.add(btnReload, gbc_btnReload);
+		
+		JButton btnRunGarbage = new JButton("Run garbage");
+		btnRunGarbage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.gc();
+			}
+		});
+		GridBagConstraints gbc_btnRunGarbage = new GridBagConstraints();
+		gbc_btnRunGarbage.gridwidth = 3;
+		gbc_btnRunGarbage.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRunGarbage.gridx = 1;
+		gbc_btnRunGarbage.gridy = 9;
+		panelConfig.add(btnRunGarbage, gbc_btnRunGarbage);
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				loading(true,"reload config");

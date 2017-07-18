@@ -462,8 +462,10 @@ public class StockPanelGUI extends JPanel {
 							} catch (IOException e) {
 								price=0.0;
 							}
+							double old = s.getPrice();
 							s.setPrice(price);
-							s.setUpdate(true);
+							if(old==s.getPrice())
+								s.setUpdate(true);
 							model.fireTableDataChanged();
 						}
 						lblLoading.setVisible(false);
@@ -626,7 +628,7 @@ public class StockPanelGUI extends JPanel {
 				btnExport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/export.png")));
 				actionPanel.add(btnExport);
 				
-				btnGeneratePrice = new JButton("");
+				btnGeneratePrice = new JButton();
 				
 				btnGeneratePrice.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/res/euro.png")));
 				btnGeneratePrice.setToolTipText("Generate Price from dashboard");
@@ -657,6 +659,9 @@ public class StockPanelGUI extends JPanel {
 		magicCardDetailPanel.enableThumbnail(true);
 		
 		splitPane = new JSplitPane();
+		splitPane.setDividerLocation(0.5);
+		splitPane.setResizeWeight(0.5);
+	
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		centerPanel.add(splitPane, BorderLayout.CENTER);
 		splitPane.setLeftComponent(scrollTable);

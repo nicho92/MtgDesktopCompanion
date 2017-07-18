@@ -21,6 +21,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.exceptions.MkmException;
@@ -113,6 +114,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			if(mc.getEditions().get(0).getMkm_name()!=null)
 				edName=mc.getEditions().get(0).getMkm_name();
 			
+			
+			logger.debug("\""+edName + "\".startWith("+p.getExpansionName()+")"+StringUtils.getJaroWinklerDistance(edName, p.getExpansionName()) );
+			
+			
 			if(edName.startsWith(p.getExpansionName()))
 			{
 				resultat=p;
@@ -157,12 +162,11 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		if(!props.getProperty("LANGUAGE_ID").equals(""))
 			atts.put(PRODUCT_ATTS.idLanguage,props.getProperty("LANGUAGE_ID"));
 
-		List<Product> list = pService.findProduct(card.getName(), atts);
 		
 		if(props.getProperty("USER_ARTICLE").equals("false"))
 		{
-			for(Product p : list)
-			{
+				Product p = getProductFromCard(card,pService.findProduct(card.getName(), atts));
+				p = pService.getProductById(p.getIdProduct());
 				MagicPrice mp = new MagicPrice();
 				   mp.setSeller(String.valueOf(p.getExpansionName()));
 				   mp.setValue(p.getPriceGuide().getLOW());
@@ -173,51 +177,50 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 				   mp.setCurrency("EUR");
 				   mp.setLanguage(String.valueOf(p.getLocalization()));
 				   lists.add(mp);
-			}
-			logger.info(getName() +" found "  + lists.size() +" items");
+			
 			
 		}
 		else
 		{
-		
-		Product resultat = getProductFromCard(card, list);
-		if(resultat==null)
-		{
-			logger.info(getName() + " found no item");
-			return lists;
-		}
-		
-    	
-		ArticleService aServ = new ArticleService();
-		Map<ARTICLES_ATT,String> aatts = new HashMap<ARTICLES_ATT, String>();
-		aatts.put(ARTICLES_ATT.start, "0");
-		aatts.put(ARTICLES_ATT.maxResults, props.getProperty("MAX"));
-		
-		if(!props.getProperty("LANGUAGE_ID").equals(""))
-		aatts.put(ARTICLES_ATT.idLanguage, props.getProperty("LANGUAGE_ID"));
-		
-		if(!props.getProperty("MIN_CONDITION").equals(""))
-			aatts.put(ARTICLES_ATT.minCondition,props.getProperty("MIN_CONDITION"));
-
-		
-		List<Article> articles = aServ.find(resultat, aatts);
-		
-		logger.debug(getName() +" found "  + articles.size() +" items");
-		for(Article a : articles)
-		{
-			MagicPrice mp = new MagicPrice();
-					   mp.setSeller(String.valueOf(a.getSeller()));
-					   mp.setValue(a.getPrice());
-					   mp.setQuality(a.getCondition());
-					   mp.setUrl("https://www.magiccardmarket.eu"+resultat.getWebsite());
-					   mp.setSite("MagicCardMarket");
-					   mp.setFoil(a.isFoil());
-					   mp.setCurrency("EUR");
-					   mp.setLanguage(a.getLanguage().toString());
-					   mp.setShopItem(a);
-					   
-			lists.add(mp);
-		}
+			List<Product> list = pService.findProduct(card.getName(), atts);
+			Product resultat = getProductFromCard(card, list);
+			if(resultat==null)
+			{
+				logger.info(getName() + " found no item");
+				return lists;
+			}
+			logger.info(getName() +" found "  + lists.size() +" items");
+	    	
+			ArticleService aServ = new ArticleService();
+			Map<ARTICLES_ATT,String> aatts = new HashMap<ARTICLES_ATT, String>();
+			aatts.put(ARTICLES_ATT.start, "0");
+			aatts.put(ARTICLES_ATT.maxResults, props.getProperty("MAX"));
+			
+			if(!props.getProperty("LANGUAGE_ID").equals(""))
+			aatts.put(ARTICLES_ATT.idLanguage, props.getProperty("LANGUAGE_ID"));
+			
+			if(!props.getProperty("MIN_CONDITION").equals(""))
+				aatts.put(ARTICLES_ATT.minCondition,props.getProperty("MIN_CONDITION"));
+	
+			
+			List<Article> articles = aServ.find(resultat, aatts);
+			logger.debug(getName() +" found "  + articles.size() +" items");
+			
+			for(Article a : articles)
+			{
+				MagicPrice mp = new MagicPrice();
+						   mp.setSeller(String.valueOf(a.getSeller()));
+						   mp.setValue(a.getPrice());
+						   mp.setQuality(a.getCondition());
+						   mp.setUrl("https://www.magiccardmarket.eu"+resultat.getWebsite());
+						   mp.setSite("MagicCardMarket");
+						   mp.setFoil(a.isFoil());
+						   mp.setCurrency("EUR");
+						   mp.setLanguage(a.getLanguage().toString());
+						   mp.setShopItem(a);
+						   
+				lists.add(mp);
+			}
 		}
 		
        
