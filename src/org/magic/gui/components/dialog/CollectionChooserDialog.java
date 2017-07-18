@@ -62,6 +62,7 @@ public class CollectionChooserDialog extends JDialog{
 		});
 		panel_1.add(btnImport);
 		pack();
+		setModal(true);
 		setLocationRelativeTo(null);
 	}
 

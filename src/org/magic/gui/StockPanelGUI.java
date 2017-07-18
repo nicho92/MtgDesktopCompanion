@@ -49,6 +49,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.dialog.CollectionChooserDialog;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.EnumConditionEditor;
@@ -80,7 +81,6 @@ public class StockPanelGUI extends JPanel {
 	private JSplitPane splitPane;
     private TableFilterHeader filterHeader;
 
-	private MagicCardStock selectedStock;
 	private List<MagicCard> selectedCard;
 	private JButton btnReload;
     
@@ -110,6 +110,8 @@ public class StockPanelGUI extends JPanel {
 	private JComboBox cboCollection;
 	private JButton btnExport;
 	private JButton btnGeneratePrice;
+	private JPanel bottomPanel;
+	private JLabel lblCount;
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -125,8 +127,6 @@ public class StockPanelGUI extends JPanel {
 					btnAdd.setEnabled(true);
 					magicCardDetailPanel.setMagicCard(selectedCard.get(0));
 				}
-				
-				
 			}
 		});
 		
@@ -186,12 +186,6 @@ public class StockPanelGUI extends JPanel {
 						
 					}
 				}, "Batch stock save");
-				
-				
-				
-				
-				
-				
 			}
 			
 		});
@@ -206,6 +200,7 @@ public class StockPanelGUI extends JPanel {
 					ms.setUpdate(true);
 					ms.setMagicCard(mc);
 					model.add(ms);
+					updateCount();
 				}
 			}
 		});
@@ -213,16 +208,16 @@ public class StockPanelGUI extends JPanel {
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
 	        	
-	        	if(event.getValueIsAdjusting())
+	        	if(!event.getValueIsAdjusting())
 	        	{
-	        		int viewRow = table.getSelectedRow();
-		        	if(viewRow>-1)
-		        	{
-		        		int modelRow = table.convertRowIndexToModel(viewRow);
-						selectedStock = (MagicCardStock)table.getModel().getValueAt(modelRow, 0);
-						btnDelete.setEnabled(true);
-						magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
-		        	}
+	        			int viewRow = table.getSelectedRow();
+			        	if(viewRow>-1)
+			        	{
+			        		int modelRow = table.convertRowIndexToModel(viewRow);
+							MagicCardStock selectedStock = (MagicCardStock)table.getModel().getValueAt(modelRow, 0);
+							btnDelete.setEnabled(true);
+							magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
+			        	}
 	        	}
 	        }
 	    });
@@ -234,6 +229,7 @@ public class StockPanelGUI extends JPanel {
 					{
 						int selected [] = table.getSelectedRows();
 						model.removeRows(selected);
+						updateCount();
 					}
 				}
 		});
@@ -245,7 +241,7 @@ public class StockPanelGUI extends JPanel {
 				{
 					logger.debug("reload collection");
 					model.init();
-					
+					updateCount();
 				}
 			}
 		});
@@ -260,6 +256,35 @@ public class StockPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();
 
+				JMenuItem mnuCol = new JMenuItem("Import from collection");
+				mnuCol.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/collection.png")));
+				
+				mnuCol.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						CollectionChooserDialog diag = new CollectionChooserDialog();
+						diag.setVisible(true);
+						final MagicCollection col = diag.getSelectedCollection();
+						
+						if(col!=null)
+						{	ThreadManager.getInstance().execute(new Runnable() {
+								
+								@Override
+								public void run() {
+									lblLoading.setVisible(true);
+									importFromCollection(col);
+									lblLoading.setVisible(false);
+									updateCount();
+								}
+							}, "Import stock from collection");
+						}
+						
+						
+						
+					}
+				});
+				
+				menu.add(mnuCol);
+				
 				JMenuItem webSite = new JMenuItem("Import from website");
 				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/res/website.png")));
 				webSite.addActionListener(new ActionListener() {
@@ -274,7 +299,7 @@ public class StockPanelGUI extends JPanel {
 							lblLoading.setVisible(true);
 							MagicDeck deck = diag.getSelectedDeck();
 							importFromWebSite(deck);
-							model.fireTableDataChanged();
+							updateCount();
 							lblLoading.setVisible(false);
 						}
 					}
@@ -324,6 +349,7 @@ public class StockPanelGUI extends JPanel {
 													model.add(mc);
 											}
 											model.fireTableDataChanged();
+											updateCount();
 											lblLoading.setVisible(false);
 											JOptionPane.showMessageDialog(null, "Import Finished",exp.getName() + " Finished", JOptionPane.INFORMATION_MESSAGE);
 
@@ -485,6 +511,27 @@ public class StockPanelGUI extends JPanel {
 		
 	}
 	
+	private void importFromCollection(MagicCollection col)
+	{
+		try {
+			for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col))
+			{
+				MagicCardStock stock = new MagicCardStock();
+				stock.setMagicCard(mc);
+				stock.setMagicCollection(col);
+				stock.setQte(1);
+				stock.setComment("import from " + col.getName());
+				stock.setIdstock(-1);
+				stock.setUpdate(true);
+				model.add(stock);
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		model.fireTableDataChanged();
+	}
+	
 	
 	private void importFromWebSite(MagicDeck deck)
 	{
@@ -498,6 +545,7 @@ public class StockPanelGUI extends JPanel {
 				stock.setUpdate(true);
 				model.add(stock);
 		}
+		model.fireTableDataChanged();
 	}
 
 	private void initGUI()
@@ -788,9 +836,19 @@ public class StockPanelGUI extends JPanel {
 		gbc_btnApplyModification.gridx = 0;
 		gbc_btnApplyModification.gridy = 12;
 		rightPanel.add(btnApplyModification, gbc_btnApplyModification);
+		
+		bottomPanel = new JPanel();
+		add(bottomPanel, BorderLayout.SOUTH);
+		
+		lblCount = new JLabel();
+		bottomPanel.add(lblCount);
+		updateCount();
 	}
 	
-	
+	public void updateCount()
+	{
+		lblCount.setText("Item in stock : " + table.getRowCount());
+	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
 		JFrame f = new JFrame();
