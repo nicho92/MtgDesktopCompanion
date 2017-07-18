@@ -50,7 +50,6 @@ import org.xml.sax.InputSource;
 public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     
     private List<MagicPrice> lists;
-    private CartServices cart;
     
     static final Logger logger = LogManager.getLogger(MagicCardMarketPricer2.class.getName());
 
@@ -189,8 +188,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 				logger.info(getName() + " found no item");
 				return lists;
 			}
-			logger.info(getName() +" found "  + lists.size() +" items");
-	    	
+			
 			ArticleService aServ = new ArticleService();
 			Map<ARTICLES_ATT,String> aatts = new HashMap<ARTICLES_ATT, String>();
 			aatts.put(ARTICLES_ATT.start, "0");
