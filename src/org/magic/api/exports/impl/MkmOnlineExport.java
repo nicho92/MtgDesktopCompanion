@@ -32,6 +32,7 @@ import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.services.MTGControler;
@@ -220,7 +221,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 			List<Article> list = new ArrayList<Article>();
 			for(MagicCardStock mcs : stock)
 			{
-				Product p = prods.findProduct(mcs.getMagicCard().getName(), atts).get(0);
+				//Product p = prods.findProduct(mcs.getMagicCard().getName(), atts).get(0);
+				Product p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(), prods.findProduct(mcs.getMagicCard().getName(), atts));
 				Article a = new Article();
 						a.setAltered(mcs.isAltered());
 						a.setSigned(mcs.isSigned());
@@ -263,6 +265,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setAltered(a.isAltered());
 			mcs.setPrice(a.getPrice());
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", a.getProduct().getEnName(), null).get(0);
+			MagicCardMarketPricer2.selectEditionCard(mc, a.getProduct().getExpansionName());
+			
 			mcs.setMagicCard(mc);
 			mcs.setCondition(convert(a.getCondition()));
 			stock.add(mcs);

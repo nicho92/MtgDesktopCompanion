@@ -94,9 +94,17 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		}
      }
     
-    
+    public static void selectEditionCard(MagicCard mc,String edition)
+    {
+    	for(MagicEdition ed : mc.getEditions())
+			if(ed.getSet().startsWith(edition))
+			{
+				mc.getEditions().add(0, ed);
+				break;
+			}
+    }
 	
-	public Product getProductFromCard(MagicCard mc,List<Product> list)
+	public static Product getProductFromCard(MagicCard mc,List<Product> list)
 	{
 		String edName=mc.getEditions().get(0).getSet();
 		Product resultat = null;

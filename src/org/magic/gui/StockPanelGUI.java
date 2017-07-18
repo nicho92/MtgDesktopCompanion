@@ -212,36 +212,28 @@ public class StockPanelGUI extends JPanel {
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
 	        public void valueChanged(ListSelectionEvent event) {
-	        	int viewRow = table.getSelectedRow();
-	        	if(viewRow>-1)
+	        	
+	        	if(event.getValueIsAdjusting())
 	        	{
-	        		int modelRow = table.convertRowIndexToModel(viewRow);
-					selectedStock = (MagicCardStock)table.getModel().getValueAt(modelRow, 0);
-					btnDelete.setEnabled(true);
-					magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
+	        		int viewRow = table.getSelectedRow();
+		        	if(viewRow>-1)
+		        	{
+		        		int modelRow = table.convertRowIndexToModel(viewRow);
+						selectedStock = (MagicCardStock)table.getModel().getValueAt(modelRow, 0);
+						btnDelete.setEnabled(true);
+						magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
+		        	}
 	        	}
 	        }
 	    });
 		
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-					try {
-						int res = JOptionPane.showConfirmDialog(null, "Delete " + table.getSelectedRows().length + " item(s) ?","Confirm delete",JOptionPane.YES_NO_OPTION);
-						if(res==JOptionPane.YES_OPTION)
-						{
-							
-							for(int i : table.getSelectedRows())
-							{
-								MagicCardStock s = (MagicCardStock)table.getModel().getValueAt(table.getSelectedRows()[i], 0);
-								//MagicCardStock s = (MagicCardStock)table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
-								
-								model.remove(s);
-								if(s.getIdstock()>-1)
-									MTGControler.getInstance().getEnabledDAO().deleteStock(selectedStock);
-							}
-						}
-					} catch (SQLException e1) {
-						JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+				int res = JOptionPane.showConfirmDialog(null, "Delete " + table.getSelectedRows().length + " item(s) ?","Confirm delete",JOptionPane.YES_NO_OPTION);
+				if(res==JOptionPane.YES_OPTION)
+					{
+						int selected [] = table.getSelectedRows();
+						model.removeRows(selected);
 					}
 				}
 				

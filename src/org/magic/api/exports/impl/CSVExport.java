@@ -62,8 +62,17 @@ public class CSVExport extends AbstractCardExport{
 		{
 			String part[]= line.split(";");
 			MagicCardStock mcs = new MagicCardStock();
-		
-				mcs.setMagicCard(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", part[1], null).get(0));
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", part[1], null).get(0);
+				
+				for(MagicEdition ed : mc.getEditions())
+					if(ed.getSet().equals(part[2]))
+					{
+						mc.getEditions().add(0, ed);
+						break;
+					}
+			
+			
+				mcs.setMagicCard(mc);
 				mcs.setLanguage(part[3]);
 				mcs.setQte(Integer.parseInt(part[4]));
 				mcs.setCondition(EnumCondition.valueOf(part[5]));
@@ -72,10 +81,18 @@ public class CSVExport extends AbstractCardExport{
 				mcs.setSigned(Boolean.valueOf(part[8]));
 				mcs.setMagicCollection(new MagicCollection(part[9]));
 				mcs.setPrice(Double.valueOf(part[10]));
-				mcs.setComment(part[11]);
+				try{ 
+					mcs.setComment(part[11]);
+				}
+				catch (ArrayIndexOutOfBoundsException aioob)
+				{
+					mcs.setComment("");
+				}
 				mcs.setIdstock(-1);
 				mcs.setUpdate(true);
+				stock.add(mcs);
 			line=read.readLine();
+			
 		}
 		
 		read.close();
