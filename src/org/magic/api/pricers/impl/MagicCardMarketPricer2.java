@@ -116,7 +116,6 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			
 			logger.debug("\""+edName + "\".startWith("+p.getExpansionName()+")"+StringUtils.getJaroWinklerDistance(edName, p.getExpansionName()) );
 			
-			
 			if(edName.startsWith(p.getExpansionName()))
 			{
 				resultat=p;

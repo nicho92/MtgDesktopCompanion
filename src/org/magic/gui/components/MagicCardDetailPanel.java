@@ -88,6 +88,7 @@ public class MagicCardDetailPanel extends JPanel {
 		fullTypeJTextField.setEditable(b);
 		nameJTextField.setEditable(b);
 		cmcJTextField.setEditable(b);
+		chckbxReserved.setEnabled(b);
 
 	}
 	
