@@ -128,7 +128,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		shopperScrollPane.setViewportView(shopperTreeTable);
 		
 		JScrollPane exportsScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("Exports", null, exportsScrollPane, null);
+		subTabbedProviders.addTab("Cards Imports/Exports", null, exportsScrollPane, null);
 		exportsTable = new JXTreeTable(new ExportsTreeTableModel());
 		exportsTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
@@ -140,7 +140,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		exportsScrollPane.setViewportView(exportsTable);
 		
 		JScrollPane importScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("Import", null, importScrollPane, null);
+		subTabbedProviders.addTab("Decks Import", null, importScrollPane, null);
 		
 		importTreeTable = new JXTreeTable(new DeckSnifferTreeTableModel());
 		importScrollPane.setViewportView(importTreeTable);
