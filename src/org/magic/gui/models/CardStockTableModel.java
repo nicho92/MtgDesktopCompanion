@@ -43,26 +43,16 @@ public class CardStockTableModel extends DefaultTableModel {
 	    }
 	}
 	
-	public void init()
+	public void init() throws SQLException
 	{
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
-				try {
-					list.clear();
-					list.addAll(MTGControler.getInstance().getEnabledDAO().getStocks());
-					fireTableDataChanged();
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-			}
-		}, "load stocks");
+			list.clear();
+			list.addAll(MTGControler.getInstance().getEnabledDAO().getStocks());
+			fireTableDataChanged();
 	}
 	
 	public CardStockTableModel() {
 			list=new ArrayList<MagicCardStock>();
-			init();
+			
 	}
 	
 	

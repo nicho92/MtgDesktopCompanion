@@ -246,8 +246,21 @@ public class StockPanelGUI extends JPanel {
 				if(res==JOptionPane.YES_OPTION)
 				{
 					logger.debug("reload collection");
-					model.init();
-					updateCount();
+					ThreadManager.getInstance().execute(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+								lblLoading.setVisible(true);
+								model.init();
+							} catch (SQLException e1) {
+								JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+							}
+							lblLoading.setVisible(false);
+							updateCount();
+						}
+					}, "reload stock");
+					
 				}
 			}
 		});
@@ -568,7 +581,6 @@ public class StockPanelGUI extends JPanel {
 		}
 		model.fireTableDataChanged();
 	}
-	
 	
 	private void importFromWebSite(MagicDeck deck)
 	{
@@ -901,7 +913,23 @@ public class StockPanelGUI extends JPanel {
 		
 		lblCount = new JLabel();
 		bottomPanel.add(lblCount);
-		updateCount();
+		
+		
+		ThreadManager.getInstance().execute(new Runnable() {
+			
+			@Override
+			public void run() {
+				try {
+					lblLoading.setVisible(true);
+					model.init();
+				} catch (SQLException e1) {
+					JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+				}
+				lblLoading.setVisible(false);
+				updateCount();
+			}
+		}, "init stock");
+		
 	}
 	
 	public void updateCount()
