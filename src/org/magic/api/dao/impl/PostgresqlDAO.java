@@ -648,6 +648,12 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			
 		}*/
 
+		@Override
+		public void deleteStock(List<MagicCardStock> state) throws SQLException {
+			// TODO Auto-generated method stub
+			
+		}
+
 
 
 }

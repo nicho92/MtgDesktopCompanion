@@ -715,7 +715,8 @@ public class DeckBuilderGUI extends JPanel {
 				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
 						try {
-							String searchName = URLEncoder.encode(txtSearch.getText(), "UTF-8");
+							//String searchName = URLEncoder.encode(txtSearch.getText(), "UTF-8");
+							String searchName = txtSearch.getText();
 							List<MagicCard> cards = MTGControler.getInstance().getEnabledProviders()
 									.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null);
 							MagicFormat form = new MagicFormat();

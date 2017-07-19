@@ -628,6 +628,12 @@ public class HsqlDAO extends AbstractMagicDAO{
 		return colls;
 	}
 
+	@Override
+	public void deleteStock(List<MagicCardStock> state) throws SQLException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
 
 

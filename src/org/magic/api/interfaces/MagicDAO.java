@@ -44,17 +44,10 @@ public interface MagicDAO {
 	//public void moveCards(MagicCollection from, MagicCollection to, MagicCard mc) throws SQLException;
 	public void removeEdition(MagicEdition ed, MagicCollection col)throws SQLException;
 	
-	/*public List<MagicDeck> listDeck()throws SQLException;
-	public void saveDeck(MagicDeck d)throws SQLException;
-	public void deleteDeck(MagicDeck d)throws SQLException;
- 
-	public void saveShopItem(ShopItem mp, String string) throws SQLException;
-	public String getSavedShopItemAnotation(ShopItem id) throws SQLException;
-*/
-	
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException;
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException;
 	public void deleteStock(MagicCardStock state) throws SQLException;
+	public void deleteStock(List<MagicCardStock> state) throws SQLException;
 	public List<MagicCardStock> getStocks() throws SQLException;
 	
 	public List<MagicCardAlert> getAlerts();

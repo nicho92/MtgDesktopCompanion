@@ -601,7 +601,7 @@ public class MagicCardDetailPanel extends JPanel {
 						btnAlert.setEnabled(true);
 					}
 			}
-		},"check alerts");
+		},"Get alerts for " + magicCard);
 		
 	
 		

@@ -154,7 +154,8 @@ public class StockPanelGUI extends JPanel {
 					public void run() {
 						try {
 							lblLoading.setVisible(true);
-							String searchName = URLEncoder.encode(txtSearch.getText(), "UTF-8");
+							//String searchName = URLEncoder.encode(txtSearch.getText(), "UTF-8");
+							String searchName = txtSearch.getText();
 							List<MagicCard> cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null);
 							for (MagicCard m : cards) 
 									resultListModel.addElement(m);
@@ -233,9 +234,26 @@ public class StockPanelGUI extends JPanel {
 				int res = JOptionPane.showConfirmDialog(null, "Delete " + table.getSelectedRows().length + " item(s) ?","Confirm delete",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					{
-						int selected [] = table.getSelectedRows();
-						model.removeRows(selected);
-						updateCount();
+					logger.debug("reload collection");
+					ThreadManager.getInstance().execute(new Runnable() {
+						
+						@Override
+						public void run() {
+							try {
+								int selected [] = table.getSelectedRows();
+								model.removeRows(selected);
+								updateCount();
+							}
+							catch(Exception e)
+							{
+								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+							}
+							lblLoading.setVisible(false);
+							updateCount();
+						}
+					}, "delete stock");
+					
+					
 					}
 				}
 		});

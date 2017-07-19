@@ -26,7 +26,7 @@ public class CardStockTableModel extends DefaultTableModel {
 	public List<MagicCardStock> getList() {
 		return list;
 	}
-
+	
 	public void removeRows(int[] indices) {
 	    Arrays.sort(indices);
 	    for (int i = indices.length - 1; i >= 0; i--) {

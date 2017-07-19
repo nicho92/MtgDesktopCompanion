@@ -367,6 +367,16 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 pst.executeUpdate();
 		
 	}
+	
+
+	@Override
+	public void deleteStock(List<MagicCardStock> state) throws SQLException {
+	/*logger.debug("remove " + state.size()  + " items in stock");
+		PreparedStatement pst = con.prepareStatement("delete from stocks where idstock IN ?");
+		 pst.setInt(1, state.getIdstock());
+		 pst.executeUpdate();
+		*/
+	}
 
 	
 	@Override
@@ -583,4 +593,5 @@ public class MysqlDAO extends AbstractMagicDAO{
 //		
 //		
 //	}
+
 }
