@@ -63,6 +63,9 @@ import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.JCheckBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class StockPanelGUI extends JPanel {
 	private JXTable table;
@@ -112,6 +115,9 @@ public class StockPanelGUI extends JPanel {
 	private JButton btnGeneratePrice;
 	private JPanel bottomPanel;
 	private JLabel lblCount;
+	private JLabel lblSelect;
+	private JComboBox cboSelections;
+	private String[] selections=new String[] {"", "New", "Updated"};
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -464,13 +470,42 @@ public class StockPanelGUI extends JPanel {
 							}
 							double old = s.getPrice();
 							s.setPrice(price);
-							if(old==s.getPrice())
+							if(old!=s.getPrice())
 								s.setUpdate(true);
+							
 							model.fireTableDataChanged();
 						}
 						lblLoading.setVisible(false);
 					}
 				}, "generate prices for stock");
+				
+				
+				
+			}
+		});
+		
+		cboSelections.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent ie) {
+				
+				if(String.valueOf(cboSelections.getSelectedItem()).equals(selections[1]))
+				{
+					table.clearSelection();
+					for(int i=0;i<table.getRowCount();i++)
+					{
+						if(table.getValueAt(i, 0).toString().equals("-1"))
+							table.addRowSelectionInterval(i,i);
+					}
+				}
+				else if(String.valueOf(cboSelections.getSelectedItem()).equals(selections[2]))
+				{
+					table.clearSelection();
+					for(int i=0;i<table.getRowCount();i++)
+					{
+						if(((MagicCardStock)table.getValueAt(i, 0)).isUpdate())
+							table.addRowSelectionInterval(i,i);
+					}
+				}
+				
 				
 				
 				
@@ -672,17 +707,36 @@ public class StockPanelGUI extends JPanel {
 		add(rightPanel, BorderLayout.EAST);
 		GridBagLayout gbl_rightPanel = new GridBagLayout();
 		gbl_rightPanel.columnWidths = new int[]{84, 103, 0};
-		gbl_rightPanel.rowHeights = new int[]{83, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_rightPanel.rowHeights = new int[]{83, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_rightPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_rightPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_rightPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		rightPanel.setLayout(gbl_rightPanel);
+		
+		lblSelect = new JLabel("Select :");
+		GridBagConstraints gbc_lblSelect = new GridBagConstraints();
+		gbc_lblSelect.anchor = GridBagConstraints.NORTHEAST;
+		gbc_lblSelect.insets = new Insets(0, 0, 5, 5);
+		gbc_lblSelect.gridx = 0;
+		gbc_lblSelect.gridy = 1;
+		rightPanel.add(lblSelect, gbc_lblSelect);
+		
+		cboSelections = new JComboBox();
+		
+		cboSelections.setModel(new DefaultComboBoxModel(selections));
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.anchor = GridBagConstraints.NORTH;
+		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 1;
+		gbc_comboBox.gridy = 1;
+		rightPanel.add(cboSelections, gbc_comboBox);
 		
 		lblQte = new JLabel("Qte : ");
 		GridBagConstraints gbc_lblQte = new GridBagConstraints();
 		gbc_lblQte.anchor = GridBagConstraints.EAST;
 		gbc_lblQte.insets = new Insets(0, 0, 5, 5);
 		gbc_lblQte.gridx = 0;
-		gbc_lblQte.gridy = 1;
+		gbc_lblQte.gridy = 2;
 		rightPanel.add(lblQte, gbc_lblQte);
 		
 		spinner = new JSpinner();
@@ -691,7 +745,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_spinner.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner.insets = new Insets(0, 0, 5, 0);
 		gbc_spinner.gridx = 1;
-		gbc_spinner.gridy = 1;
+		gbc_spinner.gridy = 2;
 		rightPanel.add(spinner, gbc_spinner);
 		
 		lblLanguage = new JLabel("Language :");
@@ -699,7 +753,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblLanguage.anchor = GridBagConstraints.EAST;
 		gbc_lblLanguage.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLanguage.gridx = 0;
-		gbc_lblLanguage.gridy = 2;
+		gbc_lblLanguage.gridy = 3;
 		rightPanel.add(lblLanguage, gbc_lblLanguage);
 		
 		DefaultComboBoxModel lModel = new DefaultComboBoxModel();
@@ -712,7 +766,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboLanguages.insets = new Insets(0, 0, 5, 0);
 		gbc_cboLanguages.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboLanguages.gridx = 1;
-		gbc_cboLanguages.gridy = 2;
+		gbc_cboLanguages.gridy = 3;
 		rightPanel.add(cboLanguages, gbc_cboLanguages);
 		
 		lblFoil = new JLabel("Foil :");
@@ -720,7 +774,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblFoil.anchor = GridBagConstraints.EAST;
 		gbc_lblFoil.insets = new Insets(0, 0, 5, 5);
 		gbc_lblFoil.gridx = 0;
-		gbc_lblFoil.gridy = 3;
+		gbc_lblFoil.gridy = 4;
 		rightPanel.add(lblFoil, gbc_lblFoil);
 		
 		cboFoil = new JComboBox(new DefaultComboBoxModel<Boolean>(values));
@@ -728,7 +782,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboFoil.insets = new Insets(0, 0, 5, 0);
 		gbc_cboFoil.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboFoil.gridx = 1;
-		gbc_cboFoil.gridy = 3;
+		gbc_cboFoil.gridy = 4;
 		rightPanel.add(cboFoil, gbc_cboFoil);
 		
 		lblSigned = new JLabel("Signed :");
@@ -736,7 +790,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblSigned.anchor = GridBagConstraints.EAST;
 		gbc_lblSigned.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSigned.gridx = 0;
-		gbc_lblSigned.gridy = 4;
+		gbc_lblSigned.gridy = 5;
 		rightPanel.add(lblSigned, gbc_lblSigned);
 		
 		cboSigned = new JComboBox(new DefaultComboBoxModel<Boolean>(values));
@@ -744,7 +798,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboSigned.insets = new Insets(0, 0, 5, 0);
 		gbc_cboSigned.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboSigned.gridx = 1;
-		gbc_cboSigned.gridy = 4;
+		gbc_cboSigned.gridy = 5;
 		rightPanel.add(cboSigned, gbc_cboSigned);
 		
 		lblAltered = new JLabel("Altered :");
@@ -752,7 +806,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblAltered.anchor = GridBagConstraints.EAST;
 		gbc_lblAltered.insets = new Insets(0, 0, 5, 5);
 		gbc_lblAltered.gridx = 0;
-		gbc_lblAltered.gridy = 5;
+		gbc_lblAltered.gridy = 6;
 		rightPanel.add(lblAltered, gbc_lblAltered);
 		
 		cboAltered = new JComboBox(new DefaultComboBoxModel<Boolean>(values));
@@ -760,7 +814,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboAltered.insets = new Insets(0, 0, 5, 0);
 		gbc_cboAltered.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboAltered.gridx = 1;
-		gbc_cboAltered.gridy = 5;
+		gbc_cboAltered.gridy = 6;
 		rightPanel.add(cboAltered, gbc_cboAltered);
 		
 		lblQuality = new JLabel("Quality :");
@@ -768,7 +822,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblQuality.anchor = GridBagConstraints.EAST;
 		gbc_lblQuality.insets = new Insets(0, 0, 5, 5);
 		gbc_lblQuality.gridx = 0;
-		gbc_lblQuality.gridy = 6;
+		gbc_lblQuality.gridy = 7;
 		rightPanel.add(lblQuality, gbc_lblQuality);
 		
 		DefaultComboBoxModel qModel = new DefaultComboBoxModel();
@@ -785,7 +839,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboQuality.insets = new Insets(0, 0, 5, 0);
 		gbc_cboQuality.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboQuality.gridx = 1;
-		gbc_cboQuality.gridy = 6;
+		gbc_cboQuality.gridy = 7;
 		rightPanel.add(cboQuality, gbc_cboQuality);
 		
 		lblCollection = new JLabel("Collection :");
@@ -793,7 +847,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblCollection.anchor = GridBagConstraints.EAST;
 		gbc_lblCollection.insets = new Insets(0, 0, 5, 5);
 		gbc_lblCollection.gridx = 0;
-		gbc_lblCollection.gridy = 7;
+		gbc_lblCollection.gridy = 8;
 		rightPanel.add(lblCollection, gbc_lblCollection);
 		
 		
@@ -813,14 +867,14 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboCollection.insets = new Insets(0, 0, 5, 0);
 		gbc_cboCollection.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cboCollection.gridx = 1;
-		gbc_cboCollection.gridy = 7;
+		gbc_cboCollection.gridy = 8;
 		rightPanel.add(cboCollection, gbc_cboCollection);
 		
 		lblComment = new JLabel("Comment :");
 		GridBagConstraints gbc_lblComment = new GridBagConstraints();
 		gbc_lblComment.insets = new Insets(0, 0, 5, 5);
 		gbc_lblComment.gridx = 0;
-		gbc_lblComment.gridy = 8;
+		gbc_lblComment.gridy = 9;
 		rightPanel.add(lblComment, gbc_lblComment);
 		
 		textPane = new JTextPane();
@@ -830,7 +884,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_textPane.gridheight = 3;
 		gbc_textPane.fill = GridBagConstraints.BOTH;
 		gbc_textPane.gridx = 0;
-		gbc_textPane.gridy = 9;
+		gbc_textPane.gridy = 10;
 		rightPanel.add(textPane, gbc_textPane);
 		
 		btnApplyModification = new JButton("Apply");
@@ -839,7 +893,7 @@ public class StockPanelGUI extends JPanel {
 		GridBagConstraints gbc_btnApplyModification = new GridBagConstraints();
 		gbc_btnApplyModification.gridwidth = 2;
 		gbc_btnApplyModification.gridx = 0;
-		gbc_btnApplyModification.gridy = 12;
+		gbc_btnApplyModification.gridy = 13;
 		rightPanel.add(btnApplyModification, gbc_btnApplyModification);
 		
 		bottomPanel = new JPanel();
