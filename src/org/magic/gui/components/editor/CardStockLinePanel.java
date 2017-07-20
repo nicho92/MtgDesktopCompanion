@@ -7,6 +7,8 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -128,7 +130,9 @@ public class CardStockLinePanel extends JPanel {
 		
 		generateState();
 		try {
-			MTGControler.getInstance().getEnabledDAO().deleteStock(state);
+			List<MagicCardStock> l = new ArrayList<MagicCardStock>();
+			l.add(state);
+			MTGControler.getInstance().getEnabledDAO().deleteStock(l);
 		} catch (SQLException e1) {
 			e1.printStackTrace();
 		}

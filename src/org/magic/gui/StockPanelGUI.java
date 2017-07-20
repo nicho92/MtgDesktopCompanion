@@ -8,10 +8,12 @@ import java.awt.Insets;
 import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Locale;
@@ -63,9 +65,6 @@ import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
-import javax.swing.JCheckBox;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class StockPanelGUI extends JPanel {
 	private JXTable table;
@@ -110,7 +109,7 @@ public class StockPanelGUI extends JPanel {
 	private JComboBox<EnumCondition> cboQuality;
 	private JButton btnImport;
 	private JLabel lblCollection;
-	private JComboBox cboCollection;
+	private JComboBox<MagicCollection> cboCollection;
 	private JButton btnExport;
 	private JButton btnGeneratePrice;
 	private JPanel bottomPanel;
@@ -234,14 +233,16 @@ public class StockPanelGUI extends JPanel {
 				int res = JOptionPane.showConfirmDialog(null, "Delete " + table.getSelectedRows().length + " item(s) ?","Confirm delete",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					{
-					logger.debug("reload collection");
+					logger.debug("delete stocks");
 					ThreadManager.getInstance().execute(new Runnable() {
 						
 						@Override
 						public void run() {
 							try {
 								int selected [] = table.getSelectedRows();
-								model.removeRows(selected);
+								
+								List<MagicCardStock> stocks = extract(selected);
+								model.removeRows(stocks);
 								updateCount();
 							}
 							catch(Exception e)
@@ -257,6 +258,8 @@ public class StockPanelGUI extends JPanel {
 					}
 				}
 		});
+		
+	
 		
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -576,6 +579,19 @@ public class StockPanelGUI extends JPanel {
 				
 			}
 		});
+		
+	}
+	
+	
+	private List<MagicCardStock> extract(int[] ids)
+	{
+		List<MagicCardStock> select = new ArrayList<MagicCardStock>();
+		
+		for(int l : ids)
+		{
+			select.add(((MagicCardStock)table.getValueAt(l, 0)));
+		}
+		return select;
 		
 	}
 	

@@ -3,6 +3,7 @@ package org.magic.gui.models;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
@@ -27,20 +28,18 @@ public class CardStockTableModel extends DefaultTableModel {
 		return list;
 	}
 	
-	public void removeRows(int[] indices) {
-	    Arrays.sort(indices);
-	    for (int i = indices.length - 1; i >= 0; i--) {
-	        if(list.get(indices[i]).getIdstock()>-1)
-				try {
-					MTGControler.getInstance().getEnabledDAO().deleteStock(list.get(indices[i]));
-				} catch (SQLException e) {
-					e.printStackTrace();
-				}
-
-	    	list.remove(indices[i]);
-	        fireTableRowsDeleted(indices[i], indices[i]);
-	        
-	    }
+	public void removeRows(List<MagicCardStock> stocks) throws SQLException {
+		list.removeAll(stocks);
+		for (Iterator<MagicCardStock> iter = stocks.listIterator(); iter.hasNext(); ) {
+			MagicCardStock a = iter.next();
+		    if (a.getIdstock()==-1) {
+		        iter.remove();
+		    }
+		}
+		if(stocks.size()>0)
+			MTGControler.getInstance().getEnabledDAO().deleteStock(stocks);
+		
+		fireTableDataChanged();
 	}
 	
 	public void init() throws SQLException
@@ -164,6 +163,7 @@ public class CardStockTableModel extends DefaultTableModel {
 		fireTableDataChanged();
 		
 	}
+
 	
 	
 	

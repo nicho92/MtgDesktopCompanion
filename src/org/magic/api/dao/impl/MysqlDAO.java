@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.api.mkm.tools.Tools;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -360,22 +361,18 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 
 	@Override
-	public void deleteStock(MagicCardStock state) throws SQLException {
-		logger.debug("remove " + state  + " ID=" + state.getIdstock());
-		PreparedStatement pst = con.prepareStatement("delete from stocks where idstock=?");
-		 pst.setInt(1, state.getIdstock());
-		 pst.executeUpdate();
-		
-	}
-	
-
-	@Override
 	public void deleteStock(List<MagicCardStock> state) throws SQLException {
-	/*logger.debug("remove " + state.size()  + " items in stock");
-		PreparedStatement pst = con.prepareStatement("delete from stocks where idstock IN ?");
-		 pst.setInt(1, state.getIdstock());
-		 pst.executeUpdate();
-		*/
+		logger.debug("remove " + state.size()  + " items in stock");
+		StringBuffer st = new StringBuffer();
+		st.append("delete from stocks where idstock IN (");
+			for(MagicCardStock sto : state)
+			{
+				st.append(sto.getIdstock()).append(",");
+			}
+		st.append(")");
+		String sql = st.toString().replace(",)", ")");
+		Statement pst = con.createStatement();
+		pst.executeUpdate(sql);
 	}
 
 	

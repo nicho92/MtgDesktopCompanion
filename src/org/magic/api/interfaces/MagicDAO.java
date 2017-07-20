@@ -46,7 +46,6 @@ public interface MagicDAO {
 	
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException;
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException;
-	public void deleteStock(MagicCardStock state) throws SQLException;
 	public void deleteStock(List<MagicCardStock> state) throws SQLException;
 	public List<MagicCardStock> getStocks() throws SQLException;
 	
