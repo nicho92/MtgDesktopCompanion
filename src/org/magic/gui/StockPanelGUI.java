@@ -240,7 +240,7 @@ public class StockPanelGUI extends JPanel {
 						public void run() {
 							try {
 								int selected [] = table.getSelectedRows();
-								
+								lblLoading.setVisible(true);
 								List<MagicCardStock> stocks = extract(selected);
 								model.removeRows(stocks);
 								updateCount();
@@ -248,6 +248,7 @@ public class StockPanelGUI extends JPanel {
 							catch(Exception e)
 							{
 								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+								lblLoading.setVisible(false);
 							}
 							lblLoading.setVisible(false);
 							updateCount();

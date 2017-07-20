@@ -446,7 +446,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			pst.setInt(5, state.getQte());
 			pst.setString(6, state.getComment());
 			pst.setString(7, state.getMagicCard().getId());
-			pst.setString(8, state.getMagicCollection().getName());
+			pst.setString(8, String.valueOf(state.getMagicCollection()));
 			pst.setObject(9, state.getMagicCard());
 			pst.setBoolean(10, state.isAltered());
 			pst.setDouble(11, state.getPrice());
@@ -459,8 +459,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		else
 		{
 			logger.debug("update "  + state);
-			pst=con.prepareStatement("update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=? where idstock=?");
-			
+			pst=con.prepareStatement("update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=? where idstock=?");
 			pst.setString(1,state.getComment());
 			pst.setString(2, state.getCondition().toString());
 			pst.setBoolean(3,state.isFoil());
@@ -469,7 +468,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 			pst.setInt(6, state.getQte());
 			pst.setBoolean(7, state.isAltered());
 			pst.setDouble(8, state.getPrice());
-			pst.setInt(9, state.getIdstock());
+			pst.setString(9, state.getMagicCard().getId());
+			pst.setInt(10, state.getIdstock());
 			
 			pst.executeUpdate();
 		}
