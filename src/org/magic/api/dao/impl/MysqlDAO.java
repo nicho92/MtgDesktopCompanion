@@ -417,7 +417,12 @@ public class MysqlDAO extends AbstractMagicDAO{
 				state.setIdstock(rs.getInt("idstock"));
 				state.setMagicCard((MagicCard)rs.getObject("mcard"));
 				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
-				state.setCondition( EnumCondition.valueOf(rs.getString("conditions")) );
+				try{
+					state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
+				}catch(Exception e)
+				{
+					state.setCondition(null);
+				}
 				state.setFoil(rs.getBoolean("foil"));
 				state.setSigned(rs.getBoolean("signedcard"));
 				state.setLanguage(rs.getString("langage"));
