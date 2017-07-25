@@ -48,7 +48,10 @@ public class ScryFallProvider implements MagicCardsProvider {
 		
 		MagicEdition ed = new MagicEdition();
 		ed.setId("LEA");
-		System.out.println(prov.searchCardByCriteria("name", "liliana", null).size());
+		for(MagicCard mc : prov.searchCardByCriteria("name", "liliana", null))
+		{
+			System.out.println(mc + " "+ mc.getEditions());
+		}
 	
 	}
 	
