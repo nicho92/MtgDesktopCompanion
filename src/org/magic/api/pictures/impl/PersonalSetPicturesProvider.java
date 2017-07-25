@@ -61,13 +61,6 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	@Override
-	public BufferedImage getBackPicture() throws Exception
-	{
-		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=132667&type=card");
-		return ImageIO.read(url);
-	}
-	
-	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws Exception
 	{
 		return null;

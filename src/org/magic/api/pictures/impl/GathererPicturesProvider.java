@@ -34,16 +34,6 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	
-	@Override
-	public BufferedImage getBackPicture() throws Exception
-	{
-		try {
-			return ImageIO.read(AbstractPicturesProvider.class.getResource("/res/back.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} 
-	}
 	
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws Exception

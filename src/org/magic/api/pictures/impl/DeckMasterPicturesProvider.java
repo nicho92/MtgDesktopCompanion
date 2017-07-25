@@ -155,15 +155,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		return resizeIconSet(im);
 	}
 
-	@Override
-	public BufferedImage getBackPicture() throws Exception {
-			try {
-				return ImageIO.read(AbstractPicturesProvider.class.getResource("/res/back.jpg"));
-			} catch (IOException e) {
-				e.printStackTrace();
-				return null;
-			} 
-	}
+	
 
 	@Override
 	public String getName() {

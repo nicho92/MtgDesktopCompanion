@@ -115,16 +115,6 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 
 	@Override
-	public BufferedImage getBackPicture() throws Exception {
-		try {
-			return ImageIO.read(AbstractPicturesProvider.class.getResource("/res/back.jpg"));
-		} catch (IOException e) {
-			e.printStackTrace();
-			return null;
-		} 
-	}
-
-	@Override
 	public String getName() {
 		return "MagicCardInfo";
 	}

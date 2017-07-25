@@ -54,7 +54,7 @@ public class BoosterPicturesProvider {
 		String url=""; 
 			try {
 				XPath xPath =  XPathFactory.newInstance().newXPath();
-				String expression = "//booster[contains(@id,'"+me.getId()+"')]";
+				String expression = "//booster[contains(@id,'"+me.getId().toUpperCase()+"')]";
 				NodeList nodeList;
 				nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 				Node item = nodeList.item(0);
