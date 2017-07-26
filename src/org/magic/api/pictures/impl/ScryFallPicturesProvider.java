@@ -56,29 +56,22 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		}
 		
 		
-		URL url = new URL("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
+		//URL url = new URL("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
 		
-		//URL url = new URL("https://api.scryfall.com/cards/"+selected.getId()+"/"+selected.getNumber()+"?format=image");
+		URL url = new URL("https://api.scryfall.com/cards/"+selected.getId()+"/"+selected.getNumber()+"?format=image");
 		
 		if(MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider)
-		{
 			url = new URL("https://api.scryfall.com/cards/"+mc.getId()+"?format=image");
-		}
 		
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		  connection.setInstanceFollowRedirects(true);
 		  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));
 		  connection.connect();
 		  logger.debug("load pics " + connection.getURL().toString());  
-		  Image img = null;
 			
 			try{
-				//img = ImageIO.read(connection.getInputStream());
 				BufferedImage bufferedImage =ImageIO.read(connection.getInputStream());//= new BufferedImage(img.getWidth(null), img.getHeight(null),BufferedImage.TYPE_INT_RGB);
-			/*    Graphics g = bufferedImage.createGraphics();
-			    g.drawImage(img, 0, 0, null);
-			    g.dispose();
-*/
+		
 				if(bufferedImage!=null)
 					MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,selected);
 					 

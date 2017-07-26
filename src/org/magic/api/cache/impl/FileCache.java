@@ -77,7 +77,11 @@ public class FileCache extends AbstractMTGPicturesCache {
 		if(!f.exists())
 			f.mkdir();
 		
-		ImageIO.write(im, props.getProperty("FORMAT"), new File(f,ed.getMultiverse_id()+"."+props.getProperty("FORMAT")));
+		if(ed.getMultiverse_id()!=null)
+			if(!ed.getMultiverse_id().equals(""))
+				if(!ed.getMultiverse_id().equals("0"))
+					if(!ed.getMultiverse_id().equals("null"))
+						ImageIO.write(im, props.getProperty("FORMAT"), new File(f,ed.getMultiverse_id()+"."+props.getProperty("FORMAT")));
 		
 	}
 

@@ -41,21 +41,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 	private Map<String , MagicEdition> cache;
 	
 	
-	public static void main(String[] args) throws Exception {
-		ScryFallProvider prov = new ScryFallProvider();
-		prov.init();
-		prov.loadEditions();
-		
-		MagicEdition ed = new MagicEdition();
-		ed.setId("LEA");
-		for(MagicCard mc : prov.searchCardByCriteria("name", "liliana", null))
-		{
-			System.out.println(mc + " "+ mc.getEditions());
-		}
-	
-	}
-	
-	
 	@Override
 	public void init() {
 		cache=new HashMap<String,MagicEdition>();
@@ -112,6 +97,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 			
 			if(hasMore)
 				url=el.getAsJsonObject().get("next_page").getAsString();
+			
+			Thread.sleep(50);
 		}
 			
 		
@@ -250,9 +237,10 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  mc.getForeignNames().add(n);
 		  mc.getTypes().add(obj.get("type_line").getAsString());
 		  
-		  String uri = obj.get("uri").getAsString();
-		  uri=uri.substring(uri.lastIndexOf("/")+1);
-		  mc.setNumber(uri);
+		  //String uri = obj.get("uri").getAsString();
+		  //uri=uri.substring(uri.lastIndexOf("/")+1);
+		  
+		  mc.setNumber(obj.get("collector_number").getAsString());
 		  
 		  
 		  try{mc.setArtist(obj.get("artist").getAsString());}catch(NullPointerException e) { };
@@ -296,8 +284,35 @@ public class ScryFallProvider implements MagicCardsProvider {
 			   
 		   }
 		   
+		  mc.setTranformable(mc.getLayout().equals("transform")||mc.getLayout().equals("meld"));
+		  mc.setFlippable(mc.getLayout().equals("flip")); 
 		   
-		   
+		  
+		  if(obj.get("all_parts")!=null)
+		  {
+			  JsonArray arr = obj.get("all_parts").getAsJsonArray();
+			  
+			  int index = -1;
+			  for(int i=0;i<arr.size();i++)
+			  {
+				  if(arr.get(i).getAsJsonObject().get("name").getAsString().equals(mc.getName()))
+				  {
+					  index=i;
+					  break;
+				  }
+					  
+			  }
+			  arr.remove(index);
+			  if(arr.size()==1)
+				  mc.setRotatedCardName(arr.get(0).getAsJsonObject().get("name").getAsString());
+			  else
+				  mc.setRotatedCardName(arr.get(1).getAsJsonObject().get("name").getAsString());
+			  
+			  
+		  }
+		
+		  
+		  
 		  
 		  MagicEdition ed = (MagicEdition)BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 					  ed.setArtist(mc.getArtist());
