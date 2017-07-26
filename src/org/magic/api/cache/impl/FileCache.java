@@ -17,6 +17,11 @@ public class FileCache extends AbstractMTGPicturesCache {
 	
 	File directory ;
 	
+	private String generateIdIndex(MagicCard mc,MagicEdition ed)
+	{
+		return String.valueOf((mc.getName()+ed+mc.getNumber()).hashCode());
+	}
+	
 	public FileCache() {
 		
 		super();
@@ -55,7 +60,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 			if(!save.exists())
 				save.mkdir();
 			
-			return ImageIO.read(new File(save,ed.getMultiverse_id()+"."+props.getProperty("FORMAT")));
+			return ImageIO.read(new File(save,generateIdIndex(mc, ed)+"."+props.getProperty("FORMAT")));
 		} catch (IOException e) {
 			return null;
 		}
@@ -77,11 +82,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		if(!f.exists())
 			f.mkdir();
 		
-		if(ed.getMultiverse_id()!=null)
-			if(!ed.getMultiverse_id().equals(""))
-				if(!ed.getMultiverse_id().equals("0"))
-					if(!ed.getMultiverse_id().equals("null"))
-						ImageIO.write(im, props.getProperty("FORMAT"), new File(f,ed.getMultiverse_id()+"."+props.getProperty("FORMAT")));
+		ImageIO.write(im, props.getProperty("FORMAT"), new File(f,generateIdIndex(mc, ed)+"."+props.getProperty("FORMAT")));
 		
 	}
 

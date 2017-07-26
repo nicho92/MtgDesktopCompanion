@@ -57,8 +57,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		
 		//URL url = new URL("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
-		
-		URL url = new URL("https://api.scryfall.com/cards/"+selected.getId()+"/"+selected.getNumber()+"?format=image");
+		URL url = new URL("https://api.scryfall.com/cards/"+selected.getId().toLowerCase()+"/"+selected.getNumber()+"?format=image");
 		
 		if(MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider)
 			url = new URL("https://api.scryfall.com/cards/"+mc.getId()+"?format=image");
