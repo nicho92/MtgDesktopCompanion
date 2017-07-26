@@ -15,6 +15,12 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	Map<String,BufferedImage> cache;
 	
 	
+	private String generateIdIndex(MagicCard mc,MagicEdition ed)
+	{
+		return String.valueOf((mc.getName()+ed+mc.getNumber()));
+	}
+	
+	
 	public MemoryCache() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
@@ -32,10 +38,11 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 
 	@Override
 	public BufferedImage getPic(MagicCard mc,MagicEdition ed) {
-		if(ed!=null)
-			return cache.get(ed.getMultiverse_id());
-		else
-			return cache.get(mc.getEditions().get(0).getMultiverse_id());
+		
+		if(ed==null)
+			ed=mc.getEditions().get(0);
+		
+		return cache.get(generateIdIndex(mc,ed));
 	}
 
 	@Override
@@ -44,10 +51,7 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 		if(ed==null)
 			ed=mc.getEditions().get(0);
 		
-		cache.put(ed.getMultiverse_id(), im);
-			
-	
-		
+		cache.put(generateIdIndex(mc,ed), im);
 	}
 
 }
