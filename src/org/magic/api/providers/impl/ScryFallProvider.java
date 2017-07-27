@@ -138,13 +138,21 @@ public class ScryFallProvider implements MagicCardsProvider {
 		if(cache.size()>0)
 		{
 			for(MagicEdition ed : cache.values())
-				if(ed.getId().equals(id))
+				if(ed.getId().equalsIgnoreCase(id))
 					return ed;
 		}
+		try {
+			JsonReader reader= new JsonReader(new InputStreamReader(getConnection(baseURI+"/sets/"+id.toLowerCase()).getInputStream(),"UTF-8"));
+			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+			return generateEdition(root.getAsJsonObject());
+		}catch(Exception e)
+		{
+			MagicEdition ed = new MagicEdition();
+			ed.setId(id);
+			ed.setSet(id);
+			return ed;
+		}
 		
-		JsonReader reader= new JsonReader(new InputStreamReader(getConnection(baseURI+"/sets/"+id).getInputStream(),"UTF-8"));
-		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
-		return generateEdition(root.getAsJsonObject());
 		
 	}
 

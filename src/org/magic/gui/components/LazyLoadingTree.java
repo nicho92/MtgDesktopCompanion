@@ -178,15 +178,19 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
 		 
         SwingWorker<List<MyNode>, Void> worker = new SwingWorker<List<MyNode>, Void>() {
             @Override
-            protected List<MyNode> doInBackground() throws Exception {
+            protected List<MyNode> doInBackground() {
             	logger.debug("loading cards from " + col+"/"+ed);
                 
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
-                for(MagicCard card : MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed))
-                {
-                	MyNode n = new MyNode(card);
-                	children.add(n);
-            	}
+                try {
+					for(MagicCard card : MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed))
+					{
+						MyNode n = new MyNode(card);
+						children.add(n);
+					}
+				} catch (SQLException e) {
+					logger.error("unknow edition " + ed.getId());
+				}
                 return children;
             }
 
@@ -225,7 +229,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             @Override
             protected void done() {
                 try {
-                	 logger.debug("loading editions from " + c +  " done");
+                	logger.debug("loading editions from " + c +  " done");
                     setChildren(get());
                     model.nodeStructureChanged(MyNode.this);
                 } catch (Exception e) {

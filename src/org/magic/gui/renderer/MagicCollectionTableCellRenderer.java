@@ -58,7 +58,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 				pane.setForeground(Color.BLACK);
 			}
 			
-			if((double)table.getValueAt(row, 4)*100==100)
+			if((double)table.getValueAt(row, 4)*100>=100)
 			{
 				pane.setBackground(Color.GREEN);
 				pane.setForeground(Color.BLACK);

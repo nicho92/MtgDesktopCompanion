@@ -56,10 +56,12 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected));
 		}
 		
-		
-		//URL url = new URL("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
 		URL url = new URL("https://api.scryfall.com/cards/"+selected.getId().toLowerCase()+"/"+selected.getNumber()+"?format=image");
+		if(selected.getMultiverse_id()!=null)
+			url = new URL("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
 		
+		
+	
 		if(MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider)
 			url = new URL("https://api.scryfall.com/cards/"+mc.getId()+"?format=image");
 		
