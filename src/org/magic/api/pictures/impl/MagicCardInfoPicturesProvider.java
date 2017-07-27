@@ -42,11 +42,15 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception {
 
-		//if(MTGControler.getInstance().getEnabledCache().getPic(mc,ed)!=null)
-		//	return MTGControler.getInstance().getEnabledCache().getPic(mc,ed);
-	
+		/*if(MTGControler.getInstance().getEnabledCache().getPic(mc,ed)!=null)
+			return MTGControler.getInstance().getEnabledCache().getPic(mc,ed);
+	*/
 		
-		String infocode=mc.getEditions().get(0).getMagicCardsInfoCode();
+		if(ed==null)
+			ed=mc.getEditions().get(0);
+		
+		
+		String infocode=ed.getMagicCardsInfoCode();
 		
 		/*if(ed!=null)
 			infocode=ed.getMagicCardsInfoCode();
@@ -57,7 +61,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		
 		URL url;//new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
 		
-		
+		//TODO change this function for other edition selection
 		
 		if(mc.getMciNumber()!=null)
 		{

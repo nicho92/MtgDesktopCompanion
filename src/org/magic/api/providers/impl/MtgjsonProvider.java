@@ -667,7 +667,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				catch(Exception e)
 				{
 					logger.error("initOtherEditionCardsVar number not found");
-					me.setNumber("-1");
+					me.setNumber(mc.getNumber());
 				}
 				
 				
