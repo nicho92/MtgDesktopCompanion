@@ -19,7 +19,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 	
 	private String generateIdIndex(MagicCard mc,MagicEdition ed)
 	{
-		return String.valueOf((mc.getName()+ed+mc.getNumber()).hashCode());
+		return String.valueOf((mc.getName()+ed+mc.getNumber()+mc+ed.getMultiverse_id()).hashCode());
 	}
 	
 	public FileCache() {

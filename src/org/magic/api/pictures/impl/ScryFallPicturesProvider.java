@@ -43,10 +43,11 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws Exception {
+	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws Exception {
 		
-		MagicEdition selected=me;
-		if(me==null)
+		MagicEdition selected=ed;
+		
+		if(ed==null)
 			selected = mc.getEditions().get(0);
 		
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
@@ -79,9 +80,10 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			catch(Exception e)
 			{
 				logger.error(e);
+				return getBackPicture();
 			}
 	
-	return getBackPicture();
+	
 	
 	}
 	

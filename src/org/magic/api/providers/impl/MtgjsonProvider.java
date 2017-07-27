@@ -452,8 +452,8 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			 				  	
 				 			      initOtherEditionCardsVar(mc, meO);
 				 			    
-				 			    mc.getEditions().add(meO); 
-			 				   }
+				 			      mc.getEditions().add(meO);
+				 			   }
 			 			   }
 	 			   
 	 			   }
@@ -639,7 +639,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		String jsquery="";
 			jsquery = "$."+edCode+".cards[?(@.name==\""+mc.getName()+"\")]";
 		
-	//	logger.debug("initOtherEditionVars" + jsquery);
+		logger.debug("initOtherEditionVars for " + mc +"("+mc.getEditions().get(0)+") -> " + jsquery);
 		
 		List<Map<String,Object>> cardsElement = null;
 		try{
@@ -661,12 +661,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				}
 				
 				try {
+					
 					me.setNumber(String.valueOf(map.get("number")));
 				}
 				catch(Exception e)
 				{
 					logger.error("initOtherEditionCardsVar number not found");
-					me.setNumber(mc.getNumber());
+					me.setNumber("-1");
 				}
 				
 				
@@ -677,7 +678,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				catch(Exception e)
 				{
 				//	logger.error("initOtherEditionCardsVar mkm_id not found");
-					me.setNumber(mc.getNumber());
+					//me.setNumber(mc.getNumber());
 				}
 				
 				

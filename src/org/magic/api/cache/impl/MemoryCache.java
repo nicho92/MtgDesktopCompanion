@@ -17,7 +17,7 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	
 	private String generateIdIndex(MagicCard mc,MagicEdition ed)
 	{
-		return String.valueOf((mc.getName()+ed+mc.getNumber()));
+		return String.valueOf((mc.getName()+ed+mc.getNumber()+ed.getMultiverse_id()));
 	}
 	
 	
@@ -49,9 +49,9 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	public void put(BufferedImage im, MagicCard mc,MagicEdition ed) throws Exception{
 		logger.debug("put " + mc + " in cache");
 		if(ed==null)
-			ed=mc.getEditions().get(0);
-		
-		cache.put(generateIdIndex(mc,ed), im);
+			cache.put(generateIdIndex(mc,mc.getEditions().get(0)), im);
+		else
+			cache.put(generateIdIndex(mc,ed), im);
 	}
 
 }

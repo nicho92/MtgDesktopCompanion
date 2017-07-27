@@ -621,9 +621,9 @@ public class CardSearchPanel extends JPanel {
 					try {
 						if(selLang!=null)
 						{
-							MagicEdition ed = new MagicEdition();
+							MagicEdition ed = (MagicEdition)BeanUtils.cloneBean(selectedEdition);
 								ed.setMultiverse_id(""+selLang.getGathererId());
-								ed.setId(selectedEdition.getId());
+								
 							cardsPicPanel.showPhoto(selected,ed);
 						}
 					} catch (Exception e1) {}

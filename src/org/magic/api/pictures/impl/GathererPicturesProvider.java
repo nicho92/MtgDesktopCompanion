@@ -62,7 +62,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
 		{
-			logger.debug("cached " + mc + " found");
+			logger.debug("cached " + mc + "("+selected+") found");
 			return MTGControler.getInstance().getEnabledCache().getPic(mc,selected);
 		}
 	
