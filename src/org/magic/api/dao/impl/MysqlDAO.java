@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -161,12 +162,12 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
-		String sql = "select edition, count(name) from cards where collection=? group by edition";
+		String sql = "select edition, count(ID) from cards where collection=? group by edition";
 		PreparedStatement pst=con.prepareStatement(sql);	
 		pst.setString(1, c.getName());
 		ResultSet rs = pst.executeQuery();
 		
-		Map<String,Integer> map= new HashMap<String,Integer>();
+		Map<String,Integer> map= new TreeMap<String,Integer>(String.CASE_INSENSITIVE_ORDER);
 		
 		while(rs.next())
 		{
@@ -180,13 +181,13 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public int getCardsCount(MagicCollection cols,MagicEdition me) throws SQLException {
 		
 		
-		String sql = "select count(name) from cards ";
+		String sql = "select count(ID) from cards ";
 		
 		if(cols!=null)
 			sql+=" where collection = '" + cols.getName()+"'";
 		
 		if(me!=null)
-			sql+=" and edition = '" + me.getId()+"'";
+			sql+=" and LOWER('edition') = '" + me.getId().toLowerCase()+"'";
 		
 		logger.debug(sql);
 		

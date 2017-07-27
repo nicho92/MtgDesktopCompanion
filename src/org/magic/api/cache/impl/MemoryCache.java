@@ -8,6 +8,7 @@ import java.util.Map;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
+import org.magic.tools.IDGenerator;
 
 public class MemoryCache extends AbstractMTGPicturesCache {
 
@@ -17,7 +18,8 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	
 	private String generateIdIndex(MagicCard mc,MagicEdition ed)
 	{
-		return String.valueOf((mc.getName()+ed+mc.getNumber()+ed.getMultiverse_id()));
+		//return String.valueOf((mc.getName()+ed+mc.getNumber()+ed.getMultiverse_id()));
+		return IDGenerator.generate(mc, ed);
 	}
 	
 	

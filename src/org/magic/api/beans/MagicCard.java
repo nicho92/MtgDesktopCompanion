@@ -44,6 +44,8 @@ public class MagicCard implements Serializable {
 		private String rarity;
 		private String gathererCode;
 		private String mciNumber;
+		private String imageName;
+		
 		
 		private boolean flippable=false;
 		private boolean tranformable=false;
@@ -51,6 +53,16 @@ public class MagicCard implements Serializable {
 		private boolean reserved;
 		
 		
+		public String getImageName() {
+			return imageName;
+		}
+
+
+		public void setImageName(String imageName) {
+			this.imageName = imageName;
+		}
+
+
 		public boolean isReserved() {
 			return reserved;
 		}
