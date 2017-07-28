@@ -52,18 +52,21 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
 		{
-			logger.debug("cached " + mc + " found");
+			logger.debug("cached " + mc + "("+selected+") found");
 			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected));
 		}
 		
 		URL url = new URL("https://api.scryfall.com/cards/"+selected.getId().toLowerCase()+"/"+selected.getNumber()+"?format=image");
+		
 		if(selected.getMultiverse_id()!=null)
 			url = new URL("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
 		
 		
-	
-		if(MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider)
+		//TODO, edition selection in search panel doesn't work with this line.
+		if((MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider))
 			url = new URL("https://api.scryfall.com/cards/"+mc.getId()+"?format=image");
+		
+		
 		
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		  connection.setInstanceFollowRedirects(true);

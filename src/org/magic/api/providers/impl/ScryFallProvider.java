@@ -141,8 +141,11 @@ public class ScryFallProvider implements MagicCardsProvider {
 	
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		String url = baseURI+"/cards/"+me.getId()+"/"+id;
+		URLConnection con = getConnection(url);
+		JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+		return generateCard(root);
 	}
 
 	@Override
@@ -196,7 +199,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		return new String[]{"name","type","color","oracle","mana","cmc","power","toughness","loyalty","is","rarity","cube","artist","flavor","watermark","border","frame","set","custom"};
+		return new String[]{"name","custom","type","color","oracle","mana","cmc","power","toughness","loyalty","is","rarity","cube","artist","flavor","watermark","border","frame","set"};
 	}
 
 	@Override
@@ -251,7 +254,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			connection.connect();
 			return connection;
 		} catch (IOException e) {
-			e.printStackTrace();
+			logger.error(e);
 			return null;
 		}	
 	}
@@ -369,6 +372,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 	
 	
 	private void initOtherEdition(MagicCard mc) throws UnsupportedEncodingException {
+		
 		String url=baseURI+"/cards/search?q=+"
 				+ URLEncoder.encode("++'"+mc.getName()+"'","UTF-8")
 				+ "%20include:extras"
@@ -379,6 +383,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 		boolean hasMore=true;
 		while(hasMore)
 		{
+			
+			
 			logger.debug(url);
 			con = getConnection(url);
 			try{

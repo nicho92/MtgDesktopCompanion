@@ -332,7 +332,7 @@ public class ConfigurationPanel extends JPanel {
 		gbc_lblLogLevel.gridy = 2;
 		panelConfig.add(lblLogLevel, gbc_lblLogLevel);
 		
-		cboLogLevels = new JComboBox(new Level[]{Level.DEBUG,Level.INFO,Level.ERROR,Level.TRACE});
+		cboLogLevels = new JComboBox(new Level[]{Level.INFO,Level.ERROR,Level.DEBUG,Level.TRACE});
 		GridBagConstraints gbc_cboLogLevels = new GridBagConstraints();
 		gbc_cboLogLevels.gridwidth = 3;
 		gbc_cboLogLevels.insets = new Insets(0, 0, 5, 5);

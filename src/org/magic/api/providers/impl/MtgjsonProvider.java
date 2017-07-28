@@ -667,7 +667,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				catch(Exception e)
 				{
 					logger.error("initOtherEditionCardsVar number not found");
-					me.setNumber(mc.getNumber());
+					//me.setNumber(mc.getNumber());
 				}
 				
 				
@@ -687,7 +687,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				}catch(Exception e)
 				{
 					logger.debug("multiverseNotFound for " + me);
-					me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
+				//	me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
 				}
 			}
 	}
