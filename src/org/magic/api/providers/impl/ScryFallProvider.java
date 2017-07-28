@@ -92,6 +92,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		boolean hasMore=true;
 		while(hasMore)
 		{
+			
 			logger.debug(url);
 			con = getConnection(url);
 			try{
