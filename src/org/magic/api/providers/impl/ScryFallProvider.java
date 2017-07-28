@@ -363,6 +363,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 					  ed.setNumber(mc.getNumber());
 		  mc.getEditions().add(ed);
 		 
+		  
 		  initOtherEdition(mc);
 		
 		  
@@ -371,7 +372,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 	}
 	
 	
-	private void initOtherEdition(MagicCard mc) throws UnsupportedEncodingException {
+	private void initOtherEdition(MagicCard mc) throws Exception {
 		
 		String url=baseURI+"/cards/search?q=+"
 				+ URLEncoder.encode("++'"+mc.getName()+"'","UTF-8")
