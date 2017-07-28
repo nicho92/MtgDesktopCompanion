@@ -3,9 +3,11 @@ package org.magic.api.providers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,13 +41,20 @@ public class ScryFallProvider implements MagicCardsProvider {
 	static final Logger logger = LogManager.getLogger(ScryFallProvider.class.getName());
 	private static String baseURI ="https://api.scryfall.com";
 	private Map<String , MagicEdition> cache;
+	private JsonParser parser;
 	
+	
+	public ScryFallProvider() {
+		
+	}
 	
 	@Override
 	public void init() {
 		cache=new HashMap<String,MagicEdition>();
+		parser = new JsonParser();
     	try {
     		InstallCert.install("api.scryfall.com");
+    		
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
     	} catch (Exception e1) {
 			logger.error(e1);
@@ -62,21 +71,21 @@ public class ScryFallProvider implements MagicCardsProvider {
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me) throws Exception {
 		List<MagicCard> list = new ArrayList<MagicCard>();
-		JsonParser parser = new JsonParser();
+		
 		String url = baseURI+"/cards/search";
 				if(att.equals("name"))
-					url+="?q="+URLEncoder.encode("++"+crit,"UTF-8");
+					url+="?q="+URLEncoder.encode("++"+crit +" include:extras","UTF-8");
 				else if(att.equals("custom"))
 					url+="?q="+URLEncoder.encode(crit,"UTF-8");
 				else if(att.equals("set"))
 					url+="?q=s:"+URLEncoder.encode(crit,"UTF-8");
 				else
-					url+="?q="+URLEncoder.encode(att+":"+crit,"UTF-8");
+					url+="?q="+URLEncoder.encode(att+":"+crit+" include:extras","UTF-8");
 				
 				if(me!=null)
 					url+="%20" +URLEncoder.encode("e:"+me.getId(),"UTF-8");
 				
-				url+="%20include:extras";
+				
 				
 		URLConnection con;
 		JsonReader reader;
@@ -85,13 +94,15 @@ public class ScryFallProvider implements MagicCardsProvider {
 		{
 			logger.debug(url);
 			con = getConnection(url);
-			reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+			try{
+				reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 			JsonElement el = parser.parse(reader);
 			
 			JsonArray jsonList = el.getAsJsonObject().getAsJsonArray("data");
 			for(int i=0;i<jsonList.size();i++)
 			{
-				list.add(generateCard(jsonList.get(i).getAsJsonObject()));
+				MagicCard mc = generateCard(jsonList.get(i).getAsJsonObject());
+				list.add(mc);
 			}
 			hasMore=el.getAsJsonObject().get("has_more").getAsBoolean();
 			
@@ -99,14 +110,35 @@ public class ScryFallProvider implements MagicCardsProvider {
 				url=el.getAsJsonObject().get("next_page").getAsString();
 			
 			Thread.sleep(50);
+			}
+			catch(Exception e)
+			{
+				logger.debug("error for url " + URLDecoder.decode(url,"UTF-8"));
+			}
 		}
+		
+		
 			
-		
-		
-		
 		return list;
 	}
+	
+	
 
+	public static void main(String[] args) throws Exception {
+		
+		ScryFallProvider prov = new ScryFallProvider();
+		
+		prov.init();
+		prov.loadEditions();
+		
+		for(MagicCard mc : prov.searchCardByCriteria("name", "'black lotus'", null))
+				System.out.println(mc + " " + mc.getEditions());
+		
+		
+		
+	}
+	
+	
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
 		// TODO Auto-generated method stub
@@ -125,6 +157,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 			for(int i = 0;i<root.get("data").getAsJsonArray().size();i++)
 			{
+				
 				JsonObject e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
 				cache.put(ed.getId(), ed);
@@ -139,7 +172,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		{
 			for(MagicEdition ed : cache.values())
 				if(ed.getId().equalsIgnoreCase(id))
-					return ed;
+					return (MagicEdition)BeanUtils.cloneBean(ed);
 		}
 		try {
 			JsonReader reader= new JsonReader(new InputStreamReader(getConnection(baseURI+"/sets/"+id.toLowerCase()).getInputStream(),"UTF-8"));
@@ -287,9 +320,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 				  mc.getLegalities().add(format);
 				  
 			  }
-			  
-			   
-			   
 		   }
 		   
 		  mc.setTranformable(mc.getLayout().equals("transform")||mc.getLayout().equals("meld"));
@@ -329,12 +359,67 @@ public class ScryFallProvider implements MagicCardsProvider {
 					  ed.setOnlineOnly(obj.get("digital").getAsBoolean());
 					  ed.setNumber(mc.getNumber());
 		  mc.getEditions().add(ed);
+		 
+		  initOtherEdition(mc);
+		
 		  
 		return mc;
 		
 	}
 	
 	
+	private void initOtherEdition(MagicCard mc) throws UnsupportedEncodingException {
+		String url=baseURI+"/cards/search?q=+"
+				+ URLEncoder.encode("++'"+mc.getName()+"'","UTF-8")
+				+ "%20include:extras"
+				+ "%20-s:"+mc.getEditions().get(0).getId();
+
+		URLConnection con;
+		JsonReader reader;
+		boolean hasMore=true;
+		while(hasMore)
+		{
+			logger.debug(url);
+			con = getConnection(url);
+			try{
+				reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+				JsonElement el = parser.parse(reader);
+			
+				JsonArray jsonList = el.getAsJsonObject().getAsJsonArray("data");
+				for(int i=0;i<jsonList.size();i++)
+				{
+					JsonObject obj = jsonList.get(i).getAsJsonObject();
+					MagicEdition ed = getSetById(obj.get("set").getAsString());
+					
+						if(obj.get("artist")!=null)
+							ed.setArtist(obj.get("artist").getAsString());
+						
+						if(obj.get("multiverse_id")!=null)
+							ed.setMultiverse_id(obj.get("multiverse_id").getAsString());
+						
+						if(obj.get("rarity")!=null)
+							ed.setRarity(obj.get("rarity").getAsString());
+						
+						if(obj.get("collector_number")!=null)
+							ed.setNumber(obj.get("collector_number").getAsString());
+					
+						mc.getEditions().add(ed);
+				}
+			hasMore=el.getAsJsonObject().get("has_more").getAsBoolean();
+			
+			if(hasMore)
+				url=el.getAsJsonObject().get("next_page").getAsString();
+			
+			Thread.sleep(50);
+			}
+			catch(Exception e)
+			{
+				
+				hasMore=false;
+			}
+		}
+	}
+
 	private MagicEdition generateEdition(JsonObject obj)
 	{
 		MagicEdition ed = new MagicEdition();
