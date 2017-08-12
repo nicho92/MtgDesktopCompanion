@@ -10,11 +10,13 @@ import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Random;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
@@ -132,7 +134,9 @@ public class ScryFallProvider implements MagicCardsProvider {
 		prov.init();
 		prov.loadEditions();
 		
-		for(MagicCard mc : prov.searchCardByCriteria("name", "'black lotus'", null))
+		MagicEdition ed = new MagicEdition();
+		ed.setId("KLD");
+		for(MagicCard mc : prov.openBooster(ed))
 				System.out.println(mc + " " + mc.getEditions());
 		
 		
@@ -205,8 +209,28 @@ public class ScryFallProvider implements MagicCardsProvider {
 
 	@Override
 	public List<MagicCard> openBooster(MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		
+				List<MagicCard> ret= new ArrayList<MagicCard>();
+		
+		
+			   List<MagicCard> commons = searchCardByCriteria("custom",  "s:"+me.getId()+" r:common -t:land", me);
+			   Collections.shuffle(commons);
+			   ret.addAll(commons.subList(0, 10));
+			   
+			   List<MagicCard> uncommons = searchCardByCriteria("rarity", "uncommon", me);
+			   Collections.shuffle(uncommons);
+			   ret.addAll(uncommons.subList(0, 3));
+			   
+			   List<MagicCard> rares = searchCardByCriteria("custom", "s:"+me.getId()+" r:rare or r:mythics", null);
+			   Collections.shuffle(rares);
+			   ret.addAll(rares.subList(0, 1));
+			   
+			   List<MagicCard> lands = searchCardByCriteria("custom", "s:"+me.getId()+" t:land", null);
+			   Collections.shuffle(lands);
+			   ret.addAll(lands.subList(0, 1));
+			   
+			   
+		return ret;
 	}
 
 	@Override

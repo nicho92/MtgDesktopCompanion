@@ -51,6 +51,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 			if(ed==null)
 				ed=mc.getEditions().get(0);
 			
+			logger.debug("search in cache : " + mc +" "  + ed);
 			
 			File save = new File(directory,MTGControler.getInstance().getEnabledPicturesProvider().getName());
 			if(!save.exists())
@@ -73,6 +74,9 @@ public class FileCache extends AbstractMTGPicturesCache {
 	
 		if(ed==null)
 			ed=mc.getEditions().get(0);
+		
+		logger.debug("save in cache : " + mc +" "  + ed);
+		
 		
 		File f = new File(directory,MTGControler.getInstance().getEnabledPicturesProvider().getName());
 		if(!f.exists())

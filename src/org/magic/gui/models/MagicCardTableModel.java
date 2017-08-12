@@ -72,7 +72,12 @@ public class MagicCardTableModel extends DefaultTableModel{
 				return null;
 			}
 			case 6 : return mc.getEditions();
-			case 7 : return mc.getNumber();
+			case 7 :  try{ 
+				return mc.getEditions().get(0).getNumber();
+			}catch(Exception e)
+			{
+				return null;
+			}
 			case 8 : return mc.getColors();
 			default : return mc;
 		}
