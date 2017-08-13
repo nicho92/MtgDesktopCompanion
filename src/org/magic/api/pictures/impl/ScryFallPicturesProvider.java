@@ -58,15 +58,16 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		URL url = new URL("https://api.scryfall.com/cards/"+selected.getId().toLowerCase()+"/"+selected.getNumber()+"?format=image");
 		
-		if(selected.getMultiverse_id()!=null)
-			url = new URL("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
 		
 		
 		//TODO, edition selection in search panel doesn't work with this line.
 		if((MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider))
 			url = new URL("https://api.scryfall.com/cards/"+mc.getId()+"?format=image");
 		
-		
+		if(selected.getMultiverse_id()!=null)
+			if(!selected.getMultiverse_id().equals("0"))
+				url = new URL("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
+	
 		
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		  connection.setInstanceFollowRedirects(true);
@@ -87,9 +88,6 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 				logger.error(e);
 				return getBackPicture();
 			}
-	
-	
-	
 	}
 	
 	private BufferedImage resizeCard(BufferedImage img) {  
