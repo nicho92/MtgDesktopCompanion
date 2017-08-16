@@ -27,7 +27,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("DIRECTORY", MTGControler.CONF_DIR+"/cachePics");
+			props.put("DIRECTORY", MTGControler.CONF_DIR+"/caches/cachePics");
 			props.put("FORMAT", "png");
 		save();
 		}
@@ -51,7 +51,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 			if(ed==null)
 				ed=mc.getEditions().get(0);
 			
-			logger.debug("search in cache : " + mc +" "  + ed);
+			logger.trace("search in cache : " + mc +" "  + ed);
 			
 			File save = new File(directory,MTGControler.getInstance().getEnabledPicturesProvider().getName());
 			if(!save.exists())

@@ -31,6 +31,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.magic.api.beans.MagicCard;
@@ -275,9 +276,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelConfig, gbc_panelConfig);
 		GridBagLayout gbl_panelConfig = new GridBagLayout();
 		gbl_panelConfig.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panelConfig.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panelConfig.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panelConfig.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panelConfig.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelConfig.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelConfig.setLayout(gbl_panelConfig);
 		
 		JLabel lblMainCol = new JLabel("Main Collection :");
@@ -295,12 +296,12 @@ public class ConfigurationPanel extends JPanel {
 		gbc_cboCollections.gridy = 0;
 		panelConfig.add(cboCollections, gbc_cboCollections);
 		
-		JButton btnSave = new JButton("Save");
+		JButton btnSaveDefaultLib = new JButton("Save");
 		GridBagConstraints gbc_btnSave = new GridBagConstraints();
 		gbc_btnSave.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSave.gridx = 4;
 		gbc_btnSave.gridy = 0;
-		panelConfig.add(btnSave, gbc_btnSave);
+		panelConfig.add(btnSaveDefaultLib, gbc_btnSave);
 		
 		JLabel lblDefaultLandManuel = new JLabel("Default Land deck import :");
 		GridBagConstraints gbc_lblDefaultLandManuel = new GridBagConstraints();
@@ -318,12 +319,12 @@ public class ConfigurationPanel extends JPanel {
 		gbc_cboEditionLands.gridy = 1;
 		panelConfig.add(cboEditionLands, gbc_cboEditionLands);
 		
-		JButton btnSave_1 = new JButton("save");
+		JButton btnSaveDefaultLandDeck = new JButton("save");
 		GridBagConstraints gbc_btnSave_1 = new GridBagConstraints();
 		gbc_btnSave_1.insets = new Insets(0, 0, 5, 0);
 		gbc_btnSave_1.gridx = 4;
 		gbc_btnSave_1.gridy = 1;
-		panelConfig.add(btnSave_1, gbc_btnSave_1);
+		panelConfig.add(btnSaveDefaultLandDeck, gbc_btnSave_1);
 		
 		JLabel lblLogLevel = new JLabel("Log level :");
 		GridBagConstraints gbc_lblLogLevel = new GridBagConstraints();
@@ -488,10 +489,33 @@ public class ConfigurationPanel extends JPanel {
 		});
 		GridBagConstraints gbc_btnRunGarbage = new GridBagConstraints();
 		gbc_btnRunGarbage.gridwidth = 3;
-		gbc_btnRunGarbage.insets = new Insets(0, 0, 0, 5);
+		gbc_btnRunGarbage.insets = new Insets(0, 0, 5, 5);
 		gbc_btnRunGarbage.gridx = 1;
 		gbc_btnRunGarbage.gridy = 9;
 		panelConfig.add(btnRunGarbage, gbc_btnRunGarbage);
+		
+		JLabel lblConfigImportexport = new JLabel("Config import/export :");
+		GridBagConstraints gbc_lblConfigImportexport = new GridBagConstraints();
+		gbc_lblConfigImportexport.insets = new Insets(0, 0, 0, 5);
+		gbc_lblConfigImportexport.gridx = 0;
+		gbc_lblConfigImportexport.gridy = 10;
+		panelConfig.add(lblConfigImportexport, gbc_lblConfigImportexport);
+		
+		JButton btnExportConfig = new JButton("Export");
+		
+		GridBagConstraints gbc_btnExportConfig = new GridBagConstraints();
+		gbc_btnExportConfig.gridwidth = 2;
+		gbc_btnExportConfig.insets = new Insets(0, 0, 0, 5);
+		gbc_btnExportConfig.gridx = 1;
+		gbc_btnExportConfig.gridy = 10;
+		panelConfig.add(btnExportConfig, gbc_btnExportConfig);
+		
+		JButton btnImport = new JButton("Import");
+		
+		GridBagConstraints gbc_btnImport = new GridBagConstraints();
+		gbc_btnImport.gridx = 4;
+		gbc_btnImport.gridy = 10;
+		panelConfig.add(btnImport, gbc_btnImport);
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				loading(true,"reload config");
@@ -504,6 +528,21 @@ public class ConfigurationPanel extends JPanel {
 				
 			}
 		});
+		
+		
+		btnImport.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
+		
+		
+		btnExportConfig.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				System.out.println(FileUtils.listFiles(MTGControler.CONF_DIR, null, null));
+			}
+		});
+		
 		btnSaveLoglevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MTGControler.getInstance().setProperty("loglevel", (Level)cboLogLevels.getSelectedItem());
@@ -518,13 +557,13 @@ public class ConfigurationPanel extends JPanel {
 				LogManager.getRootLogger().setLevel((Level)cboLogLevels.getSelectedItem());
 			}
 		});
-		btnSave_1.addActionListener(new ActionListener() {
+		btnSaveDefaultLandDeck.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MTGControler.getInstance().setProperty("default-land-deck", ((MagicEdition)cboEditionLands.getSelectedItem()).getId());
 				
 			}
 		});
-		btnSave.addActionListener(new ActionListener() {
+		btnSaveDefaultLib.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try{
 					

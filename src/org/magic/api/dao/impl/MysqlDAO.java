@@ -10,14 +10,12 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.api.mkm.tools.Tools;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -26,6 +24,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
+import org.magic.tools.IDGenerator;
 
 public class MysqlDAO extends AbstractMagicDAO{
 
@@ -101,7 +100,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		logger.debug("saving " + mc +" in " + collection);
 		
 		PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)");
-		 pst.setString(1, mc.getId()); 
+		 pst.setString(1, IDGenerator.generate(mc)); 
 		 pst.setString(2, mc.getName());
 		 pst.setObject(3, mc);
 		 pst.setString(4, mc.getEditions().get(0).getId());
@@ -115,7 +114,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("remove " + mc + " from " + collection);
 		PreparedStatement pst = con.prepareStatement("delete from cards where id=? and edition=? and collection=?");
-		 pst.setString(1, mc.getId());
+		 pst.setString(1, IDGenerator.generate(mc));
 		 pst.setString(2, mc.getEditions().get(0).getId());
 		 pst.setString(3, collection.getName());
 		 pst.executeUpdate();
@@ -131,7 +130,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 
 	
-	
+	/*
 	@Override
 	public MagicCard loadCard(String name, MagicCollection collection) throws SQLException {
 		logger.debug("load card " + name + " in " + collection);
@@ -141,7 +140,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		ResultSet rs = pst.executeQuery();
 		return (MagicCard) rs.getObject("mcard");
 	}
-
+*/
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
 		logger.debug("list all cards");
@@ -346,7 +345,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			throw new SQLException("No edition defined");
 		
 		PreparedStatement pst = con.prepareStatement("SELECT collection FROM cards WHERE id=? and edition=?");
-		 pst.setString(1, mc.getId());
+		 pst.setString(1, IDGenerator.generate(mc));
 		 pst.setString(2, mc.getEditions().get(0).getId());
 		 
 		 ResultSet rs = pst.executeQuery();
@@ -380,7 +379,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	@Override
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
 		PreparedStatement pst=con.prepareStatement("select * from stocks where idmc=? and collection=?");	
-		pst.setString(1, mc.getId());
+		pst.setString(1, IDGenerator.generate(mc));
 		pst.setString(2, col.getName());
 		ResultSet rs = pst.executeQuery();
 		List<MagicCardStock> colls = new ArrayList<MagicCardStock>();
@@ -541,7 +540,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		try
 		{
 				PreparedStatement pst=con.prepareStatement("select * from alerts where id=?");
-				pst.setString(1, mc.getId());
+				pst.setString(1, IDGenerator.generate(mc));
 				ResultSet rs = pst.executeQuery();
 				return rs.next();
 		}catch(Exception e)
@@ -555,7 +554,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
 		PreparedStatement pst;
 				pst=con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)");
-				pst.setString(1, alert.getCard().getId());
+				pst.setString(1, IDGenerator.generate(alert.getCard()));
 				pst.setObject(2,alert.getCard());
 				pst.setDouble(3, alert.getPrice());
 				pst.executeUpdate();
@@ -585,7 +584,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 		list.remove(alert);
 		
 	}
-//
+	
+	
 //	@Override
 //	public void moveCards(MagicCollection from, MagicCollection to, MagicCard mc) throws SQLException {
 //			PreparedStatement pst=con.prepareStatement("update cards set collection=? where collection=? and id=?");
@@ -596,5 +596,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 //		
 //		
 //	}
+	
+	
 
 }

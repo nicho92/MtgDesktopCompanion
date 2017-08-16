@@ -557,9 +557,14 @@ public class CardSearchPanel extends JPanel {
 					}
 					else
 					{
-						selected = (MagicCard)tableCards.getValueAt(tableCards.getSelectedRow(), 0);
-						selectedEdition = selected.getEditions().get(0);
-						updateCards();
+						try{ 
+							selected = (MagicCard)tableCards.getValueAt(tableCards.getSelectedRow(), 0);
+							selectedEdition = selected.getEditions().get(0);
+							updateCards();
+						}catch(Exception e)
+						{
+							
+						}
 
 					}
 				}

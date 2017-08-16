@@ -29,6 +29,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
+import org.magic.tools.IDGenerator;
 
 
 public class PostgresqlDAO extends AbstractMagicDAO {
@@ -134,7 +135,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			
 			
 			PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)");
-			 pst.setString(1, mc.getId()); 
+			 pst.setString(1, IDGenerator.generate(mc)); 
 			 pst.setString(2, mc.getName());
 			 pst.setBinaryStream(3, convertObject(mc));
 			 pst.setString(4, mc.getEditions().get(0).getId());
@@ -159,7 +160,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			 pst.executeUpdate();
 
 		}
-
+/*
 		@Override
 		public MagicCard loadCard(String name, MagicCollection collection) throws SQLException {
 			logger.debug("load card " + name + " in " + collection);
@@ -169,7 +170,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			ResultSet rs = pst.executeQuery();
 			return readObject(MagicCard.class, rs.getBinaryStream("mcard"));
 		}
-
+*/
 		@Override
 		public List<MagicCard> listCards() throws SQLException {
 			logger.debug("list all cards");
@@ -458,7 +459,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		@Override
 		public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
 			PreparedStatement pst=con.prepareStatement("select * from stocks where idmc=? and collection=?");	
-			pst.setString(1, mc.getId());
+			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, col.getName());
 			ResultSet rs = pst.executeQuery();
 			List<MagicCardStock> colls = new ArrayList<MagicCardStock>();
@@ -589,7 +590,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			try
 			{
 					PreparedStatement pst=con.prepareStatement("select * from alerts where id=?");
-					pst.setString(1, mc.getId());
+					pst.setString(1, IDGenerator.generate(mc));
 					ResultSet rs = pst.executeQuery();
 					return rs.next();
 			}catch(Exception e)
@@ -630,7 +631,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				PreparedStatement pst=con.prepareStatement("update cards set collection=? where collection=? and id=?");
 				pst.setString(1, to.getName());
 				pst.setString(2, from.getName());
-				pst.setString(3, mc.getId());
+				pst.setString(3, IDGenerator.generate(mc));
 				pst.executeUpdate();
 			}
 			

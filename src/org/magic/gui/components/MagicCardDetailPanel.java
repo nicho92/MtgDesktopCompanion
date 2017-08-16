@@ -418,6 +418,7 @@ public class MagicCardDetailPanel extends JPanel {
 		}
 		
 		setEditable(false);
+		
 	}
 
 	public MagicCard getMagicCard() {

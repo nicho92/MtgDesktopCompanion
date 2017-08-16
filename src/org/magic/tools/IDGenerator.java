@@ -10,6 +10,10 @@ public class IDGenerator {
 
 	static final Logger logger = LogManager.getLogger(IDGenerator.class.getName());
 
+	public static String generate(MagicCard mc)
+	{
+		return generate(mc,mc.getEditions().get(0));
+	}
 	
 	public static String generate(MagicCard mc, MagicEdition ed)
 	{
@@ -18,7 +22,7 @@ public class IDGenerator {
 		String id = String.valueOf((mc.getName()+ed+ed.getNumber()+ed.getMultiverse_id()));
 		id = DigestUtils.sha1Hex(id);
 		
-		logger.debug("Generate ID for " + String.valueOf((mc.getName()+"|"+ed+"|"+ed.getNumber()+"|"+ed.getMultiverse_id()))+"="+id);
+		logger.trace("Generate ID for " + String.valueOf((mc.getName()+"|"+ed+"|"+ed.getNumber()+"|"+ed.getMultiverse_id()))+"="+id);
 		
 		return id;
 	}

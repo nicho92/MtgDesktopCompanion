@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Random;
+import java.util.TreeMap;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
@@ -54,7 +55,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 	
 	@Override
 	public void init() {
-		cache=new HashMap<String,MagicEdition>();
+		cache=new TreeMap<String,MagicEdition>();
 		parser = new JsonParser();
     	try {
     		InstallCert.install("api.scryfall.com");
@@ -80,7 +81,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 				else if(att.equals("custom"))
 					url+="search?q="+URLEncoder.encode(crit,"UTF-8");
 				else if(att.equals("set"))
-					url+="search?q=s:"+URLEncoder.encode(crit,"UTF-8");
+					url+="search?q=++e:"+URLEncoder.encode(crit,"UTF-8")+"%20order=set";
 				else if(att.equals("id"))
 					url+=URLEncoder.encode(crit,"UTF-8");
 				else
@@ -124,6 +125,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			}
 			catch(Exception e)
 			{
+				e.printStackTrace();
 				logger.error(e);
 				hasMore=false;
 			}
@@ -146,11 +148,10 @@ public class ScryFallProvider implements MagicCardsProvider {
 		
 		prov.init();
 		prov.loadEditions();
-		List<MagicCard> res = prov.searchCardByCriteria("set", "AKH", null);
-		System.out.println(res.size());
+		List<MagicCard> res = prov.searchCardByCriteria("custom", "s:akh ++is:token", null);
 		
-		for(MagicCard mc : res)
-			System.out.println(mc);
+		//for(MagicCard mc : res)
+			System.out.println(res.size());
 		
 	}
 	
@@ -239,6 +240,12 @@ public class ScryFallProvider implements MagicCardsProvider {
 			   List<MagicCard> lands = searchCardByCriteria("custom", "s:"+me.getId()+" t:land", null);
 			   Collections.shuffle(lands);
 			   ret.addAll(lands.subList(0, 1));
+			   /*
+			   List<MagicCard> tokens = searchCardByCriteria("custom", "s:"+me.getId()+" ++is:token", null);
+			   Collections.shuffle(tokens);
+			   ret.addAll(tokens.subList(0, 1));
+			   
+			   */
 			   
 			   
 		return ret;
@@ -303,7 +310,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  
 		  try{mc.setMultiverseid(obj.get("multiverse_id").getAsInt());}catch(NullPointerException e) { };
 		  try{mc.setText(obj.get("oracle_text").getAsString());}catch(NullPointerException e) { mc.setText(""); };
-			
+		  try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
+				
 		  mc.setName(obj.get("name").getAsString());
 		  mc.setCmc(obj.get("cmc").getAsInt());
 		  mc.setCost(obj.get("mana_cost").getAsString());
@@ -321,13 +329,9 @@ public class ScryFallProvider implements MagicCardsProvider {
 						  };
 		  
 		  mc.getForeignNames().add(n);
-		  mc.getTypes().add(obj.get("type_line").getAsString());
-		  
 		  //String uri = obj.get("uri").getAsString();
 		  //uri=uri.substring(uri.lastIndexOf("/")+1);
-		  
 		  mc.setNumber(obj.get("collector_number").getAsString());
-		  
 		  
 		  try{mc.setArtist(obj.get("artist").getAsString());}catch(NullPointerException e) { };
 		  try{mc.setReserved(obj.get("reserved").getAsBoolean());}catch(NullPointerException e) { };
@@ -351,19 +355,15 @@ public class ScryFallProvider implements MagicCardsProvider {
 		   
 		   
 		   if(obj.get("legalities")!=null) {
-			   
 			  JsonObject legs= obj.get("legalities").getAsJsonObject();
 			  Iterator<Entry<String, JsonElement>> it = legs.entrySet().iterator();
-			  
 			  while(it.hasNext())
 			  {
 				  Entry<String, JsonElement> ent = it.next();
-				  
 				  MagicFormat format = new MagicFormat();
 				  format.setFormat(ent.getKey());
 				  format.setLegality(ent.getValue().getAsString());
 				  mc.getLegalities().add(format);
-				  
 			  }
 		   }
 		   
@@ -408,16 +408,12 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  mc.getEditions().add(ed);
 		 
 		  new Thread(new Runnable() {
-			
-			@Override
 			public void run() {
 				try {
 					initOtherEdition(mc);
 				} catch (Exception e) {
-					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
 			}
 		}).start();
 		  
@@ -431,19 +427,23 @@ public class ScryFallProvider implements MagicCardsProvider {
 	private void initOtherEdition(MagicCard mc) throws Exception {
 		
 		String url=baseURI+"/cards/search?q=+"
-				+ URLEncoder.encode("++'"+mc.getName()+"'","UTF-8")
+				+ URLEncoder.encode("++!'"+mc.getName()+"'","UTF-8")
 				+ "%20include:extras"
 				+ "%20-s:"+mc.getEditions().get(0).getId();
 
-		URLConnection con;
+		HttpURLConnection con;
+		
+		
 		JsonReader reader;
 		boolean hasMore=true;
 		while(hasMore)
 		{
-			
-			
 			logger.debug(url);
-			con = getConnection(url);
+			con = (HttpURLConnection) getConnection(url);
+			if(!testError(con))
+				return;
+				
+			
 			try{
 				reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 				JsonElement el = parser.parse(reader);
@@ -477,7 +477,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			}
 			catch(Exception e)
 			{
-				
+				logger.error(e);
 				hasMore=false;
 			}
 		}
