@@ -1,7 +1,8 @@
 package org.magic.tools;
 
-public class ColorParser {
+import org.apache.commons.lang3.StringUtils;
 
+public class ColorParser {
 	
 	public static String parse(String fullColorName) {
 		if(fullColorName.toLowerCase().equals("white"))

@@ -12,7 +12,13 @@ public class IDGenerator {
 
 	public static String generate(MagicCard mc)
 	{
+		try {
 		return generate(mc,mc.getEditions().get(0));
+		}
+		catch(Exception e)
+		{
+			return "";
+		}
 	}
 	
 	public static String generate(MagicCard mc, MagicEdition ed)

@@ -438,11 +438,9 @@ public class ScryFallProvider implements MagicCardsProvider {
 		boolean hasMore=true;
 		while(hasMore)
 		{
-			logger.debug(url);
 			con = (HttpURLConnection) getConnection(url);
 			if(!testError(con))
 				return;
-				
 			
 			try{
 				reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));

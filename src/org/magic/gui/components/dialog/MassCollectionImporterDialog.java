@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog{
@@ -60,6 +61,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		panelCollectionInput.add(lblImport);
 		
 		final JComboBox cboEditions = new JComboBox(list.toArray());
+		cboEditions.setRenderer(new MagicEditionListRenderer());
 		panelCollectionInput.add(cboEditions);
 		
 		List lc = dao.getCollections();

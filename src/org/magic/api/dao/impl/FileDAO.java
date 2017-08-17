@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.collections4.map.CaseInsensitiveMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.FileFileFilter;
 import org.apache.commons.io.filefilter.NameFileFilter;
@@ -131,7 +132,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
-		Map<String, Integer> map = new TreeMap<String, Integer>();
+		Map<String, Integer> map = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
 		File eds = new File(directory,"cards/"+c.getName());
 		for(File ed : eds.listFiles())
 			map.put(ed.getName(), ed.listFiles().length);
@@ -186,10 +187,7 @@ public class FileDAO extends AbstractMagicDAO {
 		ScryFallProvider prov = new ScryFallProvider();
 		prov.init();
 		
-		MagicEdition ed = new MagicEdition();
-		ed.setId("AKH");
-		MagicCard mc = prov.searchCardByCriteria("name", "Meandering River", ed).get(0);
-		f.getCollectionFromCards(mc);
+		f.getCardsCountGlobal(new MagicCollection("Library"));
 		
 		
 	}

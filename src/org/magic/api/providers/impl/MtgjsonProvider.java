@@ -22,6 +22,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -557,6 +558,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		
 			MagicEdition me = new MagicEdition();
+
+			if(!id.substring(0, 1).equals("p"))
+				id=id.toUpperCase();
+
 					me.setId(id);
 					me.setSet(ctx.read("$."+id+".name",String.class));
 					me.setReleaseDate(ctx.read("$."+id+".releaseDate",String.class));

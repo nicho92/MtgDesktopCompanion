@@ -21,6 +21,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.LogManager;
@@ -41,7 +42,7 @@ import javax.swing.JCheckBox;
 public class MagicCardDetailPanel extends JPanel {
 
 	private BindingGroup m_bindingGroup;
-	private org.magic.api.beans.MagicCard magicCard = new org.magic.api.beans.MagicCard();
+	private MagicCard magicCard;
 	private JTextField cmcJTextField;
 	private ManaPanel manaPanel;
 	private JTextField fullTypeJTextField;
@@ -533,7 +534,8 @@ public class MagicCardDetailPanel extends JPanel {
 		
 		
 		try{
-			rarityJTextField.setText(magicCard.getEditions().get(0).getRarity());
+			if(magicCard!=null)
+				rarityJTextField.setText(magicCard.getEditions().get(0).getRarity());
 		}
 		catch(Exception e)
 			{
@@ -545,42 +547,34 @@ public class MagicCardDetailPanel extends JPanel {
 		
 		if(thumbnail)
 		{
-			ThreadManager.getInstance().execute(new Runnable() {
-				public void run() {
-					ImageIcon icon;
-					try {
-						icon = new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(magicCard,null));
-						Image img = icon.getImage();
-						//Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
-						lblThumbnail.setIcon( new ImageIcon(img));
-					} catch (Exception e) {
-						logger.error(e);
+			if(magicCard!=null)
+				ThreadManager.getInstance().execute(new Runnable() {
+					public void run() {
+						loadPics();
+						
 					}
-					
-				}
-			},"loadThumbnail");
+				},"loadThumbnail");
 		}
 	
-		if(magicCard.getEditions().size()>0)
-		{ 
-			
-			ThreadManager.getInstance().execute(new Runnable() {
-				public void run() {
-						setMagicLogo(magicCard.getEditions().get(0).getId(),magicCard.getEditions().get(0).getRarity());
-						lblnumberInSet.setText(magicCard.getEditions().get(0).getNumber()+"/"+magicCard.getEditions().get(0).getCardCount());
-				}
-			},"loadLogo");
-		}
+		if(magicCard!=null)
+			if(magicCard.getEditions().size()>0)
+			{ 
+				
+				ThreadManager.getInstance().execute(new Runnable() {
+					public void run() {
+							setMagicLogo(magicCard.getEditions().get(0).getId(),magicCard.getEditions().get(0).getRarity());
+							lblnumberInSet.setText(magicCard.getEditions().get(0).getNumber()+"/"+magicCard.getEditions().get(0).getCardCount());
+					}
+				},"loadLogo");
+			}
 		
-
+		if(magicCard!=null)
 		ThreadManager.getInstance().execute(new Runnable() {
 			public void run() {
 				try{
 					((DefaultListModel)listCollection.getModel()).removeAllElements();
 					for(MagicCollection col : MTGControler.getInstance().getEnabledDAO().getCollectionFromCards(magicCard))
 						((DefaultListModel)listCollection.getModel()).addElement(col);
-				//	listCollection.updateUI();
-					
 				}
 				catch(Exception e)
 				{	
@@ -588,7 +582,8 @@ public class MagicCardDetailPanel extends JPanel {
 				}
 			}
 		},"loadCollections");
-			
+	
+		if(magicCard!=null)
 		ThreadManager.getInstance().execute(new Runnable() {
 			public void run() {
 					if(MTGControler.getInstance().getEnabledDAO().hasAlert(magicCard))
@@ -605,9 +600,9 @@ public class MagicCardDetailPanel extends JPanel {
 		},"Get alerts for " + magicCard);
 		
 	
-		
-			
 		((DefaultListModel)lstFormats.getModel()).removeAllElements();
+		
+		if(magicCard!=null)
 		for(MagicFormat mf : magicCard.getLegalities())
 			((DefaultListModel)lstFormats.getModel()).addElement(mf);
 		
@@ -630,6 +625,21 @@ public class MagicCardDetailPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding_13);
 		bindingGroup.addBinding(autoBinding_15);
 		return bindingGroup;
+	}
+
+	protected void loadPics() {
+		ImageIcon icon;
+		try {
+			icon = new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(magicCard,null));
+			Image img = icon.getImage();
+			//Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
+			lblThumbnail.setIcon( new ImageIcon(img));
+			validate();
+			repaint();
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		
 	}
 	
 	

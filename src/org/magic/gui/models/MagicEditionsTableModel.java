@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
@@ -33,7 +34,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	
 	public void init(List<MagicEdition> editions ){
 		this.list=editions;
-		mapCount=new HashMap<MagicEdition,Integer>();
+		mapCount=new TreeMap<MagicEdition,Integer>();
 		
 		try {
 			calculate();
@@ -46,9 +47,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	
 	public void calculate() throws SQLException, Exception {
 		
-		MagicCollection mc = new MagicCollection();
-						mc.setName(MTGControler.getInstance().get("default-library"));
-					
+		MagicCollection mc = new MagicCollection(MTGControler.getInstance().get("default-library"));
 		Map<String,Integer> temp = MTGControler.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
 		
 		for(MagicEdition me : list)
