@@ -158,6 +158,7 @@ public class CardStockLinePanel extends JPanel {
 		cboSigned.setSelected(state.isSigned());
 		cboLanguage.setSelectedItem(state.getLanguage());
 		cboState.setSelectedItem(state.getCondition());
+		cboAltered.setSelected(state.isAltered());
 	}
 	
 	public MagicCardStock getMagicCardState()

@@ -605,7 +605,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			logger.debug("save "  + alert);
 			PreparedStatement pst;
 			pst=con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)");
-			pst.setString(1, alert.getCard().getId());
+			pst.setString(1, IDGenerator.generate(alert.getCard()));
 			pst.setBinaryStream(2,convertObject(alert.getCard()));
 			pst.setDouble(3, alert.getPrice());
 			list.add(alert);
@@ -618,7 +618,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			logger.debug("delete "  + alert);
 			PreparedStatement pst;
 			pst=con.prepareStatement("delete from alerts where id=?");
-			pst.setString(1, alert.getCard().getId());
+			pst.setString(1, IDGenerator.generate(alert.getCard()));
 			list.remove(alert);
 			pst.executeUpdate();
 			

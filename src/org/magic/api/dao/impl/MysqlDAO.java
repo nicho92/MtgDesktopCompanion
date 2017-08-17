@@ -579,7 +579,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		logger.debug("delete alert "  + alert);
 		PreparedStatement pst;
 		pst=con.prepareStatement("delete from alerts where id=?");
-		pst.setString(1, alert.getCard().getId());
+		pst.setString(1, IDGenerator.generate(alert.getCard()));
 		pst.executeUpdate();
 		list.remove(alert);
 		

@@ -639,7 +639,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		String jsquery="";
 			jsquery = "$."+edCode+".cards[?(@.name==\""+mc.getName()+"\")]";
 		
-		logger.debug("initOtherEditionVars for " + mc +"("+mc.getEditions().get(0)+") -> " + jsquery);
+		logger.trace("initOtherEditionVars for " + mc +"("+mc.getEditions().get(0)+") -> " + jsquery);
 		
 		List<Map<String,Object>> cardsElement = null;
 		try{
@@ -686,7 +686,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		 			   me.setMultiverse_id(String.valueOf((int)(double)map.get("multiverseid")));
 				}catch(Exception e)
 				{
-					logger.debug("multiverseNotFound for " + me);
+					logger.trace("multiverseNotFound for " + me);
 				//	me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
 				}
 			}

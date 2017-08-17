@@ -1,16 +1,19 @@
 package org.magic.api.dao.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.io.filefilter.DirectoryFileFilter;
 import org.apache.commons.io.filefilter.FileFileFilter;
+import org.apache.commons.io.filefilter.NameFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -19,6 +22,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
@@ -31,14 +35,14 @@ public class FileDAO extends AbstractMagicDAO {
 	static final Logger logger = LogManager.getLogger(FileDAO.class.getName());
 	  
 	
-	public MagicCard fileToMagicCard(File f) throws Exception
+	public <T> T read(Class<T> T, File f) throws Exception
 	{
-		return export.fromJson(FileUtils.readFileToString(f), MagicCard.class);
+		return export.fromJson(FileUtils.readFileToString(f), T);
 	}
 	
-	public void magicCardToFile(MagicCard mc , File f) throws Exception
+	public void save(Object o , File f) throws Exception
 	{
-		FileUtils.write(f, export.toJson(mc));
+		FileUtils.write(f, export.toJson(o));
 	}
 	
 	
@@ -86,7 +90,7 @@ public class FileDAO extends AbstractMagicDAO {
 		f=new File(f,IDGenerator.generate(mc));
 		
 		try {
-			magicCardToFile(mc, f);
+			save(mc, f);
 		} catch (Exception e) {
 			throw new SQLException(e);
 		}
@@ -97,17 +101,17 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		File f = new File(directory,"cards/"+collection.getName()+"/"+IDGenerator.generate(mc));
+		File f = new File(directory,"cards/"+collection.getName()+"/"+mc.getEditions().get(0).getId()+"/"+IDGenerator.generate(mc));
+		
+		File parent = f.getParentFile();
 		
 		if(f.exists())
 			f.delete();
 
-	}
-/*
-	@Override
-	public MagicCard loadCard(String name, MagicCollection collection) throws SQLException {
+		if(parent.listFiles().length==0)
+			parent.delete();
 		
-	}*/
+	}
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
@@ -116,7 +120,13 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public int getCardsCount(MagicCollection list, MagicEdition me) throws SQLException {
-		return new File(directory,"cards/"+list+"/"+me.getId()).listFiles().length;
+		File f = new File(directory,"cards/"+list.getName());
+		
+		if(me!=null)
+			f = new File(f,"/"+me.getId());
+		
+		
+		return FileUtils.listFiles(f, null, true).size();
 	}
 
 	@Override
@@ -131,18 +141,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCard> getCardsFromCollection(MagicCollection c) throws SQLException {
-		File col = new File(directory,"cards/"+c.getName());
-		List<MagicCard> ret = new ArrayList<MagicCard>();
-		for(File f : FileUtils.listFilesAndDirs(col, TrueFileFilter.INSTANCE, FileFileFilter.FILE))
-		{
-			try {
-				ret.add(fileToMagicCard(f));
-			} catch (Exception e) {
-				throw new SQLException(e);
-			}
-		}
-		
-		return ret;
+		return getCardsFromCollection(c, null);
 	}
 
 	@Override
@@ -152,15 +151,13 @@ public class FileDAO extends AbstractMagicDAO {
 		if(me!=null)
 			col = new File(col,me.getId());
 		
-		logger.debug("list dir : " + col.getAbsolutePath());
 		List<MagicCard> ret = new ArrayList<MagicCard>();
 		
 		for(File f : FileUtils.listFilesAndDirs(col,TrueFileFilter.INSTANCE,FileFileFilter.FILE))
 		{
-			logger.debug("File found : " + f.getAbsolutePath());
 			try {
 				if(!f.isDirectory())
-					ret.add(fileToMagicCard(f));
+					ret.add(read(MagicCard.class,f));
 			} catch (Exception e) {
 				throw new SQLException(e);
 			}
@@ -171,14 +168,30 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String id = IDGenerator.generate(mc);
+		File f = new File(directory,"cards/");
+		List<MagicCollection> ret = new ArrayList<MagicCollection>();
+		Collection<File> res = FileUtils.listFiles(f,new NameFileFilter(id),TrueFileFilter.INSTANCE);
+		
+		for(File result : res)
+				ret.add(new MagicCollection(result.getParentFile().getParentFile().getName()));	
+	
+		return ret;
 	}
 
-	public static void main(String[] args) throws SQLException, ClassNotFoundException {
+	public static void main(String[] args) throws Exception {
 		FileDAO f = new FileDAO();
 		f.init();
-		f.getEditionsIDFromCollection(new MagicCollection("Library"));
+		ScryFallProvider prov = new ScryFallProvider();
+		prov.init();
+		
+		MagicEdition ed = new MagicEdition();
+		ed.setId("AKH");
+		MagicCard mc = prov.searchCardByCriteria("name", "Meandering River", ed).get(0);
+		f.getCollectionFromCards(mc);
+		
+		
 	}
 	
 	@Override
@@ -209,8 +222,14 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
 		File f = new File(directory,"cards/"+c.getName());
+		
+		
 		if(f.exists())
-			f.delete();
+			try {
+				FileUtils.deleteDirectory(f);
+			} catch (IOException e) {
+				throw new SQLException(e);
+			}
 
 	}
 
@@ -228,79 +247,139 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeEdition(MagicEdition ed, MagicCollection col) throws SQLException {
-		// TODO Auto-generated method stub
+		File f = new File(directory,"cards/"+col.getName()+"/"+ed.getId());
+		
+		if(f.exists())
+			try {
+				FileUtils.deleteDirectory(f);
+			} catch (IOException e) {
+				throw new SQLException(e);
+			}
 
 	}
 
 	@Override
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<MagicCardStock> st = new ArrayList<MagicCardStock>();
+		File f = new File(directory,"/stocks");
+		for(File fstock : FileUtils.listFiles(f,new WildcardFileFilter("*"+IDGenerator.generate(mc)),TrueFileFilter.INSTANCE))
+		{
+			try {
+				MagicCardStock s = read(MagicCardStock.class, fstock);
+				if(s.getMagicCollection().getName().equals(col.getName()))
+					st.add(s);
+				
+			} catch (Exception e) {
+				throw new SQLException(e);
+			}
+		}
+		
+		
+		
+		return st;
 	}
 
 	@Override
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
-		// TODO Auto-generated method stub
+		
+		File f = new File(directory,"/stocks");
+		
+		if(state.getIdstock()==-1)
+			state.setIdstock(f.listFiles().length+1);
+			
+		f = new File(f,state.getIdstock()+"-"+IDGenerator.generate(state.getMagicCard()));
+		try {
+			save(state, f);
+		} catch (Exception e) {
+			throw new SQLException(e);
+		}
+		
 
 	}
 
 	@Override
 	public void deleteStock(List<MagicCardStock> state) throws SQLException {
-		// TODO Auto-generated method stub
-
+		
+		for(MagicCardStock s : state)
+		{ 
+			File f = new File(directory,"/stocks/"+s.getIdstock()+"/"+IDGenerator.generate(s.getMagicCard()));
+			f.delete();
+		}
 	}
 
 	@Override
 	public List<MagicCardStock> getStocks() throws SQLException {
-		// TODO Auto-generated method stub
-		return null;
+		List<MagicCardStock> ret = new ArrayList<MagicCardStock>();
+		
+		for(File f : FileUtils.listFiles(new File(directory,"/stocks"), null, false))
+		{
+			try {
+				ret.add(read(MagicCardStock.class, f));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
 	}
 
 	@Override
 	public List<MagicCardAlert> getAlerts() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MagicCardAlert> ret = new ArrayList<MagicCardAlert>();
+		
+		for(File f : FileUtils.listFiles(new File(directory,"/alerts"), null, false))
+		{
+			try {
+				ret.add(read(MagicCardAlert.class, f));
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
+		return ret;
 	}
 
 	@Override
 	public void saveAlert(MagicCardAlert alert) throws Exception {
-		// TODO Auto-generated method stub
-
+		save(alert, new File(directory,"/alerts/"+IDGenerator.generate(alert.getCard())));
 	}
 
 	@Override
 	public void deleteAlert(MagicCardAlert alert) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public boolean hasAlert(MagicCard mc) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public String getDBLocation() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public long getDBSize() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public void backup(File dir) throws Exception {
-		// TODO Auto-generated method stub
-
+			File f = new File(directory,"/alerts/"+IDGenerator.generate(alert.getCard()));
+			
+			if(f.exists())
+				f.delete();
+		
 	}
 
 	@Override
 	public void updateAlert(MagicCardAlert alert) throws Exception {
-		// TODO Auto-generated method stub
+		saveAlert(alert);
+
+	}
+
+	@Override
+	public String toString() {
+		return getName();
+	}
+
+	@Override
+	public boolean hasAlert(MagicCard mc) {
+		return FileUtils.listFiles(new File(directory,"/alerts"),new NameFileFilter(IDGenerator.generate(mc)),TrueFileFilter.INSTANCE).size()>0;
+	}
+
+	@Override
+	public String getDBLocation() {
+		return directory.getAbsolutePath();
+	}
+
+	@Override
+	public long getDBSize() {
+		return FileUtils.sizeOf(directory);
+	}
+
+	@Override
+	public void backup(File dir) throws Exception {
+		FileUtils.copyDirectory(directory, dir);
 
 	}
 
