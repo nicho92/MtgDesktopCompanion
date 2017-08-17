@@ -108,12 +108,6 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	}
 
 	
-	public static void main(String[] args) throws Exception {
-		MagicTheGatheringIOProvider prov = new MagicTheGatheringIOProvider();
-			System.out.println(prov.searchCardByCriteria("set", "KLD", null));
-	}
-	
-	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me) throws Exception {
 		List<MagicCard> lists= new ArrayList<MagicCard>();
@@ -514,7 +508,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	}
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.DEV;
 	}
 
 }

@@ -274,7 +274,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 
 	@Override
