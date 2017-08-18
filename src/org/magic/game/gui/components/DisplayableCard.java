@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -32,6 +33,7 @@ import javax.swing.TransferHandler;
 import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.AttachActions;
@@ -58,6 +60,10 @@ import org.magic.services.MTGControler;
 
 public class DisplayableCard extends JLabel implements Draggable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPopupMenu menu;
 	private MagicCard magicCard;
 	private boolean tapped = false;
@@ -69,8 +75,19 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private boolean selected = false;
 	private boolean rotated;
 	private boolean showPT;
+	
 	private List<DisplayableCard> attachedCards;
 	private List<AbstractCounter> counters;
+	public List<AbstractCounter> getCounters() {
+		return counters;
+	}
+	
+	
+
+	public void setCounters(List<AbstractCounter> counters) {
+		this.counters = counters;
+	}
+
 	private Image fullResPics;
 	private boolean showLoyalty;
 	private PositionEnum position;
@@ -232,7 +249,12 @@ public class DisplayableCard extends JLabel implements Draggable {
 		setPreferredSize(d);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalAlignment(JLabel.CENTER);
-		setMagicCard(mc);
+		try {
+			setMagicCard((MagicCard)BeanUtils.cloneBean(mc));
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
 		if (activateCards) {
 			addMouseListener(new MouseAdapter() {
 				@Override
@@ -376,16 +398,16 @@ public class DisplayableCard extends JLabel implements Draggable {
 		if (GamePanelGUI.getInstance().getTokenGenerator().isEmblemizer(magicCard))
 			menu.add(new JMenuItem(new EmblemActions(this)));
 
-		/*
+		
 		menu.add(new JMenuItem(new AbstractAction("Describe") {
-			
-			@Override
-			public void actionPerformed(ActionEvent paramActionEvent) {
+				@Override
+			public void actionPerformed(ActionEvent e) {
 				debug();
+				
 			}
 		})
 		);
-		*/
+		
 		
 
 		setComponentPopupMenu(menu);
@@ -461,7 +483,12 @@ public class DisplayableCard extends JLabel implements Draggable {
 	}
 
 	public void setMagicCard(MagicCard mc) {
-		this.magicCard = mc;
+		try {
+			this.magicCard = (MagicCard)BeanUtils.cloneBean(mc);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		} 
 		try {
 			if (mc.getLayout().equals(MagicCard.LAYOUT.Token.toString())
 					|| mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString())) {
@@ -520,6 +547,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 	}
 
+	
 
 	@Override
 	public void updatePanel() {

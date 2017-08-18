@@ -36,7 +36,6 @@ public class BonusCounter extends AbstractCounter {
 		
 		displayableCard.getMagicCard().setPower(String.valueOf(power));
 		displayableCard.getMagicCard().setToughness(String.valueOf(toughness));
-		
 	}
 
 	@Override
