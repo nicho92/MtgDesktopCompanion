@@ -185,8 +185,9 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				lblThumbnail = new JLabel("");
 				GridBagConstraints gbc_lblThumbnail = new GridBagConstraints();
+				gbc_lblThumbnail.gridwidth = 2;
 				gbc_lblThumbnail.gridheight = 9;
-				gbc_lblThumbnail.gridx = 8;
+				gbc_lblThumbnail.gridx = 7;
 				gbc_lblThumbnail.gridy = 1;
 				add(lblThumbnail, gbc_lblThumbnail);
 		

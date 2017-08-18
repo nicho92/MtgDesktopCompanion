@@ -539,7 +539,11 @@ public class ConfigurationPanel extends JPanel {
 		btnExportConfig.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				System.out.println(FileUtils.listFiles(MTGControler.CONF_DIR, null, null));
+				JFileChooser choose = new JFileChooser();
+				
+				File f = choose.getSelectedFile();
+				if(f!=null)
+					MTGControler.getInstance().saveConfig(f);
 			}
 		});
 		

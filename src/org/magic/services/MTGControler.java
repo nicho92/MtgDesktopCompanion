@@ -546,4 +546,10 @@ public class MTGControler {
 		
 		return false;
 	}
+
+
+	public void saveConfig(File f) {
+		
+		
+	}
 }

@@ -574,13 +574,8 @@ public class CardSearchPanel extends JPanel {
 				public void mouseClicked(MouseEvent mev) {
 						selectedEdition = listEdition.getSelectedValue();
 						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
-						
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);
-						try {
-							logger.debug("LOADING ED " + BeanUtils.describe(selectedEdition));
-						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e1) {
-							logger.error(e1);
-						}
+						
 						
 						ThreadManager.getInstance().execute(new Runnable() {
 							public void run() {
@@ -588,9 +583,7 @@ public class CardSearchPanel extends JPanel {
 									
 										cardsPicPanel.showPhoto(selected,selectedEdition);//backcard
 										magicEditionDetailPanel.setMagicEdition(selectedEdition);
-										
 										historyChartPanel.init(selected, selectedEdition,selected.getName());
-										
 										
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 											updatePrices();
