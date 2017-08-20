@@ -50,11 +50,13 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
 
-		Document doc = Jsoup.connect(props.getProperty("WEBSITE")+"/taneLayout/mtg_price_tracker.jsp?period="+props.getProperty("PERIOD"))
+		String url = props.getProperty("WEBSITE")+"/taneLayout/mtg_price_tracker.jsp?period="+props.getProperty("PERIOD");
+		Document doc = Jsoup.connect(url)
 							.userAgent(props.getProperty("USER_AGENT"))
 							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 							.get();
 		try {
+			logger.debug("Get Shake for " + url );
 			String date = doc.getElementsByClass("span6").get(1).text().replaceAll("Updated:", "").replaceAll("UTC ", "").trim();
 			SimpleDateFormat forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
 			updateTime= forma.parse(date);
