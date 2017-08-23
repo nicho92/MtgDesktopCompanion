@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -36,10 +37,15 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	private boolean enabled;
 	static final Logger logger = LogManager.getLogger(PrivateMTGSetProvider.class.getName());
 
-	public boolean removeEdition(MagicEdition me)
+	public void removeEdition(MagicEdition me)
 	{
-		return new File(confdir,me.getId()+".json").delete();
-
+		File f = new File(confdir,me.getId()+".json");
+		try {
+			logger.debug("delete : " + f);
+			FileUtils.forceDelete(f);
+		} catch (IOException e) {
+			logger.error(e);
+		}
 	}
 	
 	public boolean removeCard(MagicEdition me,MagicCard mc) throws IOException
@@ -72,10 +78,13 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
 	public List<MagicCard> getCards(MagicEdition me) throws IOException
 	{
-		JsonReader reader = new JsonReader(new FileReader(new File(confdir,me.getId()+".json")));
+		FileReader fr = new FileReader(new File(confdir,me.getId()+".json"));
+		JsonReader reader = new JsonReader(fr);
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		JsonArray arr = (JsonArray) root.get("cards");
 		Type listType = new TypeToken<ArrayList<MagicCard>>(){}.getType();
+		fr.close();
+		reader.close();
 		return (List<MagicCard>)new Gson().fromJson(arr,listType);
 	}
 	
