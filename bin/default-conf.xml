@@ -21,6 +21,7 @@
 		<alarm>true</alarm>
 		<shopper>true</shopper>
 		<cardbuilder>true</cardbuilder>
+		<stock>true</stock>
 	</modules>
 	
 	<game>
@@ -54,19 +55,19 @@
 	<servers>
 		<server>
 			<class>org.magic.servers.impl.ConsoleServer</class>
-			<enable>true</enable>
+			<enable>false</enable>
 		</server>
 		<server>
 			<class>org.magic.servers.impl.JSONHttpServer</class>
-			<enable>true</enable>
+			<enable>false</enable>
 		</server>
 		<server>
 			<class>org.magic.servers.impl.PricesCheckerTimer</class>
-			<enable>true</enable>
+			<enable>false</enable>
 		</server>
 		<server>
 			<class>org.magic.servers.impl.MTGGameRoomServer</class>
-			<enable>true</enable>
+			<enable>false</enable>
 		</server>
 	</servers>
 
@@ -127,6 +128,10 @@
 			<class>org.magic.api.dao.impl.PostgresqlDAO</class>
 			<enable>false</enable>
 		</dao>
+		<dao>
+			<class>org.magic.api.dao.impl.FileDAO</class>
+			<enable>false</enable>
+		</dao>
 	</daos>
 	<shoppers>
 		<shopper>
@@ -180,6 +185,10 @@
 			<enable>true</enable>
 		</sniffer>
 		<sniffer>
+			<class>org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer</class>
+			<enable>false</enable>
+		</sniffer>
+		<sniffer>
 			<class>org.magic.api.decksniffer.impl.MagicCorporationDecks</class>
 			<enable>false</enable>
 		</sniffer>
@@ -202,7 +211,7 @@
 			<enable>true</enable>
 		</export>
 		<export>
-			<class>org.magic.api.exports.impl.MKMOnlineWantListExport2</class>
+			<class>org.magic.api.exports.impl.MkmOnlineExport</class>
 			<enable>true</enable>
 		</export>
 		<export>

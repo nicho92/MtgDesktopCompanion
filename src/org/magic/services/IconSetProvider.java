@@ -1,5 +1,6 @@
 package org.magic.services;
 
+import java.awt.Image;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,22 +43,12 @@ public class IconSetProvider {
 		for(MagicEdition e : MTGControler.getInstance().getEnabledProviders().loadEditions())
 			try{
 			ImageIcon im;
-			if(e.getId().startsWith("p"))
-			{
-				im=new ImageIcon(ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/VAN_set.png")));
-			}
-			else
-			{	
-				im = new ImageIcon(ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/"+e.getId()+"_set.png")));
-			}
-			
+				im = new ImageIcon(ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/"+e.getId()+"_set.png")).getScaledInstance(24, 26, Image.SCALE_SMOOTH));
 			cache.put(e.getId(),im);
-			//new ImageIcon(ImageIO.read(MagicCollectionTableCellRenderer.class.getResource("/res/set/icons/"+e.getId()+"_set.png")).getSubimage(12, 11, 55, 42).getScaledInstance(26, 24, Image.SCALE_SMOOTH));
-			
 			}
 			catch(Exception ex)
 			{
-				cache.put(e.getId(), new ImageIcon());
+				cache.put(e.getId(), new ImageIcon(ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/PMTG1_set.png")).getScaledInstance(24, 26, Image.SCALE_SMOOTH)));
 			}
 	}
 	
