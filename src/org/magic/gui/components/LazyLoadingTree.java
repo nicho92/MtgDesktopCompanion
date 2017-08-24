@@ -21,6 +21,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
+import org.magic.tools.MagicCardComparator;
 
 
 
@@ -183,7 +184,10 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
                 
                 List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
                 try {
-					for(MagicCard card : MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed))
+                	List<MagicCard> res = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed);
+                	Collections.sort(res,new MagicCardComparator());
+                	
+					for(MagicCard card : res)
 					{
 						MyNode n = new MyNode(card);
 						children.add(n);

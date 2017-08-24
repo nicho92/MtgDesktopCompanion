@@ -33,6 +33,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
+import org.magic.tools.MagicCardComparator;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -130,6 +131,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 				hasMore=false;
 			}
 		}
+		Collections.sort(list,new MagicCardComparator());
 			
 		return list;
 	}
