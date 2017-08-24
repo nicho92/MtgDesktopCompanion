@@ -344,7 +344,7 @@ public class MTGControler {
 				}
 			}
 			
-			logger.debug("Check for new modules");
+			//logger.debug("Check for new modules");
 			keyWordManager = new KeyWordManager();
 			
 			

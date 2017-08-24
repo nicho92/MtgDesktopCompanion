@@ -58,7 +58,6 @@ public class FileDAO extends AbstractMagicDAO {
 	
 	@Override
 	public void init()  {
-		//export=MTGControler.getInstance().loadItem(AbstractCardExport.class, props.getProperty("SERIALIZER"));
 		export = new Gson();
 		directory=new File(props.getProperty("URL"));
 		
@@ -70,6 +69,7 @@ public class FileDAO extends AbstractMagicDAO {
 		new File(directory,"stocks").mkdir();
 		
 		new File(directory,"cards/"+MTGControler.getInstance().get("default-library")).mkdir();
+		logger.debug("File DAO init");
 	}
 
 	@Override
@@ -152,9 +152,11 @@ public class FileDAO extends AbstractMagicDAO {
 		if(me!=null)
 			col = new File(col,me.getId());
 		
+		logger.debug("Load " + col);
+		
 		List<MagicCard> ret = new ArrayList<MagicCard>();
 		
-		for(File f : FileUtils.listFilesAndDirs(col,TrueFileFilter.INSTANCE,FileFileFilter.FILE))
+		for(File f : FileUtils.listFilesAndDirs(col,TrueFileFilter.INSTANCE,TrueFileFilter.INSTANCE))
 		{
 			try {
 				if(!f.isDirectory())
@@ -181,16 +183,6 @@ public class FileDAO extends AbstractMagicDAO {
 		return ret;
 	}
 
-	public static void main(String[] args) throws Exception {
-		FileDAO f = new FileDAO();
-		f.init();
-		ScryFallProvider prov = new ScryFallProvider();
-		prov.init();
-		
-		f.getCardsCountGlobal(new MagicCollection("Library"));
-		
-		
-	}
 	
 	@Override
 	public List<String> getEditionsIDFromCollection(MagicCollection c) throws SQLException {
