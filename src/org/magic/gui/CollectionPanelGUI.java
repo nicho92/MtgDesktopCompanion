@@ -719,7 +719,7 @@ public class CollectionPanelGUI extends JPanel {
 				if (res == JOptionPane.YES_OPTION)
 					try {
 						List<MagicCard> list = provider.searchCardByCriteria("set", ed.getId(),null);
-
+						logger.debug("save " + list.size() +" cards from " + ed.getId());
 						for (MagicCard mc : list) {
 							MagicCollection col = new MagicCollection();
 							col.setName(MTGControler.getInstance().get("default-library"));

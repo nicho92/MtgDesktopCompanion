@@ -82,7 +82,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 				else if(att.equals("custom"))
 					url+="search?q="+URLEncoder.encode(crit,"UTF-8");
 				else if(att.equals("set"))
-					url+="search?q=++e:"+URLEncoder.encode(crit,"UTF-8")+"%20order=set";
+					url+="search?q="+URLEncoder.encode("++e:"+crit,"UTF-8");
 				else if(att.equals("id"))
 					url+=URLEncoder.encode(crit,"UTF-8");
 				else

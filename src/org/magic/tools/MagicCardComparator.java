@@ -39,7 +39,6 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 	
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
-			
 		//if same edition and have number
 			if(o1.getEditions().get(0).getNumber()!=null && o2.getEditions().get(0).getNumber()!=null)
 				if(o1.getEditions().get(0).equals(o2.getEditions().get(0)))
@@ -48,9 +47,8 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 					int n2=extractInt(o2.getEditions().get(0).getNumber());
 					return n1-n2;
 				}
-		
+			//else compare
 			int ret = test(o1,o2);
-			
 			if(ret==0)
 				ret=name(o1,o2);
 			
@@ -60,6 +58,7 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 
 
 	private int test(MagicCard o1, MagicCard o2) {
+		
 		if(getWeight(o1)<getWeight(o2))
 			return -1;
 		
@@ -109,6 +108,7 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 	
 		if(mc.getColors().size()==0)
 		{
+			
 			if(mc.getTypes().toString().toLowerCase().contains("artifact"))
 			{
 				return 6;
@@ -124,9 +124,13 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 						return 7; // advanced land
 					}
 			}
+			else if(!mc.getLayout().toLowerCase().equals("normal"))
+			{
+					return 99;
+			}
 			else
 			{
-					return -1; //colorless eldrazi spell;
+				return -1; //colorless eldrazi spell;
 			}
 
 		}
@@ -152,7 +156,8 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 		
 		
 		
-		return -1;
+		
+		return 100;
 	}
 	
 
