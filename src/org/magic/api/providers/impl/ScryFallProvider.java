@@ -293,7 +293,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 	private URLConnection getConnection(String url)
 	{
 		try {
-			logger.debug("get stream from " + url);
+			logger.trace("get stream from " + url);
 			URLConnection connection = new URL(url).openConnection();
 			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 			connection.connect();
@@ -387,12 +387,13 @@ public class ScryFallProvider implements MagicCardsProvider {
 				  }
 					  
 			  }
+			  //TODO : reforge this code
 			  arr.remove(index);
 			  if(arr.size()==1)
 				  mc.setRotatedCardName(arr.get(0).getAsJsonObject().get("name").getAsString());
-			  else
+			 /* else
 				  mc.setRotatedCardName(arr.get(1).getAsJsonObject().get("name").getAsString());
-			  
+			  */
 			  
 		  }
 		
