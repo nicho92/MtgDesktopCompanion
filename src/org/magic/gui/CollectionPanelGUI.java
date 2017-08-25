@@ -389,7 +389,7 @@ public class CollectionPanelGUI extends JPanel {
 									MagicEdition ed = (MagicEdition)tableEditions.getValueAt(row, 1);
 									magicEditionDetailPanel.setMagicEdition(ed);
 									historyPricesPanel.init(null,ed,ed.getSet());
-							
+									jsonPanel.show(ed);
 							}
 						});
 						tableEditions.setModel(model);
@@ -501,7 +501,7 @@ public class CollectionPanelGUI extends JPanel {
 								typeRepartitionPanel.init(list);
 								manaRepartitionPanel.init(list);
 								historyPricesPanel.init(null,(MagicEdition)curr.getUserObject(),curr.getUserObject().toString());
-
+								jsonPanel.show(curr.getUserObject());
 
 							}catch(Exception e)
 							{
@@ -522,7 +522,7 @@ public class CollectionPanelGUI extends JPanel {
 					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
 					magicEditionDetailPanel.setMagicEdition(card.getEditions().get(0));
 					magicCardDetailPanel.enableThumbnail(true);
-					jsonPanel.showCard((MagicCard)curr.getUserObject());
+					jsonPanel.show(curr.getUserObject());
 					
 					ThreadManager.getInstance().execute(new Runnable() {
 						

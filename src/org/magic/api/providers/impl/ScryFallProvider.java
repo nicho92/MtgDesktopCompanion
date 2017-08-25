@@ -492,15 +492,13 @@ public class ScryFallProvider implements MagicCardsProvider {
 			ed.setType(obj.get("set_type").getAsString());
 			
 			if(obj.get("digital")!=null)
-				ed.setOnlineOnly(true);
-			else
-				ed.setOnlineOnly(false);
-			
-			
+				ed.setOnlineOnly(obj.get("digital").getAsBoolean());
+		
 			if(obj.get("border")!=null)
 				ed.setBorder(obj.get("border").getAsString());
 		
 			ed.setCardCount(obj.get("card_count").getAsInt());
+			
 			
 			if(obj.get("block")!=null)
 				ed.setBlock(obj.get("block").getAsString());

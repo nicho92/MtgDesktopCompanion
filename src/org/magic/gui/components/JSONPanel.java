@@ -21,7 +21,7 @@ public class JSONPanel extends JScrollPane {
 		//textpane.setContentType("text/json");
 	}
 	
-	public void showCard(MagicCard mc)
+	public void show(Object mc)
 	{
 		
 		Gson g = new GsonBuilder().setPrettyPrinting().create();

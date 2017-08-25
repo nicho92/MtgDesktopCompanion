@@ -546,7 +546,7 @@ public class CardBuilder2GUI extends JPanel{
 					cardImage = ImageIO.read(picProvider.getPictureURL(magicCardEditorPanel.getMagicCard()));
 					panelPictures.revalidate();
 					panelPictures.repaint();
-					jsonPanel.showCard(magicCardEditorPanel.getMagicCard());
+					jsonPanel.show(magicCardEditorPanel.getMagicCard());
 					
 				} catch (Exception e) {
 					e.printStackTrace();

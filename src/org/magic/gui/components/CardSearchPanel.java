@@ -807,7 +807,7 @@ public class CardSearchPanel extends JPanel {
 					updatePrices();
 				
 				
-				panelJson.showCard(selected);
+				panelJson.show(selected);
 				
 
 				ThreadManager.getInstance().execute(new Runnable() {
