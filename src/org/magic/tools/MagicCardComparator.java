@@ -39,33 +39,40 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 	
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
+			
+		//if same edition and have number
+			if(o1.getEditions().get(0).getNumber()!=null && o2.getEditions().get(0).getNumber()!=null)
+				if(o1.getEditions().get(0).equals(o2.getEditions().get(0)))
+				{
+					int n1=extractInt(o1.getEditions().get(0).getNumber());
+					int n2=extractInt(o2.getEditions().get(0).getNumber());
+					return n1-n2;
+				}
 		
-//			System.out.println("-"+o1.getEditions().get(0).getNumber()+"-");
-//			if(o1.getEditions().get(0).getNumber()!=null && o2.getEditions().get(0).getNumber()!=null)
-//				return o1.getEditions().get(0).getNumber().compareTo(o2.getEditions().get(0).getNumber());
-//		
 			int ret = test(o1,o2);
 			
 			if(ret==0)
 				ret=name(o1,o2);
 			
 			return ret;
-			
-		//	sortType(o1,o2);
-		//	sortName(o1,o2);
 	}
 
 
 
 	private int test(MagicCard o1, MagicCard o2) {
-		if(calcule(o1)<calcule(o2))
+		if(getWeight(o1)<getWeight(o2))
 			return -1;
 		
-		if(calcule(o1)==calcule(o2))
+		if(getWeight(o1)==getWeight(o2))
 			return 0;
 		
 		return 1;
 			
+	}
+	
+	private int extractInt(String s) {
+	    String num = s.replaceAll("\\D", "");
+	    return num.isEmpty() ? 0 : Integer.parseInt(num);
 	}
 	
 	private boolean isBasic(MagicCard mc)
@@ -97,7 +104,7 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 		return o1.getName().compareTo(o2.getName());
 	}
 	
-	private int calcule(MagicCard mc)
+	private int getWeight(MagicCard mc)
 	{
 	
 		if(mc.getColors().size()==0)
