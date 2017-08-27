@@ -44,7 +44,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 					fireTableDataChanged();
 				}
 			} catch (Exception e) {
-				logger.error(e);
+				logger.error("Error",e);
 				
 			}
 		}

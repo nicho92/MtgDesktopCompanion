@@ -84,12 +84,6 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 					  doc=dBuilder.parse(new URL(link).openStream());
 					  logger.debug(doc);
 					   
-					}
-					catch(Exception e)
-					{
-						logger.error(e);
-						return list;
-					}
 					
 			   doc.getDocumentElement().normalize();
 			   
@@ -104,12 +98,18 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			   	
 			   	
 			   	list.add(mp);
-			   	
+			   	logger.info(getName() +" found " + list.size() +" item(s)" );
 			    if(list.size()>Integer.parseInt(props.get("MAX").toString()))
 					 if(Integer.parseInt(props.get("MAX").toString())>-1)
 						 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
 			   	
-				 logger.info(getName() +" found " + list.size() +" item(s)" );
+				 
+					}
+					catch(Exception e)
+					{
+						logger.error(e);
+						return list;
+					}
 					
 			    
 		return list;

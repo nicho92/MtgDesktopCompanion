@@ -523,8 +523,7 @@ public class CardBuilder2GUI extends JPanel{
 					if(mc.getId()==null)
 						mc.setId(DigestUtils.sha1Hex(me.getSet()+mc.getId()+mc.getName()));
 					
-					
-					if(!mc.getEditions().contains(me))
+					if(!mc.getEditions().get(0).equals(me))
 						mc.getEditions().add(0,me);
 				try {
 					provider.addCard(me, mc);

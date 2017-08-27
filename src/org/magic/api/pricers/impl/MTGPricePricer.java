@@ -56,7 +56,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 		InputStream stream = new URL(url).openConnection().getInputStream();
 		List<MagicPrice> ret = new ArrayList<MagicPrice>();
 		
-		logger.debug(getName() +" looking for price at " + url);
+		logger.info(getName() +" looking for price at " + url);
 		
 		try{
 			JsonReader reader = new JsonReader(new InputStreamReader(stream)) ;
@@ -89,13 +89,16 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	       		price.setSite(getName());
 	       		ret.add(price);
 	       		reader.close();
+	       		logger.info(getName() +" found " + ret.size() +" items");
+	    		
 	       		return ret;
 	       }
 	     }
-	     
+	     reader.close();
 		}
 		catch(Exception e)
 		{
+			
 			return ret;	
 		}
 		return ret;

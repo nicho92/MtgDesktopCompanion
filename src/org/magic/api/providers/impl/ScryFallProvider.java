@@ -12,6 +12,7 @@ import java.net.URLConnection;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -25,6 +26,9 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.tools.Tools;
+import org.asciitable.impl.ASCIITableImpl;
+import org.asciitable.impl.CollectionASCIITableAware;
+import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -144,17 +148,22 @@ public class ScryFallProvider implements MagicCardsProvider {
 		}
 	}
 
-		public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 		
 		ScryFallProvider prov = new ScryFallProvider();
 		
 		prov.init();
 		prov.loadEditions();
-		List<MagicCard> res = prov.searchCardByCriteria("custom", "s:akh ++is:token", null);
+		List<MagicCard> res = prov.searchCardByCriteria("name", "liliana, Defiant necro", null);
 		
-		//for(MagicCard mc : res)
-			System.out.println(res.size());
+		ArrayList<String> l = new ArrayList<String>();
+		l.add("name");
+		l.add("types");
+		l.add("rotatedCardName");
 		
+		IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(res,l,l);
+    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
+    	
 	}
 	
 	
@@ -218,7 +227,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		return new String[]{"name","custom","type","color","oracle","mana","cmc","power","toughness","loyalty","is","rarity","cube","artist","flavor","watermark","border","frame","set"};
+		return new String[]{"custom","name","type","color","oracle","mana","cmc","power","toughness","loyalty","is","rarity","cube","artist","flavor","watermark","border","frame","set"};
 	}
 
 	@Override
@@ -289,7 +298,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 		return getName();
 	}
 	
-	
 	private URLConnection getConnection(String url)
 	{
 		try {
@@ -314,6 +322,9 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  try{mc.setText(obj.get("oracle_text").getAsString());}catch(NullPointerException e) { mc.setText(""); };
 		  try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
 				
+		  //try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
+		  //try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
+		  
 		  mc.setName(obj.get("name").getAsString());
 		  mc.setCmc(obj.get("cmc").getAsInt());
 		  mc.setCost(obj.get("mana_cost").getAsString());
@@ -391,9 +402,10 @@ public class ScryFallProvider implements MagicCardsProvider {
 			  arr.remove(index);
 			  if(arr.size()==1)
 				  mc.setRotatedCardName(arr.get(0).getAsJsonObject().get("name").getAsString());
-			 /* else
+			 /* else if(arr.size()>1)
 				  mc.setRotatedCardName(arr.get(1).getAsJsonObject().get("name").getAsString());
-			  */
+			 */ 
+				  
 			  
 		  }
 		
