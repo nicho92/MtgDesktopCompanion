@@ -47,7 +47,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 				
 				for(JInternalFrame f : getAllFrames())
 				{
-					System.out.println(f.getName() +" " + f.getBounds());
+					
 				}
 			}
 		});
