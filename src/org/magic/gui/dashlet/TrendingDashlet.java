@@ -46,7 +46,16 @@ public class TrendingDashlet extends AbstractJDashlet{
 
 	
 	public TrendingDashlet() {
+		initGUI();
 		
+	}
+
+	
+	
+	
+	
+	
+	private void initGUI() {
 		setSize(new Dimension(536, 346));
 		setTitle(getName());
 		setResizable(true);

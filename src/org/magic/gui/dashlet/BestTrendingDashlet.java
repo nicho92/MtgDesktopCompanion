@@ -6,6 +6,12 @@ import org.magic.gui.abstracts.AbstractJDashlet;
 
 public class BestTrendingDashlet extends AbstractJDashlet{
 
+	
+	
+	public BestTrendingDashlet() {
+		// TODO Auto-generated constructor stub
+	}
+	
 	@Override
 	public String getName() {
 		return "Trending Winners/Loosers";
