@@ -1,15 +1,22 @@
 package org.magic.tools;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.asciitable.impl.ASCIITableImpl;
+import org.asciitable.impl.CollectionASCIITableAware;
+import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.dao.impl.FileDAO;
 import org.magic.api.dao.impl.MysqlDAO;
+import org.magic.api.interfaces.MagicDAO;
 
 
 public class MagicCardComparator implements Comparator<MagicCard> {
@@ -19,34 +26,45 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 		
 		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
 		
-		MysqlDAO dao = new MysqlDAO();
+		MagicDAO dao = new FileDAO();
 				dao.init();
 				
 				MagicEdition ed = new MagicEdition();
 				ed.setSet("test");
-				ed.setId("AKH");
+				ed.setId("e01");
 				
 		List<MagicCard> list = dao.getCardsFromCollection(new MagicCollection("Library"),ed);
 		Collections.sort(list, new MagicCardComparator());
-		
-		for(MagicCard mc : list)
-		{
-			System.out.println(mc.getName() +"\t"+mc.getColors()+"\t"+mc.getFullType());
-		}
+   	
+    	List<String> attributes = new ArrayList<String>();
+			    	attributes.add("name");
+			    	attributes.add("colors");
+			    	attributes.add("types");
+			    	attributes.add("layout");
+    	
+    	IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(list,attributes,attributes);
+    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
+    	
+    	
 		System.exit(0);
 	}
 	
 	
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
+		
+		
+		
 		//if same edition and have number
 			if(o1.getEditions().get(0).getNumber()!=null && o2.getEditions().get(0).getNumber()!=null)
 				if(o1.getEditions().get(0).equals(o2.getEditions().get(0)))
 				{
-					int n1=extractInt(o1.getEditions().get(0).getNumber());
-					int n2=extractInt(o2.getEditions().get(0).getNumber());
+					int n1=calculate(o1.getEditions().get(0).getNumber());
+					int n2=calculate(o2.getEditions().get(0).getNumber());
 					return n1-n2;
 				}
+			
+			
 			//else compare
 			int ret = test(o1,o2);
 			if(ret==0)
@@ -69,7 +87,7 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 			
 	}
 	
-	private int extractInt(String s) {
+	private int calculate(String s) {
 	    String num = s.replaceAll("\\D", "");
 	    return num.isEmpty() ? 0 : Integer.parseInt(num);
 	}

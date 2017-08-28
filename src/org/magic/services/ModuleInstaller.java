@@ -17,7 +17,7 @@ public class ModuleInstaller {
 	static final Logger logger = LogManager.getLogger(ModuleInstaller.class.getName());
 
 	
-	 private List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
+	 public List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
 	        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
 	        assert classLoader != null;
 	        String path = packageName.replace('.', '/');
