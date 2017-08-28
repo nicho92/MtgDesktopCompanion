@@ -244,7 +244,10 @@ public class MagicGUI extends JFrame {
 			tabbedPane.addTab("Stock", new ImageIcon(MagicGUI.class.getResource("/res/stock.png")), new StockPanelGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/dashboard").equals("true"))
+		{
 			tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI(), null);
+			tabbedPane.addTab("DashBoard 2", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI2(), null);
+		}
 		
 		if(MTGControler.getInstance().get("modules/shopper").equals("true"))
 			tabbedPane.addTab("Shopping", new ImageIcon(MagicGUI.class.getResource("/res/shop.png")), new ShopperGUI(), null);

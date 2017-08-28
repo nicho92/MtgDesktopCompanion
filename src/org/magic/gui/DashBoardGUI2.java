@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
+import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -16,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.services.MTGControler;
 import org.magic.services.ModuleInstaller;
+import java.awt.SystemColor;
 
 public class DashBoardGUI2 extends JDesktopPane {
 	
@@ -24,6 +26,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 
 	
 	public DashBoardGUI2() {
+		setBackground(SystemColor.activeCaption);
 		
 		logger.info("init dashboard GUI 2");
 		
@@ -34,6 +37,24 @@ public class DashBoardGUI2 extends JDesktopPane {
 		
 		JMenu mnNewMenu = new JMenu("Add");
 		menuBar.add(mnNewMenu);
+		
+		JMenu mnWindow = new JMenu("Window");
+		menuBar.add(mnWindow);
+		
+		JMenuItem mntmPackAll = new JMenuItem("Pack All");
+		mntmPackAll.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				for(JInternalFrame f : getAllFrames())
+				{
+					System.out.println(f.getName() +" " + f.getBounds());
+				}
+			}
+		});
+		mnWindow.add(mntmPackAll);
+		
+		JMenuItem mntmSaveDisplay = new JMenuItem("Save display");
+		mnWindow.add(mntmSaveDisplay);
 		
 		
 		ModuleInstaller mods = new ModuleInstaller();

@@ -42,7 +42,6 @@ public class TrendingDashlet extends AbstractJDashlet{
 	private JComboBox<FORMAT> cboFormats;
 	private JLabel lblLoading;
 	
-	static final Logger logger = LogManager.getLogger(TrendingDashlet.class.getName());
 
 	
 	public TrendingDashlet() {
@@ -117,46 +116,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 	}
 	
 	
-	private void initToolTip(final JTable table)
-	{
-		final MagicCardDetailPanel pane = new MagicCardDetailPanel();
-				pane.enableThumbnail(true);
-				//pane.setPreferredSize(new Dimension(880, 350));
-				
-		final JPopupMenu popUp = new JPopupMenu("Customized Tool Tip");
-
-		table.addMouseListener(new MouseAdapter() {
-		    
-			public void mouseClicked(MouseEvent e) {
-				int row = table.rowAtPoint(e.getPoint());
-				
-				table.setRowSelectionInterval(row, row);
-				String cardName = table.getValueAt(row, 0).toString();
-				
-				String edID = table.getValueAt(row, 1).toString();
-				
-				MagicEdition ed = new MagicEdition();
-				ed.setId(edID);
-				try 
-				{
-					MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed).get(0);
-					pane.setMagicCard(mc);
-					pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
-						popUp.setBorder(new LineBorder(Color.black));
-					    popUp.setVisible(false);
-					    popUp.removeAll();
-					    popUp.setLayout(new BorderLayout());
-					    popUp.add(pane,BorderLayout.CENTER);
-					    popUp.show(table, e.getX(), e.getY());// + bounds.height);
-					    popUp.setVisible(true);
-				}
-				catch (Exception ex) 
-				{
-					logger.error(cardName +" " + edID,ex);
-				}
-		   }
-		});
-	}
+	
 
 	@Override
 	public String getName() {

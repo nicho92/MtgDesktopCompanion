@@ -14,20 +14,24 @@ public class MagicEditionListRenderer extends JLabel implements ListCellRenderer
 
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MagicEdition> list, MagicEdition value, int index,boolean isSelected, boolean cellHasFocus) {
-		ImageIcon ic = IconSetProvider.getInstance().get(value.getId());
-		JLabel l = new JLabel(value.getSet());
-		l.setOpaque(true);
-		l.setToolTipText(value.getId());
-		if (isSelected) {
-            l.setBackground(list.getSelectionBackground());
-            l.setForeground(list.getSelectionForeground());
-        } else {
-        	l.setBackground(list.getBackground());
-        	l.setForeground(list.getForeground());
-        }
-		l.setIcon(ic);
-		return l;
 		
+		if(value!=null)
+		{
+			ImageIcon ic = IconSetProvider.getInstance().get(value.getId());
+			JLabel l = new JLabel(value.getSet());
+			l.setOpaque(true);
+			l.setToolTipText(value.getId());
+			if (isSelected) {
+	            l.setBackground(list.getSelectionBackground());
+	            l.setForeground(list.getSelectionForeground());
+	        } else {
+	        	l.setBackground(list.getBackground());
+	        	l.setForeground(list.getForeground());
+	        }
+			l.setIcon(ic);
+			return l;
+		}
+		return new JLabel();
 		
 	}
 	

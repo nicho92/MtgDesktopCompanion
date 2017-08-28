@@ -14,7 +14,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 	
 	@Override
 	public String getName() {
-		return "Trending Winners/Loosers";
+		return "Winners/Loosers";
 	}
 
 	@Override

@@ -1,19 +1,105 @@
 package org.magic.gui.dashlet;
 
-import javax.swing.JInternalFrame;
+import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.table.TableRowSorter;
+
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MagicEdition;
 import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.gui.models.EditionsShakerTableModel;
+import org.magic.gui.renderer.CardShakeRenderer;
+import org.magic.gui.renderer.MagicEditionListRenderer;
+import org.magic.services.MTGControler;
+import org.magic.services.ThreadManager;
+
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class EditionsDashlet extends AbstractJDashlet {
-
+	
+	private JXTable table;
+	private JLabel lblLoading;
+	private  JComboBox<MagicEdition> cboEditions;
+	private EditionsShakerTableModel modEdition;
+	
 	
 	public EditionsDashlet() {
-		// TODO Auto-generated constructor stub
+		setSize(new Dimension(536, 346));
+		setTitle(getName());
+		setResizable(true);
+		setClosable(true);
+		setIconifiable(true);
+		setMaximizable(true);
+		setName(getName());
+		initGUI();
+	}
+
+	private void initGUI() {
+		JPanel panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.NORTH);
+		
+		
+		modEdition=new EditionsShakerTableModel();
+		
+		List<MagicEdition> eds= new ArrayList<>();
+		
+		try {
+			eds=MTGControler.getInstance().getEnabledProviders().loadEditions();
+			eds.add(0,null);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		cboEditions = new JComboBox(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
+		cboEditions.setRenderer(new MagicEditionListRenderer());
+		
+		panel.add(cboEditions);
+		
+		lblLoading = new JLabel("");
+		lblLoading.setIcon(new ImageIcon(EditionsDashlet.class.getResource("/res/load.gif")));
+		lblLoading.setVisible(false);
+		panel.add(lblLoading);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
+		table = new JXTable(modEdition);
+		initToolTip(table);
+		
+		table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
+	
+		new TableFilterHeader(table, AutoChoices.ENABLED);
+		scrollPane.setViewportView(table);
+		setVisible(true);
+		
+		cboEditions.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+					init();
+			}
+		});
+		
+		
 	}
 
 	@Override
 	public String getName() {
-		return "Editions Prices List";
+		return "Editions Prices";
 	}
 
 	@Override
@@ -24,7 +110,19 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		// TODO Auto-generated method stub
+		if(cboEditions.getSelectedItem()!=null)
+			ThreadManager.getInstance().execute(new Runnable() {
+				@Override
+				public void run() {
+					lblLoading.setVisible(true);
+					MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
+					modEdition.init(ed);
+					modEdition.fireTableDataChanged();
+					table.setRowSorter(new TableRowSorter(modEdition) );
+					
+					lblLoading.setVisible(false);
+				}
+			}, "init EditionDashLet");
 		
 	}
 
