@@ -8,6 +8,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.text.SimpleDateFormat;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -36,12 +37,18 @@ import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.JButton;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class TrendingDashlet extends AbstractJDashlet{
 	private JXTable table;
 	private CardsShakerTableModel modStandard;
 	private JComboBox<FORMAT> cboFormats;
 	private JLabel lblLoading;
+	private JPanel panel;
+	private JLabel lblInfoUpdate;
+	private JButton btnRefresh;
 	
 
 	
@@ -75,6 +82,15 @@ public class TrendingDashlet extends AbstractJDashlet{
 		lblLoading = new JLabel("");
 		lblLoading.setIcon(new ImageIcon(TrendingDashlet.class.getResource("/res/load.gif")));
 		lblLoading.setVisible(false);
+		
+		btnRefresh = new JButton("");
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				init();
+			}
+		});
+		btnRefresh.setIcon(new ImageIcon(TrendingDashlet.class.getResource("/res/refresh.png")));
+		panneauHaut.add(btnRefresh);
 		panneauHaut.add(lblLoading);
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -107,6 +123,13 @@ public class TrendingDashlet extends AbstractJDashlet{
 			}
 		
 		new TableFilterHeader(table, AutoChoices.ENABLED);
+
+		
+		panel = new JPanel();
+		getContentPane().add(panel, BorderLayout.SOUTH);
+		
+		lblInfoUpdate = new JLabel("");
+		panel.add(lblInfoUpdate);
 		
 	}
 
@@ -120,11 +143,19 @@ public class TrendingDashlet extends AbstractJDashlet{
 				modStandard.init((FORMAT)cboFormats.getSelectedItem());
 				table.setModel(modStandard);
 				table.setRowSorter(new TableRowSorter(modStandard) );
-				table.packAll();
-				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+
 				props.put("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				modStandard.fireTableDataChanged();
 				lblLoading.setVisible(false);
+				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+				table.packAll();
+				try{
+					lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
+				}catch(Exception e)
+				{
+					
+				}
+				
 			}
 		}, "Init Formats Dashlet");
 		
@@ -137,7 +168,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 
 	@Override
 	public String getName() {
-		return "Trendings Dashboard";
+		return "Trendings";
 	}
 
 

@@ -40,6 +40,12 @@ public class CardsShakerTableModel extends DefaultTableModel {
 		}
 	}
 	
+	public void init(List<CardShake> l)
+	{
+		this.list=l;
+	
+	}
+	
 	
 	public void init(FORMAT f)
 	{

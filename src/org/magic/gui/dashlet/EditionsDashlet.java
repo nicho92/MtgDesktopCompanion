@@ -112,7 +112,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		
 		setBounds(r);
 		}
-		
+		table.packAll();
 		new TableFilterHeader(table, AutoChoices.ENABLED);
 		
 	}
