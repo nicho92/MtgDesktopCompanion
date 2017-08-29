@@ -3,6 +3,7 @@ package org.magic.gui.dashlet;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
@@ -45,22 +46,20 @@ public class TrendingDashlet extends AbstractJDashlet{
 
 	
 	public TrendingDashlet() {
-		initGUI();
+		super();
 		
-	}
-
-	
-	
-	
-	
-	
-	private void initGUI() {
-		setSize(new Dimension(536, 346));
 		setTitle(getName());
 		setResizable(true);
 		setClosable(true);
 		setIconifiable(true);
 		setMaximizable(true);
+		
+		initGUI();
+		
+	}
+	
+	public void initGUI() {
+		
 		
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
@@ -84,12 +83,30 @@ public class TrendingDashlet extends AbstractJDashlet{
 		modStandard = new CardsShakerTableModel();
 		table = new JXTable();
 		
-		new TableFilterHeader(table, AutoChoices.ENABLED);
-		
+			
 		initToolTip(table);
-		
+
 		scrollPane.setViewportView(table);
+		
+		
 		setVisible(true);
+		
+		if(props.size()>0) {
+			Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
+										(int)Double.parseDouble(props.getProperty("y")),
+										(int)Double.parseDouble(props.getProperty("w")),
+										(int)Double.parseDouble(props.getProperty("h")));
+			
+			try {
+				cboFormats.setSelectedItem(FORMAT.valueOf(props.getProperty("FORMAT").toString()));
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			setBounds(r);
+			}
+		
+		new TableFilterHeader(table, AutoChoices.ENABLED);
 		
 	}
 
@@ -105,7 +122,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				table.setRowSorter(new TableRowSorter(modStandard) );
 				table.packAll();
 				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
-				
+				props.put("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				modStandard.fireTableDataChanged();
 				lblLoading.setVisible(false);
 			}
@@ -123,17 +140,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 		return "Trendings Dashboard";
 	}
 
-	@Override
-	public void save(String k, Object value) {
-		// TODO Auto-generated method stub
-		
-	}
 
-	@Override
-	public boolean isStartup() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 
 
 }

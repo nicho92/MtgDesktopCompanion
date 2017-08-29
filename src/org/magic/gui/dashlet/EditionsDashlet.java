@@ -2,6 +2,7 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.main.MtgDesktopCompanion;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
@@ -38,17 +40,18 @@ public class EditionsDashlet extends AbstractJDashlet {
 	
 	
 	public EditionsDashlet() {
-		setSize(new Dimension(536, 346));
+		super();
 		setTitle(getName());
 		setResizable(true);
 		setClosable(true);
 		setIconifiable(true);
 		setMaximizable(true);
 		setName(getName());
+		
 		initGUI();
 	}
 
-	private void initGUI() {
+	public void initGUI() {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
@@ -58,7 +61,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		List<MagicEdition> eds= new ArrayList<>();
 		
 		try {
-			eds=MTGControler.getInstance().getEnabledProviders().loadEditions();
+			eds.addAll(MTGControler.getInstance().getEnabledProviders().loadEditions());
 			eds.add(0,null);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -83,33 +86,49 @@ public class EditionsDashlet extends AbstractJDashlet {
 		table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 	
-		new TableFilterHeader(table, AutoChoices.ENABLED);
 		scrollPane.setViewportView(table);
 		setVisible(true);
 		
 		cboEditions.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-					init();
+				init();
 			}
 		});
+	
+		if(props.size()>0) {
+		Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
+									(int)Double.parseDouble(props.getProperty("y")),
+									(int)Double.parseDouble(props.getProperty("w")),
+									(int)Double.parseDouble(props.getProperty("h")));
 		
+		MagicEdition ed;
+		try {
+			ed = MTGControler.getInstance().getEnabledProviders().getSetById(props.getProperty("EDITION").toString());
+			cboEditions.setSelectedItem(ed);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		setBounds(r);
+		}
+		
+		new TableFilterHeader(table, AutoChoices.ENABLED);
 		
 	}
+	
+	
 
 	@Override
 	public String getName() {
 		return "Editions Prices";
 	}
-
-	@Override
-	public void save(String k, Object value) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
+	
 	@Override
 	public void init() {
+		
+	
 		if(cboEditions.getSelectedItem()!=null)
 			ThreadManager.getInstance().execute(new Runnable() {
 				@Override
@@ -119,16 +138,11 @@ public class EditionsDashlet extends AbstractJDashlet {
 					modEdition.init(ed);
 					modEdition.fireTableDataChanged();
 					table.setRowSorter(new TableRowSorter(modEdition) );
-					
+					save("EDITION",ed.getId());
 					lblLoading.setVisible(false);
 				}
 			}, "init EditionDashLet");
 		
 	}
 
-	@Override
-	public boolean isStartup() {
-		// TODO Auto-generated method stub
-		return false;
-	}
 }

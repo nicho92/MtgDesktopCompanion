@@ -2,10 +2,10 @@ package org.magic.gui.abstracts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
-import java.io.FileInputStream;
 import java.util.Properties;
 
 import javax.swing.JInternalFrame;
@@ -18,43 +18,33 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.dashlet.TrendingDashlet;
 import org.magic.services.MTGControler;
 
 public abstract class AbstractJDashlet extends JInternalFrame  {
 
-	protected File confdir = new File(MTGControler.CONF_DIR, "dashboards/dashlets");
+	public static final File confdir = new File(MTGControler.CONF_DIR, "dashboards/dashlets");
 	protected Properties props;
 	static final Logger logger = LogManager.getLogger(AbstractJDashlet.class.getName());
 
-	
 	public AbstractJDashlet() {
 		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
-		load();
+		
+		setSize(new Dimension(536, 346));
 	}
 	
-	
-	public void load()
+	public void setProperties(Properties p)
 	{
-		try {
-			File f = new File(confdir, getName()+".conf");
-			
-			if(f.exists())
-			{	
-				FileInputStream fis = new FileInputStream(f);
-				props.load(fis);
-				fis.close();
-			}
-			else
-			{
-				//save();
-			}
-		} catch (Exception e) {
-			e.printStackTrace();
-		} 
+		this.props=p;
 	}
+	
+	public Properties getProperties()
+	{
+		return props;
+	}
+	
+
 	
 	protected void initToolTip(final JTable table)
 	{
@@ -97,15 +87,16 @@ public abstract class AbstractJDashlet extends JInternalFrame  {
 		});
 	}
 	
-	
 	public abstract String getName();
 	
-	public abstract void save(String k , Object value);
+	public void save(String k, Object value) {
+		props.put(k, value);
+		
+	}
+	
+	public abstract void initGUI();
 	
 	public abstract void init();
-
-	public abstract boolean isStartup();
-	
 	
 	@Override
 	public String toString() {

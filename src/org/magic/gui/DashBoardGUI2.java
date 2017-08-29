@@ -3,7 +3,12 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.Properties;
 
 import javax.swing.JDesktopPane;
 import javax.swing.JFrame;
@@ -12,12 +17,18 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.services.MTGControler;
 import org.magic.services.ModuleInstaller;
 import java.awt.SystemColor;
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridLayout;
+import javax.swing.GroupLayout;
+import javax.swing.GroupLayout.Alignment;
 
 public class DashBoardGUI2 extends JDesktopPane {
 	
@@ -32,8 +43,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 		
 		
 		JMenuBar menuBar = new JMenuBar();
-		menuBar.setBounds(0, 0, 97, 21);
-		add(menuBar);
+		menuBar.setBounds(0, 0, 84, 21);
 		
 		JMenu mnNewMenu = new JMenu("Add");
 		menuBar.add(mnNewMenu);
@@ -44,17 +54,49 @@ public class DashBoardGUI2 extends JDesktopPane {
 		JMenuItem mntmPackAll = new JMenuItem("Pack All");
 		mntmPackAll.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
-				for(JInternalFrame f : getAllFrames())
-				{
-					
-				}
+				logger.info("PACK ALL TODO");
 			}
 		});
+		setLayout(null);
 		mnWindow.add(mntmPackAll);
 		
 		JMenuItem mntmSaveDisplay = new JMenuItem("Save display");
+		mntmSaveDisplay.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				int i=0;
+				
+				try {
+					FileUtils.cleanDirectory(AbstractJDashlet.confdir);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
+				
+				for(JInternalFrame jif : getAllFrames())
+				{
+					i++;
+					AbstractJDashlet dash = (AbstractJDashlet)jif;
+									dash.save("x", String.valueOf(dash.getBounds().getX()));
+									dash.save("y", String.valueOf(dash.getBounds().getY()));
+									dash.save("w", String.valueOf(dash.getBounds().getWidth()));
+									dash.save("h", String.valueOf(dash.getBounds().getHeight()));
+									dash.save("class", dash.getClass().getName());
+									dash.save("id", String.valueOf(i));
+									try {
+										File f = new File(AbstractJDashlet.confdir, i+".conf");
+										FileOutputStream fos = new FileOutputStream(f);
+										dash.getProperties().store(fos,"");
+										fos.close();
+									} catch (Exception e) {
+										e.printStackTrace();
+									} 				
+
+				}
+				
+			}
+		});
+		
 		mnWindow.add(mntmSaveDisplay);
+		add(menuBar);
 		
 		
 		ModuleInstaller mods = new ModuleInstaller();
@@ -77,9 +119,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 								AbstractJDashlet dash = null;
 								try {
 									dash = (AbstractJDashlet)classLoader.loadClass(c.getName()).newInstance();
-									add(dash);
-									dash.init();
-									
+									addDash(dash);
 								} 
 								catch(Exception ex)
 								{
@@ -96,7 +136,23 @@ public class DashBoardGUI2 extends JDesktopPane {
 			logger.error("Error",e);
 		}
 				
-			
+		
+		
+		for(File f : AbstractJDashlet.confdir.listFiles())
+		{
+			try {
+				Properties p = new Properties();
+				FileInputStream fis = new FileInputStream(f);
+				p.load(fis);
+				AbstractJDashlet dash = (AbstractJDashlet)classLoader.loadClass(p.get("class").toString()).newInstance();
+				dash.setProperties(p);
+				fis.close();
+				addDash(dash);
+				
+			} catch (Exception e) {
+				logger.error("Could not add " + f,e);
+			}
+		}
 		
 		
 	
@@ -104,9 +160,18 @@ public class DashBoardGUI2 extends JDesktopPane {
 	
 	
 	
+	public void addDash(AbstractJDashlet dash)
+	{
+		dash.initGUI();
+		dash.init();
+		add(dash);
+	}
+	
+	
+	
 	public static void main(String[] args) {
 		JFrame f = new JFrame();
-		 MTGControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledProviders().init();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		f.setVisible(true);
 		f.setSize(1024, 768);

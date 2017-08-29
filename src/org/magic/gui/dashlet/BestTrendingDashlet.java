@@ -17,11 +17,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 		return "Winners/Loosers";
 	}
 
-	@Override
-	public void save(String k, Object value) {
-		// TODO Auto-generated method stub
-		
-	}
+	
 
 	@Override
 	public void init() {
@@ -30,9 +26,10 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 	}
 
 	@Override
-	public boolean isStartup() {
+	public void initGUI() {
 		// TODO Auto-generated method stub
-		return false;
+		
 	}
+
 
 }
