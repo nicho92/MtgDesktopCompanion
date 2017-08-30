@@ -13,6 +13,7 @@ import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.CardAlertTableModel;
 import java.awt.Dimension;
+import java.awt.Rectangle;
 
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 	private JTable table;
@@ -21,13 +22,8 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 	
 	public AlertedCardsTrendingDashlet() {
 		super();
-		setTitle(getName());
-		setResizable(true);
-		setClosable(true);
-		setIconifiable(true);
-		setMaximizable(true);
-		setName(getName());
-		initGUI();
+		
+	
 	}
 	
 	@Override
@@ -64,12 +60,20 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 	        		MagicCardAlert alt =(MagicCardAlert)table.getValueAt(row,0);
 	        		historyPricesPanel.init(alt.getCard(), alt.getCard().getEditions().get(0), alt.getCard().toString());
 	        		//historyPricesPanel.zoom(new Date());
-	        		
 	        		historyPricesPanel.revalidate();
 	        		
 				}
 		    }
 		});
+		
+		if(props.size()>0) {
+			Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
+										(int)Double.parseDouble(props.getProperty("y")),
+										(int)Double.parseDouble(props.getProperty("w")),
+										(int)Double.parseDouble(props.getProperty("h")));
+			setBounds(r);
+			}
+		
 		setVisible(true);
 		
 		

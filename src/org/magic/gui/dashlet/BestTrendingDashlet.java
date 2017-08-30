@@ -38,12 +38,6 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 	
 	public BestTrendingDashlet() {
 		super();
-		setTitle(getName());
-		setResizable(true);
-		setClosable(true);
-		setIconifiable(true);
-		setMaximizable(true);
-		
 		
 	}
 	

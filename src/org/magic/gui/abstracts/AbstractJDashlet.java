@@ -34,7 +34,6 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 		if(!confdir.exists())
 			confdir.mkdir();
 		
-		setSize(new Dimension(536, 346));
 		
 		
 		addInternalFrameListener(new InternalFrameAdapter() {
@@ -44,6 +43,14 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 					FileUtils.deleteQuietly(new File(confdir, dash.getProperties().get("id")+".conf"));
 			}
 		});
+		
+		
+		setTitle(getName());
+		setResizable(true);
+		setClosable(true);
+		setIconifiable(true);
+		setMaximizable(true);
+		setSize(new Dimension(536, 346));
 		
 	}
 	

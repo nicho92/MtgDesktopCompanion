@@ -41,12 +41,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 	
 	public EditionsDashlet() {
 		super();
-		setTitle(getName());
-		setResizable(true);
-		setClosable(true);
-		setIconifiable(true);
-		setMaximizable(true);
-		setName(getName());
+		
 		
 	}
 
