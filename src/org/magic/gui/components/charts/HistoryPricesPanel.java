@@ -1,6 +1,9 @@
 package org.magic.gui.components.charts;
 
 import java.awt.BorderLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseWheelEvent;
@@ -8,7 +11,6 @@ import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JCheckBox;
@@ -27,10 +29,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.services.MTGControler;
-import javax.swing.JButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 
 public class HistoryPricesPanel extends JPanel{
 	
@@ -105,9 +103,8 @@ public class HistoryPricesPanel extends JPanel{
 	{
 
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		
 		TimeSeries series1 = new TimeSeries(title);
-
-			
 		if(showAll)
 		{
 			for(DashBoard d : MTGControler.getInstance().getDashBoards())
@@ -184,6 +181,7 @@ public class HistoryPricesPanel extends JPanel{
 	        public void mouseWheelMoved(MouseWheelEvent arg0) {
 	            if (arg0.getWheelRotation() > 0) {
 	            	pane.zoomOutDomain(0.5, 0.5);
+	            	
 	            } else if (arg0.getWheelRotation() < 0) {
 	            	pane.zoomInDomain(1.5, 1.5);
 	            }
@@ -192,4 +190,10 @@ public class HistoryPricesPanel extends JPanel{
 		this.add(pane,BorderLayout.CENTER);
 		chart.fireChartChanged();
 	}
+	
+	public void zoom()
+	{
+		 
+	}
+
 }

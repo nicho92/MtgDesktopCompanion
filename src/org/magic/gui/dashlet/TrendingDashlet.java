@@ -61,7 +61,6 @@ public class TrendingDashlet extends AbstractJDashlet{
 		setIconifiable(true);
 		setMaximizable(true);
 		
-		initGUI();
 		
 	}
 	
@@ -99,13 +98,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 		modStandard = new CardsShakerTableModel();
 		table = new JXTable();
 		
-			
-		initToolTip(table);
-
 		scrollPane.setViewportView(table);
-		
-		
-		setVisible(true);
 		
 		if(props.size()>0) {
 			Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
@@ -124,13 +117,17 @@ public class TrendingDashlet extends AbstractJDashlet{
 		
 		new TableFilterHeader(table, AutoChoices.ENABLED);
 
+		initToolTip(table);
 		
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 		
 		lblInfoUpdate = new JLabel("");
 		panel.add(lblInfoUpdate);
+	
 		
+		setVisible(true);
+	
 	}
 
 	public void init()
@@ -143,12 +140,11 @@ public class TrendingDashlet extends AbstractJDashlet{
 				modStandard.init((FORMAT)cboFormats.getSelectedItem());
 				table.setModel(modStandard);
 				table.setRowSorter(new TableRowSorter(modStandard) );
-
 				props.put("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				modStandard.fireTableDataChanged();
 				lblLoading.setVisible(false);
 				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
-				table.packAll();
+			//	table.packAll();
 				try{
 					lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
 				}catch(Exception e)

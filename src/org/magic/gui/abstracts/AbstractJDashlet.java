@@ -12,7 +12,10 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.border.LineBorder;
+import javax.swing.event.InternalFrameAdapter;
+import javax.swing.event.InternalFrameEvent;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -20,11 +23,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.services.MTGControler;
 
-public abstract class AbstractJDashlet extends JInternalFrame  {
+public abstract class AbstractJDashlet extends JInternalFrame {
 
 	public static final File confdir = new File(MTGControler.CONF_DIR, "dashboards/dashlets");
 	protected Properties props;
-	static final Logger logger = LogManager.getLogger(AbstractJDashlet.class.getName());
+	protected static final Logger logger = LogManager.getLogger(AbstractJDashlet.class.getName());
 
 	public AbstractJDashlet() {
 		props=new Properties();
@@ -32,6 +35,16 @@ public abstract class AbstractJDashlet extends JInternalFrame  {
 			confdir.mkdir();
 		
 		setSize(new Dimension(536, 346));
+		
+		
+		addInternalFrameListener(new InternalFrameAdapter() {
+			public void internalFrameClosed(InternalFrameEvent e) {
+				AbstractJDashlet dash = (AbstractJDashlet)e.getInternalFrame();
+				if(dash.getProperties().get("id")!=null)
+					FileUtils.deleteQuietly(new File(confdir, dash.getProperties().get("id")+".conf"));
+			}
+		});
+		
 	}
 	
 	public void setProperties(Properties p)
@@ -59,29 +72,32 @@ public abstract class AbstractJDashlet extends JInternalFrame  {
 			public void mouseClicked(MouseEvent e) {
 				int row = table.rowAtPoint(e.getPoint());
 				
-				table.setRowSelectionInterval(row, row);
-				String cardName = table.getValueAt(row, 0).toString();
-				
-				String edID = table.getValueAt(row, 1).toString();
-				
-				MagicEdition ed = new MagicEdition();
-				ed.setId(edID);
-				try 
-				{
-					MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed).get(0);
-					pane.setMagicCard(mc);
-					pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
-						popUp.setBorder(new LineBorder(Color.black));
-					    popUp.setVisible(false);
-					    popUp.removeAll();
-					    popUp.setLayout(new BorderLayout());
-					    popUp.add(pane,BorderLayout.CENTER);
-					    popUp.show(table, e.getX(), e.getY());// + bounds.height);
-					    popUp.setVisible(true);
-				}
-				catch (Exception ex) 
-				{
-					logger.error(cardName +" " + edID,ex);
+				if(row>-1) {
+					table.setRowSelectionInterval(row, row);
+					String cardName = table.getValueAt(row, 0).toString();
+					
+					String edID = table.getValueAt(row, 1).toString();
+					
+					MagicEdition ed = new MagicEdition();
+					ed.setId(edID);
+					try 
+					{
+						MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed).get(0);
+						pane.setMagicCard(mc);
+						pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
+							popUp.setBorder(new LineBorder(Color.black));
+						    popUp.setVisible(false);
+						    popUp.removeAll();
+						    popUp.setLayout(new BorderLayout());
+						    popUp.add(pane,BorderLayout.CENTER);
+						    popUp.show(table, e.getX(), e.getY());// + bounds.height);
+						    popUp.setVisible(true);
+					}
+					catch (Exception ex) 
+					{
+						logger.error(cardName +" " + edID,ex);
+					}
+					
 				}
 		   }
 		});

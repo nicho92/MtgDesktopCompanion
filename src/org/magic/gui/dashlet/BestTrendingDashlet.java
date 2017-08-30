@@ -25,12 +25,17 @@ import org.magic.services.ThreadManager;
 import javafx.scene.control.Skinnable;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class BestTrendingDashlet extends AbstractJDashlet{
 
 	private JXTable table;
 	private CardsShakerTableModel modStandard;
-
+	private JSpinner spinner;
+	
 	public BestTrendingDashlet() {
 		super();
 		setTitle(getName());
@@ -40,7 +45,6 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 		setMaximizable(true);
 		
 		
-		initGUI();
 	}
 	
 	@Override
@@ -59,7 +63,10 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 				
 				
 				try {
-					List<CardShake> shakes = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.modern.toString());
+					List<CardShake> shakes = new ArrayList<CardShake>();
+							shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.modern.toString()));
+							
+					
 					Collections.sort(shakes,new Comparator<CardShake>() {
 
 						public int compare(CardShake o1, CardShake o2) {
@@ -70,9 +77,11 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 						}
 					});
 					
+					int val = (Integer)spinner.getValue(); 
+					save("LIMIT", String.valueOf(val));
 					List<CardShake> ret = new ArrayList<CardShake>();
-					ret.addAll(shakes.subList(0, 5));
-					ret.addAll(shakes.subList(shakes.size()-6, shakes.size()-1));
+					ret.addAll(shakes.subList(0, val));//X first
+					ret.addAll(shakes.subList(shakes.size()-(val+1), shakes.size()-1)); //x last
 					
 					modStandard.init(ret);
 				} catch (IOException e) {
@@ -96,12 +105,22 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		
+		spinner = new JSpinner();
+		spinner.addChangeListener(new ChangeListener() {
+			public void stateChanged(ChangeEvent arg0) {
+				init();
+			}
+		});
+		spinner.setModel(new SpinnerNumberModel(new Integer(5), new Integer(1), null, new Integer(1)));
+		panneauHaut.add(spinner);
+		
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		modStandard = new CardsShakerTableModel();
 		table = new JXTable(modStandard);
 		scrollPane.setViewportView(table);
-
+		initToolTip(table);
+		
 		if(props.size()>0) {
 			Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
 										(int)Double.parseDouble(props.getProperty("y")),
@@ -109,10 +128,9 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 										(int)Double.parseDouble(props.getProperty("h")));
 			
 			try {
-				//cboFormats.setSelectedItem(FORMAT.valueOf(props.getProperty("NUMBER").toString()));
-			
+				spinner.setValue(Integer.parseInt(props.getProperty("LIMIT","5")));
 			} catch (Exception e) {
-				e.printStackTrace();
+				//logger.error("can't get LIMIT value",e);
 			}
 			setBounds(r);
 			}

@@ -48,13 +48,11 @@ public class EditionsDashlet extends AbstractJDashlet {
 		setMaximizable(true);
 		setName(getName());
 		
-		initGUI();
 	}
 
 	public void initGUI() {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
-		
 		
 		modEdition=new EditionsShakerTableModel();
 		
@@ -106,8 +104,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 			ed = MTGControler.getInstance().getEnabledProviders().getSetById(props.getProperty("EDITION").toString());
 			cboEditions.setSelectedItem(ed);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			logger.error("Error retrieve editions",e);
 		}
 		
 		setBounds(r);
