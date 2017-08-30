@@ -39,8 +39,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 	public DashBoardGUI2() {
 		setBackground(SystemColor.activeCaption);
 		
-		logger.info("init dashboard GUI 2");
-		
+		logger.info("init Dashboard GUI");
 		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 84, 21);

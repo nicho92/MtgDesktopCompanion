@@ -66,7 +66,7 @@ public class ScryFallProvider implements MagicCardsProvider {
     		InstallCert.install("api.scryfall.com");
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
     	} catch (Exception e1) {
-			logger.error(e1);
+			logger.error("Erreur installation certificat",e1);
 		}
 
 	}
@@ -130,7 +130,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 			}
 			catch(Exception e)
 			{
-				e.printStackTrace();
 				logger.error(e);
 				hasMore=false;
 			}
@@ -181,7 +180,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 		if(cache.size()<=0)
 		{
 			String url = baseURI+"/sets";
-			logger.info("connect to " + url);
 			
 			URLConnection con = getConnection(url);
 			JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
