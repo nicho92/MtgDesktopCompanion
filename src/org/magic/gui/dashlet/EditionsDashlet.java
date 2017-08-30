@@ -6,6 +6,7 @@ import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -56,6 +57,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		
 		try {
 			eds.addAll(MTGControler.getInstance().getEnabledProviders().loadEditions());
+			Collections.sort(eds);
 			eds.add(0,null);
 		} catch (Exception e) {
 			e.printStackTrace();
