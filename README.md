@@ -53,8 +53,10 @@ Deck Manager :
 Collection Manager :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/collectionManager.png)
 
-Check for price variation :
+Manage your dashboard with your interested "dashlet"
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/dashboard.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/dashboard.png)
+
+Check for price variation :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png)
 
 
