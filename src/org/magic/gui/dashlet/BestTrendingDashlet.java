@@ -29,6 +29,7 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.ImageIcon;
 
 public class BestTrendingDashlet extends AbstractJDashlet{
 
@@ -38,6 +39,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 	
 	public BestTrendingDashlet() {
 		super();
+		setFrameIcon(new ImageIcon(BestTrendingDashlet.class.getResource("/res/up.png")));
 		
 	}
 	

@@ -68,7 +68,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 				try {
 					FileUtils.cleanDirectory(AbstractJDashlet.confdir);
 				} catch (IOException e1) {
-					e1.printStackTrace();
+					logger.error(e1);
 				}
 				
 				for(JInternalFrame jif : getAllFrames())

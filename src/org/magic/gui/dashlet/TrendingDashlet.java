@@ -54,7 +54,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 	
 	public TrendingDashlet() {
 		super();
-		
+		setFrameIcon(new ImageIcon(TrendingDashlet.class.getResource("/res/dashboard.png")));
 	}
 	
 	public void initGUI() {

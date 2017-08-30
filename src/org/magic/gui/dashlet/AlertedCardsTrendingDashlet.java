@@ -14,6 +14,7 @@ import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.CardAlertTableModel;
 import java.awt.Dimension;
 import java.awt.Rectangle;
+import javax.swing.ImageIcon;
 
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 	private JTable table;
@@ -22,8 +23,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 	
 	public AlertedCardsTrendingDashlet() {
 		super();
-		
-	
+		setFrameIcon(new ImageIcon(AlertedCardsTrendingDashlet.class.getResource("/res/bell.png")));
 	}
 	
 	@Override

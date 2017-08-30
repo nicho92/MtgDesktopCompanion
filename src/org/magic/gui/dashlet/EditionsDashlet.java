@@ -41,6 +41,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 	
 	public EditionsDashlet() {
 		super();
+		setFrameIcon(new ImageIcon(EditionsDashlet.class.getResource("/res/collection.png")));
 		
 		
 	}
