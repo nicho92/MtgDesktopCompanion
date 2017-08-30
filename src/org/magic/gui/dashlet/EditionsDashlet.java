@@ -129,7 +129,11 @@ public class EditionsDashlet extends AbstractJDashlet {
 					lblLoading.setVisible(true);
 					MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
 					modEdition.init(ed);
-					modEdition.fireTableDataChanged();
+					try{
+						modEdition.fireTableDataChanged();
+					}catch(Exception e) 
+					{}
+					
 					table.setRowSorter(new TableRowSorter(modEdition) );
 					save("EDITION",ed.getId());
 					lblLoading.setVisible(false);
