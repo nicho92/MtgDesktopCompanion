@@ -107,7 +107,13 @@ public class EditionsDashlet extends AbstractJDashlet {
 		
 		setBounds(r);
 		}
-		table.packAll();
+		
+		try {
+			table.packAll();
+		}
+		catch(Exception e) 
+		{}
+		
 		new TableFilterHeader(table, AutoChoices.ENABLED);
 		
 	}
@@ -135,7 +141,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 						modEdition.fireTableDataChanged();
 					}catch(Exception e) 
 					{}
-					
+					table.packAll();
 					table.setRowSorter(new TableRowSorter(modEdition) );
 					save("EDITION",ed.getId());
 					lblLoading.setVisible(false);

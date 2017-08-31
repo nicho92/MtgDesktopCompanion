@@ -52,6 +52,8 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		Document d = Jsoup.connect("https://deckmaster.info/card.php?multiverseid="+multiverseid)
 				  .userAgent(props.getProperty("USER_AGENT"))
 				  .get();
+		
+			logger.debug("read https://deckmaster.info/card.php?multiverseid="+multiverseid);
 			Element e = d.select(".card > img" ).get(0);
 			HttpURLConnection con = (HttpURLConnection)new URL(e.attr("src")).openConnection();
 			con.setRequestProperty("User-Agent",props.getProperty("USER_AGENT"));

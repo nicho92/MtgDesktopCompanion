@@ -132,7 +132,7 @@ public class MTGControler {
 			}else{
 				path=k.toString();
 			}
-			logger.info("set " + k + " to " + c);
+			logger.debug("set " + k + " to " + c);
 			
 			config.setProperty(path, c);
 			builder.save();

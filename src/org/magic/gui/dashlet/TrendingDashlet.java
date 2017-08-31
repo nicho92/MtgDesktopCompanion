@@ -138,7 +138,13 @@ public class TrendingDashlet extends AbstractJDashlet{
 				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 				modStandard.fireTableDataChanged();
 				
-				table.packAll();
+				try {
+					table.packAll();
+				}
+				catch(Exception e) 
+				{}
+				
+				
 				try{
 					lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
 				}catch(Exception e)

@@ -146,24 +146,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 			return false;
 		}
 	}
-
-	public static void main(String[] args) throws Exception {
-		
-		ScryFallProvider prov = new ScryFallProvider();
-		
-		prov.init();
-		prov.loadEditions();
-		List<MagicCard> res = prov.searchCardByCriteria("name", "liliana, Defiant necro", null);
-		
-		ArrayList<String> l = new ArrayList<String>();
-		l.add("name");
-		l.add("types");
-		l.add("rotatedCardName");
-		
-		IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(res,l,l);
-    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
-    	
-	}
+	
+	
 	
 	
 	@Override
@@ -310,6 +294,26 @@ public class ScryFallProvider implements MagicCardsProvider {
 		}	
 	}
 	
+
+	public static void main(String[] args) throws Exception {
+		
+		ScryFallProvider prov = new ScryFallProvider();
+		
+		prov.init();
+		prov.loadEditions();
+		List<MagicCard> res = prov.searchCardByCriteria("custom", "++e:xln", null);
+		
+		ArrayList<String> l = new ArrayList<String>();
+		l.add("name");
+		l.add("supertypes");
+		l.add("subtypes");
+		l.add("types");
+		
+		IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(res,l,l);
+    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
+    	
+	}
+	
 	private MagicCard generateCard(JsonObject obj) throws Exception
 	{
 		final MagicCard mc = new MagicCard();
@@ -319,9 +323,10 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  try{mc.setMultiverseid(obj.get("multiverse_id").getAsInt());}catch(NullPointerException e) { };
 		  try{mc.setText(obj.get("oracle_text").getAsString());}catch(NullPointerException e) { mc.setText(""); };
 		  try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
-				
-		  //try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
-		  //try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
+			
+		  
+		 // String typeline = obj.get("type_line").getAsString();
+		 //"Basic " +"Legendary" + "Ongoing" +"Snow" +"World";
 		  
 		  mc.setName(obj.get("name").getAsString());
 		  mc.setCmc(obj.get("cmc").getAsInt());
