@@ -58,7 +58,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 				save.mkdir();
 			
 			
-			save = new File(save,ed.getId());
+			save = new File(save,removeCon(ed.getId()));
 			if(!save.exists())
 				save.mkdir();
 			
@@ -83,7 +83,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 			f.mkdir();
 		
 		
-		f = new File(f,ed.getId());
+		f = new File(f,removeCon(ed.getId()));
 		if(!f.exists())
 			f.mkdir();
 		
@@ -91,4 +91,13 @@ public class FileCache extends AbstractMTGPicturesCache {
 		
 	}
 
+	private String removeCon(String a)
+	{
+		if(a.equalsIgnoreCase("con"))
+			return a+"_set";
+		
+		return a;
+	}
+	
+	
 }

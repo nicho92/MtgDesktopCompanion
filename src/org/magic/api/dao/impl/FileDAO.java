@@ -76,6 +76,15 @@ public class FileDAO extends AbstractMagicDAO {
 	public String getName() {
 		return "FileDB";
 	}
+	
+	private String removeCon(String a)
+	{
+		if(a.equalsIgnoreCase("con"))
+			return a+"_set";
+		
+		return a;
+	}
+	
 
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
@@ -84,7 +93,7 @@ public class FileDAO extends AbstractMagicDAO {
 		if(!f.exists())
 			f.mkdir();
 			
-		f=new File(f,mc.getEditions().get(0).getId());
+		f=new File(f,removeCon(mc.getEditions().get(0).getId()));
 		if(!f.exists())
 			f.mkdir();
 		
@@ -102,7 +111,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		File f = new File(directory,"cards/"+collection.getName()+"/"+mc.getEditions().get(0).getId()+"/"+IDGenerator.generate(mc));
+		File f = new File(directory,"cards/"+collection.getName()+"/"+removeCon(mc.getEditions().get(0).getId())+"/"+IDGenerator.generate(mc));
 		
 		File parent = f.getParentFile();
 		
@@ -124,7 +133,7 @@ public class FileDAO extends AbstractMagicDAO {
 		File f = new File(directory,"cards/"+list.getName());
 		
 		if(me!=null)
-			f = new File(f,"/"+me.getId());
+			f = new File(f,"/"+removeCon(me.getId()));
 		
 		
 		return FileUtils.listFiles(f, null, true).size();
@@ -135,7 +144,7 @@ public class FileDAO extends AbstractMagicDAO {
 		Map<String, Integer> map = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
 		File eds = new File(directory,"cards/"+c.getName());
 		for(File ed : eds.listFiles())
-			map.put(ed.getName(), ed.listFiles().length);
+			map.put(removeCon(ed.getName()), ed.listFiles().length);
 		
 		return map;
 	}
@@ -150,7 +159,7 @@ public class FileDAO extends AbstractMagicDAO {
 		File col = new File(directory,"cards/"+c.getName());
 		
 		if(me!=null)
-			col = new File(col,me.getId());
+			col = new File(col,removeCon(me.getId()));
 		
 		logger.debug("Load " + col);
 		
@@ -237,7 +246,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeEdition(MagicEdition ed, MagicCollection col) throws SQLException {
-		File f = new File(directory,"cards/"+col.getName()+"/"+ed.getId());
+		File f = new File(directory,"cards/"+col.getName()+"/"+removeCon(ed.getId()));
 		
 		if(f.exists())
 			try {
