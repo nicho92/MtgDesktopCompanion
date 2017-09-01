@@ -3,7 +3,6 @@ package org.magic.game.gui.components;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 

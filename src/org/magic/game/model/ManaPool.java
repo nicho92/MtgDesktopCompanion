@@ -9,7 +9,6 @@ import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.gui.MagicGUI;
 
 public class ManaPool extends Observable implements Serializable{
 

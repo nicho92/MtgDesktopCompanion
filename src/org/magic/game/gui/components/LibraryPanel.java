@@ -7,7 +7,6 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JMenuItem;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.ScryActions;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;

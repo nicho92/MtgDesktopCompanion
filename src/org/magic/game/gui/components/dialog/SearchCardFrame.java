@@ -8,13 +8,10 @@ import javax.swing.JScrollPane;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
-import org.magic.game.gui.components.DraggablePanel;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.HandPanel;
-import org.magic.game.gui.components.LibraryPanel;
 import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
-import org.magic.gui.MagicGUI;
 import org.magic.services.MTGControler;
 
 public class SearchCardFrame extends JDialog {

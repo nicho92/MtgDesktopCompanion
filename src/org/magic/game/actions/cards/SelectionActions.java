@@ -1,11 +1,9 @@
 package org.magic.game.actions.cards;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.border.LineBorder;
 
 import org.magic.game.gui.components.DisplayableCard;
 

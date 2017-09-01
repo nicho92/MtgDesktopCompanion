@@ -1,19 +1,11 @@
 package org.magic.game.actions.cards;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
 
 import org.magic.game.gui.components.DisplayableCard;
-import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.model.GameManager;
-import org.magic.game.model.Turn.PHASES;
 
 public class TapActions extends AbstractAction {
 

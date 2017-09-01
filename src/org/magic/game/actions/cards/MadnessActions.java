@@ -9,7 +9,6 @@ import javax.swing.AbstractAction;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.model.GameManager;
 
 public class MadnessActions extends AbstractAction {
 

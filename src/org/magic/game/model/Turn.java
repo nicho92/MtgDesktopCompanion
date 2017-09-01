@@ -3,8 +3,6 @@ package org.magic.game.model;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.game.model.Turn.PHASES;
-
 public class Turn {
 
 	public enum PHASES {Untap,Upkeep,Draw,Main,Combat,Attack,Block,Damage,End_Combat,Main_2,End,Cleanup};

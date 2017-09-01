@@ -3,14 +3,18 @@ package org.magic.gui.dashlet;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
@@ -21,15 +25,6 @@ import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-
-import javafx.scene.control.Skinnable;
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.ImageIcon;
 
 public class BestTrendingDashlet extends AbstractJDashlet{
 
@@ -64,12 +59,15 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 							
 					
 					Collections.sort(shakes,new Comparator<CardShake>() {
-
 						public int compare(CardShake o1, CardShake o2) {
 							if(o1.getPercentDayChange()>o2.getPercentDayChange())
 									return -1;
-								else
+							
+							if(o1.getPercentDayChange()<o2.getPercentDayChange())
 									return 1;
+							
+							return 0;
+							
 						}
 					});
 					

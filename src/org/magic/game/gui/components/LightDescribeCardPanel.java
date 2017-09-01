@@ -6,9 +6,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 
+import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextField;
 
 import org.jdesktop.beansbinding.AutoBinding;
@@ -20,9 +22,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicRuling;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-import javax.swing.JEditorPane;
 
 public class LightDescribeCardPanel extends JPanel {
 	private JTextField txtName;

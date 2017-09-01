@@ -14,6 +14,7 @@ import java.awt.image.BufferedImage;
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -21,7 +22,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.LogManager;
@@ -37,7 +37,6 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import javax.swing.JCheckBox;
 
 public class MagicCardDetailPanel extends JPanel {
 

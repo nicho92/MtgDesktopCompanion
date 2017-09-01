@@ -5,8 +5,6 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
-import org.magic.game.gui.components.DisplayableCard;
-
 public abstract class AbstractSpell extends AbstractAction{
 
 	@Override

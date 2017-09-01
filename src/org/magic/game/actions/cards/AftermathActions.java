@@ -2,10 +2,6 @@ package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
-import javax.swing.AbstractAction;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;

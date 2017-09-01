@@ -1,8 +1,10 @@
 package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
-import java.util.Date;
+import java.awt.Dimension;
+import java.awt.Rectangle;
 
+import javax.swing.ImageIcon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.event.ListSelectionEvent;
@@ -12,9 +14,6 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.CardAlertTableModel;
-import java.awt.Dimension;
-import java.awt.Rectangle;
-import javax.swing.ImageIcon;
 
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 	private JTable table;

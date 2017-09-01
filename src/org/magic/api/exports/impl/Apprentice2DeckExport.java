@@ -15,7 +15,6 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.api.main.MtgDesktopCompanion;
 import org.magic.services.MTGControler;
 
 public class Apprentice2DeckExport extends AbstractCardExport  {

@@ -1,7 +1,6 @@
 package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,11 +16,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.log4j.LogManager;
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.main.MtgDesktopCompanion;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;

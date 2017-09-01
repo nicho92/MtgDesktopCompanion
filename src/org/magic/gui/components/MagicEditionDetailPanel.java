@@ -1,11 +1,13 @@
 package org.magic.gui.components;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -23,14 +25,10 @@ import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
-import org.magic.gui.CardBuilder2GUI;
-import org.magic.gui.MagicGUI;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import java.awt.BorderLayout;
-import javax.swing.JButton;
 
 public class MagicEditionDetailPanel extends JPanel {
 

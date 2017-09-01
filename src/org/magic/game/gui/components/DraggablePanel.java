@@ -3,7 +3,6 @@ package org.magic.game.gui.components;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 

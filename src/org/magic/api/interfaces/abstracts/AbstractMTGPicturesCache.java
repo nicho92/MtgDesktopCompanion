@@ -7,7 +7,6 @@ import java.util.Observable;
 import java.util.Properties;
 
 import org.magic.api.interfaces.MTGPicturesCache;
-import org.magic.api.interfaces.PictureProvider;
 import org.magic.services.MTGControler;
 
 public abstract class AbstractMTGPicturesCache extends Observable implements MTGPicturesCache {

@@ -1,7 +1,6 @@
 package org.magic.game.gui.components.dialog;
 
 import java.awt.BorderLayout;
-import java.lang.reflect.InvocationTargetException;
 import java.util.Map;
 
 import javax.swing.JDialog;
@@ -11,7 +10,6 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.game.gui.components.DisplayableCard;
-import org.magic.services.ThreadManager;
 
 public class DescribeCardDialog extends JDialog {
 	private JTable table;

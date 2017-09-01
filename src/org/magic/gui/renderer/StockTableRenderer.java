@@ -2,16 +2,11 @@ package org.magic.gui.renderer;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.util.List;
 
-import javax.swing.DefaultCellEditor;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicEdition;
 
 public class StockTableRenderer extends DefaultTableRenderer {
 

@@ -1,6 +1,7 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
@@ -23,12 +24,6 @@ import org.apache.log4j.Logger;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.services.MTGControler;
 import org.magic.services.ModuleInstaller;
-import java.awt.SystemColor;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridLayout;
-import javax.swing.GroupLayout;
-import javax.swing.GroupLayout.Alignment;
 
 public class DashBoardGUI2 extends JDesktopPane {
 	

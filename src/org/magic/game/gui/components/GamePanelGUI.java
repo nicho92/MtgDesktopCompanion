@@ -25,7 +25,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -43,12 +42,9 @@ import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.gui.components.dialog.DeckSideBoardSwitcherDialog;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
-import org.magic.game.network.actions.AbstractNetworkAction;
-import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MTGControler;
-import java.awt.Color;
 
 public class GamePanelGUI extends JPanel implements Observer {
 	

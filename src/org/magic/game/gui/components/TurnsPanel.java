@@ -20,7 +20,6 @@ import org.magic.game.actions.turns.MainPhase;
 import org.magic.game.actions.turns.UntapPhase;
 import org.magic.game.actions.turns.UpkeepPhase;
 import org.magic.game.model.GameManager;
-import org.magic.game.model.Player;
 
 public class TurnsPanel extends JPanel {
 

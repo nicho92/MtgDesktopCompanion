@@ -3,13 +3,9 @@ package org.magic.game.model;
 import java.awt.image.BufferedImage;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 import java.util.Observable;
-import java.util.Random;
 
 import javax.swing.AbstractAction;
 
@@ -17,9 +13,7 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.network.actions.SpeakAction;
-import org.magic.gui.CollectionPanelGUI;
 
 public class Player extends Observable implements Serializable{
 

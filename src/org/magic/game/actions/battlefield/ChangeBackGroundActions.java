@@ -3,14 +3,12 @@ package org.magic.game.actions.battlefield;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 
-import org.magic.game.gui.components.BattleFieldPanel;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
 

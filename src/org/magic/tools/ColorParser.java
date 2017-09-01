@@ -1,7 +1,5 @@
 package org.magic.tools;
 
-import org.apache.commons.lang3.StringUtils;
-
 public class ColorParser {
 	
 	public static String parse(String fullColorName) {

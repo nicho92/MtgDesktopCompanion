@@ -1,7 +1,6 @@
 package org.magic.gui.components.renderer;
 
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -15,7 +14,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.IconSetProvider;
-import org.magic.services.ThreadManager;
 
 public class CardListPanel extends JPanel{
 	

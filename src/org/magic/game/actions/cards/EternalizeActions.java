@@ -1,6 +1,5 @@
 package org.magic.game.actions.cards;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -9,7 +8,6 @@ import javax.swing.AbstractAction;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.model.counters.ItemCounter;
 import org.magic.services.MTGControler;
 
 public class EternalizeActions extends AbstractAction {

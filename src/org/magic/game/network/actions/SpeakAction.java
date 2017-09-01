@@ -1,7 +1,8 @@
 package org.magic.game.network.actions;
 
-import org.magic.game.model.Player;
 import java.awt.Color;
+
+import org.magic.game.model.Player;
 
 public class SpeakAction extends AbstractNetworkAction {
 

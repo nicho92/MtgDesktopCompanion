@@ -2,7 +2,6 @@ package org.magic.game.network.actions;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
-import java.awt.Color;
 
 public class ShareDeckAction extends AbstractNetworkAction {
 

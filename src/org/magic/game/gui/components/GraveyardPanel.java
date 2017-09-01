@@ -1,12 +1,10 @@
 package org.magic.game.gui.components;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.game.model.PositionEnum;
 import org.magic.services.MTGControler;
 

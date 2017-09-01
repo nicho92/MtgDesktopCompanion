@@ -61,7 +61,6 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardNameEditor;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.services.IconSetProvider;
 import org.magic.services.MTGCardMakerPicturesProvider;
 import org.magic.services.MTGControler;
 

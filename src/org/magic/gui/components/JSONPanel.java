@@ -3,8 +3,6 @@ package org.magic.gui.components;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 
-import org.magic.api.beans.MagicCard;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 

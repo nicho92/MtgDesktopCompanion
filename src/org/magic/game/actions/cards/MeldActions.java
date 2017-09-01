@@ -3,20 +3,13 @@ package org.magic.game.actions.cards;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.awt.image.BufferedImage;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.swing.AbstractAction;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicRuling;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.model.PositionEnum;
-import org.magic.gui.MagicGUI;
 import org.magic.services.MTGControler;
 
 public class MeldActions extends AbstractAction {

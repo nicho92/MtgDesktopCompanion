@@ -1,14 +1,12 @@
 package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.model.counters.AbstractCounter;
-import org.magic.game.model.counters.BonusCounter;
 
 public class RemoveCounterActions  extends AbstractAction{
 
