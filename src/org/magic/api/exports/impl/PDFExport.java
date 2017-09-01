@@ -56,12 +56,12 @@ public class PDFExport extends AbstractCardExport {
 			document.open();
 			for(MagicCard card : cards)
 			{
-				if(card.getEditions().get(0).getMultiverse_id()!=null)
+				try
 				{	 
 					table.addCell(getCells(card));
 
 				}
-				else
+				catch(Exception e)
 				{
 					table.addCell(new Phrase(card.getName()));
 				}
@@ -80,12 +80,11 @@ public class PDFExport extends AbstractCardExport {
 	private static PdfPCell getCells(MagicCard card) throws BadElementException, MalformedURLException, IOException
 	{
 
-		String id = card.getEditions().get(0).getMultiverse_id();
 		Image image1=null;
 		try {
 			image1 = Image.getInstance(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card,null),null);
 		} catch (Exception e) {
-			e.printStackTrace();
+			
 		}
 		image1.scalePercent(60);
 
