@@ -133,7 +133,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 //			if(mc.getEditions().get(0).getMkm_id()!=null)
 //				p = pService.getProductById(mc.getEditions().get(0).getMkm_id());
 //			else
-				p = mkmPricer.getProductFromCard(mc,pService.findProduct(mc.getName(), atts));
+				p = mkmPricer.getProductFromCard(mc,pService.findProduct(mc.getName().replaceAll("Æ", "Ae"), atts));
 			if(p!=null)
 			{ 
 				WantItem w = new WantItem();
