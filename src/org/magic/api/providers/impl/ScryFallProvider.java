@@ -376,10 +376,36 @@ public class ScryFallProvider implements MagicCardsProvider {
 			  }
 		   }
 		   
-		  mc.setTranformable(mc.getLayout().equals("transform")||mc.getLayout().equals("meld"));
+		  mc.setTranformable(mc.getLayout().equalsIgnoreCase("transform")||mc.getLayout().equalsIgnoreCase("meld"));
 		  mc.setFlippable(mc.getLayout().equals("flip")); 
-		   
 		  
+		  
+		  if(mc.isTranformable())
+		  {
+			  
+			  mc.getTypes().add(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("type_line").getAsString());
+			  mc.setText(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("oracle_text").getAsString());
+			  mc.setCost(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("mana_cost").getAsString());
+		
+			  mc.setRotatedCardName(obj.get("card_faces").getAsJsonArray().get(1).getAsJsonObject().get("name").getAsString());
+			  /**  {
+					"object": "card_face",
+					"name": "Thaumatic Compass",
+					"mana_cost": "{2}",
+					"type_line": "Artifact",
+					"oracle_text": "{3}, {T}: Search your library for a basic land card, reveal it, put it into your hand, then shuffle your library. At the beginning of your end step, if control seven or more lands, transform Thaumatic Compass.",
+					},
+					  {
+					"object": "card_face",
+					"name": "Spires of Orazca",
+					"type_line": "Land",
+					"oracle_text": "(Transforms from Thaumatic Compass.) {T}: Add {C} to your mana pool. {T}: Untap target attacking creature an opponent controls and remove it from combat.",
+					}card_faces*/
+								  
+		  }
+		  
+		  
+		  //meld
 		  if(obj.get("all_parts")!=null)
 		  {
 			  JsonArray arr = obj.get("all_parts").getAsJsonArray();
