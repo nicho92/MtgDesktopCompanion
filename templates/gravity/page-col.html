@@ -6,7 +6,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <link href="layout/styles/layout.css" rel="stylesheet" type="text/css" media="all"/>
 <link href="layout/styles/dataTables.jqueryui.css" rel="stylesheet" type="text/css" media="all"/>
-
+<link rel="stylesheet" href="https://andrewgioia.github.io/Keyrune/node_modules/keyrune/css/keyrune.min.css" />
+ 
 
 </head>
 <body id="top">
@@ -67,7 +68,7 @@
          <#list editions as ed>
             <tr id="${ed.id}">
               <td><a href="page-ed-${colName}-${ed.id?if_exists}.htm">${ed.set?if_exists}</a></td>
-              <td><img class="imgr borderedbox inspace-5" src="http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=${ed.id}&size=medium&rarity=${ed.rarity[0..0]}"/></td>
+              <td><i class="ss ss-fw ss-${ed.id?lower_case} ss-2x ss-common"></i></td>
             </tr>
           </#list>
           </tbody>
