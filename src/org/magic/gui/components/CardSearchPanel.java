@@ -72,6 +72,7 @@ import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MagicCardComparator;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -511,7 +512,7 @@ public class CardSearchPanel extends JPanel {
 								else
 									cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
 								
-								
+								Collections.sort(cards,new MagicCardComparator());
 								
 								cardsModeltable.init(cards);
 								tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());

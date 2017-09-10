@@ -56,6 +56,7 @@ public class MagicCardTableModel extends DefaultTableModel{
 	}
 	
 	public Object getValueAt(int row, int column) {
+		try {
 		MagicCard mc =cards.get(row); 
 		
 		switch(column)
@@ -80,6 +81,11 @@ public class MagicCardTableModel extends DefaultTableModel{
 			}
 			case 8 : return mc.getColors();
 			default : return mc;
+		}
+		}
+		catch(Exception e)
+		{
+			return null;
 		}
 		
 	}
