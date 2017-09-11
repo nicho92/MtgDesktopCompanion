@@ -451,7 +451,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 	private void initOtherEdition(MagicCard mc) throws Exception {
 		
 		String url=baseURI+"/cards/search?q=+"
-				+ URLEncoder.encode("++!'"+mc.getName()+"'","UTF-8")
+				+ URLEncoder.encode("++!\""+mc.getName()+"\"","UTF-8")
 				+ "%20include:extras"
 				+ "%20-s:"+mc.getEditions().get(0).getId();
 
