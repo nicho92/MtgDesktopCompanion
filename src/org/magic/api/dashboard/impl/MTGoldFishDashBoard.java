@@ -138,7 +138,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
-		logger.debug("Parsing dashboard "+getName()+props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"));
 		
 		Document doc = Jsoup.connect(props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+props.getProperty("DAILY_WEEKLY"))
 							.userAgent(props.getProperty("USER_AGENT"))
