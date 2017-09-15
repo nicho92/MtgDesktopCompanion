@@ -643,7 +643,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		String jsquery="";
 			jsquery = "$."+edCode+".cards[?(@.name==\""+mc.getName()+"\")]";
 		
-		logger.trace("initOtherEditionVars for " + mc +"("+mc.getEditions().get(0)+") -> " + jsquery);
+		//logger.trace("initOtherEditionVars for " + mc +"("+mc.getEditions().get(0)+") -> " + jsquery);--> error on loading booster
 		
 		List<Map<String,Object>> cardsElement = null;
 		try{
