@@ -236,7 +236,7 @@ public class MagicEditionDetailPanel extends JPanel {
 							try {
 								CardSearchPanel.inst.thumbnail(MTGControler.getInstance().getEnabledProviders().openBooster(magicEdition));
 							} catch (Exception e) {
-								logger.error(e);
+								logger.error("Error loading booster for " + magicEdition,e);
 							}
 						}
 					});
