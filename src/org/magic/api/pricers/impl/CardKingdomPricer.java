@@ -6,8 +6,12 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.similarity.JaroWinklerDistance;
+import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
@@ -24,7 +28,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	Document doc;
 	List<MagicPrice> list;
 	CloseableHttpClient httpclient;
-	
+	List<String> eds;
 	static final Logger logger = LogManager.getLogger(CardKingdomPricer.class.getName());
 
 	public CardKingdomPricer() {
@@ -32,7 +36,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		
 		list=new ArrayList<MagicPrice>();
 		httpclient = HttpClients.createDefault();
-		
+	
 		if(!new File(confdir, getName()+".conf").exists()){
 				props.put("URL", "http://www.cardkingdom.com/mtg/");
 				props.put("WEBSITE", "http://www.cardkingdom.com/");
@@ -40,14 +44,51 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 				save();
 		}
 		
+		
+		eds=new ArrayList<String>();
+		try {
+			doc = Jsoup.connect("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az").userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
+			
+			Elements e = doc.select(".anchorList a[href]");
+			
+			for(Element ed : e)
+				eds.add(ed.html());
+		} catch (IOException e) {
+			logger.error("Could not init list eds",e);
+		}
+		
+		
+	}
+	
+
+
+	private String findGoodEds(String set) {
+		int leven=100;
+		String name="";
+		LevenshteinDistance d = new LevenshteinDistance();
+		//JaroWinklerDistance d2 = new JaroWinklerDistance(); (plus proche de 1).
+		for(String s : eds)
+		{
+			int dist=d.apply(set.toLowerCase(), s.toLowerCase());
+			logger.trace(s +" " + dist + "(save="+leven+")");
+			if(dist<leven)
+			{
+				leven=dist;
+				name=s;
+			}
+		}
+		return name;
 	}
 	
 	public static void main(String[] args) throws IOException {
+		
+		LogManager.getRootLogger().setLevel(Level.TRACE);
+		
 		MagicCard mc = new MagicCard();
-		mc.setName("Commandeer");
+		mc.setName("Marsh Flat");
 		
 		MagicEdition ed = new MagicEdition();
-		ed.setSet("Coldsnap");
+		ed.setSet("Zendikar Expeditions");
 		
 		CardKingdomPricer pric = new CardKingdomPricer();
 		pric.getPrice(ed, mc);
@@ -57,7 +98,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	
 	public String format(String s)
 	{
-		return s.replaceAll("'s", "s").replaceAll(" ", "-").toLowerCase();
+		return s.replaceAll("'s", "s").replaceAll(",","").replaceAll(" ", "-").toLowerCase();
 	}
 	
 	
@@ -71,20 +112,21 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 		String keyword ="";
 		
-		String url = html+format(me.getSet())+"/"+format(card.getName());
+		String url = html+format(findGoodEds(me.getSet()))+"/"+format(card.getName());
+		Elements prices =null;
+		Elements qualities = null;
 		
 
 		logger.info(getName() +" looking for prices " + url );
-		doc = Jsoup.connect(url).userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
-		Elements prices =null;
-		Elements qualities = null;
 		try{
-		qualities = doc.select(".cardTypeList li");
-		prices = doc.select(".stylePrice");
+			doc = Jsoup.connect(url).userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
+			qualities = doc.select(".cardTypeList li");
+			prices = doc.select(".stylePrice");
 		
-		}catch(IndexOutOfBoundsException e)
+		}
+		catch(Exception e)
 		{
-			logger.info(getName() +" no item");
+			logger.info(getName() +" no item : "+ e.getMessage());
 			return list;
 		}
 		
@@ -102,7 +144,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 			 mp.setSite(getName());
 			 mp.setUrl(url);
 			 mp.setQuality(qualities.get(i).html());
-			 mp.setLanguage("");
+			 mp.setLanguage("English");
 			 
 			 if(!qualities.get(i).hasClass("disabled"))
 			 list.add(mp);

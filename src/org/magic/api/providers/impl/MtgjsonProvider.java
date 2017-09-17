@@ -562,6 +562,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				id=id.toUpperCase();
 
 					me.setId(id);
+					try {
 					me.setSet(ctx.read("$."+id+".name",String.class));
 					me.setReleaseDate(ctx.read("$."+id+".releaseDate",String.class));
 					me.setBorder(ctx.read("$."+id+".border",String.class));
@@ -569,6 +570,17 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					
 					if(me.getCardCount()==0)
 						me.setCardCount(ctx.read("$."+id+".cards", List.class).size());//long !
+					
+					}
+					catch(PathNotFoundException pnfe )
+					{
+						me.setSet(id);
+						me.setReleaseDate("");
+						me.setBorder("");
+						me.setType("unknow");
+						me.setCardCount(0);
+					}
+					
 					
 					try{
 						me.setMagicCardsInfoCode(ctx.read("$."+id+".magicCardsInfoCode",String.class));
