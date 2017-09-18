@@ -65,9 +65,8 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		if(infocode==null)
 			infocode=mc.getEditions().get(0).getId().toLowerCase();
 		
-		URL url;//new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
-		
-		//TODO change this function for other edition selection
+		URL url;
+		//TODO change this function for other edition selection. mciNumber is on the card, not on the selected Edition
 		
 		if(mc.getMciNumber()!=null)
 		{
