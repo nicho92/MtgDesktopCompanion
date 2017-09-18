@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.InstallCert;
 
 
 public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
@@ -28,10 +29,16 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	public MagicCardInfoPicturesProvider() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("WEBSITE", "http://magiccards.info/scans/");
+			props.put("WEBSITE", "https://magiccards.info/scans/");
 			props.put("LANG", "en");
 			props.put("USER_AGENT","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 			save();
+		}
+		try {
+   			InstallCert.install("magiccards.info");
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
+ 		} catch (Exception e1) {
+			logger.error(e1);
 		}
 	
 		w=223;

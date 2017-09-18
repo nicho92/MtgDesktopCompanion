@@ -14,6 +14,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -142,6 +143,7 @@ public class CockatriceTokenProvider {
 
 	public MagicCard generateEmblemFor(MagicCard mc) throws Exception {
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][contains(name,'emblem')]";
+		logger.debug(expression);
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 				Element value = (Element) nodeList.item(0);
@@ -175,9 +177,11 @@ public class CockatriceTokenProvider {
 						  }*/
 						  tok.getEditions().add(mc.getEditions().get(0));
 						  
+						  logger.debug("Create token" + BeanUtils.describe(tok));
 						  return tok;
 			
 		} catch (XPathExpressionException e) {
+			logger.error("Erreur XPath", e);
 			return null;
 		}
 	}
@@ -204,24 +208,33 @@ public class CockatriceTokenProvider {
 					String pic = "";
 					if(sets.item(s).getAttributes().getNamedItem("picURL")!=null)
 						pic = sets.item(s).getAttributes().getNamedItem("picURL").getNodeValue();
+					
+					if(pic.startsWith("http://"))
+						pic=pic.replaceAll("http://", "https://");
+						
+					
 					map.put(set, new URL(pic));
 				}
 		}
+		
+		logger.debug("found pics " + map);
+		
 	
 		try {
 			URLConnection connection;
+			
 			if(map.get(tok.getEditions().get(0).getId())!=null) //error on 
 				connection = map.get(tok.getEditions().get(0).getId()).openConnection();
 			else
 				connection = map.get(map.keySet().iterator().next()).openConnection();
-			
+		
+		logger.debug("Load token pics : " + connection.getURL());	
 		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 		return ImageIO.read(connection.getInputStream());
 		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
-			//throw new Exception("Could not find token for " + tok.getName() + " : " + e);
 			return MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
 		}
 	}

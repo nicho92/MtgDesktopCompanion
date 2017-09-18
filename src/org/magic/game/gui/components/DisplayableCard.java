@@ -490,9 +490,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 			e1.printStackTrace();
 		} 
 		try {
-			if (mc.getLayout().equals(MagicCard.LAYOUT.Token.toString())
-					|| mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString())) {
-				fullResPics = new CockatriceTokenProvider().getPictures(mc);
+			if (mc.getLayout().equals(MagicCard.LAYOUT.Token.toString())|| mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString())) {
+				fullResPics = GamePanelGUI.getInstance().getTokenGenerator().getPictures(mc);
+				
+				//fullResPics==NUll...why ?
+				System.out.println(fullResPics);
 				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 			} else {
 				fullResPics = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
