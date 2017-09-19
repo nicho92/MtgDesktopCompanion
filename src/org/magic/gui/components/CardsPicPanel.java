@@ -76,17 +76,16 @@ public class CardsPicPanel extends JXPanel {
     	return image;
 	}
 	
-	public void showPhoto(MagicCard mc, MagicEdition ed) {
+	public void showPhoto(MagicCard mc) {
 		
 		this.card=mc;
-		this.edition=ed;
 		
 		if(!mc.isTranformable())
 		{
 			try {
 				back=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				//e1.printStackTrace();
 			}
 		}
 		else
@@ -121,7 +120,6 @@ public class CardsPicPanel extends JXPanel {
 				    int y = 15;//(h - imgFront.getHeight())/2;
 					
 				    selectedShape= new Rectangle2D.Double(x, y, printed.getWidth(null),  printed.getHeight(null));
-				  
 					
 				} catch (Exception e) {
 					imgFront=back;

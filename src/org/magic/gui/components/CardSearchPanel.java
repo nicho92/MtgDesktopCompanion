@@ -85,7 +85,7 @@ public class CardSearchPanel extends JPanel {
 		public static final int INDEX_THUMB = 1;
 		
 		
-		private MagicCard selected;
+		private MagicCard selectedCard;
 		private MagicEdition selectedEdition;
 		
 		private CardsPriceTableModel priceModel;
@@ -148,7 +148,7 @@ public class CardSearchPanel extends JPanel {
 		}
 
 		public MagicCard getSelected() {
-			return selected;
+			return selectedCard;
 		}
 
 		public void setLookAndFeel(String lookAndFeel)
@@ -557,8 +557,8 @@ public class CardSearchPanel extends JPanel {
 					else
 					{
 						try{ 
-							selected = (MagicCard)tableCards.getValueAt(tableCards.getSelectedRow(), 0);
-							selectedEdition = selected.getEditions().get(0);
+							selectedCard = (MagicCard)tableCards.getValueAt(tableCards.getSelectedRow(), 0);
+							selectedEdition = selectedCard.getEditions().get(0);
 							updateCards();
 						}catch(Exception e)
 						{
@@ -572,17 +572,19 @@ public class CardSearchPanel extends JPanel {
 			listEdition.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent mev) {
 						selectedEdition = listEdition.getSelectedValue();
-						detailCardPanel.setMagicLogo(selectedEdition.getId(),""+selectedEdition.getRarity());
-						magicEditionDetailPanel.setMagicEdition(selectedEdition);
-						
-						
 						ThreadManager.getInstance().execute(new Runnable() {
 							public void run() {
 									loading(true,"loading edition");
-									
-										cardsPicPanel.showPhoto(selected,selectedEdition);//backcard
-										magicEditionDetailPanel.setMagicEdition(selectedEdition);
-										historyChartPanel.init(selected, selectedEdition,selected.getName());
+										try {
+											selectedCard = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", selectedCard.getName(), selectedEdition).get(0);
+											detailCardPanel.setMagicCard(selectedCard);
+											magicEditionDetailPanel.setMagicEdition(selectedEdition);
+											
+										} catch (Exception e) {
+											e.printStackTrace();
+										}
+										cardsPicPanel.showPhoto(selectedCard);//backcard
+									historyChartPanel.init(selectedCard, selectedEdition,selectedCard.getName());
 										
 										if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 											updatePrices();
@@ -621,7 +623,7 @@ public class CardSearchPanel extends JPanel {
 							MagicEdition ed = (MagicEdition)BeanUtils.cloneBean(selectedEdition);
 								ed.setMultiverse_id(""+selLang.getGathererId());
 								
-							cardsPicPanel.showPhoto(selected,ed);
+							cardsPicPanel.showPhoto(selectedCard);
 						}
 					} catch (Exception e1) {}
 				}
@@ -703,9 +705,9 @@ public class CardSearchPanel extends JPanel {
 			thumbnailPanel.addMouseListener(new MouseAdapter() {
 				public void mouseClicked(MouseEvent e) {
 					DisplayableCard lab = (DisplayableCard)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
-					selected = lab.getMagicCard();
+					selectedCard = lab.getMagicCard();
 					selectedEdition = lab.getMagicCard().getEditions().get(0);
-					cardsPicPanel.showPhoto(selected, null);
+					cardsPicPanel.showPhoto(selectedCard);
 					updateCards();
 				}
 				
@@ -729,7 +731,7 @@ public class CardSearchPanel extends JPanel {
 
 		public void setSelectedCard(MagicCard mc)
 		{
-			this.selected=mc;
+			this.selectedCard=mc;
 			updateCards();
 		}
 
@@ -761,7 +763,7 @@ public class CardSearchPanel extends JPanel {
 				public void run() {
 
 					loading(true,"loading prices");
-					priceModel.init(selected, selectedEdition);
+					priceModel.init(selectedCard, selectedEdition);
 					priceModel.fireTableDataChanged();
 					loading(false,"");
 
@@ -783,19 +785,19 @@ public class CardSearchPanel extends JPanel {
 				
 				((DefaultListModel<MagicEdition>)listEdition.getModel()).removeAllElements();
 
-				for(MagicCardNames mcn : selected.getForeignNames())
+				for(MagicCardNames mcn : selectedCard.getForeignNames())
 					cboLanguages.addItem(mcn);
 				
-				for(MagicEdition me : selected.getEditions())
+				for(MagicEdition me : selectedCard.getEditions())
 					((DefaultListModel<MagicEdition>)listEdition.getModel()).addElement(me);
 
-				detailCardPanel.setMagicCard(selected,true);
-				magicEditionDetailPanel.setMagicEdition(selected.getEditions().get(0));
+				detailCardPanel.setMagicCard(selectedCard,true);
+				magicEditionDetailPanel.setMagicEdition(selectedCard.getEditions().get(0));
 				
 				
 				
 				
-				for(MagicRuling mr : selected.getRulings())
+				for(MagicRuling mr : selectedCard.getRulings())
 				{
 					txtRulesArea.append(mr.toString());
 					txtRulesArea.append("\n");
@@ -806,12 +808,12 @@ public class CardSearchPanel extends JPanel {
 					updatePrices();
 				
 				
-				panelJson.show(selected);
+				panelJson.show(selectedCard);
 				
 
 				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
-						historyChartPanel.init(selected, selectedEdition,selected.getName());
+						historyChartPanel.init(selectedCard, selectedEdition,selectedCard.getName());
 					}
 				}, "load history for " + selectedEdition);
 				
