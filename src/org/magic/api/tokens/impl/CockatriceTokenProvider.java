@@ -261,4 +261,14 @@ public class CockatriceTokenProvider implements MagicTokensProvider {
 		}
 	}
 
+	@Override
+	public String getName() {
+		return "Cockatrice";
+	}
+
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
 }

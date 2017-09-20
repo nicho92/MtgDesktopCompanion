@@ -15,5 +15,7 @@ public interface MagicTokensProvider {
 	MagicCard generateEmblemFor(MagicCard mc) throws Exception;
 
 	BufferedImage getPictures(MagicCard tok) throws Exception;
+	
+	String getName();
 
 }

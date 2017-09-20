@@ -1,5 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -105,6 +107,20 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 			e.printStackTrace();
 		} 
 	}
+	
+	
+	public BufferedImage resizeCard(BufferedImage img) {  
+	    int newW = Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
+	    int newH = Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+	    BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+	    Graphics2D g2d = dimg.createGraphics();
+	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.dispose();
+
+	    return dimg;
+	}  
 
 	@Override
 	public void enable(boolean enabled) {
