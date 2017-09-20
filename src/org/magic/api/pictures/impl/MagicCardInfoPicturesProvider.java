@@ -48,9 +48,9 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception {
 
-		/*if(MTGControler.getInstance().getEnabledCache().getPic(mc,ed)!=null)
+		if(MTGControler.getInstance().getEnabledCache().getPic(mc,ed)!=null)
 			return MTGControler.getInstance().getEnabledCache().getPic(mc,ed);
-	*/
+	
 		
 		if(ed==null)
 			ed=mc.getEditions().get(0);

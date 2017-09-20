@@ -257,6 +257,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			case "Media+Inserts"     : return "Media+Promos";
 			case "Judge+Gift+Program": return "Judge+Promos";
 			case "Friday+Night+Magic": return "FNM+Promos";
+			case "Arena+League":	   return "Arena+Promos";
 			case "Masterpiece+Series+Amonkhet+Invocations" : return "Amonkhet+Invocations";
 			case "Masterpiece+Series+Kaladesh+Inventions" : return "Kaladesh+Inventions";
 			default : return editionName;
@@ -291,7 +292,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		mapConcordance.put("pJGP", "PRM-JUD");
 		mapConcordance.put("pGPX", "PRM-GPP");
 		mapConcordance.put("pFNM", "PRM-FNM");
-		
+		mapConcordance.put("pARL", "PRM-ARN");
 		//p15A
 		
 	}
