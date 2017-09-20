@@ -273,9 +273,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelConfig, gbc_panelConfig);
 		GridBagLayout gbl_panelConfig = new GridBagLayout();
 		gbl_panelConfig.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panelConfig.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gbl_panelConfig.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 		gbl_panelConfig.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panelConfig.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panelConfig.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelConfig.setLayout(gbl_panelConfig);
 		
 		JLabel lblMainCol = new JLabel("Main Collection :");
@@ -463,74 +463,21 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnSave_lang.gridy = 6;
 		panelConfig.add(btnSave_lang, gbc_btnSave_lang);
 		
-			
-		JLabel lblReloadConfig = new JLabel("Reload Config :");
-		GridBagConstraints gbc_lblReloadConfig = new GridBagConstraints();
-		gbc_lblReloadConfig.insets = new Insets(0, 0, 5, 5);
-		gbc_lblReloadConfig.gridx = 0;
-		gbc_lblReloadConfig.gridy = 8;
-		panelConfig.add(lblReloadConfig, gbc_lblReloadConfig);
-		
-		JButton btnReload = new JButton("Reload");
-		GridBagConstraints gbc_btnReload = new GridBagConstraints();
-		gbc_btnReload.insets = new Insets(0, 0, 5, 0);
-		gbc_btnReload.gridx = 4;
-		gbc_btnReload.gridy = 8;
-		panelConfig.add(btnReload, gbc_btnReload);
-		
-		JButton btnRunGarbage = new JButton("Run garbage");
-		btnRunGarbage.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.gc();
-			}
-		});
-		GridBagConstraints gbc_btnRunGarbage = new GridBagConstraints();
-		gbc_btnRunGarbage.gridwidth = 3;
-		gbc_btnRunGarbage.insets = new Insets(0, 0, 5, 5);
-		gbc_btnRunGarbage.gridx = 1;
-		gbc_btnRunGarbage.gridy = 9;
-		panelConfig.add(btnRunGarbage, gbc_btnRunGarbage);
-		
 		JLabel lblConfigImportexport = new JLabel("Config import/export :");
 		GridBagConstraints gbc_lblConfigImportexport = new GridBagConstraints();
-		gbc_lblConfigImportexport.insets = new Insets(0, 0, 0, 5);
+		gbc_lblConfigImportexport.insets = new Insets(0, 0, 5, 5);
 		gbc_lblConfigImportexport.gridx = 0;
-		gbc_lblConfigImportexport.gridy = 10;
+		gbc_lblConfigImportexport.gridy = 7;
 		panelConfig.add(lblConfigImportexport, gbc_lblConfigImportexport);
 		
 		JButton btnExportConfig = new JButton("Export");
 		
 		GridBagConstraints gbc_btnExportConfig = new GridBagConstraints();
 		gbc_btnExportConfig.gridwidth = 2;
-		gbc_btnExportConfig.insets = new Insets(0, 0, 0, 5);
+		gbc_btnExportConfig.insets = new Insets(0, 0, 5, 5);
 		gbc_btnExportConfig.gridx = 1;
-		gbc_btnExportConfig.gridy = 10;
+		gbc_btnExportConfig.gridy = 7;
 		panelConfig.add(btnExportConfig, gbc_btnExportConfig);
-		
-		JButton btnImport = new JButton("Import");
-		
-		GridBagConstraints gbc_btnImport = new GridBagConstraints();
-		gbc_btnImport.gridx = 4;
-		gbc_btnImport.gridy = 10;
-		panelConfig.add(btnImport, gbc_btnImport);
-		btnReload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				loading(true,"reload config");
-				try {
-					MTGControler.getInstance().reload();
-				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
-				}
-				loading(false,"");
-				
-			}
-		});
-		
-		
-		btnImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
 		
 		
 		btnExportConfig.addActionListener(new ActionListener() {
@@ -543,6 +490,18 @@ public class ConfigurationPanel extends JPanel {
 					MTGControler.getInstance().saveConfig(f);
 			}
 		});
+		
+		JButton btnRunGarbage = new JButton("Run garbage");
+		btnRunGarbage.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.gc();
+			}
+		});
+		GridBagConstraints gbc_btnRunGarbage = new GridBagConstraints();
+		gbc_btnRunGarbage.gridwidth = 3;
+		gbc_btnRunGarbage.gridx = 2;
+		gbc_btnRunGarbage.gridy = 9;
+		panelConfig.add(btnRunGarbage, gbc_btnRunGarbage);
 		
 		btnSaveLoglevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
