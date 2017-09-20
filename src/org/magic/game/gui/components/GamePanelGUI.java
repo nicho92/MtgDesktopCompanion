@@ -37,13 +37,14 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MagicTokensProvider;
+import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.gui.components.dialog.DeckSideBoardSwitcherDialog;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
-import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MTGControler;
 
 public class GamePanelGUI extends JPanel implements Observer {
@@ -66,7 +67,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
 	private JTextField txtChat;
-	private CockatriceTokenProvider tokenGenerator;
+	private MagicTokensProvider tokenGenerator;
 	private PlayerGameBoard playerGameBoard;
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
@@ -122,7 +123,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	}
 	
 	
-	public CockatriceTokenProvider getTokenGenerator() {
+	public MagicTokensProvider getTokenGenerator() {
 		return tokenGenerator;
 	}
 

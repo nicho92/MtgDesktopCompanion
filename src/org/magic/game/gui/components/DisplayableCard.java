@@ -36,6 +36,7 @@ import javax.swing.border.LineBorder;
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
 import org.magic.game.actions.cards.CreateActions;
@@ -55,7 +56,6 @@ import org.magic.game.model.counters.BonusCounter;
 import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
 import org.magic.game.transfert.CardTransfertHandler;
-import org.magic.services.CockatriceTokenProvider;
 import org.magic.services.MTGControler;
 
 public class DisplayableCard extends JLabel implements Draggable {

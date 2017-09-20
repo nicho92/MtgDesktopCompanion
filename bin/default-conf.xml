@@ -96,6 +96,10 @@
 				<class>org.magic.api.pricers.impl.ChannelFireballPricer</class>
 				<enable>false</enable>
 		</pricer>
+		<pricer>
+				<class>org.magic.api.pricers.impl.CardKingdomPricer</class>
+				<enable>false</enable>
+		</pricer>
 	</pricers>
 	<providers>
 		<provider>

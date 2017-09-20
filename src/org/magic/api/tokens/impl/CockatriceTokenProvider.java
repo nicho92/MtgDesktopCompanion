@@ -1,4 +1,4 @@
-package org.magic.services;
+package org.magic.api.tokens.impl;
 
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -20,12 +20,14 @@ import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicTokensProvider;
+import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class CockatriceTokenProvider {
+public class CockatriceTokenProvider implements MagicTokensProvider {
 
 	String url = "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml";
 	DocumentBuilderFactory builderFactory;
@@ -47,6 +49,10 @@ public class CockatriceTokenProvider {
 		
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.magic.services.MagicTokensProvider#isTokenizer(org.magic.api.beans.MagicCard)
+	 */
+	@Override
 	public boolean isTokenizer(MagicCard mc)
 	{
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][not(contains(name,'emblem'))]";
@@ -59,6 +65,10 @@ public class CockatriceTokenProvider {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.magic.services.MagicTokensProvider#isEmblemizer(org.magic.api.beans.MagicCard)
+	 */
+	@Override
 	public boolean isEmblemizer(MagicCard mc)
 	{
 		if(mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
@@ -73,6 +83,10 @@ public class CockatriceTokenProvider {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.magic.services.MagicTokensProvider#generateTokenFor(org.magic.api.beans.MagicCard)
+	 */
+	@Override
 	public MagicCard generateTokenFor(MagicCard mc) {
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][not(contains(name,'emblem'))]";
 		try {
@@ -141,6 +155,10 @@ public class CockatriceTokenProvider {
 		}
 	}
 
+	/* (non-Javadoc)
+	 * @see org.magic.services.MagicTokensProvider#generateEmblemFor(org.magic.api.beans.MagicCard)
+	 */
+	@Override
 	public MagicCard generateEmblemFor(MagicCard mc) throws Exception {
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][contains(name,'emblem')]";
 		logger.debug(expression);
@@ -186,6 +204,10 @@ public class CockatriceTokenProvider {
 		}
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.magic.services.MagicTokensProvider#getPictures(org.magic.api.beans.MagicCard)
+	 */
+	@Override
 	public BufferedImage getPictures(MagicCard tok) throws Exception {
 		
 		String expression = "//card[name=\""+tok.getName()+"\"]";

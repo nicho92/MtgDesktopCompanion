@@ -18,8 +18,9 @@ import javax.swing.border.LineBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import org.magic.api.interfaces.MagicTokensProvider;
+import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.model.Player;
-import org.magic.services.CockatriceTokenProvider;
 
 public class PlayerGameBoard extends JPanel implements Observer {
 	
@@ -33,7 +34,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	private JLabel lblHandCount;
 	private JLabel lblLibraryCount;
 	private static PlayerGameBoard instance;
-	private CockatriceTokenProvider tokenGenerator;
+	private MagicTokensProvider tokenGenerator;
 	private JPanel panelInfo ;
 	
 	
@@ -77,7 +78,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	}
 	
 	
-	public CockatriceTokenProvider getTokenGenerator() {
+	public MagicTokensProvider getTokenGenerator() {
 		return tokenGenerator;
 	}
 
