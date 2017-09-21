@@ -25,6 +25,9 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
 			props.put("SET_SIZE", "medium");
+			props.put("CARD_SIZE_WIDTH", "223");
+			props.put("CARD_SIZE_HEIGHT", "310");
+
 			//props.put("ENABLE_CACHE", "true");
 			save();
 		}
@@ -60,7 +63,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
 		{
 			logger.debug("cached " + mc + "("+selected+") found");
-			return MTGControler.getInstance().getEnabledCache().getPic(mc,selected);
+			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected));
 		}
 	
 		
@@ -69,7 +72,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		if(im!=null)
 			MTGControler.getInstance().getEnabledCache().put(im, mc,ed);
 		
-		return im;
+		return resizeCard(im);
 	}
 	
 	private BufferedImage getPicture(String multiverseid) throws Exception{

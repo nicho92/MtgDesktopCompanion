@@ -31,6 +31,8 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("WEBSITE", "https://magiccards.info/scans/");
 			props.put("LANG", "en");
+			props.put("CARD_SIZE_WIDTH", "223");
+			props.put("CARD_SIZE_HEIGHT", "310");
 			props.put("USER_AGENT","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 			save();
 		}
@@ -49,7 +51,9 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception {
 
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,ed)!=null)
-			return MTGControler.getInstance().getEnabledCache().getPic(mc,ed);
+		{
+			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,ed));
+		}
 	
 		
 		if(ed==null)
@@ -105,7 +109,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 					if(bufferedImage!=null)
 						MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,ed);
 						 
-					return bufferedImage ;
+					return resizeCard(bufferedImage) ;
 				}
 				catch(Exception e)
 				{
