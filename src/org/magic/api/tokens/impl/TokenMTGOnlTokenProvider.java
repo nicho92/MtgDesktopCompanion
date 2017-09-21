@@ -10,9 +10,11 @@ public class TokenMTGOnlTokenProvider extends AbstractTokensProvider {
 
 	
 	public TokenMTGOnlTokenProvider() {
+		super();
 		//http://alternative.mtg.onl/#/
 		
 	}
+	
 	
 	@Override
 	public boolean isTokenizer(MagicCard mc) {

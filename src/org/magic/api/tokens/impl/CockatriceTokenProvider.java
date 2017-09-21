@@ -38,9 +38,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	static final Logger logger = LogManager.getLogger(CockatriceTokenProvider.class.getName());
 	
 	public CockatriceTokenProvider() {
-		builderFactory =DocumentBuilderFactory.newInstance();
+		super();
+		
 		try {
-			
+			builderFactory =DocumentBuilderFactory.newInstance();
 			builder = builderFactory.newDocumentBuilder();
 			document = builder.parse(new URL(url).openStream() );
 			xPath=  XPathFactory.newInstance().newXPath();
