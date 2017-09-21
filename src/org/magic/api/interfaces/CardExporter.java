@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 
-public interface CardExporter {
+public interface CardExporter extends MTGPlugin {
 
 	public String getFileExtension();
 
@@ -22,15 +22,6 @@ public interface CardExporter {
 	public void exportStock(List<MagicCardStock> stock,File f)throws Exception;
 	public List<MagicCardStock> importStock(File f)throws Exception;
 	
-	
 	public Icon getIcon();
-	public String getName();
-	public Properties getProperties();
-	public void save();
-	public void load();
-	public void setProperties(String k, Object value);
-	public Object getProperty(String k);	
-	public boolean isEnable();
-	public void enable(boolean t);
 
 }

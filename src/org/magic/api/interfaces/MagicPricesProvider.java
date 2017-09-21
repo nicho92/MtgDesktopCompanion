@@ -7,17 +7,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 
-public interface MagicPricesProvider {
+public interface MagicPricesProvider extends MTGPlugin{
 
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws Exception;
-	public Properties getProperties();
-	public void setProperties(String k,Object value);
-	public Object getProperty(String k);
-	public String getName();
-	public boolean isEnable();
-	public void save();
-	public void load();
-	public void enable(boolean t);
 	public void alertDetected(List<MagicPrice> okz);
 
 }

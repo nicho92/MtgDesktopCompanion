@@ -82,6 +82,10 @@ public abstract class AbstractDashBoard extends Observable implements DashBoard 
 		load();
 	}
 	
+	@Override
+	public Object getProperty(String k) {
+		return props.get(k);
+	}
 
 	public Properties getProperties() {
 		return props;
