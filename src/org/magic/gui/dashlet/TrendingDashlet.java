@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -15,6 +17,8 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.RowSorter.SortKey;
+import javax.swing.SortOrder;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
@@ -138,6 +142,13 @@ public class TrendingDashlet extends AbstractJDashlet{
 				{
 					
 				}
+				
+				List<SortKey> keys = new ArrayList<SortKey>();
+				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);//column index 2
+				keys.add(sortKey);
+				
+				((TableRowSorter)table.getRowSorter()).setSortKeys(keys);
+				((TableRowSorter)table.getRowSorter()).sort();
 				
 			}
 		}, "Init Formats Dashlet");
