@@ -18,35 +18,6 @@ import org.magic.api.interfaces.MagicDAO;
 
 public class MagicCardComparator implements Comparator<MagicCard> {
 
-	
-	public static void main(String[] args) throws SQLException, ClassNotFoundException {
-		
-		System.setProperty("java.util.Arrays.useLegacyMergeSort", "true");
-		
-		MagicDAO dao = new FileDAO();
-				dao.init();
-				
-				MagicEdition ed = new MagicEdition();
-				ed.setSet("test");
-				ed.setId("e01");
-				
-		List<MagicCard> list = dao.getCardsFromCollection(new MagicCollection("Library"),ed);
-		Collections.sort(list, new MagicCardComparator());
-   	
-    	List<String> attributes = new ArrayList<String>();
-			    	attributes.add("name");
-			    	attributes.add("colors");
-			    	attributes.add("types");
-			    	attributes.add("layout");
-    	
-    	IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(list,attributes,attributes);
-    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
-    	
-    	
-		System.exit(0);
-	}
-	
-	
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
 		
