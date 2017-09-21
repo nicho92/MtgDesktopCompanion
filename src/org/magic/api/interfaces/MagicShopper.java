@@ -20,7 +20,7 @@ public interface MagicShopper {
 	public void save();
 	
 	
-	public String getShopName();
+	public String getName();
 	
 	
 	

@@ -2,6 +2,8 @@ package org.magic.api.interfaces;
 
 import java.util.Properties;
 
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
+
 public interface MTGPlugin {
 
 	public Properties getProperties();
@@ -12,4 +14,6 @@ public interface MTGPlugin {
 	public void load();
 	public void enable(boolean t);
 	public String getName();
+	//public STATUT getStatut();
+	
 }

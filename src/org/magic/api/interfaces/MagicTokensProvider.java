@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import org.magic.api.beans.MagicCard;
 
-public interface MagicTokensProvider {
+public interface MagicTokensProvider extends MTGPlugin {
 
 	boolean isTokenizer(MagicCard mc);
 

@@ -48,7 +48,7 @@ public class EbayShopper extends AbstractMagicShopper {
 	
 	String link=url.replaceAll("%KEYWORD%", KEYWORD);
 	
-	logger.info(getShopName() + " looking for " + link);
+	logger.info(getName() + " looking for " + link);
 	
 	JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), "UTF-8"));
 	JsonElement root = new JsonParser().parse(reader);
@@ -81,7 +81,7 @@ public class EbayShopper extends AbstractMagicShopper {
 	 		mp.setUrl(new URL(consultURL));
 	 		mp.setPrice(price);
 	 		mp.setType(type);
-	 		mp.setShopName(getShopName());
+	 		mp.setShopName(getName());
 	 		mp.setImage(image);
 	 		mp.setDate(d);
 	 		mp.setId(id);
@@ -97,7 +97,7 @@ public class EbayShopper extends AbstractMagicShopper {
 	}
 
 	@Override
-	public String getShopName() {
+	public String getName() {
 		return "Ebay";
 	}
 

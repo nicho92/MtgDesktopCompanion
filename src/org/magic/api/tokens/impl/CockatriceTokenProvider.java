@@ -21,13 +21,14 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicTokensProvider;
+import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-public class CockatriceTokenProvider implements MagicTokensProvider {
+public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	String url = "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml";
 	DocumentBuilderFactory builderFactory;

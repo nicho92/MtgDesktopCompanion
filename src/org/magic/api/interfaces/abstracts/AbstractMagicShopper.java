@@ -19,7 +19,6 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 
 	
 	public abstract List<ShopItem> search(String search);
-	public abstract String getShopName();
 	
 	protected File confdir = new File(MTGControler.CONF_DIR, "shoppers");
 
@@ -44,7 +43,7 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 	public void load()
 	{
 		try {
-			File f = new File(confdir, getShopName()+".conf");
+			File f = new File(confdir, getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -64,7 +63,7 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 	public void save()
 	{
 		try {
-			File f = new File(confdir, getShopName()+".conf");
+			File f = new File(confdir, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");
@@ -84,7 +83,7 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 	}
 	
 	public int hashCode() {
-		return getShopName().hashCode();
+		return getName().hashCode();
 	}
 
 	@Override
@@ -94,6 +93,6 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 	
 	@Override
 	public String toString() {
-		return getShopName();
+		return getName();
 	}
 }

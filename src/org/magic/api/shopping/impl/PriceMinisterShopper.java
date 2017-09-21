@@ -34,7 +34,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 	public PriceMinisterShopper() {
 		super();	
 		
-		if(!new File(confdir, getShopName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 				props.put("LOGIN", "login");
 				props.put("PASSWORD", "password");
 				props.put("VERSION", "2015-07-05");
@@ -75,7 +75,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 					.replace("%CATEGORIE%",props.getProperty("CATEGORIE"))
 					.replace("%KEYWORD%",URLEncoder.encode(search,props.getProperty("ENCODING")));
 		
-		 logger.debug(getShopName() + " parsing item from " + url) ;
+		 logger.debug(getName() + " parsing item from " + url) ;
 			
 		 Document doc = dBuilder.parse(url);
 		 doc.getDocumentElement().normalize();
@@ -92,7 +92,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 						 
 						 it.setImage(new URL(e.getElementsByTagName("image").item(0).getTextContent()));
 						 it.setName(e.getElementsByTagName("headline").item(0).getTextContent());
-						 it.setShopName(getShopName());
+						 it.setShopName(getName());
 						 it.setPrice(Double.parseDouble(parsePrice((Element)e.getElementsByTagName("global").item(0))));
 						 list.add(it);
 						 
@@ -101,7 +101,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 					 
 					
 				}
-		logger.debug(getShopName() +" found " + list.size() +" items") ;
+		logger.debug(getName() +" found " + list.size() +" items") ;
 							
 		return list;
 		 
@@ -144,7 +144,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 	
 
 	@Override
-	public String getShopName() {
+	public String getName() {
 		return "PriceMinister";
 	}
 

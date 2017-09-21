@@ -36,7 +36,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	public LeboncoinShopper() {
 		super();	
 		
-		if(!new File(confdir, getShopName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 
 		props.put("TITLE_ONLY", "0");
 		props.put("MAX_PAGE", "2");
@@ -109,7 +109,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 											a.setLieu(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(1).text());
 											a.setType(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(0).text());
 											a.setId(url.substring(url.lastIndexOf("/")+1, url.lastIndexOf(".")).trim());
-											a.setShopName(getShopName());
+											a.setShopName(getName());
 											try{
 												a.setImage(new URL(props.getProperty("PROTOCOLE")+listElements.get(i).getElementsByClass("lazyload").get(0).attr("data-imgsrc")));
 											}
@@ -209,7 +209,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	}
 
 	@Override
-	public String getShopName() {
+	public String getName() {
 		return "LeBonCoin";
 	}
 

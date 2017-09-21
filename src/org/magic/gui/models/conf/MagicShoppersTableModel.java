@@ -100,7 +100,7 @@ public class MagicShoppersTableModel extends AbstractTreeTableModel {
 	       {
 	    	   MagicShopper prov = (MagicShopper) node;
 	            switch (column) {
-	                case 0:return prov.getShopName();
+	                case 0:return prov.getName();
 	                case 2: return prov.isEnable();
 	            }
 	        } 
