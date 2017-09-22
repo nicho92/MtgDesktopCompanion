@@ -9,6 +9,31 @@ import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 public class TokenMTGOnlTokenProvider extends AbstractTokensProvider {
 
 	
+	String[] emblems = {
+			"Ajani",
+	        "Arlinn",
+	        "Chandra",
+	        "Dack",
+	        "Daretti",
+	        "Dovin",
+	        "Domri",
+	        "Elspeth",
+	        "Garruk",
+	        "Gideon",
+	        "Jace",
+	        "Kiora",
+	        "Koth",
+	        "Liliana",
+	        "Narset",
+	        "Nixilis",
+	        "Sarkhan",
+	        "Sorin",
+	        "Tamiyo",
+	        "Teferi",
+	        "Venser"
+	};
+	
+	
 	public TokenMTGOnlTokenProvider() {
 		super();
 		//http://alternative.mtg.onl/#/
@@ -24,7 +49,10 @@ public class TokenMTGOnlTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public boolean isEmblemizer(MagicCard mc) {
-		// TODO Auto-generated method stub
+		for(String s : emblems)
+			if(mc.getSubtypes().contains(s))
+				return true;
+		
 		return false;
 	}
 
