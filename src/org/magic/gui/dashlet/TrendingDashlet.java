@@ -148,7 +148,13 @@ public class TrendingDashlet extends AbstractJDashlet{
 				keys.add(sortKey);
 				
 				((TableRowSorter)table.getRowSorter()).setSortKeys(keys);
-				((TableRowSorter)table.getRowSorter()).sort();
+				try
+				{
+					((TableRowSorter)table.getRowSorter()).sort();
+				}catch (Exception e)
+				{
+					
+				}
 				
 			}
 		}, "Init Formats Dashlet");

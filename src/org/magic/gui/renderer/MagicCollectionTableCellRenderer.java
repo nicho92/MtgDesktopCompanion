@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import org.magic.services.MTGConstants;
 
 public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
@@ -42,25 +43,25 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 			
 			if((double)table.getValueAt(row, 4)*100>=5 && (double)table.getValueAt(row, 4)*100<50)
 			{
-				pane.setBackground(Color.YELLOW);
+				pane.setBackground(MTGConstants.COLLECTION_5PC);
 				pane.setForeground(Color.BLACK);
 			}
 			
 			if((double)table.getValueAt(row, 4)*100>=50)
 			{
-				pane.setBackground(Color.ORANGE);
+				pane.setBackground(MTGConstants.COLLECTION_50PC);
 				pane.setForeground(Color.BLACK);
 			}
 			
 			if((double)table.getValueAt(row, 4)*100>=90)
 			{
-				pane.setBackground(new Color(188,245,169));
+				pane.setBackground(MTGConstants.COLLECTION_90PC);
 				pane.setForeground(Color.BLACK);
 			}
 			
 			if((double)table.getValueAt(row, 4)*100>=100)
 			{
-				pane.setBackground(Color.GREEN);
+				pane.setBackground(MTGConstants.COLLECTION_100PC);
 				pane.setForeground(Color.BLACK);
 			}
 			return pane;

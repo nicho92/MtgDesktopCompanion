@@ -33,6 +33,7 @@ import org.apache.log4j.Logger;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.dialog.ThreadMonitorFrame;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
@@ -196,7 +197,7 @@ public class MagicGUI extends JFrame {
 			JMenuItem newversion = new JMenuItem("Download latest version : " + serviceUpdate.getOnlineVersion() );
 			newversion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					String url ="https://github.com/nicho92/MtgDesktopCompanion/blob/master/executable/mtgcompanion.zip?raw=true";
+					String url =MTGConstants.MTG_DESKTOP_APP_ZIP;
 					try {
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e1) {
@@ -225,7 +226,7 @@ public class MagicGUI extends JFrame {
 			jmnuLook.add(it);
 		}
 	
-		tabbedPane = new JTabbedPane(JTabbedPane.LEFT);
+		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
 		
 		if(MTGControler.getInstance().get("modules/search").equals("true"))
 			tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/res/search.gif")), new CardSearchPanel(), null);

@@ -202,8 +202,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		 
 		 cacheCard= new HashMap<String,List<MagicCard>>();
 		 logger.info("init " + this +" : parsing db file");
+		 long time_1 = System.currentTimeMillis();
 		 ctx = JsonPath.parse(fileSetJson);
-		 logger.info("init " + this +" : OK");
+		 long time_2 = System.currentTimeMillis();
+		 
+		 logger.info("init " + this +" : OK (" + (time_2-time_1)/1000 + " s)");
 		} 
 		catch (Exception e1) {
 			logger.error(e1);

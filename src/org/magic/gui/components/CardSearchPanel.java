@@ -70,12 +70,14 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.MagicCardComparator;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import java.awt.SystemColor;
 
 public class CardSearchPanel extends JPanel {
 
@@ -262,6 +264,7 @@ public class CardSearchPanel extends JPanel {
 			tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
 			tabbedCardsInfo = new JTabbedPane(JTabbedPane.TOP);
 			thumbnailPanel = new HandPanel();
+			thumbnailPanel.setBackground(MTGConstants.THUMBNAIL_BACKGROUND_COLOR);
 			
 			
 			

@@ -88,7 +88,7 @@ public class MkmGUI extends JFrame{
 		}
 		
 		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.EAST);
+		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BorderLayout(0, 0));
 		
 		JComboBox<Wantslist> comboBox = new JComboBox<Wantslist>(new DefaultComboBoxModel(serv.getWantList().toArray()));
