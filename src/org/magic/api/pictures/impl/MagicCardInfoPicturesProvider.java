@@ -89,7 +89,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 			url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
 		}
 		
-		logger.debug(getName() +" get card pic from " + url);
+		logger.debug("Get card pic from " + url);
 
 		URLConnection connection = url.openConnection();
 					  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));

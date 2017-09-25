@@ -17,7 +17,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
 	static final Logger logger = LogManager.getLogger(GathererPicturesProvider.class.getName());
-	
+	private MagicCardInfoPicturesProvider mciProv;
 	
 	public GathererPicturesProvider() {
 		super();
@@ -56,7 +56,10 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		{
 			if(selected.getId().startsWith(k))
 			{
-				return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
+				if(mciProv==null)
+					mciProv=new MagicCardInfoPicturesProvider();
+					
+					return mciProv.getPicture(mc, selected);
 			}
 		}
 		
