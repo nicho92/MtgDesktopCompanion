@@ -63,14 +63,14 @@ public class BoosterPicturesProvider {
 				connection.setRequestProperty("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
 				return new ImageIcon(ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
 			} catch (IOException e) {
-				logger.error("Could not load : " + url);
+				logger.error("Could not load : " + url,e);
 				return null;
 			} catch (XPathExpressionException e) {
-				logger.error(me.getId() + " is not found");
+				logger.error(me.getId() + " is not found ",e);
 				return null;
 			}
 			catch (NullPointerException e) {
-				logger.error(me.getId() + " is not found");
+				logger.error(me.getId() + " error loading " + url,e);
 				return null;
 			}
 	}
