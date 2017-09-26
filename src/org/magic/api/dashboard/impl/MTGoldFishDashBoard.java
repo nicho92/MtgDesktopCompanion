@@ -196,7 +196,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException
 	{
 		String oldID=edition.getId();
-		String urlEditionChecker = props.getProperty("URL_EDITIONS")+replace(edition.getId(),false)+"#"+props.getProperty("FORMAT");
+		String urlEditionChecker = props.getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#"+props.getProperty("FORMAT");
 		
 		logger.debug("Parsing dashboard "+ urlEditionChecker);
 		
