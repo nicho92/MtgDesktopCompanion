@@ -28,6 +28,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.models.DeckSelectionModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import javax.swing.ListSelectionModel;
 
 public class JDeckChooserDialog extends JDialog {
 	
@@ -126,6 +127,7 @@ public class JDeckChooserDialog extends JDialog {
 		});
 		
 		table = new JXTable(new DeckSelectionModel());
+		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
