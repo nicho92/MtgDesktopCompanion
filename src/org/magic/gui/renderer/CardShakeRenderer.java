@@ -20,6 +20,7 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 	
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		{
+			try {
 			if(((Double)value).doubleValue()>0)
 				comp = new JLabel(value.toString(), up,JLabel.CENTER);
 			
@@ -31,6 +32,11 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 			
 			comp.setOpaque(false);
 			return comp;
+			}
+			catch(Exception e)
+			{
+				return new JLabel(e.getMessage());
+			}
 		}
 	}
 	
