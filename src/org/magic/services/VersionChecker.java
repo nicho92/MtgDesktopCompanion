@@ -48,8 +48,12 @@ public class VersionChecker {
 	public boolean hasNewVersion()
 	{
 		try{
-			logger.info("check new version of app ");
-			return Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
+			logger.info("check new version of app " + actualVersion);
+			boolean res= Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
+			logger.info("check new version of app " + res  +"(" + onlineVersion+")");
+			
+			
+			return res;
 		}
 		catch(Exception e)
 		{
