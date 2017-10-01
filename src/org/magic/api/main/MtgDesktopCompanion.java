@@ -25,20 +25,7 @@ public class MtgDesktopCompanion {
 	
 	public static void main(String[] args) {
 
-		CacheProvider.setCache(new Cache() {
-			//Not thread safe simple cache
-			private Map<String, JsonPath> map = new HashMap<String, JsonPath>();
-
-			@Override
-			public JsonPath get(String key) {
-				return map.get(key);
-			}
-
-			@Override
-			public void put(String key, JsonPath jsonPath) {
-				map.put(key, jsonPath);
-			}
-		});
+		
 
 		SwingUtilities.invokeLater(new Runnable() {
 			public void run() {
