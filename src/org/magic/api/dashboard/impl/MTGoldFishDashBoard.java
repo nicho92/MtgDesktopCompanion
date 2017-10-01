@@ -274,15 +274,24 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		for(Element e : trs)
 		{
 			Elements tds = e.select("td");
+			try {
+				int correct = filter.equalsIgnoreCase("lands")?1:0;
+				
+				
+				
 			CardDominance d = new CardDominance();
 						  d.setPosition(Integer.parseInt(tds.get(0).text()));
 						  d.setCardName(tds.get(1).text());
-						  
-						  d.setDecksPercent(Double.parseDouble(tds.get(3).text().replaceAll("\\%", "")));
-						  d.setDominance(Double.parseDouble(tds.get(4).text().replaceAll("\\%", "")));
-						  d.setPlayers(Double.parseDouble(tds.get(5).text()));
-						  
-			ret.add(d);
+						  d.setDominance(Double.parseDouble(tds.get(3-correct).text().replaceAll("\\%", "")));
+						  d.setDecksPercent(Double.parseDouble(tds.get(4-correct).text().replaceAll("\\%", "")));
+						  d.setPlayers(Double.parseDouble(tds.get(5-correct).text()));
+						  ret.add(d);
+			}
+			catch(Exception ex)
+			{
+				logger.error("Error parsing " + tds,ex);
+			}
+			
 		}
 		return ret;
 	}

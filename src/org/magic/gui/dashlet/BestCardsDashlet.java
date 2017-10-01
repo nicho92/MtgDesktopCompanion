@@ -123,7 +123,7 @@ public class BestCardsDashlet extends AbstractJDashlet{
 					save("FILTER",cboFilter.getSelectedItem().toString());
 					lblLoading.setVisible(false);
 				}
-			}, "init EditionDashLet");
+			}, "init BestCardsDashlet");
 		
 		//models.init(f, filter);
 		
