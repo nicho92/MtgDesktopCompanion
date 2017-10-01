@@ -3,12 +3,15 @@ package org.magic.api.dashboard.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
@@ -19,6 +22,8 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -245,6 +250,43 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 	}
 	
+	
+	public static void main(String[] args) throws IOException {
+		MTGoldFishDashBoard dash = new MTGoldFishDashBoard();
+		dash.getBestCards(FORMAT.modern,"creatures");
+	}
+	
+	@Override
+	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
+		
+		//spells, creatures, all, lands
+		String u = new String("https://www.mtggoldfish.com/format-staples/"+f+"/full/"+filter);
+		Document doc = Jsoup.connect(u)
+				.userAgent(props.getProperty("USER_AGENT"))
+				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+				.get();
+		
+		logger.debug("get best cards : " + u);
+		Elements trs =doc.select("table tr");
+		trs.remove(0);
+		trs.remove(0);
+		List<CardDominance> ret = new ArrayList<CardDominance>();
+		for(Element e : trs)
+		{
+			Elements tds = e.select("td");
+			CardDominance d = new CardDominance();
+						  d.setPosition(Integer.parseInt(tds.get(0).text()));
+						  d.setCardName(tds.get(1).text());
+						  
+						  d.setDecksPercent(Double.parseDouble(tds.get(3).text().replaceAll("\\%", "")));
+						  d.setDominance(Double.parseDouble(tds.get(4).text().replaceAll("\\%", "")));
+						  d.setPlayers(Double.parseDouble(tds.get(5).text()));
+						  
+			ret.add(d);
+		}
+		return ret;
+	}
+	
 	private String convert(String editionName)
 	{
 		
@@ -336,5 +378,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	public Date getUpdatedDate() {
 		return updateTime;
 	}
+
+	
+	@Override
+	public String[]  getDominanceFilters() {
+		return new String[] { "all","spells", "creatures","lands"};
+	}
+
+	
 
 }

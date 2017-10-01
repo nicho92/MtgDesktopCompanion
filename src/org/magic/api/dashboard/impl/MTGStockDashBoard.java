@@ -21,6 +21,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -111,6 +112,18 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	@Override
 	public Date getUpdatedDate() {
 		return new Date();
+	}
+
+	@Override
+	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[] getDominanceFilters() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

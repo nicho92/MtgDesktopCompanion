@@ -66,7 +66,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 	
 
 	
-	protected void initToolTip(final JTable table)
+	protected void initToolTip(final JTable table,final Integer cardPos,final Integer edPos)
 	{
 		final MagicCardDetailPanel pane = new MagicCardDetailPanel();
 				pane.enableThumbnail(true);
@@ -81,17 +81,20 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 				
 				if(row>-1) {
 					table.setRowSelectionInterval(row, row);
-					String cardName = table.getValueAt(row, 0).toString();
+					String cardName = table.getValueAt(row, cardPos.intValue()).toString();
 					
-					String edID = table.getValueAt(row, 1).toString();
+					MagicEdition ed =null;
+					if(edPos!=null) {
+						String edID = table.getValueAt(row, edPos).toString();
+						ed = new MagicEdition();
+						ed.setId(edID);
+					}
 					
-					MagicEdition ed = new MagicEdition();
-					ed.setId(edID);
 					try 
 					{
 						MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed).get(0);
 						pane.setMagicCard(mc);
-						pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
+						//pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
 							popUp.setBorder(new LineBorder(Color.black));
 						    popUp.setVisible(false);
 						    popUp.removeAll();
@@ -102,7 +105,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 					}
 					catch (Exception ex) 
 					{
-						logger.error(cardName +" " + edID,ex);
+						logger.error("Error on " + cardName,ex);
 					}
 					
 				}

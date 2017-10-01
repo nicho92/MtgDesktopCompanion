@@ -101,7 +101,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 		
 		new TableFilterHeader(table, AutoChoices.ENABLED);
 
-		initToolTip(table);
+		initToolTip(table,0,1);
 		
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
@@ -123,38 +123,23 @@ public class TrendingDashlet extends AbstractJDashlet{
 				lblLoading.setVisible(true);
 				modStandard.init((FORMAT)cboFormats.getSelectedItem());
 				table.setModel(modStandard);
-				table.setRowSorter(new TableRowSorter(modStandard) );
+				
 				props.put("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				lblLoading.setVisible(false);
 				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 				modStandard.fireTableDataChanged();
 				
-				try {
-					table.packAll();
-				}
-				catch(Exception e) 
-				{}
-				
-				
-				try{
-					lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
-				}catch(Exception e)
-				{
-					
-				}
+				lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
 				
 				List<SortKey> keys = new ArrayList<SortKey>();
 				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);//column index 2
 				keys.add(sortKey);
+				table.setRowSorter(new TableRowSorter(modStandard) );
 				
 				((TableRowSorter)table.getRowSorter()).setSortKeys(keys);
-				try
-				{
-					((TableRowSorter)table.getRowSorter()).sort();
-				}catch (Exception e)
-				{
-					
-				}
+				((TableRowSorter)table.getRowSorter()).sort();
+				
+				table.packAll();
 				
 			}
 		}, "Init Formats Dashlet");

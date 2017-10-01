@@ -113,7 +113,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 		modStandard = new CardsShakerTableModel();
 		table = new JXTable(modStandard);
 		scrollPane.setViewportView(table);
-		initToolTip(table);
+		initToolTip(table,0,1);
 		
 		if(props.size()>0) {
 			Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 

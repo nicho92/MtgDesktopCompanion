@@ -283,7 +283,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		currentSet=new ArrayList<String>();
 		list= new ArrayList<MagicCard>();
 
-		logger.info("searchCardByCriteria : " + jsquery);
+		logger.debug("searchCardByCriteria : " + jsquery);
 	
 		List<Map<String,Object>> cardsElement = ctx.withListeners(new EvaluationListener() {
 			

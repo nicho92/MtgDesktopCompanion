@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -241,6 +242,18 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public Date getUpdatedDate() {
 		return updateTime;
+	}
+
+	@Override
+	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String[]  getDominanceFilters() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
