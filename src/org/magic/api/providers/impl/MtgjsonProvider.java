@@ -40,6 +40,7 @@ import com.jayway.jsonpath.PathNotFoundException;
 import com.jayway.jsonpath.ReadContext;
 import com.jayway.jsonpath.spi.cache.Cache;
 import com.jayway.jsonpath.spi.cache.CacheProvider;
+import com.jayway.jsonpath.spi.cache.LRUCache;
 import com.jayway.jsonpath.spi.json.GsonJsonProvider;
 import com.jayway.jsonpath.spi.json.JsonProvider;
 import com.jayway.jsonpath.spi.mapper.GsonMappingProvider;
@@ -80,20 +81,22 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MtgjsonProvider() {
-		CacheProvider.setCache(new Cache() {
-			//Not thread safe simple cache
-			private Map<String, JsonPath> map = new HashMap<String, JsonPath>();
-
-			@Override
-			public JsonPath get(String key) {
-				return map.get(key);
-			}
-
-			@Override
-			public void put(String key, JsonPath jsonPath) {
-				map.put(key, jsonPath);
-			}
-		});
+//		CacheProvider.setCache(new Cache() {
+//			//Not thread safe simple cache
+//			private Map<String, JsonPath> map = new HashMap<String, JsonPath>();
+//
+//			@Override
+//			public JsonPath get(String key) {
+//				return map.get(key);
+//			}
+//
+//			@Override
+//			public void put(String key, JsonPath jsonPath) {
+//				map.put(key, jsonPath);
+//			}
+//		});
+		
+		CacheProvider.setCache(new LRUCache(500));
 	}
 	
 	private InputStream getStreamFromUrl(URL u) throws IOException
