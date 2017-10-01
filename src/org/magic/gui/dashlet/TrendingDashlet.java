@@ -127,7 +127,6 @@ public class TrendingDashlet extends AbstractJDashlet{
 				props.put("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				lblLoading.setVisible(false);
 				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
-				modStandard.fireTableDataChanged();
 				
 				lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
 				
@@ -138,6 +137,8 @@ public class TrendingDashlet extends AbstractJDashlet{
 				
 				((TableRowSorter)table.getRowSorter()).setSortKeys(keys);
 				((TableRowSorter)table.getRowSorter()).sort();
+				modStandard.fireTableDataChanged();
+				
 				
 				table.packAll();
 				

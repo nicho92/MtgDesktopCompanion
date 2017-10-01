@@ -119,8 +119,8 @@ public class BestCardsDashlet extends AbstractJDashlet{
 					models.fireTableDataChanged();
 					table.packAll();
 					table.setRowSorter(new TableRowSorter(models) );
-					save("FORMAT",cboFormat.getSelectedItem());
-					save("FILTER",cboFilter.getSelectedItem());
+					save("FORMAT",cboFormat.getSelectedItem().toString());
+					save("FILTER",cboFilter.getSelectedItem().toString());
 					lblLoading.setVisible(false);
 				}
 			}, "init EditionDashLet");

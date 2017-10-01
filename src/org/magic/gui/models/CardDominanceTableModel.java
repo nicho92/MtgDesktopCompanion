@@ -19,7 +19,7 @@ import org.magic.services.MTGControler;
 public class CardDominanceTableModel extends DefaultTableModel {
 
 	
-	static final String columns[] = new String[]{"Card","Position","Dominance","% deck","Players"};
+	static final String columns[] = new String[]{"Card","Position","% Dominance","% deck","Players"};
 	static final Logger logger = LogManager.getLogger(CardDominanceTableModel.class.getName());
 	private List<CardDominance> list;
 	
