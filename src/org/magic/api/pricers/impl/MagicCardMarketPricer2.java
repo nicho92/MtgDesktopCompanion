@@ -121,7 +121,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
         {
         	MagicPrice mp = new MagicPrice();
         	mp.setCurrency("EUR");
-        	mp.setValue(0.10);
+        	mp.setValue(0.01);
         	mp.setSite(getName());
         	mp.setSeller("Not checked common");
         	lists.add(mp);
@@ -134,7 +134,6 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
        Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
 		atts.put(PRODUCT_ATTS.idGame, "1");
 		atts.put(PRODUCT_ATTS.exact,props.getProperty("IS_EXACT"));
-		
 		
 		
 		if(!props.getProperty("LANGUAGE_ID").equals(""))
