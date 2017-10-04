@@ -30,10 +30,10 @@ public class JSONHttpServer extends AbstractMTGServer
 	NanoHTTPD server;
 
 	
-	  @Override
-	    public String description() {
-	    	return "Acces to mtg desktop companion via json http server";
-	    }
+  @Override
+    public String description() {
+    	return "Acces to mtg desktop companion via json http server";
+    }
 	
 	public boolean isAlive()
 	{
@@ -58,15 +58,20 @@ public class JSONHttpServer extends AbstractMTGServer
 		
     	server = new NanoHTTPD(Integer.parseInt(props.get("SERVER-PORT").toString())) {
     		public Response serve(IHTTPSession session) {
-			  Map<String, List<String>> parms = session.getParameters();
+			 Map<String, List<String>> parms = session.getParameters();
+    		logger.debug("Connection from " + session.getRemoteIpAddress() + " to " + session.getUri() + " " + parms);	
 			  switch(session.getUri())
 			  {
+			  	  case "/collections":  return listCollections(session);
 				  case "/collection":  return searchcardColl(session); 
+				  case "/editions":  return searchEditionColl(session);
 				  case "/search": return searchcard(session);
 				  case "/prices" : return searchPrice(session);
 				  default : return newFixedLengthResponse("Not usable uri")  ;
 			  }
     		}
+
+			
 		};
 	}
     
@@ -112,7 +117,8 @@ public class JSONHttpServer extends AbstractMTGServer
   	  } 
   	  catch (Exception e) 
   	  {
-  		 return NanoHTTPD.newFixedLengthResponse(e+"Usage : /prices?name=<i>cardname</i>&set=<i>IDSET</i>");
+  		logger.error("ERROR",e);
+  		 return NanoHTTPD.newFixedLengthResponse("Usage : /prices?name=<i>cardname</i>&set=<i>IDSET</i>");
   	  }
 	}
 
@@ -129,10 +135,53 @@ public class JSONHttpServer extends AbstractMTGServer
 	  } 
 	  catch (Exception e) 
 	  {
-		  return NanoHTTPD.newFixedLengthResponse(e+"Usage : /search?<i>att</i>=<i>value</i>");
+		  logger.error("ERROR",e);
+		  return NanoHTTPD.newFixedLengthResponse("Usage : /search?<i>att</i>=<i>value</i>");
 	  }
 	}
 	
+    private Response listCollections(IHTTPSession session)
+	{
+    	
+	  try {
+		  List<MagicCollection> list = MTGControler.getInstance().getEnabledDAO().getCollections();
+		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list));
+		  resp.addHeader("Content-Type", "application/json");
+		  return resp;
+	  } 
+	  catch (Exception e) 
+	  {
+		  logger.error("ERROR",e);
+		  return NanoHTTPD.newFixedLengthResponse("Usage : /collections");
+	  }
+	}
+    
+    private Response searchEditionColl(IHTTPSession session) {
+    	 try {
+   		  
+   		  String att=session.getParameters().keySet().toArray()[0].toString();
+   		  String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
+   		  
+   		  MagicCollection col = new MagicCollection();
+   		  col.setName(name);
+   		  List<String> list = MTGControler.getInstance().getEnabledDAO().getEditionsIDFromCollection(col);
+   		  
+   		  List<MagicEdition> eds = new ArrayList<MagicEdition>();
+   		  for(String s : list)
+   			  eds.add(MTGControler.getInstance().getEnabledProviders().getSetById(s));
+   		  
+   		  
+   		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(eds));
+   		  resp.addHeader("Content-Type", "application/json");
+   		  return resp;
+   	  } 
+   	  catch (Exception e) 
+   	  {
+   		  logger.error("ERROR",e);
+   		  return NanoHTTPD.newFixedLengthResponse("Usage : /editions?col=<i>value</i>");
+   	  }
+	}
+    
     
     private Response searchcardColl(IHTTPSession session)
 	{
@@ -151,8 +200,8 @@ public class JSONHttpServer extends AbstractMTGServer
 	  } 
 	  catch (Exception e) 
 	  {
-		  e.printStackTrace();
-		  return NanoHTTPD.newFixedLengthResponse(e+"Usage : /collection?col=<i>value</i>");
+		  logger.error("ERROR",e);
+		  return NanoHTTPD.newFixedLengthResponse("Usage : /collection?col=<i>value</i> or /collection?col=<i>value</i>");
 	  }
 	}
 

@@ -96,7 +96,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 //			}
 //		});
 		
-		CacheProvider.setCache(new LRUCache(500));
+		CacheProvider.setCache(new LRUCache(200));
 	}
 	
 	private InputStream getStreamFromUrl(URL u) throws IOException
