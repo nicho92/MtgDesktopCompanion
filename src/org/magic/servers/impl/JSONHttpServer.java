@@ -63,8 +63,8 @@ public class JSONHttpServer extends AbstractMTGServer
 			  switch(session.getUri())
 			  {
 			  	  case "/collections":  return listCollections(session);
-				  case "/collection":  return searchcardColl(session); 
-				  case "/editions":  return searchEditionColl(session);
+				  case "/editions":  return listEditions(session);
+				  case "/cards": return listCards(session);
 				  case "/search": return searchcard(session);
 				  case "/prices" : return searchPrice(session);
 				  default : return newFixedLengthResponse("Not usable uri")  ;
@@ -75,7 +75,9 @@ public class JSONHttpServer extends AbstractMTGServer
 		};
 	}
     
-    public void stop()
+ 
+
+	public void stop()
     {
     	logger.info("Server stop");
     	server.stop();
@@ -112,7 +114,6 @@ public class JSONHttpServer extends AbstractMTGServer
 	 		  
 	  		  	Response resp =NanoHTTPD.newFixedLengthResponse(card.toString());
 	  		  			 resp.addHeader("Content-Type", "application/json");
-	  		  			 
   		  return resp;
   	  } 
   	  catch (Exception e) 
@@ -131,6 +132,7 @@ public class JSONHttpServer extends AbstractMTGServer
 		  List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, name, null);
 		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list));
 		  resp.addHeader("Content-Type", "application/json");
+		  resp.addHeader("Item-count", String.valueOf(list.size()));
 		  return resp;
 	  } 
 	  catch (Exception e) 
@@ -140,6 +142,39 @@ public class JSONHttpServer extends AbstractMTGServer
 	  }
 	}
 	
+	
+	private Response listCards(IHTTPSession session) {
+   	 try {
+		 List<MagicCard> cards = new ArrayList<MagicCard>();
+		 
+			 String att=session.getParameters().keySet().toArray()[0].toString();
+			 String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
+			 
+			 String att2=session.getParameters().keySet().toArray()[1].toString();
+			 String idset=session.getParameters().get(session.getParameters().keySet().toArray()[1].toString()).get(0);
+			 
+			 MagicCollection col = new MagicCollection(name);
+			 MagicEdition ed = new MagicEdition();
+			 ed.setId(idset);
+			 ed.setSet(idset);
+			 
+			 cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed);
+		  
+			 Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(cards));
+			 resp.addHeader("Content-Type", "application/json");
+			 resp.addHeader("Item-count", String.valueOf(cards.size()));
+		  return resp;
+	  } 
+	  catch (Exception e) 
+	  {
+		  logger.error("ERROR",e);
+		  return NanoHTTPD.newFixedLengthResponse("Usage : /cards?col=<i>value</i>&set=<i>id</i>");
+	  }
+	}
+
+	   
+	   
+	   
     private Response listCollections(IHTTPSession session)
 	{
     	
@@ -147,6 +182,7 @@ public class JSONHttpServer extends AbstractMTGServer
 		  List<MagicCollection> list = MTGControler.getInstance().getEnabledDAO().getCollections();
 		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list));
 		  resp.addHeader("Content-Type", "application/json");
+		  resp.addHeader("Item-count", String.valueOf(list.size()));
 		  return resp;
 	  } 
 	  catch (Exception e) 
@@ -156,54 +192,37 @@ public class JSONHttpServer extends AbstractMTGServer
 	  }
 	}
     
-    private Response searchEditionColl(IHTTPSession session) {
+    private Response listEditions(IHTTPSession session) {
     	 try {
+    		 List<MagicEdition> eds = new ArrayList<MagicEdition>();
+    		 
+    		 if(session.getParameters().keySet().size()>0)
+    		 {
+    			 String att=session.getParameters().keySet().toArray()[0].toString();
+    			 String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
+    			 MagicCollection col = new MagicCollection(name);
+    			 List<String> list = MTGControler.getInstance().getEnabledDAO().getEditionsIDFromCollection(col);
+    			 for(String s : list)
+    				 eds.add(MTGControler.getInstance().getEnabledProviders().getSetById(s));
+    		 }
+    		 else
+    		 {
+    			 eds = MTGControler.getInstance().getEnabledProviders().loadEditions();
+    		 }
    		  
-   		  String att=session.getParameters().keySet().toArray()[0].toString();
-   		  String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
-   		  
-   		  MagicCollection col = new MagicCollection();
-   		  col.setName(name);
-   		  List<String> list = MTGControler.getInstance().getEnabledDAO().getEditionsIDFromCollection(col);
-   		  
-   		  List<MagicEdition> eds = new ArrayList<MagicEdition>();
-   		  for(String s : list)
-   			  eds.add(MTGControler.getInstance().getEnabledProviders().getSetById(s));
-   		  
-   		  
-   		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(eds));
+    	  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(eds));
    		  resp.addHeader("Content-Type", "application/json");
+   		 resp.addHeader("Item-count", String.valueOf(eds.size()));
    		  return resp;
    	  } 
    	  catch (Exception e) 
    	  {
    		  logger.error("ERROR",e);
-   		  return NanoHTTPD.newFixedLengthResponse("Usage : /editions?col=<i>value</i>");
+   		  return NanoHTTPD.newFixedLengthResponse("Usage : /editions?col=<i>value</i> or /editions");
    	  }
 	}
     
-    
-    private Response searchcardColl(IHTTPSession session)
-	{
-    	
-	  try {
-		  
-		  String att=session.getParameters().keySet().toArray()[0].toString();
-		  String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
-		  
-		  MagicCollection col = new MagicCollection();
-		  col.setName(name);
-		  List<MagicCard> list = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col);
-		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list));
-		  resp.addHeader("Content-Type", "application/json");
-		  return resp;
-	  } 
-	  catch (Exception e) 
-	  {
-		  logger.error("ERROR",e);
-		  return NanoHTTPD.newFixedLengthResponse("Usage : /collection?col=<i>value</i> or /collection?col=<i>value</i>");
-	  }
-	}
+   
 
 	@Override
 	public String getName() {
