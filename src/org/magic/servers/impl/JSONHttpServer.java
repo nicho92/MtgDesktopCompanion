@@ -3,6 +3,7 @@ package org.magic.servers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -15,6 +16,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
+import org.magic.tools.MagicCardComparator;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
@@ -159,7 +161,7 @@ public class JSONHttpServer extends AbstractMTGServer
 			 ed.setSet(idset);
 			 
 			 cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed);
-		  
+			 Collections.sort(cards,new MagicCardComparator());
 			 Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(cards));
 			 resp.addHeader("Content-Type", "application/json");
 			 resp.addHeader("Item-count", String.valueOf(cards.size()));
@@ -210,6 +212,9 @@ public class JSONHttpServer extends AbstractMTGServer
     			 eds = MTGControler.getInstance().getEnabledProviders().loadEditions();
     		 }
    		  
+    		 Collections.sort(eds);
+    		 
+    		 
     	  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(eds));
    		  resp.addHeader("Content-Type", "application/json");
    		 resp.addHeader("Item-count", String.valueOf(eds.size()));
