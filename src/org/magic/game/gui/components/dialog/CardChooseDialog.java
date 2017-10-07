@@ -20,6 +20,9 @@ public class CardChooseDialog extends JDialog {
 	public CardChooseDialog() {
 		
 		setTitle("Choose card");
+		setModal(true);
+		setLocationRelativeTo(null);
+		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		comboBox = new JComboBox<DisplayableCard>();

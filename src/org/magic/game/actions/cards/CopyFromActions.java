@@ -22,6 +22,7 @@ public class CopyFromActions extends AbilitySpell {
 			super("Copy","Make a copy of",card);
 	        putValue(MNEMONIC_KEY, KeyEvent.VK_C);
 			this.mc=card;
+			
 			cost="";
 	}
 	
@@ -30,6 +31,7 @@ public class CopyFromActions extends AbilitySpell {
 	public void actionPerformed(ActionEvent e) {
 		
 		CardChooseDialog diag = new CardChooseDialog();
+		
 		diag.setVisible(true);
 		
 		
