@@ -23,7 +23,10 @@ import com.google.gson.JsonObject;
 
 import fi.iki.elonen.NanoHTTPD;
 import fi.iki.elonen.NanoHTTPD.IHTTPSession;
+import fi.iki.elonen.NanoHTTPD.Method;
 import fi.iki.elonen.NanoHTTPD.Response;
+import fi.iki.elonen.NanoHTTPD.Response.Status;
+import sun.security.provider.certpath.ResponderId;
 
 public class JSONHttpServer extends AbstractMTGServer
 {
@@ -69,6 +72,7 @@ public class JSONHttpServer extends AbstractMTGServer
 				  case "/cards": return listCards(session);
 				  case "/search": return searchcard(session);
 				  case "/prices" : return searchPrice(session);
+				  case "/move" : return moveCard(session);
 				  default : return newFixedLengthResponse("Not usable uri")  ;
 			  }
     		}
@@ -123,6 +127,38 @@ public class JSONHttpServer extends AbstractMTGServer
   		logger.error("ERROR",e);
   		 return NanoHTTPD.newFixedLengthResponse("Usage : /prices?name=<i>cardname</i>&set=<i>IDSET</i>");
   	  }
+	}
+	
+	private Response moveCard(IHTTPSession session)
+	{
+	  try {
+		  
+		  if(!session.getMethod().equals(Method.POST))
+		  {
+			  Response res = NanoHTTPD.newFixedLengthResponse("POST /move?card_id=<ID>&from=COL_NAME&to=COL_NAME");
+			  res.setStatus(Status.BAD_REQUEST);
+			  return res;
+		  }
+		  
+		  String id=session.getParameters().get("card_id").get(0).toString();
+		  MagicCollection from=new MagicCollection(session.getParameters().get("from").get(0).toString());
+		  MagicCollection to=new MagicCollection(session.getParameters().get("to").get(0).toString());
+		  
+		  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(id);
+		  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
+		  MTGControler.getInstance().getEnabledDAO().saveCard(mc, from);
+		  
+		  Response resp = NanoHTTPD.newFixedLengthResponse("");
+		  resp.setStatus(Status.OK);
+		  resp.addHeader("Content-Type", "application/json");
+		 
+		  return resp;
+	  } 
+	  catch (Exception e) 
+	  {
+		  logger.error("ERROR",e);
+		  return NanoHTTPD.newFixedLengthResponse("Usage : /move?card_id=<ID>&from=COL_NAME&to=COL_NAME");
+	  }
 	}
 
 	private Response searchcard(IHTTPSession session)
