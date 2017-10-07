@@ -7,7 +7,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -36,9 +35,9 @@ import javax.swing.border.LineBorder;
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
+import org.magic.game.actions.cards.CopyFromActions;
 import org.magic.game.actions.cards.CreateActions;
 import org.magic.game.actions.cards.EmblemActions;
 import org.magic.game.actions.cards.FixCreaturePowerActions;
@@ -47,7 +46,6 @@ import org.magic.game.actions.cards.LoyaltyActions;
 import org.magic.game.actions.cards.RemoveCounterActions;
 import org.magic.game.actions.cards.SelectionActions;
 import org.magic.game.actions.cards.TapActions;
-import org.magic.game.gui.components.dialog.DescribeCardDialog;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.PositionEnum;
 import org.magic.game.model.Turn.PHASES;
@@ -235,10 +233,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		showPT = t;
 	}
 
-	public void debug() {
-		new DescribeCardDialog(this).setVisible(true);
-		
-	}
+	
 
 	public DisplayableCard(MagicCard mc, Dimension d, boolean activateCards) {
 		attachedCards = new ArrayList<DisplayableCard>();
@@ -381,6 +376,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 			menu.add(mnuModifier);
 		}
+		
+		if(magicCard.getText()!=null)
+			if (magicCard.getText().contains("copy of")) {
+				menu.add(new CopyFromActions(this));
+			}
 
 		// if(magicCard.isTranformable())
 		// menu.add(new JMenuItem(new TransformActions(this)));
@@ -399,17 +399,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 			menu.add(new JMenuItem(new EmblemActions(this)));
 
 		
-		menu.add(new JMenuItem(new AbstractAction("Describe") {
-				@Override
-			public void actionPerformed(ActionEvent e) {
-				debug();
-				
-			}
-		})
-		);
-		
-		
-
 		setComponentPopupMenu(menu);
 
 	}
@@ -492,9 +481,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 		try {
 			if (mc.getLayout().equals(MagicCard.LAYOUT.Token.toString())|| mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString())) {
 				fullResPics = GamePanelGUI.getInstance().getTokenGenerator().getPictures(mc);
-				
-				//fullResPics==NUll...why ?
-				System.out.println(fullResPics);
 				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 			} else {
 				fullResPics = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
@@ -531,8 +517,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 	@Override
 	public void addComponent(DisplayableCard i) {
 		if (i.getMagicCard().getSubtypes().contains("Aura")) {
-
-			System.out.println("attach " + i + "to " + this);
 			getAttachedCards().add(i);
 		}
 

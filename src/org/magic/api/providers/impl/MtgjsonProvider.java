@@ -283,18 +283,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	
-	public static void main(String[] args) throws IOException {
-		
-		MtgjsonProvider prov = new MtgjsonProvider();
-		prov.init();
-		
-		MagicEdition ed = new MagicEdition();
-		ed.setId("KLD");
-		List<MagicCard> lsit = prov.searchCardByCriteria("foreignNames", "fra", ed);
-		
-		for(MagicCard mc : lsit)
-			System.out.println(mc + " " + mc.getFullType());
-	}
 	
 	public List<MagicCard> search(String jsquery,String att,String crit) throws IOException {
 		
@@ -308,7 +296,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			public EvaluationContinuation resultFound(FoundResult fr) {
 				if(fr.path().startsWith("$"))
 				{
-				//	System.out.println(fr.path());
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
 				}
 				return null;

@@ -151,11 +151,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		return list;
 	}
 	
-	public static void main(String[] args) {
-		System.out.println(new LeboncoinShopper().search("Lot cartes magic"));
-	}
-	
-	
+
 	private Date parseDate(String e)
 	{
 		String aujourdhui="Aujourd'hui, ";

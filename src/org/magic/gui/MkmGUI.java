@@ -68,8 +68,6 @@ public class MkmGUI extends JFrame{
 							list = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(new MagicCollection(path.getPath()[1].toString()), selectedEdition);
 							
 							
-							System.out.println(list);
-							
 							
 						} catch (SQLException e) {
 							// TODO Auto-generated catch block

@@ -707,14 +707,6 @@ public class ConfigurationPanel extends JPanel {
 		spinCardW = new JSpinner();
 		spinCardW.setModel(new SpinnerNumberModel(new Integer(154), new Integer(0), null, new Integer(1)));
 		spinCardW.setValue(Integer.parseInt(MTGControler.getInstance().get("/game/cards/card-width")));
-//		spinCardW.addChangeListener(new ChangeListener() {
-//			
-//			@Override
-//			public void stateChanged(ChangeEvent e) {
-//				System.out.println("value " + spinCardW.getValue());
-//				
-//			}
-//		});
 		
 		
 		panelSubGame.add(spinCardW);
