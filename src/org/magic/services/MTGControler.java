@@ -52,7 +52,7 @@ public class MTGControler {
 	
 	private KeyWordManager keyWordManager;
 	
-	public static File CONF_DIR = new File(System.getProperty("user.home")+"/magicDeskCompanion/");
+	public static File CONF_DIR = new File(System.getProperty("user.home")+"/.magicDeskCompanion/");
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
