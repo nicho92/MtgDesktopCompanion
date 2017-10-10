@@ -150,7 +150,7 @@ public class StockPanelGUI extends JPanel {
 
 				resultListModel.removeAllElements();
 
-				SwingUtilities.invokeLater(new Runnable() {
+				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
 						try {
 							lblLoading.setVisible(true);
@@ -166,7 +166,7 @@ public class StockPanelGUI extends JPanel {
 							JOptionPane.showMessageDialog(null, e.getMessage(), "ERREUR", JOptionPane.ERROR_MESSAGE);
 						}
 					}
-				});
+				},"Search stock");
 			}
 		});
 		

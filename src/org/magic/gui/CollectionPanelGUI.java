@@ -489,7 +489,7 @@ public class CollectionPanelGUI extends JPanel {
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(false);
 					statsPanel.enabledAdd(false);
-					SwingUtilities.invokeLater(new Runnable() {
+					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try{
 
@@ -508,7 +508,7 @@ public class CollectionPanelGUI extends JPanel {
 
 							}
 						}
-					});
+					},"Refresh Collection");
 				}
 
 
@@ -522,7 +522,7 @@ public class CollectionPanelGUI extends JPanel {
 					magicCardDetailPanel.enableThumbnail(true);
 					jsonPanel.show(curr.getUserObject());
 					
-					SwingUtilities.invokeLater(new Runnable() {
+					ThreadManager.getInstance().execute(new Runnable() {
 						
 						@Override
 						public void run() {
@@ -531,7 +531,7 @@ public class CollectionPanelGUI extends JPanel {
 							
 							
 						}
-					});
+					},"Update Collection");
 					
 					
 					
@@ -542,7 +542,7 @@ public class CollectionPanelGUI extends JPanel {
 					}
 					
 					
-					SwingUtilities.invokeLater(new Runnable() {
+					ThreadManager.getInstance().execute(new Runnable() {
 						public void run() {
 							try {
 								historyPricesPanel.init(card,null,card.getName());
@@ -551,7 +551,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						}
-					});
+					},"update history");
 				}
 			}
 		});

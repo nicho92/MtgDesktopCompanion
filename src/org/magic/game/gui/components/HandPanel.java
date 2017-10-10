@@ -97,21 +97,20 @@ public class HandPanel extends DraggablePanel {
 			
 			@Override
 			public void run() {
+				
+				
 				for(MagicCard mc : cards)
 				{
 					if(d==null)
 						d=MTGControler.getInstance().getCardsDimension();
 					
-					
 					DisplayableCard lab = new DisplayableCard(mc,d,activateCards);
 					lab.setTappable(activateCards);
 					
-				try {
-						
+					try {
 						if(mc.getEditions().get(0).getMultiverse_id()=="0")
-						{
 							lab.setText(mc.getName());
-						}
+					
 						addComponent(lab);
 						revalidate();
 						//repaint();
@@ -125,12 +124,7 @@ public class HandPanel extends DraggablePanel {
 			}
 		});
 		
-		
-		
-		
-		//t.start();
-		  SwingUtilities.invokeLater(t);
-		
+		t.start();
 		}
 
 	@Override

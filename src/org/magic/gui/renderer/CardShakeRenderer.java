@@ -11,31 +11,39 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 
 	ImageIcon up;
 	ImageIcon down;
-	JLabel comp = null;
+	JLabel comp;
 	
 	public CardShakeRenderer() {
 		up = new ImageIcon(CardShakeRenderer.class.getResource("/res/up.png"));
 		down = new ImageIcon(CardShakeRenderer.class.getResource("/res/down.png"));
+		comp=new JLabel();
+		
+		comp.setHorizontalAlignment(JLabel.CENTER);
+		comp.setOpaque(false);
 	}
 	
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		{
-			try {
-			if(((Double)value).doubleValue()>0)
-				comp = new JLabel(value.toString(), up,JLabel.CENTER);
+			try 
+			{
+				
+				comp.setText(value.toString());
+					
+				if(((Double)value).doubleValue()>0)
+					comp.setIcon(up);
+	
+				if(((Double)value).doubleValue()<0)
+					comp.setIcon(down);
+				
+				if(((Double)value).doubleValue()==0)
+					comp.setIcon(null);
 			
-			if(((Double)value).doubleValue()<0)
-				comp=new JLabel(value.toString(), down,JLabel.CENTER);
-			
-			if(((Double)value).doubleValue()==0)
-				comp=new JLabel(value.toString(),JLabel.CENTER);
-			
-			comp.setOpaque(false);
-			return comp;
+				return comp;
 			}
 			catch(Exception e)
 			{
-				return new JLabel(e.getMessage());
+				comp.setText(e.getMessage());
+				return comp;
 			}
 		}
 	}

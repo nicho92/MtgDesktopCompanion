@@ -550,12 +550,12 @@ public class MagicCardDetailPanel extends JPanel {
 		if(thumbnail)
 		{
 			if(magicCard!=null)
-				SwingUtilities.invokeLater(new Runnable() {
+				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
 						loadPics();
 						
 					}
-				});
+				},"load pic");
 		}
 	
 		if(magicCard!=null)

@@ -42,6 +42,7 @@ import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -504,46 +505,48 @@ public class CardSearchPanel extends JPanel {
 					if(txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
 						return;
 					
-					Runnable r = new Runnable() {
-						public void run() {
-							loading(true,"searching");
-							try {
-								String searchName=txtMagicSearch.getText();
-								
-								if(cboCollections.isVisible())
-									cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
-								else
-									cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
-								
-								Collections.sort(cards,new MagicCardComparator());
-								
-								cardsModeltable.init(cards);
-								tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-								
-								cardsModeltable.fireTableDataChanged();
-								
-								thumbnailPanel.initThumbnails(cards,false);
-								
-								cmcChart.init(cards);
-								typeRepartitionPanel.init(cards);
-								manaRepartitionPanel.init(cards);
-								rarityRepartitionPanel.init(cards);
-								tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
-								
-								btnExport.setEnabled(tableCards.getRowCount()>0);
-								
-								//tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionRenderer());
-
-
-							} catch (Exception e) {
-								e.printStackTrace();
-								JOptionPane.showMessageDialog(null, e.getMessage(),"ERREUR",JOptionPane.ERROR_MESSAGE);
-							}
-							loading(false,"");
-						}
-					};
 					
-					SwingUtilities.invokeLater(r);
+					new SwingWorker(){
+						@Override
+						protected Object doInBackground() throws Exception {
+							loading(true,"searching");
+							String searchName=txtMagicSearch.getText();
+							if(cboCollections.isVisible())
+								cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
+							else
+								cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
+							
+							Collections.sort(cards,new MagicCardComparator());
+							
+							cardsModeltable.init(cards);
+							tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+							
+							
+							thumbnailPanel.initThumbnails(cards,false);
+							
+							cmcChart.init(cards);
+							typeRepartitionPanel.init(cards);
+							manaRepartitionPanel.init(cards);
+							rarityRepartitionPanel.init(cards);
+							tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
+							
+							
+							
+							return null;
+						}
+						
+						@Override
+						protected void done() {
+							super.done();
+							loading(false,"");
+							cardsModeltable.fireTableDataChanged();
+							btnExport.setEnabled(tableCards.getRowCount()>0);
+							
+						}
+					}.execute();
+					
+					
+					
 				}
 			});
 

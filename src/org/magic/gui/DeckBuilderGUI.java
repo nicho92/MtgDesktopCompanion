@@ -712,7 +712,7 @@ public class DeckBuilderGUI extends JPanel {
 
 				resultListModel.removeAllElements();
 
-				SwingUtilities.invokeLater(new Runnable() {
+				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
 						try {
 							//String searchName = URLEncoder.encode(txtSearch.getText(), "UTF-8");
@@ -738,7 +738,7 @@ public class DeckBuilderGUI extends JPanel {
 							JOptionPane.showMessageDialog(null, e.getMessage(), "ERREUR", JOptionPane.ERROR_MESSAGE);
 						}
 					}
-				});
+				},"search deck");
 			}
 		});
 	}
