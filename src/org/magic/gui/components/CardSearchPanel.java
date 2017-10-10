@@ -543,7 +543,7 @@ public class CardSearchPanel extends JPanel {
 						}
 					};
 					
-					ThreadManager.getInstance().execute(r,"SearchCards");
+					SwingUtilities.invokeLater(r);
 				}
 			});
 

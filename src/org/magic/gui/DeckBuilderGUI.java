@@ -38,6 +38,7 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -711,7 +712,7 @@ public class DeckBuilderGUI extends JPanel {
 
 				resultListModel.removeAllElements();
 
-				ThreadManager.getInstance().execute(new Runnable() {
+				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						try {
 							//String searchName = URLEncoder.encode(txtSearch.getText(), "UTF-8");
@@ -737,7 +738,7 @@ public class DeckBuilderGUI extends JPanel {
 							JOptionPane.showMessageDialog(null, e.getMessage(), "ERREUR", JOptionPane.ERROR_MESSAGE);
 						}
 					}
-				}, "DeckSearchCards");
+				});
 			}
 		});
 	}

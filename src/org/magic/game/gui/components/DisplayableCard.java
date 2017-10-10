@@ -73,7 +73,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private boolean selected = false;
 	private boolean rotated;
 	private boolean showPT;
-	
+	private JSeparator sep = new JSeparator();
 	private List<DisplayableCard> attachedCards;
 	private List<AbstractCounter> counters;
 	public List<AbstractCounter> getCounters() {
@@ -389,7 +389,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		// menu.add(new JMenuItem(new FlipActions(this)));
 		
 		
-		menu.add(new JSeparator());		
+		menu.add(sep);		
 		if (GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
 		{
 			menu.add(new JMenuItem(new CreateActions(this)));

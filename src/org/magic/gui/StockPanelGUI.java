@@ -37,6 +37,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
@@ -149,7 +150,7 @@ public class StockPanelGUI extends JPanel {
 
 				resultListModel.removeAllElements();
 
-				ThreadManager.getInstance().execute(new Runnable() {
+				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						try {
 							lblLoading.setVisible(true);
@@ -165,7 +166,7 @@ public class StockPanelGUI extends JPanel {
 							JOptionPane.showMessageDialog(null, e.getMessage(), "ERREUR", JOptionPane.ERROR_MESSAGE);
 						}
 					}
-				}, "DeckSearchCards");
+				});
 			}
 		});
 		

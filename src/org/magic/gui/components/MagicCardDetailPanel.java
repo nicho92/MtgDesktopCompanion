@@ -22,6 +22,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import org.apache.log4j.LogManager;
@@ -549,12 +550,12 @@ public class MagicCardDetailPanel extends JPanel {
 		if(thumbnail)
 		{
 			if(magicCard!=null)
-				ThreadManager.getInstance().execute(new Runnable() {
+				SwingUtilities.invokeLater(new Runnable() {
 					public void run() {
 						loadPics();
 						
 					}
-				},"loadThumbnail");
+				});
 		}
 	
 		if(magicCard!=null)

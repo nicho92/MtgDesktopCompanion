@@ -215,6 +215,9 @@ public class MagicGUI extends JFrame {
 		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
 			looks.add(i.getClassName());
 		
+		looks.add("org.pushingpixels.substance.api.skin.SubstanceCeruleanLookAndFeel");
+		
+		
 		for(String ui : looks)
 		{
 			final JMenuItem it = new JMenuItem(ui);

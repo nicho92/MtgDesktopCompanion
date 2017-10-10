@@ -489,7 +489,7 @@ public class CollectionPanelGUI extends JPanel {
 					btnExportCSV.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(false);
 					statsPanel.enabledAdd(false);
-					ThreadManager.getInstance().execute(new Runnable() {
+					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							try{
 
@@ -508,7 +508,7 @@ public class CollectionPanelGUI extends JPanel {
 
 							}
 						}
-					},"addTreeSelectionListener init graph edition");
+					});
 				}
 
 
@@ -522,7 +522,7 @@ public class CollectionPanelGUI extends JPanel {
 					magicCardDetailPanel.enableThumbnail(true);
 					jsonPanel.show(curr.getUserObject());
 					
-					ThreadManager.getInstance().execute(new Runnable() {
+					SwingUtilities.invokeLater(new Runnable() {
 						
 						@Override
 						public void run() {
@@ -531,7 +531,7 @@ public class CollectionPanelGUI extends JPanel {
 							
 							
 						}
-					}, "loading stock for " + curr.getUserObject() );
+					});
 					
 					
 					
@@ -542,7 +542,7 @@ public class CollectionPanelGUI extends JPanel {
 					}
 					
 					
-					ThreadManager.getInstance().execute(new Runnable() {
+					SwingUtilities.invokeLater(new Runnable() {
 						public void run() {
 							try {
 								historyPricesPanel.init(card,null,card.getName());
@@ -551,7 +551,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						}
-					},"addTreeSelectionListener init graph historyDashboard");
+					});
 				}
 			}
 		});
