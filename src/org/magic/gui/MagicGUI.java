@@ -14,8 +14,8 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -37,6 +37,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+import org.pushingpixels.substance.api.skin.SubstanceMagellanLookAndFeel;
 
 public class MagicGUI extends JFrame {
 
@@ -52,8 +53,8 @@ public class MagicGUI extends JFrame {
  	private JTabbedPane  tabbedPane;
 	private VersionChecker serviceUpdate;
 	public static TrayIcon trayNotifier;
-
-	
+	private Map<String,String> looks;
+	private Map<String,String> looksMore;
 	public MagicGUI() {
 
 		try {
@@ -208,26 +209,47 @@ public class MagicGUI extends JFrame {
 		}
 		
 		
-		
 		//INIT AVAILABLE LOOK AND FEELS
-		List<String> looks = new ArrayList<String>();
+		looks = new HashMap<String,String>();
+		looksMore = new HashMap<String,String>();
+		
 		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
-			looks.add(i.getClassName());
+			looks.put(i.getName(),i.getClassName());
 		
-		looks.add("org.pushingpixels.substance.api.skin.SubstanceCeruleanLookAndFeel");
-		looks.add("org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel");
+		looksMore.put("Cerulan","org.pushingpixels.substance.api.skin.SubstanceCeruleanLookAndFeel");
+		looksMore.put("Business Blue","org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel");
+		looksMore.put("Gemini","org.pushingpixels.substance.api.skin.SubstanceGeminiLookAndFeel");
+		looksMore.put("Nebula","org.pushingpixels.substance.api.skin.SubstanceNebulaLookAndFeel");		
+		looksMore.put("Graphite","org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel");
+		looksMore.put("Magellan","org.pushingpixels.substance.api.skin.SubstanceMagellanLookAndFeel");
 		
 		
-		for(String ui : looks)
+		
+		JMenu itMore = new JMenu("More");
+		for(final String ui : looksMore.keySet())
 		{
 			final JMenuItem it = new JMenuItem(ui);
 			it.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-					setLookAndFeel(it.getText());
+					setLookAndFeel(looksMore.get(ui));
+				}
+			});
+			itMore.add(it);
+		}
+		
+		for(final String ui : looks.keySet())
+		{
+			final JMenuItem it = new JMenuItem(ui);
+			it.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {
+					setLookAndFeel(looks.get(ui));
 				}
 			});
 			jmnuLook.add(it);
 		}
+		
+		
+		jmnuLook.add(itMore);
 	
 		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
 		
