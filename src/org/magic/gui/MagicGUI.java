@@ -149,7 +149,6 @@ public class MagicGUI extends JFrame {
 			}
 		});
 		
-		
 		mntmExit.addActionListener(new ActionListener() {
 			
 			@Override
@@ -216,6 +215,7 @@ public class MagicGUI extends JFrame {
 			looks.add(i.getClassName());
 		
 		looks.add("org.pushingpixels.substance.api.skin.SubstanceCeruleanLookAndFeel");
+		looks.add("org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel");
 		
 		
 		for(String ui : looks)

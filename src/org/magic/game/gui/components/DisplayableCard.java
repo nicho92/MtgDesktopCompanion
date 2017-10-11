@@ -73,7 +73,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private boolean selected = false;
 	private boolean rotated;
 	private boolean showPT;
-	private JSeparator sep = new JSeparator();
+	private JSeparator sep;
 	private List<DisplayableCard> attachedCards;
 	private List<AbstractCounter> counters;
 	public List<AbstractCounter> getCounters() {
@@ -236,8 +236,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 	
 
 	public DisplayableCard(MagicCard mc, Dimension d, boolean activateCards) {
-		attachedCards = new ArrayList<DisplayableCard>();
+	
 		menu = new JPopupMenu();
+		sep = new JSeparator();
+		attachedCards = new ArrayList<DisplayableCard>();
+		
 		counters = new ArrayList<AbstractCounter>();
 
 		setSize(d);
