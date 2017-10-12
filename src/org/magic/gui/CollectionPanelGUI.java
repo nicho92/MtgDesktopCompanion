@@ -157,120 +157,7 @@ public class CollectionPanelGUI extends JPanel {
 						
 		btnExportCSV.setEnabled(false);
 		
-
-		btnAdd.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				String name = JOptionPane.showInputDialog("Name ?");
-				MagicCollection mc = new MagicCollection();
-				mc.setName(name);
-				try {
-					dao.saveCollection(mc);
-					((LazyLoadingTree.MyNode)getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));//todo recalculate
-					getJTree().refresh();
-					initPopupCollection();
-				} catch (Exception ex) {
-					logger.error(ex);
-					JOptionPane.showMessageDialog(null, ex,"Error",JOptionPane.ERROR_MESSAGE);
-				}
-				
-			}
-		});
-		
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				ThreadManager.getInstance().execute(new Runnable() {
-					
-					@Override
-					public void run() {
-						progressBar.setVisible(true);
-						tree.refresh();
-						try {
-							model.calculate();
-							
-						} catch (Exception e) {
-						}
-						model.fireTableDataChanged();
-						progressBar.setVisible(false);
-						
-					}
-				}, "update Tree");
-				
-			}
-		});
-		
-		btnExportCSV.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				JPopupMenu menu = new JPopupMenu();
-				
-				for(final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports())
-				{
-					JMenuItem it = new JMenuItem();
-					it.setIcon(exp.getIcon());
-					it.setText(exp.getName());
-					it.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
-							ThreadManager.getInstance().execute(new Runnable() {
-								@Override
-								public void run() {
-									try {
-										DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-										JFileChooser jf = new JFileChooser();
-									
-										MagicCollection mc=null;
-										MagicEdition ed=null;
-										
-										if(curr.getUserObject() instanceof MagicEdition)
-										{
-											ed = (MagicEdition) curr.getUserObject();
-											mc = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
-										}
-										else
-										{
-											mc = (MagicCollection) curr.getUserObject();
-										}
-										
-										jf.setSelectedFile(new File(mc.getName()+exp.getFileExtension()));
-										int result = jf.showSaveDialog(null);
-										File f = jf.getSelectedFile();
-										
-										if(result==JFileChooser.APPROVE_OPTION)
-										
-										if(ed==null)
-											exp.export(dao.getCardsFromCollection(mc), f);
-										else
-											exp.export(dao.getCardsFromCollection(mc,ed), f);
-										
-										JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
-									} catch (Exception e) {
-										logger.error(e);
-										JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
-									}
-									
-								}
-							}, "export collection with " + exp);
-								
-							
-							
-							
-							
-							
-						}
-					});
-					
-					menu.add(it);
-				}
-				
-				Component b=(Component)ae.getSource();
-		        Point p=b.getLocationOnScreen();
-		        menu.show(b,0,0);
-		        menu.setLocation(p.x,p.y+b.getHeight());
-			}
-		});
-
-		
+	
 		JButton btnMassCollection = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/res/import.png")));
 		btnMassCollection.setToolTipText("Import collection");
 
@@ -376,8 +263,9 @@ public class CollectionPanelGUI extends JPanel {
 		
 				JScrollPane scrollPane = new JScrollPane();
 				panneauGauche.add(scrollPane);
-				
 						tableEditions = new JXTable();
+						tableEditions.setModel(model);
+						
 						filter = new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
 						
 						tableEditions.addMouseListener(new MouseAdapter() {
@@ -390,38 +278,149 @@ public class CollectionPanelGUI extends JPanel {
 									jsonPanel.show(ed);
 							}
 						});
-						tableEditions.setModel(model);
-						
-						tableEditions.setDefaultRenderer(Object.class,render);
-						//tableEditions.setDefaultRenderer(ImageIcon.class,render);
-						tableEditions.setDefaultRenderer(String.class,render);
-						tableEditions.setDefaultRenderer(Integer.class, render);
-						tableEditions.setDefaultRenderer(double.class, render);
-						
-						tableEditions.setRowHeight(25);
-						
-						tableEditions.setRowSorter(sorterEditions);
-						tableEditions.packAll();
-						
-						
-						
-						scrollPane.setViewportView(tableEditions);
-						
-						JPanel panelTotal = new JPanel();
-						panneauGauche.add(panelTotal, BorderLayout.SOUTH);
-						
-						
-						panelTotal.add(lblTotal);
-						
-						splitPane.addComponentListener(new ComponentAdapter() {
+		
+		tableEditions.setDefaultRenderer(Object.class,render);
+		//tableEditions.setDefaultRenderer(ImageIcon.class,render);
+		tableEditions.setDefaultRenderer(String.class,render);
+		tableEditions.setDefaultRenderer(Integer.class, render);
+		tableEditions.setDefaultRenderer(double.class, render);
+		
+		tableEditions.setRowHeight(25);
+		
+		tableEditions.setRowSorter(sorterEditions);
+		tableEditions.packAll();
+		
+		
+		
+		scrollPane.setViewportView(tableEditions);
+		
+		JPanel panelTotal = new JPanel();
+		panneauGauche.add(panelTotal, BorderLayout.SOUTH);
+		
+		
+		panelTotal.add(lblTotal);
+		
 
-						      @Override
-						      public void componentShown(ComponentEvent componentEvent) {
-						        splitPane.setDividerLocation(.5);
-						        removeComponentListener(this);
-						      }
-						    });
+		btnAdd.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String name = JOptionPane.showInputDialog("Name ?");
+				MagicCollection mc = new MagicCollection();
+				mc.setName(name);
+				try {
+					dao.saveCollection(mc);
+					((LazyLoadingTree.MyNode)getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));//todo recalculate
+					getJTree().refresh();
+					initPopupCollection();
+				} catch (Exception ex) {
+					logger.error(ex);
+					JOptionPane.showMessageDialog(null, ex,"Error",JOptionPane.ERROR_MESSAGE);
+				}
+				
+			}
+		});
+						
+		btnRefresh.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
 
+				ThreadManager.getInstance().execute(new Runnable() {
+					
+					@Override
+					public void run() {
+						progressBar.setVisible(true);
+						tree.refresh();
+						try {
+							model.calculate();
+							
+						} catch (Exception e) {
+						}
+						model.fireTableDataChanged();
+						progressBar.setVisible(false);
+						
+					}
+				}, "update Tree");
+				
+			}
+		});
+						
+		btnExportCSV.addActionListener(new ActionListener() {
+							public void actionPerformed(ActionEvent ae) {
+								JPopupMenu menu = new JPopupMenu();
+								
+								for(final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports())
+								{
+									JMenuItem it = new JMenuItem();
+									it.setIcon(exp.getIcon());
+									it.setText(exp.getName());
+									it.addActionListener(new ActionListener() {
+										public void actionPerformed(ActionEvent arg0) {
+											ThreadManager.getInstance().execute(new Runnable() {
+												@Override
+												public void run() {
+													try {
+														DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+														JFileChooser jf = new JFileChooser();
+													
+														MagicCollection mc=null;
+														MagicEdition ed=null;
+														
+														if(curr.getUserObject() instanceof MagicEdition)
+														{
+															ed = (MagicEdition) curr.getUserObject();
+															mc = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
+														}
+														else
+														{
+															mc = (MagicCollection) curr.getUserObject();
+														}
+														
+														jf.setSelectedFile(new File(mc.getName()+exp.getFileExtension()));
+														int result = jf.showSaveDialog(null);
+														File f = jf.getSelectedFile();
+														
+														if(result==JFileChooser.APPROVE_OPTION)
+														
+														if(ed==null)
+															exp.export(dao.getCardsFromCollection(mc), f);
+														else
+															exp.export(dao.getCardsFromCollection(mc,ed), f);
+														
+														JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
+													} catch (Exception e) {
+														logger.error(e);
+														JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+													}
+													
+												}
+											}, "export collection with " + exp);
+												
+											
+											
+											
+											
+											
+										}
+									});
+									
+									menu.add(it);
+								}
+								
+								Component b=(Component)ae.getSource();
+						        Point p=b.getLocationOnScreen();
+						        menu.show(b,0,0);
+						        menu.setLocation(p.x,p.y+b.getHeight());
+							}
+						});
+					
+		splitPane.addComponentListener(new ComponentAdapter() {
+
+		      @Override
+		      public void componentShown(ComponentEvent componentEvent) {
+		        splitPane.setDividerLocation(.5);
+		        removeComponentListener(this);
+		      }
+		    });
 
 		tablePrices.addMouseListener(new MouseAdapter() {
 			@Override
