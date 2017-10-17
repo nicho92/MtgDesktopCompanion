@@ -37,7 +37,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
-import org.pushingpixels.substance.api.skin.SubstanceMagellanLookAndFeel;
 
 public class MagicGUI extends JFrame {
 
