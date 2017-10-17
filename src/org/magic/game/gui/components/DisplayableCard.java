@@ -320,7 +320,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		menu.add(new JMenuItem(new SelectionActions(this)));
 		menu.add(new JMenuItem(new TapActions(this)));
 
-		if (magicCard.getTypes().contains("Creature")) {
+		if (magicCard.getFullType().toLowerCase().contains("creature")) {
 			JMenu mnuModifier = new JMenu("P/T");
 			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
 			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
@@ -339,7 +339,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Orange", Color.ORANGE)));
 		menu.add(mnuCounter);
 
-		if (magicCard.getTypes().contains("Planeswalker")) {
+		if (magicCard.getFullType().contains("Planeswalker")) {
 			JMenu mnuModifier = new JMenu("Loyalty");
 
 			for (LoyaltyCounter count : listLoyalty())
