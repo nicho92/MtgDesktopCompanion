@@ -101,7 +101,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	public Object getValueAt(int row, int column) {
 		MagicEdition e =  list.get(row);
 			if(column==0)
-				return IconSetProvider.getInstance().get(e.getId());
+				return IconSetProvider.getInstance().get24(e.getId());
 		
 			if(column==1)
 				return e;

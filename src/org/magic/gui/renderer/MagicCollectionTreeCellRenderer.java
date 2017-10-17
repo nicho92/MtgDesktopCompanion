@@ -56,7 +56,7 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
     				MagicEdition ed=(MagicEdition)((DefaultMutableTreeNode)value).getUserObject();
 	    			
     				
-    				setIcon(IconSetProvider.getInstance().get(ed.getId()));
+    				setIcon(IconSetProvider.getInstance().get16(ed.getId()));
     			}
     			else if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicCard)
 		    	{ 

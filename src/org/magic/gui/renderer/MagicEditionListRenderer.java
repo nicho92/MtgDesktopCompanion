@@ -17,7 +17,7 @@ public class MagicEditionListRenderer extends JLabel implements ListCellRenderer
 		
 		if(value!=null)
 		{
-			ImageIcon ic = IconSetProvider.getInstance().get(value.getId());
+			ImageIcon ic = IconSetProvider.getInstance().get24(value.getId());
 			JLabel l = new JLabel(value.getSet());
 			l.setOpaque(true);
 			l.setToolTipText(value.getId());

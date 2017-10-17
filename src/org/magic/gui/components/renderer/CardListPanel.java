@@ -71,7 +71,7 @@ public class CardListPanel extends JPanel{
 		gbc_lblEdition.gridy = 2;
 		add(lblEdition, gbc_lblEdition);
 		
-		lblEdition.setIcon(IconSetProvider.getInstance().get(mc.getEditions().get(0).getId()));
+		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getEditions().get(0).getId()));
 	
 	
 		
