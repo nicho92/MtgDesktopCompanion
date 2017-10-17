@@ -11,6 +11,8 @@ import java.util.Properties;
 import javax.swing.JInternalFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
@@ -28,7 +30,8 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 	public static final File confdir = new File(MTGControler.CONF_DIR, "dashboards/dashlets");
 	protected Properties props;
 	protected static final Logger logger = LogManager.getLogger(AbstractJDashlet.class.getName());
-
+	private MagicCardDetailPanel pane;
+	
 	public AbstractJDashlet() {
 		props=new Properties();
 		if(!confdir.exists())
@@ -68,11 +71,12 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 	
 	protected void initToolTip(final JTable table,final Integer cardPos,final Integer edPos)
 	{
-		final MagicCardDetailPanel pane = new MagicCardDetailPanel();
+		pane = new MagicCardDetailPanel();
 				pane.enableThumbnail(true);
+				
 				//pane.setPreferredSize(new Dimension(880, 350));
 				
-		final JPopupMenu popUp = new JPopupMenu("Customized Tool Tip");
+		final JPopupMenu popUp = new JPopupMenu();
 
 		table.addMouseListener(new MouseAdapter() {
 		    
@@ -95,6 +99,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 						MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed).get(0);
 						pane.setMagicCard(mc);
 						//pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
+							SwingUtilities.updateComponentTreeUI(popUp);
 							popUp.setBorder(new LineBorder(Color.black));
 						    popUp.setVisible(false);
 						    popUp.removeAll();
@@ -102,6 +107,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 						    popUp.add(pane,BorderLayout.CENTER);
 						    popUp.show(table, e.getX(), e.getY());// + bounds.height);
 						    popUp.setVisible(true);
+							
 					}
 					catch (Exception ex) 
 					{
