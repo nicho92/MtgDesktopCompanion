@@ -300,6 +300,8 @@ public class CollectionPanelGUI extends JPanel {
 		
 		panelTotal.add(lblTotal);
 		
+		initPopupCollection();
+
 
 		btnAdd.addActionListener(new ActionListener() {
 			
@@ -606,8 +608,7 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 
-		initPopupCollection();
-
+	
 		btnMassCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				new MassCollectionImporterDialog(dao, provider, model.getEditions()).setVisible(true);

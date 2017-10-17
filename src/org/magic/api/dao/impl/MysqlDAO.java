@@ -75,6 +75,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard BLOB, collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
 			logger.debug("Create table Alerts");
 		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard BLOB, amount DECIMAL)");
+		 	logger.debug("Create table Decks");
+		 	con.createStatement().executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` BLOB, categorie VARCHAR(100))");
 		 	
 		 	
 		 	logger.debug("populate collections");

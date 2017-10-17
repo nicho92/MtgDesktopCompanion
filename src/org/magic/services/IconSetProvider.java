@@ -43,14 +43,15 @@ public class IconSetProvider {
 		for(MagicEdition e : MTGControler.getInstance().getEnabledProviders().loadEditions())
 			try
 			{
-			ImageIcon im = new ImageIcon(ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/"+e.getId()+"_set.png")).getScaledInstance(24, 26, Image.SCALE_SMOOTH));
+			ImageIcon im = new ImageIcon(ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/"+e.getId()+"_set.png")).getScaledInstance(24, 24, Image.SCALE_SMOOTH));
 			cache.put(e.getId(),im);
 			}
 			catch(Exception ex)
 			{
-				cache.put(e.getId(), new ImageIcon(ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/PMTG1_set.png")).getScaledInstance(24, 26, Image.SCALE_SMOOTH)));
+				cache.put(e.getId(), new ImageIcon(ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/PMTG1_set.png")).getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 			}
 	}
+	
 	
 	
 	public ImageIcon get(String id)

@@ -14,6 +14,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.ManaPanel;
+import org.magic.services.IconSetProvider;
 import org.magic.tools.ColorParser;
 
 public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -52,10 +53,12 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
     	{
     			if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicEdition)
     			{
-    				setIcon(back);
+    				MagicEdition ed=(MagicEdition)((DefaultMutableTreeNode)value).getUserObject();
+	    			
+    				
+    				setIcon(IconSetProvider.getInstance().get(ed.getId()));
     			}
-    			else
-		    	if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicCard)
+    			else if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicCard)
 		    	{ 
 		    			MagicCard mc=(MagicCard)((DefaultMutableTreeNode)value).getUserObject();
 		    			
@@ -96,6 +99,10 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		    				setForeground(new Color(196, 108, 21));
 		    				*/
 		    	}
+    			else
+    			{
+    				setIcon(back);
+    			}
 	    	return c;
 	   	}
 	    catch(Exception e){
