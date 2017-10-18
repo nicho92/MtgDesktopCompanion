@@ -2,6 +2,8 @@ package org.magic.services;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ import javax.swing.ImageIcon;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 
 public class IconSetProvider {
 
@@ -18,12 +21,20 @@ public class IconSetProvider {
 	
 	private Map<String,ImageIcon> cache24;
 	private Map<String,ImageIcon> cache16;
+	private File temp_file;
 	static final Logger logger = LogManager.getLogger(IconSetProvider.class.getName());
 	
 	private IconSetProvider()
 	{
 		cache24 = new HashMap<String,ImageIcon>();
 		cache16 = new HashMap<String,ImageIcon>();
+		
+		temp_file = new File(AbstractMTGPicturesCache.confdir,"sets_icons");
+		
+		if(!temp_file.exists())
+			temp_file.mkdir();
+		
+		
 		try {
 			logger.debug("Init IconSet cache");
 			long time_1 = System.currentTimeMillis();
@@ -44,18 +55,37 @@ public class IconSetProvider {
 	}
 	
 	
+	private BufferedImage extract(String id) throws IOException
+	{
+		File f = new File(temp_file,id+"_set.png");
+		if(f.exists())
+		{
+			logger.debug("load from cache " + f);
+			return ImageIO.read(f);
+		}
+		else
+		{
+			logger.debug("load from jar " + id);
+			BufferedImage im = ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/"+id+"_set.png"));
+			ImageIO.write(im, "png", f);
+			return im;
+		}
+		
+	}
+	
+	
 	private void initCache() throws Exception {
 		
 		for(MagicEdition e : MTGControler.getInstance().getEnabledProviders().loadEditions())
 			try
 			{
-			BufferedImage im = ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/"+e.getId()+"_set.png"));
+			BufferedImage im = extract(e.getId());
 				cache24.put(e.getId(),new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 				cache16.put(e.getId(),new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 			}
 			catch(Exception ex)
 			{
-				BufferedImage im = ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/PMTG1_set.png"));
+				BufferedImage im = extract("PMTG1");
 				cache16.put(e.getId(), new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 				cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 			}
