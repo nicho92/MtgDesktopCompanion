@@ -137,8 +137,7 @@ public class MTGControler {
 			config.setProperty(path, c);
 			builder.save();
 		} catch (Exception e) {
-			e.printStackTrace();
-			logger.error(e);
+			logger.error("Error saving " +c, e);
 		}
 	}
 	
