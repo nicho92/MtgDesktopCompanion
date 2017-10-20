@@ -65,8 +65,17 @@ public class IconSetProvider {
 		}
 		else
 		{
+			BufferedImage im=null;
 			logger.trace("load from jar " + id);
-			BufferedImage im = ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/"+id+"_set.png"));
+			try
+			{
+				im = ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/"+id+"_set.png"));
+			}
+			catch(Exception ex)
+			{
+				im = ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/PMTG1_set.png"));
+			}
+			
 			ImageIO.write(im, "png", f);
 			return im;
 		}
@@ -75,20 +84,12 @@ public class IconSetProvider {
 	
 	
 	private void initCache() throws Exception {
-		
 		for(MagicEdition e : MTGControler.getInstance().getEnabledProviders().loadEditions())
-			try
-			{
-			BufferedImage im = extract(e.getId());
+		{
+				BufferedImage im = extract(e.getId());
 				cache24.put(e.getId(),new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 				cache16.put(e.getId(),new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-			}
-			catch(Exception ex)
-			{
-				BufferedImage im = extract("PMTG1");
-				cache16.put(e.getId(), new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
-				cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
-			}
+		}
 	}
 	
 	
