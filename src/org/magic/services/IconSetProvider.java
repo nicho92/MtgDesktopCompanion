@@ -57,13 +57,13 @@ public class IconSetProvider {
 	
 	private BufferedImage extract(String id) throws IOException
 	{
-		File f = new File(temp_file,id+"_set.png");
+		/*File f = new File(temp_file,id+"_set.png");
 		if(f.exists())
 		{
 			logger.trace("load from cache " + f);
 			return ImageIO.read(f);
 		}
-		else
+		else*/
 		{
 			BufferedImage im=null;
 			logger.trace("load from jar " + id);
@@ -76,7 +76,7 @@ public class IconSetProvider {
 				im = ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/PMTG1_set.png"));
 			}
 			
-			ImageIO.write(im, "png", f);
+			//ImageIO.write(im, "png", f);
 			return im;
 		}
 		
