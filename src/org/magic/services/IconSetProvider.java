@@ -60,12 +60,12 @@ public class IconSetProvider {
 		File f = new File(temp_file,id+"_set.png");
 		if(f.exists())
 		{
-			logger.debug("load from cache " + f);
+			logger.trace("load from cache " + f);
 			return ImageIO.read(f);
 		}
 		else
 		{
-			logger.debug("load from jar " + id);
+			logger.trace("load from jar " + id);
 			BufferedImage im = ImageIO.read(IconSetProvider.class.getResource("/res/set/icons/"+id+"_set.png"));
 			ImageIO.write(im, "png", f);
 			return im;

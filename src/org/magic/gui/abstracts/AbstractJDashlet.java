@@ -34,9 +34,6 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 	
 	public AbstractJDashlet() {
 		props=new Properties();
-		if(!confdir.exists())
-			confdir.mkdir();
-		
 		
 		
 		addInternalFrameListener(new InternalFrameAdapter() {

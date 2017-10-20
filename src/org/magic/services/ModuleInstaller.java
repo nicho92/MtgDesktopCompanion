@@ -18,30 +18,36 @@ public class ModuleInstaller {
 
 	
 	 public List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
-	        ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-	        assert classLoader != null;
+	        ClassLoader classLoader = ModuleInstaller.class.getClassLoader();//Thread.currentThread().getContextClassLoader();
 	        String path = packageName.replace('.', '/');
 	        Enumeration<URL> resources = classLoader.getResources(path);
 	        List<File> dirs = new ArrayList<File>();
 	        while (resources.hasMoreElements()) {
 	            URL resource = resources.nextElement();
-	            dirs.add(new File(resource.getFile()));
+	            
+	            dirs.add(new File(resource.getFile().replaceAll("%20", " ")));
 	        }
 	        ArrayList<Class> classes = new ArrayList<Class>();
 	        for (File directory : dirs) {
 	            classes.addAll(findClasses(directory, packageName));
 	        }
+	      
 	        return classes;
 	    }
 	
 	 
 	 private List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
 	        List<Class> classes = new ArrayList();
+	        
+	        System.out.println("list " + directory + " for " + packageName + " " + directory.exists());
+	        
 	        if (!directory.exists()) {
 	            return classes;
 	        }
 	        File[] files = directory.listFiles();
 	        for (File file : files) {
+	        	System.out.println("list " + file);
+	        	
 	            if (file.isDirectory()) {
 	                assert !file.getName().contains(".");
 	                classes.addAll(findClasses(file, packageName + "." + file.getName()));

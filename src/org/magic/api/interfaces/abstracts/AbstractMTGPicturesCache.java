@@ -12,7 +12,7 @@ import org.magic.services.MTGControler;
 public abstract class AbstractMTGPicturesCache extends Observable implements MTGPicturesCache {
 
 	
-	protected File confdir = new File(MTGControler.CONF_DIR, "caches");
+	public static File confdir = new File(MTGControler.CONF_DIR, "caches");
 	private boolean enable=true;
 	protected Properties props;
 	

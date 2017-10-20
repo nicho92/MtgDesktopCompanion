@@ -17,6 +17,7 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
@@ -97,10 +98,10 @@ public class DashBoardGUI2 extends JDesktopPane {
 		List<Class> cls;
 		try {
 			cls = mods.getClasses("org.magic.gui.dashlet");
+			logger.debug("found " + cls.size() + " dashlets in org.magic.gui.dashlet" );
 			
 			for(final Class c : cls)
 			{
-				
 				if(!c.isAnonymousClass())
 				{
 					if(!c.getName().contains("$"))
@@ -130,6 +131,12 @@ public class DashBoardGUI2 extends JDesktopPane {
 			logger.error("Error",e);
 		}
 				
+		
+		
+		if(!AbstractJDashlet.confdir.exists())
+			AbstractJDashlet.confdir.mkdir();
+		
+	
 		
 		
 		for(File f : AbstractJDashlet.confdir.listFiles())
