@@ -38,16 +38,11 @@ public class ModuleInstaller {
 	 
 	 private List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
 	        List<Class> classes = new ArrayList();
-	        
-	        System.out.println("list " + directory + " for " + packageName + " " + directory.exists());
-	        
 	        if (!directory.exists()) {
 	            return classes;
 	        }
 	        File[] files = directory.listFiles();
 	        for (File file : files) {
-	        	System.out.println("list " + file);
-	        	
 	            if (file.isDirectory()) {
 	                assert !file.getName().contains(".");
 	                classes.addAll(findClasses(file, packageName + "." + file.getName()));
