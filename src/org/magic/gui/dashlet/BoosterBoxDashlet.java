@@ -7,7 +7,9 @@ import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -36,6 +38,14 @@ import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import javax.swing.JList;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextArea;
+
+import java.awt.GridBagLayout;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.Font;
+import javax.swing.JTextPane;
 
 public class BoosterBoxDashlet extends AbstractJDashlet{
 	private JSpinner boxSizeSpinner;
@@ -43,12 +53,14 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 	private JXTable table;
 	private BoostersTableModel boostersModel;
 	private DefaultListModel<MagicCard> cardsModel;
-	private JLabel lblTotal;
+	private JTextPane txtDetailBox;
+	private DecimalFormat doubleFormat;
 	
 	public BoosterBoxDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(BoosterBoxDashlet.class.getResource("/res/up.png")));
+		setFrameIcon(new ImageIcon(BoosterBoxDashlet.class.getResource("/res/dollars.png")));
 		initGUI();
+		doubleFormat=new DecimalFormat("#0.00");
 	}
 	
 	@Override
@@ -108,19 +120,20 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 		JButton btnCalculate = new JButton("Calculate");
 		panneauBas.add(btnCalculate);
 		
-		lblTotal = new JLabel("Total");
-		panneauBas.add(lblTotal);
+		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		getContentPane().add(tabbedPane, BorderLayout.EAST);
+		
+		txtDetailBox = new JTextPane();
+		txtDetailBox.setEditable(false);
+		tabbedPane.addTab("Box", null, txtDetailBox, null);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		getContentPane().add(scrollPane_1, BorderLayout.EAST);
+		tabbedPane.addTab("Booster", null, scrollPane_1, null);
 		
-		JList<MagicCard> list = new JList<MagicCard>();
-		list.setModel(cardsModel);
-		list.setCellRenderer(new MagicCardListRenderer());
-		scrollPane_1.setViewportView(list);
-		
-		
-		
+		JList<MagicCard> list_1 = new JList<MagicCard>();
+		list_1.setModel(cardsModel);
+		list_1.setCellRenderer(new MagicCardListRenderer());
+		scrollPane_1.setViewportView(list_1);
 		
 		
 		btnCalculate.addActionListener(new ActionListener() {
@@ -135,6 +148,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 							List<CardShake> prices = MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition((MagicEdition)cboEditions.getSelectedItem());
 							boostersModel.clear();
 							double total=0;
+							Map<String,Double> priceRarity=new HashMap<String,Double>();
 							
 							for(int i=0;i<(int)boxSizeSpinner.getValue();i++)
 							{
@@ -146,17 +160,37 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 								
 								double price = 0;
 								for(MagicCard mc : booster)
+								{
 									for(CardShake cs : prices)
 										if(cs.getName().equalsIgnoreCase(mc.getName()))
 										{
 											price += cs.getPrice();
 											line.setPrice(price);
 											cs.setCard(mc);
+											
+											String rarity=mc.getEditions().get(0).getRarity();
+											
+											if(priceRarity.get(rarity)!=null)
+												priceRarity.put(rarity,priceRarity.get(rarity)+cs.getPrice());
+											else
+												priceRarity.put(rarity,cs.getPrice());
 										}
-								
+									
+									
+									
+
+									
+								}								
 								boostersModel.addLine(line);
 								total = total+line.getPrice();
-								lblTotal.setText("Total : $ " + new DecimalFormat("#0.00").format(total));
+								
+								StringBuffer temp = new StringBuffer();
+								temp.append("TOTAL: ").append(doubleFormat.format(total)).append("\n");
+
+								for(String s : priceRarity.keySet())
+									temp.append(s).append(": ").append(doubleFormat.format(priceRarity.get(s))).append("\n");
+								
+								txtDetailBox.setText(temp.toString());
 							}
 							//table.packAll();
 							
@@ -184,7 +218,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 			        	if(viewRow>-1)
 			        	{
 			        		int modelRow = table.convertRowIndexToModel(viewRow);
-			        		List<MagicCard> list = (List)table.getModel().getValueAt(modelRow, 1);
+			        		List<MagicCard> list = ((Booster)table.getModel().getValueAt(modelRow, 0)).getCards();
 			        		cardsModel.clear();
 			        		
 			        		for(MagicCard mc : list)

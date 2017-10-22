@@ -12,15 +12,14 @@ public class BoostersTableModel extends DefaultTableModel
 {
 	
 	List<Booster> boosters;
-	private static final String[] COLUMNS = {"Number","Cards","Price"};
+	private static final String[] COLUMNS = {"Number","Price"};
 	
 	
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
-		case 0: return String.class;
-		case 1: return List.class;
-		case 2: return Double.class;
+		case 0: return Booster.class;
+		case 1: return Double.class;
 		default : return super.getColumnClass(columnIndex);
 		}
 	}
@@ -29,9 +28,8 @@ public class BoostersTableModel extends DefaultTableModel
 	public Object getValueAt(int row, int column) {
 		
 		switch (column) {
-		case 0: return boosters.get(row).getBoosterNumber();
-		case 1: return boosters.get(row).getCards();
-		case 2: return boosters.get(row).getPrice();
+		case 0: return boosters.get(row);
+		case 1: return boosters.get(row).getPrice();
 		default : return "";
 		}
 	}
