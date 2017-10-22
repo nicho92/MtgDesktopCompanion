@@ -44,7 +44,7 @@ public class BestCardsDashlet extends AbstractJDashlet{
 	public BestCardsDashlet() {
 		super();
 		setFrameIcon(new ImageIcon(BestCardsDashlet.class.getResource("/res/up.png")));
-	//	initGUI();
+		initGUI();
 	}
 	
 	@Override

@@ -14,6 +14,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.IconSetProvider;
+import javax.swing.SwingConstants;
 
 public class CardListPanel extends JPanel{
 	
@@ -85,6 +86,15 @@ public class CardListPanel extends JPanel{
 		gbc_manaPanel.gridx = 2;
 		gbc_manaPanel.gridy = 0;
 		add(manaPanel, gbc_manaPanel);
+		
+		JLabel lblRarity = new JLabel(mc.getEditions().get(0).getRarity());
+		lblRarity.setFont(new Font("Tahoma", Font.ITALIC, 11));
+		GridBagConstraints gbc_lblRarity = new GridBagConstraints();
+		gbc_lblRarity.anchor = GridBagConstraints.WEST;
+		gbc_lblRarity.insets = new Insets(0, 0, 0, 5);
+		gbc_lblRarity.gridx = 1;
+		gbc_lblRarity.gridy = 3;
+		add(lblRarity, gbc_lblRarity);
 	}	
 	
 	
