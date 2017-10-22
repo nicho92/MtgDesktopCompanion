@@ -716,6 +716,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			}
 	}
 	
+	//TODO miss type, reforge function
 	public List<MagicCard> openBooster(MagicEdition me) {
 
 		logger.info("opening booster for " + me );
@@ -732,6 +733,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 						  mc.setId(String.valueOf(map.get("id")));
 						  mc.setName(String.valueOf(map.get("name")));
 						  mc.setLayout(String.valueOf(map.get("layout")));
+						  
 						   if(map.get("multiverseid")!=null)
 				 			   mc.setMultiverseid((int)(double)map.get("multiverseid"));
 						  

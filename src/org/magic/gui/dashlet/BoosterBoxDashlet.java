@@ -139,6 +139,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 							for(int i=0;i<(int)boxSizeSpinner.getValue();i++)
 							{
 								List<MagicCard> booster =MTGControler.getInstance().getEnabledProviders().openBooster((MagicEdition) cboEditions.getSelectedItem());
+								Collections.reverse(booster);
 								Booster line = new Booster();
 											line.setBoosterNumber(String.valueOf(i+1));
 											line.setCards(booster);

@@ -90,6 +90,7 @@ public class CardListPanel extends JPanel{
 		JLabel lblRarity = new JLabel(mc.getEditions().get(0).getRarity());
 		lblRarity.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		GridBagConstraints gbc_lblRarity = new GridBagConstraints();
+		gbc_lblRarity.gridwidth = 2;
 		gbc_lblRarity.anchor = GridBagConstraints.WEST;
 		gbc_lblRarity.insets = new Insets(0, 0, 0, 5);
 		gbc_lblRarity.gridx = 1;
