@@ -28,7 +28,7 @@ public class Booster {
 	
 	@Override
 	public String toString() {
-		return "Booster " + getBoosterNumber() +": $" + price;
+		return "Booster " + getBoosterNumber();
 	}
 	
 }

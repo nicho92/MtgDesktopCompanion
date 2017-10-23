@@ -203,6 +203,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 		return new String[]{"custom","name","type","color","oracle","mana","cmc","power","toughness","loyalty","is","rarity","cube","artist","flavor","watermark","border","frame","set"};
 	}
 
+	
+	//TODO : reforge function
 	@Override
 	public List<MagicCard> openBooster(MagicEdition me) throws Exception {
 		
