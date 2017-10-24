@@ -10,6 +10,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -45,6 +46,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 	private static String baseURI ="https://api.scryfall.com";
 	private Map<String , MagicEdition> cache;
 	private JsonParser parser;
+	private Map<String,List<MagicCard>> cachedCardEds;
 	
 	
 	public ScryFallProvider() {
@@ -54,6 +56,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 	@Override
 	public void init() {
 		cache=new TreeMap<String,MagicEdition>();
+		cachedCardEds= new HashMap<String,List<MagicCard>>();
 		parser = new JsonParser();
     	try {
     		InstallCert.install("api.scryfall.com");
@@ -203,14 +206,40 @@ public class ScryFallProvider implements MagicCardsProvider {
 		return new String[]{"custom","name","type","color","oracle","mana","cmc","power","toughness","loyalty","is","rarity","cube","artist","flavor","watermark","border","frame","set"};
 	}
 
-	
-	//TODO : reforge function
 	@Override
 	public List<MagicCard> openBooster(MagicEdition me) throws Exception {
 		
+				List<MagicCard> ret = new ArrayList<MagicCard>();
+				List<MagicCard> common = new ArrayList<MagicCard>();
+				List<MagicCard> uncommon = new ArrayList<MagicCard>();
+				List<MagicCard> rare= new ArrayList<MagicCard>();
+			
+				if(cachedCardEds.get(me.getId())==null)
+					cachedCardEds.put(me.getId(), searchCardByCriteria("set", me.getId(), null));
+
+				for(MagicCard mc : cachedCardEds.get(me.getId()))
+				{	
+					if(mc.getEditions().get(0).getRarity().equalsIgnoreCase("common"))
+							common.add(mc);
+					
+					if(mc.getEditions().get(0).getRarity().equalsIgnoreCase("uncommon"))
+							uncommon.add(mc);
+					
+					if(mc.getEditions().get(0).getRarity().toLowerCase().contains("rare"))
+						rare.add(mc);
+				
+				}
+				
+				Collections.shuffle(common);		   
+				Collections.shuffle(uncommon);
+				Collections.shuffle(rare);
+				
+				ret.addAll(common.subList(0, 10));
+				ret.addAll(uncommon.subList(0, 4));
+				ret.add(rare.get(0));
+				
+				/*
 				List<MagicCard> ret= new ArrayList<MagicCard>();
-		
-		
 			   List<MagicCard> commons = searchCardByCriteria("custom",  "s:"+me.getId()+" r:common -t:land", me);
 			   Collections.shuffle(commons);
 			   ret.addAll(commons.subList(0, 10));
@@ -225,7 +254,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			   
 			   List<MagicCard> lands = searchCardByCriteria("custom", "s:"+me.getId()+" t:land", null);
 			   Collections.shuffle(lands);
-			   ret.addAll(lands.subList(0, 1));
+			   ret.addAll(lands.subList(0, 1));*/
 			   /*
 			   List<MagicCard> tokens = searchCardByCriteria("custom", "s:"+me.getId()+" ++is:token", null);
 			   Collections.shuffle(tokens);
