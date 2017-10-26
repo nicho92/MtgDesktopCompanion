@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.asciitable.impl.ASCIITableImpl;
 import org.asciitable.impl.CollectionASCIITableAware;
 import org.asciitable.spec.IASCIITableAware;
+import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -31,7 +32,6 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
-import org.magic.tools.MagicCardComparator;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -207,7 +207,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 	}
 
 	@Override
-	public List<MagicCard> openBooster(MagicEdition me) throws Exception {
+	public Booster generateBooster(MagicEdition me) throws Exception {
 		
 				List<MagicCard> ret = new ArrayList<MagicCard>();
 				List<MagicCard> common = new ArrayList<MagicCard>();
@@ -238,6 +238,11 @@ public class ScryFallProvider implements MagicCardsProvider {
 				ret.addAll(uncommon.subList(0, 4));
 				ret.add(rare.get(0));
 				
+				Booster b = new Booster();
+						b.setEdition(me);
+						b.setCards(ret);
+				
+				
 				/*
 				List<MagicCard> ret= new ArrayList<MagicCard>();
 			   List<MagicCard> commons = searchCardByCriteria("custom",  "s:"+me.getId()+" r:common -t:land", me);
@@ -263,7 +268,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			   */
 			   
 			   
-		return ret;
+		return b;
 	}
 
 	@Override

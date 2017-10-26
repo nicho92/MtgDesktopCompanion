@@ -22,6 +22,7 @@ import java.util.Set;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -472,7 +473,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	}
 
 	@Override
-	public List<MagicCard> openBooster(MagicEdition me) throws Exception {
+	public Booster generateBooster(MagicEdition me) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -14,6 +14,7 @@ import java.util.Map.Entry;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -256,8 +257,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	}
 
 	@Override
-	public List<MagicCard> openBooster(MagicEdition me) {
-		// TODO Auto-generated method stub
+	public Booster generateBooster(MagicEdition me) {
 		return null;
 	}
 

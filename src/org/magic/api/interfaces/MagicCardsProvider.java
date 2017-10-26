@@ -4,6 +4,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 
+import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 
@@ -26,7 +27,7 @@ public interface MagicCardsProvider {
 	
 	public String[] getQueryableAttributs();
 	
-	public List<MagicCard> openBooster(MagicEdition me) throws Exception;
+	public Booster generateBooster(MagicEdition me) throws Exception;
 	
 	public String getVersion();
 	

@@ -117,7 +117,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 		
-		JButton btnCalculate = new JButton("Calculate");
+		JButton btnCalculate = new JButton("Open");
 		panneauBas.add(btnCalculate);
 		
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -152,20 +152,19 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 							
 							for(int i=0;i<(int)boxSizeSpinner.getValue();i++)
 							{
-								List<MagicCard> booster =MTGControler.getInstance().getEnabledProviders().openBooster((MagicEdition) cboEditions.getSelectedItem());
-								Collections.reverse(booster);
-								Booster line = new Booster();
-											line.setBoosterNumber(String.valueOf(i+1));
-											line.setCards(booster);
+								Booster booster =MTGControler.getInstance().getEnabledProviders().generateBooster((MagicEdition) cboEditions.getSelectedItem());
+								Collections.reverse(booster.getCards());
+								booster.setBoosterNumber(String.valueOf(i+1));
+											
 								
 								double price = 0;
-								for(MagicCard mc : booster)
+								for(MagicCard mc : booster.getCards())
 								{
 									for(CardShake cs : prices)
 										if(cs.getName().equalsIgnoreCase(mc.getName()))
 										{
 											price += cs.getPrice();
-											line.setPrice(price);
+											booster.setPrice(price);
 											cs.setCard(mc);
 											
 											String rarity=mc.getEditions().get(0).getRarity();
@@ -181,8 +180,8 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 
 									
 								}								
-								boostersModel.addLine(line);
-								total = total+line.getPrice();
+								boostersModel.addLine(booster);
+								total = total+booster.getPrice();
 								
 								StringBuffer temp = new StringBuffer();
 								temp.append("TOTAL: ").append(doubleFormat.format(total)).append("\n");

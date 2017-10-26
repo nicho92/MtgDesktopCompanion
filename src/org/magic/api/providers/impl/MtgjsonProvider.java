@@ -24,6 +24,7 @@ import java.util.zip.ZipInputStream;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -710,12 +711,16 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			}
 	}
 	
-	public List<MagicCard> openBooster(MagicEdition me) {
+	public Booster generateBooster(MagicEdition me) {
 
-		logger.info("opening booster for " + me );
+		logger.debug("opening booster for " + me );
 		List<MagicCard> common = new ArrayList<MagicCard>();
 		List<MagicCard> uncommon = new ArrayList<MagicCard>();
 		List<MagicCard> rare= new ArrayList<MagicCard>();
+		List<MagicCard> lands = new ArrayList<MagicCard>();
+		
+		Booster b = new Booster();
+		
 		
 			try {
 			/*	common = searchCardByCriteria("rarity", "Common", me);
@@ -737,9 +742,12 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					
 					if(mc.getEditions().get(0).getRarity().toLowerCase().contains("rare"))
 						rare.add(mc);
+	
+					if(mc.getSupertypes().toString().toLowerCase().contains("basic") && mc.getTypes().toString().toLowerCase().contains("land"))
+						lands.add(mc);
 				
 				}
-				
+				Collections.shuffle(lands);
 				Collections.shuffle(common);		   
 				Collections.shuffle(uncommon);
 				Collections.shuffle(rare);
@@ -753,8 +761,14 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			resList.addAll(common.subList(0, 10));
 			resList.addAll(uncommon.subList(0, 4));
 			resList.add(rare.get(0));
-			logger.debug("Booster : " + resList);
-		return resList;
+			
+			if(lands.size()>0)
+				resList.addAll(lands.subList(0, 1));
+			
+			b.setCards(resList);
+			b.setEdition(me);
+			
+		return b;
 	}
 	
 	public MagicCard getCardByNumber(String num, MagicEdition me) throws Exception {
