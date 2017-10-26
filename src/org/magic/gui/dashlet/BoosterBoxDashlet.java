@@ -59,7 +59,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 	public BoosterBoxDashlet() {
 		super();
 		setFrameIcon(new ImageIcon(BoosterBoxDashlet.class.getResource("/res/dollars.png")));
-		initGUI();
+		//initGUI();
 		doubleFormat=new DecimalFormat("#0.00");
 	}
 	
