@@ -54,7 +54,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				props.put("PASSWORD", "changeme");
 				props.put("FORMAT", "standard");
 				props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
-				props.put("URL_JSON", "http://tappedout.net/api/deck/latest/%FORMAT%");
+				props.put("URL_JSON", "https://tappedout.net/api/deck/latest/%FORMAT%");
 				props.put("CERT_SERV", "www.tappedout.net");
 				save();
 		}
@@ -115,8 +115,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				 login.addHeader("Upgrade-Insecure-Requests","1");
 				 login.addHeader("Origin","https://tappedout.net");
 				 httpclient.execute(login, httpContext);
-	
-		
 	}
 
 	@Override
@@ -201,6 +199,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 		String tappedJson = props.getProperty("URL_JSON").replaceAll("%FORMAT%", props.getProperty("FORMAT"));
 		String responseBody = EntityUtils.toString(httpclient.execute(new HttpGet(tappedJson), httpContext).getEntity());
+		
         JsonElement root = new JsonParser().parse(responseBody);
 		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
 		
