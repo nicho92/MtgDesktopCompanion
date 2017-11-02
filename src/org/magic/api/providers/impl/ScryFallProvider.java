@@ -137,6 +137,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		try {
 			return (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 		} catch (IOException e) {
+			logger.error("Error URL " + connection.getURL(), e);
 			return false;
 		}
 	}
