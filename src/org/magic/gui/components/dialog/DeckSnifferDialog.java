@@ -18,6 +18,7 @@ import javax.swing.JTable;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.gui.models.DeckSnifferModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGControler;
@@ -25,8 +26,8 @@ import org.magic.services.ThreadManager;
 
 public class DeckSnifferDialog extends JDialog{
 	private JTable table;
-	private JComboBox cboSniffers ;
-	private JComboBox cboFormats; 
+	private JComboBox<AbstractDeckSniffer> cboSniffers ;
+	private JComboBox<String> cboFormats; 
 	private DeckSnifferModel model;
 	
 	private MagicDeck importedDeck;
