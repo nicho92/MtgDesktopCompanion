@@ -33,6 +33,8 @@ public class DeckSnifferDialog extends JDialog{
 	private JLabel lblLoad;
 	private JButton btnImport;
 	private DeckSniffer selectedSniffer;
+	private JButton btnConnect;
+	
 	
 	public DeckSnifferDialog() {
 		setSize(new Dimension(500, 300));
@@ -59,22 +61,30 @@ public class DeckSnifferDialog extends JDialog{
 		selectedSniffer = MTGControler.getInstance().getEnabledDeckSniffer().get(0);
 		panel.add(cboSniffers);
 		
-		JButton btnConnect = new JButton("Connect");
+		btnConnect = new JButton("Connect");
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				try {
-					selectedSniffer.connect();
-					cboFormats.removeAllItems();
-					
-					for(String s:selectedSniffer.listFilter())
-						cboFormats.addItem(s);
-					
-					//cboFormats.setSelectedItem(selectedSniffer.getProperty("FORMAT"));
-					
-				} catch (Exception e1) {
-					e1.printStackTrace();
-					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
-				}
+			
+				ThreadManager.getInstance().execute(new Runnable() {
+					public void run() {
+						try {
+							lblLoad.setVisible(true);
+							selectedSniffer.connect();
+							cboFormats.removeAllItems();
+							
+							for(String s:selectedSniffer.listFilter())
+								cboFormats.addItem(s);
+							
+							lblLoad.setVisible(false);
+							//cboFormats.setSelectedItem(selectedSniffer.getProperty("FORMAT"));
+							
+						} catch (Exception e1) {
+							lblLoad.setVisible(false);
+							JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
+						}
+					}
+				}, "Connection to " + selectedSniffer );
+				
 			}
 		});
 		panel.add(btnConnect);
@@ -83,18 +93,24 @@ public class DeckSnifferDialog extends JDialog{
 		cboFormats.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				try {
-					
+					lblLoad.setVisible(true);
 					selectedSniffer.setProperties("FORMAT", cboFormats.getSelectedItem());
 					model.init(selectedSniffer);
 					model.fireTableDataChanged();
+					lblLoad.setVisible(false);
 				} catch (Exception e1) {
-//					e1.printStackTrace();
-//					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
+					lblLoad.setVisible(false);
+					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
 		});
 		panel.add(cboFormats);
+		
+		lblLoad = new JLabel("");
+		panel.add(lblLoad);
+		lblLoad.setIcon(new ImageIcon(DeckSnifferDialog.class.getResource("/res/load.gif")));
+		lblLoad.setVisible(false);
 		
 		JPanel panel_1 = new JPanel();
 		getContentPane().add(panel_1, BorderLayout.SOUTH);
@@ -124,7 +140,6 @@ public class DeckSnifferDialog extends JDialog{
 								dispose();
 							} catch (Exception e1) {
 								e1.printStackTrace();
-								
 								JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 								importedDeck=null;
 								lblLoad.setVisible(false);
@@ -137,11 +152,6 @@ public class DeckSnifferDialog extends JDialog{
 			}
 		});
 		panel_1.add(btnImport);
-		
-		lblLoad = new JLabel("");
-		lblLoad.setIcon(new ImageIcon(DeckSnifferDialog.class.getResource("/res/load.gif")));
-		lblLoad.setVisible(false);
-		panel_1.add(lblLoad);
 		setLocationRelativeTo(null);
 		
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
