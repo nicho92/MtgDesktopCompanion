@@ -121,7 +121,12 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws Exception
 	{
 		HttpGet get = new HttpGet(info.getUrl());
+		
+		logger.debug("sniff deck : "+ info.getName()+ " at " + info.getUrl());
+		
+		
 		String responseBody = EntityUtils.toString(httpclient.execute(get, httpContext).getEntity());
+		
 		
 		
 		MagicDeck deck = new MagicDeck();
@@ -198,6 +203,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws Exception {
 
 		String tappedJson = props.getProperty("URL_JSON").replaceAll("%FORMAT%", props.getProperty("FORMAT"));
+		
+		logger.debug("sniff url : " + tappedJson);
 		String responseBody = EntityUtils.toString(httpclient.execute(new HttpGet(tappedJson), httpContext).getEntity());
 		
         JsonElement root = new JsonParser().parse(responseBody);

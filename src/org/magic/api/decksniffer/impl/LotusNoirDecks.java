@@ -5,6 +5,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,6 +19,9 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
 
 public class LotusNoirDecks extends AbstractDeckSniffer {
+
+	
+    static final Logger logger = LogManager.getLogger(LotusNoirDecks.class.getName());
 
 	public LotusNoirDecks() {
 		super();
@@ -40,6 +45,9 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
 		MagicDeck deck = new MagicDeck();
+		
+		logger.debug("get deck at " + info.getUrl());
+		
 		Document d = Jsoup.connect(info.getUrl().toString())
     		 	.userAgent(props.getProperty("USER_AGENT"))
     		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
@@ -87,7 +95,12 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws Exception {
-		Document d = Jsoup.connect(props.getProperty("URL")+"?dpage="+props.getProperty("MAX_PAGE")+"&action="+props.getProperty("FORMAT"))
+	
+		String decksUrl = props.getProperty("URL")+"?dpage="+props.getProperty("MAX_PAGE")+"&action="+props.getProperty("FORMAT");
+		
+		logger.debug("snif decks : " + decksUrl);
+
+		Document d = Jsoup.connect(decksUrl)
     		 	.userAgent(props.getProperty("USER_AGENT"))
     		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
 				.get();

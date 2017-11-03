@@ -5,6 +5,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,8 +20,8 @@ import org.magic.services.MTGControler;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
-	//test avec sideboard http://decks.tcgplayer.com/magic/standard/aaron-barich/temur-energy/1287434
-	
+	static final Logger logger = LogManager.getLogger(TCGPlayerDeckSniffer.class.getName());
+	  
 	public TCGPlayerDeckSniffer() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
@@ -38,6 +40,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
+		logger.debug("get deck at " + info.getUrl());
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
@@ -103,6 +106,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		String url =props.getProperty("URL")+"magic/deck/search?format="+props.getProperty("FORMAT")+"&page=1";
+		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
 		int nbPage=1;
 		int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));

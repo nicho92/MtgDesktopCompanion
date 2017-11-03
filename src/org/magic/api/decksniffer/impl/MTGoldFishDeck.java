@@ -5,6 +5,8 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -20,6 +22,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	
 	private boolean metagames=false;
+    static final Logger logger = LogManager.getLogger(MTGoldFishDeck.class.getName());
 
 
 	public MTGoldFishDeck() {
@@ -45,6 +48,8 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
+		
+		logger.debug("sniff url : " + info.getUrl());
 		
 		MagicDeck deck = new MagicDeck();
 			deck.setName(info.getName());
@@ -127,7 +132,8 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			else
 				url=props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT");
 	
-			
+			logger.debug("sniff url : " + url);
+				
 		Document d = Jsoup.connect(url)
     		 	.userAgent(props.getProperty("USER_AGENT"))
 				.get();
