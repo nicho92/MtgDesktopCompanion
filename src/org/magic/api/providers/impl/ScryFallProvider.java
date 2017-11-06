@@ -382,7 +382,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  try{mc.setToughness(obj.get("toughness").getAsString());}catch(NullPointerException e) { };
 		  try{mc.setLoyalty(obj.get("loyalty").getAsInt());}catch(Exception e) { };
 		  try{mc.setWatermarks(obj.get("watermark").getAsString());}catch(NullPointerException e) { };
-
+		  try{mc.setImageName(obj.get("illustration_id").getAsString());}catch(NullPointerException e) { };
+		  
 		   if(obj.get("colors")!=null){
 				Iterator<JsonElement> it = obj.get("colors").getAsJsonArray().iterator();
 				while(it.hasNext())
