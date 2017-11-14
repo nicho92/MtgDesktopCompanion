@@ -5,6 +5,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -41,6 +42,28 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		}
 	}
 	
+	private URL generateLink(MagicCard mc, MagicEdition selected,boolean crop) throws MalformedURLException
+	{
+		
+		String url = new String("https://api.scryfall.com/cards/"+selected.getId().toLowerCase()+"/"+selected.getNumber()+"?format=image");
+		
+		if((MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider))
+			url = new String("https://api.scryfall.com/cards/"+mc.getId()+"?format=image");
+		
+		if(selected.getMultiverse_id()!=null)
+			if(!selected.getMultiverse_id().equals("0"))
+				url = new String("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
+	
+		
+		if(crop)
+			url+="&version=art_crop";
+		
+		
+		return new URL(url);
+	}
+	
+	
+	
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws Exception {
 		
@@ -49,21 +72,14 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if(ed==null)
 			selected = mc.getEditions().get(0);
 		
+		
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
 		{
 			logger.debug("cached " + mc + "("+selected+") found");
 			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected));
 		}
 		
-		URL url = new URL("https://api.scryfall.com/cards/"+selected.getId().toLowerCase()+"/"+selected.getNumber()+"?format=image");
-		
-		if((MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider))
-			url = new URL("https://api.scryfall.com/cards/"+mc.getId()+"?format=image");
-		
-		if(selected.getMultiverse_id()!=null)
-			if(!selected.getMultiverse_id().equals("0"))
-				url = new URL("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
-	
+		URL url = generateLink(mc, selected, false);
 		
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		  connection.setInstanceFollowRedirects(true);
@@ -103,8 +119,23 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		URL u = generateLink(mc, mc.getEditions().get(0), true);
+		
+		HttpURLConnection connection = (HttpURLConnection)u.openConnection();
+		  connection.setInstanceFollowRedirects(true);
+		  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));
+		  connection.connect();
+		  logger.debug("load pics " + connection.getURL().toString());  
+			
+			try{
+				BufferedImage bufferedImage =ImageIO.read(connection.getInputStream());//= new BufferedImage(img.getWidth(null), img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+				return resizeCard(bufferedImage) ;
+			}
+			catch(Exception e)
+			{
+				logger.error(e);
+				return getBackPicture();
+			}
 	}
 
 }
