@@ -56,6 +56,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 				try {
 					List<CardShake> shakes = new ArrayList<CardShake>();
 							shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.modern.toString()));
+							shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.standard.toString()));
 							
 					
 					Collections.sort(shakes,new Comparator<CardShake>() {
