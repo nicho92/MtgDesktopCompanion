@@ -144,12 +144,21 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
 		
-		Document doc = Jsoup.connect(props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+props.getProperty("DAILY_WEEKLY"))
+		String urlW= props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+props.getProperty("DAILY_WEEKLY");
+		String urlL= props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY");
+		
+		
+		logger.debug("Loding Shake " + urlW);
+		logger.debug("Loding Shake " + urlL);
+		
+		
+		
+		Document doc = Jsoup.connect(urlW)
 							.userAgent(props.getProperty("USER_AGENT"))
 							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 							.get();
 		
-		Document doc2 = Jsoup.connect(props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY"))
+		Document doc2 = Jsoup.connect(urlL)
 				.userAgent(props.getProperty("USER_AGENT"))
 				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 				.get();
