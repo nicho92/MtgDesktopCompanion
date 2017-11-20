@@ -92,6 +92,10 @@
             <class>org.magic.api.pricers.impl.CardKingdomPricer</class>
             <enable>true</enable>
         </pricer>
+        <pricer>
+            <class>org.magic.api.pricers.impl.MagicBazarPricer</class>
+            <enable>true</enable>
+        </pricer>
     </pricers>
     <providers>
         <provider>
