@@ -31,6 +31,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			props.put("CERT_SERV", "scryfall.com");
 			props.put("CARD_SIZE_WIDTH", "223");
 			props.put("CARD_SIZE_HEIGHT", "310");
+			props.put("PIC_SIZE", "large");
 			props.put("ICON_SET_SIZE","medium");
 			save();
 		}
@@ -57,6 +58,9 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		if(crop)
 			url+="&version=art_crop";
+		else
+			url +="&version="+props.getProperty("PIC_SIZE","large");
+		
 		
 		
 		return new URL(url);
