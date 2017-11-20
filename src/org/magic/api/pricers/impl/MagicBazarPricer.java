@@ -79,7 +79,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	}
 
 	private String clean(String html) {
-		return html.substring(0,html.indexOf("&")).replaceAll(",", ".");
+		return html.substring(0,html.indexOf("&")).replaceAll(",", ".").replaceAll(" ", "");
 	}
 
 
