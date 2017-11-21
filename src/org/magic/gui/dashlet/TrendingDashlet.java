@@ -122,8 +122,14 @@ public class TrendingDashlet extends AbstractJDashlet{
 			public void run() {
 				lblLoading.setVisible(true);
 				modStandard.init((FORMAT)cboFormats.getSelectedItem());
-				table.setModel(modStandard);
 				
+				try {
+				table.setModel(modStandard);
+				}
+				catch(Exception e)
+				{
+					logger.error("Erreur models " , e);
+				}
 				props.put("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				lblLoading.setVisible(false);
 				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());

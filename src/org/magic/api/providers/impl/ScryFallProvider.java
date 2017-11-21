@@ -29,6 +29,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
@@ -60,7 +61,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		parser = new JsonParser();
     	try {
     		InstallCert.install("api.scryfall.com");
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
     	} catch (Exception e1) {
 			logger.error("Erreur installation certificat",e1);
 		}

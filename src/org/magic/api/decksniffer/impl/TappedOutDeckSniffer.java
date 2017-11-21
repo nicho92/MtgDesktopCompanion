@@ -29,6 +29,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 
@@ -61,7 +62,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
 		try {
    			InstallCert.install(props.getProperty("CERT_SERV"));
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
  		} catch (Exception e1) {
 			logger.error(e1);
 		}

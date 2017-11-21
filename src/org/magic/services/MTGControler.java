@@ -58,8 +58,6 @@ public class MTGControler {
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	
 	
-	public static final String KEYSTORE_NAME = "jssecacerts"; 
-	public static final String KEYSTORE_PASS = "changeit";
 	
 	
 	static final Logger logger = LogManager.getLogger(MTGControler.class.getName());
@@ -165,6 +163,7 @@ public class MTGControler {
 	
 	public void reload() throws Exception
 	{
+		logger.debug("Reload Controler");
 		inst=new MTGControler();
 		inst.getEnabledProviders().init();
 		inst.getEnabledDAO().init();
@@ -549,6 +548,6 @@ public class MTGControler {
 
 	public void saveConfig(File f) {
 		
-		
+		//TODO : export config
 	}
 }

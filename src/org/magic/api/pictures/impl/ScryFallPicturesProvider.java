@@ -1,7 +1,5 @@
 package org.magic.api.pictures.impl;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.HttpURLConnection;
@@ -16,6 +14,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.api.providers.impl.ScryFallProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 
@@ -37,7 +36,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		}
 		try {
    			InstallCert.install(props.getProperty("CERT_SERV"));
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
  		} catch (Exception e1) {
 			logger.error(e1);
 		}

@@ -20,6 +20,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 
@@ -48,7 +49,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		try {
     		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
 		    	InstallCert.install("api.deckbrew.com");
-		    	System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
+		    	System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
 		  	} catch (Exception e1) {
 				logger.error(e1);
 			}

@@ -1,8 +1,5 @@
 package org.magic.api.main;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.SwingUtilities;
@@ -13,10 +10,6 @@ import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.MagicGUI;
 import org.magic.services.MTGControler;
-
-import com.jayway.jsonpath.JsonPath;
-import com.jayway.jsonpath.spi.cache.Cache;
-import com.jayway.jsonpath.spi.cache.CacheProvider;
 
 public class MtgDesktopCompanion {
 
@@ -30,15 +23,18 @@ public class MtgDesktopCompanion {
 			public void run() {
 				try {
 					if(MTGControler.getInstance().updateConfigMods())
-						MTGControler.getInstance().reload();
+					{
+						//MTGControler.getInstance().reload();
+						JOptionPane.showMessageDialog(null, "New modules has been installed.Please restart MTG Desktop Companion after loading");
+					}
 					
 					LogManager.getRootLogger().setLevel(Level.toLevel(MTGControler.getInstance().get("loglevel")));
-					
 					MTGControler.getInstance().getEnabledProviders().init();
 					MTGControler.getInstance().getEnabledDAO().init();
-			
+					
 					
 				}catch (Exception e) {
+					e.printStackTrace();
 					JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 				}
 			

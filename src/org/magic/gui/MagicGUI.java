@@ -162,7 +162,7 @@ public class MagicGUI extends JFrame {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String url ="https://github.com/nicho92/MtgDesktopCompanion/wiki";
+				String url =MTGConstants.MTG_DESKTOP_WIKI_URL;
 				try {
 					Desktop.getDesktop().browse(new URI(url));
 				} catch (Exception e1) {
@@ -183,7 +183,7 @@ public class MagicGUI extends JFrame {
 		mntmReportBug.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					String url = "https://github.com/nicho92/MtgDesktopCompanion/issues";
+					String url = MTGConstants.MTG_DESKTOP_ISSUES_URL;
 					Desktop.getDesktop().browse(new URI(url));
 				} catch (Exception e) {
 					logger.error(e);
@@ -268,10 +268,7 @@ public class MagicGUI extends JFrame {
 			tabbedPane.addTab("Stock", new ImageIcon(MagicGUI.class.getResource("/res/stock.png")), new StockPanelGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/dashboard").equals("true"))
-		{
-			//tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI(), null);
 			tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/res/dashboard.png")), new DashBoardGUI2(), null);
-		}
 		
 		if(MTGControler.getInstance().get("modules/shopper").equals("true"))
 			tabbedPane.addTab("Shopping", new ImageIcon(MagicGUI.class.getResource("/res/shop.png")), new ShopperGUI(), null);

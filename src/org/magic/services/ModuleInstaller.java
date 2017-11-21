@@ -24,7 +24,6 @@ public class ModuleInstaller {
 	        List<File> dirs = new ArrayList<File>();
 	        while (resources.hasMoreElements()) {
 	            URL resource = resources.nextElement();
-	            
 	            dirs.add(new File(resource.getFile().replaceAll("%20", " ")));
 	        }
 	        ArrayList<Class> classes = new ArrayList<Class>();

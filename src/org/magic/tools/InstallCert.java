@@ -29,6 +29,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 /**
@@ -50,9 +51,9 @@ public class InstallCert {
             String[] c = website.split(":");
             host = c[0];
             port = 443;
-            passphrase = MTGControler.KEYSTORE_PASS.toCharArray();
+            passphrase = MTGConstants.KEYSTORE_PASS.toCharArray();
        
-            File keystoreFile = new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME);
+            File keystoreFile = new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME);
             if (keystoreFile.exists() == false) {
             	keystoreFile.createNewFile();
             	FileUtils.copyFile(new File(defaultF, "cacerts"),keystoreFile);
@@ -107,11 +108,11 @@ public class InstallCert {
         ks.setCertificateEntry(alias, cert);
 
         
-        OutputStream out = new FileOutputStream(new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME));
+        OutputStream out = new FileOutputStream(new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME));
         ks.store(out, passphrase);
         out.close();
 
-        logger.debug("Added certificate to keystore '"+new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME)+"' using alias '"+ alias + "'");
+        logger.debug("Added certificate to keystore '"+new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME)+"' using alias '"+ alias + "'");
         
         }
     }

@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
@@ -68,7 +69,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     	try {
     		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
     			InstallCert.install("www.mkmapi.eu");
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGControler.KEYSTORE_NAME).getAbsolutePath());
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
     	} catch (Exception e1) {
 			logger.error(e1);
 		}
