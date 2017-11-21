@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.text.similarity.EditDistance;
+import org.apache.commons.text.similarity.JaccardDistance;
 import org.apache.commons.text.similarity.JaroWinklerDistance;
 import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -38,7 +40,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		httpclient = HttpClients.createDefault();
 	
 		if(!new File(confdir, getName()+".conf").exists()){
-				props.put("URL", "http://www.cardkingdom.com/mtg/");
+				props.put("URL", "https://www.cardkingdom.com/mtg/");
 				props.put("WEBSITE", "http://www.cardkingdom.com/");
 				props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 				save();
@@ -63,14 +65,14 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 
 	private String findGoodEds(String set) {
-		int leven=100;
+		double leven=100;
 		String name="";
-		LevenshteinDistance d = new LevenshteinDistance();
-		//JaroWinklerDistance d2 = new JaroWinklerDistance(); (plus proche de 1).
+		EditDistance<Double> d = new JaccardDistance();
+		//JaroWinklerDistance d = new JaroWinklerDistance(); //(plus proche de 1).
 		for(String s : eds)
 		{
-			int dist=d.apply(set.toLowerCase(), s.toLowerCase());
-			logger.trace(s +" " + dist + "(save="+leven+")");
+			double dist=d.apply(set.toLowerCase(), s.toLowerCase());
+			logger.trace(s +" leven=" + dist + "(save="+leven+")");
 			if(dist<leven)
 			{
 				leven=dist;
@@ -88,7 +90,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		mc.setName("Marsh Flat");
 		
 		MagicEdition ed = new MagicEdition();
-		ed.setSet("Zendikar Expeditions");
+		ed.setSet("Zendikar");
 		
 		CardKingdomPricer pric = new CardKingdomPricer();
 		pric.getPrice(ed, mc);
