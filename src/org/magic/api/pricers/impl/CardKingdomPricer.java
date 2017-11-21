@@ -133,8 +133,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		}
 		
 		List<MagicPrice> list = new ArrayList<MagicPrice>();
-		
-		
 		for(int i=0;i<qualities.size();i++)
 		{
 			 MagicPrice mp =new MagicPrice();
