@@ -60,7 +60,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 						   mp.setLanguage(e.getElementsByClass("langue").get(0).getElementsByTag("img").get(0).attr("alt"));
 						   mp.setQuality(e.getElementsByClass("etat").html());
 						   mp.setValue(Double.parseDouble(clean(e.getElementsByClass("prix").get(0).getElementsByIndexEquals(0).html())));
-						   mp.setCurrency("€");
+						   mp.setCurrency("EUR");
 						   mp.setSite(getName());
 						   mp.setUrl(url);
 						   mp.setSeller(e.getElementsByClass("edition").get(0).getElementsByIndexEquals(0).get(0).text());
