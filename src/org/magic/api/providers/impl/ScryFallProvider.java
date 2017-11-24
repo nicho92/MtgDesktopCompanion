@@ -324,23 +324,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 	}
 	
 
-	public static void main(String[] args) throws Exception {
-		
-		ScryFallProvider prov = new ScryFallProvider();
-		
-		prov.init();
-		prov.loadEditions();
-		MagicEdition ed = new MagicEdition();
-		ed.setId("ori");
-		List<MagicCard> res = prov.searchCardByCriteria("name", "Liliana", ed);
-		ArrayList<String> l = new ArrayList<String>();
-		l.add("name");
-		l.add("number");
-		l.add("rotatedCardName");
-		IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(res,l,l);
-    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
-    	
-	}
+	
 	
 	private MagicCard generateCard(JsonObject obj) throws Exception
 	{
@@ -350,12 +334,12 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  
 		  try{mc.setMultiverseid(obj.get("multiverse_id").getAsInt());}catch(NullPointerException e) { };
 		  try{mc.setText(obj.get("oracle_text").getAsString());}catch(NullPointerException e) { mc.setText(""); };
-		  try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
 		  try{mc.setCost(obj.get("mana_cost").getAsString());}catch(NullPointerException e) { mc.setCmc(0); };
-					
-		  
-		 // String typeline = obj.get("type_line").getAsString();
-		 //"Basic " +"Legendary" + "Ongoing" +"Snow" +"World";
+		  //try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
+		 
+		  if(obj.get("type_line")!=null)
+			  generateTypes(mc,String.valueOf(obj.get("type_line")));
+		  //"Basic " +"Legendary" + "Ongoing" +"Snow" +"World";
 		  
 		  mc.setName(obj.get("name").getAsString());
 		  mc.setCmc(obj.get("cmc").getAsInt());
@@ -419,10 +403,10 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  if(obj.get("card_faces")!=null)
 		  {
 			  
-			  mc.getTypes().add(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("type_line").getAsString());
+			  //mc.getTypes().add(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("type_line").getAsString());
+			  generateTypes(mc, obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("type_line").getAsString());
 			  mc.setText(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("oracle_text").getAsString());
 			  mc.setCost(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("mana_cost").getAsString());
-			  
 			  mc.setRotatedCardName(obj.get("card_faces").getAsJsonArray().get(1).getAsJsonObject().get("name").getAsString());
 			 
 		  }
@@ -483,7 +467,77 @@ public class ScryFallProvider implements MagicCardsProvider {
 		
 	}
 	
+public static void main(String[] args) throws Exception {
+		
+		ScryFallProvider prov = new ScryFallProvider();
+		
+		prov.init();
+		prov.loadEditions();
+		List<MagicCard> res = prov.searchCardByCriteria("type", "World", null);
+		ArrayList<String> l = new ArrayList<String>();
+			l.add("name");
+			l.add("supertypes");
+			l.add("types");
+			l.add("subtypes");
+		IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(res,l,l);
+    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
+    	
+	}
+
+	private void generateTypes(MagicCard mc, String line) {
+
+		line=line.replaceAll("\"", "");
+		
+		if(line.contains("Legendary"))
+		{
+			mc.getSupertypes().add("Legendary");
+			line=line.replaceAll("Legendary","").trim();
+		}
+		
+		if(line.contains("Basic"))
+		{
+			mc.getSupertypes().add("Basic");
+			line=line.replaceAll("Basic","").trim();
+		}
+		
+		if(line.contains("Ongoing"))
+		{
+			mc.getSupertypes().add("Ongoing");
+			line=line.replaceAll("Ongoing","").trim();
+		}
+		if(line.contains("Snow"))
+		{
+			mc.getSupertypes().add("Snow");
+			line=line.replaceAll("Snow","").trim();
+		}
+		if(line.contains("World"))
+		{
+			mc.getSupertypes().add("World");
+			line=line.replaceAll("World","").trim();
+		}
+		
+		
+		
+
+		if(line.contains("—"))
+		{
+		
+			for(String s : line.substring(0, line.indexOf("—")).trim().split(" "))
+				mc.getTypes().add(s.replaceAll("\"", ""));
+			
+			for(String s : line.substring(line.indexOf("—")+1).trim().split(" "))
+				mc.getSubtypes().add(s);
+		}
+		else
+		{
+			for(String s : line.split(" "))
+				mc.getTypes().add(s.replaceAll("\"", ""));
+		}
 	
+		
+		
+	}
+
 	private void initOtherEdition(MagicCard mc) throws Exception {
 		
 		String url=baseURI+"/cards/search?q=+"
