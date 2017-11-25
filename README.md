@@ -4,9 +4,7 @@
 
 
 
-Download last version here https://github.com/nicho92/MtgDesktopCompanion/blob/master/executable/mtgcompanion.zip?raw=true 
-(just download and unzip. execute run.bat)
-
+Download latest version here https://github.com/nicho92/MtgDesktopCompanion/blob/master/executable/
 
 
 Features :
