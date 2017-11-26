@@ -183,10 +183,12 @@ public class MTGControler {
 			//e.printStackTrace();
 		}
 		return p;
-		
 	}
 	
-	
+	public int getActivatedGUI()
+	{
+		return 0;
+	}
 		
 	private MTGControler()
 	{
