@@ -11,6 +11,7 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.LaunchWindows;
 import org.magic.gui.MagicGUI;
 import org.magic.services.MTGControler;
+import org.magic.services.ThreadManager;
 
 public class MtgDesktopCompanion {
 
@@ -20,10 +21,10 @@ public class MtgDesktopCompanion {
 	public static void main(String[] args) {
 		launch= new LaunchWindows();
 		launch.start();
-	
-		SwingUtilities.invokeLater(new Runnable() {
+		
+
+		ThreadManager.getInstance().runInEdt(new Runnable() {
 			public void run() {
-			
 				try {
 					if(MTGControler.getInstance().updateConfigMods())
 						JOptionPane.showMessageDialog(null, "New modules has been installed.Please restart MTG Desktop Companion after loading");

@@ -1,5 +1,6 @@
 package org.magic.services;
 
+import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -8,6 +9,8 @@ import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+
+import javax.swing.SwingUtilities;
 
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
@@ -34,6 +37,14 @@ public class ThreadManager {
 	public String getInfo() {
 		return info;
 	}
+	
+	public void runInEdt(final Runnable runnable) {
+	    if (SwingUtilities.isEventDispatchThread())
+	        runnable.run();
+	    else
+	        SwingUtilities.invokeLater(runnable);
+	}
+	
 
 	private ThreadManager()
 	{
@@ -62,6 +73,23 @@ public class ThreadManager {
 	public void execute(Runnable task,String name)
 	{
 		this.name=name;
+		executor.execute(task);
+		//new Thread(task).start();
+		
+		info =(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d " + name,
+                executor.getPoolSize(),
+                executor.getCorePoolSize(),
+                executor.getActiveCount(),
+                executor.getCompletedTaskCount(),
+                executor.getTaskCount()));
+		
+		//logger.trace(info);
+		
+	}
+	
+	public void execute(Runnable task)
+	{
+		this.name="Thread";
 		executor.execute(task);
 		//new Thread(task).start();
 		

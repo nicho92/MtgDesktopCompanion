@@ -3,6 +3,7 @@ package org.magic.gui;
 import javax.swing.JWindow;
 
 import org.magic.services.MTGControler;
+import org.magic.services.ThreadManager;
 
 import java.awt.BorderLayout;
 import java.util.Observable;
@@ -12,7 +13,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
-public class LaunchWindows extends JWindow implements Observer {
+public class LaunchWindows extends JWindow {
 	
 	JProgressBar progressBar;
 	
@@ -23,6 +24,8 @@ public class LaunchWindows extends JWindow implements Observer {
 	}
 	
 	public LaunchWindows() {
+		
+		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		progressBar = new JProgressBar();
@@ -38,14 +41,14 @@ public class LaunchWindows extends JWindow implements Observer {
 		setLocationRelativeTo(null);
 	}
 
-	public void update(Observable o, Object msg) {
-		System.out.println(msg);
+	public void update(Object msg) {
+		System.out.println("+++" + msg);
 		progressBar.setString(msg.toString());
 	}
 
 	public void stop() {
 		setVisible(false);
-		
+		dispose();
 	}
 
 

@@ -23,7 +23,7 @@ public class MTGAppender extends AppenderSkeleton {
 	@Override
 	protected void append(LoggingEvent event) {
 		if(MtgDesktopCompanion.launch!=null)
-			MtgDesktopCompanion.launch.update(null,event.getMessage().toString());
+			MtgDesktopCompanion.launch.update(event.getMessage().toString());
 	}
 
 
