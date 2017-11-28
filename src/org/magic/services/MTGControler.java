@@ -192,6 +192,7 @@ public class MTGControler {
 		
 	private MTGControler()
 	{
+		
 		File conf = new File(CONF_DIR,"mtgcompanion-conf.xml");
 		if(!conf.exists())
 		try {

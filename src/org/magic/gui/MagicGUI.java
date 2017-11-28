@@ -54,6 +54,7 @@ public class MagicGUI extends JFrame {
 	public static TrayIcon trayNotifier;
 	private Map<String,String> looks;
 	private Map<String,String> looksMore;
+	
 	public MagicGUI() {
 
 		try {
