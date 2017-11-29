@@ -1,6 +1,5 @@
 package org.magic.services;
 
-import java.util.Random;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -38,7 +37,7 @@ public class ThreadManager {
 		return info;
 	}
 	
-	public void runInEdt(final Runnable runnable) {
+	public void runInEdt(Runnable runnable) {
 	    if (SwingUtilities.isEventDispatchThread())
 	        runnable.run();
 	    else

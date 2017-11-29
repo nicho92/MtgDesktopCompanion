@@ -25,24 +25,24 @@ public class LaunchWindows extends JWindow {
 	
 	public LaunchWindows() {
 		
-		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		progressBar = new JProgressBar();
 		progressBar.setMinimum(0);
+		progressBar.setIndeterminate(true);
 		progressBar.setStringPainted(true);
 		
 		getContentPane().add(progressBar, BorderLayout.SOUTH);
 		//setOpacity(0.55f);
 		JLabel lblNewLabel = new JLabel("");
 		lblNewLabel.setIcon(new ImageIcon(LaunchWindows.class.getResource("/res/data/magic-logo.png")));
+		lblNewLabel.setOpaque(false);
 		getContentPane().add(lblNewLabel, BorderLayout.CENTER);
 		pack();
 		setLocationRelativeTo(null);
 	}
 
 	public void update(Object msg) {
-		System.out.println("+++" + msg);
 		progressBar.setString(msg.toString());
 	}
 

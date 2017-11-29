@@ -95,7 +95,7 @@ public class MagicGUI extends JFrame {
 	
 	public void initGUI() throws Exception
 	{
-		logger.info("init GUI");
+		logger.info("init Main GUI");
 		setSize(new Dimension(1420, 900));
 		setTitle("Magic Desktop Companion ( v" + MTGControler.getInstance().getVersion()+")");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -104,7 +104,7 @@ public class MagicGUI extends JFrame {
 		
 		try{
 			tray=SystemTray.getSystemTray();
-			 trayNotifier = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+			trayNotifier = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/res/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 		}
 		catch (Exception e) {
 			logger.error(e);

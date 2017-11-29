@@ -2,7 +2,6 @@ package org.magic.api.main;
 
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
-import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
@@ -21,24 +20,24 @@ public class MtgDesktopCompanion {
 	public static void main(String[] args) {
 		launch= new LaunchWindows();
 		launch.start();
+	
+		try {
+			if(MTGControler.getInstance().updateConfigMods())
+				JOptionPane.showMessageDialog(null, "New modules has been installed.Please restart MTG Desktop Companion after loading");
 		
+				LogManager.getRootLogger().setLevel(Level.toLevel(MTGControler.getInstance().get("loglevel")));
+				
+				MTGControler.getInstance().getEnabledProviders().init();
+				MTGControler.getInstance().getEnabledDAO().init();
+		
+				logger.info("Init MTG Desktop Companion GUI");
+		}catch (Exception e) {
+			logger.error("Error initialisation",e);
+			JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+		}
 
 		ThreadManager.getInstance().runInEdt(new Runnable() {
 			public void run() {
-				try {
-					if(MTGControler.getInstance().updateConfigMods())
-						JOptionPane.showMessageDialog(null, "New modules has been installed.Please restart MTG Desktop Companion after loading");
-					
-					LogManager.getRootLogger().setLevel(Level.toLevel(MTGControler.getInstance().get("loglevel")));
-					MTGControler.getInstance().getEnabledProviders().init();
-					MTGControler.getInstance().getEnabledDAO().init();
-					
-					
-				}catch (Exception e) {
-					e.printStackTrace();
-					JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
-				}
-			
 				
 				MagicGUI gui = new MagicGUI();
 						 gui.setLookAndFeel(MTGControler.getInstance().get("lookAndFeel"));
