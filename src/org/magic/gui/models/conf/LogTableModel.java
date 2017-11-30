@@ -11,7 +11,7 @@ public class LogTableModel extends DefaultTableModel {
 
 	MTGAppender app ;
 	
-	static final String[] COLUMNS= {"LEVEL","TIME","MESSAGE"};
+	static final String[] COLUMNS= {"LEVEL","TIME","CLASS","MESSAGE"};
 	
 	public LogTableModel() {
 		app = (MTGAppender)Logger.getRootLogger().getAppender("APPS");
@@ -26,6 +26,10 @@ public class LogTableModel extends DefaultTableModel {
 			return new Date(app.getEvents().get(row).getTimeStamp());
 		
 		if(column==2)
+			return app.getEvents().get(row).getLocationInformation().getClassName();
+		
+		
+		if(column==3)
 			return app.getEvents().get(row).getMessage();
 		
 		return "";

@@ -9,19 +9,25 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
+import javax.swing.Timer;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.models.conf.LogTableModel;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.JCheckBox;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 
 
 public class LoggerViewFrame extends JFrame {
 	private JXTable table;
-	LogTableModel model;
+	private LogTableModel model;
+	private Timer t;
 	private TableFilterHeader filterHeader;
+	private JCheckBox chckbxAutorefresh;
 	
 	
 	public LoggerViewFrame() {
@@ -48,6 +54,33 @@ public class LoggerViewFrame extends JFrame {
 		});
 		btnRefresh.setIcon(new ImageIcon(LoggerViewFrame.class.getResource("/res/refresh.png")));
 		panel.add(btnRefresh);
+		
+		t = new Timer(1000, new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+               model.fireTableDataChanged();
+            }
+			});
+		
+		
+		chckbxAutorefresh = new JCheckBox("Auto-refresh");
+		chckbxAutorefresh.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent ie) {
+				
+				if(chckbxAutorefresh.isSelected())
+				{
+					t.start();
+					btnRefresh.setEnabled(false);
+				}
+				else
+				{
+					t.stop();
+					btnRefresh.setEnabled(true);
+				}
+				
+			}
+		});
+		panel.add(chckbxAutorefresh);
 		
 		table.packAll();
 		pack();
