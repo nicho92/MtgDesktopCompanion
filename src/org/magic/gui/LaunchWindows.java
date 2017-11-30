@@ -13,7 +13,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JLabel;
 import javax.swing.ImageIcon;
 
-public class LaunchWindows extends JWindow {
+public class LaunchWindows extends JWindow implements Observer{
 	
 	JProgressBar progressBar;
 	
@@ -42,13 +42,19 @@ public class LaunchWindows extends JWindow {
 		setLocationRelativeTo(null);
 	}
 
-	public void update(Object msg) {
-		progressBar.setString(msg.toString());
-	}
+//	public void update(Object msg) {
+//		progressBar.setString(msg.toString());
+//	}
 
 	public void stop() {
 		setVisible(false);
 		dispose();
+	}
+
+	@Override
+	public void update(Observable o, Object msg) {
+		progressBar.setString(msg.toString());
+		
 	}
 
 

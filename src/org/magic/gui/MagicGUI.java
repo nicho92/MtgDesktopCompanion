@@ -31,6 +31,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.gui.components.CardSearchPanel;
+import org.magic.gui.components.dialog.LoggerViewFrame;
 import org.magic.gui.components.dialog.ThreadMonitorFrame;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
 import org.magic.services.MTGConstants;
@@ -122,6 +123,7 @@ public class MagicGUI extends JFrame {
 		
 		JMenuItem mntmHelp = new JMenuItem("Read the f***g manual");
 		JMenuItem mntmThreadItem = new JMenuItem("Threads");
+		JMenuItem mntmLogsItem = new JMenuItem("Logs");
 		JMenuItem mntmAboutMagicDesktop = new JMenuItem("About Magic Desktop Companion");
 		JMenuItem mntmReportBug = new JMenuItem("Report Bug");
 		
@@ -131,9 +133,25 @@ public class MagicGUI extends JFrame {
 		menuBar.add(jmnuLook);
 		menuBar.add(mnuAbout);
 		mnuAbout.add(mntmThreadItem);
+		mnuAbout.add(mntmLogsItem);
 		mnuAbout.add(mntmHelp);
 		mnuAbout.add(mntmAboutMagicDesktop);
 		mnuAbout.add(mntmReportBug);
+		
+		
+		mntmLogsItem.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				SwingUtilities.invokeLater(new Runnable(){
+					@Override
+					public void run() {
+						new LoggerViewFrame().setVisible(true);
+					}
+				});
+				
+			}
+		});
 		
 		mntmThreadItem.addActionListener(new ActionListener() {
 			

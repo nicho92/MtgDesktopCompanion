@@ -2,18 +2,36 @@ package org.magic.services;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Observable;
+import java.util.Observer;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
-import org.magic.api.main.MtgDesktopCompanion;
 
 public class MTGAppender extends AppenderSkeleton {
 
-	
 	List<LoggingEvent> events;
+	MyObservable obs;
+
+	
+	public List<LoggingEvent> getEvents() {
+		return events;
+	}
+	
+		
+	public Observable getObservable()
+	{
+		return obs;
+	}
 	
 	public MTGAppender() {
 		events=new ArrayList<LoggingEvent>();
+		obs=new MyObservable();
+	}
+	
+	public void addObserver(Observer viewer)
+	{
+		obs.addObserver(viewer);
 	}
 	
 	
@@ -31,9 +49,18 @@ public class MTGAppender extends AppenderSkeleton {
 	@Override
 	protected void append(LoggingEvent event) {
 		events.add(event);
-		if(MtgDesktopCompanion.launch!=null)
-			MtgDesktopCompanion.launch.update(event.getMessage().toString());
+		obs.setChanged();
+		obs.notifyObservers(event.getMessage());
 	}
-
-
 }
+
+class MyObservable extends Observable
+{
+	
+	@Override
+	public synchronized void setChanged() {
+		super.setChanged();
+	}
+	
+}
+

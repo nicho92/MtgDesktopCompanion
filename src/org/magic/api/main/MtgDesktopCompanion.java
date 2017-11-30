@@ -1,26 +1,35 @@
 package org.magic.api.main;
 
+import java.util.Enumeration;
+
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.LaunchWindows;
 import org.magic.gui.MagicGUI;
+import org.magic.services.MTGAppender;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class MtgDesktopCompanion {
 
 	static final Logger logger = LogManager.getLogger(MtgDesktopCompanion.class.getName());
-	public static LaunchWindows launch;
 	
 	public static void main(String[] args) {
-		launch= new LaunchWindows();
+	
+		LaunchWindows launch= new LaunchWindows();
+		MTGAppender app = (MTGAppender)Logger.getRootLogger().getAppender("APPS");
+		app.addObserver(launch);
+		
 		launch.start();
 	
+		
+		
 		try {
 			if(MTGControler.getInstance().updateConfigMods())
 				JOptionPane.showMessageDialog(null, "New modules has been installed.Please restart MTG Desktop Companion after loading");
