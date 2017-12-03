@@ -28,7 +28,7 @@ public class LoggerViewFrame extends JFrame {
 	private Timer t;
 	private TableFilterHeader filterHeader;
 	private JCheckBox chckbxAutorefresh;
-	
+	private JButton btnRefresh; 
 	
 	public LoggerViewFrame() {
 		setTitle("Logs");
@@ -46,7 +46,7 @@ public class LoggerViewFrame extends JFrame {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		JButton btnRefresh = new JButton("");
+		btnRefresh = new JButton("");
 		btnRefresh.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				model.fireTableDataChanged();

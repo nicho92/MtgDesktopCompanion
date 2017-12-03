@@ -19,10 +19,12 @@ import org.magic.services.ThreadManager;
 public class MtgDesktopCompanion {
 
 	static final Logger logger = LogManager.getLogger(MtgDesktopCompanion.class.getName());
+	static LaunchWindows launch;
+	
 	
 	public static void main(String[] args) {
 	
-		LaunchWindows launch= new LaunchWindows();
+		launch= new LaunchWindows();
 		MTGAppender app = (MTGAppender)Logger.getRootLogger().getAppender("APPS");
 		app.addObserver(launch);
 		
