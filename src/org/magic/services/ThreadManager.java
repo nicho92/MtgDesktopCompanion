@@ -73,7 +73,6 @@ public class ThreadManager {
 	{
 		this.name=name;
 		executor.execute(task);
-		//new Thread(task).start();
 		
 		info =(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d " + name,
                 executor.getPoolSize(),
@@ -90,17 +89,12 @@ public class ThreadManager {
 	{
 		this.name="Thread";
 		executor.execute(task);
-		//new Thread(task).start();
-		
 		info =(String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d " + name,
                 executor.getPoolSize(),
                 executor.getCorePoolSize(),
                 executor.getActiveCount(),
                 executor.getCompletedTaskCount(),
                 executor.getTaskCount()));
-		
-		//logger.trace(info);
-		
 	}
 
 	public ThreadPoolExecutor getExecutor() {

@@ -1,11 +1,8 @@
 package org.magic.api.main;
 
-import java.util.Enumeration;
-
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
