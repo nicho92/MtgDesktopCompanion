@@ -12,17 +12,10 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 
-public interface MagicDAO {
+public interface MagicDAO extends MTGPlugin{
 
-	public Properties getProperties();
+	
 	public void init() throws ClassNotFoundException, SQLException ;
-	
-	public String getName();
-	public void save();
-	public void load();
-	public void enable(boolean enabled);
-	public boolean isEnable();
-	
 	
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException;

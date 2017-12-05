@@ -21,6 +21,8 @@ import com.google.gson.stream.JsonReader;
 
 public class EbayShopper extends AbstractMagicShopper {
 
+	
+	
 	EbayPricer pricer;
 	
 	public EbayShopper() {
@@ -98,5 +100,7 @@ public class EbayShopper extends AbstractMagicShopper {
 	public String getName() {
 		return "Ebay";
 	}
+
+
 
 }

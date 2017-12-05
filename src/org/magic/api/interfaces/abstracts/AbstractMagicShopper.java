@@ -16,6 +16,9 @@ import org.magic.tools.MTGLogger;
 public abstract class AbstractMagicShopper extends Observable implements MagicShopper {
 
 	
+	
+	
+	
 	private boolean enable=true;
 	protected Properties props;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
@@ -33,7 +36,11 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 		load();
 	}
 	
-	
+
+	@Override
+	public Object getProperty(String k) {
+		return props.get(k);
+	}
 
 	public Properties getProperties() {
 		return props;
