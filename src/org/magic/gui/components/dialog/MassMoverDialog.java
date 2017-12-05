@@ -42,7 +42,7 @@ public class MassMoverDialog extends JDialog {
 	private JLabel lblWaiting;
 	private JButton btnMove;
 	
-	static final Logger logger = MTGLogger.getLogger(MassMoverDialog.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public MassMoverDialog(MagicCollection col,MagicEdition ed) {
 		setSize(new Dimension(640, 370));

@@ -17,7 +17,7 @@ import org.magic.tools.MTGLogger;
 
 public class ShopItemTableModel extends DefaultTableModel {
 
-	  static final Logger logger = MTGLogger.getLogger(ShopItemTableModel.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	 // String columns[] = new String[]{"Site","Name","Price","date","type","url","note"};
 	  String columns[] = new String[]{"Site","Name","Price","date","type","url"};

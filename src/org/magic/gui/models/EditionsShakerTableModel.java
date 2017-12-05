@@ -15,7 +15,7 @@ import org.magic.tools.MTGLogger;
 
 public class EditionsShakerTableModel extends DefaultTableModel {
 
-	 static final Logger logger = MTGLogger.getLogger(EditionsShakerTableModel.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	String columns[] = new String[]{"Card","Edition","Price","Daily","Daily%","Weekly","Weekly%"};
 			

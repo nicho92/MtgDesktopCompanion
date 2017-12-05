@@ -19,7 +19,6 @@ public class Player extends Observable implements Serializable{
 
 	public static enum STATE { CONNECTED, BUSY, AWAY, GAMING};
 	
-	
 	private Long id;
 	private STATE state;
 	private int life;
@@ -36,7 +35,7 @@ public class Player extends Observable implements Serializable{
 	
 	private int poisonCounter;
 	
-	static final Logger logger = MTGLogger.getLogger(Player.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public STATE getState() {
 		return state;

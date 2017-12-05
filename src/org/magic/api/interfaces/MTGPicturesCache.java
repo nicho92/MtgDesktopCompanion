@@ -9,8 +9,7 @@ import org.magic.tools.MTGLogger;
 
 public interface MTGPicturesCache extends MTGPlugin {
 
-	static final Logger logger = MTGLogger.getLogger(MTGPicturesCache.class);
-
+	
 	public BufferedImage getPic(MagicCard mc,MagicEdition ed);
 	public void put(BufferedImage im,MagicCard mc,MagicEdition ed) throws Exception;
 	

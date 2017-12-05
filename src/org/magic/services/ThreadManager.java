@@ -116,7 +116,7 @@ public class ThreadManager {
 
 class RejectedExecutionHandlerImpl implements RejectedExecutionHandler {
 
-	static final Logger logger = MTGLogger.getLogger(RejectedExecutionHandlerImpl.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
        logger.error(r.toString() + " is rejected");

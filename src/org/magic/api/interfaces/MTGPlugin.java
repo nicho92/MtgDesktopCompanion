@@ -2,6 +2,9 @@ package org.magic.api.interfaces;
 
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
+import org.magic.tools.MTGLogger;
+
 public interface MTGPlugin {
 
 	public Properties getProperties();
