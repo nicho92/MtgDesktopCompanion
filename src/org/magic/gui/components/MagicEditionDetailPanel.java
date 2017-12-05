@@ -57,7 +57,7 @@ public class MagicEditionDetailPanel extends JPanel {
 	private BoosterPicturesProvider boosterProvider;
 	private boolean openBooster;
 	
-	static final Logger logger = MTGLogger.getLogger(MagicEditionDetailPanel.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public MagicEditionDetailPanel(boolean showTablePrice,boolean openBooster) {

@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -24,15 +23,11 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-import org.magic.tools.MTGLogger;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 import org.mozilla.javascript.ast.NodeVisitor;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard{
-
-	static final Logger logger = MTGLogger.getLogger(MTGoldFishDashBoard.class);
-
 	private Date updateTime;
 	Map<Date,Double> historyPrice;
     boolean stop ;	    

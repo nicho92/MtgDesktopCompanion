@@ -28,7 +28,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 
 	public static final File confdir = new File(MTGControler.CONF_DIR, "dashboards/dashlets");
 	protected Properties props;
-	protected static final Logger logger = MTGLogger.getLogger(AbstractJDashlet.class);
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCardDetailPanel pane;
 	
 	public AbstractJDashlet() {

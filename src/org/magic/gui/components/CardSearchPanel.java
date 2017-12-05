@@ -81,7 +81,7 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class CardSearchPanel extends JPanel {
 
-		static final Logger logger = MTGLogger.getLogger(MagicGUI.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 		public static final int INDEX_PRICES = 2;
 		public static final int INDEX_THUMB = 1;

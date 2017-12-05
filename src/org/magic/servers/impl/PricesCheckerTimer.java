@@ -21,7 +21,6 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 	Timer timer ;
 	TimerTask tache ;
 	private boolean running=false;
-	static final Logger logger = MTGLogger.getLogger(PricesCheckerTimer.class);
 	private boolean enableNotify=true;
 	
 	public void enableGUINotify(boolean enableNotify) {

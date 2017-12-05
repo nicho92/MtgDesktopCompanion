@@ -41,7 +41,7 @@ import org.magic.tools.MTGLogger;
 
 public class MagicGUI extends JFrame {
 
-	static final Logger logger = MTGLogger.getLogger(MagicGUI.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private SystemTray tray;
 	private JMenuBar menuBar;

@@ -6,17 +6,14 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
 
 public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
-	static final Logger logger = MTGLogger.getLogger(GathererPicturesProvider.class);
 	private MagicCardInfoPicturesProvider mciProv;
 	
 	public GathererPicturesProvider() {

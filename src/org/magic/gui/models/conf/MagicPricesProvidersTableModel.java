@@ -18,8 +18,7 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
     private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
     private MagicPricesProvider selectedProvider = null;
     private List<MagicPricesProvider> pricers = MTGControler.getInstance().getPricers();
-    static final Logger logger = MTGLogger.getLogger(MagicPricesProvidersTableModel.class);
-
+    Logger logger = MTGLogger.getLogger(this.getClass());
     
     
     public MagicPricesProvidersTableModel() {

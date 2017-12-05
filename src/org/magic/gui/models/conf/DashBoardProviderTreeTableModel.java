@@ -16,8 +16,7 @@ public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
 	    private DashBoard selectedProvider = null;
 	    private List<DashBoard> lstDashboard ;
-	    static final Logger logger = MTGLogger.getLogger(DashBoardProviderTreeTableModel.class);
-
+	    Logger logger = MTGLogger.getLogger(this.getClass());
 	    
 	    
 	    public DashBoardProviderTreeTableModel() {

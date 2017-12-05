@@ -29,10 +29,9 @@ import org.magic.game.network.actions.SpeakAction;
 import org.magic.tools.MTGLogger;
 
 public class MTGGameRoomServer extends AbstractMTGServer{
- static final Logger logger = MTGLogger.getLogger(MTGGameRoomServer.class);
- private IoAcceptor acceptor;
  
- private IoHandlerAdapter adapter = new IoHandlerAdapter() {
+	private IoAcceptor acceptor;
+	private IoHandlerAdapter adapter = new IoHandlerAdapter() {
  		
 	
 	 

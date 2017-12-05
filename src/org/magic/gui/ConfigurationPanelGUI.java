@@ -13,6 +13,7 @@ import javax.swing.JTable;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
+import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.CardExporter;
@@ -36,6 +37,7 @@ import org.magic.gui.models.conf.PicturesProvidersTableModel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.gui.models.conf.ServersTreeTableModel;
+import org.magic.tools.MTGLogger;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable cardsProviderTable;
@@ -49,7 +51,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable picturesProviderTable;
 	private JXTreeTable serversTreeTable;
 	private JXTreeTable cachesTreeTable;
-	
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	public ConfigurationPanelGUI() {
 		
 		

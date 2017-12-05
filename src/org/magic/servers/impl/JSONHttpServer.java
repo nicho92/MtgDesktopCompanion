@@ -29,8 +29,6 @@ import fi.iki.elonen.NanoHTTPD.Response.Status;
 
 public class JSONHttpServer extends AbstractMTGServer
 {
-	
-	static final Logger logger = MTGLogger.getLogger(JSONHttpServer.class);
 	NanoHTTPD server;
 
 	

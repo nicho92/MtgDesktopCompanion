@@ -16,7 +16,7 @@ public class DeckSnifferTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private DeckSniffer selectedProvider = null;
 	    private List<DeckSniffer> exports =MTGControler.getInstance().getDeckSniffers();
-	    static final Logger logger = MTGLogger.getLogger(DeckSnifferTreeTableModel.class);
+	    Logger logger = MTGLogger.getLogger(this.getClass());
 	    private final static String[] COLUMN_NAMES = {"Deck Website","Value","Enabled"};
 		
 

@@ -21,8 +21,6 @@ import com.google.gson.stream.JsonReader;
 
 public class EbayShopper extends AbstractMagicShopper {
 
-	static final Logger logger = MTGLogger.getLogger(EbayShopper.class);
-
 	EbayPricer pricer;
 	
 	public EbayShopper() {

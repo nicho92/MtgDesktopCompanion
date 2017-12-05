@@ -82,7 +82,7 @@ public class CardBuilder2GUI extends JPanel{
 	private MagicCardTableModel cardsModel;
 	private JSONPanel jsonPanel;
 	private JTabbedPane tabbedPane;
-	static final Logger logger = MTGLogger.getLogger(CardBuilder2GUI.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	private JSpinner spinCommon;
 	private JSpinner spinRare;
 	private JSpinner spinUnco;

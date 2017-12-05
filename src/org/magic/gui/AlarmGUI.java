@@ -49,7 +49,7 @@ public class AlarmGUI extends JPanel {
 	private JButton btnRefresh;
 	private JButton btnDelete;
 	private HistoryPricesPanel variationPanel;
-	static final Logger logger = MTGLogger.getLogger(AlarmGUI.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
 
 	

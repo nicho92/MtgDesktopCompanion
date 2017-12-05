@@ -22,7 +22,6 @@ import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
 import org.apache.http.util.EntityUtils;
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -31,7 +30,6 @@ import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
-import org.magic.tools.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -43,10 +41,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private CookieStore cookieStore;
 	private HttpClient httpclient;
 	private HttpContext httpContext; 
-    static final Logger logger = MTGLogger.getLogger(TappedOutDeckSniffer.class);
- 
-  
-	
+  	
 	public TappedOutDeckSniffer() throws Exception {
 		super();
 

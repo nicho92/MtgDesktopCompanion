@@ -19,8 +19,6 @@ import org.magic.tools.MTGLogger;
 
 public class ConsoleServer extends AbstractMTGServer{
 
-    static final Logger logger = MTGLogger.getLogger(ConsoleServer.class);
-
     IoAcceptor acceptor = new NioSocketAcceptor();
     
     @Override

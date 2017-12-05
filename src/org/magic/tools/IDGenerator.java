@@ -7,7 +7,7 @@ import org.magic.api.beans.MagicEdition;
 
 public class IDGenerator {
 
-	static final Logger logger = MTGLogger.getLogger(IDGenerator.class);
+	static Logger logger = MTGLogger.getLogger(IDGenerator.class);
 
 	public static String generate(MagicCard mc)
 	{

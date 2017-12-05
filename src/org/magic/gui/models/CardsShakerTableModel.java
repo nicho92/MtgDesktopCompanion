@@ -14,8 +14,8 @@ import org.magic.tools.MTGLogger;
 
 public class CardsShakerTableModel extends DefaultTableModel {
 
-	 static final Logger logger = MTGLogger.getLogger(CardsShakerTableModel.class);
-
+	Logger logger = MTGLogger.getLogger(this.getClass());
+	
 	String columns[] = new String[]{"Card","Edition","Price","Daily","Daily%"};
 			
 	List<CardShake> list;

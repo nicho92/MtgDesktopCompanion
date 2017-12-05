@@ -17,7 +17,7 @@ public class CardDominanceTableModel extends DefaultTableModel {
 
 	
 	static final String columns[] = new String[]{"Card","Position","% Dominance","% deck","Players"};
-	static final Logger logger = MTGLogger.getLogger(CardDominanceTableModel.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	private List<CardDominance> list;
 	
 	public CardDominanceTableModel() {

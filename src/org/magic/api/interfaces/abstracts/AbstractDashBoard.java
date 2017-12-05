@@ -10,14 +10,19 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public abstract class AbstractDashBoard extends Observable implements DashBoard {
 
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
+
+	
 	public static enum FORMAT { standard,legacy,vintage,modern};
 	public static enum ONLINE_PAPER {online, paper};
 

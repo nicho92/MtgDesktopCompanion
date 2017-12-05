@@ -34,7 +34,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	DocumentBuilder builder;
 	Document document;
 	XPath xPath;
-	static final Logger logger = MTGLogger.getLogger(CockatriceTokenProvider.class);
 	
 	public CockatriceTokenProvider() {
 		super();

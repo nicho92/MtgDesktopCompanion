@@ -7,17 +7,12 @@ import java.net.URI;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
 
 public class MagidexPicturesProvider extends AbstractPicturesProvider {
-
-	static final Logger logger = MTGLogger.getLogger(MagidexPicturesProvider.class);
-	
 	public MagidexPicturesProvider() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){

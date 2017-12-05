@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,12 +15,9 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
-
-	static final Logger logger = MTGLogger.getLogger(TCGPlayerDeckSniffer.class);
-	  
+  
 	public TCGPlayerDeckSniffer() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){

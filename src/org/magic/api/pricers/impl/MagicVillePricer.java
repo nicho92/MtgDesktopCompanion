@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,7 +15,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.tools.MTGLogger;
 
 public class MagicVillePricer extends AbstractMagicPricesProvider {
 
@@ -24,7 +22,6 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	List<MagicPrice> list;
 	CloseableHttpClient httpclient;
 	
-	static final Logger logger = MTGLogger.getLogger(MagicVillePricer.class);
 
 	public MagicVillePricer() {
 		super();
@@ -71,7 +68,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		
 	}
 	
-	private static String prefixZeros(String value, int len) {
+	private String prefixZeros(String value, int len) {
 		logger.debug("parsingNumber " + value + " "+  len) ;
 	    char[] t = new char[len];
 	    int l = value.trim().length();

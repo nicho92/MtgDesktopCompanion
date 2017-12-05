@@ -5,14 +5,17 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MagicTokensProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public abstract class AbstractTokensProvider implements MagicTokensProvider {
 
 	protected Properties props;
 	private boolean enable;
 	protected File confdir = new File(MTGControler.CONF_DIR, "tokens");
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	

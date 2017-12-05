@@ -18,8 +18,7 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
     private final static String[] COLUMN_NAMES = {"DBProvider","Value","Enabled"};
     private MagicDAO selectedProvider = null;
     private List<MagicDAO> daos = MTGControler.getInstance().getDaoProviders();
-    static final Logger logger = MTGLogger.getLogger(MagicDAOProvidersTableModel.class);
-
+    Logger logger = MTGLogger.getLogger(this.getClass());
     
     
     public MagicDAOProvidersTableModel() {

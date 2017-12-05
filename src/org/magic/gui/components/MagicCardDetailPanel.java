@@ -68,7 +68,7 @@ public class MagicCardDetailPanel extends JPanel {
 	private JLabel lblWatermark;
 	private JTextField txtWatermark;
 	private JScrollPane scrollCollections;
-	static final Logger logger = MTGLogger.getLogger(MagicCardDetailPanel.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTextField rarityJTextField;
 	GridBagLayout gridBagLayout ;
 	private JButton btnAlert;

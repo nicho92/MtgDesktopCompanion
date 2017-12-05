@@ -10,13 +10,16 @@ import java.util.Properties;
 
 import javax.swing.Icon;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public abstract class AbstractCardExport extends Observable implements CardExporter {
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public abstract String getFileExtension();
 	public abstract void export(MagicDeck deck, File dest) throws Exception ;

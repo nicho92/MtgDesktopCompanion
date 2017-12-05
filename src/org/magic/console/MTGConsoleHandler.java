@@ -19,7 +19,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter
 	public static String[] att_shop ={"name","description","price","shopName"};
 	public static String[] att_shake={"name","ed","price","percentDayChange","priceDayChange"};
 	
-	static final Logger logger = MTGLogger.getLogger(MTGConsoleHandler.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private List<String> history;
 	    

@@ -86,7 +86,7 @@ public class StockPanelGUI extends JPanel {
 	private List<MagicCard> selectedCard;
 	private JButton btnReload;
     
-	static final Logger logger = MTGLogger.getLogger(StockPanelGUI.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	private JLabel lblLoading;
 	private JPanel rightPanel;
 	private JLabel lblQte;

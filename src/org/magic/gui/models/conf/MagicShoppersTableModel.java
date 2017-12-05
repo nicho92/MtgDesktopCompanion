@@ -16,8 +16,7 @@ public class MagicShoppersTableModel extends AbstractTreeTableModel {
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
 	    private MagicShopper selectedProvider = null;
 	    private List<MagicShopper> pricers = MTGControler.getInstance().getShoppers();
-	    static final Logger logger = MTGLogger.getLogger(MagicShoppersTableModel.class);
-
+	    Logger logger = MTGLogger.getLogger(this.getClass());
 	    
 	    
 	    public MagicShoppersTableModel() {

@@ -18,8 +18,7 @@ public class PicturesProvidersTableModel extends AbstractTreeTableModel
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
 	    private PictureProvider selectedProvider = null;
 	    private List<PictureProvider> daos = MTGControler.getInstance().getPicturesProviders();
-	    static final Logger logger = MTGLogger.getLogger(PicturesProvidersTableModel.class);
-
+	    Logger logger = MTGLogger.getLogger(this.getClass());
 	    
 	    
 	    public PicturesProvidersTableModel() {

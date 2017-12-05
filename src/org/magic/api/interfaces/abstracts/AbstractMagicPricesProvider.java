@@ -7,17 +7,20 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public abstract class AbstractMagicPricesProvider extends Observable implements MagicPricesProvider {
 
 	private boolean enable=true;
 	protected Properties props;
 	protected File confdir = new File(MTGControler.CONF_DIR, "pricers");
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	@Override

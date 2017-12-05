@@ -29,8 +29,6 @@ import org.w3c.dom.NodeList;
 
 public class PriceMinisterShopper extends AbstractMagicShopper{
 
-	static final Logger logger = MTGLogger.getLogger(PriceMinisterShopper.class);
-
 	public PriceMinisterShopper() {
 		super();	
 		

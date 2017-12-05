@@ -16,7 +16,7 @@ public class ServersTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private MTGServer selectedProvider = null;
 	    private List<MTGServer> exports =MTGControler.getInstance().getServers();
-	    static final Logger logger = MTGLogger.getLogger(ServersTreeTableModel.class);
+	    Logger logger = MTGLogger.getLogger(this.getClass());
 	    private final static String[] COLUMN_NAMES = {"Deck Website","Value","Enabled"};
 		
 

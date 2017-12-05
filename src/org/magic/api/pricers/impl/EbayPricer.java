@@ -8,12 +8,10 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.tools.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -24,7 +22,6 @@ public class EbayPricer extends AbstractMagicPricesProvider
 {
 
 	String KEYWORD="";
-	static final Logger logger = MTGLogger.getLogger(EbayPricer.class);
 	
 	
 	public EbayPricer() {

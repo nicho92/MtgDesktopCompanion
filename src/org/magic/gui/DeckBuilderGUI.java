@@ -115,7 +115,7 @@ public class DeckBuilderGUI extends JPanel {
 
 	private File exportedFile;
 
-	static final Logger logger = MTGLogger.getLogger(DeckBuilderGUI.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	File deckDirectory = new File(MTGControler.CONF_DIR, "decks");
 	private Player p;

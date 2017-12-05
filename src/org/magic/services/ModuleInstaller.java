@@ -14,8 +14,7 @@ public class ModuleInstaller {
 
 	
 	private boolean hasUpdated=false;
-	static final Logger logger = MTGLogger.getLogger(ModuleInstaller.class);
-
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	 public List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
 	        ClassLoader classLoader = ModuleInstaller.class.getClassLoader();//Thread.currentThread().getContextClassLoader();

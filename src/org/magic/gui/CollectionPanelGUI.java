@@ -92,7 +92,7 @@ public class CollectionPanelGUI extends JPanel {
 	private MagicEditionsTableModel model;
 	private JProgressBar progressBar;
 	private TreePath path;
-	static final Logger logger = MTGLogger.getLogger(CollectionPanelGUI.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	private JXTable tablePrices;
 	private CardsPriceTableModel modelPrices;
 	private MagicCollection selectedcol;

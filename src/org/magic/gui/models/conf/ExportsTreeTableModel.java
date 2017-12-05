@@ -16,7 +16,7 @@ public class ExportsTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private CardExporter selectedProvider = null;
 	    private List<CardExporter> exports =MTGControler.getInstance().getDeckExports();
-	    static final Logger logger = MTGLogger.getLogger(ExportsTreeTableModel.class);
+	    Logger logger = MTGLogger.getLogger(this.getClass());
 	    private final static String[] COLUMN_NAMES = {"Exporter","Value","Enabled"};
 		
 

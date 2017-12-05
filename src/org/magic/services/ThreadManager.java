@@ -18,7 +18,7 @@ import org.magic.tools.MTGLogger;
 public class ThreadManager {
 
 	static ThreadManager inst;
-	static final Logger logger = MTGLogger.getLogger(ThreadManager.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private String name;
 	private String info;

@@ -11,7 +11,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.tools.IDGenerator;
 
 public class MemoryCache extends AbstractMTGPicturesCache {
-
 	
 	Map<String,BufferedImage> cache;
 	

@@ -18,7 +18,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.Logger;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -28,12 +27,10 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
-import org.magic.tools.MTGLogger;
 
 public class HsqlDAO extends AbstractMagicDAO{
 
-	static final Logger logger = MTGLogger.getLogger(HsqlDAO.class);
-    Connection con;
+	Connection con;
     List<MagicCard> listNeeded ;
     
     @Override

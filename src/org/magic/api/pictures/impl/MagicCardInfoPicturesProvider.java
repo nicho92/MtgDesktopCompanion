@@ -9,23 +9,17 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
-import org.magic.tools.MTGLogger;
 
 
 public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 	private int w,h;
-	static final Logger logger = MTGLogger.getLogger(MagicCardInfoPicturesProvider.class);
-	
-	
-	
 	
 	public MagicCardInfoPicturesProvider() {
 		super();

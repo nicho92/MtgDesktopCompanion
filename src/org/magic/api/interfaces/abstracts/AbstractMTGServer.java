@@ -6,16 +6,18 @@ import java.io.FileOutputStream;
 import java.util.Observable;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public abstract class AbstractMTGServer extends Observable implements MTGServer {
 
 	private boolean enable;
 	protected Properties props;
 	protected File confdir = new File(MTGControler.CONF_DIR, "servers");
-	
-	
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public AbstractMTGServer() {
 		props=new Properties();
 		if(!confdir.exists())

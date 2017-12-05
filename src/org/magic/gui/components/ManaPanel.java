@@ -23,7 +23,7 @@ import org.magic.tools.MTGLogger;
 
 public class ManaPanel extends JPanel {
 	
-	static final Logger logger = MTGLogger.getLogger(ManaPanel.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	int cols=10;
 	int rows =7;

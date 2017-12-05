@@ -32,8 +32,6 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	CloseableHttpClient httpclient;
 	SimpleDateFormat formatter;
 
-	static final Logger logger = MTGLogger.getLogger(LeboncoinShopper.class);
-
 	public LeboncoinShopper() {
 		super();	
 		

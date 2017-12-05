@@ -37,7 +37,7 @@ public class RssGUI extends JPanel {
 	private JEditorPane editorPane;
 	
 	DefaultMutableTreeNode curr;
-	static final Logger logger = MTGLogger.getLogger(RssGUI.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public RssGUI() {

@@ -4,8 +4,8 @@ import java.util.Date;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.Logger;
 import org.magic.services.MTGAppender;
+import org.magic.tools.MTGLogger;
 
 public class LogTableModel extends DefaultTableModel {
 
@@ -14,7 +14,7 @@ public class LogTableModel extends DefaultTableModel {
 	static final String[] COLUMNS= {"LEVEL","TIME","CLASS","MESSAGE"};
 	
 	public LogTableModel() {
-		app = (MTGAppender)Logger.getRootLogger().getAppender("APPS");
+		app = (MTGAppender)MTGLogger.getAppender("APPS");
 	}
 	
 	@Override

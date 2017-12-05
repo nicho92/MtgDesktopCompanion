@@ -22,7 +22,8 @@ public class IconSetProvider {
 	private Map<String,ImageIcon> cache24;
 	private Map<String,ImageIcon> cache16;
 	private File temp_file;
-	static final Logger logger = MTGLogger.getLogger(IconSetProvider.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
+	
 	
 	private IconSetProvider()
 	{

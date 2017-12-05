@@ -16,7 +16,7 @@ import org.magic.tools.MTGLogger;
 
 public class CardsPriceTableModel extends DefaultTableModel {
 
-	static final Logger logger = MTGLogger.getLogger(CardsPriceTableModel.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	String columns[] = new String[]{"Site","Price","Currency","Seller","quality","langage","url"};
 			

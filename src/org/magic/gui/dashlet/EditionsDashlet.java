@@ -32,7 +32,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 	
 	private JXTable table;
 	private JLabel lblLoading;
-	private  JComboBox<MagicEdition> cboEditions;
+	private JComboBox<MagicEdition> cboEditions;
 	private EditionsShakerTableModel modEdition;
 	
 	

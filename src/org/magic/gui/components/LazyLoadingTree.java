@@ -30,7 +30,7 @@ public class LazyLoadingTree extends JTree {
 	private DefaultTreeModel model;
 	private MyNode root;
 	
-	static final Logger logger = MTGLogger.getLogger(LazyLoadingTree.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public LazyLoadingTree() throws ClassNotFoundException, SQLException {

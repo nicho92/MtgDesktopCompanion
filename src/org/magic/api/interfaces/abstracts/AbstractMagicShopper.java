@@ -7,15 +7,18 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public abstract class AbstractMagicShopper extends Observable implements MagicShopper {
 
 	
 	private boolean enable=true;
 	protected Properties props;
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public abstract List<ShopItem> search(String search);

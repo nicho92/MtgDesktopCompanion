@@ -16,8 +16,7 @@ public class MTGPicsCacheProviderTreeTableModel extends AbstractTreeTableModel {
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
 	    private MTGPicturesCache selectedProvider = null;
 	    private List<MTGPicturesCache> lstMTGPicturesCache ;
-	    static final Logger logger = MTGLogger.getLogger(MTGPicsCacheProviderTreeTableModel.class);
-
+	    Logger logger = MTGLogger.getLogger(this.getClass());
 	    
 	    
 	    public MTGPicsCacheProviderTreeTableModel() {

@@ -3,39 +3,36 @@ package org.magic.api.main;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.LaunchWindows;
 import org.magic.gui.MagicGUI;
-import org.magic.services.MTGAppender;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.MTGLogger;
 
 public class MtgDesktopCompanion {
 
-	static final Logger logger = MTGLogger.getLogger(MtgDesktopCompanion.class);
-	static LaunchWindows launch;
+	final Logger logger = MTGLogger.getLogger(this.getClass());
 	
+	LaunchWindows launch;
 	
 	public static void main(String[] args) {
+		new MtgDesktopCompanion();
+	}
+	
+	
+	public MtgDesktopCompanion() {
 	
 		launch= new LaunchWindows();
-		MTGAppender app = (MTGAppender)Logger.getRootLogger().getAppender("APPS");
-		app.addObserver(launch);
-		
+		MTGLogger.getMTGAppender().addObserver(launch);
 		launch.start();
-	
-		
-		
+			
 		try {
 			if(MTGControler.getInstance().updateConfigMods())
 				JOptionPane.showMessageDialog(null, "New modules has been installed.Please restart MTG Desktop Companion after loading");
 		
-				LogManager.getRootLogger().setLevel(Level.toLevel(MTGControler.getInstance().get("loglevel")));
-				
+				MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 				MTGControler.getInstance().getEnabledProviders().init();
 				MTGControler.getInstance().getEnabledDAO().init();
 		

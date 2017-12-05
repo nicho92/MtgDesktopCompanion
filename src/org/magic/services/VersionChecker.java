@@ -25,7 +25,7 @@ public class VersionChecker {
 	String actualVersion = MTGControler.getInstance().getVersion();
 	String onlineVersion;
 	
-	static final Logger logger = MTGLogger.getLogger(VersionChecker.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public VersionChecker() {

@@ -15,12 +15,14 @@ import java.util.Observable;
 import java.util.Set;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.tools.MTGLogger;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;
@@ -39,6 +41,7 @@ public class MagicWebSiteGenerator extends Observable{
 	private String dest;
 	private List<MagicPricesProvider> pricesProvider;
 	private List<MagicCollection> cols;
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	public MagicWebSiteGenerator(String template,String dest) throws IOException, ClassNotFoundException, SQLException {
 		cfg = new Configuration(Configuration.VERSION_2_3_23);

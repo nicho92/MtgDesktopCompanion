@@ -46,7 +46,7 @@ public class ShopperGUI extends JPanel {
 	private final JPanel panneauEast = new JPanel();
 	private final JLabel lblPicShopItem = new JLabel("");
     private TableFilterHeader filterHeader;
-	static final Logger logger = MTGLogger.getLogger(ShopperGUI.class);
+    Logger logger = MTGLogger.getLogger(this.getClass());
 
     
 	public ShopperGUI() {

@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -24,12 +23,10 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
-import org.magic.tools.MTGLogger;
 
 public class MysqlDAO extends AbstractMagicDAO{
 
-	static final Logger logger = MTGLogger.getLogger(MysqlDAO.class);
-    Connection con;
+   Connection con;
  
     @Override
     public String toString() {

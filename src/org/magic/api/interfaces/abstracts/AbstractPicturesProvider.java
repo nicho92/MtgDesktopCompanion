@@ -12,8 +12,10 @@ import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
+import org.apache.log4j.Logger;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public abstract class AbstractPicturesProvider extends Observable implements PictureProvider {
 
@@ -21,7 +23,8 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 	protected File confdir = new File(MTGControler.CONF_DIR, "pictures");
 	private boolean enable=true;
 	protected Properties props;
-	
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
+
 	
 	@Override
 	public String toString() {

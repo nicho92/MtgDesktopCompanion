@@ -14,7 +14,6 @@ import org.magic.tools.IDGenerator;
 
 public class FileCache extends AbstractMTGPicturesCache {
 
-	
 	File directory ;
 	
 	private String generateIdIndex(MagicCard mc,MagicEdition ed)
