@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class CardsShakerTableModel extends DefaultTableModel {
 

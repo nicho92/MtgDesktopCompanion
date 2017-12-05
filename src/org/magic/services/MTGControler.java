@@ -34,7 +34,6 @@ import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
-import org.magic.tools.MTGLogger;
 
 public class MTGControler {
 

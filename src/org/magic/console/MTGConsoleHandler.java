@@ -7,7 +7,7 @@ import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.magic.servers.impl.ConsoleServer;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class MTGConsoleHandler extends IoHandlerAdapter
 {

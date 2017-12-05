@@ -37,7 +37,7 @@ import org.magic.gui.models.conf.PicturesProvidersTableModel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.gui.models.conf.ServersTreeTableModel;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable cardsProviderTable;

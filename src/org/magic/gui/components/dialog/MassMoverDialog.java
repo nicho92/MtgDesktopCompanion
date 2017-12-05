@@ -25,8 +25,8 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.tools.MTGLogger;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;

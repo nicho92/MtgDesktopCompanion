@@ -35,9 +35,9 @@ import org.magic.gui.components.dialog.ThreadMonitorFrame;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
-import org.magic.tools.MTGLogger;
 
 public class MagicGUI extends JFrame {
 

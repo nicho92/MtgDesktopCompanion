@@ -15,7 +15,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 import org.magic.tools.MagicCardComparator;
 
 import com.google.gson.Gson;

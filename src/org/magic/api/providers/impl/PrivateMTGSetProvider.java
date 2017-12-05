@@ -20,7 +20,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;

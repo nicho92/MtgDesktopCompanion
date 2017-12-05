@@ -12,7 +12,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public abstract class AbstractDeckSniffer extends Observable implements DeckSniffer {
 

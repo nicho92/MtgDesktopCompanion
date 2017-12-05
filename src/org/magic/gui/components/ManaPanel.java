@@ -18,8 +18,8 @@ import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
-import org.magic.tools.MTGLogger;
 
 public class ManaPanel extends JPanel {
 	

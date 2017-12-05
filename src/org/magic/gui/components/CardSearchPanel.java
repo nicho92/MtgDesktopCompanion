@@ -72,8 +72,8 @@ import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.tools.MTGLogger;
 import org.magic.tools.MagicCardComparator;
 
 import net.coderazzi.filters.gui.AutoChoices;

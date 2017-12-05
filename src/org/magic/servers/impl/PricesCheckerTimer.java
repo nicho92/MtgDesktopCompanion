@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class PricesCheckerTimer extends AbstractMTGServer{
 

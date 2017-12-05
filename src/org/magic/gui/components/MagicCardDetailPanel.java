@@ -35,8 +35,8 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.tools.MTGLogger;
 
 public class MagicCardDetailPanel extends JPanel {
 

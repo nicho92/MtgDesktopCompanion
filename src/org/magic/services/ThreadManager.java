@@ -12,7 +12,6 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
-import org.magic.tools.MTGLogger;
 
 
 public class ThreadManager {

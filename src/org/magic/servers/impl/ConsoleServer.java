@@ -14,7 +14,7 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 
 public class ConsoleServer extends AbstractMTGServer{

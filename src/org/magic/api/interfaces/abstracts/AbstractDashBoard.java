@@ -16,7 +16,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public abstract class AbstractDashBoard extends Observable implements DashBoard {
 

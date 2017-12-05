@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class ShopItemTableModel extends DefaultTableModel {
 

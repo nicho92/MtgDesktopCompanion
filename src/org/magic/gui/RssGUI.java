@@ -26,8 +26,8 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.gui.models.RssContentTableModel;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.tools.MTGLogger;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 

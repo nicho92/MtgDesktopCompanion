@@ -15,7 +15,7 @@ import javax.imageio.ImageIO;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public abstract class AbstractPicturesProvider extends Observable implements PictureProvider {
 

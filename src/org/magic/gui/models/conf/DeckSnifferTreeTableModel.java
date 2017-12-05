@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class DeckSnifferTreeTableModel extends AbstractTreeTableModel {
 	

@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.api.pricers.impl.EbayPricer;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

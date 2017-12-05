@@ -23,8 +23,8 @@ import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.tools.InstallCert;
-import org.magic.tools.MTGLogger;
 
 public class LeboncoinShopper extends AbstractMagicShopper  {
 

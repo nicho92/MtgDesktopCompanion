@@ -62,7 +62,7 @@ import org.magic.gui.renderer.MagicCardNameEditor;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGCardMakerPicturesProvider;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class CardBuilder2GUI extends JPanel{
 	

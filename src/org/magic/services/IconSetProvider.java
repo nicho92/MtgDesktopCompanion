@@ -13,7 +13,6 @@ import javax.swing.ImageIcon;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
-import org.magic.tools.MTGLogger;
 
 public class IconSetProvider {
 

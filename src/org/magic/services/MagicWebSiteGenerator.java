@@ -22,7 +22,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.tools.MTGLogger;
 
 import freemarker.core.ParseException;
 import freemarker.template.Configuration;

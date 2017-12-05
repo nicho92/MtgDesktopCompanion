@@ -5,7 +5,7 @@ import java.util.Date;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.services.MTGAppender;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class LogTableModel extends DefaultTableModel {
 

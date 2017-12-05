@@ -36,7 +36,7 @@ import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;

@@ -75,9 +75,9 @@ import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.ThreadManager;
-import org.magic.tools.MTGLogger;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;

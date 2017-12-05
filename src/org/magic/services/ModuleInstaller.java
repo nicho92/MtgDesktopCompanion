@@ -9,7 +9,6 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.tools.MTGLogger;
 
 public class ModuleInstaller {
 

@@ -30,6 +30,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 /**
  * Class used to add the server's certificate to the KeyStore

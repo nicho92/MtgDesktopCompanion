@@ -8,8 +8,8 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.LaunchWindows;
 import org.magic.gui.MagicGUI;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.tools.MTGLogger;
 
 public class MtgDesktopCompanion {
 

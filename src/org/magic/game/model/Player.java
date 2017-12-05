@@ -13,7 +13,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.network.actions.SpeakAction;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class Player extends Observable implements Serializable{
 

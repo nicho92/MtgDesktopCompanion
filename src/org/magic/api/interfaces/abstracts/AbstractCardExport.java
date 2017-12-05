@@ -16,7 +16,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public abstract class AbstractCardExport extends Observable implements CardExporter {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());

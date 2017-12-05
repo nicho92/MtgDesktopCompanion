@@ -26,7 +26,7 @@ import org.magic.game.network.actions.ReponseAction;
 import org.magic.game.network.actions.RequestPlayAction;
 import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public class MTGGameRoomServer extends AbstractMTGServer{
  

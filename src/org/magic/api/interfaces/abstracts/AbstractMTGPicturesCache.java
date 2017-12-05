@@ -9,7 +9,7 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGControler;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 public abstract class AbstractMTGPicturesCache extends Observable implements MTGPicturesCache {
 

@@ -37,9 +37,9 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
-import org.magic.tools.MTGLogger;
 import org.magic.tools.db.NumberUpdater;
 
 public class ConfigurationPanel extends JPanel {

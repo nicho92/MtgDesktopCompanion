@@ -30,9 +30,9 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
-import org.magic.tools.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

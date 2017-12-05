@@ -25,7 +25,7 @@ import org.magic.game.gui.components.Draggable;
 import org.magic.game.gui.components.DraggablePanel;
 import org.magic.game.model.CardSpell;
 import org.magic.game.model.GameManager;
-import org.magic.tools.MTGLogger;
+import org.magic.services.MTGLogger;
 
 
 public class CardTransfertHandler extends TransferHandler  {

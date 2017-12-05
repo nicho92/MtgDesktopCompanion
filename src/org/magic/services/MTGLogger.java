@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services;
 
 import java.util.Collections;
 import java.util.List;
@@ -7,7 +7,6 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.magic.services.MTGAppender;
 
 public class MTGLogger {
 
