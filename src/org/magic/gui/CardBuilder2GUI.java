@@ -48,6 +48,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.gui.components.CardSearchPanel;
@@ -60,7 +61,6 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardNameEditor;
 import org.magic.gui.renderer.ManaCellRenderer;
-import org.magic.services.MTGCardMakerPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 

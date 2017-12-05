@@ -83,8 +83,6 @@ public class MagicWebSiteGenerator extends Observable{
 		generateCollectionsTemplate();
 	}
 	
-	
-
 	//lister les editions disponibles
 	private void generateCollectionsTemplate() throws IOException, TemplateException, SQLException
 	{

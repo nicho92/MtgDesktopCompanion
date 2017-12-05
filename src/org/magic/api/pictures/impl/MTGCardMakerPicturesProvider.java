@@ -1,4 +1,4 @@
-package org.magic.services;
+package org.magic.api.pictures.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -12,8 +12,9 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 
-public class MTGCardMakerPicturesProvider  {
+public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  {
 
 	public BufferedImage generatePictureForCard(MagicCard mc, BufferedImage pic)
 	{
@@ -106,6 +107,26 @@ public class MTGCardMakerPicturesProvider  {
 		
 		
 		
+	}
+
+
+	@Override
+	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public BufferedImage extractPicture(MagicCard mc) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public String getName() {
+		return "MTGCard Maker";
 	}
 
 

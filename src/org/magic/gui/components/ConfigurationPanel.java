@@ -168,13 +168,6 @@ public class ConfigurationPanel extends JPanel {
 		panelDAO.add(btnDuplicate, gbc_btnDuplicate);
 		
 		
-		GridBagConstraints gbc_cboEditions = new GridBagConstraints();
-		gbc_cboEditions.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboEditions.gridwidth = 2;
-		gbc_cboEditions.insets = new Insets(0, 0, 0, 5);
-		gbc_cboEditions.gridx = 1;
-		gbc_cboEditions.gridy = 2;
-		panelDAO.add(cboEditions, gbc_cboEditions);
 		
 		btnDuplicate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
