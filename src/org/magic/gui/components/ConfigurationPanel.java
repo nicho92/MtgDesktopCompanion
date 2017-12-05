@@ -35,12 +35,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
-import org.magic.tools.db.NumberUpdater;
 
 public class ConfigurationPanel extends JPanel {
 	
@@ -89,7 +87,6 @@ public class ConfigurationPanel extends JPanel {
 		
 		
 		cboTargetDAO = new JComboBox();
-		cboEditions = new JComboBox(NumberUpdater.unavailableEds);
 		cboCollections = new JComboBox();
 		cboEditionLands=new JComboBox<MagicEdition>();
 		
@@ -170,13 +167,6 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnDuplicate.gridy = 1;
 		panelDAO.add(btnDuplicate, gbc_btnDuplicate);
 		
-		JLabel lblForceNumberFor = new JLabel("update Number for Edition :");
-		GridBagConstraints gbc_lblForceNumberFor = new GridBagConstraints();
-		gbc_lblForceNumberFor.insets = new Insets(0, 0, 0, 5);
-		gbc_lblForceNumberFor.gridx = 0;
-		gbc_lblForceNumberFor.gridy = 2;
-		panelDAO.add(lblForceNumberFor, gbc_lblForceNumberFor);
-		
 		
 		GridBagConstraints gbc_cboEditions = new GridBagConstraints();
 		gbc_cboEditions.fill = GridBagConstraints.HORIZONTAL;
@@ -186,29 +176,6 @@ public class ConfigurationPanel extends JPanel {
 		gbc_cboEditions.gridy = 2;
 		panelDAO.add(cboEditions, gbc_cboEditions);
 		
-		JButton btnUpdate = new JButton("Update");
-		GridBagConstraints gbc_btnUpdate = new GridBagConstraints();
-		gbc_btnUpdate.gridx = 3;
-		gbc_btnUpdate.gridy = 2;
-		panelDAO.add(btnUpdate, gbc_btnUpdate);
-		btnUpdate.setEnabled(MTGControler.getInstance().getEnabledProviders() instanceof MtgjsonProvider);//only for mtgjson provider
-		
-		
-		btnUpdate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
-							loading(true,"update " + cboEditions.getSelectedItem().toString() + " numbers");
-							try {
-								NumberUpdater.update(cboEditions.getSelectedItem().toString());
-							} catch (Exception e) {
-								e.printStackTrace();
-							}
-							loading(false,"");
-					}
-				}, "updating "  + cboEditions.getSelectedItem() + " numbers");
-			}
-		});
 		btnDuplicate.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 			

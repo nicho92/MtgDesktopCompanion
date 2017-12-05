@@ -43,7 +43,7 @@ public class MTGAppender extends AppenderSkeleton {
 
 	@Override
 	public boolean requiresLayout() {
-		return true;
+		return false;
 	}
 
 	@Override
