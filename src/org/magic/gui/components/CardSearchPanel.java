@@ -50,7 +50,6 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
@@ -74,15 +73,15 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 import org.magic.tools.MagicCardComparator;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
-import java.awt.SystemColor;
 
 public class CardSearchPanel extends JPanel {
 
-		static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
+		static final Logger logger = MTGLogger.getLogger(MagicGUI.class);
 
 		public static final int INDEX_PRICES = 2;
 		public static final int INDEX_THUMB = 1;

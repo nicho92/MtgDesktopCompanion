@@ -7,7 +7,6 @@ import java.awt.Insets;
 import java.util.List;
 
 import javax.swing.JLabel;
-import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;

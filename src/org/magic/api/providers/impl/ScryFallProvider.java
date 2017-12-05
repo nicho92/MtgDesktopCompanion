@@ -18,7 +18,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.asciitable.impl.ASCIITableImpl;
 import org.asciitable.impl.CollectionASCIITableAware;
@@ -33,6 +32,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
+import org.magic.tools.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -43,7 +43,7 @@ import com.google.gson.stream.JsonReader;
 public class ScryFallProvider implements MagicCardsProvider {
 
 	private boolean enabled;
-	static final Logger logger = LogManager.getLogger(ScryFallProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(ScryFallProvider.class);
 	private static String baseURI ="https://api.scryfall.com";
 	private Map<String , MagicEdition> cache;
 	private JsonParser parser;

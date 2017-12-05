@@ -6,17 +6,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class ServersTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private MTGServer selectedProvider = null;
 	    private List<MTGServer> exports =MTGControler.getInstance().getServers();
-	    static final Logger logger = LogManager.getLogger(ServersTreeTableModel.class.getName());
+	    static final Logger logger = MTGLogger.getLogger(ServersTreeTableModel.class);
 	    private final static String[] COLUMN_NAMES = {"Deck Website","Value","Enabled"};
 		
 

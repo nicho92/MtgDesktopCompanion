@@ -3,11 +3,11 @@ package org.magic.console;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.magic.servers.impl.ConsoleServer;
+import org.magic.tools.MTGLogger;
 
 public class MTGConsoleHandler extends IoHandlerAdapter
 {
@@ -19,7 +19,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter
 	public static String[] att_shop ={"name","description","price","shopName"};
 	public static String[] att_shake={"name","ed","price","percentDayChange","priceDayChange"};
 	
-	static final Logger logger = LogManager.getLogger(MTGConsoleHandler.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MTGConsoleHandler.class);
 
 	private List<String> history;
 	    

@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -27,6 +26,7 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -42,7 +42,7 @@ public class MassMoverDialog extends JDialog {
 	private JLabel lblWaiting;
 	private JButton btnMove;
 	
-	static final Logger logger = LogManager.getLogger(MassMoverDialog.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MassMoverDialog.class);
 
 	public MassMoverDialog(MagicCollection col,MagicEdition ed) {
 		setSize(new Dimension(640, 370));

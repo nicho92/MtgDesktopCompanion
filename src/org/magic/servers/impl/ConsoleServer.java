@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.session.IdleStatus;
@@ -15,11 +14,12 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 
 public class ConsoleServer extends AbstractMTGServer{
 
-    static final Logger logger = LogManager.getLogger(ConsoleServer.class.getName());
+    static final Logger logger = MTGLogger.getLogger(ConsoleServer.class);
 
     IoAcceptor acceptor = new NioSocketAcceptor();
     

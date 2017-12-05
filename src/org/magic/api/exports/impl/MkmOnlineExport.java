@@ -11,7 +11,6 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.collections4.ListUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Localization;
@@ -31,6 +30,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 
 public class MkmOnlineExport extends AbstractCardExport {
@@ -40,7 +40,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	Map<PRODUCT_ATTS, String> atts;
 	ProductServices pService;
 	
-	static final Logger logger = LogManager.getLogger(MkmOnlineExport.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MkmOnlineExport.class);
 
 	public MkmOnlineExport() throws Exception {
 		super();

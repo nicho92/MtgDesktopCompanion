@@ -31,7 +31,6 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
@@ -40,6 +39,7 @@ import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
+import org.magic.tools.MTGLogger;
 import org.magic.tools.db.NumberUpdater;
 
 public class ConfigurationPanel extends JPanel {
@@ -506,7 +506,7 @@ public class ConfigurationPanel extends JPanel {
 		btnSaveLoglevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				MTGControler.getInstance().setProperty("loglevel", (Level)cboLogLevels.getSelectedItem());
-				LogManager.getRootLogger().setLevel((Level)cboLogLevels.getSelectedItem());
+				MTGLogger.changeLevel((Level)cboLogLevels.getSelectedItem());
 			}
 		});
 		
@@ -514,7 +514,7 @@ public class ConfigurationPanel extends JPanel {
 		cboLogLevels.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				LogManager.getRootLogger().setLevel((Level)cboLogLevels.getSelectedItem());
+				MTGLogger.changeLevel((Level)cboLogLevels.getSelectedItem());
 			}
 		});
 		btnSaveDefaultLandDeck.addActionListener(new ActionListener() {

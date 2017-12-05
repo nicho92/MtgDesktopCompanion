@@ -17,9 +17,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
+import javax.swing.JTabbedPane;
+import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -28,24 +31,13 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.BoostersTableModel;
-import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import javax.swing.JList;
-import javax.swing.JTabbedPane;
-import javax.swing.JTextArea;
-
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.Font;
-import javax.swing.JTextPane;
 
 public class BoosterBoxDashlet extends AbstractJDashlet{
 	private JSpinner boxSizeSpinner;

@@ -1,17 +1,13 @@
 package org.magic.gui;
 
-import javax.swing.JWindow;
-
-import org.magic.services.MTGControler;
-import org.magic.services.ThreadManager;
-
 import java.awt.BorderLayout;
 import java.util.Observable;
 import java.util.Observer;
 
-import javax.swing.JProgressBar;
-import javax.swing.JLabel;
 import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JProgressBar;
+import javax.swing.JWindow;
 
 public class LaunchWindows extends JWindow implements Observer{
 	

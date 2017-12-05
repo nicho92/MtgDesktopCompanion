@@ -1,14 +1,13 @@
 package org.magic.tools;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 
 public class IDGenerator {
 
-	static final Logger logger = LogManager.getLogger(IDGenerator.class.getName());
+	static final Logger logger = MTGLogger.getLogger(IDGenerator.class);
 
 	public static String generate(MagicCard mc)
 	{

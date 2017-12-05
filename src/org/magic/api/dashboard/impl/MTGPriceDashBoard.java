@@ -13,7 +13,6 @@ import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -24,6 +23,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -32,7 +32,7 @@ import com.google.gson.JsonParser;
 
 public class MTGPriceDashBoard extends AbstractDashBoard {
 
-	static final Logger logger = LogManager.getLogger(MTGPriceDashBoard.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MTGPriceDashBoard.class);
 
 	private Date updateTime;
 	

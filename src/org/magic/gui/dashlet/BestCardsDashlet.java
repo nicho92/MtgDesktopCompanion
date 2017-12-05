@@ -4,34 +4,21 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardDominanceTableModel;
-import org.magic.gui.models.CardsShakerTableModel;
-import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import javax.swing.JComboBox;
-import javax.swing.JLabel;
 
 public class BestCardsDashlet extends AbstractJDashlet{
 

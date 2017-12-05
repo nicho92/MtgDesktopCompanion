@@ -2,15 +2,12 @@ package org.magic.game.actions.cards;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
-import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
-import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.dialog.CardChooseDialog;
 import org.magic.game.model.AbilitySpell;
-import org.magic.services.MTGControler;
 
 public class CopyFromActions extends AbilitySpell {
 

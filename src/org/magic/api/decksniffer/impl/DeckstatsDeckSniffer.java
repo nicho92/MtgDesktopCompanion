@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -19,11 +18,12 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	Map<Integer,String> cacheColor;
-	   static final Logger logger = LogManager.getLogger(DeckstatsDeckSniffer.class.getName());
+	   static final Logger logger = MTGLogger.getLogger(DeckstatsDeckSniffer.class);
 	   
 	public DeckstatsDeckSniffer() {
 		super();

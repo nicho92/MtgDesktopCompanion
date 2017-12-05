@@ -22,7 +22,6 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
@@ -32,6 +31,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.EvaluationListener;
@@ -67,7 +67,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private boolean enable;
 	
 	
-	static final Logger logger = LogManager.getLogger(MtgjsonProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MtgjsonProvider.class);
 
 	
 	@Override

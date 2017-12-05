@@ -3,21 +3,17 @@ package org.magic.api.dashboard.impl;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
-import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -28,13 +24,14 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.tools.MTGLogger;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 import org.mozilla.javascript.ast.NodeVisitor;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard{
 
-	static final Logger logger = LogManager.getLogger(MTGoldFishDashBoard.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MTGoldFishDashBoard.class);
 
 	private Date updateTime;
 	Map<Date,Double> historyPrice;

@@ -2,15 +2,11 @@ package org.magic.api.pricers.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.text.similarity.EditDistance;
 import org.apache.commons.text.similarity.JaccardDistance;
-import org.apache.commons.text.similarity.JaroWinklerDistance;
-import org.apache.commons.text.similarity.LevenshteinDistance;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.log4j.Level;
@@ -24,6 +20,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.tools.MTGLogger;
 
 public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
@@ -31,7 +28,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	List<MagicPrice> list;
 	CloseableHttpClient httpclient;
 	List<String> eds;
-	static final Logger logger = LogManager.getLogger(CardKingdomPricer.class.getName());
+	static final Logger logger = MTGLogger.getLogger(CardKingdomPricer.class);
 
 	public CardKingdomPricer() {
 		super();

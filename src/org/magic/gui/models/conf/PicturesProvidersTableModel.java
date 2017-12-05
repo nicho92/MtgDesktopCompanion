@@ -7,18 +7,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class PicturesProvidersTableModel extends AbstractTreeTableModel 
 {
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
 	    private PictureProvider selectedProvider = null;
 	    private List<PictureProvider> daos = MTGControler.getInstance().getPicturesProviders();
-	    static final Logger logger = LogManager.getLogger(PicturesProvidersTableModel.class.getName());
+	    static final Logger logger = MTGLogger.getLogger(PicturesProvidersTableModel.class);
 
 	    
 	    

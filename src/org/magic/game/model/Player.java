@@ -9,11 +9,11 @@ import java.util.Observable;
 
 import javax.swing.AbstractAction;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.network.actions.SpeakAction;
+import org.magic.tools.MTGLogger;
 
 public class Player extends Observable implements Serializable{
 
@@ -36,7 +36,7 @@ public class Player extends Observable implements Serializable{
 	
 	private int poisonCounter;
 	
-	static final Logger logger = LogManager.getLogger(Player.class.getName());
+	static final Logger logger = MTGLogger.getLogger(Player.class);
 
 	public STATE getState() {
 		return state;

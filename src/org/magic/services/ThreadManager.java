@@ -11,14 +11,14 @@ import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingUtilities;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.tools.MTGLogger;
 
 
 public class ThreadManager {
 
 	static ThreadManager inst;
-	static final Logger logger = LogManager.getLogger(ThreadManager.class.getName());
+	static final Logger logger = MTGLogger.getLogger(ThreadManager.class);
 
 	private String name;
 	private String info;
@@ -116,7 +116,7 @@ public class ThreadManager {
 
 class RejectedExecutionHandlerImpl implements RejectedExecutionHandler {
 
-	static final Logger logger = LogManager.getLogger(RejectedExecutionHandlerImpl.class.getName());
+	static final Logger logger = MTGLogger.getLogger(RejectedExecutionHandlerImpl.class);
 
     public void rejectedExecution(Runnable r, ThreadPoolExecutor executor) {
        logger.error(r.toString() + " is rejected");

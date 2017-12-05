@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class PricesCheckerTimer extends AbstractMTGServer{
 
@@ -21,7 +21,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 	Timer timer ;
 	TimerTask tache ;
 	private boolean running=false;
-	static final Logger logger = LogManager.getLogger(PricesCheckerTimer.class.getName());
+	static final Logger logger = MTGLogger.getLogger(PricesCheckerTimer.class);
 	private boolean enableNotify=true;
 	
 	public void enableGUINotify(boolean enableNotify) {

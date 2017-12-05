@@ -17,19 +17,18 @@ import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.services.MTGControler;
 import org.magic.services.ModuleInstaller;
+import org.magic.tools.MTGLogger;
 
 public class DashBoardGUI2 extends JDesktopPane {
 	
 	ClassLoader classLoader = DashBoardGUI2.class.getClassLoader();
-	static final Logger logger = LogManager.getLogger(DashBoardGUI2.class.getName());
+	static final Logger logger = MTGLogger.getLogger(DashBoardGUI2.class);
 
 	
 	public DashBoardGUI2() {

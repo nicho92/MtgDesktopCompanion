@@ -15,12 +15,12 @@ import javax.swing.tree.ExpandVetoException;
 import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 import org.magic.tools.MagicCardComparator;
 
 
@@ -30,7 +30,7 @@ public class LazyLoadingTree extends JTree {
 	private DefaultTreeModel model;
 	private MyNode root;
 	
-	static final Logger logger = LogManager.getLogger(LazyLoadingTree.class.getName());
+	static final Logger logger = MTGLogger.getLogger(LazyLoadingTree.class);
 
 	
 	public LazyLoadingTree() throws ClassNotFoundException, SQLException {

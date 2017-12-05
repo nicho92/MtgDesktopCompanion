@@ -14,7 +14,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.IconSetProvider;
-import javax.swing.SwingConstants;
 
 public class CardListPanel extends JPanel{
 	

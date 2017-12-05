@@ -16,14 +16,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.tools.ImageUtils;
+import org.magic.tools.MTGLogger;
 
 public class ManaPanel extends JPanel {
 	
-	static final Logger logger = LogManager.getLogger(ManaPanel.class.getName());
+	static final Logger logger = MTGLogger.getLogger(ManaPanel.class);
 
 	int cols=10;
 	int rows =7;

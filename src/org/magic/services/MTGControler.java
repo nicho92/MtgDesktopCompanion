@@ -20,7 +20,6 @@ import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.api.interfaces.CardExporter;
@@ -35,6 +34,7 @@ import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
+import org.magic.tools.MTGLogger;
 
 public class MTGControler {
 
@@ -60,7 +60,7 @@ public class MTGControler {
 	
 	
 	
-	static final Logger logger = LogManager.getLogger(MTGControler.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MTGControler.class);
 	
 	public void notify(String caption,String text,MessageType type)
 	{

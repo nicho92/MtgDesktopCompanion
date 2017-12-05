@@ -22,12 +22,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.gui.models.RssContentTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 
@@ -37,7 +37,7 @@ public class RssGUI extends JPanel {
 	private JEditorPane editorPane;
 	
 	DefaultMutableTreeNode curr;
-	static final Logger logger = LogManager.getLogger(RssGUI.class.getName());
+	static final Logger logger = MTGLogger.getLogger(RssGUI.class);
 
 	
 	public RssGUI() {

@@ -9,7 +9,6 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -20,10 +19,11 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.MTGLogger;
 
 public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
-	static final Logger logger = LogManager.getLogger(DeckMasterPicturesProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(DeckMasterPicturesProvider.class);
 
 	
 	public DeckMasterPicturesProvider() {

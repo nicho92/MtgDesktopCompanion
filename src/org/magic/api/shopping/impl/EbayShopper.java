@@ -8,11 +8,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.api.pricers.impl.EbayPricer;
+import org.magic.tools.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -21,7 +21,7 @@ import com.google.gson.stream.JsonReader;
 
 public class EbayShopper extends AbstractMagicShopper {
 
-	static final Logger logger = LogManager.getLogger(EbayShopper.class.getName());
+	static final Logger logger = MTGLogger.getLogger(EbayShopper.class);
 
 	EbayPricer pricer;
 	

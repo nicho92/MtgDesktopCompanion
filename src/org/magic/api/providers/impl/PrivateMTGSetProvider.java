@@ -14,13 +14,13 @@ import java.util.Set;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -36,7 +36,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
 	public static File confdir = new File(MTGControler.CONF_DIR,"sets");
 	private boolean enabled;
-	static final Logger logger = LogManager.getLogger(PrivateMTGSetProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(PrivateMTGSetProvider.class);
 
 	public void removeEdition(MagicEdition me)
 	{

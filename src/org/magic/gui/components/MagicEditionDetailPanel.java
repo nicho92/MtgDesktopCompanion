@@ -17,7 +17,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -29,6 +28,7 @@ import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 
 public class MagicEditionDetailPanel extends JPanel {
 
@@ -57,7 +57,7 @@ public class MagicEditionDetailPanel extends JPanel {
 	private BoosterPicturesProvider boosterProvider;
 	private boolean openBooster;
 	
-	static final Logger logger = LogManager.getLogger(MagicEditionDetailPanel.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MagicEditionDetailPanel.class);
 
 	
 	public MagicEditionDetailPanel(boolean showTablePrice,boolean openBooster) {

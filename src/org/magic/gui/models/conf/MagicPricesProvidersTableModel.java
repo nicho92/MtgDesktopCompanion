@@ -7,18 +7,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class MagicPricesProvidersTableModel extends AbstractTreeTableModel 
 {
     private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
     private MagicPricesProvider selectedProvider = null;
     private List<MagicPricesProvider> pricers = MTGControler.getInstance().getPricers();
-    static final Logger logger = LogManager.getLogger(MagicPricesProvidersTableModel.class.getName());
+    static final Logger logger = MTGLogger.getLogger(MagicPricesProvidersTableModel.class);
 
     
     

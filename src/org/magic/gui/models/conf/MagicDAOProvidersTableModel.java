@@ -7,18 +7,18 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class MagicDAOProvidersTableModel extends AbstractTreeTableModel 
 {
     private final static String[] COLUMN_NAMES = {"DBProvider","Value","Enabled"};
     private MagicDAO selectedProvider = null;
     private List<MagicDAO> daos = MTGControler.getInstance().getDaoProviders();
-    static final Logger logger = LogManager.getLogger(MagicDAOProvidersTableModel.class.getName());
+    static final Logger logger = MTGLogger.getLogger(MagicDAOProvidersTableModel.class);
 
     
     

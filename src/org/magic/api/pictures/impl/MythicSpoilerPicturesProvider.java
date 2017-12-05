@@ -7,16 +7,16 @@ import java.net.URI;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 
-	static final Logger logger = LogManager.getLogger(MythicSpoilerPicturesProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MythicSpoilerPicturesProvider.class);
 	
 	public MythicSpoilerPicturesProvider() {
 		super();

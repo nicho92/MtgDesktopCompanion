@@ -48,7 +48,6 @@ import javax.swing.tree.DefaultMutableTreeNode;
 //import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
@@ -78,6 +77,7 @@ import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -92,7 +92,7 @@ public class CollectionPanelGUI extends JPanel {
 	private MagicEditionsTableModel model;
 	private JProgressBar progressBar;
 	private TreePath path;
-	static final Logger logger = LogManager.getLogger(CollectionPanelGUI.class.getName());
+	static final Logger logger = MTGLogger.getLogger(CollectionPanelGUI.class);
 	private JXTable tablePrices;
 	private CardsPriceTableModel modelPrices;
 	private MagicCollection selectedcol;

@@ -10,10 +10,10 @@ import java.util.Map;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
+import org.magic.tools.MTGLogger;
 
 public class IconSetProvider {
 
@@ -22,7 +22,7 @@ public class IconSetProvider {
 	private Map<String,ImageIcon> cache24;
 	private Map<String,ImageIcon> cache16;
 	private File temp_file;
-	static final Logger logger = LogManager.getLogger(IconSetProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(IconSetProvider.class);
 	
 	private IconSetProvider()
 	{

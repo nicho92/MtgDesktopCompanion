@@ -3,7 +3,6 @@ package org.magic.api.tokens.impl;
 import java.awt.image.BufferedImage;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.MagicTokensProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 
 public class TokenMTGOnlTokenProvider extends AbstractTokensProvider {

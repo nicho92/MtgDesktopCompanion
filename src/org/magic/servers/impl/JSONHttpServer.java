@@ -7,7 +7,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -16,6 +15,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 import org.magic.tools.MagicCardComparator;
 
 import com.google.gson.Gson;
@@ -26,12 +26,11 @@ import fi.iki.elonen.NanoHTTPD.IHTTPSession;
 import fi.iki.elonen.NanoHTTPD.Method;
 import fi.iki.elonen.NanoHTTPD.Response;
 import fi.iki.elonen.NanoHTTPD.Response.Status;
-import sun.security.provider.certpath.ResponderId;
 
 public class JSONHttpServer extends AbstractMTGServer
 {
 	
-	static final Logger logger = LogManager.getLogger(JSONHttpServer.class.getName());
+	static final Logger logger = MTGLogger.getLogger(JSONHttpServer.class);
 	NanoHTTPD server;
 
 	

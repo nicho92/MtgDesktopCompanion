@@ -15,7 +15,6 @@ import java.util.Locale;
 
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -25,6 +24,7 @@ import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.MTGLogger;
 
 public class LeboncoinShopper extends AbstractMagicShopper  {
 
@@ -32,7 +32,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	CloseableHttpClient httpclient;
 	SimpleDateFormat formatter;
 
-	static final Logger logger = LogManager.getLogger(LeboncoinShopper.class.getName());
+	static final Logger logger = MTGLogger.getLogger(LeboncoinShopper.class);
 
 	public LeboncoinShopper() {
 		super();	

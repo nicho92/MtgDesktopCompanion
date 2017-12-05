@@ -19,13 +19,13 @@ import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.protocol.HttpContext;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.tools.MTGLogger;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 	
@@ -34,7 +34,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private CookieStore cookieStore;
 	private HttpClient httpclient;
 	private HttpContext httpContext; 
-    static final Logger logger = LogManager.getLogger(MTGStockDashBoard.class.getName());
+    static final Logger logger = MTGLogger.getLogger(MTGStockDashBoard.class);
  
 	
 	public MTGStockDashBoard() {

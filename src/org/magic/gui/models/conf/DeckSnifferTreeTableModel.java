@@ -6,17 +6,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class DeckSnifferTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private DeckSniffer selectedProvider = null;
 	    private List<DeckSniffer> exports =MTGControler.getInstance().getDeckSniffers();
-	    static final Logger logger = LogManager.getLogger(DeckSnifferTreeTableModel.class.getName());
+	    static final Logger logger = MTGLogger.getLogger(DeckSnifferTreeTableModel.class);
 	    private final static String[] COLUMN_NAMES = {"Deck Website","Value","Enabled"};
 		
 

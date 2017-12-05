@@ -6,19 +6,19 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
+import org.magic.tools.MTGLogger;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 	BufferedImage back;
 //	PicturesCache cache = new MemoryCache();
 	
-	static final Logger logger = LogManager.getLogger(PersonalSetPicturesProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(PersonalSetPicturesProvider.class);
 	
 	
 	

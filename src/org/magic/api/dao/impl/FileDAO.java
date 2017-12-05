@@ -13,7 +13,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.filefilter.NameFileFilter;
 import org.apache.commons.io.filefilter.TrueFileFilter;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -23,6 +22,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
+import org.magic.tools.MTGLogger;
 
 import com.google.gson.Gson;
 
@@ -30,7 +30,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	private Gson export;
 	private File directory;
-	static final Logger logger = LogManager.getLogger(FileDAO.class.getName());
+	static final Logger logger = MTGLogger.getLogger(FileDAO.class);
 	  
 	
 	public <T> T read(Class<T> T, File f) throws Exception

@@ -6,7 +6,6 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.Booster;
-import org.magic.api.beans.MagicCard;
 
 public class BoostersTableModel extends DefaultTableModel
 {

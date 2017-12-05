@@ -6,21 +6,18 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 
 public class CardDominanceTableModel extends DefaultTableModel {
 
 	
 	static final String columns[] = new String[]{"Card","Position","% Dominance","% deck","Players"};
-	static final Logger logger = LogManager.getLogger(CardDominanceTableModel.class.getName());
+	static final Logger logger = MTGLogger.getLogger(CardDominanceTableModel.class);
 	private List<CardDominance> list;
 	
 	public CardDominanceTableModel() {

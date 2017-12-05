@@ -7,14 +7,14 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.tools.MTGLogger;
 
 public class ModuleInstaller {
 
 	
 	private boolean hasUpdated=false;
-	static final Logger logger = LogManager.getLogger(ModuleInstaller.class.getName());
+	static final Logger logger = MTGLogger.getLogger(ModuleInstaller.class);
 
 	
 	 public List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {

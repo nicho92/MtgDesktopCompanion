@@ -8,7 +8,6 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -17,10 +16,11 @@ import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.MTGLogger;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
-	static final Logger logger = LogManager.getLogger(ScryFallPicturesProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(ScryFallPicturesProvider.class);
 	
 
 	public ScryFallPicturesProvider() {

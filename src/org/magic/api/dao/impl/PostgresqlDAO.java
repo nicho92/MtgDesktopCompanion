@@ -19,7 +19,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
@@ -30,11 +29,12 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
+import org.magic.tools.MTGLogger;
 
 
 public class PostgresqlDAO extends AbstractMagicDAO {
 
-	static final Logger logger = LogManager.getLogger(PostgresqlDAO.class.getName());
+	static final Logger logger = MTGLogger.getLogger(PostgresqlDAO.class);
     Connection con;
  
 	public PostgresqlDAO() {

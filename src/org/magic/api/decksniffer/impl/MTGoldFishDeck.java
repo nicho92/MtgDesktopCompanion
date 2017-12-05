@@ -5,7 +5,6 @@ import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,12 +16,13 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	
 	private boolean metagames=false;
-    static final Logger logger = LogManager.getLogger(MTGoldFishDeck.class.getName());
+    static final Logger logger = MTGLogger.getLogger(MTGoldFishDeck.class);
 
 
 	public MTGoldFishDeck() {

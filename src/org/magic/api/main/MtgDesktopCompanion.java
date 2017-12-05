@@ -12,10 +12,11 @@ import org.magic.gui.MagicGUI;
 import org.magic.services.MTGAppender;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 
 public class MtgDesktopCompanion {
 
-	static final Logger logger = LogManager.getLogger(MtgDesktopCompanion.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MtgDesktopCompanion.class);
 	static LaunchWindows launch;
 	
 	

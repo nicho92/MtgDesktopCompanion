@@ -22,10 +22,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
-import javax.swing.SwingUtilities;
 import javax.swing.border.LineBorder;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -38,6 +36,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 
 public class MagicCardDetailPanel extends JPanel {
 
@@ -69,7 +68,7 @@ public class MagicCardDetailPanel extends JPanel {
 	private JLabel lblWatermark;
 	private JTextField txtWatermark;
 	private JScrollPane scrollCollections;
-	static final Logger logger = LogManager.getLogger(MagicCardDetailPanel.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MagicCardDetailPanel.class);
 	private JTextField rarityJTextField;
 	GridBagLayout gridBagLayout ;
 	private JButton btnAlert;

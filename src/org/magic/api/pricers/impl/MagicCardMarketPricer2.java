@@ -8,7 +8,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
@@ -27,12 +26,13 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
+import org.magic.tools.MTGLogger;
 
 public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     
     private List<MagicPrice> lists;
     
-    static final Logger logger = LogManager.getLogger(MagicCardMarketPricer2.class.getName());
+    static final Logger logger = MTGLogger.getLogger(MagicCardMarketPricer2.class);
 
     public MagicCardMarketPricer2() {
     	super();

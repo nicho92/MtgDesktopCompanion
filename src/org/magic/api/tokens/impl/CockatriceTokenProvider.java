@@ -16,14 +16,13 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicTokensProvider;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
+import org.magic.tools.MTGLogger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -35,7 +34,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	DocumentBuilder builder;
 	Document document;
 	XPath xPath;
-	static final Logger logger = LogManager.getLogger(CockatriceTokenProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(CockatriceTokenProvider.class);
 	
 	public CockatriceTokenProvider() {
 		super();

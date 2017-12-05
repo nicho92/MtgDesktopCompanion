@@ -1,7 +1,6 @@
 package org.magic.api.interfaces;
 
 import java.util.List;
-import java.util.Properties;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;

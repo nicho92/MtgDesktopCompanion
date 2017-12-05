@@ -19,13 +19,13 @@ import javax.swing.JWindow;
 import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.Draggable;
 import org.magic.game.gui.components.DraggablePanel;
 import org.magic.game.model.CardSpell;
 import org.magic.game.model.GameManager;
+import org.magic.tools.MTGLogger;
 
 
 public class CardTransfertHandler extends TransferHandler  {
@@ -34,7 +34,7 @@ public class CardTransfertHandler extends TransferHandler  {
 	private static JWindow window = new JWindow();
 	private static JLabel dragLab = new JLabel();
 	
-	static final Logger logger = LogManager.getLogger(CardTransfertHandler.class.getName());
+	static final Logger logger = MTGLogger.getLogger(CardTransfertHandler.class);
 
 	
 	public CardTransfertHandler() {

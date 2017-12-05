@@ -6,17 +6,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class ExportsTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private CardExporter selectedProvider = null;
 	    private List<CardExporter> exports =MTGControler.getInstance().getDeckExports();
-	    static final Logger logger = LogManager.getLogger(ExportsTreeTableModel.class.getName());
+	    static final Logger logger = MTGLogger.getLogger(ExportsTreeTableModel.class);
 	    private final static String[] COLUMN_NAMES = {"Exporter","Value","Enabled"};
 		
 

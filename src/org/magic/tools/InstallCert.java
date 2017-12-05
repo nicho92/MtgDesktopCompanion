@@ -27,7 +27,6 @@ import javax.net.ssl.TrustManagerFactory;
 import javax.net.ssl.X509TrustManager;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -38,7 +37,7 @@ import org.magic.services.MTGControler;
  */
 public class InstallCert {
 
-	static final Logger logger = LogManager.getLogger(InstallCert.class.getName());
+	static final Logger logger = MTGLogger.getLogger(InstallCert.class);
 
 	
     public static void install(String website) throws Exception {

@@ -9,8 +9,8 @@ import java.net.URL;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.magic.tools.MTGLogger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -25,7 +25,7 @@ public class VersionChecker {
 	String actualVersion = MTGControler.getInstance().getVersion();
 	String onlineVersion;
 	
-	static final Logger logger = LogManager.getLogger(VersionChecker.class.getName());
+	static final Logger logger = MTGLogger.getLogger(VersionChecker.class);
 
 	
 	public VersionChecker() {

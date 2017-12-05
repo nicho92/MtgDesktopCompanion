@@ -12,24 +12,23 @@ import javax.swing.JInternalFrame;
 import javax.swing.JPopupMenu;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.UIManager;
 import javax.swing.border.LineBorder;
 import javax.swing.event.InternalFrameAdapter;
 import javax.swing.event.InternalFrameEvent;
 
 import org.apache.commons.io.FileUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public abstract class AbstractJDashlet extends JInternalFrame {
 
 	public static final File confdir = new File(MTGControler.CONF_DIR, "dashboards/dashlets");
 	protected Properties props;
-	protected static final Logger logger = LogManager.getLogger(AbstractJDashlet.class.getName());
+	protected static final Logger logger = MTGLogger.getLogger(AbstractJDashlet.class);
 	private MagicCardDetailPanel pane;
 	
 	public AbstractJDashlet() {

@@ -1,19 +1,8 @@
 package org.magic.tools;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
-import org.asciitable.impl.ASCIITableImpl;
-import org.asciitable.impl.CollectionASCIITableAware;
-import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
-import org.magic.api.dao.impl.FileDAO;
-import org.magic.api.interfaces.MagicDAO;
 
 
 public class MagicCardComparator implements Comparator<MagicCard> {

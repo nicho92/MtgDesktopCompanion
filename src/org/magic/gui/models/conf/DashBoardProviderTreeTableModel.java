@@ -6,17 +6,17 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	 private final static String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
 	    private DashBoard selectedProvider = null;
 	    private List<DashBoard> lstDashboard ;
-	    static final Logger logger = LogManager.getLogger(DashBoardProviderTreeTableModel.class.getName());
+	    static final Logger logger = MTGLogger.getLogger(DashBoardProviderTreeTableModel.class);
 
 	    
 	    

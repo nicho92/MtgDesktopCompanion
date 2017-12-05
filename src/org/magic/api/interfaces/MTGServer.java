@@ -1,7 +1,5 @@
 package org.magic.api.interfaces;
 
-import java.util.Properties;
-
 public interface MTGServer extends MTGPlugin{
 
 	

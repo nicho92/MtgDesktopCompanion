@@ -43,7 +43,6 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
@@ -63,6 +62,7 @@ import org.magic.gui.renderer.MagicCardNameEditor;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGCardMakerPicturesProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class CardBuilder2GUI extends JPanel{
 	
@@ -82,7 +82,7 @@ public class CardBuilder2GUI extends JPanel{
 	private MagicCardTableModel cardsModel;
 	private JSONPanel jsonPanel;
 	private JTabbedPane tabbedPane;
-	static final Logger logger = LogManager.getLogger(CardBuilder2GUI.class.getName());
+	static final Logger logger = MTGLogger.getLogger(CardBuilder2GUI.class);
 	private JSpinner spinCommon;
 	private JSpinner spinRare;
 	private JSpinner spinUnco;

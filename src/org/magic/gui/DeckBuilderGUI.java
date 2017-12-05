@@ -38,7 +38,6 @@ import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
@@ -48,7 +47,6 @@ import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -76,6 +74,7 @@ import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 
 public class DeckBuilderGUI extends JPanel {
 
@@ -116,7 +115,7 @@ public class DeckBuilderGUI extends JPanel {
 
 	private File exportedFile;
 
-	static final Logger logger = LogManager.getLogger(DeckBuilderGUI.class.getName());
+	static final Logger logger = MTGLogger.getLogger(DeckBuilderGUI.class);
 
 	File deckDirectory = new File(MTGControler.CONF_DIR, "decks");
 	private Player p;

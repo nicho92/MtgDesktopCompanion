@@ -17,6 +17,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTree;
+import javax.swing.ListSelectionModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
@@ -28,7 +29,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.models.DeckSelectionModel;
 import org.magic.gui.renderer.ManaCellRenderer;
-import javax.swing.ListSelectionModel;
 
 public class JDeckChooserDialog extends JDialog {
 	

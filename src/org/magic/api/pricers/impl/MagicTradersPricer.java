@@ -9,16 +9,16 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.tools.MTGLogger;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
-	static final Logger logger = LogManager.getLogger(MagicTradersPricer.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MagicTradersPricer.class);
 	
 	public MagicTradersPricer() {
 		super();

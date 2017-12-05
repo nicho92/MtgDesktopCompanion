@@ -28,7 +28,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.dialog.LoggerViewFrame;
@@ -38,10 +37,11 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+import org.magic.tools.MTGLogger;
 
 public class MagicGUI extends JFrame {
 
-	static final Logger logger = LogManager.getLogger(MagicGUI.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MagicGUI.class);
 
 	private SystemTray tray;
 	private JMenuBar menuBar;

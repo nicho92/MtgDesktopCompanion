@@ -6,16 +6,16 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 public class EditionsShakerTableModel extends DefaultTableModel {
 
-	 static final Logger logger = LogManager.getLogger(EditionsShakerTableModel.class.getName());
+	 static final Logger logger = MTGLogger.getLogger(EditionsShakerTableModel.class);
 
 	String columns[] = new String[]{"Card","Edition","Price","Daily","Daily%","Weekly","Weekly%"};
 			

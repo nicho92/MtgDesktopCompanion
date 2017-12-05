@@ -37,12 +37,10 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.EnumCondition;
@@ -63,6 +61,7 @@ import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -87,7 +86,7 @@ public class StockPanelGUI extends JPanel {
 	private List<MagicCard> selectedCard;
 	private JButton btnReload;
     
-	static final Logger logger = LogManager.getLogger(StockPanelGUI.class.getName());
+	static final Logger logger = MTGLogger.getLogger(StockPanelGUI.class);
 	private JLabel lblLoading;
 	private JPanel rightPanel;
 	private JLabel lblQte;

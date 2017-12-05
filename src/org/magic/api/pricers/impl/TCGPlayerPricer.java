@@ -9,18 +9,18 @@ import java.util.List;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.tools.MTGLogger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
-	static final Logger logger = LogManager.getLogger(TCGPlayerPricer.class.getName());
+	static final Logger logger = MTGLogger.getLogger(TCGPlayerPricer.class);
 	
 	public TCGPlayerPricer() {
 		super();

@@ -12,7 +12,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
@@ -23,6 +22,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.MTGLogger;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -36,7 +36,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	private Gson gson;
 	private boolean enable;
 	List<MagicEdition> list;
-	static final Logger logger = LogManager.getLogger(DeckbrewProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(DeckbrewProvider.class);
 
 	public DeckbrewProvider() {
 		gson = new Gson();

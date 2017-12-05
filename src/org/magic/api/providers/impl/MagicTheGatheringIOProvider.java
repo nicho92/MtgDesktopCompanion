@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
@@ -30,6 +29,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGControler;
+import org.magic.tools.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -45,7 +45,7 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
-	static final Logger logger = LogManager.getLogger(MagicTheGatheringIOProvider.class.getName());
+	static final Logger logger = MTGLogger.getLogger(MagicTheGatheringIOProvider.class);
 
 	private boolean enable;
 	private String jsonUrl ="https://api.magicthegathering.io/v1";

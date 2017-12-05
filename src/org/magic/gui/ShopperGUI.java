@@ -23,12 +23,12 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
-import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
 import org.magic.services.ThreadManager;
+import org.magic.tools.MTGLogger;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -46,7 +46,7 @@ public class ShopperGUI extends JPanel {
 	private final JPanel panneauEast = new JPanel();
 	private final JLabel lblPicShopItem = new JLabel("");
     private TableFilterHeader filterHeader;
-	static final Logger logger = LogManager.getLogger(ShopperGUI.class.getName());
+	static final Logger logger = MTGLogger.getLogger(ShopperGUI.class);
 
     
 	public ShopperGUI() {
