@@ -8,6 +8,7 @@ import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.magic.api.interfaces.MagicDAO;
 import org.magic.tools.MTGLogger;
 
 public class ModuleInstaller {
@@ -35,7 +36,7 @@ public class ModuleInstaller {
 	
 	 
 	 private List<Class> findClasses(File directory, String packageName) throws ClassNotFoundException {
-	        List<Class> classes = new ArrayList();
+	        List<Class> classes = new ArrayList<Class>();
 	        if (!directory.exists()) {
 	            return classes;
 	        }

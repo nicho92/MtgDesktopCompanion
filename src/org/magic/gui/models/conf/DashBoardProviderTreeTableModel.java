@@ -66,7 +66,7 @@ public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	        	DashBoard dept = (DashBoard) parent;
 	            return getPropByIndex(dept,index);
 	        }
-	        return new ArrayList(lstDashboard).get(index);
+	        return new ArrayList<DashBoard>(lstDashboard).get(index);
 	    }
 
 	    private Entry<String,Object> getPropByIndex(DashBoard dept, int index)

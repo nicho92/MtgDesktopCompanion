@@ -68,7 +68,7 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
     		  MagicDAO dept = (MagicDAO) parent;
             return getPropByIndex(dept,index);
         }
-        return new ArrayList(daos).get(index);
+        return new ArrayList<MagicDAO>(daos).get(index);
     }
 
     private Entry<String,Object> getPropByIndex(MagicDAO dept, int index)

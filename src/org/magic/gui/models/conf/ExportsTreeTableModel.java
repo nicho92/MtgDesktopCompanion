@@ -68,7 +68,7 @@ public class ExportsTreeTableModel extends AbstractTreeTableModel {
 	        	CardExporter dept = (CardExporter) parent;
 	            return getPropByIndex(dept,index);
 	        }
-	        return new ArrayList(exports).get(index);
+	        return new ArrayList<CardExporter>(exports).get(index);
 	    }
 
 	    private Entry<String,Object> getPropByIndex(CardExporter dept, int index)

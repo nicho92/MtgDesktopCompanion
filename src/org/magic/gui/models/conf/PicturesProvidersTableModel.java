@@ -67,7 +67,7 @@ public class PicturesProvidersTableModel extends AbstractTreeTableModel
 	    		  PictureProvider dept = (PictureProvider) parent;
 	            return getPropByIndex(dept,index);
 	        }
-	        return new ArrayList(daos).get(index);
+	        return new ArrayList<PictureProvider>(daos).get(index);
 	    }
 
 	    private Entry<String,Object> getPropByIndex(PictureProvider dept, int index)

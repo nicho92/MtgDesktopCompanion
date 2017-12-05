@@ -68,7 +68,7 @@ public class DeckSnifferTreeTableModel extends AbstractTreeTableModel {
 	        	DeckSniffer dept = (DeckSniffer) parent;
 	            return getPropByIndex(dept,index);
 	        }
-	        return new ArrayList(exports).get(index);
+	        return new ArrayList<DeckSniffer>(exports).get(index);
 	    }
 
 	    private Entry<String,Object> getPropByIndex(DeckSniffer dept, int index)

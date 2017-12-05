@@ -68,7 +68,7 @@ public class ServersTreeTableModel extends AbstractTreeTableModel {
 	        	MTGServer dept = (MTGServer) parent;
 	            return getPropByIndex(dept,index);
 	        }
-	        return new ArrayList(exports).get(index);
+	        return new ArrayList<MTGServer>(exports).get(index);
 	    }
 
 	    private Entry<String,Object> getPropByIndex(MTGServer dept, int index)

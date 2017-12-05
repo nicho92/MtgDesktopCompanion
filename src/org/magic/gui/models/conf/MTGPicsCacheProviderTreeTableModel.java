@@ -66,7 +66,7 @@ public class MTGPicsCacheProviderTreeTableModel extends AbstractTreeTableModel {
 	        	MTGPicturesCache dept = (MTGPicturesCache) parent;
 	            return getPropByIndex(dept,index);
 	        }
-	        return new ArrayList(lstMTGPicturesCache).get(index);
+	        return new ArrayList<MTGPicturesCache>(lstMTGPicturesCache).get(index);
 	    }
 
 	    private Entry<String,Object> getPropByIndex(MTGPicturesCache dept, int index)

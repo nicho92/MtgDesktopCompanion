@@ -66,7 +66,7 @@ public class MagicShoppersTableModel extends AbstractTreeTableModel {
 	        	MagicShopper dept = (MagicShopper) parent;
 	            return getPropByIndex(dept,index);
 	        }
-	        return new ArrayList(pricers).get(index);
+	        return new ArrayList<MagicShopper>(pricers).get(index);
 	    }
 
 	    private Entry<String,Object> getPropByIndex(MagicShopper dept, int index)

@@ -68,7 +68,7 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
         	MagicPricesProvider dept = (MagicPricesProvider) parent;
             return getPropByIndex(dept,index);
         }
-        return new ArrayList(pricers).get(index);
+        return new ArrayList<MagicPricesProvider>(pricers).get(index);
     }
 
     private Entry<String,Object> getPropByIndex(MagicPricesProvider dept, int index)
