@@ -45,8 +45,7 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
-	static final Logger logger = MTGLogger.getLogger(MagicTheGatheringIOProvider.class);
-
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean enable;
 	private String jsonUrl ="https://api.magicthegathering.io/v1";
 	private File fcacheCount = new File(MTGControler.CONF_DIR,"mtgio.cache"); 

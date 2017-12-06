@@ -43,7 +43,7 @@ import com.google.gson.stream.JsonReader;
 public class ScryFallProvider implements MagicCardsProvider {
 
 	private boolean enabled;
-	static final Logger logger = MTGLogger.getLogger(ScryFallProvider.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	private static String baseURI ="https://api.scryfall.com";
 	private Map<String , MagicEdition> cache;
 	private JsonParser parser;

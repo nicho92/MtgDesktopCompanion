@@ -36,7 +36,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	private Gson gson;
 	private boolean enable;
 	List<MagicEdition> list;
-	static final Logger logger = MTGLogger.getLogger(DeckbrewProvider.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public DeckbrewProvider() {
 		gson = new Gson();

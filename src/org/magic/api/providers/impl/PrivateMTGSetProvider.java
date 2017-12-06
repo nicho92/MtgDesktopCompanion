@@ -36,8 +36,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
 	public static File confdir = new File(MTGControler.CONF_DIR,"sets");
 	private boolean enabled;
-	static final Logger logger = MTGLogger.getLogger(PrivateMTGSetProvider.class);
-
+	Logger logger = MTGLogger.getLogger(this.getClass());
 	public void removeEdition(MagicEdition me)
 	{
 		File f = new File(confdir,me.getId()+".json");

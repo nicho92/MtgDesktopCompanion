@@ -29,7 +29,7 @@ import com.google.gson.JsonParser;
 
 
 public class MtgapiProvider implements MagicCardsProvider{
-	static final Logger logger = MTGLogger.getLogger(MtgapiProvider.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	String urlJson = "http://api.mtgapi.com/v2";

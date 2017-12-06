@@ -67,7 +67,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private boolean enable;
 	
 	
-	static final Logger logger = MTGLogger.getLogger(MtgjsonProvider.class);
+	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	@Override
