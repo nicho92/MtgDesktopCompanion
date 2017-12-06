@@ -11,6 +11,7 @@ import org.apache.mina.core.session.IdleStatus;
 import org.apache.mina.filter.codec.ProtocolCodecFilter;
 import org.apache.mina.filter.codec.textline.TextLineCodecFactory;
 import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
@@ -19,6 +20,12 @@ import org.magic.services.MTGLogger;
 
 public class ConsoleServer extends AbstractMTGServer{
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
+	
     IoAcceptor acceptor = new NioSocketAcceptor();
     
     @Override

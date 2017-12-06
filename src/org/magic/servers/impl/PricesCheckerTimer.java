@@ -11,12 +11,17 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class PricesCheckerTimer extends AbstractMTGServer{
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
 	
 	Timer timer ;
 	TimerTask tache ;
