@@ -15,7 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.gui.models.conf.LogTableModel;
+import org.magic.gui.models.LogTableModel;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
