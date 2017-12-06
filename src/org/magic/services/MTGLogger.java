@@ -7,6 +7,7 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.apache.log4j.PropertyConfigurator;
 
 public class MTGLogger {
 
@@ -31,6 +32,11 @@ public class MTGLogger {
 		return Logger.getRootLogger().getAppender(name);
 	}
 	
+	public static List<Logger> getLoggers()
+	{
+		return Collections.list(LogManager.getCurrentLoggers());
+	}
+	
 	public static List<Appender> getAppenders()
 	{
 		return Collections.list(LogManager.getRootLogger().getAllAppenders());
@@ -38,15 +44,18 @@ public class MTGLogger {
 	
 	public static MTGAppender getMTGAppender()
 	{
+		if((MTGAppender)getAppender("APPS")==null)
+		{
+			System.err.println("appender APPS is not found");
+			return new MTGAppender();
+		}
 		return (MTGAppender)getAppender("APPS");
 	}
 	
 	
 	public static void main(String[] args) {
-		for(Appender l : MTGLogger.getAppenders())
-		{
-			System.out.println(l.getName() +" " + l.getClass());
-		}
+		
+		System.out.println(getMTGAppender());
 	}
 	
 }
