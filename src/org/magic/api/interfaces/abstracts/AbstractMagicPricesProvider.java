@@ -29,6 +29,12 @@ public abstract class AbstractMagicPricesProvider extends Observable implements 
 	@Override
 	public abstract String getName() ;
 
+	
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.PRICER;
+	}
+	
 	public void load()
 	{
 		try {

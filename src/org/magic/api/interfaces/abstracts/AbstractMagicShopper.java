@@ -29,6 +29,11 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 	protected File confdir = new File(MTGControler.CONF_DIR, "shoppers");
 
 	
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.SHOPPER;
+	}
+	
 	public AbstractMagicShopper() {
 		props=new Properties();
 		if(!confdir.exists())

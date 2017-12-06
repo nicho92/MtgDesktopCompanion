@@ -33,6 +33,10 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 		load();
 	}
 	
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.DECKS;
+	}
 	
 	@Override
 	public abstract String[] listFilter() ;

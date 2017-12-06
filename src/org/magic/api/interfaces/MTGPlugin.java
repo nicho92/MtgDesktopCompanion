@@ -17,5 +17,6 @@ public interface MTGPlugin {
 	public void enable(boolean t);
 	public String getName();
 	public STATUT getStatut();
-	
+	public PLUGINS getType();
+	public static enum PLUGINS  { PROVIDER,DASHBOARD,PRICER,SERVER,PICTURES,SHOPPER,EXPORT,DECKS,DAO,TOKENS,CACHE};
 }

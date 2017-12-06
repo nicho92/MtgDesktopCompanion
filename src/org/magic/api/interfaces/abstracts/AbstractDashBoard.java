@@ -40,6 +40,10 @@ public abstract class AbstractDashBoard extends Observable implements DashBoard 
 	private boolean enable=true;
 	protected Properties props;
 	
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.DASHBOARD;
+	}
 	
 	@Override
 	public String toString() {

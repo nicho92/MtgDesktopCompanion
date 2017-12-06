@@ -26,12 +26,14 @@ import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 
@@ -48,15 +50,15 @@ public class MTGControler {
 	private List<CardExporter> exports;
 	private List<MTGServer> servers;
 	private List<MTGPicturesCache> caches;
-	
 	private KeyWordManager keyWordManager;
-	
 	public static File CONF_DIR = new File(System.getProperty("user.home")+"/.magicDeskCompanion/");
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
-	
 	private Logger logger = MTGLogger.getLogger(this.getClass());
+	
+
+	
 	
 	public void notify(String caption,String text,MessageType type)
 	{
@@ -484,6 +486,10 @@ public class MTGControler {
 		
 		return null;
 	}
+	
+	
+	
+	
 
 	public List<DashBoard> getDashBoards() {
 		return dashboards;
@@ -549,4 +555,7 @@ public class MTGControler {
 		
 		//TODO : export config
 	}
+
+
+	
 }

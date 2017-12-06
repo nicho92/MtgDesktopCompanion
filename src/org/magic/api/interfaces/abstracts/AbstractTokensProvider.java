@@ -27,6 +27,11 @@ public abstract class AbstractTokensProvider implements MagicTokensProvider {
 	}
 	
 	@Override
+	public PLUGINS getType() {
+		return PLUGINS.TOKENS;
+	}
+	
+	@Override
 	public Properties getProperties() {
 		return props;
 	}

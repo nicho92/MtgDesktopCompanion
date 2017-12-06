@@ -27,6 +27,11 @@ public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
 	}
 
 	@Override
+	public PLUGINS getType() {
+		return PLUGINS.DAO;
+	}
+	
+	@Override
 	public Object getProperty(String k) {
 		return props.get(k);
 	}

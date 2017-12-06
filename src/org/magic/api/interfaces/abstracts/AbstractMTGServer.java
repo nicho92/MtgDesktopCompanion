@@ -25,6 +25,10 @@ public abstract class AbstractMTGServer extends Observable implements MTGServer 
 		load();
 	}
 	
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.SERVER;
+	}
 	
 	@Override
 	public abstract String description() ;

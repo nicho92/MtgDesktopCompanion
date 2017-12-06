@@ -31,6 +31,11 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 		return getName();
 	}
 	
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.PICTURES;
+	}
+	
 	public AbstractPicturesProvider() {
 		
 		props=new Properties();

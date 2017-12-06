@@ -31,6 +31,12 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 
 	protected File confdir = new File(MTGControler.CONF_DIR, "exports");
 	
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.EXPORT;
+	}
+	
+	
 	public void load()
 	{
 		try {

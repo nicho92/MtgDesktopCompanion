@@ -24,6 +24,11 @@ public abstract class AbstractMTGPicturesCache extends Observable implements MTG
 		return getName();
 	}
 	
+	@Override
+	public PLUGINS getType() {
+		return PLUGINS.CACHE;
+	}
+	
 	public AbstractMTGPicturesCache() {
 		
 		props=new Properties();
