@@ -19,6 +19,7 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -29,6 +30,13 @@ import org.w3c.dom.NodeList;
 
 public class CockatriceTokenProvider extends AbstractTokensProvider {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
+	
+	
 	String url = "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml";
 	DocumentBuilderFactory builderFactory;
 	DocumentBuilder builder;

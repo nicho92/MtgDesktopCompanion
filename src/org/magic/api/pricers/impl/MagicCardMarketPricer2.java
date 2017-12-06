@@ -20,6 +20,7 @@ import org.api.mkm.tools.MkmAPIConfig;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -29,7 +30,13 @@ import org.magic.tools.InstallCert;
 public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     
     private List<MagicPrice> lists;
- 
+	
+    @Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
+	
+    
     public MagicCardMarketPricer2() {
     	super();
     	

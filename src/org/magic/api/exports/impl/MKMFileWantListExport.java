@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 
@@ -24,6 +25,12 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	 * todo CSP : remove Magic the gathering -
 	 * todo TSP : remove timeshifted label
 	 * */
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
 	
 	
 	public MKMFileWantListExport() {

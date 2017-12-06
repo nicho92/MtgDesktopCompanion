@@ -12,10 +12,18 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 
 public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
+	
 	public BufferedImage generatePictureForCard(MagicCard mc, BufferedImage pic)
 	{
 			BufferedImage cadre = getPicture(mc,null);

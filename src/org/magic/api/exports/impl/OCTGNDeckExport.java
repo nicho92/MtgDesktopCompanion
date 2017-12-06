@@ -17,6 +17,7 @@ import javax.xml.xpath.XPathFactory;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 import org.w3c.dom.Document;
@@ -26,6 +27,11 @@ import org.xml.sax.InputSource;
 
 public class OCTGNDeckExport extends AbstractCardExport{
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
 	
 	public OCTGNDeckExport() {
 		super();

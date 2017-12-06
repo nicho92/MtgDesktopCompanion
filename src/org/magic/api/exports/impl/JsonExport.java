@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 import com.google.gson.Gson;
@@ -23,6 +24,13 @@ import com.google.gson.stream.JsonReader;
 
 public class JsonExport  extends AbstractCardExport {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
+	
+	
 	public JsonExport() {
 		super();
 	}

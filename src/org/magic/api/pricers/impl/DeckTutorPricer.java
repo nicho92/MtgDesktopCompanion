@@ -21,6 +21,7 @@ import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 
 import com.google.gson.JsonElement;
@@ -29,6 +30,11 @@ import com.google.gson.JsonParser;
 
 public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
 	
 	private int sequence=1;
 

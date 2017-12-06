@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -42,6 +43,14 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private HttpClient httpclient;
 	private HttpContext httpContext; 
   	
+
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
+	
+	
 	public TappedOutDeckSniffer() throws Exception {
 		super();
 

@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.api.pricers.impl.EbayPricer;
 import org.magic.services.MTGLogger;
@@ -21,6 +22,11 @@ import com.google.gson.stream.JsonReader;
 
 public class EbayShopper extends AbstractMagicShopper {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
 	
 	
 	EbayPricer pricer;

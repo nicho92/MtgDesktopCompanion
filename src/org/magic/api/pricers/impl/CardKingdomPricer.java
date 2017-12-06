@@ -18,6 +18,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 
 public class CardKingdomPricer extends AbstractMagicPricesProvider {
@@ -26,6 +27,13 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	List<MagicPrice> list;
 	CloseableHttpClient httpclient;
 	List<String> eds;
+	
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
 
 	public CardKingdomPricer() {
 		super();

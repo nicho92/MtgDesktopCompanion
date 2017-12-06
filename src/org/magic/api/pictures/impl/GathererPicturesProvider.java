@@ -8,11 +8,19 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGControler;
 
 public class GathererPicturesProvider extends AbstractPicturesProvider {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
+	
+	
 	BufferedImage back;
 	private MagicCardInfoPicturesProvider mciProv;
 	

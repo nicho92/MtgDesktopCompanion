@@ -8,11 +8,18 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
-
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
+	
 	BufferedImage back;
 //	PicturesCache cache = new MemoryCache();
 	

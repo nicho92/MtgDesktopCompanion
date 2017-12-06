@@ -13,11 +13,18 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
+	
 	
 	private boolean metagames=false;
 

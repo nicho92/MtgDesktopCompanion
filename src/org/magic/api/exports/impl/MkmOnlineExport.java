@@ -26,6 +26,7 @@ import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.services.MTGControler;
@@ -33,6 +34,14 @@ import org.magic.services.MTGControler;
 
 public class MkmOnlineExport extends AbstractCardExport {
 
+	
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
+	
+	
 	HttpURLConnection connection;
 	MagicCardMarketPricer2 mkmPricer;
 	Map<PRODUCT_ATTS, String> atts;

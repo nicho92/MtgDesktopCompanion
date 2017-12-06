@@ -14,6 +14,7 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 
 public class MagicVillePricer extends AbstractMagicPricesProvider {
@@ -22,7 +23,12 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	List<MagicPrice> list;
 	CloseableHttpClient httpclient;
 	
-
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
+	
+	
 	public MagicVillePricer() {
 		super();
 		

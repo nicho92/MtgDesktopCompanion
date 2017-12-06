@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -19,6 +20,13 @@ import org.magic.tools.InstallCert;
 
 public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
+	
+	
 	private int w,h;
 	
 	public MagicCardInfoPicturesProvider() {

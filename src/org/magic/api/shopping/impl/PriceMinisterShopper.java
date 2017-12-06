@@ -20,6 +20,7 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.services.MTGLogger;
 import org.w3c.dom.Document;
@@ -29,6 +30,13 @@ import org.w3c.dom.NodeList;
 
 public class PriceMinisterShopper extends AbstractMagicShopper{
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
+	
+	
 	public PriceMinisterShopper() {
 		super();	
 		

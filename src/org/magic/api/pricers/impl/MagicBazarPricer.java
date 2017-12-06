@@ -12,12 +12,19 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 
 public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
 	Document doc;
 	private ArrayList<MagicPrice> list;
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.BETA;
+	}
+	
 	
 	public MagicBazarPricer() {
 		super();	

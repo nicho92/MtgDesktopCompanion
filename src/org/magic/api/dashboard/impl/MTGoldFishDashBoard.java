@@ -22,6 +22,7 @@ import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
@@ -31,6 +32,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	private Date updateTime;
 	Map<Date,Double> historyPrice;
     boolean stop ;	    
+	
+
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
+	
 	
 	Map<String,String> mapConcordance;;
 	

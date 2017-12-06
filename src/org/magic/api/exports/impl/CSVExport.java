@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 
@@ -32,7 +33,12 @@ public class CSVExport extends AbstractCardExport{
 	String exportedDeckProperties[];
 	String exportedPricesProperties[];
 
-
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
+	
 
 	@Override
 	public String getName() {

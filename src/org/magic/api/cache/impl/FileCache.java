@@ -8,12 +8,19 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
 public class FileCache extends AbstractMTGPicturesCache {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
+	
 	File directory ;
 	
 	private String generateIdIndex(MagicCard mc,MagicEdition ed)

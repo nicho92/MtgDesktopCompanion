@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
@@ -29,6 +30,13 @@ public class FileDAO extends AbstractMagicDAO {
 	private Gson export;
 	private File directory;
 	  
+
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
+	
 	
 	public <T> T read(Class<T> T, File f) throws Exception
 	{

@@ -12,10 +12,19 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 
 public class MagicCorporationDecks extends AbstractDeckSniffer {
 
+
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
+	
 	public MagicCorporationDecks() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){

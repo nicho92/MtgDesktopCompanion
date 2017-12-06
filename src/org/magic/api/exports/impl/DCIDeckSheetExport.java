@@ -14,6 +14,7 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 import com.itextpdf.text.Document;
@@ -28,6 +29,14 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class DCIDeckSheetExport extends AbstractCardExport {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
+	
+	
+	
 	private PdfReader reader;
 	
 	private static String SPACE ="          ";

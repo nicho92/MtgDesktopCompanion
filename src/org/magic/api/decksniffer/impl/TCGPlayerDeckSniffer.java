@@ -13,11 +13,20 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
   
+
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.STABLE;
+	}
+	
+	
 	public TCGPlayerDeckSniffer() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
