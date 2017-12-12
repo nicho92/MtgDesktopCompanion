@@ -3,6 +3,7 @@ package org.magic.api.providers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -27,6 +28,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -36,8 +38,10 @@ import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider implements MagicCardsProvider {
@@ -455,6 +459,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			public void run() {
 				try {
 					initOtherEdition(mc);
+					generateRules(mc);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
@@ -467,7 +472,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		
 	}
 	
-public static void main(String[] args) throws Exception {
+	public static void main(String[] args) throws Exception {
 		
 		ScryFallProvider prov = new ScryFallProvider();
 		
@@ -484,6 +489,26 @@ public static void main(String[] args) throws Exception {
     	
 	}
 
+	private void generateRules(MagicCard mc) throws JsonIOException, JsonSyntaxException, UnsupportedEncodingException, IOException
+	{
+		
+		String url = "https://api.scryfall.com/cards/"+mc.getId()+"/rulings";
+		HttpURLConnection con = (HttpURLConnection) getConnection(url);
+		JsonElement el = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8")));
+		JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
+		
+		for(int i=0; i<arr.size();i++)
+		{
+			JsonObject obr = arr.get(i).getAsJsonObject();
+			MagicRuling rul = new MagicRuling();
+						rul.setDate(obr.get("published_at").getAsString());
+						rul.setText(obr.get("comment").getAsString());
+			
+			mc.getRulings().add(rul);
+		}
+	}
+	
+	
 	private void generateTypes(MagicCard mc, String line) {
 
 		line=line.replaceAll("\"", "");
