@@ -1,5 +1,6 @@
 package org.magic.services;
 
+import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -48,13 +49,13 @@ public class ThreadManager {
 	{
 		threadFactory = Executors.defaultThreadFactory();
 		//LinkedBlockingQueue // ArrayBlockingQueue
-		 executor = new ThreadPoolExecutor(40, 40,  80, TimeUnit.MILLISECONDS,  new LinkedBlockingQueue<Runnable>(10))
+		 executor = new ThreadPoolExecutor(40, 40,  80, TimeUnit.MILLISECONDS,  new ArrayBlockingQueue<Runnable>(10))
 		 {   
 			    protected void beforeExecute(Thread t, Runnable r) { 
 			         t.setName(name);
 			    }
 
-			    protected void afterExecute(Runnable r, Throwable t) { 
+			    protected void afterExecute(Runnable r, Throwable t) {
 			        // Thread.currentThread().setName("");
 			    } 
 

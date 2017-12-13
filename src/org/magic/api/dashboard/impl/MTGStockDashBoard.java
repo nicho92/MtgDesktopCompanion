@@ -119,14 +119,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
-		// TODO Auto-generated method stub
+		//https://www.mtgstocks.com/analytics/mostplayed
 		return null;
 	}
 
 	@Override
 	public String[] getDominanceFilters() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[] { "Legacy","Vintage", "Standard","Modern"};
 	}
 
 }

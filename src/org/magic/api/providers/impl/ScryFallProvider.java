@@ -33,6 +33,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
 
@@ -455,7 +456,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 					  ed.setNumber(mc.getNumber());
 		  mc.getEditions().add(ed);
 		 
-		  new Thread(new Runnable() {
+		  ThreadManager.getInstance().execute(new Runnable() {
 			public void run() {
 				try {
 					initOtherEdition(mc);
@@ -464,10 +465,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 					e.printStackTrace();
 				}
 			}
-		}).start();
-		  
-		
-		  
+		},"rules/other editions");
+		    
 		return mc;
 		
 	}

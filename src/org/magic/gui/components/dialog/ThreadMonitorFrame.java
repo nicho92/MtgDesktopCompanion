@@ -17,6 +17,9 @@ import javax.swing.table.TableRowSorter;
 
 import org.magic.services.ThreadManager;
 
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.TableFilterHeader;
+
 public class ThreadMonitorFrame extends JFrame {
 	private JTable table;
 	private ThreadModel model;
@@ -32,6 +35,7 @@ public class ThreadMonitorFrame extends JFrame {
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		model = new ThreadModel();
 		table = new JTable(model);
+		//new TableFilterHeader(table, AutoChoices.ENABLED);
 		scrollPane.setViewportView(table);
 		sorterCards = new TableRowSorter<DefaultTableModel>(model);
 		JPanel panel = new JPanel();
