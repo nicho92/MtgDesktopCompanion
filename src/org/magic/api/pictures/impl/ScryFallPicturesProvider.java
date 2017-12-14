@@ -111,9 +111,9 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	
 
 	@Override
-	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public BufferedImage getSetLogo(String set, String rarity) throws Exception {
+		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size=medium&rarity="+rarity.substring(0,1));
+		return ImageIO.read(url);
 	}
 
 
