@@ -4,9 +4,11 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
 import org.apache.http.client.HttpClient;
@@ -105,6 +107,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		httpclient = HttpClients.custom()
 					.setUserAgent(props.getProperty("USER_AGENT"))
 					.setRedirectStrategy(new LaxRedirectStrategy())
+					//.setConnectionTimeToLive(3000, TimeUnit.MILLISECONDS)
 					.build();
 		
 		httpclient.execute(new HttpGet("https://tappedout.net/accounts/login/?next=/"), httpContext); //get csrfmiddlewaretoken in cookies
@@ -119,7 +122,8 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				 login.addHeader("Referer", "https://tappedout.net/accounts/login/?next=/");
 				 login.addHeader("Upgrade-Insecure-Requests","1");
 				 login.addHeader("Origin","https://tappedout.net");
-				 httpclient.execute(login, httpContext);
+				 HttpResponse resp = httpclient.execute(login, httpContext);
+		logger.debug("Connection OK : " + props.getProperty("LOGIN") + " " + resp.getStatusLine().getStatusCode());
 	}
 
 	@Override
@@ -129,10 +133,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
 		logger.debug("sniff deck : "+ info.getName()+ " at " + info.getUrl());
 		
-		
 		String responseBody = EntityUtils.toString(httpclient.execute(get, httpContext).getEntity());
-		
-		
 		
 		MagicDeck deck = new MagicDeck();
 		
@@ -214,7 +215,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
         JsonElement root = new JsonParser().parse(responseBody);
 		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
-		
 		
         for(int i=0;i<root.getAsJsonArray().size();i++)
 		{

@@ -42,8 +42,8 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	
 	public static void main(String[] args) throws Exception {
 		MagicCard mc = new MagicCard();
-			mc.setName("Jace's Defeat");
-			new MagicBazarPricer().getPrice(null, mc);
+			mc.setName("Mana Crypt");
+			System.out.println(new MagicBazarPricer().getPrice(null, mc));
 	}
 	
 
@@ -55,15 +55,17 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		
 		try{
 			doc = Jsoup.connect(url).userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
-			Elements els = doc.select("tr.filterElement");
-			
+			Elements els = doc.select("div.filterElement");
 			for(int i = 0; i <els.size();i++)
 			{
 				Element e = els.get(i);
 				MagicPrice mp = new MagicPrice();
 						   mp.setLanguage(e.getElementsByClass("langue").get(0).getElementsByTag("img").get(0).attr("alt"));
 						   mp.setQuality(e.getElementsByClass("etat").html());
-						   mp.setValue(Double.parseDouble(clean(e.getElementsByClass("prix").get(0).getElementsByIndexEquals(0).html())));
+						   if(e.getElementsByClass("prix").size()>0)
+							   mp.setValue(Double.parseDouble(clean(e.getElementsByClass("prix").get(0).getElementsByIndexEquals(1).html())));
+						   else
+							   mp.setValue(Double.parseDouble(clean(e.getElementsByClass("prix").get(0).getElementsByIndexEquals(0).html())));
 						   mp.setCurrency("EUR");
 						   mp.setSite(getName());
 						   mp.setUrl(url);
@@ -72,7 +74,6 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 				list.add(mp);
 				
 			}
-			
 			return list;
 		}
 		catch(Exception e)

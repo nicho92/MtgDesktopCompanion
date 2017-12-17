@@ -460,7 +460,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			public void run() {
 				try {
 					initOtherEdition(mc);
-					generateRules(mc);
+					//generateRules(mc);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
