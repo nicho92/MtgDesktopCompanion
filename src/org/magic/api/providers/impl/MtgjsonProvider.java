@@ -268,6 +268,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		{
 			jsquery="$"+filter_ed+".cards[?(@."+att+" == "+crit+")]";
 		}
+		if(att.equalsIgnoreCase("id"))
+		{
+			jsquery="$"+filter_ed+".cards[?(@.id == "+crit+")]";
+		}
 		if(att.equalsIgnoreCase("foreignNames"))
 		{
 			//jsquery="$"+filter_ed+".cards[*].foreignNames[?(@.name =~ /^.*"+crit+".*$/i)]";

@@ -103,6 +103,7 @@ public class JSONHttpServer extends AbstractMTGServer
     	new JSONHttpServer().start();	
     }
     
+	
 	private Response searchPrice(IHTTPSession session) {
     	try {
 	    		String att = session.getParameters().get("name").get(0).toString();
@@ -148,9 +149,9 @@ public class JSONHttpServer extends AbstractMTGServer
 		  
 		  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(id);
 		  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
-		  MTGControler.getInstance().getEnabledDAO().saveCard(mc, from);
+		  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
 		  
-		  Response resp = NanoHTTPD.newFixedLengthResponse("");
+		  Response resp = NanoHTTPD.newFixedLengthResponse(mc + " moved to " + to);
 		  resp.setStatus(Status.OK);
 		  resp.addHeader("Content-Type", "application/json");
 		 
@@ -159,7 +160,9 @@ public class JSONHttpServer extends AbstractMTGServer
 	  catch (Exception e) 
 	  {
 		  logger.error("ERROR",e);
-		  return NanoHTTPD.newFixedLengthResponse("Usage : /move?card_id=<ID>&from=COL_NAME&to=COL_NAME");
+		  Response r = NanoHTTPD.newFixedLengthResponse(e.getMessage());
+		  		   r.setStatus(Status.INTERNAL_ERROR);
+		  return r;
 	  }
 	}
 
