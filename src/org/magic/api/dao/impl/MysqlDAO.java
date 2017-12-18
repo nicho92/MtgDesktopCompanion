@@ -351,8 +351,11 @@ public class MysqlDAO extends AbstractMagicDAO{
 			throw new SQLException("No edition defined");
 		
 		PreparedStatement pst = con.prepareStatement("SELECT collection FROM cards WHERE id=? and edition=?");
-		 pst.setString(1, IDGenerator.generate(mc));
+		String id = IDGenerator.generate(mc);
+		 pst.setString(1, id);
 		 pst.setString(2, mc.getEditions().get(0).getId());
+		 
+		 logger.trace("SELECT collection FROM cards WHERE id="+id+" and edition="+mc.getEditions().get(0).getId());
 		 
 		 ResultSet rs = pst.executeQuery();
 		 List<MagicCollection> cols = new ArrayList<MagicCollection>();
