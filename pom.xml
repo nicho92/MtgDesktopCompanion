@@ -44,7 +44,7 @@
             <groupId>com.github.insubstantial</groupId>
             <artifactId>substance</artifactId>
             <version>7.0.2</version>
-             <scope>system</scope>
+            <scope>system</scope>
             <systemPath>${project.basedir}/lib/substance-7.0.2.jar</systemPath>
         </dependency>
         <dependency>
@@ -190,7 +190,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.45</version>
+            <version>8.0.8-dmr</version>
         </dependency>
         <dependency>
             <groupId>org.nanohttpd</groupId>
@@ -200,7 +200,7 @@
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
-            <version>9.4.1210</version>
+            <version>42.1.4</version>
         </dependency>
         <dependency>
             <groupId>org.mozilla</groupId>
@@ -245,5 +245,25 @@
         </dependency>
     </dependencies>
 
-
+	<build>
+	  <plugins>
+	   <plugin>
+	    <groupId>org.codehaus.mojo</groupId>
+	    <artifactId>exec-maven-plugin</artifactId>
+	    <configuration>
+	      <executable>java</executable>
+	      <includeProjectDependencies>true</includeProjectDependencies>
+	      <systemProperties>
+            <systemProperty>
+              <key>-Xmx</key>
+              <value>1128m</value>
+            </systemProperty>
+          </systemProperties>
+          <mainClass>org.magic.api.main.MtgDesktopCompanion</mainClass>
+          
+	    </configuration>
+	   </plugin>
+	  </plugins>
+	 </build>
+	
 </project>
