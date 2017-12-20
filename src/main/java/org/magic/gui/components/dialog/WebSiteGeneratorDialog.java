@@ -23,6 +23,7 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class WebSiteGeneratorDialog extends JDialog {
@@ -51,7 +52,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		File f = new File("./templates");
+		File f = new File(MTGConstants.MTG_TEMPLATES_DIR);
 		
 		List<String> arrayTemplates=new ArrayList<String>();
 		

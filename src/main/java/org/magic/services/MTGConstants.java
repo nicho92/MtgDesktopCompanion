@@ -22,6 +22,7 @@ public class MTGConstants {
 	
 	public static final String KEYSTORE_NAME = "jssecacerts"; 
 	public static final String KEYSTORE_PASS = "changeit";
+	public static final String MTG_TEMPLATES_DIR = "./templates";
 	
 
 	

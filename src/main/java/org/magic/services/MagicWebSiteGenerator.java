@@ -43,15 +43,15 @@ public class MagicWebSiteGenerator extends Observable{
 	Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	public MagicWebSiteGenerator(String template,String dest) throws IOException, ClassNotFoundException, SQLException {
-		cfg = new Configuration(Configuration.VERSION_2_3_23);
-		cfg.setDirectoryForTemplateLoading(new File("./templates"+"/"+template));
+		cfg = new Configuration(Configuration.VERSION_2_3_27);
+		cfg.setDirectoryForTemplateLoading(new File(MTGConstants.MTG_TEMPLATES_DIR+"/"+template));
 		cfg.setDefaultEncoding("UTF-8");
 		//cfg.setNumberFormat("#");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER );
-		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_23).build());
+		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_27).build());
 		dao=MTGControler.getInstance().getEnabledDAO();
 		this.dest = dest;
-		FileUtils.copyDirectory(new File("./templates/"+template), new File(dest),new FileFilter() {
+		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR+"/"+template), new File(dest),new FileFilter() {
 			public boolean accept(File pathname) {
 				if(pathname.isDirectory())
 					return true;
