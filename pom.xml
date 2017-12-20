@@ -257,7 +257,12 @@
 			            <name>Launch</name>
 			         </program>
 			       </programs> 
-			       <binFileExtensions><unix>.sh</unix></binFileExtensions>  
+			       <binFileExtensions>
+			       			<unix>.sh</unix>
+			       </binFileExtensions>
+			       <extraJvmArguments>
+			       	-Xmx1024m
+			       </extraJvmArguments>  
 			    </configuration>
     		</plugin>
     	</plugins>
