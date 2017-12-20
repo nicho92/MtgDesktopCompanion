@@ -477,7 +477,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		
 		prov.init();
 		prov.loadEditions();
-		List<MagicCard> res = prov.searchCardByCriteria("type", "World", null);
+		List<MagicCard> res = prov.searchCardByCriteria("name", "liliana", null);
 		ArrayList<String> l = new ArrayList<String>();
 			l.add("name");
 			l.add("supertypes");
@@ -541,15 +541,15 @@ public class ScryFallProvider implements MagicCardsProvider {
 		}
 		
 		
-		
+		String sep = "\u2014";
 
-		if(line.contains("—"))
+		if(line.contains(sep))
 		{
 		
-			for(String s : line.substring(0, line.indexOf("—")).trim().split(" "))
+			for(String s : line.substring(0, line.indexOf(sep)).trim().split(" "))
 				mc.getTypes().add(s.replaceAll("\"", ""));
 			
-			for(String s : line.substring(line.indexOf("—")+1).trim().split(" "))
+			for(String s : line.substring(line.indexOf(sep)+1).trim().split(" "))
 				mc.getSubtypes().add(s);
 		}
 		else
