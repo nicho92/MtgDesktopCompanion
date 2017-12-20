@@ -11,6 +11,7 @@ public class MTGConstants {
 	public static String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
 	public static String MTG_DESKTOP_UPDATE_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/version";
 	public static String MTG_DESKTOP_APP_ZIP = "https://github.com/nicho92/MtgDesktopCompanion/blob/master/executable/mtgcompanion.zip?raw=true";
+	public static String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/data/boosters.xml";
 	public static int MTG_DESKTOP_TABBED_POSITION = JTabbedPane.LEFT;
 	
 	
@@ -21,6 +22,7 @@ public class MTGConstants {
 	
 	public static final String KEYSTORE_NAME = "jssecacerts"; 
 	public static final String KEYSTORE_PASS = "changeit";
+	
 
 	
 	public static Color THUMBNAIL_BACKGROUND_COLOR=SystemColor.windowBorder;

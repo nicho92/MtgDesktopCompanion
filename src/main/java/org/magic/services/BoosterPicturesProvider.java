@@ -40,7 +40,7 @@ public class BoosterPicturesProvider {
 			builder = builderFactory.newDocumentBuilder();
 			//document = builder.parse(this.getClass().getResourceAsStream("/data/boosters.xml"));
 			logger.debug("Loading booster pics");
-			document = builder.parse(new URL("https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/data/boosters.xml").openStream());
+			document = builder.parse(new URL(MTGConstants.MTG_BOOSTERS_URI).openStream());
 			logger.debug("Loading booster pics done");
 		} catch (Exception e) {
 			e.printStackTrace();
