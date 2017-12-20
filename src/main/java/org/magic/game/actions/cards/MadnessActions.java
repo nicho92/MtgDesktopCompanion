@@ -36,7 +36,7 @@ public class MadnessActions extends AbstractAction {
 			if(m.find())
 				cost=m.group().replaceAll(k, "").trim();
 			else
-				cost=text.substring(text.indexOf(k+"—")+k.length(),text.indexOf("("));
+				cost=text.substring(text.indexOf(k+"\u2014")+k.length(),text.indexOf("("));
 			
 		}
 		catch(Exception e)

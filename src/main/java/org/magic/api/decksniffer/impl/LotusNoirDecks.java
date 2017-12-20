@@ -67,7 +67,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		{
 			Elements cont2= cont.select("span.card_title_us" );
 			
-			if(cont.text().startsWith("Réserve"))
+			if(cont.text().startsWith("R\u00E9serve"))
 				sideboard=true;
 			
 			if(cont2.text().length()>0)

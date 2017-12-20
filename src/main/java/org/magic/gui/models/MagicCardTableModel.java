@@ -12,7 +12,7 @@ import org.magic.services.MTGControler;
 public class MagicCardTableModel extends DefaultTableModel{
 
 	List<MagicCard> cards;
-	String columns[] = new String[] {"name","langage","manacost","type","power","rarity","Editions","N°","Color"};
+	String columns[] = new String[] {"name","langage","manacost","type","power","rarity","Editions","Num","Color"};
 	
 	
 	public MagicCardTableModel() {

@@ -36,7 +36,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		return STATUT.BETA;
 	}
 	
-	
 	String url = "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml";
 	DocumentBuilderFactory builderFactory;
 	DocumentBuilder builder;
@@ -127,7 +126,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 						  tok.getTypes().add(MagicCard.LAYOUT.Token.toString());
 							
 						  
-						  tok.getSubtypes().add(types.substring(types.indexOf("—")+1));
+						  tok.getSubtypes().add(types.substring(types.indexOf("\u2014")+1));
 						  
 						  if(value.getElementsByTagName("pt").item(0)!=null)
 						  {
@@ -179,7 +178,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 						  tok.setName(value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(emblem\\)", "").trim());
 						  String types = value.getElementsByTagName("type").item(0).getTextContent();
 						  tok.getSupertypes().add(MagicCard.LAYOUT.Emblem.toString());
-						  tok.getSubtypes().add(types.substring(types.indexOf("—")+1));
+						  tok.getSubtypes().add(types.substring(types.indexOf("\u2014")+1));
 						  tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 						  tok.setNumber("E");
 						  
