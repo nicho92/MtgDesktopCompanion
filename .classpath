@@ -1,45 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="templates/gravity/" kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/jsoup-1.7.3.jar"/>
-	<classpathentry kind="lib" path="lib/log4j-1.2.17.jar"/>
-	<classpathentry kind="lib" path="lib/hsqldb.jar"/>
-	<classpathentry kind="lib" path="lib/beansbinding-1.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/glazedlists_java15-1.9.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.7.13.jar"/>
-	<classpathentry kind="lib" path="lib/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="lib/jfreechart-1.0.19.jar"/>
-	<classpathentry kind="lib" path="lib/jcommon-1.0.23.jar"/>
-	<classpathentry kind="lib" path="lib/itextpdf-5.5.8.jar"/>
-	<classpathentry kind="lib" path="lib/swingx-all-1.6.4.jar"/>
-	<classpathentry kind="lib" path="lib/commons-beanutils-1.9.2.jar"/>
-	<classpathentry kind="lib" path="lib/freemarker.jar"/>
-	<classpathentry kind="lib" path="lib/tablefilter-swing-5.2.1.jar"/>
-	<classpathentry kind="lib" path="lib/jdom2-2.0.5.jar"/>
-	<classpathentry kind="lib" path="lib/rome-1.5.1.jar"/>
-	<classpathentry kind="lib" path="lib/rome-utils-1.5.0.jar"/>
-	<classpathentry kind="lib" path="lib/json-path-2.2.0.jar"/>
+	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="D:/programmation/mysql-connector-java-5.1.38-bin.jar"/>
-	<classpathentry kind="lib" path="lib/commons-configuration2-2.0.jar"/>
-	<classpathentry kind="lib" path="lib/commons-lang3-3.4.jar"/>
-	<classpathentry kind="lib" path="lib/rhino-1.7.7.1.jar"/>
-	<classpathentry kind="lib" path="lib/js-1.7R3.jar"/>
-	<classpathentry kind="lib" path="lib/httpclient-4.5.2.jar"/>
-	<classpathentry kind="lib" path="lib/httpcore-4.4.4.jar"/>
-	<classpathentry kind="lib" path="lib/mina-core-2.0.14.jar"/>
-	<classpathentry kind="lib" path="lib/nanohttpd-2.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-cli-1.3.1.jar"/>
-	<classpathentry kind="lib" path="lib/commons-codec-1.9.jar"/>
-	<classpathentry kind="lib" path="lib/postgresql-9.4.1210.jre6.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-log4j12-1.7.13.jar"/>
-	<classpathentry kind="lib" path="lib/gson-2.8.0.jar" sourcepath="C:/Users/Nicolas/AppData/Local/Temp/decompiler/source/gson-2.8.0-sources.jar"/>
-	<classpathentry kind="lib" path="lib/japura-gui-7.5.2.jar"/>
-	<classpathentry kind="lib" path="lib/commons-jxpath-1.3.jar"/>
-	<classpathentry kind="lib" path="lib/commons-collections4-4.1.jar"/>
 	<classpathentry kind="lib" path="lib/asciitable.jar"/>
-	<classpathentry kind="lib" path="lib/xstream-1.4.10.jar"/>
 	<classpathentry kind="lib" path="lib/mkm-api-java.jar"/>
-	<classpathentry kind="output" path="bin"/>
+	<classpathentry kind="lib" path="lib/trident-1.4.jar"/>
+	<classpathentry kind="lib" path="lib/laf-plugin.jar"/>
+	<classpathentry kind="lib" path="lib/laf-widget.jar"/>
+	<classpathentry kind="lib" path="lib/substance-7.0.2.jar"/>
+	<classpathentry kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
+		<attributes>
+			<attribute name="maven.pomderived" value="true"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="output" path="target/classes"/>
 </classpath>
