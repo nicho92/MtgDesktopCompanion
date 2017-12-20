@@ -518,19 +518,23 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			PreparedStatement pst;
 			if(state.getIdstock()<0)
 			{
-				
 				logger.debug("save "  + state);
-				pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,altered,price) values (?,?,?,?,?,?,?,?,?,?)");
-				pst.setString(1, state.getCondition().toString());
-				pst.setBoolean(2,state.isFoil());
-				pst.setBoolean(3, state.isSigned());
-				pst.setString(4, state.getLanguage());
-				pst.setInt(5, state.getQte());
-				pst.setString(6, state.getComment());
-				pst.setString(7, state.getMagicCard().getId());
-				pst.setString(8, state.getMagicCollection().getName());
-				pst.setBoolean(9, state.isAltered());
-				pst.setDouble(10, state.getPrice());
+				pst=con.prepareStatement("insert into stocks  ( mcard,conditions,foil,signedcard,langage,qte,comments,idmc,collection,altered,price) values (?,?,?,?,?,?,?,?,?,?,?)");
+				try {
+					pst.setBinaryStream(1, convertObject(state.getMagicCard()));
+				} catch (IOException e) {
+					throw new SQLException("can't save " + state.getMagicCard());
+				}
+				pst.setString(2, state.getCondition().toString());
+				pst.setBoolean(3,state.isFoil());
+				pst.setBoolean(4, state.isSigned());
+				pst.setString(5, state.getLanguage());
+				pst.setInt(6, state.getQte());
+				pst.setString(7, state.getComment());
+				pst.setString(8, state.getMagicCard().getId());
+				pst.setString(9, state.getMagicCollection().getName());
+				pst.setBoolean(10, state.isAltered());
+				pst.setDouble(11, state.getPrice());
 				state.setIdstock(pst.executeUpdate());
 			}
 			else
