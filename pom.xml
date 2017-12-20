@@ -245,25 +245,21 @@
         </dependency>
     </dependencies>
 
-	<build>
-	  <plugins>
-	   <plugin>
-	    <groupId>org.codehaus.mojo</groupId>
-	    <artifactId>exec-maven-plugin</artifactId>
-	    <configuration>
-	      <executable>java</executable>
-	      <includeProjectDependencies>true</includeProjectDependencies>
-	      <systemProperties>
-            <systemProperty>
-              <key>-Xmx</key>
-              <value>1128m</value>
-            </systemProperty>
-          </systemProperties>
-          <mainClass>org.magic.api.main.MtgDesktopCompanion</mainClass>
-          
-	    </configuration>
-	   </plugin>
-	  </plugins>
-	 </build>
-	
+    <build>
+    	<plugins>
+    		<plugin>
+    			<groupId>org.codehaus.mojo</groupId>
+    			<artifactId>appassembler-maven-plugin</artifactId>
+    			<configuration>
+			       <programs>  
+			         <program>  
+			            <mainClass>org.magic.api.main.MtgDesktopCompanion</mainClass>
+			            <name>Launch</name>
+			         </program>
+			       </programs> 
+			       <binFileExtensions><unix>.sh</unix></binFileExtensions>  
+			    </configuration>
+    		</plugin>
+    	</plugins>
+    </build>
 </project>
