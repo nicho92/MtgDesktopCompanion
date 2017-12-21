@@ -230,7 +230,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 		{
 			list.add((MagicCard) rs.getObject("mcard"));
 		}
-	
 	return list;
 	}
 

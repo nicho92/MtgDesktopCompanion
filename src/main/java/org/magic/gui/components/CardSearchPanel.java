@@ -515,7 +515,8 @@ public class CardSearchPanel extends JPanel {
 							else
 								cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
 							
-							Collections.sort(cards,new MagicCardComparator());
+							if(!cboCollections.isVisible())
+								Collections.sort(cards,new MagicCardComparator());//TODO doesn't work for large collection
 							
 							cardsModeltable.init(cards);
 							tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
@@ -528,9 +529,6 @@ public class CardSearchPanel extends JPanel {
 							manaRepartitionPanel.init(cards);
 							rarityRepartitionPanel.init(cards);
 							tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
-							
-							
-							
 							return null;
 						}
 						
