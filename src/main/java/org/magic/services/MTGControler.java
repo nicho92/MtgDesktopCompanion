@@ -36,6 +36,7 @@ import org.magic.api.interfaces.PictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
+import org.magic.gui.abstracts.AbstractJDashlet;
 
 public class MTGControler {
 
@@ -49,6 +50,7 @@ public class MTGControler {
 	private List<DashBoard> dashboards;
 	private List<CardExporter> exports;
 	private List<MTGServer> servers;
+	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
 	private KeyWordManager keyWordManager;
 	public static File CONF_DIR = new File(System.getProperty("user.home")+"/.magicDeskCompanion/");
@@ -343,6 +345,15 @@ public class MTGControler {
 				}
 			}
 			
+			logger.info("loading Dashlets");
+			dashlets=new ArrayList<AbstractJDashlet>();
+			for(int i=1;i<=config.getList("//dashlet/class").size();i++)
+			{
+				String s = config.getString("dashlets/dashlet["+i+"]/class");
+				AbstractJDashlet prov = loadItem(AbstractJDashlet.class, s.toString());
+				dashlets.add(prov);		 
+				
+			}
 			//logger.debug("Check for new modules");
 			keyWordManager = new KeyWordManager();
 			
@@ -353,7 +364,9 @@ public class MTGControler {
 		}
 	}
 	
-	
+	public List<AbstractJDashlet> getDashlets() {
+		return dashlets;
+	}
 	
 	
 	public KeyWordManager getKeyWordManager() {

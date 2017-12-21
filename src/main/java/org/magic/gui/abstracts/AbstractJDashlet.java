@@ -31,6 +31,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCardDetailPanel pane;
 	
+	
 	public AbstractJDashlet() {
 		props=new Properties();
 		

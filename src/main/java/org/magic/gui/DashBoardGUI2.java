@@ -93,26 +93,14 @@ public class DashBoardGUI2 extends JDesktopPane {
 		add(menuBar);
 		
 		
-		ModuleInstaller mods = new ModuleInstaller();
-		List<Class> cls;
 		try {
-			cls = mods.getClasses("org.magic.gui.dashlet");
-			logger.debug("found " + cls.size() + " dashlets in org.magic.gui.dashlet" );
-			
-			for(final Class c : cls)
+			for(AbstractJDashlet dash : MTGControler.getInstance().getDashlets())
 			{
-				if(!c.isAnonymousClass())
-				{
-					if(!c.getName().contains("$"))
-					{	
-						JMenuItem mntmNewMenuItem = new JMenuItem(c.newInstance().toString());
+						JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName());
 						mntmNewMenuItem.addActionListener(new ActionListener() {
-							
-							@Override
 							public void actionPerformed(ActionEvent e) {
-								AbstractJDashlet dash = null;
 								try {
-									dash = (AbstractJDashlet)classLoader.loadClass(c.getName()).newInstance();
+									//dash = (AbstractJDashlet)classLoader.loadClass(c.getName()).newInstance();
 									addDash(dash);
 								} 
 								catch(Exception ex)
@@ -122,10 +110,9 @@ public class DashBoardGUI2 extends JDesktopPane {
 							}
 						});
 						mnNewMenu.add(mntmNewMenuItem);
-					}
-					
-				}
 			}
+					
+			
 		} catch (Exception e) {
 			logger.error("Error",e);
 		}

@@ -22,12 +22,13 @@ public class ModuleInstaller {
 	        Enumeration<URL> resources = classLoader.getResources(path);
 	        List<File> dirs = new ArrayList<File>();
 	        while (resources.hasMoreElements()) {
-	            URL resource = resources.nextElement();
+	        	URL resource = resources.nextElement();
 	            dirs.add(new File(resource.getFile().replaceAll("%20", " ")));
+	           
 	        }
 	        ArrayList<Class> classes = new ArrayList<Class>();
 	        for (File directory : dirs) {
-	            classes.addAll(findClasses(directory, packageName));
+	        	classes.addAll(findClasses(directory, packageName));
 	        }
 	      
 	        return classes;
@@ -40,8 +41,9 @@ public class ModuleInstaller {
 	            return classes;
 	        }
 	        File[] files = directory.listFiles();
+	        
 	        for (File file : files) {
-	            if (file.isDirectory()) {
+	        	if (file.isDirectory()) {
 	                assert !file.getName().contains(".");
 	                classes.addAll(findClasses(file, packageName + "." + file.getName()));
 	            } else if (file.getName().endsWith(".class")) {
