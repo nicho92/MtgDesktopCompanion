@@ -14,8 +14,8 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 	JLabel comp;
 	
 	public CardShakeRenderer() {
-		up = new ImageIcon(CardShakeRenderer.class.getResource("/up.png"));
-		down = new ImageIcon(CardShakeRenderer.class.getResource("/down.png"));
+		up = new ImageIcon(CardShakeRenderer.class.getResource("/icons/up.png"));
+		down = new ImageIcon(CardShakeRenderer.class.getResource("/icons/down.png"));
 		comp=new JLabel();
 		
 		comp.setHorizontalAlignment(JLabel.CENTER);

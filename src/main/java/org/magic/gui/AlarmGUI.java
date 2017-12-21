@@ -172,7 +172,7 @@ public class AlarmGUI extends JPanel {
 				model.fireTableDataChanged();
 			}
 		});
-		btnRefresh.setIcon(new ImageIcon(AlarmGUI.class.getResource("/refresh.png")));
+		btnRefresh.setIcon(new ImageIcon(AlarmGUI.class.getResource("/icons/refresh.png")));
 		panel.add(btnRefresh);
 		
 		btnDelete = new JButton("");
@@ -193,7 +193,7 @@ public class AlarmGUI extends JPanel {
 				
 			}
 		});
-		btnDelete.setIcon(new ImageIcon(AlarmGUI.class.getResource("/delete.png")));
+		btnDelete.setIcon(new ImageIcon(AlarmGUI.class.getResource("/icons/delete.png")));
 		panel.add(btnDelete);
 		addComponentListener(new ComponentAdapter() {
 		      public void componentShown(ComponentEvent componentEvent) {

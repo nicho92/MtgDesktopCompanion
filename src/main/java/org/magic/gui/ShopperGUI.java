@@ -37,7 +37,7 @@ public class ShopperGUI extends JPanel {
 	private JTextField txtSearch;
 	private JXTable tableItemShop;
 	
-	JButton btnSearch = new JButton(new ImageIcon(ShopperGUI.class.getResource("/search.png")));
+	JButton btnSearch = new JButton(new ImageIcon(ShopperGUI.class.getResource("/icons/search.png")));
 	JPanel panel = new JPanel();
 	JLabel lblSearch = new JLabel("search :");
 	JScrollPane shopItemScrollPane = new JScrollPane();

@@ -327,7 +327,7 @@ public class StockPanelGUI extends JPanel {
 				menu.add(mnuCol);
 				
 				JMenuItem webSite = new JMenuItem("Import from website");
-				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/website.png")));
+				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/website.png")));
 				webSite.addActionListener(new ActionListener() {
 
 					@Override
@@ -665,7 +665,7 @@ public class StockPanelGUI extends JPanel {
 		
 		btnSearch = new JButton("");
 		
-		btnSearch.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/search.gif")));
+		btnSearch.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/search.gif")));
 		searchPanel.add(btnSearch);
 		
 		JPanel centerPanel = new JPanel();
@@ -675,22 +675,22 @@ public class StockPanelGUI extends JPanel {
 		centerPanel.add(actionPanel, BorderLayout.NORTH);
 				btnAdd.setEnabled(false);
 		
-				btnAdd.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/new.png")));
+				btnAdd.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/new.png")));
 				actionPanel.add(btnAdd);
 				btnDelete.setEnabled(false);
 				
 	
-				btnDelete.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/delete.png")));
+				btnDelete.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/delete.png")));
 				actionPanel.add(btnDelete);
 				btnSave.setToolTipText("Batch Save");
 				
 				
-				btnSave.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/save.png")));
+				btnSave.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/save.png")));
 				actionPanel.add(btnSave);
 				
 				btnReload = new JButton("");
 				
-				btnReload.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/refresh.png")));
+				btnReload.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/refresh.png")));
 				actionPanel.add(btnReload);
 				
 				lblLoading = new JLabel("");
@@ -700,25 +700,25 @@ public class StockPanelGUI extends JPanel {
 				
 				
 				btnImport = new JButton();
-				btnImport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/import.png")));
+				btnImport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/import.png")));
 				btnImport.setToolTipText("Import");
 				actionPanel.add(btnImport);
 				
 				btnExport = new JButton("");
 				
 				btnExport.setToolTipText("Export Stock as CSV");
-				btnExport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/export.png")));
+				btnExport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/export.png")));
 				actionPanel.add(btnExport);
 				
 				btnGeneratePrice = new JButton();
 				
-				btnGeneratePrice.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/euro.png")));
+				btnGeneratePrice.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/euro.png")));
 				btnGeneratePrice.setToolTipText("Generate Price from dashboard");
 				actionPanel.add(btnGeneratePrice);
 				btnshowMassPanel.setToolTipText("Mass Modification");
-				btnshowMassPanel.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/manual.png")));
+				btnshowMassPanel.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/manual.png")));
 				actionPanel.add(btnshowMassPanel);
-				lblLoading.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/load.gif")));
+				lblLoading.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/load.gif")));
 				actionPanel.add(lblLoading);
 				
 		JScrollPane scrollTable = new JScrollPane();

@@ -28,9 +28,9 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		try{
 			pane = new ManaPanel();
 			map = new HashMap<String,ImageIcon>();
-			gold= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/gold.png")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
-			uncolor= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/uncolor.jpg")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
-			back= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/bottom.png")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+			gold= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/icons/gold.png")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+			uncolor= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/icons/uncolor.jpg")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+			back= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/icons/bottom.png")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
 			
 			map.put("{W}", new ImageIcon(pane.getManaSymbol("{W}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );
 			map.put("{U}", new ImageIcon(pane.getManaSymbol("{U}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );

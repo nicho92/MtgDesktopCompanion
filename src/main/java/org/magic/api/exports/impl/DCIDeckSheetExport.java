@@ -193,7 +193,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			}
 			
 			
-			cb.endText();  // fin d'une séquence d'écriture
+			cb.endText();  // fin d'une sï¿½quence d'ï¿½criture
 			
 		
 		document.close();
@@ -207,7 +207,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(PDFExport.class.getResource("/sheet.png"));
+		return new ImageIcon(PDFExport.class.getResource("/icons/sheet.png"));
 	}
 
 

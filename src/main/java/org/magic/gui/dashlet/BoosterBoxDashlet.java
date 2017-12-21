@@ -50,7 +50,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 	
 	public BoosterBoxDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(BoosterBoxDashlet.class.getResource("/dollars.png")));
+		setFrameIcon(new ImageIcon(BoosterBoxDashlet.class.getResource("/icons/dollars.png")));
 		//initGUI();
 		doubleFormat=new DecimalFormat("#0.00");
 	}

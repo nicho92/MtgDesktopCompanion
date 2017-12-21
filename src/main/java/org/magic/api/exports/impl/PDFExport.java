@@ -130,7 +130,7 @@ public class PDFExport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(PDFExport.class.getResource("/pdf.png"));
+		return new ImageIcon(PDFExport.class.getResource("/icons/pdf.png"));
 	}
 
 	@Override

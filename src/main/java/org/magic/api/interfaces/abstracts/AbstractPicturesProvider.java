@@ -76,7 +76,7 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 	@Override
 	public BufferedImage getBackPicture() throws Exception {
 			try {
-				return ImageIO.read(AbstractPicturesProvider.class.getResource("/back.jpg"));
+				return ImageIO.read(AbstractPicturesProvider.class.getResource("/icons/back.jpg"));
 			} catch (IOException e) {
 				e.printStackTrace();
 				return null;

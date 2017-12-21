@@ -78,7 +78,7 @@ public class CardStockLinePanel extends JPanel {
 		
 		JButton btnNewButton = new JButton("");
 		
-		Image img = new ImageIcon(CardStockLinePanel.class.getResource("/delete.png")).getImage() ;  
+		Image img = new ImageIcon(CardStockLinePanel.class.getResource("/icons/delete.png")).getImage() ;  
 		Image newimg = img.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
 		
 		btnNewButton.setIcon(new ImageIcon(newimg));
@@ -90,7 +90,7 @@ public class CardStockLinePanel extends JPanel {
 		
 		JButton btnSave = new JButton("");
 
-		Image img2 = new ImageIcon(CardStockLinePanel.class.getResource("/check.png")).getImage() ;  
+		Image img2 = new ImageIcon(CardStockLinePanel.class.getResource("/icons/check.png")).getImage() ;  
 		Image newimg2 = img2.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
 		
 		btnSave.setIcon(new ImageIcon(newimg2));	

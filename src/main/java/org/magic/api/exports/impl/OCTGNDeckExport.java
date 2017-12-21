@@ -84,7 +84,7 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	public static void main(String[] args) throws Exception {
 		OCTGNDeckExport exp = new OCTGNDeckExport();
 		
-		exp.importDeck(new File("D:\\Téléchargements\\The Deck by Brian Weissman.o8d"));
+		exp.importDeck(new File("D:\\Tï¿½lï¿½chargements\\The Deck by Brian Weissman.o8d"));
 	}
 	
 	
@@ -139,7 +139,7 @@ public class OCTGNDeckExport extends AbstractCardExport{
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(OCTGNDeckExport.class.getResource("/octgn.png"));
+		return new ImageIcon(OCTGNDeckExport.class.getResource("/icons/octgn.png"));
 	}
 	
 

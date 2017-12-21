@@ -155,7 +155,7 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				btnAlert = new JButton("");
 				btnAlert.setEnabled(false);
-				ImageIcon ic = new ImageIcon(MagicCardDetailPanel.class.getResource("/bell.png"));
+				ImageIcon ic = new ImageIcon(MagicCardDetailPanel.class.getResource("/icons/bell.png"));
 				Image b = ic.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH);
 				btnAlert.setIcon(new ImageIcon(b)); 
 				btnAlert.addActionListener(new ActionListener() {

@@ -38,7 +38,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 	
 	public EditionsDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(EditionsDashlet.class.getResource("/collection.png")));
+		setFrameIcon(new ImageIcon(EditionsDashlet.class.getResource("/icons/collection.png")));
 	}
 
 	public void initGUI() {
@@ -63,7 +63,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		panel.add(cboEditions);
 		
 		lblLoading = new JLabel("");
-		lblLoading.setIcon(new ImageIcon(EditionsDashlet.class.getResource("/load.gif")));
+		lblLoading.setIcon(new ImageIcon(EditionsDashlet.class.getResource("/icons/load.gif")));
 		lblLoading.setVisible(false);
 		panel.add(lblLoading);
 		

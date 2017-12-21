@@ -269,14 +269,14 @@ public class GamePanelGUI extends JPanel implements Observer {
 						lblHandCount = new JLabel("0");
 						lblHandCount.setFont(new Font("Tahoma", Font.BOLD, 18));
 						lblHandCount.setHorizontalTextPosition(JLabel.CENTER);
-						lblHandCount.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/hand.png")));
+						lblHandCount.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/icons/hand.png")));
 						panelHandLib.add(lblHandCount);
 						
 						lblLibraryCount = new JLabel("");
 						lblLibraryCount.setHorizontalTextPosition(SwingConstants.CENTER);
 						lblLibraryCount.setHorizontalAlignment(SwingConstants.CENTER);
 						lblLibraryCount.setFont(new Font("Tahoma", Font.BOLD, 18));
-						lblLibraryCount.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/librarysize.png")));
+						lblLibraryCount.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/icons/librarysize.png")));
 						panelHandLib.add(lblLibraryCount);
 						
 						JPanel lifePanel = new JPanel();
@@ -291,7 +291,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						
 						lblPlayer = new JLabel("");
 						lblPlayer.setVerticalAlignment(SwingConstants.BOTTOM);
-						lblPlayer.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/planeswalker.png")));
+						lblPlayer.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/icons/planeswalker.png")));
 						GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
 						gbc_lblPlayer.anchor = GridBagConstraints.WEST;
 						gbc_lblPlayer.insets = new Insets(0, 0, 5, 0);
@@ -311,7 +311,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										JLabel lblLife = new JLabel("");
 										panel.add(lblLife);
 										lblLife.setHorizontalAlignment(SwingConstants.CENTER);
-										lblLife.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/heart.png")));
+										lblLife.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/icons/heart.png")));
 										
 										spinLife = new JSpinner();
 										panel.add(spinLife);
@@ -320,7 +320,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										JLabel lblPoison = new JLabel("");
 										panel.add(lblPoison);
 										lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
-										lblPoison.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/poison.png")));
+										lblPoison.setIcon(new ImageIcon(GamePanelGUI.class.getResource("/icons/poison.png")));
 										
 										spinPoison = new JSpinner();
 										panel.add(spinPoison);

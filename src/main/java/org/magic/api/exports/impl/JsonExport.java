@@ -137,7 +137,7 @@ public class JsonExport  extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(CSVExport.class.getResource("/json.png"));
+		return new ImageIcon(CSVExport.class.getResource("/icons/json.png"));
 	}
 
 

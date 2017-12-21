@@ -293,11 +293,11 @@ public class GamingRoomPanel extends JPanel {
 			}
 		});
 		btnShareDeck.setToolTipText("Share a deck");
-		btnShareDeck.setIcon(new ImageIcon(GamingRoomPanel.class.getResource("/bottom.png")));
+		btnShareDeck.setIcon(new ImageIcon(GamingRoomPanel.class.getResource("/icons/bottom.png")));
 		panel_1.add(btnShareDeck);
 		
 		JButton btnColorChoose = new JButton("");
-		btnColorChoose.setIcon(new ImageIcon(GamingRoomPanel.class.getResource("/colors.gif")));
+		btnColorChoose.setIcon(new ImageIcon(GamingRoomPanel.class.getResource("/icons/colors.gif")));
 		panel_1.add(btnColorChoose);
 		
 		final JComboBox cboStates = new JComboBox(new DefaultComboBoxModel<STATE>(STATE.values()));

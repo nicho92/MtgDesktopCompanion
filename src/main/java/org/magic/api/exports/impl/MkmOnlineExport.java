@@ -137,7 +137,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 //			if(mc.getEditions().get(0).getMkm_id()!=null)
 //				p = pService.getProductById(mc.getEditions().get(0).getMkm_id());
 //			else
-				p = mkmPricer.getProductFromCard(mc,pService.findProduct(mc.getName().replaceAll("Æ", "Ae"), atts));
+				p = mkmPricer.getProductFromCard(mc,pService.findProduct(mc.getName().replaceAll("ï¿½", "Ae"), atts));
 			if(p!=null)
 			{ 
 				WantItem w = new WantItem();
@@ -190,7 +190,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MKMFileWantListExport.class.getResource("/mkm.png"));
+		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/mkm.png"));
 	}
 
 	@Override

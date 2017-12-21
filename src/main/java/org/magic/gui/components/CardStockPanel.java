@@ -44,7 +44,7 @@ public class CardStockPanel extends JPanel {
 		
 		btnAdd = new JButton("");
 		btnAdd.setEnabled(false);
-		btnAdd.setIcon(new ImageIcon(CardStockPanel.class.getResource("/new.png")));
+		btnAdd.setIcon(new ImageIcon(CardStockPanel.class.getResource("/icons/new.png")));
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				layout.setRows(layout.getRows()+1);

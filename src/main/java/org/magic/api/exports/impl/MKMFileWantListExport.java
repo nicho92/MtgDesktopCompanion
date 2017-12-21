@@ -117,7 +117,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MKMFileWantListExport.class.getResource("/mkm.png"));
+		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/mkm.png"));
 	}
 
 	@Override

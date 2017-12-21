@@ -268,10 +268,10 @@ public class CardSearchPanel extends JPanel {
 			
 			
 			
-			btnSearch = new JButton(new ImageIcon(MagicGUI.class.getResource("/search.png")));
-			btnExport = new JButton(new ImageIcon(MagicGUI.class.getResource("/export.png")));
-			btnFilter = new JButton(new ImageIcon(MagicGUI.class.getResource("/filter.png")));
-			btnClear = new JButton(new ImageIcon(MagicGUI.class.getResource("/09_clear_location.png")));
+			btnSearch = new JButton(new ImageIcon(MagicGUI.class.getResource("/icons/search.png")));
+			btnExport = new JButton(new ImageIcon(MagicGUI.class.getResource("/icons/export.png")));
+			btnFilter = new JButton(new ImageIcon(MagicGUI.class.getResource("/icons/filter.png")));
+			btnClear = new JButton(new ImageIcon(MagicGUI.class.getResource("/icons/09_clear_location.png")));
 			
 			cboQuereableItems = new JComboBox<String>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
 			cboCollections= new JComboBox<MagicCollection>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
@@ -280,7 +280,7 @@ public class CardSearchPanel extends JPanel {
 			tablePrice = new JXTable();
 			tableCards = new JXTable();
 			
-			lblLoading = new JLabel(new ImageIcon(MagicGUI.class.getResource("/load.gif")));
+			lblLoading = new JLabel(new ImageIcon(MagicGUI.class.getResource("/icons/load.gif")));
 			JLabel lblFilter = new JLabel();
 			
 			listEdition = new JList<MagicEdition>();

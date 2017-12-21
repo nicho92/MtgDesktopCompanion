@@ -211,7 +211,7 @@ public class ConfigurationPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNew.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/new.png")));
+		btnNew.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/icons/new.png")));
 		panneauhaut.add(btnNew);
 		
 		JButton btnDelete = new JButton("");
@@ -220,7 +220,7 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		});
 		btnDelete.setEnabled(false);
-		btnDelete.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/delete.png")));
+		btnDelete.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/icons/delete.png")));
 		panneauhaut.add(btnDelete);
 		
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();

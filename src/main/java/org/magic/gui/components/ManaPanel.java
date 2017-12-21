@@ -95,7 +95,7 @@ public class ManaPanel extends JPanel {
 		{
 			imgs = new BufferedImage[chunks];
 			try {
-				image = ImageIO.read(ManaCellRenderer.class.getResource("/Mana.png"));
+				image = ImageIO.read(ManaCellRenderer.class.getResource("/icons/Mana.png"));
 				for (int x = 0; x < rows; x++) {  
 		            for (int y = 0; y < cols; y++) 
 		            {  

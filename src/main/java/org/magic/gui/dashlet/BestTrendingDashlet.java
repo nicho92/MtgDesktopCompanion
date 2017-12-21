@@ -34,7 +34,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 	
 	public BestTrendingDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(BestTrendingDashlet.class.getResource("/up.png")));
+		setFrameIcon(new ImageIcon(BestTrendingDashlet.class.getResource("/icons/up.png")));
 		
 	}
 	

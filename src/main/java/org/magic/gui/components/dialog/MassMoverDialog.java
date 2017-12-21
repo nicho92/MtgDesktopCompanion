@@ -73,7 +73,7 @@ public class MassMoverDialog extends JDialog {
 		
 		lblWaiting = new JLabel("");
 		lblWaiting.setVisible(false);
-		lblWaiting.setIcon(new ImageIcon(MassMoverDialog.class.getResource("/load.gif")));
+		lblWaiting.setIcon(new ImageIcon(MassMoverDialog.class.getResource("/icons/load.gif")));
 		panel.add(lblWaiting);
 		
 		JScrollPane scrollPane = new JScrollPane();

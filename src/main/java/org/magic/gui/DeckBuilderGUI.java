@@ -144,7 +144,7 @@ public class DeckBuilderGUI extends JPanel {
 
 		JPanel panneauHaut = new JPanel();
 
-		lblExport.setIcon(new ImageIcon(MagicGUI.class.getResource("/load.gif")));
+		lblExport.setIcon(new ImageIcon(MagicGUI.class.getResource("/icons/load.gif")));
 		lblExport.setVisible(false);
 
 		setLayout(new BorderLayout(0, 0));
@@ -168,13 +168,13 @@ public class DeckBuilderGUI extends JPanel {
 		panneauHaut.add(txtSearch);
 		txtSearch.setColumns(25);
 
-		btnSearch = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/search.png")));
+		btnSearch = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/search.png")));
 		panneauHaut.add(btnSearch);
 
 		final JLabel lblCards = new JLabel("");
 		panneauHaut.add(lblCards);
 
-		JButton btnNewDeck = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/new.png")));
+		JButton btnNewDeck = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/new.png")));
 		btnNewDeck.setToolTipText("Create New Deck");
 
 		panneauHaut.add(btnNewDeck);
@@ -189,7 +189,7 @@ public class DeckBuilderGUI extends JPanel {
 			}
 		});
 
-		JButton btnOpen = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/open.png")));
+		JButton btnOpen = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/open.png")));
 		btnOpen.setToolTipText("Open deck");
 		panneauHaut.add(btnOpen);
 
@@ -268,11 +268,11 @@ public class DeckBuilderGUI extends JPanel {
 
 			}
 		});
-		btnUpdate.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/refresh.png")));
+		btnUpdate.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/refresh.png")));
 
 		panneauHaut.add(btnUpdate);
 
-		JButton btnSave = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/save.png")));
+		JButton btnSave = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/save.png")));
 		btnSave.setToolTipText("Save deck");
 		panneauHaut.add(btnSave);
 
@@ -298,7 +298,7 @@ public class DeckBuilderGUI extends JPanel {
 			}
 		});
 
-		JButton btnImport = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/import.png")));
+		JButton btnImport = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/import.png")));
 		btnImport.setToolTipText("Import deck as ");
 
 		btnImport.addActionListener(new ActionListener() {
@@ -306,7 +306,7 @@ public class DeckBuilderGUI extends JPanel {
 				JPopupMenu menu = new JPopupMenu();
 
 				JMenuItem manuel = new JMenuItem("Manual Import");
-				manuel.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/manual.png")));
+				manuel.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/manual.png")));
 				manuel.addActionListener(new ActionListener() {
 
 					@Override
@@ -321,7 +321,7 @@ public class DeckBuilderGUI extends JPanel {
 				menu.add(manuel);
 
 				JMenuItem webSite = new JMenuItem("Import from website");
-				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/website.png")));
+				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/website.png")));
 				webSite.addActionListener(new ActionListener() {
 
 					@Override
@@ -414,7 +414,7 @@ public class DeckBuilderGUI extends JPanel {
 		btnExports = new JButton();
 		btnExports.setEnabled(false);
 		btnExports.setToolTipText("Export as");
-		btnExports.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/export.png")));
+		btnExports.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/export.png")));
 		btnExports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();

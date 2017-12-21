@@ -30,7 +30,7 @@ public class BestCardsDashlet extends AbstractJDashlet{
 	
 	public BestCardsDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(BestCardsDashlet.class.getResource("/up.png")));
+		setFrameIcon(new ImageIcon(BestCardsDashlet.class.getResource("/icons/up.png")));
 		//initGUI();
 	}
 	
@@ -54,7 +54,7 @@ public class BestCardsDashlet extends AbstractJDashlet{
 		panneauHaut.add(cboFilter);
 		
 		lblLoading = new JLabel("");
-		lblLoading.setIcon(new ImageIcon(BestCardsDashlet.class.getResource("/load.gif")));
+		lblLoading.setIcon(new ImageIcon(BestCardsDashlet.class.getResource("/icons/load.gif")));
 		panneauHaut.add(lblLoading);
 		
 		JScrollPane scrollPane = new JScrollPane();

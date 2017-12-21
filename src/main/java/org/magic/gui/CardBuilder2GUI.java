@@ -289,9 +289,9 @@ public class CardBuilder2GUI extends JPanel{
 		scrollTableEdition.setViewportView(editionsTable);
 		splitcardEdPanel.setRightComponent(scrollTableCards);
 		scrollTableCards.setViewportView(cardsTable);
-		btnSaveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/save.png")));
-		btnNewSet.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/new.png")));
-		btnRemoveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/delete.png")));
+		btnSaveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/save.png")));
+		btnNewSet.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/new.png")));
+		btnRemoveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/delete.png")));
 	
 		btnSaveEdition.setToolTipText("Save the set");
 		btnNewSet.setToolTipText("New set");
@@ -307,11 +307,11 @@ public class CardBuilder2GUI extends JPanel{
 		magicEditionDetailPanel.setEditable(true);
 		
 	
-		btnImport.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/import.png")));
-		btnSaveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/save.png")));
-		btnRefresh.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/refresh.png")));
-		btnRemoveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/delete.png")));
-		btnNewCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/new.png")));
+		btnImport.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/import.png")));
+		btnSaveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/save.png")));
+		btnRefresh.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/refresh.png")));
+		btnRemoveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/delete.png")));
+		btnNewCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/new.png")));
 		cardsTable.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());	
 		panelPictures.setBackground(Color.WHITE);
 		panelPictures.setPreferredSize(new Dimension(400, 10));
@@ -439,7 +439,7 @@ public class CardBuilder2GUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				final JDialog l = new JDialog();
 				final CardSearchPanel searchPane = new CardSearchPanel();
-				JButton selectCard = new JButton(new ImageIcon(CardBuilder2GUI.class.getResource("/import.png")));
+				JButton selectCard = new JButton(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/import.png")));
 				selectCard.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						MagicCard mc = searchPane.getSelected();

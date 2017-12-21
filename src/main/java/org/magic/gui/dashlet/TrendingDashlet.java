@@ -45,7 +45,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 	
 	public TrendingDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(TrendingDashlet.class.getResource("/dashboard.png")));
+		setFrameIcon(new ImageIcon(TrendingDashlet.class.getResource("/icons/dashboard.png")));
 	}
 	
 	public void initGUI() {
@@ -63,7 +63,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 		panneauHaut.add(cboFormats);
 		
 		lblLoading = new JLabel("");
-		lblLoading.setIcon(new ImageIcon(TrendingDashlet.class.getResource("/load.gif")));
+		lblLoading.setIcon(new ImageIcon(TrendingDashlet.class.getResource("/icons/load.gif")));
 		lblLoading.setVisible(false);
 		
 		btnRefresh = new JButton("");
@@ -72,7 +72,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				init();
 			}
 		});
-		btnRefresh.setIcon(new ImageIcon(TrendingDashlet.class.getResource("/refresh.png")));
+		btnRefresh.setIcon(new ImageIcon(TrendingDashlet.class.getResource("/icons/refresh.png")));
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(lblLoading);
 		

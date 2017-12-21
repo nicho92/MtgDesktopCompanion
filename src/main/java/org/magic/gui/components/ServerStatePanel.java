@@ -31,8 +31,8 @@ public class ServerStatePanel extends JPanel {
 		this.server=s;
 		icons = new HashMap<Boolean,ImageIcon>();
 		
-		icons.put(false, new ImageIcon(ServerStatePanel.class.getResource("/delete.png")));
-		icons.put(true, new ImageIcon(ServerStatePanel.class.getResource("/check.png")));
+		icons.put(false, new ImageIcon(ServerStatePanel.class.getResource("/icons/delete.png")));
+		icons.put(true, new ImageIcon(ServerStatePanel.class.getResource("/icons/check.png")));
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{109, 40, 47, 42, 0, 0};
 		gridBagLayout.rowHeights = new int[]{23, 0};

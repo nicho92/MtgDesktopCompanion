@@ -81,7 +81,7 @@ public class ConfigurationPanel extends JPanel {
 	}
 	
 	public ConfigurationPanel() {
-		lblLoading.setIcon(new ImageIcon(ConfigurationPanel.class.getResource("/load.gif")));
+		lblLoading.setIcon(new ImageIcon(ConfigurationPanel.class.getResource("/icons/load.gif")));
 		lblLoading.setVisible(false);
 		
 		

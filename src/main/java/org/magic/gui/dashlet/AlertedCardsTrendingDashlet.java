@@ -22,7 +22,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 	
 	public AlertedCardsTrendingDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(AlertedCardsTrendingDashlet.class.getResource("/bell.png")));
+		setFrameIcon(new ImageIcon(AlertedCardsTrendingDashlet.class.getResource("/icons/bell.png")));
 	}
 	
 	@Override

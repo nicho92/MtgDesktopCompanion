@@ -52,7 +52,7 @@ public class LoggerViewFrame extends JFrame {
 				model.fireTableDataChanged();
 			}
 		});
-		btnRefresh.setIcon(new ImageIcon(LoggerViewFrame.class.getResource("/refresh.png")));
+		btnRefresh.setIcon(new ImageIcon(LoggerViewFrame.class.getResource("/icons/refresh.png")));
 		panel.add(btnRefresh);
 		
 		t = new Timer(1000, new ActionListener() {

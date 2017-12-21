@@ -93,7 +93,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/logo.gif"));
+		return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/icons/logo.gif"));
 	}
 
 	@Override

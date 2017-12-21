@@ -110,7 +110,7 @@ public class DeckSnifferDialog extends JDialog{
 		
 		lblLoad = new JLabel("");
 		panel.add(lblLoad);
-		lblLoad.setIcon(new ImageIcon(DeckSnifferDialog.class.getResource("/load.gif")));
+		lblLoad.setIcon(new ImageIcon(DeckSnifferDialog.class.getResource("/icons/load.gif")));
 		lblLoad.setVisible(false);
 		
 		JPanel panel_1 = new JPanel();

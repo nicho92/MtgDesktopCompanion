@@ -130,48 +130,48 @@ public class CollectionPanelGUI extends JPanel {
 		add(panneauHaut, BorderLayout.NORTH);
 
 		
-		JButton btnAdd = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/new.png")));
+		JButton btnAdd = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/new.png")));
 		btnAdd.setToolTipText("Add a new collection");
 
 		
 		panneauHaut.add(btnAdd);
 		
-		JButton btnRefresh = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/refresh.png")));
+		JButton btnRefresh = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/refresh.png")));
 		btnRefresh.setToolTipText("Refresh collections");
 
 		panneauHaut.add(btnRefresh);
 
-		JButton btnRemove = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/delete.png")));
+		JButton btnRemove = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/delete.png")));
 		btnRemove.setToolTipText("remove selected item");
 		btnRemove.setEnabled(true);
 
 		panneauHaut.add(btnRemove);
 
-		JButton btnAddAllSet = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/check.png")));
+		JButton btnAddAllSet = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/check.png")));
 		btnAddAllSet.setToolTipText("Mark set as full");
 
 		panneauHaut.add(btnAddAllSet);
 
-		final JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/export.png")));
+		final JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/export.png")));
 						btnExportCSV.setToolTipText("Export as ");
 						
 		btnExportCSV.setEnabled(false);
 		
 	
-		JButton btnMassCollection = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/import.png")));
+		JButton btnMassCollection = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/import.png")));
 		btnMassCollection.setToolTipText("Import collection");
 
 		panneauHaut.add(btnMassCollection);
 		panneauHaut.add(btnExportCSV);
 
-		final JButton btnExportPriceCatalog = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/euro.png")));
+		final JButton btnExportPriceCatalog = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/euro.png")));
 		btnExportPriceCatalog.setToolTipText("Export prices catalog for collection");
 		btnExportPriceCatalog.setEnabled(false);
 
 		panneauHaut.add(btnExportPriceCatalog);
 
 		JButton btnGenerateWebSite = new JButton(
-				new ImageIcon(CollectionPanelGUI.class.getResource("/website.png")));
+				new ImageIcon(CollectionPanelGUI.class.getResource("/icons/website.png")));
 		btnGenerateWebSite.setToolTipText("Generate website");
 
 		panneauHaut.add(btnGenerateWebSite);

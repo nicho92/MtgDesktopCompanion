@@ -107,7 +107,7 @@ public class RssGUI extends JPanel {
 			
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon(RssGUI.class.getResource("/refresh.png")));
+		btnNewButton.setIcon(new ImageIcon(RssGUI.class.getResource("/icons/refresh.png")));
 		panelHaut.add(btnNewButton);
 		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {

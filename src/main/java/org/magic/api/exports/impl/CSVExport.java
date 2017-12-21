@@ -302,7 +302,7 @@ public class CSVExport extends AbstractCardExport{
 	
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(CSVExport.class.getResource("/xls.png"));
+		return new ImageIcon(CSVExport.class.getResource("/icons/xls.png"));
 	}
 
 }
