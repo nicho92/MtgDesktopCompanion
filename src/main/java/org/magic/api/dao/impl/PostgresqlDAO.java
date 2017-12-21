@@ -1,34 +1,17 @@
 package org.magic.api.dao.impl;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.io.PrintStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.magic.api.beans.EnumCondition;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicCardAlert;
-import org.magic.api.beans.MagicCardStock;
-import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.*;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
+
+import java.io.*;
+import java.sql.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class PostgresqlDAO extends AbstractMagicDAO {
