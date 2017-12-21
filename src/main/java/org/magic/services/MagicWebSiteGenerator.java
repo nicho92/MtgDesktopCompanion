@@ -1,19 +1,7 @@
 package org.magic.services;
 
-import java.io.File;
-import java.io.FileFilter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Observable;
-import java.util.Set;
-
+import freemarker.core.ParseException;
+import freemarker.template.*;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -23,14 +11,10 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 
-import freemarker.core.ParseException;
-import freemarker.template.Configuration;
-import freemarker.template.DefaultObjectWrapperBuilder;
-import freemarker.template.MalformedTemplateNameException;
-import freemarker.template.Template;
-import freemarker.template.TemplateException;
-import freemarker.template.TemplateExceptionHandler;
-import freemarker.template.TemplateNotFoundException;
+import java.io.*;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.util.*;
 
 public class MagicWebSiteGenerator extends Observable{
 	
@@ -72,7 +56,7 @@ public class MagicWebSiteGenerator extends Observable{
 		this.cols = cols;
 
 		Template template = cfg.getTemplate("index.html");
-			Writer out = new FileWriter(new File(dest+"\\index.htm"));
+			Writer out = new FileWriter(Paths.get(dest, "index.htm").toFile());
 		
 			Map root = new HashMap();
 			for(MagicCollection col : cols)
@@ -102,7 +86,7 @@ public class MagicWebSiteGenerator extends Observable{
 				rootEd.put("editions",eds);
 				
 				
-				FileWriter out = new FileWriter(new File(dest+"\\page-col-"+col.getName()+".htm"));
+				FileWriter out = new FileWriter(Paths.get(dest,"page-col-"+col.getName()+".htm").toFile());
 				template.process(rootEd, out);
 				
 				//for(String ed : dao.getEditionsIDFromCollection(col))
@@ -128,7 +112,7 @@ public class MagicWebSiteGenerator extends Observable{
 			{
 				rootEd.put("cards", dao.getCardsFromCollection(col, ed));
 				rootEd.put("edition", ed);
-				out = new FileWriter(new File(dest+"\\page-ed-"+col.getName()+"-"+ed.getId()+".htm"));
+				out = new FileWriter(Paths.get(dest,"page-ed-"+col.getName()+"-"+ed.getId()+".htm").toFile());
 				cardTemplate.process(rootEd, out);
 			}
 			out.close();
@@ -161,7 +145,7 @@ public class MagicWebSiteGenerator extends Observable{
 					}
 				}
 				rootEd.put("prices", prices);
-				FileWriter out = new FileWriter(new File(dest+"\\page-card-"+mc.getId()+".htm"));
+				FileWriter out = new FileWriter(Paths.get(dest,"page-card-"+mc.getId()+".htm").toFile());
 				cardTemplate.process(rootEd, out);
 				
 				setChanged();
