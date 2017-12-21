@@ -193,7 +193,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			}
 			
 			
-			cb.endText();  // fin d'une s�quence d'�criture
+			cb.endText(); 
 			
 		
 		document.close();

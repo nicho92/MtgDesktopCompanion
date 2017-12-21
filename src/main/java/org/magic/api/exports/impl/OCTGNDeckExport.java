@@ -81,13 +81,6 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
-		OCTGNDeckExport exp = new OCTGNDeckExport();
-		
-		exp.importDeck(new File("D:\\T�l�chargements\\The Deck by Brian Weissman.o8d"));
-	}
-	
-	
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
 		MagicDeck deck = new MagicDeck();
