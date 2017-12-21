@@ -50,7 +50,12 @@ public class MTGAppender extends AppenderSkeleton {
 	protected void append(LoggingEvent event) {
 		events.add(event);
 		obs.setChanged();
-		obs.notifyObservers(event.getMessage());
+		try{
+			obs.notifyObservers(event.getMessage());
+		}catch(Exception e)
+		{
+			e.printStackTrace();
+		}
 	}
 }
 

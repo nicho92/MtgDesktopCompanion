@@ -20,6 +20,9 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.tools.InstallCert;
 
 public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
@@ -43,11 +46,17 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	
 		if(!new File(confdir, getName()+".conf").exists()){
 				props.put("URL", "https://www.cardkingdom.com/mtg/");
-				props.put("WEBSITE", "http://www.cardkingdom.com/");
+				props.put("WEBSITE", "https://www.cardkingdom.com/");
 				props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 				save();
 		}
 		
+		try {
+  			InstallCert.install("www.cardkingdom.com");
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+    	} catch (Exception e1) {
+			logger.error(e1);
+		}
 		
 		eds=new ArrayList<String>();
 		try {

@@ -49,7 +49,7 @@ public class LaunchWindows extends JWindow implements Observer{
 
 	@Override
 	public void update(Observable o, Object msg) {
-		progressBar.setString(msg.toString());
+		progressBar.setString(String.valueOf(msg));
 		
 	}
 

@@ -211,7 +211,7 @@ public class MTGControler {
 		        .setFile(new File(CONF_DIR,"mtgcompanion-conf.xml"))
 		        .setSchemaValidation(false)
 		        .setValidating(false)
-		        .setEncoding("ISO-8859-15")
+		        .setEncoding("UTF-8")
 		        .setExpressionEngine(new XPathExpressionEngine())
 		        );
 		

@@ -269,7 +269,7 @@
 						<unix>.sh</unix>
 					</binFileExtensions>
 					<extraJvmArguments>-Xmx1128m</extraJvmArguments>
-					<showConsoleWindow>true</showConsoleWindow>
+					<showConsoleWindow>false</showConsoleWindow>
 				</configuration>
 				<executions>
 					<execution>

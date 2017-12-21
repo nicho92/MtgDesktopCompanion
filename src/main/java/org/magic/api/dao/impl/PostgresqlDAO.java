@@ -531,7 +531,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				pst.setString(5, state.getLanguage());
 				pst.setInt(6, state.getQte());
 				pst.setString(7, state.getComment());
-				pst.setString(8, state.getMagicCard().getId());
+				pst.setString(8, IDGenerator.generate(state.getMagicCard()));
 				pst.setString(9, state.getMagicCollection().getName());
 				pst.setBoolean(10, state.isAltered());
 				pst.setDouble(11, state.getPrice());
