@@ -387,7 +387,7 @@ public class MTGControler {
 			return (T)classLoader.loadClass(classname).newInstance();
 		}catch(Exception e)
 		{
-			logger.error(e);
+			logger.error("error loading "+ classname,e);
 			return null;
 		}
 	}
