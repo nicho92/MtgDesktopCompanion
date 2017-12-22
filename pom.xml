@@ -9,7 +9,7 @@
 		<url>https://github.com/nicho92/MtgDesktopCompanion/issues</url>
 	</issueManagement>
 	<groupId>org.magic</groupId>
-	<artifactId>magic-api</artifactId>
+	<artifactId>mkm-api-java</artifactId>
 	<version>1.78</version>
 	<packaging>jar</packaging>
 	<properties>
