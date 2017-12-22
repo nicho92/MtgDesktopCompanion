@@ -462,6 +462,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 					state.setFoil(rs.getBoolean("foil"));
 					state.setSigned(rs.getBoolean("signedcard"));
 					state.setLanguage(rs.getString("langage"));
+					state.setAltered(rs.getBoolean("altered"));
 					state.setQte(rs.getInt("qte"));
 					state.setPrice(rs.getDouble("price"));
 					colls.add(state);
