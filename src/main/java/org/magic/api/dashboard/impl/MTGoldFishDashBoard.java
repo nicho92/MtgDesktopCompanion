@@ -59,6 +59,18 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		}
 	}
 	
+
+	public static void main(String[] args) throws IOException {
+		MTGoldFishDashBoard dash = new MTGoldFishDashBoard();
+		MagicCard mc = new MagicCard();
+		mc.setName("Volcanic Island");
+		MagicEdition ed = new MagicEdition();
+		ed.setId("3ED");
+		ed.setSet("Revised Edition");
+		System.out.println(dash.getPriceVariation(null,ed));
+	}
+	
+	
 	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
 		 
 		stop = false;	    
@@ -72,14 +84,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		 if(mc==null)
 		 {
 			 url = props.getProperty("URL_EDITIONS")+replace(me.getId(),false)+"#"+props.getProperty("FORMAT");
-			 index=3;
+			 index=6;
 		 }
 		 else
 		 {
 			 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
 			 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "").replaceAll(":","");
 			 url =props.getProperty("WEBSITE")+"/price/"+convert(editionName)+"/"+cardName+"#"+props.getProperty("FORMAT");
-			 index=5;
+			 index=8;
 		
 		 }
 		 
@@ -92,17 +104,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	    		 	.userAgent(props.getProperty("USER_AGENT"))
 					.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 					.get();
+			 
+		 Element js = d.getElementsByTag("script").get(index);
 		 
-		 
-	     Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(index);
 	     AstNode node = new Parser().parse(js.html(), "", 1);
 	     		 node.visit( new NodeVisitor() {
-	 	        	
-	    	         public boolean visit(AstNode node) {
-	    	        	
-	    	        	 if(node.getType()==133)
-	    	        	 {
-	    	        		 
+	 	             public boolean visit(AstNode node) {
+	 	            	 {
 	    	        		 if(stop==false)
 	    	        		 if(node.toSource().startsWith("d"))
 	    	        		 {
@@ -140,8 +148,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		}
 	}
 	
-	
-
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
 		
@@ -260,11 +266,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 	}
 	
-	
-	public static void main(String[] args) throws IOException {
-		MTGoldFishDashBoard dash = new MTGoldFishDashBoard();
-		dash.getBestCards(FORMAT.modern,"creatures");
-	}
 	
 	@Override
 	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
