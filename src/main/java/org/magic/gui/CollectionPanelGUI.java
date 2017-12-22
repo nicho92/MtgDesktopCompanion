@@ -83,7 +83,8 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class CollectionPanelGUI extends JPanel {
-
+	Logger logger = MTGLogger.getLogger(this.getClass());
+	
 	private JXTable tableEditions;
 	private TableFilterHeader filter;
 	private MagicCardsProvider provider;
@@ -92,7 +93,6 @@ public class CollectionPanelGUI extends JPanel {
 	private MagicEditionsTableModel model;
 	private JProgressBar progressBar;
 	private TreePath path;
-	Logger logger = MTGLogger.getLogger(this.getClass());
 	private JXTable tablePrices;
 	private CardsPriceTableModel modelPrices;
 	private MagicCollection selectedcol;
@@ -119,189 +119,167 @@ public class CollectionPanelGUI extends JPanel {
 	
 	
 	public void initGUI() throws Exception {
-		
 		logger.info("init collection GUI");
-		setLayout(new BorderLayout(0, 0));
-		model = new MagicEditionsTableModel();
-		model.init(provider.loadEditions());
-		lblTotal = new JLabel();
-		lblTotal.setText("Total : " + model.getCountDefaultLibrary() +"/" + model.getCountTotal());
+		
+////////INIT COMPONENTS
 		JPanel panneauHaut = new JPanel();
-		add(panneauHaut, BorderLayout.NORTH);
-
-		
 		JButton btnAdd = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/new.png")));
-		btnAdd.setToolTipText("Add a new collection");
-
-		
-		panneauHaut.add(btnAdd);
-		
 		JButton btnRefresh = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/refresh.png")));
-		btnRefresh.setToolTipText("Refresh collections");
-
-		panneauHaut.add(btnRefresh);
-
 		JButton btnRemove = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/delete.png")));
-		btnRemove.setToolTipText("remove selected item");
-		btnRemove.setEnabled(true);
-
-		panneauHaut.add(btnRemove);
-
 		JButton btnAddAllSet = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/check.png")));
-		btnAddAllSet.setToolTipText("Mark set as full");
-
-		panneauHaut.add(btnAddAllSet);
-
-		final JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/export.png")));
-						btnExportCSV.setToolTipText("Export as ");
-						
-		btnExportCSV.setEnabled(false);
-		
-	
+		JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/export.png")));
 		JButton btnMassCollection = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/import.png")));
-		btnMassCollection.setToolTipText("Import collection");
-
-		panneauHaut.add(btnMassCollection);
-		panneauHaut.add(btnExportCSV);
-
-		final JButton btnExportPriceCatalog = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/euro.png")));
-		btnExportPriceCatalog.setToolTipText("Export prices catalog for collection");
-		btnExportPriceCatalog.setEnabled(false);
-
-		panneauHaut.add(btnExportPriceCatalog);
-
-		JButton btnGenerateWebSite = new JButton(
-				new ImageIcon(CollectionPanelGUI.class.getResource("/icons/website.png")));
-		btnGenerateWebSite.setToolTipText("Generate website");
-
-		panneauHaut.add(btnGenerateWebSite);
-
-		progressBar = new JProgressBar();
-		progressBar.setVisible(false);
-		panneauHaut.add(progressBar);
-		MagicCollectionTableCellRenderer render = new MagicCollectionTableCellRenderer();
-		DefaultRowSorter sorterEditions = new TableRowSorter<DefaultTableModel>(model);
-
-		List<SortKey> keys = new ArrayList<SortKey>();
-		SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);//column index 2
-		keys.add(sortKey);
-		sorterEditions.setSortKeys(keys);
-		
-		
+		JButton btnExportPriceCatalog = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/euro.png")));
+		JButton btnGenerateWebSite = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/website.png")));
+		JScrollPane scrollPaneCollections = new JScrollPane();
+		JScrollPane scrollPrices = new JScrollPane();
 		JSplitPane splitListPanel = new JSplitPane();
+		JSplitPane splitPane = new JSplitPane();
+		JPanel panneauGauche = new JPanel();
+		JScrollPane scrollPane = new JScrollPane();
+		JPanel panelTotal = new JPanel();
+		JPanel panneauDroite = new JPanel();
+		MagicCollectionTableCellRenderer render = new MagicCollectionTableCellRenderer();
+
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		progressBar = new JProgressBar();
+		lblTotal = new JLabel();
+		magicEditionDetailPanel = new MagicEditionDetailPanel(true,false);
+		magicCardDetailPanel = new MagicCardDetailPanel();
+		typeRepartitionPanel = new TypeRepartitionPanel();
+		manaRepartitionPanel = new ManaRepartitionPanel();
+		rarityRepartitionPanel = new RarityRepartitionPanel();
+		statsPanel = new CardStockPanel();
+		historyPricesPanel = new HistoryPricesPanel();
+		jsonPanel = new JSONPanel();
+		tree = new LazyLoadingTree();
+		tableEditions = new JXTable();
+	
+
+		
+////////MODELS
+		model = new MagicEditionsTableModel();
+		DefaultRowSorter sorterEditions = new TableRowSorter<DefaultTableModel>(model);
+		modelPrices = new CardsPriceTableModel();
+		tablePrices = new JXTable(modelPrices);
+		model.init(provider.loadEditions());
+		tableEditions.setModel(model);
+		filter = new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
+
+		
+/////////CONFIGURE COMPONENTS		
 		splitListPanel.setDividerLocation(0.5);
 		splitListPanel.setResizeWeight(0.5);
 		
-		
-		add(splitListPanel, BorderLayout.CENTER);
-
-		JPanel panneauDroite = new JPanel();
-		panneauDroite.setLayout(new BorderLayout());
-		splitListPanel.setRightComponent(panneauDroite);
-
+		progressBar.setVisible(false);
+		btnRemove.setEnabled(true);
+		btnExportCSV.setEnabled(false);
+		btnExportPriceCatalog.setEnabled(false);
 	
-		modelPrices = new CardsPriceTableModel();
-				
-		final JSplitPane splitPane = new JSplitPane();
 		splitPane.setResizeWeight(0.5);
-		panneauDroite.add(splitPane, BorderLayout.CENTER);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-
-		JScrollPane scrollPaneCollections = new JScrollPane();
 		scrollPaneCollections.setMinimumSize(new Dimension(0, 0));
-		splitPane.setLeftComponent(scrollPaneCollections);
-
-		tree = new LazyLoadingTree();
 		tree.setCellRenderer(new MagicCollectionTreeCellRenderer());
-		scrollPaneCollections.setViewportView(tree);
-
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		splitPane.setRightComponent(tabbedPane);
-
-
-		JScrollPane scrollPrices = new JScrollPane();
-		tablePrices = new JXTable(modelPrices);
 		tablePrices.setColumnControlVisible(true);
-		scrollPrices.setViewportView(tablePrices);
-
-		magicEditionDetailPanel = new MagicEditionDetailPanel(true,false);
-		
-		
-		magicCardDetailPanel = new MagicCardDetailPanel();
+	
 		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
-		tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
-		tabbedPane.addTab("Edition", null, magicEditionDetailPanel, null);
-		tabbedPane.addTab("Prices", null, scrollPrices, null);
-
-
-		typeRepartitionPanel = new TypeRepartitionPanel();
-		tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
-
-		manaRepartitionPanel = new ManaRepartitionPanel();
-		tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
-
-		rarityRepartitionPanel = new RarityRepartitionPanel();
-		tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
-
-		statsPanel = new CardStockPanel();
-		tabbedPane.addTab("Stock", null, statsPanel, null);
-		
-		
-		historyPricesPanel = new HistoryPricesPanel();
-		tabbedPane.addTab("Variation", null, historyPricesPanel, null);
-		
-		
-		jsonPanel = new JSONPanel();
-		
-		if(MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			tabbedPane.addTab("Json", null, jsonPanel, null);
 				
-				JPanel panneauGauche = new JPanel();
-				splitListPanel.setLeftComponent(panneauGauche);
-				panneauGauche.setLayout(new BorderLayout(0, 0));
-		
-				JScrollPane scrollPane = new JScrollPane();
-				panneauGauche.add(scrollPane);
-						tableEditions = new JXTable();
-						tableEditions.setModel(model);
-						
-						filter = new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
-						
-						tableEditions.addMouseListener(new MouseAdapter() {
-							@Override
-							public void mouseClicked(MouseEvent arg0) {
-									int row = tableEditions.getSelectedRow();
-									MagicEdition ed = (MagicEdition)tableEditions.getValueAt(row, 1);
-									magicEditionDetailPanel.setMagicEdition(ed);
-									historyPricesPanel.init(null,ed,ed.getSet());
-									jsonPanel.show(ed);
-							}
-						});
-		
 		tableEditions.setDefaultRenderer(Object.class,render);
 		//tableEditions.setDefaultRenderer(ImageIcon.class,render);
 		tableEditions.setDefaultRenderer(String.class,render);
 		tableEditions.setDefaultRenderer(Integer.class, render);
 		tableEditions.setDefaultRenderer(double.class, render);
-		
 		tableEditions.setRowHeight(25);
-		
 		tableEditions.setRowSorter(sorterEditions);
+	
+		
+		
+/////////LAYOUT
+		setLayout(new BorderLayout(0, 0));
+		panneauDroite.setLayout(new BorderLayout());
+		panneauGauche.setLayout(new BorderLayout(0, 0));
+		
+/////////ADD PANELS		
+		add(panneauHaut, BorderLayout.NORTH);
+		panneauHaut.add(btnAdd);
+		panneauHaut.add(btnRefresh);
+		panneauHaut.add(btnRemove);
+		panneauHaut.add(btnAddAllSet);
+		panneauHaut.add(btnMassCollection);
+		panneauHaut.add(btnExportCSV);
+		panneauHaut.add(btnExportPriceCatalog);
+		panneauHaut.add(btnGenerateWebSite);
+		panneauHaut.add(progressBar);
+		add(splitListPanel, BorderLayout.CENTER);
+		splitListPanel.setRightComponent(panneauDroite);
+		panneauDroite.add(splitPane, BorderLayout.CENTER);
+		splitPane.setLeftComponent(scrollPaneCollections);
+		scrollPaneCollections.setViewportView(tree);
+		splitPane.setRightComponent(tabbedPane);
+		scrollPrices.setViewportView(tablePrices);
+		splitListPanel.setLeftComponent(panneauGauche);
+		panneauGauche.add(scrollPane);
+		scrollPane.setViewportView(tableEditions);
+		panneauGauche.add(panelTotal, BorderLayout.SOUTH);
+		panelTotal.add(lblTotal);	
+		
+		
+		tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
+		tabbedPane.addTab("Edition", null, magicEditionDetailPanel, null);
+		tabbedPane.addTab("Prices", null, scrollPrices, null);
+		tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
+		tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
+		tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
+		tabbedPane.addTab("Stock", null, statsPanel, null);
+		tabbedPane.addTab("Variation", null, historyPricesPanel, null);
+		
+		if(MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
+			tabbedPane.addTab("Json", null, jsonPanel, null);
+				
+
+		
+		
+/////////Labels	
+		lblTotal.setText("Total : " + model.getCountDefaultLibrary() +"/" + model.getCountTotal());
+		btnAdd.setToolTipText("Add a new collection");
+		btnRefresh.setToolTipText("Refresh collections");
+		btnRemove.setToolTipText("remove selected item");
+		btnAddAllSet.setToolTipText("Mark set as full");
+		btnExportCSV.setToolTipText("Export as ");
+		btnMassCollection.setToolTipText("Import collection");
+		btnExportPriceCatalog.setToolTipText("Export prices catalog for collection");
+		btnGenerateWebSite.setToolTipText("Generate website");
+
+		
+	
+	
+		List<SortKey> keys = new ArrayList<SortKey>();
+		SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);//column index 2
+		keys.add(sortKey);
+		sorterEditions.setSortKeys(keys);
+				
+		
+		
+	
 		tableEditions.packAll();
 		
 		
-		
-		scrollPane.setViewportView(tableEditions);
-		
-		JPanel panelTotal = new JPanel();
-		panneauGauche.add(panelTotal, BorderLayout.SOUTH);
-		
-		
-		panelTotal.add(lblTotal);
+	
 		
 		initPopupCollection();
 
+		tableEditions.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+					int row = tableEditions.getSelectedRow();
+					MagicEdition ed = (MagicEdition)tableEditions.getValueAt(row, 1);
+					magicEditionDetailPanel.setMagicEdition(ed);
+					historyPricesPanel.init(null,ed,ed.getSet());
+					jsonPanel.show(ed);
+			}
+		});
+		
 
 		btnAdd.addActionListener(new ActionListener() {
 			
@@ -334,7 +312,7 @@ public class CollectionPanelGUI extends JPanel {
 						tree.refresh();
 						try {
 							model.calculate();
-							
+							lblTotal.setText("Total : " + model.getCountDefaultLibrary() +"/" + model.getCountTotal());
 						} catch (Exception e) {
 						}
 						model.fireTableDataChanged();
@@ -443,7 +421,7 @@ public class CollectionPanelGUI extends JPanel {
 		tree.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent tse) {
 				path = tse.getPath();
-
+				
 				final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 				
 				if(curr.getUserObject() instanceof String)
@@ -504,9 +482,7 @@ public class CollectionPanelGUI extends JPanel {
 
 							}catch(Exception e)
 							{
-								e.printStackTrace();
 								logger.error(e);
-
 							}
 						}
 					},"Refresh Collection");
@@ -564,7 +540,6 @@ public class CollectionPanelGUI extends JPanel {
 						loadPrices((MagicCard)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() );
 			}
 		});
-		
 
 		tree.addMouseListener(new MouseAdapter() {
 			@Override
@@ -607,7 +582,6 @@ public class CollectionPanelGUI extends JPanel {
 				}
 			}
 		});
-
 	
 		btnMassCollection.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {

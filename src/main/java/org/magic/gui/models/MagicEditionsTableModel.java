@@ -48,7 +48,8 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		
 		MagicCollection mc = new MagicCollection(MTGControler.getInstance().get("default-library"));
 		Map<String,Integer> temp = MTGControler.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
-		
+		countDefaultLibrary=0;
+		countTotal=0;
 		for(MagicEdition me : list)
 		{
 			mapCount.put(me, (temp.get(me.getId())==null)?0:temp.get(me.getId()));
