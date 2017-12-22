@@ -1,4 +1,4 @@
-package org.magic.gui;
+package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.util.Observable;
@@ -6,10 +6,13 @@ import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 
-public class LaunchWindows extends JWindow implements Observer{
+//TODO opacity for JPanel and JWindow.. not JLabel
+
+public class MTGSplashScreen extends JWindow implements Observer{
 	
 	JProgressBar progressBar;
 	
@@ -19,21 +22,24 @@ public class LaunchWindows extends JWindow implements Observer{
 		progressBar.setValue(0);
 	}
 	
-	public LaunchWindows() {
+	public MTGSplashScreen() {
+		JPanel panel = new JPanel();
+		panel.setOpaque(false); 
+		//setOpacity(0.55f);
 		
-		getContentPane().setLayout(new BorderLayout(0, 0));
+		getContentPane().add(panel);
+		panel.setLayout(new BorderLayout(0, 0));
+		
+		JLabel lblIcons = new JLabel("");
+		panel.add(lblIcons, BorderLayout.CENTER);
+		lblIcons.setIcon(new ImageIcon(MTGSplashScreen.class.getResource("/data/magic-logo.png")));
+		lblIcons.setOpaque(false);
 		
 		progressBar = new JProgressBar();
+		panel.add(progressBar, BorderLayout.SOUTH);
 		progressBar.setMinimum(0);
 		progressBar.setIndeterminate(true);
 		progressBar.setStringPainted(true);
-		
-		getContentPane().add(progressBar, BorderLayout.SOUTH);
-		//setOpacity(0.55f);
-		JLabel lblNewLabel = new JLabel("");
-		lblNewLabel.setIcon(new ImageIcon(LaunchWindows.class.getResource("/data/magic-logo.png")));
-		lblNewLabel.setOpaque(false);
-		getContentPane().add(lblNewLabel, BorderLayout.CENTER);
 		pack();
 		setLocationRelativeTo(null);
 	}

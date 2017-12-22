@@ -5,8 +5,8 @@ import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.gui.LaunchWindows;
 import org.magic.gui.MagicGUI;
+import org.magic.gui.components.dialog.MTGSplashScreen;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -15,7 +15,7 @@ public class MtgDesktopCompanion {
 
 	final Logger logger = MTGLogger.getLogger(this.getClass());
 	
-	LaunchWindows launch;
+	MTGSplashScreen launch;
 	
 	public static void main(String[] args) {
 		new MtgDesktopCompanion();
@@ -24,7 +24,7 @@ public class MtgDesktopCompanion {
 	
 	public MtgDesktopCompanion() {
 	
-		launch= new LaunchWindows();
+		launch= new MTGSplashScreen();
 		MTGLogger.getMTGAppender().addObserver(launch);
 		launch.start();
 			
