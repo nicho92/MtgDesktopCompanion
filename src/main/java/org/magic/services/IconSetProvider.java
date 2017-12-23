@@ -29,10 +29,10 @@ public class IconSetProvider {
 		cache24 = new HashMap<String,ImageIcon>();
 		cache16 = new HashMap<String,ImageIcon>();
 		
-		temp_file = new File(AbstractMTGPicturesCache.confdir,"sets_icons");
+	//	temp_file = new File(AbstractMTGPicturesCache.confdir,"sets_icons");
 		
-		if(!temp_file.exists())
-			temp_file.mkdir();
+	//	if(!temp_file.exists())
+	//		temp_file.mkdir();
 		
 		
 		try {

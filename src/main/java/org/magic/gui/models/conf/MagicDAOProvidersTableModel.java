@@ -107,12 +107,11 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
         } 
         else if (node instanceof Entry) 
         {
-        	Entry emp = (Entry) node;
         	  switch (column) {
                 case 0:
-                    return emp.getKey();
+                    return ((Entry) node).getKey();
                 case 1:
-                    return emp.getValue();
+                    return ((Entry) node).getValue();
             }
         }
         return null;
@@ -149,10 +148,8 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
 	    	{
 	        	String k = (String)((Entry)node).getKey();
 	        	selectedProvider.getProperties().put(k, strValue);
-	        	//pricers.add(selectedProvider);
-	        	
-	        	
 	        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
+	        	((Entry)node).setValue(strValue);
 	        	selectedProvider.save();
 	    	}    
    }

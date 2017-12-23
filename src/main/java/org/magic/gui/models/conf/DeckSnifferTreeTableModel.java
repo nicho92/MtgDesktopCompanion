@@ -141,6 +141,7 @@ public class DeckSnifferTreeTableModel extends AbstractTreeTableModel {
 		        	String k = (String)((Entry)node).getKey();
 		        	selectedProvider.setProperties(k, strValue);
 		        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
+		        	((Entry)node).setValue(strValue);
 		        	selectedProvider.save();
 		    	}    
 	   }

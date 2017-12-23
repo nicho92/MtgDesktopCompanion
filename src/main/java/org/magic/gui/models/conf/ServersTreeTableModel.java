@@ -131,8 +131,6 @@ public class ServersTreeTableModel extends AbstractTreeTableModel {
 	        	{
 	        		selectedProvider.enable(Boolean.parseBoolean(strValue));
 	        		MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
-	        		
-	        		
 	        	}
 	        }
 	        if(node instanceof Entry )
@@ -141,6 +139,7 @@ public class ServersTreeTableModel extends AbstractTreeTableModel {
 		        	String k = (String)((Entry)node).getKey();
 		        	selectedProvider.setProperties(k, strValue);
 		        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
+	        		((Entry)node).setValue(strValue);
 		        	selectedProvider.save();
 		    	}    
 	   }
