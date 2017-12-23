@@ -93,20 +93,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		return name;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		
-		LogManager.getRootLogger().setLevel(Level.TRACE);
-		
-		MagicCard mc = new MagicCard();
-		mc.setName("Marsh Flat");
-		
-		MagicEdition ed = new MagicEdition();
-		ed.setSet("Zendikar");
-		
-		CardKingdomPricer pric = new CardKingdomPricer();
-		pric.getPrice(ed, mc);
-		
-	}
 	
 	
 	public String format(String s)

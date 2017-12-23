@@ -79,16 +79,6 @@ public class GameManager {
 	}
 
 	
-	public static void main(String[] args) throws Exception {
-		JFrame f = new JFrame("Game Simulator");
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().setLayout(new BorderLayout());
-		f.getContentPane().add(GamePanelGUI.getInstance(),BorderLayout.CENTER);
-		f.setVisible(true);
-		f.setSize(1024, 800);
-	}
-
-
 
 	public void initGame() {
 		for(Player player : players)

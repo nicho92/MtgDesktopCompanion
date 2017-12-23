@@ -180,13 +180,4 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		return "TCG Player Decks";
 	}
 
-	public static void main(String[] args) throws Exception {
-		TCGPlayerDeckSniffer sniff = new TCGPlayerDeckSniffer();
-		RetrievableDeck d = sniff.getDeckList().get(11);
-		sniff.getDeck(d);
-		
-		
-
-	}
-
 }

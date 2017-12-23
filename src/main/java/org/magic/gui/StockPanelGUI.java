@@ -972,19 +972,5 @@ public class StockPanelGUI extends JPanel {
 		lblCount.setText("Item in stock : " + table.getRowCount());
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		JFrame f = new JFrame();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		MTGControler.getInstance().getEnabledProviders().init();
-		MTGControler.getInstance().getEnabledDAO().init();
-		f.getContentPane().add(new StockPanelGUI());
-		f.pack();
-		f.setVisible(true);
-
-	}
-
-	
-	
-	
 	
 }

@@ -68,12 +68,6 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	}
 	
 	
-	public static void main(String[] args) throws Exception {
-		DeckSniffer snif = new MagicCorporationDecks();
-		RetrievableDeck d = snif.getDeckList().get(8);
-		snif.getDeck(d);
-	}
-
 	@Override
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		Document d = Jsoup.connect(props.getProperty("URL")+"/mc.php?rub=decks&limit=0")

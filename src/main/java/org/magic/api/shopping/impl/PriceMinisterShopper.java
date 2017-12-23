@@ -59,10 +59,6 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 	}
 	
 	
-	public static void main(String[] args) {
-		new PriceMinisterShopper().search("magic the gathering");
-	}
-	
 	@Override
 	public List<ShopItem> search(String search) {
 		List<ShopItem> list = new ArrayList<ShopItem>();

@@ -155,15 +155,4 @@ public class DashBoardGUI2 extends JDesktopPane {
 	}
 	
 	
-	
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		MTGControler.getInstance().getEnabledProviders().init();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setVisible(true);
-		f.setSize(1024, 768);
-		f.getContentPane().add(new DashBoardGUI2(),BorderLayout.CENTER);
-		f.setVisible(true);
-		
-	}
 }

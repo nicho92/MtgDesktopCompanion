@@ -60,16 +60,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	}
 	
 
-	public static void main(String[] args) throws IOException {
-		MTGoldFishDashBoard dash = new MTGoldFishDashBoard();
-		MagicCard mc = new MagicCard();
-		mc.setName("Volcanic Island");
-		MagicEdition ed = new MagicEdition();
-		ed.setId("3ED");
-		ed.setSet("Revised Edition");
-		System.out.println(dash.getPriceVariation(null,ed));
-	}
-	
+
 	
 	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
 		 

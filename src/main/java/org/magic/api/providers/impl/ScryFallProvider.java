@@ -471,22 +471,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		ScryFallProvider prov = new ScryFallProvider();
-		
-		prov.init();
-		prov.loadEditions();
-		List<MagicCard> res = prov.searchCardByCriteria("name", "liliana", null);
-		ArrayList<String> l = new ArrayList<String>();
-			l.add("name");
-			l.add("supertypes");
-			l.add("types");
-			l.add("subtypes");
-		IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(res,l,l);
-    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
-    	
-	}
+	
 
 	private void generateRules(MagicCard mc) throws JsonIOException, JsonSyntaxException, UnsupportedEncodingException, IOException
 	{

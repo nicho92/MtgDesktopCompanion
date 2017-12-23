@@ -89,14 +89,6 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	}
 	
 	
-	public static void main(String[] args) throws Exception {
-		MTGControler.getInstance().getEnabledProviders().init();
-		DeckSniffer snif = new LotusNoirDecks();
-		RetrievableDeck d = snif.getDeckList().get(0);
-		snif.getDeck(d);
-		
-	}
-
 	@Override
 	public List<RetrievableDeck> getDeckList() throws Exception {
 	

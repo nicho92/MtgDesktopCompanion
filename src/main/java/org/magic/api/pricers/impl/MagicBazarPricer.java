@@ -40,12 +40,6 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	}
 	
 	
-	public static void main(String[] args) throws Exception {
-		MagicCard mc = new MagicCard();
-			mc.setName("Mana Crypt");
-			System.out.println(new MagicBazarPricer().getPrice(null, mc));
-	}
-	
 
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {

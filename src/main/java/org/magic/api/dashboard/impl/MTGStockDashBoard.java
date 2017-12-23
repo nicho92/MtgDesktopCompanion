@@ -58,15 +58,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 	}
 	
-	public static void main(String[] args) throws Exception {
-		MTGStockDashBoard board = new MTGStockDashBoard();
-		
-		
-		
-		
-	}
-	
-
 	private void connect() throws Exception
 	{
 		cookieStore = new BasicCookieStore();

@@ -35,16 +35,6 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 		}
 	}
 	
-	public static void main(String[] args) throws Exception {
-		
-		MagicEdition ed = new MagicEdition();
-		MagicCard mc = new MagicCard();
-		mc.setName("Wharf Infiltrator");
-		ed.setSet("Eldritch Moon");
-		
-		new MTGPricePricer().getPrice(ed, mc);
-	}
-	
 	
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {

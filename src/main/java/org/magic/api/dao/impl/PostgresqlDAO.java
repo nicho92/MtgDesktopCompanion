@@ -38,13 +38,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		save();
 		}
 	}
-    
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		PostgresqlDAO dao = new PostgresqlDAO();
-		dao.init();
-	}
-	
-    
+   
 	@Override
 	public void init() throws ClassNotFoundException, SQLException {
 		 logger.info("init " + getName());

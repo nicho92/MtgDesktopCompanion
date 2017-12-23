@@ -79,16 +79,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	}
 
 	
-	public static void main(String[] args) {
-		DeckTutorPricer pric = new DeckTutorPricer();
-		
-		try {
-			pric.getPrice(null, null);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
 	private String getMD5(String chaine) throws NoSuchAlgorithmException
 	{
 		MessageDigest md = MessageDigest.getInstance("MD5");

@@ -79,18 +79,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		return new String[]{"latest","standard","modern","legacy","vintage","edh","tops","pauper","aggro","budget","control"};
 	}
     
-    public static void main(String[] args) {
-		try {
-			TappedOutDeckSniffer sniff = new TappedOutDeckSniffer();
-				sniff.connect();
-				RetrievableDeck temp = sniff.getDeckList().get(15);
-				sniff.getDeck(temp);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
- 	
+   
 	@Override
 	public String getName() {
 		return "Tapped Out";

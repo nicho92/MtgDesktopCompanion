@@ -52,10 +52,6 @@ public class JDeckChooserDialog extends JDialog {
 		return selectedDeck;
 	}
 	
-	public static void main(String[] args) {
-		new JDeckChooserDialog().setVisible(true);;
-	}
-	
 	
 	private void initTree() {
 		  

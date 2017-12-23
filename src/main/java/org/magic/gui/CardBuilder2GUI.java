@@ -596,14 +596,5 @@ public class CardBuilder2GUI extends JPanel{
 		
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		MTGControler.getInstance().getEnabledProviders().init();
-		MTGControler.getInstance().getEnabledDAO().init();
-		JFrame f = new JFrame();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().add(new CardBuilder2GUI());
-		f.pack();
-		f.setVisible(true);
-	}
 	
 }
