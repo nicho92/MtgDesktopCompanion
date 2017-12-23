@@ -486,7 +486,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		{
 			
 			logger.debug("save "  + state);
-			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,altered,price) values (?,?,?,?,?,?,?,?,?,?)");
+			pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,altered,price,mcard) values (?,?,?,?,?,?,?,?,?,?,?)");
 			pst.setString(1, state.getCondition().toString());
 			pst.setBoolean(2,state.isFoil());
 			pst.setBoolean(3, state.isSigned());
@@ -497,6 +497,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 			pst.setString(8, state.getMagicCollection().getName());
 			pst.setBoolean(9, state.isAltered());
 			pst.setDouble(10, state.getPrice());
+			pst.setObject(11, state.getMagicCard());
 			state.setIdstock(pst.executeUpdate());
 		}
 		else
