@@ -26,6 +26,7 @@ import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
@@ -45,7 +46,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 	
 	public TrendingDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(TrendingDashlet.class.getResource("/icons/dashboard.png")));
+		setFrameIcon(MTGConstants.ICON_DASHBOARD);
 	}
 	
 	public void initGUI() {
@@ -63,7 +64,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 		panneauHaut.add(cboFormats);
 		
 		lblLoading = new JLabel("");
-		lblLoading.setIcon(new ImageIcon(TrendingDashlet.class.getResource("/icons/load.gif")));
+		lblLoading.setIcon(MTGConstants.ICON_LOADING);
 		lblLoading.setVisible(false);
 		
 		btnRefresh = new JButton("");
@@ -72,7 +73,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				init();
 			}
 		});
-		btnRefresh.setIcon(new ImageIcon(TrendingDashlet.class.getResource("/icons/refresh.png")));
+		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(lblLoading);
 		

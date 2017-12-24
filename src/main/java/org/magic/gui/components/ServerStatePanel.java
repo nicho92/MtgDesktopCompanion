@@ -17,6 +17,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.magic.api.interfaces.MTGServer;
+import org.magic.services.MTGConstants;
 
 public class ServerStatePanel extends JPanel {
 
@@ -31,8 +32,8 @@ public class ServerStatePanel extends JPanel {
 		this.server=s;
 		icons = new HashMap<Boolean,ImageIcon>();
 		
-		icons.put(false, new ImageIcon(ServerStatePanel.class.getResource("/icons/delete.png")));
-		icons.put(true, new ImageIcon(ServerStatePanel.class.getResource("/icons/check.png")));
+		icons.put(false,MTGConstants.ICON_DELETE);
+		icons.put(true, MTGConstants.ICON_CHECK);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{109, 40, 47, 42, 0, 0};
 		gridBagLayout.rowHeights = new int[]{23, 0};

@@ -72,6 +72,7 @@ import org.magic.gui.renderer.MagicDeckQtyEditor;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -144,7 +145,7 @@ public class DeckBuilderGUI extends JPanel {
 
 		JPanel panneauHaut = new JPanel();
 
-		lblExport.setIcon(new ImageIcon(MagicGUI.class.getResource("/icons/load.gif")));
+		lblExport.setIcon(MTGConstants.ICON_LOADING);
 		lblExport.setVisible(false);
 
 		setLayout(new BorderLayout(0, 0));
@@ -168,13 +169,13 @@ public class DeckBuilderGUI extends JPanel {
 		panneauHaut.add(txtSearch);
 		txtSearch.setColumns(25);
 
-		btnSearch = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/search.png")));
+		btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 		panneauHaut.add(btnSearch);
 
 		final JLabel lblCards = new JLabel("");
 		panneauHaut.add(lblCards);
 
-		JButton btnNewDeck = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/new.png")));
+		JButton btnNewDeck = new JButton(MTGConstants.ICON_NEW);
 		btnNewDeck.setToolTipText("Create New Deck");
 
 		panneauHaut.add(btnNewDeck);
@@ -189,7 +190,7 @@ public class DeckBuilderGUI extends JPanel {
 			}
 		});
 
-		JButton btnOpen = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/open.png")));
+		JButton btnOpen = new JButton(MTGConstants.ICON_OPEN);
 		btnOpen.setToolTipText("Open deck");
 		panneauHaut.add(btnOpen);
 
@@ -268,11 +269,11 @@ public class DeckBuilderGUI extends JPanel {
 
 			}
 		});
-		btnUpdate.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/refresh.png")));
+		btnUpdate.setIcon(MTGConstants.ICON_REFRESH);
 
 		panneauHaut.add(btnUpdate);
 
-		JButton btnSave = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/save.png")));
+		JButton btnSave = new JButton(MTGConstants.ICON_SAVE);
 		btnSave.setToolTipText("Save deck");
 		panneauHaut.add(btnSave);
 
@@ -298,7 +299,7 @@ public class DeckBuilderGUI extends JPanel {
 			}
 		});
 
-		JButton btnImport = new JButton(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/import.png")));
+		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnImport.setToolTipText("Import deck as ");
 
 		btnImport.addActionListener(new ActionListener() {
@@ -306,7 +307,7 @@ public class DeckBuilderGUI extends JPanel {
 				JPopupMenu menu = new JPopupMenu();
 
 				JMenuItem manuel = new JMenuItem("Manual Import");
-				manuel.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/manual.png")));
+				manuel.setIcon(MTGConstants.ICON_MANUAL);
 				manuel.addActionListener(new ActionListener() {
 
 					@Override
@@ -321,7 +322,7 @@ public class DeckBuilderGUI extends JPanel {
 				menu.add(manuel);
 
 				JMenuItem webSite = new JMenuItem("Import from website");
-				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/website.png")));
+				webSite.setIcon(MTGConstants.ICON_WEBSITE);
 				webSite.addActionListener(new ActionListener() {
 
 					@Override
@@ -414,7 +415,7 @@ public class DeckBuilderGUI extends JPanel {
 		btnExports = new JButton();
 		btnExports.setEnabled(false);
 		btnExports.setToolTipText("Export as");
-		btnExports.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/export.png")));
+		btnExports.setIcon(MTGConstants.ICON_EXPORT);
 		btnExports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();

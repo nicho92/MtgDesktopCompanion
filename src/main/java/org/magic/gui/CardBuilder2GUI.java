@@ -61,6 +61,7 @@ import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardNameEditor;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -170,9 +171,9 @@ public class CardBuilder2GUI extends JPanel{
 		cardsTable.setModel(cardsModel);
 		listNames.setModel(namesModel);
 
-		spinCommon.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		spinUnco.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
-		spinRare.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spinCommon.setModel(new SpinnerNumberModel(0, 0, null, 1));
+		spinUnco.setModel(new SpinnerNumberModel(0, 0, null,1));
+		spinRare.setModel(new SpinnerNumberModel(0, 0, null,1));
 		try {
 			cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
 		} catch (Exception e) {
@@ -289,9 +290,9 @@ public class CardBuilder2GUI extends JPanel{
 		scrollTableEdition.setViewportView(editionsTable);
 		splitcardEdPanel.setRightComponent(scrollTableCards);
 		scrollTableCards.setViewportView(cardsTable);
-		btnSaveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/save.png")));
-		btnNewSet.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/new.png")));
-		btnRemoveEdition.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/delete.png")));
+		btnSaveEdition.setIcon(MTGConstants.ICON_SAVE);
+		btnNewSet.setIcon(MTGConstants.ICON_NEW);
+		btnRemoveEdition.setIcon(MTGConstants.ICON_DELETE);
 	
 		btnSaveEdition.setToolTipText("Save the set");
 		btnNewSet.setToolTipText("New set");
@@ -307,11 +308,11 @@ public class CardBuilder2GUI extends JPanel{
 		magicEditionDetailPanel.setEditable(true);
 		
 	
-		btnImport.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/import.png")));
-		btnSaveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/save.png")));
-		btnRefresh.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/refresh.png")));
-		btnRemoveCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/delete.png")));
-		btnNewCard.setIcon(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/new.png")));
+		btnImport.setIcon(MTGConstants.ICON_IMPORT);
+		btnSaveCard.setIcon(MTGConstants.ICON_SAVE);
+		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
+		btnRemoveCard.setIcon(MTGConstants.ICON_DELETE);
+		btnNewCard.setIcon(MTGConstants.ICON_NEW);
 		cardsTable.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());	
 		panelPictures.setBackground(Color.WHITE);
 		panelPictures.setPreferredSize(new Dimension(400, 10));
@@ -439,7 +440,7 @@ public class CardBuilder2GUI extends JPanel{
 			public void actionPerformed(ActionEvent e) {
 				final JDialog l = new JDialog();
 				final CardSearchPanel searchPane = new CardSearchPanel();
-				JButton selectCard = new JButton(new ImageIcon(CardBuilder2GUI.class.getResource("/icons/import.png")));
+				JButton selectCard = new JButton(MTGConstants.ICON_IMPORT);
 				selectCard.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						MagicCard mc = searchPane.getSelected();

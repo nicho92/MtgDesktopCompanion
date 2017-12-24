@@ -59,6 +59,7 @@ import org.magic.gui.renderer.MagicDeckQtyEditor;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -298,7 +299,7 @@ public class StockPanelGUI extends JPanel {
 				JPopupMenu menu = new JPopupMenu();
 
 				JMenuItem mnuCol = new JMenuItem("Import from collection");
-				mnuCol.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/collection.png")));
+				mnuCol.setIcon(MTGConstants.ICON_COLLECTION);
 				
 				mnuCol.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
@@ -327,7 +328,7 @@ public class StockPanelGUI extends JPanel {
 				menu.add(mnuCol);
 				
 				JMenuItem webSite = new JMenuItem("Import from website");
-				webSite.setIcon(new ImageIcon(DeckBuilderGUI.class.getResource("/icons/website.png")));
+				webSite.setIcon(MTGConstants.ICON_WEBSITE);
 				webSite.addActionListener(new ActionListener() {
 
 					@Override
@@ -665,7 +666,7 @@ public class StockPanelGUI extends JPanel {
 		
 		btnSearch = new JButton("");
 		
-		btnSearch.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/search.gif")));
+		btnSearch.setIcon(MTGConstants.ICON_SEARCH_2);
 		searchPanel.add(btnSearch);
 		
 		JPanel centerPanel = new JPanel();
@@ -675,50 +676,50 @@ public class StockPanelGUI extends JPanel {
 		centerPanel.add(actionPanel, BorderLayout.NORTH);
 				btnAdd.setEnabled(false);
 		
-				btnAdd.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/new.png")));
+				btnAdd.setIcon(MTGConstants.ICON_NEW);
 				actionPanel.add(btnAdd);
 				btnDelete.setEnabled(false);
 				
 	
-				btnDelete.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/delete.png")));
+				btnDelete.setIcon(MTGConstants.ICON_DELETE);
 				actionPanel.add(btnDelete);
 				btnSave.setToolTipText("Batch Save");
 				
 				
-				btnSave.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/save.png")));
+				btnSave.setIcon(MTGConstants.ICON_SAVE);
 				actionPanel.add(btnSave);
 				
 				btnReload = new JButton("");
 				
-				btnReload.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/refresh.png")));
+				btnReload.setIcon(MTGConstants.ICON_REFRESH);
 				actionPanel.add(btnReload);
 				
-				lblLoading = new JLabel("");
+				lblLoading = new JLabel();
 				lblLoading.setVisible(false);
 				
 				btnshowMassPanel = new JButton("");
 				
 				
 				btnImport = new JButton();
-				btnImport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/import.png")));
+				btnImport.setIcon(MTGConstants.ICON_IMPORT);
 				btnImport.setToolTipText("Import");
 				actionPanel.add(btnImport);
 				
 				btnExport = new JButton("");
 				
 				btnExport.setToolTipText("Export Stock as CSV");
-				btnExport.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/export.png")));
+				btnExport.setIcon(MTGConstants.ICON_EXPORT);
 				actionPanel.add(btnExport);
 				
 				btnGeneratePrice = new JButton();
 				
-				btnGeneratePrice.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/euro.png")));
+				btnGeneratePrice.setIcon(MTGConstants.ICON_EURO);
 				btnGeneratePrice.setToolTipText("Generate Price from dashboard");
 				actionPanel.add(btnGeneratePrice);
 				btnshowMassPanel.setToolTipText("Mass Modification");
-				btnshowMassPanel.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/manual.png")));
+				btnshowMassPanel.setIcon(MTGConstants.ICON_MANUAL);
 				actionPanel.add(btnshowMassPanel);
-				lblLoading.setIcon(new ImageIcon(StockPanelGUI.class.getResource("/icons/load.gif")));
+				lblLoading.setIcon(MTGConstants.ICON_LOADING);
 				actionPanel.add(lblLoading);
 				
 		JScrollPane scrollTable = new JScrollPane();

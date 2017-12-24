@@ -14,6 +14,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.CardAlertTableModel;
+import org.magic.services.MTGConstants;
 
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 	private JTable table;
@@ -22,7 +23,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 	
 	public AlertedCardsTrendingDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(AlertedCardsTrendingDashlet.class.getResource("/icons/bell.png")));
+		setFrameIcon(MTGConstants.ICON_ALERT);
 	}
 	
 	@Override

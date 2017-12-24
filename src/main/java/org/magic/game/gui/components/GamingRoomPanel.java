@@ -47,6 +47,7 @@ import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
@@ -293,11 +294,11 @@ public class GamingRoomPanel extends JPanel {
 			}
 		});
 		btnShareDeck.setToolTipText("Share a deck");
-		btnShareDeck.setIcon(new ImageIcon(GamingRoomPanel.class.getResource("/icons/bottom.png")));
+		btnShareDeck.setIcon(MTGConstants.ICON_COLLECTION_SMALL);
 		panel_1.add(btnShareDeck);
 		
 		JButton btnColorChoose = new JButton("");
-		btnColorChoose.setIcon(new ImageIcon(GamingRoomPanel.class.getResource("/icons/colors.gif")));
+		btnColorChoose.setIcon(MTGConstants.ICON_COLORS);
 		panel_1.add(btnColorChoose);
 		
 		final JComboBox cboStates = new JComboBox(new DefaultComboBoxModel<STATE>(STATE.values()));

@@ -23,6 +23,7 @@ import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
@@ -34,7 +35,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 	
 	public BestTrendingDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(BestTrendingDashlet.class.getResource("/icons/up.png")));
+		setFrameIcon(MTGConstants.ICON_UP);
 		
 	}
 	

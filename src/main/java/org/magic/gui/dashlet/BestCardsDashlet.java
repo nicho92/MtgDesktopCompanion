@@ -17,6 +17,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardDominanceTableModel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
@@ -30,7 +31,7 @@ public class BestCardsDashlet extends AbstractJDashlet{
 	
 	public BestCardsDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(BestCardsDashlet.class.getResource("/icons/up.png")));
+		setFrameIcon(MTGConstants.ICON_UP);
 		//initGUI();
 	}
 	
@@ -54,7 +55,7 @@ public class BestCardsDashlet extends AbstractJDashlet{
 		panneauHaut.add(cboFilter);
 		
 		lblLoading = new JLabel("");
-		lblLoading.setIcon(new ImageIcon(BestCardsDashlet.class.getResource("/icons/load.gif")));
+		lblLoading.setIcon(MTGConstants.ICON_LOADING);
 		panneauHaut.add(lblLoading);
 		
 		JScrollPane scrollPane = new JScrollPane();

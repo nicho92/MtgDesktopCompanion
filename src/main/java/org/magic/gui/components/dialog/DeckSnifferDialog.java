@@ -21,6 +21,7 @@ import org.magic.api.interfaces.DeckSniffer;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.gui.models.DeckSnifferModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
@@ -110,7 +111,7 @@ public class DeckSnifferDialog extends JDialog{
 		
 		lblLoad = new JLabel("");
 		panel.add(lblLoad);
-		lblLoad.setIcon(new ImageIcon(DeckSnifferDialog.class.getResource("/icons/load.gif")));
+		lblLoad.setIcon(MTGConstants.ICON_LOADING);
 		lblLoad.setVisible(false);
 		
 		JPanel panel_1 = new JPanel();

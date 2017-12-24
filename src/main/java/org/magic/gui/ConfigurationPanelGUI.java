@@ -37,6 +37,7 @@ import org.magic.gui.models.conf.PicturesProvidersTableModel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.gui.models.conf.ServersTreeTableModel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 public class ConfigurationPanelGUI extends JPanel {
@@ -211,7 +212,7 @@ public class ConfigurationPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent arg0) {
 			}
 		});
-		btnNew.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/icons/new.png")));
+		btnNew.setIcon(MTGConstants.ICON_NEW);
 		panneauhaut.add(btnNew);
 		
 		JButton btnDelete = new JButton("");
@@ -220,7 +221,7 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		});
 		btnDelete.setEnabled(false);
-		btnDelete.setIcon(new ImageIcon(ConfigurationPanelGUI.class.getResource("/icons/delete.png")));
+		btnDelete.setIcon(MTGConstants.ICON_DELETE);
 		panneauhaut.add(btnDelete);
 		
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();

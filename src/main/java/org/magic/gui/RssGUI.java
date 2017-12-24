@@ -25,6 +25,7 @@ import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.gui.models.RssContentTableModel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -107,7 +108,7 @@ public class RssGUI extends JPanel {
 			
 			}
 		});
-		btnNewButton.setIcon(new ImageIcon(RssGUI.class.getResource("/icons/refresh.png")));
+		btnNewButton.setIcon(MTGConstants.ICON_NEW);
 		panelHaut.add(btnNewButton);
 		
 		tree.addTreeSelectionListener(new TreeSelectionListener() {

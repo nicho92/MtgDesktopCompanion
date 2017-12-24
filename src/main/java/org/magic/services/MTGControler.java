@@ -58,10 +58,7 @@ public class MTGControler {
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	
 
-	
-	
 	public void notify(String caption,String text,MessageType type)
 	{
 		if(SystemTray.isSupported())

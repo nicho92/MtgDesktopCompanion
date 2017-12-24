@@ -27,6 +27,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
@@ -37,7 +38,7 @@ public class ShopperGUI extends JPanel {
 	private JTextField txtSearch;
 	private JXTable tableItemShop;
 	
-	JButton btnSearch = new JButton(new ImageIcon(ShopperGUI.class.getResource("/icons/search.png")));
+	JButton btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 	JPanel panel = new JPanel();
 	JLabel lblSearch = new JLabel("search :");
 	JScrollPane shopItemScrollPane = new JScrollPane();

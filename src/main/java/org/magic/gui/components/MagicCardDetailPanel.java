@@ -34,6 +34,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicFormat;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -155,8 +156,7 @@ public class MagicCardDetailPanel extends JPanel {
 				
 				btnAlert = new JButton("");
 				btnAlert.setEnabled(false);
-				ImageIcon ic = new ImageIcon(MagicCardDetailPanel.class.getResource("/icons/bell.png"));
-				Image b = ic.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH);
+				Image b = MTGConstants.ICON_ALERT.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH);
 				btnAlert.setIcon(new ImageIcon(b)); 
 				btnAlert.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent arg0) {

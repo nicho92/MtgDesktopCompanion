@@ -78,7 +78,7 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 			try {
 				return ImageIO.read(AbstractPicturesProvider.class.getResource("/icons/back.jpg"));
 			} catch (IOException e) {
-				e.printStackTrace();
+				logger.error("Error reading back picture ",e);
 				return null;
 			} 
 	}

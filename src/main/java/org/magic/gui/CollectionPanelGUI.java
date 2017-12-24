@@ -74,6 +74,7 @@ import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.MagicWebSiteGenerator;
@@ -123,14 +124,14 @@ public class CollectionPanelGUI extends JPanel {
 		
 ////////INIT COMPONENTS
 		JPanel panneauHaut = new JPanel();
-		JButton btnAdd = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/new.png")));
-		JButton btnRefresh = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/refresh.png")));
-		JButton btnRemove = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/delete.png")));
-		JButton btnAddAllSet = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/check.png")));
-		JButton btnExportCSV = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/export.png")));
-		JButton btnMassCollection = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/import.png")));
-		JButton btnExportPriceCatalog = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/euro.png")));
-		JButton btnGenerateWebSite = new JButton(new ImageIcon(CollectionPanelGUI.class.getResource("/icons/website.png")));
+		JButton btnAdd = new JButton(MTGConstants.ICON_NEW);
+		JButton btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
+		JButton btnRemove = new JButton(MTGConstants.ICON_DELETE);
+		JButton btnAddAllSet = new JButton(MTGConstants.ICON_CHECK);
+		JButton btnExportCSV = new JButton(MTGConstants.ICON_EXPORT);
+		JButton btnMassCollection = new JButton(MTGConstants.ICON_IMPORT);
+		JButton btnExportPriceCatalog = new JButton(MTGConstants.ICON_EURO);
+		JButton btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
 		JScrollPane scrollPaneCollections = new JScrollPane();
 		JScrollPane scrollPrices = new JScrollPane();
 		JSplitPane splitListPanel = new JSplitPane();

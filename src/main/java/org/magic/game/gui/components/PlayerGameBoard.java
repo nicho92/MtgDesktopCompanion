@@ -21,6 +21,7 @@ import javax.swing.event.ChangeListener;
 import org.magic.api.interfaces.MagicTokensProvider;
 import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.model.Player;
+import org.magic.services.MTGConstants;
 
 public class PlayerGameBoard extends JPanel implements Observer {
 	
@@ -101,7 +102,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 														lifePanel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 														
 														lblPlayer = new JLabel("");
-														lblPlayer.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/icons/planeswalker.png")));
+														lblPlayer.setIcon(MTGConstants.ICON_GAME_PLANESWALKER);
 														lifePanel.add(lblPlayer);
 														
 														JPanel panelPoolandDescribes = new JPanel();
@@ -123,14 +124,14 @@ public class PlayerGameBoard extends JPanel implements Observer {
 														lblHandCount = new JLabel("0");
 														lblHandCount.setFont(new Font("Tahoma", Font.BOLD, 18));
 														lblHandCount.setHorizontalTextPosition(JLabel.CENTER);
-														lblHandCount.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/icons/hand.png")));
+														lblHandCount.setIcon(MTGConstants.ICON_GAME_HAND);
 														panelHandLib.add(lblHandCount);
 														
 														lblLibraryCount = new JLabel("");
 														lblLibraryCount.setHorizontalTextPosition(SwingConstants.CENTER);
 														lblLibraryCount.setHorizontalAlignment(SwingConstants.CENTER);
 														lblLibraryCount.setFont(new Font("Tahoma", Font.BOLD, 18));
-														lblLibraryCount.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/icons/librarysize.png")));
+														lblLibraryCount.setIcon(MTGConstants.ICON_GAME_LIBRARY);
 														panelHandLib.add(lblLibraryCount);
 														
 														JPanel panel = new JPanel();
@@ -141,7 +142,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 																JLabel lblLife = new JLabel("");
 																panel.add(lblLife);
 																lblLife.setHorizontalAlignment(SwingConstants.CENTER);
-																lblLife.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/icons/heart.png")));
+																lblLife.setIcon(MTGConstants.ICON_GAME_LIFE);
 																
 																spinLife = new JSpinner();
 																panel.add(spinLife);
@@ -150,7 +151,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 																JLabel lblPoison = new JLabel("");
 																panel.add(lblPoison);
 																lblPoison.setHorizontalAlignment(SwingConstants.CENTER);
-																lblPoison.setIcon(new ImageIcon(PlayerGameBoard.class.getResource("/icons/poison.png")));
+																lblPoison.setIcon(MTGConstants.ICON_GAME_POISON);
 																
 																spinPoison = new JSpinner();
 																panel.add(spinPoison);

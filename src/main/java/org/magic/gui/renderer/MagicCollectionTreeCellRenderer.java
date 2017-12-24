@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.IconSetProvider;
+import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
 
 public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -28,9 +29,9 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		try{
 			pane = new ManaPanel();
 			map = new HashMap<String,ImageIcon>();
-			gold= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/icons/gold.png")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
-			uncolor= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/icons/uncolor.jpg")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
-			back= new ImageIcon(ImageIO.read(ManaCellRenderer.class.getResource("/icons/bottom.png")).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+			gold= new ImageIcon(ImageIO.read(MTGConstants.URL_MANA_GOLD).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+			uncolor= new ImageIcon(ImageIO.read(MTGConstants.URL_MANA_INCOLOR).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
+			back= new ImageIcon(ImageIO.read(MTGConstants.URL_COLLECTION).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
 			
 			map.put("{W}", new ImageIcon(pane.getManaSymbol("{W}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );
 			map.put("{U}", new ImageIcon(pane.getManaSymbol("{U}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)) );

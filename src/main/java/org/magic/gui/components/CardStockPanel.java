@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.gui.components.editor.CardStockLinePanel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class CardStockPanel extends JPanel {
@@ -44,7 +45,7 @@ public class CardStockPanel extends JPanel {
 		
 		btnAdd = new JButton("");
 		btnAdd.setEnabled(false);
-		btnAdd.setIcon(new ImageIcon(CardStockPanel.class.getResource("/icons/new.png")));
+		btnAdd.setIcon(MTGConstants.ICON_NEW);
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				layout.setRows(layout.getRows()+1);

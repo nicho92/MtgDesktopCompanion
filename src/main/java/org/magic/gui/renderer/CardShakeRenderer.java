@@ -7,17 +7,14 @@ import javax.swing.JLabel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
+import org.magic.services.MTGConstants;
+
 public class CardShakeRenderer extends DefaultTableCellRenderer {
 
-	ImageIcon up;
-	ImageIcon down;
 	JLabel comp;
 	
 	public CardShakeRenderer() {
-		up = new ImageIcon(CardShakeRenderer.class.getResource("/icons/up.png"));
-		down = new ImageIcon(CardShakeRenderer.class.getResource("/icons/down.png"));
 		comp=new JLabel();
-		
 		comp.setHorizontalAlignment(JLabel.CENTER);
 		comp.setOpaque(false);
 	}
@@ -30,10 +27,10 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 				comp.setText(value.toString());
 					
 				if(((Double)value).doubleValue()>0)
-					comp.setIcon(up);
+					comp.setIcon(MTGConstants.ICON_UP);
 	
 				if(((Double)value).doubleValue()<0)
-					comp.setIcon(down);
+					comp.setIcon(MTGConstants.ICON_DOWN);
 				
 				if(((Double)value).doubleValue()==0)
 					comp.setIcon(null);

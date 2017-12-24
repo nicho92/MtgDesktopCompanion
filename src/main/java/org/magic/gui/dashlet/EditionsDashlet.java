@@ -22,6 +22,7 @@ import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.MagicEditionListRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
@@ -38,7 +39,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 	
 	public EditionsDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(EditionsDashlet.class.getResource("/icons/collection.png")));
+		setFrameIcon(MTGConstants.ICON_COLLECTION);
 	}
 
 	public void initGUI() {
@@ -63,7 +64,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		panel.add(cboEditions);
 		
 		lblLoading = new JLabel("");
-		lblLoading.setIcon(new ImageIcon(EditionsDashlet.class.getResource("/icons/load.gif")));
+		lblLoading.setIcon(MTGConstants.ICON_LOADING);
 		lblLoading.setVisible(false);
 		panel.add(lblLoading);
 		

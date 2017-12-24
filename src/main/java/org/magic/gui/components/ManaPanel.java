@@ -18,6 +18,7 @@ import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
 
@@ -95,7 +96,7 @@ public class ManaPanel extends JPanel {
 		{
 			imgs = new BufferedImage[chunks];
 			try {
-				image = ImageIO.read(ManaCellRenderer.class.getResource("/icons/Mana.png"));
+				image = ImageIO.read(MTGConstants.URL_MANA_SYMBOLS);
 				for (int x = 0; x < rows; x++) {  
 		            for (int y = 0; y < cols; y++) 
 		            {  

@@ -36,6 +36,7 @@ import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.BoostersTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionListRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
@@ -50,7 +51,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 	
 	public BoosterBoxDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(BoosterBoxDashlet.class.getResource("/icons/dollars.png")));
+		setFrameIcon(MTGConstants.ICON_DOLLARS);
 		//initGUI();
 		doubleFormat=new DecimalFormat("#0.00");
 	}

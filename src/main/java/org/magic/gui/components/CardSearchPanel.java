@@ -156,7 +156,7 @@ public class CardSearchPanel extends JPanel {
 		public void setLookAndFeel(String lookAndFeel)
 		{
 			try {
-				UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
+				UIManager.put("Table.alternateRowColor", Color.decode(MTGConstants.TABLE_ALTERNATE_ROW_COLOR));
 				UIManager.setLookAndFeel(lookAndFeel);
 				MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 				SwingUtilities.updateComponentTreeUI(this);
@@ -268,10 +268,10 @@ public class CardSearchPanel extends JPanel {
 			
 			
 			
-			btnSearch = new JButton(new ImageIcon(MagicGUI.class.getResource("/icons/search.png")));
-			btnExport = new JButton(new ImageIcon(MagicGUI.class.getResource("/icons/export.png")));
-			btnFilter = new JButton(new ImageIcon(MagicGUI.class.getResource("/icons/filter.png")));
-			btnClear = new JButton(new ImageIcon(MagicGUI.class.getResource("/icons/09_clear_location.png")));
+			btnSearch = new JButton(MTGConstants.ICON_SEARCH);
+			btnExport = new JButton(MTGConstants.ICON_EXPORT);
+			btnFilter = new JButton(MTGConstants.ICON_FILTER);
+			btnClear = new JButton(MTGConstants.ICON_CLEAR);
 			
 			cboQuereableItems = new JComboBox<String>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
 			cboCollections= new JComboBox<MagicCollection>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
@@ -280,7 +280,7 @@ public class CardSearchPanel extends JPanel {
 			tablePrice = new JXTable();
 			tableCards = new JXTable();
 			
-			lblLoading = new JLabel(new ImageIcon(MagicGUI.class.getResource("/icons/load.gif")));
+			lblLoading = new JLabel(MTGConstants.ICON_LOADING);
 			JLabel lblFilter = new JLabel();
 			
 			listEdition = new JList<MagicEdition>();

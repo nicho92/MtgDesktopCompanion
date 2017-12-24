@@ -32,7 +32,7 @@ public class ScryfallTest {
 	public void testSearch()
 	{
 		try {
-			List<MagicCard> res = prov.searchCardByCriteria("name", "liliana", null);
+			List<MagicCard> res = prov.searchCardByCriteria("name", "liliana of", null);
 		} catch (Exception e) {
 			fail("error" + e);
 		}

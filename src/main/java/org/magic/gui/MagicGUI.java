@@ -100,12 +100,12 @@ public class MagicGUI extends JFrame {
 		setSize(new Dimension(1420, 900));
 		setTitle("Magic Desktop Companion ( v" + MTGControler.getInstance().getVersion()+")");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setIconImage(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/icons/logo.gif")));
+		setIconImage(MTGConstants.IMAGE_LOGO);
 		getContentPane().setLayout(new BorderLayout());
 		
 		try{
 			tray=SystemTray.getSystemTray();
-			trayNotifier = new TrayIcon(Toolkit.getDefaultToolkit().getImage(MagicGUI.class.getResource("/icons/logo.gif")).getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+			trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 		}
 		catch (Exception e) {
 			logger.error(e);
@@ -274,39 +274,39 @@ public class MagicGUI extends JFrame {
 		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
 		
 		if(MTGControler.getInstance().get("modules/search").equals("true"))
-			tabbedPane.addTab("Search", new ImageIcon(MagicGUI.class.getResource("/icons/search.gif")), new CardSearchPanel(), null);
+			tabbedPane.addTab("Search", MTGConstants.ICON_SEARCH_2, new CardSearchPanel(), null);
 		
 		if(MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
-			tabbedPane.addTab("Deck", new ImageIcon(MagicGUI.class.getResource("/icons/book_icon.jpg")), new DeckBuilderGUI(), null);
+			tabbedPane.addTab("Deck", MTGConstants.ICON_DECK, new DeckBuilderGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/game").equals("true"))
-			tabbedPane.addTab("Game", new ImageIcon(MagicGUI.class.getResource("/icons/bottom.png")), new GameGUI(), null);
+			tabbedPane.addTab("Game", MTGConstants.ICON_COLLECTION_SMALL, new GameGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/collection").equals("true"))
-			tabbedPane.addTab("Collection", new ImageIcon(MagicGUI.class.getResource("/icons/collection.png")), new CollectionPanelGUI(), null);
+			tabbedPane.addTab("Collection", MTGConstants.ICON_COLLECTION, new CollectionPanelGUI(), null);
 
 		if(MTGControler.getInstance().get("modules/stock").equals("true"))
-			tabbedPane.addTab("Stock", new ImageIcon(MagicGUI.class.getResource("/icons/stock.png")), new StockPanelGUI(), null);
+			tabbedPane.addTab("Stock", MTGConstants.ICON_STOCK, new StockPanelGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/dashboard").equals("true"))
-			tabbedPane.addTab("DashBoard", new ImageIcon(MagicGUI.class.getResource("/icons/dashboard.png")), new DashBoardGUI2(), null);
+			tabbedPane.addTab("DashBoard",MTGConstants.ICON_DASHBOARD, new DashBoardGUI2(), null);
 		
 		if(MTGControler.getInstance().get("modules/shopper").equals("true"))
-			tabbedPane.addTab("Shopping", new ImageIcon(MagicGUI.class.getResource("/icons/shop.png")), new ShopperGUI(), null);
+			tabbedPane.addTab("Shopping",MTGConstants.ICON_SHOP, new ShopperGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/alarm").equals("true"))
-			tabbedPane.addTab("Alert", new ImageIcon(MagicGUI.class.getResource("/icons/bell.png")), new AlarmGUI(), null);
+			tabbedPane.addTab("Alert", MTGConstants.ICON_ALERT, new AlarmGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/cardbuilder").equals("true"))
-			tabbedPane.addTab("Builder", new ImageIcon(MagicGUI.class.getResource("/icons/create.png")), new CardBuilder2GUI(), null);
+			tabbedPane.addTab("Builder", MTGConstants.ICON_BUILDER, new CardBuilder2GUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/rss").equals("true"))
-			tabbedPane.addTab("RSS", new ImageIcon(MagicGUI.class.getResource("/icons/rss.png")), new RssGUI(), null);
+			tabbedPane.addTab("RSS", MTGConstants.ICON_RSS, new RssGUI(), null);
 		
 
 		
 		
-		tabbedPane.addTab("Configuration", new ImageIcon(MagicGUI.class.getResource("/icons/build.png")), new ConfigurationPanelGUI(), null);
+		tabbedPane.addTab("Configuration", MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
 		
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		

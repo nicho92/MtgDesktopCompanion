@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -73,7 +74,7 @@ public class MassMoverDialog extends JDialog {
 		
 		lblWaiting = new JLabel("");
 		lblWaiting.setVisible(false);
-		lblWaiting.setIcon(new ImageIcon(MassMoverDialog.class.getResource("/icons/load.gif")));
+		lblWaiting.setIcon(MTGConstants.ICON_LOADING);
 		panel.add(lblWaiting);
 		
 		JScrollPane scrollPane = new JScrollPane();

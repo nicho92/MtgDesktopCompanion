@@ -16,6 +16,7 @@ import javax.swing.Timer;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.models.LogTableModel;
+import org.magic.services.MTGConstants;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -52,7 +53,7 @@ public class LoggerViewFrame extends JFrame {
 				model.fireTableDataChanged();
 			}
 		});
-		btnRefresh.setIcon(new ImageIcon(LoggerViewFrame.class.getResource("/icons/refresh.png")));
+		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panel.add(btnRefresh);
 		
 		t = new Timer(1000, new ActionListener() {
