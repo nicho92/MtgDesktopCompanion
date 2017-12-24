@@ -86,7 +86,7 @@ public class MTGConstants {
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource("/icons/Mana.png");
 	
 	public static final URL URL_MANA_GOLD = ManaCellRenderer.class.getResource("/icons/gold.png");
-	public static final URL URL_MANA_INCOLOR = ManaCellRenderer.class.getResource("/icons/uncolor.png");
+	public static final URL URL_MANA_INCOLOR = ManaCellRenderer.class.getResource("/icons/uncolor.jpg");
 	public static final URL URL_COLLECTION = ManaCellRenderer.class.getResource("/icons/bottom.png");
 	
 	
