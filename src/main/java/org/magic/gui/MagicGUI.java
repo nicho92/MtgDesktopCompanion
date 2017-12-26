@@ -66,7 +66,7 @@ public class MagicGUI extends JFrame {
 		{
 			logger.error(e);
 			e.printStackTrace();
-			JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 		}
 
 		logger.info("construction of GUI : done");
@@ -115,11 +115,11 @@ public class MagicGUI extends JFrame {
 		setJMenuBar(menuBar);
 
 		
-		mnFile = new JMenu("File");
+		mnFile = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("FILE"));
 		mnuAbout = new JMenu("?");
-		jmnuLook = new JMenu("Look");
+		jmnuLook = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("LOOK"));
 			
-		mntmExit = new JMenuItem("Exit");
+		mntmExit = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("EXIT"));
 		
 		JMenuItem mntmHelp = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("READ_MANUAL"));
 		JMenuItem mntmThreadItem = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
@@ -240,7 +240,7 @@ public class MagicGUI extends JFrame {
 		looksMore.put("Nebula","org.pushingpixels.substance.api.skin.SubstanceNebulaLookAndFeel");		
 		looksMore.put("Graphite","org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel");
 		looksMore.put("Magellan","org.pushingpixels.substance.api.skin.SubstanceMagellanLookAndFeel");
-		
+		looksMore.put("Coffe","org.pushingpixels.substance.api.skin.SubstanceCremeCoffeeLookAndFeel");
 		
 		
 		JMenu itMore = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MORE"));

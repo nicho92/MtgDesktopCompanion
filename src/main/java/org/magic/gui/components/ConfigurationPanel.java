@@ -12,6 +12,7 @@ import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
@@ -458,6 +459,36 @@ public class ConfigurationPanel extends JPanel {
 				System.gc();
 			}
 		});
+		
+		JLabel lblGuiLocal = new JLabel("GUI Locale :");
+		GridBagConstraints gbc_lblGuiLocal = new GridBagConstraints();
+		gbc_lblGuiLocal.insets = new Insets(0, 0, 5, 5);
+		gbc_lblGuiLocal.gridx = 0;
+		gbc_lblGuiLocal.gridy = 8;
+		panelConfig.add(lblGuiLocal, gbc_lblGuiLocal);
+		
+		JComboBox<Locale> cboLocales = new JComboBox<Locale>(MTGControler.getInstance().getLangService().getAvailableLocale());
+		GridBagConstraints gbc_cboLocales = new GridBagConstraints();
+		gbc_cboLocales.gridwidth = 3;
+		gbc_cboLocales.insets = new Insets(0, 0, 5, 5);
+		gbc_cboLocales.fill = GridBagConstraints.HORIZONTAL;
+		gbc_cboLocales.gridx = 1;
+		gbc_cboLocales.gridy = 8;
+		panelConfig.add(cboLocales, gbc_cboLocales);
+	
+		cboLocales.setSelectedItem(MTGControler.getInstance().getLocale());
+		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				MTGControler.getInstance().setProperty("locale", cboLocales.getSelectedItem());
+			}
+		});
+		
+		GridBagConstraints gbc_btnSave3 = new GridBagConstraints();
+		gbc_btnSave3.insets = new Insets(0, 0, 5, 0);
+		gbc_btnSave3.gridx = 4;
+		gbc_btnSave3.gridy = 8;
+		panelConfig.add(btnSave, gbc_btnSave3);
 		GridBagConstraints gbc_btnRunGarbage = new GridBagConstraints();
 		gbc_btnRunGarbage.gridwidth = 3;
 		gbc_btnRunGarbage.gridx = 2;

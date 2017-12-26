@@ -230,7 +230,7 @@ public class CollectionPanelGUI extends JPanel {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"), null, magicEditionDetailPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), null, scrollPrices, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"), null, typeRepartitionPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA_COST"), null, manaRepartitionPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"), null, manaRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"), null, rarityRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), null, statsPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), null, historyPricesPanel, null);

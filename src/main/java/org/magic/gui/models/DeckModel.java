@@ -14,7 +14,7 @@ public class DeckModel extends DefaultTableModel {
 	String[] columns = new String[]{				
 			MTGControler.getInstance().getLangService().getCapitalize("NAME"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA_COST"),
+			MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),
 			MTGControler.getInstance().getLangService().getCapitalize("QTY")
 			

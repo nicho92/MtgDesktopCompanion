@@ -600,8 +600,8 @@ public class DeckBuilderGUI extends JPanel {
 		statPanel.add(rarityRepartitionPanel);
 		statPanel.add(cmcChartPanel);
 
-		tabbedPane.addTab("Stats", null, statPanel, null);
-		tabbedPane.addTab("Sample Hand", null, randomHandPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), null, statPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"), null, randomHandPanel, null);
 
 		JPanel panel = new JPanel();
 		randomHandPanel.add(panel, BorderLayout.NORTH);

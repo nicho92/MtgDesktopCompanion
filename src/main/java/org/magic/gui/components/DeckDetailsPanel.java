@@ -60,7 +60,7 @@ public class DeckDetailsPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
-				JLabel nameLabel = new JLabel("Name:");
+				JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+ " :");
 				GridBagConstraints labelGbc_1 = new GridBagConstraints();
 				labelGbc_1.insets = new Insets(5, 5, 5, 5);
 				labelGbc_1.gridx = 1;
@@ -75,7 +75,7 @@ public class DeckDetailsPanel extends JPanel {
 				componentGbc_1.gridy = 0;
 				add(nameJTextField, componentGbc_1);
 		
-		JLabel lblLegalities = new JLabel("Legalities");
+		JLabel lblLegalities = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LEGALITIES")+ " :");
 		GridBagConstraints gbc_lblLegalities = new GridBagConstraints();
 		gbc_lblLegalities.insets = new Insets(0, 0, 5, 5);
 		gbc_lblLegalities.gridx = 1;
@@ -93,7 +93,7 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_panelLegalities.gridy = 1;
 		add(panelLegalities, gbc_panelLegalities);
 		
-		JLabel lblColor = new JLabel("Color :");
+		JLabel lblColor = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR")+ " :");
 		GridBagConstraints gbc_lblColor = new GridBagConstraints();
 		gbc_lblColor.insets = new Insets(0, 0, 5, 5);
 		gbc_lblColor.gridx = 1;
@@ -108,7 +108,7 @@ public class DeckDetailsPanel extends JPanel {
 				gbc_manaPanel.gridy = 2;
 				add(manaPanel, gbc_manaPanel);
 		
-				JLabel descriptionLabel = new JLabel("Description:");
+				JLabel descriptionLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION")+ " :");
 				GridBagConstraints labelGbc_0 = new GridBagConstraints();
 				labelGbc_0.insets = new Insets(5, 5, 5, 5);
 				labelGbc_0.gridx = 1;
@@ -120,7 +120,7 @@ public class DeckDetailsPanel extends JPanel {
 		textArea.setWrapStyleWord(true);
 		
 
-		JLabel nbCardsLabel = new JLabel("NbCards:");
+		JLabel nbCardsLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QTY")+ " :");
 		GridBagConstraints labelGbc_2 = new GridBagConstraints();
 		labelGbc_2.insets = new Insets(5, 5, 5, 5);
 		labelGbc_2.gridx = 1;
@@ -162,7 +162,7 @@ public class DeckDetailsPanel extends JPanel {
 		
 		
 		
-		lblSideboard = new JLabel("SideBoard :");
+		lblSideboard = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIDEBOARD")+ " :");
 		GridBagConstraints gbc_lblSideboard = new GridBagConstraints();
 		gbc_lblSideboard.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSideboard.gridx = 1;

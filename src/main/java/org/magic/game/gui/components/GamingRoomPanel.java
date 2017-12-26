@@ -52,7 +52,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class GamingRoomPanel extends JPanel {
-	private static final String INTROTEXT = "Type your text and press enter";
+	
 	private JTextField txtServer;
 	private JTextField txtPort;
 	private JTable table;
@@ -92,7 +92,7 @@ public class GamingRoomPanel extends JPanel {
 			if(arg instanceof RequestPlayAction)
 			{
 				RequestPlayAction lpa = (RequestPlayAction)arg;
-				int res = JOptionPane.showConfirmDialog(getRootPane(), lpa.getRequestPlayer() +" ask you to play a game. Accept ?","New Game Request !",JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(getRootPane(), MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_REQUEST",lpa.getRequestPlayer()),MTGControler.getInstance().getLangService().getCapitalize("NEW_GAME_REQUEST"),JOptionPane.YES_NO_OPTION);
 				
 				if(res==JOptionPane.YES_OPTION)
 				{
@@ -109,13 +109,13 @@ public class GamingRoomPanel extends JPanel {
 				switch(resp.getReponse())
 				{
 					case YES: 
-							printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(), "Challenge Accepted ! "));
+							printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(), MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_ACCEPTED")));
 							client.changeStatus(STATE.GAMING);
 							GamePanelGUI.getInstance().setPlayer(client.getP());
 							GamePanelGUI.getInstance().addPlayer(resp.getRequest().getAskedPlayer());
 							GamePanelGUI.getInstance().initGame();
 							break;
-					case NO: printMessage(new SpeakAction(resp.getRequest().getAskedPlayer()," decline your challenge"));break;
+					case NO: printMessage(new SpeakAction(resp.getRequest().getAskedPlayer()," "+MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_DECLINE")));break;
 				}
 			}
 		}
@@ -123,11 +123,11 @@ public class GamingRoomPanel extends JPanel {
 	
 	public GamingRoomPanel() {
 		setLayout(new BorderLayout(0, 0));
-		final JButton btnLogout = new JButton("Logout");
+		final JButton btnLogout = new JButton(MTGControler.getInstance().getLangService().getCapitalize("LOGOUT"));
 		JPanel panneauHaut = new JPanel();
 		add(panneauHaut, BorderLayout.NORTH);
 		
-		JLabel lblIp = new JLabel("Host : ");
+		JLabel lblIp = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("HOST")+ " :");
 		panneauHaut.add(lblIp);
 		
 		txtServer = new JTextField();
@@ -143,7 +143,7 @@ public class GamingRoomPanel extends JPanel {
 		panneauHaut.add(txtPort);
 		txtPort.setColumns(10);
 		
-		btnConnect = new JButton("Connect");
+		btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
 		
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
@@ -175,12 +175,12 @@ public class GamingRoomPanel extends JPanel {
 				}
 				catch(Exception e)
 				{
-					JOptionPane.showMessageDialog(getRootPane(), e,"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getRootPane(), e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 		
-		JLabel lblName = new JLabel("Name :");
+		JLabel lblName = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") +" :");
 		panneauHaut.add(lblName);
 		
 		txtName = new JTextField();
@@ -267,7 +267,7 @@ public class GamingRoomPanel extends JPanel {
 		panelChatBox.setLayout(new BorderLayout(0, 0));
 		
 		final JTextArea editorPane = new JTextArea();
-		editorPane.setText(INTROTEXT);
+		editorPane.setText(MTGControler.getInstance().getLangService().getCapitalize("CHAT_INTRO_TEXT"));
 		editorPane.setLineWrap(true);
 		editorPane.setWrapStyleWord(true);
 		editorPane.setRows(2);
@@ -320,7 +320,7 @@ public class GamingRoomPanel extends JPanel {
 			
 			@Override
 			public void focusGained(FocusEvent e) {
-				if(editorPane.getText().equals(INTROTEXT))
+				if(editorPane.getText().equals(MTGControler.getInstance().getLangService().getCapitalize("CHAT_INTRO_TEXT")))
 					editorPane.setText("");
 			}
 		});
@@ -356,7 +356,12 @@ public class GamingRoomPanel extends JPanel {
 class PlayerTableModel extends DefaultTableModel
 {
 	
-	private static final String[] columns = {"Player","Deck","Color","Format", "Country","State"};
+	private static final String[] columns = {MTGControler.getInstance().getLangService().getCapitalize("PLAYER"),
+										     MTGControler.getInstance().getLangService().getCapitalize("DECK"),
+										     MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),
+										     MTGControler.getInstance().getLangService().getCapitalize("FORMAT"),
+										     MTGControler.getInstance().getLangService().getCapitalize("COUNTRY"),
+										     MTGControler.getInstance().getLangService().getCapitalize("STATE")};
 	private List<Player> players ;
 	
 	public void init(List<Player> play)

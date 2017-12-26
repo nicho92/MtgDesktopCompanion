@@ -155,7 +155,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
 						panelActions.setLayout(gbl_panelActions);
 						
-						JButton btnNewGame = new JButton("Select Deck");
+						JButton btnNewGame = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"));
 						btnNewGame.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent ae) {
 								JDeckChooserDialog choose = new JDeckChooserDialog();
@@ -182,7 +182,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						
 						
 						
-						JButton btnSideboard = new JButton("SideBoard");
+						JButton btnSideboard = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SIDEBOARD"));
 						btnSideboard.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								DeckSideBoardSwitcherDialog gui = new DeckSideBoardSwitcherDialog(player.getDeck());
@@ -197,12 +197,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 						gbc_btnSideboard.gridy = 1;
 						panelActions.add(btnSideboard, gbc_btnSideboard);
 						
-						JButton btnStart = new JButton("Start");
+						JButton btnStart = new JButton(MTGControler.getInstance().getLangService().getCapitalize("START"));
 						btnStart.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent ae) {
 								GameManager.getInstance().removePlayers();
 								GameManager.getInstance().addPlayer(player);
-								GameManager.getInstance().addPlayer(new Player("Player 2",20));
+								GameManager.getInstance().addPlayer(new Player(MTGControler.getInstance().getLangService().getCapitalize("PLAYER")+" 2",20));
 								
 								GameManager.getInstance().initGame();
 								manaPoolPanel.init(player.getManaPool());
@@ -231,7 +231,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panelActions.add(panel_1, gbc_panel_1);
 						panel_1.setLayout(new BorderLayout(0, 0));
 						
-						txtChat = new JTextField("Say something");
+						txtChat = new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SAY_SOMETHING"));
 						panel_1.add(txtChat);
 						txtChat.addMouseListener(new MouseAdapter() {
 							

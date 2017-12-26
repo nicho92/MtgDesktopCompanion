@@ -93,7 +93,7 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_10.gridy = 0;
 				add(nameJTextField, componentGbc_10);
 		
-				JLabel costLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA_COST")+":");
+				JLabel costLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA")+":");
 				GridBagConstraints labelGbc_2 = new GridBagConstraints();
 				labelGbc_2.insets = new Insets(5, 5, 5, 5);
 				labelGbc_2.gridx = 2;
@@ -223,7 +223,7 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_2.gridy = 0;
 				add(costJTextField, componentGbc_2);
 
-				JLabel artistLabel = new JLabel("Artist:");
+				JLabel artistLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_ARTIST")+" :");
 				GridBagConstraints labelGbc_0 = new GridBagConstraints();
 				labelGbc_0.insets = new Insets(5, 5, 5, 5);
 				labelGbc_0.gridx = 0;
@@ -238,7 +238,7 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_0.gridy = 1;
 				add(artistJTextField, componentGbc_0);
 				
-				JLabel rarityLabel = new JLabel("Rarity:");
+				JLabel rarityLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY")+" :");
 				GridBagConstraints labelGbc_14 = new GridBagConstraints();
 				labelGbc_14.insets = new Insets(5, 5, 5, 5);
 				labelGbc_14.gridx = 2;
@@ -254,7 +254,7 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_14.gridy = 1;
 				add(rarityJComboBox, componentGbc_14);
 		
-				lblType = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES")+":");
+				lblType = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES")+" :");
 				GridBagConstraints gbc_lblType = new GridBagConstraints();
 				gbc_lblType.insets = new Insets(0, 0, 5, 5);
 				gbc_lblType.gridx = 0;
