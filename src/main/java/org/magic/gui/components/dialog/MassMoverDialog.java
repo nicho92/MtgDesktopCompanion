@@ -47,7 +47,7 @@ public class MassMoverDialog extends JDialog {
 
 	public MassMoverDialog(MagicCollection col,MagicEdition ed) {
 		setSize(new Dimension(640, 370));
-		setTitle("Mass mover " + col);
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS") + " : "+col);
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setLocationRelativeTo(null);
@@ -60,7 +60,7 @@ public class MassMoverDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 		
-		btnMove = new JButton("Move to");
+		btnMove = new JButton(MTGControler.getInstance().getLangService().getCapitalize("MOVE_TO"));
 	
 		panel.add(btnMove);
 		
@@ -137,14 +137,14 @@ public class MassMoverDialog extends JDialog {
 							}
 							
 							try {
-								lblWaiting.setText("update");
+								lblWaiting.setText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
 								if(toSaveEd==null)
 									model.init(dao.getCardsFromCollection(toSaveCol));
 								else
 									model.init(dao.getCardsFromCollection(toSaveCol,toSaveEd));
 							} catch (SQLException e) {
 								logger.error(e);
-								JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 							}
 							
 							model.fireTableDataChanged();

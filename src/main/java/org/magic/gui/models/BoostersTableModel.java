@@ -6,12 +6,14 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.Booster;
+import org.magic.services.MTGControler;
 
 public class BoostersTableModel extends DefaultTableModel
 {
 	
 	List<Booster> boosters;
-	private static final String[] COLUMNS = {"Number","Price"};
+	private static final String[] COLUMNS = {MTGControler.getInstance().getLangService().getCapitalize("CARD_NUMBER"),
+											 MTGControler.getInstance().getLangService().getCapitalize("PRICE")};
 	
 	
 	@Override

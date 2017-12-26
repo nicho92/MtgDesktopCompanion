@@ -39,22 +39,22 @@ public class DashBoardGUI2 extends JDesktopPane {
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 84, 21);
 		
-		JMenu mnNewMenu = new JMenu("Add");
+		JMenu mnNewMenu = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 		menuBar.add(mnNewMenu);
 		
-		JMenu mnWindow = new JMenu("Window");
+		JMenu mnWindow = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("WINDOW"));
 		menuBar.add(mnWindow);
+//		
+//		JMenuItem mntmPackAll = new JMenuItem("Pack All");
+//		mntmPackAll.addActionListener(new ActionListener() {
+//			public void actionPerformed(ActionEvent arg0) {
+//				logger.info("PACK ALL TODO");
+//			}
+//		});
+//		setLayout(null);
+//		mnWindow.add(mntmPackAll);
 		
-		JMenuItem mntmPackAll = new JMenuItem("Pack All");
-		mntmPackAll.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				logger.info("PACK ALL TODO");
-			}
-		});
-		setLayout(null);
-		mnWindow.add(mntmPackAll);
-		
-		JMenuItem mntmSaveDisplay = new JMenuItem("Save display");
+		JMenuItem mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
 		mntmSaveDisplay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int i=0;

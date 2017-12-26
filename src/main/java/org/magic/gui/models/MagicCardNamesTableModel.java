@@ -3,12 +3,18 @@ package org.magic.gui.models;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.services.MTGControler;
 
 public class MagicCardNamesTableModel extends DefaultTableModel {
 
 	
 	MagicCard mc;
-	final static String COLUMN[] = new String[]{"Language","Name","Gatherer ID"};
+	final static String COLUMN[] = new String[]{MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
+												MTGControler.getInstance().getLangService().getCapitalize("NAME"),
+												"Gatherer ID"
+												};
+	
+	
 	
 	public void init(MagicCard mc)
 	{

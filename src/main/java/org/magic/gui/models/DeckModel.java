@@ -5,13 +5,24 @@ import javax.swing.table.DefaultTableModel;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.services.MTGControler;
 
 import com.itextpdf.text.List;
 
 public class DeckModel extends DefaultTableModel {
 
-	String[] columns = new String[]{"name","type","cost","edition","Qty"};
+	String[] columns = new String[]{				
+			MTGControler.getInstance().getLangService().getCapitalize("NAME"),
+			MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"),
+			MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA_COST"),
+			MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),
+			MTGControler.getInstance().getLangService().getCapitalize("QTY")
+			
+	
+	};
 
+	
+	
 	private MagicDeck deck;
 	public static enum TYPE { DECK,SIDE };
 	

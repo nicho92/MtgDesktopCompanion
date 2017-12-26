@@ -40,7 +40,7 @@ public class DeckSnifferDialog extends JDialog{
 	
 	public DeckSnifferDialog() {
 		setSize(new Dimension(500, 300));
-		setTitle("Import Deck");
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -63,7 +63,7 @@ public class DeckSnifferDialog extends JDialog{
 		selectedSniffer = MTGControler.getInstance().getEnabledDeckSniffer().get(0);
 		panel.add(cboSniffers);
 		
-		btnConnect = new JButton("Connect");
+		btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
 		btnConnect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 			
@@ -102,7 +102,7 @@ public class DeckSnifferDialog extends JDialog{
 					lblLoad.setVisible(false);
 				} catch (Exception e1) {
 					lblLoad.setVisible(false);
-					JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -117,7 +117,7 @@ public class DeckSnifferDialog extends JDialog{
 		JPanel panel_1 = new JPanel();
 		getContentPane().add(panel_1, BorderLayout.SOUTH);
 		
-		JButton btnClose = new JButton("Cancel");
+		JButton btnClose = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
@@ -125,7 +125,7 @@ public class DeckSnifferDialog extends JDialog{
 		});
 		panel_1.add(btnClose);
 		
-		btnImport = new JButton("Import");
+		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -142,7 +142,7 @@ public class DeckSnifferDialog extends JDialog{
 								dispose();
 							} catch (Exception e1) {
 								e1.printStackTrace();
-								JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"),JOptionPane.ERROR_MESSAGE);
 								importedDeck=null;
 								lblLoad.setVisible(false);
 								btnImport.setEnabled(true);

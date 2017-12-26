@@ -18,7 +18,21 @@ import org.magic.services.MTGControler;
 public class CardStockTableModel extends DefaultTableModel {
 
 	
-	static final String columns[] = new String[]{"Id","Card","Edition","Collection","Condition","Qte","Language","Foil","Signed","Altered","Price","Comment"};
+	static final String columns[] = new String[]{
+				MTGControler.getInstance().getLangService().getCapitalize("ID"),
+				MTGControler.getInstance().getLangService().getCapitalize("CARD"),
+				MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
+				MTGControler.getInstance().getLangService().getCapitalize("COLLECTION"),
+				MTGControler.getInstance().getLangService().getCapitalize("QUALITY"),
+				MTGControler.getInstance().getLangService().getCapitalize("QTY"),
+				MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
+				MTGControler.getInstance().getLangService().getCapitalize("FOIL"),
+				MTGControler.getInstance().getLangService().getCapitalize("SIGNED"),
+				MTGControler.getInstance().getLangService().getCapitalize("ALTERED"),
+				MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
+				MTGControler.getInstance().getLangService().getCapitalize("COMMENTS")
+	};
+	
 	List<MagicCardStock> list;
 	
 	

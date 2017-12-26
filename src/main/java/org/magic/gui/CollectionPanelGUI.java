@@ -226,14 +226,14 @@ public class CollectionPanelGUI extends JPanel {
 		panelTotal.add(lblTotal);	
 		
 		
-		tabbedPane.addTab("Detail", null, magicCardDetailPanel, null);
-		tabbedPane.addTab("Edition", null, magicEditionDetailPanel, null);
-		tabbedPane.addTab("Prices", null, scrollPrices, null);
-		tabbedPane.addTab("Types", null, typeRepartitionPanel, null);
-		tabbedPane.addTab("Mana", null, manaRepartitionPanel, null);
-		tabbedPane.addTab("Rarity", null, rarityRepartitionPanel, null);
-		tabbedPane.addTab("Stock", null, statsPanel, null);
-		tabbedPane.addTab("Variation", null, historyPricesPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), null, magicCardDetailPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"), null, magicEditionDetailPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), null, scrollPrices, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"), null, typeRepartitionPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA_COST"), null, manaRepartitionPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"), null, rarityRepartitionPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), null, statsPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), null, historyPricesPanel, null);
 		
 		if(MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedPane.addTab("Json", null, jsonPanel, null);
@@ -243,14 +243,14 @@ public class CollectionPanelGUI extends JPanel {
 		
 /////////Labels	
 		lblTotal.setText("Total : " + model.getCountDefaultLibrary() +"/" + model.getCountTotal());
-		btnAdd.setToolTipText("Add a new collection");
-		btnRefresh.setToolTipText("Refresh collections");
-		btnRemove.setToolTipText("remove selected item");
-		btnAddAllSet.setToolTipText("Mark set as full");
-		btnExportCSV.setToolTipText("Export as ");
-		btnMassCollection.setToolTipText("Import collection");
-		btnExportPriceCatalog.setToolTipText("Export prices catalog for collection");
-		btnGenerateWebSite.setToolTipText("Generate website");
+		btnAdd.setToolTipText(MTGControler.getInstance().getLangService().get("COLLECTION_ADD"));
+		btnRefresh.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_REFRESH"));
+		btnRemove.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ITEM_SELECTED_REMOVE"));
+		btnAddAllSet.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_SET_FULL"));
+		btnExportCSV.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
+		btnMassCollection.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_IMPORT"));
+		btnExportPriceCatalog.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_EXPORT_PRICES"));
+		btnGenerateWebSite.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_WEBSITE"));
 
 		
 	
@@ -286,7 +286,7 @@ public class CollectionPanelGUI extends JPanel {
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String name = JOptionPane.showInputDialog("Name ?");
+				String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME")+" ?");
 				MagicCollection mc = new MagicCollection();
 				mc.setName(name);
 				try {
@@ -296,7 +296,7 @@ public class CollectionPanelGUI extends JPanel {
 					initPopupCollection();
 				} catch (Exception ex) {
 					logger.error(ex);
-					JOptionPane.showMessageDialog(null, ex,"Error",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -367,10 +367,10 @@ public class CollectionPanelGUI extends JPanel {
 														else
 															exp.export(dao.getCardsFromCollection(mc,ed), f);
 														
-														JOptionPane.showMessageDialog(null, "Export Finished", "Finished", JOptionPane.INFORMATION_MESSAGE);
+														JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"), MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
 													} catch (Exception e) {
 														logger.error(e);
-														JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+														JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 													}
 													
 												}
@@ -618,7 +618,7 @@ public class CollectionPanelGUI extends JPanel {
 								exp.exportPriceCatalog(dao.getCardsFromCollection(selectedcol), diag.getDest(),
 										diag.getPriceProviders());
 
-								JOptionPane.showMessageDialog(null, "Catalog generated");
+								JOptionPane.showMessageDialog(null,MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"));
 								progressBar.setVisible(false);
 							}
 						} catch (Exception e) {
@@ -661,7 +661,7 @@ public class CollectionPanelGUI extends JPanel {
 								});
 								gen.generate(diag.getSelectedCollections(), diag.getPriceProviders());
 
-								int res = JOptionPane.showConfirmDialog(null, "website generate. Want to see it ? ");
+								int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("WEBSITE_CONFIRMATION_VIEW"));
 
 								if (res == JOptionPane.YES_OPTION) {
 									// URI uri = new
@@ -674,7 +674,7 @@ public class CollectionPanelGUI extends JPanel {
 
 						} catch (Exception e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 						}
 
 					}
@@ -687,7 +687,7 @@ public class CollectionPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent evt) {
 				MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
 
-				int res = JOptionPane.showConfirmDialog(null, "Are you sure adding " + ed + " to "+MTGControler.getInstance().get("default-library")+" ?");
+				int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_ITEM_ADDITION",ed,MTGControler.getInstance().get("default-library")));
 
 				if (res == JOptionPane.YES_OPTION)
 					try {
@@ -701,7 +701,7 @@ public class CollectionPanelGUI extends JPanel {
 						model.calculate();
 						model.fireTableDataChanged();
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 						logger.error(e);
 					}
 			}
@@ -719,13 +719,13 @@ public class CollectionPanelGUI extends JPanel {
 
 					try {
 						res = JOptionPane.showConfirmDialog(null,
-								"Are you sure you wan't to delete " + card + " from " + col + "?");
+								MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_ITEM_DELETE",card,col));
 						if (res == JOptionPane.YES_OPTION) {
 							dao.removeCard(card, col);
 							curr.removeFromParent();
 						}
 					} catch (SQLException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				if (curr.getUserObject() instanceof MagicEdition) {
@@ -734,25 +734,25 @@ public class CollectionPanelGUI extends JPanel {
 
 					try {
 						res = JOptionPane.showConfirmDialog(null,
-								"Are you sure you wan't delete " + me + " from " + col + "?");
+								MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_ITEM_DELETE",me,col));
 						if (res == JOptionPane.YES_OPTION) {
 							dao.removeEdition(me, col);
 							curr.removeFromParent();
 						}
 					} catch (SQLException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				if (curr.getUserObject() instanceof MagicCollection) {
 					try {
 						res = JOptionPane.showConfirmDialog(null,
-								"Are you sure you wan't delete " + col + " ? (" + dao.getCardsCount(col,null) + " cards)");
+								MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_DELETE",col,dao.getCardsCount(col,null)));
 						if (res == JOptionPane.YES_OPTION) {
 							dao.removeCollection(col);
 							curr.removeFromParent();
 						}
 					} catch (SQLException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 					}
 				}
 
@@ -760,7 +760,7 @@ public class CollectionPanelGUI extends JPanel {
 					try {
 						model.calculate();
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 					}
 					//model.fireTableDataChanged();
 					tree.refresh();
@@ -791,8 +791,8 @@ public class CollectionPanelGUI extends JPanel {
 		popupMenuEdition = new JPopupMenu();
 		popupMenuCards = new JPopupMenu();
 	
-		JMenu menuItemAdd = new JMenu("Add missing cards in ");
-		JMenu menuItemMove = new JMenu("Move this card to ");
+		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD_MISSING_CARDS_IN"));
+		JMenu menuItemMove = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MOVE_CARD_TO"));
 		
 		for (MagicCollection mc : dao.getCollections()) {
 			JMenuItem adds = new JMenuItem(mc.getName());
@@ -868,7 +868,7 @@ public class CollectionPanelGUI extends JPanel {
 		}
 
 		
-		JMenuItem it = new JMenuItem("Mass movement");
+		JMenuItem it = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS"));
 		it.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();

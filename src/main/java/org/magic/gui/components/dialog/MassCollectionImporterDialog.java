@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.renderer.MagicEditionListRenderer;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog{
@@ -38,7 +39,7 @@ public class MassCollectionImporterDialog extends JDialog{
 	
 	public MassCollectionImporterDialog(MagicDAO dao,MagicCardsProvider provider,List<MagicEdition> list) {
 		setSize(new Dimension(646, 290));
-		setTitle("Mass Cards Importer");
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_CARDS_IMPORT"));
 		
 		this.dao=dao;
 		this.provider=provider;
@@ -57,7 +58,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		JPanel panelCollectionInput = new JPanel();
 		getContentPane().add(panelCollectionInput, BorderLayout.NORTH);
 		
-		JLabel lblImport = new JLabel("import ");
+		JLabel lblImport = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT")+" ");
 		panelCollectionInput.add(lblImport);
 		
 		final JComboBox cboEditions = new JComboBox(list.toArray());
@@ -66,7 +67,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		
 		List lc = dao.getCollections();
 		
-		JLabel lblNewLabel = new JLabel("by");
+		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
 		
 		final JComboBox cboByType = new JComboBox();
@@ -83,7 +84,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		final JProgressBar progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
 		
-		final JCheckBox checkNewOne = new JCheckBox("import a serie after this one");
+		final JCheckBox checkNewOne = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_OTHER_SERIE"));
 		
 		JButton btnInverse = new JButton("Inverse");
 		btnInverse.addActionListener(new ActionListener() {
@@ -114,7 +115,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		panneauBas.add(checkNewOne);
 		
 		
-		JButton btnImport = new JButton("Import");
+		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				final MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
@@ -148,7 +149,7 @@ public class MassCollectionImporterDialog extends JDialog{
 								e1.printStackTrace();
 							}
 						}
-						JOptionPane.showMessageDialog(null, "Finished import "+ ids.length +" cards","Import",JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED",ids.length),MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),JOptionPane.INFORMATION_MESSAGE);
 						if(!checkNewOne.isSelected())
 						{
 							setVisible(false);

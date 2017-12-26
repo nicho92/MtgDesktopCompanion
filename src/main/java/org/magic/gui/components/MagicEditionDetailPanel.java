@@ -95,7 +95,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				1.0E-4 };
 		panneauHaut.setLayout(gridBagLayout);
 				
-						JLabel setLabel = new JLabel("Set:");
+						JLabel setLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION")+" :");
 						GridBagConstraints labelGbc_8 = new GridBagConstraints();
 						labelGbc_8.insets = new Insets(5, 5, 5, 5);
 						labelGbc_8.gridx = 0;
@@ -111,7 +111,7 @@ public class MagicEditionDetailPanel extends JPanel {
 						componentGbc_8.gridy = 0;
 						panneauHaut.add(setJTextField, componentGbc_8);
 				
-						JLabel typeLabel = new JLabel("Type:");
+						JLabel typeLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_TYPE")+" :");
 						GridBagConstraints labelGbc_11 = new GridBagConstraints();
 						labelGbc_11.insets = new Insets(5, 5, 5, 5);
 						labelGbc_11.gridx = 0;
@@ -126,7 +126,7 @@ public class MagicEditionDetailPanel extends JPanel {
 						componentGbc_11.gridy = 1;
 						panneauHaut.add(typeJTextField, componentGbc_11);
 
-		JLabel releaseDateLabel = new JLabel("ReleaseDate:");
+		JLabel releaseDateLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DATE_RELEASE")+" :");
 		GridBagConstraints labelGbc_7 = new GridBagConstraints();
 		labelGbc_7.insets = new Insets(5, 5, 5, 5);
 		labelGbc_7.gridx = 0;
@@ -142,7 +142,7 @@ public class MagicEditionDetailPanel extends JPanel {
 		componentGbc_7.gridy = 2;
 		panneauHaut.add(releaseDateJTextField, componentGbc_7);
 		
-				JLabel borderLabel = new JLabel("Border:");
+				JLabel borderLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_BORDER")+" :");
 				GridBagConstraints labelGbc_2 = new GridBagConstraints();
 				labelGbc_2.insets = new Insets(5, 5, 5, 5);
 				labelGbc_2.gridx = 0;
@@ -157,7 +157,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				componentGbc_2.gridy = 3;
 				panneauHaut.add(borderJTextField, componentGbc_2);
 
-				JLabel cardCountLabel = new JLabel("CardCount:");
+				JLabel cardCountLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_CARD_COUNT")+" :");
 				GridBagConstraints labelGbc_3 = new GridBagConstraints();
 				labelGbc_3.insets = new Insets(5, 5, 5, 5);
 				labelGbc_3.gridx = 0;
@@ -173,7 +173,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				componentGbc_3.gridy = 4;
 				panneauHaut.add(cardCountTextField, componentGbc_3);
 				
-				lblBlock = new JLabel("Block : ");
+				lblBlock = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_BLOCK")+" :");
 				GridBagConstraints gbc_lblBlock = new GridBagConstraints();
 				gbc_lblBlock.insets = new Insets(0, 0, 5, 5);
 				gbc_lblBlock.gridx = 0;
@@ -208,7 +208,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				
 				splitPane.setLeftComponent(panneauHaut);
 				
-				lblOnlineSet = new JLabel("Online Set :");
+				lblOnlineSet = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_ONLINE")+" :");
 				GridBagConstraints gbc_lblOnlineSet = new GridBagConstraints();
 				gbc_lblOnlineSet.insets = new Insets(0, 0, 5, 5);
 				gbc_lblOnlineSet.gridx = 0;
@@ -229,7 +229,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				
 				if(openBooster)
 				{ 
-				  btnOpenBooster = new JButton("Open Booster");
+				  btnOpenBooster = new JButton(MTGControler.getInstance().getLangService().getCapitalize("OPEN_BOOSTER")+" :");
 				  panneauBooster.add(btnOpenBooster, BorderLayout.NORTH);
 				  btnOpenBooster.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {

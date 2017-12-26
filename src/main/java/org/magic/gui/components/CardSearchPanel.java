@@ -169,7 +169,7 @@ public class CardSearchPanel extends JPanel {
 
 		public void initPopupCollection() throws Exception
 		{
-			JMenu menuItemAdd = new JMenu("Add");
+			JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 
 			for(MagicCollection mc : MTGControler.getInstance().getEnabledDAO().getCollections())
 			{
@@ -181,7 +181,7 @@ public class CardSearchPanel extends JPanel {
 					public void actionPerformed(ActionEvent e) {
 
 						String collec = ((JMenuItem)e.getSource()).getText();
-						loading(true, "add cards to " + collec); 
+						loading(true, MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_TO")+" " + collec); 
 
 						for (int i = 0; i < tableCards.getSelectedRowCount(); i++) { 
 							
@@ -196,7 +196,7 @@ public class CardSearchPanel extends JPanel {
 							} catch (SQLException e1) {
 								logger.error(e1);
 								e1.printStackTrace();
-								JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 							}
 
 						}
@@ -302,8 +302,8 @@ public class CardSearchPanel extends JPanel {
 			txtRulesArea.setLineWrap(true);
 			txtRulesArea.setWrapStyleWord(true);
 			txtRulesArea.setEditable(false);
-			btnFilter.setToolTipText("Filter result");
-			btnExport.setToolTipText("Export Result");
+			btnFilter.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("FILTER"));
+			btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_RESULTS"));
 			btnExport.setEnabled(false);
 			filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 			cboQuereableItems.addItem("collections");
@@ -413,11 +413,11 @@ public class CardSearchPanel extends JPanel {
 			panelFilters.add(panelmana);
 	
 
-			tabbedCardsInfo.addTab("Details", null, detailCardPanel, null);
-			tabbedCardsInfo.addTab("Edition", null, editionDetailPanel, null);
-			tabbedCardsInfo.addTab("Prices", null, scrollPanePrices, null);
-			tabbedCardsInfo.addTab("Rules", null, scrollPaneRules, null);
-			tabbedCardsInfo.addTab("Variation", null, historyChartPanel, null);
+			tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), null, detailCardPanel, null);
+			tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("EDITION"), null, editionDetailPanel, null);
+			tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), null, scrollPanePrices, null);
+			tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("RULES"), null, scrollPaneRules, null);
+			tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), null, historyChartPanel, null);
 			
 			if(MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 				tabbedCardsInfo.addTab("Json", null, panelJson, null);
@@ -427,9 +427,9 @@ public class CardSearchPanel extends JPanel {
 			panneauStat.add(typeRepartitionPanel);
 			panneauStat.add(rarityRepartitionPanel);
 			
-			tabbedCardsView.addTab("Results", null, panelResultsCards, null);
-			tabbedCardsView.addTab("Thumbnail", null, scrollThumbnails, null);
-			tabbedCardsView.addTab("Stats", null, panneauStat , null);
+			tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("RESULTS"), null, panelResultsCards, null);
+			tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL"), null, scrollThumbnails, null);
+			tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), null, panneauStat , null);
 
 			
 			add(panneauHaut, BorderLayout.NORTH);
@@ -508,7 +508,7 @@ public class CardSearchPanel extends JPanel {
 					new SwingWorker(){
 						@Override
 						protected Object doInBackground() throws Exception {
-							loading(true,"searching");
+							loading(true,MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 							String searchName=txtMagicSearch.getText();
 							if(cboCollections.isVisible())
 								cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
@@ -528,7 +528,7 @@ public class CardSearchPanel extends JPanel {
 							typeRepartitionPanel.init(cards);
 							manaRepartitionPanel.init(cards);
 							rarityRepartitionPanel.init(cards);
-							tabbedCardsView.setTitleAt(0, "Results ("+cardsModeltable.getRowCount()+")");
+							tabbedCardsView.setTitleAt(0, MTGControler.getInstance().getLangService().getCapitalize("RESULTS")+" ("+cardsModeltable.getRowCount()+")");
 							return null;
 						}
 						
@@ -577,7 +577,7 @@ public class CardSearchPanel extends JPanel {
 						selectedEdition = listEdition.getSelectedValue();
 						ThreadManager.getInstance().execute(new Runnable() {
 							public void run() {
-									loading(true,"loading edition");
+									loading(true,MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
 										try {
 											selectedCard = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", selectedCard.getName(), selectedEdition).get(0);
 											detailCardPanel.setMagicCard(selectedCard);
@@ -660,12 +660,12 @@ public class CardSearchPanel extends JPanel {
 											List<MagicCard> export = ((MagicCardTableModel)tableCards.getRowSorter().getModel()).getListCards();
 											exp.export(export, f);
 											loading(false, "");
-											JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished",JOptionPane.INFORMATION_MESSAGE);
+											JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"),exp.getName() + " "+MTGControler.getInstance().getLangService().get("FINISHED"),JOptionPane.INFORMATION_MESSAGE);
 											} catch (Exception e) {
 												e.printStackTrace();
 												logger.error(e);
 												loading(false, "");
-												JOptionPane.showMessageDialog(null, e,"Error",JOptionPane.ERROR_MESSAGE);
+												JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 											}	
 										
 										}
@@ -765,7 +765,7 @@ public class CardSearchPanel extends JPanel {
 				@Override
 				public void run() {
 
-					loading(true,"loading prices");
+					loading(true,MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES"));
 					priceModel.init(selectedCard, selectedEdition);
 					priceModel.fireTableDataChanged();
 					loading(false,"");

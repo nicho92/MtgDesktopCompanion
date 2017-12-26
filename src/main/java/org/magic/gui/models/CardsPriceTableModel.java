@@ -18,8 +18,16 @@ public class CardsPriceTableModel extends DefaultTableModel {
 
 	Logger logger = MTGLogger.getLogger(this.getClass());
 
-	String columns[] = new String[]{"Site","Price","Currency","Seller","quality","langage","url"};
-			
+	String columns[] = new String[]{
+								MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"),
+								MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
+								MTGControler.getInstance().getLangService().getCapitalize("CURRENCY"),
+								MTGControler.getInstance().getLangService().getCapitalize("SELLER"),
+								MTGControler.getInstance().getLangService().getCapitalize("QUALITY"),
+								MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
+								MTGControler.getInstance().getLangService().getCapitalize("URL"),
+	};
+	
 	List<MagicPricesProvider> providers;
 	MagicCard mc;
 	MagicEdition me;

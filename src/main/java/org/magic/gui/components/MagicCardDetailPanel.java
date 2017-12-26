@@ -163,14 +163,14 @@ public class MagicCardDetailPanel extends JPanel {
 						
 						MagicCardAlert alert = new MagicCardAlert();
 						alert.setCard(magicCard);
-						String price = JOptionPane.showInputDialog(null, "Select your maximum price", "Add Alert for " + magicCard , JOptionPane.QUESTION_MESSAGE);
+						String price = JOptionPane.showInputDialog(null,MTGControler.getInstance().getLangService().getCapitalize("SELECT_MAXIMUM_PRICE"), MTGControler.getInstance().getLangService().getCapitalize("ADD_ALERT_FOR",magicCard) , JOptionPane.QUESTION_MESSAGE);
 						alert.setPrice(Double.parseDouble(price));
 						
 						try {
 							MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
 						} catch (Exception e) {
 							e.printStackTrace();
-							JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				});
@@ -191,7 +191,7 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_lblThumbnail.gridy = 1;
 				add(lblThumbnail, gbc_lblThumbnail);
 		
-				JLabel fullTypeLabel = new JLabel("Type:");
+				JLabel fullTypeLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES")+" :");
 				GridBagConstraints labelGbc_2 = new GridBagConstraints();
 				labelGbc_2.insets = new Insets(5, 5, 5, 5);
 				labelGbc_2.gridx = 0;
@@ -206,7 +206,7 @@ public class MagicCardDetailPanel extends JPanel {
 				componentGbc_2.gridy = 1;
 				add(fullTypeJTextField, componentGbc_2);
 						
-				JLabel costLabel = new JLabel("Cost:");
+				JLabel costLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA_COST")+" :");
 				GridBagConstraints labelGbc_1 = new GridBagConstraints();
 				labelGbc_1.anchor = GridBagConstraints.EAST;
 				labelGbc_1.insets = new Insets(5, 5, 5, 5);
@@ -223,7 +223,7 @@ public class MagicCardDetailPanel extends JPanel {
 				componentGbc_1.gridy = 1;
 				add(manaPanel, componentGbc_1);
 				
-				JLabel loyaltyLabel = new JLabel("Loyalty:");
+				JLabel loyaltyLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LOYALTY")+" :");
 				GridBagConstraints gbc_loyaltyLabel = new GridBagConstraints();
 				gbc_loyaltyLabel.insets = new Insets(0, 0, 5, 5);
 				gbc_loyaltyLabel.gridx = 0;
@@ -231,7 +231,7 @@ public class MagicCardDetailPanel extends JPanel {
 				add(loyaltyLabel, gbc_loyaltyLabel);
 				loyaltyJTextField = new JTextField();
 				loyaltyJTextField.setColumns(5);
-				JLabel powerLabel = new JLabel("Power:");
+				JLabel powerLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_POWER")+" :");
 				powerJTextField = new JTextField();
 				powerJTextField.setColumns(5);
 				JLabel toughnessLabel = new JLabel("/");
@@ -263,7 +263,7 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_lblnumberInSet.gridy = 2;
 				add(lblnumberInSet, gbc_lblnumberInSet);
 				
-				lblLayout = new JLabel("Layout :");
+				lblLayout = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LAYOUT")+" :");
 				GridBagConstraints gbc_lblLayout = new GridBagConstraints();
 				gbc_lblLayout.insets = new Insets(0, 0, 5, 5);
 				gbc_lblLayout.gridx = 0;
@@ -317,7 +317,7 @@ public class MagicCardDetailPanel extends JPanel {
 				add(scrollLegality, gbc_scrollLegality);
 				scrollLegality.setViewportView(lstFormats);
 
-				JLabel textLabel = new JLabel("Text:");
+				JLabel textLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TEXT")+" :");
 				GridBagConstraints labelGbc_8 = new GridBagConstraints();
 				labelGbc_8.gridheight = 2;
 				labelGbc_8.insets = new Insets(5, 5, 5, 5);
@@ -341,7 +341,7 @@ public class MagicCardDetailPanel extends JPanel {
 				add(txtTextPane, gbc_txtTextPane);
 				
 				
-				lblFlavor = new JLabel("Flavor:");
+				lblFlavor = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_FLAVOR")+" :");
 				GridBagConstraints gbc_lblFlavor = new GridBagConstraints();
 				gbc_lblFlavor.insets = new Insets(0, 0, 5, 5);
 				gbc_lblFlavor.gridx = 0;
@@ -360,7 +360,7 @@ public class MagicCardDetailPanel extends JPanel {
 				gbc_txtFlavorArea.gridy = 6;
 				add(txtFlavorArea, gbc_txtFlavorArea);
 				
-				lblArtist = new JLabel("Artist:");
+				lblArtist = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_ARTIST")+" :");
 				GridBagConstraints gbc_lblArtist = new GridBagConstraints();
 				gbc_lblArtist.insets = new Insets(0, 0, 5, 5);
 				gbc_lblArtist.gridx = 0;
@@ -376,7 +376,7 @@ public class MagicCardDetailPanel extends JPanel {
 				add(txtArtist, gbc_txtArtist);
 				txtArtist.setColumns(10);
 				
-				lblWatermark = new JLabel("watermark: ");
+				lblWatermark = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_WATERMARK")+" :");
 				GridBagConstraints gbc_lblWatermark = new GridBagConstraints();
 				gbc_lblWatermark.anchor = GridBagConstraints.EAST;
 				gbc_lblWatermark.insets = new Insets(0, 0, 5, 5);
@@ -395,7 +395,7 @@ public class MagicCardDetailPanel extends JPanel {
 				add(txtWatermark, gbc_txtWatermark);
 				txtWatermark.setColumns(10);
 				
-				lblLegal = new JLabel("Legal:");
+				lblLegal = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LEGALITIES")+" :");
 				GridBagConstraints gbc_lblLegal = new GridBagConstraints();
 				gbc_lblLegal.insets = new Insets(0, 0, 5, 5);
 				gbc_lblLegal.gridx = 0;
@@ -589,12 +589,12 @@ public class MagicCardDetailPanel extends JPanel {
 			public void run() {
 					if(MTGControler.getInstance().getEnabledDAO().hasAlert(magicCard))
 					{
-						btnAlert.setToolTipText("Has a alert");
+						btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("HAD_ALERT"));
 						btnAlert.setEnabled(false);
 					}
 					else
 					{
-						btnAlert.setToolTipText("add an alert !");
+						btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ADD_ALERT_FOR",magicCard.getName()));
 						btnAlert.setEnabled(true);
 					}
 			}

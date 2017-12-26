@@ -11,9 +11,11 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import org.magic.services.MTGControler;
+
 public class AboutDialog extends JDialog {
 	public AboutDialog() {
-		setTitle("About");
+		setTitle(MTGControler.getInstance().getLangService().get("ABOUT"));
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -25,10 +27,10 @@ public class AboutDialog extends JDialog {
 		getContentPane().add(txtrWizardsOfThe, BorderLayout.SOUTH);
 		
 		JLabel lblNewLabel = new JLabel();
-		lblNewLabel.setIcon(new ImageIcon(AboutDialog.class.getResource("/MTGlogo.jpg")));
+		lblNewLabel.setIcon(new ImageIcon(AboutDialog.class.getResource("/icons/MTGlogo.jpg")));
 		getContentPane().add(lblNewLabel, BorderLayout.CENTER);
 		
-		JLabel lblDeveloppedByNichow = new JLabel("Developped by Nichow - GPL " + new SimpleDateFormat("yyyy").format(new Date()));
+		JLabel lblDeveloppedByNichow = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DEVELOPPERS_ABOUT", "Nichow", "GPL " +new SimpleDateFormat("yyyy").format(new Date())));
 		lblDeveloppedByNichow.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(lblDeveloppedByNichow, BorderLayout.NORTH);
 		pack();

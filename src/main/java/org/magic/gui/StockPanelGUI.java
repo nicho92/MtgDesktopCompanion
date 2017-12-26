@@ -163,7 +163,7 @@ public class StockPanelGUI extends JPanel {
 							listResult.updateUI();
 							lblLoading.setVisible(false);
 						} catch (Exception e) {
-							JOptionPane.showMessageDialog(null, e.getMessage(), "ERREUR", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, e.getMessage(), MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				},"Search stock");
@@ -185,7 +185,7 @@ public class StockPanelGUI extends JPanel {
 									ms.setUpdate(false);
 									lblLoading.setVisible(false);
 								} catch (SQLException e1) {
-									JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR ON : " + String.valueOf(ms),JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR") + " : " + String.valueOf(ms),JOptionPane.ERROR_MESSAGE);
 									lblLoading.setVisible(false);
 								}
 						
@@ -231,7 +231,10 @@ public class StockPanelGUI extends JPanel {
 		
 		btnDelete.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int res = JOptionPane.showConfirmDialog(null, "Delete " + table.getSelectedRows().length + " item(s) ?","Confirm delete",JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(null, 
+											MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
+											MTGControler.getInstance().getLangService().getCapitalize("DELETE") +" ?",
+											JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					{
 					logger.debug("delete stocks");
@@ -248,7 +251,7 @@ public class StockPanelGUI extends JPanel {
 							}
 							catch(Exception e)
 							{
-								JOptionPane.showMessageDialog(null, e.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 								lblLoading.setVisible(false);
 							}
 							lblLoading.setVisible(false);
@@ -265,7 +268,7 @@ public class StockPanelGUI extends JPanel {
 		
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				int res = JOptionPane.showConfirmDialog(null, "Cancel all changes ?","Confirm Undo",JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CANCEL_CHANGES"),MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 				{
 					logger.debug("reload collection");
@@ -277,7 +280,7 @@ public class StockPanelGUI extends JPanel {
 								lblLoading.setVisible(true);
 								model.init();
 							} catch (SQLException e1) {
-								JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 							}
 							lblLoading.setVisible(false);
 							updateCount();
@@ -298,7 +301,7 @@ public class StockPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();
 
-				JMenuItem mnuCol = new JMenuItem("Import from collection");
+				JMenuItem mnuCol = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM","collection"));
 				mnuCol.setIcon(MTGConstants.ICON_COLLECTION);
 				
 				mnuCol.addActionListener(new ActionListener() {
@@ -327,7 +330,7 @@ public class StockPanelGUI extends JPanel {
 				
 				menu.add(mnuCol);
 				
-				JMenuItem webSite = new JMenuItem("Import from website");
+				JMenuItem webSite = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM","website"));
 				webSite.setIcon(MTGConstants.ICON_WEBSITE);
 				webSite.addActionListener(new ActionListener() {
 
@@ -393,12 +396,12 @@ public class StockPanelGUI extends JPanel {
 											model.fireTableDataChanged();
 											updateCount();
 											lblLoading.setVisible(false);
-											JOptionPane.showMessageDialog(null, "Import Finished",exp.getName() + " Finished", JOptionPane.INFORMATION_MESSAGE);
+											JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().combine("IMPORT","FINISHED"),exp.getName() + " "+MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
 
 										} catch (Exception e) {
 											logger.error(e);
 											lblLoading.setVisible(false);
-											JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 										}
 
 									}
@@ -459,12 +462,12 @@ public class StockPanelGUI extends JPanel {
 											exp.exportStock(model.getList(), f);
 											
 											lblLoading.setVisible(false);
-											JOptionPane.showMessageDialog(null, "Export Finished",exp.getName() + " Finished", JOptionPane.INFORMATION_MESSAGE);
+											JOptionPane.showMessageDialog(null,  MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"), exp.getName() + " " +MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
 
 										} catch (Exception e) {
 											logger.error(e);
 											lblLoading.setVisible(false);
-											JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 										}
 
 									}
@@ -550,7 +553,7 @@ public class StockPanelGUI extends JPanel {
 		
 		btnApplyModification.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				int res = JOptionPane.showConfirmDialog(null, "Change " + table.getSelectedRowCount() + " item(s)", "Confirmation", JOptionPane.YES_NO_CANCEL_OPTION);
+				int res = JOptionPane.showConfirmDialog(null,  MTGControler.getInstance().getLangService().getCapitalize("CHANGE_X_ITEMS",table.getSelectedRowCount()),  MTGControler.getInstance().getLangService().getCapitalize("CONFIRMATION"), JOptionPane.YES_NO_CANCEL_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 				{
 					for(int i : table.getSelectedRows())
@@ -606,7 +609,7 @@ public class StockPanelGUI extends JPanel {
 				stock.setMagicCard(mc);
 				stock.setMagicCollection(col);
 				stock.setQte(1);
-				stock.setComment("import from " + col.getName());
+				stock.setComment(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",col.getName()));
 				stock.setIdstock(-1);
 				stock.setUpdate(true);
 				model.add(stock);
@@ -625,7 +628,7 @@ public class StockPanelGUI extends JPanel {
 			MagicCardStock stock = new MagicCardStock();
 				stock.setMagicCard(mc);
 				stock.setQte(deck.getMap().get(mc));
-				stock.setComment("import from " + deck.getName());
+				stock.setComment(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",deck.getName()));
 				stock.setIdstock(-1);
 				stock.setUpdate(true);
 				model.add(stock);
@@ -675,23 +678,21 @@ public class StockPanelGUI extends JPanel {
 		JPanel actionPanel = new JPanel();
 		centerPanel.add(actionPanel, BorderLayout.NORTH);
 				btnAdd.setEnabled(false);
-		
 				btnAdd.setIcon(MTGConstants.ICON_NEW);
 				actionPanel.add(btnAdd);
+		
 				btnDelete.setEnabled(false);
-				
-	
 				btnDelete.setIcon(MTGConstants.ICON_DELETE);
 				actionPanel.add(btnDelete);
-				btnSave.setToolTipText("Batch Save");
 				
 				
+				btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("BATCH_SAVE"));
 				btnSave.setIcon(MTGConstants.ICON_SAVE);
 				actionPanel.add(btnSave);
 				
 				btnReload = new JButton("");
-				
 				btnReload.setIcon(MTGConstants.ICON_REFRESH);
+				btnReload.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("RELOAD"));
 				actionPanel.add(btnReload);
 				
 				lblLoading = new JLabel();
@@ -702,21 +703,21 @@ public class StockPanelGUI extends JPanel {
 				
 				btnImport = new JButton();
 				btnImport.setIcon(MTGConstants.ICON_IMPORT);
-				btnImport.setToolTipText("Import");
+				btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 				actionPanel.add(btnImport);
 				
 				btnExport = new JButton("");
 				
-				btnExport.setToolTipText("Export Stock as CSV");
+				btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
 				btnExport.setIcon(MTGConstants.ICON_EXPORT);
 				actionPanel.add(btnExport);
 				
 				btnGeneratePrice = new JButton();
 				
 				btnGeneratePrice.setIcon(MTGConstants.ICON_EURO);
-				btnGeneratePrice.setToolTipText("Generate Price from dashboard");
+				btnGeneratePrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_PRICE"));
 				actionPanel.add(btnGeneratePrice);
-				btnshowMassPanel.setToolTipText("Mass Modification");
+				btnshowMassPanel.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("MASS_MODIFICATION"));
 				btnshowMassPanel.setIcon(MTGConstants.ICON_MANUAL);
 				actionPanel.add(btnshowMassPanel);
 				lblLoading.setIcon(MTGConstants.ICON_LOADING);
@@ -788,7 +789,7 @@ public class StockPanelGUI extends JPanel {
 		rightPanel.add(lblQte, gbc_lblQte);
 		
 		spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		spinner.setModel(new SpinnerNumberModel(0,0, null, 1));
 		GridBagConstraints gbc_spinner = new GridBagConstraints();
 		gbc_spinner.fill = GridBagConstraints.HORIZONTAL;
 		gbc_spinner.insets = new Insets(0, 0, 5, 0);
@@ -959,7 +960,7 @@ public class StockPanelGUI extends JPanel {
 					lblLoading.setVisible(true);
 					model.init();
 				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage(),"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 				}
 				lblLoading.setVisible(false);
 				updateCount();
@@ -970,7 +971,7 @@ public class StockPanelGUI extends JPanel {
 	
 	public void updateCount()
 	{
-		lblCount.setText("Item in stock : " + table.getRowCount());
+		lblCount.setText(MTGControler.getInstance().getLangService().getCapitalize("ITEMS_IN_STOCK")+": " + table.getRowCount());
 	}
 
 	

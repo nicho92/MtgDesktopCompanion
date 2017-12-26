@@ -15,6 +15,7 @@ import javax.swing.Timer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
@@ -47,12 +48,12 @@ public class ThreadMonitorFrame extends JFrame {
 				if(t.isRunning())
 					{
 						t.stop();
-						btnRefresh.setText("Start");
+						btnRefresh.setText(MTGControler.getInstance().getLangService().getCapitalize("START"));
 					}
 					else
 					{
 						t.start();
-						btnRefresh.setText("Pause");
+						btnRefresh.setText(MTGControler.getInstance().getLangService().getCapitalize("PAUSE"));
 						lblThreads.setText(ThreadManager.getInstance().getInfo());
 						
 					}
@@ -63,7 +64,7 @@ public class ThreadMonitorFrame extends JFrame {
 		table.setRowSorter(sorterCards);
 		panel.add(btnRefresh);
 		
-		lblThreads = new JLabel("Threads");
+		lblThreads = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
 		panel.add(lblThreads);
 		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 		setSize(700, 400);
@@ -84,7 +85,7 @@ public class ThreadMonitorFrame extends JFrame {
 class ThreadModel extends DefaultTableModel
 {
 	
-	String[] columns = new String[]{"Group","Name","State"};
+	String[] columns = new String[]{MTGControler.getInstance().getLangService().getCapitalize("GROUP"),MTGControler.getInstance().getLangService().getCapitalize("NAME"),MTGControler.getInstance().getLangService().getCapitalize("STATE")};
 	
 	@Override
 	public Object getValueAt(int row, int column) {

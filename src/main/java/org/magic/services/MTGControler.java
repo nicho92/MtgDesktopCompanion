@@ -12,6 +12,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.imageio.ImageIO;
 
@@ -20,6 +21,7 @@ import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.api.interfaces.CardExporter;
@@ -57,14 +59,20 @@ public class MTGControler {
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
+	private LanguageService langService;
+	
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-
+	
+	
 	public void notify(String caption,String text,MessageType type)
 	{
 		if(SystemTray.isSupported())
 			MagicGUI.trayNotifier.displayMessage(caption, text, type);
 	}
 	
+	public LanguageService getLangService() {
+		return langService;
+	}
 	
 	public static MTGControler getInstance()
 	{
@@ -148,6 +156,18 @@ public class MTGControler {
 		
 	}
 	
+	public Locale getLocale()
+	{
+		try {
+			return LocaleUtils.toLocale(config.getString("locale"));
+		}catch(Exception e)
+		{
+			logger.error("Could not load " + config.getString("locale"));
+			return langService.getDefault();
+		}
+	}
+	
+	
 	public String get(String prop,String defaut)
 	{
 		return config.getString(prop,defaut);
@@ -213,7 +233,6 @@ public class MTGControler {
 		        );
 		
 		classLoader = MTGControler.class.getClassLoader();
-		
 		try {
 			
 		    config = builder.getConfiguration();
@@ -354,9 +373,11 @@ public class MTGControler {
 			//logger.debug("Check for new modules");
 			keyWordManager = new KeyWordManager();
 			
+			langService = new LanguageService();
+			langService.changeLocal(getLocale());
+
 			
 		} catch (Exception e) {
-			e.printStackTrace();
 			logger.error(e);
 		}
 	}

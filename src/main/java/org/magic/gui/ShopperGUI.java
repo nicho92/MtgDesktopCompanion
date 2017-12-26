@@ -28,6 +28,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
@@ -40,7 +41,7 @@ public class ShopperGUI extends JPanel {
 	
 	JButton btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 	JPanel panel = new JPanel();
-	JLabel lblSearch = new JLabel("search :");
+	JLabel lblSearch = new JLabel(MTGControler.getInstance().getLangService().get("SEARCH_MODULE")+" :");
 	JScrollPane shopItemScrollPane = new JScrollPane();
 	ShopItemTableModel mod;
 	private final JPanel panneauCentral = new JPanel();

@@ -12,6 +12,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.magic.services.MTGControler;
+
 public class ManualImportFrame extends JDialog {
 	
 	
@@ -29,7 +31,7 @@ public class ManualImportFrame extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
 		
-		JButton btnImport = new JButton("Import");
+		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
@@ -37,7 +39,7 @@ public class ManualImportFrame extends JDialog {
 		});
 		panel.add(btnImport);
 		
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				editorPane.setText("");
@@ -46,7 +48,7 @@ public class ManualImportFrame extends JDialog {
 		});
 		panel.add(btnCancel);
 		
-		JLabel lblPastYourDeck = new JLabel("Past your deck here : NB Cards<space>Card Name");
+		JLabel lblPastYourDeck = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_HELP"));
 		getContentPane().add(lblPastYourDeck, BorderLayout.NORTH);
 		
 		JScrollPane scrollPane = new JScrollPane();

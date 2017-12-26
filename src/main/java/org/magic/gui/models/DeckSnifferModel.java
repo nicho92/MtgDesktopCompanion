@@ -7,10 +7,11 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
+import org.magic.services.MTGControler;
 
 public class DeckSnifferModel extends DefaultTableModel {
 
-	final String[] columns = new String[]{"name","color","author"};
+	final String[] columns = new String[]{MTGControler.getInstance().getLangService().getCapitalize("NAME"),MTGControler.getInstance().getLangService().getCapitalize("COLOR"),MTGControler.getInstance().getLangService().getCapitalize("AUTHOR")};
 
 	List<RetrievableDeck> decks;
 	

@@ -121,11 +121,11 @@ public class MagicGUI extends JFrame {
 			
 		mntmExit = new JMenuItem("Exit");
 		
-		JMenuItem mntmHelp = new JMenuItem("Read the f***g manual");
-		JMenuItem mntmThreadItem = new JMenuItem("Threads");
-		JMenuItem mntmLogsItem = new JMenuItem("Logs");
-		JMenuItem mntmAboutMagicDesktop = new JMenuItem("About Magic Desktop Companion");
-		JMenuItem mntmReportBug = new JMenuItem("Report Bug");
+		JMenuItem mntmHelp = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("READ_MANUAL"));
+		JMenuItem mntmThreadItem = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
+		JMenuItem mntmLogsItem = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
+		JMenuItem mntmAboutMagicDesktop = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ABOUT"));
+		JMenuItem mntmReportBug = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REPORT_BUG"));
 		
 		
 		menuBar.add(mnFile);
@@ -212,7 +212,7 @@ public class MagicGUI extends JFrame {
 		
 		if(serviceUpdate.hasNewVersion())
 		{
-			JMenuItem newversion = new JMenuItem("Download latest version : " + serviceUpdate.getOnlineVersion() );
+			JMenuItem newversion = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("DOWNLOAD_LAST_VERSION")+" : " + serviceUpdate.getOnlineVersion() );
 			newversion.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String url =MTGConstants.MTG_DESKTOP_APP_ZIP;
@@ -243,7 +243,7 @@ public class MagicGUI extends JFrame {
 		
 		
 		
-		JMenu itMore = new JMenu("More");
+		JMenu itMore = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MORE"));
 		for(final String ui : looksMore.keySet())
 		{
 			final JMenuItem it = new JMenuItem(ui);
@@ -274,39 +274,39 @@ public class MagicGUI extends JFrame {
 		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
 		
 		if(MTGControler.getInstance().get("modules/search").equals("true"))
-			tabbedPane.addTab("Search", MTGConstants.ICON_SEARCH_2, new CardSearchPanel(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"), MTGConstants.ICON_SEARCH_2, new CardSearchPanel(), null);
 		
 		if(MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
-			tabbedPane.addTab("Deck", MTGConstants.ICON_DECK, new DeckBuilderGUI(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_DECK, new DeckBuilderGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/game").equals("true"))
-			tabbedPane.addTab("Game", MTGConstants.ICON_COLLECTION_SMALL, new GameGUI(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GAME_MODULE"), MTGConstants.ICON_COLLECTION_SMALL, new GameGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/collection").equals("true"))
-			tabbedPane.addTab("Collection", MTGConstants.ICON_COLLECTION, new CollectionPanelGUI(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_MODULE"), MTGConstants.ICON_COLLECTION, new CollectionPanelGUI(), null);
 
 		if(MTGControler.getInstance().get("modules/stock").equals("true"))
-			tabbedPane.addTab("Stock", MTGConstants.ICON_STOCK, new StockPanelGUI(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_STOCK, new StockPanelGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/dashboard").equals("true"))
-			tabbedPane.addTab("DashBoard",MTGConstants.ICON_DASHBOARD, new DashBoardGUI2(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"),MTGConstants.ICON_DASHBOARD, new DashBoardGUI2(), null);
 		
 		if(MTGControler.getInstance().get("modules/shopper").equals("true"))
-			tabbedPane.addTab("Shopping",MTGConstants.ICON_SHOP, new ShopperGUI(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPING_MODULE"),MTGConstants.ICON_SHOP, new ShopperGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/alarm").equals("true"))
-			tabbedPane.addTab("Alert", MTGConstants.ICON_ALERT, new AlarmGUI(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("ALERT_MODULE"), MTGConstants.ICON_ALERT, new AlarmGUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/cardbuilder").equals("true"))
-			tabbedPane.addTab("Builder", MTGConstants.ICON_BUILDER, new CardBuilder2GUI(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("BUILDER_MODULE"), MTGConstants.ICON_BUILDER, new CardBuilder2GUI(), null);
 		
 		if(MTGControler.getInstance().get("modules/rss").equals("true"))
-			tabbedPane.addTab("RSS", MTGConstants.ICON_RSS, new RssGUI(), null);
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), MTGConstants.ICON_RSS, new RssGUI(), null);
 		
 
 		
 		
-		tabbedPane.addTab("Configuration", MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
 		
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		
@@ -338,7 +338,7 @@ public class MagicGUI extends JFrame {
 			trayNotifier.setPopupMenu(menuTray);
 			trayNotifier.setToolTip("MTG Desktop Companion");
 			if(serviceUpdate.hasNewVersion())
-				trayNotifier.displayMessage(getTitle(),"New version " + serviceUpdate.getOnlineVersion() + " available",TrayIcon.MessageType.INFO);
+				trayNotifier.displayMessage(getTitle(),MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION")+" " + serviceUpdate.getOnlineVersion() + " "+MTGControler.getInstance().getLangService().get("AVAILABLE"),TrayIcon.MessageType.INFO);
 		
 			
 			ThreadManager.getInstance().execute(new Runnable() {

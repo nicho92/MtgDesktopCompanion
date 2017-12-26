@@ -172,11 +172,11 @@ public class DeckBuilderGUI extends JPanel {
 		btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 		panneauHaut.add(btnSearch);
 
-		final JLabel lblCards = new JLabel("");
+		final JLabel lblCards = new JLabel();
 		panneauHaut.add(lblCards);
 
 		JButton btnNewDeck = new JButton(MTGConstants.ICON_NEW);
-		btnNewDeck.setToolTipText("Create New Deck");
+		btnNewDeck.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("CREATE_NEW_DECK"));
 
 		panneauHaut.add(btnNewDeck);
 
@@ -191,7 +191,7 @@ public class DeckBuilderGUI extends JPanel {
 		});
 
 		JButton btnOpen = new JButton(MTGConstants.ICON_OPEN);
-		btnOpen.setToolTipText("Open deck");
+		btnOpen.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
 		panneauHaut.add(btnOpen);
 
 		btnOpen.addActionListener(new ActionListener() {
@@ -212,13 +212,13 @@ public class DeckBuilderGUI extends JPanel {
 					}
 				} catch (Exception ex) {
 					logger.error(ex);
-					JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 
-		btnUpdate = new JButton("");
-		btnUpdate.setToolTipText("Update the deck");
+		btnUpdate = new JButton();
+		btnUpdate.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_DECK"));
 		btnUpdate.addActionListener(new ActionListener() {
 
 			public void actionPerformed(ActionEvent arg0) {
@@ -260,7 +260,7 @@ public class DeckBuilderGUI extends JPanel {
 						
 						btnUpdate.setEnabled(true);
 						lblExport.setVisible(false);
-						JOptionPane.showMessageDialog(null, "Deck Updated", "Update", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("UPDATED_DECK"), MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
 						
 						
 						
@@ -274,7 +274,7 @@ public class DeckBuilderGUI extends JPanel {
 		panneauHaut.add(btnUpdate);
 
 		JButton btnSave = new JButton(MTGConstants.ICON_SAVE);
-		btnSave.setToolTipText("Save deck");
+		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DECK"));
 		panneauHaut.add(btnSave);
 
 		btnSave.addActionListener(new ActionListener() {
@@ -282,7 +282,7 @@ public class DeckBuilderGUI extends JPanel {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-					String name = JOptionPane.showInputDialog("Deck Name ?", deck.getName());
+					String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+" ?", deck.getName());
 					deck.setName(name);
 
 					if (!deckDirectory.exists())
@@ -294,19 +294,19 @@ public class DeckBuilderGUI extends JPanel {
 				} catch (Exception ex) {
 					ex.printStackTrace();
 					logger.error(ex);
-					JOptionPane.showMessageDialog(null, ex, "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		});
 
 		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
-		btnImport.setToolTipText("Import deck as ");
+		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("DECK_IMPORT_AS"));
 
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();
 
-				JMenuItem manuel = new JMenuItem("Manual Import");
+				JMenuItem manuel = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MANUAL_IMPORT"));
 				manuel.setIcon(MTGConstants.ICON_MANUAL);
 				manuel.addActionListener(new ActionListener() {
 
@@ -321,7 +321,7 @@ public class DeckBuilderGUI extends JPanel {
 				});
 				menu.add(manuel);
 
-				JMenuItem webSite = new JMenuItem("Import from website");
+				JMenuItem webSite = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM","website"));
 				webSite.setIcon(MTGConstants.ICON_WEBSITE);
 				webSite.addActionListener(new ActionListener() {
 
@@ -379,8 +379,8 @@ public class DeckBuilderGUI extends JPanel {
 										try {
 											loading(true, "loading from " + exp);
 											deck = exp.importDeck(f);
-											JOptionPane.showMessageDialog(null, "Import Finished",
-													exp.getName() + " Finished", JOptionPane.INFORMATION_MESSAGE);
+											JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
+													exp.getName() + " "+MTGControler.getInstance().getLangService().get("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
 											setDeck(deck);
 											loading(false, "");
 											deckmodel.init(deck);
@@ -392,7 +392,7 @@ public class DeckBuilderGUI extends JPanel {
 											logger.error(e);
 											e.printStackTrace();
 											loading(false, "");
-											JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 										}
 
 									}
@@ -414,7 +414,7 @@ public class DeckBuilderGUI extends JPanel {
 
 		btnExports = new JButton();
 		btnExports.setEnabled(false);
-		btnExports.setToolTipText("Export as");
+		btnExports.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
 		btnExports.setIcon(MTGConstants.ICON_EXPORT);
 		btnExports.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -435,15 +435,17 @@ public class DeckBuilderGUI extends JPanel {
 								@Override
 								public void run() {
 									try {
-										loading(true, "Export " + deck + " to " + exp);
+										loading(true, MTGControler.getInstance().getLangService().get("EXPORT_TO",deck,exp));
 										exp.export(deck, exportedFile);
-										JOptionPane.showMessageDialog(null, "Export Finished",
-												exp.getName() + " Finished", JOptionPane.INFORMATION_MESSAGE);
+										JOptionPane.showMessageDialog(null, 
+												MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"),
+												exp.getName() + " "+MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), 
+												JOptionPane.INFORMATION_MESSAGE);
 										loading(false, "");
 									} catch (Exception e) {
 										logger.error(e);
 										loading(false, "");
-										JOptionPane.showMessageDialog(null, e, "Error", JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 									}
 								}
 							}, "Export " + deck + " to " + exp.getName());
@@ -604,7 +606,7 @@ public class DeckBuilderGUI extends JPanel {
 		JPanel panel = new JPanel();
 		randomHandPanel.add(panel, BorderLayout.NORTH);
 
-		JButton btnDrawAHand = new JButton("Draw a hand");
+		JButton btnDrawAHand = new JButton(MTGControler.getInstance().getLangService().getCapitalize("DRAW_HAND"));
 		btnDrawAHand.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				thumbnail.removeAll();
@@ -730,12 +732,12 @@ public class DeckBuilderGUI extends JPanel {
 									resultListModel.addElement(m);
 								}
 							}
-							lblCards.setText(resultListModel.size() + " results");
+							lblCards.setText(resultListModel.size() + " "+MTGControler.getInstance().getLangService().get("RESULTS"));
 							listResult.setModel(resultListModel);
 							listResult.updateUI();
 
 						} catch (Exception e) {
-							JOptionPane.showMessageDialog(null, e.getMessage(), "ERREUR", JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, e.getMessage(), MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 						}
 					}
 				},"search deck");

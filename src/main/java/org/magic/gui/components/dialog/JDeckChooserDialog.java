@@ -29,6 +29,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.models.DeckSelectionModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGControler;
 
 public class JDeckChooserDialog extends JDialog {
 	
@@ -103,7 +104,7 @@ public class JDeckChooserDialog extends JDialog {
 	  }
 	
 	public JDeckChooserDialog() {
-		setTitle("Choose your deck");
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
 		setSize(828, 500);
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
@@ -153,18 +154,18 @@ public class JDeckChooserDialog extends JDialog {
 		JPanel panelBas = new JPanel();
 		getContentPane().add(panelBas, BorderLayout.SOUTH);
 		
-		JButton btnSelect = new JButton("Open");
+		JButton btnSelect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SELECT"));
 		btnSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(selectedDeck==null)
-					JOptionPane.showMessageDialog(null, "Please choose a deck");
+					JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"));
 				else	
 					dispose();
 			}
 		});
 		panelBas.add(btnSelect);
 		
-		JButton btnCancel = new JButton("Cancel");
+		JButton btnCancel = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
 		btnCancel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				selectedDeck=null;
@@ -173,11 +174,11 @@ public class JDeckChooserDialog extends JDialog {
 		});
 		panelBas.add(btnCancel);
 		
-		JButton btnNewButton = new JButton("Delete");
+		JButton btnNewButton = new JButton(MTGControler.getInstance().getLangService().getCapitalize("DELETE"));
 		btnNewButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				
-				int res = JOptionPane.showConfirmDialog(null, "Delete " + selectedDeck.getName() +" ?","Are you sure ?",JOptionPane.YES_NO_OPTION);
+				int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",selectedDeck.getName()),MTGControler.getInstance().getLangService().getCapitalize("CONFIRMATION")+" ?",JOptionPane.YES_NO_OPTION);
 				
 				if(res==JOptionPane.YES_OPTION)
 				{

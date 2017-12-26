@@ -32,6 +32,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
+import org.magic.services.MTGControler;
 
 public class MagicCardEditorPanel extends JPanel {
 
@@ -77,7 +78,7 @@ public class MagicCardEditorPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
-				JLabel nameLabel = new JLabel("Name:");
+				JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME")+":");
 				GridBagConstraints labelGbc_10 = new GridBagConstraints();
 				labelGbc_10.insets = new Insets(5, 5, 5, 5);
 				labelGbc_10.gridx = 0;
@@ -92,7 +93,7 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_10.gridy = 0;
 				add(nameJTextField, componentGbc_10);
 		
-				JLabel costLabel = new JLabel("Cost:");
+				JLabel costLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA_COST")+":");
 				GridBagConstraints labelGbc_2 = new GridBagConstraints();
 				labelGbc_2.insets = new Insets(5, 5, 5, 5);
 				labelGbc_2.gridx = 2;
@@ -120,7 +121,7 @@ public class MagicCardEditorPanel extends JPanel {
 						cboUn.addItem("X");
 						
 						
-						JButton btn = new JButton("set Cost");
+						JButton btn = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SET_COST")+":");
 						btn.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
 								String cost="";
@@ -253,7 +254,7 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_14.gridy = 1;
 				add(rarityJComboBox, componentGbc_14);
 		
-				lblType = new JLabel("Type :");
+				lblType = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES")+":");
 				GridBagConstraints gbc_lblType = new GridBagConstraints();
 				gbc_lblType.insets = new Insets(0, 0, 5, 5);
 				gbc_lblType.gridx = 0;
@@ -331,7 +332,7 @@ public class MagicCardEditorPanel extends JPanel {
 							panel_2.add(btnG);
 								
 						}
-							JLabel textLabel = new JLabel("Text:");
+							JLabel textLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TEXT")+":");
 						GridBagConstraints labelGbc_16 = new GridBagConstraints();
 						labelGbc_16.insets = new Insets(5, 5, 5, 5);
 						labelGbc_16.gridx = 0;
@@ -348,7 +349,7 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_16.gridy = 4;
 				add(textJEditorPane, componentGbc_16);
 
-		JLabel flavorLabel = new JLabel("Flavor:");
+		JLabel flavorLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_FLAVOR")+":");
 		GridBagConstraints labelGbc_3 = new GridBagConstraints();
 		labelGbc_3.insets = new Insets(5, 5, 5, 5);
 		labelGbc_3.gridx = 0;
@@ -364,7 +365,7 @@ public class MagicCardEditorPanel extends JPanel {
 		componentGbc_3.gridy = 6;
 		add(flavorJTextField, componentGbc_3);
 				
-						JLabel layoutLabel = new JLabel("Layout:");
+						JLabel layoutLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LAYOUT")+":");
 						GridBagConstraints labelGbc_6 = new GridBagConstraints();
 						labelGbc_6.insets = new Insets(5, 5, 5, 5);
 						labelGbc_6.gridx = 0;
@@ -381,7 +382,7 @@ public class MagicCardEditorPanel extends JPanel {
 						componentGbc_6.gridy = 7;
 						add(layoutJComboBox, componentGbc_6);
 						
-								JLabel powerLabel = new JLabel("Power / Toughness :");
+								JLabel powerLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_POWER")+"/"+MTGControler.getInstance().getLangService().getCapitalize("CARD_TOUGHNESS")+":");
 								GridBagConstraints labelGbc_13 = new GridBagConstraints();
 								labelGbc_13.insets = new Insets(5, 5, 5, 5);
 								labelGbc_13.gridx = 2;
@@ -407,7 +408,7 @@ public class MagicCardEditorPanel extends JPanel {
 										toughnessJTextField.setColumns(2);
 										panel.add(toughnessJTextField);
 												
-														JLabel watermarksLabel = new JLabel("Watermarks:");
+														JLabel watermarksLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_WATERMARK")+" :");
 														GridBagConstraints labelGbc_19 = new GridBagConstraints();
 														labelGbc_19.insets = new Insets(5, 5, 5, 5);
 														labelGbc_19.gridx = 0;
@@ -422,7 +423,7 @@ public class MagicCardEditorPanel extends JPanel {
 														componentGbc_19.gridy = 8;
 														add(watermarksJTextField, componentGbc_19);
 										
-												JLabel loyaltyLabel = new JLabel("Loyalty:");
+												JLabel loyaltyLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LOYALTY"));
 												GridBagConstraints labelGbc_7 = new GridBagConstraints();
 												labelGbc_7.insets = new Insets(5, 5, 5, 5);
 												labelGbc_7.gridx = 2;
@@ -437,7 +438,7 @@ public class MagicCardEditorPanel extends JPanel {
 										componentGbc_7.gridy = 8;
 										add(loyaltyJTextField, componentGbc_7);
 						
-								JLabel numberLabel = new JLabel("Number:");
+								JLabel numberLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_NUMBER"));
 								GridBagConstraints labelGbc_11 = new GridBagConstraints();
 								labelGbc_11.insets = new Insets(5, 5, 5, 5);
 								labelGbc_11.gridx = 0;
@@ -452,7 +453,7 @@ public class MagicCardEditorPanel extends JPanel {
 								componentGbc_11.gridy = 9;
 								add(numberJTextField, componentGbc_11);
 				
-						JLabel tranformableLabel = new JLabel("Tranformable:");
+						JLabel tranformableLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TRANSFORMABLE")+" :");
 						GridBagConstraints labelGbc_18 = new GridBagConstraints();
 						labelGbc_18.insets = new Insets(5, 5, 5, 5);
 						labelGbc_18.gridx = 2;
@@ -467,7 +468,7 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_18.gridy = 9;
 				add(tranformableJCheckBox, componentGbc_18);
 				
-						JLabel mciNumberLabel = new JLabel("MciNumber:");
+						JLabel mciNumberLabel = new JLabel("Mci:");
 						GridBagConstraints labelGbc_8 = new GridBagConstraints();
 						labelGbc_8.insets = new Insets(5, 5, 5, 5);
 						labelGbc_8.gridx = 0;
@@ -482,7 +483,7 @@ public class MagicCardEditorPanel extends JPanel {
 						componentGbc_8.gridy = 10;
 						add(mciNumberJTextField, componentGbc_8);
 		
-				JLabel flippableLabel = new JLabel("Flippable:");
+				JLabel flippableLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_FLIPPABLE")+" :");
 				GridBagConstraints labelGbc_4 = new GridBagConstraints();
 				labelGbc_4.insets = new Insets(5, 5, 5, 5);
 				labelGbc_4.gridx = 2;
@@ -497,7 +498,7 @@ public class MagicCardEditorPanel extends JPanel {
 				componentGbc_4.gridy = 10;
 				add(flippableJCheckBox, componentGbc_4);
 								
-										JLabel gathererCodeLabel = new JLabel("GathererCode:");
+										JLabel gathererCodeLabel = new JLabel("Gatherer ID:");
 										GridBagConstraints labelGbc_5 = new GridBagConstraints();
 										labelGbc_5.insets = new Insets(5, 5, 5, 5);
 										labelGbc_5.gridx = 0;
@@ -512,7 +513,7 @@ public class MagicCardEditorPanel extends JPanel {
 										componentGbc_5.gridy = 11;
 										add(gathererCodeJTextField, componentGbc_5);
 						
-								JLabel rotatedCardNameLabel = new JLabel("RotatedCardName:");
+								JLabel rotatedCardNameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TRANSFORMED_NAME")+" :");
 								GridBagConstraints labelGbc_15 = new GridBagConstraints();
 								labelGbc_15.insets = new Insets(5, 5, 5, 5);
 								labelGbc_15.gridx = 2;

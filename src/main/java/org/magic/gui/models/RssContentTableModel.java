@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.RSSBean;
+import org.magic.services.MTGControler;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -14,7 +15,8 @@ import com.rometools.rome.io.XmlReader;
 
 public class RssContentTableModel extends DefaultTableModel{
 
-	private final static String[] COLUMN_NAMES = {"Title","Date"};
+	private final static String[] COLUMN_NAMES = {MTGControler.getInstance().getLangService().getCapitalize("RSS_TITLE"),
+			MTGControler.getInstance().getLangService().getCapitalize("RSS_DATE")};
 	
 	SyndFeedInput input;
 	

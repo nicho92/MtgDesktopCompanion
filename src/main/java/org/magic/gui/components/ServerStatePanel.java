@@ -18,6 +18,7 @@ import javax.swing.JPanel;
 
 import org.magic.api.interfaces.MTGServer;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class ServerStatePanel extends JPanel {
 
@@ -77,9 +78,9 @@ public class ServerStatePanel extends JPanel {
 		TimerTask tache = new TimerTask() {    
             public void run() {
             	if(server.isAlive())
-            		btnStartStop.setText("Stop");
+            		btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("STOP"));
             	else
-            		btnStartStop.setText("Start");
+            		btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("START"));
             	lblalive.setIcon(icons.get(server.isAlive()));
             }
 		};

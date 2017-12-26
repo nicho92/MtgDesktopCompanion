@@ -17,6 +17,7 @@ import javax.swing.Timer;
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.models.LogTableModel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -32,7 +33,7 @@ public class LoggerViewFrame extends JFrame {
 	private JButton btnRefresh; 
 	
 	public LoggerViewFrame() {
-		setTitle("Logs");
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
 		model=new LogTableModel();
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		

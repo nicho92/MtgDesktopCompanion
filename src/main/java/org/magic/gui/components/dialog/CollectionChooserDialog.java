@@ -43,7 +43,7 @@ public class CollectionChooserDialog extends JDialog{
 		JPanel panel_1 = new JPanel();
 		getContentPane().add(panel_1, BorderLayout.SOUTH);
 		
-		JButton btnClose = new JButton("Cancel");
+		JButton btnClose = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
 		btnClose.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				dispose();
@@ -51,7 +51,7 @@ public class CollectionChooserDialog extends JDialog{
 		});
 		panel_1.add(btnClose);
 		
-		btnImport = new JButton("Select");
+		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SELECT"));
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				selectedCollection = (MagicCollection)cboCollections.getSelectedItem();

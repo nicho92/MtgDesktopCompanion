@@ -102,7 +102,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
 	{
 		userObject=c;
 		setUserObject(c);
-		add(new DefaultMutableTreeNode("Loading...", false));
+		add(new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("LOADING"), false));
 		if(c instanceof MagicCard)
 		{
 			setAllowsChildren(false);

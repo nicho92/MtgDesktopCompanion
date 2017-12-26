@@ -51,7 +51,7 @@ public class PriceCatalogExportDialog extends JDialog {
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 		
-		JButton btnGenerate = new JButton("Export");
+		JButton btnGenerate = new JButton(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
 		
 		panneauBas.add(btnGenerate);
 		lstProviders = new JComboBox<MagicPricesProvider>(MTGControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));

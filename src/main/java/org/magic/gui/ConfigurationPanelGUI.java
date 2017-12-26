@@ -38,6 +38,7 @@ import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.gui.models.conf.ServersTreeTableModel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class ConfigurationPanelGUI extends JPanel {
@@ -64,20 +65,20 @@ public class ConfigurationPanelGUI extends JPanel {
 
 		
 		JPanel providerConfigPanel = new JPanel();
-		tabbedPane.addTab("Providers", null, providerConfigPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"), null, providerConfigPanel, null);
 		providerConfigPanel.setLayout(new BorderLayout(0, 0));
 		
 		JTabbedPane subTabbedProviders = new JTabbedPane(JTabbedPane.TOP);
 		providerConfigPanel.add(subTabbedProviders);
 		
 		JScrollPane cardsProvidersScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("Cards", null, cardsProvidersScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), null, cardsProvidersScrollPane, null);
 		
 		cardsProviderTable = new JTable();
 		cardsProvidersScrollPane.setViewportView(cardsProviderTable);
 		
 		JScrollPane picturesScollPane = new JScrollPane();
-		subTabbedProviders.addTab("Pictures", null, picturesScollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), null, picturesScollPane, null);
 		
 		picturesProviderTable = new JXTreeTable(new PicturesProvidersTableModel());
 		picturesScollPane.setViewportView(picturesProviderTable);
@@ -91,7 +92,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		
 		JScrollPane priceProviderScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("Pricers", null, priceProviderScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICERS"), null, priceProviderScrollPane, null);
 		priceProviderTable = new JXTreeTable(new MagicPricesProvidersTableModel());
 		cardsProviderTable.setModel(new ProvidersTableModel());
 		
@@ -105,7 +106,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		priceProviderScrollPane.setViewportView(priceProviderTable);
 		
 		JScrollPane daoProviderScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("DataBases", null, daoProviderScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DATABASES"), null, daoProviderScrollPane, null);
 		
 		daoProviderTable = new JXTreeTable(new MagicDAOProvidersTableModel());
 		daoProviderTable.addTreeSelectionListener(new TreeSelectionListener() {
@@ -118,7 +119,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		daoProviderScrollPane.setViewportView(daoProviderTable);
 		
 		JScrollPane shopperScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("Shoppers", null, shopperScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPERS"), null, shopperScrollPane, null);
 		
 		shopperTreeTable = new JXTreeTable(new MagicShoppersTableModel());
 		shopperTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
@@ -131,7 +132,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		shopperScrollPane.setViewportView(shopperTreeTable);
 		
 		JScrollPane exportsScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("Cards Imports/Exports", null, exportsScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS_IMPORT_EXPORT"), null, exportsScrollPane, null);
 		exportsTable = new JXTreeTable(new ExportsTreeTableModel());
 		exportsTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
@@ -143,7 +144,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		exportsScrollPane.setViewportView(exportsTable);
 		
 		JScrollPane importScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("Decks Import", null, importScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"), null, importScrollPane, null);
 		
 		importTreeTable = new JXTreeTable(new DeckSnifferTreeTableModel());
 		importScrollPane.setViewportView(importTreeTable);
@@ -156,7 +157,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		});
 		
 		JScrollPane dashboardScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("DashBoards", null, dashboardScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"), null, dashboardScrollPane, null);
 		
 		dashboardTreeTable = new JXTreeTable(new DashBoardProviderTreeTableModel());
 		dashboardTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
@@ -169,7 +170,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		dashboardScrollPane.setViewportView(dashboardTreeTable);
 		
 		JScrollPane serversScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("Servers", null, serversScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("SERVERS"), null, serversScrollPane, null);
 		serversTreeTable = new JXTreeTable(new ServersTreeTableModel());
 		serversTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
@@ -181,7 +182,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		serversScrollPane.setViewportView(serversTreeTable);
 		
 		JScrollPane cachesScrollPane = new JScrollPane();
-		subTabbedProviders.addTab("Caches", null, cachesScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CACHES"), null, cachesScrollPane, null);
 		cachesTreeTable = new JXTreeTable(new MTGPicsCacheProviderTreeTableModel());
 		cachesTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
@@ -195,7 +196,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		
 		JPanel rssPanel = new JPanel();
-		subTabbedProviders.addTab("RSS", null, rssPanel, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), null, rssPanel, null);
 		rssPanel.setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane rssScrollPane = new JScrollPane();
@@ -225,10 +226,10 @@ public class ConfigurationPanelGUI extends JPanel {
 		panneauhaut.add(btnDelete);
 		
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();
-		tabbedPane.addTab("Configuration", null, configurationPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), null, configurationPanel, null);
 		
 		ServersGUI serversGUI = new ServersGUI();
-		tabbedPane.addTab("Active Servers", null, serversGUI, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("ACTIVE_SERVERS"), null, serversGUI, null);
 		
 		
 		

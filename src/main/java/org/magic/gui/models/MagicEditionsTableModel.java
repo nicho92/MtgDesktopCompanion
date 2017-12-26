@@ -16,7 +16,17 @@ import org.magic.services.MTGControler;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 
-	String[] columns = new String[] {"code","edition","cards numbers","date","%","qte","Type","Block", "Online"};
+	String[] columns = new String[] {
+			MTGControler.getInstance().getLangService().getCapitalize("EDITION_CODE"),
+			MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
+			MTGControler.getInstance().getLangService().getCapitalize("EDITION_SIZE"),
+			MTGControler.getInstance().getLangService().getCapitalize("DATE_RELEASE"),
+			MTGControler.getInstance().getLangService().getCapitalize("PC_COMPLETE"),
+			MTGControler.getInstance().getLangService().getCapitalize("QTY"),
+			MTGControler.getInstance().getLangService().getCapitalize("EDITION_TYPE"),
+			MTGControler.getInstance().getLangService().getCapitalize("EDITION_BLOCK"),
+			MTGControler.getInstance().getLangService().getCapitalize("EDITION_ONLINE")
+	};
 	
 	List<MagicEdition> list;
 

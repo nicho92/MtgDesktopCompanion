@@ -10,9 +10,12 @@ import org.magic.services.MTGControler;
 public class CardAlertTableModel extends DefaultTableModel {
 
 	
-	static final String columns[] = new String[]{"Card","Edition","Maximum bid","Offers"};
-	
-	
+	static final String columns[] = new String[]{
+											MTGControler.getInstance().getLangService().getCapitalize("CARD"),
+											MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
+											MTGControler.getInstance().getLangService().getCapitalize("MAX_BID"),
+											MTGControler.getInstance().getLangService().getCapitalize("OFFERS")
+									};
 	
 	public CardAlertTableModel() {
 	}

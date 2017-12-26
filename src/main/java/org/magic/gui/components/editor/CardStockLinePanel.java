@@ -51,11 +51,11 @@ public class CardStockLinePanel extends JPanel {
 		state.setMagicCollection(selectedCol);
 		setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 		
-		JLabel lblQuantity = new JLabel("Quantity :");
+		JLabel lblQuantity = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QTY")+" :");
 		add(lblQuantity);
 		
 		txtQte = new JSpinner();
-		txtQte.setModel(new SpinnerNumberModel(new Integer(0), new Integer(0), null, new Integer(1)));
+		txtQte.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(txtQte);
 		
 		cboState = new JComboBox(EnumCondition.values());
@@ -64,17 +64,17 @@ public class CardStockLinePanel extends JPanel {
 		cboLanguage = new JComboBox(MTGControler.getInstance().getEnabledProviders().getLanguages());
 		add(cboLanguage);
 		
-		JLabel lblComment = new JLabel("Comment :");
+		JLabel lblComment = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("COMMENTS") +" :");
 		add(lblComment);
 		
 		txtComment = new JTextField();
 		add(txtComment);
 		txtComment.setColumns(20);
 		
-		cboFoil = new JCheckBox("Foil");
+		cboFoil = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("FOIL"));
 		add(cboFoil);
 		
-		cboSigned = new JCheckBox("Signed");
+		cboSigned = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("SIGNED"));
 		add(cboSigned);
 		
 		JButton btnNewButton = new JButton("");
@@ -109,7 +109,7 @@ public class CardStockLinePanel extends JPanel {
 			}
 		});
 		
-		cboAltered = new JCheckBox("Altered");
+		cboAltered = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("ALTERED"));
 		add(cboAltered);
 		add(btnSave);
 		add(btnNewButton);

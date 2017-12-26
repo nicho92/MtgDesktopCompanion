@@ -46,7 +46,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	public WebSiteGeneratorDialog(List<MagicCollection> cols) {
 		setSize(new Dimension(571, 329));
 		setModal(true);
-		setTitle("WebSite Properties");
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_WEBSITE"));
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panel = new JPanel();
@@ -75,7 +75,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 		
-		JButton btnGenerate = new JButton("Generate");
+		JButton btnGenerate = new JButton(MTGControler.getInstance().getLangService().getCapitalize("START"));
 		
 		panneauBas.add(btnGenerate);
 		
@@ -88,14 +88,14 @@ public class WebSiteGeneratorDialog extends JDialog {
 		gbl_panneaucentral.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		panneaucentral.setLayout(gbl_panneaucentral);
 		
-		JLabel lblChooseYourCollections = new JLabel("Choose your collections :");
+		JLabel lblChooseYourCollections = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_COLLECTIONS")+" :");
 		GridBagConstraints gbc_lblChooseYourCollections = new GridBagConstraints();
 		gbc_lblChooseYourCollections.insets = new Insets(0, 0, 5, 5);
 		gbc_lblChooseYourCollections.gridx = 0;
 		gbc_lblChooseYourCollections.gridy = 0;
 		panneaucentral.add(lblChooseYourCollections, gbc_lblChooseYourCollections);
 		
-		JLabel lblChooseYourPrices = new JLabel("Choose your prices providers (or not) :");
+		JLabel lblChooseYourPrices = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_PRICER")+" :");
 		GridBagConstraints gbc_lblChooseYourPrices = new GridBagConstraints();
 		gbc_lblChooseYourPrices.insets = new Insets(0, 0, 5, 0);
 		gbc_lblChooseYourPrices.gridx = 1;

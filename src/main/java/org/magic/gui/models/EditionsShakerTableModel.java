@@ -17,8 +17,16 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 
 	Logger logger = MTGLogger.getLogger(this.getClass());
 
-	String columns[] = new String[]{"Card","Edition","Price","Daily","Daily%","Weekly","Weekly%"};
-			
+	String columns[] = new String[]{
+	
+	MTGControler.getInstance().getLangService().getCapitalize("CARD"),
+	MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
+	MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
+	MTGControler.getInstance().getLangService().getCapitalize("DAILY"),
+	MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY"),
+	MTGControler.getInstance().getLangService().getCapitalize("WEEKLY"),
+	MTGControler.getInstance().getLangService().getCapitalize("PC_WEEKLY")
+	};
 	DashBoard provider;
 	List<CardShake> list;
 	

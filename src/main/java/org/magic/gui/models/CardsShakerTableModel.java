@@ -16,8 +16,13 @@ public class CardsShakerTableModel extends DefaultTableModel {
 
 	Logger logger = MTGLogger.getLogger(this.getClass());
 	
-	String columns[] = new String[]{"Card","Edition","Price","Daily","Daily%"};
-			
+	String columns[] = new String[]{
+								MTGControler.getInstance().getLangService().getCapitalize("CARD"),
+								MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
+								MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
+								MTGControler.getInstance().getLangService().getCapitalize("DAILY"),
+								MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY")
+	};
 	List<CardShake> list;
 	
 	

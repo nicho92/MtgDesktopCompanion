@@ -18,10 +18,15 @@ import org.magic.services.MTGLogger;
 public class ShopItemTableModel extends DefaultTableModel {
 
 	Logger logger = MTGLogger.getLogger(this.getClass());
-
-	 // String columns[] = new String[]{"Site","Name","Price","date","type","url","note"};
-	  String columns[] = new String[]{"Site","Name","Price","date","type","url"};
-			
+	
+	String columns[] = new String[]{
+	MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"),
+	MTGControler.getInstance().getLangService().getCapitalize("SHOP_NAME"),
+	MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
+	MTGControler.getInstance().getLangService().getCapitalize("SHOP_DATE"),
+	MTGControler.getInstance().getLangService().getCapitalize("SHOP_TYPE"),
+	MTGControler.getInstance().getLangService().getCapitalize("URL")
+	};
 	MagicCard mc;
 	MagicEdition me;
 	

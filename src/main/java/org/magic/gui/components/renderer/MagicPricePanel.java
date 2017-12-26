@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicPrice;
+import org.magic.services.MTGControler;
 
 public class MagicPricePanel extends JPanel {
 
@@ -40,7 +41,7 @@ public class MagicPricePanel extends JPanel {
 		gbc_lblName.gridy = 0;
 		add(lblName, gbc_lblName);
 		
-		JLabel lblPrice = new JLabel("Price :");
+		JLabel lblPrice = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("PRICE")+" :");
 		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblPrice = new GridBagConstraints();
 		gbc_lblPrice.anchor = GridBagConstraints.WEST;
@@ -57,7 +58,7 @@ public class MagicPricePanel extends JPanel {
 		gbc_lblpriceValue.gridy = 1;
 		add(lblpriceValue, gbc_lblpriceValue);
 		
-		JLabel lblSeller = new JLabel("Seller :");
+		JLabel lblSeller = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SELLER")+" :");
 		lblSeller.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblSeller = new GridBagConstraints();
 		gbc_lblSeller.anchor = GridBagConstraints.WEST;
@@ -73,7 +74,7 @@ public class MagicPricePanel extends JPanel {
 		gbc_lblSellerinfo.gridy = 2;
 		add(lblSellerinfo, gbc_lblSellerinfo);
 		
-		JLabel lblInfos = new JLabel("Infos :");
+		JLabel lblInfos = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS")+" :");
 		lblInfos.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbc_lblInfos = new GridBagConstraints();
 		gbc_lblInfos.anchor = GridBagConstraints.WEST;
@@ -82,7 +83,7 @@ public class MagicPricePanel extends JPanel {
 		gbc_lblInfos.gridy = 3;
 		add(lblInfos, gbc_lblInfos);
 		
-		JLabel lblNewLabel = new JLabel(price.getLanguage()+"/"+price.getQuality()+""+(price.isFoil()?"/Foil":""));
+		JLabel lblNewLabel = new JLabel(price.getLanguage()+"/"+price.getQuality()+""+(price.isFoil()?"/"+MTGControler.getInstance().getLangService().getCapitalize("FOIL")+"":""));
 		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
 		gbc_lblNewLabel.gridx = 1;
 		gbc_lblNewLabel.gridy = 3;

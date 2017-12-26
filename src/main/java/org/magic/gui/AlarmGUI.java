@@ -141,7 +141,7 @@ public class AlarmGUI extends JPanel {
 							Desktop.getDesktop().browse(new URI(p.getUrl()));
 						}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -157,7 +157,7 @@ public class AlarmGUI extends JPanel {
 				
 				if(!MTGControler.getInstance().isRunning(new PricesCheckerTimer()))
 				{
-					int res = JOptionPane.showConfirmDialog(null, "Price Timer is not running. Do you want to launch it ?", "Time server stopped", JOptionPane.YES_NO_OPTION);
+					int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("PRICE_TIMER_LAUNCH"),MTGControler.getInstance().getLangService().getCapitalize("PRICE_TIMER_STOPPED"), JOptionPane.YES_NO_OPTION);
 					
 					if(res==JOptionPane.YES_OPTION)
 						for(MTGServer serv : MTGControler.getInstance().getEnabledServers())
@@ -187,7 +187,7 @@ public class AlarmGUI extends JPanel {
 						MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
 						model.fireTableDataChanged();
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				
