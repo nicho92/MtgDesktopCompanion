@@ -456,7 +456,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 					  ed.setNumber(mc.getNumber());
 		  mc.getEditions().add(ed);
 		 
-		  ThreadManager.getInstance().execute(new Runnable() {
+		  new Thread(new Runnable() {
 			public void run() {
 				try {
 					initOtherEdition(mc);
@@ -465,7 +465,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 					e.printStackTrace();
 				}
 			}
-		},"rules/other editions");
+		},"other editions").start();;
 		    
 		return mc;
 		
