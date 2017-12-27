@@ -2,6 +2,7 @@ package org.magic.api.dao.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.charset.Charset;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -29,23 +30,20 @@ public class FileDAO extends AbstractMagicDAO {
 
 	private Gson export;
 	private File directory;
-	  
-
 	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
 	
-	
 	public <T> T read(Class<T> T, File f) throws Exception
 	{
-		return export.fromJson(FileUtils.readFileToString(f), T);
+		return export.fromJson(FileUtils.readFileToString(f, Charset.defaultCharset()), T);
 	}
 	
 	public void save(Object o , File f) throws Exception
 	{
-		FileUtils.write(f, export.toJson(o));
+		FileUtils.write(f, export.toJson(o),Charset.defaultCharset());
 	}
 	
 	
