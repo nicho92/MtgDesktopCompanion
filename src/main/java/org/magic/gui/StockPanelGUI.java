@@ -330,7 +330,7 @@ public class StockPanelGUI extends JPanel {
 				
 				menu.add(mnuCol);
 				
-				JMenuItem webSite = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM","website"));
+				JMenuItem webSite = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("WEBSITE")));
 				webSite.setIcon(MTGConstants.ICON_WEBSITE);
 				webSite.addActionListener(new ActionListener() {
 
