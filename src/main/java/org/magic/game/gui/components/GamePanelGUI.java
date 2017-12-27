@@ -350,7 +350,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								JScrollPane scrollActions = new JScrollPane();
 								
 								scrollActions.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth(), 0));
-								tabbedPane.addTab("Events", null, scrollActions, null);
+								tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("EVENTS"), null, scrollActions, null);
 								
 								listActions = new JList<AbstractAction>();
 								listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -363,11 +363,11 @@ public class GamePanelGUI extends JPanel implements Observer {
 								panneauHaut = new LightDescribeCardPanel();
 								pane.add(panneauHaut, BorderLayout.CENTER);
 								
-								tabbedPane.addTab("Description", null, pane, null);
+								tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION"), null, pane, null);
 								
 								
 								JPanel panelPics = new JPanel();
-								tabbedPane.addTab("Picture", null, panelPics, null);
+								tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), null, panelPics, null);
 								panelPics.setLayout(new BorderLayout(0, 0));
 								
 								lblThumbnailPics = new JLabel("");
