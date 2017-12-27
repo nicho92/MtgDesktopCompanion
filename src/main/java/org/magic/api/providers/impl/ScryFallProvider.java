@@ -337,7 +337,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		
 		  mc.setId(obj.get("id").getAsString());
 		  
-		  try{mc.setMultiverseid(obj.get("multiverse_id").getAsInt());}catch(NullPointerException e) { };
+		  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsInt());}catch(NullPointerException e) { };
 		  try{mc.setText(obj.get("oracle_text").getAsString());}catch(NullPointerException e) { mc.setText(""); };
 		  try{mc.setCost(obj.get("mana_cost").getAsString());}catch(NullPointerException e) { mc.setCmc(0); };
 		  //try{mc.getTypes().add(obj.get("type_line").getAsString());}catch(NullPointerException e) {  };
