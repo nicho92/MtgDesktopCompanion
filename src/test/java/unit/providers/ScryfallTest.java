@@ -7,6 +7,7 @@ import org.asciitable.impl.ASCIITableImpl;
 import org.asciitable.impl.CollectionASCIITableAware;
 import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.providers.impl.ScryFallProvider;
 import static org.junit.Assert.*;
 
@@ -32,7 +33,12 @@ public class ScryfallTest {
 	public void testSearch()
 	{
 		try {
-			List<MagicCard> res = prov.searchCardByCriteria("name", "liliana of", null);
+			List<MagicEdition> res = prov.loadEditions();
+			
+			for(MagicEdition ed : res)
+			{
+				System.out.println(ed.getId());
+			}
 		} catch (Exception e) {
 			fail("error" + e);
 		}

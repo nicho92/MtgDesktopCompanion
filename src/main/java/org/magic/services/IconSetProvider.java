@@ -4,8 +4,11 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TreeMap;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -26,13 +29,13 @@ public class IconSetProvider {
 	
 	private IconSetProvider()
 	{
-		cache24 = new HashMap<String,ImageIcon>();
-		cache16 = new HashMap<String,ImageIcon>();
+		cache24 = new TreeMap<String,ImageIcon>(String.CASE_INSENSITIVE_ORDER);
+		cache16 = new TreeMap<String,ImageIcon>(String.CASE_INSENSITIVE_ORDER);
 		
-	//	temp_file = new File(AbstractMTGPicturesCache.confdir,"sets_icons");
+		temp_file = new File(AbstractMTGPicturesCache.confdir,"sets_icons");
 		
-	//	if(!temp_file.exists())
-	//		temp_file.mkdir();
+		if(!temp_file.exists())
+			temp_file.mkdir();
 		
 		
 		try {
@@ -54,39 +57,40 @@ public class IconSetProvider {
 		return inst;
 	}
 	
-	
 	private BufferedImage extract(String id) throws IOException
 	{
-		/*File f = new File(temp_file,id+"_set.png");
+		
+		File f = new File(temp_file,id+"_set.png");
 		if(f.exists())
 		{
 			logger.trace("load from cache " + f);
 			return ImageIO.read(f);
 		}
-		else*/
+		else
 		{
 			BufferedImage im=null;
 			logger.trace("load from jar " + id);
+			
 			try
 			{
 				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/"+id+"_set.png"));
 			}
 			catch(Exception ex)
 			{
+				logger.error("couldnt load " + id,ex);
 				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/PMTG1_set.png"));
 			}
 			
-			//ImageIO.write(im, "png", f);
+			ImageIO.write(im, "png", f);
 			return im;
 		}
 		
 	}
 	
-	
 	private void initCache() throws Exception {
 		for(MagicEdition e : MTGControler.getInstance().getEnabledProviders().loadEditions())
 		{
-				BufferedImage im = extract(e.getId());
+				BufferedImage im = extract(e.getId().toUpperCase());
 				cache24.put(e.getId(),new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 				cache16.put(e.getId(),new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 		}
