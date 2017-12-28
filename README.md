@@ -4,7 +4,7 @@
 
 
 
-Download latest version here https://github.com/nicho92/MtgDesktopCompanion/blob/master/executable/
+Download latest version here https://github.com/nicho92/MtgDesktopCompanion/blob/master/dist/mtg-desktop-companion.zip?raw=true
 
 
 Features :
