@@ -94,7 +94,7 @@ public class IconSetProvider {
 				cache24.put(e.getId(),new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
 				cache16.put(e.getId(),new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
 		}
-	}
+	} 
 	
 	
 	
