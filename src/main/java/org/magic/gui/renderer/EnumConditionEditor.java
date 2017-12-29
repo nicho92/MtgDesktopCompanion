@@ -11,11 +11,11 @@ import org.magic.api.beans.EnumCondition;
 
 public class EnumConditionEditor extends DefaultCellEditor {
 
-    private DefaultComboBoxModel model;
+    private DefaultComboBoxModel<EnumCondition> model;
  
     public EnumConditionEditor() {
-        super(new JComboBox());
-        model = (DefaultComboBoxModel)((JComboBox)getComponent()).getModel();
+        super(new JComboBox<EnumCondition>());
+        model = (DefaultComboBoxModel<EnumCondition>)((JComboBox<EnumCondition>)getComponent()).getModel();
     }
 
     @Override

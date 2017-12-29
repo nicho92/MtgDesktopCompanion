@@ -83,7 +83,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 			e.printStackTrace();
 		}
 		
-		cboEditions = new JComboBox(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
+		cboEditions = new JComboBox<MagicEdition>(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
 		cboEditions.setRenderer(new MagicEditionListRenderer());
 		
 		

@@ -71,7 +71,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		panelCollectionInput.add(lblNewLabel);
 		
 		final JComboBox cboByType = new JComboBox();
-		cboByType.setModel(new DefaultComboBoxModel(new String[] {"number", "name"}));
+		cboByType.setModel(new DefaultComboBoxModel<String>(new String[] {"number", "name"}));
 		panelCollectionInput.add(cboByType);
 		
 		JLabel lblIn = new JLabel("in");

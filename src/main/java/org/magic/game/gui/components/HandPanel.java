@@ -78,11 +78,8 @@ public class HandPanel extends DraggablePanel {
 		if(t!=null)
 			if(t.isAlive())
 				t.stop();
-		
-		
-	//	addMouseListener(new MouseAction(player));
-		
-		  c.weightx = 1;
+	
+		c.weightx = 1;
 		  c.weighty = 1;
 		  c.gridx = 0;
 		  c.gridy = 0;

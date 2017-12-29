@@ -273,8 +273,8 @@ public class CardSearchPanel extends JPanel {
 			btnFilter = new JButton(MTGConstants.ICON_FILTER);
 			btnClear = new JButton(MTGConstants.ICON_CLEAR);
 			
-			cboQuereableItems = new JComboBox<String>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
-			cboCollections= new JComboBox<MagicCollection>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
+			cboQuereableItems = new JComboBox<String>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
+			cboCollections= new JComboBox<MagicCollection>(new DefaultComboBoxModel<MagicCollection>(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
 			cboLanguages = new JComboBox<MagicCardNames>();
 			
 			tablePrice = new JXTable();
@@ -291,7 +291,7 @@ public class CardSearchPanel extends JPanel {
 
 			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
 			
-			cboEdition = new JComboBox<MagicEdition>(new DefaultComboBoxModel(li.toArray(new MagicEdition[li.size()])));
+			cboEdition = new JComboBox<MagicEdition>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
 			cboEdition.setRenderer(new MagicEditionListRenderer());
 ////////MODELS
 				listEdition.setModel(new DefaultListModel<MagicEdition>());

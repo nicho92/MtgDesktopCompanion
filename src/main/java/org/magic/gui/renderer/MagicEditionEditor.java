@@ -12,11 +12,11 @@ import org.magic.api.beans.MagicEdition;
 
 public class MagicEditionEditor extends DefaultCellEditor {
 
-    private DefaultComboBoxModel model;
+    private DefaultComboBoxModel<MagicEdition> model;
  
     public MagicEditionEditor() {
-        super(new JComboBox());
-        model = (DefaultComboBoxModel)((JComboBox)getComponent()).getModel();
+        super(new JComboBox<MagicEdition>());
+        model = (DefaultComboBoxModel<MagicEdition>)((JComboBox<MagicEdition>)getComponent()).getModel();
     }
 
     @Override

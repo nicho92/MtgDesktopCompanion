@@ -29,6 +29,7 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
+import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
@@ -246,7 +247,7 @@ public class MagicCardEditorPanel extends JPanel {
 				add(rarityLabel, labelGbc_14);
 		
 				rarityJComboBox = new JComboBox();
-				rarityJComboBox.setModel(new DefaultComboBoxModel(new String[] {"Common", "Uncommon", "Rare", "Mythic Rare", "Special"}));
+				rarityJComboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Common", "Uncommon", "Rare", "Mythic Rare", "Special"}));
 				GridBagConstraints componentGbc_14 = new GridBagConstraints();
 				componentGbc_14.insets = new Insets(5, 0, 5, 0);
 				componentGbc_14.fill = GridBagConstraints.HORIZONTAL;

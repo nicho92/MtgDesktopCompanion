@@ -11,11 +11,13 @@ import org.magic.api.beans.EnumCondition;
 
 public class CollectionTableEditor extends DefaultCellEditor {
 
-    private DefaultComboBoxModel model;
+  
+	private static final long serialVersionUID = 1L;
+	private DefaultComboBoxModel<EnumCondition> model;
  
     public CollectionTableEditor() {
-        super(new JComboBox());
-        model = (DefaultComboBoxModel)((JComboBox)getComponent()).getModel();
+        super(new JComboBox<EnumCondition>());
+        model = (DefaultComboBoxModel<EnumCondition>)((JComboBox<EnumCondition>)getComponent()).getModel();
     }
 
     @Override
