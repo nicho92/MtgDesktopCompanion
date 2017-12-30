@@ -118,7 +118,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 											a.setId(url.substring(url.lastIndexOf("/")+1, url.lastIndexOf(".")).trim());
 											a.setShopName(getName());
 											try{
-												a.setImage(new URL(props.getProperty("PROTOCOLE")+listElements.get(i).getElementsByClass("lazyload").get(0).attr("data-imgsrc")));
+												a.setImage(new URL(listElements.get(i).getElementsByClass("lazyload").get(0).attr("data-imgsrc")));
 											}
 											catch(IndexOutOfBoundsException e)
 											{

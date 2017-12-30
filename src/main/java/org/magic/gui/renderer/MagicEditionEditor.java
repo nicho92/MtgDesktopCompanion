@@ -22,7 +22,7 @@ public class MagicEditionEditor extends DefaultCellEditor {
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
              model.removeAllElements();
-             List<MagicEdition> selectedItem = (List)table.getValueAt(row, column);
+             List<MagicEdition> selectedItem = (List<MagicEdition>)table.getValueAt(row, column);
             
              for(MagicEdition e : selectedItem)
         	   model.addElement(e);

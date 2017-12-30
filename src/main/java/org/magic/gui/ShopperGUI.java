@@ -103,23 +103,23 @@ public class ShopperGUI extends JPanel {
 		tableItemShop.addMouseListener(new MouseAdapter() {
 		@Override
 		public void mouseClicked(MouseEvent ev) {
-			
-			int modelrow= tableItemShop.convertRowIndexToModel(tableItemShop.getSelectedRow());
-			ShopItem it = (ShopItem)tableItemShop.getModel().getValueAt(modelrow, 1);
-			
-			
-			if(ev.getClickCount()==2 && !ev.isConsumed())
-			{
-				ev.consume();
-				try {
+			try {
+				int modelrow= tableItemShop.convertRowIndexToModel(tableItemShop.getSelectedRow());
+				ShopItem it = (ShopItem)tableItemShop.getModel().getValueAt(modelrow, 1);
+				if(ev.getClickCount()==2 && !ev.isConsumed())
+				{
+					ev.consume();
 					Desktop.getDesktop().browse(it.getUrl().toURI());
-				} catch (Exception e) { e.printStackTrace();}
+				}
+				else
+				{
+					lblPicShopItem.setIcon(new ImageIcon(it.getImage()));
+				}
+			} 
+			catch (Exception e) { 
+				logger.error("error loading ",e);
+			}
 
-			}
-			else
-			{
-				lblPicShopItem.setIcon(new ImageIcon(it.getImage()));
-			}
 
 		}
 		});

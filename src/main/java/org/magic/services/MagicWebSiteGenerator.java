@@ -58,7 +58,7 @@ public class MagicWebSiteGenerator extends Observable{
 		Template template = cfg.getTemplate("index.html");
 			Writer out = new FileWriter(Paths.get(dest, "index.htm").toFile());
 		
-			Map root = new HashMap();
+			Map<String,List<MagicCard>> root = new HashMap<String,List<MagicCard>>();
 			for(MagicCollection col : cols)
 				root.put(col.getName(), dao.getCardsFromCollection(col));
 			
