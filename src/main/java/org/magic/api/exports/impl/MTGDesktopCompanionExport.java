@@ -81,8 +81,15 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 		deck.setName("Search");
 		deck.setDescription("Result of search");
 		
+		int i=0;
 		for(MagicCard mc : cards)
+		{
 			deck.getMap().put(mc, 1);
+			setChanged();
+			notifyObservers(i++);
+			
+		}
+		
 		
 		oos.writeObject(deck);
 		oos.flush();

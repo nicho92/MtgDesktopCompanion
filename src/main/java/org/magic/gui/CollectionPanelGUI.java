@@ -57,6 +57,7 @@ import org.magic.api.exports.impl.CSVExport;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
@@ -128,7 +129,7 @@ public class CollectionPanelGUI extends JPanel {
 		JButton btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		JButton btnRemove = new JButton(MTGConstants.ICON_DELETE);
 		JButton btnAddAllSet = new JButton(MTGConstants.ICON_CHECK);
-		JButton btnExportCSV = new JButton(MTGConstants.ICON_EXPORT);
+		JButton btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		JButton btnMassCollection = new JButton(MTGConstants.ICON_IMPORT);
 		JButton btnExportPriceCatalog = new JButton(MTGConstants.ICON_EURO);
 		JButton btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
@@ -174,7 +175,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 		progressBar.setVisible(false);
 		btnRemove.setEnabled(true);
-		btnExportCSV.setEnabled(false);
+		btnExport.setEnabled(false);
 		btnExportPriceCatalog.setEnabled(false);
 	
 		splitPane.setResizeWeight(0.5);
@@ -208,7 +209,7 @@ public class CollectionPanelGUI extends JPanel {
 		panneauHaut.add(btnRemove);
 		panneauHaut.add(btnAddAllSet);
 		panneauHaut.add(btnMassCollection);
-		panneauHaut.add(btnExportCSV);
+		panneauHaut.add(btnExport);
 		panneauHaut.add(btnExportPriceCatalog);
 		panneauHaut.add(btnGenerateWebSite);
 		panneauHaut.add(progressBar);
@@ -247,7 +248,7 @@ public class CollectionPanelGUI extends JPanel {
 		btnRefresh.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_REFRESH"));
 		btnRemove.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ITEM_SELECTED_REMOVE"));
 		btnAddAllSet.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_SET_FULL"));
-		btnExportCSV.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
+		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
 		btnMassCollection.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_IMPORT"));
 		btnExportPriceCatalog.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_EXPORT_PRICES"));
 		btnGenerateWebSite.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_WEBSITE"));
@@ -325,11 +326,11 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 						
-		btnExportCSV.addActionListener(new ActionListener() {
+		btnExport.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent ae) {
 								JPopupMenu menu = new JPopupMenu();
 								
-								for(final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports())
+								for(final AbstractCardExport exp : MTGControler.getInstance().getEnabledDeckExports())
 								{
 									JMenuItem it = new JMenuItem();
 									it.setIcon(exp.getIcon());
@@ -340,6 +341,7 @@ public class CollectionPanelGUI extends JPanel {
 												@Override
 												public void run() {
 													try {
+														
 														DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 														JFileChooser jf = new JFileChooser();
 													
@@ -360,16 +362,30 @@ public class CollectionPanelGUI extends JPanel {
 														int result = jf.showSaveDialog(null);
 														File f = jf.getSelectedFile();
 														
+														exp.addObserver(new Observer() {
+															public void update(Observable o, Object arg) {
+																progressBar.setValue((int) arg);
+															}
+														});
+														
 														if(result==JFileChooser.APPROVE_OPTION)
+														{
+															progressBar.setVisible(true);
+															if(ed==null)
+																exp.export(dao.getCardsFromCollection(mc), f);
+															else
+																exp.export(dao.getCardsFromCollection(mc,ed), f);
 														
-														if(ed==null)
-															exp.export(dao.getCardsFromCollection(mc), f);
-														else
-															exp.export(dao.getCardsFromCollection(mc,ed), f);
+															progressBar.setVisible(false);
+															JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"), MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
+											
 														
-														JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"), MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
+														}
+														
+														
 													} catch (Exception e) {
 														logger.error(e);
+														progressBar.setVisible(false);
 														JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 													}
 													
@@ -427,7 +443,7 @@ public class CollectionPanelGUI extends JPanel {
 				
 				if(curr.getUserObject() instanceof String)
 				{
-					btnExportCSV.setEnabled(false);
+					btnExport.setEnabled(false);
 					btnExportPriceCatalog.setEnabled(false);
 					statsPanel.enabledAdd(false);
 				}
@@ -435,7 +451,7 @@ public class CollectionPanelGUI extends JPanel {
 				
 				if (curr.getUserObject() instanceof MagicCollection) 
 				{
-					btnExportCSV.setEnabled(true);
+					btnExport.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
 					
 					//too memory for big collection
@@ -457,7 +473,7 @@ public class CollectionPanelGUI extends JPanel {
 					*/
 					selectedcol = (MagicCollection) curr.getUserObject();
 					statsPanel.enabledAdd(false);
-					btnExportCSV.setEnabled(true);
+					btnExport.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
 				} 
 
@@ -466,7 +482,7 @@ public class CollectionPanelGUI extends JPanel {
 				if(curr.getUserObject() instanceof MagicEdition)
 				{
 					magicEditionDetailPanel.setMagicEdition((MagicEdition)curr.getUserObject());
-					btnExportCSV.setEnabled(true);
+					btnExport.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(false);
 					statsPanel.enabledAdd(false);
 					ThreadManager.getInstance().execute(new Runnable() {
@@ -492,7 +508,7 @@ public class CollectionPanelGUI extends JPanel {
 
 				if (curr.getUserObject() instanceof MagicCard) {
 					final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
-					btnExportCSV.setEnabled(false);
+					btnExport.setEnabled(false);
 					btnExportPriceCatalog.setEnabled(false);
 
 					magicCardDetailPanel.setMagicCard((MagicCard)curr.getUserObject());
@@ -673,7 +689,8 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						} catch (Exception e) {
-							e.printStackTrace();
+							logger.error("error generating website",e);
+							progressBar.setVisible(false);
 							JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 						}
 

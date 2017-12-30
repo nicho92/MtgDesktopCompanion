@@ -35,6 +35,7 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
@@ -50,7 +51,7 @@ public class MTGControler {
 	private List<DeckSniffer> deckSniffers;
 	private List<PictureProvider> picturesProviders;
 	private List<DashBoard> dashboards;
-	private List<CardExporter> exports;
+	private List<AbstractCardExport> exports;
 	private List<MTGServer> servers;
 	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
@@ -300,11 +301,11 @@ public class MTGControler {
 			}
 			
 			logger.info("loading Deck Exports");
-			exports=new ArrayList<CardExporter>();
+			exports=new ArrayList<AbstractCardExport>();
 			for(int i=1;i<=config.getList("//export/class").size();i++)
 			{
 				String s = config.getString("deckexports/export["+i+"]/class");
-				CardExporter prov = loadItem(CardExporter.class, s.toString());
+				AbstractCardExport prov = loadItem(AbstractCardExport.class, s.toString());
 				if(prov!=null){
 					prov.enable(config.getBoolean("deckexports/export["+i+"]/enable"));
 					exports.add(prov);
@@ -539,14 +540,14 @@ public class MTGControler {
 		return enable;
 	}
 	
-	public List<CardExporter> getDeckExports()
+	public List<AbstractCardExport> getDeckExports()
 	{
 		return exports;
 	}
 	
-	public List<CardExporter> getEnabledDeckExports() {
-		List<CardExporter> enable = new ArrayList<CardExporter>();
-		for(CardExporter p : getDeckExports())
+	public List<AbstractCardExport> getEnabledDeckExports() {
+		List<AbstractCardExport> enable = new ArrayList<AbstractCardExport>();
+		for(AbstractCardExport p : getDeckExports())
 			if(p.isEnable())
 				enable.add(p);
 		

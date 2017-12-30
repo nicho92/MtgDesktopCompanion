@@ -9,13 +9,14 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class ExportsTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private CardExporter selectedProvider = null;
-	    private List<CardExporter> exports =MTGControler.getInstance().getDeckExports();
+	    private List<AbstractCardExport> exports =MTGControler.getInstance().getDeckExports();
 	    Logger logger = MTGLogger.getLogger(this.getClass());
 	    private final static String[] COLUMN_NAMES = {"Exporter","Value","Enabled"};
 		
@@ -54,7 +55,7 @@ public class ExportsTreeTableModel extends AbstractTreeTableModel {
 
 	    @Override
 	    public int getChildCount(Object parent) {
-	        if (parent instanceof CardExporter) {
+	        if (parent instanceof AbstractCardExport) {
 	        	CardExporter dept = (CardExporter) parent;
 	            return dept.getProperties().size();
 	        }
