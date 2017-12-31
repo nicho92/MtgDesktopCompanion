@@ -37,6 +37,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
@@ -50,6 +51,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.dialog.CollectionChooserDialog;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
 import org.magic.gui.models.CardStockTableModel;
@@ -126,13 +128,13 @@ public class StockPanelGUI extends JPanel {
 		
 		listResult.addListSelectionListener(new ListSelectionListener() {
 			public void valueChanged(ListSelectionEvent lse) {
-				
 				selectedCard=listResult.getSelectedValuesList();
 				if(selectedCard!=null)
 				{
 					btnAdd.setEnabled(true);
 					magicCardDetailPanel.setMagicCard(selectedCard.get(0));
 				}
+				
 			}
 		});
 		
@@ -197,16 +199,15 @@ public class StockPanelGUI extends JPanel {
 			
 		});
 		
+		
+		
+		
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				for(MagicCard mc : selectedCard)
 				{
-					MagicCardStock ms = new MagicCardStock();
-					ms.setIdstock(-1);
-					ms.setUpdate(true);
-					ms.setMagicCard(mc);
-					model.add(ms);
+					addCard(mc);
 					updateCount();
 				}
 			}
@@ -351,6 +352,26 @@ public class StockPanelGUI extends JPanel {
 				});
 				menu.add(webSite);
 
+				
+				JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+				mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
+				
+				mnuImportSearch.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						CardSearchImportDialog cdSearch = new CardSearchImportDialog();
+						cdSearch.setVisible(true);
+						if(cdSearch.getSelection()!=null)
+						{
+							for(MagicCard mc : cdSearch.getSelection())
+								addCard(mc);
+						}
+					}
+				});
+				
+				menu.add(mnuImportSearch);
+				
 				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
@@ -389,9 +410,7 @@ public class StockPanelGUI extends JPanel {
 											List<MagicCardStock> list = exp.importStock(f);
 											for(MagicCardStock mc : list)
 											{
-													mc.setIdstock(-1);
-													mc.setUpdate(true);
-													model.add(mc);
+												addStock(mc);
 											}
 											model.fireTableDataChanged();
 											updateCount();
@@ -586,8 +605,23 @@ public class StockPanelGUI extends JPanel {
 		});
 		
 	}
+	public void addStock(MagicCardStock mcs) {
+		mcs.setIdstock(-1);
+		mcs.setUpdate(true);
+		model.add(mcs);
+	}
 	
 	
+	public void addCard(MagicCard mc) {
+		MagicCardStock ms = new MagicCardStock();
+		ms.setIdstock(-1);
+		ms.setUpdate(true);
+		ms.setMagicCard(mc);
+		model.add(ms);
+		
+	}
+
+
 	private List<MagicCardStock> extract(int[] ids)
 	{
 		List<MagicCardStock> select = new ArrayList<MagicCardStock>();
