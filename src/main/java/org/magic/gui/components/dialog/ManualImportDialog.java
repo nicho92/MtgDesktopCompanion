@@ -14,7 +14,7 @@ import javax.swing.JScrollPane;
 
 import org.magic.services.MTGControler;
 
-public class ManualImportFrame extends JDialog {
+public class ManualImportDialog extends JDialog {
 	
 	
 	JEditorPane editorPane;
@@ -24,7 +24,7 @@ public class ManualImportFrame extends JDialog {
 		return editorPane.getText();
 	}
 	
-	public ManualImportFrame() {
+	public ManualImportDialog() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(400, 400));
 		setModal(true);

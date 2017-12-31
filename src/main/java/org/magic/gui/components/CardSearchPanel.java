@@ -16,6 +16,7 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -149,6 +150,19 @@ public class CardSearchPanel extends JPanel {
 			lblLoading.setVisible(show);
 		}
 
+		public List<MagicCard> getMultiSelection()
+		{
+			int[] viewRow = tableCards.getSelectedRows();
+			List<MagicCard> cards = new ArrayList<MagicCard>();
+			for(int i : viewRow)
+			{
+				int modelRow = tableCards.convertRowIndexToModel(i);
+				MagicCard mc = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
+				cards.add(mc);
+			}
+			return cards;
+		}
+		
 		public MagicCard getSelected() {
 			return selectedCard;
 		}
@@ -451,7 +465,6 @@ public class CardSearchPanel extends JPanel {
 				}
 			});
 			
-			
 			btnClear.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent arg0) {
 					txtFilter.setText("");
@@ -505,9 +518,8 @@ public class CardSearchPanel extends JPanel {
 						return;
 					
 					
-					new SwingWorker(){
-						@Override
-						protected Object doInBackground() throws Exception {
+					new SwingWorker<Object, Object>(){
+						protected Void doInBackground() throws Exception {
 							loading(true,MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 							String searchName=txtMagicSearch.getText();
 							if(cboCollections.isVisible())
@@ -536,8 +548,6 @@ public class CardSearchPanel extends JPanel {
 					
 				}
 			});
-
-			
 
 			tableCards.addMouseListener(new java.awt.event.MouseAdapter() {
 				public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -770,7 +780,6 @@ public class CardSearchPanel extends JPanel {
 			return thumbnailPanel;
 		}
 		
-		
 		public void updateCards() {
 			try {
 				cboLanguages.removeAllItems();
@@ -827,7 +836,6 @@ public class CardSearchPanel extends JPanel {
 			manaRepartitionPanel.init(cards);
 			rarityRepartitionPanel.init(cards);
 			tabbedCardsView.setTitleAt(0, MTGControler.getInstance().getLangService().getCapitalize("RESULTS")+" ("+cardsModeltable.getRowCount()+")");
-			
 			
 		}
 

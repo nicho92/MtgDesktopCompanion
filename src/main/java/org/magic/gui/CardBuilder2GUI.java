@@ -54,6 +54,7 @@ import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
+import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.editor.CropImagePanel;
 import org.magic.gui.components.editor.MagicCardEditorPanel;
 import org.magic.gui.models.MagicCardNamesTableModel;
@@ -438,25 +439,10 @@ public class CardBuilder2GUI extends JPanel{
 		});
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				final JDialog l = new JDialog();
-				final CardSearchPanel searchPane = new CardSearchPanel();
-				JButton selectCard = new JButton(MTGConstants.ICON_IMPORT);
-				selectCard.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
-						MagicCard mc = searchPane.getSelected();
-						initCard(mc);
-						l.dispose();
-					}
-
-					
-				});
-				
-				l.getContentPane().setLayout(new BorderLayout());
-				l.getContentPane().add(searchPane,BorderLayout.CENTER);
-				l.getContentPane().add(selectCard,BorderLayout.SOUTH);
-				l.setModal(true);
-				l.pack();
+				CardSearchImportDialog l = new CardSearchImportDialog();
 				l.setVisible(true);
+				if(l.getSelected()!=null)
+					initCard(l.getSelected());
 			}
 		});
 		btnNewSet.addActionListener(new ActionListener() {

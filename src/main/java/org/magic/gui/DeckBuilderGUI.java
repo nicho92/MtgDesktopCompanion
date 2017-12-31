@@ -65,7 +65,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
-import org.magic.gui.components.dialog.ManualImportFrame;
+import org.magic.gui.components.dialog.ManualImportDialog;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicDeckQtyEditor;
@@ -312,7 +312,7 @@ public class DeckBuilderGUI extends JPanel {
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						ManualImportFrame fimport = new ManualImportFrame();
+						ManualImportDialog fimport = new ManualImportDialog();
 						fimport.setVisible(true);
 
 						if (!fimport.getStringDeck().equals(""))
