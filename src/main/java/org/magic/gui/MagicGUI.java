@@ -7,17 +7,17 @@ import java.awt.Dimension;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
-import java.awt.Toolkit;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -29,6 +29,9 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicDeck;
+import org.magic.api.exports.impl.MTGDesktopCompanionExport;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.dialog.LoggerViewFrame;
 import org.magic.gui.components.dialog.ThreadMonitorFrame;
@@ -55,6 +58,8 @@ public class MagicGUI extends JFrame {
 	public static TrayIcon trayNotifier;
 	private Map<String,String> looks;
 	private Map<String,String> looksMore;
+	private CardSearchPanel cardSearchPanel;
+	
 	
 	public MagicGUI() {
 
@@ -126,9 +131,10 @@ public class MagicGUI extends JFrame {
 		JMenuItem mntmLogsItem = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
 		JMenuItem mntmAboutMagicDesktop = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ABOUT"));
 		JMenuItem mntmReportBug = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REPORT_BUG"));
-		
+		JMenuItem mntmFileOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
 		
 		menuBar.add(mnFile);
+		mnFile.add(mntmFileOpen);
 		mnFile.add(mntmExit);
 		menuBar.add(jmnuLook);
 		menuBar.add(mnuAbout);
@@ -137,6 +143,7 @@ public class MagicGUI extends JFrame {
 		mnuAbout.add(mntmHelp);
 		mnuAbout.add(mntmAboutMagicDesktop);
 		mnuAbout.add(mntmReportBug);
+		
 		
 		
 		mntmLogsItem.addActionListener(new ActionListener() {
@@ -210,6 +217,51 @@ public class MagicGUI extends JFrame {
 			}
 		});
 		
+		
+		mntmFileOpen.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+					JFileChooser choose = new JFileChooser();
+					int returnVal = choose.showOpenDialog(null);
+					if (returnVal == JFileChooser.APPROVE_OPTION)
+					{
+						File f =choose.getSelectedFile();
+						AbstractCardExport exp = MTGControler.getInstance().getAbstractExporterFromExt(f);
+						
+						if(exp!=null)
+						{
+							ThreadManager.getInstance().execute(new Runnable() {
+								
+								@Override
+								public void run() {
+									try 
+									{
+										if(cardSearchPanel==null)
+											throw new Exception(MTGControler.getInstance().getLangService().getCapitalize("MUST_BE_LOADED",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+										
+										
+									cardSearchPanel.loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_FILE",f.getName(),exp));
+									MagicDeck d=exp.importDeck(f);	
+									cardSearchPanel.open(d.getAsList());
+									cardSearchPanel.loading(false,"");
+									} catch (Exception e) {
+										logger.error(e);
+									}
+								}
+							},"open " + f);
+							
+						}
+						else
+						{
+							JOptionPane.showMessageDialog(null, "NO EXPORTER AVAILABLE",MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+						}
+					}
+					
+					
+				
+			}
+		});
+		
+		
 		if(serviceUpdate.hasNewVersion())
 		{
 			JMenuItem newversion = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("DOWNLOAD_LAST_VERSION")+" : " + serviceUpdate.getOnlineVersion() );
@@ -274,7 +326,10 @@ public class MagicGUI extends JFrame {
 		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
 		
 		if(MTGControler.getInstance().get("modules/search").equals("true"))
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"), MTGConstants.ICON_SEARCH_2, new CardSearchPanel(), null);
+		{
+			cardSearchPanel=new CardSearchPanel();
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"), MTGConstants.ICON_SEARCH_2, cardSearchPanel, null);
+		}
 		
 		if(MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_DECK, new DeckBuilderGUI(), null);

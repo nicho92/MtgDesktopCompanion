@@ -21,6 +21,7 @@ import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Parameters;
 import org.apache.commons.configuration2.tree.xpath.XPathExpressionEngine;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
@@ -586,6 +587,19 @@ public class MTGControler {
 	public void saveConfig(File f) {
 		
 		//TODO : export config
+	}
+
+	public AbstractCardExport getAbstractExporterFromExt(File f) {
+		String ext = FilenameUtils.getExtension(f.getAbsolutePath());
+		
+		for(AbstractCardExport ace : exports)
+		{
+			if(ace.getFileExtension().endsWith(ext))
+				return ace;
+		}
+		return null;
+		
+		
 	}
 
 

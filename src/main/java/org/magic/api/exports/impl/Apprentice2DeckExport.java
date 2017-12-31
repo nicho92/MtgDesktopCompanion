@@ -125,6 +125,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
 		StringBuffer temp = new StringBuffer();
+		int c=0;
 		for(MagicCard mc : cards)
 		{
 			temp.append("MD,");
@@ -132,6 +133,8 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 			temp.append("\""+mc.getName()+"\",");
 			temp.append(mc.getEditions().get(0).getId());
 			temp.append("\n");
+			setChanged();
+			notifyObservers(c++);
 		}
 		FileWriter out = new FileWriter(f);
 		out.write(temp.toString());

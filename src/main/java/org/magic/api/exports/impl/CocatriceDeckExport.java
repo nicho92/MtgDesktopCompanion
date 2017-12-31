@@ -51,7 +51,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	public void export(MagicDeck deck , File dest) throws IOException
 	{
 		StringBuffer temp = new StringBuffer();
-		
+		int c=0;
 		temp.append("<?xml version='1.0' encoding='UTF-8'?>");
 		temp.append("<cockatrice_deck version='"+getProperty("VERSION")+"'>");
 		temp.append("<deckname>").append(deck.getName()).append("</deckname>");
@@ -60,6 +60,8 @@ public class CocatriceDeckExport extends AbstractCardExport{
 		for(MagicCard mc : deck.getMap().keySet())
 		{
 			temp.append("<card number='").append(deck.getMap().get(mc)).append("' price='"+getProperty("DEFAULT_PRICE")+"' name=\"").append(mc.getName()).append("\"/>");
+			setChanged();
+			notifyObservers(c++);
 		}
 		temp.append("</zone>");
 		temp.append("<zone name='side'>");
@@ -98,11 +100,14 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	    	    
 	    expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'main')]/card");
 	    result = ((NodeList)expr.evaluate(d, XPathConstants.NODESET));
+	    int c=0;
 	    for(int i = 0;i<result.getLength();i++)
 		{
 			String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 			Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
 			deck.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0), qte);
+			setChanged();
+			notifyObservers(c++);
 		}
 	    expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'side')]/card");
 		result = ((NodeList)expr.evaluate(d, XPathConstants.NODESET));
@@ -111,6 +116,8 @@ public class CocatriceDeckExport extends AbstractCardExport{
 			String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 			Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
 			deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0), qte);
+			setChanged();
+			notifyObservers(c++);
 		}
 		return deck;
 	}
@@ -118,7 +125,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
 
-		
+		int c=0;
 		StringBuffer temp = new StringBuffer();
 		
 		temp.append("<?xml version='1.0' encoding='UTF-8'?>");
@@ -129,6 +136,8 @@ public class CocatriceDeckExport extends AbstractCardExport{
 		for(MagicCard mc : cards)
 		{
 			temp.append("<card number='1' price='"+getProperty("DEFAULT_PRICE")+"' name=\"").append(mc.getName()).append("\"/>");
+			setChanged();
+			notifyObservers(c++);
 		}
 		temp.append("</zone>");
 		

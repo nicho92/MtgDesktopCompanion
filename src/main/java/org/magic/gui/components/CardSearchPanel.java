@@ -518,17 +518,7 @@ public class CardSearchPanel extends JPanel {
 							if(!cboCollections.isVisible())
 								Collections.sort(cards,new MagicCardComparator());//TODO doesn't work for large collection
 							
-							cardsModeltable.init(cards);
-							tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-							
-							
-							thumbnailPanel.initThumbnails(cards,false);
-							
-							cmcChart.init(cards);
-							typeRepartitionPanel.init(cards);
-							manaRepartitionPanel.init(cards);
-							rarityRepartitionPanel.init(cards);
-							tabbedCardsView.setTitleAt(0, MTGControler.getInstance().getLangService().getCapitalize("RESULTS")+" ("+cardsModeltable.getRowCount()+")");
+							open(cards);
 							return null;
 						}
 						
@@ -826,6 +816,19 @@ public class CardSearchPanel extends JPanel {
 				logger.error(e1);
 			}
 
+		}
+
+		public void open(List<MagicCard> cards) {
+			cardsModeltable.init(cards);
+			tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+			thumbnailPanel.initThumbnails(cards,false);
+			cmcChart.init(cards);
+			typeRepartitionPanel.init(cards);
+			manaRepartitionPanel.init(cards);
+			rarityRepartitionPanel.init(cards);
+			tabbedCardsView.setTitleAt(0, MTGControler.getInstance().getLangService().getCapitalize("RESULTS")+" ("+cardsModeltable.getRowCount()+")");
+			
+			
 		}
 
 
