@@ -2,11 +2,11 @@ package org.magic.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.spi.LoggingEvent;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public class MTGAppender extends AppenderSkeleton {
 

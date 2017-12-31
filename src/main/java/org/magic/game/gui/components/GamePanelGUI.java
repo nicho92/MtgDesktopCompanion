@@ -15,8 +15,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.AbstractAction;
 import javax.swing.BoxLayout;
@@ -47,6 +45,8 @@ import org.magic.game.model.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public class GamePanelGUI extends JPanel implements Observer {
 	

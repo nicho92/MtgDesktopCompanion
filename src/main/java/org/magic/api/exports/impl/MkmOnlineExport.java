@@ -128,7 +128,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		WantsService wlService = new WantsService();
 		List<WantItem> wants = new ArrayList<WantItem>();
 
-		
+		int c=0;
 		for(MagicCard mc : deck.getMap().keySet())
 		{
 			
@@ -156,6 +156,10 @@ public class MkmOnlineExport extends AbstractCardExport {
 			{
 				logger.debug("could not export " + mc);
 			}
+			
+			setChanged();
+			notifyObservers(c++);
+			
 		}
 		
 		int max = Integer.parseInt(props.getProperty("MAX_WANTLIST_SIZE"));

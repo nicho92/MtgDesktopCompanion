@@ -10,6 +10,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
+import org.utils.patterns.observer.Observable;
 
 import java.io.*;
 import java.nio.file.Paths;

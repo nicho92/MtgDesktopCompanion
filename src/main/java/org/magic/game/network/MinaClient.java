@@ -2,7 +2,6 @@ package org.magic.game.network;
 
 import java.awt.Color;
 import java.net.InetSocketAddress;
-import java.util.Observable;
 
 import org.apache.mina.core.future.ConnectFuture;
 import org.apache.mina.core.service.IoConnector;
@@ -19,6 +18,7 @@ import org.magic.game.network.actions.ChangeStatusAction;
 import org.magic.game.network.actions.JoinAction;
 import org.magic.game.network.actions.ReponseAction;
 import org.magic.game.network.actions.ReponseAction.CHOICE;
+import org.utils.patterns.observer.Observable;
 import org.magic.game.network.actions.RequestPlayAction;
 import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;

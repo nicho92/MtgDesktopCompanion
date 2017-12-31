@@ -7,7 +7,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Observable;
 import java.util.Properties;
 
 import javax.imageio.ImageIO;
@@ -16,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractPicturesProvider extends Observable implements PictureProvider {
 

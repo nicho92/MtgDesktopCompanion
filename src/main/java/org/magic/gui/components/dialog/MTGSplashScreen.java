@@ -1,14 +1,15 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
+
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 //TODO opacity for JPanel and JWindow.. not JLabel
 

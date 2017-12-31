@@ -6,8 +6,6 @@ import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -22,6 +20,8 @@ import org.magic.api.interfaces.MagicTokensProvider;
 import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.model.Player;
 import org.magic.services.MTGConstants;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public class PlayerGameBoard extends JPanel implements Observer {
 	

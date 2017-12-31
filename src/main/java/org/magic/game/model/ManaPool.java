@@ -3,12 +3,12 @@ package org.magic.game.model;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Observable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.utils.patterns.observer.Observable;
 
 public class ManaPool extends Observable implements Serializable{
 

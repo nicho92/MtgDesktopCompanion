@@ -5,7 +5,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.Observable;
 
 import javax.swing.AbstractAction;
 
@@ -14,6 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.network.actions.SpeakAction;
 import org.magic.services.MTGLogger;
+import org.utils.patterns.observer.Observable;
 
 public class Player extends Observable implements Serializable{
 

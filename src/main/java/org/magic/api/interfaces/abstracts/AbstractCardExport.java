@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Observable;
 import java.util.Properties;
 
 import javax.swing.Icon;
@@ -17,6 +16,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractCardExport extends Observable implements CardExporter {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
@@ -59,14 +59,15 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 	
 	public void save()
 	{
+		File f = null;
 		try {
-			File f = new File(confdir, getName()+".conf");
+			f = new File(confdir, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error("error writing file " + f,e);
 		} 
 	}
 	

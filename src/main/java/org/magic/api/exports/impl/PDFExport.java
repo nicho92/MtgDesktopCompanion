@@ -63,6 +63,7 @@ public class PDFExport extends AbstractCardExport {
 
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f));
 			document.open();
+			int i=0;
 			for(MagicCard card : cards)
 			{
 				try
@@ -74,6 +75,9 @@ public class PDFExport extends AbstractCardExport {
 				{
 					table.addCell(new Phrase(card.getName()));
 				}
+				
+				setChanged();
+				notifyObservers(i++);
 
 			}
 			document.add(table);
@@ -86,7 +90,7 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 
-	private static PdfPCell getCells(MagicCard card) throws BadElementException, MalformedURLException, IOException
+	private PdfPCell getCells(MagicCard card) throws BadElementException, MalformedURLException, IOException
 	{
 
 		Image image1=null;

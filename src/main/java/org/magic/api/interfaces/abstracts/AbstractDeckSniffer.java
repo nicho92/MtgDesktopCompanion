@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.List;
-import java.util.Observable;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -13,6 +12,7 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractDeckSniffer extends Observable implements DeckSniffer {
 

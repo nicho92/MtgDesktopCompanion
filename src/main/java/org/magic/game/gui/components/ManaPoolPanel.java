@@ -3,8 +3,6 @@ package org.magic.game.gui.components;
 
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.util.Observable;
-import java.util.Observer;
 
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
@@ -15,6 +13,8 @@ import javax.swing.event.ChangeListener;
 import org.magic.game.model.ManaPool;
 import org.magic.game.model.Player;
 import org.magic.gui.components.ManaPanel;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public class ManaPoolPanel extends JPanel implements Observer{
 	private JSpinner spinW;

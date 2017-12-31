@@ -7,7 +7,6 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
-import java.util.Observable;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
@@ -17,6 +16,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractDashBoard extends Observable implements DashBoard {
 
