@@ -635,10 +635,10 @@ public class MagicCardDetailPanel extends JPanel {
 			Image img = icon.getImage();
 			//Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
 			lblThumbnail.setIcon( new ImageIcon(img));
-			validate();
+			//validate();
 			repaint();
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("Error loading pics for" + magicCard,e);
 		}
 		
 	}

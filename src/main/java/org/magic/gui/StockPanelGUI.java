@@ -20,13 +20,10 @@ import java.util.Locale;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,10 +31,8 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
-import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
@@ -56,7 +51,6 @@ import org.magic.gui.components.dialog.CollectionChooserDialog;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.EnumConditionEditor;
-import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicDeckQtyEditor;
 import org.magic.gui.renderer.MagicEditionEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
@@ -72,13 +66,7 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 public class StockPanelGUI extends JPanel {
 	private JXTable table;
 	private CardStockTableModel model;
-	private JTextField txtSearch;
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<MagicCard>();
-	private JList<MagicCard> listResult ;
-	private JComboBox<String> cboAttributs ;
-	private JButton btnSearch;
-
-	private JButton btnAdd = new JButton();
 	private JButton btnDelete = new JButton();
 	private JButton btnSave = new JButton();
 	
@@ -118,59 +106,13 @@ public class StockPanelGUI extends JPanel {
 	private JPanel bottomPanel;
 	private JLabel lblCount;
 	private JLabel lblSelect;
-	private JComboBox cboSelections;
+	private JComboBox<String> cboSelections;
 	private String[] selections=new String[] {"", "New", "Updated"};
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
 		
 		initGUI();
-		
-		listResult.addListSelectionListener(new ListSelectionListener() {
-			public void valueChanged(ListSelectionEvent lse) {
-				selectedCard=listResult.getSelectedValuesList();
-				if(selectedCard!=null)
-				{
-					btnAdd.setEnabled(true);
-					magicCardDetailPanel.setMagicCard(selectedCard.get(0));
-				}
-				
-			}
-		});
-		
-		txtSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
-				btnSearch.doClick();
-			}
-		});
-		
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-
-				if (txtSearch.getText().equals(""))
-					return;
-
-				resultListModel.removeAllElements();
-
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
-						try {
-							lblLoading.setVisible(true);
-							//String searchName = URLEncoder.encode(txtSearch.getText(), "UTF-8");
-							String searchName = txtSearch.getText();
-							List<MagicCard> cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null);
-							for (MagicCard m : cards) 
-									resultListModel.addElement(m);
-							
-							listResult.updateUI();
-							lblLoading.setVisible(false);
-						} catch (Exception e) {
-							JOptionPane.showMessageDialog(null, e.getMessage(), MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
-						}
-					}
-				},"Search stock");
-			}
-		});
 		
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -197,20 +139,6 @@ public class StockPanelGUI extends JPanel {
 				}, "Batch stock save");
 			}
 			
-		});
-		
-		
-		
-		
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				for(MagicCard mc : selectedCard)
-				{
-					addCard(mc);
-					updateCount();
-				}
-			}
 		});
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
@@ -265,8 +193,6 @@ public class StockPanelGUI extends JPanel {
 				}
 		});
 		
-	
-		
 		btnReload.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CANCEL_CHANGES"),MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
@@ -302,9 +228,26 @@ public class StockPanelGUI extends JPanel {
 			public void actionPerformed(ActionEvent ae) {
 				JPopupMenu menu = new JPopupMenu();
 
-				JMenuItem mnuCol = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM","collection"));
-				mnuCol.setIcon(MTGConstants.ICON_COLLECTION);
+				JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+				mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 				
+				mnuImportSearch.addActionListener(new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent ae) {
+						CardSearchImportDialog cdSearch = new CardSearchImportDialog();
+						cdSearch.setVisible(true);
+						if(cdSearch.getSelection()!=null)
+						{
+							for(MagicCard mc : cdSearch.getSelection())
+								addCard(mc);
+						}
+					}
+				});
+				menu.add(mnuImportSearch);
+				
+				JMenuItem mnuCol = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("COLLECTION_MODULE")));
+				mnuCol.setIcon(MTGConstants.ICON_COLLECTION);
 				mnuCol.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
 						CollectionChooserDialog diag = new CollectionChooserDialog();
@@ -328,7 +271,6 @@ public class StockPanelGUI extends JPanel {
 						
 					}
 				});
-				
 				menu.add(mnuCol);
 				
 				JMenuItem webSite = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("WEBSITE")));
@@ -353,24 +295,7 @@ public class StockPanelGUI extends JPanel {
 				menu.add(webSite);
 
 				
-				JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
-				mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 				
-				mnuImportSearch.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent ae) {
-						CardSearchImportDialog cdSearch = new CardSearchImportDialog();
-						cdSearch.setVisible(true);
-						if(cdSearch.getSelection()!=null)
-						{
-							for(MagicCard mc : cdSearch.getSelection())
-								addCard(mc);
-						}
-					}
-				});
-				
-				menu.add(mnuImportSearch);
 				
 				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
@@ -551,7 +476,9 @@ public class StockPanelGUI extends JPanel {
 					for(int i=0;i<table.getRowCount();i++)
 					{
 						if(table.getValueAt(i, 0).toString().equals("-1"))
+						{
 							table.addRowSelectionInterval(i,i);
+						}
 					}
 				}
 				else if(String.valueOf(cboSelections.getSelectedItem()).equals(selections[2]))
@@ -673,47 +600,22 @@ public class StockPanelGUI extends JPanel {
 	private void initGUI()
 	{
 		setLayout(new BorderLayout(0, 0));
-		txtSearch = new JTextField();
-		JPanel leftPanel = new JPanel();
-		JScrollPane scrollList = new JScrollPane();
-		JPanel searchPanel = new JPanel();
 		
 		model = new CardStockTableModel();
 		
-		listResult = new JList<MagicCard>(resultListModel);
-		
-		
-		add(leftPanel, BorderLayout.WEST);
-		leftPanel.setLayout(new BorderLayout(0, 0));
-		leftPanel.add(scrollList, BorderLayout.CENTER);
-		
-	
-		listResult.setCellRenderer(new MagicCardListRenderer());
-		
-		scrollList.setViewportView(listResult);
-		
-		leftPanel.add(searchPanel, BorderLayout.NORTH);
-		
 		String[] q = MTGControler.getInstance().getEnabledProviders().getQueryableAttributs();
-		cboAttributs = new JComboBox<String>(new DefaultComboBoxModel<String>(q));
-		searchPanel.add(cboAttributs);
-	
-		searchPanel.add(txtSearch);
-		txtSearch.setColumns(10);
-		
-		btnSearch = new JButton("");
-		
-		btnSearch.setIcon(MTGConstants.ICON_SEARCH_2);
-		searchPanel.add(btnSearch);
 		
 		JPanel centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout(0, 0));
 		JPanel actionPanel = new JPanel();
 		centerPanel.add(actionPanel, BorderLayout.NORTH);
-				btnAdd.setEnabled(false);
-				btnAdd.setIcon(MTGConstants.ICON_NEW);
-				actionPanel.add(btnAdd);
+				
+				
+				btnImport = new JButton();
+				btnImport.setIcon(MTGConstants.ICON_IMPORT);
+				btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+				actionPanel.add(btnImport);
 		
 				btnDelete.setEnabled(false);
 				btnDelete.setIcon(MTGConstants.ICON_DELETE);
@@ -733,12 +635,6 @@ public class StockPanelGUI extends JPanel {
 				lblLoading.setVisible(false);
 				
 				btnshowMassPanel = new JButton("");
-				
-				
-				btnImport = new JButton();
-				btnImport.setIcon(MTGConstants.ICON_IMPORT);
-				btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
-				actionPanel.add(btnImport);
 				
 				btnExport = new JButton("");
 				

@@ -291,7 +291,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.ABANDONNED;
 	}
 
 
