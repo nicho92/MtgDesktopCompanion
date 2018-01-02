@@ -6,6 +6,7 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
+import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -19,7 +20,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -66,15 +66,13 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 public class StockPanelGUI extends JPanel {
 	private JXTable table;
 	private CardStockTableModel model;
-	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<MagicCard>();
 	private JButton btnDelete = new JButton();
 	private JButton btnSave = new JButton();
+    private boolean multiselection=false;
+
 	
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private JSplitPane splitPane;
-    private TableFilterHeader filterHeader;
-
-	private List<MagicCard> selectedCard;
 	private JButton btnReload;
     
 	Logger logger = MTGLogger.getLogger(this.getClass());
@@ -107,7 +105,7 @@ public class StockPanelGUI extends JPanel {
 	private JLabel lblCount;
 	private JLabel lblSelect;
 	private JComboBox<String> cboSelections;
-	private String[] selections=new String[] {"", "New", "Updated"};
+	private String[] selections=new String[] {"", MTGControler.getInstance().getLangService().get("NEW"), MTGControler.getInstance().getLangService().get("UPDATED")};
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -142,8 +140,9 @@ public class StockPanelGUI extends JPanel {
 		});
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
+	    	public void valueChanged(ListSelectionEvent event) {
 	        	
+	        	if(!multiselection)
 	        	if(!event.getValueIsAdjusting())
 	        	{
 	        			int viewRow = table.getSelectedRow();
@@ -260,7 +259,12 @@ public class StockPanelGUI extends JPanel {
 								@Override
 								public void run() {
 									lblLoading.setVisible(true);
-									importFromCollection(col);
+									try {
+										importFromCollection(col);
+									} catch (SQLException e) {
+										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+										
+									}
 									lblLoading.setVisible(false);
 									updateCount();
 								}
@@ -431,9 +435,7 @@ public class StockPanelGUI extends JPanel {
 		
 		btnGeneratePrice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
 				ThreadManager.getInstance().execute(new Runnable() {
-					
 					@Override
 					public void run() {
 						lblLoading.setVisible(true);
@@ -469,31 +471,32 @@ public class StockPanelGUI extends JPanel {
 		
 		cboSelections.addItemListener(new ItemListener() {
 			public void itemStateChanged(ItemEvent ie) {
-				
+				multiselection=true;
 				if(String.valueOf(cboSelections.getSelectedItem()).equals(selections[1]))
 				{
 					table.clearSelection();
+					
 					for(int i=0;i<table.getRowCount();i++)
 					{
+						
 						if(table.getValueAt(i, 0).toString().equals("-1"))
 						{
 							table.addRowSelectionInterval(i,i);
 						}
 					}
+					
 				}
 				else if(String.valueOf(cboSelections.getSelectedItem()).equals(selections[2]))
 				{
 					table.clearSelection();
+					
 					for(int i=0;i<table.getRowCount();i++)
 					{
 						if(((MagicCardStock)table.getValueAt(i, 0)).isUpdate())
 							table.addRowSelectionInterval(i,i);
 					}
 				}
-				
-				
-				
-				
+				multiselection=false;//do not load magiccarddetailpanel on each selection
 			}
 		});
 		
@@ -561,9 +564,8 @@ public class StockPanelGUI extends JPanel {
 		
 	}
 	
-	private void importFromCollection(MagicCollection col)
+	private void importFromCollection(MagicCollection col) throws SQLException
 	{
-		try {
 			for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col))
 			{
 				MagicCardStock stock = new MagicCardStock();
@@ -575,10 +577,7 @@ public class StockPanelGUI extends JPanel {
 				stock.setUpdate(true);
 				model.add(stock);
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		
 		model.fireTableDataChanged();
 	}
 	
@@ -602,8 +601,8 @@ public class StockPanelGUI extends JPanel {
 		setLayout(new BorderLayout(0, 0));
 		
 		model = new CardStockTableModel();
+		magicCardDetailPanel = new MagicCardDetailPanel();
 		
-		String[] q = MTGControler.getInstance().getEnabledProviders().getQueryableAttributs();
 		
 		JPanel centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
@@ -650,6 +649,8 @@ public class StockPanelGUI extends JPanel {
 				btnshowMassPanel.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("MASS_MODIFICATION"));
 				btnshowMassPanel.setIcon(MTGConstants.ICON_MANUAL);
 				actionPanel.add(btnshowMassPanel);
+				
+			
 				lblLoading.setIcon(MTGConstants.ICON_LOADING);
 				actionPanel.add(lblLoading);
 				
@@ -666,10 +667,9 @@ public class StockPanelGUI extends JPanel {
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionRenderer());
 		
 		table.packAll();
-		filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
+		new TableFilterHeader(table, AutoChoices.ENABLED);
 		scrollTable.setViewportView(table);
 		
-		magicCardDetailPanel = new MagicCardDetailPanel();
 		magicCardDetailPanel.enableThumbnail(true);
 		
 		splitPane = new JSplitPane();
@@ -682,6 +682,7 @@ public class StockPanelGUI extends JPanel {
 		splitPane.setRightComponent(magicCardDetailPanel);
 		
 		rightPanel = new JPanel();
+		rightPanel.setBackground(SystemColor.inactiveCaption);
 		rightPanel.setVisible(false);
 		add(rightPanel, BorderLayout.EAST);
 		GridBagLayout gbl_rightPanel = new GridBagLayout();
@@ -699,9 +700,9 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblSelect.gridy = 1;
 		rightPanel.add(lblSelect, gbc_lblSelect);
 		
-		cboSelections = new JComboBox();
+		cboSelections = new JComboBox<String>();
 		
-		cboSelections.setModel(new DefaultComboBoxModel(selections));
+		cboSelections.setModel(new DefaultComboBoxModel<String>(selections));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
 		gbc_comboBox.anchor = GridBagConstraints.NORTH;
 		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
@@ -710,7 +711,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_comboBox.gridy = 1;
 		rightPanel.add(cboSelections, gbc_comboBox);
 		
-		lblQte = new JLabel("Qte : ");
+		lblQte = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QTY")+ " :");
 		GridBagConstraints gbc_lblQte = new GridBagConstraints();
 		gbc_lblQte.anchor = GridBagConstraints.EAST;
 		gbc_lblQte.insets = new Insets(0, 0, 5, 5);
@@ -727,7 +728,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_spinner.gridy = 2;
 		rightPanel.add(spinner, gbc_spinner);
 		
-		lblLanguage = new JLabel("Language :");
+		lblLanguage = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE")+ " :");
 		GridBagConstraints gbc_lblLanguage = new GridBagConstraints();
 		gbc_lblLanguage.anchor = GridBagConstraints.EAST;
 		gbc_lblLanguage.insets = new Insets(0, 0, 5, 5);
@@ -735,12 +736,12 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblLanguage.gridy = 3;
 		rightPanel.add(lblLanguage, gbc_lblLanguage);
 		
-		DefaultComboBoxModel lModel = new DefaultComboBoxModel();
+		DefaultComboBoxModel<String> lModel = new DefaultComboBoxModel<String>();
 		lModel.addElement(null);
 		for(Locale l : Locale.getAvailableLocales())
 			 lModel.addElement(l.getDisplayLanguage(Locale.US));
 		
-		cboLanguages = new JComboBox(lModel);
+		cboLanguages = new JComboBox<String>(lModel);
 		GridBagConstraints gbc_cboLanguages = new GridBagConstraints();
 		gbc_cboLanguages.insets = new Insets(0, 0, 5, 0);
 		gbc_cboLanguages.fill = GridBagConstraints.HORIZONTAL;
@@ -748,7 +749,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboLanguages.gridy = 3;
 		rightPanel.add(cboLanguages, gbc_cboLanguages);
 		
-		lblFoil = new JLabel("Foil :");
+		lblFoil = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("FOIL")+ " :");
 		GridBagConstraints gbc_lblFoil = new GridBagConstraints();
 		gbc_lblFoil.anchor = GridBagConstraints.EAST;
 		gbc_lblFoil.insets = new Insets(0, 0, 5, 5);
@@ -756,7 +757,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblFoil.gridy = 4;
 		rightPanel.add(lblFoil, gbc_lblFoil);
 		
-		cboFoil = new JComboBox(new DefaultComboBoxModel<Boolean>(values));
+		cboFoil = new JComboBox<Boolean>(new DefaultComboBoxModel<Boolean>(values));
 		GridBagConstraints gbc_cboFoil = new GridBagConstraints();
 		gbc_cboFoil.insets = new Insets(0, 0, 5, 0);
 		gbc_cboFoil.fill = GridBagConstraints.HORIZONTAL;
@@ -764,7 +765,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboFoil.gridy = 4;
 		rightPanel.add(cboFoil, gbc_cboFoil);
 		
-		lblSigned = new JLabel("Signed :");
+		lblSigned = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIGNED")+ " :");
 		GridBagConstraints gbc_lblSigned = new GridBagConstraints();
 		gbc_lblSigned.anchor = GridBagConstraints.EAST;
 		gbc_lblSigned.insets = new Insets(0, 0, 5, 5);
@@ -772,7 +773,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblSigned.gridy = 5;
 		rightPanel.add(lblSigned, gbc_lblSigned);
 		
-		cboSigned = new JComboBox(new DefaultComboBoxModel<Boolean>(values));
+		cboSigned = new JComboBox<Boolean>(new DefaultComboBoxModel<Boolean>(values));
 		GridBagConstraints gbc_cboSigned = new GridBagConstraints();
 		gbc_cboSigned.insets = new Insets(0, 0, 5, 0);
 		gbc_cboSigned.fill = GridBagConstraints.HORIZONTAL;
@@ -780,7 +781,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboSigned.gridy = 5;
 		rightPanel.add(cboSigned, gbc_cboSigned);
 		
-		lblAltered = new JLabel("Altered :");
+		lblAltered = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ALTERED")+ " :");
 		GridBagConstraints gbc_lblAltered = new GridBagConstraints();
 		gbc_lblAltered.anchor = GridBagConstraints.EAST;
 		gbc_lblAltered.insets = new Insets(0, 0, 5, 5);
@@ -788,7 +789,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblAltered.gridy = 6;
 		rightPanel.add(lblAltered, gbc_lblAltered);
 		
-		cboAltered = new JComboBox(new DefaultComboBoxModel<Boolean>(values));
+		cboAltered = new JComboBox<Boolean>(new DefaultComboBoxModel<Boolean>(values));
 		GridBagConstraints gbc_cboAltered = new GridBagConstraints();
 		gbc_cboAltered.insets = new Insets(0, 0, 5, 0);
 		gbc_cboAltered.fill = GridBagConstraints.HORIZONTAL;
@@ -796,7 +797,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboAltered.gridy = 6;
 		rightPanel.add(cboAltered, gbc_cboAltered);
 		
-		lblQuality = new JLabel("Quality :");
+		lblQuality = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QUALITY")+ " :");
 		GridBagConstraints gbc_lblQuality = new GridBagConstraints();
 		gbc_lblQuality.anchor = GridBagConstraints.EAST;
 		gbc_lblQuality.insets = new Insets(0, 0, 5, 5);
@@ -804,7 +805,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblQuality.gridy = 7;
 		rightPanel.add(lblQuality, gbc_lblQuality);
 		
-		DefaultComboBoxModel qModel = new DefaultComboBoxModel();
+		DefaultComboBoxModel<EnumCondition> qModel = new DefaultComboBoxModel<EnumCondition>();
 		qModel.addElement(null);
 		for(EnumCondition l : EnumCondition.values())
 			 qModel.addElement(l);
@@ -821,7 +822,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_cboQuality.gridy = 7;
 		rightPanel.add(cboQuality, gbc_cboQuality);
 		
-		lblCollection = new JLabel("Collection :");
+		lblCollection = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION")+ " :");
 		GridBagConstraints gbc_lblCollection = new GridBagConstraints();
 		gbc_lblCollection.anchor = GridBagConstraints.EAST;
 		gbc_lblCollection.insets = new Insets(0, 0, 5, 5);
@@ -866,7 +867,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_textPane.gridy = 10;
 		rightPanel.add(textPane, gbc_textPane);
 		
-		btnApplyModification = new JButton("Apply");
+		btnApplyModification = new JButton(MTGControler.getInstance().getLangService().getCapitalize("APPLY"));
 		
 		
 		GridBagConstraints gbc_btnApplyModification = new GridBagConstraints();
