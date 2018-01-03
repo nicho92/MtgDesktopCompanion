@@ -81,6 +81,8 @@ public class MTGConstants {
 	public static final ImageIcon ICON_BUILDER = new ImageIcon(MTGConstants.class.getResource("/icons/create.png"));
 	public static final ImageIcon ICON_RSS = new ImageIcon(MTGConstants.class.getResource("/icons/rss.png"));
 	public static final ImageIcon ICON_CONFIG = new ImageIcon(MTGConstants.class.getResource("/icons/build.png"));
+	public static final ImageIcon ICON_STORY =  new ImageIcon(MTGConstants.class.getResource("/icons/stories.png"));;
+
 	
 	public static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/icons/logo.gif"));
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource("/icons/Mana.png");

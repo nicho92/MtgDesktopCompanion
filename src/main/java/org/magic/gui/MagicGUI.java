@@ -358,6 +358,8 @@ public class MagicGUI extends JFrame {
 		if(MTGControler.getInstance().get("modules/rss").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), MTGConstants.ICON_RSS, new RssGUI(), null);
 		
+		if(MTGControler.getInstance().get("modules/history").equals("true"))
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE"), MTGConstants.ICON_STORY, new StoriesGUI(), null);
 
 		
 		

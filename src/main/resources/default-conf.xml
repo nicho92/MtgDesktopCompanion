@@ -11,6 +11,7 @@
         <alarm>true</alarm>
         <shopper>true</shopper>
         <cardbuilder>true</cardbuilder>
+        <history>false</history>
         <stock>true</stock>
     </modules>
     <langage>English</langage>

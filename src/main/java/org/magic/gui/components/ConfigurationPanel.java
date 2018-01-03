@@ -687,9 +687,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panel, gbc_panel);
 		GridBagLayout gbl_panel = new GridBagLayout();
 		gbl_panel.columnWidths = new int[]{0, 0, 0, 103, 0};
-		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbl_panel.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0};
 		gbl_panel.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gbl_panel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panel.setLayout(gbl_panel);
 		
 		
@@ -815,7 +815,7 @@ public class ConfigurationPanel extends JPanel {
 		});
 		GridBagConstraints gbc_chckbxCardBuilder = new GridBagConstraints();
 		gbc_chckbxCardBuilder.anchor = GridBagConstraints.WEST;
-		gbc_chckbxCardBuilder.insets = new Insets(0, 0, 0, 5);
+		gbc_chckbxCardBuilder.insets = new Insets(0, 0, 5, 5);
 		gbc_chckbxCardBuilder.gridx = 1;
 		gbc_chckbxCardBuilder.gridy = 4;
 		panel.add(chckbxCardBuilder, gbc_chckbxCardBuilder);
@@ -829,10 +829,26 @@ public class ConfigurationPanel extends JPanel {
 			}
 		});
 		GridBagConstraints gbc_chckbxStock = new GridBagConstraints();
+		gbc_chckbxStock.insets = new Insets(0, 0, 5, 0);
 		gbc_chckbxStock.anchor = GridBagConstraints.WEST;
 		gbc_chckbxStock.gridx = 3;
 		gbc_chckbxStock.gridy = 4;
 		panel.add(chckbxStock, gbc_chckbxStock);
+		
+		JCheckBox chckbxHistory = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE"));
+		chckbxHistory.setSelected(MTGControler.getInstance().get("modules/history").equals("true"));
+		
+		chckbxHistory.addItemListener(new ItemListener() {
+			public void itemStateChanged(ItemEvent arg0) {
+				MTGControler.getInstance().setProperty("modules/history",chckbxHistory.isSelected());	
+			}
+		});
+		GridBagConstraints gbc_chckbxHistory = new GridBagConstraints();
+		gbc_chckbxHistory.anchor = GridBagConstraints.WEST;
+		gbc_chckbxHistory.insets = new Insets(0, 0, 0, 5);
+		gbc_chckbxHistory.gridx = 1;
+		gbc_chckbxHistory.gridy = 5;
+		panel.add(chckbxHistory, gbc_chckbxHistory);
 		
 		GridBagConstraints gbc_lblLoading = new GridBagConstraints();
 		gbc_lblLoading.gridwidth = 2;
