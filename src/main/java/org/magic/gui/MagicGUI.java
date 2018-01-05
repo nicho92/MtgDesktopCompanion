@@ -324,7 +324,7 @@ public class MagicGUI extends JFrame {
 		MTGControler.getInstance().getActivatedGUI();
 		
 		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
-		
+	
 		if(MTGControler.getInstance().get("modules/search").equals("true"))
 		{
 			cardSearchPanel=new CardSearchPanel();

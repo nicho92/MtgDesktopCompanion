@@ -15,6 +15,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ImageUtils;
 import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractPicturesProvider extends Observable implements PictureProvider {
@@ -120,14 +121,7 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 	public BufferedImage resizeCard(BufferedImage img) {  
 	    int newW = Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
 	    int newH = Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
-	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
-	    BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
-
-	    Graphics2D g2d = dimg.createGraphics();
-	    g2d.drawImage(tmp, 0, 0, null);
-	    g2d.dispose();
-
-	    return dimg;
+	    return ImageUtils.resize(img, newH, newW);
 	}  
 
 	@Override

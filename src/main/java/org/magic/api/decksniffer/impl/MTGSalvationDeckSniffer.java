@@ -27,17 +27,9 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.STABLE;
+		return STATUT.DEV;
 	}
 	
-	
-	public static void main(String[] args) throws Exception {
-		MTGSalvationDeckSniffer snif = new MTGSalvationDeckSniffer();
-		RetrievableDeck d = snif.getDeckList().get(0);
-		snif.getDeck(d);
-	}
-	
-	private boolean metagames=false;
 
 	public MTGSalvationDeckSniffer() {
 		super();
@@ -77,7 +69,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		boolean sideboard = false;
 		
-		List<String> elements= new ArrayList(Arrays.asList(plainDeck.split("\n")));
+		List<String> elements= new ArrayList<String>(Arrays.asList(plainDeck.split("\n")));
 		elements.remove(0);
 		for(String s : elements)
 		{
@@ -115,11 +107,6 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					}
 		}
 		
-		
-		
-		
-		
-		
 		return deck;
 	}
 
@@ -132,11 +119,6 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		int nbPage=1;
 		int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
-		
-		
-		if(metagames)
-			maxPage=1;
-		
 		
 		for(int i=1;i<=maxPage;i++)
 		{
@@ -170,14 +152,14 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	private Integer getFormatCode(String property) {
 		switch(property)
 		{
-		case "Standard":return 32;
-		case "Casual" : return 16;
-		case "Classic" : return 64;
-		case "Commander" : return 2;
-		case "Legacy" :return 4;
-		case "Vintage": return 8;
-		case "Modern" :return 1;
-		default :return null;
+			case "Standard":return 32;
+			case "Casual" : return 16;
+			case "Classic" : return 64;
+			case "Commander" : return 2;
+			case "Legacy" :return 4;
+			case "Vintage": return 8;
+			case "Modern" :return 1;
+			default :return null;
 		}
 	}
 
