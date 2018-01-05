@@ -10,7 +10,7 @@
 	</issueManagement>
 	<groupId>org.magic</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>1.78</version>
+	<version>1.79</version>
 	<packaging>jar</packaging>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>

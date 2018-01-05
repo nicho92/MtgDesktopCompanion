@@ -5,6 +5,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.text.StringEscapeUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -56,10 +57,10 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 				MagicPrice mp = new MagicPrice();
 						   mp.setLanguage(e.getElementsByClass("langue").get(0).getElementsByTag("img").get(0).attr("alt"));
 						   mp.setQuality(e.getElementsByClass("etat").html());
-						   if(e.getElementsByClass("prix").size()>0)
+						/*   if(e.select("div.prix").size()>0)
 							   mp.setValue(Double.parseDouble(clean(e.getElementsByClass("prix").get(0).getElementsByIndexEquals(1).html())));
-						   else
-							   mp.setValue(Double.parseDouble(clean(e.getElementsByClass("prix").get(0).getElementsByIndexEquals(0).html())));
+						   else*/
+							   mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));
 						   mp.setCurrency("EUR");
 						   mp.setSite(getName());
 						   mp.setUrl(url);
@@ -72,13 +73,14 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		}
 		catch(Exception e)
 		{
+			e.printStackTrace();
 			logger.info(getName() +" no item : "+ e.getMessage());
 			return list;
 		}
 	}
 
 	private String clean(String html) {
-		return html.substring(0,html.indexOf("&")).replaceAll(",", ".").replaceAll(" ", "");
+		return StringEscapeUtils.escapeHtml3(html).replaceAll(",", ".").replaceAll(" ", "").replaceAll("€", "");
 	}
 
 
