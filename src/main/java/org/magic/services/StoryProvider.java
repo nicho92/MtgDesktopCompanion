@@ -34,6 +34,7 @@ public class StoryProvider {
 	private JsonParser parser;
 	private Locale local;
 	private int offset=0;
+	private String baseURI="https://magic.wizards.com";
 	//&fromDate=&toDate=&word=
 	
 	
@@ -64,10 +65,13 @@ public class StoryProvider {
 		}	
 	}
 	
+	public int getOffset() {
+		return offset;
+	}
 	
 	public List<MTGStory> next() 
 	{
-		url="https://magic.wizards.com/"+local.getLanguage()+"/section-articles-see-more-ajax?l="+local.getLanguage()+"&sort=DESC&f=13961&offset="+(offset++);
+		url=baseURI+"/"+local.getLanguage()+"/section-articles-see-more-ajax?l="+local.getLanguage()+"&sort=DESC&f=13961&offset="+(offset++);
 		List<MTGStory> list = new ArrayList<MTGStory>();
 		HttpURLConnection con = (HttpURLConnection) getConnection(url);
 		JsonReader reader = null;
@@ -87,9 +91,9 @@ public class StoryProvider {
 			try {
 			MTGStory story = new MTGStory();
 					 story.setTitle(d.select("div.title h3").html());
-					 story.setAuthor(d.select("span.author").html());
-					 story.setDescription(d.select("div.description").html());
-					 story.setUrl(new URL("https://magic.wizards.com"+d.select("a").first().attr("href")));
+					 story.setAuthor(StringEscapeUtils.unescapeHtml3(d.select("span.author").html()));
+					 story.setDescription(StringEscapeUtils.unescapeHtml3(d.select("div.description").html()));
+					 story.setUrl(new URL(baseURI+d.select("a").first().attr("href")));
 					 story.setDate(d.select("span.date").text());
 					 String bgImage=d.select("div.image").attr("style");
 					 story.setIcon(loadPics(new URL(bgImage.substring(bgImage.indexOf("url(")+4,bgImage.indexOf(");")))));

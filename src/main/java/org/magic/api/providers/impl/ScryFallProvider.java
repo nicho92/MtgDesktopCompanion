@@ -336,8 +336,11 @@ public class ScryFallProvider implements MagicCardsProvider {
 		final MagicCard mc = new MagicCard();
 		
 		  mc.setId(obj.get("id").getAsString());
+		  mc.setName(obj.get("name").getAsString());
+		  mc.setCmc(obj.get("cmc").getAsInt());
+		  mc.setLayout(obj.get("layout").getAsString());
 		  
-		  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsInt());}catch(Exception e) { logger.error("could not find multiverse_id",e);};
+		  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsInt());}catch(Exception e) { logger.error("could not find multiverse_ids " + mc.getName());};
 		  try{mc.setText(obj.get("oracle_text").getAsString());}catch(NullPointerException e) { mc.setText(""); };
 		  try{mc.setCost(obj.get("mana_cost").getAsString());}catch(NullPointerException e) { mc.setCmc(0); };
 		  try{mc.setFlavor(obj.get("flavor_text").getAsString());}catch(NullPointerException e) { mc.setCmc(0); };
@@ -348,9 +351,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 			  generateTypes(mc,String.valueOf(obj.get("type_line")));
 		  //"Basic " +"Legendary" + "Ongoing" +"Snow" +"World";
 		  
-		  mc.setName(obj.get("name").getAsString());
-		  mc.setCmc(obj.get("cmc").getAsInt());
-		  mc.setLayout(obj.get("layout").getAsString());
 		  
 		  MagicCardNames n = new MagicCardNames();
 						  n.setLanguage("English");

@@ -30,7 +30,7 @@ public class MtgDesktopCompanion {
 			
 		try {
 			if(MTGControler.getInstance().updateConfigMods())
-				JOptionPane.showMessageDialog(null, "New modules has been installed.Please restart MTG Desktop Companion after loading");
+				JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("NEW_MODULE_INSTALLED"));
 		
 				MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
 				MTGControler.getInstance().getEnabledProviders().init();
@@ -39,7 +39,7 @@ public class MtgDesktopCompanion {
 				logger.info("Init MTG Desktop Companion GUI");
 		}catch (Exception e) {
 			logger.error("Error initialisation",e);
-			JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 		}
 
 		ThreadManager.getInstance().runInEdt(new Runnable() {
