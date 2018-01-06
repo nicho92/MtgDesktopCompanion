@@ -24,7 +24,8 @@ public class ModulesTest {
 	public void lookupModules()
 	{
 		try {
-			System.out.println(installer.extractMissing("org.magic.api.decksniffer.impl", "/decksniffer/sniffer"));
+			System.out.println("Missings " + installer.extractMissing("org.magic.api.decksniffer.impl", "/decksniffer/sniffer"));
+			System.out.println(installer.updateConfigWithNewModule());
 		} catch (Exception e) {
 				fail(e.getMessage());
 		} 
