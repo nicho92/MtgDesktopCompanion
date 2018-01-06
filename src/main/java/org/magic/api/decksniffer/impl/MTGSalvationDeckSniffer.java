@@ -64,13 +64,17 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		MagicDeck deck = new MagicDeck();
 			deck.setName(info.getName());
-			deck.setDescription(info.getUrl().toString());
-		
+			//deck.setDescription(info.getUrl().toString());
+			
 		Document d = Jsoup.connect(url)
 						  .userAgent(props.getProperty("USER_AGENT"))
 						  .get();
 
-
+		
+		deck.setDescription(info.getUrl().toString()+"\n"+d.select("section.guide div").text());
+		
+		
+		
 		String plainDeck = d.select("section.deck-export-section pre" ).get(1).text();
 		
 		boolean sideboard = false;
@@ -115,10 +119,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		return deck;
 	}
-	public static void main(String[] args) throws Exception {
-		new MTGSalvationDeckSniffer().getDeckList();
-	}
-
+	
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		
 		
