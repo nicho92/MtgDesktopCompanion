@@ -79,9 +79,18 @@ public class Player extends Observable implements Serializable{
 		shuffleLibrary();
 	}
 	
+	public Player(String name,MagicDeck deck) {
+		super();
+		this.name=name;
+		life=20;
+		this.deck=deck;
+		init();
+		
+	}
+	
 	public Player(MagicDeck deck) {
 		super();
-		name="player 1";
+		name="Player";
 		life=20;
 		this.deck=deck;
 		init();
@@ -173,8 +182,6 @@ public class Player extends Observable implements Serializable{
 		
 	}
 
-
-	
 	public void putCardInLibraryFromHand(MagicCard mc,boolean top)
 	{
 		if(top)
@@ -271,7 +278,6 @@ public class Player extends Observable implements Serializable{
 		logAction("put " + mc +" from exil to graveyard");
 		
 	}
-
 	
 	public void discardCardFromBattleField(MagicCard mc) {
 		
@@ -546,9 +552,6 @@ public class Player extends Observable implements Serializable{
 	{
 		
 	}
-	
-
-	
 
 	@Override
 	public boolean equals(Object paramObject) {

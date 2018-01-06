@@ -19,6 +19,7 @@ import java.util.Map;
 
 import javax.swing.ButtonGroup;
 import javax.swing.ButtonModel;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
 import javax.swing.ImageIcon;
@@ -162,7 +163,7 @@ public class DeckBuilderGUI extends JPanel {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panneauHaut, BorderLayout.NORTH);
 
-		cboAttributs = new JComboBox(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs());
+		cboAttributs = new JComboBox<String>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
 		panneauHaut.add(cboAttributs);
 
 		txtSearch = new JTextField();
@@ -377,7 +378,7 @@ public class DeckBuilderGUI extends JPanel {
 									@Override
 									public void run() {
 										try {
-											loading(true, "loading from " + exp);
+											loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(),exp));
 											deck = exp.importDeck(f);
 											JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
 													exp.getName() + " "+MTGControler.getInstance().getLangService().get("FINISHED"), JOptionPane.INFORMATION_MESSAGE);

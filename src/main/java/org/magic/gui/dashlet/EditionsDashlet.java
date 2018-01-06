@@ -140,8 +140,10 @@ public class EditionsDashlet extends AbstractJDashlet {
 					table.packAll();
 					}catch(Exception e) 
 					{}
-
+					try{
 					table.setRowSorter(new TableRowSorter(modEdition) );
+					}catch(Exception e) 
+					{}
 					save("EDITION",ed.getId());
 					lblLoading.setVisible(false);
 				}
