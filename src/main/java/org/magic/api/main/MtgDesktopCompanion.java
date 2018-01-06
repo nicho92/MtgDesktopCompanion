@@ -29,7 +29,11 @@ public class MtgDesktopCompanion {
 		launch.start();
 			
 		try {
-			if(MTGControler.getInstance().updateConfigMods())
+			boolean updated = MTGControler.getInstance().updateConfigMods();
+			
+			logger.debug("result config updated : " + updated);
+			
+			if(updated)
 				JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("NEW_MODULE_INSTALLED"));
 		
 				MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
