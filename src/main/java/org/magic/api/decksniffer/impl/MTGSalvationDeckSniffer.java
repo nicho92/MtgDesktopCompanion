@@ -1,13 +1,12 @@
 package org.magic.api.decksniffer.impl;
 
 import java.io.File;
-import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.commons.text.StringEscapeUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,8 +18,15 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
+import org.magic.tools.ColorParser;
+import org.mozilla.javascript.Parser;
+import org.mozilla.javascript.ast.AstNode;
+import org.mozilla.javascript.ast.NodeVisitor;
 
-import com.itextpdf.text.pdf.StringUtils;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
@@ -109,6 +115,9 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		return deck;
 	}
+	public static void main(String[] args) throws Exception {
+		new MTGSalvationDeckSniffer().getDeckList();
+	}
 
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		
@@ -140,15 +149,52 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 							deck.setAuthor(cont.select("small.deck-credit a").text());
 							deck.setUrl(new URL(props.getProperty("URL")+"/"+cont.select("a.deck-name").attr("href")).toURI());
 							deck.setDescription(cont.select("span.deck-type").html());
-
+							deck.setColor(parseColor(cont.select("script").html()));
 			list.add(deck);
-			
 		}
 		nbPage++;
 		}
 		return list;
 	}
 	
+	String manajson;
+	private String parseColor(String string) {
+		AstNode node = new Parser().parse(string, "", 1);
+		 node.visit( new NodeVisitor() {
+			@Override
+			public boolean visit(AstNode n) {
+				manajson=n.toSource();
+				return false;
+			}
+		});
+		manajson=manajson.substring(manajson.indexOf("series")+"series: ".length(),manajson.length()-8);
+
+		JsonArray arr = new JsonParser().parse(manajson).getAsJsonArray();
+		manajson="";
+		boolean hascolor=false;
+		for(int i=0;i<arr.size();i++)
+		{
+			JsonObject obj = arr.get(i).getAsJsonObject();
+			String c = ColorParser.parse(obj.get("name").getAsString());
+			JsonArray tab = obj.get("data").getAsJsonArray();
+			hascolor=false;
+			for(int j=0;j<tab.size();j++)
+			{
+				if(tab.get(j).getAsInt()>0)
+					hascolor=true;
+			}
+			
+			if(hascolor)
+			{
+				if(!c.equals("{C}"))
+					manajson+=c;
+			}
+		}
+		
+		return manajson;
+	}
+
+
 	private Integer getFormatCode(String property) {
 		switch(property)
 		{

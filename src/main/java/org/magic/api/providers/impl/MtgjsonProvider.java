@@ -81,21 +81,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MtgjsonProvider() {
-//		CacheProvider.setCache(new Cache() {
-//			//Not thread safe simple cache
-//			private Map<String, JsonPath> map = new HashMap<String, JsonPath>();
-//
-//			@Override
-//			public JsonPath get(String key) {
-//				return map.get(key);
-//			}
-//
-//			@Override
-//			public void put(String key, JsonPath jsonPath) {
-//				map.put(key, jsonPath);
-//			}
-//		});
-		
 		CacheProvider.setCache(new LRUCache(200));
 	}
 	

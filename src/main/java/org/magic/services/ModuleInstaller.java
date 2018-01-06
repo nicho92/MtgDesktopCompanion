@@ -18,11 +18,12 @@ public class ModuleInstaller {
 	
 	private boolean hasUpdated=false;
 	Logger logger = MTGLogger.getLogger(this.getClass());
+	Reflections reflections;
 	
 	 public List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
 		 ArrayList<Class> classes = new ArrayList<Class>();
 		 Reflections reflections = new Reflections(packageName);
-		 for(Class c :reflections.getSubTypesOf(MTGPlugin.class) )
+		 for(Class<? extends MTGPlugin> c :reflections.getSubTypesOf(MTGPlugin.class) )
 		 {
 			if(!c.isInterface() && !Modifier.isAbstract(c.getModifiers()))
 				classes.add(c);
