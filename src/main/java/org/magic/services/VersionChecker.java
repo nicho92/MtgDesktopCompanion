@@ -20,18 +20,16 @@ public class VersionChecker {
 	Document document;
 	NodeList nodeList;
 	
-	String urlVersion =MTGConstants.MTG_DESKTOP_UPDATE_URL;
 	String actualVersion = MTGControler.getInstance().getVersion();
 	String onlineVersion;
 	
 	Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
 	public VersionChecker() {
 		builderFactory =DocumentBuilderFactory.newInstance();
 		try {
 			
-			InputStream input = new URL(urlVersion).openConnection().getInputStream();
+			InputStream input = new URL(MTGConstants.MTG_DESKTOP_UPDATE_URL).openConnection().getInputStream();
 			BufferedReader read = new BufferedReader(new InputStreamReader(input));
 			try {
 				onlineVersion= read.readLine();
@@ -49,7 +47,7 @@ public class VersionChecker {
 		try{
 			logger.info("check new version of app " + actualVersion);
 			boolean res= Double.parseDouble(onlineVersion) > Double.parseDouble(actualVersion);
-			logger.info("check new version of app " + res  +"(" + onlineVersion+")");
+			logger.info("check new version of app online " + res  +"(" + onlineVersion+")");
 			
 			
 			return res;
