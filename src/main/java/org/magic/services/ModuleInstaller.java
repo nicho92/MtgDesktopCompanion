@@ -87,11 +87,12 @@ public class ModuleInstaller {
 	 }
 	 
 	 
-	private List<Class> extractMissing(String packages,String k) throws ClassNotFoundException, IOException {
+	public List<Class> extractMissing(String packages,String k) throws ClassNotFoundException, IOException {
 	
 		List<Class> retour = new ArrayList<Class>();
 		for(Class c : getClasses(packages))
 		{
+			System.out.println("looking for" + c);
 			if(!c.isAnonymousClass())
 			{
 				if(!c.getName().contains("$"))
