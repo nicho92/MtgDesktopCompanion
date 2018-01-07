@@ -43,12 +43,7 @@ public class StoryProvider {
 		this.local=local;
 	}
 	
-	public static void main(String[] args) {
-		StoryProvider prov = new StoryProvider(Locale.FRENCH);
-		
-		prov.next();
-	}
-	
+
 	private URLConnection getConnection(String url)
 	{
 		try {

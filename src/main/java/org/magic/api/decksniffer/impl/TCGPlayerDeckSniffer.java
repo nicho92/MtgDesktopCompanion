@@ -110,7 +110,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws Exception {
-		String url =props.getProperty("URL")+"magic/deck/search?format="+props.getProperty("FORMAT")+"&page=1";
+		String url =props.getProperty("URL")+"/magic/deck/search?format="+props.getProperty("FORMAT")+"&page=1";
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
 		int nbPage=1;

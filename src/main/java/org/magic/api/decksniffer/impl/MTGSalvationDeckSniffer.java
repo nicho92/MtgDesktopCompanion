@@ -73,7 +73,8 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		deck.setDescription(info.getUrl().toString()+"\n"+d.select("section.guide div").text());
 		
-		
+		for(Element a : d.select("span.deck-type"))
+			deck.getTags().add(a.text());
 		
 		String plainDeck = d.select("section.deck-export-section pre" ).get(1).text();
 		

@@ -84,8 +84,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		return new String[]{"casual","standard","modern","legacy","edh-commander","highlander","frontier","pauper","vintage","extended","cube","tiny-leaders","peasant","other"};
 	}
 
-	
-
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
 		// 
@@ -107,6 +105,9 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		{
 				Integer qte = Integer.parseInt(cont.getElementsByClass("card_amount").get(0).text());
 				String cardName = cont.getElementsByClass("deck_card_name").get(0).text().trim();
+			
+				for(Element a : d.select("a.deck_tags_list_tag"))
+					deck.getTags().add(a.text());
 				
 				if(cardName.contains("//"))
 					cardName=cardName.substring(0, cardName.indexOf("//")).trim();
