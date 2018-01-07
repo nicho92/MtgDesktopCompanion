@@ -476,7 +476,7 @@ public class DeckBuilderGUI extends JPanel {
 
 		JSplitPane panneauDeck = new JSplitPane();
 		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		tabbedPane.addTab("Deck", null, panneauDeck, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK"), null, panneauDeck, null);
 		DefaultRowSorter sorterCards = new TableRowSorter<DefaultTableModel>(deckmodel);
 
 		magicCardDetailPanel = new MagicCardDetailPanel();
@@ -578,7 +578,7 @@ public class DeckBuilderGUI extends JPanel {
 		tableSide.getColumnModel().getColumn(4).setCellEditor(new MagicDeckQtyEditor());
 
 		JPanel panelInfoDeck = new JPanel();
-		tabbedPane.addTab("Info", null, panelInfoDeck, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS"), null, panelInfoDeck, null);
 		panelInfoDeck.setLayout(new BorderLayout(0, 0));
 
 		panelInfoDeck.add(deckDetailsPanel, BorderLayout.NORTH);
