@@ -14,11 +14,13 @@ import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
@@ -35,15 +37,15 @@ public class JTagsPanel extends JPanel {
 	private List<String> tags;
 	private int clickcounttoDelete=2; 
 	
-//	
-//	public static void main(String[] args) {
-//		JFrame f = new JFrame();
-//		f.getContentPane().add(new TagsPanel());
-//		f.setVisible(true);
-//		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		f.pack();
-//	}
-//	
+	
+	public static void main(String[] args) {
+		JFrame f = new JFrame();
+		f.getContentPane().add(new JTagsPanel());
+		f.setVisible(true);
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.pack();
+	}
+	
 	
 	public JTagsPanel() {
 		initGUI();
@@ -63,11 +65,14 @@ public class JTagsPanel extends JPanel {
 		add(panelAdds, BorderLayout.EAST);
 		panelAdds.setLayout(new BorderLayout(0, 0));
 		
-		btnAdd = new JButton("+");
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
+		btnAdd = new JButton();
+		AbstractAction action = new AbstractAction("+") {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
 				JTextField field = new JTextField(10);
 				panelTags.add(field);
+				field.requestFocus();
 				panelTags.revalidate();
 				btnAdd.setEnabled(false);
 				field.addActionListener(new ActionListener() {
@@ -76,15 +81,21 @@ public class JTagsPanel extends JPanel {
 						panelTags.remove(field);
 						if(!s.equals(""))
 							addTag(s);
+						
 						btnAdd.setEnabled(true);
+						btnAdd.requestFocus();
 					}
 				});
 				
 			}
-		});
+		};
 		
+		btnAdd.setAction(action);
+		btnAdd.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "ADD");
+		btnAdd.getActionMap().put("ADD", action);
 		panelAdds.add(btnAdd);
 		font=new Font("Tahoma", Font.PLAIN, 15);
+		
 	}
 	
 	public void setFontSize(int s)
