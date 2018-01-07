@@ -49,6 +49,14 @@ public class JsonExport  extends AbstractCardExport {
 				  if(!root.get("description").isJsonNull())
 					  deck.setDescription(root.get("description").getAsString());
 				  
+				  if(!root.get("tags").isJsonNull())
+				  {
+					  JsonArray arr = root.get("tags").getAsJsonArray();
+					  for(int i=0;i<arr.size();i++)
+						  deck.getTags().add(arr.get(i).getAsString());
+				  }
+				  
+				  
 		JsonArray main = root.get("main").getAsJsonArray();
 		
 		for(int i = 0;i<main.size();i++)

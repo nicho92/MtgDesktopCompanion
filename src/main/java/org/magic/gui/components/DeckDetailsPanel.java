@@ -200,8 +200,9 @@ public class DeckDetailsPanel extends JPanel {
 		
 		tagsPanel = new JTagsPanel();
 		GridBagConstraints gbc_tagsPanel = new GridBagConstraints();
+		gbc_tagsPanel.anchor = GridBagConstraints.WEST;
 		gbc_tagsPanel.insets = new Insets(0, 0, 5, 5);
-		gbc_tagsPanel.fill = GridBagConstraints.BOTH;
+		gbc_tagsPanel.fill = GridBagConstraints.VERTICAL;
 		gbc_tagsPanel.gridx = 2;
 		gbc_tagsPanel.gridy = 6;
 		add(tagsPanel, gbc_tagsPanel);
