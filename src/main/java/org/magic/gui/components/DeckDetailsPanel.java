@@ -25,7 +25,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
-import org.magic.game.gui.components.TagsPanel;
+import org.magic.game.gui.components.JTagsPanel;
 
 public class DeckDetailsPanel extends JPanel {
 
@@ -47,7 +47,7 @@ public class DeckDetailsPanel extends JPanel {
 	private JButton btnUpdateLegalities;
 	private JPanel panel;
 	private JLabel lblTags;
-	private TagsPanel tagsPanel;
+	private JTagsPanel tagsPanel;
 
 	
 	public DeckDetailsPanel(org.magic.api.beans.MagicDeck newMagicDeck) {
@@ -198,7 +198,7 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_lblTags.gridy = 6;
 		add(lblTags, gbc_lblTags);
 		
-		tagsPanel = new TagsPanel();
+		tagsPanel = new JTagsPanel();
 		GridBagConstraints gbc_tagsPanel = new GridBagConstraints();
 		gbc_tagsPanel.insets = new Insets(0, 0, 5, 5);
 		gbc_tagsPanel.fill = GridBagConstraints.BOTH;

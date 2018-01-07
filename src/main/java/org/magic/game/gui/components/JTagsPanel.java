@@ -23,7 +23,7 @@ import javax.swing.border.CompoundBorder;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
-public class TagsPanel extends JPanel {
+public class JTagsPanel extends JPanel {
 	
 	private boolean isEditable;
 	private Color foreground=Color.BLACK;
@@ -35,17 +35,17 @@ public class TagsPanel extends JPanel {
 	private List<String> tags;
 	private int clickcounttoDelete=2; 
 	
+//	
+//	public static void main(String[] args) {
+//		JFrame f = new JFrame();
+//		f.getContentPane().add(new TagsPanel());
+//		f.setVisible(true);
+//		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		f.pack();
+//	}
+//	
 	
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		f.getContentPane().add(new TagsPanel());
-		f.setVisible(true);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.pack();
-	}
-	
-	
-	public TagsPanel() {
+	public JTagsPanel() {
 		initGUI();
 		tags=new ArrayList<String>();
 		isEditable=true;
