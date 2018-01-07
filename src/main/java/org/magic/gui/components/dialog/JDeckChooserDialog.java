@@ -1,7 +1,9 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
@@ -27,6 +29,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.gui.components.charts.CmcChartPanel;
+import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.gui.models.DeckSelectionModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGControler;
@@ -36,7 +39,7 @@ public class JDeckChooserDialog extends JDialog {
 	JXTable table;
 	CmcChartPanel cmcChartPanel;
 	MagicDeck selectedDeck;
-	
+	JTagsPanel tagsPanel;
 	
 	JTree tree;
 	  DefaultTreeModel model;
@@ -134,7 +137,8 @@ public class JDeckChooserDialog extends JDialog {
 				selectedDeck = (MagicDeck)table.getValueAt(table.getSelectedRow(), 0);
 	
 				initTree();
-				
+				tagsPanel.clean();
+				tagsPanel.addTags(selectedDeck.getTags());
 				cmcChartPanel.init(selectedDeck);
 				cmcChartPanel.revalidate();
 				cmcChartPanel.repaint();
@@ -206,15 +210,24 @@ public class JDeckChooserDialog extends JDialog {
         root.add(sideNode);
 		model = new DefaultTreeModel(root);
 		
+		
+		panelRight.setDividerLocation(300);
+		
+		JPanel panelTree = new JPanel();
+		panelTree.setLayout(new BorderLayout(0, 0));
+		panelRight.setTopComponent(panelTree);
 		tree = new JTree();
 		tree.setModel(model);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
-		panelRight.setTopComponent(scrollPane_1);
+		panelTree.add(scrollPane_1);
 		scrollPane_1.setViewportView(tree);
 		
-		
-		panelRight.setDividerLocation(300);
+		tagsPanel = new JTagsPanel();
+		tagsPanel.setFontSize(11);
+		tagsPanel.setColors(Color.DARK_GRAY, Color.WHITE);
+		tagsPanel.setEditable(false);
+		panelTree.add(tagsPanel, BorderLayout.SOUTH);
 		
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());
 		table.packAll();

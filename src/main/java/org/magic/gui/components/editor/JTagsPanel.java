@@ -1,4 +1,4 @@
-package org.magic.game.gui.components;
+package org.magic.gui.components.editor;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -85,6 +85,21 @@ public class JTagsPanel extends JPanel {
 		
 		panelAdds.add(btnAdd);
 		font=new Font("Tahoma", Font.PLAIN, 15);
+	}
+	
+	public void setFontSize(int s)
+	{
+		font = new Font(font.getName(), font.getStyle(), s);
+	}
+	
+	public void setForegroundColor(Color f)
+	{
+		this.foreground=f;
+	}
+	
+	public void setBackgroundColor(Color b)
+	{
+		this.background=b;
 	}
 
 	public void setFont(Font f)
