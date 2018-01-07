@@ -58,6 +58,7 @@ import org.magic.api.interfaces.CardExporter;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.components.DeckDetailsPanel;
+import org.magic.gui.components.DeckPricePanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
@@ -86,6 +87,7 @@ public class DeckBuilderGUI extends JPanel {
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
+	private DeckPricePanel deckPricePanel;
 	private HandPanel thumbnail;
 
 	private JTextField txtSearch;
@@ -153,7 +155,8 @@ public class DeckBuilderGUI extends JPanel {
 		deckmodel = new DeckModel(DeckModel.TYPE.DECK);
 		deckSidemodel = new DeckModel(DeckModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
-
+		deckPricePanel = new DeckPricePanel();
+		
 		thumbnail = new HandPanel();
 		thumbnail.setThumbnailSize(new Dimension(223, 311));
 		thumbnail.enableDragging(false);
@@ -262,9 +265,6 @@ public class DeckBuilderGUI extends JPanel {
 						btnUpdate.setEnabled(true);
 						lblExport.setVisible(false);
 						JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("UPDATED_DECK"), MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
-						
-						
-						
 					}
 				}, "Update Deck");
 
@@ -603,7 +603,9 @@ public class DeckBuilderGUI extends JPanel {
 
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), null, statPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"), null, randomHandPanel, null);
-
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"),null,deckPricePanel,null);
+		
+		
 		JPanel panel = new JPanel();
 		randomHandPanel.add(panel, BorderLayout.NORTH);
 
@@ -817,6 +819,7 @@ public class DeckBuilderGUI extends JPanel {
 		typeRepartitionPanel.init(deck);
 		manaRepartitionPanel.init(deck);
 		rarityRepartitionPanel.init(deck);
+		deckPricePanel.initDeck(deck);
 		btnExports.setEnabled(deck.getAsList().size() > 0);
 
 	}

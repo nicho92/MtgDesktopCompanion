@@ -35,9 +35,17 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	
 	List<MagicPrice> prices;
 	
-	public void init(MagicCard mc,MagicEdition me)
+	
+	public void addPrice(MagicPrice p)
 	{
-		prices.clear();
+		prices.add(p);
+		fireTableDataChanged();
+	}
+	
+	
+	
+	public void addPrice(MagicCard mc, MagicEdition ed)
+	{
 		for(MagicPricesProvider prov : providers)
 		{
 			try {
@@ -59,6 +67,14 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		fireTableDataChanged();
 	}
 	
+	
+	public void init(MagicCard mc,MagicEdition me)
+	{
+		prices.clear();
+		addPrice(mc, me);
+		
+	}
+	
 
 	public CardsPriceTableModel() {
 		providers = new ArrayList<MagicPricesProvider>();
@@ -66,9 +82,14 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		providers=MTGControler.getInstance().getPricers();
 	}
 	
+	public List<MagicPricesProvider> getProviders() {
+		return providers;
+	}
 	
-	public void addProvider(MagicPricesProvider provider)
+	
+	public void setProvider(MagicPricesProvider provider)
 	{
+		providers.clear();
 		providers.add(provider);
 	}
 	
@@ -135,6 +156,13 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
+	}
+
+
+	public void clear() {
+		prices.clear();
+		fireTableDataChanged();
+		
 	}
 
 	
