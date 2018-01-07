@@ -15,7 +15,8 @@ import org.magic.services.ThreadManager;
 public class DeckSelectionModel extends DefaultTableModel {
 
 	final static String[] columns={MTGControler.getInstance().getLangService().getCapitalize("DECK"),
-								   MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),"Standard","Modern","Legacy","Vintage",
+								   MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),
+								   "Standard","Modern","Legacy","Vintage",
 								   MTGControler.getInstance().getLangService().getCapitalize("CARDS")};
 	List<MagicDeck> decks;
 	

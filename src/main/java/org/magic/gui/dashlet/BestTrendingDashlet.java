@@ -62,10 +62,10 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 					
 					Collections.sort(shakes,new Comparator<CardShake>() {
 						public int compare(CardShake o1, CardShake o2) {
-							if(o1.getPercentDayChange()>o2.getPercentDayChange())
+							if(o1.getPriceDayChange()>o2.getPriceDayChange())
 									return -1;
 							
-							if(o1.getPercentDayChange()<o2.getPercentDayChange())
+							if(o1.getPriceDayChange()<o2.getPriceDayChange())
 									return 1;
 							
 							return 0;
@@ -77,7 +77,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 					save("LIMIT", String.valueOf(val));
 					List<CardShake> ret = new ArrayList<CardShake>();
 					ret.addAll(shakes.subList(0, val));//X first
-					ret.addAll(shakes.subList(shakes.size()-(val+1), shakes.size()-1)); //x last
+					ret.addAll(shakes.subList(shakes.size()-(val+1), shakes.size())); //x last
 					
 					modStandard.init(ret);
 				} catch (IOException e) {

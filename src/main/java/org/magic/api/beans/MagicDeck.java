@@ -14,16 +14,24 @@ import org.magic.tools.ColorParser;
 public class MagicDeck implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	Map<MagicCard,Integer> mapDeck;
-	Map<MagicCard,Integer> mapSideBoard;
+	private Map<MagicCard,Integer> mapDeck;
+	private Map<MagicCard,Integer> mapSideBoard;
 
-	String description;
-	String name;
-	Date dateCreation;
-	Date dateUpdate;
+	private String description;
+	private String name;
+	private Date dateCreation;
+	private Date dateUpdate;
+	private double averagePrice;
+	private List<String> tags;
 	
-	
-	
+	public double getAveragePrice() {
+		return averagePrice;
+	}
+
+	public void setAveragePrice(double averagePrice) {
+		this.averagePrice = averagePrice;
+	}
+
 	public Date getDateCreation() {
 		return dateCreation;
 	}
@@ -97,6 +105,7 @@ public class MagicDeck implements Serializable{
 	public MagicDeck() {
 		mapDeck = new HashMap<MagicCard,Integer>();
 		mapSideBoard = new HashMap<MagicCard,Integer>();
+		tags=new ArrayList<String>();
 	}
 	
 	public Map<MagicCard, Integer> getMap() {
