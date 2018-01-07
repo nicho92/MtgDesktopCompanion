@@ -30,7 +30,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.dialog.LoggerViewFrame;
@@ -41,6 +40,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {
 
@@ -360,7 +360,7 @@ public class MagicGUI extends JFrame {
 		if(MTGControler.getInstance().get("modules/history").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE"), MTGConstants.ICON_STORY, new StoriesGUI(), null);
 
-		
+		//tabbedPane.addTab("MKM", MTGConstants.ICON_SHOP, new MkmPanel(), null);
 		
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
 		
