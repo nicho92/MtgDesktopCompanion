@@ -73,7 +73,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			logger.trace("Error loading price for " + url,e);
 			logger.info(getName() +" no item : "+ e.getMessage());
 			return list;
 		}

@@ -257,7 +257,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 //		{
 //			jsquery="$"+filter_ed+".cards[?(@.id == /^."+crit+".$/i)]";
 //		}
-		if(att.equalsIgnoreCase("foreignNames"))
+		if(att.equalsIgnoreCase("foreignNames"))//TODO : find the good formula
 		{
 			//jsquery="$"+filter_ed+".cards[*].foreignNames[?(@.name =~ /^.*"+crit+".*$/i)]";
 			//jsquery="$"+filter_ed+".cards[?(@."+att+".name =~ /^.*"+crit+".*$/i)]";

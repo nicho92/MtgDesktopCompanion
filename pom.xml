@@ -29,9 +29,9 @@
 		<dependency>
 			<groupId>mkm-api</groupId>
 			<artifactId>mkm-api</artifactId>
-			<version>1.0</version>
+			<version>0.5</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mkm-api-java.jar</systemPath>
+			<systemPath>${project.basedir}/lib/mkm-api-java-0.5.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.github.insubstantial</groupId>
@@ -47,7 +47,6 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/substance-7.0.2.jar</systemPath>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/junit/junit -->
 		<dependency>
 		    <groupId>junit</groupId>
 		    <artifactId>junit</artifactId>

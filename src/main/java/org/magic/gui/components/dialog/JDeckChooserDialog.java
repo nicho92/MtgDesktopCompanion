@@ -158,7 +158,7 @@ public class JDeckChooserDialog extends JDialog {
 		JPanel panelBas = new JPanel();
 		getContentPane().add(panelBas, BorderLayout.SOUTH);
 		
-		JButton btnSelect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SELECT"));
+		JButton btnSelect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
 		btnSelect.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if(selectedDeck==null)

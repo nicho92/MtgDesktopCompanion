@@ -230,7 +230,6 @@ public class MagicGUI extends JFrame {
 						if(exp!=null)
 						{
 							ThreadManager.getInstance().execute(new Runnable() {
-								
 								@Override
 								public void run() {
 									try 
@@ -238,11 +237,11 @@ public class MagicGUI extends JFrame {
 										if(cardSearchPanel==null)
 											throw new Exception(MTGControler.getInstance().getLangService().getCapitalize("MUST_BE_LOADED",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 										
-										
 									cardSearchPanel.loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_FILE",f.getName(),exp));
 									MagicDeck d=exp.importDeck(f);	
 									cardSearchPanel.open(d.getAsList());
 									cardSearchPanel.loading(false,"");
+									tabbedPane.setSelectedIndex(0);
 									} catch (Exception e) {
 										logger.error(e);
 									}
