@@ -102,6 +102,12 @@ public class JsonExport  extends AbstractCardExport {
 		   		   json.addProperty("name", deck.getName());
 		   		   json.addProperty("description", deck.getDescription());
 		   		   json.addProperty("colors", deck.getColors());
+		   		 
+		   		   JsonArray tags= new JsonArray();
+		   		   for(String s : deck.getTags())
+		   			   tags.add(s);
+		   		   
+		   		   json.add("tags", tags);
 	
 		JsonArray main = new JsonArray();
 		   		   

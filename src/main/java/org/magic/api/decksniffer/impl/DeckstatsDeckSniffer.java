@@ -98,7 +98,9 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
-		
+		for(Element a : d.select("a.deck_tags_list_tag"))
+			deck.getTags().add(a.text());
+
 		Elements e = d.select("tr.deck_card");
 		
 		for(Element cont : e)
@@ -106,8 +108,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				Integer qte = Integer.parseInt(cont.getElementsByClass("card_amount").get(0).text());
 				String cardName = cont.getElementsByClass("deck_card_name").get(0).text().trim();
 			
-				for(Element a : d.select("a.deck_tags_list_tag"))
-					deck.getTags().add(a.text());
 				
 				if(cardName.contains("//"))
 					cardName=cardName.substring(0, cardName.indexOf("//")).trim();

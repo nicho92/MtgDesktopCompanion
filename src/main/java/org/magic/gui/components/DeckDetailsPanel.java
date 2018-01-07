@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.game.gui.components.TagsPanel;
 
 public class DeckDetailsPanel extends JPanel {
 
@@ -45,6 +46,8 @@ public class DeckDetailsPanel extends JPanel {
 	private JScrollPane scrollPane;
 	private JButton btnUpdateLegalities;
 	private JPanel panel;
+	private JLabel lblTags;
+	private TagsPanel tagsPanel;
 
 	
 	public DeckDetailsPanel(org.magic.api.beans.MagicDeck newMagicDeck) {
@@ -55,9 +58,9 @@ public class DeckDetailsPanel extends JPanel {
 	public DeckDetailsPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 132, 31, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 132, 31, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
 				JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+ " :");
@@ -188,12 +191,27 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_scrollPane.gridy = 3;
 		add(scrollPane, gbc_scrollPane);
 		
+		lblTags = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("TAGS")+ " :");
+		GridBagConstraints gbc_lblTags = new GridBagConstraints();
+		gbc_lblTags.insets = new Insets(0, 0, 5, 5);
+		gbc_lblTags.gridx = 1;
+		gbc_lblTags.gridy = 6;
+		add(lblTags, gbc_lblTags);
+		
+		tagsPanel = new TagsPanel();
+		GridBagConstraints gbc_tagsPanel = new GridBagConstraints();
+		gbc_tagsPanel.insets = new Insets(0, 0, 5, 5);
+		gbc_tagsPanel.fill = GridBagConstraints.BOTH;
+		gbc_tagsPanel.gridx = 2;
+		gbc_tagsPanel.gridy = 6;
+		add(tagsPanel, gbc_tagsPanel);
+		
 		panel = new JPanel();
 		GridBagConstraints gbc_panel = new GridBagConstraints();
 		gbc_panel.insets = new Insets(0, 0, 0, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 6;
+		gbc_panel.gridy = 7;
 		add(panel, gbc_panel);
 		
 	
@@ -329,6 +347,9 @@ public class DeckDetailsPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding_2);
 		bindingGroup.addBinding(autoBinding_3);
 		bindingGroup.addBinding(autoBinding_4);
+		
+		tagsPanel.clean();
+		tagsPanel.bind(magicDeck.getTags());
 		return bindingGroup;
 	}
 }
