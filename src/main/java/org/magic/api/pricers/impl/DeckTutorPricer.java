@@ -79,7 +79,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		props.put("LOGIN", "login");
 		props.put("PASSWORD", "password");
 		props.put("ENCODING", "UTF-8");
-		props.put("KEYWORD", "");
 		save();
 		}
 		
@@ -118,7 +117,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	        
 	        String auth_token=  root.getAsJsonObject().get("auth_token").getAsString();
 	        String auth_token_secret = root.getAsJsonObject().get("auth_token_secret").getAsString();
-	        int sequence=4;
+	        int sequence=5;
 	         
 	        HttpPost reqSearch= new HttpPost(props.getProperty("URL")+"/search/serp");
 			        reqSearch.addHeader("x-dt-Auth-Token", auth_token);
@@ -126,17 +125,20 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			        reqSearch.addHeader("x-dt-Signature", getMD5(sequence+":"+auth_token_secret));
 			        reqSearch.addHeader("Content-type", "application/json");
 			        reqSearch.addHeader("Accept", "application/json");
-			        reqSearch.addHeader("x-dt-cdb-Language","fr");
+			        reqSearch.addHeader("x-dt-cdb-Language","en");
 			        reqSearch.addHeader("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 			        
 			        jsonparams = new JsonObject();
-		    		jsonparams.addProperty("name", "Vindicate");
+		    		jsonparams.addProperty("name", "Emrakul, the Aeons Torn");
 		    		jsonparams.addProperty("game", "mtg");
-			    	JsonObject obj = new JsonObject();
+		    		jsonparams.addProperty("set", "ROE");
+		    		
+		    		JsonObject obj = new JsonObject();
 			    			   obj.add("search", jsonparams);
-			    			   obj.addProperty("limit","2");
+			    			  
+			    			  // obj.addProperty("limit","2");
 			    	
-			    			   
+			    	MTGStringUtil.prettyPrint(obj.toString());		   
 			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
 			        response = httpClient.execute(reqSearch, responseHandler,httpContext);
 			        MTGStringUtil.prettyPrint(response);
