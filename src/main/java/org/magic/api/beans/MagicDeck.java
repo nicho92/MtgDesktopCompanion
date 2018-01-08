@@ -24,8 +24,6 @@ public class MagicDeck implements Serializable{
 	private double averagePrice;
 	private List<String> tags;
 	
-	
-	
 	public List<String> getTags() {
 		return tags;
 	}

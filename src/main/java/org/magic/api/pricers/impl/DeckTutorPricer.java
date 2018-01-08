@@ -2,6 +2,7 @@ package org.magic.api.pricers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
@@ -23,10 +24,14 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.tools.MTGStringUtil;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonWriter;
 
 public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
@@ -36,7 +41,11 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	}
 	
 	
-	private int sequence=1;
+	public static void main(String[] args) throws Exception {
+		DeckTutorPricer pricer = new DeckTutorPricer();
+		pricer.getPrice(null, null);
+	}
+	
 
 	private BasicCookieStore cookieStore;
 
@@ -64,8 +73,8 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("URL", "https://ws.decktutor.com/app/v2");
-		props.put("WEBSITE", "http://www.decktutor.com");
+		props.put("URL", "https://ws.decktutor.com/app/v1");
+		props.put("WEBSITE", "https://www.decktutor.com");
 		props.put("LANG", "en");
 		props.put("LOGIN", "login");
 		props.put("PASSWORD", "password");
@@ -82,14 +91,10 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	private String getMD5(String chaine) throws NoSuchAlgorithmException
 	{
 		MessageDigest md = MessageDigest.getInstance("MD5");
-		byte[] hash = md.digest();
-		StringBuffer hexString = new StringBuffer();
-	    for (int i=0;i<hash.length;i++) {
-	    		String hex=Integer.toHexString(0xff & hash[i]);
-	   	     	if(hex.length()==1) hexString.append('0');
-	   	     		hexString.append(hex);
-	    }
-		return hexString.toString();
+        byte[] messageDigest = md.digest(chaine.getBytes());
+        BigInteger number = new BigInteger(1, messageDigest);
+        String hashtext = number.toString(16);
+        return hashtext;
 	}
 	
 	
@@ -105,22 +110,20 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			HttpPost reqCredential = new HttpPost(props.getProperty("URL")+"/account/login");
 					 reqCredential.addHeader("content-type", "application/json");
 	                 reqCredential.setEntity(new StringEntity(jsonparams.toString()));
-	        
+	     			
 	        String response = httpClient.execute(reqCredential, responseHandler,httpContext);
-
+	       // MTGStringUtil.prettyPrint(response);
 	        
 	        JsonElement root = new JsonParser().parse(response);
+	        
 	        String auth_token=  root.getAsJsonObject().get("auth_token").getAsString();
-	        String expir = root.getAsJsonObject().get("auth_token_expiration").getAsString();
 	        String auth_token_secret = root.getAsJsonObject().get("auth_token_secret").getAsString();
-	        
-	       
-	        String signature = getMD5(sequence+":"+auth_token_secret);
-	        
+	        int sequence=4;
+	         
 	        HttpPost reqSearch= new HttpPost(props.getProperty("URL")+"/search/serp");
-			        reqSearch.addHeader("x-dt-Auth-Token: ", auth_token);
-			        reqSearch.addHeader("x-dt-Sequence: ", String.valueOf(sequence));
-			        reqSearch.addHeader("x-dt-Signature: ", signature);
+			        reqSearch.addHeader("x-dt-Auth-Token", auth_token);
+			        reqSearch.addHeader("x-dt-Sequence", String.valueOf(sequence));
+			        reqSearch.addHeader("x-dt-Signature", getMD5(sequence+":"+auth_token_secret));
 			        reqSearch.addHeader("Content-type", "application/json");
 			        reqSearch.addHeader("Accept", "application/json");
 			        reqSearch.addHeader("x-dt-cdb-Language","fr");
@@ -133,10 +136,10 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			    			   obj.add("search", jsonparams);
 			    			   obj.addProperty("limit","2");
 			    	
-			    			   System.out.println(obj);
+			    			   
 			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
 			        response = httpClient.execute(reqSearch, responseHandler,httpContext);
-	      
+			        MTGStringUtil.prettyPrint(response);
 	        
 	        sequence++;
 	        

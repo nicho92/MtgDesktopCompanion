@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -42,6 +43,7 @@ public class JsonExport  extends AbstractCardExport {
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		
 		MagicDeck deck  = new MagicDeck();
+				  deck.setDateCreation(new Date());
 				  
 				  if(!root.get("name").isJsonNull())
 					  deck.setName(root.get("name").getAsString());
@@ -110,7 +112,8 @@ public class JsonExport  extends AbstractCardExport {
 		   		   json.addProperty("name", deck.getName());
 		   		   json.addProperty("description", deck.getDescription());
 		   		   json.addProperty("colors", deck.getColors());
-		   		 
+		   		   json.addProperty("averagePrice", deck.getAveragePrice());
+		   		   
 		   		   JsonArray tags= new JsonArray();
 		   		   for(String s : deck.getTags())
 		   			   tags.add(s);
