@@ -27,9 +27,10 @@ import javax.swing.border.LineBorder;
 
 public class JTagsPanel extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
 	private boolean isEditable;
 	private Color foreground=Color.BLACK;
-	private Color background=SystemColor.activeCaption;
+	private Color background=SystemColor.control;
 	private Font font;
 	private JPanel panelTags;
 	private JPanel panelAdds;
@@ -37,6 +38,10 @@ public class JTagsPanel extends JPanel {
 	private List<String> tags;
 	private int clickcounttoDelete=2; 
 	
+	
+	public void setClickcounttoDelete(int clickcounttoDelete) {
+		this.clickcounttoDelete = clickcounttoDelete;
+	}
 	
 	public static void main(String[] args) {
 		JFrame f = new JFrame();
