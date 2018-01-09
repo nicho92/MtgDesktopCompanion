@@ -68,7 +68,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("URL", "https://ws.decktutor.com/app/v1");
+		props.put("URL", "https://ws.decktutor.com/app/v2");
 		props.put("WEBSITE", "https://www.decktutor.com");
 		props.put("LANG", "en");
 		props.put("LOGIN", "login");
@@ -108,12 +108,15 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	     			
 	        String response = httpClient.execute(reqCredential, responseHandler,httpContext);
 	       // MTGStringUtil.prettyPrint(response);
-	        
+	        logger.debug(getName()+ " connected with " + response);
+			
 	        JsonElement root = new JsonParser().parse(response);
 	        
 	        String auth_token=  root.getAsJsonObject().get("auth_token").getAsString();
 	        String auth_token_secret = root.getAsJsonObject().get("auth_token_secret").getAsString();
 	        
+	        logger.info(getName()+ " Looking for price " + props.getProperty("URL")+"/search/serp");
+			
 	         
 	        HttpPost reqSearch= new HttpPost(props.getProperty("URL")+"/search/serp");
 			        reqSearch.addHeader("x-dt-Auth-Token", auth_token);
@@ -138,8 +141,10 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			    			   if(props.getProperty("MAX_RESULT") != null)
 			    				   obj.addProperty("limit",props.getProperty("MAX_RESULT").toString());
 			    	
+			    	logger.debug(getName() +" request :" + obj);
 			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
 			        response = httpClient.execute(reqSearch, responseHandler,httpContext);
+			        logger.debug(getName() +" response :" + response);
 			      sequence++;
 			      
 		return parseResult(response);
@@ -174,8 +179,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 					{
 						price.setFoil(attrs.toString().contains("foil"));
 					}
-					
-					
 					//https://mtg.decktutor.com/insertions/EU1BCUS32554473N/lotus-petal-tmp-english-good.html
 					
 			list.add(price);
@@ -184,7 +187,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		
 		
 		
-		
+		logger.info(getName()+ " found " + list.size() +" items");
 		return list;
 	}
 
