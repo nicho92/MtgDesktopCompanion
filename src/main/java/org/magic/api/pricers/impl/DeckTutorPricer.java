@@ -74,7 +74,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		props.put("LOGIN", "login");
 		props.put("MAX_RESULT", "");
 		props.put("PASSWORD", "password");
-		props.put("ENCODING", "UTF-8");
+		props.put("AUTOMATIC_ADD_CARD_ALERT", "false");
 		save();
 		}
 		
@@ -107,7 +107,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	                 reqCredential.setEntity(new StringEntity(jsonparams.toString()));
 	     			
 	        String response = httpClient.execute(reqCredential, responseHandler,httpContext);
-	       // MTGStringUtil.prettyPrint(response);
 	        logger.debug(getName()+ " connected with " + response);
 			
 	        JsonElement root = new JsonParser().parse(response);
@@ -134,9 +133,9 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		    			jsonparams.addProperty("set", me.getId().toUpperCase());
 		    		else
 		    			jsonparams.addProperty("set", card.getEditions().get(0).getId().toUpperCase());
-		    		
+
 		    		JsonObject obj = new JsonObject();
-			    			   obj.add("search", jsonparams);
+		    			   obj.add("search", jsonparams);
 			    			  
 			    			   if(props.getProperty("MAX_RESULT") != null)
 			    				   obj.addProperty("limit",props.getProperty("MAX_RESULT").toString());
@@ -169,7 +168,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 					price.setCurrency("EUR");
 					price.setValue(Double.parseDouble(item.get("price").getAsString().replaceAll(price.getCurrency(), "").trim()));
 					price.setUrl("https://mtg.decktutor.com/insertions/"+item.get("code").getAsString()+"/"+item.get("title").getAsString().replaceAll(" - ", "-").replaceAll(" ", "-")+".html");
-					
+					price.setShopItem(item);
 					JsonArray attrs = item.get("attrs").getAsJsonArray();
 					if(attrs.size()<0)
 					{
@@ -200,8 +199,21 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
-		// TODO Auto-generated method stub
-		
+		if(props.getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
+		{
+			
+			for(MagicPrice mtgprice : p)
+			{
+				String code = "";
+				String price= "";
+				String quantity="";
+				
+				HttpPost reqSearch= new HttpPost(props.getProperty("URL")+"/carts/updateInsertion");
+				
+			}
+			
+			
+		}
 	}
 	
 	
