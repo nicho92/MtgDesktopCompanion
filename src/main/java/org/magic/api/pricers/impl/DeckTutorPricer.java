@@ -124,7 +124,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			        reqSearch.addHeader("x-dt-cdb-Language","en");
 			        reqSearch.addHeader("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 			        
-			        jsonparams = new JsonObject();
+			       jsonparams = new JsonObject();
 		    		jsonparams.addProperty("name", card.getName());
 		    		jsonparams.addProperty("game", "mtg");
 		    		if(me!=null)
@@ -140,7 +140,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			    	
 			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
 			        response = httpClient.execute(reqSearch, responseHandler,httpContext);
-	        
 			      sequence++;
 			      
 		return parseResult(response);
@@ -157,13 +156,28 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		{
 			JsonObject item = arr.get(i).getAsJsonObject();
 			MagicPrice price = new MagicPrice();
+					price.setFoil(false);
 					price.setSeller(item.get("seller").getAsJsonObject().get("nick").getAsString());
 					price.setSite(getName());
 					price.setLanguage(item.get("language").getAsString());
 					price.setQuality(item.get("condition").getAsString());
 					price.setCurrency("EUR");
 					price.setValue(Double.parseDouble(item.get("price").getAsString().replaceAll(price.getCurrency(), "").trim()));
-					price.setUrl("https://mtg.decktutor.com/");
+					price.setUrl("https://mtg.decktutor.com/insertions/"+item.get("code").getAsString()+"/"+item.get("title").getAsString().replaceAll(" - ", "-").replaceAll(" ", "-")+".html");
+					
+					JsonArray attrs = item.get("attrs").getAsJsonArray();
+					if(attrs.size()<0)
+					{
+						price.setFoil(false);
+					}
+					else
+					{
+						price.setFoil(attrs.toString().contains("foil"));
+					}
+					
+					
+					//https://mtg.decktutor.com/insertions/EU1BCUS32554473N/lotus-petal-tmp-english-good.html
+					
 			list.add(price);
 		}
 		
