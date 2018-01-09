@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -24,32 +25,27 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.tools.MTGStringUtil;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonWriter;
 
 public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
+	
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
 	
-	
-	public static void main(String[] args) throws Exception {
-		DeckTutorPricer pricer = new DeckTutorPricer();
-		pricer.getPrice(null, null);
-	}
-	
 
 	private BasicCookieStore cookieStore;
-
 	private BasicHttpContext httpContext;
+	private static int sequence=1;
+	
+	private JsonParser parser;
 	
 	ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
@@ -66,7 +62,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	           }
 	        }
 	    };
-	    
 	
 	
 	public DeckTutorPricer() {
@@ -77,6 +72,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		props.put("WEBSITE", "https://www.decktutor.com");
 		props.put("LANG", "en");
 		props.put("LOGIN", "login");
+		props.put("MAX_RESULT", "");
 		props.put("PASSWORD", "password");
 		props.put("ENCODING", "UTF-8");
 		save();
@@ -84,8 +80,8 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		
 		cookieStore = new BasicCookieStore();
 		httpContext = new BasicHttpContext();
+		parser = new JsonParser();
 	}
-
 	
 	private String getMD5(String chaine) throws NoSuchAlgorithmException
 	{
@@ -117,7 +113,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	        
 	        String auth_token=  root.getAsJsonObject().get("auth_token").getAsString();
 	        String auth_token_secret = root.getAsJsonObject().get("auth_token_secret").getAsString();
-	        int sequence=5;
+	        
 	         
 	        HttpPost reqSearch= new HttpPost(props.getProperty("URL")+"/search/serp");
 			        reqSearch.addHeader("x-dt-Auth-Token", auth_token);
@@ -129,26 +125,55 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			        reqSearch.addHeader("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 			        
 			        jsonparams = new JsonObject();
-		    		jsonparams.addProperty("name", "Emrakul, the Aeons Torn");
+		    		jsonparams.addProperty("name", card.getName());
 		    		jsonparams.addProperty("game", "mtg");
-		    		jsonparams.addProperty("set", "ROE");
+		    		if(me!=null)
+		    			jsonparams.addProperty("set", me.getId().toUpperCase());
+		    		else
+		    			jsonparams.addProperty("set", card.getEditions().get(0).getId().toUpperCase());
 		    		
 		    		JsonObject obj = new JsonObject();
 			    			   obj.add("search", jsonparams);
 			    			  
-			    			  // obj.addProperty("limit","2");
+			    			   if(props.getProperty("MAX_RESULT") != null)
+			    				   obj.addProperty("limit",props.getProperty("MAX_RESULT").toString());
 			    	
-			    	MTGStringUtil.prettyPrint(obj.toString());		   
 			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
 			        response = httpClient.execute(reqSearch, responseHandler,httpContext);
-			        MTGStringUtil.prettyPrint(response);
 	        
-	        sequence++;
-	        
-	        this.toString();
-	        
-		return null;
+			      sequence++;
+			      
+		return parseResult(response);
 	}
+	
+	private List<MagicPrice> parseResult(String response) {
+		List<MagicPrice> list = new ArrayList<MagicPrice>();
+		
+		JsonElement e = parser.parse(response);
+		
+		JsonArray arr = e.getAsJsonObject().get("results").getAsJsonObject().get("items").getAsJsonArray();
+		
+		for(int i=0;i<arr.size();i++)
+		{
+			JsonObject item = arr.get(i).getAsJsonObject();
+			MagicPrice price = new MagicPrice();
+					price.setSeller(item.get("seller").getAsJsonObject().get("nick").getAsString());
+					price.setSite(getName());
+					price.setLanguage(item.get("language").getAsString());
+					price.setQuality(item.get("condition").getAsString());
+					price.setCurrency("EUR");
+					price.setValue(Double.parseDouble(item.get("price").getAsString().replaceAll(price.getCurrency(), "").trim()));
+					price.setUrl("https://mtg.decktutor.com/");
+			list.add(price);
+		}
+		
+		
+		
+		
+		
+		return list;
+	}
+
 
 	@Override
 	public String getName() {
