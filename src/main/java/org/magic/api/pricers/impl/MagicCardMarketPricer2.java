@@ -26,6 +26,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
 
+
 public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     
     private List<MagicPrice> lists;
@@ -93,17 +94,17 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		Product resultat = null;
 		for(Product p : list)
 		{
+			
 			if(mc.getEditions().get(0).getMkm_name()!=null)
 				edName=mc.getEditions().get(0).getMkm_name();
-			
-			
+		
 			//logger.debug("\""+edName + "\".startWith("+p.getExpansionName()+")"+StringUtils.getJaroWinklerDistance(edName, p.getExpansionName()) );
-			
-			if(edName.startsWith(p.getExpansionName()))
-			{
-				resultat=p;
-				break;
-			}
+			if(p.getCategoryName().equalsIgnoreCase("Magic Single"))
+				if(edName.startsWith(p.getExpansionName()))
+				{
+					resultat=p;
+					break;
+				}
 		}
 		return resultat;
 		
