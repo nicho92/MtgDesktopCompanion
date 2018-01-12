@@ -92,12 +92,12 @@ public class MTGODeckExport extends AbstractCardExport  {
 					sep = line.indexOf(" ");
 					name = line.substring(sep, line.length()).trim();
 					qte =  line.substring(0, sep).trim();
-					List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null);
+					List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null,true);
 					deck.getMapSideBoard().put(list.get(0),Integer.parseInt(qte));
 				}
 				else
 				{
-					List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null);
+					List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null,true);
 					deck.getMap().put(list.get(0),Integer.parseInt(qte));
 				}
 			}

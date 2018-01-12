@@ -708,7 +708,7 @@ public class CollectionPanelGUI extends JPanel {
 
 				if (res == JOptionPane.YES_OPTION)
 					try {
-						List<MagicCard> list = provider.searchCardByCriteria("set", ed.getId(),null);
+						List<MagicCard> list = provider.searchCardByCriteria("set", ed.getId(),null,false);
 						logger.debug("save " + list.size() +" cards from " + ed.getId());
 						for (MagicCard mc : list) {
 							MagicCollection col = new MagicCollection();
@@ -857,7 +857,7 @@ public class CollectionPanelGUI extends JPanel {
 
 								MagicCollection mc = new MagicCollection();
 								mc.setName(destinationCollection);
-								List<MagicCard> sets = provider.searchCardByCriteria("set", me.getId(),null);
+								List<MagicCard> sets = provider.searchCardByCriteria("set", me.getId(),null,false);
 								
 								MagicCollection sourceCol = new MagicCollection();
 								sourceCol.setName(node.getPath()[1].toString());

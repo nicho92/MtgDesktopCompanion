@@ -105,7 +105,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 				ecart=1;
 				}
 				String name=elements[2-ecart].replaceAll("\"", "");
-				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name ,ed).get(0);
+				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name ,ed,true).get(0);
 				Integer qte = Integer.parseInt(elements[1-ecart]);
 			
 				if(line.startsWith("SB"))

@@ -73,7 +73,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			if(cardName.contains("//"))
 					cardName=cardName.substring(0, cardName.indexOf("//")).trim();
 			
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed).get(0);
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
 			
 			deck.getMap().put(mc, qte);
 			
@@ -97,7 +97,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				if(cardName.contains("//"))
 						cardName=cardName.substring(0, cardName.indexOf("//")).trim();
 				
-				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed).get(0);
+				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
 				
 				deck.getMapSideBoard().put(mc, qte);
 			}

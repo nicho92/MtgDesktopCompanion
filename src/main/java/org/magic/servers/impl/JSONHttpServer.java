@@ -109,7 +109,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	    		String att = session.getParameters().get("name").get(0).toString();
 	    		String val = session.getParameters().get("set").get(0).toString();
 	    		
-	    		MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", att, null).get(0);
+	    		MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", att, null,true).get(0);
 	    		MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(val);
 	    		
 	  		  	List<MagicPrice> pricesret = new ArrayList<MagicPrice>();
@@ -172,7 +172,7 @@ public class JSONHttpServer extends AbstractMTGServer
 		  String att=session.getParameters().keySet().toArray()[0].toString();
 		  String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
 		  
-		  List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, name, null);
+		  List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, name, null,false);
 		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list));
 		  resp.addHeader("Content-Type", "application/json");
 		  resp.addHeader("Item-count", String.valueOf(list.size()));

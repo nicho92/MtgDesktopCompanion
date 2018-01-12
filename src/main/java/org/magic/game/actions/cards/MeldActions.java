@@ -63,7 +63,7 @@ public class MeldActions extends AbstractAction {
 				
 				MagicCard mc;
 				try {
-					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0)).get(0);
+					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0),true).get(0);
 					
 					Dimension d = new Dimension((int)(MTGControler.getInstance().getCardsDimension().getWidth()*1.5),(int)(MTGControler.getInstance().getCardsDimension().getHeight()*1.5));
 					DisplayableCard c = new DisplayableCard(mc,d, true);

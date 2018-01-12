@@ -96,7 +96,7 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	    	Node it = result.item(i);
 	    	String name = it.getTextContent();
 	    	String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-	    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0);
+	    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0);
 	    	
 	    	deck.getMap().put(mc, Integer.parseInt(qte));
 	    }
@@ -108,7 +108,7 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	    	Node it = result.item(i);
 	    	String name = it.getTextContent();
 	    	String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-	    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null).get(0);
+	    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0);
 	    	
 	    	deck.getMapSideBoard().put(mc, Integer.parseInt(qte));
 	    }

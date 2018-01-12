@@ -165,11 +165,11 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				{
 					MagicEdition ed = new MagicEdition();
 					ed.setId(MTGControler.getInstance().get("default-land-deck"));
-					ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed);
+					ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true);
 				}
 				else
 				{
-					ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null);
+					ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null,true);
 				}
 				
 			}
@@ -177,7 +177,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			{
 				MagicEdition ed = new MagicEdition();
 				ed.setId(idSet);
-				ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed);
+				ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true);
 			}
 			
 			if(ret.size()>0)

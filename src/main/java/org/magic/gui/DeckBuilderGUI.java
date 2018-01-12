@@ -723,7 +723,7 @@ public class DeckBuilderGUI extends JPanel {
 							//String searchName = URLEncoder.encode(txtSearch.getText(), "UTF-8");
 							String searchName = txtSearch.getText();
 							List<MagicCard> cards = MTGControler.getInstance().getEnabledProviders()
-									.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null);
+									.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null,false);
 							MagicFormat form = new MagicFormat();
 
 							for (MagicCard m : cards) {
@@ -766,10 +766,10 @@ public class DeckBuilderGUI extends JPanel {
 							MagicEdition ed = new MagicEdition();
 							ed.setId(MTGControler.getInstance().get("default-land-deck"));
 							mc = MTGControler.getInstance().getEnabledProviders()
-									.searchCardByCriteria("name", name.trim(), ed).get(0);
+									.searchCardByCriteria("name", name.trim(), ed,true).get(0);
 						} else {
 							mc = MTGControler.getInstance().getEnabledProviders()
-									.searchCardByCriteria("name", name.trim(), null).get(0);
+									.searchCardByCriteria("name", name.trim(), null,true).get(0);
 						}
 
 						if (mc != null) {
@@ -805,10 +805,10 @@ public class DeckBuilderGUI extends JPanel {
 	// }
 
 	public Map<MagicCard, Integer> getSelectedMap() {
-		if (selectedIndex == 0)
-			return deck.getMap();
-		else
+		if (selectedIndex > 0)
 			return deck.getMapSideBoard();
+		else
+			return deck.getMap();
 
 	}
 

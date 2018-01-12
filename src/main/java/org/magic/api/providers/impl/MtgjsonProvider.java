@@ -217,10 +217,10 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MagicCard getCardById(String id) throws Exception {
-		return searchCardByCriteria("id", id,null).get(0);
+		return searchCardByCriteria("id", id,null,true).get(0);
 	}
 	
-	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed) throws IOException{
+	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed,boolean exact) throws IOException{
 		
 		String filter_ed=".";
 		
@@ -229,6 +229,9 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		
 		
 		String jsquery="$"+filter_ed+".cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
+		
+		if(exact)
+			jsquery="$"+filter_ed+".cards[?(@."+att+" == \""+crit.replaceAll("\\+", " " )+"\")]";
 		
 		if(att.equalsIgnoreCase("set"))
 		{
@@ -645,7 +648,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			edCode=edCode.toUpperCase();
 		
 		String jsquery="";
-			jsquery = "$."+edCode+".cards[?(@.name==\""+mc.getName()+"\")]";
+			jsquery = "$."+edCode+".cards[?(@.name==\""+mc.getName().replaceAll("\\+", " " ).replaceAll("\"", "\\\\\"")+"\")]";
 		
 		//logger.trace("initOtherEditionVars for " + mc +"("+mc.getEditions().get(0)+") -> " + jsquery);--> error on loading booster
 		
@@ -655,7 +658,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		}
 		catch(Exception e)
 		{
-			logger.error(e);
+			logger.error("error in " + jsquery,e);
 		}
 		
 		
@@ -718,7 +721,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				*/
 				
 				if(cachedCardEds.get(me.getId())==null)
-					cachedCardEds.put(me.getId(), searchCardByCriteria("set", me.getId(), null));
+					cachedCardEds.put(me.getId(), searchCardByCriteria("set", me.getId(), null,true));
 				
 				
 				for(MagicCard mc : cachedCardEds.get(me.getId()))

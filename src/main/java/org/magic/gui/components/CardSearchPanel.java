@@ -525,9 +525,9 @@ public class CardSearchPanel extends JPanel {
 							if(cboCollections.isVisible())
 								cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 							else
-								cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null);
+								cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null,false);
 							
-							if(!cboCollections.isVisible())
+							if(cards.size()<50)
 								Collections.sort(cards,new MagicCardComparator());//TODO doesn't work for large collection
 							
 							open(cards);
@@ -579,7 +579,7 @@ public class CardSearchPanel extends JPanel {
 							public void run() {
 									loading(true,MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
 										try {
-											selectedCard = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", selectedCard.getName(), selectedEdition).get(0);
+											selectedCard = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", selectedCard.getName(), selectedEdition,false).get(0);
 											detailCardPanel.setMagicCard(selectedCard);
 											magicEditionDetailPanel.setMagicEdition(selectedEdition);
 											

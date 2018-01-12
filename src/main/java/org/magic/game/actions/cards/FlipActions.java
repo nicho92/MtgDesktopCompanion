@@ -30,7 +30,7 @@ public class FlipActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0)).get(0);
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0),true).get(0);
 			card.setMagicCard(mc);
 	        BufferedImage bufferedImage = new BufferedImage(card.getWidth(), card.getHeight(), BufferedImage.TYPE_INT_RGB);
 	    		

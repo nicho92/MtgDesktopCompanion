@@ -104,12 +104,12 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
 	@Override
 	public MagicCard getCardById(String id) throws Exception {
-		return searchCardByCriteria("id", id,null).get(0);
+		return searchCardByCriteria("id", id,null,true).get(0);
 	}
 
 	
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me) throws Exception {
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws Exception {
 		List<MagicCard> lists= new ArrayList<MagicCard>();
 		URLConnection con =null;
 		int page=1;
@@ -140,7 +140,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
-		return searchCardByCriteria("number", id,me).get(0);
+		return searchCardByCriteria("number", id,me,true).get(0);
 	}
 	
 	private MagicCard generateCard(JsonObject obj) throws Exception

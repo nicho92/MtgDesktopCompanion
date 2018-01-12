@@ -75,16 +75,22 @@ public class ScryFallProvider implements MagicCardsProvider {
 
 	@Override
 	public MagicCard getCardById(String id) throws Exception {
-		return searchCardByCriteria("id", id, null).get(0);
+		return searchCardByCriteria("id", id, null,true).get(0);
 	}
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me) throws Exception {
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws Exception {
 		List<MagicCard> list = new ArrayList<MagicCard>();
+		
+		String comparator=crit;
+		
+		if(exact)
+			comparator="!\""+crit+"\"";
+		
 		
 		String url = baseURI+"/cards/";
 				if(att.equals("name"))
-					url+="search?q="+URLEncoder.encode("++"+crit +" include:extras","UTF-8");
+					url+="search?q="+URLEncoder.encode("++"+comparator +" include:extras","UTF-8");
 				else if(att.equals("custom"))
 					url+="search?q="+URLEncoder.encode(crit,"UTF-8");
 				else if(att.equals("set"))
@@ -92,7 +98,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 				else if(att.equals("id"))
 					url+=URLEncoder.encode(crit,"UTF-8");
 				else
-					url+="search?q="+URLEncoder.encode(att+":"+crit+" include:extras","UTF-8");
+					url+="search?q="+URLEncoder.encode(att+":"+comparator+" include:extras","UTF-8");
 				
 				if(me!=null)
 					url+="%20" +URLEncoder.encode("e:"+me.getId(),"UTF-8");
@@ -222,7 +228,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 				List<MagicCard> rare= new ArrayList<MagicCard>();
 			
 				if(cachedCardEds.get(me.getId())==null)
-					cachedCardEds.put(me.getId(), searchCardByCriteria("set", me.getId(), null));
+					cachedCardEds.put(me.getId(), searchCardByCriteria("set", me.getId(), null,true));
 
 				for(MagicCard mc : cachedCardEds.get(me.getId()))
 				{	

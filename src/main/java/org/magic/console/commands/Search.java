@@ -41,7 +41,7 @@ public class Search implements Command {
 		{
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, val, null);
+			List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, val, null,false);
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_cards)));
 		}
 		

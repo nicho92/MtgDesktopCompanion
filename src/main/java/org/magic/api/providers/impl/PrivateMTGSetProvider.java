@@ -164,7 +164,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
 	public MagicCard getCardById(String id,MagicEdition ed){
 		try {
-			return searchCardByCriteria("id", id, ed).get(0);
+			return searchCardByCriteria("id", id, ed,true).get(0);
 		} catch (Exception e) {
 			return null;
 		}
@@ -173,14 +173,14 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	@Override
 	public MagicCard getCardById(String id){
 		try {
-			return searchCardByCriteria("id", id, null).get(0);
+			return searchCardByCriteria("id", id, null,true).get(0);
 		} catch (Exception e) {
 			return null;
 		}
 	}
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me) throws Exception {
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws Exception {
 		
 		List<MagicCard> res = new ArrayList<MagicCard>();
 		

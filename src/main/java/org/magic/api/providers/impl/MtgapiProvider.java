@@ -85,7 +85,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 		return mc;
 	}
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed) throws IOException {
+	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed,boolean exact) throws IOException {
 		List<MagicCard> list = new ArrayList<MagicCard>();
 		
 		crit=att+"="+crit;

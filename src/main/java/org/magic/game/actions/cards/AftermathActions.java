@@ -22,7 +22,7 @@ public class AftermathActions extends AbilitySpell {
 	        putValue(MNEMONIC_KEY, KeyEvent.VK_A);
 	        
 	        try {
-				mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0)).get(0);
+				mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0),true).get(0);
 				cost=mc.getCost();
 	        }
 	        catch(Exception e)

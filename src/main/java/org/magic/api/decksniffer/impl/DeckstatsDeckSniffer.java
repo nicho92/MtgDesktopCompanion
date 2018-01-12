@@ -122,18 +122,18 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 					{
 						MagicEdition ed = new MagicEdition();
 						ed.setId(MTGControler.getInstance().get("default-land-deck"));
-						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed).get(0);
+						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
 					}
 					else
 					{
-						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null,true).get(0);
 					}
 				}
 				else
 				{
 					MagicEdition me = new MagicEdition();
 								 me.setId(set);
-					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, me).get(0);
+					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, me,true).get(0);
 				}
 				deck.getMap().put(mc, qte);
 		}
@@ -148,7 +148,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				
 					Integer qte = Integer.parseInt(cont.getElementsByClass("card_amount").get(0).text());
 					String cardName = cont.getElementsByClass("deck_card_name").get(0).text().trim();
-					MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null).get(0);
+					MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null,true).get(0);
 					deck.getMapSideBoard().put(mc, qte);
 			}
 		}

@@ -93,7 +93,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 					
 					try 
 					{
-						MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed).get(0);
+						MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed,true).get(0);
 						pane.setMagicCard(mc);
 						//pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
 							SwingUtilities.updateComponentTreeUI(popUp);

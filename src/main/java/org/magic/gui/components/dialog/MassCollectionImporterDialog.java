@@ -140,7 +140,7 @@ public class MassCollectionImporterDialog extends JDialog{
 								if(cboByType.getSelectedItem().toString().equalsIgnoreCase("number"))
 									mc=provider.getCardByNumber(id, ed);
 								else
-									mc=provider.searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),(MagicEdition)cboEditions.getSelectedItem()).get(0);
+									mc=provider.searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),(MagicEdition)cboEditions.getSelectedItem(),true).get(0);
 								
 								
 								dao.saveCard(mc, col);
