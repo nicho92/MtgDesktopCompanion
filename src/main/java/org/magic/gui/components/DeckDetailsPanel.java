@@ -25,6 +25,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
@@ -37,11 +38,11 @@ public class DeckDetailsPanel extends JPanel {
 	private JTextArea textArea;
 	private ManaPanel manaPanel;
 	private JPanel panelLegalities;
-	JProgressBar nbCardsProgress;
-	JLabel lbstd;
-	JLabel lbmnd;
-	JLabel lbvin;
-	JLabel lbcmd;
+	private JProgressBar nbCardsProgress;
+	private JLabel lbstd;
+	private JLabel lbmnd;
+	private JLabel lbvin;
+	private JLabel lbcmd;
 	private JLabel lbLeg;
 	private JLabel lblSideboard;
 	private JProgressBar nbSideProgress;
@@ -115,7 +116,7 @@ public class DeckDetailsPanel extends JPanel {
 				gbc_manaPanel.gridy = 2;
 				add(manaPanel, gbc_manaPanel);
 				
-				lblDate = new JLabel("Date :");
+				lblDate = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DATE")+ " :");
 				GridBagConstraints gbc_lblDate = new GridBagConstraints();
 				gbc_lblDate.insets = new Insets(0, 0, 5, 5);
 				gbc_lblDate.gridx = 1;
@@ -124,6 +125,7 @@ public class DeckDetailsPanel extends JPanel {
 				
 				lblDateInformation = new JLabel("");
 				GridBagConstraints gbc_lblDateInformation = new GridBagConstraints();
+				gbc_lblDateInformation.anchor = GridBagConstraints.WEST;
 				gbc_lblDateInformation.insets = new Insets(0, 0, 5, 5);
 				gbc_lblDateInformation.gridx = 2;
 				gbc_lblDateInformation.gridy = 3;
@@ -361,14 +363,16 @@ public class DeckDetailsPanel extends JPanel {
 		//
 		
 		BindingGroup bindingGroup = new BindingGroup();
-		//
 		bindingGroup.addBinding(autoBinding_1);
 		bindingGroup.addBinding(autoBinding_2);
 		bindingGroup.addBinding(autoBinding_3);
 		bindingGroup.addBinding(autoBinding_4);
 		
 		if(magicDeck!=null&&magicDeck.getDateCreation()!=null)
-			lblDateInformation.setText(new SimpleDateFormat("dd/MM/YYYY").format(magicDeck.getDateCreation()));
+		{
+			DateFormat df = DateFormat.getDateInstance(DateFormat.SHORT, MTGControler.getInstance().getLocale());
+			lblDateInformation.setText(df.format(magicDeck.getDateCreation()));
+		}
 		
 		tagsPanel.clean();
 		tagsPanel.bind(magicDeck.getTags());
