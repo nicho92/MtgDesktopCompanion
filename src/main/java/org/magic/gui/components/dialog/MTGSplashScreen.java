@@ -8,6 +8,7 @@ import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JWindow;
 
+import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -33,7 +34,7 @@ public class MTGSplashScreen extends JWindow implements Observer{
 		
 		JLabel lblIcons = new JLabel("");
 		panel.add(lblIcons, BorderLayout.CENTER);
-		lblIcons.setIcon(new ImageIcon(MTGSplashScreen.class.getResource("/data/magic-logo.png")));
+		lblIcons.setIcon(MTGConstants.ICON_SPLASHSCREEN);
 		lblIcons.setOpaque(false);
 		
 		progressBar = new JProgressBar();

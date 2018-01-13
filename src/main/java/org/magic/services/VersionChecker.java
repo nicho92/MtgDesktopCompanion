@@ -8,6 +8,8 @@ import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
@@ -20,20 +22,21 @@ public class VersionChecker {
 	Document document;
 	NodeList nodeList;
 	
-	String actualVersion = MTGControler.getInstance().getVersion();
+	String actualVersion;
 	String onlineVersion;
 	
 	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public VersionChecker() {
+		actualVersion = MTGControler.getInstance().getVersion();
 		builderFactory =DocumentBuilderFactory.newInstance();
 		try {
 			
-			InputStream input = new URL(MTGConstants.MTG_DESKTOP_UPDATE_URL).openConnection().getInputStream();
-			BufferedReader read = new BufferedReader(new InputStreamReader(input));
+			InputStream input = new URL(MTGConstants.MTG_DESKTOP_POM_URL).openConnection().getInputStream();
 			try {
-				onlineVersion= read.readLine();
-			} catch (IOException e) {
+				onlineVersion= parseXML(input);
+			} catch (Exception e) {
+				logger.error("Error reading online version",e);
 				onlineVersion="";
 			}
 		} catch (Exception e) {
@@ -42,6 +45,17 @@ public class VersionChecker {
 		}
 	}
 	
+	private String parseXML(InputStream input) throws Exception {
+		   DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
+           DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
+           Document doc = docBuilder.parse(input);
+           XPathFactory xpf = XPathFactory.newInstance();
+           XPath path = xpf.newXPath();
+           
+           String val = path.evaluate("/project/version", doc.getDocumentElement());
+  		return val;
+	}
+
 	public boolean hasNewVersion()
 	{
 		try{

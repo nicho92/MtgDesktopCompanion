@@ -10,7 +10,7 @@
 	</issueManagement>
 	<groupId>org.magic</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>1.79</version>
+	<version>1.81</version>
 	<packaging>jar</packaging>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -243,7 +243,6 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>1.8.0-beta0</version>
 		</dependency>
-
 		<dependency>
 			<groupId>org.swinglabs.swingx</groupId>
 			<artifactId>swingx-all</artifactId>
@@ -263,6 +262,23 @@
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
+		
+		<resources>
+		   <resource>
+			      <directory>src/main/resources</directory>
+			      <filtering>true</filtering>
+			      <includes>
+			        <include>version</include>
+			      </includes>
+			    </resource>
+			    <resource>
+			      <directory>src/main/resources</directory>
+			      <filtering>false</filtering>
+			      <excludes>
+			        <exclude>version</exclude>
+			      </excludes>
+			    </resource>
+    	</resources>
 		<plugins>
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
@@ -335,4 +351,8 @@
 
 		</plugins>
 	</build>
+	<scm>
+		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
+		<developerConnection>Nicho</developerConnection>
+	</scm>
 </project>

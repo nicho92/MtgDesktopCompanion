@@ -19,6 +19,7 @@ import org.magic.gui.DeckBuilderGUI;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.StockPanelGUI;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.dialog.MTGSplashScreen;
 import org.magic.gui.dashlet.BestCardsDashlet;
 import org.magic.gui.dashlet.BoosterBoxDashlet;
 import org.magic.gui.dashlet.TrendingDashlet;
@@ -26,10 +27,9 @@ import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 
 public class MTGConstants {
-
 	public static String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
 	public static String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
-	public static String MTG_DESKTOP_UPDATE_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/version";
+	public static String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";
 	public static String MTG_DESKTOP_APP_ZIP = "https://github.com/nicho92/MtgDesktopCompanion/tree/master/dist";
 	public static String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
 	public static int MTG_DESKTOP_TABBED_POSITION = JTabbedPane.LEFT;
@@ -42,10 +42,13 @@ public class MTGConstants {
 	public static Color COLLECTION_50PC=Color.ORANGE;
 	public static Color COLLECTION_5PC=Color.YELLOW;
 	
-	public static final String KEYSTORE_NAME = "jssecacerts"; 
-	public static final String KEYSTORE_PASS = "changeit";
-	public static final String MTG_TEMPLATES_DIR = "./templates";
+	public static String KEYSTORE_NAME = "jssecacerts"; 
+	public static String KEYSTORE_PASS = "changeit";
 
+	public static final String MTG_TEMPLATES_DIR = "./templates";
+	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
+	
+	
 	public static final ImageIcon ICON_EXPORT = new ImageIcon(MTGConstants.class.getResource("/icons/export.png"));
 	public static final ImageIcon ICON_SEARCH=new ImageIcon(MTGConstants.class.getResource("/icons/search.png"));
 	public static final ImageIcon ICON_FILTER = new ImageIcon(MTGConstants.class.getResource("/icons/filter.png"));
@@ -82,9 +85,9 @@ public class MTGConstants {
 	public static final ImageIcon ICON_RSS = new ImageIcon(MTGConstants.class.getResource("/icons/rss.png"));
 	public static final ImageIcon ICON_CONFIG = new ImageIcon(MTGConstants.class.getResource("/icons/build.png"));
 	public static final ImageIcon ICON_STORY =  new ImageIcon(MTGConstants.class.getResource("/icons/stories.png"));;
-
-	
+	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource("/data/magic-logo.png"));
 	public static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/icons/logo.gif"));
+
 	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource("/icons/Mana.png");
 	
 	public static final URL URL_MANA_GOLD = ManaCellRenderer.class.getResource("/icons/gold.png");
