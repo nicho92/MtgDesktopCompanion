@@ -27,6 +27,10 @@ public class VersionChecker {
 	
 	Logger logger = MTGLogger.getLogger(this.getClass());
 
+	
+	public static void main(String[] args) {
+		System.out.println(new VersionChecker().getOnlineVersion());
+	}
 	public VersionChecker() {
 		actualVersion = MTGControler.getInstance().getVersion();
 		builderFactory =DocumentBuilderFactory.newInstance();
