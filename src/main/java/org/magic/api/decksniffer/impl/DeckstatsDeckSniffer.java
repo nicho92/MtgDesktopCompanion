@@ -3,6 +3,7 @@ package org.magic.api.decksniffer.impl;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -98,6 +99,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
+		deck.setDateCreation(new Date());
 		for(Element a : d.select("a.deck_tags_list_tag"))
 			deck.getTags().add(a.text());
 

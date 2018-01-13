@@ -4,6 +4,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.collections.map.HashedMap;
@@ -64,6 +65,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		MagicDeck deck = new MagicDeck();
 			deck.setName(info.getName());
+			deck.setDateCreation(new Date());
 			//deck.setDescription(info.getUrl().toString());
 			
 		Document d = Jsoup.connect(url)

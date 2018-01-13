@@ -3,6 +3,7 @@ package org.magic.api.decksniffer.impl;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Matcher;
@@ -125,7 +126,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		String responseBody = EntityUtils.toString(httpclient.execute(get, httpContext).getEntity());
 		
 		MagicDeck deck = new MagicDeck();
-		
+				deck.setDateCreation(new Date());
 		JsonElement root = new JsonParser().parse(responseBody);
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());

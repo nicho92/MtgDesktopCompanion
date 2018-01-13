@@ -3,6 +3,7 @@ package org.magic.api.decksniffer.impl;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -60,7 +61,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
-		
+		deck.setDateCreation(new Date());
 		Elements e = d.select("div.demi_page>table").select("tr");
 		boolean sideboard = false;
 		for(Element cont : e)

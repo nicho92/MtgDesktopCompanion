@@ -3,6 +3,7 @@ package org.magic.api.decksniffer.impl;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -49,7 +50,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
-	
+		deck.setDateCreation(new Date());
 		Document d = Jsoup.connect(info.getUrl().toString())
 					  .userAgent(props.getProperty("USER_AGENT"))
 					  .get();

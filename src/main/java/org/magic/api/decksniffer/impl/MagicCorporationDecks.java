@@ -3,6 +3,7 @@ package org.magic.api.decksniffer.impl;
 import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.jsoup.Jsoup;
@@ -49,7 +50,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 				  deck.setName(info.getName());
 		  	 	  deck.setDescription(d.select("div.block_content").get(4).text().trim());
-		
+		  	 	deck.setDateCreation(new Date());
 		Elements list = d.select("div.liste_deck>ul");
 		
 		for(Element ul : list)

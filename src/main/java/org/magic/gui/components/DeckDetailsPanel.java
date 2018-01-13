@@ -5,6 +5,8 @@ import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -48,6 +50,8 @@ public class DeckDetailsPanel extends JPanel {
 	private JPanel panel;
 	private JLabel lblTags;
 	private JTagsPanel tagsPanel;
+	private JLabel lblDate;
+	private JLabel lblDateInformation;
 
 	
 	public DeckDetailsPanel(org.magic.api.beans.MagicDeck newMagicDeck) {
@@ -58,9 +62,9 @@ public class DeckDetailsPanel extends JPanel {
 	public DeckDetailsPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 132, 31, 0, 0, 0, 0 };
+		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 0, 132, 31, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
 				JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+ " :");
@@ -110,12 +114,26 @@ public class DeckDetailsPanel extends JPanel {
 				gbc_manaPanel.gridx = 2;
 				gbc_manaPanel.gridy = 2;
 				add(manaPanel, gbc_manaPanel);
+				
+				lblDate = new JLabel("Date :");
+				GridBagConstraints gbc_lblDate = new GridBagConstraints();
+				gbc_lblDate.insets = new Insets(0, 0, 5, 5);
+				gbc_lblDate.gridx = 1;
+				gbc_lblDate.gridy = 3;
+				add(lblDate, gbc_lblDate);
+				
+				lblDateInformation = new JLabel("");
+				GridBagConstraints gbc_lblDateInformation = new GridBagConstraints();
+				gbc_lblDateInformation.insets = new Insets(0, 0, 5, 5);
+				gbc_lblDateInformation.gridx = 2;
+				gbc_lblDateInformation.gridy = 3;
+				add(lblDateInformation, gbc_lblDateInformation);
 		
 				JLabel descriptionLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION")+ " :");
 				GridBagConstraints labelGbc_0 = new GridBagConstraints();
 				labelGbc_0.insets = new Insets(5, 5, 5, 5);
 				labelGbc_0.gridx = 1;
-				labelGbc_0.gridy = 3;
+				labelGbc_0.gridy = 4;
 				add(descriptionLabel, labelGbc_0);
 		
 		textArea = new JTextArea();
@@ -127,7 +145,7 @@ public class DeckDetailsPanel extends JPanel {
 		GridBagConstraints labelGbc_2 = new GridBagConstraints();
 		labelGbc_2.insets = new Insets(5, 5, 5, 5);
 		labelGbc_2.gridx = 1;
-		labelGbc_2.gridy = 4;
+		labelGbc_2.gridy = 5;
 		add(nbCardsLabel, labelGbc_2);
 		
 		nbCardsProgress = new JProgressBar();
@@ -136,7 +154,7 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_nbCardsProgress.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nbCardsProgress.insets = new Insets(0, 0, 5, 5);
 		gbc_nbCardsProgress.gridx = 2;
-		gbc_nbCardsProgress.gridy = 4;
+		gbc_nbCardsProgress.gridy = 5;
 		add(nbCardsProgress, gbc_nbCardsProgress);
 
 		
@@ -169,7 +187,7 @@ public class DeckDetailsPanel extends JPanel {
 		GridBagConstraints gbc_lblSideboard = new GridBagConstraints();
 		gbc_lblSideboard.insets = new Insets(0, 0, 5, 5);
 		gbc_lblSideboard.gridx = 1;
-		gbc_lblSideboard.gridy = 5;
+		gbc_lblSideboard.gridy = 6;
 		add(lblSideboard, gbc_lblSideboard);
 		
 		nbSideProgress = new JProgressBar();
@@ -179,7 +197,7 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_nbSideProgress.fill = GridBagConstraints.HORIZONTAL;
 		gbc_nbSideProgress.insets = new Insets(0, 0, 5, 5);
 		gbc_nbSideProgress.gridx = 2;
-		gbc_nbSideProgress.gridy = 5;
+		gbc_nbSideProgress.gridy = 6;
 		add(nbSideProgress, gbc_nbSideProgress);
 		
 		scrollPane = new JScrollPane();
@@ -188,14 +206,14 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_scrollPane.insets = new Insets(0, 0, 5, 5);
 		gbc_scrollPane.fill = GridBagConstraints.BOTH;
 		gbc_scrollPane.gridx = 2;
-		gbc_scrollPane.gridy = 3;
+		gbc_scrollPane.gridy = 4;
 		add(scrollPane, gbc_scrollPane);
 		
 		lblTags = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("TAGS")+ " :");
 		GridBagConstraints gbc_lblTags = new GridBagConstraints();
 		gbc_lblTags.insets = new Insets(0, 0, 5, 5);
 		gbc_lblTags.gridx = 1;
-		gbc_lblTags.gridy = 6;
+		gbc_lblTags.gridy = 7;
 		add(lblTags, gbc_lblTags);
 		
 		tagsPanel = new JTagsPanel();
@@ -204,7 +222,7 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_tagsPanel.insets = new Insets(0, 0, 5, 5);
 		gbc_tagsPanel.fill = GridBagConstraints.VERTICAL;
 		gbc_tagsPanel.gridx = 2;
-		gbc_tagsPanel.gridy = 6;
+		gbc_tagsPanel.gridy = 7;
 		add(tagsPanel, gbc_tagsPanel);
 		
 		panel = new JPanel();
@@ -212,7 +230,7 @@ public class DeckDetailsPanel extends JPanel {
 		gbc_panel.insets = new Insets(0, 0, 0, 5);
 		gbc_panel.fill = GridBagConstraints.BOTH;
 		gbc_panel.gridx = 2;
-		gbc_panel.gridy = 7;
+		gbc_panel.gridy = 8;
 		add(panel, gbc_panel);
 		
 	
@@ -349,8 +367,15 @@ public class DeckDetailsPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding_3);
 		bindingGroup.addBinding(autoBinding_4);
 		
+		if(magicDeck!=null&&magicDeck.getDateCreation()!=null)
+			lblDateInformation.setText(new SimpleDateFormat("dd/MM/YYYY").format(magicDeck.getDateCreation()));
+		
 		tagsPanel.clean();
 		tagsPanel.bind(magicDeck.getTags());
+		
+		
+		
+		
 		return bindingGroup;
 	}
 }

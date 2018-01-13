@@ -47,6 +47,8 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 		if(deck.getDateCreation()==null)
 			deck.setDateCreation(new Date());
 		
+		deck.setDateUpdate(new Date());
+		
 		FileOutputStream fos = new FileOutputStream(name);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(deck);
