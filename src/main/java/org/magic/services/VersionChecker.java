@@ -27,10 +27,6 @@ public class VersionChecker {
 	
 	Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
-	public static void main(String[] args) {
-		System.out.println(new VersionChecker().getOnlineVersion());
-	}
 	public VersionChecker() {
 		actualVersion = MTGControler.getInstance().getVersion();
 		builderFactory =DocumentBuilderFactory.newInstance();
@@ -55,7 +51,6 @@ public class VersionChecker {
            Document doc = docBuilder.parse(input);
            XPathFactory xpf = XPathFactory.newInstance();
            XPath path = xpf.newXPath();
-           
            String val = path.evaluate("/project/version", doc.getDocumentElement());
   		return val;
 	}
