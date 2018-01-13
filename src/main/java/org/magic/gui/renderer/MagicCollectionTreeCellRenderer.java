@@ -1,5 +1,6 @@
 package org.magic.gui.renderer;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.util.HashMap;
@@ -63,6 +64,7 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		    	{ 
 		    			MagicCard mc=(MagicCard)((DefaultMutableTreeNode)value).getUserObject();
 		    			
+		    			setOpaque(false);
 		    			
 		    			//if(mc.getColors().contains(").size()<1)
 		    			{
@@ -80,21 +82,19 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		    			{
 		    				setIcon(gold);
 		    			}
-		    			
 		    			if(mc.getFullType().toLowerCase().contains("land"))
 		    			{
 		    				setIcon(uncolor);
 		    			}
-		    			
-		    		/*	
+		    			/*
 		    			if(mc.getEditions().get(0).getRarity().startsWith("Common"))
 		    				setForeground(Color.BLACK);
 		    			else
 		    			if(mc.getEditions().get(0).getRarity().startsWith("Uncommon"))
-		    				setForeground(new Color(32, 32, 32));
+		    				setForeground(new Color(125, 125, 125));
 		    			else
 		    			if(mc.getEditions().get(0).getRarity().startsWith("Rare"))
-		    				setForeground(new Color(255, 213, 112));
+		    				setForeground(new Color(255, 204, 102));
 		    			else
 		    			if(mc.getEditions().get(0).getRarity().startsWith("Mythic"))
 		    				setForeground(new Color(196, 108, 21));
