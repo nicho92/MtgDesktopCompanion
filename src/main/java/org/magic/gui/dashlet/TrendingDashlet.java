@@ -129,7 +129,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				}
 				catch(Exception e)
 				{
-					logger.error("Erreur models " , e);
+					//logger.error("Erreur models " , e);
 				}
 				props.put("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				lblLoading.setVisible(false);
@@ -140,10 +140,16 @@ public class TrendingDashlet extends AbstractJDashlet{
 				List<SortKey> keys = new ArrayList<SortKey>();
 				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);//column index 2
 				keys.add(sortKey);
-				table.setRowSorter(new TableRowSorter(modStandard) );
-				
-				((TableRowSorter)table.getRowSorter()).setSortKeys(keys);
-				((TableRowSorter)table.getRowSorter()).sort();
+				try{
+					table.setRowSorter(new TableRowSorter(modStandard) );
+					((TableRowSorter)table.getRowSorter()).setSortKeys(keys);
+					((TableRowSorter)table.getRowSorter()).sort();
+
+				}
+				catch(Exception e)
+				{
+					
+				}
 				modStandard.fireTableDataChanged();
 				
 				
