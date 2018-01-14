@@ -8,6 +8,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -109,7 +110,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		while(hasMore)
 		{
 			
-			logger.debug(url);
+			logger.debug(URLDecoder.decode(url,"UTF-8"));
 			con = (HttpURLConnection) getConnection(url);
 			
 			if(testError(con)==false)
@@ -124,7 +125,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			JsonArray jsonList = el.getAsJsonObject().getAsJsonArray("data");
 			for(int i=0;i<jsonList.size();i++)
 			{
-				MagicCard mc = generateCard(jsonList.get(i).getAsJsonObject());
+				MagicCard mc = generateCard(jsonList.get(i).getAsJsonObject(),exact,crit);
 				list.add(mc);
 			}
 			hasMore=el.getAsJsonObject().get("has_more").getAsBoolean();
@@ -154,16 +155,13 @@ public class ScryFallProvider implements MagicCardsProvider {
 		}
 	}
 	
-	
-	
-	
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
 		String url = baseURI+"/cards/"+me.getId()+"/"+id;
 		URLConnection con = getConnection(url);
 		JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
-		return generateCard(root);
+		return generateCard(root,true,null);
 	}
 
 	@Override
@@ -334,10 +332,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		}	
 	}
 	
-
-	
-	
-	private MagicCard generateCard(JsonObject obj) throws Exception
+	private MagicCard generateCard(JsonObject obj,boolean exact,String search) throws Exception
 	{
 		final MagicCard mc = new MagicCard();
 		
@@ -355,9 +350,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		 
 		  if(obj.get("type_line")!=null)
 			  generateTypes(mc,String.valueOf(obj.get("type_line")));
-		  //"Basic " +"Legendary" + "Ongoing" +"Snow" +"World";
-		  
-		  
+			  
 		  MagicCardNames n = new MagicCardNames();
 						  n.setLanguage("English");
 						  n.setName(mc.getName());
@@ -410,18 +403,57 @@ public class ScryFallProvider implements MagicCardsProvider {
 		   
 		  mc.setTranformable(mc.getLayout().equalsIgnoreCase("transform")||mc.getLayout().equalsIgnoreCase("meld"));
 		  mc.setFlippable(mc.getLayout().equals("flip")); 
+		  int idface=0;
 		  
+		  if(mc.getName().contains("//"))
+		  {
+			  String[] names = mc.getName().split(" // ");
+			  if(exact)
+				  if(names[0].equals(search))
+				  {
+					  idface=0;
+				  }
+				  else
+				  {
+					  idface=1;
+				  }
+			  
+		  }
 		  
+		  logger.debug("looking for" + search + "=" + idface);
+		 
 		  if(obj.get("card_faces")!=null)
 		  {
-			  
-			  //mc.getTypes().add(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("type_line").getAsString());
-			  generateTypes(mc, obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("type_line").getAsString());
-			  mc.setText(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("oracle_text").getAsString());
-			  mc.setCost(obj.get("card_faces").getAsJsonArray().get(0).getAsJsonObject().get("mana_cost").getAsString());
+			  generateTypes(mc, obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("type_line").getAsString());
+			//  mc.setName( obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("name").getAsString());
+			  mc.setText(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("oracle_text").getAsString());
+			  mc.setCost(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost").getAsString());
 			  mc.setRotatedCardName(obj.get("card_faces").getAsJsonArray().get(1).getAsJsonObject().get("name").getAsString());
-			 
+			  try {
+				  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt());}catch(Exception e) { };
+					
+			  }catch(Exception e)
+			  {
+				 
+			  }
+			  
+				 try {
+					 mc.setLoyalty(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("loyalty").getAsInt());
+				 	}
+				 catch(Exception e)
+				 {	 }
+			  
+			  
+			 try {
+				 mc.setPower(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("power").getAsString());
+				 mc.setToughness(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("toughness").getAsString());
+			 	}
+			 catch(Exception e)
+			 {	 }
+			  
+			  
 		  }
+		 
 		  
 		  
 		  //meld
@@ -449,9 +481,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 				  
 			  
 		  }
-		
-		  
-		  
 		  
 		  MagicEdition ed = (MagicEdition)BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 					  ed.setArtist(mc.getArtist());
@@ -463,6 +492,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 					  ed.setNumber(mc.getNumber());
 		  mc.getEditions().add(ed);
 		 
+		  
+		  
 		  new Thread(new Runnable() {
 			public void run() {
 				try {
@@ -477,8 +508,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 		return mc;
 		
 	}
-	
-	
 
 	private void generateRules(MagicCard mc) throws JsonIOException, JsonSyntaxException, UnsupportedEncodingException, IOException
 	{
@@ -498,7 +527,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 			mc.getRulings().add(rul);
 		}
 	}
-	
 	
 	private void generateTypes(MagicCard mc, String line) {
 

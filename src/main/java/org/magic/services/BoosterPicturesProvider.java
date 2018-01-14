@@ -69,7 +69,7 @@ public class BoosterPicturesProvider {
 				return null;
 			}
 			catch (NullPointerException e) {
-				logger.error(me.getId() + " error loading " + url,e);
+				logger.error(me.getId() + " error loading " + url + " " + e.getMessage());
 				return null;
 			}
 	}
