@@ -5,13 +5,13 @@
 <formats>
 <format>zip</format>
 </formats>
-<includeBaseDirectory>true</includeBaseDirectory> <!-- si true: alors votre archive contiendra un dossier parent, qui lui contiendra vos fichiers choisis -->
+<includeBaseDirectory>true</includeBaseDirectory>
 <fileSets>
   <fileSet>
     <outputDirectory>${project.basedir}/dist</outputDirectory>
     <directory>${basedir}/target/executable</directory>
     <includes>
-        <include>**/*.*</include> <!-- J'aurai bien pu ne selectionner que les .txt en mettant *.txt -->
+        <include>**/*.*</include>
     </includes>
   </fileSet>
 </fileSets>
