@@ -429,27 +429,14 @@ public class ScryFallProvider implements MagicCardsProvider {
 			  mc.setText(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("oracle_text").getAsString());
 			  mc.setCost(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost").getAsString());
 			  mc.setRotatedCardName(obj.get("card_faces").getAsJsonArray().get(1).getAsJsonObject().get("name").getAsString());
-			  try {
-				  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt());}catch(Exception e) { };
-					
-			  }catch(Exception e)
-			  {
-				 
-			  }
-			  
-				 try {
-					 mc.setLoyalty(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("loyalty").getAsInt());
-				 	}
-				 catch(Exception e)
-				 {	 }
-			  
-			  
-			 try {
-				 mc.setPower(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("power").getAsString());
-				 mc.setToughness(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("toughness").getAsString());
-			 	}
-			 catch(Exception e)
-			 {	 }
+			  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt());}catch(Exception e) { };
+  			  try{mc.setLoyalty(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("loyalty").getAsInt());}catch(Exception e){	 }
+			  try{
+				  mc.setPower(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("power").getAsString());
+				  mc.setToughness(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("toughness").getAsString());
+			 	 }
+			  	catch(Exception e)
+			  	{	 }
 			  
 			  
 		  }
