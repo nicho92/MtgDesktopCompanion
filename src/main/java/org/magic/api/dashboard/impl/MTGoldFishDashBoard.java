@@ -208,7 +208,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException
 	{
 		String oldID=edition.getId();
-		String urlEditionChecker = props.getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#"+props.getProperty("FORMAT");
+		String urlEditionChecker = "";
+		
+		if(edition.isOnlineOnly())
+				urlEditionChecker=props.getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#online";
+			else
+				urlEditionChecker=props.getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#"+props.getProperty("FORMAT");
 		
 		logger.debug("Parsing dashboard "+ urlEditionChecker);
 		
@@ -313,6 +318,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			case "Arena+League":	   return "Arena+Promos";
 			case "Masterpiece+Series+Amonkhet+Invocations" : return "Amonkhet+Invocations";
 			case "Masterpiece+Series+Kaladesh+Inventions" : return "Kaladesh+Inventions";
+			case "You+Make+the+Cube" : return "Treasure+Chest";
 			default : return editionName;
 		}
 	}
