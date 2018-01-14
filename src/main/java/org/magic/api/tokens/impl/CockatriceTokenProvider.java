@@ -157,7 +157,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 						  return tok;
 			
 		} catch (XPathExpressionException e) {
-			logger.error(e);
+			logger.error("erreur generate token for" + mc, e);
 			return null;
 		}
 	}

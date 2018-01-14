@@ -419,9 +419,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 				  }
 			  
 		  }
-		  
-		  logger.debug("looking for" + search + "=" + idface);
-		 
+		  //rotated card management
 		  if(obj.get("card_faces")!=null)
 		  {
 			  generateTypes(mc, obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("type_line").getAsString());
@@ -437,8 +435,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 			 	 }
 			  	catch(Exception e)
 			  	{	 }
-			  
-			  
 		  }
 		 
 		  
