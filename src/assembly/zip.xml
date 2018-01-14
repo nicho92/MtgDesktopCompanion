@@ -1,0 +1,18 @@
+<assembly xmlns="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/plugins/maven-assembly-plugin/assembly/1.1.2 http://maven.apache.org/xsd/assembly-1.1.2.xsd">
+<id></id>
+<formats>
+<format>zip</format>
+</formats>
+<includeBaseDirectory>true</includeBaseDirectory> <!-- si true: alors votre archive contiendra un dossier parent, qui lui contiendra vos fichiers choisis -->
+<fileSets>
+  <fileSet>
+    <outputDirectory>${project.basedir}/dist</outputDirectory>
+    <directory>${basedir}/target/executable</directory>
+    <includes>
+        <include>**/*.*</include> <!-- J'aurai bien pu ne selectionner que les .txt en mettant *.txt -->
+    </includes>
+  </fileSet>
+</fileSets>
+</assembly>

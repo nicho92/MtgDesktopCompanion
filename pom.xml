@@ -10,7 +10,7 @@
 	</issueManagement>
 	<groupId>org.magic</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>1.81</version>
+	<version>1.83</version>
 	<packaging>jar</packaging>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
@@ -348,7 +348,25 @@
 					</execution>
 				</executions>
 			</plugin>
+			 <plugin>
+                   <groupId>org.apache.maven.plugins</groupId>
+                   <artifactId>maven-assembly-plugin</artifactId>
+                   <configuration>
+                     <descriptor>src/assembly/zip.xml</descriptor>
+                     <finalName>mtg-desktop-companion-${version}</finalName>
+                   </configuration>
+                   <executions>
+                     <execution>
+                       <phase>install</phase>
+                       <goals>
+                         <goal>single</goal>
+                       </goals>
+                     </execution>
+                   </executions>
+             </plugin>
 
+			
+			
 		</plugins>
 	</build>
 	<scm>
