@@ -30,7 +30,7 @@ public class ScryfallTest {
 	{
 	
 		try {
-			List<MagicCard> list = prov.searchCardByCriteria("name", "Jace, Telepath Unbound", null, true);
+			List<MagicCard> list = prov.searchCardByCriteria("name", "Jace, Vryn's Prodigy", null, true);
 			IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(list,attributes);
 	    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
 		} catch (Exception e) {

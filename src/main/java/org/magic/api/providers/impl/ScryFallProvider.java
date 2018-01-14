@@ -354,13 +354,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  MagicCardNames n = new MagicCardNames();
 						  n.setLanguage("English");
 						  n.setName(mc.getName());
-						  try
-						  {
-							  n.setGathererId(obj.get("multiverse_id").getAsInt());
-						  }
-						  catch(NullPointerException e) {
-							  n.setGathererId(0);
-						  };
+						  try{n.setGathererId(obj.get("multiverse_id").getAsInt());}catch(NullPointerException e) {n.setGathererId(0);};
 		  
 		  mc.getForeignNames().add(n);
 	
@@ -422,19 +416,17 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  //rotated card management
 		  if(obj.get("card_faces")!=null)
 		  {
-			  generateTypes(mc, obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("type_line").getAsString());
-			//  mc.setName( obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("name").getAsString());
 			  mc.setText(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("oracle_text").getAsString());
 			  mc.setCost(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost").getAsString());
 			  mc.setRotatedCardName(obj.get("card_faces").getAsJsonArray().get(1).getAsJsonObject().get("name").getAsString());
+			  generateTypes(mc, obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("type_line").getAsString());
 			  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt());}catch(Exception e) { };
   			  try{mc.setLoyalty(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("loyalty").getAsInt());}catch(Exception e){	 }
 			  try{
 				  mc.setPower(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("power").getAsString());
 				  mc.setToughness(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("toughness").getAsString());
 			 	 }
-			  	catch(Exception e)
-			  	{	 }
+			  	catch(Exception e){	 }
 		  }
 		 
 		  
@@ -572,6 +564,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 				+ "%20include:extras"
 				+ "%20-s:"+mc.getEditions().get(0).getId();
 
+		
+		logger.trace("initOtherEdition " + URLDecoder.decode(url,"UTF-8"));
 		HttpURLConnection con;
 		
 		
