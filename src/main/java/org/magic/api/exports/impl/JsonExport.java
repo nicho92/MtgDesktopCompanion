@@ -89,16 +89,14 @@ public class JsonExport  extends AbstractCardExport {
 	
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
-		JsonArray jsonparams = new JsonArray();
-		   
+		MagicDeck d = new MagicDeck();
+				  d.setDateCreation(new Date());
+				  d.setName("export");
+				  d.setDescription("export to " + f.getName());
 		for(MagicCard mc : cards)
-		{
-			jsonparams.add(new Gson().toJsonTree(mc));
-		}
-		FileWriter out = new FileWriter(f);
-		out.write(jsonparams.toString());
-		out.close();
+			d.getMap().put(mc, 1);
 
+		export(d, f);
 	}
 
 	@Override
