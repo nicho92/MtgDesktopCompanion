@@ -19,6 +19,8 @@ import org.magic.tools.InstallCert;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	
+	private Boolean scryfallProvider=null;
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -42,19 +44,33 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
+		
+			
 	}
 	
 	private URL generateLink(MagicCard mc, MagicEdition selected,boolean crop) throws MalformedURLException
 	{
 		
+		
+		if(scryfallProvider==null)
+			scryfallProvider=MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider;
+		
+		
+		
 		String url = new String("https://api.scryfall.com/cards/"+selected.getId().toLowerCase()+"/"+selected.getNumber()+"?format=image");
 		
-		if((MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider))
+		if(scryfallProvider)
+		{
 			url = new String("https://api.scryfall.com/cards/"+mc.getId()+"?format=image");
+		}
+		
+	
 		
 		if(selected.getMultiverse_id()!=null)
 			if(!selected.getMultiverse_id().equals("0"))
 				url = new String("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
+
+		
 	
 		
 		if(crop)

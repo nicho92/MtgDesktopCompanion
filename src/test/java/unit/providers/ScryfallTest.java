@@ -29,9 +29,9 @@ public class ScryfallTest {
 	{
 	
 		try {
-			String[] attributes ={"name","fullType", "editions", "rotatedCardName","multiverseid"};
+			String[] attributes ={"id","name","fullType", "editions", "rotatedCardName","multiverseid","colors","imageName"};
 			
-			List<MagicCard> list = prov.searchCardByCriteria("name", "Liliana, Heretical Healer", null, true);
+			List<MagicCard> list = prov.searchCardByCriteria("name", "Liliana, Heretical Healer", null, false);
 			IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(list,attributes);
 	    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
 	    	
@@ -44,8 +44,8 @@ public class ScryfallTest {
 	    	
 	    	
 	    	
-	    	
 		} catch (Exception e) {
+			e.printStackTrace();
 			fail(e.getMessage());
 		}
 	}
