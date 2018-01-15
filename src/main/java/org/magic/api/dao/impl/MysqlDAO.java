@@ -28,8 +28,8 @@ import org.magic.tools.IDGenerator;
 public class MysqlDAO extends AbstractMagicDAO{
 
    Connection con;
-
-	
+  
+   
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -49,13 +49,15 @@ public class MysqlDAO extends AbstractMagicDAO{
 			 props.put("DB_NAME", "mtgdesktopclient");
 			 props.put("LOGIN", "login");
 			 props.put("PASSWORD", "password");
+			 props.put("CARD_STORE", "BLOB"); //TODO : BLOB, JSON,TEXT
 			 props.put("PARAMS", "?autoDeserialize=true&autoReconnect=true");
 			 props.put("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
 		save();
 		}
+		
+		
 	}
 	
-
 	public void init() throws SQLException, ClassNotFoundException {
 		 logger.info("init " + getName());
 		 Class.forName(props.getProperty("DRIVER"));
@@ -70,17 +72,17 @@ public class MysqlDAO extends AbstractMagicDAO{
 	 {
 		 try{
 		 	logger.debug("Create table Cards");
-		 	con.createStatement().executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard BLOB, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 	con.createStatement().executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "+getProperty("CARD_STORE")+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Shop");
 		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("Create table stocks");
-		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard BLOB, collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
+		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "+getProperty("CARD_STORE")+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
 			logger.debug("Create table Alerts");
-		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard BLOB, amount DECIMAL)");
+		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard "+getProperty("CARD_STORE")+", amount DECIMAL)");
 		 	logger.debug("Create table Decks");
-		 	con.createStatement().executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` BLOB, categorie VARCHAR(100))");
+		 	con.createStatement().executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "+getProperty("CARD_STORE")+", categorie VARCHAR(100))");
 		 	
 		 	
 		 	logger.debug("populate collections");
@@ -127,26 +129,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	}
 
-	private MagicCard loadCard(String param, String value) throws SQLException {
-		PreparedStatement pst=con.prepareStatement("select * from cards where "+param+"= ?");	
-		pst.setString(1, value);
-		ResultSet rs = pst.executeQuery();
-		rs.next();
-		return (MagicCard) rs.getObject("mcard");
-	}
-
-	
-	/*
-	@Override
-	public MagicCard loadCard(String name, MagicCollection collection) throws SQLException {
-		logger.debug("load card " + name + " in " + collection);
-		PreparedStatement pst=con.prepareStatement("select * from cards where collection= ? and name= ?");	
-		pst.setString(1, collection.getName());
-		pst.setString(2, name);
-		ResultSet rs = pst.executeQuery();
-		return (MagicCard) rs.getObject("mcard");
-	}
-*/
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
 		logger.debug("list all cards");
@@ -593,18 +575,5 @@ public class MysqlDAO extends AbstractMagicDAO{
 		
 	}
 	
-	
-//	@Override
-//	public void moveCards(MagicCollection from, MagicCollection to, MagicCard mc) throws SQLException {
-//			PreparedStatement pst=con.prepareStatement("update cards set collection=? where collection=? and id=?");
-//			pst.setString(1, to.getName());
-//			pst.setString(2, from.getName());
-//			pst.setString(3, mc.getId());
-//			pst.executeUpdate();
-//		
-//		
-//	}
-	
-	
-
 }
+

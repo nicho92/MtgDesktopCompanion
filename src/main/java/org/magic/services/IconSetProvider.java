@@ -20,51 +20,47 @@ import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 public class IconSetProvider {
 
 	private static IconSetProvider inst;
-	
-	private Map<String,ImageIcon> cache24;
-	private Map<String,ImageIcon> cache16;
-	private File temp_file;
+
+	private Map<String, ImageIcon> cache24;
+	private Map<String, ImageIcon> cache16;
+	private File localDirectory;
 	Logger logger = MTGLogger.getLogger(this.getClass());
-	
-	
-	private IconSetProvider()
-	{
-		cache24 = new TreeMap<String,ImageIcon>(String.CASE_INSENSITIVE_ORDER);
-		cache16 = new TreeMap<String,ImageIcon>(String.CASE_INSENSITIVE_ORDER);
-		
-		temp_file = new File(AbstractMTGPicturesCache.confdir,"sets_icons");
-		
-		if(!temp_file.exists())
-			temp_file.mkdir();
-		
-		
+
+	private IconSetProvider() {
+		cache24 = new TreeMap<String, ImageIcon>(String.CASE_INSENSITIVE_ORDER);
+		cache16 = new TreeMap<String, ImageIcon>(String.CASE_INSENSITIVE_ORDER);
+
+		localDirectory = new File(AbstractMTGPicturesCache.confdir, "sets_icons");
+
+		if (!localDirectory.exists())
+			localDirectory.mkdir();
+
 		try {
 			logger.debug("Init IconSet cache");
 			long time_1 = System.currentTimeMillis();
 			initCache();
 			long time_2 = System.currentTimeMillis();
-			logger.debug("Init IconSet cache : done " + (time_2-time_1)/1000+ " sec");
+			logger.debug("Init IconSet cache : done " + (time_2 - time_1) / 1000 + " sec");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public static IconSetProvider getInstance()
-	{
-		if(inst == null)
-			inst= new IconSetProvider();
-		
+
+	public static IconSetProvider getInstance() {
+		if (inst == null)
+			inst = new IconSetProvider();
+
 		return inst;
 	}
-	
+
 	private BufferedImage extract(String id) throws IOException
 	{
 		
-		File f = new File(temp_file,id+"_set.png");
-		if(f.exists())
+		File iconFile = new File(localDirectory,id+"_set.png");
+		if(iconFile.exists())
 		{
-			logger.trace("load from cache " + f);
-			return ImageIO.read(f);
+			logger.trace("load from cache " + iconFile);
+			return ImageIO.read(iconFile);
 		}
 		else
 		{
@@ -73,40 +69,51 @@ public class IconSetProvider {
 			
 			try
 			{
-				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/"+id+"_set.png"));
+				String set=getEquiv(id);
+				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/"+set+"_set.png"));
+				
+				if(!set.equals(id))
+					iconFile.renameTo(new File(localDirectory,set+"_set.png"));
+					
+				ImageIO.write(im, "png", iconFile);
 			}
 			catch(Exception ex)
 			{
-				logger.error("couldnt load " + id,ex);
+				logger.error("couldnt load " + id);
 				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/PMTG1_set.png"));
+				
 			}
-			
-			ImageIO.write(im, "png", f);
 			return im;
 		}
 		
 	}
-	
-	private void initCache() throws Exception {
-		for(MagicEdition e : MTGControler.getInstance().getEnabledProviders().loadEditions())
-		{
-				BufferedImage im = extract(e.getId().toUpperCase());
-				cache24.put(e.getId(),new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
-				cache16.put(e.getId(),new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+
+	private String getEquiv(String set) {
+
+		switch (set) {
+		case "PI13":return "PIDW";
+		case "PI14":return "PIDW";
+		case "PSOI":return "SOI";
+		default:
+			return set;
 		}
-	} 
-	
-	
-	
-	
-	public ImageIcon get24(String id)
-	{
+
+	}
+
+	private void initCache() throws Exception {
+		for (MagicEdition e : MTGControler.getInstance().getEnabledProviders().loadEditions()) {
+			BufferedImage im = extract(e.getId().toUpperCase());
+			cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));
+			cache16.put(e.getId(), new ImageIcon(im.getScaledInstance(16, 16, Image.SCALE_SMOOTH)));
+		}
+	}
+
+	public ImageIcon get24(String id) {
 		return cache24.get(id);
 	}
-	
-	public ImageIcon get16(String id)
-	{
+
+	public ImageIcon get16(String id) {
 		return cache16.get(id);
 	}
-	
+
 }
