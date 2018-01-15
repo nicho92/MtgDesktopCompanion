@@ -399,9 +399,11 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  mc.setFlippable(mc.getLayout().equals("flip")); 
 		  int idface=0;
 		  
+		  String[] names = {mc.getName(),""};
+		  
 		  if(mc.getName().contains("//"))
 		  {
-			  String[] names = mc.getName().split(" // ");
+			  names = mc.getName().split(" // ");
 			  if(exact)
 				  if(names[0].equals(search))
 				  {
@@ -416,6 +418,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  //rotated card management
 		  if(obj.get("card_faces")!=null)
 		  {
+			 // mc.setName(names[idface]);
 			  mc.setText(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("oracle_text").getAsString());
 			  mc.setCost(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost").getAsString());
 			  mc.setRotatedCardName(obj.get("card_faces").getAsJsonArray().get(1).getAsJsonObject().get("name").getAsString());

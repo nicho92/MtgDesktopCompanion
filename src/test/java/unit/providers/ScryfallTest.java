@@ -15,8 +15,7 @@ import org.magic.api.providers.impl.ScryFallProvider;
 public class ScryfallTest {
 
 	ScryFallProvider prov ;
-	public static String[] attributes ={"name","fullType", "editions", "colors", "cost"};
-
+	
 	@Before
 	public void init()
 	{
@@ -30,9 +29,22 @@ public class ScryfallTest {
 	{
 	
 		try {
-			List<MagicCard> list = prov.searchCardByCriteria("name", "Jace, Vryn's Prodigy", null, true);
+			String[] attributes ={"name","fullType", "editions", "rotatedCardName","multiverseid"};
+			
+			List<MagicCard> list = prov.searchCardByCriteria("name", "Liliana, Heretical Healer", null, true);
 			IASCIITableAware asciiTableAware = new CollectionASCIITableAware<MagicCard>(list,attributes);
 	    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
+	    	
+	    	MagicCard cardLiliana = list.get(1);
+	    	System.out.println("rotation of " + cardLiliana);
+	    	
+	    	list= prov.searchCardByCriteria("name", cardLiliana.getRotatedCardName(), cardLiliana.getEditions().get(0), true);
+	    	asciiTableAware = new CollectionASCIITableAware<MagicCard>(list,attributes);
+	    	new ASCIITableImpl(System.out).printTable(asciiTableAware);
+	    	
+	    	
+	    	
+	    	
 		} catch (Exception e) {
 			fail(e.getMessage());
 		}
