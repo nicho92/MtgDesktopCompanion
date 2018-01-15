@@ -54,6 +54,7 @@ public class MtgDesktopCompanion {
 						 gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						 gui.setVisible(true);
 				
+						 launch.stop();		
 				for(MTGServer serv : MTGControler.getInstance().getEnabledServers())
 					if(serv.isAutostart())
 						try {
@@ -63,7 +64,7 @@ public class MtgDesktopCompanion {
 								logger.error(e);
 							}
 						
-				launch.stop();				
+						
 				
 			}
 		});

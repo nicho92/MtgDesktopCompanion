@@ -33,6 +33,7 @@ public class MTGConstants {
 	public static String MTG_DESKTOP_APP_ZIP = "https://github.com/nicho92/MtgDesktopCompanion/tree/master/dist";
 	public static String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
 	public static int MTG_DESKTOP_TABBED_POSITION = JTabbedPane.LEFT;
+	
 	public static String TABLE_ALTERNATE_ROW_COLOR="#E1E4F2";
 	public static Color THUMBNAIL_BACKGROUND_COLOR=SystemColor.windowBorder;
 	
