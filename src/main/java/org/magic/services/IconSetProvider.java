@@ -94,6 +94,26 @@ public class IconSetProvider {
 		case "PI13":return "PIDW";
 		case "PI14":return "PIDW";
 		case "PSOI":return "SOI";
+		case "FNM":return "PFNM";
+		case "F01":return "PFNM";
+		case "F02":return "PFNM";
+		case "F03":return "PFNM";
+		case "F04":return "PFNM";
+		case "F05":return "PFNM";
+		case "F06":return "PFNM";
+		case "F07":return "PFNM";
+		case "F08":return "PFNM";
+		case "F09":return "PFNM";
+		case "F10":return "PFNM";
+		case "F11":return "PFNM";
+		case "F12":return "PFNM";
+		case "F13":return "PFNM";
+		case "F14":return "PFNM";
+		case "F15":return "PFNM";
+		case "F16":return "PFNM";
+		case "F17":return "PFNM";
+		case "F18":return "PFNM";
+		case "P02":return "PO2";
 		default:
 			return set;
 		}
