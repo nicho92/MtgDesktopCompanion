@@ -32,6 +32,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.CardSearchPanel;
+import org.magic.gui.components.dialog.AboutDialog;
 import org.magic.gui.components.dialog.LoggerViewFrame;
 import org.magic.gui.components.dialog.ThreadMonitorFrame;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;

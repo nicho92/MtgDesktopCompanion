@@ -1,4 +1,4 @@
-package org.magic.gui;
+package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.text.SimpleDateFormat;
@@ -12,14 +12,17 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import org.magic.services.MTGControler;
+import java.awt.Color;
 
 public class AboutDialog extends JDialog {
 	public AboutDialog() {
-		setTitle(MTGControler.getInstance().getLangService().get("ABOUT"));
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("ABOUT"));
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JTextArea txtrWizardsOfThe = new JTextArea();
+		txtrWizardsOfThe.setBackground(Color.BLACK);
+		txtrWizardsOfThe.setForeground(Color.LIGHT_GRAY);
 		txtrWizardsOfThe.setWrapStyleWord(true);
 		txtrWizardsOfThe.setEditable(false);
 		txtrWizardsOfThe.setLineWrap(true);
@@ -31,6 +34,9 @@ public class AboutDialog extends JDialog {
 		getContentPane().add(lblNewLabel, BorderLayout.CENTER);
 		
 		JLabel lblDeveloppedByNichow = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DEVELOPPERS_ABOUT", "Nichow", "GPL " +new SimpleDateFormat("yyyy").format(new Date())));
+		lblDeveloppedByNichow.setOpaque(true);
+		lblDeveloppedByNichow.setBackground(Color.BLACK);
+		lblDeveloppedByNichow.setForeground(Color.WHITE);
 		lblDeveloppedByNichow.setHorizontalAlignment(SwingConstants.CENTER);
 		getContentPane().add(lblDeveloppedByNichow, BorderLayout.NORTH);
 		pack();
