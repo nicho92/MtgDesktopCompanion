@@ -36,6 +36,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicDAO;
+import org.magic.services.IconSetProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -454,6 +455,31 @@ public class ConfigurationPanel extends JPanel {
 		gbc_btnSave3.gridx = 4;
 		gbc_btnSave3.gridy = 7;
 		panelConfig.add(btnSave, gbc_btnSave3);
+		
+		JLabel lblCleancache = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CLEAN_CACHE")+" :");
+		GridBagConstraints gbc_lblCleancache = new GridBagConstraints();
+		gbc_lblCleancache.insets = new Insets(0, 0, 5, 5);
+		gbc_lblCleancache.gridx = 0;
+		gbc_lblCleancache.gridy = 8;
+		panelConfig.add(lblCleancache, gbc_lblCleancache);
+		
+		JButton btnClean = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CLEAN"));
+		btnClean.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				
+				try {
+					IconSetProvider.getInstance().clean();
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+			}
+		});
+		GridBagConstraints gbc_btnClean = new GridBagConstraints();
+		gbc_btnClean.fill = GridBagConstraints.HORIZONTAL;
+		gbc_btnClean.insets = new Insets(0, 0, 5, 0);
+		gbc_btnClean.gridx = 4;
+		gbc_btnClean.gridy = 8;
+		panelConfig.add(btnClean, gbc_btnClean);
 		
 		btnSaveLoglevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {

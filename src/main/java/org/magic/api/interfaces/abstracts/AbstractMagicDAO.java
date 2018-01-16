@@ -36,6 +36,9 @@ public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
 		return props.get(k);
 	}
 	
+	public Object getProperty(String k,String defaultValue) {
+		return props.getProperty(k,defaultValue);
+	}
 	
 	public AbstractMagicDAO() {
 		props=new Properties();

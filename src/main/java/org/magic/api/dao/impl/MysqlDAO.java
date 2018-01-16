@@ -25,11 +25,13 @@ import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
+import com.google.gson.Gson;
+
 public class MysqlDAO extends AbstractMagicDAO{
 
-   Connection con;
-  
-   
+    Connection con;
+    private String defaultStore="BLOB";
+    
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -72,17 +74,17 @@ public class MysqlDAO extends AbstractMagicDAO{
 	 {
 		 try{
 		 	logger.debug("Create table Cards");
-		 	con.createStatement().executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "+getProperty("CARD_STORE")+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 	con.createStatement().executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Shop");
 		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table collections");
 		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("Create table stocks");
-		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "+getProperty("CARD_STORE")+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
+		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
 			logger.debug("Create table Alerts");
-		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard "+getProperty("CARD_STORE")+", amount DECIMAL)");
+		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", amount DECIMAL)");
 		 	logger.debug("Create table Decks");
-		 	con.createStatement().executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "+getProperty("CARD_STORE")+", categorie VARCHAR(100))");
+		 	con.createStatement().executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "+getProperty("CARD_STORE",defaultStore)+", categorie VARCHAR(100))");
 		 	
 		 	
 		 	logger.debug("populate collections");
@@ -576,4 +578,3 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 	
 }
-

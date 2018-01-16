@@ -13,6 +13,7 @@ import java.util.TreeMap;
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
@@ -26,6 +27,14 @@ public class IconSetProvider {
 	private File localDirectory;
 	Logger logger = MTGLogger.getLogger(this.getClass());
 
+	
+	public void clean() throws IOException
+	{
+		FileUtils.cleanDirectory(localDirectory);
+	}
+	
+	
+	
 	private IconSetProvider() {
 		cache24 = new TreeMap<String, ImageIcon>(String.CASE_INSENSITIVE_ORDER);
 		cache16 = new TreeMap<String, ImageIcon>(String.CASE_INSENSITIVE_ORDER);
