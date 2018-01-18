@@ -1,6 +1,5 @@
 package org.magic.api.dao.impl;
 
-import static com.mongodb.client.model.Filters.eq;
 import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
@@ -135,7 +134,12 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saving " + mc +" in " + collection);
-		String json = gson.toJson(new Link(mc, collection));
+		
+		BasicDBObject obj = new BasicDBObject();
+		obj.put("card", mc);
+		obj.put("edition",mc.getEditions().get(0));
+		obj.put("collection", collection);
+		String json = gson.toJson(obj);
 		db.getCollection("cards",BasicDBObject.class).insertOne(BasicDBObject.parse(json));
 	}
 
@@ -158,12 +162,13 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		logger.debug("list all cards");
 		List<MagicCard> list = new ArrayList<MagicCard>();
 		
-		MongoCursor<BasicDBObject> result= db.getCollection("cards",BasicDBObject.class).find().iterator();
-		while(result.hasNext())
-		{
-			Link l = gson.fromJson(result.next().toJson(), Link.class);
-			list.add(l.getCard());
-		}
+		db.getCollection("cards",BasicDBObject.class).find().forEach(new Block<BasicDBObject>() {
+				        @Override
+				        public void apply(final BasicDBObject result) {
+				        	list.add(gson.fromJson(result.get("card").toString(),MagicCard.class));
+				        	}
+				    	}
+				  );
 		return list;
 	}
 
@@ -231,8 +236,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		db.getCollection("cards", BasicDBObject.class).find(query).forEach(new Block<BasicDBObject>() {
 				        @Override
 				        public void apply(final BasicDBObject result) {
-				        	Link l = gson.fromJson(result.toJson(), Link.class);
-				        	ret.add(l.getCard());
+				        	ret.add(gson.fromJson(result.get("card").toString(),MagicCard.class));
 				        	}
 				    	}
 				  );
@@ -253,7 +257,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public MagicCollection getCollection(String name) throws SQLException {
 		MongoCollection<MagicCollection> collection = db.getCollection("collects", MagicCollection.class);
-		return collection.find(eq("name",name)).first();
+		return collection.find(Filters.eq("name",name)).first();
 	}
 
 	@Override
@@ -264,7 +268,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
 		MongoCollection<MagicCollection> collection = db.getCollection("collects", MagicCollection.class);
-		collection.deleteOne(eq("name",c.getName()));
+		collection.deleteOne(Filters.eq("name",c.getName()));
 	}
 
 	@Override
@@ -358,49 +362,4 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		logger.debug("delete alert "  + alert);
 		
 	}
-	
-	
-	class Link
-	{
-		
-		public MagicEdition getEdition() {
-			return edition;
-		}
-		
-		public void setEdition(MagicEdition edition) {
-			this.edition = edition;
-		}
-		
-		public Link(MagicCard m1, MagicCollection m2)
-		{
-			this.card=m1;
-			this.collection=m2;
-			edition=m1.getEditions().get(0);
-		}
-		
-		public Link()
-		{
-			
-		}
-		
-		public MagicCard getCard() {
-			return card;
-		}
-
-		public void setCard(MagicCard card) {
-			this.card = card;
-		}
-
-		public MagicCollection getCollection() {
-			return collection;
-		}
-
-		public void setCollection(MagicCollection collection) {
-			this.collection = collection;
-		}
-		private MagicEdition edition;
-		private MagicCard card;
-		private MagicCollection collection;
-	}
-	
 }
