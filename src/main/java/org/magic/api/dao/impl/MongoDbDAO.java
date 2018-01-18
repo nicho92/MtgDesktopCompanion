@@ -1,13 +1,21 @@
 package org.magic.api.dao.impl;
 
+import static com.mongodb.client.model.Filters.eq;
+import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
+import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
+
 import java.io.File;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
 
-import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
+import org.bson.conversions.Bson;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -15,19 +23,29 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.tools.MagicCardComparator;
 
+import com.google.gson.Gson;
+import com.mongodb.BasicDBObject;
+import com.mongodb.Block;
 import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.ServerAddress;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
-import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
-
+import com.mongodb.client.model.Accumulators;
+import com.mongodb.client.model.Aggregates;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.result.DeleteResult;
 
 public class MongoDbDAO extends AbstractMagicDAO{
 
     
 	MongoClient client;
 	MongoDatabase db;
-	
+	CodecRegistry pojoCodecRegistry;
+	Gson gson;
 	
 	
 	@Override
@@ -56,20 +74,35 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 	public void init() throws SQLException, ClassNotFoundException {
 		
-		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
-		client = new MongoClient( getProperty("SERVERNAME").toString() , 
-								  Integer.parseInt(getProperty("SERVERPORT").toString()) );
-	
+		gson=new Gson();
 		
-		db = client.getDatabase(getProperty("DB_NAME").toString());
+		//pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().register("org.magic.beans").automatic(true).build()));
+		pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
+		
+		client = new MongoClient(
+								new ServerAddress(getProperty("SERVERNAME").toString(), Integer.parseInt(getProperty("SERVERPORT").toString())),
+								MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build()	
+								);
+		db = client.getDatabase(getProperty("DB_NAME").toString()).withCodecRegistry(pojoCodecRegistry);
+		
 		createDB();
+	
 		logger.info("init " + getName() +" done");
 		 
 	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException {
+		
 		MongoDbDAO dao = new MongoDbDAO();
 		dao.init();
+		MagicEdition ed = new MagicEdition();
+					ed.setId("e02");
+					ed.setSet("Explorer of ixalan");
+		
+		System.out.println(dao.getCardsCountGlobal(new MagicCollection("Library")));
+		
+		
+		
 	}
 	
 	 public boolean createDB()
@@ -86,10 +119,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		 	String[] cols = {"Library","Needed","For Sell","Favorites"};
 		 	
 		 	for(String s : cols)
-		 	{ 
-		 		Document col1 = new Document(s, new MagicCollection(s));
-		 		db.getCollection("collects").insertOne(col1);
-		 	}
+		 		db.getCollection("collects",MagicCollection.class).insertOne(new MagicCollection(s));
 		 	
 		 	return true;
 		 }
@@ -105,66 +135,144 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saving " + mc +" in " + collection);
-		
+		String json = gson.toJson(new Link(mc, collection));
+		db.getCollection("cards",BasicDBObject.class).insertOne(BasicDBObject.parse(json));
 	}
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("remove " + mc + " from " + collection);
+		
+		BasicDBObject andQuery = new BasicDBObject();
+		List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+							obj.add(new BasicDBObject("card.id",mc.getId()));
+							obj.add(new BasicDBObject("collection.name", collection.getName()));
+		andQuery.put("$and", obj);
+		DeleteResult dr = db.getCollection("cards",BasicDBObject.class).deleteMany(andQuery);
+		logger.debug(dr.toString());
+		
 	}
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
 		logger.debug("list all cards");
-	
-		return null;
+		List<MagicCard> list = new ArrayList<MagicCard>();
+		
+		MongoCursor<BasicDBObject> result= db.getCollection("cards",BasicDBObject.class).find().iterator();
+		while(result.hasNext())
+		{
+			Link l = gson.fromJson(result.next().toJson(), Link.class);
+			list.add(l.getCard());
+		}
+		return list;
 	}
 
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
-		return null;
+		Map<String, Integer> map = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
+		
+		 List<Bson> aggr = Arrays.asList(
+	              Aggregates.match(Filters.eq("collection.name", c.getName())),
+	              Aggregates.group("$edition.id", Accumulators.sum("count", 1))
+	      );
+		
+		 
+		 logger.trace(aggr.toString());
+			
+		    
+		db.getCollection("cards",BasicDBObject.class)
+		  .aggregate(aggr)
+		  .forEach( new Block<BasicDBObject>() {
+				        @Override
+				        public void apply(final BasicDBObject document) {
+				            map.put(document.getString("_id"), document.getInt("count"));
+				        	}
+				    	}
+				  );
+		return map;
+	}
+	
+	@Override
+	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException {
+		return getCardsFromCollection(collection,null);
 	}
 
 	@Override
 	public int getCardsCount(MagicCollection cols,MagicEdition me) throws SQLException {
-		return -1;
+		BasicDBObject andQuery = new BasicDBObject();
+		List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+							obj.add(new BasicDBObject("edition.id",me.getId()));
+							obj.add(new BasicDBObject("collection.name", cols.getName()));
+		andQuery.put("$and", obj);
+		
+		logger.trace(andQuery.toJson());
+		
+		return (int) db.getCollection("cards",BasicDBObject.class).count(andQuery);
 	}
 
-	@Override
-	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException {
-		return null;
-	}
+	
 
 	@Override
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
-		
 		logger.debug("getCardsFromCollection " + collection + " " + me);
-		return null;
+		
+		BasicDBObject query = new BasicDBObject();
+		List<MagicCard> ret = new ArrayList<MagicCard>();
+
+		List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+							obj.add(new BasicDBObject("collection.name", collection.getName()));
+		
+		if(me!=null)
+		{
+			obj.add(new BasicDBObject("edition.id", me.getId()));
+			query.put("$and", obj);
+		}
+							
+		db.getCollection("cards", BasicDBObject.class).find(query).forEach(new Block<BasicDBObject>() {
+				        @Override
+				        public void apply(final BasicDBObject result) {
+				        	Link l = gson.fromJson(result.toJson(), Link.class);
+				        	ret.add(l.getCard());
+				        	}
+				    	}
+				  );
+		
+		Collections.sort(ret,new MagicCardComparator());
+		return ret;
 	}
 
 	@Override
 	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException {
-		return null;
+		List<String> ret = new ArrayList<String>();
+		BasicDBObject query = new BasicDBObject();
+		query.put("collection.name", collection.getName());
+		db.getCollection("cards", BasicDBObject.class).distinct("edition.id",query,String.class).into(ret);
+		return ret;
 	}
 
 	@Override
 	public MagicCollection getCollection(String name) throws SQLException {
-		return null;
+		MongoCollection<MagicCollection> collection = db.getCollection("collects", MagicCollection.class);
+		return collection.find(eq("name",name)).first();
 	}
 
 	@Override
 	public void saveCollection(MagicCollection c) throws SQLException {
-
+		db.getCollection("collects",MagicCollection.class).insertOne(c);
 	}
 
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
-
+		MongoCollection<MagicCollection> collection = db.getCollection("collects", MagicCollection.class);
+		collection.deleteOne(eq("name",c.getName()));
 	}
 
 	@Override
 	public List<MagicCollection> getCollections() throws SQLException {
-		return null;
+		MongoCollection<MagicCollection> collection = db.getCollection("collects", MagicCollection.class);
+		List<MagicCollection> cols = new ArrayList<MagicCollection>();
+		collection.find().into(cols);
+		return cols;
 	}
 
 	@Override
@@ -175,7 +283,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 
 	@Override
 	public String getDBLocation() {
-		return props.getProperty("URL")+"/"+props.getProperty("DB_NAME");
+		return client.getConnectPoint();
 	}
 
 	@Override
@@ -192,7 +300,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException{
 		
-		return null;
+		return new ArrayList<MagicCollection>();
 	}
 
 	@Override
@@ -203,11 +311,11 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 	@Override
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
-		return null;
+		return new ArrayList<MagicCardStock>();
 	}
 	
 	public List<MagicCardStock> getStocks() throws SQLException {
-		return null;
+		return new ArrayList<MagicCardStock>();
 	}
 	
 
@@ -224,7 +332,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public List<MagicCardAlert> getAlerts() {
 		
-		return null;
+		return new ArrayList<MagicCardAlert>();
 	}
 
 	@Override
@@ -249,6 +357,50 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	public void deleteAlert(MagicCardAlert alert) throws SQLException {
 		logger.debug("delete alert "  + alert);
 		
+	}
+	
+	
+	class Link
+	{
+		
+		public MagicEdition getEdition() {
+			return edition;
+		}
+		
+		public void setEdition(MagicEdition edition) {
+			this.edition = edition;
+		}
+		
+		public Link(MagicCard m1, MagicCollection m2)
+		{
+			this.card=m1;
+			this.collection=m2;
+			edition=m1.getEditions().get(0);
+		}
+		
+		public Link()
+		{
+			
+		}
+		
+		public MagicCard getCard() {
+			return card;
+		}
+
+		public void setCard(MagicCard card) {
+			this.card = card;
+		}
+
+		public MagicCollection getCollection() {
+			return collection;
+		}
+
+		public void setCollection(MagicCollection collection) {
+			this.collection = collection;
+		}
+		private MagicEdition edition;
+		private MagicCard card;
+		private MagicCollection collection;
 	}
 	
 }
