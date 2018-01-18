@@ -38,6 +38,7 @@ import com.mongodb.client.model.Accumulators;
 import com.mongodb.client.model.Aggregates;
 import com.mongodb.client.model.Filters;
 import com.mongodb.client.result.DeleteResult;
+import com.mongodb.client.result.UpdateResult;
 
 public class MongoDbDAO extends AbstractMagicDAO{
 
@@ -284,11 +285,9 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	public void removeCollection(MagicCollection c) throws SQLException {
 		logger.debug("remove collection " + c);
 		BasicDBObject query = new BasicDBObject();
-		List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
-							obj.add(new BasicDBObject("collection.name", c.getName()));
+				query.put("collection.name", c.getName());
 		DeleteResult dr = db.getCollection("cards").deleteMany(query);
 		logger.trace(dr);
-		
 		MongoCollection<MagicCollection> collection = db.getCollection("collects", MagicCollection.class);
 		collection.deleteOne(Filters.eq("name",c.getName()));
 		
@@ -376,6 +375,80 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		return stocks;
 	}
     
+	
+	@Override
+	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
+		logger.debug("saving " + state);
+		
+		if(state.getIdstock()==-1)
+		{
+			state.setIdstock(Integer.parseInt(getNextSequence().toString()));
+			BasicDBObject obj = new BasicDBObject();
+			obj.put("stockItem", gson.toJson(obj));
+			db.getCollection("stocks",BasicDBObject.class).insertOne(obj);
+			
+		}
+		else
+		{ 
+			Bson filter = new Document("stockItem.idstock", state.getIdstock());
+			BasicDBObject obj = new BasicDBObject();
+			obj.put("stockItem",  gson.toJson(state));
+			UpdateResult res = db.getCollection("stocks",BasicDBObject.class).replaceOne(filter,obj);
+			logger.debug(res);
+		}
+	}
+	
+	@Override
+	public void saveAlert(MagicCardAlert alert) throws SQLException {
+		logger.debug("saving alert " + alert);
+		BasicDBObject obj = new BasicDBObject();
+					  obj.put("alertItem",  gson.toJson(alert));
+					  obj.put("db_id", IDGenerator.generate(alert.getCard()));
+						
+		db.getCollection("alerts",BasicDBObject.class).insertOne(obj);
+	}
+	
+	@Override
+	public List<MagicCardAlert> getAlerts() {
+		ArrayList<MagicCardAlert> ret= new ArrayList<MagicCardAlert>();
+		
+		db.getCollection("alerts",BasicDBObject.class).find().forEach(new Block<BasicDBObject>() {
+	        @Override
+	        public void apply(final BasicDBObject result) {
+	        	ret.add(convert(result.get("alertItem").toString(),MagicCardAlert.class));
+	        	}
+	    	}
+	  );
+		
+		
+		return ret;
+	}
+
+	@Override
+	public boolean hasAlert(MagicCard mc) {
+		return db.getCollection("alerts",BasicDBObject.class).find(new BasicDBObject("db_id",IDGenerator.generate(mc))).limit(1).iterator().hasNext();
+	}
+	
+	
+	
+	@Override
+	public void updateAlert(MagicCardAlert alert) throws SQLException {
+	
+		
+	}
+
+	@Override
+	public void deleteAlert(MagicCardAlert alert) throws SQLException {
+		logger.debug("delete alert "  + alert);
+		
+	}
+	
+	@Override
+	public void backup(File f) throws Exception {
+			
+	}
+
+	
 	private void createCountersCollection(MongoCollection<Document> countersCollection) {
         Document document = new Document();
         document.append("_id", "stock_increment");
@@ -395,64 +468,4 @@ public class MongoDbDAO extends AbstractMagicDAO{
         return result.get("seq");
     }
 	
-	@Override
-	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
-		logger.debug("saving " + state);
-		
-		if(state.getIdstock()==-1)
-		{
-			state.setIdstock(Integer.parseInt(getNextSequence().toString()));
-			
-			BasicDBObject obj = new BasicDBObject();
-			obj.put("stockItem", state);
-			String json = gson.toJson(obj);
-			obj=BasicDBObject.parse(json);
-
-			db.getCollection("stocks",BasicDBObject.class).insertOne(obj);
-			
-		}
-		else
-		{
-			Bson filter = new Document("stockItem.id", state.getIdstock());
-			Bson newValue = new Document("salary", 90000);
-			Bson updateOperationDocument = new Document("$set", newValue);
-			
-			db.getCollection("stocks",BasicDBObject.class).updateOne(filter,updateOperationDocument);
-		}
-	}
-	
-	@Override
-	public void backup(File f) throws Exception {
-			
-	}
-
-	@Override
-	public List<MagicCardAlert> getAlerts() {
-		
-		return new ArrayList<MagicCardAlert>();
-	}
-
-	@Override
-	public boolean hasAlert(MagicCard mc) {
-		return false;
-		
-	}
-	
-	@Override
-	public void saveAlert(MagicCardAlert alert) throws SQLException {
-		
-		
-	}
-	
-	@Override
-	public void updateAlert(MagicCardAlert alert) throws SQLException {
-		
-		
-	}
-
-	@Override
-	public void deleteAlert(MagicCardAlert alert) throws SQLException {
-		logger.debug("delete alert "  + alert);
-		
-	}
 }
