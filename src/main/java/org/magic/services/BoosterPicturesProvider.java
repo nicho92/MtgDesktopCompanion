@@ -4,6 +4,8 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
@@ -43,9 +45,29 @@ public class BoosterPicturesProvider {
 			document = builder.parse(new URL(MTGConstants.MTG_BOOSTERS_URI).openStream());
 			logger.debug("Loading booster pics done");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.error(e);
 		}
 	}
+	
+	public List<String> listEditionsID()
+	{
+		List<String> list = new ArrayList<String>();
+		
+		try {
+		XPath xPath =  XPathFactory.newInstance().newXPath();
+		String expression="//booster/@id";
+		NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+		
+		for(int i=0;i<nodeList.getLength();i++)
+				list.add(nodeList.item(i).getNodeValue());
+		}
+		catch(Exception e)
+		{
+			logger.error("Error retrieving IDs ",e);
+		}
+		return list;
+	}
+	
 	
 	public Icon getBoosterFor(MagicEdition me)
 	{
@@ -62,13 +84,13 @@ public class BoosterPicturesProvider {
 				connection.setRequestProperty("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
 				return new ImageIcon(ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
 			} catch (IOException e) {
-				logger.error("Could not load : " + url,e);
+				logger.error(me.getId() + " could not load : " + url + ":" + e);
 				return null;
 			} catch (XPathExpressionException e) {
-				logger.error(me.getId() + " is not found ",e);
+				logger.error(me.getId() + " is not found :" + e);
 				return null;
 			}
-			catch (NullPointerException e) {
+			catch (Exception e) {
 				logger.error(me.getId() + " error loading " + url + " " + e.getMessage());
 				return null;
 			}
