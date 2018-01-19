@@ -114,6 +114,7 @@ public class MagicDeck implements Serializable{
 		mapDeck = new HashMap<MagicCard,Integer>();
 		mapSideBoard = new HashMap<MagicCard,Integer>();
 		tags=new ArrayList<String>();
+		averagePrice=0;
 	}
 	
 	public Map<MagicCard, Integer> getMap() {
