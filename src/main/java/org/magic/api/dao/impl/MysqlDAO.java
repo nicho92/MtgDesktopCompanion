@@ -309,7 +309,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public long getDBSize() {
-		String sql = "SELECT Round(Sum(data_length + index_length) / 1024 / 1024, 1) FROM   information_schema.tables WHERE  table_schema = 'mtgdesktopclient'";
+		String sql = "SELECT Round(Sum(data_length + index_length), 1) FROM   information_schema.tables WHERE  table_schema = 'mtgdesktopclient'";
 		PreparedStatement pst;
 		try {
 			pst = con.prepareStatement(sql);

@@ -64,7 +64,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
     @Override
@@ -103,22 +103,6 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 		logger.info("init " + getName() +" done");
 		 
-	}
-
-	public static void main(String[] args) throws ClassNotFoundException, SQLException {
-		
-		MongoDbDAO dao = new MongoDbDAO();
-		dao.init();
-		
-		MagicCardAlert a =  dao.getAlerts().get(0);
-		System.out.println("modification " + a + " " + a.getId() + " " + a.getPrice());
-		a.setPrice(100.0);
-		dao.updateAlert(a);
-		a=dao.getAlerts().get(0);
-		System.out.println("modification " + a + " " + a.getId() + " " + a.getPrice());
-			
-		
-		
 	}
 	
 	 public boolean createDB()
@@ -331,7 +315,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 
 	@Override
 	public long getDBSize() {
-		return -1;
+		return db.runCommand(new BasicDBObject("dbstats",1)).getDouble("dataSize").longValue();
 	}
 
 	@Override
@@ -390,17 +374,17 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		{
 			state.setIdstock(Integer.parseInt(getNextSequence().toString()));
 			BasicDBObject obj = new BasicDBObject();
-						  obj.put("stockItem", serialize(state));
-		db.getCollection("stocks",BasicDBObject.class).insertOne(obj);
+						  obj.put("stockItem", state);
+			db.getCollection("stocks",BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 			
 		}
-		else //TODO : BSON filter doesn't work...
+		else 
 		{ 
 			Bson filter = new Document("stockItem.idstock", state.getIdstock());
 			BasicDBObject obj = new BasicDBObject();
-						  obj.put("stockItem",  serialize(state));
+						  obj.put("stockItem",  state);
 			logger.debug(filter);
-			UpdateResult res = db.getCollection("stocks",BasicDBObject.class).replaceOne(filter,obj);
+			UpdateResult res = db.getCollection("stocks",BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);
 		}
 	}
@@ -411,9 +395,9 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		
 		alert.setId(getNextSequence().toString());
 		BasicDBObject obj = new BasicDBObject();
-					  obj.put("alertItem",  serialize(alert));
+					  obj.put("alertItem",  alert);
 					  obj.put("db_id",IDGenerator.generate(alert.getCard()));
-		db.getCollection("alerts",BasicDBObject.class).insertOne(obj);
+		db.getCollection("alerts",BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 	}
 	
 	@Override
@@ -435,14 +419,14 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	}
 	
 
-	@Override //TODO : BSON filter doesn't work...
+	@Override 
 	public void updateAlert(MagicCardAlert alert) throws SQLException {
 		Bson filter = new Document("alertItem.id", alert.getId());
 		BasicDBObject obj = new BasicDBObject();
-					  obj.put("alertItem",  serialize(alert));
+					  obj.put("alertItem",  alert);
 					  obj.put("db_id",IDGenerator.generate(alert.getCard()));
 					
-		UpdateResult res = db.getCollection("alerts",BasicDBObject.class).replaceOne(filter,obj);
+		UpdateResult res = db.getCollection("alerts",BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
 		logger.debug(res);
 		
 	}
@@ -452,12 +436,19 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public void deleteAlert(MagicCardAlert alert) throws SQLException {
 		logger.debug("delete alert "  + alert);
-		
+		Bson filter = new Document("alertItem.id", alert.getId());
+		DeleteResult res = db.getCollection("alerts").deleteOne(filter);
+		logger.debug(res);
 	}
 	
 	@Override
 	public void deleteStock(List<MagicCardStock> state) throws SQLException {
 		logger.debug("remove " + state.size()  + " items in stock");
+		for(MagicCardStock s : state)
+		{
+			Bson filter = new Document("stockItem.idstock", s.getIdstock());
+			db.getCollection("stocks").deleteOne(filter);
+		}
 	}
 
 	
