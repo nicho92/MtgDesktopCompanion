@@ -156,7 +156,7 @@
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpcore</artifactId>
-			<version>4.4.8</version>
+			<version>4.4.9</version>
 		</dependency>
 		<dependency>
 			<groupId>com.itextpdf</groupId>
@@ -216,7 +216,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.1.4.jre7</version>
+			<version>42.2.0.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
