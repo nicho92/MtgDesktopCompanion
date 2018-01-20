@@ -56,6 +56,11 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 					  .get();
 		
 		
+		for(Element e : d.select("span.singleTag"))
+		{
+			deck.getTags().add(e.text());
+		}
+		
 		Elements main = d.getElementsByClass("subdeck");
 		
 		int taille = main.get(0).getElementsByClass("subdeck-group__card-qty").size();
