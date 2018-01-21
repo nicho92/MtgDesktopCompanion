@@ -43,7 +43,7 @@ public class DrawProbabilityPanel extends JPanel {
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
 		
-		JLabel lblDrawProbability = new JLabel(MTGControler.getInstance().getLangService().get("DRAW_PROBABILITIES"));
+		JLabel lblDrawProbability = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DRAW_PROBABILITIES"));
 			   lblDrawProbability.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panel.add(lblDrawProbability);
 	}
