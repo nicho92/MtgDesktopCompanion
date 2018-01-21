@@ -11,7 +11,12 @@ import org.magic.services.MTGControler;
 
 public class DeckSnifferModel extends DefaultTableModel {
 
-	final String[] columns = new String[]{MTGControler.getInstance().getLangService().getCapitalize("NAME"),MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),MTGControler.getInstance().getLangService().getCapitalize("AUTHOR")};
+	final String[] columns = new String[]{MTGControler.getInstance().getLangService().getCapitalize("NAME"),
+										  MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),
+										  MTGControler.getInstance().getLangService().getCapitalize("AUTHOR"),
+										  MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION")
+										  
+										 };
 
 	List<RetrievableDeck> decks;
 	
@@ -50,6 +55,7 @@ public class DeckSnifferModel extends DefaultTableModel {
 		case 0 : return decks.get(row);
 		case 1 : return decks.get(row).getColor();
 		case 2 : return decks.get(row).getAuthor();
+		case 3 : return decks.get(row).getDescription();
 		default : return null;
 		}
 		
