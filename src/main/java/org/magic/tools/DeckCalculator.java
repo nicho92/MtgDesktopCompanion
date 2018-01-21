@@ -1,6 +1,8 @@
 package org.magic.tools;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
 import org.magic.api.beans.MagicCard;
@@ -15,6 +17,18 @@ public class DeckCalculator {
 	public DeckCalculator(MagicDeck d) {
 		setDeck(d);
 		format =new DecimalFormat("#0.0");
+	}
+	
+	
+	public List<MagicCard> getUniqueCards()
+	{
+		return new ArrayList<MagicCard>(deck.getMap().keySet());
+	}
+	
+	
+	
+	public MagicDeck getDeck() {
+		return deck;
 	}
 	
 	public void setDeck(MagicDeck d)

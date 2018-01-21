@@ -78,6 +78,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.gui.components.charts.DrawProbabilityPanel;
 
 public class DeckBuilderGUI extends JPanel {
 
@@ -88,6 +89,7 @@ public class DeckBuilderGUI extends JPanel {
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private DeckPricePanel deckPricePanel;
+	private DrawProbabilityPanel drawProbabilityPanel;
 	private HandPanel thumbnail;
 
 	private JTextField txtSearch;
@@ -588,19 +590,21 @@ public class DeckBuilderGUI extends JPanel {
 		manaRepartitionPanel = new ManaRepartitionPanel();
 		typeRepartitionPanel = new TypeRepartitionPanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel();
-
+		drawProbabilityPanel = new DrawProbabilityPanel();
+		
 		JPanel randomHandPanel = new JPanel();
 		JPanel statPanel = new JPanel();
 
 		randomHandPanel.setLayout(new BorderLayout(0, 0));
 		randomHandPanel.add(thumbnail, BorderLayout.CENTER);
 
-		statPanel.setLayout(new GridLayout(2, 2, 0, 0));
+		statPanel.setLayout(new GridLayout(3, 2, 0, 0));
 		statPanel.add(manaRepartitionPanel);
 		statPanel.add(typeRepartitionPanel);
 		statPanel.add(rarityRepartitionPanel);
 		statPanel.add(cmcChartPanel);
-
+		statPanel.add(drawProbabilityPanel);
+		
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), null, statPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"), null, randomHandPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"),null,deckPricePanel,null);
@@ -637,7 +641,7 @@ public class DeckBuilderGUI extends JPanel {
 		JPanel panneauResultFilter = new JPanel();
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 
-		groupsFilterResult = new ButtonGroup() {
+		groupsFilterResult = new ButtonGroup();/* {
 			@Override
 			public void setSelected(ButtonModel model, boolean selected) {
 				if (selected) {
@@ -646,7 +650,7 @@ public class DeckBuilderGUI extends JPanel {
 					clearSelection();
 				}
 			}
-		};
+		};*/
 
 		JToggleButton tglbtnStd = new JToggleButton("STD");
 		tglbtnStd.setActionCommand("Standard");
@@ -820,6 +824,7 @@ public class DeckBuilderGUI extends JPanel {
 		manaRepartitionPanel.init(deck);
 		rarityRepartitionPanel.init(deck);
 		deckPricePanel.initDeck(deck);
+		drawProbabilityPanel.init(deck);
 		btnExports.setEnabled(deck.getAsList().size() > 0);
 
 	}

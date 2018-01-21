@@ -232,6 +232,7 @@ public class JTagsPanel extends JPanel {
 	{
 		public TagLabel(String t,Color f, Color b,Font font) {
 			super(t);
+			setToolTipText(t);
 			setForeground(f);
 			setBackground(b);
 			setOpaque(true);
