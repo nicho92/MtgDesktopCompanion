@@ -7,7 +7,9 @@ import javax.swing.JScrollPane;
 import javax.swing.table.AbstractTableModel;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.services.MTGControler;
 import org.magic.tools.DeckCalculator;
 import javax.swing.JLabel;
 import java.awt.Color;
@@ -18,12 +20,17 @@ public class DrawProbabilityPanel extends JPanel {
 	
 	private JXTable table;
 	private DeckCalculator calc;
+	private AbstractTableModel model;
+	int maxTurn=10;
+	
 	
 	public DrawProbabilityPanel() {
 		initGUI();
 	}
 	
-
+	public void setMaxTurn(int maxTurn) {
+		this.maxTurn = maxTurn;
+	}
 	
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
@@ -36,7 +43,7 @@ public class DrawProbabilityPanel extends JPanel {
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
 		
-		JLabel lblDrawProbability = new JLabel("Draw Probabilities");
+		JLabel lblDrawProbability = new JLabel(MTGControler.getInstance().getLangService().get("DRAW_PROBABILITIES"));
 			   lblDrawProbability.setFont(new Font("Tahoma", Font.BOLD, 14));
 		panel.add(lblDrawProbability);
 	}
@@ -44,14 +51,63 @@ public class DrawProbabilityPanel extends JPanel {
 	public void init(MagicDeck d)
 	{
 		calc=new DeckCalculator(d);
-		init();
+		initDeck();
+	}
+
+	public void init(MagicDeck d,MagicCard c)
+	{
+		calc=new DeckCalculator(d);
+		
+		if(c!=null)
+			initCard(c);
+	}
+
+	
+	private void initCard(MagicCard card)
+	{
+		model = new AbstractTableModel() {
+			
+			
+			@Override
+			public String getColumnName(int t) {
+				
+				if(t==0)
+					return "Turn";
+				
+				return card.getName();
+			}
+			
+			@Override
+			public Object getValueAt(int r, int c) {
+				if(c==0)
+				{
+					return "Turn " + (r);
+				}
+				else
+				{
+					return calc.format(calc.getProbability(r, card));
+				}
+			}
+			
+			@Override
+			public int getRowCount() {
+				return maxTurn+1;
+			}
+			
+			@Override
+			public int getColumnCount() {
+				return 2;
+			}
+		};
+	
+		table.setModel(model);
+		model.fireTableDataChanged();
+		table.packAll();
 	}
 	
-	private void init()
+	private void initDeck()
 	{
-		AbstractTableModel model = new AbstractTableModel() {
-			
-			int maxTurn=10;
+		model = new AbstractTableModel() {
 			
 			@Override
 			public String getColumnName(int t) {
@@ -86,6 +142,7 @@ public class DrawProbabilityPanel extends JPanel {
 	
 		table.setModel(model);
 		model.fireTableDataChanged();
+		table.packAll();
 	}
 	
 	

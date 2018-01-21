@@ -57,7 +57,13 @@ public class DeckCalculator {
 		
 		int numberInDeck=deck.getMap().get(mc);
 		int numberCardsInDeck=deck.getNbCards();
-		hypergeoVar= new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards);
-		return hypergeoVar.upperCumulativeProbability(1);
+		try{ 
+			hypergeoVar= new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards);
+			return hypergeoVar.upperCumulativeProbability(1);
+		}catch(Exception e)
+		{
+			return 0;
+		}
+		
 	}
 }

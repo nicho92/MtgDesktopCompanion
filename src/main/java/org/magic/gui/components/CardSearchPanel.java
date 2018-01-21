@@ -167,19 +167,7 @@ public class CardSearchPanel extends JPanel {
 			return selectedCard;
 		}
 
-		public void setLookAndFeel(String lookAndFeel)
-		{
-			try {
-				UIManager.put("Table.alternateRowColor", Color.decode(MTGConstants.TABLE_ALTERNATE_ROW_COLOR));
-				UIManager.setLookAndFeel(lookAndFeel);
-				MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
-				SwingUtilities.updateComponentTreeUI(this);
-				
-			} catch (Exception e) {
-				logger.error(e.getMessage());
-			}
-			
-		}
+		
 
 		public void initPopupCollection() throws Exception
 		{

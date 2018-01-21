@@ -91,7 +91,7 @@ public class DeckBuilderGUI extends JPanel {
 	private DeckPricePanel deckPricePanel;
 	private DrawProbabilityPanel drawProbabilityPanel;
 	private HandPanel thumbnail;
-
+	private JPanel panelBottom;
 	private JTextField txtSearch;
 
 	private JComboBox<String> cboAttributs;
@@ -113,7 +113,9 @@ public class DeckBuilderGUI extends JPanel {
 	private JTabbedPane tabbedPane;
 	private JLabel lblExport = new JLabel("");
 	private ButtonGroup groupsFilterResult;
-
+	private DrawProbabilityPanel cardDrawProbaPanel ;
+	
+	
 	public static final int MAIN = 0;
 	public static final int SIDE = 1;
 
@@ -158,6 +160,7 @@ public class DeckBuilderGUI extends JPanel {
 		deckSidemodel = new DeckModel(DeckModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
 		deckPricePanel = new DeckPricePanel();
+		panelBottom = new JPanel();
 		
 		thumbnail = new HandPanel();
 		thumbnail.setThumbnailSize(new Dimension(223, 311));
@@ -484,7 +487,12 @@ public class DeckBuilderGUI extends JPanel {
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
-		panneauDeck.setRightComponent(magicCardDetailPanel);
+		panelBottom.setLayout(new BorderLayout(0, 0));
+		panelBottom.add(magicCardDetailPanel);
+		panneauDeck.setRightComponent(panelBottom);
+		
+		cardDrawProbaPanel = new DrawProbabilityPanel();
+		panelBottom.add(cardDrawProbaPanel, BorderLayout.EAST);
 
 		final JTabbedPane tabbedDeck_side = new JTabbedPane(JTabbedPane.BOTTOM);
 
@@ -516,7 +524,7 @@ public class DeckBuilderGUI extends JPanel {
 
 				MagicCard mc = (MagicCard) tableDeck.getValueAt(tableDeck.getSelectedRow(), 0);
 				magicCardDetailPanel.setMagicCard(mc);
-
+				cardDrawProbaPanel.init(deck,mc);
 			}
 		});
 
@@ -578,6 +586,7 @@ public class DeckBuilderGUI extends JPanel {
 
 		tableDeck.getColumnModel().getColumn(4).setCellEditor(new MagicDeckQtyEditor());
 		tableSide.getColumnModel().getColumn(4).setCellEditor(new MagicDeckQtyEditor());
+		
 
 		JPanel panelInfoDeck = new JPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS"), null, panelInfoDeck, null);
