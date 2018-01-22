@@ -27,6 +27,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class CardStockLinePanel extends JPanel {
 	  private JTextField txtComment;
@@ -104,7 +105,7 @@ public class CardStockLinePanel extends JPanel {
 					MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(state);
 				} catch (SQLException e) {
 					// TODO Auto-generated catch block
-					e.printStackTrace();
+					MTGLogger.printStackTrace(e);
 				}
 			}
 		});

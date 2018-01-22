@@ -74,7 +74,7 @@ public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	
@@ -87,7 +87,7 @@ public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 

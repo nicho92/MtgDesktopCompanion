@@ -71,7 +71,7 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	
@@ -84,7 +84,7 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	

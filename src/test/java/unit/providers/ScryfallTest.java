@@ -11,6 +11,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.providers.impl.ScryFallProvider;
+import org.magic.services.MTGLogger;
 
 public class ScryfallTest {
 
@@ -46,7 +47,7 @@ public class ScryfallTest {
 	    	
 	    	
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 			fail(e.getMessage());
 		}
 	}

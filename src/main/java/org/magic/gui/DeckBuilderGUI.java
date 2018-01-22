@@ -18,11 +18,9 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.ButtonGroup;
-import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
@@ -62,6 +60,7 @@ import org.magic.gui.components.DeckPricePanel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
+import org.magic.gui.components.charts.DrawProbabilityPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
@@ -78,7 +77,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.gui.components.charts.DrawProbabilityPanel;
 
 public class DeckBuilderGUI extends JPanel {
 
@@ -396,7 +394,7 @@ public class DeckBuilderGUI extends JPanel {
 
 										} catch (Exception e) {
 											logger.error(e);
-											e.printStackTrace();
+											MTGLogger.printStackTrace(e);
 											loading(false, "");
 											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 										}

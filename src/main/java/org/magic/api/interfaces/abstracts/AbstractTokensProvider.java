@@ -61,7 +61,7 @@ public abstract class AbstractTokensProvider implements MagicTokensProvider {
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 
 	}
@@ -82,7 +82,7 @@ public abstract class AbstractTokensProvider implements MagicTokensProvider {
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 
 	}

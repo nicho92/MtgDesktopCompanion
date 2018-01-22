@@ -44,7 +44,6 @@ import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
 import javax.swing.SwingWorker;
-import javax.swing.UIManager;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.table.DefaultTableModel;
@@ -61,7 +60,6 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
-import org.magic.gui.MagicGUI;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -572,7 +570,7 @@ public class CardSearchPanel extends JPanel {
 											magicEditionDetailPanel.setMagicEdition(selectedEdition);
 											
 										} catch (Exception e) {
-											e.printStackTrace();
+											MTGLogger.printStackTrace(e);
 										}
 										cardsPicPanel.showPhoto(selectedCard);//backcard
 									historyChartPanel.init(selectedCard, selectedEdition,selectedCard.getName());
@@ -650,7 +648,7 @@ public class CardSearchPanel extends JPanel {
 											loading(false, "");
 											JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"),exp.getName() + " "+MTGControler.getInstance().getLangService().get("FINISHED"),JOptionPane.INFORMATION_MESSAGE);
 											} catch (Exception e) {
-												e.printStackTrace();
+												MTGLogger.printStackTrace(e);
 												logger.error(e);
 												loading(false, "");
 												JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
@@ -740,7 +738,7 @@ public class CardSearchPanel extends JPanel {
 			catch(Exception e)
 			{
 				logger.error(e);
-				e.printStackTrace();
+				MTGLogger.printStackTrace(e);
 				JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 			}
 

@@ -29,7 +29,6 @@ import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.api.interfaces.MTGPicturesCache;
-import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
@@ -37,7 +36,6 @@ import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractJDashlet;
@@ -205,7 +203,7 @@ public class MTGControler {
 		}
 		catch(Exception e)
 		{
-			//e.printStackTrace();
+			//MTGLogger.printStackTrace(e);
 		}
 		return p;
 	}

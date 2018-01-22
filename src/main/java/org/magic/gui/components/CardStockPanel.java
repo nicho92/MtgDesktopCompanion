@@ -5,7 +5,6 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -15,6 +14,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.gui.components.editor.CardStockLinePanel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class CardStockPanel extends JPanel {
 	
@@ -73,7 +73,7 @@ public class CardStockPanel extends JPanel {
 				content.repaint();
 		}catch(Exception e)
 		{
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 	}

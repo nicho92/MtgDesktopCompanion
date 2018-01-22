@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 import com.itextpdf.text.BadElementException;
 import com.itextpdf.text.Document;
@@ -85,7 +86,7 @@ public class PDFExport extends AbstractCardExport {
 			writer.close();
 		} catch (Exception e)
 		{
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 

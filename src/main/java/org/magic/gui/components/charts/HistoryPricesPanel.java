@@ -29,6 +29,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class HistoryPricesPanel extends JPanel{
 	
@@ -94,7 +95,7 @@ public class HistoryPricesPanel extends JPanel{
 			refresh();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 	}
@@ -122,7 +123,7 @@ public class HistoryPricesPanel extends JPanel{
 					}
 					
 				} catch (IOException e) {
-					e.printStackTrace();
+					MTGLogger.printStackTrace(e);
 				}
 				
 			}

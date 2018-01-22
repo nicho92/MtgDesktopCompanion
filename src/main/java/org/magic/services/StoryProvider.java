@@ -1,10 +1,8 @@
 package org.magic.services;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
@@ -13,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
 
 import org.apache.commons.text.StringEscapeUtils;
 import org.apache.log4j.Logger;

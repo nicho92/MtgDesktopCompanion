@@ -2,9 +2,7 @@ package org.magic.api.interfaces;
 
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
-import org.magic.services.MTGLogger;
 
 public interface MTGPlugin {
 

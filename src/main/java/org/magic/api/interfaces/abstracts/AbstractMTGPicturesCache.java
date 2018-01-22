@@ -44,7 +44,7 @@ public abstract class AbstractMTGPicturesCache extends Observable implements MTG
 			}
 			catch(Exception e)
 			{
-				e.printStackTrace();
+				MTGLogger.printStackTrace(e);
 			}
 		
 	}
@@ -82,7 +82,7 @@ public abstract class AbstractMTGPicturesCache extends Observable implements MTG
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	
@@ -95,7 +95,7 @@ public abstract class AbstractMTGPicturesCache extends Observable implements MTG
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 

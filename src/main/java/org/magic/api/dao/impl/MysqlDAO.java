@@ -25,8 +25,6 @@ import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
-import com.google.gson.Gson;
-
 public class MysqlDAO extends AbstractMagicDAO{
 
     Connection con;

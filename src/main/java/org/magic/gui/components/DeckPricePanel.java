@@ -1,6 +1,25 @@
 package org.magic.gui.components;
 
+import java.awt.BorderLayout;
+import java.awt.Desktop;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
+import java.util.Collections;
+import java.util.List;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -13,28 +32,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.MagicPricesComparator;
-
-import com.mysql.cj.api.xdevapi.Collection;
-
-import java.awt.BorderLayout;
-import java.awt.Desktop;
-
-import javax.swing.JComboBox;
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTable;
-import java.awt.event.ItemListener;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.net.URI;
-import java.util.Collections;
-import java.util.List;
-import java.awt.event.ItemEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JLabel;
-import java.awt.Font;
 
 public class DeckPricePanel extends JPanel {
 	
@@ -107,7 +104,7 @@ public class DeckPricePanel extends JPanel {
 								lblPrice.setText(String.valueOf(total) + " " + p.getCurrency());
 								
 							} catch (Exception e) {
-								e.printStackTrace();
+								MTGLogger.printStackTrace(e);
 							}
 
 						}

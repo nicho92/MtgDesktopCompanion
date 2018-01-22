@@ -16,7 +16,6 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
@@ -263,7 +262,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 			return MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
 		}
 	}

@@ -1,13 +1,8 @@
 package org.magic.game.model;
 
-import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
-import javax.swing.JFrame;
-
-import org.magic.game.gui.components.GamePanelGUI;
 
 public class GameManager {
 

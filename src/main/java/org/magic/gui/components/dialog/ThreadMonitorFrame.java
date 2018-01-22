@@ -18,9 +18,6 @@ import javax.swing.table.TableRowSorter;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
-import net.coderazzi.filters.gui.AutoChoices;
-import net.coderazzi.filters.gui.TableFilterHeader;
-
 public class ThreadMonitorFrame extends JFrame {
 	private JTable table;
 	private ThreadModel model;

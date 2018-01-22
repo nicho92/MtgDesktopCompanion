@@ -2,7 +2,6 @@ package org.magic.tools;
 
 import java.util.Comparator;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicPrice;
 
 

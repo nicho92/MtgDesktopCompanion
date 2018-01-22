@@ -66,7 +66,7 @@ public abstract class AbstractDashBoard extends Observable implements DashBoard 
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	
@@ -79,7 +79,7 @@ public abstract class AbstractDashBoard extends Observable implements DashBoard 
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	

@@ -1,16 +1,12 @@
 package org.magic.services;
 
-import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Modifier;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Enumeration;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPlugin;
-import org.magic.api.interfaces.MagicDAO;
 import org.reflections.Reflections;
 
 public class ModuleInstaller {

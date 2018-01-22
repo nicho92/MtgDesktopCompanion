@@ -169,7 +169,7 @@ public class MagicCardDetailPanel extends JPanel {
 						try {
 							MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
 						} catch (Exception e) {
-							e.printStackTrace();
+							MTGLogger.printStackTrace(e);
 							JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 						}
 					}

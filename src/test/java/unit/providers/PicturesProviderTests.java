@@ -99,28 +99,28 @@ public class PicturesProviderTests {
 			p = new GathererPicturesProvider();
 			p.getPicture(mc, ed);
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 		try {
 			p = new MagidexPicturesProvider();
 			p.getPicture(mc, ed);
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 		try {
 			p = new MythicSpoilerPicturesProvider();
 			p.getPicture(mc, ed);
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 		try {
 			p = new DeckMasterPicturesProvider();
 			p.getPicture(mc, ed);
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 	}

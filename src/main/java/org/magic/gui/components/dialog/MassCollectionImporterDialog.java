@@ -27,6 +27,7 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog{
@@ -48,7 +49,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		try {
 			initGUI();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 	}
 

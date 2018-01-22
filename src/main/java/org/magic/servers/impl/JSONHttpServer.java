@@ -7,16 +7,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
+import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.tools.MagicCardComparator;
 
 import com.google.gson.Gson;

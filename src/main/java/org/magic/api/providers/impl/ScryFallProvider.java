@@ -21,9 +21,6 @@ import java.util.TreeMap;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
-import org.asciitable.impl.ASCIITableImpl;
-import org.asciitable.impl.CollectionASCIITableAware;
-import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -34,7 +31,6 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.ThreadManager;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
 
@@ -485,10 +481,10 @@ public class ScryFallProvider implements MagicCardsProvider {
 					initOtherEdition(mc);
 					//generateRules(mc);
 				} catch (Exception e) {
-					e.printStackTrace();
+					MTGLogger.printStackTrace(e);
 				}
 			}
-		},"other editions").start();;
+		},"other editions").start();
 		    
 		return mc;
 		

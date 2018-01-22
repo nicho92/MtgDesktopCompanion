@@ -1,6 +1,5 @@
 package org.magic.gui;
 
-import java.awt.BorderLayout;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,11 +7,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.List;
 import java.util.Properties;
 
 import javax.swing.JDesktopPane;
-import javax.swing.JFrame;
 import javax.swing.JInternalFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -23,7 +20,6 @@ import org.apache.log4j.Logger;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.ModuleInstaller;
 
 public class DashBoardGUI2 extends JDesktopPane {
 	
@@ -81,7 +77,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 										dash.getProperties().store(fos,"");
 										fos.close();
 									} catch (Exception e) {
-										e.printStackTrace();
+										MTGLogger.printStackTrace(e);
 									} 				
 
 				}

@@ -6,7 +6,6 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
@@ -71,7 +70,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	@Override
  	    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
  	    {
- 	      cause.printStackTrace();
+ 	      MTGLogger.printStackTrace(cause);
  		  logger.error(cause);
  	      refreshPlayers(session);
  	    }

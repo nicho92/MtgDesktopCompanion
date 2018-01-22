@@ -1,7 +1,6 @@
 package org.magic.api.beans;
 
 import java.awt.Image;
-import java.awt.image.BufferedImage;
 import java.net.URL;
 
 public class MTGStory {

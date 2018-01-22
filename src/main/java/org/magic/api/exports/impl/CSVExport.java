@@ -21,10 +21,11 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
+import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 
 public class CSVExport extends AbstractCardExport{
@@ -231,7 +232,7 @@ public class CSVExport extends AbstractCardExport{
 				try {
 					val = BeanUtils.getProperty(mc, k);
 				} catch (Exception e) {
-					e.printStackTrace();
+					MTGLogger.printStackTrace(e);
 				}
 				if(val==null)
 					val="";
@@ -253,7 +254,7 @@ public class CSVExport extends AbstractCardExport{
 				try {
 					val = BeanUtils.getProperty(mc, k);
 				} catch (Exception e) {
-					e.printStackTrace();
+					MTGLogger.printStackTrace(e);
 				}
 				if(val==null)
 					val="";

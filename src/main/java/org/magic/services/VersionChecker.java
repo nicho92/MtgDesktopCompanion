@@ -1,9 +1,6 @@
 package org.magic.services;
 
-import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -41,7 +38,7 @@ public class VersionChecker {
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 	}
 	

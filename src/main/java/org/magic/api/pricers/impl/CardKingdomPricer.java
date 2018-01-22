@@ -9,8 +9,6 @@ import org.apache.commons.text.similarity.EditDistance;
 import org.apache.commons.text.similarity.JaccardDistance;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

@@ -1,7 +1,6 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.MenuItem;
@@ -41,7 +40,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
-import org.mkm.gui.MkmPanel;
 
 public class MagicGUI extends JFrame {
 
@@ -71,7 +69,7 @@ public class MagicGUI extends JFrame {
 		catch(Exception e)
 		{
 			logger.error(e);
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 		}
 

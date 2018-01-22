@@ -41,7 +41,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	}
 	
 	
-	Map<String,String> mapConcordance;;
+	Map<String,String> mapConcordance;
 	
 	public MTGoldFishDashBoard() 
 	{

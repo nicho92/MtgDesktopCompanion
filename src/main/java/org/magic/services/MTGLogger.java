@@ -7,10 +7,20 @@ import org.apache.log4j.Appender;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.apache.log4j.PropertyConfigurator;
 
 public class MTGLogger {
 
+	public static void printStackTrace(Exception e)
+	{
+		e.printStackTrace();
+	}
+	
+
+
+	public static void printStackTrace(Throwable cause) {
+		cause.printStackTrace();
+		
+	}
 	
 	public static Logger getLogger(Class c)
 	{
@@ -51,5 +61,6 @@ public class MTGLogger {
 		}
 		return (MTGAppender)getAppender("APPS");
 	}
+
 	
 }

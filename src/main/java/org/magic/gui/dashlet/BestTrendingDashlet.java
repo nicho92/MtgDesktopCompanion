@@ -3,7 +3,6 @@ package org.magic.gui.dashlet;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
-import java.beans.PropertyChangeListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +11,6 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -30,6 +28,7 @@ import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class BestTrendingDashlet extends AbstractJDashlet{
@@ -104,7 +103,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 					
 					modStandard.init(ret);
 				} catch (IOException e) {
-					e.printStackTrace();
+					MTGLogger.printStackTrace(e);
 				}
 				
 				table.setModel(modStandard);

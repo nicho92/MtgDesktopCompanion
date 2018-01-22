@@ -51,7 +51,7 @@ public abstract class AbstractMagicPricesProvider extends Observable implements 
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	
@@ -64,7 +64,7 @@ public abstract class AbstractMagicPricesProvider extends Observable implements 
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	

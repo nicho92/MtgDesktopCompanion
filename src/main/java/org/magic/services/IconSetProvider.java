@@ -4,9 +4,6 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 
@@ -51,7 +48,7 @@ public class IconSetProvider {
 			long time_2 = System.currentTimeMillis();
 			logger.debug("Init IconSet cache : done " + (time_2 - time_1) / 1000 + " sec");
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 	}
 

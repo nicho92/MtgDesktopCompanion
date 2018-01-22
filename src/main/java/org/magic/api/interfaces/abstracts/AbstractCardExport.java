@@ -53,7 +53,7 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	

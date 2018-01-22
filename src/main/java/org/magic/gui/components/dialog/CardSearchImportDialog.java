@@ -1,16 +1,14 @@
 package org.magic.gui.components.dialog;
 
-import javax.swing.JButton;
-import javax.swing.JDialog;
-import javax.swing.JFrame;
-
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JDialog;
+
 import org.magic.api.beans.MagicCard;
-import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.services.MTGConstants;
 

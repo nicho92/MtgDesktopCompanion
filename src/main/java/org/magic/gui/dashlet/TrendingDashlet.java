@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -28,6 +27,7 @@ import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
@@ -95,7 +95,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				cboFormats.setSelectedItem(FORMAT.valueOf(props.getProperty("FORMAT").toString()));
 			
 			} catch (Exception e) {
-				e.printStackTrace();
+				MTGLogger.printStackTrace(e);
 			}
 			setBounds(r);
 			}

@@ -13,7 +13,6 @@ import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -38,6 +37,7 @@ import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class BoosterBoxDashlet extends AbstractJDashlet{
@@ -80,7 +80,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 			Collections.sort(eds);
 			eds.add(0,null);
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 		cboEditions = new JComboBox<MagicEdition>(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));

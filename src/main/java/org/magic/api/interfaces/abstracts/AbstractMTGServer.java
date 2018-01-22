@@ -78,7 +78,7 @@ public abstract class AbstractMTGServer extends Observable implements MTGServer 
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	
@@ -91,7 +91,7 @@ public abstract class AbstractMTGServer extends Observable implements MTGServer 
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 

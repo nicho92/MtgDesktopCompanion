@@ -165,7 +165,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
                     setChildren(get());
                     model.nodeStructureChanged(MyNode.this);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    MTGLogger.printStackTrace(e);
                 }
                 super.done();
             }
@@ -205,7 +205,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
                     setChildren(get());
                     model.nodeStructureChanged(MyNode.this);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    MTGLogger.printStackTrace(e);
                 }
                 super.done();
             }
@@ -237,7 +237,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
                     setChildren(get());
                     model.nodeStructureChanged(MyNode.this);
                 } catch (Exception e) {
-                    e.printStackTrace();
+                    MTGLogger.printStackTrace(e);
                 }
                 super.done();
             }

@@ -7,11 +7,10 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
+import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -78,7 +77,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 							prov.alertDetected(okz);
 							alert.orderDesc();
 						} catch (Exception e) {
-							e.printStackTrace();
+							MTGLogger.printStackTrace(e);
 							logger.error(e);
 						}
                 	}

@@ -1,6 +1,7 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -12,7 +13,6 @@ import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
 import org.magic.services.MTGControler;
-import java.awt.Color;
 
 public class AboutDialog extends JDialog {
 	public AboutDialog() {

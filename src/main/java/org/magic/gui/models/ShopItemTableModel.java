@@ -43,7 +43,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 				fireTableDataChanged();
 			} catch (Exception e) {
 				logger.error(e);
-				e.printStackTrace();
+				MTGLogger.printStackTrace(e);
 			}
 		}
 	}

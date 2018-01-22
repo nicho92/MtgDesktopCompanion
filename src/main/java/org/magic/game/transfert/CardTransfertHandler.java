@@ -133,7 +133,7 @@ public class CardTransfertHandler extends TransferHandler  {
 			//TODO if move only, put card on first position of container's order
 			return true;
 		} catch (Exception ufe) {
-			ufe.printStackTrace();
+			MTGLogger.printStackTrace(ufe);
 			logger.error(ufe);
 		} 
 		return false;

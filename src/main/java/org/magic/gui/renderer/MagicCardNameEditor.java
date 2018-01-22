@@ -8,8 +8,6 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JTable;
 
-import org.magic.api.beans.EnumCondition;
-
 public class MagicCardNameEditor extends DefaultCellEditor {
 
     private DefaultComboBoxModel<String> model;

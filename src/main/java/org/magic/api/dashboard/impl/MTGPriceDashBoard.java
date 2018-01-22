@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -117,7 +118,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			
 			return list;
 		}catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		return null;
 	}

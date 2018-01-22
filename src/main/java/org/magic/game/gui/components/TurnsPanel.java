@@ -75,7 +75,7 @@ public class TurnsPanel extends JPanel {
 			if(c instanceof JButton)
 				((JButton)c).getAction().setEnabled(true);
 		
-		lblTurnNumber.setText("Turn " + GameManager.getInstance().getTurns().size());;
+		lblTurnNumber.setText("Turn " + GameManager.getInstance().getTurns().size());
 	}
 
 	

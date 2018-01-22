@@ -8,8 +8,6 @@ import javax.swing.JList;
 import javax.swing.ListCellRenderer;
 
 import org.magic.api.beans.MTGStory;
-import org.magic.api.beans.MagicCard;
-import org.magic.gui.components.renderer.CardListPanel;
 import org.magic.gui.components.renderer.MTGStoryListPanel;
 
 public class MTGStoryListRenderer implements ListCellRenderer<MTGStory> {

@@ -1,7 +1,19 @@
 package org.magic.services;
 
-import freemarker.core.ParseException;
-import freemarker.template.*;
+import java.io.File;
+import java.io.FileFilter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.nio.file.Paths;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
@@ -12,10 +24,14 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.utils.patterns.observer.Observable;
 
-import java.io.*;
-import java.nio.file.Paths;
-import java.sql.SQLException;
-import java.util.*;
+import freemarker.core.ParseException;
+import freemarker.template.Configuration;
+import freemarker.template.DefaultObjectWrapperBuilder;
+import freemarker.template.MalformedTemplateNameException;
+import freemarker.template.Template;
+import freemarker.template.TemplateException;
+import freemarker.template.TemplateExceptionHandler;
+import freemarker.template.TemplateNotFoundException;
 
 public class MagicWebSiteGenerator extends Observable{
 	
@@ -141,7 +157,7 @@ public class MagicWebSiteGenerator extends Observable{
 						} 
 						catch (Exception e) 
 						{
-							e.printStackTrace();
+							MTGLogger.printStackTrace(e);
 						}
 					}
 				}

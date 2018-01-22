@@ -15,6 +15,7 @@ import org.magic.game.actions.library.ShuffleActions;
 import org.magic.game.actions.player.SearchActions;
 import org.magic.game.model.PositionEnum;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class LibraryPanel extends DraggablePanel {
 
@@ -34,7 +35,7 @@ public class LibraryPanel extends DraggablePanel {
 				setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 			
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 	}
 	
@@ -73,7 +74,7 @@ public class LibraryPanel extends DraggablePanel {
 		try {
 			g.drawImage(i, 0, 0, null);
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 	}

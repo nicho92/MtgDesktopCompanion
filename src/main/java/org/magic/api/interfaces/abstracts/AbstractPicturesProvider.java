@@ -1,7 +1,5 @@
 package org.magic.api.interfaces.abstracts;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
@@ -52,7 +50,7 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 			}
 			catch(Exception e)
 			{
-				e.printStackTrace();
+				MTGLogger.printStackTrace(e);
 			}
 		
 	}
@@ -100,7 +98,7 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	
@@ -113,7 +111,7 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	

@@ -1,6 +1,5 @@
 package org.magic.gui.renderer;
 
-import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.util.HashMap;
@@ -17,6 +16,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.IconSetProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGLogger;
 import org.magic.tools.ColorParser;
 
 public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
@@ -43,7 +43,7 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 	 
 	}

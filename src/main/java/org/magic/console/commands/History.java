@@ -10,6 +10,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.mina.core.session.IoSession;
 import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
+import org.magic.services.MTGLogger;
 
 public class History implements Command {
 
@@ -65,7 +66,7 @@ public class History implements Command {
      	try {
 			session.write(baos.toString("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 	}
 

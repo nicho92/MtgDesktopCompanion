@@ -196,7 +196,7 @@ public class ConfigurationPanel extends JPanel {
 					}catch(Exception e)
 					{
 						loading(false,"");
-						e.printStackTrace();
+						MTGLogger.printStackTrace(e);
 					}
 						
 					}
@@ -529,7 +529,7 @@ public class ConfigurationPanel extends JPanel {
 					MTGControler.getInstance().setProperty("default-library", (MagicCollection)cboCollections.getSelectedItem());
 				}catch(Exception e)
 				{
-					e.printStackTrace();
+					MTGLogger.printStackTrace(e);
 				}
 			}
 		});

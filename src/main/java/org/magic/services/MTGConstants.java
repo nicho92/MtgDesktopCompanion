@@ -4,26 +4,11 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
-import java.io.File;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
-import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.gui.components.GamingRoomPanel;
-import org.magic.gui.CollectionPanelGUI;
-import org.magic.gui.DeckBuilderGUI;
-import org.magic.gui.MagicGUI;
-import org.magic.gui.StockPanelGUI;
-import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.components.dialog.MTGSplashScreen;
-import org.magic.gui.dashlet.BestCardsDashlet;
-import org.magic.gui.dashlet.BoosterBoxDashlet;
-import org.magic.gui.dashlet.TrendingDashlet;
-import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 
 public class MTGConstants {
@@ -85,7 +70,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_BUILDER = new ImageIcon(MTGConstants.class.getResource("/icons/create.png"));
 	public static final ImageIcon ICON_RSS = new ImageIcon(MTGConstants.class.getResource("/icons/rss.png"));
 	public static final ImageIcon ICON_CONFIG = new ImageIcon(MTGConstants.class.getResource("/icons/build.png"));
-	public static final ImageIcon ICON_STORY =  new ImageIcon(MTGConstants.class.getResource("/icons/stories.png"));;
+	public static final ImageIcon ICON_STORY =  new ImageIcon(MTGConstants.class.getResource("/icons/stories.png"));
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource("/data/magic-logo.png"));
 	public static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/icons/logo.gif"));
 

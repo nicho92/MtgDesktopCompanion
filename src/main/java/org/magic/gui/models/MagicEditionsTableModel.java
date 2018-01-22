@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.IconSetProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 
@@ -48,7 +49,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		try {
 			calculate();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 	}

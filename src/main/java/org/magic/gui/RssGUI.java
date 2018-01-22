@@ -8,7 +8,6 @@ import java.awt.event.MouseEvent;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
 import javax.swing.JPanel;
@@ -122,7 +121,7 @@ public class RssGUI extends JPanel {
 							try {
 								model.init((RSSBean)curr.getUserObject());
 							} catch (Exception e) {
-								e.printStackTrace();
+								MTGLogger.printStackTrace(e);
 							} 
 							model.fireTableDataChanged();
 							

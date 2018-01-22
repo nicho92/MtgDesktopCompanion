@@ -1,28 +1,18 @@
 package org.magic.gui.components.renderer;
 
-import javax.swing.JPanel;
-
-import org.magic.api.beans.MTGStory;
-import org.magic.services.ThreadManager;
-
-import javax.imageio.ImageIO;
-import javax.swing.ImageIcon;
-import javax.swing.JLabel;
-import java.awt.FlowLayout;
-import java.awt.GridBagLayout;
-import java.awt.Image;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
-
-import javax.swing.border.LineBorder;
 import java.awt.Color;
 import java.awt.Font;
-import java.awt.Graphics2D;
-import javax.swing.JTextPane;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.ImageIcon;
 import javax.swing.JEditorPane;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
+
+import org.magic.api.beans.MTGStory;
 
 public class MTGStoryListPanel extends JPanel {
 

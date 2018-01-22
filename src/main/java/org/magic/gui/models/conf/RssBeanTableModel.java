@@ -8,6 +8,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.RSSBean;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class RssBeanTableModel extends DefaultTableModel{
 
@@ -61,7 +62,7 @@ public class RssBeanTableModel extends DefaultTableModel{
 		case 1: try {
 				listRSS.get(row).setUrl(new URL(aValue.toString()));
 			} catch (MalformedURLException e) {
-				e.printStackTrace();
+				MTGLogger.printStackTrace(e);
 			}break;
 		case 0: listRSS.get(row).setName(aValue.toString());break;
 		default:break;

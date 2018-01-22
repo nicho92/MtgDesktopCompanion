@@ -45,6 +45,7 @@ import org.magic.game.model.Player;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -169,7 +170,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										setPlayer(p1);
 									}
 								} catch (Exception e) {
-									e.printStackTrace();
+									MTGLogger.printStackTrace(e);
 								}
 							}
 						});

@@ -63,7 +63,7 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 		}
 		catch(Exception e)
 		{
-			//e.printStackTrace();
+			//MTGLogger.printStackTrace(e);
 		}
 
 	}
@@ -97,7 +97,7 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 				//save();
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 	
@@ -110,7 +110,7 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		} 
 	}
 

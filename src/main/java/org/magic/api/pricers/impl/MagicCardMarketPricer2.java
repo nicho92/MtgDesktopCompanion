@@ -23,6 +23,7 @@ import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
 
@@ -206,7 +207,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
        
     }
     catch(Exception e) {
-    	e.printStackTrace();
+    	MTGLogger.printStackTrace(e);
     	logger.error(e);
 		
 	} 
@@ -246,7 +247,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 							boolean res = cart.addArticles(list);
 							logger.info("add " + list + " to card :"  + res);
 						} catch (Exception e) {
-							e.printStackTrace();
+							MTGLogger.printStackTrace(e);
 							logger.error("Could not add " + p +" to cart");
 						}
 					}

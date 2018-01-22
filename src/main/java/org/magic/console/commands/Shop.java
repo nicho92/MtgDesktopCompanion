@@ -20,6 +20,7 @@ import org.magic.api.interfaces.MagicShopper;
 import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class Shop implements Command {
 
@@ -66,7 +67,7 @@ public class Shop implements Command {
      	try {
 			session.write(baos.toString("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
    
 	}

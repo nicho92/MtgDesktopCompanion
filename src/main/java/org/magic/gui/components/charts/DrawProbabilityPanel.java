@@ -1,7 +1,10 @@
 package org.magic.gui.components.charts;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.table.AbstractTableModel;
@@ -11,9 +14,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.MTGControler;
 import org.magic.tools.DeckCalculator;
-import javax.swing.JLabel;
-import java.awt.Color;
-import java.awt.Font;
 
 
 public class DrawProbabilityPanel extends JPanel {

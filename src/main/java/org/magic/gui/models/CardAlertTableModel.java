@@ -5,6 +5,7 @@ import javax.swing.table.DefaultTableModel;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 
 public class CardAlertTableModel extends DefaultTableModel {
@@ -35,7 +36,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 			
 		}catch(Exception e)
 		{
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 			
 		return 0;
@@ -86,7 +87,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 			MTGControler.getInstance().getEnabledDAO().updateAlert(alert);
 			fireTableDataChanged();
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 	}
 	

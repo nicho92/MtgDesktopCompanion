@@ -17,7 +17,6 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +25,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -51,7 +48,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
-import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
@@ -178,7 +174,7 @@ public class CardBuilder2GUI extends JPanel{
 		try {
 			cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
 		} catch (Exception e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 ////////////////////////////////////////////////////LAYOUT CONFIGURATION			
@@ -405,7 +401,7 @@ public class CardBuilder2GUI extends JPanel{
 						initCard(new MagicCard());
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
+					MTGLogger.printStackTrace(e);
 					JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().get(MTGControler.getInstance().getLangService().get("ERROR")),JOptionPane.ERROR_MESSAGE);
 				}
 				
@@ -428,7 +424,7 @@ public class CardBuilder2GUI extends JPanel{
 						cboSets.removeAllItems();
 						cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
 					} catch (Exception e) {
-						//e.printStackTrace();
+						//MTGLogger.printStackTrace(e);
 					}
 					editionModel.init(provider.loadEditions());
 					editionModel.fireTableDataChanged();
@@ -534,7 +530,7 @@ public class CardBuilder2GUI extends JPanel{
 					jsonPanel.show(magicCardEditorPanel.getMagicCard());
 					
 				} catch (Exception e) {
-					e.printStackTrace();
+					MTGLogger.printStackTrace(e);
 					//JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().get("ERROR"),JOptionPane.ERROR_MESSAGE);
 				} 
 			}
@@ -558,7 +554,7 @@ public class CardBuilder2GUI extends JPanel{
 			panelPictures.repaint();
 		} catch (Exception e) {
 			cardImage = recordedProvider.getBackPicture();
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 
 	}

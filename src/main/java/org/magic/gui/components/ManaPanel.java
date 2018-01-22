@@ -17,7 +17,6 @@ import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
-import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
@@ -109,7 +108,7 @@ public class ManaPanel extends JPanel {
 			cached=true;
 				
 			} catch (IOException e) {
-				e.printStackTrace();
+				MTGLogger.printStackTrace(e);
 			}
 		
 		}

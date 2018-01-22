@@ -14,7 +14,6 @@ import java.awt.event.MouseEvent;
 import java.net.URI;
 
 import javax.swing.DefaultListModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JList;
 import javax.swing.JOptionPane;
@@ -166,7 +165,7 @@ public class AlarmGUI extends JPanel {
 									serv.start();
 								} catch (Exception e) {
 									// TODO Auto-generated catch block
-									e.printStackTrace();
+									MTGLogger.printStackTrace(e);
 								}
 				}
 				

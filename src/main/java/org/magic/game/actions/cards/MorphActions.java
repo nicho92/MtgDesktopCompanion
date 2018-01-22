@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicRuling;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class MorphActions extends AbstractAction {
 
@@ -44,7 +45,7 @@ public class MorphActions extends AbstractAction {
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 			cost="";
 		}
 		return cost;
