@@ -2,8 +2,10 @@ package unit.providers;
 
 import static org.junit.Assert.fail;
 
+import java.awt.image.BufferedImage;
 import java.util.List;
 
+import org.apache.log4j.Level;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -22,6 +24,7 @@ import org.magic.api.pictures.impl.MagidexPicturesProvider;
 import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
 import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class PicturesProviderTests {
 
@@ -32,6 +35,7 @@ public class PicturesProviderTests {
 	@Before
 	public void removeCache()
 	{
+		MTGLogger.changeLevel(Level.DEBUG);
 		
 		List<MTGPicturesCache> caches = MTGControler.getInstance().getListCaches();
 		MTGControler.getInstance().getListCaches().removeAll(caches);
@@ -40,11 +44,6 @@ public class PicturesProviderTests {
 		cache.enable(true);
 		
 		MTGControler.getInstance().getListCaches().add(cache);
-		
-		
-		
-		
-		
 	}
 
 	
@@ -59,7 +58,6 @@ public class PicturesProviderTests {
 		mc.setCmc(0);
 		mc.getTypes().add("Artifact");
 		mc.setReserved(true);
-		//mc.setMultiverseid(3);
 		mc.setText("{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.");
 		mc.setRarity("Rare");
 		mc.setArtist("Christopher Rush");
@@ -76,7 +74,6 @@ public class PicturesProviderTests {
 		
 		mc.getEditions().add(ed);
 		System.out.println("done");
-		
 		
 	}
 	

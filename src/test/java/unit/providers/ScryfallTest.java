@@ -27,6 +27,7 @@ public class ScryfallTest {
 	@Test
 	public void searchCard()
 	{
+		
 	
 		try {
 			String[] attributes ={"id","name","fullType", "editions", "rotatedCardName","multiverseid","colors","imageName"};

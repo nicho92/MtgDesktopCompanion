@@ -62,4 +62,11 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 			cache.put(generateIdIndex(mc,ed), im);
 	}
 
+
+	@Override
+	public void clear() {
+		cache.clear();
+		
+	}
+
 }

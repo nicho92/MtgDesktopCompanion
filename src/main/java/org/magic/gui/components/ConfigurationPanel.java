@@ -469,6 +469,7 @@ public class ConfigurationPanel extends JPanel {
 				
 				try {
 					IconSetProvider.getInstance().clean();
+					MTGControler.getInstance().getEnabledCache().clear();
 				} catch (Exception e) {
 					// TODO: handle exception
 				}

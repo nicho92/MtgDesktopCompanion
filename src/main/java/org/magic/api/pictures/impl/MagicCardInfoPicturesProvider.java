@@ -100,7 +100,6 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 					  
 		Image img = null;
 				
-				try{
 					img = ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
 					BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null),
 					        BufferedImage.TYPE_INT_RGB);
@@ -113,13 +112,8 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 						MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,ed);
 						 
 					return resizeCard(bufferedImage) ;
-				}
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
-		
-		return getBackPicture();
+				
+		//return getBackPicture();
 	}
 
 
