@@ -14,12 +14,9 @@ public class MTGLogger {
 	{
 		e.printStackTrace();
 	}
-	
-
 
 	public static void printStackTrace(Throwable cause) {
-		cause.printStackTrace();
-		
+		printStackTrace(new Exception(cause));
 	}
 	
 	public static Logger getLogger(Class c)

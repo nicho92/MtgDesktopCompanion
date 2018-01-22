@@ -35,7 +35,7 @@ public class MTGODeckExport extends AbstractCardExport  {
 	@Override
 	public String getFileExtension()
 	{
-		return ".dec";
+		return ".dek";
 	}
 
 	public MTGODeckExport() {
