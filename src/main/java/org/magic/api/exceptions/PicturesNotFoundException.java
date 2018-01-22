@@ -1,5 +1,7 @@
 package org.magic.api.exceptions;
 
+import java.io.FileNotFoundException;
+
 public class PicturesNotFoundException extends Exception {
 
 	public PicturesNotFoundException() {
@@ -9,6 +11,10 @@ public class PicturesNotFoundException extends Exception {
 	public PicturesNotFoundException(String message)
 	{
 		super(message);
+	}
+
+	public PicturesNotFoundException(FileNotFoundException e) {
+		super(e);
 	}
 	
 	

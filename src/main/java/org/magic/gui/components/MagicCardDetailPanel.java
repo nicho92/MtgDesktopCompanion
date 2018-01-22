@@ -632,11 +632,7 @@ public class MagicCardDetailPanel extends JPanel {
 		ImageIcon icon;
 		try {
 			icon = new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(magicCard,null));
-			//Image img = icon.getImage();
-			//Image newimg = img.getScaledInstance(icon.getIconWidth()/2, icon.getIconHeight()/2,  java.awt.Image.SCALE_SMOOTH);
-			//lblThumbnail.setIcon( new ImageIcon(img));
-			//validate();
-		} catch (Exception e) {
+			} catch (Exception e) {
 			icon=new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture());
 			logger.error("Error loading pics for" + magicCard,e);
 		}

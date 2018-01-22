@@ -557,6 +557,7 @@ public class CardBuilder2GUI extends JPanel{
 			cardImage = recordedProvider.getPicture(mc, mc.getEditions().get(0));
 			panelPictures.repaint();
 		} catch (Exception e) {
+			cardImage = recordedProvider.getBackPicture();
 			e.printStackTrace();
 		}
 

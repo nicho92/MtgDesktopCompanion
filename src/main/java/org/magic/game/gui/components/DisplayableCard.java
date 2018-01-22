@@ -481,18 +481,19 @@ public class DisplayableCard extends JLabel implements Draggable {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		} 
+		
 		try {
 			if (mc.getLayout().equals(MagicCard.LAYOUT.Token.toString())|| mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString())) {
 				fullResPics = GamePanelGUI.getInstance().getTokenGenerator().getPictures(mc);
-				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 			} else {
 				fullResPics = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
-				image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
+				
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace();
+			fullResPics = MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
 		}
+		image = new ImageIcon(fullResPics.getScaledInstance(getWidth(), getHeight(), Image.SCALE_FAST));
 	}
 
 	public boolean isTapped() {

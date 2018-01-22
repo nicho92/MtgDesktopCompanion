@@ -97,7 +97,7 @@ public class PDFExport extends AbstractCardExport {
 		try {
 			image1 = Image.getInstance(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card,null),null);
 		} catch (Exception e) {
-			
+			image1 = Image.getInstance(MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture(),null);
 		}
 		image1.scalePercent(60);
 
