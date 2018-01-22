@@ -62,7 +62,8 @@ public class ConfigurationPanel extends JPanel {
 	private JLabel lblIconAvatar;
 	private JSpinner spinCardW;
 	private JSpinner spinCardH;
-	
+	private JCheckBox chckbxIconset;
+	private JCheckBox chckbxIconcards;
 	
 	private JCheckBox chckbxSearch;
 	private JCheckBox chckbxCollection;
@@ -475,6 +476,22 @@ public class ConfigurationPanel extends JPanel {
 				}
 			}
 		});
+		
+		chckbxIconset = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMG_SET"));
+		chckbxIconset.setSelected(true);
+		GridBagConstraints gbc_chckbxIconset = new GridBagConstraints();
+		gbc_chckbxIconset.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxIconset.gridx = 1;
+		gbc_chckbxIconset.gridy = 8;
+		panelConfig.add(chckbxIconset, gbc_chckbxIconset);
+		
+		chckbxIconcards = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMG_CARD"));
+		chckbxIconcards.setSelected(true);
+		GridBagConstraints gbc_chckbxIconcards = new GridBagConstraints();
+		gbc_chckbxIconcards.insets = new Insets(0, 0, 5, 5);
+		gbc_chckbxIconcards.gridx = 2;
+		gbc_chckbxIconcards.gridy = 8;
+		panelConfig.add(chckbxIconcards, gbc_chckbxIconcards);
 		GridBagConstraints gbc_btnClean = new GridBagConstraints();
 		gbc_btnClean.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnClean.insets = new Insets(0, 0, 5, 0);
@@ -484,7 +501,10 @@ public class ConfigurationPanel extends JPanel {
 		
 		btnSaveLoglevel.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				MTGControler.getInstance().setProperty("loglevel", (Level)cboLogLevels.getSelectedItem());
+				if(chckbxIconset.isSelected())
+					MTGControler.getInstance().setProperty("loglevel", (Level)cboLogLevels.getSelectedItem());
+				
+				
 				MTGLogger.changeLevel((Level)cboLogLevels.getSelectedItem());
 			}
 		});
