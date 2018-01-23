@@ -109,8 +109,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 		}
 		catch(Exception e)
 		{
-			logger.error(e);
-			MTGLogger.printStackTrace(e);
+			logger.error("error in search " + search,e);
 		}
 		 
 		

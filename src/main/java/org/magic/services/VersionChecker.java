@@ -38,7 +38,6 @@ public class VersionChecker {
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			MTGLogger.printStackTrace(e);
 		}
 	}
 	

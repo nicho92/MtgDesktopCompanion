@@ -262,7 +262,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 		catch(Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			logger.error("error pics reading for " + tok,e);
 			return MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
 		}
 	}

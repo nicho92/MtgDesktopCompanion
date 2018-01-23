@@ -157,7 +157,7 @@ public class MagicWebSiteGenerator extends Observable{
 						} 
 						catch (Exception e) 
 						{
-							MTGLogger.printStackTrace(e);
+							logger.error("Generating card template for "+ mc,e);
 						}
 					}
 				}

@@ -232,7 +232,7 @@ public class CSVExport extends AbstractCardExport{
 				try {
 					val = BeanUtils.getProperty(mc, k);
 				} catch (Exception e) {
-					MTGLogger.printStackTrace(e);
+					logger.error("Error reading bean",e);
 				}
 				if(val==null)
 					val="";
@@ -254,7 +254,7 @@ public class CSVExport extends AbstractCardExport{
 				try {
 					val = BeanUtils.getProperty(mc, k);
 				} catch (Exception e) {
-					MTGLogger.printStackTrace(e);
+					logger.error("Error reading bean ",e);
 				}
 				if(val==null)
 					val="";

@@ -145,7 +145,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			}
 			catch(Exception e)
 			{
-				MTGLogger.printStackTrace(e);
+				logger.error("Error saving " + mc + " in " + collection,e);
 			}
 		}
 

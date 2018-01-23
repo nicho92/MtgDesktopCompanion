@@ -207,7 +207,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
        
     }
     catch(Exception e) {
-    	MTGLogger.printStackTrace(e);
+    	logger.error("Error retrieving prices for " + card,e);
     	logger.error(e);
 		
 	} 
@@ -247,8 +247,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 							boolean res = cart.addArticles(list);
 							logger.info("add " + list + " to card :"  + res);
 						} catch (Exception e) {
-							MTGLogger.printStackTrace(e);
-							logger.error("Could not add " + p +" to cart");
+							logger.error("Could not add " + p +" to cart",e);
 						}
 					}
 				}

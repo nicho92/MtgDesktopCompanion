@@ -64,8 +64,9 @@ public abstract class AbstractMTGServer extends Observable implements MTGServer 
 	
 	public void load()
 	{
+		File f=null;
 		try {
-			File f = new File(confdir, getName()+".conf");
+			f = new File(confdir, getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -78,20 +79,20 @@ public abstract class AbstractMTGServer extends Observable implements MTGServer 
 				//save();
 			}
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("couln't load properties " + f,e);
 		} 
 	}
 	
 	public void save()
 	{
+		File f=null;
 		try {
-			File f = new File(confdir, getName()+".conf");
-		
+			f = new File(confdir, getName()+".conf");
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");
 			fos.close();
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("couln't save properties " + f,e);
 		} 
 	}
 

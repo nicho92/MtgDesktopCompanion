@@ -336,7 +336,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 					logger.trace("found " + mc + " in " + arg);
 					ret.add(getCollection(arg));
 				} catch (SQLException e) {
-					MTGLogger.printStackTrace(e);
+					logger.error("Error",e);
 				}
 			};
 		});

@@ -39,9 +39,9 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 	
 	public void load()
 	{
+		File f =null;
 		try {
-			File f = new File(confdir,getName()+".conf");
-			
+			f = new File(confdir,getName()+".conf");
 			if(f.exists())
 			{	
 				FileInputStream fis = new FileInputStream(f);
@@ -53,7 +53,7 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 				//save();
 			}
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("couln't load properties " + f,e);
 		} 
 	}
 	

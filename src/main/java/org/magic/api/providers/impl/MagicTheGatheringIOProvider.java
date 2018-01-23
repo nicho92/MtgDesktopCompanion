@@ -397,10 +397,8 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		try {
 			logger.info("update cache " + id );
 			propsCache.store(new FileOutputStream(fcacheCount), new Date().toString());
-		} catch (FileNotFoundException e) {
-			MTGLogger.printStackTrace(e);
-		} catch (IOException e) {
-			MTGLogger.printStackTrace(e);
+		} catch (Exception e) {
+			logger.error("error in count for "+id,e);
 		}
 		return count;
 	}
@@ -414,7 +412,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			connection.connect();
 			return connection;
 		} catch (IOException e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("error in connection to " + url,e);
 			return null;
 		}	
 		

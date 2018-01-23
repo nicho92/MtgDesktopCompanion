@@ -44,7 +44,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  {
 			}
 			catch(Exception e)
 			{
-				MTGLogger.printStackTrace(e);
+				logger.error("Error readin pics for " + mc,e);
 				return null;
 			}
 			

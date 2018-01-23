@@ -48,7 +48,7 @@ public class IconSetProvider {
 			long time_2 = System.currentTimeMillis();
 			logger.debug("Init IconSet cache : done " + (time_2 - time_1) / 1000 + " sec");
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("error init cache",e);
 		}
 	}
 

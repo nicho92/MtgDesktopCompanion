@@ -118,7 +118,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			
 			return list;
 		}catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("error retrieve cardshake for "+gameFormat,e);
 		}
 		return null;
 	}

@@ -548,6 +548,20 @@ public class DeckBuilderGUI extends JPanel {
 
 			}
 		});
+		
+		tableSide.addKeyListener(new KeyAdapter() {
+
+			@Override
+			public void keyTyped(KeyEvent e) {
+				MagicCard mc = (MagicCard) tableSide.getValueAt(tableSide.getSelectedRow(), 0);
+				if (e.getKeyCode() == 0) {
+					deck.getMapSideBoard().remove(mc);
+					deckmodel.init(deck);
+				}
+
+			}
+		});
+		
 
 		tableDeck.getModel().addTableModelListener(new TableModelListener() {
 			public void tableChanged(TableModelEvent e) {
@@ -575,6 +589,22 @@ public class DeckBuilderGUI extends JPanel {
 
 			}
 		});
+		
+		tableSide.getDefaultEditor(String.class).addCellEditorListener(new CellEditorListener() {
+
+			@Override
+			public void editingStopped(ChangeEvent e) {
+				updatePanels();
+
+			}
+
+			@Override
+			public void editingCanceled(ChangeEvent e) {
+				updatePanels();
+
+			}
+		});
+		
 
 		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
 		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionEditor());

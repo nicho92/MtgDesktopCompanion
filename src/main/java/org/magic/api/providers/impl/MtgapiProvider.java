@@ -298,7 +298,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 			return lists;
 		} 
 		catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("couldn't get cardnames",e);
 		}
 		finally {
 			httpget.releaseConnection();

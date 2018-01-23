@@ -86,7 +86,7 @@ public class PDFExport extends AbstractCardExport {
 			writer.close();
 		} catch (Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			logger.error("Error in pdf creation " + f,e);
 		} 
 	}
 

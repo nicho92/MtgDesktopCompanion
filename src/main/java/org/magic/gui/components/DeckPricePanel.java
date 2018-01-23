@@ -46,7 +46,13 @@ public class DeckPricePanel extends JPanel {
 	public void initDeck(MagicDeck d)
 	{
 		this.deck=d;
-		lblPrice.setText(String.valueOf(d.getAveragePrice()));
+		try {
+			lblPrice.setText(String.valueOf(d.getAveragePrice()));
+		}
+		catch(Exception e)
+		{
+			lblPrice.setText("");
+		}
 		model.clear();
 	}
 	

@@ -316,7 +316,7 @@ public class FileDAO extends AbstractMagicDAO {
 			try {
 				ret.add(read(MagicCardStock.class, f));
 			} catch (Exception e) {
-				MTGLogger.printStackTrace(e);
+				logger.error("Error reading stocks",e);
 			}
 		}
 		return ret;
@@ -331,7 +331,7 @@ public class FileDAO extends AbstractMagicDAO {
 			try {
 				ret.add(read(MagicCardAlert.class, f));
 			} catch (Exception e) {
-				MTGLogger.printStackTrace(e);
+				logger.error("Error reading alert",e);
 			}
 		}
 		return ret;

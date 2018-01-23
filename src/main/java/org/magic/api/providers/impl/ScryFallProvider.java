@@ -481,7 +481,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 					initOtherEdition(mc);
 					//generateRules(mc);
 				} catch (Exception e) {
-					MTGLogger.printStackTrace(e);
+					logger.error("error in initOtherEdition :" + e.getMessage());
 				}
 			}
 		},"other editions").start();
