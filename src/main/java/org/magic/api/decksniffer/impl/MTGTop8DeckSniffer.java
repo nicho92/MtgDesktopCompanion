@@ -4,10 +4,10 @@ import java.io.File;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.collections4.map.HashedMap;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
@@ -57,7 +57,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	private void initFormats() {
-		formats=new HashedMap<String,String>();
+		formats=new HashMap<String,String>();
 		formats.put("Standard", "ST");
 		formats.put("Modern", "MO");
 		formats.put("Legacy", "LE");
