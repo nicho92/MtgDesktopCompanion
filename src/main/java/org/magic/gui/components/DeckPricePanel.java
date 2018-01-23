@@ -129,6 +129,10 @@ public class DeckPricePanel extends JPanel {
 		});
 		panel.add(btnCheckPrice);
 		
+		lblPrice = new JLabel();
+		panel.add(lblPrice);
+		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 13));
+		
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
 		model = new CardsPriceTableModel();
@@ -152,13 +156,6 @@ public class DeckPricePanel extends JPanel {
 		});
 		
 		scrollPane.setViewportView(tablePrice);
-		
-		JPanel panelBottom = new JPanel();
-		add(panelBottom, BorderLayout.SOUTH);
-		
-		lblPrice = new JLabel();
-		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 13));
-		panelBottom.add(lblPrice);
 	}
 
 }

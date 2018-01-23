@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.ButtonGroup;
+import javax.swing.ButtonModel;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
@@ -86,8 +87,8 @@ public class DeckBuilderGUI extends JPanel {
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
-	private DeckPricePanel deckPricePanel;
 	private DrawProbabilityPanel drawProbabilityPanel;
+	private DeckPricePanel deckPricePanel_1 ;
 	private HandPanel thumbnail;
 	private JPanel panelBottom;
 	private JTextField txtSearch;
@@ -157,7 +158,6 @@ public class DeckBuilderGUI extends JPanel {
 		deckmodel = new DeckModel(DeckModel.TYPE.DECK);
 		deckSidemodel = new DeckModel(DeckModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
-		deckPricePanel = new DeckPricePanel();
 		panelBottom = new JPanel();
 		
 		thumbnail = new HandPanel();
@@ -643,8 +643,10 @@ public class DeckBuilderGUI extends JPanel {
 		statPanel.add(drawProbabilityPanel);
 		
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), null, statPanel, null);
+		
+		deckPricePanel_1 = new DeckPricePanel();
+		statPanel.add(deckPricePanel_1);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"), null, randomHandPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"),null,deckPricePanel,null);
 		
 		
 		JPanel panel = new JPanel();
@@ -678,7 +680,7 @@ public class DeckBuilderGUI extends JPanel {
 		JPanel panneauResultFilter = new JPanel();
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 
-		groupsFilterResult = new ButtonGroup();/* {
+		groupsFilterResult = new ButtonGroup() {
 			@Override
 			public void setSelected(ButtonModel model, boolean selected) {
 				if (selected) {
@@ -687,7 +689,7 @@ public class DeckBuilderGUI extends JPanel {
 					clearSelection();
 				}
 			}
-		};*/
+		};
 
 		JToggleButton tglbtnStd = new JToggleButton("STD");
 		tglbtnStd.setActionCommand("Standard");
@@ -860,7 +862,7 @@ public class DeckBuilderGUI extends JPanel {
 		typeRepartitionPanel.init(deck);
 		manaRepartitionPanel.init(deck);
 		rarityRepartitionPanel.init(deck);
-		deckPricePanel.initDeck(deck);
+		deckPricePanel_1.initDeck(deck);
 		drawProbabilityPanel.init(deck);
 		btnExports.setEnabled(deck.getAsList().size() > 0);
 
