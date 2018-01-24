@@ -25,6 +25,7 @@ public class ThreadMonitorPanel extends JPanel {
 	private JButton btnRefresh;
 	private Timer t;
 	private JLabel lblThreads;
+	private JVMemoryPanel memoryPanel;
 	
 	
 	public ThreadMonitorPanel() {
@@ -64,6 +65,9 @@ public class ThreadMonitorPanel extends JPanel {
 		
 		lblThreads = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
 		panel.add(lblThreads);
+		
+		memoryPanel = new JVMemoryPanel();
+		panel.add(memoryPanel);
 		//setSize(700, 400);
 		
 		t = new Timer(1000, new ActionListener() {
@@ -88,13 +92,19 @@ class ThreadModel extends DefaultTableModel
 	public Object getValueAt(int row, int column) {
 		Thread[] t = Thread.getAllStackTraces().keySet().toArray(new Thread[getRowCount()]);
 		
-		switch(column)
-		{
-		case 0 : return t[row].getThreadGroup().getName();
-		case 1 : return t[row].getName();
-		case 2 : return t[row].getState();
-		default : return null;
-		}
+		
+			try {
+				switch(column)
+				{
+					case 0 : return t[row].getThreadGroup().getName();
+					case 1 : return t[row].getName();
+					case 2 : return t[row].getState();
+					default : return null;
+				}
+			}catch(Exception e)
+			{
+				return null;
+			}
 		
 	}
 	
