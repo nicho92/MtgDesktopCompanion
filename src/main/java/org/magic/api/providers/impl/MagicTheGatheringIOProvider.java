@@ -12,13 +12,11 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.EnumSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
-import java.util.Set;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
@@ -36,12 +34,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
-import com.jayway.jsonpath.Configuration;
-import com.jayway.jsonpath.Option;
-import com.jayway.jsonpath.spi.json.GsonJsonProvider;
-import com.jayway.jsonpath.spi.json.JsonProvider;
-import com.jayway.jsonpath.spi.mapper.GsonMappingProvider;
-import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
@@ -62,30 +54,30 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	
 	@Override
 	public void init() {
-		Configuration.setDefaults(new Configuration.Defaults() {
-
-		    private final JsonProvider jsonProvider = new GsonJsonProvider();
-		    private final MappingProvider mappingProvider = new GsonMappingProvider();
-
-		    
-		    @Override
-		    public JsonProvider jsonProvider() {
-		        return jsonProvider;
-		    }
-
-		    @Override
-		    public MappingProvider mappingProvider() {
-		        return mappingProvider;
-		    }
-
-		    @Override
-		    public Set<Option> options() {
-		        return EnumSet.noneOf(Option.class);
-		    }
-		    
-		});
-		Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
-		
+//		Configuration.setDefaults(new Configuration.Defaults() {
+//
+//		    private final JsonProvider jsonProvider = new GsonJsonProvider();
+//		    private final MappingProvider mappingProvider = new GsonMappingProvider();
+//
+//		    
+//		    @Override
+//		    public JsonProvider jsonProvider() {
+//		        return jsonProvider;
+//		    }
+//
+//		    @Override
+//		    public MappingProvider mappingProvider() {
+//		        return mappingProvider;
+//		    }
+//
+//		    @Override
+//		    public Set<Option> options() {
+//		        return EnumSet.noneOf(Option.class);
+//		    }
+//		    
+//		});
+//		Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+//		
 		cache=new HashMap<String,MagicEdition>();
 		
 		propsCache = new Properties();
