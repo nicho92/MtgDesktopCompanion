@@ -40,6 +40,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+import org.magic.gui.components.JVMemoryPanel;
 
 public class MagicGUI extends JFrame {
 
@@ -375,6 +376,9 @@ public class MagicGUI extends JFrame {
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
 		
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
+		
+		JVMemoryPanel memoryPanel = new JVMemoryPanel();
+		getContentPane().add(memoryPanel, BorderLayout.SOUTH);
 		
 		if (SystemTray.isSupported()) {
 			tray.add(trayNotifier);
