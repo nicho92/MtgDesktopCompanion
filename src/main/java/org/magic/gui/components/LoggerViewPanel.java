@@ -1,4 +1,4 @@
-package org.magic.gui.components.dialog;
+package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -23,7 +23,7 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 
 
 
-public class LoggerViewFrame extends JFrame {
+public class LoggerViewPanel extends JPanel {
 	private JXTable table;
 	private LogTableModel model;
 	private Timer t;
@@ -31,13 +31,12 @@ public class LoggerViewFrame extends JFrame {
 	private JCheckBox chckbxAutorefresh;
 	private JButton btnRefresh; 
 	
-	public LoggerViewFrame() {
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
+	public LoggerViewPanel() {
 		model=new LogTableModel();
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JXTable(model);
 		scrollPane.setViewportView(table);
@@ -45,7 +44,7 @@ public class LoggerViewFrame extends JFrame {
 		
 		
 		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.NORTH);
+		add(panel, BorderLayout.NORTH);
 		
 		btnRefresh = new JButton("");
 		btnRefresh.addActionListener(new ActionListener() {
@@ -84,8 +83,6 @@ public class LoggerViewFrame extends JFrame {
 		panel.add(chckbxAutorefresh);
 		
 		table.packAll();
-		pack();
-	
 	}
 
 }

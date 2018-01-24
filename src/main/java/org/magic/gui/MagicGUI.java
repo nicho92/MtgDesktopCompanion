@@ -31,9 +31,9 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.CardSearchPanel;
+import org.magic.gui.components.LoggerViewPanel;
+import org.magic.gui.components.ThreadMonitorPanel;
 import org.magic.gui.components.dialog.AboutDialog;
-import org.magic.gui.components.dialog.LoggerViewFrame;
-import org.magic.gui.components.dialog.ThreadMonitorFrame;
 import org.magic.gui.components.dialog.TipsOfTheDayDialog;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -152,7 +152,12 @@ public class MagicGUI extends JFrame {
 				SwingUtilities.invokeLater(new Runnable(){
 					@Override
 					public void run() {
-						new LoggerViewFrame().setVisible(true);
+						JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
+						f.getContentPane().add(new LoggerViewPanel());
+						f.setLocationRelativeTo(null);
+						f.setVisible(true);
+						f.pack();
+						f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 					}
 				});
 				
@@ -166,7 +171,13 @@ public class MagicGUI extends JFrame {
 				SwingUtilities.invokeLater(new Runnable(){
 					@Override
 					public void run() {
-						new ThreadMonitorFrame().setVisible(true);
+						JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
+						f.getContentPane().add(new ThreadMonitorPanel());
+						f.setLocationRelativeTo(null);
+						f.setVisible(true);
+						f.pack();
+						f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+						
 					}
 				});
 				

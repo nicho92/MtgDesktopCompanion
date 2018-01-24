@@ -39,6 +39,8 @@ import org.magic.gui.models.conf.ServersTreeTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.gui.components.LoggerViewPanel;
+import org.magic.gui.components.ThreadMonitorPanel;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable cardsProviderTable;
@@ -53,6 +55,9 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable serversTreeTable;
 	private JXTreeTable cachesTreeTable;
 	Logger logger = MTGLogger.getLogger(this.getClass());
+	LoggerViewPanel loggerViewPanel;
+	ThreadMonitorPanel threadMonitorPanel;
+	
 	public ConfigurationPanelGUI() {
 		
 		
@@ -229,6 +234,12 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		ServersGUI serversGUI = new ServersGUI();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("ACTIVE_SERVERS"), null, serversGUI, null);
+		
+		loggerViewPanel = new LoggerViewPanel();
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOGS"), null, loggerViewPanel, null);
+		
+		threadMonitorPanel = new ThreadMonitorPanel();
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("THREADS"), null, threadMonitorPanel, null);
 		
 		
 		

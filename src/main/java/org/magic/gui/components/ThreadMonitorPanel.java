@@ -1,4 +1,4 @@
-package org.magic.gui.components.dialog;
+package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -18,7 +18,7 @@ import javax.swing.table.TableRowSorter;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
-public class ThreadMonitorFrame extends JFrame {
+public class ThreadMonitorPanel extends JPanel {
 	private JTable table;
 	private ThreadModel model;
 	private DefaultRowSorter sorterCards ;
@@ -27,17 +27,18 @@ public class ThreadMonitorFrame extends JFrame {
 	private JLabel lblThreads;
 	
 	
-	public ThreadMonitorFrame() {
+	public ThreadMonitorPanel() {
+		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		add(scrollPane, BorderLayout.CENTER);
 		model = new ThreadModel();
 		table = new JTable(model);
 		//new TableFilterHeader(table, AutoChoices.ENABLED);
 		scrollPane.setViewportView(table);
 		sorterCards = new TableRowSorter<DefaultTableModel>(model);
 		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.NORTH);
+		add(panel, BorderLayout.NORTH);
 		
 		btnRefresh = new JButton("Pause");
 		btnRefresh.addActionListener(new ActionListener() {
@@ -63,8 +64,7 @@ public class ThreadMonitorFrame extends JFrame {
 		
 		lblThreads = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
 		panel.add(lblThreads);
-		setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-		setSize(700, 400);
+		//setSize(700, 400);
 		
 		t = new Timer(1000, new ActionListener() {
 
