@@ -79,10 +79,6 @@ public abstract class AbstractTokensProvider implements MagicTokensProvider {
 				props.load(fis);
 				fis.close();
 			}
-			else
-			{
-				//save();
-			}
 		} catch (Exception e) {
 			logger.error("couln't load properties " + f,e);
 		} 

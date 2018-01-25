@@ -29,11 +29,7 @@ public abstract class AbstractMTGServer extends Observable implements MTGServer 
 	public PLUGINS getType() {
 		return PLUGINS.SERVER;
 	}
-	
-	@Override
-	public abstract String description() ;
-	
-	
+
 	@Override
 	public String toString() {
 		return getName();
@@ -73,10 +69,6 @@ public abstract class AbstractMTGServer extends Observable implements MTGServer 
 				FileInputStream fis = new FileInputStream(f);
 				props.load(fis);
 				fis.close();
-			}
-			else
-			{
-				//save();
 			}
 		} catch (Exception e) {
 			logger.error("couln't load properties " + f,e);

@@ -87,10 +87,6 @@ public abstract class AbstractPicturesProvider extends Observable implements Pic
 				props.load(fis);
 				fis.close();
 			}
-			else
-			{
-				//save();
-			}
 		} catch (Exception e) {
 			logger.error("couln't load properties " + f,e);
 		} 

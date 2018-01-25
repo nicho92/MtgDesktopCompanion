@@ -21,11 +21,6 @@ import org.utils.patterns.observer.Observable;
 public abstract class AbstractCardExport extends Observable implements CardExporter {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public abstract String getFileExtension();
-	public abstract void export(MagicDeck deck, File dest) throws Exception ;
-	public abstract String getName() ;
-	public abstract Icon getIcon() ;
-	
 	private boolean enable;
 	protected Properties props;
 
@@ -47,10 +42,6 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 				FileInputStream fis = new FileInputStream(f);
 				props.load(fis);
 				fis.close();
-			}
-			else
-			{
-				//save();
 			}
 		} catch (Exception e) {
 			logger.error("couln't load properties " + f,e);
@@ -124,7 +115,7 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 	
 	protected List<MagicCardStock> importFromDeck(MagicDeck deck)
 	{
-		List<MagicCardStock> mcs = new ArrayList<MagicCardStock>();
+		List<MagicCardStock> mcs = new ArrayList<>();
 		
 		for(MagicCard mc : deck.getMap().keySet())
 		{

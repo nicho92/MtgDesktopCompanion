@@ -31,7 +31,7 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	
 	public MemoryCache() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
+		if(!new File(CONFDIR, getName()+".conf").exists()){
 		
 		save();
 		}

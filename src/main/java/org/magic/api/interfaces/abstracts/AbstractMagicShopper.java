@@ -14,18 +14,10 @@ import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractMagicShopper extends Observable implements MagicShopper {
-
-	
-	
-	
 	
 	private boolean enable=true;
 	protected Properties props;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-
-	
-	public abstract List<ShopItem> search(String search);
-	
 	protected File confdir = new File(MTGControler.CONF_DIR, "shoppers");
 
 	
@@ -67,10 +59,6 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 				props.load(fis);
 				fis.close();
 			}
-			else
-			{
-				//save();
-			}
 		} catch (Exception e) {
 			logger.error("couln't load properties " + f,e);
 		} 
@@ -105,6 +93,9 @@ public abstract class AbstractMagicShopper extends Observable implements MagicSh
 
 	@Override
 	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		
 		return this.hashCode()==obj.hashCode();
 	}
 	

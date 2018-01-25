@@ -39,19 +39,6 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 	}
 	
 	@Override
-	public abstract String[] listFilter() ;
-
-	@Override
-	public abstract MagicDeck getDeck(RetrievableDeck info) throws Exception ;
-
-	@Override
-	public abstract List<RetrievableDeck> getDeckList() throws Exception ;
-
-	@Override
-	public abstract void connect() throws Exception ;
-	
-	
-	@Override
 	public Properties getProperties() {
 		return props;
 	}
@@ -63,7 +50,7 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 		}
 		catch(Exception e)
 		{
-			//MTGLogger.printStackTrace(e);
+			logger.error("Error set properties" + k+"="+value,e);
 		}
 
 	}
@@ -72,9 +59,6 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 	public Object getProperty(String k) {
 		return props.get(k);
 	}
-
-	@Override
-	public abstract String getName() ;
 
 	@Override
 	public boolean isEnable() {
@@ -92,10 +76,6 @@ public abstract class AbstractDeckSniffer extends Observable implements DeckSnif
 				FileInputStream fis = new FileInputStream(f);
 				props.load(fis);
 				fis.close();
-			}
-			else
-			{
-				//save();
 			}
 		} catch (Exception e) {
 			logger.error("couln't load properties " + f,e);

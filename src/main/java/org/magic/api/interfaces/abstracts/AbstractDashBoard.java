@@ -23,16 +23,8 @@ public abstract class AbstractDashBoard extends Observable implements DashBoard 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
-	public static enum FORMAT { standard,legacy,vintage,modern};
-	public static enum ONLINE_PAPER {online, paper};
-
-	
-	public abstract List<CardShake> getShakerFor(String gameFormat) throws IOException;
-	public abstract List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException;
-	public abstract Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException;
-	
-	public abstract String getName();
-	public abstract Date getUpdatedDate();
+	public enum FORMAT { standard,legacy,vintage,modern};
+	public enum ONLINE_PAPER {online, paper};
 
 	protected File confdir = new File(MTGControler.CONF_DIR, "dashboards");
 
@@ -61,10 +53,6 @@ public abstract class AbstractDashBoard extends Observable implements DashBoard 
 				FileInputStream fis = new FileInputStream(f);
 				props.load(fis);
 				fis.close();
-			}
-			else
-			{
-				//save();
 			}
 		} catch (Exception e) {
 			logger.error("couln't load properties " + f,e);

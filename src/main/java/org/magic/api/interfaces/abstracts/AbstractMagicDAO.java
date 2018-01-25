@@ -70,10 +70,6 @@ public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
 				props.load(fis);
 				fis.close();
 			}
-			else
-			{
-				//save();
-			}
 		} catch (Exception e) {
 			logger.error("couln't save properties " + f,e);
 		} 
