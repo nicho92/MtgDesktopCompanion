@@ -22,14 +22,6 @@ public abstract class AbstractMagicPricesProvider extends Observable implements 
 	protected File confdir = new File(MTGControler.CONF_DIR, "pricers");
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
-	@Override
-	public abstract List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception ;
-	
-	@Override
-	public abstract String getName() ;
-
-	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.PRICER;
@@ -47,10 +39,7 @@ public abstract class AbstractMagicPricesProvider extends Observable implements 
 				props.load(fis);
 				fis.close();
 			}
-			else
-			{
-				//save();
-			}
+			
 		} catch (Exception e) {
 			logger.error("couln't load properties " + f,e);
 		} 
