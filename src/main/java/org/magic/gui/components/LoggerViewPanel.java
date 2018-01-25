@@ -40,7 +40,6 @@ public class LoggerViewPanel extends JPanel {
 		
 		table = new JXTable(model);
 		scrollPane.setViewportView(table);
-		filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
 		
 		
 		JPanel panel = new JPanel();
@@ -59,6 +58,8 @@ public class LoggerViewPanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                model.fireTableDataChanged();
+              
+        	
             }
 			});
 		
@@ -81,7 +82,7 @@ public class LoggerViewPanel extends JPanel {
 			}
 		});
 		panel.add(chckbxAutorefresh);
-		
+		//filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
 		table.packAll();
 	}
 
