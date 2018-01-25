@@ -5,6 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.swing.Icon;
@@ -98,9 +99,9 @@ public class XMageDeckExport extends AbstractCardExport  {
 				{
 					line=line.replace("SB:", "").trim();
 					MagicEdition ed = new MagicEdition();
-					ed.setId(line.substring(line.indexOf("[")+1,line.indexOf(":")));
+					ed.setId(line.substring(line.indexOf('[')+1,line.indexOf(':')));
 					String cardName = line.substring(line.indexOf("]")+1, line.length()-1).trim();
-					int qte = Integer.parseInt(line.substring(0,line.indexOf("[")).trim());
+					int qte = Integer.parseInt(line.substring(0,line.indexOf('[')).trim());
 					MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
 					deck.getMap().put(mc, qte);
 				}
@@ -121,7 +122,15 @@ public class XMageDeckExport extends AbstractCardExport  {
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
 		
-
+		MagicDeck d = new MagicDeck();
+		
+			d.setName("export");
+			d.setDateCreation(new Date());
+		
+			for(MagicCard mc : cards)
+				d.getMap().put(mc, 1);
+		
+		export(d,f);
 	}
 	
 	@Override
