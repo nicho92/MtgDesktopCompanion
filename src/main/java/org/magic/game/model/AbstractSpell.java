@@ -1,14 +1,16 @@
 package org.magic.game.model;
 
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import org.apache.log4j.Logger;
+import org.magic.services.MTGLogger;
+
 public abstract class AbstractSpell extends AbstractAction{
 
-	@Override
-	public abstract void actionPerformed(ActionEvent paramActionEvent);
+	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public abstract String getCost();
 	public abstract boolean isStackable(); 
 	

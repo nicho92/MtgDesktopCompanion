@@ -27,7 +27,7 @@ public class AftermathActions extends AbilitySpell {
 	        }
 	        catch(Exception e)
 	        {
-	        	
+	        	logger.error(e);
 	        }
 	        
 	        
@@ -54,7 +54,7 @@ public class AftermathActions extends AbilitySpell {
 			GamePanelGUI.getInstance().getPanelBattleField().updatePanel();
 		
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			logger.error(e1);
 		}
 		
 		

@@ -21,7 +21,6 @@ import javax.xml.transform.stream.StreamResult;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.services.MTGLogger;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

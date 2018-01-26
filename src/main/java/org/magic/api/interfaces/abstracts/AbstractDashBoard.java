@@ -3,16 +3,9 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.DashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -23,8 +16,8 @@ public abstract class AbstractDashBoard extends Observable implements DashBoard 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
-	public enum FORMAT { standard,legacy,vintage,modern};
-	public enum ONLINE_PAPER {online, paper};
+	public enum FORMAT { standard,legacy,vintage,modern}
+	public enum ONLINE_PAPER {online, paper}
 
 	protected File confdir = new File(MTGControler.CONF_DIR, "dashboards");
 

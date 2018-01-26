@@ -69,13 +69,10 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 	{
 		pane = new MagicCardDetailPanel();
 				pane.enableThumbnail(true);
-				
-				//pane.setPreferredSize(new Dimension(880, 350));
-				
 		final JPopupMenu popUp = new JPopupMenu();
 
 		table.addMouseListener(new MouseAdapter() {
-		    
+		    @Override
 			public void mouseClicked(MouseEvent e) {
 				int row = table.rowAtPoint(e.getPoint());
 				
@@ -83,8 +80,8 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 					table.setRowSelectionInterval(row, row);
 					String cardName = table.getValueAt(row, cardPos.intValue()).toString();
 					
-					if(cardName.indexOf("(")>0)
-						cardName=cardName.substring(0,cardName.indexOf("(")).trim();
+					if(cardName.indexOf('(')>0)
+						cardName=cardName.substring(0,cardName.indexOf('(')).trim();
 					
 					MagicEdition ed =null;
 					if(edPos!=null) {
@@ -97,13 +94,12 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 					{
 						MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed,true).get(0);
 						pane.setMagicCard(mc);
-						//pane.setMagicLogo(edID, mc.getEditions().get(0).getRarity());
 							popUp.setBorder(new LineBorder(Color.black));
 						    popUp.setVisible(false);
 						    popUp.removeAll();
 						    popUp.setLayout(new BorderLayout());
 						    popUp.add(pane,BorderLayout.CENTER);
-						    popUp.show(table, e.getX(), e.getY());// + bounds.height);
+						    popUp.show(table, e.getX(), e.getY());
 						    popUp.setVisible(true);
 							
 					}
@@ -117,6 +113,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 		});
 	}
 	
+	@Override
 	public abstract String getName();
 	
 	public void save(String k, Object value) {

@@ -47,7 +47,7 @@ public class History implements Command {
 
 		
 	private String showList(List<String> history) {
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		
 		for(int i=0;i<history.size();i++)
 			temp.append(i +"\t" + history.get(i)+"\r\n");

@@ -28,7 +28,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.tools.IDGenerator;
 
 
@@ -644,7 +643,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		@Override
 		public void deleteStock(List<MagicCardStock> state) throws SQLException {
 			logger.debug("remove " + state.size()  + " items in stock");
-			StringBuffer st = new StringBuffer();
+			StringBuilder st = new StringBuilder();
 			st.append("delete from stocks where idstock IN (");
 				for(MagicCardStock sto : state)
 				{

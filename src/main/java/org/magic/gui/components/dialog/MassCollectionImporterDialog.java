@@ -100,7 +100,7 @@ public class MassCollectionImporterDialog extends JDialog{
 					
 				edList.removeAll(ids);
 				
-				StringBuffer temp = new StringBuffer();
+				StringBuilder temp = new StringBuilder();
 				for(String s : edList)
 					temp.append(s).append(" ");
 				

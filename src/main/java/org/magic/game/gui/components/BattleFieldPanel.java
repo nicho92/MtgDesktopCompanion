@@ -35,7 +35,7 @@ public class BattleFieldPanel extends DraggablePanel  {
 	
 	public List<DisplayableCard> getCards()
 	{
-		List<DisplayableCard> selected = new ArrayList<DisplayableCard>();
+		List<DisplayableCard> selected = new ArrayList<>();
 		for(Component c : getComponents())
 		{
 			DisplayableCard card = (DisplayableCard)c;
@@ -49,7 +49,7 @@ public class BattleFieldPanel extends DraggablePanel  {
 	
 	public List<DisplayableCard> getSelectedCards()
 	{
-		List<DisplayableCard> selected = new ArrayList<DisplayableCard>();
+		List<DisplayableCard> selected = new ArrayList<>();
 			for(DisplayableCard card : getCards())
 			{
 				if(card.isSelected())

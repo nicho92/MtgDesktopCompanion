@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
-import javax.swing.Icon;
-
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -103,6 +101,9 @@ public abstract class AbstractCardExport extends Observable implements CardExpor
 
 	@Override
 	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		
 		return this.hashCode()==obj.hashCode();
 	}
 	

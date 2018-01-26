@@ -25,7 +25,6 @@ import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 
 public class CSVExport extends AbstractCardExport{

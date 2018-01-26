@@ -17,7 +17,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/asciitable.jar"/>
-	<classpathentry kind="lib" path="lib/mkm-api-java.jar"/>
 	<classpathentry kind="lib" path="lib/trident-1.4.jar"/>
 	<classpathentry kind="lib" path="lib/laf-plugin.jar"/>
 	<classpathentry kind="lib" path="lib/laf-widget.jar"/>

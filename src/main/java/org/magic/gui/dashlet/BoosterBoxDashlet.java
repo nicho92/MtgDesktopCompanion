@@ -83,7 +83,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 			MTGLogger.printStackTrace(e);
 		}
 		
-		cboEditions = new JComboBox<MagicEdition>(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
+		cboEditions = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
 		cboEditions.setRenderer(new MagicEditionListRenderer());
 		
 		
@@ -93,14 +93,14 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 		panneauHaut.add(lblBoxSize);
 		
 		boxSizeSpinner = new JSpinner();
-		boxSizeSpinner.setModel(new SpinnerNumberModel(new Integer(36), new Integer(0), null, new Integer(1)));
+		boxSizeSpinner.setModel(new SpinnerNumberModel(36, 0, null, 1));
 		panneauHaut.add(boxSizeSpinner);
 		
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		boostersModel = new BoostersTableModel();
-		cardsModel = new DefaultListModel<MagicCard>();
+		cardsModel = new DefaultListModel<>();
 		
 		table = new JXTable(boostersModel);
 		
@@ -123,7 +123,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 		JScrollPane scrollPane_1 = new JScrollPane();
 		tabbedPane.addTab("Booster", null, scrollPane_1, null);
 		
-		JList<MagicCard> list_1 = new JList<MagicCard>();
+		JList<MagicCard> list_1 = new JList<>();
 		list_1.setModel(cardsModel);
 		list_1.setCellRenderer(new MagicCardListRenderer());
 		scrollPane_1.setViewportView(list_1);
@@ -141,7 +141,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 							List<CardShake> prices = MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition((MagicEdition)cboEditions.getSelectedItem());
 							boostersModel.clear();
 							double total=0;
-							Map<String,Double> priceRarity=new HashMap<String,Double>();
+							Map<String,Double> priceRarity=new HashMap<>();
 							
 							for(int i=0;i<(int)boxSizeSpinner.getValue();i++)
 							{
@@ -167,16 +167,11 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 											else
 												priceRarity.put(rarity,cs.getPrice());
 										}
-									
-									
-									
-
-									
 								}								
 								boostersModel.addLine(booster);
 								total = total+booster.getPrice();
 								
-								StringBuffer temp = new StringBuffer();
+								StringBuilder temp = new StringBuilder();
 								temp.append("TOTAL: ").append(doubleFormat.format(total)).append("\n");
 
 								for(String s : priceRarity.keySet())
@@ -184,10 +179,9 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 								
 								txtDetailBox.setText(temp.toString());
 							}
-							//table.packAll();
 							
 						} catch (Exception e1) {
-							e1.printStackTrace();
+							logger.error(e1);
 						}
 						
 						

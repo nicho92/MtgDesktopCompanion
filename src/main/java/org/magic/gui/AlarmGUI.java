@@ -90,6 +90,7 @@ public class AlarmGUI extends JPanel {
 		scrollTable.setViewportView(table);
 		
 		table.addMouseListener(new java.awt.event.MouseAdapter() {
+			@Override
 			public void mouseClicked(MouseEvent evt) {
 					
 				resultListModel.removeAllElements();
@@ -164,8 +165,7 @@ public class AlarmGUI extends JPanel {
 								try {
 									serv.start();
 								} catch (Exception e) {
-									// TODO Auto-generated catch block
-									MTGLogger.printStackTrace(e);
+									logger.error(e);
 								}
 				}
 				
@@ -196,6 +196,7 @@ public class AlarmGUI extends JPanel {
 		btnDelete.setIcon(MTGConstants.ICON_DELETE);
 		panel.add(btnDelete);
 		addComponentListener(new ComponentAdapter() {
+			  @Override
 		      public void componentShown(ComponentEvent componentEvent) {
 		    	  splitPanel.setDividerLocation(.5);
 		    	  model.fireTableDataChanged();

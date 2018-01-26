@@ -49,7 +49,7 @@ public class MTGODeckExport extends AbstractCardExport  {
 	@Override
 	public void export(MagicDeck deck , File dest) throws IOException
 	{
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 
 		temp.append("//NAME: "+deck.getName()+" from MTGDeskTopCompanion\n");
 		temp.append("\n//MAIN\n");
@@ -112,7 +112,7 @@ public class MTGODeckExport extends AbstractCardExport  {
 
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		temp.append("\n//MAIN\n");
 		for(MagicCard mc : cards)
 		{

@@ -44,12 +44,12 @@ public class BestCardsDashlet extends AbstractJDashlet{
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		
-		cboFormat = new JComboBox<FORMAT>();
+		cboFormat = new JComboBox<>();
 		cboFormat.setModel(new DefaultComboBoxModel<>(FORMAT.values()));
 		
 		panneauHaut.add(cboFormat);
 		
-		cboFilter = new JComboBox<String>();
+		cboFilter = new JComboBox<>();
 		cboFilter.setModel(new DefaultComboBoxModel<>(MTGControler.getInstance().getEnabledDashBoard().getDominanceFilters()));
 		panneauHaut.add(cboFilter);
 		

@@ -14,7 +14,7 @@ import org.utils.patterns.observer.Observable;
 public abstract class AbstractMTGPicturesCache extends Observable implements MTGPicturesCache {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	public static File CONFDIR = new File(MTGControler.CONF_DIR, "caches");
+	public static final File CONFDIR = new File(MTGControler.CONF_DIR, "caches");
 	private boolean enable=true;
 	protected Properties props;
 	

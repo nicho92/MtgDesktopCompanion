@@ -53,7 +53,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 	@Override
 	public void export(MagicDeck deck , File dest) throws IOException
 	{
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 
 		for(MagicCard mc : deck.getMap().keySet())
 		{
@@ -83,7 +83,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 	public MagicDeck importDeck(File f) throws Exception {
 		BufferedReader read = new BufferedReader(new FileReader(f));
 		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
+		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
 		
 		String line = read.readLine();
 		int ecart=0;
@@ -124,7 +124,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		int c=0;
 		for(MagicCard mc : cards)
 		{

@@ -69,7 +69,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 		out = new FileWriter(f);
 		bw=new BufferedWriter(out);
 		for (MagicCard mc : cards){
-			StringBuffer temp = new StringBuffer();
+			StringBuilder temp = new StringBuilder();
 			
 			temp.append("1").append(" ").append(mc.getName()).append(" (").append(mc.getEditions().get(0).getSet()).append(")");
 			bw.write(temp.toString()+"\n");
@@ -90,12 +90,12 @@ public class MKMFileWantListExport extends AbstractCardExport {
 		out = new FileWriter(dest);
 		bw=new BufferedWriter(out);
 		for (MagicCard mc : deck.getMap().keySet()){
-			StringBuffer temp = new StringBuffer();
+			StringBuilder temp = new StringBuilder();
 			temp.append(deck.getMap().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getEditions().get(0).getSet()).append(")");
 			bw.write(temp.toString()+"\n");
 		}
 		for (MagicCard mc : deck.getMapSideBoard().keySet()){
-			StringBuffer temp = new StringBuffer();
+			StringBuilder temp = new StringBuilder();
 			
 			if(mc.getEditions().get(0).getMkm_name()!=null)
 				temp.append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append(" (").append(mc.getEditions().get(0).getMkm_name()).append(")");

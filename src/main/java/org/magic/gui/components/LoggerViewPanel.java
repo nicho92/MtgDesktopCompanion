@@ -8,7 +8,6 @@ import java.awt.event.ItemListener;
 
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
@@ -16,9 +15,7 @@ import javax.swing.Timer;
 import org.jdesktop.swingx.JXTable;
 import org.magic.gui.models.LogTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 
-import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 

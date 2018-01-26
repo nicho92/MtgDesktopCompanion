@@ -49,7 +49,7 @@ public class XMageDeckExport extends AbstractCardExport  {
 	@Override
 	public void export(MagicDeck deck , File dest) throws IOException
 	{
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 
 		temp.append("NAME: "+deck.getName()+"\n");
 		for(MagicCard mc : deck.getMap().keySet())

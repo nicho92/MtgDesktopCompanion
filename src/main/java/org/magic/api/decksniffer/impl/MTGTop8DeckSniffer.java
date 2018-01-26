@@ -136,7 +136,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		
-		StringBuffer res=new StringBuffer();
+		StringBuilder res=new StringBuilder();
 		for(int i=0;i<Integer.parseInt(props.getProperty("MAX_PAGE"));i++)
 		{
 			HttpPost reqSearch = new HttpPost(props.getProperty("URL")+"/search");

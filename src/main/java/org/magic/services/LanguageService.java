@@ -8,7 +8,7 @@ import org.apache.commons.lang3.StringUtils;
 public class LanguageService {
 
 	ResourceBundle bundle;
-	StringBuffer temp;
+	StringBuilder temp;
 	
 	private static String BUNDLE = "locales.lang";
 	
@@ -38,12 +38,12 @@ public class LanguageService {
 	}
 	
 	public LanguageService() {
-		temp = new StringBuffer();
+		temp = new StringBuilder();
 		bundle = ResourceBundle.getBundle(BUNDLE,getDefault());
 	}
 	
 	public LanguageService(Locale l) {
-		temp = new StringBuffer();
+		temp = new StringBuilder();
 		bundle = ResourceBundle.getBundle(BUNDLE,l);
 	}
 	

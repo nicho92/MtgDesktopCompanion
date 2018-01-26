@@ -353,7 +353,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	@Override
 	public void deleteStock(List<MagicCardStock> state) throws SQLException {
 		logger.debug("remove " + state.size()  + " items in stock");
-		StringBuffer st = new StringBuffer();
+		StringBuilder st = new StringBuilder();
 		st.append("delete from stocks where idstock IN (");
 			for(MagicCardStock sto : state)
 			{

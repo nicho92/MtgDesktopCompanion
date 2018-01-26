@@ -50,7 +50,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	
 	public void export(MagicDeck deck , File dest) throws IOException
 	{
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		int c=0;
 		temp.append("<?xml version='1.0' encoding='UTF-8'?>");
 		temp.append("<cockatrice_deck version='"+getProperty("VERSION")+"'>");
@@ -126,7 +126,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	public void export(List<MagicCard> cards, File f) throws Exception {
 
 		int c=0;
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		
 		temp.append("<?xml version='1.0' encoding='UTF-8'?>");
 		temp.append("<cockatrice_deck version='"+getProperty("VERSION")+"'>");

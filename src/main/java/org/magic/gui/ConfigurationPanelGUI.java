@@ -25,6 +25,8 @@ import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.api.interfaces.PictureProvider;
 import org.magic.gui.components.ConfigurationPanel;
+import org.magic.gui.components.LoggerViewPanel;
+import org.magic.gui.components.ThreadMonitorPanel;
 import org.magic.gui.models.conf.DashBoardProviderTreeTableModel;
 import org.magic.gui.models.conf.DeckSnifferTreeTableModel;
 import org.magic.gui.models.conf.ExportsTreeTableModel;
@@ -39,8 +41,6 @@ import org.magic.gui.models.conf.ServersTreeTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.gui.components.LoggerViewPanel;
-import org.magic.gui.components.ThreadMonitorPanel;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable cardsProviderTable;

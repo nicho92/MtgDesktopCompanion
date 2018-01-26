@@ -16,6 +16,18 @@ public abstract class AbstractCounter {
 	}
 	
 	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		
+		if (this.getClass() != obj.getClass())
+		    return false;
+
+		return ((AbstractCounter)obj).hashCode() == this.hashCode();
+		
+	}
+	
+	@Override
 	public int hashCode() {
 		return describe().hashCode();
 	}

@@ -52,7 +52,7 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	
 	public void export(MagicDeck deck , File dest) throws IOException
 	{
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		
 		temp.append("<?xml version='1.0' encoding='utf-8' standalone='yes'?>");
 		temp.append("<deck game='"+getProperty("MAGIC_GAME_ID")+"' sleeveid='"+getProperty("SLEEVE_ID")+"' >");
@@ -121,7 +121,7 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	public void export(List<MagicCard> cards, File f) throws Exception {
 
 		
-		StringBuffer temp = new StringBuffer();
+		StringBuilder temp = new StringBuilder();
 		
 		
 		FileWriter out = new FileWriter(f);

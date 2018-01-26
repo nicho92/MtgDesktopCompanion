@@ -84,7 +84,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 			String url = cont.getElementsByTag("td").get(1).getElementsByTag("a").attr("href");
 			String auteur = cont.getElementsByTag("td").get(5).text();
 			
-			StringBuffer temp = new StringBuffer();
+			StringBuilder temp = new StringBuilder();
 			
 			for(Element color : cont.getElementsByTag("td").get(2).select("img"))
 			{
