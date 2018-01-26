@@ -36,7 +36,6 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws Exception {
 		
-		String cardName = mc.getName().toLowerCase();
 		MagicEdition edition = me;
 		if(me==null)
 			edition=mc.getEditions().get(0);
@@ -50,7 +49,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		
         String cardSet = edition.getId();
         
-        cardName = mc.getName().toLowerCase()
+       String cardName = mc.getName().toLowerCase()
                 .replaceAll(" ", "")
                 .replaceAll("-", "")
                 .replaceAll("'", "")
@@ -81,7 +80,6 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -92,7 +90,6 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

@@ -21,15 +21,17 @@ import org.magic.tools.ColorParser;
 
 public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 	
-	ManaPanel pane;
-	ImageIcon gold, uncolor,back;
-	Map<String,ImageIcon> map;
+	private ManaPanel pane;
+	private ImageIcon gold; 
+	private ImageIcon uncolor;
+	private ImageIcon back;
+	private Map<String,ImageIcon> map;
 	
 	
 	public MagicCollectionTreeCellRenderer() {
 		try{
 			pane = new ManaPanel();
-			map = new HashMap<String,ImageIcon>();
+			map = new HashMap<>();
 			gold= new ImageIcon(ImageIO.read(MTGConstants.URL_MANA_GOLD).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
 			uncolor= new ImageIcon(ImageIO.read(MTGConstants.URL_MANA_INCOLOR).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
 			back= new ImageIcon(ImageIO.read(MTGConstants.URL_COLLECTION).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
@@ -48,6 +50,7 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 	 
 	}
 	
+	@Override
      public Component getTreeCellRendererComponent(JTree tree,Object value, boolean selected, boolean expanded,boolean isLeaf, int row, boolean focused) 
      {
     	Component c = super.getTreeCellRendererComponent(tree, value,selected, expanded, isLeaf, row, focused);
@@ -65,11 +68,8 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 		    			MagicCard mc=(MagicCard)((DefaultMutableTreeNode)value).getUserObject();
 		    			
 		    			setOpaque(false);
+		    			setIcon(uncolor);
 		    			
-		    			//if(mc.getColors().contains(").size()<1)
-		    			{
-		    				setIcon(uncolor);
-		    			}
 		    			if(mc.getFullType().toLowerCase().contains("artifact"))
 		    			{
 		    				setIcon(map.get("{X}"));

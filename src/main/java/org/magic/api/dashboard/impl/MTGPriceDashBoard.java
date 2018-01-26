@@ -158,9 +158,9 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		
 			Element table =doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 		
-			List<CardShake> list = new ArrayList<CardShake>();
+			List<CardShake> list = new ArrayList<>();
 			String data = table.html();
-			data = data.substring(data.indexOf("["),data.indexOf("]")+1);
+			data = data.substring(data.indexOf('['),data.indexOf(']')+1);
 			JsonElement root = new JsonParser().parse(data);
 			JsonArray arr = root.getAsJsonArray();
 			for(int i = 0;i<arr.size();i++)

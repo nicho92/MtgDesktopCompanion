@@ -552,10 +552,23 @@ public class Player extends Observable implements Serializable{
 	{
 		
 	}
+	
+	@Override
+	public int hashCode() {
+		return this.hashCode();
+	}
+	
 
 	@Override
-	public boolean equals(Object paramObject) {
-		Player p2 = (Player)paramObject;
+	public boolean equals(Object obj) {
+		
+	 if (obj == null)
+	    return false;
+
+	  if (this.getClass() != obj.getClass())
+	    return false;
+		
+	  Player p2 = (Player)obj;
 		return getId()==p2.getId();
 	}
 

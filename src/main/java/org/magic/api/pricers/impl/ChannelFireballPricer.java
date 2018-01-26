@@ -46,19 +46,19 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
 	
 		
-		String KEYWORD=card.getName();
-		String url = props.getProperty("URL").toString();
+		String keyword=card.getName();
+		String url = getProperty("URL");
 		
 		
-		KEYWORD=URLEncoder.encode(KEYWORD,props.getProperty("ENCODING"));
+		keyword=URLEncoder.encode(keyword,props.getProperty("ENCODING"));
 		
-		props.put("KEYWORD", KEYWORD);
+		props.put("KEYWORD", keyword);
 		
 		if(me!=null)
-			KEYWORD += "&setname=" + URLEncoder.encode(me.getSet(),props.getProperty("ENCODING"));
+			keyword += "&setname=" + URLEncoder.encode(me.getSet(),props.getProperty("ENCODING"));
 		
 		
-		String link=url.replaceAll("%CARDNAME%", KEYWORD);
+		String link=url.replaceAll("%CARDNAME%", keyword);
 		
 		
 		logger.info(getName()+ " Looking for price " + link);

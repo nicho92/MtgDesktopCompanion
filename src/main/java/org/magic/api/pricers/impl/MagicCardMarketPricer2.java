@@ -3,6 +3,7 @@ package org.magic.api.pricers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -56,10 +57,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		
 		try{
 		MkmAPIConfig.getInstance().init(
-				props.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
-    			props.getProperty("APP_ACCESS_TOKEN").toString(),
-    			props.getProperty("APP_SECRET").toString(),
-    			props.getProperty("APP_TOKEN").toString());
+				getProperty("APP_ACCESS_TOKEN_SECRET"),
+    			getProperty("APP_ACCESS_TOKEN"),
+    			getProperty("APP_SECRET"),
+    			getProperty("APP_TOKEN"));
 		}
 		catch(MkmException e)
 		{
@@ -70,8 +71,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     	
     	
     	try {
-    		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
-    			InstallCert.install("www.mkmapi.eu");
+    		InstallCert.install("www.mkmapi.eu");
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
     	} catch (Exception e1) {
 			logger.error(e1);
@@ -98,7 +98,6 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			if(mc.getEditions().get(0).getMkm_name()!=null)
 				edName=mc.getEditions().get(0).getMkm_name();
 		
-			//logger.debug("\""+edName + "\".startWith("+p.getExpansionName()+")"+StringUtils.getJaroWinklerDistance(edName, p.getExpansionName()) );
 			if(p.getCategoryName().equalsIgnoreCase("Magic Single"))
 				if(edName.startsWith(p.getExpansionName()))
 				{
@@ -117,11 +116,11 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     		if(me==null)
     			me=card.getEditions().get(0);
     
-    	lists = new ArrayList<MagicPrice>();
+    	lists = new ArrayList<>();
     	
     	logger.info(getName() + " looking for " + card +" " + me);
     	
-    	if(props.getProperty("COMMONCHECK").equals("false") && me.getRarity().equalsIgnoreCase("Common"))
+    	if(getProperty("COMMONCHECK").equals("false") && me.getRarity().equalsIgnoreCase("Common"))
         {
         	MagicPrice mp = new MagicPrice();
         	mp.setCurrency("EUR");
@@ -135,7 +134,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     	
     	
        ProductServices pService = new ProductServices();
-       Map<PRODUCT_ATTS,String> atts = new HashMap<Product.PRODUCT_ATTS, String>();
+       EnumMap<PRODUCT_ATTS,String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 		atts.put(PRODUCT_ATTS.idGame, "1");
 		atts.put(PRODUCT_ATTS.exact,props.getProperty("IS_EXACT"));
 		
@@ -153,7 +152,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 				   mp.setValue(p.getPriceGuide().getLOW());
 				   mp.setQuality("");
 				   mp.setUrl("https://www.magiccardmarket.eu"+p.getWebsite());
-				   mp.setSite("MagicCardMarket");
+				   mp.setSite(getName());
 				   mp.setFoil(false);
 				   mp.setCurrency("EUR");
 				   mp.setLanguage(String.valueOf(p.getLocalization()));
@@ -172,7 +171,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			}
 			
 			ArticleService aServ = new ArticleService();
-			Map<ARTICLES_ATT,String> aatts = new HashMap<ARTICLES_ATT, String>();
+			EnumMap<ARTICLES_ATT,String> aatts = new EnumMap<>(ARTICLES_ATT.class);
 			aatts.put(ARTICLES_ATT.start, "0");
 			aatts.put(ARTICLES_ATT.maxResults, props.getProperty("MAX"));
 			
@@ -229,13 +228,13 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			
 			@Override
 			public void run() {
-				if(p.size()>0)
+				if(!p.isEmpty())
 				{
-					if(props.getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
+					if(getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
 					{
 						CartServices cart = new CartServices();
 						try {
-							List<Article> list = new ArrayList<Article>();
+							List<Article> list = new ArrayList<>();
 							
 							for(MagicPrice mp : p)
 							{

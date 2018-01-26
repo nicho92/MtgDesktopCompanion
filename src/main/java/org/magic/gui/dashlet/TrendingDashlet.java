@@ -92,7 +92,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 										(int)Double.parseDouble(props.getProperty("h")));
 			
 			try {
-				cboFormats.setSelectedItem(FORMAT.valueOf(props.getProperty("FORMAT").toString()));
+				cboFormats.setSelectedItem(FORMAT.valueOf(getProperty("FORMAT")));
 			
 			} catch (Exception e) {
 				MTGLogger.printStackTrace(e);

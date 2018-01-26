@@ -84,7 +84,7 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
 		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
+		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
 		
 		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new FileReader(f)));
 		XPath xpath = XPathFactory.newInstance().newXPath();

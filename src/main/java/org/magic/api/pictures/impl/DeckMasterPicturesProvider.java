@@ -60,8 +60,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			Element e = d.select(".card > img" ).get(0);
 			HttpURLConnection con = (HttpURLConnection)new URL(e.attr("src")).openConnection();
 			con.setRequestProperty("User-Agent",props.getProperty("USER_AGENT"));
-			BufferedImage im = ImageIO.read(con.getInputStream());
-			return im;
+			return ImageIO.read(con.getInputStream());
 			
 		}
 		catch(Exception e)

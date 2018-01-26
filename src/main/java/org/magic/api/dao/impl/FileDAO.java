@@ -343,11 +343,9 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteAlert(MagicCardAlert alert) throws Exception {
-			File f = new File(directory,"/alerts/"+IDGenerator.generate(alert.getCard()));
-			
-			if(f.exists())
-				f.delete();
-		
+		File f = new File(directory,"/alerts/"+IDGenerator.generate(alert.getCard()));
+		if(f.exists())
+			FileUtils.deleteQuietly(f);
 	}
 
 	@Override
@@ -363,7 +361,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public boolean hasAlert(MagicCard mc) {
-		return FileUtils.listFiles(new File(directory,"/alerts"),new NameFileFilter(IDGenerator.generate(mc)),TrueFileFilter.INSTANCE).size()>0;
+		return !FileUtils.listFiles(new File(directory,"/alerts"),new NameFileFilter(IDGenerator.generate(mc)),TrueFileFilter.INSTANCE).isEmpty();
 	}
 
 	@Override

@@ -11,16 +11,12 @@ import org.magic.services.MTGLogger;
 public class CardAlertTableModel extends DefaultTableModel {
 
 	
-	static final String columns[] = new String[]{
+	static final String[] columns = new String[]{
 											MTGControler.getInstance().getLangService().getCapitalize("CARD"),
 											MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
 											MTGControler.getInstance().getLangService().getCapitalize("MAX_BID"),
 											MTGControler.getInstance().getLangService().getCapitalize("OFFERS")
 									};
-	
-	public CardAlertTableModel() {
-	}
-	
 	
 	@Override
 	public int getColumnCount() {

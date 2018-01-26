@@ -27,6 +27,7 @@ import org.jdesktop.swingx.util.PaintUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 
@@ -37,21 +38,22 @@ public class CardsPicPanel extends JXPanel {
 	
 	private static final long serialVersionUID = 1L;
 
-	private BufferedImage imgFront=null;
-	private BufferedImage back;
+	private transient BufferedImage imgFront=null;
+	private transient  BufferedImage back;
 
-	private Shape selectedShape = null;
-	private ReflectionRenderer renderer;
+	private transient  Shape selectedShape = null;
+	private transient  ReflectionRenderer renderer;
 	private Point pointInitial = null;
 
 	
-	 private BufferedImage printed;
+	 private transient BufferedImage printed;
      
      private float xScale = 1f;
      private float xDelta = 0.05f;
      boolean launched=false;
      private Timer timer;
-     int pX, pY;
+     int pX;
+     int pY;
      double rotate;
     
 	
@@ -85,7 +87,7 @@ public class CardsPicPanel extends JXPanel {
 			try {
 				back=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
 			} catch (Exception e1) {
-				//e1.printStackTrace();
+				MTGLogger.printStackTrace(e1);
 			}
 		}
 		else
@@ -113,11 +115,9 @@ public class CardsPicPanel extends JXPanel {
 					
 					
 					printed=imgFront; 
-					
-					int w = getWidth();
-				    int h = getHeight();
-				    int x = 15;//(w - imgFront.getWidth())/2;
-				    int y = 15;//(h - imgFront.getHeight())/2;
+				
+					int x = 15;
+				    int y = 15;
 					
 				    selectedShape= new Rectangle2D.Double(x, y, printed.getWidth(null),  printed.getHeight(null));
 					
@@ -217,13 +217,14 @@ public class CardsPicPanel extends JXPanel {
 
 	private class GestionnaireEvenements extends MouseAdapter 
 	  {
-			public JXPanel mainPanel;
+			private JXPanel mainPanel;
 		
 			public GestionnaireEvenements(JXPanel panel)
 			{
 					this.mainPanel = panel;
 			}
 		
+			@Override
 		 	public void mouseWheelMoved(MouseWheelEvent e) {
 					double quotien = 1.1;
 					
@@ -249,7 +250,7 @@ public class CardsPicPanel extends JXPanel {
         			launched=true;
         		}
 		 	}
-			
+		 	@Override
 			public void mousePressed(MouseEvent e)
 		    {
 			  if (selectedShape.contains(e.getPoint()))
@@ -258,9 +259,9 @@ public class CardsPicPanel extends JXPanel {
 		            mainPanel.repaint();
 		      }
 		    }
-		  
-			public void mouseReleased(MouseEvent e){    }
-		    
+		 	
+		 	
+		 	@Override
 		    public void mouseDragged(MouseEvent e) {
 		    	
 		    	if(moveable) 

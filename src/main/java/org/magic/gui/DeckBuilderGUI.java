@@ -798,8 +798,8 @@ public class DeckBuilderGUI extends JPanel {
 			public void run() {
 				String[] line = stringDeck.split("\n");
 				for (String l : line) {
-					int nb = Integer.parseInt(l.substring(0, l.indexOf(" ")));
-					String name = l.substring(l.indexOf(" "), l.length());
+					int nb = Integer.parseInt(l.substring(0, l.indexOf(' ')));
+					String name = l.substring(l.indexOf(' '), l.length());
 					// Scanner s = new Scanner(input).useDelimiter("\\s*\\s*");
 					try {
 						MagicCard mc;

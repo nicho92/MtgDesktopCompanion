@@ -113,7 +113,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 											}
 											a.setLieu(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(1).text());
 											a.setType(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp").get(0).text());
-											a.setId(url.substring(url.lastIndexOf("/")+1, url.lastIndexOf(".")).trim());
+											a.setId(url.substring(url.lastIndexOf('/')+1, url.lastIndexOf('.')).trim());
 											a.setShopName(getName());
 											try{
 												a.setImage(new URL(listElements.get(i).getElementsByClass("lazyload").get(0).attr("data-imgsrc")));

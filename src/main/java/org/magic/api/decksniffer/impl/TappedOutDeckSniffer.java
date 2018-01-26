@@ -153,7 +153,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		    
 		    //remove behavior if present
 		    if (cardName.contains("#"))
-		    	cardName=cardName.substring(0,cardName.indexOf("#")).trim();
+		    	cardName=cardName.substring(0,cardName.indexOf('#')).trim();
 
 		    if(cardName.contains("//"))
 				cardName=cardName.substring(0, cardName.indexOf("//")).trim();

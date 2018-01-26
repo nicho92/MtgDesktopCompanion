@@ -29,7 +29,8 @@ public class BoosterPicturesProvider {
 	DocumentBuilder builder;
 	Document document;
 	
-	private int w,h;
+	private int w;
+	private int h;
 	Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	public BoosterPicturesProvider() {

@@ -59,6 +59,11 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 		this.props=p;
 	}
 	
+	public String getProperty(String k)
+	{
+		return props.getProperty(k);
+	}
+	
 	public Properties getProperties()
 	{
 		return props;

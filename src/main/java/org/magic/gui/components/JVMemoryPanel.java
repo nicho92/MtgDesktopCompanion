@@ -83,13 +83,12 @@ public class JVMemoryPanel extends JPanel
 		
 		
 		addComponentListener(new ComponentAdapter() {
+			@Override
 			public void componentShown(ComponentEvent arg0) {
-				System.out.println("start");
 				start();
 			}
 			@Override
 			public void componentHidden(ComponentEvent arg0) {
-				System.out.println("stop");
 				stop();
 			}
 			

@@ -25,7 +25,7 @@ public class CardChooseDialog extends JDialog {
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		comboBox = new JComboBox<DisplayableCard>();
+		comboBox = new JComboBox<>();
 		
 		for(DisplayableCard c : GamePanelGUI.getInstance().getPanelBattleField().getCards())
 			comboBox.addItem(c);

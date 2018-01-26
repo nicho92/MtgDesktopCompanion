@@ -415,9 +415,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 	public ResultSet executeQuery(String query) throws SQLException
 	{
 		Statement pst = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE);
-		ResultSet rs = pst.executeQuery(query);
-		
-		return rs;
+		return pst.executeQuery(query);
 	}
 	
 	public int executeUpdate(String query) throws SQLException

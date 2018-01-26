@@ -114,7 +114,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 			else
 			{
 
-				int qte = Integer.parseInt(e.text().substring(0,e.text().indexOf(" ")));
+				int qte = Integer.parseInt(e.text().substring(0,e.text().indexOf(' ')));
 				String name = e.select("span.L14").text();
 				if(!name.equals(""))
 				{

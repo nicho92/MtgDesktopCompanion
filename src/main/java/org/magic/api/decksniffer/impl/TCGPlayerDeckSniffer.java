@@ -177,7 +177,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void connect() throws Exception {
-		// TODO Auto-generated method stub
+		logger.trace("no implementation for connect()");
 
 	}
 

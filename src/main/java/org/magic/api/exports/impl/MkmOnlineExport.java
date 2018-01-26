@@ -3,6 +3,7 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,7 +45,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	
 	HttpURLConnection connection;
 	MagicCardMarketPricer2 mkmPricer;
-	Map<PRODUCT_ATTS, String> atts;
+	EnumMap<PRODUCT_ATTS, String> atts;
 	ProductServices pService;
 	public MkmOnlineExport() throws Exception {
 		super();
@@ -59,13 +60,13 @@ public class MkmOnlineExport extends AbstractCardExport {
 			save();
 		}
 		
-		MkmAPIConfig.getInstance().init(mkmPricer.getProperty("APP_ACCESS_TOKEN_SECRET").toString(),
-				mkmPricer.getProperty("APP_ACCESS_TOKEN").toString(),
-				mkmPricer.getProperty("APP_SECRET").toString(),
-				mkmPricer.getProperty("APP_TOKEN").toString());
+		MkmAPIConfig.getInstance().init(mkmPricer.getProperty("APP_ACCESS_TOKEN_SECRET"),
+				mkmPricer.getProperty("APP_ACCESS_TOKEN"),
+				mkmPricer.getProperty("APP_SECRET"),
+				mkmPricer.getProperty("APP_TOKEN"));
 		
 		pService = new ProductServices();
-		atts = new HashMap<PRODUCT_ATTS,String>();
+		atts = new EnumMap<>(PRODUCT_ATTS.class);
 								  atts.put(PRODUCT_ATTS.exact, "true");
 								  atts.put(PRODUCT_ATTS.idGame, "1");
 								  atts.put(PRODUCT_ATTS.idLanguage, "1");
@@ -216,7 +217,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			
 			StockService serv = new StockService();
 			ProductServices prods = new ProductServices();
-			Map<PRODUCT_ATTS,String> atts = new HashMap<PRODUCT_ATTS, String>();
+			EnumMap<PRODUCT_ATTS,String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 			
 			atts.put(PRODUCT_ATTS.idGame, "1");
 			atts.put(PRODUCT_ATTS.exact, "true");
@@ -224,7 +225,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 			List<Article> list = new ArrayList<Article>();
 			for(MagicCardStock mcs : stock)
 			{
-				//Product p = prods.findProduct(mcs.getMagicCard().getName(), atts).get(0);
 				Product p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(), prods.findProduct(mcs.getMagicCard().getName(), atts));
 				Article a = new Article();
 						a.setAltered(mcs.isAltered());
@@ -247,7 +247,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	public List<MagicCardStock> importStock(File f) throws Exception {
 		
 		
-		if(!props.getProperty("STOCK_USE").toString().equals("true"))
+		if(!getProperty("STOCK_USE").equals("true"))
 			return importFromDeck(importDeck(f));
 		
 		

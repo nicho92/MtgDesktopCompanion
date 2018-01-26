@@ -87,8 +87,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 			
 			try{
 			URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+multiverseid+"&type=card");
-			BufferedImage im = ImageIO.read(url);
-				return im;
+			return ImageIO.read(url);
 			}
 			catch(Exception e)
 			{

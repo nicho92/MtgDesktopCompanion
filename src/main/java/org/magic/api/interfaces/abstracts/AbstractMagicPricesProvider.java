@@ -74,8 +74,8 @@ public abstract class AbstractMagicPricesProvider extends Observable implements 
 	}
 
 	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
+	public String getProperty(String k) {
+		return props.getProperty(k);
 	}
 
 	@Override

@@ -49,7 +49,6 @@ public class TokenMTGOnlTokenProvider extends AbstractTokensProvider {
 	
 	@Override
 	public boolean isTokenizer(MagicCard mc) {
-		// TODO Auto-generated method stub
 		return false;
 	}
 

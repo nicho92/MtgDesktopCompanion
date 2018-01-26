@@ -142,7 +142,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
 		
-		String urlW= props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat.toString()+"/winners/"+props.getProperty("DAILY_WEEKLY");
+		String urlW= props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/winners/"+props.getProperty("DAILY_WEEKLY");
 		String urlL= props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY");
 		
 		

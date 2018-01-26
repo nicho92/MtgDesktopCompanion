@@ -96,7 +96,7 @@ public class MagicDeck implements Serializable{
 	
 	//TODO correct color identity of cards
 	public String getColors() {
-		Set<String> cmap = new LinkedHashSet<String>();
+		Set<String> cmap = new LinkedHashSet<>();
 		for(MagicCard mc : mapDeck.keySet())
 		{
 			if((mc.getCmc()!=null))

@@ -10,6 +10,10 @@ public class IDGenerator {
 
 	static Logger logger = MTGLogger.getLogger(IDGenerator.class);
 	
+	
+	private IDGenerator() {
+	}
+	
 	public static String generate(MagicCard mc)
 	{
 		try {

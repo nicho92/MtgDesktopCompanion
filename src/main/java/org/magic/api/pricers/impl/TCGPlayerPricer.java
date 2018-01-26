@@ -126,7 +126,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
-		// TODO Auto-generated method stub
+		logger.trace("no implementation for alertDetected " + p);
 		
 	}
 	

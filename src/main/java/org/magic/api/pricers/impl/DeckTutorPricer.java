@@ -88,8 +88,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		MessageDigest md = MessageDigest.getInstance("MD5");
         byte[] messageDigest = md.digest(chaine.getBytes());
         BigInteger number = new BigInteger(1, messageDigest);
-        String hashtext = number.toString(16);
-        return hashtext;
+        return number.toString(16);
 	}
 	
 	
@@ -138,7 +137,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		    			   obj.add("search", jsonparams);
 			    			  
 			    			   if(props.getProperty("MAX_RESULT") != null)
-			    				   obj.addProperty("limit",props.getProperty("MAX_RESULT").toString());
+			    				   obj.addProperty("limit",getProperty("MAX_RESULT"));
 			    	
 			    	logger.debug(getName() +" request :" + obj);
 			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
@@ -150,7 +149,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	}
 	
 	private List<MagicPrice> parseResult(String response) {
-		List<MagicPrice> list = new ArrayList<MagicPrice>();
+		List<MagicPrice> list = new ArrayList<>();
 		
 		JsonElement e = parser.parse(response);
 		

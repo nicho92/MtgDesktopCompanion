@@ -838,11 +838,10 @@ public class StockPanelGUI extends JPanel {
 			for(MagicCollection l : MTGControler.getInstance().getEnabledDAO().getCollections())
 				 cModel.addElement(l);
 		} catch (SQLException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			MTGLogger.printStackTrace(e1);
 		}
 		
-		cboCollection = new JComboBox<MagicCollection>(cModel);
+		cboCollection = new JComboBox<>(cModel);
 		GridBagConstraints gbc_cboCollection = new GridBagConstraints();
 		gbc_cboCollection.insets = new Insets(0, 0, 5, 0);
 		gbc_cboCollection.fill = GridBagConstraints.HORIZONTAL;

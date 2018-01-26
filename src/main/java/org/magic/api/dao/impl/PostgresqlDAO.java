@@ -122,8 +122,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			ObjectOutputStream oos = new ObjectOutputStream(baos);
 			oos.writeObject(c);
 			oos.close();
-			ByteArrayInputStream bais = new ByteArrayInputStream(baos.toByteArray());
-			return bais;
+			return new ByteArrayInputStream(baos.toByteArray());
 	 }
 		
 		@Override
@@ -349,27 +348,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			return "PostGreSQL";
 		}
 
-/*
-		@Override
-		public List<MagicDeck> listDeck() throws SQLException {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-
-		@Override
-		public void saveDeck(MagicDeck d) throws SQLException {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-		@Override
-		public void deleteDeck(MagicDeck d) throws SQLException {
-			// TODO Auto-generated method stub
-			
-		}
-*/
 
 		@Override
 		public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException{

@@ -40,7 +40,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	public List<MagicPrice> getPrice(MagicEdition ed, MagicCard card) throws Exception {
 		// http://www.mtgprice.com/api?apiKey=DavidDOTCatuheATmicrosoftDOTcom-SunMay1018-30-46UTC2015&s=Eldritch_Moon
 		if(props.getProperty("API_KEY").equals(""))
-			throw new Exception ("API_KEY must be filled");
+			throw new NullPointerException("API_KEY must be filled");
 		
 		MagicEdition selected = ed;
 		if(ed==null)
@@ -50,7 +50,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 		
 		String url = props.getProperty("WS_URL")+"?apiKey="+props.getProperty("API_KEY")+"&s="+set;
 		InputStream stream = new URL(url).openConnection().getInputStream();
-		List<MagicPrice> ret = new ArrayList<MagicPrice>();
+		List<MagicPrice> ret = new ArrayList<>();
 		
 		logger.info(getName() +" looking for price at " + url);
 		
@@ -61,7 +61,9 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 			reader.nextName();
 			reader.beginArray();
 		
-		String name="", mtgpriceID="", fairPrice="";
+		String name=""; 
+		String fairPrice="";
+		String mtgpriceID="";
 		
 	     while (reader.hasNext()) {
 	       reader.beginObject();

@@ -74,7 +74,7 @@ public class MTGODeckExport extends AbstractCardExport  {
 	public MagicDeck importDeck(File f) throws Exception {
 		BufferedReader read = new BufferedReader(new FileReader(f));
 		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
+		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
 		
 		String line = read.readLine();
 		
@@ -82,14 +82,14 @@ public class MTGODeckExport extends AbstractCardExport  {
 		{
 			if(!line.startsWith("//") && line.length()>0)
 			{
-				int sep = line.indexOf(" ");
+				int sep = line.indexOf(' ');
 				String name = line.substring(sep, line.length()).trim();
 				String qte =  line.substring(0, sep).trim();
 			
 				if(line.startsWith("SB: "))
 				{
 					line=line.replaceAll("SB: ", "");
-					sep = line.indexOf(" ");
+					sep = line.indexOf(' ');
 					name = line.substring(sep, line.length()).trim();
 					qte =  line.substring(0, sep).trim();
 					List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null,true);

@@ -70,15 +70,6 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
 			}
 			return ret;
 	}
-	
-  
-	public abstract void moveCard(DisplayableCard mc, PositionEnum to);
-	  
-	public abstract void addComponent(DisplayableCard i);
-	
-	public abstract PositionEnum getOrigine();
-	  
-	public abstract void postTreatment(DisplayableCard c);
   
    public void updatePanel() {
 	  revalidate();

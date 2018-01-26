@@ -14,6 +14,23 @@ public class BonusCounter extends AbstractCounter {
 	}
 
 	@Override
+	public int hashCode() {
+		return this.hashCode();
+	}
+	
+	
+	@Override
+	public boolean equals(Object obj) {
+		 if (obj == null)
+			    return false;
+
+			  if (this.getClass() != obj.getClass())
+			    return false;
+		
+		return this.hashCode() ==((BonusCounter)obj).hashCode();
+	}
+	
+	@Override
 	public void apply(DisplayableCard displayableCard) {
 		int power=0;
 		int toughness=0;
@@ -22,14 +39,18 @@ public class BonusCounter extends AbstractCounter {
 			power = Integer.parseInt(displayableCard.getMagicCard().getPower());
 		}
 		catch(Exception e)
-		{	}
+		{	
+			power=0;
+		}
 		
 		
 		try{
 			toughness = Integer.parseInt(displayableCard.getMagicCard().getToughness());
 		}
 		catch(Exception e)
-		{	}
+		{	
+			toughness=0;
+		}
 		
 		power = power + powerModifier;
 		toughness = toughness + toughnessModifier;

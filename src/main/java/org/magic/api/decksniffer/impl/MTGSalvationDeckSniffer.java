@@ -92,8 +92,8 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					{
 						try
 						{
-							int qte = Integer.parseInt(s.substring(0,s.indexOf(" ")));
-							String cardName = s.substring(s.indexOf(" "),s.length()).trim();
+							int qte = Integer.parseInt(s.substring(0,s.indexOf(' ')));
+							String cardName = s.substring(s.indexOf(' '),s.length()).trim();
 							MagicEdition ed = null;
 							if(cardName.trim().equalsIgnoreCase("Plains")||cardName.trim().equalsIgnoreCase("Island")||cardName.trim().equalsIgnoreCase("Swamp")||cardName.trim().equalsIgnoreCase("Mountain")||cardName.trim().equalsIgnoreCase("Forest"))
 							{

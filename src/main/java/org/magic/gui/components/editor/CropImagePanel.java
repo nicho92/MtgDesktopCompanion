@@ -13,10 +13,15 @@ import javax.swing.JPanel;
 
 public class CropImagePanel extends JPanel implements MouseListener, MouseMotionListener
 {
-	int drag_status = 0, c1, c2, c3, c4;
+	int dragStatus = 0;
+	int c1;
+	int c2;
+	int c3;
+	int c4;
 	Image selectedImage;
 	
 
+	@Override
 	public void paintComponent(Graphics g) 
 	{ 
 		if(selectedImage!=null)
@@ -92,7 +97,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 	@Override
 	public void mouseReleased(MouseEvent arg0) {
 		repaint();
-		if (drag_status == 1) {
+		if (dragStatus == 1) {
 			c3 = arg0.getX();
 			c4 = arg0.getY();
 		}
@@ -101,7 +106,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		repaint();
-		drag_status = 1;
+		dragStatus = 1;
 		c3 = arg0.getX();
 		c4 = arg0.getY();
 	}
@@ -110,6 +115,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 	public void mouseMoved(MouseEvent arg0) {
 	}
 
+	@Override
 	public void paint(Graphics g) {
 		super.paint(g);
 		int w = c1 - c3;

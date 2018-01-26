@@ -203,7 +203,7 @@ public class MTGControler {
 		}
 		catch(Exception e)
 		{
-			//MTGLogger.printStackTrace(e);
+			MTGLogger.printStackTrace(e);
 		}
 		return p;
 	}
@@ -256,12 +256,12 @@ public class MTGControler {
 			}
 			
 			logger.info("loading cards provider");
-			cardsProviders= new ArrayList<MagicCardsProvider>();
+			cardsProviders= new ArrayList<>();
 
 			for(int i=1;i<=config.getList("//provider/class").size();i++)
 			{
 				String s = config.getString("providers/provider["+i+"]/class");
-				MagicCardsProvider prov = loadItem(MagicCardsProvider.class, s.toString());
+				MagicCardsProvider prov = loadItem(MagicCardsProvider.class, s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("providers/provider["+i+"]/enable"));
 					cardsProviders.add(prov);
@@ -270,11 +270,11 @@ public class MTGControler {
 			
 			
 			logger.info("loading DAOs");
-			daoProviders=new ArrayList<MagicDAO>();
+			daoProviders=new ArrayList<>();
 			for(int i=1;i<=config.getList("//dao/class").size();i++)
 			{
 				String s = config.getString("daos/dao["+i+"]/class");
-				MagicDAO prov = loadItem(MagicDAO.class, s.toString());
+				MagicDAO prov = loadItem(MagicDAO.class, s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("daos/dao["+i+"]/enable"));
 					daoProviders.add(prov);
@@ -282,11 +282,11 @@ public class MTGControler {
 			}
 			
 			logger.info("loading Shoppers");
-			cardsShoppers=new ArrayList<MagicShopper>();
+			cardsShoppers=new ArrayList<>();
 			for(int i=1;i<=config.getList("//shopper/class").size();i++)
 			{
 				String s = config.getString("shoppers/shopper["+i+"]/class");
-				MagicShopper prov = loadItem(MagicShopper.class, s.toString());
+				MagicShopper prov = loadItem(MagicShopper.class, s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("shoppers/shopper["+i+"]/enable"));
 					cardsShoppers.add(prov);
@@ -294,11 +294,11 @@ public class MTGControler {
 			}
 			
 			logger.info("loading DashBoard");
-			dashboards=new ArrayList<DashBoard>();
+			dashboards=new ArrayList<>();
 			for(int i=1;i<=config.getList("//dashboard/class").size();i++)
 			{
 				String s = config.getString("dashboards/dashboard["+i+"]/class");
-				DashBoard prov = loadItem(DashBoard.class, s.toString());
+				DashBoard prov = loadItem(DashBoard.class, s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("dashboards/dashboard["+i+"]/enable"));
 					dashboards.add(prov);
@@ -306,11 +306,11 @@ public class MTGControler {
 			}
 			
 			logger.info("loading Deck Exports");
-			exports=new ArrayList<AbstractCardExport>();
+			exports=new ArrayList<>();
 			for(int i=1;i<=config.getList("//export/class").size();i++)
 			{
 				String s = config.getString("deckexports/export["+i+"]/class");
-				AbstractCardExport prov = loadItem(AbstractCardExport.class, s.toString());
+				AbstractCardExport prov = loadItem(AbstractCardExport.class, s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("deckexports/export["+i+"]/enable"));
 					exports.add(prov);
@@ -318,11 +318,11 @@ public class MTGControler {
 			}
 			
 			logger.info("loading Deck Sniffer");
-			deckSniffers=new ArrayList<DeckSniffer>();
+			deckSniffers=new ArrayList<>();
 			for(int i=1;i<=config.getList("//sniffer/class").size();i++)
 			{
 				String s = config.getString("decksniffer/sniffer["+i+"]/class");
-				DeckSniffer prov = loadItem(DeckSniffer.class, s.toString());
+				DeckSniffer prov = loadItem(DeckSniffer.class, s);
 				if(prov!=null){	
 					prov.enable(config.getBoolean("decksniffer/sniffer["+i+"]/enable"));
 					deckSniffers.add(prov);
@@ -330,11 +330,11 @@ public class MTGControler {
 			}
 			
 			logger.info("loading Pictures provider");
-			picturesProviders=new ArrayList<PictureProvider>();
+			picturesProviders=new ArrayList<>();
 			for(int i=1;i<=config.getList("//picture/class").size();i++)
 			{
 				String s = config.getString("pictures/picture["+i+"]/class");
-				PictureProvider prov = loadItem(PictureProvider.class, s.toString());
+				PictureProvider prov = loadItem(PictureProvider.class, s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("pictures/picture["+i+"]/enable"));
 					picturesProviders.add(prov);
@@ -342,11 +342,11 @@ public class MTGControler {
 			}
 			
 			logger.info("loading Servers");
-			servers=new ArrayList<MTGServer>();
+			servers=new ArrayList<>();
 			for(int i=1;i<=config.getList("//server/class").size();i++)
 			{
 				String s = config.getString("servers/server["+i+"]/class");
-				MTGServer prov = loadItem(MTGServer.class, s.toString());
+				MTGServer prov = loadItem(MTGServer.class, s);
 						 
 				if(prov!=null){
 					prov.enable(config.getBoolean("servers/server["+i+"]/enable"));
@@ -355,11 +355,11 @@ public class MTGControler {
 			}
 			
 			logger.info("loading Caches");
-			caches=new ArrayList<MTGPicturesCache>();
+			caches=new ArrayList<>();
 			for(int i=1;i<=config.getList("//cache/class").size();i++)
 			{
 				String s = config.getString("caches/cache["+i+"]/class");
-				MTGPicturesCache prov = loadItem(MTGPicturesCache.class, s.toString());
+				MTGPicturesCache prov = loadItem(MTGPicturesCache.class, s);
 						 
 				if(prov!=null){
 					prov.enable(config.getBoolean("caches/cache["+i+"]/enable"));
@@ -368,11 +368,11 @@ public class MTGControler {
 			}
 			
 			logger.info("loading Dashlets");
-			dashlets=new ArrayList<AbstractJDashlet>();
+			dashlets=new ArrayList<>();
 			for(int i=1;i<=config.getList("//dashlet/class").size();i++)
 			{
 				String s = config.getString("dashlets/dashlet["+i+"]/class");
-				AbstractJDashlet prov = loadItem(AbstractJDashlet.class, s.toString());
+				AbstractJDashlet prov = loadItem(AbstractJDashlet.class, s);
 				dashlets.add(prov);		 
 				
 			}

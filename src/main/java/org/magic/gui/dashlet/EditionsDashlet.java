@@ -94,7 +94,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		
 		MagicEdition ed;
 		try {
-			ed = MTGControler.getInstance().getEnabledProviders().getSetById(props.getProperty("EDITION").toString());
+			ed = MTGControler.getInstance().getEnabledProviders().getSetById(getProperty("EDITION"));
 			cboEditions.setSelectedItem(ed);
 		} catch (Exception e) {
 			logger.error("Error retrieve editions",e);

@@ -117,8 +117,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 	
 	private String parsePrice(Element item) {
 		try{
-			String price = ((Element)item.getElementsByTagName("advertprice").item(0)).getElementsByTagName("amount").item(0).getTextContent();
-			return price;
+			return ((Element)item.getElementsByTagName("advertprice").item(0)).getElementsByTagName("amount").item(0).getTextContent();
 		}
 		catch(Exception e)
 		{

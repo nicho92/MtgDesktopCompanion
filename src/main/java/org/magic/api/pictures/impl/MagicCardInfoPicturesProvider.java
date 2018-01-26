@@ -27,7 +27,8 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	
-	private int w,h;
+	private int w;
+	private int h;
 	
 	public MagicCardInfoPicturesProvider() {
 		super();

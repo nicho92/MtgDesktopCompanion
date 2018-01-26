@@ -10,6 +10,7 @@ package org.magic.tools;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -54,9 +55,13 @@ public class InstallCert {
             passphrase = MTGConstants.KEYSTORE_PASS.toCharArray();
        
             File keystoreFile = new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME);
-            if (keystoreFile.exists() == false) {
-            	keystoreFile.createNewFile();
-            	FileUtils.copyFile(new File(defaultF, "cacerts"),keystoreFile);
+            if (keystoreFile.exists() == false) 
+            {
+            	boolean ret = keystoreFile.createNewFile();
+            	if(ret)
+            		FileUtils.copyFile(new File(defaultF, "cacerts"),keystoreFile);
+            	else
+            		throw new FileNotFoundException("Couldn't not create " +keystoreFile);
             }
         
         logger.debug("Loading KeyStore " + keystoreFile.getAbsolutePath() + "...");

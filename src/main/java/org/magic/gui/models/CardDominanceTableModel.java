@@ -28,7 +28,7 @@ public class CardDominanceTableModel extends DefaultTableModel {
 	private List<CardDominance> list;
 	
 	public CardDominanceTableModel() {
-		list=new ArrayList<CardDominance>();
+		list=new ArrayList<>();
 	}
 	
 	public void init(FORMAT f,String filter)

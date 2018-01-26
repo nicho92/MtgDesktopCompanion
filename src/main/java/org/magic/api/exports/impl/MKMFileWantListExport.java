@@ -45,14 +45,14 @@ public class MKMFileWantListExport extends AbstractCardExport {
 		
 		BufferedReader read = new BufferedReader(new FileReader(f));
 		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
+		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
 		
 		String line = read.readLine();
 		
 		while(line!=null)
 		{
-			int qte = Integer.parseInt(line.substring(0, line.indexOf(" ")));
-			String name = line.substring(line.indexOf(" "),line.indexOf("("));
+			int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
+			String name = line.substring(line.indexOf(' '),line.indexOf('('));
 			
 			deck.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(), null,true).get(0), qte);
 			line=read.readLine();

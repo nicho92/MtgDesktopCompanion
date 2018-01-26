@@ -104,8 +104,8 @@ public class JSONHttpServer extends AbstractMTGServer
 	
 	private Response searchPrice(IHTTPSession session) {
     	try {
-	    		String att = session.getParameters().get("name").get(0).toString();
-	    		String val = session.getParameters().get("set").get(0).toString();
+	    		String att = session.getParameters().get("name").get(0);
+	    		String val = session.getParameters().get("set").get(0);
 	    		
 	    		MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", att, null,true).get(0);
 	    		MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(val);
@@ -141,9 +141,9 @@ public class JSONHttpServer extends AbstractMTGServer
 			  return res;
 		  }
 		  
-		  String id=session.getParameters().get("card_id").get(0).toString();
-		  MagicCollection from=new MagicCollection(session.getParameters().get("from").get(0).toString());
-		  MagicCollection to=new MagicCollection(session.getParameters().get("to").get(0).toString());
+		  String id=session.getParameters().get("card_id").get(0);
+		  MagicCollection from=new MagicCollection(session.getParameters().get("from").get(0));
+		  MagicCollection to=new MagicCollection(session.getParameters().get("to").get(0));
 		  
 		  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(id);
 		  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);

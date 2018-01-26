@@ -138,7 +138,7 @@ public class AlarmGUI extends JPanel {
 					if(e.getClickCount() == 2)
 						if(list.getSelectedValue()!=null)
 						{
-							MagicPrice p = (MagicPrice)list.getSelectedValue();
+							MagicPrice p = list.getSelectedValue();
 							Desktop.getDesktop().browse(new URI(p.getUrl()));
 						}
 				} catch (Exception e1) {

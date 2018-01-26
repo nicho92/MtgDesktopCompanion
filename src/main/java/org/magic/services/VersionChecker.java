@@ -47,8 +47,7 @@ public class VersionChecker {
            Document doc = docBuilder.parse(input);
            XPathFactory xpf = XPathFactory.newInstance();
            XPath path = xpf.newXPath();
-           String val = path.evaluate("/project/version", doc.getDocumentElement());
-  		return val;
+  		return path.evaluate("/project/version", doc.getDocumentElement());
 	}
 
 	public boolean hasNewVersion()

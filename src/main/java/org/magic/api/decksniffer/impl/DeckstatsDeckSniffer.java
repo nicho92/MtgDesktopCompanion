@@ -190,7 +190,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				RetrievableDeck deck = new RetrievableDeck();
 				Element info = cont.select("a").get(0);
 				String idColor = cont.select("img").get(0).attr("src");
-				idColor=idColor.substring(idColor.lastIndexOf("/")+1,idColor.lastIndexOf("."));
+				idColor=idColor.substring(idColor.lastIndexOf('/')+1,idColor.lastIndexOf('.'));
 				String name = info.text();
 				String url = info.attr("href");
 				String auteur = cont.select("a").get(1).text();
@@ -208,7 +208,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void connect() throws Exception {
-		// TODO Auto-generated method stub
+		
 
 	}
 
