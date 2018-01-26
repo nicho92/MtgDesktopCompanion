@@ -69,16 +69,16 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			logger.error(e1);
 		}
 		
-		if(gameFormat.toUpperCase().equals("STANDARD"))
+		if(gameFormat.equalsIgnoreCase("STANDARD"))
 			gameFormat="Standard";
 		else
-		if(gameFormat.toUpperCase().equals("MODERN"))
+		if(gameFormat.equalsIgnoreCase("MODERN"))
 			gameFormat="Modern";
 		else
-		if(gameFormat.toUpperCase().equals("VINTAGE"))
+		if(gameFormat.equalsIgnoreCase("VINTAGE"))
 			gameFormat="Vintage";
 		else
-		if(gameFormat.toUpperCase().equals("LEGACY"))
+		if(gameFormat.equalsIgnoreCase("LEGACY"))
 			gameFormat="All";
 		
 		Element table =doc.getElementById("top50"+gameFormat);
@@ -196,11 +196,13 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
 		
-		Map<Date,Double> historyPrice = new TreeMap<Date,Double>();
+		Map<Date,Double> historyPrice = new TreeMap<>();
 		String name="";
 		
-		if(mc!=null)
-			name=mc.getName().replaceAll(" ", "_");
+		if(mc==null)
+			throw new NullPointerException("no magiccard defined");
+		
+		name=mc.getName().replaceAll(" ", "_");
 		
 		
 		String edition="";
@@ -250,14 +252,12 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	@Override
 	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public String[]  getDominanceFilters() {
-		// TODO Auto-generated method stub
-		return null;
+		return new String[]{""};
 	}
 
 }

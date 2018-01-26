@@ -30,18 +30,16 @@ import org.mozilla.javascript.ast.NodeVisitor;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard{
 	private Date updateTime;
-	Map<Date,Double> historyPrice;
+	private Map<Date,Double> historyPrice;
     boolean stop ;	    
-	
-
-	
+    private Map<String,String> mapConcordance;
+    
+    
+    
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
-	
-	
-	Map<String,String> mapConcordance;
 	
 	public MTGoldFishDashBoard() 
 	{
@@ -66,7 +64,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		 
 		stop = false;	    
 		String url ="";
-		historyPrice = new TreeMap<Date,Double>();
+		historyPrice = new TreeMap<>();
 		int index=0;
 		
 		if(me==null)
@@ -98,35 +96,38 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			 
 		 Element js = d.getElementsByTag("script").get(index);
 		 
+		 
 	     AstNode node = new Parser().parse(js.html(), "", 1);
 	     		 node.visit( new NodeVisitor() {
-	 	             public boolean visit(AstNode node) {
-	 	            	 {
+	 	             public boolean visit(AstNode node) 
+	 	             {
+	 	            	 
 	    	        		 if(stop==false)
-	    	        		 if(node.toSource().startsWith("d"))
 	    	        		 {
-	    	        			 String val = node.toSource();
-	    	        			 val=val.replaceAll("d \\+\\= ", "");
-	    	        			 val=val.replaceAll("\\\\n", "");
-	    	        			 val=val.replaceAll(";", "");
-	    	        			 val=val.replaceAll("\"", "");
-	    	        			String[] res = val.split(",");
-	    	        				
-	    	        			try {
-	    	        				Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0]+ " 00:00");
-	    							if(historyPrice.get(d)==null)
-	    								historyPrice.put(d, Double.parseDouble(res[1]));
-	    							
-	    						} catch (Exception e) {
-	    							//logger.error(e);
-	    						} 
+	    	        			 if(node.toSource().startsWith("d"))
+		    	        		 {
+		    	        			 String val = node.toSource();
+		    	        			 val=val.replaceAll("d \\+\\= ", "");
+		    	        			 val=val.replaceAll("\\\\n", "");
+		    	        			 val=val.replaceAll(";", "");
+		    	        			 val=val.replaceAll("\"", "");
+		    	        			 String[] res = val.split(",");
+		    	        			try {
+		    	        				Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0]+ " 00:00");
+		    							if(historyPrice.get(d)==null)
+		    								historyPrice.put(d, Double.parseDouble(res[1]));
+		    						} 
+		    	        			catch (Exception e) {
+		    							logger.error(e);
+		    						} 
+		    	        		 }
 	    	        		 }
 	    	        		 
 	    	        		 if(node.toSource().startsWith("g ="))
 	    	        		 {
 	    	        			 stop=true;
 	    	        		 }
-	    	        	 }
+	    	        	 
 	    	        	return true;
 	    	         }});
 
@@ -173,7 +174,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		table = doc.select("table").get(0).getElementsByTag("tbody").get(0).appendChild(doc2.select("table").get(0).getElementsByTag("tbody").get(0));//combine 2 results
 		
-		List<CardShake> list = new ArrayList<CardShake>();
+		List<CardShake> list = new ArrayList<>();
 		
 		
 		for(Element e : table.getElementsByTag("tr"))
@@ -227,7 +228,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		Element table =null;
 		try{
-			List<CardShake> list = new ArrayList<CardShake>();
+			List<CardShake> list = new ArrayList<>();
 			
 		table = doc.select("table").get(1).getElementsByTag("tbody").get(0);
 		
@@ -277,7 +278,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		Elements trs =doc.select("table tr");
 		trs.remove(0);
 		trs.remove(0);
-		List<CardDominance> ret = new ArrayList<CardDominance>();
+		List<CardDominance> ret = new ArrayList<>();
 		for(Element e : trs)
 		{
 			Elements tds = e.select("td");
@@ -324,7 +325,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	}
 	
 	private void initConcordance() {
-		mapConcordance = new HashMap<String,String>();
+		mapConcordance = new HashMap<>();
 		
 		mapConcordance.put("TMP", "TE");
 		mapConcordance.put("STH", "ST");

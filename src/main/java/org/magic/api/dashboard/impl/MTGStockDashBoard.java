@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -58,7 +59,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 	}
 	
-	private void connect() throws Exception
+	private void connect() throws IOException
 	{
 		cookieStore = new BasicCookieStore();
 		httpContext = new BasicHttpContext();
@@ -68,8 +69,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					.setRedirectStrategy(new LaxRedirectStrategy())
 					.build();
 		
-		HttpPost login = new HttpPost(url+"/users/sign_in"); //cookies need have tapped=buxy7qwywslb2tslv85ewqikh52xtztl;
-	    List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+		HttpPost login = new HttpPost(url+"/users/sign_in");
+	    List <NameValuePair> nvps = new ArrayList <>();
 					         nvps.add(new BasicNameValuePair("user_username", props.getProperty("LOGIN")));
 					         nvps.add(new BasicNameValuePair("user_password", props.getProperty("PASSWORD")));
 				 login.setEntity(new UrlEncodedFormEntity(nvps));
@@ -82,20 +83,17 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		return new HashMap<>();
 	}
 
 	@Override
@@ -110,8 +108,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
-		//https://www.mtgstocks.com/analytics/mostplayed
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
