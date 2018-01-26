@@ -31,7 +31,6 @@ public class BestCardsDashlet extends AbstractJDashlet{
 	public BestCardsDashlet() {
 		super();
 		setFrameIcon(MTGConstants.ICON_UP);
-		//initGUI();
 	}
 	
 	@Override
@@ -111,9 +110,6 @@ public class BestCardsDashlet extends AbstractJDashlet{
 					lblLoading.setVisible(false);
 				}
 			}, "init BestCardsDashlet");
-		
-		//models.init(f, filter);
-		
 	}
 
 

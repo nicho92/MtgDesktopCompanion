@@ -136,9 +136,20 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 			setChanged();
 			notifyObservers(c++);
 		}
+		
 		FileWriter out = new FileWriter(f);
-		out.write(temp.toString());
-		out.close();
+		try 
+		{
+			out.write(temp.toString());
+		}
+		catch(Exception e)
+		{
+			logger.error(e);
+		}
+		finally {
+			out.close();	
+		}
+		
 
 	}
 	

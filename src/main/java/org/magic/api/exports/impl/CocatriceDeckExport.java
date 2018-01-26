@@ -52,6 +52,8 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	{
 		StringBuilder temp = new StringBuilder();
 		int c=0;
+		String endZoneTag="</zone>";
+		
 		temp.append("<?xml version='1.0' encoding='UTF-8'?>");
 		temp.append("<cockatrice_deck version='"+getProperty("VERSION")+"'>");
 		temp.append("<deckname>").append(deck.getName()).append("</deckname>");
@@ -63,13 +65,13 @@ public class CocatriceDeckExport extends AbstractCardExport{
 			setChanged();
 			notifyObservers(c++);
 		}
-		temp.append("</zone>");
+		temp.append(endZoneTag);
 		temp.append("<zone name='side'>");
 		for(MagicCard mc : deck.getMapSideBoard().keySet())
 		{
 			temp.append("<card number='").append(deck.getMapSideBoard().get(mc)).append("' price='"+getProperty("DEFAULT_PRICE")+"' name=\"").append(mc.getName()).append("\"/>");
 		}
-		temp.append("</zone>");
+		temp.append(endZoneTag);
 		
 		
 		

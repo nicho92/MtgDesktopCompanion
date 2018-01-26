@@ -18,21 +18,13 @@ import org.magic.game.actions.battlefield.SelectedTapActions;
 import org.magic.game.actions.battlefield.UnselectAllAction;
 import org.magic.game.model.PositionEnum;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class BattleFieldPanel extends DraggablePanel  {
 
 	JPopupMenu menu = new JPopupMenu();
 	private BufferedImage image;
-	
-	
-	
-	@Override
-	public void removeAll()
-	{
-		super.removeAll();
-	}
-	
-	
+
 	public List<DisplayableCard> getCards()
 	{
 		List<DisplayableCard> selected = new ArrayList<>();
@@ -60,11 +52,10 @@ public class BattleFieldPanel extends DraggablePanel  {
 		
 	}
 	
-	
-	 public void paintComponent(Graphics g){
+	@Override
+	public void paintComponent(Graphics g){
 	        super.paintComponent(g);
 	        if(image != null){
-	            //g.drawImage(image, 0, 0, this);
 	            g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
 	        }
 	    }
@@ -79,7 +70,7 @@ public class BattleFieldPanel extends DraggablePanel  {
 	        	BufferedImage im = ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
 	        	setBackgroundPicture(im);
 			} catch (IOException e1) {
-				//e1.printStackTrace();
+				MTGLogger.printStackTrace(e1);
 			}
 			
 		
@@ -110,7 +101,7 @@ public class BattleFieldPanel extends DraggablePanel  {
 			case GRAVEYARD:player.discardCardFromBattleField(mc.getMagicCard());break;
 			case EXIL:player.exileCardFromBattleField(mc.getMagicCard());break;
 			case HAND:player.returnCardFromBattleField(mc.getMagicCard());break;
-			case LIBRARY:player.putCardInLibraryFromBattlefield(mc.getMagicCard(), true);
+			case LIBRARY:player.putCardInLibraryFromBattlefield(mc.getMagicCard(), true);break;
 			default:break;
 		}
 		

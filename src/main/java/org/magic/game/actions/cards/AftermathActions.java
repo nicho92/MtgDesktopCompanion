@@ -13,9 +13,7 @@ public class AftermathActions extends AbilitySpell {
 
 	
 	private String cost;
-	private String k = "Aftermath";
-	
-	MagicCard mc;
+	private MagicCard mc;
 	
 	public AftermathActions(DisplayableCard card) {
 			super("Aftermath","Aftermath " + card.getMagicCard().getRotatedCardName(),card);

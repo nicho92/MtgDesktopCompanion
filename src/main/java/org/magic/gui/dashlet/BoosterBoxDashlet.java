@@ -52,7 +52,6 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 	public BoosterBoxDashlet() {
 		super();
 		setFrameIcon(MTGConstants.ICON_DOLLARS);
-		//initGUI();
 		doubleFormat=new DecimalFormat("#0.00");
 	}
 	

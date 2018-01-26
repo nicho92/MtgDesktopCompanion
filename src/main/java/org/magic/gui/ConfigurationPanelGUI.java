@@ -89,7 +89,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		picturesProviderTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
-					if(e.getNewLeadSelectionPath().getPathCount()>1);
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
 						((PicturesProvidersTableModel)picturesProviderTable.getTreeTableModel()).setSelectedNode((PictureProvider)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
@@ -103,7 +103,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		priceProviderTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
-					if(e.getNewLeadSelectionPath().getPathCount()>1);
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
 						((MagicPricesProvidersTableModel)priceProviderTable.getTreeTableModel()).setSelectedNode((MagicPricesProvider)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
@@ -167,7 +167,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		dashboardTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
-					if(e.getNewLeadSelectionPath().getPathCount()>1);
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
 						((DashBoardProviderTreeTableModel)dashboardTreeTable.getTreeTableModel()).setSelectedNode((DashBoard)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
@@ -179,7 +179,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		serversTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
-					if(e.getNewLeadSelectionPath().getPathCount()>1);
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
 						((ServersTreeTableModel)serversTreeTable.getTreeTableModel()).setSelectedNode((MTGServer)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
@@ -191,7 +191,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		cachesTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
-					if(e.getNewLeadSelectionPath().getPathCount()>1);
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
 						((MTGPicsCacheProviderTreeTableModel)cachesTreeTable.getTreeTableModel()).setSelectedNode((MTGPicturesCache)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});

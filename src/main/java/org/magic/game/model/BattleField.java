@@ -8,7 +8,7 @@ import org.magic.api.beans.MagicCard;
 
 public class BattleField implements Serializable{
 
-	public List<MagicCard> cards;
+	private List<MagicCard> cards;
 
 	public List<MagicCard> getCards() {
 		return cards;
@@ -19,7 +19,7 @@ public class BattleField implements Serializable{
 	}
 	
 	public BattleField() {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 	}
 	
 	

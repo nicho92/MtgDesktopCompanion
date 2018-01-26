@@ -29,9 +29,9 @@ import org.magic.services.MTGControler;
 
 public class CSVExport extends AbstractCardExport{
 
-	String exportedProperties[] ;
-	String exportedDeckProperties[];
-	String exportedPricesProperties[];
+	String[] exportedProperties ;
+	String[] exportedDeckProperties;
+	String[] exportedPricesProperties;
 
 	
 	@Override
@@ -58,13 +58,13 @@ public class CSVExport extends AbstractCardExport{
 	@Override
 	public List<MagicCardStock> importStock(File f) throws Exception {
 		BufferedReader read = new BufferedReader(new FileReader(f));
-		List<MagicCardStock> stock= new ArrayList<MagicCardStock>();
+		List<MagicCardStock> stock= new ArrayList<>();
 		String line = read.readLine();
 		
 		line=read.readLine();//skip header
 		while(line!=null)
 		{
-			String part[]= line.split(";");
+			String[] part= line.split(";");
 			MagicCardStock mcs = new MagicCardStock();
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", part[1], null,true).get(0);
 				
@@ -133,8 +133,6 @@ public class CSVExport extends AbstractCardExport{
 		
 	}
 	
-	
-	//TODO export card prices catalog
 	public void exportPriceCatalog(List<MagicCard> cards, File f,MagicPricesProvider prov) throws Exception
 	{
 		BufferedWriter bw;
@@ -277,13 +275,13 @@ public class CSVExport extends AbstractCardExport{
 	public MagicDeck importDeck(File f) throws Exception {
 		BufferedReader read = new BufferedReader(new FileReader(f));
 		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0,f.getName().indexOf(".")));
+		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
 		
 		String line = read.readLine();
 		
 		while(line!=null)
 		{
-			String part[]= line.split(getProperty("importDeckCharSeparator").toString());
+			String[] part= line.split(getProperty("importDeckCharSeparator").toString());
 			String name = part[0];
 			String qte = part[1];
 			String set = part[2];
