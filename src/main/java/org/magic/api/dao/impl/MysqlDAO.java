@@ -70,26 +70,26 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	 public boolean createDB()
 	 {
-		 try{
+		 try (Statement stat=con.createStatement()){
 		 	logger.debug("Create table Cards");
-		 	con.createStatement().executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 	stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Shop");
-		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
+		 	stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table collections");
-		 	con.createStatement().executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
+		 	stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("Create table stocks");
-		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
+		 	stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
 			logger.debug("Create table Alerts");
-		 	con.createStatement().executeUpdate("create table alerts (id varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", amount DECIMAL)");
+			stat.executeUpdate("create table alerts (id varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", amount DECIMAL)");
 		 	logger.debug("Create table Decks");
-		 	con.createStatement().executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "+getProperty("CARD_STORE",defaultStore)+", categorie VARCHAR(100))");
+		 	stat.executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "+getProperty("CARD_STORE",defaultStore)+", categorie VARCHAR(100))");
 		 	
 		 	
 		 	logger.debug("populate collections");
-			con.createStatement().executeUpdate("insert into collections values ('Library')");
-		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
-		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
-		 	con.createStatement().executeUpdate("insert into collections values ('Favorites')");
+		 	stat.executeUpdate("insert into collections values ('Library')");
+		 	stat.executeUpdate("insert into collections values ('Needed')");
+		 	stat.executeUpdate("insert into collections values ('For sell')");
+		 	stat.executeUpdate("insert into collections values ('Favorites')");
 			
 		 	
 		 	return true;
@@ -107,15 +107,15 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saving " + mc +" in " + collection);
 		
-		PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)");
+		 PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)");
 		 pst.setString(1, IDGenerator.generate(mc)); 
 		 pst.setString(2, mc.getName());
 		 pst.setObject(3, mc);
 		 pst.setString(4, mc.getEditions().get(0).getId());
 		 pst.setString(5, MTGControler.getInstance().getEnabledProviders().toString());
 		 pst.setString(6, collection.getName());
-		 
 		 pst.executeUpdate();
+		 pst.close();
 	}
 
 	@Override

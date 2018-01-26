@@ -54,31 +54,8 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	
 	@Override
 	public void init() {
-//		Configuration.setDefaults(new Configuration.Defaults() {
-//
-//		    private final JsonProvider jsonProvider = new GsonJsonProvider();
-//		    private final MappingProvider mappingProvider = new GsonMappingProvider();
-//
-//		    
-//		    @Override
-//		    public JsonProvider jsonProvider() {
-//		        return jsonProvider;
-//		    }
-//
-//		    @Override
-//		    public MappingProvider mappingProvider() {
-//		        return mappingProvider;
-//		    }
-//
-//		    @Override
-//		    public Set<Option> options() {
-//		        return EnumSet.noneOf(Option.class);
-//		    }
-//		    
-//		});
-//		Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
-//		
-		cache=new HashMap<String,MagicEdition>();
+
+		cache=new HashMap<>();
 		
 		propsCache = new Properties();
 		try {

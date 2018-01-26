@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
@@ -106,7 +107,7 @@ public class DeckSelectionModel extends DefaultTableModel {
 	}
 
 	public void remove(MagicDeck selectedDeck) {
-		 new File(MTGControler.CONF_DIR.getAbsolutePath()+"/decks",selectedDeck.getName()+".deck").delete();
+		 FileUtils.deleteQuietly(new File(MTGControler.CONF_DIR.getAbsolutePath()+"/decks",selectedDeck.getName()+".deck"));
 		 decks.remove(selectedDeck);
 		 fireTableDataChanged();
 		

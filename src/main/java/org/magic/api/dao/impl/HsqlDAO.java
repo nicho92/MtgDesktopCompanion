@@ -71,36 +71,32 @@ public class HsqlDAO extends AbstractMagicDAO{
 	 
 	 public boolean createDB()
 	 {
-		 try{
-		 	con.createStatement().executeUpdate("create table cards (ID varchar(250), name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 try(Statement stat=con.createStatement())
+		 {
+			stat.executeUpdate("create table cards (ID varchar(250), name varchar(250), mcard OBJECT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Cards");
-		 	con.createStatement().executeUpdate("create table decks (name varchar(45),mcard OBJECT)");
+		 	stat.executeUpdate("create table decks (name varchar(45),mcard OBJECT)");
 		 	logger.debug("Create table decks");
-		 	con.createStatement().executeUpdate("create table collections (name varchar(250) PRIMARY KEY)");
+		 	stat.executeUpdate("create table collections (name varchar(250) PRIMARY KEY)");
 		 	logger.debug("Create table collections");
-		 	con.createStatement().executeUpdate("create table shop (id varchar(250), statut varchar(250))");
+		 	stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table shop");
-		 	con.createStatement().executeUpdate("create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard OBJECT,altered boolean,price double)");
+		 	stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY IDENTITY, idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard OBJECT,altered boolean,price double)");
 		 	logger.debug("Create table stocks");
-		 	con.createStatement().executeUpdate("create table alerts (id varchar(250),mcard OBJECT, amount DECIMAL)");
+		 	stat.executeUpdate("create table alerts (id varchar(250),mcard OBJECT, amount DECIMAL)");
 		 	logger.debug("Create table Alerts");
-	 		
-		 
-		 	
-		 	
-		 	con.createStatement().executeUpdate("insert into collections values ('Library')");
-		 	con.createStatement().executeUpdate("insert into collections values ('Needed')");
-		 	con.createStatement().executeUpdate("insert into collections values ('For sell')");
-		 	con.createStatement().executeUpdate("insert into collections values ('Favorites')");
+		 	stat.executeUpdate("insert into collections values ('Library')");
+		 	stat.executeUpdate("insert into collections values ('Needed')");
+		 	stat.executeUpdate("insert into collections values ('For sell')");
+		 	stat.executeUpdate("insert into collections values ('Favorites')");
 		 	logger.debug("populate collections");
-		 	
-		 	
 		 	return true;
 		 }catch(SQLException e)
 		 {
 			 logger.debug(getName()+ ": Base already exist");
 			 return false;
 		 }
+		
 		 
 	 }
 
