@@ -11,7 +11,7 @@ import org.magic.game.model.counters.BonusCounter;
 public class BonusCounterActions  extends AbstractAction{
 
 	private DisplayableCard card;
-	private BonusCounter bonusCounter;
+	private transient BonusCounter bonusCounter;
 	
 	public BonusCounterActions(DisplayableCard displayableCard, BonusCounter bonusCounter) 
 	{

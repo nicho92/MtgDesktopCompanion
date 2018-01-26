@@ -11,7 +11,7 @@ import org.magic.services.MTGControler;
 public class BoostersTableModel extends DefaultTableModel
 {
 	
-	List<Booster> boosters;
+	private transient List<Booster> boosters;
 	private static final String[] COLUMNS = {MTGControler.getInstance().getLangService().getCapitalize("CARD_NUMBER"),
 											 MTGControler.getInstance().getLangService().getCapitalize("PRICE")};
 	
@@ -52,7 +52,7 @@ public class BoostersTableModel extends DefaultTableModel
 	}
 	
 	public BoostersTableModel() {
-		boosters=new ArrayList<Booster>();
+		boosters=new ArrayList<>();
 	}
 	
 	public void init(List<Booster> lines)

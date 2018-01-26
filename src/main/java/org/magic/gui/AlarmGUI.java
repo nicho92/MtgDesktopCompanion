@@ -49,7 +49,7 @@ public class AlarmGUI extends JPanel {
 	private JButton btnRefresh;
 	private JButton btnDelete;
 	private HistoryPricesPanel variationPanel;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
 
 	
@@ -120,7 +120,7 @@ public class AlarmGUI extends JPanel {
 		
 		resultListModel= new DefaultListModel<MagicPrice>();
 			
-		list = new JList<MagicPrice>(resultListModel);
+		list = new JList<>(resultListModel);
 		list.setCellRenderer(new ListCellRenderer<MagicPrice>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends MagicPrice> list, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus) {

@@ -137,16 +137,16 @@ public class MagicCard implements Serializable {
 
 
 		public MagicCard() {
-			editions=new ArrayList<MagicEdition>();
-			types = new ArrayList<String>();
-			supertypes = new ArrayList<String>();
-			subtypes = new ArrayList<String>();
-			colors= new ArrayList<String>();
-			foreignNames = new ArrayList<MagicCardNames>();
-			rulings = new ArrayList<MagicRuling>();
-			variations = new ArrayList<Integer>();
-			colorIdentity = new ArrayList<String>();
-			legalities = new ArrayList<MagicFormat>();
+			editions=new ArrayList<>();
+			types = new ArrayList<>();
+			supertypes = new ArrayList<>();
+			subtypes = new ArrayList<>();
+			colors= new ArrayList<>();
+			foreignNames = new ArrayList<>();
+			rulings = new ArrayList<>();
+			variations = new ArrayList<>();
+			colorIdentity = new ArrayList<>();
+			legalities = new ArrayList<>();
 			
 		}
 		
@@ -403,8 +403,14 @@ public class MagicCard implements Serializable {
 		
 		@Override
 		public boolean equals(Object obj) {
+			
+			 if (obj == null)
+				    return false;
+
+				  if (this.getClass() != obj.getClass())
+				    return false;
+			
 			return ((MagicCard)obj).getId().equals(this.getId());
-		//return super.equals(obj);
 		}
 
 

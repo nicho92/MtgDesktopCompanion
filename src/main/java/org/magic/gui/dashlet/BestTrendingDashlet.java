@@ -64,7 +64,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 				
 				
 				try {
-					List<CardShake> shakes = new ArrayList<CardShake>();
+					List<CardShake> shakes = new ArrayList<>();
 							
 					if(boxM.isSelected())
 						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.modern.toString()));
@@ -97,7 +97,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 					save("VIN",String.valueOf(boxV.isSelected()));
 					
 					
-					List<CardShake> ret = new ArrayList<CardShake>();
+					List<CardShake> ret = new ArrayList<>();
 					ret.addAll(shakes.subList(0, val));//X first
 					ret.addAll(shakes.subList(shakes.size()-(val+1), shakes.size())); //x last
 					

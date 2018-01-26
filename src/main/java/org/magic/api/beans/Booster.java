@@ -11,7 +11,7 @@ public class Booster {
 	
 	
 	public Booster() {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 	}
 	
 	public MagicEdition getEdition() {

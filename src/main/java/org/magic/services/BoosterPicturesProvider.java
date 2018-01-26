@@ -51,7 +51,7 @@ public class BoosterPicturesProvider {
 	
 	public List<String> listEditionsID()
 	{
-		List<String> list = new ArrayList<String>();
+		List<String> list = new ArrayList<>();
 		
 		try {
 		XPath xPath =  XPathFactory.newInstance().newXPath();

@@ -22,8 +22,8 @@ import org.magic.services.MTGLogger;
 
 public class BattleFieldPanel extends DraggablePanel  {
 
-	JPopupMenu menu = new JPopupMenu();
-	private BufferedImage image;
+	JPopupMenu battlefieldMenu = new JPopupMenu();
+	private transient BufferedImage image;
 
 	public List<DisplayableCard> getCards()
 	{
@@ -75,12 +75,12 @@ public class BattleFieldPanel extends DraggablePanel  {
 			
 		
 		
-		menu.removeAll();
-		menu.add(new JMenuItem(new UnselectAllAction()));
-		menu.add(new JMenuItem(new SelectedTapActions()));
-		menu.add(new JMenuItem(new FlipaCoinActions()));
-		menu.add(new JMenuItem(new ChangeBackGroundActions()));
-		setComponentPopupMenu(menu);
+		battlefieldMenu.removeAll();
+		battlefieldMenu.add(new JMenuItem(new UnselectAllAction()));
+		battlefieldMenu.add(new JMenuItem(new SelectedTapActions()));
+		battlefieldMenu.add(new JMenuItem(new FlipaCoinActions()));
+		battlefieldMenu.add(new JMenuItem(new ChangeBackGroundActions()));
+		setComponentPopupMenu(battlefieldMenu);
 	}
 	
 	public void addComponent(DisplayableCard card)

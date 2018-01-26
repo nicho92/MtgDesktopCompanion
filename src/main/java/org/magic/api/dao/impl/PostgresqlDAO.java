@@ -158,17 +158,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			 pst.executeUpdate();
 
 		}
-/*
-		@Override
-		public MagicCard loadCard(String name, MagicCollection collection) throws SQLException {
-			logger.debug("load card " + name + " in " + collection);
-			PreparedStatement pst=con.prepareStatement("select * from cards where collection= ? and name= ?");	
-			pst.setString(1, collection.getName());
-			pst.setString(2, name);
-			ResultSet rs = pst.executeQuery();
-			return readObject(MagicCard.class, rs.getBinaryStream("mcard"));
-		}
-*/
+
 		@Override
 		public List<MagicCard> listCards() throws SQLException {
 			logger.debug("list all cards");
@@ -222,7 +212,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			logger.debug(sql);
 			
 			Statement st = con.createStatement();
-			
 			ResultSet rs = st.executeQuery(sql);
 			rs.next();
 			return rs.getInt(1);

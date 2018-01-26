@@ -69,23 +69,23 @@ public class CardBuilder2GUI extends JPanel{
 	private MagicCardEditorPanel magicCardEditorPanel;
 	private MagicEditionsTableModel editionModel;
 	
-	private PrivateMTGSetProvider provider;
+	private transient PrivateMTGSetProvider provider;
 	private JComboBox<MagicEdition> cboSets;
 	private CropImagePanel panelImage;
-	private MTGCardMakerPicturesProvider picProvider;
-	private PersonalSetPicturesProvider recordedProvider;
-	private Image cardImage;
+	private transient MTGCardMakerPicturesProvider picProvider;
+	private transient PersonalSetPicturesProvider recordedProvider;
+	private transient Image cardImage;
 	private JPanel panelPictures;
 	private JXTable cardsTable;
 	private MagicCardTableModel cardsModel;
 	private JSONPanel jsonPanel;
 	private JTabbedPane tabbedPane;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JSpinner spinCommon;
 	private JSpinner spinRare;
 	private JSpinner spinUnco;
 	private JPanel foreignNamesEditorPanel ;
-	private PersonalSetPicturesProvider picturesProvider;
+	private transient PersonalSetPicturesProvider picturesProvider;
 	private JButton btnRefresh;
 	private JTable listNames;
 	private MagicCardNamesTableModel namesModel;
@@ -145,9 +145,10 @@ public class CardBuilder2GUI extends JPanel{
 		editionsTable = new JXTable();
 		cardsTable = new JXTable();
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		cboSets = new JComboBox<MagicEdition>();
+		cboSets = new JComboBox<>();
 		namesModel = new MagicCardNamesTableModel();
 		panelPictures = new JPanel(){
+			@Override
 			protected void paintComponent(Graphics g) {
 					super.paintComponent(g);
 					 g.drawImage(cardImage, 0, 0, null);
@@ -411,7 +412,7 @@ public class CardBuilder2GUI extends JPanel{
 			public void actionPerformed(ActionEvent arg0) {
 				try {
 					MagicEdition ed = magicEditionDetailPanel.getMagicEdition();
-					List<Object> boos= new ArrayList<Object>();
+					List<Object> boos= new ArrayList<>();
 					for(int i=0;i<(Integer)spinCommon.getValue();i++)
 						boos.add("common");
 					for(int i=0;i<(Integer)spinUnco.getValue();i++)
