@@ -118,9 +118,10 @@ public class AlarmGUI extends JPanel {
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.EAST);
 		
-		resultListModel= new DefaultListModel<MagicPrice>();
+		resultListModel= new DefaultListModel<>();
 			
 		list = new JList<>(resultListModel);
+		
 		list.setCellRenderer(new ListCellRenderer<MagicPrice>() {
 			@Override
 			public Component getListCellRendererComponent(JList<? extends MagicPrice> list, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus) {

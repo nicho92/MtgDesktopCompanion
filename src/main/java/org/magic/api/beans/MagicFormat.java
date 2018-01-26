@@ -32,6 +32,12 @@ public class MagicFormat implements Serializable{
 	
 	@Override
 	public boolean equals(Object obj) {
+		if (obj == null)
+		    return false;
+
+		  if (this.getClass() != obj.getClass())
+		    return false;
+
 		return getFormat().equalsIgnoreCase(((MagicFormat)obj).getFormat());
 		
 	
