@@ -40,16 +40,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 		
 		JMenu mnWindow = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("WINDOW"));
 		menuBar.add(mnWindow);
-//		
-//		JMenuItem mntmPackAll = new JMenuItem("Pack All");
-//		mntmPackAll.addActionListener(new ActionListener() {
-//			public void actionPerformed(ActionEvent arg0) {
-//				logger.info("PACK ALL TODO");
-//			}
-//		});
-//		setLayout(null);
-//		mnWindow.add(mntmPackAll);
-		
+
 		JMenuItem mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
 		mntmSaveDisplay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
