@@ -25,9 +25,7 @@ import com.google.gson.stream.JsonReader;
 
 public class StoryProvider {
 
-	private String url;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private HttpURLConnection con;
 	private JsonParser parser;
 	private Locale local;
 	private int offset=0;
@@ -41,9 +39,8 @@ public class StoryProvider {
 	}
 	
 
-	private URLConnection getConnection(String url)
+	private URLConnection getConnection(String url) throws IOException
 	{
-		try {
 			logger.debug("get stream from " + url);
 			HttpURLConnection connection = (HttpURLConnection)new URL(url).openConnection();
 						  connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
@@ -51,20 +48,16 @@ public class StoryProvider {
 						  connection.connect();
 						  
 			return connection;
-		} catch (IOException e) {
-			logger.error(e);
-			return null;
-		}	
 	}
 	
 	public int getOffset() {
 		return offset;
 	}
 	
-	public List<MTGStory> next() 
+	public List<MTGStory> next() throws IOException 
 	{
-		url=baseURI+"/"+local.getLanguage()+"/section-articles-see-more-ajax?l="+local.getLanguage()+"&sort=DESC&f=13961&offset="+(offset++);
-		List<MTGStory> list = new ArrayList<MTGStory>();
+		String url=baseURI+"/"+local.getLanguage()+"/section-articles-see-more-ajax?l="+local.getLanguage()+"&sort=DESC&f=13961&offset="+(offset++);
+		List<MTGStory> list = new ArrayList<>();
 		HttpURLConnection con = (HttpURLConnection) getConnection(url);
 		JsonReader reader = null;
 		try {

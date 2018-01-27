@@ -24,14 +24,11 @@ import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.utils.patterns.observer.Observable;
 
-import freemarker.core.ParseException;
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapperBuilder;
-import freemarker.template.MalformedTemplateNameException;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
-import freemarker.template.TemplateNotFoundException;
 
 public class MagicWebSiteGenerator extends Observable{
 	
@@ -43,16 +40,15 @@ public class MagicWebSiteGenerator extends Observable{
 	private List<MagicCollection> cols;
 	Logger logger = MTGLogger.getLogger(this.getClass());
 	
-	public MagicWebSiteGenerator(String template,String dest) throws IOException, ClassNotFoundException, SQLException {
+	public MagicWebSiteGenerator(String template,String dest) throws IOException, SQLException {
 		cfg = new Configuration(Configuration.VERSION_2_3_27);
-		cfg.setDirectoryForTemplateLoading(new File(MTGConstants.MTG_TEMPLATES_DIR+"/"+template));
+		cfg.setDirectoryForTemplateLoading(new File(MTGConstants.MTG_TEMPLATES_DIR,template));
 		cfg.setDefaultEncoding("UTF-8");
-		//cfg.setNumberFormat("#");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER );
 		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_27).build());
 		dao=MTGControler.getInstance().getEnabledDAO();
 		this.dest = dest;
-		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR+"/"+template), new File(dest),new FileFilter() {
+		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR,template), new File(dest),new FileFilter() {
 			public boolean accept(File pathname) {
 				if(pathname.isDirectory())
 					return true;
@@ -65,35 +61,33 @@ public class MagicWebSiteGenerator extends Observable{
 		});
 	}
 	
-	//TODO optimize
 	public void generate(List<MagicCollection> cols,List<MagicPricesProvider> providers) throws TemplateException, IOException, SQLException
 	{
-		
 		this.pricesProvider=providers;
 		this.cols = cols;
 
-		Template template = cfg.getTemplate("index.html");
-			Writer out = new FileWriter(Paths.get(dest, "index.htm").toFile());
-		
-			Map<String,List<MagicCard>> root = new HashMap<String,List<MagicCard>>();
-			for(MagicCollection col : cols)
-				root.put(col.getName(), dao.getCardsFromCollection(col));
-			
-			template.process(root, out);
-		
-		generateCollectionsTemplate();
+			Template generatedTemplate = cfg.getTemplate("index.html");
+			try(Writer out = new FileWriter(Paths.get(dest, "index.htm").toFile()))
+			{
+				Map<String,List<MagicCard>> root = new HashMap<>();
+				for(MagicCollection col : cols)
+					root.put(col.getName(), dao.getCardsFromCollection(col));
+				
+				generatedTemplate.process(root, out);
+				generateCollectionsTemplate();
+			}
 	}
 	
 	//lister les editions disponibles
 	private void generateCollectionsTemplate() throws IOException, TemplateException, SQLException
 	{
-		Template template = cfg.getTemplate("page-col.html");
+		Template generatedColTemplate = cfg.getTemplate("page-col.html");
 		
 		for(MagicCollection col : cols){
 			Map rootEd = new HashMap<>();
 				rootEd.put("cols", cols);
 				rootEd.put("colName", col.getName());
-				Set<MagicEdition> eds = new HashSet<MagicEdition>();
+				Set<MagicEdition> eds = new HashSet<>();
 				for(MagicCard mc : dao.getCardsFromCollection(col))
 				{
 					eds.add(mc.getEditions().get(0));
@@ -104,7 +98,7 @@ public class MagicWebSiteGenerator extends Observable{
 				
 				
 				FileWriter out = new FileWriter(Paths.get(dest,"page-col-"+col.getName()+".htm").toFile());
-				template.process(rootEd, out);
+				generatedColTemplate.process(rootEd, out);
 				
 				//for(String ed : dao.getEditionsIDFromCollection(col))
 				{
@@ -115,8 +109,7 @@ public class MagicWebSiteGenerator extends Observable{
 		}
 	}
 
-	//lister les cartes disponibles dans la collection
-	private void generateEditionsTemplate(Set<MagicEdition> eds,MagicCollection col) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, SQLException, TemplateException
+	private void generateEditionsTemplate(Set<MagicEdition> eds,MagicCollection col) throws IOException, SQLException, TemplateException
 	{
 		Template cardTemplate = cfg.getTemplate("page-ed.html");
 		Map rootEd = new HashMap<>();
@@ -124,30 +117,29 @@ public class MagicWebSiteGenerator extends Observable{
 			rootEd.put("editions",eds);
 			rootEd.put("col", col);
 			rootEd.put("colName", col.getName());
-			FileWriter out = null;
 			for(MagicEdition ed : eds)
 			{
 				rootEd.put("cards", dao.getCardsFromCollection(col, ed));
 				rootEd.put("edition", ed);
-				out = new FileWriter(Paths.get(dest,"page-ed-"+col.getName()+"-"+ed.getId()+".htm").toFile());
+				FileWriter out = new FileWriter(Paths.get(dest,"page-ed-"+col.getName()+"-"+ed.getId()+".htm").toFile());
 				cardTemplate.process(rootEd, out);
 			}
-			out.close();
+		
 	}
 	
 	
 	
 	
 	int i=0;
-	private void generateCardsTemplate(MagicCard mc) throws TemplateNotFoundException, MalformedTemplateNameException, ParseException, IOException, TemplateException {
+	private void generateCardsTemplate(MagicCard mc) throws IOException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-card.html");
 		
 				Map rootEd = new HashMap<>();
 				rootEd.put("card", mc);
 				rootEd.put("cols", cols);
 				
-				List<MagicPrice> prices= new ArrayList<MagicPrice>();
-				if(pricesProvider.size()>0)
+				List<MagicPrice> prices= new ArrayList<>();
+				if(!pricesProvider.isEmpty())
 				{
 					for(MagicPricesProvider prov : pricesProvider)
 					{

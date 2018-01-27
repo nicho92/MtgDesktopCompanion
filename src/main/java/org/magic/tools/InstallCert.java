@@ -1,21 +1,17 @@
 package org.magic.tools;
-/**
- * Originally from:
- * http://blogs.sun.com/andreas/resource/InstallCert.java
- * Use:
- * java InstallCert hostname
- * Example:
- *% java InstallCert ecc.fedora.redhat.com
- */
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.security.KeyManagementException;
 import java.security.KeyStore;
+import java.security.KeyStoreException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
 
@@ -33,16 +29,14 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-/**
- * Class used to add the server's certificate to the KeyStore
- * with your trusted certificates.
- */
 public class InstallCert {
 
 	static final Logger logger = MTGLogger.getLogger(InstallCert.class);
 
+	private InstallCert() {
+	}
 	
-    public static void install(String website) throws Exception {
+    public static void install(String website) throws IOException, KeyManagementException, KeyStoreException, NoSuchAlgorithmException, CertificateException  {
         String host;
         int port;
     	
@@ -55,7 +49,7 @@ public class InstallCert {
             passphrase = MTGConstants.KEYSTORE_PASS.toCharArray();
        
             File keystoreFile = new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME);
-            if (keystoreFile.exists() == false) 
+            if (!keystoreFile.exists()) 
             {
             	boolean ret = keystoreFile.createNewFile();
             	if(ret)
@@ -65,14 +59,14 @@ public class InstallCert {
             }
         
         logger.debug("Loading KeyStore " + keystoreFile.getAbsolutePath() + "...");
-        InputStream in = new FileInputStream(keystoreFile);
-        KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-        ks.load(in, passphrase);
-        in.close();
+        try(InputStream in = new FileInputStream(keystoreFile))
+        { 
+        	KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+        	ks.load(in, passphrase);
+       
 
         SSLContext context = SSLContext.getInstance("TLS");
-        TrustManagerFactory tmf =
-                TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        TrustManagerFactory tmf =TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
         tmf.init(ks);
         X509TrustManager defaultTrustManager = (X509TrustManager) tmf.getTrustManagers()[0];
         SavingTrustManager tm = new SavingTrustManager(defaultTrustManager);
@@ -80,17 +74,19 @@ public class InstallCert {
         SSLSocketFactory factory = context.getSocketFactory();
 
         logger.debug("Opening connection to " + host + ":" + port + "...");
-        SSLSocket socket = (SSLSocket) factory.createSocket(host, port);
-        socket.setSoTimeout(10000);
-        try {
-        	logger.debug("Starting SSL handshake...");
+       try(SSLSocket socket = (SSLSocket) factory.createSocket(host, port))
+       {
+    	   socket.setSoTimeout(10000);
+    		logger.debug("Starting SSL handshake...");
             socket.startHandshake();
-            socket.close();
+          
             logger.debug("No errors, certificate is already trusted");
             return;
-        } catch (SSLException e) {
-        	logger.error(e);
-        }
+       }
+       catch(SSLException e)
+       {
+    	   logger.error(e);
+       }
 
         X509Certificate[] chain = tm.chain;
         if (chain == null) {
@@ -103,9 +99,8 @@ public class InstallCert {
         MessageDigest md5 = MessageDigest.getInstance("MD5");
        
         int i=0;
-      //  for (X509Certificate cert :chain) 
         X509Certificate cert =chain[0];
-        {
+        
          sha1.update(cert.getEncoded());
          md5.update(cert.getEncoded());
        
@@ -118,12 +113,10 @@ public class InstallCert {
         out.close();
 
         logger.debug("Added certificate to keystore '"+new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME)+"' using alias '"+ alias + "'");
-        
         }
     }
 
-    private static final char[] HEXDIGITS = "0123456789abcdef".toCharArray();
-
+  
      private static class SavingTrustManager implements X509TrustManager {
 
         private final X509TrustManager tm;
@@ -141,7 +134,7 @@ public class InstallCert {
        	     **/ 
 	    
 	    return new X509Certificate[0];	
-            //throw new UnsupportedOperationException();
+           
         }
 
         public void checkClientTrusted(X509Certificate[] chain, String authType)

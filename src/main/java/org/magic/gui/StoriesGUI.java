@@ -6,6 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -25,16 +26,17 @@ import org.magic.api.beans.MTGStory;
 import org.magic.gui.renderer.MTGStoryListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.StoryProvider;
 import org.magic.services.ThreadManager;
 
 public class StoriesGUI extends JPanel {
 
-	JLabel lblLoading;
-	StoryProvider provider;
-	JList<MTGStory> listResult;
-	DefaultListModel<MTGStory> resultListModel;
-	JEditorPane editorPane;
+	private JLabel lblLoading;
+	private transient StoryProvider provider;
+	private JList<MTGStory> listResult;
+	private DefaultListModel<MTGStory> resultListModel;
+	private JEditorPane editorPane;
 	
 	public StoriesGUI() {
 		provider = new StoryProvider(MTGControler.getInstance().getLocale());
@@ -48,12 +50,13 @@ public class StoriesGUI extends JPanel {
 		JScrollPane scrollEditor = new JScrollPane();
 		
 		setLayout(new BorderLayout(0, 0));
-		resultListModel= new DefaultListModel<MTGStory>();
+		resultListModel= new DefaultListModel<>();
 		
-		listResult = new JList<MTGStory>(resultListModel);
+		listResult = new JList<>(resultListModel);
 		listResult.setCellRenderer(new MTGStoryListRenderer());
 		listResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		listResult.addMouseListener(new MouseAdapter() {
+			@Override
 		    public void mouseClicked(MouseEvent evt) {
 		        if (evt.getClickCount() == 1) {
 		        	evt.consume();
@@ -128,9 +131,16 @@ public class StoriesGUI extends JPanel {
 			public void run() {
 				lblLoading.setVisible(true);
 				
-					for(MTGStory story:provider.next())
-						resultListModel.addElement(story);
-					lblLoading.setVisible(false);
+					try {
+						for(MTGStory story:provider.next())
+							resultListModel.addElement(story);
+					} 
+					catch (IOException e) {
+						MTGLogger.printStackTrace(e);
+					}
+					finally {
+						lblLoading.setVisible(false);
+					}
 			}
 		}, "loading stories");
 	}
