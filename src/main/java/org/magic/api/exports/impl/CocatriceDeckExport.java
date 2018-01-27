@@ -14,6 +14,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -72,14 +73,9 @@ public class CocatriceDeckExport extends AbstractCardExport{
 			temp.append("<card number='").append(deck.getMapSideBoard().get(mc)).append("' price='"+getProperty("DEFAULT_PRICE")+"' name=\"").append(mc.getName()).append("\"/>");
 		}
 		temp.append(endZoneTag);
-		
-		
-		
 		temp.append("</cockatrice_deck>");
 		
-		FileWriter out = new FileWriter(dest);
-		out.write(temp.toString());
-		out.close();
+		FileUtils.writeStringToFile(dest, temp.toString(),"UTF-8");
 		
 		
 	}
@@ -145,9 +141,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 		
 		temp.append("</cockatrice_deck>");
 		
-		FileWriter out = new FileWriter(f);
-		out.write(temp.toString());
-		out.close();
+		FileUtils.writeStringToFile(f, temp.toString(),"UTF-8");
 		
 	}
 

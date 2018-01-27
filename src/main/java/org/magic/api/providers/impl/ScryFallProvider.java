@@ -137,8 +137,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 				hasMore=false;
 			}
 		}
-		//Collections.sort(list,new MagicCardComparator());
-			
 		return list;
 	}
 	

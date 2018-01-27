@@ -3,7 +3,6 @@ package org.magic.api.providers.impl;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileReader;
-import java.io.FileWriter;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.net.MalformedURLException;
@@ -22,24 +21,26 @@ import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
+import com.google.common.base.Charsets;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
-	public static File confdir = new File(MTGControler.CONF_DIR,"sets");
+	public static final File confdir = new File(MTGControler.CONF_DIR,"sets");
 	private boolean enabled;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private String ext=".json";
+	
+	
 	public void removeEdition(MagicEdition me)
 	{
-		File f = new File(confdir,me.getId()+".json");
+		File f = new File(confdir,me.getId()+ext);
 		try {
 			logger.debug("delete : " + f);
 			FileUtils.forceDelete(f);
@@ -50,7 +51,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
 	public boolean removeCard(MagicEdition me,MagicCard mc) throws IOException
 	{
-		File f = new File(confdir,me.getId()+".json");
+		File f = new File(confdir,me.getId()+ext);
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		JsonArray cards = root.get("cards").getAsJsonArray();
@@ -61,9 +62,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 			if(el.getAsJsonObject().get("id").getAsString().equals(mc.getId()))
 			{
 				cards.remove(el);
-				FileWriter out = new FileWriter(new File(confdir,me.getId()+".json"));
-				out.write(root.toString());
-				out.close();
+				FileUtils.writeStringToFile(new File(confdir,me.getId()+ext), root.toString(),Charsets.UTF_8);
 				return true;
 			}
 		}
@@ -78,19 +77,19 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	
 	public List<MagicCard> getCards(MagicEdition me) throws IOException
 	{
-		FileReader fr = new FileReader(new File(confdir,me.getId()+".json"));
+		FileReader fr = new FileReader(new File(confdir,me.getId()+ext));
 		JsonReader reader = new JsonReader(fr);
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		JsonArray arr = (JsonArray) root.get("cards");
 		Type listType = new TypeToken<ArrayList<MagicCard>>(){}.getType();
 		fr.close();
 		reader.close();
-		return (List<MagicCard>)new Gson().fromJson(arr,listType);
+		return new Gson().fromJson(arr,listType);
 	}
 	
 	public void addCard(MagicEdition me, MagicCard mc) throws IOException
 	{
-		File f = new File(confdir,me.getId()+".json");
+		File f = new File(confdir,me.getId()+ext);
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		JsonArray cards = root.get("cards").getAsJsonArray();
@@ -108,11 +107,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 			root.addProperty("cardCount", me.getCardCount());
 		}
 		reader.close();
-		
-		
-		FileWriter out = new FileWriter(f);
-		out.write(root.toString());
-		out.close();
+		FileUtils.writeStringToFile(f, root.toString(), Charsets.UTF_8);
 	}
 	
 	private int indexOf(MagicCard mc, JsonArray arr) {
@@ -124,7 +119,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 		return -1;
 	}
 
-	private MagicEdition getEdition(File f) throws JsonSyntaxException, JsonIOException, IOException
+	private MagicEdition getEdition(File f) throws IOException
 	{
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
@@ -152,9 +147,8 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 				   else
 					   jsonparams.add("cards",new Gson().toJsonTree(getCards(me)));
 		
-		FileWriter out = new FileWriter(new File(confdir,me.getId()+".json"));
-		out.write(jsonparams.toString());
-		out.close();
+		FileUtils.writeStringToFile(new File(confdir,me.getId()+ext), jsonparams.toString(), "UTF-8");
+
 	}
 	
 	public void init() {
@@ -182,7 +176,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws Exception {
 		
-		List<MagicCard> res = new ArrayList<MagicCard>();
+		List<MagicCard> res = new ArrayList<>();
 		
 		if(me==null)
 		{
@@ -230,10 +224,10 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 
 	public List<MagicEdition> loadEditions() throws Exception {
 
-		List<MagicEdition> ret = new ArrayList<MagicEdition>();
+		List<MagicEdition> ret = new ArrayList<>();
 		for(File f : confdir.listFiles(new FileFilter() {
 			public boolean accept(File pathname) {
-				return pathname.getName().endsWith(".json");
+				return pathname.getName().endsWith(ext);
 			}
 			}))
 			{
@@ -245,7 +239,7 @@ public class PrivateMTGSetProvider implements MagicCardsProvider {
 
 	@Override
 	public MagicEdition getSetById(String id) throws Exception {
-		return getEdition(new File(confdir,id+".json"));
+		return getEdition(new File(confdir,id+ext));
 	}
 
 	@Override

@@ -56,7 +56,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	private File fileSetJson = new File(MTGControler.CONF_DIR,"AllSets-x.json");
 	private File fversion = new File(MTGControler.CONF_DIR,"version");
 	
-	private List<MagicCard> list;
 	private ReadContext ctx;
 	private Map<String,List<MagicCard>> cachedCardEds;
 	List<String> currentSet;
@@ -97,25 +96,24 @@ public class MtgjsonProvider implements MagicCardsProvider{
 
 	     byte[] buffer = new byte[1024];
 	    	
-	     try{
-	     	ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile));
+	     try(ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile)))
+	     {
+	    	 
 	    	ZipEntry ze = zis.getNextEntry();
 	    		
 	    	while(ze!=null){
 	           logger.info(this + " unzip : "+ fileSetJson.getAbsoluteFile());
-	            FileOutputStream fos = new FileOutputStream(fileSetJson);             
-	            int len;
-	            while ((len = zis.read(buffer)) > 0) {
-	       		fos.write(buffer, 0, len);
-	            }
-	        		
-	            fos.close();   
-	            ze = zis.getNextEntry();
+	           try(FileOutputStream fos = new FileOutputStream(fileSetJson))
+	           {
+	        	   int len;
+		            while ((len = zis.read(buffer)) > 0) {
+		            	fos.write(buffer, 0, len);
+		            }
+		            ze = zis.getNextEntry();
+	           }
+	           
 	    	}
-	    	
-	        zis.closeEntry();
-	    	zis.close();
-	    	fileSetJsonTemp.delete();
+	    	FileUtils.deleteQuietly(fileSetJson);
 	    }catch(IOException ex){
 	     logger.error(ex);
 	    }
@@ -125,8 +123,11 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	{
 		String temp ="";
 		try{
+			try(BufferedReader br=new BufferedReader(new FileReader(fversion)))
+			{
+				temp =br.readLine();
+			}
 			
-			temp = new BufferedReader(new FileReader(fversion)).readLine();
 	  	  	logger.info("check new version of " + toString() +" ("+temp+")");
 	  	
 		InputStreamReader fr = new InputStreamReader( getStreamFromUrl(new URL(urlVersion)),"ISO-8859-1");
@@ -203,13 +204,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			
 			
 		 
-		 cachedCardEds= new HashMap<String,List<MagicCard>>();
+		 cachedCardEds= new HashMap<>();
 		 logger.info("init " + this +" : parsing db file");
-		 long time_1 = System.currentTimeMillis();
+		 long time1 = System.currentTimeMillis();
 		 ctx = JsonPath.parse(fileSetJson);
-		 long time_2 = System.currentTimeMillis();
+		 long time2 = System.currentTimeMillis();
 		 
-		 logger.info("init " + this +" : OK (" + (time_2-time_1)/1000 + " s)");
+		 logger.info("init " + this +" : OK (" + (time2-time1)/1000 + " s)");
 		} 
 		catch (Exception e1) {
 			logger.error(e1);
@@ -222,16 +223,16 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	
 	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed,boolean exact) throws IOException{
 		
-		String filter_ed=".";
+		String filterEdition=".";
 		
 		if(ed !=null)
-			filter_ed=filter_ed+ed.getId();
+			filterEdition=filterEdition+ed.getId();
 		
 		
-		String jsquery="$"+filter_ed+".cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
+		String jsquery="$"+filterEdition+".cards[?(@."+att+" =~ /^.*"+crit.replaceAll("\\+", " " )+".*$/i)]";
 		
 		if(exact)
-			jsquery="$"+filter_ed+".cards[?(@."+att+" == \""+crit.replaceAll("\\+", " " )+"\")]";
+			jsquery="$"+filterEdition+".cards[?(@."+att+" == \""+crit.replaceAll("\\+", " " )+"\")]";
 		
 		if(att.equalsIgnoreCase("set"))
 		{
@@ -254,53 +255,41 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		}
 		if(att.equalsIgnoreCase("multiverseid")|| att.equalsIgnoreCase("cmc"))
 		{
-			jsquery="$"+filter_ed+".cards[?(@."+att+" == "+crit+")]";
+			jsquery="$"+filterEdition+".cards[?(@."+att+" == "+crit+")]";
 		}
-//		if(att.equalsIgnoreCase("id"))
-//		{
-//			jsquery="$"+filter_ed+".cards[?(@.id == /^."+crit+".$/i)]";
-//		}
-		if(att.equalsIgnoreCase("foreignNames"))//TODO : find the good formula
+		if(att.equalsIgnoreCase("foreignNames")) //TODO : find the good formula
 		{
-			//jsquery="$"+filter_ed+".cards[*].foreignNames[?(@.name =~ /^.*"+crit+".*$/i)]";
-			//jsquery="$"+filter_ed+".cards[?(@."+att+".name =~ /^.*"+crit+".*$/i)]";
-			jsquery="$"+filter_ed+".cards[foreignNames][?(@.name =~ /^.*"+crit+".*$/i)]";
+			jsquery="$"+filterEdition+".cards[foreignNames][?(@.name =~ /^.*"+crit+".*$/i)]";
 		}
 		return search(jsquery,att,crit);
 	}
 	
 	
 	
-	public List<MagicCard> search(String jsquery,String att,String crit) throws IOException {
+	public List<MagicCard> search(String jsquery,String att,String crit) {
 		
-		currentSet=new ArrayList<String>();
-		list= new ArrayList<MagicCard>();
+		currentSet=new ArrayList<>();
+		List<MagicCard> listCards= new ArrayList<>();
 
 		logger.debug("searchCardByCriteria : " + jsquery);
 	
-		List<Map<String,Object>> cardsElement = ctx.withListeners(new EvaluationListener() {
-			
-			public EvaluationContinuation resultFound(FoundResult fr) {
+		List<Map<String,Object>> cardsElement = ctx.withListeners(fr->{
 				if(fr.path().startsWith("$"))
 				{
 					currentSet.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
 				}
 				return null;
-			}
 		}).read(jsquery,List.class);
 
+		
 		
 		int indexSet=0;
 		for(Map<String,Object> map : cardsElement)
 		{
-			
-				MagicCard mc = new MagicCard();
-			 //  logger.debug("Loading Data " + Arrays.toString(map.entrySet().toArray()));
-			   
-			   if(map.get("name")!=null)
-				   mc.setName(map.get("name").toString());
-	 		   
-			   mc.setFlippable(false);
+		   MagicCard mc = new MagicCard();
+  		   if(map.get("name")!=null)
+			   mc.setName(map.get("name").toString());
+	 		   mc.setFlippable(false);
 	 		   mc.setTranformable(false);
 	 		   if(map.get("multiverseid")!=null)
 	 			   mc.setMultiverseid((int)(double)map.get("multiverseid"));
@@ -430,13 +419,13 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		 		   			case "Swamp" : mc.setText("{T} : Add {B} to your mana pool");break;
 		 		   			case "Mountain" : mc.setText("{T} : Add {R} to your mana pool");break;
 		 		   			case "Forest" : mc.setText("{T} : Add {G} to your mana pool");break;
+		 		   			default : break;
 		 		   		}
 		 		   }
 	 			
 	 			  /*get other sets*/
-	 			   if(!me.getRarity().equals("Basic Land"))//too much elements, so, remove all re-printings information for basic lands
+	 			   if(!me.getRarity().equals("Basic Land") && map.get("printings")!=null)//too much elements, so, remove all re-printings information for basic lands
 	 			   {   
-	 				   if(map.get("printings")!=null)
 		 				   for(String print : (List<String>)map.get("printings"))
 			 			   {
 			 				   if(!print.equalsIgnoreCase(codeEd))
@@ -494,15 +483,15 @@ public class MtgjsonProvider implements MagicCardsProvider{
  		 
 	 		   
 	 		   
-	 		  list.add(mc);
+	 		  listCards.add(mc);
 	 		  
 		}
 		currentSet.clear();
 		
 		if(att.equalsIgnoreCase("set"))
-			cachedCardEds.put(crit, list);
+			cachedCardEds.put(crit, listCards);
 		
-		return list;
+		return listCards;
 		
 	}
 
@@ -518,20 +507,16 @@ public class MtgjsonProvider implements MagicCardsProvider{
 			return eds;
 		}
 		
-		final List<String> codeEd=new ArrayList<String>();
-		ctx.withListeners(new EvaluationListener() {
-				
-				@Override
-				public EvaluationContinuation resultFound(FoundResult fr) {
+		final List<String> codeEd=new ArrayList<>();
+		ctx.withListeners(fr-> {
 					
 					if(fr.path().startsWith("$"))
 						codeEd.add(fr.path().substring(fr.path().indexOf("$[")+3, fr.path().indexOf("]")-1));
-		
 					return null;
-				}
+					
 			}).read(jsquery,List.class);
 		
-		eds = new ArrayList<MagicEdition>();
+		eds = new ArrayList<>();
 		for(String codeedition : codeEd)
 		{
 			eds.add(getSetById(codeedition));
@@ -542,17 +527,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	}
 	
 	public MagicEdition getSetById(String id)  {
-		
-		
-		/*for(MagicEdition ed : eds)
-		{
-			if(ed.getId().equals(id))
-				return ed;
-		}*/
-		
-		
 			MagicEdition me = new MagicEdition();
-
 			if(!id.substring(0, 1).equals("p"))
 				id=id.toUpperCase();
 
@@ -582,7 +557,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					}
 					catch(Exception e)
 					{
-					
+						MTGLogger.printStackTrace(e);
 					}
 					
 					try{
@@ -591,7 +566,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 					}
 					catch(Exception e)
 					{
-					
+						MTGLogger.printStackTrace(e);
 					}
 					
 					try{
@@ -608,21 +583,27 @@ public class MtgjsonProvider implements MagicCardsProvider{
 						me.setBooster(ctx.read("$."+id+".booster",List.class));
 					}
 					catch(PathNotFoundException e)
-					{}
+					{
+						MTGLogger.printStackTrace(e);
+					}
 					
 					try
 					{
 						me.setBlock(ctx.read("$."+id+".block",String.class));
 					}
 					catch(PathNotFoundException e)
-					{}
+					{
+						MTGLogger.printStackTrace(e);
+					}
 					
 					try
 					{
 					me.setTranslations(ctx.read("$."+id+".translations",Map.class));
 					}
 					catch(PathNotFoundException e)
-					{}
+					{
+						MTGLogger.printStackTrace(e);
+					}
 		return me;
 		
 	}
@@ -677,8 +658,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				}
 				catch(Exception e)
 				{
-					logger.error("initOtherEditionCardsVar number not found");
-					//me.setNumber(mc.getNumber());
+					logger.trace("initOtherEditionCardsVar number not found");
 				}
 				
 				
@@ -688,8 +668,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				}
 				catch(Exception e)
 				{
-				//	logger.error("initOtherEditionCardsVar mkm_id not found");
-					//me.setNumber(mc.getNumber());
+					logger.trace("initOtherEditionCardsVar mkm_id not found");
 				}
 				
 				
@@ -698,7 +677,6 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				}catch(Exception e)
 				{
 					logger.trace("multiverseNotFound for " + me);
-				//	me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
 				}
 			}
 	}
@@ -706,20 +684,15 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	public Booster generateBooster(MagicEdition me) {
 
 		logger.debug("opening booster for " + me );
-		List<MagicCard> common = new ArrayList<MagicCard>();
-		List<MagicCard> uncommon = new ArrayList<MagicCard>();
-		List<MagicCard> rare= new ArrayList<MagicCard>();
-		List<MagicCard> lands = new ArrayList<MagicCard>();
+		List<MagicCard> common = new ArrayList<>();
+		List<MagicCard> uncommon = new ArrayList<>();
+		List<MagicCard> rare= new ArrayList<>();
+		List<MagicCard> lands = new ArrayList<>();
 		
 		Booster b = new Booster();
 		
 		
 			try {
-			/*	common = searchCardByCriteria("rarity", "Common", me);
-				uncommon =searchCardByCriteria("rarity", "Uncommon", me);
-				rare =searchCardByCriteria("rarity", "Rare", me);
-				*/
-				
 				if(cachedCardEds.get(me.getId())==null)
 					cachedCardEds.put(me.getId(), searchCardByCriteria("set", me.getId(), null,true));
 				
@@ -749,12 +722,12 @@ public class MtgjsonProvider implements MagicCardsProvider{
 				logger.error("Error opening booster",e);
 			}
 			
-			List<MagicCard> resList = new ArrayList<MagicCard>();
+			List<MagicCard> resList = new ArrayList<>();
 			resList.addAll(common.subList(0, 10));
 			resList.addAll(uncommon.subList(0, 4));
 			resList.add(rare.get(0));
 			
-			if(lands.size()>0)
+			if(!lands.isEmpty())
 				resList.addAll(lands.subList(0, 1));
 			
 			b.setCards(resList);
@@ -767,8 +740,7 @@ public class MtgjsonProvider implements MagicCardsProvider{
 		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.number == '"+num+"')]";
 		logger.debug("search " +jsquery);
 			try{
-					MagicCard mc = search(jsquery, "number", num).get(0);//getCardById(id);
-					  //me.setNumber(String.valueOf(parseId-1));
+					MagicCard mc = search(jsquery, "number", num).get(0);
 					  mc.getEditions().add(me);
 					  return mc;
 			}
