@@ -36,7 +36,7 @@ import org.magic.services.MTGControler;
 
 public class MagicCardEditorPanel extends JPanel {
 
-	private BindingGroup m_bindingGroup;
+	private transient BindingGroup m_bindingGroup;
 	private MagicCard magicCard = new MagicCard();
 	private JTextField artistJTextField;
 	private JTextField costJTextField;
@@ -111,73 +111,73 @@ public class MagicCardEditorPanel extends JPanel {
 						g.setModal(true);
 						
 						String[] data = {"0","1","2","3","4","5","6","7","8","9","10"};
-						final JComboBox<String> cboW = new JComboBox<String>(data);
-						final JComboBox<String> cboU = new JComboBox<String>(data);
-						final JComboBox<String> cboB = new JComboBox<String>(data);
-						final JComboBox<String> cboR = new JComboBox<String>(data);
-						final JComboBox<String> cboG = new JComboBox<String>(data);
-						final JComboBox<String> cboC = new JComboBox<String>(data);
-						final JComboBox<String> cboUn = new JComboBox<String>(data);
+						final JComboBox<String> cboW = new JComboBox<>(data);
+						final JComboBox<String> cboU = new JComboBox<>(data);
+						final JComboBox<String> cboB = new JComboBox<>(data);
+						final JComboBox<String> cboR = new JComboBox<>(data);
+						final JComboBox<String> cboG = new JComboBox<>(data);
+						final JComboBox<String> cboC = new JComboBox<>(data);
+						final JComboBox<String> cboUn = new JComboBox<>(data);
 						cboUn.addItem("X");
 						
 						
 						JButton btn = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SET_COST")+":");
 						btn.addActionListener(new ActionListener() {
 							public void actionPerformed(ActionEvent e) {
-								String cost="";
+								StringBuilder cost=new StringBuilder();
 								int cmc=0;
-								HashSet<String> colors = new HashSet<String>();
+								HashSet<String> colors = new HashSet<>();
 								
 								if(!cboUn.getSelectedItem().equals("X"))
 								{
 									if(cboUn.getSelectedIndex()>0)
 									{
-										cost+="{"+cboUn.getSelectedIndex()+"}";
+										cost.append("{").append(cboUn.getSelectedIndex()).append("}");
 										cmc+=cboUn.getSelectedIndex();
 									}
 								}
 								else
 								{
-									cost+="{X}";
+									cost.append("{X}");
 								}
 
 								for(int i=0;i<cboC.getSelectedIndex();i++)
 								{
-									cost+="{C}";
+									cost.append("{C}");
 									cmc+=1;
 								}
 								
 								for(int i=0;i<cboW.getSelectedIndex();i++)
 								{
-									cost+="{W}";
+									cost.append("{W}");
 									cmc+=1;
 									colors.add("White");
 								}
 								
 								for(int i=0;i<cboU.getSelectedIndex();i++)
 								{
-									cost+="{U}";
+									cost.append("{U}");
 									cmc+=1;
 									colors.add("Blue");
 								}
 								
 								for(int i=0;i<cboB.getSelectedIndex();i++)
 								{
-									cost+="{B}";
+									cost.append("{B}");
 									cmc+=1;
 									colors.add("Black");
 								}
 								
 								for(int i=0;i<cboR.getSelectedIndex();i++)
 								{
-									cost+="{R}";
+									cost.append("{R}");
 									cmc+=1;
 									colors.add("Red");
 								}
 								
 								for(int i=0;i<cboG.getSelectedIndex();i++)
 								{
-									cost+="{G}";
+									cost.append("{G}");
 									cmc+=1;
 									colors.add("Green");
 								}
@@ -185,7 +185,7 @@ public class MagicCardEditorPanel extends JPanel {
 								magicCard.setCmc(cmc);
 								magicCard.setColors(new ArrayList<String>(colors));
 								magicCard.setColorIdentity(new ArrayList<String>(colors));
-								costJTextField.setText(cost);
+								costJTextField.setText(cost.toString());
 								g.dispose();
 								
 							}
@@ -271,7 +271,7 @@ public class MagicCardEditorPanel extends JPanel {
 				add(panel_1, gbc_panel_1);
 				panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 				
-				cboSuperType = new JCheckableListBox<String>();
+				cboSuperType = new JCheckableListBox<>();
 				DefaultListCheckModel modelSt = new DefaultListCheckModel();
 				cboSuperType.setModel(modelSt);
 				for (String t : new String[] {"", "Basic", "Elite", "Legendary", "Ongoing", "Snow", "World"}) { 
@@ -280,7 +280,7 @@ public class MagicCardEditorPanel extends JPanel {
 				panel_1.add(cboSuperType);
 				
 				
-				cboTypes = new JCheckableListBox<String>();
+				cboTypes = new JCheckableListBox<>();
 				DefaultListCheckModel model = new DefaultListCheckModel();
 				cboTypes.setModel(model);
 				for (String t : new String[] {"", "Arcane", "Artifact", "Aura", "Basic", "Clue", "Conspiracy", "Continuous", "Contraption", "Creature", "Curse", "Elite", "Enchantment", "Equipment", "Fortification", "Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Legendary", "Local", "Mana source", "Mono", "Ongoing", "Permanent", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scheme", "Shrine", "Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World"}) { 
@@ -291,7 +291,7 @@ public class MagicCardEditorPanel extends JPanel {
 				
 				cboTypes.setModel(model);
 				
-				cboSubtypes = new JCheckableListBox<String>();
+				cboSubtypes = new JCheckableListBox<>();
 				panel_1.add(cboSubtypes);
 		
 				txtSubTypes = new JTextField();
@@ -560,11 +560,12 @@ public class MagicCardEditorPanel extends JPanel {
 				m_bindingGroup = initDataBindings();
 			}
 		}
-		
-		cboSuperType.setSelectedElements(magicCard.getSupertypes());
-		cboTypes.setSelectedElements(magicCard.getTypes());
-		cboSubtypes.setSelectedElements(magicCard.getSubtypes());
-		
+		if(magicCard!=null)
+		{ 
+			cboSuperType.setSelectedElements(magicCard.getSupertypes());
+			cboTypes.setSelectedElements(magicCard.getTypes());
+			cboSubtypes.setSelectedElements(magicCard.getSubtypes());
+		}
 	}
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, String> artistProperty = BeanProperty.create("artist");

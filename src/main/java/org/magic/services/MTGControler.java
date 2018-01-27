@@ -55,7 +55,7 @@ public class MTGControler {
 	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
 	private KeyWordManager keyWordManager;
-	public static File CONF_DIR = new File(System.getProperty("user.home")+"/.magicDeskCompanion/");
+	public static final File CONF_DIR = new File(System.getProperty("user.home")+"/.magicDeskCompanion/");
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;

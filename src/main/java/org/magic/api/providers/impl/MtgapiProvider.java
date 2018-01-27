@@ -3,7 +3,6 @@ package org.magic.api.providers.impl;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
-import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -59,8 +58,9 @@ public class MtgapiProvider implements MagicCardsProvider{
 	@Override
 	public void init() {
 		
-		
 	}
+	
+	
 	@Override
 	public MagicCard getCardById(String id) throws  IOException {
 		
@@ -86,7 +86,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 	}
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition ed,boolean exact) throws IOException {
-		List<MagicCard> list = new ArrayList<MagicCard>();
+		List<MagicCard> list = new ArrayList<>();
 		
 		crit=att+"="+crit;
 		
@@ -167,7 +167,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 						}
 					  	
 					  
-					  List<String> ltypes = new ArrayList<String>();
+					  List<String> ltypes = new ArrayList<>();
 					  
 					  if(!arr.get(i).getAsJsonObject().get("types").isJsonNull())
 					  {
@@ -181,7 +181,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 					  
 					  if(!arr.get(i).getAsJsonObject().get("supertypes").isJsonNull())
 					  {
-						  List<String> stypes = new ArrayList<String>();
+						  List<String> stypes = new ArrayList<>();
 						  JsonArray suptypes = arr.get(i).getAsJsonObject().get("supertypes").getAsJsonArray();
 						  for (int t=0; t<suptypes.size(); t++) {
 							  stypes.add( suptypes.get(t).getAsString() );
@@ -191,7 +191,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 					  
 					  if(!arr.get(i).getAsJsonObject().get("subtypes").isJsonNull())
 					  {
-						  List<String> subtypes = new ArrayList<String>();
+						  List<String> subtypes = new ArrayList<>();
 						  JsonArray supAtypes = arr.get(i).getAsJsonObject().get("subtypes").getAsJsonArray();
 						  for (int t=0; t<supAtypes.size(); t++) {
 							  subtypes.add( supAtypes.get(t).getAsString() );
@@ -232,11 +232,10 @@ public class MtgapiProvider implements MagicCardsProvider{
 	}
 	@Override
 	public List<MagicEdition> loadEditions() {
-		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
-	public MagicEdition getSetById(String id) throws UnsupportedEncodingException, UnsupportedOperationException, IOException {
+	public MagicEdition getSetById(String id) throws IOException {
 		String url =urlJson+"/sets?code="+id;
 		
 		logger.debug(url);
@@ -279,7 +278,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 
 	public List<String> getCardNames()
 	{
-		List<String> lists = new ArrayList<String>();
+		List<String> lists = new ArrayList<>();
 		HttpGet httpget = null;
 		try {
 		String url="http://api.mtgapi.com/v2/names";
@@ -301,22 +300,22 @@ public class MtgapiProvider implements MagicCardsProvider{
 			logger.error("couldn't get cardnames",e);
 		}
 		finally {
-			httpget.releaseConnection();
+			if(httpget!=null)
+				httpget.releaseConnection();
 			
 		}
 		return lists;
 	}
 	
 	
-	public List<String> getListType() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getListType() {
+		return new ArrayList<>();
 	}
 	
-	public List<String> getListSubTypes() throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+	public List<String> getListSubTypes()  {
+		return new ArrayList<>();
 	}
+	
 	@Override
 	public String[] getQueryableAttributs() {
 		return new String[]{"name","artist","border","cmc","colors","flavor","foreignNames","hand","layout","legalities","life","loyalty","manaCost","multiversid","names","number","originalText","originalType","power","printings","rarity","rulings","set","subtypes","supertypes","text","toughness","type","types","variations","watermark"};
@@ -334,18 +333,16 @@ public class MtgapiProvider implements MagicCardsProvider{
 
 	@Override
 	public String[]  getLanguages() {
-		return null;
+		return new String[0];
 	}
 
 	@Override
 	public Booster generateBooster(MagicEdition me) {
-		
 		return null;
 	}
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

@@ -4,9 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
@@ -98,12 +96,11 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			if(mc.getEditions().get(0).getMkm_name()!=null)
 				edName=mc.getEditions().get(0).getMkm_name();
 		
-			if(p.getCategoryName().equalsIgnoreCase("Magic Single"))
-				if(edName.startsWith(p.getExpansionName()))
-				{
-					resultat=p;
-					break;
-				}
+			if(p.getCategoryName().equalsIgnoreCase("Magic Single") && edName.startsWith(p.getExpansionName()))
+			{
+				resultat=p;
+				break;
+			}
 		}
 		return resultat;
 		
@@ -146,18 +143,21 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		if(props.getProperty("USER_ARTICLE").equals("false"))
 		{
 				Product p = getProductFromCard(card,pService.findProduct(card.getName(), atts));
-				p = pService.getProductById(p.getIdProduct());
-				MagicPrice mp = new MagicPrice();
-				   mp.setSeller(String.valueOf(p.getExpansionName()));
-				   mp.setValue(p.getPriceGuide().getLOW());
-				   mp.setQuality("");
-				   mp.setUrl("https://www.magiccardmarket.eu"+p.getWebsite());
-				   mp.setSite(getName());
-				   mp.setFoil(false);
-				   mp.setCurrency("EUR");
-				   mp.setLanguage(String.valueOf(p.getLocalization()));
-				   lists.add(mp);
-			
+				
+				if(p!=null)
+				{
+					p = pService.getProductById(p.getIdProduct());
+					MagicPrice mp = new MagicPrice();
+					   mp.setSeller(String.valueOf(p.getExpansionName()));
+					   mp.setValue(p.getPriceGuide().getLOW());
+					   mp.setQuality("");
+					   mp.setUrl("https://www.magiccardmarket.eu"+p.getWebsite());
+					   mp.setSite(getName());
+					   mp.setFoil(false);
+					   mp.setCurrency("EUR");
+					   mp.setLanguage(String.valueOf(p.getLocalization()));
+					   lists.add(mp);
+				}			
 			
 		}
 		else
@@ -224,15 +224,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 	public void alertDetected(final List<MagicPrice> p) {
 		
 		
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
-				if(!p.isEmpty())
+		ThreadManager.getInstance().execute(()->{
+				if(!p.isEmpty() && getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
 				{
-					if(getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
-					{
-						CartServices cart = new CartServices();
+					CartServices cart = new CartServices();
 						try {
 							List<Article> list = new ArrayList<>();
 							
@@ -247,10 +242,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 						} catch (Exception e) {
 							logger.error("Could not add " + p +" to cart",e);
 						}
-					}
 				}
-				
-			}
 		}, "addCart");
 
 		

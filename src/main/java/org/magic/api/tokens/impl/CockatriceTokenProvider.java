@@ -250,6 +250,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			URLConnection connection;
 			
+			if(map==null)
+				throw new NullPointerException("no pics found");
+			
+			
 			if(map.get(tok.getEditions().get(0).getId())!=null) //error on 
 				connection = map.get(tok.getEditions().get(0).getId()).openConnection();
 			else

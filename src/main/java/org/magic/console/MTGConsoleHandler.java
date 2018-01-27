@@ -13,18 +13,18 @@ public class MTGConsoleHandler extends IoHandlerAdapter
 {
 	ClassLoader classLoader = ConsoleServer.class.getClassLoader();
 
-	public static String[] att_cards ={"name","fullType", "editions[0].rarity", "colors", "cost"};
-	public static String[] att_set ={"id","set", "cardCount", "releaseDate", "block"};
-	public static String[] att_cols = {"name"};
-	public static String[] att_shop ={"name","description","price","shopName"};
-	public static String[] att_shake={"name","ed","price","percentDayChange","priceDayChange"};
+	public static final String[] att_cards ={"name","fullType", "editions[0].rarity", "colors", "cost"};
+	public static final String[] att_set ={"id","set", "cardCount", "releaseDate", "block"};
+	public static final String[] att_cols = {"name"};
+	public static final String[] att_shop ={"name","description","price","shopName"};
+	public static final String[] att_shake={"name","ed","price","percentDayChange","priceDayChange"};
 	
 	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private List<String> history;
 	    
 	public MTGConsoleHandler() {
-		history = new ArrayList<String>();
+		history = new ArrayList<>();
 	}    
 	
 	

@@ -13,10 +13,10 @@ import javax.swing.JProgressBar;
 public class JVMemoryPanel extends JPanel
 {
 	private JProgressBar progressBar;
-	private Timer t;
+	private transient Timer t;
 	private int delay=1000;
 	private String tooltip;
-	private TimerTask task ;
+	private transient TimerTask task ;
 	private Color defaultBack;
 	private Color defaultFront;
 	
@@ -65,7 +65,7 @@ public class JVMemoryPanel extends JPanel
 				progressBar.setToolTipText(tooltip);
 				
 				
-				double pc = (progressBar.getValue()*100)/progressBar.getMaximum();
+				double pc = ((progressBar.getValue()*100)/progressBar.getMaximum());
 				
 				if(pc>55)
 					setColor(Color.ORANGE, Color.ORANGE);

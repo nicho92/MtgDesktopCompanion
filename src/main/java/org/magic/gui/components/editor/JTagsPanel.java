@@ -246,4 +246,16 @@ public class JTagsPanel extends JPanel {
 			return getText().hashCode();
 		}
 		
+		@Override
+		public boolean equals(Object obj) {
+			if(obj==null)
+				return false;
+			
+			if(obj.getClass()!=this.getClass())
+				return false;
+			
+			return this.getText().equals(((TagLabel)obj).getText());
+			
+		}
+		
 	}

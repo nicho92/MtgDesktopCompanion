@@ -56,7 +56,6 @@ public class RssGUI extends JPanel {
 		tree.setModel(new DefaultTreeModel(
 			new DefaultMutableTreeNode("Magic RSS") 
 			{
-				
 				{
 					Set<String> catg = new HashSet<String>();
 					for(RSSBean r : MTGControler.getInstance().getRss())

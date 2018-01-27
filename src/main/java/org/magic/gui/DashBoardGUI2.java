@@ -42,8 +42,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 		menuBar.add(mnWindow);
 
 		JMenuItem mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
-		mntmSaveDisplay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		mntmSaveDisplay.addActionListener(ae-> {
 				int i=0;
 				
 				try {
@@ -62,18 +61,15 @@ public class DashBoardGUI2 extends JDesktopPane {
 									dash.save("h", String.valueOf(dash.getBounds().getHeight()));
 									dash.save("class", dash.getClass().getName());
 									dash.save("id", String.valueOf(i));
-									try {
 										File f = new File(AbstractJDashlet.confdir, i+".conf");
-										FileOutputStream fos = new FileOutputStream(f);
-										dash.getProperties().store(fos,"");
-										fos.close();
-									} catch (Exception e) {
-										MTGLogger.printStackTrace(e);
-									} 				
-
+										
+										try(FileOutputStream fos = new FileOutputStream(f))
+										{
+											dash.getProperties().store(fos,"");
+										} catch (IOException e) {
+											MTGLogger.printStackTrace(e);
+										}
 				}
-				
-			}
 		});
 		
 		mnWindow.add(mntmSaveDisplay);
@@ -84,17 +80,14 @@ public class DashBoardGUI2 extends JDesktopPane {
 			for(AbstractJDashlet dash : MTGControler.getInstance().getDashlets())
 			{
 						JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName());
-						mntmNewMenuItem.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
+						mntmNewMenuItem.addActionListener(e->{
 								try {
-									//dash = (AbstractJDashlet)classLoader.loadClass(c.getName()).newInstance();
 									addDash(dash);
 								} 
 								catch(Exception ex)
 								{
 									logger.error("Error Loading " + dash,ex);
 								}
-							}
 						});
 						mnNewMenu.add(mntmNewMenuItem);
 			}
