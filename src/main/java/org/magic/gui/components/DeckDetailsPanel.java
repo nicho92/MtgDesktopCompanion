@@ -373,7 +373,9 @@ public class DeckDetailsPanel extends JPanel {
 		}
 		
 		tagsPanel.clean();
-		tagsPanel.bind(magicDeck.getTags());
+		
+		if(magicDeck!=null)
+			tagsPanel.bind(magicDeck.getTags());
 		
 		
 		

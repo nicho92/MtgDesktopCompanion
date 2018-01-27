@@ -53,9 +53,8 @@ public class RssGUI extends JPanel {
 		JScrollPane scrollTree = new JScrollPane();
 		
 		JTree tree = new JTree();
-		tree.setModel(new DefaultTreeModel(
-			new DefaultMutableTreeNode("Magic RSS") 
-			{
+		/*tree.setModel(new DefaultTreeModel(
+			new DefaultMutableTreeNode("Magic RSS") {
 				{
 					Set<String> catg = new HashSet<String>();
 					for(RSSBean r : MTGControler.getInstance().getRss())
@@ -76,7 +75,7 @@ public class RssGUI extends JPanel {
 			
 				}
 			}
-		));
+		));*/
 		scrollTree.setViewportView(tree);
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);

@@ -192,17 +192,17 @@ public class CardsPicPanel extends JXPanel {
 		    this.addMouseMotionListener(interactionManager);
 		    this.addMouseWheelListener(interactionManager);
 		    
-		    timer = new Timer(30, new ActionListener() {
-                public void actionPerformed(ActionEvent e) {
+		    timer = new Timer(30, e->{
                 	repaint();
                 	
                 	xScale += xDelta;
-                    if (xScale > 1) {
+                	
+                    if(xScale > 1 || xScale < -1) 
+                    {
                         xDelta *= -1;
-                    } else if (xScale < -1) {
-                        xDelta *= -1;
+                        
                     }
-
+                    
                     if(loop>0)
                     if((int)xScale==1 || (int)xScale==-1 )
                     {
@@ -211,7 +211,6 @@ public class CardsPicPanel extends JXPanel {
                  	   
                     }
                     loop++;
-                }
             });
 	}
 
