@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -140,9 +141,7 @@ public class JsonExport  extends AbstractCardExport {
 		json.add("main", main);
 		json.add("side", side);
 		
-		FileWriter out = new FileWriter(dest);
-		out.write(json.toString());
-		out.close();
+		FileUtils.writeStringToFile(dest, json.toString(),"UTF-8");
 	}
 
 	@Override
@@ -165,10 +164,10 @@ public class JsonExport  extends AbstractCardExport {
 			{
 				jsonparams.add(new Gson().toJsonTree(mc));
 			}
-			FileWriter out = new FileWriter(f);
-			out.write(jsonparams.toString());
-			out.close();
-		
+			try(FileWriter out = new FileWriter(f))
+			{
+				out.write(jsonparams.toString());
+			}
 	}
 
 
@@ -176,7 +175,7 @@ public class JsonExport  extends AbstractCardExport {
 	public List<MagicCardStock> importStock(File f) throws Exception {
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
-		List<MagicCardStock> list = new ArrayList<MagicCardStock>();
+		List<MagicCardStock> list = new ArrayList<>();
 		for(int i = 0;i<root.size();i++)
 		{
 			JsonObject line = root.get(i).getAsJsonObject();

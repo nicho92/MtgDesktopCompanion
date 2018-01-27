@@ -72,53 +72,55 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 			temp.append("\n");
 		}
 
-		FileWriter out = new FileWriter(dest);
-		out.write(temp.toString());
-		out.close();
+		try(FileWriter out = new FileWriter(dest))
+		{
+			out.write(temp.toString());
+		}
 
 
 	}
 
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		BufferedReader read = new BufferedReader(new FileReader(f));
-		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
-		
-		String line = read.readLine();
-		int ecart=0;
-		
-		while(line!=null)
+		try(BufferedReader read = new BufferedReader(new FileReader(f)))
 		{
-			line=line.trim();
-			if(!line.startsWith("//"))
-			{
-				String[] elements = line.split(props.getProperty("SEPARATOR"));
-				MagicEdition ed = null;
-				try{
-				ed = new MagicEdition();
-				ed.setId(elements[3]);
-				}
-				catch(Exception e)
-				{
-				ed=null;
-				ecart=1;
-				}
-				String name=elements[2-ecart].replaceAll("\"", "");
-				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name ,ed,true).get(0);
-				Integer qte = Integer.parseInt(elements[1-ecart]);
-			
-				if(line.startsWith("SB"))
-					deck.getMapSideBoard().put(mc, qte);
-				else
-					deck.getMap().put(mc, qte);
+			MagicDeck deck = new MagicDeck();
+				deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
 				
-			}
-			line=read.readLine();
-		}
+				String line = read.readLine();
+				int ecart=0;
+				
+				while(line!=null)
+				{
+					line=line.trim();
+					if(!line.startsWith("//"))
+					{
+						String[] elements = line.split(props.getProperty("SEPARATOR"));
+						MagicEdition ed = null;
+						try{
+						ed = new MagicEdition();
+						ed.setId(elements[3]);
+						}
+						catch(Exception e)
+						{
+						ed=null;
+						ecart=1;
+						}
+						String name=elements[2-ecart].replaceAll("\"", "");
+						MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name ,ed,true).get(0);
+						Integer qte = Integer.parseInt(elements[1-ecart]);
+					
+						if(line.startsWith("SB"))
+							deck.getMapSideBoard().put(mc, qte);
+						else
+							deck.getMap().put(mc, qte);
+						
+					}
+					line=read.readLine();
+				}
+				return deck;
+		}	
 		
-		read.close();
-		return deck;
 	}
 
 

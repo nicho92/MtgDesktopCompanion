@@ -3,12 +3,12 @@ package org.magic.api.exports.impl;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -90,7 +90,7 @@ public class PDFExport extends AbstractCardExport {
 	}
 
 
-	private PdfPCell getCells(MagicCard card) throws BadElementException, MalformedURLException, IOException
+	private PdfPCell getCells(MagicCard card) throws BadElementException, IOException
 	{
 
 		Image image1=null;
@@ -123,7 +123,7 @@ public class PDFExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		throw new Exception("Can't generate deck from PDF");
+		throw new NotImplementedException("Can't generate deck from PDF");
 	}
 
 
@@ -153,7 +153,7 @@ public class PDFExport extends AbstractCardExport {
 
 	@Override
 	public List<MagicCardStock> importStock(File f) throws Exception {
-		throw new Exception("Can't import stock from PDF");
+		throw new NotImplementedException("Can't import stock from PDF");
 	}
 
 }

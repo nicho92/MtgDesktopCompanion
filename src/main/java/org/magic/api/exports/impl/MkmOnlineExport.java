@@ -4,14 +4,13 @@ import java.io.File;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.apache.commons.collections4.ListUtils;
+import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.MkmBoolean;
@@ -47,7 +46,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 	MagicCardMarketPricer2 mkmPricer;
 	EnumMap<PRODUCT_ATTS, String> atts;
 	ProductServices pService;
-	public MkmOnlineExport() throws Exception {
+
+	public MkmOnlineExport() throws MkmException {
 		super();
 		mkmPricer = new MagicCardMarketPricer2();
 
@@ -85,7 +85,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 				list=l;
 
 		if(list==null)
-			throw new Exception(getName() + " can't import deck for " + f.getName());
+			throw new NullPointerException(getName() + " can't import deck for " + f.getName());
 		
 		service.loadItems(list);
 		for(WantItem w : list.getItem())
@@ -127,7 +127,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	@Override
 	public void export(MagicDeck deck, File dest) throws Exception {
 		WantsService wlService = new WantsService();
-		List<WantItem> wants = new ArrayList<WantItem>();
+		List<WantItem> wants = new ArrayList<>();
 
 		int c=0;
 		for(MagicCard mc : deck.getMap().keySet())
@@ -135,10 +135,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 			
 			Product p ;
 			
-//			if(mc.getEditions().get(0).getMkm_id()!=null)
-//				p = pService.getProductById(mc.getEditions().get(0).getMkm_id());
-//			else
-				p = mkmPricer.getProductFromCard(mc,pService.findProduct(mc.getName(), atts));
+			p = MagicCardMarketPricer2.getProductFromCard(mc,pService.findProduct(mc.getName(), atts));
+		
 			if(p!=null)
 			{ 
 				WantItem w = new WantItem();
@@ -217,15 +215,14 @@ public class MkmOnlineExport extends AbstractCardExport {
 			
 			StockService serv = new StockService();
 			ProductServices prods = new ProductServices();
-			EnumMap<PRODUCT_ATTS,String> atts = new EnumMap<>(PRODUCT_ATTS.class);
+			EnumMap<PRODUCT_ATTS,String> enumAtts = new EnumMap<>(PRODUCT_ATTS.class);
+										 enumAtts.put(PRODUCT_ATTS.idGame, "1");
+										 enumAtts.put(PRODUCT_ATTS.exact, "true");
 			
-			atts.put(PRODUCT_ATTS.idGame, "1");
-			atts.put(PRODUCT_ATTS.exact, "true");
-			
-			List<Article> list = new ArrayList<Article>();
+			List<Article> list = new ArrayList<>();
 			for(MagicCardStock mcs : stock)
 			{
-				Product p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(), prods.findProduct(mcs.getMagicCard().getName(), atts));
+				Product p = MagicCardMarketPricer2.getProductFromCard(mcs.getMagicCard(), prods.findProduct(mcs.getMagicCard().getName(), enumAtts));
 				Article a = new Article();
 						a.setAltered(mcs.isAltered());
 						a.setSigned(mcs.isSigned());
@@ -254,7 +251,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 		
 		StockService serv = new StockService();
 		List<Article> list = serv.getStock();
-		List<MagicCardStock> stock = new ArrayList<MagicCardStock>();
+		List<MagicCardStock> stock = new ArrayList<>();
 		for(Article a : list)
 		{
 			MagicCardStock mcs = new MagicCardStock();
@@ -283,6 +280,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	{
 		Localization l = new Localization();
 		l.setIdLanguage(1);
+		l.setLanguageName(s);
 		return l;
 	}
 	
@@ -309,8 +307,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 			case "LP" : return EnumCondition.LIGHTLY_PLAYED;
 			case "PL" : return EnumCondition.PLAYED;
 			case "PO" : return EnumCondition.POOR;
+			default : return null;
 		}
-		return null;
 	}
 }
 

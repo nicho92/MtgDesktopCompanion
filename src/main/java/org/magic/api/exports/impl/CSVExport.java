@@ -33,7 +33,6 @@ public class CSVExport extends AbstractCardExport{
 	String[] exportedDeckProperties;
 	String[] exportedPricesProperties;
 
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -55,153 +54,146 @@ public class CSVExport extends AbstractCardExport{
 			save();
 		}
 	}
+	
 	@Override
 	public List<MagicCardStock> importStock(File f) throws Exception {
-		BufferedReader read = new BufferedReader(new FileReader(f));
-		List<MagicCardStock> stock= new ArrayList<>();
-		String line = read.readLine();
-		
-		line=read.readLine();//skip header
-		while(line!=null)
-		{
-			String[] part= line.split(";");
-			MagicCardStock mcs = new MagicCardStock();
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", part[1], null,true).get(0);
+		try(BufferedReader read = new BufferedReader(new FileReader(f)))
+		{	
+				List<MagicCardStock> stock= new ArrayList<>();
+				String line = read.readLine();
 				
-				for(MagicEdition ed : mc.getEditions())
-					if(ed.getSet().equals(part[2]))
-					{
-						mc.getEditions().add(0, ed);
-						break;
-					}
-			
-			
-				mcs.setMagicCard(mc);
-				mcs.setLanguage(part[3]);
-				mcs.setQte(Integer.parseInt(part[4]));
-				mcs.setCondition(EnumCondition.valueOf(part[5]));
-				mcs.setFoil(Boolean.valueOf(part[6]));
-				mcs.setAltered(Boolean.valueOf(part[7]));
-				mcs.setSigned(Boolean.valueOf(part[8]));
-				mcs.setMagicCollection(new MagicCollection(part[9]));
-				mcs.setPrice(Double.valueOf(part[10]));
-				try{ 
-					mcs.setComment(part[11]);
-				}
-				catch (ArrayIndexOutOfBoundsException aioob)
+				line=read.readLine();
+				while(line!=null)
 				{
-					mcs.setComment("");
+					String[] part= line.split(";");
+					MagicCardStock mcs = new MagicCardStock();
+					MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", part[1], null,true).get(0);
+						
+						for(MagicEdition ed : mc.getEditions())
+							if(ed.getSet().equals(part[2]))
+							{
+								mc.getEditions().add(0, ed);
+								break;
+							}
+					
+					
+						mcs.setMagicCard(mc);
+						mcs.setLanguage(part[3]);
+						mcs.setQte(Integer.parseInt(part[4]));
+						mcs.setCondition(EnumCondition.valueOf(part[5]));
+						mcs.setFoil(Boolean.valueOf(part[6]));
+						mcs.setAltered(Boolean.valueOf(part[7]));
+						mcs.setSigned(Boolean.valueOf(part[8]));
+						mcs.setMagicCollection(new MagicCollection(part[9]));
+						mcs.setPrice(Double.valueOf(part[10]));
+						try{ 
+							mcs.setComment(part[11]);
+						}
+						catch (ArrayIndexOutOfBoundsException aioob)
+						{
+							mcs.setComment("");
+						}
+						mcs.setIdstock(-1);
+						mcs.setUpdate(true);
+						stock.add(mcs);
+					line=read.readLine();
+					
 				}
-				mcs.setIdstock(-1);
-				mcs.setUpdate(true);
-				stock.add(mcs);
-			line=read.readLine();
-			
+				return stock;
 		}
 		
-		read.close();
-		return stock;
 	}
 	
 	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
-		FileWriter out= new FileWriter(f);
-		BufferedWriter bw=new BufferedWriter(out);
-		bw.write("id;Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment\n");
-		for(MagicCardStock mcs : stock)
-		{
-			bw.write(mcs.getIdstock()+";");
-			bw.write(mcs.getMagicCard().getName()+";");
-			bw.write(mcs.getMagicCard().getEditions().get(0)+";");
-			bw.write(mcs.getLanguage()+";");
-			bw.write(mcs.getQte()+";");
-			bw.write(mcs.getCondition()+";");
-			
-			bw.write(mcs.isFoil()+";");
-			bw.write(mcs.isAltered()+";");
-			bw.write(mcs.isSigned()+";");
-			
-			bw.write(mcs.getMagicCollection()+";");
-			bw.write(mcs.getPrice()+";");
-			bw.write(mcs.getComment()+";");
-			bw.write("\n");
-		}
 		
-		bw.close();
-		out.close();
+		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
+		{
+			bw.write("id;Card Name;Edition;Language;Qte;Condition;Foil;Altered;Signed;Collection;Price;Comment\n");
+			for(MagicCardStock mcs : stock)
+			{
+				bw.write(mcs.getIdstock()+";");
+				bw.write(mcs.getMagicCard().getName()+";");
+				bw.write(mcs.getMagicCard().getEditions().get(0)+";");
+				bw.write(mcs.getLanguage()+";");
+				bw.write(mcs.getQte()+";");
+				bw.write(mcs.getCondition()+";");
+				
+				bw.write(mcs.isFoil()+";");
+				bw.write(mcs.isAltered()+";");
+				bw.write(mcs.isSigned()+";");
+				
+				bw.write(mcs.getMagicCollection()+";");
+				bw.write(mcs.getPrice()+";");
+				bw.write(mcs.getComment()+";");
+				bw.write("\n");
+			}
+		}
 		
 	}
 	
 	public void exportPriceCatalog(List<MagicCard> cards, File f,MagicPricesProvider prov) throws Exception
 	{
-		BufferedWriter bw;
-		FileWriter out;
-
-		out = new FileWriter(f);
-		bw=new BufferedWriter(out);
-
-		exportedProperties=getProperty("exportedProperties").toString().split(",");
-		exportedPricesProperties=getProperty("exportedPricesProperties").toString().split(",");
-		
-		for(String k : exportedProperties)
-			bw.write(k+";");
-		for(String k : exportedPricesProperties)
-			bw.write(k+";");
-
-		bw.write("\n");
-		int i =0;
-		for (MagicCard mc : cards)
+		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
 		{
+			exportedProperties=getProperty("exportedProperties").toString().split(",");
+			exportedPricesProperties=getProperty("exportedPricesProperties").toString().split(",");
+			
+			for(String k : exportedProperties)
+				bw.write(k+";");
+			for(String k : exportedPricesProperties)
+				bw.write(k+";");
 
-			for(MagicPrice prices : prov.getPrice(mc.getEditions().get(0),mc))
+			bw.write("\n");
+			int i =0;
+			for (MagicCard mc : cards)
 			{
+				for(MagicPrice prices : prov.getPrice(mc.getEditions().get(0),mc))
+				{
+					for(String k : exportedProperties){
+						String val = BeanUtils.getProperty(mc, k);
+						if(val==null)
+							val="";
+						bw.write(val.replaceAll("\n", "")+";");
+					}
+
+					for(String p : exportedPricesProperties){
+						String val = BeanUtils.getProperty(prices,p);
+						if(val==null)
+							val="";
+						bw.write(val.replaceAll("\n", "")+";");
+					}
+					bw.write("\n");
+				}
+				setChanged();
+				notifyObservers(i++);
+			}
+		}
+	}
+
+	@Override
+	public void export(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
+		
+		exportedProperties=getProperty("exportedProperties").toString().split(",");
+		
+		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
+		{
+			for(String k : exportedProperties)
+				bw.write(k+";");
+
+			bw.write("\n");
+
+			for (MagicCard mc : cards){
 				for(String k : exportedProperties){
 					String val = BeanUtils.getProperty(mc, k);
 					if(val==null)
 						val="";
 					bw.write(val.replaceAll("\n", "")+";");
 				}
-
-				for(String p : exportedPricesProperties){
-					String val = BeanUtils.getProperty(prices,p);
-					if(val==null)
-						val="";
-					bw.write(val.replaceAll("\n", "")+";");
-				}
 				bw.write("\n");
 			}
-			setChanged();
-			notifyObservers(i++);
 		}
-		bw.close();
-		out.close();
-	}
-
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
-		BufferedWriter bw;
-		FileWriter out;
-		exportedProperties=getProperty("exportedProperties").toString().split(",");
-		
-		out = new FileWriter(f);
-		bw=new BufferedWriter(out);
-		for(String k : exportedProperties)
-			bw.write(k+";");
-
-		bw.write("\n");
-
-		for (MagicCard mc : cards){
-			for(String k : exportedProperties){
-				String val = BeanUtils.getProperty(mc, k);
-				if(val==null)
-					val="";
-				bw.write(val.replaceAll("\n", "")+";");
-			}
-			bw.write("\n");
-		}
-		bw.close();
-		out.close();
 	}
 
 	@Override
@@ -209,59 +201,56 @@ public class CSVExport extends AbstractCardExport{
 		
 		exportedDeckProperties=getProperty("exportedDeckProperties").toString().split(",");
 		
-		BufferedWriter bw;
-		FileWriter out;
-		out = new FileWriter(f);
-		bw=new BufferedWriter(out);
+		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
+		{
 
-		bw.write("Main list\n");
+			bw.write("Main list\n");
 
-		bw.write("Qte;");
-		for(String k : exportedDeckProperties)
-			bw.write(k+";");
+			bw.write("Qte;");
+			for(String k : exportedDeckProperties)
+				bw.write(k+";");
 
-		bw.write("\n");
-
-		for (MagicCard mc : deck.getMap().keySet()){
-			bw.write(deck.getMap().get(mc)+";");
-			for(String k : exportedDeckProperties){
-				String val=null;
-				try {
-					val = BeanUtils.getProperty(mc, k);
-				} catch (Exception e) {
-					logger.error("Error reading bean",e);
-				}
-				if(val==null)
-					val="";
-				bw.write(val.replaceAll("\n", "")+";");
-			}
 			bw.write("\n");
-		}
 
-		bw.write("SideBoard\n");
-		bw.write("Qte;");
-		for(String k : exportedDeckProperties)
-			bw.write(k+";");
-
-		bw.write("\n");
-		for (MagicCard mc : deck.getMapSideBoard().keySet()){
-			bw.write(deck.getMapSideBoard().get(mc)+";");
-			for(String k : exportedDeckProperties){
-				String val=null;
-				try {
-					val = BeanUtils.getProperty(mc, k);
-				} catch (Exception e) {
-					logger.error("Error reading bean ",e);
+			for (MagicCard mc : deck.getMap().keySet()){
+				bw.write(deck.getMap().get(mc)+";");
+				for(String k : exportedDeckProperties){
+					String val=null;
+					try {
+						val = BeanUtils.getProperty(mc, k);
+					} catch (Exception e) {
+						logger.error("Error reading bean",e);
+					}
+					if(val==null)
+						val="";
+					bw.write(val.replaceAll("\n", "")+";");
 				}
-				if(val==null)
-					val="";
-				bw.write(val.replaceAll("\n", "")+";");
+				bw.write("\n");
 			}
-			bw.write("\n");
-		}
 
-		bw.close();
-		out.close();
+			bw.write("SideBoard\n");
+			bw.write("Qte;");
+			for(String k : exportedDeckProperties)
+				bw.write(k+";");
+
+			bw.write("\n");
+			for (MagicCard mc : deck.getMapSideBoard().keySet()){
+				bw.write(deck.getMapSideBoard().get(mc)+";");
+				for(String k : exportedDeckProperties){
+					String val=null;
+					try {
+						val = BeanUtils.getProperty(mc, k);
+					} catch (Exception e) {
+						logger.error("Error reading bean ",e);
+					}
+					if(val==null)
+						val="";
+					bw.write(val.replaceAll("\n", "")+";");
+				}
+				bw.write("\n");
+			}
+			
+		}
 	}
 
 
@@ -273,29 +262,29 @@ public class CSVExport extends AbstractCardExport{
 
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		BufferedReader read = new BufferedReader(new FileReader(f));
-		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
-		
-		String line = read.readLine();
-		
-		while(line!=null)
+		try(BufferedReader read = new BufferedReader(new FileReader(f)))
 		{
-			String[] part= line.split(getProperty("importDeckCharSeparator").toString());
-			String name = part[0];
-			String qte = part[1];
-			String set = part[2];
+			MagicDeck deck = new MagicDeck();
+			deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
 			
-			MagicEdition ed = new MagicEdition();
-			ed.setId(set);
-			List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, ed,true);
+			String line = read.readLine();
 			
-			deck.getMap().put(list.get(0),Integer.parseInt(qte));
-			line=read.readLine();
+			while(line!=null)
+			{
+				String[] part= line.split(getProperty("importDeckCharSeparator").toString());
+				String name = part[0];
+				String qte = part[1];
+				String set = part[2];
+				
+				MagicEdition ed = new MagicEdition();
+				ed.setId(set);
+				List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, ed,true);
+				
+				deck.getMap().put(list.get(0),Integer.parseInt(qte));
+				line=read.readLine();
+			}
+			return deck;
 		}
-		
-		read.close();
-		return deck;
 	}
 	
 	@Override

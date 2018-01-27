@@ -50,18 +50,19 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 		deck.setDateUpdate(new Date());
 		
 		FileOutputStream fos = new FileOutputStream(name);
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(deck);
-		oos.flush();
-		oos.close();
+		try(ObjectOutputStream oos = new ObjectOutputStream(fos))
+		{
+			oos.writeObject(deck);
+			oos.flush();
+			
+		}
 	}
 
-	private <T> T read(File f, Class<T> class1) throws Exception {
-		FileInputStream fos = new FileInputStream(f);
-		ObjectInputStream oos = new ObjectInputStream(fos);
-		T bean = (T)oos.readObject();
-		oos.close();
-		return bean;
+	private <T> T read(File f, Class<T> class1) throws ClassNotFoundException, IOException  {
+		try(ObjectInputStream oos = new ObjectInputStream(new FileInputStream(f)))
+		{
+			return (T)oos.readObject();
+		}
 	}
 
 	@Override
@@ -77,26 +78,24 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
-		FileOutputStream fos = new FileOutputStream(f);
-		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		MagicDeck deck = new MagicDeck();
-		deck.setName("Search");
-		deck.setDescription("Result of search");
-		
-		int i=0;
-		for(MagicCard mc : cards)
+
+		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f)))
 		{
-			deck.getMap().put(mc, 1);
-			setChanged();
-			notifyObservers(i++);
+			MagicDeck deck = new MagicDeck();
+			deck.setName("Search");
+			deck.setDescription("Result of search");
 			
+			int i=0;
+			for(MagicCard mc : cards)
+			{
+				deck.getMap().put(mc, 1);
+				setChanged();
+				notifyObservers(i++);
+				
+			}
+			oos.writeObject(deck);
+			oos.flush();
 		}
-		
-		
-		oos.writeObject(deck);
-		oos.flush();
-		oos.close();
-		
 	}
 
 

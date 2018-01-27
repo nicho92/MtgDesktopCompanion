@@ -10,6 +10,7 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -63,50 +64,47 @@ public class MTGODeckExport extends AbstractCardExport  {
 			temp.append("SB: ").append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
 		}
 
-		FileWriter out = new FileWriter(dest);
-		out.write(temp.toString());
-		out.close();
-
-
+		FileUtils.writeStringToFile(dest, temp.toString(),"UTF-8");
 	}
 
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		BufferedReader read = new BufferedReader(new FileReader(f));
-		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
-		
-		String line = read.readLine();
-		
-		while(line!=null)
+		try(BufferedReader read = new BufferedReader(new FileReader(f)))
 		{
-			if(!line.startsWith("//") && line.length()>0)
+			MagicDeck deck = new MagicDeck();
+			deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
+			
+			String line = read.readLine();
+			
+			while(line!=null)
 			{
-				int sep = line.indexOf(' ');
-				String name = line.substring(sep, line.length()).trim();
-				String qte =  line.substring(0, sep).trim();
-			
-				if(line.startsWith("SB: "))
+				if(!line.startsWith("//") && line.length()>0)
 				{
-					line=line.replaceAll("SB: ", "");
-					sep = line.indexOf(' ');
-					name = line.substring(sep, line.length()).trim();
-					qte =  line.substring(0, sep).trim();
-					List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null,true);
-					deck.getMapSideBoard().put(list.get(0),Integer.parseInt(qte));
+					int sep = line.indexOf(' ');
+					String name = line.substring(sep, line.length()).trim();
+					String qte =  line.substring(0, sep).trim();
+				
+					if(line.startsWith("SB: "))
+					{
+						line=line.replaceAll("SB: ", "");
+						sep = line.indexOf(' ');
+						name = line.substring(sep, line.length()).trim();
+						qte =  line.substring(0, sep).trim();
+						List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null,true);
+						deck.getMapSideBoard().put(list.get(0),Integer.parseInt(qte));
+					}
+					else
+					{
+						List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null,true);
+						deck.getMap().put(list.get(0),Integer.parseInt(qte));
+					}
 				}
-				else
-				{
-					List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name,null,true);
-					deck.getMap().put(list.get(0),Integer.parseInt(qte));
-				}
+				line=read.readLine();
+				
 			}
-			line=read.readLine();
-			
+			return deck;
 		}
 		
-		read.close();
-		return deck;
 	}
 
 
@@ -118,11 +116,8 @@ public class MTGODeckExport extends AbstractCardExport  {
 		{
 			temp.append(1).append(" ").append(mc.getName()).append("\n");
 		}
-
-		FileWriter out = new FileWriter(f);
-		out.write(temp.toString());
-		out.close();
-
+		
+		FileUtils.writeStringToFile(f, temp.toString(),"UTF-8");
 	}
 	
 	@Override

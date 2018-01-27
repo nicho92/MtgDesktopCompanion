@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -29,31 +30,28 @@ import com.itextpdf.text.pdf.PdfWriter;
 
 public class DCIDeckSheetExport extends AbstractCardExport {
 
+	private String space ="          ";
+
 	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
-	
-	
-	
-	private PdfReader reader;
-	
-	private static String SPACE ="          ";
+
 	
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		throw new Exception("Can't generate deck from DCI Sheet");
+		throw new NotImplementedException("Can't generate deck from DCI Sheet");
 	}
 
 	
 	public DCIDeckSheetExport() {
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("EVENT_NAME", "fill it");
+			props.put("EVENT_NAME", "my Event");
 			props.put("DECK_DESIGNER", "MTGDesktopCompanion");
-			props.put("LAST_NAME", "fill it");
-			props.put("FIRST_NAME", "fill it");
+			props.put("LAST_NAME", "My name");
+			props.put("FIRST_NAME", "My first name");
 			props.put("DCI_NUMBER", "0000000000");
 			props.put("LOCATION", "fill it");
 			props.put("DATE_FORMAT", "dd/MM/YYYY");
@@ -85,7 +83,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
-		reader = new PdfReader(new URL(props.getProperty("PDF_URL")));
+		PdfReader reader = new PdfReader(new URL(props.getProperty("PDF_URL")));
 		
 		Document document = new Document(reader.getPageSize(1));
 		PdfWriter writer;
@@ -103,11 +101,11 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		cb.addTemplate(page, 0, 0);
 		
 		Font helvetica = new Font(FontFamily.HELVETICA, 12);
-        BaseFont bf_helv = helvetica.getCalculatedBaseFont(false);
+        BaseFont bfHelv = helvetica.getCalculatedBaseFont(false);
 		
         
         cb.beginText();
-		cb.setFontAndSize(bf_helv, 11);
+		cb.setFontAndSize(bfHelv, 11);
 		
 		//HEADER
 			cb.setTextMatrix(page.getWidth()-51f, page.getHeight()-49); 
@@ -140,7 +138,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			for(MagicCard mc : deck.getMap().keySet())
 			{
 				cb.setTextMatrix(page.getWidth()/6.4f, page.getHeight()-185-count); 	
-				cb.showText(deck.getMap().get(mc) + SPACE + mc.getName());
+				cb.showText(deck.getMap().get(mc) + space + mc.getName());
 				count+=18;
 			}
 		//CONTINUED and BASIC LAND
@@ -152,7 +150,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 					if(mc.getTypes().contains("Land"))
 					{ 
 					  cb.setTextMatrix(page.getWidth()/1.7f, page.getHeight()-185-count); 	
-					  cb.showText(deck.getMap().get(mc) + SPACE + mc.getName());
+					  cb.showText(deck.getMap().get(mc) + space + mc.getName());
 					  count+=18;
 					}
 				}
@@ -162,13 +160,11 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			for(MagicCard mc : deck.getMapSideBoard().keySet())
 			{
 				cb.setTextMatrix(page.getWidth()/1.7f, page.getHeight()-418-count); 	
-				cb.showText(deck.getMapSideBoard().get(mc) + SPACE + mc.getName());
+				cb.showText(deck.getMapSideBoard().get(mc) + space + mc.getName());
 				count+=18;
 			}	
 			
 			
-			helvetica = new Font(FontFamily.HELVETICA, 18);
-	        bf_helv = helvetica.getCalculatedBaseFont(false);
 		
 	
 		//BOTTOM card count
@@ -228,7 +224,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	@Override
 	public List<MagicCardStock> importStock(File f) throws Exception {
-		throw new Exception("Can't import stock from DCI Sheet");
+		throw new NotImplementedException("Can't import stock from DCI Sheet");
 	}
 
 }

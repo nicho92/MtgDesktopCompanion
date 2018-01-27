@@ -31,17 +31,14 @@ import org.magic.tools.IDGenerator;
 
 public class HsqlDAO extends AbstractMagicDAO{
 
-
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
 	
-	
-	Connection con;
-    List<MagicCard> listNeeded ;
-    
+	private String cardField="mcard";
+	private Connection con;
+   
     @Override
     public String toString() {
     	return getName();
@@ -120,7 +117,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		logger.info("remove " + mc + " from " + collection);
+		logger.info("delete " + mc + " from " + collection);
 		
 		String sql = "delete from cards where name=? and edition=? ";
 		
@@ -139,11 +136,11 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException
 	{
-		logger.debug("cards count for " + collection + " " + me);
+		logger.debug("cards for " + collection + " " + me);
 		
-		String sql ="select * from cards where collection= ?";
+		String sql ="select mcard from cards where collection= ?";
 		if(me!=null)
-			sql ="select * from cards where collection= ? and edition = ?";
+			sql ="select mcard from cards where collection= ? and edition = ?";
 		
 		if(collection==null)
 			throw new SQLException("collection must not be null");
@@ -161,11 +158,11 @@ public class HsqlDAO extends AbstractMagicDAO{
 				while(rs.next())
 				{
 					try{
-						retour.add((MagicCard) rs.getObject("mcard"));
+						retour.add((MagicCard) rs.getObject(cardField));
 					}
 					catch(Exception e)
 					{
-						throw new SQLException("ERROR " + rs.getString("name") + " " + rs.getString("edition") + " " + rs.getString("collection") + ": " + e.getMessage());
+						throw new SQLException("ERROR ",e);
 					}
 				}
 				return retour;
@@ -316,7 +313,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 	public List<MagicCard> listCards() throws SQLException {
 		logger.debug("list all cards");
 		
-		String sql ="select * from cards";
+		String sql ="select mcard from cards";
 		
 		PreparedStatement pst=con.prepareStatement(sql);	
 		
@@ -325,10 +322,10 @@ public class HsqlDAO extends AbstractMagicDAO{
 		while(rs.next())
 		{
 			try{
-				ret.add((MagicCard) rs.getObject("mcard"));
+				ret.add((MagicCard) rs.getObject(cardField));
 			}catch(Exception e)
 			{
-				throw new SQLException("Erreur " + rs.getString("name") + " " + rs.getString("edition") + " " + rs.getString("collection") + ": " + e.getMessage());
+				throw new SQLException("ERROR",e);
 			}
 		}
 	
@@ -338,43 +335,6 @@ public class HsqlDAO extends AbstractMagicDAO{
 	public String getName() {
 		return "hSQLdb";
 	}
-
-/*
-	@Override
-	public List<MagicDeck> listDeck() throws SQLException {
-		String sql ="select * from decks";
-		
-		PreparedStatement pst=con.prepareStatement(sql);	
-		
-		ResultSet rs = pst.executeQuery();
-		List<MagicDeck> list = new ArrayList<MagicDeck>();
-		while(rs.next())
-		{
-			list.add((MagicDeck) rs.getObject("mcard"));
-		}
-	return list;
-	}
-
-
-	@Override
-	public void saveDeck(MagicDeck d) throws SQLException {
-
-		logger.debug("saving " + d);
-		PreparedStatement pst = con.prepareStatement("insert into decks values (?,?)");
-		 pst.setString(1, d.getName());
-		 pst.setObject(2, d);
-		 //pst.setString(3,d.getColors());
-		 pst.executeUpdate();
-		
-	}
-
-
-	@Override
-	public void deleteDeck(MagicDeck d) throws SQLException {
-				
-	}
-*/
-
 	@Override
 	public List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException {
 		
@@ -414,8 +374,8 @@ public class HsqlDAO extends AbstractMagicDAO{
 	@Override
 	public void backup(File dir) throws IOException {
 		File base = new File(props.getProperty("URL"));
-		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(new File(dir,"backup.zip")));
-		
+		try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(new File(dir,"backup.zip"))))
+		{
 			for(File doc :base.listFiles())
 			{
 				if(!doc.getName().endsWith(".tmp"))
@@ -431,7 +391,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 					}
 				}
 			}
-		out.close();
+		}
 	}
 
 
@@ -518,7 +478,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 				while(rs.next())
 				{
 					MagicCardAlert alert = new MagicCardAlert();
-								   alert.setCard((MagicCard)rs.getObject("mcard"));
+								   alert.setCard((MagicCard)rs.getObject(cardField));
 								   alert.setId(rs.getString("id"));
 								   alert.setPrice(rs.getDouble("amount"));
 					   list.add(alert);
@@ -594,7 +554,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 			
 				state.setComment(rs.getString("comments"));
 				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard((MagicCard)rs.getObject("mcard"));
+				state.setMagicCard((MagicCard)rs.getObject(cardField));
 				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 				state.setCondition( EnumCondition.valueOf(rs.getString("conditions")) );
 				state.setFoil(rs.getBoolean("foil"));

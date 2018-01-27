@@ -66,56 +66,56 @@ public class XMageDeckExport extends AbstractCardExport  {
 				.append(mc.getName()).append("\n");
 		}
 
-		FileWriter out = new FileWriter(dest);
-		out.write(temp.toString());
-		out.close();
-
-
+		try(FileWriter out = new FileWriter(dest))
+		{
+			out.write(temp.toString());
+		}
 	}
 
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		BufferedReader read = new BufferedReader(new FileReader(f));
-		MagicDeck deck = new MagicDeck();
-		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
-		
-		String line = read.readLine();
-		
-		while(line!=null)
+		try(BufferedReader read = new BufferedReader(new FileReader(f)))
 		{
-			if(!line.startsWith("NAME:"))
+			MagicDeck deck = new MagicDeck();
+			deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
+			
+			String line = read.readLine();
+			
+			while(line!=null)
 			{
-				if(!line.startsWith("SB:"))
+				if(!line.startsWith("NAME:"))
 				{
-					MagicEdition ed = new MagicEdition();
-					ed.setId(line.substring(line.indexOf("[")+1,line.indexOf(":")));
-					String cardName = line.substring(line.indexOf("]")+1, line.length()).trim();
-					int qte = Integer.parseInt(line.substring(0,line.indexOf("[")).trim());
-					MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
-					deck.getMap().put(mc, qte);
-					
+					if(!line.startsWith("SB:"))
+					{
+						MagicEdition ed = new MagicEdition();
+						ed.setId(line.substring(line.indexOf('[')+1,line.indexOf(':')));
+						String cardName = line.substring(line.indexOf(']')+1, line.length()).trim();
+						int qte = Integer.parseInt(line.substring(0,line.indexOf('[')).trim());
+						MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
+						deck.getMap().put(mc, qte);
+						
+					}
+					else
+					{
+						line=line.replace("SB:", "").trim();
+						MagicEdition ed = new MagicEdition();
+						ed.setId(line.substring(line.indexOf('[')+1,line.indexOf(':')));
+						String cardName = line.substring(line.indexOf(']')+1, line.length()-1).trim();
+						int qte = Integer.parseInt(line.substring(0,line.indexOf('[')).trim());
+						MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
+						deck.getMap().put(mc, qte);
+					}
 				}
 				else
 				{
-					line=line.replace("SB:", "").trim();
-					MagicEdition ed = new MagicEdition();
-					ed.setId(line.substring(line.indexOf('[')+1,line.indexOf(':')));
-					String cardName = line.substring(line.indexOf("]")+1, line.length()-1).trim();
-					int qte = Integer.parseInt(line.substring(0,line.indexOf('[')).trim());
-					MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
-					deck.getMap().put(mc, qte);
+					deck.setName(line.replaceAll("NAME: ", ""));
 				}
+				
+				line=read.readLine();
 			}
-			else
-			{
-				deck.setName(line.replaceAll("NAME: ", ""));
-			}
-			
-			line=read.readLine();
+			return deck;
 		}
 		
-		read.close();
-		return deck;
 	}
 
 

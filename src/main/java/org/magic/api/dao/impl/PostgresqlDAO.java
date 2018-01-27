@@ -33,7 +33,8 @@ import org.magic.tools.IDGenerator;
 
 public class PostgresqlDAO extends AbstractMagicDAO {
 
-	Connection con;
+	private Connection con;
+	private List<MagicCardAlert> list;
 
 	
 	@Override
@@ -105,7 +106,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	 }
 
 	 ObjectInputStream oin;
-	 private <T> T readObject(Class <T> T, InputStream o )
+	 private <T> T readObject(Class <T> classe, InputStream o )
 	 {
 		try {
 			oin = new ObjectInputStream(o);
@@ -167,13 +168,13 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			PreparedStatement pst=con.prepareStatement(sql);	
 			
 			ResultSet rs = pst.executeQuery();
-			List<MagicCard> list = new ArrayList<MagicCard>();
+			List<MagicCard> ret = new ArrayList<>();
 			while(rs.next())
 			{
-				list.add(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
+				ret.add(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
 			}
 		
-		return list;
+		return ret;
 		}
 
 		@Override
@@ -183,7 +184,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			pst.setString(1, c.getName());
 			ResultSet rs = pst.executeQuery();
 			
-			Map<String,Integer> map= new HashMap<String,Integer>();
+			Map<String,Integer> map= new HashMap<>();
 			
 			while(rs.next())
 			{
@@ -238,13 +239,13 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				pst.setString(2, me.getId());
 			
 			ResultSet rs = pst.executeQuery();
-			List<MagicCard> list = new ArrayList<MagicCard>();
+			List<MagicCard> ret = new ArrayList<>();
 			while(rs.next())
 			{
-				list.add(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
+				ret.add(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
 			}
 		
-		return list;
+		return ret;
 		}
 
 		@Override
@@ -254,13 +255,13 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			PreparedStatement pst=con.prepareStatement(sql);	
 			pst.setString(1, collection.getName());
 			ResultSet rs = pst.executeQuery();
-			List<String> list = new ArrayList<String>();
+			List<String> ret = new ArrayList<>();
 			while(rs.next())
 			{
-				list.add(rs.getString("edition"));
+				ret.add(rs.getString("edition"));
 			}
 		
-		return list;
+		return ret;
 		}
 
 		@Override
@@ -312,7 +313,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		public List<MagicCollection> getCollections() throws SQLException {
 			PreparedStatement pst=con.prepareStatement("select * from collections");	
 			ResultSet rs = pst.executeQuery();
-			List<MagicCollection> colls = new ArrayList<MagicCollection>();
+			List<MagicCollection> colls = new ArrayList<>();
 			while(rs.next())
 			{
 				MagicCollection mc = new MagicCollection();
@@ -352,7 +353,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		@Override
 		public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException{
 			
-			if(mc.getEditions().size()==0)
+			if(mc.getEditions().isEmpty())
 				throw new SQLException("No edition defined");
 			
 			PreparedStatement pst = con.prepareStatement("SELECT collection FROM cards WHERE name=? and edition=?");
@@ -360,7 +361,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			 pst.setString(2, mc.getEditions().get(0).getId());
 			 
 			 ResultSet rs = pst.executeQuery();
-			 List<MagicCollection> cols = new ArrayList<MagicCollection>();
+			 List<MagicCollection> cols = new ArrayList<>();
 			 while(rs.next())
 			 {
 				 MagicCollection col = new MagicCollection();
@@ -371,27 +372,13 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			 return cols;
 		}
 
-/*
-		@Override
-		public void saveShopItem(ShopItem mp, String string) {
-			// TODO Auto-generated method stub
-			
-		}
-
-
-		@Override
-		public String getSavedShopItemAnotation(ShopItem id) {
-			// TODO Auto-generated method stub
-			return null;
-		}*/
-
 
 		@Override
 		public void backup(File f) throws Exception {
 			
 			if(props.getProperty("URL_PGDUMP").length()<=0)
 			{
-				throw new Exception("Please fill URL_PGDUMP var");
+				throw new NullPointerException("Please fill URL_PGDUMP var");
 			}
 			
 			String dumpCommand = props.getProperty("URL_PGDUMP")+"/pg_dump"+
@@ -402,20 +389,19 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			
 			
 			Runtime rt = Runtime.getRuntime();
-			PrintStream ps;
 			logger.info("begin Backup :" + dumpCommand);
 			
 			Process child = rt.exec(dumpCommand);
-			ps=new PrintStream(f);
-			InputStream in = child.getInputStream();
-			int ch;
-			while ((ch = in.read()) != -1) 
+			try(PrintStream ps=new PrintStream(f))
 			{
-				ps.write(ch);
-			}
-			ps.close();
-			logger.info("Backup " + props.getProperty("DB_NAME") + " done");
-		
+				InputStream in = child.getInputStream();
+				int ch;
+				while ((ch = in.read()) != -1) 
+				{
+					ps.write(ch);
+				}
+				logger.info("Backup " + props.getProperty("DB_NAME") + " done");
+			}		
 			
 		}
 
@@ -427,7 +413,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, col.getName());
 			ResultSet rs = pst.executeQuery();
-			List<MagicCardStock> colls = new ArrayList<MagicCardStock>();
+			List<MagicCardStock> colls = new ArrayList<>();
 			while(rs.next())
 			{
 				MagicCardStock state = new MagicCardStock();
@@ -453,7 +439,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		public List<MagicCardStock> getStocks() throws SQLException {
 			PreparedStatement pst=con.prepareStatement("select * from stocks");	
 			ResultSet rs = pst.executeQuery();
-			List<MagicCardStock> colls = new ArrayList<MagicCardStock>();
+			List<MagicCardStock> colls = new ArrayList<>();
 			while(rs.next())
 			{
 				MagicCardStock state = new MagicCardStock();
@@ -516,14 +502,14 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				pst.executeUpdate();
 			}
 		}
-		List<MagicCardAlert> list;
+		
 		@Override
 		public List<MagicCardAlert> getAlerts()  {
 		
 			try{
 			
 			PreparedStatement pst=con.prepareStatement("select * from alerts");	
-			list = new ArrayList<MagicCardAlert>();
+			list = new ArrayList<>();
 			ResultSet rs = pst.executeQuery();
 			while(rs.next())
 			{
@@ -539,7 +525,8 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			
 			}catch(Exception e)
 			{
-				return null;
+				logger.error(e);
+				return new ArrayList<>();
 			}
 		}
 		

@@ -14,6 +14,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpression;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
@@ -73,12 +74,9 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		temp.append("<notes><![CDATA["+deck.getDescription()+"]]></notes>");
 		
 		temp.append("</deck>");
-		
-		FileWriter out = new FileWriter(dest);
-		out.write(temp.toString());
-		out.close();
-		
-		
+	
+		FileUtils.writeStringToFile(dest, temp.toString(),"UTF-8");
+	
 	}
 	
 	@Override
@@ -124,10 +122,10 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		StringBuilder temp = new StringBuilder();
 		
 		
-		FileWriter out = new FileWriter(f);
-		out.write(temp.toString());
-		out.close();
-		
+		try(FileWriter out = new FileWriter(f))
+		{
+			out.write(temp.toString());
+		}
 	}
 
 	@Override
