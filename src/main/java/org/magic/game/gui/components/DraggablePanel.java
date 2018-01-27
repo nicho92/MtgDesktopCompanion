@@ -12,12 +12,13 @@ import javax.swing.JPopupMenu;
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.game.model.Player;
 import org.magic.game.transfert.CardTransfertHandler;
+import org.magic.services.MTGLogger;
 
 public abstract class DraggablePanel extends JPanel implements Draggable{
 
   	Dimension d ;
 	
-	public JPopupMenu menu = new JPopupMenu();
+	protected JPopupMenu menu = new JPopupMenu();
 
 	
     boolean dragging=true;
@@ -55,7 +56,7 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
 	
 	public List<DisplayableCard> lookupCardBy(String prop,String value)
 	{
-		List<DisplayableCard> ret = new ArrayList<DisplayableCard>();
+		List<DisplayableCard> ret = new ArrayList<>();
 		
 			for(Component c : getComponents())
 			{
@@ -64,7 +65,7 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
 					if(BeanUtils.describe(card.getMagicCard()).get(prop).equalsIgnoreCase(value))
 						ret.add(card);
 				} catch (Exception e) {
-					
+					MTGLogger.printStackTrace(e);
 				}
 			}
 			return ret;

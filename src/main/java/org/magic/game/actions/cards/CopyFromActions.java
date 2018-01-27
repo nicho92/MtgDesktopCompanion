@@ -36,7 +36,7 @@ public class CopyFromActions extends AbilitySpell {
 			try {
 				mc.setMagicCard((MagicCard)BeanUtils.cloneBean(diag.getSelected().getMagicCard()));
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				logger.error(e1);
 			} 
 		
 		mc.validate();

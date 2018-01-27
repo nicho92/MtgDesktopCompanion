@@ -7,16 +7,19 @@ import java.awt.event.KeyEvent;
 import javax.swing.AbstractAction;
 import javax.swing.JOptionPane;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class MeldActions extends AbstractAction {
 
 	private DisplayableCard card;
-	private String cost;
 	private String meldWith="";
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private static final String PARSEKEY="(Melds with ";
 	
 	public MeldActions(DisplayableCard card) {
 			super("Meld into " + card.getMagicCard().getRotatedCardName());
@@ -28,9 +31,9 @@ public class MeldActions extends AbstractAction {
 	
 	public void parse(String test)
 	{
-		if(test.contains("(Melds with "))
+		if(test.contains(PARSEKEY))
 		{
-			meldWith=test.substring(test.indexOf("(Melds with ")+"(Melds with ".length(), test.indexOf(".)")).trim();
+			meldWith=test.substring(test.indexOf(PARSEKEY)+PARSEKEY.length(), test.indexOf(".)")).trim();
 		}
 		else if (test.contains("and a creature named"))
 		{
@@ -70,7 +73,7 @@ public class MeldActions extends AbstractAction {
 					c.initActions();
 					GamePanelGUI.getInstance().getPanelBattleField().addComponent(c);
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					logger.error(e1);
 				}
 				
 			  

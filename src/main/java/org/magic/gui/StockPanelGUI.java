@@ -33,8 +33,6 @@ import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.Logger;
@@ -75,7 +73,7 @@ public class StockPanelGUI extends JPanel {
 	private JSplitPane splitPane;
 	private JButton btnReload;
     
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JLabel lblLoading;
 	private JPanel rightPanel;
 	private JLabel lblQte;
@@ -139,11 +137,9 @@ public class StockPanelGUI extends JPanel {
 			
 		});
 		
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	    	public void valueChanged(ListSelectionEvent event) {
+		table.getSelectionModel().addListSelectionListener(event->{
 	        	
-	        	if(!multiselection)
-	        	if(!event.getValueIsAdjusting())
+	        	if(!multiselection && !event.getValueIsAdjusting())
 	        	{
 	        			int viewRow = table.getSelectedRow();
 			        	if(viewRow>-1)
@@ -154,23 +150,18 @@ public class StockPanelGUI extends JPanel {
 							magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
 			        	}
 	        	}
-	        }
 	    });
 		
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnDelete.addActionListener(event-> {
 				int res = JOptionPane.showConfirmDialog(null, 
 											MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
 											MTGControler.getInstance().getLangService().getCapitalize("DELETE") +" ?",
 											JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					{
-					ThreadManager.getInstance().execute(new Runnable() {
-						
-						@Override
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							try {
-								int selected [] = table.getSelectedRows();
+								int[] selected  = table.getSelectedRows();
 								lblLoading.setVisible(true);
 								List<MagicCardStock> stocks = extract(selected);
 								model.removeRows(stocks);
@@ -183,16 +174,13 @@ public class StockPanelGUI extends JPanel {
 							}
 							lblLoading.setVisible(false);
 							updateCount();
-						}
+						
 					}, "delete stock");
 					
-					
 					}
-				}
 		});
 		
-		btnReload.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnReload.addActionListener(event-> {
 				int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CANCEL_CHANGES"),MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_UNDO"),JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 				{
@@ -213,14 +201,10 @@ public class StockPanelGUI extends JPanel {
 					}, "reload stock");
 					
 				}
-			}
+			
 		});
 	
-		btnshowMassPanel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				rightPanel.setVisible(!rightPanel.isVisible());
-			}
-		});
+		btnshowMassPanel.addActionListener(event->rightPanel.setVisible(!rightPanel.isVisible()));
 			
 		btnImport.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent ae) {
@@ -246,17 +230,13 @@ public class StockPanelGUI extends JPanel {
 				
 				JMenuItem mnuCol = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("COLLECTION_MODULE")));
 				mnuCol.setIcon(MTGConstants.ICON_COLLECTION);
-				mnuCol.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+				mnuCol.addActionListener(collEvent->{
 						CollectionChooserDialog diag = new CollectionChooserDialog();
 						diag.setVisible(true);
 						final MagicCollection col = diag.getSelectedCollection();
 						
 						if(col!=null)
-						{	ThreadManager.getInstance().execute(new Runnable() {
-								
-								@Override
-								public void run() {
+						{	ThreadManager.getInstance().execute(()->{
 									lblLoading.setVisible(true);
 									try {
 										importFromCollection(col);
@@ -266,22 +246,15 @@ public class StockPanelGUI extends JPanel {
 									}
 									lblLoading.setVisible(false);
 									updateCount();
-								}
 							}, "Import stock from collection");
 						}
-						
-						
-						
-					}
+	
 				});
 				menu.add(mnuCol);
 				
 				JMenuItem webSite = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("WEBSITE")));
 				webSite.setIcon(MTGConstants.ICON_WEBSITE);
-				webSite.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
+				webSite.addActionListener(siteEvent-> {
 						DeckSnifferDialog diag = new DeckSnifferDialog();
 						diag.setModal(true);
 						diag.setVisible(true);
@@ -293,7 +266,6 @@ public class StockPanelGUI extends JPanel {
 							updateCount();
 							lblLoading.setVisible(false);
 						}
-					}
 				});
 				menu.add(webSite);
 
@@ -304,8 +276,7 @@ public class StockPanelGUI extends JPanel {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
-					it.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
+					it.addActionListener(itemEvent-> {
 							JFileChooser jf = new JFileChooser(".");
 							jf.setFileFilter(new FileFilter() {
 
@@ -329,10 +300,7 @@ public class StockPanelGUI extends JPanel {
 							final File f = jf.getSelectedFile();
 
 							if (res == JFileChooser.APPROVE_OPTION)
-								ThreadManager.getInstance().execute(new Runnable() {
-
-									@Override
-									public void run() {
+								ThreadManager.getInstance().execute(()->{
 										try {
 											lblLoading.setVisible(true);
 											List<MagicCardStock> list = exp.importStock(f);
@@ -351,9 +319,7 @@ public class StockPanelGUI extends JPanel {
 											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 										}
 
-									}
 								}, "import " + exp);
-						}
 					});
 
 					menu.add(it);
@@ -366,16 +332,14 @@ public class StockPanelGUI extends JPanel {
 			}
 		});
 		
-		btnExport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
+		btnExport.addActionListener(event->{
 				JPopupMenu menu = new JPopupMenu();
 
 				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
-					it.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
+					it.addActionListener(itEvent-> {
 							JFileChooser jf = new JFileChooser(".");
 							jf.setFileFilter(new FileFilter() {
 
@@ -399,10 +363,7 @@ public class StockPanelGUI extends JPanel {
 							final File f = jf.getSelectedFile();
 
 							if (res == JFileChooser.APPROVE_OPTION)
-								ThreadManager.getInstance().execute(new Runnable() {
-
-									@Override
-									public void run() {
+								ThreadManager.getInstance().execute(()->{
 										try {
 											lblLoading.setVisible(true);
 											
@@ -416,27 +377,23 @@ public class StockPanelGUI extends JPanel {
 											lblLoading.setVisible(false);
 											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 										}
-
-									}
 								}, "export " + exp);
-						}
+						
 					});
 
 					menu.add(it);
 				}
 
-				Component b = (Component) ae.getSource();
+				Component b = (Component) event.getSource();
 				Point p = b.getLocationOnScreen();
 				menu.show(b, 0, 0);
 				menu.setLocation(p.x, p.y + b.getHeight());
-			}
+			
 		});
 		
 		btnGeneratePrice.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				ThreadManager.getInstance().execute(new Runnable() {
-					@Override
-					public void run() {
+				ThreadManager.getInstance().execute(()-> {
 						lblLoading.setVisible(true);
 						for(int i : table.getSelectedRows())
 						{
@@ -445,7 +402,7 @@ public class StockPanelGUI extends JPanel {
 							Double price=0.0;
 							try {
 								prices = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(s.getMagicCard(),null).values();
-								if(prices.size()>0)
+								if(!prices.isEmpty())
 									price = (Double)prices.toArray()[prices.size()-1];
 								else
 									price=0.0;
@@ -460,7 +417,7 @@ public class StockPanelGUI extends JPanel {
 							model.fireTableDataChanged();
 						}
 						lblLoading.setVisible(false);
-					}
+					
 				}, "generate prices for stock");
 				
 				
@@ -468,8 +425,7 @@ public class StockPanelGUI extends JPanel {
 			}
 		});
 		
-		cboSelections.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent ie) {
+		cboSelections.addItemListener(ie-> {
 				multiselection=true;
 				if(String.valueOf(cboSelections.getSelectedItem()).equals(selections[1]))
 				{
@@ -495,12 +451,10 @@ public class StockPanelGUI extends JPanel {
 							table.addRowSelectionInterval(i,i);
 					}
 				}
-				multiselection=false;//do not load magiccarddetailpanel on each selection
-			}
+				multiselection=false;
 		});
 		
-		btnApplyModification.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnApplyModification.addActionListener(event-> {
 				int res = JOptionPane.showConfirmDialog(null,  MTGControler.getInstance().getLangService().getCapitalize("CHANGE_X_ITEMS",table.getSelectedRowCount()),  MTGControler.getInstance().getLangService().getCapitalize("CONFIRMATION"), JOptionPane.YES_NO_CANCEL_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 				{
@@ -508,7 +462,7 @@ public class StockPanelGUI extends JPanel {
 					{
 						MagicCardStock s = (MagicCardStock)table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
 						s.setUpdate(true);
-						if(((Integer)spinner.getValue()).intValue()>0);
+						if(((Integer)spinner.getValue()).intValue()>0)
 							s.setQte((Integer)spinner.getValue());
 						if(!textPane.getText().equals(""))
 							s.setComment(textPane.getText());
@@ -528,9 +482,6 @@ public class StockPanelGUI extends JPanel {
 					}
 					model.fireTableDataChanged();
 				}
-				
-				
-			}
 		});
 		
 	}
@@ -553,7 +504,7 @@ public class StockPanelGUI extends JPanel {
 
 	private List<MagicCardStock> extract(int[] ids)
 	{
-		List<MagicCardStock> select = new ArrayList<MagicCardStock>();
+		List<MagicCardStock> select = new ArrayList<>();
 		
 		for(int l : ids)
 		{
@@ -699,7 +650,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblSelect.gridy = 1;
 		rightPanel.add(lblSelect, gbc_lblSelect);
 		
-		cboSelections = new JComboBox<String>();
+		cboSelections = new JComboBox<>();
 		
 		cboSelections.setModel(new DefaultComboBoxModel<String>(selections));
 		GridBagConstraints gbc_comboBox = new GridBagConstraints();
@@ -735,12 +686,12 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblLanguage.gridy = 3;
 		rightPanel.add(lblLanguage, gbc_lblLanguage);
 		
-		DefaultComboBoxModel<String> lModel = new DefaultComboBoxModel<String>();
+		DefaultComboBoxModel<String> lModel = new DefaultComboBoxModel<>();
 		lModel.addElement(null);
 		for(Locale l : Locale.getAvailableLocales())
 			 lModel.addElement(l.getDisplayLanguage(Locale.US));
 		
-		cboLanguages = new JComboBox<String>(lModel);
+		cboLanguages = new JComboBox<>(lModel);
 		GridBagConstraints gbc_cboLanguages = new GridBagConstraints();
 		gbc_cboLanguages.insets = new Insets(0, 0, 5, 0);
 		gbc_cboLanguages.fill = GridBagConstraints.HORIZONTAL;
@@ -756,7 +707,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblFoil.gridy = 4;
 		rightPanel.add(lblFoil, gbc_lblFoil);
 		
-		cboFoil = new JComboBox<Boolean>(new DefaultComboBoxModel<Boolean>(values));
+		cboFoil = new JComboBox<>(new DefaultComboBoxModel<Boolean>(values));
 		GridBagConstraints gbc_cboFoil = new GridBagConstraints();
 		gbc_cboFoil.insets = new Insets(0, 0, 5, 0);
 		gbc_cboFoil.fill = GridBagConstraints.HORIZONTAL;
@@ -772,7 +723,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblSigned.gridy = 5;
 		rightPanel.add(lblSigned, gbc_lblSigned);
 		
-		cboSigned = new JComboBox<Boolean>(new DefaultComboBoxModel<Boolean>(values));
+		cboSigned = new JComboBox<>(new DefaultComboBoxModel<Boolean>(values));
 		GridBagConstraints gbc_cboSigned = new GridBagConstraints();
 		gbc_cboSigned.insets = new Insets(0, 0, 5, 0);
 		gbc_cboSigned.fill = GridBagConstraints.HORIZONTAL;
@@ -788,7 +739,7 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblAltered.gridy = 6;
 		rightPanel.add(lblAltered, gbc_lblAltered);
 		
-		cboAltered = new JComboBox<Boolean>(new DefaultComboBoxModel<Boolean>(values));
+		cboAltered = new JComboBox<>(new DefaultComboBoxModel<Boolean>(values));
 		GridBagConstraints gbc_cboAltered = new GridBagConstraints();
 		gbc_cboAltered.insets = new Insets(0, 0, 5, 0);
 		gbc_cboAltered.fill = GridBagConstraints.HORIZONTAL;
@@ -804,13 +755,13 @@ public class StockPanelGUI extends JPanel {
 		gbc_lblQuality.gridy = 7;
 		rightPanel.add(lblQuality, gbc_lblQuality);
 		
-		DefaultComboBoxModel<EnumCondition> qModel = new DefaultComboBoxModel<EnumCondition>();
+		DefaultComboBoxModel<EnumCondition> qModel = new DefaultComboBoxModel<>();
 		qModel.addElement(null);
 		for(EnumCondition l : EnumCondition.values())
 			 qModel.addElement(l);
 		
 		
-		cboQuality = new JComboBox<EnumCondition>(qModel);
+		cboQuality = new JComboBox<>(qModel);
 		
 		
 		
@@ -831,7 +782,7 @@ public class StockPanelGUI extends JPanel {
 		
 		
 
-		DefaultComboBoxModel<MagicCollection> cModel = new DefaultComboBoxModel<MagicCollection>();
+		DefaultComboBoxModel<MagicCollection> cModel = new DefaultComboBoxModel<>();
 		cModel.addElement(null);
 		try {
 			for(MagicCollection l : MTGControler.getInstance().getEnabledDAO().getCollections())
@@ -881,10 +832,7 @@ public class StockPanelGUI extends JPanel {
 		bottomPanel.add(lblCount);
 		
 		
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
+		ThreadManager.getInstance().execute(()->{
 				try {
 					lblLoading.setVisible(true);
 					model.init();
@@ -893,7 +841,7 @@ public class StockPanelGUI extends JPanel {
 				}
 				lblLoading.setVisible(false);
 				updateCount();
-			}
+			
 		}, "init stock");
 		
 	}

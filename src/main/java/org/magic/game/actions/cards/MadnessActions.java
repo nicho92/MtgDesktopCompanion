@@ -14,7 +14,7 @@ public class MadnessActions extends AbstractAction {
 
 	
 	private DisplayableCard card;
-	private String cost;
+	
 	private String k = "Madness";
 	
 	
@@ -27,6 +27,7 @@ public class MadnessActions extends AbstractAction {
 	
 	private String parse()
 	{
+		String cost;
 		try{
 			String regex = "/*"+k+" \\{(.*?)\\ ";
 			String text = card.getMagicCard().getText();
@@ -36,7 +37,7 @@ public class MadnessActions extends AbstractAction {
 			if(m.find())
 				cost=m.group().replaceAll(k, "").trim();
 			else
-				cost=text.substring(text.indexOf(k+"\u2014")+k.length(),text.indexOf("("));
+				cost=text.substring(text.indexOf(k+"\u2014")+k.length(),text.indexOf('('));
 			
 		}
 		catch(Exception e)

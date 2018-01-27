@@ -12,7 +12,7 @@ public class LoyaltyActions extends AbstractAction {
 
 	
 	private DisplayableCard card;
-	private LoyaltyCounter val;
+	private transient LoyaltyCounter val;
 
 	public LoyaltyActions(DisplayableCard card,LoyaltyCounter loyaltyCounter) {
 		putValue(NAME,loyaltyCounter.describe());
@@ -25,7 +25,6 @@ public class LoyaltyActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		card.addCounter(val);
-	//	card.initActions();
 		card.showLoyalty(true);
 		card.repaint();
 		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() +" loyalty to " +  card.getMagicCard().getLoyalty());

@@ -46,8 +46,7 @@ public class MtgDesktopCompanion {
 			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 		}
 
-		ThreadManager.getInstance().runInEdt(new Runnable() {
-			public void run() {
+		ThreadManager.getInstance().runInEdt(()-> {
 				
 				MagicGUI gui = new MagicGUI();
 						 gui.setLookAndFeel(MTGControler.getInstance().get("lookAndFeel"));
@@ -63,14 +62,7 @@ public class MtgDesktopCompanion {
 							{
 								logger.error(e);
 							}
-						
-						
-				
-			}
 		});
-		
-		
-
 	}
 
 

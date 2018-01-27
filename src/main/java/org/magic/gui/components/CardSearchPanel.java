@@ -80,7 +80,7 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class CardSearchPanel extends JPanel {
 
-	Logger logger = MTGLogger.getLogger(this.getClass());
+		private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 		public static final int INDEX_PRICES = 2;
 		public static final int INDEX_THUMB = 1;
@@ -128,7 +128,7 @@ public class CardSearchPanel extends JPanel {
 		
 		private JXTable tableCards;
 		private JXTable tablePrice;
-	    private DefaultRowSorter<DefaultTableModel, Integer> sorterCards ;
+	    private transient DefaultRowSorter<DefaultTableModel, Integer> sorterCards ;
 	    private TableFilterHeader filterHeader;
 
 	    private JButton btnClear;
@@ -151,14 +151,14 @@ public class CardSearchPanel extends JPanel {
 		public List<MagicCard> getMultiSelection()
 		{
 			int[] viewRow = tableCards.getSelectedRows();
-			List<MagicCard> cards = new ArrayList<MagicCard>();
+			List<MagicCard> listCards = new ArrayList<>();
 			for(int i : viewRow)
 			{
 				int modelRow = tableCards.convertRowIndexToModel(i);
 				MagicCard mc = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
-				cards.add(mc);
+				listCards.add(mc);
 			}
-			return cards;
+			return listCards;
 		}
 		
 		public MagicCard getSelected() {
@@ -213,8 +213,8 @@ public class CardSearchPanel extends JPanel {
 		{
 			logger.info("init search GUI");
 			inst=this;
-			DefaultRowSorter<DefaultTableModel, Integer> sorterPrice = new TableRowSorter<DefaultTableModel>(priceModel);
-			sorterCards = new TableRowSorter<DefaultTableModel>(cardsModeltable);
+			DefaultRowSorter<DefaultTableModel, Integer> sorterPrice = new TableRowSorter<>(priceModel);
+			sorterCards = new TableRowSorter<>(cardsModeltable);
 			sorterCards.setComparator(7, new Comparator<String>() {
 			   public int compare(String num1, String num2) {
 			        	try{
@@ -273,9 +273,9 @@ public class CardSearchPanel extends JPanel {
 			btnFilter = new JButton(MTGConstants.ICON_FILTER);
 			btnClear = new JButton(MTGConstants.ICON_CLEAR);
 			
-			cboQuereableItems = new JComboBox<String>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
-			cboCollections= new JComboBox<MagicCollection>(new DefaultComboBoxModel<MagicCollection>(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
-			cboLanguages = new JComboBox<MagicCardNames>();
+			cboQuereableItems = new JComboBox<>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
+			cboCollections= new JComboBox<>(new DefaultComboBoxModel<MagicCollection>(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
+			cboLanguages = new JComboBox<>();
 			
 			tablePrice = new JXTable();
 			tableCards = new JXTable();
@@ -283,7 +283,7 @@ public class CardSearchPanel extends JPanel {
 			lblLoading = new JLabel(MTGConstants.ICON_LOADING);
 			JLabel lblFilter = new JLabel();
 			
-			listEdition = new JList<MagicEdition>();
+			listEdition = new JList<>();
 			listEdition.setCellRenderer(new MagicEditionListRenderer());
 			txtMagicSearch = new JTextField();
 			txtRulesArea = new JTextArea();
@@ -291,7 +291,7 @@ public class CardSearchPanel extends JPanel {
 
 			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
 			
-			cboEdition = new JComboBox<MagicEdition>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
+			cboEdition = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
 			cboEdition.setRenderer(new MagicEditionListRenderer());
 ////////MODELS
 				listEdition.setModel(new DefaultListModel<MagicEdition>());
@@ -514,7 +514,7 @@ public class CardSearchPanel extends JPanel {
 								cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null,false);
 							
 							if(cards.size()<50)
-								Collections.sort(cards,new MagicCardComparator());//TODO doesn't work for large collection
+								Collections.sort(cards,new MagicCardComparator());
 							
 							open(cards);
 							return null;
@@ -536,6 +536,7 @@ public class CardSearchPanel extends JPanel {
 			});
 
 			tableCards.addMouseListener(new java.awt.event.MouseAdapter() {
+				@Override
 				public void mouseClicked(java.awt.event.MouseEvent evt) {
 
 					if(SwingUtilities.isRightMouseButton(evt))
@@ -559,6 +560,7 @@ public class CardSearchPanel extends JPanel {
 			});
 
 			listEdition.addMouseListener(new MouseAdapter() {
+				@Override
 				public void mouseClicked(MouseEvent mev) {
 						selectedEdition = listEdition.getSelectedValue();
 						ThreadManager.getInstance().execute(new Runnable() {
@@ -692,6 +694,7 @@ public class CardSearchPanel extends JPanel {
 			});
 			
 			thumbnailPanel.addMouseListener(new MouseAdapter() {
+				@Override
 				public void mouseClicked(MouseEvent e) {
 					DisplayableCard lab = (DisplayableCard)thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
 					selectedCard = lab.getMagicCard();

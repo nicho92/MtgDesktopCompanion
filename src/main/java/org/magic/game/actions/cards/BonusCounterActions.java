@@ -25,7 +25,6 @@ public class BonusCounterActions  extends AbstractAction{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		card.addCounter(bonusCounter);
-	//	card.initActions();
 		card.showPT(true);
 		card.revalidate();
 		card.repaint();

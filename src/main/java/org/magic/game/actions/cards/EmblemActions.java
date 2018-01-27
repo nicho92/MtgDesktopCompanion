@@ -5,14 +5,16 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class EmblemActions extends AbstractAction {
 
-			
+			private transient Logger logger = MTGLogger.getLogger(this.getClass());
 			private DisplayableCard card;
 
 			public EmblemActions(DisplayableCard card) {
@@ -34,7 +36,7 @@ public class EmblemActions extends AbstractAction {
 					GamePanelGUI.getInstance().getPlayer().logAction("generate " + tok + " emblem");
 				}
 				catch (Exception ex) {
-					ex.printStackTrace();
+					logger.error(ex);
 				}
 
 				

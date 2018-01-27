@@ -5,17 +5,18 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class TransformActions extends AbstractAction {
 
 	
 	private DisplayableCard card;
-
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	public TransformActions(DisplayableCard card) {
 			super("Transform");
@@ -40,7 +41,7 @@ public class TransformActions extends AbstractAction {
 			card.initActions();
 			
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex);
 		}
 		
 	}

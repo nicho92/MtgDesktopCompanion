@@ -30,9 +30,9 @@ public class SpeedConfigurator extends JFrame {
 	private JComboBox<MTGPicturesCache> cboCaches;
 	private JComboBox<MagicCardsProvider> cboProvider;
 	private JCheckBox checkBox;
-	private JCheckBox checkBox_2;
-	private JCheckBox checkBox_4;
-	private JCheckBox checkBox_6;
+	private JCheckBox checkBox2;
+	private JCheckBox checkBox4;
+	private JCheckBox checkBox6;
 	private JCheckBox checkBox_8;
 	private JCheckBox checkBox_1;
 	private JCheckBox checkBox_3;
@@ -152,11 +152,7 @@ public class SpeedConfigurator extends JFrame {
 		panneau1.add(panel, gbc_panel);
 		
 		JButton btnSave = new JButton("Save");
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				save();
-			}
-		});
+		btnSave.addActionListener(e->save());
 		panel.add(btnSave);
 		
 		JPanel panneau2 = new JPanel();
@@ -186,14 +182,14 @@ public class SpeedConfigurator extends JFrame {
 		gbc_checkBox_1.gridy = 0;
 		panneau2.add(checkBox_1, gbc_checkBox_1);
 		
-		checkBox_2 = new JCheckBox("DashBoard");
-		checkBox_2.setSelected(false);
+		checkBox2 = new JCheckBox("DashBoard");
+		checkBox2.setSelected(false);
 		GridBagConstraints gbc_checkBox_2 = new GridBagConstraints();
 		gbc_checkBox_2.anchor = GridBagConstraints.WEST;
 		gbc_checkBox_2.insets = new Insets(0, 0, 5, 5);
 		gbc_checkBox_2.gridx = 1;
 		gbc_checkBox_2.gridy = 1;
-		panneau2.add(checkBox_2, gbc_checkBox_2);
+		panneau2.add(checkBox2, gbc_checkBox_2);
 		
 		checkBox_3 = new JCheckBox("Game");
 		checkBox_3.setSelected(false);
@@ -204,14 +200,14 @@ public class SpeedConfigurator extends JFrame {
 		gbc_checkBox_3.gridy = 1;
 		panneau2.add(checkBox_3, gbc_checkBox_3);
 		
-		checkBox_4 = new JCheckBox("Deck Builder");
-		checkBox_4.setSelected(false);
+		checkBox4 = new JCheckBox("Deck Builder");
+		checkBox4.setSelected(false);
 		GridBagConstraints gbc_checkBox_4 = new GridBagConstraints();
 		gbc_checkBox_4.anchor = GridBagConstraints.WEST;
 		gbc_checkBox_4.insets = new Insets(0, 0, 5, 5);
 		gbc_checkBox_4.gridx = 1;
 		gbc_checkBox_4.gridy = 2;
-		panneau2.add(checkBox_4, gbc_checkBox_4);
+		panneau2.add(checkBox4, gbc_checkBox_4);
 		
 		checkBox_5 = new JCheckBox("Shopper");
 		checkBox_5.setSelected(false);
@@ -222,14 +218,14 @@ public class SpeedConfigurator extends JFrame {
 		gbc_checkBox_5.gridy = 2;
 		panneau2.add(checkBox_5, gbc_checkBox_5);
 		
-		checkBox_6 = new JCheckBox("Alert");
-		checkBox_6.setSelected(false);
+		checkBox6 = new JCheckBox("Alert");
+		checkBox6.setSelected(false);
 		GridBagConstraints gbc_checkBox_6 = new GridBagConstraints();
 		gbc_checkBox_6.anchor = GridBagConstraints.WEST;
 		gbc_checkBox_6.insets = new Insets(0, 0, 5, 5);
 		gbc_checkBox_6.gridx = 1;
 		gbc_checkBox_6.gridy = 3;
-		panneau2.add(checkBox_6, gbc_checkBox_6);
+		panneau2.add(checkBox6, gbc_checkBox_6);
 		
 		checkBox_7 = new JCheckBox("Rss");
 		checkBox_7.setSelected(false);

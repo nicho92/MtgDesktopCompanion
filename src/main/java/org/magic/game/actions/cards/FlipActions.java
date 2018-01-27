@@ -10,13 +10,16 @@ import java.awt.image.BufferedImage;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class FlipActions extends AbstractAction {
 
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	private DisplayableCard card;
 
@@ -52,9 +55,8 @@ public class FlipActions extends AbstractAction {
 			           card.initActions();
 			           GamePanelGUI.getInstance().getPlayer().logAction("Flip " + card.getMagicCard());
 		} catch (Exception ex) {
-			ex.printStackTrace();
+			logger.error(ex);
 		}
-		//card.flip(true);
 		
 	}
 	

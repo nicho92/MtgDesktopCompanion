@@ -12,7 +12,7 @@ import org.magic.game.model.counters.ItemCounter;
 public class ItemCounterActions  extends AbstractAction{
 
 	private DisplayableCard card;
-	private ItemCounter itemCounter;
+	private transient ItemCounter itemCounter;
 	
 	public ItemCounterActions(DisplayableCard displayableCard, ItemCounter itemCounter) 
 	{

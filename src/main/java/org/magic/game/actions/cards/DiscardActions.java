@@ -22,8 +22,9 @@ public class DiscardActions extends AbstractAction{
 	public void actionPerformed(ActionEvent e) {
 		switch(card.getOrigine())
 		{
-		case BATTLEFIELD:GamePanelGUI.getInstance().getPlayer().discardCardFromBattleField(card.getMagicCard());
-		case HAND: GamePanelGUI.getInstance().getPlayer().discardCardFromHand(card.getMagicCard());
+		case BATTLEFIELD:GamePanelGUI.getInstance().getPlayer().discardCardFromBattleField(card.getMagicCard());break;
+		case HAND: GamePanelGUI.getInstance().getPlayer().discardCardFromHand(card.getMagicCard());break;
+		default:break;
 		}
 		
 	}
