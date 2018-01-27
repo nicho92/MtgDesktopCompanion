@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 public class MTGLogger {
 
 	public static void printStackTrace(Throwable cause) {
-		cause.printStackTrace();
+		System.err.println(cause.getMessage());
 	}
 	
 	public static Logger getLogger(Class c)

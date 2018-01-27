@@ -3,7 +3,6 @@ package org.magic.api.providers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -36,10 +35,8 @@ import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
-import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider implements MagicCardsProvider {
@@ -58,8 +55,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 	
 	@Override
 	public void init() {
-		cache=new TreeMap<String,MagicEdition>();
-		cachedCardEds= new HashMap<String,List<MagicCard>>();
+		cache=new TreeMap<>();
+		cachedCardEds= new HashMap<>();
 		parser = new JsonParser();
     	try {
     		InstallCert.install("api.scryfall.com");
@@ -77,7 +74,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws Exception {
-		List<MagicCard> list = new ArrayList<MagicCard>();
+		List<MagicCard> list = new ArrayList<>();
 		
 		String comparator=crit;
 		
@@ -109,7 +106,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 			logger.debug(URLDecoder.decode(url,"UTF-8"));
 			con = (HttpURLConnection) getConnection(url);
 			
-			if(testError(con)==false)
+			if(isCorrectConnection(con)==false)
 				return list;
 			
 			try{
@@ -140,13 +137,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 		return list;
 	}
 	
-	private boolean testError(HttpURLConnection connection) {
-		try {
-			return (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
-		} catch (IOException e) {
-			logger.error("Error URL " + connection.getURL(), e);
-			return false;
-		}
+	private boolean isCorrectConnection(HttpURLConnection connection) throws IOException {
+		return (connection.getResponseCode()>=200 && connection.getResponseCode()<300);
 	}
 	
 	@Override
@@ -163,8 +155,8 @@ public class ScryFallProvider implements MagicCardsProvider {
 		if(cache.size()<=0)
 		{
 			String url = baseURI+"/sets";
-			
 			URLConnection con = getConnection(url);
+					
 			JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
 			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 			for(int i = 0;i<root.get("data").getAsJsonArray().size();i++)
@@ -175,7 +167,7 @@ public class ScryFallProvider implements MagicCardsProvider {
 				cache.put(ed.getId(), ed);
 			}
 		}
-		return new ArrayList<MagicEdition>(cache.values());
+		return new ArrayList<>(cache.values());
 	}
 
 	@Override
@@ -214,10 +206,10 @@ public class ScryFallProvider implements MagicCardsProvider {
 	@Override
 	public Booster generateBooster(MagicEdition me) throws Exception {
 		
-				List<MagicCard> ret = new ArrayList<MagicCard>();
-				List<MagicCard> common = new ArrayList<MagicCard>();
-				List<MagicCard> uncommon = new ArrayList<MagicCard>();
-				List<MagicCard> rare= new ArrayList<MagicCard>();
+				List<MagicCard> ret = new ArrayList<>();
+				List<MagicCard> common = new ArrayList<>();
+				List<MagicCard> uncommon = new ArrayList<>();
+				List<MagicCard> rare= new ArrayList<>();
 			
 				if(cachedCardEds.get(me.getId())==null)
 					cachedCardEds.put(me.getId(), searchCardByCriteria("set", me.getId(), null,true));
@@ -248,37 +240,14 @@ public class ScryFallProvider implements MagicCardsProvider {
 						b.setCards(ret);
 				
 				
-				/*
-				List<MagicCard> ret= new ArrayList<MagicCard>();
-			   List<MagicCard> commons = searchCardByCriteria("custom",  "s:"+me.getId()+" r:common -t:land", me);
-			   Collections.shuffle(commons);
-			   ret.addAll(commons.subList(0, 10));
-			   
-			   List<MagicCard> uncommons = searchCardByCriteria("rarity", "uncommon", me);
-			   Collections.shuffle(uncommons);
-			   ret.addAll(uncommons.subList(0, 3));
-			   
-			   List<MagicCard> rares = searchCardByCriteria("custom", "s:"+me.getId()+" r:rare or r:mythics", null);
-			   Collections.shuffle(rares);
-			   ret.addAll(rares.subList(0, 1));
-			   
-			   List<MagicCard> lands = searchCardByCriteria("custom", "s:"+me.getId()+" t:land", null);
-			   Collections.shuffle(lands);
-			   ret.addAll(lands.subList(0, 1));*/
-			   /*
-			   List<MagicCard> tokens = searchCardByCriteria("custom", "s:"+me.getId()+" ++is:token", null);
-			   Collections.shuffle(tokens);
-			   ret.addAll(tokens.subList(0, 1));
-			   
-			   */
-			   
-			   
 		return b;
 	}
 
 	@Override
 	public String getVersion() {
-		return "0.5";
+		
+		//TODO retrieve value in https://scryfall.com/blog/category/api
+		return "0.7";
 	}
 
 	@Override
@@ -312,18 +281,13 @@ public class ScryFallProvider implements MagicCardsProvider {
 		return getName();
 	}
 	
-	private URLConnection getConnection(String url)
+	private URLConnection getConnection(String url) throws IOException
 	{
-		try {
 			logger.trace("get stream from " + url);
 			URLConnection connection = new URL(url).openConnection();
 			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 			connection.connect();
 			return connection;
-		} catch (IOException e) {
-			logger.error(e);
-			return null;
-		}	
 	}
 	
 	private MagicCard generateCard(JsonObject obj,boolean exact,String search) throws Exception
@@ -336,9 +300,9 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  mc.setLayout(obj.get("layout").getAsString());
 		  
 		  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(0).getAsInt());}catch(Exception e) { logger.error("could not find multiverse_ids " + mc.getName());};
-		  try{mc.setText(obj.get("oracle_text").getAsString());}catch(NullPointerException e) { mc.setText(""); };
-		  try{mc.setCost(obj.get("mana_cost").getAsString());}catch(NullPointerException e) { mc.setCmc(0); };
-		  try{mc.setFlavor(obj.get("flavor_text").getAsString());}catch(NullPointerException e) { mc.setCmc(0); };
+		  try{mc.setText(obj.get("oracle_text").getAsString());}catch(NullPointerException e) { mc.setText(""); }
+		  try{mc.setCost(obj.get("mana_cost").getAsString());}catch(NullPointerException e) { mc.setCmc(0); }
+		  try{mc.setFlavor(obj.get("flavor_text").getAsString());}catch(NullPointerException e) { mc.setCmc(0); }
 		  
 		  
 		 
@@ -348,19 +312,19 @@ public class ScryFallProvider implements MagicCardsProvider {
 		  MagicCardNames n = new MagicCardNames();
 						  n.setLanguage("English");
 						  n.setName(mc.getName());
-						  try{n.setGathererId(obj.get("multiverse_id").getAsInt());}catch(NullPointerException e) {n.setGathererId(0);};
+						  try{n.setGathererId(obj.get("multiverse_id").getAsInt());}catch(NullPointerException e) {n.setGathererId(0);}
 		  
 		  mc.getForeignNames().add(n);
 	
 		  mc.setNumber(obj.get("collector_number").getAsString());
 		  
-		  try{mc.setArtist(obj.get("artist").getAsString());}catch(NullPointerException e) { };
-		  try{mc.setReserved(obj.get("reserved").getAsBoolean());}catch(NullPointerException e) { };
-		  try{mc.setPower(obj.get("power").getAsString());}catch(NullPointerException e) { };
-		  try{mc.setToughness(obj.get("toughness").getAsString());}catch(NullPointerException e) { };
-		  try{mc.setLoyalty(obj.get("loyalty").getAsInt());}catch(Exception e) { };
-		  try{mc.setWatermarks(obj.get("watermark").getAsString());}catch(NullPointerException e) { };
-		  try{mc.setImageName(obj.get("illustration_id").getAsString());}catch(NullPointerException e) { };
+		  try{mc.setArtist(obj.get("artist").getAsString());}catch(NullPointerException e) { logger.trace("artist not found");}
+		  try{mc.setReserved(obj.get("reserved").getAsBoolean());}catch(NullPointerException e) { logger.trace("reserved not found");}
+		  try{mc.setPower(obj.get("power").getAsString());}catch(NullPointerException e) { logger.trace("power not found");}
+		  try{mc.setToughness(obj.get("toughness").getAsString());}catch(NullPointerException e) {logger.trace("toughness not found") ;}
+		  try{mc.setLoyalty(obj.get("loyalty").getAsInt());}catch(Exception e) { logger.trace("loyalty not found");}
+		  try{mc.setWatermarks(obj.get("watermark").getAsString());}catch(NullPointerException e) {logger.trace("watermark not found"); }
+		  try{mc.setImageName(obj.get("illustration_id").getAsString());}catch(NullPointerException e) { logger.trace("illustration_id not found");}
 		  
 		   if(obj.get("colors")!=null){
 				Iterator<JsonElement> it = obj.get("colors").getAsJsonArray().iterator();
@@ -488,11 +452,12 @@ public class ScryFallProvider implements MagicCardsProvider {
 		
 	}
 
-	private void generateRules(MagicCard mc) throws JsonIOException, JsonSyntaxException, UnsupportedEncodingException, IOException
+	private void generateRules(MagicCard mc) throws IOException
 	{
-		
 		String url = "https://api.scryfall.com/cards/"+mc.getId()+"/rulings";
 		HttpURLConnection con = (HttpURLConnection) getConnection(url);
+		
+		
 		JsonElement el = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8")));
 		JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
 		
@@ -578,8 +543,6 @@ public class ScryFallProvider implements MagicCardsProvider {
 		while(hasMore)
 		{
 			con = (HttpURLConnection) getConnection(url);
-			if(!testError(con))
-				return;
 			
 			try{
 				reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));

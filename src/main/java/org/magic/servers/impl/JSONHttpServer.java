@@ -2,6 +2,7 @@ package org.magic.servers.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -28,8 +29,10 @@ import fi.iki.elonen.NanoHTTPD.Response.Status;
 
 public class JSONHttpServer extends AbstractMTGServer
 {
-	NanoHTTPD server;
-
+	private NanoHTTPD server;
+	private String contentType="application/json";
+	private String contentHeader="Content-Type";
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -62,12 +65,13 @@ public class JSONHttpServer extends AbstractMTGServer
 		}
 		
     	server = new NanoHTTPD(Integer.parseInt(props.get("SERVER-PORT").toString())) {
+    		@Override
     		public Response serve(IHTTPSession session) {
 			 Map<String, List<String>> parms = session.getParameters();
     		logger.debug("Connection from " + session.getRemoteIpAddress() + " to " + session.getUri() + " " + parms);	
 			  switch(session.getUri())
 			  {
-			  	  case "/collections":  return listCollections(session);
+			  	  case "/collections":  return listCollections();
 				  case "/editions":  return listEditions(session);
 				  case "/cards": return listCards(session);
 				  case "/search": return searchcard(session);
@@ -110,7 +114,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	    		MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", att, null,true).get(0);
 	    		MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(val);
 	    		
-	  		  	List<MagicPrice> pricesret = new ArrayList<MagicPrice>();
+	  		  	List<MagicPrice> pricesret = new ArrayList<>();
 	  		
 	  		  	for(MagicPricesProvider prices : MTGControler.getInstance().getEnabledPricers())
 	  		  		pricesret.addAll(prices.getPrice(ed, mc));
@@ -119,9 +123,13 @@ public class JSONHttpServer extends AbstractMTGServer
 	  		  			   card.add("card", new Gson().toJsonTree(mc));
 	  		  			   card.add("prices", new Gson().toJsonTree(pricesret));
 	 		  
-	  		  	Response resp =NanoHTTPD.newFixedLengthResponse(card.toString());
-	  		  			 resp.addHeader("Content-Type", "application/json");
-  		  return resp;
+	  		  	try(Response resp =NanoHTTPD.newFixedLengthResponse(card.toString()))
+	  		  	{
+	  		 	  resp.addHeader(contentHeader, contentType);
+	  	  		  return resp;
+	  		  	}
+	  		  		
+
   	  } 
   	  catch (Exception e) 
   	  {
@@ -136,9 +144,11 @@ public class JSONHttpServer extends AbstractMTGServer
 		  
 		  if(!session.getMethod().equals(Method.POST))
 		  {
-			  Response res = NanoHTTPD.newFixedLengthResponse("POST /move?card_id=<ID>&from=COL_NAME&to=COL_NAME");
-			  res.setStatus(Status.BAD_REQUEST);
-			  return res;
+			  try(Response res = NanoHTTPD.newFixedLengthResponse("POST /move?card_id=<ID>&from=COL_NAME&to=COL_NAME"))
+			  {
+				  res.setStatus(Status.BAD_REQUEST);
+				  return res;
+			  }
 		  }
 		  
 		  String id=session.getParameters().get("card_id").get(0);
@@ -149,11 +159,13 @@ public class JSONHttpServer extends AbstractMTGServer
 		  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
 		  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
 		  
-		  Response resp = NanoHTTPD.newFixedLengthResponse(mc + " moved to " + to);
-		  resp.setStatus(Status.OK);
-		  resp.addHeader("Content-Type", "application/json");
+		 try(Response resp = NanoHTTPD.newFixedLengthResponse(mc + " moved to " + to))
+		 {
+			 resp.setStatus(Status.OK);
+			 resp.addHeader(contentHeader, contentType);
+			 return resp;
+		 }
 		 
-		  return resp;
 	  } 
 	  catch (Exception e) 
 	  {
@@ -171,10 +183,13 @@ public class JSONHttpServer extends AbstractMTGServer
 		  String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
 		  
 		  List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, name, null,false);
-		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list));
-		  resp.addHeader("Content-Type", "application/json");
-		  resp.addHeader("Item-count", String.valueOf(list.size()));
-		  return resp;
+		  try(Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list)))
+		  {
+			  resp.addHeader(contentHeader, contentType);
+			  resp.addHeader("Item-count", String.valueOf(list.size()));
+			  return resp;
+			  
+		  }
 	  } 
 	  catch (Exception e) 
 	  {
@@ -186,25 +201,24 @@ public class JSONHttpServer extends AbstractMTGServer
 	
 	private Response listCards(IHTTPSession session) {
    	 try {
-		 List<MagicCard> cards = new ArrayList<MagicCard>();
-		 
-			 String att=session.getParameters().keySet().toArray()[0].toString();
-			 String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
+   		 	
+   		 	String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
+			String idset=session.getParameters().get(session.getParameters().keySet().toArray()[1].toString()).get(0);
 			 
-			 String att2=session.getParameters().keySet().toArray()[1].toString();
-			 String idset=session.getParameters().get(session.getParameters().keySet().toArray()[1].toString()).get(0);
+			MagicCollection col = new MagicCollection(name);
+			MagicEdition ed = new MagicEdition();
+			ed.setId(idset);
+			ed.setSet(idset);
 			 
-			 MagicCollection col = new MagicCollection(name);
-			 MagicEdition ed = new MagicEdition();
-			 ed.setId(idset);
-			 ed.setSet(idset);
-			 
-			 cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed);
-			 Collections.sort(cards,new MagicCardComparator());
-			 Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(cards));
-			 resp.addHeader("Content-Type", "application/json");
-			 resp.addHeader("Item-count", String.valueOf(cards.size()));
-		  return resp;
+			List<MagicCard> cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed);
+			Collections.sort(cards,new MagicCardComparator());
+			try(Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(cards)))
+			{
+				resp.addHeader(contentHeader, contentType);
+				resp.addHeader("Item-count", String.valueOf(cards.size()));
+				return resp;
+				
+			}
 	  } 
 	  catch (Exception e) 
 	  {
@@ -216,30 +230,39 @@ public class JSONHttpServer extends AbstractMTGServer
 	   
 	   
 	   
-    private Response listCollections(IHTTPSession session)
+    private Response listCollections()
 	{
     	
-	  try {
-		  List<MagicCollection> list = MTGControler.getInstance().getEnabledDAO().getCollections();
-		  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list));
-		  resp.addHeader("Content-Type", "application/json");
-		  resp.addHeader("Item-count", String.valueOf(list.size()));
-		  return resp;
-	  } 
-	  catch (Exception e) 
-	  {
-		  logger.error("ERROR",e);
-		  return NanoHTTPD.newFixedLengthResponse("Usage : /collections");
-	  }
+    	  List<MagicCollection> list;
+		try {
+			list = MTGControler.getInstance().getEnabledDAO().getCollections();
+		} catch (SQLException e1) {
+			logger.error("ERROR",e1);
+			return NanoHTTPD.newFixedLengthResponse("Usage : /collections");
+		}
+    	  
+    	  
+    	  
+		  try( Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(list)))
+		  {
+			
+			  resp.addHeader(contentHeader, contentType);
+			  resp.addHeader("Item-count", String.valueOf(list.size()));
+			  return resp;
+		  } 
+		  catch (Exception e) 
+		  {
+			  logger.error("ERROR",e);
+			  return NanoHTTPD.newFixedLengthResponse("Usage : /collections");
+		  }
 	}
     
     private Response listEditions(IHTTPSession session) {
     	 try {
-    		 List<MagicEdition> eds = new ArrayList<MagicEdition>();
+    		 List<MagicEdition> eds = new ArrayList<>();
     		 
-    		 if(session.getParameters().keySet().size()>0)
+    		 if(!session.getParameters().keySet().isEmpty())
     		 {
-    			 String att=session.getParameters().keySet().toArray()[0].toString();
     			 String name=session.getParameters().get(session.getParameters().keySet().toArray()[0].toString()).get(0);
     			 MagicCollection col = new MagicCollection(name);
     			 List<String> list = MTGControler.getInstance().getEnabledDAO().getEditionsIDFromCollection(col);
@@ -254,10 +277,13 @@ public class JSONHttpServer extends AbstractMTGServer
     		 Collections.sort(eds);
     		 
     		 
-    	  Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(eds));
-   		  resp.addHeader("Content-Type", "application/json");
-   		 resp.addHeader("Item-count", String.valueOf(eds.size()));
-   		  return resp;
+    	  try(Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(eds)))
+    	  {
+       		 resp.addHeader(contentHeader, contentType);
+       		 resp.addHeader("Item-count", String.valueOf(eds.size()));
+       		 return resp;
+    		  
+    	  }
    	  } 
    	  catch (Exception e) 
    	  {
