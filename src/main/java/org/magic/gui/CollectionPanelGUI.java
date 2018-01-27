@@ -35,14 +35,9 @@ import javax.swing.JTabbedPane;
 import javax.swing.RowSorter.SortKey;
 import javax.swing.SortOrder;
 import javax.swing.SwingUtilities;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 import javax.swing.tree.DefaultMutableTreeNode;
-//import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
@@ -83,12 +78,11 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class CollectionPanelGUI extends JPanel {
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	private JXTable tableEditions;
-	private TableFilterHeader filter;
-	private MagicCardsProvider provider;
-	private MagicDAO dao;
+	private transient MagicCardsProvider provider;
+	private transient MagicDAO dao;
 	private LazyLoadingTree tree;
 	private MagicEditionsTableModel model;
 	private JProgressBar progressBar;
@@ -100,8 +94,8 @@ public class CollectionPanelGUI extends JPanel {
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
-	private MagicCardDetailPanel magicCardDetailPanel;
-	private MagicEditionDetailPanel magicEditionDetailPanel;
+	private transient MagicCardDetailPanel magicCardDetailPanel;
+	private transient MagicEditionDetailPanel magicEditionDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
 	private CardStockPanel statsPanel;
 	private JLabel lblTotal ;
@@ -164,7 +158,7 @@ public class CollectionPanelGUI extends JPanel {
 		tablePrices = new JXTable(modelPrices);
 		model.init(provider.loadEditions());
 		tableEditions.setModel(model);
-		filter = new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
+		new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
 
 		
 /////////CONFIGURE COMPONENTS		
@@ -186,7 +180,6 @@ public class CollectionPanelGUI extends JPanel {
 		magicCardDetailPanel.enableThumbnail(true);
 				
 		tableEditions.setDefaultRenderer(Object.class,render);
-		//tableEditions.setDefaultRenderer(ImageIcon.class,render);
 		tableEditions.setDefaultRenderer(String.class,render);
 		tableEditions.setDefaultRenderer(Integer.class, render);
 		tableEditions.setDefaultRenderer(double.class, render);
@@ -281,51 +274,38 @@ public class CollectionPanelGUI extends JPanel {
 		});
 		
 
-		btnAdd.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		btnAdd.addActionListener(e->{
 				String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME")+" ?");
 				MagicCollection mc = new MagicCollection();
 				mc.setName(name);
 				try {
 					dao.saveCollection(mc);
-					((LazyLoadingTree.MyNode)getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));//todo recalculate
+					((LazyLoadingTree.MyNode)getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));
 					getJTree().refresh();
 					initPopupCollection();
 				} catch (Exception ex) {
 					logger.error(ex);
 					JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 				}
-				
-			}
 		});
 						
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnRefresh.addActionListener(e->{
 
-				ThreadManager.getInstance().execute(new Runnable() {
-					
-					@Override
-					public void run() {
+				ThreadManager.getInstance().execute(() -> {
 						progressBar.setVisible(true);
 						tree.refresh();
 						try {
 							model.calculate();
 							lblTotal.setText("Total : " + model.getCountDefaultLibrary() +"/" + model.getCountTotal());
-						} catch (Exception e) {
+						} catch (Exception ex) {
+							logger.error(ex);
 						}
 						model.fireTableDataChanged();
 						progressBar.setVisible(false);
-						
-					}
 				}, "update Tree");
-				
-			}
 		});
 						
-		btnExport.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent ae) {
+		btnExport.addActionListener(ae-> {
 								JPopupMenu menu = new JPopupMenu();
 								
 								for(final AbstractCardExport exp : MTGControler.getInstance().getEnabledDeckExports())
@@ -333,11 +313,8 @@ public class CollectionPanelGUI extends JPanel {
 									JMenuItem it = new JMenuItem();
 									it.setIcon(exp.getIcon());
 									it.setText(exp.getName());
-									it.addActionListener(new ActionListener() {
-										public void actionPerformed(ActionEvent arg0) {
-											ThreadManager.getInstance().execute(new Runnable() {
-												@Override
-												public void run() {
+									it.addActionListener(arg0->{
+											ThreadManager.getInstance().execute(()->{
 													try {
 														
 														DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
@@ -360,11 +337,7 @@ public class CollectionPanelGUI extends JPanel {
 														int result = jf.showSaveDialog(null);
 														File f = jf.getSelectedFile();
 														
-														exp.addObserver(new Observer() {
-															public void update(Observable o, Object arg) {
-																progressBar.setValue((int) arg);
-															}
-														});
+														exp.addObserver((Observable o, Object arg)-> progressBar.setValue((int) arg));
 														
 														if(result==JFileChooser.APPROVE_OPTION)
 														{
@@ -386,16 +359,7 @@ public class CollectionPanelGUI extends JPanel {
 														progressBar.setVisible(false);
 														JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 													}
-													
-												}
 											}, "export collection with " + exp);
-												
-											
-											
-											
-											
-											
-										}
 									});
 									
 									menu.add(it);
@@ -405,7 +369,7 @@ public class CollectionPanelGUI extends JPanel {
 						        Point p=b.getLocationOnScreen();
 						        menu.show(b,0,0);
 						        menu.setLocation(p.x,p.y+b.getHeight());
-							}
+							
 						});
 					
 		splitPane.addComponentListener(new ComponentAdapter() {
@@ -433,8 +397,7 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 
-		tree.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent tse) {
+		tree.addTreeSelectionListener(tse->{
 				path = tse.getPath();
 				
 				final DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
@@ -451,31 +414,11 @@ public class CollectionPanelGUI extends JPanel {
 				{
 					btnExport.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
-					
-					//too memory for big collection
-					/*ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
-							try{
-								List<MagicCard> list = dao.getCardsFromCollection(((MagicCollection)curr.getUserObject()));
-								rarityRepartitionPanel.init(list);
-								typeRepartitionPanel.init(list);
-								manaRepartitionPanel.init(list);
-
-							}catch(Exception e)
-							{
-								logger.error(e);
-
-							}
-						}
-					},"addTreeSelectionListener init graph Collection");
-					*/
 					selectedcol = (MagicCollection) curr.getUserObject();
 					statsPanel.enabledAdd(false);
 					btnExport.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(true);
 				} 
-
-
 
 				if(curr.getUserObject() instanceof MagicEdition)
 				{
@@ -534,26 +477,21 @@ public class CollectionPanelGUI extends JPanel {
 					}
 					
 					
-					ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							try {
 								historyPricesPanel.init(card,null,card.getName());
 							} catch (Exception e) {
 								logger.error(e);
 							}
-
-						}
 					},"update history");
 				}
-			}
+			
 		});
 		
-		tabbedPane.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
+		tabbedPane.addChangeListener(e-> {
 				if(tabbedPane.getSelectedIndex()==2)
 					if(((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() instanceof MagicCard)
 						loadPrices((MagicCard)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() );
-			}
 		});
 
 		tree.addMouseListener(new MouseAdapter() {
@@ -580,15 +518,10 @@ public class CollectionPanelGUI extends JPanel {
 						JMenuItem it = new JMenuItem("Mass movement");
 						p.add(it);
 
-						it.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
+						it.addActionListener(ae->{
 								MassMoverDialog d = new MassMoverDialog((MagicCollection)node.getUserObject(),null);
 								d.setVisible(true);
 								logger.debug("closing mass import with change =" + d.hasChange());
-								/*if(d.hasChange())
-																		tree.reload();
-								 */
-							}
 						});
 						p.show(e.getComponent(), e.getX(), e.getY());
 					}
@@ -598,39 +531,31 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 	
-		btnMassCollection.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
+		btnMassCollection.addActionListener(ae->{
 				new MassCollectionImporterDialog(dao, provider, model.getEditions()).setVisible(true);
 				try {
 					model.calculate();
 				} catch (Exception e) {
 				}
 				model.fireTableDataChanged();
-				//tree.init();
-			}
 		});
 
-		btnExportPriceCatalog.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnExportPriceCatalog.addActionListener(ae->{
 
 				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
 						try {
 							PriceCatalogExportDialog diag = new PriceCatalogExportDialog(selectedcol);
 							diag.setVisible(true);
-							if (diag.value() == true) {
+							if (diag.value()) 
+							{
 								progressBar.setVisible(true);
 								progressBar.setStringPainted(true);
 								progressBar.setMinimum(0);
 								progressBar.setMaximum(dao.getCardsCount(selectedcol,null));
 								CSVExport exp = new CSVExport();
-								exp.addObserver(new Observer() {
-									public void update(Observable o, Object arg) {
-										progressBar.setValue((int) arg);
-									}
-								});
-								exp.exportPriceCatalog(dao.getCardsFromCollection(selectedcol), diag.getDest(),
-										diag.getPriceProviders());
+								exp.addObserver((Observable o, Object arg)->progressBar.setValue((int) arg));
+								exp.exportPriceCatalog(dao.getCardsFromCollection(selectedcol), diag.getDest(),diag.getPriceProviders());
 
 								JOptionPane.showMessageDialog(null,MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"));
 								progressBar.setVisible(false);
@@ -641,11 +566,9 @@ public class CollectionPanelGUI extends JPanel {
 
 					}
 				},"btnExportPriceCatalog export Prices");
-			}
 		});
 
-		btnGenerateWebSite.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnGenerateWebSite.addActionListener(arg0->{
 
 				ThreadManager.getInstance().execute(new Runnable() {
 					public void run() {
@@ -694,12 +617,9 @@ public class CollectionPanelGUI extends JPanel {
 
 					}
 				},"btnGenerateWebSite generate website");
-
-			}
 		});
 
-		btnAddAllSet.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
+		btnAddAllSet.addActionListener(evt->{
 				MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
 
 				int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_COLLECTION_ITEM_ADDITION",ed,MTGControler.getInstance().get("default-library")));
@@ -719,11 +639,9 @@ public class CollectionPanelGUI extends JPanel {
 						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 						logger.error(e);
 					}
-			}
 		});
 
-		btnRemove.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent evt) {
+		btnRemove.addActionListener(evt->{
 
 				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 				int res = 0;
@@ -777,11 +695,9 @@ public class CollectionPanelGUI extends JPanel {
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 					}
-					//model.fireTableDataChanged();
 					tree.refresh();
 
 				}
-			}
 		});
 
 	}
@@ -801,7 +717,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 	}
 	
-	public void initPopupCollection() throws Exception {
+	public void initPopupCollection() throws SQLException{
 		
 		popupMenuEdition = new JPopupMenu();
 		popupMenuCards = new JPopupMenu();
@@ -813,36 +729,29 @@ public class CollectionPanelGUI extends JPanel {
 			JMenuItem adds = new JMenuItem(mc.getName());
 			JMenuItem movs = new JMenuItem(mc.getName());
 			
-			movs.addActionListener(new ActionListener() {
-				
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			movs.addActionListener(e-> {
 					DefaultMutableTreeNode nodeCol = ((DefaultMutableTreeNode) path.getPathComponent(1));
 					DefaultMutableTreeNode nodeCd = ((DefaultMutableTreeNode) path.getPathComponent(3));
 					MagicCard card = (MagicCard) nodeCd.getUserObject();
 					MagicCollection oldCol = (MagicCollection)nodeCol.getUserObject();
 					
 					final String collec = ((JMenuItem) e.getSource()).getText();
-					MagicCollection mc = new MagicCollection();
-					mc.setName(collec);
+					MagicCollection nmagicCol = new MagicCollection();
+					nmagicCol.setName(collec);
 					
 					try {
 						dao.removeCard(card, oldCol);
-						dao.saveCard(card, mc);
+						dao.saveCard(card, nmagicCol);
 						nodeCd.removeFromParent();
 						nodeCol.add(new DefaultMutableTreeNode(card));
-						
 						tree.refresh();
 					} catch (SQLException e1) {
 						e1.printStackTrace();
 					}
-				}
+				
 			});
 			
-			adds.addActionListener(new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
+			adds.addActionListener(e->{
 
 					final String destinationCollection = ((JMenuItem) e.getSource()).getText();
 					ThreadManager.getInstance().execute(new Runnable() {
@@ -869,13 +778,11 @@ public class CollectionPanelGUI extends JPanel {
 
 								tree.refresh();
 							} catch (Exception e1) {
-								e1.printStackTrace();
+								MTGLogger.printStackTrace(e1);
 							}
 
 						}
 					},"btnAdds addCardsCollection");
-
-				}
 			});
 			
 			menuItemAdd.add(adds);
@@ -884,14 +791,12 @@ public class CollectionPanelGUI extends JPanel {
 
 		
 		JMenuItem it = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS"));
-		it.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		it.addActionListener(e->{
 				MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
 				MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
 				MassMoverDialog d = new MassMoverDialog(col,edition);
 				d.setVisible(true);
 				logger.debug("closing mass import with change =" + d.hasChange());
-			}
 		});
 		popupMenuEdition.add(it);
 		

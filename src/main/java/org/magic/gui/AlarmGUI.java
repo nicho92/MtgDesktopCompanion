@@ -5,8 +5,6 @@ import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -22,7 +20,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.ListCellRenderer;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.log4j.Logger;
@@ -89,7 +86,7 @@ public class AlarmGUI extends JPanel {
 		
 		scrollTable.setViewportView(table);
 		
-		table.addMouseListener(new java.awt.event.MouseAdapter() {
+		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
 					
@@ -122,11 +119,8 @@ public class AlarmGUI extends JPanel {
 			
 		list = new JList<>(resultListModel);
 		
-		list.setCellRenderer(new ListCellRenderer<MagicPrice>() {
-			@Override
-			public Component getListCellRendererComponent(JList<? extends MagicPrice> list, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus) {
+		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus)->{
 				return new MagicPricePanel(value);
-			}
 		});
 		
 		
@@ -152,9 +146,8 @@ public class AlarmGUI extends JPanel {
 		panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		
-		btnRefresh = new JButton("");
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnRefresh = new JButton();
+		btnRefresh.addActionListener(e->{
 				
 				if(!MTGControler.getInstance().isRunning(new PricesCheckerTimer()))
 				{
@@ -165,20 +158,18 @@ public class AlarmGUI extends JPanel {
 							if(serv.getName().equals(new PricesCheckerTimer().getName()))
 								try {
 									serv.start();
-								} catch (Exception e) {
-									logger.error(e);
+								} catch (Exception ex) {
+									logger.error(ex);
 								}
 				}
 				
 				model.fireTableDataChanged();
-			}
 		});
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panel.add(btnRefresh);
 		
 		btnDelete = new JButton("");
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnDelete.addActionListener(e->{
 				int row =table.getSelectedRow();
 				if(row>-1)
 				{
@@ -190,10 +181,8 @@ public class AlarmGUI extends JPanel {
 						JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 					}
 				}
-				
-				
-			}
 		});
+		
 		btnDelete.setIcon(MTGConstants.ICON_DELETE);
 		panel.add(btnDelete);
 		addComponentListener(new ComponentAdapter() {
