@@ -39,7 +39,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	public CardKingdomPricer() {
 		super();
 		
-		list=new ArrayList<MagicPrice>();
+		list=new ArrayList<>();
 		httpclient = HttpClients.createDefault();
 	
 		if(!new File(confdir, getName()+".conf").exists()){
@@ -56,7 +56,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 			logger.error(e1);
 		}
 		
-		eds=new ArrayList<String>();
+		eds=new ArrayList<>();
 		try {
 			doc = Jsoup.connect("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az").userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
 			
@@ -126,7 +126,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 			return list;
 		}
 		
-		List<MagicPrice> list = new ArrayList<MagicPrice>();
+		List<MagicPrice> list = new ArrayList<>();
 		for(int i=0;i<qualities.size();i++)
 		{
 			 MagicPrice mp =new MagicPrice();
@@ -157,7 +157,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
-		// TODO Auto-generated method stub
+		logger.error("not implemented");
 		
 	}
 	

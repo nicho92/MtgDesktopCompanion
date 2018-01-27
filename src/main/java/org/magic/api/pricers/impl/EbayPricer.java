@@ -130,7 +130,7 @@ public class EbayPricer extends AbstractMagicPricesProvider
 
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
-		// TODO Auto-generated method stub
+		logger.error("not implemented");
 		
 	}
 

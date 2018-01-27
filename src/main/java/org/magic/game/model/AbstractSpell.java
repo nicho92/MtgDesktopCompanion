@@ -35,10 +35,4 @@ public abstract class AbstractSpell extends AbstractAction{
 		super(name);
 		putValue(SHORT_DESCRIPTION,description);
 	}
-	/*
-	public abstract void resolve();
-	
-	public abstract void unresolve();
-	*/
-
 }

@@ -184,7 +184,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			for(int i=0;i<dci.length();i++)
 			{
 				char c = dci.charAt(i);
-				cb.showTextAligned(PdfContentByte.ALIGN_LEFT, String.valueOf(c), 52, 428+count, 90);
+				cb.showTextAligned(PdfContentByte.ALIGN_LEFT, String.valueOf(c), 52, (428+count), 90);
 				count+=22;
 			}
 			

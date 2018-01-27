@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
@@ -37,14 +38,12 @@ import com.google.gson.stream.JsonReader;
 
 public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean enable;
 	private String jsonUrl ="https://api.magicthegathering.io/v1";
 	private File fcacheCount = new File(MTGControler.CONF_DIR,"mtgio.cache"); 
-	
-	Properties propsCache;
-	
-	Map<String , MagicEdition> cache;
+	private Properties propsCache;
+	private Map<String , MagicEdition> cache;
 	
 	public MagicTheGatheringIOProvider() {
 		init();
@@ -64,6 +63,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			try {
 				fcacheCount.createNewFile();
 			} catch (IOException e1) {
+				logger.error("couldn't create "+fcacheCount,e1);
 				
 			}
 		} catch (IOException e) {
@@ -79,14 +79,14 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 	
 	@Override
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws Exception {
-		List<MagicCard> lists= new ArrayList<MagicCard>();
+		List<MagicCard> lists= new ArrayList<>();
 		URLConnection con =null;
 		int page=1;
 		String url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8");
 		logger.debug(url);
 		
 		con = getConnection(url);
-		JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+		JsonReader reader;
 		
 		int count = 0;
 		int totalcount= con.getHeaderFieldInt("Total-Count", 0);
@@ -213,7 +213,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			{
 				 JsonArray arr = obj.get("names").getAsJsonArray();
 				 
-				 List<String> list = new ArrayList<String>();
+				 List<String> list = new ArrayList<>();
 				 for (int i = 0; i < arr.size();list.add(arr.get(i++).getAsString()));
 				 
 				 list.remove(mc.getName());
@@ -324,7 +324,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		
 	}
 	
-	private MagicEdition generateEdition(JsonObject obj)
+	private MagicEdition generateEdition(JsonObject obj) throws IOException
 	{
 		MagicEdition ed = new MagicEdition();
 			ed.setId(obj.get("code").getAsString());
@@ -359,32 +359,31 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 		return ed;
 	}
 	
-	private int getCount(String id) 
+	private int getCount(String id) throws IOException 
 	{
 		int count = getConnection(jsonUrl+"/cards?set="+id).getHeaderFieldInt("Total-Count", 0);
 		propsCache.put(id, String.valueOf(count));
 		try {
 			logger.info("update cache " + id );
-			propsCache.store(new FileOutputStream(fcacheCount), new Date().toString());
+			
+			try(FileOutputStream fos = new FileOutputStream(fcacheCount))
+			{
+				propsCache.store(fos, new Date().toString());
+			}
+			
 		} catch (Exception e) {
 			logger.error("error in count for "+id,e);
 		}
 		return count;
 	}
 
-	private URLConnection getConnection(String url)
+	private URLConnection getConnection(String url) throws IOException
 	{
-		try {
 			logger.debug("get stream from " + url);
 			URLConnection connection = new URL(url).openConnection();
 			connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 			connection.connect();
 			return connection;
-		} catch (IOException e) {
-			logger.error("error in connection to " + url,e);
-			return null;
-		}	
-		
 		
 	}
 
@@ -411,7 +410,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 				cache.put(ed.getId(), ed);
 			}
 		}
-		return new ArrayList<MagicEdition>(cache.values());
+		return new ArrayList<>(cache.values());
 	}
 
 	@Override

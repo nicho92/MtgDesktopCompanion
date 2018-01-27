@@ -42,44 +42,47 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 		
 		URL link = new URL(props.getProperty("URL"));
 		InputStream is = link.openStream();
-		BufferedReader read = new BufferedReader(new InputStreamReader(is));
-		String line;
-		List<MagicPrice> list = new ArrayList<MagicPrice>();
-	
-		while ((line = read.readLine()) != null) {
-			String[] fields = line.split("\\|");
-			if (fields.length < 8)
-				continue;
-
-			String name = fields[0].trim();
-			String price = fields[1].trim();
-			try {
-				double f = Double.parseDouble(price);
-				String cname = getCorrectName(card.getName());
-				props.put("KEYWORD",cname);
-				if(name.startsWith(cname))
-				{
-					logger.info(getName() + " found "+ cname);
-   				 MagicPrice mp = new MagicPrice();
-							mp.setSeller(getName());
-							mp.setUrl("http://store.eudogames.com/products/search?query="+URLEncoder.encode(card.getName(),"UTF-8"));
-							mp.setSite(getName());
-							mp.setValue(f);
-							mp.setCurrency("$");
-							list.add(mp);
-							read.close();
-							return list;
-				}
-			} catch (NumberFormatException e) {
-				continue;
-			} 
-		}
-	    
-		if(list.size()>Integer.parseInt(props.get("MAX").toString()))
- 			 if(Integer.parseInt(props.get("MAX").toString())>-1)
- 				 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
+		try(BufferedReader read = new BufferedReader(new InputStreamReader(is)))
+		{
+			String line;
+			List<MagicPrice> list = new ArrayList<MagicPrice>();
 		
-		return list;
+			while ((line = read.readLine()) != null) {
+				String[] fields = line.split("\\|");
+				if (fields.length < 8)
+					continue;
+
+				String name = fields[0].trim();
+				String price = fields[1].trim();
+				try {
+					double f = Double.parseDouble(price);
+					String cname = getCorrectName(card.getName());
+					props.put("KEYWORD",cname);
+					if(name.startsWith(cname))
+					{
+						logger.info(getName() + " found "+ cname);
+	   				 MagicPrice mp = new MagicPrice();
+								mp.setSeller(getName());
+								mp.setUrl("http://store.eudogames.com/products/search?query="+URLEncoder.encode(card.getName(),"UTF-8"));
+								mp.setSite(getName());
+								mp.setValue(f);
+								mp.setCurrency("$");
+								list.add(mp);
+								read.close();
+								return list;
+					}
+				} catch (NumberFormatException e) {
+					continue;
+				} 
+			}
+		    
+			if(list.size()>Integer.parseInt(props.get("MAX").toString()))
+	 			 if(Integer.parseInt(props.get("MAX").toString())>-1)
+	 				 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
+			
+			return list;
+		}
+		
 	}
 
 	
@@ -104,7 +107,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
-		// TODO Auto-generated method stub
+		logger.error("not implemented");
 		
 	}
 }
