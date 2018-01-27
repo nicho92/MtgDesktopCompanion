@@ -46,18 +46,12 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 			props.put("CARD_FILTER", "");
 			props.put("COMPETITION_FILTER", "P,M,C,R");
 			props.put("DATE_START_FILTER", "");
-			/*compet_check[P]:1
-			compet_check[M]:1
-			compet_check[C]:1
-			compet_check[R]:1*/
-			
-			
 			save();
 		}
 	}
 	
 	private void initFormats() {
-		formats=new HashMap<String,String>();
+		formats=new HashMap<>();
 		formats.put("Standard", "ST");
 		formats.put("Modern", "MO");
 		formats.put("Legacy", "LE");
@@ -140,7 +134,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		for(int i=0;i<Integer.parseInt(props.getProperty("MAX_PAGE"));i++)
 		{
 			HttpPost reqSearch = new HttpPost(props.getProperty("URL")+"/search");
-			List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+			List <NameValuePair> nvps = new ArrayList <>();
 								 nvps.add(new BasicNameValuePair("current_page", String.valueOf(i+1)));
 						         nvps.add(new BasicNameValuePair("event_titre", getProperty("EVENT_FILTER").toString()));
 						         nvps.add(new BasicNameValuePair("deck_titre", ""));
@@ -170,7 +164,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		Document d = Jsoup.parse(res.toString());
 		Elements els = d.select("tr.hover_tr");
 		
-		List<RetrievableDeck> ret = new ArrayList<RetrievableDeck>();
+		List<RetrievableDeck> ret = new ArrayList<>();
 		for(int i = 0; i <els.size();i++)
 		{
 			Element e = els.get(i);
@@ -187,7 +181,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void connect() throws Exception {
-		// TODO Auto-generated method stub
+		//Nothing to do
 
 	}
 

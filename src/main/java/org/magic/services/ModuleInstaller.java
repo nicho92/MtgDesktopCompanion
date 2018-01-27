@@ -1,6 +1,5 @@
 package org.magic.services;
 
-import java.io.IOException;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,10 +15,10 @@ public class ModuleInstaller {
 	Logger logger = MTGLogger.getLogger(this.getClass());
 	Reflections reflections;
 	
-	 public List<Class> getClasses(String packageName) throws ClassNotFoundException, IOException {
-		 ArrayList<Class> classes = new ArrayList<Class>();
-		 Reflections reflections = new Reflections(packageName);
-		 for(Class<? extends MTGPlugin> c :reflections.getSubTypesOf(MTGPlugin.class) )
+	 public List<Class> getClasses(String packageName)  {
+		 ArrayList<Class> classes = new ArrayList<>();
+		 Reflections classReflections = new Reflections(packageName);
+		 for(Class<? extends MTGPlugin> c :classReflections.getSubTypesOf(MTGPlugin.class) )
 		 {
 			if(!c.isInterface() && !Modifier.isAbstract(c.getModifiers()))
 				classes.add(c);
@@ -28,7 +27,7 @@ public class ModuleInstaller {
 	    }
 	
 	
-	 public boolean updateConfigWithNewModule() throws ClassNotFoundException, IOException {
+	 public boolean updateConfigWithNewModule() {
 		
 		for(Class c : extractMissing("org.magic.api.dao.impl", "/daos/dao"))
 			 MTGControler.getInstance().addProperty("/daos/dao", c);
@@ -62,15 +61,13 @@ public class ModuleInstaller {
 	 }
 	 
 	 
-	public List<Class> extractMissing(String packages,String k) throws ClassNotFoundException, IOException {
+	public List<Class> extractMissing(String packages,String k) {
 	
-		List<Class> retour = new ArrayList<Class>();
+		List<Class> retour = new ArrayList<>();
 		for(Class c : getClasses(packages))
 		{
-			if(!c.isAnonymousClass())
+			if(!c.isAnonymousClass()&&!c.getName().contains("$"))
 			{
-				if(!c.getName().contains("$"))
-				{
 					String path = k+"[class='"+c.getName()+"']/class";
 					String s = MTGControler.getInstance().get(path);
 					if(s=="")
@@ -78,7 +75,6 @@ public class ModuleInstaller {
 						hasUpdated=true;
 						retour.add(c);
 					}
-				}
 			}
 		}
 		return retour;

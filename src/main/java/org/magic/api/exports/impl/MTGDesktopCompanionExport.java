@@ -58,7 +58,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 		}
 	}
 
-	private <T> T read(File f, Class<T> class1) throws ClassNotFoundException, IOException  {
+	private <T> T read(File f) throws ClassNotFoundException, IOException  {
 		try(ObjectInputStream oos = new ObjectInputStream(new FileInputStream(f)))
 		{
 			return (T)oos.readObject();
@@ -72,7 +72,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 
 	@Override
 	public MagicDeck importDeck(File f) throws Exception {
-		return read(f, MagicDeck.class);
+		return read(f);
 	}
 
 

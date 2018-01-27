@@ -7,10 +7,10 @@ import org.apache.commons.lang3.StringUtils;
 
 public class LanguageService {
 
-	ResourceBundle bundle;
+	ResourceBundle rbundle;
 	StringBuilder temp;
 	
-	private static String BUNDLE = "locales.lang";
+	private static final String BUNDLE = "locales.lang";
 	
 	public String get(String k,Object... values)
 	{
@@ -39,12 +39,12 @@ public class LanguageService {
 	
 	public LanguageService() {
 		temp = new StringBuilder();
-		bundle = ResourceBundle.getBundle(BUNDLE,getDefault());
+		rbundle = ResourceBundle.getBundle(BUNDLE,getDefault());
 	}
 	
 	public LanguageService(Locale l) {
 		temp = new StringBuilder();
-		bundle = ResourceBundle.getBundle(BUNDLE,l);
+		rbundle = ResourceBundle.getBundle(BUNDLE,l);
 	}
 	
 	
@@ -61,14 +61,14 @@ public class LanguageService {
 	
 	public void changeLocal(Locale l) {
 		if(l!=null)
-			bundle = ResourceBundle.getBundle(BUNDLE,l);
+			rbundle = ResourceBundle.getBundle(BUNDLE,l);
 		else
-			bundle = ResourceBundle.getBundle(BUNDLE,getDefault());
+			rbundle = ResourceBundle.getBundle(BUNDLE,getDefault());
 	}
 	
 	public String get(String key)
 	{
-		return bundle.getString(key);
+		return rbundle.getString(key);
 	}
 	
 	public String getCapitalize(String key)

@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.NotImplementedException;
 import org.bson.Document;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
@@ -79,7 +80,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 			 props.put("SERVERPORT", "27017");
 			 props.put("DB_NAME", "mtgdesktopcompanion");
 			 props.put("LOGIN", "login");
-			 props.put("PASSWORD", "password");
+			 props.put("PASSWORD", "");
 		save();
 		}
 		
@@ -90,7 +91,6 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		
 		gson=new Gson();
 		
-		//pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().register("org.magic.beans").automatic(true).build()));
 		pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 		
 		client = new MongoClient(
@@ -150,7 +150,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		logger.debug("remove " + mc + " from " + collection);
 		
 		BasicDBObject andQuery = new BasicDBObject();
-		List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+		List<BasicDBObject> obj = new ArrayList<>();
 							obj.add(new BasicDBObject("db_id",IDGenerator.generate(mc)));
 							obj.add(new BasicDBObject("collection.name", collection.getName()));
 		andQuery.put("$and", obj);
@@ -162,7 +162,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
 		logger.debug("list all cards");
-		List<MagicCard> list = new ArrayList<MagicCard>();
+		List<MagicCard> list = new ArrayList<>();
 		
 		db.getCollection("cards",BasicDBObject.class).find().forEach(new Block<BasicDBObject>() {
 				        @Override
@@ -176,7 +176,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
-		Map<String, Integer> map = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
+		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		 List<Bson> aggr = Arrays.asList(
 	              Aggregates.match(Filters.eq("collection.name", c.getName())),
 	              Aggregates.group("$edition", Accumulators.sum("count", 1))
@@ -210,7 +210,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		if(me!=null)
 		{
 			BasicDBObject andQuery = new BasicDBObject();
-			List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+			List<BasicDBObject> obj = new ArrayList<>();
 								obj.add(new BasicDBObject("collection.name", cols.getName()));
 								obj.add(new BasicDBObject("edition",me.getId().toUpperCase()));
 			andQuery.put("$and", obj);
@@ -230,9 +230,9 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		logger.debug("getCardsFromCollection " + collection + " " + me);
 		
 		BasicDBObject query = new BasicDBObject();
-		List<MagicCard> ret = new ArrayList<MagicCard>();
+		List<MagicCard> ret = new ArrayList<>();
 
-		List<BasicDBObject> obj = new ArrayList<BasicDBObject>();
+		List<BasicDBObject> obj = new ArrayList<>();
 							obj.add(new BasicDBObject("collection.name", collection.getName()));
 		
 		if(me!=null)
@@ -256,7 +256,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 	@Override
 	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException {
-		List<String> ret = new ArrayList<String>();
+		List<String> ret = new ArrayList<>();
 		BasicDBObject query = new BasicDBObject();
 		query.put("collection.name", collection.getName());
 		db.getCollection("cards", BasicDBObject.class).distinct("edition",query,String.class).into(ret);
@@ -291,7 +291,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public List<MagicCollection> getCollections() throws SQLException {
 		MongoCollection<MagicCollection> collection = db.getCollection("collects", MagicCollection.class);
-		List<MagicCollection> cols = new ArrayList<MagicCollection>();
+		List<MagicCollection> cols = new ArrayList<>();
 		collection.find().into(cols);
 		return cols;
 	}
@@ -326,7 +326,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException{
 		
-		List<MagicCollection> ret = new ArrayList<MagicCollection>();
+		List<MagicCollection> ret = new ArrayList<>();
 		BasicDBObject query = new BasicDBObject();
 		query.put("db_id",IDGenerator.generate(mc));
 		db.getCollection("cards", BasicDBObject.class).distinct("collection.name",query,String.class).forEach(new Block<String>() {
@@ -337,7 +337,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 				} catch (SQLException e) {
 					logger.error("Error",e);
 				}
-			};
+			}
 		});
 		
 		
@@ -349,11 +349,11 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 	@Override
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
-		return new ArrayList<MagicCardStock>();
+		return new ArrayList<>();
 	}
 	
 	public List<MagicCardStock> getStocks() throws SQLException {
-		List<MagicCardStock> stocks= new ArrayList<MagicCardStock>();
+		List<MagicCardStock> stocks= new ArrayList<>();
 		db.getCollection("stocks",BasicDBObject.class).find().forEach(new Block<BasicDBObject>() {
 	        @Override
 	        public void apply(final BasicDBObject result) {
@@ -402,7 +402,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 	@Override
 	public List<MagicCardAlert> getAlerts() {
-		ArrayList<MagicCardAlert> ret= new ArrayList<MagicCardAlert>();
+		ArrayList<MagicCardAlert> ret= new ArrayList<>();
 		db.getCollection("alerts",BasicDBObject.class).find().forEach(new Block<BasicDBObject>() {
 	        @Override
 	        public void apply(final BasicDBObject result) {
@@ -454,7 +454,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 	@Override
 	public void backup(File f) throws Exception {
-			
+		throw new NotImplementedException("Not yet implemented");
 	}
 
 	

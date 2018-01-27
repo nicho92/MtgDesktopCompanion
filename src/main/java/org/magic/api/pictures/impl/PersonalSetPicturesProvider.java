@@ -6,6 +6,7 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
@@ -42,7 +43,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public void removePicture(MagicEdition ed, MagicCard mc) {
 		File mainDir = new File(props.getProperty("PICS_DIR"));
 		File edDir = new File(mainDir,ed.getId());
-		new File(edDir,mc.getId()+"."+props.getProperty("FORMAT")).delete();
+		FileUtils.deleteQuietly(new File(edDir,mc.getId()+"."+props.getProperty("FORMAT")));
 	}
 	
 	public PersonalSetPicturesProvider() {

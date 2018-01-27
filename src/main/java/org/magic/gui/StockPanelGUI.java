@@ -165,7 +165,6 @@ public class StockPanelGUI extends JPanel {
 											JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					{
-					logger.debug("delete stocks");
 					ThreadManager.getInstance().execute(new Runnable() {
 						
 						@Override

@@ -61,7 +61,7 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 			propsCache.load(new FileReader(fcacheCount));
 		} catch (FileNotFoundException e) {
 			try {
-				fcacheCount.createNewFile();
+				FileUtils.touch(fcacheCount);
 			} catch (IOException e1) {
 				logger.error("couldn't create "+fcacheCount,e1);
 				

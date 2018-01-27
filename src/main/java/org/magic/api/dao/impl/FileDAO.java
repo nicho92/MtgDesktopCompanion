@@ -3,6 +3,7 @@ package org.magic.api.dao.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
+import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -31,17 +32,22 @@ public class FileDAO extends AbstractMagicDAO {
 	private Gson export;
 	private File directory;
 	
+	private static final String CARDSDIR="cards";
+	private static final String STOCKDIR="stocks";
+	private static final String ALERTSDIR="alerts";
+	
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
 	
-	public <T> T read(Class<T> T, File f) throws Exception
+	public <T> T read(Class<T> c, File f) throws IOException 
 	{
-		return export.fromJson(FileUtils.readFileToString(f, Charset.defaultCharset()), T);
+		return export.fromJson(FileUtils.readFileToString(f, Charset.defaultCharset()), c);
 	}
 	
-	public void save(Object o , File f) throws Exception
+	public void save(Object o , File f) throws IOException 
 	{
 		FileUtils.write(f, export.toJson(o),Charset.defaultCharset());
 	}
@@ -64,11 +70,11 @@ public class FileDAO extends AbstractMagicDAO {
 		if(!directory.exists())
 			directory.mkdir();
 		
-		new File(directory,"cards").mkdir();
-		new File(directory,"alerts").mkdir();
-		new File(directory,"stocks").mkdir();
+		new File(directory,CARDSDIR).mkdir();
+		new File(directory,ALERTSDIR).mkdir();
+		new File(directory,STOCKDIR).mkdir();
 		
-		new File(directory,"cards/"+MTGControler.getInstance().get("default-library")).mkdir();
+		new File(new File(directory,CARDSDIR),MTGControler.getInstance().get("default-library")).mkdir();
 		logger.debug("File DAO init");
 	}
 
@@ -88,7 +94,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		File f = new File(directory,"cards/"+collection.getName());
+		File f = new File(new File(directory,CARDSDIR),collection.getName());
 		
 		if(!f.exists())
 			f.mkdir();
@@ -111,29 +117,28 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		File f = new File(directory,"cards/"+collection.getName()+"/"+removeCon(mc.getEditions().get(0).getId())+"/"+IDGenerator.generate(mc));
-		
+		File f =Paths.get(directory.getAbsolutePath(), CARDSDIR,collection.getName(),removeCon(mc.getEditions().get(0).getId()),IDGenerator.generate(mc)).toFile(); 
 		File parent = f.getParentFile();
 		
 		if(f.exists())
-			f.delete();
+			FileUtils.deleteQuietly(f);
 
 		if(parent.listFiles().length==0)
-			parent.delete();
+			FileUtils.deleteQuietly(parent);
 		
 	}
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public int getCardsCount(MagicCollection list, MagicEdition me) throws SQLException {
-		File f = new File(directory,"cards/"+list.getName());
+		File f = new File(new File(directory,CARDSDIR),list.getName());
 		
 		if(me!=null)
-			f = new File(f,"/"+removeCon(me.getId()));
+			f = new File(f,removeCon(me.getId()));
 		
 		
 		return FileUtils.listFiles(f, null, true).size();
@@ -141,8 +146,8 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public Map<String, Integer> getCardsCountGlobal(MagicCollection c) throws SQLException {
-		Map<String, Integer> map = new TreeMap<String, Integer>(String.CASE_INSENSITIVE_ORDER);
-		File eds = new File(directory,"cards/"+c.getName());
+		Map<String, Integer> map = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+		File eds = new File(new File(directory,CARDSDIR),c.getName());
 		for(File ed : eds.listFiles())
 			map.put(removeCon(ed.getName()), ed.listFiles().length);
 		
@@ -156,14 +161,14 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCard> getCardsFromCollection(MagicCollection c, MagicEdition me) throws SQLException {
-		File col = new File(directory,"cards/"+c.getName());
+		File col = new File(new File(directory,CARDSDIR),c.getName());
 		
 		if(me!=null)
 			col = new File(col,removeCon(me.getId()));
 		
 		logger.debug("Load " + col);
 		
-		List<MagicCard> ret = new ArrayList<MagicCard>();
+		List<MagicCard> ret = new ArrayList<>();
 		
 		for(File f : FileUtils.listFilesAndDirs(col,TrueFileFilter.INSTANCE,TrueFileFilter.INSTANCE))
 		{
@@ -182,8 +187,8 @@ public class FileDAO extends AbstractMagicDAO {
 	public List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException {
 		
 		String id = IDGenerator.generate(mc);
-		File f = new File(directory,"cards/");
-		List<MagicCollection> ret = new ArrayList<MagicCollection>();
+		File f = new File(directory,CARDSDIR);
+		List<MagicCollection> ret = new ArrayList<>();
 		Collection<File> res = FileUtils.listFiles(f,new NameFileFilter(id),TrueFileFilter.INSTANCE);
 		
 		for(File result : res)
@@ -195,8 +200,8 @@ public class FileDAO extends AbstractMagicDAO {
 	
 	@Override
 	public List<String> getEditionsIDFromCollection(MagicCollection c) throws SQLException {
-		File col = new File(directory,"cards/"+c.getName());
-		List<String> ret = new ArrayList<String>();
+		File col = new File(new File(directory,CARDSDIR),c.getName());
+		List<String> ret = new ArrayList<>();
 		
 		for(File f : col.listFiles())
 			ret.add(f.getName());
@@ -211,7 +216,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void saveCollection(MagicCollection c) throws SQLException {
-		File f = new File(directory,"cards/"+c.getName());
+		File f = new File(new File(directory,CARDSDIR),c.getName());
 		
 		if(!f.exists())
 			f.mkdir();
@@ -220,7 +225,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeCollection(MagicCollection c) throws SQLException {
-		File f = new File(directory,"cards/"+c.getName());
+		File f = new File(new File(directory,CARDSDIR),c.getName());
 		
 		
 		if(f.exists())
@@ -235,9 +240,9 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public List<MagicCollection> getCollections() throws SQLException {
 		
-		ArrayList<MagicCollection> ret = new ArrayList<MagicCollection>();
+		ArrayList<MagicCollection> ret = new ArrayList<>();
 		
-		for(File f : new File(directory,"cards/").listFiles())
+		for(File f : new File(directory,CARDSDIR).listFiles())
 			ret.add(new MagicCollection(f.getName()));
 		
 		
@@ -246,7 +251,8 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeEdition(MagicEdition ed, MagicCollection col) throws SQLException {
-		File f = new File(directory,"cards/"+col.getName()+"/"+removeCon(ed.getId()));
+		
+		File f= Paths.get(directory.getAbsolutePath(), CARDSDIR,col.getName(),removeCon(ed.getId())).toFile();
 		
 		if(f.exists())
 			try {
@@ -259,8 +265,8 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
-		List<MagicCardStock> st = new ArrayList<MagicCardStock>();
-		File f = new File(directory,"/stocks");
+		List<MagicCardStock> st = new ArrayList<>();
+		File f = new File(directory,STOCKDIR);
 		for(File fstock : FileUtils.listFiles(f,new WildcardFileFilter("*"+IDGenerator.generate(mc)),TrueFileFilter.INSTANCE))
 		{
 			try {
@@ -281,7 +287,7 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
 		
-		File f = new File(directory,"/stocks");
+		File f = new File(directory,STOCKDIR);
 		
 		if(state.getIdstock()==-1)
 			state.setIdstock(f.listFiles().length+1);
@@ -301,16 +307,17 @@ public class FileDAO extends AbstractMagicDAO {
 		
 		for(MagicCardStock s : state)
 		{ 
-			File f = new File(directory,"/stocks/"+s.getIdstock()+"/"+IDGenerator.generate(s.getMagicCard()));
-			f.delete();
+			File f = Paths.get(directory.getAbsolutePath(), STOCKDIR,s.getIdstock()+"-"+IDGenerator.generate(s.getMagicCard())).toFile();
+			logger.debug("Delete " + f);
+			FileUtils.deleteQuietly(f);
 		}
 	}
 
 	@Override
 	public List<MagicCardStock> getStocks() throws SQLException {
-		List<MagicCardStock> ret = new ArrayList<MagicCardStock>();
+		List<MagicCardStock> ret = new ArrayList<>();
 		
-		for(File f : FileUtils.listFiles(new File(directory,"/stocks"), null, false))
+		for(File f : FileUtils.listFiles(new File(directory,STOCKDIR), null, false))
 		{
 			try {
 				ret.add(read(MagicCardStock.class, f));
@@ -323,9 +330,9 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicCardAlert> getAlerts() {
-		List<MagicCardAlert> ret = new ArrayList<MagicCardAlert>();
+		List<MagicCardAlert> ret = new ArrayList<>();
 		
-		for(File f : FileUtils.listFiles(new File(directory,"/alerts"), null, false))
+		for(File f : FileUtils.listFiles(new File(directory,ALERTSDIR), null, false))
 		{
 			try {
 				ret.add(read(MagicCardAlert.class, f));
@@ -361,7 +368,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public boolean hasAlert(MagicCard mc) {
-		return !FileUtils.listFiles(new File(directory,"/alerts"),new NameFileFilter(IDGenerator.generate(mc)),TrueFileFilter.INSTANCE).isEmpty();
+		return !FileUtils.listFiles(new File(directory,ALERTSDIR),new NameFileFilter(IDGenerator.generate(mc)),TrueFileFilter.INSTANCE).isEmpty();
 	}
 
 	@Override

@@ -99,10 +99,10 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 					//.setConnectionTimeToLive(3000, TimeUnit.MILLISECONDS)
 					.build();
 		
-		httpclient.execute(new HttpGet("https://tappedout.net/accounts/login/?next=/"), httpContext); //get csrfmiddlewaretoken in cookies
+		httpclient.execute(new HttpGet("https://tappedout.net/accounts/login/?next=/"), httpContext);
 	
-		HttpPost login = new HttpPost("https://tappedout.net/accounts/login/"); //cookies need have tapped=buxy7qwywslb2tslv85ewqikh52xtztl;
-	    List <NameValuePair> nvps = new ArrayList <NameValuePair>();
+		HttpPost login = new HttpPost("https://tappedout.net/accounts/login/"); 
+	    List <NameValuePair> nvps = new ArrayList <>();
 	       					 nvps.add(new BasicNameValuePair("next", "/"));
 					         nvps.add(new BasicNameValuePair("username", props.getProperty("LOGIN")));
 					         nvps.add(new BasicNameValuePair("password", props.getProperty("PASSWORD")));
@@ -180,7 +180,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true);
 			}
 			
-			if(ret.size()>0)
+			if(!ret.isEmpty())
 			{
 				setChanged();
 				notifyObservers(deck.getMap());
@@ -203,7 +203,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		String responseBody = EntityUtils.toString(httpclient.execute(new HttpGet(tappedJson), httpContext).getEntity());
 		
         JsonElement root = new JsonParser().parse(responseBody);
-		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
+		List<RetrievableDeck> list = new ArrayList<>();
 		
         for(int i=0;i<root.getAsJsonArray().size();i++)
 		{

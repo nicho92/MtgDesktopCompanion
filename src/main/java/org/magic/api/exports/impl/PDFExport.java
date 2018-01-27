@@ -21,7 +21,6 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
-import com.itextpdf.text.Phrase;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -66,16 +65,7 @@ public class PDFExport extends AbstractCardExport {
 			int i=0;
 			for(MagicCard card : cards)
 			{
-				try
-				{	 
-					table.addCell(getCells(card));
-
-				}
-				catch(Exception e)
-				{
-					table.addCell(new Phrase(card.getName()));
-				}
-				
+				table.addCell(getCells(card));
 				setChanged();
 				notifyObservers(i++);
 
@@ -83,7 +73,8 @@ public class PDFExport extends AbstractCardExport {
 			document.add(table);
 			document.close();
 			writer.close();
-		} catch (Exception e)
+		} 
+		catch (Exception e)
 		{
 			logger.error("Error in pdf creation " + f,e);
 		} 

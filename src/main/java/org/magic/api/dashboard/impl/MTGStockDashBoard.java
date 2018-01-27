@@ -29,11 +29,6 @@ import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 	private String url = "http://www.mtgstocks.com/";
-	private CookieStore cookieStore;
-	private HttpClient httpclient;
-	private HttpContext httpContext; 
-	
-
 	
 	@Override
 	public STATUT getStatut() {
@@ -61,10 +56,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	private void connect() throws IOException
 	{
-		cookieStore = new BasicCookieStore();
-		httpContext = new BasicHttpContext();
+		CookieStore cookieStore = new BasicCookieStore();
+		HttpContext httpContext = new BasicHttpContext();
 		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
-		httpclient = HttpClients.custom()
+		HttpClient httpclient = HttpClients.custom()
 					.setUserAgent(props.getProperty("USER_AGENT"))
 					.setRedirectStrategy(new LaxRedirectStrategy())
 					.build();

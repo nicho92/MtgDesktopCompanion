@@ -26,11 +26,9 @@ import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
-import org.mozilla.javascript.ast.NodeVisitor;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard{
 	private Date updateTime;
-	private Map<Date,Double> historyPrice;
     boolean stop ;	    
     private Map<String,String> mapConcordance;
     
@@ -64,7 +62,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		 
 		stop = false;	    
 		String url ="";
-		historyPrice = new TreeMap<>();
+		Map<Date,Double> historyPrice = new TreeMap<>();
 		int index=0;
 		
 		if(me==null)
@@ -98,14 +96,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		 
 		 
 	     AstNode node = new Parser().parse(js.html(), "", 1);
-	     		 node.visit( new NodeVisitor() {
-	 	             public boolean visit(AstNode node) 
+	     		 node.visit( n-> 
 	 	             {
 	 	            	 
-	    	        		 if(stop==false)
+	    	        		 if(!stop && node.toSource().startsWith("d"))
 	    	        		 {
-	    	        			 if(node.toSource().startsWith("d"))
-		    	        		 {
 		    	        			 String val = node.toSource();
 		    	        			 val=val.replaceAll("d \\+\\= ", "");
 		    	        			 val=val.replaceAll("\\\\n", "");
@@ -113,14 +108,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		    	        			 val=val.replaceAll("\"", "");
 		    	        			 String[] res = val.split(",");
 		    	        			try {
-		    	        				Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0]+ " 00:00");
-		    							if(historyPrice.get(d)==null)
-		    								historyPrice.put(d, Double.parseDouble(res[1]));
+		    	        				Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0]+ " 00:00");
+		    							if(historyPrice.get(date)==null)
+		    								historyPrice.put(date, Double.parseDouble(res[1]));
 		    						} 
 		    	        			catch (Exception e) {
 		    							logger.error(e);
 		    						} 
-		    	        		 }
 	    	        		 }
 	    	        		 
 	    	        		 if(node.toSource().startsWith("g ="))
@@ -129,7 +123,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	    	        		 }
 	    	        	 
 	    	        	return true;
-	    	         }});
+	    	         });
 
 	    return historyPrice;
 	    
@@ -142,7 +136,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
-		
+		List<CardShake> list = new ArrayList<>();
 		String urlW= props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/winners/"+props.getProperty("DAILY_WEEKLY");
 		String urlL= props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY");
 		
@@ -172,35 +166,29 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		Element table =null;
 		try{
 		
-		table = doc.select("table").get(0).getElementsByTag("tbody").get(0).appendChild(doc2.select("table").get(0).getElementsByTag("tbody").get(0));//combine 2 results
-		
-		List<CardShake> list = new ArrayList<>();
-		
-		
-		for(Element e : table.getElementsByTag("tr"))
-		{
-			CardShake cs = new CardShake();
-					cs.setName(e.getElementsByTag("TD").get(3).text().replaceAll("\\(RL\\)", "").trim());
-					cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(3).getElementsByTag("a").get(0).attr("data-full-image")));
-					cs.setPrice(parseDouble(e.getElementsByTag("TD").get(4).text()));
-					cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(1).text()));
-					cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
+			table = doc.select("table").get(0).getElementsByTag("tbody").get(0).appendChild(doc2.select("table").get(0).getElementsByTag("tbody").get(0));//combine 2 results
 			
-			String set = e.getElementsByTag("TD").get(2).getElementsByTag("img").get(0).attr("alt");
-			cs.setEd(replace(set,true));
-			
-			list.add(cs);
-			
-		}
-		return list;
-		
-		
+			for(Element e : table.getElementsByTag("tr"))
+			{
+				CardShake cs = new CardShake();
+						cs.setName(e.getElementsByTag("TD").get(3).text().replaceAll("\\(RL\\)", "").trim());
+						cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(3).getElementsByTag("a").get(0).attr("data-full-image")));
+						cs.setPrice(parseDouble(e.getElementsByTag("TD").get(4).text()));
+						cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(1).text()));
+						cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
+				
+				String set = e.getElementsByTag("TD").get(2).getElementsByTag("img").get(0).attr("alt");
+				cs.setEd(replace(set,true));
+				
+				list.add(cs);
+				
+			}
 		}
 		catch(IndexOutOfBoundsException e)
 		{
 			logger.error(e);
 		}
-		return null;
+		return list;
 		
 		
 		
@@ -210,6 +198,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	{
 		String oldID=edition.getId();
 		String urlEditionChecker = "";
+		List<CardShake> list = new ArrayList<>();
 		
 		if(edition.isOnlineOnly())
 				urlEditionChecker=props.getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#online";
@@ -228,39 +217,32 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		
 		Element table =null;
 		try{
-			List<CardShake> list = new ArrayList<>();
 			
-		table = doc.select("table").get(1).getElementsByTag("tbody").get(0);
-		
-		for(Element e : table.getElementsByTag("tr"))
-		{
-			CardShake cs = new CardShake();
-				
-				cs.setName(e.getElementsByTag("TD").get(0).text().replaceAll("\\(RL\\)", "").trim());
-				cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(0).getElementsByTag("a").get(0).attr("data-full-image")));
-				cs.setRarity(e.getElementsByTag("TD").get(2).text());
-				cs.setPrice(parseDouble(e.getElementsByTag("TD").get(3).text()));
-				cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(4).text()));
-				cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
-				cs.setPriceWeekChange(parseDouble(e.getElementsByTag("TD").get(6).text()));
-				cs.setPercentWeekChange(parseDouble(e.getElementsByTag("TD").get(7).text()));
-				//cs.setEd(e.getElementsByTag("TD").get(1).text());
-				cs.setEd(oldID);
-				cs.setDateUpdate(new Date());
-				
-			list.add(cs);
-		}
-		return list;
-		
-		
+			table = doc.select("table").get(1).getElementsByTag("tbody").get(0);
+			
+			for(Element e : table.getElementsByTag("tr"))
+			{
+				CardShake cs = new CardShake();
+					
+					cs.setName(e.getElementsByTag("TD").get(0).text().replaceAll("\\(RL\\)", "").trim());
+					cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(0).getElementsByTag("a").get(0).attr("data-full-image")));
+					cs.setRarity(e.getElementsByTag("TD").get(2).text());
+					cs.setPrice(parseDouble(e.getElementsByTag("TD").get(3).text()));
+					cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(4).text()));
+					cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
+					cs.setPriceWeekChange(parseDouble(e.getElementsByTag("TD").get(6).text()));
+					cs.setPercentWeekChange(parseDouble(e.getElementsByTag("TD").get(7).text()));
+					cs.setEd(oldID);
+					cs.setDateUpdate(new Date());
+					
+				list.add(cs);
+			}
 		}
 		catch(IndexOutOfBoundsException e)
 		{
 			logger.error(e);
 		}
-		return null;
-		
-		
+		return list;
 	}
 	
 	
@@ -268,7 +250,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
 		
 		//spells, creatures, all, lands
-		String u = new String("https://www.mtggoldfish.com/format-staples/"+f+"/full/"+filter);
+		String u = "https://www.mtggoldfish.com/format-staples/"+f+"/full/"+filter;
 		Document doc = Jsoup.connect(u)
 				.userAgent(props.getProperty("USER_AGENT"))
 				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))

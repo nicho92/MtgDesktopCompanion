@@ -1,12 +1,8 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -15,8 +11,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -25,7 +19,6 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.gui.models.RssContentTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
@@ -35,9 +28,8 @@ public class RssGUI extends JPanel {
 	private JTable table;
 	private RssContentTableModel model;
 	private JEditorPane editorPane;
-	
-	DefaultMutableTreeNode curr;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private DefaultMutableTreeNode curr;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public RssGUI() {
@@ -53,8 +45,10 @@ public class RssGUI extends JPanel {
 		JScrollPane scrollTree = new JScrollPane();
 		
 		JTree tree = new JTree();
-		/*tree.setModel(new DefaultTreeModel(
-			new DefaultMutableTreeNode("Magic RSS") {
+		
+		
+		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Magic RSS");
+		/*{
 				{
 					Set<String> catg = new HashSet<String>();
 					for(RSSBean r : MTGControler.getInstance().getRss())
@@ -74,8 +68,10 @@ public class RssGUI extends JPanel {
 					}
 			
 				}
-			}
-		));*/
+		};*/
+		
+		tree.setModel(new DefaultTreeModel(rootNode));
+		
 		scrollTree.setViewportView(tree);
 		JSplitPane splitPane = new JSplitPane();
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -91,44 +87,32 @@ public class RssGUI extends JPanel {
 		splitPane.setLeftComponent(scrollTable);
 		splitPane.setRightComponent(scrollEditor);
 		
-		JSplitPane splitPane_1 = new JSplitPane();
-		add(splitPane_1, BorderLayout.CENTER);
-		splitPane_1.setLeftComponent(scrollTree);
-		splitPane_1.setRightComponent(splitPane);
+		JSplitPane splitPane1 = new JSplitPane();
+		add(splitPane1, BorderLayout.CENTER);
+		splitPane1.setLeftComponent(scrollTree);
+		splitPane1.setRightComponent(splitPane);
 		
 		JPanel panelHaut = new JPanel();
 		add(panelHaut, BorderLayout.NORTH);
 		
 		JButton btnNewButton = new JButton("");
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			
-			}
-		});
+		
 		btnNewButton.setIcon(MTGConstants.ICON_NEW);
 		panelHaut.add(btnNewButton);
 		
-		tree.addTreeSelectionListener(new TreeSelectionListener() {
-			public void valueChanged(TreeSelectionEvent tse) {
+		tree.addTreeSelectionListener(tse->{
 				TreePath path = tse.getPath();
 				curr = (DefaultMutableTreeNode) path.getLastPathComponent();
 				
 				if(curr.getUserObject() instanceof RSSBean)
-					ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							try {
 								model.init((RSSBean)curr.getUserObject());
 							} catch (Exception e) {
 								MTGLogger.printStackTrace(e);
 							} 
 							model.fireTableDataChanged();
-							
-						}
 					}, "load RSS " + curr.getUserObject());
-					
-					
-					
-			}
 		});
 
 		table.addMouseListener(new MouseAdapter() {

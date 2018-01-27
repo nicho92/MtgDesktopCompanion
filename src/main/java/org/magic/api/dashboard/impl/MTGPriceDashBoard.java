@@ -23,6 +23,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -54,7 +55,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
-
+		List<CardShake> list = new ArrayList<>();
 		String url = props.getProperty("WEBSITE")+"/taneLayout/mtg_price_tracker.jsp?period="+props.getProperty("PERIOD");
 		Document doc = Jsoup.connect(url)
 							.userAgent(props.getProperty("USER_AGENT"))
@@ -85,7 +86,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		Element table2 =doc.getElementById("bottom50"+gameFormat);
 		
 		try{
-			List<CardShake> list = new ArrayList<CardShake>();
+			
 		
 			for(Element e : table.select("tr"))
 			{
@@ -114,12 +115,10 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 						cs.setEd(getCodeForExt(set));
 				list.add(cs);
 			}
-			
-			return list;
 		}catch (Exception e) {
 			logger.error("error retrieve cardshake for "+gameFormat,e);
 		}
-		return null;
+		return list;
 	}
 		
 	private double parseDouble(String number)
@@ -174,12 +173,12 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				try {
 					shake.setPercentDayChange(card.get("percentageChangeSinceYesterday").getAsDouble());
 				} catch (Exception e) {
-					
+					MTGLogger.printStackTrace(e);
 				}
 				try {
 					shake.setPercentWeekChange(card.get("percentageChangeSinceOneWeekAgo").getAsDouble());
 				} catch (Exception e) {
-					
+					MTGLogger.printStackTrace(e);
 				}
 				shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
 				shake.setPriceWeekChange(card.get("absoluteChangeSinceOneWeekAgo").getAsDouble());

@@ -30,14 +30,14 @@ public class KeyWordManager {
 			Type listType = new TypeToken<ArrayList<MTGKeyWord>>(){}.getType();
 			list = s.fromJson(new InputStreamReader(this.getClass().getResourceAsStream("/data/keywords.json")), listType);
 			if(list==null)
-				list=new ArrayList<MTGKeyWord>();
+				list=new ArrayList<>();
 		
 	}
 	
 	public MTGKeyWord generateFromString(String key)
 	{
 		for(MTGKeyWord k : list)
-			if(key.toLowerCase().equals(k.getKeyword().toLowerCase()))
+			if(key.equalsIgnoreCase(k.getKeyword()))
 				return k;
 		
 		return null;
@@ -46,35 +46,19 @@ public class KeyWordManager {
 	
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc)
 	{
-		Set<MTGKeyWord> ret = new LinkedHashSet<MTGKeyWord>();
+		Set<MTGKeyWord> ret = new LinkedHashSet<>();
 		
 		for(MTGKeyWord s : list)
 		{	
-			/*for(String st : texts)
-			{
-				if(st.equalsIgnoreCase(s.getKeyword()))
-					ret.add(s);
-			}*/
 			if(String.valueOf(mc.getText()).toLowerCase().contains(s.getKeyword().toLowerCase()))
 					ret.add(s);
 		}
 		return ret;
 	}
-//	
-//	public boolean hasKeyWord(MagicCard mc, MTGKeyWord k)
-//	{
-//		for(MTGKeyWord kw : getKeywordsFrom(mc))
-//		{
-//			if(kw.equals(k))
-//				return true;
-//		}
-//		return false;
-//	}
-//	
 
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard magicCard, EVENT... t) {
 		Set<MTGKeyWord> s = getKeywordsFrom(magicCard);
-		Set<MTGKeyWord> ret = new HashSet<MTGKeyWord>();
+		Set<MTGKeyWord> ret = new HashSet<>();
 		
 		for(MTGKeyWord k : s)
 			for(EVENT ev : t)

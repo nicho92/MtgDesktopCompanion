@@ -118,7 +118,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		String url =props.getProperty("URL")+"/magic/deck/search?format="+props.getProperty("FORMAT")+"&page=1";
 		logger.debug("get List deck at " + url);
-		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
+		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage=1;
 		int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
 	

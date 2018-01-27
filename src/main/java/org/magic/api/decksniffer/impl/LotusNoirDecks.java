@@ -96,18 +96,13 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		
 		logger.debug("snif decks : " + decksUrl);
 
-		Document d = Jsoup.connect(decksUrl)
-    		 	.userAgent(props.getProperty("USER_AGENT"))
-    		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
-				.get();
-		
 		int nbPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
-		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
+		List<RetrievableDeck> list = new ArrayList<>();
 		
 		
 		for(int i=1;i<=nbPage;i++)
 		{
-			d = Jsoup.connect(props.getProperty("URL")+"?dpage="+i+"&action="+props.getProperty("FORMAT"))
+			Document d = Jsoup.connect(props.getProperty("URL")+"?dpage="+i+"&action="+props.getProperty("FORMAT"))
 	    		 	.userAgent(props.getProperty("USER_AGENT"))
 	    		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
 					.get();
@@ -136,7 +131,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 	@Override
 	public void connect() throws Exception {
-		//nothing to do;
+		// Do nothing because not needed
 	}
 
 	@Override

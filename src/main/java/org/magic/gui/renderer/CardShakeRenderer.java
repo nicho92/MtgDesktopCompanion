@@ -10,7 +10,9 @@ import org.magic.services.MTGConstants;
 
 public class CardShakeRenderer extends DefaultTableCellRenderer {
 
-	JLabel comp;
+	
+	private static final long serialVersionUID = 1L;
+	private JLabel comp;
 	
 	public CardShakeRenderer() {
 		comp=new JLabel();
@@ -18,8 +20,9 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 		comp.setOpaque(false);
 	}
 	
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		{
+	@Override
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) 
+	{
 			try 
 			{
 				
@@ -41,7 +44,7 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 				comp.setText(e.getMessage());
 				return comp;
 			}
-		}
+		
 	}
 	
 	

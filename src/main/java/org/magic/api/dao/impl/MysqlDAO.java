@@ -39,8 +39,7 @@ public class MysqlDAO extends AbstractMagicDAO{
     public String toString() {
     	return getName();
     }
-  
-    //TODO : BLOB, JSON,TEXT
+
 	public MysqlDAO() throws ClassNotFoundException, SQLException {
 	    super();	
 		if(!new File(confdir, getName()+".conf").exists()){

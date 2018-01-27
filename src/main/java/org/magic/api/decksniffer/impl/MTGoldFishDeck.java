@@ -107,26 +107,14 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		String url="";
-		
-		
-		
 		metagames=props.getProperty("METAGAME").equals("true");
-
 		
-		if(!metagames)
-				url =props.getProperty("URL")+"/deck/custom/"+props.getProperty("FORMAT")+"?page=1#"+props.getProperty("SUPPORT");
-		else
-				url=props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT");
-		
-		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
-		
+		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage=1;
 		int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
 		
-		
 		if(metagames)
 			maxPage=1;
-		
 		
 		for(int i=1;i<=maxPage;i++)
 		{
@@ -154,9 +142,10 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			
 			Elements desc = cont.select("span.deck-price-"+props.getProperty("SUPPORT") +"> a" );
 			Elements colors = cont.select("span.manacost > img" );
-			String deckColor="";
+			StringBuilder deckColor=new StringBuilder();
+			
 			for(Element c : colors)
-				deckColor+="{"+c.attr("alt").toUpperCase()+"}";
+				deckColor.append("{").append(c.attr("alt").toUpperCase()).append("}");
 			
 			
 			RetrievableDeck deck = new RetrievableDeck();
@@ -168,7 +157,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			else
 				deck.setAuthor(cont.select("div.deck-author").text());
 		
-			deck.setColor(deckColor);
+			deck.setColor(deckColor.toString());
 			
 			for(Element mc : cont.getElementsByTag("li"))
 			{
@@ -186,7 +175,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	
 	@Override
 	public void connect() throws Exception {
-		// Nothing todo
+		// do nothing
 
 	}
 	

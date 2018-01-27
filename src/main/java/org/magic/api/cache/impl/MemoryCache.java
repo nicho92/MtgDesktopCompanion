@@ -24,7 +24,6 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	
 	private String generateIdIndex(MagicCard mc,MagicEdition ed)
 	{
-		//return String.valueOf((mc.getName()+ed+mc.getNumber()+ed.getMultiverse_id()));
 		return IDGenerator.generate(mc, ed);
 	}
 	
@@ -35,7 +34,7 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 		
 		save();
 		}
-		cache=new HashMap<String,BufferedImage>();
+		cache=new HashMap<>();
 	}
 	
 	

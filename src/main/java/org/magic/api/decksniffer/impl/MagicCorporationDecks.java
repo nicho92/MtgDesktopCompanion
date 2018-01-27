@@ -77,7 +77,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 		
 		Elements e = d.select("table.html_table > tbody" );
 		
-		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
+		List<RetrievableDeck> list = new ArrayList<>();
 		for(Element cont : e.get(0).getElementsByTag("tr"))
 		{
 			String name = cont.getElementsByTag("td").get(1).text();
@@ -114,7 +114,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 
 	@Override
 	public void connect() throws Exception {
-		//nothing to do;
+		//do nothing
 	}
 
 	@Override

@@ -19,6 +19,7 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
@@ -42,7 +43,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 			props.put("MAX_PAGE", "2");
 			save();
 		}
-		cacheColor = new HashMap<Integer,String>();
+		cacheColor = new HashMap<>();
 		initcache();
 	}
 	
@@ -144,7 +145,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		Elements s = d.select("table#cards_sideboard").select("tr");
 		s.remove(0);
 		s.remove(0);
-	//	s.remove(s.size()-1);
+
 			for(Element cont : s)
 			{
 				
@@ -156,7 +157,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		}
 		catch(Exception ex)
 		{
-			
+			MTGLogger.printStackTrace(ex);
 		}
 
 		return deck;
@@ -165,20 +166,13 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws Exception {
 		
-		Document d = Jsoup.connect(props.getProperty("URL")+"/"+props.getProperty("FORMAT")+"/?lng=fr&page="+props.getProperty("MAX_PAGE"))
-    		 	.userAgent(props.getProperty("USER_AGENT"))
-    		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
-				.get();
-		
-		
-		
 		int nbPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
-		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
+		List<RetrievableDeck> list = new ArrayList<>();
 		
 		
 		for(int i=1;i<=nbPage;i++)
 		{
-			d = Jsoup.connect(props.getProperty("URL")+"/"+props.getProperty("FORMAT")+"/?lng=fr&page="+i)
+			Document d = Jsoup.connect(props.getProperty("URL")+"/"+props.getProperty("FORMAT")+"/?lng=fr&page="+i)
 	    		 	.userAgent(props.getProperty("USER_AGENT"))
 	    		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
 					.get();
@@ -208,8 +202,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void connect() throws Exception {
-		
-
+		//nothing to do
 	}
 
 	@Override

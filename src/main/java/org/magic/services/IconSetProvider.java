@@ -79,7 +79,9 @@ public class IconSetProvider {
 				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/"+set+"_set.png"));
 				
 				if(!set.equals(id))
+					{
 					iconFile.renameTo(new File(localDirectory,set+"_set.png"));
+					}
 					
 				ImageIO.write(im, "png", iconFile);
 			}

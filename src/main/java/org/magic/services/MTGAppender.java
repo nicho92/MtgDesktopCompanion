@@ -25,7 +25,7 @@ public class MTGAppender extends AppenderSkeleton {
 	}
 	
 	public MTGAppender() {
-		events=new ArrayList<LoggingEvent>();
+		events=new ArrayList<>();
 		obs=new MyObservable();
 	}
 	
@@ -35,11 +35,6 @@ public class MTGAppender extends AppenderSkeleton {
 	}
 	
 	
-	@Override
-	public void close() {
-		
-
-	}
 
 	@Override
 	public boolean requiresLayout() {
@@ -56,6 +51,13 @@ public class MTGAppender extends AppenderSkeleton {
 		{
 			MTGLogger.printStackTrace(e);
 		}
+	}
+
+
+	@Override
+	public void close() {
+		//Do nothing because no stream
+		
 	}
 }
 

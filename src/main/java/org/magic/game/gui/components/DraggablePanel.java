@@ -11,7 +11,6 @@ import javax.swing.JPopupMenu;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.magic.game.model.Player;
-import org.magic.game.model.PositionEnum;
 import org.magic.game.transfert.CardTransfertHandler;
 
 public abstract class DraggablePanel extends JPanel implements Draggable{

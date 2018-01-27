@@ -21,7 +21,6 @@ import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
-import org.mozilla.javascript.ast.NodeVisitor;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -64,8 +63,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 			deck.setName(info.getName());
 			deck.setDateCreation(new Date());
-			//deck.setDescription(info.getUrl().toString());
-			
+		
 		Document d = Jsoup.connect(url)
 						  .userAgent(props.getProperty("USER_AGENT"))
 						  .get();
@@ -80,7 +78,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		boolean sideboard = false;
 		
-		List<String> elements= new ArrayList<String>(Arrays.asList(plainDeck.split("\n")));
+		List<String> elements= new ArrayList<>(Arrays.asList(plainDeck.split("\n")));
 		elements.remove(0);
 		for(String s : elements)
 		{
@@ -113,7 +111,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 						}
 						catch (Exception e)
 						{
-							
+							logger.error(e);
 						}
 					}
 		}
@@ -126,7 +124,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		String url=props.getProperty("URL")+"/decks?filter-format="+getFormatCode(props.getProperty("FORMAT"))+"&filter-deck-time-frame="+props.getProperty("FILTER");
 		
-		List<RetrievableDeck> list = new ArrayList<RetrievableDeck>();
+		List<RetrievableDeck> list = new ArrayList<>();
 		
 		int nbPage=1;
 		int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
@@ -162,13 +160,11 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	String manajson;
 	private String parseColor(String string) {
 		AstNode node = new Parser().parse(string, "", 1);
-		 node.visit( new NodeVisitor() {
-			@Override
-			public boolean visit(AstNode n) {
+		 node.visit( n-> {
 				manajson=n.toSource();
 				return false;
-			}
 		});
+		 
 		manajson=manajson.substring(manajson.indexOf("series")+"series: ".length(),manajson.length()-8);
 
 		JsonArray arr = new JsonParser().parse(manajson).getAsJsonArray();
@@ -186,10 +182,9 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					hascolor=true;
 			}
 			
-			if(hascolor)
+			if(hascolor&& !c.equals("{C}"))
 			{
-				if(!c.equals("{C}"))
-					manajson+=c;
+				manajson+=c;
 			}
 		}
 		
@@ -213,7 +208,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void connect() throws Exception {
-		// Nothing todo
+		// do nothing
 
 	}
 	
