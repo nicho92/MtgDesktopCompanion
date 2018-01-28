@@ -102,17 +102,18 @@ public class MtgjsonProvider implements MagicCardsProvider{
 	    		
 	    	while(ze!=null){
 	           logger.info(this + " unzip : "+ fileSetJson.getAbsoluteFile());
+	           
 	           try(FileOutputStream fos = new FileOutputStream(fileSetJson))
 	           {
-	        	   int len;
-		            while ((len = zis.read(buffer)) > 0) {
+	        	    int len;
+	        	    while ((len = zis.read(buffer)) > 0) {
 		            	fos.write(buffer, 0, len);
 		            }
 		            ze = zis.getNextEntry();
 	           }
 	           
 	    	}
-	    	FileUtils.deleteQuietly(fileSetJson);
+	    	FileUtils.deleteQuietly(fileSetJsonTemp);
 	    }catch(IOException ex){
 	     logger.error(ex);
 	    }
