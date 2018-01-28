@@ -19,7 +19,7 @@ import org.magic.services.MTGLogger;
 
 public class LibraryPanel extends DraggablePanel {
 
-	Image i;
+	private transient Image i;
 	
 	public LibraryPanel() {
 		super();
@@ -53,8 +53,8 @@ public class LibraryPanel extends DraggablePanel {
 			case BATTLEFIELD:player.playCardFromLibrary(mc.getMagicCard());break;
 			case EXIL:player.exileCardFromLibrary(mc.getMagicCard());break;
 			case HAND:player.searchCardFromLibrary(mc.getMagicCard());break;
-			case LIBRARY:player.reoderCardInLibrary(mc.getMagicCard(), true);
-			case GRAVEYARD:player.discardCardFromLibrary(mc.getMagicCard());
+			case LIBRARY:player.reoderCardInLibrary(mc.getMagicCard(), true);break;
+			case GRAVEYARD:player.discardCardFromLibrary(mc.getMagicCard());break;
 		default:break;
 	}
 		

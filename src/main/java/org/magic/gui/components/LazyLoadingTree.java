@@ -30,7 +30,7 @@ public class LazyLoadingTree extends JTree {
 	private DefaultTreeModel model;
 	private MyNode root;
 	
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public LazyLoadingTree() throws ClassNotFoundException, SQLException {
@@ -43,7 +43,7 @@ public class LazyLoadingTree extends JTree {
 		setModel(model);
 		setShowsRootHandles(true);
 		
-		root.loadChildren(model);
+		root.loadChildren();
 		
 		addTreeWillExpandListener(new TreeWillExpandListener() {
 
@@ -54,16 +54,16 @@ public class LazyLoadingTree extends JTree {
                 
                 if (selectedNode.getUserObject() instanceof String) {
                 	MyNode node = (MyNode) path.getLastPathComponent();
-                	node.loadChildren(model);
+                	node.loadChildren();
                 }
                 else if (selectedNode.getUserObject() instanceof MagicCollection) {
                 	MyNode node = (MyNode) path.getLastPathComponent();
-                	node.loadChildren(model);
+                	node.loadChildren();
                     
                 }
                 else  if (selectedNode.getUserObject() instanceof MagicEdition) {
                 	MyNode node = (MyNode) path.getLastPathComponent();
-                	node.loadChildren(model);
+                	node.loadChildren();
                     
                 }
                 else  if (selectedNode.getUserObject() instanceof MagicCard) {
@@ -84,14 +84,9 @@ public class LazyLoadingTree extends JTree {
 
 public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
 {
-	private boolean loaded;
-	private Object userObject;
+	private transient Object obj;
 	private boolean leaf = false;
 	
-	public void setLoaded(boolean b)
-	{
-		loaded=b;
-	}
 	
 	@Override
 	public boolean isLeaf() {
@@ -100,7 +95,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
 	
 	public MyNode(Object c)
 	{
-		userObject=c;
+		obj=c;
 		setUserObject(c);
 		add(new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("LOADING"), false));
 		if(c instanceof MagicCard)
@@ -114,33 +109,26 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
 	private void setChildren(List<MyNode> children) 
     {
         removeAllChildren();
-        setAllowsChildren(children.size() > 0);
+        setAllowsChildren(!children.isEmpty());
         for (MutableTreeNode node : children) {
             add(node);
         }
-        setLoaded(true);
     }
 	
-	public void loadChildren(final DefaultTreeModel model) 
+	public void loadChildren() 
 	{
-     
-		if (loaded) 
-		{
-          //  return ;
-        }
-    	
-		 if(userObject instanceof String)
-			loadCollection();
+     	if(obj instanceof String)
+     		loadCollection();
 		
-        if(userObject instanceof MagicCollection)
-			loadEditionFromCollection((MagicCollection)userObject);
+        if(obj instanceof MagicCollection)
+			loadEditionFromCollection((MagicCollection)obj);
         
-		if(userObject instanceof MagicEdition)
+		if(obj instanceof MagicEdition)
 		{
 			 MagicCollection col = new MagicCollection();
 	        				 col.setName(getPath()[1].toString());
 	       
-			loadCardsFromEdition(col,(MagicEdition)userObject);
+			loadCardsFromEdition(col,(MagicEdition)obj);
 		}
 		
     }
@@ -150,7 +138,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             @Override
             protected List<MyNode> doInBackground() throws Exception {
 
-                List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
+                List<MyNode> children = new ArrayList<>();
                 for(MagicCollection c : MTGControler.getInstance().getEnabledDAO().getCollections())
                 {
                 	MyNode n = new MyNode(c);
@@ -182,7 +170,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             protected List<MyNode> doInBackground() {
             	logger.debug("loading cards from " + col+"/"+ed);
                 
-                List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
+                List<MyNode> children = new ArrayList<>();
                 try {
                 	List<MagicCard> res = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed);
                 	Collections.sort(res,new MagicCardComparator());
@@ -220,7 +208,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
             @Override
             protected List<MyNode> doInBackground() throws Exception {
             	logger.debug("loading editions from " + c);
-                List<MyNode> children = new ArrayList<LazyLoadingTree.MyNode>();
+                List<MyNode> children = new ArrayList<>();
                 for(String ed : MTGControler.getInstance().getEnabledDAO().getEditionsIDFromCollection(c))
                 {
                 	MyNode n = new MyNode(MTGControler.getInstance().getEnabledProviders().getSetById(ed));
@@ -245,7 +233,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
         worker.execute();
 		
 	}
-	
+		
 	@Override
 	public int compareTo(MyNode o) {
 		return this.toString().compareTo(o.toString());

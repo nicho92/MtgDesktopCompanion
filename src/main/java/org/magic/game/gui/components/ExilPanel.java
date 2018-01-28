@@ -52,8 +52,8 @@ public class ExilPanel extends DraggablePanel {
 		switch (to) {
 		case BATTLEFIELD:player.playCardFromExile(mc.getMagicCard());break;
 		case HAND:player.returnCardFromExile(mc.getMagicCard());break;
-		case GRAVEYARD:player.discardCardFromExile(mc.getMagicCard());
-		case LIBRARY:player.putCardInLibraryFromExile(mc.getMagicCard(), true);
+		case GRAVEYARD:player.discardCardFromExile(mc.getMagicCard());break;
+		case LIBRARY:player.putCardInLibraryFromExile(mc.getMagicCard(), true);break;
 		default:break;
 	}
 	}

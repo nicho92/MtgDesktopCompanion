@@ -47,7 +47,7 @@ public class MagicGUI extends JFrame {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private transient SystemTray tray;
-	private JMenuBar menuBar;
+	private JMenuBar mtgMnuBar;
 	private JMenu mnFile;
 	private JMenu mnuAbout;
 	private JMenu jmnuLook;
@@ -119,8 +119,8 @@ public class MagicGUI extends JFrame {
 			logger.error(e);
 		}
 		
-		menuBar = new JMenuBar();
-		setJMenuBar(menuBar);
+		mtgMnuBar = new JMenuBar();
+		setJMenuBar(mtgMnuBar);
 
 		
 		mnFile = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("FILE"));
@@ -136,11 +136,11 @@ public class MagicGUI extends JFrame {
 		JMenuItem mntmReportBug = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REPORT_BUG"));
 		JMenuItem mntmFileOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
 		
-		menuBar.add(mnFile);
+		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileOpen);
 		mnFile.add(mntmExit);
-		menuBar.add(jmnuLook);
-		menuBar.add(mnuAbout);
+		mtgMnuBar.add(jmnuLook);
+		mtgMnuBar.add(mnuAbout);
 		mnuAbout.add(mntmThreadItem);
 		mnuAbout.add(mntmLogsItem);
 		mnuAbout.add(mntmHelp);
@@ -293,8 +293,8 @@ public class MagicGUI extends JFrame {
 		
 		
 		//INIT AVAILABLE LOOK AND FEELS
-		looks = new HashMap<String,String>();
-		looksMore = new HashMap<String,String>();
+		looks = new HashMap<>();
+		looksMore = new HashMap<>();
 		
 		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
 			looks.put(i.getName(),i.getClassName());

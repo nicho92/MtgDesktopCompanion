@@ -47,7 +47,7 @@ public class GraveyardPanel extends DraggablePanel {
 			case BATTLEFIELD:player.playCardFromGraveyard(mc.getMagicCard());break;
 			case EXIL:player.exileCardFromGraveyard(mc.getMagicCard());break;
 			case HAND:player.returnCardFromGraveyard(mc.getMagicCard());break;
-			case LIBRARY:player.putCardInLibraryFromGraveyard(mc.getMagicCard(), true);
+			case LIBRARY:player.putCardInLibraryFromGraveyard(mc.getMagicCard(), true);break;
 			default:break;
 		}
 		
@@ -56,13 +56,13 @@ public class GraveyardPanel extends DraggablePanel {
 	@Override
 	public void postTreatment(DisplayableCard c) {
 		
-		int NB=0;
+		int nb=0;
 		
 		for(int i=getComponents().length-1;i>=0;i--)
 		{
 			DisplayableCard card = (DisplayableCard)getComponent(i);
-			card.setBounds(5, 10+NB, card.getWidth(), card.getHeight());
-			NB=NB+30;
+			card.setBounds(5, 10+nb, card.getWidth(), card.getHeight());
+			nb=nb+30;
 		}
 		getParent().getParent().revalidate();
 		getParent().getParent().repaint();

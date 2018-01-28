@@ -17,10 +17,10 @@ import org.magic.services.MTGControler;
 
 public class HandPanel extends DraggablePanel {
 
-	GridBagConstraints c;
-	int index=0;
-	int val=7;
-	
+	private GridBagConstraints c;
+	private int index=0;
+	private int val=7;
+	private Thread t;
 	private PositionEnum origine = PositionEnum.HAND;
 
 
@@ -31,7 +31,7 @@ public class HandPanel extends DraggablePanel {
 			case BATTLEFIELD:player.playCard(mc.getMagicCard());break;
 			case EXIL:player.exileCardFromHand(mc.getMagicCard());break;
 			case GRAVEYARD:player.discardCardFromHand(mc.getMagicCard());break;
-			case LIBRARY:player.putCardInLibraryFromHand(mc.getMagicCard(), true);
+			case LIBRARY:player.putCardInLibraryFromHand(mc.getMagicCard(), true);break;
 			default:break;
 		}
 	}
@@ -71,13 +71,12 @@ public class HandPanel extends DraggablePanel {
 		i.setPosition(getOrigine());
 	}
 	
-	Thread t;
+	
 	public void initThumbnails(final List<MagicCard> cards, final boolean activateCards) {
 		
 		
-		if(t!=null)
-			if(t.isAlive())
-				t.stop();
+		if(t!=null && t.isAlive())
+			t.stop();
 	
 		c.weightx = 1;
 		  c.weighty = 1;
@@ -109,7 +108,6 @@ public class HandPanel extends DraggablePanel {
 					
 						addComponent(lab);
 						revalidate();
-						//repaint();
 					} catch (Exception e) {
 						lab.setText(mc.getName());
 						lab.setBorder(new LineBorder(Color.BLACK));
