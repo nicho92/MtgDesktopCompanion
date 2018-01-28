@@ -10,7 +10,7 @@ public class LanguageService {
 	ResourceBundle rbundle;
 	StringBuilder temp;
 	
-	public static String ERRORKEY="ERROR";
+	public static final String ERRORKEY="ERROR";
 	
 	
 	private static final String BUNDLE = "locales.lang";

@@ -22,7 +22,8 @@ public class IconSetProvider {
 	private Map<String, ImageIcon> cache24;
 	private Map<String, ImageIcon> cache16;
 	private File localDirectory;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private static final String EXT="_set.png";
 
 	
 	public void clean() throws IOException
@@ -33,8 +34,8 @@ public class IconSetProvider {
 	
 	
 	private IconSetProvider() {
-		cache24 = new TreeMap<String, ImageIcon>(String.CASE_INSENSITIVE_ORDER);
-		cache16 = new TreeMap<String, ImageIcon>(String.CASE_INSENSITIVE_ORDER);
+		cache24 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
 		localDirectory = new File(AbstractMTGPicturesCache.CONFDIR, "sets_icons");
 
@@ -43,10 +44,10 @@ public class IconSetProvider {
 
 		try {
 			logger.debug("Init IconSet cache");
-			long time_1 = System.currentTimeMillis();
+			long time1 = System.currentTimeMillis();
 			initCache();
-			long time_2 = System.currentTimeMillis();
-			logger.debug("Init IconSet cache : done " + (time_2 - time_1) / 1000 + " sec");
+			long time2 = System.currentTimeMillis();
+			logger.debug("Init IconSet cache : done " + (time2 - time1) / 1000 + " sec");
 		} catch (Exception e) {
 			logger.error("error init cache",e);
 		}
@@ -62,7 +63,7 @@ public class IconSetProvider {
 	private BufferedImage extract(String id) throws IOException
 	{
 		
-		File iconFile = new File(localDirectory,id+"_set.png");
+		File iconFile = new File(localDirectory,id+EXT);
 		if(iconFile.exists())
 		{
 			logger.trace("load from cache " + iconFile);
@@ -76,11 +77,11 @@ public class IconSetProvider {
 			try
 			{
 				String set=getEquiv(id);
-				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/"+set+"_set.png"));
+				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/"+set+EXT));
 				
 				if(!set.equals(id))
 					{
-					iconFile.renameTo(new File(localDirectory,set+"_set.png"));
+					FileUtils.moveFile(iconFile, new File(localDirectory,set+EXT));
 					}
 					
 				ImageIO.write(im, "png", iconFile);

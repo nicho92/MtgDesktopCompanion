@@ -147,7 +147,7 @@ public class MassCollectionImporterDialog extends JDialog{
 								dao.saveCard(mc, col);
 								progressBar.setValue(i++);
 							} catch (Exception e1) {
-								e1.printStackTrace();
+								MTGLogger.printStackTrace(e1);
 							}
 						}
 						JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED",ids.length),MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),JOptionPane.INFORMATION_MESSAGE);

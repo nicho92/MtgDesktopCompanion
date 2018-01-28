@@ -90,9 +90,9 @@ public class ConfigurationPanel extends JPanel {
 		
 		
 		
-		cboTargetDAO = new JComboBox();
-		cboCollections = new JComboBox();
-		cboEditionLands=new JComboBox<MagicEdition>();
+		cboTargetDAO = new JComboBox<>();
+		cboCollections = new JComboBox<>();
+		cboEditionLands=new JComboBox<>();
 		
 		
 		GridBagLayout gridBagLayout = new GridBagLayout();
@@ -217,7 +217,7 @@ public class ConfigurationPanel extends JPanel {
 								
 							} 
 							catch (Exception e1) {
-								e1.printStackTrace();
+								MTGLogger.printStackTrace(e1);
 							}
 						}
 					}, "backup " + MTGControler.getInstance().getEnabledDAO() +" database");
@@ -316,7 +316,7 @@ public class ConfigurationPanel extends JPanel {
 		gbc_lblShowJsonPanel.gridy = 3;
 		panelConfig.add(lblShowJsonPanel, gbc_lblShowJsonPanel);
 		
-		cbojsonView = new JComboBox<String>();
+		cbojsonView = new JComboBox<>();
 		GridBagConstraints gbc_cbojsonView = new GridBagConstraints();
 		gbc_cbojsonView.fill = GridBagConstraints.HORIZONTAL;
 		gbc_cbojsonView.gridwidth = 3;
@@ -434,7 +434,7 @@ public class ConfigurationPanel extends JPanel {
 		gbc_lblGuiLocal.gridy = 7;
 		panelConfig.add(lblGuiLocal, gbc_lblGuiLocal);
 		
-		JComboBox<Locale> cboLocales = new JComboBox<Locale>(new DefaultComboBoxModel<Locale>(MTGControler.getInstance().getLangService().getAvailableLocale()));
+		JComboBox<Locale> cboLocales = new JComboBox<>(new DefaultComboBoxModel<Locale>(MTGControler.getInstance().getLangService().getAvailableLocale()));
 		GridBagConstraints gbc_cboLocales = new GridBagConstraints();
 		gbc_cboLocales.gridwidth = 3;
 		gbc_cboLocales.insets = new Insets(0, 0, 5, 5);
@@ -543,7 +543,7 @@ public class ConfigurationPanel extends JPanel {
 				}
 			}
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			MTGLogger.printStackTrace(e1);
 		}
 		
 		JPanel panelWebSite = new JPanel();
@@ -936,7 +936,7 @@ public class ConfigurationPanel extends JPanel {
 			
 			
 		} catch (Exception e1) {
-			e1.printStackTrace();
+			MTGLogger.printStackTrace(e1);
 		}
 	}
 
