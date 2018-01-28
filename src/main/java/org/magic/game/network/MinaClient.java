@@ -30,7 +30,7 @@ public class MinaClient extends Observable {
    private Player p;
    
    private IoHandlerAdapter adapter = new IoHandlerAdapter() {
-	 	
+	 	@Override
 	   	public void messageReceived(IoSession session, Object m) throws Exception {
 	   		
 	   		if(m instanceof Long)
