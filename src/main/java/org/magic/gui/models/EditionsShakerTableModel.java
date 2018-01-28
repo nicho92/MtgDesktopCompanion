@@ -17,15 +17,14 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	String[] columns = new String[]{
-	
-	MTGControler.getInstance().getLangService().getCapitalize("CARD"),
-	MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
-	MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
-	MTGControler.getInstance().getLangService().getCapitalize("DAILY"),
-	MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY"),
-	MTGControler.getInstance().getLangService().getCapitalize("WEEKLY"),
-	MTGControler.getInstance().getLangService().getCapitalize("PC_WEEKLY")
+	private String[] columns = new String[]{
+						MTGControler.getInstance().getLangService().getCapitalize("CARD"),
+						MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
+						MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
+						MTGControler.getInstance().getLangService().getCapitalize("DAILY"),
+						MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY"),
+						MTGControler.getInstance().getLangService().getCapitalize("WEEKLY"),
+						MTGControler.getInstance().getLangService().getCapitalize("PC_WEEKLY")
 	};
 	
 	private transient DashBoard provider;

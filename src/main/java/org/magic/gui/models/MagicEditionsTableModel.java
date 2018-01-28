@@ -29,7 +29,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 			MTGControler.getInstance().getLangService().getCapitalize("EDITION_ONLINE")
 	};
 	
-	List<MagicEdition> list;
+	private List<MagicEdition> list;
 
 	private Map<MagicEdition,Integer> mapCount;
 	
@@ -44,7 +44,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	
 	public void init(List<MagicEdition> editions ){
 		this.list=editions;
-		mapCount=new TreeMap<MagicEdition,Integer>();
+		mapCount=new TreeMap<>();
 		
 		try {
 			calculate();
@@ -55,7 +55,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	}
 	
 	
-	public void calculate() throws SQLException, Exception {
+	public void calculate() throws SQLException {
 		
 		MagicCollection mc = new MagicCollection(MTGControler.getInstance().get("default-library"));
 		Map<String,Integer> temp = MTGControler.getInstance().getEnabledDAO().getCardsCountGlobal(mc);
@@ -92,7 +92,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	}
 
 	public MagicEditionsTableModel() {
-		list = new ArrayList<MagicEdition>();
+		list = new ArrayList<>();
 		
 	}
 

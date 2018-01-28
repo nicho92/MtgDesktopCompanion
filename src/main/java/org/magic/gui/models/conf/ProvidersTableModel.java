@@ -11,7 +11,7 @@ import org.magic.services.MTGControler;
 public class ProvidersTableModel extends DefaultTableModel {
 	
 	
-		static final String columns[] = new String[]{"Provider","Version","State","URL","Enable"};
+		static final String[] columns = new String[]{"Provider","Version","State","URL","Enable"};
 	
 		@Override
 		public int getRowCount() {
@@ -71,9 +71,6 @@ public class ProvidersTableModel extends DefaultTableModel {
 
 		@Override
 		public boolean isCellEditable(int row, int column) {
-			if(column==4)
-				return true;
-			
-			else return false;
+			return (column==4);
 		}
 }

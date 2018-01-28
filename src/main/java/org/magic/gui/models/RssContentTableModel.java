@@ -15,12 +15,11 @@ import com.rometools.rome.io.XmlReader;
 
 public class RssContentTableModel extends DefaultTableModel{
 
-	private final static String[] COLUMN_NAMES = {MTGControler.getInstance().getLangService().getCapitalize("RSS_TITLE"),
-			MTGControler.getInstance().getLangService().getCapitalize("RSS_DATE")};
+	private static final String[] COLUMNS = {MTGControler.getInstance().getLangService().getCapitalize("RSS_TITLE"),
+										   MTGControler.getInstance().getLangService().getCapitalize("RSS_DATE")};
 	
-	SyndFeedInput input;
-	
-	SyndFeed feed;
+	private transient SyndFeedInput input;
+	private transient SyndFeed feed;
 	
 	public RssContentTableModel() {
 		input = new SyndFeedInput();
@@ -37,12 +36,12 @@ public class RssContentTableModel extends DefaultTableModel{
 	
 	@Override
 	public int getColumnCount() {
-		return COLUMN_NAMES.length;
+		return COLUMNS.length;
 	}
 	
 	@Override
 	public String getColumnName(int column) {
-		return COLUMN_NAMES[column];
+		return COLUMNS[column];
 	}
 	
 	
@@ -67,7 +66,7 @@ public class RssContentTableModel extends DefaultTableModel{
 	}
 	
 	
-	public void init(RSSBean rssBean) throws IllegalArgumentException, FeedException, IOException {
+	public void init(RSSBean rssBean) throws FeedException, IOException {
 		feed = input.build(new XmlReader(rssBean.getUrl()));
 	}
 

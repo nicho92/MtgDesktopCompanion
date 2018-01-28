@@ -14,20 +14,22 @@ import org.magic.services.MTGLogger;
 
 public class CardsShakerTableModel extends DefaultTableModel {
 
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient List<CardShake> list;
 	
-	String columns[] = new String[]{
+	
+	String[] columns = new String[]{
 								MTGControler.getInstance().getLangService().getCapitalize("CARD"),
 								MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
 								MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
 								MTGControler.getInstance().getLangService().getCapitalize("DAILY"),
 								MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY")
 	};
-	List<CardShake> list;
+	
 	
 	
 	public CardsShakerTableModel() {
-		list=new ArrayList<CardShake>();
+		list=new ArrayList<>();
 	}
 	
 	
@@ -39,7 +41,6 @@ public class CardsShakerTableModel extends DefaultTableModel {
 		case 0: return CardShake.class;
 		case 1 : return String.class;
 		case 2 : return Double.class;
-		/*case 3 : return Double.class;*/
 		case 4 : return Double.class;
 		default:return super.getColumnClass(columnIndex);
 		}
@@ -80,7 +81,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 		return columns.length;
 	}
 	
-	
+	@Override
 	public Object getValueAt(int row, int column) {
 		try{
 			
@@ -101,7 +102,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 			return null;
 		}
 	}
-
+	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}

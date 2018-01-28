@@ -18,7 +18,9 @@ import org.magic.services.MTGControler;
 public class CardStockTableModel extends DefaultTableModel {
 
 	
-	static final String columns[] = new String[]{
+	private transient List<MagicCardStock> list;
+	
+	static final String[] columns = new String[]{
 				MTGControler.getInstance().getLangService().getCapitalize("ID"),
 				MTGControler.getInstance().getLangService().getCapitalize("CARD"),
 				MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
@@ -33,7 +35,7 @@ public class CardStockTableModel extends DefaultTableModel {
 				MTGControler.getInstance().getLangService().getCapitalize("COMMENTS")
 	};
 	
-	List<MagicCardStock> list;
+	
 	
 	
 	public List<MagicCardStock> getList() {
@@ -48,7 +50,7 @@ public class CardStockTableModel extends DefaultTableModel {
 		        iter.remove();
 		    }
 		}
-		if(stocks.size()>0)
+		if(!stocks.isEmpty())
 			MTGControler.getInstance().getEnabledDAO().deleteStock(stocks);
 		
 		fireTableDataChanged();
@@ -62,7 +64,7 @@ public class CardStockTableModel extends DefaultTableModel {
 	}
 	
 	public CardStockTableModel() {
-			list=new ArrayList<MagicCardStock>();
+			list=new ArrayList<>();
 			
 	}
 	
@@ -152,24 +154,19 @@ public class CardStockTableModel extends DefaultTableModel {
 			case 9 : list.get(row).setAltered(Boolean.parseBoolean(aValue.toString()));break;
 			case 10 : list.get(row).setPrice(Double.valueOf(String.valueOf(aValue)));break;
 			case 11 : list.get(row).setComment(String.valueOf(aValue));break;
+			default : break;
 		}
 		list.get(row).setUpdate(true);
 	}
 
 
 	private void updateEdition(MagicCardStock magicCardStock, MagicEdition aValue) {
-		MagicEdition ed = (MagicEdition)aValue;
+		MagicEdition ed = aValue;
 		magicCardStock.getMagicCard().getEditions().remove(ed);
 		magicCardStock.getMagicCard().getEditions().add(0, (MagicEdition)aValue);
 		
 	}
 
-/*
-	public void remove(MagicCardStock selected) {
-		list.remove(selected);
-	}
-	
-*/
 	public void add(MagicCardStock selected) {
 		list.add(selected);
 		fireTableDataChanged();

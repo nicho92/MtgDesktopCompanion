@@ -16,16 +16,16 @@ import org.magic.services.MTGLogger;
 public class CardDominanceTableModel extends DefaultTableModel {
 
 	
-	static final String columns[] = new String[]{
+	static final String[] columns = new String[]{
 									MTGControler.getInstance().getLangService().getCapitalize("CARD"),
 									MTGControler.getInstance().getLangService().getCapitalize("POSITION"),
 									MTGControler.getInstance().getLangService().getCapitalize("PC_DOMINANCE"),
 									MTGControler.getInstance().getLangService().getCapitalize("PC_DECKS"),
 									MTGControler.getInstance().getLangService().getCapitalize("PLAYERS")
 								};
-	
-	Logger logger = MTGLogger.getLogger(this.getClass());
-	private List<CardDominance> list;
+	private static final long serialVersionUID = 1L;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient List<CardDominance> list;
 	
 	public CardDominanceTableModel() {
 		list=new ArrayList<>();

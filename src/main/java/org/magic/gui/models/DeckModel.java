@@ -11,22 +11,19 @@ import com.itextpdf.text.List;
 
 public class DeckModel extends DefaultTableModel {
 
-	String[] columns = new String[]{				
+	private String[] columns = new String[]{				
 			MTGControler.getInstance().getLangService().getCapitalize("NAME"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),
 			MTGControler.getInstance().getLangService().getCapitalize("QTY")
-			
-	
 	};
-
-	
 	
 	private MagicDeck deck;
-	public static enum TYPE { DECK,SIDE };
-	
+	public enum TYPE { DECK,SIDE }
 	private TYPE t;
+	
+	
 	
 	
 	@Override
@@ -123,15 +120,11 @@ public class DeckModel extends DefaultTableModel {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		
-		if(column==3 || column==4)
-			return true;
-		
-		return false;
+		return (column==3 || column==4);
 	}
 	
 	
-	
+	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 	
 		MagicCard mc = (this.t == TYPE.DECK )  ? deck.getValueAt(row): deck.getSideValueAt(row);

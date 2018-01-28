@@ -11,17 +11,17 @@ import org.magic.services.MTGControler;
 
 public class DeckSnifferModel extends DefaultTableModel {
 
-	final String[] columns = new String[]{MTGControler.getInstance().getLangService().getCapitalize("NAME"),
+	private final String[] columns = new String[]{MTGControler.getInstance().getLangService().getCapitalize("NAME"),
 										  MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),
 										  MTGControler.getInstance().getLangService().getCapitalize("AUTHOR"),
 										  MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION")
 										  
 										 };
 
-	List<RetrievableDeck> decks;
+	private transient List<RetrievableDeck> decks;
 	
 	public DeckSnifferModel() {
-		decks=new ArrayList<RetrievableDeck>();
+		decks=new ArrayList<>();
 	}
 	
 	public void init(DeckSniffer sniff) throws Exception

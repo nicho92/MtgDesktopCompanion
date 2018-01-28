@@ -59,7 +59,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 	
 	@Override
 	public List<ShopItem> search(String search) {
-		List<ShopItem> list = new ArrayList<ShopItem>();
+		List<ShopItem> list = new ArrayList<>();
 		try 
 		{
 		

@@ -21,6 +21,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.tools.ColorParser;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -128,8 +129,8 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 						  
 						  if(value.getElementsByTagName("pt").item(0)!=null)
 						  {
-							  tok.setPower(value.getElementsByTagName("pt").item(0).getTextContent().substring(0, value.getElementsByTagName("pt").item(0).getTextContent().indexOf("/")).trim());
-							  tok.setToughness(value.getElementsByTagName("pt").item(0).getTextContent().substring(value.getElementsByTagName("pt").item(0).getTextContent().indexOf("/")+1).trim());
+							  tok.setPower(value.getElementsByTagName("pt").item(0).getTextContent().substring(0, value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/')).trim());
+							  tok.setToughness(value.getElementsByTagName("pt").item(0).getTextContent().substring(value.getElementsByTagName("pt").item(0).getTextContent().indexOf('/')+1).trim());
 						  }
 						  if(value.getElementsByTagName("text").item(0)!=null)		
 							  tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
@@ -142,11 +143,13 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 							  String idSet = sets.item(s).getTextContent();
 							  
 							  if(idSet.equals(mc.getEditions().get(0).getId()))
-							  try {
-								  MagicEdition ed = new MagicEdition();
-								  ed=MTGControler.getInstance().getEnabledProviders().getSetById(idSet);
-								  tok.getEditions().add(ed);
-							} catch (Exception e) {}
+								  try {
+									  MagicEdition ed=MTGControler.getInstance().getEnabledProviders().getSetById(idSet);
+									  tok.getEditions().add(ed);
+								} catch (Exception e) {
+									MTGLogger.printStackTrace(e);
+									
+								}
 							  
 						  }
 						  
@@ -180,24 +183,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 						  tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 						  tok.setNumber("E");
 						  
-						 /* try{
-						  NodeList sets = value.getElementsByTagName("set");
-						  for (int s = 0; s < sets.getLength(); s++) {
-							  String idSet = sets.item(s).getTextContent();
-							  
-							  if(idSet.equals(mc.getEditions().get(0).getId()))
-							  {
-								  MagicEdition ed = new MagicEdition();
-								  ed=MTGControler.getInstance().getEnabledProviders().getSetById(idSet);
-								  tok.getEditions().add(ed);
-							  } 
-							  
-						  }
-						  tok.getEditions().add(mc.getEditions().get(0));
-						  }catch(Exception e)
-						  {
-							  
-						  }*/
+
 						  tok.getEditions().add(mc.getEditions().get(0));
 						  
 						  logger.debug("Create token" + BeanUtils.describe(tok));
@@ -209,9 +195,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.magic.services.MagicTokensProvider#getPictures(org.magic.api.beans.MagicCard)
-	 */
 	@Override
 	public BufferedImage getPictures(MagicCard tok) throws Exception {
 		

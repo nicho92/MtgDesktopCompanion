@@ -8,8 +8,8 @@ import org.magic.services.MTGControler;
 public class MagicCardNamesTableModel extends DefaultTableModel {
 
 	
-	MagicCard mc;
-	final static String COLUMN[] = new String[]{MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
+	private MagicCard mc;
+	private static final String[] COLUMN= new String[]{MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
 												MTGControler.getInstance().getLangService().getCapitalize("NAME"),
 												"Gatherer ID"
 												};
@@ -59,6 +59,7 @@ public class MagicCardNamesTableModel extends DefaultTableModel {
 			case 0: mc.getForeignNames().get(row).setLanguage(String.valueOf(aValue));break;
 			case 1: mc.getForeignNames().get(row).setName(String.valueOf(aValue));break;
 			case 2: mc.getForeignNames().get(row).setGathererId(Integer.parseInt(aValue.toString()));break;
+			default : break;
 			
 		}
 	}

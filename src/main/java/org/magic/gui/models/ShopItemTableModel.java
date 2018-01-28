@@ -8,8 +8,6 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicShopper;
 import org.magic.services.MTGControler;
@@ -17,21 +15,18 @@ import org.magic.services.MTGLogger;
 
 public class ShopItemTableModel extends DefaultTableModel {
 
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
-	String columns[] = new String[]{
-	MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"),
-	MTGControler.getInstance().getLangService().getCapitalize("SHOP_NAME"),
-	MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
-	MTGControler.getInstance().getLangService().getCapitalize("SHOP_DATE"),
-	MTGControler.getInstance().getLangService().getCapitalize("SHOP_TYPE"),
-	MTGControler.getInstance().getLangService().getCapitalize("URL")
+	private String[] columns = new String[]{
+				MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"),
+				MTGControler.getInstance().getLangService().getCapitalize("SHOP_NAME"),
+				MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
+				MTGControler.getInstance().getLangService().getCapitalize("SHOP_DATE"),
+				MTGControler.getInstance().getLangService().getCapitalize("SHOP_TYPE"),
+				MTGControler.getInstance().getLangService().getCapitalize("URL")
 	};
-	MagicCard mc;
-	MagicEdition me;
 	
-	String search="";
-	List<ShopItem> items;
+	private transient List<ShopItem> items;
 	
 	public void init(String search)
 	{
@@ -50,7 +45,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 	
 
 	public ShopItemTableModel() {
-		items=new ArrayList<ShopItem>();
+		items=new ArrayList<>();
 	}
 	
 	
@@ -103,8 +98,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 			case 3 : return mp.getDate();
 			case 4: return mp.getType();
 			case 5 : return mp.getUrl();
-			//case 6 : return MagicFactory.getInstance().getEnabledDAO().getSavedShopItemAnotation(mp);
-		default : return 0;
+			default : return 0;
 		}
 		}catch(Exception ioob)
 		{
@@ -112,24 +106,10 @@ public class ShopItemTableModel extends DefaultTableModel {
 			return null;
 		}
 	}
-	/*
-	@Override
-	public void setValueAt(Object aValue, int row, int column) {
-		ShopItem mp = items.get(row);
-		try {
-			MagicFactory.getInstance().getEnabledDAO().saveShopItem(mp,aValue.toString());
-		} catch (SQLException e) {
-			logger.error(e);
-		}
-	}
-
-	*/
+	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		if(column==6)
-			return true;
-		else
-			return false;
+		return (column==6);
 	}
 
 	

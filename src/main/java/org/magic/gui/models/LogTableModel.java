@@ -9,9 +9,8 @@ import org.magic.services.MTGLogger;
 
 public class LogTableModel extends DefaultTableModel {
 
-	MTGAppender app ;
-	
-	static final String[] COLUMNS= {"LEVEL","TIME","CLASS","MESSAGE"};
+	private transient MTGAppender app ;
+	private static final String[] COLUMNS= {"LEVEL","TIME","CLASS","MESSAGE"};
 	
 	public LogTableModel() {
 		app = (MTGAppender)MTGLogger.getAppender("APPS");

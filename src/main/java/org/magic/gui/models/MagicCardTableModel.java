@@ -11,8 +11,8 @@ import org.magic.services.MTGControler;
 
 public class MagicCardTableModel extends DefaultTableModel{
 
-	List<MagicCard> cards;
-	String columns[] = new String[] {MTGControler.getInstance().getLangService().getCapitalize("NAME"),
+	private List<MagicCard> cards;
+	private String[] columns = new String[] {MTGControler.getInstance().getLangService().getCapitalize("NAME"),
 								     MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
 								     MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"),
 								     MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"),
@@ -24,7 +24,7 @@ public class MagicCardTableModel extends DefaultTableModel{
 	
 	
 	public MagicCardTableModel() {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 		
 	}
 
@@ -33,6 +33,7 @@ public class MagicCardTableModel extends DefaultTableModel{
 		return columns.length;
 	}
 	
+	@Override
 	public int getRowCount() {
 		if(cards==null)
 			return 0;
@@ -40,29 +41,18 @@ public class MagicCardTableModel extends DefaultTableModel{
 		return cards.size();
 	}
 	
+	@Override
 	public String getColumnName(int column) {
 		return columns[column];
 	}
 	
-	public Class<?> getColumnClass(int columnIndex) {
-		return super.getColumnClass(columnIndex);
-//		switch(columnIndex)
-//		{
-//		case 0 : return MagicCard.class;
-//		case 1 : return String.class;
-//		case 2 : return String.class;
-//		case 3 : return String.class;
-//		case 4 : return String.class;
-//		case 5 : return MagicEdition.class;
-//		case 6 : return String.class;
-//		default : return String.class;
-//		}
-	}
 
+	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
 	
+	@Override
 	public Object getValueAt(int row, int column) {
 		try {
 		MagicCard mc =cards.get(row); 
@@ -74,19 +64,8 @@ public class MagicCardTableModel extends DefaultTableModel{
 			case 2: return mc.getCost();
 			case 3 : return mc.getFullType();
 			case 4:  return contains(mc.getTypes(),"creature")? mc.getPower() +"/"+mc.getToughness() : contains(mc.getTypes(),"planeswalker")? mc.getLoyalty() : "";
-			case 5 : try{ 
-				return mc.getEditions().get(0).getRarity();
-			}catch(Exception e)
-			{
-				return null;
-			}
-			case 6 : return mc.getEditions();
-			case 7 :  try{ 
-				return mc.getEditions().get(0).getNumber();
-			}catch(Exception e)
-			{
-				return null;
-			}
+			case 5 : return (mc.getEditions().get(0)!=null) ? mc.getEditions().get(0).getRarity():"";
+			case 6 : return (mc.getEditions().get(0)!=null) ? mc.getEditions().get(0).getNumber():"";
 			case 8 : return mc.getColors();
 			default : return mc;
 		}
@@ -109,10 +88,9 @@ public class MagicCardTableModel extends DefaultTableModel{
 
 	private boolean contains(List<String> types, String string) {
 		for(String s : types)
-			if(s.toLowerCase().equals(string.toLowerCase()))
+			if(s.equalsIgnoreCase(string))
 				return true;
-		
-		
+	
 		return false;
 						
 	}
@@ -124,5 +102,5 @@ public class MagicCardTableModel extends DefaultTableModel{
 
 	public List<MagicCard> getListCards() {
 		return cards;
-	};
+	}
 }

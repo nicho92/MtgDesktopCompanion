@@ -16,9 +16,14 @@ import org.magic.services.MTGLogger;
 
 public class CardsPriceTableModel extends DefaultTableModel {
 
-	Logger logger = MTGLogger.getLogger(this.getClass());
-
-	String columns[] = new String[]{
+	
+	private static final long serialVersionUID = 1L;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient List<MagicPricesProvider> providers;
+	private transient List<MagicPrice> prices;
+	
+	
+	String[] columns= new String[]{
 								MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"),
 								MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
 								MTGControler.getInstance().getLangService().getCapitalize("CURRENCY"),
@@ -27,15 +32,6 @@ public class CardsPriceTableModel extends DefaultTableModel {
 								MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
 								MTGControler.getInstance().getLangService().getCapitalize("URL"),
 	};
-	
-	List<MagicPricesProvider> providers;
-	MagicCard mc;
-	MagicEdition me;
-	
-	
-	List<MagicPrice> prices;
-	
-	
 	public void addPrice(MagicPrice p)
 	{
 		prices.add(p);
@@ -43,8 +39,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	}
 	
 	
-	
-	public void addPrice(MagicCard mc, MagicEdition ed)
+	private void addPrice(MagicCard mc, MagicEdition me)
 	{
 		for(MagicPricesProvider prov : providers)
 		{
@@ -53,9 +48,8 @@ public class CardsPriceTableModel extends DefaultTableModel {
 				{
 					List<MagicPrice> list = prov.getPrice(me, mc);
 					
-					if(list!=null)
-						if(list.size()>0)
-							prices.addAll(list);
+					if(list!=null && !list.isEmpty())
+						prices.addAll(list);
 					
 					fireTableDataChanged();
 				}
@@ -77,8 +71,8 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	
 
 	public CardsPriceTableModel() {
-		providers = new ArrayList<MagicPricesProvider>();
-		prices=new ArrayList<MagicPrice>();
+		providers = new ArrayList<>();
+		prices=new ArrayList<>();
 		providers=MTGControler.getInstance().getPricers();
 	}
 	
@@ -147,7 +141,6 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		}
 		}catch(IndexOutOfBoundsException ioob)
 		{
-			//logger.error(ioob);
 			return null;
 		}
 	}

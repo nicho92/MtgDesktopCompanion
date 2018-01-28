@@ -11,24 +11,22 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class DeckSelectionModel extends DefaultTableModel {
 
-	final static String[] columns={MTGControler.getInstance().getLangService().getCapitalize("DECK"),
+	private final String[] columns={MTGControler.getInstance().getLangService().getCapitalize("DECK"),
 								   MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),
 								   "Standard","Modern","Legacy","Vintage",
 								   MTGControler.getInstance().getLangService().getCapitalize("CARDS")};
-	List<MagicDeck> decks;
+	private List<MagicDeck> decks;
 	
-	public DeckSelectionModel() {
+	public DeckSelectionModel() 
+	{
 		
-		decks = new ArrayList<MagicDeck>();
-		
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
+		decks = new ArrayList<>();
+		ThreadManager.getInstance().execute(()->{
 				for(File f : new File(MTGControler.CONF_DIR,"decks").listFiles() )
 				{
 					try {
@@ -36,13 +34,10 @@ public class DeckSelectionModel extends DefaultTableModel {
 						decks.add(deck);
 						fireTableDataChanged();
 					} catch (Exception e) {
+						MTGLogger.printStackTrace(e);
 					}
 				}
-				
-			}
 		}, "loading decks");
-		
-		
 	}
 	
 	@Override
