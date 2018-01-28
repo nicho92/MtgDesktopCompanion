@@ -44,9 +44,9 @@ import org.magic.services.VersionChecker;
 
 public class MagicGUI extends JFrame {
 
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	private SystemTray tray;
+	private transient SystemTray tray;
 	private JMenuBar menuBar;
 	private JMenu mnFile;
 	private JMenu mnuAbout;
@@ -54,8 +54,8 @@ public class MagicGUI extends JFrame {
 	private JMenuItem mntmExit;
 
  	private JTabbedPane  tabbedPane;
-	private VersionChecker serviceUpdate;
-	public static TrayIcon trayNotifier;
+	private transient VersionChecker serviceUpdate;
+	private transient TrayIcon trayNotifier;
 	private Map<String,String> looks;
 	private Map<String,String> looksMore;
 	private CardSearchPanel cardSearchPanel;

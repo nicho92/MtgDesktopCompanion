@@ -32,7 +32,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 public class DeckbrewProvider implements MagicCardsProvider {
-	private final String urldeckbrewJSON = "https://api.deckbrew.com/mtg";
+	private String urldeckbrewJSON = "https://api.deckbrew.com/mtg";
 	private Gson gson;
 	private boolean enable;
 	List<MagicEdition> list;
@@ -47,8 +47,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	
 	public void init() {
 		try {
-    		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
-		    	InstallCert.install("api.deckbrew.com");
+    	    	InstallCert.install("api.deckbrew.com");
 		    	System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
 		  	} catch (Exception e1) {
 				logger.error(e1);
@@ -68,18 +67,13 @@ public class DeckbrewProvider implements MagicCardsProvider {
 	
 	
 	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition me,boolean exact) throws IOException {
-		String url = urldeckbrewJSON+"/cards";
 		
 		crit=att+"="+URLEncoder.encode(crit,"UTF-8");
-		
-		
-		
-		/*if(crit!=null)*/
-			url = urldeckbrewJSON +"/cards?"+crit;
-		
+
+		String url = urldeckbrewJSON +"/cards?"+crit;
 		
 		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
-		List<MagicCard> retour=new ArrayList<MagicCard>();
+		List<MagicCard> retour=new ArrayList<>();
 		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
 		int page=1;
 		boolean gonextpage=true;

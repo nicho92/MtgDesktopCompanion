@@ -15,9 +15,9 @@ import org.magic.services.MTGLogger;
 
 public class EditionsShakerTableModel extends DefaultTableModel {
 
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	String columns[] = new String[]{
+	String[] columns = new String[]{
 	
 	MTGControler.getInstance().getLangService().getCapitalize("CARD"),
 	MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
@@ -27,13 +27,14 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 	MTGControler.getInstance().getLangService().getCapitalize("WEEKLY"),
 	MTGControler.getInstance().getLangService().getCapitalize("PC_WEEKLY")
 	};
-	DashBoard provider;
-	List<CardShake> list;
+	
+	private transient DashBoard provider;
+	private transient List<CardShake> list;
 	
 	
 	public EditionsShakerTableModel() {
 		provider=MTGControler.getInstance().getEnabledDashBoard();
-		list=new ArrayList<CardShake>();
+		list=new ArrayList<>();
 	}
 	
 	@Override
@@ -78,7 +79,7 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 	}
 	
 	
-	
+	@Override
 	public Object getValueAt(int row, int column) {
 		try{
 			
@@ -103,6 +104,7 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 		}
 	}
 
+	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}

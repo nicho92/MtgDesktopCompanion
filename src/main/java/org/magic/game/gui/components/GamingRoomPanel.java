@@ -130,7 +130,7 @@ public class GamingRoomPanel extends JPanel {
 		panneauHaut.add(lblIp);
 		
 		txtServer = new JTextField();
-		txtServer.setText("127.0.0.1");
+		txtServer.setText("");
 		panneauHaut.add(txtServer);
 		txtServer.setColumns(10);
 		
