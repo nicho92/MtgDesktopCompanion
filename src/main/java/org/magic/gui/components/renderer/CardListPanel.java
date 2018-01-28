@@ -37,39 +37,39 @@ public class CardListPanel extends JPanel{
 		
 		/*
 		lblNewLabel = new DisplayableCard(card,new Dimension(77, 107),false);
-				GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-				gbc_lblNewLabel.gridheight = 4;
-				gbc_lblNewLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_lblNewLabel.gridx = 0;
-				gbc_lblNewLabel.gridy = 0;
-				add(lblNewLabel, gbc_lblNewLabel);
+				GridBagConstraints gbclblNewLabel = new GridBagConstraints();
+				gbclblNewLabel.gridheight = 4;
+				gbclblNewLabel.insets = new Insets(0, 0, 5, 5);
+				gbclblNewLabel.gridx = 0;
+				gbclblNewLabel.gridy = 0;
+				add(lblNewLabel, gbclblNewLabel);
 		*/
 		JLabel lblName = new JLabel(mc.getName());
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_lblName = new GridBagConstraints();
-		gbc_lblName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblName.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblName.gridx = 1;
-		gbc_lblName.gridy = 0;
-		add(lblName, gbc_lblName);
+		GridBagConstraints gbclblName = new GridBagConstraints();
+		gbclblName.insets = new Insets(0, 0, 5, 5);
+		gbclblName.anchor = GridBagConstraints.NORTHWEST;
+		gbclblName.gridx = 1;
+		gbclblName.gridy = 0;
+		add(lblName, gbclblName);
 		
 		JLabel lblType = new JLabel(mc.getFullType());
-		GridBagConstraints gbc_lblType = new GridBagConstraints();
-		gbc_lblType.gridwidth = 2;
-		gbc_lblType.insets = new Insets(0, 0, 5, 0);
-		gbc_lblType.anchor = GridBagConstraints.WEST;
-		gbc_lblType.gridx = 1;
-		gbc_lblType.gridy = 1;
-		add(lblType, gbc_lblType);
+		GridBagConstraints gbclblType = new GridBagConstraints();
+		gbclblType.gridwidth = 2;
+		gbclblType.insets = new Insets(0, 0, 5, 0);
+		gbclblType.anchor = GridBagConstraints.WEST;
+		gbclblType.gridx = 1;
+		gbclblType.gridy = 1;
+		add(lblType, gbclblType);
 		
 		JLabel lblEdition = new JLabel(mc.getEditions().get(0).toString());
-		GridBagConstraints gbc_lblEdition = new GridBagConstraints();
-		gbc_lblEdition.insets = new Insets(0, 0, 5, 0);
-		gbc_lblEdition.gridwidth = 2;
-		gbc_lblEdition.anchor = GridBagConstraints.WEST;
-		gbc_lblEdition.gridx = 1;
-		gbc_lblEdition.gridy = 2;
-		add(lblEdition, gbc_lblEdition);
+		GridBagConstraints gbclblEdition = new GridBagConstraints();
+		gbclblEdition.insets = new Insets(0, 0, 5, 0);
+		gbclblEdition.gridwidth = 2;
+		gbclblEdition.anchor = GridBagConstraints.WEST;
+		gbclblEdition.gridx = 1;
+		gbclblEdition.gridy = 2;
+		add(lblEdition, gbclblEdition);
 		
 		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getEditions().get(0).getId()));
 	
@@ -78,23 +78,23 @@ public class CardListPanel extends JPanel{
 		ManaPanel manaPanel = new ManaPanel();
 		manaPanel.setBackground(Color.WHITE);
 		manaPanel.setManaCost(mc.getCost());
-		GridBagConstraints gbc_manaPanel = new GridBagConstraints();
-		gbc_manaPanel.insets = new Insets(0, 0, 5, 0);
-		gbc_manaPanel.anchor = GridBagConstraints.EAST;
-		gbc_manaPanel.fill = GridBagConstraints.VERTICAL;
-		gbc_manaPanel.gridx = 2;
-		gbc_manaPanel.gridy = 0;
-		add(manaPanel, gbc_manaPanel);
+		GridBagConstraints gbcmanaPanel = new GridBagConstraints();
+		gbcmanaPanel.insets = new Insets(0, 0, 5, 0);
+		gbcmanaPanel.anchor = GridBagConstraints.EAST;
+		gbcmanaPanel.fill = GridBagConstraints.VERTICAL;
+		gbcmanaPanel.gridx = 2;
+		gbcmanaPanel.gridy = 0;
+		add(manaPanel, gbcmanaPanel);
 		
 		JLabel lblRarity = new JLabel(mc.getEditions().get(0).getRarity());
 		lblRarity.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		GridBagConstraints gbc_lblRarity = new GridBagConstraints();
-		gbc_lblRarity.gridwidth = 2;
-		gbc_lblRarity.anchor = GridBagConstraints.WEST;
-		gbc_lblRarity.insets = new Insets(0, 0, 0, 5);
-		gbc_lblRarity.gridx = 1;
-		gbc_lblRarity.gridy = 3;
-		add(lblRarity, gbc_lblRarity);
+		GridBagConstraints gbclblRarity = new GridBagConstraints();
+		gbclblRarity.gridwidth = 2;
+		gbclblRarity.anchor = GridBagConstraints.WEST;
+		gbclblRarity.insets = new Insets(0, 0, 0, 5);
+		gbclblRarity.gridx = 1;
+		gbclblRarity.gridy = 3;
+		add(lblRarity, gbclblRarity);
 	}	
 	
 	

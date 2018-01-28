@@ -16,13 +16,13 @@ import org.magic.services.MTGControler;
 
 public class MagicPricePanel extends JPanel {
 
-	MagicPrice price;
-
+	
+	private String useFonts="Tahoma";
+	
 	public MagicPricePanel(MagicPrice price) {
 		setBackground(SystemColor.inactiveCaptionBorder);
 		
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		this.price=price;
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[]{55, 108, 0};
 		gridBagLayout.rowHeights = new int[]{28, 25, 0, 20, 0};
@@ -32,61 +32,61 @@ public class MagicPricePanel extends JPanel {
 		
 		JLabel lblName = new JLabel(price.getSite());
 		lblName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_lblName = new GridBagConstraints();
-		gbc_lblName.gridwidth = 2;
-		gbc_lblName.fill = GridBagConstraints.BOTH;
-		gbc_lblName.insets = new Insets(0, 0, 5, 0);
-		gbc_lblName.gridx = 0;
-		gbc_lblName.gridy = 0;
-		add(lblName, gbc_lblName);
+		lblName.setFont(new Font(useFonts, Font.BOLD, 11));
+		GridBagConstraints gbclblName = new GridBagConstraints();
+		gbclblName.gridwidth = 2;
+		gbclblName.fill = GridBagConstraints.BOTH;
+		gbclblName.insets = new Insets(0, 0, 5, 0);
+		gbclblName.gridx = 0;
+		gbclblName.gridy = 0;
+		add(lblName, gbclblName);
 		
 		JLabel lblPrice = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("PRICE")+" :");
-		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_lblPrice = new GridBagConstraints();
-		gbc_lblPrice.anchor = GridBagConstraints.WEST;
-		gbc_lblPrice.insets = new Insets(0, 0, 5, 5);
-		gbc_lblPrice.gridx = 0;
-		gbc_lblPrice.gridy = 1;
-		add(lblPrice, gbc_lblPrice);
+		lblPrice.setFont(new Font(useFonts, Font.BOLD, 11));
+		GridBagConstraints gbclblPrice = new GridBagConstraints();
+		gbclblPrice.anchor = GridBagConstraints.WEST;
+		gbclblPrice.insets = new Insets(0, 0, 5, 5);
+		gbclblPrice.gridx = 0;
+		gbclblPrice.gridy = 1;
+		add(lblPrice, gbclblPrice);
 		
 		JLabel lblpriceValue = new JLabel(price.getValue()+price.getCurrency());
-		GridBagConstraints gbc_lblpriceValue = new GridBagConstraints();
-		gbc_lblpriceValue.insets = new Insets(0, 0, 5, 0);
-		gbc_lblpriceValue.fill = GridBagConstraints.VERTICAL;
-		gbc_lblpriceValue.gridx = 1;
-		gbc_lblpriceValue.gridy = 1;
-		add(lblpriceValue, gbc_lblpriceValue);
+		GridBagConstraints gbclblpriceValue = new GridBagConstraints();
+		gbclblpriceValue.insets = new Insets(0, 0, 5, 0);
+		gbclblpriceValue.fill = GridBagConstraints.VERTICAL;
+		gbclblpriceValue.gridx = 1;
+		gbclblpriceValue.gridy = 1;
+		add(lblpriceValue, gbclblpriceValue);
 		
 		JLabel lblSeller = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SELLER")+" :");
-		lblSeller.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_lblSeller = new GridBagConstraints();
-		gbc_lblSeller.anchor = GridBagConstraints.WEST;
-		gbc_lblSeller.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSeller.gridx = 0;
-		gbc_lblSeller.gridy = 2;
-		add(lblSeller, gbc_lblSeller);
+		lblSeller.setFont(new Font(useFonts, Font.BOLD, 11));
+		GridBagConstraints gbclblSeller = new GridBagConstraints();
+		gbclblSeller.anchor = GridBagConstraints.WEST;
+		gbclblSeller.insets = new Insets(0, 0, 5, 5);
+		gbclblSeller.gridx = 0;
+		gbclblSeller.gridy = 2;
+		add(lblSeller, gbclblSeller);
 		
 		JLabel lblSellerinfo = new JLabel(price.getSeller());
-		GridBagConstraints gbc_lblSellerinfo = new GridBagConstraints();
-		gbc_lblSellerinfo.insets = new Insets(0, 0, 5, 0);
-		gbc_lblSellerinfo.gridx = 1;
-		gbc_lblSellerinfo.gridy = 2;
-		add(lblSellerinfo, gbc_lblSellerinfo);
+		GridBagConstraints gbclblSellerinfo = new GridBagConstraints();
+		gbclblSellerinfo.insets = new Insets(0, 0, 5, 0);
+		gbclblSellerinfo.gridx = 1;
+		gbclblSellerinfo.gridy = 2;
+		add(lblSellerinfo, gbclblSellerinfo);
 		
 		JLabel lblInfos = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS")+" :");
-		lblInfos.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_lblInfos = new GridBagConstraints();
-		gbc_lblInfos.anchor = GridBagConstraints.WEST;
-		gbc_lblInfos.insets = new Insets(0, 0, 0, 5);
-		gbc_lblInfos.gridx = 0;
-		gbc_lblInfos.gridy = 3;
-		add(lblInfos, gbc_lblInfos);
+		lblInfos.setFont(new Font(useFonts, Font.BOLD, 11));
+		GridBagConstraints gbclblInfos = new GridBagConstraints();
+		gbclblInfos.anchor = GridBagConstraints.WEST;
+		gbclblInfos.insets = new Insets(0, 0, 0, 5);
+		gbclblInfos.gridx = 0;
+		gbclblInfos.gridy = 3;
+		add(lblInfos, gbclblInfos);
 		
 		JLabel lblNewLabel = new JLabel(price.getLanguage()+"/"+price.getQuality()+""+(price.isFoil()?"/"+MTGControler.getInstance().getLangService().getCapitalize("FOIL")+"":""));
-		GridBagConstraints gbc_lblNewLabel = new GridBagConstraints();
-		gbc_lblNewLabel.gridx = 1;
-		gbc_lblNewLabel.gridy = 3;
-		add(lblNewLabel, gbc_lblNewLabel);
+		GridBagConstraints gbclblNewLabel = new GridBagConstraints();
+		gbclblNewLabel.gridx = 1;
+		gbclblNewLabel.gridy = 3;
+		add(lblNewLabel, gbclblNewLabel);
 	}
 }

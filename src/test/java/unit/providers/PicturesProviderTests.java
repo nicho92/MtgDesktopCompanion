@@ -1,19 +1,12 @@
 package unit.providers;
 
-import static org.junit.Assert.fail;
-
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import org.apache.log4j.Level;
-import org.junit.After;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.cache.impl.FileCache;
-import org.magic.api.cache.impl.MemoryCache;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.PictureProvider;
@@ -50,7 +43,6 @@ public class PicturesProviderTests {
 	@Before
 	public void createCards()
 	{
-		System.out.print("create cards....");
 		mc = new MagicCard();
 		mc.setName("Black Lotus");
 		mc.setLayout("normal");
@@ -73,8 +65,6 @@ public class PicturesProviderTests {
 					 ed.setNumber("232");
 		
 		mc.getEditions().add(ed);
-		System.out.println("done");
-		
 	}
 	
 	@Test

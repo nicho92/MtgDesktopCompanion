@@ -16,7 +16,8 @@ import org.magic.api.beans.MTGStory;
 
 public class MTGStoryListPanel extends JPanel {
 
-	JLabel lblicon;
+	private JLabel lblicon;
+	private String useFonts="Tahoma";
 	
 	public MTGStoryListPanel(MTGStory value) {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
@@ -28,51 +29,51 @@ public class MTGStoryListPanel extends JPanel {
 		setLayout(gridBagLayout);
 		
 		lblicon = new JLabel(new ImageIcon(value.getIcon()));
-		GridBagConstraints gbc_lblicon = new GridBagConstraints();
-		gbc_lblicon.gridheight = 3;
-		gbc_lblicon.insets = new Insets(0, 0, 0, 5);
-		gbc_lblicon.gridx = 0;
-		gbc_lblicon.gridy = 0;
-		add(lblicon, gbc_lblicon);
+		GridBagConstraints gbclblicon = new GridBagConstraints();
+		gbclblicon.gridheight = 3;
+		gbclblicon.insets = new Insets(0, 0, 0, 5);
+		gbclblicon.gridx = 0;
+		gbclblicon.gridy = 0;
+		add(lblicon, gbclblicon);
 		
 		JLabel lblTitle = new JLabel(value.getTitle());
-		lblTitle.setFont(new Font("Tahoma", Font.BOLD, 14));
-		GridBagConstraints gbc_lblTitle = new GridBagConstraints();
-		gbc_lblTitle.insets = new Insets(0, 0, 5, 5);
-		gbc_lblTitle.anchor = GridBagConstraints.NORTHWEST;
-		gbc_lblTitle.gridx = 1;
-		gbc_lblTitle.gridy = 0;
-		add(lblTitle, gbc_lblTitle);
+		lblTitle.setFont(new Font(useFonts, Font.BOLD, 14));
+		GridBagConstraints gbclblTitle = new GridBagConstraints();
+		gbclblTitle.insets = new Insets(0, 0, 5, 5);
+		gbclblTitle.anchor = GridBagConstraints.NORTHWEST;
+		gbclblTitle.gridx = 1;
+		gbclblTitle.gridy = 0;
+		add(lblTitle, gbclblTitle);
 		
 		JLabel lblDate = new JLabel(value.getDate());
-		lblDate.setFont(new Font("Tahoma", Font.PLAIN, 11));
-		GridBagConstraints gbc_lblDate = new GridBagConstraints();
-		gbc_lblDate.anchor = GridBagConstraints.NORTH;
-		gbc_lblDate.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDate.gridx = 2;
-		gbc_lblDate.gridy = 0;
-		add(lblDate, gbc_lblDate);
+		lblDate.setFont(new Font(useFonts, Font.PLAIN, 11));
+		GridBagConstraints gbclblDate = new GridBagConstraints();
+		gbclblDate.anchor = GridBagConstraints.NORTH;
+		gbclblDate.insets = new Insets(0, 0, 5, 0);
+		gbclblDate.gridx = 2;
+		gbclblDate.gridy = 0;
+		add(lblDate, gbclblDate);
 		
 		JLabel lblAuthor = new JLabel(value.getAuthor());
-		lblAuthor.setFont(new Font("Tahoma", Font.ITALIC, 11));
-		GridBagConstraints gbc_lblAuthor = new GridBagConstraints();
-		gbc_lblAuthor.anchor = GridBagConstraints.WEST;
-		gbc_lblAuthor.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAuthor.gridx = 1;
-		gbc_lblAuthor.gridy = 1;
-		add(lblAuthor, gbc_lblAuthor);
+		lblAuthor.setFont(new Font(useFonts, Font.ITALIC, 11));
+		GridBagConstraints gbclblAuthor = new GridBagConstraints();
+		gbclblAuthor.anchor = GridBagConstraints.WEST;
+		gbclblAuthor.insets = new Insets(0, 0, 5, 5);
+		gbclblAuthor.gridx = 1;
+		gbclblAuthor.gridy = 1;
+		add(lblAuthor, gbclblAuthor);
 		
 		JEditorPane editorPane = new JEditorPane();
 		editorPane.setEditable(false);
 		editorPane.setOpaque(false);
 		editorPane.setText(value.getDescription());
-		GridBagConstraints gbc_editorPane = new GridBagConstraints();
-		gbc_editorPane.gridwidth = 2;
-		gbc_editorPane.insets = new Insets(0, 0, 0, 5);
-		gbc_editorPane.fill = GridBagConstraints.BOTH;
-		gbc_editorPane.gridx = 1;
-		gbc_editorPane.gridy = 2;
-		add(editorPane, gbc_editorPane);
+		GridBagConstraints gbceditorPane = new GridBagConstraints();
+		gbceditorPane.gridwidth = 2;
+		gbceditorPane.insets = new Insets(0, 0, 0, 5);
+		gbceditorPane.fill = GridBagConstraints.BOTH;
+		gbceditorPane.gridx = 1;
+		gbceditorPane.gridy = 2;
+		add(editorPane, gbceditorPane);
 	
 
 	}
