@@ -55,11 +55,14 @@ public class MagicGUI extends JFrame {
 
  	private JTabbedPane  tabbedPane;
 	private transient VersionChecker serviceUpdate;
-	private transient TrayIcon trayNotifier;
+	private static transient TrayIcon trayNotifier;
 	private Map<String,String> looks;
 	private Map<String,String> looksMore;
 	private CardSearchPanel cardSearchPanel;
 	
+	public static TrayIcon getTrayNotifier() {
+		return trayNotifier;
+	}
 	
 	public MagicGUI() {
 

@@ -67,7 +67,7 @@ public class MTGControler {
 	public void notify(String caption,String text,MessageType type)
 	{
 		if(SystemTray.isSupported())
-			MagicGUI.trayNotifier.displayMessage(caption, text, type);
+			MagicGUI.getTrayNotifier().displayMessage(caption, text, type);
 	}
 	
 	public LanguageService getLangService() {
