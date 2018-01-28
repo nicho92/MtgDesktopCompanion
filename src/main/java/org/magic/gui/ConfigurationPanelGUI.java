@@ -1,10 +1,7 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
-import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
@@ -12,7 +9,6 @@ import javax.swing.JTable;
 import javax.swing.event.TreeSelectionEvent;
 import javax.swing.event.TreeSelectionListener;
 
-import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.CardExporter;
@@ -38,9 +34,7 @@ import org.magic.gui.models.conf.PicturesProvidersTableModel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.gui.models.conf.ServersTreeTableModel;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 public class ConfigurationPanelGUI extends JPanel {
 	private JTable cardsProviderTable;
@@ -54,13 +48,10 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable picturesProviderTable;
 	private JXTreeTable serversTreeTable;
 	private JXTreeTable cachesTreeTable;
-	Logger logger = MTGLogger.getLogger(this.getClass());
-	LoggerViewPanel loggerViewPanel;
-	ThreadMonitorPanel threadMonitorPanel;
+	private LoggerViewPanel loggerViewPanel;
+	private ThreadMonitorPanel threadMonitorPanel;
 	
 	public ConfigurationPanelGUI() {
-		
-		
 		
 		setLayout(new BorderLayout(0, 0));
 		
@@ -116,7 +107,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		daoProviderTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
-					if(e.getNewLeadSelectionPath().getPathCount()>1);
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
 						((MagicDAOProvidersTableModel)daoProviderTable.getTreeTableModel()).setSelectedNode((MagicDAO)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
@@ -129,7 +120,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		shopperTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
-					if(e.getNewLeadSelectionPath().getPathCount()>1);
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
 						((MagicShoppersTableModel)shopperTreeTable.getTreeTableModel()).setSelectedNode((MagicShopper)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
@@ -141,7 +132,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		exportsTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
-					if(e.getNewLeadSelectionPath().getPathCount()>1);
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
 						((ExportsTreeTableModel)exportsTable.getTreeTableModel()).setSelectedNode((CardExporter)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
@@ -155,7 +146,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		importTreeTable.addTreeSelectionListener(new TreeSelectionListener() {
 			public void valueChanged(TreeSelectionEvent e) {
 				if(e.getNewLeadSelectionPath()!=null)
-					if(e.getNewLeadSelectionPath().getPathCount()>1);
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
 						((DeckSnifferTreeTableModel)importTreeTable.getTreeTableModel()).setSelectedNode((DeckSniffer)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		});
@@ -211,23 +202,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		JPanel panneauhaut = new JPanel();
 		rssPanel.add(panneauhaut, BorderLayout.NORTH);
-		
-		JButton btnNew = new JButton("");
-		btnNew.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-			}
-		});
-		btnNew.setIcon(MTGConstants.ICON_NEW);
-		panneauhaut.add(btnNew);
-		
-		JButton btnDelete = new JButton("");
-		btnDelete.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			}
-		});
-		btnDelete.setEnabled(false);
-		btnDelete.setIcon(MTGConstants.ICON_DELETE);
-		panneauhaut.add(btnDelete);
+	
 		
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), null, configurationPanel, null);
