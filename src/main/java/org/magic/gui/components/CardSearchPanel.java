@@ -745,8 +745,7 @@ public class CardSearchPanel extends JPanel {
 			} 
 			catch(Exception e)
 			{
-				logger.error(e);
-				MTGLogger.printStackTrace(e);
+				logger.error("Error init",e);
 				JOptionPane.showMessageDialog(null, e,"ERROR",JOptionPane.ERROR_MESSAGE);
 			}
 
