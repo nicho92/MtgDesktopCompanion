@@ -40,7 +40,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 				props.put("LOGIN", "login");
-				props.put("PASSWORD", "password");
+				props.put("PASS", "PASS");
 				props.put("VERSION", "2015-07-05");
 				props.put("CATEGORIE", "");
 				props.put("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing&login=%LOGIN%&pwd=%PASSWORD%&version=%VERSION%&scope=%SCOPE%&nbproductsperpage=%NB_PRODUCT_PAGE%&kw=%KEYWORD%&nav=%CATEGORIE%");
@@ -68,7 +68,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 		
 		String url = props.getProperty("URL")
 					.replace("%LOGIN%", props.getProperty("LOGIN"))
-					.replace("%PASSWORD%", props.getProperty("PASSWORD"))
+					.replace("%PASSWORD%", props.getProperty("PASS"))
 					.replace("%VERSION%", props.getProperty("VERSION"))
 					.replace("%SCOPE%", props.getProperty("SCOPE"))
 					.replace("%NB_PRODUCT_PAGE%", props.getProperty("NB_PRODUCT_PAGE"))

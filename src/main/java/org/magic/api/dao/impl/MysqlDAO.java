@@ -48,7 +48,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			 props.put("SERVERPORT", "3306");
 			 props.put("DB_NAME", "mtgdesktopclient");
 			 props.put("LOGIN", "login");
-			 props.put("PASSWORD", "");
+			 props.put("PASS", "");
 			 props.put("CARD_STORE", "BLOB"); 
 			 props.put("PARAMS", "?autoDeserialize=true&autoReconnect=true");
 			 props.put("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
@@ -62,7 +62,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 logger.info("init " + getName());
 		 Class.forName(props.getProperty("DRIVER"));
 		 String url = "jdbc:mysql://"+props.getProperty("SERVERNAME")+":"+props.getProperty("SERVERPORT");
-		 con=DriverManager.getConnection(url+"/"+props.getProperty("DB_NAME")+props.getProperty("PARAMS"),props.getProperty("LOGIN"),props.getProperty("PASSWORD"));
+		 con=DriverManager.getConnection(url+"/"+props.getProperty("DB_NAME")+props.getProperty("PARAMS"),props.getProperty("LOGIN"),props.getProperty("PASS"));
 		 createDB();
 		 logger.info("init " + getName() +" done");
 		 
@@ -529,7 +529,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			throw new NullPointerException("Please fill MYSQL_DUMP_PATH var");
 		}
 		
-		String dumpCommand = props.getProperty("MYSQL_DUMP_PATH")+"/mysqldump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASSWORD")+" --port " + props.getProperty("SERVERPORT");
+		String dumpCommand = props.getProperty("MYSQL_DUMP_PATH")+"/mysqldump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASS")+" --port " + props.getProperty("SERVERPORT");
 		Runtime rt = Runtime.getRuntime();
 		logger.info("begin Backup " + props.getProperty("DB_NAME"));
 		Process child = rt.exec(dumpCommand);

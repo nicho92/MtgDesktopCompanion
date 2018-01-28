@@ -80,7 +80,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 			 props.put("SERVERPORT", "27017");
 			 props.put("DB_NAME", "mtgdesktopcompanion");
 			 props.put("LOGIN", "login");
-			 props.put("PASSWORD", "");
+			 props.put("PASS", "");
 		save();
 		}
 		

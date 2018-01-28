@@ -58,7 +58,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 		if(!new File(confdir, getName()+".conf").exists()){
 				props.put("LOGIN", "login@mail.com");
-				props.put("PASSWORD", "changeme");
+				props.put("PASS", "changeme");
 				props.put("FORMAT", "standard");
 				props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
 				props.put("URL_JSON", "https://tappedout.net/api/deck/latest/%FORMAT%");
@@ -105,7 +105,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	    List <NameValuePair> nvps = new ArrayList <>();
 	       					 nvps.add(new BasicNameValuePair("next", "/"));
 					         nvps.add(new BasicNameValuePair("username", props.getProperty("LOGIN")));
-					         nvps.add(new BasicNameValuePair("password", props.getProperty("PASSWORD")));
+					         nvps.add(new BasicNameValuePair("PASS", props.getProperty("PASS")));
 					         nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", getCookieValue("csrftoken")));
 				 login.setEntity(new UrlEncodedFormEntity(nvps));
 				 login.addHeader("Referer", "https://tappedout.net/accounts/login/?next=/");

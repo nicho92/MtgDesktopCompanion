@@ -50,7 +50,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			 props.put("SERVERPORT", "5432");
 			 props.put("DB_NAME", "mtgdesktopcompanion");
 			 props.put("LOGIN", "postgres");
-			 props.put("PASSWORD", "postgres");
+			 props.put("PASS", "postgres");
 			 props.put("URL_PGDUMP", "C:/Program Files (x86)/PostgreSQL/9.5/bin");
 		
 		save();
@@ -62,7 +62,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		 logger.info("init " + getName());
 		 Class.forName(props.getProperty("DRIVER"));
 		 String url = "jdbc:postgresql://"+props.getProperty("SERVERNAME")+":"+props.getProperty("SERVERPORT");
-		 con=DriverManager.getConnection(url+"/"+props.getProperty("DB_NAME"),props.getProperty("LOGIN"),props.getProperty("PASSWORD"));
+		 con=DriverManager.getConnection(url+"/"+props.getProperty("DB_NAME"),props.getProperty("LOGIN"),props.getProperty("PASS"));
 		 createDB();
 
 	}

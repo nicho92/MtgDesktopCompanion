@@ -73,7 +73,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		props.put("LANG", "en");
 		props.put("LOGIN", "login");
 		props.put("MAX_RESULT", "");
-		props.put("PASSWORD", "password");
+		props.put("PASS", "PASS");
 		props.put("AUTOMATIC_ADD_CARD_ALERT", "false");
 		save();
 		}
@@ -98,7 +98,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 			JsonObject jsonparams = new JsonObject();
 			   jsonparams.addProperty("login", props.getProperty("LOGIN"));    
-			   jsonparams.addProperty("password", props.getProperty("PASSWORD"));
+			   jsonparams.addProperty("PASS", props.getProperty("PASS"));
 	
 
 			HttpPost reqCredential = new HttpPost(props.getProperty("URL")+"/account/login");

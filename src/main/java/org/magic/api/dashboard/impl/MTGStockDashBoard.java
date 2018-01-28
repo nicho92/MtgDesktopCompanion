@@ -41,7 +41,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 				props.put("LOGIN", "login@mail.com");
-				props.put("PASSWORD", "changeme");
+				props.put("PASS", "changeme");
 				props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
 				save();
 		}
@@ -67,7 +67,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		HttpPost login = new HttpPost(url+"/users/sign_in");
 	    List <NameValuePair> nvps = new ArrayList <>();
 					         nvps.add(new BasicNameValuePair("user_username", props.getProperty("LOGIN")));
-					         nvps.add(new BasicNameValuePair("user_password", props.getProperty("PASSWORD")));
+					         nvps.add(new BasicNameValuePair("user_password", props.getProperty("PASS")));
 				 login.setEntity(new UrlEncodedFormEntity(nvps));
 				 httpclient.execute(login, httpContext);
 	
