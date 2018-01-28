@@ -54,7 +54,6 @@ import org.magic.game.model.Player;
 import org.magic.gui.components.DeckDetailsPanel;
 import org.magic.gui.components.DeckPricePanel;
 import org.magic.gui.components.MagicCardDetailPanel;
-import org.magic.gui.components.ManaPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.DrawProbabilityPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
@@ -459,7 +458,7 @@ public class DeckBuilderGUI extends JPanel {
 
 		tableDeck.setModel(deckmodel);
 		tableDeck.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		tableDeck.setRowHeight(ManaPanel.row_height);
+		tableDeck.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableDeck.setRowSorter(sorterCards);
 
 		JScrollPane scrollSideboard = new JScrollPane();

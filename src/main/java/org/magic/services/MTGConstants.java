@@ -84,5 +84,6 @@ public class MTGConstants {
 	public static final URL URL_MANA_INCOLOR = ManaCellRenderer.class.getResource("/icons/uncolor.jpg");
 	public static final URL URL_COLLECTION = ManaCellRenderer.class.getResource("/icons/bottom.png");
 	
-	
+	public static final int TABLE_ROW_HEIGHT=18;
+	public static final int TABLE_ROW_WIDTH=18;
 }

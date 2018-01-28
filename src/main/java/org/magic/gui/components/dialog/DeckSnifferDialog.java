@@ -22,6 +22,7 @@ import org.magic.gui.models.DeckSnifferModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class DeckSnifferDialog extends JDialog{
@@ -33,7 +34,7 @@ public class DeckSnifferDialog extends JDialog{
 	private MagicDeck importedDeck;
 	private JLabel lblLoad;
 	private JButton btnImport;
-	private DeckSniffer selectedSniffer;
+	private transient DeckSniffer selectedSniffer;
 	private JButton btnConnect;
 	
 	
@@ -77,7 +78,6 @@ public class DeckSnifferDialog extends JDialog{
 								cboFormats.addItem(s);
 							
 							lblLoad.setVisible(false);
-							//cboFormats.setSelectedItem(selectedSniffer.getProperty("FORMAT"));
 							
 						} catch (Exception e1) {
 							lblLoad.setVisible(false);
@@ -113,8 +113,8 @@ public class DeckSnifferDialog extends JDialog{
 		lblLoad.setIcon(MTGConstants.ICON_LOADING);
 		lblLoad.setVisible(false);
 		
-		JPanel panel_1 = new JPanel();
-		getContentPane().add(panel_1, BorderLayout.SOUTH);
+		JPanel panel1 = new JPanel();
+		getContentPane().add(panel1, BorderLayout.SOUTH);
 		
 		JButton btnClose = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
 		btnClose.addActionListener(new ActionListener() {
@@ -122,7 +122,7 @@ public class DeckSnifferDialog extends JDialog{
 				dispose();
 			}
 		});
-		panel_1.add(btnClose);
+		panel1.add(btnClose);
 		
 		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(new ActionListener() {
@@ -140,7 +140,7 @@ public class DeckSnifferDialog extends JDialog{
 								btnImport.setEnabled(true);
 								dispose();
 							} catch (Exception e1) {
-								e1.printStackTrace();
+								MTGLogger.printStackTrace(e1);
 								JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"),JOptionPane.ERROR_MESSAGE);
 								importedDeck=null;
 								lblLoad.setVisible(false);
@@ -152,7 +152,7 @@ public class DeckSnifferDialog extends JDialog{
 			
 			}
 		});
-		panel_1.add(btnImport);
+		panel1.add(btnImport);
 		setLocationRelativeTo(null);
 		
 		table.getColumnModel().getColumn(1).setCellRenderer(new ManaCellRenderer());

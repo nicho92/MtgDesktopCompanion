@@ -313,7 +313,7 @@ public class CardSearchPanel extends JPanel {
 			panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			panneauCentral.setRightComponent(tabbedCardsInfo);
 			panneauCentral.setLeftComponent(tabbedCardsView);
-			tableCards.setRowHeight(ManaPanel.row_height);
+			tableCards.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 			tableCards.setRowSorter(sorterCards);
 			
 			

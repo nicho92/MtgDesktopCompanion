@@ -16,26 +16,28 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
-import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
 
 public class ManaPanel extends JPanel {
+	private int cols=10;
+	private int rows =7;
+	private int chunkWidth=100;
+	private int chunkHeight=100;
+	private transient BufferedImage[] imgs;
+	private boolean cached=false;
+	private int rowHeight=MTGConstants.TABLE_ROW_HEIGHT;
+	private int rowWidth=MTGConstants.TABLE_ROW_WIDTH;
+	private String regex ="\\{(.*?)\\}";
 	
-	Logger logger = MTGLogger.getLogger(this.getClass());
-
-	int cols=10;
-	int rows =7;
-	int chunkWidth=100;
-	int chunkHeight=100;
-	static BufferedImage imgs[];
-	static boolean cached=false;
+	public int getRowHeight() {
+		return rowHeight;
+	}
 	
-	public static int row_height=18;
-	public static int row_width=18;
-	
-	String regex ="\\{(.*?)\\}";
+	public int getRowWidth() {
+		return rowWidth;
+	}
 	
 	
 	FlowLayout fl =new FlowLayout();
@@ -74,24 +76,20 @@ public class ManaPanel extends JPanel {
 		
 		fl.setVgap(0);
 		fl.setHgap(0);
-		while(m.find()) {
+		while(m.find()) 
 			{
-			JLabel lab = new JLabel();
-				//logger.debug("Analyse symbol : " + m.group());
+				JLabel lab = new JLabel();
 				Image img = getManaSymbol(m.group());
-				  lab.setIcon(new ImageIcon(img.getScaledInstance(row_width, row_height, Image.SCALE_DEFAULT)));
-				  lab.setHorizontalAlignment(SwingConstants.LEFT);
-				  
-			add(lab);
+				lab.setIcon(new ImageIcon(img.getScaledInstance(rowWidth, rowHeight, Image.SCALE_DEFAULT)));
+				lab.setHorizontalAlignment(SwingConstants.LEFT);
+				add(lab);
 			}
-        }
-		
 	}
 	
 	private void init() {
 		BufferedImage image;
 		
-		if(cached==false)
+		if(!cached)
 		{
 			imgs = new BufferedImage[chunks];
 			try {
@@ -117,7 +115,7 @@ public class ManaPanel extends JPanel {
 
 	public Image getManaSymbol(String el) 
 	{
-		row_width=18;
+		rowWidth=18;
 		el = el.replaceAll("\\{", "").replaceAll("\\}", "").trim();
 		int val = 0;
 		try{
@@ -170,13 +168,13 @@ public class ManaPanel extends JPanel {
 			default:val=0;
 			}
 		}
-		List<Image> lst = new ArrayList<Image>();
+		List<Image> lst = new ArrayList<>();
 		
 		if(val==100)//mox lotus
 		{
 			lst.add(imgs[65]);
 			lst.add(imgs[66]);
-			row_width=row_width*lst.size();
+			rowWidth=rowWidth*lst.size();
 			return ImageUtils.joinBufferedImage(lst);
 		}
 		
@@ -188,7 +186,7 @@ public class ManaPanel extends JPanel {
 			lst.add(imgs[62]);
 			lst.add(imgs[63]);
 			lst.add(imgs[64]);
-			row_width=row_width*lst.size();
+			rowWidth=rowWidth*lst.size();
 			return ImageUtils.joinBufferedImage(lst);
 		}
 		
