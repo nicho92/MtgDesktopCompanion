@@ -43,7 +43,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 				props.put("PASS", "PASS");
 				props.put("VERSION", "2015-07-05");
 				props.put("CATEGORIE", "");
-				props.put("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing&login=%LOGIN%&pwd=%PASSWORD%&version=%VERSION%&scope=%SCOPE%&nbproductsperpage=%NB_PRODUCT_PAGE%&kw=%KEYWORD%&nav=%CATEGORIE%");
+				props.put("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing");
 				props.put("SCOPE", "PRICING");
 				props.put("NB_PRODUCT_PAGE", "20");
 				props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
@@ -65,19 +65,20 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 		
 		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+		StringBuilder url = new StringBuilder();
 		
-		String url = props.getProperty("URL")
-					.replace("%LOGIN%", props.getProperty("LOGIN"))
-					.replace("%PASSWORD%", props.getProperty("PASS"))
-					.replace("%VERSION%", props.getProperty("VERSION"))
-					.replace("%SCOPE%", props.getProperty("SCOPE"))
-					.replace("%NB_PRODUCT_PAGE%", props.getProperty("NB_PRODUCT_PAGE"))
-					.replace("%CATEGORIE%",props.getProperty("CATEGORIE"))
-					.replace("%KEYWORD%",URLEncoder.encode(search,props.getProperty("ENCODING")));
+			url.append(props.getProperty("URL"))
+			   .append("&login=").append(props.getProperty("LOGIN"))
+			   .append("&pwd=").append(props.getProperty("PASS"))
+			   .append("&version=").append(props.getProperty("VERSION"))
+			   .append("&scope=").append(props.getProperty("SCOPE"))
+			   .append("&nbproductsperpage=").append(props.getProperty("NB_PRODUCT_PAGE"))
+			   .append("&kw=").append(URLEncoder.encode(search,props.getProperty("ENCODING")))
+			   .append("&nav=").append(props.getProperty("CATEGORIE"));
 		
 		 logger.debug(getName() + " parsing item from " + url) ;
 			
-		 Document doc = dBuilder.parse(url);
+		 Document doc = dBuilder.parse(url.toString());
 		 doc.getDocumentElement().normalize();
 		
 				NodeList lst =  doc.getElementsByTagName("product");
