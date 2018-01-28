@@ -32,7 +32,7 @@ import org.magic.services.ThreadManager;
 
 public class MagicEditionDetailPanel extends JPanel {
 
-	private BindingGroup m_bindingGroup;
+	private transient BindingGroup mBindingGroup;
 	private org.magic.api.beans.MagicEdition magicEdition = new org.magic.api.beans.MagicEdition();
 	private JTextField borderJTextField;
 	private JTextField cardCountTextField;
@@ -54,10 +54,10 @@ public class MagicEditionDetailPanel extends JPanel {
 	private JPanel panneauBooster;
 	private JButton btnOpenBooster;
 	private JLabel lblBoosterPic;
-	private BoosterPicturesProvider boosterProvider;
+	private transient BoosterPicturesProvider boosterProvider;
 	private boolean openBooster;
 	
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public MagicEditionDetailPanel(boolean showTablePrice,boolean openBooster) {
@@ -96,132 +96,132 @@ public class MagicEditionDetailPanel extends JPanel {
 		panneauHaut.setLayout(gridBagLayout);
 				
 						JLabel setLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION")+" :");
-						GridBagConstraints labelGbc_8 = new GridBagConstraints();
-						labelGbc_8.insets = new Insets(5, 5, 5, 5);
-						labelGbc_8.gridx = 0;
-						labelGbc_8.gridy = 0;
-						panneauHaut.add(setLabel, labelGbc_8);
+						GridBagConstraints labelgbc8 = new GridBagConstraints();
+						labelgbc8.insets = new Insets(5, 5, 5, 5);
+						labelgbc8.gridx = 0;
+						labelgbc8.gridy = 0;
+						panneauHaut.add(setLabel, labelgbc8);
 				
 						setJTextField = new JTextField();
 						
-						GridBagConstraints componentGbc_8 = new GridBagConstraints();
-						componentGbc_8.insets = new Insets(5, 0, 5, 5);
-						componentGbc_8.fill = GridBagConstraints.HORIZONTAL;
-						componentGbc_8.gridx = 1;
-						componentGbc_8.gridy = 0;
-						panneauHaut.add(setJTextField, componentGbc_8);
+						GridBagConstraints componentGbc8 = new GridBagConstraints();
+						componentGbc8.insets = new Insets(5, 0, 5, 5);
+						componentGbc8.fill = GridBagConstraints.HORIZONTAL;
+						componentGbc8.gridx = 1;
+						componentGbc8.gridy = 0;
+						panneauHaut.add(setJTextField, componentGbc8);
 				
 						JLabel typeLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_TYPE")+" :");
-						GridBagConstraints labelGbc_11 = new GridBagConstraints();
-						labelGbc_11.insets = new Insets(5, 5, 5, 5);
-						labelGbc_11.gridx = 0;
-						labelGbc_11.gridy = 1;
-						panneauHaut.add(typeLabel, labelGbc_11);
+						GridBagConstraints labelgbc11 = new GridBagConstraints();
+						labelgbc11.insets = new Insets(5, 5, 5, 5);
+						labelgbc11.gridx = 0;
+						labelgbc11.gridy = 1;
+						panneauHaut.add(typeLabel, labelgbc11);
 				
 						typeJTextField = new JTextField();
-						GridBagConstraints componentGbc_11 = new GridBagConstraints();
-						componentGbc_11.insets = new Insets(5, 0, 5, 5);
-						componentGbc_11.fill = GridBagConstraints.HORIZONTAL;
-						componentGbc_11.gridx = 1;
-						componentGbc_11.gridy = 1;
-						panneauHaut.add(typeJTextField, componentGbc_11);
+						GridBagConstraints componentGbc11 = new GridBagConstraints();
+						componentGbc11.insets = new Insets(5, 0, 5, 5);
+						componentGbc11.fill = GridBagConstraints.HORIZONTAL;
+						componentGbc11.gridx = 1;
+						componentGbc11.gridy = 1;
+						panneauHaut.add(typeJTextField, componentGbc11);
 
 		JLabel releaseDateLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DATE_RELEASE")+" :");
-		GridBagConstraints labelGbc_7 = new GridBagConstraints();
-		labelGbc_7.insets = new Insets(5, 5, 5, 5);
-		labelGbc_7.gridx = 0;
-		labelGbc_7.gridy = 2;
-		panneauHaut.add(releaseDateLabel, labelGbc_7);
+		GridBagConstraints labelgbc7 = new GridBagConstraints();
+		labelgbc7.insets = new Insets(5, 5, 5, 5);
+		labelgbc7.gridx = 0;
+		labelgbc7.gridy = 2;
+		panneauHaut.add(releaseDateLabel, labelgbc7);
 
 		releaseDateJTextField = new JTextField();
 
-		GridBagConstraints componentGbc_7 = new GridBagConstraints();
-		componentGbc_7.insets = new Insets(5, 0, 5, 5);
-		componentGbc_7.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc_7.gridx = 1;
-		componentGbc_7.gridy = 2;
-		panneauHaut.add(releaseDateJTextField, componentGbc_7);
+		GridBagConstraints componentGbc7 = new GridBagConstraints();
+		componentGbc7.insets = new Insets(5, 0, 5, 5);
+		componentGbc7.fill = GridBagConstraints.HORIZONTAL;
+		componentGbc7.gridx = 1;
+		componentGbc7.gridy = 2;
+		panneauHaut.add(releaseDateJTextField, componentGbc7);
 		
 				JLabel borderLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_BORDER")+" :");
-				GridBagConstraints labelGbc_2 = new GridBagConstraints();
-				labelGbc_2.insets = new Insets(5, 5, 5, 5);
-				labelGbc_2.gridx = 0;
-				labelGbc_2.gridy = 3;
-				panneauHaut.add(borderLabel, labelGbc_2);
+				GridBagConstraints labelgbc2 = new GridBagConstraints();
+				labelgbc2.insets = new Insets(5, 5, 5, 5);
+				labelgbc2.gridx = 0;
+				labelgbc2.gridy = 3;
+				panneauHaut.add(borderLabel, labelgbc2);
 								
 				borderJTextField = new JTextField();
-				GridBagConstraints componentGbc_2 = new GridBagConstraints();
-				componentGbc_2.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_2.insets = new Insets(5, 0, 5, 5);
-				componentGbc_2.gridx = 1;
-				componentGbc_2.gridy = 3;
-				panneauHaut.add(borderJTextField, componentGbc_2);
+				GridBagConstraints componentGbc2 = new GridBagConstraints();
+				componentGbc2.fill = GridBagConstraints.HORIZONTAL;
+				componentGbc2.insets = new Insets(5, 0, 5, 5);
+				componentGbc2.gridx = 1;
+				componentGbc2.gridy = 3;
+				panneauHaut.add(borderJTextField, componentGbc2);
 
 				JLabel cardCountLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_CARD_COUNT")+" :");
-				GridBagConstraints labelGbc_3 = new GridBagConstraints();
-				labelGbc_3.insets = new Insets(5, 5, 5, 5);
-				labelGbc_3.gridx = 0;
-				labelGbc_3.gridy = 4;
-				panneauHaut.add(cardCountLabel, labelGbc_3);
+				GridBagConstraints labelgbc3 = new GridBagConstraints();
+				labelgbc3.insets = new Insets(5, 5, 5, 5);
+				labelgbc3.gridx = 0;
+				labelgbc3.gridy = 4;
+				panneauHaut.add(cardCountLabel, labelgbc3);
 						
 				cardCountTextField = new JTextField();
 
-				GridBagConstraints componentGbc_3 = new GridBagConstraints();
-				componentGbc_3.insets = new Insets(5, 0, 5, 5);
-				componentGbc_3.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_3.gridx = 1;
-				componentGbc_3.gridy = 4;
-				panneauHaut.add(cardCountTextField, componentGbc_3);
+				GridBagConstraints componentGbc3 = new GridBagConstraints();
+				componentGbc3.insets = new Insets(5, 0, 5, 5);
+				componentGbc3.fill = GridBagConstraints.HORIZONTAL;
+				componentGbc3.gridx = 1;
+				componentGbc3.gridy = 4;
+				panneauHaut.add(cardCountTextField, componentGbc3);
 				
 				lblBlock = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_BLOCK")+" :");
-				GridBagConstraints gbc_lblBlock = new GridBagConstraints();
-				gbc_lblBlock.insets = new Insets(0, 0, 5, 5);
-				gbc_lblBlock.gridx = 0;
-				gbc_lblBlock.gridy = 5;
-				panneauHaut.add(lblBlock, gbc_lblBlock);
+				GridBagConstraints gbclblBlock = new GridBagConstraints();
+				gbclblBlock.insets = new Insets(0, 0, 5, 5);
+				gbclblBlock.gridx = 0;
+				gbclblBlock.gridy = 5;
+				panneauHaut.add(lblBlock, gbclblBlock);
 				
 				blockJTextField = new JTextField();
-				GridBagConstraints gbc_blockJTextField = new GridBagConstraints();
-				gbc_blockJTextField.insets = new Insets(0, 0, 5, 5);
-				gbc_blockJTextField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_blockJTextField.gridx = 1;
-				gbc_blockJTextField.gridy = 5;
-				panneauHaut.add(blockJTextField, gbc_blockJTextField);
+				GridBagConstraints gbcblockJTextField = new GridBagConstraints();
+				gbcblockJTextField.insets = new Insets(0, 0, 5, 5);
+				gbcblockJTextField.fill = GridBagConstraints.HORIZONTAL;
+				gbcblockJTextField.gridx = 1;
+				gbcblockJTextField.gridy = 5;
+				panneauHaut.add(blockJTextField, gbcblockJTextField);
 				blockJTextField.setColumns(10);
 				
 				lblId = new JLabel("ID :");
-				GridBagConstraints gbc_lblId = new GridBagConstraints();
-				gbc_lblId.insets = new Insets(0, 0, 5, 5);
-				gbc_lblId.gridx = 0;
-				gbc_lblId.gridy = 6;
-				panneauHaut.add(lblId, gbc_lblId);
+				GridBagConstraints gbclblId = new GridBagConstraints();
+				gbclblId.insets = new Insets(0, 0, 5, 5);
+				gbclblId.gridx = 0;
+				gbclblId.gridy = 6;
+				panneauHaut.add(lblId, gbclblId);
 				
 				idJtextField = new JTextField();
 
-				GridBagConstraints gbc_txtID = new GridBagConstraints();
-				gbc_txtID.insets = new Insets(0, 0, 5, 5);
-				gbc_txtID.fill = GridBagConstraints.HORIZONTAL;
-				gbc_txtID.gridx = 1;
-				gbc_txtID.gridy = 6;
-				panneauHaut.add(idJtextField, gbc_txtID);
+				GridBagConstraints gbctxtID = new GridBagConstraints();
+				gbctxtID.insets = new Insets(0, 0, 5, 5);
+				gbctxtID.fill = GridBagConstraints.HORIZONTAL;
+				gbctxtID.gridx = 1;
+				gbctxtID.gridy = 6;
+				panneauHaut.add(idJtextField, gbctxtID);
 				idJtextField.setColumns(10);
 				
 				splitPane.setLeftComponent(panneauHaut);
 				
 				lblOnlineSet = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("EDITION_ONLINE")+" :");
-				GridBagConstraints gbc_lblOnlineSet = new GridBagConstraints();
-				gbc_lblOnlineSet.insets = new Insets(0, 0, 5, 5);
-				gbc_lblOnlineSet.gridx = 0;
-				gbc_lblOnlineSet.gridy = 7;
-				panneauHaut.add(lblOnlineSet, gbc_lblOnlineSet);
+				GridBagConstraints gbclblOnlineSet = new GridBagConstraints();
+				gbclblOnlineSet.insets = new Insets(0, 0, 5, 5);
+				gbclblOnlineSet.gridx = 0;
+				gbclblOnlineSet.gridy = 7;
+				panneauHaut.add(lblOnlineSet, gbclblOnlineSet);
 				
 				chkOnline = new JCheckBox("");
-				GridBagConstraints gbc_chkOnline = new GridBagConstraints();
-				gbc_chkOnline.anchor = GridBagConstraints.WEST;
-				gbc_chkOnline.insets = new Insets(0, 0, 5, 5);
-				gbc_chkOnline.gridx = 1;
-				gbc_chkOnline.gridy = 7;
-				panneauHaut.add(chkOnline, gbc_chkOnline);
+				GridBagConstraints gbcchkOnline = new GridBagConstraints();
+				gbcchkOnline.anchor = GridBagConstraints.WEST;
+				gbcchkOnline.insets = new Insets(0, 0, 5, 5);
+				gbcchkOnline.gridx = 1;
+				gbcchkOnline.gridy = 7;
+				panneauHaut.add(chkOnline, gbcchkOnline);
 				
 				panneauBooster = new JPanel();
 				add(panneauBooster, BorderLayout.EAST);
@@ -234,7 +234,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				  btnOpenBooster.addActionListener(new ActionListener() {
 						public void actionPerformed(ActionEvent arg0) {
 							try {
-								CardSearchPanel.inst.thumbnail(MTGControler.getInstance().getEnabledProviders().generateBooster(magicEdition).getCards());
+								CardSearchPanel.getInst().thumbnail(MTGControler.getInstance().getEnabledProviders().generateBooster(magicEdition).getCards());
 							} catch (Exception e) {
 								logger.error("Error loading booster for " + magicEdition,e);
 							}
@@ -265,7 +265,7 @@ public class MagicEditionDetailPanel extends JPanel {
 				
 
 		if (magicEdition != null) {
-			m_bindingGroup = initDataBindings();
+			mBindingGroup = initDataBindings();
 		}
 		
 		setEditable(false);
@@ -296,12 +296,12 @@ public class MagicEditionDetailPanel extends JPanel {
 	public void setMagicEdition(MagicEdition newMagicEdition, boolean update) {
 		magicEdition = newMagicEdition;
 		if (update) {
-			if (m_bindingGroup != null) {
-				m_bindingGroup.unbind();
-				m_bindingGroup = null;
+			if (mBindingGroup != null) {
+				mBindingGroup.unbind();
+				mBindingGroup = null;
 			}
 			if (magicEdition != null) {
-				m_bindingGroup = initDataBindings();
+				mBindingGroup = initDataBindings();
 			}
 		}
 		
@@ -332,58 +332,58 @@ public class MagicEditionDetailPanel extends JPanel {
 	
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicEdition, String> borderProperty = BeanProperty.create("border");
-		BeanProperty<JTextField, String> textProperty_2 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, borderProperty, borderJTextField, textProperty_2);
-		autoBinding_2.bind();
+		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, borderProperty, borderJTextField, textProperty2);
+		autoBinding2.bind();
 		//
 		BeanProperty<MagicEdition, Integer> cardCountProperty = BeanProperty.create("cardCount");
 		BeanProperty<JTextField, String> valueProperty = BeanProperty.create("text");
-		AutoBinding<MagicEdition, Integer, JTextField, String> autoBinding_3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, cardCountProperty, cardCountTextField, valueProperty);
-		autoBinding_3.bind();
+		AutoBinding<MagicEdition, Integer, JTextField, String> autoBinding3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, cardCountProperty, cardCountTextField, valueProperty);
+		autoBinding3.bind();
 		//
 		BeanProperty<MagicEdition, String> releaseDateProperty = BeanProperty.create("releaseDate");
-		BeanProperty<JTextField, String> textProperty_6 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, releaseDateProperty, releaseDateJTextField, textProperty_6);
-		autoBinding_7.bind();
+		BeanProperty<JTextField, String> textProperty6 = BeanProperty.create("text");
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, releaseDateProperty, releaseDateJTextField, textProperty6);
+		autoBinding7.bind();
 		//
 		BeanProperty<MagicEdition, String> setProperty = BeanProperty.create("set");
-		BeanProperty<JTextField, String> textProperty_7 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, setProperty, setJTextField, textProperty_7);
-		autoBinding_8.bind();
+		BeanProperty<JTextField, String> textProperty7 = BeanProperty.create("text");
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, setProperty, setJTextField, textProperty7);
+		autoBinding8.bind();
 		//
 		BeanProperty<MagicEdition, String> typeProperty = BeanProperty.create("type");
-		BeanProperty<JTextField, String> textProperty_10 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, typeProperty, typeJTextField, textProperty_10);
-		autoBinding_11.bind();
+		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, typeProperty, typeJTextField, textProperty10);
+		autoBinding11.bind();
 		
 		BeanProperty<MagicEdition, String> blockProperty = BeanProperty.create("block");
-		BeanProperty<JTextField, String> textProperty_11 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, blockProperty, blockJTextField, textProperty_11);
-		autoBinding_12.bind();
+		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, blockProperty, blockJTextField, textProperty11);
+		autoBinding12.bind();
 		
 		BeanProperty<MagicEdition, String> idProperty = BeanProperty.create("id");
-		BeanProperty<JTextField, String> textProperty_12 = BeanProperty.create("text");
-		AutoBinding<MagicEdition, String, JTextField, String> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, textProperty_12);
-		autoBinding_13.bind();
+		BeanProperty<JTextField, String> textProperty12 = BeanProperty.create("text");
+		AutoBinding<MagicEdition, String, JTextField, String> autoBinding13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, idProperty, idJtextField, textProperty12);
+		autoBinding13.bind();
 		
 		BeanProperty<MagicEdition, Boolean> onlineProperty = BeanProperty.create("onlineOnly");
-		BeanProperty<JCheckBox, Boolean> chkProperty_13 = BeanProperty.create("selected");
-		AutoBinding<MagicEdition, Boolean, JCheckBox, Boolean> autoBinding_14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty_13);
-		autoBinding_14.bind();
+		BeanProperty<JCheckBox, Boolean> chkProperty13 = BeanProperty.create("selected");
+		AutoBinding<MagicEdition, Boolean, JCheckBox, Boolean> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicEdition, onlineProperty, chkOnline, chkProperty13);
+		autoBinding14.bind();
 		
 		
 
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
-		bindingGroup.addBinding(autoBinding_2);
-		bindingGroup.addBinding(autoBinding_3);
-		bindingGroup.addBinding(autoBinding_7);
-		bindingGroup.addBinding(autoBinding_8);
-		bindingGroup.addBinding(autoBinding_11);
-		bindingGroup.addBinding(autoBinding_12);
-		bindingGroup.addBinding(autoBinding_13);
-		bindingGroup.addBinding(autoBinding_14);
+		bindingGroup.addBinding(autoBinding2);
+		bindingGroup.addBinding(autoBinding3);
+		bindingGroup.addBinding(autoBinding7);
+		bindingGroup.addBinding(autoBinding8);
+		bindingGroup.addBinding(autoBinding11);
+		bindingGroup.addBinding(autoBinding12);
+		bindingGroup.addBinding(autoBinding13);
+		bindingGroup.addBinding(autoBinding14);
 		return bindingGroup;
 	}
 }

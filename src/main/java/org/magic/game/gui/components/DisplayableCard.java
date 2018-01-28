@@ -55,6 +55,7 @@ import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class DisplayableCard extends JLabel implements Draggable {
 
@@ -75,7 +76,12 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private boolean showPT;
 	private JSeparator sep;
 	private List<DisplayableCard> attachedCards;
-	private List<AbstractCounter> counters;
+	private transient List<AbstractCounter> counters;
+	private transient Image fullResPics;
+	private boolean showLoyalty;
+	private PositionEnum position;
+
+
 	public List<AbstractCounter> getCounters() {
 		return counters;
 	}
@@ -85,10 +91,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 	public void setCounters(List<AbstractCounter> counters) {
 		this.counters = counters;
 	}
-
-	private Image fullResPics;
-	private boolean showLoyalty;
-	private PositionEnum position;
 
 	public ImageIcon getImage() {
 		return image;
@@ -132,6 +134,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 	}
 
+	@Override
 	public String toString() {
 		return String.valueOf(magicCard);
 	}
@@ -250,8 +253,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		try {
 			setMagicCard((MagicCard)BeanUtils.cloneBean(mc));
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			MTGLogger.printStackTrace(e1);
 		} 
 		if (activateCards) {
 			addMouseListener(new MouseAdapter() {
@@ -259,7 +261,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 				public void mouseEntered(MouseEvent e) {
 					describe();
 				}
-
+				@Override
 				public void mouseClicked(MouseEvent e) {
 
 					if (SwingUtilities.isLeftMouseButton(e)) {
@@ -280,6 +282,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			});
 
 			addMouseMotionListener(new MouseAdapter() {
+				@Override
 				public void mouseDragged(MouseEvent e) {
 					if (SwingUtilities.isLeftMouseButton(e))
 						if (isDraggable())
@@ -450,19 +453,19 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 			if (s.startsWith("+")) {
 				LoyaltyCounter act = new LoyaltyCounter(
-						Integer.parseInt(s.substring(s.indexOf("+"), s.indexOf(":")).trim()),
-						s.substring(s.indexOf(":") + 1).trim());
+						Integer.parseInt(s.substring(s.indexOf('+'), s.indexOf(':')).trim()),
+						s.substring(s.indexOf(':') + 1).trim());
 				actions.add(act);
 			} else if (s.startsWith("0")) {
-				LoyaltyCounter act = new LoyaltyCounter(0, s.substring(s.indexOf(":") + 1).trim());
+				LoyaltyCounter act = new LoyaltyCounter(0, s.substring(s.indexOf(':') + 1).trim());
 				actions.add(act);
 			} else {
-				LoyaltyCounter act;// TODO correction for -X abilities
+				LoyaltyCounter act;
 				try {
-					act = new LoyaltyCounter(Integer.parseInt("-" + s.substring(1, s.indexOf(":")).trim()),
-							s.substring(s.indexOf(":") + 1).trim());
+					act = new LoyaltyCounter(Integer.parseInt("-" + s.substring(1, s.indexOf(':')).trim()),
+							s.substring(s.indexOf(':') + 1).trim());
 				} catch (Exception e) {
-					act = new LoyaltyCounter(0, s.substring(s.indexOf(":") + 1).trim());
+					act = new LoyaltyCounter(0, s.substring(s.indexOf(':') + 1).trim());
 				}
 				actions.add(act);
 			}
@@ -478,8 +481,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		try {
 			this.magicCard = (MagicCard)BeanUtils.cloneBean(mc);
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			MTGLogger.printStackTrace(e1);
 		} 
 		
 		try {

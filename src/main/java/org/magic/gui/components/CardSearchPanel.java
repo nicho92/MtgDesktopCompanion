@@ -95,7 +95,7 @@ public class CardSearchPanel extends JPanel {
 		private JTabbedPane tabbedCardsView;
 		private JTabbedPane tabbedCardsInfo ;
 		
-		public static CardSearchPanel inst;
+		private static CardSearchPanel inst;
 		
 		private HandPanel thumbnailPanel;
 		private ManaRepartitionPanel manaRepartitionPanel;
@@ -140,6 +140,11 @@ public class CardSearchPanel extends JPanel {
 		private JList<MagicEdition> listEdition;
 		
 		private JLabel lblLoading;
+		
+		
+		public static CardSearchPanel getInst() {
+			return inst;
+		}
 		
 		
 		public void loading(boolean show,String text)
@@ -810,7 +815,6 @@ public class CardSearchPanel extends JPanel {
 				
 				
 			} catch (Exception e1) {
-				e1.printStackTrace();
 				logger.error(e1);
 			}
 

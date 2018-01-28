@@ -60,7 +60,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JPanel panneauDroit;
 	private JList<AbstractAction> listActions;
 	private JLabel lblPlayer;
-	public  Player player;
+	private Player player;
 	private LibraryPanel panelLibrary;
 	private GraveyardPanel panelGrave;
 	private JLabel lblThumbnailPics;
@@ -69,7 +69,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
 	private JTextField txtChat;
-	private MagicTokensProvider tokenGenerator;
+	private transient MagicTokensProvider tokenGenerator;
 	private PlayerGameBoard playerGameBoard;
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
@@ -353,7 +353,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 								scrollActions.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth(), 0));
 								tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("EVENTS"), null, scrollActions, null);
 								
-								listActions = new JList<AbstractAction>();
+								listActions = new JList<>();
 								listActions.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 								listActions.setModel(new DefaultListModel<AbstractAction>());
 								scrollActions.setViewportView(listActions);

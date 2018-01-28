@@ -30,11 +30,11 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	private BattleFieldPanel panelBattleField;
 	private ManaPoolPanel manaPoolPanel ;
 	private JLabel lblPlayer;
-	public  Player player;
+	private  Player player;
 	private JLabel lblHandCount;
 	private JLabel lblLibraryCount;
 	private static PlayerGameBoard instance;
-	private MagicTokensProvider tokenGenerator;
+	private transient MagicTokensProvider tokenGenerator;
 	private JPanel panelInfo ;
 	
 	
@@ -187,7 +187,6 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	
 	@Override
 	public void update(Observable o, Object arg) {
-		String act = player.getName() +" " + arg.toString();
 		lblHandCount.setText(String.valueOf(player.getHand().size()));
 		lblLibraryCount.setText(String.valueOf(player.getLibrary().size()));
 	}
