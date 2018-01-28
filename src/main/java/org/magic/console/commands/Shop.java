@@ -41,15 +41,15 @@ public class Shop implements Command {
 		if(cl.hasOption("s"))
 		{
 			String att = cl.getOptionValue("s");
-			List<ShopItem> list = new ArrayList<ShopItem>();
+			List<ShopItem> list = new ArrayList<>();
 			for(MagicShopper ms : MTGControler.getInstance().getShoppers())
 				list.addAll(ms.search(att));
 			
-			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_shop)));
+			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttShop())));
 		}
 		if(cl.hasOption("l"))
 		{
-			session.write(showList(MTGControler.getInstance().getShoppers(),Arrays.asList(new String[]{"shopName","enable"})));
+			session.write(showList(MTGControler.getInstance().getShoppers(),Arrays.asList("shopName","enable")));
 		}
 		if(cl.hasOption("?"))
 		{
@@ -74,12 +74,11 @@ public class Shop implements Command {
 
 	@Override
 	public void quit() {
-		// TODO Auto-generated method stub
-
+		// do nothing
 	}
 	
 
-	private <T> String showList(List<T> list,List<String> attributes) throws UnsupportedEncodingException
+	private <T> String showList(List<T> list,List<String> attributes)
     {
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
     	PrintStream ps = new PrintStream(baos);

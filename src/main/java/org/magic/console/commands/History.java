@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
+import org.apache.commons.cli.ParseException;
 import org.apache.mina.core.session.IoSession;
 import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
@@ -23,7 +24,7 @@ public class History implements Command {
 	}
 	
 	@Override
-	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws Exception {
+	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws Exception{
 		this.session=session;
 		CommandLine cl = parser.parse(opts, array);
 		if(cl.hasOption("r"))

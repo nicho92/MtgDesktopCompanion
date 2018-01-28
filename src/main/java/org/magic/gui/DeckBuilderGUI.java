@@ -6,8 +6,6 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Point;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -40,9 +38,6 @@ import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.TableModelEvent;
-import javax.swing.event.TableModelListener;
 import javax.swing.filechooser.FileFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
@@ -88,7 +83,7 @@ public class DeckBuilderGUI extends JPanel {
 	private RarityRepartitionPanel rarityRepartitionPanel;
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private DrawProbabilityPanel drawProbabilityPanel;
-	private DeckPricePanel deckPricePanel_1 ;
+	private DeckPricePanel deckPricePanel ;
 	private HandPanel thumbnail;
 	private JPanel panelBottom;
 	private JTextField txtSearch;
@@ -104,7 +99,7 @@ public class DeckBuilderGUI extends JPanel {
 	private JButton btnUpdate;
 	private MagicDeck deck;
 
-	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<MagicCard>();
+	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 
 	private JTable tableDeck;
 	private JTable tableSide;
@@ -122,7 +117,7 @@ public class DeckBuilderGUI extends JPanel {
 
 	private File exportedFile;
 
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	File deckDirectory = new File(MTGControler.CONF_DIR, "decks");
 	private Player p;
@@ -169,7 +164,7 @@ public class DeckBuilderGUI extends JPanel {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panneauHaut, BorderLayout.NORTH);
 
-		cboAttributs = new JComboBox<String>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
+		cboAttributs = new JComboBox<>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
 		panneauHaut.add(cboAttributs);
 
 		txtSearch = new JTextField();
@@ -187,24 +182,19 @@ public class DeckBuilderGUI extends JPanel {
 
 		panneauHaut.add(btnNewDeck);
 
-		btnNewDeck.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnNewDeck.addActionListener(newDeckEvent->{
 
 				MagicDeck newDeck = new MagicDeck();
 				setDeck(newDeck);
 				deckmodel.init(newDeck);
 				deckSidemodel.init(newDeck);
-			}
 		});
 
 		JButton btnOpen = new JButton(MTGConstants.ICON_OPEN);
 		btnOpen.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
 		panneauHaut.add(btnOpen);
 
-		btnOpen.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		btnOpen.addActionListener(openEvent->{
 				try {
 					JDeckChooserDialog choose = new JDeckChooserDialog();
 					choose.setVisible(true);
@@ -221,19 +211,16 @@ public class DeckBuilderGUI extends JPanel {
 					logger.error(ex);
 					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 				}
-			}
+			
 		});
 
 		btnUpdate = new JButton();
 		btnUpdate.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE_DECK"));
-		btnUpdate.addActionListener(new ActionListener() {
-
-			public void actionPerformed(ActionEvent arg0) {
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
+		btnUpdate.addActionListener(updateEvent-> 
+				ThreadManager.getInstance().execute(()->{
 						
-						Map<MagicCard,Integer> updateM = new HashMap<MagicCard,Integer>();
-						Map<MagicCard,Integer> updateS = new HashMap<MagicCard,Integer>();
+						Map<MagicCard,Integer> updateM = new HashMap<>();
+						Map<MagicCard,Integer> updateS = new HashMap<>();
 						
 						btnUpdate.setEnabled(false);
 						lblExport.setVisible(true);
@@ -268,11 +255,8 @@ public class DeckBuilderGUI extends JPanel {
 						btnUpdate.setEnabled(true);
 						lblExport.setVisible(false);
 						JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("UPDATED_DECK"), MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
-					}
-				}, "Update Deck");
-
-			}
-		});
+				}, "Update Deck")
+		);
 		btnUpdate.setIcon(MTGConstants.ICON_REFRESH);
 
 		panneauHaut.add(btnUpdate);
@@ -281,10 +265,7 @@ public class DeckBuilderGUI extends JPanel {
 		btnSave.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DECK"));
 		panneauHaut.add(btnSave);
 
-		btnSave.addActionListener(new ActionListener() {
-
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		btnSave.addActionListener(e-> {
 				try {
 					String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+" ?", deck.getName());
 					deck.setName(name);
@@ -293,44 +274,36 @@ public class DeckBuilderGUI extends JPanel {
 						deckDirectory.mkdir();
 
 					MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
-					serialis.export(deck, new File(deckDirectory + "/" + name + serialis.getFileExtension()));
+					serialis.export(deck, new File(deckDirectory,name + serialis.getFileExtension()));
 
 				} catch (Exception ex) {
-					ex.printStackTrace();
-					logger.error(ex);
+					logger.error("error saving",ex);
 					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 				}
-			}
+			
 		});
 
 		JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("DECK_IMPORT_AS"));
 
-		btnImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
+		btnImport.addActionListener(ae->{
 				JPopupMenu menu = new JPopupMenu();
 
 				JMenuItem manuel = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MANUAL_IMPORT"));
 				manuel.setIcon(MTGConstants.ICON_MANUAL);
-				manuel.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
+				manuel.addActionListener(manualEvent-> {
 						ManualImportDialog fimport = new ManualImportDialog();
 						fimport.setVisible(true);
 
 						if (!fimport.getStringDeck().equals(""))
 							importDeckFromString(fimport.getStringDeck());
-					}
+					
 				});
 				menu.add(manuel);
 
 				JMenuItem webSite = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("WEBSITE")));
 				webSite.setIcon(MTGConstants.ICON_WEBSITE);
-				webSite.addActionListener(new ActionListener() {
-
-					@Override
-					public void actionPerformed(ActionEvent arg0) {
+				webSite.addActionListener(siteEvent-> {
 						DeckSnifferDialog diag = new DeckSnifferDialog();
 						diag.setModal(true);
 						diag.setVisible(true);
@@ -343,7 +316,7 @@ public class DeckBuilderGUI extends JPanel {
 							deckmodel.fireTableDataChanged();
 							deckSidemodel.fireTableDataChanged();
 						}
-					}
+					
 				});
 				menu.add(webSite);
 
@@ -351,8 +324,7 @@ public class DeckBuilderGUI extends JPanel {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
-					it.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
+					it.addActionListener(itEvent->{
 							JFileChooser jf = new JFileChooser(".");
 							jf.setFileFilter(new FileFilter() {
 
@@ -363,23 +335,14 @@ public class DeckBuilderGUI extends JPanel {
 
 								@Override
 								public boolean accept(File f) {
-									if (f.isDirectory())
-										return true;
-
-									if (f.getName().endsWith(exp.getFileExtension()))
-										return true;
-
-									return false;
+									return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
 								}
 							});
 							int res = jf.showOpenDialog(null);
 							final File f = jf.getSelectedFile();
 
 							if (res == JFileChooser.APPROVE_OPTION)
-								ThreadManager.getInstance().execute(new Runnable() {
-
-									@Override
-									public void run() {
+								ThreadManager.getInstance().execute(()->{
 										try {
 											loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(),exp));
 											deck = exp.importDeck(f);
@@ -399,19 +362,19 @@ public class DeckBuilderGUI extends JPanel {
 											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 										}
 
-									}
+									
 								}, "import " + exp);
-						}
+						
 					});
 
 					menu.add(it);
 				}
 
 				Component b = (Component) ae.getSource();
-				Point p = b.getLocationOnScreen();
+				Point point = b.getLocationOnScreen();
 				menu.show(b, 0, 0);
-				menu.setLocation(p.x, p.y + b.getHeight());
-			}
+				menu.setLocation(point.x, point.y + b.getHeight());
+			
 		});
 
 		panneauHaut.add(btnImport);
@@ -420,24 +383,20 @@ public class DeckBuilderGUI extends JPanel {
 		btnExports.setEnabled(false);
 		btnExports.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
 		btnExports.setIcon(MTGConstants.ICON_EXPORT);
-		btnExports.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
+		
+		btnExports.addActionListener(exportsAction-> {
 				JPopupMenu menu = new JPopupMenu();
 
 				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
-					it.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
+					it.addActionListener(pluginExportEvent-> {
 							JFileChooser jf = new JFileChooser(".");
 							jf.setSelectedFile(new File(deck.getName() + exp.getFileExtension()));
 							jf.showSaveDialog(null);
 							exportedFile = jf.getSelectedFile();
-							ThreadManager.getInstance().execute(new Runnable() {
-
-								@Override
-								public void run() {
+							ThreadManager.getInstance().execute(()-> {
 									try {
 										loading(true, MTGControler.getInstance().getLangService().get("EXPORT_TO",deck,exp));
 										exp.export(deck, exportedFile);
@@ -451,20 +410,16 @@ public class DeckBuilderGUI extends JPanel {
 										loading(false, "");
 										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 									}
-								}
 							}, "Export " + deck + " to " + exp.getName());
-
-						}
 					});
-
 					menu.add(it);
 				}
 
-				Component b = (Component) ae.getSource();
-				Point p = b.getLocationOnScreen();
+				Component b = (Component) exportsAction.getSource();
+				Point point = b.getLocationOnScreen();
 				menu.show(b, 0, 0);
-				menu.setLocation(p.x, p.y + b.getHeight());
-			}
+				menu.setLocation(point.x, point.y + b.getHeight());
+			
 		});
 		panneauHaut.add(btnExports);
 
@@ -492,12 +447,12 @@ public class DeckBuilderGUI extends JPanel {
 		cardDrawProbaPanel = new DrawProbabilityPanel();
 		panelBottom.add(cardDrawProbaPanel, BorderLayout.EAST);
 
-		final JTabbedPane tabbedDeck_side = new JTabbedPane(JTabbedPane.BOTTOM);
+		final JTabbedPane tabbedDeckSide = new JTabbedPane(JTabbedPane.BOTTOM);
 
-		panneauDeck.setLeftComponent(tabbedDeck_side);
+		panneauDeck.setLeftComponent(tabbedDeckSide);
 
 		JScrollPane scrollDeck = new JScrollPane();
-		tabbedDeck_side.addTab("Main", null, scrollDeck, null);
+		tabbedDeckSide.addTab("Main", null, scrollDeck, null);
 
 		tableDeck = new JTable();
 		scrollDeck.setViewportView(tableDeck);
@@ -508,7 +463,7 @@ public class DeckBuilderGUI extends JPanel {
 		tableDeck.setRowSorter(sorterCards);
 
 		JScrollPane scrollSideboard = new JScrollPane();
-		tabbedDeck_side.addTab("SideBoard", null, scrollSideboard, null);
+		tabbedDeckSide.addTab("SideBoard", null, scrollSideboard, null);
 
 		tableSide = new JTable();
 		tableSide.setModel(deckSidemodel);
@@ -517,7 +472,7 @@ public class DeckBuilderGUI extends JPanel {
 		scrollSideboard.setViewportView(tableSide);
 
 		tableDeck.addMouseListener(new MouseAdapter() {
-
+			@Override
 			public void mouseClicked(MouseEvent ev) {
 
 				MagicCard mc = (MagicCard) tableDeck.getValueAt(tableDeck.getSelectedRow(), 0);
@@ -527,7 +482,7 @@ public class DeckBuilderGUI extends JPanel {
 		});
 
 		tableSide.addMouseListener(new MouseAdapter() {
-
+			@Override
 			public void mouseClicked(MouseEvent ev) {
 
 				MagicCard mc = (MagicCard) tableSide.getValueAt(tableSide.getSelectedRow(), 0);
@@ -563,17 +518,13 @@ public class DeckBuilderGUI extends JPanel {
 		});
 		
 
-		tableDeck.getModel().addTableModelListener(new TableModelListener() {
-			public void tableChanged(TableModelEvent e) {
-				updatePanels();
-			}
-		});
+		tableDeck.getModel().addTableModelListener(
+				e->updatePanels()
+		);
 
-		tableSide.getModel().addTableModelListener(new TableModelListener() {
-			public void tableChanged(TableModelEvent e) {
-				updatePanels();
-			}
-		});
+		tableSide.getModel().addTableModelListener(
+				e->updatePanels()
+		);
 
 		tableDeck.getDefaultEditor(String.class).addCellEditorListener(new CellEditorListener() {
 
@@ -644,8 +595,8 @@ public class DeckBuilderGUI extends JPanel {
 		
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), null, statPanel, null);
 		
-		deckPricePanel_1 = new DeckPricePanel();
-		statPanel.add(deckPricePanel_1);
+		deckPricePanel = new DeckPricePanel();
+		statPanel.add(deckPricePanel);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"), null, randomHandPanel, null);
 		
 		
@@ -653,14 +604,13 @@ public class DeckBuilderGUI extends JPanel {
 		randomHandPanel.add(panel, BorderLayout.NORTH);
 
 		JButton btnDrawAHand = new JButton(MTGControler.getInstance().getLangService().getCapitalize("DRAW_HAND"));
-		btnDrawAHand.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnDrawAHand.addActionListener(ae-> {
 				thumbnail.removeAll();
 				p.mixHandAndLibrary();
 				p.shuffleLibrary();
 				p.drawCard(7);
 				thumbnail.initThumbnails(p.getHand(), false);
-			}
+			
 		});
 		panel.add(btnDrawAHand);
 
@@ -713,12 +663,12 @@ public class DeckBuilderGUI extends JPanel {
 		groupsFilterResult.add(tglbtnVin);
 
 		listResult.addMouseListener(new MouseAdapter() {
-
+			@Override
 			public void mouseClicked(MouseEvent ev) {
-
+				
 				if (ev.getClickCount() == 1 && !ev.isConsumed()) {
 					ev.consume();
-					MagicCard mc = (MagicCard) listResult.getSelectedValue();
+					MagicCard mc = listResult.getSelectedValue();
 					magicCardDetailPanel.setMagicCard(mc);
 
 				}
@@ -726,7 +676,7 @@ public class DeckBuilderGUI extends JPanel {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 
-					MagicCard mc = (MagicCard) listResult.getSelectedValue();
+					MagicCard mc = listResult.getSelectedValue();
 
 					if (getSelectedMap().get(mc) != null) {
 						getSelectedMap().put(mc, deck.getMap().get(mc) + 1);
@@ -739,31 +689,23 @@ public class DeckBuilderGUI extends JPanel {
 			}
 		});
 
-		txtSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnSearch.doClick();
+		txtSearch.addActionListener(
+				e->btnSearch.doClick()
+		);
 
-			}
-		});
+		tabbedDeckSide.addChangeListener(e->
+				selectedIndex = tabbedDeckSide.getSelectedIndex()
+		);
 
-		tabbedDeck_side.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent e) {
-				selectedIndex = tabbedDeck_side.getSelectedIndex();
-			}
-		});
-
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnSearch.addActionListener(aeSearch->{
 
 				if (txtSearch.getText().equals(""))
 					return;
 
 				resultListModel.removeAllElements();
 
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
+				ThreadManager.getInstance().execute(()-> {
 						try {
-							//String searchName = URLEncoder.encode(txtSearch.getText(), "UTF-8");
 							String searchName = txtSearch.getText();
 							List<MagicCard> cards = MTGControler.getInstance().getEnabledProviders()
 									.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null,false);
@@ -785,22 +727,18 @@ public class DeckBuilderGUI extends JPanel {
 						} catch (Exception e) {
 							JOptionPane.showMessageDialog(null, e.getMessage(), MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 						}
-					}
+					
 				},"search deck");
-			}
+			
 		});
 	}
 
 	protected void importDeckFromString(final String stringDeck) {
-		ThreadManager.getInstance().execute(new Runnable() {
-
-			@Override
-			public void run() {
+		ThreadManager.getInstance().execute(()-> {
 				String[] line = stringDeck.split("\n");
 				for (String l : line) {
 					int nb = Integer.parseInt(l.substring(0, l.indexOf(' ')));
 					String name = l.substring(l.indexOf(' '), l.length());
-					// Scanner s = new Scanner(input).useDelimiter("\\s*\\s*");
 					try {
 						MagicCard mc;
 						if (name.trim().equalsIgnoreCase("Plains") || name.trim().equalsIgnoreCase("Island")
@@ -825,27 +763,11 @@ public class DeckBuilderGUI extends JPanel {
 					} catch (Exception e) {
 						logger.error(e);
 					}
-
-				}
-
 			}
 		}, "importDeckFromString");
 
 	}
 
-	//
-	// private void filterResult(String format)
-	// {
-	// while(resultListModel.elements().hasMoreElements())
-	// {
-	// MagicCard mc = resultListModel.elements().nextElement();
-	// MagicFormat form = new MagicFormat();
-	// form.setFormat(groupsFilterResult.getSelection().getActionCommand());
-	// if(mc.getLegalities().contains(form))
-	// resultListModel.removeElement(mc);
-	//
-	// }
-	// }
 
 	public Map<MagicCard, Integer> getSelectedMap() {
 		if (selectedIndex > 0)
@@ -862,9 +784,9 @@ public class DeckBuilderGUI extends JPanel {
 		typeRepartitionPanel.init(deck);
 		manaRepartitionPanel.init(deck);
 		rarityRepartitionPanel.init(deck);
-		deckPricePanel_1.initDeck(deck);
+		deckPricePanel.initDeck(deck);
 		drawProbabilityPanel.init(deck);
-		btnExports.setEnabled(deck.getAsList().size() > 0);
+		btnExports.setEnabled(!deck.getAsList().isEmpty());
 
 	}
 }

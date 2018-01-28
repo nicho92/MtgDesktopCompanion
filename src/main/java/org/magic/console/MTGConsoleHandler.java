@@ -13,13 +13,32 @@ public class MTGConsoleHandler extends IoHandlerAdapter
 {
 	ClassLoader classLoader = ConsoleServer.class.getClassLoader();
 
-	public static final String[] att_cards ={"name","fullType", "editions[0].rarity", "colors", "cost"};
-	public static final String[] att_set ={"id","set", "cardCount", "releaseDate", "block"};
-	public static final String[] att_cols = {"name"};
-	public static final String[] att_shop ={"name","description","price","shopName"};
-	public static final String[] att_shake={"name","ed","price","percentDayChange","priceDayChange"};
+	protected static final String[] att_cards ={"name","fullType", "editions[0].rarity", "colors", "cost"};
+	protected static final String[] att_set ={"id","set", "cardCount", "releaseDate", "block"};
+	protected static final String[] att_cols = {"name"};
+	protected static final String[] att_shop ={"name","description","price","shopName"};
+	protected static final String[] att_shake={"name","ed","price","percentDayChange","priceDayChange"};
 	
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	public static String[] getAttCards() {
+		return att_cards;
+	}
+	
+	public static String[] getAttSet() {
+		return att_set;
+	}
+	
+	public static String[] getAttCols() {
+		return att_cols;
+	}
+	
+	public static String[] getAttShake() {
+		return att_shake;
+	}
+	public static String[] getAttShop() {
+		return att_shop;
+	}
+	
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private List<String> history;
 	    
@@ -39,6 +58,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter
         session.write("Welcome to MTG Desktop Companion Server\r\n");
     }  
 	
+	@Override
 	public void sessionClosed(IoSession session) throws Exception {  
 		logger.debug("client disconnection : " +session.getRemoteAddress() + " is Disconnection");  
   

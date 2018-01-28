@@ -39,7 +39,7 @@ public class Shake implements Command {
 		{
 			String att = cl.getOptionValue("f");
 			List<CardShake> list = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(att);
-			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_shake)));
+			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttShake())));
 		}
 		
 		if(cl.hasOption("?"))

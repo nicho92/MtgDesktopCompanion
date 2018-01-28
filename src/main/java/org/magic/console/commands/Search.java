@@ -43,19 +43,19 @@ public class Search implements Command {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
 			List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, val, null,false);
-			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_cards)));
+			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttCards())));
 		}
 		
 		if(cl.hasOption("s"))
 		{
 			List<MagicEdition> list = MTGControler.getInstance().getEnabledProviders().loadEditions();
-			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_set)));
+			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttSet())));
 		}
 		
 		if(cl.hasOption("col"))
 		{
 			List<MagicCollection> list = MTGControler.getInstance().getEnabledDAO().getCollections();
-			session.write(showList(list,Arrays.asList(MTGConsoleHandler.att_cols)));
+			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttCols())));
 		}
 		
 		if(cl.hasOption("?"))

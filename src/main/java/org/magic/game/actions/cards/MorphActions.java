@@ -9,6 +9,7 @@ import java.util.regex.Pattern;
 import javax.swing.AbstractAction;
 import javax.swing.ImageIcon;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicRuling;
 import org.magic.game.gui.components.DisplayableCard;
@@ -19,11 +20,12 @@ public class MorphActions extends AbstractAction {
 
 	private DisplayableCard card;
 	private String cost;
-	private String k = "Morph";
-	
+	private static String k = "Morph";
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public MorphActions(DisplayableCard card) {
-			super("Morph");
-			putValue(SHORT_DESCRIPTION,"Morph");
+			super(k);
+			putValue(SHORT_DESCRIPTION,k);
 	        putValue(MNEMONIC_KEY, KeyEvent.VK_M);
 	        this.card = card;
 	        parse();
@@ -40,12 +42,12 @@ public class MorphActions extends AbstractAction {
 			if(m.find())
 				cost=m.group().replaceAll(k, "").trim();
 			else
-				cost=text.substring(text.indexOf(k+"\u2014")+k.length(),text.indexOf("("));
+				cost=text.substring(text.indexOf(k+"\u2014")+k.length(),text.indexOf('('));
 			
 		}
 		catch(Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 			cost="";
 		}
 		return cost;
@@ -77,7 +79,7 @@ public class MorphActions extends AbstractAction {
 				  try {
 					card.setImage(new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(card.getWidth(), card.getHeight(), BufferedImage.SCALE_SMOOTH)));
 				} catch (Exception e1) {
-					e1.printStackTrace();
+					logger.error(e1);
 				}
 		}
 		else
@@ -90,7 +92,7 @@ public class MorphActions extends AbstractAction {
 				card.showPT(false);
 				card.initActions();
 			} catch (Exception e1) {
-				e1.printStackTrace();
+				logger.error(e1);
 			}
 		}
 				  

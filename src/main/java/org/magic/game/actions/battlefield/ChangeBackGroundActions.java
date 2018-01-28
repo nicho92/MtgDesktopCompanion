@@ -9,10 +9,16 @@ import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.JFileChooser;
 
+import org.apache.log4j.Logger;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class ChangeBackGroundActions extends AbstractAction {
+	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	
+	
 	public ChangeBackGroundActions() {
 			super("Change Background");
 			putValue(SHORT_DESCRIPTION,"Change the background of Battlefield");
@@ -36,7 +42,7 @@ public class ChangeBackGroundActions extends AbstractAction {
 				
 				MTGControler.getInstance().setProperty("/game/player-profil/background", choose.getSelectedFile().getAbsolutePath());
 			} catch (IOException e1) {
-				e1.printStackTrace();
+				logger.error(e1);
 			}
 			
 		}
