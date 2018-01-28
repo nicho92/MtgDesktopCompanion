@@ -2,8 +2,6 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JDialog;
@@ -32,19 +30,13 @@ public class ManualImportDialog extends JDialog {
 		getContentPane().add(panel, BorderLayout.SOUTH);
 		
 		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
-		btnImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-			}
-		});
+		btnImport.addActionListener(e->dispose());
 		panel.add(btnImport);
 		
 		JButton btnCancel = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnCancel.addActionListener(e->{
 				editorPane.setText("");
 				dispose();
-			}
 		});
 		panel.add(btnCancel);
 		

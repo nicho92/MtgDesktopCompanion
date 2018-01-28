@@ -16,8 +16,6 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
@@ -57,10 +55,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 
 	@Override
 	public void init() {
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
+		ThreadManager.getInstance().execute(()->{
 				
 				
 				try {
@@ -111,9 +106,6 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 				table.packAll();
 				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 				modStandard.fireTableDataChanged();
-				
-				
-			}
 		}, "Init best Dashlet");
 		
 	}
@@ -146,11 +138,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 		boxV.setText("VIN");
 		
 		spinner = new JSpinner();
-		spinner.addChangeListener(new ChangeListener() {
-			public void stateChanged(ChangeEvent arg0) {
-				init();
-			}
-		});
+		spinner.addChangeListener(ce->init());
 		
 		
 		

@@ -8,7 +8,6 @@ import java.awt.Font;
 import java.awt.Rectangle;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -29,9 +28,9 @@ public class JTagsPanel extends JPanel {
 	
 	private static final long serialVersionUID = 1L;
 	private boolean isEditable;
-	private Color foreground=Color.BLACK;
-	private Color background=SystemColor.control;
-	private Font font;
+	private Color fontForeground=Color.BLACK;
+	private Color fontBackground=SystemColor.control;
+	private Font componentFont;
 	private JPanel panelTags;
 	private JPanel panelAdds;
 	private JButton btnAdd ;
@@ -54,7 +53,7 @@ public class JTagsPanel extends JPanel {
 	
 	public JTagsPanel() {
 		initGUI();
-		tags=new ArrayList<String>();
+		tags=new ArrayList<>();
 		isEditable=true;
 	}
 	
@@ -80,8 +79,7 @@ public class JTagsPanel extends JPanel {
 				field.requestFocus();
 				panelTags.revalidate();
 				btnAdd.setEnabled(false);
-				field.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
+				field.addActionListener(e->{
 						String s = field.getText();
 						panelTags.remove(field);
 						if(!s.equals(""))
@@ -89,7 +87,6 @@ public class JTagsPanel extends JPanel {
 						
 						btnAdd.setEnabled(true);
 						btnAdd.requestFocus();
-					}
 				});
 				
 			}
@@ -99,28 +96,28 @@ public class JTagsPanel extends JPanel {
 		btnAdd.getInputMap().put(KeyStroke.getKeyStroke("ENTER"), "ADD");
 		btnAdd.getActionMap().put("ADD", action);
 		panelAdds.add(btnAdd);
-		font=new Font("Tahoma", Font.PLAIN, 15);
+		componentFont=new Font("Tahoma", Font.PLAIN, 15);
 		
 	}
 	
 	public void setFontSize(int s)
 	{
-		font = new Font(font.getName(), font.getStyle(), s);
+		componentFont = new Font(componentFont.getName(), componentFont.getStyle(), s);
 	}
 	
 	public void setForegroundColor(Color f)
 	{
-		this.foreground=f;
+		this.fontForeground=f;
 	}
 	
 	public void setBackgroundColor(Color b)
 	{
-		this.background=b;
+		this.fontBackground=b;
 	}
 
-	public void setFont(Font f)
+	public void changeFont(Font f)
 	{
-		this.font=f;
+		this.componentFont=f;
 	}
 	
 	public List<String> getValues()
@@ -137,8 +134,8 @@ public class JTagsPanel extends JPanel {
 
 	public void setColors(Color background,Color foreground)
 	{
-		this.background=background;
-		this.foreground=foreground;
+		this.fontBackground=background;
+		this.fontForeground=foreground;
 		for(Component c : getComponents())
 		{
 			if(c instanceof TagLabel)
@@ -177,11 +174,6 @@ public class JTagsPanel extends JPanel {
 			addTag(t);
 	}
 	
-	public void removeTag(String s)
-	{
-		//TODO
-	}
-	
 	public void removeTag(TagLabel tag)
 	{
 		tags.remove(tag.getText());
@@ -193,7 +185,7 @@ public class JTagsPanel extends JPanel {
 	
 	private void addLabel(String s)
 	{
-		TagLabel tab = new TagLabel(s,foreground,background,font);
+		TagLabel tab = new TagLabel(s,fontForeground,fontBackground,componentFont);
 		
 		if(isEditable)
 			tab.addMouseListener(new TagMouseLisenter(tab));

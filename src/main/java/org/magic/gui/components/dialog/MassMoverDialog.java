@@ -3,8 +3,6 @@ package org.magic.gui.components.dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 
 import javax.swing.JButton;
@@ -34,15 +32,14 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 public class MassMoverDialog extends JDialog {
 	private JTable tableCards;
 	private MagicCardTableModel model;
-	private MagicDAO dao;
+	private transient MagicDAO dao;
 	private MagicCollection toSaveCol;
 	private MagicEdition toSaveEd;
 	private boolean change=false;
-	private JComboBox cboCollections;
+	private JComboBox<MagicCollection> cboCollections;
 	private JLabel lblWaiting;
 	private JButton btnMove;
-	
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public MassMoverDialog(MagicCollection col,MagicEdition ed) {
 		setSize(new Dimension(640, 370));
@@ -65,7 +62,7 @@ public class MassMoverDialog extends JDialog {
 		
 		cboCollections = null;
 		try {
-			cboCollections = new JComboBox(dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
+			cboCollections = new JComboBox<>(dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
 		} catch (SQLException e) {
 			logger.error(e);
 		}
@@ -100,16 +97,13 @@ public class MassMoverDialog extends JDialog {
 		//pack();
 		
 		
-		btnMove.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnMove.addActionListener(e->{
 				lblWaiting.setVisible(true);
 				btnMove.setEnabled(false);
 				
 				if(tableCards.getSelectedRowCount()>0)
 				{
-					ThreadManager.getInstance().execute(new Runnable() {
-						
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							
 							for (int i = 0; i < tableCards.getSelectedRowCount(); i++) 
 							{ 
@@ -119,8 +113,6 @@ public class MassMoverDialog extends JDialog {
 								try {
 									dao.removeCard(mc, toSaveCol);
 									dao.saveCard(mc, (MagicCollection)cboCollections.getSelectedItem() );
-								//	dao.moveCards(toSaveCol, (MagicCollection)cboCollections.getSelectedItem(), mc);
-									
 									logger.info("moving " + mc +" to "  + cboCollections.getSelectedItem() );
 									change=true;
 									lblWaiting.setText("moving " + mc);
@@ -141,20 +133,17 @@ public class MassMoverDialog extends JDialog {
 									model.init(dao.getCardsFromCollection(toSaveCol));
 								else
 									model.init(dao.getCardsFromCollection(toSaveCol,toSaveEd));
-							} catch (SQLException e) {
-								logger.error(e);
-								JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+							} catch (SQLException ex) {
+								logger.error(ex);
+								JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 							}
 							
 							model.fireTableDataChanged();
 							lblWaiting.setVisible(false);
 							btnMove.setEnabled(true);
-						}
+						
 					}, "mass movement");
-					
-					
-					
-				}
+
 			}
 		});
 		

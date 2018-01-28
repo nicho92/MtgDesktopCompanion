@@ -2,8 +2,6 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -119,23 +117,17 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 		txtDetailBox.setEditable(false);
 		tabbedPane.addTab("Box", null, txtDetailBox, null);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		tabbedPane.addTab("Booster", null, scrollPane_1, null);
+		JScrollPane scrollPane1 = new JScrollPane();
+		tabbedPane.addTab("Booster", null, scrollPane1, null);
 		
-		JList<MagicCard> list_1 = new JList<>();
-		list_1.setModel(cardsModel);
-		list_1.setCellRenderer(new MagicCardListRenderer());
-		scrollPane_1.setViewportView(list_1);
+		JList<MagicCard> list1 = new JList<>();
+		list1.setModel(cardsModel);
+		list1.setCellRenderer(new MagicCardListRenderer());
+		scrollPane1.setViewportView(list1);
 		
 		
-		btnCalculate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				
-				ThreadManager.getInstance().execute(new Runnable() {
-					
-					@Override
-					public void run() {
+		btnCalculate.addActionListener(e->
+				ThreadManager.getInstance().execute(()->{
 						try {
 							List<CardShake> prices = MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition((MagicEdition)cboEditions.getSelectedItem());
 							boostersModel.clear();
@@ -182,16 +174,8 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 						} catch (Exception e1) {
 							logger.error(e1);
 						}
-						
-						
-					}
-				}, "Open Box");
-				
-				
-				
-				
-			}
-		});
+				}, "Open Box")
+		);
 		
 		
 		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){

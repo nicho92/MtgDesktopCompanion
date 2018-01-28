@@ -57,7 +57,7 @@ public class MtgapiProvider implements MagicCardsProvider{
 	
 	@Override
 	public void init() {
-		
+		//do nothing
 	}
 	
 	

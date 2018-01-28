@@ -94,7 +94,6 @@ public class HistoryPricesPanel extends JPanel{
 			this.title=title;
 			refresh();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			MTGLogger.printStackTrace(e);
 		}
 		
@@ -111,13 +110,13 @@ public class HistoryPricesPanel extends JPanel{
 			for(DashBoard d : MTGControler.getInstance().getDashBoards())
 			{
 				TimeSeries series = new TimeSeries(d.getName());
-				Map<Date, Double> map;
+				Map<Date, Double> mapTime;
 				try {
-					map = d.getPriceVariation(mc, me);
-					if(map!=null)
+					mapTime = d.getPriceVariation(mc, me);
+					if(mapTime!=null)
 					{
-						for(Date da : map.keySet())
-							series.add(new Day(da),map.get(da).doubleValue());
+						for(Date da : mapTime.keySet())
+							series.add(new Day(da),mapTime.get(da).doubleValue());
 					
 					dataset.addSeries(series);
 					}
@@ -153,9 +152,9 @@ public class HistoryPricesPanel extends JPanel{
 			
 		if(showEdition)	
 		try{
-				for(MagicEdition me: MTGControler.getInstance().getEnabledProviders().loadEditions())
+				for(MagicEdition edition: MTGControler.getInstance().getEnabledProviders().loadEditions())
 					{
-						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(me.getReleaseDate()+" 00:00");
+						Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate()+" 00:00");
 						TimeSeriesDataItem  item = series1.getDataItem(new Day(d));
 						
 						if(item!=null)
@@ -163,8 +162,8 @@ public class HistoryPricesPanel extends JPanel{
 							
 						  double x = item.getPeriod().getFirstMillisecond();
 						  double y = item.getValue().doubleValue();
-						  XYTextAnnotation  annot = new XYTextAnnotation (me.getId(),x,y);
-						  					annot.setToolTipText(me.getSet());
+						  XYTextAnnotation  annot = new XYTextAnnotation (edition.getId(),x,y);
+						  					annot.setToolTipText(edition.getSet());
 						  XYPlot plot = (XYPlot) chart.getPlot();
 						  plot.addAnnotation(annot);
 						}
@@ -172,21 +171,19 @@ public class HistoryPricesPanel extends JPanel{
 				}
 			catch(Exception e)
 			{
-				
+				MTGLogger.printStackTrace(e);
 			}
 			
 		
 		
 		pane.setChart(chart);
-		pane.addMouseWheelListener(new MouseWheelListener() {
-	        public void mouseWheelMoved(MouseWheelEvent arg0) {
-	            if (arg0.getWheelRotation() > 0) {
+		pane.addMouseWheelListener(mwe->{
+	            if (mwe.getWheelRotation() > 0) {
 	            	pane.zoomOutDomain(0.5, 0.5);
 	            	
-	            } else if (arg0.getWheelRotation() < 0) {
+	            } else if (mwe.getWheelRotation() < 0) {
 	            	pane.zoomInDomain(1.5, 1.5);
 	            }
-	        }
 	    });
 		this.add(pane,BorderLayout.CENTER);
 		chart.fireChartChanged();
@@ -194,7 +191,7 @@ public class HistoryPricesPanel extends JPanel{
 	
 	public void zoom()
 	{
-		 
+		 //do nothing
 	}
 
 }

@@ -4,8 +4,6 @@ import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +35,7 @@ public class CardStockLinePanel extends JPanel {
 	  private JCheckBox cboFoil;
 	  private JSpinner txtQte;
 	  
-	  private MagicCardStock state;
+	  private transient MagicCardStock state;
 	  private JCheckBox cboAltered;
 	
 	  
@@ -84,11 +82,9 @@ public class CardStockLinePanel extends JPanel {
 		Image newimg = img.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
 		
 		btnNewButton.setIcon(new ImageIcon(newimg));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				delete();
-			}
-		});
+		btnNewButton.addActionListener(e->
+				delete()
+		);
 		
 		JButton btnSave = new JButton("");
 
@@ -97,17 +93,14 @@ public class CardStockLinePanel extends JPanel {
 		
 		btnSave.setIcon(new ImageIcon(newimg2));	
 		
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
+		btnSave.addActionListener(ae->{
 				
 				try {
 					generateState();
 					MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(state);
 				} catch (SQLException e) {
-					// TODO Auto-generated catch block
 					MTGLogger.printStackTrace(e);
 				}
-			}
 		});
 		
 		cboAltered = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("ALTERED"));
@@ -132,7 +125,7 @@ public class CardStockLinePanel extends JPanel {
 		
 		generateState();
 		try {
-			List<MagicCardStock> l = new ArrayList<MagicCardStock>();
+			List<MagicCardStock> l = new ArrayList<>();
 			l.add(state);
 			MTGControler.getInstance().getEnabledDAO().deleteStock(l);
 		} catch (SQLException e1) {
@@ -146,7 +139,7 @@ public class CardStockLinePanel extends JPanel {
 		}
 		catch(NullPointerException e)
 		{
-		
+		MTGLogger.printStackTrace(e);
 		}
 		
 	}

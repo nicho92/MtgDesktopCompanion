@@ -30,7 +30,7 @@ public class TypeRepartitionPanel extends JPanel{
 	}
 
 	public void init(MagicDeck deck) {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 		
 		if(deck!=null)
 		for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
@@ -80,7 +80,7 @@ public class TypeRepartitionPanel extends JPanel{
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		for(MagicCard mc : cards)
 		{
-			if(mc.getTypes().size()>0)
+			if(!mc.getTypes().isEmpty())
 				dataset.setValue(mc.getTypes().get(0), count(mc.getTypes().get(0)));
 		}
 
@@ -92,9 +92,9 @@ public class TypeRepartitionPanel extends JPanel{
 	private Double count(String string) {
 		double count=0;
 		for(MagicCard mc : cards)
-				if(mc.getTypes().size()>0)
-					if(mc.getTypes().get(0).equals(string))
-						count ++;
+				if(!mc.getTypes().isEmpty() && mc.getTypes().get(0).equals(string))
+					count ++;
+		
 		return count;
 	}
 	

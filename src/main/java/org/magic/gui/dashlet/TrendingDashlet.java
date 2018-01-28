@@ -2,10 +2,6 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,12 +51,8 @@ public class TrendingDashlet extends AbstractJDashlet{
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		
-		cboFormats = new JComboBox<FORMAT>(new DefaultComboBoxModel<FORMAT>(FORMAT.values()));
-		cboFormats.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				init();
-			}
-		});
+		cboFormats = new JComboBox<>(new DefaultComboBoxModel<FORMAT>(FORMAT.values()));
+		cboFormats.addItemListener(ie->init());
 		panneauHaut.add(cboFormats);
 		
 		lblLoading = new JLabel("");
@@ -68,11 +60,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 		lblLoading.setVisible(false);
 		
 		btnRefresh = new JButton("");
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				init();
-			}
-		});
+		btnRefresh.addActionListener(ae->init());
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(lblLoading);
@@ -117,10 +105,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 
 	public void init()
 	{
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
+		ThreadManager.getInstance().execute(()->{
 				lblLoading.setVisible(true);
 				modStandard.init((FORMAT)cboFormats.getSelectedItem());
 				
@@ -129,7 +114,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				}
 				catch(Exception e)
 				{
-					//logger.error("Erreur models " , e);
+					MTGLogger.printStackTrace(e);
 				}
 				props.put("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				lblLoading.setVisible(false);
@@ -137,7 +122,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				
 				lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
 				
-				List<SortKey> keys = new ArrayList<SortKey>();
+				List<SortKey> keys = new ArrayList<>();
 				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);//column index 2
 				keys.add(sortKey);
 				try{
@@ -149,10 +134,8 @@ public class TrendingDashlet extends AbstractJDashlet{
 				}
 				catch(Exception e)
 				{
-					
+					MTGLogger.printStackTrace(e);
 				}
-
-			}
 		}, "Init Formats Dashlet");
 	}
 	

@@ -2,8 +2,7 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -32,11 +31,11 @@ import org.magic.services.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog{
 	
-	private MagicCardsProvider provider;
-	private MagicDAO dao;
+	private transient MagicCardsProvider provider;
+	private transient MagicDAO dao;
 	private List<MagicEdition> list;
 	private String[] ids;
-	JTextPane txtNumbersInput;
+	private JTextPane txtNumbersInput;
 	
 	public MassCollectionImporterDialog(MagicDAO dao,MagicCardsProvider provider,List<MagicEdition> list) {
 		setSize(new Dimension(646, 290));
@@ -53,7 +52,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		}
 	}
 
-	private void initGUI() throws Exception {
+	private void initGUI() throws SQLException {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JPanel panelCollectionInput = new JPanel();
@@ -71,7 +70,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
 		
-		final JComboBox cboByType = new JComboBox();
+		final JComboBox<String> cboByType = new JComboBox<>();
 		cboByType.setModel(new DefaultComboBoxModel<String>(new String[] {"number", "name"}));
 		panelCollectionInput.add(cboByType);
 		
@@ -88,25 +87,21 @@ public class MassCollectionImporterDialog extends JDialog{
 		final JCheckBox checkNewOne = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_OTHER_SERIE"));
 		
 		JButton btnInverse = new JButton("Inverse");
-		btnInverse.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
+		btnInverse.addActionListener(e-> {
 				MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
 				int max = ed.getCardCount();
-				List<String> ids = Arrays.asList(txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" "));
+				List<String> elements = Arrays.asList(txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" "));
 				List<String> edList = new ArrayList<>();
 				for(int i=1;i<=max;i++)
 					edList.add(String.valueOf(i));
 					
-				edList.removeAll(ids);
+				edList.removeAll(elements);
 				
 				StringBuilder temp = new StringBuilder();
 				for(String s : edList)
 					temp.append(s).append(" ");
 				
 				txtNumbersInput.setText(temp.toString());
-				
-			}
 		});
 		panneauBas.add(btnInverse);
 		
@@ -117,8 +112,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		
 		
 		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
-		btnImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnImport.addActionListener(e->{
 				final MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
 				final MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
 				
@@ -128,10 +122,7 @@ public class MassCollectionImporterDialog extends JDialog{
 					ids = txtNumbersInput.getText().split("\n");
 				progressBar.setMaximum(ids.length);
 				
-				ThreadManager.getInstance().execute(new Runnable() {
-					
-					@Override
-					public void run() {
+				ThreadManager.getInstance().execute(()->{
 						int i=1;
 						for(String id : ids)
 						{
@@ -156,12 +147,7 @@ public class MassCollectionImporterDialog extends JDialog{
 							setVisible(false);
 							progressBar.setValue(0);
 						}
-						
-					}
 				},"btnImport importCards");
-				
-				
-			}
 		});
 		panneauBas.add(btnImport);
 		

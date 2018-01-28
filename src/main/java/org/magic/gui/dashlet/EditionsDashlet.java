@@ -134,16 +134,13 @@ public class EditionsDashlet extends AbstractJDashlet {
 					modEdition.init(ed);
 					try{
 						modEdition.fireTableDataChanged();
-					}catch(Exception e) 
-					{}
-					try{
-					table.packAll();
-					}catch(Exception e) 
-					{}
-					try{
-					table.setRowSorter(new TableRowSorter(modEdition) );
-					}catch(Exception e) 
-					{}
+						table.packAll();
+						table.setRowSorter(new TableRowSorter(modEdition) );
+					}
+					catch(Exception e) 
+					{
+						MTGLogger.printStackTrace(e);
+					}
 					save("EDITION",ed.getId());
 					lblLoading.setVisible(false);
 				}

@@ -19,7 +19,7 @@ import org.magic.tools.DeckCalculator;
 public class DrawProbabilityPanel extends JPanel {
 	
 	private JXTable table;
-	private DeckCalculator calc;
+	private transient DeckCalculator calc;
 	private AbstractTableModel model;
 	int maxTurn=10;
 	

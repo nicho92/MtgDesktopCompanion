@@ -115,7 +115,7 @@ public class CardTransfertHandler extends TransferHandler  {
 		try {
 				Draggable target = (Draggable) support.getComponent();
 				DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
-				if(! ( ((Draggable)src.getParent()).getOrigine() == target.getOrigine()))
+				if((((Draggable)src.getParent()).getOrigine() != target.getOrigine()))
 				{
 					  src.getParent().revalidate();
 					  target.updatePanel();
@@ -130,7 +130,6 @@ public class CardTransfertHandler extends TransferHandler  {
 				{
 					target.postTreatment(src);
 				}
-			//TODO if move only, put card on first position of container's order
 			return true;
 		} catch (Exception ufe) {
 			MTGLogger.printStackTrace(ufe);

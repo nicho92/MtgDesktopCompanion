@@ -65,12 +65,12 @@ public class Shake implements Command {
 
 	@Override
 	public void quit() {
-		// TODO Auto-generated method stub
+		//do nothing
 
 	}
 	
 
-	private <T> String showList(List<T> list,List<String> attributes) throws UnsupportedEncodingException
+	private <T> String showList(List<T> list,List<String> attributes)
     {
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
     	PrintStream ps = new PrintStream(baos);

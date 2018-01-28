@@ -81,11 +81,11 @@ public class Search implements Command {
 
 	@Override
 	public void quit() {
-
+		//do nothing
 	}
 	
 	
-	private <T> String showList(List<T> list,List<String> attributes) throws UnsupportedEncodingException
+	private <T> String showList(List<T> list,List<String> attributes)
     {
     	ByteArrayOutputStream baos = new ByteArrayOutputStream();
     	PrintStream ps = new PrintStream(baos);

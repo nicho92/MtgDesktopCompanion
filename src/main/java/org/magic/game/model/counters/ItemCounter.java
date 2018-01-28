@@ -29,13 +29,12 @@ public class ItemCounter extends AbstractCounter{
 	@Override
 	public void apply(DisplayableCard displayableCard) {
 		
-		
+		//do nothing
 	}
 
 	@Override
 	public void remove(DisplayableCard displayableCard) {
-		// TODO Auto-generated method stub
-		
+			//do nothing
 	}
 
 	@Override

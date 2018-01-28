@@ -13,12 +13,12 @@ import javax.swing.JPanel;
 
 public class CropImagePanel extends JPanel implements MouseListener, MouseMotionListener
 {
-	int dragStatus = 0;
-	int c1;
-	int c2;
-	int c3;
-	int c4;
-	Image selectedImage;
+	private int dragStatus = 0;
+	private int c1;
+	private int c2;
+	private int c3;
+	private int c4;
+	private transient Image selectedImage;
 	
 
 	@Override
@@ -77,14 +77,17 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
+		//do nothing
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
+		//do nothing
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
+		//do nothing
 	}
 
 	@Override
@@ -113,6 +116,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
+		//do nothing
 	}
 
 	@Override

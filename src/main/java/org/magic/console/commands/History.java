@@ -73,7 +73,7 @@ public class History implements Command {
 
 	@Override
 	public void quit() {
-		// TODO Auto-generated method stub
+		//do nothing
 
 	}
 

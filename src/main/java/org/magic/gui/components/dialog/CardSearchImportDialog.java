@@ -1,8 +1,6 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 import javax.swing.JButton;
@@ -24,11 +22,7 @@ public class CardSearchImportDialog extends JDialog {
 		cardSearchPanel = new CardSearchPanel();
 		
 		
-		selectCard.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
+		selectCard.addActionListener(e->dispose());
 		
 		getContentPane().add(cardSearchPanel, BorderLayout.CENTER);
 		getContentPane().add(selectCard, BorderLayout.SOUTH);

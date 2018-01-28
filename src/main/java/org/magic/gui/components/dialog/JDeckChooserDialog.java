@@ -3,8 +3,6 @@ package org.magic.gui.components.dialog;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
@@ -102,7 +100,6 @@ public class JDeckChooserDialog extends JDialog {
 	      }
 	    }
 	    tree.expandPath(parent);
-	    // tree.collapsePath(parent);
 	  }
 	
 	public JDeckChooserDialog() {
@@ -114,11 +111,12 @@ public class JDeckChooserDialog extends JDialog {
 		
 		addWindowListener(new WindowAdapter() 
 		{
+		  @Override
 		  public void windowClosed(WindowEvent e)
 		  {
 		    selectedDeck=null;
 		  }
-
+		  @Override
 		  public void windowClosing(WindowEvent e)
 		  {
 			  selectedDeck=null;
@@ -131,10 +129,7 @@ public class JDeckChooserDialog extends JDialog {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent event) {
-				
-				//((DefaultListModel)list.getModel()).removeAllElements();
 				selectedDeck = (MagicDeck)table.getValueAt(table.getSelectedRow(), 0);
-	
 				initTree();
 				tagsPanel.clean();
 				tagsPanel.addTags(selectedDeck.getTags());
@@ -158,28 +153,24 @@ public class JDeckChooserDialog extends JDialog {
 		getContentPane().add(panelBas, BorderLayout.SOUTH);
 		
 		JButton btnSelect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
-		btnSelect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnSelect.addActionListener(e->{
 				if(selectedDeck==null)
 					JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"));
 				else	
 					dispose();
-			}
 		});
 		panelBas.add(btnSelect);
 		
 		JButton btnCancel = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
-		btnCancel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnCancel.addActionListener(e->{
 				selectedDeck=null;
 				dispose();
-			}
 		});
+		
 		panelBas.add(btnCancel);
 		
 		JButton btnNewButton = new JButton(MTGControler.getInstance().getLangService().getCapitalize("DELETE"));
-		btnNewButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnNewButton.addActionListener(e->{
 				
 				int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",selectedDeck.getName()),MTGControler.getInstance().getLangService().getCapitalize("CONFIRMATION")+" ?",JOptionPane.YES_NO_OPTION);
 				
@@ -187,9 +178,8 @@ public class JDeckChooserDialog extends JDialog {
 				{
 					((DeckSelectionModel)table.getModel()).remove(selectedDeck);
 				}
-				
-			}
 		});
+		
 		panelBas.add(btnNewButton);
 		
 		JSplitPane panelRight = new JSplitPane();
@@ -218,9 +208,9 @@ public class JDeckChooserDialog extends JDialog {
 		tree = new JTree();
 		tree.setModel(model);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		panelTree.add(scrollPane_1);
-		scrollPane_1.setViewportView(tree);
+		JScrollPane scrollPane1 = new JScrollPane();
+		panelTree.add(scrollPane1);
+		scrollPane1.setViewportView(tree);
 		
 		tagsPanel = new JTagsPanel();
 		tagsPanel.setFontSize(11);

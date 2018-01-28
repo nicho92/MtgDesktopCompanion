@@ -439,7 +439,6 @@ public class MagicTheGatheringIOProvider implements MagicCardsProvider{
 
 	@Override
 	public Booster generateBooster(MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

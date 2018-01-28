@@ -11,8 +11,6 @@ import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-//TODO opacity for JPanel and JWindow.. not JLabel
-
 public class MTGSplashScreen extends JWindow implements Observer{
 	
 	JProgressBar progressBar;
@@ -26,7 +24,6 @@ public class MTGSplashScreen extends JWindow implements Observer{
 	public MTGSplashScreen() {
 		JPanel panel = new JPanel();
 		panel.setOpaque(false); 
-		//setOpacity(0.55f);
 		
 		getContentPane().add(panel);
 		panel.setLayout(new BorderLayout(0, 0));
@@ -44,10 +41,6 @@ public class MTGSplashScreen extends JWindow implements Observer{
 		pack();
 		setLocationRelativeTo(null);
 	}
-
-//	public void update(Object msg) {
-//		progressBar.setString(msg.toString());
-//	}
 
 	public void stop() {
 		setVisible(false);

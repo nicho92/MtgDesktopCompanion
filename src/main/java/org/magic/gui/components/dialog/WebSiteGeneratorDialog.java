@@ -5,8 +5,6 @@ import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +52,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		
 		File f = new File(MTGConstants.MTG_TEMPLATES_DIR);
 		
-		List<String> arrayTemplates=new ArrayList<String>();
+		List<String> arrayTemplates=new ArrayList<>();
 		
 		for (File temp : f.listFiles())
 			arrayTemplates.add(temp.getName());
@@ -81,50 +79,49 @@ public class WebSiteGeneratorDialog extends JDialog {
 		
 		JPanel panneaucentral = new JPanel();
 		getContentPane().add(panneaucentral, BorderLayout.CENTER);
-		GridBagLayout gbl_panneaucentral = new GridBagLayout();
-		gbl_panneaucentral.columnWidths = new int[]{258, 258, 0};
-		gbl_panneaucentral.rowHeights = new int[]{35, 191, 0};
-		gbl_panneaucentral.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gbl_panneaucentral.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panneaucentral.setLayout(gbl_panneaucentral);
+		GridBagLayout gblpanneaucentral = new GridBagLayout();
+		gblpanneaucentral.columnWidths = new int[]{258, 258, 0};
+		gblpanneaucentral.rowHeights = new int[]{35, 191, 0};
+		gblpanneaucentral.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		gblpanneaucentral.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panneaucentral.setLayout(gblpanneaucentral);
 		
 		JLabel lblChooseYourCollections = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_COLLECTIONS")+" :");
-		GridBagConstraints gbc_lblChooseYourCollections = new GridBagConstraints();
-		gbc_lblChooseYourCollections.insets = new Insets(0, 0, 5, 5);
-		gbc_lblChooseYourCollections.gridx = 0;
-		gbc_lblChooseYourCollections.gridy = 0;
-		panneaucentral.add(lblChooseYourCollections, gbc_lblChooseYourCollections);
+		GridBagConstraints gbclblChooseYourCollections = new GridBagConstraints();
+		gbclblChooseYourCollections.insets = new Insets(0, 0, 5, 5);
+		gbclblChooseYourCollections.gridx = 0;
+		gbclblChooseYourCollections.gridy = 0;
+		panneaucentral.add(lblChooseYourCollections, gbclblChooseYourCollections);
 		
 		JLabel lblChooseYourPrices = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_PRICER")+" :");
-		GridBagConstraints gbc_lblChooseYourPrices = new GridBagConstraints();
-		gbc_lblChooseYourPrices.insets = new Insets(0, 0, 5, 0);
-		gbc_lblChooseYourPrices.gridx = 1;
-		gbc_lblChooseYourPrices.gridy = 0;
-		panneaucentral.add(lblChooseYourPrices, gbc_lblChooseYourPrices);
+		GridBagConstraints gbclblChooseYourPrices = new GridBagConstraints();
+		gbclblChooseYourPrices.insets = new Insets(0, 0, 5, 0);
+		gbclblChooseYourPrices.gridx = 1;
+		gbclblChooseYourPrices.gridy = 0;
+		panneaucentral.add(lblChooseYourPrices, gbclblChooseYourPrices);
 		
 		JScrollPane scrollPane = new JScrollPane();
-		GridBagConstraints gbc_scrollPane = new GridBagConstraints();
-		gbc_scrollPane.fill = GridBagConstraints.BOTH;
-		gbc_scrollPane.insets = new Insets(0, 0, 0, 5);
-		gbc_scrollPane.gridx = 0;
-		gbc_scrollPane.gridy = 1;
-		panneaucentral.add(scrollPane, gbc_scrollPane);
-		list = new JList<MagicCollection>(cols.toArray(new MagicCollection[cols.size()]));
-		lstProviders = new JList<MagicPricesProvider>(MTGControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
+		GridBagConstraints gbcscrollPane = new GridBagConstraints();
+		gbcscrollPane.fill = GridBagConstraints.BOTH;
+		gbcscrollPane.insets = new Insets(0, 0, 0, 5);
+		gbcscrollPane.gridx = 0;
+		gbcscrollPane.gridy = 1;
+		panneaucentral.add(scrollPane, gbcscrollPane);
+		list = new JList<>(cols.toArray(new MagicCollection[cols.size()]));
+		lstProviders = new JList<>(MTGControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
 		
 		scrollPane.setViewportView(list);
 		
 		JScrollPane scrollProviders = new JScrollPane();
-		GridBagConstraints gbc_scrollProviders = new GridBagConstraints();
-		gbc_scrollProviders.fill = GridBagConstraints.BOTH;
-		gbc_scrollProviders.gridx = 1;
-		gbc_scrollProviders.gridy = 1;
-		panneaucentral.add(scrollProviders, gbc_scrollProviders);
+		GridBagConstraints gbcscrollProviders = new GridBagConstraints();
+		gbcscrollProviders.fill = GridBagConstraints.BOTH;
+		gbcscrollProviders.gridx = 1;
+		gbcscrollProviders.gridy = 1;
+		panneaucentral.add(scrollProviders, gbcscrollProviders);
 		
 		scrollProviders.setViewportView(lstProviders);
 		
-		btnDestChoose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnDestChoose.addActionListener(e->{
 				JFileChooser choose = new JFileChooser(txtDest.getText());
 				choose.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
 				choose.showSaveDialog(null);
@@ -134,17 +131,11 @@ public class WebSiteGeneratorDialog extends JDialog {
 					dest=new File(".");
 
 				txtDest.setText(dest.getAbsolutePath());
-			}
 		});
 		
-		btnGenerate.addActionListener(new ActionListener() {
-			
-
-			public void actionPerformed(ActionEvent arg0) {
+		btnGenerate.addActionListener(e->{
 				value=true;
 				setVisible(false);
-				
-			}
 		});
 		
 		setLocationRelativeTo(null);

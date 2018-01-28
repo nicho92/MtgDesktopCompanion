@@ -120,14 +120,12 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  {
 
 	@Override
 	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

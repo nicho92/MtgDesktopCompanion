@@ -139,7 +139,7 @@ public class HandPanel extends DraggablePanel {
 
 	@Override
 	public void postTreatment(DisplayableCard c) {
-		// TODO Auto-generated method stub
+		// do nothing
 		
 	}
 

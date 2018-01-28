@@ -225,7 +225,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 					 ed.setBorder(root.get("border").getAsString());
 					 ed.setSet(root.get("name").getAsString());
 					 ed.setType(root.get("type").getAsString());
-					 ed.setCardCount(0);//TODO need to check information
+					 ed.setCardCount(0);
 		return ed;
 		
 	}
@@ -258,7 +258,6 @@ public class DeckbrewProvider implements MagicCardsProvider {
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

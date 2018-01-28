@@ -14,7 +14,7 @@ public class Graveyard implements Serializable{
 
 	
 	public Graveyard() {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 	}
 	
 	public List<MagicCard> getCards() {

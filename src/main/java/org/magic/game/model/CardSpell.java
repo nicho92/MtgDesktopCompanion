@@ -15,7 +15,7 @@ public class CardSpell extends AbstractSpell{
 	
 	@Override
 	public void actionPerformed(ActionEvent paramActionEvent) {
-		// TODO Auto-generated method stub
+		//do nothing
 		
 	}
 	

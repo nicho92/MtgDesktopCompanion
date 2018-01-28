@@ -19,6 +19,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.services.MTGLogger;
 
 public class RarityRepartitionPanel extends JPanel{
 
@@ -30,7 +31,7 @@ public class RarityRepartitionPanel extends JPanel{
 	}
 
 	public void init(MagicDeck deck) {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 		if(deck!=null)
 			if(deck.getMap()!=null)
 				for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
@@ -97,7 +98,7 @@ public class RarityRepartitionPanel extends JPanel{
 							count++;
 						
 					}catch (Exception e) {
-						System.err.println(mc + " "+ e.getMessage());
+						MTGLogger.printStackTrace(e);
 					}
 				}
 			

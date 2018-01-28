@@ -5,8 +5,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -36,7 +34,7 @@ import org.magic.services.MTGControler;
 
 public class MagicCardEditorPanel extends JPanel {
 
-	private transient BindingGroup m_bindingGroup;
+	private transient BindingGroup mbindingGroup;
 	private MagicCard magicCard = new MagicCard();
 	private JTextField artistJTextField;
 	private JTextField costJTextField;
@@ -58,11 +56,11 @@ public class MagicCardEditorPanel extends JPanel {
 	private JPanel panel;
 	private JLabel label;
 	private JLabel lblType;
-	private JPanel panel_1;
+	private JPanel panel1;
 	private JCheckableListBox<String> cboSuperType;
 	private JCheckableListBox<String> cboTypes;
 	private JTextField txtSubTypes;
-	private JPanel panel_2;
+	private JPanel panel2;
 	private ManaPanel pan = new ManaPanel();
 	private JCheckableListBox<String> cboSubtypes;
 	
@@ -79,26 +77,26 @@ public class MagicCardEditorPanel extends JPanel {
 		setLayout(gridBagLayout);
 		
 				JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME")+":");
-				GridBagConstraints labelGbc_10 = new GridBagConstraints();
-				labelGbc_10.insets = new Insets(5, 5, 5, 5);
-				labelGbc_10.gridx = 0;
-				labelGbc_10.gridy = 0;
-				add(nameLabel, labelGbc_10);
+				GridBagConstraints labelgbc10 = new GridBagConstraints();
+				labelgbc10.insets = new Insets(5, 5, 5, 5);
+				labelgbc10.gridx = 0;
+				labelgbc10.gridy = 0;
+				add(nameLabel, labelgbc10);
 		
 				nameJTextField = new JTextField();
-				GridBagConstraints componentGbc_10 = new GridBagConstraints();
-				componentGbc_10.insets = new Insets(5, 0, 5, 5);
-				componentGbc_10.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_10.gridx = 1;
-				componentGbc_10.gridy = 0;
-				add(nameJTextField, componentGbc_10);
+				GridBagConstraints componentgbc10 = new GridBagConstraints();
+				componentgbc10.insets = new Insets(5, 0, 5, 5);
+				componentgbc10.fill = GridBagConstraints.HORIZONTAL;
+				componentgbc10.gridx = 1;
+				componentgbc10.gridy = 0;
+				add(nameJTextField, componentgbc10);
 		
 				JLabel costLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA")+":");
-				GridBagConstraints labelGbc_2 = new GridBagConstraints();
-				labelGbc_2.insets = new Insets(5, 5, 5, 5);
-				labelGbc_2.gridx = 2;
-				labelGbc_2.gridy = 0;
-				add(costLabel, labelGbc_2);
+				GridBagConstraints labelgbc2 = new GridBagConstraints();
+				labelgbc2.insets = new Insets(5, 5, 5, 5);
+				labelgbc2.gridx = 2;
+				labelgbc2.gridy = 0;
+				add(costLabel, labelgbc2);
 		
 				costJTextField = new JTextField();
 				costJTextField.setEditable(false);
@@ -122,8 +120,7 @@ public class MagicCardEditorPanel extends JPanel {
 						
 						
 						JButton btn = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SET_COST")+":");
-						btn.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
+						btn.addActionListener(ev->{
 								StringBuilder cost=new StringBuilder();
 								int cmc=0;
 								HashSet<String> colors = new HashSet<>();
@@ -187,8 +184,6 @@ public class MagicCardEditorPanel extends JPanel {
 								magicCard.setColorIdentity(new ArrayList<String>(colors));
 								costJTextField.setText(cost.toString());
 								g.dispose();
-								
-							}
 						});
 						
 						
@@ -216,60 +211,60 @@ public class MagicCardEditorPanel extends JPanel {
 					
 				});
 				
-				GridBagConstraints componentGbc_2 = new GridBagConstraints();
-				componentGbc_2.insets = new Insets(5, 0, 5, 0);
-				componentGbc_2.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_2.gridx = 3;
-				componentGbc_2.gridy = 0;
-				add(costJTextField, componentGbc_2);
+				GridBagConstraints componentgbc2 = new GridBagConstraints();
+				componentgbc2.insets = new Insets(5, 0, 5, 0);
+				componentgbc2.fill = GridBagConstraints.HORIZONTAL;
+				componentgbc2.gridx = 3;
+				componentgbc2.gridy = 0;
+				add(costJTextField, componentgbc2);
 
 				JLabel artistLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_ARTIST")+" :");
-				GridBagConstraints labelGbc_0 = new GridBagConstraints();
-				labelGbc_0.insets = new Insets(5, 5, 5, 5);
-				labelGbc_0.gridx = 0;
-				labelGbc_0.gridy = 1;
-				add(artistLabel, labelGbc_0);
+				GridBagConstraints labelgbc0 = new GridBagConstraints();
+				labelgbc0.insets = new Insets(5, 5, 5, 5);
+				labelgbc0.gridx = 0;
+				labelgbc0.gridy = 1;
+				add(artistLabel, labelgbc0);
 		
 				artistJTextField = new JTextField();
-				GridBagConstraints componentGbc_0 = new GridBagConstraints();
-				componentGbc_0.insets = new Insets(5, 0, 5, 5);
-				componentGbc_0.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_0.gridx = 1;
-				componentGbc_0.gridy = 1;
-				add(artistJTextField, componentGbc_0);
+				GridBagConstraints componentgbc0 = new GridBagConstraints();
+				componentgbc0.insets = new Insets(5, 0, 5, 5);
+				componentgbc0.fill = GridBagConstraints.HORIZONTAL;
+				componentgbc0.gridx = 1;
+				componentgbc0.gridy = 1;
+				add(artistJTextField, componentgbc0);
 				
 				JLabel rarityLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY")+" :");
-				GridBagConstraints labelGbc_14 = new GridBagConstraints();
-				labelGbc_14.insets = new Insets(5, 5, 5, 5);
-				labelGbc_14.gridx = 2;
-				labelGbc_14.gridy = 1;
-				add(rarityLabel, labelGbc_14);
+				GridBagConstraints labelgbc14 = new GridBagConstraints();
+				labelgbc14.insets = new Insets(5, 5, 5, 5);
+				labelgbc14.gridx = 2;
+				labelgbc14.gridy = 1;
+				add(rarityLabel, labelgbc14);
 		
 				rarityJComboBox = new JComboBox();
 				rarityJComboBox.setModel(new DefaultComboBoxModel<String>(new String[] {"Common", "Uncommon", "Rare", "Mythic Rare", "Special"}));
-				GridBagConstraints componentGbc_14 = new GridBagConstraints();
-				componentGbc_14.insets = new Insets(5, 0, 5, 0);
-				componentGbc_14.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_14.gridx = 3;
-				componentGbc_14.gridy = 1;
-				add(rarityJComboBox, componentGbc_14);
+				GridBagConstraints componentgbc14 = new GridBagConstraints();
+				componentgbc14.insets = new Insets(5, 0, 5, 0);
+				componentgbc14.fill = GridBagConstraints.HORIZONTAL;
+				componentgbc14.gridx = 3;
+				componentgbc14.gridy = 1;
+				add(rarityJComboBox, componentgbc14);
 		
 				lblType = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES")+" :");
-				GridBagConstraints gbc_lblType = new GridBagConstraints();
-				gbc_lblType.insets = new Insets(0, 0, 5, 5);
-				gbc_lblType.gridx = 0;
-				gbc_lblType.gridy = 2;
-				add(lblType, gbc_lblType);
+				GridBagConstraints gbclblType = new GridBagConstraints();
+				gbclblType.insets = new Insets(0, 0, 5, 5);
+				gbclblType.gridx = 0;
+				gbclblType.gridy = 2;
+				add(lblType, gbclblType);
 				
-				panel_1 = new JPanel();
-				GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-				gbc_panel_1.gridwidth = 3;
-				gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-				gbc_panel_1.fill = GridBagConstraints.BOTH;
-				gbc_panel_1.gridx = 1;
-				gbc_panel_1.gridy = 2;
-				add(panel_1, gbc_panel_1);
-				panel_1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+				panel1 = new JPanel();
+				GridBagConstraints gbcpanel1 = new GridBagConstraints();
+				gbcpanel1.gridwidth = 3;
+				gbcpanel1.insets = new Insets(0, 0, 5, 0);
+				gbcpanel1.fill = GridBagConstraints.BOTH;
+				gbcpanel1.gridx = 1;
+				gbcpanel1.gridy = 2;
+				add(panel1, gbcpanel1);
+				panel1.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
 				
 				cboSuperType = new JCheckableListBox<>();
 				DefaultListCheckModel modelSt = new DefaultListCheckModel();
@@ -277,7 +272,7 @@ public class MagicCardEditorPanel extends JPanel {
 				for (String t : new String[] {"", "Basic", "Elite", "Legendary", "Ongoing", "Snow", "World"}) { 
 					modelSt.addElement(t); 
 				} 
-				panel_1.add(cboSuperType);
+				panel1.add(cboSuperType);
 				
 				
 				cboTypes = new JCheckableListBox<>();
@@ -287,33 +282,32 @@ public class MagicCardEditorPanel extends JPanel {
 				   model.addElement(t); 
 				} 
 			
-				panel_1.add(cboTypes);
+				panel1.add(cboTypes);
 				
 				cboTypes.setModel(model);
 				
 				cboSubtypes = new JCheckableListBox<>();
-				panel_1.add(cboSubtypes);
+				panel1.add(cboSubtypes);
 		
 				txtSubTypes = new JTextField();
-				txtSubTypes.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
+				txtSubTypes.addActionListener(ae->{
 						cboSubtypes.addElement(txtSubTypes.getText(),true);
 						txtSubTypes.setText("");
-					}
 				});
-				panel_1.add(txtSubTypes);
+				
+				panel1.add(txtSubTypes);
 				txtSubTypes.setColumns(10);
 						
-						panel_2 = new JPanel();
-						FlowLayout flowLayout = (FlowLayout) panel_2.getLayout();
+						panel2 = new JPanel();
+						FlowLayout flowLayout = (FlowLayout) panel2.getLayout();
 						flowLayout.setAlignment(FlowLayout.LEFT);
-						GridBagConstraints gbc_panel_2 = new GridBagConstraints();
-						gbc_panel_2.gridwidth = 2;
-						gbc_panel_2.insets = new Insets(0, 0, 5, 5);
-						gbc_panel_2.fill = GridBagConstraints.BOTH;
-						gbc_panel_2.gridx = 1;
-						gbc_panel_2.gridy = 3;
-						add(panel_2, gbc_panel_2);
+						GridBagConstraints gbcpanel2 = new GridBagConstraints();
+						gbcpanel2.gridwidth = 2;
+						gbcpanel2.insets = new Insets(0, 0, 5, 5);
+						gbcpanel2.fill = GridBagConstraints.BOTH;
+						gbcpanel2.gridx = 1;
+						gbcpanel2.gridy = 3;
+						add(panel2, gbcpanel2);
 						
 						String[] symbolcs = new String[]{"W","U","B","R","G","C","T","E"};
 						for(String s : symbolcs)
@@ -323,79 +317,76 @@ public class MagicCardEditorPanel extends JPanel {
 							btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
 							btnG.setForeground(btnG.getBackground());
 							
-							btnG.addActionListener(new ActionListener() {
-								public void actionPerformed(ActionEvent e) {
-									textJEditorPane.setText(textJEditorPane.getText()+ " {" + btnG.getToolTipText()+"}");
-									
-								}
-							});
-							panel_2.add(btnG);
+							btnG.addActionListener(e->textJEditorPane.setText(textJEditorPane.getText()+ " {" + btnG.getToolTipText()+"}")
+							);
+							
+							panel2.add(btnG);
 								
 						}
 							JLabel textLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TEXT")+":");
-						GridBagConstraints labelGbc_16 = new GridBagConstraints();
-						labelGbc_16.insets = new Insets(5, 5, 5, 5);
-						labelGbc_16.gridx = 0;
-						labelGbc_16.gridy = 4;
-						add(textLabel, labelGbc_16);
+						GridBagConstraints labelgbc16 = new GridBagConstraints();
+						labelgbc16.insets = new Insets(5, 5, 5, 5);
+						labelgbc16.gridx = 0;
+						labelgbc16.gridy = 4;
+						add(textLabel, labelgbc16);
 		
 				textJEditorPane = new MagicTextPane();
-				GridBagConstraints componentGbc_16 = new GridBagConstraints();
-				componentGbc_16.gridwidth = 3;
-				componentGbc_16.gridheight = 2;
-				componentGbc_16.insets = new Insets(5, 0, 5, 0);
-				componentGbc_16.fill = GridBagConstraints.BOTH;
-				componentGbc_16.gridx = 1;
-				componentGbc_16.gridy = 4;
-				add(textJEditorPane, componentGbc_16);
+				GridBagConstraints componentgbc16 = new GridBagConstraints();
+				componentgbc16.gridwidth = 3;
+				componentgbc16.gridheight = 2;
+				componentgbc16.insets = new Insets(5, 0, 5, 0);
+				componentgbc16.fill = GridBagConstraints.BOTH;
+				componentgbc16.gridx = 1;
+				componentgbc16.gridy = 4;
+				add(textJEditorPane, componentgbc16);
 
 		JLabel flavorLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_FLAVOR")+":");
-		GridBagConstraints labelGbc_3 = new GridBagConstraints();
-		labelGbc_3.insets = new Insets(5, 5, 5, 5);
-		labelGbc_3.gridx = 0;
-		labelGbc_3.gridy = 6;
-		add(flavorLabel, labelGbc_3);
+		GridBagConstraints labelgbc3 = new GridBagConstraints();
+		labelgbc3.insets = new Insets(5, 5, 5, 5);
+		labelgbc3.gridx = 0;
+		labelgbc3.gridy = 6;
+		add(flavorLabel, labelgbc3);
 
 		flavorJTextField = new JTextField();
-		GridBagConstraints componentGbc_3 = new GridBagConstraints();
-		componentGbc_3.gridwidth = 3;
-		componentGbc_3.insets = new Insets(5, 0, 5, 0);
-		componentGbc_3.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc_3.gridx = 1;
-		componentGbc_3.gridy = 6;
-		add(flavorJTextField, componentGbc_3);
+		GridBagConstraints componentgbc3 = new GridBagConstraints();
+		componentgbc3.gridwidth = 3;
+		componentgbc3.insets = new Insets(5, 0, 5, 0);
+		componentgbc3.fill = GridBagConstraints.HORIZONTAL;
+		componentgbc3.gridx = 1;
+		componentgbc3.gridy = 6;
+		add(flavorJTextField, componentgbc3);
 				
 						JLabel layoutLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LAYOUT")+":");
-						GridBagConstraints labelGbc_6 = new GridBagConstraints();
-						labelGbc_6.insets = new Insets(5, 5, 5, 5);
-						labelGbc_6.gridx = 0;
-						labelGbc_6.gridy = 7;
-						add(layoutLabel, labelGbc_6);
+						GridBagConstraints labelgbc6 = new GridBagConstraints();
+						labelgbc6.insets = new Insets(5, 5, 5, 5);
+						labelgbc6.gridx = 0;
+						labelgbc6.gridy = 7;
+						add(layoutLabel, labelgbc6);
 				
 						layoutJComboBox = new JComboBox();
 						layoutJComboBox.setModel(new DefaultComboBoxModel<>(new String[]{"normal", "split", "flip", "double-faced", "token", "plane", "scheme", "phenomenon", "leveler", "vanguard", "meld","token","aftermath"}));
 						
-						GridBagConstraints componentGbc_6 = new GridBagConstraints();
-						componentGbc_6.insets = new Insets(5, 0, 5, 5);
-						componentGbc_6.fill = GridBagConstraints.HORIZONTAL;
-						componentGbc_6.gridx = 1;
-						componentGbc_6.gridy = 7;
-						add(layoutJComboBox, componentGbc_6);
+						GridBagConstraints componentgbc6 = new GridBagConstraints();
+						componentgbc6.insets = new Insets(5, 0, 5, 5);
+						componentgbc6.fill = GridBagConstraints.HORIZONTAL;
+						componentgbc6.gridx = 1;
+						componentgbc6.gridy = 7;
+						add(layoutJComboBox, componentgbc6);
 						
 								JLabel powerLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_POWER")+"/"+MTGControler.getInstance().getLangService().getCapitalize("CARD_TOUGHNESS")+":");
-								GridBagConstraints labelGbc_13 = new GridBagConstraints();
-								labelGbc_13.insets = new Insets(5, 5, 5, 5);
-								labelGbc_13.gridx = 2;
-								labelGbc_13.gridy = 7;
-								add(powerLabel, labelGbc_13);
+								GridBagConstraints labelgbc13 = new GridBagConstraints();
+								labelgbc13.insets = new Insets(5, 5, 5, 5);
+								labelgbc13.gridx = 2;
+								labelgbc13.gridy = 7;
+								add(powerLabel, labelgbc13);
 						
 						panel = new JPanel();
-						GridBagConstraints gbc_panel = new GridBagConstraints();
-						gbc_panel.insets = new Insets(0, 0, 5, 0);
-						gbc_panel.fill = GridBagConstraints.BOTH;
-						gbc_panel.gridx = 3;
-						gbc_panel.gridy = 7;
-						add(panel, gbc_panel);
+						GridBagConstraints gbcpanel = new GridBagConstraints();
+						gbcpanel.insets = new Insets(0, 0, 5, 0);
+						gbcpanel.fill = GridBagConstraints.BOTH;
+						gbcpanel.gridx = 3;
+						gbcpanel.gridy = 7;
+						add(panel, gbcpanel);
 						
 								powerJTextField = new JTextField();
 								powerJTextField.setColumns(2);
@@ -409,127 +400,127 @@ public class MagicCardEditorPanel extends JPanel {
 										panel.add(toughnessJTextField);
 												
 														JLabel watermarksLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_WATERMARK")+" :");
-														GridBagConstraints labelGbc_19 = new GridBagConstraints();
-														labelGbc_19.insets = new Insets(5, 5, 5, 5);
-														labelGbc_19.gridx = 0;
-														labelGbc_19.gridy = 8;
-														add(watermarksLabel, labelGbc_19);
+														GridBagConstraints labelgbc19 = new GridBagConstraints();
+														labelgbc19.insets = new Insets(5, 5, 5, 5);
+														labelgbc19.gridx = 0;
+														labelgbc19.gridy = 8;
+														add(watermarksLabel, labelgbc19);
 												
 														watermarksJTextField = new JTextField();
-														GridBagConstraints componentGbc_19 = new GridBagConstraints();
-														componentGbc_19.insets = new Insets(5, 0, 5, 5);
-														componentGbc_19.fill = GridBagConstraints.HORIZONTAL;
-														componentGbc_19.gridx = 1;
-														componentGbc_19.gridy = 8;
-														add(watermarksJTextField, componentGbc_19);
+														GridBagConstraints componentgbc19 = new GridBagConstraints();
+														componentgbc19.insets = new Insets(5, 0, 5, 5);
+														componentgbc19.fill = GridBagConstraints.HORIZONTAL;
+														componentgbc19.gridx = 1;
+														componentgbc19.gridy = 8;
+														add(watermarksJTextField, componentgbc19);
 										
 												JLabel loyaltyLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LOYALTY"));
-												GridBagConstraints labelGbc_7 = new GridBagConstraints();
-												labelGbc_7.insets = new Insets(5, 5, 5, 5);
-												labelGbc_7.gridx = 2;
-												labelGbc_7.gridy = 8;
-												add(loyaltyLabel, labelGbc_7);
+												GridBagConstraints labelgbc7 = new GridBagConstraints();
+												labelgbc7.insets = new Insets(5, 5, 5, 5);
+												labelgbc7.gridx = 2;
+												labelgbc7.gridy = 8;
+												add(loyaltyLabel, labelgbc7);
 								
 										loyaltyJTextField = new JTextField();
-										GridBagConstraints componentGbc_7 = new GridBagConstraints();
-										componentGbc_7.insets = new Insets(5, 0, 5, 0);
-										componentGbc_7.fill = GridBagConstraints.HORIZONTAL;
-										componentGbc_7.gridx = 3;
-										componentGbc_7.gridy = 8;
-										add(loyaltyJTextField, componentGbc_7);
+										GridBagConstraints componentgbc7 = new GridBagConstraints();
+										componentgbc7.insets = new Insets(5, 0, 5, 0);
+										componentgbc7.fill = GridBagConstraints.HORIZONTAL;
+										componentgbc7.gridx = 3;
+										componentgbc7.gridy = 8;
+										add(loyaltyJTextField, componentgbc7);
 						
 								JLabel numberLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_NUMBER"));
-								GridBagConstraints labelGbc_11 = new GridBagConstraints();
-								labelGbc_11.insets = new Insets(5, 5, 5, 5);
-								labelGbc_11.gridx = 0;
-								labelGbc_11.gridy = 9;
-								add(numberLabel, labelGbc_11);
+								GridBagConstraints labelgbc11 = new GridBagConstraints();
+								labelgbc11.insets = new Insets(5, 5, 5, 5);
+								labelgbc11.gridx = 0;
+								labelgbc11.gridy = 9;
+								add(numberLabel, labelgbc11);
 						
 								numberJTextField = new JTextField();
-								GridBagConstraints componentGbc_11 = new GridBagConstraints();
-								componentGbc_11.insets = new Insets(5, 0, 5, 5);
-								componentGbc_11.fill = GridBagConstraints.HORIZONTAL;
-								componentGbc_11.gridx = 1;
-								componentGbc_11.gridy = 9;
-								add(numberJTextField, componentGbc_11);
+								GridBagConstraints componentgbc11 = new GridBagConstraints();
+								componentgbc11.insets = new Insets(5, 0, 5, 5);
+								componentgbc11.fill = GridBagConstraints.HORIZONTAL;
+								componentgbc11.gridx = 1;
+								componentgbc11.gridy = 9;
+								add(numberJTextField, componentgbc11);
 				
 						JLabel tranformableLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TRANSFORMABLE")+" :");
-						GridBagConstraints labelGbc_18 = new GridBagConstraints();
-						labelGbc_18.insets = new Insets(5, 5, 5, 5);
-						labelGbc_18.gridx = 2;
-						labelGbc_18.gridy = 9;
-						add(tranformableLabel, labelGbc_18);
+						GridBagConstraints labelgbc18 = new GridBagConstraints();
+						labelgbc18.insets = new Insets(5, 5, 5, 5);
+						labelgbc18.gridx = 2;
+						labelgbc18.gridy = 9;
+						add(tranformableLabel, labelgbc18);
 		
 				tranformableJCheckBox = new JCheckBox();
-				GridBagConstraints componentGbc_18 = new GridBagConstraints();
-				componentGbc_18.insets = new Insets(5, 0, 5, 0);
-				componentGbc_18.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_18.gridx = 3;
-				componentGbc_18.gridy = 9;
-				add(tranformableJCheckBox, componentGbc_18);
+				GridBagConstraints componentgbc18 = new GridBagConstraints();
+				componentgbc18.insets = new Insets(5, 0, 5, 0);
+				componentgbc18.fill = GridBagConstraints.HORIZONTAL;
+				componentgbc18.gridx = 3;
+				componentgbc18.gridy = 9;
+				add(tranformableJCheckBox, componentgbc18);
 				
 						JLabel mciNumberLabel = new JLabel("Mci:");
-						GridBagConstraints labelGbc_8 = new GridBagConstraints();
-						labelGbc_8.insets = new Insets(5, 5, 5, 5);
-						labelGbc_8.gridx = 0;
-						labelGbc_8.gridy = 10;
-						add(mciNumberLabel, labelGbc_8);
+						GridBagConstraints labelgbc8 = new GridBagConstraints();
+						labelgbc8.insets = new Insets(5, 5, 5, 5);
+						labelgbc8.gridx = 0;
+						labelgbc8.gridy = 10;
+						add(mciNumberLabel, labelgbc8);
 				
 						mciNumberJTextField = new JTextField();
-						GridBagConstraints componentGbc_8 = new GridBagConstraints();
-						componentGbc_8.insets = new Insets(5, 0, 5, 5);
-						componentGbc_8.fill = GridBagConstraints.HORIZONTAL;
-						componentGbc_8.gridx = 1;
-						componentGbc_8.gridy = 10;
-						add(mciNumberJTextField, componentGbc_8);
+						GridBagConstraints componentgbc8 = new GridBagConstraints();
+						componentgbc8.insets = new Insets(5, 0, 5, 5);
+						componentgbc8.fill = GridBagConstraints.HORIZONTAL;
+						componentgbc8.gridx = 1;
+						componentgbc8.gridy = 10;
+						add(mciNumberJTextField, componentgbc8);
 		
 				JLabel flippableLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_FLIPPABLE")+" :");
-				GridBagConstraints labelGbc_4 = new GridBagConstraints();
-				labelGbc_4.insets = new Insets(5, 5, 5, 5);
-				labelGbc_4.gridx = 2;
-				labelGbc_4.gridy = 10;
-				add(flippableLabel, labelGbc_4);
+				GridBagConstraints labelgbc4 = new GridBagConstraints();
+				labelgbc4.insets = new Insets(5, 5, 5, 5);
+				labelgbc4.gridx = 2;
+				labelgbc4.gridy = 10;
+				add(flippableLabel, labelgbc4);
 		
 				flippableJCheckBox = new JCheckBox();
-				GridBagConstraints componentGbc_4 = new GridBagConstraints();
-				componentGbc_4.insets = new Insets(5, 0, 5, 0);
-				componentGbc_4.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_4.gridx = 3;
-				componentGbc_4.gridy = 10;
-				add(flippableJCheckBox, componentGbc_4);
+				GridBagConstraints componentgbc4 = new GridBagConstraints();
+				componentgbc4.insets = new Insets(5, 0, 5, 0);
+				componentgbc4.fill = GridBagConstraints.HORIZONTAL;
+				componentgbc4.gridx = 3;
+				componentgbc4.gridy = 10;
+				add(flippableJCheckBox, componentgbc4);
 								
 										JLabel gathererCodeLabel = new JLabel("Gatherer ID:");
-										GridBagConstraints labelGbc_5 = new GridBagConstraints();
-										labelGbc_5.insets = new Insets(5, 5, 5, 5);
-										labelGbc_5.gridx = 0;
-										labelGbc_5.gridy = 11;
-										add(gathererCodeLabel, labelGbc_5);
+										GridBagConstraints labelgbc5 = new GridBagConstraints();
+										labelgbc5.insets = new Insets(5, 5, 5, 5);
+										labelgbc5.gridx = 0;
+										labelgbc5.gridy = 11;
+										add(gathererCodeLabel, labelgbc5);
 								
 										gathererCodeJTextField = new JTextField();
-										GridBagConstraints componentGbc_5 = new GridBagConstraints();
-										componentGbc_5.insets = new Insets(5, 0, 5, 5);
-										componentGbc_5.fill = GridBagConstraints.HORIZONTAL;
-										componentGbc_5.gridx = 1;
-										componentGbc_5.gridy = 11;
-										add(gathererCodeJTextField, componentGbc_5);
+										GridBagConstraints componentgbc5 = new GridBagConstraints();
+										componentgbc5.insets = new Insets(5, 0, 5, 5);
+										componentgbc5.fill = GridBagConstraints.HORIZONTAL;
+										componentgbc5.gridx = 1;
+										componentgbc5.gridy = 11;
+										add(gathererCodeJTextField, componentgbc5);
 						
 								JLabel rotatedCardNameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TRANSFORMED_NAME")+" :");
-								GridBagConstraints labelGbc_15 = new GridBagConstraints();
-								labelGbc_15.insets = new Insets(5, 5, 5, 5);
-								labelGbc_15.gridx = 2;
-								labelGbc_15.gridy = 11;
-								add(rotatedCardNameLabel, labelGbc_15);
+								GridBagConstraints labelgbc15 = new GridBagConstraints();
+								labelgbc15.insets = new Insets(5, 5, 5, 5);
+								labelgbc15.gridx = 2;
+								labelgbc15.gridy = 11;
+								add(rotatedCardNameLabel, labelgbc15);
 						
 								rotatedCardNameJTextField = new JTextField();
-								GridBagConstraints componentGbc_15 = new GridBagConstraints();
-								componentGbc_15.insets = new Insets(5, 0, 5, 0);
-								componentGbc_15.fill = GridBagConstraints.HORIZONTAL;
-								componentGbc_15.gridx = 3;
-								componentGbc_15.gridy = 11;
-								add(rotatedCardNameJTextField, componentGbc_15);
+								GridBagConstraints componentgbc15 = new GridBagConstraints();
+								componentgbc15.insets = new Insets(5, 0, 5, 0);
+								componentgbc15.fill = GridBagConstraints.HORIZONTAL;
+								componentgbc15.gridx = 3;
+								componentgbc15.gridy = 11;
+								add(rotatedCardNameJTextField, componentgbc15);
 
 		if (magicCard != null) {
-			m_bindingGroup = initDataBindings();
+			mbindingGroup = initDataBindings();
 		}
 	}
 
@@ -552,12 +543,12 @@ public class MagicCardEditorPanel extends JPanel {
 		cboSubtypes.unselectAll();
 		
 		if (update) {
-			if (m_bindingGroup != null) {
-				m_bindingGroup.unbind();
-				m_bindingGroup = null;
+			if (mbindingGroup != null) {
+				mbindingGroup.unbind();
+				mbindingGroup = null;
 			}
 			if (magicCard != null) {
-				m_bindingGroup = initDataBindings();
+				mbindingGroup = initDataBindings();
 			}
 		}
 		if(magicCard!=null)
@@ -574,110 +565,104 @@ public class MagicCardEditorPanel extends JPanel {
 		autoBinding.bind();
 		//
 		BeanProperty<MagicCard, String> costProperty = BeanProperty.create("cost");
-		BeanProperty<JTextField, String> textProperty_1 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, costJTextField, textProperty_1);
-		autoBinding_2.bind();
+		BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, costJTextField, textProperty1);
+		autoBinding2.bind();
 		//
 		BeanProperty<MagicCard, String> flavorProperty = BeanProperty.create("flavor");
-		BeanProperty<JTextField, String> textProperty_2 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flavorProperty, flavorJTextField, textProperty_2);
-		autoBinding_3.bind();
+		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flavorProperty, flavorJTextField, textProperty2);
+		autoBinding3.bind();
 		//
 		BeanProperty<MagicCard, Boolean> flippableProperty = BeanProperty.create("flippable");
 		BeanProperty<JCheckBox, Boolean> selectedProperty = BeanProperty.create("selected");
-		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding_4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flippableProperty, flippableJCheckBox, selectedProperty);
-		autoBinding_4.bind();
+		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flippableProperty, flippableJCheckBox, selectedProperty);
+		autoBinding4.bind();
 		//
 		BeanProperty<MagicCard, String> gathererCodeProperty = BeanProperty.create("gathererCode");
-		BeanProperty<JTextField, String> textProperty_3 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, gathererCodeProperty, gathererCodeJTextField, textProperty_3);
-		autoBinding_5.bind();
+		BeanProperty<JTextField, String> textProperty3 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, gathererCodeProperty, gathererCodeJTextField, textProperty3);
+		autoBinding5.bind();
 		//
 		BeanProperty<MagicCard, Object> layoutProperty = BeanProperty.create("layout");
 		BeanProperty<JComboBox, Object> selectedIndexProperty = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding_6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, layoutProperty, layoutJComboBox, selectedIndexProperty);
-		autoBinding_6.bind();
+		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, layoutProperty, layoutJComboBox, selectedIndexProperty);
+		autoBinding6.bind();
 		//
 		BeanProperty<MagicCard, Object> loyaltyProperty = BeanProperty.create("loyalty");
-		BeanProperty<JTextField, Object> valueProperty_1 = BeanProperty.create("value");
-		AutoBinding<MagicCard, Object, JTextField, Object> autoBinding_7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, valueProperty_1);
-		autoBinding_7.bind();
+		BeanProperty<JTextField, Object> valueProperty1 = BeanProperty.create("value");
+		AutoBinding<MagicCard, Object, JTextField, Object> autoBinding7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, valueProperty1);
+		autoBinding7.bind();
 		//
 		BeanProperty<MagicCard, String> mciNumberProperty = BeanProperty.create("mciNumber");
-		BeanProperty<JTextField, String> textProperty_4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, mciNumberProperty, mciNumberJTextField, textProperty_4);
-		autoBinding_8.bind();
+		BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, mciNumberProperty, mciNumberJTextField, textProperty4);
+		autoBinding8.bind();
 		//
 		BeanProperty<MagicCard, String> nameProperty = BeanProperty.create("name");
-		BeanProperty<JTextField, String> textProperty_5 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty_5);
-		autoBinding_10.bind();
+		BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty5);
+		autoBinding10.bind();
 		//
 		BeanProperty<MagicCard, String> numberProperty = BeanProperty.create("number");
-		BeanProperty<JTextField, Object> valueProperty_3 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, Object> autoBinding_11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, valueProperty_3);
-		autoBinding_11.bind();
+		BeanProperty<JTextField, Object> valueProperty3 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, Object> autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, valueProperty3);
+		autoBinding11.bind();
 		//
 		BeanProperty<MagicCard, String> powerProperty = BeanProperty.create("power");
-		BeanProperty<JTextField, Object> valueProperty_4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, Object> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, powerProperty, powerJTextField, valueProperty_4);
-		autoBinding_13.bind();
+		BeanProperty<JTextField, Object> valueProperty4 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, Object> autoBinding13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, powerProperty, powerJTextField, valueProperty4);
+		autoBinding13.bind();
 		//
 		BeanProperty<MagicCard, Object> rarityProperty = BeanProperty.create("rarity");
-		BeanProperty<JComboBox, Object> selectedIndexProperty_1 = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding_14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty_1);
-		autoBinding_14.bind();
+		BeanProperty<JComboBox, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
+		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
+		autoBinding14.bind();
 		//
 		BeanProperty<MagicCard, String> rotatedCardNameProperty = BeanProperty.create("rotatedCardName");
-		BeanProperty<JTextField, String> textProperty_7 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_15 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rotatedCardNameProperty, rotatedCardNameJTextField, textProperty_7);
-		autoBinding_15.bind();
+		BeanProperty<JTextField, String> textProperty7 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding15 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rotatedCardNameProperty, rotatedCardNameJTextField, textProperty7);
+		autoBinding15.bind();
 		//
-		BeanProperty<MagicCard, String> textProperty_8 = BeanProperty.create("text");
-		BeanProperty<JEditorPane, String> textProperty_9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JEditorPane, String> autoBinding_16 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty_8, textJEditorPane, textProperty_9);
-		autoBinding_16.bind();
+		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");
+		BeanProperty<JEditorPane, String> textProperty9 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JEditorPane, String> autoBinding16 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty8, textJEditorPane, textProperty9);
+		autoBinding16.bind();
 		//
 		BeanProperty<MagicCard, String> toughnessProperty = BeanProperty.create("toughness");
-		BeanProperty<JTextField, Object> valueProperty_5 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, Object> autoBinding_17 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, valueProperty_5);
-		autoBinding_17.bind();
+		BeanProperty<JTextField, Object> valueProperty5 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, Object> autoBinding17 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, valueProperty5);
+		autoBinding17.bind();
 		//
 		BeanProperty<MagicCard, Boolean> tranformableProperty = BeanProperty.create("tranformable");
-		BeanProperty<JCheckBox, Boolean> selectedProperty_1 = BeanProperty.create("selected");
-		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding_18 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, tranformableProperty, tranformableJCheckBox, selectedProperty_1);
-		autoBinding_18.bind();
+		BeanProperty<JCheckBox, Boolean> selectedProperty1 = BeanProperty.create("selected");
+		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding18 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, tranformableProperty, tranformableJCheckBox, selectedProperty1);
+		autoBinding18.bind();
 		//
 		BeanProperty<MagicCard, String> watermarksProperty = BeanProperty.create("watermarks");
-		BeanProperty<JTextField, String> textProperty_10 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_19 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, watermarksProperty, watermarksJTextField, textProperty_10);
-		autoBinding_19.bind();
-		//
-		/*BeanProperty<MagicCard, List<String>> magicCardBeanProperty = BeanProperty.create("types");
-		BeanProperty<JCheckBox, Object> textProperty_11 = BeanProperty.create("selectedElements");
-		AutoBinding<MagicCard, List<String>, JCheckBox, Object> autoBinding_1 = new JCheckBoxBinding(UpdateStrategy.READ_WRITE, magicCard, magicCardBeanProperty, cboTypes, textProperty_11,"");
-		autoBinding_1.bind();*/
-		//
+		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding19 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, watermarksProperty, watermarksJTextField, textProperty10);
+		autoBinding19.bind();
+		
 		BindingGroup bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding);
-		bindingGroup.addBinding(autoBinding_2);
-		bindingGroup.addBinding(autoBinding_3);
-		bindingGroup.addBinding(autoBinding_4);
-		bindingGroup.addBinding(autoBinding_5);
-		bindingGroup.addBinding(autoBinding_6);
-		bindingGroup.addBinding(autoBinding_7);
-		bindingGroup.addBinding(autoBinding_8);
-		bindingGroup.addBinding(autoBinding_10);
-		bindingGroup.addBinding(autoBinding_11);
-		bindingGroup.addBinding(autoBinding_13);
-		bindingGroup.addBinding(autoBinding_14);
-		bindingGroup.addBinding(autoBinding_15);
-		bindingGroup.addBinding(autoBinding_16);
-		bindingGroup.addBinding(autoBinding_17);
-		bindingGroup.addBinding(autoBinding_18);
-		bindingGroup.addBinding(autoBinding_19);
-		//bindingGroup.addBinding(autoBinding_1);
+		bindingGroup.addBinding(autoBinding2);
+		bindingGroup.addBinding(autoBinding3);
+		bindingGroup.addBinding(autoBinding4);
+		bindingGroup.addBinding(autoBinding5);
+		bindingGroup.addBinding(autoBinding6);
+		bindingGroup.addBinding(autoBinding7);
+		bindingGroup.addBinding(autoBinding8);
+		bindingGroup.addBinding(autoBinding10);
+		bindingGroup.addBinding(autoBinding11);
+		bindingGroup.addBinding(autoBinding13);
+		bindingGroup.addBinding(autoBinding14);
+		bindingGroup.addBinding(autoBinding15);
+		bindingGroup.addBinding(autoBinding16);
+		bindingGroup.addBinding(autoBinding17);
+		bindingGroup.addBinding(autoBinding18);
+		bindingGroup.addBinding(autoBinding19);
 		return bindingGroup;
 	}
 }

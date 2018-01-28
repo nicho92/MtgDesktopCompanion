@@ -30,7 +30,7 @@ public class ManaRepartitionPanel extends JPanel{
 	}
 	
 	public void init(MagicDeck deck) {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 		try{
 			for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
 			{
@@ -96,7 +96,7 @@ public class ManaRepartitionPanel extends JPanel{
 		DefaultPieDataset dataset = new DefaultPieDataset();
 		for(MagicCard mc : cards)
 		{
-			if(mc.getColors().size()>0)
+			if(!mc.getColors().isEmpty())
 			{
 				if(mc.getColors().size()==1 )
 					dataset.setValue(mc.getColors().get(0), count(mc.getColors().get(0)));

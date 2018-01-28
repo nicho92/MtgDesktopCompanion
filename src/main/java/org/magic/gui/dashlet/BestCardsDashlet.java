@@ -2,8 +2,6 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -63,17 +61,9 @@ public class BestCardsDashlet extends AbstractJDashlet{
 		scrollPane.setViewportView(table);
 		initToolTip(table,0,null);
 		
-		cboFormat.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				init();
-			}
-		});
+		cboFormat.addActionListener(ae->init());
 		
-		cboFilter.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				init();
-			}
-		});
+		cboFilter.addActionListener(ae->init());
 		
 		if(props.size()>0) {
 			Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
@@ -97,9 +87,7 @@ public class BestCardsDashlet extends AbstractJDashlet{
 
 	@Override
 	public void init() {
-			ThreadManager.getInstance().execute(new Runnable() {
-				@Override
-				public void run() {
+			ThreadManager.getInstance().execute(()->{
 					lblLoading.setVisible(true);
 					models.init((FORMAT)cboFormat.getSelectedItem(),cboFilter.getSelectedItem().toString());
 					models.fireTableDataChanged();
@@ -108,7 +96,6 @@ public class BestCardsDashlet extends AbstractJDashlet{
 					save("FORMAT",cboFormat.getSelectedItem().toString());
 					save("FILTER",cboFilter.getSelectedItem().toString());
 					lblLoading.setVisible(false);
-				}
 			}, "init BestCardsDashlet");
 	}
 

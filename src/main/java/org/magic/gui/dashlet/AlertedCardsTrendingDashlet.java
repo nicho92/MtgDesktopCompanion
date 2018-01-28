@@ -6,8 +6,6 @@ import java.awt.Rectangle;
 
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.gui.abstracts.AbstractJDashlet;
@@ -50,19 +48,16 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 		historyPricesPanel.setPreferredSize(new Dimension(119, 200));
 		getContentPane().add(historyPricesPanel, BorderLayout.SOUTH);
 		
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
+		table.getSelectionModel().addListSelectionListener(event->{
 	        	
 	        	if(!event.getValueIsAdjusting())
 	        	{
 	        		int row = table.getSelectedRow();
 	        		MagicCardAlert alt =(MagicCardAlert)table.getValueAt(row,0);
 	        		historyPricesPanel.init(alt.getCard(), alt.getCard().getEditions().get(0), alt.getCard().toString());
-	        		//historyPricesPanel.zoom(new Date());
 	        		historyPricesPanel.revalidate();
 	        		
 				}
-		    }
 		});
 		
 		if(props.size()>0) {

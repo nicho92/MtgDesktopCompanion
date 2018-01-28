@@ -2,8 +2,6 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -55,20 +53,17 @@ public class DeckSnifferDialog extends JDialog{
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
 		cboSniffers = new JComboBox(MTGControler.getInstance().getEnabledDeckSniffer().toArray());
-		cboSniffers.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				selectedSniffer=(DeckSniffer)cboSniffers.getSelectedItem();
-			}
-		});
+		
+		cboSniffers.addActionListener(e->
+				selectedSniffer=(DeckSniffer)cboSniffers.getSelectedItem()
+		);
+		
 		selectedSniffer = MTGControler.getInstance().getEnabledDeckSniffer().get(0);
 		panel.add(cboSniffers);
 		
 		btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
-		btnConnect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
+		btnConnect.addActionListener(e->
+				ThreadManager.getInstance().execute(()->{
 						try {
 							lblLoad.setVisible(true);
 							selectedSniffer.connect();
@@ -83,16 +78,12 @@ public class DeckSnifferDialog extends JDialog{
 							lblLoad.setVisible(false);
 							JOptionPane.showMessageDialog(null, e1,"Error",JOptionPane.ERROR_MESSAGE);
 						}
-					}
-				}, "Connection to " + selectedSniffer );
-				
-			}
-		});
+					}, "Connection to " + selectedSniffer )
+		);
 		panel.add(btnConnect);
 		
-		cboFormats = new JComboBox();
-		cboFormats.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		cboFormats = new JComboBox<>();
+		cboFormats.addActionListener(e->{
 				try {
 					lblLoad.setVisible(true);
 					selectedSniffer.setProperties("FORMAT", cboFormats.getSelectedItem());
@@ -103,8 +94,6 @@ public class DeckSnifferDialog extends JDialog{
 					lblLoad.setVisible(false);
 					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 				}
-				
-			}
 		});
 		panel.add(cboFormats);
 		
@@ -117,21 +106,12 @@ public class DeckSnifferDialog extends JDialog{
 		getContentPane().add(panel1, BorderLayout.SOUTH);
 		
 		JButton btnClose = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
-		btnClose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				dispose();
-			}
-		});
+		btnClose.addActionListener(e->dispose());
 		panel1.add(btnClose);
 		
 		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
-		btnImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-					ThreadManager.getInstance().execute(new Runnable() {
-						
-						@Override
-						public void run() {
+		btnImport.addActionListener(e->
+					ThreadManager.getInstance().execute(()->{
 							try {
 								lblLoad.setVisible(true);
 								btnImport.setEnabled(false);
@@ -146,12 +126,9 @@ public class DeckSnifferDialog extends JDialog{
 								lblLoad.setVisible(false);
 								btnImport.setEnabled(true);
 							}
-							
-						}
-					}, "Import deck");					
-			
-			}
-		});
+					}, "Import deck")					
+		);
+		
 		panel1.add(btnImport);
 		setLocationRelativeTo(null);
 		

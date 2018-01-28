@@ -2,8 +2,6 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 
 import javax.swing.JButton;
@@ -54,15 +52,14 @@ public class PriceCatalogExportDialog extends JDialog {
 		JButton btnGenerate = new JButton(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
 		
 		panneauBas.add(btnGenerate);
-		lstProviders = new JComboBox<MagicPricesProvider>(MTGControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
+		lstProviders = new JComboBox<>(MTGControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
 		
 		JScrollPane scrollProviders = new JScrollPane();
 		getContentPane().add(scrollProviders, BorderLayout.CENTER);
 		
 		scrollProviders.setViewportView(lstProviders);
 		
-		btnDestChoose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnDestChoose.addActionListener(e->{
 				JFileChooser choose = new JFileChooser(txtDest.getText());
 				choose.setFileSelectionMode(JFileChooser.FILES_ONLY);
 				choose.showSaveDialog(null);
@@ -72,15 +69,11 @@ public class PriceCatalogExportDialog extends JDialog {
 					dest=new File(".");
 
 				txtDest.setText(dest.getAbsolutePath());
-			}
 		});
 		
-		btnGenerate.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnGenerate.addActionListener(e->{
 				value=true;
 				setVisible(false);
-				
-			}
 		});
 		setLocationRelativeTo(null);
 	}
