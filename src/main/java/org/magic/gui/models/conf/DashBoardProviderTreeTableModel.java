@@ -36,15 +36,7 @@ public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	    
 	    @Override
 	    public boolean isCellEditable(Object node, int column) {
-	        if (node instanceof Entry && column == 1) {
-	            return true;
-	        }
-	        else if(column==2)
-	        {
-	        	return true;
-	        }
-	        
-	        return false;
+	        return  ((node instanceof Entry && column == 1)||(column==2));
 	    }
 
 	    @Override

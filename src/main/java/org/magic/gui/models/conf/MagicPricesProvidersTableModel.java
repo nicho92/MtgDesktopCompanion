@@ -36,17 +36,12 @@ public class MagicPricesProvidersTableModel extends AbstractTreeTableModel
         return COLUMN_NAMES[column];
     }
     
+    
     @Override
     public boolean isCellEditable(Object node, int column) {
-        if (node instanceof Entry && column == 1) {
-            return true;
-        }
-        else if(column==2)
-        	return true;
-        
-        return false;
+        return  ((node instanceof Entry && column == 1)||(column==2));
     }
-
+    
     @Override
     public boolean isLeaf(Object node) {
         return node instanceof Entry;
