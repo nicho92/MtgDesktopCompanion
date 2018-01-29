@@ -2,20 +2,23 @@ package org.magic.tools;
 
 public class ColorParser {
 	
+	private ColorParser() {
+	}
+	
 	public static String parse(String fullColorName) {
-		if(fullColorName.toLowerCase().equals("white"))
+		if(fullColorName.equalsIgnoreCase("white"))
 			return "{W}";
 		else
-			if(fullColorName.toLowerCase().equals("blue"))
+			if(fullColorName.equalsIgnoreCase("blue"))
 				return "{U}";
 			else
-				if(fullColorName.toLowerCase().equals("black"))
+				if(fullColorName.equalsIgnoreCase("black"))
 					return "{B}";
 				else
-					if(fullColorName.toLowerCase().equals("red"))
+					if(fullColorName.equalsIgnoreCase("red"))
 						return "{R}";
 					else
-						if(fullColorName.toLowerCase().equals("green"))
+						if(fullColorName.equalsIgnoreCase("green"))
 							return "{G}";
 							
 							return "{C}";

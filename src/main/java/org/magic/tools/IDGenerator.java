@@ -32,7 +32,7 @@ public class IDGenerator {
 		String id = String.valueOf((mc.getName()+ed+ed.getNumber()+ed.getMultiverse_id()));
 		id = DigestUtils.sha1Hex(id);
 		
-		logger.trace("Generate ID for " + String.valueOf((mc.getName()+"|"+ed+"|"+ed.getNumber()+"|"+ed.getMultiverse_id()))+"="+id);
+		logger.trace("Generate ID for " + (mc.getName()+"|"+ed+"|"+ed.getNumber()+"|"+ed.getMultiverse_id())+"="+id);
 		
 		return id;
 	}

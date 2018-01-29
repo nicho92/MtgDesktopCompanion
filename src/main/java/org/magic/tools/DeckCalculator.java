@@ -11,7 +11,6 @@ import org.magic.api.beans.MagicDeck;
 public class DeckCalculator {
 
 	private MagicDeck deck;
-	private HypergeometricDistribution hypergeoVar;
 	private DecimalFormat format;
 	
 	public DeckCalculator(MagicDeck d) {
@@ -22,7 +21,7 @@ public class DeckCalculator {
 	
 	public List<MagicCard> getUniqueCards()
 	{
-		return new ArrayList<MagicCard>(deck.getMap().keySet());
+		return new ArrayList<>(deck.getMap().keySet());
 	}
 	
 	
@@ -58,8 +57,7 @@ public class DeckCalculator {
 		int numberInDeck=deck.getMap().get(mc);
 		int numberCardsInDeck=deck.getNbCards();
 		try{ 
-			hypergeoVar= new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards);
-			return hypergeoVar.upperCumulativeProbability(1);
+			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards).upperCumulativeProbability(1);
 		}catch(Exception e)
 		{
 			return 0;

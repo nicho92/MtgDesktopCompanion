@@ -7,6 +7,9 @@ import java.util.List;
 
 public class ImageUtils {
 
+	private ImageUtils() {
+	}
+	
 	
 	public static BufferedImage resize(BufferedImage img,int newH,int newW) {  
 	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);

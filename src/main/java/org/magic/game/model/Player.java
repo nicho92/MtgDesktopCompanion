@@ -35,7 +35,7 @@ public class Player extends Observable implements Serializable{
 	
 	private int poisonCounter;
 	
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public STATE getState() {
 		return state;

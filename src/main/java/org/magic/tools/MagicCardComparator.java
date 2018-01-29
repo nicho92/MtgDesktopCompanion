@@ -10,11 +10,7 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
 		
-		
-		
-		//if same edition and have number
-			if(o1.getEditions().get(0).getNumber()!=null && o2.getEditions().get(0).getNumber()!=null)
-				if(o1.getEditions().get(0).equals(o2.getEditions().get(0)))
+			if(o1.getEditions().get(0).getNumber()!=null && o2.getEditions().get(0).getNumber()!=null && (o1.getEditions().get(0).equals(o2.getEditions().get(0))))
 				{
 					int n1=calculate(o1.getEditions().get(0).getNumber());
 					int n2=calculate(o2.getEditions().get(0).getNumber());
@@ -70,8 +66,7 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 		if(mc.getName().equalsIgnoreCase("Mountain"))
 			return 11;
 			
-		//if(mc.getName().equalsIgnoreCase("Forest"))
-			return 12;
+			return 12; //return 12 for forest
 	}
 	
 	private int name(MagicCard o1, MagicCard o2) {
@@ -81,7 +76,7 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 	private int getWeight(MagicCard mc)
 	{
 	
-		if(mc.getColors().size()==0)
+		if(mc.getColors().isEmpty())
 		{
 			
 			if(mc.getTypes().toString().toLowerCase().contains("artifact"))
@@ -99,13 +94,13 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 						return 7; // advanced land
 					}
 			}
-			else if(!mc.getLayout().toLowerCase().equals("normal"))
+			else if(!mc.getLayout().equalsIgnoreCase("normal"))
 			{
 					return 99;
 			}
 			else
 			{
-				return -1; //colorless eldrazi spell;
+				return -1; 
 			}
 
 		}
