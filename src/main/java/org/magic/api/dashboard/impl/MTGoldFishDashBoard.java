@@ -24,8 +24,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.services.MTGLogger;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
+import org.mozilla.javascript.ast.NodeVisitor;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard{
 	private Date updateTime;
@@ -95,35 +97,35 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		 Element js = d.getElementsByTag("script").get(index);
 		 
 		 
-	     AstNode node = new Parser().parse(js.html(), "", 1);
-	     		 node.visit( n-> 
-	 	             {
-	 	            	 
-	    	        		 if(!stop && node.toSource().startsWith("d"))
-	    	        		 {
-		    	        			 String val = node.toSource();
-		    	        			 val=val.replaceAll("d \\+\\= ", "");
-		    	        			 val=val.replaceAll("\\\\n", "");
-		    	        			 val=val.replaceAll(";", "");
-		    	        			 val=val.replaceAll("\"", "");
-		    	        			 String[] res = val.split(",");
-		    	        			try {
-		    	        				Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0]+ " 00:00");
-		    							if(historyPrice.get(date)==null)
-		    								historyPrice.put(date, Double.parseDouble(res[1]));
-		    						} 
-		    	        			catch (Exception e) {
-		    							logger.error(e);
-		    						} 
-	    	        		 }
-	    	        		 
-	    	        		 if(node.toSource().startsWith("g ="))
-	    	        		 {
-	    	        			 stop=true;
-	    	        		 }
-	    	        	 
-	    	        	return true;
-	    	         });
+		 AstNode root = new Parser().parse(js.html(), "", 1);
+ 		 root.visit( visitedNode-> 
+	             {
+	            	 
+	        		 if(!stop && visitedNode.toSource().startsWith("d"))
+	        		 {
+	        			 String val = visitedNode.toSource();
+	        			 val=val.replaceAll("d \\+\\= ", "");
+	        			 val=val.replaceAll("\\\\n", "");
+	        			 val=val.replaceAll(";", "");
+	        			 val=val.replaceAll("\"", "");
+	        			String[] res = val.split(",");
+	        				
+	        			try {
+	        				Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0]+ " 00:00");
+							if(historyPrice.get(date)==null)
+								historyPrice.put(date, Double.parseDouble(res[1]));
+							
+						} catch (Exception e) {
+							MTGLogger.printStackTrace(e);
+						} 
+	        		 }
+	        		 
+	        		 if(visitedNode.toSource().startsWith("g ="))
+	        		 {
+	        			 stop=true;
+	        		 }
+	        	return true;
+	         });
 
 	    return historyPrice;
 	    
