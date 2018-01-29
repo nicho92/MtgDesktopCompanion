@@ -96,11 +96,7 @@ public class StoriesGUI extends JPanel {
 		add(panel, BorderLayout.NORTH);
 		
 		JButton btnLoadNext = new JButton("Load Next");
-		btnLoadNext.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				initStories();
-			}
-		});
+		btnLoadNext.addActionListener(ae->initStories());
 		panel.add(btnLoadNext);
 		
 		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
@@ -126,9 +122,7 @@ public class StoriesGUI extends JPanel {
 	
 	public void initStories()
 	{
-		ThreadManager.getInstance().execute(new Runnable() {
-			@Override
-			public void run() {
+		ThreadManager.getInstance().execute(()->{
 				lblLoading.setVisible(true);
 				
 					try {
@@ -141,10 +135,8 @@ public class StoriesGUI extends JPanel {
 					finally {
 						lblLoading.setVisible(false);
 					}
-			}
 		}, "loading stories");
 	}
-	
 	
 }
 

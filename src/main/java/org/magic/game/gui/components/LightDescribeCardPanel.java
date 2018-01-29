@@ -31,7 +31,7 @@ public class LightDescribeCardPanel extends JPanel {
 	private MagicTextPane magicTextPane;
 	private ManaPanel manaPanel;
 	
-	private BindingGroup m_bindingGroup;
+	private transient BindingGroup mBindingGroup;
 	
 	private MagicCard card;
 	private JPanel panel;
@@ -177,19 +177,19 @@ public class LightDescribeCardPanel extends JPanel {
 		scrollPane_1.setViewportView(rulesTextPane);
 		
 		if (card != null) {
-			m_bindingGroup = initDataBindings();
+			mBindingGroup = initDataBindings();
 		}
 	}
 	
 	public void setCard(MagicCard newMagicCard) {
 			card = newMagicCard;
 			
-			if (m_bindingGroup != null) {
-				m_bindingGroup.unbind();
-				m_bindingGroup = null;
+			if (mBindingGroup != null) {
+				mBindingGroup.unbind();
+				mBindingGroup = null;
 			}
 			if (card != null) {
-				m_bindingGroup = initDataBindings();
+				mBindingGroup = initDataBindings();
 			}
 	}
 

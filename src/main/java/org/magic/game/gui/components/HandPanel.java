@@ -20,7 +20,7 @@ public class HandPanel extends DraggablePanel {
 	private GridBagConstraints c;
 	private int index=0;
 	private int val=7;
-	private Thread t;
+	private transient Thread t;
 	private PositionEnum origine = PositionEnum.HAND;
 
 

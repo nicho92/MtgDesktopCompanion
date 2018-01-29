@@ -22,7 +22,7 @@ import org.magic.services.MTGControler;
 
 public class ServerStatePanel extends JPanel {
 
-	private MTGServer server;
+	private transient MTGServer server;
 	private Map<Boolean,ImageIcon> icons;	
 	private JButton btnStartStop;
 	private JLabel lblalive;
@@ -31,7 +31,7 @@ public class ServerStatePanel extends JPanel {
 	
 	public ServerStatePanel(MTGServer s) {
 		this.server=s;
-		icons = new HashMap<Boolean,ImageIcon>();
+		icons = new HashMap<>();
 		
 		icons.put(false,MTGConstants.ICON_DELETE);
 		icons.put(true, MTGConstants.ICON_CHECK);
@@ -46,33 +46,33 @@ public class ServerStatePanel extends JPanel {
 		JLabel lblName = new JLabel(server.getName());
 		lblName.setToolTipText(server.description());
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
-		GridBagConstraints gbc_lblName = new GridBagConstraints();
-		gbc_lblName.anchor = GridBagConstraints.WEST;
-		gbc_lblName.insets = new Insets(0, 0, 0, 5);
-		gbc_lblName.gridx = 0;
-		gbc_lblName.gridy = 0;
-		add(lblName, gbc_lblName);
+		GridBagConstraints gbclblName = new GridBagConstraints();
+		gbclblName.anchor = GridBagConstraints.WEST;
+		gbclblName.insets = new Insets(0, 0, 0, 5);
+		gbclblName.gridx = 0;
+		gbclblName.gridy = 0;
+		add(lblName, gbclblName);
 		
 		lblalive = new JLabel("");
 		lblalive.setIcon(icons.get(server.isAlive()));
-		GridBagConstraints gbc_lblalive = new GridBagConstraints();
-		gbc_lblalive.insets = new Insets(0, 0, 0, 5);
-		gbc_lblalive.gridx = 2;
-		gbc_lblalive.gridy = 0;
-		add(lblalive, gbc_lblalive);
+		GridBagConstraints gbclblalive = new GridBagConstraints();
+		gbclblalive.insets = new Insets(0, 0, 0, 5);
+		gbclblalive.gridx = 2;
+		gbclblalive.gridy = 0;
+		add(lblalive, gbclblalive);
 		
 		lblLogs = new JLabel("");
-		GridBagConstraints gbc_lblLogs = new GridBagConstraints();
-		gbc_lblLogs.insets = new Insets(0, 0, 0, 5);
-		gbc_lblLogs.gridx = 3;
-		gbc_lblLogs.gridy = 0;
-		add(lblLogs, gbc_lblLogs);
+		GridBagConstraints gbclblLogs = new GridBagConstraints();
+		gbclblLogs.insets = new Insets(0, 0, 0, 5);
+		gbclblLogs.gridx = 3;
+		gbclblLogs.gridy = 0;
+		add(lblLogs, gbclblLogs);
 		
 		btnStartStop = new JButton((server.isAlive()?"Stop":"Start"));
-		GridBagConstraints gbc_btnStartStop = new GridBagConstraints();
-		gbc_btnStartStop.gridx = 4;
-		gbc_btnStartStop.gridy = 0;
-		add(btnStartStop, gbc_btnStartStop);
+		GridBagConstraints gbcbtnStartStop = new GridBagConstraints();
+		gbcbtnStartStop.gridx = 4;
+		gbcbtnStartStop.gridy = 0;
+		add(btnStartStop, gbcbtnStartStop);
 		
 		
 		TimerTask tache = new TimerTask() {    
@@ -89,10 +89,7 @@ public class ServerStatePanel extends JPanel {
 		timer.scheduleAtFixedRate(tache,0,1000);
 
 		
-		btnStartStop.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		btnStartStop.addActionListener(e->{
 				try {
 					if(server.isAlive())
 						server.stop();
@@ -103,7 +100,7 @@ public class ServerStatePanel extends JPanel {
 				} catch (Exception e1) {
 					lblLogs.setText(e1.getMessage());
 				}
-			}
+			
 		});
 		
 		

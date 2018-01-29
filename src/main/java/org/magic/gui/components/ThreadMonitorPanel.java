@@ -20,7 +20,7 @@ import org.magic.services.ThreadManager;
 public class ThreadMonitorPanel extends JPanel {
 	private JTable table;
 	private ThreadModel model;
-	private DefaultRowSorter sorterCards ;
+	private transient DefaultRowSorter sorterCards ;
 	private JButton btnRefresh;
 	private Timer t;
 	private JLabel lblThreads;

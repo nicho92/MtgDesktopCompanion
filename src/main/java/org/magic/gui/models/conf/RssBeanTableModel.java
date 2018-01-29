@@ -14,7 +14,7 @@ public class RssBeanTableModel extends DefaultTableModel{
 
 	private final static String[] COLUMN_NAMES = {"Name","URL","Categorie"};
 	
-	List<RSSBean> listRSS;
+	private transient List<RSSBean> listRSS;
 	
 	public RssBeanTableModel() {
 		listRSS = MTGControler.getInstance().getRss();

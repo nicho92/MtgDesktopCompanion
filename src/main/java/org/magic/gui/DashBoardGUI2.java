@@ -21,8 +21,8 @@ import org.magic.services.MTGLogger;
 
 public class DashBoardGUI2 extends JDesktopPane {
 	
-	ClassLoader classLoader = DashBoardGUI2.class.getClassLoader();
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient ClassLoader classLoader = DashBoardGUI2.class.getClassLoader();
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public DashBoardGUI2() {

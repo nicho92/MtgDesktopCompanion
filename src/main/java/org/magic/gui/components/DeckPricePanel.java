@@ -41,7 +41,7 @@ public class DeckPricePanel extends JPanel {
 	private MagicDeck deck;
 	private JLabel lblPrice ;
 	private int total=0;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public void initDeck(MagicDeck d)
 	{

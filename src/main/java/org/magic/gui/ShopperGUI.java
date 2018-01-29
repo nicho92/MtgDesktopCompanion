@@ -39,16 +39,16 @@ public class ShopperGUI extends JPanel {
 	private JTextField txtSearch;
 	private JXTable tableItemShop;
 	
-	JButton btnSearch = new JButton(MTGConstants.ICON_SEARCH);
-	JPanel panel = new JPanel();
-	JLabel lblSearch = new JLabel(MTGControler.getInstance().getLangService().get("SEARCH_MODULE")+" :");
-	JScrollPane shopItemScrollPane = new JScrollPane();
-	ShopItemTableModel mod;
+	private JButton btnSearch = new JButton(MTGConstants.ICON_SEARCH);
+	private JPanel panel = new JPanel();
+	private JLabel lblSearch = new JLabel(MTGControler.getInstance().getLangService().get("SEARCH_MODULE")+" :");
+	private JScrollPane shopItemScrollPane = new JScrollPane();
+	private ShopItemTableModel mod;
 	private final JPanel panneauCentral = new JPanel();
 	private final JPanel panneauEast = new JPanel();
 	private final JLabel lblPicShopItem = new JLabel("");
     private TableFilterHeader filterHeader;
-    Logger logger = MTGLogger.getLogger(this.getClass());
+    private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
     
 	public ShopperGUI() {

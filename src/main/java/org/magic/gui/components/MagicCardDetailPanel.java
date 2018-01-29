@@ -41,7 +41,7 @@ import org.magic.services.ThreadManager;
 
 public class MagicCardDetailPanel extends JPanel {
 
-	private BindingGroup m_bindingGroup;
+	private transient BindingGroup mBindingGroup;
 	private MagicCard magicCard;
 	private JTextField cmcJTextField;
 	private ManaPanel manaPanel;
@@ -69,9 +69,9 @@ public class MagicCardDetailPanel extends JPanel {
 	private JLabel lblWatermark;
 	private JTextField txtWatermark;
 	private JScrollPane scrollCollections;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTextField rarityJTextField;
-	GridBagLayout gridBagLayout ;
+	private GridBagLayout gridBagLayout ;
 	private JButton btnAlert;
 	private JCheckBox chckbxReserved;
 	
@@ -416,7 +416,7 @@ public class MagicCardDetailPanel extends JPanel {
 				scrollCollections.setViewportView(listCollection);
 				
 		if (magicCard != null) {
-			m_bindingGroup = initDataBindings();
+			mBindingGroup = initDataBindings();
 		}
 		
 		setEditable(false);
@@ -434,12 +434,12 @@ public class MagicCardDetailPanel extends JPanel {
 	public void setMagicCard(MagicCard newMagicCard, boolean update) {
 		magicCard = newMagicCard;
 		if (update) {
-			if (m_bindingGroup != null) {
-				m_bindingGroup.unbind();
-				m_bindingGroup = null;
+			if (mBindingGroup != null) {
+				mBindingGroup.unbind();
+				mBindingGroup = null;
 			}
 			if (magicCard != null) {
-				m_bindingGroup = initDataBindings();
+				mBindingGroup = initDataBindings();
 			}
 		}
 	}

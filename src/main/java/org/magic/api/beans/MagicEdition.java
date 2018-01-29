@@ -15,7 +15,7 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	private String flavor;
 	private String number;
 	private String layout;
-	private MagicPrice price;
+	private transient MagicPrice price;
 	private String url;
 	private String image_url;
 	private String set_url;
@@ -26,7 +26,7 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	private int cardCount;
 	private String block;
 	private String border;
-	private List<Object> booster;
+	private transient List<Object> booster;
 	private Map<String,String> translations;
 	public static final long serialVersionUID = 4136786369066180196L;
 	private boolean onlineOnly;

@@ -1,8 +1,10 @@
 package org.magic.game.model.counters;
 
+import java.io.Serializable;
+
 import org.magic.game.gui.components.DisplayableCard;
 
-public abstract class AbstractCounter {
+public abstract class AbstractCounter implements Serializable{
 
 	public abstract void apply(DisplayableCard displayableCard);
 

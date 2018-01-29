@@ -55,10 +55,10 @@ public class GamingRoomPanel extends JPanel {
 	private JTextField txtServer;
 	private JTextField txtPort;
 	private JTable table;
-	private MinaClient client;
+	private transient MinaClient client;
 	private PlayerTableModel mod;
 	private JTextField txtName;
-	private JList list = new JList(new DefaultListModel());
+	private JList list = new JList<>(new DefaultListModel<>());
 	private JButton btnPlayGame;
 	private JButton btnConnect;
 	
@@ -69,7 +69,7 @@ public class GamingRoomPanel extends JPanel {
 	}
 	
 
-	private Observer obs = new Observer() {
+	private transient Observer obs = new Observer() {
 		@Override
 		public void update(Observable o, Object arg) {
 			if(arg instanceof ShareDeckAction)
@@ -80,7 +80,6 @@ public class GamingRoomPanel extends JPanel {
 			if(arg instanceof ListPlayersAction)
 			{
 				ListPlayersAction lpa = (ListPlayersAction)arg;
-			//	lpa.getList().remove(p);
 				mod.init(lpa.getList());
 			}
 			if(arg instanceof SpeakAction)
