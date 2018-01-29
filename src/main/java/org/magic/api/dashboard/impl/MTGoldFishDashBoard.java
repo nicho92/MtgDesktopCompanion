@@ -27,7 +27,6 @@ import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGLogger;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
-import org.mozilla.javascript.ast.NodeVisitor;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard{
 	private Date updateTime;

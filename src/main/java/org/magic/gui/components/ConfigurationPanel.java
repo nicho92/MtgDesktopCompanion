@@ -51,7 +51,6 @@ public class ConfigurationPanel extends JPanel {
 	private JComboBox<MagicCollection> cboCollections;
 	private JComboBox<Level> cboLogLevels;
 	private JTextField txtdirWebsite;
-	private JComboBox<MagicEdition> cboEditions;
 	private JComboBox<MagicEdition> cboEditionLands;
 	private JTextField txtMinPrice;
 	private JComboBox<String> cbojsonView;
@@ -294,7 +293,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLogLevel.gridy = 2;
 		panelConfig.add(lblLogLevel, gbclblLogLevel);
 		
-		cboLogLevels = new JComboBox(new Level[]{Level.INFO,Level.ERROR,Level.DEBUG,Level.TRACE});
+		cboLogLevels = new JComboBox<>(new Level[]{Level.INFO,Level.ERROR,Level.DEBUG,Level.TRACE});
 		GridBagConstraints gbccboLogLevels = new GridBagConstraints();
 		gbccboLogLevels.gridwidth = 3;
 		gbccboLogLevels.insets = new Insets(0, 0, 5, 5);
@@ -383,10 +382,8 @@ public class ConfigurationPanel extends JPanel {
 		gbcchkToolTip.gridy = 5;
 		panelConfig.add(chkToolTip, gbcchkToolTip);
 		chkToolTip.setSelected(MTGControler.getInstance().get("tooltip").equals("true"));
-		chkToolTip.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
+		chkToolTip.addItemListener(ie->{
 				MTGControler.getInstance().setProperty("tooltip",chkToolTip.isSelected());	
-			}
 		});
 		
 		JLabel lblCardsLanguage = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARDS_LANGUAGE")+ " :");
@@ -396,7 +393,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblCardsLanguage.gridy = 6;
 		panelConfig.add(lblCardsLanguage, gbclblCardsLanguage);
 		
-		final JComboBox cboLanguages = new JComboBox();
+		final JComboBox<String> cboLanguages = new JComboBox<>();
 		
 		for(String s : MTGControler.getInstance().getEnabledProviders().getLanguages())
 		{
@@ -414,18 +411,14 @@ public class ConfigurationPanel extends JPanel {
 		gbccboLanguages.gridy = 6;
 		panelConfig.add(cboLanguages, gbccboLanguages);
 	
-		JButton btnSave_lang = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		btnSave_lang.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				MTGControler.getInstance().setProperty("langage", cboLanguages.getSelectedItem().toString());
-			}
-		});
+		JButton btnSavelang = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		btnSavelang.addActionListener(ae->MTGControler.getInstance().setProperty("langage", cboLanguages.getSelectedItem().toString()));
 		
-		GridBagConstraints gbcbtnSave_lang = new GridBagConstraints();
-		gbcbtnSave_lang.insets = new Insets(0, 0, 5, 0);
-		gbcbtnSave_lang.gridx = 4;
-		gbcbtnSave_lang.gridy = 6;
-		panelConfig.add(btnSave_lang, gbcbtnSave_lang);
+		GridBagConstraints gbcbtnSavelang = new GridBagConstraints();
+		gbcbtnSavelang.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSavelang.gridx = 4;
+		gbcbtnSavelang.gridy = 6;
+		panelConfig.add(btnSavelang, gbcbtnSavelang);
 		
 		JLabel lblGuiLocal = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOCALISATION")+" :");
 		GridBagConstraints gbclblGuiLocal = new GridBagConstraints();
@@ -443,13 +436,9 @@ public class ConfigurationPanel extends JPanel {
 		gbccboLocales.gridy = 7;
 		panelConfig.add(cboLocales, gbccboLocales);
 		
-			cboLocales.setSelectedItem(MTGControler.getInstance().getLocale());
+		cboLocales.setSelectedItem(MTGControler.getInstance().getLocale());
 		JButton btnSave = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				MTGControler.getInstance().setProperty("locale", cboLocales.getSelectedItem());
-			}
-		});
+		btnSave.addActionListener(ae->MTGControler.getInstance().setProperty("locale", cboLocales.getSelectedItem()));
 		
 		GridBagConstraints gbcbtnSave3 = new GridBagConstraints();
 		gbcbtnSave3.insets = new Insets(0, 0, 5, 0);
@@ -497,31 +486,16 @@ public class ConfigurationPanel extends JPanel {
 		gbcbtnClean.gridy = 8;
 		panelConfig.add(btnClean, gbcbtnClean);
 		
-		btnSaveLoglevel.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnSaveLoglevel.addActionListener(ae->{
 				if(chckbxIconset.isSelected())
 					MTGControler.getInstance().setProperty("loglevel", (Level)cboLogLevels.getSelectedItem());
-				
-				
 				MTGLogger.changeLevel((Level)cboLogLevels.getSelectedItem());
-			}
 		});
 		
 		
-		cboLogLevels.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				MTGLogger.changeLevel((Level)cboLogLevels.getSelectedItem());
-			}
-		});
-		btnSaveDefaultLandDeck.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				MTGControler.getInstance().setProperty("default-land-deck", ((MagicEdition)cboEditionLands.getSelectedItem()).getId());
-				
-			}
-		});
-		btnSaveDefaultLib.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		cboLogLevels.addActionListener(ae->MTGLogger.changeLevel((Level)cboLogLevels.getSelectedItem()));
+		btnSaveDefaultLandDeck.addActionListener(ae->MTGControler.getInstance().setProperty("default-land-deck", ((MagicEdition)cboEditionLands.getSelectedItem()).getId()));
+		btnSaveDefaultLib.addActionListener(ae->{
 				try{
 					
 					MTGControler.getInstance().setProperty("default-library", (MagicCollection)cboCollections.getSelectedItem());
@@ -529,8 +503,8 @@ public class ConfigurationPanel extends JPanel {
 				{
 					MTGLogger.printStackTrace(e);
 				}
-			}
 		});
+		
 		try {
 			for(MagicCollection col :  MTGControler.getInstance().getEnabledDAO().getCollections())
 			{

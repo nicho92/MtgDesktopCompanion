@@ -34,56 +34,29 @@ public class LazyLoadingTree extends JTree {
 
 	
 	public LazyLoadingTree() throws ClassNotFoundException, SQLException {
-		
-		
-		
 		root = new MyNode("Collection");
 		model = new DefaultTreeModel(root);
 		
 		setModel(model);
 		setShowsRootHandles(true);
-		
 		root.loadChildren();
-		
 		addTreeWillExpandListener(new TreeWillExpandListener() {
-
             @Override
             public void treeWillExpand(TreeExpansionEvent event) throws ExpandVetoException {
                 TreePath path = event.getPath();
-                DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode)path.getLastPathComponent();
-                
-                if (selectedNode.getUserObject() instanceof String) {
-                	MyNode node = (MyNode) path.getLastPathComponent();
-                	node.loadChildren();
-                }
-                else if (selectedNode.getUserObject() instanceof MagicCollection) {
-                	MyNode node = (MyNode) path.getLastPathComponent();
-                	node.loadChildren();
-                    
-                }
-                else  if (selectedNode.getUserObject() instanceof MagicEdition) {
-                	MyNode node = (MyNode) path.getLastPathComponent();
-                	node.loadChildren();
-                    
-                }
-                else  if (selectedNode.getUserObject() instanceof MagicCard) {
-                //	MyNode node = (MyNode) path.getLastPathComponent();
-                    
-                }
+                MyNode node = (MyNode) path.getLastPathComponent();
+                node.loadChildren();
             }
-
             @Override
             public void treeWillCollapse(TreeExpansionEvent event) throws ExpandVetoException {
-
+            	// do nothing
             }
         });
-		
-		
-		
 	}
 
 public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
 {
+	private static final long serialVersionUID = 1L;
 	private transient Object obj;
 	private boolean leaf = false;
 	

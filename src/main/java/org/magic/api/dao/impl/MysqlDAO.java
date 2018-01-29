@@ -483,7 +483,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 				pst.setString(4, state.getLanguage());
 				pst.setInt(5, state.getQte());
 				pst.setString(6, state.getComment());
-				pst.setString(7, state.getMagicCard().getId());
+				pst.setString(7, IDGenerator.generate(state.getMagicCard()));
 				pst.setString(8, String.valueOf(state.getMagicCollection()));
 				pst.setObject(9, state.getMagicCard());
 				pst.setBoolean(10, state.isAltered());
@@ -509,7 +509,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 				pst.setInt(6, state.getQte());
 				pst.setBoolean(7, state.isAltered());
 				pst.setDouble(8, state.getPrice());
-				pst.setString(9, state.getMagicCard().getId());
+				pst.setString(9, IDGenerator.generate(state.getMagicCard()));
 				pst.setInt(10, state.getIdstock());
 				pst.executeUpdate();
 			}
