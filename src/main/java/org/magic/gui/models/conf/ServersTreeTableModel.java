@@ -16,8 +16,8 @@ public class ServersTreeTableModel extends AbstractTreeTableModel {
 	
 	   	private MTGServer selectedProvider = null;
 	    private List<MTGServer> exports =MTGControler.getInstance().getServers();
-	    Logger logger = MTGLogger.getLogger(this.getClass());
-	    private final static String[] COLUMN_NAMES = {"Deck Website","Value","Enabled"};
+	    private Logger logger = MTGLogger.getLogger(this.getClass());
+	    private static final String[] COLUMN_NAMES = {"Deck Website","Value","Enabled"};
 		
 
 	    
@@ -41,7 +41,7 @@ public class ServersTreeTableModel extends AbstractTreeTableModel {
 	        if (node instanceof Entry && column == 1) {
 	            return true;
 	        }
-	        if(column==2)
+	        else if(column==2)
 	        	return true;
 	        
 	        return false;
@@ -103,6 +103,7 @@ public class ServersTreeTableModel extends AbstractTreeTableModel {
 	            switch (column) {
 	                case 0:return prov.getName();
 	                case 2: return prov.isEnable();
+	                default : return "";
 	            }
 	        } 
 	        else if (node instanceof Entry) 
@@ -113,13 +114,14 @@ public class ServersTreeTableModel extends AbstractTreeTableModel {
 	                    return emp.getKey();
 	                case 1:
 	                    return emp.getValue();
+	                default : return "";
 	            }
 	        }
 	        return null;
 	    }
 
 	    
-	    
+	    @Override
 	    public void setValueAt(Object value, Object node, int column) {
 	    	
 	        String strValue = String.valueOf(value);

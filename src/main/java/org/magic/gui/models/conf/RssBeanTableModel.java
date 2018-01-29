@@ -12,7 +12,7 @@ import org.magic.services.MTGLogger;
 
 public class RssBeanTableModel extends DefaultTableModel{
 
-	private final static String[] COLUMN_NAMES = {"Name","URL","Categorie"};
+	private static final String[] COLUMN_NAMES = {"Name","URL","Categorie"};
 	
 	private transient List<RSSBean> listRSS;
 	

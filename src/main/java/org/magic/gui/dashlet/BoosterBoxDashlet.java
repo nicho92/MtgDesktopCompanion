@@ -21,8 +21,6 @@ import javax.swing.JSpinner;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.event.ListSelectionEvent;
-import javax.swing.event.ListSelectionListener;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.Booster;
@@ -62,8 +60,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 
 	@Override
 	public void init() {
-	
-		
+		//do nothing
 	}
 
 	@Override
@@ -178,8 +175,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 		);
 		
 		
-		table.getSelectionModel().addListSelectionListener(new ListSelectionListener(){
-	        public void valueChanged(ListSelectionEvent event) {
+		table.getSelectionModel().addListSelectionListener(event->{
 	        	if(!event.getValueIsAdjusting())
 	        	{
 	        		
@@ -189,14 +185,10 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 			        		int modelRow = table.convertRowIndexToModel(viewRow);
 			        		List<MagicCard> list = ((Booster)table.getModel().getValueAt(modelRow, 0)).getCards();
 			        		cardsModel.clear();
-			        		
 			        		for(MagicCard mc : list)
 			        			cardsModel.addElement(mc);
-			        		
-			        		
 			        	}
 	        	}
-	        }
 	    });
 		
 		

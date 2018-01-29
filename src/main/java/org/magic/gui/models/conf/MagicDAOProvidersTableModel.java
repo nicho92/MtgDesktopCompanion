@@ -15,7 +15,7 @@ import org.magic.services.MTGLogger;
 
 public class MagicDAOProvidersTableModel extends AbstractTreeTableModel 
 {
-    private final static String[] COLUMN_NAMES = {"DBProvider","Value","Enabled"};
+    private static final String[] COLUMN_NAMES = {"DBProvider","Value","Enabled"};
     private MagicDAO selectedProvider = null;
     private List<MagicDAO> daos = MTGControler.getInstance().getDaoProviders();
     Logger logger = MTGLogger.getLogger(this.getClass());
@@ -41,7 +41,7 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
         if (node instanceof Entry && column == 1) {
             return true;
         }
-        if(column==2)
+        else if(column==2)
         	return true;
         
         return false;
@@ -103,6 +103,7 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
             switch (column) {
                 case 0:return prov.getName();
                 case 2: return prov.isEnable();
+                default : return "";
             }
         } 
         else if (node instanceof Entry) 
@@ -112,13 +113,14 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
                     return ((Entry) node).getKey();
                 case 1:
                     return ((Entry) node).getValue();
+                default : return "";
             }
         }
         return null;
     }
 
     
-    
+    @Override
     public void setValueAt(Object value, Object node, int column) {
     	
         String strValue = String.valueOf(value);
@@ -131,12 +133,12 @@ public class MagicDAOProvidersTableModel extends AbstractTreeTableModel
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
         		MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
         		
-        		for(MagicDAO daos : MTGControler.getInstance().getDaoProviders())
+        		for(MagicDAO dao : MTGControler.getInstance().getDaoProviders())
         		{
-        			if(daos!=selectedProvider)
+        			if(dao!=selectedProvider)
         			{
-        				daos.enable(false);
-        				MTGControler.getInstance().setProperty(daos, daos.isEnable());
+        				dao.enable(false);
+        				MTGControler.getInstance().setProperty(dao, dao.isEnable());
         	        	
         			}
         		}
