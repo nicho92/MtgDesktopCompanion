@@ -744,7 +744,7 @@ public class CollectionPanelGUI extends JPanel {
 						nodeCol.add(new DefaultMutableTreeNode(card));
 						tree.refresh();
 					} catch (SQLException e1) {
-						e1.printStackTrace();
+						logger.error(e1);
 					}
 				
 			});

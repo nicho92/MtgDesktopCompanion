@@ -129,7 +129,7 @@ public class CardStockLinePanel extends JPanel {
 			l.add(state);
 			MTGControler.getInstance().getEnabledDAO().deleteStock(l);
 		} catch (SQLException e1) {
-			e1.printStackTrace();
+			MTGLogger.printStackTrace(e1);
 		}
 		
 		try{
@@ -139,7 +139,7 @@ public class CardStockLinePanel extends JPanel {
 		}
 		catch(NullPointerException e)
 		{
-		MTGLogger.printStackTrace(e);
+			MTGLogger.printStackTrace(e);
 		}
 		
 	}

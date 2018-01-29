@@ -2,9 +2,9 @@ package org.magic.api.beans;
 
 public class MTGKeyWord {
 
-	public static enum TYPE { Abilities, Action,Word};
-	public static enum SUBTYPE {Evergreen,Other};
-	public static enum EVENT {SPELL,STATIC,ACTIVATED,TRIGGERED,ACTION,ABILITY};
+	public enum TYPE { Abilities, Action,Word}
+	public enum SUBTYPE {Evergreen,Other}
+	public enum EVENT {SPELL,STATIC,ACTIVATED,TRIGGERED,ACTION,ABILITY}
 	
 	private String keyword;
 	private String description;
@@ -13,7 +13,7 @@ public class MTGKeyWord {
 	private SUBTYPE subtype;
 	private EVENT event;
 	
-	public MTGKeyWord() {
+	private MTGKeyWord() {
 	
 	}
 	
@@ -60,7 +60,7 @@ public class MTGKeyWord {
 	}
 
 	public void setEvent(EVENT action) {
-		this.event = event;
+		this.event = action;
 	}
 	
 	

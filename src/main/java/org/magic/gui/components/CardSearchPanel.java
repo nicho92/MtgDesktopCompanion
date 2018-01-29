@@ -200,7 +200,6 @@ public class CardSearchPanel extends JPanel {
 								MTGControler.getInstance().getEnabledDAO().saveCard(mc, MTGControler.getInstance().getEnabledDAO().getCollection(collec));
 							} catch (SQLException e1) {
 								logger.error(e1);
-								e1.printStackTrace();
 								JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 							}
 
