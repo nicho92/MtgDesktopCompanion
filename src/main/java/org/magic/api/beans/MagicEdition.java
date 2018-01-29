@@ -78,7 +78,7 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	}
 
 	public MagicEdition() {
-		booster=new ArrayList<Object>();
+		booster=new ArrayList<>();
 	}
 	
 	public List<Object> getBooster() {

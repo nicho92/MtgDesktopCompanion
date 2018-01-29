@@ -15,7 +15,7 @@ public class RetrievableDeck {
 	private List<String> keycards;
 	
 	public RetrievableDeck() {
-		keycards = new ArrayList<String>();
+		keycards = new ArrayList<>();
 	}
 	
 	public String getAuthor() {

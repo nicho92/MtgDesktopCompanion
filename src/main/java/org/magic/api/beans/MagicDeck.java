@@ -83,7 +83,7 @@ public class MagicDeck implements Serializable{
 	
 	
 	public Set<MagicFormat> getLegality() {
-		Set<MagicFormat> cmap = new LinkedHashSet<MagicFormat>();
+		Set<MagicFormat> cmap = new LinkedHashSet<>();
 		for(MagicCard mc : mapDeck.keySet())
 		{
 			for(MagicFormat mf : mc.getLegalities())
@@ -94,7 +94,6 @@ public class MagicDeck implements Serializable{
 		return cmap;
 	}
 	
-	//TODO correct color identity of cards
 	public String getColors() {
 		Set<String> cmap = new LinkedHashSet<>();
 		for(MagicCard mc : mapDeck.keySet())
@@ -111,9 +110,9 @@ public class MagicDeck implements Serializable{
 	}
 
 	public MagicDeck() {
-		mapDeck = new HashMap<MagicCard,Integer>();
-		mapSideBoard = new HashMap<MagicCard,Integer>();
-		tags=new ArrayList<String>();
+		mapDeck = new HashMap<>();
+		mapSideBoard = new HashMap<>();
+		tags=new ArrayList<>();
 		averagePrice=0;
 	}
 	
@@ -140,7 +139,7 @@ public class MagicDeck implements Serializable{
 	
 	public List<MagicCard> getAsList()
 	{
-		ArrayList<MagicCard> deck = new ArrayList<MagicCard>();
+		ArrayList<MagicCard> deck = new ArrayList<>();
 		
 		for(MagicCard c : mapDeck.keySet())
 			for(int i=0;i<mapDeck.get(c);i++)
@@ -150,7 +149,7 @@ public class MagicDeck implements Serializable{
 	
 	public List<MagicCard> getSideAsList()
 	{
-		ArrayList<MagicCard> deck = new ArrayList<MagicCard>();
+		ArrayList<MagicCard> deck = new ArrayList<>();
 		
 		for(MagicCard c : mapSideBoard.keySet())
 			for(int i=0;i<mapSideBoard.get(c);i++)
