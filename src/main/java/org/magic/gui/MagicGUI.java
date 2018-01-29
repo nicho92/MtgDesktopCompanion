@@ -333,8 +333,6 @@ public class MagicGUI extends JFrame {
 		
 		
 		jmnuLook.add(itMore);
-	
-		MTGControler.getInstance().getActivatedGUI();
 		
 		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
 	

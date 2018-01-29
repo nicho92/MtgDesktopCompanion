@@ -10,6 +10,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -98,7 +99,7 @@ public class MTGControler {
 		try {
 			config.addProperty("/"+root +" "+ elem+"/class", classname.getName());
 			logger.debug("add module " + path + " " + classname.getName());
-			setProperty(classname.newInstance(),new Boolean(false));
+			setProperty(classname.newInstance(),false);
 		} catch (Exception e) {
 			logger.error(e);
 		}
@@ -184,7 +185,7 @@ public class MTGControler {
 		return config.getString(prop,"");
 	}
 	
-	public void reload() throws Exception
+	public void reload() throws ClassNotFoundException, SQLException
 	{
 		logger.debug("Reload Controler");
 		inst=new MTGControler();
@@ -206,11 +207,6 @@ public class MTGControler {
 			MTGLogger.printStackTrace(e);
 		}
 		return p;
-	}
-	
-	public int getActivatedGUI()
-	{
-		return 0;
 	}
 		
 	private MTGControler()
@@ -248,7 +244,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//pricer/class").size();i++)
 			{
 				String s = config.getString("pricers/pricer["+i+"]/class");
-				MagicPricesProvider prov = loadItem(MagicPricesProvider.class, s);
+				MagicPricesProvider prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("pricers/pricer["+i+"]/enable"));
 					pricers.add(prov);
@@ -261,7 +257,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//provider/class").size();i++)
 			{
 				String s = config.getString("providers/provider["+i+"]/class");
-				MagicCardsProvider prov = loadItem(MagicCardsProvider.class, s);
+				MagicCardsProvider prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("providers/provider["+i+"]/enable"));
 					cardsProviders.add(prov);
@@ -274,7 +270,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//dao/class").size();i++)
 			{
 				String s = config.getString("daos/dao["+i+"]/class");
-				MagicDAO prov = loadItem(MagicDAO.class, s);
+				MagicDAO prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("daos/dao["+i+"]/enable"));
 					daoProviders.add(prov);
@@ -286,7 +282,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//shopper/class").size();i++)
 			{
 				String s = config.getString("shoppers/shopper["+i+"]/class");
-				MagicShopper prov = loadItem(MagicShopper.class, s);
+				MagicShopper prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("shoppers/shopper["+i+"]/enable"));
 					cardsShoppers.add(prov);
@@ -298,7 +294,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//dashboard/class").size();i++)
 			{
 				String s = config.getString("dashboards/dashboard["+i+"]/class");
-				DashBoard prov = loadItem(DashBoard.class, s);
+				DashBoard prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("dashboards/dashboard["+i+"]/enable"));
 					dashboards.add(prov);
@@ -310,7 +306,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//export/class").size();i++)
 			{
 				String s = config.getString("deckexports/export["+i+"]/class");
-				AbstractCardExport prov = loadItem(AbstractCardExport.class, s);
+				AbstractCardExport prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("deckexports/export["+i+"]/enable"));
 					exports.add(prov);
@@ -322,7 +318,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//sniffer/class").size();i++)
 			{
 				String s = config.getString("decksniffer/sniffer["+i+"]/class");
-				DeckSniffer prov = loadItem(DeckSniffer.class, s);
+				DeckSniffer prov = loadItem(s);
 				if(prov!=null){	
 					prov.enable(config.getBoolean("decksniffer/sniffer["+i+"]/enable"));
 					deckSniffers.add(prov);
@@ -334,7 +330,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//picture/class").size();i++)
 			{
 				String s = config.getString("pictures/picture["+i+"]/class");
-				PictureProvider prov = loadItem(PictureProvider.class, s);
+				PictureProvider prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("pictures/picture["+i+"]/enable"));
 					picturesProviders.add(prov);
@@ -346,7 +342,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//server/class").size();i++)
 			{
 				String s = config.getString("servers/server["+i+"]/class");
-				MTGServer prov = loadItem(MTGServer.class, s);
+				MTGServer prov = loadItem(s);
 						 
 				if(prov!=null){
 					prov.enable(config.getBoolean("servers/server["+i+"]/enable"));
@@ -359,7 +355,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//cache/class").size();i++)
 			{
 				String s = config.getString("caches/cache["+i+"]/class");
-				MTGPicturesCache prov = loadItem(MTGPicturesCache.class, s);
+				MTGPicturesCache prov = loadItem(s);
 						 
 				if(prov!=null){
 					prov.enable(config.getBoolean("caches/cache["+i+"]/enable"));
@@ -372,11 +368,10 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//dashlet/class").size();i++)
 			{
 				String s = config.getString("dashlets/dashlet["+i+"]/class");
-				AbstractJDashlet prov = loadItem(AbstractJDashlet.class, s);
+				AbstractJDashlet prov = loadItem(s);
 				dashlets.add(prov);		 
 				
 			}
-			//logger.debug("Check for new modules");
 			keyWordManager = new KeyWordManager();
 			
 			langService = new LanguageService();
@@ -398,13 +393,13 @@ public class MTGControler {
 	}
 
 
-	public boolean updateConfigMods() throws ClassNotFoundException, IOException
+	public boolean updateConfigMods()
 	{
 		return new ModuleInstaller().updateConfigWithNewModule();
 	}
 
 	
-	public <T> T loadItem(Class <T> cls, String classname) 
+	public <T> T loadItem(String classname) 
 	{
 		try{
 		logger.debug("-load module :  " + classname );
@@ -452,7 +447,7 @@ public class MTGControler {
 
 	public List<MagicPricesProvider> getEnabledPricers()
 	{
-		List<MagicPricesProvider> pricersE= new ArrayList<MagicPricesProvider>();
+		List<MagicPricesProvider> pricersE= new ArrayList<>();
 		
 		for(MagicPricesProvider p : getPricers())
 			if(p.isEnable())
@@ -490,7 +485,7 @@ public class MTGControler {
 	}
 	
 	public List<DeckSniffer> getEnabledDeckSniffer() {
-		List<DeckSniffer> prov= new ArrayList<DeckSniffer>();
+		List<DeckSniffer> prov= new ArrayList<>();
 		
 		for(DeckSniffer p : getDeckSniffers())
 			if(p.isEnable())
@@ -508,7 +503,7 @@ public class MTGControler {
 	}
 	
 	public List<MagicShopper> getEnabledShoppers() {
-		List<MagicShopper> enable = new ArrayList<MagicShopper>();
+		List<MagicShopper> enable = new ArrayList<>();
 		for(MagicShopper p : getShoppers())
 			if(p.isEnable())
 				enable.add(p);
@@ -538,7 +533,7 @@ public class MTGControler {
 	}
 	
 	public List<MTGServer> getEnabledServers() {
-		List<MTGServer> enable = new ArrayList<MTGServer>();
+		List<MTGServer> enable = new ArrayList<>();
 		for(MTGServer p : getServers())
 			if(p.isEnable())
 				enable.add(p);
@@ -551,7 +546,7 @@ public class MTGControler {
 	}
 	
 	public List<AbstractCardExport> getEnabledDeckExports() {
-		List<AbstractCardExport> enable = new ArrayList<AbstractCardExport>();
+		List<AbstractCardExport> enable = new ArrayList<>();
 		for(AbstractCardExport p : getDeckExports())
 			if(p.isEnable())
 				enable.add(p);
@@ -589,7 +584,6 @@ public class MTGControler {
 
 
 	public void saveConfig(File f) {
-		
 		//TODO : export config
 	}
 

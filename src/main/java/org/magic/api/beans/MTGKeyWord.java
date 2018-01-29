@@ -2,8 +2,8 @@ package org.magic.api.beans;
 
 public class MTGKeyWord {
 
-	public enum TYPE { Abilities, Action,Word}
-	public enum SUBTYPE {Evergreen,Other}
+	public enum TYPE { ABILITIES, ACTION,WORD}
+	public enum SUBTYPE {EVERGREEN,OTHER}
 	public enum EVENT {SPELL,STATIC,ACTIVATED,TRIGGERED,ACTION,ABILITY}
 	
 	private String keyword;

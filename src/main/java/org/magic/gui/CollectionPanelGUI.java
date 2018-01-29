@@ -245,7 +245,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 	
 	
-		List<SortKey> keys = new ArrayList<SortKey>();
+		List<SortKey> keys = new ArrayList<>();
 		SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);//column index 2
 		keys.add(sortKey);
 		sorterEditions.setSortKeys(keys);

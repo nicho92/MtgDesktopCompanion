@@ -4,8 +4,6 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Desktop;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.text.SimpleDateFormat;
@@ -63,12 +61,7 @@ public class ShopperGUI extends JPanel {
 		txtSearch = new JTextField();
 		panel.add(txtSearch);
 		txtSearch.setColumns(35);
-		txtSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				btnSearch.doClick();
-
-			}
-		});
+		txtSearch.addActionListener(e->btnSearch.doClick());
 		
 		
 		panel.add(btnSearch);
@@ -86,9 +79,8 @@ public class ShopperGUI extends JPanel {
 
 			    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy HH:mm");
 			    
-			    public Component getTableCellRendererComponent(JTable table,
-			            Object value, boolean isSelected, boolean hasFocus,
-			            int row, int column) {
+			    @Override
+			    public Component getTableCellRendererComponent(JTable table,Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 			        if( value instanceof Date) {
 			            value = f.format(value);
 			        }
@@ -96,7 +88,7 @@ public class ShopperGUI extends JPanel {
 			                hasFocus, row, column);
 			    }
 			}
-				); 
+		); 
 		
 		
 		
@@ -133,22 +125,12 @@ public class ShopperGUI extends JPanel {
 		panneauEast.add(lblPicShopItem, BorderLayout.NORTH);
 
 		
-		btnSearch.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				
-				
-				ThreadManager.getInstance().execute(new Runnable() {
-					
-					@Override
-					public void run() {
+		btnSearch.addActionListener(ae->
+				ThreadManager.getInstance().execute(()->{
 							mod.init(txtSearch.getText());
 							mod.fireTableDataChanged();
-					}
-				},"updateShopperInfo");
-				
-				
-			}
-		});
+				},"updateShopperInfo")
+		);
 		
 	}
 
