@@ -28,7 +28,6 @@ public class ItemCounter extends AbstractCounter{
 
 	@Override
 	public void apply(DisplayableCard displayableCard) {
-		
 		//do nothing
 	}
 

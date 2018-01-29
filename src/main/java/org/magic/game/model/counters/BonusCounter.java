@@ -1,6 +1,7 @@
 package org.magic.game.model.counters;
 
 import org.magic.game.gui.components.DisplayableCard;
+import org.magic.services.MTGLogger;
 
 public class BonusCounter extends AbstractCounter {
 
@@ -68,14 +69,14 @@ public class BonusCounter extends AbstractCounter {
 			power = Integer.parseInt(displayableCard.getMagicCard().getPower());
 		}
 		catch(Exception e)
-		{	}
+		{MTGLogger.printStackTrace(e);	}
 		
 		
 		try{
 			toughness = Integer.parseInt(displayableCard.getMagicCard().getToughness());
 		}
 		catch(Exception e)
-		{	}
+		{MTGLogger.printStackTrace(e);	}
 		
 		power = power - powerModifier;
 		toughness = toughness - toughnessModifier;

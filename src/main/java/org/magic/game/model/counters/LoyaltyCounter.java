@@ -1,6 +1,7 @@
 package org.magic.game.model.counters;
 
 import org.magic.game.gui.components.DisplayableCard;
+import org.magic.services.MTGLogger;
 
 public class LoyaltyCounter extends AbstractCounter {
 
@@ -19,7 +20,7 @@ public class LoyaltyCounter extends AbstractCounter {
 		try{
 			loy = displayableCard.getMagicCard().getLoyalty();
 		}catch(Exception e)
-		{		}
+		{	MTGLogger.printStackTrace(e);	}
 		
 		displayableCard.getMagicCard().setLoyalty(loy+value);
 	}
@@ -30,7 +31,7 @@ public class LoyaltyCounter extends AbstractCounter {
 		try{
 			loy = displayableCard.getMagicCard().getLoyalty();
 		}catch(Exception e)
-		{		}
+		{	MTGLogger.printStackTrace(e);	}
 		
 		displayableCard.getMagicCard().setLoyalty(loy-value);
 		

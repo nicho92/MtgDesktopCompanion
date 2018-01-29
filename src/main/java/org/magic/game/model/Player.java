@@ -17,7 +17,7 @@ import org.utils.patterns.observer.Observable;
 
 public class Player extends Observable implements Serializable{
 
-	public static enum STATE { CONNECTED, BUSY, AWAY, GAMING};
+	public enum STATE { CONNECTED, BUSY, AWAY, GAMING}
 	
 	private Long id;
 	private STATE state;
@@ -70,7 +70,7 @@ public class Player extends Observable implements Serializable{
 	{
 		graveyard=new Graveyard();
 		exil=new Exile();
-		hand=new ArrayList<MagicCard>();
+		hand=new ArrayList<>();
 		library=new Library(deck.getAsList());
 		battlefield=new BattleField();
 		manaPool = new ManaPool();
@@ -145,9 +145,9 @@ public class Player extends Observable implements Serializable{
 	{
 		manaPool.addMana(color, number);
 		
-		String mana="";
+		StringBuilder mana=new StringBuilder();
 		for(int i=0;i<number;i++)
-			mana+=color;
+			mana.append(color);
 		
 		logAction("Add " + mana + " to manapool" );
 	}
@@ -309,7 +309,7 @@ public class Player extends Observable implements Serializable{
 
 	public List<MagicCard> discardCardFromLibrary(int parseInt) {
 		
-		List<MagicCard> ret = new ArrayList<MagicCard>();
+		List<MagicCard> ret = new ArrayList<>();
 		for(int i=0;i<parseInt;i++)
 		{
 			MagicCard mc = library.getCards().get(i);
@@ -550,7 +550,7 @@ public class Player extends Observable implements Serializable{
 	
 	public void moveCard(PositionEnum from,PositionEnum to,MagicCard mc)
 	{
-		
+		//do nothing
 	}
 	
 	@Override

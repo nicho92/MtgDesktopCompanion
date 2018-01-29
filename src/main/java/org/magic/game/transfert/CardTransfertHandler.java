@@ -6,8 +6,6 @@ import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.dnd.DragSource;
-import java.awt.dnd.DragSourceDragEvent;
-import java.awt.dnd.DragSourceMotionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -34,7 +32,7 @@ public class CardTransfertHandler extends TransferHandler  {
 	private static JWindow window = new JWindow();
 	private static JLabel dragLab = new JLabel();
 	
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public CardTransfertHandler() {
@@ -43,14 +41,12 @@ public class CardTransfertHandler extends TransferHandler  {
 		window.add(dragLab);
 		window.setBackground(new Color(0,true));
 		
-		DragSource.getDefaultDragSource().addDragSourceMotionListener(new DragSourceMotionListener() {
-			public void dragMouseMoved(DragSourceDragEvent dsde) {
+		DragSource.getDefaultDragSource().addDragSourceMotionListener(dsde->{
 				Point pt = dsde.getLocation();
-					  pt.translate(5, 5); // offset
+					  pt.translate(5, 5); 
 				window.setLocation(pt);
 				window.setVisible(true);
 				window.pack();
-			}
 		});
 	}
 	
@@ -90,10 +86,7 @@ public class CardTransfertHandler extends TransferHandler  {
 	@Override
 	public boolean canImport(TransferSupport support)
 	{
-		if (!support.isDrop()) {
-			return false;
-		}
-		return true;
+		return support.isDrop();
 	}
 	
 	@Override

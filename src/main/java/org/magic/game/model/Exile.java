@@ -14,7 +14,7 @@ public class Exile implements Serializable{
 
 	
 	public Exile() {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 	}
 	
 	public List<MagicCard> getCards() {
@@ -48,7 +48,7 @@ public class Exile implements Serializable{
 	
 	public Set<String> getTypesIncludes()
 	{
-		Set<String> set = new LinkedHashSet<String>();
+		Set<String> set = new LinkedHashSet<>();
 		
 		for(MagicCard mc : cards)
 		{

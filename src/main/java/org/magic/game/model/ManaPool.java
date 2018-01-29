@@ -8,14 +8,15 @@ import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public class ManaPool extends Observable implements Serializable{
 
-	Map<String, Integer> pool ;
+	private Map<String, Integer> pool ;
 	
 	public ManaPool() {
-		pool= new HashMap<String,Integer>();
+		pool= new HashMap<>();
 		addObserver(GamePanelGUI.getInstance().getManaPoolPanel());
 	}
 	
@@ -59,7 +60,7 @@ public class ManaPool extends Observable implements Serializable{
 			setMana(color, pool.get(color)-number);
 		}catch(Exception e)
 		{
-			
+			MTGLogger.printStackTrace(e);
 		}
 	}
 	

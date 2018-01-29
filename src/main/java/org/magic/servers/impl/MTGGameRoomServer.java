@@ -33,10 +33,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	private IoAcceptor acceptor;
 	private IoHandlerAdapter adapter = new IoHandlerAdapter() {
  		
-		
-		
-	 
-	 	@Override
+		@Override
  		public void sessionCreated(IoSession session) throws Exception {
  			logger.debug("New Session " + session.getRemoteAddress());
  			session.write(new SpeakAction(null, props.getProperty("WELCOME_MESSAGE")));
@@ -67,7 +64,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 	}
  	 	
 
-	@Override
+ 	 	@Override
  	    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
  	    {
  	      MTGLogger.printStackTrace(cause);
@@ -100,16 +97,13 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	}
 
 	
-	private void join(IoSession session, JoinAction ja) throws Exception
+	private void join(IoSession session, JoinAction ja)
 	{
-		if(!props.getProperty("MAX_CLIENT").equals("0"))
+		if(!props.getProperty("MAX_CLIENT").equals("0")&&acceptor.getManagedSessions().size()>=Integer.parseInt(props.getProperty("MAX_CLIENT")))
 		{
-			if(acceptor.getManagedSessions().size()>=Integer.parseInt(props.getProperty("MAX_CLIENT")))
-			{ 
 				session.write(new SpeakAction(null,"Number of users reached (" + props.getProperty("MAX_CLIENT") +")"));
 				session.closeOnFlush();
 				return;
-			}
 		}
 		ja.getPlayer().setState(STATE.CONNECTED);
 		ja.getPlayer().setId(session.getId());
@@ -148,7 +142,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	
 	public void refreshPlayers(IoSession session)
 	{
-		List<Player> list = new ArrayList<Player>();
+		List<Player> list = new ArrayList<>();
 			for(IoSession s : acceptor.getManagedSessions().values())
 			{
 				if(session.getId()!=((Player)s.getAttribute("PLAYER")).getId())
@@ -172,7 +166,6 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		}
     	acceptor = new NioSocketAcceptor();
         acceptor.setHandler(adapter);
-        //acceptor.getFilterChain().addLast( "logger", new LoggingFilter() );
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
         acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(props.getProperty("BUFFER-SIZE")) );
         acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(props.getProperty("IDLE-TIME")) );

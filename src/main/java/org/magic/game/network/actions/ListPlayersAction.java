@@ -7,7 +7,7 @@ import org.magic.game.model.Player;
 public class ListPlayersAction extends AbstractNetworkAction {
 
 	
-	List<Player> list;
+	private List<Player> list;
 	
 	
 	public ListPlayersAction(List<Player> p) {
