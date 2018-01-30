@@ -21,7 +21,6 @@ public class UntapPhase extends AbstractAction {
 	public UntapPhase() {
 		super("Untap");
 		putValue(SHORT_DESCRIPTION, detail);
-		this.p=p;
 		setEnabled(false);
 	}
 	

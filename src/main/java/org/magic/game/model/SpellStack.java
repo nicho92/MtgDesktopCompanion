@@ -1,15 +1,17 @@
 package org.magic.game.model;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Stack;
 
 public class SpellStack {
 
-	Stack<AbstractSpell> stack;
+	Deque<AbstractSpell> stack;
 	
 	public SpellStack() {
-		stack= new Stack<>();
+		stack= new ArrayDeque<>();
 	}
 	
 	public void clean()
@@ -36,9 +38,10 @@ public class SpellStack {
 	public String toString() {
 		StringBuilder b = new StringBuilder();
 		
-		for(int i=stack.size()-1;i>=0;i--)
+		Iterator<AbstractSpell> it = stack.iterator();
+		while(it.hasNext())
 		{
-			b.append(stack.get(i)).append("\n");
+			b.append(it.next()).append("\n");
 		}
 		return b.toString();
 	}

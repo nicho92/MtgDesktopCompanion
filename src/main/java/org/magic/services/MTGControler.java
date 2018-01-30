@@ -600,10 +600,4 @@ public class MTGControler {
 		
 	}
 
-	public <T> List<T> listPlugins(Class<T> T) {
-		return (List<T>) getDaoProviders();
-	}
-
-
-	
 }

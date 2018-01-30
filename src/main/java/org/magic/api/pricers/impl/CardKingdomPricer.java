@@ -126,7 +126,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 			return list;
 		}
 		
-		List<MagicPrice> list = new ArrayList<>();
+		List<MagicPrice> lstPrices = new ArrayList<>();
 		for(int i=0;i<qualities.size();i++)
 		{
 			 MagicPrice mp =new MagicPrice();
@@ -141,10 +141,10 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 			 mp.setLanguage("English");
 			 
 			 if(!qualities.get(i).hasClass("disabled"))
-			 list.add(mp);
+			 lstPrices.add(mp);
 		}
-		logger.info(getName() +" found " + list.size() +" item(s)" );
-		return list;
+		logger.info(getName() +" found " + lstPrices.size() +" item(s)" );
+		return lstPrices;
 	}
 	
 	

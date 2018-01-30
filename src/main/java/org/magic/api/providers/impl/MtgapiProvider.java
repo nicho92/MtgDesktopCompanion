@@ -298,8 +298,7 @@ public class MtgapiProvider extends AbstractCardsProvider{
 			logger.error("couldn't get cardnames",e);
 		}
 		finally {
-			if(httpget!=null)
-				httpget.releaseConnection();
+			httpget.releaseConnection();
 			
 		}
 		return lists;
