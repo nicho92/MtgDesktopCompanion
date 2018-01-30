@@ -1,7 +1,6 @@
 package org.magic.api.providers.impl;
 
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileReader;
 import java.io.IOException;
 import java.lang.reflect.Type;

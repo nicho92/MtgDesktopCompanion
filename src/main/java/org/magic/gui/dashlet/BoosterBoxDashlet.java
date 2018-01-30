@@ -8,6 +8,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
@@ -162,8 +163,8 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 								StringBuilder temp = new StringBuilder();
 								temp.append("TOTAL: ").append(doubleFormat.format(total)).append("\n");
 
-								for(String s : priceRarity.keySet())
-									temp.append(s).append(": ").append(doubleFormat.format(priceRarity.get(s))).append("\n");
+								for(Entry<String, Double> s : priceRarity.entrySet())
+									temp.append(s.getKey()).append(": ").append(doubleFormat.format(priceRarity.get(s.getKey()))).append("\n");
 								
 								txtDetailBox.setText(temp.toString());
 							}

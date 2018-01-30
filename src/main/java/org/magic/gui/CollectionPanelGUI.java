@@ -70,7 +70,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.MagicWebSiteGenerator;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;

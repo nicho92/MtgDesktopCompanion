@@ -3,12 +3,8 @@ package org.magic.game.gui.components;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -64,12 +60,13 @@ public class GamingRoomPanel extends JPanel {
 	
 	Player otherplayer =null;
 	
-	private void printMessage(AbstractNetworkAction sa) {
-		((DefaultListModel)list.getModel()).addElement(sa);
-	}
 	
 
 	private transient Observer obs = new Observer() {
+		
+		private void printMessage(AbstractNetworkAction sa) {
+			((DefaultListModel)list.getModel()).addElement(sa);
+		}
 		
 		@Override
 		public void update(Observable o, Object arg) {

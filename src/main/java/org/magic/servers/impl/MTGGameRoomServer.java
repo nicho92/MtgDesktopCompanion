@@ -90,6 +90,13 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 		}
  	 	}
  	 	
+ 	 	private void response(ReponseAction act) {
+ 			IoSession s = acceptor.getManagedSessions().get(act.getRequest().getRequestPlayer().getId());
+ 			IoSession s2 = acceptor.getManagedSessions().get(act.getRequest().getAskedPlayer().getId());
+ 			s.write(act);
+ 			s2.write(act);
+ 		}
+ 		
 
  	 	@Override
  	    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
@@ -130,16 +137,6 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	}
 
 
-	private void response(ReponseAction act) {
-		IoSession s = acceptor.getManagedSessions().get(act.getRequest().getRequestPlayer().getId());
-		IoSession s2 = acceptor.getManagedSessions().get(act.getRequest().getAskedPlayer().getId());
-		s.write(act);
-		s2.write(act);
-		
-		
-		
-		
-	}
 	
 	public void refreshPlayers(IoSession session)
 	{

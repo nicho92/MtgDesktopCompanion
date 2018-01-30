@@ -7,8 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.Point;
 import java.awt.SystemColor;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -108,7 +106,7 @@ public class StockPanelGUI extends JPanel {
 		
 		initGUI();
 		
-		btnSave.addActionListener(e->{
+		btnSave.addActionListener(e->
 				
 				ThreadManager.getInstance().execute(()->{
 						for(MagicCardStock ms : model.getList())
@@ -124,8 +122,8 @@ public class StockPanelGUI extends JPanel {
 								}
 						
 						model.fireTableDataChanged();
-				}, "Batch stock save");
-		});
+				}, "Batch stock save")
+		);
 		
 		table.getSelectionModel().addListSelectionListener(event->{
 	        	
@@ -369,7 +367,7 @@ public class StockPanelGUI extends JPanel {
 			
 		});
 		
-		btnGeneratePrice.addActionListener(ae->{
+		btnGeneratePrice.addActionListener(ae->
 				ThreadManager.getInstance().execute(()-> {
 						lblLoading.setVisible(true);
 						for(int i : table.getSelectedRows())
@@ -395,8 +393,8 @@ public class StockPanelGUI extends JPanel {
 						}
 						lblLoading.setVisible(false);
 					
-				}, "generate prices for stock");
-		});
+				}, "generate prices for stock")
+		);
 		
 		cboSelections.addItemListener(ie-> {
 				multiselection=true;

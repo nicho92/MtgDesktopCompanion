@@ -12,8 +12,6 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 import org.magic.api.interfaces.MagicTokensProvider;
 import org.magic.api.tokens.impl.CockatriceTokenProvider;

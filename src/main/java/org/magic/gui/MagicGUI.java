@@ -7,15 +7,12 @@ import java.awt.MenuItem;
 import java.awt.PopupMenu;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.MissingResourceException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -149,7 +146,7 @@ public class MagicGUI extends JFrame {
 		
 		
 		
-		mntmLogsItem.addActionListener(ae->{
+		mntmLogsItem.addActionListener(ae->
 				SwingUtilities.invokeLater(()->{
 						JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
 						f.getContentPane().add(new LoggerViewPanel());
@@ -157,8 +154,7 @@ public class MagicGUI extends JFrame {
 						f.setVisible(true);
 						f.pack();
 						f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-				});
-			}
+				})
 		);
 		
 		mntmThreadItem.addActionListener(e->
