@@ -158,8 +158,7 @@ public class MagicCardDetailPanel extends JPanel {
 				btnAlert.setEnabled(false);
 				Image b = MTGConstants.ICON_ALERT.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH);
 				btnAlert.setIcon(new ImageIcon(b)); 
-				btnAlert.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent arg0) {
+				btnAlert.addActionListener(ae->{
 						
 						MagicCardAlert alert = new MagicCardAlert();
 						alert.setCard(magicCard);
@@ -172,7 +171,6 @@ public class MagicCardDetailPanel extends JPanel {
 							MTGLogger.printStackTrace(e);
 							JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 						}
-					}
 				});
 				
 				GridBagConstraints gbcbtnAlert = new GridBagConstraints();
@@ -215,7 +213,6 @@ public class MagicCardDetailPanel extends JPanel {
 				add(costLabel, labelgbc1);
 		
 				manaPanel = new ManaPanel();
-				//costJTextField.setEditable(false);
 				GridBagConstraints componentgbc1 = new GridBagConstraints();
 				componentgbc1.insets = new Insets(5, 0, 5, 5);
 				componentgbc1.fill = GridBagConstraints.HORIZONTAL;
@@ -349,8 +346,6 @@ public class MagicCardDetailPanel extends JPanel {
 				add(lblFlavor, gbclblFlavor);
 				
 				txtFlavorArea = new JTextPane();
-			//	txtFlavorArea.setLineWrap(true);
-			//	txtFlavorArea.setWrapStyleWord(true);
 				txtFlavorArea.setFont(new Font("Arial", Font.ITALIC, 11));
 				GridBagConstraints gbctxtFlavorArea = new GridBagConstraints();
 				gbctxtFlavorArea.gridwidth = 6;
@@ -446,17 +441,12 @@ public class MagicCardDetailPanel extends JPanel {
 
 	
 	public void setMagicLogo(final String set,final String rarity) {
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
+		ThreadManager.getInstance().execute(()->{
 				try {
 					lblLogoSet.setIcon(new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().getSetLogo(set, rarity)));
 				} catch (Exception e) {
 					lblLogoSet.setIcon(null);			
 					}
-				
-			}
 		}, "retrieve logo " + set + " " + rarity);	
 		
 		
@@ -557,36 +547,30 @@ public class MagicCardDetailPanel extends JPanel {
 				},"load pic");
 		}
 	
-		if(magicCard!=null)
-			if(!magicCard.getEditions().isEmpty())
+		if(magicCard!=null && !magicCard.getEditions().isEmpty())
 			{ 
 				
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
+				ThreadManager.getInstance().execute(()->{
 							setMagicLogo(magicCard.getEditions().get(0).getId(),magicCard.getEditions().get(0).getRarity());
 							lblnumberInSet.setText(magicCard.getEditions().get(0).getNumber()+"/"+magicCard.getEditions().get(0).getCardCount());
-					}
 				},"loadLogo");
 			}
 		
 		if(magicCard!=null)
-		ThreadManager.getInstance().execute(new Runnable() {
-			public void run() {
-				try{
-					((DefaultListModel)listCollection.getModel()).removeAllElements();
-					for(MagicCollection col : MTGControler.getInstance().getEnabledDAO().getCollectionFromCards(magicCard))
-						((DefaultListModel)listCollection.getModel()).addElement(col);
-				}
-				catch(Exception e)
-				{	
-					//logger.error(e);
-				}
-			}
-		},"loadCollections");
+			ThreadManager.getInstance().execute(()->{
+					try{
+						((DefaultListModel)listCollection.getModel()).removeAllElements();
+						for(MagicCollection col : MTGControler.getInstance().getEnabledDAO().getCollectionFromCards(magicCard))
+							((DefaultListModel)listCollection.getModel()).addElement(col);
+					}
+					catch(Exception e)
+					{	
+						logger.error(e);
+					}
+			},"loadCollections");
 	
 		if(magicCard!=null)
-		ThreadManager.getInstance().execute(new Runnable() {
-			public void run() {
+		ThreadManager.getInstance().execute(()->{
 					if(MTGControler.getInstance().getEnabledDAO().hasAlert(magicCard))
 					{
 						btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("HAD_ALERT"));
@@ -597,7 +581,6 @@ public class MagicCardDetailPanel extends JPanel {
 						btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ADD_ALERT_FOR",magicCard.getName()));
 						btnAlert.setEnabled(true);
 					}
-			}
 		},"Get alerts for " + magicCard);
 		
 	

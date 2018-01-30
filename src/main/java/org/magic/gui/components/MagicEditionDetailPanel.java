@@ -231,14 +231,12 @@ public class MagicEditionDetailPanel extends JPanel {
 				{ 
 				  btnOpenBooster = new JButton(MTGControler.getInstance().getLangService().getCapitalize("OPEN_BOOSTER")+" :");
 				  panneauBooster.add(btnOpenBooster, BorderLayout.NORTH);
-				  btnOpenBooster.addActionListener(new ActionListener() {
-						public void actionPerformed(ActionEvent arg0) {
+				  btnOpenBooster.addActionListener(ae->{
 							try {
 								CardSearchPanel.getInst().thumbnail(MTGControler.getInstance().getEnabledProviders().generateBooster(magicEdition).getCards());
 							} catch (Exception e) {
 								logger.error("Error loading booster for " + magicEdition,e);
 							}
-						}
 					});
 					
 				}
@@ -307,21 +305,13 @@ public class MagicEditionDetailPanel extends JPanel {
 		
 		if(showPrices)
 		{ 
-				ThreadManager.getInstance().execute(new Runnable() {
-				public void run() {
+				ThreadManager.getInstance().execute(()->{
 					mod.init(magicEdition);
 					mod.fireTableDataChanged();
-					
-				}
 			}, "load prices for" + magicEdition);
 		}
 
-		ThreadManager.getInstance().execute(new Runnable() {
-			public void run() {
-				
-				lblBoosterPic.setIcon(boosterProvider.getBoosterFor(magicEdition));
-			}
-		}, "load booster pic for " + magicEdition);
+		ThreadManager.getInstance().execute(()->lblBoosterPic.setIcon(boosterProvider.getBoosterFor(magicEdition)), "load booster pic for " + magicEdition);
 		
 		
 		

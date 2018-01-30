@@ -434,7 +434,6 @@ public class Player extends Observable implements Serializable{
 		if(previouslife<l)
 			lifeGain(l-previouslife);
 	
-		//this.life = life;
 	}
 
 	public String getName() {

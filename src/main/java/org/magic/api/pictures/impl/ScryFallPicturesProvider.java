@@ -109,7 +109,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		  logger.debug("load pics " + connection.getURL().toString());  
 			
 			try{
-				BufferedImage bufferedImage =ImageIO.read(connection.getInputStream());//= new BufferedImage(img.getWidth(null), img.getHeight(null),BufferedImage.TYPE_INT_RGB);
+				BufferedImage bufferedImage =ImageIO.read(connection.getInputStream());
 		
 				if(bufferedImage!=null)
 					MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,selected);

@@ -66,16 +66,11 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		
 		String infocode=ed.getMagicCardsInfoCode();
 		
-		/*if(ed!=null)
-			infocode=ed.getMagicCardsInfoCode();
-		*/
-		
 		if(infocode==null)
 			infocode=mc.getEditions().get(0).getId().toLowerCase();
 		
 		URL url;
 		//TODO change this function for other edition selection. mciNumber is on the card, not on the selected Edition
-		
 		if(mc.getMciNumber()!=null)
 		{
 			if(mc.getMciNumber().contains("/"))
@@ -112,8 +107,6 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 					MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,ed);
 						 
 					return resizeCard(bufferedImage) ;
-				
-		//return getBackPicture();
 	}
 
 

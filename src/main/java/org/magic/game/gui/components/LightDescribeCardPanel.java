@@ -39,7 +39,7 @@ public class LightDescribeCardPanel extends JPanel {
 	private JTextField txtT;
 	private JScrollPane scrollPane;
 	private JTabbedPane tabbedPane;
-	private JScrollPane scrollPane_1;
+	private JScrollPane scrollPane1;
 	private JEditorPane rulesTextPane;
 	
 	public LightDescribeCardPanel() {
@@ -170,11 +170,11 @@ public class LightDescribeCardPanel extends JPanel {
 		magicTextPane.setMaximumSize(new Dimension(120, 200));
 		magicTextPane.setEditable(false);
 		
-		scrollPane_1 = new JScrollPane();
-		tabbedPane.addTab("Rules", null, scrollPane_1, null);
+		scrollPane1 = new JScrollPane();
+		tabbedPane.addTab("Rules", null, scrollPane1, null);
 		
 		rulesTextPane = new JEditorPane();
-		scrollPane_1.setViewportView(rulesTextPane);
+		scrollPane1.setViewportView(rulesTextPane);
 		
 		if (card != null) {
 			mBindingGroup = initDataBindings();

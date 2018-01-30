@@ -48,27 +48,6 @@ public class RssGUI extends JPanel {
 		
 		
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Magic RSS");
-		/*{
-				{
-					Set<String> catg = new HashSet<String>();
-					for(RSSBean r : MTGControler.getInstance().getRss())
-					{
-							catg.add(r.getCategorie());
-					}
-					
-					for(String cat : catg)
-					{	
-						DefaultMutableTreeNode node_1 = new DefaultMutableTreeNode(cat);
-						for(RSSBean r : MTGControler.getInstance().getRss())
-						{
-							if(r.getCategorie().equals(cat))
-								node_1.add(new DefaultMutableTreeNode(r));
-						}
-						add(node_1);
-					}
-			
-				}
-		};*/
 		
 		tree.setModel(new DefaultTreeModel(rootNode));
 		

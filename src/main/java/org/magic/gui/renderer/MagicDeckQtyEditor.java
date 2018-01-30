@@ -14,13 +14,8 @@ public class MagicDeckQtyEditor extends AbstractCellEditor implements TableCellE
 
 	public MagicDeckQtyEditor() {
 		spinner = new JSpinner();
-		//((JSpinner.DefaultEditor)spinner.getEditor()).getTextField().setHorizontalAlignment(JTextField.CENTER);
-		
 		SpinnerNumberModel model1 = new SpinnerNumberModel();
 		model1.setMinimum(0);
-		
-		
-		
 		spinner.setModel(model1);
 	}
 	

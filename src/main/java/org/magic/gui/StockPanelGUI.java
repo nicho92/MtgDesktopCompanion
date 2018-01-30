@@ -108,13 +108,9 @@ public class StockPanelGUI extends JPanel {
 		
 		initGUI();
 		
-		btnSave.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnSave.addActionListener(e->{
 				
-				ThreadManager.getInstance().execute(new Runnable() {
-					
-					@Override
-					public void run() {
+				ThreadManager.getInstance().execute(()->{
 						for(MagicCardStock ms : model.getList())
 							if(ms.isUpdate())
 								try {
@@ -128,11 +124,7 @@ public class StockPanelGUI extends JPanel {
 								}
 						
 						model.fireTableDataChanged();
-						
-					}
 				}, "Batch stock save");
-			}
-			
 		});
 		
 		table.getSelectionModel().addListSelectionListener(event->{
@@ -183,10 +175,7 @@ public class StockPanelGUI extends JPanel {
 				if(res==JOptionPane.YES_OPTION)
 				{
 					logger.debug("reload collection");
-					ThreadManager.getInstance().execute(new Runnable() {
-						
-						@Override
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							try {
 								lblLoading.setVisible(true);
 								model.init();
@@ -195,7 +184,6 @@ public class StockPanelGUI extends JPanel {
 							}
 							lblLoading.setVisible(false);
 							updateCount();
-						}
 					}, "reload stock");
 					
 				}
@@ -204,17 +192,13 @@ public class StockPanelGUI extends JPanel {
 	
 		btnshowMassPanel.addActionListener(event->rightPanel.setVisible(!rightPanel.isVisible()));
 			
-		btnImport.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent ae) {
+		btnImport.addActionListener(ae->{
 				JPopupMenu menu = new JPopupMenu();
 
 				JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 				mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 				
-				mnuImportSearch.addActionListener(new ActionListener() {
-					
-					@Override
-					public void actionPerformed(ActionEvent ae) {
+				mnuImportSearch.addActionListener(importAE->{
 						CardSearchImportDialog cdSearch = new CardSearchImportDialog();
 						cdSearch.setVisible(true);
 						if(cdSearch.getSelection()!=null)
@@ -222,7 +206,6 @@ public class StockPanelGUI extends JPanel {
 							for(MagicCard mc : cdSearch.getSelection())
 								addCard(mc);
 						}
-					}
 				});
 				menu.add(mnuImportSearch);
 				
@@ -288,10 +271,7 @@ public class StockPanelGUI extends JPanel {
 									if (f.isDirectory())
 										return true;
 
-									if (f.getName().endsWith(exp.getFileExtension()))
-										return true;
-
-									return false;
+									return f.getName().endsWith(exp.getFileExtension());
 								}
 							});
 							int res = jf.showOpenDialog(null);
@@ -328,7 +308,7 @@ public class StockPanelGUI extends JPanel {
 				menu.show(b, 0, 0);
 				menu.setLocation(p.x, p.y + b.getHeight());
 			}
-		});
+		);
 		
 		btnExport.addActionListener(event->{
 				JPopupMenu menu = new JPopupMenu();
@@ -389,8 +369,7 @@ public class StockPanelGUI extends JPanel {
 			
 		});
 		
-		btnGeneratePrice.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnGeneratePrice.addActionListener(ae->{
 				ThreadManager.getInstance().execute(()-> {
 						lblLoading.setVisible(true);
 						for(int i : table.getSelectedRows())
@@ -417,10 +396,6 @@ public class StockPanelGUI extends JPanel {
 						lblLoading.setVisible(false);
 					
 				}, "generate prices for stock");
-				
-				
-				
-			}
 		});
 		
 		cboSelections.addItemListener(ie-> {

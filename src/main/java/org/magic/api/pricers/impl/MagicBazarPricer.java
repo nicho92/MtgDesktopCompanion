@@ -57,9 +57,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 				MagicPrice mp = new MagicPrice();
 						   mp.setLanguage(e.getElementsByClass("langue").get(0).getElementsByTag("img").get(0).attr("alt"));
 						   mp.setQuality(e.getElementsByClass("etat").html());
-						/*   if(e.select("div.prix").size()>0)
-							   mp.setValue(Double.parseDouble(clean(e.getElementsByClass("prix").get(0).getElementsByIndexEquals(1).html())));
-						   else*/
+
 							   mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));
 						   mp.setCurrency("EUR");
 						   mp.setSite(getName());

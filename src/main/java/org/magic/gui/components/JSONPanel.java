@@ -16,7 +16,6 @@ public class JSONPanel extends JScrollPane {
 		textpane.setEditable(false);
 		textpane.setWrapStyleWord(true);
 		setViewportView(textpane);
-		//textpane.setContentType("text/json");
 	}
 	
 	public void show(Object mc)

@@ -26,10 +26,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 	{
 			if(column==4)
-			{
 				value = new DecimalFormat("#0%").format((double)value);
-				//value=value.toString()+"%";
-			}
 			
 			pane = super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column);
 			pane.setBackground(c);

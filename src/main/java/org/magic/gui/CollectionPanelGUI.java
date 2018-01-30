@@ -274,11 +274,11 @@ public class CollectionPanelGUI extends JPanel {
 
 		btnAdd.addActionListener(e->{
 				String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("NAME")+" ?");
-				MagicCollection mc = new MagicCollection();
-				mc.setName(name);
+				MagicCollection collectionAdd = new MagicCollection();
+				collectionAdd.setName(name);
 				try {
-					dao.saveCollection(mc);
-					((LazyLoadingTree.MyNode)getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(mc));
+					dao.saveCollection(collectionAdd);
+					((LazyLoadingTree.MyNode)getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
 					getJTree().refresh();
 					initPopupCollection();
 				} catch (Exception ex) {
@@ -287,7 +287,7 @@ public class CollectionPanelGUI extends JPanel {
 				}
 		});
 						
-		btnRefresh.addActionListener(e->{
+		btnRefresh.addActionListener(e->
 
 				ThreadManager.getInstance().execute(() -> {
 						progressBar.setVisible(true);
@@ -300,8 +300,8 @@ public class CollectionPanelGUI extends JPanel {
 						}
 						model.fireTableDataChanged();
 						progressBar.setVisible(false);
-				}, "update Tree");
-		});
+				}, "update Tree")
+		);
 						
 		btnExport.addActionListener(ae-> {
 								JPopupMenu menu = new JPopupMenu();
@@ -311,7 +311,7 @@ public class CollectionPanelGUI extends JPanel {
 									JMenuItem it = new JMenuItem();
 									it.setIcon(exp.getIcon());
 									it.setText(exp.getName());
-									it.addActionListener(arg0->{
+									it.addActionListener(arg0->
 											ThreadManager.getInstance().execute(()->{
 													try {
 														
@@ -357,8 +357,8 @@ public class CollectionPanelGUI extends JPanel {
 														progressBar.setVisible(false);
 														JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 													}
-											}, "export collection with " + exp);
-									});
+											}, "export collection with " + exp)
+									);
 									
 									menu.add(it);
 								}
@@ -424,12 +424,11 @@ public class CollectionPanelGUI extends JPanel {
 					btnExport.setEnabled(true);
 					btnExportPriceCatalog.setEnabled(false);
 					statsPanel.enabledAdd(false);
-					ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							try{
 
-								MagicCollection c = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
-								List<MagicCard> list = dao.getCardsFromCollection(c,(MagicEdition)curr.getUserObject());
+								MagicCollection collec = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
+								List<MagicCard> list = dao.getCardsFromCollection(collec,(MagicEdition)curr.getUserObject());
 								rarityRepartitionPanel.init(list);
 								typeRepartitionPanel.init(list);
 								manaRepartitionPanel.init(list);
@@ -440,7 +439,6 @@ public class CollectionPanelGUI extends JPanel {
 							{
 								logger.error(e);
 							}
-						}
 					},"Refresh Collection");
 				}
 
@@ -455,15 +453,9 @@ public class CollectionPanelGUI extends JPanel {
 					magicCardDetailPanel.enableThumbnail(true);
 					jsonPanel.show(curr.getUserObject());
 					
-					ThreadManager.getInstance().execute(new Runnable() {
-						
-						@Override
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							statsPanel.initMagicCardStock(card,(MagicCollection)((DefaultMutableTreeNode)curr.getParent().getParent()).getUserObject() );
 							statsPanel.enabledAdd(true);
-							
-							
-						}
 					},"Update Collection");
 					
 					
@@ -538,10 +530,9 @@ public class CollectionPanelGUI extends JPanel {
 				model.fireTableDataChanged();
 		});
 
-		btnExportPriceCatalog.addActionListener(ae->{
+		btnExportPriceCatalog.addActionListener(ae->
 
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
+				ThreadManager.getInstance().execute(()->{
 						try {
 							PriceCatalogExportDialog diag = new PriceCatalogExportDialog(selectedcol);
 							diag.setVisible(true);
@@ -561,15 +552,11 @@ public class CollectionPanelGUI extends JPanel {
 						} catch (Exception e) {
 							logger.error(e);
 						}
+				},"btnExportPriceCatalog export Prices")
+		);
 
-					}
-				},"btnExportPriceCatalog export Prices");
-		});
-
-		btnGenerateWebSite.addActionListener(arg0->{
-
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
+		btnGenerateWebSite.addActionListener(ae->
+				ThreadManager.getInstance().execute(() ->{
 						try {
 
 							WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.getCollections());
@@ -589,18 +576,14 @@ public class CollectionPanelGUI extends JPanel {
 								MagicWebSiteGenerator gen = new MagicWebSiteGenerator( diag.getTemplate(),
 										diag.getDest().getAbsolutePath());
 
-								gen.addObserver(new Observer() {
-									public void update(Observable o, Object arg) {
-										progressBar.setValue((int) arg);
-									}
-								});
+								gen.addObserver((Observable o, Object arg)->
+										progressBar.setValue((int) arg)									
+								);
 								gen.generate(diag.getSelectedCollections(), diag.getPriceProviders());
 
 								int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("WEBSITE_CONFIRMATION_VIEW"));
 
 								if (res == JOptionPane.YES_OPTION) {
-									// URI uri = new
-									// URI("file:///"+diag.getDest().getAbsolutePath()+"/index.htm");
 									Path p = Paths.get(diag.getDest().getAbsolutePath() + "/index.htm");
 									Desktop.getDesktop().browse(p.toUri());
 								}
@@ -612,10 +595,8 @@ public class CollectionPanelGUI extends JPanel {
 							progressBar.setVisible(false);
 							JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 						}
-
-					}
-				},"btnGenerateWebSite generate website");
-		});
+				},"btnGenerateWebSite generate website")
+		);
 
 		btnAddAllSet.addActionListener(evt->{
 				MagicEdition ed = (MagicEdition) tableEditions.getValueAt(tableEditions.getSelectedRow(), 1);
@@ -701,16 +682,13 @@ public class CollectionPanelGUI extends JPanel {
 	}
 
 	protected void loadPrices(final MagicCard card) {
-		ThreadManager.getInstance().execute(new Runnable() {
-			public void run() {
+		ThreadManager.getInstance().execute(()->{
 				try {
 					modelPrices.init(card, card.getEditions().get(0));
 					modelPrices.fireTableDataChanged();
 				} catch (Exception e) {
 					logger.error(e);
 				}
-
-			}
 		},"addTreeSelectionListener init graph cards");
 		
 	}
@@ -752,16 +730,13 @@ public class CollectionPanelGUI extends JPanel {
 			adds.addActionListener(e->{
 
 					final String destinationCollection = ((JMenuItem) e.getSource()).getText();
-					ThreadManager.getInstance().execute(new Runnable() {
-
-						@Override
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							try {
 								DefaultMutableTreeNode node = ((DefaultMutableTreeNode) path.getPathComponent(2));
 								MagicEdition me = (MagicEdition) node.getUserObject();
 
-								MagicCollection mc = new MagicCollection();
-								mc.setName(destinationCollection);
+								MagicCollection col = new MagicCollection();
+								col.setName(destinationCollection);
 								List<MagicCard> sets = provider.searchCardByCriteria("set", me.getId(),null,false);
 								
 								MagicCollection sourceCol = new MagicCollection();
@@ -772,14 +747,12 @@ public class CollectionPanelGUI extends JPanel {
 								sets.removeAll(list);
 						
 								for (MagicCard m : sets)
-									dao.saveCard(m, mc);
+									dao.saveCard(m, col);
 
 								tree.refresh();
 							} catch (Exception e1) {
 								MTGLogger.printStackTrace(e1);
 							}
-
-						}
 					},"btnAdds addCardsCollection");
 			});
 			

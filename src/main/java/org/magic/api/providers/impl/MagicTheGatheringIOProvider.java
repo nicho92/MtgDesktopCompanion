@@ -139,10 +139,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 			
 			if(obj.get("layout")!=null)
 				mc.setLayout(obj.get("layout").getAsString());
-			
-//			if(obj.get("rarity")!=null)
-//				mc.setRarity(obj.get("rarity").getAsString());
-			
+
 			if(obj.get("number")!=null)
 				mc.setNumber(obj.get("number").getAsString());
 			
@@ -242,19 +239,11 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 			
 			if(obj.get("rarity")!=null)
 				currentEd.setRarity(obj.get("rarity").getAsString());
-				//currentEd.setRarity(mc.getRarity());
 			
 			currentEd.setNumber(mc.getNumber());
 			
 			
 			mc.getEditions().add(0,currentEd);
-			
-			//TODO remove reprint information for basic lands
-			 /*get other sets*/
-			   
-			
-			
-			
 			
 			if(obj.get("printings")!=null){
 				JsonArray arr = obj.get("printings").getAsJsonArray();
@@ -418,12 +407,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 	@Override
 	public MagicEdition getSetById(String id) throws Exception {
 		logger.debug("get Set " + id);
-		/*if(cache.get(id.toString())!=null)
-		{
-			logger.debug("loading " + id + " from cache");
-			return cache.get(id.toString());
-		}*/
-		
 		JsonReader reader= new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/sets/"+id).getInputStream(),"UTF-8"));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		return generateEdition(root.getAsJsonObject("set"));

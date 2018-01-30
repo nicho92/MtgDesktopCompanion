@@ -46,12 +46,10 @@ public class CardStockPanel extends JPanel {
 		btnAdd = new JButton("");
 		btnAdd.setEnabled(false);
 		btnAdd.setIcon(MTGConstants.ICON_NEW);
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnAdd.addActionListener(ae->{
 				layout.setRows(layout.getRows()+1);
 				content.add(new CardStockLinePanel(selectedCard,selectedCol));
 				content.revalidate();
-			}
 		});
 		panneauHaut.add(btnAdd);
 	}

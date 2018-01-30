@@ -415,11 +415,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			  arr.remove(index);
 			  if(arr.size()==1)
 				  mc.setRotatedCardName(arr.get(0).getAsJsonObject().get("name").getAsString());
-			 /* else if(arr.size()>1)
-				  mc.setRotatedCardName(arr.get(1).getAsJsonObject().get("name").getAsString());
-			 */ 
-				  
-			  
 		  }
 		  
 		  MagicEdition ed = (MagicEdition)BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));

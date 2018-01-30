@@ -41,8 +41,7 @@ public class ThreadMonitorPanel extends JPanel {
 		add(panel, BorderLayout.NORTH);
 		
 		btnRefresh = new JButton("Pause");
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnRefresh.addActionListener(ae->{
 				if(t.isRunning())
 					{
 						t.stop();
@@ -55,9 +54,6 @@ public class ThreadMonitorPanel extends JPanel {
 						lblThreads.setText(ThreadManager.getInstance().getInfo());
 						
 					}
-					
-			}
-
 		});
 		table.setRowSorter(sorterCards);
 		panel.add(btnRefresh);
@@ -67,15 +63,8 @@ public class ThreadMonitorPanel extends JPanel {
 		
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
-		//setSize(700, 400);
 		
-		t = new Timer(1000, new ActionListener() {
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               model.fireTableDataChanged();
-            }
-        });
+		t = new Timer(1000, e->model.fireTableDataChanged() );
         t.start();
 		
 	}

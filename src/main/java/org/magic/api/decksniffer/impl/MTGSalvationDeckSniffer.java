@@ -131,10 +131,10 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		for(int i=1;i<=maxPage;i++)
 		{
-			url=url+"&page="+nbPage;
-			logger.debug("sniff url : " + url);
+			String link=url+"&page="+nbPage;
+			logger.debug("sniff url : " + link);
 				
-		Document d = Jsoup.connect(url)
+		Document d = Jsoup.connect(link)
     		 	.userAgent(props.getProperty("USER_AGENT"))
 				.get();
 		

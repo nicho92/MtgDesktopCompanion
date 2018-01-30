@@ -71,8 +71,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.vintage.toString()));
 					
 					
-					Collections.sort(shakes,new Comparator<CardShake>() {
-						public int compare(CardShake o1, CardShake o2) {
+					Collections.sort(shakes,(CardShake o1, CardShake o2)->{
 							if(o1.getPriceDayChange()>o2.getPriceDayChange())
 									return -1;
 							
@@ -80,8 +79,6 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 									return 1;
 							
 							return 0;
-							
-						}
 					});
 					
 					int val = (Integer)spinner.getValue(); 

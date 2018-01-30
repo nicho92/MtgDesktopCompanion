@@ -49,11 +49,9 @@ public class HistoryPricesPanel extends JPanel{
 		panel.setLayout(gblpanel);
 		chckbxShowEditions = new JCheckBox("Show Editions");
 		chckbxShowEditions.setSelected(showEdition);
-		chckbxShowEditions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		chckbxShowEditions.addActionListener(ae->{
 				showEdition=chckbxShowEditions.isSelected();
 				refresh();
-			}
 		});
 		GridBagConstraints gbcchckbxShowEditions = new GridBagConstraints();
 		gbcchckbxShowEditions.anchor = GridBagConstraints.NORTHWEST;
@@ -63,11 +61,9 @@ public class HistoryPricesPanel extends JPanel{
 		panel.add(chckbxShowEditions, gbcchckbxShowEditions);
 		
 		chckbxShowAllDashboard = new JCheckBox("Show all dashboard");
-		chckbxShowAllDashboard.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		chckbxShowAllDashboard.addActionListener(ae->{
 				showAll=chckbxShowAllDashboard.isSelected();
 				refresh();
-			}
 		});
 		
 		GridBagConstraints gbcchckbxShowAllDashboard = new GridBagConstraints();

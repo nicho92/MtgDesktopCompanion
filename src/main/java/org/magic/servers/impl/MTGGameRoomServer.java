@@ -33,6 +33,33 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	private IoAcceptor acceptor;
 	private IoHandlerAdapter adapter = new IoHandlerAdapter() {
  		
+		private void playerUpdate(ChangeStatusAction act) {
+			((Player)acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute("PLAYER")).setState(act.getPlayer().getState());	
+		}
+		
+
+		private void sendDeck(IoSession session, ShareDeckAction act) {
+			acceptor.getManagedSessions().get(act.getTo().getId()).write(act);
+		}
+
+		
+		private void join(IoSession session, JoinAction ja)
+		{
+			if(!props.getProperty("MAX_CLIENT").equals("0")&&acceptor.getManagedSessions().size()>=Integer.parseInt(props.getProperty("MAX_CLIENT")))
+			{
+					session.write(new SpeakAction(null,"Number of users reached (" + props.getProperty("MAX_CLIENT") +")"));
+					session.closeOnFlush();
+					return;
+			}
+			ja.getPlayer().setState(STATE.CONNECTED);
+			ja.getPlayer().setId(session.getId());
+			session.setAttribute("PLAYER",ja.getPlayer());
+			speak(new SpeakAction(ja.getPlayer(), " is now connected"));
+			session.write(session.getId());
+			
+			refreshPlayers(session);
+		}
+		
 		@Override
  		public void sessionCreated(IoSession session) throws Exception {
  			logger.debug("New Session " + session.getRemoteAddress());
@@ -86,33 +113,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	}
 	
 
-	private void playerUpdate(ChangeStatusAction act) {
-		((Player)acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute("PLAYER")).setState(act.getPlayer().getState());	
-	}
 	
-
-	private void sendDeck(IoSession session, ShareDeckAction act) {
-			
-		acceptor.getManagedSessions().get(act.getTo().getId()).write(act);
-	}
-
-	
-	private void join(IoSession session, JoinAction ja)
-	{
-		if(!props.getProperty("MAX_CLIENT").equals("0")&&acceptor.getManagedSessions().size()>=Integer.parseInt(props.getProperty("MAX_CLIENT")))
-		{
-				session.write(new SpeakAction(null,"Number of users reached (" + props.getProperty("MAX_CLIENT") +")"));
-				session.closeOnFlush();
-				return;
-		}
-		ja.getPlayer().setState(STATE.CONNECTED);
-		ja.getPlayer().setId(session.getId());
-		session.setAttribute("PLAYER",ja.getPlayer());
-		speak(new SpeakAction(ja.getPlayer(), " is now connected"));
-		session.write(session.getId());
-		
-		refreshPlayers(session);
-	}
 	
 	
 	protected void changeDeck(IoSession session, ChangeDeckAction cda) {

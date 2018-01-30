@@ -38,20 +38,20 @@ public class CollectionChooserDialog extends JDialog{
 		
 		panel.add(cboCollections);
 		
-		JPanel panel_1 = new JPanel();
-		getContentPane().add(panel_1, BorderLayout.SOUTH);
+		JPanel panel1 = new JPanel();
+		getContentPane().add(panel1, BorderLayout.SOUTH);
 		
 		JButton btnClose = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
 		btnClose.addActionListener(ae->dispose());
 		
-		panel_1.add(btnClose);
+		panel1.add(btnClose);
 		
 		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SELECT"));
 		btnImport.addActionListener(e->{
 				selectedCollection = (MagicCollection)cboCollections.getSelectedItem();
 				dispose();
 		});
-		panel_1.add(btnImport);
+		panel1.add(btnImport);
 		pack();
 		setModal(true);
 		setLocationRelativeTo(null);

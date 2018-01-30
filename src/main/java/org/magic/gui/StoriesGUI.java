@@ -59,10 +59,7 @@ public class StoriesGUI extends JPanel {
 		        if (evt.getClickCount() == 1) {
 		        	evt.consume();
 
-		        		ThreadManager.getInstance().execute(new Runnable() {
-							
-							@Override
-							public void run() {
+		        		ThreadManager.getInstance().execute(()->{
 								lblLoading.setVisible(true);
 					        	try {
 					        		editorPane.setText(Jsoup.connect(listResult.getSelectedValue().getUrl().toString()).get().select("div#content-detail-page-of-an-article").html());
@@ -71,10 +68,7 @@ public class StoriesGUI extends JPanel {
 									JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 								}
 					        	lblLoading.setVisible(false);			
-							}
 						},"Load story");
-		        		
-		        	
 		        }
 		        else
 		        {

@@ -157,8 +157,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panelActions.setLayout(gblpanelActions);
 						
 						JButton btnNewGame = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"));
-						btnNewGame.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent ae) {
+						btnNewGame.addActionListener(ae->{
 								JDeckChooserDialog choose = new JDeckChooserDialog();
 								choose.setVisible(true);
 								try {
@@ -172,7 +171,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 								} catch (Exception e) {
 									MTGLogger.printStackTrace(e);
 								}
-							}
 						});
 						GridBagConstraints gbcbtnNewGame = new GridBagConstraints();
 						gbcbtnNewGame.fill = GridBagConstraints.BOTH;
@@ -184,12 +182,10 @@ public class GamePanelGUI extends JPanel implements Observer {
 						
 						
 						JButton btnSideboard = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SIDEBOARD"));
-						btnSideboard.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent e) {
+						btnSideboard.addActionListener(e->{
 								DeckSideBoardSwitcherDialog gui = new DeckSideBoardSwitcherDialog(player.getDeck());
 								gui.setVisible(true);
 								player.setDeck(gui.getDeck());
-							}
 						});
 						GridBagConstraints gbcbtnSideboard = new GridBagConstraints();
 						gbcbtnSideboard.fill = GridBagConstraints.HORIZONTAL;
@@ -199,8 +195,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 						panelActions.add(btnSideboard, gbcbtnSideboard);
 						
 						JButton btnStart = new JButton(MTGControler.getInstance().getLangService().getCapitalize("START"));
-						btnStart.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent ae) {
+						btnStart.addActionListener(ae->{
 								GameManager.getInstance().removePlayers();
 								GameManager.getInstance().addPlayer(player);
 								GameManager.getInstance().addPlayer(new Player(MTGControler.getInstance().getLangService().getCapitalize("PLAYER")+" 2",20));
@@ -212,8 +207,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 								turnsPanel.initTurn();
 								new DrawHandActions().actionPerformed(ae);
 								clean();
-							}
 						});
+						
 						GridBagConstraints gbcbtnStart = new GridBagConstraints();
 						gbcbtnStart.fill = GridBagConstraints.HORIZONTAL;
 						gbcbtnStart.insets = new Insets(0, 0, 5, 0);
@@ -243,11 +238,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 						});
 						
 						
-						txtChat.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
+						txtChat.addActionListener(ae->{
 								player.say(txtChat.getText());
 								txtChat.setText("");
-							}
 						});
 						txtChat.setColumns(10);
 						
@@ -328,21 +321,14 @@ public class GamePanelGUI extends JPanel implements Observer {
 										panel.add(spinPoison);
 										spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
 								
-								spinPoison.addChangeListener(new ChangeListener() {
-									
-									public void stateChanged(ChangeEvent e) {
+								spinPoison.addChangeListener(e->{
 										if(player !=null)
 											player.setPoisonCounter((int)spinPoison.getValue());
 										
-									}
 								});
-								spinLife.addChangeListener(new ChangeListener() {
-									
-									public void stateChanged(ChangeEvent e) {
+								spinLife.addChangeListener(e->{
 										if(player !=null) 
 											player.setLife((int)spinLife.getValue());
-										
-									}
 								});
 								
 								JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
@@ -450,10 +436,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	public HandPanel getHandPanel() {
 		return handPanel;
 	}
-	
-	public LibraryPanel getLblLibrary() {
-		return panelLibrary;
-	}
+
 	public GraveyardPanel getPanelGrave() {
 		return panelGrave;
 	}

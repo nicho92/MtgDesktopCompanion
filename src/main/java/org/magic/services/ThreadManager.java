@@ -80,9 +80,6 @@ public class ThreadManager {
                 executor.getActiveCount(),
                 executor.getCompletedTaskCount(),
                 executor.getTaskCount()));
-		
-		//logger.trace(info);
-		
 	}
 	
 	public void execute(Runnable task)

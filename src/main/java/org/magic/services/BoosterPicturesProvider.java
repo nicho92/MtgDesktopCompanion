@@ -41,7 +41,6 @@ public class BoosterPicturesProvider {
 		builderFactory =DocumentBuilderFactory.newInstance();
 		try {
 			builder = builderFactory.newDocumentBuilder();
-			//document = builder.parse(this.getClass().getResourceAsStream("/data/boosters.xml"));
 			logger.debug("Loading booster pics");
 			document = builder.parse(new URL(MTGConstants.MTG_BOOSTERS_URI).openStream());
 			logger.debug("Loading booster pics done");

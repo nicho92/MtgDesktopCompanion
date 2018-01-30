@@ -87,12 +87,6 @@ public class CmcChartPanel extends JPanel{
 				if(mc.getCmc()!=null)
 					if(!mc.getTypes().contains("Land"))
 						temp.put(mc.getCmc(),count(mc.getCmc()) );
-				
-//					if(mc.getCmc()==null)
-//						temp.put(0,count(0) );
-//					else
-//						temp.put(mc.getCmc(),count(mc.getCmc()) );
-				
 			}
 			for(Integer k : temp.keySet())
 				dataset.addValue(temp.get(k), "cmc",k);

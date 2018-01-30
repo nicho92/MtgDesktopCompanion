@@ -225,10 +225,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	public List<MagicEdition> loadEditions() throws Exception {
 
 		List<MagicEdition> ret = new ArrayList<>();
-		for(File f : confdir.listFiles(new FileFilter() {
-			public boolean accept(File pathname) {
+		for(File f : confdir.listFiles(pathname->{
 				return pathname.getName().endsWith(ext);
-			}
 			}))
 			{
 					ret.add(getEdition(f));

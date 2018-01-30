@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.MissingResourceException;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -90,7 +91,6 @@ public class MagicGUI extends JFrame {
 	public void setLookAndFeel(String lookAndFeel)
 	{
 		try {
-			//UIManager.put("Table.alternateRowColor", Color.decode("#E1E4F2"));
 			UIManager.setLookAndFeel(lookAndFeel);
 			MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(this);
@@ -149,91 +149,56 @@ public class MagicGUI extends JFrame {
 		
 		
 		
-		mntmLogsItem.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				SwingUtilities.invokeLater(new Runnable(){
-					@Override
-					public void run() {
+		mntmLogsItem.addActionListener(ae->{
+				SwingUtilities.invokeLater(()->{
 						JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
 						f.getContentPane().add(new LoggerViewPanel());
 						f.setLocationRelativeTo(null);
 						f.setVisible(true);
 						f.pack();
 						f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-					}
 				});
-				
 			}
-		});
+		);
 		
-		mntmThreadItem.addActionListener(new ActionListener() {
-			
-			public void actionPerformed(ActionEvent e) {
+		mntmThreadItem.addActionListener(e->
 
-				SwingUtilities.invokeLater(new Runnable(){
-					@Override
-					public void run() {
+				SwingUtilities.invokeLater(()->{
 						JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
 						f.getContentPane().add(new ThreadMonitorPanel());
 						f.setLocationRelativeTo(null);
 						f.setVisible(true);
 						f.pack();
 						f.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-						
-					}
-				});
-				
-				
-			}
-		});
+				})
+		);
 		
-		mntmExit.addActionListener(new ActionListener() {
+		mntmExit.addActionListener(e->System.exit(0));
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-				
-			}
-		});
-			
-		mntmHelp.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		mntmHelp.addActionListener(e->{
 				String url =MTGConstants.MTG_DESKTOP_WIKI_URL;
 				try {
 					Desktop.getDesktop().browse(new URI(url));
 				} catch (Exception e1) {
 					logger.error(e1);
 				}
-			}
 		});
 	
-		mntmAboutMagicDesktop.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
-				new AboutDialog().setVisible(true);
-				
-			}
-		});
+		mntmAboutMagicDesktop.addActionListener(ae->
+				new AboutDialog().setVisible(true)
+		);
 		
-		mntmReportBug.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		mntmReportBug.addActionListener(ae->{
 				try {
 					String url = MTGConstants.MTG_DESKTOP_ISSUES_URL;
 					Desktop.getDesktop().browse(new URI(url));
 				} catch (Exception e) {
 					logger.error(e);
 				}
-			}
 		});
 		
 		
-		mntmFileOpen.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		mntmFileOpen.addActionListener(ae->{
 					JFileChooser choose = new JFileChooser();
 					int returnVal = choose.showOpenDialog(null);
 					if (returnVal == JFileChooser.APPROVE_OPTION)
@@ -243,13 +208,11 @@ public class MagicGUI extends JFrame {
 						
 						if(exp!=null)
 						{
-							ThreadManager.getInstance().execute(new Runnable() {
-								@Override
-								public void run() {
+							ThreadManager.getInstance().execute(()->{
 									try 
 									{
 										if(cardSearchPanel==null)
-											throw new Exception(MTGControler.getInstance().getLangService().getCapitalize("MUST_BE_LOADED",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+											throw new NullPointerException(MTGControler.getInstance().getLangService().getCapitalize("MUST_BE_LOADED",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 										
 									cardSearchPanel.loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_FILE",f.getName(),exp));
 									MagicDeck d=exp.importDeck(f);	
@@ -259,8 +222,7 @@ public class MagicGUI extends JFrame {
 									} catch (Exception e) {
 										logger.error(e);
 									}
-								}
-							},"open " + f);
+								},"open " + f);
 							
 						}
 						else
@@ -268,25 +230,19 @@ public class MagicGUI extends JFrame {
 							JOptionPane.showMessageDialog(null, "NO EXPORTER AVAILABLE",MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 						}
 					}
-					
-					
-				
-			}
 		});
 		
 		
 		if(serviceUpdate.hasNewVersion())
 		{
 			JMenuItem newversion = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("DOWNLOAD_LAST_VERSION")+" : " + serviceUpdate.getOnlineVersion() );
-			newversion.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			newversion.addActionListener(e->{
 					String url =MTGConstants.MTG_DESKTOP_APP_ZIP;
 					try {
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e1) {
 						logger.error(e1.getMessage());
 					}
-				}
 			});
 			mnuAbout.add(newversion);
 		}
@@ -312,22 +268,16 @@ public class MagicGUI extends JFrame {
 		for(final String ui : looksMore.keySet())
 		{
 			final JMenuItem it = new JMenuItem(ui);
-			it.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					setLookAndFeel(looksMore.get(ui));
-				}
-			});
+			it.addActionListener(e->setLookAndFeel(looksMore.get(ui)));
 			itMore.add(it);
 		}
 		
 		for(final String ui : looks.keySet())
 		{
 			final JMenuItem it = new JMenuItem(ui);
-			it.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					setLookAndFeel(looks.get(ui));
-				}
-			});
+			it.addActionListener(e->
+					setLookAndFeel(looks.get(ui))
+			);
 			jmnuLook.add(it);
 		}
 		
@@ -381,25 +331,20 @@ public class MagicGUI extends JFrame {
 	
 		if (SystemTray.isSupported()) {
 			tray.add(trayNotifier);
-			trayNotifier.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			trayNotifier.addActionListener(e->{
 					if(!isVisible())
 						setVisible(true);
 					else
 						setVisible(false);
-				}
 			});
 			PopupMenu menuTray = new PopupMenu();
 			for(int index_tab = 0;index_tab<tabbedPane.getTabCount();index_tab++)
 			{
 				final int index = index_tab;
 				MenuItem it = new MenuItem(tabbedPane.getTitleAt(index_tab));
-				it.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+				it.addActionListener(e->{
 							setVisible(true);
 							setSelectedTab(index);
-							
-					}
 				});
 				menuTray.add(it);
 			}

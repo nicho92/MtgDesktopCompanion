@@ -160,21 +160,13 @@ public class PlayerGameBoard extends JPanel implements Observer {
 																add(panelBattleField, BorderLayout.CENTER);
 																panelBattleField.setLayout(null);
 																
-																spinPoison.addChangeListener(new ChangeListener() {
-																	
-																	public void stateChanged(ChangeEvent e) {
+																spinPoison.addChangeListener(e->{
 																		if(player !=null)
 																			player.setPoisonCounter((int)spinPoison.getValue());
-																		
-																	}
 																});
-																spinLife.addChangeListener(new ChangeListener() {
-																	
-																	public void stateChanged(ChangeEvent e) {
+																spinLife.addChangeListener(e->{
 																		if(player !=null) 
 																			player.setLife((int)spinLife.getValue());
-																		
-																	}
 																});
 	}
 	public JSpinner getSpinLife() {

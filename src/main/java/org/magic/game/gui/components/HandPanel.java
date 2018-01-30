@@ -88,10 +88,7 @@ public class HandPanel extends DraggablePanel {
 		  this.removeAll();
 		  index=0;
 
-		  t = new Thread(new Runnable() {
-			
-			@Override
-			public void run() {
+		  t = new Thread(()->{
 				
 				
 				for(MagicCard mc : cards)
@@ -114,8 +111,6 @@ public class HandPanel extends DraggablePanel {
 					}
 					
 				}
-				
-			}
 		});
 		
 		t.start();

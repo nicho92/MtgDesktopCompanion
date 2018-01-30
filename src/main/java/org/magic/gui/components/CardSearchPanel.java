@@ -180,12 +180,9 @@ public class CardSearchPanel extends JPanel {
 			{
 				
 				JMenuItem adds = new JMenuItem(mc.getName());
-				adds.addActionListener(new ActionListener() {
+				adds.addActionListener(addEvent->{
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-
-						String collec = ((JMenuItem)e.getSource()).getText();
+						String collec = ((JMenuItem)addEvent.getSource()).getText();
 						loading(true, MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_TO")+" " + collec); 
 
 						for (int i = 0; i < tableCards.getSelectedRowCount(); i++) { 
@@ -195,9 +192,9 @@ public class CardSearchPanel extends JPanel {
 							int modelRow = tableCards.convertRowIndexToModel(viewRow);
 							
 							
-							MagicCard mc = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
+							MagicCard mcCard = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
 							try {
-								MTGControler.getInstance().getEnabledDAO().saveCard(mc, MTGControler.getInstance().getEnabledDAO().getCollection(collec));
+								MTGControler.getInstance().getEnabledDAO().saveCard(mcCard, MTGControler.getInstance().getEnabledDAO().getCollection(collec));
 							} catch (SQLException e1) {
 								logger.error(e1);
 								JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
@@ -206,7 +203,7 @@ public class CardSearchPanel extends JPanel {
 						}
 						loading(false, "");
 					}
-				});
+				);
 				menuItemAdd.add(adds);
 			}
 
@@ -219,8 +216,7 @@ public class CardSearchPanel extends JPanel {
 			inst=this;
 			DefaultRowSorter<DefaultTableModel, Integer> sorterPrice = new TableRowSorter<>(priceModel);
 			sorterCards = new TableRowSorter<>(cardsModeltable);
-			sorterCards.setComparator(7, new Comparator<String>() {
-			   public int compare(String num1, String num2) {
+			sorterCards.setComparator(7, (String num1, String num2)->{
 			        	try{
 			        		num1=num1.replaceAll("a","").replaceAll("b", "").trim();
 			        		num2=num2.replaceAll("a","").replaceAll("b", "").trim();
@@ -233,7 +229,6 @@ public class CardSearchPanel extends JPanel {
 						{
 							return -1;
 						}
-			    }
 			});
 
 			List<MagicEdition> li = MTGControler.getInstance().getEnabledProviders().loadEditions();
@@ -330,8 +325,8 @@ public class CardSearchPanel extends JPanel {
 			panelResultsCards.setLayout(new BorderLayout(0, 0));
 			panelmana.setLayout(new GridLayout(1, 0, 2, 2));
 			
-			FlowLayout fl_panelFilters = (FlowLayout) panelFilters.getLayout();
-			fl_panelFilters.setAlignment(FlowLayout.LEFT);
+			FlowLayout flpanelFilters = (FlowLayout) panelFilters.getLayout();
+			flpanelFilters.setAlignment(FlowLayout.LEFT);
 			
 			FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 			flowLayout.setAlignment(FlowLayout.LEFT);
@@ -372,11 +367,9 @@ public class CardSearchPanel extends JPanel {
 
 				btnG.setIcon(new ImageIcon(pan.getManaSymbol(s).getScaledInstance(15, 15, Image.SCALE_SMOOTH)));
 				btnG.setForeground(btnG.getBackground());
-				btnG.addActionListener(new ActionListener() {
-					public void actionPerformed(ActionEvent e) {
+				btnG.addActionListener(e->{
 						txtFilter.setText("\\{" + btnG.getToolTipText()+"}");
 						sorterCards.setRowFilter(RowFilter.regexFilter(txtFilter.getText()));
-					}
 				});
 				panelmana.add(btnG);
 					
@@ -449,21 +442,16 @@ public class CardSearchPanel extends JPanel {
 			
 ///////Action listners 
 			
-			cboEdition.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
-					txtMagicSearch.setText(((MagicEdition)cboEdition.getSelectedItem()).getId());
-				}
-			});
+			cboEdition.addActionListener(ae->
+					txtMagicSearch.setText(((MagicEdition)cboEdition.getSelectedItem()).getId())
+			);
 			
-			btnClear.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
+			btnClear.addActionListener(ae->{
 					txtFilter.setText("");
 					sorterCards.setRowFilter(null);
-				}
 			});
 			
-			btnFilter.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
+			btnFilter.addActionListener(ae->{
 					if(panelFilters.isVisible())
 					{
 						panelFilters.setVisible(false);
@@ -475,10 +463,9 @@ public class CardSearchPanel extends JPanel {
 						filterHeader.setVisible(true);
 					}
 				}
-			});
+			);
 			
-			cboQuereableItems.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			cboQuereableItems.addActionListener(e->{
 					if(cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("set"))
 					{
 						txtMagicSearch.setVisible(false);
@@ -498,10 +485,9 @@ public class CardSearchPanel extends JPanel {
 						cboCollections.setVisible(false);
 					}
 				}
-			});
+			);
 		
-			btnSearch.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
+			btnSearch.addActionListener(ae->{
 
 					selectedEdition=null;
 					if(txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
@@ -533,11 +519,8 @@ public class CardSearchPanel extends JPanel {
 							
 						}
 					}.execute();
-					
-					
-					
 				}
-			});
+			);
 
 			tableCards.addMouseListener(new java.awt.event.MouseAdapter() {
 				@Override
@@ -567,8 +550,7 @@ public class CardSearchPanel extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent mev) {
 						selectedEdition = listEdition.getSelectedValue();
-						ThreadManager.getInstance().execute(new Runnable() {
-							public void run() {
+						ThreadManager.getInstance().execute(()->{
 									loading(true,MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
 										try {
 											selectedCard = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", selectedCard.getName(), selectedEdition,false).get(0);
@@ -585,8 +567,6 @@ public class CardSearchPanel extends JPanel {
 											updatePrices();
 										
 									loading(false,"");
-								
-							}
 						},"changeEdition");
 				}
 			});
@@ -609,8 +589,7 @@ public class CardSearchPanel extends JPanel {
 				}
 			});
 
-			cboLanguages.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			cboLanguages.addActionListener(e->{
 					MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
 					try {
 						if(selLang!=null)
@@ -622,11 +601,9 @@ public class CardSearchPanel extends JPanel {
 						}
 					} catch (Exception e1) {}
 				}
+			);
 
-			});
-
-			btnExport.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent ae) {
+			btnExport.addActionListener(ae->{
 					JPopupMenu menu = new JPopupMenu();
 					
 					for(final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports())
@@ -634,18 +611,14 @@ public class CardSearchPanel extends JPanel {
 						JMenuItem it = new JMenuItem();
 						it.setIcon(exp.getIcon());
 						it.setText(exp.getName());
-						it.addActionListener(new ActionListener() {
-							public void actionPerformed(ActionEvent arg0) {
+						it.addActionListener(exportEvent->{
 								JFileChooser jf =new JFileChooser(".");
 								jf.setSelectedFile(new File("search"+exp.getFileExtension()));
 								int result = jf.showSaveDialog(null);
 								final File f=jf.getSelectedFile();
 								
 								if(result==JFileChooser.APPROVE_OPTION)
-									ThreadManager.getInstance().execute(new Runnable() {
-										
-										@Override
-										public void run() {
+									ThreadManager.getInstance().execute(()->{
 											try {
 											loading(true, "export " + exp);
 											
@@ -654,18 +627,13 @@ public class CardSearchPanel extends JPanel {
 											loading(false, "");
 											JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"),exp.getName() + " "+MTGControler.getInstance().getLangService().get("FINISHED"),JOptionPane.INFORMATION_MESSAGE);
 											} catch (Exception e) {
-												MTGLogger.printStackTrace(e);
 												logger.error(e);
 												loading(false, "");
 												JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 											}	
-										
-										}
 										}, "export search " + exp);
-									
-								
 							}
-						});
+						);
 						
 						menu.add(it);
 					}
@@ -675,26 +643,20 @@ public class CardSearchPanel extends JPanel {
 			        menu.show(b,0,0);
 			        menu.setLocation(p.x,p.y+b.getHeight());
 				}
-			});
+			);
 			
-			tabbedCardsInfo.addChangeListener(new ChangeListener() {
-				public void stateChanged(ChangeEvent e) {
-
+			tabbedCardsInfo.addChangeListener(e->{
 						if(tabbedCardsInfo.getSelectedIndex()==INDEX_PRICES)
 							updatePrices();
-					
-				}
 			});
 
-			txtFilter.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent arg0) {
+			txtFilter.addActionListener(ae->{
 					String text = txtFilter.getText();
 			          if (text.length() == 0) {
 			        	  sorterCards.setRowFilter(null);
 			          } else {
 			        	  sorterCards.setRowFilter(RowFilter.regexFilter(text));
 			          }
-				}
 			});
 			
 			thumbnailPanel.addMouseListener(new MouseAdapter() {
@@ -709,12 +671,7 @@ public class CardSearchPanel extends JPanel {
 				
 			});
 			
-			txtMagicSearch.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
-					btnSearch.doClick();
-
-				}
-			});
+			txtMagicSearch.addActionListener(e->btnSearch.doClick());
 		
 		}
 		
@@ -752,17 +709,11 @@ public class CardSearchPanel extends JPanel {
 		}
 
 		public void updatePrices() {
-			ThreadManager.getInstance().execute(new Runnable() {
-
-				@Override
-				public void run() {
-
+			ThreadManager.getInstance().execute(()->{
 					loading(true,MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES"));
 					priceModel.init(selectedCard, selectedEdition);
 					priceModel.fireTableDataChanged();
 					loading(false,"");
-
-				}
 			},"updatePrices");
 			
 		}
@@ -805,11 +756,7 @@ public class CardSearchPanel extends JPanel {
 				panelJson.show(selectedCard);
 				
 
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
-						historyChartPanel.init(selectedCard, selectedEdition,selectedCard.getName());
-					}
-				}, "load history for " + selectedEdition);
+				ThreadManager.getInstance().execute(()->historyChartPanel.init(selectedCard, selectedEdition,selectedCard.getName()), "load history for " + selectedEdition);
 				
 				
 			} catch (Exception e1) {

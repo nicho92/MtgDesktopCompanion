@@ -32,8 +32,6 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 			props.put("SET_SIZE", "medium");
 			props.put("CARD_SIZE_WIDTH", "223");
 			props.put("CARD_SIZE_HEIGHT", "310");
-
-			//props.put("ENABLE_CACHE", "true");
 			save();
 		}
 	}

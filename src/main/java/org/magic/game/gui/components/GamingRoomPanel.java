@@ -70,6 +70,7 @@ public class GamingRoomPanel extends JPanel {
 	
 
 	private transient Observer obs = new Observer() {
+		
 		@Override
 		public void update(Observable o, Object arg) {
 			if(arg instanceof ShareDeckAction)
@@ -143,16 +144,14 @@ public class GamingRoomPanel extends JPanel {
 		
 		btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
 		
-		btnConnect.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnConnect.addActionListener(ae->{
 				try{ 
 					client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
 					client.addObserver(obs);
 					client.getP().setName(txtName.getText());
 					client.join();
 					
-					ThreadManager.getInstance().execute(new Runnable() {
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							while(client.getSession().isActive())
 							{
 								txtName.setEnabled(!client.getSession().isActive());
@@ -166,8 +165,6 @@ public class GamingRoomPanel extends JPanel {
 							txtPort.setEnabled(true);
 							btnConnect.setEnabled(true);
 							btnLogout.setEnabled(false);
-	
-						}
 				}, "live connection");
 				
 				}
@@ -176,7 +173,7 @@ public class GamingRoomPanel extends JPanel {
 					JOptionPane.showMessageDialog(getRootPane(), e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 				}
 			}
-		});
+		);
 		
 		JLabel lblName = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") +" :");
 		panneauHaut.add(lblName);
@@ -188,11 +185,9 @@ public class GamingRoomPanel extends JPanel {
 		panneauHaut.add(btnConnect);
 		
 		
-		btnLogout.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnLogout.addActionListener(ae->{
 				client.sendMessage("logged out");
 				client.logout();
-			}
 		});
 		btnLogout.setEnabled(false);
 		panneauHaut.add(btnLogout);
@@ -241,12 +236,10 @@ public class GamingRoomPanel extends JPanel {
 		panneauBas.add(btnDeck);
 		
 		btnPlayGame = new JButton("Ask for Game");
-		btnPlayGame.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnPlayGame.addActionListener(e->{
 				int res = JOptionPane.showConfirmDialog(getRootPane(), "Want to play with " + otherplayer+" ?","Gaming request",JOptionPane.YES_NO_OPTION);
 				if(res==JOptionPane.YES_OPTION)
 					client.requestPlay(otherplayer);
-			}
 		});
 		btnPlayGame.setEnabled(false);
 		panneauBas.add(btnPlayGame);
@@ -282,14 +275,12 @@ public class GamingRoomPanel extends JPanel {
 		panelChatBox.add(panel_1, BorderLayout.NORTH);
 		
 		JButton btnShareDeck = new JButton("");
-		btnShareDeck.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnShareDeck.addActionListener(ae->{
 				JDeckChooserDialog diag = new JDeckChooserDialog();
 				diag.setVisible(true);
 				MagicDeck d = diag.getSelectedDeck();
 				Player p = (Player)table.getModel().getValueAt(table.getSelectedRow(), 0);
 				client.sendDeck(d, p);
-			}
 		});
 		btnShareDeck.setToolTipText("Share a deck");
 		btnShareDeck.setIcon(MTGConstants.ICON_COLLECTION_SMALL);
@@ -300,24 +291,20 @@ public class GamingRoomPanel extends JPanel {
 		panel_1.add(btnColorChoose);
 		
 		final JComboBox cboStates = new JComboBox(new DefaultComboBoxModel<STATE>(STATE.values()));
-		cboStates.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent arg0) {
-				client.changeStatus((STATE)cboStates.getSelectedItem());
-			}
-		});
+		cboStates.addItemListener(ie->
+				client.changeStatus((STATE)cboStates.getSelectedItem())
+		);
+		
 		panel_1.add(cboStates);
-		btnColorChoose.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnColorChoose.addActionListener(ae->{
 				Color c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
 				editorPane.setForeground(c);
 				MTGControler.getInstance().setProperty("/game/player-profil/foreground", c.getRGB());
-			}
 		});
 	
 		editorPane.addFocusListener(new FocusAdapter() {
-			
 			@Override
-			public void focusGained(FocusEvent e) {
+			public void focusGained(FocusEvent fe) {
 				if(editorPane.getText().equals(MTGControler.getInstance().getLangService().getCapitalize("CHAT_INTRO_TEXT")))
 					editorPane.setText("");
 			}
@@ -337,16 +324,12 @@ public class GamingRoomPanel extends JPanel {
 			
 		});
 		
-		btnDeck.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent arg0) {
+		btnDeck.addActionListener(ae->{
 				
 				JDeckChooserDialog diag = new JDeckChooserDialog();
 				diag.setVisible(true);
 				MagicDeck d = diag.getSelectedDeck();
 				client.updateDeck(d);
-				
-			}
 		});
 		
 	}

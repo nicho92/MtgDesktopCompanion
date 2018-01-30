@@ -15,10 +15,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
 
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
-	private JTable table;
 	private CardAlertTableModel model;
-	private HistoryPricesPanel historyPricesPanel;
-	
 	public AlertedCardsTrendingDashlet() {
 		super();
 		setFrameIcon(MTGConstants.ICON_ALERT);
@@ -41,10 +38,10 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		model = new CardAlertTableModel();
-		table = new JTable(model);
+		JTable table = new JTable(model);
 		scrollPane.setViewportView(table);
 		
-		historyPricesPanel = new HistoryPricesPanel();
+		HistoryPricesPanel historyPricesPanel = new HistoryPricesPanel();
 		historyPricesPanel.setMaximumSize(new Dimension(2147483647, 200));
 		historyPricesPanel.setPreferredSize(new Dimension(119, 200));
 		getContentPane().add(historyPricesPanel, BorderLayout.SOUTH);

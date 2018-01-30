@@ -53,21 +53,20 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		listMain.setCellRenderer(new MagicCardListRenderer());
 		scrollPane.setViewportView(listMain);
 		
-		JScrollPane scrollPane_1 = new JScrollPane();
-		getContentPane().add(scrollPane_1, BorderLayout.EAST);
+		JScrollPane scrollPane1 = new JScrollPane();
+		getContentPane().add(scrollPane1, BorderLayout.EAST);
 		
-		listSide = new JList<MagicCard>(modSide);
+		listSide = new JList<>(modSide);
 		listSide.setCellRenderer(new MagicCardListRenderer());
 		
-		scrollPane_1.setViewportView(listSide);
+		scrollPane1.setViewportView(listSide);
 		
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.CENTER);
 		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		
 		JButton btnAdd = new JButton(">>>");
-		btnAdd.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnAdd.addActionListener(ae->{
 				for(MagicCard mc : listMain.getSelectedValuesList())
 				{
 					modSide.addElement(mc);
@@ -82,15 +81,12 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 					
 					lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());
 				}
-				
-			}
 		});
 		btnAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(btnAdd);
 		
 		JButton btnRemove = new JButton("<<<");
-		btnRemove.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+		btnRemove.addActionListener(e->{
 				for(MagicCard mc : listSide.getSelectedValuesList())
 				{
 					modMain.addElement(mc);
@@ -105,8 +101,6 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 						savedDeck.getMap().put(mc, savedDeck.getMap().get(mc)+1);
 					
 					lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());
-				}
-	
 			}
 		});
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -115,38 +109,27 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		JButton btnRestore = new JButton("Restore");
 		btnRestore.setAlignmentX(Component.CENTER_ALIGNMENT);
 		panel.add(btnRestore);
-		btnRestore.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnRestore.addActionListener(ae->{
 				savedDeck=bckDeck;
 				init();
-			}
 		});
 		panel.add(lblDecksize);
 		
 		
-		JPanel panel_1 = new JPanel();
-		getContentPane().add(panel_1, BorderLayout.SOUTH);
+		JPanel panel1 = new JPanel();
+		getContentPane().add(panel1, BorderLayout.SOUTH);
 		
 		JButton btnOk = new JButton("OK");
-		btnOk.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				dispose();
-			}
-		});
+		btnOk.addActionListener(e->	dispose());
 		
-		panel_1.add(btnOk);
+		panel1.add(btnOk);
 		
 		JButton btnCancel = new JButton("Cancel");
-		btnCancel.addActionListener(new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		btnCancel.addActionListener(e->{
 				savedDeck=bckDeck;
 				dispose();
-				
-			}
 		});
-		panel_1.add(btnCancel);
+		panel1.add(btnCancel);
 		
 		pack();
 	}

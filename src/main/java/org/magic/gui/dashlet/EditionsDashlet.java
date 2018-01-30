@@ -80,11 +80,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		scrollPane.setViewportView(table);
 		setVisible(true);
 		
-		cboEditions.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				init();
-			}
-		});
+		cboEditions.addActionListener(ae->init());
 	
 		if(props.size()>0) {
 		Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
@@ -126,9 +122,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		
 	
 		if(cboEditions.getSelectedItem()!=null)
-			ThreadManager.getInstance().execute(new Runnable() {
-				@Override
-				public void run() {
+			ThreadManager.getInstance().execute(()->{
 					lblLoading.setVisible(true);
 					MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
 					modEdition.init(ed);
@@ -143,7 +137,6 @@ public class EditionsDashlet extends AbstractJDashlet {
 					}
 					save("EDITION",ed.getId());
 					lblLoading.setVisible(false);
-				}
 			}, "init EditionDashLet");
 		
 	}

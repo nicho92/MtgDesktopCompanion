@@ -97,10 +97,7 @@ public class CardsPicPanel extends JXPanel {
 				
 			}
 		}
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
+		ThreadManager.getInstance().execute(()->{
 				try {
 					
 					if(edition==null)
@@ -123,8 +120,6 @@ public class CardsPicPanel extends JXPanel {
 					imgFront=back;
 				} 
 				repaint();
-				
-			}
 		},"showPhoto");
 	}
 

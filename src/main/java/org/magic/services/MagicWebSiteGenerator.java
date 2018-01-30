@@ -48,16 +48,10 @@ public class MagicWebSiteGenerator extends Observable{
 		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_27).build());
 		dao=MTGControler.getInstance().getEnabledDAO();
 		this.dest = dest;
-		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR,template), new File(dest),new FileFilter() {
-			public boolean accept(File pathname) {
+		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR,template), new File(dest),pathname->{
 				if(pathname.isDirectory())
 					return true;
-				
-				if(pathname.getName().endsWith(".html"))
-					return false;
-				
-				return true;
-			}
+				return pathname.getName().endsWith(".html");
 		});
 	}
 	

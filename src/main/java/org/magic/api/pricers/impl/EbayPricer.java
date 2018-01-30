@@ -28,7 +28,7 @@ public class EbayPricer extends AbstractMagicPricesProvider
 	}
 	
 	
-	String KEYWORD="";
+	String keyword="";
 	
 	
 	public EbayPricer() {
@@ -55,20 +55,20 @@ public class EbayPricer extends AbstractMagicPricesProvider
 			   url = url.replaceAll("%API_KEY%", props.get("API_KEY").toString());
 			   url = url.replaceAll("%COUNTRY%", props.get("COUNTRY").toString());
 			   url = url.replaceAll("%MAX%", props.get("MAX").toString());
-		KEYWORD=card.getName();
+		keyword=card.getName();
 		
 		if(me!=null)
-			KEYWORD += " " + me.getSet();
+			keyword += " " + me.getSet();
 		
-		props.put("KEYWORD", KEYWORD);
+		props.put("KEYWORD", keyword);
 		
-		KEYWORD=URLEncoder.encode(KEYWORD,props.getProperty("ENCODING"));
+		keyword=URLEncoder.encode(keyword,props.getProperty("ENCODING"));
 		
 		
 		
-		String link=url.replaceAll("%KEYWORD%", KEYWORD);
+		String link=url.replaceAll("%KEYWORD%", keyword);
 		
-		logger.info(getName() + " looking for " + KEYWORD);
+		logger.info(getName() + " looking for " + keyword);
 		
 		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), "UTF-8"));
 		JsonElement root = new JsonParser().parse(reader);

@@ -43,27 +43,17 @@ public class LoggerViewPanel extends JPanel {
 		add(panel, BorderLayout.NORTH);
 		
 		btnRefresh = new JButton("");
-		btnRefresh.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				model.fireTableDataChanged();
-			}
-		});
+		btnRefresh.addActionListener(ae->model.fireTableDataChanged());
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panel.add(btnRefresh);
 		
-		t = new Timer(1000, new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-               model.fireTableDataChanged();
-              
-        	
-            }
-			});
+		t = new Timer(1000,e->
+               model.fireTableDataChanged()
+		);
 		
 		
 		chckbxAutorefresh = new JCheckBox("Auto-refresh");
-		chckbxAutorefresh.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent ie) {
+		chckbxAutorefresh.addItemListener(ie->{
 				
 				if(chckbxAutorefresh.isSelected())
 				{
@@ -75,11 +65,8 @@ public class LoggerViewPanel extends JPanel {
 					t.stop();
 					btnRefresh.setEnabled(true);
 				}
-				
-			}
 		});
 		panel.add(chckbxAutorefresh);
-		//filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
 		table.packAll();
 	}
 

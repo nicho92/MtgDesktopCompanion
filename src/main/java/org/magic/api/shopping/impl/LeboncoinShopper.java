@@ -65,7 +65,6 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		formatter=new SimpleDateFormat(props.getProperty("DATE_FORMAT"));
 		
 		try {
-    		//if(!new File(confdir,props.getProperty("KEYSTORE_NAME")).exists())
     			InstallCert.install(props.getProperty("CERT_SERV"));
     			System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
 		} catch (Exception e1) {
