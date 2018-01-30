@@ -48,7 +48,7 @@ public class Graveyard implements Serializable{
 	
 	public Set<String> getTypesIncludes()
 	{
-		Set<String> set = new LinkedHashSet<String>();
+		Set<String> set = new LinkedHashSet<>();
 		
 		for(MagicCard mc : cards)
 		{

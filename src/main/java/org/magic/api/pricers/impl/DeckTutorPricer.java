@@ -44,12 +44,10 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	private BasicCookieStore cookieStore;
 	private BasicHttpContext httpContext;
 	private static int sequence=1;
-	
 	private JsonParser parser;
-	
-	ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+	private ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
-	    public String handleResponse(final HttpResponse response) throws ClientProtocolException, IOException {
+	    public String handleResponse(final HttpResponse response) throws IOException {
 	      	 int status = response.getStatusLine().getStatusCode();
 	         HttpEntity entity = response.getEntity();
 	     	
@@ -110,16 +108,16 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			
 	        JsonElement root = new JsonParser().parse(response);
 	        
-	        String auth_token=  root.getAsJsonObject().get("auth_token").getAsString();
-	        String auth_token_secret = root.getAsJsonObject().get("auth_token_secret").getAsString();
+	        String authToken=  root.getAsJsonObject().get("auth_token").getAsString();
+	        String authSecrectToken = root.getAsJsonObject().get("auth_token_secret").getAsString();
 	        
 	        logger.info(getName()+ " Looking for price " + props.getProperty("URL")+"/search/serp");
 			
 	         
 	        HttpPost reqSearch= new HttpPost(props.getProperty("URL")+"/search/serp");
-			        reqSearch.addHeader("x-dt-Auth-Token", auth_token);
+			        reqSearch.addHeader("x-dt-Auth-Token", authToken);
 			        reqSearch.addHeader("x-dt-Sequence", String.valueOf(sequence));
-			        reqSearch.addHeader("x-dt-Signature", getMD5(sequence+":"+auth_token_secret));
+			        reqSearch.addHeader("x-dt-Signature", getMD5(sequence+":"+authSecrectToken));
 			        reqSearch.addHeader("Content-type", "application/json");
 			        reqSearch.addHeader("Accept", "application/json");
 			        reqSearch.addHeader("x-dt-cdb-Language","en");
@@ -143,7 +141,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
 			        response = httpClient.execute(reqSearch, responseHandler,httpContext);
 			        logger.debug(getName() +" response :" + response);
-			      sequence++;
+			        sequence++;
 			      
 		return parseResult(response);
 	}

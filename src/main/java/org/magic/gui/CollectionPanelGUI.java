@@ -574,7 +574,7 @@ public class CollectionPanelGUI extends JPanel {
 
 							WebSiteGeneratorDialog diag = new WebSiteGeneratorDialog(dao.getCollections());
 							diag.setVisible(true);
-							if (diag.value() == true) {
+							if (diag.value()) {
 								progressBar.setVisible(true);
 								progressBar.setStringPainted(true);
 								progressBar.setMinimum(0);

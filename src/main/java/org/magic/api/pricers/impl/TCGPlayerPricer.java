@@ -44,7 +44,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
-		List<MagicPrice> list = new ArrayList<MagicPrice>();
+		List<MagicPrice> list = new ArrayList<>();
 		String url = props.getProperty("URL");
 			   url = url.replaceAll("%API_KEY%", props.getProperty("API_KEY"));
 		

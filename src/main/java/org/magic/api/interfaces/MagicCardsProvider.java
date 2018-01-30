@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicEdition;
 
 public interface MagicCardsProvider extends MTGPlugin{
 
-	public enum STATUT { DEV, BETA, STABLE, ABANDONNED};
+	public enum STATUT { DEV, BETA, STABLE, ABANDONNED}
 	
 	public void init() ;
 	

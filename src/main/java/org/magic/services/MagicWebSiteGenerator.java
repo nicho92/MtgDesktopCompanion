@@ -40,7 +40,7 @@ public class MagicWebSiteGenerator extends Observable{
 	private List<MagicCollection> cols;
 	Logger logger = MTGLogger.getLogger(this.getClass());
 	
-	public MagicWebSiteGenerator(String template,String dest) throws IOException, SQLException {
+	public MagicWebSiteGenerator(String template,String dest) throws IOException {
 		cfg = new Configuration(Configuration.VERSION_2_3_27);
 		cfg.setDirectoryForTemplateLoading(new File(MTGConstants.MTG_TEMPLATES_DIR,template));
 		cfg.setDefaultEncoding("UTF-8");

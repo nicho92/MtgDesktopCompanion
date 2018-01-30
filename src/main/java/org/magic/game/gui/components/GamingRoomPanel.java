@@ -325,6 +325,7 @@ public class GamingRoomPanel extends JPanel {
 		
 		
 		editorPane.addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyReleased(java.awt.event.KeyEvent e) {
 				if(e.getKeyCode()==KeyEvent.VK_ENTER)
 				{ 
@@ -332,11 +333,12 @@ public class GamingRoomPanel extends JPanel {
 				 editorPane.setText("");
 				}
 				
-			};
+			}
 			
 		});
 		
 		btnDeck.addActionListener(new ActionListener() {
+			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				
 				JDeckChooserDialog diag = new JDeckChooserDialog();

@@ -92,9 +92,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 		this.counters = counters;
 	}
 
-	public ImageIcon getImage() {
-		return image;
-	}
 
 	public PositionEnum getPosition() {
 		return position;
@@ -189,7 +186,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 			validate();
 		}
-		// super.paint(g);
 	}
 
 	private void drawString(Graphics g, String s, Color background, Color foreground, int x, int y) {
@@ -242,9 +238,9 @@ public class DisplayableCard extends JLabel implements Draggable {
 	
 		menu = new JPopupMenu();
 		sep = new JSeparator();
-		attachedCards = new ArrayList<DisplayableCard>();
+		attachedCards = new ArrayList<>();
 		
-		counters = new ArrayList<AbstractCounter>();
+		counters = new ArrayList<>();
 
 		setSize(d);
 		setPreferredSize(d);
@@ -265,11 +261,9 @@ public class DisplayableCard extends JLabel implements Draggable {
 				public void mouseClicked(MouseEvent e) {
 
 					if (SwingUtilities.isLeftMouseButton(e)) {
-						if (e.getClickCount() == 1) {
-							if (e.isControlDown()) {
+						if (e.getClickCount() == 1 && e.isControlDown()) {
 								setSelected(!isSelected());
 								repaint();
-							}
 						}
 						if (e.getClickCount() == 2) {
 							if (isTappable())
@@ -284,9 +278,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 			addMouseMotionListener(new MouseAdapter() {
 				@Override
 				public void mouseDragged(MouseEvent e) {
-					if (SwingUtilities.isLeftMouseButton(e))
-						if (isDraggable())
-							enableDrag(e);
+					if (SwingUtilities.isLeftMouseButton(e) && isDraggable())
+						enableDrag(e);
 				}
 			});
 		}
@@ -306,8 +299,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 	}
 
 	private AbstractAction generateActionFrom(MTGKeyWord k)
-			throws ClassNotFoundException, NoSuchMethodException, SecurityException, InstantiationException,
-			IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+			throws ClassNotFoundException, NoSuchMethodException, InstantiationException,
+			IllegalAccessException,  InvocationTargetException {
 		Class a = DisplayableCard.class.getClassLoader()
 				.loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
 		Constructor ctor = a.getDeclaredConstructor(DisplayableCard.class);
@@ -361,7 +354,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			l.add(MTGControler.getInstance().getKeyWordManager().generateFromString("Aftermath"));
 		
 		
-		if (l.size() > 0) {
+		if (!l.isEmpty()) {
 			for (final MTGKeyWord k : l) {
 				JMenuItem it;
 				try {
@@ -375,7 +368,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			menu.add(abilities);
 		}
 
-		if (counters.size() > 0) {
+		if (!counters.isEmpty()) {
 			JMenu mnuModifier = new JMenu("Remove Counter");
 			for (final AbstractCounter count : counters)
 				mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count)));
@@ -383,18 +376,9 @@ public class DisplayableCard extends JLabel implements Draggable {
 			menu.add(mnuModifier);
 		}
 		
-		if(magicCard.getText()!=null)
-			if (magicCard.getText().contains("copy of")) {
-				menu.add(new CopyFromActions(this));
-			}
+		if(magicCard.getText()!=null && magicCard.getText().contains("copy of"))
+			menu.add(new CopyFromActions(this));
 
-		// if(magicCard.isTranformable())
-		// menu.add(new JMenuItem(new TransformActions(this)));
-
-		// if(magicCard.isFlippable())
-		// menu.add(new JMenuItem(new FlipActions(this)));
-		
-		
 		menu.add(sep);		
 		if (GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
 		{
@@ -447,7 +431,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 	private List<LoyaltyCounter> listLoyalty() {
 		String[] values = magicCard.getText().split("\n");
-		List<LoyaltyCounter> actions = new ArrayList<LoyaltyCounter>();
+		List<LoyaltyCounter> actions = new ArrayList<>();
 
 		for (String s : values) {
 

@@ -9,8 +9,6 @@ import java.awt.Point;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.io.File;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -125,7 +123,7 @@ public class StockPanelGUI extends JPanel {
 									ms.setUpdate(false);
 									lblLoading.setVisible(false);
 								} catch (SQLException e1) {
-									JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR") + " : " + String.valueOf(ms),JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR") + " : " + ms,JOptionPane.ERROR_MESSAGE);
 									lblLoading.setVisible(false);
 								}
 						
@@ -635,56 +633,56 @@ public class StockPanelGUI extends JPanel {
 		rightPanel.setBackground(SystemColor.inactiveCaption);
 		rightPanel.setVisible(false);
 		add(rightPanel, BorderLayout.EAST);
-		GridBagLayout gbl_rightPanel = new GridBagLayout();
-		gbl_rightPanel.columnWidths = new int[]{84, 103, 0};
-		gbl_rightPanel.rowHeights = new int[]{83, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gbl_rightPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_rightPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		rightPanel.setLayout(gbl_rightPanel);
+		GridBagLayout gblrightPanel = new GridBagLayout();
+		gblrightPanel.columnWidths = new int[]{84, 103, 0};
+		gblrightPanel.rowHeights = new int[]{83, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+		gblrightPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
+		gblrightPanel.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		rightPanel.setLayout(gblrightPanel);
 		
 		lblSelect = new JLabel("Select :");
-		GridBagConstraints gbc_lblSelect = new GridBagConstraints();
-		gbc_lblSelect.anchor = GridBagConstraints.NORTHEAST;
-		gbc_lblSelect.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSelect.gridx = 0;
-		gbc_lblSelect.gridy = 1;
-		rightPanel.add(lblSelect, gbc_lblSelect);
+		GridBagConstraints gbclblSelect = new GridBagConstraints();
+		gbclblSelect.anchor = GridBagConstraints.NORTHEAST;
+		gbclblSelect.insets = new Insets(0, 0, 5, 5);
+		gbclblSelect.gridx = 0;
+		gbclblSelect.gridy = 1;
+		rightPanel.add(lblSelect, gbclblSelect);
 		
 		cboSelections = new JComboBox<>();
 		
 		cboSelections.setModel(new DefaultComboBoxModel<String>(selections));
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.anchor = GridBagConstraints.NORTH;
-		gbc_comboBox.insets = new Insets(0, 0, 5, 0);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 1;
-		rightPanel.add(cboSelections, gbc_comboBox);
+		GridBagConstraints gbccomboBox = new GridBagConstraints();
+		gbccomboBox.anchor = GridBagConstraints.NORTH;
+		gbccomboBox.insets = new Insets(0, 0, 5, 0);
+		gbccomboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbccomboBox.gridx = 1;
+		gbccomboBox.gridy = 1;
+		rightPanel.add(cboSelections, gbccomboBox);
 		
 		lblQte = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QTY")+ " :");
-		GridBagConstraints gbc_lblQte = new GridBagConstraints();
-		gbc_lblQte.anchor = GridBagConstraints.EAST;
-		gbc_lblQte.insets = new Insets(0, 0, 5, 5);
-		gbc_lblQte.gridx = 0;
-		gbc_lblQte.gridy = 2;
-		rightPanel.add(lblQte, gbc_lblQte);
+		GridBagConstraints gbclblQte = new GridBagConstraints();
+		gbclblQte.anchor = GridBagConstraints.EAST;
+		gbclblQte.insets = new Insets(0, 0, 5, 5);
+		gbclblQte.gridx = 0;
+		gbclblQte.gridy = 2;
+		rightPanel.add(lblQte, gbclblQte);
 		
 		spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(0,0, null, 1));
-		GridBagConstraints gbc_spinner = new GridBagConstraints();
-		gbc_spinner.fill = GridBagConstraints.HORIZONTAL;
-		gbc_spinner.insets = new Insets(0, 0, 5, 0);
-		gbc_spinner.gridx = 1;
-		gbc_spinner.gridy = 2;
-		rightPanel.add(spinner, gbc_spinner);
+		GridBagConstraints gbcspinner = new GridBagConstraints();
+		gbcspinner.fill = GridBagConstraints.HORIZONTAL;
+		gbcspinner.insets = new Insets(0, 0, 5, 0);
+		gbcspinner.gridx = 1;
+		gbcspinner.gridy = 2;
+		rightPanel.add(spinner, gbcspinner);
 		
 		lblLanguage = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE")+ " :");
-		GridBagConstraints gbc_lblLanguage = new GridBagConstraints();
-		gbc_lblLanguage.anchor = GridBagConstraints.EAST;
-		gbc_lblLanguage.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLanguage.gridx = 0;
-		gbc_lblLanguage.gridy = 3;
-		rightPanel.add(lblLanguage, gbc_lblLanguage);
+		GridBagConstraints gbclblLanguage = new GridBagConstraints();
+		gbclblLanguage.anchor = GridBagConstraints.EAST;
+		gbclblLanguage.insets = new Insets(0, 0, 5, 5);
+		gbclblLanguage.gridx = 0;
+		gbclblLanguage.gridy = 3;
+		rightPanel.add(lblLanguage, gbclblLanguage);
 		
 		DefaultComboBoxModel<String> lModel = new DefaultComboBoxModel<>();
 		lModel.addElement(null);
@@ -692,68 +690,68 @@ public class StockPanelGUI extends JPanel {
 			 lModel.addElement(l.getDisplayLanguage(Locale.US));
 		
 		cboLanguages = new JComboBox<>(lModel);
-		GridBagConstraints gbc_cboLanguages = new GridBagConstraints();
-		gbc_cboLanguages.insets = new Insets(0, 0, 5, 0);
-		gbc_cboLanguages.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboLanguages.gridx = 1;
-		gbc_cboLanguages.gridy = 3;
-		rightPanel.add(cboLanguages, gbc_cboLanguages);
+		GridBagConstraints gbccboLanguages = new GridBagConstraints();
+		gbccboLanguages.insets = new Insets(0, 0, 5, 0);
+		gbccboLanguages.fill = GridBagConstraints.HORIZONTAL;
+		gbccboLanguages.gridx = 1;
+		gbccboLanguages.gridy = 3;
+		rightPanel.add(cboLanguages, gbccboLanguages);
 		
 		lblFoil = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("FOIL")+ " :");
-		GridBagConstraints gbc_lblFoil = new GridBagConstraints();
-		gbc_lblFoil.anchor = GridBagConstraints.EAST;
-		gbc_lblFoil.insets = new Insets(0, 0, 5, 5);
-		gbc_lblFoil.gridx = 0;
-		gbc_lblFoil.gridy = 4;
-		rightPanel.add(lblFoil, gbc_lblFoil);
+		GridBagConstraints gbclblFoil = new GridBagConstraints();
+		gbclblFoil.anchor = GridBagConstraints.EAST;
+		gbclblFoil.insets = new Insets(0, 0, 5, 5);
+		gbclblFoil.gridx = 0;
+		gbclblFoil.gridy = 4;
+		rightPanel.add(lblFoil, gbclblFoil);
 		
 		cboFoil = new JComboBox<>(new DefaultComboBoxModel<Boolean>(values));
-		GridBagConstraints gbc_cboFoil = new GridBagConstraints();
-		gbc_cboFoil.insets = new Insets(0, 0, 5, 0);
-		gbc_cboFoil.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboFoil.gridx = 1;
-		gbc_cboFoil.gridy = 4;
-		rightPanel.add(cboFoil, gbc_cboFoil);
+		GridBagConstraints gbccboFoil = new GridBagConstraints();
+		gbccboFoil.insets = new Insets(0, 0, 5, 0);
+		gbccboFoil.fill = GridBagConstraints.HORIZONTAL;
+		gbccboFoil.gridx = 1;
+		gbccboFoil.gridy = 4;
+		rightPanel.add(cboFoil, gbccboFoil);
 		
 		lblSigned = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIGNED")+ " :");
-		GridBagConstraints gbc_lblSigned = new GridBagConstraints();
-		gbc_lblSigned.anchor = GridBagConstraints.EAST;
-		gbc_lblSigned.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSigned.gridx = 0;
-		gbc_lblSigned.gridy = 5;
-		rightPanel.add(lblSigned, gbc_lblSigned);
+		GridBagConstraints gbclblSigned = new GridBagConstraints();
+		gbclblSigned.anchor = GridBagConstraints.EAST;
+		gbclblSigned.insets = new Insets(0, 0, 5, 5);
+		gbclblSigned.gridx = 0;
+		gbclblSigned.gridy = 5;
+		rightPanel.add(lblSigned, gbclblSigned);
 		
 		cboSigned = new JComboBox<>(new DefaultComboBoxModel<Boolean>(values));
-		GridBagConstraints gbc_cboSigned = new GridBagConstraints();
-		gbc_cboSigned.insets = new Insets(0, 0, 5, 0);
-		gbc_cboSigned.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboSigned.gridx = 1;
-		gbc_cboSigned.gridy = 5;
-		rightPanel.add(cboSigned, gbc_cboSigned);
+		GridBagConstraints gbccboSigned = new GridBagConstraints();
+		gbccboSigned.insets = new Insets(0, 0, 5, 0);
+		gbccboSigned.fill = GridBagConstraints.HORIZONTAL;
+		gbccboSigned.gridx = 1;
+		gbccboSigned.gridy = 5;
+		rightPanel.add(cboSigned, gbccboSigned);
 		
 		lblAltered = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("ALTERED")+ " :");
-		GridBagConstraints gbc_lblAltered = new GridBagConstraints();
-		gbc_lblAltered.anchor = GridBagConstraints.EAST;
-		gbc_lblAltered.insets = new Insets(0, 0, 5, 5);
-		gbc_lblAltered.gridx = 0;
-		gbc_lblAltered.gridy = 6;
-		rightPanel.add(lblAltered, gbc_lblAltered);
+		GridBagConstraints gbclblAltered = new GridBagConstraints();
+		gbclblAltered.anchor = GridBagConstraints.EAST;
+		gbclblAltered.insets = new Insets(0, 0, 5, 5);
+		gbclblAltered.gridx = 0;
+		gbclblAltered.gridy = 6;
+		rightPanel.add(lblAltered, gbclblAltered);
 		
 		cboAltered = new JComboBox<>(new DefaultComboBoxModel<Boolean>(values));
-		GridBagConstraints gbc_cboAltered = new GridBagConstraints();
-		gbc_cboAltered.insets = new Insets(0, 0, 5, 0);
-		gbc_cboAltered.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboAltered.gridx = 1;
-		gbc_cboAltered.gridy = 6;
-		rightPanel.add(cboAltered, gbc_cboAltered);
+		GridBagConstraints gbccboAltered = new GridBagConstraints();
+		gbccboAltered.insets = new Insets(0, 0, 5, 0);
+		gbccboAltered.fill = GridBagConstraints.HORIZONTAL;
+		gbccboAltered.gridx = 1;
+		gbccboAltered.gridy = 6;
+		rightPanel.add(cboAltered, gbccboAltered);
 		
 		lblQuality = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QUALITY")+ " :");
-		GridBagConstraints gbc_lblQuality = new GridBagConstraints();
-		gbc_lblQuality.anchor = GridBagConstraints.EAST;
-		gbc_lblQuality.insets = new Insets(0, 0, 5, 5);
-		gbc_lblQuality.gridx = 0;
-		gbc_lblQuality.gridy = 7;
-		rightPanel.add(lblQuality, gbc_lblQuality);
+		GridBagConstraints gbclblQuality = new GridBagConstraints();
+		gbclblQuality.anchor = GridBagConstraints.EAST;
+		gbclblQuality.insets = new Insets(0, 0, 5, 5);
+		gbclblQuality.gridx = 0;
+		gbclblQuality.gridy = 7;
+		rightPanel.add(lblQuality, gbclblQuality);
 		
 		DefaultComboBoxModel<EnumCondition> qModel = new DefaultComboBoxModel<>();
 		qModel.addElement(null);
@@ -765,20 +763,20 @@ public class StockPanelGUI extends JPanel {
 		
 		
 		
-		GridBagConstraints gbc_cboQuality = new GridBagConstraints();
-		gbc_cboQuality.insets = new Insets(0, 0, 5, 0);
-		gbc_cboQuality.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboQuality.gridx = 1;
-		gbc_cboQuality.gridy = 7;
-		rightPanel.add(cboQuality, gbc_cboQuality);
+		GridBagConstraints gbccboQuality = new GridBagConstraints();
+		gbccboQuality.insets = new Insets(0, 0, 5, 0);
+		gbccboQuality.fill = GridBagConstraints.HORIZONTAL;
+		gbccboQuality.gridx = 1;
+		gbccboQuality.gridy = 7;
+		rightPanel.add(cboQuality, gbccboQuality);
 		
 		lblCollection = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION")+ " :");
-		GridBagConstraints gbc_lblCollection = new GridBagConstraints();
-		gbc_lblCollection.anchor = GridBagConstraints.EAST;
-		gbc_lblCollection.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCollection.gridx = 0;
-		gbc_lblCollection.gridy = 8;
-		rightPanel.add(lblCollection, gbc_lblCollection);
+		GridBagConstraints gbclblCollection = new GridBagConstraints();
+		gbclblCollection.anchor = GridBagConstraints.EAST;
+		gbclblCollection.insets = new Insets(0, 0, 5, 5);
+		gbclblCollection.gridx = 0;
+		gbclblCollection.gridy = 8;
+		rightPanel.add(lblCollection, gbclblCollection);
 		
 		
 
@@ -792,38 +790,38 @@ public class StockPanelGUI extends JPanel {
 		}
 		
 		cboCollection = new JComboBox<>(cModel);
-		GridBagConstraints gbc_cboCollection = new GridBagConstraints();
-		gbc_cboCollection.insets = new Insets(0, 0, 5, 0);
-		gbc_cboCollection.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboCollection.gridx = 1;
-		gbc_cboCollection.gridy = 8;
-		rightPanel.add(cboCollection, gbc_cboCollection);
+		GridBagConstraints gbccboCollection = new GridBagConstraints();
+		gbccboCollection.insets = new Insets(0, 0, 5, 0);
+		gbccboCollection.fill = GridBagConstraints.HORIZONTAL;
+		gbccboCollection.gridx = 1;
+		gbccboCollection.gridy = 8;
+		rightPanel.add(cboCollection, gbccboCollection);
 		
 		lblComment = new JLabel("Comment :");
-		GridBagConstraints gbc_lblComment = new GridBagConstraints();
-		gbc_lblComment.insets = new Insets(0, 0, 5, 5);
-		gbc_lblComment.gridx = 0;
-		gbc_lblComment.gridy = 9;
-		rightPanel.add(lblComment, gbc_lblComment);
+		GridBagConstraints gbclblComment = new GridBagConstraints();
+		gbclblComment.insets = new Insets(0, 0, 5, 5);
+		gbclblComment.gridx = 0;
+		gbclblComment.gridy = 9;
+		rightPanel.add(lblComment, gbclblComment);
 		
 		textPane = new JTextPane();
-		GridBagConstraints gbc_textPane = new GridBagConstraints();
-		gbc_textPane.insets = new Insets(0, 0, 5, 0);
-		gbc_textPane.gridwidth = 2;
-		gbc_textPane.gridheight = 3;
-		gbc_textPane.fill = GridBagConstraints.BOTH;
-		gbc_textPane.gridx = 0;
-		gbc_textPane.gridy = 10;
-		rightPanel.add(textPane, gbc_textPane);
+		GridBagConstraints gbctextPane = new GridBagConstraints();
+		gbctextPane.insets = new Insets(0, 0, 5, 0);
+		gbctextPane.gridwidth = 2;
+		gbctextPane.gridheight = 3;
+		gbctextPane.fill = GridBagConstraints.BOTH;
+		gbctextPane.gridx = 0;
+		gbctextPane.gridy = 10;
+		rightPanel.add(textPane, gbctextPane);
 		
 		btnApplyModification = new JButton(MTGControler.getInstance().getLangService().getCapitalize("APPLY"));
 		
 		
-		GridBagConstraints gbc_btnApplyModification = new GridBagConstraints();
-		gbc_btnApplyModification.gridwidth = 2;
-		gbc_btnApplyModification.gridx = 0;
-		gbc_btnApplyModification.gridy = 13;
-		rightPanel.add(btnApplyModification, gbc_btnApplyModification);
+		GridBagConstraints gbcbtnApplyModification = new GridBagConstraints();
+		gbcbtnApplyModification.gridwidth = 2;
+		gbcbtnApplyModification.gridx = 0;
+		gbcbtnApplyModification.gridy = 13;
+		rightPanel.add(btnApplyModification, gbcbtnApplyModification);
 		
 		bottomPanel = new JPanel();
 		add(bottomPanel, BorderLayout.SOUTH);

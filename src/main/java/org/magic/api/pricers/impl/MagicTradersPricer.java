@@ -45,7 +45,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 		try(BufferedReader read = new BufferedReader(new InputStreamReader(is)))
 		{
 			String line;
-			List<MagicPrice> list = new ArrayList<MagicPrice>();
+			List<MagicPrice> list = new ArrayList<>();
 		
 			while ((line = read.readLine()) != null) {
 				String[] fields = line.split("\\|");
@@ -68,7 +68,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 								mp.setValue(f);
 								mp.setCurrency("$");
 								list.add(mp);
-								read.close();
+								
 								return list;
 					}
 				} catch (NumberFormatException e) {

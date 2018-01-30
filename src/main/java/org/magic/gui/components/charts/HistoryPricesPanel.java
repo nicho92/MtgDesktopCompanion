@@ -6,8 +6,6 @@ import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -43,12 +41,12 @@ public class HistoryPricesPanel extends JPanel{
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.EAST);
 		pane = new ChartPanel(null);
-		GridBagLayout gbl_panel = new GridBagLayout();
-		gbl_panel.columnWidths = new int[]{91, 0};
-		gbl_panel.rowHeights = new int[]{23, 0, 0};
-		gbl_panel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		panel.setLayout(gbl_panel);
+		GridBagLayout gblpanel = new GridBagLayout();
+		gblpanel.columnWidths = new int[]{91, 0};
+		gblpanel.rowHeights = new int[]{23, 0, 0};
+		gblpanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+		gblpanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panel.setLayout(gblpanel);
 		chckbxShowEditions = new JCheckBox("Show Editions");
 		chckbxShowEditions.setSelected(showEdition);
 		chckbxShowEditions.addActionListener(new ActionListener() {
@@ -57,12 +55,12 @@ public class HistoryPricesPanel extends JPanel{
 				refresh();
 			}
 		});
-		GridBagConstraints gbc_chckbxShowEditions = new GridBagConstraints();
-		gbc_chckbxShowEditions.anchor = GridBagConstraints.NORTHWEST;
-		gbc_chckbxShowEditions.insets = new Insets(0, 0, 5, 0);
-		gbc_chckbxShowEditions.gridx = 0;
-		gbc_chckbxShowEditions.gridy = 0;
-		panel.add(chckbxShowEditions, gbc_chckbxShowEditions);
+		GridBagConstraints gbcchckbxShowEditions = new GridBagConstraints();
+		gbcchckbxShowEditions.anchor = GridBagConstraints.NORTHWEST;
+		gbcchckbxShowEditions.insets = new Insets(0, 0, 5, 0);
+		gbcchckbxShowEditions.gridx = 0;
+		gbcchckbxShowEditions.gridy = 0;
+		panel.add(chckbxShowEditions, gbcchckbxShowEditions);
 		
 		chckbxShowAllDashboard = new JCheckBox("Show all dashboard");
 		chckbxShowAllDashboard.addActionListener(new ActionListener() {
@@ -72,10 +70,10 @@ public class HistoryPricesPanel extends JPanel{
 			}
 		});
 		
-		GridBagConstraints gbc_chckbxShowAllDashboard = new GridBagConstraints();
-		gbc_chckbxShowAllDashboard.gridx = 0;
-		gbc_chckbxShowAllDashboard.gridy = 1;
-		panel.add(chckbxShowAllDashboard, gbc_chckbxShowAllDashboard);
+		GridBagConstraints gbcchckbxShowAllDashboard = new GridBagConstraints();
+		gbcchckbxShowAllDashboard.gridx = 0;
+		gbcchckbxShowAllDashboard.gridy = 1;
+		panel.add(chckbxShowAllDashboard, gbcchckbxShowAllDashboard);
 	}
 	
 	

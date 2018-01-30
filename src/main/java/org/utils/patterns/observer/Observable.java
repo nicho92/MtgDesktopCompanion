@@ -8,7 +8,7 @@ public class Observable {
     private List<Observer> obs;
 
     public Observable() {
-        obs = new ArrayList<Observer>();
+        obs = new ArrayList<>();
     }
 
     public synchronized void addObserver(Observer o) {

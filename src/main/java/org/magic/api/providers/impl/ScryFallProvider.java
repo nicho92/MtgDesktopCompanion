@@ -25,8 +25,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.MagicRuling;
-import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;

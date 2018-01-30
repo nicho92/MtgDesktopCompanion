@@ -49,7 +49,7 @@ public class EbayPricer extends AbstractMagicPricesProvider
 	
 	
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
-		List<MagicPrice> prices = new ArrayList<MagicPrice>();
+		List<MagicPrice> prices = new ArrayList<>();
 		
 		String url = props.getProperty("URL");
 			   url = url.replaceAll("%API_KEY%", props.get("API_KEY").toString());

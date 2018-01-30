@@ -18,7 +18,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.console.AbstractCommand;
-import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;

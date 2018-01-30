@@ -9,7 +9,7 @@ public class SpellStack {
 	Stack<AbstractSpell> stack;
 	
 	public SpellStack() {
-		stack= new Stack<AbstractSpell>();
+		stack= new Stack<>();
 	}
 	
 	public void clean()
@@ -30,7 +30,7 @@ public class SpellStack {
 	
 	public List<AbstractSpell> toList()
 	{
-		return new ArrayList<AbstractSpell>(stack);
+		return new ArrayList<>(stack);
 	}
 	
 	public String toString() {

@@ -114,45 +114,45 @@ public class MagicCardDetailPanel extends JPanel {
 		setLayout(gridBagLayout);
 						
 		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") +" :");
-		GridBagConstraints labelGbc_5 = new GridBagConstraints();
-		labelGbc_5.insets = new Insets(5, 5, 5, 5);
-		labelGbc_5.gridx = 0;
-		labelGbc_5.gridy = 0;
-		add(nameLabel, labelGbc_5);
+		GridBagConstraints labelgbc5 = new GridBagConstraints();
+		labelgbc5.insets = new Insets(5, 5, 5, 5);
+		labelgbc5.gridx = 0;
+		labelgbc5.gridy = 0;
+		add(nameLabel, labelgbc5);
 
 		nameJTextField = new JTextField();
 
-		GridBagConstraints componentGbc_5 = new GridBagConstraints();
-		componentGbc_5.insets = new Insets(5, 0, 5, 5);
-		componentGbc_5.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc_5.gridx = 1;
-		componentGbc_5.gridy = 0;
-		add(nameJTextField, componentGbc_5);
+		GridBagConstraints componentgbc5 = new GridBagConstraints();
+		componentgbc5.insets = new Insets(5, 0, 5, 5);
+		componentgbc5.fill = GridBagConstraints.HORIZONTAL;
+		componentgbc5.gridx = 1;
+		componentgbc5.gridy = 0;
+		add(nameJTextField, componentgbc5);
 
 		JLabel cmcLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_COST")+" :");
-		GridBagConstraints labelGbc_0 = new GridBagConstraints();
-		labelGbc_0.anchor = GridBagConstraints.EAST;
-		labelGbc_0.insets = new Insets(5, 5, 5, 5);
-		labelGbc_0.gridx = 2;
-		labelGbc_0.gridy = 0;
-		add(cmcLabel, labelGbc_0);
+		GridBagConstraints labelgbc0 = new GridBagConstraints();
+		labelgbc0.anchor = GridBagConstraints.EAST;
+		labelgbc0.insets = new Insets(5, 5, 5, 5);
+		labelgbc0.gridx = 2;
+		labelgbc0.gridy = 0;
+		add(cmcLabel, labelgbc0);
 
 		cmcJTextField = new JTextField();
-		GridBagConstraints componentGbc_0 = new GridBagConstraints();
-		componentGbc_0.insets = new Insets(5, 0, 5, 5);
-		componentGbc_0.fill = GridBagConstraints.HORIZONTAL;
-		componentGbc_0.gridx = 4;
-		componentGbc_0.gridy = 0;
-		add(cmcJTextField, componentGbc_0);
+		GridBagConstraints componentgbc0 = new GridBagConstraints();
+		componentgbc0.insets = new Insets(5, 0, 5, 5);
+		componentgbc0.fill = GridBagConstraints.HORIZONTAL;
+		componentgbc0.gridx = 4;
+		componentgbc0.gridy = 0;
+		add(cmcJTextField, componentgbc0);
 				
 				lblLogoSet = new JLabel("");
-				GridBagConstraints gbc_lblLogoSet = new GridBagConstraints();
-				gbc_lblLogoSet.gridwidth = 2;
-				gbc_lblLogoSet.gridheight = 2;
-				gbc_lblLogoSet.insets = new Insets(0, 0, 5, 5);
-				gbc_lblLogoSet.gridx = 5;
-				gbc_lblLogoSet.gridy = 0;
-				add(lblLogoSet, gbc_lblLogoSet);
+				GridBagConstraints gbclblLogoSet = new GridBagConstraints();
+				gbclblLogoSet.gridwidth = 2;
+				gbclblLogoSet.gridheight = 2;
+				gbclblLogoSet.insets = new Insets(0, 0, 5, 5);
+				gbclblLogoSet.gridx = 5;
+				gbclblLogoSet.gridy = 0;
+				add(lblLogoSet, gbclblLogoSet);
 				
 				btnAlert = new JButton("");
 				btnAlert.setEnabled(false);
@@ -175,60 +175,60 @@ public class MagicCardDetailPanel extends JPanel {
 					}
 				});
 				
-				GridBagConstraints gbc_btnAlert = new GridBagConstraints();
-				gbc_btnAlert.insets = new Insets(0, 0, 5, 0);
-				gbc_btnAlert.gridx = 8;
-				gbc_btnAlert.gridy = 0;
-				add(btnAlert, gbc_btnAlert);
+				GridBagConstraints gbcbtnAlert = new GridBagConstraints();
+				gbcbtnAlert.insets = new Insets(0, 0, 5, 0);
+				gbcbtnAlert.gridx = 8;
+				gbcbtnAlert.gridy = 0;
+				add(btnAlert, gbcbtnAlert);
 				
 				
 				lblThumbnail = new JLabel("");
-				GridBagConstraints gbc_lblThumbnail = new GridBagConstraints();
-				gbc_lblThumbnail.fill = GridBagConstraints.HORIZONTAL;
-				gbc_lblThumbnail.gridwidth = 2;
-				gbc_lblThumbnail.gridheight = 9;
-				gbc_lblThumbnail.gridx = 7;
-				gbc_lblThumbnail.gridy = 1;
-				add(lblThumbnail, gbc_lblThumbnail);
+				GridBagConstraints gbclblThumbnail = new GridBagConstraints();
+				gbclblThumbnail.fill = GridBagConstraints.HORIZONTAL;
+				gbclblThumbnail.gridwidth = 2;
+				gbclblThumbnail.gridheight = 9;
+				gbclblThumbnail.gridx = 7;
+				gbclblThumbnail.gridy = 1;
+				add(lblThumbnail, gbclblThumbnail);
 		
 				JLabel fullTypeLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES")+" :");
-				GridBagConstraints labelGbc_2 = new GridBagConstraints();
-				labelGbc_2.insets = new Insets(5, 5, 5, 5);
-				labelGbc_2.gridx = 0;
-				labelGbc_2.gridy = 1;
-				add(fullTypeLabel, labelGbc_2);
+				GridBagConstraints labelgbc2 = new GridBagConstraints();
+				labelgbc2.insets = new Insets(5, 5, 5, 5);
+				labelgbc2.gridx = 0;
+				labelgbc2.gridy = 1;
+				add(fullTypeLabel, labelgbc2);
 		
 				fullTypeJTextField = new JTextField();
-				GridBagConstraints componentGbc_2 = new GridBagConstraints();
-				componentGbc_2.insets = new Insets(5, 0, 5, 5);
-				componentGbc_2.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_2.gridx = 1;
-				componentGbc_2.gridy = 1;
-				add(fullTypeJTextField, componentGbc_2);
+				GridBagConstraints componentgbc2 = new GridBagConstraints();
+				componentgbc2.insets = new Insets(5, 0, 5, 5);
+				componentgbc2.fill = GridBagConstraints.HORIZONTAL;
+				componentgbc2.gridx = 1;
+				componentgbc2.gridy = 1;
+				add(fullTypeJTextField, componentgbc2);
 						
 				JLabel costLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA")+" :");
-				GridBagConstraints labelGbc_1 = new GridBagConstraints();
-				labelGbc_1.anchor = GridBagConstraints.EAST;
-				labelGbc_1.insets = new Insets(5, 5, 5, 5);
-				labelGbc_1.gridx = 2;
-				labelGbc_1.gridy = 1;
-				add(costLabel, labelGbc_1);
+				GridBagConstraints labelgbc1 = new GridBagConstraints();
+				labelgbc1.anchor = GridBagConstraints.EAST;
+				labelgbc1.insets = new Insets(5, 5, 5, 5);
+				labelgbc1.gridx = 2;
+				labelgbc1.gridy = 1;
+				add(costLabel, labelgbc1);
 		
 				manaPanel = new ManaPanel();
 				//costJTextField.setEditable(false);
-				GridBagConstraints componentGbc_1 = new GridBagConstraints();
-				componentGbc_1.insets = new Insets(5, 0, 5, 5);
-				componentGbc_1.fill = GridBagConstraints.HORIZONTAL;
-				componentGbc_1.gridx = 4;
-				componentGbc_1.gridy = 1;
-				add(manaPanel, componentGbc_1);
+				GridBagConstraints componentgbc1 = new GridBagConstraints();
+				componentgbc1.insets = new Insets(5, 0, 5, 5);
+				componentgbc1.fill = GridBagConstraints.HORIZONTAL;
+				componentgbc1.gridx = 4;
+				componentgbc1.gridy = 1;
+				add(manaPanel, componentgbc1);
 				
 				JLabel loyaltyLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LOYALTY")+" :");
-				GridBagConstraints gbc_loyaltyLabel = new GridBagConstraints();
-				gbc_loyaltyLabel.insets = new Insets(0, 0, 5, 5);
-				gbc_loyaltyLabel.gridx = 0;
-				gbc_loyaltyLabel.gridy = 2;
-				add(loyaltyLabel, gbc_loyaltyLabel);
+				GridBagConstraints gbcloyaltyLabel = new GridBagConstraints();
+				gbcloyaltyLabel.insets = new Insets(0, 0, 5, 5);
+				gbcloyaltyLabel.gridx = 0;
+				gbcloyaltyLabel.gridy = 2;
+				add(loyaltyLabel, gbcloyaltyLabel);
 				loyaltyJTextField = new JTextField();
 				loyaltyJTextField.setColumns(5);
 				JLabel powerLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_POWER")+" :");
@@ -242,13 +242,13 @@ public class MagicCardDetailPanel extends JPanel {
 				panelDetailCreature = new JPanel();
 				FlowLayout flowLayout = (FlowLayout) panelDetailCreature.getLayout();
 				flowLayout.setAlignment(FlowLayout.LEFT);
-				GridBagConstraints gbc_panelDetailCreature = new GridBagConstraints();
-				gbc_panelDetailCreature.gridwidth = 3;
-				gbc_panelDetailCreature.insets = new Insets(0, 0, 5, 5);
-				gbc_panelDetailCreature.fill = GridBagConstraints.BOTH;
-				gbc_panelDetailCreature.gridx = 1;
-				gbc_panelDetailCreature.gridy = 2;
-				add(panelDetailCreature, gbc_panelDetailCreature);
+				GridBagConstraints gbcpanelDetailCreature = new GridBagConstraints();
+				gbcpanelDetailCreature.gridwidth = 3;
+				gbcpanelDetailCreature.insets = new Insets(0, 0, 5, 5);
+				gbcpanelDetailCreature.fill = GridBagConstraints.BOTH;
+				gbcpanelDetailCreature.gridx = 1;
+				gbcpanelDetailCreature.gridy = 2;
+				add(panelDetailCreature, gbcpanelDetailCreature);
 				panelDetailCreature.add(loyaltyJTextField);
 				panelDetailCreature.add(powerLabel);
 				panelDetailCreature.add(powerJTextField);
@@ -256,74 +256,74 @@ public class MagicCardDetailPanel extends JPanel {
 				panelDetailCreature.add(toughnessJTextField);
 						
 				lblnumberInSet = new JLabel("/");
-				GridBagConstraints gbc_lblnumberInSet = new GridBagConstraints();
-				gbc_lblnumberInSet.gridwidth = 2;
-				gbc_lblnumberInSet.insets = new Insets(0, 0, 5, 5);
-				gbc_lblnumberInSet.gridx = 5;
-				gbc_lblnumberInSet.gridy = 2;
-				add(lblnumberInSet, gbc_lblnumberInSet);
+				GridBagConstraints gbclblnumberInSet = new GridBagConstraints();
+				gbclblnumberInSet.gridwidth = 2;
+				gbclblnumberInSet.insets = new Insets(0, 0, 5, 5);
+				gbclblnumberInSet.gridx = 5;
+				gbclblnumberInSet.gridy = 2;
+				add(lblnumberInSet, gbclblnumberInSet);
 				
 				lblLayout = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LAYOUT")+" :");
-				GridBagConstraints gbc_lblLayout = new GridBagConstraints();
-				gbc_lblLayout.insets = new Insets(0, 0, 5, 5);
-				gbc_lblLayout.gridx = 0;
-				gbc_lblLayout.gridy = 3;
-				add(lblLayout, gbc_lblLayout);
+				GridBagConstraints gbclblLayout = new GridBagConstraints();
+				gbclblLayout.insets = new Insets(0, 0, 5, 5);
+				gbclblLayout.gridx = 0;
+				gbclblLayout.gridy = 3;
+				add(lblLayout, gbclblLayout);
 				
 				txtLayoutField = new JTextField();
 
-				GridBagConstraints gbc_txtLayoutField = new GridBagConstraints();
-				gbc_txtLayoutField.insets = new Insets(0, 0, 5, 5);
-				gbc_txtLayoutField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_txtLayoutField.gridx = 1;
-				gbc_txtLayoutField.gridy = 3;
-				add(txtLayoutField, gbc_txtLayoutField);
+				GridBagConstraints gbctxtLayoutField = new GridBagConstraints();
+				gbctxtLayoutField.insets = new Insets(0, 0, 5, 5);
+				gbctxtLayoutField.fill = GridBagConstraints.HORIZONTAL;
+				gbctxtLayoutField.gridx = 1;
+				gbctxtLayoutField.gridy = 3;
+				add(txtLayoutField, gbctxtLayoutField);
 				txtLayoutField.setColumns(10);
-				GridBagConstraints gbc_lstFormats = new GridBagConstraints();
-				gbc_lstFormats.gridwidth = 3;
-				gbc_lstFormats.insets = new Insets(0, 0, 5, 5);
-				gbc_lstFormats.fill = GridBagConstraints.HORIZONTAL;
-				gbc_lstFormats.gridx = 4;
-				gbc_lstFormats.gridy = 3;
+				GridBagConstraints gbclstFormats = new GridBagConstraints();
+				gbclstFormats.gridwidth = 3;
+				gbclstFormats.insets = new Insets(0, 0, 5, 5);
+				gbclstFormats.fill = GridBagConstraints.HORIZONTAL;
+				gbclstFormats.gridx = 4;
+				gbclstFormats.gridy = 3;
 				
 				chckbxReserved = new JCheckBox("(R)");
-				GridBagConstraints gbc_chckbxReserved = new GridBagConstraints();
-				gbc_chckbxReserved.insets = new Insets(0, 0, 5, 5);
-				gbc_chckbxReserved.gridx = 2;
-				gbc_chckbxReserved.gridy = 3;
-				add(chckbxReserved, gbc_chckbxReserved);
+				GridBagConstraints gbcchckbxReserved = new GridBagConstraints();
+				gbcchckbxReserved.insets = new Insets(0, 0, 5, 5);
+				gbcchckbxReserved.gridx = 2;
+				gbcchckbxReserved.gridy = 3;
+				add(chckbxReserved, gbcchckbxReserved);
 				
 				rarityJTextField = new JTextField();
-				GridBagConstraints gbc_rarityJTextField = new GridBagConstraints();
-				gbc_rarityJTextField.gridwidth = 3;
-				gbc_rarityJTextField.insets = new Insets(0, 0, 5, 5);
-				gbc_rarityJTextField.fill = GridBagConstraints.HORIZONTAL;
-				gbc_rarityJTextField.gridx = 3;
-				gbc_rarityJTextField.gridy = 3;
-				add(rarityJTextField, gbc_rarityJTextField);
+				GridBagConstraints gbcrarityJTextField = new GridBagConstraints();
+				gbcrarityJTextField.gridwidth = 3;
+				gbcrarityJTextField.insets = new Insets(0, 0, 5, 5);
+				gbcrarityJTextField.fill = GridBagConstraints.HORIZONTAL;
+				gbcrarityJTextField.gridx = 3;
+				gbcrarityJTextField.gridy = 3;
+				add(rarityJTextField, gbcrarityJTextField);
 				rarityJTextField.setColumns(10);
 				
-				lstFormats = new JList<MagicFormat>(new DefaultListModel<MagicFormat>());
+				lstFormats = new JList<>(new DefaultListModel<MagicFormat>());
 				lstFormats.setVisibleRowCount(4);
 				
 				scrollLegality = new JScrollPane();
-				GridBagConstraints gbc_scrollLegality = new GridBagConstraints();
-				gbc_scrollLegality.gridheight = 2;
-				gbc_scrollLegality.gridwidth = 2;
-				gbc_scrollLegality.insets = new Insets(0, 0, 0, 5);
-				gbc_scrollLegality.fill = GridBagConstraints.BOTH;
-				gbc_scrollLegality.gridx = 1;
-				gbc_scrollLegality.gridy = 8;
-				add(scrollLegality, gbc_scrollLegality);
+				GridBagConstraints gbcscrollLegality = new GridBagConstraints();
+				gbcscrollLegality.gridheight = 2;
+				gbcscrollLegality.gridwidth = 2;
+				gbcscrollLegality.insets = new Insets(0, 0, 0, 5);
+				gbcscrollLegality.fill = GridBagConstraints.BOTH;
+				gbcscrollLegality.gridx = 1;
+				gbcscrollLegality.gridy = 8;
+				add(scrollLegality, gbcscrollLegality);
 				scrollLegality.setViewportView(lstFormats);
 
 				JLabel textLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_TEXT")+" :");
-				GridBagConstraints labelGbc_8 = new GridBagConstraints();
-				labelGbc_8.gridheight = 2;
-				labelGbc_8.insets = new Insets(5, 5, 5, 5);
-				labelGbc_8.gridx = 0;
-				labelGbc_8.gridy = 4;
-				add(textLabel, labelGbc_8);
+				GridBagConstraints labelgbc8 = new GridBagConstraints();
+				labelgbc8.gridheight = 2;
+				labelgbc8.insets = new Insets(5, 5, 5, 5);
+				labelgbc8.gridx = 0;
+				labelgbc8.gridy = 4;
+				add(textLabel, labelgbc8);
 		
 				txtTextPane = new MagicTextPane();
 				txtTextPane.setBorder(new LineBorder(Color.GRAY));
@@ -331,88 +331,88 @@ public class MagicCardDetailPanel extends JPanel {
 
 				txtTextPane.setFont(new Font("Arial", Font.PLAIN, 12));
 
-				GridBagConstraints gbc_txtTextPane = new GridBagConstraints();
-				gbc_txtTextPane.gridwidth = 6;
-				gbc_txtTextPane.gridheight = 2;
-				gbc_txtTextPane.insets = new Insets(5, 0, 5, 5);
-				gbc_txtTextPane.fill = GridBagConstraints.BOTH;
-				gbc_txtTextPane.gridx = 1;
-				gbc_txtTextPane.gridy = 4;
-				add(txtTextPane, gbc_txtTextPane);
+				GridBagConstraints gbctxtTextPane = new GridBagConstraints();
+				gbctxtTextPane.gridwidth = 6;
+				gbctxtTextPane.gridheight = 2;
+				gbctxtTextPane.insets = new Insets(5, 0, 5, 5);
+				gbctxtTextPane.fill = GridBagConstraints.BOTH;
+				gbctxtTextPane.gridx = 1;
+				gbctxtTextPane.gridy = 4;
+				add(txtTextPane, gbctxtTextPane);
 				
 				
 				lblFlavor = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_FLAVOR")+" :");
-				GridBagConstraints gbc_lblFlavor = new GridBagConstraints();
-				gbc_lblFlavor.insets = new Insets(0, 0, 5, 5);
-				gbc_lblFlavor.gridx = 0;
-				gbc_lblFlavor.gridy = 6;
-				add(lblFlavor, gbc_lblFlavor);
+				GridBagConstraints gbclblFlavor = new GridBagConstraints();
+				gbclblFlavor.insets = new Insets(0, 0, 5, 5);
+				gbclblFlavor.gridx = 0;
+				gbclblFlavor.gridy = 6;
+				add(lblFlavor, gbclblFlavor);
 				
 				txtFlavorArea = new JTextPane();
 			//	txtFlavorArea.setLineWrap(true);
 			//	txtFlavorArea.setWrapStyleWord(true);
 				txtFlavorArea.setFont(new Font("Arial", Font.ITALIC, 11));
-				GridBagConstraints gbc_txtFlavorArea = new GridBagConstraints();
-				gbc_txtFlavorArea.gridwidth = 6;
-				gbc_txtFlavorArea.insets = new Insets(0, 0, 5, 5);
-				gbc_txtFlavorArea.fill = GridBagConstraints.BOTH;
-				gbc_txtFlavorArea.gridx = 1;
-				gbc_txtFlavorArea.gridy = 6;
-				add(txtFlavorArea, gbc_txtFlavorArea);
+				GridBagConstraints gbctxtFlavorArea = new GridBagConstraints();
+				gbctxtFlavorArea.gridwidth = 6;
+				gbctxtFlavorArea.insets = new Insets(0, 0, 5, 5);
+				gbctxtFlavorArea.fill = GridBagConstraints.BOTH;
+				gbctxtFlavorArea.gridx = 1;
+				gbctxtFlavorArea.gridy = 6;
+				add(txtFlavorArea, gbctxtFlavorArea);
 				
 				lblArtist = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_ARTIST")+" :");
-				GridBagConstraints gbc_lblArtist = new GridBagConstraints();
-				gbc_lblArtist.insets = new Insets(0, 0, 5, 5);
-				gbc_lblArtist.gridx = 0;
-				gbc_lblArtist.gridy = 7;
-				add(lblArtist, gbc_lblArtist);
+				GridBagConstraints gbclblArtist = new GridBagConstraints();
+				gbclblArtist.insets = new Insets(0, 0, 5, 5);
+				gbclblArtist.gridx = 0;
+				gbclblArtist.gridy = 7;
+				add(lblArtist, gbclblArtist);
 				
 				txtArtist = new JTextField();
-				GridBagConstraints gbc_txtArtist = new GridBagConstraints();
-				gbc_txtArtist.insets = new Insets(0, 0, 5, 5);
-				gbc_txtArtist.fill = GridBagConstraints.HORIZONTAL;
-				gbc_txtArtist.gridx = 1;
-				gbc_txtArtist.gridy = 7;
-				add(txtArtist, gbc_txtArtist);
+				GridBagConstraints gbctxtArtist = new GridBagConstraints();
+				gbctxtArtist.insets = new Insets(0, 0, 5, 5);
+				gbctxtArtist.fill = GridBagConstraints.HORIZONTAL;
+				gbctxtArtist.gridx = 1;
+				gbctxtArtist.gridy = 7;
+				add(txtArtist, gbctxtArtist);
 				txtArtist.setColumns(10);
 				
 				lblWatermark = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_WATERMARK")+" :");
-				GridBagConstraints gbc_lblWatermark = new GridBagConstraints();
-				gbc_lblWatermark.anchor = GridBagConstraints.EAST;
-				gbc_lblWatermark.insets = new Insets(0, 0, 5, 5);
-				gbc_lblWatermark.gridx = 2;
-				gbc_lblWatermark.gridy = 7;
-				add(lblWatermark, gbc_lblWatermark);
+				GridBagConstraints gbclblWatermark = new GridBagConstraints();
+				gbclblWatermark.anchor = GridBagConstraints.EAST;
+				gbclblWatermark.insets = new Insets(0, 0, 5, 5);
+				gbclblWatermark.gridx = 2;
+				gbclblWatermark.gridy = 7;
+				add(lblWatermark, gbclblWatermark);
 				
 				txtWatermark = new JTextField();
 
-				GridBagConstraints gbc_txtWatermark = new GridBagConstraints();
-				gbc_txtWatermark.gridwidth = 3;
-				gbc_txtWatermark.insets = new Insets(0, 0, 5, 5);
-				gbc_txtWatermark.fill = GridBagConstraints.HORIZONTAL;
-				gbc_txtWatermark.gridx = 4;
-				gbc_txtWatermark.gridy = 7;
-				add(txtWatermark, gbc_txtWatermark);
+				GridBagConstraints gbctxtWatermark = new GridBagConstraints();
+				gbctxtWatermark.gridwidth = 3;
+				gbctxtWatermark.insets = new Insets(0, 0, 5, 5);
+				gbctxtWatermark.fill = GridBagConstraints.HORIZONTAL;
+				gbctxtWatermark.gridx = 4;
+				gbctxtWatermark.gridy = 7;
+				add(txtWatermark, gbctxtWatermark);
 				txtWatermark.setColumns(10);
 				
 				lblLegal = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CARD_LEGALITIES")+" :");
-				GridBagConstraints gbc_lblLegal = new GridBagConstraints();
-				gbc_lblLegal.insets = new Insets(0, 0, 5, 5);
-				gbc_lblLegal.gridx = 0;
-				gbc_lblLegal.gridy = 8;
-				add(lblLegal, gbc_lblLegal);
+				GridBagConstraints gbclblLegal = new GridBagConstraints();
+				gbclblLegal.insets = new Insets(0, 0, 5, 5);
+				gbclblLegal.gridx = 0;
+				gbclblLegal.gridy = 8;
+				add(lblLegal, gbclblLegal);
 				
 				scrollCollections = new JScrollPane();
-				GridBagConstraints gbc_scrollCollections = new GridBagConstraints();
-				gbc_scrollCollections.gridheight = 2;
-				gbc_scrollCollections.gridwidth = 3;
-				gbc_scrollCollections.insets = new Insets(0, 0, 0, 5);
-				gbc_scrollCollections.fill = GridBagConstraints.BOTH;
-				gbc_scrollCollections.gridx = 4;
-				gbc_scrollCollections.gridy = 8;
-				add(scrollCollections, gbc_scrollCollections);
+				GridBagConstraints gbcscrollCollections = new GridBagConstraints();
+				gbcscrollCollections.gridheight = 2;
+				gbcscrollCollections.gridwidth = 3;
+				gbcscrollCollections.insets = new Insets(0, 0, 0, 5);
+				gbcscrollCollections.fill = GridBagConstraints.BOTH;
+				gbcscrollCollections.gridx = 4;
+				gbcscrollCollections.gridy = 8;
+				add(scrollCollections, gbcscrollCollections);
 				
-				listCollection = new JList<MagicCollection>(new DefaultListModel<MagicCollection>());
+				listCollection = new JList<>(new DefaultListModel<MagicCollection>());
 				scrollCollections.setViewportView(listCollection);
 				
 		if (magicCard != null) {
@@ -471,67 +471,67 @@ public class MagicCardDetailPanel extends JPanel {
 		autoBinding.bind();
 		//
 		BeanProperty<MagicCard, String> costProperty = BeanProperty.create("cost");
-		BeanProperty<ManaPanel, String> textProperty_1 = BeanProperty.create("manaCost");
-		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, manaPanel, textProperty_1);
-		autoBinding_1.bind();
+		BeanProperty<ManaPanel, String> textProperty1 = BeanProperty.create("manaCost");
+		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, manaPanel, textProperty1);
+		autoBinding1.bind();
 		//
 		BeanProperty<MagicCard, String> fullTypeProperty = BeanProperty.create("fullType");
-		BeanProperty<JTextField, String> textProperty_2 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, fullTypeProperty, fullTypeJTextField, textProperty_2);
-		autoBinding_2.bind();
+		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, fullTypeProperty, fullTypeJTextField, textProperty2);
+		autoBinding2.bind();
 		//
 		BeanProperty<MagicCard, Integer> loyaltyProperty = BeanProperty.create("loyalty");
-		BeanProperty<JTextField, String> textProperty_4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding_4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty_4);
-		autoBinding_4.bind();
+		BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
+		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty4);
+		autoBinding4.bind();
 		//
 		BeanProperty<MagicCard, String> nameProperty = BeanProperty.create("name");
-		BeanProperty<JTextField, String> textProperty_5 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty_5);
-		autoBinding_5.bind();
+		BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty5);
+		autoBinding5.bind();
 		//
 		BeanProperty<MagicCard, String> powerProperty = BeanProperty.create("power");
-		BeanProperty<JTextField, String> textProperty_6 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, powerProperty, powerJTextField, textProperty_6);
-		autoBinding_6.bind();
+		BeanProperty<JTextField, String> textProperty6 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, powerProperty, powerJTextField, textProperty6);
+		autoBinding6.bind();
 		//
-		BeanProperty<MagicCard, String> textProperty_8 = BeanProperty.create("text");
-		BeanProperty<MagicTextPane, String> textProperty_9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty_8, txtTextPane, textProperty_9);
-		autoBinding_8.bind();
+		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");
+		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty8, txtTextPane, textProperty9);
+		autoBinding8.bind();
 		//
 		BeanProperty<MagicCard, String> toughnessProperty = BeanProperty.create("toughness");
-		BeanProperty<JTextField, String> textProperty_10 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_9 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, textProperty_10);
-		autoBinding_9.bind();
+		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding9 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, textProperty10);
+		autoBinding9.bind();
 		
 		
 		BeanProperty<MagicCard, String> flavorProperty = BeanProperty.create("flavor");
-		BeanProperty<JTextPane, String> textProperty_11 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextPane, String> autoBinding_10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flavorProperty, txtFlavorArea, textProperty_11);
-		autoBinding_10.bind();
+		BeanProperty<JTextPane, String> textProperty11 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextPane, String> autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flavorProperty, txtFlavorArea, textProperty11);
+		autoBinding10.bind();
 	
 		
 		BeanProperty<MagicCard, String> artistProperty = BeanProperty.create("artist");
-		BeanProperty<JTextField, String> textProperty_12 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, artistProperty, txtArtist, textProperty_12);
-		autoBinding_11.bind();
+		BeanProperty<JTextField, String> textProperty12 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, artistProperty, txtArtist, textProperty12);
+		autoBinding11.bind();
 
 		
 		BeanProperty<MagicCard, String> layoutProperty = BeanProperty.create("layout");
-		BeanProperty<JTextField, String> textProperty_13 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, layoutProperty, txtLayoutField, textProperty_13);
-		autoBinding_12.bind();
+		BeanProperty<JTextField, String> textProperty13 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding12 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, layoutProperty, txtLayoutField, textProperty13);
+		autoBinding12.bind();
 		
 		BeanProperty<MagicCard, String> waterProperty = BeanProperty.create("watermarks");
-		BeanProperty<JTextField, String> textProperty_14 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, waterProperty, txtWatermark, textProperty_14);
-		autoBinding_13.bind();
+		BeanProperty<JTextField, String> textProperty14 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, waterProperty, txtWatermark, textProperty14);
+		autoBinding13.bind();
 		
 		BeanProperty<MagicCard, Boolean> reservedProperty = BeanProperty.create("reserved");
 		BeanProperty<JCheckBox, Boolean> chkProperty_15 = BeanProperty.create("selected");
-		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding_15 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, reservedProperty, chckbxReserved, chkProperty_15);
-		autoBinding_15.bind();
+		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding15 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, reservedProperty, chckbxReserved, chkProperty_15);
+		autoBinding15.bind();
 		
 		
 		try{
@@ -558,7 +558,7 @@ public class MagicCardDetailPanel extends JPanel {
 		}
 	
 		if(magicCard!=null)
-			if(magicCard.getEditions().size()>0)
+			if(!magicCard.getEditions().isEmpty())
 			{ 
 				
 				ThreadManager.getInstance().execute(new Runnable() {
@@ -613,18 +613,18 @@ public class MagicCardDetailPanel extends JPanel {
 		BindingGroup bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding);
-		bindingGroup.addBinding(autoBinding_1);
-		bindingGroup.addBinding(autoBinding_2);
-		bindingGroup.addBinding(autoBinding_4);
-		bindingGroup.addBinding(autoBinding_5);
-		bindingGroup.addBinding(autoBinding_6);
-		bindingGroup.addBinding(autoBinding_8);
-		bindingGroup.addBinding(autoBinding_9);
-		bindingGroup.addBinding(autoBinding_10);
-		bindingGroup.addBinding(autoBinding_11);
-		bindingGroup.addBinding(autoBinding_12);
-		bindingGroup.addBinding(autoBinding_13);
-		bindingGroup.addBinding(autoBinding_15);
+		bindingGroup.addBinding(autoBinding1);
+		bindingGroup.addBinding(autoBinding2);
+		bindingGroup.addBinding(autoBinding4);
+		bindingGroup.addBinding(autoBinding5);
+		bindingGroup.addBinding(autoBinding6);
+		bindingGroup.addBinding(autoBinding8);
+		bindingGroup.addBinding(autoBinding9);
+		bindingGroup.addBinding(autoBinding10);
+		bindingGroup.addBinding(autoBinding11);
+		bindingGroup.addBinding(autoBinding12);
+		bindingGroup.addBinding(autoBinding13);
+		bindingGroup.addBinding(autoBinding15);
 		return bindingGroup;
 	}
 

@@ -62,7 +62,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
             		alert.getOffers().clear();
                 	for(MagicPricesProvider prov : MTGControler.getInstance().getEnabledPricers())
                 	{
-                		List<MagicPrice> okz = new ArrayList<MagicPrice>();
+                		List<MagicPrice> okz = new ArrayList<>();
                 		try {
 							List<MagicPrice> list=prov.getPrice(alert.getCard().getEditions().get(0), alert.getCard());
 							for(MagicPrice p : list)

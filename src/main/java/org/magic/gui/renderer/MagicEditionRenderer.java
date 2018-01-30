@@ -16,7 +16,7 @@ public class MagicEditionRenderer extends DefaultTableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		
 		List<MagicEdition> e = (List)value;
-		cbo = new JComboBox<MagicEdition>(e.toArray(new MagicEdition[e.size()]));
+		cbo = new JComboBox<>(e.toArray(new MagicEdition[e.size()]));
 		return cbo;
 	}
 }

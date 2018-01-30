@@ -18,7 +18,6 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGLogger;
 
@@ -280,12 +279,10 @@ public class MtgapiProvider extends AbstractCardsProvider{
 	public List<String> getCardNames()
 	{
 		List<String> lists = new ArrayList<>();
-		HttpGet httpget = null;
-		try {
 		String url="http://api.mtgapi.com/v2/names";
-		
-			httpget = new HttpGet(url);
-			CloseableHttpResponse response = httpclient.execute(httpget);
+		HttpGet httpget = new HttpGet(url);
+		try (CloseableHttpResponse response = httpclient.execute(httpget))
+		{
 			Reader reader = new InputStreamReader(response.getEntity().getContent(),"UTF-8");
 			JsonElement root = new JsonParser().parse(reader);
 			JsonObject arr = root.getAsJsonObject().get("names").getAsJsonObject();

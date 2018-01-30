@@ -79,12 +79,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		else
 			return null;
 	}
-	
-	private BufferedImage getPicture(String multiverseid) throws Exception{
-		return null;
-	}
-	
-	
+
 
 	@Override
 	public BufferedImage getSetLogo(String set, String rarity) throws Exception {

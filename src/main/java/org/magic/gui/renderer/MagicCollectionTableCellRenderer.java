@@ -17,7 +17,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	Color c ;
 	
 	public MagicCollectionTableCellRenderer() {
-		cache=new HashMap<String,ImageIcon>();
+		cache=new HashMap<>();
 	}
 	
 	Component pane;

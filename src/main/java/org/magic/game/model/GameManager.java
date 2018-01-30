@@ -15,8 +15,8 @@ public class GameManager {
 
 	private GameManager()
 	{
-		turns = new ArrayList<Turn>();
-		players=new ArrayList<Player>();
+		turns = new ArrayList<>();
+		players=new ArrayList<>();
 		stack=new SpellStack();
 	}
 	
@@ -26,7 +26,7 @@ public class GameManager {
 
 	public Turn getActualTurn()
 	{
-		if(turns.size()==0)
+		if(turns.isEmpty())
 			return new Turn();
 		return turns.get(turns.size()-1);
 	}
@@ -79,7 +79,7 @@ public class GameManager {
 		for(Player player : players)
 			player.init();
 		
-		turns = new ArrayList<Turn>();
+		turns = new ArrayList<>();
 		
 		turns.add(new Turn());
 	}

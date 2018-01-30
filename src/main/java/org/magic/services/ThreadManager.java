@@ -50,21 +50,22 @@ public class ThreadManager {
 		//LinkedBlockingQueue // ArrayBlockingQueue
 		 executor = new ThreadPoolExecutor(50,50,  80, TimeUnit.MILLISECONDS,  new LinkedBlockingQueue<Runnable>(10))
 		 {   
+			 	@Override
 			    protected void beforeExecute(Thread t, Runnable r) { 
 			         t.setName(name);
 			    }
-
+			 	@Override
 			    protected void afterExecute(Runnable r, Throwable t) {
-			        // Thread.currentThread().setName("");
+			        // do nothing
 			    } 
-
+			 	@Override
 			    protected <V> RunnableFuture<V> newTaskFor(final Runnable runnable, V v) {
 			         return new FutureTask<V>(runnable, v) {
 			             public String toString() {
 			                return runnable.toString();
 			             }
 			         };
-			     };
+			     }
 		 };
 	}
 	

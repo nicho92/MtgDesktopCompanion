@@ -26,7 +26,6 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
-import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -215,7 +214,9 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 				 JsonArray arr = obj.get("names").getAsJsonArray();
 				 
 				 List<String> list = new ArrayList<>();
-				 for (int i = 0; i < arr.size();list.add(arr.get(i++).getAsString()));
+				 for (int i = 0; i < arr.size();list.add(arr.get(i++).getAsString())) {
+					 //TODO complete this function
+				 }
 				 
 				 list.remove(mc.getName());
 				 

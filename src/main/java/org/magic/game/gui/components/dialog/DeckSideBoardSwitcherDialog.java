@@ -39,8 +39,8 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		setTitle("Switch Sideboard " + deck.getName());
 		lblDecksize = new JLabel();
 		lblDecksize.setAlignmentX(Component.CENTER_ALIGNMENT);
-		modMain=new DefaultListModel<MagicCard>();
-		modSide=new DefaultListModel<MagicCard>();
+		modMain=new DefaultListModel<>();
+		modSide=new DefaultListModel<>();
 		
 		
 		init();
@@ -48,7 +48,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.WEST);
 		
-		listMain = new JList<MagicCard>(modMain);
+		listMain = new JList<>(modMain);
 		
 		listMain.setCellRenderer(new MagicCardListRenderer());
 		scrollPane.setViewportView(listMain);

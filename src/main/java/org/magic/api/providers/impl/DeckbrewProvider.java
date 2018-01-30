@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
-import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
@@ -19,7 +18,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -204,7 +202,7 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 		
 		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
 		
-		if(list.size()==0)
+		if(list.isEmpty())
 			for(int i = 0;i<root.size();i++)
 			{
 				JsonObject e = root.get(i).getAsJsonObject();

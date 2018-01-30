@@ -3,10 +3,7 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Font;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
@@ -62,26 +59,21 @@ public class DeckPricePanel extends JPanel {
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		
-		cboPricers = new JComboBox<MagicPricesProvider>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledPricers().toArray()));
-		cboPricers.addItemListener(new ItemListener() {
-			public void itemStateChanged(ItemEvent ie) {
+		cboPricers = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledPricers().toArray()));
+		cboPricers.addItemListener(ie->{
 				if (ie.getStateChange() == ItemEvent.SELECTED) {
 					model.setProvider((MagicPricesProvider)cboPricers.getSelectedItem());
 				}
-			}
+			
 		});
 		panel.add(cboPricers);
 		
 		JButton btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
 		
-		btnCheckPrice.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
+		btnCheckPrice.addActionListener(ae-> {
 				model.clear();
 				
-				ThreadManager.getInstance().execute(new Runnable() {
-					
-					@Override
-					public void run() {
+				ThreadManager.getInstance().execute(()->{
 						total=0;
 						
 						for(MagicCard c : deck.getMap().keySet())
@@ -89,7 +81,7 @@ public class DeckPricePanel extends JPanel {
 							try {
 								List<MagicPrice> prices = model.getProviders().get(0).getPrice(c.getEditions().get(0), c);
 								MagicPrice p=null;
-								if(prices.size()>0)
+								if(!prices.isEmpty())
 								{
 									Collections.sort(prices, new MagicPricesComparator());
 									p = prices.get(0);
@@ -114,18 +106,9 @@ public class DeckPricePanel extends JPanel {
 							}
 
 						}
-						
-						
-						
-						
 						deck.setAveragePrice(total);
-						
-					}
 				});
-				
-				
-				
-			}
+			
 		});
 		panel.add(btnCheckPrice);
 		

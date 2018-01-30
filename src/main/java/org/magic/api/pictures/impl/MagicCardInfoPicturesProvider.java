@@ -80,7 +80,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		{
 			if(mc.getMciNumber().contains("/"))
 			{
-				String mcinumber=mc.getMciNumber().substring(mc.getMciNumber().lastIndexOf("/")).replaceAll(".html", "");
+				String mcinumber=mc.getMciNumber().substring(mc.getMciNumber().lastIndexOf('/')).replaceAll(".html", "");
 				url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mcinumber+".jpg");
 			}
 			else	

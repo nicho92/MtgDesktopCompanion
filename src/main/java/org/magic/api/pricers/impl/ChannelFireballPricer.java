@@ -74,7 +74,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 			mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));
 			
 			
-		ArrayList<MagicPrice> list = new ArrayList<MagicPrice>();
+		ArrayList<MagicPrice> list = new ArrayList<>();
 							list.add(mp);
 							
 							

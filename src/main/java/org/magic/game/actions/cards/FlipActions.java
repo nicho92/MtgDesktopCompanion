@@ -43,7 +43,7 @@ public class FlipActions extends AbstractAction {
 		    bufferedImage = op.filter(bufferedImage, null);
 			
 	        Graphics2D g2 = bufferedImage.createGraphics();
-			           g2.drawImage(card.getImage().getImage(), tx,null);
+			           g2.drawImage(card.getImageIcon().getImage(), tx,null);
 			           g2.dispose();
 			           card.setImage(new ImageIcon(bufferedImage));
 	        

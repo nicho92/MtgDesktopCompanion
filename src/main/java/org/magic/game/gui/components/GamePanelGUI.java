@@ -149,12 +149,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 						JPanel panelActions = new JPanel();
 						panelActions.setAlignmentY(Component.TOP_ALIGNMENT);
 						panelInfo.add(panelActions, BorderLayout.SOUTH);
-						GridBagLayout gbl_panelActions = new GridBagLayout();
-						gbl_panelActions.columnWidths = new int[]{30, 20, 0};
-						gbl_panelActions.rowHeights = new int[]{23, 0, 23, 0, 0, 0};
-						gbl_panelActions.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-						gbl_panelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
-						panelActions.setLayout(gbl_panelActions);
+						GridBagLayout gblpanelActions = new GridBagLayout();
+						gblpanelActions.columnWidths = new int[]{30, 20, 0};
+						gblpanelActions.rowHeights = new int[]{23, 0, 23, 0, 0, 0};
+						gblpanelActions.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
+						gblpanelActions.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+						panelActions.setLayout(gblpanelActions);
 						
 						JButton btnNewGame = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"));
 						btnNewGame.addActionListener(new ActionListener() {
@@ -174,12 +174,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 								}
 							}
 						});
-						GridBagConstraints gbc_btnNewGame = new GridBagConstraints();
-						gbc_btnNewGame.fill = GridBagConstraints.BOTH;
-						gbc_btnNewGame.insets = new Insets(0, 0, 5, 5);
-						gbc_btnNewGame.gridx = 0;
-						gbc_btnNewGame.gridy = 0;
-						panelActions.add(btnNewGame, gbc_btnNewGame);
+						GridBagConstraints gbcbtnNewGame = new GridBagConstraints();
+						gbcbtnNewGame.fill = GridBagConstraints.BOTH;
+						gbcbtnNewGame.insets = new Insets(0, 0, 5, 5);
+						gbcbtnNewGame.gridx = 0;
+						gbcbtnNewGame.gridy = 0;
+						panelActions.add(btnNewGame, gbcbtnNewGame);
 						
 						
 						
@@ -191,12 +191,12 @@ public class GamePanelGUI extends JPanel implements Observer {
 								player.setDeck(gui.getDeck());
 							}
 						});
-						GridBagConstraints gbc_btnSideboard = new GridBagConstraints();
-						gbc_btnSideboard.fill = GridBagConstraints.HORIZONTAL;
-						gbc_btnSideboard.insets = new Insets(0, 0, 5, 5);
-						gbc_btnSideboard.gridx = 0;
-						gbc_btnSideboard.gridy = 1;
-						panelActions.add(btnSideboard, gbc_btnSideboard);
+						GridBagConstraints gbcbtnSideboard = new GridBagConstraints();
+						gbcbtnSideboard.fill = GridBagConstraints.HORIZONTAL;
+						gbcbtnSideboard.insets = new Insets(0, 0, 5, 5);
+						gbcbtnSideboard.gridx = 0;
+						gbcbtnSideboard.gridy = 1;
+						panelActions.add(btnSideboard, gbcbtnSideboard);
 						
 						JButton btnStart = new JButton(MTGControler.getInstance().getLangService().getCapitalize("START"));
 						btnStart.addActionListener(new ActionListener() {
@@ -214,26 +214,26 @@ public class GamePanelGUI extends JPanel implements Observer {
 								clean();
 							}
 						});
-						GridBagConstraints gbc_btnStart = new GridBagConstraints();
-						gbc_btnStart.fill = GridBagConstraints.HORIZONTAL;
-						gbc_btnStart.insets = new Insets(0, 0, 5, 0);
-						gbc_btnStart.gridx = 1;
-						gbc_btnStart.gridy = 1;
-						panelActions.add(btnStart, gbc_btnStart);
+						GridBagConstraints gbcbtnStart = new GridBagConstraints();
+						gbcbtnStart.fill = GridBagConstraints.HORIZONTAL;
+						gbcbtnStart.insets = new Insets(0, 0, 5, 0);
+						gbcbtnStart.gridx = 1;
+						gbcbtnStart.gridy = 1;
+						panelActions.add(btnStart, gbcbtnStart);
 						
-						JPanel panel_1 = new JPanel();
-						GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-						gbc_panel_1.gridheight = 2;
-						gbc_panel_1.gridwidth = 2;
-						gbc_panel_1.insets = new Insets(0, 0, 5, 0);
-						gbc_panel_1.fill = GridBagConstraints.BOTH;
-						gbc_panel_1.gridx = 0;
-						gbc_panel_1.gridy = 2;
-						panelActions.add(panel_1, gbc_panel_1);
-						panel_1.setLayout(new BorderLayout(0, 0));
+						JPanel panel1 = new JPanel();
+						GridBagConstraints gbcpanel1 = new GridBagConstraints();
+						gbcpanel1.gridheight = 2;
+						gbcpanel1.gridwidth = 2;
+						gbcpanel1.insets = new Insets(0, 0, 5, 0);
+						gbcpanel1.fill = GridBagConstraints.BOTH;
+						gbcpanel1.gridx = 0;
+						gbcpanel1.gridy = 2;
+						panelActions.add(panel1, gbcpanel1);
+						panel1.setLayout(new BorderLayout(0, 0));
 						
 						txtChat = new JTextField(MTGControler.getInstance().getLangService().getCapitalize("SAY_SOMETHING"));
-						panel_1.add(txtChat);
+						panel1.add(txtChat);
 						txtChat.addMouseListener(new MouseAdapter() {
 							
 							@Override
@@ -284,29 +284,29 @@ public class GamePanelGUI extends JPanel implements Observer {
 						JPanel lifePanel = new JPanel();
 						panelPoolandHandsLib.add(lifePanel, BorderLayout.WEST);
 						lifePanel.setAlignmentY(Component.TOP_ALIGNMENT);
-						GridBagLayout gbl_lifePanel = new GridBagLayout();
-						gbl_lifePanel.columnWidths = new int[]{60, 0};
-						gbl_lifePanel.rowHeights = new int[]{64, 0, 0};
-						gbl_lifePanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-						gbl_lifePanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-						lifePanel.setLayout(gbl_lifePanel);
+						GridBagLayout gbllifePanel = new GridBagLayout();
+						gbllifePanel.columnWidths = new int[]{60, 0};
+						gbllifePanel.rowHeights = new int[]{64, 0, 0};
+						gbllifePanel.columnWeights = new double[]{0.0, Double.MIN_VALUE};
+						gbllifePanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+						lifePanel.setLayout(gbllifePanel);
 						
 						lblPlayer = new JLabel("");
 						lblPlayer.setVerticalAlignment(SwingConstants.BOTTOM);
 						lblPlayer.setIcon(MTGConstants.ICON_GAME_PLANESWALKER);
-						GridBagConstraints gbc_lblPlayer = new GridBagConstraints();
-						gbc_lblPlayer.anchor = GridBagConstraints.WEST;
-						gbc_lblPlayer.insets = new Insets(0, 0, 5, 0);
-						gbc_lblPlayer.gridx = 0;
-						gbc_lblPlayer.gridy = 0;
-						lifePanel.add(lblPlayer, gbc_lblPlayer);
+						GridBagConstraints gbclblPlayer = new GridBagConstraints();
+						gbclblPlayer.anchor = GridBagConstraints.WEST;
+						gbclblPlayer.insets = new Insets(0, 0, 5, 0);
+						gbclblPlayer.gridx = 0;
+						gbclblPlayer.gridy = 0;
+						lifePanel.add(lblPlayer, gbclblPlayer);
 								
 								JPanel panel = new JPanel();
-								GridBagConstraints gbc_panel = new GridBagConstraints();
-								gbc_panel.anchor = GridBagConstraints.NORTHWEST;
-								gbc_panel.gridx = 0;
-								gbc_panel.gridy = 1;
-								lifePanel.add(panel, gbc_panel);
+								GridBagConstraints gbcpanel = new GridBagConstraints();
+								gbcpanel.anchor = GridBagConstraints.NORTHWEST;
+								gbcpanel.gridx = 0;
+								gbcpanel.gridy = 1;
+								lifePanel.add(panel, gbcpanel);
 								panel.setLayout(new GridLayout(2, 2, 0, 0));
 								
 										

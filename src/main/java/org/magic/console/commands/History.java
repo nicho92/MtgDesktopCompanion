@@ -7,10 +7,8 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.ParseException;
 import org.apache.mina.core.session.IoSession;
 import org.magic.console.AbstractCommand;
-import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGLogger;
 

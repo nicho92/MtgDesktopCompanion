@@ -31,6 +31,7 @@ public class MagicTextPane extends JTextPane{
 		getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
 		
 		addKeyListener(new KeyAdapter() {
+			@Override
 			public void keyReleased(KeyEvent e) {
 				int pos = getCaretPosition();
 				updateTextWithIcons();

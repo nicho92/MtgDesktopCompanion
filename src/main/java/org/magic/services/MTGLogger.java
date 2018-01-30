@@ -10,6 +10,10 @@ import org.apache.log4j.Logger;
 
 public class MTGLogger {
 
+	
+	private MTGLogger() {
+	}
+	
 	public static void printStackTrace(Throwable cause) {
 		System.err.println(cause.getMessage());
 	}

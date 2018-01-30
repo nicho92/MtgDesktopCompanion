@@ -20,7 +20,6 @@ public class MagicCardNameEditor extends DefaultCellEditor {
     @Override
     public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
              model.removeAllElements();
-             String selectedItem = table.getValueAt(row, column).toString();
              
            for(Locale l : Locale.getAvailableLocales())
         	   model.addElement(l.getDisplayLanguage(Locale.US));

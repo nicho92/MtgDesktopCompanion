@@ -31,7 +31,7 @@ public class CmcChartPanel extends JPanel{
 
 
 	public void init(MagicDeck deck) {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 		if(deck!=null)
 			if(deck.getMap()!=null)
 				for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
@@ -80,7 +80,7 @@ public class CmcChartPanel extends JPanel{
 	private CategoryDataset  getManaCurveDataSet() 
 	{
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		TreeMap<Integer, Number> temp = new TreeMap<Integer, Number>();
+		TreeMap<Integer, Number> temp = new TreeMap<>();
 		
 			for(MagicCard mc : cards)
 			{

@@ -57,18 +57,18 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		
 		
-		String url = new String("https://api.scryfall.com/cards/"+selected.getId().toLowerCase()+"/"+selected.getNumber()+"?format=image");
+		String url ="https://api.scryfall.com/cards/"+selected.getId().toLowerCase()+"/"+selected.getNumber()+"?format=image";
 		
 		if(scryfallProvider)
 		{
-			url = new String("https://api.scryfall.com/cards/"+mc.getId()+"?format=image");
+			url = "https://api.scryfall.com/cards/"+mc.getId()+"?format=image";
 		}
 		
 	
 		
 		if(selected.getMultiverse_id()!=null)
 			if(!selected.getMultiverse_id().equals("0"))
-				url = new String("https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image");
+				url = "https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image";
 
 		
 	

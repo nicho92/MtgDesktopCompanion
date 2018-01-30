@@ -80,7 +80,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	public List<ShopItem> search(String search) {
 		
 			
-		List<ShopItem> list = new ArrayList<ShopItem>();
+		List<ShopItem> list = new ArrayList<>();
 		String html ="";
 						int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
 			
@@ -131,7 +131,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 												logger.error(e1);
 											}
 											
-											if(listElements.get(i).getElementsByClass("item_price").size()>0)
+											if(!listElements.get(i).getElementsByClass("item_price").isEmpty())
 												a.setPrice(parsePrice(listElements.get(i).getElementsByClass("item_price").get(0).text()));
 											
 											try{

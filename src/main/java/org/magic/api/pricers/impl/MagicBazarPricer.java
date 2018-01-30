@@ -37,7 +37,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 			save();
 		}
 		
-		list=new ArrayList<MagicPrice>();
+		list=new ArrayList<>();
 	}
 	
 	
@@ -65,7 +65,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 						   mp.setSite(getName());
 						   mp.setUrl(url);
 						   mp.setSeller(e.getElementsByClass("edition").get(0).getElementsByIndexEquals(0).get(0).text());
-						   mp.setFoil(e.getElementsByClass("logo").size()>0);
+						   mp.setFoil(!e.getElementsByClass("logo").isEmpty());
 				list.add(mp);
 				
 			}

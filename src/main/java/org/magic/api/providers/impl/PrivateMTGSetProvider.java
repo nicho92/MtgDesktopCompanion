@@ -17,7 +17,6 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;

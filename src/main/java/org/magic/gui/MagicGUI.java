@@ -410,15 +410,13 @@ public class MagicGUI extends JFrame {
 				trayNotifier.displayMessage(getTitle(),MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION")+" " + serviceUpdate.getOnlineVersion() + " "+MTGControler.getInstance().getLangService().get("AVAILABLE"),TrayIcon.MessageType.INFO);
 		
 			
-			ThreadManager.getInstance().execute(new Runnable() {
-				public void run() {
+			ThreadManager.getInstance().execute(()->{
 					try {
 						new TipsOfTheDayDialog().show();
 					} catch (IOException e) {
 						logger.error(e);
 					}
 					
-				}
 			}, "launch tooltip");
 		}		
 	}

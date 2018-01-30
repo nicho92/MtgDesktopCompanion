@@ -51,74 +51,74 @@ public class LightDescribeCardPanel extends JPanel {
 		setLayout(gridBagLayout);
 		
 		JLabel lblName = new JLabel("Name :");
-		GridBagConstraints gbc_lblName = new GridBagConstraints();
-		gbc_lblName.anchor = GridBagConstraints.EAST;
-		gbc_lblName.insets = new Insets(0, 0, 5, 5);
-		gbc_lblName.gridx = 0;
-		gbc_lblName.gridy = 0;
-		add(lblName, gbc_lblName);
+		GridBagConstraints gbclblName = new GridBagConstraints();
+		gbclblName.anchor = GridBagConstraints.EAST;
+		gbclblName.insets = new Insets(0, 0, 5, 5);
+		gbclblName.gridx = 0;
+		gbclblName.gridy = 0;
+		add(lblName, gbclblName);
 		
 		txtName = new JTextField();
 		txtName.setEditable(false);
-		GridBagConstraints gbc_txtName = new GridBagConstraints();
-		gbc_txtName.insets = new Insets(0, 0, 5, 0);
-		gbc_txtName.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtName.gridx = 1;
-		gbc_txtName.gridy = 0;
-		add(txtName, gbc_txtName);
+		GridBagConstraints gbctxtName = new GridBagConstraints();
+		gbctxtName.insets = new Insets(0, 0, 5, 0);
+		gbctxtName.fill = GridBagConstraints.HORIZONTAL;
+		gbctxtName.gridx = 1;
+		gbctxtName.gridy = 0;
+		add(txtName, gbctxtName);
 		txtName.setColumns(10);
 		
 		JLabel lblCost = new JLabel("Cost :");
-		GridBagConstraints gbc_lblCost = new GridBagConstraints();
-		gbc_lblCost.anchor = GridBagConstraints.EAST;
-		gbc_lblCost.insets = new Insets(0, 0, 5, 5);
-		gbc_lblCost.gridx = 0;
-		gbc_lblCost.gridy = 1;
-		add(lblCost, gbc_lblCost);
+		GridBagConstraints gbclblCost = new GridBagConstraints();
+		gbclblCost.anchor = GridBagConstraints.EAST;
+		gbclblCost.insets = new Insets(0, 0, 5, 5);
+		gbclblCost.gridx = 0;
+		gbclblCost.gridy = 1;
+		add(lblCost, gbclblCost);
 		
 		manaPanel = new ManaPanel();
-		GridBagConstraints gbc_manaPanel = new GridBagConstraints();
-		gbc_manaPanel.insets = new Insets(0, 0, 5, 0);
-		gbc_manaPanel.fill = GridBagConstraints.BOTH;
-		gbc_manaPanel.gridx = 1;
-		gbc_manaPanel.gridy = 1;
-		add(manaPanel, gbc_manaPanel);
+		GridBagConstraints gbcmanaPanel = new GridBagConstraints();
+		gbcmanaPanel.insets = new Insets(0, 0, 5, 0);
+		gbcmanaPanel.fill = GridBagConstraints.BOTH;
+		gbcmanaPanel.gridx = 1;
+		gbcmanaPanel.gridy = 1;
+		add(manaPanel, gbcmanaPanel);
 		
 		JLabel lblType = new JLabel("Type :");
-		GridBagConstraints gbc_lblType = new GridBagConstraints();
-		gbc_lblType.anchor = GridBagConstraints.EAST;
-		gbc_lblType.insets = new Insets(0, 0, 5, 5);
-		gbc_lblType.gridx = 0;
-		gbc_lblType.gridy = 2;
-		add(lblType, gbc_lblType);
+		GridBagConstraints gbclblType = new GridBagConstraints();
+		gbclblType.anchor = GridBagConstraints.EAST;
+		gbclblType.insets = new Insets(0, 0, 5, 5);
+		gbclblType.gridx = 0;
+		gbclblType.gridy = 2;
+		add(lblType, gbclblType);
 		
 		txtType = new JTextField();
 		txtType.setEditable(false);
-		GridBagConstraints gbc_txtType = new GridBagConstraints();
-		gbc_txtType.insets = new Insets(0, 0, 5, 0);
-		gbc_txtType.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtType.gridx = 1;
-		gbc_txtType.gridy = 2;
-		add(txtType, gbc_txtType);
+		GridBagConstraints gbctxtType = new GridBagConstraints();
+		gbctxtType.insets = new Insets(0, 0, 5, 0);
+		gbctxtType.fill = GridBagConstraints.HORIZONTAL;
+		gbctxtType.gridx = 1;
+		gbctxtType.gridy = 2;
+		add(txtType, gbctxtType);
 		txtType.setColumns(10);
 		
 		JLabel lblSt = new JLabel("P/T :");
-		GridBagConstraints gbc_lblSt = new GridBagConstraints();
-		gbc_lblSt.anchor = GridBagConstraints.EAST;
-		gbc_lblSt.insets = new Insets(0, 0, 5, 5);
-		gbc_lblSt.gridx = 0;
-		gbc_lblSt.gridy = 3;
-		add(lblSt, gbc_lblSt);
+		GridBagConstraints gbclblSt = new GridBagConstraints();
+		gbclblSt.anchor = GridBagConstraints.EAST;
+		gbclblSt.insets = new Insets(0, 0, 5, 5);
+		gbclblSt.gridx = 0;
+		gbclblSt.gridy = 3;
+		add(lblSt, gbclblSt);
 		
 		panel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		GridBagConstraints gbc_panel = new GridBagConstraints();
-		gbc_panel.insets = new Insets(0, 0, 5, 0);
-		gbc_panel.fill = GridBagConstraints.BOTH;
-		gbc_panel.gridx = 1;
-		gbc_panel.gridy = 3;
-		add(panel, gbc_panel);
+		GridBagConstraints gbcpanel = new GridBagConstraints();
+		gbcpanel.insets = new Insets(0, 0, 5, 0);
+		gbcpanel.fill = GridBagConstraints.BOTH;
+		gbcpanel.gridx = 1;
+		gbcpanel.gridy = 3;
+		add(panel, gbcpanel);
 		
 		txtPower = new JTextField();
 		panel.add(txtPower);
@@ -134,32 +134,32 @@ public class LightDescribeCardPanel extends JPanel {
 		txtT.setColumns(3);
 		
 		JLabel lblLoyalty = new JLabel("Loyalty :");
-		GridBagConstraints gbc_lblLoyalty = new GridBagConstraints();
-		gbc_lblLoyalty.anchor = GridBagConstraints.EAST;
-		gbc_lblLoyalty.insets = new Insets(0, 0, 5, 5);
-		gbc_lblLoyalty.gridx = 0;
-		gbc_lblLoyalty.gridy = 4;
-		add(lblLoyalty, gbc_lblLoyalty);
+		GridBagConstraints gbclblLoyalty = new GridBagConstraints();
+		gbclblLoyalty.anchor = GridBagConstraints.EAST;
+		gbclblLoyalty.insets = new Insets(0, 0, 5, 5);
+		gbclblLoyalty.gridx = 0;
+		gbclblLoyalty.gridy = 4;
+		add(lblLoyalty, gbclblLoyalty);
 		
 		txtLoyalty = new JTextField();
 		txtLoyalty.setEditable(false);
-		GridBagConstraints gbc_txtLoyalty = new GridBagConstraints();
-		gbc_txtLoyalty.insets = new Insets(0, 0, 5, 0);
-		gbc_txtLoyalty.fill = GridBagConstraints.HORIZONTAL;
-		gbc_txtLoyalty.gridx = 1;
-		gbc_txtLoyalty.gridy = 4;
-		add(txtLoyalty, gbc_txtLoyalty);
+		GridBagConstraints gbctxtLoyalty = new GridBagConstraints();
+		gbctxtLoyalty.insets = new Insets(0, 0, 5, 0);
+		gbctxtLoyalty.fill = GridBagConstraints.HORIZONTAL;
+		gbctxtLoyalty.gridx = 1;
+		gbctxtLoyalty.gridy = 4;
+		add(txtLoyalty, gbctxtLoyalty);
 		txtLoyalty.setColumns(10);
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		GridBagConstraints gbc_tabbedPane = new GridBagConstraints();
-		gbc_tabbedPane.gridheight = 2;
-		gbc_tabbedPane.gridwidth = 2;
-		gbc_tabbedPane.insets = new Insets(0, 0, 5, 5);
-		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
-		gbc_tabbedPane.gridx = 0;
-		gbc_tabbedPane.gridy = 5;
-		add(tabbedPane, gbc_tabbedPane);
+		GridBagConstraints gbctabbedPane = new GridBagConstraints();
+		gbctabbedPane.gridheight = 2;
+		gbctabbedPane.gridwidth = 2;
+		gbctabbedPane.insets = new Insets(0, 0, 5, 5);
+		gbctabbedPane.fill = GridBagConstraints.BOTH;
+		gbctabbedPane.gridx = 0;
+		gbctabbedPane.gridy = 5;
+		add(tabbedPane, gbctabbedPane);
 		
 		scrollPane = new JScrollPane();
 		tabbedPane.addTab("Text", null, scrollPane, null);
@@ -204,24 +204,24 @@ public class LightDescribeCardPanel extends JPanel {
 		autoBinding.bind();
 		
 		BeanProperty<MagicCard, String> costProperty = BeanProperty.create("cost");
-		BeanProperty<ManaPanel, String> textProperty_1 = BeanProperty.create("manaCost");
-		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding_1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, card, costProperty, manaPanel, textProperty_1);
-		autoBinding_1.bind();
+		BeanProperty<ManaPanel, String> textProperty1 = BeanProperty.create("manaCost");
+		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, card, costProperty, manaPanel, textProperty1);
+		autoBinding1.bind();
 		
 		BeanProperty<MagicCard, String> fullTypeProperty = BeanProperty.create("fullType");
-		BeanProperty<JTextField, String> textProperty_2 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding_2 = Bindings.createAutoBinding(UpdateStrategy.READ, card, fullTypeProperty, txtType, textProperty_2);
-		autoBinding_2.bind();
+		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ, card, fullTypeProperty, txtType, textProperty2);
+		autoBinding2.bind();
 		
 		BeanProperty<MagicCard, Integer> loyaltyProperty = BeanProperty.create("loyalty");
-		BeanProperty<JTextField, String> textProperty_4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding_4 = Bindings.createAutoBinding(UpdateStrategy.READ, card, loyaltyProperty, txtLoyalty, textProperty_4);
-		autoBinding_4.bind();
+		BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
+		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ, card, loyaltyProperty, txtLoyalty, textProperty4);
+		autoBinding4.bind();
 		
-		BeanProperty<MagicCard, String> textProperty_8 = BeanProperty.create("text");
-		BeanProperty<MagicTextPane, String> textProperty_9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding_8 = Bindings.createAutoBinding(UpdateStrategy.READ, card, textProperty_8, magicTextPane, textProperty_9);
-		autoBinding_8.bind();
+		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");
+		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ, card, textProperty8, magicTextPane, textProperty9);
+		autoBinding8.bind();
 		
 		
 		BeanProperty<MagicCard, String> pProperty = BeanProperty.create("power");
@@ -234,21 +234,21 @@ public class LightDescribeCardPanel extends JPanel {
 		AutoBinding<MagicCard, String, JTextField, String> autoBindingT = Bindings.createAutoBinding(UpdateStrategy.READ, card, tProperty, txtT, textPropertyT);
 		autoBindingT.bind();
 		
-		String rules = "";
+		StringBuilder rules = new StringBuilder();
 		for(MagicRuling rul : card.getRulings())
-			rules += "-"+rul.getText()+"\n";
+			rules.append("-").append(rul.getText()).append("\n");
 		
 			
-		rulesTextPane.setText(rules);
+		rulesTextPane.setText(rules.toString());
 		
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding);
-		bindingGroup.addBinding(autoBinding_1);
-		bindingGroup.addBinding(autoBinding_2);
-		bindingGroup.addBinding(autoBinding_4);
-		bindingGroup.addBinding(autoBinding_8);
+		bindingGroup.addBinding(autoBinding1);
+		bindingGroup.addBinding(autoBinding2);
+		bindingGroup.addBinding(autoBinding4);
+		bindingGroup.addBinding(autoBinding8);
 		bindingGroup.addBinding(autoBindingT);
 		bindingGroup.addBinding(autoBindingP);
 		

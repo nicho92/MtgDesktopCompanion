@@ -156,8 +156,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		}
 		return list;
 	}
-	
-	String manajson;
+	private String manajson;
 	private String parseColor(String string) {
 		AstNode node = new Parser().parse(string, "", 1);
 		 node.visit( n-> {

@@ -22,7 +22,7 @@ public class Library implements Serializable {
 	
 	
 	public Library() {
-		cards = new ArrayList<MagicCard>();
+		cards = new ArrayList<>();
 	}
 	
 	public void setCards(List<MagicCard> cards) {

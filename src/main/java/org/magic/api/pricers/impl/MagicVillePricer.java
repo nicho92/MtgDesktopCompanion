@@ -32,7 +32,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	public MagicVillePricer() {
 		super();
 		
-		list=new ArrayList<MagicPrice>();
+		list=new ArrayList<>();
 		httpclient = HttpClients.createDefault();
 		
 		if(!new File(confdir, getName()+".conf").exists()){

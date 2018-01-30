@@ -14,7 +14,7 @@ public class Turn {
 	
 	
 	public Turn() {
-		actions = new ArrayList<String>();
+		actions = new ArrayList<>();
 		index=0;
 		
 	}
