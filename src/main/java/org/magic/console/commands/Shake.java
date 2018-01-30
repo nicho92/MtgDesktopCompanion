@@ -15,12 +15,13 @@ import org.asciitable.impl.ASCIITableImpl;
 import org.asciitable.impl.CollectionASCIITableAware;
 import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.CardShake;
+import org.magic.console.AbstractCommand;
 import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class Shake implements Command {
+public class Shake extends AbstractCommand {
 
 	
 	private IoSession session;

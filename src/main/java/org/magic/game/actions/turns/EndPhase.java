@@ -25,7 +25,7 @@ public class EndPhase extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
-		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.End);
+		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.END);
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		setEnabled(false);
 		

@@ -417,7 +417,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		if (isTapped()) {
 			GamePanelGUI.getInstance().getPlayer().logAction("Untap " + magicCard);
 		} else {
-			if (GameManager.getInstance().getActualTurn().currentPhase() == PHASES.Attack)
+			if (GameManager.getInstance().getActualTurn().currentPhase() == PHASES.ATTACK)
 				GamePanelGUI.getInstance().getPlayer().logAction("Attack with " + magicCard);
 			else
 				GamePanelGUI.getInstance().getPlayer().logAction("Tap " + magicCard);

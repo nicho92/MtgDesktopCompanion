@@ -20,7 +20,7 @@ public class BlockPhase extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Block);
+		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.BLOCK);
 
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		setEnabled(false);

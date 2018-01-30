@@ -17,12 +17,13 @@ import org.asciitable.impl.CollectionASCIITableAware;
 import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MagicShopper;
+import org.magic.console.AbstractCommand;
 import org.magic.console.Command;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class Shop implements Command {
+public class Shop extends AbstractCommand {
 
 	
 	private IoSession session;

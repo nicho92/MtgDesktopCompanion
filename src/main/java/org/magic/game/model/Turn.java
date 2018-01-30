@@ -5,7 +5,7 @@ import java.util.List;
 
 public class Turn {
 
-	public enum PHASES {Untap,Upkeep,Draw,Main,Combat,Attack,Block,Damage,End_Combat,Main_2,End,Cleanup};
+	public enum PHASES {UNTAP,UPKEEP,DRAW,MAIN,COMBAT,ATTACK,BLOCK,DAMAGE,END_COMBAT,MAIN_2,END,CLEANUP}
 	
 	
 	List<String> actions;

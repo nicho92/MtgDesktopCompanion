@@ -28,7 +28,7 @@ public class UntapPhase extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		
-		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Untap);
+		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.UNTAP);
 		
 		for(DisplayableCard c : GamePanelGUI.getInstance().getPanelBattleField().getCards())
 			if(c.isTapped())

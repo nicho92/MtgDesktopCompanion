@@ -29,7 +29,7 @@ public class CleanUpPhase extends AbstractAction {
 		
 		GameManager.getInstance().getStack().clean();
 		
-		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Cleanup);
+		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.CLEANUP);
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
 		setEnabled(false);
 		

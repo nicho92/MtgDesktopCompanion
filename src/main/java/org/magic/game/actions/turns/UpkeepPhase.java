@@ -27,7 +27,7 @@ public class UpkeepPhase extends AbstractAction {
 	public void actionPerformed(ActionEvent ae) {
 		
 		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
-		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.Upkeep);
+		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.UPKEEP);
 		
 		setEnabled(false);
 		
