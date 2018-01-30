@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
@@ -19,6 +20,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -31,7 +33,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-public class DeckbrewProvider implements MagicCardsProvider {
+public class DeckbrewProvider extends AbstractCardsProvider {
 	private String urldeckbrewJSON = "https://api.deckbrew.com/mtg";
 	private Gson gson;
 	private boolean enable;
@@ -40,7 +42,7 @@ public class DeckbrewProvider implements MagicCardsProvider {
 
 	public DeckbrewProvider() {
 		gson = new Gson();
-		list = new ArrayList<MagicEdition>();
+		list = new ArrayList<>();
 		init();
 		
 	}
@@ -287,5 +289,6 @@ public class DeckbrewProvider implements MagicCardsProvider {
 		return STATUT.ABANDONNED;
 	}
 
+	
 
 }

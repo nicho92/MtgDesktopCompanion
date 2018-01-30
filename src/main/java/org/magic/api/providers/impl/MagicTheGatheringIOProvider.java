@@ -27,6 +27,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -36,7 +37,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
-public class MagicTheGatheringIOProvider implements MagicCardsProvider{
+public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean enable;

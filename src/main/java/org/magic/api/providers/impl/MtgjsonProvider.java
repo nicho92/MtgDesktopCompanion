@@ -30,6 +30,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -46,7 +47,7 @@ import com.jayway.jsonpath.spi.mapper.GsonMappingProvider;
 import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 
-public class MtgjsonProvider implements MagicCardsProvider{
+public class MtgjsonProvider extends AbstractCardsProvider{
 
 	private String urlSetJsonZip = "http://mtgjson.com/json/AllSets-x.json.zip";
 	private String urlVersion = "http://mtgjson.com/json/version.json";

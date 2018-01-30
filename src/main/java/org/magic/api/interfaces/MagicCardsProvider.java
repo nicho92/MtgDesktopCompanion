@@ -8,7 +8,7 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 
-public interface MagicCardsProvider {
+public interface MagicCardsProvider extends MTGPlugin{
 
 	public enum STATUT { DEV, BETA, STABLE, ABANDONNED};
 	
@@ -39,5 +39,8 @@ public interface MagicCardsProvider {
 	public STATUT getStatut();
 	
 	public String getName();
+	
+	
+	
 	
 }

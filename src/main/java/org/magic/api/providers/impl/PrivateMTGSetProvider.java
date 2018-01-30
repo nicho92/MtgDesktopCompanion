@@ -18,6 +18,7 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -30,7 +31,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
-public class PrivateMTGSetProvider implements MagicCardsProvider {
+public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	
 	public static final File confdir = new File(MTGControler.CONF_DIR,"sets");
 	private boolean enabled;
