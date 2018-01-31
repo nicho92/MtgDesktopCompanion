@@ -206,11 +206,25 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
         worker.execute();
 		
 	}
-		
+
+	@Override
+	public int hashCode() {
+		return this.hashCode();
+	}
+	
 	@Override
 	public int compareTo(MyNode o) {
 		return this.toString().compareTo(o.toString());
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		
+		return obj.toString()==this.toString();
+	}
+	
     }
 
 public void refresh() {
