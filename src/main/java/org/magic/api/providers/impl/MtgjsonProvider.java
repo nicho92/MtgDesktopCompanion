@@ -62,21 +62,10 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	
 	private List<MagicEdition> eds;
 	private String version;
-	private boolean enable;
 	
-	
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
-	@Override
-	public void enable(boolean enabled) {
-		this.enable=enabled;
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
 	
 	public MtgjsonProvider() {
 		CacheProvider.setCache(new LRUCache(200));
@@ -156,7 +145,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	
 	public void init()
 	{
-		logger.info("init " + this +" ");
+		logger.info("init " + this);
 		Configuration.setDefaults(new Configuration.Defaults() {
 
 		    private final JsonProvider jsonProvider = new GsonJsonProvider();
@@ -205,12 +194,12 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 			
 		 
 		 cachedCardEds= new HashMap<>();
-		 logger.info("init " + this +" : parsing db file");
+		 logger.info(this +" : parsing db file");
 		 long time1 = System.currentTimeMillis();
 		 ctx = JsonPath.parse(fileSetJson);
 		 long time2 = System.currentTimeMillis();
 		 
-		 logger.info("init " + this +" : OK (" + (time2-time1)/1000 + " s)");
+		 logger.info(this +" : parsing OK (" + (time2-time1)/1000 + " s)");
 		} 
 		catch (Exception e1) {
 			logger.error(e1);
@@ -766,11 +755,4 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
-	
-	@Override
-	public String toString() {
-		return getName();
-	}
-
-
 }

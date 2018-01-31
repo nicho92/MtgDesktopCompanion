@@ -17,35 +17,43 @@ import org.magic.services.IconSetProvider;
 
 public class CardListPanel extends JPanel{
 	
-	MagicCard card;
-	DisplayableCard lblNewLabel;
+	private JLabel lblName;
+	private JLabel lblType;
+	private JLabel lblEdition;
+	private ManaPanel manaPanel;
+	private JLabel lblRarity;
 	
+	public CardListPanel()
+	{
+		
+		initGUI();
+		
+	}
 	
-	public CardListPanel(MagicCard mc) {
-		this.card=mc;
-		setBackground(Color.WHITE);
+	private void initGUI()
+	{
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		
-		
-		
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 230, 106, 0};
-		gridBagLayout.rowHeights = new int[]{14, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[]{0, 137, 129, 0};
+		gridBagLayout.rowHeights = new int[]{12, 12, 12, 12, 0};
+		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		JLabel lblName = new JLabel(mc.getName());
+		lblName = new JLabel();
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbclblName = new GridBagConstraints();
+		gbclblName.fill = GridBagConstraints.VERTICAL;
 		gbclblName.insets = new Insets(0, 0, 5, 5);
-		gbclblName.anchor = GridBagConstraints.NORTHWEST;
+		gbclblName.anchor = GridBagConstraints.WEST;
 		gbclblName.gridx = 1;
 		gbclblName.gridy = 0;
 		add(lblName, gbclblName);
 		
-		JLabel lblType = new JLabel(mc.getFullType());
+		lblType = new JLabel();
 		GridBagConstraints gbclblType = new GridBagConstraints();
+		gbclblType.fill = GridBagConstraints.VERTICAL;
 		gbclblType.gridwidth = 2;
 		gbclblType.insets = new Insets(0, 0, 5, 0);
 		gbclblType.anchor = GridBagConstraints.WEST;
@@ -53,8 +61,9 @@ public class CardListPanel extends JPanel{
 		gbclblType.gridy = 1;
 		add(lblType, gbclblType);
 		
-		JLabel lblEdition = new JLabel(mc.getEditions().get(0).toString());
+		lblEdition = new JLabel();
 		GridBagConstraints gbclblEdition = new GridBagConstraints();
+		gbclblEdition.fill = GridBagConstraints.VERTICAL;
 		gbclblEdition.insets = new Insets(0, 0, 5, 0);
 		gbclblEdition.gridwidth = 2;
 		gbclblEdition.anchor = GridBagConstraints.WEST;
@@ -62,13 +71,8 @@ public class CardListPanel extends JPanel{
 		gbclblEdition.gridy = 2;
 		add(lblEdition, gbclblEdition);
 		
-		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getEditions().get(0).getId()));
-	
-	
-		
-		ManaPanel manaPanel = new ManaPanel();
-		manaPanel.setBackground(Color.WHITE);
-		manaPanel.setManaCost(mc.getCost());
+		manaPanel = new ManaPanel();
+		manaPanel.setBackground(this.getBackground());
 		GridBagConstraints gbcmanaPanel = new GridBagConstraints();
 		gbcmanaPanel.insets = new Insets(0, 0, 5, 0);
 		gbcmanaPanel.anchor = GridBagConstraints.EAST;
@@ -77,15 +81,33 @@ public class CardListPanel extends JPanel{
 		gbcmanaPanel.gridy = 0;
 		add(manaPanel, gbcmanaPanel);
 		
-		JLabel lblRarity = new JLabel(mc.getEditions().get(0).getRarity());
+		lblRarity = new JLabel();
 		lblRarity.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		GridBagConstraints gbclblRarity = new GridBagConstraints();
+		gbclblRarity.fill = GridBagConstraints.VERTICAL;
 		gbclblRarity.gridwidth = 2;
 		gbclblRarity.anchor = GridBagConstraints.WEST;
 		gbclblRarity.insets = new Insets(0, 0, 0, 5);
 		gbclblRarity.gridx = 1;
 		gbclblRarity.gridy = 3;
 		add(lblRarity, gbclblRarity);
+	}
+	
+	
+	public void setMagicCard(MagicCard mc)
+	{
+		lblName.setText(mc.getName());
+		lblType.setText(mc.getFullType());
+		lblEdition.setText(mc.getEditions().get(0).toString());
+		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getEditions().get(0).getId()));
+		lblRarity.setText(mc.getEditions().get(0).getRarity());
+		manaPanel.setManaCost(mc.getCost());
+	}
+	
+	
+	public CardListPanel(MagicCard mc) {
+		initGUI();
+		setMagicCard(mc);		
 	}	
 	
 	

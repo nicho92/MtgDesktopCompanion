@@ -34,9 +34,9 @@ import com.google.gson.stream.JsonReader;
 public class DeckbrewProvider extends AbstractCardsProvider {
 	private String urldeckbrewJSON = "https://api.deckbrew.com/mtg";
 	private Gson gson;
-	private boolean enable;
-	List<MagicEdition> list;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private List<MagicEdition> list;
+	private String encoding="UTF-8";
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public DeckbrewProvider() {
 		gson = new Gson();
@@ -58,7 +58,7 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 	public MagicCard getCardById(String id) throws  IOException {
 		String url = urldeckbrewJSON +"/cards/"+id;
 		logger.info("get Card ID " + url );
-		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
+		Reader reader = new InputStreamReader(new URL(url).openStream(),encoding);
 		return gson.fromJson(reader, MagicCard.class);
 				
 	}
@@ -68,11 +68,11 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 	
 	public List<MagicCard> searchCardByCriteria(String att,String crit,MagicEdition me,boolean exact) throws IOException {
 		
-		crit=att+"="+URLEncoder.encode(crit,"UTF-8");
+		crit=att+"="+URLEncoder.encode(crit,encoding);
 
 		String url = urldeckbrewJSON +"/cards?"+crit;
 		
-		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
+		Reader reader = new InputStreamReader(new URL(url).openStream(),encoding);
 		List<MagicCard> retour=new ArrayList<>();
 		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
 		int page=1;
@@ -101,7 +101,7 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 			
 			logger.info("Connexion to " + u);
 			
-			reader = new InputStreamReader(u.openStream(),"UTF-8");
+			reader = new InputStreamReader(u.openStream(),encoding);
 			root = new JsonParser().parse(reader).getAsJsonArray();
 			for(int i = 0;i<root.size();i++)
 			{
@@ -217,7 +217,7 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 	public MagicEdition getSetById(String id) throws IOException   {
 
 		String url = urldeckbrewJSON+"/sets/"+id;
-		Reader reader = new InputStreamReader(new URL(url).openStream(),"UTF-8");
+		Reader reader = new InputStreamReader(new URL(url).openStream(),encoding);
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		
 		MagicEdition ed = new MagicEdition();
@@ -236,11 +236,7 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 		return new String[]{"name","type","subtype","supertype","oracle","set","rarity","color","multicolor","multiverseid","format","status"};
 		
 	}
-	@Override
-	public String toString() {
-		return getName();
-	}
-
+	
 	@Override
 	public String getName() {
 		return "DeckBrew Provider";
@@ -269,17 +265,6 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 	@Override
 	public URL getWebSite() throws MalformedURLException {
 		return new URL("https://deckbrew.com/api/");
-	}
-
-	@Override
-	public void enable(boolean enabled) {
-		this.enable=enabled;
-		
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
 	}
 
 	@Override

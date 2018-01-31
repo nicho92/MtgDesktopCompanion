@@ -6,6 +6,10 @@ import org.magic.api.interfaces.MagicCardsProvider;
 
 public abstract class AbstractCardsProvider implements MagicCardsProvider {
 
+	
+	protected boolean enable;
+	
+
 	@Override
 	public Properties getProperties() {
 		return null;
@@ -34,5 +38,33 @@ public abstract class AbstractCardsProvider implements MagicCardsProvider {
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.PROVIDER;
+	}
+	
+	@Override
+	public boolean isEnable() {
+		return enable;
+	}
+
+	@Override
+	public void enable(boolean t) {
+		this.enable=t;
+		
+	}
+	@Override
+	public int hashCode() {
+		return getName().hashCode();
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		
+		return this.hashCode()==obj.hashCode();
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 }

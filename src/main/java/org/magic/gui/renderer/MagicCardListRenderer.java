@@ -1,5 +1,6 @@
 package org.magic.gui.renderer;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.SystemColor;
 
@@ -15,12 +16,21 @@ public class MagicCardListRenderer implements ListCellRenderer<MagicCard> {
 	DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 	CardListPanel render;
 	
+	
+	public MagicCardListRenderer() {
+		render =new CardListPanel();
+	}
+	
 	@Override
 	public Component getListCellRendererComponent(JList<? extends MagicCard> list, MagicCard value, int index,boolean isSelected, boolean cellHasFocus) {
-		render =new CardListPanel(value); 
+		render.setMagicCard(value);
 		 if (isSelected) {
              render.setBackground(SystemColor.inactiveCaption);
          }
+		 else
+		 {
+			 render.setBackground(Color.WHITE);
+		 }
 		
 		return render;
 	}

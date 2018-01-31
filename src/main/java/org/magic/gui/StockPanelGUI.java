@@ -326,13 +326,7 @@ public class StockPanelGUI extends JPanel {
 
 								@Override
 								public boolean accept(File f) {
-									if (f.isDirectory())
-										return true;
-
-									if (f.getName().endsWith(exp.getFileExtension()))
-										return true;
-
-									return false;
+									return (f.isDirectory() || (f.getName().endsWith(exp.getFileExtension())));
 								}
 							});
 							int res = jf.showSaveDialog(null);
@@ -514,7 +508,7 @@ public class StockPanelGUI extends JPanel {
 				stock.setUpdate(true);
 				model.add(stock);
 		}
-		model.fireTableDataChanged();
+		
 	}
 
 	private void initGUI()

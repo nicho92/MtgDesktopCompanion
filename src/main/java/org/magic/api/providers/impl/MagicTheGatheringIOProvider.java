@@ -39,11 +39,12 @@ import com.google.gson.stream.JsonReader;
 public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	private boolean enable;
 	private String jsonUrl ="https://api.magicthegathering.io/v1";
 	private File fcacheCount = new File(MTGControler.CONF_DIR,"mtgio.cache"); 
 	private Properties propsCache;
 	private Map<String , MagicEdition> cache;
+	private String encoding="UTF-8";
+	
 	
 	public MagicTheGatheringIOProvider() {
 		init();
@@ -82,7 +83,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 		List<MagicCard> lists= new ArrayList<>();
 		URLConnection con =null;
 		int page=1;
-		String url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8");
+		String url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,encoding);
 		logger.debug(url);
 		
 		con = getConnection(url);
@@ -93,10 +94,10 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 	
 		while(count<totalcount)
 		{
-			url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,"UTF-8")+"&page="+page++;
+			url = jsonUrl+"/cards?"+att+"="+URLEncoder.encode(crit,encoding)+"&page="+page++;
 			logger.debug(url);
 			con = getConnection(url);
-			reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+			reader= new JsonReader(new InputStreamReader(con.getInputStream(),encoding));
 			JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");
 			for(int i=0;i<jsonList.size();i++)
 			{
@@ -297,7 +298,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 		JsonObject root = null;
 		JsonObject temp=null;
 		try {
-			reader = new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/cards?set="+ed.getId()+"&name="+URLEncoder.encode(mc.getName(),"UTF-8")).getInputStream(),"UTF-8"));
+			reader = new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/cards?set="+ed.getId()+"&name="+URLEncoder.encode(mc.getName(),encoding)).getInputStream(),encoding));
 			root = new JsonParser().parse(reader).getAsJsonObject();
 			
 			temp = root.get("cards").getAsJsonArray().get(0).getAsJsonObject();
@@ -392,7 +393,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 			
 			URLConnection con = getConnection(url);
 			
-			JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),"UTF-8"));
+			JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),encoding));
 			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 			for(int i = 0;i<root.get(rootKey).getAsJsonArray().size();i++)
 			{
@@ -407,7 +408,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 	@Override
 	public MagicEdition getSetById(String id) throws Exception {
 		logger.debug("get Set " + id);
-		JsonReader reader= new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/sets/"+id).getInputStream(),"UTF-8"));
+		JsonReader reader= new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/sets/"+id).getInputStream(),encoding));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		return generateEdition(root.getAsJsonObject("set"));
 	}
@@ -437,22 +438,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 		return new URL("http://magicthegathering.io/");
 	}
 
-	@Override
-	public void enable(boolean enabled) {
-		this.enable=enabled;
-		
-	}
-	@Override
-	public String toString() {
-		return getName();
-	}
-
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-	
 	public String getName() {
 		return "MTG Developpers.io";
 	}

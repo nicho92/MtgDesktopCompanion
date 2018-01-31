@@ -24,7 +24,7 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-	{
+	
 			if(column==4)
 				value = new DecimalFormat("#0%").format((double)value);
 			
@@ -62,8 +62,6 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 				pane.setForeground(Color.BLACK);
 			}
 			return pane;
-		}
-
 	}
 	
 	

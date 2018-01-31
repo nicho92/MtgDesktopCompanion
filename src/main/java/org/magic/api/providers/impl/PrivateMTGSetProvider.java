@@ -32,7 +32,6 @@ import com.google.gson.stream.JsonReader;
 public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	
 	public static final File confdir = new File(MTGControler.CONF_DIR,"sets");
-	private boolean enabled;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private String ext=".json";
 	
@@ -270,16 +269,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 		return new URL("https://github.com/nicho92/MtgDesktopCompanion");
 	}
 
-	@Override
-	public void enable(boolean enabled) {
-		this.enabled=enabled;
-		
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enabled;
-	}
 
 	@Override
 	public STATUT getStatut() {
@@ -291,9 +280,5 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 		return "Personnal Data Set Provider";
 	}
 	
-	@Override
-	public String toString() {
-		return getName();
-	}
-	
+
 }

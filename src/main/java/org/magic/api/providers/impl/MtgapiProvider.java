@@ -28,28 +28,11 @@ import com.google.gson.JsonParser;
 
 
 public class MtgapiProvider extends AbstractCardsProvider{
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private String urlJson = "http://api.mtgapi.com/v2";
+	private CloseableHttpClient httpclient;
+	private String encoding ="UTF-8";
 
-	
-	String urlJson = "http://api.mtgapi.com/v2";
-	
-	CloseableHttpClient httpclient;
-
-
-	private boolean enable;
-
-	@Override
-	public void enable(boolean enabled) {
-		this.enable=enabled;
-		
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-	
-	
 	public MtgapiProvider() {
 		httpclient = HttpClients.createDefault();
 		init();
@@ -71,7 +54,7 @@ public class MtgapiProvider extends AbstractCardsProvider{
 		CloseableHttpResponse response = httpclient.execute(httpget);
 		
 		
-		Reader reader = new InputStreamReader(response.getEntity().getContent(),"UTF-8");
+		Reader reader = new InputStreamReader(response.getEntity().getContent(),encoding);
 		JsonElement root = new JsonParser().parse(reader);
 		JsonArray arr = root.getAsJsonObject().getAsJsonArray("cards");
 		
@@ -98,7 +81,7 @@ public class MtgapiProvider extends AbstractCardsProvider{
 		CloseableHttpResponse response = httpclient.execute(httpget);
 		
 		
-		Reader reader = new InputStreamReader(response.getEntity().getContent(),"UTF-8");
+		Reader reader = new InputStreamReader(response.getEntity().getContent(),encoding);
 		JsonElement root = new JsonParser().parse(reader);
 		
 		if(root.getAsJsonObject().get("cards").isJsonNull())
@@ -210,7 +193,7 @@ public class MtgapiProvider extends AbstractCardsProvider{
 					httpget.releaseConnection();
 					httpget = new HttpGet(nextUrl);
 					response = httpclient.execute(httpget);
-					reader = new InputStreamReader(response.getEntity().getContent(),"UTF-8");
+					reader = new InputStreamReader(response.getEntity().getContent(),encoding);
 					root = new JsonParser().parse(reader);
 					arr = root.getAsJsonObject().getAsJsonArray("cards");
 				}
@@ -244,7 +227,7 @@ public class MtgapiProvider extends AbstractCardsProvider{
 		CloseableHttpResponse response = httpclient.execute(httpget);
 		
 		
-		Reader reader = new InputStreamReader(response.getEntity().getContent(),"UTF-8");
+		Reader reader = new InputStreamReader(response.getEntity().getContent(),encoding);
 		JsonElement root = new JsonParser().parse(reader);
 		
 		if(root.getAsJsonObject().getAsJsonArray("sets").isJsonNull())
@@ -283,7 +266,7 @@ public class MtgapiProvider extends AbstractCardsProvider{
 		HttpGet httpget = new HttpGet(url);
 		try (CloseableHttpResponse response = httpclient.execute(httpget))
 		{
-			Reader reader = new InputStreamReader(response.getEntity().getContent(),"UTF-8");
+			Reader reader = new InputStreamReader(response.getEntity().getContent(),encoding);
 			JsonElement root = new JsonParser().parse(reader);
 			JsonObject arr = root.getAsJsonObject().get("names").getAsJsonObject();
 			
@@ -317,12 +300,6 @@ public class MtgapiProvider extends AbstractCardsProvider{
 	public String[] getQueryableAttributs() {
 		return new String[]{"name","artist","border","cmc","colors","flavor","foreignNames","hand","layout","legalities","life","loyalty","manaCost","multiversid","names","number","originalText","originalType","power","printings","rarity","rulings","set","subtypes","supertypes","text","toughness","type","types","variations","watermark"};
 	}
-	
-	@Override
-	public String toString() {
-		return getName();
-	}
-
 	
 	public String getName() {
 		return "MTG API Provider";

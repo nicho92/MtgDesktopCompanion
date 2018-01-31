@@ -40,7 +40,6 @@ import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
-	private boolean enabled;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private static String baseURI ="https://api.scryfall.com";
 	private Map<String , MagicEdition> cache;
@@ -255,17 +254,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public void enable(boolean enabled) {
-		this.enabled=enabled;
-
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enabled;
-	}
-
-	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
@@ -273,11 +261,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public String getName() {
 		return "Scryfall";
-	}
-	
-	@Override
-	public String toString() {
-		return getName();
 	}
 	
 	private URLConnection getConnection(String url) throws IOException
