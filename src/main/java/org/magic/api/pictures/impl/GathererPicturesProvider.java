@@ -2,6 +2,8 @@ package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
@@ -81,16 +83,10 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		return resizeCard(im);
 	}
 	
-	private BufferedImage getPicture(String multiverseid) throws Exception{
-			
-			try{
+	private BufferedImage getPicture(String multiverseid) throws IOException{
 			URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+multiverseid+"&type=card");
 			return ImageIO.read(url);
-			}
-			catch(Exception e)
-			{
-				return null;
-			}
+	
 	}
 	
 	

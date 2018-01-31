@@ -209,7 +209,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
 
 	@Override
 	public int hashCode() {
-		return this.hashCode();
+		return toString().hashCode();
 	}
 	
 	@Override

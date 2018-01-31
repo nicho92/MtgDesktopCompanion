@@ -86,7 +86,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 					table.setRowSelectionInterval(row, row);
 					String cardName = table.getValueAt(row, cardPos.intValue()).toString();
 					
-					if(cardName.indexOf('(')>0)
+					if(cardName.indexOf('(')>=0)
 						cardName=cardName.substring(0,cardName.indexOf('(')).trim();
 					
 					MagicEdition ed =null;
