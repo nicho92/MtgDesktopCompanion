@@ -38,7 +38,6 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition ed, MagicCard card) throws Exception {
-		// http://www.mtgprice.com/api?apiKey=DavidDOTCatuheATmicrosoftDOTcom-SunMay1018-30-46UTC2015&s=Eldritch_Moon
 		if(props.getProperty("API_KEY").equals(""))
 			throw new NullPointerException("API_KEY must be filled");
 		

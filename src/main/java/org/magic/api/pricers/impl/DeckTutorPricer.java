@@ -96,7 +96,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 			JsonObject jsonparams = new JsonObject();
 			   jsonparams.addProperty("login", props.getProperty("LOGIN"));    
-			   jsonparams.addProperty("PASS", props.getProperty("PASS"));
+			   jsonparams.addProperty("password", props.getProperty("PASS"));
 	
 
 			HttpPost reqCredential = new HttpPost(props.getProperty("URL")+"/account/login");

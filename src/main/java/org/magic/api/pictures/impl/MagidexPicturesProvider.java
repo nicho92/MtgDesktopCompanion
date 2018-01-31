@@ -55,7 +55,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
         }
 
         // This will properly escape the url
-        URI uri = new URI("http", "magidex.com", "/extstatic/card/" + cardSet.toLowerCase() + '/' + cardName + ".jpg", null, null);
+        URI uri = new URI("http", "magidex.com", "/extstatic/card/" + cardSet.toUpperCase() + '/' + cardName + ".jpg", null, null);
         
         logger.debug("get card from " + uri.toURL());
         HttpURLConnection connection = (HttpURLConnection)uri.toURL().openConnection();

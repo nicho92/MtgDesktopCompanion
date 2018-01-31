@@ -72,14 +72,6 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		return STATUT.BETA;
 	}
 
-	public static void main(String[] args) throws Exception {
-		MTGTop8DeckSniffer snif = new MTGTop8DeckSniffer();
-		RetrievableDeck d = snif.getDeckList().get(1);
-		
-		snif.getDeck(d);
-		
-	}
-
 	@Override
 	public String[] listFilter() {
 		return formats.keySet().toArray(new String[formats.keySet().size()]);
