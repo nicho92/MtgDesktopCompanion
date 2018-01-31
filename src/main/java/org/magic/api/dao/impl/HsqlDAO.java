@@ -383,23 +383,6 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 }
 	}
 
-	public ResultSet executeQuery(String query) throws SQLException
-	{
-		try(Statement pst = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,ResultSet.CONCUR_UPDATABLE))
-		{
-			return pst.executeQuery(query);	
-		}
-		
-	}
-	
-	public int executeUpdate(String query) throws SQLException
-	{
-		try(PreparedStatement pst = con.prepareStatement(query))
-		{
-			return pst.executeUpdate();
-		}
-	}
-
 
 	@Override
 	public void backup(File dir) throws IOException {
@@ -480,6 +463,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 				pst.setDouble(10, state.getPrice());
 				pst.setObject(11, state.getMagicCard());
 				state.setIdstock(pst.executeUpdate());
+				pst.executeUpdate();
 			}
 		}
 		else
