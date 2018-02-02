@@ -179,7 +179,7 @@
 		<dependency>
 			<groupId>com.itextpdf</groupId>
 			<artifactId>itextpdf</artifactId>
-			<version>5.5.12</version>
+			<version>5.5.13</version>
 		</dependency>
 		<dependency>
 			<groupId>org.japura</groupId>
@@ -234,7 +234,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.0.jre7</version>
+			<version>42.2.1.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
@@ -254,12 +254,12 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>1.8.0-beta0</version>
+			<version>1.8.0-beta1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.8.0-beta0</version>
+			<version>1.8.0-beta1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.swinglabs.swingx</groupId>
@@ -279,7 +279,7 @@
 		<dependency>
        		 <groupId>org.mongodb</groupId>
         	 <artifactId>mongodb-driver</artifactId>
-        <version>3.6.1</version>
+        <version>3.6.2</version>
     </dependency>
 	<dependency>
     	<groupId>org.apache.commons</groupId>
