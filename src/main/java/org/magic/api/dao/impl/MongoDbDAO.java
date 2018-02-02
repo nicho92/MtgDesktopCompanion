@@ -11,6 +11,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
+import java.util.function.Consumer;
 
 import org.apache.commons.lang3.NotImplementedException;
 import org.bson.Document;
@@ -29,7 +30,6 @@ import org.magic.tools.MagicCardComparator;
 
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
-import com.mongodb.Block;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;
 import com.mongodb.ServerAddress;
@@ -163,14 +163,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	public List<MagicCard> listCards() throws SQLException {
 		logger.debug("list all cards");
 		List<MagicCard> list = new ArrayList<>();
-		
-		db.getCollection("cards",BasicDBObject.class).find().forEach(new Block<BasicDBObject>() {
-				        @Override
-				        public void apply(final BasicDBObject result) {
-				        	list.add(deserialize(result.get("card").toString(),MagicCard.class));
-				        	}
-				    	}
-				  );
+		db.getCollection("cards",BasicDBObject.class).find().forEach((Consumer<BasicDBObject>)result->list.add(deserialize(result.get("card").toString(),MagicCard.class)));
 		return list;
 	}
 
@@ -188,13 +181,9 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		    
 		db.getCollection("cards",BasicDBObject.class)
 		  .aggregate(aggr)
-		  .forEach( new Block<BasicDBObject>() {
-				        @Override
-				        public void apply(final BasicDBObject document) {
-				            map.put(document.getString("_id"), document.getInt("count"));
-				        	}
-				    	}
-				  );
+		  .forEach( (Consumer<BasicDBObject>)document->
+				            map.put(document.getString("_id"), document.getInt("count"))
+				        	);
 		return map;
 	}
 	
@@ -241,13 +230,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 			query.put("$and", obj);
 		}
 							
-		db.getCollection("cards", BasicDBObject.class).find(query).forEach(new Block<BasicDBObject>() {
-				        @Override
-				        public void apply(final BasicDBObject result) {
-				        	ret.add(deserialize(result.get("card").toString(),MagicCard.class));
-				        	}
-				    	}
-				  );
+		db.getCollection("cards", BasicDBObject.class).find(query).forEach((Consumer<BasicDBObject>)result->ret.add(deserialize(result.get("card").toString(),MagicCard.class)));
 		
 		Collections.sort(ret,new MagicCardComparator());
 		return ret;
@@ -329,15 +312,14 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		List<MagicCollection> ret = new ArrayList<>();
 		BasicDBObject query = new BasicDBObject();
 		query.put("db_id",IDGenerator.generate(mc));
-		db.getCollection("cards", BasicDBObject.class).distinct("collection.name",query,String.class).forEach(new Block<String>() {
-			public void apply(String arg) {
+		db.getCollection("cards", BasicDBObject.class).distinct("collection.name",query,String.class).forEach((Consumer<String>)result ->{
 				try {
-					logger.trace("found " + mc + " in " + arg);
-					ret.add(getCollection(arg));
+					logger.trace("found " + mc + " in " + result);
+					ret.add(getCollection(result));
 				} catch (SQLException e) {
 					logger.error("Error",e);
 				}
-			}
+			
 		});
 		
 		
@@ -349,19 +331,19 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 	@Override
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
-		return new ArrayList<>();
+		ArrayList<MagicCardStock> ret = new ArrayList<>();
+		
+		BasicDBObject filter = new BasicDBObject("card_id", IDGenerator.generate(mc));
+					  filter.put("stockItem.magicCollection.name", col.getName());
+		logger.debug(filter);
+		db.getCollection("stocks",BasicDBObject.class).find(filter).forEach((Consumer<BasicDBObject>)result->ret.add(deserialize(result.get("stockItem").toString(), MagicCardStock.class)));
+		
+		return ret;
 	}
 	
 	public List<MagicCardStock> getStocks() throws SQLException {
 		List<MagicCardStock> stocks= new ArrayList<>();
-		db.getCollection("stocks",BasicDBObject.class).find().forEach(new Block<BasicDBObject>() {
-	        @Override
-	        public void apply(final BasicDBObject result) {
-	        	stocks.add(deserialize(result.get("stockItem").toString(),MagicCardStock.class));
-	        	}
-	    	}
-	  );
-		
+		db.getCollection("stocks",BasicDBObject.class).find().forEach((Consumer<BasicDBObject>)result->stocks.add(deserialize(result.get("stockItem").toString(),MagicCardStock.class)));
 		return stocks;
 	}
     
@@ -375,6 +357,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 			state.setIdstock(Integer.parseInt(getNextSequence().toString()));
 			BasicDBObject obj = new BasicDBObject();
 						  obj.put("stockItem", state);
+						  obj.put("card_id", IDGenerator.generate(state.getMagicCard()));
 			db.getCollection("stocks",BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 			
 		}
@@ -383,6 +366,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 			Bson filter = new Document("stockItem.idstock", state.getIdstock());
 			BasicDBObject obj = new BasicDBObject();
 						  obj.put("stockItem",  state);
+						  obj.put("card_id", IDGenerator.generate(state.getMagicCard()));
 			logger.debug(filter);
 			UpdateResult res = db.getCollection("stocks",BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);
@@ -403,13 +387,9 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	@Override
 	public List<MagicCardAlert> getAlerts() {
 		ArrayList<MagicCardAlert> ret= new ArrayList<>();
-		db.getCollection("alerts",BasicDBObject.class).find().forEach(new Block<BasicDBObject>() {
-	        @Override
-	        public void apply(final BasicDBObject result) {
-	        	ret.add(deserialize(result.get("alertItem").toString(),MagicCardAlert.class));
-	        	}
-	    	}
-	  );
+		db.getCollection("alerts",BasicDBObject.class).find().forEach((Consumer<BasicDBObject>)result->
+					ret.add(deserialize(result.get("alertItem").toString(),MagicCardAlert.class))
+					);
       return ret;
 	}
 
