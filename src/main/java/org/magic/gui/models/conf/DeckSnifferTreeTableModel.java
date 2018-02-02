@@ -97,6 +97,7 @@ public class DeckSnifferTreeTableModel extends AbstractTreeTableModel {
 	    	   DeckSniffer prov = (DeckSniffer) node;
 	            switch (column) {
 	                case 0:return prov.getName();
+	                case 1:return prov.getStatut();
 	                case 2: return prov.isEnable();
 	                default : return "";
 	            }

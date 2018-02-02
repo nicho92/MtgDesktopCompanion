@@ -94,6 +94,7 @@ public class DashBoardProviderTreeTableModel extends AbstractTreeTableModel {
 	    	   DashBoard prov = (DashBoard) node;
 	            switch (column) {
 	                case 0:return prov.getName();
+	                case 1:return prov.getStatut();
 	                case 2: return prov.isEnable();
 	                default : return"";
 	            }

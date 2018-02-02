@@ -96,6 +96,7 @@ public class PicturesProvidersTableModel extends AbstractTreeTableModel
 	    	   PictureProvider prov = (PictureProvider) node;
 	            switch (column) {
 	                case 0:return prov.getName();
+	                case 1:return prov.getStatut();
 	                case 2: return prov.isEnable();
 	                default : return "";
 	            }
