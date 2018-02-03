@@ -28,7 +28,6 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("MAX", "5");
 		props.put("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
 		props.put("WEBSITE", "http://classic.magictraders.com");
 		props.put("KEYWORD", "");
@@ -41,45 +40,43 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 		
 		
 		URL link = new URL(props.getProperty("URL"));
+		logger.info(getName() +" looking for prices " + link );
+		
 		InputStream is = link.openStream();
 		try(BufferedReader read = new BufferedReader(new InputStreamReader(is)))
 		{
 			String line;
 			List<MagicPrice> list = new ArrayList<>();
 		
-			while ((line = read.readLine()) != null) {
+			while ((line = read.readLine()) != null) 
+			{
 				String[] fields = line.split("\\|");
 				if (fields.length < 8)
 					continue;
-
-				String name = fields[0].trim();
-				String price = fields[1].trim();
-				try {
-					double f = Double.parseDouble(price);
-					String cname = getCorrectName(card.getName());
-					props.put("KEYWORD",cname);
-					if(name.startsWith(cname))
-					{
-						logger.info(getName() + " found "+ cname);
-	   				 MagicPrice mp = new MagicPrice();
-								mp.setSeller(getName());
-								mp.setUrl("http://store.eudogames.com/products/search?query="+URLEncoder.encode(card.getName(),"UTF-8"));
-								mp.setSite(getName());
-								mp.setValue(f);
-								mp.setCurrency("$");
-								list.add(mp);
-								
-								return list;
-					}
-				} catch (NumberFormatException e) {
-					continue;
-				} 
+				
+						String name = fields[0].trim();
+						String price = fields[1].trim();
+						try {
+							double f = Double.parseDouble(price);
+							String cname = getCorrectName(card.getName());
+							if(name.startsWith(cname))
+							{
+								logger.info(getName() + " found "+ cname);
+			   				 MagicPrice mp = new MagicPrice();
+										mp.setSeller(getName());
+										mp.setUrl("http://store.eudogames.com/products/search?query="+URLEncoder.encode(card.getName(),"UTF-8"));
+										mp.setSite(getName());
+										mp.setValue(f);
+										mp.setCurrency("$");
+										list.add(mp);
+										
+										return list;
+							}
+						} catch (NumberFormatException e) {
+							continue;
+						}
+				
 			}
-		    
-			if(list.size()>Integer.parseInt(props.get("MAX").toString()))
-	 			 if(Integer.parseInt(props.get("MAX").toString())>-1)
-	 				 return list.subList(0, Integer.parseInt(props.get("MAX").toString()));
-			
 			return list;
 		}
 		

@@ -408,6 +408,10 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 	@Override
 	public MagicEdition getSetById(String id) throws Exception {
 		logger.debug("get Set " + id);
+		
+		if(cache.get(id)!=null)
+			return cache.get(id);
+			
 		JsonReader reader= new JsonReader(new InputStreamReader(getConnection(jsonUrl+"/sets/"+id).getInputStream(),encoding));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		return generateEdition(root.getAsJsonObject("set"));
