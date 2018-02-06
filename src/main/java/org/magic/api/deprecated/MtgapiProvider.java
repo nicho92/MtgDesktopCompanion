@@ -1,4 +1,4 @@
-package org.magic.api.providers.impl;
+package org.magic.api.deprecated;
 
 import java.io.IOException;
 import java.io.InputStreamReader;

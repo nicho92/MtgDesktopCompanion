@@ -20,6 +20,8 @@ import java.util.TreeMap;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -46,6 +48,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private JsonParser parser;
 	private Map<String,List<MagicCard>> cachedCardEds;
 	private String encoding="UTF-8";
+	private String version;
 	
 	public ScryFallProvider() {
 		//do nothing
@@ -243,9 +246,20 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public String getVersion() {
-		
-		//TODO retrieve value in https://scryfall.com/blog/category/api
-		return "0.7";
+		 try {
+			
+			if(version==null) 
+			{ 
+				Document d = Jsoup.connect("https://scryfall.com/blog/category/api").timeout(0).get();
+				String date=d.select("a.muted-n").first().text();
+				String href=d.select("a.muted-n").first().attr("href");
+				version=href.substring(href.lastIndexOf('-')+1,href.length())+" " + date;
+			}
+		} catch (IOException e) {
+			logger.error(e);
+			version="";
+		}
+		return version;
 	}
 
 	@Override

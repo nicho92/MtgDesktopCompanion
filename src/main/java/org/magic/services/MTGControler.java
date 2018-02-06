@@ -402,16 +402,26 @@ public class MTGControler {
 	public <T> T loadItem(String classname) 
 	{
 		try{
-		logger.debug("-load module :  " + classname );
+			logger.debug("-load module :  " + classname );
 			return (T)classLoader.loadClass(classname).newInstance();
-		}catch(Exception e)
+		}
+		catch(ClassNotFoundException e)
 		{
+			logger.error(classname + " is not found");
+			remove(classname);
+			return null;
+		} catch (InstantiationException | IllegalAccessException e) {
 			logger.error("error loading "+ classname,e);
 			return null;
 		}
 	}
 	
 	
+	public void remove(String classname) {
+		logger.debug("need to remove " + classname);
+		
+	}
+
 	public MTGPicturesCache getEnabledCache()
 	{
 		for(MTGPicturesCache p : getListCaches())

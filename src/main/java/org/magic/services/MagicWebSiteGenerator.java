@@ -50,7 +50,8 @@ public class MagicWebSiteGenerator extends Observable{
 		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR,template), new File(dest),pathname->{
 				if(pathname.isDirectory())
 					return true;
-				return pathname.getName().endsWith(".html");
+				
+				return !pathname.getName().endsWith(".html");
 		});
 	}
 	
