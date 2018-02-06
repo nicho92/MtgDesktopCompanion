@@ -80,11 +80,11 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	  	return connection.getInputStream();
 	}
 	
-	private void unZipIt(File zipFile){
+	private void unZipIt(){
 
 	     byte[] buffer = new byte[1024];
 	    	
-	     try(ZipInputStream zis = new ZipInputStream(new FileInputStream(zipFile)))
+	     try(ZipInputStream zis = new ZipInputStream(new FileInputStream(fileSetJsonTemp)))
 	     {
 	    	 
 	    	ZipEntry ze = zis.getNextEntry();
@@ -100,12 +100,14 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 		            }
 		            ze = zis.getNextEntry();
 	           }
-	           
 	    	}
-	    	FileUtils.deleteQuietly(fileSetJsonTemp);
 	    }catch(IOException ex){
 	     logger.error(ex);
 	    }
+	     
+	    	boolean del = FileUtils.deleteQuietly(fileSetJsonTemp);
+	    	logger.debug("remove " + fileSetJsonTemp + "=" + del);
+ 
 	   }    
 	
 	private boolean hasNewVersion()
@@ -179,7 +181,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 			{
 				logger.info("datafile does not exist. Downloading it");
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlSetJsonZip)), fileSetJsonTemp);
-				unZipIt(fileSetJsonTemp);
+				unZipIt();
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlVersion)), fversion);
 			}
 			
@@ -187,7 +189,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 			if(hasNewVersion())
 			{
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlSetJsonZip)), fileSetJsonTemp);
-				unZipIt(fileSetJsonTemp);
+				unZipIt();
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlVersion)), fversion);
 			}
 			

@@ -150,7 +150,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	}
 	
 	public void init() {
-		// TODO Auto-generated method stub
+		// do nothing
 		
 	}
 	

@@ -39,11 +39,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 	private String cardField="mcard";
 	private Connection con;
    
-    @Override
-    public String toString() {
-    	return getName();
-    }
-    
+  
     public HsqlDAO() throws ClassNotFoundException, SQLException {
     	 super();	
  		if(!new File(confdir, getName()+".conf").exists()){
@@ -412,6 +408,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
+		logger.debug("load stock for " + mc + " in " + col);
 		try(PreparedStatement pst=con.prepareStatement("select * from stocks where idmc=? and collection=?"))
 		{
 			pst.setString(1, IDGenerator.generate(mc));
@@ -459,7 +456,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 				pst.setString(4, state.getLanguage());
 				pst.setInt(5, state.getQte());
 				pst.setString(6, state.getComment());
-				pst.setString(7, state.getMagicCard().getId());
+				pst.setString(7, IDGenerator.generate(state.getMagicCard()));
 				pst.setString(8, state.getMagicCollection().getName());
 				pst.setBoolean(9, state.isAltered());
 				pst.setDouble(10, state.getPrice());

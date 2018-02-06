@@ -91,7 +91,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void alertDetected(List<MagicPrice> okz) {
-		// TODO Auto-generated method stub
+		//do nothing
 
 	}
 	

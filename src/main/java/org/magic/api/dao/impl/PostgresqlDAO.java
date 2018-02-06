@@ -34,7 +34,6 @@ import org.magic.tools.IDGenerator;
 public class PostgresqlDAO extends AbstractMagicDAO {
 
 	private Connection con;
-	private List<MagicCardAlert> list;
 
 	
 	@Override
@@ -64,15 +63,8 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		 String url = "jdbc:postgresql://"+props.getProperty("SERVERNAME")+":"+props.getProperty("SERVERPORT");
 		 con=DriverManager.getConnection(url+"/"+props.getProperty("DB_NAME"),props.getProperty("LOGIN"),props.getProperty("PASS"));
 		 createDB();
-
 	}
 
-	 @Override
-	    public String toString() {
-	    	return getName();
-	    }
-	
-	
 	 public boolean createDB()
 	 {
 		 try(Statement stat=con.createStatement())
@@ -346,7 +338,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 		@Override
 		public String getDBLocation() {
-			return props.getProperty("URL")+"/"+props.getProperty("DB_NAME");
+			return props.getProperty("SERVERNAME")+"/"+props.getProperty("DB_NAME");
 		}
 
 		@Override
@@ -529,7 +521,9 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		
 			try(PreparedStatement pst=con.prepareStatement("select * from alerts");	ResultSet rs = pst.executeQuery();)
 			{
-			list = new ArrayList<>();
+				
+			List<MagicCardAlert> list = new ArrayList<>();
+				
 			while(rs.next())
 			{
 			
@@ -556,8 +550,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				pst.setDouble(1, alert.getPrice());
 				pst.setString(2, alert.getId());
 				pst.executeUpdate();
-				list.remove(alert);
-				list.add(alert);
 			}
 			
 		}
@@ -586,7 +578,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				pst.setString(1, IDGenerator.generate(alert.getCard()));
 				pst.setBinaryStream(2,convertObject(alert.getCard()));
 				pst.setDouble(3, alert.getPrice());
-				list.add(alert);
 				pst.executeUpdate();
 			}
 		}
@@ -597,7 +588,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			try(PreparedStatement pst=con.prepareStatement("delete from alerts where id=?"))
 			{
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
-			list.remove(alert);
 			pst.executeUpdate();
 			}
 		}

@@ -19,6 +19,12 @@ public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
 
 	protected File confdir = new File(MTGControler.CONF_DIR, "dao");
 
+	
+	
+	@Override
+	public String toString() {
+		return getName();
+	}
 
 	@Override
 	public void setProperties(String k, Object value) {

@@ -35,12 +35,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		return STATUT.STABLE;
 	}
 	
-    @Override
-    public String toString() {
-    	return getName();
-    }
-
-	public MysqlDAO() throws ClassNotFoundException, SQLException {
+   public MysqlDAO() throws ClassNotFoundException, SQLException {
 	    super();	
 		if(!new File(confdir, getName()+".conf").exists()){
 			 props.put("DRIVER", "com.mysql.jdbc.Driver");
@@ -550,17 +545,14 @@ public class MysqlDAO extends AbstractMagicDAO{
 		
 	}
 
-	List<MagicCardAlert> list;
+
 	@Override
 	public List<MagicCardAlert> getAlerts() {
-		
-		if(list!=null)
-			return list;
-		list = new ArrayList<>();
+	
 		
 		try(PreparedStatement pst=con.prepareStatement("select * from alerts"))
 		{
-				
+			List<MagicCardAlert> list = new ArrayList<>();
 				try(ResultSet rs = pst.executeQuery())
 				{	
 					while(rs.next())
@@ -605,7 +597,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 			pst.setObject(2,alert.getCard());
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
-			list.add(alert);
 		}
 	}
 	
@@ -615,9 +606,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 		{		pst.setDouble(1, alert.getPrice());
 				pst.setString(2, alert.getId());
 				pst.executeUpdate();
-				list.remove(alert);
-				list.add(alert);
-				
 		}
 		
 	}
@@ -629,7 +617,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 		{
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
 			pst.executeUpdate();
-			list.remove(alert);
 		}
 		
 	}

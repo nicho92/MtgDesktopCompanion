@@ -68,12 +68,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		return STATUT.BETA;
 	}
 	
-    @Override
-    public String toString() {
-    	return getName();
-    }
-    
-	public MongoDbDAO() throws ClassNotFoundException, SQLException {
+   public MongoDbDAO() throws ClassNotFoundException, SQLException {
 	    super();	
 		if(!new File(confdir, getName()+".conf").exists()){
 			 props.put("SERVERNAME","localhost");

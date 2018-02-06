@@ -362,11 +362,6 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public String toString() {
-		return getName();
-	}
-
-	@Override
 	public boolean hasAlert(MagicCard mc) {
 		return !FileUtils.listFiles(new File(directory,ALERTSDIR),new NameFileFilter(IDGenerator.generate(mc)),TrueFileFilter.INSTANCE).isEmpty();
 	}

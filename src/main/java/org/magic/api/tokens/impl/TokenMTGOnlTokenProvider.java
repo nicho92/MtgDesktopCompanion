@@ -63,19 +63,16 @@ public class TokenMTGOnlTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public MagicCard generateEmblemFor(MagicCard mc) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public BufferedImage getPictures(MagicCard tok) throws Exception {
-		// TODO Auto-generated method stub
 		return null;
 	}
 	

@@ -121,10 +121,6 @@
             <enable>false</enable>
         </provider>
         <provider>
-            <class>org.magic.api.providers.impl.MtgapiProvider</class>
-            <enable>false</enable>
-        </provider>
-        <provider>
             <class>org.magic.api.providers.impl.PrivateMTGSetProvider</class>
             <enable>false</enable>
         </provider>
