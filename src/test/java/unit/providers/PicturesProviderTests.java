@@ -74,6 +74,7 @@ public class PicturesProviderTests {
 		try {
 			p = new ScryFallPicturesProvider();
 			p.getPicture(mc, ed);
+			p.extractPicture(mc);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -81,6 +82,7 @@ public class PicturesProviderTests {
 		try {
 			p = new MagicCardInfoPicturesProvider();
 			p.getPicture(mc, ed);
+			p.extractPicture(mc);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
@@ -88,6 +90,7 @@ public class PicturesProviderTests {
 		try {
 			p = new GathererPicturesProvider();
 			p.getPicture(mc, ed);
+			p.extractPicture(mc);
 		} catch (Exception e) {
 			MTGLogger.printStackTrace(e);
 		}
@@ -95,6 +98,7 @@ public class PicturesProviderTests {
 		try {
 			p = new MagidexPicturesProvider();
 			p.getPicture(mc, ed);
+			p.extractPicture(mc);
 		} catch (Exception e) {
 			MTGLogger.printStackTrace(e);
 		}
@@ -102,6 +106,7 @@ public class PicturesProviderTests {
 		try {
 			p = new MythicSpoilerPicturesProvider();
 			p.getPicture(mc, ed);
+			p.extractPicture(mc);
 		} catch (Exception e) {
 			MTGLogger.printStackTrace(e);
 		}
@@ -109,6 +114,7 @@ public class PicturesProviderTests {
 		try {
 			p = new DeckMasterPicturesProvider();
 			p.getPicture(mc, ed);
+			p.extractPicture(mc);
 		} catch (Exception e) {
 			MTGLogger.printStackTrace(e);
 		}

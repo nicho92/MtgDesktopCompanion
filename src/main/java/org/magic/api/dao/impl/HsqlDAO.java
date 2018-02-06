@@ -63,6 +63,8 @@ public class HsqlDAO extends AbstractMagicDAO{
 	      con=DriverManager.getConnection("jdbc:hsqldb:"+props.getProperty("URL")+"/"+props.getProperty("DBNAME"),props.getProperty("LOGIN"),props.getProperty("PASS"));
 		  
 		  createDB();
+		  
+		  list=new ArrayList<>();
 		
 	 }
 	 
@@ -491,9 +493,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 	public List<MagicCardAlert> getAlerts() {
 		
 		try{
-				if(list!=null)
-					return list;
-				
+			
 				try(PreparedStatement pst=con.prepareStatement("select * from alerts");ResultSet rs = pst.executeQuery();)
 				{
 					list = new ArrayList<>();
