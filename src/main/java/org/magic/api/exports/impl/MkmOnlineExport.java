@@ -60,6 +60,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			save();
 		}
 		
+		try {
 		MkmAPIConfig.getInstance().init(mkmPricer.getProperty("APP_ACCESS_TOKEN_SECRET"),
 				mkmPricer.getProperty("APP_ACCESS_TOKEN"),
 				mkmPricer.getProperty("APP_SECRET"),
@@ -70,6 +71,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 								  atts.put(PRODUCT_ATTS.exact, "true");
 								  atts.put(PRODUCT_ATTS.idGame, "1");
 								  atts.put(PRODUCT_ATTS.idLanguage, "1");
+		}
+		catch(MkmException e)
+		{
+			logger.error(e);
+		}
 	}
 
 	@Override

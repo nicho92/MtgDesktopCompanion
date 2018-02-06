@@ -37,7 +37,7 @@ public class IconSetProvider {
 		cache24 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-		localDirectory = new File(AbstractMTGPicturesCache.CONFDIR, "sets_icons");
+		localDirectory = new File(AbstractMTGPicturesCache.CACHEDIR, "sets_icons");
 
 		if (!localDirectory.exists())
 			localDirectory.mkdir();

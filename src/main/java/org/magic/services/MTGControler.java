@@ -72,7 +72,15 @@ public class MTGControler {
 	}
 	
 	public LanguageService getLangService() {
-		return langService;
+		if(langService!=null)
+		{
+			return langService;
+		}
+		else
+		{
+			langService = new LanguageService(Locale.ENGLISH);
+			return langService;
+		}
 	}
 	
 	public static MTGControler getInstance()
@@ -277,6 +285,20 @@ public class MTGControler {
 				}
 			}
 			
+			logger.info("loading Caches");
+			caches=new ArrayList<>();
+			for(int i=1;i<=config.getList("//cache/class").size();i++)
+			{
+				String s = config.getString("caches/cache["+i+"]/class");
+				MTGPicturesCache prov = loadItem(s);
+						 
+				if(prov!=null){
+					prov.enable(config.getBoolean("caches/cache["+i+"]/enable"));
+					caches.add(prov);
+				}
+			}
+			
+			
 			logger.info("loading Shoppers");
 			cardsShoppers=new ArrayList<>();
 			for(int i=1;i<=config.getList("//shopper/class").size();i++)
@@ -299,6 +321,16 @@ public class MTGControler {
 					prov.enable(config.getBoolean("dashboards/dashboard["+i+"]/enable"));
 					dashboards.add(prov);
 				}
+			}
+			
+			logger.info("loading Dashlets");
+			dashlets=new ArrayList<>();
+			for(int i=1;i<=config.getList("//dashlet/class").size();i++)
+			{
+				String s = config.getString("dashlets/dashlet["+i+"]/class");
+				AbstractJDashlet prov = loadItem(s);
+				dashlets.add(prov);		 
+				
 			}
 			
 			logger.info("loading Deck Exports");
@@ -350,28 +382,8 @@ public class MTGControler {
 				}
 			}
 			
-			logger.info("loading Caches");
-			caches=new ArrayList<>();
-			for(int i=1;i<=config.getList("//cache/class").size();i++)
-			{
-				String s = config.getString("caches/cache["+i+"]/class");
-				MTGPicturesCache prov = loadItem(s);
-						 
-				if(prov!=null){
-					prov.enable(config.getBoolean("caches/cache["+i+"]/enable"));
-					caches.add(prov);
-				}
-			}
 			
-			logger.info("loading Dashlets");
-			dashlets=new ArrayList<>();
-			for(int i=1;i<=config.getList("//dashlet/class").size();i++)
-			{
-				String s = config.getString("dashlets/dashlet["+i+"]/class");
-				AbstractJDashlet prov = loadItem(s);
-				dashlets.add(prov);		 
-				
-			}
+		
 			keyWordManager = new KeyWordManager();
 			
 			langService = new LanguageService();

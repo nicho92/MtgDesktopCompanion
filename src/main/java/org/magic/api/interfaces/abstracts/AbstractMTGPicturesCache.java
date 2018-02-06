@@ -14,7 +14,7 @@ import org.utils.patterns.observer.Observable;
 public abstract class AbstractMTGPicturesCache extends Observable implements MTGPicturesCache {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	public static final File CONFDIR = new File(MTGControler.CONF_DIR, "caches");
+	public static final File CACHEDIR = new File(MTGControler.CONF_DIR, "caches");
 	private boolean enable=true;
 	protected Properties props;
 	
@@ -32,8 +32,8 @@ public abstract class AbstractMTGPicturesCache extends Observable implements MTG
 	public AbstractMTGPicturesCache() {
 		
 		props=new Properties();
-		if(!CONFDIR.exists())
-			CONFDIR.mkdir();
+		if(!CACHEDIR.exists())
+			CACHEDIR.mkdir();
 		load();
 	}
 	
@@ -63,7 +63,7 @@ public abstract class AbstractMTGPicturesCache extends Observable implements MTG
 	{
 		File f=null;
 		try {
-			f = new File(CONFDIR, getName()+".conf");
+			f = new File(CACHEDIR, getName()+".conf");
 			
 			if(f.exists())
 			{	
@@ -80,7 +80,7 @@ public abstract class AbstractMTGPicturesCache extends Observable implements MTG
 	{
 		File f=null;
 		try {
-			f = new File(CONFDIR, getName()+".conf");
+			f = new File(CACHEDIR, getName()+".conf");
 		
 			FileOutputStream fos = new FileOutputStream(f);
 			props.store(fos,"");

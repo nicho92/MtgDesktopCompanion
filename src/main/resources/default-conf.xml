@@ -150,6 +150,10 @@
             <class>org.magic.api.dao.impl.FileDAO</class>
             <enable>false</enable>
         </dao>
+         <dao>
+            <class>org.magic.api.dao.impl.MongoDbDAO</class>
+            <enable>false</enable>
+        </dao>
     </daos>
     <pictures>
         <picture>
@@ -179,6 +183,10 @@
         <picture>
             <class>org.magic.api.pictures.impl.MythicSpoilerPicturesProvider</class>
             <enable>false</enable>
+        </picture>
+        <picture>
+        	<class>org.magic.api.pictures.impl.MTGCardMakerPicturesProvider</class>
+        	<enable>false</enable>
         </picture>
     </pictures>
     <shoppers>
@@ -237,6 +245,10 @@
         <sniffer>
             <class>org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer</class>
             <enable>true</enable>
+        </sniffer>
+        <sniffer>
+            <class>org.magic.api.decksniffer.impl.MTGTop8DeckSniffer</class>
+            <enable>false</enable>
         </sniffer>
     </decksniffer>
     <deckexports>

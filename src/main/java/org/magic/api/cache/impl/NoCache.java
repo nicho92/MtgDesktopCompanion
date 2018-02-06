@@ -11,6 +11,11 @@ public class NoCache extends AbstractMTGPicturesCache {
 
 
 	
+	
+	public NoCache() {
+		super();
+	}
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
