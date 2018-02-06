@@ -114,20 +114,26 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				reader= new JsonReader(new InputStreamReader(con.getInputStream(),encoding));
 				JsonElement el = parser.parse(reader);
 			
-			
-				
-			JsonArray jsonList = el.getAsJsonObject().getAsJsonArray("data");
-			for(int i=0;i<jsonList.size();i++)
-			{
-				MagicCard mc = generateCard(jsonList.get(i).getAsJsonObject(),exact,crit);
-				list.add(mc);
-			}
-			hasMore=el.getAsJsonObject().get("has_more").getAsBoolean();
-			
-			if(hasMore)
-				url=el.getAsJsonObject().get("next_page").getAsString();
-			
-			Thread.sleep(50);
+				if(att.equals("id"))
+				{
+					list.add(generateCard(el.getAsJsonObject(), exact, crit));
+					hasMore=false;
+				}
+				else
+				{
+					JsonArray jsonList = el.getAsJsonObject().getAsJsonArray("data");
+					for(int i=0;i<jsonList.size();i++)
+					{
+						MagicCard mc = generateCard(jsonList.get(i).getAsJsonObject(),exact,crit);
+						list.add(mc);
+					}
+					hasMore=el.getAsJsonObject().get("has_more").getAsBoolean();
+					
+					if(hasMore)
+						url=el.getAsJsonObject().get("next_page").getAsString();
+					
+					Thread.sleep(50);
+				}
 			}
 			catch(Exception e)
 			{
@@ -425,7 +431,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		  mc.getEditions().add(ed);
 		 
 		  
-		  
+/*
 		  new Thread(()->{
 				try {
 					initOtherEdition(mc);
@@ -433,7 +439,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				} catch (Exception e) {
 					logger.error("error in initOtherEdition :" + e.getMessage());
 				}
-		},"other editions").start();
+		},"other editions").start();*/
 		    
 		return mc;
 		
