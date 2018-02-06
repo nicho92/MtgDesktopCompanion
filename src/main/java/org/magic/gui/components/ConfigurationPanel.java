@@ -114,9 +114,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelDAO, gbcpanelDAO);
 		GridBagLayout gblpanelDAO = new GridBagLayout();
 		gblpanelDAO.columnWidths = new int[]{0, 0, 130, 0, 0};
-		gblpanelDAO.rowHeights = new int[]{0, 0, 0, 0};
+		gblpanelDAO.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gblpanelDAO.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		gblpanelDAO.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gblpanelDAO.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelDAO.setLayout(gblpanelDAO);
 		
 		JLabel lblBackupDao = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DAO_BACKUP")+" : ");
@@ -165,6 +165,36 @@ public class ConfigurationPanel extends JPanel {
 		gbcbtnDuplicate.gridx = 3;
 		gbcbtnDuplicate.gridy = 1;
 		panelDAO.add(btnDuplicate, gbcbtnDuplicate);
+		
+		JLabel lblLocation = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOCATION")+" : ");
+		GridBagConstraints gbclblLocation = new GridBagConstraints();
+		gbclblLocation.insets = new Insets(0, 0, 5, 5);
+		gbclblLocation.gridx = 0;
+		gbclblLocation.gridy = 3;
+		panelDAO.add(lblLocation, gbclblLocation);
+		
+		JLabel lblLocationValue = new JLabel(MTGControler.getInstance().getEnabledDAO().getDBLocation());
+		GridBagConstraints gbclblLocationValue = new GridBagConstraints();
+		gbclblLocationValue.gridwidth = 2;
+		gbclblLocationValue.insets = new Insets(0, 0, 5, 5);
+		gbclblLocationValue.gridx = 1;
+		gbclblLocationValue.gridy = 3;
+		panelDAO.add(lblLocationValue, gbclblLocationValue);
+		
+		JLabel lblSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIZE")+" : ");
+		GridBagConstraints gbclblSize = new GridBagConstraints();
+		gbclblSize.insets = new Insets(0, 0, 0, 5);
+		gbclblSize.gridx = 0;
+		gbclblSize.gridy = 4;
+		panelDAO.add(lblSize, gbclblSize);
+		
+		JLabel lblSizeValue = new JLabel(String.valueOf(MTGControler.getInstance().getEnabledDAO().getDBSize()/1024/1024)+"MB");
+		GridBagConstraints gbclblSizeValue = new GridBagConstraints();
+		gbclblSizeValue.gridwidth = 2;
+		gbclblSizeValue.insets = new Insets(0, 0, 0, 5);
+		gbclblSizeValue.gridx = 1;
+		gbclblSizeValue.gridy = 4;
+		panelDAO.add(lblSizeValue, gbclblSizeValue);
 		
 		
 		
@@ -273,7 +303,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLogLevel.gridy = 2;
 		panelConfig.add(lblLogLevel, gbclblLogLevel);
 		
-		cboLogLevels = new JComboBox<>(new Level[]{Level.INFO,Level.ERROR,Level.DEBUG,Level.TRACE});
+		cboLogLevels = new JComboBox<>(new DefaultComboBoxModel<>(new Level[]{Level.INFO,Level.ERROR,Level.DEBUG,Level.TRACE}));
 		GridBagConstraints gbccboLogLevels = new GridBagConstraints();
 		gbccboLogLevels.gridwidth = 3;
 		gbccboLogLevels.insets = new Insets(0, 0, 5, 5);

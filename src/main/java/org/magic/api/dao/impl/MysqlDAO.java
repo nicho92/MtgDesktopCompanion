@@ -61,8 +61,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void init() throws SQLException, ClassNotFoundException {
 		 logger.info("init " + getName());
 		 Class.forName(props.getProperty("DRIVER"));
-		 String url = "jdbc:mysql://"+props.getProperty("SERVERNAME")+":"+props.getProperty("SERVERPORT");
-		 con=DriverManager.getConnection(url+"/"+props.getProperty("DB_NAME")+props.getProperty("PARAMS"),props.getProperty("LOGIN"),props.getProperty("PASS"));
+		 String url = "jdbc:mysql://"+getProperty("SERVERNAME")+":"+getProperty("SERVERPORT");
+		 con=DriverManager.getConnection(url+"/"+getProperty("DB_NAME")+props.getProperty("PARAMS"),props.getProperty("LOGIN"),props.getProperty("PASS"));
 		 createDB();
 		 logger.info("init " + getName() +" done");
 		 
@@ -316,7 +316,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public String getDBLocation() {
-		return props.getProperty("URL")+"/"+props.getProperty("DB_NAME");
+		return getProperty("SERVERNAME")+"/"+getProperty("DB_NAME");
 	}
 
 	@Override
@@ -325,11 +325,13 @@ public class MysqlDAO extends AbstractMagicDAO{
 		try (
 			PreparedStatement pst = con.prepareStatement(sql);
 			ResultSet rs = pst.executeQuery();)
-		{
+			{
+			rs.first();
 			return (long)rs.getDouble(1);
-		} catch (SQLException e) {
-			return 0;
-		}	
+			} catch (SQLException e) {
+				logger.error(e);
+				return 0;
+			}	
 	
 	}
 
