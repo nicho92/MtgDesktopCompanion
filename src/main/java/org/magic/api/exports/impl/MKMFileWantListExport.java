@@ -59,15 +59,14 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	@Override
 	public void export(List<MagicCard> cards, File f) throws Exception {
 		
-		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
-		{
-			for (MagicCard mc : cards){
-				StringBuilder temp = new StringBuilder();
-				
-				temp.append("1").append(" ").append(mc.getName()).append(" (").append(mc.getEditions().get(0).getSet()).append(")");
-				bw.write(temp.toString()+"\n");
-			}
-		}
+		MagicDeck d = new MagicDeck();
+		d.setName(f.getName());
+		d.setDescription("export from " + f);
+		
+		for(MagicCard mc : cards)
+			d.getMap().put(mc, 1);
+		
+		export(d,f);
 	}
 
 	@Override

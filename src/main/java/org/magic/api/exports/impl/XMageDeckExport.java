@@ -100,7 +100,7 @@ public class XMageDeckExport extends AbstractCardExport  {
 						line=line.replace("SB:", "").trim();
 						MagicEdition ed = new MagicEdition();
 						ed.setId(line.substring(line.indexOf('[')+1,line.indexOf(':')));
-						String cardName = line.substring(line.indexOf(']')+1, line.length()-1).trim();
+						String cardName = line.substring(line.indexOf(']')+1, line.length()).trim();
 						int qte = Integer.parseInt(line.substring(0,line.indexOf('[')).trim());
 						MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
 						deck.getMap().put(mc, qte);

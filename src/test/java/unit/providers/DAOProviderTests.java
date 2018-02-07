@@ -71,7 +71,7 @@ public class DAOProviderTests {
 			System.out.println("STATUT " + p.getStatut());
 			System.out.println("LOCATION " + p.getDBLocation());
 			System.out.println("SIZE " + p.getDBSize()/1024/1024);
-			
+			System.out.println("TYPE " + p.getType());
 			
 			System.out.println("******************SAVING");
 			p.saveCollection(col);

@@ -268,7 +268,7 @@ public class CSVExport extends AbstractCardExport{
 			deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
 			
 			String line = read.readLine();
-			
+			line=read.readLine();
 			while(line!=null)
 			{
 				String[] part= line.split(getProperty("importDeckCharSeparator").toString());
