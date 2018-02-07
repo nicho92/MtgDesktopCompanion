@@ -19,14 +19,6 @@ public class Observable {
         }
     }
 
-    public synchronized void deleteObserver(Observer o) {
-        obs.remove(o);
-    }
-
-    public void notifyObservers() {
-        notifyObservers(null);
-    }
-
     public void notifyObservers(Object arg) {
         Object[] arrLocal;
         synchronized (this) {
@@ -40,12 +32,7 @@ public class Observable {
             ((Observer)arrLocal[i]).update(this, arg);
     }
 
-   
-    public synchronized void deleteObservers() {
-        obs.clear();
-    }
-
-  
+ 
     protected synchronized void setChanged() {
         changed = true;
     }
@@ -60,7 +47,4 @@ public class Observable {
         return changed;
     }
 
-    public synchronized int countObservers() {
-        return obs.size();
-    }
 }

@@ -7,6 +7,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.cache.impl.FileCache;
+import org.magic.api.cache.impl.MemoryCache;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.PictureProvider;
@@ -19,7 +21,7 @@ import org.magic.api.pictures.impl.ScryFallPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class PicturesProviderTests {
+public class CacheProviderTests {
 
 	MagicCard mc;
 	MagicEdition ed;
@@ -29,13 +31,7 @@ public class PicturesProviderTests {
 	{
 		MTGLogger.changeLevel(Level.ERROR);
 		
-		List<MTGPicturesCache> caches = MTGControler.getInstance().getListCaches();
-		MTGControler.getInstance().getListCaches().removeAll(caches);
 		
-		MTGPicturesCache cache = new NoCache();
-		cache.enable(true);
-		
-		MTGControler.getInstance().getListCaches().add(cache);
 	}
 
 	
@@ -71,52 +67,27 @@ public class PicturesProviderTests {
 	@Test
 	public void test()
 	{
-		testProviders(new ScryFallPicturesProvider());
-		testProviders(new MagicCardInfoPicturesProvider());
-		testProviders(new GathererPicturesProvider());
-		testProviders(new ScryFallPicturesProvider());
-		testProviders(new MagidexPicturesProvider());
-		testProviders(new MythicSpoilerPicturesProvider());
-		testProviders(new DeckMasterPicturesProvider());
+		test(new NoCache());
+		test(new MemoryCache());
+		test(new FileCache());
 		
 	}
 	
-	public void testProviders(PictureProvider p)
+	public void test(MTGPicturesCache p)
 	{
 		
 		
 		System.out.println("****************"+p);
 		System.out.println(p.getStatut());
 		System.out.println(p.getType());
-		
-		
+	
 		try {
-			p.getPicture(mc, ed);
+			p.getPic(mc, ed);
 			System.out.println("getPictures OK" );
 		} catch (Exception e) {
 			System.out.println("getPictures ERROR "+e );
 		}
 
-		try {
-			p.extractPicture(mc);
-			System.out.println("extractPicture OK" );
-		} catch (Exception e) {
-			System.out.println("getPictures ERROR " +e);
-		}
-
-		try {
-			p.getSetLogo(ed.getId(), "Rare");
-			System.out.println("getLogo OK" );
-		} catch (Exception e) {
-			System.out.println("getLogo ERROR "+e );
-		}
-		
-		
-		
-		p.getBackPicture();
-
-		
-		
 	}
 	
 	

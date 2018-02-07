@@ -14,22 +14,6 @@ public class BonusCounter extends AbstractCounter {
 		this.toughnessModifier=toughnessModifier;
 	}
 
-	@Override
-	public int hashCode() {
-		return this.hashCode();
-	}
-	
-	
-	@Override
-	public boolean equals(Object obj) {
-		 if (obj == null)
-			    return false;
-
-			  if (this.getClass() != obj.getClass())
-			    return false;
-		
-		return this.hashCode() ==((BonusCounter)obj).hashCode();
-	}
 	
 	@Override
 	public void apply(DisplayableCard displayableCard) {
