@@ -53,7 +53,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	}
 	
 	
-	public TappedOutDeckSniffer() throws Exception {
+	public TappedOutDeckSniffer(){
 		super();
 
 		if(!new File(confdir, getName()+".conf").exists()){
