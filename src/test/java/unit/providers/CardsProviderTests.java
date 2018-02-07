@@ -40,6 +40,7 @@ public class CardsProviderTests {
 		mc.setText("{T}, Sacrifice Black Lotus: Add three mana of any one color to your mana pool.");
 		mc.setRarity("Rare");
 		mc.setArtist("Christopher Rush");
+		mc.setNumber("232");
 		mc.setMciNumber("232");
 					 ed = new MagicEdition();
 					 ed.setId("lea");
@@ -48,7 +49,7 @@ public class CardsProviderTests {
 					 ed.setRarity("Rare");
 					 ed.setArtist("Christopher Rush");
 					 ed.setMultiverse_id("3");
-					 ed.setNumber("232");
+					 ed.setNumber(mc.getNumber());
 		
 		mc.getEditions().add(ed);
 	}
@@ -109,7 +110,21 @@ public class CardsProviderTests {
 			} catch (Exception e) {
 				System.out.println("CARD BY ID :ERROR " + e);
 			}
+			
+			try {
+				p.getCardByNumber(mc.getNumber(), ed);
+				System.out.println("CARD BY NUMBER :OK");
+			} catch (Exception e) {
+				System.out.println("CARD BY NUMBER :ERROR " + e);
+			}
 		
+			try {
+				p.generateBooster(ed);
+				System.out.println("BOOSTER GEN :OK");
+			} catch (Exception e) {
+				System.out.println("BOOSTER GEN :ERROR " + e);
+			}
+			
 			try {
 				System.out.println("WEB  "+p.getWebSite());
 			} catch (MalformedURLException e) {

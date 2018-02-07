@@ -431,7 +431,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		  mc.getEditions().add(ed);
 		 
 		  
-/*
+
 		  new Thread(()->{
 				try {
 					initOtherEdition(mc);
@@ -439,7 +439,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				} catch (Exception e) {
 					logger.error("error in initOtherEdition :" + e.getMessage());
 				}
-		},"other editions").start();*/
+		},"other editions").start();
 		    
 		return mc;
 		
