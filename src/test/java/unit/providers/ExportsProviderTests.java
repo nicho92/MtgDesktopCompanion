@@ -29,24 +29,17 @@ import org.magic.api.exports.impl.OCTGNDeckExport;
 import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.exports.impl.XMageDeckExport;
 import org.magic.api.interfaces.CardExporter;
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.providers.impl.DeckbrewProvider;
-import org.magic.api.providers.impl.MagicTheGatheringIOProvider;
-import org.magic.api.providers.impl.MtgjsonProvider;
-import org.magic.api.providers.impl.PrivateMTGSetProvider;
-import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class ExportsProviderTests {
 
-	CardExporter p;
 	MagicCard mc;
 	MagicEdition ed;
 	
 	
 	@Before
-	public void removeCache()
+	public void initLogger()
 	{
 		MTGLogger.changeLevel(Level.ERROR);
 	}
@@ -75,7 +68,8 @@ public class ExportsProviderTests {
 					 ed.setArtist("Christopher Rush");
 					 ed.setMultiverse_id("3");
 					 ed.setNumber("232");
-		
+					 ed.setMkm_id(1);
+					 ed.setMkm_name("Alpha");
 		mc.getEditions().add(ed);
 	}
 	
@@ -153,13 +147,14 @@ public class ExportsProviderTests {
 							s.setLanguage("English");
 							s.setMagicCollection(new MagicCollection("TEST"));
 							s.setQte(8);
-							s.setPrice(1000.0);
+							s.setPrice(9999.0);
 							s.setComment("Test");
 							stocks.add(s);
 			try {
 				p.exportStock(stocks, destS);
 				System.out.println(p + " export Stock OK");
 			} catch (Exception e) {
+				e.printStackTrace();
 				System.out.println(p + " export Stock ERROR"+e);
 			}
 	

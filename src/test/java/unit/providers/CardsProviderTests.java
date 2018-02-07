@@ -1,5 +1,7 @@
 package unit.providers;
 
+import java.net.MalformedURLException;
+
 import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
@@ -15,14 +17,13 @@ import org.magic.services.MTGLogger;
 
 public class CardsProviderTests {
 
-	MagicCardsProvider p;
 	MagicCard mc;
 	MagicEdition ed;
 	
 	@Before
 	public void removeCache()
 	{
-		MTGLogger.changeLevel(Level.DEBUG);
+		MTGLogger.changeLevel(Level.ERROR);
 	}
 
 	
@@ -55,7 +56,7 @@ public class CardsProviderTests {
 	@Test
 	public void initTests()
 	{
-		testProviders(new ScryFallProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
+		testProviders(new ScryFallProvider(),"b0faa7f2-b547-42c4-a810-839da50dadfe");
 		testProviders(new MagicTheGatheringIOProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
 		testProviders(new DeckbrewProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
 		testProviders(new MtgjsonProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
@@ -67,35 +68,53 @@ public class CardsProviderTests {
 	public void testProviders(MagicCardsProvider p,String id)
 	{
 		
-		try {
 			p.init();
 			System.out.println("***********"+p);
 			System.out.println("NAME "+p.getName());
 			System.out.println("VERS "+p.getVersion());
 			System.out.println("STAT "+p.getStatut());
-			System.out.println("WEB  "+p.getWebSite());
 			System.out.println("LANG "+p.getLanguages());
 			System.out.println("QUER "+p.getQueryableAttributs());
 			System.out.println("PROP "+p.getProperties());
 			System.out.println("TYPE "+p.getType());
 			System.out.println("ENAB "+p.isEnable());
-			
-			
-			System.out.println("***********SEARCH");
 			mc.setId(id);
-			p.loadEditions();
-			p.searchCardByCriteria("name", mc.getName(), ed, true);
-			p.searchCardByCriteria("name", mc.getName(), null, false);
-			p.getSetById(ed.getId());
-			p.getCardById(mc.getId());
-			
-			
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+			try {
+				p.loadEditions();
+				System.out.println("LOAD EDITION :OK");
+			} catch (Exception e) {
+				System.out.println("LOAD EDITION :ERROR " + e);
+			}
+			try {
+				p.searchCardByCriteria("name", mc.getName(), ed, true);
+				System.out.println("SEARCH CARD :OK");
+			} catch (Exception e) {
+				System.out.println("SEARCH CARD :ERROR " + e);
+			}
+			try {
+				p.searchCardByCriteria("name", mc.getName(), null, false);
+				System.out.println("SEARCH CARD :OK");
+			} catch (Exception e) {
+				System.out.println("SEARCH CARD :ERROR " + e);
+			}
+			try {
+				p.getSetById(ed.getId());
+				System.out.println("SET BY ID :OK");
+			} catch (Exception e) {
+				System.out.println("SET BY ID :ERROR " + e);
+			}
+			try {
+				p.getCardById(mc.getId());
+				System.out.println("CARD BY ID :OK");
+			} catch (Exception e) {
+				System.out.println("CARD BY ID :ERROR " + e);
+			}
 		
-	
-		
+			try {
+				System.out.println("WEB  "+p.getWebSite());
+			} catch (MalformedURLException e) {
+				System.out.println("WEB ERROR" + e);
+			}
 		
 	}
 	

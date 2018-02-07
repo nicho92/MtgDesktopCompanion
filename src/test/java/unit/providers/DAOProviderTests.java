@@ -23,7 +23,7 @@ import org.magic.services.MTGLogger;
 
 public class DAOProviderTests {
 
-	MagicDAO p;
+	
 	MagicCard mc;
 	MagicEdition ed;
 	MagicCollection col;
@@ -61,7 +61,14 @@ public class DAOProviderTests {
 	}
 	
 	@Test
-	public void testProviders()
+	public void test()
+	{
+		testProviders(new FileDAO());
+	}
+	
+	
+	
+	public void testProviders(MagicDAO p)
 	{
 		
 		try {

@@ -21,14 +21,13 @@ import org.magic.services.MTGLogger;
 
 public class PicturesProviderTests {
 
-	PictureProvider p;
 	MagicCard mc;
 	MagicEdition ed;
 	
 	@Before
 	public void removeCache()
 	{
-		MTGLogger.changeLevel(Level.DEBUG);
+		MTGLogger.changeLevel(Level.ERROR);
 		
 		List<MTGPicturesCache> caches = MTGControler.getInstance().getListCaches();
 		MTGControler.getInstance().getListCaches().removeAll(caches);
@@ -55,6 +54,7 @@ public class PicturesProviderTests {
 		mc.setArtist("Christopher Rush");
 		mc.setId("c944c7dc960c4832604973844edee2a1fdc82d98");
 		mc.setMciNumber("232");
+		
 		MagicEdition ed = new MagicEdition();
 					 ed.setId("lea");
 					 ed.setSet("Limited Edition Alpha");
@@ -67,57 +67,52 @@ public class PicturesProviderTests {
 		mc.getEditions().add(ed);
 	}
 	
+	
 	@Test
-	public void testProviders()
+	public void test()
+	{
+		testProviders(new ScryFallPicturesProvider());
+		testProviders(new MagicCardInfoPicturesProvider());
+		testProviders(new GathererPicturesProvider());
+		testProviders(new ScryFallPicturesProvider());
+		testProviders(new MagidexPicturesProvider());
+		testProviders(new MythicSpoilerPicturesProvider());
+		testProviders(new DeckMasterPicturesProvider());
+		
+	}
+	
+	public void testProviders(PictureProvider p)
 	{
 		
-		try {
-			p = new ScryFallPicturesProvider();
-			p.getPicture(mc, ed);
-			p.extractPicture(mc);
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
+		
+		System.out.println("****************"+p);
 		
 		try {
-			p = new MagicCardInfoPicturesProvider();
 			p.getPicture(mc, ed);
-			p.extractPicture(mc);
+			System.out.println("getPictures OK" );
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
+			System.out.println("getPictures ERROR "+e );
+		}
+
+		try {
+			p.extractPicture(mc);
+			System.out.println("extractPicture OK" );
+		} catch (Exception e) {
+			System.out.println("getPictures ERROR " +e);
+		}
+
+		try {
+			p.getSetLogo(ed.getId(), "Rare");
+			System.out.println("getLogo OK" );
+		} catch (Exception e) {
+			System.out.println("getLogo ERROR "+e );
 		}
 		
-		try {
-			p = new GathererPicturesProvider();
-			p.getPicture(mc, ed);
-			p.extractPicture(mc);
-		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
-		}
 		
-		try {
-			p = new MagidexPicturesProvider();
-			p.getPicture(mc, ed);
-			p.extractPicture(mc);
-		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
-		}
 		
-		try {
-			p = new MythicSpoilerPicturesProvider();
-			p.getPicture(mc, ed);
-			p.extractPicture(mc);
-		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
-		}
+		p.getBackPicture();
+
 		
-		try {
-			p = new DeckMasterPicturesProvider();
-			p.getPicture(mc, ed);
-			p.extractPicture(mc);
-		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
-		}
 		
 	}
 	
