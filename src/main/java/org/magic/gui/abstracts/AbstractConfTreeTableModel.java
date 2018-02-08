@@ -1,0 +1,136 @@
+package org.magic.gui.abstracts;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
+
+import org.apache.log4j.Logger;
+import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
+import org.magic.api.interfaces.MTGPlugin;
+import org.magic.services.MTGLogger;
+
+public abstract class AbstractConfTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
+
+	
+	protected static final  String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	protected MTGPlugin selectedProvider = null;
+	protected List<T> listElements ;
+	
+    protected int getPosition(Entry k, Properties p)
+    {
+    	for(int i=0;i<p.keySet().size();i++)
+    	{
+    		if(p.keySet().toArray()[i].toString().equals(k.getKey()))
+    			return i;
+    	}
+    	return -1;
+    }
+    
+
+    @Override
+    public Object getChild(Object parent, int index) 
+    {
+    	  if (parent instanceof MTGPlugin) {
+        	T dept = (T) parent;
+            return getPropByIndex(dept,index);
+        }
+        return new ArrayList<T>(listElements).get(index);
+    }
+
+
+    protected Entry<String,Object> getPropByIndex(MTGPlugin dept, int index)
+    {
+    	return (Map.Entry<String,Object>)dept.getProperties().entrySet().toArray()[index];
+    }
+  
+    @Override
+    public int getChildCount(Object parent) {
+        if (parent instanceof MTGPlugin) {
+        	T dept = (T) parent;
+           return dept.getProperties().size();
+        }
+        return listElements.size();
+    }
+    
+    
+    @Override
+    public Object getValueAt(Object node, int column) {
+       if (node instanceof MTGPlugin) 
+       {
+    	   MTGPlugin prov = (MTGPlugin) node;
+            switch (column) {
+                case 0:return prov.getName();
+                case 1:return prov.getStatut();
+                case 2: return prov.isEnable();
+                default : return"";
+            }
+        } 
+        else if (node instanceof Entry) 
+        {
+        	Entry emp = (Entry) node;
+        	  switch (column) {
+                case 0:
+                    return emp.getKey();
+                case 1:
+                    return emp.getValue();
+                default : 
+                	return"";
+            }
+        }
+        return null;
+    }
+    
+    
+    @Override
+	public int getIndexOfChild(Object parent, Object child) {
+    	MTGPlugin dept = (MTGPlugin) parent;
+        Entry k = (Entry) child;
+        return getPosition(k,dept.getProperties());
+    }
+    
+	
+	public AbstractConfTreeTableModel() {
+		super(new Object());
+	}
+	
+	@Override
+    public int getColumnCount() {
+        return COLUMN_NAMES.length;
+    }
+	 
+	@Override
+    public String getColumnName(int column) {
+        return COLUMN_NAMES[column];
+    }
+	
+
+
+    @Override
+    public boolean isLeaf(Object node) {
+        return node instanceof Entry;
+    }
+    
+    
+    @Override
+    public Class<?> getColumnClass(int column) {
+    	if(column==2)
+    		return Boolean.class;
+    	
+    	return super.getColumnClass(column);
+    }
+
+
+    
+    @Override
+    public boolean isCellEditable(Object node, int column) {
+        return  ((node instanceof Entry && column == 1)||(column==2));
+    }
+
+ 	public void setSelectedNode(MTGPlugin pathComponent) {
+		selectedProvider=pathComponent;
+	}
+
+}

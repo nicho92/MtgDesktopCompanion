@@ -8,6 +8,7 @@ import javax.swing.Icon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.utils.patterns.observer.Observer;
 
 public interface CardExporter extends MTGPlugin {
 
@@ -22,5 +23,7 @@ public interface CardExporter extends MTGPlugin {
 	public List<MagicCardStock> importStock(File f)throws Exception;
 	
 	public Icon getIcon();
+
+	public void addObserver(Observer o);
 
 }

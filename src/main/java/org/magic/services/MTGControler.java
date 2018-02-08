@@ -51,7 +51,7 @@ public class MTGControler {
 	private List<DeckSniffer> deckSniffers;
 	private List<PictureProvider> picturesProviders;
 	private List<DashBoard> dashboards;
-	private List<AbstractCardExport> exports;
+	private List<CardExporter> exports;
 	private List<MTGServer> servers;
 	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
@@ -562,14 +562,14 @@ public class MTGControler {
 		return enable;
 	}
 	
-	public List<AbstractCardExport> getDeckExports()
+	public List<CardExporter> getDeckExports()
 	{
 		return exports;
 	}
 	
-	public List<AbstractCardExport> getEnabledDeckExports() {
-		List<AbstractCardExport> enable = new ArrayList<>();
-		for(AbstractCardExport p : getDeckExports())
+	public List<CardExporter> getEnabledDeckExports() {
+		List<CardExporter> enable = new ArrayList<>();
+		for(CardExporter p : getDeckExports())
 			if(p.isEnable())
 				enable.add(p);
 		
@@ -609,10 +609,10 @@ public class MTGControler {
 		//TODO : export config
 	}
 
-	public AbstractCardExport getAbstractExporterFromExt(File f) {
+	public CardExporter getAbstractExporterFromExt(File f) {
 		String ext = FilenameUtils.getExtension(f.getAbsolutePath());
 		
-		for(AbstractCardExport ace : exports)
+		for(CardExporter ace : exports)
 		{
 			if(ace.getFileExtension().endsWith(ext))
 				return ace;
