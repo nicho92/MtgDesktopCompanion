@@ -1,4 +1,4 @@
-package org.magic.gui.abstracts;
+package org.magic.gui.models.conf;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +12,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class AbstractConfTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
+public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
 
 	
 	protected static final  String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
@@ -22,7 +22,7 @@ public class AbstractConfTreeTableModel<T extends MTGPlugin> extends AbstractTre
 	protected boolean multipleSelection=false;
 	
 
-	public AbstractConfTreeTableModel(boolean multipleSelection,List<T> listPlugins) {
+	public ProviderTreeTableModel(boolean multipleSelection,List<T> listPlugins) {
 		super(new Object());
 		this.multipleSelection=multipleSelection;
 		listElements=listPlugins;
