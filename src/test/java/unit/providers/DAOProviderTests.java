@@ -63,7 +63,8 @@ public class DAOProviderTests {
 	@Test
 	public void test()
 	{
-		testProviders(new FileDAO());
+		//testProviders(new FileDAO());
+		testProviders(new MongoDbDAO());
 	}
 	
 	
@@ -72,7 +73,6 @@ public class DAOProviderTests {
 	{
 		
 		try {
-			p = new MysqlDAO();
 			p.init();
 			System.out.println("******************TESTING " + p);
 			System.out.println("STATUT " + p.getStatut());

@@ -103,12 +103,4 @@ public class CardListPanel extends JPanel{
 		lblRarity.setText(mc.getEditions().get(0).getRarity());
 		manaPanel.setManaCost(mc.getCost());
 	}
-	
-	
-	public CardListPanel(MagicCard mc) {
-		initGUI();
-		setMagicCard(mc);		
-	}	
-	
-	
 }
