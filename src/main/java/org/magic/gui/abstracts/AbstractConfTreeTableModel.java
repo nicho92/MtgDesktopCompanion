@@ -9,15 +9,26 @@ import java.util.Properties;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.treetable.AbstractTreeTableModel;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public abstract class AbstractConfTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
+public class AbstractConfTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
 
 	
 	protected static final  String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected MTGPlugin selectedProvider = null;
 	protected List<T> listElements ;
+	protected boolean multipleSelection=false;
+	
+
+	public AbstractConfTreeTableModel(boolean multipleSelection,List<T> listPlugins) {
+		super(new Object());
+		this.multipleSelection=multipleSelection;
+		listElements=listPlugins;
+	}
+	
+	
 	
     protected int getPosition(Entry k, Properties p)
     {
@@ -57,6 +68,45 @@ public abstract class AbstractConfTreeTableModel<T extends MTGPlugin> extends Ab
     
     
     @Override
+    public void setValueAt(Object value, Object node, int column) {
+    	
+        String strValue = String.valueOf(value);
+        
+        if(node instanceof MTGPlugin )
+        {
+        	selectedProvider=(T)node;
+        	if(column==2)
+        	{
+        		selectedProvider.enable(Boolean.parseBoolean(strValue));
+        		MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
+        		
+        		if(!multipleSelection)
+	        		for(T plugin : listElements)
+	        		{
+	        			if(plugin!=selectedProvider)
+	        			{
+	        				plugin.enable(false);
+	        				MTGControler.getInstance().setProperty(plugin, plugin.isEnable());
+	        	        	
+	        			}
+	        		}
+        		
+        	}
+        }
+        if(node instanceof Entry && (column==1) )
+	    	{
+	        	String k = (String)((Entry)node).getKey();
+	        	selectedProvider.setProperties(k, strValue);
+	        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
+	        	((Entry)node).setValue(strValue);
+	        	selectedProvider.save();
+	    	}    
+   }
+    
+    
+    
+    
+    @Override
     public Object getValueAt(Object node, int column) {
        if (node instanceof MTGPlugin) 
        {
@@ -91,10 +141,6 @@ public abstract class AbstractConfTreeTableModel<T extends MTGPlugin> extends Ab
         return getPosition(k,dept.getProperties());
     }
     
-	
-	public AbstractConfTreeTableModel() {
-		super(new Object());
-	}
 	
 	@Override
     public int getColumnCount() {
