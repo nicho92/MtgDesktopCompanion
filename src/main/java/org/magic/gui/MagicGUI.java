@@ -28,7 +28,6 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.CardExporter;
-import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;

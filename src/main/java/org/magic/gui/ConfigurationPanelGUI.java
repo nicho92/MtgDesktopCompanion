@@ -24,7 +24,6 @@ import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;
 import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
-
 import org.magic.services.MTGControler;
 
 public class ConfigurationPanelGUI extends JPanel {

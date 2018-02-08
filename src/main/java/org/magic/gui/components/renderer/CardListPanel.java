@@ -11,7 +11,6 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.gui.components.DisplayableCard;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.IconSetProvider;
 

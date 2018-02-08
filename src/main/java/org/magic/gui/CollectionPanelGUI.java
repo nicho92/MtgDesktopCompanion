@@ -47,7 +47,6 @@ import org.magic.api.exports.impl.CSVExport;
 import org.magic.api.interfaces.CardExporter;
 import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
-import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
