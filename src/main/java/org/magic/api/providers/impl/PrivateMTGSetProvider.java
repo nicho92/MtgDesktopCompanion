@@ -32,7 +32,6 @@ import com.google.gson.stream.JsonReader;
 public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	
 	public static final File confdir = new File(MTGControler.CONF_DIR,"sets");
-	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private String ext=".json";
 	
 	
@@ -69,6 +68,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	
 	
 	public PrivateMTGSetProvider() {
+		super();
+		
 		if(!confdir.exists())
 			confdir.mkdir();
 	}

@@ -36,9 +36,9 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 	private Gson gson;
 	private List<MagicEdition> list;
 	private String encoding="UTF-8";
-	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public DeckbrewProvider() {
+		super();
 		gson = new Gson();
 		list = new ArrayList<>();
 		init();

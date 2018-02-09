@@ -15,7 +15,7 @@ public class MTGLogger {
 	}
 	
 	public static void printStackTrace(Throwable cause) {
-		//do nothing or System.err.println(cause.getMessage());
+		//do nothing or cause.printStackTrace();
 	}
 	
 	public static Logger getLogger(Class c)

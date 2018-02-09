@@ -5,7 +5,6 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
-import javax.swing.JTable;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
@@ -14,6 +13,7 @@ import org.magic.api.interfaces.DashBoard;
 import org.magic.api.interfaces.DeckSniffer;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.api.interfaces.MagicCardsProvider;
 import org.magic.api.interfaces.MagicDAO;
 import org.magic.api.interfaces.MagicPricesProvider;
 import org.magic.api.interfaces.MagicShopper;
@@ -22,22 +22,22 @@ import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;
 import org.magic.gui.models.conf.ProviderTreeTableModel;
-import org.magic.gui.models.conf.ProvidersTableModel;
 import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.services.MTGControler;
 
 public class ConfigurationPanelGUI extends JPanel {
-	private JTable cardsProviderTable;
+	private JXTreeTable cardsProviderTable;
 	private JXTreeTable priceProviderTable;
 	private JXTreeTable daoProviderTable;
 	private JXTreeTable shopperTreeTable;
 	private JXTreeTable dashboardTreeTable;
 	private JXTreeTable importTreeTable;
-	private JXTable rssTable;
 	private JXTreeTable exportsTable;
 	private JXTreeTable picturesProviderTable;
 	private JXTreeTable serversTreeTable;
 	private JXTreeTable cachesTreeTable;
+	private JXTable rssTable;
+
 	private LoggerViewPanel loggerViewPanel;
 	private ThreadMonitorPanel threadMonitorPanel;
 	
@@ -59,8 +59,13 @@ public class ConfigurationPanelGUI extends JPanel {
 		JScrollPane cardsProvidersScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), null, cardsProvidersScrollPane, null);
 		
-		cardsProviderTable = new JTable();
+		cardsProviderTable = new JXTreeTable(new ProviderTreeTableModel<MagicCardsProvider>(false, MTGControler.getInstance().getListProviders()));
 		cardsProvidersScrollPane.setViewportView(cardsProviderTable);
+		cardsProviderTable.addTreeSelectionListener(e->{
+			if(e.getNewLeadSelectionPath()!=null)
+				if(e.getNewLeadSelectionPath().getPathCount()>1)
+					((ProviderTreeTableModel)cardsProviderTable.getTreeTableModel()).setSelectedNode((MagicCardsProvider)e.getNewLeadSelectionPath().getPathComponent(1));
+		});
 		
 		JScrollPane picturesScollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), null, picturesScollPane, null);
@@ -77,8 +82,6 @@ public class ConfigurationPanelGUI extends JPanel {
 		JScrollPane priceProviderScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICERS"), null, priceProviderScrollPane, null);
 		priceProviderTable = new JXTreeTable(new ProviderTreeTableModel<MagicPricesProvider>(true, MTGControler.getInstance().getPricers()));
-		cardsProviderTable.setModel(new ProvidersTableModel());
-		
 		priceProviderTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1)

@@ -1,38 +1,76 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.util.Properties;
 
+import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public abstract class AbstractCardsProvider implements MagicCardsProvider {
 
-	
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected boolean enable;
+	protected Properties props;
+	protected File confdir = new File(MTGControler.CONF_DIR, "cardsProviders");
+
 	
+	public AbstractCardsProvider() {
+		props=new Properties();
+
+		if(!confdir.exists())
+			confdir.mkdir();
+		load();
+	}
 
 	@Override
 	public Properties getProperties() {
-		return null;
+		return props;
 	}
 
 	@Override
 	public void setProperties(String k, Object value) {
-		//do nothing
+		props.put(k,value);
 	}
 
 	@Override
 	public Object getProperty(String k) {
-		return null;
+		return props.get(k);
 	}
 
-	@Override
-	public void save() {
-		//do nothing
-	}
 
-	@Override
-	public void load() {
-		//do nothing
+
+	public void load()
+	{
+		File f =null;
+		try {
+			f = new File(confdir,getName()+".conf");
+			if(f.exists())
+			{	
+				FileInputStream fis = new FileInputStream(f);
+				props.load(fis);
+				fis.close();
+			}
+		} catch (Exception e) {
+			logger.error("couln't load properties " + f,e);
+		} 
+	}
+	
+	public void save()
+	{
+		File f = null;
+		try {
+			f = new File(confdir, getName()+".conf");
+		
+			FileOutputStream fos = new FileOutputStream(f);
+			props.store(fos,"");
+			fos.close();
+		} catch (Exception e) {
+			logger.error("error writing file " + f,e);
+		} 
 	}
 
 	@Override

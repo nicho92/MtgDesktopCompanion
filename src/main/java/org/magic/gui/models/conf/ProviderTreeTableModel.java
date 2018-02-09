@@ -15,11 +15,11 @@ import org.magic.services.MTGLogger;
 public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
 
 	
-	protected static final  String[] COLUMN_NAMES = {"Provider","Value","Enabled"};
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected MTGPlugin selectedProvider = null;
-	protected List<T> listElements ;
-	protected boolean multipleSelection=false;
+	private String[] columnsNames = {"Provider","Value","Enabled"};
+	private Logger logger = MTGLogger.getLogger(this.getClass());
+	private MTGPlugin selectedProvider = null;
+	private List<T> listElements ;
+	private boolean multipleSelection=false;
 	
 
 	public ProviderTreeTableModel(boolean multipleSelection,List<T> listPlugins) {
@@ -28,6 +28,12 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
 		listElements=listPlugins;
 	}
 	
+	public ProviderTreeTableModel(boolean multipleSelection,List<T> listPlugins,String[] columnsName) {
+		super(new Object());
+		this.multipleSelection=multipleSelection;
+		listElements=listPlugins;
+		this.columnsNames=columnsName;
+	}
 	
 	
     protected int getPosition(Entry k, Properties p)
@@ -144,12 +150,12 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
 	
 	@Override
     public int getColumnCount() {
-        return COLUMN_NAMES.length;
+        return columnsNames.length;
     }
 	 
 	@Override
     public String getColumnName(int column) {
-        return COLUMN_NAMES[column];
+        return columnsNames[column];
     }
 	
 

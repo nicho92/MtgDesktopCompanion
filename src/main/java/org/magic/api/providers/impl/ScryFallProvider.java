@@ -42,7 +42,6 @@ import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
-	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private static String baseURI ="https://api.scryfall.com";
 	private Map<String , MagicEdition> cache;
 	private JsonParser parser;
@@ -51,7 +50,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private String version;
 	
 	public ScryFallProvider() {
-		//do nothing
+		super();
 	}
 	
 	@Override

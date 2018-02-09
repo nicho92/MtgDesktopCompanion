@@ -38,15 +38,15 @@ import com.google.gson.stream.JsonReader;
 
 public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 
-	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private String jsonUrl ="https://api.magicthegathering.io/v1";
-	private File fcacheCount = new File(MTGControler.CONF_DIR,"mtgio.cache"); 
+	private File fcacheCount = new File(confdir,"mtgio.cache"); 
 	private Properties propsCache;
 	private Map<String , MagicEdition> cache;
 	private String encoding="UTF-8";
 	
 	
 	public MagicTheGatheringIOProvider() {
+		super();
 		init();
 		
 		

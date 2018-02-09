@@ -47,13 +47,10 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 
 public class MtgjsonProvider extends AbstractCardsProvider{
-
-	private String urlSetJsonZip = "http://mtgjson.com/json/AllSets-x.json.zip";
-	private String urlVersion = "http://mtgjson.com/json/version.json";
 	
-	private File fileSetJsonTemp = new File(MTGControler.CONF_DIR,"AllSets-x.json.zip");
-	private File fileSetJson = new File(MTGControler.CONF_DIR,"AllSets-x.json");
-	private File fversion = new File(MTGControler.CONF_DIR,"version");
+	private File fileSetJsonTemp = new File(confdir,"AllSets-x.json.zip");
+	private File fileSetJson = new File(confdir,"AllSets-x.json");
+	private File fversion = new File(confdir,"version");
 	
 	private ReadContext ctx;
 	private Map<String,List<MagicCard>> cachedCardEds;
@@ -63,18 +60,25 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	private List<MagicEdition> eds;
 	private String version;
 	
-	private Logger logger = MTGLogger.getLogger(this.getClass());
-
-	
-	
 	public MtgjsonProvider() {
+		super();
 		CacheProvider.setCache(new LRUCache(200));
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+			props.put("URL_SET_JSON_ZIP", "http://mtgjson.com/json/AllSets-x.json.zip");
+			props.put("URL_VERSION", "http://mtgjson.com/json/version.json");
+			props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+			save();
+		}
+		init();
+		
+		
 	}
 	
 	private InputStream getStreamFromUrl(URL u) throws IOException
 	{
 	  	URLConnection connection = u.openConnection();
-	  	connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+	  	connection.setRequestProperty("User-Agent", getProperty("USER_AGENT").toString());
 	  	connection.connect();
 	  	
 	  	return connection.getInputStream();
@@ -121,7 +125,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 			
 	  	  	logger.info("check new version of " + toString() +" ("+temp+")");
 	  	
-		InputStreamReader fr = new InputStreamReader( getStreamFromUrl(new URL(urlVersion)),"ISO-8859-1");
+		InputStreamReader fr = new InputStreamReader( getStreamFromUrl(new URL(getProperty("URL_VERSION").toString())),"ISO-8859-1");
   	  	BufferedReader br = new BufferedReader(fr);
   	  	version =  br.readLine();
  
@@ -180,20 +184,18 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 			if(!fileSetJson.exists()|| fileSetJson.length()==0)
 			{
 				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlSetJsonZip)), fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getProperty("URL_SET_JSON_ZIP").toString())), fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlVersion)), fversion);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getProperty("URL_VERSION").toString())), fversion);
 			}
 			
 			
 			if(hasNewVersion())
 			{
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlSetJsonZip)), fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getProperty("URL_SET_JSON_ZIP").toString())), fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(urlVersion)), fversion);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getProperty("URL_VERSION").toString())), fversion);
 			}
-			
-			
 		 
 		 cachedCardEds= new HashMap<>();
 		 logger.info(this +" : parsing db file");
