@@ -55,9 +55,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.magic.services.MagicTokensProvider#isTokenizer(org.magic.api.beans.MagicCard)
-	 */
 	@Override
 	public boolean isTokenizer(MagicCard mc)
 	{
@@ -71,9 +68,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.magic.services.MagicTokensProvider#isEmblemizer(org.magic.api.beans.MagicCard)
-	 */
 	@Override
 	public boolean isEmblemizer(MagicCard mc)
 	{
@@ -89,9 +83,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.magic.services.MagicTokensProvider#generateTokenFor(org.magic.api.beans.MagicCard)
-	 */
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) {
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][not(contains(name,'emblem'))]";
@@ -163,9 +154,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.magic.services.MagicTokensProvider#generateEmblemFor(org.magic.api.beans.MagicCard)
-	 */
 	@Override
 	public MagicCard generateEmblemFor(MagicCard mc) throws Exception {
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][contains(name,'emblem')]";
@@ -258,9 +246,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		return "Cockatrice";
 	}
 
-	@Override
-	public String toString() {
-		return getName();
-	}
+	
 	
 }

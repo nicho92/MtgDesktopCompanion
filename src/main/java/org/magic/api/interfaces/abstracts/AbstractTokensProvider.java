@@ -91,4 +91,8 @@ public abstract class AbstractTokensProvider implements MTGTokensProvider {
 	}
 
 
+	@Override
+	public String toString() {
+		return getName();
+	}
 }

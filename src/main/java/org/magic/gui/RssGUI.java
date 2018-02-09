@@ -11,6 +11,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.text.Document;
+import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
@@ -19,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
 import org.magic.gui.models.RssContentTableModel;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
@@ -49,6 +52,14 @@ public class RssGUI extends JPanel {
 		
 		DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Magic RSS");
 		
+		
+		for(RSSBean rss : MTGControler.getInstance().getRss())
+		{
+			rootNode.add(new DefaultMutableTreeNode(rss));
+		}
+		
+		
+		
 		tree.setModel(new DefaultTreeModel(rootNode));
 		
 		scrollTree.setViewportView(tree);
@@ -60,6 +71,10 @@ public class RssGUI extends JPanel {
 		editorPane.setEditable(false);
 		editorPane.setContentType("text/html");
 		
+			HTMLEditorKit kit = new HTMLEditorKit();
+			editorPane.setEditorKit(kit);
+			Document doc = kit.createDefaultDocument();
+			editorPane.setDocument(doc);
 		scrollEditor.setViewportView(editorPane);
 		
 		

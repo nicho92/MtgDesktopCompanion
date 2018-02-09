@@ -17,6 +17,13 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
+import org.magic.api.decksniffer.impl.DeckstatsDeckSniffer;
+import org.magic.api.decksniffer.impl.LotusNoirDecks;
+import org.magic.api.decksniffer.impl.MTGSalvationDeckSniffer;
+import org.magic.api.decksniffer.impl.MTGTop8DeckSniffer;
+import org.magic.api.decksniffer.impl.MTGoldFishDeck;
+import org.magic.api.decksniffer.impl.MagicCorporationDecks;
+import org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer;
 import org.magic.api.decksniffer.impl.TappedOutDeckSniffer;
 import org.magic.api.exports.impl.Apprentice2DeckExport;
 import org.magic.api.exports.impl.CSVExport;
@@ -44,7 +51,7 @@ public class DeckSnifferProviderTests {
 	@Before
 	public void initLogger()
 	{
-		MTGLogger.changeLevel(Level.ERROR);
+		MTGLogger.changeLevel(Level.INFO);
 	}
 
 	
@@ -81,7 +88,15 @@ public class DeckSnifferProviderTests {
 	{
 		
 		MTGControler.getInstance().getEnabledProviders().init();
+		test(new DeckstatsDeckSniffer());
+		test(new LotusNoirDecks());
+		test(new MagicCorporationDecks());
+		test(new MTGoldFishDeck());
+		test(new MTGSalvationDeckSniffer());
+		test(new MTGTop8DeckSniffer());
+		test(new TCGPlayerDeckSniffer());
 		test(new TappedOutDeckSniffer());
+		
 		
 	}
 	
@@ -95,7 +110,7 @@ public class DeckSnifferProviderTests {
 			System.out.println("PROP "+p.getProperties());
 			System.out.println("TYPE "+p.getType());
 			System.out.println("ENAB "+p.isEnable());
-
+			System.out.println("FILT "+p.listFilter());
 						
 			try {
 				List<RetrievableDeck> decks = p.getDeckList();
