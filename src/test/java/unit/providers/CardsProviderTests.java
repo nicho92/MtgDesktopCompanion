@@ -23,7 +23,7 @@ public class CardsProviderTests {
 	@Before
 	public void removeCache()
 	{
-		MTGLogger.changeLevel(Level.ERROR);
+		MTGLogger.changeLevel(Level.DEBUG);
 	}
 
 	

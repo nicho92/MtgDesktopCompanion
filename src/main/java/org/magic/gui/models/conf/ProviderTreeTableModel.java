@@ -28,14 +28,6 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
 		listElements=listPlugins;
 	}
 	
-	public ProviderTreeTableModel(boolean multipleSelection,List<T> listPlugins,String[] columnsName) {
-		super(new Object());
-		this.multipleSelection=multipleSelection;
-		listElements=listPlugins;
-		this.columnsNames=columnsName;
-	}
-	
-	
     protected int getPosition(Entry k, Properties p)
     {
     	for(int i=0;i<p.keySet().size();i++)

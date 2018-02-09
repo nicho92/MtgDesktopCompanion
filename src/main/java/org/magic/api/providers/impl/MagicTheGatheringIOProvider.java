@@ -254,7 +254,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 						if(!k.equals(currentSet))
 						{
 							MagicEdition ed = getSetById(k);
-							initOtherEdVariable(mc,ed);
+							//initOtherEdVariable(mc,ed);
 							mc.getEditions().add(ed);
 						}
 				}
