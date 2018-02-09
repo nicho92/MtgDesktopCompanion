@@ -14,19 +14,19 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPicturesCache;
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicDAO;
-import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGControler;
 
 public class SpeedConfigurator extends JFrame {
-	private JComboBox<MagicDAO> cboDAOs;
-	private JComboBox<PictureProvider> cboPictures;
-	private JComboBox<DashBoard> cboDashboard;
+	private JComboBox<MTGDao> cboDAOs;
+	private JComboBox<MTGPictureProvider> cboPictures;
+	private JComboBox<MTGDashBoard> cboDashboard;
 	private JComboBox<MTGPicturesCache> cboCaches;
-	private JComboBox<MagicCardsProvider> cboProvider;
+	private JComboBox<MTGCardsProvider> cboProvider;
 	private JCheckBox checkBox;
 	private JCheckBox checkBox2;
 	private JCheckBox checkBox4;
@@ -259,7 +259,7 @@ public class SpeedConfigurator extends JFrame {
 
 	protected void save() {
 		
-		for(MagicCardsProvider prov : MTGControler.getInstance().getListProviders())
+		for(MTGCardsProvider prov : MTGControler.getInstance().getListProviders())
 		{
 			prov.enable(false);
 			
@@ -269,7 +269,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 		
-		for(MagicDAO prov : MTGControler.getInstance().getDaoProviders())
+		for(MTGDao prov : MTGControler.getInstance().getDaoProviders())
 		{
 			prov.enable(false);
 			
@@ -279,7 +279,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 		
-		for(PictureProvider prov : MTGControler.getInstance().getPicturesProviders())
+		for(MTGPictureProvider prov : MTGControler.getInstance().getPicturesProviders())
 		{
 			prov.enable(false);
 			
@@ -299,7 +299,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 		
-		for(DashBoard prov : MTGControler.getInstance().getDashBoards())
+		for(MTGDashBoard prov : MTGControler.getInstance().getDashBoards())
 		{
 			prov.enable(false);
 			

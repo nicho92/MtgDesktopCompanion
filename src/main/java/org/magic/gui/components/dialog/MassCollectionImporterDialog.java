@@ -22,8 +22,8 @@ import javax.swing.JTextPane;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -31,13 +31,13 @@ import org.magic.services.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog{
 	
-	private transient MagicCardsProvider provider;
-	private transient MagicDAO dao;
+	private transient MTGCardsProvider provider;
+	private transient MTGDao dao;
 	private List<MagicEdition> list;
 	private String[] ids;
 	private JTextPane txtNumbersInput;
 	
-	public MassCollectionImporterDialog(MagicDAO dao,MagicCardsProvider provider,List<MagicEdition> list) {
+	public MassCollectionImporterDialog(MTGDao dao,MTGCardsProvider provider,List<MagicEdition> list) {
 		setSize(new Dimension(646, 290));
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_CARDS_IMPORT"));
 		

@@ -5,7 +5,7 @@ import java.util.List;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 
-public interface DeckSniffer extends MTGPlugin {
+public interface MTGDeckSniffer extends MTGPlugin {
 
 	public String[] listFilter();
 

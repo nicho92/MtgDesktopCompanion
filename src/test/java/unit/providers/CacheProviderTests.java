@@ -11,7 +11,7 @@ import org.magic.api.cache.impl.FileCache;
 import org.magic.api.cache.impl.MemoryCache;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPicturesCache;
-import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MagicCardInfoPicturesProvider;

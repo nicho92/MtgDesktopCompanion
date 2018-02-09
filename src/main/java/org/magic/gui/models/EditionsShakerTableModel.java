@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -27,7 +27,7 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 						MTGControler.getInstance().getLangService().getCapitalize("PC_WEEKLY")
 	};
 	
-	private transient DashBoard provider;
+	private transient MTGDashBoard provider;
 	private transient List<CardShake> list;
 	
 	

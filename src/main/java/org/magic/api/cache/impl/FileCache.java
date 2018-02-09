@@ -9,7 +9,7 @@ import javax.imageio.ImageIO;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;

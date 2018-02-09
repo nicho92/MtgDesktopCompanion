@@ -18,7 +18,7 @@ import org.magic.api.dao.impl.HsqlDAO;
 import org.magic.api.dao.impl.MongoDbDAO;
 import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.dao.impl.PostgresqlDAO;
-import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGLogger;
 
 public class DAOProviderTests {
@@ -69,7 +69,7 @@ public class DAOProviderTests {
 	
 	
 	
-	public void testProviders(MagicDAO p)
+	public void testProviders(MTGDao p)
 	{
 		
 		try {

@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.dashboard.impl.MTGPriceDashBoard;
 import org.magic.api.dashboard.impl.MTGStockDashBoard;
 import org.magic.api.dashboard.impl.MTGoldFishDashBoard;
-import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -70,7 +70,7 @@ public class DashboardsProviderTests {
 	
 	
 	
-	public void test(DashBoard p)
+	public void test(MTGDashBoard p)
 	{
 		
 			System.out.println("*****************************"+p.getName());

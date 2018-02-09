@@ -26,16 +26,16 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.RSSBean;
-import org.magic.api.interfaces.CardExporter;
-import org.magic.api.interfaces.DashBoard;
-import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicDAO;
-import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.api.interfaces.MagicShopper;
-import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.MTGShopper;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
@@ -44,14 +44,14 @@ import org.magic.gui.abstracts.AbstractJDashlet;
 public class MTGControler {
 
 	private static MTGControler inst;
-	private List<MagicPricesProvider> pricers;
-	private List<MagicCardsProvider> cardsProviders;
-	private List<MagicDAO> daoProviders;
-	private List<MagicShopper> cardsShoppers;
-	private List<DeckSniffer> deckSniffers;
-	private List<PictureProvider> picturesProviders;
-	private List<DashBoard> dashboards;
-	private List<CardExporter> exports;
+	private List<MTGPricesProvider> pricers;
+	private List<MTGCardsProvider> cardsProviders;
+	private List<MTGDao> daoProviders;
+	private List<MTGShopper> cardsShoppers;
+	private List<MTGDeckSniffer> deckSniffers;
+	private List<MTGPictureProvider> picturesProviders;
+	private List<MTGDashBoard> dashboards;
+	private List<MTGCardsExport> exports;
 	private List<MTGServer> servers;
 	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
@@ -119,21 +119,21 @@ public class MTGControler {
 		try {
 			String path ="";
 			
-			if (k instanceof MagicPricesProvider) {
+			if (k instanceof MTGPricesProvider) {
 				path = "pricers/pricer[class='"+k.getClass().getName()+"']/enable";
-			}else if (k instanceof MagicCardsProvider) {
+			}else if (k instanceof MTGCardsProvider) {
 				path = "providers/provider[class='"+k.getClass().getName()+"']/enable";
-			}else if (k instanceof MagicDAO) {
+			}else if (k instanceof MTGDao) {
 				path = "daos/dao[class='"+k.getClass().getName()+"']/enable";
-			}else if (k instanceof MagicShopper) {
+			}else if (k instanceof MTGShopper) {
 				path = "shoppers/shopper[class='"+k.getClass().getName()+"']/enable";
-			}else if (k instanceof DashBoard) {
+			}else if (k instanceof MTGDashBoard) {
 				path = "dashboards/dashboard[class='"+k.getClass().getName()+"']/enable";
-			}else if (k instanceof CardExporter) {
+			}else if (k instanceof MTGCardsExport) {
 				path = "deckexports/export[class='"+k.getClass().getName()+"']/enable";
-			}else if (k instanceof DeckSniffer) {
+			}else if (k instanceof MTGDeckSniffer) {
 				path = "decksniffer/sniffer[class='"+k.getClass().getName()+"']/enable";
-			}else if (k instanceof PictureProvider) {
+			}else if (k instanceof MTGPictureProvider) {
 				path = "pictures/picture[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof MTGServer) {
 				path = "servers/server[class='"+k.getClass().getName()+"']/enable";
@@ -252,7 +252,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//pricer/class").size();i++)
 			{
 				String s = config.getString("pricers/pricer["+i+"]/class");
-				MagicPricesProvider prov = loadItem(s);
+				MTGPricesProvider prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("pricers/pricer["+i+"]/enable"));
 					pricers.add(prov);
@@ -265,7 +265,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//provider/class").size();i++)
 			{
 				String s = config.getString("providers/provider["+i+"]/class");
-				MagicCardsProvider prov = loadItem(s);
+				MTGCardsProvider prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("providers/provider["+i+"]/enable"));
 					cardsProviders.add(prov);
@@ -278,7 +278,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//dao/class").size();i++)
 			{
 				String s = config.getString("daos/dao["+i+"]/class");
-				MagicDAO prov = loadItem(s);
+				MTGDao prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("daos/dao["+i+"]/enable"));
 					daoProviders.add(prov);
@@ -304,7 +304,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//shopper/class").size();i++)
 			{
 				String s = config.getString("shoppers/shopper["+i+"]/class");
-				MagicShopper prov = loadItem(s);
+				MTGShopper prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("shoppers/shopper["+i+"]/enable"));
 					cardsShoppers.add(prov);
@@ -316,7 +316,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//dashboard/class").size();i++)
 			{
 				String s = config.getString("dashboards/dashboard["+i+"]/class");
-				DashBoard prov = loadItem(s);
+				MTGDashBoard prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("dashboards/dashboard["+i+"]/enable"));
 					dashboards.add(prov);
@@ -350,7 +350,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//sniffer/class").size();i++)
 			{
 				String s = config.getString("decksniffer/sniffer["+i+"]/class");
-				DeckSniffer prov = loadItem(s);
+				MTGDeckSniffer prov = loadItem(s);
 				if(prov!=null){	
 					prov.enable(config.getBoolean("decksniffer/sniffer["+i+"]/enable"));
 					deckSniffers.add(prov);
@@ -362,7 +362,7 @@ public class MTGControler {
 			for(int i=1;i<=config.getList("//picture/class").size();i++)
 			{
 				String s = config.getString("pictures/picture["+i+"]/class");
-				PictureProvider prov = loadItem(s);
+				MTGPictureProvider prov = loadItem(s);
 				if(prov!=null){
 					prov.enable(config.getBoolean("pictures/picture["+i+"]/enable"));
 					picturesProviders.add(prov);
@@ -448,39 +448,39 @@ public class MTGControler {
 		  return caches;
 	}
 	
-	public List<MagicCardsProvider> getListProviders()
+	public List<MTGCardsProvider> getListProviders()
 	{
 		  return cardsProviders;
 	}
 	
-	public List<MagicDAO> getDaoProviders() {
+	public List<MTGDao> getDaoProviders() {
 		return daoProviders;
 	}
 	
-	public List<PictureProvider> getPicturesProviders()
+	public List<MTGPictureProvider> getPicturesProviders()
 	{
 		return picturesProviders;
 	}
 	
-	public List<MagicPricesProvider> getPricers()
+	public List<MTGPricesProvider> getPricers()
 	{
 		  return pricers;
 	}
 
-	public List<MagicPricesProvider> getEnabledPricers()
+	public List<MTGPricesProvider> getEnabledPricers()
 	{
-		List<MagicPricesProvider> pricersE= new ArrayList<>();
+		List<MTGPricesProvider> pricersE= new ArrayList<>();
 		
-		for(MagicPricesProvider p : getPricers())
+		for(MTGPricesProvider p : getPricers())
 			if(p.isEnable())
 				pricersE.add(p);
 		
 		return pricersE;
 	}
 	
-	public MagicCardsProvider getEnabledProviders()
+	public MTGCardsProvider getEnabledProviders()
 	{
-		for(MagicCardsProvider p : getListProviders())
+		for(MTGCardsProvider p : getListProviders())
 			if(p.isEnable())
 				return p;
 		
@@ -488,9 +488,9 @@ public class MTGControler {
 	}
 	
 	
-	public PictureProvider getEnabledPicturesProvider()
+	public MTGPictureProvider getEnabledPicturesProvider()
 	{
-		for(PictureProvider p : getPicturesProviders())
+		for(MTGPictureProvider p : getPicturesProviders())
 			if(p.isEnable())
 				return p;
 		
@@ -499,42 +499,42 @@ public class MTGControler {
 	
 	
 	
-	public MagicDAO getEnabledDAO() {
-		for(MagicDAO p : getDaoProviders())
+	public MTGDao getEnabledDAO() {
+		for(MTGDao p : getDaoProviders())
 			if(p.isEnable())
 				return p;
 		return null;
 	}
 	
-	public List<DeckSniffer> getEnabledDeckSniffer() {
-		List<DeckSniffer> prov= new ArrayList<>();
+	public List<MTGDeckSniffer> getEnabledDeckSniffer() {
+		List<MTGDeckSniffer> prov= new ArrayList<>();
 		
-		for(DeckSniffer p : getDeckSniffers())
+		for(MTGDeckSniffer p : getDeckSniffers())
 			if(p.isEnable())
 				prov.add(p);
 		
 		return prov;
 	}
 
-	public List<DeckSniffer> getDeckSniffers() {
+	public List<MTGDeckSniffer> getDeckSniffers() {
 		return deckSniffers;
 	}
 
-	public List<MagicShopper> getShoppers() {
+	public List<MTGShopper> getShoppers() {
 		return cardsShoppers;
 	}
 	
-	public List<MagicShopper> getEnabledShoppers() {
-		List<MagicShopper> enable = new ArrayList<>();
-		for(MagicShopper p : getShoppers())
+	public List<MTGShopper> getEnabledShoppers() {
+		List<MTGShopper> enable = new ArrayList<>();
+		for(MTGShopper p : getShoppers())
 			if(p.isEnable())
 				enable.add(p);
 		
 		return enable;
 	}
 
-	public DashBoard getEnabledDashBoard() {
-		for(DashBoard p : getDashBoards())
+	public MTGDashBoard getEnabledDashBoard() {
+		for(MTGDashBoard p : getDashBoards())
 			if(p.isEnable())
 				return p;
 		
@@ -545,7 +545,7 @@ public class MTGControler {
 	
 	
 
-	public List<DashBoard> getDashBoards() {
+	public List<MTGDashBoard> getDashBoards() {
 		return dashboards;
 	}
 
@@ -562,14 +562,14 @@ public class MTGControler {
 		return enable;
 	}
 	
-	public List<CardExporter> getDeckExports()
+	public List<MTGCardsExport> getDeckExports()
 	{
 		return exports;
 	}
 	
-	public List<CardExporter> getEnabledDeckExports() {
-		List<CardExporter> enable = new ArrayList<>();
-		for(CardExporter p : getDeckExports())
+	public List<MTGCardsExport> getEnabledDeckExports() {
+		List<MTGCardsExport> enable = new ArrayList<>();
+		for(MTGCardsExport p : getDeckExports())
 			if(p.isEnable())
 				enable.add(p);
 		
@@ -609,10 +609,10 @@ public class MTGControler {
 		//TODO : export config
 	}
 
-	public CardExporter getAbstractExporterFromExt(File f) {
+	public MTGCardsExport getAbstractExporterFromExt(File f) {
 		String ext = FilenameUtils.getExtension(f.getAbsolutePath());
 		
-		for(CardExporter ace : exports)
+		for(MTGCardsExport ace : exports)
 		{
 			if(ace.getFileExtension().endsWith(ext))
 				return ace;

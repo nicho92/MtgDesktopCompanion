@@ -27,7 +27,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;
@@ -200,7 +200,7 @@ public class MagicGUI extends JFrame {
 					if (returnVal == JFileChooser.APPROVE_OPTION)
 					{
 						File f =choose.getSelectedFile();
-						CardExporter exp = MTGControler.getInstance().getAbstractExporterFromExt(f);
+						MTGCardsExport exp = MTGControler.getInstance().getAbstractExporterFromExt(f);
 						
 						if(exp!=null)
 						{

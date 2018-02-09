@@ -6,11 +6,11 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.magic.api.interfaces.MagicTokensProvider;
+import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public abstract class AbstractTokensProvider implements MagicTokensProvider {
+public abstract class AbstractTokensProvider implements MTGTokensProvider {
 
 	protected Properties props;
 	private boolean enable;

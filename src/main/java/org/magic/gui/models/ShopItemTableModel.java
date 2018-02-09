@@ -9,7 +9,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.ShopItem;
-import org.magic.api.interfaces.MagicShopper;
+import org.magic.api.interfaces.MTGShopper;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -31,7 +31,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 	public void init(String search)
 	{
 		items.clear();
-		for(MagicShopper prov : MTGControler.getInstance().getEnabledShoppers())
+		for(MTGShopper prov : MTGControler.getInstance().getEnabledShoppers())
 		{
 			try {
 				items.addAll(prov.search(search));

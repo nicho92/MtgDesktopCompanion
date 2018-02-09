@@ -13,7 +13,7 @@ import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import org.magic.api.interfaces.MagicTokensProvider;
+import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.model.Player;
 import org.magic.services.MTGConstants;
@@ -32,7 +32,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	private JLabel lblHandCount;
 	private JLabel lblLibraryCount;
 	private static PlayerGameBoard instance;
-	private transient MagicTokensProvider tokenGenerator;
+	private transient MTGTokensProvider tokenGenerator;
 	private JPanel panelInfo ;
 	
 	
@@ -76,7 +76,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	}
 	
 	
-	public MagicTokensProvider getTokenGenerator() {
+	public MTGTokensProvider getTokenGenerator() {
 		return tokenGenerator;
 	}
 

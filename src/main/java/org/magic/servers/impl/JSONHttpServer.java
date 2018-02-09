@@ -12,8 +12,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MagicCardsProvider.STATUT;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
 import org.magic.tools.MagicCardComparator;
@@ -116,7 +116,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	    		
 	  		  	List<MagicPrice> pricesret = new ArrayList<>();
 	  		
-	  		  	for(MagicPricesProvider prices : MTGControler.getInstance().getEnabledPricers())
+	  		  	for(MTGPricesProvider prices : MTGControler.getInstance().getEnabledPricers())
 	  		  		pricesret.addAll(prices.getPrice(ed, mc));
 	  		  
 	  		  	JsonObject card = new JsonObject();

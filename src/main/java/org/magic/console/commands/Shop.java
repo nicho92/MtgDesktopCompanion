@@ -16,7 +16,7 @@ import org.asciitable.impl.ASCIITableImpl;
 import org.asciitable.impl.CollectionASCIITableAware;
 import org.asciitable.spec.IASCIITableAware;
 import org.magic.api.beans.ShopItem;
-import org.magic.api.interfaces.MagicShopper;
+import org.magic.api.interfaces.MTGShopper;
 import org.magic.console.AbstractCommand;
 import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
@@ -42,7 +42,7 @@ public class Shop extends AbstractCommand {
 		{
 			String att = cl.getOptionValue("s");
 			List<ShopItem> list = new ArrayList<>();
-			for(MagicShopper ms : MTGControler.getInstance().getShoppers())
+			for(MTGShopper ms : MTGControler.getInstance().getShoppers())
 				list.addAll(ms.search(att));
 			
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttShop())));

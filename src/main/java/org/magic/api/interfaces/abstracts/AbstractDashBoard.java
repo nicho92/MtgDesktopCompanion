@@ -6,12 +6,12 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
-public abstract class AbstractDashBoard extends Observable implements DashBoard {
+public abstract class AbstractDashBoard extends Observable implements MTGDashBoard {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 

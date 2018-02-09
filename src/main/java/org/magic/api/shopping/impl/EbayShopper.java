@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.magic.api.beans.ShopItem;
-import org.magic.api.interfaces.MagicCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.api.pricers.impl.EbayPricer;
 

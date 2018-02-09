@@ -19,8 +19,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MagicDAO;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.utils.patterns.observer.Observable;
 
 import freemarker.template.Configuration;
@@ -33,9 +33,9 @@ public class MagicWebSiteGenerator extends Observable{
 	
 	Template template ;
 	Configuration cfg ;
-	MagicDAO dao;
+	MTGDao dao;
 	private String dest;
-	private List<MagicPricesProvider> pricesProvider;
+	private List<MTGPricesProvider> pricesProvider;
 	private List<MagicCollection> cols;
 	Logger logger = MTGLogger.getLogger(this.getClass());
 	
@@ -55,7 +55,7 @@ public class MagicWebSiteGenerator extends Observable{
 		});
 	}
 	
-	public void generate(List<MagicCollection> cols,List<MagicPricesProvider> providers) throws TemplateException, IOException, SQLException
+	public void generate(List<MagicCollection> cols,List<MTGPricesProvider> providers) throws TemplateException, IOException, SQLException
 	{
 		this.pricesProvider=providers;
 		this.cols = cols;
@@ -132,7 +132,7 @@ public class MagicWebSiteGenerator extends Observable{
 				List<MagicPrice> prices= new ArrayList<>();
 				if(!pricesProvider.isEmpty())
 				{
-					for(MagicPricesProvider prov : pricesProvider)
+					for(MTGPricesProvider prov : pricesProvider)
 					{
 						try 
 						{

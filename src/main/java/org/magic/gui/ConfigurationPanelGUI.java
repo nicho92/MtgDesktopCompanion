@@ -8,16 +8,16 @@ import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.JXTreeTable;
-import org.magic.api.interfaces.CardExporter;
-import org.magic.api.interfaces.DashBoard;
-import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGServer;
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicDAO;
-import org.magic.api.interfaces.MagicPricesProvider;
-import org.magic.api.interfaces.MagicShopper;
-import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.interfaces.MTGShopper;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;
@@ -59,87 +59,87 @@ public class ConfigurationPanelGUI extends JPanel {
 		JScrollPane cardsProvidersScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), null, cardsProvidersScrollPane, null);
 		
-		cardsProviderTable = new JXTreeTable(new ProviderTreeTableModel<MagicCardsProvider>(false, MTGControler.getInstance().getListProviders()));
+		cardsProviderTable = new JXTreeTable(new ProviderTreeTableModel<MTGCardsProvider>(false, MTGControler.getInstance().getListProviders()));
 		cardsProvidersScrollPane.setViewportView(cardsProviderTable);
 		cardsProviderTable.addTreeSelectionListener(e->{
 			if(e.getNewLeadSelectionPath()!=null)
 				if(e.getNewLeadSelectionPath().getPathCount()>1)
-					((ProviderTreeTableModel)cardsProviderTable.getTreeTableModel()).setSelectedNode((MagicCardsProvider)e.getNewLeadSelectionPath().getPathComponent(1));
+					((ProviderTreeTableModel)cardsProviderTable.getTreeTableModel()).setSelectedNode((MTGCardsProvider)e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 		
 		JScrollPane picturesScollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), null, picturesScollPane, null);
 		
-		picturesProviderTable = new JXTreeTable(new ProviderTreeTableModel<PictureProvider>(false, MTGControler.getInstance().getPicturesProviders()));
+		picturesProviderTable = new JXTreeTable(new ProviderTreeTableModel<MTGPictureProvider>(false, MTGControler.getInstance().getPicturesProviders()));
 		picturesScollPane.setViewportView(picturesProviderTable);
 		picturesProviderTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1)
-						((ProviderTreeTableModel)picturesProviderTable.getTreeTableModel()).setSelectedNode((PictureProvider)e.getNewLeadSelectionPath().getPathComponent(1));
+						((ProviderTreeTableModel)picturesProviderTable.getTreeTableModel()).setSelectedNode((MTGPictureProvider)e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 		
 		
 		JScrollPane priceProviderScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICERS"), null, priceProviderScrollPane, null);
-		priceProviderTable = new JXTreeTable(new ProviderTreeTableModel<MagicPricesProvider>(true, MTGControler.getInstance().getPricers()));
+		priceProviderTable = new JXTreeTable(new ProviderTreeTableModel<MTGPricesProvider>(true, MTGControler.getInstance().getPricers()));
 		priceProviderTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1)
-						((ProviderTreeTableModel)priceProviderTable.getTreeTableModel()).setSelectedNode((MagicPricesProvider)e.getNewLeadSelectionPath().getPathComponent(1));
+						((ProviderTreeTableModel)priceProviderTable.getTreeTableModel()).setSelectedNode((MTGPricesProvider)e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 		priceProviderScrollPane.setViewportView(priceProviderTable);
 		
 		JScrollPane daoProviderScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DATABASES"), null, daoProviderScrollPane, null);
 		
-		daoProviderTable = new JXTreeTable(new ProviderTreeTableModel<MagicDAO>(false, MTGControler.getInstance().getDaoProviders()));
+		daoProviderTable = new JXTreeTable(new ProviderTreeTableModel<MTGDao>(false, MTGControler.getInstance().getDaoProviders()));
 		daoProviderTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1)
-						((ProviderTreeTableModel)daoProviderTable.getTreeTableModel()).setSelectedNode((MagicDAO)e.getNewLeadSelectionPath().getPathComponent(1));
+						((ProviderTreeTableModel)daoProviderTable.getTreeTableModel()).setSelectedNode((MTGDao)e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 		daoProviderScrollPane.setViewportView(daoProviderTable);
 		
 		JScrollPane shopperScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPERS"), null, shopperScrollPane, null);
 		
-		shopperTreeTable = new JXTreeTable(new ProviderTreeTableModel<MagicShopper>(true, MTGControler.getInstance().getShoppers()));
+		shopperTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGShopper>(true, MTGControler.getInstance().getShoppers()));
 		shopperTreeTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1)
-						((ProviderTreeTableModel)shopperTreeTable.getTreeTableModel()).setSelectedNode((MagicShopper)e.getNewLeadSelectionPath().getPathComponent(1));
+						((ProviderTreeTableModel)shopperTreeTable.getTreeTableModel()).setSelectedNode((MTGShopper)e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 		shopperScrollPane.setViewportView(shopperTreeTable);
 		
 		JScrollPane exportsScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS_IMPORT_EXPORT"), null, exportsScrollPane, null);
-		exportsTable = new JXTreeTable(new ProviderTreeTableModel<CardExporter>(true, MTGControler.getInstance().getDeckExports()));
+		exportsTable = new JXTreeTable(new ProviderTreeTableModel<MTGCardsExport>(true, MTGControler.getInstance().getDeckExports()));
 		exportsTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1)
-						((ProviderTreeTableModel)exportsTable.getTreeTableModel()).setSelectedNode((CardExporter)e.getNewLeadSelectionPath().getPathComponent(1));
+						((ProviderTreeTableModel)exportsTable.getTreeTableModel()).setSelectedNode((MTGCardsExport)e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 		exportsScrollPane.setViewportView(exportsTable);
 		
 		JScrollPane importScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"), null, importScrollPane, null);
 		
-		importTreeTable = new JXTreeTable(new ProviderTreeTableModel<DeckSniffer>(true, MTGControler.getInstance().getDeckSniffers()));
+		importTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGDeckSniffer>(true, MTGControler.getInstance().getDeckSniffers()));
 		importScrollPane.setViewportView(importTreeTable);
 		importTreeTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1)
-						((ProviderTreeTableModel)importTreeTable.getTreeTableModel()).setSelectedNode((DeckSniffer)e.getNewLeadSelectionPath().getPathComponent(1));
+						((ProviderTreeTableModel)importTreeTable.getTreeTableModel()).setSelectedNode((MTGDeckSniffer)e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 		
 		JScrollPane dashboardScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"), null, dashboardScrollPane, null);
 		
-		dashboardTreeTable = new JXTreeTable(new ProviderTreeTableModel<DashBoard>(false, MTGControler.getInstance().getDashBoards()));
+		dashboardTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGDashBoard>(false, MTGControler.getInstance().getDashBoards()));
 		dashboardTreeTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null)
 					if(e.getNewLeadSelectionPath().getPathCount()>1)
-						((ProviderTreeTableModel)dashboardTreeTable.getTreeTableModel()).setSelectedNode((DashBoard)e.getNewLeadSelectionPath().getPathComponent(1));
+						((ProviderTreeTableModel)dashboardTreeTable.getTreeTableModel()).setSelectedNode((MTGDashBoard)e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 		dashboardScrollPane.setViewportView(dashboardTreeTable);
 		

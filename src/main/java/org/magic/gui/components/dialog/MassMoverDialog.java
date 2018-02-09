@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -32,7 +32,7 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 public class MassMoverDialog extends JDialog {
 	private JTable tableCards;
 	private MagicCardTableModel model;
-	private transient MagicDAO dao;
+	private transient MTGDao dao;
 	private MagicCollection toSaveCol;
 	private MagicEdition toSaveEd;
 	private boolean change=false;

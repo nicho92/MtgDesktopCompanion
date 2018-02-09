@@ -13,14 +13,14 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGControler;
 
 public class PriceCatalogExportDialog extends JDialog {
 	private JTextField txtDest;
 	
 	private boolean value=false;
-	JComboBox<MagicPricesProvider> lstProviders;
+	JComboBox<MTGPricesProvider> lstProviders;
 	
 	public File getDest() {
 		return new File(txtDest.getText());
@@ -52,7 +52,7 @@ public class PriceCatalogExportDialog extends JDialog {
 		JButton btnGenerate = new JButton(MTGControler.getInstance().getLangService().getCapitalize("EXPORT"));
 		
 		panneauBas.add(btnGenerate);
-		lstProviders = new JComboBox<>(MTGControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
+		lstProviders = new JComboBox<>(MTGControler.getInstance().getEnabledPricers().toArray(new MTGPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
 		
 		JScrollPane scrollProviders = new JScrollPane();
 		getContentPane().add(scrollProviders, BorderLayout.CENTER);
@@ -81,8 +81,8 @@ public class PriceCatalogExportDialog extends JDialog {
 		return value;
 	}
 
-	public MagicPricesProvider getPriceProviders() {
-		return (MagicPricesProvider)lstProviders.getSelectedItem();
+	public MTGPricesProvider getPriceProviders() {
+		return (MTGPricesProvider)lstProviders.getSelectedItem();
 	}
 
 }

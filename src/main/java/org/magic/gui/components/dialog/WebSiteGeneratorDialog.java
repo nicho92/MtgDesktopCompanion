@@ -20,7 +20,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
@@ -30,7 +30,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 	private boolean value=false;
 	JComboBox cboTemplates;
 	JList<MagicCollection> list ;
-	JList<MagicPricesProvider> lstProviders;
+	JList<MTGPricesProvider> lstProviders;
 	
 	public File getDest() {
 		return new File(txtDest.getText());
@@ -108,7 +108,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		gbcscrollPane.gridy = 1;
 		panneaucentral.add(scrollPane, gbcscrollPane);
 		list = new JList<>(cols.toArray(new MagicCollection[cols.size()]));
-		lstProviders = new JList<>(MTGControler.getInstance().getEnabledPricers().toArray(new MagicPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
+		lstProviders = new JList<>(MTGControler.getInstance().getEnabledPricers().toArray(new MTGPricesProvider[MTGControler.getInstance().getEnabledPricers().size() ]));
 		
 		scrollPane.setViewportView(list);
 		
@@ -150,7 +150,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		return value;
 	}
 
-	public List<MagicPricesProvider> getPriceProviders() {
+	public List<MTGPricesProvider> getPriceProviders() {
 		return lstProviders.getSelectedValuesList();
 	}
 

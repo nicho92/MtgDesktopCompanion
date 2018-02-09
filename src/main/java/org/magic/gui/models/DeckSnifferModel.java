@@ -6,7 +6,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGControler;
 
 public class DeckSnifferModel extends DefaultTableModel {
@@ -24,7 +24,7 @@ public class DeckSnifferModel extends DefaultTableModel {
 		decks=new ArrayList<>();
 	}
 	
-	public void init(DeckSniffer sniff) throws Exception
+	public void init(MTGDeckSniffer sniff) throws Exception
 	{
 		decks=sniff.getDeckList();
 	}

@@ -31,7 +31,7 @@ import org.apache.log4j.Level;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.services.IconSetProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -43,7 +43,7 @@ public class ConfigurationPanel extends JPanel {
 	
 	
 	private JTextField textField;
-	private JComboBox<MagicDAO> cboTargetDAO;
+	private JComboBox<MTGDao> cboTargetDAO;
 	private JComboBox<MagicCollection> cboCollections;
 	private JComboBox<Level> cboLogLevels;
 	private JTextField txtdirWebsite;
@@ -97,7 +97,7 @@ public class ConfigurationPanel extends JPanel {
 		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		setLayout(gridBagLayout);
 		
-		for(MagicDAO daos :  MTGControler.getInstance().getDaoProviders())
+		for(MTGDao daos :  MTGControler.getInstance().getDaoProviders())
 			if(!daos.getName().equals(MTGControler.getInstance().getEnabledDAO().getName()))
 			{
 			
@@ -201,7 +201,7 @@ public class ConfigurationPanel extends JPanel {
 		btnDuplicate.addActionListener(ae->
 				ThreadManager.getInstance().execute(()->{
 						try{
-							MagicDAO dao = (MagicDAO)cboTargetDAO.getSelectedItem();
+							MTGDao dao = (MTGDao)cboTargetDAO.getSelectedItem();
 							loading(true,MTGControler.getInstance().getLangService().getCapitalize("DUPLICATE_TO",MTGControler.getInstance().getEnabledDAO()) + " " + dao);
 							
 							dao.init();

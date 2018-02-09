@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 
-public interface DashBoard extends MTGPlugin {
+public interface MTGDashBoard extends MTGPlugin {
 
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException;
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException;

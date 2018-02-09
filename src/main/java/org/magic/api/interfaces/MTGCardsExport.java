@@ -10,7 +10,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.utils.patterns.observer.Observer;
 
-public interface CardExporter extends MTGPlugin {
+public interface MTGCardsExport extends MTGPlugin {
 
 	public String getFileExtension();
 

@@ -9,8 +9,8 @@ import java.util.TimerTask;
 
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MagicCardsProvider.STATUT;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -60,7 +60,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
             	for(MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().getAlerts())
                 {
             		alert.getOffers().clear();
-                	for(MagicPricesProvider prov : MTGControler.getInstance().getEnabledPricers())
+                	for(MTGPricesProvider prov : MTGControler.getInstance().getEnabledPricers())
                 	{
                 		List<MagicPrice> okz = new ArrayList<>();
                 		try {

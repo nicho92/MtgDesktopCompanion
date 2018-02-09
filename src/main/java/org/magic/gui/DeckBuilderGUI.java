@@ -48,7 +48,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
-import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.components.DeckDetailsPanel;
@@ -319,7 +319,7 @@ public class DeckBuilderGUI extends JPanel {
 				});
 				menu.add(webSite);
 
-				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
+				for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
@@ -386,7 +386,7 @@ public class DeckBuilderGUI extends JPanel {
 		btnExports.addActionListener(exportsAction-> {
 				JPopupMenu menu = new JPopupMenu();
 
-				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
+				for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());

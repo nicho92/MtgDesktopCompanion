@@ -6,12 +6,12 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
-public abstract class AbstractMagicPricesProvider extends Observable implements MagicPricesProvider {
+public abstract class AbstractMagicPricesProvider extends Observable implements MTGPricesProvider {
 
 	private boolean enable=true;
 	protected Properties props;

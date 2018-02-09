@@ -14,7 +14,7 @@ import javax.swing.JTable;
 
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.gui.models.DeckSnifferModel;
 import org.magic.gui.renderer.ManaCellRenderer;
@@ -32,7 +32,7 @@ public class DeckSnifferDialog extends JDialog{
 	private MagicDeck importedDeck;
 	private JLabel lblLoad;
 	private JButton btnImport;
-	private transient DeckSniffer selectedSniffer;
+	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
 	
 	
@@ -55,7 +55,7 @@ public class DeckSnifferDialog extends JDialog{
 		cboSniffers = new JComboBox(MTGControler.getInstance().getEnabledDeckSniffer().toArray());
 		
 		cboSniffers.addActionListener(e->
-				selectedSniffer=(DeckSniffer)cboSniffers.getSelectedItem()
+				selectedSniffer=(MTGDeckSniffer)cboSniffers.getSelectedItem()
 		);
 		
 		selectedSniffer = MTGControler.getInstance().getEnabledDeckSniffer().get(0);

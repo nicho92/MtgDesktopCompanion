@@ -11,7 +11,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 
-public interface MagicDAO extends MTGPlugin{
+public interface MTGDao extends MTGPlugin{
 
 	
 	public void init() throws ClassNotFoundException, SQLException ;

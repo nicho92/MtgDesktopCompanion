@@ -2,7 +2,7 @@ package org.magic.api.interfaces;
 
 import java.util.Properties;
 
-import org.magic.api.interfaces.MagicCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 
 public interface MTGPlugin {
 

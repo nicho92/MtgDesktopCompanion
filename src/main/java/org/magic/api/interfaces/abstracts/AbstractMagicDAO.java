@@ -6,12 +6,12 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
-public abstract class AbstractMagicDAO extends Observable implements MagicDAO {
+public abstract class AbstractMagicDAO extends Observable implements MTGDao {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean enable=true;

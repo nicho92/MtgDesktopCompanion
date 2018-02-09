@@ -32,7 +32,7 @@ import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.MagicTokensProvider;
+import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
@@ -66,7 +66,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
 	private JTextField txtChat;
-	private transient MagicTokensProvider tokenGenerator;
+	private transient MTGTokensProvider tokenGenerator;
 	private PlayerGameBoard playerGameBoard;
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
@@ -122,7 +122,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 	}
 	
 	
-	public MagicTokensProvider getTokenGenerator() {
+	public MTGTokensProvider getTokenGenerator() {
 		return tokenGenerator;
 	}
 

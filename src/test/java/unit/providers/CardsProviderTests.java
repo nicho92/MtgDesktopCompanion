@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MagicCardsProvider;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.providers.impl.DeckbrewProvider;
 import org.magic.api.providers.impl.MagicTheGatheringIOProvider;
 import org.magic.api.providers.impl.MtgjsonProvider;
@@ -66,7 +66,7 @@ public class CardsProviderTests {
 	
 	
 	
-	public void testProviders(MagicCardsProvider p,String id)
+	public void testProviders(MTGCardsProvider p,String id)
 	{
 		
 			p.init();

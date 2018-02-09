@@ -9,7 +9,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPicturesCache;
-import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
 import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.api.pictures.impl.MagicCardInfoPicturesProvider;
@@ -81,7 +81,7 @@ public class PicturesProviderTests {
 		
 	}
 	
-	public void testProviders(PictureProvider p)
+	public void testProviders(MTGPictureProvider p)
 	{
 		
 		

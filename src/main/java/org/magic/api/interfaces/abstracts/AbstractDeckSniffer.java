@@ -6,12 +6,12 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
-public abstract class AbstractDeckSniffer extends Observable implements DeckSniffer {
+public abstract class AbstractDeckSniffer extends Observable implements MTGDeckSniffer {
 
 	private boolean enable;
 	protected Properties props;

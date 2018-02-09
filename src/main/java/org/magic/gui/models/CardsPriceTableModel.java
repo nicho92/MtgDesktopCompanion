@@ -10,7 +10,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -19,7 +19,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	
 	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private transient List<MagicPricesProvider> providers;
+	private transient List<MTGPricesProvider> providers;
 	private transient List<MagicPrice> prices;
 	
 	
@@ -41,7 +41,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	
 	private void addPrice(MagicCard mc, MagicEdition me)
 	{
-		for(MagicPricesProvider prov : providers)
+		for(MTGPricesProvider prov : providers)
 		{
 			try {
 				if(prov.isEnable())
@@ -76,12 +76,12 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		providers=MTGControler.getInstance().getPricers();
 	}
 	
-	public List<MagicPricesProvider> getProviders() {
+	public List<MTGPricesProvider> getProviders() {
 		return providers;
 	}
 	
 	
-	public void setProvider(MagicPricesProvider provider)
+	public void setProvider(MTGPricesProvider provider)
 	{
 		providers.clear();
 		providers.add(provider);

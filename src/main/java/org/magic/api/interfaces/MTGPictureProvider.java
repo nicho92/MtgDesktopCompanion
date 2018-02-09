@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 
-public interface PictureProvider extends MTGPlugin {
+public interface MTGPictureProvider extends MTGPlugin {
 
 	
 	public BufferedImage getPicture(MagicCard mc,MagicEdition me) throws Exception;

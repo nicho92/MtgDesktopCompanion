@@ -52,7 +52,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
-import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
@@ -601,7 +601,7 @@ public class CardSearchPanel extends JPanel {
 			btnExport.addActionListener(ae->{
 					JPopupMenu menu = new JPopupMenu();
 					
-					for(final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports())
+					for(final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports())
 					{
 						JMenuItem it = new JMenuItem();
 						it.setIcon(exp.getIcon());

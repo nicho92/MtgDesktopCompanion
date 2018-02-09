@@ -10,13 +10,13 @@ import java.util.Properties;
 import javax.imageio.ImageIO;
 
 import org.apache.log4j.Logger;
-import org.magic.api.interfaces.PictureProvider;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
 import org.utils.patterns.observer.Observable;
 
-public abstract class AbstractPicturesProvider extends Observable implements PictureProvider {
+public abstract class AbstractPicturesProvider extends Observable implements MTGPictureProvider {
 
 	
 	protected File confdir = new File(MTGControler.CONF_DIR, "pictures");

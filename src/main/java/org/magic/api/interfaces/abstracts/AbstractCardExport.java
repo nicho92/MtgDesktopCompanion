@@ -11,12 +11,12 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
-public abstract class AbstractCardExport extends Observable implements CardExporter {
+public abstract class AbstractCardExport extends Observable implements MTGCardsExport {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private boolean enable;

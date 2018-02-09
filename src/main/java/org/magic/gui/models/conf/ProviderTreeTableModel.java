@@ -15,7 +15,11 @@ import org.magic.services.MTGLogger;
 public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
 
 	
-	private String[] columnsNames = {"Provider","Value","Enabled"};
+	private String[] columnsNames = {
+										MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"),
+										MTGControler.getInstance().getLangService().getCapitalize("VALUE"),
+										MTGControler.getInstance().getLangService().getCapitalize("ENABLED")
+									};
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGPlugin selectedProvider = null;
 	private List<T> listElements ;

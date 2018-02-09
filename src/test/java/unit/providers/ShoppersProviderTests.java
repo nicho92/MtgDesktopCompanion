@@ -10,8 +10,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.dashboard.impl.MTGPriceDashBoard;
 import org.magic.api.dashboard.impl.MTGStockDashBoard;
 import org.magic.api.dashboard.impl.MTGoldFishDashBoard;
-import org.magic.api.interfaces.DashBoard;
-import org.magic.api.interfaces.MagicShopper;
+import org.magic.api.interfaces.MTGDashBoard;
+import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.api.shopping.impl.EbayShopper;
 import org.magic.api.shopping.impl.LeboncoinShopper;
@@ -74,7 +74,7 @@ public class ShoppersProviderTests {
 	
 	
 	
-	public void test(MagicShopper p)
+	public void test(MTGShopper p)
 	{
 		
 			System.out.println("*****************************"+p.getName());

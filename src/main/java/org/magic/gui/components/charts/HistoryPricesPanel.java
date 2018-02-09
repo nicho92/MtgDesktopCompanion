@@ -23,7 +23,7 @@ import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.DashBoard;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -99,7 +99,7 @@ public class HistoryPricesPanel extends JPanel{
 		TimeSeries series1 = new TimeSeries(title);
 		if(showAll)
 		{
-			for(DashBoard d : MTGControler.getInstance().getDashBoards())
+			for(MTGDashBoard d : MTGControler.getInstance().getDashBoards())
 			{
 				TimeSeries series = new TimeSeries(d.getName());
 				Map<Date, Double> mapTime;

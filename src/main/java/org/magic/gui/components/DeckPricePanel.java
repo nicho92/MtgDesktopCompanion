@@ -22,7 +22,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MagicPricesProvider;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -32,7 +32,7 @@ import org.magic.tools.MagicPricesComparator;
 
 public class DeckPricePanel extends JPanel {
 	
-	private JComboBox<MagicPricesProvider> cboPricers;
+	private JComboBox<MTGPricesProvider> cboPricers;
 	private JTable tablePrice;
 	private CardsPriceTableModel model;
 	private MagicDeck deck;
@@ -62,7 +62,7 @@ public class DeckPricePanel extends JPanel {
 		cboPricers = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledPricers().toArray()));
 		cboPricers.addItemListener(ie->{
 				if (ie.getStateChange() == ItemEvent.SELECTED) {
-					model.setProvider((MagicPricesProvider)cboPricers.getSelectedItem());
+					model.setProvider((MTGPricesProvider)cboPricers.getSelectedItem());
 				}
 			
 		});

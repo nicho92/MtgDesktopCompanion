@@ -38,7 +38,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.CardExporter;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.dialog.CollectionChooserDialog;
@@ -251,7 +251,7 @@ public class StockPanelGUI extends JPanel {
 				
 				
 				
-				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
+				for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
@@ -311,7 +311,7 @@ public class StockPanelGUI extends JPanel {
 		btnExport.addActionListener(event->{
 				JPopupMenu menu = new JPopupMenu();
 
-				for (final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports()) {
+				for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());

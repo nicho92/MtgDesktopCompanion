@@ -30,8 +30,8 @@ import org.magic.api.exports.impl.MkmOnlineExport;
 import org.magic.api.exports.impl.OCTGNDeckExport;
 import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.exports.impl.XMageDeckExport;
-import org.magic.api.interfaces.CardExporter;
-import org.magic.api.interfaces.DeckSniffer;
+import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -87,7 +87,7 @@ public class DeckSnifferProviderTests {
 	
 	
 	
-	public void test(DeckSniffer p)
+	public void test(MTGDeckSniffer p)
 	{
 		
 			System.out.println("*****************************"+p.getName());

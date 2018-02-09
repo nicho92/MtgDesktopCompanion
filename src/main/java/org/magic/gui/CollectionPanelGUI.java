@@ -44,9 +44,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.CSVExport;
-import org.magic.api.interfaces.CardExporter;
-import org.magic.api.interfaces.MagicCardsProvider;
-import org.magic.api.interfaces.MagicDAO;
+import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsProvider;
+import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
@@ -78,8 +78,8 @@ public class CollectionPanelGUI extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	private JXTable tableEditions;
-	private transient MagicCardsProvider provider;
-	private transient MagicDAO dao;
+	private transient MTGCardsProvider provider;
+	private transient MTGDao dao;
 	private LazyLoadingTree tree;
 	private MagicEditionsTableModel model;
 	private JProgressBar progressBar;
@@ -305,7 +305,7 @@ public class CollectionPanelGUI extends JPanel {
 		btnExport.addActionListener(ae-> {
 								JPopupMenu menu = new JPopupMenu();
 								
-								for(final CardExporter exp : MTGControler.getInstance().getEnabledDeckExports())
+								for(final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports())
 								{
 									JMenuItem it = new JMenuItem();
 									it.setIcon(exp.getIcon());
