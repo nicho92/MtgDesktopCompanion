@@ -12,6 +12,8 @@ import javax.swing.JProgressBar;
 
 public class JVMemoryPanel extends JPanel
 {
+
+	private static final long serialVersionUID = 1L;
 	private JProgressBar progressBar;
 	private transient Timer t;
 	private int delay=1000;

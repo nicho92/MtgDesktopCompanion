@@ -7,6 +7,9 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 public class JSONPanel extends JScrollPane {
+	
+
+	private static final long serialVersionUID = 1L;
 	JTextArea textpane;
 	
 	public JSONPanel() {

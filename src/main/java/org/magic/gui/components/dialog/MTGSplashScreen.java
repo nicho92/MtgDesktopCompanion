@@ -13,7 +13,9 @@ import org.utils.patterns.observer.Observer;
 
 public class MTGSplashScreen extends JWindow implements Observer{
 	
-	JProgressBar progressBar;
+	
+	private static final long serialVersionUID = 1L;
+	private JProgressBar progressBar;
 	
 	public void start()
 	{
