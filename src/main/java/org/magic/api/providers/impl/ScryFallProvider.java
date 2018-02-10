@@ -19,7 +19,6 @@ import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.Booster;
@@ -30,7 +29,6 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
 

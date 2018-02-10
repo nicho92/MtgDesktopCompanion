@@ -167,7 +167,7 @@ public class CardSearchPanel extends JPanel {
 
 		
 
-		public void initPopupCollection() throws Exception
+		public void initPopupCollection() throws SQLException 
 		{
 			JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 
@@ -205,7 +205,7 @@ public class CardSearchPanel extends JPanel {
 			popupMenu.add(menuItemAdd);
 		}
 
-		public void initGUI() throws Exception
+		public void initGUI()
 		{
 			logger.info("init search GUI");
 			inst=this;
@@ -226,8 +226,14 @@ public class CardSearchPanel extends JPanel {
 						}
 			});
 
-			List<MagicEdition> li = MTGControler.getInstance().getEnabledProviders().loadEditions();
-			Collections.sort(li);
+			List<MagicEdition> li = new ArrayList<>();
+			try {
+				li = MTGControler.getInstance().getEnabledProviders().loadEditions();
+				Collections.sort(li);
+			} catch (Exception e2) {
+				logger.error("error no edition loaded",e2);
+			}
+		
 		
 			
 			
@@ -268,7 +274,11 @@ public class CardSearchPanel extends JPanel {
 			btnClear = new JButton(MTGConstants.ICON_CLEAR);
 			
 			cboQuereableItems = new JComboBox<>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
-			cboCollections= new JComboBox<>(new DefaultComboBoxModel<MagicCollection>(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
+			try {
+				cboCollections= new JComboBox<>(new DefaultComboBoxModel<MagicCollection>(MTGControler.getInstance().getEnabledDAO().getCollections().toArray(new MagicCollection[MTGControler.getInstance().getEnabledDAO().getCollections().size()])));
+			} catch (SQLException e2) {
+				logger.error("could not load collections combobox",e2);
+			}
 			cboLanguages = new JComboBox<>();
 			
 			tablePrice = new JXTable();
@@ -431,7 +441,11 @@ public class CardSearchPanel extends JPanel {
 			
 			
 ///////Right click			
-			initPopupCollection();
+			try {
+				initPopupCollection();
+			} catch (Exception e2) {
+				MTGLogger.printStackTrace(e2);
+			}
 
 			
 			

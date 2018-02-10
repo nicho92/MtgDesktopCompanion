@@ -1,7 +1,5 @@
 package unit.providers;
 
-import java.util.List;
-
 import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,14 +9,6 @@ import org.magic.api.cache.impl.FileCache;
 import org.magic.api.cache.impl.MemoryCache;
 import org.magic.api.cache.impl.NoCache;
 import org.magic.api.interfaces.MTGPicturesCache;
-import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.pictures.impl.DeckMasterPicturesProvider;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
-import org.magic.api.pictures.impl.MagicCardInfoPicturesProvider;
-import org.magic.api.pictures.impl.MagidexPicturesProvider;
-import org.magic.api.pictures.impl.MythicSpoilerPicturesProvider;
-import org.magic.api.pictures.impl.ScryFallPicturesProvider;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class CacheProviderTests {

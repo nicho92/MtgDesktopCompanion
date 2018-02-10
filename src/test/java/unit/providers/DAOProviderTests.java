@@ -13,11 +13,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.dao.impl.FileDAO;
-import org.magic.api.dao.impl.HsqlDAO;
 import org.magic.api.dao.impl.MongoDbDAO;
-import org.magic.api.dao.impl.MysqlDAO;
-import org.magic.api.dao.impl.PostgresqlDAO;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGLogger;
 

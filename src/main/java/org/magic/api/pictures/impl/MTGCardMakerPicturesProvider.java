@@ -129,7 +129,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  {
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws Exception {
-		return null;
+		return new GathererPicturesProvider().extractPicture(mc);
 	}
 
 

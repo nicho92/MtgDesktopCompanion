@@ -14,11 +14,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGControler;
 
 public class SpeedConfigurator extends JFrame {
