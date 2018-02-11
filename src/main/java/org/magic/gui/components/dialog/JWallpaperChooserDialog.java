@@ -1,9 +1,12 @@
 package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.awt.image.BufferedImage;
+import java.awt.SystemColor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.util.List;
 
@@ -111,14 +114,36 @@ public class JWallpaperChooserDialog extends JDialog{
 
 class JWallThumb extends JLabel
 {
+	private boolean selected=false;
+	private Color c = getBackground();
+	public void selected(boolean s)
+	{
+		selected=s;
+		if(selected)
+			setBackground(SystemColor.inactiveCaption);
+		else
+			setBackground(c);
+	}
+	
 	public JWallThumb(Wallpaper w) {
 		setHorizontalTextPosition(JLabel.CENTER);
 		setVerticalTextPosition(JLabel.BOTTOM);
 		setText(w.getName());
+		setOpaque(true);
 		try {
 			setIcon(new ImageIcon(ImageUtils.resize(w.getPicture(), 200, 350)));
 		} 
 		catch (IOException e) {
 		}
+		
+		addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				selected(!selected);
+				
+			}
+		});
+		
 	}
+	
 }
