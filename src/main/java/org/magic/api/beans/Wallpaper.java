@@ -2,9 +2,13 @@ package org.magic.api.beans;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class Wallpaper {
 
@@ -15,8 +19,11 @@ public class Wallpaper {
 	
 	public BufferedImage getPicture() throws IOException {
 		if(picture==null)
-			picture=ImageIO.read(url);
-		
+		{
+			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			connection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
+			picture=ImageIO.read(connection.getInputStream());
+		}
 		return picture;
 	}
 	public void setPicture(BufferedImage picture) {

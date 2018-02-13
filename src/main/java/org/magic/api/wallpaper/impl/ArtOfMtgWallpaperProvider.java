@@ -23,6 +23,13 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 	String url="http://www.artofmtg.com";
 	String userAgent="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13";
 
+	public static void main(String[] args) {
+		MagicEdition ed = new MagicEdition();
+		ed.setSet("Rivals of Ixalan");
+		new ArtOfMtgWallpaperProvider().search(ed);
+	}
+	
+	
 	@Override
 	public List<Wallpaper> search(String search) {
 		List<Wallpaper> list = new ArrayList<>();
@@ -54,13 +61,16 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 			
-			Document d = Jsoup.connect(url+"/set/"+ed.getSet().replaceAll(" ", "-"))
+			Document d = Jsoup.connect(url+"/set/"+ed.getSet().toLowerCase().replaceAll(" ", "-"))
 					  .userAgent(userAgent)
 					  .get();
 			
-			for(Element e : d.select(""))
+			for(Element e : d.select("div.elastic-portfolio-item img"))
 			{
+				System.out.println(e);
 				Wallpaper w = new Wallpaper();
+				w.setName(e.attr("title"));
+				w.setUrl(new URL(e.attr("src")));
 				list.add(w);
 			}
 			return list;
