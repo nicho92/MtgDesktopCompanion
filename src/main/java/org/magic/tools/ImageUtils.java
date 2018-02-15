@@ -3,13 +3,21 @@ package org.magic.tools;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 public class ImageUtils {
 
 	private ImageUtils() {
 	}
 	
+	public static void saveImage(BufferedImage img, File f,String format) throws IOException
+	{
+		ImageIO.write(img, "png", f);
+	}
 	
 	public static BufferedImage resize(BufferedImage img,int newH,int newW) {  
 	    Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);

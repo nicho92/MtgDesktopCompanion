@@ -8,6 +8,8 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,12 +25,10 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 	String url="http://www.artofmtg.com";
 	String userAgent="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13";
 
-	public static void main(String[] args) {
-		MagicEdition ed = new MagicEdition();
-		ed.setSet("Rivals of Ixalan");
-		new ArtOfMtgWallpaperProvider().search(ed);
-	}
 	
+	public static void main(String[] args) {
+		new ArtOfMtgWallpaperProvider().search("liliana");
+	}
 	
 	@Override
 	public List<Wallpaper> search(String search) {
@@ -44,6 +44,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 				Wallpaper w = new Wallpaper();
 				w.setName(e.select("h2 a").text());
 				w.setUrl(new URL(e.select("a img").attr("src")));
+				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
 				list.add(w);
 			}
 			return list;
@@ -55,7 +56,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 		
 		
 	}
-
+	
 	@Override
 	public List<Wallpaper> search(MagicEdition ed) {
 		List<Wallpaper> list = new ArrayList<>();
@@ -67,10 +68,10 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 			
 			for(Element e : d.select("div.elastic-portfolio-item img"))
 			{
-				System.out.println(e);
 				Wallpaper w = new Wallpaper();
 				w.setName(e.attr("title"));
 				w.setUrl(new URL(e.attr("src")));
+				w.setFormat(FilenameUtils.getExtension(w.getUrl().toString()));
 				list.add(w);
 			}
 			return list;

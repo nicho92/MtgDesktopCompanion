@@ -15,6 +15,7 @@ public class Wallpaper {
 	private BufferedImage picture;
 	private URL url;
 	private String name;
+	private String format;
 	
 	
 	public BufferedImage getPicture() throws IOException {
@@ -40,6 +41,14 @@ public class Wallpaper {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getFormat() {
+		return format;
+	}
+	public void setFormat(String extension) {
+		this.format=extension;
+		
 	}
 	
 	

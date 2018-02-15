@@ -51,7 +51,6 @@ public class JWallpaperChooserDialog extends JDialog{
 	
 	
 	public JWallpaperChooserDialog() {
-		setSize(new Dimension(500, 300));
 		setTitle("Wallpaper");
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -157,7 +156,7 @@ public class JWallpaperChooserDialog extends JDialog{
 			
 		});
 		panel1.add(btnImport);
-		
+		pack();
 		setLocationRelativeTo(null);
 	}
 
