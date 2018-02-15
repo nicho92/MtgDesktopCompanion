@@ -48,17 +48,10 @@ public class MagicGUI extends JFrame {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private transient SystemTray tray;
-	private JMenuBar mtgMnuBar;
-	private JMenu mnFile;
-	private JMenu mnuAbout;
-	private JMenu jmnuLook;
-	private JMenuItem mntmExit;
 
  	private JTabbedPane  tabbedPane;
 	private transient VersionChecker serviceUpdate;
 	private static transient TrayIcon trayNotifier;
-	private Map<String,String> looks;
-	private Map<String,String> looksMore;
 	private CardSearchPanel cardSearchPanel;
 	
 	public static TrayIcon getTrayNotifier() {
@@ -104,6 +97,14 @@ public class MagicGUI extends JFrame {
 	
 	public void initGUI() throws ClassNotFoundException, IOException, SQLException, AWTException
 	{
+		JMenuBar mtgMnuBar;
+		JMenu mnFile;
+		JMenu mnuAbout;
+		JMenu jmnuLook;
+		JMenuItem mntmExit;
+		Map<String,String> looks;
+		Map<String,String> looksMore;
+		
 		logger.info("init Main GUI");
 		setSize(new Dimension(1420, 900));
 		setTitle("Magic Desktop Companion ( v" + MTGControler.getInstance().getVersion()+")");

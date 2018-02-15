@@ -16,7 +16,7 @@ public class ImageUtils {
 	
 	public static void saveImage(BufferedImage img, File f,String format) throws IOException
 	{
-		ImageIO.write(img, "png", f);
+		ImageIO.write(img, format, f);
 	}
 	
 	public static BufferedImage resize(BufferedImage img,int newH,int newW) {  
