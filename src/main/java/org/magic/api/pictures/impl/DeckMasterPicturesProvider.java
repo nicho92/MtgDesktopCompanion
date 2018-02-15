@@ -22,7 +22,6 @@ import org.magic.tools.InstallCert;
 
 public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -46,6 +45,9 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
+		
+		 newW= Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
+		 newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
 	}
 	
 	private BufferedImage getPicture(String multiverseid) throws Exception{
@@ -112,7 +114,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
 		{
 			
-			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected));
+			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected),newW,newH);
 		}
 
 		
@@ -121,7 +123,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		if(im!=null)
 			MTGControler.getInstance().getEnabledCache().put(im, mc,ed);
 		
-		return resizeCard(im);
+		return resizeCard(im,newW,newH);
 	}
 
 	@Override

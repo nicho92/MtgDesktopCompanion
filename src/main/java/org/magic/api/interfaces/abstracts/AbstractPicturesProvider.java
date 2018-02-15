@@ -18,7 +18,9 @@ import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractPicturesProvider extends Observable implements MTGPictureProvider {
 
-	
+	protected int newW;
+	protected int newH;
+		
 	protected File confdir = new File(MTGControler.CONF_DIR, "pictures");
 	private boolean enable=true;
 	protected Properties props;
@@ -107,9 +109,7 @@ public abstract class AbstractPicturesProvider extends Observable implements MTG
 	}
 	
 	
-	public BufferedImage resizeCard(BufferedImage img) {  
-	    int newW = Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
-	    int newH = Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+	public BufferedImage resizeCard(BufferedImage img,int newW, int newH) {  
 	    return ImageUtils.resize(img, newH, newW);
 	}  
 

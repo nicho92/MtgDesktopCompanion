@@ -45,7 +45,9 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			logger.error(e1);
 		}
 		
-			
+		newW= Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
+		newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+		
 	}
 	
 	private URL generateLink(MagicCard mc, MagicEdition selected,boolean crop) throws MalformedURLException
@@ -97,7 +99,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
 		{
 			logger.debug("cached " + mc + "("+selected+") found");
-			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected));
+			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected),newW,newH);
 		}
 		
 		URL url = generateLink(mc, selected, false);
@@ -114,7 +116,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 				if(bufferedImage!=null)
 					MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,selected);
 					 
-				return resizeCard(bufferedImage) ;
+				return resizeCard(bufferedImage,newW,newH) ;
 			}
 			catch(Exception e)
 			{
@@ -149,8 +151,8 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		  logger.debug("load pics " + connection.getURL().toString());  
 			
 			try{
-				BufferedImage bufferedImage =ImageIO.read(connection.getInputStream());//= new BufferedImage(img.getWidth(null), img.getHeight(null),BufferedImage.TYPE_INT_RGB);
-				return resizeCard(bufferedImage) ;
+				BufferedImage bufferedImage =ImageIO.read(connection.getInputStream());
+				return resizeCard(bufferedImage,newW,newH) ;
 			}
 			catch(Exception e)
 			{

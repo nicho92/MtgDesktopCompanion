@@ -30,6 +30,9 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 			props.put("CARD_SIZE_HEIGHT", "310");
 			save();
 		}
+		newW= Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
+		newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+	
 	}
 	
 	
@@ -44,7 +47,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,edition)!=null)
 		{
 			logger.debug("cached " + mc + "("+edition+") found");
-			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,edition));
+			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,edition),newW,newH);
 		}
 		
         String cardSet = edition.getId();
@@ -69,7 +72,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 				BufferedImage bufferedImage =ImageIO.read(connection.getInputStream());
 				if(bufferedImage!=null)
 					MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,edition);
-				return resizeCard(bufferedImage) ;
+				return resizeCard(bufferedImage,newW,newH) ;
 			}
 			catch(Exception e)
 			{

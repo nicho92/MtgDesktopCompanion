@@ -46,7 +46,9 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
-	
+		newW= Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
+		newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+		 
 		w=223;
 		h=311;
 	}
@@ -56,7 +58,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,ed)!=null)
 		{
-			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,ed));
+			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,ed),newW,newH);
 		}
 	
 		
@@ -106,7 +108,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 					MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,ed);
 						 
-					return resizeCard(bufferedImage) ;
+					return resizeCard(bufferedImage,newW,newH) ;
 	}
 
 
