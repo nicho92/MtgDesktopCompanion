@@ -1,5 +1,6 @@
 package org.magic.gui.models;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class DeckSnifferModel extends DefaultTableModel {
 		decks=new ArrayList<>();
 	}
 	
-	public void init(MTGDeckSniffer sniff) throws Exception
+	public void init(MTGDeckSniffer sniff) throws IOException
 	{
 		decks=sniff.getDeckList();
 	}

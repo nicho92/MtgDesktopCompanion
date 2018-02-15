@@ -1,6 +1,7 @@
 package org.magic.api.pricers.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -43,7 +44,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	}
 
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 	
 		
 		String keyword=card.getName();

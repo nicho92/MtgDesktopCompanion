@@ -130,7 +130,7 @@ public class IconSetProvider {
 
 	}
 
-	private void initCache() throws Exception {
+	private void initCache() throws IOException {
 		for (MagicEdition e : MTGControler.getInstance().getEnabledProviders().loadEditions()) {
 			BufferedImage im = extract(e.getId().toUpperCase());
 			cache24.put(e.getId(), new ImageIcon(im.getScaledInstance(24, 24, Image.SCALE_SMOOTH)));

@@ -1,6 +1,7 @@
 package org.magic.api.pricers.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +44,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	
 
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		list.clear();
 		String url = props.getProperty("URL")+URLEncoder.encode(card.getName(), "UTF-8");
 		logger.info(getName() +" looking for prices " + url );

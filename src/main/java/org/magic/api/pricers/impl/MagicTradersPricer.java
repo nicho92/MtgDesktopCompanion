@@ -2,6 +2,7 @@ package org.magic.api.pricers.impl;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -36,7 +37,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 	}
 	
 	
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		
 		
 		URL link = new URL(props.getProperty("URL"));

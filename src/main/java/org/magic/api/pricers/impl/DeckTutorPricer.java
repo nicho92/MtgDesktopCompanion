@@ -91,7 +91,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	
 	
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 			JsonObject jsonparams = new JsonObject();
@@ -117,7 +117,11 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	        HttpPost reqSearch= new HttpPost(props.getProperty("URL")+"/search/serp");
 			        reqSearch.addHeader("x-dt-Auth-Token", authToken);
 			        reqSearch.addHeader("x-dt-Sequence", String.valueOf(sequence));
-			        reqSearch.addHeader("x-dt-Signature", getMD5(sequence+":"+authSecrectToken));
+			        try {
+						reqSearch.addHeader("x-dt-Signature", getMD5(sequence+":"+authSecrectToken));
+					} catch (NoSuchAlgorithmException e) {
+						throw new IOException(e);
+					}
 			        reqSearch.addHeader("Content-type", "application/json");
 			        reqSearch.addHeader("Accept", "application/json");
 			        reqSearch.addHeader("x-dt-cdb-Language","en");

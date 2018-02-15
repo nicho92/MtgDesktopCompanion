@@ -1,6 +1,7 @@
 package org.magic.api.pricers.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
@@ -8,6 +9,7 @@ import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
@@ -43,7 +45,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	}
 	
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws Exception {
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
 		String url = props.getProperty("URL");
 			   url = url.replaceAll("%API_KEY%", props.getProperty("API_KEY"));
@@ -78,7 +80,12 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			   logger.info(getName()  + " looking "+ " for " + link);
 		
 			   DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			   DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			   DocumentBuilder dBuilder;
+				try {
+					dBuilder = dbFactory.newDocumentBuilder();
+				} catch (ParserConfigurationException e1) {
+					throw new IOException(e1);
+				}
 			   
 			   
 			   Document doc = null; 

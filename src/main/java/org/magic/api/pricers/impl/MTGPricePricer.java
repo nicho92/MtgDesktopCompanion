@@ -1,6 +1,7 @@
 package org.magic.api.pricers.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -37,7 +38,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	
 	
 	@Override
-	public List<MagicPrice> getPrice(MagicEdition ed, MagicCard card) throws Exception {
+	public List<MagicPrice> getPrice(MagicEdition ed, MagicCard card) throws IOException {
 		if(props.getProperty("API_KEY").equals(""))
 			throw new NullPointerException("API_KEY must be filled");
 		

@@ -162,7 +162,7 @@ public class Player extends Observable implements Serializable{
 	
 	public void reoderCardInLibrary(MagicCard mc,boolean top)
 	{
-		logAction("todo change order");
+		logAction("todo change order for "+mc + " " + top);
 	}
 	
 	
