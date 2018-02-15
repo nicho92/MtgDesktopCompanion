@@ -42,6 +42,7 @@ import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
@@ -102,16 +103,17 @@ public class GamingRoomPanel extends JPanel {
 			if(arg instanceof ReponseAction)
 			{
 				ReponseAction resp = (ReponseAction)arg;
-				switch(resp.getReponse())
+				if(resp.getReponse().equals(ReponseAction.CHOICE.YES))
 				{
-					case YES: 
 							printMessage(new SpeakAction(resp.getRequest().getAskedPlayer(), MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_ACCEPTED")));
 							client.changeStatus(STATE.GAMING);
 							GamePanelGUI.getInstance().setPlayer(client.getP());
 							GamePanelGUI.getInstance().addPlayer(resp.getRequest().getAskedPlayer());
 							GamePanelGUI.getInstance().initGame();
-							break;
-					case NO: printMessage(new SpeakAction(resp.getRequest().getAskedPlayer()," "+MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_DECLINE")));break;
+				}
+				else
+				{
+					printMessage(new SpeakAction(resp.getRequest().getAskedPlayer()," "+MTGControler.getInstance().getLangService().getCapitalize("CHALLENGE_DECLINE")));
 				}
 			}
 		}
@@ -199,7 +201,7 @@ public class GamingRoomPanel extends JPanel {
 		        }
 		        catch(Exception e)
 		        {
-		        	
+		        	MTGLogger.printStackTrace(e);
 		        }
 		        return label;
 		     }

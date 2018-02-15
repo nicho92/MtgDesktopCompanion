@@ -3,6 +3,8 @@ package org.magic.api.providers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -66,12 +68,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicCard getCardById(String id) throws Exception {
+	public MagicCard getCardById(String id) throws IOException {
 		return searchCardByCriteria("id", id, null,true).get(0);
 	}
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws Exception {
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws IOException {
 		List<MagicCard> list = new ArrayList<>();
 		
 		String comparator=crit;
@@ -146,7 +148,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 	
 	@Override
-	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
+	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
 		String url = baseURI+"/cards/"+me.getId()+"/"+id;
 		URLConnection con = getConnection(url);
 		JsonReader reader= new JsonReader(new InputStreamReader(con.getInputStream(),encoding));
@@ -155,7 +157,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<MagicEdition> loadEditions() throws Exception {
+	public List<MagicEdition> loadEditions() throws IOException {
 		if(cache.size()<=0)
 		{
 			String url = baseURI+"/sets";
@@ -175,12 +177,16 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicEdition getSetById(String id) throws Exception {
+	public MagicEdition getSetById(String id) throws IOException {
 		if(cache.size()>0)
 		{
 			for(MagicEdition ed : cache.values())
 				if(ed.getId().equalsIgnoreCase(id))
-					return (MagicEdition)BeanUtils.cloneBean(ed);
+					try {
+						return (MagicEdition)BeanUtils.cloneBean(ed);
+					} catch (Exception e) {
+						throw new IOException(e);
+					}
 		}
 		try {
 			JsonReader reader= new JsonReader(new InputStreamReader(getConnection(baseURI+"/sets/"+id.toLowerCase()).getInputStream(),encoding));
@@ -208,7 +214,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public Booster generateBooster(MagicEdition me) throws Exception {
+	public Booster generateBooster(MagicEdition me) throws IOException {
 		
 				List<MagicCard> ret = new ArrayList<>();
 				List<MagicCard> common = new ArrayList<>();
@@ -289,7 +295,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			return connection;
 	}
 	
-	private MagicCard generateCard(JsonObject obj,boolean exact,String search) throws Exception
+	private MagicCard generateCard(JsonObject obj,boolean exact,String search) throws IOException
 	{
 		final MagicCard mc = new MagicCard();
 		
@@ -417,7 +423,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				  mc.setRotatedCardName(arr.get(0).getAsJsonObject().get("name").getAsString());
 		  }
 		  
-		  MagicEdition ed = (MagicEdition)BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
+		  MagicEdition ed;
+		try {
+			ed = (MagicEdition)BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 					  ed.setArtist(mc.getArtist());
 					  if(mc.getMultiverseid()!=null)
 						  ed.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
@@ -427,7 +435,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					  ed.setNumber(mc.getNumber());
 		  mc.getEditions().add(ed);
 		 
-		  
+		} catch (Exception e1) {
+			throw new IOException(e1);
+		}
 
 		  new Thread(()->{
 				try {
@@ -516,7 +526,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 	}
 
-	private void initOtherEdition(MagicCard mc) throws Exception {
+	private void initOtherEdition(MagicCard mc) throws IOException {
 		
 		String url=baseURI+"/cards/search?q=+"
 				+ URLEncoder.encode("++!\""+mc.getName()+"\"",encoding)

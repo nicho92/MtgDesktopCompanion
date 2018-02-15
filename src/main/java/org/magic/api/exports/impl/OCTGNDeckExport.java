@@ -80,43 +80,45 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	}
 	
 	@Override
-	public MagicDeck importDeck(File f) throws Exception {
+	public MagicDeck importDeck(File f) throws IOException {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
 		
-		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new FileReader(f)));
-		XPath xpath = XPathFactory.newInstance().newXPath();
-	    
-		XPathExpression expr = xpath.compile("//section[@name='Main']/card");
-	    NodeList result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
-	    for(int i=0;i<result.getLength();i++)
-	    {
-	    	Node it = result.item(i);
-	    	String name = it.getTextContent();
-	    	String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-	    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0);
-	    	
-	    	deck.getMap().put(mc, Integer.parseInt(qte));
-	    }
-	    
-	    expr = xpath.compile("//section[@name='Sideboard']/card");
-	    result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
-	    for(int i=0;i<result.getLength();i++)
-	    {
-	    	Node it = result.item(i);
-	    	String name = it.getTextContent();
-	    	String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
-	    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0);
-	    	
-	    	deck.getMapSideBoard().put(mc, Integer.parseInt(qte));
-	    }
-	    
-	    
-		return deck;
+		try {
+				Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new FileReader(f)));
+				XPath xpath = XPathFactory.newInstance().newXPath();
+				XPathExpression expr = xpath.compile("//section[@name='Main']/card");
+			    NodeList result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
+			    for(int i=0;i<result.getLength();i++)
+			    {
+			    	Node it = result.item(i);
+			    	String name = it.getTextContent();
+			    	String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
+			    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0);
+			    	
+			    	deck.getMap().put(mc, Integer.parseInt(qte));
+			    }
+			    
+			    expr = xpath.compile("//section[@name='Sideboard']/card");
+			    result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
+			    for(int i=0;i<result.getLength();i++)
+			    {
+			    	Node it = result.item(i);
+			    	String name = it.getTextContent();
+			    	String qte = it.getAttributes().getNamedItem("qty").getNodeValue();
+			    	MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0);
+			    	
+			    	deck.getMapSideBoard().put(mc, Integer.parseInt(qte));
+			    }
+			    return deck;
+		}catch(Exception e)
+		{
+			throw new IOException(e);
+		}
 	}
 	
 	@Override
-	public void export(List<MagicCard> cards, File f) throws Exception {
+	public void export(List<MagicCard> cards, File f) throws IOException {
 
 		
 		StringBuilder temp = new StringBuilder();
@@ -140,7 +142,7 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 		d.setName(f.getName());
 		
@@ -154,7 +156,7 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws Exception {
+	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
 	}
 	

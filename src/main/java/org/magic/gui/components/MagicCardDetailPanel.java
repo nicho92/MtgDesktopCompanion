@@ -534,16 +534,8 @@ public class MagicCardDetailPanel extends JPanel {
 		
 		txtTextPane.updateTextWithIcons();
 		
-		if(thumbnail)
-		{
-			if(magicCard!=null)
-				ThreadManager.getInstance().execute(new Runnable() {
-					public void run() {
-						loadPics();
-						
-					}
-				},"load pic");
-		}
+		if(thumbnail&&magicCard!=null)
+			ThreadManager.getInstance().execute(()->loadPics(),"load pic");
 	
 		if(magicCard!=null && !magicCard.getEditions().isEmpty())
 			{ 

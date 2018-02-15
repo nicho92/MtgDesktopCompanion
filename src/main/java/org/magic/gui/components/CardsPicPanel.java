@@ -94,6 +94,7 @@ public class CardsPicPanel extends JXPanel {
 				MagicCard flipC = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name",card.getRotatedCardName(),card.getEditions().get(0),true).get(0);
 				back = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(flipC,null);
 			} catch (Exception e) {
+				MTGLogger.printStackTrace(e);
 				
 			}
 		}
@@ -196,8 +197,7 @@ public class CardsPicPanel extends JXPanel {
                         
                     }
                     
-                    if(loop>0)
-                    if((int)xScale==1 || (int)xScale==-1 )
+                    if(loop>0 && ((int)xScale==1 || (int)xScale==-1 ))
                     {
                        timer.stop();
                  	   launched=false;
@@ -255,9 +255,7 @@ public class CardsPicPanel extends JXPanel {
 		 	
 		 	@Override
 		    public void mouseDragged(MouseEvent e) {
-		    	
-		    	if(moveable) 
-			    	if (selectedShape != null) {
+			    	if (moveable && (selectedShape != null)) {
 			           int deltaX = e.getX() - pointInitial.x;
 			           int deltaY = e.getY() - pointInitial.y;
 			           pointInitial = e.getPoint();

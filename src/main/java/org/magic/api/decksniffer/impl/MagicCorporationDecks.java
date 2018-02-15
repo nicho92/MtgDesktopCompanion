@@ -1,7 +1,9 @@
 package org.magic.api.decksniffer.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -41,7 +43,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		Document d = Jsoup.connect(props.getProperty("URL")+"/"+info.getUrl().toString())
     		 	.userAgent(props.getProperty("USER_AGENT"))
 				.get();
@@ -69,7 +71,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	
 	
 	@Override
-	public List<RetrievableDeck> getDeckList() throws Exception {
+	public List<RetrievableDeck> getDeckList() throws IOException {
 		Document d = Jsoup.connect(props.getProperty("URL")+"/mc.php?rub=decks&limit=0")
     		 	.userAgent(props.getProperty("USER_AGENT"))
 				.get();
@@ -103,7 +105,11 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 			RetrievableDeck deck = new RetrievableDeck();
 			
 			deck.setName(name);
-			deck.setUrl(new URI(url));
+			try {
+				deck.setUrl(new URI(url));
+			} catch (URISyntaxException e1) {
+				deck.setUrl(null);
+			}
 			deck.setAuthor(auteur);
 			deck.setColor(temp.toString());
 			list.add(deck);
@@ -113,7 +119,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void connect() throws Exception {
+	public void connect() throws IOException {
 		//do nothing
 	}
 

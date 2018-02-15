@@ -32,7 +32,6 @@ public class ThreadMonitorPanel extends JPanel {
 		add(scrollPane, BorderLayout.CENTER);
 		model = new ThreadModel();
 		table = new JTable(model);
-		//new TableFilterHeader(table, AutoChoices.ENABLED);
 		scrollPane.setViewportView(table);
 		sorterCards = new TableRowSorter<DefaultTableModel>(model);
 		JPanel panel = new JPanel();

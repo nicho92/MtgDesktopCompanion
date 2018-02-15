@@ -68,8 +68,10 @@ public class MagicCardAlert {
 	
 	public void orderDesc()
 	{
-		Collections.sort(this.offers, new Comparator<MagicPrice >() {
-	        @Override public int compare(MagicPrice b1, MagicPrice b2) {
+		Collections.sort(this.offers, new Comparator<MagicPrice>()
+		{
+	        @Override 
+	        public int compare(MagicPrice b1, MagicPrice b2) {
 	        	return ( b1.getValue()<b2.getValue() ? -1: 1);
 	        }
 

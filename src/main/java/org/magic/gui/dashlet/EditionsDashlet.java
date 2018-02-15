@@ -101,7 +101,9 @@ public class EditionsDashlet extends AbstractJDashlet {
 			table.packAll();
 		}
 		catch(Exception e) 
-		{}
+		{
+			MTGLogger.printStackTrace(e);
+		}
 		
 		new TableFilterHeader(table, AutoChoices.ENABLED);
 		

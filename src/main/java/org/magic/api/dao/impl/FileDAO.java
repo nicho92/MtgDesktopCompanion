@@ -344,19 +344,23 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void saveAlert(MagicCardAlert alert) throws Exception {
-		save(alert, new File(directory,"/alerts/"+IDGenerator.generate(alert.getCard())));
+	public void saveAlert(MagicCardAlert alert) throws SQLException {
+		try {
+			save(alert, new File(directory,"/alerts/"+IDGenerator.generate(alert.getCard())));
+		} catch (IOException e) {
+			throw new SQLException(e);
+		}
 	}
 
 	@Override
-	public void deleteAlert(MagicCardAlert alert) throws Exception {
+	public void deleteAlert(MagicCardAlert alert) throws SQLException {
 		File f = new File(directory,"/alerts/"+IDGenerator.generate(alert.getCard()));
 		if(f.exists())
 			FileUtils.deleteQuietly(f);
 	}
 
 	@Override
-	public void updateAlert(MagicCardAlert alert) throws Exception {
+	public void updateAlert(MagicCardAlert alert) throws SQLException {
 		saveAlert(alert);
 
 	}
@@ -377,9 +381,8 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public void backup(File dir) throws Exception {
+	public void backup(File dir) throws IOException {
 		FileUtils.copyDirectory(directory, dir);
-
 	}
 
 

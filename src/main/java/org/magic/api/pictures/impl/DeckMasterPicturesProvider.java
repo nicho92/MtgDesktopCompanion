@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
@@ -50,7 +51,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		 newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
 	}
 	
-	private BufferedImage getPicture(String multiverseid) throws Exception{
+	private BufferedImage getPicture(String multiverseid) throws IOException{
 		
 		try{
 		
@@ -96,7 +97,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws Exception {
+	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
 	
 		MagicEdition selected=ed;
 		if(ed==null)
@@ -127,7 +128,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
+	public BufferedImage getSetLogo(String setID, String rarity) throws IOException {
 		
 		switch(setID)
 		{
@@ -158,7 +159,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws Exception {
+	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		return getPicture(mc,null).getSubimage(15, 34, 184, 132);
 	}
 

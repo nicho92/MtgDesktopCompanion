@@ -1,6 +1,8 @@
 package org.magic.api.tokens.impl;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
@@ -155,7 +157,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	}
 
 	@Override
-	public MagicCard generateEmblemFor(MagicCard mc) throws Exception {
+	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
 		String expression = "//card[reverse-related=\""+mc.getName()+"\"][contains(name,'emblem')]";
 		logger.debug(expression);
 		try {
@@ -174,7 +176,11 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 						  tok.getEditions().add(mc.getEditions().get(0));
 						  
-						  logger.debug("Create token" + BeanUtils.describe(tok));
+						  try {
+							logger.debug("Create token" + BeanUtils.describe(tok));
+						} catch (Exception e) {
+							logger.debug("Create token " + tok);
+						} 
 						  return tok;
 			
 		} catch (XPathExpressionException e) {
@@ -184,7 +190,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	}
 	
 	@Override
-	public BufferedImage getPictures(MagicCard tok) throws Exception {
+	public BufferedImage getPictures(MagicCard tok) throws IOException {
 		
 		String expression = "//card[name=\""+tok.getName()+"\"]";
 		
@@ -194,7 +200,12 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		logger.debug(expression + " for " + tok);
 		
 		
-		NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+		NodeList nodeList;
+		try {
+			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+		} catch (XPathExpressionException e1) {
+			throw new IOException(e1);
+		}
 		Map<String,URL> map = null;
 		
 		for (int i = 0; i < nodeList.getLength(); i++) {

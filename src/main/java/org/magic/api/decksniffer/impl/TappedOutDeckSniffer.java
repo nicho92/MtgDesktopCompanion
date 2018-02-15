@@ -1,7 +1,9 @@
 package org.magic.api.decksniffer.impl;
 		
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -86,7 +88,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	}
     
 	@Override
-	public void connect() throws Exception
+	public void connect() throws IOException
 	{
 		cookieStore = new BasicCookieStore();
 		
@@ -116,7 +118,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws Exception
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException
 	{
 		HttpGet get = new HttpGet(info.getUrl());
 		
@@ -195,7 +197,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		
 	}
 	
-	public List<RetrievableDeck> getDeckList() throws Exception {
+	public List<RetrievableDeck> getDeckList() throws IOException {
 
 		String tappedJson = props.getProperty("URL_JSON").replaceAll("%FORMAT%", props.getProperty("FORMAT"));
 		
@@ -210,7 +212,11 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			JsonObject obj = root.getAsJsonArray().get(i).getAsJsonObject();
 			RetrievableDeck deck = new RetrievableDeck();
 			deck.setName(obj.get("name").getAsString());
-			deck.setUrl(new URI(obj.get("resource_uri").getAsString()));
+			try {
+				deck.setUrl(new URI(obj.get("resource_uri").getAsString()));
+			} catch (URISyntaxException e) {
+				deck.setUrl(null);
+			}
 			deck.setAuthor(obj.get("user").getAsString());
 			deck.setColor("");
 			list.add(deck);

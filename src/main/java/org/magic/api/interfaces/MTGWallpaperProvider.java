@@ -1,6 +1,5 @@
 package org.magic.api.interfaces;
 
-import java.awt.image.BufferedImage;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;

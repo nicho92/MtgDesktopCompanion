@@ -71,13 +71,17 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws Exception {
-		return read(f);
+	public MagicDeck importDeck(File f) throws IOException {
+		try {
+			return read(f);
+		} catch (ClassNotFoundException e) {
+			throw new IOException(e);
+		}
 	}
 
 
 	@Override
-	public void export(List<MagicCard> cards, File f) throws Exception {
+	public void export(List<MagicCard> cards, File f) throws IOException {
 
 		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f)))
 		{
@@ -105,7 +109,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 		d.setName(f.getName());
 		
@@ -119,7 +123,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws Exception {
+	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
 	}
 

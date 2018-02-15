@@ -1,9 +1,12 @@
 package org.magic.console.commands;
 
+import java.io.IOException;
+import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.ParseException;
 import org.apache.mina.core.session.IoSession;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
@@ -22,7 +25,7 @@ public class Search extends AbstractCommand {
 	}
 	
 	@Override
-	public void run(String[] args,IoSession session,MTGConsoleHandler mtgConsoleHandler) throws Exception {
+	public void run(String[] args,IoSession session,MTGConsoleHandler mtgConsoleHandler) throws ParseException,ClassNotFoundException, InstantiationException, IllegalAccessException, IOException  {
 		CommandLine cl = parser.parse(opts, args);
 		this.session=session;
 		if(cl.hasOption("c"))
@@ -41,7 +44,12 @@ public class Search extends AbstractCommand {
 		
 		if(cl.hasOption("col"))
 		{
-			List<MagicCollection> list = MTGControler.getInstance().getEnabledDAO().getCollections();
+			List<MagicCollection> list;
+			try {
+				list = MTGControler.getInstance().getEnabledDAO().getCollections();
+			} catch (SQLException e) {
+				throw new IOException(e);
+			}
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttCols())));
 		}
 		
@@ -53,7 +61,7 @@ public class Search extends AbstractCommand {
 
 	@Override
 	public void quit() {
-		
+		//do nothing
 	}
 	
 	@Override

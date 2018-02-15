@@ -2,6 +2,7 @@ package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -88,7 +89,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws Exception {
+	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
 		
 		MagicEdition selected=ed;
 		
@@ -129,7 +130,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	
 
 	@Override
-	public BufferedImage getSetLogo(String set, String rarity) throws Exception {
+	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
 		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size=medium&rarity="+rarity.substring(0,1));
 		return ImageIO.read(url);
 	}
@@ -141,7 +142,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws Exception {
+	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		URL u = generateLink(mc, mc.getEditions().get(0), true);
 		
 		HttpURLConnection connection = (HttpURLConnection)u.openConnection();

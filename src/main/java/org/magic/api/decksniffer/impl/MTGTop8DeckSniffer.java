@@ -1,7 +1,9 @@
 package org.magic.api.decksniffer.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -78,7 +80,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		Document root = Jsoup.connect(info.getUrl().toString()).userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
 		MagicDeck d = new MagicDeck();
 				  d.setDescription(info.getUrl().toString());
@@ -119,7 +121,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws Exception {
+	public List<RetrievableDeck> getDeckList() throws IOException {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		
 		StringBuilder res=new StringBuilder();
@@ -162,7 +164,11 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 			Element e = els.get(i);
 			RetrievableDeck dk = new RetrievableDeck();
 							dk.setName(e.select("td.s11 a").text());
-							dk.setUrl(new URI(props.getProperty("URL")+e.select("td.s11 a").attr("href")));
+							try {
+								dk.setUrl(new URI(props.getProperty("URL")+e.select("td.s11 a").attr("href")));
+							} catch (URISyntaxException e1) {
+								dk.setUrl(null);
+							}
 							dk.setAuthor(e.select("td.g11 a").text());
 							dk.setDescription(e.select("td.S10 a").text());
 			ret.add(dk);
@@ -172,7 +178,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void connect() throws Exception {
+	public void connect() throws IOException {
 		//Nothing to do
 
 	}

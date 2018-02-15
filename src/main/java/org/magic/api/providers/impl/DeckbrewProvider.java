@@ -251,7 +251,7 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
+	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
 		return null;
 	}
 

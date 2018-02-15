@@ -1,6 +1,7 @@
 package org.magic.api.dao.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
@@ -518,7 +519,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 	
 	@Override
-	public void backup(File f) throws Exception {
+	public void backup(File f) throws SQLException,IOException {
 		
 		
 		if(props.getProperty("MYSQL_DUMP_PATH").length()<=0)
@@ -529,7 +530,9 @@ public class MysqlDAO extends AbstractMagicDAO{
 		String dumpCommand = props.getProperty("MYSQL_DUMP_PATH")+"/mysqldump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASS")+" --port " + props.getProperty("SERVERPORT");
 		Runtime rt = Runtime.getRuntime();
 		logger.info("begin Backup " + props.getProperty("DB_NAME"));
-		Process child = rt.exec(dumpCommand);
+		Process child;
+		
+			child = rt.exec(dumpCommand);
 		try(PrintStream ps=new PrintStream(f))
 		{ 
 			InputStream in = child.getInputStream();

@@ -1,14 +1,10 @@
 package org.magic.api.wallpaper.impl;
 
-import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
-
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -17,7 +13,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
-import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 
 public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {

@@ -1,7 +1,9 @@
 package org.magic.api.decksniffer.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,7 +53,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		
 		logger.debug("sniff url : " + info.getUrl());
 		
@@ -105,7 +107,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		return deck;
 	}
 
-	public List<RetrievableDeck> getDeckList() throws Exception {
+	public List<RetrievableDeck> getDeckList() throws IOException {
 		String url="";
 		metagames=props.getProperty("METAGAME").equals("true");
 		
@@ -150,7 +152,11 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			
 			RetrievableDeck deck = new RetrievableDeck();
 			deck.setName(desc.get(0).text());
-			deck.setUrl(new URI(props.get("URL")+desc.get(0).attr("href")));
+			try {
+				deck.setUrl(new URI(props.get("URL")+desc.get(0).attr("href")));
+			} catch (URISyntaxException e1) {
+				deck.setUrl(null);
+			}
 			
 			if(metagames)
 				deck.setAuthor("MtgGoldFish");
@@ -174,7 +180,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	}
 	
 	@Override
-	public void connect() throws Exception {
+	public void connect() throws IOException {
 		// do nothing
 
 	}

@@ -37,7 +37,7 @@ public class NoCache extends AbstractMTGPicturesCache {
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc,MagicEdition ed) throws Exception {
+	public void put(BufferedImage im, MagicCard mc,MagicEdition ed)  {
 		//Nothing to do
 
 	}

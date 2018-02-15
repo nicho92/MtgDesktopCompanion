@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import org.magic.tools.ColorParser;
@@ -141,9 +142,9 @@ public class MagicDeck implements Serializable{
 	{
 		ArrayList<MagicCard> deck = new ArrayList<>();
 		
-		for(MagicCard c : mapDeck.keySet())
-			for(int i=0;i<mapDeck.get(c);i++)
-				deck.add(c);
+		for(Entry<MagicCard, Integer> c : mapDeck.entrySet())
+			for(int i=0;i<c.getValue();i++)
+				deck.add(c.getKey());
 		return deck;
 	}
 	
@@ -151,9 +152,9 @@ public class MagicDeck implements Serializable{
 	{
 		ArrayList<MagicCard> deck = new ArrayList<>();
 		
-		for(MagicCard c : mapSideBoard.keySet())
-			for(int i=0;i<mapSideBoard.get(c);i++)
-				deck.add(c);
+		for(Entry<MagicCard, Integer> c : mapSideBoard.entrySet())
+			for(int i=0;i<c.getValue();i++)
+				deck.add(c.getKey());
 		return deck;
 	}
 	

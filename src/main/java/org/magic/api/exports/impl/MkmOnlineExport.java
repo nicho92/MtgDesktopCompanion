@@ -1,6 +1,7 @@
 package org.magic.api.exports.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -79,10 +80,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public MagicDeck importDeck(File f) throws Exception {
-		
+	public MagicDeck importDeck(File f) throws IOException {
 		WantsService service = new WantsService();
-		
 		MagicDeck d = new MagicDeck();
 		d.setName(f.getName());
 		Wantslist list = null;
@@ -115,7 +114,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(List<MagicCard> cards, File f) throws Exception {
+	public void export(List<MagicCard> cards, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 		for(MagicCard mc : cards)
 			d.getMap().put(mc, Integer.parseInt(props.getProperty("DEFAULT_QTE")));
@@ -131,7 +130,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 	
 	@Override
-	public void export(MagicDeck deck, File dest) throws Exception {
+	public void export(MagicDeck deck, File dest) throws IOException {
 		WantsService wlService = new WantsService();
 		List<WantItem> wants = new ArrayList<>();
 
@@ -203,7 +202,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		
 		if(!props.get("STOCK_USE").toString().equals("true"))
 		{
@@ -247,7 +246,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws Exception {
+	public List<MagicCardStock> importStock(File f) throws IOException {
 		
 		
 		if(!getProperty("STOCK_USE").equals("true"))

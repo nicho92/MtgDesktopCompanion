@@ -42,7 +42,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws Exception
+	public BufferedImage extractPicture(MagicCard mc) throws IOException
 	{
 		return getPicture(mc,null).getSubimage(15, 34, 184, 132);
 	}
@@ -50,7 +50,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	@Override
-	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception{
+	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws IOException{
 		
 		
 		MagicEdition selected=ed;
@@ -93,7 +93,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	
 
 	@Override
-	public BufferedImage getSetLogo(String set, String rarity) throws Exception {
+	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
 		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size="+props.getProperty("SET_SIZE")+"&rarity="+rarity.substring(0,1));
 		return ImageIO.read(url);
 	}

@@ -55,7 +55,7 @@ public class ConsoleServer extends AbstractMTGServer{
  	
 
 	@Override
-	public void start() throws IOException {
+	public void start() throws IOException  {
 		  acceptor = new NioSocketAcceptor();
  	      acceptor.getFilterChain().addLast( "codec", new ProtocolCodecFilter( new TextLineCodecFactory(Charset.forName(props.getProperty("ENCODING")))));
           acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(props.getProperty("BUFFER-SIZE")) );

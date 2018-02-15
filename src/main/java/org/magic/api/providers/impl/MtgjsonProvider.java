@@ -208,7 +208,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 		}
 	}
 	
-	public MagicCard getCardById(String id) throws Exception {
+	public MagicCard getCardById(String id) throws IOException {
 		return searchCardByCriteria("id", id,null,true).get(0);
 	}
 	
@@ -727,7 +727,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 		return b;
 	}
 	
-	public MagicCard getCardByNumber(String num, MagicEdition me) throws Exception {
+	public MagicCard getCardByNumber(String num, MagicEdition me) throws IOException {
 		String jsquery="$."+me.getId().toUpperCase()+".cards[?(@.number == '"+num+"')]";
 		logger.debug("search " +jsquery);
 			try{

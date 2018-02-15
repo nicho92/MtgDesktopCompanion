@@ -1,16 +1,20 @@
 package org.magic.services;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.xpath.XPath;
+import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 public class VersionChecker {
 
@@ -41,7 +45,7 @@ public class VersionChecker {
 		}
 	}
 	
-	private String parseXML(InputStream input) throws Exception {
+	private String parseXML(InputStream input) throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
 		   DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
            DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
            Document doc = docBuilder.parse(input);

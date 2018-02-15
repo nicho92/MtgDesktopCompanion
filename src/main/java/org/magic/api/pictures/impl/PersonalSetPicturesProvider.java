@@ -50,7 +50,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("PICS_DIR", PrivateMTGSetProvider.confdir+"/privatePics");
+			props.put("PICS_DIR", PrivateMTGSetProvider.setDirectory+"/privatePics");
 			props.put("FORMAT", "PNG");
 			save();
 		}
@@ -62,7 +62,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws Exception
+	public BufferedImage extractPicture(MagicCard mc) throws IOException
 	{
 		return null;
 	}
@@ -70,7 +70,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	@Override
-	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception{
+	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws IOException{
 		File mainDir = new File(props.getProperty("PICS_DIR"));
 		File edDir = new File(mainDir,ed.getId());
 		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
@@ -82,7 +82,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 
 	@Override
-	public BufferedImage getSetLogo(String set, String rarity) throws Exception {
+	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
 		return null;
 	}
 

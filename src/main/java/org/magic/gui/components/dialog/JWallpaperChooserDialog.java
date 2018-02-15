@@ -2,7 +2,6 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.io.IOException;
@@ -28,10 +27,9 @@ import org.magic.api.wallpaper.impl.ArtOfMtgWallpaperProvider;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.ImageUtils;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class JWallpaperChooserDialog extends JDialog{
 	
@@ -185,7 +183,7 @@ class JWallThumb extends JLabel
 			setIcon(new ImageIcon(ImageUtils.resize(w.getPicture(), 200, 350)));
 		} 
 		catch (IOException e) {
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 	}
 	

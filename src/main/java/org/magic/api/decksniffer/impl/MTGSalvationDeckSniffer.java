@@ -1,6 +1,8 @@
 package org.magic.api.decksniffer.impl;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -53,7 +55,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		
 		
 		String url = info.getUrl()+"#Details:deck-export";
@@ -119,7 +121,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		return deck;
 	}
 	
-	public List<RetrievableDeck> getDeckList() throws Exception {
+	public List<RetrievableDeck> getDeckList() throws IOException {
 		
 		
 		String url=props.getProperty("URL")+"/decks?filter-format="+getFormatCode(props.getProperty("FORMAT"))+"&filter-deck-time-frame="+props.getProperty("FILTER");
@@ -147,7 +149,11 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 			RetrievableDeck deck = new RetrievableDeck();
 							deck.setName(cont.select("a.deck-name").html());
 							deck.setAuthor(cont.select("small.deck-credit a").text());
-							deck.setUrl(new URL(props.getProperty("URL")+"/"+cont.select("a.deck-name").attr("href")).toURI());
+							try {
+								deck.setUrl(new URL(props.getProperty("URL")+"/"+cont.select("a.deck-name").attr("href")).toURI());
+							} catch (URISyntaxException e1) {
+								deck.setUrl(null);
+							}
 							deck.setDescription(cont.select("span.deck-type").html());
 							deck.setColor(parseColor(cont.select("script").html()));
 			list.add(deck);
@@ -206,7 +212,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void connect() throws Exception {
+	public void connect() throws IOException {
 		// do nothing
 
 	}

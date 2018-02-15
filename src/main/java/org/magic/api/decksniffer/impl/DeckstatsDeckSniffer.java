@@ -1,7 +1,9 @@
 package org.magic.api.decksniffer.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -87,7 +89,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		// 
 		
 		MagicDeck deck = new MagicDeck();
@@ -164,7 +166,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws Exception {
+	public List<RetrievableDeck> getDeckList() throws IOException {
 		
 		int nbPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
 		List<RetrievableDeck> list = new ArrayList<>();
@@ -190,7 +192,11 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				String auteur = cont.select("a").get(1).text();
 				
 				deck.setName(name);
-				deck.setUrl(new URI(url));
+				try {
+					deck.setUrl(new URI(url));
+				} catch (URISyntaxException e1) {
+					deck.setUrl(null);
+				}
 				deck.setAuthor(auteur);
 				deck.setColor(cacheColor.get(Integer.parseInt(idColor)));
 				
@@ -201,7 +207,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void connect() throws Exception {
+	public void connect() throws IOException {
 		//nothing to do
 	}
 

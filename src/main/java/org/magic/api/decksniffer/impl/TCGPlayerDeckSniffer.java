@@ -1,7 +1,9 @@
 package org.magic.api.decksniffer.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -45,7 +47,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		logger.debug("get deck at " + info.getUrl());
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
@@ -115,7 +117,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public List<RetrievableDeck> getDeckList() throws Exception {
+	public List<RetrievableDeck> getDeckList() throws IOException {
 		String url =props.getProperty("URL")+"/magic/deck/search?format="+props.getProperty("FORMAT")+"&page=1";
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<>();
@@ -158,7 +160,11 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				deck.setColor(mana);
 				deck.setAuthor(deckPlayer);
 				deck.setName(deckName);
-				deck.setUrl(new URI(link));
+				try {
+					deck.setUrl(new URI(link));
+				} catch (URISyntaxException e) {
+					deck.setUrl(null);
+				}
 				
 				list.add(deck);
 				
@@ -176,7 +182,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void connect() throws Exception {
+	public void connect() throws IOException {
 		logger.trace("no implementation for connect()");
 
 	}

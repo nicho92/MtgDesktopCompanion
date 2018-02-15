@@ -4,6 +4,7 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
 
@@ -54,7 +55,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	@Override
-	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws Exception {
+	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws IOException {
 
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,ed)!=null)
 		{
@@ -113,7 +114,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 
 	@Override
-	public BufferedImage getSetLogo(String set, String rarity) throws Exception {
+	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
 		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size=medium&rarity="+rarity.substring(0,1));
 		return ImageIO.read(url);
 	}
@@ -125,7 +126,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws Exception {
+	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		return getPicture(mc,null).getSubimage(15, 34, 184, 132);
 	}
 

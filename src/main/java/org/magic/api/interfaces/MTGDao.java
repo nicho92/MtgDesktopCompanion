@@ -1,6 +1,7 @@
 package org.magic.api.interfaces;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
@@ -18,7 +19,6 @@ public interface MTGDao extends MTGPlugin{
 	
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException;
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException;
-	//public MagicCard loadCard(String name, MagicCollection collection)throws SQLException;
 	public List<MagicCard> listCards()throws SQLException;
 	
 	public int getCardsCount(MagicCollection list,MagicEdition me) throws SQLException;
@@ -41,15 +41,15 @@ public interface MTGDao extends MTGPlugin{
 	public List<MagicCardStock> getStocks() throws SQLException;
 	
 	public List<MagicCardAlert> getAlerts();
-	public void saveAlert(MagicCardAlert alert) throws Exception;
-	public void deleteAlert(MagicCardAlert alert) throws Exception;
+	public void saveAlert(MagicCardAlert alert) throws SQLException;
+	public void deleteAlert(MagicCardAlert alert) throws SQLException;
 	public boolean hasAlert(MagicCard mc);
 	
 	
 	public String getDBLocation();
 	public long getDBSize();
-	public void backup(File dir) throws Exception;
-	public void updateAlert(MagicCardAlert alert) throws Exception;
+	public void backup(File dir) throws SQLException,IOException;
+	public void updateAlert(MagicCardAlert alert) throws SQLException;
 
 	
 }

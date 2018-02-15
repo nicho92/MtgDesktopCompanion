@@ -80,47 +80,52 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	}
 	
 	@Override
-	public MagicDeck importDeck(File f) throws Exception {
+	public MagicDeck importDeck(File f) throws IOException {
 		MagicDeck deck = new MagicDeck();
-		
-		Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new FileReader(f)));
-		XPath xpath = XPathFactory.newInstance().newXPath();
-	    
-		XPathExpression expr = xpath.compile("//cockatrice_deck/deckname");
-	    NodeList result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
-	    
-	    deck.setName(result.item(0).getTextContent());
-	    
-	    expr = xpath.compile("//cockatrice_deck/comments");
-	    result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
-	    deck.setDescription(result.item(0).getTextContent());
-	    	    
-	    expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'main')]/card");
-	    result = ((NodeList)expr.evaluate(d, XPathConstants.NODESET));
-	    int c=0;
-	    for(int i = 0;i<result.getLength();i++)
-		{
-			String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
-			Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-			deck.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0), qte);
-			setChanged();
-			notifyObservers(c++);
+		try {
+				Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new FileReader(f)));
+				XPath xpath = XPathFactory.newInstance().newXPath();
+			    
+				XPathExpression expr = xpath.compile("//cockatrice_deck/deckname");
+			    NodeList result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
+			    
+			    deck.setName(result.item(0).getTextContent());
+			    
+			    expr = xpath.compile("//cockatrice_deck/comments");
+			    result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
+			    deck.setDescription(result.item(0).getTextContent());
+			    	    
+			    expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'main')]/card");
+			    result = ((NodeList)expr.evaluate(d, XPathConstants.NODESET));
+			    int c=0;
+			    for(int i = 0;i<result.getLength();i++)
+				{
+					String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
+					Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
+					deck.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0), qte);
+					setChanged();
+					notifyObservers(c++);
+				}
+			    expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'side')]/card");
+				result = ((NodeList)expr.evaluate(d, XPathConstants.NODESET));
+				for(int i = 0;i<result.getLength();i++)
+				{
+					String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
+					Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
+					deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0), qte);
+					setChanged();
+					notifyObservers(c++);
+				}
 		}
-	    expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'side')]/card");
-		result = ((NodeList)expr.evaluate(d, XPathConstants.NODESET));
-		for(int i = 0;i<result.getLength();i++)
+		catch(Exception e)
 		{
-			String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
-			Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-			deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0), qte);
-			setChanged();
-			notifyObservers(c++);
+			throw new IOException(e);
 		}
 		return deck;
 	}
 	
 	@Override
-	public void export(List<MagicCard> cards, File f) throws Exception {
+	public void export(List<MagicCard> cards, File f) throws IOException {
 
 		int c=0;
 		StringBuilder temp = new StringBuilder();
@@ -156,7 +161,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 			d.setName(f.getName());
 			
@@ -169,7 +174,7 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws Exception {
+	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
 	}
 	

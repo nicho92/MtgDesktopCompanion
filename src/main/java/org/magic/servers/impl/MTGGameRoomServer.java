@@ -176,7 +176,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 
 
 	@Override
-	public void start() throws Exception {
+	public void start() throws IOException {
 		 acceptor.bind( new InetSocketAddress(Integer.parseInt(props.getProperty("SERVER-PORT"))) );
 		 logger.info("Server started on port " + props.getProperty("SERVER-PORT") +" ...");
 	}
@@ -184,7 +184,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 
 
 	@Override
-	public void stop() throws Exception {
+	public void stop() throws IOException {
 		logger.info("Server closed");
 		acceptor.unbind();
 	}

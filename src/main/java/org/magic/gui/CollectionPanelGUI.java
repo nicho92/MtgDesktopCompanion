@@ -10,6 +10,7 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -101,7 +102,7 @@ public class CollectionPanelGUI extends JPanel {
 	private JPopupMenu popupMenuCards = new JPopupMenu();
 	
 
-	public CollectionPanelGUI() throws Exception {
+	public CollectionPanelGUI() throws IOException, SQLException, ClassNotFoundException {
 		this.provider = MTGControler.getInstance().getEnabledProviders();
 		this.dao = MTGControler.getInstance().getEnabledDAO();
 		initGUI();
@@ -109,7 +110,7 @@ public class CollectionPanelGUI extends JPanel {
 
 	
 	
-	public void initGUI() throws Exception {
+	public void initGUI() throws IOException, SQLException, ClassNotFoundException  {
 		logger.info("init collection GUI");
 		
 ////////INIT COMPONENTS
@@ -478,9 +479,8 @@ public class CollectionPanelGUI extends JPanel {
 		});
 		
 		tabbedPane.addChangeListener(e-> {
-				if(tabbedPane.getSelectedIndex()==2)
-					if(((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() instanceof MagicCard)
-						loadPrices((MagicCard)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() );
+			if((tabbedPane.getSelectedIndex()==2)&& ((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() instanceof MagicCard)
+					loadPrices((MagicCard)((DefaultMutableTreeNode)tree.getLastSelectedPathComponent()).getUserObject() );
 		});
 
 		tree.addMouseListener(new MouseAdapter() {
@@ -525,6 +525,7 @@ public class CollectionPanelGUI extends JPanel {
 				try {
 					model.calculate();
 				} catch (Exception e) {
+					logger.error(e);
 				}
 				model.fireTableDataChanged();
 		});

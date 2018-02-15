@@ -56,7 +56,7 @@ public class CSVExport extends AbstractCardExport{
 	}
 	
 	@Override
-	public List<MagicCardStock> importStock(File f) throws Exception {
+	public List<MagicCardStock> importStock(File f) throws IOException {
 		try(BufferedReader read = new BufferedReader(new FileReader(f)))
 		{	
 				List<MagicCardStock> stock= new ArrayList<>();
@@ -106,7 +106,7 @@ public class CSVExport extends AbstractCardExport{
 	
 	
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		
 		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
 		{
@@ -173,7 +173,7 @@ public class CSVExport extends AbstractCardExport{
 	}
 
 	@Override
-	public void export(List<MagicCard> cards, File f) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException, IOException {
+	public void export(List<MagicCard> cards, File f) throws IOException {
 		
 		exportedProperties=getProperty("exportedProperties").toString().split(",");
 		
@@ -193,6 +193,10 @@ public class CSVExport extends AbstractCardExport{
 				}
 				bw.write("\n");
 			}
+		}
+		catch(Exception e)
+		{
+			throw new IOException(e);
 		}
 	}
 
@@ -261,7 +265,7 @@ public class CSVExport extends AbstractCardExport{
 
 
 	@Override
-	public MagicDeck importDeck(File f) throws Exception {
+	public MagicDeck importDeck(File f) throws IOException {
 		try(BufferedReader read = new BufferedReader(new FileReader(f)))
 		{
 			MagicDeck deck = new MagicDeck();

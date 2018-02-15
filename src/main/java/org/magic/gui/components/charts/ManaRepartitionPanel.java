@@ -19,6 +19,7 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.services.MTGLogger;
 
 public class ManaRepartitionPanel extends JPanel{
 
@@ -40,7 +41,7 @@ public class ManaRepartitionPanel extends JPanel{
 			}
 		}catch(Exception e)
 		{
-			
+			MTGLogger.printStackTrace(e);
 		}
 		refresh();
 	}

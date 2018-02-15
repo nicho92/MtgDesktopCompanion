@@ -380,7 +380,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 
 		@Override
-		public void backup(File f) throws Exception {
+		public void backup(File f) throws IOException {
 			
 			if(props.getProperty("URL_PGDUMP").length()<=0)
 			{
@@ -571,7 +571,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		}
 
 		@Override
-		public void saveAlert(MagicCardAlert alert) throws Exception {
+		public void saveAlert(MagicCardAlert alert) throws SQLException {
 			logger.debug("save "  + alert);
 			try(PreparedStatement pst=con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)"))
 			{

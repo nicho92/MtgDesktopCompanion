@@ -39,7 +39,7 @@ public class JsonExport  extends AbstractCardExport {
 	
 	
 	@Override
-	public MagicDeck importDeck(File f) throws Exception {
+	public MagicDeck importDeck(File f) throws IOException {
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		
@@ -89,7 +89,7 @@ public class JsonExport  extends AbstractCardExport {
 	
 	
 	@Override
-	public void export(List<MagicCard> cards, File f) throws Exception {
+	public void export(List<MagicCard> cards, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 				  d.setDateCreation(new Date());
 				  d.setName("export");
@@ -156,7 +156,7 @@ public class JsonExport  extends AbstractCardExport {
 
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 				
 			JsonArray jsonparams = new JsonArray();
 			   
@@ -172,7 +172,7 @@ public class JsonExport  extends AbstractCardExport {
 
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws Exception {
+	public List<MagicCardStock> importStock(File f) throws IOException {
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonArray root = new JsonParser().parse(reader).getAsJsonArray();
 		List<MagicCardStock> list = new ArrayList<>();

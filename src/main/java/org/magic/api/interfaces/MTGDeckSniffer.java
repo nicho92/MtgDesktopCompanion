@@ -1,5 +1,6 @@
 package org.magic.api.interfaces;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.magic.api.beans.MagicDeck;
@@ -9,8 +10,8 @@ public interface MTGDeckSniffer extends MTGPlugin {
 
 	public String[] listFilter();
 
-	public MagicDeck getDeck(RetrievableDeck info) throws Exception;
-	public List<RetrievableDeck> getDeckList() throws Exception;
-	public void connect() throws Exception;
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException;
+	public List<RetrievableDeck> getDeckList() throws IOException;
+	public void connect() throws IOException;
 	
 }

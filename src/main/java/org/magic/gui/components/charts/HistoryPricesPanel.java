@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
@@ -107,8 +108,8 @@ public class HistoryPricesPanel extends JPanel{
 					mapTime = d.getPriceVariation(mc, me);
 					if(mapTime!=null)
 					{
-						for(Date da : mapTime.keySet())
-							series.add(new Day(da),mapTime.get(da).doubleValue());
+						for(Entry<Date, Double> da : mapTime.entrySet())
+							series.add(new Day(da.getKey()),da.getValue().doubleValue());
 					
 					dataset.addSeries(series);
 					}
@@ -123,8 +124,8 @@ public class HistoryPricesPanel extends JPanel{
 		else
 		{
 			
-			for(Date d : map.keySet())
-				series1.add(new Day(d),map.get(d).doubleValue());
+			for(Entry<Date, Double> d : map.entrySet())
+				series1.add(new Day(d.getKey()),d.getValue().doubleValue());
 			
 			dataset.addSeries(series1);
 		}

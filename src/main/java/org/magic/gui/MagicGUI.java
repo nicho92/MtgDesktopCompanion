@@ -1,5 +1,6 @@
 package org.magic.gui;
 
+import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -11,8 +12,10 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -99,7 +102,7 @@ public class MagicGUI extends JFrame {
 	}
 
 	
-	public void initGUI() throws Exception
+	public void initGUI() throws ClassNotFoundException, IOException, SQLException, AWTException
 	{
 		logger.info("init Main GUI");
 		setSize(new Dimension(1420, 900));
@@ -261,18 +264,18 @@ public class MagicGUI extends JFrame {
 		
 		
 		JMenu itMore = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MORE"));
-		for(final String ui : looksMore.keySet())
+		for(final Entry<String, String> ui : looksMore.entrySet())
 		{
-			final JMenuItem it = new JMenuItem(ui);
-			it.addActionListener(e->setLookAndFeel(looksMore.get(ui)));
+			final JMenuItem it = new JMenuItem(ui.getKey());
+			it.addActionListener(e->setLookAndFeel(ui.getValue()));
 			itMore.add(it);
 		}
 		
-		for(final String ui : looks.keySet())
+		for(final Entry<String, String> ui : looks.entrySet())
 		{
-			final JMenuItem it = new JMenuItem(ui);
+			final JMenuItem it = new JMenuItem(ui.getKey());
 			it.addActionListener(e->
-					setLookAndFeel(looks.get(ui))
+					setLookAndFeel(ui.getValue())
 			);
 			jmnuLook.add(it);
 		}

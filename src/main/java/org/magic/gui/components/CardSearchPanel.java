@@ -548,7 +548,7 @@ public class CardSearchPanel extends JPanel {
 							updateCards();
 						}catch(Exception e)
 						{
-							
+							logger.error(e);
 						}
 
 					}
@@ -608,7 +608,9 @@ public class CardSearchPanel extends JPanel {
 								
 							cardsPicPanel.showPhoto(selectedCard);
 						}
-					} catch (Exception e1) {}
+					} catch (Exception e1) {
+						MTGLogger.printStackTrace(e1);
+					}
 				}
 			);
 

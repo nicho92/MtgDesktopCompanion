@@ -2,8 +2,10 @@ package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.imageio.ImageIO;
 
@@ -37,7 +39,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	@Override
-	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws Exception {
+	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException {
 		
 		String cardName = mc.getName().toLowerCase();
 		MagicEdition edition = me;
@@ -58,7 +60,12 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
         }
 
         // This will properly escape the url
-        URI uri = new URI("http", "magidex.com", "/extstatic/card/" + cardSet.toUpperCase() + '/' + cardName + ".jpg", null, null);
+        URI uri;
+		try {
+			uri = new URI("http", "magidex.com", "/extstatic/card/" + cardSet.toUpperCase() + '/' + cardName + ".jpg", null, null);
+		} catch (URISyntaxException e1) {
+			throw new IOException(e1);
+		}
         
         logger.debug("get card from " + uri.toURL());
         HttpURLConnection connection = (HttpURLConnection)uri.toURL().openConnection();
@@ -80,7 +87,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
+	public BufferedImage getSetLogo(String setID, String rarity) throws IOException {
 		return null;
 	}
 
@@ -90,7 +97,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws Exception {
+	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		return null;
 	}
 	

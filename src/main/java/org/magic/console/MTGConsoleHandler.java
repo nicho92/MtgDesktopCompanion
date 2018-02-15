@@ -1,8 +1,10 @@
 package org.magic.console;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.cli.ParseException;
 import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -82,7 +84,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter
    	}
     
     @Override
-    public void messageReceived( IoSession session, Object message ) throws Exception
+    public void messageReceived( IoSession session, Object message ) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException
     {
     	logger.debug("message = " + message);
     	

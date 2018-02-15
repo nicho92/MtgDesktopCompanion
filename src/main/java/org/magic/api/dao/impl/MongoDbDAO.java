@@ -4,6 +4,7 @@ import static org.bson.codecs.configuration.CodecRegistries.fromProviders;
 import static org.bson.codecs.configuration.CodecRegistries.fromRegistries;
 
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -428,7 +429,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 
 	
 	@Override
-	public void backup(File f) throws Exception {
+	public void backup(File f) throws IOException {
 		throw new NotImplementedException("Not yet implemented");
 	}
 

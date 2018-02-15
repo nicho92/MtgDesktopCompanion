@@ -1,8 +1,10 @@
 package org.magic.console.commands;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.ParseException;
 import org.apache.mina.core.session.IoSession;
 import org.magic.console.AbstractCommand;
 import org.magic.console.MTGConsoleHandler;
@@ -15,7 +17,7 @@ public class History extends AbstractCommand {
 	}
 	
 	@Override
-	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws Exception{
+	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, ParseException {
 		this.session=session;
 		CommandLine cl = parser.parse(opts, array);
 		if(cl.hasOption("r"))
@@ -48,7 +50,7 @@ public class History extends AbstractCommand {
 
 	@Override
 	public void quit() {
-		
+		//do nothing
 
 	}
 

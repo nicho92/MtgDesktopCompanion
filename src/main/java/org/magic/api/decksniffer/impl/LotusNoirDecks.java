@@ -1,7 +1,9 @@
 package org.magic.api.decksniffer.impl;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -47,7 +49,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public MagicDeck getDeck(RetrievableDeck info) throws Exception {
+	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 		MagicDeck deck = new MagicDeck();
 		
 		logger.debug("get deck at " + info.getUrl());
@@ -90,7 +92,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	
 	
 	@Override
-	public List<RetrievableDeck> getDeckList() throws Exception {
+	public List<RetrievableDeck> getDeckList() throws IOException {
 	
 		String decksUrl = props.getProperty("URL")+"?dpage="+props.getProperty("MAX_PAGE")+"&action="+props.getProperty("FORMAT");
 		
@@ -119,7 +121,11 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				String auteur = cont.select("small").select("a").text();
 				
 				deck.setName(name);
-				deck.setUrl(new URI(url));
+				try {
+					deck.setUrl(new URI(url));
+				} catch (URISyntaxException e1) {
+					deck.setUrl(null);
+				}
 				deck.setAuthor(auteur);
 				deck.setColor("");
 				
@@ -130,7 +136,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	}
 
 	@Override
-	public void connect() throws Exception {
+	public void connect() throws IOException {
 		// Do nothing because not needed
 	}
 

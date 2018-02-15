@@ -2,6 +2,7 @@ package org.magic.api.pictures.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -122,13 +123,13 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  {
 
 
 	@Override
-	public BufferedImage getSetLogo(String setID, String rarity) throws Exception {
+	public BufferedImage getSetLogo(String setID, String rarity) throws IOException {
 		return null;
 	}
 
 
 	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws Exception {
+	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		return new GathererPicturesProvider().extractPicture(mc);
 	}
 

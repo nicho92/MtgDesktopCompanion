@@ -1,10 +1,12 @@
 package org.magic.console.commands;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
+import org.apache.commons.cli.ParseException;
 import org.apache.mina.core.session.IoSession;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGShopper;
@@ -21,7 +23,7 @@ public class Shop extends AbstractCommand {
 	}
 	
 	@Override
-	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws Exception {
+	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws IOException, ParseException {
 		CommandLine cl = parser.parse(opts, array);
 		this.session=session;
 	
@@ -46,7 +48,7 @@ public class Shop extends AbstractCommand {
 
 	@Override
 	public void quit() {
-		
+		//do nothing
 	}
 	
 	@Override

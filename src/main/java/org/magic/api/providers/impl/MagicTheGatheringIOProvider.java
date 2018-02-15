@@ -71,13 +71,13 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 	}
 
 	@Override
-	public MagicCard getCardById(String id) throws Exception {
+	public MagicCard getCardById(String id) throws IOException {
 		return searchCardByCriteria("id", id,null,true).get(0);
 	}
 
 	
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws Exception {
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me,boolean exact) throws IOException {
 		List<MagicCard> lists= new ArrayList<>();
 		URLConnection con =null;
 		int page=1;
@@ -107,11 +107,11 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 	}
 
 	@Override
-	public MagicCard getCardByNumber(String id, MagicEdition me) throws Exception {
+	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
 		return searchCardByCriteria("number", id,me,true).get(0);
 	}
 	
-	private MagicCard generateCard(JsonObject obj) throws Exception
+	private MagicCard generateCard(JsonObject obj) throws IOException
 	{
 		MagicCard mc = new MagicCard();
 			
@@ -331,16 +331,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 			if(obj.get("magicCardsInfoCode")!=null)
 				ed.setMagicCardsInfoCode(obj.get("magicCardsInfoCode").getAsString());
 			
-			/*
-			if(obj.get("booster")!=null)
-			{
-				JsonArray arr = obj.get("booster").getAsJsonArray();
-				for(int i = 0;i<arr.size();i++)
-				{
-					ed.getBooster().add(arr.get(i));//TODO correct JsonArray
-				}
-			}*/
-			
 			if(propsCache.getProperty(ed.getId())!=null)
 				ed.setCardCount(Integer.parseInt(propsCache.getProperty(ed.getId())));
 			else
@@ -378,7 +368,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 	}
 
 	@Override
-	public List<MagicEdition> loadEditions() throws Exception {
+	public List<MagicEdition> loadEditions() throws IOException {
 		if(cache.size()==0)
 		{
 				String url = jsonUrl+"/sets";
@@ -401,7 +391,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 	}
 
 	@Override
-	public MagicEdition getSetById(String id) throws Exception {
+	public MagicEdition getSetById(String id) throws IOException {
 		logger.debug("get Set " + id);
 		
 		if(cache.get(id)!=null)
@@ -423,7 +413,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 	}
 
 	@Override
-	public Booster generateBooster(MagicEdition me) throws Exception {
+	public Booster generateBooster(MagicEdition me) throws IOException {
 		return null;
 	}
 

@@ -3,6 +3,7 @@ package org.magic.game.model;
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -90,9 +91,9 @@ public class ManaPool extends Observable implements Serializable{
 	public String toString() {
 		
 		StringBuilder build = new StringBuilder();
-		for(String key : pool.keySet())
-			for(int i=0;i<pool.get(key);i++)
-				build.append(key);
+		for(Entry<String, Integer> key : pool.entrySet())
+			for(int i=0;i<key.getValue();i++)
+				build.append(key.getKey());
 		
 		
 		return build.toString();

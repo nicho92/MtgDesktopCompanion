@@ -34,7 +34,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	}
 	
 	@Override
-	public MagicDeck importDeck(File f) throws Exception {
+	public MagicDeck importDeck(File f) throws IOException {
 		
 		try(BufferedReader read = new BufferedReader(new FileReader(f)))
 		{
@@ -57,7 +57,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(List<MagicCard> cards, File f) throws Exception {
+	public void export(List<MagicCard> cards, File f) throws IOException {
 		
 		MagicDeck d = new MagicDeck();
 		d.setName(f.getName());
@@ -109,7 +109,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws Exception {
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 		d.setName(f.getName());
 			
@@ -123,7 +123,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	}
 
 	@Override
-	public List<MagicCardStock> importStock(File f) throws Exception {
+	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
 	}
 
