@@ -1,5 +1,6 @@
 package org.magic.services;
 
+import java.awt.Color;
 import java.io.IOException;
 import java.net.URL;
 import java.text.SimpleDateFormat;
@@ -15,6 +16,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -25,7 +27,13 @@ import com.google.gson.JsonParser;
 public class MTGEventProvider {
 
 	private String url =MTGConstants.WIZARD_EVENTS_URL;
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 	
+	
+	public static void main(String[] args) {
+		new MTGEventProvider().listEvents(new Date());
+		
+	}
 	
 	public List<MagicEvent> listEvents(Date date)
 	{
@@ -38,6 +46,7 @@ public class MTGEventProvider {
 	
 	private String read(String url) throws ParseException, IOException
 	{
+		logger.debug("retrieve events from " + url);
 		HttpClient httpClient = HttpClients.custom()
 				   .setUserAgent(MTGConstants.USER_AGENT)
 				   .setRedirectStrategy(new LaxRedirectStrategy())
@@ -74,15 +83,17 @@ public class MTGEventProvider {
 							   event.setStartDate(startDate);
 							   event.setEndDate(c.getTime());
 							   event.setDuration(nbDay);
+							   event.setColor(Color.decode("#"+a.attr("data-color")));
 							   if(a.attr("href").startsWith("/"))
 								   event.setUrl(new URL("https://magic.wizards.com"+a.attr("href")));
 							   else
 								   event.setUrl(new URL(a.attr("href")));
+							   
 							  list.add(event);
 				}
 			}
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 		return list;
 	}

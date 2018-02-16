@@ -1,5 +1,6 @@
 package org.magic.api.beans;
 
+import java.awt.Color;
 import java.net.URL;
 import java.util.Date;
 
@@ -13,7 +14,18 @@ public class MagicEvent {
 	private String description;
 	private URL url;
 	private int duration;
+	private Color color;
 	
+	
+	
+	public Color getColor() {
+		return color;
+	}
+
+	public void setColor(Color color) {
+		this.color = color;
+	}
+
 	public int getDuration() {
 		return duration;
 	}
