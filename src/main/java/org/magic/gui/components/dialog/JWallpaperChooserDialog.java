@@ -24,12 +24,14 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.wallpaper.impl.ArtOfMtgWallpaperProvider;
+import org.magic.api.wallpaper.impl.FilesWallpaperProvider;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.ImageUtils;
+import java.awt.Dimension;
 
 public class JWallpaperChooserDialog extends JDialog{
 	
@@ -53,6 +55,7 @@ public class JWallpaperChooserDialog extends JDialog{
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setPreferredSize(new Dimension(2, 200));
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		
 		panelThumnail = new JPanel();
@@ -64,6 +67,7 @@ public class JWallpaperChooserDialog extends JDialog{
 		
 		cboWallpapersProv = new JComboBox<>();
 		cboWallpapersProv.addItem(new ArtOfMtgWallpaperProvider());
+		cboWallpapersProv.addItem(new FilesWallpaperProvider());
 		
 		selectedProvider=cboWallpapersProv.getItemAt(0);
 		

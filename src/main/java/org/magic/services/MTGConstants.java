@@ -22,6 +22,8 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";
 	public static final String MTG_DESKTOP_APP_ZIP = "https://github.com/nicho92/MtgDesktopCompanion/tree/master/dist";
 	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
+	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
+	
 	
 	public static final String USER_AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31";
 	
@@ -91,4 +93,5 @@ public class MTGConstants {
 	
 	public static final int TABLE_ROW_HEIGHT=18;
 	public static final int TABLE_ROW_WIDTH=18;
+	
 }

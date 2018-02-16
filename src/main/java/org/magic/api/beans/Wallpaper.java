@@ -4,6 +4,7 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 
@@ -20,7 +21,7 @@ public class Wallpaper {
 	public BufferedImage getPicture() throws IOException {
 		if(picture==null)
 		{
-			HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+			URLConnection connection = (URLConnection) url.openConnection();
 			connection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
 			picture=ImageIO.read(connection.getInputStream());
 		}
