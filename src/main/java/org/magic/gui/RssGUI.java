@@ -1,8 +1,12 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
+import java.awt.Desktop;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.net.URI;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
@@ -15,13 +19,16 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
+import org.jsoup.Jsoup;
 import org.magic.api.beans.MagicNews;
 import org.magic.gui.components.NewsPanel;
 import org.magic.gui.models.MagicNewsTableModel;
@@ -41,7 +48,7 @@ public class RssGUI extends JPanel {
 	private NewsPanel newsPanel ;
 	private DefaultMutableTreeNode rootNode ;
 	private JTree tree;
-	
+
 	
 	public RssGUI() {
 		logger.info("init RSS GUI");
@@ -54,6 +61,23 @@ public class RssGUI extends JPanel {
 		scrollTable.setViewportView(table);
 		
 		tree = new JTree();
+		
+		tree.setCellRenderer(new DefaultTreeCellRenderer() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Component getTreeCellRendererComponent(JTree tree,Object value, boolean selected, boolean expanded,boolean isLeaf, int row, boolean focused) 
+		     {
+				Component c = super.getTreeCellRendererComponent(tree, value,selected, expanded, isLeaf, row, focused);
+				
+				if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicNews)
+					setIcon(MTGConstants.ICON_RSS);
+			
+				if(((DefaultMutableTreeNode)value).getUserObject() instanceof String)
+					setIcon(MTGConstants.ICON_DECK);
+				
+				return c;
+		     }
+		});
 		rootNode = new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
 		
 		initTree();
@@ -67,10 +91,7 @@ public class RssGUI extends JPanel {
 		editorPane.setEditable(false);
 		editorPane.setContentType("text/html");
 		
-			HTMLEditorKit kit = new HTMLEditorKit();
-			editorPane.setEditorKit(kit);
-			Document doc = kit.createDefaultDocument();
-			editorPane.setDocument(doc);
+			
 		scrollEditor.setViewportView(editorPane);
 		
 		
@@ -144,23 +165,54 @@ public class RssGUI extends JPanel {
 								newsPanel.setMagicNews((MagicNews)curr.getUserObject());
 								model.init((MagicNews)curr.getUserObject());
 							} catch (Exception e) {
-								MTGLogger.printStackTrace(e);
+								logger.error("error reading rss",e);
 							} 
 							model.fireTableDataChanged();
 					}, "load RSS " + curr.getUserObject());
 		});
 
+		
+		HTMLEditorKit kit = new HTMLEditorKit();
+		editorPane.setEditorKit(kit);
+		Document doc = kit.createDefaultDocument();
+		editorPane.setDocument(doc);
+		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
 				SyndEntry sel = model.getEntryAt(table.getSelectedRow());
-				if(sel.getDescription()!=null)
-					editorPane.setText(sel.getDescription().getValue());
+				
+				if(me.getClickCount()==2)
+				{
+					try {
+						Desktop.getDesktop().browse(new URI(sel.getLink()));
+					} catch (Exception e1) {
+						logger.error(e1);
+					}
+				}
+				else
+				{
+					org.jsoup.nodes.Document d;
+					try {
+						logger.debug("loading " + sel.getLink());
+						d = Jsoup.connect(sel.getLink())
+								 .userAgent(MTGConstants.USER_AGENT)
+								 .get();
+						
+						editorPane.setText(d.html());
+					} catch (IOException e) {
+						logger.error("Error reading " + sel.getUri(),e);
+					}
+					
+				}
+				
+				
+				
+				
 			}
 		});
 		
-		for(int i=0;i<tree.getRowCount();i++)
-			tree.expandRow(i+1);
+		
 	}
 
 
@@ -171,6 +223,9 @@ public class RssGUI extends JPanel {
 			add(cat.getCategorie(),cat);
 		
 		((DefaultTreeModel)tree.getModel()).reload();
+		
+		for(int i=0;i<tree.getRowCount();i++)
+			tree.expandRow(i+1);
 		
 	}
 	

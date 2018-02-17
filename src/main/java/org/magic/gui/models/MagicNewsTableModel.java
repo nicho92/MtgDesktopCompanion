@@ -1,11 +1,15 @@
 package org.magic.gui.models;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.URLConnection;
 
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicNews;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.xml.sax.InputSource;
 
 import com.rometools.rome.feed.synd.SyndEntry;
 import com.rometools.rome.feed.synd.SyndFeed;
@@ -67,7 +71,19 @@ public class MagicNewsTableModel extends DefaultTableModel{
 	
 	
 	public void init(MagicNews rssBean) throws FeedException, IOException {
-		feed = input.build(new XmlReader(rssBean.getUrl()));
+		InputStream is = null;
+		try {
+			URLConnection openConnection = rssBean.getUrl().openConnection();
+			openConnection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
+			is = openConnection.getInputStream();
+			InputSource source = new InputSource(is);
+			feed=input.build(source);
+		}
+		finally
+		{
+			if(is!=null)
+				is.close();
+		}
 	}
 
 }
