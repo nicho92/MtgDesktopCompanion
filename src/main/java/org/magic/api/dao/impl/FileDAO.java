@@ -20,6 +20,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
@@ -35,7 +36,7 @@ public class FileDAO extends AbstractMagicDAO {
 	private static final String CARDSDIR="cards";
 	private static final String STOCKDIR="stocks";
 	private static final String ALERTSDIR="alerts";
-	
+	private static final String NEWSDIR="news";
 	
 	@Override
 	public STATUT getStatut() {
@@ -73,7 +74,7 @@ public class FileDAO extends AbstractMagicDAO {
 		new File(directory,CARDSDIR).mkdir();
 		new File(directory,ALERTSDIR).mkdir();
 		new File(directory,STOCKDIR).mkdir();
-		
+		new File(directory,NEWSDIR).mkdir();
 		new File(new File(directory,CARDSDIR),MTGControler.getInstance().get("default-library")).mkdir();
 		logger.debug("File DAO init");
 	}
@@ -383,6 +384,24 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void backup(File dir) throws IOException {
 		FileUtils.copyDirectory(directory, dir);
+	}
+
+	@Override
+	public List<MagicNews> listNews() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteNews(MagicNews n) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveOrUpdateNews(MagicNews n) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

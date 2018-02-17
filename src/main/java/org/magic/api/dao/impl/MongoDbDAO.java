@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.tools.IDGenerator;
@@ -110,7 +111,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		 	db.createCollection("stocks");
 		 	db.createCollection("alerts");
 		 	db.createCollection("decks");
-		 	
+		 	db.createCollection("news");
 		 	
 		 	String[] cols = {"Library","Needed","For Sell","Favorites"};
 		 	
@@ -452,5 +453,23 @@ public class MongoDbDAO extends AbstractMagicDAO{
         Document result = countersCollection.findOneAndUpdate(searchQuery, updateQuery);
         return result.get("seq");
     }
+
+	@Override
+	public List<MagicNews> listNews() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteNews(MagicNews n) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void saveOrUpdateNews(MagicNews n) {
+		// TODO Auto-generated method stub
+		
+	}
 	
 }

@@ -25,7 +25,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
-import org.magic.api.beans.RSSBean;
+import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -139,7 +139,7 @@ public class MTGControler {
 				path = "servers/server[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof MTGPicturesCache) {
 				path = "caches/cache[class='"+k.getClass().getName()+"']/enable";
-			}else if (k instanceof RSSBean) {
+			}else if (k instanceof MagicNews) {
 				path = "rss";
 			}else{
 				path=k.toString();
@@ -574,24 +574,6 @@ public class MTGControler {
 				enable.add(p);
 		
 		return enable;
-	}
-	
-	public List<RSSBean> getRss() {
-		List<RSSBean> list = new ArrayList<>();
-		
-		for(int i=1;i<=config.getList("//flux/url").size();i++)
-		{
-			RSSBean r = new RSSBean();
-					r.setName(config.getString("rss/flux["+i+"]/name"));
-					r.setCategorie(config.getString("rss/flux["+i+"]/category"));
-			try {
-				r.setUrl(new URL(config.getString("rss/flux["+i+"]/url")));
-			} catch (MalformedURLException e) {
-				logger.error(e);
-			}
-			list.add(r);
-		}
-		return list;
 	}
 	
 	public boolean isRunning(MTGServer server)

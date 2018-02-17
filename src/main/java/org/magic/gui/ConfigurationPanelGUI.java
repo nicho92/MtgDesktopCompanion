@@ -22,7 +22,6 @@ import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;
 import org.magic.gui.models.conf.ProviderTreeTableModel;
-import org.magic.gui.models.conf.RssBeanTableModel;
 import org.magic.services.MTGControler;
 
 public class ConfigurationPanelGUI extends JPanel {
@@ -163,22 +162,6 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		);
 		cachesScrollPane.setViewportView(cachesTreeTable);
-		
-		
-		
-		JPanel rssPanel = new JPanel();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), null, rssPanel, null);
-		rssPanel.setLayout(new BorderLayout(0, 0));
-		
-		JScrollPane rssScrollPane = new JScrollPane();
-		rssPanel.add(rssScrollPane);
-		
-		rssTable = new JXTable(new RssBeanTableModel());
-		rssScrollPane.setViewportView(rssTable);
-		
-		JPanel panneauhaut = new JPanel();
-		rssPanel.add(panneauhaut, BorderLayout.NORTH);
-	
 		
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), null, configurationPanel, null);

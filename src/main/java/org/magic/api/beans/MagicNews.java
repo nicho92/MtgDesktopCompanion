@@ -2,13 +2,23 @@ package org.magic.api.beans;
 
 import java.net.URL;
 
-public class RSSBean {
+public class MagicNews {
 
-	String name;
-	String categorie;
-	URL url;
+	private int id;
+	private String name;
+	private String categorie;
+	private URL url;
 	
+	public MagicNews() {
+		id=-1;
+	}
 	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
 	public String getName() {
 		return name;
 	}

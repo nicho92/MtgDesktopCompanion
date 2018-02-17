@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
@@ -80,6 +81,8 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		 	stat.executeUpdate("create table stocks (idstock SERIAL PRIMARY KEY , idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard bytea,altered boolean,price decimal)");
 		 	logger.debug("Create table Alerts");
 		 	stat.executeUpdate("create table alerts (id varchar(250), mcard bytea, amount decimal)");
+		 	logger.debug("Create table News");
+			stat.executeUpdate("CREATE TABLE news (id SERIAL PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
 		 	
 		 	
 		 	logger.debug("populate collections");
@@ -611,6 +614,24 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			{
 				pst.executeUpdate(sql);
 			}
+			
+		}
+
+		@Override
+		public List<MagicNews> listNews() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		public void deleteNews(MagicNews n) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void saveOrUpdateNews(MagicNews n) {
+			// TODO Auto-generated method stub
 			
 		}
 

@@ -11,6 +11,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicNews;
 
 public interface MTGDao extends MTGPlugin{
 
@@ -27,13 +28,15 @@ public interface MTGDao extends MTGPlugin{
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException;
 	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException;
 	public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException;
+	
 	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException;
+	public void removeEdition(MagicEdition ed, MagicCollection col)throws SQLException;
 	
 	public MagicCollection getCollection(String name)throws SQLException;
 	public void saveCollection(MagicCollection c)throws SQLException;
 	public void removeCollection(MagicCollection c)throws SQLException;
 	public List<MagicCollection> getCollections() throws SQLException;
-	public void removeEdition(MagicEdition ed, MagicCollection col)throws SQLException;
+	
 	
 	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException;
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException;
@@ -44,12 +47,16 @@ public interface MTGDao extends MTGPlugin{
 	public void saveAlert(MagicCardAlert alert) throws SQLException;
 	public void deleteAlert(MagicCardAlert alert) throws SQLException;
 	public boolean hasAlert(MagicCard mc);
+	public void updateAlert(MagicCardAlert alert) throws SQLException;
+
+	public List<MagicNews> listNews();
+	public void deleteNews(MagicNews n) throws SQLException;
+	public void saveOrUpdateNews(MagicNews n) throws SQLException;
 	
 	
 	public String getDBLocation();
 	public long getDBSize();
 	public void backup(File dir) throws SQLException,IOException;
-	public void updateAlert(MagicCardAlert alert) throws SQLException;
 
 	
 }

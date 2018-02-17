@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.magic.api.beans.RSSBean;
+import org.magic.api.beans.MagicNews;
 import org.magic.services.MTGControler;
 
 import com.rometools.rome.feed.synd.SyndEntry;
@@ -13,7 +13,7 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.XmlReader;
 
-public class RssContentTableModel extends DefaultTableModel{
+public class MagicNewsTableModel extends DefaultTableModel{
 
 	private static final String[] COLUMNS = {MTGControler.getInstance().getLangService().getCapitalize("RSS_TITLE"),
 										   MTGControler.getInstance().getLangService().getCapitalize("RSS_DATE")};
@@ -21,7 +21,7 @@ public class RssContentTableModel extends DefaultTableModel{
 	private transient SyndFeedInput input;
 	private transient SyndFeed feed;
 	
-	public RssContentTableModel() {
+	public MagicNewsTableModel() {
 		input = new SyndFeedInput();
 	}
 	
@@ -66,7 +66,7 @@ public class RssContentTableModel extends DefaultTableModel{
 	}
 	
 	
-	public void init(RSSBean rssBean) throws FeedException, IOException {
+	public void init(MagicNews rssBean) throws FeedException, IOException {
 		feed = input.build(new XmlReader(rssBean.getUrl()));
 	}
 
