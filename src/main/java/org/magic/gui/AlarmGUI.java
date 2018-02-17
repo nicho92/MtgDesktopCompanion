@@ -34,6 +34,7 @@ import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;
@@ -88,16 +89,15 @@ public class AlarmGUI extends JPanel {
 		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent evt) {
-					
+			public void mouseClicked(MouseEvent evt) 
+			{
 				resultListModel.removeAllElements();
 				MagicCardAlert selected = (MagicCardAlert)table.getValueAt(table.getSelectedRow(), 0);
 					magicCardDetailPanel.setMagicCard(selected.getCard());
 					variationPanel.init(selected.getCard(), null, selected.getCard().getName());
-					
-					for(MagicPrice mp : selected.getOffers())
-						resultListModel.addElement(mp);
-				}
+				for(MagicPrice mp : selected.getOffers())
+					resultListModel.addElement(mp);
+			}
 		});
 		
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);

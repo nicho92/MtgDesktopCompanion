@@ -81,14 +81,11 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 							logger.error(e);
 						}
                 	}
-                	
-                		message.append(alert.getCard()).append(" : ").append(alert.getOffers().size()).append(" offers").append("\n");
-					
-                }
+               		message.append(alert.getCard()).append(" : ").append(alert.getOffers().size()).append(" offers").append("\n");
+			    }
             	
-            	if(enableNotify)
-            		if(notify)
-            			MTGControler.getInstance().notify("New offers", message.toString(), MessageType.INFO);
+            	if(enableNotify && notify)
+           			MTGControler.getInstance().notify("New offers", message.toString(), MessageType.INFO);
             	
             }
         };

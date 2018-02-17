@@ -34,7 +34,7 @@ import org.magic.tools.IDGenerator;
 public class PostgresqlDAO extends AbstractMagicDAO {
 
 	private Connection con;
-
+	private List<MagicCardAlert> list;
 	
 	@Override
 	public STATUT getStatut() {
@@ -54,6 +54,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		
 		save();
 		}
+		list=new ArrayList<>();
 	}
    
 	@Override
@@ -522,7 +523,8 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			try(PreparedStatement pst=con.prepareStatement("select * from alerts");	ResultSet rs = pst.executeQuery();)
 			{
 				
-			List<MagicCardAlert> list = new ArrayList<>();
+				if(!list.isEmpty())
+					return list;
 				
 			while(rs.next())
 			{
@@ -579,6 +581,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				pst.setBinaryStream(2,convertObject(alert.getCard()));
 				pst.setDouble(3, alert.getPrice());
 				pst.executeUpdate();
+				list.add(alert);
 			}
 		}
 
@@ -589,6 +592,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			{
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
 			pst.executeUpdate();
+			list.remove(alert);
 			}
 		}
 

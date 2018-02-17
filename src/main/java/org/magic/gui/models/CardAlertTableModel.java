@@ -64,7 +64,6 @@ public class CardAlertTableModel extends DefaultTableModel {
 	
 	@Override
 	public Object getValueAt(int row, int column) {
-		
 		switch(column)
 		{
 			case 0 : return MTGControler.getInstance().getEnabledDAO().getAlerts().get(row);
@@ -73,6 +72,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 			case 3 : return MTGControler.getInstance().getEnabledDAO().getAlerts().get(row).getOffers().size();
 		default : return "";
 		}
+		
 	}
 	
 	@Override

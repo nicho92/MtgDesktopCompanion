@@ -517,8 +517,8 @@ public class MagicCardDetailPanel extends JPanel {
 		autoBinding13.bind();
 		
 		BeanProperty<MagicCard, Boolean> reservedProperty = BeanProperty.create("reserved");
-		BeanProperty<JCheckBox, Boolean> chkProperty_15 = BeanProperty.create("selected");
-		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding15 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, reservedProperty, chckbxReserved, chkProperty_15);
+		BeanProperty<JCheckBox, Boolean> chkProperty15 = BeanProperty.create("selected");
+		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding15 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, reservedProperty, chckbxReserved, chkProperty15);
 		autoBinding15.bind();
 		
 		
@@ -560,7 +560,7 @@ public class MagicCardDetailPanel extends JPanel {
 			},"loadCollections");
 	
 		if(magicCard!=null)
-		ThreadManager.getInstance().execute(()->{
+				ThreadManager.getInstance().execute(()->{
 					if(MTGControler.getInstance().getEnabledDAO().hasAlert(magicCard))
 					{
 						btnAlert.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("HAD_ALERT"));

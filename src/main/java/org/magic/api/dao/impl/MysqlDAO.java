@@ -28,8 +28,9 @@ import org.magic.tools.IDGenerator;
 
 public class MysqlDAO extends AbstractMagicDAO{
 
-    Connection con;
+    private Connection con;
     private String defaultStore="BLOB";
+    private List<MagicCardAlert> list;
     
 	@Override
 	public STATUT getStatut() {
@@ -50,7 +51,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			 props.put("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
 		save();
 		}
-		
+		list = new ArrayList<>();
 		
 	}
 	
@@ -552,10 +553,12 @@ public class MysqlDAO extends AbstractMagicDAO{
 	@Override
 	public List<MagicCardAlert> getAlerts() {
 	
+		if(!list.isEmpty())
+			return list;
 		
 		try(PreparedStatement pst=con.prepareStatement("select * from alerts"))
 		{
-			List<MagicCardAlert> list = new ArrayList<>();
+				list = new ArrayList<>();
 				try(ResultSet rs = pst.executeQuery())
 				{	
 					while(rs.next())
@@ -600,6 +603,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 			pst.setObject(2,alert.getCard());
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
+			
+			list.add(alert);
 		}
 	}
 	
@@ -621,6 +626,9 @@ public class MysqlDAO extends AbstractMagicDAO{
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
 			pst.executeUpdate();
 		}
+		
+		if(list!=null)
+			list.remove(alert);
 		
 	}
 	
