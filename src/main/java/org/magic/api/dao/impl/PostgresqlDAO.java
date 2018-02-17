@@ -550,7 +550,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			try(PreparedStatement pst=con.prepareStatement("update alerts set amount=? where id=?"))
 			{
 				pst.setDouble(1, alert.getPrice());
-				pst.setString(2, alert.getId());
+				pst.setString(2, IDGenerator.generate(alert.getCard()));
 				pst.executeUpdate();
 			}
 			

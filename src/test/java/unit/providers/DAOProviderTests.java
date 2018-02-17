@@ -14,6 +14,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.dao.impl.MongoDbDAO;
+import org.magic.api.dao.impl.PostgresqlDAO;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGLogger;
 
@@ -60,10 +61,9 @@ public class DAOProviderTests {
 	public void test()
 	{
 		//testProviders(new FileDAO());
-		testProviders(new MongoDbDAO());
+		//testProviders(new MongoDbDAO());
+		testProviders(new PostgresqlDAO());
 	}
-	
-	
 	
 	public void testProviders(MTGDao p)
 	{
