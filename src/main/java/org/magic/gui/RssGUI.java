@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
@@ -17,6 +19,7 @@ import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.MutableTreeNode;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
@@ -29,8 +32,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 import com.rometools.rome.feed.synd.SyndEntry;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class RssGUI extends JPanel {
 	private JTable table;
@@ -40,6 +41,7 @@ public class RssGUI extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private NewsPanel newsPanel ;
 	private DefaultMutableTreeNode rootNode ;
+	private JTree tree;
 	
 	
 	public RssGUI() {
@@ -52,14 +54,10 @@ public class RssGUI extends JPanel {
 		
 		scrollTable.setViewportView(table);
 		
-		
+		tree = new JTree();
 		rootNode = new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
 		
-		
-		for(MagicNews rss : MTGControler.getInstance().getEnabledDAO().listNews())
-		{
-			rootNode.add(new DefaultMutableTreeNode(rss));
-		}
+		initTree();
 		
 		
 		JSplitPane splitNews = new JSplitPane();
@@ -91,7 +89,6 @@ public class RssGUI extends JPanel {
 		JScrollPane scrollTree = new JScrollPane();
 		leftPanel.add(scrollTree, BorderLayout.CENTER);
 		
-		JTree tree = new JTree();
 		
 		
 		
@@ -115,6 +112,7 @@ public class RssGUI extends JPanel {
 		btnSave.addActionListener(ae->{
 				try {
 					MTGControler.getInstance().getEnabledDAO().saveOrUpdateNews(newsPanel.getMagicNews());
+					initTree();
 				} catch (SQLException ex) {
 					logger.error("Error saving news", ex);
 					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
@@ -126,6 +124,7 @@ public class RssGUI extends JPanel {
 		btnDelete.addActionListener(ae-> {
 			try {
 				MTGControler.getInstance().getEnabledDAO().deleteNews(newsPanel.getMagicNews());
+				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error delete news", ex);
 				JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
@@ -158,10 +157,41 @@ public class RssGUI extends JPanel {
 				SyndEntry sel = model.getEntryAt(table.getSelectedRow());
 				if(sel.getDescription()!=null)
 					editorPane.setText(sel.getDescription().getValue());
-				
 			}
 		});
 		
+		for(int i=0;i<tree.getRowCount();i++)
+			tree.expandRow(i+1);
+	}
+
+
+	private void initTree() {
+		rootNode.removeAllChildren();
+		List<MagicNews> rss =MTGControler.getInstance().getEnabledDAO().listNews();
+		for(MagicNews cat : rss)
+			add(cat.getCategorie(),cat);
+		
+		((DefaultTreeModel)tree.getModel()).reload();
+		
+	}
+	
+	private void add(String cat,MagicNews n)
+	{
+		DefaultMutableTreeNode node = getNodeCateg(cat);
+		node.add(new DefaultMutableTreeNode(n));
+		rootNode.add(node);
+	}
+
+	private DefaultMutableTreeNode getNodeCateg(String cat) 
+	{
+		Enumeration e = rootNode.breadthFirstEnumeration();
+		while (e.hasMoreElements()) {
+	        DefaultMutableTreeNode node = (DefaultMutableTreeNode) e.nextElement();
+	        if (node.getUserObject().toString().equalsIgnoreCase(cat)) {
+	            return node;
+	        }
+	    }
+		return new DefaultMutableTreeNode(cat);
 	}
 
 }
