@@ -619,19 +619,71 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 		@Override
 		public List<MagicNews> listNews() {
-			// TODO Auto-generated method stub
-			return null;
+			try(PreparedStatement pst=con.prepareStatement("select * from news"))
+			{
+					List<MagicNews> news = new ArrayList<>();
+					try(ResultSet rs = pst.executeQuery())
+					{	
+						while(rs.next())
+						{
+							MagicNews n = new MagicNews();
+									n.setCategorie(rs.getString("categorie"));
+									n.setName(rs.getString("name"));
+									n.setUrl(rs.getURL("url"));
+									n.setId(rs.getInt("id"));
+									news.add(n);
+						}
+						return news;
+					}
+			}catch(Exception e)
+			{
+				logger.error(e);
+				return new ArrayList<>();
+			}
 		}
 
 		@Override
-		public void deleteNews(MagicNews n) {
-			// TODO Auto-generated method stub
-			
+		public void deleteNews(MagicNews n) throws SQLException {
+			logger.debug("delete news "  + n);
+			try(PreparedStatement pst=con.prepareStatement("delete from news where id=?"))
+			{
+				pst.setInt(1,n.getId());
+				pst.executeUpdate();
+			}
 		}
 
+
 		@Override
-		public void saveOrUpdateNews(MagicNews n) {
-			// TODO Auto-generated method stub
+		public void saveOrUpdateNews(MagicNews n)throws SQLException {
+			if(n.getId()<0)
+			{
+				
+				logger.debug("save "  + n);
+				try(PreparedStatement pst=con.prepareStatement("insert into news  ( name,categorie,url) values (?,?,?)"))
+				{
+					pst.setString(1, n.getName());
+					pst.setString(2,n.getCategorie());
+					pst.setURL(3,n.getUrl());
+					n.setId(pst.executeUpdate());
+				}
+				
+			}
+			else
+			{
+				logger.debug("update "  + n);
+				try(PreparedStatement pst=con.prepareStatement("update news set name=?, categorie=?, url=? where id=?"))
+				{
+					pst.setString(1,n.getName());
+					pst.setString(2, n.getCategorie());
+					pst.setURL(3,n.getUrl());
+					pst.setInt(4, n.getId());
+					pst.executeUpdate();
+				}
+				catch(Exception e)
+				{
+					logger.error(e);
+				}
+			}
 			
 		}
 

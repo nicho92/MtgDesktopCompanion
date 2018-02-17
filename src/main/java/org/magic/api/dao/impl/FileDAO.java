@@ -388,19 +388,41 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public List<MagicNews> listNews() {
-		// TODO Auto-generated method stub
-		return null;
+		List<MagicNews> ret = new ArrayList<>();
+		
+		for(File f : FileUtils.listFiles(new File(directory,NEWSDIR), null, false))
+		{
+			try {
+				ret.add(read(MagicNews.class, f));
+			} catch (Exception e) {
+				logger.error("Error reading news",e);
+			}
+		}
+		return ret;
 	}
 
 	@Override
 	public void deleteNews(MagicNews n) {
-		// TODO Auto-generated method stub
+	
 		
 	}
 
 	@Override
-	public void saveOrUpdateNews(MagicNews n) {
-		// TODO Auto-generated method stub
+	public void saveOrUpdateNews(MagicNews n) throws SQLException {
+		File dir = new File(new File(directory,ALERTSDIR),n.getCategorie());
+		if(!dir.exists())
+			dir.mkdir();
+		
+		if(n.getId()==-1)
+			n.setId(dir.listFiles().length+1);
+			
+		File f = new File(dir,n.getId()+"-"+n.getName());
+		try {
+			save(n, f);
+		} catch (Exception e) {
+			throw new SQLException(e);
+		}
+		
 		
 	}
 
