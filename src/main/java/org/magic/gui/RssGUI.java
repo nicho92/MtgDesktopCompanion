@@ -69,7 +69,14 @@ public class RssGUI extends JPanel {
 				Component c = super.getTreeCellRendererComponent(tree, value,selected, expanded, isLeaf, row, focused);
 				
 				if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicNews)
-					setIcon(MTGConstants.ICON_RSS);
+				{
+					switch(((MagicNews)((DefaultMutableTreeNode)value).getUserObject()).getType())
+					{
+						case RSS :setIcon(MTGConstants.ICON_RSS);break;
+						case TWITTER:setIcon(MTGConstants.ICON_TWITTER);break;
+					}
+					
+				}
 			
 				if(((DefaultMutableTreeNode)value).getUserObject() instanceof String)
 					setIcon(MTGConstants.ICON_DECK);

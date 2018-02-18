@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
@@ -81,7 +82,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 	logger.debug("Create table stocks");
 		 	stat.executeUpdate("create table alerts (id varchar(250),mcard OBJECT, amount DECIMAL)");
 		 	logger.debug("Create table Alerts");
-		 	stat.executeUpdate("CREATE TABLE news (id integer PRIMARY KEY IDENTITY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
+		 	stat.executeUpdate("CREATE TABLE news (id integer PRIMARY KEY IDENTITY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews VARCHAR(100)");
 		 	logger.debug("Create table News");
 			
 		 	
@@ -632,6 +633,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 								n.setCategorie(rs.getString("categorie"));
 								n.setName(rs.getString("name"));
 								n.setUrl(rs.getURL("url"));
+								n.setType(NEWS_TYPE.valueOf(rs.getString("typeNews")));
 								n.setId(rs.getInt("id"));
 								news.add(n);
 					}
@@ -661,11 +663,12 @@ public class HsqlDAO extends AbstractMagicDAO{
 		{
 			
 			logger.debug("save "  + n);
-			try(PreparedStatement pst=con.prepareStatement("insert into news  ( name,categorie,url) values (?,?,?)"))
+			try(PreparedStatement pst=con.prepareStatement("insert into news  ( name,categorie,url,typeNews) values (?,?,?,?)"))
 			{
 				pst.setString(1, n.getName());
 				pst.setString(2,n.getCategorie());
 				pst.setURL(3,n.getUrl());
+				pst.setString(4, n.getType().toString());
 				n.setId(pst.executeUpdate());
 			}
 			
@@ -673,12 +676,13 @@ public class HsqlDAO extends AbstractMagicDAO{
 		else
 		{
 			logger.debug("update "  + n);
-			try(PreparedStatement pst=con.prepareStatement("update news set name=?, categorie=?, url=? where id=?"))
+			try(PreparedStatement pst=con.prepareStatement("update news set name=?, categorie=?, url=?,typeNews=? where id=?"))
 			{
 				pst.setString(1,n.getName());
 				pst.setString(2, n.getCategorie());
 				pst.setURL(3,n.getUrl());
-				pst.setInt(4, n.getId());
+				pst.setString(4, n.getType().toString());
+				pst.setInt(5, n.getId());
 				pst.executeUpdate();
 			}
 			catch(Exception e)

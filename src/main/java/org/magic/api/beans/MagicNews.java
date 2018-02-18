@@ -8,9 +8,20 @@ public class MagicNews {
 	private String name;
 	private String categorie;
 	private URL url;
+	private NEWS_TYPE type;
+	
+	public enum NEWS_TYPE {RSS,TWITTER};
 	
 	public MagicNews() {
 		id=-1;
+	}
+	
+	public NEWS_TYPE getType() {
+		return type;
+	}
+	
+	public void setType(NEWS_TYPE type) {
+		this.type = type;
 	}
 	
 	public int getId() {

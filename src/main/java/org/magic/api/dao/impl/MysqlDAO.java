@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
@@ -649,6 +650,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 								n.setName(rs.getString("name"));
 								n.setUrl(rs.getURL("url"));
 								n.setId(rs.getInt("id"));
+								n.setType(NEWS_TYPE.valueOf(rs.getString("typeNews")));
 								news.add(n);
 					}
 					return news;
@@ -677,11 +679,12 @@ public class MysqlDAO extends AbstractMagicDAO{
 		{
 			
 			logger.debug("save "  + n);
-			try(PreparedStatement pst=con.prepareStatement("insert into news  ( name,categorie,url) values (?,?,?)",Statement.RETURN_GENERATED_KEYS))
+			try(PreparedStatement pst=con.prepareStatement("insert into news  ( name,categorie,url,typeNews) values (?,?,?,?)",Statement.RETURN_GENERATED_KEYS))
 			{
 				pst.setString(1, n.getName());
 				pst.setString(2,n.getCategorie());
 				pst.setURL(3,n.getUrl());
+				pst.setString(4, n.getType().toString());
 				pst.executeUpdate();
 				n.setId(getGeneratedKey(pst));
 			}
@@ -690,12 +693,13 @@ public class MysqlDAO extends AbstractMagicDAO{
 		else
 		{
 			logger.debug("update "  + n);
-			try(PreparedStatement pst=con.prepareStatement("update news set name=?, categorie=?, url=? where id=?"))
+			try(PreparedStatement pst=con.prepareStatement("update news set name=?, categorie=?, url=?,typeNews=?,where id=?"))
 			{
 				pst.setString(1,n.getName());
 				pst.setString(2, n.getCategorie());
 				pst.setURL(3,n.getUrl());
-				pst.setInt(4, n.getId());
+				pst.setString(4, n.getType().toString());
+				pst.setInt(5, n.getId());
 				pst.executeUpdate();
 			}
 			catch(Exception e)
