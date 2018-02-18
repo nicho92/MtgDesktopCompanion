@@ -83,6 +83,7 @@ public class MagicEventsDashlet extends AbstractJDashlet{
 				init();
 		       }
 			});
+		
 		cboMonth.addItemListener(ie->{
 			if (ie.getStateChange() == ItemEvent.SELECTED) {
 				init();
