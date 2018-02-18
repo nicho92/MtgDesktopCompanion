@@ -45,7 +45,7 @@ public class RssGUI extends JPanel {
 	private DefaultMutableTreeNode rootNode ;
 	private JTree tree;
 	private JLabel lblLoading; 
-	//https://www.mtggoldfish.com/articles/podcast-159-great-designer-search-three-multiple-choice-questions-part-1
+	
 	public RssGUI() {
 		logger.info("init RSS GUI");
 		setLayout(new BorderLayout(0, 0));
@@ -94,8 +94,6 @@ public class RssGUI extends JPanel {
 		editorPane = new BrowserPane();
 		editorPane.setEditable(false);
 		editorPane.setContentType("text/html");
-		
-			
 		scrollEditor.setViewportView(editorPane);
 		
 		

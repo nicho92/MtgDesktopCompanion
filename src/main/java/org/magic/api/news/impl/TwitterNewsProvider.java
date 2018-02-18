@@ -33,10 +33,11 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 			props.put("ACCESS_TOKEN", "");
 			props.put("ACCESS_TOKEN_SECRET", "");
 			props.put("MAX_RESULT", "25");
+			props.put("LOG", "false");
 			save();
 		}
 	
-		cb.setDebugEnabled(false)
+		cb.setDebugEnabled(props.getProperty("LOG","false").toString().equals("true"))
 		  .setOAuthConsumerKey(getProperty("CONSUMER_KEY").toString())
 		  .setOAuthConsumerSecret(getProperty("CONSUMER_SECRET").toString())
 		  .setOAuthAccessToken(getProperty("ACCESS_TOKEN").toString())
