@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintStream;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -629,7 +630,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 							MagicNews n = new MagicNews();
 									n.setCategorie(rs.getString("categorie"));
 									n.setName(rs.getString("name"));
-									n.setUrl(rs.getURL("url"));
+									n.setUrl(new URL(rs.getString("url")));
 									n.setId(rs.getInt("id"));
 									news.add(n);
 						}
@@ -663,7 +664,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				{
 					pst.setString(1, n.getName());
 					pst.setString(2,n.getCategorie());
-					pst.setURL(3,n.getUrl());
+					pst.setString(3,n.getUrl().toString());
 					n.setId(pst.executeUpdate());
 				}
 				
@@ -675,7 +676,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				{
 					pst.setString(1,n.getName());
 					pst.setString(2, n.getCategorie());
-					pst.setURL(3,n.getUrl());
+					pst.setString(3,n.getUrl().toString());
 					pst.setInt(4, n.getId());
 					pst.executeUpdate();
 				}
