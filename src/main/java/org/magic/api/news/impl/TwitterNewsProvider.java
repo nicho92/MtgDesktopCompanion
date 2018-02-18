@@ -2,13 +2,12 @@ package org.magic.api.news.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
@@ -24,7 +23,7 @@ import twitter4j.conf.ConfigurationBuilder;
 public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
 	private ConfigurationBuilder cb;
-	
+	private TwitterFactory tf ;
 	public TwitterNewsProvider() {
 		super();
 		cb = new ConfigurationBuilder();
@@ -41,11 +40,12 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		  .setOAuthConsumerSecret(getProperty("CONSUMER_SECRET").toString())
 		  .setOAuthAccessToken(getProperty("ACCESS_TOKEN").toString())
 		  .setOAuthAccessTokenSecret(getProperty("ACCESS_TOKEN_SECRET").toString());
+		tf = new TwitterFactory(cb.build());
 	}
 	
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
-		TwitterFactory tf = new TwitterFactory(cb.build());
+		
 		Twitter twitter = tf.getInstance();
 		Query query = new Query(n.getName());
 		List<MagicNewsContent> ret=new ArrayList<>();
@@ -78,5 +78,10 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
+	}
+	
+	@Override
+	public NEWS_TYPE getProviderType() {
+		return NEWS_TYPE.TWITTER;
 	}
 }

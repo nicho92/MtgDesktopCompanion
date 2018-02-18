@@ -199,6 +199,16 @@
             <enable>false</enable>
         </shopper>
     </shoppers>
+    <newsProvider>
+        <news>
+            <class>org.magic.api.news.impl.RSSNewsProvider</class>
+            <enable>true</enable>
+        </news>
+         <news>
+            <class>org.magic.api.news.impl.TwitterNewsProvider</class>
+            <enable>true</enable>
+        </news>
+    </newsProvider>
     <dashboards>
         <dashboard>
             <class>org.magic.api.dashboard.impl.MTGoldFishDashBoard</class>

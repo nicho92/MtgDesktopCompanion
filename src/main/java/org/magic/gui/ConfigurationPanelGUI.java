@@ -13,6 +13,7 @@ import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPricesProvider;
@@ -39,6 +40,7 @@ public class ConfigurationPanelGUI extends JPanel {
 
 	private LoggerViewPanel loggerViewPanel;
 	private ThreadMonitorPanel threadMonitorPanel;
+	private JXTreeTable newsTreeTable;
 	
 	public ConfigurationPanelGUI() {
 		
@@ -162,6 +164,18 @@ public class ConfigurationPanelGUI extends JPanel {
 			}
 		);
 		cachesScrollPane.setViewportView(cachesTreeTable);
+		
+		
+		JScrollPane newsScrollPane = new JScrollPane();
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), null, newsScrollPane, null);
+		newsTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGNewsProvider>(true, MTGControler.getInstance().getEnabledNewsProviders()));
+		newsTreeTable.addTreeSelectionListener(e->{
+				if(e.getNewLeadSelectionPath()!=null)
+					if(e.getNewLeadSelectionPath().getPathCount()>1)
+						((ProviderTreeTableModel)newsTreeTable.getTreeTableModel()).setSelectedNode((MTGNewsProvider)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		);
+		newsScrollPane.setViewportView(newsTreeTable);
 		
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), null, configurationPanel, null);

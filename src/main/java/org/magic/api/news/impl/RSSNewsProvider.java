@@ -2,12 +2,14 @@ package org.magic.api.news.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
@@ -44,7 +46,13 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 				content.setTitle(s.getTitle());
 				content.setAuthor(s.getAuthor());
 				content.setDate(s.getPublishedDate());
-				content.setLink(new URL(s.getLink()));
+				try{
+					content.setLink(new URL(s.getLink()));
+				}
+				catch(MalformedURLException e)
+				{
+					logger.error(e);
+				}
 				ret.add(content);
 			}
 			
@@ -73,6 +81,11 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
+	}
+
+	@Override
+	public NEWS_TYPE getProviderType() {
+		return NEWS_TYPE.RSS;
 	}
 
 	

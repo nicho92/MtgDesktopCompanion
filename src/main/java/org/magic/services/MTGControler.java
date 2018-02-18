@@ -8,7 +8,6 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -57,6 +56,7 @@ public class MTGControler {
 	private List<MTGDashBoard> dashboards;
 	private List<MTGCardsExport> exports;
 	private List<MTGServer> servers;
+	private List<MTGNewsProvider> news;
 	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
 	private KeyWordManager keyWordManager;
@@ -386,8 +386,19 @@ public class MTGControler {
 				}
 			}
 			
+			logger.info("loading News");
+			news = new ArrayList<>();
+			for(int i=1;i<=config.getList("//news/class").size();i++)
+			{
+				String s = config.getString("newsProvider/news["+i+"]/class");
+				MTGNewsProvider prov = loadItem(s);
+						 
+				if(prov!=null){
+					prov.enable(config.getBoolean("newsProvider/news["+i+"]/enable"));
+					news.add(prov);
+				}
+			}
 			
-		
 			keyWordManager = new KeyWordManager();
 			
 			langService = new LanguageService();
@@ -604,16 +615,19 @@ public class MTGControler {
 				return ace;
 		}
 		return null;
-		
-		
+	}
+	
+	
+	public List<MTGNewsProvider> getEnabledNewsProviders()
+	{
+		return news;
 	}
 
 	public MTGNewsProvider getNewsProvider(NEWS_TYPE type) {
-		switch (type)
-		{
-			case RSS : return new RSSNewsProvider();
-			case TWITTER : return new TwitterNewsProvider();
-			default : return null;
-		}
+		for(MTGNewsProvider p : news)
+			if(p.getProviderType()==type)
+				return p;
+		
+		return null;
 	}
 }
