@@ -19,7 +19,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -28,6 +27,7 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
+import org.fit.cssbox.swingbox.BrowserPane;
 import org.jsoup.Jsoup;
 import org.magic.api.beans.MagicNews;
 import org.magic.gui.components.NewsPanel;
@@ -38,18 +38,19 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 import com.rometools.rome.feed.synd.SyndEntry;
+import javax.swing.JLabel;
 
 public class RssGUI extends JPanel {
 	private JTable table;
 	private MagicNewsTableModel model;
-	private JEditorPane editorPane;
+	private BrowserPane editorPane;
 	private DefaultMutableTreeNode curr;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private NewsPanel newsPanel ;
 	private DefaultMutableTreeNode rootNode ;
 	private JTree tree;
-
-	
+	private JLabel lblLoading; 
+	//https://www.mtggoldfish.com/articles/podcast-159-great-designer-search-three-multiple-choice-questions-part-1
 	public RssGUI() {
 		logger.info("init RSS GUI");
 		setLayout(new BorderLayout(0, 0));
@@ -87,7 +88,7 @@ public class RssGUI extends JPanel {
 		splitNews.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		
 		JScrollPane scrollEditor = new JScrollPane();
-		editorPane = new JEditorPane();
+		editorPane = new BrowserPane();
 		editorPane.setEditable(false);
 		editorPane.setContentType("text/html");
 		
@@ -152,6 +153,10 @@ public class RssGUI extends JPanel {
 		});
 		panelControl.add(btnDelete);
 		
+		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
+		lblLoading.setVisible(false);
+		panelControl.add(lblLoading);
+		
 		newsPanel = new NewsPanel();
 		leftPanel.add(newsPanel, BorderLayout.SOUTH);
 		
@@ -162,21 +167,17 @@ public class RssGUI extends JPanel {
 				if(curr.getUserObject() instanceof MagicNews)
 					ThreadManager.getInstance().execute(()->{
 							try {
+								lblLoading.setVisible(true);
 								newsPanel.setMagicNews((MagicNews)curr.getUserObject());
 								model.init((MagicNews)curr.getUserObject());
 							} catch (Exception e) {
 								logger.error("error reading rss",e);
 							} 
 							model.fireTableDataChanged();
+							lblLoading.setVisible(false);
 					}, "load RSS " + curr.getUserObject());
 		});
 
-		
-		HTMLEditorKit kit = new HTMLEditorKit();
-		editorPane.setEditorKit(kit);
-		Document doc = kit.createDefaultDocument();
-		editorPane.setDocument(doc);
-		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
@@ -192,23 +193,25 @@ public class RssGUI extends JPanel {
 				}
 				else
 				{
-					org.jsoup.nodes.Document d;
-					try {
-						logger.debug("loading " + sel.getLink());
-						d = Jsoup.connect(sel.getLink())
-								 .userAgent(MTGConstants.USER_AGENT)
-								 .get();
+					ThreadManager.getInstance().execute(new Runnable() {
 						
-						editorPane.setText(d.html());
-					} catch (IOException e) {
-						logger.error("Error reading " + sel.getUri(),e);
-					}
-					
+						@Override
+						public void run() {
+							lblLoading.setVisible(true);
+							try {
+								logger.debug("loading " + sel.getLink());
+								//d = Jsoup.connect(sel.getLink()).userAgent(MTGConstants.USER_AGENT).get();
+								editorPane.setPage(sel.getLink());
+								//editorPane.setText(d.select("body").html());
+								editorPane.setCaretPosition(0);
+								lblLoading.setVisible(false);
+							} catch (IOException e) {
+								logger.error("Error reading " + sel.getUri(),e);
+								lblLoading.setVisible(false);
+							}
+						}
+					});
 				}
-				
-				
-				
-				
 			}
 		});
 		

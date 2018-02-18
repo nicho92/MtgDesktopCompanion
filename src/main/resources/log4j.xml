@@ -25,6 +25,8 @@
     <logger name="org.apache.commons"><level value="ERROR"/></logger>
     <logger name="org.apache.http"><level value="ERROR"/></logger>
     <logger name="org.api.mkm"><level value="ERROR"/></logger>
+    <logger name="cz.vutbr"><level value="ERROR"/></logger>
+    <logger name="org.fit"><level value="ERROR"/></logger>
     
     <root>
         <level value="DEBUG"/>
