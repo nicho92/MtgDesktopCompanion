@@ -46,6 +46,7 @@
     	<dashlet><class>org.magic.gui.dashlet.BoosterBoxDashlet</class></dashlet>
     	<dashlet><class>org.magic.gui.dashlet.EditionsDashlet</class></dashlet>
     	<dashlet><class>org.magic.gui.dashlet.TrendingDashlet</class></dashlet>
+    	<dashlet><class>org.magic.gui.dashlet.MagicEventsDashlet</class></dashlet>
     </dashlets>
     <servers>
         <server>

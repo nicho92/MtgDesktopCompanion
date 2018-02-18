@@ -71,7 +71,9 @@ public class MTGEventProvider {
 			{
 				if(!td.select("a").isEmpty())
 				{
+					
 					int nbDay=Integer.parseInt(td.attr("colspan"));
+					
 					Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(td.attr("data-date"));
 					Calendar c = Calendar.getInstance();
 					c.setTime(startDate);
