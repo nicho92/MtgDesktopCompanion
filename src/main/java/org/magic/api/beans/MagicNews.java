@@ -46,7 +46,7 @@ public class MagicNews {
 		return url;
 	}
 	public void setUrl(URL url) {
-		this.url = url;
+			this.url = url;
 	}
 	
 	public String toString() {

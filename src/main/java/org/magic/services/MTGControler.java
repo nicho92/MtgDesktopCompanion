@@ -26,17 +26,21 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.news.impl.RSSNewsProvider;
+import org.magic.api.news.impl.TwitterNewsProvider;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractJDashlet;
@@ -604,4 +608,12 @@ public class MTGControler {
 		
 	}
 
+	public MTGNewsProvider getNewsProvider(NEWS_TYPE type) {
+		switch (type)
+		{
+			case RSS : return new RSSNewsProvider();
+			case TWITTER : return new TwitterNewsProvider();
+			default : return null;
+		}
+	}
 }

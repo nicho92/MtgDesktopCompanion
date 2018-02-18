@@ -7,7 +7,6 @@ import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.net.URI;
 import java.sql.SQLException;
 import java.util.Enumeration;
 import java.util.List;
@@ -28,14 +27,13 @@ import javax.swing.tree.TreePath;
 import org.apache.log4j.Logger;
 import org.fit.cssbox.swingbox.BrowserPane;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.beans.MagicNewsContent;
 import org.magic.gui.components.NewsPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-
-import com.rometools.rome.feed.synd.SyndEntry;
 
 public class RssGUI extends JPanel {
 	private JTable table;
@@ -186,12 +184,12 @@ public class RssGUI extends JPanel {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent me) {
-				SyndEntry sel = model.getEntryAt(table.getSelectedRow());
+				MagicNewsContent sel = model.getEntryAt(table.getSelectedRow());
 				
 				if(me.getClickCount()==2)
 				{
 					try {
-						Desktop.getDesktop().browse(new URI(sel.getLink()));
+						Desktop.getDesktop().browse(sel.getLink().toURI());
 					} catch (Exception e1) {
 						logger.error(e1);
 					}
@@ -209,7 +207,7 @@ public class RssGUI extends JPanel {
 								editorPane.setCaretPosition(0);
 								lblLoading.setVisible(false);
 							} catch (IOException e) {
-								logger.error("Error reading " + sel.getUri(),e);
+								logger.error("Error reading " + sel.getLink(),e);
 								lblLoading.setVisible(false);
 							}
 						}

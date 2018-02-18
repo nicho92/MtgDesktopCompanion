@@ -693,7 +693,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		else
 		{
 			logger.debug("update "  + n);
-			try(PreparedStatement pst=con.prepareStatement("update news set name=?, categorie=?, url=?,typeNews=?,where id=?"))
+			try(PreparedStatement pst=con.prepareStatement("update news set name=?, categorie=?, url=?,typeNews=? where id=?"))
 			{
 				pst.setString(1,n.getName());
 				pst.setString(2, n.getCategorie());
