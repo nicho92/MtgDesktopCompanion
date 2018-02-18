@@ -31,7 +31,7 @@ public class MTGEventProvider {
 	
 	
 	public static void main(String[] args) {
-		new MTGEventProvider().listEvents(new Date());
+		new MTGEventProvider().listEvents(2018,3);
 		
 	}
 	
@@ -71,9 +71,7 @@ public class MTGEventProvider {
 			{
 				if(!td.select("a").isEmpty())
 				{
-					
 					int nbDay=Integer.parseInt(td.attr("colspan"));
-					
 					Date startDate = new SimpleDateFormat("yyyy-MM-dd").parse(td.attr("data-date"));
 					Calendar c = Calendar.getInstance();
 					c.setTime(startDate);
@@ -85,7 +83,13 @@ public class MTGEventProvider {
 							   event.setStartDate(startDate);
 							   event.setEndDate(c.getTime());
 							   event.setDuration(nbDay);
+							  try {
 							   event.setColor(Color.decode("#"+a.attr("data-color")));
+							  }
+							  catch(Exception ex)
+							  {
+								  event.setColor(Color.WHITE);
+							  }
 							   if(a.attr("href").startsWith("/"))
 								   event.setUrl(new URL("https://magic.wizards.com"+a.attr("href")));
 							   else
@@ -95,11 +99,8 @@ public class MTGEventProvider {
 				}
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("Error in event",e);
 		}
 		return list;
 	}
-
-	
-	
 }
