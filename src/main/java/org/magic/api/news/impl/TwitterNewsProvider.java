@@ -32,6 +32,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 			props.put("CONSUMER_SECRET", "");
 			props.put("ACCESS_TOKEN", "");
 			props.put("ACCESS_TOKEN_SECRET", "");
+			props.put("MAX_RESULT", "25");
 			save();
 		}
 	
@@ -48,6 +49,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		
 		Twitter twitter = tf.getInstance();
 		Query query = new Query(n.getName());
+			  query.setCount(Integer.parseInt(getProperty("MAX_RESULT").toString()));
 		List<MagicNewsContent> ret=new ArrayList<>();
 		
 	        QueryResult result;

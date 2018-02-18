@@ -82,11 +82,7 @@ public class CardsPicPanel extends JXPanel {
 		
 		if(!mc.isTranformable())
 		{
-			try {
-				back=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
-			} catch (Exception e1) {
-				MTGLogger.printStackTrace(e1);
-			}
+			back=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture();
 		}
 		else
 		{

@@ -609,7 +609,7 @@ public class CardSearchPanel extends JPanel {
 							cardsPicPanel.showPhoto(selectedCard);
 						}
 					} catch (Exception e1) {
-						MTGLogger.printStackTrace(e1);
+						logger.error(e1);
 					}
 				}
 			);
