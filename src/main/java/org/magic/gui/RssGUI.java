@@ -3,6 +3,7 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Desktop;
+import java.awt.Dimension;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
@@ -12,15 +13,13 @@ import java.util.Enumeration;
 import java.util.List;
 
 import javax.swing.JButton;
-import javax.swing.JEditorPane;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
-import javax.swing.text.Document;
-import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
@@ -28,7 +27,6 @@ import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
 import org.fit.cssbox.swingbox.BrowserPane;
-import org.jsoup.Jsoup;
 import org.magic.api.beans.MagicNews;
 import org.magic.gui.components.NewsPanel;
 import org.magic.gui.models.MagicNewsTableModel;
@@ -38,7 +36,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 import com.rometools.rome.feed.synd.SyndEntry;
-import javax.swing.JLabel;
 
 public class RssGUI extends JPanel {
 	private JTable table;
@@ -62,6 +59,7 @@ public class RssGUI extends JPanel {
 		scrollTable.setViewportView(table);
 		
 		tree = new JTree();
+		tree.setPreferredSize(new Dimension(150, 64));
 		
 		tree.setCellRenderer(new DefaultTreeCellRenderer() {
 			private static final long serialVersionUID = 1L;
@@ -200,9 +198,7 @@ public class RssGUI extends JPanel {
 							lblLoading.setVisible(true);
 							try {
 								logger.debug("loading " + sel.getLink());
-								//d = Jsoup.connect(sel.getLink()).userAgent(MTGConstants.USER_AGENT).get();
 								editorPane.setPage(sel.getLink());
-								//editorPane.setText(d.select("body").html());
 								editorPane.setCaretPosition(0);
 								lblLoading.setVisible(false);
 							} catch (IOException e) {
