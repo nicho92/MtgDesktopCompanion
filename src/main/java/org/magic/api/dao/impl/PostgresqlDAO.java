@@ -684,10 +684,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 					pst.setInt(5, n.getId());
 					pst.executeUpdate();
 				}
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
 			}
 			
 		}
