@@ -84,4 +84,7 @@ Generate Website of your collections :
 Create your own cards :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardmaker.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/cardmaker.png)
 
+Get news from your favorites sites :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/news.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/news.png)
+
 
