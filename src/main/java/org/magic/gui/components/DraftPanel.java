@@ -30,10 +30,11 @@ import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import java.awt.FlowLayout;
 
 public class DraftPanel extends JPanel {
 	
-	private JPanel panelHaut;
+	private JPanel panelWest;
 	private JPanel panelBottom;
 	private JButton btnSaveDeck;
 	private JSplitPane panelCenter;
@@ -46,7 +47,7 @@ public class DraftPanel extends JPanel {
 	private BoosterPanel panelOpenedBooster;
 	private JComboBox<MagicEdition> cboEditions;
 	private JButton btnOpen;
-	private JPanel panel;
+	private JPanel panelControl;
 	private HandPanel panelDeck;
 	
 	public DraftPanel() {
@@ -67,28 +68,28 @@ public class DraftPanel extends JPanel {
 			li=new ArrayList<>();
 			MTGLogger.printStackTrace(e1);
 		}
-		panelHaut = new JPanel();
+		panelWest = new JPanel();
 		
-		add(panelHaut, BorderLayout.WEST);
+		add(panelWest, BorderLayout.WEST);
 		table = new JTable(model);
 		table.getColumnModel().getColumn(1).setCellEditor(new IntegerCellEditor());
-		panelHaut.setLayout(new BorderLayout(0, 0));
+		panelWest.setLayout(new BorderLayout(0, 0));
 		
 		scrollWest = new JScrollPane();
-		panelHaut.add(scrollWest, BorderLayout.CENTER);
+		panelWest.add(scrollWest, BorderLayout.CENTER);
 		scrollWest.setViewportView(table);
 		
-		panel = new JPanel();
-		panelHaut.add(panel, BorderLayout.NORTH);
-		panel.setLayout(new BorderLayout(0, 0));
+		panelControl = new JPanel();
+		panelWest.add(panelControl, BorderLayout.NORTH);
+		panelControl.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		cboEditions = new JComboBox<>();
-		panel.add(cboEditions, BorderLayout.CENTER);
+		panelControl.add(cboEditions);
 		cboEditions.setRenderer(new MagicEditionListRenderer());
 		cboEditions.setModel(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
 		
 					
 				btnAddBoosters = new JButton(MTGConstants.ICON_NEW);
-				panel.add(btnAddBoosters, BorderLayout.EAST);
+				panelControl.add(btnAddBoosters);
 				btnAddBoosters.addActionListener(ae->addBooster());
 		
 		panelBottom = new JPanel();
