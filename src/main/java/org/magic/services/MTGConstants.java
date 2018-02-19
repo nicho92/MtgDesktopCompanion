@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
+import java.io.File;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -44,8 +45,7 @@ public class MTGConstants {
 
 	public static final String MTG_TEMPLATES_DIR = "./templates";
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
-	
-	
+		
 	public static final ImageIcon ICON_EXPORT = new ImageIcon(MTGConstants.class.getResource("/icons/export.png"));
 	public static final ImageIcon ICON_SEARCH=new ImageIcon(MTGConstants.class.getResource("/icons/search.png"));
 	public static final ImageIcon ICON_FILTER = new ImageIcon(MTGConstants.class.getResource("/icons/filter.png"));

@@ -45,8 +45,8 @@ import org.magic.gui.components.dialog.CollectionChooserDialog;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.EnumConditionEditor;
-import org.magic.gui.renderer.MagicDeckQtyEditor;
-import org.magic.gui.renderer.MagicEditionEditor;
+import org.magic.gui.renderer.IntegerCellEditor;
+import org.magic.gui.renderer.MagicEditionListEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
@@ -576,9 +576,9 @@ public class StockPanelGUI extends JPanel {
 		
 		table.setDefaultRenderer(Object.class,render);
 		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
-		table.setDefaultEditor(Integer.class, new MagicDeckQtyEditor());
+		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
 		
-		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionEditor());
+		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionListEditor());
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionRenderer());
 		
 		table.packAll();

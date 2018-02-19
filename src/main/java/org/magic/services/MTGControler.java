@@ -24,8 +24,10 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNews.NEWS_TYPE;
+import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -61,6 +63,8 @@ public class MTGControler {
 	private List<MTGPicturesCache> caches;
 	private KeyWordManager keyWordManager;
 	public static final File CONF_DIR = new File(System.getProperty("user.home")+"/.magicDeskCompanion/");
+	public static final File MTG_DECK_DIRECTORY = new File(MTGControler.CONF_DIR, "decks");
+
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
@@ -629,5 +633,15 @@ public class MTGControler {
 				return p;
 		
 		return null;
+	}
+
+	public void saveDeck(MagicDeck deck) throws IOException 
+	{
+		if (!MTG_DECK_DIRECTORY.exists())
+			MTG_DECK_DIRECTORY.mkdir();
+
+		MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
+		serialis.export(deck, new File(MTG_DECK_DIRECTORY,deck.getName() + serialis.getFileExtension()));
+		
 	}
 }

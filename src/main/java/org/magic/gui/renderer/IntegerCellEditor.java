@@ -8,11 +8,11 @@ import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.TableCellEditor;
 
-public class MagicDeckQtyEditor extends AbstractCellEditor implements TableCellEditor{
+public class IntegerCellEditor extends AbstractCellEditor implements TableCellEditor{
 
 	JSpinner spinner;
 
-	public MagicDeckQtyEditor() {
+	public IntegerCellEditor() {
 		spinner = new JSpinner();
 		SpinnerNumberModel model1 = new SpinnerNumberModel();
 		model1.setMinimum(0);

@@ -66,8 +66,7 @@ public class MagicGUI extends JFrame {
 		} 
 		catch(Exception e)
 		{
-			logger.error(e);
-			MTGLogger.printStackTrace(e);
+			logger.error("Error init GUI",e);
 			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 		}
 

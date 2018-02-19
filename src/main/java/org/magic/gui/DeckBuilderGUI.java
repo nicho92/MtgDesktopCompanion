@@ -47,7 +47,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
@@ -64,8 +63,8 @@ import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.components.dialog.ManualImportDialog;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
-import org.magic.gui.renderer.MagicDeckQtyEditor;
-import org.magic.gui.renderer.MagicEditionEditor;
+import org.magic.gui.renderer.IntegerCellEditor;
+import org.magic.gui.renderer.MagicEditionListEditor;
 import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -118,7 +117,7 @@ public class DeckBuilderGUI extends JPanel {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	File deckDirectory = new File(MTGControler.CONF_DIR, "decks");
+	
 	private Player p;
 
 	public void loading(boolean show, String text) {
@@ -268,13 +267,7 @@ public class DeckBuilderGUI extends JPanel {
 				try {
 					String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+" ?", deck.getName());
 					deck.setName(name);
-
-					if (!deckDirectory.exists())
-						deckDirectory.mkdir();
-
-					MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
-					serialis.export(deck, new File(deckDirectory,name + serialis.getFileExtension()));
-
+					MTGControler.getInstance().saveDeck(deck);
 				} catch (Exception ex) {
 					logger.error("error saving",ex);
 					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
@@ -557,13 +550,13 @@ public class DeckBuilderGUI extends JPanel {
 		
 
 		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
-		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionEditor());
+		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
 
 		tableSide.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
-		tableSide.getColumnModel().getColumn(3).setCellEditor(new MagicEditionEditor());
+		tableSide.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
 
-		tableDeck.getColumnModel().getColumn(4).setCellEditor(new MagicDeckQtyEditor());
-		tableSide.getColumnModel().getColumn(4).setCellEditor(new MagicDeckQtyEditor());
+		tableDeck.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
+		tableSide.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
 		
 
 		JPanel panelInfoDeck = new JPanel();

@@ -10,11 +10,11 @@ import javax.swing.JTable;
 
 import org.magic.api.beans.MagicEdition;
 
-public class MagicEditionEditor extends DefaultCellEditor {
+public class MagicEditionListEditor extends DefaultCellEditor {
 
     private DefaultComboBoxModel<MagicEdition> model;
  
-    public MagicEditionEditor() {
+    public MagicEditionListEditor() {
         super(new JComboBox<MagicEdition>());
         model = (DefaultComboBoxModel<MagicEdition>)((JComboBox<MagicEdition>)getComponent()).getModel();
     }

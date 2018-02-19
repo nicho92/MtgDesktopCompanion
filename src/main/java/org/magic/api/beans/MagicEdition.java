@@ -235,7 +235,10 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 
 	 @Override
 	 public int hashCode() {
-	    return set.hashCode();
+		 if(set!=null)
+			 return set.hashCode();
+		 
+		 return -1;
 	 }
 
 	@Override
