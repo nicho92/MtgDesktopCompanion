@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 public class SealedPack {
 
@@ -58,9 +60,27 @@ public class SealedPack {
 
 	public void clear() {
 		pack.clear();
-		
 	}
-
+	
+	public Set<Entry<MagicEdition, Integer>> getEntries()
+	{
+		return pack.entrySet();
+	}
+	
+	
+	public List<MagicEdition> toList()
+	{
+		List<MagicEdition> ret = new ArrayList<>();
+		
+		for(Entry<MagicEdition, Integer> e : pack.entrySet())
+		{
+			for(int i=0;i<e.getValue();i++)
+				ret.add(e.getKey());
+		}
+		return ret;
+	}
+	
+	
 	public int size() {
 		return pack.size();
 	}

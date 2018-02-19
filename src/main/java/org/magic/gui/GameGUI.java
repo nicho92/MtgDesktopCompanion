@@ -13,7 +13,7 @@ public class GameGUI extends JTabbedPane {
 	
 	public GameGUI() {
 		addTab(MTGControler.getInstance().getLangService().getCapitalize("GAME"), GamePanelGUI.getInstance());
-		addTab("Draft", new DraftPanel());
+		addTab("Sealed", new DraftPanel());
 		addTab(MTGControler.getInstance().getLangService().getCapitalize("CHAT_ROOM"), new GamingRoomPanel());
 	}
 }

@@ -1,5 +1,8 @@
 package org.magic.gui.models;
 
+import java.util.List;
+import java.util.Map.Entry;
+
 import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicEdition;
@@ -84,7 +87,7 @@ public class SealedPackTableModel extends DefaultTableModel{
 	
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return true;
+		return column==1;
 	}
 	
 	@Override
