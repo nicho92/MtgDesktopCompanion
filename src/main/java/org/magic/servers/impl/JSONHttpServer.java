@@ -16,7 +16,7 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
-import org.magic.tools.MagicCardComparator;
+import org.magic.sorters.MagicCardComparator;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;

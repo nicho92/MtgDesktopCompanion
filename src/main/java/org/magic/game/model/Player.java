@@ -518,7 +518,7 @@ public class Player extends Observable implements Serializable{
 		setChanged();
 		notifyObservers(new SpeakAction(this, string));
 		GameManager.getInstance().getActualTurn().getActions().add(string);
-		logger.debug(toDetailledString());
+		logger.trace(toDetailledString());
 	}
 	
 	public void logAction(AbstractAction act) {

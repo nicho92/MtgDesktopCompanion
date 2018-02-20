@@ -125,8 +125,7 @@ public class CardTransfertHandler extends TransferHandler  {
 				}
 			return true;
 		} catch (Exception ufe) {
-			MTGLogger.printStackTrace(ufe);
-			logger.error(ufe);
+			logger.error("Error transfert",ufe);
 		} 
 		return false;
 	}

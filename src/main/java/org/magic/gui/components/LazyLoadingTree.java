@@ -21,7 +21,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.tools.MagicCardComparator;
+import org.magic.sorters.MagicCardComparator;
 
 
 

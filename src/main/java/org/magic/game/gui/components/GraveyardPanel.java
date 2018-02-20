@@ -64,8 +64,12 @@ public class GraveyardPanel extends DraggablePanel {
 			card.setBounds(5, 10+nb, card.getWidth(), card.getHeight());
 			nb=nb+30;
 		}
-		getParent().getParent().revalidate();
-		getParent().getParent().repaint();
+		
+		if(getParent()!=null)
+		{ 
+			getParent().getParent().revalidate();
+			getParent().getParent().repaint();
+		}
 	}
 	@Override
 	public String toString() {

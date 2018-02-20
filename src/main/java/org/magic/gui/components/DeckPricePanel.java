@@ -28,7 +28,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.tools.MagicPricesComparator;
+import org.magic.sorters.MagicPricesComparator;
 
 public class DeckPricePanel extends JPanel {
 	

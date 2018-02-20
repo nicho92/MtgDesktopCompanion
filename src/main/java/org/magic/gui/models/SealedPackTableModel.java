@@ -55,7 +55,15 @@ public class SealedPackTableModel extends DefaultTableModel{
 		MagicEdition ed = pack.listEditions().get(row);
 		switch (column) {
 			case 0: pack.set((MagicEdition)aValue, 0);break;
-			case 1: pack.set(ed, Integer.parseInt(aValue.toString()));break;
+			case 1: 
+				if(Integer.parseInt(aValue.toString())>0)
+					pack.set(ed, Integer.parseInt(aValue.toString()));
+					else
+					{
+						pack.remove(ed);
+						fireTableDataChanged();
+					}
+			break;
 		}
 	}
 	

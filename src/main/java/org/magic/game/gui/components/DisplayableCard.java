@@ -80,7 +80,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private transient Image fullResPics;
 	private boolean showLoyalty;
 	private PositionEnum position;
-
+	private boolean rightActions;
 
 	public List<AbstractCounter> getCounters() {
 		return counters;
@@ -232,10 +232,17 @@ public class DisplayableCard extends JLabel implements Draggable {
 		showPT = t;
 	}
 
+	public DisplayableCard(MagicCard mc, Dimension d, boolean activateCards,boolean rightClick) {
+		construct(mc, d, activateCards, rightClick);
+	}
 	
 
 	public DisplayableCard(MagicCard mc, Dimension d, boolean activateCards) {
-	
+		construct(mc, d, activateCards, true);
+	}
+
+	public void construct(MagicCard mc, Dimension d, boolean activateCards, boolean rightClick) {
+		rightActions=rightClick;
 		menu = new JPopupMenu();
 		sep = new JSeparator();
 		attachedCards = new ArrayList<>();
@@ -252,6 +259,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 			MTGLogger.printStackTrace(e1);
 		} 
 		if (activateCards) {
+			
+			
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
@@ -283,12 +292,16 @@ public class DisplayableCard extends JLabel implements Draggable {
 				}
 			});
 		}
+
+		
+		
+		initActions();
+	
 		
 		setTransferHandler(new CardTransfertHandler());
-
-		if (activateCards)
-			initActions();
 	}
+
+
 
 	private void describe() {
 		GamePanelGUI.getInstance().describeCard(this);
@@ -310,86 +323,91 @@ public class DisplayableCard extends JLabel implements Draggable {
 	}
 
 	public void initActions() {
-
-		menu.removeAll();
-
-		menu.add(new JMenuItem(new SelectionActions(this)));
-		menu.add(new JMenuItem(new TapActions(this)));
-
-		if (magicCard.getFullType().toLowerCase().contains("creature")) {
-			JMenu mnuModifier = new JMenu("P/T");
-			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
-			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
-			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, 1)));
-			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, -1)));
-			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 1)));
-			mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, -1)));
-			mnuModifier.add(new FixCreaturePowerActions(this));
-			menu.add(mnuModifier);
-		}
-
-		JMenu mnuCounter = new JMenu("Counter");
-
-		mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Yellow", Color.YELLOW)));
-		mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Green", Color.GREEN)));
-		mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Orange", Color.ORANGE)));
-		menu.add(mnuCounter);
-
-		if (magicCard.getFullType().contains("Planeswalker")) {
-			JMenu mnuModifier = new JMenu("Loyalty");
-
-			for (LoyaltyCounter count : listLoyalty())
-				mnuModifier.add(new LoyaltyActions(this, count));
-			menu.add(mnuModifier);
-		}
-
-		if (magicCard.getSubtypes().contains("Aura") || magicCard.getSubtypes().contains("Equipment")) {
-			menu.add(new JMenuItem(new AttachActions(this)));
-		}
-
-		Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
-		JMenu abilities = new JMenu("Actions");
 		
-		if(magicCard.getLayout().equalsIgnoreCase("aftermath"))
-			l.add(MTGControler.getInstance().getKeyWordManager().generateFromString("Aftermath"));
+		if(rightActions)
+				{
+				
+				
+				menu.removeAll();
 		
+				menu.add(new JMenuItem(new SelectionActions(this)));
+				menu.add(new JMenuItem(new TapActions(this)));
 		
-		if (!l.isEmpty()) {
-			for (final MTGKeyWord k : l) {
-				JMenuItem it;
-				try {
-					it = new JMenuItem(generateActionFrom(k));
-				} catch (Exception e) {
-					it = new JMenuItem(k.getKeyword());
-					it.setToolTipText(k.getDescription());
+				if (magicCard.getFullType().toLowerCase().contains("creature")) {
+					JMenu mnuModifier = new JMenu("P/T");
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, 1)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(0, -1)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 1)));
+					mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, -1)));
+					mnuModifier.add(new FixCreaturePowerActions(this));
+					menu.add(mnuModifier);
 				}
-				abilities.add(it);
-			}
-			menu.add(abilities);
-		}
-
-		if (!counters.isEmpty()) {
-			JMenu mnuModifier = new JMenu("Remove Counter");
-			for (final AbstractCounter count : counters)
-				mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count)));
-
-			menu.add(mnuModifier);
-		}
 		
-		if(magicCard.getText()!=null && magicCard.getText().contains("copy of"))
-			menu.add(new CopyFromActions(this));
-
-		menu.add(sep);		
-		if (GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
-		{
-			menu.add(new JMenuItem(new CreateActions(this)));
-		}
-
-		if (GamePanelGUI.getInstance().getTokenGenerator().isEmblemizer(magicCard))
-			menu.add(new JMenuItem(new EmblemActions(this)));
-
+				JMenu mnuCounter = new JMenu("Counter");
 		
-		setComponentPopupMenu(menu);
+				mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Yellow", Color.YELLOW)));
+				mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Green", Color.GREEN)));
+				mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Orange", Color.ORANGE)));
+				menu.add(mnuCounter);
+		
+				if (magicCard.getFullType().contains("Planeswalker")) {
+					JMenu mnuModifier = new JMenu("Loyalty");
+		
+					for (LoyaltyCounter count : listLoyalty())
+						mnuModifier.add(new LoyaltyActions(this, count));
+					menu.add(mnuModifier);
+				}
+		
+				if (magicCard.getSubtypes().contains("Aura") || magicCard.getSubtypes().contains("Equipment")) {
+					menu.add(new JMenuItem(new AttachActions(this)));
+				}
+		
+				Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
+				JMenu abilities = new JMenu("Actions");
+				
+				if(magicCard.getLayout().equalsIgnoreCase("aftermath"))
+					l.add(MTGControler.getInstance().getKeyWordManager().generateFromString("Aftermath"));
+				
+				
+				if (!l.isEmpty()) {
+					for (final MTGKeyWord k : l) {
+						JMenuItem it;
+						try {
+							it = new JMenuItem(generateActionFrom(k));
+						} catch (Exception e) {
+							it = new JMenuItem(k.getKeyword());
+							it.setToolTipText(k.getDescription());
+						}
+						abilities.add(it);
+					}
+					menu.add(abilities);
+				}
+		
+				if (!counters.isEmpty()) {
+					JMenu mnuModifier = new JMenu("Remove Counter");
+					for (final AbstractCounter count : counters)
+						mnuModifier.add(new JMenuItem(new RemoveCounterActions(this, count)));
+		
+					menu.add(mnuModifier);
+				}
+				
+				if(magicCard.getText()!=null && magicCard.getText().contains("copy of"))
+					menu.add(new CopyFromActions(this));
+		
+				menu.add(sep);		
+				if (GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard))
+				{
+					menu.add(new JMenuItem(new CreateActions(this)));
+				}
+		
+				if (GamePanelGUI.getInstance().getTokenGenerator().isEmblemizer(magicCard))
+					menu.add(new JMenuItem(new EmblemActions(this)));
+		
+				
+				setComponentPopupMenu(menu);
+		}
 
 	}
 
@@ -534,6 +552,13 @@ public class DisplayableCard extends JLabel implements Draggable {
 	public void postTreatment(DisplayableCard c) {
 		((DraggablePanel) getParent()).postTreatment(c);
 
+	}
+
+
+
+	public void enableRightClick(boolean b) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

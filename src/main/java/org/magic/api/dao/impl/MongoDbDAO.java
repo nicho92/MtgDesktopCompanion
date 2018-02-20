@@ -27,8 +27,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.sorters.MagicCardComparator;
 import org.magic.tools.IDGenerator;
-import org.magic.tools.MagicCardComparator;
 
 import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;

@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.sorters;
 
 import java.util.Comparator;
 

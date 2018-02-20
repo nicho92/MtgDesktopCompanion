@@ -5,9 +5,12 @@ import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map.Entry;
 
+import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -30,7 +33,24 @@ import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
+import org.magic.sorters.CmcSorter;
+import org.magic.sorters.ColorSorter;
+import org.magic.sorters.MTGComparator;
+import org.magic.sorters.TypesSorter;
+
 import java.awt.FlowLayout;
+import org.magic.gui.components.charts.CmcChartPanel;
+import org.magic.gui.components.charts.ManaRepartitionPanel;
+import org.magic.gui.components.charts.TypeRepartitionPanel;
+import java.awt.GridLayout;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
+import javax.swing.JCheckBox;
+import javax.swing.JRadioButton;
+import java.awt.GridBagConstraints;
+import java.awt.Insets;
+import java.awt.CardLayout;
 
 public class DraftPanel extends JPanel {
 	
@@ -40,7 +60,7 @@ public class DraftPanel extends JPanel {
 	private JSplitPane panelCenter;
 	
 	private JButton btnAddBoosters;
-	private JScrollPane scrollWest;
+	private JScrollPane scrollTablePack;
 	private JScrollPane scrollBooster;
 	private JTable table;
 	private SealedPackTableModel model;
@@ -49,6 +69,16 @@ public class DraftPanel extends JPanel {
 	private JButton btnOpen;
 	private JPanel panelControl;
 	private HandPanel panelDeck;
+	private JPanel panelAnalyse;
+	private CmcChartPanel cmcChartPanel;
+	private ManaRepartitionPanel manaRepartitionPanel;
+	private TypeRepartitionPanel typeRepartitionPanel;
+	private JPanel panelSorters;
+	private JRadioButton rdioCmcSortButton;
+	private JRadioButton rdiocolorSort;
+	private JRadioButton rdiotypeSort;
+	private JPanel panel;
+	private List<MagicCard> list;
 	
 	public DraftPanel() {
 		initGUI();
@@ -69,39 +99,104 @@ public class DraftPanel extends JPanel {
 			MTGLogger.printStackTrace(e1);
 		}
 		panelWest = new JPanel();
+		panelWest.setPreferredSize(new Dimension(300, 10));
 		
 		add(panelWest, BorderLayout.WEST);
-		table = new JTable(model);
-		table.getColumnModel().getColumn(1).setCellEditor(new IntegerCellEditor());
 		panelWest.setLayout(new BorderLayout(0, 0));
-		
-		scrollWest = new JScrollPane();
-		panelWest.add(scrollWest, BorderLayout.CENTER);
-		scrollWest.setViewportView(table);
 		
 		panelControl = new JPanel();
 		panelWest.add(panelControl, BorderLayout.NORTH);
-		panelControl.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-		cboEditions = new JComboBox<>();
-		panelControl.add(cboEditions);
-		cboEditions.setRenderer(new MagicEditionListRenderer());
-		cboEditions.setModel(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
-		
-					
-				btnAddBoosters = new JButton(MTGConstants.ICON_NEW);
-				panelControl.add(btnAddBoosters);
-				btnAddBoosters.addActionListener(ae->addBooster());
+				table = new JTable(model);
+				table.getColumnModel().getColumn(1).setCellEditor(new IntegerCellEditor());
+				panelControl.setLayout(new BorderLayout(0, 0));
+				
+				panel = new JPanel();
+				panelControl.add(panel, BorderLayout.NORTH);
+				GridBagLayout gbl_panel = new GridBagLayout();
+				gbl_panel.columnWidths = new int[]{105, 65, 0};
+				gbl_panel.rowHeights = new int[]{41, 0, 0};
+				gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+				gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+				panel.setLayout(gbl_panel);
+						cboEditions = new JComboBox<>();
+						GridBagConstraints gbc_cboEditions = new GridBagConstraints();
+						gbc_cboEditions.fill = GridBagConstraints.HORIZONTAL;
+						gbc_cboEditions.gridwidth = 2;
+						gbc_cboEditions.insets = new Insets(0, 0, 5, 0);
+						gbc_cboEditions.gridx = 0;
+						gbc_cboEditions.gridy = 0;
+						panel.add(cboEditions, gbc_cboEditions);
+						cboEditions.setRenderer(new MagicEditionListRenderer());
+						cboEditions.setModel(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
+						
+									
+								btnAddBoosters = new JButton(MTGConstants.ICON_NEW);
+								GridBagConstraints gbc_btnAddBoosters = new GridBagConstraints();
+								gbc_btnAddBoosters.anchor = GridBagConstraints.NORTH;
+								gbc_btnAddBoosters.insets = new Insets(0, 0, 0, 5);
+								gbc_btnAddBoosters.gridx = 0;
+								gbc_btnAddBoosters.gridy = 1;
+								panel.add(btnAddBoosters, gbc_btnAddBoosters);
+								
+								btnOpen = new JButton(MTGConstants.ICON_OPEN);
+								GridBagConstraints gbc_btnOpen = new GridBagConstraints();
+								gbc_btnOpen.anchor = GridBagConstraints.NORTH;
+								gbc_btnOpen.gridx = 1;
+								gbc_btnOpen.gridy = 1;
+								panel.add(btnOpen, gbc_btnOpen);
+								btnOpen.setEnabled(false);
+								btnOpen.addActionListener(ae->open());
+								btnAddBoosters.addActionListener(ae->addBooster());
+				
+				scrollTablePack = new JScrollPane();
+				scrollTablePack.setPreferredSize(new Dimension(2, 100));
+				panelControl.add(scrollTablePack);
+				scrollTablePack.setViewportView(table);
+				
+				panelAnalyse = new JPanel();
+				panelWest.add(panelAnalyse, BorderLayout.CENTER);
+				panelAnalyse.setLayout(new GridLayout(4, 1, 0, 0));
+				
+				panelSorters = new JPanel();
+				panelAnalyse.add(panelSorters);
+				panelSorters.setLayout(new GridLayout(0, 1, 0, 0));
+				
+				rdioCmcSortButton = new JRadioButton("Sort by CMC");
+				rdioCmcSortButton.addActionListener(ae->sort(new CmcSorter()));
+				
+				panelSorters.add(rdioCmcSortButton);
+				
+				rdiocolorSort = new JRadioButton("Sort by Color");
+				rdiocolorSort.addActionListener(ae->sort(new ColorSorter()));
+				
+				panelSorters.add(rdiocolorSort);
+				
+				rdiotypeSort = new JRadioButton("Sort by Type");
+				rdiotypeSort.addActionListener(ae->sort(new TypesSorter()));
+				
+				panelSorters.add(rdiotypeSort);
+				
+				
+				 ButtonGroup group = new ButtonGroup();
+				    group.add(rdioCmcSortButton);
+				    group.add(rdiocolorSort);
+				    group.add(rdiotypeSort);
+				
+				
+				cmcChartPanel = new CmcChartPanel();
+				panelAnalyse.add(cmcChartPanel);
+				
+				manaRepartitionPanel = new ManaRepartitionPanel();
+				panelAnalyse.add(manaRepartitionPanel);
+				
+				typeRepartitionPanel = new TypeRepartitionPanel();
+				panelAnalyse.add(typeRepartitionPanel);
 		
 		panelBottom = new JPanel();
 		add(panelBottom, BorderLayout.SOUTH);
 		
 		btnSaveDeck = new JButton(MTGConstants.ICON_SAVE);
 		btnSaveDeck.addActionListener(e->save());
-		
-		btnOpen = new JButton(MTGConstants.ICON_OPEN);
-		btnOpen.setEnabled(false);
-		panelBottom.add(btnOpen);
-		btnOpen.addActionListener(ae->open());
 		panelBottom.add(btnSaveDeck);
 		panelCenter=new JSplitPane();
 		panelCenter.setResizeWeight(0.5);
@@ -127,27 +222,66 @@ public class DraftPanel extends JPanel {
 
 	protected void open() 
 	{
-		for(Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries())
-		{
-			try {
-				for(int i=0;i<ed.getValue();i++)
-				{ 
-					Booster b = MTGControler.getInstance().getEnabledProviders().generateBooster(ed.getKey());
-					for(MagicCard mc : b.getCards())
-					{
-						DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true);
-						panelOpenedBooster.addComponent(c);
-					}
-				}	
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+		panelOpenedBooster.clear();
+		ThreadManager.getInstance().execute(new Runnable() {
 			
+			@Override
+			public void run() {
+				int column=0;
+				list = new ArrayList<>();
+				for(Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries())
+				{
+				
+					try {
+						for(int i=0;i<ed.getValue();i++)
+						{ 
+							
+							Booster b = MTGControler.getInstance().getEnabledProviders().generateBooster(ed.getKey());
+							column++;
+							for(MagicCard mc : b.getCards())
+							{
+								list.add(mc);
+								DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true,false);
+								panelOpenedBooster.addComponent(c,column);
+							}
+							
+						}	
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
+				}
+				
+				
+				
+				refreshStats(list);
+				
+			}
+		});
+		
+		
+	}
+	
+
+	public void sort(MTGComparator<MagicCard> sorter)
+	{
+		Collections.sort(list,sorter);
+		panelOpenedBooster.clear();
+		for(MagicCard mc : list)
+		{
+			DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true,false);
+			panelOpenedBooster.addComponent(c,sorter.getWeight(mc));
 		}
 		
 	}
 	
+	
+	private void refreshStats(List<MagicCard> list) 
+	{
+		cmcChartPanel.init(list);
+		typeRepartitionPanel.init(list);
+		manaRepartitionPanel.init(list);
+	}
 
 	protected void save() {
 		// TODO Auto-generated method stub
