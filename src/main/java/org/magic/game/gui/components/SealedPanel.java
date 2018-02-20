@@ -48,6 +48,7 @@ import org.magic.sorters.ColorSorter;
 import org.magic.sorters.MTGComparator;
 import org.magic.sorters.TypesSorter;
 import javax.swing.JCheckBox;
+import javax.swing.JLabel;
 
 public class SealedPanel extends JPanel {
 	
@@ -76,6 +77,8 @@ public class SealedPanel extends JPanel {
 	private JPanel panel;
 	private List<MagicCard> list;
 	private MagicDeck deck;
+	private JPanel panelEast;
+	private JLabel lblNewLabel;
 	public SealedPanel() {
 		initGUI();
 	}
@@ -206,6 +209,11 @@ public class SealedPanel extends JPanel {
 		      }
 		    });
 		add(panelCenter, BorderLayout.CENTER);
+		
+		panelEast = new JPanel();
+		add(panelEast, BorderLayout.EAST);
+		panelEast.setLayout(new BorderLayout(0, 0));
+		
 		panelDeck = new GraveyardPanel() {
 			@Override
 			public PositionEnum getOrigine() {
@@ -229,9 +237,10 @@ public class SealedPanel extends JPanel {
 			}
 			
 		};
+		panelEast.add(panelDeck);
 		panelDeck.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth()+5, (int) (MTGControler.getInstance().getCardsDimension().getHeight()*30)));
 		
-		add(panelDeck, BorderLayout.EAST);
+		panelEast.add(new JLabel("Drop your cards here"), BorderLayout.NORTH);
 		
 		
 	}
