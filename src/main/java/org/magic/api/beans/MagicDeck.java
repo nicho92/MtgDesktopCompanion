@@ -117,6 +117,14 @@ public class MagicDeck implements Serializable{
 		averagePrice=0;
 	}
 	
+	public void remove(MagicCard mc) {
+		if(mapDeck.get(mc)==0)
+			mapDeck.remove(mc);
+		else
+			mapDeck.put(mc, mapDeck.get(mc)-1);
+		
+	}
+	
 	public void add(MagicCard mc)
 	{
 		if(mapDeck.get(mc)==null)
@@ -186,6 +194,8 @@ public class MagicDeck implements Serializable{
 		this.name=name;
 		
 	}
+
+	
 	
 	
 }

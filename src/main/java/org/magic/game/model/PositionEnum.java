@@ -2,5 +2,5 @@ package org.magic.game.model;
 
 public enum PositionEnum {
 	
-	HAND,LIBRARY,GRAVEYARD,EXIL, BATTLEFIELD;
+	HAND,LIBRARY,GRAVEYARD,EXIL, BATTLEFIELD, DECK,BOOSTER;
 }

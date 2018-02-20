@@ -40,10 +40,16 @@ public class BoosterPanel extends JPanel {
 		if(lastColumn<column)
 		{
 			p = new GraveyardPanel() {
+				
+				@Override
+				public PositionEnum getOrigine() {
+					return PositionEnum.BOOSTER;
+				}
+				
 				@Override
 				public void moveCard(DisplayableCard mc, PositionEnum to) {
 					
-					if(to==PositionEnum.HAND)
+					if(to==PositionEnum.DECK)
 						list.remove(mc.getMagicCard());
 				}
 			};

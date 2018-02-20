@@ -1,12 +1,17 @@
 package org.magic.game.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Dimension;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 import java.util.Map.Entry;
 
@@ -15,7 +20,9 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
@@ -26,6 +33,9 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.game.model.PositionEnum;
+import org.magic.gui.components.charts.CmcChartPanel;
+import org.magic.gui.components.charts.ManaRepartitionPanel;
+import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.SealedPackTableModel;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicEditionListRenderer;
@@ -37,24 +47,11 @@ import org.magic.sorters.CmcSorter;
 import org.magic.sorters.ColorSorter;
 import org.magic.sorters.MTGComparator;
 import org.magic.sorters.TypesSorter;
-
-import java.awt.FlowLayout;
-import org.magic.gui.components.charts.CmcChartPanel;
-import org.magic.gui.components.charts.ManaRepartitionPanel;
-import org.magic.gui.components.charts.TypeRepartitionPanel;
-import java.awt.GridLayout;
-import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import javax.swing.JCheckBox;
-import javax.swing.JRadioButton;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
-import java.awt.CardLayout;
 
 public class SealedPanel extends JPanel {
 	
 	private JPanel panelWest;
-	private JPanel panelBottom;
 	private JButton btnSaveDeck;
 	private JSplitPane panelCenter;
 	
@@ -67,7 +64,7 @@ public class SealedPanel extends JPanel {
 	private JComboBox<MagicEdition> cboEditions;
 	private JButton btnOpen;
 	private JPanel panelControl;
-	private HandPanel panelDeck;
+	private GraveyardPanel panelDeck;
 	private JPanel panelAnalyse;
 	private CmcChartPanel cmcChartPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
@@ -84,23 +81,8 @@ public class SealedPanel extends JPanel {
 	}
 	
 	private void initGUI() {
-		deck = new MagicDeck();
 		setLayout(new BorderLayout(0, 0));
 		panelOpenedBooster=new BoosterPanel();
-		panelDeck = new HandPanel() {
-			@Override
-			public void moveCard(DisplayableCard mc, PositionEnum to) {
-				
-			}
-			
-			@Override
-			public void addComponent(DisplayableCard i) {
-				super.addComponent(i);
-				deck.add(i.getMagicCard());
-				System.out.println(deck);
-			}
-			
-		};
 		scrollBooster=new JScrollPane();
 		model = new SealedPackTableModel();
 		
@@ -126,16 +108,16 @@ public class SealedPanel extends JPanel {
 				panel = new JPanel();
 				panelControl.add(panel, BorderLayout.NORTH);
 				GridBagLayout gbl_panel = new GridBagLayout();
-				gbl_panel.columnWidths = new int[]{105, 65, 0};
+				gbl_panel.columnWidths = new int[]{105, 65, 0, 0};
 				gbl_panel.rowHeights = new int[]{41, 0, 0};
-				gbl_panel.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+				gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
 				gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 				panel.setLayout(gbl_panel);
 						cboEditions = new JComboBox<>();
 						GridBagConstraints gbc_cboEditions = new GridBagConstraints();
 						gbc_cboEditions.fill = GridBagConstraints.HORIZONTAL;
-						gbc_cboEditions.gridwidth = 2;
-						gbc_cboEditions.insets = new Insets(0, 0, 5, 0);
+						gbc_cboEditions.gridwidth = 3;
+						gbc_cboEditions.insets = new Insets(0, 0, 5, 5);
 						gbc_cboEditions.gridx = 0;
 						gbc_cboEditions.gridy = 0;
 						panel.add(cboEditions, gbc_cboEditions);
@@ -153,11 +135,19 @@ public class SealedPanel extends JPanel {
 								
 								btnOpen = new JButton(MTGConstants.ICON_OPEN);
 								GridBagConstraints gbc_btnOpen = new GridBagConstraints();
+								gbc_btnOpen.insets = new Insets(0, 0, 0, 5);
 								gbc_btnOpen.anchor = GridBagConstraints.NORTH;
 								gbc_btnOpen.gridx = 1;
 								gbc_btnOpen.gridy = 1;
 								panel.add(btnOpen, gbc_btnOpen);
 								btnOpen.setEnabled(false);
+								
+								btnSaveDeck = new JButton(MTGConstants.ICON_SAVE);
+								GridBagConstraints gbc_btnSaveDeck = new GridBagConstraints();
+								gbc_btnSaveDeck.gridx = 2;
+								gbc_btnSaveDeck.gridy = 1;
+								panel.add(btnSaveDeck, gbc_btnSaveDeck);
+								btnSaveDeck.addActionListener(e->save());
 								btnOpen.addActionListener(ae->open());
 								btnAddBoosters.addActionListener(ae->addBooster());
 				
@@ -204,18 +194,10 @@ public class SealedPanel extends JPanel {
 				
 				typeRepartitionPanel = new TypeRepartitionPanel();
 				panelAnalyse.add(typeRepartitionPanel);
-		
-		panelBottom = new JPanel();
-		add(panelBottom, BorderLayout.SOUTH);
-		
-		btnSaveDeck = new JButton(MTGConstants.ICON_SAVE);
-		btnSaveDeck.addActionListener(e->save());
-		panelBottom.add(btnSaveDeck);
 		panelCenter=new JSplitPane();
 		panelCenter.setResizeWeight(0.5);
 		panelCenter.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panelCenter.setLeftComponent(panelOpenedBooster);
-		panelCenter.setRightComponent(panelDeck);
 		panelCenter.addComponentListener(new ComponentAdapter() {
 		      @Override
 		      public void componentShown(ComponentEvent componentEvent) {
@@ -224,6 +206,32 @@ public class SealedPanel extends JPanel {
 		      }
 		    });
 		add(panelCenter, BorderLayout.CENTER);
+		panelDeck = new GraveyardPanel() {
+			@Override
+			public PositionEnum getOrigine() {
+				return PositionEnum.DECK;
+				
+			};
+			
+			@Override
+			public void moveCard(DisplayableCard mc, PositionEnum to) {
+				if(to==PositionEnum.BOOSTER)
+				{
+					deck.remove(mc.getMagicCard());
+					list.add(mc.getMagicCard());
+				}
+			}
+			
+			@Override
+			public void addComponent(DisplayableCard i) {
+				super.addComponent(i);
+				deck.add(i.getMagicCard());
+			}
+			
+		};
+		panelDeck.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth()+5, (int) (MTGControler.getInstance().getCardsDimension().getHeight()*30)));
+		
+		add(panelDeck, BorderLayout.EAST);
 		
 		
 	}
@@ -235,6 +243,12 @@ public class SealedPanel extends JPanel {
 
 	protected void open() 
 	{
+		deck = new MagicDeck();
+		deck.setDateCreation(new Date());
+		deck.setDescription("Sealed from " + model.getSealedPack());
+		deck.setName("sealed from "+model.getSealedPack().toList().size() +" boosters");
+		
+		
 		panelOpenedBooster.clear();
 		panelDeck.removeAll();
 		panelDeck.revalidate();
@@ -268,6 +282,8 @@ public class SealedPanel extends JPanel {
 					
 				}
 				panelOpenedBooster.setList(list);
+				
+				
 				refreshStats(list);
 				
 			}
@@ -298,8 +314,12 @@ public class SealedPanel extends JPanel {
 	}
 
 	protected void save() {
-		// TODO Auto-generated method stub
 		
+		try {
+			MTGControler.getInstance().saveDeck(deck);
+		} catch (IOException ex) {
+			JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	

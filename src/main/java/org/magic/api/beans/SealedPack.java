@@ -80,6 +80,14 @@ public class SealedPack {
 		return ret;
 	}
 	
+	@Override
+	public String toString() {
+		StringBuilder temp = new StringBuilder();
+		for(Entry<MagicEdition, Integer> e : pack.entrySet())
+			temp.append(e.getKey()).append("(").append(e.getValue()).append(")");
+		
+		return temp.toString();
+	}
 	
 	public int size() {
 		return pack.size();
