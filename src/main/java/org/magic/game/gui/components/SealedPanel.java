@@ -1,4 +1,4 @@
-package org.magic.gui.components;
+package org.magic.game.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.event.ComponentAdapter;
@@ -24,9 +24,6 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
-import org.magic.game.gui.components.BoosterPanel;
-import org.magic.game.gui.components.DisplayableCard;
-import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.models.SealedPackTableModel;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicEditionListRenderer;
@@ -52,7 +49,7 @@ import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import java.awt.CardLayout;
 
-public class DraftPanel extends JPanel {
+public class SealedPanel extends JPanel {
 	
 	private JPanel panelWest;
 	private JPanel panelBottom;
@@ -80,7 +77,7 @@ public class DraftPanel extends JPanel {
 	private JPanel panel;
 	private List<MagicCard> list;
 	
-	public DraftPanel() {
+	public SealedPanel() {
 		initGUI();
 	}
 	
@@ -296,7 +293,7 @@ public class DraftPanel extends JPanel {
 		JFrame f = new JFrame();
 			   f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 			   f.getContentPane().setLayout(new BorderLayout());
-			   f.getContentPane().add(new DraftPanel(),BorderLayout.CENTER);
+			   f.getContentPane().add(new SealedPanel(),BorderLayout.CENTER);
 			   f.pack();
 			   f.setVisible(true);
 		
