@@ -2,18 +2,22 @@ package org.magic.game.gui.components;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.util.List;
 
 import javax.swing.JPanel;
 
+import org.magic.api.beans.MagicCard;
+import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
 import org.magic.services.MTGControler;
 
 
 
-public class BoosterPanel extends DraggablePanel {
+public class BoosterPanel extends JPanel {
 
 	int lastColumn=-1;
+	private List<MagicCard> list;
 	
 	public void clear()
 	{
@@ -35,7 +39,14 @@ public class BoosterPanel extends DraggablePanel {
 		GraveyardPanel p;
 		if(lastColumn<column)
 		{
-			p = new GraveyardPanel();
+			p = new GraveyardPanel() {
+				@Override
+				public void moveCard(DisplayableCard mc, PositionEnum to) {
+					
+					if(to==PositionEnum.HAND)
+						list.remove(mc.getMagicCard());
+				}
+			};
 			add(p);
 			lastColumn=column;
 		}
@@ -43,7 +54,7 @@ public class BoosterPanel extends DraggablePanel {
 		{
 			p = getColumnAt(lastColumn);
 		}
-		p.setPlayer(new Player());
+		p.setPlayer(GameManager.getInstance().getCurrentPlayer());
 		p.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth()+5, (int) (MTGControler.getInstance().getCardsDimension().getHeight()*30)));
 		p.addComponent(i);
 		p.postTreatment(i);
@@ -63,31 +74,8 @@ public class BoosterPanel extends DraggablePanel {
 	}
 
 
-	@Override
-	public void moveCard(DisplayableCard mc, PositionEnum to) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public void addComponent(DisplayableCard i) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-	@Override
-	public PositionEnum getOrigine() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void postTreatment(DisplayableCard c) {
-		// TODO Auto-generated method stub
-		
+	public void setList(List<MagicCard> list) {
+		this.list = list;
 	}
 	
 

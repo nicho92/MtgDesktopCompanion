@@ -1,7 +1,5 @@
 package org.magic.sorters;
 
-import java.util.Comparator;
-
 import org.magic.api.beans.MagicCard;
 
 public class TypesSorter implements MTGComparator<MagicCard> {

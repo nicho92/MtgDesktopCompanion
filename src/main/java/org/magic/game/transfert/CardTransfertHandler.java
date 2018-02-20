@@ -140,7 +140,8 @@ public class CardTransfertHandler extends TransferHandler  {
 			if(c.getParent() instanceof DraggablePanel)
 			{	
 				DraggablePanel dest = ((DraggablePanel)c.getParent());
-				src.setLocation(dest.getMousePosition());
+				if(dest.getMousePosition()!=null)
+					src.setLocation(dest.getMousePosition());
 				dest.postTreatment(src);
 			}
 		}

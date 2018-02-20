@@ -22,8 +22,10 @@ import javax.swing.JTable;
 
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
+import org.magic.game.model.PositionEnum;
 import org.magic.gui.models.SealedPackTableModel;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicEditionListRenderer;
@@ -76,15 +78,29 @@ public class SealedPanel extends JPanel {
 	private JRadioButton rdiotypeSort;
 	private JPanel panel;
 	private List<MagicCard> list;
-	
+	private MagicDeck deck;
 	public SealedPanel() {
 		initGUI();
 	}
 	
 	private void initGUI() {
+		deck = new MagicDeck();
 		setLayout(new BorderLayout(0, 0));
 		panelOpenedBooster=new BoosterPanel();
-		panelDeck = new HandPanel();
+		panelDeck = new HandPanel() {
+			@Override
+			public void moveCard(DisplayableCard mc, PositionEnum to) {
+				
+			}
+			
+			@Override
+			public void addComponent(DisplayableCard i) {
+				super.addComponent(i);
+				deck.add(i.getMagicCard());
+				System.out.println(deck);
+			}
+			
+		};
 		scrollBooster=new JScrollPane();
 		model = new SealedPackTableModel();
 		
@@ -220,6 +236,9 @@ public class SealedPanel extends JPanel {
 	protected void open() 
 	{
 		panelOpenedBooster.clear();
+		panelDeck.removeAll();
+		panelDeck.revalidate();
+		panelDeck.repaint();
 		ThreadManager.getInstance().execute(new Runnable() {
 			
 			@Override
@@ -248,9 +267,7 @@ public class SealedPanel extends JPanel {
 					}
 					
 				}
-				
-				
-				
+				panelOpenedBooster.setList(list);
 				refreshStats(list);
 				
 			}

@@ -33,7 +33,16 @@ public class GameManager {
 	
 	public Player getCurrentPlayer()
 	{
-		return players.get(0);
+		if(players.isEmpty())
+		{
+			players.add(new Player());
+		}
+			
+			
+			return players.get(0);
+		
+		
+		
 	}
 	
 	public void endTurn(Player p)
