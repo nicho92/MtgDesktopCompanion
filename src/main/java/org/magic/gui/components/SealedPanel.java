@@ -1,7 +1,8 @@
-package org.magic.game.gui.components;
+package org.magic.gui.components;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -19,7 +20,6 @@ import javax.swing.ButtonGroup;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,14 +27,16 @@ import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.main.MtgDesktopCompanion;
+import org.magic.game.gui.components.BoosterPanel;
+import org.magic.game.gui.components.DisplayableCard;
+import org.magic.game.gui.components.GraveyardPanel;
 import org.magic.game.model.PositionEnum;
-import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
@@ -49,17 +51,13 @@ import org.magic.sorters.CmcSorter;
 import org.magic.sorters.ColorSorter;
 import org.magic.sorters.MTGComparator;
 import org.magic.sorters.TypesSorter;
-import java.awt.FlowLayout;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
 
 public class SealedPanel extends JPanel {
 	
 	private JPanel panelWest;
 	private JButton btnSaveDeck;
 	private JSplitPane panelCenter;
-	
+	private JLabel lblLoading;
 	private JButton btnAddBoosters;
 	private JScrollPane scrollTablePack;
 	private JTable table;
@@ -124,16 +122,16 @@ public class SealedPanel extends JPanel {
 				panel = new JPanel();
 				panelControl.add(panel, BorderLayout.NORTH);
 				GridBagLayout gbl_panel = new GridBagLayout();
-				gbl_panel.columnWidths = new int[]{105, 65, 0, 0};
+				gbl_panel.columnWidths = new int[]{105, 65, 0, 0, 0};
 				gbl_panel.rowHeights = new int[]{41, 0, 0};
-				gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+				gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
 				gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 				panel.setLayout(gbl_panel);
 						cboEditions = new JComboBox<>();
 						GridBagConstraints gbc_cboEditions = new GridBagConstraints();
 						gbc_cboEditions.fill = GridBagConstraints.HORIZONTAL;
-						gbc_cboEditions.gridwidth = 3;
-						gbc_cboEditions.insets = new Insets(0, 0, 5, 5);
+						gbc_cboEditions.gridwidth = 4;
+						gbc_cboEditions.insets = new Insets(0, 0, 5, 0);
 						gbc_cboEditions.gridx = 0;
 						gbc_cboEditions.gridy = 0;
 						panel.add(cboEditions, gbc_cboEditions);
@@ -160,9 +158,17 @@ public class SealedPanel extends JPanel {
 								
 								btnSaveDeck = new JButton(MTGConstants.ICON_SAVE);
 								GridBagConstraints gbc_btnSaveDeck = new GridBagConstraints();
+								gbc_btnSaveDeck.insets = new Insets(0, 0, 0, 5);
 								gbc_btnSaveDeck.gridx = 2;
 								gbc_btnSaveDeck.gridy = 1;
 								panel.add(btnSaveDeck, gbc_btnSaveDeck);
+								
+								lblLoading = new JLabel(MTGConstants.ICON_LOADING);
+								lblLoading.setVisible(false);
+								GridBagConstraints gbc_lblLoading = new GridBagConstraints();
+								gbc_lblLoading.gridx = 3;
+								gbc_lblLoading.gridy = 1;
+								panel.add(lblLoading, gbc_lblLoading);
 								btnSaveDeck.addActionListener(e->save());
 								btnOpen.addActionListener(ae->open());
 								btnAddBoosters.addActionListener(ae->addBooster());
@@ -180,17 +186,17 @@ public class SealedPanel extends JPanel {
 				panelAnalyse.add(panelSorters);
 				panelSorters.setLayout(new GridLayout(0, 1, 0, 0));
 				
-				rdioCmcSortButton = new JRadioButton("Sort by CMC");
+				rdioCmcSortButton = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize("SORT_BY","cmc"));
 				rdioCmcSortButton.addActionListener(ae->sort(new CmcSorter()));
 				
 				panelSorters.add(rdioCmcSortButton);
 				
-				rdiocolorSort = new JRadioButton("Sort by Color");
+				rdiocolorSort = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize("SORT_BY","color"));
 				rdiocolorSort.addActionListener(ae->sort(new ColorSorter()));
 				
 				panelSorters.add(rdiocolorSort);
 				
-				rdiotypeSort = new JRadioButton("Sort by Type");
+				rdiotypeSort = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize("SORT_BY","type"));
 				rdiotypeSort.addActionListener(ae->sort(new TypesSorter()));
 				
 				panelSorters.add(rdiotypeSort);
@@ -276,7 +282,7 @@ public class SealedPanel extends JPanel {
 		panelEast.add(panelDeck);
 		panelDeck.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth()+5, (int) (MTGControler.getInstance().getCardsDimension().getHeight()*30)));
 		
-		panelEast.add(new JLabel("Drop your cards here"), BorderLayout.NORTH);
+		panelEast.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DROP_HERE")), BorderLayout.NORTH);
 		
 		panelLands = new JPanel();
 		panelEast.add(panelLands, BorderLayout.SOUTH);
@@ -348,6 +354,7 @@ public class SealedPanel extends JPanel {
 			public void run() {
 				int column=0;
 				list = new ArrayList<>();
+				lblLoading.setVisible(true);
 				for(Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries())
 				{
 				
@@ -367,12 +374,14 @@ public class SealedPanel extends JPanel {
 							
 						}	
 					} catch (IOException e) {
-						e.printStackTrace();
+						MTGLogger.printStackTrace(e);
+						lblLoading.setVisible(false);
 					}
 					
 				}
 				panelOpenedBooster.setList(list);
 				refreshStats();
+				lblLoading.setVisible(false);
 			}
 		});
 	}
@@ -418,26 +427,11 @@ public class SealedPanel extends JPanel {
 	protected void save() {
 		
 		try {
-			String name=JOptionPane.showInputDialog("Deck Name ?",deck.getName());
+			String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+" ?", deck.getName());
 			deck.setName(name);
 			MTGControler.getInstance().saveDeck(deck);
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
 		}
-	}
-	
-	
-	public static void main(String[] args) {
-		
-		MTGControler.getInstance().getEnabledProviders().init();
-		
-		JFrame f = new JFrame();
-			   f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			   f.getContentPane().setLayout(new BorderLayout());
-			   f.getContentPane().add(new SealedPanel(),BorderLayout.CENTER);
-			   f.pack();
-			   f.setVisible(true);
-		
-		
 	}
 }
