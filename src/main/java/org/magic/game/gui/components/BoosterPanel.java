@@ -10,6 +10,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
+import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.services.MTGControler;
 
 
@@ -18,7 +19,6 @@ public class BoosterPanel extends JPanel {
 
 	int lastColumn=-1;
 	private List<MagicCard> list;
-	
 	public void clear()
 	{
 		lastColumn=-1;
@@ -61,7 +61,7 @@ public class BoosterPanel extends JPanel {
 			p = getColumnAt(lastColumn);
 		}
 		p.setPlayer(GameManager.getInstance().getCurrentPlayer());
-	//	p.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth()+5, (int) (MTGControler.getInstance().getCardsDimension().getHeight()*30)));
+		p.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth()+5, (int) (MTGControler.getInstance().getCardsDimension().getHeight()*30)));
 		p.addComponent(i);
 		p.postTreatment(i);
 		

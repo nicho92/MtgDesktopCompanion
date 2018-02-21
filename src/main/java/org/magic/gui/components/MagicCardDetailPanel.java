@@ -36,8 +36,10 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
-public class MagicCardDetailPanel extends JPanel {
+public class MagicCardDetailPanel extends JPanel implements Observer {
 
 	private transient BindingGroup mBindingGroup;
 	private MagicCard magicCard;
@@ -72,6 +74,7 @@ public class MagicCardDetailPanel extends JPanel {
 	private GridBagLayout gridBagLayout ;
 	private JButton btnAlert;
 	private JCheckBox chckbxReserved;
+	private boolean enableCollectionLookup=true;
 	
 	public void setEditable(boolean b)
 	{
@@ -546,7 +549,7 @@ public class MagicCardDetailPanel extends JPanel {
 				},"loadLogo");
 			}
 		
-		if(magicCard!=null)
+		if(magicCard!=null && enableCollectionLookup)
 			ThreadManager.getInstance().execute(()->{
 					try{
 						((DefaultListModel)listCollection.getModel()).removeAllElements();
@@ -559,7 +562,7 @@ public class MagicCardDetailPanel extends JPanel {
 					}
 			},"loadCollections");
 	
-		if(magicCard!=null)
+		if(magicCard!=null && enableCollectionLookup)
 				ThreadManager.getInstance().execute(()->{
 					if(MTGControler.getInstance().getEnabledDAO().hasAlert(magicCard))
 					{
@@ -611,6 +614,17 @@ public class MagicCardDetailPanel extends JPanel {
 		}
 		lblThumbnail.setIcon(icon);
 		repaint();
+	}
+
+	@Override
+	public void update(Observable o, Object ob) {
+		setMagicCard((MagicCard)ob);
+		
+	}
+
+	public void enableCollectionLookup(boolean b) {
+		enableCollectionLookup=b;
+		
 	}
 	
 	

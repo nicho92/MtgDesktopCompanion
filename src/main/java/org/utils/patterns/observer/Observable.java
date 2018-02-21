@@ -33,12 +33,12 @@ public class Observable {
     }
 
  
-    protected synchronized void setChanged() {
+    public synchronized void setChanged() {
         changed = true;
     }
 
     
-    protected synchronized void clearChanged() {
+    public synchronized void clearChanged() {
         changed = false;
     }
 

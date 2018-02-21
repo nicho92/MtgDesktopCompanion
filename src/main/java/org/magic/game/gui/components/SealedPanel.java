@@ -20,6 +20,7 @@ import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JRadioButton;
@@ -31,8 +32,8 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.game.model.PositionEnum;
+import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
@@ -47,8 +48,6 @@ import org.magic.sorters.CmcSorter;
 import org.magic.sorters.ColorSorter;
 import org.magic.sorters.MTGComparator;
 import org.magic.sorters.TypesSorter;
-import javax.swing.JCheckBox;
-import javax.swing.JLabel;
 
 public class SealedPanel extends JPanel {
 	
@@ -79,6 +78,9 @@ public class SealedPanel extends JPanel {
 	private MagicDeck deck;
 	private JPanel panelEast;
 	private JLabel lblNewLabel;
+	private MagicCardDetailPanel panelDetail;
+
+	
 	public SealedPanel() {
 		initGUI();
 	}
@@ -88,6 +90,9 @@ public class SealedPanel extends JPanel {
 		panelOpenedBooster=new BoosterPanel();
 		scrollBooster=new JScrollPane();
 		model = new SealedPackTableModel();
+		panelDetail= new MagicCardDetailPanel();
+		panelDetail.enableThumbnail(true);
+		panelDetail.enableCollectionLookup(false);
 		
 		List<MagicEdition> li;
 		try {
@@ -201,6 +206,7 @@ public class SealedPanel extends JPanel {
 		panelCenter.setResizeWeight(0.5);
 		panelCenter.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		panelCenter.setLeftComponent(panelOpenedBooster);
+		panelCenter.setRightComponent(panelDetail);
 		panelCenter.addComponentListener(new ComponentAdapter() {
 		      @Override
 		      public void componentShown(ComponentEvent componentEvent) {
@@ -280,7 +286,8 @@ public class SealedPanel extends JPanel {
 							for(MagicCard mc : b.getCards())
 							{
 								list.add(mc);
-								DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true,false);
+								DisplayableCard c = createCard(mc);
+								
 								panelOpenedBooster.addComponent(c,column);
 							}
 							
@@ -296,19 +303,26 @@ public class SealedPanel extends JPanel {
 				refreshStats(list);
 				
 			}
+
+			
 		});
 		
 		
 	}
 	
-
+	private DisplayableCard createCard(MagicCard mc) {
+		DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true,false);
+		c.addObserver(panelDetail);
+		return c;
+		
+	}
 	public void sort(MTGComparator<MagicCard> sorter)
 	{
 		Collections.sort(list,sorter);
 		panelOpenedBooster.clear();
 		for(MagicCard mc : list)
 		{
-			DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true,false);
+			DisplayableCard c = createCard(mc);
 			panelOpenedBooster.addComponent(c,sorter.getWeight(mc));
 		}
 		

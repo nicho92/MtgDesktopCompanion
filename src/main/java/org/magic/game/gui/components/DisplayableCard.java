@@ -56,12 +56,15 @@ import org.magic.game.model.counters.LoyaltyCounter;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public class DisplayableCard extends JLabel implements Draggable {
 
 	/**
 	 * 
 	 */
+	
 	private static final long serialVersionUID = 1L;
 	private JPopupMenu menu;
 	private MagicCard magicCard;
@@ -81,7 +84,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private boolean showLoyalty;
 	private PositionEnum position;
 	private boolean rightActions;
-
+	private Observable obs;
+	
 	public List<AbstractCounter> getCounters() {
 		return counters;
 	}
@@ -246,7 +250,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		menu = new JPopupMenu();
 		sep = new JSeparator();
 		attachedCards = new ArrayList<>();
-		
+		obs=new Observable();
 		counters = new ArrayList<>();
 
 		setSize(d);
@@ -259,8 +263,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 			MTGLogger.printStackTrace(e1);
 		} 
 		if (activateCards) {
-			
-			
 			addMouseListener(new MouseAdapter() {
 				@Override
 				public void mouseEntered(MouseEvent e) {
@@ -304,10 +306,13 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 
 	private void describe() {
+		obs.setChanged();
+		obs.notifyObservers(this.getMagicCard());
+		//TODO remove this code for observers in GamePanelGUI
 		GamePanelGUI.getInstance().describeCard(this);
 	}
 
-	private void enableDrag(MouseEvent e) {
+	public void enableDrag(MouseEvent e) {
 		((DraggablePanel) getParent()).getTransferHandler().exportAsDrag(this, e, TransferHandler.MOVE);
 	}
 
@@ -558,6 +563,13 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 	public void enableRightClick(boolean b) {
 		// TODO Auto-generated method stub
+		
+	}
+
+
+
+	public void addObserver(Observer panelDetail) {
+		obs.addObserver(panelDetail);
 		
 	}
 
