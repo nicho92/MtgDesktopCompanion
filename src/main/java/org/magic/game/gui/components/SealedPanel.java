@@ -32,6 +32,7 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.main.MtgDesktopCompanion;
 import org.magic.game.model.PositionEnum;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
@@ -48,6 +49,10 @@ import org.magic.sorters.CmcSorter;
 import org.magic.sorters.ColorSorter;
 import org.magic.sorters.MTGComparator;
 import org.magic.sorters.TypesSorter;
+import java.awt.FlowLayout;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import javax.swing.JTextField;
 
 public class SealedPanel extends JPanel {
 	
@@ -57,7 +62,6 @@ public class SealedPanel extends JPanel {
 	
 	private JButton btnAddBoosters;
 	private JScrollPane scrollTablePack;
-	private JScrollPane scrollBooster;
 	private JTable table;
 	private SealedPackTableModel model;
 	private BoosterPanel panelOpenedBooster;
@@ -77,9 +81,14 @@ public class SealedPanel extends JPanel {
 	private List<MagicCard> list;
 	private MagicDeck deck;
 	private JPanel panelEast;
-	private JLabel lblNewLabel;
 	private MagicCardDetailPanel panelDetail;
-
+	private JPanel panelAnalyseChooser;
+	private JRadioButton rdioDeckAnalyse;
+	private JRadioButton rdioBoosterAnalyse;
+	private boolean analyseDeck=false;
+	private JPanel panelLands;
+	private JTextField txtNumberLand;
+	private JComboBox<String> cboLands;
 	
 	public SealedPanel() {
 		initGUI();
@@ -88,7 +97,6 @@ public class SealedPanel extends JPanel {
 	private void initGUI() {
 		setLayout(new BorderLayout(0, 0));
 		panelOpenedBooster=new BoosterPanel();
-		scrollBooster=new JScrollPane();
 		model = new SealedPackTableModel();
 		panelDetail= new MagicCardDetailPanel();
 		panelDetail.enableThumbnail(true);
@@ -188,12 +196,32 @@ public class SealedPanel extends JPanel {
 				panelSorters.add(rdiotypeSort);
 				
 				
-				 ButtonGroup group = new ButtonGroup();
-				    group.add(rdioCmcSortButton);
-				    group.add(rdiocolorSort);
-				    group.add(rdiotypeSort);
+				 ButtonGroup groupSorter = new ButtonGroup();
+				    groupSorter.add(rdioCmcSortButton);
+				    groupSorter.add(rdiocolorSort);
+				    groupSorter.add(rdiotypeSort);
+				
+				panelAnalyseChooser = new JPanel();
+				panelSorters.add(panelAnalyseChooser);
+				FlowLayout flowLayout = (FlowLayout) panelAnalyseChooser.getLayout();
+				flowLayout.setAlignment(FlowLayout.LEFT);
+				
+				rdioBoosterAnalyse = new JRadioButton("Booster");
+				rdioBoosterAnalyse.setSelected(true);
+				rdioBoosterAnalyse.addActionListener(e->analyseDeck(false));
+				panelAnalyseChooser.add(rdioBoosterAnalyse);
+				
+				rdioDeckAnalyse = new JRadioButton("Deck");
+				rdioDeckAnalyse.addActionListener(e->analyseDeck(true));
+				
+				panelAnalyseChooser.add(rdioDeckAnalyse);
 				
 				
+				 ButtonGroup groupAnalyser = new ButtonGroup();
+				 groupAnalyser.add(rdioBoosterAnalyse);
+					groupAnalyser.add(rdioDeckAnalyse);
+					
+					
 				cmcChartPanel = new CmcChartPanel();
 				panelAnalyse.add(cmcChartPanel);
 				
@@ -233,6 +261,7 @@ public class SealedPanel extends JPanel {
 				{
 					deck.remove(mc.getMagicCard());
 					list.add(mc.getMagicCard());
+					refreshStats();
 				}
 			}
 			
@@ -240,6 +269,7 @@ public class SealedPanel extends JPanel {
 			public void addComponent(DisplayableCard i) {
 				super.addComponent(i);
 				deck.add(i.getMagicCard());
+				refreshStats();
 			}
 			
 		};
@@ -248,9 +278,53 @@ public class SealedPanel extends JPanel {
 		
 		panelEast.add(new JLabel("Drop your cards here"), BorderLayout.NORTH);
 		
+		panelLands = new JPanel();
+		panelEast.add(panelLands, BorderLayout.SOUTH);
+		
+		txtNumberLand = new JTextField();
+		panelLands.add(txtNumberLand);
+		txtNumberLand.setColumns(2);
+		
+		cboLands = new JComboBox<>(new DefaultComboBoxModel<>(new String[]{"Plains","Island","Swamp","Mountain","Forest"}));
+		panelLands.add(cboLands);
+		
+		JButton btnAddLands = new JButton("+");
+		btnAddLands.addActionListener(ae->addLands());
+		panelLands.add(btnAddLands);
+		
 		
 	}
 	
+	private void addLands() {
+		int qte = Integer.parseInt(txtNumberLand.getText());
+		String land=cboLands.getSelectedItem().toString();
+		
+		MagicEdition ed = new MagicEdition();
+		ed.setId(MTGControler.getInstance().get("default-land-deck"));
+		try {
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", land, ed, true).get(0);
+			
+			for(int i=0;i<qte;i++)
+			{
+				deck.add(mc);
+				DisplayableCard c = createCard(mc);
+				panelDeck.addComponent(c);
+				panelDeck.postTreatment(c);
+			}
+			
+			refreshStats();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+
+	private void analyseDeck(boolean b) {
+		this.analyseDeck=b;
+	}
+
 	private void addBooster() {
 		model.add((MagicEdition)cboEditions.getSelectedItem(), 6);
 		btnOpen.setEnabled(model.getSealedPack().size()>0);
@@ -298,16 +372,9 @@ public class SealedPanel extends JPanel {
 					
 				}
 				panelOpenedBooster.setList(list);
-				
-				
-				refreshStats(list);
-				
+				refreshStats();
 			}
-
-			
 		});
-		
-		
 	}
 	
 	private DisplayableCard createCard(MagicCard mc) {
@@ -329,16 +396,30 @@ public class SealedPanel extends JPanel {
 	}
 	
 	
-	private void refreshStats(List<MagicCard> list) 
+	private void refreshStats() 
 	{
-		cmcChartPanel.init(list);
-		typeRepartitionPanel.init(list);
-		manaRepartitionPanel.init(list);
+		txtNumberLand.setText(String.valueOf(40-deck.getAsList().size()));
+		if(analyseDeck)
+		{
+			cmcChartPanel.init(deck.getAsList());
+			typeRepartitionPanel.init(deck.getAsList());
+			manaRepartitionPanel.init(deck.getAsList());	
+		}
+		else
+		{
+			cmcChartPanel.init(list);
+			typeRepartitionPanel.init(list);
+			manaRepartitionPanel.init(list);	
+		}
+		
+		
 	}
 
 	protected void save() {
 		
 		try {
+			String name=JOptionPane.showInputDialog("Deck Name ?",deck.getName());
+			deck.setName(name);
 			MTGControler.getInstance().saveDeck(deck);
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
@@ -359,6 +440,4 @@ public class SealedPanel extends JPanel {
 		
 		
 	}
-
-
 }
