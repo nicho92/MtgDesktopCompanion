@@ -33,6 +33,7 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGComparator;
 import org.magic.game.gui.components.BoosterPanel;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GraveyardPanel;
@@ -49,7 +50,6 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.CmcSorter;
 import org.magic.sorters.ColorSorter;
-import org.magic.sorters.MTGComparator;
 import org.magic.sorters.TypesSorter;
 
 public class SealedPanel extends JPanel {
@@ -399,6 +399,7 @@ public class SealedPanel extends JPanel {
 		for(MagicCard mc : list)
 		{
 			DisplayableCard c = createCard(mc);
+			System.out.println(c +" " + sorter.getWeight(mc));
 			panelOpenedBooster.addComponent(c,sorter.getWeight(mc));
 		}
 		
