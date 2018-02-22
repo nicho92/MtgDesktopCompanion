@@ -49,7 +49,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,edition)!=null)
 		{
-			logger.debug("cached " + mc + "("+edition+") found");
+			logger.trace("cached " + mc + "("+edition+") found");
 			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,edition),newW,newH);
 		}
 		

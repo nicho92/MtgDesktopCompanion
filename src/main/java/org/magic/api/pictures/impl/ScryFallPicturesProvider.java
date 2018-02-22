@@ -99,7 +99,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		if(MTGControler.getInstance().getEnabledCache().getPic(mc,selected)!=null)
 		{
-			logger.debug("cached " + mc + "("+selected+") found");
+			logger.trace("cached " + mc + "("+selected+") found");
 			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,selected),newW,newH);
 		}
 		
