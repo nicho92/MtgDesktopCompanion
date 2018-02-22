@@ -11,9 +11,9 @@ import javax.swing.table.DefaultTableModel;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.services.IconSetProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.extra.IconSetProvider;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
 

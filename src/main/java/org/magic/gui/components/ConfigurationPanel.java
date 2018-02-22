@@ -32,11 +32,11 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.services.IconSetProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.InstallCert;
 
 public class ConfigurationPanel extends JPanel {

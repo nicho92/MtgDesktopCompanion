@@ -1,4 +1,4 @@
-package org.magic.services;
+package org.magic.services.extra;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -14,6 +14,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
+import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 public class IconSetProvider {
 

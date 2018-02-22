@@ -14,9 +14,9 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.ManaPanel;
-import org.magic.services.IconSetProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ColorParser;
 
 public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {

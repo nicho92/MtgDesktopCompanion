@@ -45,6 +45,7 @@ import org.magic.api.news.impl.TwitterNewsProvider;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.services.extra.KeyWordProvider;
 
 public class MTGControler {
 
@@ -61,7 +62,7 @@ public class MTGControler {
 	private List<MTGNewsProvider> news;
 	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
-	private KeyWordManager keyWordManager;
+	private KeyWordProvider keyWordManager;
 	public static final File CONF_DIR = new File(System.getProperty("user.home")+"/.magicDeskCompanion/");
 	public static final File MTG_DECK_DIRECTORY = new File(MTGControler.CONF_DIR, "decks");
 
@@ -403,7 +404,7 @@ public class MTGControler {
 				}
 			}
 			
-			keyWordManager = new KeyWordManager();
+			keyWordManager = new KeyWordProvider();
 			
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
@@ -419,7 +420,7 @@ public class MTGControler {
 	}
 	
 	
-	public KeyWordManager getKeyWordManager() {
+	public KeyWordProvider getKeyWordManager() {
 		return keyWordManager;
 	}
 

@@ -12,7 +12,7 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.ManaPanel;
-import org.magic.services.IconSetProvider;
+import org.magic.services.extra.IconSetProvider;
 
 public class CardListPanel extends JPanel{
 	

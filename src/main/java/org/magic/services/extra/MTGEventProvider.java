@@ -1,4 +1,4 @@
-package org.magic.services;
+package org.magic.services.extra;
 
 import java.awt.Color;
 import java.io.IOException;
@@ -21,6 +21,8 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicEvent;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonParser;
 

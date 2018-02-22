@@ -1,4 +1,4 @@
-package org.magic.services;
+package org.magic.services.extra;
 
 import java.io.InputStreamReader;
 import java.lang.reflect.Type;
@@ -15,7 +15,7 @@ import org.magic.api.beans.MagicCard;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
-public class KeyWordManager {
+public class KeyWordProvider {
 
 	List<MTGKeyWord> list;
 	
@@ -24,7 +24,7 @@ public class KeyWordManager {
 	}
 	
 	
-	public KeyWordManager() {
+	public KeyWordProvider() {
 		
 			Gson s = new Gson();
 			Type listType = new TypeToken<ArrayList<MTGKeyWord>>(){}.getType();

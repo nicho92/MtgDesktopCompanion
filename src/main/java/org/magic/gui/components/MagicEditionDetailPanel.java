@@ -23,10 +23,10 @@ import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.models.EditionsShakerTableModel;
-import org.magic.services.BoosterPicturesProvider;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.services.extra.BoosterPicturesProvider;
 
 public class MagicEditionDetailPanel extends JPanel {
 

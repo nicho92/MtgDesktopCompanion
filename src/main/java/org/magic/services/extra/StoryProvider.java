@@ -1,4 +1,4 @@
-package org.magic.services;
+package org.magic.services.extra;
 
 import java.awt.Image;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGStory;
+import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;

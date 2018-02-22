@@ -25,8 +25,8 @@ import org.magic.gui.renderer.MTGStoryListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.StoryProvider;
 import org.magic.services.ThreadManager;
+import org.magic.services.extra.StoryProvider;
 
 public class StoriesGUI extends JPanel {
 
