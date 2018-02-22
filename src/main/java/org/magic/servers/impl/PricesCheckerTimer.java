@@ -56,8 +56,8 @@ public class PricesCheckerTimer extends AbstractMTGServer{
             public void run() {
             	StringBuilder message=new StringBuilder();
             	boolean notify=false;
-            	if(MTGControler.getInstance().getEnabledDAO().getAlerts()!=null)
-            	for(MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().getAlerts())
+            	if(MTGControler.getInstance().getEnabledDAO().listAlerts()!=null)
+            	for(MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().listAlerts())
                 {
             		alert.getOffers().clear();
                 	for(MTGPricesProvider prov : MTGControler.getInstance().getEnabledPricers())

@@ -25,9 +25,9 @@ public interface MTGDao extends MTGPlugin{
 	public int getCardsCount(MagicCollection list,MagicEdition me) throws SQLException;
 	public Map<String,Integer> getCardsCountGlobal(MagicCollection c) throws SQLException;
 	
-	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException;
-	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException;
-	public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException;
+	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException;
+	public List<MagicCard> listCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException;
+	public List<MagicCollection> listCollectionFromCards(MagicCard mc)throws SQLException;
 	
 	public List<String> getEditionsIDFromCollection(MagicCollection collection) throws SQLException;
 	public void removeEdition(MagicEdition ed, MagicCollection col)throws SQLException;
@@ -38,12 +38,12 @@ public interface MTGDao extends MTGPlugin{
 	public List<MagicCollection> getCollections() throws SQLException;
 	
 	
-	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException;
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col) throws SQLException;
 	public void saveOrUpdateStock(MagicCardStock state) throws SQLException;
 	public void deleteStock(List<MagicCardStock> state) throws SQLException;
-	public List<MagicCardStock> getStocks() throws SQLException;
+	public List<MagicCardStock> listStocks() throws SQLException;
 	
-	public List<MagicCardAlert> getAlerts();
+	public List<MagicCardAlert> listAlerts();
 	public void saveAlert(MagicCardAlert alert) throws SQLException;
 	public void deleteAlert(MagicCardAlert alert) throws SQLException;
 	public boolean hasAlert(MagicCard mc);

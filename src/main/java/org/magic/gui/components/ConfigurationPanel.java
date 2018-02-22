@@ -206,7 +206,7 @@ public class ConfigurationPanel extends JPanel {
 							
 							dao.init();
 							for(MagicCollection col : MTGControler.getInstance().getEnabledDAO().getCollections())
-								for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col))
+								for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col))
 									{
 										dao.saveCard(mc, col);
 									}

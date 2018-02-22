@@ -210,7 +210,7 @@ public class JSONHttpServer extends AbstractMTGServer
 			ed.setId(idset);
 			ed.setSet(idset);
 			 
-			List<MagicCard> cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed);
+			List<MagicCard> cards = MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, ed);
 			Collections.sort(cards,new MagicCardComparator());
 			try(Response resp = NanoHTTPD.newFixedLengthResponse(new Gson().toJson(cards)))
 			{

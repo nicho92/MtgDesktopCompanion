@@ -508,7 +508,7 @@ public class CardSearchPanel extends JPanel {
 							loading(true,MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 							String searchName=txtMagicSearch.getText();
 							if(cboCollections.isVisible())
-								cards = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
+								cards = MTGControler.getInstance().getEnabledDAO().listCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 							else
 								cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(),searchName,null,false);
 							

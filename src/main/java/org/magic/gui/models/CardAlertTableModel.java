@@ -27,8 +27,8 @@ public class CardAlertTableModel extends DefaultTableModel {
 	@Override
 	public int getRowCount() {
 		try{
-			if(MTGControler.getInstance().getEnabledDAO().getAlerts()!=null)
-			return MTGControler.getInstance().getEnabledDAO().getAlerts().size();
+			if(MTGControler.getInstance().getEnabledDAO().listAlerts()!=null)
+			return MTGControler.getInstance().getEnabledDAO().listAlerts().size();
 			
 		}catch(Exception e)
 		{
@@ -66,10 +66,10 @@ public class CardAlertTableModel extends DefaultTableModel {
 	public Object getValueAt(int row, int column) {
 		switch(column)
 		{
-			case 0 : return MTGControler.getInstance().getEnabledDAO().getAlerts().get(row);
-			case 1 : return MTGControler.getInstance().getEnabledDAO().getAlerts().get(row).getCard().getEditions().get(0);
-			case 2 : return MTGControler.getInstance().getEnabledDAO().getAlerts().get(row).getPrice();
-			case 3 : return MTGControler.getInstance().getEnabledDAO().getAlerts().get(row).getOffers().size();
+			case 0 : return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row);
+			case 1 : return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getCard().getEditions().get(0);
+			case 2 : return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getPrice();
+			case 3 : return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getOffers().size();
 		default : return "";
 		}
 		
@@ -77,7 +77,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 	
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
-		MagicCardAlert alert = MTGControler.getInstance().getEnabledDAO().getAlerts().get(row);
+		MagicCardAlert alert = MTGControler.getInstance().getEnabledDAO().listAlerts().get(row);
 		alert.setPrice(Double.parseDouble(aValue.toString()));
 		try {
 			MTGControler.getInstance().getEnabledDAO().updateAlert(alert);

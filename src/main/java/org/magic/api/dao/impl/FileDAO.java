@@ -156,12 +156,12 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCard> getCardsFromCollection(MagicCollection c) throws SQLException {
-		return getCardsFromCollection(c, null);
+	public List<MagicCard> listCardsFromCollection(MagicCollection c) throws SQLException {
+		return listCardsFromCollection(c, null);
 	}
 
 	@Override
-	public List<MagicCard> getCardsFromCollection(MagicCollection c, MagicEdition me) throws SQLException {
+	public List<MagicCard> listCardsFromCollection(MagicCollection c, MagicEdition me) throws SQLException {
 		File col = new File(new File(directory,CARDSDIR),c.getName());
 		
 		if(me!=null)
@@ -185,7 +185,7 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException {
+	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
 		
 		String id = IDGenerator.generate(mc);
 		File f = new File(directory,CARDSDIR);
@@ -265,7 +265,7 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col) throws SQLException {
 		List<MagicCardStock> st = new ArrayList<>();
 		File f = new File(directory,STOCKDIR);
 		for(File fstock : FileUtils.listFiles(f,new WildcardFileFilter("*"+IDGenerator.generate(mc)),TrueFileFilter.INSTANCE))
@@ -315,7 +315,7 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardStock> getStocks() throws SQLException {
+	public List<MagicCardStock> listStocks() throws SQLException {
 		List<MagicCardStock> ret = new ArrayList<>();
 		
 		for(File f : FileUtils.listFiles(new File(directory,STOCKDIR), null, false))
@@ -330,7 +330,7 @@ public class FileDAO extends AbstractMagicDAO {
 	}
 
 	@Override
-	public List<MagicCardAlert> getAlerts() {
+	public List<MagicCardAlert> listAlerts() {
 		List<MagicCardAlert> ret = new ArrayList<>();
 		
 		for(File f : FileUtils.listFiles(new File(directory,ALERTSDIR), null, false))

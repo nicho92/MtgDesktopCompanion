@@ -79,9 +79,9 @@ public class MassMoverDialog extends JDialog {
 		model = new MagicCardTableModel();
 		try {
 			if(ed==null)
-				model.init(dao.getCardsFromCollection(col));
+				model.init(dao.listCardsFromCollection(col));
 			else
-				model.init(dao.getCardsFromCollection(col,ed));
+				model.init(dao.listCardsFromCollection(col,ed));
 		} catch (SQLException e) {
 			logger.error(e);
 		}
@@ -127,9 +127,9 @@ public class MassMoverDialog extends JDialog {
 							try {
 								lblWaiting.setText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
 								if(toSaveEd==null)
-									model.init(dao.getCardsFromCollection(toSaveCol));
+									model.init(dao.listCardsFromCollection(toSaveCol));
 								else
-									model.init(dao.getCardsFromCollection(toSaveCol,toSaveEd));
+									model.init(dao.listCardsFromCollection(toSaveCol,toSaveEd));
 							} catch (SQLException ex) {
 								logger.error(ex);
 								JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);

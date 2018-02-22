@@ -188,12 +188,12 @@ public class MysqlDAO extends AbstractMagicDAO{
 	}
 
 	@Override
-	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException {
-		return getCardsFromCollection(collection,null);
+	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException {
+		return listCardsFromCollection(collection,null);
 	}
 
 	@Override
-	public List<MagicCard> getCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
+	public List<MagicCard> listCardsFromCollection(MagicCollection collection, MagicEdition me) throws SQLException {
 		logger.debug("getCardsFromCollection " + collection + " " + me);
 		
 		String sql ="select * from cards where collection= ?";
@@ -343,7 +343,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 
 	@Override
-	public List<MagicCollection> getCollectionFromCards(MagicCard mc)throws SQLException{
+	public List<MagicCollection> listCollectionFromCards(MagicCard mc)throws SQLException{
 		
 		if(mc.getEditions().isEmpty())
 			throw new SQLException("No edition defined");
@@ -388,7 +388,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	
 	@Override
-	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col) throws SQLException {
 		try(PreparedStatement pst=con.prepareStatement("select * from stocks where idmc=? and collection=?"))
 		{
 			pst.setString(1, IDGenerator.generate(mc));
@@ -421,7 +421,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		
 	}
 	
-	public List<MagicCardStock> getStocks() throws SQLException {
+	public List<MagicCardStock> listStocks() throws SQLException {
 		try(
 				PreparedStatement pst=con.prepareStatement("select * from stocks");
 				ResultSet rs = pst.executeQuery();
@@ -555,7 +555,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 
 	@Override
-	public List<MagicCardAlert> getAlerts() {
+	public List<MagicCardAlert> listAlerts() {
 	
 		if(!list.isEmpty())
 			return list;

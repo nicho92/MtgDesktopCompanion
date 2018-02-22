@@ -341,9 +341,9 @@ public class CollectionPanelGUI extends JPanel {
 														{
 															progressBar.setVisible(true);
 															if(ed==null)
-																exp.export(dao.getCardsFromCollection(mc), f);
+																exp.export(dao.listCardsFromCollection(mc), f);
 															else
-																exp.export(dao.getCardsFromCollection(mc,ed), f);
+																exp.export(dao.listCardsFromCollection(mc,ed), f);
 														
 															progressBar.setVisible(false);
 															JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"), MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
@@ -428,7 +428,7 @@ public class CollectionPanelGUI extends JPanel {
 							try{
 
 								MagicCollection collec = (MagicCollection)((DefaultMutableTreeNode)curr.getParent()).getUserObject();
-								List<MagicCard> list = dao.getCardsFromCollection(collec,(MagicEdition)curr.getUserObject());
+								List<MagicCard> list = dao.listCardsFromCollection(collec,(MagicEdition)curr.getUserObject());
 								rarityRepartitionPanel.init(list);
 								typeRepartitionPanel.init(list);
 								manaRepartitionPanel.init(list);
@@ -544,7 +544,7 @@ public class CollectionPanelGUI extends JPanel {
 								progressBar.setMaximum(dao.getCardsCount(selectedcol,null));
 								CSVExport exp = new CSVExport();
 								exp.addObserver((Observable o, Object arg)->progressBar.setValue((int) arg));
-								exp.exportPriceCatalog(dao.getCardsFromCollection(selectedcol), diag.getDest(),diag.getPriceProviders());
+								exp.exportPriceCatalog(dao.listCardsFromCollection(selectedcol), diag.getDest(),diag.getPriceProviders());
 
 								JOptionPane.showMessageDialog(null,MTGControler.getInstance().getLangService().combine("EXPORT","FINISHED"));
 								progressBar.setVisible(false);
@@ -743,7 +743,7 @@ public class CollectionPanelGUI extends JPanel {
 								sourceCol.setName(node.getPath()[1].toString());
 								
 								
-								List<MagicCard> list = dao.getCardsFromCollection(sourceCol, me);
+								List<MagicCard> list = dao.listCardsFromCollection(sourceCol, me);
 								sets.removeAll(list);
 						
 								for (MagicCard m : sets)

@@ -59,7 +59,7 @@ public class CardStockTableModel extends DefaultTableModel {
 	public void init() throws SQLException
 	{
 			list.clear();
-			list.addAll(MTGControler.getInstance().getEnabledDAO().getStocks());
+			list.addAll(MTGControler.getInstance().getEnabledDAO().listStocks());
 			fireTableDataChanged();
 	}
 	

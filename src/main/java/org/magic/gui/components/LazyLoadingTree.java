@@ -145,7 +145,7 @@ public class MyNode extends DefaultMutableTreeNode implements Comparable<MyNode>
                 
                 List<MyNode> children = new ArrayList<>();
                 try {
-                	List<MagicCard> res = MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col, ed);
+                	List<MagicCard> res = MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, ed);
                 	Collections.sort(res,new MagicCardComparator());
                 	
 					for(MagicCard card : res)

@@ -65,7 +65,7 @@ public class MagicWebSiteGenerator extends Observable{
 			{
 				Map<String,List<MagicCard>> root = new HashMap<>();
 				for(MagicCollection col : cols)
-					root.put(col.getName(), dao.getCardsFromCollection(col));
+					root.put(col.getName(), dao.listCardsFromCollection(col));
 				
 				generatedTemplate.process(root, out);
 				generateCollectionsTemplate();
@@ -82,7 +82,7 @@ public class MagicWebSiteGenerator extends Observable{
 				rootEd.put("cols", cols);
 				rootEd.put("colName", col.getName());
 				Set<MagicEdition> eds = new HashSet<>();
-				for(MagicCard mc : dao.getCardsFromCollection(col))
+				for(MagicCard mc : dao.listCardsFromCollection(col))
 				{
 					eds.add(mc.getEditions().get(0));
 					generateCardsTemplate(mc);
@@ -110,7 +110,7 @@ public class MagicWebSiteGenerator extends Observable{
 			rootEd.put("colName", col.getName());
 			for(MagicEdition ed : eds)
 			{
-				rootEd.put("cards", dao.getCardsFromCollection(col, ed));
+				rootEd.put("cards", dao.listCardsFromCollection(col, ed));
 				rootEd.put("edition", ed);
 				FileWriter out = new FileWriter(Paths.get(dest,"page-ed-"+col.getName()+"-"+ed.getId()+".htm").toFile());
 				cardTemplate.process(rootEd, out);

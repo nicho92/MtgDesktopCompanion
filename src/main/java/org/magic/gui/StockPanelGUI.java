@@ -481,7 +481,7 @@ public class StockPanelGUI extends JPanel {
 	
 	private void importFromCollection(MagicCollection col) throws SQLException
 	{
-			for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().getCardsFromCollection(col))
+			for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col))
 			{
 				MagicCardStock stock = new MagicCardStock();
 				stock.setMagicCard(mc);

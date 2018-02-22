@@ -138,7 +138,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		}
 	}
 
-	public List<MagicCard> getCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException
+	public List<MagicCard> listCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException
 	{
 		logger.debug("cards for " + collection + " " + me);
 		
@@ -176,8 +176,8 @@ public class HsqlDAO extends AbstractMagicDAO{
 	
 	
 	@Override
-	public List<MagicCard> getCardsFromCollection(MagicCollection collection) throws SQLException {
-		return getCardsFromCollection(collection,null);
+	public List<MagicCard> listCardsFromCollection(MagicCollection collection) throws SQLException {
+		return listCardsFromCollection(collection,null);
 	}
 
 	@Override
@@ -362,7 +362,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		return "hSQLdb";
 	}
 	@Override
-	public List<MagicCollection> getCollectionFromCards(MagicCard mc) throws SQLException {
+	public List<MagicCollection> listCollectionFromCards(MagicCard mc) throws SQLException {
 		
 		if(mc.getEditions().isEmpty())
 			throw new SQLException("No edition defined");
@@ -413,7 +413,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 
 	@Override
-	public List<MagicCardStock> getStocks(MagicCard mc, MagicCollection col) throws SQLException {
+	public List<MagicCardStock> listStocks(MagicCard mc, MagicCollection col) throws SQLException {
 		logger.debug("load stock for " + mc + " in " + col);
 		try(PreparedStatement pst=con.prepareStatement("select * from stocks where idmc=? and collection=?"))
 		{
@@ -492,7 +492,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 	
 	List<MagicCardAlert> list;
 	@Override
-	public List<MagicCardAlert> getAlerts() {
+	public List<MagicCardAlert> listAlerts() {
 		
 		try{
 			
@@ -575,7 +575,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 	}
 
 
-	public List<MagicCardStock> getStocks() throws SQLException {
+	public List<MagicCardStock> listStocks() throws SQLException {
 		try(PreparedStatement pst=con.prepareStatement("select * from stocks");ResultSet rs = pst.executeQuery())
 		{
 			List<MagicCardStock> colls = new ArrayList<>();

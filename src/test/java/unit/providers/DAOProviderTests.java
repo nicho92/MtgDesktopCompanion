@@ -83,14 +83,14 @@ public class DAOProviderTests {
 			System.out.println("******************LISTING");
 			System.out.println("list  " + p.listCards());
 			System.out.println("count " + p.getCardsCount(col, ed));
-			System.out.println(p.getCardsFromCollection(col));
-			System.out.println(p.getCardsFromCollection(col, ed));
-			System.out.println(p.getCardsFromCollection(col, null));
+			System.out.println(p.listCardsFromCollection(col));
+			System.out.println(p.listCardsFromCollection(col, ed));
+			System.out.println(p.listCardsFromCollection(col, null));
 			System.out.println(p.getEditionsIDFromCollection(col));
 			System.out.println("global" + p.getCardsCountGlobal(col));
 			System.out.println("cols: " + p.getCollections());
 			System.out.println("test: " + p.getCollection("TEST"));
-			System.out.println("cols: " + p.getCollectionFromCards(mc));
+			System.out.println("cols: " + p.listCollectionFromCards(mc));
 			
 			System.out.println("******************ALERTS");
 			MagicCardAlert alert=new MagicCardAlert();
@@ -101,7 +101,7 @@ public class DAOProviderTests {
 			alert.setPrice(15.0);
 			p.updateAlert(alert);
 			
-			System.out.println(p.getAlerts());
+			System.out.println(p.listAlerts());
 			System.out.println(p.hasAlert(mc));
 			
 			
@@ -118,13 +118,13 @@ public class DAOProviderTests {
 			stock.setFoil(true);
 			p.saveOrUpdateStock(stock);
 			
-			for(MagicCardStock st : p.getStocks())
+			for(MagicCardStock st : p.listStocks())
 			{
 				System.out.println(st.getIdstock() +" " + st.getMagicCard() + " " + st.getMagicCollection() + " " + st.isFoil());
 			}
 			
 			
-			System.out.println("Get stocks " + p.getStocks(mc, col));
+			System.out.println("Get stocks " + p.listStocks(mc, col));
 			
 			List<MagicCardStock> stocks = new ArrayList<>();
 			stocks.add(stock);
