@@ -239,7 +239,10 @@ public class SealedPanel extends JPanel {
 		panelCenter=new JSplitPane();
 		panelCenter.setResizeWeight(0.5);
 		panelCenter.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		panelCenter.setLeftComponent(panelOpenedBooster);
+		
+		JScrollPane paneBooster = new JScrollPane();
+		paneBooster.setViewportView(panelOpenedBooster);
+		panelCenter.setLeftComponent(paneBooster);
 		panelCenter.setRightComponent(panelDetail);
 		panelCenter.addComponentListener(new ComponentAdapter() {
 		      @Override
@@ -279,7 +282,10 @@ public class SealedPanel extends JPanel {
 			}
 			
 		};
-		panelEast.add(panelDeck);
+		
+		JScrollPane scrollDeck = new JScrollPane();
+		scrollDeck.setViewportView(panelDeck);
+		panelEast.add(scrollDeck);
 		panelDeck.setPreferredSize(new Dimension((int)MTGControler.getInstance().getCardsDimension().getWidth()+5, (int) (MTGControler.getInstance().getCardsDimension().getHeight()*30)));
 		
 		panelEast.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DROP_HERE")), BorderLayout.NORTH);
