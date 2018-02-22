@@ -40,8 +40,6 @@ import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.api.news.impl.RSSNewsProvider;
-import org.magic.api.news.impl.TwitterNewsProvider;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractJDashlet;

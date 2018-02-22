@@ -2,7 +2,6 @@ package org.magic.api.tokens.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;

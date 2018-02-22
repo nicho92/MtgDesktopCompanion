@@ -7,8 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -319,8 +317,7 @@ public class SealedPanel extends JPanel {
 			
 			refreshStats();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			MTGLogger.printStackTrace(e);
 		}
 		
 		
@@ -398,7 +395,6 @@ public class SealedPanel extends JPanel {
 		for(MagicCard mc : list)
 		{
 			DisplayableCard c = createCard(mc);
-			System.out.println(c +" " + sorter.getWeight(mc));
 			panelOpenedBooster.addComponent(c,sorter.getWeight(mc));
 		}
 		

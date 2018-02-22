@@ -1,25 +1,20 @@
 package org.magic.gui.components.editor;
 
+import java.awt.FlowLayout;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
-import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGControler;
-import javax.swing.JButton;
-import javax.swing.BoxLayout;
-import java.awt.FlowLayout;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
+import org.magic.services.MTGLogger;
 
 public class BoosterQtyPanel extends JPanel {
 	private JComboBox<MagicEdition> cboEditions;
@@ -48,7 +43,7 @@ public class BoosterQtyPanel extends JPanel {
 		try {
 			li = MTGControler.getInstance().getEnabledProviders().loadEditions();
 		} catch (IOException e1) {
-			e1.printStackTrace();
+			MTGLogger.printStackTrace(e1);
 		}
 		cboEditions = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
 		cboEditions.setRenderer(new MagicEditionListRenderer());

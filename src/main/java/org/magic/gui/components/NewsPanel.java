@@ -6,15 +6,14 @@ import java.awt.Insets;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNews.NEWS_TYPE;
-
-import javax.swing.DefaultComboBoxModel;
-import javax.swing.JComboBox;
 
 public class NewsPanel extends JPanel {
 

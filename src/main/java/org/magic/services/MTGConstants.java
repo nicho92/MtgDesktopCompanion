@@ -4,7 +4,6 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
-import java.io.File;
 import java.net.URL;
 
 import javax.swing.ImageIcon;

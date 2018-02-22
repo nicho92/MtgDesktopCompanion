@@ -8,9 +8,7 @@ import javax.swing.JPanel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.GameManager;
-import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
-import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.services.MTGControler;
 
 

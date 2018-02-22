@@ -4,7 +4,6 @@ import javax.swing.JTabbedPane;
 
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.GamingRoomPanel;
-import org.magic.gui.components.SealedPanel;
 import org.magic.services.MTGControler;
 
 public class GameGUI extends JTabbedPane {

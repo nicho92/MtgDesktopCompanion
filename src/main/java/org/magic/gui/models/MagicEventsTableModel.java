@@ -1,6 +1,5 @@
 package org.magic.gui.models;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -8,10 +7,7 @@ import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
-import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEvent;
-import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class MagicEventsTableModel extends DefaultTableModel {

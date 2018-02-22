@@ -6,7 +6,6 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import org.apache.log4j.Logger;
-import org.magic.api.main.MtgDesktopCompanion;
 import org.magic.gui.components.ConstructPanel;
 import org.magic.gui.components.SealedPanel;
 import org.magic.services.MTGControler;

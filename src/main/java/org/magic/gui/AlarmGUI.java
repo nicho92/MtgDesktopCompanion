@@ -34,7 +34,6 @@ import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.ThreadManager;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;
