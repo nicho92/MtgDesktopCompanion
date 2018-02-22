@@ -1,8 +1,9 @@
 package org.magic.api.beans;
 
+import java.io.Serializable;
 import java.net.URL;
 
-public class MagicNews {
+public class MagicNews implements Serializable {
 
 	private int id;
 	private String name;

@@ -18,7 +18,7 @@ public class MagicNewsTableModel extends DefaultTableModel{
 										     MTGControler.getInstance().getLangService().getCapitalize("RSS_DATE"),
 										     MTGControler.getInstance().getLangService().getCapitalize("RSS_AUTHOR")
 										     };
-	private List<MagicNewsContent> ret;
+	private transient List<MagicNewsContent> ret;
 
 	
 	public MagicNewsTableModel() {

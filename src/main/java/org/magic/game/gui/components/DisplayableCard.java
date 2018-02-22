@@ -84,7 +84,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private boolean showLoyalty;
 	private PositionEnum position;
 	private boolean rightActions;
-	private Observable obs;
+	private transient Observable obs;
 	
 	public List<AbstractCounter> getCounters() {
 		return counters;

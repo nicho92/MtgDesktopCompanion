@@ -26,7 +26,7 @@ public class MagicEventsDashlet extends AbstractJDashlet{
 	private JComboBox<Integer> cboYear;
 	private JLabel lblLoading;
 	private JComboBox<Integer> cboMonth;
-	private MTGEventProvider provider;
+	private transient MTGEventProvider provider;
 
 	
 	public MagicEventsDashlet() {

@@ -1,5 +1,6 @@
 package org.magic.api.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,7 +8,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-public class SealedPack {
+public class SealedPack implements Serializable {
 
 	Map<MagicEdition, Integer> pack;
 	
