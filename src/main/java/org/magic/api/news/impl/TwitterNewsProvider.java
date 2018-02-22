@@ -37,7 +37,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 			save();
 		}
 	
-		cb.setDebugEnabled(props.getProperty("LOG","false").toString().equals("true"))
+		cb.setDebugEnabled(props.getProperty("LOG","false").equals("true"))
 		  .setOAuthConsumerKey(getProperty("CONSUMER_KEY").toString())
 		  .setOAuthConsumerSecret(getProperty("CONSUMER_SECRET").toString())
 		  .setOAuthAccessToken(getProperty("ACCESS_TOKEN").toString())
