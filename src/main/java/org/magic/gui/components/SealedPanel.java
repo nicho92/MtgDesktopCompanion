@@ -244,13 +244,6 @@ public class SealedPanel extends JPanel {
 		paneBooster.setViewportView(panelOpenedBooster);
 		panelCenter.setLeftComponent(paneBooster);
 		panelCenter.setRightComponent(panelDetail);
-		panelCenter.addComponentListener(new ComponentAdapter() {
-		      @Override
-		      public void componentShown(ComponentEvent componentEvent) {
-		    	panelCenter.setDividerLocation(.5);
-		        removeComponentListener(this);
-		      }
-		    });
 		add(panelCenter, BorderLayout.CENTER);
 		
 		panelEast = new JPanel();
