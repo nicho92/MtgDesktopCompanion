@@ -22,6 +22,14 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
+	
+	public static void main(String[] args) throws IOException {
+		MagicNews n = new MagicNews();
+		n.setName("#MTGDOM");
+		new TwitterNewsProvider().listNews(n);
+	}
+	
+	
 	private ConfigurationBuilder cb;
 	private TwitterFactory tf ;
 	public TwitterNewsProvider() {
@@ -36,7 +44,6 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 			props.put("LOG", "false");
 			save();
 		}
-	
 		cb.setDebugEnabled(props.getProperty("LOG","false").equals("true"))
 		  .setOAuthConsumerKey(getProperty("CONSUMER_KEY").toString())
 		  .setOAuthConsumerSecret(getProperty("CONSUMER_SECRET").toString())

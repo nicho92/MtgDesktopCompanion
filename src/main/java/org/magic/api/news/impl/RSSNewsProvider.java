@@ -32,6 +32,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 	public List<MagicNewsContent> listNews(MagicNews rssBean) throws IOException {
 		InputStream is = null;
 		SyndFeed feed;
+		
 		List<MagicNewsContent> ret = new ArrayList<>();
 		try {
 			URLConnection openConnection = rssBean.getUrl().openConnection();
@@ -39,6 +40,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 			is = openConnection.getInputStream();
 			InputSource source = new InputSource(is);
 			feed=input.build(source);
+			String baseURI=feed.getLink();
 			
 			for(SyndEntry s: feed.getEntries())
 			{
@@ -47,7 +49,13 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 				content.setAuthor(s.getAuthor());
 				content.setDate(s.getPublishedDate());
 				try{
-					content.setLink(new URL(s.getLink()));
+					URL link;
+					if(!s.getLink().startsWith(baseURI))
+						link = new URL(baseURI+s.getLink());
+					else
+						link = new URL(s.getLink());
+					
+					content.setLink(link);
 				}
 				catch(MalformedURLException e)
 				{
