@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -47,7 +48,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("PERIOD", "WEEKLY");
 			props.put("WEBSITE", "http://www.mtgprice.com");
-			props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+			props.put("USER_AGENT", MTGConstants.USER_AGENT);
 			props.put("TIMEOUT", "0");
 		save();
 		}

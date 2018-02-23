@@ -62,7 +62,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				props.put("LOGIN", "login@mail.com");
 				props.put("PASS", "changeme");
 				props.put("FORMAT", "standard");
-				props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
+				props.put("USER_AGENT", MTGConstants.USER_AGENT);
 				props.put("URL_JSON", "https://tappedout.net/api/deck/latest/%FORMAT%");
 				props.put("CERT_SERV", "www.tappedout.net");
 				save();

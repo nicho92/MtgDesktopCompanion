@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
@@ -27,7 +28,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 	public MythicSpoilerPicturesProvider() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
+			props.put("USER_AGENT", MTGConstants.USER_AGENT);
 			props.put("CARD_SIZE_WIDTH", "223");
 			props.put("CARD_SIZE_HEIGHT", "310");
 			save();

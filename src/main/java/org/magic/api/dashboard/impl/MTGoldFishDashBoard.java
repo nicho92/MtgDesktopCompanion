@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
@@ -48,7 +49,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 			props.put("URL_MOVERS", "http://www.mtggoldfish.com/movers-details/");
 			props.put("URL_EDITIONS", "http://www.mtggoldfish.com/index/");
 			props.put("WEBSITE", "http://www.mtggoldfish.com/");
-			props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+			props.put("USER_AGENT", MTGConstants.USER_AGENT);
 			props.put("FORMAT", "paper");
 			props.put("TIMEOUT", "0");
 			props.put("DAILY_WEEKLY", "wow");

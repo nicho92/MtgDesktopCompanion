@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.MTGConstants;
 
 public class MagicCorporationDecks extends AbstractDeckSniffer {
 
@@ -30,7 +31,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	public MagicCorporationDecks() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
+			props.put("USER_AGENT", MTGConstants.USER_AGENT);
 			props.put("URL", "http://www.magiccorporation.com/");
 			save();
 	}

@@ -31,7 +31,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	public ScryFallPicturesProvider() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
+			props.put("USER_AGENT", MTGConstants.USER_AGENT);
 			props.put("CERT_SERV", "scryfall.com");
 			props.put("CARD_SIZE_WIDTH", "223");
 			props.put("CARD_SIZE_HEIGHT", "310");

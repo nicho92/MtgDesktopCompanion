@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
 
 public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
@@ -33,7 +34,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("URL", "https://www.magicbazar.fr/recherche/result.php?s=");
-			props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+			props.put("USER_AGENT", MTGConstants.USER_AGENT);
 			
 			save();
 		}

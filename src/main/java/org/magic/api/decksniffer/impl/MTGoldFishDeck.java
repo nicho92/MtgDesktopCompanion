@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
@@ -36,7 +37,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("SUPPORT", "paper");
 			props.put("FORMAT", "modern");
-			props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
+			props.put("USER_AGENT", MTGConstants.USER_AGENT);
 			props.put("URL", "http://www.mtggoldfish.com/");
 			props.put("MAX_PAGE", "2");
 			props.put("METAGAME", "false");

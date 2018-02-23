@@ -29,6 +29,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 import com.jayway.jsonpath.Configuration;
@@ -65,7 +66,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("URL_SET_JSON_ZIP", "http://mtgjson.com/json/AllSets-x.json.zip");
 			props.put("URL_VERSION", "http://mtgjson.com/json/version.json");
-			props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+			props.put("USER_AGENT", MTGConstants.USER_AGENT);
 			save();
 		}
 		init();

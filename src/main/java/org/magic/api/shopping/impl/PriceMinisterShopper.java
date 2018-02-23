@@ -12,6 +12,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.services.MTGConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -37,7 +38,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 				props.put("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing");
 				props.put("SCOPE", "PRICING");
 				props.put("NB_PRODUCT_PAGE", "20");
-				props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+				props.put("USER_AGENT", MTGConstants.USER_AGENT);
 				props.put("WEBSITE", "http://www.priceminister.com/");
 				props.put("ENCODING", "UTF-8");
 		save();

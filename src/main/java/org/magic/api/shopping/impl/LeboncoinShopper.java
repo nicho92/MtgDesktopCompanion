@@ -47,7 +47,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		props.put("MAX_PAGE", "2");
 		props.put("MAX_RESULT", "30");
 		props.put("URL", "http://www.leboncoin.fr/li?o=%PAGE%&q=%SEARCH%&it=%TITLE_ONLY%");
-		props.put("USER_AGENT", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+		props.put("USER_AGENT", MTGConstants.USER_AGENT);
 		props.put("PROTOCOLE", "http:");
 		props.put("WEBSITE", "http://www.leboncoin.fr/");
 		props.put("DATE_FORMAT", "dd MMMM. H:m");

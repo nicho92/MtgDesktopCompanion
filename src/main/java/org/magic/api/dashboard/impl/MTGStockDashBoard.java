@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
+import org.magic.services.MTGConstants;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 	private String url = "http://www.mtgstocks.com/";
@@ -42,7 +43,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		if(!new File(confdir, getName()+".conf").exists()){
 				props.put("LOGIN", "login@mail.com");
 				props.put("PASS", "changeme");
-				props.put("USER_AGENT", "Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13");
+				props.put("USER_AGENT", MTGConstants.USER_AGENT);
 				save();
 		}
 		
