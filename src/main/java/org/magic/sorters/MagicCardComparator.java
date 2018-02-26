@@ -3,9 +3,10 @@ package org.magic.sorters;
 import java.util.Comparator;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGComparator;
 
 
-public class MagicCardComparator implements Comparator<MagicCard> {
+public class MagicCardComparator implements MTGComparator<MagicCard> {
 
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
@@ -73,7 +74,7 @@ public class MagicCardComparator implements Comparator<MagicCard> {
 		return o1.getName().compareTo(o2.getName());
 	}
 	
-	private int getWeight(MagicCard mc)
+	public int getWeight(MagicCard mc)
 	{
 	
 		if(mc.getColors().isEmpty())
