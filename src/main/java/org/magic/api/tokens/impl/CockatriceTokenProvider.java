@@ -174,12 +174,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 						  
 
 						  tok.getEditions().add(mc.getEditions().get(0));
-						  
-						  try {
-							logger.debug("Create token" + BeanUtils.describe(tok));
-						} catch (Exception e) {
-							logger.debug("Create token " + tok);
-						} 
+						 logger.debug("Create token " + tok);
 						  return tok;
 			
 		} catch (XPathExpressionException e) {

@@ -51,46 +51,50 @@ import org.magic.sorters.ColorSorter;
 import org.magic.sorters.TypesSorter;
 
 public class SealedPanel extends JPanel {
-	
-	private JPanel panelWest;
-	private JButton btnSaveDeck;
-	private JSplitPane panelCenter;
 	private JLabel lblLoading;
-	private JButton btnAddBoosters;
-	private JScrollPane scrollTablePack;
-	private JTable table;
 	private SealedPackTableModel model;
 	private BoosterPanel panelOpenedBooster;
 	private JComboBox<MagicEdition> cboEditions;
 	private JButton btnOpen;
-	private JPanel panelControl;
-	private GraveyardPanel panelDeck;
-	private JPanel panelAnalyse;
 	private CmcChartPanel cmcChartPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private TypeRepartitionPanel typeRepartitionPanel;
-	private JPanel panelSorters;
-	private JRadioButton rdioCmcSortButton;
-	private JRadioButton rdiocolorSort;
-	private JRadioButton rdiotypeSort;
-	private JPanel panel;
-	private List<MagicCard> list;
 	private MagicDeck deck;
-	private JPanel panelEast;
-	private MagicCardDetailPanel panelDetail;
-	private JPanel panelAnalyseChooser;
-	private JRadioButton rdioDeckAnalyse;
-	private JRadioButton rdioBoosterAnalyse;
+	private List<MagicCard> list;
 	private boolean analyseDeck=false;
-	private JPanel panelLands;
 	private JTextField txtNumberLand;
 	private JComboBox<String> cboLands;
+	private GraveyardPanel panelDeck;
+	private MagicCardDetailPanel panelDetail;
 	
 	public SealedPanel() {
 		initGUI();
 	}
 	
 	private void initGUI() {
+		
+		
+
+		JPanel panelWest;
+		JButton btnSaveDeck;
+		JSplitPane panelCenter;
+		JButton btnAddBoosters;
+		JScrollPane scrollTablePack;
+		JTable table;
+		JPanel panelControl;
+		JPanel panelAnalyse;
+		JPanel panelSorters;
+		JRadioButton rdioCmcSortButton;
+		JRadioButton rdiocolorSort;
+		JRadioButton rdiotypeSort;
+		JPanel panel;
+		JPanel panelEast;
+		
+		JPanel panelAnalyseChooser;
+		JRadioButton rdioDeckAnalyse;
+		JRadioButton rdioBoosterAnalyse;
+		JPanel panelLands;
+		
 		setLayout(new BorderLayout(0, 0));
 		panelOpenedBooster=new BoosterPanel();
 		model = new SealedPackTableModel();

@@ -118,9 +118,7 @@ public class AlarmGUI extends JPanel {
 			
 		list = new JList<>(resultListModel);
 		
-		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus)->{
-				return new MagicPricePanel(value);
-		});
+		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus)->new MagicPricePanel(value));
 		
 		
 		list.addMouseListener(new MouseAdapter() {

@@ -19,10 +19,6 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 public class ChannelFireballPricer extends AbstractMagicPricesProvider {
-
-	
-	private String setvar="&setname=";
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;

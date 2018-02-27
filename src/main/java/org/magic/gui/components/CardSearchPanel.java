@@ -101,35 +101,22 @@ public class CardSearchPanel extends JPanel {
 		private HistoryPricesPanel historyChartPanel;
 		private MagicEditionDetailPanel magicEditionDetailPanel;
 		private MagicCardDetailPanel detailCardPanel;
-		private JPanel panelResultsCards;
-		private JPanel panelFilters;
-	    private JPanel panelmana;
-		private JPanel editionDetailPanel;
-		private JPanel panneauHaut;
-		private JPanel panneauCard = new JPanel();
-		private JPanel panneauStat;
 		private JTextArea txtRulesArea;
-		private JTextField txtFilter;
-		private JTextField txtMagicSearch;
 		private JSONPanel panelJson;
-		
-		
+
+	
+		private JTextField txtMagicSearch;
+
 		private JPopupMenu popupMenu = new JPopupMenu();
 	    
-		private JComboBox<MagicEdition> cboEdition;
-	    private JComboBox<MagicCardNames> cboLanguages;
+		private JComboBox<MagicCardNames> cboLanguages;
 		private JComboBox<String> cboQuereableItems;
 		private JComboBox<MagicCollection> cboCollections;
 		
 		private JXTable tableCards;
 		private JXTable tablePrice;
-	    private transient DefaultRowSorter<DefaultTableModel, Integer> sorterCards ;
-	    private TableFilterHeader filterHeader;
-
-	    private JButton btnClear;
-		private JButton btnSearch;
+	  
 		private JButton btnExport;
-		private JButton btnFilter;
 		
 		private List<MagicCard> cards;
 		private JList<MagicEdition> listEdition;
@@ -208,6 +195,24 @@ public class CardSearchPanel extends JPanel {
 		public void initGUI()
 		{
 			logger.info("init search GUI");
+			
+			JPanel panelResultsCards;
+			JPanel panelFilters;
+		    JPanel panelmana;
+			JPanel editionDetailPanel;
+			JPanel panneauHaut;
+			JPanel panneauCard;
+			JPanel panneauStat;
+			JTextField txtFilter;
+			JComboBox<MagicEdition> cboEdition;
+		    TableFilterHeader filterHeader;
+		    JButton btnClear;
+			JButton btnSearch;
+			JButton btnFilter;
+			DefaultRowSorter<DefaultTableModel, Integer> sorterCards ;
+		
+			
+			
 			inst=this;
 			DefaultRowSorter<DefaultTableModel, Integer> sorterPrice = new TableRowSorter<>(priceModel);
 			sorterCards = new TableRowSorter<>(cardsModeltable);

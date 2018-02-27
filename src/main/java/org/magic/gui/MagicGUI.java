@@ -41,7 +41,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
-import org.mkm.gui.MkmPanel;
 
 
 public class MagicGUI extends JFrame {

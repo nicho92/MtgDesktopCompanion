@@ -223,9 +223,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	public List<MagicEdition> loadEditions() throws IOException {
 
 		List<MagicEdition> ret = new ArrayList<>();
-		for(File f : setDirectory.listFiles(pathname->{
-				return pathname.getName().endsWith(ext);
-			}))
+		for(File f : setDirectory.listFiles(pathname->pathname.getName().endsWith(ext)))
 			{
 					ret.add(getEdition(f));
 			}
