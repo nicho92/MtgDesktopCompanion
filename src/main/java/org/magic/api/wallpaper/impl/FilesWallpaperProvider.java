@@ -16,9 +16,6 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 
 public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
-
-	String url="http://www.artofmtg.com";
-	String userAgent="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13";
 	
 	public static void main(String[] args) {
 		new FilesWallpaperProvider().search("");

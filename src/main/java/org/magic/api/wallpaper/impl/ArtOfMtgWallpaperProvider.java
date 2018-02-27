@@ -14,11 +14,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
+import org.magic.services.MTGConstants;
 
 public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 
 	String url="http://www.artofmtg.com";
-	String userAgent="Mozilla/5.0 (X11; U; Linux x86_64; en-US; rv:1.9.2.13) Gecko/20101206 Ubuntu/10.10 (maverick) Firefox/3.6.13";
 	
 	@Override
 	public List<Wallpaper> search(String search) {
@@ -26,7 +26,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 		try {
 			
 			Document d = Jsoup.connect(url+"/?s="+search)
-					  .userAgent(userAgent)
+					  .userAgent(MTGConstants.USER_AGENT)
 					  .get();
 			
 			for(Element e : d.select("article.result"))
@@ -53,7 +53,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 		try {
 			
 			Document d = Jsoup.connect(url+"/set/"+ed.getSet().toLowerCase().replaceAll(" ", "-"))
-					  .userAgent(userAgent)
+					  .userAgent(MTGConstants.USER_AGENT)
 					  .get();
 			
 			for(Element e : d.select("div.elastic-portfolio-item img"))
