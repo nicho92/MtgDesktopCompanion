@@ -79,31 +79,18 @@ public class ConstructPanel extends JPanel {
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private DrawProbabilityPanel drawProbabilityPanel;
 	private DeckPricePanel deckPricePanel ;
-	private HandPanel thumbnail;
-	private JPanel panelBottom;
-	private JTextField txtSearch;
-
-	private JComboBox<String> cboAttributs;
-
-	private JScrollPane scrollResult;
-
 	private DeckModel deckSidemodel;
 	private DeckModel deckmodel;
-	private JButton btnSearch;
-	private JButton btnExports;
-	private JButton btnUpdate;
 	private MagicDeck deck;
-
+	private JButton btnExports;
+	
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 
 	private JTable tableDeck;
 	private JTable tableSide;
 	private JList<MagicCard> listResult;
-	private JTabbedPane tabbedPane;
 	private JLabel lblExport = new JLabel("");
-	private ButtonGroup groupsFilterResult;
 	private DrawProbabilityPanel cardDrawProbaPanel ;
-	
 	
 	public static final int MAIN = 0;
 	public static final int SIDE = 1;
@@ -140,7 +127,17 @@ public class ConstructPanel extends JPanel {
 	private void initGUI() {
 
 		JPanel panneauHaut = new JPanel();
+		JButton btnSearch;
+		JButton btnUpdate;
+		HandPanel thumbnail;
+		JPanel panelBottom;
+		JTextField txtSearch;
+		JComboBox<String> cboAttributs;
+		JScrollPane scrollResult;
+		JTabbedPane tabbedPane;
+		ButtonGroup groupsFilterResult;
 
+		
 		lblExport.setIcon(MTGConstants.ICON_LOADING);
 		lblExport.setVisible(false);
 
@@ -204,7 +201,7 @@ public class ConstructPanel extends JPanel {
 					}
 				} catch (Exception ex) {
 					logger.error(ex);
-					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 				}
 			
 		});
@@ -267,7 +264,7 @@ public class ConstructPanel extends JPanel {
 					MTGControler.getInstance().saveDeck(deck);
 				} catch (Exception ex) {
 					logger.error("error saving",ex);
-					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 				}
 			
 		});
@@ -348,7 +345,7 @@ public class ConstructPanel extends JPanel {
 											logger.error(e);
 											MTGLogger.printStackTrace(e);
 											loading(false, "");
-											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 										}
 
 									
@@ -397,7 +394,7 @@ public class ConstructPanel extends JPanel {
 									} catch (Exception e) {
 										logger.error(e);
 										loading(false, "");
-										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 									}
 							}, "Export " + deck + " to " + exp.getName());
 					});
@@ -714,7 +711,7 @@ public class ConstructPanel extends JPanel {
 							listResult.updateUI();
 
 						} catch (Exception e) {
-							JOptionPane.showMessageDialog(null, e.getMessage(), MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, e.getMessage(), MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 						}
 					
 				},"search deck");

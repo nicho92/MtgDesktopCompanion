@@ -170,7 +170,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 							MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
 						} catch (Exception e) {
 							MTGLogger.printStackTrace(e);
-							JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 						}
 				});
 				

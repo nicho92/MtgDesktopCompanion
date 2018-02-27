@@ -38,12 +38,8 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class BoosterBoxDashlet extends AbstractJDashlet{
-	private JSpinner boxSizeSpinner;
-	private JComboBox<MagicEdition> cboEditions;
-	private JXTable table;
-	private BoostersTableModel boostersModel;
-	private DefaultListModel<MagicCard> cardsModel;
-	private JTextPane txtDetailBox;
+
+	private static final long serialVersionUID = 1L;
 	private DecimalFormat doubleFormat;
 	
 	public BoosterBoxDashlet() {
@@ -66,6 +62,12 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 
 	@Override
 	public void initGUI() {
+		JSpinner boxSizeSpinner;
+		
+		JXTable table;
+		BoostersTableModel boostersModel;
+		DefaultListModel<MagicCard> cardsModel;
+		JTextPane txtDetailBox;
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 	
@@ -78,7 +80,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 			MTGLogger.printStackTrace(e);
 		}
 		
-		cboEditions = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
+		JComboBox<MagicEdition> cboEditions = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
 		cboEditions.setRenderer(new MagicEditionListRenderer());
 		
 		

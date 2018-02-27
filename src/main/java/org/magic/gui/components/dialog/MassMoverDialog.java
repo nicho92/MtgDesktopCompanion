@@ -132,7 +132,7 @@ public class MassMoverDialog extends JDialog {
 									model.init(dao.listCardsFromCollection(toSaveCol,toSaveEd));
 							} catch (SQLException ex) {
 								logger.error(ex);
-								JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 							}
 							
 							model.fireTableDataChanged();

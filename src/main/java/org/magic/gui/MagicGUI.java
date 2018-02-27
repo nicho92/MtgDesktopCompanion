@@ -68,7 +68,7 @@ public class MagicGUI extends JFrame {
 		catch(Exception e)
 		{
 			logger.error("Error init GUI",e);
-			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 		}
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
 		
@@ -228,7 +228,7 @@ public class MagicGUI extends JFrame {
 						}
 						else
 						{
-							JOptionPane.showMessageDialog(null, "NO EXPORTER AVAILABLE",MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, "NO EXPORTER AVAILABLE",MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 						}
 					}
 		});

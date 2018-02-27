@@ -117,7 +117,7 @@ public class StockPanelGUI extends JPanel {
 									ms.setUpdate(false);
 									lblLoading.setVisible(false);
 								} catch (SQLException e1) {
-									JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR") + " : " + ms,JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getError() + " : " + ms,JOptionPane.ERROR_MESSAGE);
 									lblLoading.setVisible(false);
 								}
 						
@@ -157,7 +157,7 @@ public class StockPanelGUI extends JPanel {
 							}
 							catch(Exception e)
 							{
-								JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 								lblLoading.setVisible(false);
 							}
 							lblLoading.setVisible(false);
@@ -178,7 +178,7 @@ public class StockPanelGUI extends JPanel {
 								lblLoading.setVisible(true);
 								model.init();
 							} catch (SQLException e1) {
-								JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 							}
 							lblLoading.setVisible(false);
 							updateCount();
@@ -220,7 +220,7 @@ public class StockPanelGUI extends JPanel {
 									try {
 										importFromCollection(col);
 									} catch (SQLException e) {
-										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 										
 									}
 									lblLoading.setVisible(false);
@@ -292,7 +292,7 @@ public class StockPanelGUI extends JPanel {
 										} catch (Exception e) {
 											logger.error(e);
 											lblLoading.setVisible(false);
-											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 										}
 
 								}, "import " + exp);
@@ -345,7 +345,7 @@ public class StockPanelGUI extends JPanel {
 										} catch (Exception e) {
 											logger.error(e);
 											lblLoading.setVisible(false);
-											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 										}
 								}, "export " + exp);
 						
@@ -802,7 +802,7 @@ public class StockPanelGUI extends JPanel {
 					lblLoading.setVisible(true);
 					model.init();
 				} catch (SQLException e1) {
-					JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e1.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 				}
 				lblLoading.setVisible(false);
 				updateCount();

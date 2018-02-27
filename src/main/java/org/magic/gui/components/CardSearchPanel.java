@@ -192,7 +192,7 @@ public class CardSearchPanel extends JPanel {
 								MTGControler.getInstance().getEnabledDAO().saveCard(mcCard, MTGControler.getInstance().getEnabledDAO().getCollection(collec));
 							} catch (SQLException e1) {
 								logger.error(e1);
-								JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+								JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 							}
 
 						}
@@ -640,7 +640,7 @@ public class CardSearchPanel extends JPanel {
 											} catch (Exception e) {
 												logger.error(e);
 												loading(false, "");
-												JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+												JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 											}	
 										}, "export search " + exp);
 							}

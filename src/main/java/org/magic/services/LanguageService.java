@@ -10,7 +10,6 @@ public class LanguageService {
 	ResourceBundle rbundle;
 	StringBuilder temp;
 	
-	public static final String ERRORKEY="ERROR";
 	
 	
 	private static final String BUNDLE = "locales.lang";
@@ -79,5 +78,9 @@ public class LanguageService {
 		return StringUtils.capitalize(get(key));
 	}
 	
-
+	
+	public String getError()
+	{
+		return getCapitalize("ERROR");
+	}
 }

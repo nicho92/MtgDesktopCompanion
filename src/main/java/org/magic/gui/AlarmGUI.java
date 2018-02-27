@@ -134,7 +134,7 @@ public class AlarmGUI extends JPanel {
 							Desktop.getDesktop().browse(new URI(p.getUrl()));
 						}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
@@ -176,7 +176,7 @@ public class AlarmGUI extends JPanel {
 						MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
 						model.fireTableDataChanged();
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 					}
 				}
 		});

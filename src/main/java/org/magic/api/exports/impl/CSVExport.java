@@ -6,6 +6,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -132,7 +133,7 @@ public class CSVExport extends AbstractCardExport{
 		
 	}
 	
-	public void exportPriceCatalog(List<MagicCard> cards, File f,MTGPricesProvider prov) throws Exception
+	public void exportPriceCatalog(List<MagicCard> cards, File f,MTGPricesProvider prov) throws IOException
 	{
 		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
 		{
@@ -151,17 +152,29 @@ public class CSVExport extends AbstractCardExport{
 				for(MagicPrice prices : prov.getPrice(mc.getEditions().get(0),mc))
 				{
 					for(String k : exportedProperties){
-						String val = BeanUtils.getProperty(mc, k);
-						if(val==null)
-							val="";
-						bw.write(val.replaceAll("\n", "")+";");
+						String val;
+						try {
+							val = BeanUtils.getProperty(mc, k);
+							if(val==null)
+								val="";
+							bw.write(val.replaceAll("\n", "")+";");
+						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+							throw new IOException(e);
+						}
 					}
 
-					for(String p : exportedPricesProperties){
-						String val = BeanUtils.getProperty(prices,p);
-						if(val==null)
-							val="";
-						bw.write(val.replaceAll("\n", "")+";");
+					for(String p : exportedPricesProperties)
+					{
+						String val;
+						try {
+							val = BeanUtils.getProperty(prices,p);
+							if(val==null)
+								val="";
+							bw.write(val.replaceAll("\n", "")+";");
+						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+							throw new IOException(e);
+						}
+						
 					}
 					bw.write("\n");
 				}

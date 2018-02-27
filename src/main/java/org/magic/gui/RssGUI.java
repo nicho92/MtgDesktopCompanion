@@ -137,7 +137,7 @@ public class RssGUI extends JPanel {
 					initTree();
 				} catch (SQLException ex) {
 					logger.error("Error saving news", ex);
-					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 				}
 		});
 		panelControl.add(btnSave);
@@ -149,7 +149,7 @@ public class RssGUI extends JPanel {
 				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error delete news", ex);
-				JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 			}
 		});
 		panelControl.add(btnDelete);
@@ -194,10 +194,7 @@ public class RssGUI extends JPanel {
 				}
 				else
 				{
-					ThreadManager.getInstance().execute(new Runnable() {
-						
-						@Override
-						public void run() {
+					ThreadManager.getInstance().execute(()->{
 							lblLoading.setVisible(true);
 							try {
 								logger.debug("loading " + sel.getLink());
@@ -208,7 +205,7 @@ public class RssGUI extends JPanel {
 								logger.error("Error reading " + sel.getLink(),e);
 								lblLoading.setVisible(false);
 							}
-						}
+						
 					});
 				}
 			}

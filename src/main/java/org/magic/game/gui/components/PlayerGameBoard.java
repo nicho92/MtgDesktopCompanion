@@ -119,7 +119,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 														panelHandLib.setLayout(new GridLayout(2, 1, 0, 0));
 														
 														lblHandCount = new JLabel("0");
-														lblHandCount.setFont(new Font("Tahoma", Font.BOLD, 18));
+														lblHandCount.setFont(new Font(MTGConstants.GAME_FONT, Font.BOLD, 18));
 														lblHandCount.setHorizontalTextPosition(JLabel.CENTER);
 														lblHandCount.setIcon(MTGConstants.ICON_GAME_HAND);
 														panelHandLib.add(lblHandCount);
@@ -127,7 +127,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 														lblLibraryCount = new JLabel("");
 														lblLibraryCount.setHorizontalTextPosition(SwingConstants.CENTER);
 														lblLibraryCount.setHorizontalAlignment(SwingConstants.CENTER);
-														lblLibraryCount.setFont(new Font("Tahoma", Font.BOLD, 18));
+														lblLibraryCount.setFont(new Font(MTGConstants.GAME_FONT, Font.BOLD, 18));
 														lblLibraryCount.setIcon(MTGConstants.ICON_GAME_LIBRARY);
 														panelHandLib.add(lblLibraryCount);
 														
@@ -143,7 +143,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 																
 																spinLife = new JSpinner();
 																panel.add(spinLife);
-																spinLife.setFont(new Font("Tahoma", Font.BOLD, 17));
+																spinLife.setFont(new Font(MTGConstants.GAME_FONT, Font.BOLD, 17));
 																
 																JLabel lblPoison = new JLabel("");
 																panel.add(lblPoison);
@@ -152,7 +152,7 @@ public class PlayerGameBoard extends JPanel implements Observer {
 																
 																spinPoison = new JSpinner();
 																panel.add(spinPoison);
-																spinPoison.setFont(new Font("Tahoma", Font.BOLD, 15));
+																spinPoison.setFont(new Font(MTGConstants.GAME_FONT, Font.BOLD, 15));
 																
 																panelBattleField = new BattleFieldPanel();
 																add(panelBattleField, BorderLayout.CENTER);

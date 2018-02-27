@@ -65,7 +65,7 @@ public class StoriesGUI extends JPanel {
 					        		editorPane.setText(Jsoup.connect(listResult.getSelectedValue().getUrl().toString()).get().select("div#content-detail-page-of-an-article").html());
 					        		
 					        	} catch (Exception e) {
-									JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+									JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 								}
 					        	lblLoading.setVisible(false);			
 						},"Load story");
@@ -75,7 +75,7 @@ public class StoriesGUI extends JPanel {
 		        	try {
 						Desktop.getDesktop().browse(listResult.getSelectedValue().getUrl().toURI());
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 					}
 		        }
 		    }

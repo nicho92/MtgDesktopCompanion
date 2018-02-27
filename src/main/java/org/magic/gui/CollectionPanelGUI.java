@@ -283,7 +283,7 @@ public class CollectionPanelGUI extends JPanel {
 					initPopupCollection();
 				} catch (Exception ex) {
 					logger.error(ex);
-					JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 				}
 		});
 						
@@ -355,7 +355,7 @@ public class CollectionPanelGUI extends JPanel {
 													} catch (Exception e) {
 														logger.error(e);
 														progressBar.setVisible(false);
-														JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+														JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 													}
 											}, "export collection with " + exp)
 									);
@@ -593,7 +593,7 @@ public class CollectionPanelGUI extends JPanel {
 						} catch (Exception e) {
 							logger.error("error generating website",e);
 							progressBar.setVisible(false);
-							JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getCapitalize("ERROR"), JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 						}
 				},"btnGenerateWebSite generate website")
 		);
@@ -615,7 +615,7 @@ public class CollectionPanelGUI extends JPanel {
 						model.calculate();
 						model.fireTableDataChanged();
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 						logger.error(e);
 					}
 		});
@@ -637,7 +637,7 @@ public class CollectionPanelGUI extends JPanel {
 							curr.removeFromParent();
 						}
 					} catch (SQLException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				if (curr.getUserObject() instanceof MagicEdition) {
@@ -652,7 +652,7 @@ public class CollectionPanelGUI extends JPanel {
 							curr.removeFromParent();
 						}
 					} catch (SQLException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 					}
 				}
 				if (curr.getUserObject() instanceof MagicCollection) {
@@ -664,7 +664,7 @@ public class CollectionPanelGUI extends JPanel {
 							curr.removeFromParent();
 						}
 					} catch (SQLException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 					}
 				}
 
@@ -672,7 +672,7 @@ public class CollectionPanelGUI extends JPanel {
 					try {
 						model.calculate();
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 					}
 					tree.refresh();
 

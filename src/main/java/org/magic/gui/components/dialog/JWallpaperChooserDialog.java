@@ -97,7 +97,7 @@ public class JWallpaperChooserDialog extends JDialog{
 							
 						} catch (Exception e1) {
 							lblLoad.setVisible(false);
-							JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+							JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 						}
 					}, "search " + selectedProvider )
 		);
@@ -130,7 +130,7 @@ public class JWallpaperChooserDialog extends JDialog{
 					
 				} catch (Exception e1) {
 					lblLoad.setVisible(false);
-					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 				}
 			}, "search " + selectedProvider )
 );

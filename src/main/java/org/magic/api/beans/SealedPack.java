@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class SealedPack implements Serializable {
 
-	Map<MagicEdition, Integer> pack;
+	private transient Map<MagicEdition, Integer> pack;
 	
 	public SealedPack() {
 		pack=new HashMap<>();

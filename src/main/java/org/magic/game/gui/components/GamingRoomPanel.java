@@ -169,7 +169,7 @@ public class GamingRoomPanel extends JPanel {
 				}
 				catch(Exception e)
 				{
-					JOptionPane.showMessageDialog(getRootPane(), e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(getRootPane(), e,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 				}
 			}
 		);

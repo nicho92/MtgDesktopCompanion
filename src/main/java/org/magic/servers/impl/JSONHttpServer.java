@@ -169,7 +169,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	  } 
 	  catch (Exception e) 
 	  {
-		  logger.error("ERROR",e);
+		  logger.error("ERROR moveCard",e);
 		  Response r = NanoHTTPD.newFixedLengthResponse(e.getMessage());
 		  		   r.setStatus(Status.INTERNAL_ERROR);
 		  return r;
@@ -193,7 +193,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	  } 
 	  catch (Exception e) 
 	  {
-		  logger.error("ERROR",e);
+		  logger.error("ERROR searchcard",e);
 		  return NanoHTTPD.newFixedLengthResponse("Usage : /search?<i>att</i>=<i>value</i>");
 	  }
 	}
@@ -222,7 +222,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	  } 
 	  catch (Exception e) 
 	  {
-		  logger.error("ERROR",e);
+		  logger.error("ERROR listCards",e);
 		  return NanoHTTPD.newFixedLengthResponse("Usage : /cards?col=<i>value</i>&set=<i>id</i>");
 	  }
 	}
@@ -237,7 +237,7 @@ public class JSONHttpServer extends AbstractMTGServer
 		try {
 			list = MTGControler.getInstance().getEnabledDAO().getCollections();
 		} catch (SQLException e1) {
-			logger.error("ERROR",e1);
+			logger.error("ERROR getCollections",e1);
 			return NanoHTTPD.newFixedLengthResponse("Usage : /collections");
 		}
     	  
@@ -252,7 +252,7 @@ public class JSONHttpServer extends AbstractMTGServer
 		  } 
 		  catch (Exception e) 
 		  {
-			  logger.error("ERROR",e);
+			  logger.error("ERROR listCollections",e);
 			  return NanoHTTPD.newFixedLengthResponse("Usage : /collections");
 		  }
 	}
@@ -287,7 +287,7 @@ public class JSONHttpServer extends AbstractMTGServer
    	  } 
    	  catch (Exception e) 
    	  {
-   		  logger.error("ERROR",e);
+   		  logger.error("ERROR listEditions",e);
    		  return NanoHTTPD.newFixedLengthResponse("Usage : /editions?col=<i>value</i> or /editions");
    	  }
 	}

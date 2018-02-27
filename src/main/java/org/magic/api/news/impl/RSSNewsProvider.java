@@ -66,11 +66,9 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 			
 			return ret;
 			
-		} catch (IllegalArgumentException e) {
+		} catch (IllegalArgumentException|FeedException e) {
 			throw new IOException(e);
-		} catch (FeedException e) {
-			throw new IOException(e);
-		}
+		} 
 		finally
 		{
 			if(is!=null)

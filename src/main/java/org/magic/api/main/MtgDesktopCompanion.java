@@ -43,7 +43,7 @@ public class MtgDesktopCompanion {
 				logger.info("Init MTG Desktop Companion GUI");
 		}catch (Exception e) {
 			logger.error("Error initialisation",e);
-			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
+			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 		}
 
 		ThreadManager.getInstance().runInEdt(()-> {
