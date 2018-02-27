@@ -82,17 +82,10 @@ public class CollectionPanelGUI extends JPanel {
 	private transient MTGCardsProvider provider;
 	private transient MTGDao dao;
 	private LazyLoadingTree tree;
-	private MagicEditionsTableModel model;
-	private JProgressBar progressBar;
 	private TreePath path;
 	private JXTable tablePrices;
 	private CardsPriceTableModel modelPrices;
 	private MagicCollection selectedcol;
-	private JTabbedPane tabbedPane; 
-	private TypeRepartitionPanel typeRepartitionPanel;
-	private ManaRepartitionPanel manaRepartitionPanel;
-	private RarityRepartitionPanel rarityRepartitionPanel;
-	private transient MagicCardDetailPanel magicCardDetailPanel;
 	private transient MagicEditionDetailPanel magicEditionDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
 	private CardStockPanel statsPanel;
@@ -112,6 +105,15 @@ public class CollectionPanelGUI extends JPanel {
 	
 	public void initGUI() throws IOException, SQLException, ClassNotFoundException  {
 		logger.info("init collection GUI");
+
+		MagicEditionsTableModel model;
+		JProgressBar progressBar;
+		JTabbedPane tabbedPane; 
+		TypeRepartitionPanel typeRepartitionPanel;
+		ManaRepartitionPanel manaRepartitionPanel;
+		RarityRepartitionPanel rarityRepartitionPanel;
+		MagicCardDetailPanel magicCardDetailPanel;
+
 		
 ////////INIT COMPONENTS
 		JPanel panneauHaut = new JPanel();

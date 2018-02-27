@@ -21,9 +21,6 @@ public class MagicNewsTableModel extends DefaultTableModel{
 	private transient List<MagicNewsContent> ret;
 
 	
-	public MagicNewsTableModel() {
-		
-	}
 	
 	@Override
 	public int getRowCount() {

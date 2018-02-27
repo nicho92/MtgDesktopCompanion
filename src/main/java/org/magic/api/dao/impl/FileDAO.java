@@ -403,8 +403,9 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteNews(MagicNews n) {
-	
-		
+		File dir = new File(new File(directory,ALERTSDIR),n.getCategorie());
+		File f = new File(dir,n.getId()+"-"+n.getName());
+		FileUtils.deleteQuietly(f);
 	}
 
 	@Override
