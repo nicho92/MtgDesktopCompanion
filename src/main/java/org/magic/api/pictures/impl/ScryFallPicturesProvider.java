@@ -69,9 +69,8 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 	
 		
-		if(selected.getMultiverse_id()!=null)
-			if(!selected.getMultiverse_id().equals("0"))
-				url = "https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image";
+		if(selected.getMultiverse_id()!=null && !selected.getMultiverse_id().equals("0"))
+			url = "https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image";
 
 		
 	

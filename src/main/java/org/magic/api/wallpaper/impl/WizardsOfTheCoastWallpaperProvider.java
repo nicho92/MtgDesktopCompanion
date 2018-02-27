@@ -1,5 +1,6 @@
 package org.magic.api.wallpaper.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
@@ -13,13 +14,13 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	@Override
 	public List<Wallpaper> search(String search) {
 		String url ="https://magic.wizards.com/en/see-more-wallpaper?page=1&filter_by=DESC&artist=-1&expansion=&title="+search+"&is_search=1";
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override
 	public List<Wallpaper> search(MagicEdition ed) {
 		// TODO Auto-generated method stub
-		return null;
+		return new ArrayList<>();
 	}
 
 	@Override

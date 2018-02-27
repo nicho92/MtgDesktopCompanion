@@ -137,9 +137,8 @@ public class ManaRepartitionPanel extends JPanel{
 		else
 		{
 			for(MagicCard mc : cards)
-				if(mc.getColors().size()==1)
-					if(mc.getColors().get(0).equals(string))
-						count++;
+				if(mc.getColors().size()==1 && mc.getColors().get(0).equals(string))
+					count++;
 			
 			return count;
 		}

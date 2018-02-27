@@ -32,8 +32,7 @@ public class RarityRepartitionPanel extends JPanel{
 
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<>();
-		if(deck!=null)
-			if(deck.getMap()!=null)
+		if(deck!=null && deck.getMap()!=null)
 				for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
 				{
 					MagicCard mc = cci.getKey();

@@ -3,6 +3,7 @@ package org.magic.api.providers.impl;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -26,6 +27,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -34,8 +36,10 @@ import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonIOException;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider extends AbstractCardsProvider {
@@ -440,7 +444,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		  new Thread(()->{
 				try {
 					initOtherEdition(mc);
-					generateRules(mc);
+					//generateRules(mc);
 				} catch (Exception e) {
 					logger.error("error in initOtherEdition :" + e.getMessage());
 				}
@@ -450,9 +454,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		
 	}
 
-	private void generateRules(MagicCard mc)
+	private void generateRules(MagicCard mc) throws IOException
 	{
-		/*String url = "https://api.scryfall.com/cards/"+mc.getId()+"/rulings";
+		String url = "https://api.scryfall.com/cards/"+mc.getId()+"/rulings";
 		HttpURLConnection con = (HttpURLConnection) getConnection(url);
 		
 		
@@ -467,7 +471,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 						rul.setText(obr.get("comment").getAsString());
 			
 			mc.getRulings().add(rul);
-		}*/
+		}
 	}
 	
 	private void generateTypes(MagicCard mc, String line) {

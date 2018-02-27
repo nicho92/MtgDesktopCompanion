@@ -38,7 +38,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		}
 		
 
-		private void sendDeck(IoSession session, ShareDeckAction act) {
+		private void sendDeck(ShareDeckAction act) {
 			acceptor.getManagedSessions().get(act.getTo().getId()).write(act);
 		}
 
@@ -84,7 +84,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 				case CHANGE_DECK: changeDeck(session,(ChangeDeckAction)act);break;
  	 				case SPEAK: speak((SpeakAction)act);break;	
  	 				case CHANGE_STATUS:playerUpdate((ChangeStatusAction)act);break;
- 	 				case SHARE:sendDeck(session,(ShareDeckAction)act);break;
+ 	 				case SHARE:sendDeck((ShareDeckAction)act);break;
  	 				default:break;
 				}
  	 		}

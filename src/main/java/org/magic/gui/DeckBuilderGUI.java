@@ -5,14 +5,11 @@ import java.awt.BorderLayout;
 import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
-import org.apache.log4j.Logger;
 import org.magic.gui.components.ConstructPanel;
 import org.magic.gui.components.SealedPanel;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 public class DeckBuilderGUI extends JPanel {
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	public DeckBuilderGUI() {
 		setLayout(new BorderLayout());

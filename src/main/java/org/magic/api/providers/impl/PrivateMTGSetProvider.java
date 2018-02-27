@@ -109,9 +109,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	
 	private int indexOf(MagicCard mc, JsonArray arr) {
 		for(int i=0;i<arr.size();i++)
-			if(arr.get(i).getAsJsonObject().get("id")!=null)
-				if(arr.get(i).getAsJsonObject().get("id").getAsString().equals(mc.getId()))
-					return i;
+			if(arr.get(i).getAsJsonObject().get("id")!=null && (arr.get(i).getAsJsonObject().get("id").getAsString().equals(mc.getId())))
+				return i;
 		
 		return -1;
 	}

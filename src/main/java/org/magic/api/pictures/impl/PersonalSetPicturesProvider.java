@@ -3,6 +3,7 @@ package org.magic.api.pictures.impl;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 
 import javax.imageio.ImageIO;
 
@@ -22,7 +23,6 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
 	
 	BufferedImage back;
-//	PicturesCache cache = new MemoryCache();
 	
 	public void savePicture(BufferedImage bi,MagicCard mc,MagicEdition ed) throws IOException
 	{
@@ -34,7 +34,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 			edDir.mkdir();
 		
 		
-		ImageIO.write(bi,props.getProperty("FORMAT"),new File(edDir,"/"+mc.getId()+"."+props.getProperty("FORMAT").toLowerCase()));
+		ImageIO.write(bi,props.getProperty("FORMAT"),Paths.get(edDir.getAbsolutePath(), mc.getId()+"."+props.getProperty("FORMAT").toLowerCase()).toFile());
 	}
 	
 	

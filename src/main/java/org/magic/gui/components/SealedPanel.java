@@ -253,7 +253,7 @@ public class SealedPanel extends JPanel {
 			public PositionEnum getOrigine() {
 				return PositionEnum.DECK;
 				
-			};
+			}
 			
 			@Override
 			public void moveCard(DisplayableCard mc, PositionEnum to) {

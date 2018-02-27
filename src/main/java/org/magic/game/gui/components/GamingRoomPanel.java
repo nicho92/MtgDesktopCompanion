@@ -218,9 +218,8 @@ public class GamingRoomPanel extends JPanel {
 				int modelrow= table.convertRowIndexToModel(table.getSelectedRow());
 				otherplayer = (Player) table.getModel().getValueAt(modelrow, 0);
 				
-				if(otherplayer!=null)
-					if(otherplayer.getDeck()!=null)
-						btnPlayGame.setEnabled(true);
+				if(otherplayer!=null && otherplayer.getDeck()!=null)
+					btnPlayGame.setEnabled(true);
 					
 			}
 		});
