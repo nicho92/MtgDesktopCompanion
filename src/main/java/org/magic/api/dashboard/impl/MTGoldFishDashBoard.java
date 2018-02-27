@@ -29,7 +29,8 @@ import org.magic.services.MTGLogger;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 
-public class MTGoldFishDashBoard extends AbstractDashBoard{
+public class MTGoldFishDashBoard extends AbstractDashBoard
+{
 	private Date updateTime;
     boolean stop ;	    
     private Map<String,String> mapConcordance;
@@ -168,18 +169,18 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		Element table =null;
 		try{
 		
-			table = doc.select("table").get(0).getElementsByTag("tbody").get(0).appendChild(doc2.select("table").get(0).getElementsByTag("tbody").get(0));//combine 2 results
+			table = doc.select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag("tbody").get(0).appendChild(doc2.select(MTGConstants.HTML_TAG_TABLE).get(0).getElementsByTag(MTGConstants.HTML_TAG_TBODY).get(0));//combine 2 results
 			
-			for(Element e : table.getElementsByTag("tr"))
+			for(Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR))
 			{
 				CardShake cs = new CardShake();
-						cs.setName(e.getElementsByTag("TD").get(3).text().replaceAll("\\(RL\\)", "").trim());
-						cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(3).getElementsByTag("a").get(0).attr("data-full-image")));
-						cs.setPrice(parseDouble(e.getElementsByTag("TD").get(4).text()));
-						cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(1).text()));
-						cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
+						cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text().replaceAll("\\(RL\\)", "").trim());
+						cs.setImg(new URL("http://"+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).getElementsByTag("a").get(0).attr("data-full-image")));
+						cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
+						cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text()));
+						cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
 				
-				String set = e.getElementsByTag("TD").get(2).getElementsByTag("img").get(0).attr("alt");
+				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).getElementsByTag("img").get(0).attr("alt");
 				cs.setEd(replace(set,true));
 				
 				list.add(cs);
@@ -220,20 +221,20 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		Element table =null;
 		try{
 			
-			table = doc.select("table").get(1).getElementsByTag("tbody").get(0);
+			table = doc.select(MTGConstants.HTML_TAG_TABLE).get(1).getElementsByTag(MTGConstants.HTML_TAG_TBODY).get(0);
 			
-			for(Element e : table.getElementsByTag("tr"))
+			for(Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR))
 			{
 				CardShake cs = new CardShake();
 					
-					cs.setName(e.getElementsByTag("TD").get(0).text().replaceAll("\\(RL\\)", "").trim());
-					cs.setImg(new URL("http://"+e.getElementsByTag("TD").get(0).getElementsByTag("a").get(0).attr("data-full-image")));
-					cs.setRarity(e.getElementsByTag("TD").get(2).text());
-					cs.setPrice(parseDouble(e.getElementsByTag("TD").get(3).text()));
-					cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(4).text()));
-					cs.setPercentDayChange(parseDouble(e.getElementsByTag("TD").get(5).text()));
-					cs.setPriceWeekChange(parseDouble(e.getElementsByTag("TD").get(6).text()));
-					cs.setPercentWeekChange(parseDouble(e.getElementsByTag("TD").get(7).text()));
+					cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().replaceAll("\\(RL\\)", "").trim());
+					cs.setImg(new URL("http://"+e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).getElementsByTag("a").get(0).attr("data-full-image")));
+					cs.setRarity(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text());
+					cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
+					cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
+					cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
+					cs.setPriceWeekChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(6).text()));
+					cs.setPercentWeekChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(7).text()));
 					cs.setEd(oldID);
 					cs.setDateUpdate(new Date());
 					
@@ -265,7 +266,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard{
 		List<CardDominance> ret = new ArrayList<>();
 		for(Element e : trs)
 		{
-			Elements tds = e.select("td");
+			Elements tds = e.select(MTGConstants.HTML_TAG_TD);
 			try {
 				int correct = filter.equalsIgnoreCase("lands")?1:0;
 				

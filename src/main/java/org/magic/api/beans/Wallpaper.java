@@ -20,7 +20,7 @@ public class Wallpaper {
 	public BufferedImage getPicture() throws IOException {
 		if(picture==null)
 		{
-			URLConnection connection = (URLConnection) url.openConnection();
+			URLConnection connection = url.openConnection();
 			connection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
 			picture=ImageIO.read(connection.getInputStream());
 		}

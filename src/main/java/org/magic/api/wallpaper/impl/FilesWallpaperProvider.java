@@ -33,7 +33,6 @@ public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
 			
 			for(File f : res)
 			{
-				System.out.println(f);
 				Wallpaper w = new Wallpaper();
 				w.setName(f.getName());
 				w.setUrl(Paths.get(f.toURI()).toUri().toURL());

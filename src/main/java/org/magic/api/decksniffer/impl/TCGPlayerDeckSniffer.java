@@ -135,14 +135,14 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				
 			Elements table = d.getElementsByClass("dataTable");
 			
-			table.get(0).getElementsByTag("tr").remove(0);
+			table.get(0).getElementsByTag(MTGConstants.HTML_TAG_TR).remove(0);
 			for(Element tr : table.get(0).getElementsByClass("gradeA"))
 			{
 				RetrievableDeck deck = new RetrievableDeck();
 				
 				String mana="";
 				
-				Element manaEl = tr.getElementsByTag("td").get(0);
+				Element manaEl = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0);
 				if(manaEl.toString().contains("white-mana"))
 					mana+="{W}";
 				if(manaEl.toString().contains("blue-mana"))
@@ -154,9 +154,9 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				if(manaEl.toString().contains("green-mana"))
 					mana+="{G}";
 				
-				String deckName= tr.getElementsByTag("td").get(1).text();
-				String link = props.getProperty("URL")+ tr.getElementsByTag("td").get(1).getElementsByTag("a").attr("href");
-				String deckPlayer= tr.getElementsByTag("td").get(2).text();
+				String deckName= tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+				String link = props.getProperty("URL")+ tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
+				String deckPlayer= tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text();
 						
 				deck.setColor(mana);
 				deck.setAuthor(deckPlayer);

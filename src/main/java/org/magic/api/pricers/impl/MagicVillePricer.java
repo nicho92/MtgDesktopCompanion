@@ -119,11 +119,11 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 			return list;
 		}
 		 
-		 Elements rows = table.select("tr");
+		 Elements rows = table.select(MTGConstants.HTML_TAG_TR);
 		 
 		 for (int i = 3; i < rows.size(); i=i+2) {
 			 Element ligne = rows.get(i);
-			 Elements cols = ligne.getElementsByTag("td");
+			 Elements cols = ligne.getElementsByTag(MTGConstants.HTML_TAG_TD);
 			 MagicPrice mp =new MagicPrice();
 			 
 			 String price = cols.get(4).text();

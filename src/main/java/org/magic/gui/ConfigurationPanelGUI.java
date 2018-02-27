@@ -36,7 +36,6 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable picturesProviderTable;
 	private JXTreeTable serversTreeTable;
 	private JXTreeTable cachesTreeTable;
-	private JXTable rssTable;
 
 	private LoggerViewPanel loggerViewPanel;
 	private ThreadMonitorPanel threadMonitorPanel;

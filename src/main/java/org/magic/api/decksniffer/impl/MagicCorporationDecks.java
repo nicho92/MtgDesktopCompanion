@@ -81,15 +81,15 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 		Elements e = d.select("table.html_table > tbody" );
 		
 		List<RetrievableDeck> list = new ArrayList<>();
-		for(Element cont : e.get(0).getElementsByTag("tr"))
+		for(Element cont : e.get(0).getElementsByTag(MTGConstants.HTML_TAG_TR))
 		{
-			String name = cont.getElementsByTag("td").get(1).text();
-			String url = cont.getElementsByTag("td").get(1).getElementsByTag("a").attr("href");
-			String auteur = cont.getElementsByTag("td").get(5).text();
+			String name = cont.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+			String url = cont.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
+			String auteur = cont.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text();
 			
 			StringBuilder temp = new StringBuilder();
 			
-			for(Element color : cont.getElementsByTag("td").get(2).select("img"))
+			for(Element color : cont.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).select("img"))
 			{
 				if(color.attr("src").contains("white"))
 					temp.append("{W}");

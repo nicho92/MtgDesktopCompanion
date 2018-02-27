@@ -50,7 +50,7 @@ public class BoosterQtyPanel extends JPanel {
 		add(cboEditions);
 		
 		spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(new Integer(6), new Integer(0), null, new Integer(1)));
+		spinner.setModel(new SpinnerNumberModel(6, 0, null, 1));
 		add(spinner);
 		
 	}

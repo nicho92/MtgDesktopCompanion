@@ -69,7 +69,7 @@ public class MTGEventProvider {
 			String json = read(link);
 			String e = new JsonParser().parse(json).getAsJsonObject().get("data").getAsString();
 			Elements trs = Jsoup.parse(e).select("tr.multi-day,tr.single-day");
-			for(Element td : trs.select("td"))
+			for(Element td : trs.select(MTGConstants.HTML_TAG_TD))
 			{
 				if(!td.select("a").isEmpty())
 				{

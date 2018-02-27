@@ -67,6 +67,7 @@ public class BoosterPanel extends JPanel {
 		
 	}
 
+	@Override
 	public String toString() {
 		return "BoosterPanel";
 	}

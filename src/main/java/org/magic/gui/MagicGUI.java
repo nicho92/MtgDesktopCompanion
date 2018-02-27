@@ -41,6 +41,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+import org.mkm.gui.MkmPanel;
 
 
 public class MagicGUI extends JFrame {
@@ -69,7 +70,8 @@ public class MagicGUI extends JFrame {
 			logger.error("Error init GUI",e);
 			JOptionPane.showMessageDialog(null, e,MTGControler.getInstance().getLangService().getCapitalize("ERROR"),JOptionPane.ERROR_MESSAGE);
 		}
-
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
+		
 		logger.info("construction of GUI : done");
 	}
 	
@@ -323,7 +325,6 @@ public class MagicGUI extends JFrame {
 
 		//tabbedPane.addTab("MKM", MTGConstants.ICON_SHOP, new MkmPanel(), null);
 		
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
 		
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 		

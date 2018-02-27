@@ -155,18 +155,18 @@ public class SealedPanel extends JPanel {
 								btnOpen.setEnabled(false);
 								
 								btnSaveDeck = new JButton(MTGConstants.ICON_SAVE);
-								GridBagConstraints gbc_btnSaveDeck = new GridBagConstraints();
-								gbc_btnSaveDeck.insets = new Insets(0, 0, 0, 5);
-								gbc_btnSaveDeck.gridx = 2;
-								gbc_btnSaveDeck.gridy = 1;
-								panel.add(btnSaveDeck, gbc_btnSaveDeck);
+								GridBagConstraints gbcbtnSaveDeck = new GridBagConstraints();
+								gbcbtnSaveDeck.insets = new Insets(0, 0, 0, 5);
+								gbcbtnSaveDeck.gridx = 2;
+								gbcbtnSaveDeck.gridy = 1;
+								panel.add(btnSaveDeck, gbcbtnSaveDeck);
 								
 								lblLoading = new JLabel(MTGConstants.ICON_LOADING);
 								lblLoading.setVisible(false);
-								GridBagConstraints gbc_lblLoading = new GridBagConstraints();
-								gbc_lblLoading.gridx = 3;
-								gbc_lblLoading.gridy = 1;
-								panel.add(lblLoading, gbc_lblLoading);
+								GridBagConstraints gbclblLoading = new GridBagConstraints();
+								gbclblLoading.gridx = 3;
+								gbclblLoading.gridy = 1;
+								panel.add(lblLoading, gbclblLoading);
 								btnSaveDeck.addActionListener(e->save());
 								btnOpen.addActionListener(ae->open());
 								btnAddBoosters.addActionListener(ae->addBooster());
@@ -344,10 +344,7 @@ public class SealedPanel extends JPanel {
 		panelDeck.removeAll();
 		panelDeck.revalidate();
 		panelDeck.repaint();
-		ThreadManager.getInstance().execute(new Runnable() {
-			
-			@Override
-			public void run() {
+		ThreadManager.getInstance().execute(()->{
 				int column=0;
 				list = new ArrayList<>();
 				lblLoading.setVisible(true);
@@ -378,7 +375,6 @@ public class SealedPanel extends JPanel {
 				panelOpenedBooster.setList(list);
 				refreshStats();
 				lblLoading.setVisible(false);
-			}
 		});
 	}
 	

@@ -145,7 +145,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		}
 		try{
 
-		Elements s = d.select("table#cards_sideboard").select("tr");
+		Elements s = d.select("table#cards_sideboard").select(MTGConstants.HTML_TAG_TR);
 		s.remove(0);
 		s.remove(0);
 

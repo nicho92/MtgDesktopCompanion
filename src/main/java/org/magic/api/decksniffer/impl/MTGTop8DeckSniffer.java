@@ -89,7 +89,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 				  d.setDateCreation(new Date());
 				  
 					
-			Elements doc =root.select("table.Stable").get(1).select("td table").select("td");
+			Elements doc =root.select("table.Stable").get(1).select("td table").select(MTGConstants.HTML_TAG_TD);
 				  
 		boolean side=false;		  
 		for(Element e : doc.select("td table td"))

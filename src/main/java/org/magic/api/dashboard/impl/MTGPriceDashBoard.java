@@ -89,14 +89,14 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		try{
 			
 		
-			for(Element e : table.select("tr"))
+			for(Element e : table.select(MTGConstants.HTML_TAG_TR))
 			{
 				CardShake cs = new CardShake();
-						cs.setName(e.getElementsByTag("TD").get(0).text().trim());
-						cs.setPrice(parseDouble(e.getElementsByTag("TD").get(2).text()));
-						cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(4).text()));
+						cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+						cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
+						cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
 						
-						String set = e.getElementsByTag("TD").get(1).text();
+						String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
 						set =set.replaceAll("_\\(Foil\\)", "");
 						cs.setEd(getCodeForExt(set));
 			
@@ -104,14 +104,14 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				
 			}
 			
-			for(Element e : table2.select("tr"))
+			for(Element e : table2.select(MTGConstants.HTML_TAG_TR))
 			{
 				CardShake cs = new CardShake();
-						cs.setName(e.getElementsByTag("TD").get(0).text().trim());
-						cs.setPrice(parseDouble(e.getElementsByTag("TD").get(2).text()));
-						cs.setPriceDayChange(parseDouble(e.getElementsByTag("TD").get(4).text()));
+						cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+						cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
+						cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
 						
-						String set = e.getElementsByTag("TD").get(1).text();
+						String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
 						set =set.replaceAll("_\\(Foil\\)", "");
 						cs.setEd(getCodeForExt(set));
 				list.add(cs);

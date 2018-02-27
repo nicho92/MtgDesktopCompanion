@@ -67,7 +67,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 						  .get();
 
 
-		Elements e = d.select("table.deck-view-deck-table" ).get(0).select("tr");
+		Elements e = d.select("table.deck-view-deck-table" ).get(0).select(MTGConstants.HTML_TAG_TR);
 		
 		boolean sideboard = false;
 		for(Element tr: e)

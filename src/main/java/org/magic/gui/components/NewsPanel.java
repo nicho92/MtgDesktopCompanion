@@ -14,9 +14,12 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNews.NEWS_TYPE;
+import org.magic.services.MTGControler;
 
 public class NewsPanel extends JPanel {
 
+
+	private static final long serialVersionUID = 1L;
 	private MagicNews magicNews = new MagicNews();
 	private JTextField categorieJTextField;
 	private JTextField nameJTextField;
@@ -37,20 +40,20 @@ public class NewsPanel extends JPanel {
 		setLayout(gridBagLayout);
 		
 		JLabel lblType = new JLabel("Type:");
-		GridBagConstraints gbc_lblType = new GridBagConstraints();
-		gbc_lblType.anchor = GridBagConstraints.EAST;
-		gbc_lblType.insets = new Insets(0, 0, 5, 5);
-		gbc_lblType.gridx = 0;
-		gbc_lblType.gridy = 0;
-		add(lblType, gbc_lblType);
+		GridBagConstraints gbclblType = new GridBagConstraints();
+		gbclblType.anchor = GridBagConstraints.EAST;
+		gbclblType.insets = new Insets(0, 0, 5, 5);
+		gbclblType.gridx = 0;
+		gbclblType.gridy = 0;
+		add(lblType, gbclblType);
 		
 		cboType = new JComboBox<>(new DefaultComboBoxModel<>(NEWS_TYPE.values()));
-		GridBagConstraints gbc_cboType = new GridBagConstraints();
-		gbc_cboType.insets = new Insets(0, 0, 5, 0);
-		gbc_cboType.fill = GridBagConstraints.HORIZONTAL;
-		gbc_cboType.gridx = 1;
-		gbc_cboType.gridy = 0;
-		add(cboType, gbc_cboType);
+		GridBagConstraints gbccboType = new GridBagConstraints();
+		gbccboType.insets = new Insets(0, 0, 5, 0);
+		gbccboType.fill = GridBagConstraints.HORIZONTAL;
+		gbccboType.gridx = 1;
+		gbccboType.gridy = 0;
+		add(cboType, gbccboType);
 
 		JLabel categorieLabel = new JLabel("Categorie:");
 		GridBagConstraints labelGbc0 = new GridBagConstraints();
@@ -67,7 +70,7 @@ public class NewsPanel extends JPanel {
 		componentGbc0.gridy = 1;
 		add(categorieJTextField, componentGbc0);
 
-		JLabel nameLabel = new JLabel("Name:");
+		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME")+": ");
 		GridBagConstraints labelGbc2 = new GridBagConstraints();
 		labelGbc2.insets = new Insets(5, 5, 5, 5);
 		labelGbc2.gridx = 0;

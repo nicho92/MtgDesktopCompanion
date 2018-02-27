@@ -94,4 +94,10 @@ public class MTGConstants {
 	public static final int TABLE_ROW_HEIGHT=18;
 	public static final int TABLE_ROW_WIDTH=18;
 	
+	
+	public static final String HTML_TAG_TABLE = "table";
+	public static final String HTML_TAG_TBODY = "tbody";
+	public static final String HTML_TAG_TR = "tr";
+	public static final String HTML_TAG_TD = "td";
+	
 }
