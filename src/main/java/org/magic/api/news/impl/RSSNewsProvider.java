@@ -48,7 +48,6 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 				content.setTitle(s.getTitle());
 				content.setAuthor(s.getAuthor());
 				content.setDate(s.getPublishedDate());
-				try{
 					URL link;
 					if(!s.getLink().startsWith(baseURI))
 						link = new URL(baseURI+s.getLink());
@@ -56,11 +55,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 						link = new URL(s.getLink());
 					
 					content.setLink(link);
-				}
-				catch(MalformedURLException e)
-				{
-					logger.error(e);
-				}
+				
 				ret.add(content);
 			}
 			

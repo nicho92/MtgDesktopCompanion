@@ -135,13 +135,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 							  String idSet = sets.item(s).getTextContent();
 							  
 							  if(idSet.equals(mc.getEditions().get(0).getId()))
-								  try {
-									  MagicEdition ed=MTGControler.getInstance().getEnabledProviders().getSetById(idSet);
-									  tok.getEditions().add(ed);
-								} catch (Exception e) {
-									MTGLogger.printStackTrace(e);
-									
-								}
+							  {	
+								  MagicEdition ed=MTGControler.getInstance().getEnabledProviders().getSetById(idSet);
+								  tok.getEditions().add(ed);
+							  }
 							  
 						  }
 						  
@@ -151,6 +148,9 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			
 		} catch (XPathExpressionException e) {
 			logger.error("erreur generate token for" + mc, e);
+			return null;
+		} catch (IOException e) {
+			logger.error("getSetById error " + mc, e);
 			return null;
 		}
 	}

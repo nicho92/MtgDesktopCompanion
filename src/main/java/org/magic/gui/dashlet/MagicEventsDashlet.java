@@ -3,6 +3,7 @@ package org.magic.gui.dashlet;
 import java.awt.BorderLayout;
 import java.awt.Rectangle;
 import java.awt.event.ItemEvent;
+import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -112,7 +113,11 @@ public class MagicEventsDashlet extends AbstractJDashlet{
 				int y = Integer.parseInt(cboYear.getSelectedItem().toString());
 				int m = Integer.parseInt(cboMonth.getSelectedItem().toString());
 				
-				eventsModel.init(provider.listEvents(y, m));
+				try {
+					eventsModel.init(provider.listEvents(y, m));
+				} catch (IOException e1) {
+					logger.error(e1);
+				}
 				
 				try {
 				table.setModel(eventsModel);

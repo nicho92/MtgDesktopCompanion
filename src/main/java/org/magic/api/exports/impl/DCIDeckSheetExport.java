@@ -83,7 +83,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
-		PdfReader reader = new PdfReader(new URL(props.getProperty("PDF_URL")));
+		PdfReader reader = new PdfReader(new URL(getProperty("PDF_URL")));
 		
 		Document document = new Document(reader.getPageSize(1));
 		PdfWriter writer;
@@ -109,28 +109,28 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		
 		//HEADER
 			cb.setTextMatrix(page.getWidth()-51f, page.getHeight()-49); 
-			cb.showText(props.getProperty("LAST_NAME").substring(0, 1).toUpperCase()); 
+			cb.showText(getProperty("LAST_NAME").substring(0, 1).toUpperCase()); 
 		
 			cb.setTextMatrix(page.getWidth()/3.2f, page.getHeight()-73); 
-			if(!props.getProperty("FORCED_DATE").equalsIgnoreCase(""))
-				cb.showText(props.getProperty("FORCED_DATE"));
+			if(!getProperty("FORCED_DATE").equalsIgnoreCase(""))
+				cb.showText(getProperty("FORCED_DATE"));
 			else
-				cb.showText(new SimpleDateFormat(props.getProperty("DATE_FORMAT")).format(new Date())); 
+				cb.showText(new SimpleDateFormat(getProperty("DATE_FORMAT")).format(new Date())); 
 			
 			cb.setTextMatrix(page.getWidth()/1.48f, page.getHeight()-73); 	
-			cb.showText(props.getProperty("EVENT_NAME"));
+			cb.showText(getProperty("EVENT_NAME"));
 			
 			cb.setTextMatrix(page.getWidth()/3.2f, page.getHeight()-96); 
-			cb.showText(props.getProperty("LOCATION")); 
+			cb.showText(getProperty("LOCATION")); 
 			
 			cb.setTextMatrix(page.getWidth()/1.48f, page.getHeight()-96); 	
 			cb.showText(deck.getName()); 
 	
 			cb.setTextMatrix(page.getWidth()/1.48f, page.getHeight()-119); 	
-			if(props.getProperty("DECK_DESIGNER").equals(""))
-				cb.showText(props.getProperty("LAST_NAME") +" " + props.getProperty("FIRST_NAME")); 
+			if(getProperty("DECK_DESIGNER").equals(""))
+				cb.showText(getProperty("LAST_NAME") +" " + getProperty("FIRST_NAME")); 
 			else
-				cb.showText(props.getProperty("DECK_DESIGNER"));
+				cb.showText(getProperty("DECK_DESIGNER"));
 	
 			
 		//MAIN DECK
@@ -142,7 +142,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 				count+=18;
 			}
 		//CONTINUED and BASIC LAND
-			if(props.getProperty("FILL_CONTINUED_LANDS").equalsIgnoreCase("true"))
+			if(getProperty("FILL_CONTINUED_LANDS").equalsIgnoreCase("true"))
 			{
 				count=0;
 				for(MagicCard mc : deck.getMap().keySet())
@@ -176,10 +176,10 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 			
 			
 		//LEFT TEXT 
-			cb.showTextAligned(PdfContentByte.ALIGN_LEFT, props.getProperty("LAST_NAME"), 52, 90, 90);
-			cb.showTextAligned(PdfContentByte.ALIGN_LEFT, props.getProperty("FIRST_NAME"), 52, 295, 90);
+			cb.showTextAligned(PdfContentByte.ALIGN_LEFT, getProperty("LAST_NAME"), 52, 90, 90);
+			cb.showTextAligned(PdfContentByte.ALIGN_LEFT, getProperty("FIRST_NAME"), 52, 295, 90);
 			
-			String dci = props.getProperty("DCI_NUMBER");
+			String dci = getProperty("DCI_NUMBER");
 			count=0;
 			for(int i=0;i<dci.length();i++)
 			{
