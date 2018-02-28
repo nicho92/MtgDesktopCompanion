@@ -64,7 +64,7 @@ public class MagicNewsTableModel extends DefaultTableModel{
 	}
 	
 	
-	public void init(MagicNews rssBean) throws FeedException, IOException {
+	public void init(MagicNews rssBean) throws IOException {
 		ret = MTGControler.getInstance().getNewsProvider(rssBean.getType()).listNews(rssBean);
 	}
 

@@ -35,8 +35,8 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 			props.put("CARD_SIZE_HEIGHT", "310");
 			save();
 		}
-		 newW= Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
-		 newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+		 newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
+		 newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
 	}
 	
 	
@@ -58,7 +58,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		if(ed==null)
 			selected = mc.getEditions().get(0);
 		
-		for(String k : props.getProperty("CALL_MCI_FOR").split(","))
+		for(String k : getProperty("CALL_MCI_FOR").split(","))
 		{
 			if(selected.getId().startsWith(k))
 			{
@@ -94,7 +94,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
-		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size="+props.getProperty("SET_SIZE")+"&rarity="+rarity.substring(0,1));
+		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set="+set+"&size="+getProperty("SET_SIZE")+"&rarity="+rarity.substring(0,1));
 		return ImageIO.read(url);
 	}
 

@@ -63,9 +63,9 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	@Override
 	public void init() throws ClassNotFoundException, SQLException {
 		 logger.info("init " + getName());
-		 Class.forName(props.getProperty("DRIVER"));
-		 String url = "jdbc:postgresql://"+props.getProperty("SERVERNAME")+":"+props.getProperty("SERVERPORT");
-		 con=DriverManager.getConnection(url+"/"+props.getProperty("DB_NAME"),props.getProperty("LOGIN"),props.getProperty("PASS"));
+		 Class.forName(getProperty("DRIVER"));
+		 String url = "jdbc:postgresql://"+getProperty("SERVERNAME")+":"+getProperty("SERVERPORT");
+		 con=DriverManager.getConnection(url+"/"+getProperty("DB_NAME"),getProperty("LOGIN"),getProperty("PASS"));
 		 createDB();
 	}
 

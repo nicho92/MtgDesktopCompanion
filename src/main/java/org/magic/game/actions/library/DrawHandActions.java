@@ -29,7 +29,7 @@ public class DrawHandActions extends AbstractAction{
 		{
 			JOptionPane.showMessageDialog(null, "Not enougth cards in library","Error",JOptionPane.ERROR_MESSAGE);
 		}
-		GamePanelGUI.getInstance().getHandPanel().initThumbnails(GamePanelGUI.getInstance().getPlayer().getHand(),true);
+		GamePanelGUI.getInstance().getHandPanel().initThumbnails(GamePanelGUI.getInstance().getPlayer().getHand(),true,true);
 		
 	}
 

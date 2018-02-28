@@ -57,10 +57,10 @@ public class SearchCardFrame extends JDialog {
 		
 		switch(source)
 		{
-			case GRAVEYARD:pane.initThumbnails(p.getGraveyard().getCards(),true);break;
-			case LIBRARY:pane.initThumbnails(p.getLibrary().getCards(),true);break;
-			case BATTLEFIELD:pane.initThumbnails(p.getBattlefield().getCards(),true);break;
-			case EXIL:pane.initThumbnails(p.getExil().getCards(),true);break;
+			case GRAVEYARD:pane.initThumbnails(p.getGraveyard().getCards(),true,true);break;
+			case LIBRARY:pane.initThumbnails(p.getLibrary().getCards(),true,true);break;
+			case BATTLEFIELD:pane.initThumbnails(p.getBattlefield().getCards(),true,true);break;
+			case EXIL:pane.initThumbnails(p.getExil().getCards(),true,true);break;
 			default:break;
 		}
 	}
@@ -69,7 +69,7 @@ public class SearchCardFrame extends JDialog {
 	public SearchCardFrame(Player p,List<MagicCard> list,PositionEnum source) {
 		init(p,source);
 		pane.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
-		pane.initThumbnails(list,true);
+		pane.initThumbnails(list,true,true);
 	}
 	
 }

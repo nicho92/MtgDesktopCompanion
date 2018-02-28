@@ -41,14 +41,14 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			save();
 		}
 		try {
-   			InstallCert.install(props.getProperty("CERT_SERV"));
+   			InstallCert.install(getProperty("CERT_SERV"));
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
 		
-		 newW= Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
-		 newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+		 newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
+		 newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
 	}
 	
 	private BufferedImage getPicture(String multiverseid) throws IOException{
@@ -56,13 +56,13 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		try{
 		
 		Document d = Jsoup.connect("https://deckmaster.info/card.php?multiverseid="+multiverseid)
-				  .userAgent(props.getProperty("USER_AGENT"))
+				  .userAgent(getProperty("USER_AGENT"))
 				  .get();
 		
 			logger.debug("read https://deckmaster.info/card.php?multiverseid="+multiverseid);
 			Element e = d.select(".card > img" ).get(0);
 			HttpURLConnection con = (HttpURLConnection)new URL(e.attr("src")).openConnection();
-			con.setRequestProperty("User-Agent",props.getProperty("USER_AGENT"));
+			con.setRequestProperty("User-Agent",getProperty("USER_AGENT"));
 			return ImageIO.read(con.getInputStream());
 			
 		}
@@ -104,7 +104,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			selected = mc.getEditions().get(0);
 		
 		
-		for(String k : props.getProperty("CALL_MCI_FOR").split(","))
+		for(String k : getProperty("CALL_MCI_FOR").split(","))
 		{
 			if(selected.getId().startsWith(k))
 			{
@@ -146,7 +146,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		
 		URL u = new URL("https://deckmaster.info/images/sets/"+setID.toUpperCase()+"_"+rarity.substring(0, 1).toUpperCase()+".png");
 		HttpURLConnection con = (HttpURLConnection)u.openConnection();
-		con.setRequestProperty("User-Agent",props.getProperty("USER_AGENT"));
+		con.setRequestProperty("User-Agent",getProperty("USER_AGENT"));
 		BufferedImage im = ImageIO.read(con.getInputStream());
 		return resizeIconSet(im);
 	}

@@ -51,8 +51,8 @@ public abstract class AbstractPicturesProvider extends Observable implements MTG
 	}
 
 	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
+	public String getProperty(String k) {
+		return String.valueOf(props.get(k));
 	}
 
 	

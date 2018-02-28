@@ -26,7 +26,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
 	public void savePicture(BufferedImage bi,MagicCard mc,MagicEdition ed) throws IOException
 	{
-		File mainDir = new File(props.getProperty("PICS_DIR"));
+		File mainDir = new File(getProperty("PICS_DIR"));
 		File edDir = new File(mainDir,ed.getId());
 		
 		
@@ -34,16 +34,16 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 			edDir.mkdir();
 		
 		
-		ImageIO.write(bi,props.getProperty("FORMAT"),Paths.get(edDir.getAbsolutePath(), mc.getId()+"."+props.getProperty("FORMAT").toLowerCase()).toFile());
+		ImageIO.write(bi,getProperty("FORMAT"),Paths.get(edDir.getAbsolutePath(), mc.getId()+"."+getProperty("FORMAT").toLowerCase()).toFile());
 	}
 	
 	
 
 
 	public void removePicture(MagicEdition ed, MagicCard mc) {
-		File mainDir = new File(props.getProperty("PICS_DIR"));
+		File mainDir = new File(getProperty("PICS_DIR"));
 		File edDir = new File(mainDir,ed.getId());
-		FileUtils.deleteQuietly(new File(edDir,mc.getId()+"."+props.getProperty("FORMAT")));
+		FileUtils.deleteQuietly(new File(edDir,mc.getId()+"."+getProperty("FORMAT")));
 	}
 	
 	public PersonalSetPicturesProvider() {
@@ -55,8 +55,8 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 			save();
 		}
 		
-		if(!new File(props.getProperty("PICS_DIR")).exists())
-			new File(props.getProperty("PICS_DIR")).mkdir();
+		if(!new File(getProperty("PICS_DIR")).exists())
+			new File(getProperty("PICS_DIR")).mkdir();
 		
 	}
 	
@@ -71,11 +71,11 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws IOException{
-		File mainDir = new File(props.getProperty("PICS_DIR"));
+		File mainDir = new File(getProperty("PICS_DIR"));
 		File edDir = new File(mainDir,ed.getId());
 		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
 		if(edDir.exists())
-			return ImageIO.read(new File(edDir,mc.getId()+"."+props.getProperty("FORMAT")));
+			return ImageIO.read(new File(edDir,mc.getId()+"."+getProperty("FORMAT")));
 		else
 			return null;
 	}

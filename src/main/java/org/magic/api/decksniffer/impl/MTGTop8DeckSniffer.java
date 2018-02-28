@@ -131,18 +131,18 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 			HttpPost reqSearch = new HttpPost(props.getProperty("URL")+"/search");
 			List <NameValuePair> nvps = new ArrayList <>();
 								 nvps.add(new BasicNameValuePair("current_page", String.valueOf(i+1)));
-						         nvps.add(new BasicNameValuePair("event_titre", getProperty("EVENT_FILTER").toString()));
+						         nvps.add(new BasicNameValuePair("event_titre", getProperty("EVENT_FILTER")));
 						         nvps.add(new BasicNameValuePair("deck_titre", ""));
 						         nvps.add(new BasicNameValuePair("player", ""));
 						         nvps.add(new BasicNameValuePair("format", formats.get(getProperty("FORMAT"))));
 						         nvps.add(new BasicNameValuePair("MD_check", "1"));
-						         nvps.add(new BasicNameValuePair("cards", getProperty("CARD_FILTER").toString()));
-						         nvps.add(new BasicNameValuePair("date_start", getProperty("DATE_START_FILTER").toString()));
+						         nvps.add(new BasicNameValuePair("cards", getProperty("CARD_FILTER")));
+						         nvps.add(new BasicNameValuePair("date_start", getProperty("DATE_START_FILTER")));
 						         nvps.add(new BasicNameValuePair("date_end", ""));
 						         
 						         if(getProperty("COMPETITION_FILTER")!=null)
 				        		 {
-				        			 String[] comp = getProperty("COMPETITION_FILTER").toString().split(",");
+				        			 String[] comp = getProperty("COMPETITION_FILTER").split(",");
 				        			 for(String c : comp)
 				        				 nvps.add(new BasicNameValuePair(" compet_check["+c.toUpperCase()+"]", "1"));
 				        		 }

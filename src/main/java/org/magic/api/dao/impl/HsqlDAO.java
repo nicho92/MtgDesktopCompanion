@@ -57,8 +57,8 @@ public class HsqlDAO extends AbstractMagicDAO{
     
 	public void init() throws ClassNotFoundException, SQLException {
 	      logger.info("init HsqlDB");
-		  Class.forName(props.getProperty("DRIVER"));
-	      con=DriverManager.getConnection("jdbc:hsqldb:"+props.getProperty("URL")+"/"+props.getProperty("DBNAME"),props.getProperty("LOGIN"),props.getProperty("PASS"));
+		  Class.forName(getProperty("DRIVER"));
+	      con=DriverManager.getConnection("jdbc:hsqldb:"+getProperty("URL")+"/"+getProperty("DBNAME"),getProperty("LOGIN"),getProperty("PASS"));
 		  
 		  createDB();
 		  
@@ -82,7 +82,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 	logger.debug("Create table stocks");
 		 	stat.executeUpdate("create table alerts (id varchar(250),mcard OBJECT, amount DECIMAL)");
 		 	logger.debug("Create table Alerts");
-		 	stat.executeUpdate("CREATE TABLE news (id integer PRIMARY KEY IDENTITY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews VARCHAR(100)");
+		 	stat.executeUpdate("CREATE TABLE news (id integer PRIMARY KEY IDENTITY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews VARCHAR(100))");
 		 	logger.debug("Create table News");
 			
 		 	
@@ -305,12 +305,12 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public String getDBLocation() {
-		return props.getProperty("URL");
+		return getProperty("URL");
 	}
 
 	@Override
 	public long getDBSize() {
-		return FileUtils.sizeOfDirectory(new File(props.getProperty("URL")));
+		return FileUtils.sizeOfDirectory(new File(getProperty("URL")));
 	}
 	
 	@Override
@@ -390,7 +390,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void backup(File dir) throws IOException {
-		File base = new File(props.getProperty("URL"));
+		File base = new File(getProperty("URL"));
 		try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(new File(dir,"backup.zip"))))
 		{
 			for(File doc :base.listFiles())

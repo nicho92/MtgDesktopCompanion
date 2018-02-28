@@ -140,8 +140,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
 		List<CardShake> list = new ArrayList<>();
-		String urlW= props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/winners/"+props.getProperty("DAILY_WEEKLY");
-		String urlL= props.getProperty("URL_MOVERS")+props.getProperty("FORMAT")+"/"+gameFormat+"/losers/"+props.getProperty("DAILY_WEEKLY");
+		String urlW= getProperty("URL_MOVERS")+getProperty("FORMAT")+"/"+gameFormat+"/winners/"+getProperty("DAILY_WEEKLY");
+		String urlL= getProperty("URL_MOVERS")+getProperty("FORMAT")+"/"+gameFormat+"/losers/"+getProperty("DAILY_WEEKLY");
 		
 		
 		logger.debug("Loding Shake " + urlW);
@@ -150,12 +150,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		
 		
 		Document doc = Jsoup.connect(urlW)
-							.userAgent(props.getProperty("USER_AGENT"))
+							.userAgent(getProperty("USER_AGENT"))
 							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 							.get();
 		
 		Document doc2 = Jsoup.connect(urlL)
-				.userAgent(props.getProperty("USER_AGENT"))
+				.userAgent(getProperty("USER_AGENT"))
 				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 				.get();
 		
@@ -204,9 +204,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		List<CardShake> list = new ArrayList<>();
 		
 		if(edition.isOnlineOnly())
-				urlEditionChecker=props.getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#online";
+				urlEditionChecker=getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#online";
 			else
-				urlEditionChecker=props.getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#"+props.getProperty("FORMAT");
+				urlEditionChecker=getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#"+getProperty("FORMAT");
 		
 		logger.debug("Parsing dashboard "+ urlEditionChecker);
 		
@@ -255,7 +255,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		//spells, creatures, all, lands
 		String u = "https://www.mtggoldfish.com/format-staples/"+f+"/full/"+filter;
 		Document doc = Jsoup.connect(u)
-				.userAgent(props.getProperty("USER_AGENT"))
+				.userAgent(getProperty("USER_AGENT"))
 				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
 				.get();
 		

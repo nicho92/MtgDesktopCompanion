@@ -133,14 +133,14 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
        ProductServices pService = new ProductServices();
        EnumMap<PRODUCT_ATTS,String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 		atts.put(PRODUCT_ATTS.idGame, "1");
-		atts.put(PRODUCT_ATTS.exact,props.getProperty("IS_EXACT"));
+		atts.put(PRODUCT_ATTS.exact,getProperty("IS_EXACT"));
 		
 		
-		if(!props.getProperty("LANGUAGE_ID").equals(""))
-			atts.put(PRODUCT_ATTS.idLanguage,props.getProperty("LANGUAGE_ID"));
+		if(!getProperty("LANGUAGE_ID").equals(""))
+			atts.put(PRODUCT_ATTS.idLanguage,getProperty("LANGUAGE_ID"));
 
 		
-		if(props.getProperty("USER_ARTICLE").equals("false"))
+		if(getProperty("USER_ARTICLE").equals("false"))
 		{
 				Product p = getProductFromCard(card,pService.findProduct(card.getName(), atts));
 				
@@ -173,13 +173,13 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			ArticleService aServ = new ArticleService();
 			EnumMap<ARTICLES_ATT,String> aatts = new EnumMap<>(ARTICLES_ATT.class);
 			aatts.put(ARTICLES_ATT.start, "0");
-			aatts.put(ARTICLES_ATT.maxResults, props.getProperty("MAX"));
+			aatts.put(ARTICLES_ATT.maxResults, getProperty("MAX"));
 			
-			if(!props.getProperty("LANGUAGE_ID").equals(""))
-			aatts.put(ARTICLES_ATT.idLanguage, props.getProperty("LANGUAGE_ID"));
+			if(!getProperty("LANGUAGE_ID").equals(""))
+			aatts.put(ARTICLES_ATT.idLanguage, getProperty("LANGUAGE_ID"));
 			
-			if(!props.getProperty("MIN_CONDITION").equals(""))
-				aatts.put(ARTICLES_ATT.minCondition,props.getProperty("MIN_CONDITION"));
+			if(!getProperty("MIN_CONDITION").equals(""))
+				aatts.put(ARTICLES_ATT.minCondition,getProperty("MIN_CONDITION"));
 	
 			
 			List<Article> articles = aServ.find(resultat, aatts);

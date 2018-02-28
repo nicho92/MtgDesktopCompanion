@@ -20,7 +20,6 @@ public class LoggerViewPanel extends JPanel {
 	private JXTable table;
 	private LogTableModel model;
 	private Timer t;
-	private TableFilterHeader filterHeader;
 	private JCheckBox chckbxAutorefresh;
 	private JButton btnRefresh; 
 	

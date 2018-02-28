@@ -47,8 +47,8 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
-		newW= Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
-		newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+		newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
+		newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
 		 
 		w=223;
 		h=311;
@@ -79,22 +79,22 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 			if(mc.getMciNumber().contains("/"))
 			{
 				String mcinumber=mc.getMciNumber().substring(mc.getMciNumber().lastIndexOf('/')).replaceAll(".html", "");
-				url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mcinumber+".jpg");
+				url=new URL(getProperty("WEBSITE")+"/"+getProperty("LANG")+"/"+infocode+"/"+mcinumber+".jpg");
 			}
 			else	
 			{
-				url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getMciNumber()+".jpg");
+				url=new URL(getProperty("WEBSITE")+"/"+getProperty("LANG")+"/"+infocode+"/"+mc.getMciNumber()+".jpg");
 			}
 		}
 		else
 		{
-			url=new URL(props.getProperty("WEBSITE")+"/"+props.getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
+			url=new URL(getProperty("WEBSITE")+"/"+getProperty("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
 		}
 		
 		logger.debug("Get card pic from " + url);
 
 		URLConnection connection = url.openConnection();
-					  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));
+					  connection.setRequestProperty("User-Agent", getProperty("USER_AGENT"));
 					  connection.connect();
 					  
 		Image img = null;

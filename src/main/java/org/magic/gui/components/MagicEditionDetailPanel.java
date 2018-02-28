@@ -37,20 +37,12 @@ public class MagicEditionDetailPanel extends JPanel {
 	private JTextField releaseDateJTextField;
 	private JTextField setJTextField;
 	private JTextField typeJTextField;
-	private JLabel lblBlock;
+
 	private JTextField blockJTextField;
-	private JLabel lblId;
 	private JTextField idJtextField;
-	private JScrollPane scrollPane;
-	private JTable table;
 	private EditionsShakerTableModel mod;
-	private JPanel panneauHaut;
 	private boolean showPrices;
-	private JLabel lblOnlineSet;
 	private JCheckBox chkOnline;
-	private JSplitPane splitPane;
-	private JPanel panneauBooster;
-	private JButton btnOpenBooster;
 	private JLabel lblBoosterPic;
 	private transient BoosterPicturesProvider boosterProvider;
 	private boolean openBooster;
@@ -73,6 +65,17 @@ public class MagicEditionDetailPanel extends JPanel {
 	
 
 	public void initGUI() {
+		
+		JSplitPane splitPane;
+		JPanel panneauBooster;
+		JButton btnOpenBooster;
+		JLabel lblOnlineSet;
+		JPanel panneauHaut;
+		JScrollPane scrollPane;
+		JLabel lblBlock;
+		JLabel lblId;
+		JTable table;
+
 		
 		boosterProvider = new BoosterPicturesProvider();
 		

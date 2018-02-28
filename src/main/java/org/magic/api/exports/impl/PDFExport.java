@@ -55,7 +55,7 @@ public class PDFExport extends AbstractCardExport {
 		try
 		{
 			document = new Document(PageSize.A4,5,5,10,5);
-			document.addAuthor(getProperty("AUTHOR").toString());
+			document.addAuthor(getProperty("AUTHOR"));
 			document.addCreationDate();
 			document.addCreator("Magic Desktop Companion");
 			document.addTitle(f.getName());

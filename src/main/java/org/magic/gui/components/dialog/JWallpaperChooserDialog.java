@@ -153,7 +153,7 @@ public class JWallpaperChooserDialog extends JDialog{
 		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(ae->{
 			
-			System.out.println("import");
+			//TODO import
 			
 			
 		});

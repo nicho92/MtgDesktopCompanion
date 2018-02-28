@@ -137,8 +137,8 @@ public class CSVExport extends AbstractCardExport{
 	{
 		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
 		{
-			exportedProperties=getProperty("exportedProperties").toString().split(",");
-			exportedPricesProperties=getProperty("exportedPricesProperties").toString().split(",");
+			exportedProperties=getProperty("exportedProperties").split(",");
+			exportedPricesProperties=getProperty("exportedPricesProperties").split(",");
 			
 			for(String k : exportedProperties)
 				bw.write(k+";");
@@ -187,7 +187,7 @@ public class CSVExport extends AbstractCardExport{
 	@Override
 	public void export(List<MagicCard> cards, File f) throws IOException {
 		
-		exportedProperties=getProperty("exportedProperties").toString().split(",");
+		exportedProperties=getProperty("exportedProperties").split(",");
 		
 		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
 		{
@@ -215,7 +215,7 @@ public class CSVExport extends AbstractCardExport{
 	@Override
 	public void export(MagicDeck deck, File f) throws IOException{
 		
-		exportedDeckProperties=getProperty("exportedDeckProperties").toString().split(",");
+		exportedDeckProperties=getProperty("exportedDeckProperties").split(",");
 		
 		try(BufferedWriter bw=new BufferedWriter(new FileWriter(f)))
 		{
@@ -287,7 +287,7 @@ public class CSVExport extends AbstractCardExport{
 			line=read.readLine();
 			while(line!=null)
 			{
-				String[] part= line.split(getProperty("importDeckCharSeparator").toString());
+				String[] part= line.split(getProperty("importDeckCharSeparator"));
 				String name = part[0];
 				String qte = part[1];
 				String set = part[2];

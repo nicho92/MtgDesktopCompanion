@@ -20,6 +20,7 @@ public class SealedPackTableModel extends DefaultTableModel{
 	}
 
 	
+	
 	public void add(MagicEdition ed, Integer qty)
 	{
 		pack.set(ed, qty);
@@ -78,11 +79,6 @@ public class SealedPackTableModel extends DefaultTableModel{
 		return COLUMNS[column];
 	}
 	
-	public void addLine(MagicEdition ed, Integer qty)
-	{
-		pack.set(ed, qty);
-		fireTableDataChanged();
-	}
 	
 	public SealedPackTableModel() {
 		pack=new SealedPack();

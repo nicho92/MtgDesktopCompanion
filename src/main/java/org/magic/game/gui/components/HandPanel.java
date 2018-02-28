@@ -72,7 +72,7 @@ public class HandPanel extends DraggablePanel {
 	}
 	
 	
-	public void initThumbnails(final List<MagicCard> cards, final boolean activateCards) {
+	public void initThumbnails(final List<MagicCard> cards, final boolean activateCards,final boolean rightClick) {
 		
 		
 		if(t!=null && t.isAlive())
@@ -96,7 +96,7 @@ public class HandPanel extends DraggablePanel {
 					if(d==null)
 						d=MTGControler.getInstance().getCardsDimension();
 					
-					DisplayableCard lab = new DisplayableCard(mc,d,activateCards);
+					DisplayableCard lab = new DisplayableCard(mc,d,activateCards,rightClick);
 					lab.setTappable(activateCards);
 					
 					try {

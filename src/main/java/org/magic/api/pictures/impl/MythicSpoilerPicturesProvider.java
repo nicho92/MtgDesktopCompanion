@@ -33,8 +33,8 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 			props.put("CARD_SIZE_HEIGHT", "310");
 			save();
 		}
-		newW= Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
-		newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+		newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
+		newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
 	
 	}
 	
@@ -73,7 +73,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
         logger.debug("get card from " + uri.toURL());
         HttpURLConnection connection = (HttpURLConnection)uri.toURL().openConnection();
 		  connection.setInstanceFollowRedirects(true);
-		  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));
+		  connection.setRequestProperty("User-Agent", getProperty("USER_AGENT"));
 		  connection.connect();
         
 		  try{

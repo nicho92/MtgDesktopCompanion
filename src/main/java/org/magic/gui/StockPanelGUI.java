@@ -66,38 +66,29 @@ public class StockPanelGUI extends JPanel {
 
 	
 	private MagicCardDetailPanel magicCardDetailPanel;
-	private JSplitPane splitPane;
+
 	private JButton btnReload;
     
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JLabel lblLoading;
 	private JPanel rightPanel;
-	private JLabel lblQte;
-	private JLabel lblLanguage;
-	private JLabel lblComment;
 	private JSpinner spinner;
 	private JComboBox<String> cboLanguages;
 	private JTextPane textPane;
 	private JComboBox<Boolean> cboFoil;
-	private JLabel lblFoil;
-	private JLabel lblSigned;
-	private JLabel lblAltered;
 	private JComboBox<Boolean> cboSigned;
 	private JComboBox<Boolean> cboAltered;
 	private JButton btnshowMassPanel;
 	private JButton btnApplyModification;
 	
 	private static Boolean[] values = {null,true,false};
-	private JLabel lblQuality;
 	private JComboBox<EnumCondition> cboQuality;
 	private JButton btnImport;
-	private JLabel lblCollection;
 	private JComboBox<MagicCollection> cboCollection;
 	private JButton btnExport;
 	private JButton btnGeneratePrice;
-	private JPanel bottomPanel;
 	private JLabel lblCount;
-	private JLabel lblSelect;
+
 	private JComboBox<String> cboSelections;
 	private String[] selections=new String[] {"", MTGControler.getInstance().getLangService().get("NEW"), MTGControler.getInstance().getLangService().get("UPDATED")};
 	
@@ -513,6 +504,19 @@ public class StockPanelGUI extends JPanel {
 
 	private void initGUI()
 	{
+		
+		JLabel lblSelect;
+		JPanel bottomPanel;
+		JLabel lblCollection;
+		JLabel lblQuality;
+		JLabel lblFoil;
+		JLabel lblSigned;
+		JLabel lblAltered;
+		JSplitPane splitPane;
+		JLabel lblQte;
+		JLabel lblLanguage;
+		JLabel lblComment;
+
 		setLayout(new BorderLayout(0, 0));
 		
 		model = new CardStockTableModel();

@@ -58,7 +58,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		
 		eds=new ArrayList<>();
 		try {
-			doc = Jsoup.connect("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az").userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
+			doc = Jsoup.connect("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az").userAgent(getProperty("USER_AGENT")).timeout(0).get();
 			
 			Elements e = doc.select(".anchorList a[href]");
 			
@@ -102,7 +102,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
 		
 		list.clear();
-		String html = props.getProperty("URL");
+		String html = getProperty("URL");
 		
 		if(me==null)
 			me = card.getEditions().get(0);
@@ -115,7 +115,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 		logger.info(getName() +" looking for prices " + url );
 		try{
-			doc = Jsoup.connect(url).userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
+			doc = Jsoup.connect(url).userAgent(getProperty("USER_AGENT")).timeout(0).get();
 			qualities = doc.select(".cardTypeList li");
 			prices = doc.select(".stylePrice");
 		

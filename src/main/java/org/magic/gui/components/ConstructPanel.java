@@ -595,7 +595,7 @@ public class ConstructPanel extends JPanel {
 				p.mixHandAndLibrary();
 				p.shuffleLibrary();
 				p.drawCard(7);
-				thumbnail.initThumbnails(p.getHand(), false);
+				thumbnail.initThumbnails(p.getHand(), false,false);
 			
 		});
 		panel.add(btnDrawAHand);

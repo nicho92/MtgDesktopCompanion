@@ -40,14 +40,14 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			save();
 		}
 		try {
-   			InstallCert.install(props.getProperty("CERT_SERV"));
+   			InstallCert.install(getProperty("CERT_SERV"));
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
 		
-		newW= Integer.parseInt(props.getProperty("CARD_SIZE_WIDTH"));
-		newH= Integer.parseInt(props.getProperty("CARD_SIZE_HEIGHT"));
+		newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
+		newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
 		
 	}
 	
@@ -72,9 +72,6 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if(selected.getMultiverse_id()!=null && !selected.getMultiverse_id().equals("0"))
 			url = "https://api.scryfall.com/cards/multiverse/"+selected.getMultiverse_id()+"?format=image";
 
-		
-	
-		
 		if(crop)
 			url+="&version=art_crop";
 		else
@@ -106,7 +103,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		  connection.setInstanceFollowRedirects(true);
-		  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));
+		  connection.setRequestProperty("User-Agent", getProperty("USER_AGENT"));
 		  connection.connect();
 		  logger.debug("load pics " + connection.getURL().toString());  
 			
@@ -146,7 +143,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		HttpURLConnection connection = (HttpURLConnection)u.openConnection();
 		  connection.setInstanceFollowRedirects(true);
-		  connection.setRequestProperty("User-Agent", props.getProperty("USER_AGENT"));
+		  connection.setRequestProperty("User-Agent", getProperty("USER_AGENT"));
 		  connection.connect();
 		  logger.debug("load pics " + connection.getURL().toString());  
 			

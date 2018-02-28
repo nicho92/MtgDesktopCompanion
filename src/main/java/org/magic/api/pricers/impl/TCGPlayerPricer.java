@@ -47,15 +47,15 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
-		String url = props.getProperty("URL");
-			   url = url.replaceAll("%API_KEY%", props.getProperty("API_KEY"));
+		String url = getProperty("URL");
+			   url = url.replaceAll("%API_KEY%", getProperty("API_KEY"));
 		
 		String set = "";
 		
 		if(me==null)
-			set = URLEncoder.encode(card.getEditions().get(0).getSet(),props.getProperty("ENCODING"));
+			set = URLEncoder.encode(card.getEditions().get(0).getSet(),getProperty("ENCODING"));
 		else
-			set = URLEncoder.encode(me.getSet(),props.getProperty("ENCODING"));
+			set = URLEncoder.encode(me.getSet(),getProperty("ENCODING"));
 		
 		if(set.contains("Edition"))
 			set =set.replaceAll("Edition", "");

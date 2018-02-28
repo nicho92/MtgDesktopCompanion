@@ -67,8 +67,8 @@ public abstract class AbstractMagicNewsProvider extends Observable implements MT
 	}
 	
 	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
+	public String getProperty(String k) {
+		return String.valueOf(props.get(k));
 	}
 
 	public Properties getProperties() {

@@ -34,10 +34,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 	private CardsShakerTableModel modStandard;
 	private JComboBox<FORMAT> cboFormats;
 	private JLabel lblLoading;
-	private JPanel panel;
 	private JLabel lblInfoUpdate;
-	private JButton btnRefresh;
-	
 
 	
 	public TrendingDashlet() {
@@ -46,8 +43,8 @@ public class TrendingDashlet extends AbstractJDashlet{
 	}
 	
 	public void initGUI() {
-		
-		
+		JButton btnRefresh;
+		JPanel panel;
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		

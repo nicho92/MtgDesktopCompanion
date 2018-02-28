@@ -32,15 +32,10 @@ public class VersionChecker {
 		actualVersion = MTGControler.getInstance().getVersion();
 		builderFactory =DocumentBuilderFactory.newInstance();
 		try {
-			
 			InputStream input = new URL(MTGConstants.MTG_DESKTOP_POM_URL).openConnection().getInputStream();
-			try {
-				onlineVersion= parseXML(input);
-			} catch (Exception e) {
-				logger.error("Error reading online version",e);
-				onlineVersion="";
-			}
+			onlineVersion= parseXML(input);
 		} catch (Exception e) {
+			onlineVersion="";
 			logger.error(e.getMessage());
 		}
 	}

@@ -130,32 +130,32 @@ public class SealedPanel extends JPanel {
 				gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 				panel.setLayout(gbl_panel);
 						cboEditions = new JComboBox<>();
-						GridBagConstraints gbc_cboEditions = new GridBagConstraints();
-						gbc_cboEditions.fill = GridBagConstraints.HORIZONTAL;
-						gbc_cboEditions.gridwidth = 4;
-						gbc_cboEditions.insets = new Insets(0, 0, 5, 0);
-						gbc_cboEditions.gridx = 0;
-						gbc_cboEditions.gridy = 0;
-						panel.add(cboEditions, gbc_cboEditions);
+						GridBagConstraints gbccboEditions = new GridBagConstraints();
+						gbccboEditions.fill = GridBagConstraints.HORIZONTAL;
+						gbccboEditions.gridwidth = 4;
+						gbccboEditions.insets = new Insets(0, 0, 5, 0);
+						gbccboEditions.gridx = 0;
+						gbccboEditions.gridy = 0;
+						panel.add(cboEditions, gbccboEditions);
 						cboEditions.setRenderer(new MagicEditionListRenderer());
 						cboEditions.setModel(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
 						
 									
 								btnAddBoosters = new JButton(MTGConstants.ICON_NEW);
-								GridBagConstraints gbc_btnAddBoosters = new GridBagConstraints();
-								gbc_btnAddBoosters.anchor = GridBagConstraints.NORTH;
-								gbc_btnAddBoosters.insets = new Insets(0, 0, 0, 5);
-								gbc_btnAddBoosters.gridx = 0;
-								gbc_btnAddBoosters.gridy = 1;
-								panel.add(btnAddBoosters, gbc_btnAddBoosters);
+								GridBagConstraints gbcbtnAddBoosters = new GridBagConstraints();
+								gbcbtnAddBoosters.anchor = GridBagConstraints.NORTH;
+								gbcbtnAddBoosters.insets = new Insets(0, 0, 0, 5);
+								gbcbtnAddBoosters.gridx = 0;
+								gbcbtnAddBoosters.gridy = 1;
+								panel.add(btnAddBoosters, gbcbtnAddBoosters);
 								
 								btnOpen = new JButton(MTGConstants.ICON_OPEN);
-								GridBagConstraints gbc_btnOpen = new GridBagConstraints();
-								gbc_btnOpen.insets = new Insets(0, 0, 0, 5);
-								gbc_btnOpen.anchor = GridBagConstraints.NORTH;
-								gbc_btnOpen.gridx = 1;
-								gbc_btnOpen.gridy = 1;
-								panel.add(btnOpen, gbc_btnOpen);
+								GridBagConstraints gbcbtnOpen = new GridBagConstraints();
+								gbcbtnOpen.insets = new Insets(0, 0, 0, 5);
+								gbcbtnOpen.anchor = GridBagConstraints.NORTH;
+								gbcbtnOpen.gridx = 1;
+								gbcbtnOpen.gridy = 1;
+								panel.add(btnOpen, gbcbtnOpen);
 								btnOpen.setEnabled(false);
 								
 								btnSaveDeck = new JButton(MTGConstants.ICON_SAVE);

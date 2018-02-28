@@ -694,7 +694,7 @@ public class CardSearchPanel extends JPanel {
 		public void thumbnail(List<MagicCard> cards)
 		{
 			tabbedCardsView.setSelectedIndex(INDEX_THUMB);
-			thumbnailPanel.initThumbnails(cards,false);
+			thumbnailPanel.initThumbnails(cards,false,false);
 		}
 		
 
@@ -784,7 +784,7 @@ public class CardSearchPanel extends JPanel {
 		public void open(List<MagicCard> cards) {
 			cardsModeltable.init(cards);
 			tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-			thumbnailPanel.initThumbnails(cards,false);
+			thumbnailPanel.initThumbnails(cards,false,false);
 			cmcChart.init(cards);
 			typeRepartitionPanel.init(cards);
 			manaRepartitionPanel.init(cards);

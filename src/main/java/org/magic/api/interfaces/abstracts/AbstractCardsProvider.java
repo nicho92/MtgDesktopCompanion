@@ -37,8 +37,8 @@ public abstract class AbstractCardsProvider implements MTGCardsProvider {
 	}
 
 	@Override
-	public Object getProperty(String k) {
-		return props.get(k);
+	public String getProperty(String k) {
+		return String.valueOf(props.get(k));
 	}
 
 

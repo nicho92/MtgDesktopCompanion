@@ -47,25 +47,25 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		String url = getProperty("URL");
 		
 		
-		keyword=URLEncoder.encode(keyword,props.getProperty("ENCODING"));
+		keyword=URLEncoder.encode(keyword,getProperty("ENCODING"));
 		
 		props.put("KEYWORD", keyword);
 		
 		if(me!=null)
-			keyword += "&setname=" + URLEncoder.encode(me.getSet(),props.getProperty("ENCODING"));
+			keyword += "&setname=" + URLEncoder.encode(me.getSet(),getProperty("ENCODING"));
 		
 		
 		String link=url.replaceAll("%CARDNAME%", keyword);
 		
 		
 		logger.info(getName()+ " Looking for price " + link);
-		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), props.getProperty("ENCODING")));
+		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), getProperty("ENCODING")));
 		JsonElement root = new JsonParser().parse(reader);
 		
 		String value = root.getAsJsonArray().get(0).getAsString();
 		
 		MagicPrice mp = new MagicPrice();
-			mp.setUrl("http://store.channelfireball.com/products/search?query="+URLEncoder.encode(card.getName(),props.getProperty("ENCODING")));
+			mp.setUrl("http://store.channelfireball.com/products/search?query="+URLEncoder.encode(card.getName(),getProperty("ENCODING")));
 			mp.setSite(getName());
 			mp.setCurrency(value.substring(0, 1));
 			mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));

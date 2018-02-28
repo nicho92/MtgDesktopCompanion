@@ -89,7 +89,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
 		
 		list.clear();
-		String html = props.getProperty("URL");
+		String html = getProperty("URL");
 		
 		if(me==null)
 			me = card.getEditions().get(0);
@@ -109,7 +109,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 		logger.info(getName() +" looking for prices " + url );
 		
-		doc = Jsoup.connect(url).userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
+		doc = Jsoup.connect(url).userAgent(getProperty("USER_AGENT")).timeout(0).get();
 		Element table =null;
 		try{
 		table = doc.select("table[width=98%]").get(2); //select the first table.

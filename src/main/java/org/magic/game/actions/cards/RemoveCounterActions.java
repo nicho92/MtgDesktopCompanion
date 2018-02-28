@@ -15,10 +15,11 @@ public class RemoveCounterActions  extends AbstractAction{
 	
 	public RemoveCounterActions(DisplayableCard displayableCard, AbstractCounter counter) 
 	{
+		String label = "remove a " + counter.describe();
 			this.card = displayableCard;
 			this.counter=counter;
-			putValue(NAME,"remove a " + counter.describe());
-			putValue(SHORT_DESCRIPTION,"remove a " + counter.describe());
+			putValue(NAME,label);
+			putValue(SHORT_DESCRIPTION,label);
 	}
 	
 	
