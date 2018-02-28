@@ -9,6 +9,11 @@ public class ItemCounter extends AbstractCounter{
 	private String name;
 	private Color color;
 
+	
+	public Color getColor() {
+		return color;
+	}
+	
 	public ItemCounter(String name,Color c)
 	{
 		this.name=name;

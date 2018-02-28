@@ -49,6 +49,7 @@ import org.magic.services.ThreadManager;
 import org.magic.sorters.CmcSorter;
 import org.magic.sorters.ColorSorter;
 import org.magic.sorters.TypesSorter;
+import javax.swing.JProgressBar;
 
 public class SealedPanel extends JPanel {
 	private JLabel lblLoading;
@@ -66,6 +67,8 @@ public class SealedPanel extends JPanel {
 	private JComboBox<String> cboLands;
 	private GraveyardPanel panelDeck;
 	private MagicCardDetailPanel panelDetail;
+	private JProgressBar progressBar;
+	
 	
 	public SealedPanel() {
 		initGUI();
@@ -123,12 +126,12 @@ public class SealedPanel extends JPanel {
 				
 				panel = new JPanel();
 				panelControl.add(panel, BorderLayout.NORTH);
-				GridBagLayout gbl_panel = new GridBagLayout();
-				gbl_panel.columnWidths = new int[]{105, 65, 0, 0, 0};
-				gbl_panel.rowHeights = new int[]{41, 0, 0};
-				gbl_panel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
-				gbl_panel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-				panel.setLayout(gbl_panel);
+				GridBagLayout gblpanel = new GridBagLayout();
+				gblpanel.columnWidths = new int[]{105, 65, 0, 0, 0};
+				gblpanel.rowHeights = new int[]{41, 0, 0};
+				gblpanel.columnWeights = new double[]{0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE};
+				gblpanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+				panel.setLayout(gblpanel);
 						cboEditions = new JComboBox<>();
 						GridBagConstraints gbccboEditions = new GridBagConstraints();
 						gbccboEditions.fill = GridBagConstraints.HORIZONTAL;
@@ -182,7 +185,7 @@ public class SealedPanel extends JPanel {
 				
 				panelAnalyse = new JPanel();
 				panelWest.add(panelAnalyse, BorderLayout.CENTER);
-				panelAnalyse.setLayout(new GridLayout(4, 1, 0, 0));
+				panelAnalyse.setLayout(new GridLayout(5, 1, 0, 0));
 				
 				panelSorters = new JPanel();
 				panelAnalyse.add(panelSorters);
@@ -228,6 +231,11 @@ public class SealedPanel extends JPanel {
 				 ButtonGroup groupAnalyser = new ButtonGroup();
 				 groupAnalyser.add(rdioBoosterAnalyse);
 					groupAnalyser.add(rdioDeckAnalyse);
+					
+					progressBar = new JProgressBar();
+					progressBar.setMaximum(40);
+					progressBar.setStringPainted(true);
+					panelSorters.add(progressBar);
 					
 					
 				cmcChartPanel = new CmcChartPanel();
@@ -404,6 +412,8 @@ public class SealedPanel extends JPanel {
 	private void refreshStats() 
 	{
 		txtNumberLand.setText(String.valueOf(40-deck.getAsList().size()));
+		progressBar.setValue(deck.getAsList().size());
+		progressBar.setString(deck.getAsList().size()+"/"+progressBar.getMaximum());
 		if(analyseDeck)
 		{
 			cmcChartPanel.init(deck.getAsList());
