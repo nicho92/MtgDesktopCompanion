@@ -26,6 +26,7 @@ import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.wallpaper.impl.ArtOfMtgWallpaperProvider;
 import org.magic.api.wallpaper.impl.FilesWallpaperProvider;
+import org.magic.api.wallpaper.impl.WizardsOfTheCoastWallpaperProvider;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -68,6 +69,8 @@ public class JWallpaperChooserDialog extends JDialog{
 		cboWallpapersProv = new JComboBox<>();
 		cboWallpapersProv.addItem(new ArtOfMtgWallpaperProvider());
 		cboWallpapersProv.addItem(new FilesWallpaperProvider());
+		cboWallpapersProv.addItem(new WizardsOfTheCoastWallpaperProvider());
+		
 		
 		selectedProvider=cboWallpapersProv.getItemAt(0);
 		
