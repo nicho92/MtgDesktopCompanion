@@ -631,7 +631,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 							MagicNews n = new MagicNews();
 									n.setCategorie(rs.getString("categorie"));
 									n.setName(rs.getString("name"));
-									n.setUrl(new URL(rs.getString("url")));
+									n.setUrl(rs.getString("url"));
 									n.setType(NEWS_TYPE.valueOf(rs.getString("typeNews")));
 									n.setId(rs.getInt("id"));
 									news.add(n);
@@ -666,7 +666,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				{
 					pst.setString(1, n.getName());
 					pst.setString(2,n.getCategorie());
-					pst.setString(3,n.getUrl().toString());
+					pst.setString(3,n.getUrl());
 					pst.setString(4, n.getType().toString());
 					n.setId(pst.executeUpdate());
 				}

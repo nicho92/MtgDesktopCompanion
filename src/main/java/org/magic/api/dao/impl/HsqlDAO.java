@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -632,7 +633,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 						MagicNews n = new MagicNews();
 								n.setCategorie(rs.getString("categorie"));
 								n.setName(rs.getString("name"));
-								n.setUrl(rs.getURL("url"));
+								n.setUrl(rs.getString("url"));
 								n.setType(NEWS_TYPE.valueOf(rs.getString("typeNews")));
 								n.setId(rs.getInt("id"));
 								news.add(n);
@@ -667,7 +668,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 			{
 				pst.setString(1, n.getName());
 				pst.setString(2,n.getCategorie());
-				pst.setURL(3,n.getUrl());
+				pst.setString(3,n.getUrl());
 				pst.setString(4, n.getType().toString());
 				n.setId(pst.executeUpdate());
 			}
@@ -680,7 +681,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 			{
 				pst.setString(1,n.getName());
 				pst.setString(2, n.getCategorie());
-				pst.setURL(3,n.getUrl());
+				pst.setString(3,n.getUrl());
 				pst.setString(4, n.getType().toString());
 				pst.setInt(5, n.getId());
 				pst.executeUpdate();

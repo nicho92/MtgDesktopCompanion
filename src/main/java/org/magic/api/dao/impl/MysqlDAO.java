@@ -648,7 +648,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 						MagicNews n = new MagicNews();
 								n.setCategorie(rs.getString("categorie"));
 								n.setName(rs.getString("name"));
-								n.setUrl(rs.getURL("url"));
+								n.setUrl(rs.getString("url"));
 								n.setId(rs.getInt("id"));
 								n.setType(NEWS_TYPE.valueOf(rs.getString("typeNews")));
 								news.add(n);
@@ -683,7 +683,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			{
 				pst.setString(1, n.getName());
 				pst.setString(2,n.getCategorie());
-				pst.setURL(3,n.getUrl());
+				pst.setString(3,n.getUrl());
 				pst.setString(4, n.getType().toString());
 				pst.executeUpdate();
 				n.setId(getGeneratedKey(pst));
@@ -697,7 +697,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			{
 				pst.setString(1,n.getName());
 				pst.setString(2, n.getCategorie());
-				pst.setURL(3,n.getUrl());
+				pst.setString(3,n.getUrl());
 				pst.setString(4, n.getType().toString());
 				pst.setInt(5, n.getId());
 				pst.executeUpdate();

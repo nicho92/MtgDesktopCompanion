@@ -131,7 +131,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
 	@Override
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		logger.debug("saving " + mc +" in " + collection);
+		logger.debug("saveCard " + mc +" in " + collection);
 		
 		BasicDBObject obj = new BasicDBObject();
 		obj.put("db_id", IDGenerator.generate(mc));
@@ -144,7 +144,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		logger.debug("remove " + mc + " from " + collection);
+		logger.debug("removeCard " + mc + " from " + collection);
 		
 		BasicDBObject andQuery = new BasicDBObject();
 		List<BasicDBObject> obj = new ArrayList<>();

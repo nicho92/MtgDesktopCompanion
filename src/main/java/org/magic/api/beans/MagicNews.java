@@ -1,14 +1,13 @@
 package org.magic.api.beans;
 
 import java.io.Serializable;
-import java.net.URL;
 
 public class MagicNews implements Serializable {
 
 	private int id;
 	private String name;
 	private String categorie;
-	private URL url;
+	private String url;
 	private NEWS_TYPE type;
 	
 	public enum NEWS_TYPE {RSS,TWITTER}
@@ -43,10 +42,10 @@ public class MagicNews implements Serializable {
 	public void setCategorie(String categorie) {
 		this.categorie = categorie;
 	}
-	public URL getUrl() {
+	public String getUrl() {
 		return url;
 	}
-	public void setUrl(URL url) {
+	public void setUrl(String url) {
 			this.url = url;
 	}
 	

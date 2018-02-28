@@ -35,7 +35,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 		
 		List<MagicNewsContent> ret = new ArrayList<>();
 		try {
-			URLConnection openConnection = rssBean.getUrl().openConnection();
+			URLConnection openConnection = new URL(rssBean.getUrl()).openConnection();
 			openConnection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
 			is = openConnection.getInputStream();
 			InputSource source = new InputSource(is);

@@ -106,12 +106,7 @@ public class NewsPanel extends JPanel {
 		magicNews.setType((NEWS_TYPE)cboType.getSelectedItem());
 		magicNews.setCategorie(categorieJTextField.getText());
 		magicNews.setName(nameJTextField.getText());
-		try {
-			magicNews.setUrl(new URL(urlJTextField.getText()));
-		} catch (MalformedURLException e) {
-			magicNews.setUrl(null);
-		}
-		
+		magicNews.setUrl(urlJTextField.getText());
 		return magicNews;
 	}
 
