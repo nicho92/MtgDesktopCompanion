@@ -80,27 +80,6 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 	}
 
 
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-
-		try(ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(f)))
-		{
-			MagicDeck deck = new MagicDeck();
-			deck.setName("Search");
-			deck.setDescription("Result of search");
-			
-			int i=0;
-			for(MagicCard mc : cards)
-			{
-				deck.getMap().put(mc, 1);
-				setChanged();
-				notifyObservers(i++);
-				
-			}
-			oos.writeObject(deck);
-			oos.flush();
-		}
-	}
 
 
 	@Override

@@ -117,20 +117,6 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		}
 	}
 	
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-
-		MagicDeck d = new MagicDeck();
-		d.setName("export List");
-		d.setDescription(f.getAbsolutePath());
-		
-		for(MagicCard mc : cards)
-			d.add(mc);
-		
-		export(d,f);
-		
-		
-	}
 
 	@Override
 	public Icon getIcon() {

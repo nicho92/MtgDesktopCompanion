@@ -106,19 +106,6 @@ public class MTGODeckExport extends AbstractCardExport  {
 		
 	}
 
-
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-		StringBuilder temp = new StringBuilder();
-		temp.append("\n//MAIN\n");
-		for(MagicCard mc : cards)
-		{
-			temp.append(1).append(" ").append(mc.getName()).append("\n");
-		}
-		
-		FileUtils.writeStringToFile(f, temp.toString(),"UTF-8");
-	}
-	
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(MTGODeckExport.class.getResource("/icons/mtgo.png"));

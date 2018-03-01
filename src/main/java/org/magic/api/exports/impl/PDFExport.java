@@ -47,38 +47,6 @@ public class PDFExport extends AbstractCardExport {
 		
 		
 	}
-	
-	public void export(List<MagicCard> cards,File f) {
-		PdfPTable table = new PdfPTable(3); 
-		table.setHorizontalAlignment(Element.ALIGN_CENTER);
-
-		try
-		{
-			document = new Document(PageSize.A4,5,5,10,5);
-			document.addAuthor(getProperty("AUTHOR"));
-			document.addCreationDate();
-			document.addCreator("Magic Desktop Companion");
-			document.addTitle(f.getName());
-
-			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f));
-			document.open();
-			int i=0;
-			for(MagicCard card : cards)
-			{
-				table.addCell(getCells(card));
-				setChanged();
-				notifyObservers(i++);
-
-			}
-			document.add(table);
-			document.close();
-			writer.close();
-		} 
-		catch (Exception e)
-		{
-			logger.error("Error in pdf creation " + f,e);
-		} 
-	}
 
 
 	private PdfPCell getCells(MagicCard card) throws BadElementException, IOException
@@ -107,8 +75,36 @@ public class PDFExport extends AbstractCardExport {
 
 
 	@Override
-	public void export(MagicDeck deck, File dest) throws IOException {
-		export(deck.getAsList(),dest);
+	public void export(MagicDeck deck, File f) throws IOException {
+		PdfPTable table = new PdfPTable(3); 
+		table.setHorizontalAlignment(Element.ALIGN_CENTER);
+
+		try
+		{
+			document = new Document(PageSize.A4,5,5,10,5);
+			document.addAuthor(getProperty("AUTHOR"));
+			document.addCreationDate();
+			document.addCreator("Magic Desktop Companion");
+			document.addTitle(deck.getName());
+
+			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f));
+			document.open();
+			int i=0;
+			for(MagicCard card : deck.getAsList())
+			{
+				table.addCell(getCells(card));
+				setChanged();
+				notifyObservers(i++);
+
+			}
+			document.add(table);
+			document.close();
+			writer.close();
+		} 
+		catch (Exception e)
+		{
+			logger.error("Error in pdf creation " + f,e);
+		} 
 	}
 
 

@@ -3,7 +3,9 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Properties;
 
@@ -113,6 +115,23 @@ public abstract class AbstractCardExport extends Observable implements MTGCardsE
 	}
 
 
+	@Override
+	public void export(List<MagicCard> cards, File f) throws IOException {
+
+		MagicDeck d = new MagicDeck();
+				d.setName("export " + getName() + " cards");
+				d.setDescription(getName() +" export to " + f.getName());
+				d.setDateCreation(new Date());
+		int i=0;
+		for(MagicCard mc : cards)
+		{
+			d.add(mc);
+			setChanged();
+			notifyObservers(i++);
+		}
+		export(d,f);
+	}
+	
 	
 	protected List<MagicCardStock> importFromDeck(MagicDeck deck)
 	{

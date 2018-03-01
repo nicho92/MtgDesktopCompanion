@@ -54,7 +54,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 	public void export(MagicDeck deck , File dest) throws IOException
 	{
 		StringBuilder temp = new StringBuilder();
-
+		int c=0;
 		for(MagicCard mc : deck.getMap().keySet())
 		{
 			temp.append("MD,");
@@ -62,6 +62,8 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 			temp.append("\""+mc.getName()+"\",");
 			temp.append(mc.getEditions().get(0).getId());
 			temp.append("\n");
+			setChanged();
+			notifyObservers(c++);
 		}
 		for(MagicCard mc : deck.getMapSideBoard().keySet())
 		{
@@ -70,6 +72,8 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 			temp.append("\""+mc.getName()+"\",");
 			temp.append(mc.getEditions().get(0).getId());
 			temp.append("\n");
+			setChanged();
+			notifyObservers(c++);
 		}
 
 		try(FileWriter out = new FileWriter(dest))
@@ -124,37 +128,6 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 	}
 
 
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-		StringBuilder temp = new StringBuilder();
-		int c=0;
-		for(MagicCard mc : cards)
-		{
-			temp.append("MD,");
-			temp.append("1,");
-			temp.append("\""+mc.getName()+"\",");
-			temp.append(mc.getEditions().get(0).getId());
-			temp.append("\n");
-			setChanged();
-			notifyObservers(c++);
-		}
-		
-		FileWriter out = new FileWriter(f);
-		try 
-		{
-			out.write(temp.toString());
-		}
-		catch(Exception e)
-		{
-			logger.error(e);
-		}
-		finally {
-			out.close();	
-		}
-		
-
-	}
-	
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(Apprentice2DeckExport.class.getResource("/icons/apprentice.png"));

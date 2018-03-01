@@ -118,21 +118,6 @@ public class XMageDeckExport extends AbstractCardExport  {
 		
 	}
 
-
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-		
-		MagicDeck d = new MagicDeck();
-		
-			d.setName("export");
-			d.setDateCreation(new Date());
-		
-			for(MagicCard mc : cards)
-				d.getMap().put(mc, 1);
-		
-		export(d,f);
-	}
-	
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(XMageDeckExport.class.getResource("/icons/xmage.png"));

@@ -99,19 +99,6 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-		MagicDeck d = new MagicDeck();
-		d.setName("export");
-		d.setDescription(f.getAbsolutePath());
-		
-		for(MagicCard mc : cards)
-			d.add(mc);
-		
-		export(d,f);
-		
-	}
-
-	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		// TODO Auto-generated method stub
 

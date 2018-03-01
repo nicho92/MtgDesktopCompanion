@@ -57,19 +57,6 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-		
-		MagicDeck d = new MagicDeck();
-		d.setName(f.getName());
-		d.setDescription("export from " + f);
-		
-		for(MagicCard mc : cards)
-			d.getMap().put(mc, 1);
-		
-		export(d,f);
-	}
-
-	@Override
 	public String getFileExtension() {
 		return ".txt";
 	}

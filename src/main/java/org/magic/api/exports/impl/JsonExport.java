@@ -87,19 +87,6 @@ public class JsonExport  extends AbstractCardExport {
 		return deck;
 	}
 	
-	
-	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-		MagicDeck d = new MagicDeck();
-				  d.setDateCreation(new Date());
-				  d.setName("export");
-				  d.setDescription("export to " + f.getName());
-		for(MagicCard mc : cards)
-			d.getMap().put(mc, 1);
-
-		export(d, f);
-	}
-
 	@Override
 	public String getFileExtension() {
 		return ".json";

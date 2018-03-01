@@ -63,20 +63,6 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	}
 	
 	@Override
-	public void export(List<MagicCard> cards, File f) throws IOException {
-		MagicDeck d = new MagicDeck();
-				  d.setName("Search Result");
-
-		for(MagicCard mc : cards)
-		{
-			d.getMap().put(mc, 1);
-		}
-		
-		export(d,f);
-		
-	}
-
-	@Override
 	public String getFileExtension() {
 		return ".pdf";
 	}
