@@ -101,7 +101,6 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		// TODO Auto-generated method stub
-
 	}
 
 	@Override

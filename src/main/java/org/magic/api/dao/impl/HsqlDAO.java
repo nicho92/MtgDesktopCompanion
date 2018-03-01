@@ -121,7 +121,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		logger.info("delete " + mc + " from " + collection);
+		logger.trace("delete " + mc + " from " + collection);
 		
 		String sql = "delete from cards where name=? and edition=?";
 		if(collection !=null)
@@ -141,7 +141,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	public List<MagicCard> listCardsFromCollection(MagicCollection collection,MagicEdition me) throws SQLException
 	{
-		logger.debug("cards for " + collection + " " + me);
+		logger.trace("cards for " + collection + " " + me);
 		
 		String sql ="select mcard from cards where collection= ?";
 		if(me!=null)
@@ -295,7 +295,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		if(me!=null)
 			sql+=" and edition = '" + me.getId()+"'";
 	
-		logger.debug(sql);
+		logger.trace(sql);
 		
 		try(Statement st = con.createStatement(); ResultSet rs = st.executeQuery(sql))
 		{
@@ -335,7 +335,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {
-		logger.debug("list all cards");
+		logger.trace("list all cards");
 		
 		String sql ="select mcard from cards";
 		
@@ -372,7 +372,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		 {
 			 pst.setString(1, mc.getName());
 			 pst.setString(2, mc.getEditions().get(0).getId());
-			 logger.debug("SELECT COLLECTION FROM CARDS WHERE name='"+mc.getName()+"' and edition='"+mc.getEditions().get(0).getId()+"'");
+			 logger.trace("SELECT COLLECTION FROM CARDS WHERE name='"+mc.getName()+"' and edition='"+mc.getEditions().get(0).getId()+"'");
 			 try(ResultSet rs = pst.executeQuery())
 			 {
 				 List<MagicCollection> cols = new ArrayList<>();
