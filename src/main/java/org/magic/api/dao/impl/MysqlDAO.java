@@ -61,6 +61,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 logger.info("init " + getName());
 		 Class.forName(props.getProperty("DRIVER"));
 		 String url = "jdbc:mysql://"+getProperty("SERVERNAME")+":"+getProperty("SERVERPORT");
+		 logger.trace("Connexion to " + url+"/"+getProperty("DB_NAME")+getProperty("PARAMS"));
 		 con=DriverManager.getConnection(url+"/"+getProperty("DB_NAME")+getProperty("PARAMS"),getProperty("LOGIN"),getProperty("PASS"));
 		 createDB();
 		 logger.info("init " + getName() +" done");

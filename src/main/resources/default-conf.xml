@@ -307,6 +307,10 @@
             <class>org.magic.api.exports.impl.XMageDeckExport</class>
             <enable>true</enable>
         </export>
+        <export>
+            <class>org.magic.api.exports.impl.MagicWorkStationDeckExport</class>
+            <enable>true</enable>
+        </export>
     </deckexports>
     <min-price-alert/>
     <debug-json-panel>false</debug-json-panel>
