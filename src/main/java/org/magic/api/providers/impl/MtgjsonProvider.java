@@ -612,7 +612,6 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 		return new String[]{"English","Chinese Simplified","Chinese Traditional","French","German","Italian","Japanese","Korean","Portugese","Russian","Spanish"};
 	}
 	
-	//TODO : reforge this function
 	private void initOtherEditionCardsVar(MagicCard mc,MagicEdition me)
 	{
 		String edCode=me.getId();

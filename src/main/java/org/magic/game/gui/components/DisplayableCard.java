@@ -559,15 +559,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 	}
 
-
-
-	public void enableRightClick(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
 	public void addObserver(Observer panelDetail) {
 		obs.addObserver(panelDetail);
 		
