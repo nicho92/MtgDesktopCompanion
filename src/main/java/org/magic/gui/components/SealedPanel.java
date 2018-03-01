@@ -21,6 +21,7 @@ import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -49,7 +50,6 @@ import org.magic.services.ThreadManager;
 import org.magic.sorters.CmcSorter;
 import org.magic.sorters.ColorSorter;
 import org.magic.sorters.TypesSorter;
-import javax.swing.JProgressBar;
 
 public class SealedPanel extends JPanel {
 	private JLabel lblLoading;

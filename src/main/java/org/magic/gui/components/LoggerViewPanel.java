@@ -12,8 +12,6 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.gui.models.LogTableModel;
 import org.magic.services.MTGConstants;
 
-import net.coderazzi.filters.gui.TableFilterHeader;
-
 
 
 public class LoggerViewPanel extends JPanel {

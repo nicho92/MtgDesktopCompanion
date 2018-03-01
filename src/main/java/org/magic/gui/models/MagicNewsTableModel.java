@@ -9,8 +9,6 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.services.MTGControler;
 
-import com.rometools.rome.io.FeedException;
-
 public class MagicNewsTableModel extends DefaultTableModel{
 
 	private static final String[] COLUMNS = {
