@@ -30,6 +30,8 @@ import org.magic.services.MTGConstants;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
 	private String url = "http://www.mtgstocks.com/";
+	private boolean connected;
+	
 	
 	@Override
 	public STATUT getStatut() {
@@ -39,20 +41,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	public MTGStockDashBoard() {
 		super();
-		
+		connected=false;
 		if(!new File(confdir, getName()+".conf").exists()){
 				props.put("LOGIN", "login@mail.com");
 				props.put("PASS", "changeme");
 				props.put("USER_AGENT", MTGConstants.USER_AGENT);
 				save();
 		}
-		
-		try {
-			connect();
-		} catch (Exception e) {
-			logger.error(e);
-		}
-		
 	}
 	
 	private void connect() throws IOException
@@ -72,23 +67,32 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 				 login.setEntity(new UrlEncodedFormEntity(nvps));
 				 httpclient.execute(login, httpContext);
 	
-		
+		connected=true;
 	}
 	
 	
 	
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
+		if(!connected)
+			connect();
+		
 		return new ArrayList<>();
 	}
 
 	@Override
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
+		if(!connected)
+			connect();
+		
 		return new ArrayList<>();
 	}
 
 	@Override
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
+		if(!connected)
+			connect();
+		
 		return new HashMap<>();
 	}
 
@@ -104,6 +108,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
+		if(!connected)
+			connect();
+		
 		return new ArrayList<>();
 	}
 

@@ -46,7 +46,7 @@ public class HsqlDAO extends AbstractMagicDAO{
     	 super();	
  		if(!new File(confdir, getName()+".conf").exists()){
  			props.put("DRIVER", "org.hsqldb.jdbc.JDBCDriver");
- 			props.put("URL", MTGConstants.CONF_DIR.getAbsolutePath()+"/dao/hsqldao");
+ 			props.put("URL", confdir.getAbsolutePath()+"/hsqldao");
  			props.put("DBNAME", "magicDB");
  			props.put("LOGIN", "SA");
  			props.put("PASS", "");

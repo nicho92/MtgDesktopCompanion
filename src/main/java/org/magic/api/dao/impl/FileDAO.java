@@ -58,7 +58,7 @@ public class FileDAO extends AbstractMagicDAO {
 	public FileDAO() {
 		 super();	
 	 		if(!new File(confdir, getName()+".conf").exists()){
-	 			props.put("URL", MTGConstants.CONF_DIR.getAbsolutePath()+"/dao/filesDB");
+	 			props.put("URL", confdir.getAbsolutePath()+"/filesDB");
 	 			props.put("SERIALIZER", "json");
 	 			save();
 	 		}

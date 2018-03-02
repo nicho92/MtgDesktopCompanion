@@ -14,8 +14,6 @@ import org.utils.patterns.observer.Observable;
 public abstract class AbstractDashBoard extends Observable implements MTGDashBoard {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-
-	
 	public enum FORMAT { STANDARD,LEGACY,VINTAGE,MODERN}
 	protected File confdir = new File(MTGConstants.CONF_DIR, "dashboards");
 	private boolean enable=true;

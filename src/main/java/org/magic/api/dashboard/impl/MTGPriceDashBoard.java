@@ -41,7 +41,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		return STATUT.BETA;
 	}
 	
-	
 	public MTGPriceDashBoard() 
 	{
 		super();
@@ -60,7 +59,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String url = getProperty("WEBSITE")+"/taneLayout/mtg_price_tracker.jsp?period="+getProperty("PERIOD");
 		Document doc = Jsoup.connect(url)
 							.userAgent(getProperty("USER_AGENT"))
-							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+							.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 							.get();
 		try {
 			logger.debug("Get Shake for " + url );
@@ -217,7 +216,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		 String url = "http://www.mtgprice.com/sets/"+edition+"/"+name;
 		 Document d = Jsoup.connect(url)
 	    		 	.userAgent(getProperty("USER_AGENT"))
-					.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+					.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 					.get();
 		 
 		 logger.debug("get Prices for " + name + " " + url);
