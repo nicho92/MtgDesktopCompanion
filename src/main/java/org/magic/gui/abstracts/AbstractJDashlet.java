@@ -20,12 +20,13 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public abstract class AbstractJDashlet extends JInternalFrame {
 
-	public static final File confdir = new File(MTGControler.CONF_DIR, "dashboards/dashlets");
+	public static final File confdir = new File(MTGConstants.CONF_DIR, "dashboards/dashlets");
 	protected Properties props;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCardDetailPanel pane;

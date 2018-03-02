@@ -7,14 +7,14 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGTokensProvider;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 public abstract class AbstractTokensProvider implements MTGTokensProvider {
 
 	protected Properties props;
 	private boolean enable;
-	protected File confdir = new File(MTGControler.CONF_DIR, "tokens");
+	protected File confdir = new File(MTGConstants.CONF_DIR, "tokens");
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	

@@ -16,7 +16,7 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 
 import com.google.common.base.Charsets;
 import com.google.gson.Gson;
@@ -29,7 +29,7 @@ import com.google.gson.stream.JsonReader;
 
 public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	
-	public static final File setDirectory = new File(MTGControler.CONF_DIR,"sets");
+	public static final File setDirectory = new File(MTGConstants.CONF_DIR,"sets");
 	private String ext=".json";
 	
 	

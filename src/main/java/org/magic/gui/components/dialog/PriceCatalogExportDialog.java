@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class PriceCatalogExportDialog extends JDialog {
@@ -37,7 +38,7 @@ public class PriceCatalogExportDialog extends JDialog {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
 		
-		txtDest = new JTextField(new File(MTGControler.CONF_DIR,selectedcol.getName()+".csv").getAbsolutePath());
+		txtDest = new JTextField(new File(MTGConstants.CONF_DIR,selectedcol.getName()+".csv").getAbsolutePath());
 		
 		panel.add(txtDest);
 		txtDest.setColumns(20);

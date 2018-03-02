@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.SystemColor;
 import java.awt.Toolkit;
+import java.io.File;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -15,6 +16,11 @@ public class MTGConstants {
 	
 	private MTGConstants() {
 	}
+	
+	public static final String CONF_FILENAME="mtgcompanion-conf.xml";
+	public static final File CONF_DIR = new File(System.getProperty("user.home")+"/.magicDeskCompanion/");
+	public static final File MTG_DECK_DIRECTORY = new File(MTGConstants.CONF_DIR, "decks");
+
 	
 	
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";

@@ -28,7 +28,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.tools.IDGenerator;
 
 public class HsqlDAO extends AbstractMagicDAO{
@@ -46,7 +46,7 @@ public class HsqlDAO extends AbstractMagicDAO{
     	 super();	
  		if(!new File(confdir, getName()+".conf").exists()){
  			props.put("DRIVER", "org.hsqldb.jdbc.JDBCDriver");
- 			props.put("URL", MTGControler.CONF_DIR.getAbsolutePath()+"/dao/hsqldao");
+ 			props.put("URL", MTGConstants.CONF_DIR.getAbsolutePath()+"/dao/hsqldao");
  			props.put("DBNAME", "magicDB");
  			props.put("LOGIN", "SA");
  			props.put("PASS", "");

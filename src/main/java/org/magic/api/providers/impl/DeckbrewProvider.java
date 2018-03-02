@@ -19,7 +19,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 
 import com.google.gson.Gson;
@@ -46,7 +45,7 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 	public void init() {
 		try {
     	    	InstallCert.install("api.deckbrew.com");
-		    	System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+		    	System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
 		  	} catch (Exception e1) {
 				logger.error(e1);
 			}

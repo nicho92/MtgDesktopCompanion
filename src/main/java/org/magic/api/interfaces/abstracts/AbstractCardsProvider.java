@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 public abstract class AbstractCardsProvider implements MTGCardsProvider {
@@ -15,7 +15,7 @@ public abstract class AbstractCardsProvider implements MTGCardsProvider {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected boolean enable;
 	protected Properties props;
-	protected File confdir = new File(MTGControler.CONF_DIR, "cardsProviders");
+	protected File confdir = new File(MTGConstants.CONF_DIR, "cardsProviders");
 
 	
 	public AbstractCardsProvider() {

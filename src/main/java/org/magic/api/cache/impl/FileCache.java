@@ -11,6 +11,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
@@ -33,7 +34,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		
 		super();
 		if(!new File(CACHEDIR, getName()+".conf").exists()){
-			props.put("DIRECTORY", MTGControler.CONF_DIR+"/caches/cachePics");
+			props.put("DIRECTORY", MTGConstants.CONF_DIR+"/caches/cachePics");
 			props.put("FORMAT", "png");
 		save();
 		}

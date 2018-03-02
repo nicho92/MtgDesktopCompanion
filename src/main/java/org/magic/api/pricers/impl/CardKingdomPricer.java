@@ -19,7 +19,6 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 
 public class CardKingdomPricer extends AbstractMagicPricesProvider {
@@ -51,7 +50,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		
 		try {
   			InstallCert.install("www.cardkingdom.com");
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGControler.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
     	} catch (Exception e1) {
 			logger.error(e1);
 		}

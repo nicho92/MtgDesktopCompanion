@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
@@ -17,7 +17,7 @@ public abstract class AbstractMagicDAO extends Observable implements MTGDao {
 	private boolean enable=true;
 	protected Properties props;
 
-	protected File confdir = new File(MTGControler.CONF_DIR, "dao");
+	protected File confdir = new File(MTGConstants.CONF_DIR, "dao");
 
 	
 	

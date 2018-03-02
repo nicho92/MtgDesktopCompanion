@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGDeckSniffer;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
@@ -16,7 +16,7 @@ public abstract class AbstractDeckSniffer extends Observable implements MTGDeckS
 	private boolean enable;
 	protected Properties props;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected File confdir = new File(MTGControler.CONF_DIR, "decksniffers");
+	protected File confdir = new File(MTGConstants.CONF_DIR, "decksniffers");
 
 	@Override
 	public String toString() {

@@ -7,14 +7,14 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPicturesCache;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractMTGPicturesCache extends Observable implements MTGPicturesCache {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	public static final File CACHEDIR = new File(MTGControler.CONF_DIR, "caches");
+	public static final File CACHEDIR = new File(MTGConstants.CONF_DIR, "caches");
 	private boolean enable=true;
 	protected Properties props;
 	

@@ -89,6 +89,10 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
         return number.toString(16);
 	}
 	
+	public static void increment()
+	{
+		sequence++;
+	}
 	
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
@@ -145,7 +149,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
 			        response = httpClient.execute(reqSearch, responseHandler,httpContext);
 			        logger.debug(getName() +" response :" + response);
-			        sequence++;
+			        increment();
 			      
 		return parseResult(response);
 	}

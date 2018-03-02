@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGWallpaperProvider;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 public abstract class AbstractWallpaperProvider implements MTGWallpaperProvider {
@@ -15,7 +15,7 @@ public abstract class AbstractWallpaperProvider implements MTGWallpaperProvider 
 	private boolean enable;
 	protected Properties props;
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected File confdir = new File(MTGControler.CONF_DIR, "wallpapers");
+	protected File confdir = new File(MTGConstants.CONF_DIR, "wallpapers");
 
 	@Override
 	public String toString() {

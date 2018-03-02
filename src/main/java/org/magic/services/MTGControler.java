@@ -9,7 +9,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -61,8 +60,6 @@ public class MTGControler {
 	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
 	private KeyWordProvider keyWordManager;
-	public static final File CONF_DIR = new File(System.getProperty("user.home")+"/.magicDeskCompanion/");
-	public static final File MTG_DECK_DIRECTORY = new File(MTGControler.CONF_DIR, "decks");
 
 	private XMLConfiguration config;
 	private ClassLoader classLoader ;
@@ -221,11 +218,11 @@ public class MTGControler {
 	private MTGControler()
 	{
 		
-		File conf = new File(CONF_DIR,"mtgcompanion-conf.xml");
+		File conf = new File(MTGConstants.CONF_DIR,MTGConstants.CONF_FILENAME);
 		if(!conf.exists())
 		try {
 			logger.info("conf file doesn't exist. creating one from default file");
-			FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"), new File(CONF_DIR,"mtgcompanion-conf.xml"));
+			FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"), new File(MTGConstants.CONF_DIR,MTGConstants.CONF_FILENAME));
 			logger.info("conf file created");
 		}
 		catch (IOException e1) 
@@ -236,7 +233,7 @@ public class MTGControler {
 		Parameters params = new Parameters();
 		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class)
 		    	.configure(params.xml()
-		        .setFile(new File(CONF_DIR,"mtgcompanion-conf.xml"))
+		        .setFile(new File(MTGConstants.CONF_DIR,MTGConstants.CONF_FILENAME))
 		        .setSchemaValidation(false)
 		        .setValidating(false)
 		        .setEncoding("UTF-8")
@@ -630,11 +627,11 @@ public class MTGControler {
 
 	public void saveDeck(MagicDeck deck) throws IOException 
 	{
-		if (!MTG_DECK_DIRECTORY.exists())
-			MTG_DECK_DIRECTORY.mkdir();
+		if (!MTGConstants.MTG_DECK_DIRECTORY.exists())
+			MTGConstants.MTG_DECK_DIRECTORY.mkdir();
 
 		MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
-		serialis.export(deck, new File(MTG_DECK_DIRECTORY,deck.getName() + serialis.getFileExtension()));
+		serialis.export(deck, new File(MTGConstants.MTG_DECK_DIRECTORY,deck.getName() + serialis.getFileExtension()));
 		
 	}
 }

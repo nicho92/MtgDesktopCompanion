@@ -7,7 +7,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
@@ -19,7 +19,7 @@ public abstract class AbstractDashBoard extends Observable implements MTGDashBoa
 	public enum FORMAT { standard,legacy,vintage,modern}
 	public enum ONLINE_PAPER {online, paper}
 
-	protected File confdir = new File(MTGControler.CONF_DIR, "dashboards");
+	protected File confdir = new File(MTGConstants.CONF_DIR, "dashboards");
 
 	
 	private boolean enable=true;

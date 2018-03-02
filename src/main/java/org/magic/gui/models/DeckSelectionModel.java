@@ -10,6 +10,7 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -27,7 +28,7 @@ public class DeckSelectionModel extends DefaultTableModel {
 		
 		decks = new ArrayList<>();
 		ThreadManager.getInstance().execute(()->{
-				for(File f : new File(MTGControler.CONF_DIR,"decks").listFiles() )
+				for(File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles() )
 				{
 					try {
 						MagicDeck deck = new MTGDesktopCompanionExport().importDeck(f);
@@ -102,7 +103,7 @@ public class DeckSelectionModel extends DefaultTableModel {
 	}
 
 	public void remove(MagicDeck selectedDeck) {
-		 FileUtils.deleteQuietly(new File(MTGControler.CONF_DIR.getAbsolutePath()+"/decks",selectedDeck.getName()+".deck"));
+		 FileUtils.deleteQuietly(new File(MTGConstants.MTG_DECK_DIRECTORY,selectedDeck.getName()+".deck"));
 		 decks.remove(selectedDeck);
 		 fireTableDataChanged();
 		

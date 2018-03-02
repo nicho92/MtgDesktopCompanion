@@ -7,14 +7,14 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGNewsProvider;
-import org.magic.services.MTGControler;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractMagicNewsProvider extends Observable implements MTGNewsProvider {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
-	protected File confdir = new File(MTGControler.CONF_DIR, "news");
+	protected File confdir = new File(MTGConstants.CONF_DIR, "news");
 	private boolean enable=true;
 	protected Properties props;
 	
