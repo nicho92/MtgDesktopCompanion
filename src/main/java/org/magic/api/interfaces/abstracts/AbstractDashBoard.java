@@ -16,12 +16,8 @@ public abstract class AbstractDashBoard extends Observable implements MTGDashBoa
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
-	public enum FORMAT { standard,legacy,vintage,modern}
-	public enum ONLINE_PAPER {online, paper}
-
+	public enum FORMAT { STANDARD,LEGACY,VINTAGE,MODERN}
 	protected File confdir = new File(MTGConstants.CONF_DIR, "dashboards");
-
-	
 	private boolean enable=true;
 	protected Properties props;
 	

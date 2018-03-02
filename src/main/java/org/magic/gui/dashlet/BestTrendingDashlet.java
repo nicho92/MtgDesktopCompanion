@@ -61,13 +61,13 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 					List<CardShake> shakes = new ArrayList<>();
 							
 					if(boxM.isSelected())
-						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.modern.toString()));
+						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.MODERN.toString()));
 					if(boxS.isSelected())	
-						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.standard.toString()));
+						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.STANDARD.toString()));
 					if(boxL.isSelected())		
-						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.legacy.toString()));
+						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.LEGACY.toString()));
 					if(boxV.isSelected())		
-						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.vintage.toString()));
+						shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.VINTAGE.toString()));
 					
 					
 					Collections.sort(shakes,(CardShake o1, CardShake o2)->{

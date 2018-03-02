@@ -91,10 +91,10 @@ public class DashboardsProviderTests {
 			
 			
 			try {
-				p.getBestCards(FORMAT.standard, p.getDominanceFilters()[0]);
-				System.out.println("get Best for " + FORMAT.standard + " OK");
+				p.getBestCards(FORMAT.STANDARD, p.getDominanceFilters()[0]);
+				System.out.println("get Best for " + FORMAT.STANDARD + " OK");
 			} catch (IOException e) {
-				System.out.println("get Best for " + FORMAT.standard + " ERROR "+e);
+				System.out.println("get Best for " + FORMAT.STANDARD + " ERROR "+e);
 			}
 		
 			

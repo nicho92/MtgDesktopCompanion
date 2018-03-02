@@ -27,19 +27,20 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay{
 	@Deprecated
 	public void show()
 	{
+		String key="tooltip";
 		showDialog (null, new JXTipOfTheDay.ShowOnStartupChoice ()
 	      {
 	       public boolean isShowingOnStartup ()
 	       {
-	        return MTGControler.getInstance().get("tooltip","true").equalsIgnoreCase("true");
+	        return MTGControler.getInstance().get(key,"true").equalsIgnoreCase("true");
 	       }
 
 	       public void setShowingOnStartup (boolean x)
 	       {
 	        if (x)
-	        	MTGControler.getInstance().setProperty("tooltip", "true");
+	        	MTGControler.getInstance().setProperty(key, "true");
 	        else
-	        	MTGControler.getInstance().setProperty("tooltip", "false");
+	        	MTGControler.getInstance().setProperty(key, "false");
 	       }
 	      });
 	}

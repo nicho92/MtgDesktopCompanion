@@ -15,6 +15,9 @@ import javax.swing.SwingConstants;
 import org.magic.services.MTGControler;
 
 public class AboutDialog extends JDialog {
+
+	private static final long serialVersionUID = 1L;
+
 	public AboutDialog() {
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("ABOUT"));
 		setResizable(false);

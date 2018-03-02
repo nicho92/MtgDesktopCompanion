@@ -42,6 +42,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		return STATUT.STABLE;
 	}
 	
+	
+	
+	
 	public MTGoldFishDashBoard() 
 	{
 		super();
@@ -140,8 +143,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
 		List<CardShake> list = new ArrayList<>();
-		String urlW= getProperty("URL_MOVERS")+getProperty("FORMAT")+"/"+gameFormat+"/winners/"+getProperty("DAILY_WEEKLY");
-		String urlL= getProperty("URL_MOVERS")+getProperty("FORMAT")+"/"+gameFormat+"/losers/"+getProperty("DAILY_WEEKLY");
+		String urlW= getProperty("URL_MOVERS")+getProperty("FORMAT")+"/"+gameFormat.toLowerCase()+"/winners/"+getProperty("DAILY_WEEKLY");
+		String urlL= getProperty("URL_MOVERS")+getProperty("FORMAT")+"/"+gameFormat.toLowerCase()+"/losers/"+getProperty("DAILY_WEEKLY");
 		
 		
 		logger.debug("Loding Shake " + urlW);
@@ -253,7 +256,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
 		
 		//spells, creatures, all, lands
-		String u = "https://www.mtggoldfish.com/format-staples/"+f+"/full/"+filter;
+		String u = "https://www.mtggoldfish.com/format-staples/"+f.toString().toLowerCase()+"/full/"+filter;
 		Document doc = Jsoup.connect(u)
 				.userAgent(getProperty("USER_AGENT"))
 				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))

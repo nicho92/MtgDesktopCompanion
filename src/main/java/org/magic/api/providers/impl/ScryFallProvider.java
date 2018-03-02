@@ -474,34 +474,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		line=line.replaceAll("\"", "");
 		
-		if(line.contains("Legendary"))
+		for(String k:new String[]{"Legendary","Basic","Ongoing","Snow","World"})
 		{
-			mc.getSupertypes().add("Legendary");
-			line=line.replaceAll("Legendary","").trim();
+			if(line.contains(k))
+			{
+				mc.getSupertypes().add(k);
+				line=line.replaceAll(k,"").trim();
+			}
 		}
-		
-		if(line.contains("Basic"))
-		{
-			mc.getSupertypes().add("Basic");
-			line=line.replaceAll("Basic","").trim();
-		}
-		
-		if(line.contains("Ongoing"))
-		{
-			mc.getSupertypes().add("Ongoing");
-			line=line.replaceAll("Ongoing","").trim();
-		}
-		if(line.contains("Snow"))
-		{
-			mc.getSupertypes().add("Snow");
-			line=line.replaceAll("Snow","").trim();
-		}
-		if(line.contains("World"))
-		{
-			mc.getSupertypes().add("World");
-			line=line.replaceAll("World","").trim();
-		}
-		
 		
 		String sep = "\u2014";
 
