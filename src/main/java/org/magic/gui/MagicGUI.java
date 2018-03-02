@@ -51,7 +51,7 @@ public class MagicGUI extends JFrame {
 
  	private JTabbedPane  tabbedPane;
 	private transient VersionChecker serviceUpdate;
-	private static transient TrayIcon trayNotifier;
+	private static transient TrayIcon trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	private CardSearchPanel cardSearchPanel;
 	
 	public static TrayIcon getTrayNotifier() {
@@ -114,7 +114,6 @@ public class MagicGUI extends JFrame {
 		
 		try{
 			tray=SystemTray.getSystemTray();
-			trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 		}
 		catch (Exception e) {
 			logger.error(e);
@@ -287,10 +286,7 @@ public class MagicGUI extends JFrame {
 		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
 	
 		if(MTGControler.getInstance().get("modules/search").equals("true"))
-		{
-			cardSearchPanel=new CardSearchPanel();
-			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"), MTGConstants.ICON_SEARCH_2, cardSearchPanel, null);
-		}
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"), MTGConstants.ICON_SEARCH_2, CardSearchPanel.getInstance(), null);
 		
 		if(MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"), MTGConstants.ICON_DECK, new DeckBuilderGUI(), null);

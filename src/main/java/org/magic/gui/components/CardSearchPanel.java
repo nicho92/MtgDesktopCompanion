@@ -124,7 +124,10 @@ public class CardSearchPanel extends JPanel {
 		private JLabel lblLoading;
 		
 		
-		public static CardSearchPanel getInst() {
+		public static CardSearchPanel getInstance() {
+			if(inst==null)
+				inst=new CardSearchPanel();
+			
 			return inst;
 		}
 		
@@ -192,7 +195,7 @@ public class CardSearchPanel extends JPanel {
 			popupMenu.add(menuItemAdd);
 		}
 
-		public void initGUI()
+		private void initGUI()
 		{
 			logger.info("init search GUI");
 			
@@ -210,10 +213,6 @@ public class CardSearchPanel extends JPanel {
 			JButton btnSearch;
 			JButton btnFilter;
 			DefaultRowSorter<DefaultTableModel, Integer> sorterCards ;
-		
-			
-			
-			inst=this;
 			DefaultRowSorter<DefaultTableModel, Integer> sorterPrice = new TableRowSorter<>(priceModel);
 			sorterCards = new TableRowSorter<>(cardsModeltable);
 			sorterCards.setComparator(7, (String num1, String num2)->{
@@ -704,7 +703,7 @@ public class CardSearchPanel extends JPanel {
 			updateCards();
 		}
 
-		public CardSearchPanel() {
+		private CardSearchPanel() {
 		
 			try {
 				

@@ -13,18 +13,15 @@ import org.magic.services.MTGConstants;
 public class CardSearchImportDialog extends JDialog {
 	
 	JButton selectCard;
-	CardSearchPanel cardSearchPanel;
 	
 	public CardSearchImportDialog() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setModal(true);
 		selectCard = new JButton(MTGConstants.ICON_IMPORT);
-		cardSearchPanel = new CardSearchPanel();
-		
 		
 		selectCard.addActionListener(e->dispose());
 		
-		getContentPane().add(cardSearchPanel, BorderLayout.CENTER);
+		getContentPane().add(CardSearchPanel.getInstance(), BorderLayout.CENTER);
 		getContentPane().add(selectCard, BorderLayout.SOUTH);
 		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
@@ -33,13 +30,13 @@ public class CardSearchImportDialog extends JDialog {
 	
 	public MagicCard getSelected()
 	{
-		return cardSearchPanel.getSelected();
+		return CardSearchPanel.getInstance().getSelected();
 	}
 	
 	
 	public List<MagicCard> getSelection()
 	{
-		return cardSearchPanel.getMultiSelection();
+		return CardSearchPanel.getInstance().getMultiSelection();
 	}
 	
 }

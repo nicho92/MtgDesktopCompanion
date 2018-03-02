@@ -90,7 +90,7 @@ public class IconSetProvider {
 			}
 			catch(Exception ex)
 			{
-				logger.error("couldnt load " + id);
+				logger.trace("couldnt load " + id);
 				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/PMTG1_set.png"));
 				
 			}

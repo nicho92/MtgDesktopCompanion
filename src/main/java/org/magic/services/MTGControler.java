@@ -200,13 +200,7 @@ public class MTGControler {
 		return config.getString(prop,"");
 	}
 	
-	public void reload() throws ClassNotFoundException, SQLException
-	{
-		logger.debug("Reload Controler");
-		inst=new MTGControler();
-		inst.getEnabledProviders().init();
-		inst.getEnabledDAO().init();
-	}
+	
 	
 	public Player getProfilPlayer()
 	{
