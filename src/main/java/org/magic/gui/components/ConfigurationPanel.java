@@ -37,6 +37,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
+import org.magic.tools.ImageUtils;
 import org.magic.tools.InstallCert;
 
 public class ConfigurationPanel extends JPanel {
@@ -614,20 +615,15 @@ public class ConfigurationPanel extends JPanel {
 		txtName.setColumns(10);
 		
 		JLabel lblAvatar = new JLabel("Avatar :");
+		lblIconAvatar=new JLabel();
 		GridBagConstraints gbclblAvatar = new GridBagConstraints();
 		gbclblAvatar.insets = new Insets(0, 0, 5, 5);
 		gbclblAvatar.gridx = 0;
 		gbclblAvatar.gridy = 1;
 		panelProfil.add(lblAvatar, gbclblAvatar);
-		
-		try{
-			lblIconAvatar = new JLabel(new ImageIcon(ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar")))));
-		}
-		catch(Exception e)
-		{
-			lblIconAvatar = new JLabel();
-		}
-
+	
+		loadIcon();
+	
 		lblIconAvatar.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent paramMouseEvent) {
@@ -637,6 +633,7 @@ public class ConfigurationPanel extends JPanel {
 				if(result==JFileChooser.APPROVE_OPTION)
 				{
 					MTGControler.getInstance().setProperty("/game/player-profil/avatar",jf.getSelectedFile().getAbsolutePath());
+					loadIcon();
 				}
 			}
 		});
@@ -860,6 +857,19 @@ public class ConfigurationPanel extends JPanel {
 		} catch (Exception e1) {
 			MTGLogger.printStackTrace(e1);
 		}
+	}
+
+	private void loadIcon() {
+		try{
+			lblIconAvatar.setIcon(new ImageIcon(ImageUtils.resize(ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/avatar"))),100,100)));
+		
+		}
+		catch(Exception e)
+		{
+			lblIconAvatar.setIcon(null);
+		}
+
+		
 	}
 
 }
