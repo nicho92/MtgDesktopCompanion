@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
 import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPlugin;
@@ -16,18 +17,30 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private boolean enable;
-	protected Properties props;
+	private Properties props;
 	protected File confdir;
 	protected PropertiesConfiguration config;
 	protected Configurations configs;
+	protected FileBasedConfigurationBuilder<PropertiesConfiguration> builder;
+	protected File confFile;
 	
-	
-	
+	public void setProps(Properties props) {
+		this.props = props;
+	}
 	
 	public AbstractMTGPlugin() {
 		configs = new Configurations();
 		props=new Properties();
 	}
+	
+	public String getProperty(String k , String defaultVal)
+	{
+		if(getProperty(k)!=null)
+			return getProperty(k);
+		else
+			return defaultVal;
+	}
+	
 	
 	public File getConfdir() {
 		return confdir;

@@ -44,11 +44,11 @@ public class ConsoleServer extends AbstractMTGServer{
  	public ConsoleServer() throws IOException {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("SERVER-PORT", "5152");
-			props.put("IDLE-TIME", "10");
-			props.put("BUFFER-SIZE", "2048");
-			props.put("ENCODING", "UTF-8");
-			props.put("AUTOSTART", "false");
+			setProperty("SERVER-PORT", "5152");
+			setProperty("IDLE-TIME", "10");
+			setProperty("BUFFER-SIZE", "2048");
+			setProperty("ENCODING", "UTF-8");
+			setProperty("AUTOSTART", "false");
 			save();
 		}
 	}
@@ -57,12 +57,12 @@ public class ConsoleServer extends AbstractMTGServer{
 	@Override
 	public void start() throws IOException  {
 		  acceptor = new NioSocketAcceptor();
- 	      acceptor.getFilterChain().addLast( "codec", new ProtocolCodecFilter( new TextLineCodecFactory(Charset.forName(props.getProperty("ENCODING")))));
-          acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(props.getProperty("BUFFER-SIZE")) );
-          acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(props.getProperty("IDLE-TIME")) );
+ 	      acceptor.getFilterChain().addLast( "codec", new ProtocolCodecFilter( new TextLineCodecFactory(Charset.forName(getProperty("ENCODING")))));
+          acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(getProperty("BUFFER-SIZE")) );
+          acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(getProperty("IDLE-TIME")) );
 		  acceptor.setHandler( new MTGConsoleHandler() );
-		  acceptor.bind( new InetSocketAddress(Integer.parseInt(props.getProperty("SERVER-PORT"))) );
-		  logger.info("Server started on port " + props.getProperty("SERVER-PORT"));
+		  acceptor.bind( new InetSocketAddress(Integer.parseInt(getProperty("SERVER-PORT"))) );
+		  logger.info("Server started on port " + getProperty("SERVER-PORT"));
 	}
 
 	@Override
@@ -91,7 +91,7 @@ public class ConsoleServer extends AbstractMTGServer{
 	
 	@Override
 	public boolean isAutostart() {
-		return props.getProperty("AUTOSTART").equals("true");
+		return getProperty("AUTOSTART").equals("true");
 	}
 }
 

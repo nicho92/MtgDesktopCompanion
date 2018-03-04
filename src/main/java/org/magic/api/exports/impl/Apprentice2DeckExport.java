@@ -99,7 +99,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 					line=line.trim();
 					if(!line.startsWith("//"))
 					{
-						String[] elements = line.split(props.getProperty("SEPARATOR"));
+						String[] elements = line.split(getProperty("SEPARATOR"));
 						MagicEdition ed = null;
 						try{
 						ed = new MagicEdition();

@@ -45,9 +45,9 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		
 		private void join(IoSession session, JoinAction ja)
 		{
-			if(!props.getProperty("MAX_CLIENT").equals("0")&&acceptor.getManagedSessions().size()>=Integer.parseInt(props.getProperty("MAX_CLIENT")))
+			if(!getProperty("MAX_CLIENT").equals("0")&&acceptor.getManagedSessions().size()>=Integer.parseInt(getProperty("MAX_CLIENT")))
 			{
-					session.write(new SpeakAction(null,"Number of users reached (" + props.getProperty("MAX_CLIENT") +")"));
+					session.write(new SpeakAction(null,"Number of users reached (" + getProperty("MAX_CLIENT") +")"));
 					session.closeOnFlush();
 					return;
 			}
@@ -63,7 +63,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		@Override
  		public void sessionCreated(IoSession session) throws Exception {
  			logger.debug("New Session " + session.getRemoteAddress());
- 			session.write(new SpeakAction(null, props.getProperty("WELCOME_MESSAGE")));
+ 			session.write(new SpeakAction(null, getProperty("WELCOME_MESSAGE")));
  		}
  	 	
  	 	@Override
@@ -154,19 +154,19 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("SERVER-PORT", "18567");
-			props.put("IDLE-TIME", "10");
-			props.put("BUFFER-SIZE", "2048");
-			props.put("AUTOSTART", "false");
-			props.put("WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room");
-			props.put("MAX_CLIENT", "0");
+			setProperty("SERVER-PORT", "18567");
+			setProperty("IDLE-TIME", "10");
+			setProperty("BUFFER-SIZE", "2048");
+			setProperty("AUTOSTART", "false");
+			setProperty("WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room");
+			setProperty("MAX_CLIENT", "0");
 			save();
 		}
     	acceptor = new NioSocketAcceptor();
         acceptor.setHandler(adapter);
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
-        acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(props.getProperty("BUFFER-SIZE")) );
-        acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(props.getProperty("IDLE-TIME")) );
+        acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(getProperty("BUFFER-SIZE")) );
+        acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(getProperty("IDLE-TIME")) );
 	}
 	
 	 public static void main(String[] args) throws Exception {
@@ -177,8 +177,8 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 
 	@Override
 	public void start() throws IOException {
-		 acceptor.bind( new InetSocketAddress(Integer.parseInt(props.getProperty("SERVER-PORT"))) );
-		 logger.info("Server started on port " + props.getProperty("SERVER-PORT") +" ...");
+		 acceptor.bind( new InetSocketAddress(Integer.parseInt(getProperty("SERVER-PORT"))) );
+		 logger.info("Server started on port " + getProperty("SERVER-PORT") +" ...");
 	}
 
 
@@ -200,7 +200,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 
 	@Override
 	public boolean isAutostart() {
-		return props.getProperty("AUTOSTART").equals("true");
+		return getProperty("AUTOSTART").equals("true");
 	}
 
 

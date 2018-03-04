@@ -97,8 +97,8 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		
 		logger.debug("get deck " + info.getUrl());
 		Document d = Jsoup.connect(info.getUrl().toString())
-    		 	.userAgent(props.getProperty("USER_AGENT"))
-    		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
+    		 	.userAgent(getProperty("USER_AGENT"))
+    		 	.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 				.get();
 		
 		deck.setDescription(info.getUrl().toString());
@@ -169,15 +169,15 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		
-		int nbPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
+		int nbPage = Integer.parseInt(getProperty("MAX_PAGE"));
 		List<RetrievableDeck> list = new ArrayList<>();
 		
 		
 		for(int i=1;i<=nbPage;i++)
 		{
-			Document d = Jsoup.connect(props.getProperty("URL")+"/"+props.getProperty("FORMAT")+"/?lng=fr&page="+i)
-	    		 	.userAgent(props.getProperty("USER_AGENT"))
-	    		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
+			Document d = Jsoup.connect(getProperty("URL")+"/"+getProperty("FORMAT")+"/?lng=fr&page="+i)
+	    		 	.userAgent(getProperty("USER_AGENT"))
+	    		 	.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 					.get();
 			
 			Elements e = d.select("tr.touch_row" );

@@ -59,7 +59,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 	
 	public void init() throws SQLException, ClassNotFoundException {
 		 logger.info("init " + getName());
-		 Class.forName(props.getProperty("DRIVER"));
+		 Class.forName(getProperty("DRIVER"));
 		 String url = "jdbc:mysql://"+getProperty("SERVERNAME")+":"+getProperty("SERVERPORT");
 		 logger.trace("Connexion to " + url+"/"+getProperty("DB_NAME")+getProperty("PARAMS"));
 		 con=DriverManager.getConnection(url+"/"+getProperty("DB_NAME")+getProperty("PARAMS"),getProperty("LOGIN"),getProperty("PASS"));
@@ -73,17 +73,17 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 try (Statement stat=con.createStatement())
 		 {
 		 	logger.debug("Create table Cards");
-		 	stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "+props.getProperty("CARD_STORE",defaultStore)+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 	stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Shop");
 		 	stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table collections");
 		 	stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("Create table stocks");
-		 	stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "+props.getProperty("CARD_STORE",defaultStore)+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
+		 	stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
 			logger.debug("Create table Alerts");
-			stat.executeUpdate("create table alerts (id varchar(250), mcard "+props.getProperty("CARD_STORE",defaultStore)+", amount DECIMAL)");
+			stat.executeUpdate("create table alerts (id varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", amount DECIMAL)");
 		 	logger.debug("Create table Decks");
-		 	stat.executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "+props.getProperty("CARD_STORE",defaultStore)+", categorie VARCHAR(100))");
+		 	stat.executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "+getProperty("CARD_STORE",defaultStore)+", categorie VARCHAR(100))");
 		 	logger.debug("Create table News");
 		 	stat.executeUpdate("CREATE TABLE news (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
 		 	
@@ -528,14 +528,14 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void backup(File f) throws SQLException,IOException {
 		
 		
-		if(props.getProperty("MYSQL_DUMP_PATH").length()<=0)
+		if(getProperty("MYSQL_DUMP_PATH").length()<=0)
 		{
 			throw new NullPointerException("Please fill MYSQL_DUMP_PATH var");
 		}
 		
-		String dumpCommand = props.getProperty("MYSQL_DUMP_PATH")+"/mysqldump " + props.getProperty("DB_NAME") + " -h " + props.getProperty("SERVERNAME") + " -u " + props.getProperty("LOGIN") +" -p" + props.getProperty("PASS")+" --port " + props.getProperty("SERVERPORT");
+		String dumpCommand = getProperty("MYSQL_DUMP_PATH")+"/mysqldump " + getProperty("DB_NAME") + " -h " + getProperty("SERVERNAME") + " -u " + getProperty("LOGIN") +" -p" + getProperty("PASS")+" --port " + getProperty("SERVERPORT");
 		Runtime rt = Runtime.getRuntime();
-		logger.info("begin Backup " + props.getProperty("DB_NAME"));
+		logger.info("begin Backup " + getProperty("DB_NAME"));
 		Process child;
 		
 			child = rt.exec(dumpCommand);
@@ -547,7 +547,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			{
 				ps.write(ch);
 			}
-			logger.info("Backup " + props.getProperty("DB_NAME") + " done");
+			logger.info("Backup " + getProperty("DB_NAME") + " done");
 		}
 		
 		

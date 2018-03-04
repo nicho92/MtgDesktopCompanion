@@ -343,7 +343,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 		@Override
 		public String getDBLocation() {
-			return props.getProperty("SERVERNAME")+"/"+props.getProperty("DB_NAME");
+			return getProperty("SERVERNAME")+"/"+getProperty("DB_NAME");
 		}
 
 		@Override
@@ -387,16 +387,16 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		@Override
 		public void backup(File f) throws IOException {
 			
-			if(props.getProperty("URL_PGDUMP").length()<=0)
+			if(getProperty("URL_PGDUMP").length()<=0)
 			{
 				throw new NullPointerException("Please fill URL_PGDUMP var");
 			}
 			
-			String dumpCommand = props.getProperty("URL_PGDUMP")+"/pg_dump"+
-						" -d" + props.getProperty("DB_NAME") + 
-						" -h" + props.getProperty("SERVERNAME") + 
-						" -U" + props.getProperty("LOGIN") +
-						" -p" + props.getProperty("SERVERPORT");
+			String dumpCommand = getProperty("URL_PGDUMP")+"/pg_dump"+
+						" -d" + getProperty("DB_NAME") + 
+						" -h" + getProperty("SERVERNAME") + 
+						" -U" + getProperty("LOGIN") +
+						" -p" + getProperty("SERVERPORT");
 			
 			
 			Runtime rt = Runtime.getRuntime();
@@ -411,7 +411,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				{
 					ps.write(ch);
 				}
-				logger.info("Backup " + props.getProperty("DB_NAME") + " done");
+				logger.info("Backup " + getProperty("DB_NAME") + " done");
 			}		
 			
 		}

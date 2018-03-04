@@ -75,7 +75,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if(crop)
 			url+="&version=art_crop";
 		else
-			url +="&version="+props.getProperty("PIC_SIZE","large");
+			url +="&version="+getProperty("PIC_SIZE","large");
 		
 		
 		

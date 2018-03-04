@@ -68,7 +68,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 			deck.setDateCreation(new Date());
 		
 		Document d = Jsoup.connect(url)
-						  .userAgent(props.getProperty("USER_AGENT"))
+						  .userAgent(getProperty("USER_AGENT"))
 						  .get();
 
 		
@@ -125,12 +125,12 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		
 		
-		String url=props.getProperty("URL")+"/decks?filter-format="+getFormatCode(props.getProperty("FORMAT"))+"&filter-deck-time-frame="+props.getProperty("FILTER");
+		String url=getProperty("URL")+"/decks?filter-format="+getFormatCode(getProperty("FORMAT"))+"&filter-deck-time-frame="+getProperty("FILTER");
 		
 		List<RetrievableDeck> list = new ArrayList<>();
 		
 		int nbPage=1;
-		int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
+		int maxPage = Integer.parseInt(getProperty("MAX_PAGE"));
 		
 		for(int i=1;i<=maxPage;i++)
 		{
@@ -138,7 +138,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 			logger.debug("sniff url : " + link);
 				
 		Document d = Jsoup.connect(link)
-    		 	.userAgent(props.getProperty("USER_AGENT"))
+    		 	.userAgent(getProperty("USER_AGENT"))
 				.get();
 		
 		Elements e = null;
@@ -151,7 +151,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 							deck.setName(cont.select("a.deck-name").html());
 							deck.setAuthor(cont.select("small.deck-credit a").text());
 							try {
-								deck.setUrl(new URL(props.getProperty("URL")+"/"+cont.select("a.deck-name").attr("href")).toURI());
+								deck.setUrl(new URL(getProperty("URL")+"/"+cont.select("a.deck-name").attr("href")).toURI());
 							} catch (URISyntaxException e1) {
 								deck.setUrl(null);
 							}

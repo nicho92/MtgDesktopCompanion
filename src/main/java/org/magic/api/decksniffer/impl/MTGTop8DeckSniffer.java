@@ -82,7 +82,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document root = Jsoup.connect(info.getUrl().toString()).userAgent(props.getProperty("USER_AGENT")).timeout(0).get();
+		Document root = Jsoup.connect(info.getUrl().toString()).userAgent(getProperty("USER_AGENT")).timeout(0).get();
 		MagicDeck d = new MagicDeck();
 				  d.setDescription(info.getUrl().toString());
 				  d.setName(info.getName());
@@ -126,9 +126,9 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		
 		StringBuilder res=new StringBuilder();
-		for(int i=0;i<Integer.parseInt(props.getProperty("MAX_PAGE"));i++)
+		for(int i=0;i<Integer.parseInt(getProperty("MAX_PAGE"));i++)
 		{
-			HttpPost reqSearch = new HttpPost(props.getProperty("URL")+"/search");
+			HttpPost reqSearch = new HttpPost(getProperty("URL")+"/search");
 			List <NameValuePair> nvps = new ArrayList <>();
 								 nvps.add(new BasicNameValuePair("current_page", String.valueOf(i+1)));
 						         nvps.add(new BasicNameValuePair("event_titre", getProperty("EVENT_FILTER")));
@@ -166,7 +166,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 			RetrievableDeck dk = new RetrievableDeck();
 							dk.setName(e.select("td.s11 a").text());
 							try {
-								dk.setUrl(new URI(props.getProperty("URL")+e.select("td.s11 a").attr("href")));
+								dk.setUrl(new URI(getProperty("URL")+e.select("td.s11 a").attr("href")));
 							} catch (URISyntaxException e1) {
 								dk.setUrl(null);
 							}

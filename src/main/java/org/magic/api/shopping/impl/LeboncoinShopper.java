@@ -64,7 +64,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		formatter=new SimpleDateFormat(getProperty("DATE_FORMAT"));
 		
 		try {
-    			InstallCert.install(props.getProperty("CERT_SERV"));
+    			InstallCert.install(getProperty("CERT_SERV"));
     			System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
 		} catch (Exception e1) {
 			
@@ -97,7 +97,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 								logger.error(e1);
 							}
 							 
-							Elements listElements = doc.select(props.getProperty("ROOT_TAG")).get(0).getElementsByTag("li");
+							Elements listElements = doc.select(getProperty("ROOT_TAG")).get(0).getElementsByTag("li");
 								 
 							for(int i=0;i<listElements.size();i++)
 								{
@@ -105,7 +105,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 									ShopItem a = new ShopItem();
 											a.setName(listElements.get(i).getElementsByTag("a").get(0).attr("title"));
 											try {
-												a.setUrl(new URL(props.getProperty("PROTOCOLE")+url));
+												a.setUrl(new URL(getProperty("PROTOCOLE")+url));
 											} catch (MalformedURLException e1) {
 												a.setUrl(null);
 											}
@@ -147,8 +147,8 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 				
 		
 		
-		if(list.size()>Integer.parseInt(props.get("MAX_RESULT").toString()) && (Integer.parseInt(props.get("MAX_RESULT").toString())>-1))
-			 return list.subList(0, Integer.parseInt(props.get("MAX_RESULT").toString()));
+		if(list.size()>Integer.parseInt(getProperty("MAX_RESULT")) && (Integer.parseInt(getProperty("MAX_RESULT"))>-1))
+			 return list.subList(0, Integer.parseInt(getProperty("MAX_RESULT")));
 		 
 		return list;
 	}

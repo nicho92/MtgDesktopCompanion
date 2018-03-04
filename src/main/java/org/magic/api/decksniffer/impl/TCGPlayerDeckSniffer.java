@@ -55,7 +55,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		deck.setDescription(info.getUrl().toString());
 		deck.setDateCreation(new Date());
 		Document d = Jsoup.connect(info.getUrl().toString())
-					  .userAgent(props.getProperty("USER_AGENT"))
+					  .userAgent(getProperty("USER_AGENT"))
 					  .get();
 		
 		
@@ -119,18 +119,18 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		String url =props.getProperty("URL")+"/magic/deck/search?format="+props.getProperty("FORMAT")+"&page=1";
+		String url =getProperty("URL")+"/magic/deck/search?format="+getProperty("FORMAT")+"&page=1";
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage=1;
-		int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
+		int maxPage = Integer.parseInt(getProperty("MAX_PAGE"));
 	
 		for(int i=1;i<=maxPage;i++)
 		{
 			
-			 url =props.getProperty("URL")+"/magic/deck/search?format="+props.getProperty("FORMAT")+"&page="+nbPage;
+			 url =getProperty("URL")+"/magic/deck/search?format="+getProperty("FORMAT")+"&page="+nbPage;
 			 Document d = Jsoup.connect(url)
-		    		 	.userAgent(props.getProperty("USER_AGENT"))
+		    		 	.userAgent(getProperty("USER_AGENT"))
 						.get();
 				
 			Elements table = d.getElementsByClass("dataTable");
@@ -155,7 +155,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 					mana+="{G}";
 				
 				String deckName= tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-				String link = props.getProperty("URL")+ tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
+				String link = getProperty("URL")+ tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
 				String deckPlayer= tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text();
 						
 				deck.setColor(mana);

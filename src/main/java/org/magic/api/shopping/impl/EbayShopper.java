@@ -32,8 +32,7 @@ public class EbayShopper extends AbstractMagicShopper {
 	public EbayShopper() {
 		super();
 		pricer= new EbayPricer();
-		props=pricer.getProperties();
-	
+		setProps(pricer.getProperties());
 	}
 	
 	
@@ -42,12 +41,12 @@ public class EbayShopper extends AbstractMagicShopper {
 		List<ShopItem> prices = new ArrayList<>();
 		
 	try{	
-		String url = props.getProperty("URL");
+		String url = getProperty("URL");
 		   url = url.replaceAll("%API_KEY%", getProperty("API_KEY"));
 		   url = url.replaceAll("%COUNTRY%", getProperty("COUNTRY"));
 		   url = url.replaceAll("%MAX%", getProperty("MAX"));
 	
-	String keyword=URLEncoder.encode(search,props.getProperty("ENCODING"));
+	String keyword=URLEncoder.encode(search,getProperty("ENCODING"));
 	
 	
 	

@@ -152,7 +152,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		
 		Document doc = Jsoup.connect(url)
 				.userAgent(getProperty("USER_AGENT"))
-				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+				.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 				.get();
 		
 			Element table =doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);

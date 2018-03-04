@@ -43,7 +43,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		save();
 		}
 	
-		directory = new File(props.getProperty("DIRECTORY"));
+		directory = new File(getProperty("DIRECTORY"));
 		if(!directory.exists())
 			directory.mkdir();
 		

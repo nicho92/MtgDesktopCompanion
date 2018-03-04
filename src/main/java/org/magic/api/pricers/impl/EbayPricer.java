@@ -52,9 +52,9 @@ public class EbayPricer extends AbstractMagicPricesProvider
 		List<MagicPrice> prices = new ArrayList<>();
 		
 		String url = getProperty("URL");
-			   url = url.replaceAll("%API_KEY%", props.get("API_KEY").toString());
-			   url = url.replaceAll("%COUNTRY%", props.get("COUNTRY").toString());
-			   url = url.replaceAll("%MAX%", props.get("MAX").toString());
+			   url = url.replaceAll("%API_KEY%", getProperty("API_KEY"));
+			   url = url.replaceAll("%COUNTRY%", getProperty("COUNTRY"));
+			   url = url.replaceAll("%MAX%", getProperty("MAX"));
 		keyword=card.getName();
 		
 		if(me!=null)

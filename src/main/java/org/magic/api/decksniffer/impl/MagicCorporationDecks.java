@@ -45,8 +45,8 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document d = Jsoup.connect(props.getProperty("URL")+"/"+info.getUrl().toString())
-    		 	.userAgent(props.getProperty("USER_AGENT"))
+		Document d = Jsoup.connect(getProperty("URL")+"/"+info.getUrl().toString())
+    		 	.userAgent(getProperty("USER_AGENT"))
 				.get();
 		
 		MagicDeck deck = new MagicDeck();
@@ -73,8 +73,8 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		Document d = Jsoup.connect(props.getProperty("URL")+"/mc.php?rub=decks&limit=0")
-    		 	.userAgent(props.getProperty("USER_AGENT"))
+		Document d = Jsoup.connect(getProperty("URL")+"/mc.php?rub=decks&limit=0")
+    		 	.userAgent(getProperty("USER_AGENT"))
 				.get();
 		
 		

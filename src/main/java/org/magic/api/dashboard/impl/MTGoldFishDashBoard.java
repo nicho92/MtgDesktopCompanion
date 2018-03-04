@@ -73,14 +73,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		 
 		 if(mc==null)
 		 {
-			 url = props.getProperty("URL_EDITIONS")+replace(me.getId(),false)+"#"+props.getProperty("FORMAT");
+			 url = getProperty("URL_EDITIONS")+replace(me.getId(),false)+"#"+getProperty("FORMAT");
 			 index=6;
 		 }
 		 else
 		 {
 			 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
 			 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "").replaceAll(":","");
-			 url =props.getProperty("WEBSITE")+"/price/"+convert(editionName)+"/"+cardName+"#"+props.getProperty("FORMAT");
+			 url =getProperty("WEBSITE")+"/price/"+convert(editionName)+"/"+cardName+"#"+getProperty("FORMAT");
 			 index=8;
 		
 		 }
@@ -91,8 +91,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		 logger.debug("get shakes from " + url);
 	    
 		 Document d = Jsoup.connect(url)
-	    		 	.userAgent(props.getProperty("USER_AGENT"))
-					.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+	    		 	.userAgent(getProperty("USER_AGENT"))
+					.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 					.get();
 			 
 		 Element js = d.getElementsByTag("script").get(index);
@@ -151,12 +151,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		
 		Document doc = Jsoup.connect(urlW)
 							.userAgent(getProperty("USER_AGENT"))
-							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+							.timeout(Integer.parseInt(getProperty("TIMEOUT").toString()))
 							.get();
 		
 		Document doc2 = Jsoup.connect(urlL)
 				.userAgent(getProperty("USER_AGENT"))
-				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+				.timeout(Integer.parseInt(getProperty("TIMEOUT").toString()))
 				.get();
 		
 		
@@ -211,8 +211,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		logger.debug("Parsing dashboard "+ urlEditionChecker);
 		
 		Document doc = Jsoup.connect(urlEditionChecker)
-							.userAgent(props.getProperty("USER_AGENT"))
-							.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+							.userAgent(getProperty("USER_AGENT"))
+							.timeout(Integer.parseInt(getProperty("TIMEOUT").toString()))
 							.get();
 		
 		
@@ -256,7 +256,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		String u = "https://www.mtggoldfish.com/format-staples/"+f.toString().toLowerCase()+"/full/"+filter;
 		Document doc = Jsoup.connect(u)
 				.userAgent(getProperty("USER_AGENT"))
-				.timeout(Integer.parseInt(props.get("TIMEOUT").toString()))
+				.timeout(Integer.parseInt(getProperty("TIMEOUT").toString()))
 				.get();
 		
 		logger.debug("get best cards : " + u);

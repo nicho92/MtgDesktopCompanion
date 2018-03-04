@@ -56,8 +56,8 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		logger.debug("get deck at " + info.getUrl());
 		
 		Document d = Jsoup.connect(info.getUrl().toString())
-    		 	.userAgent(props.getProperty("USER_AGENT"))
-    		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
+    		 	.userAgent(getProperty("USER_AGENT"))
+    		 	.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 				.get();
 		
 		
@@ -95,19 +95,19 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 	
-		String decksUrl = props.getProperty("URL")+"?dpage="+props.getProperty("MAX_PAGE")+"&action="+props.getProperty("FORMAT");
+		String decksUrl = getProperty("URL")+"?dpage="+getProperty("MAX_PAGE")+"&action="+getProperty("FORMAT");
 		
 		logger.debug("snif decks : " + decksUrl);
 
-		int nbPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
+		int nbPage = Integer.parseInt(getProperty("MAX_PAGE"));
 		List<RetrievableDeck> list = new ArrayList<>();
 		
 		
 		for(int i=1;i<=nbPage;i++)
 		{
-			Document d = Jsoup.connect(props.getProperty("URL")+"?dpage="+i+"&action="+props.getProperty("FORMAT"))
-	    		 	.userAgent(props.getProperty("USER_AGENT"))
-	    		 	.timeout(Integer.parseInt(props.getProperty("TIMEOUT")))
+			Document d = Jsoup.connect(getProperty("URL")+"?dpage="+i+"&action="+getProperty("FORMAT"))
+	    		 	.userAgent(getProperty("USER_AGENT"))
+	    		 	.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 					.get();
 			
 			Elements e = d.select("div.thumb_page" );

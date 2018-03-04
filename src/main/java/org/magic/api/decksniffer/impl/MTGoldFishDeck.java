@@ -63,7 +63,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			deck.setDescription(info.getUrl().toString());
 			deck.setDateCreation(new Date());
 		Document d = Jsoup.connect(info.getUrl().toString())
-						  .userAgent(props.getProperty("USER_AGENT"))
+						  .userAgent(getProperty("USER_AGENT"))
 						  .get();
 
 
@@ -110,11 +110,11 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		String url="";
-		metagames=props.getProperty("METAGAME").equals("true");
+		metagames=getProperty("METAGAME").equals("true");
 		
 		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage=1;
-		int maxPage = Integer.parseInt(props.getProperty("MAX_PAGE"));
+		int maxPage = Integer.parseInt(getProperty("MAX_PAGE"));
 		
 		if(metagames)
 			maxPage=1;
@@ -123,14 +123,14 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		{
 		
 			if(!metagames)
-				url =props.getProperty("URL")+"/deck/custom/"+props.getProperty("FORMAT")+"?page="+nbPage+"#"+props.getProperty("SUPPORT");
+				url =getProperty("URL")+"/deck/custom/"+getProperty("FORMAT")+"?page="+nbPage+"#"+getProperty("SUPPORT");
 			else
-				url=props.getProperty("URL")+"metagame/"+props.getProperty("FORMAT")+"/full#"+props.getProperty("SUPPORT");
+				url=getProperty("URL")+"metagame/"+getProperty("FORMAT")+"/full#"+getProperty("SUPPORT");
 	
 			logger.debug("sniff url : " + url);
 				
 		Document d = Jsoup.connect(url)
-    		 	.userAgent(props.getProperty("USER_AGENT"))
+    		 	.userAgent(getProperty("USER_AGENT"))
 				.get();
 		
 		Elements e = null;
@@ -143,7 +143,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		for(Element cont : e)
 		{
 			
-			Elements desc = cont.select("span.deck-price-"+props.getProperty("SUPPORT") +"> a" );
+			Elements desc = cont.select("span.deck-price-"+getProperty("SUPPORT") +"> a" );
 			Elements colors = cont.select("span.manacost > img" );
 			StringBuilder deckColor=new StringBuilder();
 			
@@ -154,7 +154,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			RetrievableDeck deck = new RetrievableDeck();
 			deck.setName(desc.get(0).text());
 			try {
-				deck.setUrl(new URI(props.get("URL")+desc.get(0).attr("href")));
+				deck.setUrl(new URI(getProperty("URL")+desc.get(0).attr("href")));
 			} catch (URISyntaxException e1) {
 				deck.setUrl(null);
 			}

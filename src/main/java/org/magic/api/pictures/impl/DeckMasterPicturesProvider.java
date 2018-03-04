@@ -74,7 +74,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	private BufferedImage resizeIconSet(BufferedImage img) {  
-	    String mode = props.getProperty("ICON_SET_SIZE","medium");
+	    String mode = getProperty("ICON_SET_SIZE");
 	    
 	    int newW=27;
 	    int newH=30;

@@ -66,7 +66,7 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void init()  {
 		export = new Gson();
-		directory=new File(props.getProperty("URL"));
+		directory=new File(getProperty("URL"));
 		
 		if(!directory.exists())
 			directory.mkdir();
