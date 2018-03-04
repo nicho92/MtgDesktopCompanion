@@ -16,21 +16,10 @@ import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
 import org.utils.patterns.observer.Observable;
 
-public abstract class AbstractPicturesProvider extends Observable implements MTGPictureProvider {
+public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
 	protected int newW;
 	protected int newH;
-		
-	protected File confdir = new File(MTGConstants.CONF_DIR, "pictures");
-	private boolean enable=true;
-	protected Properties props;
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
-
-	
-	@Override
-	public String toString() {
-		return getName();
-	}
 	
 	@Override
 	public PLUGINS getType() {
@@ -38,35 +27,14 @@ public abstract class AbstractPicturesProvider extends Observable implements MTG
 	}
 	
 	public AbstractPicturesProvider() {
-		
+		confdir = new File(MTGConstants.CONF_DIR, "pictures");
 		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
 	}
 	
-	@Override
-	public void setProperties(String k, Object value) {
-		props.put(k, value);
-	}
 
-	@Override
-	public String getProperty(String k) {
-		return String.valueOf(props.get(k));
-	}
-
-	
-	
-	@Override
-	public Properties getProperties() {
-		return props;
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-	
 	@Override
 	public BufferedImage getBackPicture(){
 			try {
@@ -76,48 +44,10 @@ public abstract class AbstractPicturesProvider extends Observable implements MTG
 				return null;
 			} 
 	}
-	
-	public void load()
-	{
-		File f=null;
-		try {
-			f = new File(confdir, getName()+".conf");
-			
-			if(f.exists())
-			{	
-				FileInputStream fis = new FileInputStream(f);
-				props.load(fis);
-				fis.close();
-			}
-		} catch (Exception e) {
-			logger.error("couln't load properties " + f,e);
-		} 
-	}
-	
-	public void save()
-	{
-		File f=null;
-		try {
-			f = new File(confdir, getName()+".conf");
-		
-			FileOutputStream fos = new FileOutputStream(f);
-			props.store(fos,"");
-			fos.close();
-		} catch (Exception e) {
-			logger.error("couln't save properties " + f,e);
-		} 
-	}
-	
+
 	
 	public BufferedImage resizeCard(BufferedImage img,int newW, int newH) {  
 	    return ImageUtils.resize(img, newH, newW);
 	}  
-
-	@Override
-	public void enable(boolean enabled) {
-		this.enable=enabled;
-	}
-	
-	
 
 }

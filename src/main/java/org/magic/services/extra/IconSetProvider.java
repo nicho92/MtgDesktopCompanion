@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.cache.impl.FileCache;
 import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -39,7 +40,7 @@ public class IconSetProvider {
 		cache24 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
-		localDirectory = new File(AbstractMTGPicturesCache.CACHEDIR, "sets_icons");
+		localDirectory = new File(new FileCache().getConfdir(), "sets_icons");
 
 		if (!localDirectory.exists())
 			localDirectory.mkdir();

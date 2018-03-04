@@ -1,8 +1,6 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.event.ComponentAdapter;
@@ -20,7 +18,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCardAlert;
@@ -30,6 +27,7 @@ import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
+import org.magic.gui.renderer.AlertedCardsRenderer;
 import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -67,20 +65,7 @@ public class AlarmGUI extends JPanel {
 		table.setModel(model);
 		
 		
-		table.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
-			@Override
-			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,boolean hasFocus, int row, int column) {
-				Component comp=super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				comp.setForeground(Color.BLACK);
-				
-				if((Integer)value>0)
-					comp.setBackground(Color.GREEN);
-				else
-					comp.setBackground(table.getBackground());
-				return comp;
-			}
-			
-		});
+		table.getColumnModel().getColumn(3).setCellRenderer(new AlertedCardsRenderer());
 		
 		
 		

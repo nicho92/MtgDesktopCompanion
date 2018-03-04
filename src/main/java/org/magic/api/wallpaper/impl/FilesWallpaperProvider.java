@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileFilter;
+
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.magic.api.beans.MagicCard;
@@ -26,7 +29,10 @@ public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 			
-			Collection<File> res = FileUtils.listFiles(new File("D:\\Google Drive\\deviant\\Lord of the Rings"),new String[] {"png","jpg"},true);
+			JFileChooser chooser =new JFileChooser(".");
+		    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
+
+			Collection<File> res = FileUtils.listFiles(chooser.getSelectedFile(),new String[] {"png","jpg"},true);
 			
 			for(File f : res)
 			{

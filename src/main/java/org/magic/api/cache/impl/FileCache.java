@@ -18,6 +18,10 @@ import org.magic.tools.IDGenerator;
 public class FileCache extends AbstractMTGPicturesCache {
 
 	
+	public File getDirectory() {
+		return directory;
+	}
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -33,7 +37,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 	public FileCache() {
 		
 		super();
-		if(!new File(CACHEDIR, getName()+".conf").exists()){
+		if(!new File(confdir, getName()+".conf").exists()){
 			props.put("DIRECTORY", MTGConstants.CONF_DIR+"/caches/cachePics");
 			props.put("FORMAT", "png");
 		save();

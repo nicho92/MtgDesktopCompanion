@@ -18,102 +18,21 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
-public abstract class AbstractCardExport extends Observable implements MTGCardsExport {
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
 
-	private boolean enable;
-	protected Properties props;
-
-	protected File confdir = new File(MTGConstants.CONF_DIR, "exports");
-	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.EXPORT;
 	}
-	
-	
-	public void load()
-	{
-		File f =null;
-		try {
-			f = new File(confdir,getName()+".conf");
-			if(f.exists())
-			{	
-				FileInputStream fis = new FileInputStream(f);
-				props.load(fis);
-				fis.close();
-			}
-		} catch (Exception e) {
-			logger.error("couln't load properties " + f,e);
-		} 
-	}
-	
-	public void save()
-	{
-		File f = null;
-		try {
-			f = new File(confdir, getName()+".conf");
 		
-			FileOutputStream fos = new FileOutputStream(f);
-			props.store(fos,"");
-			fos.close();
-		} catch (Exception e) {
-			logger.error("error writing file " + f,e);
-		} 
-	}
-	
-	
 	public AbstractCardExport() {
+		confdir = new File(MTGConstants.CONF_DIR, "exports");
 		props=new Properties();
-
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
 	}
 	
-	@Override
-	public Properties getProperties() {
-		return props;
-	}
-
-	@Override
-	public void setProperties(String k, Object value) {
-		props.put(k,value);
-	}
-
-	@Override
-	public String getProperty(String k) {
-		return String.valueOf(props.get(k));
-	}
-
-	@Override
-	public boolean isEnable() {
-		return enable;
-	}
-
-	@Override
-	public void enable(boolean t) {
-		this.enable=t;
-		
-	}
-	@Override
-	public int hashCode() {
-		return getName().hashCode();
-	}
-
-	@Override
-	public boolean equals(Object obj) {
-		if(obj==null)
-			return false;
-		
-		return this.hashCode()==obj.hashCode();
-	}
-	
-	@Override
-	public String toString() {
-		return getName();
-	}
-
 
 	@Override
 	public void export(List<MagicCard> cards, File f) throws IOException {

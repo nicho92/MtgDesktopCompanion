@@ -88,8 +88,6 @@ public class CollectionPanelGUI extends JPanel {
 	private MagicCollection selectedcol;
 	private transient MagicEditionDetailPanel magicEditionDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
-	private CardStockPanel statsPanel;
-	private JLabel lblTotal ;
 	private JSONPanel jsonPanel;
 	private JPopupMenu popupMenuEdition = new JPopupMenu();
 	private JPopupMenu popupMenuCards = new JPopupMenu();
@@ -113,6 +111,8 @@ public class CollectionPanelGUI extends JPanel {
 		ManaRepartitionPanel manaRepartitionPanel;
 		RarityRepartitionPanel rarityRepartitionPanel;
 		MagicCardDetailPanel magicCardDetailPanel;
+		CardStockPanel statsPanel;
+		JLabel lblTotal ;
 
 		
 ////////INIT COMPONENTS

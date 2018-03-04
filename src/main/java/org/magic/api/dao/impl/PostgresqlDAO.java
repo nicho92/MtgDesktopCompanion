@@ -678,7 +678,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				{
 					pst.setString(1,n.getName());
 					pst.setString(2, n.getCategorie());
-					pst.setString(3,n.getUrl().toString());
+					pst.setString(3,n.getUrl());
 					pst.setString(4, n.getType().toString());
 					pst.setInt(5, n.getId());
 					pst.executeUpdate();
