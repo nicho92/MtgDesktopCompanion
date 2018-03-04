@@ -19,9 +19,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	private boolean enable;
 	private Properties props;
 	protected File confdir;
-	protected PropertiesConfiguration config;
-	protected Configurations configs;
-	protected FileBasedConfigurationBuilder<PropertiesConfiguration> builder;
 	protected File confFile;
 	
 	public void setProps(Properties props) {
@@ -29,7 +26,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	}
 	
 	public AbstractMTGPlugin() {
-		configs = new Configurations();
 		props=new Properties();
 	}
 	
