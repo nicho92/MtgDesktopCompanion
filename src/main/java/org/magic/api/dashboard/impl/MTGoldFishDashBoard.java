@@ -151,12 +151,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		
 		Document doc = Jsoup.connect(urlW)
 							.userAgent(getProperty("USER_AGENT"))
-							.timeout(Integer.parseInt(getProperty("TIMEOUT").toString()))
+							.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 							.get();
 		
 		Document doc2 = Jsoup.connect(urlL)
 				.userAgent(getProperty("USER_AGENT"))
-				.timeout(Integer.parseInt(getProperty("TIMEOUT").toString()))
+				.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 				.get();
 		
 		
@@ -212,7 +212,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		
 		Document doc = Jsoup.connect(urlEditionChecker)
 							.userAgent(getProperty("USER_AGENT"))
-							.timeout(Integer.parseInt(getProperty("TIMEOUT").toString()))
+							.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 							.get();
 		
 		
@@ -256,7 +256,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		String u = "https://www.mtggoldfish.com/format-staples/"+f.toString().toLowerCase()+"/full/"+filter;
 		Document doc = Jsoup.connect(u)
 				.userAgent(getProperty("USER_AGENT"))
-				.timeout(Integer.parseInt(getProperty("TIMEOUT").toString()))
+				.timeout(Integer.parseInt(getProperty("TIMEOUT")))
 				.get();
 		
 		logger.debug("get best cards : " + u);

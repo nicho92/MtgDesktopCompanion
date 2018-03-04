@@ -1,7 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
-import java.util.Properties;
 
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.services.MTGConstants;
