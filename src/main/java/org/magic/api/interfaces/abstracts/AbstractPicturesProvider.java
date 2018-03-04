@@ -2,19 +2,14 @@ package org.magic.api.interfaces.abstracts;
 
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Properties;
 
 import javax.imageio.ImageIO;
 
-import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
-import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
@@ -27,8 +22,8 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 	}
 	
 	public AbstractPicturesProvider() {
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "pictures");
-		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();

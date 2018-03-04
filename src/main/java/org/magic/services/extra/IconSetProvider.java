@@ -14,7 +14,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.cache.impl.FileCache;
-import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 

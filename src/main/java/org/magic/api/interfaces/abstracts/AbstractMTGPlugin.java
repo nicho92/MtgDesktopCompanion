@@ -5,6 +5,8 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
+import org.apache.commons.configuration2.PropertiesConfiguration;
+import org.apache.commons.configuration2.builder.fluent.Configurations;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGLogger;
@@ -16,7 +18,16 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	private boolean enable;
 	protected Properties props;
 	protected File confdir;
+	protected PropertiesConfiguration config;
+	protected Configurations configs;
 	
+	
+	
+	
+	public AbstractMTGPlugin() {
+		configs = new Configurations();
+		props=new Properties();
+	}
 	
 	public File getConfdir() {
 		return confdir;

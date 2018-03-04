@@ -9,8 +9,8 @@ import org.magic.services.MTGConstants;
 public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTGServer {
 
 	public AbstractMTGServer() {
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "servers");
-		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();

@@ -9,9 +9,8 @@ import org.magic.services.MTGConstants;
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
 	public AbstractCardsProvider() {
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "cardsProviders");
-		props=new Properties();
-
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();

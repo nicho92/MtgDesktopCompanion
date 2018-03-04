@@ -9,8 +9,8 @@ import org.magic.services.MTGConstants;
 public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements MTGDeckSniffer {
 
 	public AbstractDeckSniffer() {
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "decksniffers");
-		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();

@@ -14,8 +14,8 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 	}
 	
 	public AbstractMagicShopper() {
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "shoppers");
-		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();

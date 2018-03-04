@@ -15,9 +15,8 @@ public abstract class AbstractMTGPicturesCache extends AbstractMTGPlugin impleme
 	}
 	
 	public AbstractMTGPicturesCache() {
-		
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "caches");
-		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();

@@ -1,22 +1,16 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
-import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
 
@@ -26,8 +20,8 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 	}
 		
 	public AbstractCardExport() {
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "exports");
-		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();

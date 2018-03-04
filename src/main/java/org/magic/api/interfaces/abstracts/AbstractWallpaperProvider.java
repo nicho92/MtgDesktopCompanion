@@ -9,8 +9,8 @@ import org.magic.services.MTGConstants;
 public abstract class AbstractWallpaperProvider extends AbstractMTGPlugin implements MTGWallpaperProvider {
 	
 	public AbstractWallpaperProvider() {
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "wallpapers");
-		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();

@@ -1,15 +1,10 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.util.Properties;
 
-import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
-import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao {
 
@@ -20,8 +15,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 	}
 	
 	public AbstractMagicDAO() {
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "dao");
-		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();

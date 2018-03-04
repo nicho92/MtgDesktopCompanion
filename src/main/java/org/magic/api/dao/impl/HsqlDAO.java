@@ -28,7 +28,6 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
-import org.magic.services.MTGConstants;
 import org.magic.tools.IDGenerator;
 
 public class HsqlDAO extends AbstractMagicDAO{

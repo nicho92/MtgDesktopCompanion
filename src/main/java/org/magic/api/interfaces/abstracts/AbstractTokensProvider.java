@@ -10,8 +10,8 @@ public abstract class AbstractTokensProvider extends AbstractMTGPlugin implement
 
 	
 	public AbstractTokensProvider() {
+		super();
 		confdir = new File(MTGConstants.CONF_DIR, "tokens");
-		props=new Properties();
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
