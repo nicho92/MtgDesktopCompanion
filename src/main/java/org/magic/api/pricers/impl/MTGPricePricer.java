@@ -28,10 +28,10 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("MAX", "5");
-		props.put("WS_URL", "http://www.mtgprice.com/api");
-		props.put("API_KEY", "");
-		props.put("WEBSITE", "http://www.mtgprice.com/");
+		setProperty("MAX", "5");
+		setProperty("WS_URL", "http://www.mtgprice.com/api");
+		setProperty("API_KEY", "");
+		setProperty("WEBSITE", "http://www.mtgprice.com/");
 		save();
 		}
 	}

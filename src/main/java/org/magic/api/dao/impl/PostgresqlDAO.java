@@ -46,13 +46,13 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	public PostgresqlDAO() {
 		super();	
 		if(!new File(confdir, getName()+".conf").exists()){
-			 props.put("DRIVER", "org.postgresql.Driver");
-			 props.put("SERVERNAME","localhost");
-			 props.put("SERVERPORT", "5432");
-			 props.put("DB_NAME", "mtgdesktopcompanion");
-			 props.put("LOGIN", "postgres");
-			 props.put("PASS", "postgres");
-			 props.put("URL_PGDUMP", "C:/Program Files (x86)/PostgreSQL/9.5/bin");
+			 setProperty("DRIVER", "org.postgresql.Driver");
+			 setProperty("SERVERNAME","localhost");
+			 setProperty("SERVERPORT", "5432");
+			 setProperty("DB_NAME", "mtgdesktopcompanion");
+			 setProperty("LOGIN", "postgres");
+			 setProperty("PASS", "postgres");
+			 setProperty("URL_PGDUMP", "C:/Program Files (x86)/PostgreSQL/9.5/bin");
 		
 		save();
 		}

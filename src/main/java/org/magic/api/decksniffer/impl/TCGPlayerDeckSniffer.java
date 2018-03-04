@@ -34,10 +34,10 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	public TCGPlayerDeckSniffer() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("FORMAT", "standard");
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("URL", "http://decks.tcgplayer.com");
-			props.put("MAX_PAGE", "1");
+			setProperty("FORMAT", "standard");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("URL", "http://decks.tcgplayer.com");
+			setProperty("MAX_PAGE", "1");
 			save();
 		}
 	}

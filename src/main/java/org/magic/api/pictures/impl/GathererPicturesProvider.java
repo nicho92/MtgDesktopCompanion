@@ -29,10 +29,10 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
-			props.put("SET_SIZE", "medium");
-			props.put("CARD_SIZE_WIDTH", "223");
-			props.put("CARD_SIZE_HEIGHT", "310");
+			setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
+			setProperty("SET_SIZE", "medium");
+			setProperty("CARD_SIZE_WIDTH", "223");
+			setProperty("CARD_SIZE_HEIGHT", "310");
 			save();
 		}
 		 newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));

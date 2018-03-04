@@ -28,12 +28,12 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		super();
 		cb = new ConfigurationBuilder();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("CONSUMER_KEY", "");
-			props.put("CONSUMER_SECRET", "");
-			props.put("ACCESS_TOKEN", "");
-			props.put("ACCESS_TOKEN_SECRET", "");
-			props.put("MAX_RESULT", "25");
-			props.put("LOG", "false");
+			setProperty("CONSUMER_KEY", "");
+			setProperty("CONSUMER_SECRET", "");
+			setProperty("ACCESS_TOKEN", "");
+			setProperty("ACCESS_TOKEN_SECRET", "");
+			setProperty("MAX_RESULT", "25");
+			setProperty("LOG", "false");
 			save();
 		}
 		cb.setDebugEnabled(props.getProperty("LOG","false").equals("true"))

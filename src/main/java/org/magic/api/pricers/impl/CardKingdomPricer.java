@@ -42,9 +42,9 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		httpclient = HttpClients.createDefault();
 	
 		if(!new File(confdir, getName()+".conf").exists()){
-				props.put("URL", "https://www.cardkingdom.com/mtg/");
-				props.put("WEBSITE", "https://www.cardkingdom.com/");
-				props.put("USER_AGENT", MTGConstants.USER_AGENT);
+				setProperty("URL", "https://www.cardkingdom.com/mtg/");
+				setProperty("WEBSITE", "https://www.cardkingdom.com/");
+				setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 				save();
 		}
 		

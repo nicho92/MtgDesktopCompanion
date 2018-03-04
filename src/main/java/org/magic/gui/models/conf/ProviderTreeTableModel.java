@@ -98,7 +98,7 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
         if(node instanceof Entry && (column==1) )
 	    	{
 	        	String k = (String)((Entry)node).getKey();
-	        	selectedProvider.setProperties(k, strValue);
+	        	selectedProvider.setProperty(k, strValue);
 	        	logger.debug("put " + k+"="+strValue + " to " + selectedProvider);
 	        	((Entry)node).setValue(strValue);
 	        	selectedProvider.save();

@@ -47,10 +47,10 @@ public class CSVExport extends AbstractCardExport{
 	public CSVExport() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("exportedProperties", "number,name,cost,supertypes,types,subtypes,editions");
-			props.put("exportedDeckProperties", "name,cost,supertypes,types,subtypes,editions[0].id");
-			props.put("exportedPricesProperties", "site,seller,value,currency,language,quality,foil");
-			props.put("importDeckCharSeparator", ";");
+			setProperty("exportedProperties", "number,name,cost,supertypes,types,subtypes,editions");
+			setProperty("exportedDeckProperties", "name,cost,supertypes,types,subtypes,editions[0].id");
+			setProperty("exportedPricesProperties", "site,seller,value,currency,language,quality,foil");
+			setProperty("importDeckCharSeparator", ";");
 			save();
 		}
 	}

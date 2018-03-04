@@ -35,13 +35,13 @@ public class EbayPricer extends AbstractMagicPricesProvider
 		super();	
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("MAX", "10");
-		props.put("COUNTRY", "EBAY-FR");
-		props.put("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
-		props.put("URL", "http://svcs.ebay.fr/services/search/FindingService/v1?SECURITY-APPNAME=%API_KEY%&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID=%COUNTRY%&keywords=%KEYWORD%&paginationInput.entriesPerPage=%MAX%");
-		props.put("WEBSITE", "http://www.ebay.com/");
-		props.put("ENCODING", "UTF-8");
-		props.put("KEYWORD", "");
+		setProperty("MAX", "10");
+		setProperty("COUNTRY", "EBAY-FR");
+		setProperty("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
+		setProperty("URL", "http://svcs.ebay.fr/services/search/FindingService/v1?SECURITY-APPNAME=%API_KEY%&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID=%COUNTRY%&keywords=%KEYWORD%&paginationInput.entriesPerPage=%MAX%");
+		setProperty("WEBSITE", "http://www.ebay.com/");
+		setProperty("ENCODING", "UTF-8");
+		setProperty("KEYWORD", "");
 		save();
 		}
 	}
@@ -60,7 +60,7 @@ public class EbayPricer extends AbstractMagicPricesProvider
 		if(me!=null)
 			keyword += " " + me.getSet();
 		
-		props.put("KEYWORD", keyword);
+		setProperty("KEYWORD", keyword);
 		
 		keyword=URLEncoder.encode(keyword,getProperty("ENCODING"));
 		

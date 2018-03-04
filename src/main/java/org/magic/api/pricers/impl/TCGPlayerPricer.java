@@ -31,12 +31,12 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("MAX", "-1");
-		props.put("API_KEY", "MGCASSTNT");
-		props.put("URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%");
-		props.put("WEBSITE", "http://www.tcgplayer.com/");
-		props.put("ENCODING", "UTF-8");
-		props.put("KEYWORD", "");
+		setProperty("MAX", "-1");
+		setProperty("API_KEY", "MGCASSTNT");
+		setProperty("URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%");
+		setProperty("WEBSITE", "http://www.tcgplayer.com/");
+		setProperty("ENCODING", "UTF-8");
+		setProperty("KEYWORD", "");
 		save();
 		}
 		
@@ -70,7 +70,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			   
 			   
 			   
-			   props.put("KEYWORD", "s="+set+"p="+name);
+			   setProperty("KEYWORD", "s="+set+"p="+name);
 			   
 			   
 		String link=url.replaceAll("%SET%", set);

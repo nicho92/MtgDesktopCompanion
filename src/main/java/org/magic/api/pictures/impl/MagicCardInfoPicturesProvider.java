@@ -34,11 +34,11 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	public MagicCardInfoPicturesProvider() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("WEBSITE", "https://magiccards.info/scans/");
-			props.put("LANG", "en");
-			props.put("CARD_SIZE_WIDTH", "223");
-			props.put("CARD_SIZE_HEIGHT", "310");
-			props.put("USER_AGENT",MTGConstants.USER_AGENT);
+			setProperty("WEBSITE", "https://magiccards.info/scans/");
+			setProperty("LANG", "en");
+			setProperty("CARD_SIZE_WIDTH", "223");
+			setProperty("CARD_SIZE_HEIGHT", "310");
+			setProperty("USER_AGENT",MTGConstants.USER_AGENT);
 			save();
 		}
 		try {

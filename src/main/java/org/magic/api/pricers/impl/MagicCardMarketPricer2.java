@@ -39,17 +39,17 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     	super();
     	
     	if(!new File(confdir, getName()+".conf").exists()){
-	    	props.put("APP_TOKEN", "");
-			props.put("APP_SECRET", "");
-			props.put("APP_ACCESS_TOKEN", "");
-			props.put("APP_ACCESS_TOKEN_SECRET", "");
-			props.put("LANGUAGE_ID", "1");
-			props.put("IS_EXACT", "false");
-			props.put("MIN_CONDITION", "");
-			props.put("COMMONCHECK", "false");
-			props.put("MAX", "10");
-			props.put("USER_ARTICLE", "false");
-			props.put("AUTOMATIC_ADD_CARD_ALERT", "false");
+	    	setProperty("APP_TOKEN", "");
+			setProperty("APP_SECRET", "");
+			setProperty("APP_ACCESS_TOKEN", "");
+			setProperty("APP_ACCESS_TOKEN_SECRET", "");
+			setProperty("LANGUAGE_ID", "1");
+			setProperty("IS_EXACT", "false");
+			setProperty("MIN_CONDITION", "");
+			setProperty("COMMONCHECK", "false");
+			setProperty("MAX", "10");
+			setProperty("USER_ARTICLE", "false");
+			setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
 		save();
 		
 		try{

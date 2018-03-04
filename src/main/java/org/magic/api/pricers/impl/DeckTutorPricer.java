@@ -66,13 +66,13 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("URL", "https://ws.decktutor.com/app/v2");
-		props.put("WEBSITE", "https://www.decktutor.com");
-		props.put("LANG", "en");
-		props.put("LOGIN", "login");
-		props.put("MAX_RESULT", "");
-		props.put("PASS", "PASS");
-		props.put("AUTOMATIC_ADD_CARD_ALERT", "false");
+		setProperty("URL", "https://ws.decktutor.com/app/v2");
+		setProperty("WEBSITE", "https://www.decktutor.com");
+		setProperty("LANG", "en");
+		setProperty("LOGIN", "login");
+		setProperty("MAX_RESULT", "");
+		setProperty("PASS", "PASS");
+		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
 		save();
 		}
 		

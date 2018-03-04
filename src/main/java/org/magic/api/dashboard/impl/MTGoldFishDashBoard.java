@@ -47,13 +47,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		super();
 		initConcordance();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("URL_MOVERS", "https://www.mtggoldfish.com/movers-details/");
-			props.put("URL_EDITIONS", "https://www.mtggoldfish.com/index/");
-			props.put("WEBSITE", "https://www.mtggoldfish.com/");
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("FORMAT", "paper");
-			props.put("TIMEOUT", "0");
-			props.put("DAILY_WEEKLY", "wow");
+			setProperty("URL_MOVERS", "https://www.mtggoldfish.com/movers-details/");
+			setProperty("URL_EDITIONS", "https://www.mtggoldfish.com/index/");
+			setProperty("WEBSITE", "https://www.mtggoldfish.com/");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("FORMAT", "paper");
+			setProperty("TIMEOUT", "0");
+			setProperty("DAILY_WEEKLY", "wow");
 		save();
 		}
 	}

@@ -33,11 +33,11 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	public LotusNoirDecks() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("URL", "http://www.lotusnoir.info/magic/decks/");
-			props.put("FORMAT", "decks-populaires");
-			props.put("MAX_PAGE", "2");
-			props.put("TIMEOUT", "0");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("URL", "http://www.lotusnoir.info/magic/decks/");
+			setProperty("FORMAT", "decks-populaires");
+			setProperty("MAX_PAGE", "2");
+			setProperty("TIMEOUT", "0");
 			save();
 		}
 		

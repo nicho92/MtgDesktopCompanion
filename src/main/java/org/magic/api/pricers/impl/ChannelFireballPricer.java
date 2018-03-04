@@ -29,11 +29,11 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-		props.put("MAX", "5");
-		props.put("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
-		props.put("WEBSITE", "http://store.channelfireball.com/");
-		props.put("ENCODING", "UTF-8");
-		props.put("KEYWORD", "");
+		setProperty("MAX", "5");
+		setProperty("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
+		setProperty("WEBSITE", "http://store.channelfireball.com/");
+		setProperty("ENCODING", "UTF-8");
+		setProperty("KEYWORD", "");
 		save();
 		}
 
@@ -49,7 +49,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		
 		keyword=URLEncoder.encode(keyword,getProperty("ENCODING"));
 		
-		props.put("KEYWORD", keyword);
+		setProperty("KEYWORD", keyword);
 		
 		if(me!=null)
 			keyword += "&setname=" + URLEncoder.encode(me.getSet(),getProperty("ENCODING"));

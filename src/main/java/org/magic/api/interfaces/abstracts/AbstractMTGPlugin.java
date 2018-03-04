@@ -69,7 +69,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	}
 
 	@Override
-	public void setProperties(String k, Object value) {
+	public void setProperty(String k, Object value) {
 		props.put(k,value);
 	}
 

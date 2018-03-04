@@ -86,7 +86,7 @@ public class DeckSnifferDialog extends JDialog{
 		cboFormats.addActionListener(e->{
 				try {
 					lblLoad.setVisible(true);
-					selectedSniffer.setProperties("FORMAT", cboFormats.getSelectedItem());
+					selectedSniffer.setProperty("FORMAT", cboFormats.getSelectedItem());
 					model.init(selectedSniffer);
 					model.fireTableDataChanged();
 					lblLoad.setVisible(false);

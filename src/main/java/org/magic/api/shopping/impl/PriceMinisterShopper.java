@@ -31,16 +31,16 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 		super();	
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-				props.put("LOGIN", "login");
-				props.put("PASS", "PASS");
-				props.put("VERSION", "2015-07-05");
-				props.put("CATEGORIE", "");
-				props.put("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing");
-				props.put("SCOPE", "PRICING");
-				props.put("NB_PRODUCT_PAGE", "20");
-				props.put("USER_AGENT", MTGConstants.USER_AGENT);
-				props.put("WEBSITE", "http://www.priceminister.com/");
-				props.put("ENCODING", "UTF-8");
+				setProperty("LOGIN", "login");
+				setProperty("PASS", "PASS");
+				setProperty("VERSION", "2015-07-05");
+				setProperty("CATEGORIE", "");
+				setProperty("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing");
+				setProperty("SCOPE", "PRICING");
+				setProperty("NB_PRODUCT_PAGE", "20");
+				setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+				setProperty("WEBSITE", "http://www.priceminister.com/");
+				setProperty("ENCODING", "UTF-8");
 		save();
 		}
 		

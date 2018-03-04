@@ -50,8 +50,8 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("PICS_DIR", PrivateMTGSetProvider.setDirectory+"/privatePics");
-			props.put("FORMAT", "PNG");
+			setProperty("PICS_DIR", PrivateMTGSetProvider.setDirectory+"/privatePics");
+			setProperty("FORMAT", "PNG");
 			save();
 		}
 		

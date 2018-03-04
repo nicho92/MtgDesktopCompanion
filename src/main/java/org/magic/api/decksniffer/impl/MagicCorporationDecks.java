@@ -31,8 +31,8 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	public MagicCorporationDecks() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("URL", "http://www.magiccorporation.com/");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("URL", "http://www.magiccorporation.com/");
 			save();
 	}
 		

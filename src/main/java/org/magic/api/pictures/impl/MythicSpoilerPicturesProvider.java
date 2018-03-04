@@ -28,9 +28,9 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 	public MythicSpoilerPicturesProvider() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("CARD_SIZE_WIDTH", "223");
-			props.put("CARD_SIZE_HEIGHT", "310");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("CARD_SIZE_WIDTH", "223");
+			setProperty("CARD_SIZE_HEIGHT", "310");
 			save();
 		}
 		newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));

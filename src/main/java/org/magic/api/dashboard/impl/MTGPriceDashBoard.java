@@ -45,10 +45,10 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	{
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("PERIOD", "WEEKLY");
-			props.put("WEBSITE", "http://www.mtgprice.com");
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("TIMEOUT", "0");
+			setProperty("PERIOD", "WEEKLY");
+			setProperty("WEBSITE", "http://www.mtgprice.com");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("TIMEOUT", "0");
 		save();
 		}
 	}

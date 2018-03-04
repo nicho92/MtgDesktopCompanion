@@ -42,15 +42,15 @@ public class MysqlDAO extends AbstractMagicDAO{
    public MysqlDAO() throws ClassNotFoundException, SQLException {
 	    super();	
 		if(!new File(confdir, getName()+".conf").exists()){
-			 props.put("DRIVER", "com.mysql.jdbc.Driver");
-			 props.put("SERVERNAME","localhost");
-			 props.put("SERVERPORT", "3306");
-			 props.put("DB_NAME", "mtgdesktopclient");
-			 props.put("LOGIN", "login");
-			 props.put("PASS", "");
-			 props.put("CARD_STORE", defaultStore); 
-			 props.put("PARAMS", "?autoDeserialize=true&autoReconnect=true");
-			 props.put("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
+			 setProperty("DRIVER", "com.mysql.jdbc.Driver");
+			 setProperty("SERVERNAME","localhost");
+			 setProperty("SERVERPORT", "3306");
+			 setProperty("DB_NAME", "mtgdesktopclient");
+			 setProperty("LOGIN", "login");
+			 setProperty("PASS", "");
+			 setProperty("CARD_STORE", defaultStore); 
+			 setProperty("PARAMS", "?autoDeserialize=true&autoReconnect=true");
+			 setProperty("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
 		save();
 		}
 		list = new ArrayList<>();

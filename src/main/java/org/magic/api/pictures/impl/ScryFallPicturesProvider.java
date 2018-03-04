@@ -31,12 +31,12 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	public ScryFallPicturesProvider() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("CERT_SERV", "scryfall.com");
-			props.put("CARD_SIZE_WIDTH", "223");
-			props.put("CARD_SIZE_HEIGHT", "310");
-			props.put("PIC_SIZE", "large");
-			props.put("ICON_SET_SIZE","medium");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("CERT_SERV", "scryfall.com");
+			setProperty("CARD_SIZE_WIDTH", "223");
+			setProperty("CARD_SIZE_HEIGHT", "310");
+			setProperty("PIC_SIZE", "large");
+			setProperty("ICON_SET_SIZE","medium");
 			save();
 		}
 		try {

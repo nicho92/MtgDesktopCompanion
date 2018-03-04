@@ -48,16 +48,16 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	public DCIDeckSheetExport() {
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("EVENT_NAME", "my Event");
-			props.put("DECK_DESIGNER", "MTGDesktopCompanion");
-			props.put("LAST_NAME", "My name");
-			props.put("FIRST_NAME", "My first name");
-			props.put("DCI_NUMBER", "0000000000");
-			props.put("LOCATION", "fill it");
-			props.put("DATE_FORMAT", "dd/MM/YYYY");
-			props.put("FORCED_DATE", "");
-			props.put("FILL_CONTINUED_LANDS", "true");
-			props.put("PDF_URL", "https://wpn.wizards.com/sites/wpn/files/attachements/mtg_constructed_deck_registration_sheet_pdf11.pdf");
+			setProperty("EVENT_NAME", "my Event");
+			setProperty("DECK_DESIGNER", "MTGDesktopCompanion");
+			setProperty("LAST_NAME", "My name");
+			setProperty("FIRST_NAME", "My first name");
+			setProperty("DCI_NUMBER", "0000000000");
+			setProperty("LOCATION", "fill it");
+			setProperty("DATE_FORMAT", "dd/MM/YYYY");
+			setProperty("FORCED_DATE", "");
+			setProperty("FILL_CONTINUED_LANDS", "true");
+			setProperty("PDF_URL", "https://wpn.wizards.com/sites/wpn/files/attachements/mtg_constructed_deck_registration_sheet_pdf11.pdf");
 			save();
 		}
 	}

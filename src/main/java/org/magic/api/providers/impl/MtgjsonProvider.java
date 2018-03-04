@@ -64,9 +64,9 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 		CacheProvider.setCache(new LRUCache(200));
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("URL_SET_JSON_ZIP", "http://mtgjson.com/json/AllSets-x.json.zip");
-			props.put("URL_VERSION", "http://mtgjson.com/json/version.json");
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("URL_SET_JSON_ZIP", "http://mtgjson.com/json/AllSets-x.json.zip");
+			setProperty("URL_VERSION", "http://mtgjson.com/json/version.json");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 			save();
 		}
 		init();

@@ -32,12 +32,12 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	public DeckMasterPicturesProvider() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("CERT_SERV", "deckmaster.info");
-			props.put("CARD_SIZE_WIDTH", "223");
-			props.put("CARD_SIZE_HEIGHT", "310");
-			props.put("ICON_SET_SIZE","medium");
+			setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("CERT_SERV", "deckmaster.info");
+			setProperty("CARD_SIZE_WIDTH", "223");
+			setProperty("CARD_SIZE_HEIGHT", "310");
+			setProperty("ICON_SET_SIZE","medium");
 			save();
 		}
 		try {

@@ -41,7 +41,7 @@ public class MTGODeckExport extends AbstractCardExport  {
 	public MTGODeckExport() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("VERSION", "1.0");
+			setProperty("VERSION", "1.0");
 			save();
 		}
 	}

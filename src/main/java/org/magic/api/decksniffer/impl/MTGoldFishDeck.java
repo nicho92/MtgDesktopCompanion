@@ -35,12 +35,12 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	public MTGoldFishDeck() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("SUPPORT", "paper");
-			props.put("FORMAT", "modern");
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("URL", "http://www.mtggoldfish.com/");
-			props.put("MAX_PAGE", "2");
-			props.put("METAGAME", "false");
+			setProperty("SUPPORT", "paper");
+			setProperty("FORMAT", "modern");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("URL", "http://www.mtggoldfish.com/");
+			setProperty("MAX_PAGE", "2");
+			setProperty("METAGAME", "false");
 			save();
 		}
 	}

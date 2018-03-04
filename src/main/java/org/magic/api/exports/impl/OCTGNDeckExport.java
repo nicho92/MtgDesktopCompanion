@@ -38,9 +38,9 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		
 
 		if(!new File(confdir,  getName()+".conf").exists()){
-			props.put("MAGIC_GAME_ID", "a6c8d2e8-7cd8-11dd-8f94-e62b56d89593");
-			props.put("SLEEVE_ID", "0");
-			props.put("SHARED", "False");
+			setProperty("MAGIC_GAME_ID", "a6c8d2e8-7cd8-11dd-8f94-e62b56d89593");
+			setProperty("SLEEVE_ID", "0");
+			setProperty("SHARED", "False");
 			save();
 		}
 	}

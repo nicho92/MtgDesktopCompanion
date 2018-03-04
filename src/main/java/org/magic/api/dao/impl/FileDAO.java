@@ -57,8 +57,8 @@ public class FileDAO extends AbstractMagicDAO {
 	public FileDAO() {
 		 super();	
 	 		if(!new File(confdir, getName()+".conf").exists()){
-	 			props.put("URL", confdir.getAbsolutePath()+"/filesDB");
-	 			props.put("SERIALIZER", "json");
+	 			setProperty("URL", confdir.getAbsolutePath()+"/filesDB");
+	 			setProperty("SERIALIZER", "json");
 	 			save();
 	 		}
 	}

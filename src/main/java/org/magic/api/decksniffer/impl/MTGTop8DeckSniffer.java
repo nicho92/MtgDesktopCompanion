@@ -40,15 +40,15 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		initFormats();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("URL", "http://mtgtop8.com/");
-			props.put("EVENT_FILTER", "");
-			props.put("FORMAT", "Standard");
-			props.put("MAX_PAGE", "2");
-			props.put("TIMEOUT", "0");
-			props.put("CARD_FILTER", "");
-			props.put("COMPETITION_FILTER", "P,M,C,R");
-			props.put("DATE_START_FILTER", "");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("URL", "http://mtgtop8.com/");
+			setProperty("EVENT_FILTER", "");
+			setProperty("FORMAT", "Standard");
+			setProperty("MAX_PAGE", "2");
+			setProperty("TIMEOUT", "0");
+			setProperty("CARD_FILTER", "");
+			setProperty("COMPETITION_FILTER", "P,M,C,R");
+			setProperty("DATE_START_FILTER", "");
 			save();
 		}
 	}

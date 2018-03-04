@@ -44,8 +44,8 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 	public Apprentice2DeckExport() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("VERSION", "2.0");
-			props.put("SEPARATOR", ",");
+			setProperty("VERSION", "2.0");
+			setProperty("SEPARATOR", ",");
 			save();
 		}
 	}

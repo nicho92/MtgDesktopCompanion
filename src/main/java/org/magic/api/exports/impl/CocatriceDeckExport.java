@@ -37,8 +37,8 @@ public class CocatriceDeckExport extends AbstractCardExport{
 		
 
 		if(!new File(confdir,  getName()+".conf").exists()){
-			props.put("VERSION", "1.0");
-			props.put("DEFAULT_PRICE", "0");
+			setProperty("VERSION", "1.0");
+			setProperty("DEFAULT_PRICE", "0");
 			save();
 		}
 	}

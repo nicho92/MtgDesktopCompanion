@@ -73,11 +73,11 @@ public class MongoDbDAO extends AbstractMagicDAO{
    public MongoDbDAO()  {
 	    super();	
 		if(!new File(confdir, getName()+".conf").exists()){
-			 props.put("SERVERNAME","localhost");
-			 props.put("SERVERPORT", "27017");
-			 props.put("DB_NAME", "mtgdesktopcompanion");
-			 props.put("LOGIN", "login");
-			 props.put("PASS", "");
+			 setProperty("SERVERNAME","localhost");
+			 setProperty("SERVERPORT", "27017");
+			 setProperty("DB_NAME", "mtgdesktopcompanion");
+			 setProperty("LOGIN", "login");
+			 setProperty("PASS", "");
 		save();
 		}
 		

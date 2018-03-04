@@ -42,16 +42,16 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		
 		if(!new File(confdir, getName()+".conf").exists()){
 
-		props.put("TITLE_ONLY", "0");
-		props.put("MAX_PAGE", "2");
-		props.put("MAX_RESULT", "30");
-		props.put("URL", "http://www.leboncoin.fr/li?o=%PAGE%&q=%SEARCH%&it=%TITLE_ONLY%");
-		props.put("USER_AGENT", MTGConstants.USER_AGENT);
-		props.put("PROTOCOLE", "http:");
-		props.put("WEBSITE", "http://www.leboncoin.fr/");
-		props.put("DATE_FORMAT", "dd MMMM. H:m");
-		props.put("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
-		props.put("CERT_SERV", "www.leboncoin.fr");
+		setProperty("TITLE_ONLY", "0");
+		setProperty("MAX_PAGE", "2");
+		setProperty("MAX_RESULT", "30");
+		setProperty("URL", "http://www.leboncoin.fr/li?o=%PAGE%&q=%SEARCH%&it=%TITLE_ONLY%");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("PROTOCOLE", "http:");
+		setProperty("WEBSITE", "http://www.leboncoin.fr/");
+		setProperty("DATE_FORMAT", "dd MMMM. H:m");
+		setProperty("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
+		setProperty("CERT_SERV", "www.leboncoin.fr");
 		save();
 		
 		}

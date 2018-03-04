@@ -37,11 +37,11 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		httpclient = HttpClients.createDefault();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-				props.put("MAX", "5");
-				props.put("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
-				props.put("WEBSITE", "http://www.magic-ville.com/");
-				props.put("KEYWORD", "");	
-				props.put("USER_AGENT", MTGConstants.USER_AGENT);
+				setProperty("MAX", "5");
+				setProperty("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
+				setProperty("WEBSITE", "http://www.magic-ville.com/");
+				setProperty("KEYWORD", "");	
+				setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 				save();
 		}
 		
@@ -103,7 +103,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 			logger.error("no number for " + card);
 			return list;
 		}
-		props.put("KEYWORD", keyword);
+		setProperty("KEYWORD", keyword);
 		String url = html+keyword;
 		
 

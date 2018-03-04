@@ -39,11 +39,11 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public DeckstatsDeckSniffer() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
-			props.put("URL", "https://deckstats.net/decks/f/");
-			props.put("TIMEOUT", "0");
-			props.put("FORMAT", "standard");
-			props.put("MAX_PAGE", "2");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("URL", "https://deckstats.net/decks/f/");
+			setProperty("TIMEOUT", "0");
+			setProperty("FORMAT", "standard");
+			setProperty("MAX_PAGE", "2");
 			save();
 		}
 		cacheColor = new HashMap<>();

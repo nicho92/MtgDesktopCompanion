@@ -33,8 +33,8 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		super();	
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("URL", "https://www.magicbazar.fr/recherche/result.php?s=");
-			props.put("USER_AGENT", MTGConstants.USER_AGENT);
+			setProperty("URL", "https://www.magicbazar.fr/recherche/result.php?s=");
+			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 			
 			save();
 		}

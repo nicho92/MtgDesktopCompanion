@@ -41,7 +41,7 @@ public class PDFExport extends AbstractCardExport {
 		super();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("AUTHOR", "Nicolas PIHEN");
+			setProperty("AUTHOR", "Nicolas PIHEN");
 			save();
 		}
 		

@@ -43,9 +43,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		super();
 		connected=false;
 		if(!new File(confdir, getName()+".conf").exists()){
-				props.put("LOGIN", "login@mail.com");
-				props.put("PASS", "changeme");
-				props.put("USER_AGENT", MTGConstants.USER_AGENT);
+				setProperty("LOGIN", "login@mail.com");
+				setProperty("PASS", "changeme");
+				setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 				save();
 		}
 	}

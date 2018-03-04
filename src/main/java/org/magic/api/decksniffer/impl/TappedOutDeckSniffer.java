@@ -59,12 +59,12 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		super();
 
 		if(!new File(confdir, getName()+".conf").exists()){
-				props.put("LOGIN", "login@mail.com");
-				props.put("PASS", "changeme");
-				props.put("FORMAT", "standard");
-				props.put("USER_AGENT", MTGConstants.USER_AGENT);
-				props.put("URL_JSON", "https://tappedout.net/api/deck/latest/%FORMAT%");
-				props.put("CERT_SERV", "www.tappedout.net");
+				setProperty("LOGIN", "login@mail.com");
+				setProperty("PASS", "changeme");
+				setProperty("FORMAT", "standard");
+				setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+				setProperty("URL_JSON", "https://tappedout.net/api/deck/latest/%FORMAT%");
+				setProperty("CERT_SERV", "www.tappedout.net");
 				save();
 		}
 		

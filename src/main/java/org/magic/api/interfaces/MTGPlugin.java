@@ -7,7 +7,7 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 public interface MTGPlugin {
 
 	public Properties getProperties();
-	public void setProperties(String k,Object value);
+	public void setProperty(String k,Object value);
 	public String getProperty(String k);
 	public boolean isEnable();
 	public void save();

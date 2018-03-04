@@ -35,7 +35,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 	public MTGDesktopCompanionExport() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			props.put("VERSION", "1.0");
+			setProperty("VERSION", "1.0");
 			save();
 		}
 	}
