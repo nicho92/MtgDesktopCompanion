@@ -12,6 +12,7 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	private String quality;
 	
 	private Object shopItem;
+	private String country;
 	
 	
 	public Object getShopItem() {
@@ -92,5 +93,12 @@ public class MagicPrice implements Comparable<MagicPrice> {
 		return (int) (getValue()-o.getValue());
 	}
 
-	
+	public void setCountry(String c) {
+		country = c;
+		
+	}
+
+	public String getCountry() {
+		return country;
+	}
 }

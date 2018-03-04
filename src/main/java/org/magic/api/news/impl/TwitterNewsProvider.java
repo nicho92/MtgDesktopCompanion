@@ -22,14 +22,6 @@ import twitter4j.conf.ConfigurationBuilder;
 
 public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
-	
-	public static void main(String[] args) throws IOException {
-		MagicNews n = new MagicNews();
-		n.setName("#MTGDOM");
-		new TwitterNewsProvider().listNews(n);
-	}
-	
-	
 	private ConfigurationBuilder cb;
 	private TwitterFactory tf ;
 	public TwitterNewsProvider() {

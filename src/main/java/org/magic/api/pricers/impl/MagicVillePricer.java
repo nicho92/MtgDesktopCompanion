@@ -135,7 +135,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 			 mp.setUrl(url);
 			 mp.setQuality(cols.get(2).text());
 			 mp.setLanguage(cols.get(1).getElementsByTag("span").text());
-			
+			 mp.setCountry("France");
 			 
 			 list.add(mp);
 			 

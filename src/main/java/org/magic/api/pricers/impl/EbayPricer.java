@@ -84,7 +84,7 @@ public class EbayPricer extends AbstractMagicPricesProvider
 		
 			JsonArray items = articles.getAsJsonArray().get(0).getAsJsonObject().get("item").getAsJsonArray();
 
-			
+			logger.trace(items);
 			
 			
 		 	
