@@ -1,7 +1,7 @@
 # Magic The Gathering Desktop Companion
 ##Personal Magic the Gathering card manager Deck Builder and Collection Editor##
 
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.magic%3Amagic-api)](https://sonarcloud.io/dashboard?id=org.magic%3Amagic-api)
+[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.magic%3Amagic-api)](https://sonarcloud.io/dashboard?id=org.magic%3Amagic-api) 
 
 [![Build Status](https://travis-ci.org/nicho92/MtgDesktopCompanion.svg?branch=master)](https://travis-ci.org/nicho92/MtgDesktopCompanion)
 
