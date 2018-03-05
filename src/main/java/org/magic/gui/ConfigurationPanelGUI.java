@@ -18,6 +18,7 @@ import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
+import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;
@@ -35,7 +36,8 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable picturesProviderTable;
 	private JXTreeTable serversTreeTable;
 	private JXTreeTable cachesTreeTable;
-
+	private JXTreeTable wallpapersTreeTable;
+	
 	private LoggerViewPanel loggerViewPanel;
 	private ThreadMonitorPanel threadMonitorPanel;
 	private JXTreeTable newsTreeTable;
@@ -156,13 +158,25 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		JScrollPane newsScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), null, newsScrollPane, null);
-		newsTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGNewsProvider>(true, MTGControler.getInstance().getEnabledNewsProviders()));
+		newsTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGNewsProvider>(true, MTGControler.getInstance().getNewsProviders()));
 		newsTreeTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null && e.getNewLeadSelectionPath().getPathCount()>1)
 						((ProviderTreeTableModel)newsTreeTable.getTreeTableModel()).setSelectedNode((MTGNewsProvider)e.getNewLeadSelectionPath().getPathComponent(1));
 			}
 		);
 		newsScrollPane.setViewportView(newsTreeTable);
+		
+		
+		JScrollPane wallpaperScrollPane = new JScrollPane();
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"), null, wallpaperScrollPane, null);
+		wallpapersTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGWallpaperProvider>(true, MTGControler.getInstance().getWallpapers()));
+		wallpapersTreeTable.addTreeSelectionListener(e->{
+				if(e.getNewLeadSelectionPath()!=null && e.getNewLeadSelectionPath().getPathCount()>1)
+						((ProviderTreeTableModel)wallpapersTreeTable.getTreeTableModel()).setSelectedNode((MTGWallpaperProvider)e.getNewLeadSelectionPath().getPathComponent(1));
+			}
+		);
+		wallpaperScrollPane.setViewportView(wallpapersTreeTable);
+		
 		
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), null, configurationPanel, null);

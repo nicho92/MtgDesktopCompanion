@@ -38,6 +38,7 @@ import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
+import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
@@ -59,6 +60,8 @@ public class MTGControler {
 	private List<MTGNewsProvider> news;
 	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
+	private List<MTGWallpaperProvider> wallpapers;
+	
 	private KeyWordProvider keyWordManager;
 
 	private XMLConfiguration config;
@@ -143,8 +146,10 @@ public class MTGControler {
 				path = "servers/server[class='"+k.getClass().getName()+"']/enable";
 			}else if (k instanceof MTGPicturesCache) {
 				path = "caches/cache[class='"+k.getClass().getName()+"']/enable";
-			}else if (k instanceof MagicNews) {
-				path = "rss";
+			}else if (k instanceof MTGNewsProvider) {
+				path = "newsProvider/news[class='"+k.getClass().getName()+"']/enable";
+			}else if (k instanceof MTGWallpaperProvider) {
+				path = "wallpapers/wallpaper[class='"+k.getClass().getName()+"']/enable";
 			}else{
 				path=k.toString();
 			}
@@ -393,6 +398,20 @@ public class MTGControler {
 				}
 			}
 			
+			logger.info("loading wallpapers");
+			wallpapers = new ArrayList<>();
+			for(int i=1;i<=config.getList("//wallpaper/class").size();i++)
+			{
+				String s = config.getString("wallpapers/wallpaper["+i+"]/class");
+				MTGWallpaperProvider prov = loadItem(s);
+						 
+				if(prov!=null){
+					prov.enable(config.getBoolean("wallpapers/wallpaper["+i+"]/enable"));
+					wallpapers.add(prov);
+				}
+			}
+			
+			
 			keyWordManager = new KeyWordProvider();
 			
 			langService = new LanguageService();
@@ -612,7 +631,7 @@ public class MTGControler {
 	}
 	
 	
-	public List<MTGNewsProvider> getEnabledNewsProviders()
+	public List<MTGNewsProvider> getNewsProviders()
 	{
 		return news;
 	}
@@ -633,5 +652,9 @@ public class MTGControler {
 		MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
 		serialis.export(deck, new File(MTGConstants.MTG_DECK_DIRECTORY,deck.getName() + serialis.getFileExtension()));
 		
+	}
+
+	public List<MTGWallpaperProvider> getWallpapers() {
+		return wallpapers;
 	}
 }
