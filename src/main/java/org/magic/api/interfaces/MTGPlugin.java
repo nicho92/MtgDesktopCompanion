@@ -1,5 +1,6 @@
 package org.magic.api.interfaces;
 
+import java.io.File;
 import java.util.Properties;
 
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
@@ -17,4 +18,5 @@ public interface MTGPlugin {
 	public STATUT getStatut();
 	public PLUGINS getType();
 	public enum PLUGINS  { PROVIDER,DASHBOARD,PRICER,SERVER,PICTURES,SHOPPER,EXPORT,DECKS,DAO,TOKENS,CACHE, NEWS, WALLPAPER}
+	public File getConfFile();
 }
