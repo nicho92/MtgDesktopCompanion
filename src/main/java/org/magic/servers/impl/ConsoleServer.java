@@ -1,6 +1,5 @@
 package org.magic.servers.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.charset.Charset;

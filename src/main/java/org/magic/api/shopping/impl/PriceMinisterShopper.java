@@ -1,6 +1,5 @@
 package org.magic.api.shopping.impl;
 
-import java.io.File;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;

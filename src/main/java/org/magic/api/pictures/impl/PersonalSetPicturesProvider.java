@@ -12,7 +12,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
-import org.magic.api.providers.impl.PrivateMTGSetProvider;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
