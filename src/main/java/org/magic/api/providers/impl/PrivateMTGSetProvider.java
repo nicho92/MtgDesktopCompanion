@@ -277,6 +277,12 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider{
 	public String getName() {
 		return "Personnal Data Set Provider";
 	}
+
+	@Override
+	public void initDefault() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 
 }

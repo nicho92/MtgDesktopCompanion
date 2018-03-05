@@ -40,9 +40,6 @@ public class XMageDeckExport extends AbstractCardExport  {
 
 	public XMageDeckExport() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			save();
-		}
 	}
 
 	@Override
@@ -139,5 +136,12 @@ public class XMageDeckExport extends AbstractCardExport  {
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
+	}
+
+
+	@Override
+	public void initDefault() {
+		// Nothing to do
+		
 	}
 }

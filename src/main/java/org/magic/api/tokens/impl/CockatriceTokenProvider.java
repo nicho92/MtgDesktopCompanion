@@ -42,7 +42,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	
 	public CockatriceTokenProvider() {
 		super();
-		
 		try {
 			builderFactory =DocumentBuilderFactory.newInstance();
 			builder = builderFactory.newDocumentBuilder();
@@ -247,6 +246,12 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 	@Override
 	public String getName() {
 		return "Cockatrice";
+	}
+
+	@Override
+	public void initDefault() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

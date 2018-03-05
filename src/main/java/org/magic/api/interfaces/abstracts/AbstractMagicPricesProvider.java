@@ -17,6 +17,12 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 		confdir = new File(MTGConstants.CONF_DIR, "pricers");
 		if(!confdir.exists())
 			confdir.mkdir();
+		
 		load();
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+			initDefault();
+			save();
+		} 
 	}
 }

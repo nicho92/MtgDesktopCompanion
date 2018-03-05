@@ -26,14 +26,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	
 	public MTGPricePricer() {
 	super();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-		setProperty("MAX", "5");
-		setProperty("WS_URL", "http://www.mtgprice.com/api");
-		setProperty("API_KEY", "");
-		setProperty("WEBSITE", "http://www.mtgprice.com/");
-		save();
-		}
+
 	}
 	
 	
@@ -111,6 +104,16 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		//do nothing
+		
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("MAX", "5");
+		setProperty("WS_URL", "http://www.mtgprice.com/api");
+		setProperty("API_KEY", "");
+		setProperty("WEBSITE", "http://www.mtgprice.com/");
 		
 	}
 

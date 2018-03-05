@@ -29,19 +29,6 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	
 	public TCGPlayerPricer() {
 		super();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-		setProperty("MAX", "-1");
-		setProperty("API_KEY", "MGCASSTNT");
-		setProperty("URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%");
-		setProperty("WEBSITE", "http://www.tcgplayer.com/");
-		setProperty("ENCODING", "UTF-8");
-		setProperty("KEYWORD", "");
-		save();
-		}
-		
-		
-		
 	}
 	
 	@Override
@@ -133,6 +120,18 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		logger.trace("no implementation for alertDetected " + p);
+		
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("MAX", "-1");
+		setProperty("API_KEY", "MGCASSTNT");
+		setProperty("URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%");
+		setProperty("WEBSITE", "http://www.tcgplayer.com/");
+		setProperty("ENCODING", "UTF-8");
+		setProperty("KEYWORD", "");
 		
 	}
 	

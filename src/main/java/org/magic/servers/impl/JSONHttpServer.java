@@ -57,14 +57,8 @@ public class JSONHttpServer extends AbstractMTGServer
 	
     public JSONHttpServer() throws IOException {
 		super();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("SERVER-PORT", "8080");
-			setProperty("AUTOSTART", "false");
-			save();
-		}
-		
-    	server = new NanoHTTPD(Integer.parseInt(getProperty("SERVER-PORT"))) {
+
+		server = new NanoHTTPD(Integer.parseInt(getProperty("SERVER-PORT"))) {
     		@Override
     		public Response serve(IHTTPSession session) {
 			 Map<String, List<String>> parms = session.getParameters();
@@ -303,6 +297,13 @@ public class JSONHttpServer extends AbstractMTGServer
 	@Override
 	public boolean isAutostart() {
 		return getProperty("AUTOSTART").equals("true");
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("SERVER-PORT", "8080");
+		setProperty("AUTOSTART", "false");
+		
 	}
     
 }

@@ -27,12 +27,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 	
 	public MagidexPicturesProvider() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("CARD_SIZE_WIDTH", "223");
-			setProperty("CARD_SIZE_HEIGHT", "310");
-			save();
-		}
+	
 		newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
 		newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
 	
@@ -100,6 +95,15 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		return null;
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("CARD_SIZE_WIDTH", "223");
+		setProperty("CARD_SIZE_HEIGHT", "310");
+		
 	}
 	
 	

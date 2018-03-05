@@ -18,5 +18,10 @@ public abstract class AbstractMagicShopper extends AbstractMTGPlugin implements 
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+			initDefault();
+			save();
+		} 
 	}
 }

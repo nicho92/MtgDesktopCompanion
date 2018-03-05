@@ -62,13 +62,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	public MtgjsonProvider() {
 		super();
 		CacheProvider.setCache(new LRUCache(200));
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("URL_SET_JSON_ZIP", "http://mtgjson.com/json/AllSets-x.json.zip");
-			setProperty("URL_VERSION", "http://mtgjson.com/json/version.json");
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			save();
-		}
+	
 		init();
 		
 		
@@ -756,5 +750,13 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("URL_SET_JSON_ZIP", "http://mtgjson.com/json/AllSets-x.json.zip");
+		setProperty("URL_VERSION", "http://mtgjson.com/json/version.json");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 	}
 }

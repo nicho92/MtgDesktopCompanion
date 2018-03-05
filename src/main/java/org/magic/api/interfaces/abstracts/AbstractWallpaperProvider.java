@@ -13,6 +13,11 @@ public abstract class AbstractWallpaperProvider extends AbstractMTGPlugin implem
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+			initDefault();
+			save();
+		} 
 	}
 	
 	@Override

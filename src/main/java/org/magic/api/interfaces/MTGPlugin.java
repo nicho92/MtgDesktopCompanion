@@ -19,4 +19,5 @@ public interface MTGPlugin {
 	public PLUGINS getType();
 	public enum PLUGINS  { PROVIDER,DASHBOARD,PRICER,SERVER,PICTURES,SHOPPER,EXPORT,DECKS,DAO,TOKENS,CACHE, NEWS, WALLPAPER}
 	public File getConfFile();
+	public void initDefault();
 }

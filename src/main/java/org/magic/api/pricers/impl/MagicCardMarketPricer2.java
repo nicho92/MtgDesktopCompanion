@@ -37,21 +37,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     
     public MagicCardMarketPricer2() {
     	super();
-    	
-    	if(!new File(confdir, getName()+".conf").exists()){
-	    	setProperty("APP_TOKEN", "");
-			setProperty("APP_SECRET", "");
-			setProperty("APP_ACCESS_TOKEN", "");
-			setProperty("APP_ACCESS_TOKEN_SECRET", "");
-			setProperty("LANGUAGE_ID", "1");
-			setProperty("IS_EXACT", "false");
-			setProperty("MIN_CONDITION", "");
-			setProperty("COMMONCHECK", "false");
-			setProperty("MAX", "10");
-			setProperty("USER_ARTICLE", "false");
-			setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
-		save();
-		
+  
 		try{
 		MkmAPIConfig.getInstance().init(
 				getProperty("APP_ACCESS_TOKEN_SECRET"),
@@ -64,7 +50,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			logger.error(e);
 		}
 		
-    	}
+    	
     	
     	
     	try {
@@ -245,6 +231,23 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 				}
 		}, "addCart");
 
+		
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("APP_TOKEN", "");
+		setProperty("APP_SECRET", "");
+		setProperty("APP_ACCESS_TOKEN", "");
+		setProperty("APP_ACCESS_TOKEN_SECRET", "");
+		setProperty("LANGUAGE_ID", "1");
+		setProperty("IS_EXACT", "false");
+		setProperty("MIN_CONDITION", "");
+		setProperty("COMMONCHECK", "false");
+		setProperty("MAX", "10");
+		setProperty("USER_ARTICLE", "false");
+		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
 		
 	}
 

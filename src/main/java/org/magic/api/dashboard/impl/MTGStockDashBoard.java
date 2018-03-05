@@ -43,9 +43,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		super();
 		connected=false;
 		if(!new File(confdir, getName()+".conf").exists()){
-				setProperty("LOGIN", "login@mail.com");
-				setProperty("PASS", "changeme");
-				setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+				initDefault();
 				save();
 		}
 	}
@@ -117,6 +115,15 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	@Override
 	public String[] getDominanceFilters() {
 		return new String[] { "Legacy","Vintage", "Standard","Modern"};
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("LOGIN", "login@mail.com");
+		setProperty("PASS", "changeme");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 	}
 
 }

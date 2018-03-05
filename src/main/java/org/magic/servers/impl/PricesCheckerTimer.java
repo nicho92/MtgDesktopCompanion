@@ -39,12 +39,6 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 	public PricesCheckerTimer() {
 		
 		super();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("AUTOSTART", "true");
-			setProperty("TIMEOUT_MINUTE", "120");
-			save();
-		}
 		timer = new Timer();
 	}
 	
@@ -117,6 +111,13 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 	@Override
 	public boolean isAutostart() {
 		return getProperty("AUTOSTART").equals("true");
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("AUTOSTART", "true");
+		setProperty("TIMEOUT_MINUTE", "120");
+		
 	}
 	
 	

@@ -25,16 +25,9 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 	}
 	
 	
-		public MagicTradersPricer() {
+	public MagicTradersPricer() {
 		super();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-		setProperty("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
-		setProperty("WEBSITE", "http://classic.magictraders.com");
-		setProperty("KEYWORD", "");
-		save();
-		}
-	}
+  	}
 	
 	
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
@@ -106,6 +99,15 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		logger.error("not implemented");
+		
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("URL", "http://classic.magictraders.com/pricelists/current-magic-excel.txt");
+		setProperty("WEBSITE", "http://classic.magictraders.com");
+		setProperty("KEYWORD", "");
 		
 	}
 }

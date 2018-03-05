@@ -21,5 +21,10 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+			initDefault();
+			save();
+		} 
 	}
 }

@@ -72,16 +72,6 @@ public class MongoDbDAO extends AbstractMagicDAO{
 	
    public MongoDbDAO()  {
 	    super();	
-		if(!new File(confdir, getName()+".conf").exists()){
-			 setProperty("SERVERNAME","localhost");
-			 setProperty("SERVERPORT", "27017");
-			 setProperty("DB_NAME", "mtgdesktopcompanion");
-			 setProperty("LOGIN", "login");
-			 setProperty("PASS", "");
-		save();
-		}
-		
-		
 	}
 	
 	public void init() throws SQLException, ClassNotFoundException {
@@ -489,6 +479,16 @@ public class MongoDbDAO extends AbstractMagicDAO{
 			UpdateResult res = db.getCollection("news",BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);
 		}
+		
+	}
+
+	@Override
+	public void initDefault() {
+		 setProperty("SERVERNAME","localhost");
+		 setProperty("SERVERPORT", "27017");
+		 setProperty("DB_NAME", "mtgdesktopcompanion");
+		 setProperty("LOGIN", "login");
+		 setProperty("PASS", "");
 		
 	}
 	

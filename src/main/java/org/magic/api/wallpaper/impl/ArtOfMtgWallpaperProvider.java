@@ -87,6 +87,12 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
+
+	@Override
+	public void initDefault() {
+		setProperty("URL", "http://www.artofmtg.com");
+		
+	}
 	
 	
 

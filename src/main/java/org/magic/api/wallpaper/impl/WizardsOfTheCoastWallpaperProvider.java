@@ -25,9 +25,6 @@ import com.google.gson.JsonParser;
 
 public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvider {
 
-	public static void main(String[] args) {
-		new WizardsOfTheCoastWallpaperProvider().search("liliana");
-	}
 	
 	private String read(String url) throws IOException
 	{
@@ -88,6 +85,12 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
+	}
+
+	@Override
+	public void initDefault() {
+		// nothing to do
+		
 	}
 
 }

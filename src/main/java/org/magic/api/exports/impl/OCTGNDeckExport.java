@@ -35,14 +35,6 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	
 	public OCTGNDeckExport() {
 		super();
-		
-
-		if(!new File(confdir,  getName()+".conf").exists()){
-			setProperty("MAGIC_GAME_ID", "a6c8d2e8-7cd8-11dd-8f94-e62b56d89593");
-			setProperty("SLEEVE_ID", "0");
-			setProperty("SHARED", "False");
-			save();
-		}
 	}
 	
 	public String getFileExtension()
@@ -145,6 +137,14 @@ public class OCTGNDeckExport extends AbstractCardExport{
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("MAGIC_GAME_ID", "a6c8d2e8-7cd8-11dd-8f94-e62b56d89593");
+		setProperty("SLEEVE_ID", "0");
+		setProperty("SHARED", "False");
+		
 	}
 	
 }

@@ -23,7 +23,9 @@ import com.rometools.rome.io.SyndFeedInput;
 public class RSSNewsProvider extends AbstractMagicNewsProvider {
 	
 	private SyndFeedInput input;
+	
 	public RSSNewsProvider() {
+		super();
 		input = new SyndFeedInput();
 	}
 	
@@ -86,6 +88,12 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 	@Override
 	public NEWS_TYPE getProviderType() {
 		return NEWS_TYPE.RSS;
+	}
+
+	@Override
+	public void initDefault() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	

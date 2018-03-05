@@ -19,5 +19,12 @@ public abstract class AbstractMTGPicturesCache extends AbstractMTGPlugin impleme
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+			initDefault();
+		save();
+		
+		
+		}
 	}
 }

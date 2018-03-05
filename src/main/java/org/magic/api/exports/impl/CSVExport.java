@@ -46,13 +46,6 @@ public class CSVExport extends AbstractCardExport{
 
 	public CSVExport() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("exportedProperties", "number,name,cost,supertypes,types,subtypes,editions");
-			setProperty("exportedDeckProperties", "name,cost,supertypes,types,subtypes,editions[0].id");
-			setProperty("exportedPricesProperties", "site,seller,value,currency,language,quality,foil");
-			setProperty("importDeckCharSeparator", ";");
-			save();
-		}
 	}
 	
 	@Override
@@ -306,6 +299,16 @@ public class CSVExport extends AbstractCardExport{
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(CSVExport.class.getResource("/icons/xls.png"));
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("exportedProperties", "number,name,cost,supertypes,types,subtypes,editions");
+		setProperty("exportedDeckProperties", "name,cost,supertypes,types,subtypes,editions[0].id");
+		setProperty("exportedPricesProperties", "site,seller,value,currency,language,quality,foil");
+		setProperty("importDeckCharSeparator", ";");
+		
 	}
 
 }

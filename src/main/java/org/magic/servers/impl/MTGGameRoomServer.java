@@ -153,15 +153,6 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	public MTGGameRoomServer() throws IOException {
 		
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("SERVER-PORT", "18567");
-			setProperty("IDLE-TIME", "10");
-			setProperty("BUFFER-SIZE", "2048");
-			setProperty("AUTOSTART", "false");
-			setProperty("WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room");
-			setProperty("MAX_CLIENT", "0");
-			save();
-		}
     	acceptor = new NioSocketAcceptor();
         acceptor.setHandler(adapter);
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
@@ -213,6 +204,17 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("SERVER-PORT", "18567");
+		setProperty("IDLE-TIME", "10");
+		setProperty("BUFFER-SIZE", "2048");
+		setProperty("AUTOSTART", "false");
+		setProperty("WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room");
+		setProperty("MAX_CLIENT", "0");
+		
 	}
 
 }

@@ -30,10 +30,6 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	
 	public MemoryCache() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-		
-		save();
-		}
 		cache=new HashMap<>();
 	}
 	
@@ -65,6 +61,13 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	@Override
 	public void clear() {
 		cache.clear();
+		
+	}
+
+
+	@Override
+	public void initDefault() {
+		// do nothing
 		
 	}
 

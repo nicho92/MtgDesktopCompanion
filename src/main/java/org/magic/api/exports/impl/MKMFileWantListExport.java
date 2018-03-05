@@ -28,9 +28,6 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	
 	public MKMFileWantListExport() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			save();
-		}
 	}
 	
 	@Override
@@ -112,6 +109,12 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
+	}
+
+	@Override
+	public void initDefault() {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

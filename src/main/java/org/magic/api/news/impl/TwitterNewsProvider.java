@@ -28,12 +28,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		super();
 		cb = new ConfigurationBuilder();
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("CONSUMER_KEY", "");
-			setProperty("CONSUMER_SECRET", "");
-			setProperty("ACCESS_TOKEN", "");
-			setProperty("ACCESS_TOKEN_SECRET", "");
-			setProperty("MAX_RESULT", "25");
-			setProperty("LOG", "false");
+			initDefault();
 			save();
 		}
 		cb.setDebugEnabled(getProperty("LOG").equals("true"))
@@ -85,5 +80,16 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	@Override
 	public NEWS_TYPE getProviderType() {
 		return NEWS_TYPE.TWITTER;
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("CONSUMER_KEY", "");
+		setProperty("CONSUMER_SECRET", "");
+		setProperty("ACCESS_TOKEN", "");
+		setProperty("ACCESS_TOKEN_SECRET", "");
+		setProperty("MAX_RESULT", "25");
+		setProperty("LOG", "false");
+		
 	}
 }

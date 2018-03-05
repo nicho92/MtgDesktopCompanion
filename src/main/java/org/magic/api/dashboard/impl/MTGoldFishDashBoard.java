@@ -47,13 +47,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		super();
 		initConcordance();
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("URL_MOVERS", "https://www.mtggoldfish.com/movers-details/");
-			setProperty("URL_EDITIONS", "https://www.mtggoldfish.com/index/");
-			setProperty("WEBSITE", "https://www.mtggoldfish.com/");
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("FORMAT", "paper");
-			setProperty("TIMEOUT", "0");
-			setProperty("DAILY_WEEKLY", "wow");
+			initDefault();
 		save();
 		}
 	}
@@ -386,6 +380,18 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 	@Override
 	public String[]  getDominanceFilters() {
 		return new String[] { "all","spells", "creatures","lands"};
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("URL_MOVERS", "https://www.mtggoldfish.com/movers-details/");
+		setProperty("URL_EDITIONS", "https://www.mtggoldfish.com/index/");
+		setProperty("WEBSITE", "https://www.mtggoldfish.com/");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("FORMAT", "paper");
+		setProperty("TIMEOUT", "0");
+		setProperty("DAILY_WEEKLY", "wow");
+		
 	}
 
 	

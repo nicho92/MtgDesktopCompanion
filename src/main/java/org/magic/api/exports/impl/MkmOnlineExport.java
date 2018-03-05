@@ -52,14 +52,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 		super();
 		mkmPricer = new MagicCardMarketPricer2();
 
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("QUALITY", "GD");
-			setProperty("DEFAULT_QTE", "1");
-			setProperty("LANGUAGES", "1,2");
-			setProperty("MAX_WANTLIST_SIZE", "150");
-			setProperty("STOCK_USE", "true");
-			save();
-		}
 		
 		try {
 		MkmAPIConfig.getInstance().init(mkmPricer.getProperty("APP_ACCESS_TOKEN_SECRET"),
@@ -314,6 +306,16 @@ public class MkmOnlineExport extends AbstractCardExport {
 			case "PO" : return EnumCondition.POOR;
 			default : return null;
 		}
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("QUALITY", "GD");
+		setProperty("DEFAULT_QTE", "1");
+		setProperty("LANGUAGES", "1,2");
+		setProperty("MAX_WANTLIST_SIZE", "150");
+		setProperty("STOCK_USE", "true");
+		
 	}
 }
 

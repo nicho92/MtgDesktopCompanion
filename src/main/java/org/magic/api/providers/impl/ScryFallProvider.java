@@ -586,4 +586,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return ed;
 	}
 
+	@Override
+	public void initDefault() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

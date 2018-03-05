@@ -43,11 +43,7 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 
 	public Apprentice2DeckExport() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("VERSION", "2.0");
-			setProperty("SEPARATOR", ",");
-			save();
-		}
+		
 	}
 
 	@Override
@@ -151,5 +147,14 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
+	}
+
+
+
+	@Override
+	public void initDefault() {
+		setProperty("VERSION", "2.0");
+		setProperty("SEPARATOR", ",");
+		
 	}
 }

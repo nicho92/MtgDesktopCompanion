@@ -33,11 +33,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	public LotusNoirDecks() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("URL", "http://www.lotusnoir.info/magic/decks/");
-			setProperty("FORMAT", "decks-populaires");
-			setProperty("MAX_PAGE", "2");
-			setProperty("TIMEOUT", "0");
+			initDefault();
 			save();
 		}
 		
@@ -149,6 +145,17 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("URL", "http://www.lotusnoir.info/magic/decks/");
+		setProperty("FORMAT", "decks-populaires");
+		setProperty("MAX_PAGE", "2");
+		setProperty("TIMEOUT", "0");
+		
 	}
 	
 }

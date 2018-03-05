@@ -269,6 +269,12 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 		return STATUT.ABANDONNED;
 	}
 
+	@Override
+	public void initDefault() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 
 }

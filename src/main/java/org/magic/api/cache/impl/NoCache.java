@@ -48,4 +48,10 @@ public class NoCache extends AbstractMTGPicturesCache {
 		
 	}
 
+	@Override
+	public void initDefault() {
+		// do nothing
+		
+	}
+
 }

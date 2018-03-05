@@ -39,11 +39,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public DeckstatsDeckSniffer() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("URL", "https://deckstats.net/decks/f/");
-			setProperty("TIMEOUT", "0");
-			setProperty("FORMAT", "standard");
-			setProperty("MAX_PAGE", "2");
+			initDefault();
 			save();
 		}
 		cacheColor = new HashMap<>();
@@ -215,6 +211,17 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public String getName() {
 		return "DeckStats.net";
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("URL", "https://deckstats.net/decks/f/");
+		setProperty("TIMEOUT", "0");
+		setProperty("FORMAT", "standard");
+		setProperty("MAX_PAGE", "2");
+		
 	}
 
 }

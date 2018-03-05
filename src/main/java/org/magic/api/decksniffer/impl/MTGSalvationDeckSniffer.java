@@ -41,11 +41,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	public MTGSalvationDeckSniffer() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("URL", "http://www.mtgsalvation.com/");
-			setProperty("MAX_PAGE", "2");
-			setProperty("FORMAT", "Standard");
-			setProperty("FILTER", "1");//HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5
+			initDefault();
 			save();
 		}
 	}
@@ -221,6 +217,17 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public String getName() {
 		return "MTGSalvation Deck";
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("URL", "http://www.mtgsalvation.com/");
+		setProperty("MAX_PAGE", "2");
+		setProperty("FORMAT", "Standard");
+		setProperty("FILTER", "1");//HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5
+		
 	}
 
 }

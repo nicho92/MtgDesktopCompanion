@@ -49,12 +49,6 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public PersonalSetPicturesProvider() {
 		super();
 		
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("PICS_DIR", PrivateMTGSetProvider.setDirectory+"/privatePics");
-			setProperty("FORMAT", "PNG");
-			save();
-		}
-		
 		if(!new File(getProperty("PICS_DIR")).exists())
 			new File(getProperty("PICS_DIR")).mkdir();
 		
@@ -89,6 +83,15 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String getName() {
 		return "Personal Set Pictures";
+	}
+
+
+
+
+	@Override
+	public void initDefault() {
+		// nothing to do
+		
 	}
 
 

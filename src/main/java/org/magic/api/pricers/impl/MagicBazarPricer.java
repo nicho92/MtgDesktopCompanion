@@ -31,14 +31,6 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	
 	public MagicBazarPricer() {
 		super();	
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("URL", "https://www.magicbazar.fr/recherche/result.php?s=");
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			
-			save();
-		}
-		
 		list=new ArrayList<>();
 	}
 	
@@ -95,6 +87,14 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	public void alertDetected(List<MagicPrice> okz) {
 		//do nothing
 
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("URL", "https://www.magicbazar.fr/recherche/result.php?s=");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 	}
 	
 }

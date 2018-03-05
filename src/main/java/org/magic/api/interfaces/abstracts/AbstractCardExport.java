@@ -25,6 +25,11 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+			initDefault();
+			save();
+		} 
 	}
 	
 

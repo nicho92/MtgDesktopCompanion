@@ -34,10 +34,7 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 	
 	public MTGDesktopCompanionExport() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("VERSION", "1.0");
-			save();
-		}
+		
 	}
 	
 	public void export(MagicDeck deck, File name) throws IOException
@@ -103,6 +100,13 @@ public class MTGDesktopCompanionExport extends AbstractCardExport  {
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("VERSION", "1.0");
+		
 	}
 
 

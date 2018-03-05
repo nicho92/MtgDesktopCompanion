@@ -39,13 +39,6 @@ public class PDFExport extends AbstractCardExport {
 	
 	public PDFExport() {
 		super();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("AUTHOR", "Nicolas PIHEN");
-			save();
-		}
-		
-		
 	}
 
 
@@ -141,6 +134,14 @@ public class PDFExport extends AbstractCardExport {
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		throw new NotImplementedException("Can't import stock from PDF");
+	}
+
+
+
+	@Override
+	public void initDefault() {
+		setProperty("AUTHOR", "Nicolas PIHEN");
+		
 	}
 
 }

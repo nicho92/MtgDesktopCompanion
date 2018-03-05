@@ -40,13 +40,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		
 		list=new ArrayList<>();
 		httpclient = HttpClients.createDefault();
-	
-		if(!new File(confdir, getName()+".conf").exists()){
-				setProperty("URL", "https://www.cardkingdom.com/mtg/");
-				setProperty("WEBSITE", "https://www.cardkingdom.com/");
-				setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-				save();
-		}
 		
 		try {
   			InstallCert.install("www.cardkingdom.com");
@@ -157,6 +150,15 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		logger.error("not implemented");
+		
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("URL", "https://www.cardkingdom.com/mtg/");
+		setProperty("WEBSITE", "https://www.cardkingdom.com/");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		
 	}
 	

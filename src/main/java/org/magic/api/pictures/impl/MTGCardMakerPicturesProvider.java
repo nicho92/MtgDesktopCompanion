@@ -140,4 +140,11 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  {
 	}
 
 
+	@Override
+	public void initDefault() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
 }

@@ -31,7 +31,6 @@ import org.magic.tools.IDGenerator;
 public class MysqlDAO extends AbstractMagicDAO{
 
     private Connection con;
-    private String defaultStore="BLOB";
     private List<MagicCardAlert> list;
     
 	@Override
@@ -41,18 +40,6 @@ public class MysqlDAO extends AbstractMagicDAO{
 	
    public MysqlDAO() throws ClassNotFoundException, SQLException {
 	    super();	
-		if(!new File(confdir, getName()+".conf").exists()){
-			 setProperty("DRIVER", "com.mysql.jdbc.Driver");
-			 setProperty("SERVERNAME","localhost");
-			 setProperty("SERVERPORT", "3306");
-			 setProperty("DB_NAME", "mtgdesktopclient");
-			 setProperty("LOGIN", "login");
-			 setProperty("PASS", "");
-			 setProperty("CARD_STORE", defaultStore); 
-			 setProperty("PARAMS", "?autoDeserialize=true&autoReconnect=true");
-			 setProperty("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
-		save();
-		}
 		list = new ArrayList<>();
 		
 	}
@@ -70,6 +57,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	 public boolean createDB()
 	 {
+		 String defaultStore="BLOB";
+		 
 		 try (Statement stat=con.createStatement())
 		 {
 		 	logger.debug("Create table Cards");
@@ -708,6 +697,20 @@ public class MysqlDAO extends AbstractMagicDAO{
 				logger.error(e);
 			}
 		}
+		
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("DRIVER", "com.mysql.jdbc.Driver");
+		 setProperty("SERVERNAME","localhost");
+		 setProperty("SERVERPORT", "3306");
+		 setProperty("DB_NAME", "mtgdesktopclient");
+		 setProperty("LOGIN", "login");
+		 setProperty("PASS", "");
+		 setProperty("CARD_STORE", "BLOB"); 
+		 setProperty("PARAMS", "?autoDeserialize=true&autoReconnect=true");
+		 setProperty("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
 		
 	}
 	

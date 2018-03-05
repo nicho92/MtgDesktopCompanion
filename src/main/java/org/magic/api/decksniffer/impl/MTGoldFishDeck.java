@@ -35,12 +35,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	public MTGoldFishDeck() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("SUPPORT", "paper");
-			setProperty("FORMAT", "modern");
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("URL", "http://www.mtggoldfish.com/");
-			setProperty("MAX_PAGE", "2");
-			setProperty("METAGAME", "false");
+			initDefault();
 			save();
 		}
 	}
@@ -189,6 +184,17 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	@Override
 	public String getName() {
 		return "MTGGoldFish Deck";
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("SUPPORT", "paper");
+		setProperty("FORMAT", "modern");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("URL", "http://www.mtggoldfish.com/");
+		setProperty("MAX_PAGE", "2");
+		setProperty("METAGAME", "false");
+		
 	}
 
 }

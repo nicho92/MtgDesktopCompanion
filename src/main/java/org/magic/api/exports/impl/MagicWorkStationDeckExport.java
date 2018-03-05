@@ -21,11 +21,6 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 	
 	public MagicWorkStationDeckExport() {
 		super();
-		
-
-		if(!new File(confdir,  getName()+".conf").exists()){
-			save();
-		}
 	}
 	
 	
@@ -120,6 +115,13 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
+	}
+
+
+	@Override
+	public void initDefault() {
+		// nothing to do
+		
 	}
 
 }

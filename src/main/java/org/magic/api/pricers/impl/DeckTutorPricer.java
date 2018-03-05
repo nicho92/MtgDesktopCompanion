@@ -64,18 +64,6 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	
 	public DeckTutorPricer() {
 		super();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-		setProperty("URL", "https://ws.decktutor.com/app/v2");
-		setProperty("WEBSITE", "https://www.decktutor.com");
-		setProperty("LANG", "en");
-		setProperty("LOGIN", "login");
-		setProperty("MAX_RESULT", "");
-		setProperty("PASS", "PASS");
-		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
-		save();
-		}
-		
 		cookieStore = new BasicCookieStore();
 		httpContext = new BasicHttpContext();
 		parser = new JsonParser();
@@ -219,6 +207,18 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			
 			
 		}
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("URL", "https://ws.decktutor.com/app/v2");
+		setProperty("WEBSITE", "https://www.decktutor.com");
+		setProperty("LANG", "en");
+		setProperty("LOGIN", "login");
+		setProperty("MAX_RESULT", "");
+		setProperty("PASS", "PASS");
+		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
+		
 	}
 	
 	

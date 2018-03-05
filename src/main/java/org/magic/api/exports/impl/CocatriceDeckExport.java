@@ -34,13 +34,6 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	
 	public CocatriceDeckExport() {
 		super();
-		
-
-		if(!new File(confdir,  getName()+".conf").exists()){
-			setProperty("VERSION", "1.0");
-			setProperty("DEFAULT_PRICE", "0");
-			save();
-		}
 	}
 	
 	public String getFileExtension()
@@ -152,6 +145,14 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("VERSION", "1.0");
+		setProperty("DEFAULT_PRICE", "0");
+		
 	}
 	
 }

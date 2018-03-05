@@ -35,18 +35,11 @@ public class FileCache extends AbstractMTGPicturesCache {
 	}
 	
 	public FileCache() {
-		
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("DIRECTORY", MTGConstants.CONF_DIR+"/caches/cachePics");
-			setProperty("FORMAT", "png");
-		save();
-		}
-	
+		
 		directory = new File(getProperty("DIRECTORY"));
 		if(!directory.exists())
 			directory.mkdir();
-		
 	}
 	
 	
@@ -117,6 +110,13 @@ public class FileCache extends AbstractMTGPicturesCache {
 		} catch (IOException e) {
 			logger.error("Couldn't clean " + directory , e);
 		}
+		
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("DIRECTORY", MTGConstants.CONF_DIR+"/caches/cachePics");
+		setProperty("FORMAT", "png");
 		
 	}
 	

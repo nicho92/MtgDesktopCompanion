@@ -43,14 +43,6 @@ public class ConsoleServer extends AbstractMTGServer{
  	
  	public ConsoleServer() throws IOException {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("SERVER-PORT", "5152");
-			setProperty("IDLE-TIME", "10");
-			setProperty("BUFFER-SIZE", "2048");
-			setProperty("ENCODING", "UTF-8");
-			setProperty("AUTOSTART", "false");
-			save();
-		}
 	}
  	
 
@@ -92,6 +84,17 @@ public class ConsoleServer extends AbstractMTGServer{
 	@Override
 	public boolean isAutostart() {
 		return getProperty("AUTOSTART").equals("true");
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("SERVER-PORT", "5152");
+		setProperty("IDLE-TIME", "10");
+		setProperty("BUFFER-SIZE", "2048");
+		setProperty("ENCODING", "UTF-8");
+		setProperty("AUTOSTART", "false");
+		
 	}
 }
 

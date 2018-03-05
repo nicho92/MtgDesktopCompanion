@@ -40,10 +40,7 @@ public class MTGODeckExport extends AbstractCardExport  {
 
 	public MTGODeckExport() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("VERSION", "1.0");
-			save();
-		}
+	
 	}
 
 	@Override
@@ -128,5 +125,13 @@ public class MTGODeckExport extends AbstractCardExport  {
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
+	}
+
+
+
+	@Override
+	public void initDefault() {
+		setProperty("VERSION", "1.0");
+		
 	}
 }

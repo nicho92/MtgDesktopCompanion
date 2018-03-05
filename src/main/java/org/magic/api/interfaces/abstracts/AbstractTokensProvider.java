@@ -14,6 +14,11 @@ public abstract class AbstractTokensProvider extends AbstractMTGPlugin implement
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+			initDefault();
+			save();
+		} 
 	}
 	
 	@Override

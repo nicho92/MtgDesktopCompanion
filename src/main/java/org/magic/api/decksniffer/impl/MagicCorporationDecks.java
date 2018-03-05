@@ -31,8 +31,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	public MagicCorporationDecks() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("URL", "http://www.magiccorporation.com/");
+			initDefault();
 			save();
 	}
 		
@@ -127,6 +126,14 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	@Override
 	public String getName() {
 		return "MagicCorporation";
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("URL", "http://www.magiccorporation.com/");
+		
 	}
 
 	

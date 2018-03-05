@@ -19,5 +19,10 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 		if(!confdir.exists())
 			confdir.mkdir();
 		load();
+		
+		if(!new File(confdir, getName()+".conf").exists()){
+			initDefault();
+			save();
+		} 
 	}
 }

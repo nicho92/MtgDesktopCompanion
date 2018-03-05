@@ -173,4 +173,11 @@ public class JsonExport  extends AbstractCardExport {
 		return list;
 	}
 
+
+	@Override
+	public void initDefault() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -27,14 +27,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	
 	public GathererPicturesProvider() {
 		super();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
-			setProperty("SET_SIZE", "medium");
-			setProperty("CARD_SIZE_WIDTH", "223");
-			setProperty("CARD_SIZE_HEIGHT", "310");
-			save();
-		}
+	
 		 newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
 		 newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
 	}
@@ -101,6 +94,17 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String getName() {
 		return "Gatherer";
+	}
+
+
+
+	@Override
+	public void initDefault() {
+		setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
+		setProperty("SET_SIZE", "medium");
+		setProperty("CARD_SIZE_WIDTH", "223");
+		setProperty("CARD_SIZE_HEIGHT", "310");
+		
 	}
 
 

@@ -59,12 +59,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		super();
 
 		if(!new File(confdir, getName()+".conf").exists()){
-				setProperty("LOGIN", "login@mail.com");
-				setProperty("PASS", "changeme");
-				setProperty("FORMAT", "standard");
-				setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-				setProperty("URL_JSON", "https://tappedout.net/api/deck/latest/%FORMAT%");
-				setProperty("CERT_SERV", "www.tappedout.net");
+				initDefault();
 				save();
 		}
 		
@@ -235,6 +230,18 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				}
 		}
 		return value;
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("LOGIN", "login@mail.com");
+		setProperty("PASS", "changeme");
+		setProperty("FORMAT", "standard");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("URL_JSON", "https://tappedout.net/api/deck/latest/%FORMAT%");
+		setProperty("CERT_SERV", "www.tappedout.net");
+		
 	}
 
 }

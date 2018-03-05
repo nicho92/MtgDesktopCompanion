@@ -39,27 +39,11 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	
 	public LeboncoinShopper() {
 		super();	
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-
-		setProperty("TITLE_ONLY", "0");
-		setProperty("MAX_PAGE", "2");
-		setProperty("MAX_RESULT", "30");
-		setProperty("URL", "http://www.leboncoin.fr/li?o=%PAGE%&q=%SEARCH%&it=%TITLE_ONLY%");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		setProperty("PROTOCOLE", "http:");
-		setProperty("WEBSITE", "http://www.leboncoin.fr/");
-		setProperty("DATE_FORMAT", "dd MMMM. H:m");
-		setProperty("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
-		setProperty("CERT_SERV", "www.leboncoin.fr");
-		save();
-		
-		}
 		init();
 	}
 	
 	
-	public void init() {
+	private void init() {
 		httpclient = HttpClients.createDefault();
 		formatter=new SimpleDateFormat(getProperty("DATE_FORMAT"));
 		
@@ -209,6 +193,22 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	@Override
 	public String getName() {
 		return "LeBonCoin";
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("TITLE_ONLY", "0");
+		setProperty("MAX_PAGE", "2");
+		setProperty("MAX_RESULT", "30");
+		setProperty("URL", "http://www.leboncoin.fr/li?o=%PAGE%&q=%SEARCH%&it=%TITLE_ONLY%");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("PROTOCOLE", "http:");
+		setProperty("WEBSITE", "http://www.leboncoin.fr/");
+		setProperty("DATE_FORMAT", "dd MMMM. H:m");
+		setProperty("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
+		setProperty("CERT_SERV", "www.leboncoin.fr");
+		
 	}
 
 	

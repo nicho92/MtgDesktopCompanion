@@ -19,9 +19,6 @@ import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 
 public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
 	
-	public static void main(String[] args) {
-		new FilesWallpaperProvider().search("");
-	}
 	
 	@Override
 	public List<Wallpaper> search(String search) {
@@ -69,6 +66,12 @@ public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
+	}
+
+	@Override
+	public void initDefault() {
+		// nothing to do
+		
 	}
 	
 	

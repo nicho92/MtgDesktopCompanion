@@ -45,10 +45,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	{
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("PERIOD", "WEEKLY");
-			setProperty("WEBSITE", "http://www.mtgprice.com");
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("TIMEOUT", "0");
+			initDefault();
 		save();
 		}
 	}
@@ -257,6 +254,15 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public String[]  getDominanceFilters() {
 		return new String[]{""};
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("PERIOD", "WEEKLY");
+		setProperty("WEBSITE", "http://www.mtgprice.com");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("TIMEOUT", "0");
+		
 	}
 
 }

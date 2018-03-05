@@ -33,14 +33,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	
 	public MagicCardInfoPicturesProvider() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("WEBSITE", "https://magiccards.info/scans/");
-			setProperty("LANG", "en");
-			setProperty("CARD_SIZE_WIDTH", "223");
-			setProperty("CARD_SIZE_HEIGHT", "310");
-			setProperty("USER_AGENT",MTGConstants.USER_AGENT);
-			save();
-		}
+		
 		try {
    			InstallCert.install("magiccards.info");
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
@@ -128,6 +121,16 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		return getPicture(mc,null).getSubimage(15, 34, 184, 132);
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("WEBSITE", "https://magiccards.info/scans/");
+		setProperty("LANG", "en");
+		setProperty("CARD_SIZE_WIDTH", "223");
+		setProperty("CARD_SIZE_HEIGHT", "310");
+		setProperty("USER_AGENT",MTGConstants.USER_AGENT);
+		
 	}
 
 }

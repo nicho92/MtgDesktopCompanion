@@ -30,15 +30,6 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	
 	public ScryFallPicturesProvider() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("CERT_SERV", "scryfall.com");
-			setProperty("CARD_SIZE_WIDTH", "223");
-			setProperty("CARD_SIZE_HEIGHT", "310");
-			setProperty("PIC_SIZE", "large");
-			setProperty("ICON_SET_SIZE","medium");
-			save();
-		}
 		try {
    			InstallCert.install(getProperty("CERT_SERV"));
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
@@ -156,6 +147,18 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 				logger.error(e);
 				return getBackPicture();
 			}
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("CERT_SERV", "scryfall.com");
+		setProperty("CARD_SIZE_WIDTH", "223");
+		setProperty("CARD_SIZE_HEIGHT", "310");
+		setProperty("PIC_SIZE", "large");
+		setProperty("ICON_SET_SIZE","medium");
+		
 	}
 
 }

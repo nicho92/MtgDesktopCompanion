@@ -40,15 +40,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		initFormats();
 		
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("URL", "http://mtgtop8.com/");
-			setProperty("EVENT_FILTER", "");
-			setProperty("FORMAT", "Standard");
-			setProperty("MAX_PAGE", "2");
-			setProperty("TIMEOUT", "0");
-			setProperty("CARD_FILTER", "");
-			setProperty("COMPETITION_FILTER", "P,M,C,R");
-			setProperty("DATE_START_FILTER", "");
+			initDefault();
 			save();
 		}
 	}
@@ -187,6 +179,20 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public String getName() {
 		return "MTGTop8";
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("URL", "http://mtgtop8.com/");
+		setProperty("EVENT_FILTER", "");
+		setProperty("FORMAT", "Standard");
+		setProperty("MAX_PAGE", "2");
+		setProperty("TIMEOUT", "0");
+		setProperty("CARD_FILTER", "");
+		setProperty("COMPETITION_FILTER", "P,M,C,R");
+		setProperty("DATE_START_FILTER", "");
+		
 	}
 
 }

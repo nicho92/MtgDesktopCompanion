@@ -35,16 +35,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		
 		list=new ArrayList<>();
 		httpclient = HttpClients.createDefault();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-				setProperty("MAX", "5");
-				setProperty("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
-				setProperty("WEBSITE", "http://www.magic-ville.com/");
-				setProperty("KEYWORD", "");	
-				setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-				save();
-		}
-		
+	
 	}
 	
 	
@@ -162,6 +153,17 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		// do nothing
+		
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("MAX", "5");
+		setProperty("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
+		setProperty("WEBSITE", "http://www.magic-ville.com/");
+		setProperty("KEYWORD", "");	
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		
 	}
 	

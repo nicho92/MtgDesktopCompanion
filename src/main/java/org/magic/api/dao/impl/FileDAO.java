@@ -56,11 +56,6 @@ public class FileDAO extends AbstractMagicDAO {
 	
 	public FileDAO() {
 		 super();	
-	 		if(!new File(confdir, getName()+".conf").exists()){
-	 			setProperty("URL", confdir.getAbsolutePath()+"/filesDB");
-	 			setProperty("SERIALIZER", "json");
-	 			save();
-	 		}
 	}
 	
 	@Override
@@ -424,6 +419,13 @@ public class FileDAO extends AbstractMagicDAO {
 			throw new SQLException(e);
 		}
 		
+		
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("URL", confdir.getAbsolutePath()+"/filesDB");
+		setProperty("SERIALIZER", "json");
 		
 	}
 

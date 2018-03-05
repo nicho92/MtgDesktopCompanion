@@ -27,15 +27,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	
 	public ChannelFireballPricer() {
 		super();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-		setProperty("MAX", "5");
-		setProperty("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
-		setProperty("WEBSITE", "http://store.channelfireball.com/");
-		setProperty("ENCODING", "UTF-8");
-		setProperty("KEYWORD", "");
-		save();
-		}
+	
 
 	}
 
@@ -88,6 +80,17 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		// do nothing
+		
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("MAX", "5");
+		setProperty("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
+		setProperty("WEBSITE", "http://store.channelfireball.com/");
+		setProperty("ENCODING", "UTF-8");
+		setProperty("KEYWORD", "");
 		
 	}
 	

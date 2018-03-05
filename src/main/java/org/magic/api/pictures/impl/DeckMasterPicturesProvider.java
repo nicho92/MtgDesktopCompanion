@@ -31,15 +31,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	
 	public DeckMasterPicturesProvider() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("CERT_SERV", "deckmaster.info");
-			setProperty("CARD_SIZE_WIDTH", "223");
-			setProperty("CARD_SIZE_HEIGHT", "310");
-			setProperty("ICON_SET_SIZE","medium");
-			save();
-		}
+	
 		try {
    			InstallCert.install(getProperty("CERT_SERV"));
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
@@ -161,6 +153,18 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		return getPicture(mc,null).getSubimage(15, 34, 184, 132);
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("CERT_SERV", "deckmaster.info");
+		setProperty("CARD_SIZE_WIDTH", "223");
+		setProperty("CARD_SIZE_HEIGHT", "310");
+		setProperty("ICON_SET_SIZE","medium");
+		
 	}
 
 }

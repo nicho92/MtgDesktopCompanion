@@ -400,7 +400,7 @@ public class MTGControler {
 
 			
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("error init",e);
 		}
 	}
 	

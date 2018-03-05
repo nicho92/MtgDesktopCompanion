@@ -44,11 +44,7 @@ public class HsqlDAO extends AbstractMagicDAO{
     public HsqlDAO() throws ClassNotFoundException, SQLException {
     	 super();	
  		if(!new File(confdir, getName()+".conf").exists()){
- 			setProperty("DRIVER", "org.hsqldb.jdbc.JDBCDriver");
- 			setProperty("URL", confdir.getAbsolutePath()+"/hsqldao");
- 			setProperty("DBNAME", "magicDB");
- 			setProperty("LOGIN", "SA");
- 			setProperty("PASS", "");
+ 			initDefault();
  		save();
  		}
 	}
@@ -689,6 +685,17 @@ public class HsqlDAO extends AbstractMagicDAO{
 				logger.error(e);
 			}
 		}
+		
+	}
+
+
+	@Override
+	public void initDefault() {
+			setProperty("DRIVER", "org.hsqldb.jdbc.JDBCDriver");
+			setProperty("URL", confdir.getAbsolutePath()+"/hsqldao");
+			setProperty("DBNAME", "magicDB");
+			setProperty("LOGIN", "SA");
+			setProperty("PASS", "");
 		
 	}
 }

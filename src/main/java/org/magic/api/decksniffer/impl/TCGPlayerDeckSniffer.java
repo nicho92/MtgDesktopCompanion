@@ -34,10 +34,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	public TCGPlayerDeckSniffer() {
 		super();
 		if(!new File(confdir, getName()+".conf").exists()){
-			setProperty("FORMAT", "standard");
-			setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-			setProperty("URL", "http://decks.tcgplayer.com");
-			setProperty("MAX_PAGE", "1");
+			initDefault();
 			save();
 		}
 	}
@@ -191,6 +188,16 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public String getName() {
 		return "TCG Player Decks";
+	}
+
+
+	@Override
+	public void initDefault() {
+		setProperty("FORMAT", "standard");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("URL", "http://decks.tcgplayer.com");
+		setProperty("MAX_PAGE", "1");
+		
 	}
 
 }
