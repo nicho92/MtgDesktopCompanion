@@ -60,11 +60,11 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet{
 				}
 		});
 		
-		if(props.size()>0) {
-			Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
-										(int)Double.parseDouble(props.getProperty("y")),
-										(int)Double.parseDouble(props.getProperty("w")),
-										(int)Double.parseDouble(props.getProperty("h")));
+		if(getProperties().size()>0) {
+			Rectangle r = new Rectangle((int)Double.parseDouble(getProperty("x")), 
+										(int)Double.parseDouble(getProperty("y")),
+										(int)Double.parseDouble(getProperty("w")),
+										(int)Double.parseDouble(getProperty("h")));
 			setBounds(r);
 			}
 		

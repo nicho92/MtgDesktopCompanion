@@ -152,23 +152,23 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 		scrollPane.setViewportView(table);
 		initToolTip(table,0,1);
 		
-		if(props.size()>0) {
-			Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
-										(int)Double.parseDouble(props.getProperty("y")),
-										(int)Double.parseDouble(props.getProperty("w")),
-										(int)Double.parseDouble(props.getProperty("h")));
+		if(getProperties().size()>0) {
+			Rectangle r = new Rectangle((int)Double.parseDouble(getProperty("x")), 
+										(int)Double.parseDouble(getProperty("y")),
+										(int)Double.parseDouble(getProperty("w")),
+										(int)Double.parseDouble(getProperty("h")));
 			
 			try {
-				spinner.setValue(Integer.parseInt(props.getProperty("LIMIT","5")));
+				spinner.setValue(Integer.parseInt(getProperty("LIMIT","5")));
 			} catch (Exception e) {
 				logger.error("can't get LIMIT value",e);
 			}
 			
 			try {
-				boxS.setSelected(Boolean.parseBoolean(props.getProperty("STD","false")));
-				boxM.setSelected(Boolean.parseBoolean(props.getProperty("MDN","true")));
-				boxL.setSelected(Boolean.parseBoolean(props.getProperty("LEG","false")));
-				boxV.setSelected(Boolean.parseBoolean(props.getProperty("VIN","false")));
+				boxS.setSelected(Boolean.parseBoolean(getProperty("STD","false")));
+				boxM.setSelected(Boolean.parseBoolean(getProperty("MDN","true")));
+				boxL.setSelected(Boolean.parseBoolean(getProperty("LEG","false")));
+				boxV.setSelected(Boolean.parseBoolean(getProperty("VIN","false")));
 			} catch (Exception e) {
 				logger.error("can't get LIMIT value",e);
 			}

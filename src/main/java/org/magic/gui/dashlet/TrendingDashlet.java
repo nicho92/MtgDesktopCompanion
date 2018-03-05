@@ -70,11 +70,11 @@ public class TrendingDashlet extends AbstractJDashlet{
 		
 		scrollPane.setViewportView(table);
 		
-		if(props.size()>0) {
-			Rectangle r = new Rectangle((int)Double.parseDouble(props.getProperty("x")), 
-										(int)Double.parseDouble(props.getProperty("y")),
-										(int)Double.parseDouble(props.getProperty("w")),
-										(int)Double.parseDouble(props.getProperty("h")));
+		if(getProperties().size()>0) {
+			Rectangle r = new Rectangle((int)Double.parseDouble(getProperty("x")), 
+										(int)Double.parseDouble(getProperty("y")),
+										(int)Double.parseDouble(getProperty("w")),
+										(int)Double.parseDouble(getProperty("h")));
 			
 			try {
 				cboFormats.setSelectedItem(FORMAT.valueOf(getProperty("FORMAT")));
@@ -113,7 +113,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				{
 					MTGLogger.printStackTrace(e);
 				}
-				props.put("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
+				setProperty("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				lblLoading.setVisible(false);
 				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 				

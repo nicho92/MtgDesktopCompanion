@@ -27,7 +27,7 @@ import org.magic.services.MTGLogger;
 public abstract class AbstractJDashlet extends JInternalFrame {
 
 	public static final File confdir = new File(MTGConstants.CONF_DIR, "dashboards/dashlets");
-	protected Properties props;
+	private Properties props;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCardDetailPanel pane;
 	
@@ -59,6 +59,17 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 	{
 		this.props=p;
 	}
+	
+	public String getProperty(String k, String d)
+	{
+		return props.getProperty(k, d);
+	}
+	
+	public void setProperty(Object k,Object v)
+	{
+		props.put(k,v);
+	}
+	
 	
 	public String getProperty(String k)
 	{
