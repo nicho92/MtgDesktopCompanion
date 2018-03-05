@@ -312,7 +312,21 @@
             <enable>true</enable>
         </export>
     </deckexports>
-    <min-price-alert/>
+    <wallpapers>
+        <wallpaper>
+            <class>org.magic.api.wallpaper.impl.ArtOfMtgWallpaperProvider</class>
+            <enable>true</enable>
+        </wallpaper>
+          <wallpaper>
+            <class>org.magic.api.wallpaper.impl.FilesWallpaperProvider</class>
+            <enable>true</enable>
+        </wallpaper>
+          <wallpaper>
+            <class>org.magic.api.wallpaper.impl.WizardsOfTheCoastWallpaperProvider</class>
+            <enable>true</enable>
+        </wallpaper>
+    </wallpapers>
+ 	<min-price-alert/>
     <debug-json-panel>false</debug-json-panel>
     <game>
         <cards>

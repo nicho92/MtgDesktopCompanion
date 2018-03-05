@@ -18,14 +18,12 @@ import org.magic.services.MTGConstants;
 
 public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 
-	String url="http://www.artofmtg.com";
-	
 	@Override
 	public List<Wallpaper> search(String search) {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 			
-			Document d = Jsoup.connect(url+"/?s="+search)
+			Document d = Jsoup.connect(getProperty("URL")+"/?s="+search)
 					  .userAgent(MTGConstants.USER_AGENT)
 					  .get();
 			
@@ -52,7 +50,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 			
-			Document d = Jsoup.connect(url+"/set/"+ed.getSet().toLowerCase().replaceAll(" ", "-"))
+			Document d = Jsoup.connect(getProperty("URL")+"/set/"+ed.getSet().toLowerCase().replaceAll(" ", "-"))
 					  .userAgent(MTGConstants.USER_AGENT)
 					  .get();
 			
