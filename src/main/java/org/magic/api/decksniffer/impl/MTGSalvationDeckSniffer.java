@@ -37,14 +37,6 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		return STATUT.DEV;
 	}
 	
-
-	public MTGSalvationDeckSniffer() {
-		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-			save();
-		}
-	}
 	
 	@Override
 	public String[] listFilter() {

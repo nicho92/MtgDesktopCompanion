@@ -45,10 +45,6 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 	}
 
 	
-	public DCIDeckSheetExport() {
-		super();
-	}
-	
 	@Override
 	public String getFileExtension() {
 		return ".pdf";

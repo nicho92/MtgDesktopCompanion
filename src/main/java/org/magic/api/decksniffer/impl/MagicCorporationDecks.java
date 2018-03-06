@@ -28,15 +28,6 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 	}
 	
 	
-	public MagicCorporationDecks() {
-		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-			save();
-	}
-		
-	}
-	
 	@Override
 	public String[] listFilter() {
 		return new String[]{""};

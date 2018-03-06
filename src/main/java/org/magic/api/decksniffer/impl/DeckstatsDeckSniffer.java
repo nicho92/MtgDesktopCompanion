@@ -38,10 +38,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	
 	public DeckstatsDeckSniffer() {
 		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-			save();
-		}
 		cacheColor = new HashMap<>();
 		initcache();
 	}

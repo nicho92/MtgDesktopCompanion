@@ -40,16 +40,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
-	public MTGPriceDashBoard() 
-	{
-		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-		save();
-		}
-	}
-	
+
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
 		List<CardShake> list = new ArrayList<>();

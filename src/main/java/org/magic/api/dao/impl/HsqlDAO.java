@@ -41,15 +41,6 @@ public class HsqlDAO extends AbstractMagicDAO{
 	private Connection con;
    
   
-    public HsqlDAO() throws ClassNotFoundException, SQLException {
-    	 super();	
- 		if(!new File(confdir, getName()+".conf").exists()){
- 			initDefault();
- 		save();
- 		}
-	}
-    
-    
 	public void init() throws ClassNotFoundException, SQLException {
 	      logger.info("init HsqlDB");
 		  Class.forName(getProperty("DRIVER"));

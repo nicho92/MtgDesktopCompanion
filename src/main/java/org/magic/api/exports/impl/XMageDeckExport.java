@@ -38,10 +38,6 @@ public class XMageDeckExport extends AbstractCardExport  {
 		return ".dck";
 	}
 
-	public XMageDeckExport() {
-		super();
-	}
-
 	@Override
 	public void export(MagicDeck deck , File dest) throws IOException
 	{

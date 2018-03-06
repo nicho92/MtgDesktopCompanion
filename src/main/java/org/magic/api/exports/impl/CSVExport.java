@@ -43,10 +43,6 @@ public class CSVExport extends AbstractCardExport{
 	public String getName() {
 		return "CSV";
 	}
-
-	public CSVExport() {
-		super();
-	}
 	
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {

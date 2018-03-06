@@ -32,12 +32,6 @@ public class JsonExport  extends AbstractCardExport {
 		return STATUT.STABLE;
 	}
 	
-	
-	public JsonExport() {
-		super();
-	}
-	
-	
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
 		JsonReader reader = new JsonReader(new FileReader(f));

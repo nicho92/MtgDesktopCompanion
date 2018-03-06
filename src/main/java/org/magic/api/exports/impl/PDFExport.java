@@ -36,12 +36,6 @@ public class PDFExport extends AbstractCardExport {
 	}
 	
 	
-	
-	public PDFExport() {
-		super();
-	}
-
-
 	private PdfPCell getCells(MagicCard card) throws BadElementException, IOException
 	{
 

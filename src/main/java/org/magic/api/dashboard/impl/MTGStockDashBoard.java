@@ -42,10 +42,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	public MTGStockDashBoard() {
 		super();
 		connected=false;
-		if(!new File(confdir, getName()+".conf").exists()){
-				initDefault();
-				save();
-		}
 	}
 	
 	private void connect() throws IOException

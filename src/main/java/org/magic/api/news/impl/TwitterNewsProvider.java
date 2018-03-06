@@ -1,6 +1,5 @@
 package org.magic.api.news.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,10 +26,6 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	public TwitterNewsProvider() {
 		super();
 		cb = new ConfigurationBuilder();
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-			save();
-		}
 		cb.setDebugEnabled(getProperty("LOG").equals("true"))
 		  .setOAuthConsumerKey(getProperty("CONSUMER_KEY"))
 		  .setOAuthConsumerSecret(getProperty("CONSUMER_SECRET"))

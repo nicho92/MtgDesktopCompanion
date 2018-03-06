@@ -33,10 +33,6 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		return STATUT.STABLE;
 	}
 	
-	public OCTGNDeckExport() {
-		super();
-	}
-	
 	public String getFileExtension()
 	{
 		return ".o8d";

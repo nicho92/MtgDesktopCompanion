@@ -25,12 +25,6 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 		return STATUT.BETA;
 	}
 	
-	
-	public PriceMinisterShopper() {
-		super();	
-	}
-	
-	
 	@Override
 	public List<ShopItem> search(String search) {
 		List<ShopItem> list = new ArrayList<>();

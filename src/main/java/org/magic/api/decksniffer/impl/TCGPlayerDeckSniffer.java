@@ -30,15 +30,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		return STATUT.STABLE;
 	}
 	
-	
-	public TCGPlayerDeckSniffer() {
-		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-			save();
-		}
-	}
-	
 	@Override
 	public String[] listFilter() {
 		return new String[] { "standard","modern","legacy","vintage","commander",};

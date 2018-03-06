@@ -45,11 +45,6 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	
 	public PostgresqlDAO() {
 		super();	
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-		
-		save();
-		}
 		list=new ArrayList<>();
 	}
    

@@ -36,13 +36,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 	
 	public MTGTop8DeckSniffer() {
 		super();
-		
 		initFormats();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-			save();
-		}
 	}
 	
 	private void initFormats() {

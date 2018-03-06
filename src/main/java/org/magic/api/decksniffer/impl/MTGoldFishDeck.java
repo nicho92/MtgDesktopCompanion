@@ -32,14 +32,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	
 	private boolean metagames=false;
 
-	public MTGoldFishDeck() {
-		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-			save();
-		}
-	}
-	
 	@Override
 	public String[] listFilter() {
 		if(metagames)

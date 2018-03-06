@@ -53,11 +53,6 @@ public class FileDAO extends AbstractMagicDAO {
 		FileUtils.write(f, export.toJson(o),Charset.defaultCharset());
 	}
 	
-	
-	public FileDAO() {
-		 super();	
-	}
-	
 	@Override
 	public void init()  {
 		export = new Gson();

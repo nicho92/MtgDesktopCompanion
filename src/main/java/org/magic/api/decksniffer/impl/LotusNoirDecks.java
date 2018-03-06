@@ -30,15 +30,6 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	}
 	
 	
-	public LotusNoirDecks() {
-		super();
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-			save();
-		}
-		
-	}
-	
 	
 	@Override
 	public String[] listFilter() {

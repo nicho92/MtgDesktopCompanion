@@ -26,10 +26,6 @@ public class MKMFileWantListExport extends AbstractCardExport {
 		return STATUT.DEV;
 	}
 	
-	public MKMFileWantListExport() {
-		super();
-	}
-	
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
 		

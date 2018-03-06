@@ -38,11 +38,6 @@ public class MTGODeckExport extends AbstractCardExport  {
 		return ".dek";
 	}
 
-	public MTGODeckExport() {
-		super();
-	
-	}
-
 	@Override
 	public void export(MagicDeck deck , File dest) throws IOException
 	{

@@ -58,11 +58,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	public TappedOutDeckSniffer(){
 		super();
 
-		if(!new File(confdir, getName()+".conf").exists()){
-				initDefault();
-				save();
-		}
-		
 		try {
    			InstallCert.install(getProperty("CERT_SERV"));
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());

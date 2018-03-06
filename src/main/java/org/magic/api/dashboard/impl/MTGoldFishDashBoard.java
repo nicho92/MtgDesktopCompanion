@@ -46,10 +46,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 	{
 		super();
 		initConcordance();
-		if(!new File(confdir, getName()+".conf").exists()){
-			initDefault();
-		save();
-		}
 	}
 	
 
