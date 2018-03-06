@@ -51,7 +51,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 		try {
 			
 			Document d = Jsoup.connect(getProperty("URL")+"/set/"+ed.getSet().toLowerCase().replaceAll(" ", "-"))
-					  .userAgent(MTGConstants.USER_AGENT)
+					  .userAgent(getProperty("USER_AGENT", MTGConstants.USER_AGENT))
 					  .get();
 			
 			for(Element e : d.select("div.elastic-portfolio-item img"))
@@ -89,6 +89,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 	@Override
 	public void initDefault() {
 		setProperty("URL", "http://www.artofmtg.com");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		
 	}
 	

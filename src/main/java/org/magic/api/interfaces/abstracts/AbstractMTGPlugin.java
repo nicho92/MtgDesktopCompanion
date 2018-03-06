@@ -89,7 +89,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 
 	@Override
 	public String getProperty(String k) {
-		return String.valueOf(props.get(k));
+		return getProperty(k,"");
 	}
 
 	@Override

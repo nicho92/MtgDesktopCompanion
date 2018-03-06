@@ -24,7 +24,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;

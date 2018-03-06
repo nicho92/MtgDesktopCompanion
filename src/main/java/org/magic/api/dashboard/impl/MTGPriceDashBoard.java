@@ -1,6 +1,5 @@
 package org.magic.api.dashboard.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
