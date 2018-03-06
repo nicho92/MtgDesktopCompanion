@@ -27,8 +27,8 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	public GathererPicturesProvider() {
 		super();
 	
-		 newW= Integer.parseInt(getString("CARD_SIZE_WIDTH"));
-		 newH= Integer.parseInt(getString("CARD_SIZE_HEIGHT"));
+		 newW= getInt("CARD_SIZE_WIDTH");
+		 newH= getInt("CARD_SIZE_HEIGHT");
 	}
 	
 	
@@ -50,9 +50,9 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		if(ed==null)
 			selected = mc.getEditions().get(0);
 		
-		for(String k : getString("CALL_MCI_FOR").split(","))
+		for(String k : getArray("CALL_MCI_FOR"))
 		{
-			if(selected.getId().startsWith(k))
+			if(selected.getId().equalsIgnoreCase(k))
 			{
 				if(mciProv==null)
 					mciProv=new MagicCardInfoPicturesProvider();

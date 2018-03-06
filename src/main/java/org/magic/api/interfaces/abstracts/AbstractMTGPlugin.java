@@ -90,6 +90,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	{
 		return Double.parseDouble(getString(k));
 	}
+	
+	
+	public String[] getArray(String k)
+	{
+		return getProperty(k, "").split(",");
+	}
 
 	@Override
 	public String getString(String k) {

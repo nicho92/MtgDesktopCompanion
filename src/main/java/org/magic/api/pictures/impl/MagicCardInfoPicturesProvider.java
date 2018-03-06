@@ -40,8 +40,8 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
-		newW= Integer.parseInt(getString("CARD_SIZE_WIDTH"));
-		newH= Integer.parseInt(getString("CARD_SIZE_HEIGHT"));
+		newW= getInt("CARD_SIZE_WIDTH");
+		newH= getInt("CARD_SIZE_HEIGHT");
 		 
 		w=223;
 		h=311;
