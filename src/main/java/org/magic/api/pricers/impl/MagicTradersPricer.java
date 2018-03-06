@@ -32,7 +32,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		
 		
-		URL link = new URL(getProperty("URL"));
+		URL link = new URL(getString("URL"));
 		logger.info(getName() +" looking for prices " + link );
 		
 		InputStream is = link.openStream();

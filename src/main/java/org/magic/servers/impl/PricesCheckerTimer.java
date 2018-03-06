@@ -83,8 +83,8 @@ public class PricesCheckerTimer extends AbstractMTGServer{
             }
         };
 		
-		timer.scheduleAtFixedRate(tache,0,Long.parseLong(getProperty("TIMEOUT_MINUTE"))*60000);
-		logger.info("Server start with "+ getProperty("TIMEOUT_MINUTE")+" min timeout");
+		timer.scheduleAtFixedRate(tache,0,Long.parseLong(getString("TIMEOUT_MINUTE"))*60000);
+		logger.info("Server start with "+ getString("TIMEOUT_MINUTE")+" min timeout");
 	    
 	}
 	
@@ -109,7 +109,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 
 	@Override
 	public boolean isAutostart() {
-		return getProperty("AUTOSTART").equals("true");
+		return getString("AUTOSTART").equals("true");
 	}
 
 	@Override

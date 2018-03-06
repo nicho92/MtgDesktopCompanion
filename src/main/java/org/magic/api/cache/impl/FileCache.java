@@ -37,7 +37,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 	public FileCache() {
 		super();
 		
-		directory = new File(getProperty("DIRECTORY"));
+		directory = new File(getString("DIRECTORY"));
 		if(!directory.exists())
 			directory.mkdir();
 	}
@@ -66,7 +66,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 			if(!save.exists())
 				save.mkdir();
 			
-			return ImageIO.read(new File(save,generateIdIndex(mc, ed)+"."+getProperty("FORMAT")));
+			return ImageIO.read(new File(save,generateIdIndex(mc, ed)+"."+getString("FORMAT")));
 		} catch (IOException e) {
 			return null;
 		}
@@ -91,7 +91,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		if(!f.exists())
 			f.mkdir();
 		
-		ImageIO.write(im, getProperty("FORMAT"), new File(f,generateIdIndex(mc, ed)+"."+getProperty("FORMAT")));
+		ImageIO.write(im, getString("FORMAT"), new File(f,generateIdIndex(mc, ed)+"."+getString("FORMAT")));
 		
 	}
 

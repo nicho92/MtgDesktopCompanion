@@ -57,7 +57,7 @@ public class JSONHttpServer extends AbstractMTGServer
     public JSONHttpServer() throws IOException {
 		super();
 
-		server = new NanoHTTPD(Integer.parseInt(getProperty("SERVER-PORT"))) {
+		server = new NanoHTTPD(Integer.parseInt(getString("SERVER-PORT"))) {
     		@Override
     		public Response serve(IHTTPSession session) {
 			 Map<String, List<String>> parms = session.getParameters();
@@ -87,7 +87,7 @@ public class JSONHttpServer extends AbstractMTGServer
     }
     
     public void start() throws IOException {
-    	logger.info("Server start on port "+ getProperty("SERVER-PORT"));
+    	logger.info("Server start on port "+ getString("SERVER-PORT"));
     	server.start(NanoHTTPD.SOCKET_READ_TIMEOUT, false);
     }
     
@@ -295,7 +295,7 @@ public class JSONHttpServer extends AbstractMTGServer
 	
 	@Override
 	public boolean isAutostart() {
-		return getProperty("AUTOSTART").equals("true");
+		return getString("AUTOSTART").equals("true");
 	}
 
 	@Override

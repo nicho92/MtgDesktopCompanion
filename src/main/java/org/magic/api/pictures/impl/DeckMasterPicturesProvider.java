@@ -33,28 +33,28 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		super();
 	
 		try {
-   			InstallCert.install(getProperty("CERT_SERV"));
+   			InstallCert.install("deckmaster.info");
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
 		
-		 newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
-		 newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
+		 newW= getInt("CARD_SIZE_WIDTH");
+		 newH= getInt("CARD_SIZE_HEIGHT");
 	}
 	
 	private BufferedImage getPicture(String multiverseid) throws IOException{
 		
 		try{
 		
-		Document d = Jsoup.connect("https://deckmaster.info/card.php?multiverseid="+multiverseid)
-				  .userAgent(getProperty("USER_AGENT"))
+		Document d = Jsoup.connect(getString("URL")+"/card.php?multiverseid="+multiverseid)
+				  .userAgent(getString("USER_AGENT"))
 				  .get();
 		
-			logger.debug("read https://deckmaster.info/card.php?multiverseid="+multiverseid);
+			logger.debug("read "+getString("URL")+"/card.php?multiverseid="+multiverseid);
 			Element e = d.select(".card > img" ).get(0);
 			HttpURLConnection con = (HttpURLConnection)new URL(e.attr("src")).openConnection();
-			con.setRequestProperty("User-Agent",getProperty("USER_AGENT"));
+			con.setRequestProperty("User-Agent",getString("USER_AGENT"));
 			return ImageIO.read(con.getInputStream());
 			
 		}
@@ -66,7 +66,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 	private BufferedImage resizeIconSet(BufferedImage img) {  
-	    String mode = getProperty("ICON_SET_SIZE");
+	    String mode = getString("ICON_SET_SIZE");
 	    
 	    int newW=27;
 	    int newH=30;
@@ -96,7 +96,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			selected = mc.getEditions().get(0);
 		
 		
-		for(String k : getProperty("CALL_MCI_FOR").split(","))
+		for(String k : getString("CALL_MCI_FOR").split(","))
 		{
 			if(selected.getId().startsWith(k))
 			{
@@ -136,9 +136,9 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		}
 		
 		
-		URL u = new URL("https://deckmaster.info/images/sets/"+setID.toUpperCase()+"_"+rarity.substring(0, 1).toUpperCase()+".png");
+		URL u = new URL(getString("URL")+"/images/sets/"+setID.toUpperCase()+"_"+rarity.substring(0, 1).toUpperCase()+".png");
 		HttpURLConnection con = (HttpURLConnection)u.openConnection();
-		con.setRequestProperty("User-Agent",getProperty("USER_AGENT"));
+		con.setRequestProperty("User-Agent",getString("USER_AGENT"));
 		BufferedImage im = ImageIO.read(con.getInputStream());
 		return resizeIconSet(im);
 	}
@@ -160,7 +160,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	public void initDefault() {
 		setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		setProperty("CERT_SERV", "deckmaster.info");
+		setProperty("URL", "https://deckmaster.info/");
 		setProperty("CARD_SIZE_WIDTH", "223");
 		setProperty("CARD_SIZE_HEIGHT", "310");
 		setProperty("ICON_SET_SIZE","medium");

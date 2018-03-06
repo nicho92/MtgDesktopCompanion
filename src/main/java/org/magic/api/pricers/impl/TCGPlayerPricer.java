@@ -33,15 +33,15 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
-		String url = getProperty("URL");
-			   url = url.replaceAll("%API_KEY%", getProperty("API_KEY"));
+		String url = getString("URL");
+			   url = url.replaceAll("%API_KEY%", getString("API_KEY"));
 		
 		String set = "";
 		
 		if(me==null)
-			set = URLEncoder.encode(card.getEditions().get(0).getSet(),getProperty("ENCODING"));
+			set = URLEncoder.encode(card.getEditions().get(0).getSet(),getString("ENCODING"));
 		else
-			set = URLEncoder.encode(me.getSet(),getProperty("ENCODING"));
+			set = URLEncoder.encode(me.getSet(),getString("ENCODING"));
 		
 		if(set.contains("Edition"))
 			set =set.replaceAll("Edition", "");
@@ -95,8 +95,8 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			   	
 			   	list.add(mp);
 			   	logger.info(getName() +" found " + list.size() +" item(s)" );
-			    if(list.size()>Integer.parseInt(getProperty("MAX")) && Integer.parseInt(getProperty("MAX"))>-1)
-					  return list.subList(0, Integer.parseInt(getProperty("MAX")));
+			    if(list.size()>Integer.parseInt(getString("MAX")) && Integer.parseInt(getString("MAX"))>-1)
+					  return list.subList(0, Integer.parseInt(getString("MAX")));
 			   	
 				 
 					}

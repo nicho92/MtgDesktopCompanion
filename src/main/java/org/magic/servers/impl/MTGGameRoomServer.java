@@ -44,9 +44,9 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		
 		private void join(IoSession session, JoinAction ja)
 		{
-			if(!getProperty("MAX_CLIENT").equals("0")&&acceptor.getManagedSessions().size()>=Integer.parseInt(getProperty("MAX_CLIENT")))
+			if(!getString("MAX_CLIENT").equals("0")&&acceptor.getManagedSessions().size()>=Integer.parseInt(getString("MAX_CLIENT")))
 			{
-					session.write(new SpeakAction(null,"Number of users reached (" + getProperty("MAX_CLIENT") +")"));
+					session.write(new SpeakAction(null,"Number of users reached (" + getString("MAX_CLIENT") +")"));
 					session.closeOnFlush();
 					return;
 			}
@@ -62,7 +62,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		@Override
  		public void sessionCreated(IoSession session) throws Exception {
  			logger.debug("New Session " + session.getRemoteAddress());
- 			session.write(new SpeakAction(null, getProperty("WELCOME_MESSAGE")));
+ 			session.write(new SpeakAction(null, getString("WELCOME_MESSAGE")));
  		}
  	 	
  	 	@Override
@@ -155,8 +155,8 @@ public class MTGGameRoomServer extends AbstractMTGServer{
     	acceptor = new NioSocketAcceptor();
         acceptor.setHandler(adapter);
         acceptor.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
-        acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(getProperty("BUFFER-SIZE")) );
-        acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(getProperty("IDLE-TIME")) );
+        acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(getString("BUFFER-SIZE")) );
+        acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(getString("IDLE-TIME")) );
 	}
 	
 	 public static void main(String[] args) throws Exception {
@@ -167,8 +167,8 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 
 	@Override
 	public void start() throws IOException {
-		 acceptor.bind( new InetSocketAddress(Integer.parseInt(getProperty("SERVER-PORT"))) );
-		 logger.info("Server started on port " + getProperty("SERVER-PORT") +" ...");
+		 acceptor.bind( new InetSocketAddress(Integer.parseInt(getString("SERVER-PORT"))) );
+		 logger.info("Server started on port " + getString("SERVER-PORT") +" ...");
 	}
 
 
@@ -190,7 +190,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 
 	@Override
 	public boolean isAutostart() {
-		return getProperty("AUTOSTART").equals("true");
+		return getString("AUTOSTART").equals("true");
 	}
 
 

@@ -40,10 +40,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
   
 		try{
 		MkmAPIConfig.getInstance().init(
-				getProperty("APP_ACCESS_TOKEN_SECRET"),
-    			getProperty("APP_ACCESS_TOKEN"),
-    			getProperty("APP_SECRET"),
-    			getProperty("APP_TOKEN"));
+				getString("APP_ACCESS_TOKEN_SECRET"),
+    			getString("APP_ACCESS_TOKEN"),
+    			getString("APP_SECRET"),
+    			getString("APP_TOKEN"));
 		}
 		catch(MkmException e)
 		{
@@ -102,7 +102,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
     	
     	logger.info(getName() + " looking for " + card +" " + me);
     	
-    	if(getProperty("COMMONCHECK").equals("false") && me.getRarity().equalsIgnoreCase("Common"))
+    	if(getString("COMMONCHECK").equals("false") && me.getRarity().equalsIgnoreCase("Common"))
         {
         	MagicPrice mp = new MagicPrice();
         	mp.setCurrency("EUR");
@@ -118,14 +118,14 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
        ProductServices pService = new ProductServices();
        EnumMap<PRODUCT_ATTS,String> atts = new EnumMap<>(PRODUCT_ATTS.class);
 		atts.put(PRODUCT_ATTS.idGame, "1");
-		atts.put(PRODUCT_ATTS.exact,getProperty("IS_EXACT"));
+		atts.put(PRODUCT_ATTS.exact,getString("IS_EXACT"));
 		
 		
-		if(!getProperty("LANGUAGE_ID").equals(""))
-			atts.put(PRODUCT_ATTS.idLanguage,getProperty("LANGUAGE_ID"));
+		if(!getString("LANGUAGE_ID").equals(""))
+			atts.put(PRODUCT_ATTS.idLanguage,getString("LANGUAGE_ID"));
 
 		
-		if(getProperty("USER_ARTICLE").equals("false"))
+		if(getString("USER_ARTICLE").equals("false"))
 		{
 				Product p = getProductFromCard(card,pService.findProduct(card.getName(), atts));
 				
@@ -158,13 +158,13 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 			ArticleService aServ = new ArticleService();
 			EnumMap<ARTICLES_ATT,String> aatts = new EnumMap<>(ARTICLES_ATT.class);
 			aatts.put(ARTICLES_ATT.start, "0");
-			aatts.put(ARTICLES_ATT.maxResults, getProperty("MAX"));
+			aatts.put(ARTICLES_ATT.maxResults, getString("MAX"));
 			
-			if(!getProperty("LANGUAGE_ID").equals(""))
-			aatts.put(ARTICLES_ATT.idLanguage, getProperty("LANGUAGE_ID"));
+			if(!getString("LANGUAGE_ID").equals(""))
+			aatts.put(ARTICLES_ATT.idLanguage, getString("LANGUAGE_ID"));
 			
-			if(!getProperty("MIN_CONDITION").equals(""))
-				aatts.put(ARTICLES_ATT.minCondition,getProperty("MIN_CONDITION"));
+			if(!getString("MIN_CONDITION").equals(""))
+				aatts.put(ARTICLES_ATT.minCondition,getString("MIN_CONDITION"));
 	
 			
 			List<Article> articles = aServ.find(resultat, aatts);
@@ -211,7 +211,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		
 		
 		ThreadManager.getInstance().execute(()->{
-				if(!p.isEmpty() && getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
+				if(!p.isEmpty() && getString("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
 				{
 					CartServices cart = new CartServices();
 						try {

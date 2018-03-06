@@ -43,10 +43,10 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
 		List<CardShake> list = new ArrayList<>();
-		String url = getProperty("WEBSITE")+"/taneLayout/mtg_price_tracker.jsp?period="+getProperty("PERIOD");
+		String url = getString("WEBSITE")+"/taneLayout/mtg_price_tracker.jsp?period="+getString("PERIOD");
 		Document doc = Jsoup.connect(url)
-							.userAgent(getProperty("USER_AGENT"))
-							.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+							.userAgent(getString("USER_AGENT"))
+							.timeout(Integer.parseInt(getString("TIMEOUT")))
 							.get();
 		try {
 			logger.debug("Get Shake for " + url );
@@ -138,8 +138,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		
 		
 		Document doc = Jsoup.connect(url)
-				.userAgent(getProperty("USER_AGENT"))
-				.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+				.userAgent(getString("USER_AGENT"))
+				.timeout(Integer.parseInt(getString("TIMEOUT")))
 				.get();
 		
 			Element table =doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
@@ -202,8 +202,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		
 		 String url = "http://www.mtgprice.com/sets/"+edition+"/"+name;
 		 Document d = Jsoup.connect(url)
-	    		 	.userAgent(getProperty("USER_AGENT"))
-					.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+	    		 	.userAgent(getString("USER_AGENT"))
+					.timeout(Integer.parseInt(getString("TIMEOUT")))
 					.get();
 		 
 		 logger.debug("get Prices for " + name + " " + url);

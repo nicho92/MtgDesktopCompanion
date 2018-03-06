@@ -67,7 +67,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document root = Jsoup.connect(info.getUrl().toString()).userAgent(getProperty("USER_AGENT")).timeout(0).get();
+		Document root = Jsoup.connect(info.getUrl().toString()).userAgent(getString("USER_AGENT")).timeout(0).get();
 		MagicDeck d = new MagicDeck();
 				  d.setDescription(info.getUrl().toString());
 				  d.setName(info.getName());
@@ -111,23 +111,23 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		HttpClient httpClient = HttpClientBuilder.create().build();
 		
 		StringBuilder res=new StringBuilder();
-		for(int i=0;i<Integer.parseInt(getProperty("MAX_PAGE"));i++)
+		for(int i=0;i<Integer.parseInt(getString("MAX_PAGE"));i++)
 		{
-			HttpPost reqSearch = new HttpPost(getProperty("URL")+"/search");
+			HttpPost reqSearch = new HttpPost(getString("URL")+"/search");
 			List <NameValuePair> nvps = new ArrayList <>();
 								 nvps.add(new BasicNameValuePair("current_page", String.valueOf(i+1)));
-						         nvps.add(new BasicNameValuePair("event_titre", getProperty("EVENT_FILTER")));
+						         nvps.add(new BasicNameValuePair("event_titre", getString("EVENT_FILTER")));
 						         nvps.add(new BasicNameValuePair("deck_titre", ""));
 						         nvps.add(new BasicNameValuePair("player", ""));
-						         nvps.add(new BasicNameValuePair("format", formats.get(getProperty("FORMAT"))));
+						         nvps.add(new BasicNameValuePair("format", formats.get(getString("FORMAT"))));
 						         nvps.add(new BasicNameValuePair("MD_check", "1"));
-						         nvps.add(new BasicNameValuePair("cards", getProperty("CARD_FILTER")));
-						         nvps.add(new BasicNameValuePair("date_start", getProperty("DATE_START_FILTER")));
+						         nvps.add(new BasicNameValuePair("cards", getString("CARD_FILTER")));
+						         nvps.add(new BasicNameValuePair("date_start", getString("DATE_START_FILTER")));
 						         nvps.add(new BasicNameValuePair("date_end", ""));
 						         
-						         if(getProperty("COMPETITION_FILTER")!=null)
+						         if(getString("COMPETITION_FILTER")!=null)
 				        		 {
-				        			 String[] comp = getProperty("COMPETITION_FILTER").split(",");
+				        			 String[] comp = getString("COMPETITION_FILTER").split(",");
 				        			 for(String c : comp)
 				        				 nvps.add(new BasicNameValuePair(" compet_check["+c.toUpperCase()+"]", "1"));
 				        		 }
@@ -151,7 +151,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 			RetrievableDeck dk = new RetrievableDeck();
 							dk.setName(e.select("td.s11 a").text());
 							try {
-								dk.setUrl(new URI(getProperty("URL")+e.select("td.s11 a").attr("href")));
+								dk.setUrl(new URI(getString("URL")+e.select("td.s11 a").attr("href")));
 							} catch (URISyntaxException e1) {
 								dk.setUrl(null);
 							}

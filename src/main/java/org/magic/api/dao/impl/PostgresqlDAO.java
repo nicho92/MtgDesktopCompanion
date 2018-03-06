@@ -51,9 +51,9 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	@Override
 	public void init() throws ClassNotFoundException, SQLException {
 		 logger.info("init " + getName());
-		 Class.forName(getProperty("DRIVER"));
-		 String url = "jdbc:postgresql://"+getProperty("SERVERNAME")+":"+getProperty("SERVERPORT");
-		 con=DriverManager.getConnection(url+"/"+getProperty("DB_NAME"),getProperty("LOGIN"),getProperty("PASS"));
+		 Class.forName(getString("DRIVER"));
+		 String url = "jdbc:postgresql://"+getString("SERVERNAME")+":"+getString("SERVERPORT");
+		 con=DriverManager.getConnection(url+"/"+getString("DB_NAME"),getString("LOGIN"),getString("PASS"));
 		 createDB();
 	}
 
@@ -332,7 +332,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 		@Override
 		public String getDBLocation() {
-			return getProperty("SERVERNAME")+"/"+getProperty("DB_NAME");
+			return getString("SERVERNAME")+"/"+getString("DB_NAME");
 		}
 
 		@Override
@@ -376,16 +376,16 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		@Override
 		public void backup(File f) throws IOException {
 			
-			if(getProperty("URL_PGDUMP").length()<=0)
+			if(getString("URL_PGDUMP").length()<=0)
 			{
 				throw new NullPointerException("Please fill URL_PGDUMP var");
 			}
 			
-			String dumpCommand = getProperty("URL_PGDUMP")+"/pg_dump"+
-						" -d" + getProperty("DB_NAME") + 
-						" -h" + getProperty("SERVERNAME") + 
-						" -U" + getProperty("LOGIN") +
-						" -p" + getProperty("SERVERPORT");
+			String dumpCommand = getString("URL_PGDUMP")+"/pg_dump"+
+						" -d" + getString("DB_NAME") + 
+						" -h" + getString("SERVERNAME") + 
+						" -U" + getString("LOGIN") +
+						" -p" + getString("SERVERPORT");
 			
 			
 			Runtime rt = Runtime.getRuntime();
@@ -400,7 +400,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				{
 					ps.write(ch);
 				}
-				logger.info("Backup " + getProperty("DB_NAME") + " done");
+				logger.info("Backup " + getString("DB_NAME") + " done");
 			}		
 			
 		}

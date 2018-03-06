@@ -88,8 +88,8 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		
 		logger.debug("get deck " + info.getUrl());
 		Document d = Jsoup.connect(info.getUrl().toString())
-    		 	.userAgent(getProperty("USER_AGENT"))
-    		 	.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+    		 	.userAgent(getString("USER_AGENT"))
+    		 	.timeout(getInt("TIMEOUT"))
 				.get();
 		
 		deck.setDescription(info.getUrl().toString());
@@ -98,22 +98,20 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		for(Element a : d.select("a.deck_tags_list_tag"))
 			deck.getTags().add(a.text());
 
-		Elements e = d.select("tr.deck_card");
-		
+		Elements e = d.select("div.deck_overview_card");
 		for(Element cont : e)
 		{
-				Integer qte = Integer.parseInt(cont.getElementsByClass("card_amount").get(0).text());
-				String cardName = cont.getElementsByClass("deck_card_name").get(0).text().trim();
+				Integer qte = Integer.parseInt(cont.getElementsByClass("deck_overview_card_amount").get(0).text());
+				String cardName = cont.getElementsByClass("deck_overview_card_name").get(0).text().trim();
 			
 				
 				if(cardName.contains("//"))
 					cardName=cardName.substring(0, cardName.indexOf("//")).trim();
-				
-				
-				String set = cont.getElementsByClass("deck_col_set").get(0).getElementsByTag("a").text().trim();
+			
+				//String set = cont.getElementsByClass("deck_col_set").get(0).getElementsByTag("a").text().trim();
 				MagicCard mc = null;
 				
-				if(set.equals(""))
+				//if(set.equals(""))
 				{
 					if(cardName.trim().equalsIgnoreCase("Plains")||cardName.trim().equalsIgnoreCase("Island")||cardName.trim().equalsIgnoreCase("Swamp")||cardName.trim().equalsIgnoreCase("Mountain")||cardName.trim().equalsIgnoreCase("Forest"))
 					{
@@ -126,12 +124,12 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null,true).get(0);
 					}
 				}
-				else
+			/*	else
 				{
 					MagicEdition me = new MagicEdition();
 								 me.setId(set);
 					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, me,true).get(0);
-				}
+				}*/
 				deck.getMap().put(mc, qte);
 		}
 		try{
@@ -160,15 +158,15 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		
-		int nbPage = Integer.parseInt(getProperty("MAX_PAGE"));
+		int nbPage = Integer.parseInt(getString("MAX_PAGE"));
 		List<RetrievableDeck> list = new ArrayList<>();
 		
 		
 		for(int i=1;i<=nbPage;i++)
 		{
-			Document d = Jsoup.connect(getProperty("URL")+"/"+getProperty("FORMAT")+"/?lng=fr&page="+i)
-	    		 	.userAgent(getProperty("USER_AGENT"))
-	    		 	.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+			Document d = Jsoup.connect(getString("URL")+"/"+getString("FORMAT")+"/?lng=fr&page="+i)
+	    		 	.userAgent(getString("USER_AGENT"))
+	    		 	.timeout(Integer.parseInt(getString("TIMEOUT")))
 					.get();
 			
 			Elements e = d.select("tr.touch_row" );

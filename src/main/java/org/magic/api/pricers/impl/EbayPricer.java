@@ -40,10 +40,10 @@ public class EbayPricer extends AbstractMagicPricesProvider
 	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<>();
 		
-		String url = getProperty("URL");
-			   url = url.replaceAll("%API_KEY%", getProperty("API_KEY"));
-			   url = url.replaceAll("%COUNTRY%", getProperty("COUNTRY"));
-			   url = url.replaceAll("%MAX%", getProperty("MAX"));
+		String url = getString("URL");
+			   url = url.replaceAll("%API_KEY%", getString("API_KEY"));
+			   url = url.replaceAll("%COUNTRY%", getString("COUNTRY"));
+			   url = url.replaceAll("%MAX%", getString("MAX"));
 		keyword=card.getName();
 		
 		if(me!=null)
@@ -51,7 +51,7 @@ public class EbayPricer extends AbstractMagicPricesProvider
 		
 		setProperty("KEYWORD", keyword);
 		
-		keyword=URLEncoder.encode(keyword,getProperty("ENCODING"));
+		keyword=URLEncoder.encode(keyword,getString("ENCODING"));
 		
 		
 		

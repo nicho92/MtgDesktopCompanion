@@ -54,10 +54,10 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 		
 		try {
-		MkmAPIConfig.getInstance().init(mkmPricer.getProperty("APP_ACCESS_TOKEN_SECRET"),
-				mkmPricer.getProperty("APP_ACCESS_TOKEN"),
-				mkmPricer.getProperty("APP_SECRET"),
-				mkmPricer.getProperty("APP_TOKEN"));
+		MkmAPIConfig.getInstance().init(mkmPricer.getString("APP_ACCESS_TOKEN_SECRET"),
+				mkmPricer.getString("APP_ACCESS_TOKEN"),
+				mkmPricer.getString("APP_SECRET"),
+				mkmPricer.getString("APP_TOKEN"));
 		
 		pService = new ProductServices();
 		atts = new EnumMap<>(PRODUCT_ATTS.class);
@@ -109,7 +109,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	public void export(List<MagicCard> cards, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 		for(MagicCard mc : cards)
-			d.getMap().put(mc, Integer.parseInt(getProperty("DEFAULT_QTE")));
+			d.getMap().put(mc, Integer.parseInt(getString("DEFAULT_QTE")));
 
 		d.setName(f.getName());
 
@@ -140,11 +140,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 						 w.setProduct(p);
 						 w.setCount(deck.getMap().get(mc));
 						 w.setFoil(new MkmBoolean(false));
-						 w.setMinCondition(getProperty("QUALITY"));
+						 w.setMinCondition(getString("QUALITY"));
 						 w.setAltered(new MkmBoolean(false));
 						 w.setType("product");
 						 w.setSigned(new MkmBoolean(false));
-				for(String s : getProperty("LANGUAGES").split(","))
+				for(String s : getString("LANGUAGES").split(","))
 					w.getIdLanguage().add(Integer.parseInt(s));
 				wants.add(w);
 			}
@@ -158,7 +158,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			
 		}
 		
-		int max = Integer.parseInt(getProperty("MAX_WANTLIST_SIZE"));
+		int max = Integer.parseInt(getString("MAX_WANTLIST_SIZE"));
 		if(wants.size()<=max)
 		{
 			Wantslist l= wlService.createWantList(deck.getName());
@@ -196,7 +196,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		
-		if(!getProperty("STOCK_USE").equals("true"))
+		if(!getString("STOCK_USE").equals("true"))
 		{
 				MagicDeck d = new MagicDeck();
 			 		d.setName(f.getName());
@@ -241,7 +241,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		
 		
-		if(!getProperty("STOCK_USE").equals("true"))
+		if(!getString("STOCK_USE").equals("true"))
 			return importFromDeck(importDeck(f));
 		
 		

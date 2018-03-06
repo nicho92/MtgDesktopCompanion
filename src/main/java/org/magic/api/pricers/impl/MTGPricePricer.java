@@ -31,7 +31,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition ed, MagicCard card) throws IOException {
-		if(getProperty("API_KEY").equals(""))
+		if(getString("API_KEY").equals(""))
 			throw new NullPointerException("API_KEY must be filled");
 		
 		MagicEdition selected = ed;
@@ -40,7 +40,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 		
 		String set=selected.getSet().replaceAll(" ", "_");
 		
-		String url = getProperty("WS_URL")+"?apiKey="+getProperty("API_KEY")+"&s="+set;
+		String url = getString("WS_URL")+"?apiKey="+getString("API_KEY")+"&s="+set;
 		InputStream stream = new URL(url).openConnection().getInputStream();
 		List<MagicPrice> ret = new ArrayList<>();
 		
@@ -72,7 +72,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	    	   MagicPrice price = new MagicPrice();
 	       		price.setCurrency("$");
 	       		price.setSeller("MTGPrice");
-	       		price.setUrl(getProperty("WEBSITE")+"/sets/"+set+"/"+mtgpriceID.substring(0, mtgpriceID.indexOf(set)));
+	       		price.setUrl(getString("WEBSITE")+"/sets/"+set+"/"+mtgpriceID.substring(0, mtgpriceID.indexOf(set)));
 	       		price.setValue(Double.parseDouble(fairPrice.replaceAll("\\$", "")));
 	       		price.setQuality("NM");
 	       		price.setFoil(mtgpriceID.substring(mtgpriceID.indexOf(set)+set.length()).startsWith("true"));

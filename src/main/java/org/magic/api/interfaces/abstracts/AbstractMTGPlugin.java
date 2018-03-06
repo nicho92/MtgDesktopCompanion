@@ -3,6 +3,7 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.util.List;
 import java.util.Properties;
 
 import org.apache.commons.configuration2.Configuration;
@@ -22,19 +23,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	protected File confdir;
 	protected File confFile;
 	
-	
-	private FileBasedConfigurationBuilder<PropertiesConfiguration> builder;
-	private Parameters params;
-	private Configuration config;
-
-	
 	public void setProps(Properties props) {
 		this.props = props;
 	}
 	
 	public AbstractMTGPlugin() {
 		props=new Properties();
-		params = new Parameters();
 		load();
 	}
 	
@@ -86,11 +80,32 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	public void setProperty(String k, Object value) {
 		props.put(k,value);
 	}
+	
+	public int getInt(String k)
+	{
+		return Integer.parseInt(getString(k));
+	}
+	
+	public double getDouble(String k)
+	{
+		return Double.parseDouble(getString(k));
+	}
 
 	@Override
-	public String getProperty(String k) {
+	public String getString(String k) {
+		
+		if(props.getProperty(k)==null)
+		{
+			logger.error(k + " is not found in "+ getName());
+			props.put(k, "");
+			save();
+			load();
+		}
+		
 		return getProperty(k,"");
 	}
+
+	
 
 	@Override
 	public boolean isEnable() {

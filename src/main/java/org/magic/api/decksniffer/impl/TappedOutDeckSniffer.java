@@ -59,7 +59,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		super();
 
 		try {
-   			InstallCert.install(getProperty("CERT_SERV"));
+   			InstallCert.install(getString("CERT_SERV"));
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
  		} catch (Exception e1) {
 			logger.error(e1);
@@ -86,7 +86,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 		
 		httpclient = HttpClients.custom()
-					.setUserAgent(getProperty("USER_AGENT"))
+					.setUserAgent(getString("USER_AGENT"))
 					.setRedirectStrategy(new LaxRedirectStrategy())
 					//.setConnectionTimeToLive(3000, TimeUnit.MILLISECONDS)
 					.build();
@@ -96,15 +96,15 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		HttpPost login = new HttpPost("https://tappedout.net/accounts/login/"); 
 	    List <NameValuePair> nvps = new ArrayList <>();
 	       					 nvps.add(new BasicNameValuePair("next", "/"));
-					         nvps.add(new BasicNameValuePair("username", getProperty("LOGIN")));
-					         nvps.add(new BasicNameValuePair("PASS", getProperty("PASS")));
+					         nvps.add(new BasicNameValuePair("username", getString("LOGIN")));
+					         nvps.add(new BasicNameValuePair("PASS", getString("PASS")));
 					         nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", getCookieValue("csrftoken")));
 				 login.setEntity(new UrlEncodedFormEntity(nvps));
 				 login.addHeader("Referer", "https://tappedout.net/accounts/login/?next=/");
 				 login.addHeader("Upgrade-Insecure-Requests","1");
 				 login.addHeader("Origin","https://tappedout.net");
 				 HttpResponse resp = httpclient.execute(login, httpContext);
-		logger.debug("Connection OK : " + getProperty("LOGIN") + " " + resp.getStatusLine().getStatusCode());
+		logger.debug("Connection OK : " + getString("LOGIN") + " " + resp.getStatusLine().getStatusCode());
 	}
 
 	@Override
@@ -189,7 +189,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		String tappedJson = getProperty("URL_JSON").replaceAll("%FORMAT%", getProperty("FORMAT"));
+		String tappedJson = getString("URL_JSON").replaceAll("%FORMAT%", getString("FORMAT"));
 		
 		logger.debug("sniff url : " + tappedJson);
 		String responseBody = EntityUtils.toString(httpclient.execute(new HttpGet(tappedJson), httpContext).getEntity());

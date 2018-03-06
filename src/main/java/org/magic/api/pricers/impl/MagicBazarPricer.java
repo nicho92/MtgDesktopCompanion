@@ -38,11 +38,11 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		list.clear();
-		String url = getProperty("URL")+URLEncoder.encode(card.getName(), "UTF-8");
+		String url = getString("URL")+URLEncoder.encode(card.getName(), "UTF-8");
 		logger.info(getName() +" looking for prices " + url );
 		
 		try{
-			doc = Jsoup.connect(url).userAgent(getProperty("USER_AGENT")).timeout(0).get();
+			doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).timeout(0).get();
 			Elements els = doc.select("div.filterElement");
 			for(int i = 0; i <els.size();i++)
 			{

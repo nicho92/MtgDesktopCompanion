@@ -49,14 +49,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		HttpContext httpContext = new BasicHttpContext();
 		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 		HttpClient httpclient = HttpClients.custom()
-					.setUserAgent(getProperty("USER_AGENT"))
+					.setUserAgent(getString("USER_AGENT"))
 					.setRedirectStrategy(new LaxRedirectStrategy())
 					.build();
 		
 		HttpPost login = new HttpPost(url+"/users/sign_in");
 	    List <NameValuePair> nvps = new ArrayList <>();
-					         nvps.add(new BasicNameValuePair("user_username", getProperty("LOGIN")));
-					         nvps.add(new BasicNameValuePair("user_password", getProperty("PASS")));
+					         nvps.add(new BasicNameValuePair("user_username", getString("LOGIN")));
+					         nvps.add(new BasicNameValuePair("user_password", getString("PASS")));
 				 login.setEntity(new UrlEncodedFormEntity(nvps));
 				 httpclient.execute(login, httpContext);
 	

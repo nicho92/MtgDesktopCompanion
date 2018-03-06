@@ -46,10 +46,10 @@ public class MysqlDAO extends AbstractMagicDAO{
 	
 	public void init() throws SQLException, ClassNotFoundException {
 		 logger.info("init " + getName());
-		 Class.forName(getProperty("DRIVER"));
-		 String url = "jdbc:mysql://"+getProperty("SERVERNAME")+":"+getProperty("SERVERPORT");
-		 logger.trace("Connexion to " + url+"/"+getProperty("DB_NAME")+getProperty("PARAMS"));
-		 con=DriverManager.getConnection(url+"/"+getProperty("DB_NAME")+getProperty("PARAMS"),getProperty("LOGIN"),getProperty("PASS"));
+		 Class.forName(getString("DRIVER"));
+		 String url = "jdbc:mysql://"+getString("SERVERNAME")+":"+getString("SERVERPORT");
+		 logger.trace("Connexion to " + url+"/"+getString("DB_NAME")+getString("PARAMS"));
+		 con=DriverManager.getConnection(url+"/"+getString("DB_NAME")+getString("PARAMS"),getString("LOGIN"),getString("PASS"));
 		 createDB();
 		 logger.info("init " + getName() +" done");
 		 
@@ -307,7 +307,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public String getDBLocation() {
-		return getProperty("SERVERNAME")+"/"+getProperty("DB_NAME");
+		return getString("SERVERNAME")+"/"+getString("DB_NAME");
 	}
 
 	@Override
@@ -517,14 +517,14 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void backup(File f) throws SQLException,IOException {
 		
 		
-		if(getProperty("MYSQL_DUMP_PATH").length()<=0)
+		if(getString("MYSQL_DUMP_PATH").length()<=0)
 		{
 			throw new NullPointerException("Please fill MYSQL_DUMP_PATH var");
 		}
 		
-		String dumpCommand = getProperty("MYSQL_DUMP_PATH")+"/mysqldump " + getProperty("DB_NAME") + " -h " + getProperty("SERVERNAME") + " -u " + getProperty("LOGIN") +" -p" + getProperty("PASS")+" --port " + getProperty("SERVERPORT");
+		String dumpCommand = getString("MYSQL_DUMP_PATH")+"/mysqldump " + getString("DB_NAME") + " -h " + getString("SERVERNAME") + " -u " + getString("LOGIN") +" -p" + getString("PASS")+" --port " + getString("SERVERPORT");
 		Runtime rt = Runtime.getRuntime();
-		logger.info("begin Backup " + getProperty("DB_NAME"));
+		logger.info("begin Backup " + getString("DB_NAME"));
 		Process child;
 		
 			child = rt.exec(dumpCommand);
@@ -536,7 +536,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			{
 				ps.write(ch);
 			}
-			logger.info("Backup " + getProperty("DB_NAME") + " done");
+			logger.info("Backup " + getString("DB_NAME") + " done");
 		}
 		
 		

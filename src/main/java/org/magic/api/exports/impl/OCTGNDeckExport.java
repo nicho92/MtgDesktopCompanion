@@ -43,14 +43,14 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		StringBuilder temp = new StringBuilder();
 		
 		temp.append("<?xml version='1.0' encoding='utf-8' standalone='yes'?>");
-		temp.append("<deck game='"+getProperty("MAGIC_GAME_ID")+"' sleeveid='"+getProperty("SLEEVE_ID")+"' >");
-		temp.append("<section name='Main' shared='"+getProperty("SHARED")+"'>");
+		temp.append("<deck game='"+getString("MAGIC_GAME_ID")+"' sleeveid='"+getString("SLEEVE_ID")+"' >");
+		temp.append("<section name='Main' shared='"+getString("SHARED")+"'>");
 		for(MagicCard mc : deck.getMap().keySet())
 		{
 			temp.append("<card qty='").append(deck.getMap().get(mc)).append("' id='"+mc.getId()+"'>").append(mc.getName()).append("</card>");
 		}
 		temp.append("</section>");
-		temp.append("<section name='Sideboard' shared='"+getProperty("SHARED")+"'>");
+		temp.append("<section name='Sideboard' shared='"+getString("SHARED")+"'>");
 		for(MagicCard mc : deck.getMapSideBoard().keySet())
 		{
 			temp.append("<card qty='").append(deck.getMapSideBoard().get(mc)).append("' id='"+mc.getId()+"'>").append(mc.getName()).append("</card>");

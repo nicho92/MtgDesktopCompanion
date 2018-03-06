@@ -27,8 +27,8 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 	public MagidexPicturesProvider() {
 		super();
 	
-		newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
-		newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
+		newW= Integer.parseInt(getString("CARD_SIZE_WIDTH"));
+		newH= Integer.parseInt(getString("CARD_SIZE_HEIGHT"));
 	
 	}
 	
@@ -65,7 +65,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
         logger.debug("get card from " + uri.toURL());
         HttpURLConnection connection = (HttpURLConnection)uri.toURL().openConnection();
 		  connection.setInstanceFollowRedirects(true);
-		  connection.setRequestProperty("User-Agent", getProperty("USER_AGENT"));
+		  connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
 		  connection.connect();
         
 		  try{

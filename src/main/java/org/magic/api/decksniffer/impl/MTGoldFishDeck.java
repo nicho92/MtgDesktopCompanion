@@ -49,7 +49,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			deck.setDescription(info.getUrl().toString());
 			deck.setDateCreation(new Date());
 		Document d = Jsoup.connect(info.getUrl().toString())
-						  .userAgent(getProperty("USER_AGENT"))
+						  .userAgent(getString("USER_AGENT"))
 						  .get();
 
 
@@ -96,11 +96,11 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		String url="";
-		metagames=getProperty("METAGAME").equals("true");
+		metagames=getString("METAGAME").equals("true");
 		
 		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage=1;
-		int maxPage = Integer.parseInt(getProperty("MAX_PAGE"));
+		int maxPage = Integer.parseInt(getString("MAX_PAGE"));
 		
 		if(metagames)
 			maxPage=1;
@@ -109,14 +109,14 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		{
 		
 			if(!metagames)
-				url =getProperty("URL")+"/deck/custom/"+getProperty("FORMAT")+"?page="+nbPage+"#"+getProperty("SUPPORT");
+				url =getString("URL")+"/deck/custom/"+getString("FORMAT")+"?page="+nbPage+"#"+getString("SUPPORT");
 			else
-				url=getProperty("URL")+"metagame/"+getProperty("FORMAT")+"/full#"+getProperty("SUPPORT");
+				url=getString("URL")+"metagame/"+getString("FORMAT")+"/full#"+getString("SUPPORT");
 	
 			logger.debug("sniff url : " + url);
 				
 		Document d = Jsoup.connect(url)
-    		 	.userAgent(getProperty("USER_AGENT"))
+    		 	.userAgent(getString("USER_AGENT"))
 				.get();
 		
 		Elements e = null;
@@ -129,7 +129,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		for(Element cont : e)
 		{
 			
-			Elements desc = cont.select("span.deck-price-"+getProperty("SUPPORT") +"> a" );
+			Elements desc = cont.select("span.deck-price-"+getString("SUPPORT") +"> a" );
 			Elements colors = cont.select("span.manacost > img" );
 			StringBuilder deckColor=new StringBuilder();
 			
@@ -140,7 +140,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			RetrievableDeck deck = new RetrievableDeck();
 			deck.setName(desc.get(0).text());
 			try {
-				deck.setUrl(new URI(getProperty("URL")+desc.get(0).attr("href")));
+				deck.setUrl(new URI(getString("URL")+desc.get(0).attr("href")));
 			} catch (URISyntaxException e1) {
 				deck.setUrl(null);
 			}

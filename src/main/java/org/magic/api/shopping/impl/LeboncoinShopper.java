@@ -45,10 +45,10 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 	
 	private void init() {
 		httpclient = HttpClients.createDefault();
-		formatter=new SimpleDateFormat(getProperty("DATE_FORMAT"));
+		formatter=new SimpleDateFormat(getString("DATE_FORMAT"));
 		
 		try {
-    			InstallCert.install(getProperty("CERT_SERV"));
+    			InstallCert.install(getString("CERT_SERV"));
     			System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
 		} catch (Exception e1) {
 			
@@ -64,24 +64,24 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 			
 		List<ShopItem> list = new ArrayList<>();
 		String html ="";
-						int maxPage = Integer.parseInt(getProperty("MAX_PAGE"));
+						int maxPage = Integer.parseInt(getString("MAX_PAGE"));
 			
 						for(int p=1;p<=maxPage;p++)
 						{
-							 html = getProperty("URL")
+							 html = getString("URL")
 							 .replaceAll("%SEARCH%", search)
 							 .replaceAll("%PAGE%", String.valueOf(p))
-							 .replaceAll("%TITLE_ONLY%",getProperty("TITLE_ONLY"));
+							 .replaceAll("%TITLE_ONLY%",getString("TITLE_ONLY"));
 							
 							 logger.debug("parsing item from " + html) ;
 							
 							 try {
-								doc = Jsoup.connect(html).userAgent(getProperty("USER_AGENT")).get();
+								doc = Jsoup.connect(html).userAgent(getString("USER_AGENT")).get();
 							} catch (IOException e1) {
 								logger.error(e1);
 							}
 							 
-							Elements listElements = doc.select(getProperty("ROOT_TAG")).get(0).getElementsByTag("li");
+							Elements listElements = doc.select(getString("ROOT_TAG")).get(0).getElementsByTag("li");
 								 
 							for(int i=0;i<listElements.size();i++)
 								{
@@ -89,7 +89,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 									ShopItem a = new ShopItem();
 											a.setName(listElements.get(i).getElementsByTag("a").get(0).attr("title"));
 											try {
-												a.setUrl(new URL(getProperty("PROTOCOLE")+url));
+												a.setUrl(new URL(getString("PROTOCOLE")+url));
 											} catch (MalformedURLException e1) {
 												a.setUrl(null);
 											}
@@ -103,7 +103,7 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 											catch(IndexOutOfBoundsException e)
 											{
 													try {
-														a.setImage(new URL(getProperty("PROTOCOLE")+"//static.leboncoin.fr/img/no-picture.png"));
+														a.setImage(new URL(getString("PROTOCOLE")+"//static.leboncoin.fr/img/no-picture.png"));
 													} catch (MalformedURLException e1) {
 														logger.error(e1);
 													}
@@ -131,8 +131,8 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 				
 		
 		
-		if(list.size()>Integer.parseInt(getProperty("MAX_RESULT")) && (Integer.parseInt(getProperty("MAX_RESULT"))>-1))
-			 return list.subList(0, Integer.parseInt(getProperty("MAX_RESULT")));
+		if(list.size()>Integer.parseInt(getString("MAX_RESULT")) && (Integer.parseInt(getString("MAX_RESULT"))>-1))
+			 return list.subList(0, Integer.parseInt(getString("MAX_RESULT")));
 		 
 		return list;
 	}

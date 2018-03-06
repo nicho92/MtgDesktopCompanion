@@ -48,12 +48,12 @@ public class ConsoleServer extends AbstractMTGServer{
 	@Override
 	public void start() throws IOException  {
 		  acceptor = new NioSocketAcceptor();
- 	      acceptor.getFilterChain().addLast( "codec", new ProtocolCodecFilter( new TextLineCodecFactory(Charset.forName(getProperty("ENCODING")))));
-          acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(getProperty("BUFFER-SIZE")) );
-          acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(getProperty("IDLE-TIME")) );
+ 	      acceptor.getFilterChain().addLast( "codec", new ProtocolCodecFilter( new TextLineCodecFactory(Charset.forName(getString("ENCODING")))));
+          acceptor.getSessionConfig().setReadBufferSize( Integer.parseInt(getString("BUFFER-SIZE")) );
+          acceptor.getSessionConfig().setIdleTime( IdleStatus.BOTH_IDLE, Integer.parseInt(getString("IDLE-TIME")) );
 		  acceptor.setHandler( new MTGConsoleHandler() );
-		  acceptor.bind( new InetSocketAddress(Integer.parseInt(getProperty("SERVER-PORT"))) );
-		  logger.info("Server started on port " + getProperty("SERVER-PORT"));
+		  acceptor.bind( new InetSocketAddress(Integer.parseInt(getString("SERVER-PORT"))) );
+		  logger.info("Server started on port " + getString("SERVER-PORT"));
 	}
 
 	@Override
@@ -82,7 +82,7 @@ public class ConsoleServer extends AbstractMTGServer{
 	
 	@Override
 	public boolean isAutostart() {
-		return getProperty("AUTOSTART").equals("true");
+		return getString("AUTOSTART").equals("true");
 	}
 
 

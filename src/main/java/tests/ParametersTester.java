@@ -24,7 +24,6 @@ public class ParametersTester {
 	}
 
 	
-	
 	public void load()
 	{
 		try {
@@ -38,6 +37,7 @@ public class ParametersTester {
 	public void setProperty(String k, Object o)
 	{
 		config.setProperty(k, o);
+		
 	}
 	
 	public void save()
@@ -52,6 +52,8 @@ public class ParametersTester {
 	
 	public ParametersTester(MTGPlugin plugin)
 	{
+		params= new Parameters();
+		builder=new FileBasedConfigurationBuilder<>(PropertiesConfiguration.class).configure(params.fileBased().setFile(plugin.getConfFile()));
 		load();
 	}
 	

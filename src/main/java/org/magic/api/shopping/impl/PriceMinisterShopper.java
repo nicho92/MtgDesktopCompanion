@@ -35,14 +35,14 @@ public class PriceMinisterShopper extends AbstractMagicShopper{
 		DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 		StringBuilder url = new StringBuilder();
 		
-			url.append(getProperty("URL"))
-			   .append("&login=").append(getProperty("LOGIN"))
-			   .append("&pwd=").append(getProperty("PASS"))
-			   .append("&version=").append(getProperty("VERSION"))
-			   .append("&scope=").append(getProperty("SCOPE"))
-			   .append("&nbproductsperpage=").append(getProperty("NB_PRODUCT_PAGE"))
-			   .append("&kw=").append(URLEncoder.encode(search,getProperty("ENCODING")))
-			   .append("&nav=").append(getProperty("CATEGORIE"));
+			url.append(getString("URL"))
+			   .append("&login=").append(getString("LOGIN"))
+			   .append("&pwd=").append(getString("PASS"))
+			   .append("&version=").append(getString("VERSION"))
+			   .append("&scope=").append(getString("SCOPE"))
+			   .append("&nbproductsperpage=").append(getString("NB_PRODUCT_PAGE"))
+			   .append("&kw=").append(URLEncoder.encode(search,getString("ENCODING")))
+			   .append("&nav=").append(getString("CATEGORIE"));
 		
 		 logger.debug(getName() + " parsing item from " + url) ;
 			

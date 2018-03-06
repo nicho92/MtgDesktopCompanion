@@ -23,7 +23,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 			
-			Document d = Jsoup.connect(getProperty("URL")+"/?s="+search)
+			Document d = Jsoup.connect(getString("URL")+"/?s="+search)
 					  .userAgent(MTGConstants.USER_AGENT)
 					  .get();
 			
@@ -50,7 +50,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 			
-			Document d = Jsoup.connect(getProperty("URL")+"/set/"+ed.getSet().toLowerCase().replaceAll(" ", "-"))
+			Document d = Jsoup.connect(getString("URL")+"/set/"+ed.getSet().toLowerCase().replaceAll(" ", "-"))
 					  .userAgent(getProperty("USER_AGENT", MTGConstants.USER_AGENT))
 					  .get();
 			

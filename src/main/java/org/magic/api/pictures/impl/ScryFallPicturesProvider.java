@@ -31,14 +31,14 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	public ScryFallPicturesProvider() {
 		super();
 		try {
-   			InstallCert.install(getProperty("CERT_SERV"));
+   			InstallCert.install(getString("CERT_SERV"));
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
  		} catch (Exception e1) {
 			logger.error(e1);
 		}
 		
-		newW= Integer.parseInt(getProperty("CARD_SIZE_WIDTH"));
-		newH= Integer.parseInt(getProperty("CARD_SIZE_HEIGHT"));
+		newW= Integer.parseInt(getString("CARD_SIZE_WIDTH"));
+		newH= Integer.parseInt(getString("CARD_SIZE_HEIGHT"));
 		
 	}
 	
@@ -94,7 +94,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		HttpURLConnection connection = (HttpURLConnection)url.openConnection();
 		  connection.setInstanceFollowRedirects(true);
-		  connection.setRequestProperty("User-Agent", getProperty("USER_AGENT"));
+		  connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
 		  connection.connect();
 		  logger.debug("load pics " + connection.getURL().toString());  
 			
@@ -134,7 +134,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		
 		HttpURLConnection connection = (HttpURLConnection)u.openConnection();
 		  connection.setInstanceFollowRedirects(true);
-		  connection.setRequestProperty("User-Agent", getProperty("USER_AGENT"));
+		  connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
 		  connection.connect();
 		  logger.debug("load pics " + connection.getURL().toString());  
 			

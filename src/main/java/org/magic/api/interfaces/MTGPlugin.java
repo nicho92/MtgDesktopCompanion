@@ -9,7 +9,7 @@ public interface MTGPlugin {
 
 	public Properties getProperties();
 	public void setProperty(String k,Object value);
-	public String getProperty(String k);
+	public String getString(String k);
 	public boolean isEnable();
 	public void save();
 	public void load();

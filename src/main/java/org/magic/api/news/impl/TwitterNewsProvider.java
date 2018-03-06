@@ -26,11 +26,11 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	public TwitterNewsProvider() {
 		super();
 		cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(getProperty("LOG").equals("true"))
-		  .setOAuthConsumerKey(getProperty("CONSUMER_KEY"))
-		  .setOAuthConsumerSecret(getProperty("CONSUMER_SECRET"))
-		  .setOAuthAccessToken(getProperty("ACCESS_TOKEN"))
-		  .setOAuthAccessTokenSecret(getProperty("ACCESS_TOKEN_SECRET"));
+		cb.setDebugEnabled(getString("LOG").equals("true"))
+		  .setOAuthConsumerKey(getString("CONSUMER_KEY"))
+		  .setOAuthConsumerSecret(getString("CONSUMER_SECRET"))
+		  .setOAuthAccessToken(getString("ACCESS_TOKEN"))
+		  .setOAuthAccessTokenSecret(getString("ACCESS_TOKEN_SECRET"));
 		tf = new TwitterFactory(cb.build());
 	}
 	
@@ -39,7 +39,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		
 		Twitter twitter = tf.getInstance();
 		Query query = new Query(n.getName());
-			  query.setCount(Integer.parseInt(getProperty("MAX_RESULT")));
+			  query.setCount(Integer.parseInt(getString("MAX_RESULT")));
 		List<MagicNewsContent> ret=new ArrayList<>();
 		
 	        QueryResult result;

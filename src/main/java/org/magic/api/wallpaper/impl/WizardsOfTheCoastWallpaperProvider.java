@@ -30,7 +30,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	{
 		logger.debug("retrieve from " + url);
 		HttpClient httpClient = HttpClients.custom()
-				   .setUserAgent(MTGConstants.USER_AGENT)
+				   .setUserAgent(getString("USER_AGENT"))
 				   .setRedirectStrategy(new LaxRedirectStrategy())
 				   .build();
 		HttpGet req = new HttpGet(url);
@@ -41,7 +41,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	
 	@Override
 	public List<Wallpaper> search(String search) {
-		return construct("https://magic.wizards.com/en/see-more-wallpaper?page=1&filter_by=DESC&artist=-1&expansion=&title="+search+"&is_search=1");
+		return construct(getString("URL")+"?page=1&filter_by=DESC&artist=-1&expansion=&title="+search+"&is_search=1");
 	}
 	
 	private List<Wallpaper> construct(String url) {
@@ -69,7 +69,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 
 	@Override
 	public List<Wallpaper> search(MagicEdition ed) {
-		return construct("https://magic.wizards.com/en/see-more-wallpaper?page=1&filter_by=DESC&artist=-1&expansion="+ed.getSet()+"&title=&is_search=1");
+		return construct(getString("URL")+"?page=1&filter_by=DESC&artist=-1&expansion="+ed.getSet()+"&title=&is_search=1");
 	}
 
 	@Override
@@ -89,8 +89,8 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 
 	@Override
 	public void initDefault() {
-		// nothing to do
-		
+		setProperty("URL", "https://magic.wizards.com/en/see-more-wallpaper");
+		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 	}
 
 }

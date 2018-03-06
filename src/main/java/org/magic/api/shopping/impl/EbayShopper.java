@@ -41,12 +41,12 @@ public class EbayShopper extends AbstractMagicShopper {
 		List<ShopItem> prices = new ArrayList<>();
 		
 	try{	
-		String url = getProperty("URL");
-		   url = url.replaceAll("%API_KEY%", getProperty("API_KEY"));
-		   url = url.replaceAll("%COUNTRY%", getProperty("COUNTRY"));
-		   url = url.replaceAll("%MAX%", getProperty("MAX"));
+		String url = getString("URL");
+		   url = url.replaceAll("%API_KEY%", getString("API_KEY"));
+		   url = url.replaceAll("%COUNTRY%", getString("COUNTRY"));
+		   url = url.replaceAll("%MAX%", getString("MAX"));
 	
-	String keyword=URLEncoder.encode(search,getProperty("ENCODING"));
+	String keyword=URLEncoder.encode(search,getString("ENCODING"));
 	
 	
 	

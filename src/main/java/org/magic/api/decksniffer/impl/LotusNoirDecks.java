@@ -42,8 +42,8 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		logger.debug("get deck at " + info.getUrl());
 		
 		Document d = Jsoup.connect(info.getUrl().toString())
-    		 	.userAgent(getProperty("USER_AGENT"))
-    		 	.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+    		 	.userAgent(getString("USER_AGENT"))
+    		 	.timeout(Integer.parseInt(getString("TIMEOUT")))
 				.get();
 		
 		
@@ -81,19 +81,19 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 	
-		String decksUrl = getProperty("URL")+"?dpage="+getProperty("MAX_PAGE")+"&action="+getProperty("FORMAT");
+		String decksUrl = getString("URL")+"?dpage="+getString("MAX_PAGE")+"&action="+getString("FORMAT");
 		
 		logger.debug("snif decks : " + decksUrl);
 
-		int nbPage = Integer.parseInt(getProperty("MAX_PAGE"));
+		int nbPage = Integer.parseInt(getString("MAX_PAGE"));
 		List<RetrievableDeck> list = new ArrayList<>();
 		
 		
 		for(int i=1;i<=nbPage;i++)
 		{
-			Document d = Jsoup.connect(getProperty("URL")+"?dpage="+i+"&action="+getProperty("FORMAT"))
-	    		 	.userAgent(getProperty("USER_AGENT"))
-	    		 	.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+			Document d = Jsoup.connect(getString("URL")+"?dpage="+i+"&action="+getString("FORMAT"))
+	    		 	.userAgent(getString("USER_AGENT"))
+	    		 	.timeout(Integer.parseInt(getString("TIMEOUT")))
 					.get();
 			
 			Elements e = d.select("div.thumb_page" );

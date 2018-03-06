@@ -86,11 +86,11 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			HttpClient httpClient = HttpClientBuilder.create().build();
 			httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 			JsonObject jsonparams = new JsonObject();
-			   jsonparams.addProperty("login", getProperty("LOGIN"));    
-			   jsonparams.addProperty("password", getProperty("PASS"));
+			   jsonparams.addProperty("login", getString("LOGIN"));    
+			   jsonparams.addProperty("password", getString("PASS"));
 	
 
-			HttpPost reqCredential = new HttpPost(getProperty("URL")+"/account/login");
+			HttpPost reqCredential = new HttpPost(getString("URL")+"/account/login");
 					 reqCredential.addHeader("content-type", "application/json");
 	                 reqCredential.setEntity(new StringEntity(jsonparams.toString()));
 	     			
@@ -102,10 +102,10 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	        String authToken=  root.getAsJsonObject().get("auth_token").getAsString();
 	        String authSecrectToken = root.getAsJsonObject().get("auth_token_secret").getAsString();
 	        
-	        logger.info(getName()+ " Looking for price " + getProperty("URL")+"/search/serp");
+	        logger.info(getName()+ " Looking for price " + getString("URL")+"/search/serp");
 			
 	         
-	        HttpPost reqSearch= new HttpPost(getProperty("URL")+"/search/serp");
+	        HttpPost reqSearch= new HttpPost(getString("URL")+"/search/serp");
 			        reqSearch.addHeader("x-dt-Auth-Token", authToken);
 			        reqSearch.addHeader("x-dt-Sequence", String.valueOf(sequence));
 			        try {
@@ -129,8 +129,8 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		    		JsonObject obj = new JsonObject();
 		    			   obj.add("search", jsonparams);
 			    			  
-			    			   if(getProperty("MAX_RESULT") != null)
-			    				   obj.addProperty("limit",getProperty("MAX_RESULT"));
+			    			   if(getString("MAX_RESULT") != null)
+			    				   obj.addProperty("limit",getString("MAX_RESULT"));
 			    	
 			    	logger.debug(getName() +" request :" + obj);
 			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
@@ -191,7 +191,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
-		if(getProperty("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
+		if(getString("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
 		{
 			
 			for(MagicPrice mtgprice : p)
@@ -200,7 +200,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 				String price= "";
 				String quantity="";
 				
-				HttpPost reqSearch= new HttpPost(getProperty("URL")+"/carts/updateInsertion");
+				HttpPost reqSearch= new HttpPost(getString("URL")+"/carts/updateInsertion");
 				
 			}
 			

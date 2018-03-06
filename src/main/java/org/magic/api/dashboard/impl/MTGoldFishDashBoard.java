@@ -62,14 +62,14 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		 
 		 if(mc==null)
 		 {
-			 url = getProperty("URL_EDITIONS")+replace(me.getId(),false)+"#"+getProperty("FORMAT");
+			 url = getString("URL_EDITIONS")+replace(me.getId(),false)+"#"+getString("FORMAT");
 			 index=6;
 		 }
 		 else
 		 {
 			 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
 			 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "").replaceAll(":","");
-			 url =getProperty("WEBSITE")+"/price/"+convert(editionName)+"/"+cardName+"#"+getProperty("FORMAT");
+			 url =getString("WEBSITE")+"/price/"+convert(editionName)+"/"+cardName+"#"+getString("FORMAT");
 			 index=8;
 		
 		 }
@@ -80,8 +80,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		 logger.debug("get shakes from " + url);
 	    
 		 Document d = Jsoup.connect(url)
-	    		 	.userAgent(getProperty("USER_AGENT"))
-					.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+	    		 	.userAgent(getString("USER_AGENT"))
+					.timeout(Integer.parseInt(getString("TIMEOUT")))
 					.get();
 			 
 		 Element js = d.getElementsByTag("script").get(index);
@@ -129,8 +129,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException
 	{
 		List<CardShake> list = new ArrayList<>();
-		String urlW= getProperty("URL_MOVERS")+getProperty("FORMAT")+"/"+gameFormat.toLowerCase()+"/winners/"+getProperty("DAILY_WEEKLY");
-		String urlL= getProperty("URL_MOVERS")+getProperty("FORMAT")+"/"+gameFormat.toLowerCase()+"/losers/"+getProperty("DAILY_WEEKLY");
+		String urlW= getString("URL_MOVERS")+getString("FORMAT")+"/"+gameFormat.toLowerCase()+"/winners/"+getString("DAILY_WEEKLY");
+		String urlL= getString("URL_MOVERS")+getString("FORMAT")+"/"+gameFormat.toLowerCase()+"/losers/"+getString("DAILY_WEEKLY");
 		
 		
 		logger.debug("Loding Shake " + urlW);
@@ -139,13 +139,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		
 		
 		Document doc = Jsoup.connect(urlW)
-							.userAgent(getProperty("USER_AGENT"))
-							.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+							.userAgent(getString("USER_AGENT"))
+							.timeout(Integer.parseInt(getString("TIMEOUT")))
 							.get();
 		
 		Document doc2 = Jsoup.connect(urlL)
-				.userAgent(getProperty("USER_AGENT"))
-				.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+				.userAgent(getString("USER_AGENT"))
+				.timeout(Integer.parseInt(getString("TIMEOUT")))
 				.get();
 		
 		
@@ -193,15 +193,15 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		List<CardShake> list = new ArrayList<>();
 		
 		if(edition.isOnlineOnly())
-				urlEditionChecker=getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#online";
+				urlEditionChecker=getString("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#online";
 			else
-				urlEditionChecker=getProperty("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#"+getProperty("FORMAT");
+				urlEditionChecker=getString("URL_EDITIONS")+replace(edition.getId().toUpperCase(),false)+"#"+getString("FORMAT");
 		
 		logger.debug("Parsing dashboard "+ urlEditionChecker);
 		
 		Document doc = Jsoup.connect(urlEditionChecker)
-							.userAgent(getProperty("USER_AGENT"))
-							.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+							.userAgent(getString("USER_AGENT"))
+							.timeout(Integer.parseInt(getString("TIMEOUT")))
 							.get();
 		
 		
@@ -244,8 +244,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		//spells, creatures, all, lands
 		String u = "https://www.mtggoldfish.com/format-staples/"+f.toString().toLowerCase()+"/full/"+filter;
 		Document doc = Jsoup.connect(u)
-				.userAgent(getProperty("USER_AGENT"))
-				.timeout(Integer.parseInt(getProperty("TIMEOUT")))
+				.userAgent(getString("USER_AGENT"))
+				.timeout(Integer.parseInt(getString("TIMEOUT")))
 				.get();
 		
 		logger.debug("get best cards : " + u);

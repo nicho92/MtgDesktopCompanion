@@ -43,8 +43,8 @@ public class HsqlDAO extends AbstractMagicDAO{
   
 	public void init() throws ClassNotFoundException, SQLException {
 	      logger.info("init HsqlDB");
-		  Class.forName(getProperty("DRIVER"));
-	      con=DriverManager.getConnection("jdbc:hsqldb:"+getProperty("URL")+"/"+getProperty("DBNAME"),getProperty("LOGIN"),getProperty("PASS"));
+		  Class.forName(getString("DRIVER"));
+	      con=DriverManager.getConnection("jdbc:hsqldb:"+getString("URL")+"/"+getString("DBNAME"),getString("LOGIN"),getString("PASS"));
 		  
 		  createDB();
 		  
@@ -291,12 +291,12 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public String getDBLocation() {
-		return getProperty("URL");
+		return getString("URL");
 	}
 
 	@Override
 	public long getDBSize() {
-		return FileUtils.sizeOfDirectory(new File(getProperty("URL")));
+		return FileUtils.sizeOfDirectory(new File(getString("URL")));
 	}
 	
 	@Override
@@ -376,7 +376,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void backup(File dir) throws IOException {
-		File base = new File(getProperty("URL"));
+		File base = new File(getString("URL"));
 		try(ZipOutputStream out = new ZipOutputStream(new FileOutputStream(new File(dir,"backup.zip"))))
 		{
 			for(File doc :base.listFiles())

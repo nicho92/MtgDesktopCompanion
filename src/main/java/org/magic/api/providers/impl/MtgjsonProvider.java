@@ -71,7 +71,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	private InputStream getStreamFromUrl(URL u) throws IOException
 	{
 	  	URLConnection connection = u.openConnection();
-	  	connection.setRequestProperty("User-Agent", getProperty("USER_AGENT"));
+	  	connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
 	  	connection.connect();
 	  	
 	  	return connection.getInputStream();
@@ -118,7 +118,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 			
 	  	  	logger.info("check new version of " + toString() +" ("+temp+")");
 	  	
-		InputStreamReader fr = new InputStreamReader( getStreamFromUrl(new URL(getProperty("URL_VERSION"))),"ISO-8859-1");
+		InputStreamReader fr = new InputStreamReader( getStreamFromUrl(new URL(getString("URL_VERSION"))),"ISO-8859-1");
   	  	BufferedReader br = new BufferedReader(fr);
   	  	version =  br.readLine();
  
@@ -177,17 +177,17 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 			if(!fileSetJson.exists()|| fileSetJson.length()==0)
 			{
 				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getProperty("URL_SET_JSON_ZIP"))), fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_SET_JSON_ZIP"))), fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getProperty("URL_VERSION"))), fversion);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_VERSION"))), fversion);
 			}
 			
 			
 			if(hasNewVersion())
 			{
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getProperty("URL_SET_JSON_ZIP"))), fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_SET_JSON_ZIP"))), fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getProperty("URL_VERSION"))), fversion);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_VERSION"))), fversion);
 			}
 		 
 		 cachedCardEds= new HashMap<>();
