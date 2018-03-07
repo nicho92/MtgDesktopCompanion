@@ -261,6 +261,9 @@ public class MagicGUI extends JFrame {
 		looksMore.put("Graphite","org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel");
 		looksMore.put("Magellan","org.pushingpixels.substance.api.skin.SubstanceMagellanLookAndFeel");
 		looksMore.put("Coffe","org.pushingpixels.substance.api.skin.SubstanceCremeCoffeeLookAndFeel");
+		looksMore.put("Mist Aqua","org.pushingpixels.substance.api.skin.SubstanceMistAquaLookAndFeel");
+		looksMore.put("Office","org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel");
+		
 		
 		
 		JMenu itMore = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MORE"));
