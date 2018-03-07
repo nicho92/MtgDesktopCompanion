@@ -219,6 +219,11 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "0.5";
+	}
 	
 	
 	

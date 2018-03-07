@@ -106,5 +106,11 @@ public class EbayShopper extends AbstractMagicShopper {
 	}
 
 
+	@Override
+	public String getVersion() {
+		return pricer.getVersion();
+	}
+
+
 
 }

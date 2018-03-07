@@ -154,5 +154,11 @@ public class CocatriceDeckExport extends AbstractCardExport{
 		setProperty("DEFAULT_PRICE", "0");
 		
 	}
+
+
+	@Override
+	public String getVersion() {
+		return getProperty("VERSION","2.0");
+	}
 	
 }

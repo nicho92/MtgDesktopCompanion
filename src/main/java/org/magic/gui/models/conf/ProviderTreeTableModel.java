@@ -18,6 +18,7 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
 	private String[] columnsNames = {
 										MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"),
 										MTGControler.getInstance().getLangService().getCapitalize("VALUE"),
+										"Version",
 										MTGControler.getInstance().getLangService().getCapitalize("ENABLED")
 									};
 	private Logger logger = MTGLogger.getLogger(this.getClass());
@@ -116,7 +117,8 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
             switch (column) {
                 case 0:return prov.getName();
                 case 1:return prov.getStatut();
-                case 2: return prov.isEnable();
+                case 2:return prov.getVersion();
+                case 3: return prov.isEnable();
                 default : return"";
             }
         } 
@@ -164,7 +166,7 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
     
     @Override
     public Class<?> getColumnClass(int column) {
-    	if(column==2)
+    	if(column==3)
     		return Boolean.class;
     	
     	return super.getColumnClass(column);

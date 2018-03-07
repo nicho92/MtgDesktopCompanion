@@ -95,5 +95,11 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		
 	}
+
+
+	@Override
+	public String getVersion() {
+		return "1.4";
+	}
 	
 }

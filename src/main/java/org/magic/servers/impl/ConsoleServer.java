@@ -95,6 +95,12 @@ public class ConsoleServer extends AbstractMTGServer{
 		setProperty("AUTOSTART", "false");
 		
 	}
+
+
+	@Override
+	public String getVersion() {
+		return "0.5";
+	}
 }
 
 

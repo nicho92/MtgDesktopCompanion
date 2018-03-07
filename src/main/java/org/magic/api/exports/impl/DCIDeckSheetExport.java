@@ -212,4 +212,10 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
+
 }

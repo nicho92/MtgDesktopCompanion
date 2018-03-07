@@ -87,4 +87,9 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		setProperty("LOG", "false");
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
 }

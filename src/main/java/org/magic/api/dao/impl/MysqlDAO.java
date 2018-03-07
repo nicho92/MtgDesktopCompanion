@@ -713,5 +713,10 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 setProperty("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "3.1";
+	}
 	
 }

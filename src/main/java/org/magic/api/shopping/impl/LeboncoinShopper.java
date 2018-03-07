@@ -211,6 +211,12 @@ public class LeboncoinShopper extends AbstractMagicShopper  {
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
+
 	
 	
 }

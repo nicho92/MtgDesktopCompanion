@@ -107,4 +107,11 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	}
 
 
+
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
+
+
 }

@@ -317,5 +317,10 @@ public class MkmOnlineExport extends AbstractCardExport {
 		setProperty("STOCK_USE", "true");
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "3.1";
+	}
 }
 

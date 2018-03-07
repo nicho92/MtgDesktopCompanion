@@ -251,5 +251,11 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
+
 	
 }

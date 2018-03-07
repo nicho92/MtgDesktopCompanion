@@ -167,4 +167,10 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "0.5";
+	}
+
 }

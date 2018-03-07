@@ -109,4 +109,10 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 		setProperty("KEYWORD", "");
 		
 	}
+
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
 }

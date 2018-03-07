@@ -94,4 +94,12 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 
 
+
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
+
+
 }

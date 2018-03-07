@@ -147,4 +147,10 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  {
 	}
 
 
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
+
+
 }

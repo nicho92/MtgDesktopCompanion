@@ -255,4 +255,9 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		
 	}
 
+	@Override
+	public String getVersion() {
+		return "0.1";
+	}
+
 }

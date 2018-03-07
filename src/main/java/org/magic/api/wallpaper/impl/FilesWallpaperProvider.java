@@ -73,6 +73,11 @@ public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
 		// nothing to do
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "0.1";
+	}
 	
 	
 

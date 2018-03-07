@@ -129,4 +129,11 @@ public class MTGODeckExport extends AbstractCardExport  {
 		setProperty("VERSION", "1.0");
 		
 	}
+
+
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
 }

@@ -217,4 +217,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
+
 }

@@ -140,4 +140,10 @@ public class XMageDeckExport extends AbstractCardExport  {
 		// Nothing to do
 		
 	}
+
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
 }

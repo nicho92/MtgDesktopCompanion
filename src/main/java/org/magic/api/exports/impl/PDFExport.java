@@ -138,4 +138,10 @@ public class PDFExport extends AbstractCardExport {
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "1.1";
+	}
+
 }

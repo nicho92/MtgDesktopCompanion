@@ -389,6 +389,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		
 	}
 
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
+
 	
 
 }

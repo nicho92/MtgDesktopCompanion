@@ -216,4 +216,9 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 		
 	}
 
+	@Override
+	public String getVersion() {
+		return "1.5";
+	}
+
 }

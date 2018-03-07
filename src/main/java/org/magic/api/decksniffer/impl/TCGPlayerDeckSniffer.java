@@ -190,4 +190,9 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		
 	}
 
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
+
 }

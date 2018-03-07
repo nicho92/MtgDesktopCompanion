@@ -142,5 +142,10 @@ public class OCTGNDeckExport extends AbstractCardExport{
 		setProperty("SHARED", "False");
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
 	
 }

@@ -221,4 +221,10 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "2.0";
+	}
+
 }

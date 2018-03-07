@@ -54,4 +54,9 @@ public class NoCache extends AbstractMTGPicturesCache {
 		
 	}
 
+	@Override
+	public String getVersion() {
+		return "1";
+	}
+
 }

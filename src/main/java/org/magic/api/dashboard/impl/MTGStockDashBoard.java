@@ -121,4 +121,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "1";
+	}
+
 }

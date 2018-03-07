@@ -93,4 +93,9 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 	}
 
+	@Override
+	public String getVersion() {
+		return "0.1";
+	}
+
 }

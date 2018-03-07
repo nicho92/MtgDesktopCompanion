@@ -147,5 +147,12 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		setProperty("TIMEOUT", "0");
 		
 	}
+
+
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
 	
 }

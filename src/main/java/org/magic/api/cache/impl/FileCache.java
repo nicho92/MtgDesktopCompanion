@@ -119,6 +119,11 @@ public class FileCache extends AbstractMTGPicturesCache {
 		setProperty("FORMAT", "png");
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "1";
+	}
 	
 	
 }

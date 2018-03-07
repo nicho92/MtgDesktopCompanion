@@ -25,4 +25,5 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 			save();
 		} 
 	}
+	
 }

@@ -70,4 +70,10 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "1";
+	}
+
 }

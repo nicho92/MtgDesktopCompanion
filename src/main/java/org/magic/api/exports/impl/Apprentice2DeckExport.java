@@ -157,4 +157,11 @@ public class Apprentice2DeckExport extends AbstractCardExport  {
 		setProperty("SEPARATOR", ",");
 		
 	}
+
+
+
+	@Override
+	public String getVersion() {
+		return getProperty("VERSION","2.0");
+	}
 }

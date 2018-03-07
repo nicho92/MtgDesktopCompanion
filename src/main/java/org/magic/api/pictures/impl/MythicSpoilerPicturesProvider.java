@@ -107,6 +107,13 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		setProperty("CARD_SIZE_HEIGHT", "310");
 		
 	}
+
+
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
 	
 	
 

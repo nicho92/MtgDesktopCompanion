@@ -118,6 +118,11 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 		setProperty("TIMEOUT_MINUTE", "120");
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "1.5";
+	}
 	
 	
 }

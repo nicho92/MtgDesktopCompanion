@@ -304,5 +304,10 @@ public class JSONHttpServer extends AbstractMTGServer
 		setProperty("AUTOSTART", "false");
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
     
 }

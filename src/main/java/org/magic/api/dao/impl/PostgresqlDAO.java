@@ -688,6 +688,11 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			
 		}
 
+		@Override
+		public String getVersion() {
+			return "1.1";
+		}
+
 
 
 }

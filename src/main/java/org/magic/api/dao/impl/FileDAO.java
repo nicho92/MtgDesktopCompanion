@@ -424,5 +424,10 @@ public class FileDAO extends AbstractMagicDAO {
 		
 	}
 
+	@Override
+	public String getVersion() {
+		return "1";
+	}
+
 
 }

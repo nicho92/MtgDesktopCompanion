@@ -126,5 +126,11 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 		
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "0.1";
+	}
+
 	
 }

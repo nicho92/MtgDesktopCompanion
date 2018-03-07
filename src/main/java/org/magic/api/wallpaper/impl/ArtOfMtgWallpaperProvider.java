@@ -92,6 +92,11 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "0.5";
+	}
 	
 	
 

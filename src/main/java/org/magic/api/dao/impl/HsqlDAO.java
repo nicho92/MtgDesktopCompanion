@@ -689,6 +689,11 @@ public class HsqlDAO extends AbstractMagicDAO{
 			setProperty("PASS", "");
 		
 	}
+
+	@Override
+	public String getVersion() {
+		return "1";
+	}
 }
 
 
