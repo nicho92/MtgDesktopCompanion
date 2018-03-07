@@ -27,8 +27,8 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 	public MythicSpoilerPicturesProvider() {
 		super();
 	
-		newW= Integer.parseInt(getString("CARD_SIZE_WIDTH"));
-		newH= Integer.parseInt(getString("CARD_SIZE_HEIGHT"));
+		newW= getInt("CARD_SIZE_WIDTH");
+		newH= getInt("CARD_SIZE_HEIGHT");
 	
 	}
 	

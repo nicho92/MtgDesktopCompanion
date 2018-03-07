@@ -96,6 +96,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	{
 		return getProperty(k, "").split(",");
 	}
+	
+	public File getFile(String k)
+	{
+		return new File(getString(k));
+	}
+	
 
 	@Override
 	public String getString(String k) {

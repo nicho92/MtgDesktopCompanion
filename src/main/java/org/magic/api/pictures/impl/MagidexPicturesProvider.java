@@ -27,8 +27,8 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 	public MagidexPicturesProvider() {
 		super();
 	
-		newW= Integer.parseInt(getString("CARD_SIZE_WIDTH"));
-		newH= Integer.parseInt(getString("CARD_SIZE_HEIGHT"));
+		newW= getInt("CARD_SIZE_WIDTH");
+		newH= getInt("CARD_SIZE_HEIGHT");
 	
 	}
 	

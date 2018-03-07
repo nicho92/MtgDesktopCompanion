@@ -25,7 +25,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
 	public void savePicture(BufferedImage bi,MagicCard mc,MagicEdition ed) throws IOException
 	{
-		File mainDir = new File(getString("PICS_DIR"));
+		File mainDir = getFile("PICS_DIR");
 		File edDir = new File(mainDir,ed.getId());
 		
 		
@@ -40,7 +40,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 
 	public void removePicture(MagicEdition ed, MagicCard mc) {
-		File mainDir = new File(getString("PICS_DIR"));
+		File mainDir = getFile("PICS_DIR");
 		File edDir = new File(mainDir,ed.getId());
 		FileUtils.deleteQuietly(new File(edDir,mc.getId()+"."+getString("FORMAT")));
 	}
@@ -48,8 +48,8 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public PersonalSetPicturesProvider() {
 		super();
 		
-		if(!new File(getString("PICS_DIR")).exists())
-			new File(getString("PICS_DIR")).mkdir();
+		if(!getFile("PICS_DIR").exists())
+			getFile("PICS_DIR").mkdir();
 		
 	}
 	
@@ -64,7 +64,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	
 	@Override
 	public BufferedImage getPicture(MagicCard mc,MagicEdition ed) throws IOException{
-		File mainDir = new File(getString("PICS_DIR"));
+		File mainDir = getFile("PICS_DIR");
 		File edDir = new File(mainDir,ed.getId());
 		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
 		if(edDir.exists())

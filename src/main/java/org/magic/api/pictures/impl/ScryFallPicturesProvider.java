@@ -37,8 +37,8 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			logger.error(e1);
 		}
 		
-		newW= Integer.parseInt(getString("CARD_SIZE_WIDTH"));
-		newH= Integer.parseInt(getString("CARD_SIZE_HEIGHT"));
+		newW= getInt("CARD_SIZE_WIDTH");
+		newH= getInt("CARD_SIZE_HEIGHT");
 		
 	}
 	
