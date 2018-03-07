@@ -656,4 +656,13 @@ public class MTGControler {
 	public List<MTGWallpaperProvider> getWallpapers() {
 		return wallpapers;
 	}
+
+	public List<MTGWallpaperProvider> getEnabledWallpaper() {
+		List<MTGWallpaperProvider> enable = new ArrayList<>();
+		for(MTGWallpaperProvider p : getWallpapers())
+			if(p.isEnable())
+				enable.add(p);
+		
+		return enable;
+	}
 }

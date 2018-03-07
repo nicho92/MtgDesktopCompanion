@@ -3,6 +3,7 @@ package org.magic.gui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
 import java.awt.SystemColor;
 import java.io.IOException;
@@ -15,6 +16,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,12 +29,16 @@ import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.wallpaper.impl.ArtOfMtgWallpaperProvider;
 import org.magic.api.wallpaper.impl.FilesWallpaperProvider;
 import org.magic.api.wallpaper.impl.WizardsOfTheCoastWallpaperProvider;
+import org.magic.game.gui.components.DisplayableCard;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.ImageUtils;
+import java.awt.CardLayout;
+import net.miginfocom.swing.MigLayout;
+import java.awt.GridBagLayout;
 
 public class WallpaperGUI extends JPanel{
 	
@@ -43,13 +49,37 @@ public class WallpaperGUI extends JPanel{
 	private JPanel panelThumnail;
 	private JTextField txtSearch;
 	private JButton btnImport;
-	private JComboBox<MagicEdition> cboEdition;
-	private JLabel lblOr;
+	private GridBagConstraints c;
+	private int index=0;
+	private int val=4;
+
 	
+	public static void main(String[] args) {
+		JFrame f = new JFrame();
+		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		f.getContentPane().add(new WallpaperGUI());
+		f.pack();
+		f.setVisible(true);
+	}
+	
+	
+	public void addComponent(JWallThumb i)
+	{
+		if(index>=val)
+		{
+			c.gridy=c.gridy+1;
+			c.gridx=0;
+			index=0;
+		}
+	   c.gridx=c.gridx+1;
+	   panelThumnail.add(i,c);
+	   index++;
+		
+	}
 	
 	
 	public WallpaperGUI() {
-	
+		
 		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
@@ -58,23 +88,20 @@ public class WallpaperGUI extends JPanel{
 		
 		panelThumnail = new JPanel();
 		scrollPane.setViewportView(panelThumnail);
-		panelThumnail.setLayout(new GridLayout(5, 3, 0, 0));
+		
+		c = new GridBagConstraints();
+		panelThumnail.setLayout(new GridBagLayout());
 		
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
 		
 		cboWallpapersProv = new JComboBox<>();
-		cboWallpapersProv.addItem(new ArtOfMtgWallpaperProvider());
-		cboWallpapersProv.addItem(new FilesWallpaperProvider());
-		cboWallpapersProv.addItem(new WizardsOfTheCoastWallpaperProvider());
 		
+		for(MTGWallpaperProvider prov : MTGControler.getInstance().getEnabledWallpaper())
+			cboWallpapersProv.addItem(prov);
 		
 		selectedProvider=cboWallpapersProv.getItemAt(0);
-		
-		
-		cboWallpapersProv.addActionListener(e->
-				selectedProvider=(MTGWallpaperProvider)cboWallpapersProv.getSelectedItem()
-		);
+		cboWallpapersProv.addActionListener(e->selectedProvider=(MTGWallpaperProvider)cboWallpapersProv.getSelectedItem());
 		
 		panel.add(cboWallpapersProv);
 		
@@ -91,7 +118,7 @@ public class WallpaperGUI extends JPanel{
 							List<Wallpaper> list = selectedProvider.search(txtSearch.getText());
 							
 							for(Wallpaper w : list)
-								panelThumnail.add(new JWallThumb(w));
+								addComponent(new JWallThumb(w));
 							
 							lblLoad.setVisible(false);
 							
@@ -101,42 +128,6 @@ public class WallpaperGUI extends JPanel{
 						}
 					}, "search " + selectedProvider )
 		);
-		
-		lblOr = new JLabel("or");
-		panel.add(lblOr);
-		
-		List<MagicEdition> li;
-		try {
-			li = MTGControler.getInstance().getEnabledProviders().loadEditions();
-			Collections.sort(li);
-		} catch (Exception e1) {
-			li= new ArrayList<>();
-		}
-		cboEdition = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
-		cboEdition.setRenderer(new MagicEditionListRenderer());
-		
-		cboEdition.addItemListener(e->
-		ThreadManager.getInstance().execute(()->{
-				try {
-					panelThumnail.removeAll();
-					panelThumnail.revalidate();
-					lblLoad.setVisible(true);
-					List<Wallpaper> list = selectedProvider.search((MagicEdition)cboEdition.getSelectedItem());
-					
-					for(Wallpaper w : list)
-						panelThumnail.add(new JWallThumb(w));
-					
-					lblLoad.setVisible(false);
-					
-				} catch (Exception e1) {
-					lblLoad.setVisible(false);
-					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
-				}
-			}, "search " + selectedProvider )
-);
-		
-		panel.add(cboEdition);
-		
 		
 		lblLoad = new JLabel("");
 		panel.add(lblLoad);
