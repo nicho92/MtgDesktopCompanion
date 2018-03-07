@@ -248,7 +248,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagLayout gblpanelConfig = new GridBagLayout();
 		gblpanelConfig.columnWidths = new int[]{0, 0, 0, 0, 0, 0};
 		gblpanelConfig.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-		gblpanelConfig.columnWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gblpanelConfig.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		gblpanelConfig.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
 		panelConfig.setLayout(gblpanelConfig);
 		
@@ -484,6 +484,22 @@ public class ConfigurationPanel extends JPanel {
 		gbcbtnClean.gridx = 4;
 		gbcbtnClean.gridy = 8;
 		panelConfig.add(btnClean, gbcbtnClean);
+		
+		JLabel lblLook = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOOK")+" :");
+		GridBagConstraints gbclblLook = new GridBagConstraints();
+		gbclblLook.insets = new Insets(0, 0, 0, 5);
+		gbclblLook.gridx = 0;
+		gbclblLook.gridy = 9;
+		panelConfig.add(lblLook, gbclblLook);
+		
+		JComboBox comboBox = new JComboBox();
+		GridBagConstraints gbc_comboBox = new GridBagConstraints();
+		gbc_comboBox.gridwidth = 3;
+		gbc_comboBox.insets = new Insets(0, 0, 0, 5);
+		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbc_comboBox.gridx = 1;
+		gbc_comboBox.gridy = 9;
+		panelConfig.add(comboBox, gbc_comboBox);
 		
 		btnSaveLoglevel.addActionListener(ae->{
 				if(chckbxIconset.isSelected())
