@@ -604,13 +604,15 @@ public class CardSearchPanel extends JPanel {
 
 			cboLanguages.addActionListener(e->{
 					MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
+					
 					try {
 						if(selLang!=null)
 						{
 							MagicEdition ed = (MagicEdition)BeanUtils.cloneBean(selectedEdition);
 								ed.setMultiverse_id(""+selLang.getGathererId());
-								
-							cardsPicPanel.showPhoto(selectedCard);
+							
+							logger.debug("change lang to " + selLang + " for " + ed);	
+							cardsPicPanel.showPhoto(selectedCard,ed);
 						}
 					} catch (Exception e1) {
 						logger.error(e1);

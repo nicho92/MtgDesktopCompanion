@@ -76,7 +76,12 @@ public class CardsPicPanel extends JXPanel {
     	return image;
 	}
 	
-	public void showPhoto(MagicCard mc) {
+	public void showPhoto(MagicCard mc)
+	{
+		showPhoto(mc, null);
+	}
+	
+	public void showPhoto(MagicCard mc,MagicEdition edition) {
 		
 		this.card=mc;
 		
