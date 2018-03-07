@@ -41,6 +41,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+import org.magic.services.extra.LookAndFeelProvider;
 
 
 public class MagicGUI extends JFrame {
@@ -102,8 +103,8 @@ public class MagicGUI extends JFrame {
 		JMenu mnuAbout;
 		JMenu jmnuLook;
 		JMenuItem mntmExit;
-		Map<String,String> looks;
-		Map<String,String> looksMore;
+		LookAndFeelProvider lafManager = new LookAndFeelProvider();
+		
 		
 		logger.info("init Main GUI");
 		setSize(new Dimension(1420, 900));
@@ -248,38 +249,18 @@ public class MagicGUI extends JFrame {
 		
 		
 		//INIT AVAILABLE LOOK AND FEELS
-		looks = new HashMap<>();
-		looksMore = new HashMap<>();
-		
-		for(LookAndFeelInfo i : UIManager.getInstalledLookAndFeels())
-			looks.put(i.getName(),i.getClassName());
-		
-		looksMore.put("Cerulan","org.pushingpixels.substance.api.skin.SubstanceCeruleanLookAndFeel");
-		looksMore.put("Business Blue","org.pushingpixels.substance.api.skin.SubstanceBusinessBlueSteelLookAndFeel");
-		looksMore.put("Gemini","org.pushingpixels.substance.api.skin.SubstanceGeminiLookAndFeel");
-		looksMore.put("Nebula","org.pushingpixels.substance.api.skin.SubstanceNebulaLookAndFeel");		
-		looksMore.put("Graphite","org.pushingpixels.substance.api.skin.SubstanceGraphiteLookAndFeel");
-		looksMore.put("Magellan","org.pushingpixels.substance.api.skin.SubstanceMagellanLookAndFeel");
-		looksMore.put("Coffe","org.pushingpixels.substance.api.skin.SubstanceCremeCoffeeLookAndFeel");
-		looksMore.put("Mist Aqua","org.pushingpixels.substance.api.skin.SubstanceMistAquaLookAndFeel");
-		looksMore.put("Office","org.pushingpixels.substance.api.skin.SubstanceOfficeBlue2007LookAndFeel");
-		
-		
-		
 		JMenu itMore = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MORE"));
-		for(final Entry<String, String> ui : looksMore.entrySet())
+		for(LookAndFeelInfo ui : lafManager.getExtraLookAndFeel())
 		{
-			final JMenuItem it = new JMenuItem(ui.getKey());
-			it.addActionListener(e->setLookAndFeel(ui.getValue()));
+			final JMenuItem it = new JMenuItem(ui.getName());
+			it.addActionListener(e->setLookAndFeel(ui.getClassName()));
 			itMore.add(it);
 		}
 		
-		for(final Entry<String, String> ui : looks.entrySet())
+		for(LookAndFeelInfo ui : lafManager.getStandardLookAndFeel())
 		{
-			final JMenuItem it = new JMenuItem(ui.getKey());
-			it.addActionListener(e->
-					setLookAndFeel(ui.getValue())
-			);
+			final JMenuItem it = new JMenuItem(ui.getName());
+			it.addActionListener(e->setLookAndFeel(ui.getClassName()));
 			jmnuLook.add(it);
 		}
 		
