@@ -10,6 +10,7 @@ import org.magic.gui.components.dialog.MTGSplashScreen;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.services.extra.LookAndFeelProvider;
 
 public class MtgDesktopCompanion {
 
@@ -49,11 +50,11 @@ public class MtgDesktopCompanion {
 		ThreadManager.getInstance().runInEdt(()-> {
 				
 				MagicGUI gui = new MagicGUI();
-						 gui.setLookAndFeel(MTGControler.getInstance().get("lookAndFeel"));
+				MTGControler.getInstance().getLafService().setLookAndFeel(gui,MTGControler.getInstance().get("lookAndFeel"));
 						 gui.setExtendedState(JFrame.MAXIMIZED_BOTH); 
 						 gui.setVisible(true);
-				
-						 launch.stop();		
+						 launch.stop();	
+						 
 				for(MTGServer serv : MTGControler.getInstance().getEnabledServers())
 					if(serv.isAutostart())
 						try {

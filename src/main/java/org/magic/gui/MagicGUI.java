@@ -82,18 +82,7 @@ public class MagicGUI extends JFrame {
 		tabbedPane.setSelectedIndex(id);
 	}
 
-	public void setLookAndFeel(String lookAndFeel)
-	{
-		try {
-			UIManager.setLookAndFeel(lookAndFeel);
-			MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
-			SwingUtilities.updateComponentTreeUI(this);
-			
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-		}
-		
-	}
+	
 
 	
 	public void initGUI() throws ClassNotFoundException, IOException, SQLException, AWTException
@@ -103,7 +92,6 @@ public class MagicGUI extends JFrame {
 		JMenu mnuAbout;
 		JMenu jmnuLook;
 		JMenuItem mntmExit;
-		LookAndFeelProvider lafManager = new LookAndFeelProvider();
 		
 		
 		logger.info("init Main GUI");
@@ -250,17 +238,17 @@ public class MagicGUI extends JFrame {
 		
 		//INIT AVAILABLE LOOK AND FEELS
 		JMenu itMore = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MORE"));
-		for(LookAndFeelInfo ui : lafManager.getExtraLookAndFeel())
+		for(LookAndFeelInfo ui : MTGControler.getInstance().getLafService().getExtraLookAndFeel())
 		{
 			final JMenuItem it = new JMenuItem(ui.getName());
-			it.addActionListener(e->setLookAndFeel(ui.getClassName()));
+			it.addActionListener(e->MTGControler.getInstance().getLafService().setLookAndFeel(this,ui.getClassName()));
 			itMore.add(it);
 		}
 		
-		for(LookAndFeelInfo ui : lafManager.getStandardLookAndFeel())
+		for(LookAndFeelInfo ui : MTGControler.getInstance().getLafService().getStandardLookAndFeel())
 		{
 			final JMenuItem it = new JMenuItem(ui.getName());
-			it.addActionListener(e->setLookAndFeel(ui.getClassName()));
+			it.addActionListener(e->MTGControler.getInstance().getLafService().setLookAndFeel(this,ui.getClassName()));
 			jmnuLook.add(it);
 		}
 		

@@ -43,6 +43,7 @@ import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.services.extra.KeyWordProvider;
+import org.magic.services.extra.LookAndFeelProvider;
 
 public class MTGControler {
 
@@ -67,6 +68,8 @@ public class MTGControler {
 	private ClassLoader classLoader ;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private LanguageService langService;
+	private LookAndFeelProvider lafService;
+	
 	
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	
@@ -76,6 +79,19 @@ public class MTGControler {
 		if(SystemTray.isSupported())
 			MagicGUI.getTrayNotifier().displayMessage(caption, text, type);
 	}
+	
+	public LookAndFeelProvider getLafService() {
+		if(lafService!=null)
+		{
+			return lafService;
+		}
+		else
+		{
+			lafService = new LookAndFeelProvider();
+			return lafService;
+		}
+	}
+	
 	
 	public LanguageService getLangService() {
 		if(langService!=null)

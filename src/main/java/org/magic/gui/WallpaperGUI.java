@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.SystemColor;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -90,6 +91,9 @@ public class WallpaperGUI extends JPanel{
 		scrollPane.setViewportView(panelThumnail);
 		
 		c = new GridBagConstraints();
+		
+		  c.insets = new Insets(2,2,2,2); 
+		  c.anchor = GridBagConstraints.NORTHWEST;
 		panelThumnail.setLayout(new GridBagLayout());
 		
 		JPanel panel = new JPanel();
@@ -114,6 +118,11 @@ public class WallpaperGUI extends JPanel{
 						try {
 							panelThumnail.removeAll();
 							panelThumnail.revalidate();
+							index=0;
+							c.weightx = 1;
+							c.weighty = 1;
+							c.gridx = 0;
+							c.gridy = 0;
 							lblLoad.setVisible(true);
 							List<Wallpaper> list = selectedProvider.search(txtSearch.getText());
 							
