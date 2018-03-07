@@ -13,6 +13,7 @@
         <cardbuilder>true</cardbuilder>
         <history>false</history>
         <stock>true</stock>
+        <wallpaper>true</wallpaper>
     </modules>
     <langage>English</langage>
     <locale>en</locale>

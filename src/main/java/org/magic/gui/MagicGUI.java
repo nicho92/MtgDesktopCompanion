@@ -318,6 +318,10 @@ public class MagicGUI extends JFrame {
 		if(MTGControler.getInstance().get("modules/history").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE"), MTGConstants.ICON_STORY, new StoriesGUI(), null);
 
+		if(MTGControler.getInstance().get("modules/wallpaper").equals("true"))
+			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"), MTGConstants.ICON_WALLPAPER, new WallpaperGUI(), null);
+
+		
 		//tabbedPane.addTab("MKM", MTGConstants.ICON_SHOP, new MkmPanel(), null);
 		
 		

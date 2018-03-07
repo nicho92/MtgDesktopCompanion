@@ -1,4 +1,4 @@
-package org.magic.gui.components.dialog;
+package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -34,7 +34,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.tools.ImageUtils;
 
-public class JWallpaperChooserDialog extends JDialog{
+public class WallpaperGUI extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGWallpaperProvider> cboWallpapersProv ;
@@ -46,25 +46,22 @@ public class JWallpaperChooserDialog extends JDialog{
 	private JComboBox<MagicEdition> cboEdition;
 	private JLabel lblOr;
 	
-	public static void main(String[] args) {
-		new JWallpaperChooserDialog().setVisible(true);
-	}
 	
 	
-	public JWallpaperChooserDialog() {
-		setTitle("Wallpaper");
-		getContentPane().setLayout(new BorderLayout(0, 0));
+	public WallpaperGUI() {
+	
+		setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(2, 200));
-		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		add(scrollPane, BorderLayout.CENTER);
 		
 		panelThumnail = new JPanel();
 		scrollPane.setViewportView(panelThumnail);
 		panelThumnail.setLayout(new GridLayout(5, 3, 0, 0));
 		
 		JPanel panel = new JPanel();
-		getContentPane().add(panel, BorderLayout.NORTH);
+		add(panel, BorderLayout.NORTH);
 		
 		cboWallpapersProv = new JComboBox<>();
 		cboWallpapersProv.addItem(new ArtOfMtgWallpaperProvider());
@@ -147,22 +144,16 @@ public class JWallpaperChooserDialog extends JDialog{
 		lblLoad.setVisible(false);
 		
 		JPanel panel1 = new JPanel();
-		getContentPane().add(panel1, BorderLayout.SOUTH);
+		add(panel1, BorderLayout.SOUTH);
 		
-		JButton btnClose = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CANCEL"));
-		btnClose.addActionListener(e->dispose());
-		panel1.add(btnClose);
 		
 		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		btnImport.addActionListener(ae->{
 			
-			//TODO import
-			
 			
 		});
 		panel1.add(btnImport);
-		pack();
-		setLocationRelativeTo(null);
+		
 	}
 
 

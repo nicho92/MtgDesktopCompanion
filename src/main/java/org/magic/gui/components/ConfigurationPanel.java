@@ -812,7 +812,6 @@ public class ConfigurationPanel extends JPanel {
 		
 		JCheckBox chckbxHistory = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE"));
 		chckbxHistory.setSelected(MTGControler.getInstance().get("modules/history").equals("true"));
-		
 		chckbxHistory.addItemListener(ie->MTGControler.getInstance().setProperty("modules/history",chckbxHistory.isSelected()));
 		GridBagConstraints gbcchckbxHistory = new GridBagConstraints();
 		gbcchckbxHistory.anchor = GridBagConstraints.WEST;
@@ -820,6 +819,15 @@ public class ConfigurationPanel extends JPanel {
 		gbcchckbxHistory.gridx = 1;
 		gbcchckbxHistory.gridy = 5;
 		panel.add(chckbxHistory, gbcchckbxHistory);
+		
+		JCheckBox chckbxWallpaper = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"));
+		chckbxWallpaper.setSelected(MTGControler.getInstance().get("modules/wallpaper").equals("true"));
+		chckbxWallpaper.addItemListener(ie->MTGControler.getInstance().setProperty("modules/wallpaper",chckbxWallpaper.isSelected()));
+	
+		GridBagConstraints gbcchckbxWallpaper = new GridBagConstraints();
+		gbcchckbxWallpaper.gridx = 3;
+		gbcchckbxWallpaper.gridy = 5;
+		panel.add(chckbxWallpaper, gbcchckbxWallpaper);
 		
 		GridBagConstraints gbclblLoading = new GridBagConstraints();
 		gbclblLoading.gridwidth = 2;
