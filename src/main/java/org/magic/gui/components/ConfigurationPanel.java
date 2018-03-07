@@ -825,6 +825,7 @@ public class ConfigurationPanel extends JPanel {
 		chckbxWallpaper.addItemListener(ie->MTGControler.getInstance().setProperty("modules/wallpaper",chckbxWallpaper.isSelected()));
 	
 		GridBagConstraints gbcchckbxWallpaper = new GridBagConstraints();
+		gbcchckbxWallpaper.anchor = GridBagConstraints.WEST;
 		gbcchckbxWallpaper.gridx = 3;
 		gbcchckbxWallpaper.gridy = 5;
 		panel.add(chckbxWallpaper, gbcchckbxWallpaper);
