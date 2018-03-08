@@ -2,11 +2,15 @@ package org.magic.gui;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.awt.SystemColor;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.IOException;
 import java.util.List;
 
@@ -78,9 +82,9 @@ public class WallpaperGUI extends JPanel{
 		scrollPane.setViewportView(panelThumnail);
 		
 		c = new GridBagConstraints();
+		c.insets = new Insets(2,2,2,2); 
+		c.anchor = GridBagConstraints.NORTHWEST;
 		
-		  c.insets = new Insets(2,2,2,2); 
-		  c.anchor = GridBagConstraints.NORTHWEST;
 		panelThumnail.setLayout(new GridBagLayout());
 		
 		JPanel panel = new JPanel();
@@ -114,8 +118,20 @@ public class WallpaperGUI extends JPanel{
 							List<Wallpaper> list = selectedProvider.search(txtSearch.getText());
 							
 							for(Wallpaper w : list)
-								addComponent(new JWallThumb(w));
-							
+							{
+								JWallThumb thumb = new JWallThumb(w);
+								addComponent(thumb);
+								
+								thumb.addMouseListener(new MouseAdapter() {
+									@Override
+									public void mouseClicked(MouseEvent e) {
+										thumb.selected(!thumb.isSelected());
+										
+									}
+								});
+								
+							}
+								
 							lblLoad.setVisible(false);
 							
 						} catch (Exception e1) {
@@ -135,11 +151,24 @@ public class WallpaperGUI extends JPanel{
 		
 		
 		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+		panel1.add(btnImport);
+		
+		
+		
 		btnImport.addActionListener(ae->{
 			
+			for(Component comp : panelThumnail.getComponents())
+			{
+				JWallThumb th = (JWallThumb)comp;
+				
+				if(th.isSelected())
+				{
+					System.out.println(th.getWallpaper().getName());
+				}
+			}
 			
 		});
-		panel1.add(btnImport);
+		
 		
 	}
 
@@ -150,6 +179,24 @@ class JWallThumb extends JLabel
 {
 	private boolean selected=false;
 	private Color c = getBackground();
+	private transient Wallpaper wall;
+	
+	public boolean isSelected() {
+		return selected;
+	}
+	
+	public Wallpaper getWallpaper() {
+		return wall;
+	}
+	
+	public void resizePic(int w, int h)
+	{
+		try {
+			setIcon(new ImageIcon(ImageUtils.resize(wall.getPicture(), w, h)));
+		} catch (IOException e) {
+			MTGLogger.printStackTrace(e);
+		}
+	}
 	public void selected(boolean s)
 	{
 		selected=s;
@@ -160,6 +207,7 @@ class JWallThumb extends JLabel
 	}
 	
 	public JWallThumb(Wallpaper w) {
+		wall=w;
 		setHorizontalTextPosition(JLabel.CENTER);
 		setVerticalTextPosition(JLabel.BOTTOM);
 		setText(w.getName());
@@ -170,6 +218,11 @@ class JWallThumb extends JLabel
 		catch (IOException e) {
 			MTGLogger.printStackTrace(e);
 		}
+	}
+	
+	@Override
+	public String toString() {
+		return getName();
 	}
 	
 }
