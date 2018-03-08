@@ -78,7 +78,7 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 
 	@Override
 	public String getName() {
-		return "ArtOfMtG";
+		return "Art of Mtg";
 	}
 
 	@Override
