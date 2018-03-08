@@ -25,6 +25,7 @@ import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicNews.NEWS_TYPE;
+import org.magic.api.beans.Wallpaper;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -44,6 +45,7 @@ import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
+import org.magic.tools.ImageUtils;
 
 public class MTGControler {
 
@@ -657,6 +659,15 @@ public class MTGControler {
 				return p;
 		
 		return null;
+	}
+	
+	public void saveWallpaper(Wallpaper p)throws IOException
+	{
+		if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
+			MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
+		
+		ImageUtils.saveImage(p.getPicture(), new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,p.getName()+".png"), "png");
+		
 	}
 
 	public void saveDeck(MagicDeck deck) throws IOException 

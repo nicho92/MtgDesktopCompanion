@@ -179,9 +179,7 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
     
     @Override
     public boolean isCellEditable(Object node, int column) {
-    	
-    	System.out.println(node +" " + column);
-        return  (node instanceof Entry && column == 1) || (column==3);
+    	return  (node instanceof Entry && column == 1) || (column==3);
     }
 
  	public void setSelectedNode(MTGPlugin pathComponent) {

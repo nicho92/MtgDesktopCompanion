@@ -11,6 +11,7 @@ import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -163,7 +164,11 @@ public class WallpaperGUI extends JPanel{
 				
 				if(th.isSelected())
 				{
-					System.out.println(th.getWallpaper().getName());
+					try {
+						MTGControler.getInstance().saveWallpaper(th.getWallpaper());
+					} catch (IOException e1) {
+						JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+					}
 				}
 			}
 			
