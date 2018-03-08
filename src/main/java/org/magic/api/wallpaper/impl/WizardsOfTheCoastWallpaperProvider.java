@@ -79,7 +79,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 
 	@Override
 	public String getName() {
-		return "Wizard Of The Coast";
+		return "WizardsOfTheCoast";
 	}
 
 	@Override
