@@ -56,10 +56,10 @@ public class ModuleInstaller {
 		for(Class c : extractMissing("org.magic.servers.impl", "/servers/server"))
 			 MTGControler.getInstance().addProperty("/servers/server", c);
 		
-		for(Class c : extractMissing("org.magic.wallpaper.impl", "/wallpapers/wallpaper"))
+		for(Class c : extractMissing("org.magic.api.wallpaper.impl", "/wallpapers/wallpaper"))
 			 MTGControler.getInstance().addProperty("/wallpapers/wallpaper", c);
 		
-		for(Class c : extractMissing("org.magic.news.impl", "/newsProvider/news"))
+		for(Class c : extractMissing("org.magic.api.news.impl", "/newsProvider/news"))
 			 MTGControler.getInstance().addProperty("/newsProvider/news", c);
 		
 		return hasUpdated;
