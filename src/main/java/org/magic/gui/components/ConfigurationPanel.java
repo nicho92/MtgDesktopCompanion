@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -12,17 +13,21 @@ import java.util.Locale;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListCellRenderer;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
@@ -492,14 +497,23 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLook.gridy = 9;
 		panelConfig.add(lblLook, gbclblLook);
 		
-		JComboBox comboBox = new JComboBox();
-		GridBagConstraints gbc_comboBox = new GridBagConstraints();
-		gbc_comboBox.gridwidth = 3;
-		gbc_comboBox.insets = new Insets(0, 0, 0, 5);
-		gbc_comboBox.fill = GridBagConstraints.HORIZONTAL;
-		gbc_comboBox.gridx = 1;
-		gbc_comboBox.gridy = 9;
-		panelConfig.add(comboBox, gbc_comboBox);
+		JComboBox<LookAndFeelInfo> cboLook = new JComboBox<>(new DefaultComboBoxModel<>(MTGControler.getInstance().getLafService().getAllLookAndFeel()));
+		cboLook.setRenderer(new DefaultListCellRenderer() {
+			
+			public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
+			{
+				return new JLabel(((LookAndFeelInfo)value).getName());
+			}
+		});
+		
+		GridBagConstraints gbccomboBox = new GridBagConstraints();
+		gbccomboBox.gridwidth = 3;
+		gbccomboBox.insets = new Insets(0, 0, 0, 5);
+		gbccomboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbccomboBox.gridx = 1;
+		gbccomboBox.gridy = 9;
+		panelConfig.add(cboLook, gbccomboBox);
+		cboLook.addActionListener(ae->MTGControler.getInstance().getLafService().setLookAndFeel(SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo)cboLook.getSelectedItem()));
 		
 		btnSaveLoglevel.addActionListener(ae->{
 				if(chckbxIconset.isSelected())
