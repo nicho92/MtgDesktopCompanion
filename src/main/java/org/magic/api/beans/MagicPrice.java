@@ -88,7 +88,7 @@ public class MagicPrice implements Comparable<MagicPrice> {
 	{
 		return getSite() +":"  + getValue() + "" + getCurrency();
 	}
-	
+
 	public int compareTo(MagicPrice o) {
 		return (int) (getValue()-o.getValue());
 	}

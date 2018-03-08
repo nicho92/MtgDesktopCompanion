@@ -14,7 +14,8 @@ import org.magic.services.ThreadManager;
 public class MtgDesktopCompanion {
 
 	final Logger logger = MTGLogger.getLogger(this.getClass());
-	
+	long time1 = 0;
+	long time2 = 0;
 	MTGSplashScreen launch;
 	
 	public static void main(String[] args) {
@@ -23,7 +24,8 @@ public class MtgDesktopCompanion {
 	
 	
 	public MtgDesktopCompanion() {
-	
+		time1 = System.currentTimeMillis();
+
 		launch= new MTGSplashScreen();
 		MTGLogger.getMTGAppender().addObserver(launch);
 		launch.start();
@@ -62,6 +64,9 @@ public class MtgDesktopCompanion {
 							{
 								logger.error(e);
 							}
+				
+				time2 = System.currentTimeMillis();
+				logger.info("Apps started in " +  (time2 - time1) / 1000 + " sec");
 		});
 	}
 

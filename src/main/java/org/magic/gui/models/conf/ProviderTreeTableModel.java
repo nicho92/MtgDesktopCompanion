@@ -21,6 +21,9 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
 										"Version",
 										MTGControler.getInstance().getLangService().getCapitalize("ENABLED")
 									};
+	
+	private static final int ENABLED_INDEX=3;
+	
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MTGPlugin selectedProvider = null;
 	private List<T> listElements ;
@@ -78,7 +81,7 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
         if(node instanceof MTGPlugin )
         {
         	selectedProvider=(T)node;
-        	if(column==2)
+        	if(column==ENABLED_INDEX)
         	{
         		selectedProvider.enable(Boolean.parseBoolean(strValue));
         		MTGControler.getInstance().setProperty(selectedProvider, selectedProvider.isEnable());
@@ -166,7 +169,7 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
     
     @Override
     public Class<?> getColumnClass(int column) {
-    	if(column==3)
+    	if(column==ENABLED_INDEX)
     		return Boolean.class;
     	
     	return super.getColumnClass(column);
@@ -176,7 +179,9 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
     
     @Override
     public boolean isCellEditable(Object node, int column) {
-        return  ((node instanceof Entry && column == 1)||(column==2));
+    	
+    	System.out.println(node +" " + column);
+        return  (node instanceof Entry && column == 1) || (column==3);
     }
 
  	public void setSelectedNode(MTGPlugin pathComponent) {

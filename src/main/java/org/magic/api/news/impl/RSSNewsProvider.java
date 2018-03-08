@@ -92,7 +92,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 	@Override
 	public void initDefault() {
-		// TODO Auto-generated method stub
+		// nothing to do
 		
 	}
 
