@@ -5,15 +5,12 @@ import java.awt.Container;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.swing.JComponent;
-import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.log4j.Logger;
-import org.magic.gui.MagicGUI;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;

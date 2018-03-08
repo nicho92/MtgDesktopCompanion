@@ -499,7 +499,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		JComboBox<LookAndFeelInfo> cboLook = new JComboBox<>(new DefaultComboBoxModel<>(MTGControler.getInstance().getLafService().getAllLookAndFeel()));
 		cboLook.setRenderer(new DefaultListCellRenderer() {
-			
+			@Override
 			public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus)
 			{
 				return new JLabel(((LookAndFeelInfo)value).getName());

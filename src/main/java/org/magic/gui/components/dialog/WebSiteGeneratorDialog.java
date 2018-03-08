@@ -28,9 +28,9 @@ public class WebSiteGeneratorDialog extends JDialog {
 	private JTextField txtDest;
 	
 	private boolean value=false;
-	JComboBox cboTemplates;
-	JList<MagicCollection> list ;
-	JList<MTGPricesProvider> lstProviders;
+	private JComboBox cboTemplates;
+	private JList<MagicCollection> list ;
+	private JList<MTGPricesProvider> lstProviders;
 	
 	public File getDest() {
 		return new File(txtDest.getText());
@@ -57,7 +57,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		for (File temp : f.listFiles())
 			arrayTemplates.add(temp.getName());
 		
-		cboTemplates = new JComboBox(arrayTemplates.toArray());
+		cboTemplates = new JComboBox<>(arrayTemplates.toArray());
 	
 		panel.add(cboTemplates);
 		

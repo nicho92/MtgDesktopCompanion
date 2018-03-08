@@ -59,9 +59,6 @@ public class CardsPicPanel extends JXPanel {
 
 	private MagicCard card;
 
-	private MagicEdition edition;
-
-
 	public CardsPicPanel()
 	{
 		setLayout(new BorderLayout(0, 0));
