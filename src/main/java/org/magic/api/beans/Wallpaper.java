@@ -1,5 +1,6 @@
 package org.magic.api.beans;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
@@ -50,9 +51,13 @@ public class Wallpaper {
 		
 	}
 	
-	
-	
-	
+	public Dimension getDimension() {
+		try {
+			return new Dimension(getPicture().getWidth(), getPicture().getHeight());
+		} catch (IOException e) {
+			return new Dimension(0, 0);
+		}
+	}	
 	
 	
 }

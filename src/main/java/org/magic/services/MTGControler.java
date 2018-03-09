@@ -666,7 +666,7 @@ public class MTGControler {
 		if (!MTGConstants.MTG_WALLPAPER_DIRECTORY.exists())
 			MTGConstants.MTG_WALLPAPER_DIRECTORY.mkdir();
 		
-		ImageUtils.saveImage(p.getPicture(), new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,p.getName()+".png"), "png");
+		ImageUtils.saveImage(p.getPicture(), new File(MTGConstants.MTG_WALLPAPER_DIRECTORY,p.getName()+"."+p.getFormat()), p.getFormat());
 		
 	}
 

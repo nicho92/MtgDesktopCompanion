@@ -25,10 +25,7 @@ public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 			
-			JFileChooser chooser =new JFileChooser(".");
-		    chooser.setFileSelectionMode(JFileChooser.DIRECTORIES_ONLY);
-
-			Collection<File> res = FileUtils.listFiles(chooser.getSelectedFile(),new String[] {"png","jpg"},true);
+			Collection<File> res = FileUtils.listFiles(new File(getString("DIRECTORY")),new String[] {"png","jpg"},true);
 			
 			for(File f : res)
 			{
@@ -70,8 +67,8 @@ public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
 
 	@Override
 	public void initDefault() {
-		// nothing to do
-		
+		setProperty("DIRECTORY", ".");
+		setProperty("PREF_SIZE", "");
 	}
 
 	@Override

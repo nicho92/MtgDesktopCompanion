@@ -6,11 +6,13 @@ import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Image;
 import java.awt.Insets;
 import java.awt.SystemColor;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -24,6 +26,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.Border;
+import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
@@ -158,6 +162,7 @@ public class WallpaperGUI extends JPanel{
 		
 		btnImport.addActionListener(ae->{
 			
+			boolean error=false;
 			for(Component comp : panelThumnail.getComponents())
 			{
 				JWallThumb th = (JWallThumb)comp;
@@ -166,11 +171,17 @@ public class WallpaperGUI extends JPanel{
 				{
 					try {
 						MTGControler.getInstance().saveWallpaper(th.getWallpaper());
+						
 					} catch (IOException e1) {
+						error=true;
 						JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
+			
+			if(!error)
+				JOptionPane.showMessageDialog(null, "Finished","OK",JOptionPane.INFORMATION_MESSAGE);
+			
 			
 		});
 		
@@ -185,7 +196,8 @@ class JWallThumb extends JLabel
 	private boolean selected=false;
 	private Color c = getBackground();
 	private transient Wallpaper wall;
-	
+	private int size;
+	private int fontHeight=20;
 	public boolean isSelected() {
 		return selected;
 	}
@@ -193,11 +205,25 @@ class JWallThumb extends JLabel
 	public Wallpaper getWallpaper() {
 		return wall;
 	}
-	
-	public void resizePic(int w, int h)
+		
+	public void resizePic(int size)
 	{
+		this.size=size;
 		try {
-			setIcon(new ImageIcon(ImageUtils.resize(wall.getPicture(), w, h)));
+			
+			int w = wall.getPicture().getWidth(null);
+	        int h = wall.getPicture().getHeight(null);
+	        float scaleW = (float) size / w;
+	        float scaleH = (float) size / h;
+	        if (scaleW > scaleH) {
+	            w = -1;
+	            h = (int) (h * scaleH);
+	        } else {
+	            w = (int) (w * scaleW);
+	            h = -1;
+	        }
+             Image img = wall.getPicture().getScaledInstance(w, h, Image.SCALE_SMOOTH);
+			setIcon(new ImageIcon(img));
 		} catch (IOException e) {
 			MTGLogger.printStackTrace(e);
 		}
@@ -214,15 +240,16 @@ class JWallThumb extends JLabel
 	public JWallThumb(Wallpaper w) {
 		wall=w;
 		setHorizontalTextPosition(JLabel.CENTER);
+		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalTextPosition(JLabel.BOTTOM);
 		setText(w.getName());
 		setOpaque(true);
-		try {
-			setIcon(new ImageIcon(ImageUtils.resize(w.getPicture(), 200, 350)));
-		} 
-		catch (IOException e) {
-			MTGLogger.printStackTrace(e);
-		}
+		resizePic(400);
+	}
+	
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension(size, size+fontHeight);
 	}
 	
 	@Override
