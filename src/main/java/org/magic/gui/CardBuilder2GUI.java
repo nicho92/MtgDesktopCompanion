@@ -61,7 +61,8 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class CardBuilder2GUI extends JPanel{
-	
+
+	private static final long serialVersionUID = 1L;
 	private JXTable editionsTable;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardEditorPanel magicCardEditorPanel;

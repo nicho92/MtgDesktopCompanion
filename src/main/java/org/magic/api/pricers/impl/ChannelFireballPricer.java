@@ -18,6 +18,8 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 public class ChannelFireballPricer extends AbstractMagicPricesProvider {
+	
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;

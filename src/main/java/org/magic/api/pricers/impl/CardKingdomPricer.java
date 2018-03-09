@@ -23,10 +23,9 @@ import org.magic.tools.InstallCert;
 
 public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
-	Document doc;
-	List<MagicPrice> list;
-	CloseableHttpClient httpclient;
-	List<String> eds;
+	private Document doc;
+	private List<MagicPrice> list;
+	private List<String> eds;
 	
 	
 	@Override
@@ -39,7 +38,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		super();
 		
 		list=new ArrayList<>();
-		httpclient = HttpClients.createDefault();
+		
 		
 		try {
   			InstallCert.install("www.cardkingdom.com");
@@ -69,7 +68,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		double leven=100;
 		String name="";
 		EditDistance<Double> d = new JaccardDistance();
-		//JaroWinklerDistance d = new JaroWinklerDistance(); //(plus proche de 1).
 		for(String s : eds)
 		{
 			double dist=d.apply(set.toLowerCase(), s.toLowerCase());
@@ -159,7 +157,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		setProperty("URL", "https://www.cardkingdom.com/mtg/");
 		setProperty("WEBSITE", "https://www.cardkingdom.com/");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		
 	}
 
 
