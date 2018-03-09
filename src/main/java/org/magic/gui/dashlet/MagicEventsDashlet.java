@@ -28,7 +28,7 @@ public class MagicEventsDashlet extends AbstractJDashlet{
 	private JLabel lblLoading;
 	private JComboBox<Integer> cboMonth;
 	private transient MTGEventProvider provider;
-
+	private Calendar c;
 	
 	public MagicEventsDashlet() {
 		super();
@@ -64,7 +64,7 @@ public class MagicEventsDashlet extends AbstractJDashlet{
 		scrollPane.setViewportView(table);
 		
 		
-		Calendar c = GregorianCalendar.getInstance();
+		c = GregorianCalendar.getInstance();
 		c.setTime(new Date());
 		
 		for(int i=c.get(Calendar.YEAR)-1;i<=c.get(Calendar.YEAR)+1;i++)
@@ -109,10 +109,16 @@ public class MagicEventsDashlet extends AbstractJDashlet{
 	{
 		ThreadManager.getInstance().execute(()->{
 				lblLoading.setVisible(true);
-				
-				int y = Integer.parseInt(cboYear.getSelectedItem().toString());
-				int m = Integer.parseInt(cboMonth.getSelectedItem().toString());
-				
+				int y=c.get(Calendar.YEAR);
+				int m=c.get(Calendar.MONTH)+1;
+				try {
+				 y = Integer.parseInt(cboYear.getSelectedItem().toString());
+				 m = Integer.parseInt(cboMonth.getSelectedItem().toString());
+				}
+				catch(Exception e)
+				{
+					MTGLogger.printStackTrace(e);
+				}
 				try {
 					eventsModel.init(provider.listEvents(y, m));
 				} catch (IOException e1) {

@@ -37,6 +37,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.VersionChecker;
+import org.mkm.gui.MkmPanel;
 
 
 public class MagicGUI extends JFrame {
@@ -85,7 +86,6 @@ public class MagicGUI extends JFrame {
 		JMenuBar mtgMnuBar;
 		JMenu mnFile;
 		JMenu mnuAbout;
-		JMenu jmnuLook;
 		JMenuItem mntmExit;
 		
 		
@@ -109,7 +109,6 @@ public class MagicGUI extends JFrame {
 		
 		mnFile = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("FILE"));
 		mnuAbout = new JMenu("?");
-		jmnuLook = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("LOOK"));
 			
 		mntmExit = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("EXIT"));
 		
@@ -123,7 +122,6 @@ public class MagicGUI extends JFrame {
 		mtgMnuBar.add(mnFile);
 		mnFile.add(mntmFileOpen);
 		mnFile.add(mntmExit);
-		mtgMnuBar.add(jmnuLook);
 		mtgMnuBar.add(mnuAbout);
 		mnuAbout.add(mntmThreadItem);
 		mnuAbout.add(mntmLogsItem);
@@ -220,35 +218,14 @@ public class MagicGUI extends JFrame {
 		{
 			JMenuItem newversion = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("DOWNLOAD_LAST_VERSION")+" : " + serviceUpdate.getOnlineVersion() );
 			newversion.addActionListener(e->{
-					String url =MTGConstants.MTG_DESKTOP_APP_ZIP;
 					try {
-						Desktop.getDesktop().browse(new URI(url));
+						Desktop.getDesktop().browse(new URI(MTGConstants.MTG_DESKTOP_APP_ZIP));
 					} catch (Exception e1) {
 						logger.error(e1.getMessage());
 					}
 			});
 			mnuAbout.add(newversion);
 		}
-		
-		
-		//INIT AVAILABLE LOOK AND FEELS
-		JMenu itMore = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MORE"));
-		for(LookAndFeelInfo ui : MTGControler.getInstance().getLafService().getExtraLookAndFeel())
-		{
-			final JMenuItem it = new JMenuItem(ui.getName());
-			it.addActionListener(e->MTGControler.getInstance().getLafService().setLookAndFeel(this,ui.getClassName()));
-			itMore.add(it);
-		}
-		
-		for(LookAndFeelInfo ui : MTGControler.getInstance().getLafService().getStandardLookAndFeel())
-		{
-			final JMenuItem it = new JMenuItem(ui.getName());
-			it.addActionListener(e->MTGControler.getInstance().getLafService().setLookAndFeel(this,ui.getClassName()));
-			jmnuLook.add(it);
-		}
-		
-		
-		jmnuLook.add(itMore);
 		
 		tabbedPane = new JTabbedPane(MTGConstants.MTG_DESKTOP_TABBED_POSITION);
 	
@@ -288,8 +265,8 @@ public class MagicGUI extends JFrame {
 		if(MTGControler.getInstance().get("modules/wallpaper").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"), MTGConstants.ICON_WALLPAPER, new WallpaperGUI(), null);
 
-		
-		//tabbedPane.addTab("MKM", MTGConstants.ICON_SHOP, new MkmPanel(), null);
+		if(MTGControler.getInstance().get("modules/mkm").equals("true"))
+			tabbedPane.addTab("MKM", MTGConstants.ICON_SHOP, new MkmPanel(), null);
 		
 		
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
