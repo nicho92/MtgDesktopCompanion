@@ -48,6 +48,13 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 	}
 	
 
+	private Document read(String url) throws IOException
+	{
+		 return Jsoup.connect(url)
+		 	.userAgent(getString("USER_AGENT"))
+			.timeout(getInt("TIMEOUT"))
+			.get();
+	}
 
 	
 	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException {
@@ -79,10 +86,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		 
 		 logger.debug("get shakes from " + url);
 	    
-		 Document d = Jsoup.connect(url)
-	    		 	.userAgent(getString("USER_AGENT"))
-					.timeout(Integer.parseInt(getString("TIMEOUT")))
-					.get();
+		 Document d = read(url);
 			 
 		 Element js = d.getElementsByTag("script").get(index);
 		 
@@ -138,15 +142,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		
 		
 		
-		Document doc = Jsoup.connect(urlW)
-							.userAgent(getString("USER_AGENT"))
-							.timeout(Integer.parseInt(getString("TIMEOUT")))
-							.get();
+		Document doc = read(urlW);
 		
-		Document doc2 = Jsoup.connect(urlL)
-				.userAgent(getString("USER_AGENT"))
-				.timeout(Integer.parseInt(getString("TIMEOUT")))
-				.get();
+		Document doc2 = read(urlL);
 		
 		
 		try {
@@ -199,14 +197,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		
 		logger.debug("Parsing dashboard "+ urlEditionChecker);
 		
-		Document doc = Jsoup.connect(urlEditionChecker)
-							.userAgent(getString("USER_AGENT"))
-							.timeout(Integer.parseInt(getString("TIMEOUT")))
-							.get();
-		
-		
-		
-		
+		Document doc = read(urlEditionChecker);
 		Element table =null;
 		try{
 			
@@ -242,11 +233,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
 		
 		//spells, creatures, all, lands
-		String u = "https://www.mtggoldfish.com/format-staples/"+f.toString().toLowerCase()+"/full/"+filter;
-		Document doc = Jsoup.connect(u)
-				.userAgent(getString("USER_AGENT"))
-				.timeout(Integer.parseInt(getString("TIMEOUT")))
-				.get();
+		String u = getString("WEBSITE")+"/format-staples/"+f.toString().toLowerCase()+"/full/"+filter;
+		Document doc = read(u);
 		
 		logger.debug("get best cards : " + u);
 		Elements trs =doc.select("table tr");

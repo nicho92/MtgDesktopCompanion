@@ -7,8 +7,6 @@ import java.util.List;
 
 import org.apache.commons.text.similarity.EditDistance;
 import org.apache.commons.text.similarity.JaccardDistance;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
