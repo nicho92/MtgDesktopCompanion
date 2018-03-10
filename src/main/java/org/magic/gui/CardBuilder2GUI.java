@@ -171,7 +171,9 @@ public class CardBuilder2GUI extends JPanel{
 		spinCommon.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		spinUnco.setModel(new SpinnerNumberModel(0, 0, null,1));
 		spinRare.setModel(new SpinnerNumberModel(0, 0, null,1));
-		cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
+		
+		List<MagicEdition> eds = provider.loadEditions();
+		cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
 	
 		
 ////////////////////////////////////////////////////LAYOUT CONFIGURATION			
