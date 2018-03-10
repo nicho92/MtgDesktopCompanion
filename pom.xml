@@ -10,7 +10,7 @@
 	</issueManagement>
 	<groupId>org.magic</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>1.83</version>
+	<version>1.90</version>
 	<packaging>jar</packaging>
 	<scm>
 		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
