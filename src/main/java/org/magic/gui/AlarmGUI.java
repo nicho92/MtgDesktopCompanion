@@ -1,30 +1,43 @@
 package org.magic.gui;
 
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.net.URI;
+import java.sql.SQLException;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
+import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
+import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
@@ -32,6 +45,7 @@ import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;
@@ -46,7 +60,8 @@ public class AlarmGUI extends JPanel {
 	private HistoryPricesPanel variationPanel;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
-
+	private JButton btnImport;
+	private JLabel lblLoading;
 	
 	public AlarmGUI() {
 		
@@ -64,7 +79,8 @@ public class AlarmGUI extends JPanel {
 		model = new CardAlertTableModel();
 		table.setModel(model);
 		
-		
+		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
+		lblLoading.setVisible(false);
 		table.getColumnModel().getColumn(3).setCellRenderer(new AlertedCardsRenderer());
 		
 		
@@ -146,6 +162,9 @@ public class AlarmGUI extends JPanel {
 				
 				model.fireTableDataChanged();
 		});
+		
+		btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		panel.add(btnImport);
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panel.add(btnRefresh);
 		
@@ -166,6 +185,7 @@ public class AlarmGUI extends JPanel {
 		
 		btnDelete.setIcon(MTGConstants.ICON_DELETE);
 		panel.add(btnDelete);
+		panel.add(lblLoading);
 		addComponentListener(new ComponentAdapter() {
 			  @Override
 		      public void componentShown(ComponentEvent componentEvent) {
@@ -175,6 +195,101 @@ public class AlarmGUI extends JPanel {
 		      }
 
 		    });
+		
+		btnImport.addActionListener(ae->{
+			JPopupMenu menu = new JPopupMenu();
+			
+			
+			JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
+			
+			mnuImportSearch.addActionListener(importAE->{
+					CardSearchImportDialog cdSearch = new CardSearchImportDialog();
+					cdSearch.setVisible(true);
+					if(cdSearch.getSelection()!=null)
+					{
+						for(MagicCard mc : cdSearch.getSelection())
+							addCard(mc);
+					}
+			});
+			menu.add(mnuImportSearch);
+			
+			
+			
+			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
+				JMenuItem it = new JMenuItem();
+				it.setIcon(exp.getIcon());
+				it.setText(exp.getName());
+				it.addActionListener(itEvent->{
+						JFileChooser jf = new JFileChooser(".");
+						jf.setFileFilter(new FileFilter() {
+
+							@Override
+							public String getDescription() {
+								return exp.getName();
+							}
+
+							@Override
+							public boolean accept(File f) {
+								return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
+							}
+						});
+						int res = jf.showOpenDialog(null);
+						final File f = jf.getSelectedFile();
+
+						if (res == JFileChooser.APPROVE_OPTION)
+							ThreadManager.getInstance().execute(()->{
+									try {
+										loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(),exp));
+										MagicDeck deck = exp.importDeck(f);
+										
+										for(MagicCard mc : deck.getMap().keySet())
+											addCard(mc);
+									
+										loading(false, "");
+									} catch (Exception e) {
+										logger.error("error import",e);
+										MTGLogger.printStackTrace(e);
+										loading(false, "");
+										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+									}
+
+								
+							}, "import " + exp);
+					
+				});
+
+				menu.add(it);
+			}
+
+			Component b = (Component) ae.getSource();
+			Point point = b.getLocationOnScreen();
+			menu.show(b, 0, 0);
+			menu.setLocation(point.x, point.y + b.getHeight());
+		
+	});
+		
+		
+	}
+
+
+	private void addCard(MagicCard mc) {
+		MagicCardAlert alert = new MagicCardAlert();
+		alert.setCard(mc);
+		alert.setPrice(0.0);
+		try {
+			MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+		model.fireTableDataChanged();
+		
+	}
+
+
+	private void loading(boolean b, String string) {
+		lblLoading.setText(string);
+		lblLoading.setVisible(b);
 		
 	}
 

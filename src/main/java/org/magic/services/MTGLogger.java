@@ -18,7 +18,7 @@ public class MTGLogger {
 		//do nothing 
 	}
 	
-	public static Logger getLogger(Class c)
+	public static Logger getLogger(Class<?> c)
 	{
 		return LogManager.getLogger(c.getName());
 	}

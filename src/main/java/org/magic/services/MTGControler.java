@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -131,7 +132,7 @@ public class MTGControler {
 		try {
 			config.addProperty("/"+root +" "+ elem+"/class", classname.getName());
 			logger.debug("add module " + path + " " + classname.getName());
-			setProperty(classname.newInstance(),false);
+			setProperty(classname.getDeclaredConstructor().newInstance(),false);
 		} catch (Exception e) {
 			logger.error(e);
 		}
@@ -460,14 +461,14 @@ public class MTGControler {
 	{
 		try{
 			logger.debug("-load module :  " + classname );
-			return (T)classLoader.loadClass(classname).newInstance();
+			return (T)classLoader.loadClass(classname).getDeclaredConstructor().newInstance();
 		}
 		catch(ClassNotFoundException e)
 		{
 			logger.error(classname + " is not found");
 			remove(classname);
 			return null;
-		} catch (InstantiationException | IllegalAccessException e) {
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException | NoSuchMethodException | SecurityException e) {
 			logger.error("error loading "+ classname,e);
 			return null;
 		}
