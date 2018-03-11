@@ -32,6 +32,11 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		} 
 	}
 	
+	
+	public boolean needDialogGUI()
+	{
+		return false;
+	}
 
 	@Override
 	public void export(List<MagicCard> cards, File f) throws IOException {

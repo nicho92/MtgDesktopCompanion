@@ -10,12 +10,21 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
 
 public class ManualImportDialog extends JDialog {
 	
 	
-	JEditorPane editorPane;
+	private JEditorPane editorPane;
+	private MagicDeck deck;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	
 	public String getStringDeck()
 	{
@@ -23,6 +32,7 @@ public class ManualImportDialog extends JDialog {
 	}
 	
 	public ManualImportDialog() {
+		deck=new MagicDeck();
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(400, 400));
 		setModal(true);
@@ -50,6 +60,34 @@ public class ManualImportDialog extends JDialog {
 		editorPane.setPreferredSize(new Dimension(106, 300));
 		scrollPane.setViewportView(editorPane);
 		setLocationRelativeTo(null);
+	}
+	
+	public MagicDeck getAsDeck() {
+				String[] line = editorPane.getText().split("\n");
+				for (String l : line) 
+				{
+					int nb = Integer.parseInt(l.substring(0, l.indexOf(' ')));
+					String name = l.substring(l.indexOf(' '), l.length());
+					try {
+						MagicCard mc;
+						if (name.trim().equalsIgnoreCase("Plains") || name.trim().equalsIgnoreCase("Island")|| name.trim().equalsIgnoreCase("Swamp") || name.trim().equalsIgnoreCase("Mountain")|| name.trim().equalsIgnoreCase("Forest")) 
+						{
+							MagicEdition ed = new MagicEdition();
+							ed.setId(MTGControler.getInstance().get("default-land-deck"));
+							mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(), ed,true).get(0);
+						} 
+						else {
+							mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(), null,true).get(0);
+						}
+
+						if (mc != null) {
+							deck.getMap().put(mc, nb);
+						}
+					} catch (Exception e) {
+						logger.error(e);
+					}
+				}
+				return deck;
 	}
 
 }

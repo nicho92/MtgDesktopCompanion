@@ -48,6 +48,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.gui.components.charts.CmcChartPanel;
@@ -101,7 +102,7 @@ public class ConstructPanel extends JPanel {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
+	private File f;
 	private Player p;
 
 	public void loading(boolean show, String text) {
@@ -275,37 +276,6 @@ public class ConstructPanel extends JPanel {
 		btnImport.addActionListener(ae->{
 				JPopupMenu menu = new JPopupMenu();
 
-				JMenuItem manuel = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MANUAL_IMPORT"));
-				manuel.setIcon(MTGConstants.ICON_MANUAL);
-				manuel.addActionListener(manualEvent-> {
-						ManualImportDialog fimport = new ManualImportDialog();
-						fimport.setVisible(true);
-
-						if (!fimport.getStringDeck().equals(""))
-							importDeckFromString(fimport.getStringDeck());
-					
-				});
-				menu.add(manuel);
-
-				JMenuItem webSite = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("WEBSITE")));
-				webSite.setIcon(MTGConstants.ICON_WEBSITE);
-				webSite.addActionListener(siteEvent-> {
-						DeckSnifferDialog diag = new DeckSnifferDialog();
-						diag.setModal(true);
-						diag.setVisible(true);
-
-						if (diag.getSelectedDeck() != null) {
-							deckmodel.init(diag.getSelectedDeck());
-							deckSidemodel.init(diag.getSelectedDeck());
-							setDeck(diag.getSelectedDeck());
-							updatePanels();
-							deckmodel.fireTableDataChanged();
-							deckSidemodel.fireTableDataChanged();
-						}
-					
-				});
-				menu.add(webSite);
-
 				for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
@@ -324,8 +294,20 @@ public class ConstructPanel extends JPanel {
 									return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
 								}
 							});
-							int res = jf.showOpenDialog(null);
-							final File f = jf.getSelectedFile();
+							
+							int res=-1;
+							f=new File("");
+							
+							if(!exp.needDialogGUI())
+							{
+								res = jf.showOpenDialog(null);
+								f = jf.getSelectedFile();
+							}
+							else
+							{
+								res=JFileChooser.APPROVE_OPTION;
+								
+							}
 
 							if (res == JFileChooser.APPROVE_OPTION)
 								ThreadManager.getInstance().execute(()->{
@@ -546,9 +528,6 @@ public class ConstructPanel extends JPanel {
 		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
 		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
 
-		tableSide.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
-		tableSide.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
-
 		tableDeck.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
 		tableSide.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
 		
@@ -607,7 +586,7 @@ public class ConstructPanel extends JPanel {
 		scrollResult = new JScrollPane();
 		panneauGauche.add(scrollResult);
 
-		listResult = new JList(new DefaultListModel<MagicCard>());
+		listResult = new JList<>(new DefaultListModel<MagicCard>());
 		listResult.setCellRenderer(new MagicCardListRenderer());
 		listResult.setMinimumSize(new Dimension(100, 0));
 		listResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
@@ -719,40 +698,6 @@ public class ConstructPanel extends JPanel {
 		});
 	}
 
-	protected void importDeckFromString(final String stringDeck) {
-		ThreadManager.getInstance().execute(()-> {
-				String[] line = stringDeck.split("\n");
-				for (String l : line) {
-					int nb = Integer.parseInt(l.substring(0, l.indexOf(' ')));
-					String name = l.substring(l.indexOf(' '), l.length());
-					try {
-						MagicCard mc;
-						if (name.trim().equalsIgnoreCase("Plains") || name.trim().equalsIgnoreCase("Island")
-								|| name.trim().equalsIgnoreCase("Swamp") || name.trim().equalsIgnoreCase("Mountain")
-								|| name.trim().equalsIgnoreCase("Forest")) {
-							MagicEdition ed = new MagicEdition();
-							ed.setId(MTGControler.getInstance().get("default-land-deck"));
-							mc = MTGControler.getInstance().getEnabledProviders()
-									.searchCardByCriteria("name", name.trim(), ed,true).get(0);
-						} else {
-							mc = MTGControler.getInstance().getEnabledProviders()
-									.searchCardByCriteria("name", name.trim(), null,true).get(0);
-						}
-
-						if (mc != null) {
-							getSelectedMap().put(mc, nb);
-							setDeck(deck);
-							updatePanels();
-							deckmodel.fireTableDataChanged();
-							deckSidemodel.fireTableDataChanged();
-						}
-					} catch (Exception e) {
-						logger.error(e);
-					}
-			}
-		}, "importDeckFromString");
-
-	}
 
 
 	public Map<MagicCard, Integer> getSelectedMap() {

@@ -41,7 +41,6 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
-import org.magic.gui.components.dialog.CollectionChooserDialog;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.EnumConditionEditor;
@@ -91,6 +90,7 @@ public class StockPanelGUI extends JPanel {
 
 	private JComboBox<String> cboSelections;
 	private String[] selections=new String[] {"", MTGControler.getInstance().getLangService().get("NEW"), MTGControler.getInstance().getLangService().get("UPDATED")};
+	private File f;
 	
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -198,50 +198,6 @@ public class StockPanelGUI extends JPanel {
 				});
 				menu.add(mnuImportSearch);
 				
-				JMenuItem mnuCol = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("COLLECTION_MODULE")));
-				mnuCol.setIcon(MTGConstants.ICON_COLLECTION);
-				mnuCol.addActionListener(collEvent->{
-						CollectionChooserDialog diag = new CollectionChooserDialog();
-						diag.setVisible(true);
-						final MagicCollection col = diag.getSelectedCollection();
-						
-						if(col!=null)
-						{	ThreadManager.getInstance().execute(()->{
-									lblLoading.setVisible(true);
-									try {
-										importFromCollection(col);
-									} catch (SQLException e) {
-										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
-										
-									}
-									lblLoading.setVisible(false);
-									updateCount();
-							}, "Import stock from collection");
-						}
-	
-				});
-				menu.add(mnuCol);
-				
-				JMenuItem webSite = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("WEBSITE")));
-				webSite.setIcon(MTGConstants.ICON_WEBSITE);
-				webSite.addActionListener(siteEvent-> {
-						DeckSnifferDialog diag = new DeckSnifferDialog();
-						diag.setModal(true);
-						diag.setVisible(true);
-
-						if (diag.getSelectedDeck() != null) {
-							lblLoading.setVisible(true);
-							MagicDeck deck = diag.getSelectedDeck();
-							importFromWebSite(deck);
-							updateCount();
-							lblLoading.setVisible(false);
-						}
-				});
-				menu.add(webSite);
-
-				
-				
-				
 				for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
@@ -259,12 +215,24 @@ public class StockPanelGUI extends JPanel {
 								public boolean accept(File f) {
 									if (f.isDirectory())
 										return true;
-
 									return f.getName().endsWith(exp.getFileExtension());
 								}
 							});
-							int res = jf.showOpenDialog(null);
-							final File f = jf.getSelectedFile();
+							
+							
+							int res=-1;
+							f=new File("");
+							
+							if(!exp.needDialogGUI())
+							{
+								res = jf.showOpenDialog(null);
+								f = jf.getSelectedFile();
+							}
+							else
+							{
+								res=JFileChooser.APPROVE_OPTION;
+								
+							}
 
 							if (res == JFileChooser.APPROVE_OPTION)
 								ThreadManager.getInstance().execute(()->{
@@ -528,12 +496,6 @@ public class StockPanelGUI extends JPanel {
 		centerPanel.setLayout(new BorderLayout(0, 0));
 		JPanel actionPanel = new JPanel();
 		centerPanel.add(actionPanel, BorderLayout.NORTH);
-				
-				
-				btnImport = new JButton();
-				btnImport.setIcon(MTGConstants.ICON_IMPORT);
-				btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
-				actionPanel.add(btnImport);
 		
 				btnDelete.setEnabled(false);
 				btnDelete.setIcon(MTGConstants.ICON_DELETE);
@@ -553,6 +515,12 @@ public class StockPanelGUI extends JPanel {
 				lblLoading.setVisible(false);
 				
 				btnshowMassPanel = new JButton("");
+				
+				
+				btnImport = new JButton();
+				btnImport.setIcon(MTGConstants.ICON_IMPORT);
+				btnImport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
+				actionPanel.add(btnImport);
 				
 				btnExport = new JButton("");
 				

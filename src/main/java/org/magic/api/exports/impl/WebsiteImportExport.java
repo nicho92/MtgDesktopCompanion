@@ -1,0 +1,96 @@
+package org.magic.api.exports.impl;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.Icon;
+
+import org.apache.commons.lang3.NotImplementedException;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCardStock;
+import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.gui.components.dialog.DeckSnifferDialog;
+import org.magic.gui.components.dialog.ManualImportDialog;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+
+public class WebsiteImportExport extends AbstractCardExport {
+
+	@Override
+	public String getFileExtension() {
+		return ".com";
+	}
+
+	@Override
+	public boolean needDialogGUI() {
+		return true;
+	}
+	
+	@Override
+	public void export(MagicDeck deck, File dest) throws IOException {
+		throw new NotImplementedException("not implemented");
+
+	}
+
+	@Override
+	public MagicDeck importDeck(File f) throws IOException {
+		DeckSnifferDialog diag = new DeckSnifferDialog();
+		diag.setVisible(true);
+		return diag.getSelectedDeck();
+		
+	}
+
+	@Override
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+		throw new NotImplementedException("not implemented");
+
+	}
+
+	@Override
+	public List<MagicCardStock> importStock(File f) throws IOException {
+		MagicDeck d = importDeck(f);
+		List<MagicCardStock> ret = new ArrayList<>();
+		
+		for(MagicCard mc : d.getMap().keySet())
+		{
+			MagicCardStock stock = new MagicCardStock();
+			stock.setMagicCard(mc);
+			stock.setQte(d.getMap().get(mc));
+			stock.setUpdate(true);
+			stock.setIdstock(-1);
+			ret.add(stock);
+		}
+		return ret;
+	}
+
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_WEBSITE;
+	}
+
+	@Override
+	public String getName() {
+		return "Website";
+	}
+
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+
+	@Override
+	public void initDefault() {
+		// do nothing
+
+	}
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
+
+}

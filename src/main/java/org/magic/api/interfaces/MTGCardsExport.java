@@ -27,4 +27,6 @@ public interface MTGCardsExport extends MTGPlugin {
 
 	public void addObserver(Observer o);
 
+	public boolean needDialogGUI();
+	
 }

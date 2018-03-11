@@ -62,6 +62,7 @@ public class AlarmGUI extends JPanel {
 	private JTabbedPane tabbedPane;
 	private JButton btnImport;
 	private JLabel lblLoading;
+	private File f;
 	
 	public AlarmGUI() {
 		
@@ -234,8 +235,19 @@ public class AlarmGUI extends JPanel {
 								return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
 							}
 						});
-						int res = jf.showOpenDialog(null);
-						final File f = jf.getSelectedFile();
+						int res=-1;
+						f=new File("");
+						
+						if(!exp.needDialogGUI())
+						{
+							res = jf.showOpenDialog(null);
+							f = jf.getSelectedFile();
+						}
+						else
+						{
+							res=JFileChooser.APPROVE_OPTION;
+							
+						}
 
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(()->{

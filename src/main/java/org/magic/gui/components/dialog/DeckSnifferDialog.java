@@ -39,6 +39,7 @@ public class DeckSnifferDialog extends JDialog{
 	public DeckSnifferDialog() {
 		setSize(new Dimension(500, 300));
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"));
+		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
 		JScrollPane scrollPane = new JScrollPane();
