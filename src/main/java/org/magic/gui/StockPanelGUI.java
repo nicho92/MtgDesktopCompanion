@@ -281,7 +281,7 @@ public class StockPanelGUI extends JPanel {
 											JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().combine("IMPORT","FINISHED"),exp.getName() + " "+MTGControler.getInstance().getLangService().getCapitalize("FINISHED"), JOptionPane.INFORMATION_MESSAGE);
 
 										} catch (Exception e) {
-											logger.error(e);
+											logger.error("ERROR",e);
 											lblLoading.setVisible(false);
 											JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 										}

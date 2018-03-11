@@ -2,6 +2,7 @@ package org.magic.gui.components.dialog;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -21,6 +22,7 @@ import javax.swing.JTextPane;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -31,20 +33,13 @@ import org.magic.services.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog{
 	
-	private transient MTGCardsProvider provider;
-	private transient MTGDao dao;
-	private List<MagicEdition> list;
 	private String[] ids;
 	private JTextPane txtNumbersInput;
+	private MagicDeck deck;
 	
-	public MassCollectionImporterDialog(MTGDao dao,MTGCardsProvider provider,List<MagicEdition> list) {
+	public MassCollectionImporterDialog() {
 		setSize(new Dimension(646, 290));
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_CARDS_IMPORT"));
-		
-		this.dao=dao;
-		this.provider=provider;
-		this.list=list;
-		
 		try {
 			initGUI();
 		} catch (Exception e) {
@@ -54,18 +49,24 @@ public class MassCollectionImporterDialog extends JDialog{
 
 	private void initGUI() throws SQLException {
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		
+		deck = new MagicDeck();
 		JPanel panelCollectionInput = new JPanel();
 		getContentPane().add(panelCollectionInput, BorderLayout.NORTH);
 		
 		JLabel lblImport = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT")+" ");
 		panelCollectionInput.add(lblImport);
 		
+		List<MagicEdition> list=new ArrayList<>();
+		try {
+			list = MTGControler.getInstance().getEnabledProviders().loadEditions();
+		} catch (IOException e2) {
+			MTGLogger.printStackTrace(e2);
+		}
 		final JComboBox cboEditions = new JComboBox(list.toArray());
 		cboEditions.setRenderer(new MagicEditionListRenderer());
 		panelCollectionInput.add(cboEditions);
 		
-		List lc = dao.getCollections();
+		List<MagicCollection> lc = MTGControler.getInstance().getEnabledDAO().getCollections();
 		
 		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
@@ -130,12 +131,12 @@ public class MassCollectionImporterDialog extends JDialog{
 								MagicCard mc = null;
 								
 								if(cboByType.getSelectedItem().toString().equalsIgnoreCase("number"))
-									mc=provider.getCardByNumber(id, ed);
+									mc=MTGControler.getInstance().getEnabledProviders().getCardByNumber(id, ed);
 								else
-									mc=provider.searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),(MagicEdition)cboEditions.getSelectedItem(),true).get(0);
+									mc=MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),(MagicEdition)cboEditions.getSelectedItem(),true).get(0);
 								
-								
-								dao.saveCard(mc, col);
+								deck.add(mc);
+								MTGControler.getInstance().getEnabledDAO().saveCard(mc, col);
 								progressBar.setValue(i++);
 							} catch (Exception e1) {
 								MTGLogger.printStackTrace(e1);
@@ -162,6 +163,10 @@ public class MassCollectionImporterDialog extends JDialog{
 		setModal(true);
 		setLocationRelativeTo(null);
 		
+	}
+
+	public MagicDeck getAsDeck() {
+		return deck;
 	}
 	
 	
