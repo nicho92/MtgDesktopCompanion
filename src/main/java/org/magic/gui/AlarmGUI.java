@@ -12,6 +12,8 @@ import java.awt.event.MouseEvent;
 import java.io.File;
 import java.net.URI;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -31,6 +33,7 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -170,22 +173,40 @@ public class AlarmGUI extends JPanel {
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panel.add(btnRefresh);
 		
-		btnDelete = new JButton("");
-		btnDelete.addActionListener(e->{
-				int row =table.getSelectedRow();
-				if(row>-1)
+		btnDelete = new JButton(MTGConstants.ICON_DELETE);
+		
+		btnDelete.addActionListener(event-> {
+			int res = JOptionPane.showConfirmDialog(null, 
+										MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
+										MTGControler.getInstance().getLangService().getCapitalize("DELETE") +" ?",
+										JOptionPane.YES_NO_OPTION);
+			if(res==JOptionPane.YES_OPTION)
 				{
-					try {
-						MagicCardAlert alert = (MagicCardAlert)model.getValueAt(row,0);
-						MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
-						model.fireTableDataChanged();
-					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
-					}
+				ThreadManager.getInstance().execute(()->{
+						try {
+							int[] selected  = table.getSelectedRows();
+							lblLoading.setVisible(true);
+							List<MagicCardAlert> alerts = extract(selected);
+							for(MagicCardAlert alert : alerts)
+								MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
+							
+							model.fireTableDataChanged();
+						}
+						catch(Exception e)
+						{
+							JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+							lblLoading.setVisible(false);
+						}
+						lblLoading.setVisible(false);
+						
+					
+				}, "delete alerts");
+				
 				}
 		});
 		
-		btnDelete.setIcon(MTGConstants.ICON_DELETE);
+	
+		
 		panel.add(btnDelete);
 		panel.add(lblLoading);
 		addComponentListener(new ComponentAdapter() {
@@ -307,6 +328,18 @@ public class AlarmGUI extends JPanel {
 	private void loading(boolean b, String string) {
 		lblLoading.setText(string);
 		lblLoading.setVisible(b);
+		
+	}
+	
+	private List<MagicCardAlert> extract(int[] ids)
+	{
+		List<MagicCardAlert> select = new ArrayList<>();
+		
+		for(int l : ids)
+		{
+			select.add(((MagicCardAlert)table.getValueAt(l, 0)));
+		}
+		return select;
 		
 	}
 
