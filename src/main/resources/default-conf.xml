@@ -7,11 +7,11 @@
         <deckbuilder>true</deckbuilder>
         <collection>true</collection>
         <game>true</game>
-        <rss>false</rss>
+        <rss>true</rss>
         <alarm>true</alarm>
         <shopper>true</shopper>
         <cardbuilder>true</cardbuilder>
-        <history>false</history>
+        <history>true</history>
         <stock>true</stock>
         <wallpaper>true</wallpaper>
     </modules>
