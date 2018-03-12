@@ -63,6 +63,10 @@ public class ManualImportDialog extends JDialog {
 	}
 	
 	public MagicDeck getAsDeck() {
+		
+				if(editorPane.getText().length()==0)
+					return deck;
+		
 				String[] line = editorPane.getText().split("\n");
 				for (String l : line) 
 				{

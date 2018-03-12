@@ -35,6 +35,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGServer;
+import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
@@ -218,6 +219,9 @@ public class AlarmGUI extends JPanel {
 			
 			
 			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
+				if(exp.getMods()==MODS.BOTH || exp.getMods()==MODS.IMPORT)
+				{
+					
 				JMenuItem it = new JMenuItem();
 				it.setIcon(exp.getIcon());
 				it.setText(exp.getName());
@@ -271,7 +275,8 @@ public class AlarmGUI extends JPanel {
 					
 				});
 
-				menu.add(it);
+					menu.add(it);
+				}
 			}
 
 			Component b = (Component) ae.getSource();

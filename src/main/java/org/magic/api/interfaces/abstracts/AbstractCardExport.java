@@ -14,6 +14,16 @@ import org.magic.services.MTGConstants;
 
 public abstract class AbstractCardExport extends AbstractMTGPlugin implements MTGCardsExport {
 
+	
+	public enum MODS {EXPORT,IMPORT,BOTH}
+	
+	
+	public MODS getMods()
+	{
+		return MODS.BOTH;
+	}
+	
+	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.EXPORT;

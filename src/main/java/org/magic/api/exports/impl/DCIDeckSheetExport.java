@@ -34,6 +34,11 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	
 	@Override
+	public MODS getMods() {
+		return MODS.EXPORT;
+	}
+	
+	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}

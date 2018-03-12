@@ -37,6 +37,8 @@ public class DeckSnifferDialog extends JDialog{
 	
 	
 	public DeckSnifferDialog() {
+		
+		importedDeck = new MagicDeck();
 		setSize(new Dimension(500, 300));
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"));
 		setModal(true);
