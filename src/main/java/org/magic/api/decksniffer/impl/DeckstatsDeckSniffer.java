@@ -27,7 +27,19 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	Map<Integer,String> cacheColor;
 	   
-
+	public static void main(String[] args) throws IOException {
+		DeckstatsDeckSniffer snif = new DeckstatsDeckSniffer();
+		snif.connect();
+		
+		List<RetrievableDeck> decks = snif.getDeckList();
+		
+		MagicDeck d = snif.getDeck(decks.get(3));
+		
+		System.out.println(d.getTags());
+		System.out.println(d.getAsList().size());
+		System.out.println(d.getSideAsList().size());
+		System.out.println(d.getDescription());
+	}
 	
 	@Override
 	public STATUT getStatut() {
@@ -97,22 +109,28 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		deck.setDateCreation(new Date());
 		for(Element a : d.select("a.deck_tags_list_tag"))
 			deck.getTags().add(a.text());
-
-		Elements e = d.select("div.deck_overview_card");
-		for(Element cont : e)
+		
+		boolean side=false;
+		Elements e = d.select("div#deck_overview_cards").select("div.deck_overview_section_chunk");
+		
+		for(Element block : e)
 		{
-				Integer qte = Integer.parseInt(cont.getElementsByClass("deck_overview_card_amount").get(0).text());
+			
+			if(block.hasClass("deck_overview_section_chunk__sideboard"))
+				side=true;
+			else
+				side=false;
+			
+			for(Element cont : block.select("div.deck_overview_card_header"))
+			{	Integer qte = Integer.parseInt(cont.getElementsByClass("deck_overview_card_amount").get(0).text());
 				String cardName = cont.getElementsByClass("deck_overview_card_name").get(0).text().trim();
 			
 				
 				if(cardName.contains("//"))
 					cardName=cardName.substring(0, cardName.indexOf("//")).trim();
 			
-				//String set = cont.getElementsByClass("deck_col_set").get(0).getElementsByTag("a").text().trim();
 				MagicCard mc = null;
 				
-				//if(set.equals(""))
-				{
 					if(cardName.trim().equalsIgnoreCase("Plains")||cardName.trim().equalsIgnoreCase("Island")||cardName.trim().equalsIgnoreCase("Swamp")||cardName.trim().equalsIgnoreCase("Mountain")||cardName.trim().equalsIgnoreCase("Forest"))
 					{
 						MagicEdition ed = new MagicEdition();
@@ -123,34 +141,19 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 					{
 						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null,true).get(0);
 					}
-				}
-			/*	else
-				{
-					MagicEdition me = new MagicEdition();
-								 me.setId(set);
-					mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, me,true).get(0);
-				}*/
-				deck.getMap().put(mc, qte);
-		}
-		try{
-
-		Elements s = d.select("table#cards_sideboard").select(MTGConstants.HTML_TAG_TR);
-		s.remove(0);
-		s.remove(0);
-
-			for(Element cont : s)
-			{
+					
+					if(side)
+						deck.getMapSideBoard().put(mc, qte);
+					else
+						deck.getMap().put(mc, qte);
+					
+			}	
 				
-					Integer qte = Integer.parseInt(cont.getElementsByClass("card_amount").get(0).text());
-					String cardName = cont.getElementsByClass("deck_card_name").get(0).text().trim();
-					MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null,true).get(0);
-					deck.getMapSideBoard().put(mc, qte);
-			}
 		}
-		catch(Exception ex)
-		{
-			MTGLogger.printStackTrace(ex);
-		}
+		
+		if(d.select("div#deck_overview_info")!=null)
+			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());
+		
 
 		return deck;
 	}
@@ -220,7 +223,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String getVersion() {
-		return "2.0";
+		return "3.0";
 	}
 
 }
