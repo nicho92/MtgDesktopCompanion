@@ -39,12 +39,12 @@ public class HsqlDAO extends AbstractMagicDAO{
 	
 	private String cardField="mcard";
 	private Connection con;
-   
+	private enum KEYS {DRIVER,URL,DBNAME,LOGIN,PASS}
   
 	public void init() throws ClassNotFoundException, SQLException {
-	      logger.info("init HsqlDB");
-		  Class.forName(getString("DRIVER"));
-	      con=DriverManager.getConnection("jdbc:hsqldb:"+getString("URL")+"/"+getString("DBNAME"),getString("LOGIN"),getString("PASS"));
+	      logger.info("init "+getName());
+		  Class.forName(getString(KEYS.DRIVER.name()));
+	      con=DriverManager.getConnection("jdbc:hsqldb:"+getString(KEYS.URL.name())+"/"+getString(KEYS.DBNAME.name()),getString(KEYS.LOGIN.name()),getString(KEYS.PASS.name()));
 		  
 		  createDB();
 		  
@@ -439,7 +439,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 		if(state.getIdstock()<0)
 		{
 			
-			logger.debug("save "  + state);
+			logger.debug(state);
 			try(PreparedStatement pst=con.prepareStatement("insert into stocks  ( conditions,foil,signedcard,langage,qte,comments,idmc,collection,altered,price,mcard) values (?,?,?,?,?,?,?,?,?,?,?)"))
 			{
 				pst.setString(1, state.getCondition().toString());
@@ -477,6 +477,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	
 	List<MagicCardAlert> list;
+
 	@Override
 	public List<MagicCardAlert> listAlerts() {
 		
@@ -506,7 +507,7 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
-		logger.debug("save "  + alert);
+		logger.debug(alert);
 		try(PreparedStatement pst=con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)"))
 		{
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
@@ -682,13 +683,14 @@ public class HsqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public void initDefault() {
-			setProperty("DRIVER", "org.hsqldb.jdbc.JDBCDriver");
-			setProperty("URL", confdir.getAbsolutePath()+"/hsqldao");
-			setProperty("DBNAME", "magicDB");
-			setProperty("LOGIN", "SA");
-			setProperty("PASS", "");
-		
+			setProperty(KEYS.DRIVER.name(), "org.hsqldb.jdbc.JDBCDriver");
+			setProperty(KEYS.URL.name(), confdir.getAbsolutePath()+"/hsqldao");
+			setProperty(KEYS.DBNAME.name(), "magicDB");
+			setProperty(KEYS.LOGIN.name(), "SA");
+			setProperty(KEYS.PASS.name(), "");
 	}
+	
+	
 
 	@Override
 	public String getVersion() {

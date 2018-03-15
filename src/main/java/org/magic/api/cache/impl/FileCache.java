@@ -17,6 +17,7 @@ import org.magic.tools.IDGenerator;
 
 public class FileCache extends AbstractMTGPicturesCache {
 
+	private enum KEYS {FORMAT,DIRECTORY};
 	
 	public File getDirectory() {
 		return directory;
@@ -37,7 +38,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 	public FileCache() {
 		super();
 		
-		directory = new File(getString("DIRECTORY"));
+		directory = new File(getString(KEYS.DIRECTORY.name()));
 		if(!directory.exists())
 			directory.mkdir();
 	}
@@ -66,7 +67,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 			if(!save.exists())
 				save.mkdir();
 			
-			return ImageIO.read(new File(save,generateIdIndex(mc, ed)+"."+getString("FORMAT")));
+			return ImageIO.read(new File(save,generateIdIndex(mc, ed)+"."+getString(KEYS.FORMAT.name())));
 		} catch (IOException e) {
 			return null;
 		}
@@ -91,7 +92,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		if(!f.exists())
 			f.mkdir();
 		
-		ImageIO.write(im, getString("FORMAT"), new File(f,generateIdIndex(mc, ed)+"."+getString("FORMAT")));
+		ImageIO.write(im, getString(KEYS.FORMAT.name()), new File(f,generateIdIndex(mc, ed)+"."+getString(KEYS.FORMAT.name())));
 		
 	}
 
@@ -115,8 +116,8 @@ public class FileCache extends AbstractMTGPicturesCache {
 
 	@Override
 	public void initDefault() {
-		setProperty("DIRECTORY", MTGConstants.CONF_DIR+"/caches/cachePics");
-		setProperty("FORMAT", "png");
+		setProperty(KEYS.DIRECTORY.name(), MTGConstants.CONF_DIR+"/caches/cachePics");
+		setProperty(KEYS.FORMAT.name(), "png");
 		
 	}
 
@@ -124,6 +125,6 @@ public class FileCache extends AbstractMTGPicturesCache {
 	public String getVersion() {
 		return "1";
 	}
-	
+
 	
 }
