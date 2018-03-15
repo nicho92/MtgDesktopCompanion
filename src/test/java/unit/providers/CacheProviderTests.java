@@ -70,7 +70,8 @@ public class CacheProviderTests {
 		System.out.println("****************"+p);
 		System.out.println(p.getStatut());
 		System.out.println(p.getType());
-	
+		System.out.println("VERS "+p.getVersion());
+		
 		try {
 			p.getPic(mc, ed);
 			System.out.println("getPictures OK" );

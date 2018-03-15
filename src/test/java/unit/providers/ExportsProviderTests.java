@@ -113,6 +113,8 @@ public class ExportsProviderTests {
 			System.out.println("TYPE "+p.getType());
 			System.out.println("ENAB "+p.isEnable());
 			System.out.println("ICON "+p.getIcon());
+			System.out.println("VERS "+p.getVersion());
+			
 			MagicDeck d = new MagicDeck();
 				d.setDateCreation(new Date());
 				d.setDescription("Test of " + p);

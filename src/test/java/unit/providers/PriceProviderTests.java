@@ -8,6 +8,7 @@ import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicPrice;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.decksniffer.impl.DeckstatsDeckSniffer;
 import org.magic.api.decksniffer.impl.LotusNoirDecks;
@@ -18,10 +19,21 @@ import org.magic.api.decksniffer.impl.MagicCorporationDecks;
 import org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer;
 import org.magic.api.decksniffer.impl.TappedOutDeckSniffer;
 import org.magic.api.interfaces.MTGDeckSniffer;
+import org.magic.api.interfaces.MTGPricesProvider;
+import org.magic.api.pricers.impl.CardKingdomPricer;
+import org.magic.api.pricers.impl.ChannelFireballPricer;
+import org.magic.api.pricers.impl.DeckTutorPricer;
+import org.magic.api.pricers.impl.EbayPricer;
+import org.magic.api.pricers.impl.MTGPricePricer;
+import org.magic.api.pricers.impl.MagicBazarPricer;
+import org.magic.api.pricers.impl.MagicCardMarketPricer2;
+import org.magic.api.pricers.impl.MagicTradersPricer;
+import org.magic.api.pricers.impl.MagicVillePricer;
+import org.magic.api.pricers.impl.TCGPlayerPricer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class DeckSnifferProviderTests {
+public class PriceProviderTests {
 
 	MagicCard mc;
 	MagicEdition ed;
@@ -30,7 +42,7 @@ public class DeckSnifferProviderTests {
 	@Before
 	public void initLogger()
 	{
-		MTGLogger.changeLevel(Level.INFO);
+		MTGLogger.changeLevel(Level.ERROR);
 	}
 
 	
@@ -66,22 +78,22 @@ public class DeckSnifferProviderTests {
 	public void initTests()
 	{
 		
-		MTGControler.getInstance().getEnabledProviders().init();
-		test(new DeckstatsDeckSniffer());
-		test(new LotusNoirDecks());
-		test(new MagicCorporationDecks());
-		test(new MTGoldFishDeck());
-		test(new MTGSalvationDeckSniffer());
-		test(new MTGTop8DeckSniffer());
-		test(new TCGPlayerDeckSniffer());
-		test(new TappedOutDeckSniffer());
-		
+		test(new CardKingdomPricer());
+		test(new ChannelFireballPricer());
+		test(new DeckTutorPricer());
+		test(new EbayPricer());
+		test(new MagicBazarPricer());
+		test(new MagicCardMarketPricer2());
+		test(new MagicTradersPricer());
+		test(new MagicVillePricer());
+		test(new MTGPricePricer());
+		test(new TCGPlayerPricer());
 		
 	}
 	
 	
 	
-	public void test(MTGDeckSniffer p)
+	public void test(MTGPricesProvider p)
 	{
 		
 			System.out.println("*****************************"+p.getName());
@@ -89,15 +101,13 @@ public class DeckSnifferProviderTests {
 			System.out.println("PROP "+p.getProperties());
 			System.out.println("TYPE "+p.getType());
 			System.out.println("ENAB "+p.isEnable());
-			System.out.println("FILT "+p.listFilter());
 			System.out.println("VERS "+p.getVersion());
 						
 			try {
-				List<RetrievableDeck> decks = p.getDeckList();
-				System.out.println("Retrieve decklist OK");
-				RetrievableDeck d = decks.get(0);
-				MagicDeck deck = p.getDeck(d);
-				System.out.println("Retrieve " + deck.getName() +" ok");
+				List<MagicPrice> prices = p.getPrice(ed, mc);
+				System.out.println(prices);
+				
+				
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

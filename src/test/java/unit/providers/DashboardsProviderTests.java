@@ -24,7 +24,7 @@ public class DashboardsProviderTests {
 	@Before
 	public void initLogger()
 	{
-		MTGLogger.changeLevel(Level.ERROR);
+		MTGLogger.changeLevel(Level.DEBUG);
 	}
 
 	
@@ -80,7 +80,8 @@ public class DashboardsProviderTests {
 			System.out.println("ENAB "+p.isEnable());
 			System.out.println("DOMI "+p.getDominanceFilters());	
 			System.out.println("DATE "+p.getUpdatedDate());
-		
+			System.out.println("VERS "+p.getVersion());
+			
 			try {
 				p.getShakeForEdition(ed);
 				System.out.println("get Shakes for " + ed + " OK");

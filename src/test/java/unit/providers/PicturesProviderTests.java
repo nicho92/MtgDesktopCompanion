@@ -88,6 +88,7 @@ public class PicturesProviderTests {
 		System.out.println("****************"+p);
 		System.out.println(p.getStatut());
 		System.out.println(p.getType());
+		System.out.println("VERS "+p.getVersion());
 		
 		
 		try {

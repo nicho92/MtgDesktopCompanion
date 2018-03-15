@@ -75,6 +75,7 @@ public class ShoppersProviderTests {
 			System.out.println("PROP "+p.getProperties());
 			System.out.println("TYPE "+p.getType());
 			System.out.println("ENAB "+p.isEnable());
+			System.out.println("VERS "+p.getVersion());
 			
 			p.search("cartes magic");
 			

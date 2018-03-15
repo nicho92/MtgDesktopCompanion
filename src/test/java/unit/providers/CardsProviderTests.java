@@ -79,6 +79,8 @@ public class CardsProviderTests {
 			System.out.println("PROP "+p.getProperties());
 			System.out.println("TYPE "+p.getType());
 			System.out.println("ENAB "+p.isEnable());
+			System.out.println("VERS "+p.getVersion());
+			
 			mc.setId(id);
 			try {
 				p.loadEditions();

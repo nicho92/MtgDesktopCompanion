@@ -129,7 +129,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
 		
-		String name = edition.getSet().replaceAll(" ", "_");
+		String name = convert(edition.getSet()).replaceAll(" ", "_");
 		
 	
 		String url = "http://www.mtgprice.com/spoiler_lists/"+name;
@@ -177,6 +177,13 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 			
 			
 		return list;
+	}
+
+	private String convert(String name) {
+		if(name.equalsIgnoreCase("Limited Edition Alpha"))
+			return "Alpha";
+		
+		return name;
 	}
 
 	@Override
