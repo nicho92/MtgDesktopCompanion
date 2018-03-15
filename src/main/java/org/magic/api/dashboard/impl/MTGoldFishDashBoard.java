@@ -282,6 +282,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 			case "Masterpiece+Series+Amonkhet+Invocations" : return "Amonkhet+Invocations";
 			case "Masterpiece+Series+Kaladesh+Inventions" : return "Kaladesh+Inventions";
 			case "You+Make+the+Cube" : return "Treasure+Chest";
+			case "Modern+Masters+2015+Edition": return "Modern+Masters+2015";
 			default : return editionName;
 		}
 	}
