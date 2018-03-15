@@ -32,6 +32,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 
     private Connection con;
     private List<MagicCardAlert> list;
+    private enum KEYS {DRIVER,SERVERNAME,SERVERPORT,DB_NAME,LOGIN,PASS,CARD_STORE,PARAMS,MYSQL_DUMP_PATH}
+    private String cardFieldName="mcard";
     
 	@Override
 	public STATUT getStatut() {
@@ -46,10 +48,10 @@ public class MysqlDAO extends AbstractMagicDAO{
 	
 	public void init() throws SQLException, ClassNotFoundException {
 		 logger.info("init " + getName());
-		 Class.forName(getString("DRIVER"));
-		 String url = "jdbc:mysql://"+getString("SERVERNAME")+":"+getString("SERVERPORT");
-		 logger.trace("Connexion to " + url+"/"+getString("DB_NAME")+getString("PARAMS"));
-		 con=DriverManager.getConnection(url+"/"+getString("DB_NAME")+getString("PARAMS"),getString("LOGIN"),getString("PASS"));
+		 Class.forName(getString(KEYS.DRIVER.name()));
+		 String url = "jdbc:mysql://"+getString(KEYS.SERVERNAME.name())+":"+getString(KEYS.SERVERPORT.name());
+		 logger.trace("Connexion to " + url+"/"+getString(KEYS.DB_NAME.name())+getString(KEYS.PARAMS.name()));
+		 con=DriverManager.getConnection(url+"/"+getString(KEYS.DB_NAME.name())+getString(KEYS.PARAMS.name()),getString(KEYS.LOGIN.name()),getString(KEYS.PASS.name()));
 		 createDB();
 		 logger.info("init " + getName() +" done");
 		 
@@ -62,17 +64,17 @@ public class MysqlDAO extends AbstractMagicDAO{
 		 try (Statement stat=con.createStatement())
 		 {
 		 	logger.debug("Create table Cards");
-		 	stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+		 	stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "+getProperty(KEYS.CARD_STORE.name(),defaultStore)+", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 		 	logger.debug("Create table Shop");
 		 	stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 		 	logger.debug("Create table collections");
 		 	stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 		 	logger.debug("Create table stocks");
-		 	stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
+		 	stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "+getProperty(KEYS.CARD_STORE.name(),defaultStore)+", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
 			logger.debug("Create table Alerts");
-			stat.executeUpdate("create table alerts (id varchar(250), mcard "+getProperty("CARD_STORE",defaultStore)+", amount DECIMAL)");
+			stat.executeUpdate("create table alerts (id varchar(250), mcard "+getProperty(KEYS.CARD_STORE.name(),defaultStore)+", amount DECIMAL)");
 		 	logger.debug("Create table Decks");
-		 	stat.executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "+getProperty("CARD_STORE",defaultStore)+", categorie VARCHAR(100))");
+		 	stat.executeUpdate("CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "+getProperty(KEYS.CARD_STORE.name(),defaultStore)+", categorie VARCHAR(100))");
 		 	logger.debug("Create table News");
 		 	stat.executeUpdate("CREATE TABLE news (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
 		 	
@@ -133,7 +135,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			List<MagicCard> listCards = new ArrayList<>();
 			while(rs.next())
 			{
-				listCards.add((MagicCard) rs.getObject("mcard"));
+				listCards.add((MagicCard) rs.getObject(cardFieldName));
 			}
 			return listCards;
 		}
@@ -202,7 +204,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 				List<MagicCard> ret = new ArrayList<>();
 				while(rs.next())
 				{
-					ret.add((MagicCard) rs.getObject("mcard"));
+					ret.add((MagicCard) rs.getObject(cardFieldName));
 				}
 				return ret;
 			}
@@ -307,7 +309,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 
 	@Override
 	public String getDBLocation() {
-		return getString("SERVERNAME")+"/"+getString("DB_NAME");
+		return getString(KEYS.SERVERNAME.name())+"/"+getString(KEYS.DB_NAME.name());
 	}
 
 	@Override
@@ -424,7 +426,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 				
 					state.setComment(rs.getString("comments"));
 					state.setIdstock(rs.getInt("idstock"));
-					state.setMagicCard((MagicCard)rs.getObject("mcard"));
+					state.setMagicCard((MagicCard)rs.getObject(cardFieldName));
 					state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 					try{
 						state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
@@ -517,14 +519,14 @@ public class MysqlDAO extends AbstractMagicDAO{
 	public void backup(File f) throws SQLException,IOException {
 		
 		
-		if(getString("MYSQL_DUMP_PATH").length()<=0)
+		if(getString(KEYS.MYSQL_DUMP_PATH.name()).length()<=0)
 		{
 			throw new NullPointerException("Please fill MYSQL_DUMP_PATH var");
 		}
 		
-		String dumpCommand = getString("MYSQL_DUMP_PATH")+"/mysqldump " + getString("DB_NAME") + " -h " + getString("SERVERNAME") + " -u " + getString("LOGIN") +" -p" + getString("PASS")+" --port " + getString("SERVERPORT");
+		String dumpCommand = getString(KEYS.MYSQL_DUMP_PATH.name())+"/mysqldump " + getString(KEYS.DB_NAME.name()) + " -h " + getString(KEYS.SERVERNAME.name()) + " -u " + getString(KEYS.LOGIN.name()) +" -p" + getString(KEYS.PASS.name())+" --port " + getString(KEYS.SERVERPORT.name());
 		Runtime rt = Runtime.getRuntime();
-		logger.info("begin Backup " + getString("DB_NAME"));
+		logger.info("begin Backup " + getString(KEYS.DB_NAME.name()));
 		Process child;
 		
 			child = rt.exec(dumpCommand);
@@ -536,7 +538,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 			{
 				ps.write(ch);
 			}
-			logger.info("Backup " + getString("DB_NAME") + " done");
+			logger.info("Backup " + getString(KEYS.DB_NAME.name()) + " done");
 		}
 		
 		
@@ -558,7 +560,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 					while(rs.next())
 					{
 						MagicCardAlert alert = new MagicCardAlert();
-									   alert.setCard((MagicCard)rs.getObject("mcard"));
+									   alert.setCard((MagicCard)rs.getObject(cardFieldName));
 									   alert.setId(rs.getString("id"));
 									   alert.setPrice(rs.getDouble("amount"));
 									   
@@ -699,18 +701,20 @@ public class MysqlDAO extends AbstractMagicDAO{
 		}
 		
 	}
+	
+	
 
 	@Override
 	public void initDefault() {
-		setProperty("DRIVER", "com.mysql.jdbc.Driver");
-		 setProperty("SERVERNAME","localhost");
-		 setProperty("SERVERPORT", "3306");
-		 setProperty("DB_NAME", "mtgdesktopclient");
-		 setProperty("LOGIN", "login");
-		 setProperty("PASS", "");
-		 setProperty("CARD_STORE", "BLOB"); 
-		 setProperty("PARAMS", "?autoDeserialize=true&autoReconnect=true");
-		 setProperty("MYSQL_DUMP_PATH", "C:\\Program Files (x86)\\Mysql\\bin");
+		 setProperty(KEYS.DRIVER.name(), "com.mysql.jdbc.Driver");
+		 setProperty(KEYS.SERVERNAME.name(),"localhost");
+		 setProperty(KEYS.SERVERPORT.name(), "3306");
+		 setProperty(KEYS.DB_NAME.name(), "mtgdesktopclient");
+		 setProperty(KEYS.LOGIN.name(), "login");
+		 setProperty(KEYS.PASS.name(), "");
+		 setProperty(KEYS.CARD_STORE.name(), "BLOB"); 
+		 setProperty(KEYS.PARAMS.name(), "?autoDeserialize=true&autoReconnect=true");
+		 setProperty(KEYS.MYSQL_DUMP_PATH.name(), "C:\\Program Files (x86)\\Mysql\\bin");
 		
 	}
 

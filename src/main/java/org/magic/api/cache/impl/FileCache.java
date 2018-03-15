@@ -17,7 +17,7 @@ import org.magic.tools.IDGenerator;
 
 public class FileCache extends AbstractMTGPicturesCache {
 
-	private enum KEYS {FORMAT,DIRECTORY};
+	private enum KEYS {FORMAT,DIRECTORY}
 	
 	public File getDirectory() {
 		return directory;

@@ -37,6 +37,8 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 	private Connection con;
 	private List<MagicCardAlert> list;
+	private enum KEYS {DRIVER,SERVERNAME,SERVERPORT,DB_NAME,LOGIN,PASS,URL_PGDUMP}
+	private String mcardField="mcard";
 	
 	@Override
 	public STATUT getStatut() {
@@ -51,9 +53,9 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	@Override
 	public void init() throws ClassNotFoundException, SQLException {
 		 logger.info("init " + getName());
-		 Class.forName(getString("DRIVER"));
-		 String url = "jdbc:postgresql://"+getString("SERVERNAME")+":"+getString("SERVERPORT");
-		 con=DriverManager.getConnection(url+"/"+getString("DB_NAME"),getString("LOGIN"),getString("PASS"));
+		 Class.forName(getString(KEYS.DRIVER.name()));
+		 String url = "jdbc:postgresql://"+getString(KEYS.SERVERNAME.name())+":"+getString(KEYS.SERVERPORT.name());
+		 con=DriverManager.getConnection(url+"/"+getString(KEYS.DB_NAME.name()),getString(KEYS.LOGIN.name()),getString(KEYS.PASS.name()));
 		 createDB();
 	}
 
@@ -153,7 +155,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				List<MagicCard> ret = new ArrayList<>();
 				while(rs.next())
 				{
-					ret.add(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
+					ret.add(readObject(MagicCard.class, rs.getBinaryStream(mcardField)));
 				}
 				return ret;
 				
@@ -225,7 +227,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 					List<MagicCard> ret = new ArrayList<>();
 					while(rs.next())
 					{
-						ret.add(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
+						ret.add(readObject(MagicCard.class, rs.getBinaryStream(mcardField)));
 					}
 				
 				return ret;
@@ -332,7 +334,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 		@Override
 		public String getDBLocation() {
-			return getString("SERVERNAME")+"/"+getString("DB_NAME");
+			return getString(KEYS.SERVERNAME.name())+"/"+getString(KEYS.DB_NAME.name());
 		}
 
 		@Override
@@ -376,14 +378,14 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		@Override
 		public void backup(File f) throws IOException {
 			
-			if(getString("URL_PGDUMP").length()<=0)
+			if(getString(KEYS.URL_PGDUMP.name()).length()<=0)
 			{
 				throw new NullPointerException("Please fill URL_PGDUMP var");
 			}
 			
-			String dumpCommand = getString("URL_PGDUMP")+"/pg_dump"+
-						" -d" + getString("DB_NAME") + 
-						" -h" + getString("SERVERNAME") + 
+			String dumpCommand = getString(KEYS.URL_PGDUMP.name())+"/pg_dump"+
+						" -d" + getString(KEYS.DB_NAME.name()) + 
+						" -h" + getString(KEYS.SERVERNAME.name()) + 
 						" -U" + getString("LOGIN") +
 						" -p" + getString("SERVERPORT");
 			
@@ -400,7 +402,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 				{
 					ps.write(ch);
 				}
-				logger.info("Backup " + getString("DB_NAME") + " done");
+				logger.info("Backup " + getString(KEYS.DB_NAME.name()) + " done");
 			}		
 			
 		}
@@ -452,7 +454,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 					
 						state.setComment(rs.getString("comments"));
 						state.setIdstock(rs.getInt("idstock"));
-						state.setMagicCard(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
+						state.setMagicCard(readObject(MagicCard.class, rs.getBinaryStream(mcardField)));
 						state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 						state.setCondition( EnumCondition.valueOf(rs.getString("conditions")) );
 						state.setFoil(rs.getBoolean("foil"));
@@ -473,7 +475,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		public void saveOrUpdateStock(MagicCardStock state) throws SQLException {
 			if(state.getIdstock()<0)
 			{
-				logger.debug("save "  + state);
+				logger.debug("insert "  + state);
 				try(PreparedStatement pst=con.prepareStatement("insert into stocks  ( mcard,conditions,foil,signedcard,langage,qte,comments,idmc,collection,altered,price) values (?,?,?,?,?,?,?,?,?,?,?)"))
 				{
 					pst.setBinaryStream(1, convertObject(state.getMagicCard()));
@@ -523,7 +525,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			{
 			
 					MagicCardAlert alert = new MagicCardAlert();
-								   alert.setCard(readObject(MagicCard.class, rs.getBinaryStream("mcard")));
+								   alert.setCard(readObject(MagicCard.class, rs.getBinaryStream(mcardField)));
 								   alert.setId(rs.getString("id"));
 								   alert.setPrice(rs.getDouble("amount"));
 								   
@@ -675,16 +677,18 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			}
 			
 		}
+		
+		
 
 		@Override
 		public void initDefault() {
-			 setProperty("DRIVER", "org.postgresql.Driver");
-			 setProperty("SERVERNAME","localhost");
-			 setProperty("SERVERPORT", "5432");
-			 setProperty("DB_NAME", "mtgdesktopcompanion");
-			 setProperty("LOGIN", "postgres");
-			 setProperty("PASS", "postgres");
-			 setProperty("URL_PGDUMP", "C:/Program Files (x86)/PostgreSQL/9.5/bin");
+			 setProperty(KEYS.DRIVER.name(), "org.postgresql.Driver");
+			 setProperty(KEYS.SERVERNAME.name(),"localhost");
+			 setProperty(KEYS.SERVERPORT.name(), "5432");
+			 setProperty(KEYS.DB_NAME.name(), "mtgdesktopcompanion");
+			 setProperty(KEYS.LOGIN.name(), "postgres");
+			 setProperty(KEYS.PASS.name(), "postgres");
+			 setProperty(KEYS.URL_PGDUMP.name(), "C:/Program Files (x86)/PostgreSQL/9.5/bin");
 			
 		}
 
