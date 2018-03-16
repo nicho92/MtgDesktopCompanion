@@ -231,8 +231,6 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		}
 							
 		db.getCollection(colCards, BasicDBObject.class).find(query).forEach((Consumer<BasicDBObject>)result->ret.add(deserialize(result.get("card").toString(),MagicCard.class)));
-		
-		Collections.sort(ret,new MagicCardComparator());
 		return ret;
 	}
 

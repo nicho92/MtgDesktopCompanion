@@ -508,9 +508,10 @@ public class CardSearchPanel extends JPanel {
 					
 					
 					new SwingWorker<Object, Object>(){
-						protected Void doInBackground() throws Exception {
+						protected Void doInBackground(){
 							loading(true,MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 							String searchName=txtMagicSearch.getText();
+							try {
 							if(cboCollections.isVisible())
 								cards = MTGControler.getInstance().getEnabledDAO().listCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 							else
@@ -518,9 +519,15 @@ public class CardSearchPanel extends JPanel {
 							
 							if(cards.size()<50)
 								Collections.sort(cards,new MagicCardComparator());
-							
 							open(cards);
 							return null;
+							}catch(Exception e)
+							{
+								logger.error("Erreur search",e);
+								return null;
+							}
+							
+							
 						}
 						
 						@Override
@@ -783,6 +790,7 @@ public class CardSearchPanel extends JPanel {
 		}
 
 		public void open(List<MagicCard> cards) {
+			logger.debug("results " + cards.size() + " cards");
 			cardsModeltable.init(cards);
 			tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 			thumbnailPanel.initThumbnails(cards,false,false);
