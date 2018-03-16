@@ -12,6 +12,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class AboutDialog extends JDialog {
@@ -19,7 +20,7 @@ public class AboutDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	public AboutDialog() {
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("ABOUT"));
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("ABOUT")+ " " + MTGConstants.MTG_APP_NAME);
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		

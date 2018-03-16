@@ -90,7 +90,7 @@ public class MagicGUI extends JFrame {
 		
 		logger.info("init Main GUI");
 		setSize(new Dimension(1420, 900));
-		setTitle("Magic Desktop Companion ( v" + MTGControler.getInstance().getVersion()+")");
+		setTitle(MTGConstants.MTG_APP_NAME+" ( v" + MTGControler.getInstance().getVersion()+")");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(MTGConstants.IMAGE_LOGO);
 		getContentPane().setLayout(new BorderLayout());
