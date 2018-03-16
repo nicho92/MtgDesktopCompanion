@@ -422,7 +422,7 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void initDefault() {
 		setProperty(KEYS.URL.name(), confdir.getAbsolutePath()+"/filesDB");
-		setProperty("SERIALIZER", "json");
+		setProperty(KEYS.SERIALIZER.name(), "json");
 		
 	}
 
