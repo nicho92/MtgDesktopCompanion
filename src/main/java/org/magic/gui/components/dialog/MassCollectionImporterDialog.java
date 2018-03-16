@@ -24,8 +24,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGDao;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;

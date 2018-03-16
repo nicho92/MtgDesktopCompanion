@@ -6,19 +6,8 @@ import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.decksniffer.impl.DeckstatsDeckSniffer;
-import org.magic.api.decksniffer.impl.LotusNoirDecks;
-import org.magic.api.decksniffer.impl.MTGSalvationDeckSniffer;
-import org.magic.api.decksniffer.impl.MTGTop8DeckSniffer;
-import org.magic.api.decksniffer.impl.MTGoldFishDeck;
-import org.magic.api.decksniffer.impl.MagicCorporationDecks;
-import org.magic.api.decksniffer.impl.TCGPlayerDeckSniffer;
-import org.magic.api.decksniffer.impl.TappedOutDeckSniffer;
-import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.pricers.impl.CardKingdomPricer;
 import org.magic.api.pricers.impl.ChannelFireballPricer;
@@ -30,7 +19,6 @@ import org.magic.api.pricers.impl.MagicCardMarketPricer2;
 import org.magic.api.pricers.impl.MagicTradersPricer;
 import org.magic.api.pricers.impl.MagicVillePricer;
 import org.magic.api.pricers.impl.TCGPlayerPricer;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class PriceProviderTests {

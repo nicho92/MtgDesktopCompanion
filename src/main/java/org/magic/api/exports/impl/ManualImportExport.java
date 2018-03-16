@@ -13,10 +13,8 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
-import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.components.dialog.ManualImportDialog;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 
 public class ManualImportExport extends AbstractCardExport {
 
