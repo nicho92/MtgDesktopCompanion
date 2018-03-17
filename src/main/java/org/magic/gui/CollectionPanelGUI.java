@@ -64,7 +64,7 @@ import org.magic.gui.components.dialog.WebSiteGeneratorDialog;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
-import org.magic.gui.renderer.MagicCollectionTreeCellRenderer;
+import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -173,7 +173,7 @@ public class CollectionPanelGUI extends JPanel {
 		splitPane.setResizeWeight(0.5);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		scrollPaneCollections.setMinimumSize(new Dimension(0, 0));
-		tree.setCellRenderer(new MagicCollectionTreeCellRenderer());
+		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
 		tablePrices.setColumnControlVisible(true);
 	
 		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));

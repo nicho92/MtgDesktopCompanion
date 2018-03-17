@@ -30,6 +30,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 								MTGControler.getInstance().getLangService().getCapitalize("SELLER"),
 								MTGControler.getInstance().getLangService().getCapitalize("QUALITY"),
 								MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
+								MTGControler.getInstance().getLangService().getCapitalize("COUNTRY"),
 								MTGControler.getInstance().getLangService().getCapitalize("URL"),
 	};
 	public void addPrice(MagicPrice p)
@@ -117,6 +118,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		case 3 : return String.class;
 		case 4 : return String.class;
 		case 5 : return String.class;
+		case 6 : return String.class;
 		default : return URL.class;
 		}
 	}
@@ -136,7 +138,8 @@ public class CardsPriceTableModel extends DefaultTableModel {
 			case 3 : return mp.getSeller();
 			case 4 : return mp.getQuality();
 			case 5 : return mp.getLanguage();
-			case 6 : return mp.getUrl();
+			case 6 : return mp.getCountry();
+			case 7 : return mp.getUrl();
 		default : return 0;
 		}
 		}catch(IndexOutOfBoundsException ioob)

@@ -19,7 +19,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ColorParser;
 
-public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
+public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 	
 	private ManaPanel pane;
 	private ImageIcon gold; 
@@ -28,7 +28,7 @@ public class MagicCollectionTreeCellRenderer extends DefaultTreeCellRenderer {
 	private Map<String,ImageIcon> map;
 	
 	
-	public MagicCollectionTreeCellRenderer() {
+	public MagicCardsTreeCellRenderer() {
 		try{
 			pane = new ManaPanel();
 			map = new HashMap<>();
