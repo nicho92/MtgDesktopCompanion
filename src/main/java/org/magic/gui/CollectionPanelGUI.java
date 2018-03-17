@@ -387,7 +387,7 @@ public class CollectionPanelGUI extends JPanel {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
-						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), 6).toString();
+						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(),CardsPriceTableModel.ROW_URL).toString();
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e) {
 						logger.error(e);

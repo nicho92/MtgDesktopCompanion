@@ -127,7 +127,7 @@ public class DeckPricePanel extends JPanel {
 				{
 					ev.consume();
 					try {
-						String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), 6).toString();
+						String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), CardsPriceTableModel.ROW_URL).toString();
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e) {
 						logger.error(e);

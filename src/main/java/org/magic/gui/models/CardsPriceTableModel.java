@@ -21,7 +21,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private transient List<MTGPricesProvider> providers;
 	private transient List<MagicPrice> prices;
-	
+	public static final int ROW_URL=7;
 	
 	String[] columns= new String[]{
 								MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"),
