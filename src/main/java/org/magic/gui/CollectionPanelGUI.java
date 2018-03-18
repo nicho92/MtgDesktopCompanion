@@ -48,6 +48,7 @@ import org.magic.api.exports.impl.CSVExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
@@ -763,6 +764,19 @@ public class CollectionPanelGUI extends JPanel {
 			menuItemMove.add(movs);
 		}
 
+		
+		JMenuItem menuItemOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
+		menuItemOpen.addActionListener(e->{
+			MagicCollection col = (MagicCollection) ((DefaultMutableTreeNode) path.getPathComponent(1)).getUserObject();
+			MagicEdition edition = (MagicEdition) ((DefaultMutableTreeNode) path.getPathComponent(2)).getUserObject();
+			try {
+				CardSearchPanel.getInstance().open(MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, edition));
+			} catch (SQLException e1) {
+				logger.error(e1);
+			}
+			
+		});
+		popupMenuEdition.add(menuItemOpen);
 		
 		JMenuItem it = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS"));
 		it.addActionListener(e->{
