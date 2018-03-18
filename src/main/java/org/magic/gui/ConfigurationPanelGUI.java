@@ -186,11 +186,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		loggerViewPanel = new LoggerViewPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOGS"), null, loggerViewPanel, null);
-		
-		threadMonitorPanel = new ThreadMonitorPanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("THREADS"), null, threadMonitorPanel, null);
-		
-		
+	
 		
 	}
 

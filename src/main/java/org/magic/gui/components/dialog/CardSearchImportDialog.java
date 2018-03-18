@@ -21,7 +21,7 @@ public class CardSearchImportDialog extends JDialog {
 		
 		selectCard.addActionListener(e->dispose());
 		
-		getContentPane().add(CardSearchPanel.getInstance(), BorderLayout.CENTER);
+		getContentPane().add(new CardSearchPanel(), BorderLayout.CENTER);
 		getContentPane().add(selectCard, BorderLayout.SOUTH);
 		
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);

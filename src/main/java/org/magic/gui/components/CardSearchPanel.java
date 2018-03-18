@@ -712,7 +712,7 @@ public class CardSearchPanel extends JPanel {
 			updateCards();
 		}
 
-		private CardSearchPanel() {
+		public CardSearchPanel() {
 		
 			try {
 				
@@ -791,15 +791,18 @@ public class CardSearchPanel extends JPanel {
 
 		public void open(List<MagicCard> cards) {
 			logger.debug("results " + cards.size() + " cards");
-			cardsModeltable.init(cards);
-			tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-			thumbnailPanel.initThumbnails(cards,false,false);
-			cmcChart.init(cards);
-			typeRepartitionPanel.init(cards);
-			manaRepartitionPanel.init(cards);
-			rarityRepartitionPanel.init(cards);
-			tabbedCardsView.setTitleAt(0, MTGControler.getInstance().getLangService().getCapitalize("RESULTS")+" ("+cardsModeltable.getRowCount()+")");
 			
+			if(!cards.isEmpty())
+			{	cardsModeltable.init(cards);
+				tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+				thumbnailPanel.initThumbnails(cards,false,false);
+				cmcChart.init(cards);
+				typeRepartitionPanel.init(cards);
+				manaRepartitionPanel.init(cards);
+				rarityRepartitionPanel.init(cards);
+				tabbedCardsView.setTitleAt(0, MTGControler.getInstance().getLangService().getCapitalize("RESULTS")+" ("+cardsModeltable.getRowCount()+")");
+				btnExport.setEnabled(true);
+			}
 		}
 
 
