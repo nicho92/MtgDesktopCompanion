@@ -36,14 +36,6 @@ public class EditionCellRenderer extends DefaultTableCellRenderer {
 				l.setToolTipText(ed.getSet());
 				l.setOpaque(false);
 				pane.add(l);
-				
-				pane.addMouseMotionListener(new MouseAdapter() {
-					@Override
-					public void mouseEntered(MouseEvent arg0) {
-						System.out.println(l.getToolTipText());
-					}
-				}); 
-				
 			}
 			return pane;
 		
