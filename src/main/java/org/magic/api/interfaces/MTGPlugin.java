@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Properties;
 
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.utils.patterns.observer.Observer;
 
 public interface MTGPlugin {
 
@@ -21,4 +22,5 @@ public interface MTGPlugin {
 	public File getConfFile();
 	public void initDefault();
 	public String getVersion();
+	public void addObserver(Observer o);
 }

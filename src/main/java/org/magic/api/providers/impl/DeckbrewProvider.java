@@ -179,7 +179,8 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 								mc.getLegalities().add(format);
 						}
 					}
-					
+				setChanged();
+				notifyObservers(mc);
 					
 				retour.add(mc);
 			}

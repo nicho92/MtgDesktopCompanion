@@ -104,4 +104,16 @@ public class MagicCardTableModel extends DefaultTableModel{
 	public List<MagicCard> getListCards() {
 		return cards;
 	}
+
+	public void addCard(MagicCard arg) {
+		cards.add(arg);
+		fireTableDataChanged();
+		
+	}
+
+	public void clear() {
+		cards.clear();
+		fireTableDataChanged();
+		
+	}
 }

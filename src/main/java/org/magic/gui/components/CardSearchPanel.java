@@ -69,6 +69,8 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.MagicCardComparator;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -506,12 +508,22 @@ public class CardSearchPanel extends JPanel {
 					if(txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
 						return;
 					
-					
+					cardsModeltable.clear();
 					new SwingWorker<Object, Object>(){
 						protected Void doInBackground(){
 							loading(true,MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 							String searchName=txtMagicSearch.getText();
 							try {
+							
+							Observer ob = new Observer() {
+								@Override
+								public void update(Observable o, Object arg) {
+									cardsModeltable.addCard((MagicCard)arg);
+								}
+							};	
+							MTGControler.getInstance().getEnabledProviders().addObserver(ob);
+							
+							
 							if(cboCollections.isVisible())
 								cards = MTGControler.getInstance().getEnabledDAO().listCardsFromCollection((MagicCollection)cboCollections.getSelectedItem());
 							else
@@ -519,6 +531,7 @@ public class CardSearchPanel extends JPanel {
 							
 							if(cards.size()<50)
 								Collections.sort(cards,new MagicCardComparator());
+							
 							open(cards);
 							return null;
 							}catch(Exception e)

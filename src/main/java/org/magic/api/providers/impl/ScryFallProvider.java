@@ -446,6 +446,11 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				}
 		},"other editions").start();
 		    
+		  
+ 		  setChanged();
+ 		  notifyObservers(mc);
+  
+		  
 		return mc;
 		
 	}

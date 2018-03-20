@@ -467,7 +467,9 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	 		 if(mc.getLayout().equals("double-faced") || mc.getLayout().equals("meld") )
  				 mc.setTranformable(true);
  		 
-	 		   
+	 		  
+	 		  setChanged();
+	 		  notifyObservers(mc);
 	 		   
 	 		  listCards.add(mc);
 	 		  

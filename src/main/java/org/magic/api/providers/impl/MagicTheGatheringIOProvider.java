@@ -287,6 +287,10 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider{
 								mc.getForeignNames().add(mcn);
 				}
 			}
+			setChanged();
+			notifyObservers(mc);
+
+			
 		return mc;
 	}
 	
