@@ -10,15 +10,24 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.IconSetProvider;
+import java.awt.FlowLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 
 public class EditionCellRenderer extends DefaultTableCellRenderer {
+	
+	public EditionCellRenderer() {
+		FlowLayout flowLayout = new FlowLayout();
+		flowLayout.setVgap(0);
+		flowLayout.setAlignment(FlowLayout.LEFT);
+		pane.setLayout(flowLayout);
+	}
 
 	JPanel pane=new JPanel();
 	
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 			pane.removeAll();
-			
 			pane.setBackground(super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column).getBackground());
 			
 			for(MagicEdition ed : (List<MagicEdition>)value)
@@ -27,6 +36,14 @@ public class EditionCellRenderer extends DefaultTableCellRenderer {
 				l.setToolTipText(ed.getSet());
 				l.setOpaque(false);
 				pane.add(l);
+				
+				pane.addMouseMotionListener(new MouseAdapter() {
+					@Override
+					public void mouseEntered(MouseEvent arg0) {
+						System.out.println(l.getToolTipText());
+					}
+				}); 
+				
 			}
 			return pane;
 		

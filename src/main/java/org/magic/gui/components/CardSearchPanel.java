@@ -50,6 +50,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
@@ -567,10 +568,10 @@ public class CardSearchPanel extends JPanel {
 					}.execute();
 				}
 			);
-
-			tableCards.addMouseListener(new java.awt.event.MouseAdapter() {
+			
+			tableCards.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(java.awt.event.MouseEvent evt) {
+				public void mouseClicked(MouseEvent evt) {
 
 					if(SwingUtilities.isRightMouseButton(evt))
 					{
