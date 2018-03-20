@@ -47,4 +47,16 @@ public class Observable {
         return changed;
     }
 
+    public synchronized void removeObserver(Observer o) {
+        if (o == null)
+            throw new NullPointerException();
+        if (obs.contains(o)) {
+            obs.remove(o);
+        }
+    }
+    
+    public synchronized void removeObservers() {
+      obs.clear();
+    }
+    
 }

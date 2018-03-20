@@ -9,6 +9,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -514,6 +515,12 @@ public class CardSearchPanel extends JPanel {
 		
 			btnSearch.addActionListener(ae->{
 
+				Observer ob = new Observer() {
+					@Override
+					public void update(Observable o, Object arg) {
+						cardsModeltable.addCard((MagicCard)arg);
+					}
+				};	
 					selectedEdition=null;
 					if(txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
 						return;
@@ -525,12 +532,7 @@ public class CardSearchPanel extends JPanel {
 							String searchName=txtMagicSearch.getText();
 							try {
 							
-							Observer ob = new Observer() {
-								@Override
-								public void update(Observable o, Object arg) {
-									cardsModeltable.addCard((MagicCard)arg);
-								}
-							};	
+							
 							MTGControler.getInstance().getEnabledProviders().addObserver(ob);
 							
 							
@@ -559,6 +561,7 @@ public class CardSearchPanel extends JPanel {
 							loading(false,"");
 							cardsModeltable.fireTableDataChanged();
 							btnExport.setEnabled(tableCards.getRowCount()>0);
+							MTGControler.getInstance().getEnabledProviders().removeObserver(ob);
 							
 						}
 					}.execute();
@@ -632,23 +635,24 @@ public class CardSearchPanel extends JPanel {
 				}
 			});
 
-			cboLanguages.addActionListener(e->{
-					MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
-					
+	cboLanguages.addItemListener(e->{
+				
+				MagicCardNames selLang = (MagicCardNames)cboLanguages.getSelectedItem();
 					try {
-						if(selLang!=null)
-						{
+					
+						 if (e.getStateChange() == ItemEvent.SELECTED && selLang!=null) 
+						 {
 							MagicEdition ed = (MagicEdition)BeanUtils.cloneBean(selectedEdition);
 								ed.setMultiverse_id(""+selLang.getGathererId());
 							
 							logger.debug("change lang to " + selLang + " for " + ed);	
 							cardsPicPanel.showPhoto(selectedCard,ed);
-						}
+						 }
+						 
 					} catch (Exception e1) {
 						logger.error(e1);
 					}
-				}
-			);
+				});
 
 			btnExport.addActionListener(ae->{
 					JPopupMenu menu = new JPopupMenu();
