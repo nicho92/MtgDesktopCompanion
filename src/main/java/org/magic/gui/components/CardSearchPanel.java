@@ -62,6 +62,7 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicCardTableModel;
+import org.magic.gui.renderer.EditionCellRenderer;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -294,7 +295,7 @@ public class CardSearchPanel extends JPanel {
 			JLabel lblFilter = new JLabel();
 			
 			listEdition = new JList<>();
-			listEdition.setCellRenderer(new MagicEditionListRenderer());
+			
 			txtMagicSearch = new JTextField();
 			txtRulesArea = new JTextArea();
 			txtFilter = new JTextField();
@@ -302,11 +303,20 @@ public class CardSearchPanel extends JPanel {
 			filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
 			
 			cboEdition = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
-			cboEdition.setRenderer(new MagicEditionListRenderer());
+		
+			
 ////////MODELS
 				listEdition.setModel(new DefaultListModel<MagicEdition>());
 				tablePrice.setModel(priceModel);
 				tableCards.setModel(cardsModeltable);
+				
+				
+				
+////////RENDERER				
+				tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+				tableCards.getColumnModel().getColumn(6).setCellRenderer(new EditionCellRenderer());
+				cboEdition.setRenderer(new MagicEditionListRenderer());
+				listEdition.setCellRenderer(new MagicEditionListRenderer());			
 			
 /////////CONFIGURE COMPONENTS			
 			txtRulesArea.setLineWrap(true);
@@ -806,8 +816,8 @@ public class CardSearchPanel extends JPanel {
 			logger.debug("results " + cards.size() + " cards");
 			
 			if(!cards.isEmpty())
-			{	cardsModeltable.init(cards);
-				tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+			{	
+				cardsModeltable.init(cards);
 				thumbnailPanel.initThumbnails(cards,false,false);
 				cmcChart.init(cards);
 				typeRepartitionPanel.init(cards);
