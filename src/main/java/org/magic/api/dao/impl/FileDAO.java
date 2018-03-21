@@ -37,9 +37,7 @@ public class FileDAO extends AbstractMagicDAO {
 	private static final String STOCKDIR="stocks";
 	private static final String ALERTSDIR="alerts";
 	private static final String NEWSDIR="news";
-	
-	private enum KEYS {URL,SERIALIZER}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -58,7 +56,7 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void init()  {
 		export = new Gson();
-		directory=new File(getString(KEYS.URL.name()));
+		directory=new File(getString("URL"));
 		
 		if(!directory.exists())
 			directory.mkdir();
@@ -421,8 +419,8 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void initDefault() {
-		setProperty(KEYS.URL.name(), confdir.getAbsolutePath()+"/filesDB");
-		setProperty(KEYS.SERIALIZER.name(), "json");
+		setProperty("URL", confdir.getAbsolutePath()+"/filesDB");
+		setProperty("SERIALIZER", "json");
 		
 	}
 
