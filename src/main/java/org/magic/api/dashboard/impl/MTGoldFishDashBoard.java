@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
 
+import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -74,8 +75,16 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		 }
 		 else
 		 {
-			 String cardName=mc.getName().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "");
-			 String editionName=me.toString().replaceAll(" ", "+").replaceAll("'", "").replaceAll(",", "").replaceAll(":","");
+			 String cardName=StringUtils.replaceAll(mc.getName(), " ", "+");
+			 cardName=StringUtils.replaceAll(cardName, "'", "");	
+			 cardName=StringUtils.replaceAll(cardName, ",", "");
+			 
+			 String editionName=StringUtils.replaceAll(me.toString(), " ", "+");
+			 editionName=StringUtils.replaceAll(editionName, "'", "");
+			 editionName=StringUtils.replaceAll(editionName, ",", "");
+			 editionName=StringUtils.replaceAll(editionName, ":", "");
+			 
+			 
 			 url =getString("WEBSITE")+"/price/"+convert(editionName)+"/"+cardName+"#"+getString("FORMAT");
 			 index=8;
 		
@@ -98,11 +107,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 	        		 if(!stop && visitedNode.toSource().startsWith("d"))
 	        		 {
 	        			 String val = visitedNode.toSource();
-	        			 val=val.replaceAll("d \\+\\= ", "");
-	        			 val=val.replaceAll("\\\\n", "");
-	        			 val=val.replaceAll(";", "");
-	        			 val=val.replaceAll("\"", "");
-	        			String[] res = val.split(",");
+	        			 val=StringUtils.replaceAll(val,"d \\+\\= ", "");
+	        			 val=StringUtils.replaceAll(val,"\\\\n", "");
+	        			 val=StringUtils.replaceAll(val,";", "");
+	        			 val=StringUtils.replaceAll(val,"\"", "");
+		        		 String[] res = val.split(",");
 	        				
 	        			try {
 	        				Date date = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(res[0]+ " 00:00");

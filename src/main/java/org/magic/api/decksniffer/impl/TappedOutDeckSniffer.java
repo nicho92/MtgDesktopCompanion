@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
@@ -88,7 +89,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		httpclient = HttpClients.custom()
 					.setUserAgent(getString("USER_AGENT"))
 					.setRedirectStrategy(new LaxRedirectStrategy())
-					//.setConnectionTimeToLive(3000, TimeUnit.MILLISECONDS)
 					.build();
 		
 		httpclient.execute(new HttpGet("https://tappedout.net/accounts/login/?next=/"), httpContext);
@@ -130,7 +130,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			
 			
 			//remove foil if present
-			cardName=cardName.replaceAll("\\*.+?\\*", "").trim();
+			cardName=StringUtils.replaceAll(cardName,"\\*.+?\\*", "").trim();
 			
 			
 			
@@ -140,7 +140,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		    while(m.find()) {
 		      idSet = (m.group(1));    
 		    }
-		    cardName=cardName.replaceAll("\\(([^)]+)\\)", "").trim();
+		    cardName=StringUtils.replaceAll(cardName,"\\(([^)]+)\\)", "").trim();
 		    
 		    
 		    //remove behavior if present
@@ -189,7 +189,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		String tappedJson = getString("URL_JSON").replaceAll("%FORMAT%", getString("FORMAT"));
+		String tappedJson = StringUtils.replaceAll(getString("URL_JSON"),"%FORMAT%", getString("FORMAT"));
 		
 		logger.debug("sniff url : " + tappedJson);
 		String responseBody = EntityUtils.toString(httpclient.execute(new HttpGet(tappedJson), httpContext).getEntity());
