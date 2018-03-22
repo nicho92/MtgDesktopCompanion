@@ -8,11 +8,8 @@
 <includeBaseDirectory>true</includeBaseDirectory>
 <fileSets>
   <fileSet>
-    <outputDirectory>${project.basedir}/dist</outputDirectory>
+    <outputDirectory>/</outputDirectory>
     <directory>${basedir}/target/executable</directory>
-    <includes>
-        <include>**/*.*</include>
-    </includes>
   </fileSet>
 </fileSets>
 </assembly>

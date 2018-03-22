@@ -259,8 +259,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			{ 
 				Document d = Jsoup.connect("https://scryfall.com/blog/category/api").timeout(0).get();
 				String date=d.select("a.muted-n").first().text();
-				String href=d.select("a.muted-n").first().attr("href");
-				version=href.substring(href.lastIndexOf('-')+1,href.length())+" " + date;
+				version=date;
 			}
 		} catch (IOException e) {
 			logger.error(e);
