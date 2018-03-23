@@ -16,6 +16,10 @@
 		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
 		<developerConnection>Nicho</developerConnection>
 	</scm>
+	<ciManagement>
+		<system>Travis CI</system>
+		<url>https://travis-ci.org/nicho92/MtgDesktopCompanion</url>
+	</ciManagement>
 	<properties>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<maven.compiler.target>1.8</maven.compiler.target>
@@ -302,8 +306,8 @@
     	<artifactId>commons-math3</artifactId>
     	<version>3.6.1</version>
 	</dependency>
-    
-	</dependencies>
+	
+  </dependencies>
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -398,7 +402,7 @@
                    <artifactId>maven-assembly-plugin</artifactId>
                    <configuration>
                      <descriptor>src/assembly/zip.xml</descriptor>
-                     <finalName>mtg-desktop-companion-${version}</finalName>
+                     <finalName>mtg-desktop-companion-${project.version}</finalName>
                    </configuration>
                    <executions>
                      <execution>
