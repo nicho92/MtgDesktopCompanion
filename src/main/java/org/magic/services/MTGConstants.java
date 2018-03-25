@@ -90,7 +90,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_CONFIG = new ImageIcon(MTGConstants.class.getResource("/icons/build.png"));
 	public static final ImageIcon ICON_STORY =  new ImageIcon(MTGConstants.class.getResource("/icons/stories.png"));
 	public static final ImageIcon ICON_WALLPAPER = new ImageIcon(MTGConstants.class.getResource("/icons/wallpaper.png"));
-	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource("/data/magic-logo.png"));
+	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource("/data/masters-logo.png"));
 	
 	public static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource("/icons/logo.gif"));
 
