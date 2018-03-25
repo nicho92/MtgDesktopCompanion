@@ -125,10 +125,9 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public void initDefault() {
+		super.initDefault();
 		setProperty("WEBSITE", "https://magiccards.info/scans/");
 		setProperty("LANG", "en");
-		setProperty("CARD_SIZE_WIDTH", "223");
-		setProperty("CARD_SIZE_HEIGHT", "310");
 		setProperty("USER_AGENT",MTGConstants.USER_AGENT);
 		
 	}

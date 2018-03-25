@@ -99,11 +99,9 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public void initDefault() {
+		super.initDefault();
 		setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
 		setProperty("SET_SIZE", "medium");
-		setProperty("CARD_SIZE_WIDTH", "223");
-		setProperty("CARD_SIZE_HEIGHT", "310");
-		
 	}
 
 

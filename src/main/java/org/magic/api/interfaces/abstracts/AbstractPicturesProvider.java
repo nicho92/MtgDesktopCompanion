@@ -20,6 +20,13 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		return PLUGINS.PICTURES;
 	}
 	
+	@Override
+	public void save() {
+		super.save();
+		 newW= getInt("CARD_SIZE_WIDTH");
+		 newH= getInt("CARD_SIZE_HEIGHT");
+	}
+	
 	public AbstractPicturesProvider() {
 		super();
 		confdir = new File(MTGConstants.CONF_DIR, "pictures");
@@ -44,6 +51,12 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			} 
 	}
 
+	@Override
+	public void initDefault() {
+		setProperty("CARD_SIZE_WIDTH", "223");
+		setProperty("CARD_SIZE_HEIGHT", "310");
+	}
+	
 	
 	public BufferedImage resizeCard(BufferedImage img,int newW, int newH) {  
 	    return ImageUtils.resize(img, newH, newW);

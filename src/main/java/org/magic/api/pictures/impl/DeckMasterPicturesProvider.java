@@ -158,11 +158,10 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public void initDefault() {
+		super.initDefault();
 		setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		setProperty("URL", "https://deckmaster.info/");
-		setProperty("CARD_SIZE_WIDTH", "223");
-		setProperty("CARD_SIZE_HEIGHT", "310");
 		setProperty("ICON_SET_SIZE","medium");
 		
 	}

@@ -99,10 +99,8 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public void initDefault() {
+		super.initDefault();
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		setProperty("CARD_SIZE_WIDTH", "223");
-		setProperty("CARD_SIZE_HEIGHT", "310");
-		
 	}
 
 

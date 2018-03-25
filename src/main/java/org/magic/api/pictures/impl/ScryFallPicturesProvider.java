@@ -152,10 +152,9 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public void initDefault() {
+		super.initDefault();
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		setProperty("CERT_SERV", "scryfall.com");
-		setProperty("CARD_SIZE_WIDTH", "223");
-		setProperty("CARD_SIZE_HEIGHT", "310");
 		setProperty("PIC_SIZE", "large");
 		setProperty("ICON_SET_SIZE","medium");
 		
