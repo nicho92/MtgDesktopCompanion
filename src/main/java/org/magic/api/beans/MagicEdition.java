@@ -33,7 +33,7 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	private String magicCardsInfoCode;
 	private Integer mkm_id;
 	private String mkm_name;
-	
+	private String gathererCode;
 	
 	
 	
@@ -244,6 +244,14 @@ public class MagicEdition implements Serializable,Comparable<MagicEdition> {
 	@Override
 	public int compareTo(MagicEdition o) {
 		return compare(this, o);
+	}
+
+	public String getGathererCode() {
+		return gathererCode;
+	}
+
+	public void setGathererCode(String gathererCode) {
+		this.gathererCode = gathererCode;
 	}
 	
 }

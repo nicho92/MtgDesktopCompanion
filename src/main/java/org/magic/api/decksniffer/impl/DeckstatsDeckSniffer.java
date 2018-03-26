@@ -25,20 +25,7 @@ import org.magic.services.MTGControler;
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	Map<Integer,String> cacheColor;
-	   
-	public static void main(String[] args) throws IOException {
-		DeckstatsDeckSniffer snif = new DeckstatsDeckSniffer();
-		snif.connect();
-		
-		List<RetrievableDeck> decks = snif.getDeckList();
-		
-		MagicDeck d = snif.getDeck(decks.get(3));
-		
-		System.out.println(d.getTags());
-		System.out.println(d.getAsList().size());
-		System.out.println(d.getSideAsList().size());
-		System.out.println(d.getDescription());
-	}
+
 	
 	@Override
 	public STATUT getStatut() {
@@ -207,7 +194,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	public String getName() {
 		return "DeckStats.net";
 	}
-
 
 	@Override
 	public void initDefault() {
