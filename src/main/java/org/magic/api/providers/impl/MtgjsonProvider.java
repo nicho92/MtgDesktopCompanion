@@ -539,6 +539,14 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 						me.setCardCount(0);
 					}
 					
+					try{
+						me.setGathererCode(ctx.read("$."+id+".gathererCode",String.class));
+					}
+					catch(Exception e)
+					{
+						MTGLogger.printStackTrace(e);
+					}
+					
 					
 					try{
 						me.setMagicCardsInfoCode(ctx.read("$."+id+".magicCardsInfoCode",String.class));
@@ -615,8 +623,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 		if(!edCode.startsWith("p"))
 			edCode=edCode.toUpperCase();
 		
-		String jsquery="";
-			jsquery = "$."+edCode+".cards[?(@.name==\""+mc.getName().replaceAll("\\+", " " ).replaceAll("\"", "\\\\\"")+"\")]";
+		String jsquery= "$."+edCode+".cards[?(@.name==\""+mc.getName().replaceAll("\\+", " " ).replaceAll("\"", "\\\\\"")+"\")]";
 		
 		//logger.trace("initOtherEditionVars for " + mc +"("+mc.getEditions().get(0)+") -> " + jsquery);--> error on loading booster
 		
@@ -658,12 +665,18 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 					logger.trace("initOtherEditionCardsVar mkm_id not found");
 				}
 				
-				
 				try {
 		 			   me.setMultiverse_id(String.valueOf((int)(double)map.get("multiverseid")));
 				}catch(Exception e)
 				{
 					logger.trace("multiverseNotFound for " + me);
+				}
+				
+				try {
+		 			   me.setGathererCode(String.valueOf(map.get("gathererCode")));
+				}catch(Exception e)
+				{
+					logger.trace("gathererCode for " + me + " not found");
 				}
 			}
 	}
@@ -710,8 +723,8 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 			}
 			
 			List<MagicCard> resList = new ArrayList<>();
-			resList.addAll(common.subList(0, 10));
-			resList.addAll(uncommon.subList(0, 4));
+			resList.addAll(common.subList(0, 11));
+			resList.addAll(uncommon.subList(0, 3));
 			resList.add(rare.get(0));
 			
 			if(!lands.isEmpty())

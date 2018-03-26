@@ -239,8 +239,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				Collections.shuffle(uncommon);
 				Collections.shuffle(rare);
 				
-				ret.addAll(common.subList(0, 10));
-				ret.addAll(uncommon.subList(0, 4));
+				ret.addAll(common.subList(0, 11));
+				ret.addAll(uncommon.subList(0, 3));
 				ret.add(rare.get(0));
 				
 				Booster b = new Booster();
