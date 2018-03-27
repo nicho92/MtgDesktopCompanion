@@ -437,13 +437,23 @@ public class ConstructPanel extends JPanel {
 		tableDeck.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableDeck.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableDeck.setRowSorter(sorterCards);
+		tableDeck.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
+		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
+		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
 
 		JScrollPane scrollSideboard = new JScrollPane();
 		tabbedDeckSide.addTab("SideBoard", null, scrollSideboard, null);
 
+
+
 		tableSide = new JTable();
 		tableSide.setModel(deckSidemodel);
+		tableSide.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableSide.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+		tableSide.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
+		tableSide.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
+		tableSide.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
+		tableSide.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
 
 		scrollSideboard.setViewportView(tableSide);
 
@@ -532,12 +542,6 @@ public class ConstructPanel extends JPanel {
 			}
 		});
 		
-
-		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
-		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
-
-		tableDeck.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
-		tableSide.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
 		
 
 		JPanel panelInfoDeck = new JPanel();
