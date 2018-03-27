@@ -17,6 +17,7 @@ import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
+import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGConstants;
@@ -37,12 +38,7 @@ public class BoosterPicturesProvider {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private List<String> list;
-	
-	public static void main(String[] args) {
-		BoosterPicturesProvider prov = new BoosterPicturesProvider();
-	
-	}
-	
+
 	
 	public BoosterPicturesProvider() {
 		w=254;
@@ -79,6 +75,14 @@ public class BoosterPicturesProvider {
 			logger.error("Error retrieving IDs ",e);
 		}
 		return list;
+	}
+	
+	
+	public Icon getBoosterFor(String id)
+	{
+		MagicEdition ed = new MagicEdition();
+		ed.setId(id);
+		return getBoosterFor(ed);
 	}
 	
 	
