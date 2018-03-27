@@ -250,9 +250,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 		return search(jsquery,att,crit);
 	}
 	
-	
-	
-	public List<MagicCard> search(String jsquery,String att,String crit) {
+	private List<MagicCard> search(String jsquery,String att,String crit) {
 		
 		currentSet=new ArrayList<>();
 		List<MagicCard> listCards= new ArrayList<>();
@@ -605,7 +603,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	}
 
 	public String[] getQueryableAttributs() {
-		return new String[]{"name","foreignNames","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout","reserved"/*,"format"*/};
+		return new String[]{"name","foreignNames","text","artist","type","rarity","flavor","cmc","set","watermark","power","toughness","layout","reserved"};
 	}
 
 	public String getName() {

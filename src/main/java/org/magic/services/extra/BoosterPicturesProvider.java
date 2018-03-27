@@ -28,14 +28,21 @@ import org.w3c.dom.NodeList;
 
 public class BoosterPicturesProvider {
 
-	DocumentBuilderFactory builderFactory;
-	DocumentBuilder builder;
-	Document document;
+	private DocumentBuilderFactory builderFactory;
+	private DocumentBuilder builder;
+	private Document document;
 	
 	private int w;
 	private int h;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 
+	private List<String> list;
+	
+	public static void main(String[] args) {
+		BoosterPicturesProvider prov = new BoosterPicturesProvider();
+	
+	}
+	
 	
 	public BoosterPicturesProvider() {
 		w=254;
@@ -47,6 +54,7 @@ public class BoosterPicturesProvider {
 			logger.debug("Loading booster pics");
 			document = builder.parse(new URL(MTGConstants.MTG_BOOSTERS_URI).openStream());
 			logger.debug("Loading booster pics done");
+			list = new ArrayList<>();
 		} catch (Exception e) {
 			logger.error(e);
 		}
@@ -54,7 +62,9 @@ public class BoosterPicturesProvider {
 	
 	public List<String> listEditionsID()
 	{
-		List<String> list = new ArrayList<>();
+		
+		if(!list.isEmpty())
+			return list;
 		
 		try {
 		XPath xPath =  XPathFactory.newInstance().newXPath();
@@ -74,8 +84,7 @@ public class BoosterPicturesProvider {
 	
 	public Icon getBoosterFor(MagicEdition me)
 	{
-	
-		String url=""; 
+			String url=""; 
 			try {
 				XPath xPath =  XPathFactory.newInstance().newXPath();
 				String expression = "//booster[contains(@id,'"+me.getId().toUpperCase()+"')]";
@@ -84,7 +93,7 @@ public class BoosterPicturesProvider {
 				Node item = nodeList.item(0);
 				url = item.getAttributes().getNamedItem("url").getNodeValue();
 				HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-				connection.setRequestProperty("User-Agent","Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31");
+				connection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
 				return new ImageIcon(ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
 			} catch (IOException e) {
 				logger.error(me.getId() + " could not load : " + url + ":" + e);
