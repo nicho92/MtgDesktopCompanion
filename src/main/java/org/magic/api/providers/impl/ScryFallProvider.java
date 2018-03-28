@@ -565,7 +565,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 			catch(Exception e)
 			{
-				logger.error(e);
+				logger.trace(e);
 				hasMore=false;
 			}
 		}
