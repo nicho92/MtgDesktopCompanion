@@ -381,19 +381,25 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			  mc.setImageName(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("illustration_id").getAsString());
 			  
 			  generateTypes(mc, obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("type_line").getAsString());
-			  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt());}catch(Exception e) { logger.error(e);}
-  			  try{mc.setLoyalty(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("loyalty").getAsInt());}catch(Exception e){logger.error(e); }
+			 
+			  try{mc.setMultiverseid(obj.get("multiverse_ids").getAsJsonArray().get(idface).getAsInt());}catch(Exception e) { logger.error(mc.getName() + " has no multiverseid :" + e);}
+  			  try{mc.setLoyalty(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("loyalty").getAsInt());}catch(Exception e){logger.error(mc.getName() + " has no loyalty: "+e); }
   			
-  			  Iterator<JsonElement> it = obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("colors").getAsJsonArray().iterator();
-				while(it.hasNext())
-					mc.getColors().add(ColorParser.getNameByCode(it.next().getAsString()));
-  			 
+  			  try{
+	  			  Iterator<JsonElement> it = obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("colors").getAsJsonArray().iterator();
+					while(it.hasNext())
+						mc.getColors().add(ColorParser.getNameByCode(it.next().getAsString()));
+	  			}
+	  			catch(Exception e)
+	  			{
+	  				logger.error(mc.getName() + " has no colors: " +e);
+	  			}
   			  try{
 				  mc.setPower(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("power").getAsString());
 				  mc.setToughness(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("toughness").getAsString());
 			 	 }
 			  	catch(Exception e){
-			  		logger.error(e);
+			  		logger.error(mc.getName() + " has no power/toughness: "+e);
 			  		
 			  	}
 		  }
