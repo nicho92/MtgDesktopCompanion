@@ -79,6 +79,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 			 cardName=StringUtils.replaceAll(cardName, "'", "");	
 			 cardName=StringUtils.replaceAll(cardName, ",", "");
 			 
+			 if(cardName.indexOf('/')>-1)
+				 cardName=cardName.substring(0,cardName.indexOf('/')).trim();
+			 
+			 
 			 String editionName=StringUtils.replaceAll(me.toString(), " ", "+");
 			 editionName=StringUtils.replaceAll(editionName, "'", "");
 			 editionName=StringUtils.replaceAll(editionName, ",", "");
