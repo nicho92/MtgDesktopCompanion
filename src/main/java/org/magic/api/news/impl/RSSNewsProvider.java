@@ -2,11 +2,14 @@ package org.magic.api.news.impl;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.beans.MagicNewsContent;
@@ -36,10 +39,13 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 		
 		List<MagicNewsContent> ret = new ArrayList<>();
 		try {
-			URLConnection openConnection = new URL(rssBean.getUrl()).openConnection();
+			HttpURLConnection openConnection = (HttpURLConnection) new URL(rssBean.getUrl()).openConnection();
+			logger.debug("reading " + rssBean.getUrl());
 			openConnection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
+			openConnection.setInstanceFollowRedirects(true);
 			is = openConnection.getInputStream();
 			InputSource source = new InputSource(is);
+			
 			feed=input.build(source);
 			String baseURI=feed.getLink();
 			
@@ -62,7 +68,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 			
 			return ret;
 			
-		} catch (IllegalArgumentException|FeedException e) {
+		} catch (IllegalArgumentException | FeedException e) {
 			throw new IOException(e);
 		} 
 		finally
@@ -70,9 +76,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 			if(is!=null)
 				is.close();
 		}
-
-		
-		
+	
 	}
 
 	@Override

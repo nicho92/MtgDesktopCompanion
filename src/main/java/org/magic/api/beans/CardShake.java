@@ -18,6 +18,14 @@ public class CardShake {
 	private String ed;
 	private Date dateUpdate;
 	
+	public CardShake() {
+		price=0.0;
+		priceDayChange=0;
+		percentDayChange=0;
+		priceWeekChange=0;
+		percentWeekChange=0;
+
+	}
 	
 	public Date getDateUpdate() {
 		return dateUpdate;

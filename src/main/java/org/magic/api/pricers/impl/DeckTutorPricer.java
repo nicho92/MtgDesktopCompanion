@@ -36,6 +36,7 @@ import com.google.gson.JsonParser;
 public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
 	
+	String dsite="www.decktutor.com";
 	
 	@Override
 	public STATUT getStatut() {
@@ -71,7 +72,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		parser = new JsonParser();
 		
 		try {
-  			InstallCert.install(getString("WEBSITE"));
+  			InstallCert.install(dsite);
     		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
     	} catch (Exception e1) {
 			logger.error(e1);
@@ -221,7 +222,8 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 	@Override
 	public void initDefault() {
 		setProperty("URL", "https://ws.decktutor.com/app/v2");
-		setProperty("WEBSITE", "https://www.decktutor.com");
+		
+		setProperty("WEBSITE", "https://"+dsite);
 		setProperty("LANG", "en");
 		setProperty("LOGIN", "login");
 		setProperty("MAX_RESULT", "");
