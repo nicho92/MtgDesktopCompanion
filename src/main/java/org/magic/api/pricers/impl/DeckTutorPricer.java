@@ -1,5 +1,6 @@
 package org.magic.api.pricers.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -24,6 +25,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
+import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -66,6 +69,13 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		cookieStore = new BasicCookieStore();
 		httpContext = new BasicHttpContext();
 		parser = new JsonParser();
+		
+		try {
+  			InstallCert.install(getString("WEBSITE"));
+    		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+    	} catch (Exception e1) {
+			logger.error(e1);
+		}
 	}
 	
 	private String getMD5(String chaine) throws NoSuchAlgorithmException
