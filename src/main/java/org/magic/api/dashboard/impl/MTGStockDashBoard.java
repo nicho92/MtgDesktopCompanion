@@ -35,7 +35,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private boolean connected;
 	private Map<String,Integer> correspondance;
 	private JsonParser parser;
-	
+	private JsonObject interests;
 	
 	@Override
 	public STATUT getStatut() {
@@ -44,11 +44,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	public static void main(String[] args) throws IOException {
 		MTGStockDashBoard dash = new MTGStockDashBoard();
+		dash.connect();
 		MagicCard mc = new MagicCard();
 		mc.setName("Jace, the Mind Sculptor");
 		MagicEdition ed = new MagicEdition();
 		ed.setId("A25");
-		dash.getPriceVariation(mc, ed);
+		dash.getShakerFor("Vintage");
+		dash.getShakerFor("Legacy");
 	}
 	
 	
@@ -62,27 +64,41 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	private void connect() throws IOException
 	{
-		HttpURLConnection con = getConnection("https://api.mtgstocks.com/card_sets");
-		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
-		for(JsonElement el : arr)
-		{
-			if(!el.getAsJsonObject().get("abbreviation").isJsonNull())
-				correspondance.put(el.getAsJsonObject().get("abbreviation").getAsString(), el.getAsJsonObject().get("id").getAsInt());
-			else
-				logger.trace("no id for" + el.getAsJsonObject().get("name"));
-		}
-		logger.debug("init editions id done: " + correspondance.size() + " items");
+		initInterests();
+		initEds();
 		connected=true;
 	}
 	
-	
-	
+
+
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
 		if(!connected)
 			connect();
 		
-		return new ArrayList<>();
+		List<CardShake> ret = new ArrayList<>();
+		String root = "market";  //average // market
+		
+		for(String filter : new String[] {"normal","foil"})
+			for(JsonElement el : interests.get(root).getAsJsonObject().get(filter).getAsJsonArray())
+			{
+				if(el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(gameFormat.toLowerCase())!=null && el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(gameFormat.toLowerCase()).getAsString().equalsIgnoreCase("legal"))
+				{
+					CardShake cs = new CardShake();
+					cs.setName(el.getAsJsonObject().get("print").getAsJsonObject().get("name").getAsString());
+					cs.setPrice(el.getAsJsonObject().get("present_price").getAsDouble());
+					cs.setPercentDayChange(el.getAsJsonObject().get("percentage").getAsDouble());
+					cs.setPriceDayChange(el.getAsJsonObject().get("present_price").getAsDouble()-el.getAsJsonObject().get("past_price").getAsDouble());
+					cs.setDateUpdate(new Date(el.getAsJsonObject().get("date").getAsLong()));
+					correspondance.forEach((key, value) -> {
+					    if (value==el.getAsJsonObject().get("print").getAsJsonObject().get("set_id").getAsInt()) {
+					    	cs.setEd(key);
+					    }
+					});
+					ret.add(cs);
+				}
+			}
+		return ret;
 	}
 
 	@Override
@@ -108,10 +124,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					  list.add(cs);
 		}
 		
-		
+		con.disconnect();
 		return list;
 	}
-
+	
 	@Override
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
 		if(!connected)
@@ -141,7 +157,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		String urlP = "https://api.mtgstocks.com/prints/"+id+"/prices";
 		con = getConnection(urlP);
 		
-		return extractPrice(parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject());
+		Map<Date, Double> ret =  extractPrice(parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject());
+		con.disconnect();
+		return ret;
 	}
 
 	private Map<Date, Double> extractPrice(JsonObject obj) {
@@ -178,6 +196,31 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return id;
 	}
 
+	private void initInterests() throws IOException {
+		
+		if(interests==null)
+		{
+			HttpURLConnection con = getConnection("https://api.mtgstocks.com/interests");
+			interests = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
+			con.disconnect();
+		}
+	}
+	
+	private void initEds() throws IOException {
+		HttpURLConnection con = getConnection("https://api.mtgstocks.com/card_sets");
+		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
+		for(JsonElement el : arr)
+		{
+			if(!el.getAsJsonObject().get("abbreviation").isJsonNull())
+				correspondance.put(el.getAsJsonObject().get("abbreviation").getAsString(), el.getAsJsonObject().get("id").getAsInt());
+			else
+				logger.trace("no id for" + el.getAsJsonObject().get("name"));
+		}
+		logger.debug("init editions id done: " + correspondance.size() + " items");
+		con.disconnect();
+		
+	}
+	
 	@Override
 	public String getName() {
 		return "MTG Stocks";
@@ -192,7 +235,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
 		if(!connected)
 			connect();
-		
 		
 		//https://api.mtgstocks.com/analytics/mostplayed/1  1=Legacy 2=Vintage 3=Modern 4=Standard 7=Pauper
 			

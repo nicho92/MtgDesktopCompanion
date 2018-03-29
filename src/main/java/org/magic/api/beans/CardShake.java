@@ -51,12 +51,7 @@ public class CardShake {
 	public void setEd(String ed) {
 		this.ed = ed;
 	}
-	public String getRarity() {
-		return rarity;
-	}
-	public void setRarity(String rarity) {
-		this.rarity = rarity;
-	}
+
 	public Double getPrice() {
 		return price;
 	}

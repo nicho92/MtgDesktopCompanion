@@ -1,6 +1,7 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+import java.text.DecimalFormat;
 
 import javax.swing.JLabel;
 import javax.swing.JTable;
@@ -13,11 +14,13 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 	
 	private static final long serialVersionUID = 1L;
 	private JLabel comp;
+	private DecimalFormat df ;
 	
 	public CardShakeRenderer() {
 		comp=new JLabel();
 		comp.setHorizontalAlignment(JLabel.CENTER);
 		comp.setOpaque(false);
+		df = new DecimalFormat("#.##");   
 	}
 	
 	@Override
@@ -25,8 +28,7 @@ public class CardShakeRenderer extends DefaultTableCellRenderer {
 	{
 			try 
 			{
-				
-				comp.setText(value.toString());
+				comp.setText(df.format(value));
 					
 				if(((Double)value).doubleValue()>0)
 					comp.setIcon(MTGConstants.ICON_UP);
