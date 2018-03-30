@@ -32,6 +32,7 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
+	private static final String MTGSTOCK_API_URI = "https://api.mtgstocks.com";
 	private boolean connected;
 	private Map<String,Integer> correspondance;
 	private JsonParser parser;
@@ -42,19 +43,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return STATUT.DEV;
 	}
 	
-	public static void main(String[] args) throws IOException {
-		MTGStockDashBoard dash = new MTGStockDashBoard();
-		dash.connect();
-		MagicCard mc = new MagicCard();
-		mc.setName("Jace, the Mind Sculptor");
-		MagicEdition ed = new MagicEdition();
-		ed.setId("A25");
-		dash.getShakerFor("Vintage");
-		dash.getShakerFor("Legacy");
-	}
-	
-	
-	
 	public MTGStockDashBoard() {
 		super();
 		connected=false;
@@ -64,23 +52,24 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	private void connect() throws IOException
 	{
-		initInterests();
-		initEds();
-		connected=true;
+		if(!connected)
+		{
+			initInterests();
+			initEds();
+			connected=true;
+		}
 	}
 	
 
 
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
-		if(!connected)
-			connect();
+		connect();
 		
 		List<CardShake> ret = new ArrayList<>();
-		String root = "market";  //average // market
 		
 		for(String filter : new String[] {"normal","foil"})
-			for(JsonElement el : interests.get(root).getAsJsonObject().get(filter).getAsJsonArray())
+			for(JsonElement el : interests.get(getString("FORMAT_SHAKER")).getAsJsonObject().get(filter).getAsJsonArray())
 			{
 				if(el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(gameFormat.toLowerCase())!=null && el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(gameFormat.toLowerCase()).getAsString().equalsIgnoreCase("legal"))
 				{
@@ -103,12 +92,11 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
-		if(!connected)
-			connect();
+		connect();
 		
 		List<CardShake> list = new ArrayList<>();
 		
-		String url = "https://api.mtgstocks.com/card_sets/"+correspondance.get(edition.getId());
+		String url = MTGSTOCK_API_URI+"/card_sets/"+correspondance.get(edition.getId());
 		HttpURLConnection con = getConnection(url);
 		JsonObject obj = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
 		
@@ -120,7 +108,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					  cs.setName(el.getAsJsonObject().get("name").getAsString());
 					  cs.setEd(edition.getId());
 					  cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble());
-					  
 					  list.add(cs);
 		}
 		
@@ -130,8 +117,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	
 	@Override
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
-		if(!connected)
-			connect();
+		connect();
 		
 		int setId=-1;
 		
@@ -140,7 +126,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		else
 			setId=correspondance.get(mc.getEditions().get(0).getId());
 		
-		String url = "https://api.mtgstocks.com/search/autocomplete/"+StringUtils.replaceAll(mc.getName(), " ", "%20");
+		String url = MTGSTOCK_API_URI+"/search/autocomplete/"+StringUtils.replaceAll(mc.getName()," ","%20");
 		HttpURLConnection con = getConnection(url);
 		
 		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
@@ -148,13 +134,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		logger.debug("found " + id + " for " + mc.getName());
 		
-		String urlC ="https://api.mtgstocks.com/prints/"+id;
+		String urlC =MTGSTOCK_API_URI+"/prints/"+id;
 		con = getConnection(urlC);
 		
 		id = searchId(id,setId,parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject());
 		
 		//get prices
-		String urlP = "https://api.mtgstocks.com/prints/"+id+"/prices";
+		String urlP = MTGSTOCK_API_URI+"/prints/"+id+"/prices";
 		con = getConnection(urlP);
 		
 		Map<Date, Double> ret =  extractPrice(parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject());
@@ -163,7 +149,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	private Map<Date, Double> extractPrice(JsonObject obj) {
-		JsonArray arr = obj.get(getString("PRICE_FROM")).getAsJsonArray();
+		JsonArray arr = obj.get(getString("CARD_PRICES_SHAKER")).getAsJsonArray();
 		Map<Date, Double> prices = new TreeMap<>();
 		Calendar cal = GregorianCalendar.getInstance();
 		
@@ -200,14 +186,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		if(interests==null)
 		{
-			HttpURLConnection con = getConnection("https://api.mtgstocks.com/interests");
+			HttpURLConnection con = getConnection(MTGSTOCK_API_URI+"/interests");
 			interests = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
 			con.disconnect();
 		}
 	}
 	
 	private void initEds() throws IOException {
-		HttpURLConnection con = getConnection("https://api.mtgstocks.com/card_sets");
+		HttpURLConnection con = getConnection(MTGSTOCK_API_URI+"/card_sets");
 		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
 		for(JsonElement el : arr)
 		{
@@ -236,14 +222,39 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		if(!connected)
 			connect();
 		
-		//https://api.mtgstocks.com/analytics/mostplayed/1  1=Legacy 2=Vintage 3=Modern 4=Standard 7=Pauper
-			
-		return new ArrayList<>();
+		List<CardDominance> ret = new ArrayList<>();
+		int id=1;
+		
+		switch (f) {
+			case LEGACY : id=1;break;
+			case MODERN : id=3;break;
+			case STANDARD : id=4;break;
+			case VINTAGE : id=2;break;
+			//1=Legacy 2=Vintage 3=Modern 4=Standard 7=Pauper
+			default:break;
+		}
+		String url =  MTGSTOCK_API_URI+"/analytics/mostplayed/"+id;
+		HttpURLConnection con = getConnection(url);
+		JsonObject obj = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
+		JsonArray arr = obj.get("mostplayed").getAsJsonArray();
+		int i=1;
+		for(JsonElement el : arr)
+		{
+			CardDominance cd = new CardDominance();
+			cd.setCardName(el.getAsJsonObject().get("card").getAsJsonObject().get("name").getAsString());
+			cd.setPlayers(el.getAsJsonObject().get("quantity").getAsDouble());
+			cd.setPosition(i++);
+			ret.add(cd);
+		}
+		
+		
+		
+		return ret;
 	}
 
 	@Override
 	public String[] getDominanceFilters() {
-		return new String[] { "Legacy","Vintage", "Standard","Modern","Pauper"};
+		return new String[] { ""};
 	}
 
 
@@ -253,7 +264,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		setProperty("PASS", "changeme");
 		setProperty("MTGSTOCKS_BASE_URL","https://www.mtgstocks.com");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		setProperty("PRICE_FROM","avg"); 	//[low, avg, high, foil, market, market_foil]
+		setProperty("CARD_PRICES_SHAKER","avg"); 	//[low, avg, high, foil, market, market_foil]
+		setProperty("FORMAT_SHAKER","market"); 	 //average // market
 	}
 
 
