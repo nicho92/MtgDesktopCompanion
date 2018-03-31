@@ -27,7 +27,7 @@
     <logger name="org.api.mkm"><level value="ERROR"/></logger>
     <logger name="cz.vutbr"><level value="ERROR"/></logger>
     <logger name="org.fit"><level value="ERROR"/></logger>
-    
+    <logger name="org.eclipse.jetty"><level value="ERROR"/></logger>
     <root>
         <level value="DEBUG"/>
         <appender-ref ref="CONSOLE"/>

@@ -27,7 +27,11 @@
 	</properties>
 
 	<dependencies>
-		
+		<dependency>
+		    <groupId>com.sparkjava</groupId>
+		    <artifactId>spark-core</artifactId>
+		    <version>2.7.2</version>
+		</dependency>
 		<dependency>
 			<groupId>asciitable</groupId>
 			<artifactId>asciitable</artifactId>
@@ -306,11 +310,11 @@
     	<artifactId>commons-math3</artifactId>
     	<version>3.6.1</version>
 	</dependency>
+	
   </dependencies>
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		
 		<resources>
 		   <resource>
 			      <directory>src/main/resources</directory>
