@@ -518,11 +518,12 @@ public class MysqlDAO extends AbstractMagicDAO{
 	@Override
 	public void backup(File f) throws SQLException,IOException {
 		
-		
 		if(getString(KEYS.MYSQL_DUMP_PATH.name()).length()<=0)
-		{
 			throw new NullPointerException("Please fill MYSQL_DUMP_PATH var");
-		}
+		
+		if(!new File(getString(KEYS.MYSQL_DUMP_PATH.name())).exists())
+			throw new IOException(getString(KEYS.MYSQL_DUMP_PATH.name()) + " doesn't exist");
+		
 		
 		String dumpCommand = getString(KEYS.MYSQL_DUMP_PATH.name())+"/mysqldump " + getString(KEYS.DB_NAME.name()) + " -h " + getString(KEYS.SERVERNAME.name()) + " -u " + getString(KEYS.LOGIN.name()) +" -p" + getString(KEYS.PASS.name())+" --port " + getString(KEYS.SERVERPORT.name());
 		Runtime rt = Runtime.getRuntime();
