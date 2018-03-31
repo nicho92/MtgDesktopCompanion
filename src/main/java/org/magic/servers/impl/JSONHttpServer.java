@@ -55,7 +55,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		port(getInt("SERVER-PORT"));
 		
-		before("/*", (q, a) -> logger.info("Received api call from " + q.ip()));
+		before("/*", (request, response) ->
+		{
+			response.type(getString("MIME"));
+			logger.info("Received api call from " + request.ip());
+		});
 		
 		get("/cards/search/:att/:val",getString("MIME"), (request, response) ->{
 			return MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(request.params(":att"), request.params(":val"), null, false);
@@ -72,7 +76,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		get("/cards/list/:col/:idEd",getString("MIME"), (request, response) ->{
-			
 			MagicCollection col = new MagicCollection(request.params(":col"));
 			MagicEdition ed = new MagicEdition();
 						 ed.setId(request.params(":idEd"));
@@ -115,9 +118,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/prices/:idSet/:name",getString("MIME"), (request, response) ->{
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", request.params(":name"), null,false).get(0);
     		MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(request.params(":idSet"));
-    		
-  		  	List<MagicPrice> pricesret = new ArrayList<>();
-  		
+    	  	List<MagicPrice> pricesret = new ArrayList<>();
   		  	for(MTGPricesProvider prices : MTGControler.getInstance().getEnabledPricers())
   		  		pricesret.addAll(prices.getPrice(ed, mc));
   		
