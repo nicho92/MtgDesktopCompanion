@@ -1,7 +1,10 @@
 package org.magic.servers.impl;
 
+import static spark.Spark.after;
 import static spark.Spark.before;
+import static spark.Spark.exception;
 import static spark.Spark.get;
+import static spark.Spark.notFound;
 import static spark.Spark.port;
 import static spark.Spark.post;
 
@@ -14,14 +17,16 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonObject;
 
+import spark.ExceptionHandler;
+import spark.Request;
+import spark.Response;
 import spark.ResponseTransformer;
 import spark.Spark;
 
@@ -54,6 +59,21 @@ public class JSONHttpServer extends AbstractMTGServer {
 	@Override
 	public void start() throws IOException {
 		port(getInt("SERVER-PORT"));
+		
+		exception(Exception.class, new ExceptionHandler<Exception>() {
+			
+			@Override
+			public void handle(Exception exception, Request req, Response res) {
+				 res.status(500);
+				 res.body("{\"error\":\""+exception+"\"}");
+				
+			}
+		});
+		
+		notFound((req, res) -> {
+		    res.status(404);
+		    return "{\"error\":\"not found\"}";
+		});
 		
 		before("/*", (request, response) ->
 		{
@@ -125,8 +145,13 @@ public class JSONHttpServer extends AbstractMTGServer {
   		  	return pricesret;
 			 
 		}, transformer);
+	
 		
-		
+		if(getBoolean("ENABLE_GZIP")) {
+			after((request, response) -> {
+			    response.header("Content-Encoding", "gzip");
+			});
+		}
 		
 		Spark.init();
 		logger.info("Server start on port "+ getString("SERVER-PORT"));
@@ -170,6 +195,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		setProperty("SERVER-PORT", "8080");
 		setProperty("AUTOSTART", "false");
 		setProperty("MIME","application/json");
+		setProperty("ENABLE_GZIP","false");
 	}
 
 	@Override
