@@ -109,7 +109,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 
 	@Override
 	public boolean isAutostart() {
-		return getString("AUTOSTART").equals("true");
+		return getBoolean("AUTOSTART");
 	}
 
 	@Override

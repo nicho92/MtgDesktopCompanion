@@ -190,7 +190,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
 
 	@Override
 	public boolean isAutostart() {
-		return getString("AUTOSTART").equals("true");
+		return getBoolean("AUTOSTART");
 	}
 
 

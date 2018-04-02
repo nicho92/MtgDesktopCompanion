@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MTGDesktop Companion</title>
+
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+	<link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+	<script src="../vendor/jquery/jquery.min.js"/></script>
+   	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../dist/js/js-var.js"></script>
+    <script src="../dist/js/rest-server.js"></script>
+  
+    <script>
+	    $.get("menu.html", function(data){
+	        $("nav").html(data);
+	    });
+    </script>
+    <script>
+		$(document).ready(function() {
+			
+			var restService=restserver+"/editions/list";
+			
+			if($_GET('col')!=null)
+				restService=restserver+"/editions/list/"+$_GET('col');
+			
+			
+		    $('#tableEds').DataTable( {
+		    	"language": {
+		    	    "search": "Filter"
+		    	  },
+		    	"responsive": true,
+		        "processing": true,
+		        "ajax": {"url":restService,"dataSrc":""},
+		        "order": [[ 3, "desc" ]],
+		        "pageLength": 50,
+		        "columns": [
+		            { 
+		                "data": "id",
+		                "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	   if($_GET('col')!=null)
+		                	   	data = '<a href="list-cards.html?set=' + data + '&col='+$_GET('col')+'"><i class="ss ss-'+data.toLowerCase()+' ss-common ss-2x"></i></a>';
+		                	   	else
+		                	   	data = '<a href="list-cards.html?set=' + data + '"><i class="ss ss-'+data.toLowerCase()+' ss-common ss-2x"></i></a>';	
+		                   }
+		                   return data;
+		                }
+		            }, 
+		            { "data": "set" },
+		            { "data" : "cardCount"},
+		            { "data": "releaseDate"}
+		        ]
+		    } );
+		} );
+	
+	</script>
+    
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"></nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Sets</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Magic The Gathering sets
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table id="tableEds" class="display" style="width:100%">
+						        <thead>
+						            <tr>
+						                <th>id</th>
+						                <th>set</th>
+						                <th>cardCount</th>
+						                <th>releaseDate</th>
+						            </tr>
+						        </thead>
+						       </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+	
+	
+    
+    
+</body>
+</html>

@@ -1,0 +1,69 @@
+ <script>
+ 	$( "#searchBtn" ).click(function() {
+	 $(location).attr("href","./list-cards.html?search="+$( "#searchText").val());
+	});
+ 	
+ 	$('#searchText').on('keypress', function(e) {
+ 	    var code = e.keyCode || e.which;
+ 	    if(code==13){
+ 	    	$(location).attr("href","./list-cards.html?search="+$( "#searchText").val());
+ 	    }
+ 	});
+
+ </script>
+ 
+ 
+ <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/">MTGDesktopCompanion</a>
+            </div>
+              <ul class="nav navbar-top-links navbar-right">
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.navbar-top-links -->
+
+            <div class="navbar-default sidebar" role="navigation">
+                <div class="sidebar-nav navbar-collapse">
+                    <ul class="nav" id="side-menu">
+                        <li class="sidebar-search">
+                            <div class="input-group custom-search-form">
+                                <input id="searchText" type="text" class="form-control" placeholder="Search...">
+                                <span class="input-group-btn">
+                                <button class="btn btn-default" type="button" id="searchBtn">
+                                    <i class="fa fa-search"></i>
+                                </button>
+                            </span>
+                            </div>
+                            <!-- /input-group -->
+                        </li>
+                        <li>
+                            <a href="collections.html"><i class="fa fa-folder-open fa-fw"></i> Collection</a>
+                        </li>
+                        <li>
+                            <a href="list-sets.html"><i class="fa fa-table fa-fw"></i> Sets</a>
+                        </li>
+                         <li>
+                            <a href="#"><i class="fa fa-dashboard fa-fw"></i> Dashboard</a>
+                        </li>
+                         <li>
+                            <a href="#"><i class="fa fa-file-text fa-fw"></i> Stock</a>
+                        </li>
+                        <li>
+                            <a href="#"><i class="fa  fa-bell-o fa-fw"></i> Alerts</a>
+                        </li>
+                          
+                        
+                    </ul>
+                </div>
+                <!-- /.sidebar-collapse -->
+            </div>
+            <!-- /.navbar-static-side -->

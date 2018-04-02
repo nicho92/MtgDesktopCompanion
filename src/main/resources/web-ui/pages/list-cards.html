@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MTGDesktop Companion</title>
+
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+	<link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+	<script src="../vendor/jquery/jquery.min.js"/></script>
+   	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../dist/js/js-var.js"></script>
+    <script src="../dist/js/rest-server.js"></script>
+  
+    <script>
+	    $.get("menu.html", function(data){
+	        $("nav").html(data);
+	    });
+	</script>
+    <script>
+		var set = restserver+"/cards/"+$_GET("set")+"/cards";
+		
+		if($_GET('col')!=null)
+			set=restserver+"/cards/list/"+$_GET('col')+"/"+$_GET("set");
+		
+		if($_GET('search')!=null)
+			set=restserver+"/cards/search/name/"+$_GET('search');
+		
+		
+		$(document).ready(function() {
+		    $('#tableEds').DataTable( {
+		    	"language": {
+		    	    "search": "Filter"
+		    	  },
+		    	"responsive": true,
+		        "processing": true,
+		        "pageLength": 50,
+		        "ajax": {"url":set,"dataSrc":""},
+		        "columns": [
+		        	{ 
+			                "data": "id",
+			                "width": "3%",
+			                "render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+										data="<a class='glyphicon glyphicon-eye-open' href='card.html?id="+data+"'/>";		                		 
+			                	 }
+			                   return data;
+			                }
+			        },
+		        	
+		        	{ 
+		                "data": "editions",
+		                "width": "3%",
+		                "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                       data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+data[0].rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+		                   }
+		                   return data;
+		                }
+		            }, 
+		            { 
+		                "data": "name",
+		                "width": "18%"
+		            },
+		            { "data": "types"},
+		            { 
+		                "data": "cost",
+		                "width": "7%",
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	   if(data!=null)
+		                	   {
+			                	   var d=data.match(/[^{}]+(?=\})/g);
+			                	   if(d!=null){
+			                		   var ret="";
+			                		   for (var i = 0; i < d.length; i++) {
+			                				ret +='<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>';
+			                			}
+			                	   }
+		                   		}
+		                   }
+		                   return ret;
+		             }
+		          },
+		          { "data": "text"}
+		           
+		        ]
+		    } );
+		} );
+	
+	</script>
+    
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"></nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Cards</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Cards
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table id="tableEds" class="display" style="width:100%">
+						        <thead>
+						            <tr>
+						            	<th> </th>
+						                <th>rarity</th>
+						                <th>name</th>
+						                <th>type</th>
+						                <th>cost</th>
+						                <th>text</th>
+						            </tr>
+						        </thead>
+						       </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+	
+	
+    
+    
+</body>
+</html>

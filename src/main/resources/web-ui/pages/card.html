@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>MTGDesktopCompanion</title>
+ 	<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+   	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+	<link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+	<script src="../vendor/jquery/jquery.min.js"/></script>
+   	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../dist/js/js-var.js"></script>
+    <script src="../dist/js/rest-server.js"></script>
+  
+  	<script>
+  	 $.get("menu.html", function(data){
+	        $("nav").html(data);
+	    });
+  	
+
+  	
+ 
+  	
+  	
+  	$(document).ready(function() {
+  	    $.ajax({
+  	        url: restserver+"/collections/cards/"+$_GET("id")
+  	    }).then(function(data) {
+  	    	for (var i = 0; i < data.length; i++) {
+  	    		$('#collections').append("<a href='list-sets.html?col="+data[i].name+"'>"+data[i].name+"</a><br/>");
+  	    		
+			}
+  	    	
+  	    });
+  	});
+  	 
+  	 
+  	 
+  	$(document).ready(function() {
+  	    $.ajax({
+  	        url: restserver+"/cards/"+$_GET("id")
+  	    }).then(function(data) {
+  	    	
+  	    	$('#title').html(data.name);
+  	    	$('#text').html(data.text);
+  	    	$('#text').append("<br/><i>"+data.flavor+"</i>");
+  	    	$('#types').append(data.types);
+  	    	$('#power').append(data.power+"/"+data.toughness);
+  	    	$('#loyalty').append(data.loyalty);
+  	    	$('#artist').html("<i>"+data.artist+"</i>");
+  	    	$('#pic').html("<img src='"+restserver+"/pics/cards/"+$_GET("id")+"'/>");
+  	    	
+  	    	
+  	    	
+  	    	for (var i = 0; i < data.editions.length; i++) {
+  	    		
+  	    		if(i==0)
+  	    			{
+  	    					$("#set").html('<i class="ss ss-grad ss-'+data.editions[i].id.toLowerCase()+' ss-'+data.editions[i].rarity.toLowerCase()+' ss-1x ss-uncommon"></i>');
+  	    			}
+  	    				
+  	    		$('#reprints').append('<i class="ss ss-grad ss-'+data.editions[i].id.toLowerCase()+' ss-'+data.editions[i].rarity.toLowerCase()+' ss-2x"></i><a href="list-cards.html?set='+data.editions[i].id+'">'+ data.editions[i].set + "</a><br/>");
+  	   		}
+  	    	
+  	    	for (var i = 0; i < data.legalities.length; i++) {
+  	    		$('#legalities').append(data.legalities[i].format+":" + data.legalities[i].legality +'<br/>');
+  	    		
+			}
+  	    	
+  	    	if(data.cost!=null)
+  	    	{
+  	    	   var d=data.cost.match(/[^{}]+(?=\})/g);
+  	    	   console.log(d);
+  	      	   if(d!=null){
+  	      		   var ret="";
+  	      		   for (var i = 0; i < d.length; i++) {
+  	      				$('#cost').append('<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>');
+  	      			}
+  	      	   }
+  	    	}
+  	    	if(data.colors.length>1)
+  	    	{
+  	    		$("div.panel").addClass("panel-yellow");
+  	    	}
+  	    	else if(data.colors.length==0)
+  	    	{
+  	    		$("div.panel").addClass("panel-default");
+  	    	}
+  	    	else
+  	    	{
+  	    		if(data.colors[0]=='White')
+  	    			$("div.panel").addClass("panel-default");
+  	  			if(data.colors[0]=='Blue')
+					$("div.panel").addClass("panel-primary");
+  				if(data.colors[0]=='Black')
+					$("div.panel").addClass("panel-black");
+				if(data.colors[0]=='Red')
+					$("div.panel").addClass("panel-red");
+				if(data.colors[0]=='Green')
+					$("div.panel").addClass("panel-green");
+  	    	}
+  	    	
+  	    	
+  	    	$(document).ready(function() {
+  			    $('#tablePrices').DataTable( {
+  			    	"responsive": true,
+  			        "processing": true,
+  			        "pageLength": 5,
+  			      	"searching": false,
+  			      	"order": [[ 1, "asc" ]],
+  			        "ajax": {"url":restserver+"/prices/"+data.editions[0].id+"/"+data.name,"dataSrc":""},
+  			        "columns": [
+  			        	{ "data": "site" },
+  			            { "data" : "value"},
+  			            { "data": "currency"},
+  			          	{ "data": "quality"},
+  			          
+  			            
+  			            { 
+	  			                "data": "url",
+	  			                "render": function(data, type, row, meta){
+	  			                   if(type === 'display'){
+	  			                	  data = '<a class="fa fa-share" target="_blank" href="' + data + '"></a>';	
+	  			                   }
+	  			                   return data;
+	  			                }
+	  			        }
+  			        ]
+  			    } );
+  			} );
+  	    	
+  	    	
+  	    		
+  	    	
+  	    });
+  	});
+  	 
+  	
+  	</script>
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Navigation -->
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"></nav>
+
+        <!-- Page Content -->
+        <div id="page-wrapper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1 class="page-header"><span id="title">title</span>&nbsp;<i id="set"></i></h1>
+                    </div>
+                </div>
+            </div>
+             <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Pictures
+                        </div>
+                        <div class="panel-body">
+                            <p id='pic'></p>
+                        </div>
+                        <div class="panel-footer">
+                            <p id='artist'></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                 	<div class="panel">
+                        <div class="panel-heading">
+                           Informations
+                        </div>
+                        <div class="panel-body">
+                           <p id="cost"><b>Cost : </b></p>
+                           <p id="types"><b>Types :</b></p>
+                           <p id="power"><b>Power :</b></p>
+                           <p id="loyalty"><b>Loyalty :</b></p>
+                        </div>
+                        <div class="panel-footer">
+                            
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-heading">
+                            Oracle Text
+                        </div>
+                        <div class="panel-body">
+                            <p id="text"></p>
+                        </div>
+                        <div class="panel-footer">
+                            
+                        </div>
+                    </div>
+                     <div class="panel">
+                        <div class="panel-heading">
+                            Actions
+                        </div>
+                        <div class="panel-body">
+                           <button type="button" class="btn btn-info btn-circle"><i class="fa fa-bell-o"></i></button>
+                           <button type="button" class="btn btn-danger btn-circle"><i class="fa fa-file-text"></i></button>
+                        </div>
+                        <div class="panel-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+                 <div class="col-lg-4">
+                 	<div class="panel">
+                        <div class="panel-heading">
+                           Reprints
+                        </div>
+                        <div class="panel-body">
+                           <p id="reprints"></p>
+                        </div>
+                        <div class="panel-footer">
+                            
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-heading">
+                            Formats
+                        </div>
+                        <div class="panel-body">
+                            <p id="legalities"></p>
+                        </div>
+                        <div class="panel-footer">
+                            
+                        </div>
+                    </div>
+                    <div class="panel">
+                        <div class="panel-heading">
+                            Collections
+                        </div>
+                        <div class="panel-body">
+                            <p id="collections"></p>
+                        </div>
+                        <div class="panel-footer">
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+			<div class="row">
+			 <div class="col-lg-12">
+                 	<div class="panel">
+                 	<div class="panel-heading">
+                            Prices
+                        </div>
+                        <div class="panel-body">
+                            
+                            <table id="tablePrices" class="display" style="width:100%">
+						        <thead>
+						            <tr>
+						                <th>website</th>
+						                <th>prices</th>
+						                <th>currency</th>
+						                <th>quality</th>
+						                <th>link</th>
+						            </tr>
+						        </thead>
+						       </table>
+                            
+                        </div>
+                        <div class="panel-footer">
+                            
+                        </div>
+                 	</div>
+             </div>
+			</div>
+
+
+        </div>
+    </div>
+</body>
+
+</html>
