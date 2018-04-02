@@ -33,6 +33,18 @@
 			
 			var restService=restserver+"/editions/list";
 			
+			var count=null;
+			var qty=0;
+			
+			$.ajax({
+				dataType: 'json',
+	  	        url: restserver+"/collections/"+$_GET("col")+"/count"
+	  	    }).then(function(data) {
+	  	    	count=data;
+	  	    	
+	  	    });
+			
+			
 			if($_GET('col')!=null)
 				restService=restserver+"/editions/list/"+$_GET('col');
 			
@@ -51,16 +63,38 @@
 		                "data": "id",
 		                "render": function(data, type, row, meta){
 		                   if(type === 'display'){
+		                	   qty=0;
+		                		if(count!=null)
+		                		{
+		                			qty=count[data];
+		                			if (isNaN(qty)) {
+		                			    qty=-1;
+		                			  }
+		                		}
+		                	   
 		                	   if($_GET('col')!=null)
-		                	   	data = '<a href="list-cards.html?set=' + data + '&col='+$_GET('col')+'"><i class="ss ss-'+data.toLowerCase()+' ss-common ss-2x"></i></a>';
-		                	   	else
-		                	   	data = '<a href="list-cards.html?set=' + data + '"><i class="ss ss-'+data.toLowerCase()+' ss-common ss-2x"></i></a>';	
+		                	   		data = '<a href="list-cards.html?set=' + data + '&col='+$_GET('col')+'"><i class="ss ss-'+data.toLowerCase()+' ss-common ss-2x"></i></a>';
+		                	   else
+		                	   		data = '<a href="list-cards.html?set=' + data + '"><i class="ss ss-'+data.toLowerCase()+' ss-common ss-2x"></i></a>';
 		                   }
 		                   return data;
 		                }
 		            }, 
 		            { "data": "set" },
-		            { "data" : "cardCount"},
+		            { 
+		                "data": "cardCount",
+		                "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	   if($_GET('col')!=null)
+		                	   {
+		                		  data = qty+'/'+data;
+		                	   }
+		                   }
+		                   return data;
+		                }
+		            }, 
+		            
+		            
 		            { "data": "releaseDate"}
 		        ]
 		    } );
