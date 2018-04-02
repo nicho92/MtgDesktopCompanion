@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MTGDesktop Companion</title>
+
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+	<link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+	<script src="../vendor/jquery/jquery.min.js"/></script>
+   	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../dist/js/js-var.js"></script>
+    <script src="../dist/js/rest-server.js"></script>
+  
+    <script>
+	    $.get("menu.html", function(data){
+	        $("nav").html(data);
+	    });
+	</script>
+    <script>
+		var set = restserver+"/stock/list";
+		
+		$(document).ready(function() {
+		    $('#tableStock').DataTable( {
+		    	"language": {
+		    	    "search": "Filter"
+		    	  },
+		    	"responsive": true,
+		        "processing": true,
+		        "pageLength": 50,
+		        "ajax": {"url":set,"dataSrc":""},
+		        "columns": [
+		        	{ 
+			                "data": "magicCard.id",
+			                "width": "3%",
+			                "render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+										data="<a class='glyphicon glyphicon-eye-open' href='card.html?id="+data+"'/>";		                		 
+			                	 }
+			                   return data;
+			                }
+			        },
+		        	{ 
+		                "data": "magicCard.name"
+		            }, 
+		            { 
+		                "data": "magicCard.editions",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+									data='<i class="ss ss-'+data[0].id.toLowerCase()+' ss-common ss-2x"></i>';	                		 
+		                	 }
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "magicCollection",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+								data=data.name;	                		 
+		                	 }
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "qte"
+		            },
+		            { 
+		                "data": "language"
+		            },
+		            { 
+		                "data": "condition"
+		            },
+		            { 
+		                "data": "foil",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+								 if(data===true)
+		                			 	data="<span class='fa fa-check'/>";
+		                			 else
+		                				data="<span class='fa fa-times'/>";
+		                	 }
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "signed",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+								 if(data===true)
+		                			 	data="<span class='fa fa-check'/>";
+		                			 else
+		                				data="<span class='fa fa-times'/>";
+		                	 }
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "altered",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+								 if(data===true)
+		                			 	data="<span class='fa fa-check'/>";
+		                			 else
+		                				data="<span class='fa fa-times'/>";
+		                	 }
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "price"
+		            }
+		           
+		        ]
+		    } );
+		} );
+	
+	</script>
+    
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"></nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">Alerts</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Stocks
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table id="tableStock" class="display" style="width:100%">
+						        <thead>
+						            <tr>
+						            	<th> </th>
+						                <th>card</th>
+						                <th>edition</th>
+						                <th>collection</th>
+						                <th>qty</th>
+						                <th>language</th>
+						                <th>condition</th>
+						                <th>foil</th>
+						                <th>signed</th>
+						                <th>altered</th>
+						                <th>price</th>
+						            </tr>
+						        </thead>
+						       </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+	
+	
+    
+    
+</body>
+</html>

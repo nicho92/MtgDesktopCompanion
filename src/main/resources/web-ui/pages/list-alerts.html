@@ -12,6 +12,7 @@
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
    	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
 	<link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
 	<script src="../vendor/jquery/jquery.min.js"/></script>
    	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
@@ -27,77 +28,49 @@
 	    $.get("menu.html", function(data){
 	        $("nav").html(data);
 	    });
-    </script>
+	</script>
     <script>
+		var set = restserver+"/alerts/list";
+		
 		$(document).ready(function() {
-			
-			var restService=restserver+"/editions/list";
-			
-			var count=null;
-			var qty=0;
-			
-			$.ajax({
-				dataType: 'json',
-	  	        url: restserver+"/collections/"+$_GET("col")+"/count"
-	  	    }).then(function(data) {
-	  	    	count=data;
-	  	    	
-	  	    });
-			
-			
-			if($_GET('col')!=null)
-				restService=restserver+"/editions/list/"+$_GET('col');
-			
-			
-		    $('#tableEds').DataTable( {
+		    $('#tableAlerts').DataTable( {
 		    	"language": {
 		    	    "search": "Filter"
 		    	  },
 		    	"responsive": true,
 		        "processing": true,
-		        "ajax": {"url":restService,"dataSrc":""},
-		        "order": [[ 3, "desc" ]],
 		        "pageLength": 50,
+		        "ajax": {"url":set,"dataSrc":""},
 		        "columns": [
+		        	{ 
+			                "data": "id",
+			                "width": "3%",
+			                "render": function(data, type, row, meta){
+			                	 if(type === 'display'){
+										data="<a class='glyphicon glyphicon-eye-open' href='card.html?id="+data+"'/>";		                		 
+			                	 }
+			                   return data;
+			                }
+			        },
+		        	{ 
+		                "data": "card.name"
+		            }, 
 		            { 
-		                "data": "id",
+		                "data": "card.editions",
 		                "render": function(data, type, row, meta){
-		                   if(type === 'display'){
-		                	   qty=0;
-		                		if(count!=null)
-		                		{
-		                			qty=count[data.toUpperCase()];
-		                			if (isNaN(qty)) {
-		                			    qty=-1;
-		                			  }
-		                		}
-		                	   
-		                	   if($_GET('col')!=null)
-		                	   		data = '<a href="list-cards.html?set=' + data + '&col='+$_GET('col')+'"><i class="ss ss-'+data.toLowerCase()+' ss-common ss-2x"></i></a>';
-		                	   else
-		                	   		data = '<a href="list-cards.html?set=' + data + '"><i class="ss ss-'+data.toLowerCase()+' ss-common ss-2x"></i></a>';
-		                   }
+		                	 if(type === 'display'){
+									data='<i class="ss ss-'+data[0].id.toLowerCase()+' ss-common ss-2x"></i>';	                		 
+		                	 }
 		                   return data;
 		                }
-		            }, 
-		            { "data": "set" },
+		            },
 		            { 
-		                "data": "cardCount",
-		                "render": function(data, type, row, meta){
-		                   if(type === 'display'){
-		                	   if($_GET('col')!=null)
-		                	   {
-		                		  data = qty+'/'+data;
-		                	   }
-		                   }
-		                   return data;
-		                }
-		            }, 
-		            
-		            
-		            { "data": "releaseDate",
-		               "defaultContent": ""
+		                "data": "card.types"
+		            },
+		            { 
+		                "data": "price"
 		            }
+		           
 		        ]
 		    } );
 		} );
@@ -114,7 +87,7 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header">Sets</h1>
+                    <h1 class="page-header">Alerts</h1>
                 </div>
                 <!-- /.col-lg-12 -->
             </div>
@@ -123,17 +96,18 @@
                 <div class="col-lg-12">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Magic The Gathering sets
+                            Cards
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
-                            <table id="tableEds" class="display" style="width:100%">
+                            <table id="tableAlerts" class="display" style="width:100%">
 						        <thead>
 						            <tr>
-						                <th>id</th>
-						                <th>set</th>
-						                <th>cardCount</th>
-						                <th>releaseDate</th>
+						            	<th> </th>
+						                <th>card</th>
+						                <th>edition</th>
+						                <th>type</th>
+						                <th>bid</th>
 						            </tr>
 						        </thead>
 						       </table>
