@@ -178,6 +178,10 @@
   		  		console.log("coucou");
   		 	});
   			
+  			 $('#panelBtn').tooltip({
+  		        selector: "[data-toggle=tooltip]",
+  		        container: "body"
+  		    })
   	    	
   	    });
   	});
@@ -245,14 +249,14 @@
 					</div>
 					<div class="panel">
 						<div class="panel-heading">Actions</div>
-						<div class="panel-body">
-							<button type="button" class="btn btn-info btn-circle" data-toggle="tooltip" data-original-title="add alert">
+						<div class="panel-body" id='panelBtn'>
+							<button type="button" class="btn btn-info btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add alert">
 								<i class="fa fa-bell-o"></i>
 							</button>
-							<button type="button" class="btn btn-danger btn-circle" data-toggle="tooltip" data-original-title="add to stock">
+							<button type="button" class="btn btn-danger btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add to stock">
 								<i class="fa fa-file-text"></i>
 							</button>
-							<button id="priceBtn" type="button" class="btn btn-warning btn-circle" data-toggle="tooltip" data-original-title="show prices">
+							<button id="priceBtn" type="button" class="btn btn-warning btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="show prices">
 								<i class="fa fa-eur"></i>
 							</button>
 							<div id="dialog-message"></div>
