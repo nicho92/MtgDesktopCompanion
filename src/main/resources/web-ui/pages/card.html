@@ -119,6 +119,9 @@
   	    	
   	    	$(document).ready(function() {
   			    $('#tablePrices').DataTable( {
+  			    	language: {
+  			    	    processing: "<img src='../dist/img/loading.gif'>"
+  			    	 },
   			    	"responsive": true,
   			        "processing": true,
   			        "pageLength": 5,

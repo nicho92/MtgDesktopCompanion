@@ -13,6 +13,7 @@ import static spark.Spark.delete;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
@@ -108,8 +110,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			@Override
 			public void handle(Exception exception, Request req, Response res) {
-				 
-				logger.error("Error with : " + req.contextPath(),exception );
+			
+				 logger.error("Error :" + req.headers("Referer")+":"+exception.getMessage() );
 				 res.status(500);
 				 res.body("{\"error\":\""+exception+"\"}");
 				
@@ -125,7 +127,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		{
 			response.type(getString("MIME"));
 			response.header("Access-Control-Allow-Origin", getString("Access-Control-Allow-Origin"));
-			logger.info("Received api call from " + request.ip());
+			
+			logger.info("Received api call from " + request.ip() +" : "+request.headers("Referer"));
 		});
 		
 		get("/cards/search/:att/:val",getString("MIME"), (request, response) ->{
