@@ -111,7 +111,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			@Override
 			public void handle(Exception exception, Request req, Response res) {
 			
-				 logger.error("Error :" + req.headers("Referer")+":"+exception.getMessage() );
+				 logger.error("Error :" + req.headers("Referer")+":"+exception.getMessage(),exception);
 				 res.status(500);
 				 res.body("{\"error\":\""+exception+"\"}");
 				

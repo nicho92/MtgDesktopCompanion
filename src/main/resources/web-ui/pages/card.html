@@ -159,7 +159,8 @@
   	  			dataType: 'json',
   	   	        url: restserver+"/dash/history/"+$_GET("id")
   	   	   		 }).then(function(json_data) {
-			  	   	    	new Morris.Line({
+			  	   	    	
+  	   	   			 		new Morris.Line({
 			  	  	  		  element: 'priceVariation',
 			  	  	  		  data: json_data,
 			  	  	  		  xkey: 'date',
@@ -170,6 +171,31 @@
 			  	  	  		  resize: true,
 			  	  	  		  pointSize:0
 			  	  	  		});
+  	   	   			 		
+  	   	   			 		var vallast = json_data[json_data.length - 1].value;
+  	   	   					var valpreLast = json_data[json_data.length - 2].value;
+  	   	   			 		
+  	   	   					console.log(vallast);
+  	   	   					
+  	   	   					$("#lastPrice").html(vallast+"$");
+  	   	   					
+  	   	   					if(vallast>valpreLast)
+   	   						{
+  	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-up");
+  	   						}
+  	   	   					else if(vallast<valpreLast)
+   	   						{
+	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-down");
+	   						}
+  	   	   					else
+   	   						{
+   	   				  			$("#priceArrow").addClass("fa-pause");
+   	   						}
+  	   	   						
+  	   	   					
+  	   	   					
+  	   	   					
+  	   	   			 		
   	   	    	});
   	    	
   	    		
@@ -265,6 +291,22 @@
 					</div>
 				</div>
 				<div class="col-lg-4">
+				
+					<div class="panel">
+                        <div class="panel-heading">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <i id="priceArrow" class="fa fa-5x"></i>
+                                </div>
+                                <div class="col-xs-9 text-right">
+                                    <div class="huge" id="lastPrice"></div>
+                                    <div></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+				
+				
 					<div class="panel">
 						<div class="panel-heading">Reprints</div>
 						<div class="panel-body">

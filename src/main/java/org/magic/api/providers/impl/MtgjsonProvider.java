@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.lang.reflect.InvocationTargetException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLConnection;
@@ -21,6 +22,7 @@ import java.util.Set;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
@@ -53,16 +55,18 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	
 	private ReadContext ctx;
 	private Map<String,List<MagicCard>> cachedCardEds;
-	List<String> currentSet;
+	private List<String> currentSet;
 	
 	
 	private List<MagicEdition> eds;
+	private Map<String, MagicCard> cache;
+	
 	private String version;
 	
 	public MtgjsonProvider() {
 		super();
 		CacheProvider.setCache(new LRUCache(200));
-	
+		cache = new HashMap<>();
 		init();
 		
 		
@@ -204,6 +208,10 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	}
 	
 	public MagicCard getCardById(String id) throws IOException {
+		
+		if(cache.get(id)!=null)
+			return cache.get(id);
+		
 		return searchCardByCriteria("id", id,null,true).get(0);
 	}
 	
@@ -264,8 +272,6 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 				}
 				return null;
 		}).read(jsquery,List.class);
-
-		
 		
 		int indexSet=0;
 		for(Map<String,Object> map : cardsElement)
@@ -372,12 +378,11 @@ public class MtgjsonProvider extends AbstractCardsProvider{
  					  			  mr.setText(String.valueOf(mapRules.get("text")));
  					 mc.getRulings().add(mr);
  				  }
- 				  
- 				  
- 			   }
+  			   }
 	 		   
 	 		   String codeEd;
-	 		   if(currentSet.size()==1)
+	 		   
+	 		   if(currentSet.size()<=1)
 	 			   codeEd=currentSet.get(0);
 	 		   else
 	 			   codeEd=currentSet.get(indexSet++);
@@ -470,6 +475,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 	 		  notifyObservers(mc);
 	 		   
 	 		  listCards.add(mc);
+	 		  cache.put(mc.getId(), mc);
 	 		  
 		}
 		currentSet.clear();
