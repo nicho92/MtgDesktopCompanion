@@ -27,14 +27,16 @@
     <script src="../dist/js/js-var.js"></script>
     <script src="../dist/js/rest-server.js"></script>
   
+  
+  	<link href="../vendor/morrisjs/morris.css" rel="stylesheet" type="text/css" >
+   	<script src="../vendor/morrisjs/morris.min.js"/></script>
+   	<script src="../vendor/morrisjs/raphael-min.js"/></script>
+  
+  
   	<script>
   	 $.get("menu.html", function(data){
 	        $("nav").html(data);
 	    });
-  	
-
-  	
- 
   	
   	
   	$(document).ready(function() {
@@ -85,7 +87,6 @@
   	    	if(data.cost!=null)
   	    	{
   	    	   var d=data.cost.match(/[^{}]+(?=\})/g);
-  	    	   console.log(d);
   	      	   if(d!=null){
   	      		   var ret="";
   	      		   for (var i = 0; i < d.length; i++) {
@@ -121,14 +122,16 @@
   			    	"responsive": true,
   			        "processing": true,
   			        "pageLength": 5,
+  			        "bLengthChange": false,
+  			        "paginationType":"simple",
   			      	"searching": false,
   			      	"order": [[ 1, "asc" ]],
   			        "ajax": {"url":restserver+"/prices/"+data.editions[0].id+"/"+data.name,"dataSrc":""},
   			        "columns": [
   			        	{ "data": "site" },
   			            { "data" : "value"},
-  			            { "data": "currency"},
-  			          	{ "data": "quality"},
+  			            { "data": "currency","defaultContent": ""},
+  			          	{ "data": "quality","defaultContent": ""},
   			            { 
 	  			                "data": "url",
 	  			                "render": function(data, type, row, meta){
@@ -147,9 +150,40 @@
   	    	
   	    });
   	});
-  	 
-  	
   	</script>
+  		<script>
+  	
+  	
+	  	$(document).ready(function() {
+	  		
+	  		
+	  		
+	  		 $.ajax({
+	  			dataType: 'json',
+	   	        url: restserver+"/dash/history/"+$_GET("id")
+	   	    }).then(function(json_data) {
+	   	    	new Morris.Line({
+	  	  		  element: 'priceVariation',
+	  	  		  data: json_data,
+	  	  		  xkey: 'date',
+	  	  		  ykeys: ['value'],
+	  	  		  labels: ['Value'],
+	  	  		  xLabels: 'month',
+	  	  		  hideHover: 'auto',
+	  	  		  resize: true,
+	  	  		  pointSize:0
+	  	  		});
+	   	    	
+	   	    } );
+	   	    	
+	   	});
+	  		
+	  		
+	  		
+		  	
+  	</script>
+  	
+  	
 </head>
 
 <body>
@@ -222,7 +256,7 @@
                         </div>
                     </div>
                 </div>
-                 <div class="col-lg-4">
+                <div class="col-lg-4">
                  	<div class="panel">
                         <div class="panel-heading">
                            Reprints
@@ -257,9 +291,22 @@
                         </div>
                     </div>
                 </div>
-            </div>
-			<div class="row">
-			 <div class="col-lg-12">
+
+		<div class="row">
+			 <div class="col-md-7">
+                <div class="panel">
+                 	<div class="panel-heading">
+                            Variation
+                    </div>
+                        <div class="panel-body">
+                           <div id="priceVariation" style="width:100%;"></div>
+                        </div>
+                        <div class="panel-footer">
+                            
+                        </div>
+                 	</div>
+			</div>
+			 <div class="col-md-4">
                  	<div class="panel">
                  	<div class="panel-heading">
                             Prices
@@ -285,9 +332,9 @@
                  	</div>
              </div>
 			</div>
-
-
-        </div>
+             </div>
+            </div>
+			
     </div>
 </body>
 

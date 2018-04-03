@@ -15,7 +15,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
@@ -30,6 +33,10 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
+import com.mysql.cj.xdevapi.JsonNumber;
 
 import spark.ExceptionHandler;
 import spark.Request;
@@ -102,7 +109,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			@Override
 			public void handle(Exception exception, Request req, Response res) {
 				 
-					logger.error("Error with : " + req.queryString(),exception );
+				logger.error("Error with : " + req.contextPath(),exception );
 				 res.status(500);
 				 res.body("{\"error\":\""+exception+"\"}");
 				
@@ -234,13 +241,24 @@ public class JSONHttpServer extends AbstractMTGServer {
 			 
 		}, transformer);
 		
-		get("/dash/history/:idSet/:name",getString("MIME"), (request, response) ->{
-			MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(request.params(":idSet"));
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", request.params(":name"), ed,false).get(0);
-    		
-    	  	return MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, ed);
-		}, transformer);
-	
+		get("/dash/history/:idCard",getString("MIME"), (request, response) ->{
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCard"));
+			
+			JsonArray arr = new JsonArray();
+			Map<Date, Double> res = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, mc.getEditions().get(0));
+			
+			for(Entry<Date, Double> val : res.entrySet())
+			{
+				JsonObject obj = new JsonObject();
+						   obj.add("date",new JsonPrimitive(val.getKey().getTime()));
+						   obj.add("value", new JsonPrimitive(val.getValue()));
+						
+				arr.add(obj);
+			}
+			
+			return arr;
+		});
+		
 
 		get("/pics/cards/:id",getString("MIME"), (request, response) ->{
 			
@@ -267,7 +285,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		logger.info("Server start on port "+ getString("SERVER-PORT"));
 		running=true;
 	}
-
+	
 	@Override
 	public void stop() throws IOException {
 		Spark.stop();
