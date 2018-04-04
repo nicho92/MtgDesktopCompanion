@@ -75,7 +75,7 @@
   	    	$('#loyalty').append(data.loyalty);
   	    	$('#artist').html("<i>"+data.artist+"</i>");
   	    	$('#pic').attr("src", restserver+"/pics/cards/"+$_GET("id"));
-  	    	
+  	    	$('#number').append(data.editions[0].number)
   	    	
   	    	for (var i = 0; i < data.editions.length; i++) {
   	    		
@@ -264,6 +264,9 @@
 							</p>
 							<p id="loyalty">
 								<b>Loyalty :</b>
+							</p>
+							<p id="number">
+								<b>Number :</b>
 							</p>
 						</div>
 						<div class="panel-footer"></div>
