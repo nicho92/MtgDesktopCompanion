@@ -50,7 +50,7 @@
   	        url: restserver+"/collections/cards/"+$_GET("id")
   	    }).then(function(data) {
   	    	for (var i = 0; i < data.length; i++) {
-  	    		$('#collections').append("<a href='list-sets.html?col="+data[i].name+"'>"+data[i].name+"</a><br/>");
+  	    		$('#collections').append("<i class='fa fa-folder'></i><a href='list-sets.html?col="+data[i].name+"'>"+data[i].name+"</a><br/>");
   	    		
 			}
   	    	
@@ -68,7 +68,7 @@
   	    }).then(function(data) {
   	    	
   	    	$('#title').html(data.name);
-  	    	$('#text').html(data.text);
+  	    	$('#text').html(data.text.replace(/\n/g, "<br />"));
   	    	$('#text').append("<br/><i>"+data.flavor+"</i>");
   	    	$('#types').append(data.types);
   	    	$('#power').append(data.power+"/"+data.toughness);
@@ -174,18 +174,20 @@
   	   	   			 		
   	   	   			 		var vallast = json_data[json_data.length - 1].value;
   	   	   					var valpreLast = json_data[json_data.length - 2].value;
-  	   	   			 		
-  	   	   					console.log(vallast);
+  	   	   			 		var pc = new Number(( ( vallast - valpreLast ) / valpreLast ) * 100);
+  	   	   					
   	   	   					
   	   	   					$("#lastPrice").html(vallast+"$");
-  	   	   					
+  	   	   				
   	   	   					if(vallast>valpreLast)
    	   						{
   	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-up");
+  	   	   						$("#pcVariation").html("+"+pc.toPrecision(2)+"%");
   	   						}
   	   	   					else if(vallast<valpreLast)
    	   						{
 	   	   						$("#priceArrow").addClass("fa-arrow-circle-o-down");
+	   	   						$("#pcVariation").html(pc.toPrecision(2)+"%");
 	   						}
   	   	   					else
    	   						{
@@ -300,6 +302,7 @@
                                 </div>
                                 <div class="col-xs-9 text-right">
                                     <div class="huge" id="lastPrice"></div>
+                                    <div class="medium" id="pcVariation"></div>
                                     <div></div>
                                 </div>
                             </div>

@@ -41,9 +41,7 @@ import com.google.gson.stream.JsonReader;
 public class ScryFallProvider extends AbstractCardsProvider {
 
 	private static String baseURI ="https://api.scryfall.com";
-	private Map<String , MagicEdition> cache;
 	private JsonParser parser;
-	private Map<String,List<MagicCard>> cachedCardEds;
 	private String encoding="UTF-8";
 	private String version;
 	
@@ -53,8 +51,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	@Override
 	public void init() {
-		cache=new TreeMap<>();
-		cachedCardEds= new HashMap<>();
 		parser = new JsonParser();
     	try {
     		InstallCert.install("api.scryfall.com");
@@ -156,7 +152,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-		if(cache.size()<=0)
+		if(cacheEditions.size()<=0)
 		{
 			String url = baseURI+"/sets";
 			URLConnection con = getConnection(url);
@@ -168,17 +164,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				
 				JsonObject e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
-				cache.put(ed.getId(), ed);
+				cacheEditions.put(ed.getId(), ed);
 			}
 		}
-		return new ArrayList<>(cache.values());
+		return new ArrayList<>(cacheEditions.values());
 	}
 
 	@Override
 	public MagicEdition getSetById(String id) throws IOException {
-		if(cache.size()>0)
+		if(cacheEditions.size()>0)
 		{
-			for(MagicEdition ed : cache.values())
+			for(MagicEdition ed : cacheEditions.values())
 				if(ed.getId().equalsIgnoreCase(id))
 					try {
 						return (MagicEdition)BeanUtils.cloneBean(ed);
@@ -219,10 +215,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				List<MagicCard> uncommon = new ArrayList<>();
 				List<MagicCard> rare= new ArrayList<>();
 			
-				if(cachedCardEds.get(me.getId())==null)
-					cachedCardEds.put(me.getId(), searchCardByCriteria("set", me.getId(), null,true));
+				if(cacheBoosterCards.get(me.getId())==null)
+					cacheBoosterCards.put(me.getId(), searchCardByCriteria("set", me.getId(), null,true));
 
-				for(MagicCard mc : cachedCardEds.get(me.getId()))
+				for(MagicCard mc : cacheBoosterCards.get(me.getId()))
 				{	
 					if(mc.getEditions().get(0).getRarity().equalsIgnoreCase("common"))
 							common.add(mc);
@@ -294,7 +290,15 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	private MagicCard generateCard(JsonObject obj,boolean exact,String search) throws IOException
 	{
-		final MagicCard mc = new MagicCard();
+			MagicCard mc = new MagicCard();
+			
+			if(cacheCards.get(obj.get("id").getAsString())!=null)
+			{
+				setChanged();
+		 		notifyObservers(mc);
+				return cacheCards.get(obj.get("id").getAsString());
+			}
+			
 		
 		  mc.setId(obj.get("id").getAsString());
 		  mc.setName(obj.get("name").getAsString());
@@ -454,7 +458,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		  
  		  setChanged();
  		  notifyObservers(mc);
-  
+ 		  cacheCards.put(mc.getId(), mc);
 		  
 		return mc;
 		
