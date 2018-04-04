@@ -549,7 +549,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				},"loadLogo");
 			}
 		
-		if(magicCard!=null && enableCollectionLookup)
+		if(magicCard!=null && enableCollectionLookup && !magicCard.getEditions().isEmpty())
 			ThreadManager.getInstance().execute(()->{
 					try{
 						((DefaultListModel)listCollection.getModel()).removeAllElements();
