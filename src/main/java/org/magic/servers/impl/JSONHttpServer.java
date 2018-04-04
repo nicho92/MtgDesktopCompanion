@@ -5,15 +5,13 @@ import static spark.Spark.before;
 import static spark.Spark.exception;
 import static spark.Spark.get;
 import static spark.Spark.notFound;
+import static spark.Spark.options;
 import static spark.Spark.port;
 import static spark.Spark.put;
-import static spark.Spark.delete;
-
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -23,7 +21,6 @@ import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
@@ -38,7 +35,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
-import com.mysql.cj.xdevapi.JsonNumber;
 
 import spark.ExceptionHandler;
 import spark.Request;
@@ -74,33 +70,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 	}
 
-	/*// Enables CORS on requests. This method is an initialization method and should be called once.
-	private static void enableCORS(final String origin, final String methods, final String headers) {
-
-	    options("/*", (request, response) -> {
-
-	        String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
-	        if (accessControlRequestHeaders != null) {
-	            response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
-	        }
-
-	        String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
-	        if (accessControlRequestMethod != null) {
-	            response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
-	        }
-
-	        return "OK";
-	    });
-
-	    before((request, response) -> {
-	        response.header("Access-Control-Allow-Origin", origin);
-	        response.header("Access-Control-Request-Method", methods);
-	        response.header("Access-Control-Allow-Headers", headers);
-	        // Note: this may or may not be necessary in your particular application
-	        response.type("application/json");
-	    });
-	}*/
-	
 	
 	@Override
 	public void start() throws IOException {
@@ -123,11 +92,28 @@ public class JSONHttpServer extends AbstractMTGServer {
 		    return "{\"error\":\"not found\"}";
 		});
 		
+		   
+	    options("/*", (request,response)->{
+	        String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+	        if (accessControlRequestHeaders != null) {
+	            response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+	        }
+	        String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+	        if(accessControlRequestMethod != null){
+	            response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+	        }
+	        return "OK";
+	    });
+		
+		
 		before("/*", (request, response) ->
 		{
 			response.type(getString("MIME"));
 			response.header("Access-Control-Allow-Origin", getString("Access-Control-Allow-Origin"));
-			
+		    response.header("Access-Control-Request-Method", getString("Access-Control-Request-Method"));
+	        response.header("Access-Control-Allow-Headers", getString("Access-Control-Allow-Headers"));
+	        
+	        
 			logger.info("Received api call from " + request.ip() +" : "+request.headers("Referer"));
 		});
 		
@@ -229,7 +215,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			 
 		}, transformer);
 
-		put("/alerts/add/:idCards",getString("MIME"), (request, response) ->{
+		put("/alerts/add/:idCards",(request, response) ->{
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("id", request.params(":idCards"), null,true).get(0);
 			MagicCardAlert alert = new MagicCardAlert();
 			alert.setCard(mc);
@@ -329,8 +315,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		setProperty("ENABLE_GZIP","false");
 		
 		setProperty("Access-Control-Allow-Origin","*");
-		setProperty("Access-Control-Request-Method","");
-		setProperty("Access-Control-Allow-Headers","");
+		setProperty("Access-Control-Request-Method","GET,PUT,POST,DELETE,OPTIONS");
+		setProperty("Access-Control-Allow-Headers","Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
 	}
 
 	@Override

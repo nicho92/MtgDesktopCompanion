@@ -202,8 +202,18 @@
   	    	
   	    		
   			  
-  			$( "#priceBtn" ).click( function() {
-  		  		console.log("coucou");
+  			$( "#alertBtn" ).click( function() {
+  				 $.ajax({
+  	  	  			dataType: 'json',
+  	  	  		 	type: 'PUT',
+  	  	  			contentType: 'application/json; charset=UTF-8',
+  	  	   	        url: restserver+"/alerts/add/"+$_GET("id")
+  	  	   	   		 }).done(function(json_data) {
+  	  	   	   			 
+  	  	   	   		 }).fail(function(json_data) {
+  	  	   	   			alert(json_data);
+  	  	   	   			console.log(json_data);
+  	  	   	   		 })
   		 	});
   			
   			 $('#panelBtn').tooltip({
@@ -281,10 +291,10 @@
 					<div class="panel">
 						<div class="panel-heading">Actions</div>
 						<div class="panel-body" id='panelBtn'>
-							<button type="button" class="btn btn-info btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add alert">
+							<button id="alertBtn" type="button" class="btn btn-info btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add alert">
 								<i class="fa fa-bell-o"></i>
 							</button>
-							<button type="button" class="btn btn-danger btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add to stock">
+							<button id="stockBtn" type="button" class="btn btn-danger btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add to stock">
 								<i class="fa fa-file-text"></i>
 							</button>
 							<button id="priceBtn" type="button" class="btn btn-warning btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="show prices">
