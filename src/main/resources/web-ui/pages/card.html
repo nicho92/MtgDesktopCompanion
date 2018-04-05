@@ -40,29 +40,25 @@
   
   
   	<script>
-  	
+  	$.get("menu.html", function(data){
+        $("nav").html(data);
+    });
   	
    	$(document).ready(function() {
-   	 $.get("menu.html", function(data){
-	        $("nav").html(data);
-	    });
-   	 
-   	 
-   	 $( "#alertBtn" ).addClass("btn-warning");
-   	 $( "#stockBtn" ).addClass("btn-primary");
-   	 $( "#priceBtn" ).addClass("btn-danger");
-   	 
-  		$( "#alertBtn" ).click( function() {
-			 $.ajax({
- 	  			type: 'PUT',
- 	  		    url: restserver+"/alerts/add/"+$_GET("id")
- 	   	   		 }).done(function(data) {
- 	   	   			alert("ok");
-		 	   	   // $( "#alertBtn" ).addClass("btn-success");
- 	   	   		 }).fail(function(data,status,error) {
- 	   	   			alert(JSON.stringify(data) + " " + error);
- 	   	   		 })
-	 	});
+		   	 $( "#alertBtn" ).addClass("btn-warning");
+		   	 $( "#stockBtn" ).addClass("btn-primary");
+		   	 
+	  		$( "#alertBtn" ).click( function() {
+				 $.ajax({
+	 	  			type: 'PUT',
+	 	  		    url: restserver+"/alerts/add/"+$_GET("id")
+	 	   	   		 }).done(function(data) {
+	 	   	   			alert("ok");
+			 	   	   // $( "#alertBtn" ).addClass("btn-success");
+	 	   	   		 }).fail(function(data,status,error) {
+	 	   	   			alert(JSON.stringify(data) + " " + error);
+	 	   	   		 })
+		 	});
 		
   		$( "#stockBtn" ).click( function() {
 			 $.ajax({
@@ -179,7 +175,7 @@
   		
   			  $.ajax({
   	  			dataType: 'json',
-  	   	        url: restserver+"/dash/history/"+$_GET("id")
+  	   	        url: restserver+"/dash/card/"+$_GET("id")
   	   	   		 }).then(function(json_data) {
 			  	   	    	
   	   	   			 		new Morris.Line({
@@ -297,14 +293,11 @@
 					<div class="panel">
 						<div class="panel-heading">Actions</div>
 						<div class="panel-body" id='panelBtn'>
-							<button id="alertBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add alert">
+							<button id="alertBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add alert">
 								<i class="fa fa-bell-o"></i>
 							</button>
-							<button id="stockBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add to stock">
+							<button id="stockBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add to stock">
 								<i class="fa fa-file-text"></i>
-							</button>
-							<button id="priceBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="show prices">
-								<i class="fa fa-eur"></i>
 							</button>
 							<div id="dialog-message"></div>
 						</div>

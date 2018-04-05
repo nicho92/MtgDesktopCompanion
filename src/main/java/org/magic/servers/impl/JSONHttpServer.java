@@ -21,6 +21,7 @@ import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -34,6 +35,7 @@ import org.magic.services.MTGControler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -239,7 +241,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			 
 		}, transformer);
 		
-		get("/dash/history/:idCard",getString("MIME"), (request, response) ->{
+		get("/dash/card/:idCard",getString("MIME"), (request, response) ->{
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCard"));
 			
 			JsonArray arr = new JsonArray();
@@ -256,6 +258,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			return arr;
 		});
+		
+		get("/dash/edition/:idEd",getString("MIME"), (request, response) ->{
+			MagicEdition ed = new MagicEdition();
+			ed.setId(request.params(":idEd"));
+			return MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed);
+		},transformer);
+		
 		
 
 		get("/pics/cards/:id",getString("MIME"), (request, response) ->{

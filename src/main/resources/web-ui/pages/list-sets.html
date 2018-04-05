@@ -88,6 +88,9 @@
 		                	   if($_GET('col')!=null)
 		                	   {
 		                		  data = qty+'/'+data;
+		                		  console.log($('td', row));
+		                		  if(qty>=data)
+		                			  $('td', row).addClass('success');
 		                	   }
 		                   }
 		                   return data;

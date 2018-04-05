@@ -11,17 +11,20 @@
 
     <title>MTGDesktopCompanion</title>
  	<link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+ 	<link href="../vendor/bootstrap/css/bootstrap-select.min.css" rel="stylesheet">
     <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
    	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
    	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
 	<link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+	
 	<script src="../vendor/jquery/jquery.min.js"/></script>
 	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
 	<script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
     <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
 	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap-select.min.js"></script>
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/js-var.js"></script>
@@ -30,7 +33,59 @@
   	<script>
   	 $.get("menu.html", function(data){
 	        $("nav").html(data);
-	    });
+	 });
+  	 
+  	$(document).ready(function() {
+ 	 	$('#edsPrices').DataTable({
+	    		language: {
+		    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
+		    	 },
+		    	"data":null,
+		    	"responsive": true,
+		        "processing": true,
+		        "pageLength": 10,
+		        "bLengthChange": false,
+		        "paginationType":"simple",
+		      	"order": [[ 1, "desc" ]],
+		        "columns": [
+			        	{ "data": "name","width": "50%" },
+			            { "data" : "price"},
+			            { "data": "priceDayChange",
+			            	"defaultContent": ""
+			           	},
+			          	{ "data": "percentDayChange",
+			           	  "defaultContent": ""
+			           	}
+			        ]
+		    } );	
+  		
+  	 	$.ajax({
+		    url: restserver+"/editions/list"
+	   		 }).done(function(data) {
+	   			 for(var i=0;i<data.length;i++)
+	   				 {
+	   				 	$("#listEditions").append("<option value='"+data[i].id+"'>"+data[i].set+"</option>")
+	   				 }
+	   			$('#listEditions').selectpicker().change(function(e) {
+	   				
+	   				var idEd= $(this).find("option:selected").val();
+	   				
+	   				$.ajax({
+	   				    	url: restserver+"/dash/edition/"+idEd,
+	   				    	dataSrc:""
+	   			   		 }).done(function(data) {
+	   			   			$('#edsPrices').DataTable().clear();
+	   			   			
+	   			   			for(var i=0;i<data.length;i++)
+	   			   			{
+	   			   				$('#edsPrices').DataTable().row.add(data[i]);
+	   			   			}
+	   			   			
+	   			   			$('#edsPrices').DataTable().draw();
+	   			   		 });
+	            });
+	   		 })
+  	});
   	</script>
   	
   
@@ -57,43 +112,27 @@
              <!-- /.row -->
             
 			<div class="row">
-			 <div class="col-lg-5">
-                 	<div class="panel panel-red">
+		     <div class="col-lg-5">
+                 <div class="panel panel-red">
                  	<div class="panel-heading">
-                            Prices
+                      		Variations for
+        							<select id="listEditions" class="form-control"><option value=""></option></select>
+					        	
+                   	</div>
+                    <div class="panel-body">
+                       <table id="edsPrices" class="display" style="width: 100%">
+									<thead>
+										<tr>
+											<th>Name</th>
+											<th>$</th>
+											<th>+/-</th>
+											<th>%</th>
+										</tr>
+									</thead>
+								</table>
                     </div>
-                        <div class="panel-body">
-                            
-                            <table id="tablePrices" class="display" style="width:100%">
-						        <thead>
-						            <tr>
-						                <th>card</th>
-						                <th>edition</th>
-						                <th>price</th>
-						                <th>price variation</th>
-						                <th>% variation</th>
-						            </tr>
-						        </thead>
-						       </table>
-                            
-                        </div>
-                        <div class="panel-footer">
-                            
-                        </div>
-                 	</div>
-             </div>
-             <div class="col-lg-5">
-                 	<div class="panel panel-red">
-                 	<div class="panel-heading">
-                            Variation
-                    </div>
-                        <div class="panel-body">
-                           <div id="priceVariation" style="height: 250px;"></div>
-                        </div>
-                        <div class="panel-footer">
-                            
-                        </div>
-                 	</div>
+                    <div class="panel-footer"></div>
+                 </div>
              </div>
 			</div>
 
