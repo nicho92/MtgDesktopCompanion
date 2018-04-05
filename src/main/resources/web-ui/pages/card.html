@@ -47,7 +47,9 @@
    	$(document).ready(function() {
 		   	 $( "#alertBtn" ).addClass("btn-warning");
 		   	 $( "#stockBtn" ).addClass("btn-primary");
-		   	 
+		   	 $( "#addCardBtn" ).addClass("btn-danger");
+		   	
+		   	
 	  		$( "#alertBtn" ).click( function() {
 				 $.ajax({
 	 	  			type: 'PUT',
@@ -253,7 +255,7 @@
 						<div class="panel-heading">Pictures</div>
 						<div class="panel-body">
 							<p>
-								<img id='pic' />
+								<img class='img-fluid' id='pic' data-holder-rendered="true"/>
 							</p>
 						</div>
 						<div class="panel-footer">
@@ -298,6 +300,9 @@
 							</button>
 							<button id="stockBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add to stock">
 								<i class="fa fa-file-text"></i>
+							</button>
+							<button id="addCardBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" data-original-title="add to default library">
+								<i class="fa fa-plus-circle"></i>
 							</button>
 							<div id="dialog-message"></div>
 						</div>
