@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
@@ -102,7 +103,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	        if(accessControlRequestMethod != null){
 	            response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
 	        }
-	        return "OK";
+	        return "{\"result\":\"OK\"}";
 	    });
 		
 		
@@ -127,14 +128,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
 			  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
 			  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
-			  return "OK";
+			  return "{\"result\":\"OK\"}";
 		}, transformer);
 		
 		put("/cards/add/:to/:id",getString("MIME"), (request, response) ->{
 			  MagicCollection to=new MagicCollection(request.params(":to"));
 			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
 			  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
-			  return "OK";
+			  return "{\"result\":\"OK\"}";
 		}, transformer);
 		
 		
@@ -210,21 +211,29 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/alerts/:idCards",getString("MIME"), (request, response) ->{
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("id", request.params(":idCards"), null,true).get(0);
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCards"));
 			return MTGControler.getInstance().getEnabledDAO().hasAlert(mc);
 			 
 		}, transformer);
 
 		put("/alerts/add/:idCards",(request, response) ->{
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("id", request.params(":idCards"), null,true).get(0);
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCards"));
 			MagicCardAlert alert = new MagicCardAlert();
 			alert.setCard(mc);
 			alert.setPrice(0.0);
 			MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
-			return "OK";
+			return "{\"result\":\"OK\"}";
 		});
 		
-
+		put("/stock/add/:idCards",(request, response) ->{
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCards"));
+			MagicCardStock stock = new MagicCardStock();
+			stock.setMagicCard(mc);
+			
+			MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(stock);
+			return "{\"result\":\"OK\"}";
+		});
+		
 		get("/stock/list",getString("MIME"), (request, response) ->{
 			return MTGControler.getInstance().getEnabledDAO().listStocks();
 			 

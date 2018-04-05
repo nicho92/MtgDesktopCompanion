@@ -40,29 +40,48 @@
   
   
   	<script>
-  	 $.get("menu.html", function(data){
+  	
+  	
+   	$(document).ready(function() {
+   	 $.get("menu.html", function(data){
 	        $("nav").html(data);
 	    });
-  	
-  	
-  	$(document).ready(function() {
-  	    $.ajax({
-  	        url: restserver+"/collections/cards/"+$_GET("id")
-  	    }).then(function(data) {
-  	    	for (var i = 0; i < data.length; i++) {
-  	    		$('#collections').append("<i class='fa fa-folder'></i><a href='list-sets.html?col="+data[i].name+"'>"+data[i].name+"</a><br/>");
-  	    		
-			}
-  	    	
-  	    });
-  	});
-  	
-  
-	
-	
-  	
- 
-  	$(document).ready(function() {
+   	 
+   	 
+   	 $( "#alertBtn" ).addClass("btn-warning");
+   	 $( "#stockBtn" ).addClass("btn-primary");
+   	 $( "#priceBtn" ).addClass("btn-danger");
+   	 
+  		$( "#alertBtn" ).click( function() {
+			 $.ajax({
+ 	  			type: 'PUT',
+ 	  		    url: restserver+"/alerts/add/"+$_GET("id")
+ 	   	   		 }).done(function(data) {
+ 	   	   			alert("ok");
+		 	   	   // $( "#alertBtn" ).addClass("btn-success");
+ 	   	   		 }).fail(function(data,status,error) {
+ 	   	   			alert(JSON.stringify(data) + " " + error);
+ 	   	   		 })
+	 	});
+		
+  		$( "#stockBtn" ).click( function() {
+			 $.ajax({
+	  			type: 'PUT',
+	  		    url: restserver+"/stock/add/"+$_GET("id")
+	   	   		 }).done(function(data) {
+	   	   			alert("ok");
+		 	   	   // $( "#alertBtn" ).addClass("btn-success");
+	   	   		 }).fail(function(data,status,error) {
+	   	   			alert(JSON.stringify(data) + " " + error);
+	   	   		 })
+	 	});
+  		
+		 $('#panelBtn').tooltip({
+	        selector: "[data-toggle=tooltip]",
+	        container: "body"
+	    })
+  		
+  		
   	    $.ajax({
   	        url: restserver+"/cards/"+$_GET("id")
   	    }).then(function(data) {
@@ -193,33 +212,17 @@
    	   						{
    	   				  			$("#priceArrow").addClass("fa-pause");
    	   						}
-  	   	   						
-  	   	   					
-  	   	   					
-  	   	   					
-  	   	   			 		
   	   	    	});
   	    	
-  	    		
+  			  $.ajax({
+  	  	        url: restserver+"/collections/cards/"+$_GET("id")
+		  	  	    }).then(function(data) {
+		  	  	    	for (var i = 0; i < data.length; i++) {
+		  	  	    		$('#collections').append("<i class='fa fa-folder'></i><a href='list-sets.html?col="+data[i].name+"'>"+data[i].name+"</a><br/>");
+		  	  	    	}
+		  	  	    });
   			  
-  			$( "#alertBtn" ).click( function() {
-  				 $.ajax({
-  	  	  			dataType: 'json',
-  	  	  		 	type: 'PUT',
-  	  	  			contentType: 'application/json; charset=UTF-8',
-  	  	   	        url: restserver+"/alerts/add/"+$_GET("id")
-  	  	   	   		 }).done(function(json_data) {
-  	  	   	   			 
-  	  	   	   		 }).fail(function(json_data) {
-  	  	   	   			alert(json_data);
-  	  	   	   			console.log(json_data);
-  	  	   	   		 })
-  		 	});
   			
-  			 $('#panelBtn').tooltip({
-  		        selector: "[data-toggle=tooltip]",
-  		        container: "body"
-  		    })
   	    	
   	    });
   	});
@@ -291,13 +294,13 @@
 					<div class="panel">
 						<div class="panel-heading">Actions</div>
 						<div class="panel-body" id='panelBtn'>
-							<button id="alertBtn" type="button" class="btn btn-info btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add alert">
+							<button id="alertBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add alert">
 								<i class="fa fa-bell-o"></i>
 							</button>
-							<button id="stockBtn" type="button" class="btn btn-danger btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add to stock">
+							<button id="stockBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="add to stock">
 								<i class="fa fa-file-text"></i>
 							</button>
-							<button id="priceBtn" type="button" class="btn btn-warning btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="show prices">
+							<button id="priceBtn" type="button" class="btn btn-circle" data-placement="bottom" data-toggle="tooltip" title data-original-title="show prices">
 								<i class="fa fa-eur"></i>
 							</button>
 							<div id="dialog-message"></div>

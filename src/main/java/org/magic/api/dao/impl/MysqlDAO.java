@@ -594,13 +594,14 @@ public class MysqlDAO extends AbstractMagicDAO{
 	
 	@Override
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
+		
 		try(PreparedStatement pst=con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)"))
 		{
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
 			pst.setObject(2,alert.getCard());
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
-			
+			logger.debug("save alert for " + alert.getCard());
 			list.add(alert);
 		}
 	}

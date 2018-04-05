@@ -270,6 +270,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
   		 
 		   if(cacheCards.get(String.valueOf(map.get("id"))) != null)
 		   {
+			   logger.trace("card "+map.get("id")+"found in cache");
 			   mc=cacheCards.get(String.valueOf(map.get("id")));
 		   }
 		   else

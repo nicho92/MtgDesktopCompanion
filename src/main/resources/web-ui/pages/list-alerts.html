@@ -44,6 +44,7 @@
 		        "columns": [
 		        	{ 
 			                "data": "card.id",
+			                "defaultContent": "",
 			                "width": "3%",
 			                "render": function(data, type, row, meta){
 			                	 if(type === 'display'){
@@ -53,10 +54,12 @@
 			                }
 			        },
 		        	{ 
-		                "data": "card.name"
+		                "data": "card.name",
+		                "defaultContent": ""
 		            }, 
 		            { 
 		                "data": "card.editions",
+		                "defaultContent": "",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
 									data='<i class="ss ss-'+data[0].id.toLowerCase()+' ss-common ss-2x"></i>';	                		 
@@ -65,10 +68,12 @@
 		                }
 		            },
 		            { 
-		                "data": "card.types"
+		                "data": "card.types",
+		                "defaultContent": ""
 		            },
 		            { 
-		                "data": "price"
+		                "data": "price",
+		                "defaultContent": ""
 		            }
 		           
 		        ]
