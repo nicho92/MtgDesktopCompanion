@@ -29,6 +29,7 @@
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/js-var.js"></script>
     <script src="../dist/js/rest-server.js"></script>
+  	<script src="../dist/js/js-btnActions.js"></script>
   
   	<script>
   	 $.get("menu.html", function(data){
@@ -47,17 +48,39 @@
 				$.ajax({
 	  			url: restserver+"/cards/list/"+idCol+"/"+idEd
 	   	   		 }).done(function(data) {
+	   	   			
 	   	   			$('#tableCards').DataTable().clear();
 		   			for(var i=0;i<data.length;i++)
 		   			{
 		   				$('#tableCards').DataTable().row.add(data[i]);
 		   			}
-		   			
 		   			$('#tableCards').DataTable().draw();
 		   			
-		   	  		$(".alertBtn").click( function() {
-		   				alert("alert " + $(this).attr('value'));	
+		   	  		
+		   			
+		   			$(".alertBtn").click( function() {
+		   	  			addAlert($(this).attr('value'), function() {});	
 		   	 		});
+		   	  		
+			   	  	$(".stockBtn").click( function() {
+		   	  			addStock($(this).attr('value'),function() {});	
+		   	 		});
+			   	  	
+			   		$(".addCardBtn").click( function() {
+			   			addCard($(this).attr('value'),idDestination,function() {
+			   				
+			   				
+			   			});	
+		   	 		});
+			   		
+			   	  	
+			   		$(".moveCardBtn").click( function() {
+			   			moveCard($(this).attr('value'),idCol,idDestination,function() {
+				   		});
+			   			$('#tableCards').DataTable().row($(".moveCardBtn").closest('tr')).remove().draw(); // need to move in moveCard callback
+			   		});
+		
+			   		
 	   	   		 })
 	 	});
   		
@@ -80,6 +103,7 @@
   	    	   		}).done(function(d) {
   	    	   			
   	    	   			$('#listEditions').find("option").remove();
+  	    	   			$("#listEditions").append("<option>-----------</option>")
   	    	   			for(var i=0;i<d.length;i++)
   	    	   			{
 		  	    	   		$("#listEditions").append("<option value='"+d[i].id+"'>"+d[i].set+"</option>")
@@ -88,11 +112,7 @@
   	    	   			$('#listEditions').selectpicker().change(function(e) {
   		   					idEd= $(this).find("option:selected").val();
   		   			 	});
-  	    	   			
-  	    	   		
   	    	   		});
-  	   				
-  	   				
   	   			 });
   	   			 
   	   		 	 $('#listDestinationsCols').selectpicker().change(function(e) {

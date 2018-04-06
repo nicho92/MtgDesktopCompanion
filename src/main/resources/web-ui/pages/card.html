@@ -32,6 +32,7 @@
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/js-var.js"></script>
     <script src="../dist/js/rest-server.js"></script>
+    <script src="../dist/js/js-btnActions.js"></script>
   
   
   	<link href="../vendor/morrisjs/morris.css" rel="stylesheet" type="text/css" >
@@ -45,35 +46,23 @@
     });
   	
    	$(document).ready(function() {
-		   	 $( "#alertBtn" ).addClass("btn-warning");
-		   	 $( "#stockBtn" ).addClass("btn-primary");
-		   	 $( "#addCardBtn" ).addClass("btn-danger");
-		   	
-		   	
-	  		$( "#alertBtn" ).click( function() {
-				 $.ajax({
-	 	  			type: 'PUT',
-	 	  		    url: restserver+"/alerts/add/"+$_GET("id")
-	 	   	   		 }).done(function(data) {
-	 	   	   			alert("ok");
-			 	   	   // $( "#alertBtn" ).addClass("btn-success");
-	 	   	   		 }).fail(function(data,status,error) {
-	 	   	   			alert(JSON.stringify(data) + " " + error);
-	 	   	   		 })
-		 	});
-		
-  		$( "#stockBtn" ).click( function() {
-			 $.ajax({
-	  			type: 'PUT',
-	  		    url: restserver+"/stock/add/"+$_GET("id")
-	   	   		 }).done(function(data) {
-	   	   			alert("ok");
-		 	   	   // $( "#alertBtn" ).addClass("btn-success");
-	   	   		 }).fail(function(data,status,error) {
-	   	   			alert(JSON.stringify(data) + " " + error);
-	   	   		 })
+	 
+   		 $( "#alertBtn" ).addClass("btn-warning");
+	   	 $( "#stockBtn" ).addClass("btn-primary");
+	   	 $( "#addCardBtn" ).addClass("btn-danger");
+		 
+	   	$("#alertBtn").click( function() {
+	  			addAlert($_GET("id"), function() {});	
+	 		});
+	  		
+   	  	$("#stockBtn").click( function() {
+	  			addStock($_GET("id"),function() {});	
+	 		});
+   	  	
+   		$("#addCardBtn").click( function() {
+   			addCardtoDefaultLibrary($_GET("id"),function() {});
 	 	});
-  		
+   		 	
 		 $('#panelBtn').tooltip({
 	        selector: "[data-toggle=tooltip]",
 	        container: "body"

@@ -133,6 +133,16 @@ public class JSONHttpServer extends AbstractMTGServer {
 			  return "{\"result\":\"OK\"}";
 		}, transformer);
 		
+		
+		put("/cards/add/:id",getString("MIME"), (request, response) ->{
+			  MagicCollection from=new MagicCollection(MTGControler.getInstance().get("default-library"));
+			  MagicCollection to=new MagicCollection(request.params(":to"));
+			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
+			  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
+			  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
+			  return "{\"result\":\"OK\"}";
+		}, transformer);
+		
 		put("/cards/add/:to/:id",getString("MIME"), (request, response) ->{
 			  MagicCollection to=new MagicCollection(request.params(":to"));
 			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
