@@ -58,45 +58,47 @@
 		   	  		$(".alertBtn").click( function() {
 		   				alert("alert " + $(this).attr('value'));	
 		   	 		});
-		   	  		
-		   	  		
-		   	  		
-		   	  		
-		   	  
 	   	   		 })
 	 	});
+  		
+  		
   		$.ajax({
   		    url: restserver+"/collections/list"
   	   		}).done(function(data) {
   	   			 for(var i=0;i<data.length;i++)
-  	   				 {
-  	   				 	$("#listCollections").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
-  	   				 	$("#listDestinationsCols").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
-  	   				
-  	   				 }
+  				 {
+  				 	$("#listCollections").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
+  				 	$("#listDestinationsCols").append("<option value='"+data[i].name+"'>"+data[i].name+"</option>");
+  				 }
   	   			
   	   			 $('#listCollections').selectpicker().change(function(e) {
+  	   				
   	   				idCol= $(this).find("option:selected").val();
+  	   				
+  	   				$.ajax({
+  	    		    	url: restserver+"/editions/list/"+idCol
+  	    	   		}).done(function(d) {
+  	    	   			
+  	    	   			$('#listEditions').find("option").remove();
+  	    	   			for(var i=0;i<d.length;i++)
+  	    	   			{
+		  	    	   		$("#listEditions").append("<option value='"+d[i].id+"'>"+d[i].set+"</option>")
+  	    	   			}
+  	    	   			$('#listEditions').selectpicker('refresh');
+  	    	   			$('#listEditions').selectpicker().change(function(e) {
+  		   					idEd= $(this).find("option:selected").val();
+  		   			 	});
+  	    	   			
+  	    	   		
+  	    	   		});
+  	   				
+  	   				
   	   			 });
   	   			 
   	   		 	 $('#listDestinationsCols').selectpicker().change(function(e) {
   	   		 		idDestination= $(this).find("option:selected").val();
-	   			 });
+  	   		 	 });
   	   		 })
-  	  	
-  	  	 	$.ajax({
-  			    url: restserver+"/editions/list"
-  		   		}).done(function(data) {
-  		   			 for(var i=0;i<data.length;i++)
-  		   				 {
-  		   				 	$("#listEditions").append("<option value='"+data[i].id+"'>"+data[i].set+"</option>")
-  		   				 }
-  		   			
-  		   			 $('#listEditions').selectpicker().change(function(e) {
-  		   				idEd= $(this).find("option:selected").val();
-  		   			 });
-  		   		 })
-  		   		 
   		   		 
   		   	$('#tableCards').DataTable({
 	    		language: {
@@ -105,12 +107,13 @@
 		    	"data":null,
 		    	"responsive": true,
 		        "processing": true,
-		        "pageLength": 10,
+		        "paging": false,
 		        "bLengthChange": false,
-		        "paginationType":"simple",
-		      	"order": [[ 1, "desc" ]],
+		        "order": [[ 1, "desc" ]],
 		        "columns": [
-			        	{ "data": "name","width": "30%" },
+			        	{ "data": "name",
+			        	  "width": "30%"
+			        	},
 			        	{ "data": "editions","width": "10%", 
 			        		"render": function(data, type, row, meta){
 				                   if(type === 'display'){
@@ -179,7 +182,7 @@
                    	</div>
                     <div class="panel-body">
 						<select id="listCollections" class="form-control"><option value=""></option></select>                       
-						<select id="listEditions" class="form-control"><option value=""></option></select>
+						<select id="listEditions" class="form-control" data-live-search="true"><option value=""></option></select>
                     </div>
                     <div align="right" class="panel-footer"><button id="btnSearch" type="button" class="btn btn-danger btn-circle"><i class="fa fa-search"></i></button></div>
                  </div>
