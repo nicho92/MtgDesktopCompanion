@@ -17,7 +17,7 @@
     <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
    	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
    	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
-	<link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+	<link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
 	
 	<script src="../vendor/jquery/jquery.min.js"/></script>
 	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
@@ -26,6 +26,7 @@
 	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
 	<script src="../vendor/bootstrap/js/bootstrap-select.min.js"></script>
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+  
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/js-var.js"></script>
     <script src="../dist/js/rest-server.js"></script>
@@ -59,11 +60,16 @@
 		   	  		
 		   			
 		   			$(".alertBtn").click( function() {
-		   	  			addAlert($(this).attr('value'), function() {});	
+		   	  			addAlert($(this).attr('value'), function() {
+		   	  			
+		   	  			});	
 		   	 		});
 		   	  		
 			   	  	$(".stockBtn").click( function() {
-		   	  			addStock($(this).attr('value'),function() {});	
+		   	  			addStock($(this).attr('value'),function() {
+		   	  				
+		   	  				
+		   	  			});	
 		   	 		});
 			   	  	
 			   		$(".addCardBtn").click( function() {
@@ -121,10 +127,7 @@
   	   		 })
   		   		 
   		   	$('#tableCards').DataTable({
-	    		language: {
-		    	    processing: "<img src='../dist/img/loading.gif' width='50' height='50'>"
-		    	 },
-		    	"data":null,
+	    		"data":null,
 		    	"responsive": true,
 		        "processing": true,
 		        "paging": false,
@@ -132,7 +135,13 @@
 		        "order": [[ 1, "desc" ]],
 		        "columns": [
 			        	{ "data": "name",
-			        	  "width": "30%"
+			        	  "width": "30%",
+			        	  "render": function(data, type, row, meta){
+			                   
+			                       data = '<span class="tooltipz">'+data+'</span>';
+			                   return data;
+			                }
+			        	  
 			        	},
 			        	{ "data": "editions","width": "10%", 
 			        		"render": function(data, type, row, meta){
@@ -159,17 +168,56 @@
 			                   return data;
 			               }	
 			        	}
-			        ]
-		    } );		 
-  		   		 
+			        ],
+			        "fnDrawCallback" :function(oSettings, json) {
+			        	$( ".tooltipz" ).tooltip(
+			      		        {
+			      		            html: true,
+			      		            trigger: "manual"
+			      		        }
+			      		        ).on(
+			      		        {
+			      		            mouseenter:
+			      		                function() {
+			      		                    var $el = $(this);
+			      		                    if( $el.data( "fetched" ) === undefined ) {
+			      		                        $el.data( "fetched", true );
+			      		                        $el.attr( "data-original-title", "<img src='../dist/img/loading.gif' width='50' height='50'>" ).tooltip( "show" );
+			      		                        $.ajax(
+			      		                            {
+			      		                                url: restserver+"/pics/cards/idEd/idCard",
+			      		                                data:                                   {
+			      		                                        lookup_id: $el.attr("lookup_id")
+			      		                                    },
+			      		                                success:
+			      		                                    function( response ) {
+			      		                                        $el.attr( "data-original-title", response );
+			      		                                        if( $( "#" + $el.attr( "aria-describedby" ) ).is( ":visible" ) ) {
+			      		                                            $el.tooltip( "show" );
+			      		                                        }
+			      		                                    },
+			      		                                dataType: "html"
+			      		                            }
+			      		                            );
+			      		                    } else {
+			      		                        $(this).tooltip( "show" );
+			      		                    }
+			      		                },
+			      		            mouseleave:
+			      		                function() {
+			      		                    $(this).tooltip( "hide" );
+			      		                }
+			      		        }
+			      		        );
+			        	
+			        }
+		    } );
+  		
+  			
+  		
+  		
+  		
   		});
-  	 
-  	 
-  	 
-  	 
-  	 
-  	 
-  	
   	</script>
   	
   

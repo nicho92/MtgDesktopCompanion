@@ -52,15 +52,28 @@
 	   	 $( "#addCardBtn" ).addClass("btn-danger");
 		 
 	   	$("#alertBtn").click( function() {
-	  			addAlert($_GET("id"), function() {});	
+	  			addAlert($_GET("id"), function() {
+	  				$( "#alertBtn i" ).removeClass("fa-bell-o");
+	  				$( "#alertBtn i" ).addClass("fa-check-circle ");
+	  				  
+	  			});	
 	 		});
 	  		
    	  	$("#stockBtn").click( function() {
-	  			addStock($_GET("id"),function() {});	
+	  			addStock($_GET("id"),function() {
+	  				$( "#stockBtn i" ).removeClass("fa-file-text");
+	  				$( "#stockBtn i" ).addClass("fa-check-circle");
+	  				
+	  			});	
 	 		});
    	  	
    		$("#addCardBtn").click( function() {
-   			addCardtoDefaultLibrary($_GET("id"),function() {});
+   			addCardtoDefaultLibrary($_GET("id"),function() {
+   				$( "#addCardBtn i" ).removeClass("fa-plus-circle");
+  				$( "#addCardBtn i" ).addClass("fa-check-circle");
+   				
+   				
+   			});
 	 	});
    		 	
 		 $('#panelBtn').tooltip({

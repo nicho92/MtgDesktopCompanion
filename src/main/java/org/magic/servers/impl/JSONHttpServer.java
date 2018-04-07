@@ -4,6 +4,7 @@ import static spark.Spark.after;
 import static spark.Spark.before;
 import static spark.Spark.exception;
 import static spark.Spark.get;
+import static spark.Spark.initExceptionHandler;
 import static spark.Spark.notFound;
 import static spark.Spark.options;
 import static spark.Spark.port;
@@ -21,7 +22,6 @@ import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
-import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -35,7 +35,6 @@ import org.magic.services.MTGControler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -78,15 +77,19 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		port(getInt("SERVER-PORT"));
 		
+		initExceptionHandler((e) -> {
+			running=false;
+			logger.error(e);
+		});
+		
+		
 		exception(Exception.class, new ExceptionHandler<Exception>() {
-			
 			@Override
 			public void handle(Exception exception, Request req, Response res) {
 			
 				 logger.error("Error :" + req.headers("Referer")+":"+exception.getMessage(),exception);
 				 res.status(500);
 				 res.body("{\"error\":\""+exception+"\"}");
-				
 			}
 		});
 		
@@ -112,7 +115,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		before("/*", (request, response) ->
 		{
 			response.type(getString("MIME"));
-			response.header("Access-Control-Allow-Origin", getString("Access-Control-Allow-Origin"));
+			response.header("Access-Control-Allow-Origin", getWhiteHeader(request,getString("Access-Control-Allow-Origin")));
 		    response.header("Access-Control-Request-Method", getString("Access-Control-Request-Method"));
 	        response.header("Access-Control-Allow-Headers", getString("Access-Control-Allow-Headers"));
 	        
@@ -275,7 +278,21 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed);
 		},transformer);
 		
-		
+		get("/pics/cards/:idEd/:name",getString("MIME"), (request, response) ->{
+			
+			baos = new ByteArrayOutputStream();
+			
+			MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(request.params(":idEd"));
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", request.params(":name"), ed, true).get(0);
+			BufferedImage im= MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
+			ImageIO.write( im, "png", baos );
+			baos.flush();
+			byte[] imageInByte = baos.toByteArray();
+			baos.close();
+			response.type("image/png");
+		   
+			return imageInByte;
+		});
 
 		get("/pics/cards/:id",getString("MIME"), (request, response) ->{
 			
@@ -299,7 +316,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}
 		
 		Spark.init();
-		logger.info("Server start on port "+ getString("SERVER-PORT"));
+		
 		running=true;
 	}
 	
@@ -351,5 +368,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public String getVersion() {
 		return "1.0";
 	}
+	
+	
+	private String getWhiteHeader(Request request, String s)
+	{
+		return s;
+	}
+	
 
 }
