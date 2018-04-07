@@ -9,6 +9,17 @@
  	    	$(location).attr("href","./list-cards.html?search="+$( "#searchText").val());
  	    }
  	});
+ 	
+
+		$(document).ajaxStart(function () 
+		{
+		    $('#loading').html("<img src='../dist/img/loading.gif' width='25' height='25'>"); 
+		});
+
+		$(document).ajaxStop(function() 
+		{
+			 $('#loading').html("");  
+		});
 
  </script>
  
@@ -25,7 +36,7 @@
               <ul class="nav navbar-top-links navbar-right">
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        <i class="fa fa-envelope fa-fw"></i> <i class="fa fa-caret-down"></i>
+                        <span id="loading"></span>
                     </a>
                 </li>
             </ul>
