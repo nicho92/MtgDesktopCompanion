@@ -91,4 +91,8 @@ Create your own cards :
 Get news from your favorites sites :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/news.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/news.png)
 
+Manage your card with the reponsive web UI :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui.png)
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui-2.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/web-ui-2.png)
+
 
