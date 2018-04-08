@@ -82,10 +82,10 @@
 		   	 		});
 			   		
 			   	  	
-			   		$(".moveCardBtn").click( function() {
-			   			moveCard($(this).attr('value'),idCol,idDestination,function() {
-				   		});
-			   			$('#tableCards').DataTable().row($(".moveCardBtn").closest('tr')).remove().draw(); // need to move in moveCard callback
+			   		$(".moveCardBtn").click( function() 
+			   		{
+			   			moveCard($(this).attr('value'),idCol,idDestination,function() {});
+			   			$('#tableCards').DataTable().row( $(this).parents('tr')).remove().draw(); // need to move in moveCard callback
 			   		});
 		
 			   		

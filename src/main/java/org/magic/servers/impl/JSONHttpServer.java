@@ -188,6 +188,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTGControler.getInstance().getEnabledDAO().getCollection(request.params(":name"));
 		}, transformer);
 		
+		put("/collections/add/:name",getString("MIME"), (request, response) ->{
+			MTGControler.getInstance().getEnabledDAO().saveCollection(new MagicCollection(request.params(":name")));
+			return "{\"result\":\"OK\"}";
+		});
+		
+		
 
 		get("/editions/list",getString("MIME"), (request, response) ->{
 			return MTGControler.getInstance().getEnabledProviders().loadEditions();

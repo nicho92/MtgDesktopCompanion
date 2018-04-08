@@ -62,3 +62,16 @@ function addStock(idCard,callback)
    		 });
 
 }
+
+function addCollection(name,callback)
+{
+	$.ajax({
+		type: 'PUT',
+	    url: restserver+"/collections/add/"+name
+   		 }).done(function(data) {
+   			callback();
+   		 }).fail(function(data,status,error) {
+   			alert(JSON.stringify(data) + " " + error);
+   		 });
+
+}
