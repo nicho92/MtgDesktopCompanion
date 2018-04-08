@@ -13,6 +13,7 @@ import static spark.Spark.put;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -22,6 +23,7 @@ import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -115,12 +117,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		before("/*", (request, response) ->
 		{
 			response.type(getString("MIME"));
-			response.header("Access-Control-Allow-Origin", getWhiteHeader(request,getString("Access-Control-Allow-Origin")));
+			response.header("Access-Control-Allow-Origin", getWhiteHeader(request));
 		    response.header("Access-Control-Request-Method", getString("Access-Control-Request-Method"));
 	        response.header("Access-Control-Allow-Headers", getString("Access-Control-Allow-Headers"));
-	        
-	        
-			logger.info("Received api call from " + request.ip() +" : "+request.headers("Referer"));
 		});
 		
 		get("/cards/search/:att/:val",getString("MIME"), (request, response) ->{
@@ -358,7 +357,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		setProperty("AUTOSTART", "false");
 		setProperty("MIME","application/json");
 		setProperty("ENABLE_GZIP","false");
-		
 		setProperty("Access-Control-Allow-Origin","*");
 		setProperty("Access-Control-Request-Method","GET,PUT,POST,DELETE,OPTIONS");
 		setProperty("Access-Control-Allow-Headers","Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
@@ -366,13 +364,29 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 	@Override
 	public String getVersion() {
-		return "1.0";
+		return "2.0";
 	}
 	
 	
-	private String getWhiteHeader(Request request, String s)
+	private String getWhiteHeader(Request request)
 	{
-		return s;
+		logger.debug("request :" + request.pathInfo()+ " from " + request.ip());
+		
+		for(String k : request.headers())
+			logger.debug("---"+ k+ "="+request.headers(k));
+		
+		/*
+		String[] allows = getString("Access-Control-Allow-Origin").split(",");
+		
+		for(String s : allows )
+		{
+			logger.debug("trying : "+ s + " " + s.equals(request.headers("Origin")));
+			if(s.equals(request.headers("Origin")))
+				return s;
+		}
+		*/
+		
+		return getString("Access-Control-Allow-Origin");
 	}
 	
 
