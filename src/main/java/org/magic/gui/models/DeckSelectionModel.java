@@ -10,6 +10,8 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
+import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -22,16 +24,18 @@ public class DeckSelectionModel extends DefaultTableModel {
 								   "Standard","Modern","Legacy","Vintage",
 								   MTGControler.getInstance().getLangService().getCapitalize("CARDS")};
 	private List<MagicDeck> decks;
+	private MTGCardsExport sniffer;
+	
 	
 	public DeckSelectionModel() 
 	{
-		
+		sniffer = new MTGDesktopCompanionExport();
 		decks = new ArrayList<>();
 		ThreadManager.getInstance().execute(()->{
 				for(File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles() )
 				{
 					try {
-						MagicDeck deck = new MTGDesktopCompanionExport().importDeck(f);
+						MagicDeck deck = sniffer.importDeck(f);
 						decks.add(deck);
 						fireTableDataChanged();
 					} catch (Exception e) {

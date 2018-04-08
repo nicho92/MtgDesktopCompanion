@@ -319,6 +319,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard
 		mapConcordance.put("MMQ", "MM");
 		mapConcordance.put("VIS", "VI");
 		mapConcordance.put("7ED", "7E");
+		mapConcordance.put("USD", "UD");
 		mapConcordance.put("MPS", "MS2");
 		mapConcordance.put("MPS_AKH","MS3");
 		mapConcordance.put("pGRU", "PRM-GUR");

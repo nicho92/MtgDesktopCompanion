@@ -277,6 +277,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed);
 		},transformer);
 		
+		get("/dash/format/:format",getString("MIME"), (request, response) ->{
+			JsonArray arr = new JsonArray();
+			return MTGControler.getInstance().getEnabledDashBoard().getShakerFor(request.params(":format"));
+		},transformer);
+		
+		
+		
 		get("/pics/cards/:idEd/:name",getString("MIME"), (request, response) ->{
 			
 			baos = new ByteArrayOutputStream();
@@ -307,12 +314,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return imageInByte;
 		});
 		
-		
-		if(getBoolean("ENABLE_GZIP")) {
-			after((request, response) -> {
+		after((request, response) -> {
+			if(getBoolean("ENABLE_GZIP")) {
 			    response.header("Content-Encoding", "gzip");
-			});
-		}
+			}
+		});
 		
 		Spark.init();
 		
@@ -372,15 +378,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 	{
 		logger.debug("request :" + request.pathInfo()+ " from " + request.ip());
 		
+		
 		for(String k : request.headers())
 			logger.debug("---"+ k+ "="+request.headers(k));
 		
 		/*
 		String[] allows = getString("Access-Control-Allow-Origin").split(",");
-		
 		for(String s : allows )
 		{
-			logger.debug("trying : "+ s + " " + s.equals(request.headers("Origin")));
 			if(s.equals(request.headers("Origin")))
 				return s;
 		}
