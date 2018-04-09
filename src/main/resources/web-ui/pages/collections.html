@@ -24,7 +24,8 @@
     <script src="../vendor/metisMenu/metisMenu.min.js"></script>
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/rest-server.js"></script>
-  <script src="../dist/js/js-var.js"></script>
+  	<script src="../dist/js/js-var.js"></script>
+  	<script src="../dist/js/js-btnActions.js"></script>
   	<script>
   	 $.get("menu.html", function(data){
 	        $("nav").html(data);
@@ -32,7 +33,8 @@
   	</script>
   	<script>
 		$(document).ready(function() {
-		    $('#tableCols').DataTable( {
+		   
+			$('#tableCols').DataTable( {
 		    	"language": {
 		    	    "search": "Filter"
 		    	  },
@@ -52,6 +54,19 @@
 		            } 
 		        ]
 		    } );
+		
+			$( "#btnAdd" ).click( function() {
+				
+				addCollection($("#txtCollection").val(),function(){
+					alert("OK");
+				})
+	 		});
+		
+		
+		
+		
+		
+		
 		} );
 	
 	</script>
@@ -93,21 +108,26 @@
 						        </thead>
 						       </table>
                         </div>
-                </div>
+                         <div class="panel-footer"></div>
+                	</div>
+            	</div>
+        	</div>
+         <div class="row">
+                <div class="col-lg-3">
+                 <div class="panel panel-default">
+                 	<div class="panel-heading">Add collection</div>
+                 	<div class="panel-body"><input class="form-control" id="txtCollection"></input><button type="button" class="btn btn-danger" id="btnAdd">Add Collection</button></div>
+                 	<div class="panel-footer"></div>
+                 </div>
             </div>
-                </div>
+        </div>
+        
                
-            </div>
-            <!-- /.row -->
-            <div class="row">
-                
-            </div>
-            <!-- /.row -->
+        </div>
+           
         </div>
         <!-- /#page-wrapper -->
 
-    </div>
-    <!-- /#wrapper -->
 
 </body>
 

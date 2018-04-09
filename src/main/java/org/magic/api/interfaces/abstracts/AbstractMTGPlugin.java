@@ -13,8 +13,7 @@ import org.utils.patterns.observer.Observable;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
-
+	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean enable;
 	private Properties props;
 	protected File confdir;

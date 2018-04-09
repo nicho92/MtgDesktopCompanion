@@ -13,7 +13,6 @@ import static spark.Spark.put;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -23,7 +22,6 @@ import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -31,10 +29,11 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
-
+import org.magic.api.interfaces.MTGPlugin;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -48,9 +47,10 @@ import spark.Spark;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
-	ResponseTransformer transformer;
-	ByteArrayOutputStream baos;
+	private ResponseTransformer transformer;
+	private ByteArrayOutputStream baos;
 	private boolean running=false;
+	private static final String RETURN_OK="{\"result\":\"OK\"}";
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -85,14 +85,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 		
 		
-		exception(Exception.class, new ExceptionHandler<Exception>() {
-			@Override
-			public void handle(Exception exception, Request req, Response res) {
-			
-				 logger.error("Error :" + req.headers("Referer")+":"+exception.getMessage(),exception);
-				 res.status(500);
-				 res.body("{\"error\":\""+exception+"\"}");
-			}
+		exception(Exception.class, (Exception exception, Request req, Response res)->{
+			 logger.error("Error :" + req.headers("Referer")+":"+exception.getMessage(),exception);
+			 res.status(500);
+			 res.body("{\"error\":\""+exception+"\"}");
 		});
 		
 		notFound((req, res) -> {
@@ -110,7 +106,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	        if(accessControlRequestMethod != null){
 	            response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
 	        }
-	        return "{\"result\":\"OK\"}";
+	        return RETURN_OK;
 	    });
 		
 		
@@ -132,7 +128,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
 			  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
 			  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
-			  return "{\"result\":\"OK\"}";
+			  return RETURN_OK;
 		}, transformer);
 		
 		
@@ -142,14 +138,14 @@ public class JSONHttpServer extends AbstractMTGServer {
 			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
 			  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
 			  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
-			  return "{\"result\":\"OK\"}";
+			  return RETURN_OK;
 		}, transformer);
 		
 		put("/cards/add/:to/:id",getString("MIME"), (request, response) ->{
 			  MagicCollection to=new MagicCollection(request.params(":to"));
 			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
 			  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
-			  return "{\"result\":\"OK\"}";
+			  return RETURN_OK;
 		}, transformer);
 		
 		
@@ -190,7 +186,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		put("/collections/add/:name",getString("MIME"), (request, response) ->{
 			MTGControler.getInstance().getEnabledDAO().saveCollection(new MagicCollection(request.params(":name")));
-			return "{\"result\":\"OK\"}";
+			return RETURN_OK;
 		});
 		
 		
@@ -242,7 +238,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			alert.setCard(mc);
 			alert.setPrice(0.0);
 			MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
-			return "{\"result\":\"OK\"}";
+			return RETURN_OK;
 		});
 		
 		put("/stock/add/:idCards",(request, response) ->{
@@ -251,7 +247,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			stock.setMagicCard(mc);
 			
 			MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(stock);
-			return "{\"result\":\"OK\"}";
+			return RETURN_OK;
 		});
 		
 		get("/stock/list",getString("MIME"), (request, response) ->{
@@ -284,7 +280,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		},transformer);
 		
 		get("/dash/format/:format",getString("MIME"), (request, response) ->{
-			JsonArray arr = new JsonArray();
 			return MTGControler.getInstance().getEnabledDashBoard().getShakerFor(request.params(":format"));
 		},transformer);
 		
@@ -319,6 +314,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		   
 			return imageInByte;
 		});
+		
+		
 		
 		after((request, response) -> {
 			if(getBoolean("ENABLE_GZIP")) {

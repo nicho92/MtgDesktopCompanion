@@ -36,6 +36,7 @@ import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
@@ -179,6 +180,7 @@ public class MTGControler {
 			logger.error("Error saving " +c, e);
 		}
 	}
+	
 	
 	public String getVersion()
 	{
@@ -681,13 +683,13 @@ public class MTGControler {
 		
 	}
 
-	public List<MTGWallpaperProvider> getWallpapers() {
+	public List<MTGWallpaperProvider> getWallpaperProviders() {
 		return wallpapers;
 	}
 
 	public List<MTGWallpaperProvider> getEnabledWallpaper() {
 		List<MTGWallpaperProvider> enable = new ArrayList<>();
-		for(MTGWallpaperProvider p : getWallpapers())
+		for(MTGWallpaperProvider p : getWallpaperProviders())
 			if(p.isEnable())
 				enable.add(p);
 		

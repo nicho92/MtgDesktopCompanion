@@ -32,7 +32,7 @@ import org.mozilla.javascript.ast.AstNode;
 public class MTGoldFishDashBoard extends AbstractDashBoard
 {
 	private Date updateTime;
-    boolean stop ;	    
+    private boolean stop ;	    
     private Map<String,String> mapConcordance;
     
     

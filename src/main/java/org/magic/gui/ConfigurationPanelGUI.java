@@ -21,7 +21,6 @@ import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
-import org.magic.gui.components.ThreadMonitorPanel;
 import org.magic.gui.models.conf.ProviderTreeTableModel;
 import org.magic.services.MTGControler;
 
@@ -39,7 +38,6 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable wallpapersTreeTable;
 	
 	private LoggerViewPanel loggerViewPanel;
-	private ThreadMonitorPanel threadMonitorPanel;
 	private JXTreeTable newsTreeTable;
 	
 	public ConfigurationPanelGUI() {
@@ -169,7 +167,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		
 		JScrollPane wallpaperScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"), null, wallpaperScrollPane, null);
-		wallpapersTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGWallpaperProvider>(true, MTGControler.getInstance().getWallpapers()));
+		wallpapersTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGWallpaperProvider>(true, MTGControler.getInstance().getWallpaperProviders()));
 		wallpapersTreeTable.addTreeSelectionListener(e->{
 				if(e.getNewLeadSelectionPath()!=null && e.getNewLeadSelectionPath().getPathCount()>1)
 						((ProviderTreeTableModel)wallpapersTreeTable.getTreeTableModel()).setSelectedNode((MTGWallpaperProvider)e.getNewLeadSelectionPath().getPathComponent(1));

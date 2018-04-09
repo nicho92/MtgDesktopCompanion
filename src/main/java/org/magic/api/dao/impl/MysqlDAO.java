@@ -494,7 +494,7 @@ public class MysqlDAO extends AbstractMagicDAO{
 		else
 		{
 			logger.debug("update "  + state);
-			try(PreparedStatement pst=con.prepareStatement("update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=? where idstock=?"))
+			try(PreparedStatement pst=con.prepareStatement("update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=? where idstock=?"))
 			{
 				pst.setString(1,state.getComment());
 				pst.setString(2, state.getCondition().toString());
@@ -505,7 +505,8 @@ public class MysqlDAO extends AbstractMagicDAO{
 				pst.setBoolean(7, state.isAltered());
 				pst.setDouble(8, state.getPrice());
 				pst.setString(9, IDGenerator.generate(state.getMagicCard()));
-				pst.setInt(10, state.getIdstock());
+				pst.setString(10, state.getMagicCollection().getName());
+				pst.setInt(11, state.getIdstock());
 				pst.executeUpdate();
 			}
 			catch(Exception e)
