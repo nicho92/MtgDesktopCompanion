@@ -1,12 +1,16 @@
 package org.magic.api.decksniffer.impl;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -19,11 +23,10 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.IncapsulaParser;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
   
-
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -41,9 +44,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
 		deck.setDateCreation(new Date());
-		Document d = Jsoup.connect(info.getUrl().toString())
-					  .userAgent(getString("USER_AGENT"))
-					  .get();
+		Document d = Jsoup.parse(IncapsulaParser.readUrl(info.getUrl().toString()));
 		
 		
 		for(Element e : d.select("span.singleTag"))
@@ -94,7 +95,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 						cardName=cardName.substring(0, cardName.indexOf("//")).trim();
 				
 				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
-				
 				deck.getMapSideBoard().put(mc, qte);
 			}
 		}
@@ -111,16 +111,12 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage=1;
 		int maxPage = Integer.parseInt(getString("MAX_PAGE"));
-	
+		
 		for(int i=1;i<=maxPage;i++)
 		{
-			
 			 url =getString("URL")+"/magic/deck/search?format="+getString("FORMAT")+"&page="+nbPage;
-			 Document d = Jsoup.connect(url)
-		    		 	.userAgent(getString("USER_AGENT"))
-						.get();
-				
-			Elements table = d.getElementsByClass("dataTable");
+			 Document d = Jsoup.parse(IncapsulaParser.readUrl(url));
+			 Elements table = d.getElementsByClass("dataTable");
 			
 			table.get(0).getElementsByTag(MTGConstants.HTML_TAG_TR).remove(0);
 			for(Element tr : table.get(0).getElementsByClass("gradeA"))
@@ -184,8 +180,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public void initDefault() {
 		setProperty("FORMAT", "standard");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		setProperty("URL", "http://decks.tcgplayer.com");
+		setProperty("URL", "https://decks.tcgplayer.com");
 		setProperty("MAX_PAGE", "1");
 		
 	}

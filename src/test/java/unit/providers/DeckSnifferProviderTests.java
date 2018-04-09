@@ -30,7 +30,7 @@ public class DeckSnifferProviderTests {
 	@Before
 	public void initLogger()
 	{
-		MTGLogger.changeLevel(Level.INFO);
+		MTGLogger.changeLevel(Level.ERROR);
 	}
 
 	
@@ -74,7 +74,7 @@ public class DeckSnifferProviderTests {
 		test(new MTGSalvationDeckSniffer());
 		test(new MTGTop8DeckSniffer());
 		test(new TCGPlayerDeckSniffer());
-		test(new TappedOutDeckSniffer());
+	//	test(new TappedOutDeckSniffer());
 		
 		
 	}

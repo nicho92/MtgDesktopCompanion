@@ -88,13 +88,27 @@
   	    	
   	    	$('#title').html(data.name);
   	    	$('#text').html(data.text.replace(/\n/g, "<br />"));
-  	    	$('#text').append("<br/><i>"+data.flavor+"</i>");
+  	    	
+  	    	if(data.flavor!=null)
+  	    		$('#text').append("<br/><i>"+data.flavor+"</i>");
+  	    	
   	    	$('#types').append(data.types);
-  	    	$('#power').append(data.power+"/"+data.toughness);
-  	    	$('#loyalty').append(data.loyalty);
+  	    	
+  	    	if(data.power!=null)
+  	    		$('#power').append(data.power+"/"+data.toughness);
+  	    	
+  	    	if(data.loyalty!=null)
+  	    		$('#loyalty').append(data.loyalty);
+  	    	
+  	    	
   	    	$('#artist').html("<i>"+data.artist+"</i>");
   	    	$('#pic').attr("src", restserver+"/pics/cards/"+$_GET("id"));
   	    	$('#number').append(data.editions[0].number)
+  	    	
+  	    	if(data.reserved==true)
+  	    		$('#reserved').append("<i class='fa fa-check-circle'></i>");
+  	    	else
+  	    		$('#reserved').append("<i class='fa fa-times-circle'></i>");
   	    	
   	    	for (var i = 0; i < data.editions.length; i++) {
   	    		
@@ -283,6 +297,9 @@
 							</p>
 							<p id="number">
 								<b>Number :</b>
+							</p>
+							<p id="reserved">
+								<b>Reserved :</b>
 							</p>
 						</div>
 						<div class="panel-footer"></div>
