@@ -86,7 +86,7 @@ public class DeckSnifferDialog extends JDialog{
 		panel.add(btnConnect);
 		
 		cboFormats = new JComboBox<>();
-		cboFormats.addActionListener(e->{
+		cboFormats.addActionListener(e->{ //TODO add change listener
 				try {
 					lblLoad.setVisible(true);
 					selectedSniffer.setProperty("FORMAT", cboFormats.getSelectedItem());
@@ -95,6 +95,7 @@ public class DeckSnifferDialog extends JDialog{
 					lblLoad.setVisible(false);
 				} catch (Exception e1) {
 					lblLoad.setVisible(false);
+					e1.printStackTrace();
 					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 				}
 		});
