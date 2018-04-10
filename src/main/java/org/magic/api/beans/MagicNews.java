@@ -10,7 +10,7 @@ public class MagicNews implements Serializable {
 	private String url;
 	private NEWS_TYPE type;
 	
-	public enum NEWS_TYPE {RSS,TWITTER}
+	public enum NEWS_TYPE {RSS,TWITTER,FORUM}
 	
 	public MagicNews() {
 		id=-1;

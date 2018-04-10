@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.net.URL;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
@@ -87,6 +88,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_BUILDER = new ImageIcon(MTGConstants.class.getResource("/icons/create.png"));
 	public static final ImageIcon ICON_RSS = new ImageIcon(MTGConstants.class.getResource("/icons/rss.png"));
 	public static final ImageIcon ICON_TWITTER = new ImageIcon(MTGConstants.class.getResource("/icons/twitter.png"));
+	public static final ImageIcon ICON_FORUM = new ImageIcon(MTGConstants.class.getResource("/icons/forum.png"));
 	public static final ImageIcon ICON_CONFIG = new ImageIcon(MTGConstants.class.getResource("/icons/build.png"));
 	public static final ImageIcon ICON_STORY =  new ImageIcon(MTGConstants.class.getResource("/icons/stories.png"));
 	public static final ImageIcon ICON_WALLPAPER = new ImageIcon(MTGConstants.class.getResource("/icons/wallpaper.png"));
@@ -109,6 +111,7 @@ public class MTGConstants {
 	public static final String HTML_TAG_TBODY = "tbody";
 	public static final String HTML_TAG_TR = "tr";
 	public static final String HTML_TAG_TD = "td";
+	
 	
 	
 }

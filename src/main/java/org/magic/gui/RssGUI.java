@@ -72,6 +72,7 @@ public class RssGUI extends JPanel {
 					{
 						case RSS :setIcon(MTGConstants.ICON_RSS);break;
 						case TWITTER:setIcon(MTGConstants.ICON_TWITTER);break;
+						case FORUM:setIcon(MTGConstants.ICON_FORUM);break;
 					}
 					
 				}
