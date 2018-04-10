@@ -62,6 +62,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		
 		String infocode=ed.getMagicCardsInfoCode();
 		
+		
 		if(infocode==null)
 			infocode=mc.getEditions().get(0).getId().toLowerCase();
 		
@@ -83,7 +84,6 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		{
 			url=new URL(getString("WEBSITE")+"/"+getString("LANG")+"/"+infocode+"/"+mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "")+".jpg");
 		}
-		
 		logger.debug("Get card pic from " + url);
 
 		URLConnection connection = url.openConnection();

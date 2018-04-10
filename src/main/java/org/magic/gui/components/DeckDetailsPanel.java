@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
@@ -29,7 +30,7 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class DeckDetailsPanel extends JPanel {
-
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private transient BindingGroup mBindingGroup;
 	private MagicDeck magicDeck = new MagicDeck();
 	private JTextField nameJTextField;
@@ -321,7 +322,7 @@ public class DeckDetailsPanel extends JPanel {
 					panel.repaint();
 					
 				} catch (Exception e) {
-					MTGLogger.printStackTrace(e);
+					logger.error("error in updatePicture " + e.getMessage());
 				}
 		}, "extract deck pictures");
 	}

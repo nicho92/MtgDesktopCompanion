@@ -550,7 +550,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 					}
 					catch(Exception e)
 					{
-						MTGLogger.printStackTrace(e);
+						me.setGathererCode(null);
 					}
 					
 					
@@ -559,7 +559,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 					}
 					catch(Exception e)
 					{
-						MTGLogger.printStackTrace(e);
+						me.setMagicCardsInfoCode(null);
 					}
 					
 					try{
@@ -568,7 +568,8 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 					}
 					catch(Exception e)
 					{
-						MTGLogger.printStackTrace(e);
+						me.setMkm_id(null);
+						me.setMkm_name(null);
 					}
 					
 					try{
@@ -586,7 +587,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 					}
 					catch(PathNotFoundException e)
 					{
-						MTGLogger.printStackTrace(e);
+						me.setBooster(null);
 					}
 					
 					try
@@ -595,7 +596,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 					}
 					catch(PathNotFoundException e)
 					{
-						MTGLogger.printStackTrace(e);
+						me.setBlock(null);
 					}
 					
 					try
@@ -604,7 +605,7 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 					}
 					catch(PathNotFoundException e)
 					{
-						MTGLogger.printStackTrace(e);
+						me.setTranslations(null);
 					}
 		return me;
 		

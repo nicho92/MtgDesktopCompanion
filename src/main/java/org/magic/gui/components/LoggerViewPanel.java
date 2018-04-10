@@ -12,6 +12,9 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.gui.models.LogTableModel;
 import org.magic.services.MTGConstants;
 
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.TableFilterHeader;
+
 
 
 public class LoggerViewPanel extends JPanel {
@@ -29,6 +32,7 @@ public class LoggerViewPanel extends JPanel {
 		add(scrollPane, BorderLayout.CENTER);
 		
 		table = new JXTable(model);
+		//new TableFilterHeader(table, AutoChoices.ENABLED);
 		scrollPane.setViewportView(table);
 		
 		

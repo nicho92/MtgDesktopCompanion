@@ -131,7 +131,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				}
 				catch(Exception e)
 				{
-					MTGLogger.printStackTrace(e);
+					//do nothing
 				}
 		}, "Init Formats Dashlet");
 	}

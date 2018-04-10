@@ -133,7 +133,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 					}
 					catch(Exception e) 
 					{
-						MTGLogger.printStackTrace(e);
+						//do nothing
 					}
 					save("EDITION",ed.getId());
 					lblLoading.setVisible(false);
