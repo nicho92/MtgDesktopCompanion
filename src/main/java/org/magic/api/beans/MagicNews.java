@@ -2,26 +2,19 @@ package org.magic.api.beans;
 
 import java.io.Serializable;
 
+import org.magic.api.interfaces.MTGNewsProvider;
+
 public class MagicNews implements Serializable {
 
 	private int id;
 	private String name;
 	private String categorie;
 	private String url;
-	private NEWS_TYPE type;
+	private transient MTGNewsProvider provider;
 	
-	public enum NEWS_TYPE {RSS,TWITTER,FORUM}
-	
+
 	public MagicNews() {
 		id=-1;
-	}
-	
-	public NEWS_TYPE getType() {
-		return type;
-	}
-	
-	public void setType(NEWS_TYPE type) {
-		this.type = type;
 	}
 	
 	public int getId() {
@@ -51,6 +44,14 @@ public class MagicNews implements Serializable {
 	
 	public String toString() {
 		return getName();
+	}
+
+	public void setProvider(MTGNewsProvider mtgNewsProvider) {
+		provider = mtgNewsProvider;
+	}
+	
+	public MTGNewsProvider getProvider() {
+		return provider;
 	}
 	
 }

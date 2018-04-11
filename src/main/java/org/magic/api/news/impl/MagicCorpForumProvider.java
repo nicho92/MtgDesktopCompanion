@@ -8,7 +8,6 @@ import java.util.List;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
@@ -16,12 +15,18 @@ import org.magic.services.MTGConstants;
 
 public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
+	private String prefixForum="gathering-forum-viewtopic-";
+	
 	
 	public static void main(String[] args) throws IOException {
 		MagicNews n = new MagicNews();
 		n.setUrl("http://www.magiccorporation.com/gathering-forum-viewtopic-91-122496-dominaria-set-du-printemps-.html");
+			   // http://www.magiccorporation.com/gathering-forum-viewtopic-3-124166-questions-sur-manaless-dredge.html
+		List<MagicNewsContent> news = new MagicCorpForumProvider().listNews(n);
 		
-		new MagicCorpForumProvider().listNews(n);
+		for(MagicNewsContent mnc : news)
+			System.out.println(mnc.getLink());
+		
 	}
 	
 	
@@ -29,25 +34,35 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 		List<MagicNewsContent> ret = new ArrayList<>();
-		
 		int maxpage=0;
-		
 		Document d = Jsoup.connect(n.getUrl()).userAgent(MTGConstants.USER_AGENT).get();
+		try{
+			maxpage = Integer.parseInt(d.select("a[title=Dernière Page]").first().text());
+		}
+		catch(Exception e)
+		{
+			maxpage=1;
+		}
 		
-		maxpage = Integer.parseInt(d.select("a[title=Dernière Page]").first().text());
-	
+		
+		String suffix=n.getUrl().replaceAll(getString("SITE")+prefixForum, ""); 
+		String idForum=suffix.split("-")[0];
+		String idTopic=suffix.split("-")[1];
+		String endUri=n.getUrl().substring(n.getUrl().indexOf(idTopic)+idTopic.length()+1);
+				
 		String id="";
 		for(int i=0;i<maxpage*getInt("PAGINATION");i+=getInt("PAGINATION"))
 		{
-			
-			
-			
 			MagicNewsContent cont = new MagicNewsContent();
 			cont.setAuthor("MagicCorp");
-			cont.setLink(new URL("http://www.magiccorporation.com/gathering-forum-viewtopic-91-122496-"+id+"-dominaria-set-du-printemps-.html"));
-			cont.setTitle("Page "+ id);
-			id=String.valueOf(i);
 			
+			if(i==0)
+				id="";
+			else
+				id=i+"-";
+			
+			cont.setLink(new URL(getString("SITE")+prefixForum+idForum+"-"+idTopic+"-"+id+endUri));
+			cont.setTitle("Page "+ i);
 			ret.add(cont);
 		}
 		
@@ -72,8 +87,8 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("PAGINATION", 15);
-		
+		setProperty("PAGINATION", "15");
+		setProperty("SITE", "http://www.magiccorporation.com/");
 	}
 
 	@Override

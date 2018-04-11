@@ -26,7 +26,6 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
@@ -622,7 +621,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 									n.setCategorie(rs.getString("categorie"));
 									n.setName(rs.getString("name"));
 									n.setUrl(rs.getString("url"));
-									n.setType(NEWS_TYPE.valueOf(rs.getString("typeNews")));
+									n.setProvider(MTGControler.getInstance().getNewsProvider(rs.getString("typeNews")));
 									n.setId(rs.getInt("id"));
 									news.add(n);
 						}
@@ -657,7 +656,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 					pst.setString(1, n.getName());
 					pst.setString(2,n.getCategorie());
 					pst.setString(3,n.getUrl());
-					pst.setString(4, n.getType().toString());
+					pst.setString(4,  n.getProvider().getName());
 					n.setId(pst.executeUpdate());
 				}
 				
@@ -670,7 +669,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 					pst.setString(1,n.getName());
 					pst.setString(2, n.getCategorie());
 					pst.setString(3,n.getUrl());
-					pst.setString(4, n.getType().toString());
+					pst.setString(4,  n.getProvider().getName());
 					pst.setInt(5, n.getId());
 					pst.executeUpdate();
 				}

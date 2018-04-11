@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.util.List;
 
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.beans.MagicNewsContent;
+import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider.NEWS_TYPE;
 
 public interface MTGNewsProvider extends MTGPlugin {
 

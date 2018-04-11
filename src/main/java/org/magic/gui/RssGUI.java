@@ -28,6 +28,7 @@ import org.apache.log4j.Logger;
 import org.fit.cssbox.swingbox.BrowserPane;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
+import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider.NEWS_TYPE;
 import org.magic.gui.components.NewsPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.services.MTGConstants;
@@ -68,7 +69,7 @@ public class RssGUI extends JPanel {
 				
 				if(((DefaultMutableTreeNode)value).getUserObject() instanceof MagicNews)
 				{
-					switch(((MagicNews)((DefaultMutableTreeNode)value).getUserObject()).getType())
+					switch(((MagicNews)((DefaultMutableTreeNode)value).getUserObject()).getProvider().getProviderType())
 					{
 						case RSS :setIcon(MTGConstants.ICON_RSS);break;
 						case TWITTER:setIcon(MTGConstants.ICON_TWITTER);break;

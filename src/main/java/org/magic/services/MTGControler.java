@@ -25,7 +25,6 @@ import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicNews.NEWS_TYPE;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
@@ -36,7 +35,6 @@ import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
-import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
@@ -650,15 +648,24 @@ public class MTGControler {
 		return null;
 	}
 	
+	public List<MTGNewsProvider> getEnabledNewsProviders() {
+		List<MTGNewsProvider> enable = new ArrayList<>();
+		for(MTGNewsProvider p : getNewsProviders())
+			if(p.isEnable())
+				enable.add(p);
+		
+		return enable;
+	}
 	
 	public List<MTGNewsProvider> getNewsProviders()
 	{
 		return news;
 	}
 
-	public MTGNewsProvider getNewsProvider(NEWS_TYPE type) {
-		for(MTGNewsProvider p : news)
-			if(p.getProviderType()==type)
+
+	public MTGNewsProvider getNewsProvider(String string) {
+		for(MTGNewsProvider p : getNewsProviders())
+			if(p.getName().equalsIgnoreCase(string))
 				return p;
 		
 		return null;
@@ -695,4 +702,5 @@ public class MTGControler {
 		
 		return enable;
 	}
+
 }

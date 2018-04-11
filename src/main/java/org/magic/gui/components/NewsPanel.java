@@ -3,6 +3,7 @@ package org.magic.gui.components;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JComboBox;
@@ -11,7 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.magic.api.beans.MagicNews;
-import org.magic.api.beans.MagicNews.NEWS_TYPE;
+import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.services.MTGControler;
 
 public class NewsPanel extends JPanel {
@@ -22,7 +23,7 @@ public class NewsPanel extends JPanel {
 	private JTextField categorieJTextField;
 	private JTextField nameJTextField;
 	private JTextField urlJTextField;
-	private JComboBox<NEWS_TYPE> cboType;
+	private JComboBox<MTGNewsProvider> cboType;
 	
 	public NewsPanel(org.magic.api.beans.MagicNews newMagicNews) {
 		this();
@@ -45,7 +46,9 @@ public class NewsPanel extends JPanel {
 		gbclblType.gridy = 0;
 		add(lblType, gbclblType);
 		
-		cboType = new JComboBox<>(new DefaultComboBoxModel<>(NEWS_TYPE.values()));
+		List<MTGNewsProvider> provs = MTGControler.getInstance().getEnabledNewsProviders();
+		cboType = new JComboBox<>(new DefaultComboBoxModel<MTGNewsProvider>(provs.toArray(new MTGNewsProvider[provs.size()])));
+		
 		GridBagConstraints gbccboType = new GridBagConstraints();
 		gbccboType.insets = new Insets(0, 0, 5, 0);
 		gbccboType.fill = GridBagConstraints.HORIZONTAL;
@@ -53,7 +56,7 @@ public class NewsPanel extends JPanel {
 		gbccboType.gridy = 0;
 		add(cboType, gbccboType);
 
-		JLabel categorieLabel = new JLabel("Categorie:");
+		JLabel categorieLabel = new JLabel("Provider:");
 		GridBagConstraints labelGbc0 = new GridBagConstraints();
 		labelGbc0.insets = new Insets(5, 5, 5, 5);
 		labelGbc0.gridx = 0;
@@ -101,7 +104,7 @@ public class NewsPanel extends JPanel {
 	}
 
 	public MagicNews getMagicNews() {
-		magicNews.setType((NEWS_TYPE)cboType.getSelectedItem());
+		magicNews.setProvider(((MTGNewsProvider)cboType.getSelectedItem()));
 		magicNews.setCategorie(categorieJTextField.getText());
 		magicNews.setName(nameJTextField.getText());
 		magicNews.setUrl(urlJTextField.getText());
@@ -115,7 +118,7 @@ public class NewsPanel extends JPanel {
 		nameJTextField.setText(magicNews.getName());
 		urlJTextField.setText(String.valueOf(magicNews.getUrl()));
 		categorieJTextField.setText(magicNews.getCategorie());
-		cboType.setSelectedItem(newMagicNews.getType());
+		cboType.setSelectedItem(newMagicNews.getProvider());
 	}
 
 }
