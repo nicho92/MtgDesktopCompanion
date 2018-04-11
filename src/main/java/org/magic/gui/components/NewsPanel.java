@@ -56,7 +56,7 @@ public class NewsPanel extends JPanel {
 		gbccboType.gridy = 0;
 		add(cboType, gbccboType);
 
-		JLabel categorieLabel = new JLabel("Provider:");
+		JLabel categorieLabel = new JLabel("Category:");
 		GridBagConstraints labelGbc0 = new GridBagConstraints();
 		labelGbc0.insets = new Insets(5, 5, 5, 5);
 		labelGbc0.gridx = 0;

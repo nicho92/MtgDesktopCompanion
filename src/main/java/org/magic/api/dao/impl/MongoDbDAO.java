@@ -453,6 +453,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
         return result.get("seq");
     }
 
+	//TODO, doesn't work
 	@Override
 	public List<MagicNews> listNews() {
 		List<MagicNews> stocks= new ArrayList<>();
@@ -467,6 +468,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 		db.getCollection(colNews).deleteOne(filter);
 	}
 
+	//TODO, doesn't work
 	@Override
 	public void saveOrUpdateNews(MagicNews state) {
 		logger.debug("saving " + state);

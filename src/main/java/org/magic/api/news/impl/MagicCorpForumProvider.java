@@ -62,7 +62,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 				id=i+"-";
 			
 			cont.setLink(new URL(getString("SITE")+prefixForum+idForum+"-"+idTopic+"-"+id+endUri));
-			cont.setTitle("Page "+ i);
+			cont.setTitle("Page "+ id);
 			ret.add(cont);
 		}
 		
