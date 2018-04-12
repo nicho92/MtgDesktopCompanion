@@ -478,6 +478,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 			state.setId(Integer.parseInt(getNextSequence().toString()));
 			BasicDBObject obj = new BasicDBObject();
 						  obj.put(dbNewsField, state);
+						  obj.put("provider", state.getProvider());
 			db.getCollection(colNews,BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 			
 		}
@@ -486,6 +487,7 @@ public class MongoDbDAO extends AbstractMagicDAO{
 			Bson filter = new Document("newsItem.id", state.getId());
 			BasicDBObject obj = new BasicDBObject();
 						  obj.put(dbNewsField,  state);
+						  obj.put("provider", state.getProvider());
 			logger.debug(filter);
 			UpdateResult res = db.getCollection(colNews,BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);

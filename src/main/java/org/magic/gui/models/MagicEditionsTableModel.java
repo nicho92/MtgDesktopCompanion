@@ -73,6 +73,9 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 	}
 
 
+	public Map<MagicEdition, Integer> getMapCount() {
+		return mapCount;
+	}
 
 
 	public int getCountTotal() {

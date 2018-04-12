@@ -32,7 +32,9 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
+import org.magic.sorters.MagicCardComparator;
 import org.magic.api.interfaces.MTGPlugin;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -162,7 +164,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 		
 		get("/cards/:idSet/cards",getString("MIME"), (request, response) ->{
-			return MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("set",request.params(":idSet"),null,false);
+			List<MagicCard> ret= MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("set",request.params(":idSet"),null,false);
+			Collections.sort(ret,new MagicCardComparator());
+			
+			return ret;
 		}, transformer);
 		
 		
@@ -254,6 +259,31 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTGControler.getInstance().getEnabledDAO().listStocks();
 			 
 		}, transformer);
+		
+		
+		
+		get("/dash/collection",getString("MIME"), (request, response) ->{
+			List<MagicEdition> eds = MTGControler.getInstance().getEnabledProviders().loadEditions();
+			MagicEditionsTableModel model = new MagicEditionsTableModel();
+			model.init(eds);
+			
+			JsonArray arr = new JsonArray();
+			
+			for(MagicEdition ed : eds)
+			{
+				JsonObject obj = new JsonObject();
+					obj.addProperty("edition", transformer.render(ed));
+					obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
+					obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
+					obj.add("pc", new JsonPrimitive(ed.getCardCount()));
+					arr.add(obj);
+			}
+			
+			
+			return arr;
+		},transformer);
+		
+		
 		
 		get("/dash/card/:idCard",getString("MIME"), (request, response) ->{
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCard"));

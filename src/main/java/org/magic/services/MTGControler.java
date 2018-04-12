@@ -60,9 +60,10 @@ public class MTGControler {
 	private List<MTGCardsExport> exports;
 	private List<MTGServer> servers;
 	private List<MTGNewsProvider> news;
-	private List<AbstractJDashlet> dashlets;
 	private List<MTGPicturesCache> caches;
 	private List<MTGWallpaperProvider> wallpapers;
+
+	private List<AbstractJDashlet> dashlets;
 	
 	private KeyWordProvider keyWordManager;
 
