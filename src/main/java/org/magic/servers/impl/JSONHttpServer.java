@@ -275,11 +275,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 					obj.addProperty("edition", transformer.render(ed));
 					obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
 					obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
-					obj.add("pc", new JsonPrimitive(ed.getCardCount()));
+					obj.add("pc", new JsonPrimitive((double) model.getMapCount().get(ed) / ed.getCardCount()));
 					arr.add(obj);
 			}
-			
-			
 			return arr;
 		},transformer);
 		

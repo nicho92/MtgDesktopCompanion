@@ -54,6 +54,55 @@
 		            } 
 		        ]
 		    } );
+			
+			$('#tableEditionsCollection').DataTable( {
+		    	"language": {
+		    	    "search": "Filter"
+		    	  },
+		    	"responsive": true,
+		        "processing": true,
+		        "pageLength": 25,
+		        "ajax": {"url":restserver+"/dash/collection","dataSrc":""},
+		        "columns": [
+		            { 
+		                "data": "edition",
+		                "width": "25%",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+									data =  JSON.parse(data).set;		                		 
+		                	 }
+		                   return data;
+		                }
+		            },
+		            { 
+		                "data": "qty",
+		                "width": "5%"
+		            },
+		            { 
+		                "data": "cardNumber",
+		                "width": "5%"
+		            },
+		            { 
+		                "data": "pc",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+	                		 	var val = data*100;
+	                		 	var bg="";
+	                		 	console.log(val);
+	                		 	if(val>=100)
+	                		 		bg="bg-success";
+	                		 	
+	                		 	data =  '<div class="progress"><div class="progress-bar progress-bar-striped '+bg+'" role="progressbar" aria-valuenow="'+Math.ceil(val)+'" aria-valuemin="0" aria-valuemax="100" style="width: '+Math.ceil(val)+'%"><span class="sr-only">'+val+'%</span></div></div>';		                		 
+		                	 }
+		                   return data;
+		                }
+		                
+		            }
+		            
+		        ]
+		    } );
+			
+			
 		
 			$( "#btnAdd" ).click( function() {
 				
@@ -89,11 +138,31 @@
                 <div class="col-lg-12">
                     <h1 class="page-header"><i class="fa fa-folder-open fa-fw"></i> Collections</h1>
                 </div>
-                <!-- /.col-lg-12 -->
             </div>
-            <!-- /.row -->
-            <div class="row">
-                <div class="col-lg-12">
+            
+             <div class="row">
+                <div class="col-lg-8">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Etats
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table id="tableEditionsCollection" class="display" style="width:100%">
+						        <thead>
+						            <tr>
+						                <th>Edition</th>
+						                <th>Cards</th>
+						                <th>Count</th>
+						                <th>%</th>
+						            </tr>
+						        </thead>
+						       </table>
+                        </div>
+                         <div class="panel-footer"></div>
+                	</div>
+            	</div>
+                <div class="col-lg-4">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             Collections
