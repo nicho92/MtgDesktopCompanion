@@ -268,14 +268,23 @@ public class JSONHttpServer extends AbstractMTGServer {
 			model.init(eds);
 			
 			JsonArray arr = new JsonArray();
-			
+			double pc=0;
 			for(MagicEdition ed : eds)
 			{
 				JsonObject obj = new JsonObject();
 					obj.addProperty("edition", transformer.render(ed));
+					obj.addProperty("release", ed.getReleaseDate());
 					obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
 					obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
-					obj.add("pc", new JsonPrimitive((double) model.getMapCount().get(ed) / ed.getCardCount()));
+					obj.addProperty("defaultLibrary", MTGControler.getInstance().get("default-library"));
+					pc=0;
+					if(ed.getCardCount()>0)
+						pc= (double) model.getMapCount().get(ed) / ed.getCardCount();
+					else
+						pc=(double) model.getMapCount().get(ed) / 1;
+					
+					obj.add("pc", new JsonPrimitive(pc));
+					
 					arr.add(obj);
 			}
 			return arr;

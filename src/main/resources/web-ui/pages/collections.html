@@ -62,8 +62,22 @@
 		    	"responsive": true,
 		        "processing": true,
 		        "pageLength": 25,
+		        "order": [[ 2, "desc" ]],
 		        "ajax": {"url":restserver+"/dash/collection","dataSrc":""},
 		        "columns": [
+		        	{ 
+		                "data": "edition",
+		                "width": "2%",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+		                		 
+		                		 	console.log(meta)
+		                		 
+									data =  '<i class="ss ss-'+JSON.parse(data).id.toLowerCase()+' ss-common ss-2x"></i>' ;		                		 
+		                	 }
+		                   return data;
+		                }
+		            },
 		            { 
 		                "data": "edition",
 		                "width": "25%",
@@ -73,6 +87,10 @@
 		                	 }
 		                   return data;
 		                }
+		            },
+		            { 
+		                "data": "release",
+		                "width": "5%"
 		            },
 		            { 
 		                "data": "qty",
@@ -86,13 +104,20 @@
 		                "data": "pc",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-	                		 	var val = data*100;
-	                		 	var bg="";
-	                		 	console.log(val);
-	                		 	if(val>=100)
-	                		 		bg="bg-success";
+	                		 	var val = (data*100).toFixed(1);
 	                		 	
-	                		 	data =  '<div class="progress"><div class="progress-bar progress-bar-striped '+bg+'" role="progressbar" aria-valuenow="'+Math.ceil(val)+'" aria-valuemin="0" aria-valuemax="100" style="width: '+Math.ceil(val)+'%"><span class="sr-only">'+val+'%</span></div></div>';		                		 
+	                		 	if(val>=100)
+	                		 		val=100;
+	                		 	
+	                		 	var bg="";
+	                		 	if(val>=80)
+	                		 		bg="progress-bar-warning";
+	                		 	if(val>=100)
+	                		 		bg="progress-bar-success";
+	                		 	if(val<=20)
+	                		 		bg="progress-bar-danger";
+	                		 	
+	                		 	data= '<span class="pull-right text-muted">'+val+'%</span><div class="progress progress-striped active"><div class="progress-bar '+bg+'" role="progressbar" aria-valuenow="'+val+'" aria-valuemin="0" aria-valuemax="100" style="width: '+val+'%"><span class="sr-only">'+val+'%</span></div></div>';		                		 
 		                	 }
 		                   return data;
 		                }
@@ -144,16 +169,18 @@
                 <div class="col-lg-8">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            Etats
+                            Stats from default library
                         </div>
                         <!-- /.panel-heading -->
                         <div class="panel-body">
                             <table id="tableEditionsCollection" class="display" style="width:100%">
 						        <thead>
 						            <tr>
-						                <th>Edition</th>
+						                <th></th>
+						                <th>Name</th>
+						                <th>ReleaseDate</th>
+						                <th>Qty</th>
 						                <th>Cards</th>
-						                <th>Count</th>
 						                <th>%</th>
 						            </tr>
 						        </thead>
@@ -180,17 +207,15 @@
                          <div class="panel-footer"></div>
                 	</div>
             	</div>
-        	</div>
-         <div class="row">
-                <div class="col-lg-3">
+            	 <div class="col-lg-4">
                  <div class="panel panel-default">
                  	<div class="panel-heading">Add collection</div>
                  	<div class="panel-body"><input class="form-control" id="txtCollection"></input><button type="button" class="btn btn-danger" id="btnAdd">Add Collection</button></div>
                  	<div class="panel-footer"></div>
                  </div>
-            </div>
-        </div>
-        
+            	</div>
+        	</div>
+       
                
         </div>
            
