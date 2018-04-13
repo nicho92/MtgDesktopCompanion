@@ -90,22 +90,17 @@ public class DeckSelectionModel extends DefaultTableModel {
 		{
 		case 0 : return decks.get(row);
 		case 1 : return decks.get(row).getColors();
-		case 2 : return isLegal(decks.get(row),columns[column]);
-		case 3 : return isLegal(decks.get(row),columns[column]);
-		case 4 : return isLegal(decks.get(row),columns[column]);
-		case 5 : return isLegal(decks.get(row),columns[column]);
+		case 2 : return manager.isLegal(decks.get(row),columns[column]);
+		case 3 : return manager.isLegal(decks.get(row),columns[column]);
+		case 4 : return manager.isLegal(decks.get(row),columns[column]);
+		case 5 : return manager.isLegal(decks.get(row),columns[column]);
 		case 6 : return decks.get(row).getAsList().size();
 		
 		default: return "";
 		}
 	}
 
-	private boolean isLegal(MagicDeck magicDeck,String format) {
-		MagicFormat mf = new MagicFormat();
-				mf.setFormat(format);
-		return magicDeck.isCompatibleFormat(mf);
-		
-	}
+	
 
 	public void remove(MagicDeck selectedDeck) {
 		 manager.remove(selectedDeck);

@@ -7,6 +7,7 @@ import java.util.List;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.utils.patterns.observer.Observable;
@@ -25,10 +26,23 @@ public class MTGDeckManager extends Observable {
 		serialis = new MTGDesktopCompanionExport();
 	}
 	
+	public boolean isLegal(MagicDeck magicDeck,String format) {
+		MagicFormat mf = new MagicFormat();
+				mf.setFormat(format);
+		return magicDeck.isCompatibleFormat(mf);
+		
+	}
+	
+	
+	public MagicDeck getDeck(String name) throws IOException
+	{
+		File f = new File(MTGConstants.MTG_DECK_DIRECTORY,name+serialis.getFileExtension());
+		return serialis.importDeck(f);
+	}
+	
 	
 	public List<MagicDeck> listDecks()
 	{
-		
 		List<MagicDeck> decks= new ArrayList<>();
 		for(File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles() )
 		{

@@ -26,24 +26,24 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
+import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.exports.impl.MTGDesktopCompanionExport;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
-import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.sorters.MagicCardComparator;
-import org.magic.api.interfaces.MTGPlugin;
+
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
-import spark.ExceptionHandler;
 import spark.Request;
 import spark.Response;
 import spark.ResponseTransformer;
@@ -52,6 +52,7 @@ import spark.Spark;
 public class JSONHttpServer extends AbstractMTGServer {
 
 	private ResponseTransformer transformer;
+	private MTGDeckManager manager;
 	private ByteArrayOutputStream baos;
 	private boolean running=false;
 	private static final String RETURN_OK="{\"result\":\"OK\"}";
@@ -66,6 +67,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 	public JSONHttpServer() {
 		super();
+		
+		manager = new MTGDeckManager();
+		
 		transformer = new ResponseTransformer() {
 			private Gson gson = new Gson();
 			
@@ -355,10 +359,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 		
 		get("/decks/list",getString("MIME"), (request, response) ->{
-			MTGDeckManager manager = new MTGDeckManager();
-			return manager.listDecks();
 			
+			JsonArray arr = new JsonArray();
+			JsonExport exp = new JsonExport();
+			
+			for(MagicDeck d : manager.listDecks())
+			{
+				arr.add(exp.toJson(d));
+			}
+			return arr;
 		},transformer);
+		
+		get("/deck/:name",getString("MIME"), (request, response) ->{
+			return new JsonExport().toJson(manager.getDeck(request.params(":name")));
+		},transformer);
+		
+		
 		
 		after((request, response) -> {
 			if(getBoolean("ENABLE_GZIP")) {

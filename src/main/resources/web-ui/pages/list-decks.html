@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>MTGDesktop Companion</title>
+
+    <link href="../vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../vendor/metisMenu/metisMenu.min.css" rel="stylesheet">
+    <link href="../dist/css/sb-admin-2.css" rel="stylesheet">
+    <link href="../vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+   	<link href="//cdn.jsdelivr.net/npm/keyrune@latest/css/keyrune.css" rel="stylesheet" type="text/css" />
+	<link href="//cdn.jsdelivr.net/npm/mana-font@latest/css/mana.css" rel="stylesheet" type="text/css" />
+	<link href="../vendor/datatables/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" >
+	<script src="../vendor/jquery/jquery.min.js"/></script>
+   	<script src="../vendor/datatables/js/jquery.dataTables.min.js"></script>
+	<script src="../vendor/datatables-plugins/dataTables.bootstrap.min.js"></script>
+    <script src="../vendor/datatables-responsive/dataTables.responsive.js"></script>
+	<script src="../vendor/bootstrap/js/bootstrap.min.js"></script>
+    <script src="../vendor/metisMenu/metisMenu.min.js"></script>
+    <script src="../dist/js/sb-admin-2.js"></script>
+    <script src="../dist/js/js-var.js"></script>
+    <script src="../dist/js/rest-server.js"></script>
+  
+    <script>
+	    $.get("menu.html", function(data){
+	        $("nav").html(data);
+	    });
+	</script>
+    <script>
+		var set = restserver+"/decks/list";
+		
+		$(document).ready(function() {
+		    $('#tableDecks').DataTable( {
+		    	"language": {
+		    	    "search": "Filter"
+		    	  },
+		    	"responsive": true,
+		        "processing": true,
+		        "pageLength": 50,
+		        "ajax": {"url":set,"dataSrc":""},
+		        "columns": [
+		        	{ 
+			                "data": "name",
+			                "defaultContent": "",
+			                "width": "25%",
+			                "render": function(data, type, row, meta)
+			                {
+				                if(type === 'display')
+				                {
+				                	data="<a href='deck.html?name="+data+"'>"+data+"</a>";		   
+			                	}
+				                return data;
+				            }
+			        },
+			        { 
+		                "data": "colors",
+		                "defaultContent": "",
+		                "width": "5%",
+		                "render": function(data, type, row, meta)
+		                {
+			                   if(type === 'display')
+			                   {
+			                		   var d=data.match(/[^{}]+(?=\})/g);
+				                	   if(d!=null)
+				                	   {
+				                		   var ret="";
+				                		   for (var i = 0; i < d.length; i++) {
+				                				ret +='<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>';
+				                			}
+				                	   }
+			                   	   	   return ret;
+		                		}
+			            }
+		        	},
+		        	 { 
+		                "data": "description",
+		                "defaultContent": "",
+		                
+		        	},
+		        	{ 
+		                "data": "tags",
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta)
+		                {
+		                	if(type === 'display')
+		                   {
+		                		 var ret="";
+			                	 for (var i = 0; i < data.length; i++) {
+			                		ret+="<i class='fa fa-tag fa-fw'></i>"+data[i]+"<br/>";
+			                	 }
+			                	 return ret;
+	                		}
+		                }
+		        	}	
+		        ]
+		    } );
+		} );
+	
+	</script>
+    
+</head>
+
+<body>
+
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0"></nav>
+
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header"><i class="fa fa-book fa-fw"></i> Decks</h1>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            Decks
+                        </div>
+                        <!-- /.panel-heading -->
+                        <div class="panel-body">
+                            <table id="tableDecks" class="display" style="width:100%">
+						        <thead>
+						            <tr>
+						            	<th>name</th>
+						            	<th>colors</th>
+						            	<th>description</th>
+						            	<th>tags</th>
+						            </tr>
+						        </thead>
+						       </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+	
+	
+    
+    
+</body>
+</html>

@@ -22,6 +22,7 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.google.gson.JsonPrimitive;
 import com.google.gson.stream.JsonReader;
 
 public class JsonExport  extends AbstractCardExport {
@@ -88,41 +89,46 @@ public class JsonExport  extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
+		
+		FileUtils.writeStringToFile(dest, toJson(deck).toString(),"UTF-8");
+	}
+
+	public JsonObject toJson(MagicDeck deck) {
 		JsonObject json = new JsonObject();
-		   		   json.addProperty("name", deck.getName());
-		   		   json.addProperty("description", deck.getDescription());
-		   		   json.addProperty("colors", deck.getColors());
-		   		   json.addProperty("averagePrice", deck.getAveragePrice());
-		   		   
-		   		   JsonArray tags= new JsonArray();
-		   		   for(String s : deck.getTags())
-		   			   tags.add(s);
-		   		   
-		   		   json.add("tags", tags);
-	
-		JsonArray main = new JsonArray();
-		   		   
-		for(MagicCard mc : deck.getMap().keySet())
-		{
-			JsonObject card = new JsonObject();
-				card.addProperty("qty",(Number)deck.getMap().get(mc));
-				card.add("card", new Gson().toJsonTree(mc));
-				main.add(card);
-		}
-		
-		JsonArray side = new JsonArray();
-		   
-		for(MagicCard mc : deck.getMapSideBoard().keySet())
-		{
-			JsonObject card = new JsonObject();
-				card.addProperty("qty",(Number)deck.getMapSideBoard().get(mc));
-				card.add("card", new Gson().toJsonTree(mc));
-				side.add(card);
-		}
-		json.add("main", main);
-		json.add("side", side);
-		
-		FileUtils.writeStringToFile(dest, json.toString(),"UTF-8");
+					   json.addProperty("name", deck.getName());
+					   json.addProperty("description", deck.getDescription());
+					   json.addProperty("colors", deck.getColors());
+					   json.addProperty("averagePrice", deck.getAveragePrice());
+					   json.add("creationDate", new JsonPrimitive(deck.getDateCreation().getTime()));
+					   json.add("updateDate", new JsonPrimitive(deck.getDateUpdate().getTime()));
+					   JsonArray tags= new JsonArray();
+					   for(String s : deck.getTags())
+						   tags.add(s);
+					   
+					   json.add("tags", tags);
+			
+			JsonArray main = new JsonArray();
+					   
+			for(MagicCard mc : deck.getMap().keySet())
+			{
+				JsonObject card = new JsonObject();
+					card.addProperty("qty",(Number)deck.getMap().get(mc));
+					card.add("card", new Gson().toJsonTree(mc));
+					main.add(card);
+			}
+			
+			JsonArray side = new JsonArray();
+			
+			for(MagicCard mc : deck.getMapSideBoard().keySet())
+			{
+				JsonObject card = new JsonObject();
+					card.addProperty("qty",(Number)deck.getMapSideBoard().get(mc));
+					card.add("card", new Gson().toJsonTree(mc));
+					side.add(card);
+			}
+			json.add("main", main);
+			json.add("side", side);
+	return json;
 	}
 
 	@Override
