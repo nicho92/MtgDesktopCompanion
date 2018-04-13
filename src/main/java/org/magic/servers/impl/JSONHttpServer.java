@@ -28,12 +28,14 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 import org.magic.sorters.MagicCardComparator;
 import org.magic.api.interfaces.MTGPlugin;
 import com.google.gson.Gson;
@@ -352,7 +354,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return imageInByte;
 		});
 		
-		
+		get("/decks/list",getString("MIME"), (request, response) ->{
+			MTGDeckManager manager = new MTGDeckManager();
+			return manager.listDecks();
+			
+		},transformer);
 		
 		after((request, response) -> {
 			if(getBoolean("ENABLE_GZIP")) {

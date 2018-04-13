@@ -14,8 +14,11 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
 public class DeckSelectionModel extends DefaultTableModel {
 
@@ -24,25 +27,23 @@ public class DeckSelectionModel extends DefaultTableModel {
 								   "Standard","Modern","Legacy","Vintage",
 								   MTGControler.getInstance().getLangService().getCapitalize("CARDS")};
 	private List<MagicDeck> decks;
-	private MTGCardsExport sniffer;
-	
+	private MTGDeckManager manager;
 	
 	public DeckSelectionModel() 
 	{
-		sniffer = new MTGDesktopCompanionExport();
 		decks = new ArrayList<>();
-		ThreadManager.getInstance().execute(()->{
-				for(File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles() )
-				{
-					try {
-						MagicDeck deck = sniffer.importDeck(f);
-						decks.add(deck);
-						fireTableDataChanged();
-					} catch (Exception e) {
-						MTGLogger.printStackTrace(e);
-					}
-				}
-		}, "loading decks");
+		manager = new MTGDeckManager();
+		manager.addObserver(new Observer() {
+			
+			@Override
+			public void update(Observable o, Object obj) {
+				decks.add((MagicDeck)obj);
+				fireTableDataChanged();
+				
+			}
+		});
+		ThreadManager.getInstance().execute(()->manager.listDecks());
+		
 	}
 	
 	@Override
@@ -107,7 +108,7 @@ public class DeckSelectionModel extends DefaultTableModel {
 	}
 
 	public void remove(MagicDeck selectedDeck) {
-		 FileUtils.deleteQuietly(new File(MTGConstants.MTG_DECK_DIRECTORY,selectedDeck.getName()+".deck"));
+		 manager.remove(selectedDeck);
 		 decks.remove(selectedDeck);
 		 fireTableDataChanged();
 		

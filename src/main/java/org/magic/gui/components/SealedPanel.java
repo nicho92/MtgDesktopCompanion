@@ -45,6 +45,7 @@ import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.sorters.CmcSorter;
@@ -68,9 +69,10 @@ public class SealedPanel extends JPanel {
 	private GraveyardPanel panelDeck;
 	private MagicCardDetailPanel panelDetail;
 	private JProgressBar progressBar;
-	
+	private MTGDeckManager deckManager;
 	
 	public SealedPanel() {
+		deckManager=new MTGDeckManager();
 		initGUI();
 	}
 	
@@ -435,7 +437,7 @@ public class SealedPanel extends JPanel {
 		try {
 			String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+" ?", deck.getName());
 			deck.setName(name);
-			MTGControler.getInstance().saveDeck(deck);
+			deckManager.saveDeck(deck);
 		} catch (IOException ex) {
 			JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 		}

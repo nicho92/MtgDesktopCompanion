@@ -64,6 +64,7 @@ import org.magic.gui.renderer.MagicEditionRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
@@ -81,7 +82,7 @@ public class ConstructPanel extends JPanel {
 	private DeckModel deckmodel;
 	private MagicDeck deck;
 	private JButton btnExports;
-	
+	private MTGDeckManager deckManager;
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 
 	private JTable tableDeck;
@@ -110,6 +111,7 @@ public class ConstructPanel extends JPanel {
 	public ConstructPanel() {
 		logger.info("init DeckBuilder GUI");
 		deck = new MagicDeck();
+		deckManager = new MTGDeckManager();
 		initGUI();
 		setDeck(deck);
 	}
@@ -259,7 +261,7 @@ public class ConstructPanel extends JPanel {
 				try {
 					String name = JOptionPane.showInputDialog(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+" ?", deck.getName());
 					deck.setName(name);
-					MTGControler.getInstance().saveDeck(deck);
+					deckManager.saveDeck(deck);
 				} catch (Exception ex) {
 					logger.error("error saving",ex);
 					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);

@@ -24,9 +24,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.Wallpaper;
-import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -681,15 +679,7 @@ public class MTGControler {
 		
 	}
 
-	public void saveDeck(MagicDeck deck) throws IOException 
-	{
-		if (!MTGConstants.MTG_DECK_DIRECTORY.exists())
-			MTGConstants.MTG_DECK_DIRECTORY.mkdir();
-
-		MTGDesktopCompanionExport serialis = new MTGDesktopCompanionExport();
-		serialis.export(deck, new File(MTGConstants.MTG_DECK_DIRECTORY,deck.getName() + serialis.getFileExtension()));
-		
-	}
+	
 
 	public List<MTGWallpaperProvider> getWallpaperProviders() {
 		return wallpapers;
