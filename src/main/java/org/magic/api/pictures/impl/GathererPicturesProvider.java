@@ -54,7 +54,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		
 		for(String k : getArray("CALL_MCI_FOR"))
 		{
-			if(selected.getId().toLowerCase().startsWith(k))
+			if(selected.getId().startsWith(k))
 			{
 				if(mciProv==null)
 					mciProv=new MagicCardInfoPicturesProvider();
