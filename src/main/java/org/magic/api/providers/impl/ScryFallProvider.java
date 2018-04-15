@@ -296,6 +296,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			{
 				setChanged();
 		 		notifyObservers(mc);
+		 		 logger.trace("card "+obj.get("id")+"found in cache");
 				return cacheCards.get(obj.get("id").getAsString());
 			}
 			

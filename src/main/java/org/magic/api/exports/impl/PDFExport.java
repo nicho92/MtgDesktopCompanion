@@ -21,6 +21,7 @@ import com.itextpdf.text.Document;
 import com.itextpdf.text.Element;
 import com.itextpdf.text.Image;
 import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Utilities;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
@@ -49,7 +50,11 @@ public class PDFExport extends AbstractCardExport {
 		} catch (Exception e) {
 			image1 = Image.getInstance(MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture(),null);
 		}
-		image1.scalePercent(60);
+		
+		int h=getInt("CARD_HEIGHT");
+		int w=getInt("CARD_WIDTH");
+		
+		image1.scaleAbsolute(w,h);
 
 		PdfPCell cell = new PdfPCell(image1, false);
 		cell.setBorder(0);
@@ -139,7 +144,8 @@ public class PDFExport extends AbstractCardExport {
 	@Override
 	public void initDefault() {
 		setProperty("AUTHOR", "Nicolas PIHEN");
-		
+		setProperty("CARD_HEIGHT","88");
+		setProperty("CARD_WIDTH","63");
 	}
 
 

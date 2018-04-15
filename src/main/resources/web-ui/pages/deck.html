@@ -81,7 +81,13 @@
 		        	{ 
 		        	  "data": "card.name",
 		        	  "defaultContent": "",
-		        	  "width": "20%"
+		        	  "width": "20%",
+	               	  "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	   data='<span  class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" data-name="'+data+'">'+data+'</span>';	
+		                   }
+		                 return data;
+		              }
 		        	},
 		        	 { 
 			        	  "data": "card.cost",
@@ -121,7 +127,10 @@
 			        	  "width": "15%"
 			        }
 			       
-		        ]
+		        ],
+		        "fnDrawCallback" :function(oSettings, json) {
+		        	mtgtooltip($(".mtg-tooltip"));
+		        }
 	    } );
   	    	
   	    	

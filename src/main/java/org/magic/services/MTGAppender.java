@@ -11,7 +11,7 @@ import org.utils.patterns.observer.Observer;
 public class MTGAppender extends AppenderSkeleton {
 
 	List<LoggingEvent> events;
-	MyObservable obs;
+	Observable obs;
 
 	
 	public List<LoggingEvent> getEvents() {
@@ -26,7 +26,7 @@ public class MTGAppender extends AppenderSkeleton {
 	
 	public MTGAppender() {
 		events=new ArrayList<>();
-		obs=new MyObservable();
+		obs=new Observable();
 	}
 	
 	public void addObserver(Observer viewer)
@@ -60,14 +60,3 @@ public class MTGAppender extends AppenderSkeleton {
 		
 	}
 }
-
-class MyObservable extends Observable
-{
-	
-	@Override
-	public synchronized void setChanged() {
-		super.setChanged();
-	}
-	
-}
-

@@ -24,7 +24,6 @@
     <script src="../dist/js/js-var.js"></script>
     <script src="../dist/js/rest-server.js"></script>
     <script src="../dist/js/mtgcompanion-ui.js"></script>
-  
     <script>
 	    $.get("menu.html", function(data){
 	        $("nav").html(data);
@@ -56,7 +55,15 @@
 			        },
 		        	{ 
 		                "data": "magicCard.name",
-		                "defaultContent": ""
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+		                		 data="<span  class='mtg-tooltip' data-set='"+row.magicCard.editions[0].id+"' data-name='"+data+"'>"+data+"</span>";	                		 
+		                	 }
+		                   return data;
+		                }
+		                
+		                
 		            }, 
 		            { 
 		                "data": "magicCard.editions",
@@ -133,7 +140,10 @@
 		                "data": "price"
 		            }
 		           
-		        ]
+		        ],
+		        "fnDrawCallback" :function(oSettings, json) {
+		        	mtgtooltip($(".mtg-tooltip"));
+		        }
 		    } );
 		} );
 	

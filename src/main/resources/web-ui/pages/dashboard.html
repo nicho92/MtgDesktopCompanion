@@ -49,7 +49,15 @@
 		        "paginationType":"simple",
 		      	"order": [[ 1, "desc" ]],
 		        "columns": [
-			        	{ "data": "name","width": "50%" },
+			        	{ "data": "name",
+			        	  "width": "50%",
+			              "render": function(data, type, row, meta){
+					           if(type === 'display'){
+					        	  	   data='<span  class="mtg-tooltip" data-name="'+data+'">'+data+'</span>';	
+					            }
+					            return data;
+					        }
+			        	},
 			            { "data" : "price"},
 			            { "data": "priceDayChange",
 			            	"defaultContent": ""
@@ -57,7 +65,10 @@
 			          	{ "data": "percentDayChange",
 			           	  "defaultContent": ""
 			           	}
-			        ]
+			        ],
+			        "fnDrawCallback" :function(oSettings, json) {
+			        	mtgtooltip($(".mtg-tooltip"));
+			        }
 		    } );
  	 	
  	 	$('#cardWinLoose').DataTable({
@@ -72,7 +83,15 @@
 	        "paginationType":"simple",
 	      	"order": [[ 1, "desc" ]],
 	        "columns": [
-		        	{ "data": "name","width": "50%" },
+		        	{ "data": "name",
+		        	  "width": "50%",
+		              "render": function(data, type, row, meta){
+			           if(type === 'display'){
+			                	   data='<span  class="mtg-tooltip" data-name="'+data+'">'+data+'</span>';	
+			            }
+			            return data;
+			        }
+		        	},
 		            { "data" : "price"},
 		            { "data": "priceDayChange",
 		            	"defaultContent": ""
@@ -80,7 +99,10 @@
 		          	{ "data": "percentDayChange",
 		           	  "defaultContent": ""
 		           	}
-		        ]
+		        ],
+		        "fnDrawCallback" :function(oSettings, json) {
+		        	mtgtooltip($(".mtg-tooltip"));
+		        }
 	    } );	
  	 	
  	 	

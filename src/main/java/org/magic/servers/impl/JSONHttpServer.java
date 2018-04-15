@@ -344,10 +344,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return imageInByte;
 		});
 
-		get("/pics/cards/:id",getString("MIME"), (request, response) ->{
+		get("/pics/cardname/:name",getString("MIME"), (request, response) ->{
 			
 			baos = new ByteArrayOutputStream();
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", request.params(":name"), null,true).get(0);
 			BufferedImage im= MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
 			ImageIO.write( im, "png", baos );
 			baos.flush();

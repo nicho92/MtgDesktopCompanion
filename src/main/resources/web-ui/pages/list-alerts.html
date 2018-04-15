@@ -23,7 +23,8 @@
     <script src="../dist/js/sb-admin-2.js"></script>
     <script src="../dist/js/js-var.js"></script>
     <script src="../dist/js/rest-server.js"></script>
-  
+    <script src="../dist/js/mtgcompanion-ui.js"></script>
+ 
     <script>
 	    $.get("menu.html", function(data){
 	        $("nav").html(data);
@@ -55,7 +56,16 @@
 			        },
 		        	{ 
 		                "data": "card.name",
-		                "defaultContent": ""
+		                "defaultContent": "",
+		                "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+		                			data="<span  class='mtg-tooltip' data-set='"+row.card.editions[0].id+"' data-name='"+data+"'>"+data+"</span>";		                		 
+		                	 }
+		                   return data;
+		                }
+		                
+		                
+		                
 		            }, 
 		            { 
 		                "data": "card.editions",
@@ -76,7 +86,10 @@
 		                "defaultContent": ""
 		            }
 		           
-		        ]
+		        ],
+		        "fnDrawCallback" :function(oSettings, json) {
+		        	mtgtooltip($(".mtg-tooltip"));
+		        }
 		    } );
 		} );
 	

@@ -75,7 +75,13 @@
 		            }, 
 		            { 
 		                "data": "name",
-		                "width": "18%"
+		                "width": "18%",
+		                "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                	   data='<span  class="mtg-tooltip" data-set="'+row.editions[0].id+'" data-name="'+data+'">'+data+'</span>';	
+			                   }
+			                   return data;
+			                }
 		            },
 		            { "data": "types"},
 		            { 
@@ -105,7 +111,10 @@
 		        	"defaultContent": ""
 		          }
 		           
-		        ]
+		        ],
+		        "fnDrawCallback" :function(oSettings, json) {
+		        	mtgtooltip($(".mtg-tooltip"));
+		        }
 		    } );
 		} );
 	

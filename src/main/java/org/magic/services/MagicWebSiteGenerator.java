@@ -33,7 +33,6 @@ public class MagicWebSiteGenerator extends Observable{
 	
 	Template template ;
 	Configuration cfg ;
-	MTGDao dao;
 	private String dest;
 	private List<MTGPricesProvider> pricesProvider;
 	private List<MagicCollection> cols;
@@ -45,7 +44,7 @@ public class MagicWebSiteGenerator extends Observable{
 		cfg.setDefaultEncoding("UTF-8");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER );
 		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_27).build());
-		dao=MTGControler.getInstance().getEnabledDAO();
+		
 		this.dest = dest;
 		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR,template), new File(dest),pathname->{
 				if(pathname.isDirectory())
@@ -65,7 +64,7 @@ public class MagicWebSiteGenerator extends Observable{
 			{
 				Map<String,List<MagicCard>> root = new HashMap<>();
 				for(MagicCollection col : cols)
-					root.put(col.getName(), dao.listCardsFromCollection(col));
+					root.put(col.getName(), MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col));
 				
 				generatedTemplate.process(root, out);
 				generateCollectionsTemplate();
@@ -82,7 +81,7 @@ public class MagicWebSiteGenerator extends Observable{
 				rootEd.put("cols", cols);
 				rootEd.put("colName", col.getName());
 				Set<MagicEdition> eds = new HashSet<>();
-				for(MagicCard mc : dao.listCardsFromCollection(col))
+				for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col))
 				{
 					eds.add(mc.getEditions().get(0));
 					generateCardsTemplate(mc);
@@ -110,7 +109,7 @@ public class MagicWebSiteGenerator extends Observable{
 			rootEd.put("colName", col.getName());
 			for(MagicEdition ed : eds)
 			{
-				rootEd.put("cards", dao.listCardsFromCollection(col, ed));
+				rootEd.put("cards", MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, ed));
 				rootEd.put("edition", ed);
 				FileWriter out = new FileWriter(Paths.get(dest,"page-ed-"+col.getName()+"-"+ed.getId()+".htm").toFile());
 				cardTemplate.process(rootEd, out);
