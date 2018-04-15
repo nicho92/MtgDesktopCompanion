@@ -374,8 +374,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return new JsonExport().toJson(manager.getDeck(request.params(":name")));
 		},transformer);
 		
-		
-		
+	
 		after((request, response) -> {
 			if(getBoolean("ENABLE_GZIP")) {
 			    response.header("Content-Encoding", "gzip");

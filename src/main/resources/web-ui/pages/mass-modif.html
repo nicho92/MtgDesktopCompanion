@@ -31,6 +31,7 @@
     <script src="../dist/js/js-var.js"></script>
     <script src="../dist/js/rest-server.js"></script>
   	<script src="../dist/js/js-btnActions.js"></script>
+     <script src="../dist/js/mtgcompanion-ui.js"></script>
   
   	<script>
   	 $.get("menu.html", function(data){
@@ -139,7 +140,7 @@
 			        	{ "data": "name",
 			        	  "width": "30%",
 			        	  "render": function(data, type, row, meta){
-			                       data = '<span class="tooltipz">'+data+'</span>';
+			                       data = '<span class="mtg-tooltip" data-set="'+idEd+'" data-name="'+data+'">'+data+'</span>';
 			                   return data;
 			                }
 			        	  
@@ -171,44 +172,8 @@
 			        	}
 			        ],
 			        "fnDrawCallback" :function(oSettings, json) {
-			        	$( ".tooltipz" ).tooltip(
-			      		        {
-			      		            html: true,
-			      		            trigger: "manual",
-			      		            tooltipClass: "mytooltip"
-			      		        }
-			      		        ).on(
-			      		        {
-			      		            click:
-			      		                function() {
-			      		                    var $el = $(this);
-			      		                    console.log($el.data("fetched"));
-			      		                    
-			      		                    if( $el.data( "fetched" ) === undefined ) {
-			      		                        $el.data( "fetched", true );
-			      		                        $el.attr( "data-original-title", "<img src='../dist/img/loading.gif' width='50' height='50'>" ).tooltip( "show" );
-			      		                        $.ajax(
-			      		                            {
-			      		                                url: restserver+"/pics/cards/"+idEd+"/"+$el.text(),
-			      		                                success:
-			      		                                    function( response ) {
-			      		                                        $el.attr( "data-original-title", "<img src='"+restserver+"/pics/cards/"+idEd+"/"+$el.text()+"' width='180' >" ).tooltip( "show" );
-			      		                                      	
-			      		                                    }
-			      		                            }
-			      		                            );
-			      		                        
-			      		                        
-			      		                    } else {
-			      		                        $(this).tooltip( "show" );
-			      		                    }
-			      		                },
-			      		             mouseleave:
-			      		                function() {
-			      		                    $(this).tooltip( "hide" );
-			      		                }
-			      		        }
-			      		        );
+			        	mtgtooltip($(".mtgtooltip"));
+			        	
 			        	
 			        }
 		    } );

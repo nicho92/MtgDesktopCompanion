@@ -75,3 +75,4 @@ function addCollection(name,callback)
    		 });
 
 }
+

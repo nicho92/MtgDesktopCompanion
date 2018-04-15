@@ -33,7 +33,7 @@
     <script src="../dist/js/js-var.js"></script>
     <script src="../dist/js/rest-server.js"></script>
     <script src="../dist/js/js-btnActions.js"></script>
-  
+    <script src="../dist/js/mtgcompanion-ui.js"></script>
   
   	<link href="../vendor/morrisjs/morris.css" rel="stylesheet" type="text/css" >
    	<script src="../vendor/morrisjs/morris.min.js"/></script>
@@ -110,8 +110,8 @@
   	    	else
   	    		$('#reserved').append("<i class='fa fa-times-circle'></i>");
   	    	
-  	    	for (var i = 0; i < data.editions.length; i++) {
-  	    		
+  	    	for (var i = 0; i < data.editions.length; i++) 
+  	    	{
   	    		if(i==0)
   	    			{
   	    				$("#set").html('<i class="ss ss-grad ss-'+data.editions[i].id.toLowerCase()+' ss-'+data.editions[i].rarity.toLowerCase()+' ss-1x ss-uncommon"></i>');
@@ -130,7 +130,8 @@
   	      	   if(d!=null){
   	      		   var ret="";
   	      		   for (var i = 0; i < d.length; i++) {
-  	      				$('#cost').append('<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>');
+        			   d[i]=formatMana(d[i]);
+  	      			   $('#cost').append('<i class="ms ms-'+d[i].toLowerCase()+' ms-cost ms-shadow"></i>');
   	      			}
   	      	   }
   	    	}
