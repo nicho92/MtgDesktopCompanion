@@ -53,11 +53,20 @@
 			        	  "width": "50%",
 			              "render": function(data, type, row, meta){
 					           if(type === 'display'){
-					        	  	   data='<span  class="mtg-tooltip" data-name="'+data+'">'+data+'</span>';	
+					        	  	   data='<span  class="mtg-tooltip" data-set="'+row.ed+'" data-name="'+data+'">'+data+'</span>';	
 					            }
 					            return data;
 					        }
 			        	},
+			        	{ "data": "ed",
+				        	  "width": "5%",
+				              "render": function(data, type, row, meta){
+						           if(type === 'display'){
+						        	   data = '<i class="ss ss-grad ss-'+data.toLowerCase()+' ss-2x ss-common"></i>';	
+						            }
+						            return data;
+						        }
+				        	},
 			            { "data" : "price"},
 			            { "data": "priceDayChange",
 			            	"defaultContent": ""
@@ -193,6 +202,7 @@
 										<thead>
 											<tr>
 												<th>Name</th>
+												<th>Edition</th>
 												<th>$</th>
 												<th>+/-</th>
 												<th>%</th>
