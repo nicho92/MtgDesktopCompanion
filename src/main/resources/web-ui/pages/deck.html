@@ -74,6 +74,17 @@
 	        "order": [[ 4, "asc" ]],
 	        "columns": [
 	        		{ 
+		        	  "data": "card.id",
+		        	  "defaultContent": "",
+		        	  "width": "2%",
+		        	  "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+									data="<a class='fa fa-search fa-fw' href='card.html?id="+data+"'/>";		                		 
+		                	 }
+		                   return data;
+		                }
+		        	},
+	        		{ 
 		        	  "data": "qty",
 		        	  "defaultContent": "",
 		        	  "width": "2%"
@@ -174,6 +185,7 @@
 								<table id="tableCards" class="display" style="width:100%">
 						        <thead>
 						            <tr>
+						            	<th></th>
 						            	<th>Qty</th>
 						            	<th>Name</th>
 						            	<th>Cost</th>
