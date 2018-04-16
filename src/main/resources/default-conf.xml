@@ -214,6 +214,10 @@
             <class>org.magic.api.news.impl.TwitterNewsProvider</class>
             <enable>true</enable>
         </news>
+        <news>
+            <class>org.magic.api.news.impl.MagicCorpForumProvider</class>
+            <enable>true</enable>
+        </news>
     </newsProvider>
     <dashboards>
         <dashboard>
@@ -261,6 +265,10 @@
         <sniffer>
             <class>org.magic.api.decksniffer.impl.MTGTop8DeckSniffer</class>
             <enable>false</enable>
+        </sniffer>
+         <sniffer>
+            <class>org.magic.api.decksniffer.impl.MTGDecksSniffer</class>
+            <enable>true</enable>
         </sniffer>
     </decksniffer>
     <deckexports>

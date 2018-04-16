@@ -39,19 +39,24 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		Twitter twitter = tf.getInstance();
 		Query query = new Query(n.getName());
 			  query.setCount(Integer.parseInt(getString("MAX_RESULT")));
+			  
 		List<MagicNewsContent> ret=new ArrayList<>();
 		
 	        QueryResult result;
 			try {
 				result = twitter.search(query);
 				for (Status status : result.getTweets()) {
-					MagicNewsContent content = new MagicNewsContent();
-					content.setAuthor(status.getUser().getScreenName());
-					content.setDate(status.getCreatedAt());
-					content.setContent(status.getText());
-					content.setLink(new URL("https://twitter.com/" + status.getUser().getScreenName()+ "/status/" + status.getId()));
-					content.setTitle(status.getText());
-					ret.add(content);
+					
+					if(!status.isRetweet())
+					{	
+						MagicNewsContent content = new MagicNewsContent();
+						content.setAuthor(status.getUser().getScreenName());
+						content.setDate(status.getCreatedAt());
+						content.setContent(status.getText());
+						content.setLink(new URL("https://twitter.com/" + status.getUser().getScreenName()+ "/status/" + status.getId()));
+						content.setTitle(status.getText());
+						ret.add(content);
+					}
 				}
 			} catch (TwitterException e) {
 				throw new IOException(e);

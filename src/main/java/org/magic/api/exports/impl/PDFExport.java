@@ -144,8 +144,8 @@ public class PDFExport extends AbstractCardExport {
 	@Override
 	public void initDefault() {
 		setProperty("AUTHOR", "Nicolas PIHEN");
-		setProperty("CARD_HEIGHT","88");
-		setProperty("CARD_WIDTH","63");
+		setProperty("CARD_HEIGHT","163");
+		setProperty("CARD_WIDTH","117");
 	}
 
 
