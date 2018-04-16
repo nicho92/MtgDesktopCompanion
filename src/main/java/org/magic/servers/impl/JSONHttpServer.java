@@ -85,6 +85,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 	@Override
 	public void start() throws IOException {
+	
 		port(getInt("SERVER-PORT"));
 		
 		initExceptionHandler((e) -> {
@@ -263,7 +264,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/stock/list",getString("MIME"), (request, response) ->{
 			return MTGControler.getInstance().getEnabledDAO().listStocks();
-			 
 		}, transformer);
 		
 		

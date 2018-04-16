@@ -65,9 +65,11 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 			for(Element tr : table.select("tr.cardItem"))
 			{
 				Element td=tr.select("td.number").first();
-				String qte = td.html().substring(0,td.html().indexOf(" "));
+				String qte = td.html().substring(0,td.html().indexOf(' '));
 				String name=td.select("a").text();
-				
+				if(name.contains("/"))
+					name=name.substring(0, name.indexOf("/")).trim();
+			
 				MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null, true).get(0);
 				
 				if(!isSideboard)
