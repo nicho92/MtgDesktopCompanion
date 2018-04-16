@@ -4,6 +4,8 @@ function formatMana(manaString)
 	return manaString.replace(/\//g, '');	
 }
 
+
+
 function mtgtooltip(element)
 {
 	element.popover({
@@ -13,14 +15,14 @@ function mtgtooltip(element)
         content: function () {
             var set = $(this).attr("data-set");
             var name=$(this).attr("data-name");
-            var uri = "<img src='"+restserver+"/pics/cards/"+set+"/"+name+"'>";
+            var uri = '<img src="'+restserver+"/pics/cards/"+set+"/"+name+'">';
             
             if(set===undefined)
             	{
-            	uri = "<img src='"+restserver+"/pics/cardname/"+name+"'>";
+            	uri = '<img src="'+restserver+"/pics/cardname/"+name+'">';
             	}
             
-            
+            console.log(uri);
             return uri;
         }
     });
