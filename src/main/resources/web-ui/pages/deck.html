@@ -124,7 +124,13 @@
 			        { 
 			        	  "data": "card.types",
 			        	  "defaultContent": "",
-			        	  "width": "15%"
+			        	  "width": "15%",
+			        	  "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                       data = '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
+			                   }
+			                   return data;
+			                }
 			        }
 			       
 		        ],
