@@ -441,7 +441,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		
 		for(String k : request.headers())
-			logger.debug("---"+ k+ "="+request.headers(k));
+			logger.trace("---"+ k+ "="+request.headers(k));
 		
 		/*
 		String[] allows = getString("Access-Control-Allow-Origin").split(",");

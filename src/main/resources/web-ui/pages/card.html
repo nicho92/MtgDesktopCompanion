@@ -102,7 +102,9 @@
   	    	
   	    	
   	    	$('#artist').html("<i>"+data.artist+"</i>");
-  	    	$('#pic').attr("src", restserver+"/pics/cards/"+$_GET("id"));
+  	    	
+  	    	$('#pic').attr("src", restserver+"/pics/cards/"+data.editions[0].id+"/"+data.name);
+  	    	
   	    	$('#number').append(data.editions[0].number)
   	    	
   	    	if(data.reserved==true)
