@@ -21,7 +21,6 @@ import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
@@ -53,7 +52,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 			Collections.sort(eds);
 			eds.add(0,null);
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 		
 		cboEditions = new JComboBox(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
@@ -102,7 +101,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		}
 		catch(Exception e) 
 		{
-			MTGLogger.printStackTrace(e);
+			//do nothing
 		}
 		
 		new TableFilterHeader(table, AutoChoices.ENABLED);

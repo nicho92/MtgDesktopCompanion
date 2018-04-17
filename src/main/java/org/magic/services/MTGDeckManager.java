@@ -6,17 +6,18 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 public class MTGDeckManager extends Observable {
 
 	MTGCardsExport serialis;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public MTGDeckManager(MTGCardsExport sniff) {
 		serialis=sniff;
 	}
@@ -52,7 +53,7 @@ public class MTGDeckManager extends Observable {
 				setChanged();
 				notifyObservers(deck);
 			} catch (Exception e) {
-				MTGLogger.printStackTrace(e);
+				logger.error("error import deck " + f,e);
 			}
 		}	
 		return decks;

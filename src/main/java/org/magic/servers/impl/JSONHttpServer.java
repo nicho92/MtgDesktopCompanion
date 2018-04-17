@@ -40,7 +40,6 @@ import org.magic.sorters.MagicCardComparator;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -88,7 +87,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	
 		port(getInt("SERVER-PORT"));
 		
-		initExceptionHandler((e) -> {
+		initExceptionHandler(e -> {
 			running=false;
 			logger.error(e);
 		});
@@ -442,7 +441,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return "2.0";
 	}
 	
-	
+	//TODO filter allowed header
 	private String getWhiteHeader(Request request)
 	{
 		logger.debug("request :" + request.pathInfo()+ " from " + request.ip());
@@ -450,16 +449,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		for(String k : request.headers())
 			logger.trace("---"+ k+ "="+request.headers(k));
-		
-		/*
-		String[] allows = getString("Access-Control-Allow-Origin").split(",");
-		for(String s : allows )
-		{
-			if(s.equals(request.headers("Origin")))
-				return s;
-		}
-		*/
-		
+
 		return getString("Access-Control-Allow-Origin");
 	}
 	

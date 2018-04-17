@@ -7,7 +7,6 @@ import java.awt.Toolkit;
 import java.io.File;
 import java.net.URL;
 
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 

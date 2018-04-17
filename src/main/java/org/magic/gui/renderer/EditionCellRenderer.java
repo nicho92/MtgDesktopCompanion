@@ -1,6 +1,7 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
+import java.awt.FlowLayout;
 import java.util.List;
 
 import javax.swing.JLabel;
@@ -10,9 +11,6 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.IconSetProvider;
-import java.awt.FlowLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 public class EditionCellRenderer extends DefaultTableCellRenderer {
 	

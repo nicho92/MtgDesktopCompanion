@@ -23,7 +23,6 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -160,12 +159,12 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				try {
 					shake.setPercentDayChange(card.get("percentageChangeSinceYesterday").getAsDouble());
 				} catch (Exception e) {
-					MTGLogger.printStackTrace(e);
+					//do nothing
 				}
 				try {
 					shake.setPercentWeekChange(card.get("percentageChangeSinceOneWeekAgo").getAsDouble());
 				} catch (Exception e) {
-					MTGLogger.printStackTrace(e);
+					//do nothing
 				}
 				shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
 				shake.setPriceWeekChange(card.get("absoluteChangeSinceOneWeekAgo").getAsDouble());

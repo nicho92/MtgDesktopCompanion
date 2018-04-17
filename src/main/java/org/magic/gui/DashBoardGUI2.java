@@ -65,7 +65,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 										{
 											dash.getProperties().store(fos,"");
 										} catch (IOException e) {
-											MTGLogger.printStackTrace(e);
+											logger.error(e);
 										}
 				}
 		});

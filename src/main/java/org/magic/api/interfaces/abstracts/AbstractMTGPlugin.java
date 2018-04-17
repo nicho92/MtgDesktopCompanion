@@ -10,8 +10,6 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean enable;

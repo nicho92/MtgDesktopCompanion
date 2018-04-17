@@ -18,7 +18,7 @@ public class History extends AbstractCommand {
 	}
 	
 	@Override
-	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, ParseException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, ParseException, InvocationTargetException, NoSuchMethodException {
 		this.session=session;
 		CommandLine cl = parser.parse(opts, array);
 		if(cl.hasOption("r"))

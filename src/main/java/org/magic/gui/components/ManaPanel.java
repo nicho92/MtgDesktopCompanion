@@ -16,6 +16,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.SwingConstants;
 
+import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
@@ -30,7 +31,8 @@ public class ManaPanel extends JPanel {
 	private int rowHeight=MTGConstants.TABLE_ROW_HEIGHT;
 	private int rowWidth=MTGConstants.TABLE_ROW_WIDTH;
 	private String regex ="\\{(.*?)\\}";
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public int getRowHeight() {
 		return rowHeight;
 	}
@@ -106,7 +108,7 @@ public class ManaPanel extends JPanel {
 			cached=true;
 				
 			} catch (IOException e) {
-				MTGLogger.printStackTrace(e);
+				logger.error(e);
 			}
 		
 		}

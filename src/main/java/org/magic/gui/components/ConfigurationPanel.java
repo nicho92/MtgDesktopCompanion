@@ -33,6 +33,7 @@ import javax.swing.border.TitledBorder;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
@@ -77,7 +78,8 @@ public class ConfigurationPanel extends JPanel {
 	private JCheckBox chckbxCardBuilder;
 	private JCheckBox chckbxStock;
 
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	
 	public void loading(boolean show,String text)
 	{
@@ -221,7 +223,7 @@ public class ConfigurationPanel extends JPanel {
 					}catch(Exception e)
 					{
 						loading(false,"");
-						MTGLogger.printStackTrace(e);
+						logger.error(e);
 					}
 				}, "duplicate " + MTGControler.getInstance().getEnabledDAO() + " to " + cboTargetDAO.getSelectedItem() )
 			
@@ -236,7 +238,7 @@ public class ConfigurationPanel extends JPanel {
 								
 							} 
 							catch (Exception e1) {
-								MTGLogger.printStackTrace(e1);
+								logger.error(e1);
 							}
 					}, "backup " + MTGControler.getInstance().getEnabledDAO() +" database")
 		);
@@ -466,7 +468,7 @@ public class ConfigurationPanel extends JPanel {
 					MTGControler.getInstance().getEnabledCache().clear();
 					loading(false,"");
 				} catch (Exception e) {
-					MTGLogger.printStackTrace(e);
+					logger.error(e);
 					loading(false,"");
 				}
 		});
@@ -535,7 +537,7 @@ public class ConfigurationPanel extends JPanel {
 					MTGControler.getInstance().setProperty("default-library", (MagicCollection)cboCollections.getSelectedItem());
 				}catch(Exception e)
 				{
-					MTGLogger.printStackTrace(e);
+					logger.error(e);
 				}
 		});
 		
@@ -549,7 +551,7 @@ public class ConfigurationPanel extends JPanel {
 				}
 			}
 		} catch (Exception e1) {
-			MTGLogger.printStackTrace(e1);
+			logger.error(e1);
 		}
 		
 		JPanel panelWebSite = new JPanel();
@@ -899,7 +901,7 @@ public class ConfigurationPanel extends JPanel {
 			
 			
 		} catch (Exception e1) {
-			MTGLogger.printStackTrace(e1);
+			logger.error(e1);
 		}
 	}
 

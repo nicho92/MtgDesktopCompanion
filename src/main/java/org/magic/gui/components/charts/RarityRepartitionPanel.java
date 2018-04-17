@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -25,7 +26,8 @@ public class RarityRepartitionPanel extends JPanel{
 
 	private List<MagicCard> cards;
 	ChartPanel pane;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public RarityRepartitionPanel() {
 		setLayout(new BorderLayout(0, 0));
 	}
@@ -97,7 +99,7 @@ public class RarityRepartitionPanel extends JPanel{
 							count++;
 						
 					}catch (Exception e) {
-						MTGLogger.printStackTrace(e);
+						logger.error("error in count", e);
 					}
 				}
 			

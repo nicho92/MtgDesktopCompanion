@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
@@ -34,7 +35,8 @@ public class DeckSnifferDialog extends JDialog{
 	private JButton btnImport;
 	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	
 	public DeckSnifferDialog() {
 		
@@ -95,7 +97,7 @@ public class DeckSnifferDialog extends JDialog{
 					lblLoad.setVisible(false);
 				} catch (Exception e1) {
 					lblLoad.setVisible(false);
-					e1.printStackTrace();
+					logger.error("error change cboFormat",e1);
 					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
 				}
 		});
@@ -124,7 +126,7 @@ public class DeckSnifferDialog extends JDialog{
 								btnImport.setEnabled(true);
 								dispose();
 							} catch (Exception e1) {
-								MTGLogger.printStackTrace(e1);
+								logger.error(e1);
 								JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"),JOptionPane.ERROR_MESSAGE);
 								importedDeck=null;
 								lblLoad.setVisible(false);

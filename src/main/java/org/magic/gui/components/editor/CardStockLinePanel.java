@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
@@ -37,7 +38,8 @@ public class CardStockLinePanel extends JPanel {
 	  
 	  private transient MagicCardStock state;
 	  private JCheckBox cboAltered;
-	
+	  private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	  
 	   
 	public CardStockLinePanel(MagicCard selectedCard, MagicCollection selectedCol) {
@@ -99,7 +101,7 @@ public class CardStockLinePanel extends JPanel {
 					generateState();
 					MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(state);
 				} catch (SQLException e) {
-					MTGLogger.printStackTrace(e);
+					logger.error(e);
 				}
 		});
 		
@@ -129,7 +131,7 @@ public class CardStockLinePanel extends JPanel {
 			l.add(state);
 			MTGControler.getInstance().getEnabledDAO().deleteStock(l);
 		} catch (SQLException e1) {
-			MTGLogger.printStackTrace(e1);
+			logger.error(e1);
 		}
 		
 		try{
@@ -139,7 +141,7 @@ public class CardStockLinePanel extends JPanel {
 		}
 		catch(NullPointerException e)
 		{
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 		
 	}

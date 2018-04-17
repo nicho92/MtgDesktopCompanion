@@ -27,6 +27,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
@@ -58,7 +59,8 @@ public class GamingRoomPanel extends JPanel {
 	private JList list = new JList<>(new DefaultListModel<>());
 	private JButton btnPlayGame;
 	private JButton btnConnect;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	Player otherplayer =null;
 	
 	
@@ -201,7 +203,7 @@ public class GamingRoomPanel extends JPanel {
 		        }
 		        catch(Exception e)
 		        {
-		        	MTGLogger.printStackTrace(e);
+		        	//do nothing
 		        }
 		        return label;
 		     }

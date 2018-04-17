@@ -17,7 +17,6 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.MagicEventsTableModel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.MTGEventProvider;
 
@@ -117,7 +116,7 @@ public class MagicEventsDashlet extends AbstractJDashlet{
 				}
 				catch(Exception e)
 				{
-					MTGLogger.printStackTrace(e);
+					logger.error(e);
 				}
 				try {
 					eventsModel.init(provider.listEvents(y, m));
@@ -130,7 +129,7 @@ public class MagicEventsDashlet extends AbstractJDashlet{
 				}
 				catch(Exception e)
 				{
-					MTGLogger.printStackTrace(e);
+					logger.error(e);
 				}
 				lblLoading.setVisible(false);
 				eventsModel.fireTableDataChanged();

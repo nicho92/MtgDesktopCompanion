@@ -12,6 +12,7 @@ import javax.imageio.ImageIO;
 import javax.swing.JMenuItem;
 import javax.swing.JPopupMenu;
 
+import org.apache.log4j.Logger;
 import org.magic.game.actions.battlefield.ChangeBackGroundActions;
 import org.magic.game.actions.battlefield.FlipaCoinActions;
 import org.magic.game.actions.battlefield.SelectedTapActions;
@@ -24,6 +25,7 @@ public class BattleFieldPanel extends DraggablePanel  {
 
 	JPopupMenu battlefieldMenu = new JPopupMenu();
 	private transient BufferedImage image;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public List<DisplayableCard> getCards()
 	{
@@ -70,7 +72,7 @@ public class BattleFieldPanel extends DraggablePanel  {
 	        	BufferedImage im = ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
 	        	setBackgroundPicture(im);
 			} catch (IOException e1) {
-				MTGLogger.printStackTrace(e1);
+				logger.error(e1);
 			}
 			
 		

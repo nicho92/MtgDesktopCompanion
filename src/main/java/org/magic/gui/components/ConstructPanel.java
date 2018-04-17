@@ -329,7 +329,6 @@ public class ConstructPanel extends JPanel {
 		
 												} catch (Exception e) {
 													logger.error("error import",e);
-													MTGLogger.printStackTrace(e);
 													loading(false, "");
 													JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 												}

@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
@@ -18,7 +19,8 @@ public class CardStockPanel extends JPanel {
 	
 	private JPanel content;
 	private GridLayout layout = new GridLayout();
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	private JButton btnAdd;
 	private MagicCollection selectedCol;
 	private MagicCard selectedCard;
@@ -69,7 +71,7 @@ public class CardStockPanel extends JPanel {
 				content.repaint();
 		}catch(Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 		
 	}

@@ -1,21 +1,13 @@
 package org.magic.gui.models;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.beans.MagicFormat;
-import org.magic.api.exports.impl.MTGDesktopCompanionExport;
-import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGDeckSniffer;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;

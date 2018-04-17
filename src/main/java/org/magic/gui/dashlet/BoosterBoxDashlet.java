@@ -34,7 +34,6 @@ import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class BoosterBoxDashlet extends AbstractJDashlet{
@@ -77,7 +76,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet{
 			Collections.sort(eds);
 			eds.add(0,null);
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 		
 		JComboBox<MagicEdition> cboEditions = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
@@ -25,7 +26,8 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 	TimerTask tache ;
 	private boolean running=false;
 	private boolean enableNotify=true;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public void enableGUINotify(boolean enableNotify) {
 		this.enableNotify = enableNotify;
 	}
@@ -70,8 +72,7 @@ public class PricesCheckerTimer extends AbstractMTGServer{
 							prov.alertDetected(okz);
 							alert.orderDesc();
 						} catch (Exception e) {
-							MTGLogger.printStackTrace(e);
-							logger.error(e);
+							logger.error("error loading price "+prov , e);
 						}
                 	}
                		message.append(alert.getCard()).append(" : ").append(alert.getOffers().size()).append(" offers").append("\n");

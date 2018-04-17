@@ -49,7 +49,7 @@ public class MTGAppender extends AppenderSkeleton {
 			obs.notifyObservers(event.getMessage());
 		}catch(Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			//do nothing
 		}
 	}
 

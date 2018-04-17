@@ -31,6 +31,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.SwingConstants;
 import javax.swing.SwingUtilities;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.tokens.impl.CockatriceTokenProvider;
@@ -71,7 +72,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
 	private ExilPanel exilPanel;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 
 	public static GamePanelGUI getInstance()
 	{
@@ -166,7 +168,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 										setPlayer(p1);
 									}
 								} catch (Exception e) {
-									MTGLogger.printStackTrace(e);
+									logger.error("Error loading deck",e);
 								}
 						});
 						GridBagConstraints gbcbtnNewGame = new GridBagConstraints();

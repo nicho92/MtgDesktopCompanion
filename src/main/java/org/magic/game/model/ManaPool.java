@@ -7,6 +7,7 @@ import java.util.Map.Entry;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGLogger;
@@ -15,6 +16,8 @@ import org.utils.patterns.observer.Observable;
 public class ManaPool extends Observable implements Serializable{
 
 	private Map<String, Integer> pool ;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	
 	public ManaPool() {
 		pool= new HashMap<>();
@@ -61,7 +64,7 @@ public class ManaPool extends Observable implements Serializable{
 			setMana(color, pool.get(color)-number);
 		}catch(Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			logger.error("error use mana",e);
 		}
 	}
 	

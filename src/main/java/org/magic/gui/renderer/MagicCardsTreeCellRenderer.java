@@ -15,7 +15,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ColorParser;
 
@@ -45,7 +44,7 @@ public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 		}
 		catch(Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			//do nothing
 		}
 	 
 	}

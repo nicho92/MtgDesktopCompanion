@@ -734,7 +734,7 @@ public class StockPanelGUI extends JPanel {
 			for(MagicCollection l : MTGControler.getInstance().getEnabledDAO().getCollections())
 				 cModel.addElement(l);
 		} catch (SQLException e1) {
-			MTGLogger.printStackTrace(e1);
+			logger.error(e1);
 		}
 		
 		cboCollection = new JComboBox<>(cModel);

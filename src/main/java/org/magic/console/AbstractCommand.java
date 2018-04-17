@@ -11,6 +11,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
+import org.apache.log4j.Logger;
 import org.apache.mina.core.session.IoSession;
 import org.asciitable.impl.ASCIITableImpl;
 import org.asciitable.impl.CollectionASCIITableAware;
@@ -22,6 +23,7 @@ public abstract class AbstractCommand implements Command {
 	protected CommandLineParser parser = new DefaultParser();
 	protected Options opts = new Options();
 	protected IoSession session;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	protected <T> String showList(List<T> list,List<String> attributes)
@@ -45,7 +47,7 @@ public abstract class AbstractCommand implements Command {
      	try {
 			session.write(baos.toString("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
    
 	}

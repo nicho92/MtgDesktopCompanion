@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.log4j.Logger;
 import org.magic.game.model.Player;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGLogger;
@@ -19,6 +20,7 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
   	Dimension d ;
 	
 	protected JPopupMenu menu = new JPopupMenu();
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
     boolean dragging=true;
@@ -65,7 +67,7 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
 					if(BeanUtils.describe(card.getMagicCard()).get(prop).equalsIgnoreCase(value))
 						ret.add(card);
 				} catch (Exception e) {
-					MTGLogger.printStackTrace(e);
+					logger.error("error lookup",e);
 				}
 			}
 			return ret;

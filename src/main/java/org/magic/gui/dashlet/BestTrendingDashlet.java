@@ -25,7 +25,6 @@ import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class BestTrendingDashlet extends AbstractJDashlet{
@@ -94,7 +93,7 @@ public class BestTrendingDashlet extends AbstractJDashlet{
 					
 					modStandard.init(ret);
 				} catch (IOException e) {
-					MTGLogger.printStackTrace(e);
+					logger.error(e);
 				}
 				
 				table.setModel(modStandard);

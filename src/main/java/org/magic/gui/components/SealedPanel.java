@@ -28,6 +28,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
@@ -70,7 +71,8 @@ public class SealedPanel extends JPanel {
 	private MagicCardDetailPanel panelDetail;
 	private JProgressBar progressBar;
 	private MTGDeckManager deckManager;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public SealedPanel() {
 		deckManager=new MTGDeckManager();
 		initGUI();
@@ -112,7 +114,7 @@ public class SealedPanel extends JPanel {
 			li = MTGControler.getInstance().getEnabledProviders().loadEditions();
 		} catch (IOException e1) {
 			li=new ArrayList<>();
-			MTGLogger.printStackTrace(e1);
+			logger.error(e1);
 		}
 		panelWest = new JPanel();
 		panelWest.setPreferredSize(new Dimension(300, 10));
@@ -331,7 +333,7 @@ public class SealedPanel extends JPanel {
 			
 			refreshStats();
 		} catch (IOException e) {
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 		
 		
@@ -381,7 +383,7 @@ public class SealedPanel extends JPanel {
 							
 						}	
 					} catch (IOException e) {
-						MTGLogger.printStackTrace(e);
+						logger.error(e);
 						lblLoading.setVisible(false);
 					}
 					

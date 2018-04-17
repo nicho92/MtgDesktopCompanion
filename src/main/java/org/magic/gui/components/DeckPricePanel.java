@@ -102,7 +102,7 @@ public class DeckPricePanel extends JPanel {
 								lblPrice.setText(String.valueOf(total) + " " + p.getCurrency());
 								
 							} catch (Exception e) {
-								MTGLogger.printStackTrace(e);
+								logger.error("error in " + c,e);
 							}
 
 						}

@@ -37,8 +37,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 				items.addAll(prov.search(search));
 				fireTableDataChanged();
 			} catch (Exception e) {
-				logger.error(e);
-				MTGLogger.printStackTrace(e);
+				logger.error("error in init " + search,e);
 			}
 		}
 	}

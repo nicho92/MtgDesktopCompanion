@@ -19,6 +19,7 @@ import javax.swing.ListSelectionModel;
 import javax.swing.text.Document;
 import javax.swing.text.html.HTMLEditorKit;
 
+import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.magic.api.beans.MTGStory;
 import org.magic.gui.renderer.MTGStoryListRenderer;
@@ -35,7 +36,8 @@ public class StoriesGUI extends JPanel {
 	private JList<MTGStory> listResult;
 	private DefaultListModel<MTGStory> resultListModel;
 	private JEditorPane editorPane;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public StoriesGUI() {
 		provider = new StoryProvider(MTGControler.getInstance().getLocale());
 		
@@ -122,7 +124,7 @@ public class StoriesGUI extends JPanel {
 							resultListModel.addElement(story);
 					} 
 					catch (IOException e) {
-						MTGLogger.printStackTrace(e);
+						logger.error(e);
 					}
 					finally {
 						lblLoading.setVisible(false);

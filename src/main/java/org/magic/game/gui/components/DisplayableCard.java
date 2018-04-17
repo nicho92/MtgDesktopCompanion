@@ -33,6 +33,7 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.AttachActions;
@@ -85,6 +86,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private PositionEnum position;
 	private boolean rightActions;
 	private transient Observable obs;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	
 	public List<AbstractCounter> getCounters() {
 		return counters;
@@ -260,7 +263,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		try {
 			setMagicCard((MagicCard)BeanUtils.cloneBean(mc));
 		} catch (Exception e1) {
-			MTGLogger.printStackTrace(e1);
+			logger.error(e1);
 		} 
 		if (activateCards) {
 			addMouseListener(new MouseAdapter() {
@@ -488,7 +491,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		try {
 			this.magicCard = (MagicCard)BeanUtils.cloneBean(mc);
 		} catch (Exception e1) {
-			MTGLogger.printStackTrace(e1);
+			logger.error(e1);
 		} 
 		
 		try {

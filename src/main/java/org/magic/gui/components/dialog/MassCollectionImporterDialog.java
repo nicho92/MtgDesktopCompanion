@@ -20,6 +20,7 @@ import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
@@ -34,14 +35,15 @@ public class MassCollectionImporterDialog extends JDialog{
 	private String[] ids;
 	private JTextPane txtNumbersInput;
 	private MagicDeck deck;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public MassCollectionImporterDialog() {
 		setSize(new Dimension(646, 290));
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_CARDS_IMPORT"));
 		try {
 			initGUI();
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("error init", e);
 		}
 	}
 
@@ -58,7 +60,7 @@ public class MassCollectionImporterDialog extends JDialog{
 		try {
 			list = MTGControler.getInstance().getEnabledProviders().loadEditions();
 		} catch (IOException e2) {
-			MTGLogger.printStackTrace(e2);
+			logger.error(e2);
 		}
 		final JComboBox cboEditions = new JComboBox(list.toArray());
 		cboEditions.setRenderer(new MagicEditionListRenderer());
@@ -137,7 +139,7 @@ public class MassCollectionImporterDialog extends JDialog{
 								MTGControler.getInstance().getEnabledDAO().saveCard(mc, col);
 								progressBar.setValue(i++);
 							} catch (Exception e1) {
-								MTGLogger.printStackTrace(e1);
+								logger.error(e1);
 							}
 						}
 						JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED",ids.length),MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),JOptionPane.INFORMATION_MESSAGE);

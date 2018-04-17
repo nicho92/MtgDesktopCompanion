@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -25,7 +26,9 @@ public class ManaRepartitionPanel extends JPanel{
 
 	private List<MagicCard> cards;
 	ChartPanel pane;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
+	
 	public ManaRepartitionPanel() {
 		setLayout(new BorderLayout(0, 0));
 	}
@@ -41,7 +44,7 @@ public class ManaRepartitionPanel extends JPanel{
 			}
 		}catch(Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			logger.error("Error init " + deck,e);
 		}
 		refresh();
 	}

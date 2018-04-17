@@ -2,6 +2,7 @@ package org.magic.gui.models;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
@@ -10,7 +11,8 @@ import org.magic.services.MTGLogger;
 
 public class CardAlertTableModel extends DefaultTableModel {
 
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	static final String[] columns = new String[]{
 											MTGControler.getInstance().getLangService().getCapitalize("CARD"),
 											MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
@@ -32,7 +34,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 			
 		}catch(Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 			
 		return 0;
@@ -83,7 +85,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 			MTGControler.getInstance().getEnabledDAO().updateAlert(alert);
 			fireTableDataChanged();
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("error set value " + aValue,e);
 		}
 	}
 	

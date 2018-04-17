@@ -18,6 +18,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.Timer;
 
+import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXPanel;
 import org.jdesktop.swingx.graphics.ReflectionRenderer;
 import org.jdesktop.swingx.painter.MattePainter;
@@ -32,33 +33,25 @@ import org.magic.services.ThreadManager;
 
 public class CardsPicPanel extends JXPanel {
 	
-	
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final long serialVersionUID = 1L;
-
 	private transient BufferedImage imgFront=null;
 	private transient  BufferedImage back;
-
 	private transient  Shape selectedShape = null;
 	private transient  ReflectionRenderer renderer;
 	private Point pointInitial = null;
-
-	
-	 private transient BufferedImage printed;
-     
-     private float xScale = 1f;
-     private float xDelta = 0.05f;
-     boolean launched=false;
-     private Timer timer;
-     int pX;
-     int pY;
-     double rotate;
-    
-	
+    private transient BufferedImage printed;
+    private float xScale = 1f;
+    private float xDelta = 0.05f;
+    boolean launched=false;
+    private Timer timer;
+    int pX;
+    int pY;
+    double rotate;
 	private boolean moveable=true;
-
 	private MagicCard card;
 
+	
 	public CardsPicPanel()
 	{
 		setLayout(new BorderLayout(0, 0));
@@ -92,7 +85,7 @@ public class CardsPicPanel extends JXPanel {
 				MagicCard flipC = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name",card.getRotatedCardName(),card.getEditions().get(0),true).get(0);
 				back = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(flipC,null);
 			} catch (Exception e) {
-				MTGLogger.printStackTrace(e);
+				logger.error(e);
 				
 			}
 		}

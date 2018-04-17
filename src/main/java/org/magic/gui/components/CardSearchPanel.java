@@ -50,7 +50,6 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
@@ -462,7 +461,7 @@ public class CardSearchPanel extends JPanel {
 			try {
 				initPopupCollection();
 			} catch (Exception e2) {
-				MTGLogger.printStackTrace(e2);
+				logger.error(e2);
 			}
 
 			
@@ -605,7 +604,7 @@ public class CardSearchPanel extends JPanel {
 											magicEditionDetailPanel.setMagicEdition(selectedEdition);
 											
 										} catch (Exception e) {
-											MTGLogger.printStackTrace(e);
+											logger.error(e);
 										}
 										cardsPicPanel.showPhoto(selectedCard);//backcard
 									historyChartPanel.init(selectedCard, selectedEdition,selectedCard.getName());

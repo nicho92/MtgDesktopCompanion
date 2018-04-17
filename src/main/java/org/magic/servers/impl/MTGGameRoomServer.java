@@ -5,6 +5,7 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
@@ -28,7 +29,7 @@ import org.magic.game.network.actions.SpeakAction;
 import org.magic.services.MTGLogger;
 
 public class MTGGameRoomServer extends AbstractMTGServer{
- 
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private IoAcceptor acceptor;
 	private IoHandlerAdapter adapter = new IoHandlerAdapter() {
  		
@@ -100,8 +101,7 @@ public class MTGGameRoomServer extends AbstractMTGServer{
  	 	@Override
  	    public void exceptionCaught( IoSession session, Throwable cause ) throws Exception
  	    {
- 	      MTGLogger.printStackTrace(cause);
- 		  logger.error(cause);
+ 	      logger.error("error sesion",cause);
  	      refreshPlayers(session);
  	    }
 	};

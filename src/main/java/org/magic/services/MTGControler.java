@@ -232,7 +232,7 @@ public class MTGControler {
 		}
 		catch(Exception e)
 		{
-			MTGLogger.printStackTrace(e);
+			logger.error("error loading player" + p,e);
 		}
 		return p;
 	}

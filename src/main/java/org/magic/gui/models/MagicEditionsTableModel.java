@@ -9,6 +9,7 @@ import java.util.TreeMap;
 import javax.swing.ImageIcon;
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
@@ -16,7 +17,9 @@ import org.magic.services.MTGLogger;
 import org.magic.services.extra.IconSetProvider;
 
 public class MagicEditionsTableModel extends DefaultTableModel{
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
+	
 	String[] columns = new String[] {
 			MTGControler.getInstance().getLangService().getCapitalize("EDITION_CODE"),
 			MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
@@ -49,7 +52,7 @@ public class MagicEditionsTableModel extends DefaultTableModel{
 		try {
 			calculate();
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("error calculate",e);
 		}
 		
 	}

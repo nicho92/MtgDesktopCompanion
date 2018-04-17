@@ -24,6 +24,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.services.MTGConstants;
@@ -43,6 +44,7 @@ public class WallpaperGUI extends JPanel{
 	private GridBagConstraints c;
 	private int index=0;
 	private int val=4;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	public static void main(String[] args) {
@@ -192,6 +194,8 @@ class JWallThumb extends JLabel
 	private transient Wallpaper wall;
 	private int size;
 	private int fontHeight=20;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public boolean isSelected() {
 		return selected;
 	}
@@ -219,7 +223,7 @@ class JWallThumb extends JLabel
              Image img = wall.getPicture().getScaledInstance(w, h, Image.SCALE_SMOOTH);
 			setIcon(new ImageIcon(img));
 		} catch (IOException e) {
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 	}
 	public void selected(boolean s)

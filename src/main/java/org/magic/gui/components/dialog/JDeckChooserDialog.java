@@ -37,7 +37,7 @@ public class JDeckChooserDialog extends JDialog {
 	CmcChartPanel cmcChartPanel;
 	MagicDeck selectedDeck;
 	JTagsPanel tagsPanel;
-	
+
 	JTree tree;
 	  DefaultTreeModel model;
 	  DefaultMutableTreeNode root ;

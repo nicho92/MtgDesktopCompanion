@@ -64,8 +64,8 @@ import org.magic.gui.components.dialog.PriceCatalogExportDialog;
 import org.magic.gui.components.dialog.WebSiteGeneratorDialog;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.gui.models.MagicEditionsTableModel;
-import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
+import org.magic.gui.renderer.MagicCollectionTableCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -755,7 +755,7 @@ public class CollectionPanelGUI extends JPanel {
 
 								tree.refresh();
 							} catch (Exception e1) {
-								MTGLogger.printStackTrace(e1);
+								logger.error(e1);
 							}
 					},"btnAdds addCardsCollection");
 			});

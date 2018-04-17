@@ -28,7 +28,6 @@ import org.apache.log4j.Logger;
 import org.fit.cssbox.swingbox.BrowserPane;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
-import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider.NEWS_TYPE;
 import org.magic.gui.components.NewsPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.services.MTGConstants;

@@ -374,7 +374,7 @@ public class CardBuilder2GUI extends JPanel{
 					mc.setNumber(String.valueOf(provider.getCards((MagicEdition)cboSets.getSelectedItem()).size()+1));
 					logger.debug("create new card for " + cboSets.getSelectedItem()  + " num = " + mc.getNumber() );
 				} catch (IOException e1) {
-					MTGLogger.printStackTrace(e1);
+					logger.error(e1);
 				}
 				initCard(mc);
 		});
@@ -531,7 +531,7 @@ public class CardBuilder2GUI extends JPanel{
 			panelPictures.repaint();
 		} catch (Exception e) {
 			cardImage = recordedProvider.getBackPicture();
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 
 	}

@@ -13,6 +13,7 @@ import java.util.Map.Entry;
 import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -34,7 +35,8 @@ public class HistoryPricesPanel extends JPanel{
 	boolean showAll=false;
 	JCheckBox chckbxShowEditions;
 	JCheckBox chckbxShowAllDashboard;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public HistoryPricesPanel() {
 		setLayout(new BorderLayout(0, 0));
 		JPanel panel = new JPanel();
@@ -87,7 +89,7 @@ public class HistoryPricesPanel extends JPanel{
 			this.title=title;
 			refresh();
 		} catch (IOException e) {
-			MTGLogger.printStackTrace(e);
+			logger.error("error init " + card,e);
 		}
 		
 	}
@@ -115,7 +117,7 @@ public class HistoryPricesPanel extends JPanel{
 					}
 					
 				} catch (IOException e) {
-					MTGLogger.printStackTrace(e);
+					logger.error("Error refresh" , e);
 				}
 				
 			}
@@ -164,7 +166,7 @@ public class HistoryPricesPanel extends JPanel{
 				}
 			catch(Exception e)
 			{
-				MTGLogger.printStackTrace(e);
+				logger.error("error showeds",e);
 			}
 			
 		

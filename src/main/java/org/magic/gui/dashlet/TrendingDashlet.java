@@ -23,7 +23,6 @@ import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 import net.coderazzi.filters.gui.AutoChoices;
@@ -80,7 +79,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				cboFormats.setSelectedItem(FORMAT.valueOf(getProperty("FORMAT")));
 			
 			} catch (Exception e) {
-				MTGLogger.printStackTrace(e);
+				logger.error(e);
 			}
 			setBounds(r);
 			}
@@ -111,7 +110,7 @@ public class TrendingDashlet extends AbstractJDashlet{
 				}
 				catch(Exception e)
 				{
-					MTGLogger.printStackTrace(e);
+					logger.error(e);
 				}
 				setProperty("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
 				lblLoading.setVisible(false);

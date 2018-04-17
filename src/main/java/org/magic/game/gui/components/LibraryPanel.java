@@ -7,6 +7,7 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JMenuItem;
 
+import org.apache.log4j.Logger;
 import org.magic.game.actions.cards.ScryActions;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
@@ -20,7 +21,8 @@ import org.magic.services.MTGLogger;
 public class LibraryPanel extends DraggablePanel {
 
 	private transient Image i;
-	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public LibraryPanel() {
 		super();
 		menu.add(new JMenuItem(new DrawHandActions()));
@@ -35,7 +37,7 @@ public class LibraryPanel extends DraggablePanel {
 				setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 			
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			logger.error(e);
 		}
 	}
 	
@@ -74,7 +76,7 @@ public class LibraryPanel extends DraggablePanel {
 		try {
 			g.drawImage(i, 0, 0, null);
 		} catch (Exception e) {
-			MTGLogger.printStackTrace(e);
+			//do nothing
 		}
 		
 	}
