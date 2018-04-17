@@ -82,7 +82,7 @@ public class ConstructPanel extends JPanel {
 	private DeckModel deckmodel;
 	private MagicDeck deck;
 	private JButton btnExports;
-	private MTGDeckManager deckManager;
+	private transient MTGDeckManager deckManager;
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
 
 	private JTable tableDeck;

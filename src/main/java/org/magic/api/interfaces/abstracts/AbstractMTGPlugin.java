@@ -11,7 +11,7 @@ import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin{
-	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private boolean enable;
 	private Properties props;
 	protected File confdir;

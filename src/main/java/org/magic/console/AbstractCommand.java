@@ -23,7 +23,7 @@ public abstract class AbstractCommand implements Command {
 	protected CommandLineParser parser = new DefaultParser();
 	protected Options opts = new Options();
 	protected IoSession session;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	
 	protected <T> String showList(List<T> list,List<String> attributes)
