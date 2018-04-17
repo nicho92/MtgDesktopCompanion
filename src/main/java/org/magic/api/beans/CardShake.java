@@ -8,7 +8,6 @@ public class CardShake {
 	
 	private String name;
 	private URL img;
-	private String rarity;
 	private Double price;
 	private double priceDayChange;
 	private double percentDayChange;
