@@ -149,8 +149,35 @@
 		        	mtgtooltip($(".mtg-tooltip"));
 		        }
 	    } );
+  	  
+  	  Morris.Donut({
+  		  element: 'typesChart',
+  		  resize: true,
+  		  data: [
+  		    {label: "Creature", value: 12},
+  		    {label: "Spell", value: 30},
+  		    {label: "Artifact", value: 20}
+  		  ]
+  		});
+  	  	
   	    	
-  	    	
+  	  Morris.Bar({
+  		  element: 'cmcChart',
+  		  resize: true,
+  		  data: [
+  		    { y: 0, a: 5},
+  		    { y: 1, a: 6 },
+  		    { y: 2, a: 7 },
+  		    { y: 3, a: 3 },
+  		    { y: 4, a: 2 },
+  		    { y: 5, a: 1 },
+  		    { y: 6, a: 2}
+  		  ],
+  		  xkey: 'y',
+  		  ykeys: ['a'],
+  		  labels: ['Cmc']
+  		});
+  	  	
   	    	
   	    });
   	});
@@ -204,6 +231,26 @@
 					<div class="col-lg-4">
 						
 						<div class="panel panel-default">
+							<div class="panel-heading">Mana Curve</div>
+							<div class="panel-body">
+								<div id='cmcChart'></div>
+							</div>
+							<div class="panel-footer">
+								
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
+							<div class="panel-heading">Mana Curve</div>
+							<div class="panel-body">
+								<div id='typesChart'></div>
+							</div>
+							<div class="panel-footer">
+								
+							</div>
+						</div>
+						
+						<div class="panel panel-default">
 							<div class="panel-heading">Tags</div>
 							<div class="panel-body">
 								<ul id='tags' class="list-group"></ul>
@@ -223,17 +270,21 @@
 							</div>
 						</div>
 						
+					</div>
+					<div class="row">
+						<div class="col-lg-12">
 						<div class="panel panel-default">
 							<div class="panel-heading">Description</div>
 							<div class="panel-body">
 								<div id='description'></div>
 							</div>
-							<div class="panel-footer">
-								
-							</div>
+							<div class="panel-footer"></div>
 						</div>
 						
+						</div>
+					
 					</div>
+					
 					
 				</div>
 				
