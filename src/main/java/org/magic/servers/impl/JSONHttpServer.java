@@ -131,6 +131,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(request.params(":att"), request.params(":val"), null, false);
 		}, transformer);
 		
+		get("/cards/name/:idEd/:cName",getString("MIME"), (request, response) ->{
+			
+			MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(request.params(":idEd"));
+			return MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", request.params(":cName"), ed, true);
+		}, transformer);
+		
+		
 		put("/cards/move/:from/:to/:id",getString("MIME"), (request, response) ->{
 			  MagicCollection from=new MagicCollection(request.params(":from"));
 			  MagicCollection to=new MagicCollection(request.params(":to"));
@@ -380,6 +387,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			    response.header("Content-Encoding", "gzip");
 			}
 		});
+		
 		
 		Spark.init();
 		

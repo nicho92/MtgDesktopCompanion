@@ -337,6 +337,10 @@
 							<mainClass>org.magic.api.main.MtgDesktopCompanion</mainClass>
 							<name>${program.id}</name>
 						</program>
+						<program>
+							<mainClass>org.magic.api.main.WebUIServerLauncher</mainClass>
+							<name>web-ui</name>
+						</program>
 					</programs>
 					<generateRepository>true</generateRepository>
 					<repositoryName>lib</repositoryName>

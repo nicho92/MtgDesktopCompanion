@@ -70,9 +70,6 @@
 		                "width": "2%",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-		                		 
-		                		 	console.log(meta)
-		                		 
 									data =  '<i class="ss ss-'+JSON.parse(data).id.toLowerCase()+' ss-common ss-2x"></i>' ;		                		 
 		                	 }
 		                   return data;
@@ -90,6 +87,7 @@
 		            },
 		            { 
 		                "data": "release",
+		                "defaultContent": "",
 		                "width": "5%"
 		            },
 		            { 
