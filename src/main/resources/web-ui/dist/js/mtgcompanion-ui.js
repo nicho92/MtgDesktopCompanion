@@ -1,7 +1,17 @@
 
 function formatMana(manaString)
 {
-	return manaString.replace(/\//g, '');	
+	if(manaString.includes("/P"))
+	{
+		return manaString.replace(/\//g, '');
+	}
+	else if (manaString.includes("/"))
+	{
+		var s = manaString.replace(/\//g, '');
+		s += " ms-split ";
+		return s;
+	}
+	return manaString;
 }
 
 
