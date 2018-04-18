@@ -3,6 +3,7 @@ package org.magic.services;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
@@ -15,6 +16,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.tools.DeckCalculator;
 import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
@@ -149,6 +151,27 @@ public class MTGDeckManager extends Observable {
 		
 	}
 
+	
+	public Map<MagicCard,List<Double>> analyseDrawing(MagicDeck d)
+	{
+		DeckCalculator calc = new DeckCalculator(d);
+		
+		Map<MagicCard,List<Double>> ret = new HashMap<>();
+		
+		for(MagicCard mc : calc.getUniqueCards())
+		{
+			List<Double> list = new ArrayList<>();
+			for(int i=0;i<10;i++)
+			{
+				list.add(calc.getProbability(i, mc));
+			}
+			
+			ret.put(mc, list);
+		}
+		return ret;
+	}
+	
+	
 	
 	public Map<String,Integer> analyseRarities(List<MagicCard> cards)
 	{

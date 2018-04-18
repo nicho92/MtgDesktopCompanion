@@ -392,6 +392,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				obj.addProperty("rarity", transformer.render(manager.analyseRarities(d.getAsList())));
 				obj.addProperty("colors", transformer.render(manager.analyseColors(d.getAsList())));
 				obj.addProperty("legalities", transformer.render(manager.analyseLegalities(d)));
+				obj.addProperty("drawing", transformer.render(manager.analyseDrawing(d)));
 			return obj;	
 				
 		},transformer);
