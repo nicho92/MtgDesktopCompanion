@@ -63,7 +63,7 @@ public class DeckDetailsPanel extends JPanel {
 		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 0, 132, 31, 0, 0, 0, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 		
 				JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DECK_NAME")+ " :");

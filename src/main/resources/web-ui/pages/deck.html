@@ -55,11 +55,18 @@
   	    	$('#title').html(data.name);
   	    	$('#description').html(data.description);
   	    	
-  	       var d=data.colors.match(/[^{}]+(?=\})/g);
-      		   for (var i = 0; i < d.length; i++)
-      			 $('#colors').append('<i class="ms ms-'+formatMana(d[i]).toLowerCase()+' ms-cost ms-shadow"></i>');
-      		
-      		 for (var i = 0; i < data.tags.length; i++) {
+  	        var d=data.colors.match(/[^{}]+(?=\})/g);
+  	        
+  	        if(d!=null)
+  	        {
+  	        	for (var i = 0; i < d.length; i++)
+      				$('#colors').append('<i class="ms ms-'+formatMana(d[i]).toLowerCase()+' ms-cost ms-shadow"></i>');
+  	        }
+  	        else
+  	        {
+  	        	$('#colors').append('<i class="ms ms-c ms-cost ms-shadow"></i>');
+  	        }	
+  	        for (var i = 0; i < data.tags.length; i++) {
       			$('#tags').append("<li class='list-group-item'><i class='fa fa-tag fa-fw'></i>"+data.tags[i]+"</li>");
          	 }
   	    	
