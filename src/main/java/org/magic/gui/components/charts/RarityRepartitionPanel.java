@@ -20,27 +20,25 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 
 public class RarityRepartitionPanel extends JPanel{
 
 	private List<MagicCard> cards;
-	ChartPanel pane;
+	private ChartPanel pane;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	private MTGDeckManager manager;
+	
 	public RarityRepartitionPanel() {
+		manager = new MTGDeckManager();
 		setLayout(new BorderLayout(0, 0));
 	}
 
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<>();
 		if(deck!=null && deck.getMap()!=null)
-				for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
-				{
-					MagicCard mc = cci.getKey();
-					for(int i=0;i<cci.getValue();i++)
-						cards.add(mc);
-				}
+				cards=deck.getAsList();
 		
 		refresh();
 	}
@@ -79,33 +77,13 @@ public class RarityRepartitionPanel extends JPanel{
 	private PieDataset getRarityRepartitionDataSet() 
 	{
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for(MagicCard mc : cards)
+		for(Entry<String,Integer> data : manager.analyseRarities(cards).entrySet())
 		{
-			dataset.setValue(mc.getEditions().get(0).getRarity(), count(mc.getEditions().get(0).getRarity()));
+			dataset.setValue(data.getKey(),data.getValue());
 		}
 
 
         return dataset;
-	}
-
-
-	private Double count(String string) {
-		double count=0;
-		
-				for(MagicCard mc : cards)
-				{	
-					try{
-						if(mc.getEditions().get(0).getRarity().equals(string))
-							count++;
-						
-					}catch (Exception e) {
-						logger.error("error in count", e);
-					}
-				}
-			
-			return count;
-			
-				
 	}
 	
 	

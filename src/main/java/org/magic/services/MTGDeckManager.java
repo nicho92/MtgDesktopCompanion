@@ -4,9 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
@@ -27,6 +31,7 @@ public class MTGDeckManager extends Observable {
 		serialis = new MTGDesktopCompanionExport();
 	}
 	
+
 	public boolean isLegal(MagicDeck magicDeck,String format) {
 		MagicFormat mf = new MagicFormat();
 				mf.setFormat(format);
@@ -79,8 +84,157 @@ public class MTGDeckManager extends Observable {
 	
 	public void remove(MagicDeck selectedDeck) {
 		 FileUtils.deleteQuietly(new File(MTGConstants.MTG_DECK_DIRECTORY,selectedDeck.getName()+".deck"));
-	
 	}
+	
+	
+	public Map<String,Boolean> analyseLegalities(MagicDeck d)
+	{
+		TreeMap<String, Boolean> temp = new TreeMap<>();
+		
+		for(String s : new String[] {"Standard","Modern","Vintage","Legacy","Commander"})
+		{
+			temp.put(s, isLegal(d, s));
+		}
+		return temp;
+	}
+	
+	
+	public Map<Integer,Integer> analyseCMC(List<MagicCard> cards)
+	{
+		TreeMap<Integer, Integer> temp = new TreeMap<>();
+		
+		for(MagicCard mc : cards)
+		{
+			if((mc.getCmc()!=null) && !mc.getTypes().contains("Land"))
+					temp.put(mc.getCmc(),countCmc(mc.getCmc(),cards) );
+		}
+		return temp;
+	}
+	
+	
+	public Map<String,Integer> analyseTypes(List<MagicCard> cards)
+	{
+		TreeMap<String, Integer> temp = new TreeMap<>();
+		
+		for(MagicCard mc : cards)
+		{
+			if(!mc.getTypes().isEmpty())
+				temp.put(mc.getTypes().get(0), countType(mc.getTypes().get(0),cards));
+		}
+		return temp;
+	}
+	
+	
+	public Map<String,Integer> analyseColors(List<MagicCard> cards)
+	{
+		TreeMap<String, Integer> temp = new TreeMap<>();
+		
+		for(MagicCard mc : cards)
+		{
+			if(!mc.getColors().isEmpty())
+			{
+				if(mc.getColors().size()==1 )
+					temp.put(mc.getColors().get(0), countColors(mc.getColors().get(0),cards));
+				
+				if(mc.getColors().size()>1 )
+					temp.put("Multi", countColors("Multi",cards));
+					
+			}
+			else
+			{
+				temp.put("Uncolor", countColors("Uncolor",cards));
+			}
+		}
+		return temp;
+		
+	}
+
+	
+	public Map<String,Integer> analyseRarities(List<MagicCard> cards)
+	{
+		TreeMap<String, Integer> temp = new TreeMap<>();
+		
+		for(MagicCard mc : cards)
+		{
+			temp.put(mc.getEditions().get(0).getRarity(), countRarities(mc.getEditions().get(0).getRarity(),cards));
+		}
+		return temp;
+		
+	}
+	
+	private Integer countRarities(String rarity,List<MagicCard> cards) {
+		int count=0;
+		for(MagicCard mc : cards)
+		{	
+			try{
+				if(mc.getEditions().get(0).getRarity().equals(rarity))
+					count++;
+				
+			}catch (Exception e) {
+				logger.error("error in count", e);
+			}
+		}
+		return count;
+				
+	}
+	
+	
+	private Integer countColors(String string,List<MagicCard> cards) {
+		Integer count=0;
+		
+		if(string.equals("Uncolor"))
+		{	for(MagicCard mc : cards)
+				if(mc.getColors().isEmpty())
+					count ++;
+		
+			return count;
+		}
+		else if(string.equals("Multi"))
+		{	for(MagicCard mc : cards)
+				if(mc.getColors().size()>1)
+					count ++;
+		
+			return count;
+		}
+		else
+		{
+			for(MagicCard mc : cards)
+				if(mc.getColors().size()==1 && mc.getColors().get(0).equals(string))
+					count++;
+			
+			return count;
+		}
+				
+	}
+	
+	
+	
+	private Integer countCmc(Integer cmc,List<MagicCard> cards) {
+		int count=0;
+		
+		for(MagicCard mc : cards)
+		{
+			if(!mc.getTypes().contains("Land"))
+			{
+				int cm = (mc.getCmc()==null)? 0 : mc.getCmc();
+				if(cm==cmc)
+					count++;
+			}
+		}
+		return count;
+				
+	}
+	
+	private Integer countType(String type,List<MagicCard> cards) {
+		Integer count=0;
+		for(MagicCard mc : cards)
+				if(!mc.getTypes().isEmpty() && mc.getTypes().get(0).equals(type))
+					count ++;
+		
+		return count;
+				
+	}
+	
 	
 	
 }

@@ -20,28 +20,27 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 
 public class ManaRepartitionPanel extends JPanel{
 
 	private List<MagicCard> cards;
-	ChartPanel pane;
+	private ChartPanel pane;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	private MTGDeckManager manager;
 	
 	public ManaRepartitionPanel() {
+		manager = new MTGDeckManager();
 		setLayout(new BorderLayout(0, 0));
 	}
 	
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<>();
 		try{
-			for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
-			{
-				MagicCard mc = cci.getKey();
-				for(int i=0;i<cci.getValue();i++)
-					cards.add(mc);
-			}
+			
+			cards = deck.getAsList();
+			
 		}catch(Exception e)
 		{
 			logger.error("Error init " + deck,e);
@@ -98,56 +97,16 @@ public class ManaRepartitionPanel extends JPanel{
 	private PieDataset getManaRepartitionDataSet() 
 	{
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for(MagicCard mc : cards)
+		for(Entry<String,Integer> data : manager.analyseColors(cards).entrySet())
 		{
-			if(!mc.getColors().isEmpty())
-			{
-				if(mc.getColors().size()==1 )
-					dataset.setValue(mc.getColors().get(0), count(mc.getColors().get(0)));
-				
-				if(mc.getColors().size()>1 )
-					dataset.setValue("Multi", count("Multi"));
-					
-			}
-			else
-			{
-				dataset.setValue("Uncolor", count("Uncolor"));
-			}
+			dataset.setValue(data.getKey(),data.getValue());
+			
 		}
 		
 
         return dataset;
 	}
 
-
-	private Double count(String string) {
-		double count=0;
-		
-		if(string.equals("Uncolor"))
-		{	for(MagicCard mc : cards)
-				if(mc.getColors().isEmpty())
-					count ++;
-		
-			return count;
-		}
-		else if(string.equals("Multi"))
-		{	for(MagicCard mc : cards)
-				if(mc.getColors().size()>1)
-					count ++;
-		
-			return count;
-		}
-		else
-		{
-			for(MagicCard mc : cards)
-				if(mc.getColors().size()==1 && mc.getColors().get(0).equals(string))
-					count++;
-			
-			return count;
-		}
-				
-	}
-	
 	
 	
 }

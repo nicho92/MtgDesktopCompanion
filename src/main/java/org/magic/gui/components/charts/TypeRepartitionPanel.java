@@ -19,13 +19,17 @@ import org.jfree.data.general.DefaultPieDataset;
 import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.services.MTGDeckManager;
 
 public class TypeRepartitionPanel extends JPanel{
 
 	private List<MagicCard> cards;
-	ChartPanel pane;
+	private ChartPanel pane;
+	private MTGDeckManager manager;
 
 	public TypeRepartitionPanel() {
+		manager = new MTGDeckManager();
+		
 		setLayout(new BorderLayout(0, 0));
 	}
 
@@ -33,12 +37,9 @@ public class TypeRepartitionPanel extends JPanel{
 		cards = new ArrayList<>();
 		
 		if(deck!=null)
-		for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
-		{
-			MagicCard mc = cci.getKey();
-			for(int i=0;i<cci.getValue();i++)
-				cards.add(mc);
-		}
+			cards = deck.getAsList();
+			
+			
 		refresh();
 	}
 	
@@ -78,10 +79,9 @@ public class TypeRepartitionPanel extends JPanel{
 	private PieDataset getTypeRepartitionDataSet() 
 	{
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for(MagicCard mc : cards)
+		for(Entry<String,Integer> entry : manager.analyseTypes(cards).entrySet())
 		{
-			if(!mc.getTypes().isEmpty())
-				dataset.setValue(mc.getTypes().get(0), count(mc.getTypes().get(0)));
+			dataset.setValue(entry.getKey(),entry.getValue());
 		}
 
 
@@ -89,16 +89,6 @@ public class TypeRepartitionPanel extends JPanel{
 	}
 
 
-	private Double count(String string) {
-		double count=0;
-		for(MagicCard mc : cards)
-				if(!mc.getTypes().isEmpty() && mc.getTypes().get(0).equals(string))
-					count ++;
-		
-		return count;
-	}
-	
-	
 	
 }
 	

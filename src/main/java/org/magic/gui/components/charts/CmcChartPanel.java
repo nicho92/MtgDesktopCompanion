@@ -3,6 +3,7 @@ package org.magic.gui.components.charts;
 import java.awt.BorderLayout;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.TreeMap;
 
@@ -16,16 +17,18 @@ import org.jfree.data.category.CategoryDataset;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.services.MTGDeckManager;
 
 
 public class CmcChartPanel extends JPanel{
 
 	private List<MagicCard> cards;
-
+	private MTGDeckManager manager;
 
 
 	public CmcChartPanel() {
 		setLayout(new BorderLayout(0, 0));
+		manager=new MTGDeckManager();
 	}
 	
 
@@ -33,12 +36,7 @@ public class CmcChartPanel extends JPanel{
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<>();
 			if(deck!=null && deck.getMap()!=null)
-				for(Entry<MagicCard, Integer> cci : deck.getMap().entrySet())
-				{
-					MagicCard mc = cci.getKey();
-					for(int i=0;i<cci.getValue();i++)
-						cards.add(mc);
-				}
+				cards = deck.getAsList();
 		refresh();
 	}
 	
@@ -79,40 +77,14 @@ public class CmcChartPanel extends JPanel{
 	private CategoryDataset getManaCurveDataSet() 
 	{
 		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		TreeMap<Integer, Number> temp = new TreeMap<>();
+		Map<Integer, Integer> temp = manager.analyseCMC(cards);
 		
-			for(MagicCard mc : cards)
-			{
-				if((mc.getCmc()!=null) && !mc.getTypes().contains("Land"))
-						temp.put(mc.getCmc(),count(mc.getCmc()) );
-			}
-			for(Entry<Integer, Number> k : temp.entrySet())
+		for(Entry<Integer, Integer> k : temp.entrySet())
 				dataset.addValue(k.getValue(), "cmc",k.getKey());
 				
 		
         return dataset;
 	}
-
-
-	private Integer count(Integer cmc) {
-		int count=0;
-		
-		for(MagicCard mc : cards)
-		{
-			if(!mc.getTypes().contains("Land"))
-			{
-				int cm = (mc.getCmc()==null)? 0 : mc.getCmc();
-				if(cm==cmc)
-					count++;
-			}
-		}
-		return count;
-				
-	}
-
-
-	
-	
 	
 }
 

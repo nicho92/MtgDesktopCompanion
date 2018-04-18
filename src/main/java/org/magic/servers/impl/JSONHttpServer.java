@@ -380,6 +380,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return new JsonExport().toJson(manager.getDeck(request.params(":name")));
 		},transformer);
 		
+		
+		get("/deck/stats/:name",getString("MIME"), (request, response) ->{
+			
+			MagicDeck d = manager.getDeck(request.params(":name"));
+			
+			JsonObject obj = new JsonObject();
+			
+				obj.addProperty("cmc", transformer.render(manager.analyseCMC(d.getAsList())));
+				obj.addProperty("types", transformer.render(manager.analyseTypes(d.getAsList())));
+				obj.addProperty("rarity", transformer.render(manager.analyseRarities(d.getAsList())));
+				obj.addProperty("colors", transformer.render(manager.analyseColors(d.getAsList())));
+				obj.addProperty("legalities", transformer.render(manager.analyseLegalities(d)));
+			return obj;	
+				
+		},transformer);
+		
 	
 		after((request, response) -> {
 			if(getBoolean("ENABLE_GZIP")) {
