@@ -157,7 +157,91 @@
 		        }
 	    } );
   	  	
-  	  	
+  		$('#tableSide').DataTable({
+    		"data":data.side,
+	    	"responsive": true,
+	        "processing": true,
+	        "paging": false,
+	        "bLengthChange": false,
+	        "searching": false,
+	        "order": [[ 4, "asc" ]],
+	        "columns": [
+	        		{ 
+		        	  "data": "card.id",
+		        	  "defaultContent": "",
+		        	  "width": "2%",
+		        	  "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+									data="<a class='fa fa-search fa-fw' href='card.html?id="+data+"'/>";		                		 
+		                	 }
+		                   return data;
+		                }
+		        	},
+	        		{ 
+		        	  "data": "qty",
+		        	  "defaultContent": "",
+		        	  "width": "2%"
+		        	},
+		        	{ 
+		        	  "data": "card.name",
+		        	  "defaultContent": "",
+		        	  "width": "20%",
+	               	  "render": function(data, type, row, meta){
+		                   if(type === 'display'){
+		                	   data='<span  class="mtg-tooltip" data-set="'+row.card.editions[0].id+'" data-name="'+data+'">'+data+'</span>';	
+		                   }
+		                 return data;
+		              }
+		        	},
+		        	 { 
+			        	  "data": "card.cost",
+			        	  "defaultContent": "",
+			        	  "width": "5%",
+			        	  "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                	   if(data!=null)
+			                	   {
+				                	   var d=data.match(/[^{}]+(?=\})/g);
+				                	   if(d!=null){
+				                		   var ret="";
+				                		   for (var i = 0; i < d.length; i++) {
+				                				ret +='<i class="ms ms-'+formatMana(d[i]).toLowerCase()+' ms-cost ms-shadow"></i>';
+				                			}
+				                	   }
+			                   		}
+			                	   return ret;
+			                   }
+			                   
+			             }
+			        },
+		        	{ 
+			        	  "data": "card.editions",
+			        	  "defaultContent": "",
+			        	  "width": "5%",
+			        	  "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                       data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+data[0].rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
+			                   }
+			                   return data;
+			                }
+			        },
+			        { 
+			        	  "data": "card.types",
+			        	  "defaultContent": "",
+			        	  "width": "15%",
+			        	  "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                       data = '<i class="ms ms-'+data[0].toLowerCase()+' ms-2x"></i>'+data;
+			                   }
+			                   return data;
+			                }
+			        }
+			       
+		        ],
+		        "fnDrawCallback" :function(oSettings, json) {
+		        	mtgtooltip($(".mtg-tooltip"));
+		        }
+	    } );
   	  	
 		  	$.ajax({
 			        url: restserver+"/deck/stats/"+$_GET("name")
@@ -250,19 +334,47 @@
 						<div class="panel panel-default">
 							<div class="panel-heading">View</div>
 							<div class="panel-body">
-								<table id="tableCards" class="display" style="width:100%">
-						        <thead>
-						            <tr>
-						            	<th></th>
-						            	<th>Qty</th>
-						            	<th>Name</th>
-						            	<th>Cost</th>
-						            	<th>Rarity</th>
-						                <th>Type</th>
-						                
-						            </tr>
-						        </thead>
-						       </table>
+
+							<ul class="nav nav-tabs">
+                                <li class="active"><a href="#tab1" data-toggle="tab" aria-expanded="false">Main</a></li>
+                                <li class=""><a href="#tab2" data-toggle="tab" aria-expanded="false">Side</a></li>
+                            </ul>
+
+
+								<div class="tab-content">
+									<div class="tab-pane fade active in" id="tab1">
+										<table id="tableCards" class="display" style="width: 100%">
+											<thead>
+												<tr>
+													<th></th>
+													<th>Qty</th>
+													<th>Name</th>
+													<th>Cost</th>
+													<th>Rarity</th>
+													<th>Type</th>
+
+												</tr>
+											</thead>
+										</table>
+									</div>
+
+									<div class="tab-pane fade" id="tab2">
+										<table id="tableSide" class="display" style="width: 100%">
+											<thead>
+												<tr>
+													<th></th>
+													<th>Qty</th>
+													<th>Name</th>
+													<th>Cost</th>
+													<th>Rarity</th>
+													<th>Type</th>
+
+												</tr>
+											</thead>
+										</table>
+									</div>
+								</div>
+
 							</div>
 							<div class="panel-footer">
 							</div>
