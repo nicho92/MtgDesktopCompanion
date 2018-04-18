@@ -502,6 +502,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				obj.addProperty("type", plug.getType().toString());
 				obj.addProperty("enabled", plug.isEnable());
 				obj.addProperty("version", plug.getVersion());
+				obj.addProperty("status",plug.getStatut().name());
 				obj.add("config",converter.toJsonTree(plug.getProperties()));
 				arr.add(obj);
 		}
