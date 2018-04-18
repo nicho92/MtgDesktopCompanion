@@ -70,7 +70,7 @@
 		                "width": "2%",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-									data =  '<i class="ss ss-'+JSON.parse(data).id.toLowerCase()+' ss-common ss-2x"></i>' ;		                		 
+									data =  '<i class="ss ss-'+data.id.toLowerCase()+' ss-common ss-2x"></i>' ;		                		 
 		                	 }
 		                   return data;
 		                }
@@ -80,7 +80,7 @@
 		                "width": "25%",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-									data =  JSON.parse(data).set;		                		 
+									data =  data.set;		                		 
 		                	 }
 		                   return data;
 		                }

@@ -69,7 +69,7 @@ public class SpeedConfigurator extends JFrame {
 		gbclblProvider.gridy = 0;
 		panneau1.add(lblProvider, gbclblProvider);
 		
-		cboProvider = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().getListProviders().toArray()));
+		cboProvider = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().getCardsProviders().toArray()));
 		GridBagConstraints gbccboProvider = new GridBagConstraints();
 		gbccboProvider.fill = GridBagConstraints.HORIZONTAL;
 		gbccboProvider.insets = new Insets(0, 0, 5, 0);
@@ -117,7 +117,7 @@ public class SpeedConfigurator extends JFrame {
 		gbclblDashboard.gridy = 3;
 		panneau1.add(lblDashboard, gbclblDashboard);
 		
-		cboDashboard = new JComboBox(new DefaultComboBoxModel(MTGControler.getInstance().getDashBoards().toArray()));
+		cboDashboard = new JComboBox(new DefaultComboBoxModel(MTGControler.getInstance().getDashboardsProviders().toArray()));
 		GridBagConstraints gbccboDashboard = new GridBagConstraints();
 		gbccboDashboard.fill = GridBagConstraints.HORIZONTAL;
 		gbccboDashboard.insets = new Insets(0, 0, 5, 0);
@@ -133,7 +133,7 @@ public class SpeedConfigurator extends JFrame {
 		gbclblCaches.gridy = 4;
 		panneau1.add(lblCaches, gbclblCaches);
 		
-		cboCaches = new JComboBox(new DefaultComboBoxModel(MTGControler.getInstance().getListCaches().toArray()));
+		cboCaches = new JComboBox(new DefaultComboBoxModel(MTGControler.getInstance().getCachesProviders().toArray()));
 		GridBagConstraints gbccboCaches = new GridBagConstraints();
 		gbccboCaches.fill = GridBagConstraints.HORIZONTAL;
 		gbccboCaches.insets = new Insets(0, 0, 5, 0);
@@ -259,7 +259,7 @@ public class SpeedConfigurator extends JFrame {
 
 	protected void save() {
 		
-		for(MTGCardsProvider prov : MTGControler.getInstance().getListProviders())
+		for(MTGCardsProvider prov : MTGControler.getInstance().getCardsProviders())
 		{
 			prov.enable(false);
 			
@@ -289,7 +289,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 		
-		for(MTGPicturesCache prov : MTGControler.getInstance().getListCaches())
+		for(MTGPicturesCache prov : MTGControler.getInstance().getCachesProviders())
 		{
 			prov.enable(false);
 			
@@ -299,7 +299,7 @@ public class SpeedConfigurator extends JFrame {
 			MTGControler.getInstance().setProperty(prov, prov.isEnable());
 		}
 		
-		for(MTGDashBoard prov : MTGControler.getInstance().getDashBoards())
+		for(MTGDashBoard prov : MTGControler.getInstance().getDashboardsProviders())
 		{
 			prov.enable(false);
 			

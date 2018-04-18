@@ -247,7 +247,7 @@
 			        url: restserver+"/deck/stats/"+$_GET("name")
 			    }).then(function(data) {
 			    	var chartData=[];
-			    	var json = JSON.parse(data.types);
+			    	var json = data.types;
 			    	var keys = Object.keys(json);
 			    	
 			    	keys.map(function(item) {
@@ -266,7 +266,7 @@
 			    	
 			    	
 			    	chartData=[];
-			    	json= JSON.parse(data.cmc);
+			    	json= data.cmc;
 			    	keys = Object.keys(json);
 			    	keys.map(function(item) {
 			    		  chartData.push(
@@ -286,7 +286,7 @@
 			     		});
 			    	
 			   	  
-				   	 json = JSON.parse(data.legalities);
+				   	 json = data.legalities;
 				     keys = Object.keys(json);
 			    	 keys.map(function(item) 
 	    						{

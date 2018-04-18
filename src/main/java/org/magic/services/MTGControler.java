@@ -481,19 +481,19 @@ public class MTGControler {
 
 	public MTGPicturesCache getEnabledCache()
 	{
-		for(MTGPicturesCache p : getListCaches())
+		for(MTGPicturesCache p : getCachesProviders())
 			if(p.isEnable())
 				return p;
 		
 		return null;
 	}
 	
-	public List<MTGPicturesCache> getListCaches()
+	public List<MTGPicturesCache> getCachesProviders()
 	{
 		  return caches;
 	}
 	
-	public List<MTGCardsProvider> getListProviders()
+	public List<MTGCardsProvider> getCardsProviders()
 	{
 		  return cardsProviders;
 	}
@@ -525,7 +525,7 @@ public class MTGControler {
 	
 	public MTGCardsProvider getEnabledProviders()
 	{
-		for(MTGCardsProvider p : getListProviders())
+		for(MTGCardsProvider p : getCardsProviders())
 			if(p.isEnable())
 				return p;
 		
@@ -554,24 +554,24 @@ public class MTGControler {
 	public List<MTGDeckSniffer> getEnabledDeckSniffer() {
 		List<MTGDeckSniffer> prov= new ArrayList<>();
 		
-		for(MTGDeckSniffer p : getDeckSniffers())
+		for(MTGDeckSniffer p : getDeckSnifferProviders())
 			if(p.isEnable())
 				prov.add(p);
 		
 		return prov;
 	}
 
-	public List<MTGDeckSniffer> getDeckSniffers() {
+	public List<MTGDeckSniffer> getDeckSnifferProviders() {
 		return deckSniffers;
 	}
 
-	public List<MTGShopper> getShoppers() {
+	public List<MTGShopper> getShoppersProviders() {
 		return cardsShoppers;
 	}
 	
 	public List<MTGShopper> getEnabledShoppers() {
 		List<MTGShopper> enable = new ArrayList<>();
-		for(MTGShopper p : getShoppers())
+		for(MTGShopper p : getShoppersProviders())
 			if(p.isEnable())
 				enable.add(p);
 		
@@ -579,7 +579,7 @@ public class MTGControler {
 	}
 
 	public MTGDashBoard getEnabledDashBoard() {
-		for(MTGDashBoard p : getDashBoards())
+		for(MTGDashBoard p : getDashboardsProviders())
 			if(p.isEnable())
 				return p;
 		
@@ -590,7 +590,7 @@ public class MTGControler {
 	
 	
 
-	public List<MTGDashBoard> getDashBoards() {
+	public List<MTGDashBoard> getDashboardsProviders() {
 		return dashboards;
 	}
 
@@ -607,14 +607,14 @@ public class MTGControler {
 		return enable;
 	}
 	
-	public List<MTGCardsExport> getDeckExports()
+	public List<MTGCardsExport> getImportExportProviders()
 	{
 		return exports;
 	}
 	
 	public List<MTGCardsExport> getEnabledDeckExports() {
 		List<MTGCardsExport> enable = new ArrayList<>();
-		for(MTGCardsExport p : getDeckExports())
+		for(MTGCardsExport p : getImportExportProviders())
 			if(p.isEnable())
 				enable.add(p);
 		

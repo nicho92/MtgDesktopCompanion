@@ -30,7 +30,10 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGPictureProvider;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.gui.models.MagicEditionsTableModel;
@@ -55,6 +58,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private ByteArrayOutputStream baos;
 	private boolean running=false;
 	private static final String RETURN_OK="{\"result\":\"OK\"}";
+	private Gson converter;
+	
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -68,13 +73,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		super();
 		
 		manager = new MTGDeckManager();
-		
+		converter=new Gson();
 		transformer = new ResponseTransformer() {
-			private Gson gson = new Gson();
-			
 			@Override
 			public String render(Object model) throws Exception {
-				return gson.toJson(model);
+				return converter.toJson(model);
 			}
 		};
 		
@@ -284,7 +287,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			for(MagicEdition ed : eds)
 			{
 				JsonObject obj = new JsonObject();
-					obj.addProperty("edition", transformer.render(ed));
+					obj.add("edition", converter.toJsonTree(ed));
 					obj.addProperty("release", ed.getReleaseDate());
 					obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
 					obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
@@ -387,17 +390,35 @@ public class JSONHttpServer extends AbstractMTGServer {
 			
 			JsonObject obj = new JsonObject();
 			
-				obj.addProperty("cmc", transformer.render(manager.analyseCMC(d.getAsList())));
-				obj.addProperty("types", transformer.render(manager.analyseTypes(d.getAsList())));
-				obj.addProperty("rarity", transformer.render(manager.analyseRarities(d.getAsList())));
-				obj.addProperty("colors", transformer.render(manager.analyseColors(d.getAsList())));
-				obj.addProperty("legalities", transformer.render(manager.analyseLegalities(d)));
-				obj.addProperty("drawing", transformer.render(manager.analyseDrawing(d)));
+				obj.add("cmc", converter.toJsonTree(manager.analyseCMC(d.getAsList())));
+				obj.add("types", converter.toJsonTree(manager.analyseTypes(d.getAsList())));
+				obj.add("rarity", converter.toJsonTree(manager.analyseRarities(d.getAsList())));
+				obj.add("colors", converter.toJsonTree(manager.analyseColors(d.getAsList())));
+				obj.add("legalities", converter.toJsonTree(manager.analyseLegalities(d)));
+				obj.add("drawing", converter.toJsonTree(manager.analyseDrawing(d)));
 			return obj;	
 				
 		},transformer);
 		
 	
+		get("/admin/plugins/list",getString("MIME"), (request, response) ->{
+			
+			JsonObject obj = new JsonObject();
+				obj.add(PLUGINS.PROVIDER.name(), convert(MTGControler.getInstance().getCardsProviders()));
+				obj.add(PLUGINS.PICTURES.name(), convert(MTGControler.getInstance().getPicturesProviders()));
+				obj.add(PLUGINS.CACHE.name(), convert(MTGControler.getInstance().getCachesProviders()));
+				obj.add(PLUGINS.DAO.name(), convert(MTGControler.getInstance().getDaoProviders()));
+				obj.add(PLUGINS.DASHBOARD.name(), convert(MTGControler.getInstance().getDashboardsProviders()));
+				obj.add(PLUGINS.DECKS.name(), convert(MTGControler.getInstance().getDeckSnifferProviders()));
+				obj.add(PLUGINS.EXPORT.name(), convert(MTGControler.getInstance().getImportExportProviders()));
+				obj.add(PLUGINS.NEWS.name(), convert(MTGControler.getInstance().getNewsProviders()));
+				obj.add(PLUGINS.WALLPAPER.name(), convert(MTGControler.getInstance().getWallpaperProviders()));
+				obj.add(PLUGINS.SHOPPER.name(), convert(MTGControler.getInstance().getShoppersProviders()));
+				obj.add(PLUGINS.SERVER.name(), convert(MTGControler.getInstance().getServers()));
+			return obj;
+		},transformer);
+		
+		
 		after((request, response) -> {
 			if(getBoolean("ENABLE_GZIP")) {
 			    response.header("Content-Encoding", "gzip");
@@ -451,6 +472,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		setProperty("Access-Control-Allow-Origin","*");
 		setProperty("Access-Control-Request-Method","GET,PUT,POST,DELETE,OPTIONS");
 		setProperty("Access-Control-Allow-Headers","Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+		setProperty("PASSWORD-TOKEN","");
 	}
 
 	@Override
@@ -468,6 +490,22 @@ public class JSONHttpServer extends AbstractMTGServer {
 			logger.trace("---"+ k+ "="+request.headers(k));
 
 		return getString("Access-Control-Allow-Origin");
+	}
+	
+	private <T extends MTGPlugin> JsonArray convert(List<T> l)
+	{
+		JsonArray arr = new JsonArray();
+		for(MTGPlugin plug : l)
+		{
+			JsonObject obj = new JsonObject();
+				obj.addProperty("name", plug.getName());
+				obj.addProperty("type", plug.getType().toString());
+				obj.addProperty("enabled", plug.isEnable());
+				obj.addProperty("version", plug.getVersion());
+				obj.add("config",converter.toJsonTree(plug.getProperties()));
+				arr.add(obj);
+		}
+		return arr;	
 	}
 	
 

@@ -37,6 +37,33 @@
   	 
   	$(document).ready(function() {
  	 
+  		
+  		$.ajax({
+  	        url: restserver+"/admin/plugins/list"
+  	    }).then(function(data) {
+  	    	var keys = Object.keys(data);
+  	    	
+  	    	var classe="";
+  	    	for (var i=0;i<keys.length;i++)
+  	    	{
+  	    		if(i==0)
+  	    			classe="active"
+  	    			else
+  	    			classe="";	
+  	    			
+  	    		$("#tabsCateg").append("<li class='"+classe+"'><a href='#"+keys[i]+"' data-toggle='tab' aria-expanded='true'>"+keys[i]+"</a></li>");
+  	    		
+  	    		var pluginsArray = data[keys[i]];
+  	    		
+  	    		if(i==0)
+  	    			$("#contentPlugins").append("<div class='tab-pane fade active in' id='"+keys[i]+"'>"+pluginsArray+"</div>");
+  	    		else
+  	    			$("#contentPlugins").append("<div class='tab-pane fade' id='"+keys[i]+"'>"+pluginsArray+"</div>");
+  	    	}
+  	    });
+  		
+  		
+  		
   	});
   	</script>
   	
@@ -70,20 +97,10 @@
 					        	
                    	</div>
                     <div class="panel-body">
-                      <ul class="nav nav-tabs">
-                                <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true">Cards</a></li>
-                                <li><a href="#profile" data-toggle="tab">Pictures</a></li>
-                                <li class=""><a href="#messages" data-toggle="tab" aria-expanded="false">Pricers</a></li>
-                                <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Database</a></li>
-                                <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Shoppers</a></li>
-                                <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Import/export</a></li>
-                                <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Decks Import</a></li>
-                                <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Dashboard</a></li>
-                                <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Servers</a></li>
-                                <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Caches</a></li>
-                                <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">News</a></li>
-                                <li class=""><a href="#settings" data-toggle="tab" aria-expanded="false">Wallpaper</a></li>
-                            </ul>
+                     <ul class="nav nav-tabs" id="tabsCateg"></ul>
+	                     <div id="contentPlugins">
+	                     		                  
+	                     </div>
                     </div>
                     <div class="panel-footer"></div>
                  </div>

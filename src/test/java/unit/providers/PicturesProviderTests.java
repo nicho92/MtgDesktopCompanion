@@ -29,13 +29,13 @@ public class PicturesProviderTests {
 	{
 		MTGLogger.changeLevel(Level.ERROR);
 		
-		List<MTGPicturesCache> caches = MTGControler.getInstance().getListCaches();
-		MTGControler.getInstance().getListCaches().removeAll(caches);
+		List<MTGPicturesCache> caches = MTGControler.getInstance().getCachesProviders();
+		MTGControler.getInstance().getCachesProviders().removeAll(caches);
 		
 		MTGPicturesCache cache = new NoCache();
 		cache.enable(true);
 		
-		MTGControler.getInstance().getListCaches().add(cache);
+		MTGControler.getInstance().getCachesProviders().add(cache);
 	}
 
 	

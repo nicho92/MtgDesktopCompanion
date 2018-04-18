@@ -31,14 +31,14 @@ public class Shop extends AbstractCommand {
 		{
 			String att = cl.getOptionValue("s");
 			List<ShopItem> list = new ArrayList<>();
-			for(MTGShopper ms : MTGControler.getInstance().getShoppers())
+			for(MTGShopper ms : MTGControler.getInstance().getShoppersProviders())
 				list.addAll(ms.search(att));
 			
 			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttShop())));
 		}
 		if(cl.hasOption("l"))
 		{
-			session.write(showList(MTGControler.getInstance().getShoppers(),Arrays.asList("name","enable")));
+			session.write(showList(MTGControler.getInstance().getShoppersProviders(),Arrays.asList("name","enable")));
 		}
 		if(cl.hasOption("?"))
 		{
