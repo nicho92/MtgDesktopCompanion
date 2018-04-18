@@ -25,14 +25,16 @@ Features :
 - Manage your stock card, mass modification, import/export from deck, website. Update your Mkm Seller Account stock, Automaticaly update prices !
 
 > Modularity : 
-- manage your prices provider
-- manage your cards provider
-- manage your dashboard provider
-- manage your online shops
-- manage your database providers
-- manage your pictures providers
-- manage your cache providers
-
+- choose :
+- prices provider
+- cards provider
+- dashboard provider
+- online shops
+- database providers
+- pictures providers
+- cache providers
+- News providers
+- wallpapers providers
 
 Main interface :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png)
