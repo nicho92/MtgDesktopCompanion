@@ -399,11 +399,11 @@ public class MtgjsonProvider extends AbstractCardsProvider{
 			 			   mc.setText(mc.getOriginalText());
 			 			   switch(mc.getName())
 			 		   		{
-			 		   			case "Plains" : mc.setText("{T} : Add {W} to your mana pool");break;
-			 		   			case "Island" : mc.setText("{T} : Add {U} to your mana pool");break;
-			 		   			case "Swamp" : mc.setText("{T} : Add {B} to your mana pool");break;
-			 		   			case "Mountain" : mc.setText("{T} : Add {R} to your mana pool");break;
-			 		   			case "Forest" : mc.setText("{T} : Add {G} to your mana pool");break;
+			 		   			case "Plains" : mc.setText("{T} : Add {W}");break;
+			 		   			case "Island" : mc.setText("{T} : Add {U}");break;
+			 		   			case "Swamp" : mc.setText("{T} : Add {B}");break;
+			 		   			case "Mountain" : mc.setText("{T} : Add {R}");break;
+			 		   			case "Forest" : mc.setText("{T} : Add {G}");break;
 			 		   			default : break;
 			 		   		}
 			 		   }

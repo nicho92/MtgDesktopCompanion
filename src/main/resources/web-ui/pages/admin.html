@@ -44,27 +44,60 @@
   	    	var keys = Object.keys(data);
   	    	
   	    	var classe="";
+  	    	var classT="";
   	    	for (var i=0;i<keys.length;i++)
   	    	{
   	    		if(i==0)
-  	    			classe="active"
-  	    			else
+  	    		{
+  	    			classe="active";
+  	    		    classT="active in";
+  	    		}
+  	    		else
+  	    		{
   	    			classe="";	
+  	    			classT="";
+  	    		}
   	    			
   	    		$("#tabsCateg").append("<li class='"+classe+"'><a href='#"+keys[i]+"' data-toggle='tab' aria-expanded='true'>"+keys[i]+"</a></li>");
   	    		
   	    		var pluginsArray = data[keys[i]];
   	    		
-  	    		if(i==0)
-  	    			$("#contentPlugins").append("<div class='tab-pane fade active in' id='"+keys[i]+"'>"+JSON.stringify(pluginsArray)+"</div>");
-  	    		else
-  	    			$("#contentPlugins").append("<div class='tab-pane fade' id='"+keys[i]+"'>"+JSON.stringify(pluginsArray)+"</div>");
+  	    		$("#contentPlugins").append("<div class='tab-pane fade "+classT+"' id='"+keys[i]+"'><table style='width: 100%' class='display' id='t"+keys[i]+"'><thead><tr><th>Name</th><th>Enable</th><th>Version</th></tr></thead></table></div>");
+  	    		
+  	    		generate(keys[i],pluginsArray);
   	    	}
   	    });
-  		
-  		
-  		
   	});
+  	
+  	function generate(key,jsonarray)
+	{
+  		$('#t'+key).DataTable({
+  			"data":jsonarray,
+	    	"responsive": true,
+	    	"searching": false,
+	        "processing": true,
+	        "paging": false,
+	        "columns": [
+	        	{ 
+		        	  "data": "name",
+		        	  "defaultContent": "",
+		        },
+	        	{ 
+		        	  "data": "enabled",
+		        	  "defaultContent": "",
+		        },
+	        	{ 
+		        	  "data": "version",
+		        	  "defaultContent": "",
+	        	}]
+
+
+		        
+  		});
+  		
+	}
+	
+ 	
   	</script>
   	
   

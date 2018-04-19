@@ -127,7 +127,7 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
         } 
         else if (node instanceof Entry) 
         {
-        	Entry emp = (Entry) node;
+        	Entry<String, String> emp = (Entry<String, String>) node;
         	  switch (column) {
                 case 0:
                     return emp.getKey();

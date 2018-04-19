@@ -446,7 +446,9 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		  new Thread(()->{
 				try {
-					initOtherEdition(mc);
+					 if(!mc.getFullType().contains("Basic Land"))//too much elements, so, remove all re-printings information for basic lands
+						 initOtherEdition(mc);
+					 
 					//generateRules(mc);
 				} catch (Exception e) {
 					logger.error("error in initOtherEdition :" + e.getMessage());
