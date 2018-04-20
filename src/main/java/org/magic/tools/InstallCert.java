@@ -35,8 +35,7 @@ public class InstallCert {
 	private InstallCert() {
 	}
 
-	public static void install(String website) throws IOException, KeyManagementException, KeyStoreException,
-			NoSuchAlgorithmException, CertificateException {
+	public static void install(String website) throws IOException, KeyManagementException, KeyStoreException,NoSuchAlgorithmException, CertificateException {
 		String host;
 		int port;
 
