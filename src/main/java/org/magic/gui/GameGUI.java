@@ -8,8 +8,6 @@ import org.magic.services.MTGControler;
 
 public class GameGUI extends JTabbedPane {
 
-	
-	
 	public GameGUI() {
 		addTab(MTGControler.getInstance().getLangService().getCapitalize("GAME"), GamePanelGUI.getInstance());
 		addTab(MTGControler.getInstance().getLangService().getCapitalize("CHAT_ROOM"), new GamingRoomPanel());

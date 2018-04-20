@@ -6,16 +6,16 @@ import java.util.List;
 
 public class MagicCardAlert {
 
-	private String id="";
+	private String id = "";
 	private MagicCard card;
 	private Double price;
 	private List<MagicPrice> offers;
-	
+
 	@Override
 	public String toString() {
 		return String.valueOf(card);
 	}
-	
+
 	public String getId() {
 		return id;
 	}
@@ -25,9 +25,9 @@ public class MagicCardAlert {
 	}
 
 	public MagicCardAlert() {
-		offers= new ArrayList<>();
+		offers = new ArrayList<>();
 	}
-	
+
 	public List<MagicPrice> getOffers() {
 		return offers;
 	}
@@ -39,37 +39,36 @@ public class MagicCardAlert {
 	public MagicCard getCard() {
 		return card;
 	}
+
 	public void setCard(MagicCard card) {
 		this.card = card;
 	}
+
 	public Double getPrice() {
 		return price;
 	}
+
 	public void setPrice(Double price) {
 		this.price = price;
 	}
-	
+
 	public int hashCode() {
 		return getId().hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (obj == null)
-		    return false;
+			return false;
 
-		  if (this.getClass() != obj.getClass())
-		    return false;
+		if (this.getClass() != obj.getClass())
+			return false;
 
-		return ((MagicCardAlert)obj).getId().equals(getId());
+		return ((MagicCardAlert) obj).getId().equals(getId());
 	}
 
-	
-	public void orderDesc()
-	{
-		Collections.sort(this.offers, (MagicPrice b1, MagicPrice b2)->( b1.getValue()<b2.getValue() ? -1: 1));
+	public void orderDesc() {
+		Collections.sort(this.offers, (MagicPrice b1, MagicPrice b2) -> (b1.getValue() < b2.getValue() ? -1 : 1));
 	}
-	
-	
-	
+
 }

@@ -35,115 +35,112 @@ public class MassMoverDialog extends JDialog {
 	private transient MTGDao dao;
 	private MagicCollection toSaveCol;
 	private MagicEdition toSaveEd;
-	private boolean change=false;
+	private boolean change = false;
 	private JComboBox<MagicCollection> cboCollections;
 	private JLabel lblWaiting;
 	private JButton btnMove;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public MassMoverDialog(MagicCollection col,MagicEdition ed) {
+	public MassMoverDialog(MagicCollection col, MagicEdition ed) {
 		setSize(new Dimension(640, 370));
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS") + " : "+col);
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS") + " : " + col);
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setLocationRelativeTo(null);
-		
-		
+
 		dao = MTGControler.getInstance().getEnabledDAO();
-		this.toSaveCol=col;
-		this.toSaveEd=ed;
-		
+		this.toSaveCol = col;
+		this.toSaveEd = ed;
+
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
-		
+
 		btnMove = new JButton(MTGControler.getInstance().getLangService().getCapitalize("MOVE_TO"));
-	
+
 		panel.add(btnMove);
-		
+
 		cboCollections = null;
 		try {
-			cboCollections = new JComboBox<>(dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
+			cboCollections = new JComboBox<>(
+					dao.getCollections().toArray(new MagicCollection[dao.getCollections().size()]));
 		} catch (SQLException e) {
 			logger.error(e);
 		}
 		panel.add(cboCollections);
-		
+
 		lblWaiting = new JLabel("");
 		lblWaiting.setVisible(false);
 		lblWaiting.setIcon(MTGConstants.ICON_LOADING);
 		panel.add(lblWaiting);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		
+
 		model = new MagicCardTableModel();
 		try {
-			if(ed==null)
+			if (ed == null)
 				model.init(dao.listCardsFromCollection(col));
 			else
-				model.init(dao.listCardsFromCollection(col,ed));
+				model.init(dao.listCardsFromCollection(col, ed));
 		} catch (SQLException e) {
 			logger.error(e);
 		}
-		
+
 		tableCards = new JTable(model);
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		
+
 		scrollPane.setViewportView(tableCards);
-		
+
 		TableFilterHeader filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
-		
-		btnMove.addActionListener(e->{
-				lblWaiting.setVisible(true);
-				btnMove.setEnabled(false);
-				
-				if(tableCards.getSelectedRowCount()>0)
-				{
-					ThreadManager.getInstance().execute(()->{
-							
-							for (int i = 0; i < tableCards.getSelectedRowCount(); i++) 
-							{ 
-								int viewRow = tableCards.getSelectedRows()[i];
-								int modelRow = tableCards.convertRowIndexToModel(viewRow);
-								MagicCard mc = (MagicCard)tableCards.getModel().getValueAt(modelRow, 0);
-								try {
-									dao.removeCard(mc, toSaveCol);
-									dao.saveCard(mc, (MagicCollection)cboCollections.getSelectedItem() );
-									logger.info("moving " + mc +" to "  + cboCollections.getSelectedItem() );
-									change=true;
-									lblWaiting.setText("moving " + mc);
-								} 
-								catch (SQLException e1) 
-								{
-									logger.error(e1);
-									JOptionPane.showMessageDialog(null, e1,"ERROR",JOptionPane.ERROR_MESSAGE);
-									lblWaiting.setVisible(false);
-									btnMove.setEnabled(true);
-									
-								}
-							}
-							
-							try {
-								lblWaiting.setText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
-								if(toSaveEd==null)
-									model.init(dao.listCardsFromCollection(toSaveCol));
-								else
-									model.init(dao.listCardsFromCollection(toSaveCol,toSaveEd));
-							} catch (SQLException ex) {
-								logger.error(ex);
-								JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
-							}
-							
-							model.fireTableDataChanged();
+
+		btnMove.addActionListener(e -> {
+			lblWaiting.setVisible(true);
+			btnMove.setEnabled(false);
+
+			if (tableCards.getSelectedRowCount() > 0) {
+				ThreadManager.getInstance().execute(() -> {
+
+					for (int i = 0; i < tableCards.getSelectedRowCount(); i++) {
+						int viewRow = tableCards.getSelectedRows()[i];
+						int modelRow = tableCards.convertRowIndexToModel(viewRow);
+						MagicCard mc = (MagicCard) tableCards.getModel().getValueAt(modelRow, 0);
+						try {
+							dao.removeCard(mc, toSaveCol);
+							dao.saveCard(mc, (MagicCollection) cboCollections.getSelectedItem());
+							logger.info("moving " + mc + " to " + cboCollections.getSelectedItem());
+							change = true;
+							lblWaiting.setText("moving " + mc);
+						} catch (SQLException e1) {
+							logger.error(e1);
+							JOptionPane.showMessageDialog(null, e1, "ERROR", JOptionPane.ERROR_MESSAGE);
 							lblWaiting.setVisible(false);
 							btnMove.setEnabled(true);
-						
-					}, "mass movement");
+
+						}
+					}
+
+					try {
+						lblWaiting.setText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
+						if (toSaveEd == null)
+							model.init(dao.listCardsFromCollection(toSaveCol));
+						else
+							model.init(dao.listCardsFromCollection(toSaveCol, toSaveEd));
+					} catch (SQLException ex) {
+						logger.error(ex);
+						JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(),
+								JOptionPane.ERROR_MESSAGE);
+					}
+
+					model.fireTableDataChanged();
+					lblWaiting.setVisible(false);
+					btnMove.setEnabled(true);
+
+				}, "mass movement");
 
 			}
 		});
-		
+
 	}
 
 	public boolean hasChange() {

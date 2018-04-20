@@ -22,7 +22,7 @@ public class WebsiteImportExport extends AbstractCardExport {
 	public MODS getMods() {
 		return MODS.IMPORT;
 	}
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".com";
@@ -32,7 +32,7 @@ public class WebsiteImportExport extends AbstractCardExport {
 	public boolean needDialogGUI() {
 		return true;
 	}
-	
+
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
 		throw new NotImplementedException("not implemented");
@@ -44,7 +44,7 @@ public class WebsiteImportExport extends AbstractCardExport {
 		DeckSnifferDialog diag = new DeckSnifferDialog();
 		diag.setVisible(true);
 		return diag.getSelectedDeck();
-		
+
 	}
 
 	@Override
@@ -57,9 +57,8 @@ public class WebsiteImportExport extends AbstractCardExport {
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		MagicDeck d = importDeck(f);
 		List<MagicCardStock> ret = new ArrayList<>();
-		
-		for(MagicCard mc : d.getMap().keySet())
-		{
+
+		for (MagicCard mc : d.getMap().keySet()) {
 			MagicCardStock stock = new MagicCardStock();
 			stock.setMagicCard(mc);
 			stock.setQte(d.getMap().get(mc));

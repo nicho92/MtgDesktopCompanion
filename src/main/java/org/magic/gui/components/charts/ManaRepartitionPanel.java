@@ -23,49 +23,42 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.MTGLogger;
 
-public class ManaRepartitionPanel extends JPanel{
+public class ManaRepartitionPanel extends JPanel {
 
 	private List<MagicCard> cards;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private transient MTGDeckManager manager;
-	
+
 	public ManaRepartitionPanel() {
 		manager = new MTGDeckManager();
 		setLayout(new BorderLayout(0, 0));
 	}
-	
+
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<>();
-		try{
-			
+		try {
+
 			cards = deck.getAsList();
-			
-		}catch(Exception e)
-		{
-			logger.error("Error init " + deck,e);
+
+		} catch (Exception e) {
+			logger.error("Error init " + deck, e);
 		}
 		refresh();
 	}
-	
-	
-	public void init(List<MagicCard> cards)
-	{
-		this.cards=cards;
+
+	public void init(List<MagicCard> cards) {
+		this.cards = cards;
 		refresh();
 	}
-	
-	private void refresh()
-	{
+
+	private void refresh() {
 		this.removeAll();
-		
-		JFreeChart chart = ChartFactory.createPieChart3D(
-	            "Color repartition",  // chart title
-	            getManaRepartitionDataSet(),             // data
-	            false,               // include legend
-	            true,
-	            true
-	        );
-	
+
+		JFreeChart chart = ChartFactory.createPieChart3D("Color repartition", // chart title
+				getManaRepartitionDataSet(), // data
+				false, // include legend
+				true, true);
+
 		ChartPanel pane = new ChartPanel(chart);
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("Black", Color.BLACK);
@@ -83,30 +76,25 @@ public class ManaRepartitionPanel extends JPanel{
 		plot.setSectionPaint("multi", Color.YELLOW);
 		plot.setSectionPaint("uncolor", Color.GRAY);
 		plot.setSimpleLabels(true);
-		
-		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
+
+		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{1}", new DecimalFormat("0"),
+				new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
-		
-		this.add(pane,BorderLayout.CENTER);
+
+		this.add(pane, BorderLayout.CENTER);
 		this.revalidate();
 		this.repaint();
-		
+
 	}
-	
-	private PieDataset getManaRepartitionDataSet() 
-	{
+
+	private PieDataset getManaRepartitionDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for(Entry<String,Integer> data : manager.analyseColors(cards).entrySet())
-		{
-			dataset.setValue(data.getKey(),data.getValue());
-			
-		}
-		
+		for (Entry<String, Integer> data : manager.analyseColors(cards).entrySet()) {
+			dataset.setValue(data.getKey(), data.getValue());
 
-        return dataset;
+		}
+
+		return dataset;
 	}
 
-	
-	
 }
-	

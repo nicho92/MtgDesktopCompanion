@@ -11,44 +11,39 @@ import org.magic.game.model.AbilitySpell;
 
 public class CopyFromActions extends AbilitySpell {
 
-	
 	private String cost;
 	DisplayableCard mc;
-	
+
 	public CopyFromActions(DisplayableCard card) {
-			super("Copy","Make a copy of",card);
-	        putValue(MNEMONIC_KEY, KeyEvent.VK_C);
-			this.mc=card;
-			
-			cost="";
+		super("Copy", "Make a copy of", card);
+		putValue(MNEMONIC_KEY, KeyEvent.VK_C);
+		this.mc = card;
+
+		cost = "";
 	}
-	
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		
+
 		CardChooseDialog diag = new CardChooseDialog();
-		
+
 		diag.setVisible(true);
-		
-		
-		if(diag.getSelected()!=null)
+
+		if (diag.getSelected() != null)
 			try {
-				mc.setMagicCard((MagicCard)BeanUtils.cloneBean(diag.getSelected().getMagicCard()));
+				mc.setMagicCard((MagicCard) BeanUtils.cloneBean(diag.getSelected().getMagicCard()));
 			} catch (Exception e1) {
 				logger.error(e1);
-			} 
-		
+			}
+
 		mc.validate();
 		mc.repaint();
 	}
-
 
 	@Override
 	public String getCost() {
 		return cost;
 	}
-
 
 	@Override
 	public boolean isStackable() {

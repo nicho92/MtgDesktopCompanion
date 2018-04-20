@@ -16,20 +16,22 @@ public interface MTGCardsExport extends MTGPlugin {
 
 	public String getFileExtension();
 
-	public void export(MagicDeck deck, File dest) throws IOException ;
-	public MagicDeck importDeck(File f) throws IOException ;
-	
+	public void export(MagicDeck deck, File dest) throws IOException;
+
+	public MagicDeck importDeck(File f) throws IOException;
+
 	public void export(List<MagicCard> cards, File f) throws IOException;
-	
-	public void exportStock(List<MagicCardStock> stock,File f) throws IOException;
+
+	public void exportStock(List<MagicCardStock> stock, File f) throws IOException;
+
 	public List<MagicCardStock> importStock(File f) throws IOException;
-	
+
 	public Icon getIcon();
 
 	public void addObserver(Observer o);
 
 	public boolean needDialogGUI();
-	
+
 	public MODS getMods();
-	
+
 }

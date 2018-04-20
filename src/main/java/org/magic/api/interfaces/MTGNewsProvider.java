@@ -9,8 +9,8 @@ import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider.NEWS_TYPE;
 
 public interface MTGNewsProvider extends MTGPlugin {
 
-	
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException;
+
 	public NEWS_TYPE getProviderType();
-	
+
 }

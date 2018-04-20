@@ -5,14 +5,13 @@ import org.magic.game.model.Player;
 
 public class ChangeDeckAction extends AbstractNetworkAction {
 
-	
 	Player player;
 	MagicDeck deck;
-	
-	public ChangeDeckAction(Player p,MagicDeck d) {
+
+	public ChangeDeckAction(Player p, MagicDeck d) {
 		setAct(ACTIONS.CHANGE_DECK);
-		this.player=p;
-		this.deck=d;
+		this.player = p;
+		this.deck = d;
 	}
 
 	public Player getPlayer() {
@@ -30,11 +29,10 @@ public class ChangeDeckAction extends AbstractNetworkAction {
 	public void setDeck(MagicDeck deck) {
 		this.deck = deck;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getPlayer() + " change his deck with " + getDeck();
 	}
-	
-	
+
 }

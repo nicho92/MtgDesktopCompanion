@@ -20,117 +20,99 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class DashBoardGUI2 extends JDesktopPane {
-	
+
 	private transient ClassLoader classLoader = DashBoardGUI2.class.getClassLoader();
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
 	public DashBoardGUI2() {
 		setBackground(SystemColor.activeCaption);
-		
+
 		logger.info("init Dashboard GUI");
-		
+
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setBounds(0, 0, 84, 21);
-		
+
 		JMenu mnNewMenu = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD"));
 		menuBar.add(mnNewMenu);
-		
+
 		JMenu mnWindow = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("WINDOW"));
 		menuBar.add(mnWindow);
 
-		JMenuItem mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
-		mntmSaveDisplay.addActionListener(ae-> {
-				int i=0;
-				
-				try {
-					FileUtils.cleanDirectory(AbstractJDashlet.confdir);
-				} catch (IOException e1) {
-					logger.error(e1);
+		JMenuItem mntmSaveDisplay = new JMenuItem(
+				MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
+		mntmSaveDisplay.addActionListener(ae -> {
+			int i = 0;
+
+			try {
+				FileUtils.cleanDirectory(AbstractJDashlet.confdir);
+			} catch (IOException e1) {
+				logger.error(e1);
+			}
+
+			for (JInternalFrame jif : getAllFrames()) {
+				i++;
+				AbstractJDashlet dash = (AbstractJDashlet) jif;
+				dash.save("x", String.valueOf(dash.getBounds().getX()));
+				dash.save("y", String.valueOf(dash.getBounds().getY()));
+				dash.save("w", String.valueOf(dash.getBounds().getWidth()));
+				dash.save("h", String.valueOf(dash.getBounds().getHeight()));
+				dash.save("class", dash.getClass().getName());
+				dash.save("id", String.valueOf(i));
+				File f = new File(AbstractJDashlet.confdir, i + ".conf");
+
+				try (FileOutputStream fos = new FileOutputStream(f)) {
+					dash.getProperties().store(fos, "");
+				} catch (IOException e) {
+					logger.error(e);
 				}
-				
-				for(JInternalFrame jif : getAllFrames())
-				{
-					i++;
-					AbstractJDashlet dash = (AbstractJDashlet)jif;
-									dash.save("x", String.valueOf(dash.getBounds().getX()));
-									dash.save("y", String.valueOf(dash.getBounds().getY()));
-									dash.save("w", String.valueOf(dash.getBounds().getWidth()));
-									dash.save("h", String.valueOf(dash.getBounds().getHeight()));
-									dash.save("class", dash.getClass().getName());
-									dash.save("id", String.valueOf(i));
-										File f = new File(AbstractJDashlet.confdir, i+".conf");
-										
-										try(FileOutputStream fos = new FileOutputStream(f))
-										{
-											dash.getProperties().store(fos,"");
-										} catch (IOException e) {
-											logger.error(e);
-										}
-				}
+			}
 		});
-		
+
 		mnWindow.add(mntmSaveDisplay);
 		add(menuBar);
-		
-		
+
 		try {
-			for(AbstractJDashlet dash : MTGControler.getInstance().getDashlets())
-			{
-						JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName());
-						mntmNewMenuItem.addActionListener(e->{
-								try {
-									addDash(dash);
-								} 
-								catch(Exception ex)
-								{
-									logger.error("Error Loading " + dash,ex);
-								}
-						});
-						mnNewMenu.add(mntmNewMenuItem);
+			for (AbstractJDashlet dash : MTGControler.getInstance().getDashlets()) {
+				JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName());
+				mntmNewMenuItem.addActionListener(e -> {
+					try {
+						addDash(dash);
+					} catch (Exception ex) {
+						logger.error("Error Loading " + dash, ex);
+					}
+				});
+				mnNewMenu.add(mntmNewMenuItem);
 			}
-					
-			
+
 		} catch (Exception e) {
-			logger.error("Error",e);
+			logger.error("Error", e);
 		}
-				
-		
-		
-		if(!AbstractJDashlet.confdir.exists())
+
+		if (!AbstractJDashlet.confdir.exists())
 			AbstractJDashlet.confdir.mkdir();
-		
-	
-		
-		
-		for(File f : AbstractJDashlet.confdir.listFiles())
-		{
+
+		for (File f : AbstractJDashlet.confdir.listFiles()) {
 			try {
 				Properties p = new Properties();
 				FileInputStream fis = new FileInputStream(f);
 				p.load(fis);
-				AbstractJDashlet dash = (AbstractJDashlet)classLoader.loadClass(p.get("class").toString()).getDeclaredConstructor().newInstance();
+				AbstractJDashlet dash = (AbstractJDashlet) classLoader.loadClass(p.get("class").toString())
+						.getDeclaredConstructor().newInstance();
 				dash.setProperties(p);
 				fis.close();
 				addDash(dash);
-				
+
 			} catch (Exception e) {
-				logger.error("Could not add " + f,e);
+				logger.error("Could not add " + f, e);
 			}
 		}
-		
-		
-	
+
 	}
-	
-	
-	
-	public void addDash(AbstractJDashlet dash)
-	{
+
+	public void addDash(AbstractJDashlet dash) {
 		dash.initGUI();
 		dash.init();
 		add(dash);
 	}
-	
-	
+
 }

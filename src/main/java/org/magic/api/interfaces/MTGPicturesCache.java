@@ -8,10 +8,10 @@ import org.magic.api.beans.MagicEdition;
 
 public interface MTGPicturesCache extends MTGPlugin {
 
-	
-	public BufferedImage getPic(MagicCard mc,MagicEdition ed);
-	public void put(BufferedImage im,MagicCard mc,MagicEdition ed) throws IOException;
+	public BufferedImage getPic(MagicCard mc, MagicEdition ed);
+
+	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException;
+
 	public void clear();
-	
 
 }

@@ -8,7 +8,7 @@ import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.table.TableCellEditor;
 
-public class IntegerCellEditor extends AbstractCellEditor implements TableCellEditor{
+public class IntegerCellEditor extends AbstractCellEditor implements TableCellEditor {
 
 	JSpinner spinner;
 
@@ -18,19 +18,16 @@ public class IntegerCellEditor extends AbstractCellEditor implements TableCellEd
 		model1.setMinimum(0);
 		spinner.setModel(model1);
 	}
-	
+
 	@Override
 	public Object getCellEditorValue() {
 		return spinner.getValue();
 	}
 
-	
 	@Override
 	public Component getTableCellEditorComponent(JTable arg0, Object value, boolean arg2, int arg3, int arg4) {
 		spinner.setValue(value);
-	    return spinner;
+		return spinner;
 	}
 
-   
-	
 }

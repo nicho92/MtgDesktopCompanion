@@ -11,18 +11,17 @@ import org.magic.game.model.Turn;
 
 public class BlockPhase extends AbstractAction {
 
-	
 	public BlockPhase() {
 		super("Block");
 		putValue(SHORT_DESCRIPTION, "Block Phase");
 		setEnabled(false);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.BLOCK);
 
-		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton) ae.getSource());
 		setEnabled(false);
 	}
 

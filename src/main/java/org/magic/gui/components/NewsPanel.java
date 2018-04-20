@@ -17,14 +17,13 @@ import org.magic.services.MTGControler;
 
 public class NewsPanel extends JPanel {
 
-
 	private static final long serialVersionUID = 1L;
 	private MagicNews magicNews = new MagicNews();
 	private JTextField categorieJTextField;
 	private JTextField nameJTextField;
 	private JTextField urlJTextField;
 	private JComboBox<MTGNewsProvider> cboType;
-	
+
 	public NewsPanel(org.magic.api.beans.MagicNews newMagicNews) {
 		this();
 		setMagicNews(newMagicNews);
@@ -37,7 +36,7 @@ public class NewsPanel extends JPanel {
 		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
-		
+
 		JLabel lblType = new JLabel("Type:");
 		GridBagConstraints gbclblType = new GridBagConstraints();
 		gbclblType.anchor = GridBagConstraints.EAST;
@@ -45,10 +44,11 @@ public class NewsPanel extends JPanel {
 		gbclblType.gridx = 0;
 		gbclblType.gridy = 0;
 		add(lblType, gbclblType);
-		
+
 		List<MTGNewsProvider> provs = MTGControler.getInstance().getEnabledNewsProviders();
-		cboType = new JComboBox<>(new DefaultComboBoxModel<MTGNewsProvider>(provs.toArray(new MTGNewsProvider[provs.size()])));
-		
+		cboType = new JComboBox<>(
+				new DefaultComboBoxModel<MTGNewsProvider>(provs.toArray(new MTGNewsProvider[provs.size()])));
+
 		GridBagConstraints gbccboType = new GridBagConstraints();
 		gbccboType.insets = new Insets(0, 0, 5, 0);
 		gbccboType.fill = GridBagConstraints.HORIZONTAL;
@@ -71,7 +71,7 @@ public class NewsPanel extends JPanel {
 		componentGbc0.gridy = 1;
 		add(categorieJTextField, componentGbc0);
 
-		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME")+": ");
+		JLabel nameLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + ": ");
 		GridBagConstraints labelGbc2 = new GridBagConstraints();
 		labelGbc2.insets = new Insets(5, 5, 5, 5);
 		labelGbc2.gridx = 0;
@@ -104,17 +104,15 @@ public class NewsPanel extends JPanel {
 	}
 
 	public MagicNews getMagicNews() {
-		magicNews.setProvider(((MTGNewsProvider)cboType.getSelectedItem()));
+		magicNews.setProvider(((MTGNewsProvider) cboType.getSelectedItem()));
 		magicNews.setCategorie(categorieJTextField.getText());
 		magicNews.setName(nameJTextField.getText());
 		magicNews.setUrl(urlJTextField.getText());
 		return magicNews;
 	}
 
-	
-	
 	public void setMagicNews(MagicNews newMagicNews) {
-		this.magicNews=newMagicNews;
+		this.magicNews = newMagicNews;
 		nameJTextField.setText(magicNews.getName());
 		urlJTextField.setText(String.valueOf(magicNews.getUrl()));
 		categorieJTextField.setText(magicNews.getCategorie());

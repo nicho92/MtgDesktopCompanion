@@ -30,8 +30,8 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
-public class MassCollectionImporterDialog extends JDialog{
-	
+public class MassCollectionImporterDialog extends JDialog {
+
 	private String[] ids;
 	private JTextPane txtNumbersInput;
 	private MagicDeck deck;
@@ -52,11 +52,11 @@ public class MassCollectionImporterDialog extends JDialog{
 		deck = new MagicDeck();
 		JPanel panelCollectionInput = new JPanel();
 		getContentPane().add(panelCollectionInput, BorderLayout.NORTH);
-		
-		JLabel lblImport = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT")+" ");
+
+		JLabel lblImport = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("IMPORT") + " ");
 		panelCollectionInput.add(lblImport);
-		
-		List<MagicEdition> list=new ArrayList<>();
+
+		List<MagicEdition> list = new ArrayList<>();
 		try {
 			list = MTGControler.getInstance().getEnabledProviders().loadEditions();
 		} catch (IOException e2) {
@@ -65,110 +65,110 @@ public class MassCollectionImporterDialog extends JDialog{
 		final JComboBox cboEditions = new JComboBox(list.toArray());
 		cboEditions.setRenderer(new MagicEditionListRenderer());
 		panelCollectionInput.add(cboEditions);
-		
+
 		List<MagicCollection> lc = MTGControler.getInstance().getEnabledDAO().getCollections();
-		
+
 		JLabel lblNewLabel = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("BY"));
 		panelCollectionInput.add(lblNewLabel);
-		
+
 		final JComboBox<String> cboByType = new JComboBox<>();
-		cboByType.setModel(new DefaultComboBoxModel<String>(new String[] {"number", "name"}));
+		cboByType.setModel(new DefaultComboBoxModel<String>(new String[] { "number", "name" }));
 		panelCollectionInput.add(cboByType);
-		
+
 		JLabel lblIn = new JLabel("in");
 		panelCollectionInput.add(lblIn);
 		final JComboBox cboCollections = new JComboBox(lc.toArray());
 		panelCollectionInput.add(cboCollections);
-		
+
 		JPanel panneauBas = new JPanel();
 		getContentPane().add(panneauBas, BorderLayout.SOUTH);
 		final JProgressBar progressBar = new JProgressBar();
 		progressBar.setStringPainted(true);
-		
-		final JCheckBox checkNewOne = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_OTHER_SERIE"));
-		
+
+		final JCheckBox checkNewOne = new JCheckBox(
+				MTGControler.getInstance().getLangService().getCapitalize("IMPORT_OTHER_SERIE"));
+
 		JButton btnInverse = new JButton("Inverse");
-		btnInverse.addActionListener(e-> {
-				MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
-				int max = ed.getCardCount();
-				List<String> elements = Arrays.asList(txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" "));
-				List<String> edList = new ArrayList<>();
-				for(int i=1;i<=max;i++)
-					edList.add(String.valueOf(i));
-					
-				edList.removeAll(elements);
-				
-				StringBuilder temp = new StringBuilder();
-				for(String s : edList)
-					temp.append(s).append(" ");
-				
-				txtNumbersInput.setText(temp.toString());
+		btnInverse.addActionListener(e -> {
+			MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
+			int max = ed.getCardCount();
+			List<String> elements = Arrays
+					.asList(txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" "));
+			List<String> edList = new ArrayList<>();
+			for (int i = 1; i <= max; i++)
+				edList.add(String.valueOf(i));
+
+			edList.removeAll(elements);
+
+			StringBuilder temp = new StringBuilder();
+			for (String s : edList)
+				temp.append(s).append(" ");
+
+			txtNumbersInput.setText(temp.toString());
 		});
 		panneauBas.add(btnInverse);
-		
-		
-		
-		
+
 		panneauBas.add(checkNewOne);
-		
-		
+
 		JButton btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
-		btnImport.addActionListener(e->{
-				final MagicEdition ed = (MagicEdition)cboEditions.getSelectedItem();
-				final MagicCollection col = (MagicCollection)cboCollections.getSelectedItem();
-				
-				if(cboByType.getSelectedItem().equals("number"))
-					ids = txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" ");
-				else
-					ids = txtNumbersInput.getText().split("\n");
-				progressBar.setMaximum(ids.length);
-				
-				ThreadManager.getInstance().execute(()->{
-						int i=1;
-						for(String id : ids)
-						{
-							try {
-								MagicCard mc = null;
-								
-								if(cboByType.getSelectedItem().toString().equalsIgnoreCase("number"))
-									mc=MTGControler.getInstance().getEnabledProviders().getCardByNumber(id, ed);
-								else
-									mc=MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),(MagicEdition)cboEditions.getSelectedItem(),true).get(0);
-								
-								deck.add(mc);
-								MTGControler.getInstance().getEnabledDAO().saveCard(mc, col);
-								progressBar.setValue(i++);
-							} catch (Exception e1) {
-								logger.error(e1);
-							}
-						}
-						JOptionPane.showMessageDialog(null, MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED",ids.length),MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),JOptionPane.INFORMATION_MESSAGE);
-						if(!checkNewOne.isSelected())
-						{
-							setVisible(false);
-							progressBar.setValue(0);
-						}
-				},"btnImport importCards");
+		btnImport.addActionListener(e -> {
+			final MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
+			final MagicCollection col = (MagicCollection) cboCollections.getSelectedItem();
+
+			if (cboByType.getSelectedItem().equals("number"))
+				ids = txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" ");
+			else
+				ids = txtNumbersInput.getText().split("\n");
+			progressBar.setMaximum(ids.length);
+
+			ThreadManager.getInstance().execute(() -> {
+				int i = 1;
+				for (String id : ids) {
+					try {
+						MagicCard mc = null;
+
+						if (cboByType.getSelectedItem().toString().equalsIgnoreCase("number"))
+							mc = MTGControler.getInstance().getEnabledProviders().getCardByNumber(id, ed);
+						else
+							mc = MTGControler.getInstance().getEnabledProviders()
+									.searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),
+											(MagicEdition) cboEditions.getSelectedItem(), true)
+									.get(0);
+
+						deck.add(mc);
+						MTGControler.getInstance().getEnabledDAO().saveCard(mc, col);
+						progressBar.setValue(i++);
+					} catch (Exception e1) {
+						logger.error(e1);
+					}
+				}
+				JOptionPane.showMessageDialog(null,
+						MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED", ids.length),
+						MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
+						JOptionPane.INFORMATION_MESSAGE);
+				if (!checkNewOne.isSelected()) {
+					setVisible(false);
+					progressBar.setValue(0);
+				}
+			}, "btnImport importCards");
 		});
 		panneauBas.add(btnImport);
-		
+
 		panneauBas.add(progressBar);
-		
+
 		txtNumbersInput = new JTextPane();
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(txtNumbersInput);
-		
+
 		setModal(true);
 		setLocationRelativeTo(null);
-		
+
 	}
 
 	public MagicDeck getAsDeck() {
 		return deck;
 	}
-	
-	
 
 }

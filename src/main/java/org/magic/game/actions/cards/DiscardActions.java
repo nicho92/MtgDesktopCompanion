@@ -8,24 +8,28 @@ import javax.swing.AbstractAction;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 
-public class DiscardActions extends AbstractAction{
+public class DiscardActions extends AbstractAction {
 	private DisplayableCard card;
 
 	public DiscardActions(DisplayableCard card) {
-			super("Discard");
-			putValue(SHORT_DESCRIPTION,"Discard the card");
-	        putValue(MNEMONIC_KEY,KeyEvent.VK_D);
-	        this.card = card;
+		super("Discard");
+		putValue(SHORT_DESCRIPTION, "Discard the card");
+		putValue(MNEMONIC_KEY, KeyEvent.VK_D);
+		this.card = card;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		switch(card.getOrigine())
-		{
-		case BATTLEFIELD:GamePanelGUI.getInstance().getPlayer().discardCardFromBattleField(card.getMagicCard());break;
-		case HAND: GamePanelGUI.getInstance().getPlayer().discardCardFromHand(card.getMagicCard());break;
-		default:break;
+		switch (card.getOrigine()) {
+		case BATTLEFIELD:
+			GamePanelGUI.getInstance().getPlayer().discardCardFromBattleField(card.getMagicCard());
+			break;
+		case HAND:
+			GamePanelGUI.getInstance().getPlayer().discardCardFromHand(card.getMagicCard());
+			break;
+		default:
+			break;
 		}
-		
+
 	}
 }

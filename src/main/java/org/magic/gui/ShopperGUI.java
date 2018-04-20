@@ -36,102 +36,89 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 public class ShopperGUI extends JPanel {
 	private JTextField txtSearch;
 	private JXTable tableItemShop;
-	
+
 	private JButton btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 	private JPanel panel = new JPanel();
-	private JLabel lblSearch = new JLabel(MTGControler.getInstance().getLangService().get("SEARCH_MODULE")+" :");
+	private JLabel lblSearch = new JLabel(MTGControler.getInstance().getLangService().get("SEARCH_MODULE") + " :");
 	private JScrollPane shopItemScrollPane = new JScrollPane();
 	private ShopItemTableModel mod;
 	private final JPanel panneauCentral = new JPanel();
 	private final JPanel panneauEast = new JPanel();
 	private final JLabel lblPicShopItem = new JLabel("");
-    private TableFilterHeader filterHeader;
-    private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private TableFilterHeader filterHeader;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-    
 	public ShopperGUI() {
-		
+
 		logger.info("init shopper GUI");
 		setLayout(new BorderLayout(0, 0));
-		
+
 		add(panel, BorderLayout.NORTH);
-		
+
 		panel.add(lblSearch);
-		
+
 		txtSearch = new JTextField();
 		panel.add(txtSearch);
 		txtSearch.setColumns(35);
-		txtSearch.addActionListener(e->btnSearch.doClick());
-		
-		
+		txtSearch.addActionListener(e -> btnSearch.doClick());
+
 		panel.add(btnSearch);
 		mod = new ShopItemTableModel();
-		
+
 		DefaultRowSorter sorter = new TableRowSorter<DefaultTableModel>(mod);
-		
+
 		add(panneauCentral, BorderLayout.CENTER);
 		tableItemShop = new JXTable(mod);
 		tableItemShop.setRowSorter(sorter);
 		filterHeader = new TableFilterHeader(tableItemShop, AutoChoices.ENABLED);
-		
+
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 		tableItemShop.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
 
-			    SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy HH:mm");
-			    
-			    @Override
-			    public Component getTableCellRendererComponent(JTable table,Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-			        if( value instanceof Date) {
-			            value = f.format(value);
-			        }
-			        return super.getTableCellRendererComponent(table, value, isSelected,
-			                hasFocus, row, column);
-			    }
+			SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy HH:mm");
+
+			@Override
+			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected,
+					boolean hasFocus, int row, int column) {
+				if (value instanceof Date) {
+					value = f.format(value);
+				}
+				return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 			}
-		); 
-		
-		
-		
+		});
+
 		tableItemShop.addMouseListener(new MouseAdapter() {
-		@Override
-		public void mouseClicked(MouseEvent ev) {
-			try {
-				int modelrow= tableItemShop.convertRowIndexToModel(tableItemShop.getSelectedRow());
-				ShopItem it = (ShopItem)tableItemShop.getModel().getValueAt(modelrow, 1);
-				if(ev.getClickCount()==2 && !ev.isConsumed())
-				{
-					ev.consume();
-					Desktop.getDesktop().browse(it.getUrl().toURI());
+			@Override
+			public void mouseClicked(MouseEvent ev) {
+				try {
+					int modelrow = tableItemShop.convertRowIndexToModel(tableItemShop.getSelectedRow());
+					ShopItem it = (ShopItem) tableItemShop.getModel().getValueAt(modelrow, 1);
+					if (ev.getClickCount() == 2 && !ev.isConsumed()) {
+						ev.consume();
+						Desktop.getDesktop().browse(it.getUrl().toURI());
+					} else {
+						lblPicShopItem.setIcon(new ImageIcon(it.getImage()));
+					}
+				} catch (Exception e) {
+					logger.error("error loading ", e);
 				}
-				else
-				{
-					lblPicShopItem.setIcon(new ImageIcon(it.getImage()));
-				}
-			} 
-			catch (Exception e) { 
-				logger.error("error loading ",e);
+
 			}
-
-
-		}
 		});
 		panneauCentral.setLayout(new BorderLayout(0, 0));
 		panneauCentral.add(shopItemScrollPane);
 		shopItemScrollPane.setViewportView(tableItemShop);
-		
+
 		panneauCentral.add(panneauEast, BorderLayout.EAST);
 		panneauEast.setLayout(new BorderLayout(0, 0));
-		
+
 		panneauEast.add(lblPicShopItem, BorderLayout.NORTH);
 
-		
-		btnSearch.addActionListener(ae->
-				ThreadManager.getInstance().execute(()->{
-							mod.init(txtSearch.getText());
-							mod.fireTableDataChanged();
-				},"updateShopperInfo")
-		);
-		
+		btnSearch.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
+			mod.init(txtSearch.getText());
+			mod.fireTableDataChanged();
+		}, "updateShopperInfo"));
+
 	}
 
 }

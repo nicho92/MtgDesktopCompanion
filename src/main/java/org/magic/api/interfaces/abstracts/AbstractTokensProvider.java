@@ -7,20 +7,19 @@ import org.magic.services.MTGConstants;
 
 public abstract class AbstractTokensProvider extends AbstractMTGPlugin implements MTGTokensProvider {
 
-	
 	public AbstractTokensProvider() {
 		super();
 		confdir = new File(MTGConstants.CONF_DIR, "tokens");
-		if(!confdir.exists())
+		if (!confdir.exists())
 			confdir.mkdir();
 		load();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
+
+		if (!new File(confdir, getName() + ".conf").exists()) {
 			initDefault();
 			save();
-		} 
+		}
 	}
-	
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.TOKENS;

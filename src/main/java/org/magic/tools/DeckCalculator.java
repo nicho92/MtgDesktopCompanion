@@ -12,56 +12,48 @@ public class DeckCalculator {
 
 	private MagicDeck deck;
 	private DecimalFormat format;
-	
+
 	public DeckCalculator(MagicDeck d) {
 		setDeck(d);
-		format =new DecimalFormat("#0.0");
+		format = new DecimalFormat("#0.0");
 	}
-	
-	
-	public List<MagicCard> getUniqueCards()
-	{
+
+	public List<MagicCard> getUniqueCards() {
 		return new ArrayList<>(deck.getMap().keySet());
 	}
-	
-	
-	
+
 	public MagicDeck getDeck() {
 		return deck;
 	}
-	
-	public void setDeck(MagicDeck d)
-	{
-		this.deck=d;
+
+	public void setDeck(MagicDeck d) {
+		this.deck = d;
 	}
-	
-	public void setFormat(String f)
-	{
+
+	public void setFormat(String f) {
 		format = new DecimalFormat(f);
 	}
-	
-	public String format(Double d)
-	{
-		return format.format(d*100)+"%";
+
+	public String format(Double d) {
+		return format.format(d * 100) + "%";
 	}
-	
-	public double getProbability(int turn,MagicCard mc)
-	{
-		int drawedCards=7;
-		
-		if(turn<=0)
-			drawedCards=7;
+
+	public double getProbability(int turn, MagicCard mc) {
+		int drawedCards = 7;
+
+		if (turn <= 0)
+			drawedCards = 7;
 		else
-			drawedCards=drawedCards+turn;
-		
-		int numberInDeck=deck.getMap().get(mc);
-		int numberCardsInDeck=deck.getNbCards();
-		try{ 
-			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards).upperCumulativeProbability(1);
-		}catch(Exception e)
-		{
+			drawedCards = drawedCards + turn;
+
+		int numberInDeck = deck.getMap().get(mc);
+		int numberCardsInDeck = deck.getNbCards();
+		try {
+			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards)
+					.upperCumulativeProbability(1);
+		} catch (Exception e) {
 			return 0;
 		}
-		
+
 	}
 }

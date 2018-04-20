@@ -18,58 +18,71 @@ public class SearchCardFrame extends JDialog {
 
 	HandPanel pane;
 	JScrollPane scPane;
-	
+
 	DisplayableCard selectedCard;
-	
-	private void init(Player p,final PositionEnum source)
-	{
+
+	private void init(Player p, final PositionEnum source) {
 		setSize(new Dimension(800, 600));
 		scPane = new JScrollPane();
-		pane=new HandPanel() {
+		pane = new HandPanel() {
 			@Override
 			public PositionEnum getOrigine() {
 				return source;
 			}
-			
+
 			@Override
 			public void moveCard(DisplayableCard mc, PositionEnum to) {
 				switch (source) {
-				case LIBRARY:GamePanelGUI.getInstance().getPanelLibrary().moveCard(mc, to);break;
-				case EXIL:GamePanelGUI.getInstance().getExilPanel().moveCard(mc, to);break;
-				case GRAVEYARD:GamePanelGUI.getInstance().getPanelGrave().moveCard(mc, to);break;
-				default:break;
+				case LIBRARY:
+					GamePanelGUI.getInstance().getPanelLibrary().moveCard(mc, to);
+					break;
+				case EXIL:
+					GamePanelGUI.getInstance().getExilPanel().moveCard(mc, to);
+					break;
+				case GRAVEYARD:
+					GamePanelGUI.getInstance().getPanelGrave().moveCard(mc, to);
+					break;
+				default:
+					break;
 				}
 			}
-			
-			
+
 		};
 		pane.setPlayer(p);
-		
+
 		scPane.setViewportView(pane);
 		getContentPane().add(scPane);
 	}
-	
-	//used by SearchAction.
-	public SearchCardFrame(Player p,PositionEnum source) {
-		init(p,source);
-		setTitle(p.getName() +"'s" + source.toString());
+
+	// used by SearchAction.
+	public SearchCardFrame(Player p, PositionEnum source) {
+		init(p, source);
+		setTitle(p.getName() + "'s" + source.toString());
 		pane.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
-		
-		switch(source)
-		{
-			case GRAVEYARD:pane.initThumbnails(p.getGraveyard().getCards(),true,true);break;
-			case LIBRARY:pane.initThumbnails(p.getLibrary().getCards(),true,true);break;
-			case BATTLEFIELD:pane.initThumbnails(p.getBattlefield().getCards(),true,true);break;
-			case EXIL:pane.initThumbnails(p.getExil().getCards(),true,true);break;
-			default:break;
+
+		switch (source) {
+		case GRAVEYARD:
+			pane.initThumbnails(p.getGraveyard().getCards(), true, true);
+			break;
+		case LIBRARY:
+			pane.initThumbnails(p.getLibrary().getCards(), true, true);
+			break;
+		case BATTLEFIELD:
+			pane.initThumbnails(p.getBattlefield().getCards(), true, true);
+			break;
+		case EXIL:
+			pane.initThumbnails(p.getExil().getCards(), true, true);
+			break;
+		default:
+			break;
 		}
 	}
-	
-	//used by ScryActions.
-	public SearchCardFrame(Player p,List<MagicCard> list,PositionEnum source) {
-		init(p,source);
+
+	// used by ScryActions.
+	public SearchCardFrame(Player p, List<MagicCard> list, PositionEnum source) {
+		init(p, source);
 		pane.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
-		pane.initThumbnails(list,true,true);
+		pane.initThumbnails(list, true, true);
 	}
-	
+
 }

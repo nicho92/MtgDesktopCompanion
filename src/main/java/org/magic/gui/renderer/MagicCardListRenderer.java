@@ -15,23 +15,21 @@ public class MagicCardListRenderer implements ListCellRenderer<MagicCard> {
 
 	DefaultListCellRenderer defaultRenderer = new DefaultListCellRenderer();
 	CardListPanel render;
-	
-	
+
 	public MagicCardListRenderer() {
-		render =new CardListPanel();
+		render = new CardListPanel();
 	}
-	
+
 	@Override
-	public Component getListCellRendererComponent(JList<? extends MagicCard> list, MagicCard value, int index,boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends MagicCard> list, MagicCard value, int index,
+			boolean isSelected, boolean cellHasFocus) {
 		render.setMagicCard(value);
-		 if (isSelected) {
-             render.setBackground(SystemColor.inactiveCaption);
-         }
-		 else
-		 {
-			 render.setBackground(Color.WHITE);
-		 }
-		
+		if (isSelected) {
+			render.setBackground(SystemColor.inactiveCaption);
+		} else {
+			render.setBackground(Color.WHITE);
+		}
+
 		return render;
 	}
 

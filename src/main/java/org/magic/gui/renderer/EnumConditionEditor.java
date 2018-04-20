@@ -11,19 +11,19 @@ import org.magic.api.beans.EnumCondition;
 
 public class EnumConditionEditor extends DefaultCellEditor {
 
-    private DefaultComboBoxModel<EnumCondition> model;
- 
-    public EnumConditionEditor() {
-        super(new JComboBox<EnumCondition>());
-        model = (DefaultComboBoxModel<EnumCondition>)((JComboBox<EnumCondition>)getComponent()).getModel();
-    }
+	private DefaultComboBoxModel<EnumCondition> model;
 
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-             model.removeAllElements();
-        	for(EnumCondition e : EnumCondition.values())
-				   model.addElement(e);
-		     
-        return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);
-     }
-    }
+	public EnumConditionEditor() {
+		super(new JComboBox<EnumCondition>());
+		model = (DefaultComboBoxModel<EnumCondition>) ((JComboBox<EnumCondition>) getComponent()).getModel();
+	}
+
+	@Override
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+		model.removeAllElements();
+		for (EnumCondition e : EnumCondition.values())
+			model.addElement(e);
+
+		return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);
+	}
+}

@@ -12,87 +12,87 @@ import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-
 public class CardDominanceTableModel extends DefaultTableModel {
 
-	
-	static final String[] columns = new String[]{
-									MTGControler.getInstance().getLangService().getCapitalize("CARD"),
-									MTGControler.getInstance().getLangService().getCapitalize("POSITION"),
-									MTGControler.getInstance().getLangService().getCapitalize("PC_DOMINANCE"),
-									MTGControler.getInstance().getLangService().getCapitalize("PC_DECKS"),
-									MTGControler.getInstance().getLangService().getCapitalize("PLAYERS")
-								};
+	static final String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("CARD"),
+			MTGControler.getInstance().getLangService().getCapitalize("POSITION"),
+			MTGControler.getInstance().getLangService().getCapitalize("PC_DOMINANCE"),
+			MTGControler.getInstance().getLangService().getCapitalize("PC_DECKS"),
+			MTGControler.getInstance().getLangService().getCapitalize("PLAYERS") };
 	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private transient List<CardDominance> list;
-	
+
 	public CardDominanceTableModel() {
-		list=new ArrayList<>();
+		list = new ArrayList<>();
 	}
-	
-	public void init(FORMAT f,String filter)
-	{
+
+	public void init(FORMAT f, String filter) {
 		try {
-			list=MTGControler.getInstance().getEnabledDashBoard().getBestCards(f, filter);
+			list = MTGControler.getInstance().getEnabledDashBoard().getBestCards(f, filter);
 		} catch (IOException e) {
 			logger.error(e);
 		}
 	}
-	
+
 	@Override
 	public int getColumnCount() {
 		return columns.length;
 	}
-	
-	
-	
-	
+
 	@Override
 	public int getRowCount() {
-			if(list!=null)
-				return list.size();
+		if (list != null)
+			return list.size();
 		return 0;
 	}
-	
+
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		switch(columnIndex)
-		{
-			case 0 : return CardDominance.class;
-			case 1 : return Integer.class;
-			case 2 : return Double.class;
-			case 3 : return Double.class;
-			case 4 : return Double.class;
-			default : return super.getColumnClass(columnIndex);
+		switch (columnIndex) {
+		case 0:
+			return CardDominance.class;
+		case 1:
+			return Integer.class;
+		case 2:
+			return Double.class;
+		case 3:
+			return Double.class;
+		case 4:
+			return Double.class;
+		default:
+			return super.getColumnClass(columnIndex);
 		}
-		
+
 	}
-	
+
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return false;
 	}
-	
-	
+
 	@Override
 	public String getColumnName(int column) {
 		return columns[column];
 	}
-	
+
 	@Override
 	public Object getValueAt(int row, int column) {
-		
-		switch(column)
-		{
-		case 0: return list.get(row);
-		case 1: return list.get(row).getPosition();
-		case 2: return list.get(row).getDominance();
-		case 3: return list.get(row).getDecksPercent();
-		case 4: return list.get(row).getPlayers();
-		default : return "";
+
+		switch (column) {
+		case 0:
+			return list.get(row);
+		case 1:
+			return list.get(row).getPosition();
+		case 2:
+			return list.get(row).getDominance();
+		case 3:
+			return list.get(row).getDecksPercent();
+		case 4:
+			return list.get(row).getPlayers();
+		default:
+			return "";
 		}
 	}
-	
-	
+
 }

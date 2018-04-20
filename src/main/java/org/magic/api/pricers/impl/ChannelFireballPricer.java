@@ -18,58 +18,50 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 public class ChannelFireballPricer extends AbstractMagicPricesProvider {
-	
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
-	
+
 	public ChannelFireballPricer() {
 		super();
-	
 
 	}
 
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
-	
-		
-		String keyword=card.getName();
+
+		String keyword = card.getName();
 		String url = getString("URL");
-		
-		
-		keyword=URLEncoder.encode(keyword,getString("ENCODING"));
-		
+
+		keyword = URLEncoder.encode(keyword, getString("ENCODING"));
+
 		setProperty("KEYWORD", keyword);
-		
-		if(me!=null)
-			keyword += "&setname=" + URLEncoder.encode(me.getSet(),getString("ENCODING"));
-		
-		
-		String link=url.replaceAll("%CARDNAME%", keyword);
-		
-		
-		logger.info(getName()+ " Looking for price " + link);
+
+		if (me != null)
+			keyword += "&setname=" + URLEncoder.encode(me.getSet(), getString("ENCODING"));
+
+		String link = url.replaceAll("%CARDNAME%", keyword);
+
+		logger.info(getName() + " Looking for price " + link);
 		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), getString("ENCODING")));
 		JsonElement root = new JsonParser().parse(reader);
-		
+
 		String value = root.getAsJsonArray().get(0).getAsString();
-		
+
 		MagicPrice mp = new MagicPrice();
-			mp.setUrl("http://store.channelfireball.com/products/search?query="+URLEncoder.encode(card.getName(),getString("ENCODING")));
-			mp.setSite(getName());
-			mp.setCurrency(value.substring(0, 1));
-			mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));
-			
-			
+		mp.setUrl("http://store.channelfireball.com/products/search?query="
+				+ URLEncoder.encode(card.getName(), getString("ENCODING")));
+		mp.setSite(getName());
+		mp.setCurrency(value.substring(0, 1));
+		mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));
+
 		ArrayList<MagicPrice> list = new ArrayList<>();
-							list.add(mp);
-							
-							
-		logger.info(getName() +" found " + list.size() +" item(s)" );
-							
+		list.add(mp);
+
+		logger.info(getName() + " found " + list.size() + " item(s)");
+
 		return list;
 	}
 
@@ -81,9 +73,8 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		// do nothing
-		
-	}
 
+	}
 
 	@Override
 	public void initDefault() {
@@ -92,15 +83,12 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		setProperty("WEBSITE", "http://store.channelfireball.com/");
 		setProperty("ENCODING", "UTF-8");
 		setProperty("KEYWORD", "");
-		
-	}
 
+	}
 
 	@Override
 	public String getVersion() {
 		return "1.0";
 	}
-	
-	
-	
+
 }

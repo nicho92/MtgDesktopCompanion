@@ -32,21 +32,19 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
-public class WallpaperGUI extends JPanel{
-	
+public class WallpaperGUI extends JPanel {
+
 	private static final long serialVersionUID = 1L;
-	private JComboBox<MTGWallpaperProvider> cboWallpapersProv ;
+	private JComboBox<MTGWallpaperProvider> cboWallpapersProv;
 	private transient MTGWallpaperProvider selectedProvider;
 	private JLabel lblLoad;
 	private JPanel panelThumnail;
 	private JTextField txtSearch;
 	private JButton btnImport;
 	private GridBagConstraints c;
-	private int index=0;
-	private int val=4;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private int index = 0;
+	private int val = 4;
 
-	
 	public static void main(String[] args) {
 		JFrame f = new JFrame();
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -54,189 +52,175 @@ public class WallpaperGUI extends JPanel{
 		f.pack();
 		f.setVisible(true);
 	}
-	
-	
-	public void addComponent(JWallThumb i)
-	{
-		if(index>=val)
-		{
-			c.gridy=c.gridy+1;
-			c.gridx=0;
-			index=0;
+
+	public void addComponent(JWallThumb i) {
+		if (index >= val) {
+			c.gridy = c.gridy + 1;
+			c.gridx = 0;
+			index = 0;
 		}
-	   c.gridx=c.gridx+1;
-	   panelThumnail.add(i,c);
-	   index++;
-		
+		c.gridx = c.gridx + 1;
+		panelThumnail.add(i, c);
+		index++;
+
 	}
-	
-	
+
 	public WallpaperGUI() {
-		
+
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		scrollPane.setPreferredSize(new Dimension(2, 200));
 		add(scrollPane, BorderLayout.CENTER);
-		
+
 		panelThumnail = new JPanel();
 		scrollPane.setViewportView(panelThumnail);
-		
+
 		c = new GridBagConstraints();
-		c.insets = new Insets(2,2,2,2); 
+		c.insets = new Insets(2, 2, 2, 2);
 		c.anchor = GridBagConstraints.NORTHWEST;
-		
+
 		panelThumnail.setLayout(new GridBagLayout());
-		
+
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
-		
+
 		cboWallpapersProv = new JComboBox<>();
-		
-		for(MTGWallpaperProvider prov : MTGControler.getInstance().getEnabledWallpaper())
+
+		for (MTGWallpaperProvider prov : MTGControler.getInstance().getEnabledWallpaper())
 			cboWallpapersProv.addItem(prov);
-		
-		selectedProvider=cboWallpapersProv.getItemAt(0);
-		cboWallpapersProv.addActionListener(e->selectedProvider=(MTGWallpaperProvider)cboWallpapersProv.getSelectedItem());
-		
+
+		selectedProvider = cboWallpapersProv.getItemAt(0);
+		cboWallpapersProv
+				.addActionListener(e -> selectedProvider = (MTGWallpaperProvider) cboWallpapersProv.getSelectedItem());
+
 		panel.add(cboWallpapersProv);
-		
+
 		txtSearch = new JTextField();
 		panel.add(txtSearch);
 		txtSearch.setColumns(20);
-		
-		txtSearch.addActionListener(e->
-				ThreadManager.getInstance().execute(()->{
-						try {
-							panelThumnail.removeAll();
-							panelThumnail.revalidate();
-							index=0;
-							c.weightx = 1;
-							c.weighty = 1;
-							c.gridx = 0;
-							c.gridy = 0;
-							lblLoad.setVisible(true);
-							List<Wallpaper> list = selectedProvider.search(txtSearch.getText());
-							
-							for(Wallpaper w : list)
-							{
-								JWallThumb thumb = new JWallThumb(w);
-								addComponent(thumb);
-								
-								thumb.addMouseListener(new MouseAdapter() {
-									@Override
-									public void mouseClicked(MouseEvent e) {
-										thumb.selected(!thumb.isSelected());
-										
-									}
-								});
-								
-							}
-								
-							lblLoad.setVisible(false);
-							
-						} catch (Exception e1) {
-							lblLoad.setVisible(false);
-							JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+
+		txtSearch.addActionListener(e -> ThreadManager.getInstance().execute(() -> {
+			try {
+				panelThumnail.removeAll();
+				panelThumnail.revalidate();
+				index = 0;
+				c.weightx = 1;
+				c.weighty = 1;
+				c.gridx = 0;
+				c.gridy = 0;
+				lblLoad.setVisible(true);
+				List<Wallpaper> list = selectedProvider.search(txtSearch.getText());
+
+				for (Wallpaper w : list) {
+					JWallThumb thumb = new JWallThumb(w);
+					addComponent(thumb);
+
+					thumb.addMouseListener(new MouseAdapter() {
+						@Override
+						public void mouseClicked(MouseEvent e) {
+							thumb.selected(!thumb.isSelected());
+
 						}
-					}, "search " + selectedProvider )
-		);
-		
+					});
+
+				}
+
+				lblLoad.setVisible(false);
+
+			} catch (Exception e1) {
+				lblLoad.setVisible(false);
+				JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
+						JOptionPane.ERROR_MESSAGE);
+			}
+		}, "search " + selectedProvider));
+
 		lblLoad = new JLabel("");
 		panel.add(lblLoad);
 		lblLoad.setIcon(MTGConstants.ICON_LOADING);
 		lblLoad.setVisible(false);
-		
+
 		JPanel panel1 = new JPanel();
 		add(panel1, BorderLayout.SOUTH);
-		
-		
+
 		btnImport = new JButton(MTGControler.getInstance().getLangService().getCapitalize("IMPORT"));
 		panel1.add(btnImport);
-		
-		
-		
-		btnImport.addActionListener(ae->{
-			
-			boolean error=false;
-			for(Component comp : panelThumnail.getComponents())
-			{
-				JWallThumb th = (JWallThumb)comp;
-				
-				if(th.isSelected())
-				{
+
+		btnImport.addActionListener(ae -> {
+
+			boolean error = false;
+			for (Component comp : panelThumnail.getComponents()) {
+				JWallThumb th = (JWallThumb) comp;
+
+				if (th.isSelected()) {
 					try {
 						MTGControler.getInstance().saveWallpaper(th.getWallpaper());
-						
+
 					} catch (IOException e1) {
-						error=true;
-						JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+						error = true;
+						JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
+								JOptionPane.ERROR_MESSAGE);
 					}
 				}
 			}
-			
-			if(!error)
-				JOptionPane.showMessageDialog(null, "Finished","OK",JOptionPane.INFORMATION_MESSAGE);
-			
-			
-		});
-		
-		
-	}
 
+			if (!error)
+				JOptionPane.showMessageDialog(null, "Finished", "OK", JOptionPane.INFORMATION_MESSAGE);
+
+		});
+
+	}
 
 }
 
-class JWallThumb extends JLabel
-{
-	private boolean selected=false;
+class JWallThumb extends JLabel {
+	private boolean selected = false;
 	private Color c = getBackground();
 	private transient Wallpaper wall;
 	private int size;
-	private int fontHeight=20;
+	private int fontHeight = 20;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public boolean isSelected() {
 		return selected;
 	}
-	
+
 	public Wallpaper getWallpaper() {
 		return wall;
 	}
-		
-	public void resizePic(int size)
-	{
-		this.size=size;
+
+	public void resizePic(int size) {
+		this.size = size;
 		try {
-			
+
 			int w = wall.getPicture().getWidth(null);
-	        int h = wall.getPicture().getHeight(null);
-	        float scaleW = (float) size / w;
-	        float scaleH = (float) size / h;
-	        if (scaleW > scaleH) {
-	            w = -1;
-	            h = (int) (h * scaleH);
-	        } else {
-	            w = (int) (w * scaleW);
-	            h = -1;
-	        }
-             Image img = wall.getPicture().getScaledInstance(w, h, Image.SCALE_SMOOTH);
+			int h = wall.getPicture().getHeight(null);
+			float scaleW = (float) size / w;
+			float scaleH = (float) size / h;
+			if (scaleW > scaleH) {
+				w = -1;
+				h = (int) (h * scaleH);
+			} else {
+				w = (int) (w * scaleW);
+				h = -1;
+			}
+			Image img = wall.getPicture().getScaledInstance(w, h, Image.SCALE_SMOOTH);
 			setIcon(new ImageIcon(img));
 		} catch (IOException e) {
 			logger.error(e);
 		}
 	}
-	public void selected(boolean s)
-	{
-		selected=s;
-		if(selected)
+
+	public void selected(boolean s) {
+		selected = s;
+		if (selected)
 			setBackground(SystemColor.inactiveCaption);
 		else
 			setBackground(c);
 	}
-	
+
 	public JWallThumb(Wallpaper w) {
-		wall=w;
+		wall = w;
 		setHorizontalTextPosition(JLabel.CENTER);
 		setHorizontalAlignment(JLabel.CENTER);
 		setVerticalTextPosition(JLabel.BOTTOM);
@@ -244,15 +228,15 @@ class JWallThumb extends JLabel
 		setOpaque(true);
 		resizePic(400);
 	}
-	
+
 	@Override
 	public Dimension getPreferredSize() {
-		return new Dimension(size, size+fontHeight);
+		return new Dimension(size, size + fontHeight);
 	}
-	
+
 	@Override
 	public String toString() {
 		return getName();
 	}
-	
+
 }

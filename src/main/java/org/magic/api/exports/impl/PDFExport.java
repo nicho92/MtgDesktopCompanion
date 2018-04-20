@@ -28,32 +28,31 @@ import com.itextpdf.text.pdf.PdfWriter;
 public class PDFExport extends AbstractCardExport {
 
 	Document document;
-	
+
 	@Override
 	public MODS getMods() {
 		return MODS.EXPORT;
 	}
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
-	
-	
-	private PdfPCell getCells(MagicCard card) throws BadElementException, IOException
-	{
 
-		Image image1=null;
+	private PdfPCell getCells(MagicCard card) throws BadElementException, IOException {
+
+		Image image1 = null;
 		try {
-			image1 = Image.getInstance(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card,null),null);
+			image1 = Image.getInstance(MTGControler.getInstance().getEnabledPicturesProvider().getPicture(card, null),
+					null);
 		} catch (Exception e) {
-			image1 = Image.getInstance(MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture(),null);
+			image1 = Image.getInstance(MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture(), null);
 		}
-		
-		int h=getInt("CARD_HEIGHT");
-		int w=getInt("CARD_WIDTH");
-		
-		image1.scaleAbsolute(w,h);
+
+		int h = getInt("CARD_HEIGHT");
+		int w = getInt("CARD_WIDTH");
+
+		image1.scaleAbsolute(w, h);
 
 		PdfPCell cell = new PdfPCell(image1, false);
 		cell.setBorder(0);
@@ -62,21 +61,18 @@ public class PDFExport extends AbstractCardExport {
 		return cell;
 	}
 
-
 	@Override
 	public String getFileExtension() {
 		return ".pdf";
 	}
 
-
 	@Override
 	public void export(MagicDeck deck, File f) throws IOException {
-		PdfPTable table = new PdfPTable(3); 
+		PdfPTable table = new PdfPTable(3);
 		table.setHorizontalAlignment(Element.ALIGN_CENTER);
 
-		try
-		{
-			document = new Document(PageSize.A4,5,5,10,5);
+		try {
+			document = new Document(PageSize.A4, 5, 5, 10, 5);
 			document.addAuthor(getString("AUTHOR"));
 			document.addCreationDate();
 			document.addCreator("Magic Desktop Companion");
@@ -84,9 +80,8 @@ public class PDFExport extends AbstractCardExport {
 
 			PdfWriter writer = PdfWriter.getInstance(document, new FileOutputStream(f));
 			document.open();
-			int i=0;
-			for(MagicCard card : deck.getAsList())
-			{
+			int i = 0;
+			for (MagicCard card : deck.getAsList()) {
 				table.addCell(getCells(card));
 				setChanged();
 				notifyObservers(i++);
@@ -95,19 +90,15 @@ public class PDFExport extends AbstractCardExport {
 			document.add(table);
 			document.close();
 			writer.close();
-		} 
-		catch (Exception e)
-		{
-			logger.error("Error in pdf creation " + f,e);
-		} 
+		} catch (Exception e) {
+			logger.error("Error in pdf creation " + f, e);
+		}
 	}
-
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
 		throw new NotImplementedException("Can't generate deck from PDF");
 	}
-
 
 	@Override
 	public String getName() {
@@ -123,14 +114,13 @@ public class PDFExport extends AbstractCardExport {
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 		d.setName(f.getName());
-		
-		for(MagicCardStock mcs : stock)
-		{
+
+		for (MagicCardStock mcs : stock) {
 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
 		}
-		
+
 		export(d, f);
-		
+
 	}
 
 	@Override
@@ -138,15 +128,12 @@ public class PDFExport extends AbstractCardExport {
 		throw new NotImplementedException("Can't import stock from PDF");
 	}
 
-
-
 	@Override
 	public void initDefault() {
 		setProperty("AUTHOR", "Nicolas PIHEN");
-		setProperty("CARD_HEIGHT","163");
-		setProperty("CARD_WIDTH","117");
+		setProperty("CARD_HEIGHT", "163");
+		setProperty("CARD_WIDTH", "117");
 	}
-
 
 	@Override
 	public String getVersion() {

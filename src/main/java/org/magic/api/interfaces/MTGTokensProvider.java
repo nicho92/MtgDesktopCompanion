@@ -16,7 +16,7 @@ public interface MTGTokensProvider extends MTGPlugin {
 	MagicCard generateEmblemFor(MagicCard mc) throws IOException;
 
 	BufferedImage getPictures(MagicCard tok) throws IOException;
-	
+
 	String getName();
 
 }

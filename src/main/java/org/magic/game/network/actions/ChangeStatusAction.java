@@ -9,15 +9,14 @@ public class ChangeStatusAction extends AbstractNetworkAction {
 
 	public ChangeStatusAction(Player p) {
 		setAct(ACTIONS.CHANGE_STATUS);
-		this.player=p;
+		this.player = p;
 	}
-	
+
 	public ChangeStatusAction(Player p, STATE s) {
 		setAct(ACTIONS.CHANGE_STATUS);
 		p.setState(s);
-		this.player=p;
+		this.player = p;
 	}
-	
 
 	public Player getPlayer() {
 		return player;
@@ -31,6 +30,5 @@ public class ChangeStatusAction extends AbstractNetworkAction {
 	public String toString() {
 		return player + " change his status to " + player.getState();
 	}
-	
-	
+
 }

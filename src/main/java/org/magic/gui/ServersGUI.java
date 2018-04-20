@@ -10,11 +10,9 @@ import org.magic.services.MTGControler;
 
 public class ServersGUI extends JPanel {
 
-	
 	public ServersGUI() {
 		setLayout(new GridLayout(10, 1, 0, 0));
-		for(MTGServer s : MTGControler.getInstance().getEnabledServers())
-		{
+		for (MTGServer s : MTGControler.getInstance().getEnabledServers()) {
 			add(new ServerStatePanel(s));
 		}
 	}

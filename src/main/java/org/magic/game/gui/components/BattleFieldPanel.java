@@ -21,62 +21,55 @@ import org.magic.game.model.PositionEnum;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class BattleFieldPanel extends DraggablePanel  {
+public class BattleFieldPanel extends DraggablePanel {
 
 	JPopupMenu battlefieldMenu = new JPopupMenu();
 	private transient BufferedImage image;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public List<DisplayableCard> getCards()
-	{
+	public List<DisplayableCard> getCards() {
 		List<DisplayableCard> selected = new ArrayList<>();
-		for(Component c : getComponents())
-		{
-			DisplayableCard card = (DisplayableCard)c;
+		for (Component c : getComponents()) {
+			DisplayableCard card = (DisplayableCard) c;
 			selected.add(card);
 		}
-		
+
 		return selected;
 	}
-	
-	
-	
-	public List<DisplayableCard> getSelectedCards()
-	{
+
+	public List<DisplayableCard> getSelectedCards() {
 		List<DisplayableCard> selected = new ArrayList<>();
-			for(DisplayableCard card : getCards())
-			{
-				if(card.isSelected())
-					selected.add(card);
-			}
-		
+		for (DisplayableCard card : getCards()) {
+			if (card.isSelected())
+				selected.add(card);
+		}
+
 		return selected;
-		
+
 	}
-	
+
 	@Override
-	public void paintComponent(Graphics g){
-	        super.paintComponent(g);
-	        if(image != null){
-	            g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
-	        }
-	    }
-	
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		if (image != null) {
+			g.drawImage(image, 0, 0, this.getWidth(), this.getHeight(), null);
+		}
+	}
+
 	public BattleFieldPanel() {
-		
+
 		super();
 		setLayout(null);
-		
-		if(MTGControler.getInstance().get("/game/player-profil/background")!=null)
-	        try {
-	        	BufferedImage im = ImageIO.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
-	        	setBackgroundPicture(im);
+
+		if (MTGControler.getInstance().get("/game/player-profil/background") != null)
+			try {
+				BufferedImage im = ImageIO
+						.read(new File(MTGControler.getInstance().get("/game/player-profil/background")));
+				setBackgroundPicture(im);
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
-			
-		
-		
+
 		battlefieldMenu.removeAll();
 		battlefieldMenu.add(new JMenuItem(new UnselectAllAction()));
 		battlefieldMenu.add(new JMenuItem(new SelectedTapActions()));
@@ -84,9 +77,8 @@ public class BattleFieldPanel extends DraggablePanel  {
 		battlefieldMenu.add(new JMenuItem(new ChangeBackGroundActions()));
 		setComponentPopupMenu(battlefieldMenu);
 	}
-	
-	public void addComponent(DisplayableCard card)
-	{
+
+	public void addComponent(DisplayableCard card) {
 		this.add(card);
 		card.setPosition(getOrigine());
 	}
@@ -96,31 +88,35 @@ public class BattleFieldPanel extends DraggablePanel  {
 		return PositionEnum.BATTLEFIELD;
 	}
 
-
 	@Override
 	public void moveCard(DisplayableCard mc, PositionEnum to) {
 		switch (to) {
-			case GRAVEYARD:player.discardCardFromBattleField(mc.getMagicCard());break;
-			case EXIL:player.exileCardFromBattleField(mc.getMagicCard());break;
-			case HAND:player.returnCardFromBattleField(mc.getMagicCard());break;
-			case LIBRARY:player.putCardInLibraryFromBattlefield(mc.getMagicCard(), true);break;
-			default:break;
+		case GRAVEYARD:
+			player.discardCardFromBattleField(mc.getMagicCard());
+			break;
+		case EXIL:
+			player.exileCardFromBattleField(mc.getMagicCard());
+			break;
+		case HAND:
+			player.returnCardFromBattleField(mc.getMagicCard());
+			break;
+		case LIBRARY:
+			player.putCardInLibraryFromBattlefield(mc.getMagicCard(), true);
+			break;
+		default:
+			break;
 		}
-		
-	}
 
+	}
 
 	@Override
 	public void postTreatment(DisplayableCard c) {
 		setComponentZOrder(c, 0);
 	}
 
-
-
 	public void setBackgroundPicture(BufferedImage im) {
-		this.image=im;
-		
+		this.image = im;
+
 	}
 
-	
 }

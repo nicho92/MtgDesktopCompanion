@@ -21,40 +21,34 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.MTGDeckManager;
 
-public class TypeRepartitionPanel extends JPanel{
+public class TypeRepartitionPanel extends JPanel {
 
 	private List<MagicCard> cards;
-	private MTGDeckManager manager;
+	private transient MTGDeckManager manager;
 
 	public TypeRepartitionPanel() {
 		manager = new MTGDeckManager();
-		
+
 		setLayout(new BorderLayout(0, 0));
 	}
 
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<>();
-		
-		if(deck!=null)
+
+		if (deck != null)
 			cards = deck.getAsList();
-			
-			
+
 		refresh();
 	}
-	
-	
-	private void refresh()
-	{
+
+	private void refresh() {
 		this.removeAll();
-		
-		JFreeChart chart = ChartFactory.createPieChart3D(
-	            "Type repartition",  // chart title
-	            getTypeRepartitionDataSet(),             // data
-	            false,               // include legend
-	            true,
-	            true
-	        );
-	
+
+		JFreeChart chart = ChartFactory.createPieChart3D("Type repartition", // chart title
+				getTypeRepartitionDataSet(), // data
+				false, // include legend
+				true, true);
+
 		ChartPanel pane = new ChartPanel(chart);
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("B", Color.BLACK);
@@ -64,30 +58,25 @@ public class TypeRepartitionPanel extends JPanel{
 		plot.setSectionPaint("R", Color.RED);
 		plot.setSectionPaint("multi", Color.YELLOW);
 		plot.setSectionPaint("uncolor", Color.GRAY);
-		
-		  PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
-		    plot.setLabelGenerator(generator);
-		this.add(pane,BorderLayout.CENTER);
+
+		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),
+				new DecimalFormat("0.00%"));
+		plot.setLabelGenerator(generator);
+		this.add(pane, BorderLayout.CENTER);
 	}
-	
-	public void init(List<MagicCard> cards)
-	{
-		this.cards=cards;
+
+	public void init(List<MagicCard> cards) {
+		this.cards = cards;
 		refresh();
 	}
-	private PieDataset getTypeRepartitionDataSet() 
-	{
+
+	private PieDataset getTypeRepartitionDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for(Entry<String,Integer> entry : manager.analyseTypes(cards).entrySet())
-		{
-			dataset.setValue(entry.getKey(),entry.getValue());
+		for (Entry<String, Integer> entry : manager.analyseTypes(cards).entrySet()) {
+			dataset.setValue(entry.getKey(), entry.getValue());
 		}
 
-
-        return dataset;
+		return dataset;
 	}
 
-
-	
 }
-	

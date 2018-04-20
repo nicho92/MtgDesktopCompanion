@@ -7,24 +7,25 @@ import org.magic.services.MTGConstants;
 
 public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTGDashBoard {
 
-	public enum FORMAT { STANDARD,LEGACY,VINTAGE,MODERN}
-	
+	public enum FORMAT {
+		STANDARD, LEGACY, VINTAGE, MODERN
+	}
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.DASHBOARD;
 	}
-	
-		
+
 	public AbstractDashBoard() {
 		super();
 		confdir = new File(MTGConstants.CONF_DIR, "dashboards");
-		if(!confdir.exists())
+		if (!confdir.exists())
 			confdir.mkdir();
 		load();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
+
+		if (!new File(confdir, getName() + ".conf").exists()) {
 			initDefault();
 			save();
-		} 
+		}
 	}
 }

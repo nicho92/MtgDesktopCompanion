@@ -21,51 +21,45 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
 	Document doc;
 	private ArrayList<MagicPrice> list;
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
-	
+
 	public MagicBazarPricer() {
-		super();	
-		list=new ArrayList<>();
+		super();
+		list = new ArrayList<>();
 	}
-	
-	
 
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		list.clear();
-		String url = getString("URL")+URLEncoder.encode(card.getName(), "UTF-8");
-		logger.info(getName() +" looking for prices " + url );
-		
-		try{
+		String url = getString("URL") + URLEncoder.encode(card.getName(), "UTF-8");
+		logger.info(getName() + " looking for prices " + url);
+
+		try {
 			doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).timeout(0).get();
 			Elements els = doc.select("div.filterElement");
-			for(int i = 0; i <els.size();i++)
-			{
+			for (int i = 0; i < els.size(); i++) {
 				Element e = els.get(i);
 				MagicPrice mp = new MagicPrice();
-						   mp.setLanguage(e.getElementsByClass("langue").get(0).getElementsByTag("img").get(0).attr("alt"));
-						   mp.setQuality(e.getElementsByClass("etat").html());
-						   mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));
-						   mp.setCurrency("EUR");
-						   mp.setCountry("France");
-						   mp.setSite(getName());
-						   mp.setUrl(url);
-						   mp.setSeller(e.getElementsByClass("edition").get(0).getElementsByIndexEquals(0).get(0).text());
-						   mp.setFoil(!e.getElementsByClass("logo").isEmpty());
+				mp.setLanguage(e.getElementsByClass("langue").get(0).getElementsByTag("img").get(0).attr("alt"));
+				mp.setQuality(e.getElementsByClass("etat").html());
+				mp.setValue(Double.parseDouble(clean(e.select("div.prix").text())));
+				mp.setCurrency("EUR");
+				mp.setCountry("France");
+				mp.setSite(getName());
+				mp.setUrl(url);
+				mp.setSeller(e.getElementsByClass("edition").get(0).getElementsByIndexEquals(0).get(0).text());
+				mp.setFoil(!e.getElementsByClass("logo").isEmpty());
 				list.add(mp);
-				
+
 			}
 			return list;
-		}
-		catch(Exception e)
-		{
-			logger.trace("Error loading price for " + url,e);
-			logger.info(getName() +" no item : "+ e.getMessage());
+		} catch (Exception e) {
+			logger.trace("Error loading price for " + url, e);
+			logger.info(getName() + " no item : " + e.getMessage());
 			return list;
 		}
 	}
@@ -74,32 +68,27 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		return StringEscapeUtils.escapeHtml3(html).replaceAll(",", ".").replaceAll(" ", "").replaceAll("€", "");
 	}
 
-
 	@Override
 	public String getName() {
 		return "MagicBazar";
 	}
 
-	
-
 	@Override
 	public void alertDetected(List<MagicPrice> okz) {
-		//do nothing
+		// do nothing
 
 	}
-
 
 	@Override
 	public void initDefault() {
 		setProperty("URL", "https://www.magicbazar.fr/recherche/result.php?s=");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		
-	}
 
+	}
 
 	@Override
 	public String getVersion() {
 		return "1.4";
 	}
-	
+
 }

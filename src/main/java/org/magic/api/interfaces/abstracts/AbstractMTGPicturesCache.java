@@ -7,26 +7,23 @@ import org.magic.services.MTGConstants;
 
 public abstract class AbstractMTGPicturesCache extends AbstractMTGPlugin implements MTGPicturesCache {
 
-	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.CACHE;
 	}
-	
+
 	public AbstractMTGPicturesCache() {
 		super();
 		confdir = new File(MTGConstants.CONF_DIR, "caches");
-		if(!confdir.exists())
+		if (!confdir.exists())
 			confdir.mkdir();
 		load();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
+
+		if (!new File(confdir, getName() + ".conf").exists()) {
 			initDefault();
-		save();
-		
-		
+			save();
+
 		}
 	}
-	
-	
+
 }

@@ -11,34 +11,30 @@ import org.magic.gui.components.CardSearchPanel;
 import org.magic.services.MTGConstants;
 
 public class CardSearchImportDialog extends JDialog {
-	
+
 	JButton selectCard;
 	CardSearchPanel panel;
-	
-	
+
 	public CardSearchImportDialog() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setModal(true);
 		selectCard = new JButton(MTGConstants.ICON_IMPORT);
 		panel = new CardSearchPanel();
-		selectCard.addActionListener(e->dispose());
-		
+		selectCard.addActionListener(e -> dispose());
+
 		getContentPane().add(panel, BorderLayout.CENTER);
 		getContentPane().add(selectCard, BorderLayout.SOUTH);
-		
+
 		setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 		pack();
 	}
-	
-	public MagicCard getSelected()
-	{
+
+	public MagicCard getSelected() {
 		return panel.getSelected();
 	}
-	
-	
-	public List<MagicCard> getSelection()
-	{
+
+	public List<MagicCard> getSelection() {
 		return panel.getMultiSelection();
 	}
-	
+
 }

@@ -7,14 +7,13 @@ public class ShareDeckAction extends AbstractNetworkAction {
 
 	Player p;
 	Player to;
-	
-	
+
 	private MagicDeck deck;
-	
-	public ShareDeckAction(Player p, MagicDeck d,Player to) {
-		this.p=p;
-		this.deck=d;
-		this.to=to;
+
+	public ShareDeckAction(Player p, MagicDeck d, Player to) {
+		this.p = p;
+		this.deck = d;
+		this.to = to;
 		setAct(ACTIONS.SHARE);
 	}
 
@@ -25,12 +24,11 @@ public class ShareDeckAction extends AbstractNetworkAction {
 	public void setP(Player p) {
 		this.p = p;
 	}
-	
+
 	public Player getTo() {
 		return to;
 	}
-	
-	
+
 	public MagicDeck getDeck() {
 		return deck;
 	}
@@ -41,9 +39,7 @@ public class ShareDeckAction extends AbstractNetworkAction {
 
 	@Override
 	public String toString() {
-			return getP() + " : is sharing " + deck.getName() +" with you";
+		return getP() + " : is sharing " + deck.getName() + " with you";
 	}
-	
-	
-	
+
 }

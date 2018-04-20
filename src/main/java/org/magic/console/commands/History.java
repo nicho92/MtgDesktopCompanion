@@ -13,45 +13,42 @@ import org.magic.console.MTGConsoleHandler;
 public class History extends AbstractCommand {
 
 	public History() {
-		opts.addOption("r","reload",true,"relaunch history command with id");
-		opts.addOption("?","help",false,"show help");
+		opts.addOption("r", "reload", true, "relaunch history command with id");
+		opts.addOption("?", "help", false, "show help");
 	}
-	
+
 	@Override
-	public void run(String[] array, IoSession session,MTGConsoleHandler mtgConsoleHandler) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, ParseException, InvocationTargetException, NoSuchMethodException {
-		this.session=session;
+	public void run(String[] array, IoSession session, MTGConsoleHandler mtgConsoleHandler)
+			throws ClassNotFoundException, InstantiationException, IllegalAccessException, IOException, ParseException,
+			InvocationTargetException, NoSuchMethodException {
+		this.session = session;
 		CommandLine cl = parser.parse(opts, array);
-		if(cl.hasOption("r"))
-		{
+		if (cl.hasOption("r")) {
 			String cmd = mtgConsoleHandler.getHistory().get(Integer.parseInt(cl.getOptionValue("r")));
-			session.write("Reload " + cmd +"\r\n");
+			session.write("Reload " + cmd + "\r\n");
 			mtgConsoleHandler.messageReceived(session, cmd);
 		}
-		if(cl.hasOption("?"))
-		{
+		if (cl.hasOption("?")) {
 			usage();
-		}
-		else
-		{
-			
+		} else {
+
 			session.write(showList(mtgConsoleHandler.getHistory()));
 		}
-		
 
 	}
-		
+
 	private String showList(List<String> history) {
 		StringBuilder temp = new StringBuilder();
-		
-		for(int i=0;i<history.size();i++)
-			temp.append(i +"\t" + history.get(i)+"\r\n");
-		
+
+		for (int i = 0; i < history.size(); i++)
+			temp.append(i + "\t" + history.get(i) + "\r\n");
+
 		return temp.toString();
 	}
 
 	@Override
 	public void quit() {
-		//do nothing
+		// do nothing
 
 	}
 

@@ -11,13 +11,13 @@ import org.magic.game.model.Player;
 public class EndTurnPhase extends AbstractAction {
 
 	Player p;
-	
+
 	public EndTurnPhase() {
 		super("Init new turn");
 		putValue(SHORT_DESCRIPTION, "Init new turn");
 		setEnabled(true);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		GameManager.getInstance().endTurn(GamePanelGUI.getInstance().getPlayer());

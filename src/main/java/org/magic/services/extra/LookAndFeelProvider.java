@@ -20,10 +20,9 @@ public class LookAndFeelProvider {
 
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private List<LookAndFeelInfo> list;
-	
-	
+
 	public LookAndFeelProvider() {
-		list=new ArrayList<>();
+		list = new ArrayList<>();
 	}
 
 	public void setComponentLookAndFeel(Component ui, LookAndFeelInfo lookAndFeel) {
@@ -34,55 +33,47 @@ public class LookAndFeelProvider {
 		setLookAndFeel(container, lookAndFeel.getClassName());
 	}
 
-	public void cleanExtra()
-	{
+	public void cleanExtra() {
 		list.clear();
 	}
-	
+
 	public void setLookAndFeel(Component ui, String lookAndFeel) {
 		try {
 			UIManager.setLookAndFeel(lookAndFeel);
 			MTGControler.getInstance().setProperty("lookAndFeel", lookAndFeel);
 			SwingUtilities.updateComponentTreeUI(ui);
-			
+
 		} catch (Exception e) {
 			logger.error(e.getMessage());
 		}
 	}
-	
-	public LookAndFeelInfo[] getStandardLookAndFeel()
-	{
+
+	public LookAndFeelInfo[] getStandardLookAndFeel() {
 		return UIManager.getInstalledLookAndFeels();
-		
+
 	}
-	
-	public LookAndFeelInfo[] getAllLookAndFeel()
-	{
-		
+
+	public LookAndFeelInfo[] getAllLookAndFeel() {
+
 		return ArrayUtils.addAll(UIManager.getInstalledLookAndFeels(), getExtraLookAndFeel());
 	}
-	
-	
-	public LookAndFeelInfo[] getExtraLookAndFeel()
-	{
-		 
-		if(!list.isEmpty())
+
+	public LookAndFeelInfo[] getExtraLookAndFeel() {
+
+		if (!list.isEmpty())
 			return list.toArray(new LookAndFeelInfo[list.size()]);
-		
-		
-		 Reflections classReflections = new Reflections("org.pushingpixels.substance.api.skin");
-		 list = new ArrayList<>();
-		 for(Class<? extends SubstanceLookAndFeel> c :classReflections.getSubTypesOf(SubstanceLookAndFeel.class) )
-		 {
+
+		Reflections classReflections = new Reflections("org.pushingpixels.substance.api.skin");
+		list = new ArrayList<>();
+		for (Class<? extends SubstanceLookAndFeel> c : classReflections.getSubTypesOf(SubstanceLookAndFeel.class)) {
 			try {
 				SubstanceLookAndFeel look = c.getConstructor(null).newInstance();
 				list.add(new LookAndFeelInfo(look.getID(), c.getName()));
 			} catch (Exception e) {
-				logger.error("Loading " + c,e);
-			} 
+				logger.error("Loading " + c, e);
+			}
 		}
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}
-
 
 }

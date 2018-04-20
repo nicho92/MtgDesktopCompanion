@@ -10,16 +10,15 @@ import org.magic.game.model.counters.LoyaltyCounter;
 
 public class LoyaltyActions extends AbstractAction {
 
-	
 	private DisplayableCard card;
 	private transient LoyaltyCounter val;
 
-	public LoyaltyActions(DisplayableCard card,LoyaltyCounter loyaltyCounter) {
-		putValue(NAME,loyaltyCounter.describe());
-		putValue(SHORT_DESCRIPTION,loyaltyCounter.describe());
-	
+	public LoyaltyActions(DisplayableCard card, LoyaltyCounter loyaltyCounter) {
+		putValue(NAME, loyaltyCounter.describe());
+		putValue(SHORT_DESCRIPTION, loyaltyCounter.describe());
+
 		this.card = card;
-	    this.val=loyaltyCounter;
+		this.val = loyaltyCounter;
 	}
 
 	@Override
@@ -27,7 +26,8 @@ public class LoyaltyActions extends AbstractAction {
 		card.addCounter(val);
 		card.showLoyalty(true);
 		card.repaint();
-		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() +" loyalty to " +  card.getMagicCard().getLoyalty());
+		GamePanelGUI.getInstance().getPlayer()
+				.logAction("set " + card.getMagicCard().getName() + " loyalty to " + card.getMagicCard().getLoyalty());
 	}
 
 }

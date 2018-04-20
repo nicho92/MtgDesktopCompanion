@@ -19,94 +19,79 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
 public class TCGPlayerPricer extends AbstractMagicPricesProvider {
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
-	
+
 	public TCGPlayerPricer() {
 		super();
 	}
-	
+
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
 		String url = getString("URL");
-			   url = url.replaceAll("%API_KEY%", getString("API_KEY"));
-		
-		String set = "";
-		
-		if(me==null)
-			set = URLEncoder.encode(card.getEditions().get(0).getSet(),getString("ENCODING"));
-		else
-			set = URLEncoder.encode(me.getSet(),getString("ENCODING"));
-		
-		if(set.contains("Edition"))
-			set =set.replaceAll("Edition", "");
-		
-		
-		String name = card.getName();
-			   name = name.replaceAll(" \\(.*$", "");
-			   name = name.replaceAll("'", "%27");
-			   name = name.replaceAll(" ", "+");
-		
-			   
-			   
-			   
-			   
-			   setProperty("KEYWORD", "s="+set+"p="+name);
-			   
-			   
-		String link=url.replaceAll("%SET%", set);
-			   link=link.replaceAll("%CARTE%", name);
+		url = url.replaceAll("%API_KEY%", getString("API_KEY"));
 
-			   
-			   logger.info(getName()  + " looking "+ " for " + link);
-		
-			   DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-			   DocumentBuilder dBuilder;
-				try {
-					dBuilder = dbFactory.newDocumentBuilder();
-				} catch (ParserConfigurationException e1) {
-					throw new IOException(e1);
-				}
-			   
-			   
-			   Document doc = null; 
-					   
-					try{   
-					  doc=dBuilder.parse(new URL(link).openStream());
-					  logger.debug(doc);
-					   
-					
-			   doc.getDocumentElement().normalize();
-			   
-			   NodeList nodes = doc.getElementsByTagName("product");
-			   
-	 		   MagicPrice mp = new MagicPrice();
-			   	mp.setCurrency("$");
-			   	mp.setSite(getName());
-			   	mp.setUrl(nodes.item(0).getChildNodes().item(11).getTextContent());
-			   	mp.setSeller(getName());
-			   	mp.setValue(Double.parseDouble(nodes.item(0).getChildNodes().item(7).getTextContent()));
-			   	
-			   	
-			   	list.add(mp);
-			   	logger.info(getName() +" found " + list.size() +" item(s)" );
-			    if(list.size()>Integer.parseInt(getString("MAX")) && Integer.parseInt(getString("MAX"))>-1)
-					  return list.subList(0, Integer.parseInt(getString("MAX")));
-			   	
-				 
-					}
-					catch(Exception e)
-					{
-						logger.error(e);
-						return list;
-					}
-					
-			    
+		String set = "";
+
+		if (me == null)
+			set = URLEncoder.encode(card.getEditions().get(0).getSet(), getString("ENCODING"));
+		else
+			set = URLEncoder.encode(me.getSet(), getString("ENCODING"));
+
+		if (set.contains("Edition"))
+			set = set.replaceAll("Edition", "");
+
+		String name = card.getName();
+		name = name.replaceAll(" \\(.*$", "");
+		name = name.replaceAll("'", "%27");
+		name = name.replaceAll(" ", "+");
+
+		setProperty("KEYWORD", "s=" + set + "p=" + name);
+
+		String link = url.replaceAll("%SET%", set);
+		link = link.replaceAll("%CARTE%", name);
+
+		logger.info(getName() + " looking " + " for " + link);
+
+		DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+		DocumentBuilder dBuilder;
+		try {
+			dBuilder = dbFactory.newDocumentBuilder();
+		} catch (ParserConfigurationException e1) {
+			throw new IOException(e1);
+		}
+
+		Document doc = null;
+
+		try {
+			doc = dBuilder.parse(new URL(link).openStream());
+			logger.debug(doc);
+
+			doc.getDocumentElement().normalize();
+
+			NodeList nodes = doc.getElementsByTagName("product");
+
+			MagicPrice mp = new MagicPrice();
+			mp.setCurrency("$");
+			mp.setSite(getName());
+			mp.setUrl(nodes.item(0).getChildNodes().item(11).getTextContent());
+			mp.setSeller(getName());
+			mp.setValue(Double.parseDouble(nodes.item(0).getChildNodes().item(7).getTextContent()));
+
+			list.add(mp);
+			logger.info(getName() + " found " + list.size() + " item(s)");
+			if (list.size() > Integer.parseInt(getString("MAX")) && Integer.parseInt(getString("MAX")) > -1)
+				return list.subList(0, Integer.parseInt(getString("MAX")));
+
+		} catch (Exception e) {
+			logger.error(e);
+			return list;
+		}
+
 		return list;
 
 	}
@@ -119,9 +104,8 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		logger.trace("no implementation for alertDetected " + p);
-		
-	}
 
+	}
 
 	@Override
 	public void initDefault() {
@@ -131,13 +115,12 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		setProperty("WEBSITE", "http://www.tcgplayer.com/");
 		setProperty("ENCODING", "UTF-8");
 		setProperty("KEYWORD", "");
-		
-	}
 
+	}
 
 	@Override
 	public String getVersion() {
 		return "1.0";
 	}
-	
+
 }

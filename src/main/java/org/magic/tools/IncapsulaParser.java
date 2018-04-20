@@ -12,74 +12,67 @@ import org.magic.services.MTGConstants;
 
 public class IncapsulaParser {
 
-	static String incapsulaCookie=null;
-	
-	
-	private IncapsulaParser() {}
-	
-	
+	static String incapsulaCookie = null;
+
+	private IncapsulaParser() {
+	}
+
 	private static String getIncapsulaCookie(String url) throws IOException {
-			
-		if(incapsulaCookie!=null)
+
+		if (incapsulaCookie != null)
 			return incapsulaCookie;
-		
-		
-	       HttpURLConnection cookieConnection =(HttpURLConnection) new URL(url).openConnection();
-					         cookieConnection.setRequestMethod("GET");
-					         cookieConnection.setRequestProperty("Accept","text/html; charset=UTF-8");
-					         cookieConnection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-					         cookieConnection.setRequestProperty("Connection", "close");
 
-	        String visid = null;
-	        String incap = null;
+		HttpURLConnection cookieConnection = (HttpURLConnection) new URL(url).openConnection();
+		cookieConnection.setRequestMethod("GET");
+		cookieConnection.setRequestProperty("Accept", "text/html; charset=UTF-8");
+		cookieConnection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
+		cookieConnection.setRequestProperty("Connection", "close");
 
-	        cookieConnection.connect();
+		String visid = null;
+		String incap = null;
 
-	        for (Entry<String, List<String>> header : cookieConnection.getHeaderFields().entrySet()) {
-	            if (header.getKey() != null&& header.getKey().equals("Set-Cookie")) {
-	                for (String cookieValue : header.getValue()) {
-	                    if (cookieValue.contains("visid")) {
-	                        visid = cookieValue.substring(0,
-	                                cookieValue.indexOf(';') + 1);
-	                    }
-	                    if (cookieValue.contains("incap_ses")) {
-	                        incap = cookieValue.substring(0,
-	                                cookieValue.indexOf(';'));
-	                    }
-	                }
-	            }
-	        }
-	        incapsulaCookie = visid + " " + incap;
-	        cookieConnection.disconnect();
-	    return incapsulaCookie;
+		cookieConnection.connect();
+
+		for (Entry<String, List<String>> header : cookieConnection.getHeaderFields().entrySet()) {
+			if (header.getKey() != null && header.getKey().equals("Set-Cookie")) {
+				for (String cookieValue : header.getValue()) {
+					if (cookieValue.contains("visid")) {
+						visid = cookieValue.substring(0, cookieValue.indexOf(';') + 1);
+					}
+					if (cookieValue.contains("incap_ses")) {
+						incap = cookieValue.substring(0, cookieValue.indexOf(';'));
+					}
+				}
+			}
+		}
+		incapsulaCookie = visid + " " + incap;
+		cookieConnection.disconnect();
+		return incapsulaCookie;
 
 	}
-	
+
 	public static String readUrl(String url) throws IOException {
 
-	    StringBuilder response = new StringBuilder();
-	    BufferedReader in = null;
+		StringBuilder response = new StringBuilder();
+		BufferedReader in = null;
 
-	   
-	        HttpURLConnection connection =(HttpURLConnection) new URL(url).openConnection();
-	        connection.setRequestMethod("GET");
-	        connection.setRequestProperty("Accept", "text/html; charset=UTF-8");
-	        connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-	        connection.setRequestProperty("Cookie", getIncapsulaCookie(url));
+		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+		connection.setRequestMethod("GET");
+		connection.setRequestProperty("Accept", "text/html; charset=UTF-8");
+		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
+		connection.setRequestProperty("Cookie", getIncapsulaCookie(url));
 
-	        in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	        
-	        String inputLine="";
-	        while ((inputLine = in.readLine()) != null) {
-	            response.append(inputLine);
-	        }
-	        
-	        in.close();
+		in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-	   
-	    
-	    return response.toString();
+		String inputLine = "";
+		while ((inputLine = in.readLine()) != null) {
+			response.append(inputLine);
+		}
+
+		in.close();
+
+		return response.toString();
 
 	}
-	
+
 }

@@ -11,24 +11,21 @@ import org.magic.game.model.Turn;
 
 public class CombatPhase extends AbstractAction {
 
-	
-	
-	String detail="<html>-The active player gains priority.<br/>"
+	String detail = "<html>-The active player gains priority.<br/>"
 			+ "-Creatures assigned in this step are attacking.</html>";
 
-	
 	public CombatPhase() {
 		super("Combat");
 		putValue(SHORT_DESCRIPTION, detail);
 		setEnabled(false);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.COMBAT);
-		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton) ae.getSource());
 		setEnabled(false);
-		
+
 	}
 
 }

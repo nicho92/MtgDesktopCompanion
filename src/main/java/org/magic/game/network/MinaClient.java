@@ -25,50 +25,45 @@ import org.utils.patterns.observer.Observable;
 
 public class MinaClient extends Observable {
 
-   private IoConnector connector;
-   private IoSession session;
-   private Player p;
-   
-   private IoHandlerAdapter adapter = new IoHandlerAdapter() {
-	 	@Override
-	   	public void messageReceived(IoSession session, Object m) throws Exception {
-	   		
-	   		if(m instanceof Long)
-	   		{
-	   			p.setId((Long)m); //get id from server.
-	   		}
-	   		else
-	   		{
-	   			setChanged();
-	   			notifyObservers(m);
-	   		}
-		}
-   };
-   
-   
-   public Player getP() {
-	return p;
-}
+	private IoConnector connector;
+	private IoSession session;
+	private Player p;
 
-   public IoSession getSession() {
-		return session;
-   }
-	   
-   public MinaClient(String server, int port) {
-	   
-	 p = new Player();
-     connector = new NioSocketConnector();
-     connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));  
-     connector.setHandler(adapter);
-     
-     ConnectFuture connFuture = connector.connect(new InetSocketAddress(server, port));
-     connFuture.awaitUninterruptibly();
-     session = connFuture.getSession();
+	private IoHandlerAdapter adapter = new IoHandlerAdapter() {
+		@Override
+		public void messageReceived(IoSession session, Object m) throws Exception {
+
+			if (m instanceof Long) {
+				p.setId((Long) m); // get id from server.
+			} else {
+				setChanged();
+				notifyObservers(m);
+			}
+		}
+	};
+
+	public Player getP() {
+		return p;
 	}
-   
-	public void join()
-	{
-	   session.write(new JoinAction(p));
+
+	public IoSession getSession() {
+		return session;
+	}
+
+	public MinaClient(String server, int port) {
+
+		p = new Player();
+		connector = new NioSocketConnector();
+		connector.getFilterChain().addLast("codec", new ProtocolCodecFilter(new ObjectSerializationCodecFactory()));
+		connector.setHandler(adapter);
+
+		ConnectFuture connFuture = connector.connect(new InetSocketAddress(server, port));
+		connFuture.awaitUninterruptibly();
+		session = connFuture.getSession();
+	}
+
+	public void join() {
+		session.write(new JoinAction(p));
 	}
 
 	public void updateDeck(MagicDeck d) {
@@ -77,33 +72,30 @@ public class MinaClient extends Observable {
 	}
 
 	public void sendMessage(String text) {
-		SpeakAction act = new SpeakAction(p,text);
+		SpeakAction act = new SpeakAction(p, text);
 		session.write(act);
 	}
-	
-	public void sendDeck(MagicDeck d, Player to)
-	{
-		session.write(new ShareDeckAction(p, d,to));
+
+	public void sendDeck(MagicDeck d, Player to) {
+		session.write(new ShareDeckAction(p, d, to));
 	}
-	
-	public void sendMessage(String text,Color c) {
-		SpeakAction act = new SpeakAction(p,text);
+
+	public void sendMessage(String text, Color c) {
+		SpeakAction act = new SpeakAction(p, text);
 		act.setColor(c);
 		session.write(act);
 	}
-	
-	public void logout()
-	{
+
+	public void logout() {
 		session.closeOnFlush();
 	}
 
 	public void requestPlay(Player otherplayer) {
-		session.write(new RequestPlayAction(p,otherplayer));
-		
+		session.write(new RequestPlayAction(p, otherplayer));
+
 	}
 
-	public void reponse(RequestPlayAction pa,CHOICE c)
-	{
+	public void reponse(RequestPlayAction pa, CHOICE c) {
 		session.write(new ReponseAction(pa, c));
 	}
 
@@ -111,5 +103,5 @@ public class MinaClient extends Observable {
 		p.setState(selectedItem);
 		session.write(new ChangeStatusAction(p));
 	}
-	
+
 }

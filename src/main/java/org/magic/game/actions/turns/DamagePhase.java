@@ -11,21 +11,20 @@ import org.magic.game.model.Turn;
 
 public class DamagePhase extends AbstractAction {
 
-	
 	public DamagePhase() {
 		super("Damage");
 		putValue(SHORT_DESCRIPTION, "Damage phase");
 		setEnabled(false);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent ae) {
-	
+
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.DAMAGE);
 
-		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton) ae.getSource());
 		setEnabled(false);
-		
+
 	}
 
 }

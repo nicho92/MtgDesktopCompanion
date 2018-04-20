@@ -22,177 +22,242 @@ import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
 
 public class ManaPanel extends JPanel {
-	private int cols=10;
-	private int rows =7;
-	private int chunkWidth=100;
-	private int chunkHeight=100;
+	private int cols = 10;
+	private int rows = 7;
+	private int chunkWidth = 100;
+	private int chunkHeight = 100;
 	private transient BufferedImage[] imgs;
-	private boolean cached=false;
-	private int rowHeight=MTGConstants.TABLE_ROW_HEIGHT;
-	private int rowWidth=MTGConstants.TABLE_ROW_WIDTH;
-	private String regex ="\\{(.*?)\\}";
+	private boolean cached = false;
+	private int rowHeight = MTGConstants.TABLE_ROW_HEIGHT;
+	private int rowWidth = MTGConstants.TABLE_ROW_WIDTH;
+	private String regex = "\\{(.*?)\\}";
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public int getRowHeight() {
 		return rowHeight;
 	}
-	
+
 	public int getRowWidth() {
 		return rowWidth;
 	}
-	
-	
-	FlowLayout fl =new FlowLayout();
-	
-	int chunks = rows * cols;  
-	int count = 0;  
+
+	FlowLayout fl = new FlowLayout();
+
+	int chunks = rows * cols;
+	int count = 0;
 
 	String manaCost;
-	
-	
+
 	public ManaPanel() {
 		fl.setAlignment(FlowLayout.LEFT);
 		setLayout(fl);
 		init();
-		
+
 	}
-	
-	
-	public String getManaCost()
-	{
+
+	public String getManaCost() {
 		return manaCost;
 	}
-	
+
 	public void setManaCost(String manaCost) {
-	
+
 		this.removeAll();
 		this.revalidate();
 		this.repaint();
-		if(manaCost==null)
+		if (manaCost == null)
 			return;
-		
+
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(manaCost);
-		
-		
-		
+
 		fl.setVgap(0);
 		fl.setHgap(0);
-		while(m.find()) 
-			{
-				JLabel lab = new JLabel();
-				Image img = getManaSymbol(m.group());
-				lab.setIcon(new ImageIcon(img.getScaledInstance(rowWidth, rowHeight, Image.SCALE_DEFAULT)));
-				lab.setHorizontalAlignment(SwingConstants.LEFT);
-				add(lab);
-			}
+		while (m.find()) {
+			JLabel lab = new JLabel();
+			Image img = getManaSymbol(m.group());
+			lab.setIcon(new ImageIcon(img.getScaledInstance(rowWidth, rowHeight, Image.SCALE_DEFAULT)));
+			lab.setHorizontalAlignment(SwingConstants.LEFT);
+			add(lab);
+		}
 	}
-	
+
 	private void init() {
 		BufferedImage image;
-		
-		if(!cached)
-		{
+
+		if (!cached) {
 			imgs = new BufferedImage[chunks];
 			try {
 				image = ImageIO.read(MTGConstants.URL_MANA_SYMBOLS);
-				for (int x = 0; x < rows; x++) {  
-		            for (int y = 0; y < cols; y++) 
-		            {  
-		                imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());  
-		                Graphics2D gr = imgs[count++].createGraphics();  
-		                gr.drawImage(image, 0, 0, chunkWidth, chunkHeight, chunkWidth * y, chunkHeight * x, chunkWidth * y + chunkWidth, chunkHeight * x + chunkHeight, null);  
-		                gr.dispose(); 
-		            }  
-	        }  
-			cached=true;
-				
+				for (int x = 0; x < rows; x++) {
+					for (int y = 0; y < cols; y++) {
+						imgs[count] = new BufferedImage(chunkWidth, chunkHeight, image.getType());
+						Graphics2D gr = imgs[count++].createGraphics();
+						gr.drawImage(image, 0, 0, chunkWidth, chunkHeight, chunkWidth * y, chunkHeight * x,
+								chunkWidth * y + chunkWidth, chunkHeight * x + chunkHeight, null);
+						gr.dispose();
+					}
+				}
+				cached = true;
+
 			} catch (IOException e) {
 				logger.error(e);
 			}
-		
+
 		}
-		
+
 	}
 
-	public Image getManaSymbol(String el) 
-	{
-		rowWidth=18;
+	public Image getManaSymbol(String el) {
+		rowWidth = 18;
 		el = el.replaceAll("\\{", "").replaceAll("\\}", "").trim();
 		int val = 0;
-		try{
+		try {
 			val = Integer.parseInt(el);
-		}
-		catch(NumberFormatException ne)
-		{
-			switch(el)
-			{
-			case "X":val=21;break;
-			case "Y":val=22;break;
-			case "Z":val=23;break;
-			case "W":val=24;break;
-			case "U":val=25;break;
-			case "B":val=26;break;
-			case "R":val=27;break;
-			case "G":val=28;break;
-			case "S":val=29;break;
-			case "W/P":val=45;break;
-			case "U/P":val=46;break;
-			case "B/P":val=47;break;
-			case "R/P":val=48;break;
-			case "G/P":val=49;break;
-			
-			case "W/U":val=30;break;
-			case "W/B":val=31;break;
-			case "U/B":val=32;break;
-			case "U/R":val=33;break;
-			case "B/R":val=34;break;
-			case "B/G":val=35;break;
-			case "R/W":val=36;break;
-			case "R/G":val=37;break;
-			case "G/W":val=38;break;
-			case "G/U":val=39;break;
-			
-			case "2/W":val=40;break;
-			case "2/U":val=41;break;
-			case "2/B":val=42;break;
-			case "2/R":val=43;break;
-			case "2/G":val=44;break;
-			case "T" : val=50;break;
-			case "Q" : val=51;break;
-			case "C" : val=69;break;
-			case "\u221e" : val=52;break;//infinity symbol
-			case "\u00BD" : val=53;break;//1/2 symbol
-			case "CHAOS" : val=67;break; 
-			case "E" : val=68;break;
-			case "hr" : val=58;break; // half red unghined
-			case "hw" : val=57;break; // half white unghined
-			default:val=0;
+		} catch (NumberFormatException ne) {
+			switch (el) {
+			case "X":
+				val = 21;
+				break;
+			case "Y":
+				val = 22;
+				break;
+			case "Z":
+				val = 23;
+				break;
+			case "W":
+				val = 24;
+				break;
+			case "U":
+				val = 25;
+				break;
+			case "B":
+				val = 26;
+				break;
+			case "R":
+				val = 27;
+				break;
+			case "G":
+				val = 28;
+				break;
+			case "S":
+				val = 29;
+				break;
+			case "W/P":
+				val = 45;
+				break;
+			case "U/P":
+				val = 46;
+				break;
+			case "B/P":
+				val = 47;
+				break;
+			case "R/P":
+				val = 48;
+				break;
+			case "G/P":
+				val = 49;
+				break;
+
+			case "W/U":
+				val = 30;
+				break;
+			case "W/B":
+				val = 31;
+				break;
+			case "U/B":
+				val = 32;
+				break;
+			case "U/R":
+				val = 33;
+				break;
+			case "B/R":
+				val = 34;
+				break;
+			case "B/G":
+				val = 35;
+				break;
+			case "R/W":
+				val = 36;
+				break;
+			case "R/G":
+				val = 37;
+				break;
+			case "G/W":
+				val = 38;
+				break;
+			case "G/U":
+				val = 39;
+				break;
+
+			case "2/W":
+				val = 40;
+				break;
+			case "2/U":
+				val = 41;
+				break;
+			case "2/B":
+				val = 42;
+				break;
+			case "2/R":
+				val = 43;
+				break;
+			case "2/G":
+				val = 44;
+				break;
+			case "T":
+				val = 50;
+				break;
+			case "Q":
+				val = 51;
+				break;
+			case "C":
+				val = 69;
+				break;
+			case "\u221e":
+				val = 52;
+				break;// infinity symbol
+			case "\u00BD":
+				val = 53;
+				break;// 1/2 symbol
+			case "CHAOS":
+				val = 67;
+				break;
+			case "E":
+				val = 68;
+				break;
+			case "hr":
+				val = 58;
+				break; // half red unghined
+			case "hw":
+				val = 57;
+				break; // half white unghined
+			default:
+				val = 0;
 			}
 		}
 		List<Image> lst = new ArrayList<>();
-		
-		if(val==100)//mox lotus
+
+		if (val == 100)// mox lotus
 		{
 			lst.add(imgs[65]);
 			lst.add(imgs[66]);
-			rowWidth=rowWidth*lst.size();
+			rowWidth = rowWidth * lst.size();
 			return ImageUtils.joinBufferedImage(lst);
 		}
-		
-		if(val==1000000)//gleemax
+
+		if (val == 1000000)// gleemax
 		{
-			
+
 			lst.add(imgs[60]);
 			lst.add(imgs[61]);
 			lst.add(imgs[62]);
 			lst.add(imgs[63]);
 			lst.add(imgs[64]);
-			rowWidth=rowWidth*lst.size();
+			rowWidth = rowWidth * lst.size();
 			return ImageUtils.joinBufferedImage(lst);
 		}
-		
+
 		return imgs[val];
 	}
-	
+
 }

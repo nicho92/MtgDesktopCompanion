@@ -53,7 +53,7 @@ import org.magic.services.ThreadManager;
 public class AlarmGUI extends JPanel {
 	private JTable table;
 	private CardAlertTableModel model;
-	private MagicCardDetailPanel magicCardDetailPanel ;
+	private MagicCardDetailPanel magicCardDetailPanel;
 	private DefaultListModel<MagicPrice> resultListModel;
 	private JList<MagicPrice> list;
 	private JSplitPane splitPanel;
@@ -66,186 +66,176 @@ public class AlarmGUI extends JPanel {
 	private JButton btnImport;
 	private JLabel lblLoading;
 	private File f;
-	
+
 	public AlarmGUI() {
-		
+
 		logger.info("init Alarm GUI");
 		setLayout(new BorderLayout());
-		
+
 		splitPanel = new JSplitPane();
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		add(splitPanel, BorderLayout.CENTER);
-		
+
 		JScrollPane scrollTable = new JScrollPane();
 		scrollTable.setPreferredSize(new Dimension(2, 200));
 		splitPanel.setLeftComponent(scrollTable);
 		table = new JTable();
 		model = new CardAlertTableModel();
 		table.setModel(model);
-		
+
 		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
 		lblLoading.setVisible(false);
 		table.getColumnModel().getColumn(3).setCellRenderer(new AlertedCardsRenderer());
-		
-		
-		
+
 		scrollTable.setViewportView(table);
-		
+
 		table.addMouseListener(new MouseAdapter() {
 			@Override
-			public void mouseClicked(MouseEvent evt) 
-			{
+			public void mouseClicked(MouseEvent evt) {
 				resultListModel.removeAllElements();
-				MagicCardAlert selected = (MagicCardAlert)table.getValueAt(table.getSelectedRow(), 0);
-					magicCardDetailPanel.setMagicCard(selected.getCard());
-					variationPanel.init(selected.getCard(), null, selected.getCard().getName());
-				for(MagicPrice mp : selected.getOffers())
+				MagicCardAlert selected = (MagicCardAlert) table.getValueAt(table.getSelectedRow(), 0);
+				magicCardDetailPanel.setMagicCard(selected.getCard());
+				variationPanel.init(selected.getCard(), null, selected.getCard().getName());
+				for (MagicPrice mp : selected.getOffers())
 					resultListModel.addElement(mp);
 			}
 		});
-		
+
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		splitPanel.setRightComponent(tabbedPane);
-		
+
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		variationPanel = new HistoryPricesPanel();
-		
-		
+
 		tabbedPane.addTab("Card", null, magicCardDetailPanel, null);
-		tabbedPane.addTab("Variations", null, variationPanel , null);
-		
+		tabbedPane.addTab("Variations", null, variationPanel, null);
+
 		magicCardDetailPanel.enableThumbnail(true);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.EAST);
-		
-		resultListModel= new DefaultListModel<>();
-			
+
+		resultListModel = new DefaultListModel<>();
+
 		list = new JList<>(resultListModel);
-		
-		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index,boolean isSelected, boolean cellHasFocus)->new MagicPricePanel(value));
-		
-		
+
+		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,
+				boolean cellHasFocus) -> new MagicPricePanel(value));
+
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				try {
-					
-					if(e.getClickCount() == 2 && (list.getSelectedValue()!=null))
-						{
-							MagicPrice p = list.getSelectedValue();
-							Desktop.getDesktop().browse(new URI(p.getUrl()));
-						}
+
+					if (e.getClickCount() == 2 && (list.getSelectedValue() != null)) {
+						MagicPrice p = list.getSelectedValue();
+						Desktop.getDesktop().browse(new URI(p.getUrl()));
+					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1,MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
+							JOptionPane.ERROR_MESSAGE);
 				}
-				
+
 			}
 		});
 		scrollPane.setViewportView(list);
-		
+
 		panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
-		
+
 		btnRefresh = new JButton();
-		btnRefresh.addActionListener(e->{
-				
-				if(!MTGControler.getInstance().isRunning(new PricesCheckerTimer()))
-				{
-					int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().getCapitalize("PRICE_TIMER_LAUNCH"),MTGControler.getInstance().getLangService().getCapitalize("PRICE_TIMER_STOPPED"), JOptionPane.YES_NO_OPTION);
-					
-					if(res==JOptionPane.YES_OPTION)
-						for(MTGServer serv : MTGControler.getInstance().getEnabledServers())
-							if(serv.getName().equals(new PricesCheckerTimer().getName()))
-								try {
-									serv.start();
-								} catch (Exception ex) {
-									logger.error(ex);
-								}
-				}
-				
-				model.fireTableDataChanged();
+		btnRefresh.addActionListener(e -> {
+
+			if (!MTGControler.getInstance().isRunning(new PricesCheckerTimer())) {
+				int res = JOptionPane.showConfirmDialog(null,
+						MTGControler.getInstance().getLangService().getCapitalize("PRICE_TIMER_LAUNCH"),
+						MTGControler.getInstance().getLangService().getCapitalize("PRICE_TIMER_STOPPED"),
+						JOptionPane.YES_NO_OPTION);
+
+				if (res == JOptionPane.YES_OPTION)
+					for (MTGServer serv : MTGControler.getInstance().getEnabledServers())
+						if (serv.getName().equals(new PricesCheckerTimer().getName()))
+							try {
+								serv.start();
+							} catch (Exception ex) {
+								logger.error(ex);
+							}
+			}
+
+			model.fireTableDataChanged();
 		});
-		
+
 		btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		panel.add(btnImport);
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panel.add(btnRefresh);
-		
+
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
-		
-		btnDelete.addActionListener(event-> {
-			int res = JOptionPane.showConfirmDialog(null, 
-										MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
-										MTGControler.getInstance().getLangService().getCapitalize("DELETE") +" ?",
-										JOptionPane.YES_NO_OPTION);
-			if(res==JOptionPane.YES_OPTION)
-				{
-				ThreadManager.getInstance().execute(()->{
-						try {
-							int[] selected  = table.getSelectedRows();
-							lblLoading.setVisible(true);
-							List<MagicCardAlert> alerts = extract(selected);
-							for(MagicCardAlert alert : alerts)
-								MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
-							
-							model.fireTableDataChanged();
-						}
-						catch(Exception e)
-						{
-							JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
-							lblLoading.setVisible(false);
-						}
+
+		btnDelete.addActionListener(event -> {
+			int res = JOptionPane.showConfirmDialog(null,
+					MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",
+							table.getSelectedRows().length + " item(s)"),
+					MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",
+					JOptionPane.YES_NO_OPTION);
+			if (res == JOptionPane.YES_OPTION) {
+				ThreadManager.getInstance().execute(() -> {
+					try {
+						int[] selected = table.getSelectedRows();
+						lblLoading.setVisible(true);
+						List<MagicCardAlert> alerts = extract(selected);
+						for (MagicCardAlert alert : alerts)
+							MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
+
+						model.fireTableDataChanged();
+					} catch (Exception e) {
+						JOptionPane.showMessageDialog(null, e.getMessage(),
+								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 						lblLoading.setVisible(false);
-						
-					
+					}
+					lblLoading.setVisible(false);
+
 				}, "delete alerts");
-				
-				}
+
+			}
 		});
-		
-	
-		
+
 		panel.add(btnDelete);
 		panel.add(lblLoading);
 		addComponentListener(new ComponentAdapter() {
-			  @Override
-		      public void componentShown(ComponentEvent componentEvent) {
-		    	  splitPanel.setDividerLocation(.5);
-		    	  model.fireTableDataChanged();
-		    	  removeComponentListener(this);
-		      }
+			@Override
+			public void componentShown(ComponentEvent componentEvent) {
+				splitPanel.setDividerLocation(.5);
+				model.fireTableDataChanged();
+				removeComponentListener(this);
+			}
 
-		    });
-		
-		btnImport.addActionListener(ae->{
+		});
+
+		btnImport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
-			
-			
-			JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+
+			JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService()
+					.getCapitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
-			
-			mnuImportSearch.addActionListener(importAE->{
-					CardSearchImportDialog cdSearch = new CardSearchImportDialog();
-					cdSearch.setVisible(true);
-					if(cdSearch.getSelection()!=null)
-					{
-						for(MagicCard mc : cdSearch.getSelection())
-							addCard(mc);
-					}
+
+			mnuImportSearch.addActionListener(importAE -> {
+				CardSearchImportDialog cdSearch = new CardSearchImportDialog();
+				cdSearch.setVisible(true);
+				if (cdSearch.getSelection() != null) {
+					for (MagicCard mc : cdSearch.getSelection())
+						addCard(mc);
+				}
 			});
 			menu.add(mnuImportSearch);
-			
-			
-			
+
 			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
-				if(exp.getMods()==MODS.BOTH || exp.getMods()==MODS.IMPORT)
-				{
-					
-				JMenuItem it = new JMenuItem();
-				it.setIcon(exp.getIcon());
-				it.setText(exp.getName());
-				it.addActionListener(itEvent->{
+				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
+
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(itEvent -> {
 						JFileChooser jf = new JFileChooser(".");
 						jf.setFileFilter(new FileFilter() {
 
@@ -259,40 +249,39 @@ public class AlarmGUI extends JPanel {
 								return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
 							}
 						});
-						int res=-1;
-						f=new File("");
-						
-						if(!exp.needDialogGUI())
-						{
+						int res = -1;
+						f = new File("");
+
+						if (!exp.needDialogGUI()) {
 							res = jf.showOpenDialog(null);
 							f = jf.getSelectedFile();
-						}
-						else
-						{
-							res=JFileChooser.APPROVE_OPTION;
-							
+						} else {
+							res = JFileChooser.APPROVE_OPTION;
+
 						}
 
 						if (res == JFileChooser.APPROVE_OPTION)
-							ThreadManager.getInstance().execute(()->{
-									try {
-										loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(),exp));
-										MagicDeck deck = exp.importDeck(f);
-										
-										for(MagicCard mc : deck.getMap().keySet())
-											addCard(mc);
-									
-										loading(false, "");
-									} catch (Exception e) {
-										logger.error("error import",e);
-										loading(false, "");
-										JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
-									}
+							ThreadManager.getInstance().execute(() -> {
+								try {
+									loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",
+											f.getName(), exp));
+									MagicDeck deck = exp.importDeck(f);
 
-								
+									for (MagicCard mc : deck.getMap().keySet())
+										addCard(mc);
+
+									loading(false, "");
+								} catch (Exception e) {
+									logger.error("error import", e);
+									loading(false, "");
+									JOptionPane.showMessageDialog(null, e,
+											MTGControler.getInstance().getLangService().getError(),
+											JOptionPane.ERROR_MESSAGE);
+								}
+
 							}, "import " + exp);
-					
-				});
+
+					});
 
 					menu.add(it);
 				}
@@ -302,12 +291,10 @@ public class AlarmGUI extends JPanel {
 			Point point = b.getLocationOnScreen();
 			menu.show(b, 0, 0);
 			menu.setLocation(point.x, point.y + b.getHeight());
-		
-	});
-		
-		
-	}
 
+		});
+
+	}
 
 	private void addCard(MagicCard mc) {
 		MagicCardAlert alert = new MagicCardAlert();
@@ -319,26 +306,23 @@ public class AlarmGUI extends JPanel {
 			logger.error(e);
 		}
 		model.fireTableDataChanged();
-		
-	}
 
+	}
 
 	private void loading(boolean b, String string) {
 		lblLoading.setText(string);
 		lblLoading.setVisible(b);
-		
+
 	}
-	
-	private List<MagicCardAlert> extract(int[] ids)
-	{
+
+	private List<MagicCardAlert> extract(int[] ids) {
 		List<MagicCardAlert> select = new ArrayList<>();
-		
-		for(int l : ids)
-		{
-			select.add(((MagicCardAlert)table.getValueAt(l, 0)));
+
+		for (int l : ids) {
+			select.add(((MagicCardAlert) table.getValueAt(l, 0)));
 		}
 		return select;
-		
+
 	}
 
 }

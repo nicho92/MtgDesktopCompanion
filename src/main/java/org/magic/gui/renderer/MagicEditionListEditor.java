@@ -12,21 +12,21 @@ import org.magic.api.beans.MagicEdition;
 
 public class MagicEditionListEditor extends DefaultCellEditor {
 
-    private DefaultComboBoxModel<MagicEdition> model;
- 
-    public MagicEditionListEditor() {
-        super(new JComboBox<MagicEdition>());
-        model = (DefaultComboBoxModel<MagicEdition>)((JComboBox<MagicEdition>)getComponent()).getModel();
-    }
+	private DefaultComboBoxModel<MagicEdition> model;
 
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-             model.removeAllElements();
-             List<MagicEdition> selectedItem = (List<MagicEdition>)table.getValueAt(row, column);
-            
-             for(MagicEdition e : selectedItem)
-        	   model.addElement(e);
-             
-        return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);
-     }
-    }
+	public MagicEditionListEditor() {
+		super(new JComboBox<MagicEdition>());
+		model = (DefaultComboBoxModel<MagicEdition>) ((JComboBox<MagicEdition>) getComponent()).getModel();
+	}
+
+	@Override
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+		model.removeAllElements();
+		List<MagicEdition> selectedItem = (List<MagicEdition>) table.getValueAt(row, column);
+
+		for (MagicEdition e : selectedItem)
+			model.addElement(e);
+
+		return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);
+	}
+}

@@ -4,26 +4,24 @@ import java.awt.event.ActionEvent;
 
 import org.magic.game.gui.components.DisplayableCard;
 
-public class CardSpell extends AbstractSpell{
+public class CardSpell extends AbstractSpell {
 
 	DisplayableCard c;
-	
-	public CardSpell(String name, String description,DisplayableCard card) {
-		super(name,description);
-		this.c=card;
+
+	public CardSpell(String name, String description, DisplayableCard card) {
+		super(name, description);
+		this.c = card;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent paramActionEvent) {
-		//do nothing
-		
+		// do nothing
+
 	}
-	
-	public DisplayableCard getDisplayableCard(){
+
+	public DisplayableCard getDisplayableCard() {
 		return c;
 	}
-	
-	
 
 	@Override
 	public String getCost() {
@@ -39,6 +37,5 @@ public class CardSpell extends AbstractSpell{
 	public String toString() {
 		return c.getMagicCard().toString();
 	}
-	
-	
+
 }

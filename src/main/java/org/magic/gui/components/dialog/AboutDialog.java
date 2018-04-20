@@ -20,24 +20,28 @@ public class AboutDialog extends JDialog {
 	private static final long serialVersionUID = 1L;
 
 	public AboutDialog() {
-		setTitle(MTGControler.getInstance().getLangService().getCapitalize("ABOUT")+ " " + MTGConstants.MTG_APP_NAME);
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME);
 		setResizable(false);
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		
+
 		JTextArea txtrWizardsOfThe = new JTextArea();
 		txtrWizardsOfThe.setBackground(Color.BLACK);
 		txtrWizardsOfThe.setForeground(Color.LIGHT_GRAY);
 		txtrWizardsOfThe.setWrapStyleWord(true);
 		txtrWizardsOfThe.setEditable(false);
 		txtrWizardsOfThe.setLineWrap(true);
-		txtrWizardsOfThe.setText("Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"+Calendar.getInstance().get(Calendar.YEAR)+" Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.");
+		txtrWizardsOfThe.setText(
+				"Wizards of the Coast, Magic: The Gathering, and their logos are trademarks of Wizards of the Coast LLC. \u00A9 1995-"
+						+ Calendar.getInstance().get(Calendar.YEAR)
+						+ " Wizards. All rights reserved. This app is not affiliated with Wizards of the Coast LLC.");
 		getContentPane().add(txtrWizardsOfThe, BorderLayout.SOUTH);
-		
+
 		JLabel lblNewLabel = new JLabel();
 		lblNewLabel.setIcon(new ImageIcon(AboutDialog.class.getResource("/icons/MTGlogo.jpg")));
 		getContentPane().add(lblNewLabel, BorderLayout.CENTER);
-		
-		JLabel lblDeveloppedByNichow = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DEVELOPPERS_ABOUT", "Nichow", "GPL " +new SimpleDateFormat("yyyy").format(new Date())));
+
+		JLabel lblDeveloppedByNichow = new JLabel(MTGControler.getInstance().getLangService().getCapitalize(
+				"DEVELOPPERS_ABOUT", "Nichow", "GPL " + new SimpleDateFormat("yyyy").format(new Date())));
 		lblDeveloppedByNichow.setOpaque(true);
 		lblDeveloppedByNichow.setBackground(Color.BLACK);
 		lblDeveloppedByNichow.setForeground(Color.WHITE);

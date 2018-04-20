@@ -15,18 +15,17 @@ import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 
-public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
-	
-	
+public class FilesWallpaperProvider extends AbstractWallpaperProvider {
+
 	@Override
 	public List<Wallpaper> search(String search) {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
-			
-			Collection<File> res = FileUtils.listFiles(new File(getString("DIRECTORY")),new String[] {"png","jpg"},true);
-			
-			for(File f : res)
-			{
+
+			Collection<File> res = FileUtils.listFiles(new File(getString("DIRECTORY")), new String[] { "png", "jpg" },
+					true);
+
+			for (File f : res) {
 				Wallpaper w = new Wallpaper();
 				w.setName(f.getName());
 				w.setUrl(Paths.get(f.toURI()).toUri().toURL());
@@ -34,15 +33,13 @@ public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
 				list.add(w);
 			}
 			return list;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			logger.error(e);
 			return list;
 		}
-		
-		
+
 	}
-	
+
 	@Override
 	public List<Wallpaper> search(MagicEdition ed) {
 		return search(ed.getSet());
@@ -73,7 +70,5 @@ public class FilesWallpaperProvider extends  AbstractWallpaperProvider {
 	public String getVersion() {
 		return "0.1";
 	}
-	
-	
 
 }

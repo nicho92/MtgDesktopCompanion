@@ -18,40 +18,36 @@ import com.google.gson.reflect.TypeToken;
 public class KeyWordProvider {
 
 	List<MTGKeyWord> list;
-	
+
 	public List<MTGKeyWord> getList() {
 		return list;
 	}
-	
-	
+
 	public KeyWordProvider() {
-		
-			Gson s = new Gson();
-			Type listType = new TypeToken<ArrayList<MTGKeyWord>>(){}.getType();
-			list = s.fromJson(new InputStreamReader(this.getClass().getResourceAsStream("/data/keywords.json")), listType);
-			if(list==null)
-				list=new ArrayList<>();
-		
+
+		Gson s = new Gson();
+		Type listType = new TypeToken<ArrayList<MTGKeyWord>>() {
+		}.getType();
+		list = s.fromJson(new InputStreamReader(this.getClass().getResourceAsStream("/data/keywords.json")), listType);
+		if (list == null)
+			list = new ArrayList<>();
+
 	}
-	
-	public MTGKeyWord generateFromString(String key)
-	{
-		for(MTGKeyWord k : list)
-			if(key.equalsIgnoreCase(k.getKeyword()))
+
+	public MTGKeyWord generateFromString(String key) {
+		for (MTGKeyWord k : list)
+			if (key.equalsIgnoreCase(k.getKeyword()))
 				return k;
-		
+
 		return null;
 	}
 
-	
-	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc)
-	{
+	public Set<MTGKeyWord> getKeywordsFrom(MagicCard mc) {
 		Set<MTGKeyWord> ret = new LinkedHashSet<>();
-		
-		for(MTGKeyWord s : list)
-		{	
-			if(String.valueOf(mc.getText()).toLowerCase().contains(s.getKeyword().toLowerCase()))
-					ret.add(s);
+
+		for (MTGKeyWord s : list) {
+			if (String.valueOf(mc.getText()).toLowerCase().contains(s.getKeyword().toLowerCase()))
+				ret.add(s);
 		}
 		return ret;
 	}
@@ -59,18 +55,13 @@ public class KeyWordProvider {
 	public Set<MTGKeyWord> getKeywordsFrom(MagicCard magicCard, EVENT... t) {
 		Set<MTGKeyWord> s = getKeywordsFrom(magicCard);
 		Set<MTGKeyWord> ret = new HashSet<>();
-		
-		for(MTGKeyWord k : s)
-			for(EVENT ev : t)
-				if(k.getEvent().equals(ev))
-						ret.add(k);
-		
-		
+
+		for (MTGKeyWord k : s)
+			for (EVENT ev : t)
+				if (k.getEvent().equals(ev))
+					ret.add(k);
+
 		return ret;
 	}
-	
+
 }
-
-
-
-

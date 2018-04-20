@@ -24,131 +24,112 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	private Document doc;
 	private List<MagicPrice> list;
 	private List<String> eds;
-	
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
 
 	public CardKingdomPricer() {
 		super();
-		
-		list=new ArrayList<>();
-		
-		
+
+		list = new ArrayList<>();
+
 		try {
-  			InstallCert.install("www.cardkingdom.com");
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
-    	} catch (Exception e1) {
+			InstallCert.install("www.cardkingdom.com");
+			System.setProperty("javax.net.ssl.trustStore",
+					new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+		} catch (Exception e1) {
 			logger.error(e1);
 		}
-		
-		eds=new ArrayList<>();
+
+		eds = new ArrayList<>();
 		try {
-			doc = Jsoup.connect("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az").userAgent(getString("USER_AGENT")).timeout(0).get();
-			
+			doc = Jsoup.connect("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az")
+					.userAgent(getString("USER_AGENT")).timeout(0).get();
+
 			Elements e = doc.select(".anchorList a[href]");
-			
-			for(Element ed : e)
+
+			for (Element ed : e)
 				eds.add(ed.html());
 		} catch (IOException e) {
-			logger.error("Could not init list eds",e);
+			logger.error("Could not init list eds", e);
 		}
-		
-		
-	}
-	
 
+	}
 
 	private String findGoodEds(String set) {
-		double leven=100;
-		String name="";
+		double leven = 100;
+		String name = "";
 		EditDistance<Double> d = new JaccardDistance();
-		for(String s : eds)
-		{
-			double dist=d.apply(set.toLowerCase(), s.toLowerCase());
-			logger.trace(s +" leven=" + dist + "(save="+leven+")");
-			if(dist<leven)
-			{
-				leven=dist;
-				name=s;
+		for (String s : eds) {
+			double dist = d.apply(set.toLowerCase(), s.toLowerCase());
+			logger.trace(s + " leven=" + dist + "(save=" + leven + ")");
+			if (dist < leven) {
+				leven = dist;
+				name = s;
 			}
 		}
 		return name;
 	}
-	
-	
-	
-	public String format(String s)
-	{
-		return s.replaceAll("'s", "s").replaceAll(",","").replaceAll(" ", "-").toLowerCase();
+
+	public String format(String s) {
+		return s.replaceAll("'s", "s").replaceAll(",", "").replaceAll(" ", "-").toLowerCase();
 	}
-	
-	
-	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
-		
+
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+
 		list.clear();
 		String html = getString("URL");
-		
-		if(me==null)
+
+		if (me == null)
 			me = card.getEditions().get(0);
 
-		
-		String url = html+format(findGoodEds(me.getSet()))+"/"+format(card.getName());
-		Elements prices =null;
+		String url = html + format(findGoodEds(me.getSet())) + "/" + format(card.getName());
+		Elements prices = null;
 		Elements qualities = null;
-		
 
-		logger.info(getName() +" looking for prices " + url );
-		try{
+		logger.info(getName() + " looking for prices " + url);
+		try {
 			doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).timeout(0).get();
 			qualities = doc.select(".cardTypeList li");
 			prices = doc.select(".stylePrice");
-		
-		}
-		catch(Exception e)
-		{
-			logger.info(getName() +" no item : "+ e.getMessage());
+
+		} catch (Exception e) {
+			logger.info(getName() + " no item : " + e.getMessage());
 			return list;
 		}
-		
+
 		List<MagicPrice> lstPrices = new ArrayList<>();
-		for(int i=0;i<qualities.size();i++)
-		{
-			 MagicPrice mp =new MagicPrice();
-			 
-			 String price = prices.get(i).html().replaceAll("\\$", "");
-			 mp.setValue(Double.parseDouble(price));
-			 mp.setCurrency("$");
-			 mp.setSeller("Card Kingdom");
-			 mp.setSite(getName());
-			 mp.setUrl(url);
-			 mp.setQuality(qualities.get(i).html());
-			 mp.setLanguage("English");
-			 
-			 if(!qualities.get(i).hasClass("disabled"))
-			 lstPrices.add(mp);
+		for (int i = 0; i < qualities.size(); i++) {
+			MagicPrice mp = new MagicPrice();
+
+			String price = prices.get(i).html().replaceAll("\\$", "");
+			mp.setValue(Double.parseDouble(price));
+			mp.setCurrency("$");
+			mp.setSeller("Card Kingdom");
+			mp.setSite(getName());
+			mp.setUrl(url);
+			mp.setQuality(qualities.get(i).html());
+			mp.setLanguage("English");
+
+			if (!qualities.get(i).hasClass("disabled"))
+				lstPrices.add(mp);
 		}
-		logger.info(getName() +" found " + lstPrices.size() +" item(s)" );
+		logger.info(getName() + " found " + lstPrices.size() + " item(s)");
 		return lstPrices;
 	}
-	
-	
 
 	@Override
 	public String getName() {
 		return "Card Kingdom";
 	}
 
-
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		logger.error("not implemented");
-		
-	}
 
+	}
 
 	@Override
 	public void initDefault() {
@@ -157,12 +138,9 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 	}
 
-
 	@Override
 	public String getVersion() {
 		return "1.0";
 	}
-	
+
 }
-
-

@@ -9,41 +9,36 @@ import java.util.List;
 public class SpellStack {
 
 	Deque<AbstractSpell> stack;
-	
+
 	public SpellStack() {
-		stack= new ArrayDeque<>();
+		stack = new ArrayDeque<>();
 	}
-	
-	public void clean()
-	{
+
+	public void clean() {
 		stack.clear();
 	}
-	
-	public void put(AbstractSpell a)
-	{
-		if(a.isStackable())
+
+	public void put(AbstractSpell a) {
+		if (a.isStackable())
 			stack.push(a);
 	}
-	
-	public AbstractSpell pop()
-	{
+
+	public AbstractSpell pop() {
 		return stack.pop();
 	}
-	
-	public List<AbstractSpell> toList()
-	{
+
+	public List<AbstractSpell> toList() {
 		return new ArrayList<>(stack);
 	}
-	
+
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-		
+
 		Iterator<AbstractSpell> it = stack.iterator();
-		while(it.hasNext())
-		{
+		while (it.hasNext()) {
 			b.append(it.next()).append("\n");
 		}
 		return b.toString();
 	}
-	
+
 }

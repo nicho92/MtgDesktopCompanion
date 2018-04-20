@@ -14,41 +14,40 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	protected int newW;
 	protected int newH;
-	
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.PICTURES;
 	}
-	
+
 	@Override
 	public void save() {
 		super.save();
-		 newW= getInt("CARD_SIZE_WIDTH");
-		 newH= getInt("CARD_SIZE_HEIGHT");
+		newW = getInt("CARD_SIZE_WIDTH");
+		newH = getInt("CARD_SIZE_HEIGHT");
 	}
-	
+
 	public AbstractPicturesProvider() {
 		super();
 		confdir = new File(MTGConstants.CONF_DIR, "pictures");
-		if(!confdir.exists())
+		if (!confdir.exists())
 			confdir.mkdir();
 		load();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
+
+		if (!new File(confdir, getName() + ".conf").exists()) {
 			initDefault();
 			save();
-		} 
+		}
 	}
-	
 
 	@Override
-	public BufferedImage getBackPicture(){
-			try {
-				return ImageIO.read(AbstractPicturesProvider.class.getResource("/icons/back.jpg"));
-			} catch (IOException e) {
-				logger.error("Error reading back picture ",e);
-				return null;
-			} 
+	public BufferedImage getBackPicture() {
+		try {
+			return ImageIO.read(AbstractPicturesProvider.class.getResource("/icons/back.jpg"));
+		} catch (IOException e) {
+			logger.error("Error reading back picture ", e);
+			return null;
+		}
 	}
 
 	@Override
@@ -56,10 +55,9 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		setProperty("CARD_SIZE_WIDTH", "223");
 		setProperty("CARD_SIZE_HEIGHT", "310");
 	}
-	
-	
-	public BufferedImage resizeCard(BufferedImage img,int newW, int newH) {  
-	    return ImageUtils.resize(img, newH, newW);
-	}  
+
+	public BufferedImage resizeCard(BufferedImage img, int newW, int newH) {
+		return ImageUtils.resize(img, newH, newW);
+	}
 
 }

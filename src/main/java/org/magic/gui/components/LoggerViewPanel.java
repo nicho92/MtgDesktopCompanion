@@ -12,53 +12,43 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.gui.models.LogTableModel;
 import org.magic.services.MTGConstants;
 
-
-
 public class LoggerViewPanel extends JPanel {
 	private JXTable table;
 	private LogTableModel model;
 	private Timer t;
 	private JCheckBox chckbxAutorefresh;
-	private JButton btnRefresh; 
-	
+	private JButton btnRefresh;
+
 	public LoggerViewPanel() {
-		model=new LogTableModel();
+		model = new LogTableModel();
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
-		
+
 		table = new JXTable(model);
-		//new TableFilterHeader(table, AutoChoices.ENABLED);
 		scrollPane.setViewportView(table);
-		
-		
+
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
-		
+
 		btnRefresh = new JButton("");
-		btnRefresh.addActionListener(ae->model.fireTableDataChanged());
+		btnRefresh.addActionListener(ae -> model.fireTableDataChanged());
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panel.add(btnRefresh);
-		
-		t = new Timer(1000,e->
-               model.fireTableDataChanged()
-		);
-		
-		
+
+		t = new Timer(1000, e -> model.fireTableDataChanged());
+
 		chckbxAutorefresh = new JCheckBox("Auto-refresh");
-		chckbxAutorefresh.addItemListener(ie->{
-				
-				if(chckbxAutorefresh.isSelected())
-				{
-					t.start();
-					btnRefresh.setEnabled(false);
-				}
-				else
-				{
-					t.stop();
-					btnRefresh.setEnabled(true);
-				}
+		chckbxAutorefresh.addItemListener(ie -> {
+
+			if (chckbxAutorefresh.isSelected()) {
+				t.start();
+				btnRefresh.setEnabled(false);
+			} else {
+				t.stop();
+				btnRefresh.setEnabled(true);
+			}
 		});
 		panel.add(chckbxAutorefresh);
 		table.packAll();

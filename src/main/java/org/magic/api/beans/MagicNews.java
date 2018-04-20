@@ -11,37 +11,43 @@ public class MagicNews implements Serializable {
 	private String categorie;
 	private String url;
 	private transient MTGNewsProvider provider;
-	
 
 	public MagicNews() {
-		id=-1;
+		id = -1;
 	}
-	
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getCategorie() {
 		return categorie;
 	}
+
 	public void setCategorie(String categorie) {
 		this.categorie = categorie;
 	}
+
 	public String getUrl() {
 		return url;
 	}
+
 	public void setUrl(String url) {
-			this.url = url;
+		this.url = url;
 	}
-	
+
 	public String toString() {
 		return getName();
 	}
@@ -49,9 +55,9 @@ public class MagicNews implements Serializable {
 	public void setProvider(MTGNewsProvider mtgNewsProvider) {
 		provider = mtgNewsProvider;
 	}
-	
+
 	public MTGNewsProvider getProvider() {
 		return provider;
 	}
-	
+
 }

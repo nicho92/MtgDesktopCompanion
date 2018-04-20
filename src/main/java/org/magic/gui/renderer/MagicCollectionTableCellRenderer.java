@@ -14,55 +14,49 @@ import org.magic.services.MTGConstants;
 public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
 	HashMap<String, ImageIcon> cache;
-	Color c ;
-	
+	Color c;
+
 	public MagicCollectionTableCellRenderer() {
-		cache=new HashMap<>();
+		cache = new HashMap<>();
 	}
-	
+
 	Component pane;
-	
+
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-	
-			if(column==4)
-				value = new DecimalFormat("#0%").format((double)value);
-			
-			pane = super.getTableCellRendererComponent(table, value, isSelected,hasFocus, row, column);
-			pane.setBackground(c);
-			
-			
-			if((double)table.getValueAt(row, 4)*100<5)
-			{
-				pane.setBackground(table.getBackground());
-				pane.setForeground(Color.BLACK);
-			}
-			
-			if((double)table.getValueAt(row, 4)*100>=5 && (double)table.getValueAt(row, 4)*100<50)
-			{
-				pane.setBackground(MTGConstants.COLLECTION_5PC);
-				pane.setForeground(Color.BLACK);
-			}
-			
-			if((double)table.getValueAt(row, 4)*100>=50)
-			{
-				pane.setBackground(MTGConstants.COLLECTION_50PC);
-				pane.setForeground(Color.BLACK);
-			}
-			
-			if((double)table.getValueAt(row, 4)*100>=90)
-			{
-				pane.setBackground(MTGConstants.COLLECTION_90PC);
-				pane.setForeground(Color.BLACK);
-			}
-			
-			if((double)table.getValueAt(row, 4)*100>=100)
-			{
-				pane.setBackground(MTGConstants.COLLECTION_100PC);
-				pane.setForeground(Color.BLACK);
-			}
-			return pane;
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+
+		if (column == 4)
+			value = new DecimalFormat("#0%").format((double) value);
+
+		pane = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		pane.setBackground(c);
+
+		if ((double) table.getValueAt(row, 4) * 100 < 5) {
+			pane.setBackground(table.getBackground());
+			pane.setForeground(Color.BLACK);
+		}
+
+		if ((double) table.getValueAt(row, 4) * 100 >= 5 && (double) table.getValueAt(row, 4) * 100 < 50) {
+			pane.setBackground(MTGConstants.COLLECTION_5PC);
+			pane.setForeground(Color.BLACK);
+		}
+
+		if ((double) table.getValueAt(row, 4) * 100 >= 50) {
+			pane.setBackground(MTGConstants.COLLECTION_50PC);
+			pane.setForeground(Color.BLACK);
+		}
+
+		if ((double) table.getValueAt(row, 4) * 100 >= 90) {
+			pane.setBackground(MTGConstants.COLLECTION_90PC);
+			pane.setForeground(Color.BLACK);
+		}
+
+		if ((double) table.getValueAt(row, 4) * 100 >= 100) {
+			pane.setBackground(MTGConstants.COLLECTION_100PC);
+			pane.setForeground(Color.BLACK);
+		}
+		return pane;
 	}
-	
-	
+
 }

@@ -25,34 +25,30 @@ import com.google.gson.JsonParser;
 
 public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvider {
 
-	
-	private String read(String url) throws IOException
-	{
+	private String read(String url) throws IOException {
 		logger.debug("retrieve from " + url);
-		HttpClient httpClient = HttpClients.custom()
-				   .setUserAgent(getString("USER_AGENT"))
-				   .setRedirectStrategy(new LaxRedirectStrategy())
-				   .build();
+		HttpClient httpClient = HttpClients.custom().setUserAgent(getString("USER_AGENT"))
+				.setRedirectStrategy(new LaxRedirectStrategy()).build();
 		HttpGet req = new HttpGet(url);
-				req.addHeader("content-type", "application/json");
-				HttpResponse resp = httpClient.execute(req);
+		req.addHeader("content-type", "application/json");
+		HttpResponse resp = httpClient.execute(req);
 		return EntityUtils.toString(resp.getEntity());
 	}
-	
+
 	@Override
 	public List<Wallpaper> search(String search) {
-		return construct(getString("URL")+"?page=1&filter_by=DESC&artist=-1&expansion=&title="+search+"&is_search=1");
+		return construct(
+				getString("URL") + "?page=1&filter_by=DESC&artist=-1&expansion=&title=" + search + "&is_search=1");
 	}
-	
+
 	private List<Wallpaper> construct(String url) {
 		ArrayList<Wallpaper> list = new ArrayList<>();
 		try {
 			String json = read(url);
-			
+
 			String doc = new JsonParser().parse(json).getAsJsonObject().get("data").getAsString();
-			
-			for(Element e : Jsoup.parse(doc).select("div.wrap"))
-			{
+
+			for (Element e : Jsoup.parse(doc).select("div.wrap")) {
 				Wallpaper w = new Wallpaper();
 				w.setName(e.getElementsByTag("h3").text());
 				w.setUrl(new URL(e.select("a").first().attr("download")));
@@ -60,8 +56,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 				list.add(w);
 			}
 			return list;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			logger.error(e);
 			return list;
 		}
@@ -69,7 +64,8 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 
 	@Override
 	public List<Wallpaper> search(MagicEdition ed) {
-		return construct(getString("URL")+"?page=1&filter_by=DESC&artist=-1&expansion="+ed.getSet()+"&title=&is_search=1");
+		return construct(
+				getString("URL") + "?page=1&filter_by=DESC&artist=-1&expansion=" + ed.getSet() + "&title=&is_search=1");
 	}
 
 	@Override

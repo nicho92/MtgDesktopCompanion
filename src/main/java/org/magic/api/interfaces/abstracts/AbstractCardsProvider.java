@@ -14,31 +14,29 @@ import org.magic.services.MTGConstants;
 public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements MTGCardsProvider {
 
 	protected Map<String, MagicCard> cacheCards;
-	protected Map<String,List<MagicCard>> cacheBoosterCards;
-	protected Map<String , MagicEdition> cacheEditions;
+	protected Map<String, List<MagicCard>> cacheBoosterCards;
+	protected Map<String, MagicEdition> cacheEditions;
 
-	
 	public AbstractCardsProvider() {
 		super();
 		confdir = new File(MTGConstants.CONF_DIR, "cardsProviders");
-		if(!confdir.exists())
+		if (!confdir.exists())
 			confdir.mkdir();
 		load();
-		
-		
-		if(!new File(confdir, getName()+".conf").exists()){
+
+		if (!new File(confdir, getName() + ".conf").exists()) {
 			initDefault();
 			save();
-		} 
+		}
 		cacheCards = new HashMap<>();
 		cacheBoosterCards = new HashMap<>();
-		cacheEditions=new TreeMap<>();
-		
+		cacheEditions = new TreeMap<>();
+
 	}
 
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.PROVIDER;
 	}
-	
+
 }

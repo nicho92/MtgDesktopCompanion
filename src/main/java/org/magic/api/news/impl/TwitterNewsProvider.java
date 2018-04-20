@@ -21,49 +21,48 @@ import twitter4j.conf.ConfigurationBuilder;
 public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
 	private ConfigurationBuilder cb;
-	private TwitterFactory tf ;
+	private TwitterFactory tf;
+
 	public TwitterNewsProvider() {
 		super();
 		cb = new ConfigurationBuilder();
-		cb.setDebugEnabled(getString("LOG").equals("true"))
-		  .setOAuthConsumerKey(getString("CONSUMER_KEY"))
-		  .setOAuthConsumerSecret(getString("CONSUMER_SECRET"))
-		  .setOAuthAccessToken(getString("ACCESS_TOKEN"))
-		  .setOAuthAccessTokenSecret(getString("ACCESS_TOKEN_SECRET"));
+		cb.setDebugEnabled(getString("LOG").equals("true")).setOAuthConsumerKey(getString("CONSUMER_KEY"))
+				.setOAuthConsumerSecret(getString("CONSUMER_SECRET")).setOAuthAccessToken(getString("ACCESS_TOKEN"))
+				.setOAuthAccessTokenSecret(getString("ACCESS_TOKEN_SECRET"));
 		tf = new TwitterFactory(cb.build());
 	}
-	
+
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
-		
+
 		Twitter twitter = tf.getInstance();
 		Query query = new Query(n.getName());
-			  query.setCount(Integer.parseInt(getString("MAX_RESULT")));
-			  
-		List<MagicNewsContent> ret=new ArrayList<>();
-		
-	        QueryResult result;
-			try {
-				result = twitter.search(query);
-				for (Status status : result.getTweets()) {
-					
-					if(!status.isRetweet())
-					{	
-						MagicNewsContent content = new MagicNewsContent();
-						content.setAuthor(status.getUser().getScreenName());
-						content.setDate(status.getCreatedAt());
-						content.setContent(status.getText());
-						content.setLink(new URL("https://twitter.com/" + status.getUser().getScreenName()+ "/status/" + status.getId()));
-						content.setTitle(status.getText());
-						ret.add(content);
-					}
+		query.setCount(Integer.parseInt(getString("MAX_RESULT")));
+
+		List<MagicNewsContent> ret = new ArrayList<>();
+
+		QueryResult result;
+		try {
+			result = twitter.search(query);
+			for (Status status : result.getTweets()) {
+
+				if (!status.isRetweet()) {
+					MagicNewsContent content = new MagicNewsContent();
+					content.setAuthor(status.getUser().getScreenName());
+					content.setDate(status.getCreatedAt());
+					content.setContent(status.getText());
+					content.setLink(new URL(
+							"https://twitter.com/" + status.getUser().getScreenName() + "/status/" + status.getId()));
+					content.setTitle(status.getText());
+					ret.add(content);
 				}
-			} catch (TwitterException e) {
-				throw new IOException(e);
 			}
-			
-			return ret;
-		
+		} catch (TwitterException e) {
+			throw new IOException(e);
+		}
+
+		return ret;
+
 	}
 
 	@Override
@@ -75,7 +74,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
+
 	@Override
 	public NEWS_TYPE getProviderType() {
 		return NEWS_TYPE.TWITTER;
@@ -89,7 +88,7 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 		setProperty("ACCESS_TOKEN_SECRET", "");
 		setProperty("MAX_RESULT", "25");
 		setProperty("LOG", "false");
-		
+
 	}
 
 	@Override

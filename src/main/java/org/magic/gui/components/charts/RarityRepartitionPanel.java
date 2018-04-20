@@ -21,11 +21,11 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.MTGDeckManager;
 
-public class RarityRepartitionPanel extends JPanel{
+public class RarityRepartitionPanel extends JPanel {
 
 	private List<MagicCard> cards;
 	private transient MTGDeckManager manager;
-	
+
 	public RarityRepartitionPanel() {
 		manager = new MTGDeckManager();
 		setLayout(new BorderLayout(0, 0));
@@ -33,56 +33,45 @@ public class RarityRepartitionPanel extends JPanel{
 
 	public void init(MagicDeck deck) {
 		cards = new ArrayList<>();
-		if(deck!=null && deck.getMap()!=null)
-				cards=deck.getAsList();
-		
+		if (deck != null && deck.getMap() != null)
+			cards = deck.getAsList();
+
 		refresh();
 	}
-	
-	
-	public void init(List<MagicCard> cards)
-	{
-		this.cards=cards;
+
+	public void init(List<MagicCard> cards) {
+		this.cards = cards;
 		refresh();
 	}
-	
-	private void refresh()
-	{
+
+	private void refresh() {
 		this.removeAll();
-		
-		JFreeChart chart = ChartFactory.createPieChart3D(
-	            "Rarity repartition",  // chart title
-	            getRarityRepartitionDataSet(),             // data
-	            false,               // include legend
-	            true,
-	            true
-	        );
-	
-		 ChartPanel pane = new ChartPanel(chart);
+
+		JFreeChart chart = ChartFactory.createPieChart3D("Rarity repartition", // chart title
+				getRarityRepartitionDataSet(), // data
+				false, // include legend
+				true, true);
+
+		ChartPanel pane = new ChartPanel(chart);
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("Uncommon", Color.GRAY);
 		plot.setSectionPaint("Common", Color.WHITE);
 		plot.setSectionPaint("Rare", Color.YELLOW);
 		plot.setSectionPaint("Mythic Rare", Color.ORANGE);
-		
-		 PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"), new DecimalFormat("0.00%"));
-		    plot.setLabelGenerator(generator);
-		this.add(pane,BorderLayout.CENTER);
+
+		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),
+				new DecimalFormat("0.00%"));
+		plot.setLabelGenerator(generator);
+		this.add(pane, BorderLayout.CENTER);
 	}
-	
-	private PieDataset getRarityRepartitionDataSet() 
-	{
+
+	private PieDataset getRarityRepartitionDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();
-		for(Entry<String,Integer> data : manager.analyseRarities(cards).entrySet())
-		{
-			dataset.setValue(data.getKey(),data.getValue());
+		for (Entry<String, Integer> data : manager.analyseRarities(cards).entrySet()) {
+			dataset.setValue(data.getKey(), data.getValue());
 		}
 
-
-        return dataset;
+		return dataset;
 	}
-	
-	
-	
+
 }
-	

@@ -12,20 +12,20 @@ import org.magic.game.model.PositionEnum;
 public class SearchActions extends AbstractAction {
 
 	PositionEnum pos;
-	
+
 	public SearchActions(PositionEnum pos) {
-		putValue(NAME,"Search in " + pos);
-		putValue(SHORT_DESCRIPTION,"");
+		putValue(NAME, "Search in " + pos);
+		putValue(SHORT_DESCRIPTION, "");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
-		this.pos=pos;
+		this.pos = pos;
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GamePanelGUI.getInstance().getPlayer().logAction("search in " + pos);
-		SearchCardFrame f = new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(),pos);
+		SearchCardFrame f = new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(), pos);
 		f.setVisible(true);
-		
+
 	}
-	
+
 }

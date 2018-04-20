@@ -13,28 +13,22 @@ public class MTGAppender extends AppenderSkeleton {
 	List<LoggingEvent> events;
 	Observable obs;
 
-	
 	public List<LoggingEvent> getEvents() {
 		return events;
 	}
-	
-		
-	public Observable getObservable()
-	{
+
+	public Observable getObservable() {
 		return obs;
 	}
-	
+
 	public MTGAppender() {
-		events=new ArrayList<>();
-		obs=new Observable();
+		events = new ArrayList<>();
+		obs = new Observable();
 	}
-	
-	public void addObserver(Observer viewer)
-	{
+
+	public void addObserver(Observer viewer) {
 		obs.addObserver(viewer);
 	}
-	
-	
 
 	@Override
 	public boolean requiresLayout() {
@@ -45,18 +39,16 @@ public class MTGAppender extends AppenderSkeleton {
 	protected void append(LoggingEvent event) {
 		events.add(event);
 		obs.setChanged();
-		try{
+		try {
 			obs.notifyObservers(event.getMessage());
-		}catch(Exception e)
-		{
-			//do nothing
+		} catch (Exception e) {
+			// do nothing
 		}
 	}
 
-
 	@Override
 	public void close() {
-		//Do nothing because no stream
-		
+		// Do nothing because no stream
+
 	}
 }

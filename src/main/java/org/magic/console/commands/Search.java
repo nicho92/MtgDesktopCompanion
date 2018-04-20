@@ -18,56 +18,53 @@ import org.magic.services.MTGControler;
 public class Search extends AbstractCommand {
 
 	public Search() {
-		opts.addOption("c","cards",true,"search cards");
-		opts.addOption("s","set",false,"show all sets");
-		opts.addOption("col","cols",false,"show all collections");
-		opts.addOption("?","help",false,"help for command");
+		opts.addOption("c", "cards", true, "search cards");
+		opts.addOption("s", "set", false, "show all sets");
+		opts.addOption("col", "cols", false, "show all collections");
+		opts.addOption("?", "help", false, "help for command");
 	}
-	
+
 	@Override
-	public void run(String[] args,IoSession session,MTGConsoleHandler mtgConsoleHandler) throws ParseException,ClassNotFoundException, InstantiationException, IllegalAccessException, IOException  {
+	public void run(String[] args, IoSession session, MTGConsoleHandler mtgConsoleHandler)
+			throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
 		CommandLine cl = parser.parse(opts, args);
-		this.session=session;
-		if(cl.hasOption("c"))
-		{
+		this.session = session;
+		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, val, null,false);
-			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttCards())));
+			List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, val, null,
+					false);
+			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttCards())));
 		}
-		
-		if(cl.hasOption("s"))
-		{
+
+		if (cl.hasOption("s")) {
 			List<MagicEdition> list = MTGControler.getInstance().getEnabledProviders().loadEditions();
-			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttSet())));
+			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttSet())));
 		}
-		
-		if(cl.hasOption("col"))
-		{
+
+		if (cl.hasOption("col")) {
 			List<MagicCollection> list;
 			try {
 				list = MTGControler.getInstance().getEnabledDAO().getCollections();
 			} catch (SQLException e) {
 				throw new IOException(e);
 			}
-			session.write(showList(list,Arrays.asList(MTGConsoleHandler.getAttCols())));
+			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttCols())));
 		}
-		
-		if(cl.hasOption("?"))
-		{
+
+		if (cl.hasOption("?")) {
 			usage();
 		}
 	}
 
 	@Override
 	public void quit() {
-		//do nothing
+		// do nothing
 	}
-	
+
 	@Override
 	public String getCommandName() {
 		return "search";
 	}
-	   
 
 }

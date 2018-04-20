@@ -28,128 +28,116 @@ import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 
-public class MagicWebSiteGenerator extends Observable{
-	
-	Template template ;
-	Configuration cfg ;
+public class MagicWebSiteGenerator extends Observable {
+
+	Template template;
+	Configuration cfg;
 	private String dest;
 	private List<MTGPricesProvider> pricesProvider;
 	private List<MagicCollection> cols;
 	Logger logger = MTGLogger.getLogger(this.getClass());
-	
-	public MagicWebSiteGenerator(String template,String dest) throws IOException {
+
+	public MagicWebSiteGenerator(String template, String dest) throws IOException {
 		cfg = new Configuration(Configuration.VERSION_2_3_27);
-		cfg.setDirectoryForTemplateLoading(new File(MTGConstants.MTG_TEMPLATES_DIR,template));
+		cfg.setDirectoryForTemplateLoading(new File(MTGConstants.MTG_TEMPLATES_DIR, template));
 		cfg.setDefaultEncoding("UTF-8");
-		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER );
-		cfg.setObjectWrapper( new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_27).build());
-		
+		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
+		cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_27).build());
+
 		this.dest = dest;
-		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR,template), new File(dest),pathname->{
-				if(pathname.isDirectory())
-					return true;
-				
-				return !pathname.getName().endsWith(".html");
+		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR, template), new File(dest), pathname -> {
+			if (pathname.isDirectory())
+				return true;
+
+			return !pathname.getName().endsWith(".html");
 		});
 	}
-	
-	public void generate(List<MagicCollection> cols,List<MTGPricesProvider> providers) throws TemplateException, IOException, SQLException
-	{
-		this.pricesProvider=providers;
+
+	public void generate(List<MagicCollection> cols, List<MTGPricesProvider> providers)
+			throws TemplateException, IOException, SQLException {
+		this.pricesProvider = providers;
 		this.cols = cols;
 
-			Template generatedTemplate = cfg.getTemplate("index.html");
-			try(Writer out = new FileWriter(Paths.get(dest, "index.htm").toFile()))
-			{
-				Map<String,List<MagicCard>> root = new HashMap<>();
-				for(MagicCollection col : cols)
-					root.put(col.getName(), MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col));
-				
-				generatedTemplate.process(root, out);
-				generateCollectionsTemplate();
-			}
-	}
-	
-	//lister les editions disponibles
-	private void generateCollectionsTemplate() throws IOException, TemplateException, SQLException
-	{
-		Template generatedColTemplate = cfg.getTemplate("page-col.html");
-		
-		for(MagicCollection col : cols){
-			Map rootEd = new HashMap<>();
-				rootEd.put("cols", cols);
-				rootEd.put("colName", col.getName());
-				Set<MagicEdition> eds = new HashSet<>();
-				for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col))
-				{
-					eds.add(mc.getEditions().get(0));
-					generateCardsTemplate(mc);
-				}
-				
-				rootEd.put("editions",eds);
-				
-				
-				FileWriter out = new FileWriter(Paths.get(dest,"page-col-"+col.getName()+".htm").toFile());
-				generatedColTemplate.process(rootEd, out);
-				
-				generateEditionsTemplate(eds,col);
-				out.close();
-				
+		Template generatedTemplate = cfg.getTemplate("index.html");
+		try (Writer out = new FileWriter(Paths.get(dest, "index.htm").toFile())) {
+			Map<String, List<MagicCard>> root = new HashMap<>();
+			for (MagicCollection col : cols)
+				root.put(col.getName(), MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col));
+
+			generatedTemplate.process(root, out);
+			generateCollectionsTemplate();
 		}
 	}
 
-	private void generateEditionsTemplate(Set<MagicEdition> eds,MagicCollection col) throws IOException, SQLException, TemplateException
-	{
+	// lister les editions disponibles
+	private void generateCollectionsTemplate() throws IOException, TemplateException, SQLException {
+		Template generatedColTemplate = cfg.getTemplate("page-col.html");
+
+		for (MagicCollection col : cols) {
+			Map rootEd = new HashMap<>();
+			rootEd.put("cols", cols);
+			rootEd.put("colName", col.getName());
+			Set<MagicEdition> eds = new HashSet<>();
+			for (MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col)) {
+				eds.add(mc.getEditions().get(0));
+				generateCardsTemplate(mc);
+			}
+
+			rootEd.put("editions", eds);
+
+			FileWriter out = new FileWriter(Paths.get(dest, "page-col-" + col.getName() + ".htm").toFile());
+			generatedColTemplate.process(rootEd, out);
+
+			generateEditionsTemplate(eds, col);
+			out.close();
+
+		}
+	}
+
+	private void generateEditionsTemplate(Set<MagicEdition> eds, MagicCollection col)
+			throws IOException, SQLException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-ed.html");
 		Map rootEd = new HashMap<>();
-			rootEd.put("cols",cols);
-			rootEd.put("editions",eds);
-			rootEd.put("col", col);
-			rootEd.put("colName", col.getName());
-			for(MagicEdition ed : eds)
-			{
-				rootEd.put("cards", MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, ed));
-				rootEd.put("edition", ed);
-				FileWriter out = new FileWriter(Paths.get(dest,"page-ed-"+col.getName()+"-"+ed.getId()+".htm").toFile());
-				cardTemplate.process(rootEd, out);
-			}
-		
+		rootEd.put("cols", cols);
+		rootEd.put("editions", eds);
+		rootEd.put("col", col);
+		rootEd.put("colName", col.getName());
+		for (MagicEdition ed : eds) {
+			rootEd.put("cards", MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, ed));
+			rootEd.put("edition", ed);
+			FileWriter out = new FileWriter(
+					Paths.get(dest, "page-ed-" + col.getName() + "-" + ed.getId() + ".htm").toFile());
+			cardTemplate.process(rootEd, out);
+		}
+
 	}
-	
-	
-	
-	
-	int i=0;
+
+	int i = 0;
+
 	private void generateCardsTemplate(MagicCard mc) throws IOException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-card.html");
-		
-				Map rootEd = new HashMap<>();
-				rootEd.put("card", mc);
-				rootEd.put("cols", cols);
-				
-				List<MagicPrice> prices= new ArrayList<>();
-				if(!pricesProvider.isEmpty())
-				{
-					for(MTGPricesProvider prov : pricesProvider)
-					{
-						try 
-						{
-							prices.addAll(prov.getPrice(mc.getEditions().get(0), mc));
-						} 
-						catch (Exception e) 
-						{
-							logger.error("Generating card template for "+ mc,e);
-						}
-					}
+
+		Map rootEd = new HashMap<>();
+		rootEd.put("card", mc);
+		rootEd.put("cols", cols);
+
+		List<MagicPrice> prices = new ArrayList<>();
+		if (!pricesProvider.isEmpty()) {
+			for (MTGPricesProvider prov : pricesProvider) {
+				try {
+					prices.addAll(prov.getPrice(mc.getEditions().get(0), mc));
+				} catch (Exception e) {
+					logger.error("Generating card template for " + mc, e);
 				}
-				rootEd.put("prices", prices);
-				FileWriter out = new FileWriter(Paths.get(dest,"page-card-"+mc.getId()+".htm").toFile());
-				cardTemplate.process(rootEd, out);
-				
-				setChanged();
-				notifyObservers(i++);
-				out.close();
-		
+			}
+		}
+		rootEd.put("prices", prices);
+		FileWriter out = new FileWriter(Paths.get(dest, "page-card-" + mc.getId() + ".htm").toFile());
+		cardTemplate.process(rootEd, out);
+
+		setChanged();
+		notifyObservers(i++);
+		out.close();
+
 	}
 }
-

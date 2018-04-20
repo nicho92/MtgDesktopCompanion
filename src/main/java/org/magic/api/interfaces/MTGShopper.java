@@ -7,6 +7,5 @@ import org.magic.api.beans.ShopItem;
 public interface MTGShopper extends MTGPlugin {
 
 	public List<ShopItem> search(String search);
-	
-	
+
 }

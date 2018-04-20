@@ -14,32 +14,30 @@ import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.extra.IconSetProvider;
 
-public class CardListPanel extends JPanel{
-	
+public class CardListPanel extends JPanel {
+
 	private JLabel lblName;
 	private JLabel lblType;
 	private JLabel lblEdition;
 	private ManaPanel manaPanel;
 	private JLabel lblRarity;
-	
-	public CardListPanel()
-	{
-		
+
+	public CardListPanel() {
+
 		initGUI();
-		
+
 	}
-	
-	private void initGUI()
-	{
+
+	private void initGUI() {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		
+
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{0, 137, 129, 0};
-		gridBagLayout.rowHeights = new int[]{12, 12, 12, 12, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[] { 0, 137, 129, 0 };
+		gridBagLayout.rowHeights = new int[] { 12, 12, 12, 12, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-		
+
 		lblName = new JLabel();
 		lblName.setFont(new Font("Tahoma", Font.BOLD, 11));
 		GridBagConstraints gbclblName = new GridBagConstraints();
@@ -49,7 +47,7 @@ public class CardListPanel extends JPanel{
 		gbclblName.gridx = 1;
 		gbclblName.gridy = 0;
 		add(lblName, gbclblName);
-		
+
 		lblType = new JLabel();
 		GridBagConstraints gbclblType = new GridBagConstraints();
 		gbclblType.fill = GridBagConstraints.VERTICAL;
@@ -59,7 +57,7 @@ public class CardListPanel extends JPanel{
 		gbclblType.gridx = 1;
 		gbclblType.gridy = 1;
 		add(lblType, gbclblType);
-		
+
 		lblEdition = new JLabel();
 		GridBagConstraints gbclblEdition = new GridBagConstraints();
 		gbclblEdition.fill = GridBagConstraints.VERTICAL;
@@ -69,7 +67,7 @@ public class CardListPanel extends JPanel{
 		gbclblEdition.gridx = 1;
 		gbclblEdition.gridy = 2;
 		add(lblEdition, gbclblEdition);
-		
+
 		manaPanel = new ManaPanel();
 		manaPanel.setBackground(this.getBackground());
 		GridBagConstraints gbcmanaPanel = new GridBagConstraints();
@@ -79,7 +77,7 @@ public class CardListPanel extends JPanel{
 		gbcmanaPanel.gridx = 2;
 		gbcmanaPanel.gridy = 0;
 		add(manaPanel, gbcmanaPanel);
-		
+
 		lblRarity = new JLabel();
 		lblRarity.setFont(new Font("Tahoma", Font.ITALIC, 11));
 		GridBagConstraints gbclblRarity = new GridBagConstraints();
@@ -91,10 +89,8 @@ public class CardListPanel extends JPanel{
 		gbclblRarity.gridy = 3;
 		add(lblRarity, gbclblRarity);
 	}
-	
-	
-	public void setMagicCard(MagicCard mc)
-	{
+
+	public void setMagicCard(MagicCard mc) {
 		lblName.setText(mc.getName());
 		lblType.setText(mc.getFullType());
 		lblEdition.setText(mc.getEditions().get(0).toString());

@@ -11,65 +11,57 @@ import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.tools.IDGenerator;
 
 public class MemoryCache extends AbstractMTGPicturesCache {
-	
-	Map<String,BufferedImage> cache;
 
-	
+	Map<String, BufferedImage> cache;
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
-	
-	
-	private String generateIdIndex(MagicCard mc,MagicEdition ed)
-	{
+
+	private String generateIdIndex(MagicCard mc, MagicEdition ed) {
 		return IDGenerator.generate(mc, ed);
 	}
-	
-	
+
 	public MemoryCache() {
 		super();
-		cache=new HashMap<>();
+		cache = new HashMap<>();
 	}
-	
-	
+
 	@Override
 	public String getName() {
 		return "Memory Cache";
 	}
 
 	@Override
-	public BufferedImage getPic(MagicCard mc,MagicEdition ed) {
-		
-		if(ed==null)
-			ed=mc.getEditions().get(0);
-		
-		return cache.get(generateIdIndex(mc,ed));
+	public BufferedImage getPic(MagicCard mc, MagicEdition ed) {
+
+		if (ed == null)
+			ed = mc.getEditions().get(0);
+
+		return cache.get(generateIdIndex(mc, ed));
 	}
 
 	@Override
-	public void put(BufferedImage im, MagicCard mc,MagicEdition ed) {
+	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) {
 		logger.debug("put " + mc + " in cache");
-		if(ed==null)
-			cache.put(generateIdIndex(mc,mc.getEditions().get(0)), im);
+		if (ed == null)
+			cache.put(generateIdIndex(mc, mc.getEditions().get(0)), im);
 		else
-			cache.put(generateIdIndex(mc,ed), im);
+			cache.put(generateIdIndex(mc, ed), im);
 	}
-
 
 	@Override
 	public void clear() {
 		cache.clear();
-		
-	}
 
+	}
 
 	@Override
 	public void initDefault() {
 		// do nothing
-		
-	}
 
+	}
 
 	@Override
 	public String getVersion() {

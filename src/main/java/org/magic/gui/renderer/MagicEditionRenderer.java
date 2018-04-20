@@ -11,11 +11,12 @@ import org.magic.api.beans.MagicEdition;
 
 public class MagicEditionRenderer extends DefaultTableCellRenderer {
 	JComboBox<MagicEdition> cbo;
-	
+
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
-		
-		List<MagicEdition> e = (List)value;
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
+			int row, int column) {
+
+		List<MagicEdition> e = (List) value;
 		cbo = new JComboBox<>(e.toArray(new MagicEdition[e.size()]));
 		return cbo;
 	}

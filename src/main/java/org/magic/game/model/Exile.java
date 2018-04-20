@@ -8,15 +8,14 @@ import java.util.Set;
 
 import org.magic.api.beans.MagicCard;
 
-public class Exile implements Serializable{
+public class Exile implements Serializable {
 
 	private List<MagicCard> cards;
 
-	
 	public Exile() {
 		cards = new ArrayList<>();
 	}
-	
+
 	public List<MagicCard> getCards() {
 		return cards;
 	}
@@ -24,43 +23,35 @@ public class Exile implements Serializable{
 	public void setCards(List<MagicCard> cards) {
 		this.cards = cards;
 	}
-	
-	public void remove(MagicCard mc)
-	{
+
+	public void remove(MagicCard mc) {
 		cards.remove(mc);
 	}
-	
-	public void add(MagicCard mc)
-	{
+
+	public void add(MagicCard mc) {
 		cards.add(mc);
 	}
-	
-	public void clear()
-	{
+
+	public void clear() {
 		cards.clear();
 	}
-	
-	public int size()
-	{
+
+	public int size() {
 		return cards.size();
 	}
-	
-	
-	public Set<String> getTypesIncludes()
-	{
+
+	public Set<String> getTypesIncludes() {
 		Set<String> set = new LinkedHashSet<>();
-		
-		for(MagicCard mc : cards)
-		{
+
+		for (MagicCard mc : cards) {
 			set.addAll(mc.getTypes());
 		}
 		return set;
 	}
-	
+
 	@Override
 	public String toString() {
-		return size() +" ("+ getTypesIncludes().size()+" types)";
+		return size() + " (" + getTypesIncludes().size() + " types)";
 	}
-	
-	
+
 }

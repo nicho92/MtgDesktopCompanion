@@ -29,102 +29,96 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class CardStockLinePanel extends JPanel {
-	  private JTextField txtComment;
-	  private JComboBox<EnumCondition> cboState;
-	  private JComboBox cboLanguage;
-	  private JCheckBox cboSigned;
-	  private JCheckBox cboFoil;
-	  private JSpinner txtQte;
-	  
-	  private transient MagicCardStock state;
-	  private JCheckBox cboAltered;
-	  private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private JTextField txtComment;
+	private JComboBox<EnumCondition> cboState;
+	private JComboBox cboLanguage;
+	private JCheckBox cboSigned;
+	private JCheckBox cboFoil;
+	private JSpinner txtQte;
 
-	  
-	   
+	private transient MagicCardStock state;
+	private JCheckBox cboAltered;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 	public CardStockLinePanel(MagicCard selectedCard, MagicCollection selectedCol) {
-		
+
 		setBorder(new LineBorder(Color.BLACK, 1, true));
 		setComponentOrientation(ComponentOrientation.LEFT_TO_RIGHT);
-		
-		state= new MagicCardStock();
+
+		state = new MagicCardStock();
 		state.setMagicCard(selectedCard);
 		state.setMagicCollection(selectedCol);
 		setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-		
-		JLabel lblQuantity = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QTY")+" :");
+
+		JLabel lblQuantity = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("QTY") + " :");
 		add(lblQuantity);
-		
+
 		txtQte = new JSpinner();
 		txtQte.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		add(txtQte);
-		
+
 		cboState = new JComboBox(EnumCondition.values());
 		add(cboState);
-		
+
 		cboLanguage = new JComboBox(MTGControler.getInstance().getEnabledProviders().getLanguages());
 		add(cboLanguage);
-		
-		JLabel lblComment = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("COMMENTS") +" :");
+
+		JLabel lblComment = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("COMMENTS") + " :");
 		add(lblComment);
-		
+
 		txtComment = new JTextField();
 		add(txtComment);
 		txtComment.setColumns(20);
-		
+
 		cboFoil = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("FOIL"));
 		add(cboFoil);
-		
+
 		cboSigned = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("SIGNED"));
 		add(cboSigned);
-		
+
 		JButton btnNewButton = new JButton("");
-		
-		Image img = MTGConstants.ICON_DELETE.getImage() ;  
-		Image newimg = img.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
-		
+
+		Image img = MTGConstants.ICON_DELETE.getImage();
+		Image newimg = img.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH);
+
 		btnNewButton.setIcon(new ImageIcon(newimg));
-		btnNewButton.addActionListener(e->
-				delete()
-		);
-		
+		btnNewButton.addActionListener(e -> delete());
+
 		JButton btnSave = new JButton("");
 
-		Image img2 = MTGConstants.ICON_CHECK.getImage() ;  
-		Image newimg2 = img2.getScaledInstance( 25, 25,  java.awt.Image.SCALE_SMOOTH ) ;  
-		
-		btnSave.setIcon(new ImageIcon(newimg2));	
-		
-		btnSave.addActionListener(ae->{
-				
-				try {
-					generateState();
-					MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(state);
-				} catch (SQLException e) {
-					logger.error(e);
-				}
+		Image img2 = MTGConstants.ICON_CHECK.getImage();
+		Image newimg2 = img2.getScaledInstance(25, 25, java.awt.Image.SCALE_SMOOTH);
+
+		btnSave.setIcon(new ImageIcon(newimg2));
+
+		btnSave.addActionListener(ae -> {
+
+			try {
+				generateState();
+				MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(state);
+			} catch (SQLException e) {
+				logger.error(e);
+			}
 		});
-		
+
 		cboAltered = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("ALTERED"));
 		add(cboAltered);
 		add(btnSave);
 		add(btnNewButton);
 	}
-	
-	
-	private void generateState()
-	{
+
+	private void generateState() {
 		state.setComment(txtComment.getText());
-		state.setCondition((EnumCondition)cboState.getSelectedItem());
-		state.setQte((Integer)txtQte.getValue());
+		state.setCondition((EnumCondition) cboState.getSelectedItem());
+		state.setQte((Integer) txtQte.getValue());
 		state.setSigned(cboSigned.isSelected());
 		state.setFoil(cboFoil.isSelected());
 		state.setLanguage(cboLanguage.getSelectedItem().toString());
 		state.setAltered(cboAltered.isSelected());
 	}
-	
+
 	public void delete() {
-		
+
 		generateState();
 		try {
 			List<MagicCardStock> l = new ArrayList<>();
@@ -133,22 +127,19 @@ public class CardStockLinePanel extends JPanel {
 		} catch (SQLException e1) {
 			logger.error(e1);
 		}
-		
-		try{
+
+		try {
 			getParent().remove(this);
 			getParent().revalidate();
 			getParent().repaint();
-		}
-		catch(NullPointerException e)
-		{
+		} catch (NullPointerException e) {
 			logger.error(e);
 		}
-		
+
 	}
 
-	public void setMagicCardState(MagicCardStock state)
-	{
-		this.state=state;
+	public void setMagicCardState(MagicCardStock state) {
+		this.state = state;
 		txtComment.setText(state.getComment());
 		txtQte.setValue(state.getQte());
 		cboFoil.setSelected(state.isFoil());
@@ -157,14 +148,10 @@ public class CardStockLinePanel extends JPanel {
 		cboState.setSelectedItem(state.getCondition());
 		cboAltered.setSelected(state.isAltered());
 	}
-	
-	public MagicCardStock getMagicCardState()
-	{
+
+	public MagicCardStock getMagicCardState() {
 		generateState();
 		return state;
 	}
-	
 
-	
-	
 }

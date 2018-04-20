@@ -11,15 +11,14 @@ import org.magic.game.gui.components.GamePanelGUI;
 public class UnselectAllAction extends AbstractAction {
 
 	public UnselectAllAction() {
-			super("(Un)Select cards");
-			putValue(SHORT_DESCRIPTION,"(un)select the cards on battlefields");
-	        putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+		super("(Un)Select cards");
+		putValue(SHORT_DESCRIPTION, "(un)select the cards on battlefields");
+		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		for(DisplayableCard card : GamePanelGUI.getInstance().getPanelBattleField().getSelectedCards())
-		{
+		for (DisplayableCard card : GamePanelGUI.getInstance().getPanelBattleField().getSelectedCards()) {
 			card.setSelected(!card.isSelected());
 			card.repaint();
 		}

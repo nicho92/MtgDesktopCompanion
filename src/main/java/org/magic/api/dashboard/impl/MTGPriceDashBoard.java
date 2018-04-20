@@ -31,9 +31,7 @@ import com.google.gson.JsonParser;
 
 public class MTGPriceDashBoard extends AbstractDashBoard {
 	private Date updateTime;
-	
 
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -42,193 +40,171 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
 		List<CardShake> list = new ArrayList<>();
-		String url = getString("WEBSITE")+"/taneLayout/mtg_price_tracker.jsp?period="+getString("PERIOD");
-		Document doc = Jsoup.connect(url)
-							.userAgent(getString("USER_AGENT"))
-							.timeout(Integer.parseInt(getString("TIMEOUT")))
-							.get();
+		String url = getString("WEBSITE") + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
+		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT"))
+				.timeout(Integer.parseInt(getString("TIMEOUT"))).get();
 		try {
-			logger.debug("Get Shake for " + url );
-			String date = doc.getElementsByClass("span6").get(1).text().replaceAll("Updated:", "").replaceAll("UTC ", "").trim();
+			logger.debug("Get Shake for " + url);
+			String date = doc.getElementsByClass("span6").get(1).text().replaceAll("Updated:", "")
+					.replaceAll("UTC ", "").trim();
 			SimpleDateFormat forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
-			updateTime= forma.parse(date);
+			updateTime = forma.parse(date);
 		} catch (ParseException e1) {
 			logger.error(e1);
 		}
-		
-		if(gameFormat.equalsIgnoreCase("STANDARD"))
-			gameFormat="Standard";
-		else
-		if(gameFormat.equalsIgnoreCase("MODERN"))
-			gameFormat="Modern";
-		else
-		if(gameFormat.equalsIgnoreCase("VINTAGE"))
-			gameFormat="Vintage";
-		else
-		if(gameFormat.equalsIgnoreCase("LEGACY"))
-			gameFormat="All";
-		
-		Element table =doc.getElementById("top50"+gameFormat);
-		Element table2 =doc.getElementById("bottom50"+gameFormat);
-		
-		try{
-			
-		
-			for(Element e : table.select(MTGConstants.HTML_TAG_TR))
-			{
+
+		if (gameFormat.equalsIgnoreCase("STANDARD"))
+			gameFormat = "Standard";
+		else if (gameFormat.equalsIgnoreCase("MODERN"))
+			gameFormat = "Modern";
+		else if (gameFormat.equalsIgnoreCase("VINTAGE"))
+			gameFormat = "Vintage";
+		else if (gameFormat.equalsIgnoreCase("LEGACY"))
+			gameFormat = "All";
+
+		Element table = doc.getElementById("top50" + gameFormat);
+		Element table2 = doc.getElementById("bottom50" + gameFormat);
+
+		try {
+
+			for (Element e : table.select(MTGConstants.HTML_TAG_TR)) {
 				CardShake cs = new CardShake();
-						cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
-						cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
-						cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
-						
-						String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-						set =set.replaceAll("_\\(Foil\\)", "");
-						cs.setEd(getCodeForExt(set));
-			
+				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
+				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
+
+				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+				set = set.replaceAll("_\\(Foil\\)", "");
+				cs.setEd(getCodeForExt(set));
+
 				list.add(cs);
-				
+
 			}
-			
-			for(Element e : table2.select(MTGConstants.HTML_TAG_TR))
-			{
+
+			for (Element e : table2.select(MTGConstants.HTML_TAG_TR)) {
 				CardShake cs = new CardShake();
-						cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
-						cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
-						cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
-						
-						String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-						set =set.replaceAll("_\\(Foil\\)", "");
-						cs.setEd(getCodeForExt(set));
+				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().trim());
+				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text()));
+				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
+
+				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
+				set = set.replaceAll("_\\(Foil\\)", "");
+				cs.setEd(getCodeForExt(set));
 				list.add(cs);
 			}
-		}catch (Exception e) {
-			logger.error("error retrieve cardshake for "+gameFormat,e);
+		} catch (Exception e) {
+			logger.error("error retrieve cardshake for " + gameFormat, e);
 		}
 		return list;
 	}
-		
-	private double parseDouble(String number)
-	{
+
+	private double parseDouble(String number) {
 		return Double.parseDouble(number.replaceAll("\\$", ""));
 	}
-		
-	private String getCodeForExt(String name)
-	{
+
+	private String getCodeForExt(String name) {
 		try {
-			for(MagicEdition ed : MTGControler.getInstance().getEnabledProviders().loadEditions())
-				if(ed.getSet().toUpperCase().contains(name.toUpperCase()))
+			for (MagicEdition ed : MTGControler.getInstance().getEnabledProviders().loadEditions())
+				if (ed.getSet().toUpperCase().contains(name.toUpperCase()))
 					return ed.getId();
 		} catch (Exception e) {
 			logger.error(e);
 		}
-		
+
 		return name;
 	}
 
 	@Override
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
-		
+
 		String name = convert(edition.getSet()).replaceAll(" ", "_");
-		
-	
-		String url = "http://www.mtgprice.com/spoiler_lists/"+name;
+
+		String url = "http://www.mtgprice.com/spoiler_lists/" + name;
 		logger.debug("get Prices for " + name + " " + url);
-		
-		
-		
-		Document doc = Jsoup.connect(url)
-				.userAgent(getString("USER_AGENT"))
-				.timeout(Integer.parseInt(getString("TIMEOUT")))
-				.get();
-		
-			Element table =doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
-		
-			List<CardShake> list = new ArrayList<>();
-			String data = table.html();
-			data = data.substring(data.indexOf('['),data.indexOf(']')+1);
-			JsonElement root = new JsonParser().parse(data);
-			JsonArray arr = root.getAsJsonArray();
-			for(int i = 0;i<arr.size();i++)
-			{
-				JsonObject card = arr.get(i).getAsJsonObject();
-				CardShake shake = new CardShake();
-				
-				shake.setName(card.get("name").getAsString());
-				shake.setEd(edition.getId());
-				shake.setPrice(card.get("fair_price").getAsDouble());
-				try {
-					shake.setPercentDayChange(card.get("percentageChangeSinceYesterday").getAsDouble());
-				} catch (Exception e) {
-					//do nothing
-				}
-				try {
-					shake.setPercentWeekChange(card.get("percentageChangeSinceOneWeekAgo").getAsDouble());
-				} catch (Exception e) {
-					//do nothing
-				}
-				shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
-				shake.setPriceWeekChange(card.get("absoluteChangeSinceOneWeekAgo").getAsDouble());
-				
-				
-				
-				list.add(shake);
+
+		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT"))
+				.timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+
+		Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
+
+		List<CardShake> list = new ArrayList<>();
+		String data = table.html();
+		data = data.substring(data.indexOf('['), data.indexOf(']') + 1);
+		JsonElement root = new JsonParser().parse(data);
+		JsonArray arr = root.getAsJsonArray();
+		for (int i = 0; i < arr.size(); i++) {
+			JsonObject card = arr.get(i).getAsJsonObject();
+			CardShake shake = new CardShake();
+
+			shake.setName(card.get("name").getAsString());
+			shake.setEd(edition.getId());
+			shake.setPrice(card.get("fair_price").getAsDouble());
+			try {
+				shake.setPercentDayChange(card.get("percentageChangeSinceYesterday").getAsDouble());
+			} catch (Exception e) {
+				// do nothing
 			}
-			
-			
+			try {
+				shake.setPercentWeekChange(card.get("percentageChangeSinceOneWeekAgo").getAsDouble());
+			} catch (Exception e) {
+				// do nothing
+			}
+			shake.setPriceDayChange(card.get("absoluteChangeSinceYesterday").getAsDouble());
+			shake.setPriceWeekChange(card.get("absoluteChangeSinceOneWeekAgo").getAsDouble());
+
+			list.add(shake);
+		}
+
 		return list;
 	}
 
 	private String convert(String name) {
-		if(name.equalsIgnoreCase("Limited Edition Alpha"))
+		if (name.equalsIgnoreCase("Limited Edition Alpha"))
 			return "Alpha";
-		
+
 		return name;
 	}
 
 	@Override
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
-		
-		Map<Date,Double> historyPrice = new TreeMap<>();
-		String name="";
-		
-		if(mc==null)
+
+		Map<Date, Double> historyPrice = new TreeMap<>();
+		String name = "";
+
+		if (mc == null)
 			throw new NullPointerException("no magiccard defined");
-		
-		name=mc.getName().replaceAll(" ", "_");
-		
-		
-		String edition="";
-		
-		if(me==null)
-			edition=mc.getEditions().get(0).getSet();
+
+		name = mc.getName().replaceAll(" ", "_");
+
+		String edition = "";
+
+		if (me == null)
+			edition = mc.getEditions().get(0).getSet();
 		else
-			edition=me.getSet();	
-		
-		edition=edition.replaceAll(" ", "_");
-		
-		 String url = "http://www.mtgprice.com/sets/"+edition+"/"+name;
-		 Document d = Jsoup.connect(url)
-	    		 	.userAgent(getString("USER_AGENT"))
-					.timeout(Integer.parseInt(getString("TIMEOUT")))
-					.get();
-		 
-		 logger.debug("get Prices for " + name + " " + url);
-			
-		 
-		 Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(29);
-	 
-		 String html = js.html();
-		 html=html.substring(html.indexOf("[[")+1, html.indexOf("]]")+1);
-		 
-		 Pattern p = Pattern.compile("\\[(.*?)\\]");
-		 Matcher m = p.matcher(html);	
-		 while(m.find()) {
-			    
-			 Date date = new Date(Long.parseLong(m.group(1).split(",")[0]));
-			 Double val = Double.parseDouble(m.group(1).split(",")[1]);
-			 
-			 historyPrice.put(date, val);
-		 }
+			edition = me.getSet();
+
+		edition = edition.replaceAll(" ", "_");
+
+		String url = "http://www.mtgprice.com/sets/" + edition + "/" + name;
+		Document d = Jsoup.connect(url).userAgent(getString("USER_AGENT"))
+				.timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+
+		logger.debug("get Prices for " + name + " " + url);
+
+		Element js = d.getElementsByTag("body").get(0).getElementsByTag("script").get(29);
+
+		String html = js.html();
+		html = html.substring(html.indexOf("[[") + 1, html.indexOf("]]") + 1);
+
+		Pattern p = Pattern.compile("\\[(.*?)\\]");
+		Matcher m = p.matcher(html);
+		while (m.find()) {
+
+			Date date = new Date(Long.parseLong(m.group(1).split(",")[0]));
+			Double val = Double.parseDouble(m.group(1).split(",")[1]);
+
+			historyPrice.put(date, val);
+		}
 		return historyPrice;
 	}
 
@@ -243,13 +219,13 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException {
+	public List<CardDominance> getBestCards(FORMAT f, String filter) throws IOException {
 		return new ArrayList<>();
 	}
 
 	@Override
-	public String[]  getDominanceFilters() {
-		return new String[]{""};
+	public String[] getDominanceFilters() {
+		return new String[] { "" };
 	}
 
 	@Override
@@ -258,7 +234,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		setProperty("WEBSITE", "http://www.mtgprice.com");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		setProperty("TIMEOUT", "0");
-		
+
 	}
 
 	@Override

@@ -11,83 +11,74 @@ import java.awt.image.BufferedImage;
 
 import javax.swing.JPanel;
 
-public class CropImagePanel extends JPanel implements MouseListener, MouseMotionListener
-{
+public class CropImagePanel extends JPanel implements MouseListener, MouseMotionListener {
 	private int dragStatus = 0;
 	private int c1;
 	private int c2;
 	private int c3;
 	private int c4;
 	private transient Image selectedImage;
-	
 
 	@Override
-	public void paintComponent(Graphics g) 
-	{ 
-		if(selectedImage!=null)
-		{
-			
-			g.drawImage(selectedImage, 0, 0, getWidth(),getHeight(), null); 
+	public void paintComponent(Graphics g) {
+		if (selectedImage != null) {
+
+			g.drawImage(selectedImage, 0, 0, getWidth(), getHeight(), null);
 		}
 	}
-	
+
 	public void setImage(Image i) {
-		selectedImage=i;
+		selectedImage = i;
 		validate();
 		repaint();
 		addMouseListener(this);
 		addMouseMotionListener(this);
 	}
-	
-	private static BufferedImage toBufferedImage(Image img)
-	{
-	    if (img instanceof BufferedImage)
-	    {
-	        return (BufferedImage) img;
-	    }
 
-	    // Create a buffered image with transparency
-	    BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
+	private static BufferedImage toBufferedImage(Image img) {
+		if (img instanceof BufferedImage) {
+			return (BufferedImage) img;
+		}
 
-	    // Draw the image on to the buffered image
-	    Graphics2D bGr = bimage.createGraphics();
-	    bGr.drawImage(img, 0, 0, null);
-	    bGr.dispose();
+		// Create a buffered image with transparency
+		BufferedImage bimage = new BufferedImage(img.getWidth(null), img.getHeight(null), BufferedImage.TYPE_INT_ARGB);
 
-	    // Return the buffered image
-	    return bimage;
+		// Draw the image on to the buffered image
+		Graphics2D bGr = bimage.createGraphics();
+		bGr.drawImage(img, 0, 0, null);
+		bGr.dispose();
+
+		// Return the buffered image
+		return bimage;
 	}
-	
 
 	public BufferedImage getCroppedImage() {
-		try{
+		try {
 			int w = c1 - c3;
-		int h = c2 - c4;
-		w = w * -1;
-		h = h * -1;
-		BufferedImage img = toBufferedImage(selectedImage);
-		return img.getSubimage(c1, c2, w, h);
-		}
-		catch(Exception nue)
-		{
+			int h = c2 - c4;
+			w = w * -1;
+			h = h * -1;
+			BufferedImage img = toBufferedImage(selectedImage);
+			return img.getSubimage(c1, c2, w, h);
+		} catch (Exception nue) {
 			return null;
 		}
-		
+
 	}
 
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
@@ -116,7 +107,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 
 	@Override
 	public void mouseMoved(MouseEvent arg0) {
-		//do nothing
+		// do nothing
 	}
 
 	@Override
@@ -128,7 +119,7 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 		h = h * -1;
 		if (w < 0)
 			w = w * -1;
-		
+
 		g.setColor(Color.red);
 		g.drawRect(c1, c2, w, h);
 	}

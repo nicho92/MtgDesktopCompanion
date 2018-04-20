@@ -14,11 +14,15 @@ import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 public interface MTGDashBoard extends MTGPlugin {
 
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException;
+
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException;
-	public Map<Date,Double> getPriceVariation(MagicCard mc,MagicEdition me) throws IOException;
-	public List<CardDominance> getBestCards(FORMAT f,String filter) throws IOException;
+
+	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
+
+	public List<CardDominance> getBestCards(FORMAT f, String filter) throws IOException;
+
 	public Date getUpdatedDate();
+
 	public String[] getDominanceFilters();
-	
-	
+
 }

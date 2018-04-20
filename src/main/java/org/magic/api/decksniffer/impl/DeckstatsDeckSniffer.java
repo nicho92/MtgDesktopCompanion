@@ -24,21 +24,19 @@ import org.magic.services.MTGControler;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
-	Map<Integer,String> cacheColor;
+	Map<Integer, String> cacheColor;
 
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
-	
-	
+
 	public DeckstatsDeckSniffer() {
 		super();
 		cacheColor = new HashMap<>();
 		initcache();
 	}
-	
+
 	private void initcache() {
 		cacheColor.put(1, "{W}");
 		cacheColor.put(2, "{U}");
@@ -75,101 +73,93 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[]{"casual","standard","modern","legacy","edh-commander","highlander","frontier","pauper","vintage","extended","cube","tiny-leaders","peasant","other"};
+		return new String[] { "casual", "standard", "modern", "legacy", "edh-commander", "highlander", "frontier",
+				"pauper", "vintage", "extended", "cube", "tiny-leaders", "peasant", "other" };
 	}
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		// 
-		
+		//
+
 		MagicDeck deck = new MagicDeck();
-		
+
 		logger.debug("get deck " + info.getUrl());
-		Document d = Jsoup.connect(info.getUrl().toString())
-    		 	.userAgent(getString("USER_AGENT"))
-    		 	.timeout(getInt("TIMEOUT"))
-				.get();
-		
+		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(getString("USER_AGENT"))
+				.timeout(getInt("TIMEOUT")).get();
+
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
 		deck.setDateCreation(new Date());
-		for(Element a : d.select("a.deck_tags_list_tag"))
+		for (Element a : d.select("a.deck_tags_list_tag"))
 			deck.getTags().add(a.text());
-		
-		boolean side=false;
+
+		boolean side = false;
 		Elements e = d.select("div#deck_overview_cards").select("div.deck_overview_section_chunk");
-		
-		for(Element block : e)
-		{
-			
-			if(block.hasClass("deck_overview_section_chunk__sideboard"))
-				side=true;
+
+		for (Element block : e) {
+
+			if (block.hasClass("deck_overview_section_chunk__sideboard"))
+				side = true;
 			else
-				side=false;
-			
-			for(Element cont : block.select("div.deck_overview_card_header"))
-			{	Integer qte = Integer.parseInt(cont.getElementsByClass("deck_overview_card_amount").get(0).text());
+				side = false;
+
+			for (Element cont : block.select("div.deck_overview_card_header")) {
+				Integer qte = Integer.parseInt(cont.getElementsByClass("deck_overview_card_amount").get(0).text());
 				String cardName = cont.getElementsByClass("deck_overview_card_name").get(0).text().trim();
-			
-				
-				if(cardName.contains("//"))
-					cardName=cardName.substring(0, cardName.indexOf("//")).trim();
-			
+
+				if (cardName.contains("//"))
+					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
+
 				MagicCard mc = null;
-				
-					if(cardName.trim().equalsIgnoreCase("Plains")||cardName.trim().equalsIgnoreCase("Island")||cardName.trim().equalsIgnoreCase("Swamp")||cardName.trim().equalsIgnoreCase("Mountain")||cardName.trim().equalsIgnoreCase("Forest"))
-					{
-						MagicEdition ed = new MagicEdition();
-						ed.setId(MTGControler.getInstance().get("default-land-deck"));
-						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, ed,true).get(0);
-					}
-					else
-					{
-						mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName, null,true).get(0);
-					}
-					
-					if(side)
-						deck.getMapSideBoard().put(mc, qte);
-					else
-						deck.getMap().put(mc, qte);
-					
-			}	
-				
+
+				if (cardName.trim().equalsIgnoreCase("Plains") || cardName.trim().equalsIgnoreCase("Island")
+						|| cardName.trim().equalsIgnoreCase("Swamp") || cardName.trim().equalsIgnoreCase("Mountain")
+						|| cardName.trim().equalsIgnoreCase("Forest")) {
+					MagicEdition ed = new MagicEdition();
+					ed.setId(MTGControler.getInstance().get("default-land-deck"));
+					mc = MTGControler.getInstance().getEnabledProviders()
+							.searchCardByCriteria("name", cardName, ed, true).get(0);
+				} else {
+					mc = MTGControler.getInstance().getEnabledProviders()
+							.searchCardByCriteria("name", cardName, null, true).get(0);
+				}
+
+				if (side)
+					deck.getMapSideBoard().put(mc, qte);
+				else
+					deck.getMap().put(mc, qte);
+
+			}
+
 		}
-		
-		if(d.select("div#deck_overview_info")!=null)
+
+		if (d.select("div#deck_overview_info") != null)
 			deck.setDescription(d.select("div#deck_overview_info").select("div.deck_text_editable_container").text());
-		
 
 		return deck;
 	}
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		
+
 		int nbPage = Integer.parseInt(getString("MAX_PAGE"));
 		List<RetrievableDeck> list = new ArrayList<>();
-		
-		
-		for(int i=1;i<=nbPage;i++)
-		{
-			Document d = Jsoup.connect(getString("URL")+"/"+getString("FORMAT")+"/?lng=fr&page="+i)
-	    		 	.userAgent(getString("USER_AGENT"))
-	    		 	.timeout(Integer.parseInt(getString("TIMEOUT")))
-					.get();
-			
-			Elements e = d.select("tr.touch_row" );
-	
-			for(Element cont : e)
-			{
+
+		for (int i = 1; i <= nbPage; i++) {
+			Document d = Jsoup.connect(getString("URL") + "/" + getString("FORMAT") + "/?lng=fr&page=" + i)
+					.userAgent(getString("USER_AGENT")).timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+
+			Elements e = d.select("tr.touch_row");
+
+			for (Element cont : e) {
 				RetrievableDeck deck = new RetrievableDeck();
 				Element info = cont.select("a").get(0);
 				String idColor = cont.select("img").get(0).attr("src");
-				idColor=idColor.substring(idColor.lastIndexOf('/')+1,idColor.lastIndexOf('.'));
+				idColor = idColor.substring(idColor.lastIndexOf('/') + 1, idColor.lastIndexOf('.'));
 				String name = info.text();
 				String url = info.attr("href");
 				String auteur = cont.select("a").get(1).text();
-				
+
 				deck.setName(name);
 				try {
 					deck.setUrl(new URI(url));
@@ -178,7 +168,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				}
 				deck.setAuthor(auteur);
 				deck.setColor(cacheColor.get(Integer.parseInt(idColor)));
-				
+
 				list.add(deck);
 			}
 		}
@@ -187,7 +177,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void connect() throws IOException {
-		//nothing to do
+		// nothing to do
 	}
 
 	@Override
@@ -202,9 +192,8 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		setProperty("TIMEOUT", "0");
 		setProperty("FORMAT", "standard");
 		setProperty("MAX_PAGE", "2");
-		
-	}
 
+	}
 
 	@Override
 	public String getVersion() {

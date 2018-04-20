@@ -22,156 +22,157 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	Document doc;
 	List<MagicPrice> list;
 	CloseableHttpClient httpclient;
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
-	
+
 	public MagicVillePricer() {
 		super();
-		
-		list=new ArrayList<>();
+
+		list = new ArrayList<>();
 		httpclient = HttpClients.createDefault();
-	
+
 	}
-	
-	
-	public static String getMGVILLCodeEdition(MagicEdition me)
-	{
-		switch (me.getId())
-		{
-		case "M10" :return "10m";
-		case "M11" :return "11m";
-		case "M12" :return "12m";
-		case "M13" : return "13m";
-		case "M14" : return "14m";
-		case "M15" : return "15m";
-		case "DRK" : return "dar";
-		case "5DN" : return "fda";
-		case "10E" : return "xth";
-		case "CSP" : return "col";
-		case "ARB" : return "alr";
-		case "DST" : return "drs";
-		case "5ED" : return "5th";
-		case "ALA" : return "soa";
-		case "TMP" : return "tem";
-		case "CN2" : return "2cn";
-		case "MM3" : return "mmc";
-		default : return me.getId();
+
+	public static String getMGVILLCodeEdition(MagicEdition me) {
+		switch (me.getId()) {
+		case "M10":
+			return "10m";
+		case "M11":
+			return "11m";
+		case "M12":
+			return "12m";
+		case "M13":
+			return "13m";
+		case "M14":
+			return "14m";
+		case "M15":
+			return "15m";
+		case "DRK":
+			return "dar";
+		case "5DN":
+			return "fda";
+		case "10E":
+			return "xth";
+		case "CSP":
+			return "col";
+		case "ARB":
+			return "alr";
+		case "DST":
+			return "drs";
+		case "5ED":
+			return "5th";
+		case "ALA":
+			return "soa";
+		case "TMP":
+			return "tem";
+		case "CN2":
+			return "2cn";
+		case "MM3":
+			return "mmc";
+		default:
+			return me.getId();
 		}
-		
-		
+
 	}
-	
+
 	private String prefixZeros(String value, int len) {
-		logger.debug("parsingNumber " + value + " "+  len) ;
-	    char[] t = new char[len];
-	    int l = value.trim().length();
-	    int k = len-l;
-	    for(int i=0;i<k;i++) { t[i]='0'; }
-	    value.getChars(0, l, t, k);
-	    return new String(t);
+		logger.debug("parsingNumber " + value + " " + len);
+		char[] t = new char[len];
+		int l = value.trim().length();
+		int k = len - l;
+		for (int i = 0; i < k; i++) {
+			t[i] = '0';
+		}
+		value.getChars(0, l, t, k);
+		return new String(t);
 	}
-	
-	
-	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
-		
+
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+
 		list.clear();
 		String html = getString("URL");
-		
-		if(me==null)
+
+		if (me == null)
 			me = card.getEditions().get(0);
 
-		String keyword ="";
-		try{
-		keyword = getMGVILLCodeEdition(me)+prefixZeros(card.getNumber().replaceAll("a", "").trim(),3);
-		}
-		catch(Exception e)
-		{
+		String keyword = "";
+		try {
+			keyword = getMGVILLCodeEdition(me) + prefixZeros(card.getNumber().replaceAll("a", "").trim(), 3);
+		} catch (Exception e) {
 			logger.error("no number for " + card);
 			return list;
 		}
 		setProperty("KEYWORD", keyword);
-		String url = html+keyword;
-		
+		String url = html + keyword;
 
-		logger.info(getName() +" looking for prices " + url );
-		
+		logger.info(getName() + " looking for prices " + url);
+
 		doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).timeout(0).get();
-		Element table =null;
-		try{
-		table = doc.select("table[width=98%]").get(2); //select the first table.
-		}catch(IndexOutOfBoundsException e)
-		{
-			logger.info(getName() +" no sellers");
+		Element table = null;
+		try {
+			table = doc.select("table[width=98%]").get(2); // select the first table.
+		} catch (IndexOutOfBoundsException e) {
+			logger.info(getName() + " no sellers");
 			return list;
 		}
-		 
-		 Elements rows = table.select(MTGConstants.HTML_TAG_TR);
-		 
-		 for (int i = 3; i < rows.size(); i=i+2) {
-			 Element ligne = rows.get(i);
-			 Elements cols = ligne.getElementsByTag(MTGConstants.HTML_TAG_TD);
-			 MagicPrice mp =new MagicPrice();
-			 
-			 String price = cols.get(4).text();
-			 		price=price.substring(0, price.length()-1);
-			 mp.setValue(Double.parseDouble(price));
-			 mp.setCurrency("EUR");
-			 mp.setSeller(cols.get(0).text());
-			 mp.setSite(getName());
-			 mp.setUrl(url);
-			 mp.setQuality(cols.get(2).text());
-			 mp.setLanguage(cols.get(1).getElementsByTag("span").text());
-			 mp.setCountry("France");
-			 
-			 list.add(mp);
-			 
-		 }
-		 
-		 logger.info(getName() +" found " + list.size() +" item(s) return " + getString("MAX") + " items" );
-		
-		 
-		 if(list.size()>Integer.parseInt(getString("MAX"))&& Integer.parseInt(getString("MAX"))>-1)
-			 return list.subList(0, Integer.parseInt(getString("MAX")));
-		 
-			 
+
+		Elements rows = table.select(MTGConstants.HTML_TAG_TR);
+
+		for (int i = 3; i < rows.size(); i = i + 2) {
+			Element ligne = rows.get(i);
+			Elements cols = ligne.getElementsByTag(MTGConstants.HTML_TAG_TD);
+			MagicPrice mp = new MagicPrice();
+
+			String price = cols.get(4).text();
+			price = price.substring(0, price.length() - 1);
+			mp.setValue(Double.parseDouble(price));
+			mp.setCurrency("EUR");
+			mp.setSeller(cols.get(0).text());
+			mp.setSite(getName());
+			mp.setUrl(url);
+			mp.setQuality(cols.get(2).text());
+			mp.setLanguage(cols.get(1).getElementsByTag("span").text());
+			mp.setCountry("France");
+
+			list.add(mp);
+
+		}
+
+		logger.info(getName() + " found " + list.size() + " item(s) return " + getString("MAX") + " items");
+
+		if (list.size() > Integer.parseInt(getString("MAX")) && Integer.parseInt(getString("MAX")) > -1)
+			return list.subList(0, Integer.parseInt(getString("MAX")));
+
 		return list;
 	}
-	
-	
 
 	@Override
 	public String getName() {
 		return "Magic-Villois";
 	}
 
-
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
 		// do nothing
-		
-	}
 
+	}
 
 	@Override
 	public void initDefault() {
 		setProperty("MAX", "5");
 		setProperty("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
 		setProperty("WEBSITE", "http://www.magic-ville.com/");
-		setProperty("KEYWORD", "");	
+		setProperty("KEYWORD", "");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		
-	}
 
+	}
 
 	@Override
 	public String getVersion() {
 		return "1.5";
 	}
-	
+
 }
-
-

@@ -13,41 +13,35 @@ import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
-public class ManaPool extends Observable implements Serializable{
+public class ManaPool extends Observable implements Serializable {
 
-	private Map<String, Integer> pool ;
+	private Map<String, Integer> pool;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
 	public ManaPool() {
-		pool= new HashMap<>();
+		pool = new HashMap<>();
 		addObserver(GamePanelGUI.getInstance().getManaPoolPanel());
 	}
-	
-	public int getMana(String color)
-	{
+
+	public int getMana(String color) {
 		Integer ret = pool.get(color);
-		
-		if(ret==null)
+
+		if (ret == null)
 			return 0;
-		
+
 		return ret;
-		
+
 	}
-	
-	
-	public void addMana(String mana)
-	{
-		addMana(mana,1);
+
+	public void addMana(String mana) {
+		addMana(mana, 1);
 	}
-	
-	public void addMana(String mana,Integer number)
-	{
-		try{
-			pool.put(mana, pool.get(mana)+number);
+
+	public void addMana(String mana, Integer number) {
+		try {
+			pool.put(mana, pool.get(mana) + number);
 			setChanged();
-		}catch(NullPointerException e)
-		{
+		} catch (NullPointerException e) {
 			setMana(mana, number);
 		}
 	}
@@ -55,53 +49,44 @@ public class ManaPool extends Observable implements Serializable{
 	public void setMana(String color, int number) {
 		pool.put(color, number);
 		setChanged();
-		
+
 	}
-	
-	public void useMana(String color,Integer number)
-	{
-		try{
-			setMana(color, pool.get(color)-number);
-		}catch(Exception e)
-		{
-			logger.error("error use mana",e);
+
+	public void useMana(String color, Integer number) {
+		try {
+			setMana(color, pool.get(color) - number);
+		} catch (Exception e) {
+			logger.error("error use mana", e);
 		}
 	}
-	
-	public void useMana(MagicCard mc)
-	{
-		if(mc.getCmc()==null)
+
+	public void useMana(MagicCard mc) {
+		if (mc.getCmc() == null)
 			return;
-		
-		String regex ="\\{(.*?)\\}";
+
+		String regex = "\\{(.*?)\\}";
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(mc.getCost());
-		
-		while(m.find())
-		{
+
+		while (m.find()) {
 			String c = m.group();
 			useMana(c, 1);
 		}
 		notifyObservers(this);
 	}
-	
-	
-	
-	public void clean(){
+
+	public void clean() {
 		pool.values().clear();
 	}
-	
+
 	public String toString() {
-		
+
 		StringBuilder build = new StringBuilder();
-		for(Entry<String, Integer> key : pool.entrySet())
-			for(int i=0;i<key.getValue();i++)
+		for (Entry<String, Integer> key : pool.entrySet())
+			for (int i = 0; i < key.getValue(); i++)
 				build.append(key.getKey());
-		
-		
+
 		return build.toString();
 	}
-	
-	
-	
+
 }

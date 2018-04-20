@@ -31,59 +31,68 @@ public class LibraryPanel extends DraggablePanel {
 		menu.add(new JMenuItem(new ScryActions(null)));
 		menu.add(new JMenuItem(new ShuffleActions()));
 		menu.add(new JMenuItem(new MoveGraveyardActions()));
-		
+
 		try {
-			i=MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance((int)MTGControler.getInstance().getCardsDimension().getWidth(),(int)MTGControler.getInstance().getCardsDimension().getHeight(), BufferedImage.SCALE_SMOOTH);
-				setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
-			
+			i = MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(
+					(int) MTGControler.getInstance().getCardsDimension().getWidth(),
+					(int) MTGControler.getInstance().getCardsDimension().getHeight(), BufferedImage.SCALE_SMOOTH);
+			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
+
 		} catch (Exception e) {
 			logger.error(e);
 		}
 	}
-	
-	
+
 	@Override
 	public void addComponent(DisplayableCard i) {
 		add(i);
 		i.setPosition(getOrigine());
 	}
-	
+
 	@Override
 	public void moveCard(DisplayableCard mc, PositionEnum to) {
-		
+
 		switch (to) {
-			case BATTLEFIELD:player.playCardFromLibrary(mc.getMagicCard());break;
-			case EXIL:player.exileCardFromLibrary(mc.getMagicCard());break;
-			case HAND:player.searchCardFromLibrary(mc.getMagicCard());break;
-			case LIBRARY:player.reoderCardInLibrary(mc.getMagicCard(), true);break;
-			case GRAVEYARD:player.discardCardFromLibrary(mc.getMagicCard());break;
-		default:break;
+		case BATTLEFIELD:
+			player.playCardFromLibrary(mc.getMagicCard());
+			break;
+		case EXIL:
+			player.exileCardFromLibrary(mc.getMagicCard());
+			break;
+		case HAND:
+			player.searchCardFromLibrary(mc.getMagicCard());
+			break;
+		case LIBRARY:
+			player.reoderCardInLibrary(mc.getMagicCard(), true);
+			break;
+		case GRAVEYARD:
+			player.discardCardFromLibrary(mc.getMagicCard());
+			break;
+		default:
+			break;
+		}
+
 	}
-		
-		
-	}
-	
-	
+
 	@Override
 	public PositionEnum getOrigine() {
 		return PositionEnum.LIBRARY;
 	}
-	
-	
+
 	@Override
 	public void paint(Graphics g) {
-		
+
 		try {
 			g.drawImage(i, 0, 0, null);
 		} catch (Exception e) {
-			//do nothing
+			// do nothing
 		}
-		
+
 	}
 
 	@Override
 	public void postTreatment(DisplayableCard c) {
 		remove(c);
-		
+
 	}
 }

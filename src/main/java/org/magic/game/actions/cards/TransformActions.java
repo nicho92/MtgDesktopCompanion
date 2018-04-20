@@ -14,36 +14,38 @@ import org.magic.services.MTGLogger;
 
 public class TransformActions extends AbstractAction {
 
-	
 	private DisplayableCard card;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	
+
 	public TransformActions(DisplayableCard card) {
-			super("Transform");
-			putValue(SHORT_DESCRIPTION,"Transform the card");
-	        putValue(MNEMONIC_KEY, KeyEvent.VK_A);
-	        this.card = card;
+		super("Transform");
+		putValue(SHORT_DESCRIPTION, "Transform the card");
+		putValue(MNEMONIC_KEY, KeyEvent.VK_A);
+		this.card = card;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		GamePanelGUI.getInstance().getPlayer().logAction("Transform " + card.getMagicCard());
-		
+
 		try {
-			
+
 			card.removeAllCounters();
-			
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0),true).get(0);
+
+			MagicCard mc = MTGControler
+					.getInstance().getEnabledProviders().searchCardByCriteria("name",
+							card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0), true)
+					.get(0);
 			mc.setRulings(card.getMagicCard().getRulings());
 			card.setMagicCard(mc);
 			card.revalidate();
 			card.repaint();
 			card.initActions();
-			
+
 		} catch (Exception ex) {
 			logger.error(ex);
 		}
-		
+
 	}
 
 }

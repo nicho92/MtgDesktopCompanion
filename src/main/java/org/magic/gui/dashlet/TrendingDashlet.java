@@ -28,122 +28,111 @@ import org.magic.services.ThreadManager;
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
-public class TrendingDashlet extends AbstractJDashlet{
+public class TrendingDashlet extends AbstractJDashlet {
 	private JXTable table;
 	private CardsShakerTableModel modStandard;
 	private JComboBox<FORMAT> cboFormats;
 	private JLabel lblLoading;
 	private JLabel lblInfoUpdate;
 
-	
 	public TrendingDashlet() {
 		super();
 		setFrameIcon(MTGConstants.ICON_DASHBOARD);
 	}
-	
+
 	public void initGUI() {
 		JButton btnRefresh;
 		JPanel panel;
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
-		
+
 		cboFormats = new JComboBox<>(new DefaultComboBoxModel<FORMAT>(FORMAT.values()));
-		cboFormats.addItemListener(ie->init());
+		cboFormats.addItemListener(ie -> init());
 		panneauHaut.add(cboFormats);
-		
+
 		lblLoading = new JLabel("");
 		lblLoading.setIcon(MTGConstants.ICON_LOADING);
 		lblLoading.setVisible(false);
-		
+
 		btnRefresh = new JButton("");
-		btnRefresh.addActionListener(ae->init());
+		btnRefresh.addActionListener(ae -> init());
 		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 		panneauHaut.add(btnRefresh);
 		panneauHaut.add(lblLoading);
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
-		
+
 		modStandard = new CardsShakerTableModel();
 		table = new JXTable();
-		
+
 		scrollPane.setViewportView(table);
-		
-		if(getProperties().size()>0) {
-			Rectangle r = new Rectangle((int)Double.parseDouble(getProperty("x")), 
-										(int)Double.parseDouble(getProperty("y")),
-										(int)Double.parseDouble(getProperty("w")),
-										(int)Double.parseDouble(getProperty("h")));
-			
+
+		if (getProperties().size() > 0) {
+			Rectangle r = new Rectangle((int) Double.parseDouble(getProperty("x")),
+					(int) Double.parseDouble(getProperty("y")), (int) Double.parseDouble(getProperty("w")),
+					(int) Double.parseDouble(getProperty("h")));
+
 			try {
 				cboFormats.setSelectedItem(FORMAT.valueOf(getProperty("FORMAT")));
-			
+
 			} catch (Exception e) {
 				logger.error(e);
 			}
 			setBounds(r);
-			}
-		
+		}
+
 		new TableFilterHeader(table, AutoChoices.ENABLED);
 
-		initToolTip(table,0,1);
-		
+		initToolTip(table, 0, 1);
+
 		panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);
-		
+
 		lblInfoUpdate = new JLabel("");
 		panel.add(lblInfoUpdate);
-	
-		
+
 		setVisible(true);
-	
+
 	}
 
-	public void init()
-	{
-		ThreadManager.getInstance().execute(()->{
-				lblLoading.setVisible(true);
-				modStandard.init((FORMAT)cboFormats.getSelectedItem());
-				
-				try {
+	public void init() {
+		ThreadManager.getInstance().execute(() -> {
+			lblLoading.setVisible(true);
+			modStandard.init((FORMAT) cboFormats.getSelectedItem());
+
+			try {
 				table.setModel(modStandard);
-				}
-				catch(Exception e)
-				{
-					logger.error(e);
-				}
-				setProperty("FORMAT",((FORMAT)cboFormats.getSelectedItem()).toString());
-				lblLoading.setVisible(false);
-				table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
-				
-				lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : " + new SimpleDateFormat("dd/MM/yyyy HH:mm").format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())+")");	
-				
-				List<SortKey> keys = new ArrayList<>();
-				SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);//column index 2
-				keys.add(sortKey);
-				try{
-					table.setRowSorter(new TableRowSorter(modStandard) );
-					((TableRowSorter)table.getRowSorter()).setSortKeys(keys);
-					((TableRowSorter)table.getRowSorter()).sort();
-					modStandard.fireTableDataChanged();
-					table.packAll();
-				}
-				catch(Exception e)
-				{
-					//do nothing
-				}
+			} catch (Exception e) {
+				logger.error(e);
+			}
+			setProperty("FORMAT", ((FORMAT) cboFormats.getSelectedItem()).toString());
+			lblLoading.setVisible(false);
+			table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
+
+			lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : "
+					+ new SimpleDateFormat("dd/MM/yyyy HH:mm")
+							.format(MTGControler.getInstance().getEnabledDashBoard().getUpdatedDate())
+					+ ")");
+
+			List<SortKey> keys = new ArrayList<>();
+			SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
+			keys.add(sortKey);
+			try {
+				table.setRowSorter(new TableRowSorter(modStandard));
+				((TableRowSorter) table.getRowSorter()).setSortKeys(keys);
+				((TableRowSorter) table.getRowSorter()).sort();
+				modStandard.fireTableDataChanged();
+				table.packAll();
+			} catch (Exception e) {
+				// do nothing
+			}
 		}, "Init Formats Dashlet");
 	}
-	
-	
-	
 
 	@Override
 	public String getName() {
 		return "Trendings";
 	}
-
-
-
 
 }

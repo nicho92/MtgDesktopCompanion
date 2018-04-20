@@ -11,19 +11,19 @@ public abstract class AbstractMagicPricesProvider extends AbstractMTGPlugin impl
 	public PLUGINS getType() {
 		return PLUGINS.PRICER;
 	}
-	
+
 	public AbstractMagicPricesProvider() {
 		super();
 		confdir = new File(MTGConstants.CONF_DIR, "pricers");
-		if(!confdir.exists())
+		if (!confdir.exists())
 			confdir.mkdir();
-		
+
 		load();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
+
+		if (!new File(confdir, getName() + ".conf").exists()) {
 			initDefault();
 			save();
-		} 
+		}
 	}
-	
+
 }

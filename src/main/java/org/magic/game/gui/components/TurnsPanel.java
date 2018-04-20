@@ -24,15 +24,15 @@ import org.magic.game.model.GameManager;
 public class TurnsPanel extends JPanel {
 
 	JLabel lblTurnNumber;
-	
+
 	public TurnsPanel() {
 		FlowLayout flowLayout = (FlowLayout) getLayout();
 		flowLayout.setVgap(1);
 		flowLayout.setHgap(1);
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		lblTurnNumber = new JLabel("Turn "+GameManager.getInstance().getTurns().size());
+		lblTurnNumber = new JLabel("Turn " + GameManager.getInstance().getTurns().size());
 		add(lblTurnNumber);
-		
+
 		add(new JButton(new UntapPhase()));
 		add(new JButton(new UpkeepPhase()));
 		add(new JButton(new DrawPhase()));
@@ -47,36 +47,26 @@ public class TurnsPanel extends JPanel {
 		add(new JButton(new CleanUpPhase()));
 		add(new JButton(new EndTurnPhase()));
 	}
-	
-	
-	public void disableButtonsTo(JButton b)
-	{
-		for(Component c : getComponents())
-		{
-			if(c instanceof JButton)
-			{
-				JButton but = (JButton)c;
-				if(!but.equals(b))
-				{
+
+	public void disableButtonsTo(JButton b) {
+		for (Component c : getComponents()) {
+			if (c instanceof JButton) {
+				JButton but = (JButton) c;
+				if (!but.equals(b)) {
 					but.getAction().setEnabled(false);
-				}
-				else
-				{
+				} else {
 					return;
 				}
 			}
 		}
 	}
 
-	
-	public void initTurn()
-	{
-		for(Component c : getComponents())
-			if(c instanceof JButton)
-				((JButton)c).getAction().setEnabled(true);
-		
+	public void initTurn() {
+		for (Component c : getComponents())
+			if (c instanceof JButton)
+				((JButton) c).getAction().setEnabled(true);
+
 		lblTurnNumber.setText("Turn " + GameManager.getInstance().getTurns().size());
 	}
 
-	
 }

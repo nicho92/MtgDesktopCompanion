@@ -20,46 +20,50 @@ import org.magic.services.MTGLogger;
 public class FlipActions extends AbstractAction {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	
+
 	private DisplayableCard card;
 
 	public FlipActions(DisplayableCard card) {
-			super("Flip");
-			putValue(SHORT_DESCRIPTION,"Flip the card");
-	        putValue(MNEMONIC_KEY,KeyEvent.VK_F);
-	        this.card = card;
+		super("Flip");
+		putValue(SHORT_DESCRIPTION, "Flip the card");
+		putValue(MNEMONIC_KEY, KeyEvent.VK_F);
+		this.card = card;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0),true).get(0);
+			MagicCard mc = MTGControler
+					.getInstance().getEnabledProviders().searchCardByCriteria("name",
+							card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0), true)
+					.get(0);
 			card.setMagicCard(mc);
-	        BufferedImage bufferedImage = new BufferedImage(card.getWidth(), card.getHeight(), BufferedImage.TYPE_INT_RGB);
-	    		
+			BufferedImage bufferedImage = new BufferedImage(card.getWidth(), card.getHeight(),
+					BufferedImage.TYPE_INT_RGB);
+
 			AffineTransform tx = AffineTransform.getScaleInstance(-1, -1);
-		    tx.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
-		    AffineTransformOp op = new AffineTransformOp(tx,AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
-		    bufferedImage = op.filter(bufferedImage, null);
-			
-	        Graphics2D g2 = bufferedImage.createGraphics();
-			           g2.drawImage(card.getImageIcon().getImage(), tx,null);
-			           g2.dispose();
-			           card.setImage(new ImageIcon(bufferedImage));
-	        
-			           card.setRotated(true);
-	        
-			           card.revalidate();
-			           card.repaint();
-			           
-			           card.initActions();
-			           GamePanelGUI.getInstance().getPlayer().logAction("Flip " + card.getMagicCard());
+			tx.translate(-bufferedImage.getWidth(null), -bufferedImage.getHeight(null));
+			AffineTransformOp op = new AffineTransformOp(tx, AffineTransformOp.TYPE_NEAREST_NEIGHBOR);
+			bufferedImage = op.filter(bufferedImage, null);
+
+			Graphics2D g2 = bufferedImage.createGraphics();
+			g2.drawImage(card.getImageIcon().getImage(), tx, null);
+			g2.dispose();
+			card.setImage(new ImageIcon(bufferedImage));
+
+			card.setRotated(true);
+
+			card.revalidate();
+			card.repaint();
+
+			card.initActions();
+			GamePanelGUI.getInstance().getPlayer().logAction("Flip " + card.getMagicCard());
 		} catch (Exception ex) {
 			logger.error(ex);
 		}
-		
+
 	}
-	
+
 	@Override
 	public String toString() {
 		return "Flip " + card.getMagicCard();

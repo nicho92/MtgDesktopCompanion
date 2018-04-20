@@ -16,48 +16,51 @@ public class Wallpaper {
 	private URL url;
 	private String name;
 	private String format;
-	
-	
+
 	public BufferedImage getPicture() throws IOException {
-		if(picture==null)
-		{
+		if (picture == null) {
 			URLConnection connection = url.openConnection();
-			connection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
-			picture=ImageIO.read(connection.getInputStream());
+			connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
+			picture = ImageIO.read(connection.getInputStream());
 		}
 		return picture;
 	}
+
 	public void setPicture(BufferedImage picture) {
 		this.picture = picture;
 	}
+
 	public URL getUrl() {
 		return url;
 	}
+
 	public void setUrl(URL url) {
 		this.url = url;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	public String getFormat() {
 		return format;
 	}
+
 	public void setFormat(String extension) {
-		this.format=extension;
-		
+		this.format = extension;
+
 	}
-	
+
 	public Dimension getDimension() {
 		try {
 			return new Dimension(getPicture().getWidth(), getPicture().getHeight());
 		} catch (IOException e) {
 			return new Dimension(0, 0);
 		}
-	}	
-	
-	
+	}
+
 }

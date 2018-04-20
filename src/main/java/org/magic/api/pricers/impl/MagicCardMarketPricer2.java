@@ -24,217 +24,180 @@ import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
 
+public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
-public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
-    
-    private List<MagicPrice> lists;
-	
-    @Override
+	private List<MagicPrice> lists;
+
+	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
-	
-    
-    public MagicCardMarketPricer2() {
-    	super();
-  
-		try{
-		MkmAPIConfig.getInstance().init(
-				getString("APP_ACCESS_TOKEN_SECRET"),
-    			getString("APP_ACCESS_TOKEN"),
-    			getString("APP_SECRET"),
-    			getString("APP_TOKEN"));
-		}
-		catch(MkmException e)
-		{
+
+	public MagicCardMarketPricer2() {
+		super();
+
+		try {
+			MkmAPIConfig.getInstance().init(getString("APP_ACCESS_TOKEN_SECRET"), getString("APP_ACCESS_TOKEN"),
+					getString("APP_SECRET"), getString("APP_TOKEN"));
+		} catch (MkmException e) {
 			logger.error(e);
 		}
-		
-    	
-    	
-    	
-    	try {
-    		InstallCert.install("www.mkmapi.eu");
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
-    	} catch (Exception e1) {
+
+		try {
+			InstallCert.install("www.mkmapi.eu");
+			System.setProperty("javax.net.ssl.trustStore",
+					new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+		} catch (Exception e1) {
 			logger.error(e1);
 		}
-     }
-    
-    public static void selectEditionCard(MagicCard mc,String edition)
-    {
-    	for(MagicEdition ed : mc.getEditions())
-			if(ed.getSet().startsWith(edition))
-			{
+	}
+
+	public static void selectEditionCard(MagicCard mc, String edition) {
+		for (MagicEdition ed : mc.getEditions())
+			if (ed.getSet().startsWith(edition)) {
 				mc.getEditions().add(0, ed);
 				break;
 			}
-    }
-	
-	public static Product getProductFromCard(MagicCard mc,List<Product> list)
-	{
-		String edName=mc.getEditions().get(0).getSet();
+	}
+
+	public static Product getProductFromCard(MagicCard mc, List<Product> list) {
+		String edName = mc.getEditions().get(0).getSet();
 		Product resultat = null;
-		for(Product p : list)
-		{
-			
-			if(mc.getEditions().get(0).getMkm_name()!=null)
-				edName=mc.getEditions().get(0).getMkm_name();
-		
-			if(p.getCategoryName().equalsIgnoreCase("Magic Single") && edName.startsWith(p.getExpansionName()))
-			{
-				resultat=p;
+		for (Product p : list) {
+
+			if (mc.getEditions().get(0).getMkm_name() != null)
+				edName = mc.getEditions().get(0).getMkm_name();
+
+			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && edName.startsWith(p.getExpansionName())) {
+				resultat = p;
 				break;
 			}
 		}
 		return resultat;
-		
+
 	}
 
-  
-    public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException {
-    	try{	
-    		
-    		if(me==null)
-    			me=card.getEditions().get(0);
-    
-    	lists = new ArrayList<>();
-    	
-    	logger.info(getName() + " looking for " + card +" " + me);
-    	
-    	if(me.getRarity()!=null)
-    	if(!getBoolean("COMMONCHECK") && me.getRarity().equalsIgnoreCase("Common"))
-        {
-        	MagicPrice mp = new MagicPrice();
-        	mp.setCurrency("EUR");
-        	mp.setValue(0.01);
-        	mp.setSite(getName());
-        	mp.setSeller("Not checked common");
-        	lists.add(mp);
-        	return lists;
-        }
-    	
-    	
-    	
-       ProductServices pService = new ProductServices();
-       EnumMap<PRODUCT_ATTS,String> atts = new EnumMap<>(PRODUCT_ATTS.class);
-		atts.put(PRODUCT_ATTS.idGame, "1");
-		atts.put(PRODUCT_ATTS.exact,getString("IS_EXACT"));
-		
-		
-		if(!getString("LANGUAGE_ID").equals(""))
-			atts.put(PRODUCT_ATTS.idLanguage,getString("LANGUAGE_ID"));
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+		try {
 
-		
-		if(getString("USER_ARTICLE").equals("false"))
-		{
-				Product p = getProductFromCard(card,pService.findProduct(card.getName(), atts));
-				
-				if(p!=null)
-				{
+			if (me == null)
+				me = card.getEditions().get(0);
+
+			lists = new ArrayList<>();
+
+			logger.info(getName() + " looking for " + card + " " + me);
+
+			if (me.getRarity() != null)
+				if (!getBoolean("COMMONCHECK") && me.getRarity().equalsIgnoreCase("Common")) {
+					MagicPrice mp = new MagicPrice();
+					mp.setCurrency("EUR");
+					mp.setValue(0.01);
+					mp.setSite(getName());
+					mp.setSeller("Not checked common");
+					lists.add(mp);
+					return lists;
+				}
+
+			ProductServices pService = new ProductServices();
+			EnumMap<PRODUCT_ATTS, String> atts = new EnumMap<>(PRODUCT_ATTS.class);
+			atts.put(PRODUCT_ATTS.idGame, "1");
+			atts.put(PRODUCT_ATTS.exact, getString("IS_EXACT"));
+
+			if (!getString("LANGUAGE_ID").equals(""))
+				atts.put(PRODUCT_ATTS.idLanguage, getString("LANGUAGE_ID"));
+
+			if (getString("USER_ARTICLE").equals("false")) {
+				Product p = getProductFromCard(card, pService.findProduct(card.getName(), atts));
+
+				if (p != null) {
 					p = pService.getProductById(p.getIdProduct());
 					MagicPrice mp = new MagicPrice();
-					   mp.setSeller(String.valueOf(p.getExpansionName()));
-					   mp.setValue(p.getPriceGuide().getLOW());
-					   mp.setQuality("");
-					   mp.setUrl("https://www.magiccardmarket.eu"+p.getWebsite());
-					   mp.setSite(getName());
-					   mp.setFoil(false);
-					   mp.setCurrency("EUR");
-					   mp.setLanguage(String.valueOf(p.getLocalization()));
-					   lists.add(mp);
-				}			
-			
-		}
-		else
-		{
-			List<Product> list = pService.findProduct(card.getName(), atts);
-			Product resultat = getProductFromCard(card, list);
-			if(resultat==null)
-			{
-				logger.info(getName() + " found no item");
-				return lists;
+					mp.setSeller(String.valueOf(p.getExpansionName()));
+					mp.setValue(p.getPriceGuide().getLOW());
+					mp.setQuality("");
+					mp.setUrl("https://www.magiccardmarket.eu" + p.getWebsite());
+					mp.setSite(getName());
+					mp.setFoil(false);
+					mp.setCurrency("EUR");
+					mp.setLanguage(String.valueOf(p.getLocalization()));
+					lists.add(mp);
+				}
+
+			} else {
+				List<Product> list = pService.findProduct(card.getName(), atts);
+				Product resultat = getProductFromCard(card, list);
+				if (resultat == null) {
+					logger.info(getName() + " found no item");
+					return lists;
+				}
+
+				ArticleService aServ = new ArticleService();
+				EnumMap<ARTICLES_ATT, String> aatts = new EnumMap<>(ARTICLES_ATT.class);
+				aatts.put(ARTICLES_ATT.start, "0");
+				aatts.put(ARTICLES_ATT.maxResults, getString("MAX"));
+
+				if (!getString("LANGUAGE_ID").equals(""))
+					aatts.put(ARTICLES_ATT.idLanguage, getString("LANGUAGE_ID"));
+
+				if (!getString("MIN_CONDITION").equals(""))
+					aatts.put(ARTICLES_ATT.minCondition, getString("MIN_CONDITION"));
+
+				List<Article> articles = aServ.find(resultat, aatts);
+				logger.debug(getName() + " found " + articles.size() + " items");
+
+				for (Article a : articles) {
+					MagicPrice mp = new MagicPrice();
+					mp.setSeller(String.valueOf(a.getSeller()));
+					mp.setCountry(String.valueOf(a.getSeller().getAddress().getCountry()));
+					mp.setValue(a.getPrice());
+					mp.setQuality(a.getCondition());
+					mp.setUrl("https://www.magiccardmarket.eu" + resultat.getWebsite());
+					mp.setSite("MagicCardMarket");
+					mp.setFoil(a.isFoil());
+					mp.setCurrency("EUR");
+					mp.setLanguage(a.getLanguage().toString());
+					mp.setShopItem(a);
+
+					lists.add(mp);
+				}
 			}
-			
-			ArticleService aServ = new ArticleService();
-			EnumMap<ARTICLES_ATT,String> aatts = new EnumMap<>(ARTICLES_ATT.class);
-			aatts.put(ARTICLES_ATT.start, "0");
-			aatts.put(ARTICLES_ATT.maxResults, getString("MAX"));
-			
-			if(!getString("LANGUAGE_ID").equals(""))
-			aatts.put(ARTICLES_ATT.idLanguage, getString("LANGUAGE_ID"));
-			
-			if(!getString("MIN_CONDITION").equals(""))
-				aatts.put(ARTICLES_ATT.minCondition,getString("MIN_CONDITION"));
-	
-			
-			List<Article> articles = aServ.find(resultat, aatts);
-			logger.debug(getName() +" found "  + articles.size() +" items");
-			
-			for(Article a : articles)
-			{
-				MagicPrice mp = new MagicPrice();
-						   mp.setSeller(String.valueOf(a.getSeller()));
-						   mp.setCountry(String.valueOf(a.getSeller().getAddress().getCountry()));
-						   mp.setValue(a.getPrice());
-						   mp.setQuality(a.getCondition());
-						   mp.setUrl("https://www.magiccardmarket.eu"+resultat.getWebsite());
-						   mp.setSite("MagicCardMarket");
-						   mp.setFoil(a.isFoil());
-						   mp.setCurrency("EUR");
-						   mp.setLanguage(a.getLanguage().toString());
-						   mp.setShopItem(a);
-						   
-				lists.add(mp);
-			}
+
+		} catch (Exception e) {
+			logger.error("Error retrieving prices for " + card, e);
+			logger.error(e);
+
 		}
-		
-       
-    }
-    catch(Exception e) {
-    	logger.error("Error retrieving prices for " + card,e);
-    	logger.error(e);
-		
-	} 
-    
-    return lists;
-    }
-    
- 
+
+		return lists;
+	}
+
 	public String getName() {
 		return "MagicCardMarket";
 	}
 
-
-
 	@Override
 	public void alertDetected(final List<MagicPrice> p) {
-		
-		
-		ThreadManager.getInstance().execute(()->{
-				if(!p.isEmpty() && getString("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
-				{
-					CartServices cart = new CartServices();
-						try {
-							List<Article> list = new ArrayList<>();
-							
-							for(MagicPrice mp : p)
-							{
-								Article a = (Article)mp.getShopItem();
-								a.setCount(1);
-								list.add(a);
-							}
-							boolean res = cart.addArticles(list);
-							logger.info("add " + list + " to card :"  + res);
-						} catch (Exception e) {
-							logger.error("Could not add " + p +" to cart",e);
-						}
+
+		ThreadManager.getInstance().execute(() -> {
+			if (!p.isEmpty() && getString("AUTOMATIC_ADD_CARD_ALERT").equals("true")) {
+				CartServices cart = new CartServices();
+				try {
+					List<Article> list = new ArrayList<>();
+
+					for (MagicPrice mp : p) {
+						Article a = (Article) mp.getShopItem();
+						a.setCount(1);
+						list.add(a);
+					}
+					boolean res = cart.addArticles(list);
+					logger.info("add " + list + " to card :" + res);
+				} catch (Exception e) {
+					logger.error("Could not add " + p + " to cart", e);
 				}
+			}
 		}, "addCart");
 
-		
 	}
-
 
 	@Override
 	public void initDefault() {
@@ -249,14 +212,12 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider{
 		setProperty("MAX", "10");
 		setProperty("USER_ARTICLE", "false");
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
-		
-	}
 
+	}
 
 	@Override
 	public String getVersion() {
 		return "2.0";
 	}
 
-	
 }

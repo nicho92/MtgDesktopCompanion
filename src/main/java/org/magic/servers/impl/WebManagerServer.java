@@ -1,6 +1,5 @@
 package org.magic.servers.impl;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -17,30 +16,27 @@ public class WebManagerServer extends AbstractMTGServer {
 
 	private Server server;
 	private URL webRootLocation;
-	
+
 	public static void main(String[] args) throws Exception {
 		new WebManagerServer().start();
 	}
-	
+
 	public WebManagerServer() {
 		super();
 		server = new Server(getInt("SERVER-PORT"));
-		
-		
+
 		webRootLocation = this.getClass().getResource("/web-ui");
-        if (webRootLocation == null)
-        {
-            throw new IllegalStateException("Unable to determine webroot URL location");
-        }
-        
-		
+		if (webRootLocation == null) {
+			throw new IllegalStateException("Unable to determine webroot URL location");
+		}
+
 		ServletContextHandler ctx = new ServletContextHandler();
 		ctx.setContextPath("/");
 		DefaultServlet defaultServlet = new DefaultServlet();
 		ServletHolder holderPwd = new ServletHolder("default", defaultServlet);
-					  holderPwd.setInitParameter("resourceBase", webRootLocation.toString());
-					  holderPwd.setInitParameter("dirAllowed",getString("ALLOW_LIST_DIR"));
-					  
+		holderPwd.setInitParameter("resourceBase", webRootLocation.toString());
+		holderPwd.setInitParameter("dirAllowed", getString("ALLOW_LIST_DIR"));
+
 		ctx.addServlet(holderPwd, "/*");
 		server.setHandler(ctx);
 	}
@@ -50,20 +46,19 @@ public class WebManagerServer extends AbstractMTGServer {
 		URL u = null;
 		try {
 			u = this.getClass().getResource("/web-ui/dist/js/rest-server.js");
-			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='"+getString("REST_BACKEND_URI")+"';","UTF-8");
+			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='" + getString("REST_BACKEND_URI") + "';",
+					"UTF-8");
+		} catch (Exception e) {
+			logger.error("couldn't write js rest file " + u, e);
 		}
-		catch(Exception e)
-		{
-			logger.error("couldn't write js rest file " + u,e);
-		}
-		
+
 		try {
 			server.start();
-			logger.info("Server start on port "+ getInt("SERVER-PORT") +" @ " + webRootLocation);
+			logger.info("Server start on port " + getInt("SERVER-PORT") + " @ " + webRootLocation);
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
-		
+
 	}
 
 	@Override
@@ -74,13 +69,13 @@ public class WebManagerServer extends AbstractMTGServer {
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
-	
+
 	}
 
 	@Override
 	public boolean isAlive() {
-		
-		if(server!=null)
+
+		if (server != null)
 			return server.isRunning();
 		else
 			return false;

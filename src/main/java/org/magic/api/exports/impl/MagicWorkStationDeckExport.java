@@ -17,7 +17,7 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class MagicWorkStationDeckExport extends AbstractCardExport {
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".mwDeck";
@@ -27,8 +27,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 	public void export(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
 		temp.append("// MAIN\n");
-		for(MagicCard mc : deck.getMap().keySet())
-		{
+		for (MagicCard mc : deck.getMap().keySet()) {
 			temp.append("    ");
 			temp.append(deck.getMap().get(mc));
 			temp.append(" ");
@@ -37,8 +36,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 			temp.append("\n");
 		}
 		temp.append("// Sideboard\n");
-		for(MagicCard mc : deck.getMapSideBoard().keySet())
-		{
+		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("SB: ");
 			temp.append(deck.getMap().get(mc));
 			temp.append(" ");
@@ -47,8 +45,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 			temp.append("\n");
 		}
 
-		try(FileWriter out = new FileWriter(dest))
-		{
+		try (FileWriter out = new FileWriter(dest)) {
 			out.write(temp.toString());
 		}
 
@@ -56,45 +53,41 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
-		try(BufferedReader read = new BufferedReader(new FileReader(f)))
-		{
+		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
 			MagicDeck deck = new MagicDeck();
-				deck.setName(f.getName().substring(0,f.getName().indexOf('.')));
-				
-				String line = read.readLine();
-				int ecart=0;
-				
-				while(line!=null)
-				{
-					line=line.trim();
-					if(!line.startsWith("//"))
-					{
-						int qte=0;
-						MagicCard mc = null;
-						//TODO line parse
-						
-						if(line.startsWith("SB"))
-							deck.getMapSideBoard().put(mc, qte);
-						else
-							deck.getMap().put(mc, qte);
-						
-					}
-					line=read.readLine();
+			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
+
+			String line = read.readLine();
+			int ecart = 0;
+
+			while (line != null) {
+				line = line.trim();
+				if (!line.startsWith("//")) {
+					int qte = 0;
+					MagicCard mc = null;
+					// TODO line parse
+
+					if (line.startsWith("SB"))
+						deck.getMapSideBoard().put(mc, qte);
+					else
+						deck.getMap().put(mc, qte);
+
 				}
-				return deck;
-		}	
+				line = read.readLine();
+			}
+			return deck;
+		}
 	}
 
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 		d.setName(f.getName());
-		
-		for(MagicCardStock mcs : stock)
-		{
+
+		for (MagicCardStock mcs : stock) {
 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
 		}
-		
+
 		export(d, f);
 	}
 
@@ -118,11 +111,10 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 		return STATUT.DEV;
 	}
 
-
 	@Override
 	public void initDefault() {
 		// nothing to do
-		
+
 	}
 
 	@Override

@@ -60,14 +60,14 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class CardBuilder2GUI extends JPanel{
+public class CardBuilder2GUI extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private JXTable editionsTable;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardEditorPanel magicCardEditorPanel;
 	private MagicEditionsTableModel editionModel;
-	
+
 	private transient PrivateMTGSetProvider provider;
 	private JComboBox<MagicEdition> cboSets;
 	private CropImagePanel panelImage;
@@ -83,445 +83,438 @@ public class CardBuilder2GUI extends JPanel{
 	private JSpinner spinCommon;
 	private JSpinner spinRare;
 	private JSpinner spinUnco;
-	private JPanel foreignNamesEditorPanel ;
+	private JPanel foreignNamesEditorPanel;
 	private transient PersonalSetPicturesProvider picturesProvider;
 	private JButton btnRefresh;
 	private JTable listNames;
 	private MagicCardNamesTableModel namesModel;
+
 	public CardBuilder2GUI() {
-		try{
+		try {
 
-		logger.info("init Builder GUI");
-				
-////////////////////////////////////////////////////INIT LOCAL COMPONENTS			
-		JPanel panelEditionHaut = new JPanel();
-		JPanel panelSets = new JPanel();
-		JButton btnSaveEdition = new JButton("");
-		JButton btnNewSet = new JButton("");
-		JButton btnRemoveEdition = new JButton("");
-		
-		JSplitPane splitcardEdPanel = new JSplitPane();
-		JScrollPane scrollTableEdition = new JScrollPane();
-		JPanel panelCards = new JPanel();
-		JPanel panelCardsHaut = new JPanel();
-		JButton btnImport = new JButton("");
-		JScrollPane scrollTableCards = new JScrollPane();
-		JButton btnSaveCard = new JButton("");
-		JButton btnAddName = new JButton("add Languages");
-		JTabbedPane tabbedResult = new JTabbedPane(JTabbedPane.TOP);
-		JButton btnRemoveCard = new JButton("");
-		JButton btnNewCard = new JButton("");
-		JPanel panelBooster = new JPanel();
-		JLabel lblCommon = new JLabel("Common :");
-		JLabel lblUncommon = new JLabel("Uncommon :");
-		JLabel lblRareMythic = new JLabel("Rare/Mythic :");
+			logger.info("init Builder GUI");
 
-		JTabbedPane tabbedCards = new JTabbedPane(JTabbedPane.TOP);
-		JButton btnImage = new JButton("Image");
-		JPanel panelMisc = new JPanel();
-		JPanel panelCardEditions = new JPanel();
-		JPanel legalitiesPanel = new JPanel();
-		legalitiesPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		
-		JToggleButton tglStd = new JToggleButton("STD");
-		JToggleButton tglMdn = new JToggleButton("MDN");
-		JToggleButton tglVin = new JToggleButton("VIN");
-		JToggleButton tglLeg = new JToggleButton("LEG");
-		
-////////////////////////////////////////////////////INIT GLOBAL COMPONENTS		
-		editionModel = new MagicEditionsTableModel();
-		provider=new PrivateMTGSetProvider();
-		recordedProvider = new PersonalSetPicturesProvider();
-		btnRefresh = new JButton("");
-		picturesProvider= new PersonalSetPicturesProvider();
-		spinCommon = new JSpinner();
-		spinRare = new JSpinner();
-		spinUnco = new JSpinner();
-		picProvider = new MTGCardMakerPicturesProvider();
-		cardsModel = new MagicCardTableModel();
-		jsonPanel = new JSONPanel();
-		jsonPanel.setMaximumSize(new Dimension(400, 10));
-		editionsTable = new JXTable();
-		cardsTable = new JXTable();
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		cboSets = new JComboBox<>();
-		namesModel = new MagicCardNamesTableModel();
-		panelPictures = new JPanel(){
-			@Override
-			protected void paintComponent(Graphics g) {
+			//////////////////////////////////////////////////// INIT LOCAL COMPONENTS
+			JPanel panelEditionHaut = new JPanel();
+			JPanel panelSets = new JPanel();
+			JButton btnSaveEdition = new JButton("");
+			JButton btnNewSet = new JButton("");
+			JButton btnRemoveEdition = new JButton("");
+
+			JSplitPane splitcardEdPanel = new JSplitPane();
+			JScrollPane scrollTableEdition = new JScrollPane();
+			JPanel panelCards = new JPanel();
+			JPanel panelCardsHaut = new JPanel();
+			JButton btnImport = new JButton("");
+			JScrollPane scrollTableCards = new JScrollPane();
+			JButton btnSaveCard = new JButton("");
+			JButton btnAddName = new JButton("add Languages");
+			JTabbedPane tabbedResult = new JTabbedPane(JTabbedPane.TOP);
+			JButton btnRemoveCard = new JButton("");
+			JButton btnNewCard = new JButton("");
+			JPanel panelBooster = new JPanel();
+			JLabel lblCommon = new JLabel("Common :");
+			JLabel lblUncommon = new JLabel("Uncommon :");
+			JLabel lblRareMythic = new JLabel("Rare/Mythic :");
+
+			JTabbedPane tabbedCards = new JTabbedPane(JTabbedPane.TOP);
+			JButton btnImage = new JButton("Image");
+			JPanel panelMisc = new JPanel();
+			JPanel panelCardEditions = new JPanel();
+			JPanel legalitiesPanel = new JPanel();
+			legalitiesPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "",
+					TitledBorder.LEADING, TitledBorder.TOP, null, null));
+
+			JToggleButton tglStd = new JToggleButton("STD");
+			JToggleButton tglMdn = new JToggleButton("MDN");
+			JToggleButton tglVin = new JToggleButton("VIN");
+			JToggleButton tglLeg = new JToggleButton("LEG");
+
+			//////////////////////////////////////////////////// INIT GLOBAL COMPONENTS
+			editionModel = new MagicEditionsTableModel();
+			provider = new PrivateMTGSetProvider();
+			recordedProvider = new PersonalSetPicturesProvider();
+			btnRefresh = new JButton("");
+			picturesProvider = new PersonalSetPicturesProvider();
+			spinCommon = new JSpinner();
+			spinRare = new JSpinner();
+			spinUnco = new JSpinner();
+			picProvider = new MTGCardMakerPicturesProvider();
+			cardsModel = new MagicCardTableModel();
+			jsonPanel = new JSONPanel();
+			jsonPanel.setMaximumSize(new Dimension(400, 10));
+			editionsTable = new JXTable();
+			cardsTable = new JXTable();
+			tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+			cboSets = new JComboBox<>();
+			namesModel = new MagicCardNamesTableModel();
+			panelPictures = new JPanel() {
+				@Override
+				protected void paintComponent(Graphics g) {
 					super.paintComponent(g);
-					 g.drawImage(cardImage, 0, 0, null);
-					 if(panelImage.getCroppedImage()!=null)
+					g.drawImage(cardImage, 0, 0, null);
+					if (panelImage.getCroppedImage() != null)
 						g.drawImage(panelImage.getCroppedImage(), 35, 68, 329, 242, null);
-			}
-		};
-		
-		foreignNamesEditorPanel = new JPanel();
-		listNames = new JTable();
-		panelImage = new CropImagePanel();
-		magicCardEditorPanel = new MagicCardEditorPanel();
-		magicEditionDetailPanel = new MagicEditionDetailPanel(false,false);
-		
+				}
+			};
 
-////////////////////////////////////////////////////MODELS INIT		
-		editionsTable.setModel(editionModel);
-		cardsTable.setModel(cardsModel);
-		listNames.setModel(namesModel);
+			foreignNamesEditorPanel = new JPanel();
+			listNames = new JTable();
+			panelImage = new CropImagePanel();
+			magicCardEditorPanel = new MagicCardEditorPanel();
+			magicEditionDetailPanel = new MagicEditionDetailPanel(false, false);
 
-		spinCommon.setModel(new SpinnerNumberModel(0, 0, null, 1));
-		spinUnco.setModel(new SpinnerNumberModel(0, 0, null,1));
-		spinRare.setModel(new SpinnerNumberModel(0, 0, null,1));
-		
-		List<MagicEdition> eds = provider.loadEditions();
-		cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
-	
-		
-////////////////////////////////////////////////////LAYOUT CONFIGURATION			
-		setLayout(new BorderLayout(0, 0));
-		panelSets.setLayout(new BorderLayout(0, 0));
-		panelCards.setLayout(new BorderLayout(0, 0));
-		panelMisc.setLayout(new BorderLayout(0, 0));
-		
-		
-		GridBagLayout gblPanelBooster = new GridBagLayout();
-		gblPanelBooster.columnWidths = new int[]{218, 218, 0};
-		gblPanelBooster.rowHeights = new int[]{38, 41, 37, 0};
-		gblPanelBooster.columnWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
-		gblPanelBooster.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-		GridBagConstraints gbcLblCommon = new GridBagConstraints();
-		gbcLblCommon.fill = GridBagConstraints.BOTH;
-		gbcLblCommon.insets = new Insets(0, 0, 5, 5);
-		gbcLblCommon.gridx = 0;
-		gbcLblCommon.gridy = 0;
+			//////////////////////////////////////////////////// MODELS INIT
+			editionsTable.setModel(editionModel);
+			cardsTable.setModel(cardsModel);
+			listNames.setModel(namesModel);
 
+			spinCommon.setModel(new SpinnerNumberModel(0, 0, null, 1));
+			spinUnco.setModel(new SpinnerNumberModel(0, 0, null, 1));
+			spinRare.setModel(new SpinnerNumberModel(0, 0, null, 1));
 
-		GridBagConstraints gbcSpinCommon = new GridBagConstraints();
-		gbcSpinCommon.fill = GridBagConstraints.BOTH;
-		gbcSpinCommon.insets = new Insets(0, 0, 5, 0);
-		gbcSpinCommon.gridx = 1;
-		gbcSpinCommon.gridy = 0;
+			List<MagicEdition> eds = provider.loadEditions();
+			cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
 
-		GridBagConstraints gbcLblUncommon = new GridBagConstraints();
-		gbcLblUncommon.fill = GridBagConstraints.BOTH;
-		gbcLblUncommon.insets = new Insets(0, 0, 5, 5);
-		gbcLblUncommon.gridx = 0;
-		gbcLblUncommon.gridy = 1;
+			//////////////////////////////////////////////////// LAYOUT CONFIGURATION
+			setLayout(new BorderLayout(0, 0));
+			panelSets.setLayout(new BorderLayout(0, 0));
+			panelCards.setLayout(new BorderLayout(0, 0));
+			panelMisc.setLayout(new BorderLayout(0, 0));
 
-		
-		GridBagConstraints gbcSpinUnco = new GridBagConstraints();
-		gbcSpinUnco.fill = GridBagConstraints.BOTH;
-		gbcSpinUnco.insets = new Insets(0, 0, 5, 0);
-		gbcSpinUnco.gridx = 1;
-		gbcSpinUnco.gridy = 1;
-		
-		GridBagConstraints gbcLblRareMythic = new GridBagConstraints();
-		gbcLblRareMythic.fill = GridBagConstraints.BOTH;
-		gbcLblRareMythic.insets = new Insets(0, 0, 0, 5);
-		gbcLblRareMythic.gridx = 0;
-		gbcLblRareMythic.gridy = 2;
-		GridBagConstraints gbcSpinRare = new GridBagConstraints();
-		gbcSpinRare.fill = GridBagConstraints.BOTH;
-		gbcSpinRare.gridx = 1;
-		gbcSpinRare.gridy = 2;
-		
-		GridBagLayout gridBagLayout = (GridBagLayout) magicCardEditorPanel.getLayout();
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, 0.0};
-		GridBagConstraints gbcBtnImage = new GridBagConstraints();
-		gbcBtnImage.insets = new Insets(0, 0, 0, 5);
-		gbcBtnImage.gridx = 0;
-		gbcBtnImage.gridy = 12;
-		GridBagConstraints gbcCropImagePanel = new GridBagConstraints();
-		gbcCropImagePanel.gridwidth = 4;
-		gbcCropImagePanel.fill = GridBagConstraints.BOTH;
-		gbcCropImagePanel.gridx = 1;
-		gbcCropImagePanel.gridy = 12;
-		
-		panelBooster.setLayout(gblPanelBooster);
-		
+			GridBagLayout gblPanelBooster = new GridBagLayout();
+			gblPanelBooster.columnWidths = new int[] { 218, 218, 0 };
+			gblPanelBooster.rowHeights = new int[] { 38, 41, 37, 0 };
+			gblPanelBooster.columnWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
+			gblPanelBooster.rowWeights = new double[] { 0.0, 0.0, 0.0, Double.MIN_VALUE };
+			GridBagConstraints gbcLblCommon = new GridBagConstraints();
+			gbcLblCommon.fill = GridBagConstraints.BOTH;
+			gbcLblCommon.insets = new Insets(0, 0, 5, 5);
+			gbcLblCommon.gridx = 0;
+			gbcLblCommon.gridy = 0;
 
-////////////////////////////////////////////////////PANEL ADDS		
-		add(tabbedPane);
-		panelCards.add(panelCardsHaut, BorderLayout.NORTH);
-		panelSets.add(panelEditionHaut, BorderLayout.NORTH);
-		panelEditionHaut.add(btnNewSet);
-		panelEditionHaut.add(btnSaveEdition);
-		panelEditionHaut.add(btnRemoveEdition);
-		panelSets.add(splitcardEdPanel, BorderLayout.CENTER);
-		panelCardsHaut.add(cboSets);
-		panelCardsHaut.add(btnNewCard);
-		panelCardsHaut.add(btnImport);
-		panelCardsHaut.add(btnSaveCard);
-		panelCardsHaut.add(btnRefresh);
-		panelCards.add(tabbedResult, BorderLayout.EAST);
-		panelCardsHaut.add(btnRemoveCard);
-		tabbedPane.addTab("Set", null, panelSets, null);
-		tabbedPane.addTab("Cards", null, panelCards, null);
-		tabbedResult.addTab("Pictures", null, panelPictures, null);
-		tabbedResult.addTab("JSON", jsonPanel);
-		panelBooster.add(lblCommon, gbcLblCommon);
-		panelBooster.add(spinCommon, gbcSpinCommon);
-		panelBooster.add(lblUncommon, gbcLblUncommon);
-		panelBooster.add(spinUnco, gbcSpinUnco);
-		panelBooster.add(lblRareMythic, gbcLblRareMythic);
-		panelBooster.add(spinRare, gbcSpinRare);
-		panelCards.add(tabbedCards, BorderLayout.CENTER);
-		magicCardEditorPanel.add(btnImage, gbcBtnImage);
-		magicCardEditorPanel.add(panelImage, gbcCropImagePanel);
-		tabbedCards.addTab("Details", null, magicCardEditorPanel, null);
-		tabbedCards.addTab("Editions", null, panelCardEditions, null);
-		tabbedCards.addTab("Misc", null, panelMisc, null);
-		panelMisc.add(legalitiesPanel, BorderLayout.SOUTH);
-		legalitiesPanel.add(tglStd);
-		legalitiesPanel.add(tglMdn);
-		legalitiesPanel.add(tglLeg);
-		legalitiesPanel.add(tglVin);
-		
-////////////////////////////////////////////////////COMPONENT CONFIG
-		editionModel.init(provider.loadEditions());
-		
-		editionModel.fireTableDataChanged();
-		splitcardEdPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		splitcardEdPanel.setLeftComponent(scrollTableEdition);
-		scrollTableEdition.setViewportView(editionsTable);
-		splitcardEdPanel.setRightComponent(scrollTableCards);
-		scrollTableCards.setViewportView(cardsTable);
-		btnSaveEdition.setIcon(MTGConstants.ICON_SAVE);
-		btnNewSet.setIcon(MTGConstants.ICON_NEW);
-		btnRemoveEdition.setIcon(MTGConstants.ICON_DELETE);
-	
-		btnSaveEdition.setToolTipText("Save the set");
-		btnNewSet.setToolTipText("New set");
-		btnRemoveEdition.setToolTipText("Delete Set");
-		btnImport.setToolTipText("Import existing card");
-		btnSaveCard.setToolTipText("Save the card");
-		btnRefresh.setToolTipText("Refresh");
-		btnNewCard.setToolTipText("New Card");
-		btnRemoveCard.setToolTipText("Delete the card");
-		
-		
-		panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
-		magicEditionDetailPanel.setEditable(true);
-		
-	
-		btnImport.setIcon(MTGConstants.ICON_IMPORT);
-		btnSaveCard.setIcon(MTGConstants.ICON_SAVE);
-		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
-		btnRemoveCard.setIcon(MTGConstants.ICON_DELETE);
-		btnNewCard.setIcon(MTGConstants.ICON_NEW);
-		cardsTable.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());	
-		panelPictures.setBackground(Color.WHITE);
-		panelPictures.setPreferredSize(new Dimension(400, 10));
-		
-		listNames.getColumnModel().getColumn(0).setCellEditor(new MagicCardNameEditor());
-			
-		
-				
-				panelMisc.add(foreignNamesEditorPanel);
-				foreignNamesEditorPanel.setLayout(new BorderLayout(0, 0));
-				
-				JScrollPane scrollPane = new JScrollPane();
-				foreignNamesEditorPanel.add(scrollPane);
-				
-				
-				scrollPane.setViewportView(listNames);
-				
-				JPanel buttonsForeignNamesPanel = new JPanel();
-				foreignNamesEditorPanel.add(buttonsForeignNamesPanel, BorderLayout.NORTH);
-				buttonsForeignNamesPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-				
-				
-			
-				buttonsForeignNamesPanel.add(btnAddName);
-				
-				JButton btnRemoveName = new JButton("Remove");
-				btnRemoveName.addActionListener(e->{
-						int row = listNames.getSelectedRow();
-						namesModel.removeRow(row);
-						namesModel.fireTableDataChanged();
-				});
-				buttonsForeignNamesPanel.add(btnRemoveName);
-				
-				
-				panelImage.setBorder(new LineBorder(new Color(0, 0, 0)));
-		
-		
-////////////////////////////////////////////////////ACTION LISTENER
-		btnAddName.addActionListener(e->{
-					
-					MagicCardNames name = new MagicCardNames();
-						name.setLanguage("");
-						name.setName("");
-					magicCardEditorPanel.getMagicCard().getForeignNames().add(name);
-					namesModel.init(magicCardEditorPanel.getMagicCard());
-		});
-		
-		btnImage.addActionListener(e-> {
-						
-						JFileChooser choose = new JFileChooser();
-						choose.showOpenDialog(null);
-						File pics = choose.getSelectedFile();
-						Image i = new ImageIcon(pics.getAbsolutePath()).getImage();
-						panelImage.setImage(i.getScaledInstance(panelImage.getWidth(), panelImage.getHeight(), Image.SCALE_SMOOTH));
-						panelImage.revalidate();
-						panelImage.repaint();
-		});
-		
-		btnNewCard.addActionListener(e-> {
+			GridBagConstraints gbcSpinCommon = new GridBagConstraints();
+			gbcSpinCommon.fill = GridBagConstraints.BOTH;
+			gbcSpinCommon.insets = new Insets(0, 0, 5, 0);
+			gbcSpinCommon.gridx = 1;
+			gbcSpinCommon.gridy = 0;
+
+			GridBagConstraints gbcLblUncommon = new GridBagConstraints();
+			gbcLblUncommon.fill = GridBagConstraints.BOTH;
+			gbcLblUncommon.insets = new Insets(0, 0, 5, 5);
+			gbcLblUncommon.gridx = 0;
+			gbcLblUncommon.gridy = 1;
+
+			GridBagConstraints gbcSpinUnco = new GridBagConstraints();
+			gbcSpinUnco.fill = GridBagConstraints.BOTH;
+			gbcSpinUnco.insets = new Insets(0, 0, 5, 0);
+			gbcSpinUnco.gridx = 1;
+			gbcSpinUnco.gridy = 1;
+
+			GridBagConstraints gbcLblRareMythic = new GridBagConstraints();
+			gbcLblRareMythic.fill = GridBagConstraints.BOTH;
+			gbcLblRareMythic.insets = new Insets(0, 0, 0, 5);
+			gbcLblRareMythic.gridx = 0;
+			gbcLblRareMythic.gridy = 2;
+			GridBagConstraints gbcSpinRare = new GridBagConstraints();
+			gbcSpinRare.fill = GridBagConstraints.BOTH;
+			gbcSpinRare.gridx = 1;
+			gbcSpinRare.gridy = 2;
+
+			GridBagLayout gridBagLayout = (GridBagLayout) magicCardEditorPanel.getLayout();
+			gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
+			gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
+			GridBagConstraints gbcBtnImage = new GridBagConstraints();
+			gbcBtnImage.insets = new Insets(0, 0, 0, 5);
+			gbcBtnImage.gridx = 0;
+			gbcBtnImage.gridy = 12;
+			GridBagConstraints gbcCropImagePanel = new GridBagConstraints();
+			gbcCropImagePanel.gridwidth = 4;
+			gbcCropImagePanel.fill = GridBagConstraints.BOTH;
+			gbcCropImagePanel.gridx = 1;
+			gbcCropImagePanel.gridy = 12;
+
+			panelBooster.setLayout(gblPanelBooster);
+
+			//////////////////////////////////////////////////// PANEL ADDS
+			add(tabbedPane);
+			panelCards.add(panelCardsHaut, BorderLayout.NORTH);
+			panelSets.add(panelEditionHaut, BorderLayout.NORTH);
+			panelEditionHaut.add(btnNewSet);
+			panelEditionHaut.add(btnSaveEdition);
+			panelEditionHaut.add(btnRemoveEdition);
+			panelSets.add(splitcardEdPanel, BorderLayout.CENTER);
+			panelCardsHaut.add(cboSets);
+			panelCardsHaut.add(btnNewCard);
+			panelCardsHaut.add(btnImport);
+			panelCardsHaut.add(btnSaveCard);
+			panelCardsHaut.add(btnRefresh);
+			panelCards.add(tabbedResult, BorderLayout.EAST);
+			panelCardsHaut.add(btnRemoveCard);
+			tabbedPane.addTab("Set", null, panelSets, null);
+			tabbedPane.addTab("Cards", null, panelCards, null);
+			tabbedResult.addTab("Pictures", null, panelPictures, null);
+			tabbedResult.addTab("JSON", jsonPanel);
+			panelBooster.add(lblCommon, gbcLblCommon);
+			panelBooster.add(spinCommon, gbcSpinCommon);
+			panelBooster.add(lblUncommon, gbcLblUncommon);
+			panelBooster.add(spinUnco, gbcSpinUnco);
+			panelBooster.add(lblRareMythic, gbcLblRareMythic);
+			panelBooster.add(spinRare, gbcSpinRare);
+			panelCards.add(tabbedCards, BorderLayout.CENTER);
+			magicCardEditorPanel.add(btnImage, gbcBtnImage);
+			magicCardEditorPanel.add(panelImage, gbcCropImagePanel);
+			tabbedCards.addTab("Details", null, magicCardEditorPanel, null);
+			tabbedCards.addTab("Editions", null, panelCardEditions, null);
+			tabbedCards.addTab("Misc", null, panelMisc, null);
+			panelMisc.add(legalitiesPanel, BorderLayout.SOUTH);
+			legalitiesPanel.add(tglStd);
+			legalitiesPanel.add(tglMdn);
+			legalitiesPanel.add(tglLeg);
+			legalitiesPanel.add(tglVin);
+
+			//////////////////////////////////////////////////// COMPONENT CONFIG
+			editionModel.init(provider.loadEditions());
+
+			editionModel.fireTableDataChanged();
+			splitcardEdPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
+			splitcardEdPanel.setLeftComponent(scrollTableEdition);
+			scrollTableEdition.setViewportView(editionsTable);
+			splitcardEdPanel.setRightComponent(scrollTableCards);
+			scrollTableCards.setViewportView(cardsTable);
+			btnSaveEdition.setIcon(MTGConstants.ICON_SAVE);
+			btnNewSet.setIcon(MTGConstants.ICON_NEW);
+			btnRemoveEdition.setIcon(MTGConstants.ICON_DELETE);
+
+			btnSaveEdition.setToolTipText("Save the set");
+			btnNewSet.setToolTipText("New set");
+			btnRemoveEdition.setToolTipText("Delete Set");
+			btnImport.setToolTipText("Import existing card");
+			btnSaveCard.setToolTipText("Save the card");
+			btnRefresh.setToolTipText("Refresh");
+			btnNewCard.setToolTipText("New Card");
+			btnRemoveCard.setToolTipText("Delete the card");
+
+			panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
+			magicEditionDetailPanel.setEditable(true);
+
+			btnImport.setIcon(MTGConstants.ICON_IMPORT);
+			btnSaveCard.setIcon(MTGConstants.ICON_SAVE);
+			btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
+			btnRemoveCard.setIcon(MTGConstants.ICON_DELETE);
+			btnNewCard.setIcon(MTGConstants.ICON_NEW);
+			cardsTable.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+			panelPictures.setBackground(Color.WHITE);
+			panelPictures.setPreferredSize(new Dimension(400, 10));
+
+			listNames.getColumnModel().getColumn(0).setCellEditor(new MagicCardNameEditor());
+
+			panelMisc.add(foreignNamesEditorPanel);
+			foreignNamesEditorPanel.setLayout(new BorderLayout(0, 0));
+
+			JScrollPane scrollPane = new JScrollPane();
+			foreignNamesEditorPanel.add(scrollPane);
+
+			scrollPane.setViewportView(listNames);
+
+			JPanel buttonsForeignNamesPanel = new JPanel();
+			foreignNamesEditorPanel.add(buttonsForeignNamesPanel, BorderLayout.NORTH);
+			buttonsForeignNamesPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+
+			buttonsForeignNamesPanel.add(btnAddName);
+
+			JButton btnRemoveName = new JButton("Remove");
+			btnRemoveName.addActionListener(e -> {
+				int row = listNames.getSelectedRow();
+				namesModel.removeRow(row);
+				namesModel.fireTableDataChanged();
+			});
+			buttonsForeignNamesPanel.add(btnRemoveName);
+
+			panelImage.setBorder(new LineBorder(new Color(0, 0, 0)));
+
+			//////////////////////////////////////////////////// ACTION LISTENER
+			btnAddName.addActionListener(e -> {
+
+				MagicCardNames name = new MagicCardNames();
+				name.setLanguage("");
+				name.setName("");
+				magicCardEditorPanel.getMagicCard().getForeignNames().add(name);
+				namesModel.init(magicCardEditorPanel.getMagicCard());
+			});
+
+			btnImage.addActionListener(e -> {
+
+				JFileChooser choose = new JFileChooser();
+				choose.showOpenDialog(null);
+				File pics = choose.getSelectedFile();
+				Image i = new ImageIcon(pics.getAbsolutePath()).getImage();
+				panelImage.setImage(
+						i.getScaledInstance(panelImage.getWidth(), panelImage.getHeight(), Image.SCALE_SMOOTH));
+				panelImage.revalidate();
+				panelImage.repaint();
+			});
+
+			btnNewCard.addActionListener(e -> {
 				MagicCard mc = new MagicCard();
-				try 
-				{
-					mc.setNumber(String.valueOf(provider.getCards((MagicEdition)cboSets.getSelectedItem()).size()+1));
-					logger.debug("create new card for " + cboSets.getSelectedItem()  + " num = " + mc.getNumber() );
+				try {
+					mc.setNumber(
+							String.valueOf(provider.getCards((MagicEdition) cboSets.getSelectedItem()).size() + 1));
+					logger.debug("create new card for " + cboSets.getSelectedItem() + " num = " + mc.getNumber());
 				} catch (IOException e1) {
 					logger.error(e1);
 				}
 				initCard(mc);
-		});
+			});
 
-		btnRemoveCard.addActionListener(e->{
+			btnRemoveCard.addActionListener(e -> {
 				try {
-					int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().get("CONFIRM_DELETE",magicCardEditorPanel.getMagicCard()));
-					if(res==JOptionPane.YES_OPTION)
-					{ 
-						provider.removeCard((MagicEdition)cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
-						picturesProvider.removePicture((MagicEdition)cboSets.getSelectedItem(), magicCardEditorPanel.getMagicCard());
+					int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService()
+							.get("CONFIRM_DELETE", magicCardEditorPanel.getMagicCard()));
+					if (res == JOptionPane.YES_OPTION) {
+						provider.removeCard((MagicEdition) cboSets.getSelectedItem(),
+								magicCardEditorPanel.getMagicCard());
+						picturesProvider.removePicture((MagicEdition) cboSets.getSelectedItem(),
+								magicCardEditorPanel.getMagicCard());
 						initCard(new MagicCard());
 					}
 				} catch (IOException ex) {
-					JOptionPane.showMessageDialog(null, ex,MTGControler.getInstance().getLangService().get(MTGControler.getInstance().getLangService().getError()),JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService()
+							.get(MTGControler.getInstance().getLangService().getError()), JOptionPane.ERROR_MESSAGE);
 				}
-		});
-		
-		
-		btnSaveEdition.addActionListener(e->{
+			});
+
+			btnSaveEdition.addActionListener(e -> {
 				try {
 					MagicEdition ed = magicEditionDetailPanel.getMagicEdition();
-					List<Object> boos= new ArrayList<>();
-					for(int i=0;i<(Integer)spinCommon.getValue();i++)
+					List<Object> boos = new ArrayList<>();
+					for (int i = 0; i < (Integer) spinCommon.getValue(); i++)
 						boos.add("common");
-					for(int i=0;i<(Integer)spinUnco.getValue();i++)
+					for (int i = 0; i < (Integer) spinUnco.getValue(); i++)
 						boos.add("uncommon");
-					for(int i=0;i<(Integer)spinRare.getValue();i++)
-						boos.add(new String[]{"rare","mythic rare"});
-					
+					for (int i = 0; i < (Integer) spinRare.getValue(); i++)
+						boos.add(new String[] { "rare", "mythic rare" });
+
 					ed.setBooster(boos);
 					provider.saveEdition(ed);
-					
+
 					cboSets.removeAllItems();
-					cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
-				
+					cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(
+							provider.loadEditions().toArray(new MagicEdition[provider.loadEditions().size()])));
+
 					editionModel.init(provider.loadEditions());
 					editionModel.fireTableDataChanged();
-				} 
-				catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+				} catch (Exception ex) {
+					JOptionPane.showMessageDialog(null, ex.getMessage(),
+							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 				}
-		});
-		
-		btnImport.addActionListener(e->{
+			});
+
+			btnImport.addActionListener(e -> {
 				CardSearchImportDialog l = new CardSearchImportDialog();
 				l.setVisible(true);
-				if(l.getSelected()!=null)
+				if (l.getSelected() != null)
 					initCard(l.getSelected());
-			
-		});
-		
-		btnNewSet.addActionListener(e->magicEditionDetailPanel.setMagicEdition(new MagicEdition(),true));
-		
-		btnRemoveEdition.addActionListener(e->{
-				
+
+			});
+
+			btnNewSet.addActionListener(e -> magicEditionDetailPanel.setMagicEdition(new MagicEdition(), true));
+
+			btnRemoveEdition.addActionListener(e -> {
+
 				int viewRow = editionsTable.getSelectedRow();
 				int modelRow = editionsTable.convertRowIndexToModel(viewRow);
-				MagicEdition ed = (MagicEdition)editionsTable.getModel().getValueAt(modelRow, 1);
-				
-				int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().get("CONFIRM_DELETE",ed),MTGControler.getInstance().getLangService().get("DELETE"), JOptionPane.YES_NO_OPTION);
-				if(res==JOptionPane.YES_OPTION)
-				{ 
+				MagicEdition ed = (MagicEdition) editionsTable.getModel().getValueAt(modelRow, 1);
+
+				int res = JOptionPane.showConfirmDialog(null,
+						MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", ed),
+						MTGControler.getInstance().getLangService().get("DELETE"), JOptionPane.YES_NO_OPTION);
+				if (res == JOptionPane.YES_OPTION) {
 					provider.removeEdition(ed);
 					try {
 						editionModel.init(provider.loadEditions());
 						editionModel.fireTableDataChanged();
 					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(null, ex.getMessage(),
+								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 					}
-				}				
-			
-		});
-		
-		cardsTable.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				MagicCard ed = (MagicCard)cardsTable.getValueAt(cardsTable.getSelectedRow(), 0);
-				
-				if(arg0.getClickCount()==2){
-					initCard(ed);
-					tabbedPane.setSelectedIndex(1);
 				}
-				
-			}
-		});
-		editionsTable.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				MagicEdition ed = (MagicEdition)editionsTable.getValueAt(editionsTable.getSelectedRow(), 1);
-				try {
-					initEdition(ed);
-					cardsModel.init(provider.getCards(ed));
-					cardsModel.fireTableDataChanged();
-				} catch (IOException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+
+			});
+
+			cardsTable.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					MagicCard ed = (MagicCard) cardsTable.getValueAt(cardsTable.getSelectedRow(), 0);
+
+					if (arg0.getClickCount() == 2) {
+						initCard(ed);
+						tabbedPane.setSelectedIndex(1);
+					}
+
 				}
-			}
-		});
-		btnSaveCard.addActionListener(e->{
-				MagicEdition me = (MagicEdition)cboSets.getSelectedItem();
+			});
+			editionsTable.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mouseClicked(MouseEvent arg0) {
+					MagicEdition ed = (MagicEdition) editionsTable.getValueAt(editionsTable.getSelectedRow(), 1);
+					try {
+						initEdition(ed);
+						cardsModel.init(provider.getCards(ed));
+						cardsModel.fireTableDataChanged();
+					} catch (IOException e) {
+						JOptionPane.showMessageDialog(null, e.getMessage(),
+								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					}
+				}
+			});
+			btnSaveCard.addActionListener(e -> {
+				MagicEdition me = (MagicEdition) cboSets.getSelectedItem();
 				MagicCard mc = magicCardEditorPanel.getMagicCard();
-					me.setNumber(mc.getNumber());
-					me.setRarity(mc.getRarity());
-					me.setArtist(mc.getArtist());
-					me.setFlavor(mc.getFlavor());
-					
-					if(mc.getId()==null)
-						mc.setId(DigestUtils.sha1Hex(me.getSet()+mc.getId()+mc.getName()));
-					
-					if(!mc.getEditions().get(0).equals(me))
-						mc.getEditions().add(0,me);
+				me.setNumber(mc.getNumber());
+				me.setRarity(mc.getRarity());
+				me.setArtist(mc.getArtist());
+				me.setFlavor(mc.getFlavor());
+
+				if (mc.getId() == null)
+					mc.setId(DigestUtils.sha1Hex(me.getSet() + mc.getId() + mc.getName()));
+
+				if (!mc.getEditions().get(0).equals(me))
+					mc.getEditions().add(0, me);
 				try {
 					provider.addCard(me, mc);
-					BufferedImage bi = new BufferedImage(panelPictures.getSize().width, 560, BufferedImage.TYPE_INT_ARGB); 
+					BufferedImage bi = new BufferedImage(panelPictures.getSize().width, 560,
+							BufferedImage.TYPE_INT_ARGB);
 					Graphics2D g = bi.createGraphics();
-					panelPictures.paint(g);  
+					panelPictures.paint(g);
 					g.dispose();
-					picturesProvider.savePicture(bi, mc,me);
+					picturesProvider.savePicture(bi, mc, me);
 				} catch (IOException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex.getMessage(),
+							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 				}
-		});
-		
-		
-		btnRefresh.addActionListener(e->{
+			});
+
+			btnRefresh.addActionListener(e -> {
 				try {
 					cardImage = ImageIO.read(picProvider.getPictureURL(magicCardEditorPanel.getMagicCard()));
 					panelPictures.revalidate();
 					panelPictures.repaint();
 					jsonPanel.show(magicCardEditorPanel.getMagicCard());
-					
+
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
-				} 
-			
-		});
-		
-		
-		}
-		catch(Exception e)
-		{
-			JOptionPane.showMessageDialog(null, e.getMessage(),MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, ex.getMessage(),
+							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+				}
+
+			});
+
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getMessage(), MTGControler.getInstance().getLangService().getError(),
+					JOptionPane.ERROR_MESSAGE);
 		}
 	}
 
-	
 	protected void initCard(MagicCard mc) {
 		magicCardEditorPanel.setMagicCard(mc);
 		btnRefresh.doClick();
@@ -535,27 +528,23 @@ public class CardBuilder2GUI extends JPanel{
 		}
 
 	}
-	
+
 	protected void initEdition(MagicEdition ed) {
 		magicEditionDetailPanel.setMagicEdition(ed);
-		
+
 		spinCommon.setValue(0);
 		spinUnco.setValue(0);
 		spinRare.setValue(0);
-		
-		
-		for(Object o : ed.getBooster())
-		{
-			if(o.equals("common"))
-				spinCommon.setValue((int)spinCommon.getValue()+1);
-			else if(o.equals("uncommon"))
-				spinUnco.setValue((int)spinUnco.getValue()+1);
-			else 
-				spinRare.setValue((int)spinRare.getValue()+1);
+
+		for (Object o : ed.getBooster()) {
+			if (o.equals("common"))
+				spinCommon.setValue((int) spinCommon.getValue() + 1);
+			else if (o.equals("uncommon"))
+				spinUnco.setValue((int) spinUnco.getValue() + 1);
+			else
+				spinRare.setValue((int) spinRare.getValue() + 1);
 		}
-		
-		
+
 	}
 
-	
 }

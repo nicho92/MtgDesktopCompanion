@@ -25,31 +25,29 @@ public abstract class AbstractCommand implements Command {
 	protected IoSession session;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
-	protected <T> String showList(List<T> list,List<String> attributes)
-    {
-    	ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    	PrintStream ps = new PrintStream(baos);
-    	
-    	IASCIITableAware asciiTableAware = new CollectionASCIITableAware<T>(list,attributes,attributes);
-    	new ASCIITableImpl(ps).printTable(asciiTableAware);
-    	
-    	return new String(baos.toByteArray(),StandardCharsets.UTF_8);
-    }
-	
+	protected <T> String showList(List<T> list, List<String> attributes) {
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintStream ps = new PrintStream(baos);
+
+		IASCIITableAware asciiTableAware = new CollectionASCIITableAware<T>(list, attributes, attributes);
+		new ASCIITableImpl(ps).printTable(asciiTableAware);
+
+		return new String(baos.toByteArray(), StandardCharsets.UTF_8);
+	}
+
 	@Override
 	public void usage() {
 		HelpFormatter formatter = new HelpFormatter();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-    	PrintWriter ps = new PrintWriter(baos);
-    	formatter.printHelp(ps,50, getCommandName(), null, opts, 0, 0, null);
-    	ps.close();
-     	try {
+		PrintWriter ps = new PrintWriter(baos);
+		formatter.printHelp(ps, 50, getCommandName(), null, opts, 0, 0, null);
+		ps.close();
+		try {
 			session.write(baos.toString("UTF-8"));
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e);
 		}
-   
+
 	}
 
 }

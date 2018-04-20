@@ -30,119 +30,105 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 	private Properties props;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCardDetailPanel pane;
-	
-	
+
 	public AbstractJDashlet() {
-		props=new Properties();
-		
-		
+		props = new Properties();
+
 		addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameClosed(InternalFrameEvent e) {
-				AbstractJDashlet dash = (AbstractJDashlet)e.getInternalFrame();
-				if(dash.getProperties().get("id")!=null)
-					FileUtils.deleteQuietly(new File(confdir, dash.getProperties().get("id")+".conf"));
+				AbstractJDashlet dash = (AbstractJDashlet) e.getInternalFrame();
+				if (dash.getProperties().get("id") != null)
+					FileUtils.deleteQuietly(new File(confdir, dash.getProperties().get("id") + ".conf"));
 			}
 		});
-		
-		
+
 		setTitle(getName());
 		setResizable(true);
 		setClosable(true);
 		setIconifiable(true);
 		setMaximizable(true);
 		setSize(new Dimension(536, 346));
-		
+
 	}
-	
-	public void setProperties(Properties p)
-	{
-		this.props=p;
+
+	public void setProperties(Properties p) {
+		this.props = p;
 	}
-	
-	public String getProperty(String k, String d)
-	{
+
+	public String getProperty(String k, String d) {
 		return props.getProperty(k, d);
 	}
-	
-	public void setProperty(Object k,Object v)
-	{
-		props.put(k,v);
+
+	public void setProperty(Object k, Object v) {
+		props.put(k, v);
 	}
-	
-	
-	public String getProperty(String k)
-	{
+
+	public String getProperty(String k) {
 		return props.getProperty(k);
 	}
-	
-	public Properties getProperties()
-	{
+
+	public Properties getProperties() {
 		return props;
 	}
-	
 
-	
-	protected void initToolTip(final JTable table,final Integer cardPos,final Integer edPos)
-	{
+	protected void initToolTip(final JTable table, final Integer cardPos, final Integer edPos) {
 		pane = new MagicCardDetailPanel();
-				pane.enableThumbnail(true);
+		pane.enableThumbnail(true);
 		final JPopupMenu popUp = new JPopupMenu();
 
 		table.addMouseListener(new MouseAdapter() {
-		    @Override
+			@Override
 			public void mouseClicked(MouseEvent e) {
 				int row = table.rowAtPoint(e.getPoint());
-				
-				if(row>-1) {
+
+				if (row > -1) {
 					table.setRowSelectionInterval(row, row);
 					String cardName = table.getValueAt(row, cardPos.intValue()).toString();
-					
-					if(cardName.indexOf('(')>=0)
-						cardName=cardName.substring(0,cardName.indexOf('(')).trim();
-					
-					MagicEdition ed =null;
-					if(edPos!=null) {
+
+					if (cardName.indexOf('(') >= 0)
+						cardName = cardName.substring(0, cardName.indexOf('(')).trim();
+
+					MagicEdition ed = null;
+					if (edPos != null) {
 						String edID = table.getValueAt(row, edPos).toString();
 						ed = new MagicEdition();
 						ed.setId(edID);
 					}
-					
-					try 
-					{
-						MagicCard mc =  MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", cardName,ed,true).get(0);
+
+					try {
+						MagicCard mc = MTGControler.getInstance().getEnabledProviders()
+								.searchCardByCriteria("name", cardName, ed, true).get(0);
 						pane.setMagicCard(mc);
-							popUp.setBorder(new LineBorder(Color.black));
-						    popUp.setVisible(false);
-						    popUp.removeAll();
-						    popUp.setLayout(new BorderLayout());
-						    popUp.add(pane,BorderLayout.CENTER);
-						    popUp.show(table, e.getX(), e.getY());
-						    popUp.setVisible(true);
-							
+						popUp.setBorder(new LineBorder(Color.black));
+						popUp.setVisible(false);
+						popUp.removeAll();
+						popUp.setLayout(new BorderLayout());
+						popUp.add(pane, BorderLayout.CENTER);
+						popUp.show(table, e.getX(), e.getY());
+						popUp.setVisible(true);
+
+					} catch (Exception ex) {
+						logger.error("Error on " + cardName, ex);
 					}
-					catch (Exception ex) 
-					{
-						logger.error("Error on " + cardName,ex);
-					}
-					
+
 				}
-		   }
+			}
 		});
 	}
-	
+
 	@Override
 	public abstract String getName();
-	
+
 	public void save(String k, Object value) {
 		props.put(k, value);
-		
+
 	}
-	
+
 	public abstract void initGUI();
-	
+
 	public abstract void init();
-	
+
 	@Override
 	public String toString() {
 		return getName();

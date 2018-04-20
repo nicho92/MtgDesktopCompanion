@@ -15,36 +15,34 @@ import org.magic.services.MTGLogger;
 public class EternalizeActions extends AbstractAction {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	
-			private DisplayableCard card;
 
-			public EternalizeActions(DisplayableCard card) {
-				super("Eternalize");
-				putValue(SHORT_DESCRIPTION, "Eternalize a creature");
-		        putValue(MNEMONIC_KEY, KeyEvent.VK_E);
-		        this.card = card;
-			}
+	private DisplayableCard card;
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try{
-					MagicCard tok = GamePanelGUI.getInstance().getTokenGenerator().generateTokenFor(card.getMagicCard() );
-					DisplayableCard dc = new DisplayableCard( tok, MTGControler.getInstance().getCardsDimension(),true);
-					
-					dc.setMagicCard(tok);
-					GamePanelGUI.getInstance().getPlayer().exileCardFromGraveyard(card.getMagicCard());
-					GamePanelGUI.getInstance().getPanelGrave().remove(card);
-					GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);
-					GamePanelGUI.getInstance().getPanelBattleField().revalidate();
-					GamePanelGUI.getInstance().getPanelBattleField().repaint();
-					GamePanelGUI.getInstance().getPanelGrave().postTreatment(card);
-					GamePanelGUI.getInstance().getPlayer().playToken(tok);
-					GamePanelGUI.getInstance().getPlayer().logAction("Embalm "+  card);
-				}
-				catch (Exception ex) {
-					logger.error(ex);
-				}
+	public EternalizeActions(DisplayableCard card) {
+		super("Eternalize");
+		putValue(SHORT_DESCRIPTION, "Eternalize a creature");
+		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
+		this.card = card;
+	}
 
-				
-			}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			MagicCard tok = GamePanelGUI.getInstance().getTokenGenerator().generateTokenFor(card.getMagicCard());
+			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsDimension(), true);
+
+			dc.setMagicCard(tok);
+			GamePanelGUI.getInstance().getPlayer().exileCardFromGraveyard(card.getMagicCard());
+			GamePanelGUI.getInstance().getPanelGrave().remove(card);
+			GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);
+			GamePanelGUI.getInstance().getPanelBattleField().revalidate();
+			GamePanelGUI.getInstance().getPanelBattleField().repaint();
+			GamePanelGUI.getInstance().getPanelGrave().postTreatment(card);
+			GamePanelGUI.getInstance().getPlayer().playToken(tok);
+			GamePanelGUI.getInstance().getPlayer().logAction("Embalm " + card);
+		} catch (Exception ex) {
+			logger.error(ex);
+		}
+
+	}
 }

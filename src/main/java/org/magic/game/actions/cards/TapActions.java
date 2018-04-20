@@ -9,19 +9,18 @@ import org.magic.game.gui.components.DisplayableCard;
 
 public class TapActions extends AbstractAction {
 
-	
 	private DisplayableCard card;
 
 	public TapActions(DisplayableCard card) {
-			super("Tap");
-			putValue(SHORT_DESCRIPTION,"tap/untap the card");
-	        putValue(MNEMONIC_KEY, KeyEvent.VK_T);
-	        this.card = card;
+		super("Tap");
+		putValue(SHORT_DESCRIPTION, "tap/untap the card");
+		putValue(MNEMONIC_KEY, KeyEvent.VK_T);
+		this.card = card;
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if(card.isTappable())
+		if (card.isTappable())
 			card.tap(!card.isTapped());
 
 	}

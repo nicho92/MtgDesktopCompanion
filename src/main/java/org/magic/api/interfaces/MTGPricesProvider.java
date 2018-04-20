@@ -7,9 +7,10 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 
-public interface MTGPricesProvider extends MTGPlugin{
+public interface MTGPricesProvider extends MTGPlugin {
 
-	public List<MagicPrice> getPrice(MagicEdition me,MagicCard card) throws IOException;
+	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException;
+
 	public void alertDetected(List<MagicPrice> okz);
 
 }

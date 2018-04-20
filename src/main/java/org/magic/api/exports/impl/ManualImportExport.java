@@ -18,12 +18,11 @@ import org.magic.services.MTGConstants;
 
 public class ManualImportExport extends AbstractCardExport {
 
-	
 	@Override
 	public MODS getMods() {
 		return MODS.IMPORT;
 	}
-	
+
 	@Override
 	public String getFileExtension() {
 		return ".man";
@@ -33,7 +32,7 @@ public class ManualImportExport extends AbstractCardExport {
 	public boolean needDialogGUI() {
 		return true;
 	}
-	
+
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
 		throw new NotImplementedException("not implemented");
@@ -43,9 +42,9 @@ public class ManualImportExport extends AbstractCardExport {
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
 		ManualImportDialog diag = new ManualImportDialog();
-						   diag.setVisible(true);
+		diag.setVisible(true);
 		return diag.getAsDeck();
-		
+
 	}
 
 	@Override
@@ -58,9 +57,8 @@ public class ManualImportExport extends AbstractCardExport {
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		MagicDeck d = importDeck(f);
 		List<MagicCardStock> ret = new ArrayList<>();
-		
-		for(MagicCard mc : d.getMap().keySet())
-		{
+
+		for (MagicCard mc : d.getMap().keySet()) {
 			MagicCardStock stock = new MagicCardStock();
 			stock.setMagicCard(mc);
 			stock.setQte(d.getMap().get(mc));

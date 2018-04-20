@@ -14,31 +14,29 @@ import org.magic.services.MTGLogger;
 
 public class EmblemActions extends AbstractAction {
 
-			private transient Logger logger = MTGLogger.getLogger(this.getClass());
-			private DisplayableCard card;
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private DisplayableCard card;
 
-			public EmblemActions(DisplayableCard card) {
-				super("Generate a emblem");
-				putValue(SHORT_DESCRIPTION, "Generate a emblem");
-		        putValue(MNEMONIC_KEY, KeyEvent.VK_E);
-		        this.card = card;
-			}
+	public EmblemActions(DisplayableCard card) {
+		super("Generate a emblem");
+		putValue(SHORT_DESCRIPTION, "Generate a emblem");
+		putValue(MNEMONIC_KEY, KeyEvent.VK_E);
+		this.card = card;
+	}
 
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				try{
-					MagicCard tok = GamePanelGUI.getInstance().getTokenGenerator().generateEmblemFor(card.getMagicCard() );
-					DisplayableCard dc = new DisplayableCard( tok, MTGControler.getInstance().getCardsDimension(),true);
-					dc.setMagicCard(tok);
-					GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);
-					GamePanelGUI.getInstance().getPanelBattleField().revalidate();
-					GamePanelGUI.getInstance().getPanelBattleField().repaint();
-					GamePanelGUI.getInstance().getPlayer().logAction("generate " + tok + " emblem");
-				}
-				catch (Exception ex) {
-					logger.error(ex);
-				}
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		try {
+			MagicCard tok = GamePanelGUI.getInstance().getTokenGenerator().generateEmblemFor(card.getMagicCard());
+			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsDimension(), true);
+			dc.setMagicCard(tok);
+			GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);
+			GamePanelGUI.getInstance().getPanelBattleField().revalidate();
+			GamePanelGUI.getInstance().getPanelBattleField().repaint();
+			GamePanelGUI.getInstance().getPlayer().logAction("generate " + tok + " emblem");
+		} catch (Exception ex) {
+			logger.error(ex);
+		}
 
-				
-			}
+	}
 }

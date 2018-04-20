@@ -11,20 +11,19 @@ import org.magic.game.model.Turn;
 
 public class EndCombatPhase extends AbstractAction {
 
-	
 	public EndCombatPhase() {
 		super("End Combat");
 		putValue(SHORT_DESCRIPTION, "");
 		setEnabled(false);
 	}
-	
+
 	@Override
 	public void actionPerformed(ActionEvent ae) {
 		GameManager.getInstance().getActualTurn().setCurrentPhase(Turn.PHASES.END_COMBAT);
-		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton)ae.getSource());
-		
+		GamePanelGUI.getInstance().getTurnsPanel().disableButtonsTo((JButton) ae.getSource());
+
 		setEnabled(false);
-		
+
 	}
 
 }

@@ -11,85 +11,73 @@ import java.util.Set;
 public class SealedPack implements Serializable {
 
 	private transient Map<MagicEdition, Integer> pack;
-	
+
 	public SealedPack() {
-		pack=new HashMap<>();
+		pack = new HashMap<>();
 	}
-	
-	public Integer getQty(MagicEdition ed)
-	{
+
+	public Integer getQty(MagicEdition ed) {
 		return pack.get(ed);
 	}
-	
-	
-	public List<MagicEdition> listEditions()
-	{
+
+	public List<MagicEdition> listEditions() {
 		return new ArrayList<>(pack.keySet());
 	}
-	
-	public void set(MagicEdition ed,int qty)
-	{
+
+	public void set(MagicEdition ed, int qty) {
 		pack.put(ed, qty);
 	}
-	
-	public void add(MagicEdition ed,int qty)
-	{
-		if(pack.get(ed)!=null)
-			pack.put(ed, pack.get(ed)+qty);
+
+	public void add(MagicEdition ed, int qty) {
+		if (pack.get(ed) != null)
+			pack.put(ed, pack.get(ed) + qty);
 		else
 			pack.put(ed, qty);
 	}
-	
-	public void remove(MagicEdition ed,int qty)
-	{
-		int res = pack.get(ed)-qty;
-		if(res<0)
-			res=0;
-		
+
+	public void remove(MagicEdition ed, int qty) {
+		int res = pack.get(ed) - qty;
+		if (res < 0)
+			res = 0;
+
 		pack.put(ed, res);
 	}
-	
-	public void remove(MagicEdition ed)
-	{
+
+	public void remove(MagicEdition ed) {
 		pack.remove(ed);
 	}
-	
-	public Map<MagicEdition, Integer> get()
-	{
+
+	public Map<MagicEdition, Integer> get() {
 		return pack;
 	}
 
 	public void clear() {
 		pack.clear();
 	}
-	
-	public Set<Entry<MagicEdition, Integer>> getEntries()
-	{
+
+	public Set<Entry<MagicEdition, Integer>> getEntries() {
 		return pack.entrySet();
 	}
-	
-	
-	public List<MagicEdition> toList()
-	{
+
+	public List<MagicEdition> toList() {
 		List<MagicEdition> ret = new ArrayList<>();
-		
-		for(Entry<MagicEdition, Integer> e : pack.entrySet())
-		{
-			for(int i=0;i<e.getValue();i++)
+
+		for (Entry<MagicEdition, Integer> e : pack.entrySet()) {
+			for (int i = 0; i < e.getValue(); i++)
 				ret.add(e.getKey());
 		}
 		return ret;
 	}
-	
+
 	@Override
 	public String toString() {
 		StringBuilder temp = new StringBuilder();
-		for(Entry<MagicEdition, Integer> e : pack.entrySet())
+		for (Entry<MagicEdition, Integer> e : pack.entrySet())
 			temp.append(e.getKey()).append("(").append(e.getValue()).append(")");
-		
+
 		return temp.toString();
 	}
-	
+
 	public int size() {
 		return pack.size();
 	}

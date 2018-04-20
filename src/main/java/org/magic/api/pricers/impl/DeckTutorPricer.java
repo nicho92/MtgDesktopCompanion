@@ -35,194 +35,179 @@ import com.google.gson.JsonParser;
 
 public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
-	
-	String dsite="www.decktutor.com";
-	
+	String dsite = "www.decktutor.com";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
 
 	private BasicCookieStore cookieStore;
 	private BasicHttpContext httpContext;
-	private static int sequence=1;
+	private static int sequence = 1;
 	private JsonParser parser;
 	private ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
 
-	    public String handleResponse(final HttpResponse response) throws IOException {
-	      	 int status = response.getStatusLine().getStatusCode();
-	         HttpEntity entity = response.getEntity();
-	     	
-	         if (status >= 200 && status < 300) 
-	           {
-	           	return entity != null ? EntityUtils.toString(entity) : null;
-	           } 
-	           else {
-	           	  throw new ClientProtocolException("Unexpected response status: " + status + ":" + EntityUtils.toString(entity));
-	           }
-	        }
-	    };
-	
-	
+		public String handleResponse(final HttpResponse response) throws IOException {
+			int status = response.getStatusLine().getStatusCode();
+			HttpEntity entity = response.getEntity();
+
+			if (status >= 200 && status < 300) {
+				return entity != null ? EntityUtils.toString(entity) : null;
+			} else {
+				throw new ClientProtocolException(
+						"Unexpected response status: " + status + ":" + EntityUtils.toString(entity));
+			}
+		}
+	};
+
 	public DeckTutorPricer() {
 		super();
 		cookieStore = new BasicCookieStore();
 		httpContext = new BasicHttpContext();
 		parser = new JsonParser();
-		
+
 		try {
-  			InstallCert.install(dsite);
-    		System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR,MTGConstants.KEYSTORE_NAME).getAbsolutePath());
-    	} catch (Exception e1) {
+			InstallCert.install(dsite);
+			System.setProperty("javax.net.ssl.trustStore",
+					new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+		} catch (Exception e1) {
 			logger.error(e1);
 		}
 	}
-	
-	private String getMD5(String chaine) throws NoSuchAlgorithmException
-	{
+
+	private String getMD5(String chaine) throws NoSuchAlgorithmException {
 		MessageDigest md = MessageDigest.getInstance("MD5");
-        byte[] messageDigest = md.digest(chaine.getBytes());
-        BigInteger number = new BigInteger(1, messageDigest);
-        return number.toString(16);
+		byte[] messageDigest = md.digest(chaine.getBytes());
+		BigInteger number = new BigInteger(1, messageDigest);
+		return number.toString(16);
 	}
-	
-	public static void increment()
-	{
+
+	public static void increment() {
 		sequence++;
 	}
-	
+
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
-			HttpClient httpClient = HttpClientBuilder.create().build();
-			httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
-			JsonObject jsonparams = new JsonObject();
-			   jsonparams.addProperty("login", getString("LOGIN"));    
-			   jsonparams.addProperty("password", getString("PASS"));
-	
+		HttpClient httpClient = HttpClientBuilder.create().build();
+		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
+		JsonObject jsonparams = new JsonObject();
+		jsonparams.addProperty("login", getString("LOGIN"));
+		jsonparams.addProperty("password", getString("PASS"));
 
-			HttpPost reqCredential = new HttpPost(getString("URL")+"/account/login");
-					 reqCredential.addHeader("content-type", "application/json");
-	                 reqCredential.setEntity(new StringEntity(jsonparams.toString()));
-	     			
-	        String response = httpClient.execute(reqCredential, responseHandler,httpContext);
-	        logger.debug(getName()+ " connected with " + response);
-			
-	        JsonElement root = new JsonParser().parse(response);
-	        
-	        String authToken=  root.getAsJsonObject().get("auth_token").getAsString();
-	        String authSecrectToken = root.getAsJsonObject().get("auth_token_secret").getAsString();
-	        
-	        logger.info(getName()+ " Looking for price " + getString("URL")+"/search/serp");
-			
-	         
-	        HttpPost reqSearch= new HttpPost(getString("URL")+"/search/serp");
-			        reqSearch.addHeader("x-dt-Auth-Token", authToken);
-			        reqSearch.addHeader("x-dt-Sequence", String.valueOf(sequence));
-			        try {
-						reqSearch.addHeader("x-dt-Signature", getMD5(sequence+":"+authSecrectToken));
-					} catch (NoSuchAlgorithmException e) {
-						throw new IOException(e);
-					}
-			        reqSearch.addHeader("Content-type", "application/json");
-			        reqSearch.addHeader("Accept", "application/json");
-			        reqSearch.addHeader("x-dt-cdb-Language","en");
-			        reqSearch.addHeader("User-Agent", "Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
-			        
-			       jsonparams = new JsonObject();
-		    		jsonparams.addProperty("name", card.getName());
-		    		jsonparams.addProperty("game", "mtg");
-		    		if(me!=null)
-		    			jsonparams.addProperty("set", me.getId().toUpperCase());
-		    		else
-		    			jsonparams.addProperty("set", card.getEditions().get(0).getId().toUpperCase());
+		HttpPost reqCredential = new HttpPost(getString("URL") + "/account/login");
+		reqCredential.addHeader("content-type", "application/json");
+		reqCredential.setEntity(new StringEntity(jsonparams.toString()));
 
-		    		JsonObject obj = new JsonObject();
-		    			   obj.add("search", jsonparams);
-			    			  
-			    			   if(getString("MAX_RESULT") != null)
-			    				   obj.addProperty("limit",getString("MAX_RESULT"));
-			    	
-			    	logger.debug(getName() +" request :" + obj);
-			    	reqSearch.setEntity(new StringEntity(obj.toString()));   
-			        response = httpClient.execute(reqSearch, responseHandler,httpContext);
-			        logger.debug(getName() +" response :" + response);
-			        increment();
-			      
+		String response = httpClient.execute(reqCredential, responseHandler, httpContext);
+		logger.debug(getName() + " connected with " + response);
+
+		JsonElement root = new JsonParser().parse(response);
+
+		String authToken = root.getAsJsonObject().get("auth_token").getAsString();
+		String authSecrectToken = root.getAsJsonObject().get("auth_token_secret").getAsString();
+
+		logger.info(getName() + " Looking for price " + getString("URL") + "/search/serp");
+
+		HttpPost reqSearch = new HttpPost(getString("URL") + "/search/serp");
+		reqSearch.addHeader("x-dt-Auth-Token", authToken);
+		reqSearch.addHeader("x-dt-Sequence", String.valueOf(sequence));
+		try {
+			reqSearch.addHeader("x-dt-Signature", getMD5(sequence + ":" + authSecrectToken));
+		} catch (NoSuchAlgorithmException e) {
+			throw new IOException(e);
+		}
+		reqSearch.addHeader("Content-type", "application/json");
+		reqSearch.addHeader("Accept", "application/json");
+		reqSearch.addHeader("x-dt-cdb-Language", "en");
+		reqSearch.addHeader("User-Agent",
+				"Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+
+		jsonparams = new JsonObject();
+		jsonparams.addProperty("name", card.getName());
+		jsonparams.addProperty("game", "mtg");
+		if (me != null)
+			jsonparams.addProperty("set", me.getId().toUpperCase());
+		else
+			jsonparams.addProperty("set", card.getEditions().get(0).getId().toUpperCase());
+
+		JsonObject obj = new JsonObject();
+		obj.add("search", jsonparams);
+
+		if (getString("MAX_RESULT") != null)
+			obj.addProperty("limit", getString("MAX_RESULT"));
+
+		logger.debug(getName() + " request :" + obj);
+		reqSearch.setEntity(new StringEntity(obj.toString()));
+		response = httpClient.execute(reqSearch, responseHandler, httpContext);
+		logger.debug(getName() + " response :" + response);
+		increment();
+
 		return parseResult(response);
 	}
-	
+
 	private List<MagicPrice> parseResult(String response) {
 		List<MagicPrice> list = new ArrayList<>();
-		
+
 		JsonElement e = parser.parse(response);
-		
+
 		JsonArray arr = e.getAsJsonObject().get("results").getAsJsonObject().get("items").getAsJsonArray();
-		
-		for(int i=0;i<arr.size();i++)
-		{
+
+		for (int i = 0; i < arr.size(); i++) {
 			JsonObject item = arr.get(i).getAsJsonObject();
 			MagicPrice price = new MagicPrice();
-					price.setFoil(false);
-					price.setSeller(item.get("seller").getAsJsonObject().get("nick").getAsString());
-					price.setSite(getName());
-					price.setLanguage(item.get("language").getAsString());
-					price.setQuality(item.get("condition").getAsString());
-					price.setCurrency("EUR");
-					price.setValue(Double.parseDouble(item.get("price").getAsString().replaceAll(price.getCurrency(), "").trim()));
-					price.setUrl("https://mtg.decktutor.com/insertions/"+item.get("code").getAsString()+"/"+item.get("title").getAsString().replaceAll(" - ", "-").replaceAll(" ", "-")+".html");
-					price.setShopItem(item);
-					JsonArray attrs = item.get("attrs").getAsJsonArray();
-					if(attrs.size()<0)
-					{
-						price.setFoil(false);
-					}
-					else
-					{
-						price.setFoil(attrs.toString().contains("foil"));
-					}
-					//https://mtg.decktutor.com/insertions/EU1BCUS32554473N/lotus-petal-tmp-english-good.html
-					
+			price.setFoil(false);
+			price.setSeller(item.get("seller").getAsJsonObject().get("nick").getAsString());
+			price.setSite(getName());
+			price.setLanguage(item.get("language").getAsString());
+			price.setQuality(item.get("condition").getAsString());
+			price.setCurrency("EUR");
+			price.setValue(
+					Double.parseDouble(item.get("price").getAsString().replaceAll(price.getCurrency(), "").trim()));
+			price.setUrl("https://mtg.decktutor.com/insertions/" + item.get("code").getAsString() + "/"
+					+ item.get("title").getAsString().replaceAll(" - ", "-").replaceAll(" ", "-") + ".html");
+			price.setShopItem(item);
+			JsonArray attrs = item.get("attrs").getAsJsonArray();
+			if (attrs.size() < 0) {
+				price.setFoil(false);
+			} else {
+				price.setFoil(attrs.toString().contains("foil"));
+			}
+			// https://mtg.decktutor.com/insertions/EU1BCUS32554473N/lotus-petal-tmp-english-good.html
+
 			list.add(price);
 		}
-		
-		
-		
-		
-		logger.info(getName()+ " found " + list.size() +" items");
+
+		logger.info(getName() + " found " + list.size() + " items");
 		return list;
 	}
-
 
 	@Override
 	public String getName() {
 		return "Deck Tutor";
 	}
 
-
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
-		//nothing to do
+		// nothing to do
 	}
 
 	@Override
 	public void initDefault() {
 		setProperty("URL", "https://ws.decktutor.com/app/v2");
-		
-		setProperty("WEBSITE", "https://"+dsite);
+
+		setProperty("WEBSITE", "https://" + dsite);
 		setProperty("LANG", "en");
 		setProperty("LOGIN", "login");
 		setProperty("MAX_RESULT", "");
 		setProperty("PASS", "PASS");
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
-		
+
 	}
 
 	@Override
 	public String getVersion() {
 		return "0.5";
 	}
-	
-	
-	
+
 }

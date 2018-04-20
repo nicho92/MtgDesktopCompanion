@@ -7,44 +7,46 @@ public class LoyaltyCounter extends AbstractCounter {
 	int value;
 	String label;
 
-	public LoyaltyCounter(int value,String label) {
-		this.value=value;
-		this.label=label;
+	public LoyaltyCounter(int value, String label) {
+		this.value = value;
+		this.label = label;
 	}
 
 	@Override
 	public void apply(DisplayableCard displayableCard) {
-		
+
 		int loy = 0;
-		try{
+		try {
 			loy = displayableCard.getMagicCard().getLoyalty();
-		}catch(Exception e)
-		{	logger.error(e);	}
-		
-		displayableCard.getMagicCard().setLoyalty(loy+value);
+		} catch (Exception e) {
+			logger.error(e);
+		}
+
+		displayableCard.getMagicCard().setLoyalty(loy + value);
 	}
 
 	@Override
 	public void remove(DisplayableCard displayableCard) {
 		int loy = 0;
-		try{
+		try {
 			loy = displayableCard.getMagicCard().getLoyalty();
-		}catch(Exception e)
-		{	logger.error(e);	}
-		
-		displayableCard.getMagicCard().setLoyalty(loy-value);
-		
+		} catch (Exception e) {
+			logger.error(e);
+		}
+
+		displayableCard.getMagicCard().setLoyalty(loy - value);
+
 	}
 
 	@Override
 	public String describe() {
-		String plus="";
-		
-		if(value>0)
-			plus="+";
-		else if(value==0)
-			plus=" ";
-		
-		return plus+value+": "+label;
+		String plus = "";
+
+		if (value > 0)
+			plus = "+";
+		else if (value == 0)
+			plus = " ";
+
+		return plus + value + ": " + label;
 	}
 }

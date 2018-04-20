@@ -6,20 +6,20 @@ import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.services.MTGConstants;
 
 public abstract class AbstractWallpaperProvider extends AbstractMTGPlugin implements MTGWallpaperProvider {
-	
+
 	public AbstractWallpaperProvider() {
 		super();
 		confdir = new File(MTGConstants.CONF_DIR, "wallpapers");
-		if(!confdir.exists())
+		if (!confdir.exists())
 			confdir.mkdir();
 		load();
-		
-		if(!new File(confdir, getName()+".conf").exists()){
+
+		if (!new File(confdir, getName() + ".conf").exists()) {
 			initDefault();
 			save();
-		} 
+		}
 	}
-	
+
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.WALLPAPER;

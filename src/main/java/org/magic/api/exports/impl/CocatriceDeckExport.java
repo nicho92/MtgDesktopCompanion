@@ -24,105 +24,98 @@ import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
-public class CocatriceDeckExport extends AbstractCardExport{
-	
+public class CocatriceDeckExport extends AbstractCardExport {
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
-	
+
 	public CocatriceDeckExport() {
 		super();
 	}
-	
-	public String getFileExtension()
-	{
+
+	public String getFileExtension() {
 		return ".cod";
 	}
-	
-	public void export(MagicDeck deck , File dest) throws IOException
-	{
+
+	public void export(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
-		int c=0;
-		String endZoneTag="</zone>";
-		
+		int c = 0;
+		String endZoneTag = "</zone>";
+
 		temp.append("<?xml version='1.0' encoding='UTF-8'?>");
-		temp.append("<cockatrice_deck version='"+getString("VERSION")+"'>");
+		temp.append("<cockatrice_deck version='" + getString("VERSION") + "'>");
 		temp.append("<deckname>").append(deck.getName()).append("</deckname>");
 		temp.append("<comments>").append(deck.getDescription()).append("</comments>");
 		temp.append("<zone name='main'>");
-		for(MagicCard mc : deck.getMap().keySet())
-		{
-			temp.append("<card number='").append(deck.getMap().get(mc)).append("' price='"+getString("DEFAULT_PRICE")+"' name=\"").append(mc.getName()).append("\"/>");
+		for (MagicCard mc : deck.getMap().keySet()) {
+			temp.append("<card number='").append(deck.getMap().get(mc))
+					.append("' price='" + getString("DEFAULT_PRICE") + "' name=\"").append(mc.getName()).append("\"/>");
 			setChanged();
 			notifyObservers(c++);
 		}
 		temp.append(endZoneTag);
 		temp.append("<zone name='side'>");
-		for(MagicCard mc : deck.getMapSideBoard().keySet())
-		{
-			temp.append("<card number='").append(deck.getMapSideBoard().get(mc)).append("' price='"+getString("DEFAULT_PRICE")+"' name=\"").append(mc.getName()).append("\"/>");
+		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
+			temp.append("<card number='").append(deck.getMapSideBoard().get(mc))
+					.append("' price='" + getString("DEFAULT_PRICE") + "' name=\"").append(mc.getName()).append("\"/>");
 		}
 		temp.append(endZoneTag);
 		temp.append("</cockatrice_deck>");
-		
-		FileUtils.writeStringToFile(dest, temp.toString(),"UTF-8");
-		
-		
+
+		FileUtils.writeStringToFile(dest, temp.toString(), "UTF-8");
+
 	}
-	
+
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
 		MagicDeck deck = new MagicDeck();
 		try {
-				Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(new InputSource(new FileReader(f)));
-				XPath xpath = XPathFactory.newInstance().newXPath();
-			    
-				XPathExpression expr = xpath.compile("//cockatrice_deck/deckname");
-			    NodeList result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
-			    
-			    deck.setName(result.item(0).getTextContent());
-			    
-			    expr = xpath.compile("//cockatrice_deck/comments");
-			    result = (NodeList)expr.evaluate(d, XPathConstants.NODESET);
-			    deck.setDescription(result.item(0).getTextContent());
-			    	    
-			    expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'main')]/card");
-			    result = ((NodeList)expr.evaluate(d, XPathConstants.NODESET));
-			    int c=0;
-			    for(int i = 0;i<result.getLength();i++)
-				{
-					String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
-					Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-					deck.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0), qte);
-					setChanged();
-					notifyObservers(c++);
-				}
-			    expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'side')]/card");
-				result = ((NodeList)expr.evaluate(d, XPathConstants.NODESET));
-				for(int i = 0;i<result.getLength();i++)
-				{
-					String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
-					Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
-					deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name, null,true).get(0), qte);
-					setChanged();
-					notifyObservers(c++);
-				}
-		}
-		catch(Exception e)
-		{
+			Document d = DocumentBuilderFactory.newInstance().newDocumentBuilder()
+					.parse(new InputSource(new FileReader(f)));
+			XPath xpath = XPathFactory.newInstance().newXPath();
+
+			XPathExpression expr = xpath.compile("//cockatrice_deck/deckname");
+			NodeList result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
+
+			deck.setName(result.item(0).getTextContent());
+
+			expr = xpath.compile("//cockatrice_deck/comments");
+			result = (NodeList) expr.evaluate(d, XPathConstants.NODESET);
+			deck.setDescription(result.item(0).getTextContent());
+
+			expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'main')]/card");
+			result = ((NodeList) expr.evaluate(d, XPathConstants.NODESET));
+			int c = 0;
+			for (int i = 0; i < result.getLength(); i++) {
+				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
+				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
+				deck.getMap().put(MTGControler.getInstance().getEnabledProviders()
+						.searchCardByCriteria("name", name, null, true).get(0), qte);
+				setChanged();
+				notifyObservers(c++);
+			}
+			expr = xpath.compile("//cockatrice_deck/zone[contains(@name,'side')]/card");
+			result = ((NodeList) expr.evaluate(d, XPathConstants.NODESET));
+			for (int i = 0; i < result.getLength(); i++) {
+				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
+				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
+				deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledProviders()
+						.searchCardByCriteria("name", name, null, true).get(0), qte);
+				setChanged();
+				notifyObservers(c++);
+			}
+		} catch (Exception e) {
 			throw new IOException(e);
 		}
 		return deck;
 	}
-	
 
 	@Override
 	public Icon getIcon() {
 		return new ImageIcon(CocatriceDeckExport.class.getResource("/icons/cockatrice_logo.png"));
 	}
-	
 
 	@Override
 	public String getName() {
@@ -132,13 +125,12 @@ public class CocatriceDeckExport extends AbstractCardExport{
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
-			d.setName(f.getName());
-			
-		for(MagicCardStock mcs : stock)
-		{
+		d.setName(f.getName());
+
+		for (MagicCardStock mcs : stock) {
 			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
 		}
-		
+
 		export(d, f);
 	}
 
@@ -147,18 +139,16 @@ public class CocatriceDeckExport extends AbstractCardExport{
 		return importFromDeck(importDeck(f));
 	}
 
-
 	@Override
 	public void initDefault() {
 		setProperty("VERSION", "1.0");
 		setProperty("DEFAULT_PRICE", "0");
-		
-	}
 
+	}
 
 	@Override
 	public String getVersion() {
-		return getProperty("VERSION","2.0");
+		return getProperty("VERSION", "2.0");
 	}
-	
+
 }

@@ -9,28 +9,24 @@ import org.magic.game.gui.components.DisplayableCard;
 
 public class SelectionActions extends AbstractAction {
 
-	
 	private DisplayableCard card;
 
 	public SelectionActions(DisplayableCard card) {
 		super("Select");
 		putValue(SHORT_DESCRIPTION, "select the card");
-        putValue(MNEMONIC_KEY, KeyEvent.VK_S);
-        this.card = card;
-}
-	
+		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
+		this.card = card;
+	}
+
 	@Override
 	public void actionPerformed(ActionEvent e) {
-			 if(card.isSelected())
-			 {	  
-		  	  card.setSelected(false);
-			 }
-			 else
-			 {
-		  	  card.setSelected(true);
-			 }
-		
-			 card.repaint();
+		if (card.isSelected()) {
+			card.setSelected(false);
+		} else {
+			card.setSelected(true);
+		}
+
+		card.repaint();
 	}
-	
+
 }

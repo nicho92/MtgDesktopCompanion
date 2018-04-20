@@ -25,44 +25,42 @@ import org.magic.game.model.CardSpell;
 import org.magic.game.model.GameManager;
 import org.magic.services.MTGLogger;
 
-
-public class CardTransfertHandler extends TransferHandler  {
+public class CardTransfertHandler extends TransferHandler {
 
 	private final DataFlavor localObjectFlavor;
 	private static JWindow window = new JWindow();
 	private static JLabel dragLab = new JLabel();
-	
+
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
 	public CardTransfertHandler() {
-		
-		localObjectFlavor = new ActivationDataFlavor(DisplayableCard.class, DataFlavor.javaJVMLocalObjectMimeType, "DisplayableCard");
+
+		localObjectFlavor = new ActivationDataFlavor(DisplayableCard.class, DataFlavor.javaJVMLocalObjectMimeType,
+				"DisplayableCard");
 		window.add(dragLab);
-		window.setBackground(new Color(0,true));
-		
-		DragSource.getDefaultDragSource().addDragSourceMotionListener(dsde->{
-				Point pt = dsde.getLocation();
-					  pt.translate(5, 5); 
-				window.setLocation(pt);
-				window.setVisible(true);
-				window.pack();
+		window.setBackground(new Color(0, true));
+
+		DragSource.getDefaultDragSource().addDragSourceMotionListener(dsde -> {
+			Point pt = dsde.getLocation();
+			pt.translate(5, 5);
+			window.setLocation(pt);
+			window.setVisible(true);
+			window.pack();
 		});
 	}
-	
+
 	@Override
-	protected Transferable createTransferable(JComponent c)
-	{
+	protected Transferable createTransferable(JComponent c) {
 		final DataHandler dh = new DataHandler(c, localObjectFlavor.getMimeType());
-		return new Transferable()
-		{
+		return new Transferable() {
 			@Override
 			public Object getTransferData(DataFlavor flavor) throws UnsupportedFlavorException, IOException {
 				if (flavor.equals(localObjectFlavor)) {
 					return dh.getTransferData(flavor);
-				} 
+				}
 				return null;
 			}
+
 			@Override
 			public DataFlavor[] getTransferDataFlavors() {
 				ArrayList<DataFlavor> list = new ArrayList<>();
@@ -71,6 +69,7 @@ public class CardTransfertHandler extends TransferHandler  {
 				}
 				return list.toArray(dh.getTransferDataFlavors());
 			}
+
 			@Override
 			public boolean isDataFlavorSupported(DataFlavor flavor) {
 				for (DataFlavor f : getTransferDataFlavors()) {
@@ -82,16 +81,14 @@ public class CardTransfertHandler extends TransferHandler  {
 			}
 		};
 	}
-	
+
 	@Override
-	public boolean canImport(TransferSupport support)
-	{
+	public boolean canImport(TransferSupport support) {
 		return support.isDrop();
 	}
-	
+
 	@Override
-	public int getSourceActions(JComponent c)
-	{
+	public int getSourceActions(JComponent c) {
 		DisplayableCard p = (DisplayableCard) c;
 		Point pt = p.getLocation();
 		SwingUtilities.convertPointToScreen(pt, p);
@@ -99,48 +96,44 @@ public class CardTransfertHandler extends TransferHandler  {
 		window.setLocation(pt);
 		return MOVE;
 	}
-	
+
 	@Override
-	public boolean importData(TransferSupport support)
-	{
+	public boolean importData(TransferSupport support) {
 		if (!canImport(support))
 			return false;
 		try {
-				Draggable target = (Draggable) support.getComponent();
-				DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
-				if((((Draggable)src.getParent()).getOrigine() != target.getOrigine()))
-				{
-					  src.getParent().revalidate();
-					  target.updatePanel();
-					  src.getParent().repaint();
-					  GameManager.getInstance().getStack().put(new CardSpell(src.getName(), src.getText(), src));
-					  logger.debug("move " + src.getMagicCard().getName()+ " from " + ((Draggable)src.getParent()).getOrigine() + " to " + target.getOrigine());
-					  ((Draggable)src.getParent()).moveCard(src, target.getOrigine());
-					  target.addComponent(src);
-					 
-				}
-				else
-				{
-					target.postTreatment(src);
-				}
+			Draggable target = (Draggable) support.getComponent();
+			DisplayableCard src = (DisplayableCard) support.getTransferable().getTransferData(localObjectFlavor);
+			if ((((Draggable) src.getParent()).getOrigine() != target.getOrigine())) {
+				src.getParent().revalidate();
+				target.updatePanel();
+				src.getParent().repaint();
+				GameManager.getInstance().getStack().put(new CardSpell(src.getName(), src.getText(), src));
+				logger.debug("move " + src.getMagicCard().getName() + " from "
+						+ ((Draggable) src.getParent()).getOrigine() + " to " + target.getOrigine());
+				((Draggable) src.getParent()).moveCard(src, target.getOrigine());
+				target.addComponent(src);
+
+			} else {
+				target.postTreatment(src);
+			}
 			return true;
 		} catch (Exception ufe) {
-			logger.error("Error transfert",ufe);
-		} 
+			logger.error("Error transfert", ufe);
+		}
 		return false;
 	}
-	
+
 	@Override
 	protected void exportDone(JComponent c, Transferable data, int action) {
 		DisplayableCard src = (DisplayableCard) c;
 		if (action == TransferHandler.MOVE) {
 			dragLab.setIcon(null);
 			window.setVisible(false);
-			
-			if(c.getParent() instanceof DraggablePanel)
-			{	
-				DraggablePanel dest = ((DraggablePanel)c.getParent());
-				if(dest.getMousePosition()!=null)
+
+			if (c.getParent() instanceof DraggablePanel) {
+				DraggablePanel dest = ((DraggablePanel) c.getParent());
+				if (dest.getMousePosition() != null)
 					src.setLocation(dest.getMousePosition());
 				dest.postTreatment(src);
 			}

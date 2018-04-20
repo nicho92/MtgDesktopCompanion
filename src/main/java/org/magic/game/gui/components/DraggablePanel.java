@@ -15,21 +15,20 @@ import org.magic.game.model.Player;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGLogger;
 
-public abstract class DraggablePanel extends JPanel implements Draggable{
+public abstract class DraggablePanel extends JPanel implements Draggable {
 
-  	Dimension d ;
-	
+	Dimension d;
+
 	protected JPopupMenu menu = new JPopupMenu();
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	
-    boolean dragging=true;
+	boolean dragging = true;
 	protected Player player;
 
-	public void executeDragging(DisplayableCard card,MouseEvent e){
-		
+	public void executeDragging(DisplayableCard card, MouseEvent e) {
+
 	}
-	
+
 	public boolean isDragging() {
 		return dragging;
 	}
@@ -38,54 +37,50 @@ public abstract class DraggablePanel extends JPanel implements Draggable{
 		this.dragging = dragging;
 	}
 
-	public void setThumbnailSize(Dimension d)
-	{
-		this.d=d;
+	public void setThumbnailSize(Dimension d) {
+		this.d = d;
 	}
-	
+
 	public int getCardWidth() {
-		return (int)d.getWidth();
+		return (int) d.getWidth();
 	}
 
 	public int getCardHeight() {
-		return (int)d.getHeight();
+		return (int) d.getHeight();
 	}
- 
+
 	public DraggablePanel() {
-		  setTransferHandler(new CardTransfertHandler());
-		  setComponentPopupMenu(menu);
+		setTransferHandler(new CardTransfertHandler());
+		setComponentPopupMenu(menu);
 	}
-	
-	public List<DisplayableCard> lookupCardBy(String prop,String value)
-	{
+
+	public List<DisplayableCard> lookupCardBy(String prop, String value) {
 		List<DisplayableCard> ret = new ArrayList<>();
-		
-			for(Component c : getComponents())
-			{
-				try {
-					DisplayableCard card = (DisplayableCard)c;
-					if(BeanUtils.describe(card.getMagicCard()).get(prop).equalsIgnoreCase(value))
-						ret.add(card);
-				} catch (Exception e) {
-					logger.error("error lookup",e);
-				}
+
+		for (Component c : getComponents()) {
+			try {
+				DisplayableCard card = (DisplayableCard) c;
+				if (BeanUtils.describe(card.getMagicCard()).get(prop).equalsIgnoreCase(value))
+					ret.add(card);
+			} catch (Exception e) {
+				logger.error("error lookup", e);
 			}
-			return ret;
+		}
+		return ret;
 	}
-  
-   public void updatePanel() {
-	  revalidate();
-	  repaint();
-    	
-    }  
-  
-  public void setPlayer(Player p)
-  {
-	  this.player=p;
-  }
-  
-  public Player getPlayer() {
-	return player;
-}
- 
+
+	public void updatePanel() {
+		revalidate();
+		repaint();
+
+	}
+
+	public void setPlayer(Player p) {
+		this.player = p;
+	}
+
+	public Player getPlayer() {
+		return player;
+	}
+
 }

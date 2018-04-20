@@ -31,91 +31,86 @@ import org.magic.services.ThreadManager;
 import org.magic.sorters.MagicPricesComparator;
 
 public class DeckPricePanel extends JPanel {
-	
+
 	private JComboBox<MTGPricesProvider> cboPricers;
 	private JTable tablePrice;
 	private CardsPriceTableModel model;
 	private MagicDeck deck;
-	private JLabel lblPrice ;
-	private int total=0;
+	private JLabel lblPrice;
+	private int total = 0;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public void initDeck(MagicDeck d)
-	{
-		this.deck=d;
+	public void initDeck(MagicDeck d) {
+		this.deck = d;
 		try {
 			lblPrice.setText(String.valueOf(d.getAveragePrice()));
-		}
-		catch(Exception e)
-		{
+		} catch (Exception e) {
 			lblPrice.setText("");
 		}
 		model.clear();
 	}
-	
+
 	public DeckPricePanel() {
 		setLayout(new BorderLayout(0, 0));
-		
+
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.NORTH);
-		
-		cboPricers = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledPricers().toArray()));
-		cboPricers.addItemListener(ie->{
-				if (ie.getStateChange() == ItemEvent.SELECTED) {
-					model.setProvider((MTGPricesProvider)cboPricers.getSelectedItem());
-				}
-			
+
+		cboPricers = new JComboBox<>(
+				new DefaultComboBoxModel(MTGControler.getInstance().getEnabledPricers().toArray()));
+		cboPricers.addItemListener(ie -> {
+			if (ie.getStateChange() == ItemEvent.SELECTED) {
+				model.setProvider((MTGPricesProvider) cboPricers.getSelectedItem());
+			}
+
 		});
 		panel.add(cboPricers);
-		
-		JButton btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
-		
-		btnCheckPrice.addActionListener(ae-> {
-				model.clear();
-				
-				ThreadManager.getInstance().execute(()->{
-						total=0;
-						
-						for(MagicCard c : deck.getMap().keySet())
-						{
-							try {
-								List<MagicPrice> prices = model.getProviders().get(0).getPrice(c.getEditions().get(0), c);
-								MagicPrice p=null;
-								if(!prices.isEmpty())
-								{
-									Collections.sort(prices, new MagicPricesComparator());
-									p = prices.get(0);
-									p.setValue(p.getValue()*deck.getMap().get(c));
-									p.setSite(c.getName() +"(x"+ deck.getMap().get(c)+")");
-								}
-								else
-								{
-									p=new MagicPrice();
-									p.setValue(0.0);
-									p.setSite(c.getName() +"(x"+ deck.getMap().get(c)+") - " + MTGControler.getInstance().getLangService().get("NOT_FOUND"));
-									p.setCurrency("");
-								}
-								
-								model.addPrice(p);
-								total+=p.getValue();
-								
-								lblPrice.setText(String.valueOf(total) + " " + p.getCurrency());
-								
-							} catch (Exception e) {
-								logger.error("error in " + c,e);
-							}
 
+		JButton btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
+
+		btnCheckPrice.addActionListener(ae -> {
+			model.clear();
+
+			ThreadManager.getInstance().execute(() -> {
+				total = 0;
+
+				for (MagicCard c : deck.getMap().keySet()) {
+					try {
+						List<MagicPrice> prices = model.getProviders().get(0).getPrice(c.getEditions().get(0), c);
+						MagicPrice p = null;
+						if (!prices.isEmpty()) {
+							Collections.sort(prices, new MagicPricesComparator());
+							p = prices.get(0);
+							p.setValue(p.getValue() * deck.getMap().get(c));
+							p.setSite(c.getName() + "(x" + deck.getMap().get(c) + ")");
+						} else {
+							p = new MagicPrice();
+							p.setValue(0.0);
+							p.setSite(c.getName() + "(x" + deck.getMap().get(c) + ") - "
+									+ MTGControler.getInstance().getLangService().get("NOT_FOUND"));
+							p.setCurrency("");
 						}
-						deck.setAveragePrice(total);
-				});
-			
+
+						model.addPrice(p);
+						total += p.getValue();
+
+						lblPrice.setText(String.valueOf(total) + " " + p.getCurrency());
+
+					} catch (Exception e) {
+						logger.error("error in " + c, e);
+					}
+
+				}
+				deck.setAveragePrice(total);
+			});
+
 		});
 		panel.add(btnCheckPrice);
-		
+
 		lblPrice = new JLabel();
 		panel.add(lblPrice);
 		lblPrice.setFont(new Font("Tahoma", Font.BOLD, 13));
-		
+
 		JScrollPane scrollPane = new JScrollPane();
 		add(scrollPane, BorderLayout.CENTER);
 		model = new CardsPriceTableModel();
@@ -123,11 +118,11 @@ public class DeckPricePanel extends JPanel {
 		tablePrice.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
-				if(ev.getClickCount()==2 && !ev.isConsumed())
-				{
+				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
-						String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), CardsPriceTableModel.ROW_URL).toString();
+						String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), CardsPriceTableModel.ROW_URL)
+								.toString();
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e) {
 						logger.error(e);
@@ -137,7 +132,7 @@ public class DeckPricePanel extends JPanel {
 
 			}
 		});
-		
+
 		scrollPane.setViewportView(tablePrice);
 	}
 

@@ -16,71 +16,61 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
-	
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
-	
-	
-	
+
 	public MythicSpoilerPicturesProvider() {
 		super();
-	
-		newW= getInt("CARD_SIZE_WIDTH");
-		newH= getInt("CARD_SIZE_HEIGHT");
-	
+
+		newW = getInt("CARD_SIZE_WIDTH");
+		newH = getInt("CARD_SIZE_HEIGHT");
+
 	}
-	
-	
+
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException {
-		
-		MagicEdition edition = me;
-		if(me==null)
-			edition=mc.getEditions().get(0);
-		
-		
-		if(MTGControler.getInstance().getEnabledCache().getPic(mc,edition)!=null)
-		{
-			logger.trace("cached " + mc + "("+edition+") found");
-			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc,edition),newW,newH);
-		}
-		
-        String cardSet = edition.getId();
-        
-       String cardName = mc.getName().toLowerCase()
-                .replaceAll(" ", "")
-                .replaceAll("-", "")
-                .replaceAll("'", "")
-                .replaceAll(",", "")
-                .replaceAll("/", "");
 
-        // This will properly escape the url
-        URI uri;
+		MagicEdition edition = me;
+		if (me == null)
+			edition = mc.getEditions().get(0);
+
+		if (MTGControler.getInstance().getEnabledCache().getPic(mc, edition) != null) {
+			logger.trace("cached " + mc + "(" + edition + ") found");
+			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc, edition), newW, newH);
+		}
+
+		String cardSet = edition.getId();
+
+		String cardName = mc.getName().toLowerCase().replaceAll(" ", "").replaceAll("-", "").replaceAll("'", "")
+				.replaceAll(",", "").replaceAll("/", "");
+
+		// This will properly escape the url
+		URI uri;
 		try {
-			uri = new URI("http", "mythicspoiler.com", "/" + cardSet.toLowerCase() + "/cards/" + cardName + ".jpg", null, null);
+			uri = new URI("http", "mythicspoiler.com", "/" + cardSet.toLowerCase() + "/cards/" + cardName + ".jpg",
+					null, null);
 		} catch (URISyntaxException e1) {
 			throw new IOException(e1);
 		}
-        
-        logger.debug("get card from " + uri.toURL());
-        HttpURLConnection connection = (HttpURLConnection)uri.toURL().openConnection();
-		  connection.setInstanceFollowRedirects(true);
-		  connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
-		  connection.connect();
-        
-		  try{
-				BufferedImage bufferedImage =ImageIO.read(connection.getInputStream());
-				if(bufferedImage!=null)
-					MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc,edition);
-				return resizeCard(bufferedImage,newW,newH) ;
-			}
-			catch(Exception e)
-			{
-				logger.error(e);
-				return getBackPicture();
-			}
+
+		logger.debug("get card from " + uri.toURL());
+		HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
+		connection.setInstanceFollowRedirects(true);
+		connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
+		connection.connect();
+
+		try {
+			BufferedImage bufferedImage = ImageIO.read(connection.getInputStream());
+			if (bufferedImage != null)
+				MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc, edition);
+			return resizeCard(bufferedImage, newW, newH);
+		} catch (Exception e) {
+			logger.error(e);
+			return getBackPicture();
+		}
 	}
 
 	@Override
@@ -98,8 +88,6 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 		return null;
 	}
 
-
-
 	@Override
 	public void initDefault() {
 		super.initDefault();
@@ -107,13 +95,9 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 
 	}
 
-
-
 	@Override
 	public String getVersion() {
 		return "1.0";
 	}
-	
-	
 
 }

@@ -17,17 +17,17 @@ import org.magic.api.beans.MTGStory;
 public class MTGStoryListPanel extends JPanel {
 
 	private JLabel lblicon;
-	private String useFonts="Tahoma";
-	
+	private String useFonts = "Tahoma";
+
 	public MTGStoryListPanel(MTGStory value) {
 		setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{91, 55, 73, 0};
-		gridBagLayout.rowHeights = new int[]{14, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{0.0, 1.0, 0.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[] { 91, 55, 73, 0 };
+		gridBagLayout.rowHeights = new int[] { 14, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-		
+
 		lblicon = new JLabel(new ImageIcon(value.getIcon()));
 		GridBagConstraints gbclblicon = new GridBagConstraints();
 		gbclblicon.gridheight = 3;
@@ -35,7 +35,7 @@ public class MTGStoryListPanel extends JPanel {
 		gbclblicon.gridx = 0;
 		gbclblicon.gridy = 0;
 		add(lblicon, gbclblicon);
-		
+
 		JLabel lblTitle = new JLabel(value.getTitle());
 		lblTitle.setFont(new Font(useFonts, Font.BOLD, 14));
 		GridBagConstraints gbclblTitle = new GridBagConstraints();
@@ -44,7 +44,7 @@ public class MTGStoryListPanel extends JPanel {
 		gbclblTitle.gridx = 1;
 		gbclblTitle.gridy = 0;
 		add(lblTitle, gbclblTitle);
-		
+
 		JLabel lblDate = new JLabel(value.getDate());
 		lblDate.setFont(new Font(useFonts, Font.PLAIN, 11));
 		GridBagConstraints gbclblDate = new GridBagConstraints();
@@ -53,7 +53,7 @@ public class MTGStoryListPanel extends JPanel {
 		gbclblDate.gridx = 2;
 		gbclblDate.gridy = 0;
 		add(lblDate, gbclblDate);
-		
+
 		JLabel lblAuthor = new JLabel(value.getAuthor());
 		lblAuthor.setFont(new Font(useFonts, Font.ITALIC, 11));
 		GridBagConstraints gbclblAuthor = new GridBagConstraints();
@@ -62,7 +62,7 @@ public class MTGStoryListPanel extends JPanel {
 		gbclblAuthor.gridx = 1;
 		gbclblAuthor.gridy = 1;
 		add(lblAuthor, gbclblAuthor);
-		
+
 		JEditorPane editorPane = new JEditorPane();
 		editorPane.setEditable(false);
 		editorPane.setOpaque(false);
@@ -74,11 +74,7 @@ public class MTGStoryListPanel extends JPanel {
 		gbceditorPane.gridx = 1;
 		gbceditorPane.gridy = 2;
 		add(editorPane, gbceditorPane);
-	
 
 	}
 
-	
-	
-	
 }

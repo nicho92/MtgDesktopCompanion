@@ -54,200 +54,200 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private ResponseTransformer transformer;
 	private MTGDeckManager manager;
 	private ByteArrayOutputStream baos;
-	private boolean running=false;
-	private static final String RETURN_OK="{\"result\":\"OK\"}";
+	private boolean running = false;
+	private static final String RETURN_OK = "{\"result\":\"OK\"}";
 	private Gson converter;
-	
-	private String error(String msg)
-	{
-		return "{\"error\":\""+msg+"\"}";
+
+	private String error(String msg) {
+		return "{\"error\":\"" + msg + "\"}";
 	}
-	
-	
+
 	public JSONHttpServer() {
 		super();
-		
+
 		manager = new MTGDeckManager();
-		converter=new Gson();
+		converter = new Gson();
 		transformer = new ResponseTransformer() {
 			@Override
 			public String render(Object model) throws Exception {
 				return converter.toJson(model);
 			}
 		};
-		
-		
+
 	}
 
-	
 	@Override
 	public void start() throws IOException {
 		initVars();
 		initRoutes();
 		Spark.init();
-		running=true;
-	}
-	
-	private void initVars() {
-		
-		port(getInt("SERVER-PORT"));
-		
-		initExceptionHandler(e -> {
-			running=false;
-			logger.error(e);
-		});
-		
-		
-		exception(Exception.class, (Exception exception, Request req, Response res)->{
-			 logger.error("Error :" + req.headers("Referer")+":"+exception.getMessage(),exception);
-			 res.status(500);
-			 res.body(error(exception.getMessage()));
-		});
-		
-		notFound((req, res) -> {
-		    res.status(404);
-		    return error("Not Found");
-		});
-		
-		after((request, response) -> {
-			if(getBoolean("ENABLE_GZIP")) {
-			    response.header("Content-Encoding", "gzip");
-			}
-		});
-		   
-	    options("/*", (request,response)->{
-	        String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
-	        if (accessControlRequestHeaders != null) {
-	            response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
-	        }
-	        String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
-	        if(accessControlRequestMethod != null){
-	            response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
-	        }
-	        return RETURN_OK;
-	    });
-		
+		running = true;
 	}
 
+	private void initVars() {
+
+		port(getInt("SERVER-PORT"));
+
+		initExceptionHandler(e -> {
+			running = false;
+			logger.error(e);
+		});
+
+		exception(Exception.class, (Exception exception, Request req, Response res) -> {
+			logger.error("Error :" + req.headers("Referer") + ":" + exception.getMessage(), exception);
+			res.status(500);
+			res.body(error(exception.getMessage()));
+		});
+
+		notFound((req, res) -> {
+			res.status(404);
+			return error("Not Found");
+		});
+
+		after((request, response) -> {
+			if (getBoolean("ENABLE_GZIP")) {
+				response.header("Content-Encoding", "gzip");
+			}
+		});
+
+		options("/*", (request, response) -> {
+			String accessControlRequestHeaders = request.headers("Access-Control-Request-Headers");
+			if (accessControlRequestHeaders != null) {
+				response.header("Access-Control-Allow-Headers", accessControlRequestHeaders);
+			}
+			String accessControlRequestMethod = request.headers("Access-Control-Request-Method");
+			if (accessControlRequestMethod != null) {
+				response.header("Access-Control-Allow-Methods", accessControlRequestMethod);
+			}
+			return RETURN_OK;
+		});
+
+	}
 
 	private void initRoutes() {
 
-		before("/*", (request, response) ->
-		{
+		before("/*", (request, response) -> {
 			response.type(getString("MIME"));
 			response.header("Access-Control-Allow-Origin", getWhiteHeader(request));
-		    response.header("Access-Control-Request-Method", getString("Access-Control-Request-Method"));
-	        response.header("Access-Control-Allow-Headers", getString("Access-Control-Allow-Headers"));
+			response.header("Access-Control-Request-Method", getString("Access-Control-Request-Method"));
+			response.header("Access-Control-Allow-Headers", getString("Access-Control-Allow-Headers"));
 		});
-		
-		get("/cards/search/:att/:val",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(request.params(":att"), request.params(":val"), null, false), transformer);
-		
-		get("/cards/name/:idEd/:cName",getString("MIME"), (request, response) ->{
-			
+
+		get("/cards/search/:att/:val", getString("MIME"),
+				(request, response) -> MTGControler.getInstance().getEnabledProviders()
+						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, false),
+				transformer);
+
+		get("/cards/name/:idEd/:cName", getString("MIME"), (request, response) -> {
+
 			MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(request.params(":idEd"));
-			return MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", request.params(":cName"), ed, true);
+			return MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name",
+					request.params(":cName"), ed, true);
 		}, transformer);
-		
-		
-		put("/cards/move/:from/:to/:id",getString("MIME"), (request, response) ->{
-			  MagicCollection from=new MagicCollection(request.params(":from"));
-			  MagicCollection to=new MagicCollection(request.params(":to"));
-			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
-			  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
-			  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
-			  return RETURN_OK;
+
+		put("/cards/move/:from/:to/:id", getString("MIME"), (request, response) -> {
+			MagicCollection from = new MagicCollection(request.params(":from"));
+			MagicCollection to = new MagicCollection(request.params(":to"));
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
+			MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
+			MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
+			return RETURN_OK;
 		}, transformer);
-		
-		
-		put("/cards/add/:id",getString("MIME"), (request, response) ->{
-			  MagicCollection from=new MagicCollection(MTGControler.getInstance().get("default-library"));
-			  MagicCollection to=new MagicCollection(request.params(":to"));
-			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
-			  MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
-			  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
-			  return RETURN_OK;
+
+		put("/cards/add/:id", getString("MIME"), (request, response) -> {
+			MagicCollection from = new MagicCollection(MTGControler.getInstance().get("default-library"));
+			MagicCollection to = new MagicCollection(request.params(":to"));
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
+			MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
+			MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
+			return RETURN_OK;
 		}, transformer);
-		
-		put("/cards/add/:to/:id",getString("MIME"), (request, response) ->{
-			  MagicCollection to=new MagicCollection(request.params(":to"));
-			  MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
-			  MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
-			  return RETURN_OK;
+
+		put("/cards/add/:to/:id", getString("MIME"), (request, response) -> {
+			MagicCollection to = new MagicCollection(request.params(":to"));
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
+			MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
+			return RETURN_OK;
 		}, transformer);
-		
-		
-		get("/cards/list/:col/:idEd",getString("MIME"), (request, response) ->{
+
+		get("/cards/list/:col/:idEd", getString("MIME"), (request, response) -> {
 			MagicCollection col = new MagicCollection(request.params(":col"));
 			MagicEdition ed = new MagicEdition();
-						 ed.setId(request.params(":idEd"));
-						 ed.setSet(request.params(":idEd"));
+			ed.setId(request.params(":idEd"));
+			ed.setSet(request.params(":idEd"));
 			return MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, ed);
 		}, transformer);
-		
-		get("/cards/:id",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id")), transformer);
-		
-		get("/cards/:idSet/cards",getString("MIME"), (request, response) ->{
-			List<MagicCard> ret= MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("set",request.params(":idSet"),null,false);
-			Collections.sort(ret,new MagicCardComparator());
-			
+
+		get("/cards/:id", getString("MIME"), (request, response) -> MTGControler.getInstance().getEnabledProviders()
+				.getCardById(request.params(":id")), transformer);
+
+		get("/cards/:idSet/cards", getString("MIME"), (request, response) -> {
+			List<MagicCard> ret = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("set",
+					request.params(":idSet"), null, false);
+			Collections.sort(ret, new MagicCardComparator());
+
 			return ret;
 		}, transformer);
-		
-		
-		
-		get("/collections/:name/count",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledDAO().getCardsCountGlobal(new MagicCollection(request.params(":name"))), transformer);
-		
-		get("/collections/list",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledDAO().getCollections(), transformer);
-		
-		get("/collections/cards/:idcards",getString("MIME"), (request, response) ->{
+
+		get("/collections/:name/count", getString("MIME"), (request, response) -> MTGControler.getInstance()
+				.getEnabledDAO().getCardsCountGlobal(new MagicCollection(request.params(":name"))), transformer);
+
+		get("/collections/list", getString("MIME"),
+				(request, response) -> MTGControler.getInstance().getEnabledDAO().getCollections(), transformer);
+
+		get("/collections/cards/:idcards", getString("MIME"), (request, response) -> {
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idcards"));
 			return MTGControler.getInstance().getEnabledDAO().listCollectionFromCards(mc);
 		}, transformer);
-		
-		get("/collections/:name",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledDAO().getCollection(request.params(":name")), transformer);
-		
-		put("/collections/add/:name",getString("MIME"), (request, response) ->{
+
+		get("/collections/:name", getString("MIME"), (request, response) -> MTGControler.getInstance().getEnabledDAO()
+				.getCollection(request.params(":name")), transformer);
+
+		put("/collections/add/:name", getString("MIME"), (request, response) -> {
 			MTGControler.getInstance().getEnabledDAO().saveCollection(new MagicCollection(request.params(":name")));
 			return RETURN_OK;
 		});
-		
-		
 
-		get("/editions/list",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledProviders().loadEditions(), transformer);
+		get("/editions/list", getString("MIME"),
+				(request, response) -> MTGControler.getInstance().getEnabledProviders().loadEditions(), transformer);
 
-		get("/editions/:idSet",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledProviders().getSetById(request.params(":idSet")), transformer);
-		
-		get("/editions/list/:colName",getString("MIME"), (request, response) ->{
-			 List<MagicEdition> eds = new ArrayList<>();
-			 List<String> list = MTGControler.getInstance().getEnabledDAO().getEditionsIDFromCollection(new MagicCollection(request.params(":colName")));
-			 for(String s : list)
-				 eds.add(MTGControler.getInstance().getEnabledProviders().getSetById(s));
-			 
-			 Collections.sort(eds);
-			 return eds;
-			 
+		get("/editions/:idSet", getString("MIME"), (request, response) -> MTGControler.getInstance()
+				.getEnabledProviders().getSetById(request.params(":idSet")), transformer);
+
+		get("/editions/list/:colName", getString("MIME"), (request, response) -> {
+			List<MagicEdition> eds = new ArrayList<>();
+			List<String> list = MTGControler.getInstance().getEnabledDAO()
+					.getEditionsIDFromCollection(new MagicCollection(request.params(":colName")));
+			for (String s : list)
+				eds.add(MTGControler.getInstance().getEnabledProviders().getSetById(s));
+
+			Collections.sort(eds);
+			return eds;
+
 		}, transformer);
-		
-		get("/prices/:idSet/:name",getString("MIME"), (request, response) ->{
+
+		get("/prices/:idSet/:name", getString("MIME"), (request, response) -> {
 			MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(request.params(":idSet"));
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", request.params(":name"), ed,false).get(0);
-    	  	List<MagicPrice> pricesret = new ArrayList<>();
-  		  	for(MTGPricesProvider prices : MTGControler.getInstance().getEnabledPricers())
-  		  		pricesret.addAll(prices.getPrice(ed, mc));
-  		
-  		  	return pricesret;
-			 
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders()
+					.searchCardByCriteria("name", request.params(":name"), ed, false).get(0);
+			List<MagicPrice> pricesret = new ArrayList<>();
+			for (MTGPricesProvider prices : MTGControler.getInstance().getEnabledPricers())
+				pricesret.addAll(prices.getPrice(ed, mc));
+
+			return pricesret;
+
 		}, transformer);
-		
-		get("/alerts/list",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledDAO().listAlerts(), transformer);
-		
-		get("/alerts/:idCards",getString("MIME"), (request, response) ->{
+
+		get("/alerts/list", getString("MIME"),
+				(request, response) -> MTGControler.getInstance().getEnabledDAO().listAlerts(), transformer);
+
+		get("/alerts/:idCards", getString("MIME"), (request, response) -> {
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCards"));
 			return MTGControler.getInstance().getEnabledDAO().hasAlert(mc);
-			 
+
 		}, transformer);
 
-		put("/alerts/add/:idCards",(request, response) ->{
+		put("/alerts/add/:idCards", (request, response) -> {
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCards"));
 			MagicCardAlert alert = new MagicCardAlert();
 			alert.setCard(mc);
@@ -255,166 +255,159 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
 			return RETURN_OK;
 		});
-		
-		put("/stock/add/:idCards",(request, response) ->{
+
+		put("/stock/add/:idCards", (request, response) -> {
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCards"));
 			MagicCardStock stock = new MagicCardStock();
 			stock.setMagicCard(mc);
-			
+
 			MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(stock);
 			return RETURN_OK;
 		});
-		
-		get("/stock/list",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledDAO().listStocks(), transformer);
-		
-		
-		
-		get("/dash/collection",getString("MIME"), (request, response) ->{
+
+		get("/stock/list", getString("MIME"),
+				(request, response) -> MTGControler.getInstance().getEnabledDAO().listStocks(), transformer);
+
+		get("/dash/collection", getString("MIME"), (request, response) -> {
 			List<MagicEdition> eds = MTGControler.getInstance().getEnabledProviders().loadEditions();
 			MagicEditionsTableModel model = new MagicEditionsTableModel();
 			model.init(eds);
-			
+
 			JsonArray arr = new JsonArray();
-			double pc=0;
-			for(MagicEdition ed : eds)
-			{
+			double pc = 0;
+			for (MagicEdition ed : eds) {
 				JsonObject obj = new JsonObject();
-					obj.add("edition", converter.toJsonTree(ed));
-					obj.addProperty("release", ed.getReleaseDate());
-					obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
-					obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
-					obj.addProperty("defaultLibrary", MTGControler.getInstance().get("default-library"));
-					pc=0;
-					if(ed.getCardCount()>0)
-						pc= (double) model.getMapCount().get(ed) / ed.getCardCount();
-					else
-						pc=(double) model.getMapCount().get(ed) / 1;
-					
-					obj.add("pc", new JsonPrimitive(pc));
-					
-					arr.add(obj);
-			}
-			return arr;
-		},transformer);
-		
-		
-		
-		get("/dash/card/:idCard",getString("MIME"), (request, response) ->{
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCard"));
-			
-			JsonArray arr = new JsonArray();
-			Map<Date, Double> res = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, mc.getEditions().get(0));
-			
-			for(Entry<Date, Double> val : res.entrySet())
-			{
-				JsonObject obj = new JsonObject();
-						   obj.add("date",new JsonPrimitive(val.getKey().getTime()));
-						   obj.add("value", new JsonPrimitive(val.getValue()));
-						
+				obj.add("edition", converter.toJsonTree(ed));
+				obj.addProperty("release", ed.getReleaseDate());
+				obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
+				obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
+				obj.addProperty("defaultLibrary", MTGControler.getInstance().get("default-library"));
+				pc = 0;
+				if (ed.getCardCount() > 0)
+					pc = (double) model.getMapCount().get(ed) / ed.getCardCount();
+				else
+					pc = (double) model.getMapCount().get(ed) / 1;
+
+				obj.add("pc", new JsonPrimitive(pc));
+
 				arr.add(obj);
 			}
-			
+			return arr;
+		}, transformer);
+
+		get("/dash/card/:idCard", getString("MIME"), (request, response) -> {
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCard"));
+
+			JsonArray arr = new JsonArray();
+			Map<Date, Double> res = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc,
+					mc.getEditions().get(0));
+
+			for (Entry<Date, Double> val : res.entrySet()) {
+				JsonObject obj = new JsonObject();
+				obj.add("date", new JsonPrimitive(val.getKey().getTime()));
+				obj.add("value", new JsonPrimitive(val.getValue()));
+
+				arr.add(obj);
+			}
+
 			return arr;
 		});
-		
-		get("/dash/edition/:idEd",getString("MIME"), (request, response) ->{
+
+		get("/dash/edition/:idEd", getString("MIME"), (request, response) -> {
 			MagicEdition ed = new MagicEdition();
 			ed.setId(request.params(":idEd"));
 			return MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed);
-		},transformer);
-		
-		get("/dash/format/:format",getString("MIME"), (request, response) ->MTGControler.getInstance().getEnabledDashBoard().getShakerFor(request.params(":format")),transformer);
-		
-		
-		
-		get("/pics/cards/:idEd/:name",getString("MIME"), (request, response) ->{
-			
+		}, transformer);
+
+		get("/dash/format/:format", getString("MIME"), (request, response) -> MTGControler.getInstance()
+				.getEnabledDashBoard().getShakerFor(request.params(":format")), transformer);
+
+		get("/pics/cards/:idEd/:name", getString("MIME"), (request, response) -> {
+
 			baos = new ByteArrayOutputStream();
-			
+
 			MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(request.params(":idEd"));
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", request.params(":name"), ed, true).get(0);
-			BufferedImage im= MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
-			ImageIO.write( im, "png", baos );
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders()
+					.searchCardByCriteria("name", request.params(":name"), ed, true).get(0);
+			BufferedImage im = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
+			ImageIO.write(im, "png", baos);
 			baos.flush();
 			byte[] imageInByte = baos.toByteArray();
 			baos.close();
 			response.type("image/png");
-		   
+
 			return imageInByte;
 		});
 
-		get("/pics/cardname/:name",getString("MIME"), (request, response) ->{
-			
+		get("/pics/cardname/:name", getString("MIME"), (request, response) -> {
+
 			baos = new ByteArrayOutputStream();
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", request.params(":name"), null,true).get(0);
-			BufferedImage im= MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
-			ImageIO.write( im, "png", baos );
+			MagicCard mc = MTGControler.getInstance().getEnabledProviders()
+					.searchCardByCriteria("name", request.params(":name"), null, true).get(0);
+			BufferedImage im = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
+			ImageIO.write(im, "png", baos);
 			baos.flush();
 			byte[] imageInByte = baos.toByteArray();
 			baos.close();
 			response.type("image/png");
-		   
+
 			return imageInByte;
 		});
-		
-		get("/decks/list",getString("MIME"), (request, response) ->{
-			
+
+		get("/decks/list", getString("MIME"), (request, response) -> {
+
 			JsonArray arr = new JsonArray();
 			JsonExport exp = new JsonExport();
-			
-			for(MagicDeck d : manager.listDecks())
-			{
+
+			for (MagicDeck d : manager.listDecks()) {
 				arr.add(exp.toJson(d));
 			}
 			return arr;
-		},transformer);
-		
-		get("/deck/:name",getString("MIME"), (request, response) ->new JsonExport().toJson(manager.getDeck(request.params(":name"))),transformer);
-		
-		
-		get("/deck/stats/:name",getString("MIME"), (request, response) ->{
-			
-			MagicDeck d = manager.getDeck(request.params(":name"));
-			
-			JsonObject obj = new JsonObject();
-			
-				obj.add("cmc", converter.toJsonTree(manager.analyseCMC(d.getAsList())));
-				obj.add("types", converter.toJsonTree(manager.analyseTypes(d.getAsList())));
-				obj.add("rarity", converter.toJsonTree(manager.analyseRarities(d.getAsList())));
-				obj.add("colors", converter.toJsonTree(manager.analyseColors(d.getAsList())));
-				obj.add("legalities", converter.toJsonTree(manager.analyseLegalities(d)));
-				obj.add("drawing", converter.toJsonTree(manager.analyseDrawing(d)));
-			return obj;	
-				
-		},transformer);
-		
-	
-		get("/admin/plugins/list",getString("MIME"), (request, response) ->{
-			
-			JsonObject obj = new JsonObject();
-				obj.add(PLUGINS.PROVIDER.name(), convert(MTGControler.getInstance().getCardsProviders()));
-				obj.add(PLUGINS.PICTURES.name(), convert(MTGControler.getInstance().getPicturesProviders()));
-				obj.add(PLUGINS.CACHE.name(), convert(MTGControler.getInstance().getCachesProviders()));
-				obj.add(PLUGINS.DAO.name(), convert(MTGControler.getInstance().getDaoProviders()));
-				obj.add(PLUGINS.DASHBOARD.name(), convert(MTGControler.getInstance().getDashboardsProviders()));
-				obj.add(PLUGINS.DECKS.name(), convert(MTGControler.getInstance().getDeckSnifferProviders()));
-				obj.add(PLUGINS.EXPORT.name(), convert(MTGControler.getInstance().getImportExportProviders()));
-				obj.add(PLUGINS.NEWS.name(), convert(MTGControler.getInstance().getNewsProviders()));
-				obj.add(PLUGINS.WALLPAPER.name(), convert(MTGControler.getInstance().getWallpaperProviders()));
-				obj.add(PLUGINS.SHOPPER.name(), convert(MTGControler.getInstance().getShoppersProviders()));
-				obj.add(PLUGINS.SERVER.name(), convert(MTGControler.getInstance().getServers()));
-			return obj;
-		},transformer);
-		
-		
-	}
+		}, transformer);
 
+		get("/deck/:name", getString("MIME"),
+				(request, response) -> new JsonExport().toJson(manager.getDeck(request.params(":name"))), transformer);
+
+		get("/deck/stats/:name", getString("MIME"), (request, response) -> {
+
+			MagicDeck d = manager.getDeck(request.params(":name"));
+
+			JsonObject obj = new JsonObject();
+
+			obj.add("cmc", converter.toJsonTree(manager.analyseCMC(d.getAsList())));
+			obj.add("types", converter.toJsonTree(manager.analyseTypes(d.getAsList())));
+			obj.add("rarity", converter.toJsonTree(manager.analyseRarities(d.getAsList())));
+			obj.add("colors", converter.toJsonTree(manager.analyseColors(d.getAsList())));
+			obj.add("legalities", converter.toJsonTree(manager.analyseLegalities(d)));
+			obj.add("drawing", converter.toJsonTree(manager.analyseDrawing(d)));
+			return obj;
+
+		}, transformer);
+
+		get("/admin/plugins/list", getString("MIME"), (request, response) -> {
+
+			JsonObject obj = new JsonObject();
+			obj.add(PLUGINS.PROVIDER.name(), convert(MTGControler.getInstance().getCardsProviders()));
+			obj.add(PLUGINS.PICTURES.name(), convert(MTGControler.getInstance().getPicturesProviders()));
+			obj.add(PLUGINS.CACHE.name(), convert(MTGControler.getInstance().getCachesProviders()));
+			obj.add(PLUGINS.DAO.name(), convert(MTGControler.getInstance().getDaoProviders()));
+			obj.add(PLUGINS.DASHBOARD.name(), convert(MTGControler.getInstance().getDashboardsProviders()));
+			obj.add(PLUGINS.DECKS.name(), convert(MTGControler.getInstance().getDeckSnifferProviders()));
+			obj.add(PLUGINS.EXPORT.name(), convert(MTGControler.getInstance().getImportExportProviders()));
+			obj.add(PLUGINS.NEWS.name(), convert(MTGControler.getInstance().getNewsProviders()));
+			obj.add(PLUGINS.WALLPAPER.name(), convert(MTGControler.getInstance().getWallpaperProviders()));
+			obj.add(PLUGINS.SHOPPER.name(), convert(MTGControler.getInstance().getShoppersProviders()));
+			obj.add(PLUGINS.SERVER.name(), convert(MTGControler.getInstance().getServers()));
+			return obj;
+		}, transformer);
+
+	}
 
 	@Override
 	public void stop() throws IOException {
 		Spark.stop();
 		logger.info("Server stop");
-		running=false;
+		running = false;
 	}
 
 	@Override
@@ -446,47 +439,43 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty("SERVER-PORT", "8080");
 		setProperty("AUTOSTART", "false");
-		setProperty("MIME","application/json");
-		setProperty("ENABLE_GZIP","false");
-		setProperty("Access-Control-Allow-Origin","*");
-		setProperty("Access-Control-Request-Method","GET,PUT,POST,DELETE,OPTIONS");
-		setProperty("Access-Control-Allow-Headers","Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
-		setProperty("PASSWORD-TOKEN","");
+		setProperty("MIME", "application/json");
+		setProperty("ENABLE_GZIP", "false");
+		setProperty("Access-Control-Allow-Origin", "*");
+		setProperty("Access-Control-Request-Method", "GET,PUT,POST,DELETE,OPTIONS");
+		setProperty("Access-Control-Allow-Headers",
+				"Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin");
+		setProperty("PASSWORD-TOKEN", "");
 	}
 
 	@Override
 	public String getVersion() {
 		return "2.0";
 	}
-	
-	//TODO filter allowed header
-	private String getWhiteHeader(Request request)
-	{
-		logger.debug("request :" + request.pathInfo()+ " from " + request.ip());
-		
-		
-		for(String k : request.headers())
-			logger.trace("---"+ k+ "="+request.headers(k));
+
+	// TODO filter allowed header
+	private String getWhiteHeader(Request request) {
+		logger.debug("request :" + request.pathInfo() + " from " + request.ip());
+
+		for (String k : request.headers())
+			logger.trace("---" + k + "=" + request.headers(k));
 
 		return getString("Access-Control-Allow-Origin");
 	}
-	
-	private <T extends MTGPlugin> JsonArray convert(List<T> l)
-	{
+
+	private <T extends MTGPlugin> JsonArray convert(List<T> l) {
 		JsonArray arr = new JsonArray();
-		for(MTGPlugin plug : l)
-		{
+		for (MTGPlugin plug : l) {
 			JsonObject obj = new JsonObject();
-				obj.addProperty("name", plug.getName());
-				obj.addProperty("type", plug.getType().toString());
-				obj.addProperty("enabled", plug.isEnable());
-				obj.addProperty("version", plug.getVersion());
-				obj.addProperty("status",plug.getStatut().name());
-				obj.add("config",converter.toJsonTree(plug.getProperties()));
-				arr.add(obj);
+			obj.addProperty("name", plug.getName());
+			obj.addProperty("type", plug.getType().toString());
+			obj.addProperty("enabled", plug.isEnable());
+			obj.addProperty("version", plug.getVersion());
+			obj.addProperty("status", plug.getStatut().name());
+			obj.add("config", converter.toJsonTree(plug.getProperties()));
+			arr.add(obj);
 		}
-		return arr;	
+		return arr;
 	}
-	
 
 }

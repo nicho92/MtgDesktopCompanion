@@ -30,9 +30,9 @@ public class LightDescribeCardPanel extends JPanel {
 	private JTextField txtLoyalty;
 	private MagicTextPane magicTextPane;
 	private ManaPanel manaPanel;
-	
+
 	private transient BindingGroup mBindingGroup;
-	
+
 	private MagicCard card;
 	private JPanel panel;
 	private JLabel label;
@@ -41,15 +41,15 @@ public class LightDescribeCardPanel extends JPanel {
 	private JTabbedPane tabbedPane;
 	private JScrollPane scrollPane1;
 	private JEditorPane rulesTextPane;
-	
+
 	public LightDescribeCardPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
-		gridBagLayout.columnWidths = new int[]{52, 152, 0};
-		gridBagLayout.rowHeights = new int[]{0, 27, 0, 27, 0, 0, 0, 0};
-		gridBagLayout.columnWeights = new double[]{1.0, 1.0, Double.MIN_VALUE};
-		gridBagLayout.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gridBagLayout.columnWidths = new int[] { 52, 152, 0 };
+		gridBagLayout.rowHeights = new int[] { 0, 27, 0, 27, 0, 0, 0, 0 };
+		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, Double.MIN_VALUE };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
-		
+
 		JLabel lblName = new JLabel("Name :");
 		GridBagConstraints gbclblName = new GridBagConstraints();
 		gbclblName.anchor = GridBagConstraints.EAST;
@@ -57,7 +57,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbclblName.gridx = 0;
 		gbclblName.gridy = 0;
 		add(lblName, gbclblName);
-		
+
 		txtName = new JTextField();
 		txtName.setEditable(false);
 		GridBagConstraints gbctxtName = new GridBagConstraints();
@@ -67,7 +67,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbctxtName.gridy = 0;
 		add(txtName, gbctxtName);
 		txtName.setColumns(10);
-		
+
 		JLabel lblCost = new JLabel("Cost :");
 		GridBagConstraints gbclblCost = new GridBagConstraints();
 		gbclblCost.anchor = GridBagConstraints.EAST;
@@ -75,7 +75,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbclblCost.gridx = 0;
 		gbclblCost.gridy = 1;
 		add(lblCost, gbclblCost);
-		
+
 		manaPanel = new ManaPanel();
 		GridBagConstraints gbcmanaPanel = new GridBagConstraints();
 		gbcmanaPanel.insets = new Insets(0, 0, 5, 0);
@@ -83,7 +83,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbcmanaPanel.gridx = 1;
 		gbcmanaPanel.gridy = 1;
 		add(manaPanel, gbcmanaPanel);
-		
+
 		JLabel lblType = new JLabel("Type :");
 		GridBagConstraints gbclblType = new GridBagConstraints();
 		gbclblType.anchor = GridBagConstraints.EAST;
@@ -91,7 +91,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbclblType.gridx = 0;
 		gbclblType.gridy = 2;
 		add(lblType, gbclblType);
-		
+
 		txtType = new JTextField();
 		txtType.setEditable(false);
 		GridBagConstraints gbctxtType = new GridBagConstraints();
@@ -101,7 +101,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbctxtType.gridy = 2;
 		add(txtType, gbctxtType);
 		txtType.setColumns(10);
-		
+
 		JLabel lblSt = new JLabel("P/T :");
 		GridBagConstraints gbclblSt = new GridBagConstraints();
 		gbclblSt.anchor = GridBagConstraints.EAST;
@@ -109,7 +109,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbclblSt.gridx = 0;
 		gbclblSt.gridy = 3;
 		add(lblSt, gbclblSt);
-		
+
 		panel = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
@@ -119,20 +119,20 @@ public class LightDescribeCardPanel extends JPanel {
 		gbcpanel.gridx = 1;
 		gbcpanel.gridy = 3;
 		add(panel, gbcpanel);
-		
+
 		txtPower = new JTextField();
 		panel.add(txtPower);
 		txtPower.setEditable(false);
 		txtPower.setColumns(3);
-		
+
 		label = new JLabel("/");
 		panel.add(label);
-		
+
 		txtT = new JTextField();
 		txtT.setEditable(false);
 		panel.add(txtT);
 		txtT.setColumns(3);
-		
+
 		JLabel lblLoyalty = new JLabel("Loyalty :");
 		GridBagConstraints gbclblLoyalty = new GridBagConstraints();
 		gbclblLoyalty.anchor = GridBagConstraints.EAST;
@@ -140,7 +140,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbclblLoyalty.gridx = 0;
 		gbclblLoyalty.gridy = 4;
 		add(lblLoyalty, gbclblLoyalty);
-		
+
 		txtLoyalty = new JTextField();
 		txtLoyalty.setEditable(false);
 		GridBagConstraints gbctxtLoyalty = new GridBagConstraints();
@@ -150,7 +150,7 @@ public class LightDescribeCardPanel extends JPanel {
 		gbctxtLoyalty.gridy = 4;
 		add(txtLoyalty, gbctxtLoyalty);
 		txtLoyalty.setColumns(10);
-		
+
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		GridBagConstraints gbctabbedPane = new GridBagConstraints();
 		gbctabbedPane.gridheight = 2;
@@ -160,87 +160,89 @@ public class LightDescribeCardPanel extends JPanel {
 		gbctabbedPane.gridx = 0;
 		gbctabbedPane.gridy = 5;
 		add(tabbedPane, gbctabbedPane);
-		
+
 		scrollPane = new JScrollPane();
 		tabbedPane.addTab("Text", null, scrollPane, null);
-		
+
 		magicTextPane = new MagicTextPane();
 		scrollPane.setViewportView(magicTextPane);
-		
+
 		magicTextPane.setMaximumSize(new Dimension(120, 200));
 		magicTextPane.setEditable(false);
-		
+
 		scrollPane1 = new JScrollPane();
 		tabbedPane.addTab("Rules", null, scrollPane1, null);
-		
+
 		rulesTextPane = new JEditorPane();
 		scrollPane1.setViewportView(rulesTextPane);
-		
+
 		if (card != null) {
 			mBindingGroup = initDataBindings();
 		}
 	}
-	
+
 	public void setCard(MagicCard newMagicCard) {
-			card = newMagicCard;
-			
-			if (mBindingGroup != null) {
-				mBindingGroup.unbind();
-				mBindingGroup = null;
-			}
-			if (card != null) {
-				mBindingGroup = initDataBindings();
-			}
+		card = newMagicCard;
+
+		if (mBindingGroup != null) {
+			mBindingGroup.unbind();
+			mBindingGroup = null;
+		}
+		if (card != null) {
+			mBindingGroup = initDataBindings();
+		}
 	}
 
-	
+	protected BindingGroup initDataBindings() {
 
-	protected BindingGroup initDataBindings() 
-	{
-		
 		BeanProperty<MagicCard, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ, card, nameProperty, txtName, textProperty);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ,
+				card, nameProperty, txtName, textProperty);
 		autoBinding.bind();
-		
+
 		BeanProperty<MagicCard, String> costProperty = BeanProperty.create("cost");
 		BeanProperty<ManaPanel, String> textProperty1 = BeanProperty.create("manaCost");
-		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding1 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, card, costProperty, manaPanel, textProperty1);
+		AutoBinding<MagicCard, String, ManaPanel, String> autoBinding1 = Bindings
+				.createAutoBinding(UpdateStrategy.READ_WRITE, card, costProperty, manaPanel, textProperty1);
 		autoBinding1.bind();
-		
+
 		BeanProperty<MagicCard, String> fullTypeProperty = BeanProperty.create("fullType");
 		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ, card, fullTypeProperty, txtType, textProperty2);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings
+				.createAutoBinding(UpdateStrategy.READ, card, fullTypeProperty, txtType, textProperty2);
 		autoBinding2.bind();
-		
+
 		BeanProperty<MagicCard, Integer> loyaltyProperty = BeanProperty.create("loyalty");
 		BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ, card, loyaltyProperty, txtLoyalty, textProperty4);
+		AutoBinding<MagicCard, Integer, JTextField, String> autoBinding4 = Bindings
+				.createAutoBinding(UpdateStrategy.READ, card, loyaltyProperty, txtLoyalty, textProperty4);
 		autoBinding4.bind();
-		
+
 		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");
 		BeanProperty<MagicTextPane, String> textProperty9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ, card, textProperty8, magicTextPane, textProperty9);
+		AutoBinding<MagicCard, String, MagicTextPane, String> autoBinding8 = Bindings
+				.createAutoBinding(UpdateStrategy.READ, card, textProperty8, magicTextPane, textProperty9);
 		autoBinding8.bind();
-		
-		
+
 		BeanProperty<MagicCard, String> pProperty = BeanProperty.create("power");
 		BeanProperty<JTextField, String> textPropertyP = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBindingP = Bindings.createAutoBinding(UpdateStrategy.READ, card, pProperty, txtPower, textPropertyP);
+		AutoBinding<MagicCard, String, JTextField, String> autoBindingP = Bindings
+				.createAutoBinding(UpdateStrategy.READ, card, pProperty, txtPower, textPropertyP);
 		autoBindingP.bind();
-		
+
 		BeanProperty<MagicCard, String> tProperty = BeanProperty.create("toughness");
 		BeanProperty<JTextField, String> textPropertyT = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBindingT = Bindings.createAutoBinding(UpdateStrategy.READ, card, tProperty, txtT, textPropertyT);
+		AutoBinding<MagicCard, String, JTextField, String> autoBindingT = Bindings
+				.createAutoBinding(UpdateStrategy.READ, card, tProperty, txtT, textPropertyT);
 		autoBindingT.bind();
-		
+
 		StringBuilder rules = new StringBuilder();
-		for(MagicRuling rul : card.getRulings())
+		for (MagicRuling rul : card.getRulings())
 			rules.append("-").append(rul.getText()).append("\n");
-		
-			
+
 		rulesTextPane.setText(rules.toString());
-		
+
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
@@ -251,12 +253,10 @@ public class LightDescribeCardPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding8);
 		bindingGroup.addBinding(autoBindingT);
 		bindingGroup.addBinding(autoBindingP);
-		
-		
+
 		magicTextPane.updateTextWithIcons();
-		
-	return bindingGroup;
-}
-	
-	
+
+		return bindingGroup;
+	}
+
 }

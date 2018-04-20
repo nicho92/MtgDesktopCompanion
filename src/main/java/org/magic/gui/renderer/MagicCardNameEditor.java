@@ -10,20 +10,20 @@ import javax.swing.JTable;
 
 public class MagicCardNameEditor extends DefaultCellEditor {
 
-    private DefaultComboBoxModel<String> model;
- 
-    public MagicCardNameEditor() {
-        super(new JComboBox<String>());
-        model = (DefaultComboBoxModel<String>)((JComboBox<String>)getComponent()).getModel();
-    }
+	private DefaultComboBoxModel<String> model;
 
-    @Override
-    public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
-             model.removeAllElements();
-             
-           for(Locale l : Locale.getAvailableLocales())
-        	   model.addElement(l.getDisplayLanguage(Locale.US));
-             
-        return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);
-     }
-    }
+	public MagicCardNameEditor() {
+		super(new JComboBox<String>());
+		model = (DefaultComboBoxModel<String>) ((JComboBox<String>) getComponent()).getModel();
+	}
+
+	@Override
+	public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row, int column) {
+		model.removeAllElements();
+
+		for (Locale l : Locale.getAvailableLocales())
+			model.addElement(l.getDisplayLanguage(Locale.US));
+
+		return super.getTableCellEditorComponent(table, model.getSelectedItem(), isSelected, row, column);
+	}
+}

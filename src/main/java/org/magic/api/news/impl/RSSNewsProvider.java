@@ -20,59 +20,56 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 
 public class RSSNewsProvider extends AbstractMagicNewsProvider {
-	
+
 	private SyndFeedInput input;
-	
+
 	public RSSNewsProvider() {
 		super();
 		input = new SyndFeedInput();
 	}
-	
+
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews rssBean) throws IOException {
 		InputStream is = null;
 		SyndFeed feed;
-		
+
 		List<MagicNewsContent> ret = new ArrayList<>();
 		try {
 			HttpURLConnection openConnection = (HttpURLConnection) new URL(rssBean.getUrl()).openConnection();
 			logger.debug("reading " + rssBean.getUrl());
-			openConnection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
+			openConnection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 			openConnection.setInstanceFollowRedirects(true);
 			is = openConnection.getInputStream();
 			InputSource source = new InputSource(is);
-			
-			feed=input.build(source);
-			String baseURI=feed.getLink();
-			
-			for(SyndEntry s: feed.getEntries())
-			{
+
+			feed = input.build(source);
+			String baseURI = feed.getLink();
+
+			for (SyndEntry s : feed.getEntries()) {
 				MagicNewsContent content = new MagicNewsContent();
 				content.setTitle(s.getTitle());
 				content.setAuthor(s.getAuthor());
 				content.setDate(s.getPublishedDate());
-					URL link;
-					if(!s.getLink().startsWith(baseURI))
-						link = new URL(baseURI+s.getLink());
-					else
-						link = new URL(s.getLink());
-					
-					content.setLink(link);
-				
+				URL link;
+				if (!s.getLink().startsWith(baseURI))
+					link = new URL(baseURI + s.getLink());
+				else
+					link = new URL(s.getLink());
+
+				content.setLink(link);
+
 				ret.add(content);
 			}
-			
+
 			return ret;
-			
+
 		} catch (IllegalArgumentException | FeedException e) {
 			throw new IOException(e);
-		} 
-		finally
-		{
-			if(is!=null)
+		} finally {
+			if (is != null)
 				is.close();
 		}
-	
+
 	}
 
 	@Override
@@ -93,7 +90,7 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 	@Override
 	public void initDefault() {
 		// nothing to do
-		
+
 	}
 
 	@Override
@@ -101,5 +98,4 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 		return "1.0";
 	}
 
-	
 }

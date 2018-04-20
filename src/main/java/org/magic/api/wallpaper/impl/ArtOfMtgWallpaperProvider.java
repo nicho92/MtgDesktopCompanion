@@ -16,19 +16,16 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
 
-public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
+public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 
 	@Override
 	public List<Wallpaper> search(String search) {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
-			
-			Document d = Jsoup.connect(getString("URL")+"/?s="+search)
-					  .userAgent(MTGConstants.USER_AGENT)
-					  .get();
-			
-			for(Element e : d.select("article.result"))
-			{
+
+			Document d = Jsoup.connect(getString("URL") + "/?s=" + search).userAgent(MTGConstants.USER_AGENT).get();
+
+			for (Element e : d.select("article.result")) {
 				Wallpaper w = new Wallpaper();
 				w.setName(e.select("h2 a").text());
 				w.setUrl(new URL(e.select("a img").attr("src")));
@@ -36,26 +33,22 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 				list.add(w);
 			}
 			return list;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			logger.error(e);
 			return list;
 		}
-		
-		
+
 	}
-	
+
 	@Override
 	public List<Wallpaper> search(MagicEdition ed) {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
-			
-			Document d = Jsoup.connect(getString("URL")+"/set/"+ed.getSet().toLowerCase().replaceAll(" ", "-"))
-					  .userAgent(getProperty("USER_AGENT", MTGConstants.USER_AGENT))
-					  .get();
-			
-			for(Element e : d.select("div.elastic-portfolio-item img"))
-			{
+
+			Document d = Jsoup.connect(getString("URL") + "/set/" + ed.getSet().toLowerCase().replaceAll(" ", "-"))
+					.userAgent(getProperty("USER_AGENT", MTGConstants.USER_AGENT)).get();
+
+			for (Element e : d.select("div.elastic-portfolio-item img")) {
 				Wallpaper w = new Wallpaper();
 				w.setName(e.attr("title"));
 				w.setUrl(new URL(e.attr("src")));
@@ -63,12 +56,11 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 				list.add(w);
 			}
 			return list;
-		}
-		catch (IOException e) {
+		} catch (IOException e) {
 			logger.error(e);
 			return list;
 		}
-		
+
 	}
 
 	@Override
@@ -90,14 +82,12 @@ public class ArtOfMtgWallpaperProvider extends  AbstractWallpaperProvider {
 	public void initDefault() {
 		setProperty("URL", "http://www.artofmtg.com");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		
+
 	}
 
 	@Override
 	public String getVersion() {
 		return "0.5";
 	}
-	
-	
 
 }

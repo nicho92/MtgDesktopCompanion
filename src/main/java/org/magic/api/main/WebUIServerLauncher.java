@@ -12,7 +12,7 @@ public class WebUIServerLauncher {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
 		MTGControler.getInstance().getEnabledProviders().init();
 		MTGControler.getInstance().getEnabledDAO().init();
-		
+
 		new JSONHttpServer().start();
 		new WebManagerServer().start();
 	}
