@@ -77,7 +77,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter
     	}
     }
     
-    public Command commandFactory(String name) throws ClassNotFoundException, InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
+    public Command commandFactory(String name) throws ClassNotFoundException, InstantiationException, IllegalAccessException, InvocationTargetException, NoSuchMethodException
    	{
    		String clazz = Character.toUpperCase(name.charAt(0)) + name.substring(1);
    		Class myCommand = classLoader.loadClass("org.magic.console.commands."+clazz);
@@ -85,7 +85,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter
    	}
     
     @Override
-    public void messageReceived( IoSession session, Object message ) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException
+    public void messageReceived( IoSession session, Object message ) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, InvocationTargetException, NoSuchMethodException
     {
     	logger.debug("message = " + message);
     	

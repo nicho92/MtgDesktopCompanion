@@ -24,7 +24,6 @@ import org.magic.services.MTGDeckManager;
 public class TypeRepartitionPanel extends JPanel{
 
 	private List<MagicCard> cards;
-	private ChartPanel pane;
 	private MTGDeckManager manager;
 
 	public TypeRepartitionPanel() {
@@ -56,7 +55,7 @@ public class TypeRepartitionPanel extends JPanel{
 	            true
 	        );
 	
-		pane = new ChartPanel(chart);
+		ChartPanel pane = new ChartPanel(chart);
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("B", Color.BLACK);
 		plot.setSectionPaint("W", Color.WHITE);

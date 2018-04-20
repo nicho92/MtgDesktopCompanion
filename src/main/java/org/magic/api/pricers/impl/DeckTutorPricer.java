@@ -202,21 +202,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void alertDetected(List<MagicPrice> p) {
-		if(getString("AUTOMATIC_ADD_CARD_ALERT").equals("true"))
-		{
-			
-			for(MagicPrice mtgprice : p)
-			{
-				String code = "";
-				String price= "";
-				String quantity="";
-				
-				HttpPost reqSearch= new HttpPost(getString("URL")+"/carts/updateInsertion");
-				
-			}
-			
-			
-		}
+		//nothing to do
 	}
 
 	@Override

@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -21,14 +20,11 @@ import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.MTGDeckManager;
-import org.magic.services.MTGLogger;
 
 public class RarityRepartitionPanel extends JPanel{
 
 	private List<MagicCard> cards;
-	private ChartPanel pane;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private MTGDeckManager manager;
+	private transient MTGDeckManager manager;
 	
 	public RarityRepartitionPanel() {
 		manager = new MTGDeckManager();
@@ -62,7 +58,7 @@ public class RarityRepartitionPanel extends JPanel{
 	            true
 	        );
 	
-		pane = new ChartPanel(chart);
+		 ChartPanel pane = new ChartPanel(chart);
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("Uncommon", Color.GRAY);
 		plot.setSectionPaint("Common", Color.WHITE);

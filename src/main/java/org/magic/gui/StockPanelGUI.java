@@ -447,38 +447,7 @@ public class StockPanelGUI extends JPanel {
 		
 	}
 	
-	private void importFromCollection(MagicCollection col) throws SQLException
-	{
-			for(MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col))
-			{
-				MagicCardStock stock = new MagicCardStock();
-				stock.setMagicCard(mc);
-				stock.setMagicCollection(col);
-				stock.setQte(1);
-				stock.setComment(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",col.getName()));
-				stock.setIdstock(-1);
-				stock.setUpdate(true);
-				model.add(stock);
-			}
-		
-		model.fireTableDataChanged();
-	}
 	
-	private void importFromWebSite(MagicDeck deck)
-	{
-		for(MagicCard mc : deck.getMap().keySet())
-		{
-			MagicCardStock stock = new MagicCardStock();
-				stock.setMagicCard(mc);
-				stock.setQte(deck.getMap().get(mc));
-				stock.setComment(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM",deck.getName()));
-				stock.setIdstock(-1);
-				stock.setUpdate(true);
-				model.add(stock);
-		}
-		
-	}
-
 	private void initGUI()
 	{
 		

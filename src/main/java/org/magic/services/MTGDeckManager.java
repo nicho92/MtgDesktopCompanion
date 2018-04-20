@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import java.util.Map.Entry;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;

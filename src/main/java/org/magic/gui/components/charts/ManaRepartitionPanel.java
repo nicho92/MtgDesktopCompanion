@@ -26,9 +26,8 @@ import org.magic.services.MTGLogger;
 public class ManaRepartitionPanel extends JPanel{
 
 	private List<MagicCard> cards;
-	private ChartPanel pane;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private MTGDeckManager manager;
+	private transient MTGDeckManager manager;
 	
 	public ManaRepartitionPanel() {
 		manager = new MTGDeckManager();
@@ -67,7 +66,7 @@ public class ManaRepartitionPanel extends JPanel{
 	            true
 	        );
 	
-		pane = new ChartPanel(chart);
+		ChartPanel pane = new ChartPanel(chart);
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("Black", Color.BLACK);
 		plot.setSectionPaint("White", Color.WHITE);
