@@ -60,14 +60,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private static final String RETURN_OK="{\"result\":\"OK\"}";
 	private Gson converter;
 	
-	
-	public static void main(String[] args) throws Exception {
-		
-		MTGControler.getInstance().getEnabledProviders().init();
-		MTGControler.getInstance().getEnabledDAO().init();
-		
-		new JSONHttpServer().start();
+	private String error(String msg)
+	{
+		return "{\"error\":\""+msg+"\"}";
 	}
+	
 	
 	public JSONHttpServer() {
 		super();
@@ -99,12 +96,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		exception(Exception.class, (Exception exception, Request req, Response res)->{
 			 logger.error("Error :" + req.headers("Referer")+":"+exception.getMessage(),exception);
 			 res.status(500);
-			 res.body("{\"error\":\""+exception+"\"}");
+			 res.body(error(exception.getMessage()));
 		});
 		
 		notFound((req, res) -> {
 		    res.status(404);
-		    return "{\"error\":\"not found\"}";
+		    return error("Not Found");
 		});
 		
 		   

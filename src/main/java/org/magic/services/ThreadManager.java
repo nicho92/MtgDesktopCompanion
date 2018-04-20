@@ -21,8 +21,7 @@ public class ThreadManager {
 
 	private String name;
 	private String info;
-	ThreadPoolExecutor executor;
-	ThreadFactory threadFactory ;
+	private ThreadPoolExecutor executor;
 	
 	public static ThreadManager getInstance()
 	{
@@ -43,10 +42,17 @@ public class ThreadManager {
 	        SwingUtilities.invokeLater(runnable);
 	}
 	
+	public void runInEdt(Runnable runnable,String name) {
+		this.name=name;
+	    if (SwingUtilities.isEventDispatchThread())
+	        runnable.run();
+	    else
+	        SwingUtilities.invokeLater(runnable);
+	}
+	
 
 	private ThreadManager()
 	{
-		threadFactory = Executors.defaultThreadFactory();
 		//LinkedBlockingQueue // ArrayBlockingQueue
 		 executor = new ThreadPoolExecutor(50,50,  80, TimeUnit.MILLISECONDS,  new LinkedBlockingQueue<Runnable>(10))
 		 {   

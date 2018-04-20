@@ -62,7 +62,7 @@
   	    		
   	    		var pluginsArray = data[keys[i]];
   	    		
-  	    		$("#contentPlugins").append("<div class='tab-pane fade "+classT+"' id='"+keys[i]+"'><table style='width: 100%' class='display' id='t"+keys[i]+"'><thead><tr><th>Name</th><th>Enable</th><th>Version</th></tr></thead></table></div>");
+  	    		$("#contentPlugins").append("<div class='tab-pane fade "+classT+"' id='"+keys[i]+"'><table style='width: 100%' class='display' id='t"+keys[i]+"'><thead><tr><th>Name</th><th>Enable</th><th>Version</th><th>Status</th></tr></thead></table></div>");
   	    		
   	    		generate(keys[i],pluginsArray);
   	    	}
@@ -85,9 +85,22 @@
 	        	{ 
 		        	  "data": "enabled",
 		        	  "defaultContent": "",
+		        	  "render": function(data, type, row, meta){
+		                	 if(type === 'display'){
+								 if(data===true)
+		                			 	data="<span class='fa fa-check'/>";
+		                			 else
+		                				data="<span class='fa fa-times'/>";
+		                	 }
+		                   return data;
+		                }
 		        },
 	        	{ 
 		        	  "data": "version",
+		        	  "defaultContent": "",
+	        	},
+	        	{ 
+		        	  "data": "status",
 		        	  "defaultContent": "",
 	        	}]
 
