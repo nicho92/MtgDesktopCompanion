@@ -69,10 +69,29 @@
 				        	},
 			            { "data" : "price"},
 			            { "data": "priceDayChange",
-			            	"defaultContent": ""
+			              "defaultContent": "",
+			              "render": function(data, type, row, meta){
+					           if(type === 'display'){
+					        	   
+					        	   if(data>0)
+					        	   	data = '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data;
+					        	   if(data<0)
+						        	   	data = '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data;
+						        	   
+					        	   		
+					            }
+					            return data;
+					        }
 			           	},
 			          	{ "data": "percentDayChange",
-			           	  "defaultContent": ""
+			           	  "defaultContent": "",
+			              "render": function(data, type, row, meta){
+					           if(type === 'display'){
+					        	   if(data>0)
+					        	   	data = '+'+data;
+					            }
+					            return data +"%";
+					        }
 			           	}
 			        ],
 			        "fnDrawCallback" :function(oSettings, json) {
@@ -103,10 +122,29 @@
 		        	},
 		            { "data" : "price"},
 		            { "data": "priceDayChange",
-		            	"defaultContent": ""
+		            	"defaultContent": "",
+			              "render": function(data, type, row, meta){
+					           if(type === 'display'){
+					        	   
+					        	   if(data>0)
+					        	   	data = '<i style="color:green" class="fa fa-arrow-circle-up"></i>+'+data;
+					        	   if(data<0)
+						        	   	data = '<i style="color:red" class="fa fa-arrow-circle-down"></i>'+data;
+						        	   
+					        	   		
+					            }
+					            return data;
+					        }
 		           	},
 		          	{ "data": "percentDayChange",
-		           	  "defaultContent": ""
+		           	  "defaultContent": "",
+		              "render": function(data, type, row, meta){
+				           if(type === 'display'){
+				        	   if(data>0)
+				        	   	data = '+'+data;
+				            }
+				            return data +"%";
+				        }
 		           	}
 		        ],
 		        "fnDrawCallback" :function(oSettings, json) {
