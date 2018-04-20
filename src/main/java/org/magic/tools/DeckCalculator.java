@@ -49,8 +49,7 @@ public class DeckCalculator {
 		int numberInDeck = deck.getMap().get(mc);
 		int numberCardsInDeck = deck.getNbCards();
 		try {
-			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards)
-					.upperCumulativeProbability(1);
+			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards).upperCumulativeProbability(1);
 		} catch (Exception e) {
 			return 0;
 		}

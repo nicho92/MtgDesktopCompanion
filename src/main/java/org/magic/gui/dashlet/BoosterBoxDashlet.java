@@ -130,8 +130,7 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 				Map<String, Double> priceRarity = new HashMap<>();
 
 				for (int i = 0; i < (int) boxSizeSpinner.getValue(); i++) {
-					Booster booster = MTGControler.getInstance().getEnabledProviders()
-							.generateBooster((MagicEdition) cboEditions.getSelectedItem());
+					Booster booster = MTGControler.getInstance().getEnabledProviders().generateBooster((MagicEdition) cboEditions.getSelectedItem());
 					Collections.reverse(booster.getCards());
 					booster.setBoosterNumber(String.valueOf(i + 1));
 

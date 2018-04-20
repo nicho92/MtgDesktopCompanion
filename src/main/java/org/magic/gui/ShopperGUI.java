@@ -116,7 +116,6 @@ public class ShopperGUI extends JPanel {
 
 		btnSearch.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
 			mod.init(txtSearch.getText());
-			mod.fireTableDataChanged();
 		}, "updateShopperInfo"));
 
 	}

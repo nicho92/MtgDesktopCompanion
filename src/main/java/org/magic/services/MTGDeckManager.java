@@ -20,7 +20,7 @@ import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
 
-	MTGCardsExport serialis;
+	private MTGCardsExport serialis;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public MTGDeckManager(MTGCardsExport sniff) {
