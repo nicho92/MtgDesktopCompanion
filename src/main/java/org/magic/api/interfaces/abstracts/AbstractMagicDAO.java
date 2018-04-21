@@ -1,7 +1,10 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
+import java.sql.SQLException;
 
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
 
@@ -24,4 +27,12 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			save();
 		}
 	}
+	
+	@Override
+	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException {
+		removeCard(mc, from);
+		saveCard(mc, to);
+		
+	}
+	
 }

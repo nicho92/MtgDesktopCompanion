@@ -700,8 +700,7 @@ public class CollectionPanelGUI extends JPanel {
 				nmagicCol.setName(collec);
 
 				try {
-					dao.removeCard(card, oldCol);
-					dao.saveCard(card, nmagicCol);
+					dao.moveCard(card, oldCol, nmagicCol);
 					nodeCd.removeFromParent();
 					nodeCol.add(new DefaultMutableTreeNode(card));
 					tree.refresh();

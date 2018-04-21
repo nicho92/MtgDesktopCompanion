@@ -95,6 +95,12 @@ public class MysqlDAO extends AbstractMagicDAO {
 			stat.executeUpdate("insert into collections values ('For sell')");
 			stat.executeUpdate("insert into collections values ('Favorites')");
 
+			stat.executeUpdate("ALTER TABLE `cards` ADD INDEX(`ID`);");
+			stat.executeUpdate("ALTER TABLE `cards` ADD INDEX(`edition`);");
+			stat.executeUpdate("ALTER TABLE `cards` ADD INDEX(`collection`);");
+			
+			
+			
 			return true;
 		} catch (SQLException e) {
 			logger.error(e);
@@ -129,6 +135,21 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.executeUpdate();
 		}
 	}
+	
+	@Override
+	public void moveCard(MagicCard mc, MagicCollection from, MagicCollection to) throws SQLException {
+		logger.debug("move " + mc + " from " + from + " to " + to);
+		
+		try (PreparedStatement pst = con.prepareStatement("update cards set collection= ? where id=? and collection=?")) 
+		{
+			pst.setString(1, to.getName());
+			pst.setString(2, IDGenerator.generate(mc));
+			pst.setString(3, from.getName());
+			pst.executeUpdate();
+		
+		}
+	}
+	
 
 	@Override
 	public List<MagicCard> listCards() throws SQLException {

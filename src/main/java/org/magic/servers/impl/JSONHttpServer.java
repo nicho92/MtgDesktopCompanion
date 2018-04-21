@@ -149,8 +149,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MagicCollection from = new MagicCollection(request.params(":from"));
 			MagicCollection to = new MagicCollection(request.params(":to"));
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":id"));
-			MTGControler.getInstance().getEnabledDAO().removeCard(mc, from);
-			MTGControler.getInstance().getEnabledDAO().saveCard(mc, to);
+			MTGControler.getInstance().getEnabledDAO().moveCard(mc, from,to);
 			return RETURN_OK;
 		}, transformer);
 
