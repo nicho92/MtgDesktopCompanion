@@ -38,8 +38,7 @@ public class JsonExport extends AbstractCardExport {
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 
 		MagicDeck deck = new MagicDeck();
-		deck.setDateCreation(new Date());
-
+	
 		if (!root.get("name").isJsonNull())
 			deck.setName(root.get("name").getAsString());
 

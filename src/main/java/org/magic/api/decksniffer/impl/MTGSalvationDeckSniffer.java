@@ -49,8 +49,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
-		deck.setDateCreation(new Date());
-
+	
 		Document d = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
 
 		deck.setDescription(info.getUrl().toString() + "\n" + d.select("section.guide div").text());

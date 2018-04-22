@@ -111,7 +111,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		String responseBody = EntityUtils.toString(httpclient.execute(get, httpContext).getEntity());
 
 		MagicDeck deck = new MagicDeck();
-		deck.setDateCreation(new Date());
 		JsonElement root = new JsonParser().parse(responseBody);
 		deck.setName(root.getAsJsonObject().get("name").getAsString());
 		deck.setDescription(root.getAsJsonObject().get("url").getAsString());

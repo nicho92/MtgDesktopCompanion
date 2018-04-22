@@ -42,7 +42,6 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
-		deck.setDateCreation(new Date());
 		Elements e = d.select("div.demi_page>table").select(MTGConstants.HTML_TAG_TR);
 		boolean sideboard = false;
 		for (Element cont : e) {

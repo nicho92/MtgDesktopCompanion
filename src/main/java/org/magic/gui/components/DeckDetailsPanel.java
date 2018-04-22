@@ -28,6 +28,7 @@ import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.ImageUtils;
 
 public class DeckDetailsPanel extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -61,7 +62,7 @@ public class DeckDetailsPanel extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 140, 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 28, 30, 35, 0, 132, 31, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 1.0, 1.0, 1.0E-4 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 1.0E-4 };
 		setLayout(gridBagLayout);
 
@@ -303,7 +304,7 @@ public class DeckDetailsPanel extends JPanel {
 					JLabel lab = new JLabel();
 					MagicCard mc = (MagicCard) magicDeck.getMap().keySet().toArray()[i];
 					lab.setIcon(
-							new ImageIcon(MTGControler.getInstance().getEnabledPicturesProvider().extractPicture(mc)));
+							new ImageIcon(ImageUtils.resize(MTGControler.getInstance().getEnabledPicturesProvider().extractPicture(mc), 150, 220)));
 					lab.setToolTipText(mc.getName());
 					panel.add(lab);
 				}

@@ -37,7 +37,6 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		deck.setDescription(d.select("div.block_content").get(4).text().trim());
-		deck.setDateCreation(new Date());
 		Elements list = d.select("div.liste_deck>ul");
 
 		for (Element ul : list) {

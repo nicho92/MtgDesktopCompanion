@@ -50,7 +50,6 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		MagicDeck d = new MagicDeck();
 		d.setName("export " + getName() + " cards");
 		d.setDescription(getName() + " export to " + f.getName());
-		d.setDateCreation(new Date());
 		int i = 0;
 		for (MagicCard mc : cards) {
 			d.add(mc);

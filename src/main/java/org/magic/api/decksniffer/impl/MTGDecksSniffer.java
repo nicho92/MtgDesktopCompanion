@@ -39,7 +39,6 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
 
 		MagicDeck deck = new MagicDeck();
-		deck.setDateCreation(new Date());
 		deck.setName(info.getName());
 		deck.setDescription("from " + info.getUrl());
 

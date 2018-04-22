@@ -71,8 +71,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		MagicDeck d = new MagicDeck();
 		d.setDescription(info.getUrl().toString());
 		d.setName(info.getName());
-		d.setDateCreation(new Date());
-
+	
 		Elements doc = root.select("table.Stable").get(1).select("td table").select(MTGConstants.HTML_TAG_TD);
 
 		boolean side = false;

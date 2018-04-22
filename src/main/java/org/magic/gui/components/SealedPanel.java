@@ -345,7 +345,7 @@ public class SealedPanel extends JPanel {
 
 	protected void open() {
 		deck = new MagicDeck();
-		deck.setDateCreation(new Date());
+		
 		deck.setDescription("Sealed from " + model.getSealedPack());
 		deck.setName("sealed from " + model.getSealedPack().toList().size() + " boosters");
 

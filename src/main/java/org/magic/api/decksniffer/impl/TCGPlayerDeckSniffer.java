@@ -39,7 +39,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
-		deck.setDateCreation(new Date());
 		Document d = Jsoup.parse(IncapsulaParser.readUrl(info.getUrl().toString()));
 
 		for (Element e : d.select("span.singleTag")) {

@@ -44,11 +44,7 @@ public class MagicDeck implements Serializable {
 	public Date getDateCreation() {
 		return dateCreation;
 	}
-
-	public void setDateCreation(Date dateCreation) {
-		this.dateCreation = dateCreation;
-	}
-
+	
 	public Date getDateUpdate() {
 		return dateUpdate;
 	}
@@ -106,6 +102,8 @@ public class MagicDeck implements Serializable {
 		mapSideBoard = new HashMap<>();
 		tags = new ArrayList<>();
 		averagePrice = 0;
+		dateCreation=new Date();
+		dateUpdate=new Date();
 	}
 
 	public void remove(MagicCard mc) {

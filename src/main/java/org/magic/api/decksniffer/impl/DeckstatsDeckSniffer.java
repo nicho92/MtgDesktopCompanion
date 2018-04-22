@@ -89,7 +89,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
-		deck.setDateCreation(new Date());
 		for (Element a : d.select("a.deck_tags_list_tag"))
 			deck.getTags().add(a.text());
 

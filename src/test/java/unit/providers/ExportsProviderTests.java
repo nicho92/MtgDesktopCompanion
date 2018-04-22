@@ -116,7 +116,6 @@ public class ExportsProviderTests {
 			System.out.println("VERS "+p.getVersion());
 			
 			MagicDeck d = new MagicDeck();
-				d.setDateCreation(new Date());
 				d.setDescription("Test of " + p);
 				d.setTags(Arrays.asList("test",p.getName(),"mtgdesktopcompanion"));
 				d.setName("TEST " + p);

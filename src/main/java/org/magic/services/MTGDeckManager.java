@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.tools.DeckCalculator;
@@ -30,7 +32,7 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public MTGDeckManager() {
-		serialis = new MTGDesktopCompanionExport();
+		serialis = new JsonExport();
 	}
 
 	public boolean isLegal(MagicDeck magicDeck, String format) {
@@ -70,6 +72,7 @@ public class MTGDeckManager extends Observable {
 		if (!MTGConstants.MTG_DECK_DIRECTORY.exists())
 			MTGConstants.MTG_DECK_DIRECTORY.mkdir();
 
+		deck.setDateUpdate(new Date());
 		serialis.export(deck, new File(MTGConstants.MTG_DECK_DIRECTORY, deck.getName() + serialis.getFileExtension()));
 
 	}

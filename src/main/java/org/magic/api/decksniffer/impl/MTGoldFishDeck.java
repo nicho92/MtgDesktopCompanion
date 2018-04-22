@@ -46,7 +46,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
-		deck.setDateCreation(new Date());
 		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(getString("USER_AGENT")).get();
 
 		Elements e = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);

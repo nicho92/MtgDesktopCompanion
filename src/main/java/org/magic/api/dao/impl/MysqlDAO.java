@@ -43,10 +43,6 @@ public class MysqlDAO extends AbstractMagicDAO {
 		DRIVER, SERVERNAME, SERVERPORT, DB_NAME, LOGIN, PASS, CARD_STORE, PARAMS, MYSQL_DUMP_PATH
 	}
 
-	private String cardFieldName = "mcard";
-
-	
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -74,20 +70,14 @@ public class MysqlDAO extends AbstractMagicDAO {
 		try (Statement stat = con.createStatement()) {
 			logger.debug("Create table Cards");
 			stat.executeUpdate("create table cards (ID varchar(250),mcard TEXT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
-			logger.debug("Create table Shop");
-			stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 			logger.debug("Create table collections");
 			stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 			logger.debug("Create table stocks");
 			stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard TEXT, collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
 			logger.debug("Create table Alerts");
 			stat.executeUpdate("create table alerts (id varchar(250), mcard TEXT, amount DECIMAL)");
-			logger.debug("Create table Decks");
-			stat.executeUpdate(
-					"CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` TEXT, categorie VARCHAR(100))");
 			logger.debug("Create table News");
-			stat.executeUpdate(
-					"CREATE TABLE news (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
+			stat.executeUpdate("CREATE TABLE news (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
 
 			logger.debug("populate collections");
 			stat.executeUpdate("insert into collections values ('Library')");
@@ -95,11 +85,10 @@ public class MysqlDAO extends AbstractMagicDAO {
 			stat.executeUpdate("insert into collections values ('For sell')");
 			stat.executeUpdate("insert into collections values ('Favorites')");
 
-			stat.executeUpdate("ALTER TABLE `cards` ADD INDEX(`ID`);");
-			stat.executeUpdate("ALTER TABLE `cards` ADD INDEX(`edition`);");
-			stat.executeUpdate("ALTER TABLE `cards` ADD INDEX(`collection`);");
-			
-			
+			stat.executeUpdate("ALTER TABLE cards ADD INDEX(ID);");
+			stat.executeUpdate("ALTER TABLE cards ADD INDEX(edition);");
+			stat.executeUpdate("ALTER TABLE cards ADD INDEX(collection);");
+			stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
 			
 			return true;
 		} catch (SQLException e) {
@@ -154,12 +143,12 @@ public class MysqlDAO extends AbstractMagicDAO {
 	public List<MagicCard> listCards() throws SQLException {
 		logger.debug("list all cards");
 
-		String sql = "select "+cardFieldName+" from cards";
+		String sql = "select mcard from cards";
 
 		try (PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
 			List<MagicCard> listCards = new ArrayList<>();
 			while (rs.next()) {
-				listCards.add(serialiser.fromJson(rs.getString(cardFieldName), MagicCard.class) );
+				listCards.add(serialiser.fromJson(rs.getString("mcard"), MagicCard.class) );
 			}
 			return listCards;
 		}
@@ -220,7 +209,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCard> ret = new ArrayList<>();
 				while (rs.next()) {
-					ret.add(serialiser.fromJson(rs.getString(cardFieldName),MagicCard.class));
+					ret.add(serialiser.fromJson(rs.getString("mcard"),MagicCard.class));
 				}
 				return ret;
 			}
@@ -408,7 +397,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 				state.setComment(rs.getString("comments"));
 				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard(serialiser.fromJson(rs.getString(cardFieldName),MagicCard.class));
+				state.setMagicCard(serialiser.fromJson(rs.getString("mcard"),MagicCard.class));
 				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 				try {
 					state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
@@ -526,7 +515,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					MagicCardAlert alert = new MagicCardAlert();
-					alert.setCard(serialiser.fromJson(rs.getString(cardFieldName),MagicCard.class));
+					alert.setCard(serialiser.fromJson(rs.getString("mcard"),MagicCard.class));
 					alert.setId(rs.getString("id"));
 					alert.setPrice(rs.getDouble("amount"));
 
