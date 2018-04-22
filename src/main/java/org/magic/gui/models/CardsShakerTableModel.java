@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicFormat.FORMAT;
+import org.magic.api.beans.MTGFormat;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -48,7 +48,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 
 	}
 
-	public void init(FORMAT f) {
+	public void init(MTGFormat f) {
 		try {
 			list = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f.toString());
 

@@ -123,7 +123,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 		try {
 			BufferedImage bufferedImage = ImageIO.read(connection.getInputStream());
-			return resizeCard(bufferedImage, newW, newH);
+			return bufferedImage;
 		} catch (Exception e) {
 			logger.error(e);
 			return getBackPicture();

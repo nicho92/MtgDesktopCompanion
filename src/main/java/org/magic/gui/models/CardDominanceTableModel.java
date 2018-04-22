@@ -8,7 +8,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardDominance;
-import org.magic.api.beans.MagicFormat.FORMAT;
+import org.magic.api.beans.MTGFormat;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -27,7 +27,7 @@ public class CardDominanceTableModel extends DefaultTableModel {
 		list = new ArrayList<>();
 	}
 
-	public void init(FORMAT f, String filter) {
+	public void init(MTGFormat f, String filter) {
 		try {
 			list = MTGControler.getInstance().getEnabledDashBoard().getBestCards(f, filter);
 		} catch (IOException e) {

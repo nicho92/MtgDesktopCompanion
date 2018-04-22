@@ -15,9 +15,9 @@ import java.util.TreeMap;
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat.FORMAT;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
@@ -212,7 +212,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardDominance> getBestCards(FORMAT f, String filter) throws IOException {
+	public List<CardDominance> getBestCards(MTGFormat f, String filter) throws IOException {
 		if (!connected)
 			connect();
 

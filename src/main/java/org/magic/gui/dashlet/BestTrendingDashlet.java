@@ -19,7 +19,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicFormat.FORMAT;
+import org.magic.api.beans.MTGFormat;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
@@ -57,16 +57,16 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 				if (boxM.isSelected())
 					shakes.addAll(
-							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.MODERN.toString()));
+							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.MODERN.toString()));
 				if (boxS.isSelected())
 					shakes.addAll(
-							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.STANDARD.toString()));
+							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.STANDARD.toString()));
 				if (boxL.isSelected())
 					shakes.addAll(
-							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.LEGACY.toString()));
+							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.LEGACY.toString()));
 				if (boxV.isSelected())
 					shakes.addAll(
-							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(FORMAT.VINTAGE.toString()));
+							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.VINTAGE.toString()));
 
 				Collections.sort(shakes, (CardShake o1, CardShake o2) -> {
 					if (o1.getPriceDayChange() > o2.getPriceDayChange())

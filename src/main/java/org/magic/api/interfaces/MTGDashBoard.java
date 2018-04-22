@@ -7,9 +7,9 @@ import java.util.Map;
 
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat.FORMAT;
 
 public interface MTGDashBoard extends MTGPlugin {
 
@@ -19,7 +19,7 @@ public interface MTGDashBoard extends MTGPlugin {
 
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
 
-	public List<CardDominance> getBestCards(FORMAT f, String filter) throws IOException;
+	public List<CardDominance> getBestCards(MTGFormat f, String filter) throws IOException;
 
 	public Date getUpdatedDate();
 

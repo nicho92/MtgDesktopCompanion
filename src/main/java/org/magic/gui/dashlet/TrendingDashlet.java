@@ -17,7 +17,7 @@ import javax.swing.SortOrder;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.beans.MagicFormat.FORMAT;
+import org.magic.api.beans.MTGFormat;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
@@ -31,7 +31,7 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 public class TrendingDashlet extends AbstractJDashlet {
 	private JXTable table;
 	private CardsShakerTableModel modStandard;
-	private JComboBox<FORMAT> cboFormats;
+	private JComboBox<MTGFormat> cboFormats;
 	private JLabel lblLoading;
 	private JLabel lblInfoUpdate;
 
@@ -46,7 +46,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 
-		cboFormats = new JComboBox<>(new DefaultComboBoxModel<FORMAT>(FORMAT.values()));
+		cboFormats = new JComboBox<>(new DefaultComboBoxModel<MTGFormat>(MTGFormat.values()));
 		cboFormats.addItemListener(ie -> init());
 		panneauHaut.add(cboFormats);
 
@@ -74,7 +74,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 					(int) Double.parseDouble(getProperty("h")));
 
 			try {
-				cboFormats.setSelectedItem(FORMAT.valueOf(getProperty("FORMAT")));
+				cboFormats.setSelectedItem(MTGFormat.valueOf(getProperty("FORMAT")));
 
 			} catch (Exception e) {
 				logger.error(e);
@@ -99,14 +99,14 @@ public class TrendingDashlet extends AbstractJDashlet {
 	public void init() {
 		ThreadManager.getInstance().execute(() -> {
 			lblLoading.setVisible(true);
-			modStandard.init((FORMAT) cboFormats.getSelectedItem());
+			modStandard.init((MTGFormat) cboFormats.getSelectedItem());
 
 			try {
 				table.setModel(modStandard);
 			} catch (Exception e) {
 				logger.error(e);
 			}
-			setProperty("FORMAT", ((FORMAT) cboFormats.getSelectedItem()).toString());
+			setProperty("FORMAT", ((MTGFormat) cboFormats.getSelectedItem()).toString());
 			lblLoading.setVisible(false);
 			table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 

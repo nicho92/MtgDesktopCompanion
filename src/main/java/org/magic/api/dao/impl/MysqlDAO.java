@@ -540,7 +540,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 				return list;
 			}
 		} catch (Exception e) {
-			logger.error(e);
+			logger.error("error get alert",e);
 			return new ArrayList<>();
 		}
 	}

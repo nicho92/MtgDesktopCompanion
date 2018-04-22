@@ -11,10 +11,10 @@ import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.beans.MagicFormat.FORMAT;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.tools.DeckCalculator;
@@ -89,7 +89,7 @@ public class MTGDeckManager extends Observable {
 	public Map<String, Boolean> analyseLegalities(MagicDeck d) {
 		TreeMap<String, Boolean> temp = new TreeMap<>();
 
-		for (FORMAT s : FORMAT.values()) {
+		for (MTGFormat s : MTGFormat.values()) {
 			temp.put(s.name(), isLegal(d, s.name()));
 		}
 		return temp;

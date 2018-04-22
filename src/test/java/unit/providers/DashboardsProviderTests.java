@@ -5,9 +5,9 @@ import java.io.IOException;
 import org.apache.log4j.Level;
 import org.junit.Before;
 import org.junit.Test;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.beans.MagicFormat.FORMAT;
 import org.magic.api.dashboard.impl.MTGPriceDashBoard;
 import org.magic.api.dashboard.impl.MTGStockDashBoard;
 import org.magic.api.dashboard.impl.MTGoldFishDashBoard;
@@ -92,10 +92,10 @@ public class DashboardsProviderTests {
 			
 			
 			try {
-				p.getBestCards(FORMAT.STANDARD, p.getDominanceFilters()[0]);
-				System.out.println("get Best for " + FORMAT.STANDARD + " OK");
+				p.getBestCards(MTGFormat.STANDARD, p.getDominanceFilters()[0]);
+				System.out.println("get Best for " + MTGFormat.STANDARD + " OK");
 			} catch (IOException e) {
-				System.out.println("get Best for " + FORMAT.STANDARD + " ERROR "+e);
+				System.out.println("get Best for " + MTGFormat.STANDARD + " ERROR "+e);
 			}
 		
 			
