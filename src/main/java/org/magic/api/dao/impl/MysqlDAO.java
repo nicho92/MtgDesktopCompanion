@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
+import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -22,22 +23,30 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
+import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
 public class MysqlDAO extends AbstractMagicDAO {
 
 	private Connection con;
 	private List<MagicCardAlert> list;
-
+	private Gson serialiser;
+	
+	
 	private enum KEYS {
 		DRIVER, SERVERNAME, SERVERPORT, DB_NAME, LOGIN, PASS, CARD_STORE, PARAMS, MYSQL_DUMP_PATH
 	}
 
 	private String cardFieldName = "mcard";
 
+	
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -46,7 +55,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 	public MysqlDAO() throws ClassNotFoundException, SQLException {
 		super();
 		list = new ArrayList<>();
-
+		serialiser = new Gson();
 	}
 
 	public void init() throws SQLException, ClassNotFoundException {
@@ -62,29 +71,20 @@ public class MysqlDAO extends AbstractMagicDAO {
 	}
 
 	public boolean createDB() {
-		String defaultStore = "BLOB";
-
 		try (Statement stat = con.createStatement()) {
 			logger.debug("Create table Cards");
-			stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard "
-					+ getProperty(KEYS.CARD_STORE.name(), defaultStore)
-					+ ", edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+			stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard TEXT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table Shop");
 			stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 			logger.debug("Create table collections");
 			stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 			logger.debug("Create table stocks");
-			stat.executeUpdate(
-					"create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard "
-							+ getProperty(KEYS.CARD_STORE.name(), defaultStore)
-							+ ", collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
+			stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard TEXT, collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
 			logger.debug("Create table Alerts");
-			stat.executeUpdate("create table alerts (id varchar(250), mcard "
-					+ getProperty(KEYS.CARD_STORE.name(), defaultStore) + ", amount DECIMAL)");
+			stat.executeUpdate("create table alerts (id varchar(250), mcard TEXT, amount DECIMAL)");
 			logger.debug("Create table Decks");
 			stat.executeUpdate(
-					"CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` "
-							+ getProperty(KEYS.CARD_STORE.name(), defaultStore) + ", categorie VARCHAR(100))");
+					"CREATE TABLE decks (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), `file` TEXT, categorie VARCHAR(100))");
 			logger.debug("Create table News");
 			stat.executeUpdate(
 					"CREATE TABLE news (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
@@ -116,7 +116,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, mc.getName());
-			pst.setObject(3, mc);
+			pst.setString(3, serialiser.toJsonTree(mc).toString());
 			pst.setString(4, mc.getEditions().get(0).getId());
 			pst.setString(5, MTGControler.getInstance().getEnabledProviders().toString());
 			pst.setString(6, collection.getName());
@@ -155,12 +155,12 @@ public class MysqlDAO extends AbstractMagicDAO {
 	public List<MagicCard> listCards() throws SQLException {
 		logger.debug("list all cards");
 
-		String sql = "select mcard from cards";
+		String sql = "select "+cardFieldName+" from cards";
 
 		try (PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
 			List<MagicCard> listCards = new ArrayList<>();
 			while (rs.next()) {
-				listCards.add((MagicCard) rs.getObject(cardFieldName));
+				listCards.add(serialiser.fromJson(rs.getString(cardFieldName), MagicCard.class) );
 			}
 			return listCards;
 		}
@@ -221,7 +221,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCard> ret = new ArrayList<>();
 				while (rs.next()) {
-					ret.add((MagicCard) rs.getObject(cardFieldName));
+					ret.add(serialiser.fromJson(rs.getString(cardFieldName),MagicCard.class));
 				}
 				return ret;
 			}
@@ -292,8 +292,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCollection> colls = new ArrayList<>();
 				while (rs.next()) {
-					MagicCollection mc = new MagicCollection();
-					mc.setName(rs.getString(1));
+					MagicCollection mc = new MagicCollection(rs.getString(1));
 					colls.add(mc);
 				}
 				return colls;
@@ -344,9 +343,6 @@ public class MysqlDAO extends AbstractMagicDAO {
 			String id = IDGenerator.generate(mc);
 			pst.setString(1, id);
 			pst.setString(2, mc.getEditions().get(0).getId());
-			logger.trace(
-					"SELECT collection FROM cards WHERE id=" + id + " and edition=" + mc.getEditions().get(0).getId());
-
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCollection> cols = new ArrayList<>();
 				while (rs.next()) {
@@ -413,7 +409,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 				state.setComment(rs.getString("comments"));
 				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard((MagicCard) rs.getObject(cardFieldName));
+				state.setMagicCard(serialiser.fromJson(rs.getString(cardFieldName),MagicCard.class));
 				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 				try {
 					state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
@@ -462,7 +458,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 				pst.setString(6, state.getComment());
 				pst.setString(7, IDGenerator.generate(state.getMagicCard()));
 				pst.setString(8, String.valueOf(state.getMagicCollection()));
-				pst.setObject(9, state.getMagicCard());
+				pst.setString(9, serialiser.toJsonTree(state.getMagicCard()).toString());
 				pst.setBoolean(10, state.isAltered());
 				pst.setDouble(11, state.getPrice());
 				pst.executeUpdate();
@@ -531,7 +527,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					MagicCardAlert alert = new MagicCardAlert();
-					alert.setCard((MagicCard) rs.getObject(cardFieldName));
+					alert.setCard(serialiser.fromJson(rs.getString(cardFieldName),MagicCard.class));
 					alert.setId(rs.getString("id"));
 					alert.setPrice(rs.getDouble("amount"));
 
@@ -563,7 +559,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 		try (PreparedStatement pst = con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
-			pst.setObject(2, alert.getCard());
+			pst.setString(2, serialiser.toJsonTree(alert.getCard()).toString());
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
 			logger.debug("save alert for " + alert.getCard());
@@ -666,7 +662,6 @@ public class MysqlDAO extends AbstractMagicDAO {
 		setProperty(KEYS.DB_NAME.name(), "mtgdesktopclient");
 		setProperty(KEYS.LOGIN.name(), "login");
 		setProperty(KEYS.PASS.name(), "");
-		setProperty(KEYS.CARD_STORE.name(), "BLOB");
 		setProperty(KEYS.PARAMS.name(), "?autoDeserialize=true&autoReconnect=true");
 		setProperty(KEYS.MYSQL_DUMP_PATH.name(), "C:\\Program Files (x86)\\Mysql\\bin");
 
