@@ -11,6 +11,7 @@ import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.services.MTGConstants;
 
 public class WebManagerServer extends AbstractMTGServer {
 
@@ -25,7 +26,7 @@ public class WebManagerServer extends AbstractMTGServer {
 		super();
 		server = new Server(getInt("SERVER-PORT"));
 
-		webRootLocation = this.getClass().getResource("/web-ui");
+		webRootLocation = MTGConstants.WEBUI_LOCATION;
 		if (webRootLocation == null) {
 			throw new IllegalStateException("Unable to determine webroot URL location");
 		}
