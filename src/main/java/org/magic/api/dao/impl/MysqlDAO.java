@@ -73,7 +73,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
 			logger.debug("Create table Cards");
-			stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard TEXT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+			stat.executeUpdate("create table cards (ID varchar(250),mcard TEXT, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table Shop");
 			stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 			logger.debug("Create table collections");
@@ -113,13 +113,12 @@ public class MysqlDAO extends AbstractMagicDAO {
 	public void saveCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		logger.debug("saving " + mc + " in " + collection);
 
-		try (PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)")) {
+		try (PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(mc));
-			pst.setString(2, mc.getName());
-			pst.setString(3, serialiser.toJsonTree(mc).toString());
-			pst.setString(4, mc.getEditions().get(0).getId());
-			pst.setString(5, MTGControler.getInstance().getEnabledProviders().toString());
-			pst.setString(6, collection.getName());
+			pst.setString(2, serialiser.toJsonTree(mc).toString());
+			pst.setString(3, mc.getEditions().get(0).getId());
+			pst.setString(4, MTGControler.getInstance().getEnabledProviders().toString());
+			pst.setString(5, collection.getName());
 			pst.executeUpdate();
 		}
 	}
