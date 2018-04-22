@@ -1,6 +1,7 @@
 package org.magic.services;
 
 import java.io.File;
+import java.io.FilenameFilter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -13,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
+import org.magic.api.beans.MagicFormat.FORMAT;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.tools.DeckCalculator;
@@ -45,7 +47,13 @@ public class MTGDeckManager extends Observable {
 
 	public List<MagicDeck> listDecks() {
 		List<MagicDeck> decks = new ArrayList<>();
-		for (File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles()) {
+		for (File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles(new FilenameFilter() {
+			
+			@Override
+			public boolean accept(File dir, String name) {
+				return name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase());
+			}
+		})) {
 			try {
 				MagicDeck deck = serialis.importDeck(f);
 				decks.add(deck);
@@ -81,8 +89,8 @@ public class MTGDeckManager extends Observable {
 	public Map<String, Boolean> analyseLegalities(MagicDeck d) {
 		TreeMap<String, Boolean> temp = new TreeMap<>();
 
-		for (String s : new String[] { "Standard", "Modern", "Vintage", "Legacy", "Commander" }) {
-			temp.put(s, isLegal(d, s));
+		for (FORMAT s : FORMAT.values()) {
+			temp.put(s.name(), isLegal(d, s.name()));
 		}
 		return temp;
 	}

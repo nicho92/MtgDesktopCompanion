@@ -4,9 +4,14 @@ import java.io.Serializable;
 
 public class MagicFormat implements Serializable {
 
-	String format;
-	String legality;
-
+	public enum FORMAT {
+		STANDARD, LEGACY, VINTAGE, MODERN
+	}
+	
+	
+	private String format;
+	private String legality;
+	
 	public String getFormat() {
 		return format;
 	}

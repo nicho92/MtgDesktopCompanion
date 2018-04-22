@@ -27,7 +27,6 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
@@ -43,7 +42,6 @@ import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;

@@ -9,7 +9,7 @@ import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
+import org.magic.api.beans.MagicFormat.FORMAT;
 
 public interface MTGDashBoard extends MTGPlugin {
 

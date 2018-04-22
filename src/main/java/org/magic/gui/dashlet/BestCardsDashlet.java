@@ -11,7 +11,7 @@ import javax.swing.JScrollPane;
 import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
+import org.magic.api.beans.MagicFormat.FORMAT;
 import org.magic.gui.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardDominanceTableModel;
 import org.magic.services.MTGConstants;

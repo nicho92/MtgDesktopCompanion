@@ -7,9 +7,7 @@ import org.magic.services.MTGConstants;
 
 public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTGDashBoard {
 
-	public enum FORMAT {
-		STANDARD, LEGACY, VINTAGE, MODERN
-	}
+	
 
 	@Override
 	public PLUGINS getType() {

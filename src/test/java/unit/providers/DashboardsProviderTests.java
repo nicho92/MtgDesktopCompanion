@@ -7,11 +7,11 @@ import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicFormat.FORMAT;
 import org.magic.api.dashboard.impl.MTGPriceDashBoard;
 import org.magic.api.dashboard.impl.MTGStockDashBoard;
 import org.magic.api.dashboard.impl.MTGoldFishDashBoard;
 import org.magic.api.interfaces.MTGDashBoard;
-import org.magic.api.interfaces.abstracts.AbstractDashBoard.FORMAT;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
