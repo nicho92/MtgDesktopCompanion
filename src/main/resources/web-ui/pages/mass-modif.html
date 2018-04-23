@@ -63,23 +63,28 @@
 		   	  		
 		   			
 		   			$(".alertBtn").click( function() {
-		   	  			addAlert($(this).attr('value'), function() {
-		   	  			
+		   	  			addAlert($(this).attr('value'), function() {	
+		   	  			$(this).removeClass("fa-bell-o");
+		   				$(this).addClass("fa-check-circle");
+			   	 		
 		   	  			});	
-		   	 		});
+		   	  		});
 		   	  		
 			   	  	$(".stockBtn").click( function() {
 		   	  			addStock($(this).attr('value'),function() {
-		   	  				
-		   	  				
+		   	 	  		$(this).removeClass("fa-file-text");
+		   				$(this).addClass("fa-check-circle");
+			   
 		   	  			});	
 		   	 		});
 			   	  	
 			   		$(".addCardBtn").click( function() {
 			   			addCard($(this).attr('value'),idDestination,function() {
-			   				
+			   				$(this).removeClass("fa-plus-circle");
+			   				$(this).addClass("fa-check-circle");
 			   				
 			   			});	
+			   		
 		   	 		});
 			   		
 			   	  	
@@ -135,9 +140,18 @@
 		        "processing": true,
 		        "paging": false,
 		        "bLengthChange": false,
-		        "order": [[ 1, "desc" ]],
+		        "order": [[ 1, "asc" ]],
 		        "columns": [
-			        	{ "data": "name",
+		        		{ "data": "editions",
+			        	  "width": "10%",
+			        	  "render": function(data, type, row, meta){
+			                   if(type === 'display'){
+			                       data = data[0].number;
+			                   }
+			                   return data;
+			                }
+		        		},	
+		        		{ "data": "name",
 			        	  "width": "30%",
 			        	  "render": function(data, type, row, meta){
 			                       data = '<span class="mtg-tooltip" data-set="'+idEd+'" data-name="'+data+'">'+data+'</span>';
@@ -145,7 +159,8 @@
 			                }
 			        	  
 			        	},
-			        	{ "data": "editions","width": "10%", 
+			        	
+			        	{ "data": "editions","width": "10%", "defaultContent": "", 
 			        		"render": function(data, type, row, meta){
 				                   if(type === 'display'){
 				                       data = '<i class="ss ss-grad ss-'+data[0].id.toLowerCase()+' ss-'+data[0].rarity.toLowerCase()+' ss-2x ss-uncommon"></i>';
@@ -238,6 +253,7 @@
 						<table id="tableCards" class="display" style="width:100%">
 						        <thead>
 						            <tr>
+						            	<th>number</th>
 						                <th>card</th>
 						                <th>rarity</th>
 						                <th>actions</th>

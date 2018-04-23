@@ -47,8 +47,7 @@ public class WebManagerServer extends AbstractMTGServer {
 		URL u = null;
 		try {
 			u = this.getClass().getResource("/web-ui/dist/js/rest-server.js");
-			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='" + getString("REST_BACKEND_URI") + "';",
-					"UTF-8");
+			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='" + getString("REST_BACKEND_URI") + "';","UTF-8");
 		} catch (Exception e) {
 			logger.error("couldn't write js rest file " + u, e);
 		}
