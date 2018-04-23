@@ -202,7 +202,7 @@ public class MTGControler {
 
 		String url = config.getString("/game/player-profil/avatar");
 		try {
-			p.setIcon(ImageIO.read(new URL(url)));
+			p.setIcon(ImageIO.read(new File(url)));
 		} catch (Exception e) {
 			logger.error("error loading player" + p, e);
 		}
