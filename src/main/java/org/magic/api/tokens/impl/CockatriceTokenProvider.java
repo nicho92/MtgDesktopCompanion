@@ -33,11 +33,11 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		return STATUT.BETA;
 	}
 
-	String url = "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml";
-	DocumentBuilderFactory builderFactory;
-	DocumentBuilder builder;
-	Document document;
-	XPath xPath;
+	private String url = "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml";
+	private DocumentBuilderFactory builderFactory;
+	private DocumentBuilder builder;
+	private Document document;
+	private XPath xPath;
 
 	public CockatriceTokenProvider() {
 		super();

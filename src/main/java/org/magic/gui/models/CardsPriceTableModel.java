@@ -64,7 +64,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	public CardsPriceTableModel() {
 		providers = new ArrayList<>();
 		prices = new ArrayList<>();
-		providers = MTGControler.getInstance().getPricers();
+		providers = MTGControler.getInstance().getPricerProviders();
 	}
 
 	public List<MTGPricesProvider> getProviders() {

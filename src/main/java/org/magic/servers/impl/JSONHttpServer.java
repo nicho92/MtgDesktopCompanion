@@ -388,6 +388,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			JsonObject obj = new JsonObject();
 			obj.add(PLUGINS.PROVIDER.name(), convert(MTGControler.getInstance().getCardsProviders()));
 			obj.add(PLUGINS.PICTURES.name(), convert(MTGControler.getInstance().getPicturesProviders()));
+			obj.add(PLUGINS.PRICER.name(), convert(MTGControler.getInstance().getPricerProviders()));
 			obj.add(PLUGINS.CACHE.name(), convert(MTGControler.getInstance().getCachesProviders()));
 			obj.add(PLUGINS.DAO.name(), convert(MTGControler.getInstance().getDaoProviders()));
 			obj.add(PLUGINS.DASHBOARD.name(), convert(MTGControler.getInstance().getDashboardsProviders()));

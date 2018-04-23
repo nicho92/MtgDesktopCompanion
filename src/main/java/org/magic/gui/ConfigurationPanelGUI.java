@@ -85,7 +85,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICERS"), null,
 				priceProviderScrollPane, null);
 		priceProviderTable = new JXTreeTable(
-				new ProviderTreeTableModel<MTGPricesProvider>(true, MTGControler.getInstance().getPricers()));
+				new ProviderTreeTableModel<MTGPricesProvider>(true, MTGControler.getInstance().getPricerProviders()));
 		priceProviderTable.addTreeSelectionListener(e -> {
 			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
 				((ProviderTreeTableModel) priceProviderTable.getTreeTableModel())

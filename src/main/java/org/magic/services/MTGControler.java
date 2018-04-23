@@ -444,14 +444,14 @@ public class MTGControler {
 		return picturesProviders;
 	}
 
-	public List<MTGPricesProvider> getPricers() {
+	public List<MTGPricesProvider> getPricerProviders() {
 		return pricers;
 	}
 
 	public List<MTGPricesProvider> getEnabledPricers() {
 		List<MTGPricesProvider> pricersE = new ArrayList<>();
 
-		for (MTGPricesProvider p : getPricers())
+		for (MTGPricesProvider p : getPricerProviders())
 			if (p.isEnable())
 				pricersE.add(p);
 
