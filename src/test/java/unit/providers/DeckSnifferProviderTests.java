@@ -11,6 +11,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.decksniffer.impl.DeckstatsDeckSniffer;
 import org.magic.api.decksniffer.impl.LotusNoirDecks;
+import org.magic.api.decksniffer.impl.MTGDecksSniffer;
 import org.magic.api.decksniffer.impl.MTGSalvationDeckSniffer;
 import org.magic.api.decksniffer.impl.MTGTop8DeckSniffer;
 import org.magic.api.decksniffer.impl.MTGoldFishDeck;
@@ -73,6 +74,7 @@ public class DeckSnifferProviderTests {
 		test(new MTGSalvationDeckSniffer());
 		test(new MTGTop8DeckSniffer());
 		test(new TCGPlayerDeckSniffer());
+		test(new MTGDecksSniffer());
 	//	test(new TappedOutDeckSniffer());
 		
 		
