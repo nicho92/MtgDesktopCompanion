@@ -17,18 +17,6 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
 	private String prefixForum = "gathering-forum-viewtopic-";
 
-	public static void main(String[] args) throws IOException {
-		MagicNews n = new MagicNews();
-		n.setUrl(
-				"http://www.magiccorporation.com/gathering-forum-viewtopic-91-122496-dominaria-set-du-printemps-.html");
-		// http://www.magiccorporation.com/gathering-forum-viewtopic-3-124166-questions-sur-manaless-dredge.html
-		List<MagicNewsContent> news = new MagicCorpForumProvider().listNews(n);
-
-		for (MagicNewsContent mnc : news)
-			System.out.println(mnc.getLink());
-
-	}
-
 	@Override
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 		List<MagicNewsContent> ret = new ArrayList<>();

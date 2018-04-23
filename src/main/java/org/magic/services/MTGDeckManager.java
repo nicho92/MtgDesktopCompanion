@@ -35,6 +35,10 @@ public class MTGDeckManager extends Observable {
 		serialis = new JsonExport();
 	}
 
+	public void setSerialiser(MTGCardsExport serialis) {
+		this.serialis = serialis;
+	}
+	
 	public boolean isLegal(MagicDeck magicDeck, String format) {
 		MagicFormat mf = new MagicFormat();
 		mf.setFormat(format);

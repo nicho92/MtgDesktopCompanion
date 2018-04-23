@@ -18,7 +18,6 @@ public class MagicCard implements Serializable {
 	private String name;
 	private String id;
 	private String url;
-	private String store_url;
 	private List<String> supertypes;
 	private List<String> types;
 	private List<String> subtypes;
@@ -53,6 +52,11 @@ public class MagicCard implements Serializable {
 
 	private boolean reserved;
 
+	public MagicEdition getCurrentSet() {
+		return getEditions().get(0);
+	}
+	
+	
 	public String getImageName() {
 		return imageName;
 	}
@@ -235,14 +239,6 @@ public class MagicCard implements Serializable {
 
 	public void setToughness(String toughness) {
 		this.toughness = toughness;
-	}
-
-	public String getStore_url() {
-		return store_url;
-	}
-
-	public void setStore_url(String store_url) {
-		this.store_url = store_url;
 	}
 
 	public List<String> getColors() {

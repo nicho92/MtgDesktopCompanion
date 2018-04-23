@@ -70,7 +70,7 @@ public class SealedPanel extends JPanel {
 	private GraveyardPanel panelDeck;
 	private MagicCardDetailPanel panelDetail;
 	private JProgressBar progressBar;
-	private MTGDeckManager deckManager;
+	private transient MTGDeckManager deckManager;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public SealedPanel() {
