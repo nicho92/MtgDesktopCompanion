@@ -213,7 +213,7 @@ public class MagicGUI extends JFrame {
 
 		if (MTGControler.getInstance().get("modules/search").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"),
-					MTGConstants.ICON_SEARCH_2, CardSearchPanel.getInstance(), null);
+					MTGConstants.ICON_SEARCH, CardSearchPanel.getInstance(), null);
 
 		if (MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"),
@@ -221,7 +221,7 @@ public class MagicGUI extends JFrame {
 
 		if (MTGControler.getInstance().get("modules/game").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("GAME_MODULE"),
-					MTGConstants.ICON_COLLECTION_SMALL, new GameGUI(), null);
+					MTGConstants.ICON_GAME, new GameGUI(), null);
 
 		if (MTGControler.getInstance().get("modules/collection").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_MODULE"),
@@ -249,7 +249,7 @@ public class MagicGUI extends JFrame {
 
 		if (MTGControler.getInstance().get("modules/rss").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"),
-					MTGConstants.ICON_RSS, new RssGUI(), null);
+					MTGConstants.ICON_NEWS, new RssGUI(), null);
 
 		if (MTGControler.getInstance().get("modules/history").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("HISTORY_MODULE"),

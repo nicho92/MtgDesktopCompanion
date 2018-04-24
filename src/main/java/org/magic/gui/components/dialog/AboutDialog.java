@@ -37,7 +37,7 @@ public class AboutDialog extends JDialog {
 		getContentPane().add(txtrWizardsOfThe, BorderLayout.SOUTH);
 
 		JLabel lblNewLabel = new JLabel();
-		lblNewLabel.setIcon(new ImageIcon(AboutDialog.class.getResource("/icons/MTGlogo.jpg")));
+		lblNewLabel.setIcon(MTGConstants.ICON_ABOUT);
 		getContentPane().add(lblNewLabel, BorderLayout.CENTER);
 
 		JLabel lblDeveloppedByNichow = new JLabel(MTGControler.getInstance().getLangService().getCapitalize(

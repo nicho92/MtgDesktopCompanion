@@ -84,7 +84,7 @@ public class RssGUI extends JPanel {
 				}
 
 				if (((DefaultMutableTreeNode) value).getUserObject() instanceof String)
-					setIcon(MTGConstants.ICON_DECK);
+					setIcon(MTGConstants.ICON_NEWS);
 
 				return c;
 			}

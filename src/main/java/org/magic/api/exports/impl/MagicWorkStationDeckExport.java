@@ -98,7 +98,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(CSVExport.class.getResource("/icons/mtgworkstation.png"));
+		return new ImageIcon(CSVExport.class.getResource("/icons/plugins/mtgworkstation.png"));
 	}
 
 	@Override

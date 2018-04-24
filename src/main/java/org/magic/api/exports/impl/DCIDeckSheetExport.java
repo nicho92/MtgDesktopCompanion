@@ -160,7 +160,7 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(PDFExport.class.getResource("/icons/sheet.png"));
+		return new ImageIcon(PDFExport.class.getResource("/icons/plugins/sheet.png"));
 	}
 
 	@Override

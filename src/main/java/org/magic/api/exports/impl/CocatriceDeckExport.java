@@ -114,7 +114,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(CocatriceDeckExport.class.getResource("/icons/cockatrice_logo.png"));
+		return new ImageIcon(CocatriceDeckExport.class.getResource("/icons/plugins/cockatrice_logo.png"));
 	}
 
 	@Override
