@@ -258,6 +258,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		put("/stock/add/:idCards", (request, response) -> {
 			MagicCard mc = MTGControler.getInstance().getEnabledProviders().getCardById(request.params(":idCards"));
 			MagicCardStock stock = new MagicCardStock();
+			stock.setQte(1);
 			stock.setMagicCard(mc);
 
 			MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(stock);
