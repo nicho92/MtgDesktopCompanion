@@ -31,7 +31,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 
 	public MagicEventsDashlet() {
 		super();
-		setFrameIcon(MTGConstants.ICON_DASHBOARD);
+		setFrameIcon(MTGConstants.ICON_GAME);
 
 	}
 

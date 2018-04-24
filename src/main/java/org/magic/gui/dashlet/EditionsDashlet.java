@@ -35,7 +35,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 	public EditionsDashlet() {
 		super();
-		setFrameIcon(MTGConstants.ICON_COLLECTION);
+		setFrameIcon(MTGConstants.ICON_EURO);
 	}
 
 	public void initGUI() {

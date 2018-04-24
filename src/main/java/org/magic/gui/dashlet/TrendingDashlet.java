@@ -37,7 +37,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 	public TrendingDashlet() {
 		super();
-		setFrameIcon(MTGConstants.ICON_DASHBOARD);
+		setFrameIcon(MTGConstants.ICON_EURO);
 	}
 
 	public void initGUI() {
