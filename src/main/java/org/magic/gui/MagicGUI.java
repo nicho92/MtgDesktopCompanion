@@ -46,8 +46,7 @@ public class MagicGUI extends JFrame {
 
 	private JTabbedPane tabbedPane;
 	private transient VersionChecker serviceUpdate;
-	private static transient TrayIcon trayNotifier = new TrayIcon(
-			MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+	private static transient TrayIcon trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	private CardSearchPanel cardSearchPanel;
 
 	public static TrayIcon getTrayNotifier() {
@@ -213,7 +212,7 @@ public class MagicGUI extends JFrame {
 
 		if (MTGControler.getInstance().get("modules/search").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"),
-					MTGConstants.ICON_SEARCH, CardSearchPanel.getInstance(), null);
+					MTGConstants.ICON_SEARCH_24, CardSearchPanel.getInstance(), null);
 
 		if (MTGControler.getInstance().get("modules/deckbuilder").equals("true"))
 			tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK_MODULE"),

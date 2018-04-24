@@ -272,7 +272,7 @@ public class GamingRoomPanel extends JPanel {
 		panel_1.add(btnShareDeck);
 
 		JButton btnColorChoose = new JButton("");
-		btnColorChoose.setIcon(MTGConstants.ICON_COLORS);
+		btnColorChoose.setIcon(MTGConstants.ICON_GAME_COLOR);
 		panel_1.add(btnColorChoose);
 
 		final JComboBox cboStates = new JComboBox(new DefaultComboBoxModel<STATE>(STATE.values()));

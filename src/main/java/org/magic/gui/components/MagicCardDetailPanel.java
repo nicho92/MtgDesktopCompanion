@@ -154,7 +154,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 
 		btnAlert = new JButton("");
 		btnAlert.setEnabled(false);
-		Image b = MTGConstants.ICON_ALERT.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH);
+		Image b = MTGConstants.ICON_ALERT.getImage();
 		btnAlert.setIcon(new ImageIcon(b));
 		btnAlert.addActionListener(ae -> {
 
