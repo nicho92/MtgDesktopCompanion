@@ -240,11 +240,13 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		int indexSet = 0;
 		for (Map<String, Object> map : cardsElement) {
 			MagicCard mc = new MagicCard();
-
-			if (cacheCards.get(String.valueOf(map.get("id"))) != null) {
-				logger.trace("card " + map.get("id") + "found in cache");
-				mc = cacheCards.get(String.valueOf(map.get("id")));
-			} else {
+//TODO have to bugfix
+//			if (cacheCards.get(String.valueOf(map.get("id"))) != null) {
+//				logger.trace("card " + map.get("id") + "found in cache");
+//				mc = cacheCards.get(String.valueOf(map.get("id")));
+//			} 
+//			else 
+			{
 
 				if (map.get("name") != null)
 					mc.setName(map.get("name").toString());
