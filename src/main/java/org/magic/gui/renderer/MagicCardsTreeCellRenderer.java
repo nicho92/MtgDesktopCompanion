@@ -21,22 +21,12 @@ import org.magic.tools.ColorParser;
 public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 
 	private ManaPanel pane;
-	private ImageIcon gold;
-	private ImageIcon uncolor;
-	private ImageIcon back;
 	private Map<String, ImageIcon> map;
 
 	public MagicCardsTreeCellRenderer() {
 		try {
 			pane = new ManaPanel();
 			map = new HashMap<>();
-			gold = new ImageIcon(
-					ImageIO.read(MTGConstants.URL_MANA_GOLD).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
-			uncolor = new ImageIcon(
-					ImageIO.read(MTGConstants.URL_MANA_INCOLOR).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
-			back = new ImageIcon(
-					ImageIO.read(MTGConstants.URL_COLLECTION).getScaledInstance(15, 15, Image.SCALE_DEFAULT));
-
 			map.put("{W}", new ImageIcon(pane.getManaSymbol("{W}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 			map.put("{U}", new ImageIcon(pane.getManaSymbol("{U}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
 			map.put("{B}", new ImageIcon(pane.getManaSymbol("{B}").getScaledInstance(15, 15, Image.SCALE_DEFAULT)));
@@ -61,7 +51,7 @@ public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 				MagicCard mc = (MagicCard) ((DefaultMutableTreeNode) value).getUserObject();
 
 				setOpaque(false);
-				setIcon(uncolor);
+				setIcon(MTGConstants.ICON_MANA_INCOLOR);
 
 				if (mc.getFullType().toLowerCase().contains("artifact")) {
 					setIcon(map.get("{X}"));
@@ -70,13 +60,13 @@ public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 					setIcon(map.get(ColorParser.parse(mc.getColors().get(0))));
 				}
 				if (mc.getColors().size() > 1) {
-					setIcon(gold);
+					setIcon(MTGConstants.ICON_MANA_GOLD);
 				}
 				if (mc.getFullType().toLowerCase().contains("land")) {
-					setIcon(uncolor);
+					setIcon(MTGConstants.ICON_MANA_INCOLOR);
 				}
 			} else {
-				setIcon(back);
+				setIcon(MTGConstants.ICON_BACK);
 			}
 			return c;
 		} catch (Exception e) {

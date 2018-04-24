@@ -71,6 +71,36 @@ public class MTGDeckManager extends Observable {
 		}
 		return decks;
 	}
+	
+	public List<MagicDeck> listDecksWithTag(String tag)
+	{
+		List<MagicDeck> decks = new ArrayList<>();
+		for (MagicDeck deck : listDecks()) 
+		{
+				if(deck.getTags().contains(tag))
+				{
+					decks.add(deck);
+					setChanged();
+					notifyObservers(deck);
+				}
+		}
+		return decks;
+	}
+	
+	public List<MagicDeck> listDecksWith(MagicCard mc)
+	{
+		List<MagicDeck> decks = new ArrayList<>();
+		for (MagicDeck deck : listDecks()) 
+		{
+				if(deck.hasCard(mc))
+				{
+					decks.add(deck);
+					setChanged();
+					notifyObservers(deck);
+				}
+		}
+		return decks;
+	}
 
 	public void saveDeck(MagicDeck deck) throws IOException {
 		if (!MTGConstants.MTG_DECK_DIRECTORY.exists())

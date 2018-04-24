@@ -1,5 +1,6 @@
 package org.magic.api.decksniffer.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
@@ -18,17 +19,22 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.InstallCert;
 
 public class MTGDecksSniffer extends AbstractDeckSniffer {
 
-	public static void main(String[] args) throws IOException {
-		MTGDecksSniffer sniff = new MTGDecksSniffer();
-		List<RetrievableDeck> list = sniff.getDeckList();
+	
+	public MTGDecksSniffer() {
+		super();
 
-		sniff.getDeck(list.get(0));
-
+		try {
+			InstallCert.install("mtgdecks.net");
+			System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+		} catch (Exception e1) {
+			logger.error(e1);
+		}
 	}
-
+	
 	@Override
 	public String[] listFilter() {
 		return new String[] { "Standard", "Modern", "Legacy", "Vintage", "Commander", "MTGO", "Pauper", "Frontier",

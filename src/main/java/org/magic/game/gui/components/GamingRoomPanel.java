@@ -268,7 +268,7 @@ public class GamingRoomPanel extends JPanel {
 			client.sendDeck(d, p);
 		});
 		btnShareDeck.setToolTipText("Share a deck");
-		btnShareDeck.setIcon(MTGConstants.ICON_COLLECTION_SMALL);
+		btnShareDeck.setIcon(MTGConstants.ICON_DECK);
 		panel_1.add(btnShareDeck);
 
 		JButton btnColorChoose = new JButton("");
