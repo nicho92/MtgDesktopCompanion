@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
+import org.magic.tools.IDGenerator;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -38,7 +39,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	private String jsonUrl = "https://api.magicthegathering.io/v1";
 	private File fcacheCount = new File(confdir, "mtgio.cache");
 	private Properties propsCache;
-	private Map<String, MagicEdition> cache;
 	private String encoding = "UTF-8";
 
 	public MagicTheGatheringIOProvider() {
@@ -49,9 +49,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public void init() {
-
-		cache = new HashMap<>();
-
 		propsCache = new Properties();
 		try {
 			propsCache.load(new FileReader(fcacheCount));
@@ -110,6 +107,13 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	private MagicCard generateCard(JsonObject obj) throws IOException {
 		MagicCard mc = new MagicCard();
 
+		if (obj.get("id") != null)
+			mc.setId(obj.get("id").getAsString());
+
+		
+		if(cacheCards.get(mc.getId())!=null)
+			return cacheCards.get(mc.getId());
+		
 		if (obj.get("name") != null)
 			mc.setName(obj.get("name").getAsString());
 
@@ -122,9 +126,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		if (obj.get("originalText") != null)
 			mc.setOriginalText(obj.get("originalText").getAsString());
 
-		if (obj.get("id") != null)
-			mc.setId(obj.get("id").getAsString());
-
+	
 		if (obj.get("artist") != null)
 			mc.setArtist(obj.get("artist").getAsString());
 
@@ -267,6 +269,9 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		setChanged();
 		notifyObservers(mc);
 
+		cacheCards.put(mc.getId(), mc);
+		
+		
 		return mc;
 	}
 
@@ -348,7 +353,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
-		if (cache.size() == 0) {
+		if (cacheEditions.size() == 0) {
 			String url = jsonUrl + "/sets";
 			String rootKey = "sets";
 
@@ -361,18 +366,18 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			for (int i = 0; i < root.get(rootKey).getAsJsonArray().size(); i++) {
 				JsonObject e = root.get(rootKey).getAsJsonArray().get(i).getAsJsonObject();
 				MagicEdition ed = generateEdition(e.getAsJsonObject());
-				cache.put(ed.getId(), ed);
+				cacheEditions.put(ed.getId(), ed);
 			}
 		}
-		return new ArrayList<>(cache.values());
+		return new ArrayList<>(cacheEditions.values());
 	}
 
 	@Override
 	public MagicEdition getSetById(String id) throws IOException {
 		logger.debug("get Set " + id);
 
-		if (cache.get(id) != null)
-			return cache.get(id);
+		if (cacheEditions.get(id) != null)
+			return cacheEditions.get(id);
 
 		JsonReader reader = new JsonReader(
 				new InputStreamReader(getConnection(jsonUrl + "/sets/" + id).getInputStream(), encoding));
