@@ -40,8 +40,7 @@ public class VersionChecker {
 		}
 	}
 
-	private String parseXML(InputStream input)
-			throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
+	private String parseXML(InputStream input)	throws IOException, ParserConfigurationException, XPathExpressionException, SAXException {
 		DocumentBuilderFactory docBuilderFactory = DocumentBuilderFactory.newInstance();
 		DocumentBuilder docBuilder = docBuilderFactory.newDocumentBuilder();
 		Document doc = docBuilder.parse(input);
