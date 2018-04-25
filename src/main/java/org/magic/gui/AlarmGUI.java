@@ -107,8 +107,8 @@ public class AlarmGUI extends JPanel {
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		variationPanel = new HistoryPricesPanel();
 
-		tabbedPane.addTab("Card", null, magicCardDetailPanel, null);
-		tabbedPane.addTab("Variations", null, variationPanel, null);
+		tabbedPane.addTab("Card", MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
+		tabbedPane.addTab("Variations", MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
 
 		magicCardDetailPanel.enableThumbnail(true);
 

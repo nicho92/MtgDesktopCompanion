@@ -7,6 +7,7 @@ import javax.swing.JTabbedPane;
 
 import org.magic.gui.components.ConstructPanel;
 import org.magic.gui.components.SealedPanel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class DeckBuilderGUI extends JPanel {
@@ -16,8 +17,8 @@ public class DeckBuilderGUI extends JPanel {
 		JTabbedPane tab = new JTabbedPane();
 		add(tab, BorderLayout.CENTER);
 
-		tab.add(MTGControler.getInstance().getLangService().getCapitalize("CONSTRUCT"), new ConstructPanel());
-		tab.add(MTGControler.getInstance().getLangService().getCapitalize("SEALED"), new SealedPanel());
+		tab.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONSTRUCT"),MTGConstants.ICON_TAB_CONSTRUCT, new ConstructPanel());
+		tab.addTab(MTGControler.getInstance().getLangService().getCapitalize("SEALED"), MTGConstants.ICON_TAB_SEALED, new SealedPanel());
 
 	}
 

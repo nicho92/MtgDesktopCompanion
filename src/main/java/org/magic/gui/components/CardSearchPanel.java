@@ -397,31 +397,28 @@ public class CardSearchPanel extends JPanel {
 		panelFilters.add(btnClear);
 		panelFilters.add(panelmana);
 
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), null,
+		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,
 				detailCardPanel, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("EDITION"), null,
+		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("EDITION"), MTGConstants.ICON_BACK,
 				editionDetailPanel, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), null,
+		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES,
 				scrollPanePrices, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("RULES"), null,
+		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("RULES"), MTGConstants.ICON_TAB_RULES,
 				scrollPaneRules, null);
-		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), null,
+		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,
 				historyChartPanel, null);
 
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			tabbedCardsInfo.addTab("Json", null, panelJson, null);
+			tabbedCardsInfo.addTab("Json", MTGConstants.ICON_TAB_JSON, panelJson, null);
 
 		panneauStat.add(cmcChart);
 		panneauStat.add(manaRepartitionPanel);
 		panneauStat.add(typeRepartitionPanel);
 		panneauStat.add(rarityRepartitionPanel);
 
-		tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("RESULTS"), null,
-				panelResultsCards, null);
-		tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL"), null,
-				scrollThumbnails, null);
-		tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), null, panneauStat,
-				null);
+		tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("RESULTS"),  MTGConstants.ICON_TAB_RESULTS,panelResultsCards, null);
+		tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("THUMBNAIL"), MTGConstants.ICON_TAB_THUMBNAIL,scrollThumbnails, null);
+		tabbedCardsView.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), MTGConstants.ICON_TAB_ANALYSE, panneauStat,null);
 
 		add(panneauHaut, BorderLayout.NORTH);
 		add(panneauCard, BorderLayout.EAST);

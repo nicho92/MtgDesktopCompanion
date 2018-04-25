@@ -337,10 +337,10 @@ public class GamePanelGUI extends JPanel implements Observer {
 		panneauHaut = new LightDescribeCardPanel();
 		pane.add(panneauHaut, BorderLayout.CENTER);
 
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION"), null, pane, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION"), MTGConstants.ICON_TAB_DETAILS, pane, null);
 
 		JPanel panelPics = new JPanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), null, panelPics, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, panelPics, null);
 		panelPics.setLayout(new BorderLayout(0, 0));
 
 		lblThumbnailPics = new JLabel("");

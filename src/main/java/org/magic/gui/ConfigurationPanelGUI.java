@@ -22,6 +22,7 @@ import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.models.conf.ProviderTreeTableModel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class ConfigurationPanelGUI extends JPanel {
@@ -48,7 +49,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		add(tabbedPane, BorderLayout.CENTER);
 
 		JPanel providerConfigPanel = new JPanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"), null,
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"), MTGConstants.ICON_TAB_PLUGIN,
 				providerConfigPanel, null);
 		providerConfigPanel.setLayout(new BorderLayout(0, 0));
 
@@ -56,8 +57,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		providerConfigPanel.add(subTabbedProviders);
 
 		JScrollPane cardsProvidersScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), null,
-				cardsProvidersScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_BACK,cardsProvidersScrollPane, null);
 
 		cardsProviderTable = new JXTreeTable(
 				new ProviderTreeTableModel<MTGCardsProvider>(false, MTGControler.getInstance().getCardsProviders()));
@@ -69,7 +69,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		});
 
 		JScrollPane picturesScollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE,
 				picturesScollPane, null);
 
 		picturesProviderTable = new JXTreeTable(new ProviderTreeTableModel<MTGPictureProvider>(false,
@@ -82,7 +82,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		});
 
 		JScrollPane priceProviderScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICERS"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICERS"), MTGConstants.ICON_TAB_PRICES,
 				priceProviderScrollPane, null);
 		priceProviderTable = new JXTreeTable(
 				new ProviderTreeTableModel<MTGPricesProvider>(true, MTGControler.getInstance().getPricerProviders()));
@@ -94,7 +94,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		priceProviderScrollPane.setViewportView(priceProviderTable);
 
 		JScrollPane daoProviderScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DATABASES"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DATABASES"), MTGConstants.ICON_TAB_DAO,
 				daoProviderScrollPane, null);
 
 		daoProviderTable = new JXTreeTable(
@@ -107,7 +107,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		daoProviderScrollPane.setViewportView(daoProviderTable);
 
 		JScrollPane shopperScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPERS"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("SHOPPERS"), MTGConstants.ICON_TAB_SHOP,
 				shopperScrollPane, null);
 
 		shopperTreeTable = new JXTreeTable(
@@ -120,8 +120,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		shopperScrollPane.setViewportView(shopperTreeTable);
 
 		JScrollPane exportsScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS_IMPORT_EXPORT"),
-				null, exportsScrollPane, null);
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS_IMPORT_EXPORT"),MTGConstants.ICON_TAB_IMPORT_EXPORT, exportsScrollPane, null);
 		exportsTable = new JXTreeTable(new ProviderTreeTableModel<MTGCardsExport>(true,
 				MTGControler.getInstance().getImportExportProviders()));
 		exportsTable.addTreeSelectionListener(e -> {
@@ -132,7 +131,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		exportsScrollPane.setViewportView(exportsTable);
 
 		JScrollPane importScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECKS_IMPORTER"), MTGConstants.ICON_TAB_DECK,
 				importScrollPane, null);
 
 		importTreeTable = new JXTreeTable(
@@ -145,7 +144,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		});
 
 		JScrollPane dashboardScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("DASHBOARD_MODULE"), MTGConstants.ICON_TAB_VARIATIONS,
 				dashboardScrollPane, null);
 
 		dashboardTreeTable = new JXTreeTable(
@@ -158,7 +157,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		dashboardScrollPane.setViewportView(dashboardTreeTable);
 
 		JScrollPane serversScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("SERVERS"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("SERVERS"), MTGConstants.ICON_TAB_SERVER,
 				serversScrollPane, null);
 		serversTreeTable = new JXTreeTable(
 				new ProviderTreeTableModel<MTGServer>(true, MTGControler.getInstance().getServers()));
@@ -170,7 +169,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		serversScrollPane.setViewportView(serversTreeTable);
 
 		JScrollPane cachesScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CACHES"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CACHES"), MTGConstants.ICON_TAB_CACHE,
 				cachesScrollPane, null);
 		cachesTreeTable = new JXTreeTable(
 				new ProviderTreeTableModel<MTGPicturesCache>(false, MTGControler.getInstance().getCachesProviders()));
@@ -182,7 +181,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		cachesScrollPane.setViewportView(cachesTreeTable);
 
 		JScrollPane newsScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), MTGConstants.ICON_TAB_NEWS,
 				newsScrollPane, null);
 		newsTreeTable = new JXTreeTable(
 				new ProviderTreeTableModel<MTGNewsProvider>(true, MTGControler.getInstance().getNewsProviders()));
@@ -194,7 +193,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		newsScrollPane.setViewportView(newsTreeTable);
 
 		JScrollPane wallpaperScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"), null,
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"), MTGConstants.ICON_TAB_WALLPAPER,
 				wallpaperScrollPane, null);
 		wallpapersTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGWallpaperProvider>(true,
 				MTGControler.getInstance().getWallpaperProviders()));
@@ -206,15 +205,15 @@ public class ConfigurationPanelGUI extends JPanel {
 		wallpaperScrollPane.setViewportView(wallpapersTreeTable);
 
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), null,
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,
 				configurationPanel, null);
 
 		ServersGUI serversGUI = new ServersGUI();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("ACTIVE_SERVERS"), null, serversGUI,
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("ACTIVE_SERVERS"), MTGConstants.ICON_TAB_ACTIVESERVER, serversGUI,
 				null);
 
 		loggerViewPanel = new LoggerViewPanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOGS"), null, loggerViewPanel,
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOGS"), MTGConstants.ICON_TAB_RULES, loggerViewPanel,
 				null);
 
 	}

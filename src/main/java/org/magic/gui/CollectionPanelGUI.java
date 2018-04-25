@@ -209,25 +209,17 @@ public class CollectionPanelGUI extends JPanel {
 		panneauGauche.add(panelTotal, BorderLayout.SOUTH);
 		panelTotal.add(lblTotal);
 
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), null,
-				magicCardDetailPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"), null,
-				magicEditionDetailPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), null, scrollPrices,
-				null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"), null,
-				typeRepartitionPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"), null,
-				manaRepartitionPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"), null,
-				rarityRepartitionPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), null, statsPanel,
-				null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), null,
-				historyPricesPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,magicCardDetailPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),  MTGConstants.ICON_BACK,magicEditionDetailPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, scrollPrices,null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"), MTGConstants.ICON_TAB_TYPE,typeRepartitionPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"), MTGConstants.ICON_TAB_MANA,manaRepartitionPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"), MTGConstants.ICON_TAB_RARITY,rarityRepartitionPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STOCK_MODULE"), MTGConstants.ICON_TAB_STOCK, statsPanel,null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,historyPricesPanel, null);
 
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
-			tabbedPane.addTab("Json", null, jsonPanel, null);
+			tabbedPane.addTab("Json", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
 
 		///////// Labels
 		lblTotal.setText("Total : " + model.getCountDefaultLibrary() + "/" + model.getCountTotal());

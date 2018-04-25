@@ -29,6 +29,7 @@ import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.editor.JTagsPanel;
 import org.magic.gui.models.DeckSelectionModel;
 import org.magic.gui.renderer.ManaCellRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class JDeckChooserDialog extends JDialog {
@@ -98,6 +99,8 @@ public class JDeckChooserDialog extends JDialog {
 
 	public JDeckChooserDialog() {
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("OPEN_DECK"));
+		setIconImage(MTGConstants.ICON_DECK.getImage());
+		
 		setSize(828, 500);
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);

@@ -416,7 +416,7 @@ public class ConstructPanel extends JPanel {
 
 		JSplitPane panneauDeck = new JSplitPane();
 		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK"), null, panneauDeck, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK"), MTGConstants.ICON_TAB_DECK, panneauDeck, null);
 		DefaultRowSorter sorterCards = new TableRowSorter<DefaultTableModel>(deckmodel);
 
 		magicCardDetailPanel = new MagicCardDetailPanel();
@@ -434,7 +434,7 @@ public class ConstructPanel extends JPanel {
 		panneauDeck.setLeftComponent(tabbedDeckSide);
 
 		JScrollPane scrollDeck = new JScrollPane();
-		tabbedDeckSide.addTab("Main", null, scrollDeck, null);
+		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, scrollDeck, null);
 
 		tableDeck = new JTable();
 		scrollDeck.setViewportView(tableDeck);
@@ -448,7 +448,7 @@ public class ConstructPanel extends JPanel {
 		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
 
 		JScrollPane scrollSideboard = new JScrollPane();
-		tabbedDeckSide.addTab("SideBoard", null, scrollSideboard, null);
+		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, scrollSideboard, null);
 
 		tableSide = new JTable();
 		tableSide.setModel(deckSidemodel);
@@ -542,7 +542,7 @@ public class ConstructPanel extends JPanel {
 		});
 
 		JPanel panelInfoDeck = new JPanel();
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS"), null,
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS"), MTGConstants.ICON_TAB_DETAILS,
 				panelInfoDeck, null);
 		panelInfoDeck.setLayout(new BorderLayout(0, 0));
 
@@ -568,11 +568,11 @@ public class ConstructPanel extends JPanel {
 		statPanel.add(cmcChartPanel);
 		statPanel.add(drawProbabilityPanel);
 
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), null, statPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STATS"), MTGConstants.ICON_TAB_ANALYSE, statPanel, null);
 
 		deckPricePanel = new DeckPricePanel();
 		statPanel.add(deckPricePanel);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"), null,
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("SAMPLE_HAND"), MTGConstants.ICON_TAB_THUMBNAIL,
 				randomHandPanel, null);
 
 		JPanel panel = new JPanel();

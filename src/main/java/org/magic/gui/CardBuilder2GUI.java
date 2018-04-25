@@ -251,10 +251,10 @@ public class CardBuilder2GUI extends JPanel {
 			panelCardsHaut.add(btnRefresh);
 			panelCards.add(tabbedResult, BorderLayout.EAST);
 			panelCardsHaut.add(btnRemoveCard);
-			tabbedPane.addTab("Set", null, panelSets, null);
-			tabbedPane.addTab("Cards", null, panelCards, null);
-			tabbedResult.addTab("Pictures", null, panelPictures, null);
-			tabbedResult.addTab("JSON", jsonPanel);
+			tabbedPane.addTab("Set", MTGConstants.ICON_BACK, panelSets, null);
+			tabbedPane.addTab("Cards", MTGConstants.ICON_TAB_DECK, panelCards, null);
+			tabbedResult.addTab("Pictures", MTGConstants.ICON_TAB_PICTURE, panelPictures, null);
+			tabbedResult.addTab("JSON",MTGConstants.ICON_TAB_JSON, jsonPanel,null);
 			panelBooster.add(lblCommon, gbcLblCommon);
 			panelBooster.add(spinCommon, gbcSpinCommon);
 			panelBooster.add(lblUncommon, gbcLblUncommon);
@@ -264,9 +264,9 @@ public class CardBuilder2GUI extends JPanel {
 			panelCards.add(tabbedCards, BorderLayout.CENTER);
 			magicCardEditorPanel.add(btnImage, gbcBtnImage);
 			magicCardEditorPanel.add(panelImage, gbcCropImagePanel);
-			tabbedCards.addTab("Details", null, magicCardEditorPanel, null);
-			tabbedCards.addTab("Editions", null, panelCardEditions, null);
-			tabbedCards.addTab("Misc", null, panelMisc, null);
+			tabbedCards.addTab("Details", MTGConstants.ICON_TAB_DETAILS, magicCardEditorPanel, null);
+			tabbedCards.addTab("Editions", MTGConstants.ICON_BACK, panelCardEditions, null);
+			tabbedCards.addTab("Misc", MTGConstants.ICON_TAB_ADMIN, panelMisc, null);
 			panelMisc.add(legalitiesPanel, BorderLayout.SOUTH);
 			legalitiesPanel.add(tglStd);
 			legalitiesPanel.add(tglMdn);
