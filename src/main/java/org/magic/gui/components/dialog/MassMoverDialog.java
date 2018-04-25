@@ -44,6 +44,7 @@ public class MassMoverDialog extends JDialog {
 	public MassMoverDialog(MagicCollection col, MagicEdition ed) {
 		setSize(new Dimension(640, 370));
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_MOVEMENTS") + " : " + col);
+		setIconImage(MTGConstants.ICON_TAB_IMPORT_EXPORT.getImage());
 		setModal(true);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setLocationRelativeTo(null);

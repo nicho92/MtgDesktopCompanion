@@ -30,6 +30,7 @@ public class PriceCatalogExportDialog extends JDialog {
 	public PriceCatalogExportDialog(MagicCollection selectedcol) {
 		setSize(new Dimension(420, 170));
 		setModal(true);
+		setIconImage(MTGConstants.ICON_TAB_PRICES.getImage());
 		setTitle("Price Catalog Export : " + selectedcol.getName());
 		getContentPane().setLayout(new BorderLayout(0, 0));
 

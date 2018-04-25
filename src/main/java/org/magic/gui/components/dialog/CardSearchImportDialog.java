@@ -18,6 +18,7 @@ public class CardSearchImportDialog extends JDialog {
 	public CardSearchImportDialog() {
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setModal(true);
+		setIconImage(MTGConstants.ICON_SEARCH.getImage());
 		selectCard = new JButton(MTGConstants.ICON_IMPORT);
 		panel = new CardSearchPanel();
 		selectCard.addActionListener(e -> dispose());

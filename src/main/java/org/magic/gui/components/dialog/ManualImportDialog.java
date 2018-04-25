@@ -14,6 +14,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -31,6 +32,7 @@ public class ManualImportDialog extends JDialog {
 		deck = new MagicDeck();
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		setSize(new Dimension(400, 400));
+		setIconImage(MTGConstants.ICON_TAB_IMPORT.getImage());
 		setModal(true);
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.SOUTH);

@@ -44,6 +44,7 @@ public class WebSiteGeneratorDialog extends JDialog {
 		setSize(new Dimension(571, 329));
 		setModal(true);
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_WEBSITE"));
+		setIconImage(MTGConstants.ICON_WEBSITE.getImage());
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JPanel panel = new JPanel();

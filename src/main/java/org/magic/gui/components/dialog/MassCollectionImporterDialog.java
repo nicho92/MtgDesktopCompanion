@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionListRenderer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -39,6 +40,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 	public MassCollectionImporterDialog() {
 		setSize(new Dimension(646, 290));
+		setIconImage(MTGConstants.ICON_COLLECTION.getImage());
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_CARDS_IMPORT"));
 		try {
 			initGUI();
