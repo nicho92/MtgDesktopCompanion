@@ -33,7 +33,6 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		return STATUT.BETA;
 	}
 
-	private String url = "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml";
 	private DocumentBuilderFactory builderFactory;
 	private DocumentBuilder builder;
 	private Document document;
@@ -44,7 +43,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			builderFactory = DocumentBuilderFactory.newInstance();
 			builder = builderFactory.newDocumentBuilder();
-			document = builder.parse(new URL(url).openStream());
+			document = builder.parse(new URL(getString("URL")).openStream());
 			xPath = XPathFactory.newInstance().newXPath();
 		} catch (Exception e) {
 			logger.error(e);
@@ -239,7 +238,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public void initDefault() {
-		// TODO Auto-generated method stub
+		setProperty("URL", "https://raw.githubusercontent.com/Cockatrice/Magic-Token/master/tokens.xml");
 
 	}
 
