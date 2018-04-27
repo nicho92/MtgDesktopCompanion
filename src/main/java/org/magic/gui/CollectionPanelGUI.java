@@ -54,6 +54,7 @@ import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.LazyLoadingTree;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
+import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
@@ -84,8 +85,6 @@ public class CollectionPanelGUI extends JPanel {
 	private transient MTGDao dao;
 	private LazyLoadingTree tree;
 	private TreePath path;
-	private JXTable tablePrices;
-	private CardsPriceTableModel modelPrices;
 	private MagicCollection selectedcol;
 	private transient MagicEditionDetailPanel magicEditionDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
@@ -123,7 +122,6 @@ public class CollectionPanelGUI extends JPanel {
 		JButton btnExportPriceCatalog = new JButton(MTGConstants.ICON_EURO);
 		JButton btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
 		JScrollPane scrollPaneCollections = new JScrollPane();
-		JScrollPane scrollPrices = new JScrollPane();
 		JSplitPane splitListPanel = new JSplitPane();
 		JSplitPane splitPane = new JSplitPane();
 		JPanel panneauGauche = new JPanel();
@@ -145,12 +143,11 @@ public class CollectionPanelGUI extends JPanel {
 		jsonPanel = new JSONPanel();
 		tree = new LazyLoadingTree();
 		tableEditions = new JXTable();
-
+		PricesTablePanel pricePanel = new PricesTablePanel();
+		
 		//////// MODELS
 		model = new MagicEditionsTableModel();
 		DefaultRowSorter sorterEditions = new TableRowSorter<DefaultTableModel>(model);
-		modelPrices = new CardsPriceTableModel();
-		tablePrices = new JXTable(modelPrices);
 		model.init(provider.loadEditions());
 		tableEditions.setModel(model);
 		new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
@@ -168,7 +165,6 @@ public class CollectionPanelGUI extends JPanel {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		scrollPaneCollections.setMinimumSize(new Dimension(0, 0));
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
-		tablePrices.setColumnControlVisible(true);
 
 		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
@@ -202,7 +198,6 @@ public class CollectionPanelGUI extends JPanel {
 		splitPane.setLeftComponent(scrollPaneCollections);
 		scrollPaneCollections.setViewportView(tree);
 		splitPane.setRightComponent(tabbedPane);
-		scrollPrices.setViewportView(tablePrices);
 		splitListPanel.setLeftComponent(panneauGauche);
 		panneauGauche.add(scrollPane);
 		scrollPane.setViewportView(tableEditions);
@@ -211,7 +206,7 @@ public class CollectionPanelGUI extends JPanel {
 
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS,magicCardDetailPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),  MTGConstants.ICON_BACK,magicEditionDetailPanel, null);
-		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, scrollPrices,null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricePanel,null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"), MTGConstants.ICON_TAB_TYPE,typeRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"), MTGConstants.ICON_TAB_MANA,manaRepartitionPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"), MTGConstants.ICON_TAB_RARITY,rarityRepartitionPanel, null);
@@ -358,23 +353,7 @@ public class CollectionPanelGUI extends JPanel {
 				removeComponentListener(this);
 			}
 		});
-
-		tablePrices.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent ev) {
-				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
-					ev.consume();
-					try {
-						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), CardsPriceTableModel.ROW_URL)
-								.toString();
-						Desktop.getDesktop().browse(new URI(url));
-					} catch (Exception e) {
-						logger.error(e);
-					}
-				}
-
-			}
-		});
+	
 
 		tree.addTreeSelectionListener(tse -> {
 			path = tse.getPath();
@@ -438,7 +417,7 @@ public class CollectionPanelGUI extends JPanel {
 				}, "Update Collection");
 
 				if (tabbedPane.getSelectedIndex() == 2) {
-					loadPrices(card);
+					pricePanel.init(card,null);
 				}
 
 				ThreadManager.getInstance().execute(() -> {
@@ -453,9 +432,8 @@ public class CollectionPanelGUI extends JPanel {
 		});
 
 		tabbedPane.addChangeListener(e -> {
-			if ((tabbedPane.getSelectedIndex() == 2) && ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent())
-					.getUserObject() instanceof MagicCard)
-				loadPrices((MagicCard) ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject());
+			if ((tabbedPane.getSelectedIndex() == 2) && ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject() instanceof MagicCard)
+				pricePanel.init(((MagicCard) ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject()),null);
 		});
 
 		tree.addMouseListener(new MouseAdapter() {
@@ -653,18 +631,6 @@ public class CollectionPanelGUI extends JPanel {
 
 			}
 		});
-
-	}
-
-	protected void loadPrices(final MagicCard card) {
-		ThreadManager.getInstance().execute(() -> {
-			try {
-				modelPrices.init(card, card.getEditions().get(0));
-				modelPrices.fireTableDataChanged();
-			} catch (Exception e) {
-				logger.error(e);
-			}
-		}, "addTreeSelectionListener init graph cards");
 
 	}
 

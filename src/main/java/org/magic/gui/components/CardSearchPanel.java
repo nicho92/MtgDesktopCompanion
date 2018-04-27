@@ -87,7 +87,6 @@ public class CardSearchPanel extends JPanel {
 	private MagicCard selectedCard;
 	private MagicEdition selectedEdition;
 
-	private CardsPriceTableModel priceModel;
 	private MagicCardTableModel cardsModeltable;
 
 	private JTabbedPane tabbedCardsView;
@@ -104,6 +103,7 @@ public class CardSearchPanel extends JPanel {
 	private HistoryPricesPanel historyChartPanel;
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardDetailPanel detailCardPanel;
+	private PricesTablePanel priceTablePanel;
 	private JTextArea txtRulesArea;
 	private JSONPanel panelJson;
 
@@ -116,7 +116,6 @@ public class CardSearchPanel extends JPanel {
 	private JComboBox<MagicCollection> cboCollections;
 
 	private JXTable tableCards;
-	private JXTable tablePrice;
 
 	private JButton btnExport;
 
@@ -203,8 +202,9 @@ public class CardSearchPanel extends JPanel {
 		JButton btnClear;
 		JButton btnSearch;
 		JButton btnFilter;
+		
+		
 		DefaultRowSorter<DefaultTableModel, Integer> sorterCards;
-		DefaultRowSorter<DefaultTableModel, Integer> sorterPrice = new TableRowSorter<>(priceModel);
 		sorterCards = new TableRowSorter<>(cardsModeltable);
 		sorterCards.setComparator(7, (String num1, String num2) -> {
 			try {
@@ -231,7 +231,6 @@ public class CardSearchPanel extends JPanel {
 		JScrollPane scrollEditions = new JScrollPane();
 		JScrollPane scrollThumbnails = new JScrollPane();
 		JScrollPane scrollPaneRules = new JScrollPane();
-		JScrollPane scrollPanePrices = new JScrollPane();
 		JScrollPane scrollCards = new JScrollPane();
 		JSplitPane panneauCentral = new JSplitPane();
 		panneauStat = new JPanel();
@@ -244,6 +243,7 @@ public class CardSearchPanel extends JPanel {
 		typeRepartitionPanel = new TypeRepartitionPanel();
 		historyChartPanel = new HistoryPricesPanel();
 		cardsPicPanel = new CardsPicPanel();
+		priceTablePanel = new PricesTablePanel();
 		rarityRepartitionPanel = new RarityRepartitionPanel();
 		detailCardPanel = new MagicCardDetailPanel(new MagicCard());
 		panelmana = new JPanel();
@@ -272,7 +272,6 @@ public class CardSearchPanel extends JPanel {
 		}
 		cboLanguages = new JComboBox<>();
 
-		tablePrice = new JXTable();
 		tableCards = new JXTable();
 
 		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
@@ -290,7 +289,6 @@ public class CardSearchPanel extends JPanel {
 
 		//////// MODELS
 		listEdition.setModel(new DefaultListModel<MagicEdition>());
-		tablePrice.setModel(priceModel);
 		tableCards.setModel(cardsModeltable);
 
 		//////// RENDERER
@@ -308,7 +306,6 @@ public class CardSearchPanel extends JPanel {
 		btnExport.setEnabled(false);
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 		cboQuereableItems.addItem("collections");
-		tablePrice.setRowSorter(sorterPrice);
 		listEdition.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		thumbnailPanel.enableDragging(false);
 		panneauCentral.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -368,7 +365,6 @@ public class CardSearchPanel extends JPanel {
 
 		}
 		scrollEditions.setViewportView(listEdition);
-		scrollPanePrices.setViewportView(tablePrice);
 		scrollCards.setViewportView(tableCards);
 		scrollPaneRules.setViewportView(txtRulesArea);
 		scrollThumbnails.setViewportView(thumbnailPanel);
@@ -402,7 +398,7 @@ public class CardSearchPanel extends JPanel {
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("EDITION"), MTGConstants.ICON_BACK,
 				editionDetailPanel, null);
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES,
-				scrollPanePrices, null);
+				priceTablePanel, null);
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("RULES"), MTGConstants.ICON_TAB_RULES,
 				scrollPaneRules, null);
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,
@@ -558,31 +554,13 @@ public class CardSearchPanel extends JPanel {
 					historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
 
 					if (tabbedCardsInfo.getSelectedIndex() == INDEX_PRICES)
-						updatePrices();
+						priceTablePanel.init(selectedCard,selectedEdition);
 
 					loading(false, "");
 				}, "changeEdition");
 			}
 		});
-
-		tablePrice.addMouseListener(new MouseAdapter() {
-			@Override
-			public void mouseClicked(MouseEvent ev) {
-				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
-					ev.consume();
-					try {
-						String url = tablePrice.getValueAt(tablePrice.getSelectedRow(), CardsPriceTableModel.ROW_URL)
-								.toString();
-						Desktop.getDesktop().browse(new URI(url));
-					} catch (Exception e) {
-						logger.error(e);
-					}
-
-				}
-
-			}
-		});
-
+	
 		cboLanguages.addItemListener(e -> {
 
 			MagicCardNames selLang = (MagicCardNames) cboLanguages.getSelectedItem();
@@ -649,7 +627,7 @@ public class CardSearchPanel extends JPanel {
 
 		tabbedCardsInfo.addChangeListener(e -> {
 			if (tabbedCardsInfo.getSelectedIndex() == INDEX_PRICES)
-				updatePrices();
+				priceTablePanel.init(selectedCard,selectedEdition);
 		});
 
 		txtFilter.addActionListener(ae -> {
@@ -690,10 +668,7 @@ public class CardSearchPanel extends JPanel {
 	public CardSearchPanel() {
 
 		try {
-
-			priceModel = new CardsPriceTableModel();
 			cardsModeltable = new MagicCardTableModel();
-
 			initGUI();
 		} catch (Exception e) {
 			logger.error("Error init", e);
@@ -701,16 +676,6 @@ public class CardSearchPanel extends JPanel {
 		}
 
 		logger.debug("construction of GUI : done");
-	}
-
-	public void updatePrices() {
-		ThreadManager.getInstance().execute(() -> {
-			loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES"));
-			priceModel.init(selectedCard, selectedEdition);
-			priceModel.fireTableDataChanged();
-			loading(false, "");
-		}, "updatePrices");
-
 	}
 
 	public HandPanel getThumbnailPanel() {
@@ -739,7 +704,7 @@ public class CardSearchPanel extends JPanel {
 			}
 
 			if (tabbedCardsInfo.getSelectedIndex() == INDEX_PRICES)
-				updatePrices();
+				priceTablePanel.init(selectedCard,selectedEdition);
 
 			panelJson.show(selectedCard);
 

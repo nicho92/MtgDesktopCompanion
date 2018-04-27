@@ -6,9 +6,13 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.services.MTGConstants;
 
@@ -58,6 +62,12 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		}
 		export(d, f);
 	}
+	
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/icons/plugins/"+getName().toLowerCase()+".png"));
+	}
+	
 
 	protected List<MagicCardStock> importFromDeck(MagicDeck deck) {
 		List<MagicCardStock> mcs = new ArrayList<>();
