@@ -100,7 +100,9 @@ public class CardBuilder2GUI extends JPanel {
 			JButton btnSaveEdition = new JButton("");
 			JButton btnNewSet = new JButton("");
 			JButton btnRemoveEdition = new JButton("");
-
+			JScrollPane scrollPane = new JScrollPane();
+			JPanel buttonsForeignNamesPanel = new JPanel();
+			JButton btnRemoveName = new JButton("Remove");
 			JSplitPane splitcardEdPanel = new JSplitPane();
 			JScrollPane scrollTableEdition = new JScrollPane();
 			JPanel panelCards = new JPanel();
@@ -272,16 +274,25 @@ public class CardBuilder2GUI extends JPanel {
 			legalitiesPanel.add(tglMdn);
 			legalitiesPanel.add(tglLeg);
 			legalitiesPanel.add(tglVin);
+			splitcardEdPanel.setLeftComponent(scrollTableEdition);
+			scrollTableEdition.setViewportView(editionsTable);
+			splitcardEdPanel.setRightComponent(scrollTableCards);
+			scrollTableCards.setViewportView(cardsTable);
+			panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
+			panelMisc.add(foreignNamesEditorPanel);
+			foreignNamesEditorPanel.add(scrollPane);
+			scrollPane.setViewportView(listNames);
+			foreignNamesEditorPanel.add(buttonsForeignNamesPanel, BorderLayout.NORTH);
+			buttonsForeignNamesPanel.add(btnAddName);
+			buttonsForeignNamesPanel.add(btnRemoveName);
 
+			
 			//////////////////////////////////////////////////// COMPONENT CONFIG
 			editionModel.init(provider.loadEditions());
 
 			editionModel.fireTableDataChanged();
 			splitcardEdPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-			splitcardEdPanel.setLeftComponent(scrollTableEdition);
-			scrollTableEdition.setViewportView(editionsTable);
-			splitcardEdPanel.setRightComponent(scrollTableCards);
-			scrollTableCards.setViewportView(cardsTable);
+			
 			btnSaveEdition.setIcon(MTGConstants.ICON_SAVE);
 			btnNewSet.setIcon(MTGConstants.ICON_NEW);
 			btnRemoveEdition.setIcon(MTGConstants.ICON_DELETE);
@@ -295,7 +306,6 @@ public class CardBuilder2GUI extends JPanel {
 			btnNewCard.setToolTipText("New Card");
 			btnRemoveCard.setToolTipText("Delete the card");
 
-			panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
 			magicEditionDetailPanel.setEditable(true);
 
 			btnImport.setIcon(MTGConstants.ICON_IMPORT);
@@ -306,34 +316,18 @@ public class CardBuilder2GUI extends JPanel {
 			cardsTable.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 			panelPictures.setBackground(Color.WHITE);
 			panelPictures.setPreferredSize(new Dimension(400, 10));
-
 			listNames.getColumnModel().getColumn(0).setCellEditor(new MagicCardNameEditor());
-
-			panelMisc.add(foreignNamesEditorPanel);
 			foreignNamesEditorPanel.setLayout(new BorderLayout(0, 0));
-
-			JScrollPane scrollPane = new JScrollPane();
-			foreignNamesEditorPanel.add(scrollPane);
-
-			scrollPane.setViewportView(listNames);
-
-			JPanel buttonsForeignNamesPanel = new JPanel();
-			foreignNamesEditorPanel.add(buttonsForeignNamesPanel, BorderLayout.NORTH);
 			buttonsForeignNamesPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+			panelImage.setBorder(new LineBorder(new Color(0, 0, 0)));
 
-			buttonsForeignNamesPanel.add(btnAddName);
-
-			JButton btnRemoveName = new JButton("Remove");
+			//////////////////////////////////////////////////// ACTION LISTENER
 			btnRemoveName.addActionListener(e -> {
 				int row = listNames.getSelectedRow();
 				namesModel.removeRow(row);
 				namesModel.fireTableDataChanged();
 			});
-			buttonsForeignNamesPanel.add(btnRemoveName);
-
-			panelImage.setBorder(new LineBorder(new Color(0, 0, 0)));
-
-			//////////////////////////////////////////////////// ACTION LISTENER
+			
 			btnAddName.addActionListener(e -> {
 
 				MagicCardNames name = new MagicCardNames();

@@ -45,20 +45,40 @@ public class RssGUI extends JPanel {
 	private DefaultMutableTreeNode rootNode;
 	private JTree tree;
 	private JLabel lblLoading;
-
+	private JButton btnNewButton;
+	private JButton btnSave;
+	private JButton btnDelete;
+	
+	
 	public RssGUI() {
 		logger.info("init RSS GUI");
-		setLayout(new BorderLayout(0, 0));
-
+		
 		JScrollPane scrollTable = new JScrollPane();
 		model = new MagicNewsTableModel();
 		table = new JTable(model);
-
-		scrollTable.setViewportView(table);
-
 		tree = new JTree();
+		JSplitPane splitNews = new JSplitPane();
+		JScrollPane scrollEditor = new JScrollPane();
+		editorPane = new BrowserPane();
+		JSplitPane splitTreeTable = new JSplitPane();
+		JPanel leftPanel = new JPanel();
+		JScrollPane scrollTree = new JScrollPane();
+		rootNode = new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
+		JPanel panelControl = new JPanel();
+		btnNewButton = new JButton(MTGConstants.ICON_NEW);
+		btnSave = new JButton(MTGConstants.ICON_SAVE);
+		btnDelete = new JButton(MTGConstants.ICON_DELETE);
+		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
+		newsPanel = new NewsPanel();
+		
+		setLayout(new BorderLayout(0, 0));
 		tree.setPreferredSize(new Dimension(150, 64));
-
+		splitNews.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		editorPane.setEditable(false);
+		editorPane.setContentType("text/html");
+		leftPanel.setLayout(new BorderLayout(0, 0));
+		tree.setModel(new DefaultTreeModel(rootNode));
+		lblLoading.setVisible(false);
 		tree.setCellRenderer(new DefaultTreeCellRenderer() {
 			private static final long serialVersionUID = 1L;
 
@@ -89,50 +109,40 @@ public class RssGUI extends JPanel {
 				return c;
 			}
 		});
-		rootNode = new DefaultMutableTreeNode(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"));
 
-		initTree();
-
-		JSplitPane splitNews = new JSplitPane();
-		splitNews.setOrientation(JSplitPane.VERTICAL_SPLIT);
-
-		JScrollPane scrollEditor = new JScrollPane();
-		editorPane = new BrowserPane();
-		editorPane.setEditable(false);
-		editorPane.setContentType("text/html");
+		
 		scrollEditor.setViewportView(editorPane);
-
 		splitNews.setLeftComponent(scrollTable);
 		splitNews.setRightComponent(scrollEditor);
-
-		JSplitPane splitTreeTable = new JSplitPane();
+		scrollTable.setViewportView(table);
 		add(splitTreeTable, BorderLayout.CENTER);
 		splitTreeTable.setRightComponent(splitNews);
-
-		JPanel leftPanel = new JPanel();
 		splitTreeTable.setLeftComponent(leftPanel);
-		leftPanel.setLayout(new BorderLayout(0, 0));
-
-		JScrollPane scrollTree = new JScrollPane();
 		leftPanel.add(scrollTree, BorderLayout.CENTER);
-
-		tree.setModel(new DefaultTreeModel(rootNode));
-
 		scrollTree.setViewportView(tree);
-
-		JPanel panelControl = new JPanel();
 		leftPanel.add(panelControl, BorderLayout.NORTH);
+		panelControl.add(btnNewButton);
+		panelControl.add(btnSave);
+		panelControl.add(btnDelete);
+		panelControl.add(lblLoading);
+		leftPanel.add(newsPanel, BorderLayout.SOUTH);
+				
+	
+		initTree();
 
-		JButton btnNewButton = new JButton("");
+		initActions();
+	
+
+	}
+
+	private void initActions() {
 		btnNewButton.addActionListener(ae -> {
 			newsPanel.setMagicNews(new MagicNews());
 			newsPanel.setVisible(true);
 		});
 
-		btnNewButton.setIcon(MTGConstants.ICON_NEW);
-		panelControl.add(btnNewButton);
+		
 
-		JButton btnSave = new JButton(MTGConstants.ICON_SAVE);
 		btnSave.addActionListener(ae -> {
 			try {
 				MTGControler.getInstance().getEnabledDAO().saveOrUpdateNews(newsPanel.getMagicNews());
@@ -143,9 +153,8 @@ public class RssGUI extends JPanel {
 						JOptionPane.ERROR_MESSAGE);
 			}
 		});
-		panelControl.add(btnSave);
 
-		JButton btnDelete = new JButton(MTGConstants.ICON_DELETE);
+		
 		btnDelete.addActionListener(ae -> {
 			try {
 				MTGControler.getInstance().getEnabledDAO().deleteNews(newsPanel.getMagicNews());
@@ -156,14 +165,11 @@ public class RssGUI extends JPanel {
 						JOptionPane.ERROR_MESSAGE);
 			}
 		});
-		panelControl.add(btnDelete);
+	
+		
+		
 
-		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
-		lblLoading.setVisible(false);
-		panelControl.add(lblLoading);
-
-		newsPanel = new NewsPanel();
-		leftPanel.add(newsPanel, BorderLayout.SOUTH);
+		
 
 		tree.addTreeSelectionListener(tse -> {
 			TreePath path = tse.getPath();
@@ -211,13 +217,12 @@ public class RssGUI extends JPanel {
 				}
 			}
 		});
-
+		
 	}
 
 	private void initTree() {
 		rootNode.removeAllChildren();
-		List<MagicNews> rss = MTGControler.getInstance().getEnabledDAO().listNews();
-		for (MagicNews cat : rss)
+		for (MagicNews cat : MTGControler.getInstance().getEnabledDAO().listNews())
 			add(cat.getCategorie(), cat);
 
 		((DefaultTreeModel) tree.getModel()).reload();

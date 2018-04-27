@@ -56,7 +56,6 @@ public class AlarmGUI extends JPanel {
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private DefaultListModel<MagicPrice> resultListModel;
 	private JList<MagicPrice> list;
-	private JSplitPane splitPanel;
 	private JPanel panel;
 	private JButton btnRefresh;
 	private JButton btnDelete;
@@ -70,25 +69,73 @@ public class AlarmGUI extends JPanel {
 	public AlarmGUI() {
 
 		logger.info("init Alarm GUI");
-		setLayout(new BorderLayout());
 
-		splitPanel = new JSplitPane();
-		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		add(splitPanel, BorderLayout.CENTER);
-
+///////INIT 
+		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
+		JSplitPane splitPanel = new JSplitPane();
 		JScrollPane scrollTable = new JScrollPane();
-		scrollTable.setPreferredSize(new Dimension(2, 200));
-		splitPanel.setLeftComponent(scrollTable);
 		table = new JTable();
 		model = new CardAlertTableModel();
+		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		magicCardDetailPanel = new MagicCardDetailPanel();
+		variationPanel = new HistoryPricesPanel();
+		JScrollPane scrollPane = new JScrollPane();
+		resultListModel = new DefaultListModel<>();
+		list = new JList<>(resultListModel);
+		panel = new JPanel();
+		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
+		btnImport = new JButton(MTGConstants.ICON_IMPORT);
+		btnDelete = new JButton(MTGConstants.ICON_DELETE);
+		
+		
+///////CONFIG		
+		setLayout(new BorderLayout());
+		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
+		scrollTable.setPreferredSize(new Dimension(2, 200));
 		table.setModel(model);
-
-		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
 		lblLoading.setVisible(false);
 		table.getColumnModel().getColumn(3).setCellRenderer(new AlertedCardsRenderer());
-
+		magicCardDetailPanel.enableThumbnail(true);
+		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
+	
+///////ADDS	
+		splitPanel.setLeftComponent(scrollTable);
+		add(splitPanel, BorderLayout.CENTER);
 		scrollTable.setViewportView(table);
+		splitPanel.setRightComponent(tabbedPane);
+		tabbedPane.addTab("Card", MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
+		tabbedPane.addTab("Variations", MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
+		add(scrollPane, BorderLayout.EAST);
+		scrollPane.setViewportView(list);
+		add(panel, BorderLayout.NORTH);
+		panel.add(btnDelete);
+		panel.add(lblLoading);
+		panel.add(btnImport);
+		panel.add(btnRefresh);
 
+		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent componentEvent) {
+				splitPanel.setDividerLocation(.5);
+				model.fireTableDataChanged();
+				removeComponentListener(this);
+			}
+
+		});
+		
+
+	
+		
+
+		
+		
+		initActions();
+
+
+	}
+
+	private void initActions() {
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
@@ -100,28 +147,7 @@ public class AlarmGUI extends JPanel {
 					resultListModel.addElement(mp);
 			}
 		});
-
-		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		splitPanel.setRightComponent(tabbedPane);
-
-		magicCardDetailPanel = new MagicCardDetailPanel();
-		variationPanel = new HistoryPricesPanel();
-
-		tabbedPane.addTab("Card", MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
-		tabbedPane.addTab("Variations", MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
-
-		magicCardDetailPanel.enableThumbnail(true);
-
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, BorderLayout.EAST);
-
-		resultListModel = new DefaultListModel<>();
-
-		list = new JList<>(resultListModel);
-
-		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,
-				boolean cellHasFocus) -> new MagicPricePanel(value));
-
+		
 		list.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -138,12 +164,7 @@ public class AlarmGUI extends JPanel {
 
 			}
 		});
-		scrollPane.setViewportView(list);
-
-		panel = new JPanel();
-		add(panel, BorderLayout.NORTH);
-
-		btnRefresh = new JButton();
+		
 		btnRefresh.addActionListener(e -> {
 
 			if (!MTGControler.getInstance().isRunning(new PricesCheckerTimer())) {
@@ -164,14 +185,8 @@ public class AlarmGUI extends JPanel {
 
 			model.fireTableDataChanged();
 		});
-
-		btnImport = new JButton(MTGConstants.ICON_IMPORT);
-		panel.add(btnImport);
-		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
-		panel.add(btnRefresh);
-
-		btnDelete = new JButton(MTGConstants.ICON_DELETE);
-
+		
+		
 		btnDelete.addActionListener(event -> {
 			int res = JOptionPane.showConfirmDialog(null,
 					MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",
@@ -199,19 +214,8 @@ public class AlarmGUI extends JPanel {
 
 			}
 		});
-
-		panel.add(btnDelete);
-		panel.add(lblLoading);
-		addComponentListener(new ComponentAdapter() {
-			@Override
-			public void componentShown(ComponentEvent componentEvent) {
-				splitPanel.setDividerLocation(.5);
-				model.fireTableDataChanged();
-				removeComponentListener(this);
-			}
-
-		});
-
+		
+		
 		btnImport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 
@@ -293,7 +297,8 @@ public class AlarmGUI extends JPanel {
 			menu.setLocation(point.x, point.y + b.getHeight());
 
 		});
-
+		
+		
 	}
 
 	private void addCard(MagicCard mc) {

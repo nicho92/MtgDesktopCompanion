@@ -103,10 +103,8 @@ public class MagicGUI extends JFrame {
 		JMenuItem mntmHelp = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("READ_MANUAL"));
 		JMenuItem mntmThreadItem = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
 		JMenuItem mntmLogsItem = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
-		JMenuItem mntmAboutMagicDesktop = new JMenuItem(
-				MTGControler.getInstance().getLangService().getCapitalize("ABOUT"));
-		JMenuItem mntmReportBug = new JMenuItem(
-				MTGControler.getInstance().getLangService().getCapitalize("REPORT_BUG"));
+		JMenuItem mntmAboutMagicDesktop = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ABOUT"));
+		JMenuItem mntmReportBug = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("REPORT_BUG"));
 		JMenuItem mntmFileOpen = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
 
 		mtgMnuBar.add(mnFile);
