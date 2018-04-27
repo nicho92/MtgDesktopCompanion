@@ -36,7 +36,7 @@ public class PricesTablePanel extends JPanel {
 	private JXTable tablePrices;
 	private JLabel lblLoading;
 	private transient DefaultRowSorter<DefaultTableModel, Integer> sorterPrice;
-
+	private List<RowSorter.SortKey> sortKeys;
 	
 	
 	public PricesTablePanel() {
@@ -47,9 +47,11 @@ public class PricesTablePanel extends JPanel {
 		tablePrices = new JXTable(model);
 		sorterPrice = new TableRowSorter<>(model);
 		
-		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
-								sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
-								sorterPrice.setSortKeys(sortKeys);
+		sortKeys = new ArrayList<>();
+		sortKeys.add(new RowSorter.SortKey(1, SortOrder.ASCENDING));
+		sorterPrice.setSortKeys(sortKeys);
+		
+		
 		
 		setLayout(new BorderLayout(0, 0));
 		tablePrices.setColumnControlVisible(true);
@@ -69,8 +71,7 @@ public class PricesTablePanel extends JPanel {
 				if (ev.getClickCount() == 2 && !ev.isConsumed()) {
 					ev.consume();
 					try {
-						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), CardsPriceTableModel.ROW_URL)
-								.toString();
+						String url = tablePrices.getValueAt(tablePrices.getSelectedRow(), CardsPriceTableModel.ROW_URL).toString();
 						Desktop.getDesktop().browse(new URI(url));
 					} catch (Exception e) {
 						logger.error(e);
