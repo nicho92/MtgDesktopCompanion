@@ -114,19 +114,6 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
-		MagicDeck d = new MagicDeck();
-		d.setName(f.getName());
-
-		for (MagicCardStock mcs : stock) {
-			d.getMap().put(mcs.getMagicCard(), mcs.getQte());
-		}
-
-		export(d, f);
-
-	}
-
-	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 		return importFromDeck(importDeck(f));
 	}
