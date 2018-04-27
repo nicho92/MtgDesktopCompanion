@@ -83,6 +83,10 @@ public class HistoryPricesPanel extends JPanel {
 		try {
 			this.mc = card;
 			this.me = me;
+			
+			if(me==null)
+				me=card.getEditions().get(0);
+			
 			this.map = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(card, me);
 			this.title = title;
 			refresh();

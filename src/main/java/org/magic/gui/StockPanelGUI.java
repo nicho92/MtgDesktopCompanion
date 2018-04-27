@@ -27,6 +27,7 @@ import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 import javax.swing.JSplitPane;
+import javax.swing.JTabbedPane;
 import javax.swing.JTextPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.filechooser.FileFilter;
@@ -40,6 +41,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.EnumConditionEditor;
@@ -61,11 +63,11 @@ public class StockPanelGUI extends JPanel {
 	private JButton btnDelete = new JButton();
 	private JButton btnSave = new JButton();
 	private boolean multiselection = false;
-
 	private MagicCardDetailPanel magicCardDetailPanel;
-
+	private HistoryPricesPanel historyPricePanel;
+	
+	
 	private JButton btnReload;
-
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JLabel lblLoading;
 	private JPanel rightPanel;
@@ -87,9 +89,10 @@ public class StockPanelGUI extends JPanel {
 	private JLabel lblCount;
 
 	private JComboBox<String> cboSelections;
-	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),
-			MTGControler.getInstance().getLangService().get("UPDATED") };
+	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED") };
 	private File f;
+	
+	
 
 	public StockPanelGUI() {
 		logger.info("init StockManagment GUI");
@@ -124,7 +127,7 @@ public class StockPanelGUI extends JPanel {
 					int modelRow = table.convertRowIndexToModel(viewRow);
 					MagicCardStock selectedStock = (MagicCardStock) table.getModel().getValueAt(modelRow, 0);
 					btnDelete.setEnabled(true);
-					magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
+					updatePanels(selectedStock);
 				}
 			}
 		});
@@ -417,6 +420,12 @@ public class StockPanelGUI extends JPanel {
 
 	}
 
+	private void updatePanels(MagicCardStock selectedStock) {
+		magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
+		historyPricePanel.init(selectedStock.getMagicCard(), null, selectedStock.getMagicCard().getName());
+		
+	}
+
 	public void addStock(MagicCardStock mcs) {
 		mcs.setIdstock(-1);
 		mcs.setUpdate(true);
@@ -455,12 +464,14 @@ public class StockPanelGUI extends JPanel {
 		JLabel lblQte;
 		JLabel lblLanguage;
 		JLabel lblComment;
-
+		JTabbedPane tabPanel = new JTabbedPane();
 		setLayout(new BorderLayout(0, 0));
 
 		model = new CardStockTableModel();
 		magicCardDetailPanel = new MagicCardDetailPanel();
-
+		historyPricePanel = new HistoryPricesPanel();
+		
+		
 		JPanel centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
 		centerPanel.setLayout(new BorderLayout(0, 0));
@@ -533,8 +544,14 @@ public class StockPanelGUI extends JPanel {
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		centerPanel.add(splitPane, BorderLayout.CENTER);
 		splitPane.setLeftComponent(scrollTable);
-		splitPane.setRightComponent(magicCardDetailPanel);
+		
+		splitPane.setRightComponent(tabPanel);
 
+		
+		tabPanel.addTab(MTGControler.getInstance().getLangService().get("DETAILS"),MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel);
+		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
+		
+		
 		rightPanel = new JPanel();
 		rightPanel.setBackground(SystemColor.inactiveCaption);
 		rightPanel.setVisible(false);
