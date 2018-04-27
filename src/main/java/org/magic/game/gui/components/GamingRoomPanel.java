@@ -57,9 +57,14 @@ public class GamingRoomPanel extends JPanel {
 	private JList list = new JList<>(new DefaultListModel<>());
 	private JButton btnPlayGame;
 	private JButton btnConnect;
-
-	Player otherplayer = null;
-
+	private JButton btnLogout;
+	private JTextArea editorPane;
+	private JComboBox<STATE> cboStates;
+	private JButton btnShareDeck;
+	private JButton btnColorChoose;
+	private Player otherplayer = null;
+	private JButton btnDeck ;
+	
 	private transient Observer obs = new Observer() {
 
 		private void printMessage(AbstractNetworkAction sa) {
@@ -113,28 +118,98 @@ public class GamingRoomPanel extends JPanel {
 
 	public GamingRoomPanel() {
 		setLayout(new BorderLayout(0, 0));
-		final JButton btnLogout = new JButton(MTGControler.getInstance().getLangService().getCapitalize("LOGOUT"));
-		JPanel panneauHaut = new JPanel();
-		add(panneauHaut, BorderLayout.NORTH);
-
+	
+		btnLogout = new JButton(MTGControler.getInstance().getLangService().getCapitalize("LOGOUT"));
 		JLabel lblIp = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("HOST") + " :");
-		panneauHaut.add(lblIp);
-
-		txtServer = new JTextField();
-		txtServer.setText("");
-		panneauHaut.add(txtServer);
-		txtServer.setColumns(10);
-
-		JLabel lblPort = new JLabel("Port :");
-		panneauHaut.add(lblPort);
-
-		txtPort = new JTextField();
-		txtPort.setText("18567");
-		panneauHaut.add(txtPort);
-		txtPort.setColumns(10);
-
 		btnConnect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("CONNECT"));
+		JLabel lblName = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :");
+		JPanel panneauHaut = new JPanel();
+		txtServer = new JTextField();
+		JLabel lblPort = new JLabel("Port :");
+		txtPort = new JTextField();
+		txtName = new JTextField();
+		mod = new PlayerTableModel();
+		table = new JTable(mod);
+		JScrollPane scrollPane = new JScrollPane();
+		JPanel panneauBas = new JPanel();
+		btnDeck = new JButton("Change deck");
+		btnPlayGame = new JButton("Ask for Game");
+		JPanel panel = new JPanel();
+		JScrollPane scrollPane1 = new JScrollPane();
+		editorPane = new JTextArea();
+		JPanel panel1 = new JPanel();
+		btnShareDeck = new JButton(MTGConstants.ICON_DECK);
+		btnColorChoose = new JButton(MTGConstants.ICON_GAME_COLOR);
+		cboStates = new JComboBox<>(new DefaultComboBoxModel<STATE>(STATE.values()));
+		JPanel panelChatBox = new JPanel();
+		
+		txtServer.setText("");
+		txtServer.setColumns(10);
+		txtPort.setText("18567");
+		txtPort.setColumns(10);
+		txtName.setColumns(10);
+		txtName.setText(MTGControler.getInstance().get("/game/player-profil/name"));
+		btnLogout.setEnabled(false);
+		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
+		btnPlayGame.setEnabled(false);
+		panel.setLayout(new BorderLayout(0, 0));
+		panelChatBox.setLayout(new BorderLayout(0, 0));
+		editorPane.setText(MTGControler.getInstance().getLangService().getCapitalize("CHAT_INTRO_TEXT"));
+		editorPane.setLineWrap(true);
+		editorPane.setWrapStyleWord(true);
+		editorPane.setRows(2);
+		btnShareDeck.setToolTipText("Share a deck");
+		
 
+		
+		try {
+			editorPane.setForeground(new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
+		} catch (Exception e) {
+			editorPane.setForeground(Color.BLACK);
+		}
+		list.setCellRenderer(new DefaultListCellRenderer() {
+			@Override
+			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
+				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
+						cellHasFocus);
+				try {
+					label.setForeground(((SpeakAction) value).getColor());
+				} catch (Exception e) {
+					// do nothing
+				}
+				return label;
+			}
+		});
+
+		add(panneauHaut, BorderLayout.NORTH);
+		panneauHaut.add(lblIp);
+		panneauHaut.add(txtServer);
+		panneauHaut.add(lblPort);
+		panneauHaut.add(txtPort);
+		panneauHaut.add(lblName);
+		panneauHaut.add(txtName);
+		panneauHaut.add(btnConnect);
+		panneauHaut.add(btnLogout);
+		scrollPane.setViewportView(table);
+		add(scrollPane, BorderLayout.CENTER);
+		add(panneauBas, BorderLayout.SOUTH);
+		panneauBas.add(btnDeck);
+		panneauBas.add(btnPlayGame);
+		add(panel, BorderLayout.EAST);
+		panel.add(scrollPane1, BorderLayout.CENTER);
+		scrollPane1.setViewportView(list);
+		panel.add(panelChatBox, BorderLayout.SOUTH);
+		panelChatBox.add(editorPane, BorderLayout.CENTER);
+		panelChatBox.add(panel1, BorderLayout.NORTH);
+		panel1.add(btnShareDeck);
+		panel1.add(btnColorChoose);
+		panel1.add(cboStates);
+		
+		
+		initActions();
+	}
+	
+	private void initActions() {
 		btnConnect.addActionListener(ae -> {
 			try {
 				client = new MinaClient(txtServer.getText(), Integer.parseInt(txtPort.getText()));
@@ -163,41 +238,15 @@ public class GamingRoomPanel extends JPanel {
 			}
 		});
 
-		JLabel lblName = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :");
-		panneauHaut.add(lblName);
-
-		txtName = new JTextField();
-		panneauHaut.add(txtName);
-		txtName.setColumns(10);
-		txtName.setText(MTGControler.getInstance().get("/game/player-profil/name"));
-		panneauHaut.add(btnConnect);
+	
 
 		btnLogout.addActionListener(ae -> {
 			client.sendMessage("logged out");
 			client.logout();
 		});
-		btnLogout.setEnabled(false);
-		panneauHaut.add(btnLogout);
+	
 
-		list.setCellRenderer(new DefaultListCellRenderer() {
-			@Override
-			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,
-					boolean cellHasFocus) {
-				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
-						cellHasFocus);
-				try {
-					label.setForeground(((SpeakAction) value).getColor());
-				} catch (Exception e) {
-					// do nothing
-				}
-				return label;
-			}
-		});
-
-		mod = new PlayerTableModel();
-		table = new JTable(mod);
-		table.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		JScrollPane scrollPane = new JScrollPane();
+		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
@@ -209,76 +258,17 @@ public class GamingRoomPanel extends JPanel {
 
 			}
 		});
-		add(scrollPane, BorderLayout.CENTER);
+	
+	
 
-		scrollPane.setViewportView(table);
-
-		JPanel panneauBas = new JPanel();
-		add(panneauBas, BorderLayout.SOUTH);
-
-		JButton btnDeck = new JButton("Change deck");
-		panneauBas.add(btnDeck);
-
-		btnPlayGame = new JButton("Ask for Game");
 		btnPlayGame.addActionListener(e -> {
 			int res = JOptionPane.showConfirmDialog(getRootPane(), "Want to play with " + otherplayer + " ?",
 					"Gaming request", JOptionPane.YES_NO_OPTION);
 			if (res == JOptionPane.YES_OPTION)
 				client.requestPlay(otherplayer);
 		});
-		btnPlayGame.setEnabled(false);
-		panneauBas.add(btnPlayGame);
-
-		JPanel panel = new JPanel();
-		add(panel, BorderLayout.EAST);
-		panel.setLayout(new BorderLayout(0, 0));
-
-		JScrollPane scrollPane_1 = new JScrollPane();
-		panel.add(scrollPane_1, BorderLayout.CENTER);
-
-		scrollPane_1.setViewportView(list);
-
-		JPanel panelChatBox = new JPanel();
-		panel.add(panelChatBox, BorderLayout.SOUTH);
-		panelChatBox.setLayout(new BorderLayout(0, 0));
-
-		final JTextArea editorPane = new JTextArea();
-		editorPane.setText(MTGControler.getInstance().getLangService().getCapitalize("CHAT_INTRO_TEXT"));
-		editorPane.setLineWrap(true);
-		editorPane.setWrapStyleWord(true);
-		editorPane.setRows(2);
-		try {
-			editorPane.setForeground(
-					new Color(Integer.parseInt(MTGControler.getInstance().get("/game/player-profil/foreground"))));
-		} catch (Exception e) {
-			editorPane.setForeground(Color.BLACK);
-		}
-
-		panelChatBox.add(editorPane, BorderLayout.CENTER);
-
-		JPanel panel_1 = new JPanel();
-		panelChatBox.add(panel_1, BorderLayout.NORTH);
-
-		JButton btnShareDeck = new JButton("");
-		btnShareDeck.addActionListener(ae -> {
-			JDeckChooserDialog diag = new JDeckChooserDialog();
-			diag.setVisible(true);
-			MagicDeck d = diag.getSelectedDeck();
-			Player p = (Player) table.getModel().getValueAt(table.getSelectedRow(), 0);
-			client.sendDeck(d, p);
-		});
-		btnShareDeck.setToolTipText("Share a deck");
-		btnShareDeck.setIcon(MTGConstants.ICON_DECK);
-		panel_1.add(btnShareDeck);
-
-		JButton btnColorChoose = new JButton("");
-		btnColorChoose.setIcon(MTGConstants.ICON_GAME_COLOR);
-		panel_1.add(btnColorChoose);
-
-		final JComboBox cboStates = new JComboBox(new DefaultComboBoxModel<STATE>(STATE.values()));
-		cboStates.addItemListener(ie -> client.changeStatus((STATE) cboStates.getSelectedItem()));
-
-		panel_1.add(cboStates);
+		
+		
 		btnColorChoose.addActionListener(ae -> {
 			Color c = JColorChooser.showDialog(null, "Choose Text Color", Color.BLACK);
 			editorPane.setForeground(c);
@@ -314,7 +304,22 @@ public class GamingRoomPanel extends JPanel {
 			client.updateDeck(d);
 		});
 
+	
+
+		btnShareDeck.addActionListener(ae -> {
+			JDeckChooserDialog diag = new JDeckChooserDialog();
+			diag.setVisible(true);
+			MagicDeck d = diag.getSelectedDeck();
+			Player p = (Player) table.getModel().getValueAt(table.getSelectedRow(), 0);
+			client.sendDeck(d, p);
+		});
+		
+		
+		cboStates.addItemListener(ie -> client.changeStatus((STATE) cboStates.getSelectedItem()));
+
 	}
+
+	
 
 }
 
