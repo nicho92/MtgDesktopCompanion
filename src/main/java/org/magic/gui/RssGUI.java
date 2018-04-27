@@ -9,7 +9,6 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Enumeration;
-import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -28,7 +27,7 @@ import org.apache.log4j.Logger;
 import org.fit.cssbox.swingbox.BrowserPane;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
-import org.magic.gui.components.NewsPanel;
+import org.magic.gui.components.NewsEditorPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -41,7 +40,7 @@ public class RssGUI extends JPanel {
 	private BrowserPane editorPane;
 	private DefaultMutableTreeNode curr;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private NewsPanel newsPanel;
+	private NewsEditorPanel newsPanel;
 	private DefaultMutableTreeNode rootNode;
 	private JTree tree;
 	private JLabel lblLoading;
@@ -69,7 +68,7 @@ public class RssGUI extends JPanel {
 		btnSave = new JButton(MTGConstants.ICON_SAVE);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
-		newsPanel = new NewsPanel();
+		newsPanel = new NewsEditorPanel();
 		
 		setLayout(new BorderLayout(0, 0));
 		tree.setPreferredSize(new Dimension(150, 64));

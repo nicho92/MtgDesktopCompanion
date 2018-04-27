@@ -15,7 +15,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.services.MTGControler;
 
-public class NewsPanel extends JPanel {
+public class NewsEditorPanel extends JPanel {
 
 	private static final long serialVersionUID = 1L;
 	private MagicNews magicNews = new MagicNews();
@@ -24,12 +24,12 @@ public class NewsPanel extends JPanel {
 	private JTextField urlJTextField;
 	private JComboBox<MTGNewsProvider> cboType;
 
-	public NewsPanel(org.magic.api.beans.MagicNews newMagicNews) {
+	public NewsEditorPanel(org.magic.api.beans.MagicNews newMagicNews) {
 		this();
 		setMagicNews(newMagicNews);
 	}
 
-	public NewsPanel() {
+	public NewsEditorPanel() {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 0, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 0, 0, 0 };

@@ -7,7 +7,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Insets;
-import java.awt.image.BufferedImage;
 
 import javax.swing.DefaultListModel;
 import javax.swing.ImageIcon;

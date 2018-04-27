@@ -8,13 +8,8 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.net.URL;
 
-import javax.imageio.ImageIO;
-import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
-
-import org.magic.gui.components.dialog.AboutDialog;
-import org.magic.gui.renderer.ManaCellRenderer;
 
 public class MTGConstants {
 
