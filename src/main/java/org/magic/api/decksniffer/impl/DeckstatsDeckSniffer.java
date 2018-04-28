@@ -115,10 +115,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 						|| cardName.trim().equalsIgnoreCase("Forest")) {
 					MagicEdition ed = new MagicEdition();
 					ed.setId(MTGControler.getInstance().get("default-land-deck"));
-					mc = MTGControler.getInstance().getEnabledProviders()
+					mc = MTGControler.getInstance().getEnabledCardsProviders()
 							.searchCardByCriteria("name", cardName, ed, true).get(0);
 				} else {
-					mc = MTGControler.getInstance().getEnabledProviders()
+					mc = MTGControler.getInstance().getEnabledCardsProviders()
 							.searchCardByCriteria("name", cardName, null, true).get(0);
 				}
 

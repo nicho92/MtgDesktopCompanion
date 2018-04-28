@@ -234,7 +234,7 @@ public class MagicEditionDetailPanel extends JPanel {
 			btnOpenBooster.addActionListener(ae -> {
 				try {
 					CardSearchPanel.getInstance().thumbnail(
-							MTGControler.getInstance().getEnabledProviders().generateBooster(magicEdition).getCards());
+							MTGControler.getInstance().getEnabledCardsProviders().generateBooster(magicEdition).getCards());
 				} catch (Exception e) {
 					logger.error("Error loading booster for " + magicEdition, e);
 				}

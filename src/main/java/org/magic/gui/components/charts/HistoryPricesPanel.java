@@ -133,7 +133,7 @@ public class HistoryPricesPanel extends JPanel {
 
 		if (showEdition)
 			try {
-				for (MagicEdition edition : MTGControler.getInstance().getEnabledProviders().loadEditions()) {
+				for (MagicEdition edition : MTGControler.getInstance().getEnabledCardsProviders().loadEditions()) {
 					Date d = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(edition.getReleaseDate() + " 00:00");
 					TimeSeriesDataItem item = series1.getDataItem(new Day(d));
 

@@ -52,7 +52,7 @@ public class CSVExport extends AbstractCardExport {
 			while (line != null) {
 				String[] part = line.split(";");
 				MagicCardStock mcs = new MagicCardStock();
-				MagicCard mc = MTGControler.getInstance().getEnabledProviders()
+				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
 						.searchCardByCriteria("name", part[1], null, true).get(0);
 
 				for (MagicEdition ed : mc.getEditions())
@@ -260,7 +260,7 @@ public class CSVExport extends AbstractCardExport {
 
 				MagicEdition ed = new MagicEdition();
 				ed.setId(set);
-				List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name",
+				List<MagicCard> list = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name",
 						name, ed, true);
 
 				deck.getMap().put(list.get(0), Integer.parseInt(qte));

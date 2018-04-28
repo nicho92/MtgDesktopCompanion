@@ -68,7 +68,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 				if (name.contains("/"))
 					name = name.substring(0, name.indexOf('/')).trim();
 
-				MagicCard mc = MTGControler.getInstance().getEnabledProviders()
+				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
 						.searchCardByCriteria("name", name, null, true).get(0);
 
 				if (!isSideboard)

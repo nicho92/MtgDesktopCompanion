@@ -38,7 +38,7 @@ public class MKMFileWantListExport extends AbstractCardExport {
 				int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
 				String name = line.substring(line.indexOf(' '), line.indexOf('('));
 
-				deck.getMap().put(MTGControler.getInstance().getEnabledProviders()
+				deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders()
 						.searchCardByCriteria("name", name.trim(), null, true).get(0), qte);
 				line = read.readLine();
 			}

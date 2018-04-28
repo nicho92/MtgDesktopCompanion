@@ -41,7 +41,7 @@ public class BoosterQtyPanel extends JPanel {
 		setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
 		List<MagicEdition> li = new ArrayList<>();
 		try {
-			li = MTGControler.getInstance().getEnabledProviders().loadEditions();
+			li = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
 		} catch (IOException e1) {
 			logger.error(e1);
 		}

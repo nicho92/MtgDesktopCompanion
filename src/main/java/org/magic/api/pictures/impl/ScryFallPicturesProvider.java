@@ -45,7 +45,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	private URL generateLink(MagicCard mc, MagicEdition selected, boolean crop) throws MalformedURLException {
 
 		if (scryfallProvider == null)
-			scryfallProvider = MTGControler.getInstance().getEnabledProviders() instanceof ScryFallProvider;
+			scryfallProvider = MTGControler.getInstance().getEnabledCardsProviders() instanceof ScryFallProvider;
 
 		String url = "https://api.scryfall.com/cards/" + selected.getId().toLowerCase() + "/" + selected.getNumber()
 				+ "?format=image";

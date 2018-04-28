@@ -402,7 +402,7 @@ public class ConfigurationPanel extends JPanel {
 
 		final JComboBox<String> cboLanguages = new JComboBox<>();
 
-		for (String s : MTGControler.getInstance().getEnabledProviders().getLanguages()) {
+		for (String s : MTGControler.getInstance().getEnabledCardsProviders().getLanguages()) {
 			cboLanguages.addItem(s);
 			if (MTGControler.getInstance().get("langage").equals(s))
 				cboLanguages.setSelectedItem(s);
@@ -909,7 +909,7 @@ public class ConfigurationPanel extends JPanel {
 
 		}
 		try {
-			for (MagicEdition col : MTGControler.getInstance().getEnabledProviders().loadEditions()) {
+			for (MagicEdition col : MTGControler.getInstance().getEnabledCardsProviders().loadEditions()) {
 				cboEditionLands.addItem(col);
 				if (col.getId().equalsIgnoreCase(MTGControler.getInstance().get("default-land-deck"))) {
 					cboEditionLands.setSelectedItem(col);

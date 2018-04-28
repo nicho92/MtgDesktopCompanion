@@ -39,7 +39,7 @@ public class MtgDesktopCompanion {
 						MTGControler.getInstance().getLangService().getCapitalize("NEW_MODULE_INSTALLED"));
 
 			MTGLogger.changeLevel(MTGControler.getInstance().get("loglevel"));
-			MTGControler.getInstance().getEnabledProviders().init();
+			MTGControler.getInstance().getEnabledCardsProviders().init();
 			MTGControler.getInstance().getEnabledDAO().init();
 
 			logger.info("Init MTG Desktop Companion GUI");

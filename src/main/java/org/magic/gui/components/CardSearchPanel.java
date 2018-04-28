@@ -218,7 +218,7 @@ public class CardSearchPanel extends JPanel {
 
 		List<MagicEdition> li = new ArrayList<>();
 		try {
-			li = MTGControler.getInstance().getEnabledProviders().loadEditions();
+			li = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
 			Collections.sort(li);
 		} catch (Exception e2) {
 			logger.error("error no edition loaded", e2);
@@ -259,7 +259,7 @@ public class CardSearchPanel extends JPanel {
 		btnClear = new JButton(MTGConstants.ICON_CLEAR);
 
 		cboQuereableItems = new JComboBox<>(new DefaultComboBoxModel<String>(
-				MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
+				MTGControler.getInstance().getEnabledCardsProviders().getQueryableAttributs()));
 		try {
 			cboCollections = new JComboBox<>(new DefaultComboBoxModel<MagicCollection>(
 					MTGControler.getInstance().getEnabledDAO().getCollections().toArray(
@@ -479,13 +479,13 @@ public class CardSearchPanel extends JPanel {
 					String searchName = txtMagicSearch.getText();
 					try {
 
-						MTGControler.getInstance().getEnabledProviders().addObserver(ob);
+						MTGControler.getInstance().getEnabledCardsProviders().addObserver(ob);
 
 						if (cboCollections.isVisible())
 							cards = MTGControler.getInstance().getEnabledDAO()
 									.listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
 						else
-							cards = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(
+							cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(
 									cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
 
 						if (cards.size() < 50)
@@ -506,7 +506,7 @@ public class CardSearchPanel extends JPanel {
 					loading(false, "");
 					cardsModeltable.fireTableDataChanged();
 					btnExport.setEnabled(tableCards.getRowCount() > 0);
-					MTGControler.getInstance().getEnabledProviders().removeObserver(ob);
+					MTGControler.getInstance().getEnabledCardsProviders().removeObserver(ob);
 
 				}
 			}.execute();
@@ -539,7 +539,7 @@ public class CardSearchPanel extends JPanel {
 				ThreadManager.getInstance().execute(() -> {
 					loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
 					try {
-						selectedCard = MTGControler.getInstance().getEnabledProviders()
+						selectedCard = MTGControler.getInstance().getEnabledCardsProviders()
 								.searchCardByCriteria("name", selectedCard.getName(), selectedEdition, false).get(0);
 						detailCardPanel.setMagicCard(selectedCard);
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);

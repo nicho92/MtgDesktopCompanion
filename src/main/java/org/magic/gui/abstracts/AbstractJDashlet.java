@@ -97,7 +97,7 @@ public abstract class AbstractJDashlet extends JInternalFrame {
 					}
 
 					try {
-						MagicCard mc = MTGControler.getInstance().getEnabledProviders()
+						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
 								.searchCardByCriteria("name", cardName, ed, true).get(0);
 						pane.setMagicCard(mc);
 						popUp.setBorder(new LineBorder(Color.black));

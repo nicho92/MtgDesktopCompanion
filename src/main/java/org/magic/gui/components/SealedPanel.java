@@ -108,7 +108,7 @@ public class SealedPanel extends JPanel {
 
 		List<MagicEdition> li;
 		try {
-			li = MTGControler.getInstance().getEnabledProviders().loadEditions();
+			li = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
 		} catch (IOException e1) {
 			li = new ArrayList<>();
 			logger.error(e1);
@@ -316,7 +316,7 @@ public class SealedPanel extends JPanel {
 		MagicEdition ed = new MagicEdition();
 		ed.setId(MTGControler.getInstance().get("default-land-deck"));
 		try {
-			MagicCard mc = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", land, ed, true)
+			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", land, ed, true)
 					.get(0);
 
 			for (int i = 0; i < qte; i++) {
@@ -361,7 +361,7 @@ public class SealedPanel extends JPanel {
 				try {
 					for (int i = 0; i < ed.getValue(); i++) {
 
-						Booster b = MTGControler.getInstance().getEnabledProviders().generateBooster(ed.getKey());
+						Booster b = MTGControler.getInstance().getEnabledCardsProviders().generateBooster(ed.getKey());
 						column++;
 						for (MagicCard mc : b.getCards()) {
 							list.add(mc);

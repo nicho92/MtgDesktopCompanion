@@ -10,7 +10,7 @@ import org.magic.services.MTGControler;
 public class WebUIServerLauncher {
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
-		MTGControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledCardsProviders().init();
 		MTGControler.getInstance().getEnabledDAO().init();
 
 		new JSONHttpServer().start();

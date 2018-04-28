@@ -78,7 +78,7 @@ public class ExportsProviderTests {
 	public void initTests()
 	{
 		
-		MTGControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledCardsProviders().init();
 		
 		
 		testExports(new Apprentice2DeckExport());

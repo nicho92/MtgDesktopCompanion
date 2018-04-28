@@ -64,7 +64,7 @@ public class MeldActions extends AbstractAction {
 		MagicCard mc;
 		try {
 			mc = MTGControler
-					.getInstance().getEnabledProviders().searchCardByCriteria("name",
+					.getInstance().getEnabledCardsProviders().searchCardByCriteria("name",
 							card.getMagicCard().getRotatedCardName(), card.getMagicCard().getEditions().get(0), true)
 					.get(0);
 

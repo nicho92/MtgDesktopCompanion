@@ -125,7 +125,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			pst.setString(2, mc.getName());
 			pst.setBinaryStream(3, convertObject(mc));
 			pst.setString(4, mc.getEditions().get(0).getId());
-			pst.setString(5, MTGControler.getInstance().getEnabledProviders().toString());
+			pst.setString(5, MTGControler.getInstance().getEnabledCardsProviders().toString());
 			pst.setString(6, collection.getName());
 			pst.executeUpdate();
 		}

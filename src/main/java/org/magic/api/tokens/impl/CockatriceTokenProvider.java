@@ -126,7 +126,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 				String idSet = sets.item(s).getTextContent();
 
 				if (idSet.equals(mc.getEditions().get(0).getId())) {
-					MagicEdition ed = MTGControler.getInstance().getEnabledProviders().getSetById(idSet);
+					MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(idSet);
 					tok.getEditions().add(ed);
 				}
 

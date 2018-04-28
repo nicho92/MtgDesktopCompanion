@@ -56,7 +56,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 				if (cardName.contains("//")) // for transformatble cards
 					cardName = cardName.substring(0, cardName.indexOf("//")).trim();
 
-				MagicCard mc = MTGControler.getInstance().getEnabledProviders()
+				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
 						.searchCardByCriteria("name", cardName, null, true).get(0);
 				if (!sideboard)
 					deck.getMap().put(mc, qte);

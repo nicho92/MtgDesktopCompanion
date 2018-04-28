@@ -103,7 +103,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, serialiser.toJsonTree(mc).toString());
 			pst.setString(3, mc.getEditions().get(0).getId());
-			pst.setString(4, MTGControler.getInstance().getEnabledProviders().toString());
+			pst.setString(4, MTGControler.getInstance().getEnabledCardsProviders().toString());
 			pst.setString(5, collection.getName());
 			pst.executeUpdate();
 		}

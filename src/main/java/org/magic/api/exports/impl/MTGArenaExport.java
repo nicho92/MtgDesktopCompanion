@@ -14,12 +14,13 @@ import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 
 public class MTGArenaExport extends AbstractCardExport {
-
+	
 	@Override
 	public String getFileExtension() {
 		return ".mtgarena";
@@ -77,12 +78,29 @@ public class MTGArenaExport extends AbstractCardExport {
 			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
 			String line = read.readLine();
 
+			boolean side=false;
+			
 			while (line != null) {
-				int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
-				String name = line.substring(line.indexOf(' '), line.indexOf('('));
-
-				deck.getMap().put(MTGControler.getInstance().getEnabledProviders().searchCardByCriteria("name", name.trim(), null, true).get(0), qte);
-				line = read.readLine();
+				if(line.length()==0)
+				{
+					side=true;
+				}
+				else
+				{
+					int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
+					String name = line.substring(line.indexOf(' '), line.indexOf('('));
+					String ed =  line.substring( line.indexOf('(')+1,line.indexOf(')'));
+					MagicEdition me = MTGControler.getInstance().getEnabledCardsProviders().getSetById(ed);
+				
+					
+					if(!side)
+						deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", name.trim(), me, true).get(0), qte);
+					else
+						deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", name.trim(), me, true).get(0), qte);
+					
+				}
+				
+					line = read.readLine();
 			}
 			return deck;
 		}

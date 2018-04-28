@@ -60,7 +60,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 		List<MagicEdition> list = new ArrayList<>();
 		try {
-			list = MTGControler.getInstance().getEnabledProviders().loadEditions();
+			list = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
 		} catch (IOException e2) {
 			logger.error(e2);
 		}
@@ -130,9 +130,9 @@ public class MassCollectionImporterDialog extends JDialog {
 						MagicCard mc = null;
 
 						if (cboByType.getSelectedItem().toString().equalsIgnoreCase("number"))
-							mc = MTGControler.getInstance().getEnabledProviders().getCardByNumber(id, ed);
+							mc = MTGControler.getInstance().getEnabledCardsProviders().getCardByNumber(id, ed);
 						else
-							mc = MTGControler.getInstance().getEnabledProviders()
+							mc = MTGControler.getInstance().getEnabledCardsProviders()
 									.searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),
 											(MagicEdition) cboEditions.getSelectedItem(), true)
 									.get(0);

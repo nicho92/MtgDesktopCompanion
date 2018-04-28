@@ -47,7 +47,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		List<MagicEdition> eds = new ArrayList<>();
 
 		try {
-			eds.addAll(MTGControler.getInstance().getEnabledProviders().loadEditions());
+			eds.addAll(MTGControler.getInstance().getEnabledCardsProviders().loadEditions());
 			Collections.sort(eds);
 			eds.add(0, null);
 		} catch (Exception e) {
@@ -85,7 +85,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 			MagicEdition ed;
 			try {
-				ed = MTGControler.getInstance().getEnabledProviders().getSetById(getProperty("EDITION"));
+				ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(getProperty("EDITION"));
 				cboEditions.setSelectedItem(ed);
 			} catch (Exception e) {
 				logger.error("Error retrieve editions", e);

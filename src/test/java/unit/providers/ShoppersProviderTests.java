@@ -57,7 +57,7 @@ public class ShoppersProviderTests {
 	public void initTests()
 	{
 		
-		MTGControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledCardsProviders().init();
 		
 		
 		test(new EbayShopper());

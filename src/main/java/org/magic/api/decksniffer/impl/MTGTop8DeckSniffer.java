@@ -84,7 +84,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 				int qte = Integer.parseInt(e.text().substring(0, e.text().indexOf(' ')));
 				String name = e.select("span.L14").text();
 				if (!name.equals("")) {
-					MagicCard mc = MTGControler.getInstance().getEnabledProviders()
+					MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
 							.searchCardByCriteria("name", name, null, true).get(0);
 					if (!side)
 						d.getMap().put(mc, qte);

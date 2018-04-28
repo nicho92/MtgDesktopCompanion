@@ -60,7 +60,7 @@ public class DashboardsProviderTests {
 	public void initTests()
 	{
 		
-		MTGControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledCardsProviders().init();
 		
 		
 		test(new MTGoldFishDashBoard());

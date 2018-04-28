@@ -91,7 +91,7 @@ public class CollectionPanelGUI extends JPanel {
 	private JPopupMenu popupMenuCards = new JPopupMenu();
 
 	public CollectionPanelGUI() throws IOException, SQLException, ClassNotFoundException {
-		this.provider = MTGControler.getInstance().getEnabledProviders();
+		this.provider = MTGControler.getInstance().getEnabledCardsProviders();
 		this.dao = MTGControler.getInstance().getEnabledDAO();
 		initGUI();
 	}

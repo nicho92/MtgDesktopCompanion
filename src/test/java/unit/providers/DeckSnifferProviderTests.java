@@ -66,7 +66,7 @@ public class DeckSnifferProviderTests {
 	public void initTests()
 	{
 		
-		MTGControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledCardsProviders().init();
 		test(new DeckstatsDeckSniffer());
 		test(new LotusNoirDecks());
 		test(new MagicCorporationDecks());

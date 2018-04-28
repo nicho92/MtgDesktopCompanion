@@ -32,13 +32,13 @@ public class Search extends AbstractCommand {
 		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			List<MagicCard> list = MTGControler.getInstance().getEnabledProviders().searchCardByCriteria(att, val, null,
+			List<MagicCard> list = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(att, val, null,
 					false);
 			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttCards())));
 		}
 
 		if (cl.hasOption("s")) {
-			List<MagicEdition> list = MTGControler.getInstance().getEnabledProviders().loadEditions();
+			List<MagicEdition> list = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
 			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttSet())));
 		}
 

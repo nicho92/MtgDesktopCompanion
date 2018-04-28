@@ -457,7 +457,7 @@ public class MTGControler {
 		return pricersE;
 	}
 
-	public MTGCardsProvider getEnabledProviders() {
+	public MTGCardsProvider getEnabledCardsProviders() {
 		for (MTGCardsProvider p : getCardsProviders())
 			if (p.isEnable())
 				return p;

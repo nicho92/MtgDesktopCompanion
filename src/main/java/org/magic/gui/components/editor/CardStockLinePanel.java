@@ -60,7 +60,7 @@ public class CardStockLinePanel extends JPanel {
 		cboState = new JComboBox(EnumCondition.values());
 		add(cboState);
 
-		cboLanguage = new JComboBox(MTGControler.getInstance().getEnabledProviders().getLanguages());
+		cboLanguage = new JComboBox(MTGControler.getInstance().getEnabledCardsProviders().getLanguages());
 		add(cboLanguage);
 
 		JLabel lblComment = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("COMMENTS") + " :");

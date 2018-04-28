@@ -30,7 +30,7 @@ public class ConsoleServer extends AbstractMTGServer {
 
 	public static void main(String[] args) throws Exception {
 
-		MTGControler.getInstance().getEnabledProviders().init();
+		MTGControler.getInstance().getEnabledCardsProviders().init();
 		MTGControler.getInstance().getEnabledDAO().init();
 
 		ConsoleServer serv = new ConsoleServer();

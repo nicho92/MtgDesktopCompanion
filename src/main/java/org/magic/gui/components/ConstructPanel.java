@@ -156,7 +156,7 @@ public class ConstructPanel extends JPanel {
 		add(panneauHaut, BorderLayout.NORTH);
 
 		cboAttributs = new JComboBox<>(new DefaultComboBoxModel<String>(
-				MTGControler.getInstance().getEnabledProviders().getQueryableAttributs()));
+				MTGControler.getInstance().getEnabledCardsProviders().getQueryableAttributs()));
 		panneauHaut.add(cboAttributs);
 
 		txtSearch = new JTextField();
@@ -218,7 +218,7 @@ public class ConstructPanel extends JPanel {
 			lblExport.setVisible(true);
 			for (MagicCard mc : deck.getMap().keySet()) {
 				try {
-					updateM.put(MTGControler.getInstance().getEnabledProviders().getCardById(mc.getId()),
+					updateM.put(MTGControler.getInstance().getEnabledCardsProviders().getCardById(mc.getId()),
 							deck.getMap().get(mc));
 				} catch (Exception e) {
 					logger.error(e);
@@ -228,7 +228,7 @@ public class ConstructPanel extends JPanel {
 			}
 			for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 				try {
-					updateS.put(MTGControler.getInstance().getEnabledProviders().getCardById(mc.getId()),
+					updateS.put(MTGControler.getInstance().getEnabledCardsProviders().getCardById(mc.getId()),
 							deck.getMapSideBoard().get(mc));
 				} catch (Exception e) {
 					btnUpdate.setEnabled(true);
@@ -678,7 +678,7 @@ public class ConstructPanel extends JPanel {
 			ThreadManager.getInstance().execute(() -> {
 				try {
 					String searchName = txtSearch.getText();
-					List<MagicCard> cards = MTGControler.getInstance().getEnabledProviders()
+					List<MagicCard> cards = MTGControler.getInstance().getEnabledCardsProviders()
 							.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null, false);
 					MagicFormat form = new MagicFormat();
 

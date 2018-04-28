@@ -173,7 +173,7 @@ public class LazyLoadingTree extends JTree {
 					logger.debug("loading editions from " + c);
 					List<MyNode> children = new ArrayList<>();
 					for (String ed : MTGControler.getInstance().getEnabledDAO().getEditionsIDFromCollection(c)) {
-						MyNode n = new MyNode(MTGControler.getInstance().getEnabledProviders().getSetById(ed));
+						MyNode n = new MyNode(MTGControler.getInstance().getEnabledCardsProviders().getSetById(ed));
 						children.add(n);
 					}
 					Collections.sort(children);
