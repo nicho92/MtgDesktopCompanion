@@ -24,6 +24,9 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.TableFilterHeader;
+
 public class DeckSnifferDialog extends JDialog {
 	private JTable table;
 	private JComboBox<AbstractDeckSniffer> cboSniffers;
@@ -36,6 +39,7 @@ public class DeckSnifferDialog extends JDialog {
 	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private TableFilterHeader filterHeader;
 
 	public DeckSnifferDialog() {
 
@@ -53,6 +57,7 @@ public class DeckSnifferDialog extends JDialog {
 		model = new DeckSnifferModel();
 		table.setModel(model);
 		scrollPane.setViewportView(table);
+		filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);

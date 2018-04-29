@@ -47,7 +47,6 @@ public class MagicGUI extends JFrame {
 	private JTabbedPane tabbedPane;
 	private transient VersionChecker serviceUpdate;
 	private static transient TrayIcon trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-	private CardSearchPanel cardSearchPanel;
 
 	public static TrayIcon getTrayNotifier() {
 		return trayNotifier;
@@ -169,16 +168,16 @@ public class MagicGUI extends JFrame {
 				if (exp != null) {
 					ThreadManager.getInstance().execute(() -> {
 						try {
-							if (cardSearchPanel == null)
+							if (CardSearchPanel.getInstance() == null)
 								throw new NullPointerException(
 										MTGControler.getInstance().getLangService().getCapitalize("MUST_BE_LOADED",
 												MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 
-							cardSearchPanel.loading(true, MTGControler.getInstance().getLangService()
+							CardSearchPanel.getInstance().loading(true, MTGControler.getInstance().getLangService()
 									.getCapitalize("LOADING_FILE", f.getName(), exp));
 							MagicDeck d = exp.importDeck(f);
-							cardSearchPanel.open(d.getAsList());
-							cardSearchPanel.loading(false, "");
+							CardSearchPanel.getInstance().open(d.getAsList());
+							CardSearchPanel.getInstance().loading(false, "");
 							tabbedPane.setSelectedIndex(0);
 						} catch (Exception e) {
 							logger.error(e);

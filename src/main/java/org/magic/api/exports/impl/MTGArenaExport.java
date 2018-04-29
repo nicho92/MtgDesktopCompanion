@@ -87,6 +87,7 @@ public class MTGArenaExport extends AbstractCardExport {
 				}
 				else
 				{
+				
 					int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
 					String name = line.substring(line.indexOf(' '), line.indexOf('('));
 					String ed =  line.substring( line.indexOf('(')+1,line.indexOf(')'));
