@@ -57,7 +57,8 @@ public class DeckSnifferDialog extends JDialog {
 		model = new DeckSnifferModel();
 		table.setModel(model);
 		scrollPane.setViewportView(table);
-		filterHeader = new TableFilterHeader(table, AutoChoices.ENABLED);
+		
+		
 
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);
@@ -79,6 +80,7 @@ public class DeckSnifferDialog extends JDialog {
 				for (String s : selectedSniffer.listFilter())
 					cboFormats.addItem(s);
 
+				
 				lblLoad.setVisible(false);
 
 			} catch (Exception e1) {
@@ -122,7 +124,7 @@ public class DeckSnifferDialog extends JDialog {
 			try {
 				lblLoad.setVisible(true);
 				btnImport.setEnabled(false);
-				importedDeck = selectedSniffer.getDeck((RetrievableDeck) model.getValueAt(table.getSelectedRow(), 0));
+				importedDeck = selectedSniffer.getDeck((RetrievableDeck) model.getValueAt(table.getSelectedRow(), 0)); //todo bugfix with tableheader
 				lblLoad.setVisible(false);
 				btnImport.setEnabled(true);
 				dispose();

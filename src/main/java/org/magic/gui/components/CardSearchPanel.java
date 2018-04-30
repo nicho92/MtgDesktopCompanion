@@ -116,8 +116,7 @@ public class CardSearchPanel extends JPanel {
 
 	private JButton btnExport;
 
-	private List<MagicCard> cards;
-	private JList<MagicEdition> listEdition;
+		private JList<MagicEdition> listEdition;
 
 	private JLabel lblLoading;
 
@@ -471,14 +470,16 @@ public class CardSearchPanel extends JPanel {
 			selectedEdition = null;
 			if (txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
 				return;
-
+			
+			
+			
 			cardsModeltable.clear();
 			new SwingWorker<Object, Object>() {
 				protected Void doInBackground() {
 					loading(true, MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 					String searchName = txtMagicSearch.getText();
 					try {
-
+						List<MagicCard> cards;
 						MTGControler.getInstance().getEnabledCardsProviders().addObserver(ob);
 
 						if (cboCollections.isVisible())

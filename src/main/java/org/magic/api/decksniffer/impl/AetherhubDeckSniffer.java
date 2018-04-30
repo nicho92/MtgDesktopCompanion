@@ -20,7 +20,6 @@ import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.exports.impl.MTGArenaExport;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
@@ -36,11 +35,6 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	private HttpClient httpclient;
 	private Map<String,String> formats;
 	
-	public static void main(String[] args) throws IOException {
-		AetherhubDeckSniffer sniff = new AetherhubDeckSniffer();
-		RetrievableDeck r = sniff.getDeckList().get(0);
-		sniff.getDeck(r);
-	}
 	
 	public AetherhubDeckSniffer() {
 		super();
@@ -99,7 +93,6 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		List<RetrievableDeck> list = new ArrayList<>();
 		
-		//todo concordance with FORMAT
 		HttpResponse resp = httpclient.execute(new HttpGet(getString("URL")+formats.get(getString("FORMAT"))));
 		String ret = EntityUtils.toString(resp.getEntity());
 		JsonObject el = new JsonParser().parse(ret).getAsJsonObject();
@@ -134,8 +127,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	                        try {
 								d.setUrl(new URI("https://aetherhub.com/Deck/Public?id="+je.getAsJsonObject().get("id").getAsInt()));
 							} catch (URISyntaxException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
+								logger.error(e);
 							}
 	                       
 						    list.add(d);
@@ -145,8 +137,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void connect() throws IOException {
-		// TODO Auto-generated method stub
-
+		//	do nothing
 	}
 
 	@Override

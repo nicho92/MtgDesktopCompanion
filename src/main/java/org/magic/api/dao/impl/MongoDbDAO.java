@@ -87,7 +87,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
 				fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
-		client = new MongoClient(new ServerAddress(getString("SERVERNAME"), Integer.parseInt(getString("SERVERPORT"))),
+		client = new MongoClient(new ServerAddress(getString("SERVERNAME"), getInt("SERVERPORT")),
 				MongoClientOptions.builder().codecRegistry(pojoCodecRegistry).build());
 		db = client.getDatabase(getString("DB_NAME")).withCodecRegistry(pojoCodecRegistry);
 

@@ -31,9 +31,9 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	@Override
 	public String[] listFilter() {
 		if (metagames)
-			return new String[] { "standard", "modern", "pauper", "legacy", "vintage", "commander", "tiny_leaders" };
+			return new String[] { "standard", "modern", "pauper", "legacy", "vintage", "commander", "brawl" };
 		else
-			return new String[] { "standard", "modern", "pauper", "legacy", "vintage", "block", "commander", "limited",
+			return new String[] { "standard", "modern", "pauper", "legacy", "vintage", "arena_standard","block", "commander", "limited",
 					"frontier", "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form" };
 	}
 
@@ -132,7 +132,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				if (metagames)
 					deck.setAuthor("MtgGoldFish");
 				else
-					deck.setAuthor(cont.select("div.deck-author").text());
+					deck.setAuthor(cont.select("div.deck-tile-author").text());
 
 				deck.setColor(deckColor.toString());
 

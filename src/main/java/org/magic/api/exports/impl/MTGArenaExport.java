@@ -9,6 +9,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
@@ -20,6 +22,14 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGControler;
 
 public class MTGArenaExport extends AbstractCardExport {
+	
+	Map<String,String> correpondance;
+	
+	
+	public MTGArenaExport() {
+		correpondance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+		correpondance.put("DOM", "DAR");
+	}
 	
 	@Override
 	public String getFileExtension() {
@@ -37,7 +47,7 @@ public class MTGArenaExport extends AbstractCardExport {
 				.append(" ")
 				.append(entry.getKey())
 				.append(" (")
-				.append(entry.getKey().getEditions().get(0).getId().toUpperCase())
+				.append(translate(entry.getKey().getEditions().get(0).getId()).toUpperCase())
 				.append(")")
 				.append(" ")
 				.append(entry.getKey().getEditions().get(0).getNumber())
@@ -53,7 +63,7 @@ public class MTGArenaExport extends AbstractCardExport {
 					.append(" ")
 					.append(entry.getKey())
 					.append(" (")
-					.append(entry.getKey().getEditions().get(0).getId().toUpperCase())
+					.append(translate(entry.getKey().getEditions().get(0).getId()).toUpperCase())
 					.append(")")
 					.append(" ")
 					.append(entry.getKey().getEditions().get(0).getNumber());
@@ -71,6 +81,26 @@ public class MTGArenaExport extends AbstractCardExport {
 
 	}
 	
+
+	private String reverse(String s) {
+		
+		if(correpondance.containsValue(s))
+			for(Entry<String, String> k : correpondance.entrySet())
+				if(k.getValue().equalsIgnoreCase(s))
+					return k.getKey();
+		
+		return s;
+	}
+	
+	
+	private String translate(String s) {
+		
+		if(correpondance.get(s)!=null)
+			return correpondance.get(s);
+		else
+			return s;
+	}
+
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
 		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
@@ -90,7 +120,7 @@ public class MTGArenaExport extends AbstractCardExport {
 				
 					int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
 					String name = line.substring(line.indexOf(' '), line.indexOf('('));
-					String ed =  line.substring( line.indexOf('(')+1,line.indexOf(')'));
+					String ed =  reverse(line.substring( line.indexOf('(')+1,line.indexOf(')')));
 					MagicEdition me = MTGControler.getInstance().getEnabledCardsProviders().getSetById(ed);
 				
 					
