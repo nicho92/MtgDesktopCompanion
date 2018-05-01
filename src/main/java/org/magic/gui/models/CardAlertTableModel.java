@@ -15,7 +15,10 @@ public class CardAlertTableModel extends DefaultTableModel {
 	static final String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("CARD"),
 			MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
 			MTGControler.getInstance().getLangService().getCapitalize("MAX_BID"),
-			MTGControler.getInstance().getLangService().getCapitalize("OFFERS") };
+			MTGControler.getInstance().getLangService().getCapitalize("OFFERS"),
+			MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY"),
+			MTGControler.getInstance().getLangService().getCapitalize("PC_WEEKLY")
+			};
 
 	@Override
 	public int getColumnCount() {
@@ -46,6 +49,10 @@ public class CardAlertTableModel extends DefaultTableModel {
 			return Double.class;
 		case 3:
 			return Integer.class;
+		case 4:
+			return Double.class;
+		case 5:
+			return Double.class;
 		default:
 			return super.getColumnClass(columnIndex);
 		}
@@ -73,6 +80,10 @@ public class CardAlertTableModel extends DefaultTableModel {
 			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getPrice();
 		case 3:
 			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getOffers().size();
+		case 4:
+			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getTrendingDay();
+		case 5:
+			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getTrendingWeek();
 		default:
 			return "";
 		}

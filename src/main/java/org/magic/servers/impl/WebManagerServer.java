@@ -88,7 +88,7 @@ public class WebManagerServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "Web server to manage cards";
+		return "Web server front end";
 	}
 
 	@Override

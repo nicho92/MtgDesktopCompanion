@@ -33,10 +33,11 @@ public class HistoryPricesPanel extends JPanel {
 
 	boolean showEdition = false;
 	boolean showAll = false;
-	JCheckBox chckbxShowEditions;
-	JCheckBox chckbxShowAllDashboard;
+	private JCheckBox chckbxShowEditions;
+	private JCheckBox chckbxShowAllDashboard;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	private TimeSeries series;
+	
 	public HistoryPricesPanel() {
 		setLayout(new BorderLayout(0, 0));
 		JPanel panel = new JPanel();
@@ -79,6 +80,11 @@ public class HistoryPricesPanel extends JPanel {
 	private MagicCard mc;
 	private MagicEdition me;
 
+	
+	public Map<Date, Double> getMap() {
+		return map;
+	}
+	
 	public void init(MagicCard card, MagicEdition me, String title) {
 		try {
 			this.mc = card;
@@ -103,7 +109,7 @@ public class HistoryPricesPanel extends JPanel {
 		TimeSeries series1 = new TimeSeries(title);
 		if (showAll) {
 			for (MTGDashBoard d : MTGControler.getInstance().getDashboardsProviders()) {
-				TimeSeries series = new TimeSeries(d.getName());
+				series = new TimeSeries(d.getName());
 				Map<Date, Double> mapTime;
 				try {
 					mapTime = d.getPriceVariation(mc, me);

@@ -9,6 +9,27 @@ public class MagicCardAlert {
 	private String id = "";
 	private MagicCard card;
 	private Double price;
+	
+	private double trendingDay;
+	private double trendingWeek;
+	
+	
+	public double getTrendingDay() {
+		return trendingDay;
+	}
+
+	public void setTrendingDay(double trendingDay) {
+		this.trendingDay = trendingDay;
+	}
+
+	public double getTrendingWeek() {
+		return trendingWeek;
+	}
+
+	public void setTrendingWeek(double trendingWeek) {
+		this.trendingWeek = trendingWeek;
+	}
+
 	private List<MagicPrice> offers;
 
 	@Override

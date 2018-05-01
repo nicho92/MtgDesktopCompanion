@@ -39,6 +39,7 @@ import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.renderer.MagicPricePanel;
@@ -65,7 +66,9 @@ public class AlarmGUI extends JPanel {
 	private JButton btnImport;
 	private JLabel lblLoading;
 	private File f;
-
+	private PricesTablePanel pricesTablePanel;
+	
+	
 	public AlarmGUI() {
 
 		logger.info("init Alarm GUI");
@@ -86,7 +89,7 @@ public class AlarmGUI extends JPanel {
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
-		
+	
 		
 ///////CONFIG		
 		setLayout(new BorderLayout());
@@ -103,8 +106,10 @@ public class AlarmGUI extends JPanel {
 		add(splitPanel, BorderLayout.CENTER);
 		scrollTable.setViewportView(table);
 		splitPanel.setRightComponent(tabbedPane);
-		tabbedPane.addTab("Card", MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
-		tabbedPane.addTab("Variations", MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
+		pricesTablePanel = new PricesTablePanel();
+		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricesTablePanel, null);
 		add(scrollPane, BorderLayout.EAST);
 		scrollPane.setViewportView(list);
 		add(panel, BorderLayout.NORTH);
@@ -123,16 +128,7 @@ public class AlarmGUI extends JPanel {
 			}
 
 		});
-		
-
-	
-		
-
-		
-		
 		initActions();
-
-
 	}
 
 	private void initActions() {
@@ -141,8 +137,9 @@ public class AlarmGUI extends JPanel {
 			public void mouseClicked(MouseEvent evt) {
 				resultListModel.removeAllElements();
 				MagicCardAlert selected = (MagicCardAlert) table.getValueAt(table.getSelectedRow(), 0);
-				magicCardDetailPanel.setMagicCard(selected.getCard());
-				variationPanel.init(selected.getCard(), null, selected.getCard().getName());
+				
+				updateInfo(selected);
+				
 				for (MagicPrice mp : selected.getOffers())
 					resultListModel.addElement(mp);
 			}
@@ -154,8 +151,7 @@ public class AlarmGUI extends JPanel {
 				try {
 
 					if (e.getClickCount() == 2 && (list.getSelectedValue() != null)) {
-						MagicPrice p = list.getSelectedValue();
-						Desktop.getDesktop().browse(new URI(p.getUrl()));
+						Desktop.getDesktop().browse(new URI(list.getSelectedValue().getUrl()));
 					}
 				} catch (Exception e1) {
 					JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
@@ -182,17 +178,15 @@ public class AlarmGUI extends JPanel {
 								logger.error(ex);
 							}
 			}
-
+			
 			model.fireTableDataChanged();
 		});
 		
 		
 		btnDelete.addActionListener(event -> {
-			int res = JOptionPane.showConfirmDialog(null,
-					MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",
-							table.getSelectedRows().length + " item(s)"),
-					MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",
-					JOptionPane.YES_NO_OPTION);
+			int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("CONFIRM_DELETE",table.getSelectedRows().length + " item(s)"),
+					MTGControler.getInstance().getLangService().getCapitalize("DELETE") + " ?",JOptionPane.YES_NO_OPTION);
+			
 			if (res == JOptionPane.YES_OPTION) {
 				ThreadManager.getInstance().execute(() -> {
 					try {
@@ -301,10 +295,16 @@ public class AlarmGUI extends JPanel {
 		
 	}
 
+	private void updateInfo(MagicCardAlert selected) {
+		magicCardDetailPanel.setMagicCard(selected.getCard());
+		variationPanel.init(selected.getCard(), null, selected.getCard().getName());
+		pricesTablePanel.init(selected.getCard(), selected.getCard().getCurrentSet());
+	}
+
 	private void addCard(MagicCard mc) {
 		MagicCardAlert alert = new MagicCardAlert();
 		alert.setCard(mc);
-		alert.setPrice(0.0);
+		alert.setPrice(1.0);
 		try {
 			MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
 		} catch (SQLException e) {
