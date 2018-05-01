@@ -37,9 +37,11 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.servers.impl.AlertOversightServer;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.tools.ImageUtils;
@@ -607,6 +609,14 @@ public class MTGControler {
 				enable.add(p);
 
 		return enable;
+	}
+
+	public <T  extends AbstractMTGServer> MTGServer getServer(Class<T> class1) {
+		for(MTGServer s : getServers())
+			if(s.getClass()==class1)
+				return s;
+		
+		return null;
 	}
 
 }

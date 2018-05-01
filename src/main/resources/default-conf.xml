@@ -70,6 +70,10 @@
             <class>org.magic.servers.impl.WebManagerServer</class>
             <enable>true</enable>
         </server>
+         <server>
+            <class>org.magic.servers.impl.AlertOversightServer</class>
+            <enable>true</enable>
+        </server>
     </servers>
     <pricers>
         <pricer>

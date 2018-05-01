@@ -33,23 +33,31 @@ import javax.swing.filechooser.FileFilter;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsExport;
-import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
+import org.magic.gui.components.ServerStatePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
+import org.magic.gui.renderer.CardShakeRenderer;
+import org.magic.servers.impl.AlertOversightServer;
 import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+
+import net.coderazzi.filters.gui.AutoChoices;
+import net.coderazzi.filters.gui.TableFilterHeader;
+
+import java.awt.GridLayout;
 
 public class AlarmGUI extends JPanel {
 	private JTable table;
@@ -82,14 +90,19 @@ public class AlarmGUI extends JPanel {
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		variationPanel = new HistoryPricesPanel();
-		JScrollPane scrollPane = new JScrollPane();
+		JScrollPane scrollListOffers = new JScrollPane();
+		JPanel panelRight = new JPanel();
 		resultListModel = new DefaultListModel<>();
 		list = new JList<>(resultListModel);
 		panel = new JPanel();
 		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
 		btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
-	
+		JPanel serversPanel = new JPanel();
+		ServerStatePanel oversightPanel = new ServerStatePanel(MTGControler.getInstance().getServer(AlertOversightServer.class));
+		ServerStatePanel serverPricePanel = new ServerStatePanel(MTGControler.getInstance().getServer(PricesCheckerTimer.class));
+		new TableFilterHeader(table, AutoChoices.ENABLED);
+
 		
 ///////CONFIG		
 		setLayout(new BorderLayout());
@@ -100,24 +113,34 @@ public class AlarmGUI extends JPanel {
 		table.getColumnModel().getColumn(3).setCellRenderer(new AlertedCardsRenderer());
 		magicCardDetailPanel.enableThumbnail(true);
 		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
+		table.getColumnModel().getColumn(4).setCellRenderer(new CardShakeRenderer());
+		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
+		panelRight.setLayout(new BorderLayout());
 	
 ///////ADDS	
 		splitPanel.setLeftComponent(scrollTable);
 		add(splitPanel, BorderLayout.CENTER);
 		scrollTable.setViewportView(table);
 		splitPanel.setRightComponent(tabbedPane);
+		panelRight.add(scrollListOffers,BorderLayout.CENTER);
+		serversPanel.setLayout(new GridLayout(2, 1, 0, 0));
+		serversPanel.add(oversightPanel);
+		serversPanel.add(serverPricePanel);
+		
+		panelRight.add(serversPanel,BorderLayout.SOUTH);
+		
+		
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
 		pricesTablePanel = new PricesTablePanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICES"), MTGConstants.ICON_TAB_PRICES, pricesTablePanel, null);
-		add(scrollPane, BorderLayout.EAST);
-		scrollPane.setViewportView(list);
+		add(panelRight, BorderLayout.EAST);
+		scrollListOffers.setViewportView(list);
 		add(panel, BorderLayout.NORTH);
 		panel.add(btnDelete);
 		panel.add(lblLoading);
 		panel.add(btnImport);
 		panel.add(btnRefresh);
-
 		
 		addComponentListener(new ComponentAdapter() {
 			@Override
@@ -136,12 +159,16 @@ public class AlarmGUI extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
 				resultListModel.removeAllElements();
-				MagicCardAlert selected = (MagicCardAlert) table.getValueAt(table.getSelectedRow(), 0);
 				
-				updateInfo(selected);
-				
-				for (MagicPrice mp : selected.getOffers())
-					resultListModel.addElement(mp);
+				int viewRow = table.getSelectedRow();
+				if (viewRow > -1) {
+					int modelRow = table.convertRowIndexToModel(viewRow);
+					MagicCardAlert selected = (MagicCardAlert) table.getModel().getValueAt(modelRow, 0);
+					updateInfo(selected);
+					
+					for (MagicPrice mp : selected.getOffers())
+						resultListModel.addElement(mp);
+				}
 			}
 		});
 		
@@ -161,26 +188,7 @@ public class AlarmGUI extends JPanel {
 			}
 		});
 		
-		btnRefresh.addActionListener(e -> {
-
-			if (!MTGControler.getInstance().isRunning(new PricesCheckerTimer())) {
-				int res = JOptionPane.showConfirmDialog(null,
-						MTGControler.getInstance().getLangService().getCapitalize("PRICE_TIMER_LAUNCH"),
-						MTGControler.getInstance().getLangService().getCapitalize("PRICE_TIMER_STOPPED"),
-						JOptionPane.YES_NO_OPTION);
-
-				if (res == JOptionPane.YES_OPTION)
-					for (MTGServer serv : MTGControler.getInstance().getEnabledServers())
-						if (serv.getName().equals(new PricesCheckerTimer().getName()))
-							try {
-								serv.start();
-							} catch (Exception ex) {
-								logger.error(ex);
-							}
-			}
-			
-			model.fireTableDataChanged();
-		});
+		btnRefresh.addActionListener(e -> model.fireTableDataChanged());
 		
 		
 		btnDelete.addActionListener(event -> {

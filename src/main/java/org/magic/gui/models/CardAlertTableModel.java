@@ -16,8 +16,8 @@ public class CardAlertTableModel extends DefaultTableModel {
 			MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
 			MTGControler.getInstance().getLangService().getCapitalize("MAX_BID"),
 			MTGControler.getInstance().getLangService().getCapitalize("OFFERS"),
-			MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY"),
-			MTGControler.getInstance().getLangService().getCapitalize("PC_WEEKLY")
+			MTGControler.getInstance().getLangService().getCapitalize("DAILY"),
+			MTGControler.getInstance().getLangService().getCapitalize("WEEKLY")
 			};
 
 	@Override
