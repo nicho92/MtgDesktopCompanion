@@ -62,12 +62,11 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		List<CardShake> ret = new ArrayList<>();
 
 		for (String filter : new String[] { "normal", "foil" })
-			for (JsonElement el : interests.get(getString("FORMAT_SHAKER")).getAsJsonObject().get(filter)
-					.getAsJsonArray()) {
-				if (el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject()
-						.get(gameFormat.toLowerCase()) != null
-						&& el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject()
-								.get(gameFormat.toLowerCase()).getAsString().equalsIgnoreCase("legal")) {
+			for (JsonElement el : interests.get(getString("FORMAT_SHAKER")).getAsJsonObject().get(filter).getAsJsonArray()) 
+			{
+				if (el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(gameFormat.toLowerCase()) != null
+				&& el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(gameFormat.toLowerCase()).getAsString().equalsIgnoreCase("legal")) 
+				{
 					CardShake cs = new CardShake();
 					cs.setName(el.getAsJsonObject().get("print").getAsJsonObject().get("name").getAsString());
 					cs.setPrice(el.getAsJsonObject().get("present_price").getAsDouble());
@@ -122,6 +121,9 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			setId = correspondance.get(mc.getEditions().get(0).getId());
 
 		String url = MTGSTOCK_API_URI + "/search/autocomplete/" + StringUtils.replaceAll(mc.getName(), " ", "%20");
+		
+		logger.debug("get prices to " + url);
+		
 		HttpURLConnection con = getConnection(url);
 
 		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();

@@ -38,14 +38,16 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		return STATUT.BETA;
 	}
 
+	
 	@Override
 	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		String url = getString("WEBSITE") + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
-		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT"))
-				.timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+		logger.debug("Get Shake for " + url);
+		
+		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
 		try {
-			logger.debug("Get Shake for " + url);
+			
 			String date = doc.getElementsByClass("span6").get(1).text().replaceAll("Updated:", "")
 					.replaceAll("UTC ", "").trim();
 			SimpleDateFormat forma = new SimpleDateFormat("E MMMM dd hh:mm:ss yyyy", Locale.ENGLISH);
@@ -123,8 +125,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String url = "http://www.mtgprice.com/spoiler_lists/" + name;
 		logger.debug("get Prices for " + name + " " + url);
 
-		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT"))
-				.timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
 
 		Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 
@@ -187,8 +188,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		edition = edition.replaceAll(" ", "_");
 
 		String url = "http://www.mtgprice.com/sets/" + edition + "/" + name;
-		Document d = Jsoup.connect(url).userAgent(getString("USER_AGENT"))
-				.timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+		Document d = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
 
 		logger.debug("get Prices for " + name + " " + url);
 
@@ -234,8 +234,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		setProperty("PERIOD", "WEEKLY");
 		setProperty("WEBSITE", "http://www.mtgprice.com");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		setProperty("TIMEOUT", "0");
-
 	}
 
 	@Override

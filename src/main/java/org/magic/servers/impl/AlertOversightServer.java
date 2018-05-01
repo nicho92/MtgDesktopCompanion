@@ -54,7 +54,6 @@ public class AlertOversightServer extends AbstractMTGServer {
 		tache = new TimerTask() {
 			public void run() {
 				StringBuilder message = new StringBuilder();
-				boolean notify = false;
 				if (MTGControler.getInstance().getEnabledDAO().listAlerts() != null)
 					for (MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().listAlerts()) {
 						Map<Date,Double> map = null;
@@ -80,15 +79,19 @@ public class AlertOversightServer extends AbstractMTGServer {
 								double pcDay = (map.get(now) - map.get(yesterday))/map.get(yesterday)*100;
 							
 								if(valDay>0)
-									message.append(alert.getCard() + " is up "+formatter.format(pcDay)+"\n");
+									message.append(alert.getCard() + " is up "+formatter.format(pcDay)+"%\n");
 									else
-									message.append(alert.getCard() + " is down\n");	
+									message.append(alert.getCard() + " is down "+formatter.format(pcDay)+"%\n");	
 								
 								alert.setTrendingDay(valDay);
-								alert.setTrendingWeek(valWeek);							
+								alert.setTrendingWeek(valWeek);		
 								
+								if(getInt("THREAD_PAUSE")!=null)
+									Thread.sleep(getInt("THREAD_PAUSE"));
 							}
 						} catch (IOException e) {
+							logger.error(e);
+						} catch (InterruptedException e) {
 							logger.error(e);
 						}
 						
@@ -138,6 +141,8 @@ public class AlertOversightServer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty("AUTOSTART", "true");
 		setProperty("TIMEOUT_MINUTE", "120");
+		setProperty("ALERT_MIN_PERCENT","40");
+		setProperty("THREAD_PAUSE","2000");
 
 	}
 

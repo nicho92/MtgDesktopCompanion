@@ -27,9 +27,15 @@ public class ServerStatePanel extends JPanel {
 	private JLabel lblLogs;
 
 	public ServerStatePanel(MTGServer s) {
+
+		if(s==null)
+			return;
+		
 		this.server = s;
 		icons = new HashMap<>();
 
+		
+		
 		icons.put(false, MTGConstants.ICON_DELETE);
 		icons.put(true, MTGConstants.ICON_CHECK);
 		GridBagLayout gridBagLayout = new GridBagLayout();

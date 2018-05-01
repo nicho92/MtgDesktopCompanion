@@ -75,8 +75,12 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		props.put(k, value);
 	}
 
-	public int getInt(String k) {
-		return Integer.parseInt(getString(k));
+	public Integer getInt(String k) {
+		try {
+			return Integer.parseInt(getString(k));
+		} catch (NumberFormatException e) {
+			return null;
+		}
 	}
 
 	public double getDouble(String k) {
