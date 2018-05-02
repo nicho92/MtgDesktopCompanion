@@ -61,7 +61,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		List<CardShake> ret = new ArrayList<>();
 
-		for (String filter : new String[] { "normal", "foil" })
+		for (String filter : getString("SHAKERS").split(","))
 			for (JsonElement el : interests.get(getString("FORMAT_SHAKER")).getAsJsonObject().get(filter).getAsJsonArray()) 
 			{
 				if (el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(gameFormat.toLowerCase()) != null
@@ -71,8 +71,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 					cs.setName(el.getAsJsonObject().get("print").getAsJsonObject().get("name").getAsString());
 					cs.setPrice(el.getAsJsonObject().get("present_price").getAsDouble());
 					cs.setPercentDayChange(el.getAsJsonObject().get("percentage").getAsDouble());
-					cs.setPriceDayChange(el.getAsJsonObject().get("present_price").getAsDouble()
-							- el.getAsJsonObject().get("past_price").getAsDouble());
+					cs.setPriceDayChange(el.getAsJsonObject().get("present_price").getAsDouble()- el.getAsJsonObject().get("past_price").getAsDouble());
 					cs.setDateUpdate(new Date(el.getAsJsonObject().get("date").getAsLong()));
 					correspondance.forEach((key, value) -> {
 						if (value == el.getAsJsonObject().get("print").getAsJsonObject().get("set_id").getAsInt()) {
@@ -101,7 +100,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			CardShake cs = new CardShake();
 			cs.setName(el.getAsJsonObject().get("name").getAsString());
 			cs.setEd(edition.getId());
-			cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble());
+			cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get(getString("FORMAT_SHAKER")).getAsDouble());
 			list.add(cs);
 		}
 
@@ -112,7 +111,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	@Override
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
 		connect();
-
+		logger.debug(mc + " " + me);
 		int setId = -1;
 
 		if (me != null)
@@ -265,10 +264,11 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		setProperty("PASS", "changeme");
 		setProperty("MTGSTOCKS_BASE_URL", "https://www.mtgstocks.com");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-		setProperty("CARD_PRICES_SHAKER", "avg"); // [low, avg, high, foil, market, market_foil]
+		setProperty("CARD_PRICES_SHAKER", "market"); // [low, avg, high, foil, market, market_foil]
 		setProperty("FORMAT_SHAKER", "market"); // average // market
+		setProperty("SHAKERS","normal,foil");
 	}
-
+	
 	@Override
 	public String getVersion() {
 		return "1";

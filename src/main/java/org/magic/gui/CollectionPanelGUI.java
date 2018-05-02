@@ -435,7 +435,7 @@ public class CollectionPanelGUI extends JPanel {
 					try {
 						historyPricesPanel.init(card, null, card.getName());
 					} catch (Exception e) {
-						logger.error(e);
+						logger.error("error history",e);
 					}
 				}, "update history");
 			}
