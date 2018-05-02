@@ -50,7 +50,7 @@ public class CardsShakerTableModel extends DefaultTableModel {
 
 	public void init(MTGFormat f) {
 		try {
-			list = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f.toString());
+			list = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f);
 
 		} catch (IOException e) {
 			logger.error(e);

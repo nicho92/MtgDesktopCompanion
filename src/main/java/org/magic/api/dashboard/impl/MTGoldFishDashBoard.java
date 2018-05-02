@@ -122,11 +122,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		}
 	}
 
-	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
+	public List<CardShake> getShakerFor(MTGFormat f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		
-		if(gameFormat==null)
-			gameFormat="all";
+		String gameFormat="all";
+		if(f!=null)
+			gameFormat=f.name();
 		
 		String urlW = getString("URL_MOVERS") + getString("FORMAT") + "/" + gameFormat.toLowerCase() + "/winners/"+ getString("DAILY_WEEKLY");
 		String urlL = getString("URL_MOVERS") + getString("FORMAT") + "/" + gameFormat.toLowerCase() + "/losers/"+ getString("DAILY_WEEKLY");

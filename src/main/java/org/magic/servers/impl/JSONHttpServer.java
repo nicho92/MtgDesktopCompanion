@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCardStock;
@@ -320,7 +321,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/dash/format/:format", getString("MIME"), (request, response) -> MTGControler.getInstance()
-				.getEnabledDashBoard().getShakerFor(request.params(":format")), transformer);
+				.getEnabledDashBoard().getShakerFor(MTGFormat.valueOf(request.params(":format"))), transformer);
 
 		get("/pics/cards/:idEd/:name", getString("MIME"), (request, response) -> {
 

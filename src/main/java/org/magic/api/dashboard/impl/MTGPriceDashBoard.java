@@ -40,7 +40,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	
 	@Override
-	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
+	public List<CardShake> getShakerFor(MTGFormat f) throws IOException {
 		List<CardShake> list = new ArrayList<>();
 		String url = getString("WEBSITE") + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
 		logger.debug("Get Shake for " + url);
@@ -55,14 +55,15 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		} catch (ParseException e1) {
 			logger.error(e1);
 		}
-
-		if (gameFormat.equalsIgnoreCase("STANDARD"))
+		String gameFormat="";
+		
+		if (f.name().equalsIgnoreCase("STANDARD"))
 			gameFormat = "Standard";
-		else if (gameFormat.equalsIgnoreCase("MODERN"))
+		else if (f.name().equalsIgnoreCase("MODERN"))
 			gameFormat = "Modern";
-		else if (gameFormat.equalsIgnoreCase("VINTAGE"))
+		else if (f.name().equalsIgnoreCase("VINTAGE"))
 			gameFormat = "Vintage";
-		else if (gameFormat.equalsIgnoreCase("LEGACY"))
+		else if (f.name().equalsIgnoreCase("LEGACY"))
 			gameFormat = "All";
 
 		Element table = doc.getElementById("top50" + gameFormat);

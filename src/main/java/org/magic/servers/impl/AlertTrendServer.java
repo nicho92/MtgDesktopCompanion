@@ -87,6 +87,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 								cs.setPercentWeekChange(pcWeek);
 								cs.setPriceDayChange(valDay);
 								cs.setPriceWeekChange(valWeek);
+								cs.setPrice(map.get(now));
 								alert.setShake(cs);
 								
 								
@@ -104,7 +105,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 					}
 
 				if (enableNotify && message.length()>0)
-					MTGControler.getInstance().notify("Oversight", message.toString(), MessageType.INFO);
+					MTGControler.getInstance().notify("Alerts Variation", message.toString(), MessageType.INFO);
 
 			}
 		};

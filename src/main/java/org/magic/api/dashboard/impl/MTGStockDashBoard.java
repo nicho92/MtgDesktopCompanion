@@ -56,32 +56,38 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public List<CardShake> getShakerFor(String gameFormat) throws IOException {
+	public List<CardShake> getShakerFor(MTGFormat f) throws IOException {
 		connect();
 
 		List<CardShake> ret = new ArrayList<>();
-
+		String format="";
+		
+		if(f !=null)
+			format=f.name().toLowerCase();
+		
 		for (String filter : getString("SHAKERS").split(","))
 			for (JsonElement el : interests.get(getString("FORMAT_SHAKER")).getAsJsonObject().get(filter).getAsJsonArray()) 
 			{
-				if (el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(gameFormat.toLowerCase()) != null
-				&& el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(gameFormat.toLowerCase()).getAsString().equalsIgnoreCase("legal")) 
-				{
-					CardShake cs = new CardShake();
-					cs.setName(el.getAsJsonObject().get("print").getAsJsonObject().get("name").getAsString());
-					cs.setPrice(el.getAsJsonObject().get("present_price").getAsDouble());
-					cs.setPercentDayChange(el.getAsJsonObject().get("percentage").getAsDouble());
-					cs.setPriceDayChange(el.getAsJsonObject().get("present_price").getAsDouble()- el.getAsJsonObject().get("past_price").getAsDouble());
-					cs.setDateUpdate(new Date(el.getAsJsonObject().get("date").getAsLong()));
-					correspondance.forEach((key, value) -> {
-						if (value == el.getAsJsonObject().get("print").getAsJsonObject().get("set_id").getAsInt()) {
-							cs.setEd(key);
-						}
-					});
-					ret.add(cs);
-				}
+				if ( f==null || (el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(format) != null && el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(format).getAsString().equalsIgnoreCase("legal"))) 
+					ret.add(extract(el));
+				
 			}
 		return ret;
+	}
+
+	private CardShake extract(JsonElement el) {
+		CardShake cs = new CardShake();
+		cs.setName(el.getAsJsonObject().get("print").getAsJsonObject().get("name").getAsString());
+		cs.setPrice(el.getAsJsonObject().get("present_price").getAsDouble());
+		cs.setPercentDayChange(el.getAsJsonObject().get("percentage").getAsDouble());
+		cs.setPriceDayChange(el.getAsJsonObject().get("present_price").getAsDouble()- el.getAsJsonObject().get("past_price").getAsDouble());
+		cs.setDateUpdate(new Date(el.getAsJsonObject().get("date").getAsLong()));
+		correspondance.forEach((key, value) -> {
+			if (value == el.getAsJsonObject().get("print").getAsJsonObject().get("set_id").getAsInt()) {
+				cs.setEd(key);
+			}
+		});
+		return cs;
 	}
 
 	@Override
@@ -100,7 +106,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			CardShake cs = new CardShake();
 			cs.setName(el.getAsJsonObject().get("name").getAsString());
 			cs.setEd(edition.getId());
-			cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get(getString("FORMAT_SHAKER")).getAsDouble());
+			try{
+				cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get(getString("FORMAT_SHAKER")).getAsDouble());
+			}
+			catch(Exception e)
+			{
+				logger.error("Error adding :" + el);
+			}
 			list.add(cs);
 		}
 
@@ -188,6 +200,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	private void initEds() throws IOException {
+		
+		if(correspondance.isEmpty()) {
 		HttpURLConnection con = getConnection(MTGSTOCK_API_URI + "/card_sets");
 		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
 		for (JsonElement el : arr) {
@@ -199,7 +213,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		}
 		logger.debug("init editions id done: " + correspondance.size() + " items");
 		con.disconnect();
-
+		}
 	}
 
 	@Override

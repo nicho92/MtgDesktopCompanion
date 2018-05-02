@@ -57,16 +57,16 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 				if (boxM.isSelected())
 					shakes.addAll(
-							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.MODERN.toString()));
+							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.MODERN));
 				if (boxS.isSelected())
 					shakes.addAll(
-							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.STANDARD.toString()));
+							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.STANDARD));
 				if (boxL.isSelected())
 					shakes.addAll(
-							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.LEGACY.toString()));
+							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.LEGACY));
 				if (boxV.isSelected())
 					shakes.addAll(
-							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.VINTAGE.toString()));
+							MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.VINTAGE));
 
 				if(shakes.isEmpty())
 					shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null));
