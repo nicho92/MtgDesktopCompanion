@@ -41,7 +41,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractJDashlet;
-import org.magic.servers.impl.AlertOversightServer;
+import org.magic.servers.impl.AlertTrendServer;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.tools.ImageUtils;

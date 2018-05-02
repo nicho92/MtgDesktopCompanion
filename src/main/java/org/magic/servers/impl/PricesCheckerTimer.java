@@ -98,7 +98,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 
 	@Override
 	public String getName() {
-		return "Price Timer";
+		return "Alert Price Checker";
 
 	}
 

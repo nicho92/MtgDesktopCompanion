@@ -15,6 +15,7 @@ import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -22,7 +23,7 @@ import org.magic.services.MTGControler;
 
 import com.google.common.collect.Iterables;
 
-public class AlertOversightServer extends AbstractMTGServer {
+public class AlertTrendServer extends AbstractMTGServer {
 
 	@Override
 	public STATUT getStatut() {
@@ -40,15 +41,15 @@ public class AlertOversightServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "Alerts supervision server";
+		return "return price variation for alerted cards";
 	}
 
-	public AlertOversightServer() {
+	public AlertTrendServer() {
 
 		super();
 		timer = new Timer();
 	}
-
+	
 	public void start() {
 		running = true;
 		tache = new TimerTask() {
@@ -62,29 +63,32 @@ public class AlertOversightServer extends AbstractMTGServer {
 							if(map!=null)
 							{
 								List<Entry<Date, Double>> res = new ArrayList<>(map.entrySet());
-								
-								Calendar c = GregorianCalendar.getInstance();
-										 c.setTime(res.get(res.size()-1).getKey());
-										 
-										 Date now = c.getTime();
-										 c.set(Calendar.DAY_OF_MONTH, -1);
-										 Date yesterday = c.getTime();
-										 c.set(Calendar.DAY_OF_MONTH, -7);
-										 Date week = c.getTime();
-										 
+								Date now = res.get(res.size()-1).getKey();
+								Date yesterday = res.get(res.size()-2).getKey();
+								Date week = res.get(res.size()-7).getKey();
+
 								double valDay = map.get(now) - map.get(yesterday);
 								double valWeek = map.get(now) - map.get(week);		 
-								
 								double pcWeek = (map.get(now) - map.get(week))/map.get(week)*100;
 								double pcDay = (map.get(now) - map.get(yesterday))/map.get(yesterday)*100;
-							
-								if(valDay>0)
-									message.append(alert.getCard() + " is up "+formatter.format(pcDay)+"%\n");
-									else
-									message.append(alert.getCard() + " is down "+formatter.format(pcDay)+"%\n");	
 								
-								alert.setTrendingDay(valDay);
-								alert.setTrendingWeek(valWeek);		
+								
+								if(pcDay>=getInt("ALERT_MIN_PERCENT"))
+								{
+									if(valDay>0)
+										message.append(alert.getCard() + " is up +"+formatter.format(pcDay)+"%\n");
+										else
+										message.append(alert.getCard() + " is down "+formatter.format(pcDay)+"%\n");	
+								}			
+								CardShake cs = new CardShake();
+								cs.setCard(alert.getCard());
+								cs.setDateUpdate(new Date());
+								cs.setPercentDayChange(pcDay);
+								cs.setPercentWeekChange(pcWeek);
+								cs.setPriceDayChange(valDay);
+								cs.setPriceWeekChange(valWeek);
+								alert.setShake(cs);
+								
 								
 								if(getInt("THREAD_PAUSE")!=null)
 									Thread.sleep(getInt("THREAD_PAUSE"));
@@ -110,11 +114,7 @@ public class AlertOversightServer extends AbstractMTGServer {
 
 	}
 
-	protected void calculate(MagicCardAlert alert, Date time, Date key) {
-		// TODO Auto-generated method stub
-		
-	}
-
+	
 	public void stop() {
 		tache.cancel();
 		timer.purge();
@@ -128,7 +128,7 @@ public class AlertOversightServer extends AbstractMTGServer {
 
 	@Override
 	public String getName() {
-		return "Oversight Server";
+		return "Alert Trend Server";
 
 	}
 

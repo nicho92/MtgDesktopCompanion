@@ -9,27 +9,7 @@ public class MagicCardAlert {
 	private String id = "";
 	private MagicCard card;
 	private Double price;
-	
-	private double trendingDay;
-	private double trendingWeek;
-	
-	
-	public double getTrendingDay() {
-		return trendingDay;
-	}
-
-	public void setTrendingDay(double trendingDay) {
-		this.trendingDay = trendingDay;
-	}
-
-	public double getTrendingWeek() {
-		return trendingWeek;
-	}
-
-	public void setTrendingWeek(double trendingWeek) {
-		this.trendingWeek = trendingWeek;
-	}
-
+	private CardShake shake;
 	private List<MagicPrice> offers;
 
 	@Override
@@ -47,6 +27,7 @@ public class MagicCardAlert {
 
 	public MagicCardAlert() {
 		offers = new ArrayList<>();
+		shake=new CardShake();
 	}
 
 	public List<MagicPrice> getOffers() {
@@ -90,6 +71,16 @@ public class MagicCardAlert {
 
 	public void orderDesc() {
 		Collections.sort(this.offers, (MagicPrice b1, MagicPrice b2) -> (b1.getValue() < b2.getValue() ? -1 : 1));
+	}
+
+
+
+	public CardShake getShake() {
+		return shake;
+	}
+
+	public void setShake(CardShake shake) {
+		this.shake = shake;
 	}
 
 }

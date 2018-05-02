@@ -158,4 +158,8 @@ public class CardsPriceTableModel extends DefaultTableModel {
 
 	}
 
+	
+	public List<MagicPrice> getPrices() {
+		return prices;
+	}
 }

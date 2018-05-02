@@ -22,6 +22,7 @@ import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.beans.MagicPrice;
 import org.magic.gui.models.CardsPriceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -36,7 +37,7 @@ public class PricesTablePanel extends JPanel {
 	private JXTable tablePrices;
 	private JLabel lblLoading;
 	private transient DefaultRowSorter<DefaultTableModel, Integer> sorterPrice;
-	private List<RowSorter.SortKey> sortKeys;
+	private transient List<RowSorter.SortKey> sortKeys;
 	
 	
 	public PricesTablePanel() {
@@ -112,7 +113,10 @@ public class PricesTablePanel extends JPanel {
 	}
 	
 	
-	
+	public List<MagicPrice> getPrices()
+	{
+		return model.getPrices();
+	}
 	
 	
 }

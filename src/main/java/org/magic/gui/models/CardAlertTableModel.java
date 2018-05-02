@@ -81,9 +81,9 @@ public class CardAlertTableModel extends DefaultTableModel {
 		case 3:
 			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getOffers().size();
 		case 4:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getTrendingDay();
+			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getShake().getPriceDayChange();
 		case 5:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getTrendingWeek();
+			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getShake().getPriceWeekChange();
 		default:
 			return "";
 		}

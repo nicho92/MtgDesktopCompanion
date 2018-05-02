@@ -275,7 +275,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	private HttpURLConnection getConnection(String url) throws IOException {
-		logger.debug("get stream from " + url);
+		logger.trace("get stream from " + url);
 		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
 		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.connect();
