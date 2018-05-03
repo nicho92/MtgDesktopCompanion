@@ -13,6 +13,14 @@ public class MTGNotification {
 	private String title;
 	private MessageType type;
 	
+	public MTGNotification() {
+		date = new Date();
+	}
+	
+	@Override
+	public String toString() {
+		return getDate() + ":"+ getMessage();
+	}
 	
 	
 	public String getFormat() {
@@ -24,9 +32,7 @@ public class MTGNotification {
 	public Date getDate() {
 		return date;
 	}
-	public void setDate(Date date) {
-		this.date = date;
-	}
+	
 	public String getSender() {
 		return sender;
 	}

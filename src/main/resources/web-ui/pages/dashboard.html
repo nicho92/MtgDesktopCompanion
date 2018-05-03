@@ -186,7 +186,7 @@
    				var format= $(this).find("option:selected").val();
    				
    				$.ajax({
-   				    	url: restserver+"/dash/format/"+format,
+   				    	url: restserver+"/dash/format/"+format.toUpperCase(),
    				    	dataSrc:""
    			   		 }).done(function(data) {
    			   			$('#cardWinLoose').DataTable().clear();

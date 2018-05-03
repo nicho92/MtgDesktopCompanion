@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
+import org.apache.commons.mail.HtmlEmail;
 import org.apache.commons.mail.SimpleEmail;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
@@ -41,14 +42,15 @@ public class EmailNotifier extends AbstractMTGNotifier{
 	public void send(MTGNotification notification) throws IOException {
 		
 		try {
-		Email email = new SimpleEmail();
+			HtmlEmail email = new HtmlEmail();
 			email.setHostName(getString("SMTP"));
 			email.setSmtpPort(getInt("PORT"));
 			email.setAuthenticator(new DefaultAuthenticator(getString("SMTP_LOGIN"), getString("SMTP_PASS")));
 			email.setSSLOnConnect(true);
 			email.setFrom(getString("FROM"));
 			email.setSubject(notification.getTitle());
-			email.setMsg(notification.getMessage());
+			email.setHtmlMsg("<html>"+notification.getMessage()+"</html>");
+			email.setTextMsg(notification.getMessage());
 			for(String to : getString("SEND_TO").split(","))
 				email.addTo(to);
 			email.send();

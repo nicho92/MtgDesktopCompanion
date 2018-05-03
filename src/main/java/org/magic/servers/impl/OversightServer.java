@@ -1,5 +1,6 @@
 package org.magic.servers.impl;
 
+import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -7,8 +8,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.notifiers.impl.ConsoleNotifier;
+import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.services.MTGControler;
 import org.magic.sorters.CardsShakeSorter;
 import org.magic.sorters.CardsShakeSorter.SORT;
@@ -48,7 +52,13 @@ public class OversightServer extends AbstractMTGServer {
 					List<CardShake> ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
 					Collections.sort(ret, new CardsShakeSorter(SORT.DAY_PRICE_CHANGE));
 				
-					//TODO report trends email, telegraph ? 
+					MTGNotification notif = new MTGNotification();
+					notif.setTitle("Oversight");
+					notif.setMessage(ret.toString());
+					notif.setType(MessageType.INFO);
+					
+					MTGControler.getInstance().getNotifier(ConsoleNotifier.class).send(notif);
+					MTGControler.getInstance().getNotifier(OSTrayNotifier.class).send(notif);
 					
 				} catch (IOException e) {
 					logger.error(e);
