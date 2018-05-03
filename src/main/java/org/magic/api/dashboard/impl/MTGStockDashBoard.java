@@ -223,7 +223,10 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	public Date getUpdatedDate() {
-		return new Date();
+		if(interests==null)
+			return new Date();
+		else
+			return new Date(interests.get("date").getAsLong());
 	}
 
 	@Override

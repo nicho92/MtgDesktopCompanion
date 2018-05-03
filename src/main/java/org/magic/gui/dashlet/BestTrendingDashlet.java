@@ -168,7 +168,7 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				boxM.setSelected(Boolean.parseBoolean(getProperty("MDN", "true")));
 				boxL.setSelected(Boolean.parseBoolean(getProperty("LEG", "false")));
 				boxV.setSelected(Boolean.parseBoolean(getProperty("VIN", "false")));
-				cboSorter.setSelectedItem(SORT.valueOf(getProperty("SORT","DAYPC")));
+				cboSorter.setSelectedItem(SORT.valueOf(getProperty("SORT","DAY_PRICE_CHANGE")));
 			} catch (Exception e) {
 				logger.error("can't get boxs values", e);
 			}
