@@ -1,28 +1,17 @@
 package org.magic.servers.impl;
 
-import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
-
-import com.google.common.collect.Iterables;
+import org.magic.sorters.CardsShakeSorter;
+import org.magic.sorters.CardsShakeSorter.SORT;
 
 public class OversightServer extends AbstractMTGServer {
 
@@ -57,15 +46,7 @@ public class OversightServer extends AbstractMTGServer {
 			public void run() {
 				try {
 					List<CardShake> ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
-					Collections.sort(ret, (CardShake o1, CardShake o2) -> {
-						if (o1.getPriceDayChange() > o2.getPriceDayChange())
-							return -1;
-
-						if (o1.getPriceDayChange() < o2.getPriceDayChange())
-							return 1;
-
-						return 0;
-					});
+					Collections.sort(ret, new CardsShakeSorter(SORT.DAY_PRICE_CHANGE));
 				
 					//TODO report trends email, telegraph ? 
 					

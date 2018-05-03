@@ -107,7 +107,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			cs.setName(el.getAsJsonObject().get("name").getAsString());
 			cs.setEd(edition.getId());
 			try{
-				cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get(getString("FORMAT_SHAKER")).getAsDouble());
+				cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble());
 			}
 			catch(Exception e)
 			{
@@ -279,7 +279,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		setProperty("MTGSTOCKS_BASE_URL", "https://www.mtgstocks.com");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		setProperty("CARD_PRICES_SHAKER", "market"); // [low, avg, high, foil, market, market_foil]
-		setProperty("FORMAT_SHAKER", "market"); // average // market
+		setProperty("FORMAT_SHAKER", "average"); // average // market
 		setProperty("SHAKERS","normal,foil");
 	}
 	

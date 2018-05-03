@@ -11,6 +11,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
@@ -26,6 +27,8 @@ import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
+import org.magic.sorters.CardsShakeSorter;
+import org.magic.sorters.CardsShakeSorter.SORT;
 
 public class BestTrendingDashlet extends AbstractJDashlet {
 
@@ -37,7 +40,9 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 	private JCheckBox boxM;
 	private JCheckBox boxV;
 	private JCheckBox boxL;
-
+	private JComboBox<CardsShakeSorter.SORT> cboSorter;
+	
+	
 	public BestTrendingDashlet() {
 		super();
 		setFrameIcon(MTGConstants.ICON_UP);
@@ -72,27 +77,21 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 					shakes.addAll(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null));
 				
 				
-				Collections.sort(shakes, (CardShake o1, CardShake o2) -> {
-					if (o1.getPriceDayChange() > o2.getPriceDayChange())
-						return -1;
-
-					if (o1.getPriceDayChange() < o2.getPriceDayChange())
-						return 1;
-
-					return 0;
-				});
-
+			
 				int val = (Integer) spinner.getValue();
 				save("LIMIT", String.valueOf(val));
 				save("STD", String.valueOf(boxS.isSelected()));
 				save("MDN", String.valueOf(boxM.isSelected()));
 				save("LEG", String.valueOf(boxL.isSelected()));
 				save("VIN", String.valueOf(boxV.isSelected()));
-
+				save("SORT",String.valueOf(cboSorter.getSelectedItem()));
+				
 				List<CardShake> ret = new ArrayList<>();
 				ret.addAll(shakes.subList(0, val));
 				ret.addAll(shakes.subList(shakes.size() - (val + 1), shakes.size())); // x last
-
+				
+				
+				Collections.sort(ret, new CardsShakeSorter((SORT)cboSorter.getSelectedItem()));
 				modStandard.init(ret);
 			} catch (IOException e) {
 				logger.error(e);
@@ -116,10 +115,11 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				init();
-
 			}
 		};
-
+		
+		cboSorter = new JComboBox<>(CardsShakeSorter.SORT.values());
+		
 		boxS = new JCheckBox();
 		boxS.setAction(a);
 		boxS.setText("STD");
@@ -135,13 +135,16 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 
 		spinner = new JSpinner();
 		spinner.addChangeListener(ce -> init());
-
+		cboSorter.addItemListener(ie -> init());
+		
+		
 		spinner.setModel(new SpinnerNumberModel(5, 1, null, 1));
 		panneauHaut.add(spinner);
 		panneauHaut.add(boxS);
 		panneauHaut.add(boxM);
 		panneauHaut.add(boxL);
 		panneauHaut.add(boxV);
+		panneauHaut.add(cboSorter);
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		modStandard = new CardsShakerTableModel();
@@ -165,8 +168,9 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				boxM.setSelected(Boolean.parseBoolean(getProperty("MDN", "true")));
 				boxL.setSelected(Boolean.parseBoolean(getProperty("LEG", "false")));
 				boxV.setSelected(Boolean.parseBoolean(getProperty("VIN", "false")));
+				cboSorter.setSelectedItem(SORT.valueOf(getProperty("SORT","DAYPC")));
 			} catch (Exception e) {
-				logger.error("can't get LIMIT value", e);
+				logger.error("can't get boxs values", e);
 			}
 
 			setBounds(r);

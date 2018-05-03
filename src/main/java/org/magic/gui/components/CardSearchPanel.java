@@ -67,7 +67,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.sorters.MagicCardComparator;
+import org.magic.sorters.CardsEditionSorter;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
@@ -490,7 +490,7 @@ public class CardSearchPanel extends JPanel {
 									cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
 
 						if (cards.size() < 50)
-							Collections.sort(cards, new MagicCardComparator());
+							Collections.sort(cards, new CardsEditionSorter());
 
 						open(cards);
 						return null;

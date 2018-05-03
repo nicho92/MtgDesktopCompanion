@@ -38,7 +38,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
-import org.magic.sorters.MagicCardComparator;
+import org.magic.sorters.CardsEditionSorter;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -184,7 +184,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/cards/:idSet/cards", getString("MIME"), (request, response) -> {
 			List<MagicCard> ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("set",
 					request.params(":idSet"), null, false);
-			Collections.sort(ret, new MagicCardComparator());
+			Collections.sort(ret, new CardsEditionSorter());
 
 			return ret;
 		}, transformer);

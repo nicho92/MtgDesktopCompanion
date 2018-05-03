@@ -21,7 +21,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.sorters.MagicCardComparator;
+import org.magic.sorters.CardsEditionSorter;
 
 public class LazyLoadingTree extends JTree {
 
@@ -137,7 +137,7 @@ public class LazyLoadingTree extends JTree {
 					try {
 						List<MagicCard> res = MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col,
 								ed);
-						Collections.sort(res, new MagicCardComparator());
+						Collections.sort(res, new CardsEditionSorter());
 
 						for (MagicCard card : res) {
 							MyNode n = new MyNode(card);

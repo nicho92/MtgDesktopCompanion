@@ -25,11 +25,9 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 			MTGControler.getInstance().getLangService().getCapitalize("WEEKLY"),
 			MTGControler.getInstance().getLangService().getCapitalize("PC_WEEKLY") };
 
-	private transient MTGDashBoard provider;
 	private transient List<CardShake> list;
 
 	public EditionsShakerTableModel() {
-		provider = MTGControler.getInstance().getEnabledDashBoard();
 		list = new ArrayList<>();
 	}
 
@@ -49,7 +47,7 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 
 	public void init(MagicEdition ed) {
 		try {
-			list = provider.getShakeForEdition(ed);
+			list = MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed);
 		} catch (IOException e) {
 			logger.error(e);
 		}
