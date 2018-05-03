@@ -30,7 +30,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "AutoCheck prices for cards";
+		return "alerted cards offers oversight";
 	}
 
 	public PricesCheckerTimer() {
@@ -44,7 +44,6 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		tache = new TimerTask() {
 			public void run() {
 				StringBuilder message = new StringBuilder();
-				boolean notify = false;
 				if (MTGControler.getInstance().getEnabledDAO().listAlerts() != null)
 					for (MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().listAlerts()) {
 						alert.getOffers().clear();
@@ -60,7 +59,6 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 										okz.add(p);
 										logger.info("Found offer " + prov + ":" + alert.getCard() + " " + p.getValue()
 												+ p.getCurrency());
-										notify = true;
 									}
 								}
 								prov.alertDetected(okz);
@@ -79,13 +77,15 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 					notif.setMessage(message.toString());
 					notif.setType(MessageType.INFO);
 				
-					try {
+					
 						for(String not : getString("NOTIFIER").split(","))
+						{
+							try {
 							MTGControler.getInstance().getNotifier(not).send(notif);
-						
-					} catch (IOException e) {
-						logger.error(e);
-					}
+							} catch (IOException e) {
+								logger.error(e);
+							}
+						}
 				}
 			}
 		};

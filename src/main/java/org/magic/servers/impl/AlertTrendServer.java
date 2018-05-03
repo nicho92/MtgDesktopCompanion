@@ -108,11 +108,13 @@ public class AlertTrendServer extends AbstractMTGServer {
 									notif.setMessage(message.toString());
 									notif.setType(MessageType.INFO);
 				
-					try {
-						for(String not : getString("NOTIFIER").split(","))
-							MTGControler.getInstance().getNotifier(not).send(notif);
-					} catch (IOException e) {
-						logger.error(e);
+					for(String not : getString("NOTIFIER").split(","))
+					{
+						try {
+						MTGControler.getInstance().getNotifier(not).send(notif);
+						} catch (IOException e) {
+							logger.error(e);
+						}
 					}
 				}
 				

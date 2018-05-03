@@ -30,7 +30,7 @@ public class OversightServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "oversight for daily price variation";
+		return "oversight for daily prices variations";
 	}
 
 	public OversightServer() {
@@ -45,7 +45,7 @@ public class OversightServer extends AbstractMTGServer {
 			public void run() {
 				try {
 					List<CardShake> ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
-					Collections.sort(ret, new CardsShakeSorter(SORT.DAY_PRICE_CHANGE));
+					Collections.sort(ret, new CardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
 				
 					MTGNotification notif = new MTGNotification();
 					notif.setTitle("Oversight");
@@ -96,6 +96,7 @@ public class OversightServer extends AbstractMTGServer {
 		setProperty("TIMEOUT_MINUTE", "120");
 		setProperty("ALERT_MIN_PERCENT","40");
 		setProperty("NOTIFIER","Tray,Console");
+		setProperty("SORT_FILTER","DAY_PRICE_CHANGE");
 	}
 
 	@Override
