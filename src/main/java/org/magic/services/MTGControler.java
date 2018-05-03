@@ -652,6 +652,7 @@ public class MTGControler {
 				return (T) s;
 		
 		}
+		logger.error(className + " doesn't exist or is not enabled");
 		return (T) new NullNotifier();
 	}
 }
