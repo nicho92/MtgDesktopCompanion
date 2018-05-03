@@ -15,6 +15,7 @@ public class MTGNotification {
 	
 	public MTGNotification() {
 		date = new Date();
+		type=MessageType.INFO;
 	}
 	
 	@Override

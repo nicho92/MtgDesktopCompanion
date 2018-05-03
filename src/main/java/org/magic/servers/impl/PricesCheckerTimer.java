@@ -121,7 +121,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty("AUTOSTART", "true");
 		setProperty("TIMEOUT_MINUTE", "120");
-		setProperty("NOTIFIER","Tray,Console");
+		setProperty("NOTIFIER","Tray");
 	}
 
 	@Override

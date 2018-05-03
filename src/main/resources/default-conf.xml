@@ -40,6 +40,10 @@
      		<class>org.magic.api.notifiers.impl.OSTrayNotifier</class>
             <enable>true</enable>
     	</notifier>
+    	<notifier>
+     		<class>org.magic.api.notifiers.impl.NullNotifier</class>
+            <enable>true</enable>
+    	</notifier>
     </notifiers>
     <caches>
         <cache>

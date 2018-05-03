@@ -1,7 +1,9 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
+import java.io.IOException;
 
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.services.MTGConstants;
 
@@ -19,6 +21,15 @@ public abstract class AbstractMTGNotifier extends AbstractMTGPlugin implements M
 			save();
 		}
 	}
+	
+	public void notify(String title, String msg) throws IOException
+	{
+		MTGNotification notif = new MTGNotification();
+		notif.setMessage(msg);
+		notif.setTitle(title);
+		send(notif);
+	}
+	
 
 	@Override
 	public PLUGINS getType() {
