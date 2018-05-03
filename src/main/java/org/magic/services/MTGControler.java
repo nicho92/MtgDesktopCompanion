@@ -41,6 +41,7 @@ import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.notifiers.impl.NullNotifier;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
@@ -638,20 +639,19 @@ public class MTGControler {
 		return enable;
 	}
 
-	public <T  extends AbstractMTGServer> MTGServer getServer(Class<T> class1) {
+	public <T  extends AbstractMTGServer> T getServer(Class<T> class1) {
 		for(MTGServer s : getServers())
 			if(s.getClass()==class1)
-				return s;
+				return (T)s;
 		return null;
 	}
 	
-	public <T  extends AbstractMTGNotifier> T getNotifier(Class<T> class1) {
-		for(MTGNotifier s : getNotifierProviders()) 
-			if(s.getClass()==class1)
+	public <T  extends AbstractMTGNotifier> T getNotifier(String className) {
+		for(MTGNotifier s : getEnabledNotifiers()) {
+			if(s.getName().equalsIgnoreCase(className))
 				return (T) s;
 		
-		return null;
+		}
+		return (T) new NullNotifier();
 	}
-	
-
 }

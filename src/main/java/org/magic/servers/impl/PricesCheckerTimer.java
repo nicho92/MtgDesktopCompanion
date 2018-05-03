@@ -80,7 +80,9 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 					notif.setType(MessageType.INFO);
 				
 					try {
-						new ConsoleNotifier().send(notif);
+						for(String not : getString("NOTIFIER").split(","))
+							MTGControler.getInstance().getNotifier(not).send(notif);
+						
 					} catch (IOException e) {
 						logger.error(e);
 					}
@@ -119,7 +121,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty("AUTOSTART", "true");
 		setProperty("TIMEOUT_MINUTE", "120");
-		setProperty("NOTIFIER","email");
+		setProperty("NOTIFIER","Tray,Console");
 	}
 
 	@Override

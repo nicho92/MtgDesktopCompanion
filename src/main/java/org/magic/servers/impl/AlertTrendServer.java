@@ -109,7 +109,8 @@ public class AlertTrendServer extends AbstractMTGServer {
 									notif.setType(MessageType.INFO);
 				
 					try {
-						MTGControler.getInstance().getNotifier(ConsoleNotifier.class).send(notif);
+						for(String not : getString("NOTIFIER").split(","))
+							MTGControler.getInstance().getNotifier(not).send(notif);
 					} catch (IOException e) {
 						logger.error(e);
 					}
@@ -153,7 +154,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 		setProperty("TIMEOUT_MINUTE", "120");
 		setProperty("ALERT_MIN_PERCENT","40");
 		setProperty("THREAD_PAUSE","2000");
-		setProperty("NOTIFIER","EmailNotifier");
+		setProperty("NOTIFIER","Tray,Console");
 	}
 
 	@Override

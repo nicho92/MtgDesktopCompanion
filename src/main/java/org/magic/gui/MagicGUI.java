@@ -47,8 +47,17 @@ public class MagicGUI extends JFrame {
 
 	public MagicGUI() {
 
+		
 		try {
-			osNotifier = MTGControler.getInstance().getNotifier(OSTrayNotifier.class);
+			osNotifier = MTGControler.getInstance().getNotifier("Tray");
+		}
+		catch(Exception e)
+		{
+			osNotifier=null;
+		}
+		
+		
+		try {
 			serviceUpdate = new VersionChecker();
 			initGUI();
 		} catch (Exception e) {
@@ -249,37 +258,41 @@ public class MagicGUI extends JFrame {
 
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
-			osNotifier.getTrayNotifier().addActionListener(e -> {
-				if (!isVisible())
-					setVisible(true);
-				else
-					setVisible(false);
-			});
-			
-			PopupMenu menuTray = new PopupMenu();
-			for (int index_tab = 0; index_tab < tabbedPane.getTabCount(); index_tab++) {
-				final int index = index_tab;
-				MenuItem it = new MenuItem(tabbedPane.getTitleAt(index_tab));
-				it.addActionListener(e -> {
-					setVisible(true);
-					setSelectedTab(index);
+		
+			if(osNotifier!=null)
+			{	
+				osNotifier.getTrayNotifier().addActionListener(e -> {
+					if (!isVisible())
+						setVisible(true);
+					else
+						setVisible(false);
 				});
-				menuTray.add(it);
-			}
-
-			osNotifier.getTrayNotifier().setPopupMenu(menuTray);
-			osNotifier.getTrayNotifier().setToolTip("MTG Desktop Companion");
+			
+				PopupMenu menuTray = new PopupMenu();
+				for (int index_tab = 0; index_tab < tabbedPane.getTabCount(); index_tab++) {
+					final int index = index_tab;
+					MenuItem it = new MenuItem(tabbedPane.getTitleAt(index_tab));
+					it.addActionListener(e -> {
+						setVisible(true);
+						setSelectedTab(index);
+					});
+					menuTray.add(it);
+				}
 	
-			if (serviceUpdate.hasNewVersion())
-			{
-				MTGNotification notif = new MTGNotification();
-				notif.setType(MessageType.INFO);
-				notif.setTitle(getTitle());
-				notif.setMessage(MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION") + " "
-								+ serviceUpdate.getOnlineVersion() + " "
-								+ MTGControler.getInstance().getLangService().get("AVAILABLE"));
-				
-				osNotifier.send(notif);
+				osNotifier.getTrayNotifier().setPopupMenu(menuTray);
+				osNotifier.getTrayNotifier().setToolTip("MTG Desktop Companion");
+		
+				if (serviceUpdate.hasNewVersion())
+				{
+					MTGNotification notif = new MTGNotification();
+					notif.setType(MessageType.INFO);
+					notif.setTitle(getTitle());
+					notif.setMessage(MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION") + " "
+									+ serviceUpdate.getOnlineVersion() + " "
+									+ MTGControler.getInstance().getLangService().get("AVAILABLE"));
+					
+					osNotifier.send(notif);
+				}
 			}
 			ThreadManager.getInstance().execute(() -> {
 				try {

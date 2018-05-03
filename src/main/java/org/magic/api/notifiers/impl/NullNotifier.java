@@ -6,23 +6,16 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
-public class ConsoleNotifier extends AbstractMTGNotifier {
-	
+public class NullNotifier extends AbstractMTGNotifier {
+
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		
-		switch (notification.getType()) {
-		case ERROR : logger.error(notification.getMessage());break;
-		case INFO : logger.info(notification.getMessage());break;
-		case WARNING : logger.warn(notification.getMessage());break;
-		default : logger.debug(notification.getMessage());break;
-		}		
+		// do nothing;
 	}
-	
 
 	@Override
 	public String getName() {
-		return "Console";
+		return "Null";
 	}
 
 	@Override
@@ -33,7 +26,7 @@ public class ConsoleNotifier extends AbstractMTGNotifier {
 	@Override
 	public void initDefault() {
 		// TODO Auto-generated method stub
-
+		
 	}
 
 	@Override

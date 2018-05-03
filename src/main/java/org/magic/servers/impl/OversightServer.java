@@ -51,7 +51,9 @@ public class OversightServer extends AbstractMTGServer {
 					notif.setTitle("Oversight");
 					notif.setMessage(ret.toString());
 					notif.setType(MessageType.INFO);
-					MTGControler.getInstance().getNotifier(ConsoleNotifier.class).send(notif);
+					
+					for(String not : getString("NOTIFIER").split(","))
+						MTGControler.getInstance().getNotifier(not).send(notif);
 				
 				} catch (IOException e) {
 					logger.error(e);
@@ -93,7 +95,7 @@ public class OversightServer extends AbstractMTGServer {
 		setProperty("AUTOSTART", "true");
 		setProperty("TIMEOUT_MINUTE", "120");
 		setProperty("ALERT_MIN_PERCENT","40");
-		setProperty("REPORTER","email");
+		setProperty("NOTIFIER","Tray,Console");
 	}
 
 	@Override

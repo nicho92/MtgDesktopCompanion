@@ -58,6 +58,9 @@ public class ModuleInstaller {
 
 		for (Class c : extractMissing("org.magic.api.news.impl", "/newsProvider/news"))
 			MTGControler.getInstance().addProperty("/newsProvider/news", c);
+		
+		for (Class c : extractMissing("org.magic.api.notifiers.impl", "/notifiers/notifier"))
+			MTGControler.getInstance().addProperty("/notifiers/notifier", c);
 
 		return hasUpdated;
 

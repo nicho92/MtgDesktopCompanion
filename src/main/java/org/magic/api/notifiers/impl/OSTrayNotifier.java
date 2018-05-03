@@ -51,7 +51,7 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 
 	@Override
 	public String getName() {
-		return "OS Notifier";
+		return "Tray";
 	}
 
 	@Override
