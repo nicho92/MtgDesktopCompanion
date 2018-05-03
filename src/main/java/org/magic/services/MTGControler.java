@@ -646,6 +646,7 @@ public class MTGControler {
 		return null;
 	}
 	
+	@SuppressWarnings("unchecked")
 	public <T  extends AbstractMTGNotifier> T getNotifier(String className) {
 		for(MTGNotifier s : getEnabledNotifiers()) {
 			if(s.getName().equalsIgnoreCase(className))
