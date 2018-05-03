@@ -26,6 +26,21 @@
     <keystore-name>jssecacerts</keystore-name>
     <keystore-pass>changeit</keystore-pass>
     <default-land-deck>ZEN</default-land-deck>
+    
+    <notifiers>
+        <notifier>
+     		<class>org.magic.api.notifiers.impl.ConsoleNotifier</class>
+            <enable>true</enable>
+    	</notifier>
+    	<notifier>
+     		<class>org.magic.api.notifiers.impl.EmailNotifier</class>
+            <enable>true</enable>
+    	</notifier>
+    	<notifier>
+     		<class>org.magic.api.notifiers.impl.OSTrayNotifier</class>
+            <enable>true</enable>
+    	</notifier>
+    </notifiers>
     <caches>
         <cache>
             <class>org.magic.api.cache.impl.FileCache</class>

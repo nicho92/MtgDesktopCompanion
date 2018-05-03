@@ -1,16 +1,19 @@
 package org.magic.servers.impl;
 
 import java.awt.TrayIcon.MessageType;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.notifiers.impl.ConsoleNotifier;
 import org.magic.services.MTGControler;
 
 public class PricesCheckerTimer extends AbstractMTGServer {
@@ -23,11 +26,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 	Timer timer;
 	TimerTask tache;
 	private boolean running = false;
-	private boolean enableNotify = true;
 
-	public void enableGUINotify(boolean enableNotify) {
-		this.enableNotify = enableNotify;
-	}
 
 	@Override
 	public String description() {
@@ -73,10 +72,19 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 						message.append(alert.getCard()).append(" : ").append(alert.getOffers().size()).append(" offers")
 								.append("\n");
 					}
-
-				if (enableNotify && notify)
-					MTGControler.getInstance().notify("New offers", message.toString(), MessageType.INFO);
-
+				
+				if(message.length()>0) {
+					MTGNotification notif = new MTGNotification();
+					notif.setTitle("New offers");
+					notif.setMessage(message.toString());
+					notif.setType(MessageType.INFO);
+				
+					try {
+						new ConsoleNotifier().send(notif);
+					} catch (IOException e) {
+						logger.error(e);
+					}
+				}
 			}
 		};
 
@@ -111,7 +119,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty("AUTOSTART", "true");
 		setProperty("TIMEOUT_MINUTE", "120");
-
+		setProperty("NOTIFIER","email");
 	}
 
 	@Override

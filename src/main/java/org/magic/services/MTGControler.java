@@ -23,6 +23,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -30,6 +31,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGNewsProvider;
+import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPricesProvider;
@@ -37,7 +39,9 @@ import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.game.model.Player;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.abstracts.AbstractJDashlet;
@@ -61,24 +65,16 @@ public class MTGControler {
 	private List<MTGNewsProvider> news;
 	private List<MTGPicturesCache> caches;
 	private List<MTGWallpaperProvider> wallpapers;
-
+	private List<MTGNotifier> notifiers;
 	private List<AbstractJDashlet> dashlets;
-
 	private KeyWordProvider keyWordManager;
-
 	private XMLConfiguration config;
 	private ClassLoader classLoader;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private LanguageService langService;
 	private LookAndFeelProvider lafService;
-
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-
-	public void notify(String caption, String text, MessageType type) {
-		if (SystemTray.isSupported())
-			MagicGUI.getTrayNotifier().displayMessage(caption, text, type);
-	}
-
+	
 	public LookAndFeelProvider getLafService() {
 		if (lafService != null) {
 			return lafService;
@@ -151,7 +147,10 @@ public class MTGControler {
 				path = "newsProvider/news[class='" + k.getClass().getName() + "']/enable";
 			} else if (k instanceof MTGWallpaperProvider) {
 				path = "wallpapers/wallpaper[class='" + k.getClass().getName() + "']/enable";
-			} else {
+			} else if (k instanceof MTGNotifier) {
+				path = "notifiers/notifier[class='" + k.getClass().getName() + "']/enable";
+			} 
+			else {
 				path = k.toString();
 			}
 			logger.debug("set " + k + " to " + c);
@@ -211,7 +210,7 @@ public class MTGControler {
 	}
 
 	private MTGControler() {
-
+		
 		File conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 		if (!conf.exists())
 			try {
@@ -366,6 +365,18 @@ public class MTGControler {
 					news.add(prov);
 				}
 			}
+			
+			logger.info("loading notifiers");
+			notifiers = new ArrayList<>();
+			for (int i = 1; i <= config.getList("//notifier/class").size(); i++) {
+				String s = config.getString("notifiers/notifier[" + i + "]/class");
+				MTGNotifier prov = loadItem(s);
+
+				if (prov != null) {
+					prov.enable(config.getBoolean("notifiers/notifier[" + i + "]/enable"));
+					notifiers.add(prov);
+				}
+			}
 
 			logger.info("loading wallpapers");
 			wallpapers = new ArrayList<>();
@@ -428,6 +439,22 @@ public class MTGControler {
 
 		return null;
 	}
+	
+	
+	public List<MTGNotifier> getNotifierProviders(){
+		return notifiers;
+	}
+	
+	public List<MTGNotifier> getEnabledNotifiers() {
+		List<MTGNotifier> notifierE = new ArrayList<>();
+
+		for (MTGNotifier p : getNotifierProviders())
+			if (p.isEnable())
+				notifierE.add(p);
+
+		return notifierE;
+	}
+	
 
 	public List<MTGPicturesCache> getCachesProviders() {
 		return caches;
@@ -615,8 +642,16 @@ public class MTGControler {
 		for(MTGServer s : getServers())
 			if(s.getClass()==class1)
 				return s;
+		return null;
+	}
+	
+	public <T  extends AbstractMTGNotifier> T getNotifier(Class<T> class1) {
+		for(MTGNotifier s : getNotifierProviders()) 
+			if(s.getClass()==class1)
+				return (T) s;
 		
 		return null;
 	}
+	
 
 }

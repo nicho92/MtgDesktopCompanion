@@ -13,6 +13,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGNewsProvider;
+import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPricesProvider;
@@ -37,7 +38,7 @@ public class ConfigurationPanelGUI extends JPanel {
 	private JXTreeTable serversTreeTable;
 	private JXTreeTable cachesTreeTable;
 	private JXTreeTable wallpapersTreeTable;
-
+	private JXTreeTable notificationsTreeTable;
 	private LoggerViewPanel loggerViewPanel;
 	private JXTreeTable newsTreeTable;
 
@@ -203,6 +204,19 @@ public class ConfigurationPanelGUI extends JPanel {
 						.setSelectedNode((MTGWallpaperProvider) e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 		wallpaperScrollPane.setViewportView(wallpapersTreeTable);
+		
+		
+		JScrollPane notificationScrollPane = new JScrollPane();
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("NOTIFICATION"), MTGConstants.ICON_TAB_NOTIFICATION,notificationScrollPane, null);
+		notificationsTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGNotifier>(true,
+				MTGControler.getInstance().getNotifierProviders()));
+		notificationsTreeTable.addTreeSelectionListener(e -> {
+			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
+				((ProviderTreeTableModel) notificationsTreeTable.getTreeTableModel())
+						.setSelectedNode((MTGNotifier) e.getNewLeadSelectionPath().getPathComponent(1));
+		});
+		notificationScrollPane.setViewportView(notificationsTreeTable);
+		
 
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,

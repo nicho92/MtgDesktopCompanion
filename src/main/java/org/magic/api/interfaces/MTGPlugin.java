@@ -8,7 +8,7 @@ import org.utils.patterns.observer.Observer;
 
 public interface MTGPlugin {
 	public enum PLUGINS {
-		PROVIDER, DASHBOARD, PRICER, SERVER, PICTURES, SHOPPER, EXPORT, DECKS, DAO, TOKENS, CACHE, NEWS, WALLPAPER
+		PROVIDER, DASHBOARD, PRICER, SERVER, PICTURES, SHOPPER, EXPORT, DECKS, DAO, TOKENS, CACHE, NEWS, WALLPAPER, NOTIFIER
 	}
 
 	public Properties getProperties();

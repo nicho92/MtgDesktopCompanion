@@ -110,7 +110,8 @@ public class MTGConstants {
 	public static final ImageIcon ICON_ABOUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/about.jpg"));
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/masters-logo.png"));
 	
-
+	
+	public static final ImageIcon ICON_TAB_NOTIFICATION=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/notify.png"));
 	public static final ImageIcon ICON_TAB_THUMBNAIL=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/thumbnail.png"));
 	public static final ImageIcon ICON_TAB_ANALYSE=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/analyse.png"));
 	public static final ImageIcon ICON_TAB_DETAILS=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/details.png"));

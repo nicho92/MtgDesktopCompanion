@@ -6,9 +6,7 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.image.BufferedImage;
+import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -24,8 +22,10 @@ import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.LoggerViewPanel;
 import org.magic.gui.components.ThreadMonitorPanel;
@@ -41,20 +41,14 @@ import org.mkm.gui.MkmPanel;
 public class MagicGUI extends JFrame {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
-	private transient SystemTray tray;
-
 	private JTabbedPane tabbedPane;
 	private transient VersionChecker serviceUpdate;
-	private static transient TrayIcon trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-
-	public static TrayIcon getTrayNotifier() {
-		return trayNotifier;
-	}
+	private transient OSTrayNotifier osNotifier;
 
 	public MagicGUI() {
 
 		try {
+			osNotifier = MTGControler.getInstance().getNotifier(OSTrayNotifier.class);
 			serviceUpdate = new VersionChecker();
 			initGUI();
 		} catch (Exception e) {
@@ -84,13 +78,7 @@ public class MagicGUI extends JFrame {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setIconImage(MTGConstants.IMAGE_LOGO);
 		getContentPane().setLayout(new BorderLayout());
-
-		try {
-			tray = SystemTray.getSystemTray();
-		} catch (Exception e) {
-			logger.error(e);
-		}
-
+	
 		mtgMnuBar = new JMenuBar();
 		setJMenuBar(mtgMnuBar);
 
@@ -191,7 +179,8 @@ public class MagicGUI extends JFrame {
 			}
 		});
 
-		if (serviceUpdate.hasNewVersion()) {
+		if (serviceUpdate.hasNewVersion()) 
+		{
 			JMenuItem newversion = new JMenuItem(
 					MTGControler.getInstance().getLangService().getCapitalize("DOWNLOAD_LAST_VERSION") + " : "
 							+ serviceUpdate.getOnlineVersion());
@@ -260,14 +249,13 @@ public class MagicGUI extends JFrame {
 
 		getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
-		if (SystemTray.isSupported()) {
-			tray.add(trayNotifier);
-			trayNotifier.addActionListener(e -> {
+			osNotifier.getTrayNotifier().addActionListener(e -> {
 				if (!isVisible())
 					setVisible(true);
 				else
 					setVisible(false);
 			});
+			
 			PopupMenu menuTray = new PopupMenu();
 			for (int index_tab = 0; index_tab < tabbedPane.getTabCount(); index_tab++) {
 				final int index = index_tab;
@@ -279,15 +267,20 @@ public class MagicGUI extends JFrame {
 				menuTray.add(it);
 			}
 
-			trayNotifier.setPopupMenu(menuTray);
-			trayNotifier.setToolTip("MTG Desktop Companion");
+			osNotifier.getTrayNotifier().setPopupMenu(menuTray);
+			osNotifier.getTrayNotifier().setToolTip("MTG Desktop Companion");
+	
 			if (serviceUpdate.hasNewVersion())
-				trayNotifier.displayMessage(getTitle(),
-						MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION") + " "
+			{
+				MTGNotification notif = new MTGNotification();
+				notif.setType(MessageType.INFO);
+				notif.setTitle(getTitle());
+				notif.setMessage(MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION") + " "
 								+ serviceUpdate.getOnlineVersion() + " "
-								+ MTGControler.getInstance().getLangService().get("AVAILABLE"),
-						TrayIcon.MessageType.INFO);
-
+								+ MTGControler.getInstance().getLangService().get("AVAILABLE"));
+				
+				osNotifier.send(notif);
+			}
 			ThreadManager.getInstance().execute(() -> {
 				try {
 					new TipsOfTheDayDialog().show();
@@ -297,6 +290,6 @@ public class MagicGUI extends JFrame {
 
 			}, "launch tooltip");
 		}
-	}
+	
 
 }

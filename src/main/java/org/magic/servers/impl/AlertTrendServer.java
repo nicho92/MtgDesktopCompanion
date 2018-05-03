@@ -16,9 +16,11 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.magic.api.beans.CardShake;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.notifiers.impl.ConsoleNotifier;
 import org.magic.services.MTGControler;
 
 import com.google.common.collect.Iterables;
@@ -103,9 +105,21 @@ public class AlertTrendServer extends AbstractMTGServer {
 						
 						
 					}
-
-				if (enableNotify && message.length()>0)
-					MTGControler.getInstance().notify("Alerts Variation", message.toString(), MessageType.INFO);
+				
+				if(message.length()>0)
+				{
+					MTGNotification notif = new MTGNotification();
+									notif.setTitle("Alerts Variation");
+									notif.setMessage(message.toString());
+									notif.setType(MessageType.INFO);
+				
+					try {
+						new ConsoleNotifier().send(notif);
+					} catch (IOException e) {
+						logger.error(e);
+					}
+				}
+				
 
 			}
 		};
@@ -144,7 +158,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 		setProperty("TIMEOUT_MINUTE", "120");
 		setProperty("ALERT_MIN_PERCENT","40");
 		setProperty("THREAD_PAUSE","2000");
-
+		setProperty("NOTIFIER","EmailNotifier");
 	}
 
 	@Override
