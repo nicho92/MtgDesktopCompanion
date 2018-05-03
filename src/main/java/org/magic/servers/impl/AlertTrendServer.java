@@ -35,11 +35,8 @@ public class AlertTrendServer extends AbstractMTGServer {
 	private Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
-	private boolean enableNotify = true;
 	private NumberFormat formatter = new DecimalFormat("#0.00");  
-	public void enableGUINotify(boolean enableNotify) {
-		this.enableNotify = enableNotify;
-	}
+	
 
 	@Override
 	public String description() {
@@ -96,11 +93,9 @@ public class AlertTrendServer extends AbstractMTGServer {
 								if(getInt("THREAD_PAUSE")!=null)
 									Thread.sleep(getInt("THREAD_PAUSE"));
 							}
-						} catch (IOException e) {
+						} catch (IOException|InterruptedException e) {
 							logger.error(e);
-						} catch (InterruptedException e) {
-							logger.error(e);
-						}
+						} 
 						
 						
 						
@@ -114,7 +109,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 									notif.setType(MessageType.INFO);
 				
 					try {
-						new ConsoleNotifier().send(notif);
+						MTGControler.getInstance().getNotifier(ConsoleNotifier.class).send(notif);
 					} catch (IOException e) {
 						logger.error(e);
 					}

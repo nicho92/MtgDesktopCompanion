@@ -27,11 +27,6 @@ public class OversightServer extends AbstractMTGServer {
 	private Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
-	private boolean enableNotify = true;
-	
-	public void enableGUINotify(boolean enableNotify) {
-		this.enableNotify = enableNotify;
-	}
 
 	@Override
 	public String description() {
@@ -56,10 +51,8 @@ public class OversightServer extends AbstractMTGServer {
 					notif.setTitle("Oversight");
 					notif.setMessage(ret.toString());
 					notif.setType(MessageType.INFO);
-					
 					MTGControler.getInstance().getNotifier(ConsoleNotifier.class).send(notif);
-					MTGControler.getInstance().getNotifier(OSTrayNotifier.class).send(notif);
-					
+				
 				} catch (IOException e) {
 					logger.error(e);
 				}
