@@ -1,0 +1,73 @@
+package org.magic.api.notifiers.impl;
+
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
+
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
+
+public class TelegramNotifier extends AbstractMTGNotifier {
+
+	
+	public static void main(String[] args) throws IOException {
+		MTGNotification not = new MTGNotification();
+		
+		not.setMessage("Test");
+		
+		new TelegramNotifier().send(not);
+	}
+	
+	@Override
+	public void send(MTGNotification notification) throws IOException {
+		String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
+
+		String apiToken = getString("TOKEN");
+		String chatId = getString("CHANNEL");
+		
+		urlString = String.format(urlString, apiToken, chatId, notification.getMessage());
+
+		URL url = new URL(urlString);
+		URLConnection conn = url.openConnection();
+
+		StringBuilder sb = new StringBuilder();
+		InputStream is = new BufferedInputStream(conn.getInputStream());
+		BufferedReader br = new BufferedReader(new InputStreamReader(is));
+		String inputLine = "";
+		while ((inputLine = br.readLine()) != null) {
+		    sb.append(inputLine);
+		}
+		String response = sb.toString();
+		logger.debug(response);
+
+	}
+
+	@Override
+	public String getName() {
+		return "Telegram";
+	}
+
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+
+	@Override
+	public void initDefault() {
+		setProperty("TOKEN", "");
+		setProperty("CHANNEL","");
+
+	}
+
+	@Override
+	public String getVersion() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
