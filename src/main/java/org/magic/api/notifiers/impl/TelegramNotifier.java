@@ -7,6 +7,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.net.URLEncoder;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
@@ -30,7 +31,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 		String apiToken = getString("TOKEN");
 		String chatId = getString("CHANNEL");
 		
-		urlString = String.format(urlString, apiToken, chatId, notification.getMessage());
+		urlString = String.format(urlString, apiToken, chatId, URLEncoder.encode(notification.getMessage(),"UTF-8"));
 
 		URL url = new URL(urlString);
 		URLConnection conn = url.openConnection();
