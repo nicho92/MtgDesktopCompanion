@@ -42,7 +42,7 @@ public class MagicWebSiteGenerator extends Observable {
 		cfg.setDirectoryForTemplateLoading(new File(MTGConstants.MTG_TEMPLATES_DIR, template));
 		cfg.setDefaultEncoding("UTF-8");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-		cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_27).build());
+		cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28).build());
 
 		this.dest = dest;
 		FileUtils.copyDirectory(new File(MTGConstants.MTG_TEMPLATES_DIR, template), new File(dest), pathname -> {
