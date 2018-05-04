@@ -31,6 +31,7 @@ public class EmailNotifier extends AbstractMTGNotifier{
 		setProperty("SEND_TO", "you@server.com");
 		setProperty("SMTP_LOGIN", "login");
 		setProperty("SMTP_PASS", "password");
+		setProperty("SSL", "true");
 	}
 
 	@Override
@@ -40,16 +41,17 @@ public class EmailNotifier extends AbstractMTGNotifier{
 
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		
+		HtmlEmail email;
 		try {
-			HtmlEmail email = new HtmlEmail();
+			
+			email = new HtmlEmail();
+			email.setHtmlMsg("<html>"+notification.getMessage()+"</html>");
 			email.setHostName(getString("SMTP"));
 			email.setSmtpPort(getInt("PORT"));
 			email.setAuthenticator(new DefaultAuthenticator(getString("SMTP_LOGIN"), getString("SMTP_PASS")));
-			email.setSSLOnConnect(true);
+			email.setSSLOnConnect(getBoolean("SSL"));
 			email.setFrom(getString("FROM"));
 			email.setSubject(notification.getTitle());
-			email.setHtmlMsg("<html>"+notification.getMessage()+"</html>");
 			email.setTextMsg(notification.getMessage());
 			for(String to : getString("SEND_TO").split(","))
 				email.addTo(to);
@@ -61,10 +63,6 @@ public class EmailNotifier extends AbstractMTGNotifier{
 		}
 		
 	}
-
-	
-	
-	
 	
 	
 }

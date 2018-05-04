@@ -35,8 +35,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 	private Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
-	private NumberFormat formatter = new DecimalFormat("#0.00");  
-	
+
 
 	@Override
 	public String description() {
@@ -71,14 +70,6 @@ public class AlertTrendServer extends AbstractMTGServer {
 								double pcWeek = (map.get(now) - map.get(week))/map.get(week)*100;
 								double pcDay = (map.get(now) - map.get(yesterday))/map.get(yesterday)*100;
 								
-								
-								if(pcDay>=getInt("ALERT_MIN_PERCENT"))
-								{
-									if(valDay>0)
-										message.append(alert.getCard() + " is up +"+formatter.format(pcDay)+"%\n");
-										else
-										message.append(alert.getCard() + " is down "+formatter.format(pcDay)+"%\n");	
-								}			
 								CardShake cs = new CardShake();
 								cs.setCard(alert.getCard());
 								cs.setDateUpdate(new Date());
@@ -88,6 +79,21 @@ public class AlertTrendServer extends AbstractMTGServer {
 								cs.setPriceWeekChange(valWeek);
 								cs.setPrice(map.get(now));
 								alert.setShake(cs);
+								
+								if(Math.abs(pcDay)>=getInt("ALERT_MIN_PERCENT"))
+								{
+									
+										message.append(alert.getCard())
+											   .append("(")
+											   .append(alert.getCard().getCurrentSet().getId())
+											   .append(") : ")
+											   .append( (pcDay>0)?"+":"")
+											   .append(formatter.format(pcDay)+"%")
+											   .append(" -> ")
+											   .append(alert.getShake().getPrice())
+											   .append("$\n");
+								}			
+								
 								
 								
 								if(getInt("THREAD_PAUSE")!=null)

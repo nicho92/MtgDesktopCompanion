@@ -15,36 +15,28 @@ import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
 public class TelegramNotifier extends AbstractMTGNotifier {
 
-	
-	public static void main(String[] args) throws IOException {
-		MTGNotification not = new MTGNotification();
-		
-		not.setMessage("Test");
-		
-		new TelegramNotifier().send(not);
-	}
-	
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
+		String urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode=html&chat_id=%s&text=%s";
 
 		String apiToken = getString("TOKEN");
 		String chatId = getString("CHANNEL");
-		
 		urlString = String.format(urlString, apiToken, chatId, URLEncoder.encode(notification.getMessage(),"UTF-8"));
 
 		URL url = new URL(urlString);
 		URLConnection conn = url.openConnection();
 
 		StringBuilder sb = new StringBuilder();
+		
 		InputStream is = new BufferedInputStream(conn.getInputStream());
 		BufferedReader br = new BufferedReader(new InputStreamReader(is));
 		String inputLine = "";
 		while ((inputLine = br.readLine()) != null) {
-		    sb.append(inputLine);
+			sb.append(inputLine);
 		}
 		String response = sb.toString();
 		logger.debug(response);
+		
 
 	}
 
@@ -67,8 +59,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 
 	@Override
 	public String getVersion() {
-		// TODO Auto-generated method stub
-		return null;
+		return "1.0";
 	}
 
 }

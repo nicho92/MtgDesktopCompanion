@@ -38,7 +38,7 @@ public class MagicWebSiteGenerator extends Observable {
 	Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public MagicWebSiteGenerator(String template, String dest) throws IOException {
-		cfg = new Configuration(Configuration.VERSION_2_3_27);
+		cfg = new Configuration(Configuration.VERSION_2_3_28);
 		cfg.setDirectoryForTemplateLoading(new File(MTGConstants.MTG_TEMPLATES_DIR, template));
 		cfg.setDefaultEncoding("UTF-8");
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);

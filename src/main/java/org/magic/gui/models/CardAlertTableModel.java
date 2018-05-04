@@ -17,7 +17,8 @@ public class CardAlertTableModel extends DefaultTableModel {
 			MTGControler.getInstance().getLangService().getCapitalize("MAX_BID"),
 			MTGControler.getInstance().getLangService().getCapitalize("OFFERS"),
 			MTGControler.getInstance().getLangService().getCapitalize("DAILY"),
-			MTGControler.getInstance().getLangService().getCapitalize("WEEKLY")
+			MTGControler.getInstance().getLangService().getCapitalize("WEEKLY"),
+			MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY")
 			};
 
 	@Override
@@ -53,6 +54,8 @@ public class CardAlertTableModel extends DefaultTableModel {
 			return Double.class;
 		case 5:
 			return Double.class;
+		case 6:
+			return Double.class;
 		default:
 			return super.getColumnClass(columnIndex);
 		}
@@ -84,6 +87,8 @@ public class CardAlertTableModel extends DefaultTableModel {
 			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getShake().getPriceDayChange();
 		case 5:
 			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getShake().getPriceWeekChange();
+		case 6:
+			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getShake().getPercentDayChange();
 		default:
 			return "";
 		}

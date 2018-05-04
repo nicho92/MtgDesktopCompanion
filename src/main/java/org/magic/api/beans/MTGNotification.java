@@ -5,8 +5,10 @@ import java.util.Date;
 
 public class MTGNotification {
 
+	public enum FORMAT_NOTIFICATION {EMAIL,TEXT,MARKDOWN};
 	
-	private String format;
+	
+	private FORMAT_NOTIFICATION format;
 	private Date date;
 	private String sender;
 	private String message;
@@ -24,10 +26,10 @@ public class MTGNotification {
 	}
 	
 	
-	public String getFormat() {
+	public FORMAT_NOTIFICATION getFormat() {
 		return format;
 	}
-	public void setFormat(String format) {
+	public void setFormat(FORMAT_NOTIFICATION format) {
 		this.format = format;
 	}
 	public Date getDate() {

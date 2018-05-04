@@ -115,6 +115,7 @@ public class AlarmGUI extends JPanel {
 		list.setCellRenderer((JList<? extends MagicPrice> obj, MagicPrice value, int index, boolean isSelected,boolean cellHasFocus) -> new MagicPricePanel(value));
 		table.getColumnModel().getColumn(4).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
+		table.getColumnModel().getColumn(6).setCellRenderer(new CardShakeRenderer());
 		panelRight.setLayout(new BorderLayout());
 	
 ///////ADDS	

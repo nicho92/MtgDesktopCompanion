@@ -28,14 +28,6 @@ public class ConsoleServer extends AbstractMTGServer {
 		return "use mtg desktop companion via telnet connection";
 	}
 
-	public static void main(String[] args) throws Exception {
-
-		MTGControler.getInstance().getEnabledCardsProviders().init();
-		MTGControler.getInstance().getEnabledDAO().init();
-
-		ConsoleServer serv = new ConsoleServer();
-		serv.start();
-	}
 
 	public ConsoleServer() throws IOException {
 		super();

@@ -34,10 +34,10 @@ public class OversightServer extends AbstractMTGServer {
 	}
 
 	public OversightServer() {
-
 		super();
 		timer = new Timer();
 	}
+	
 	
 	public void start() {
 		running = true;
@@ -47,10 +47,13 @@ public class OversightServer extends AbstractMTGServer {
 					List<CardShake> ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
 					Collections.sort(ret, new CardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
 				
+					
+					String msg = toMessage(ret);
+					
 					MTGNotification notif = new MTGNotification();
-					notif.setTitle("Oversight");
-					notif.setMessage(ret.toString());
-					notif.setType(MessageType.INFO);
+									notif.setTitle("Oversight");
+									notif.setMessage(msg);
+									notif.setType(MessageType.INFO);
 					
 					for(String not : getString("NOTIFIER").split(","))
 						MTGControler.getInstance().getNotifier(not).send(notif);
@@ -58,7 +61,24 @@ public class OversightServer extends AbstractMTGServer {
 				} catch (IOException e) {
 					logger.error(e);
 				}
+			}
 
+			private String toMessage(List<CardShake> ret) {
+				StringBuilder build = new StringBuilder();
+				for(CardShake cs : ret)
+				{
+					build.append(cs.getName())
+					   .append("(")
+					   .append(cs.getEd())
+					   .append(") : ")
+					   .append( (cs.getPercentDayChange()>0)?"+":"")
+					   .append(formatter.format(cs.getPercentDayChange())+"%")
+					   .append(" -> ")
+					   .append(cs.getPrice())
+					   .append("$\n");
+				}
+				
+				return build.toString();
 			}
 		};
 
@@ -97,6 +117,7 @@ public class OversightServer extends AbstractMTGServer {
 		setProperty("ALERT_MIN_PERCENT","40");
 		setProperty("NOTIFIER","Tray,Console");
 		setProperty("SORT_FILTER","DAY_PRICE_CHANGE");
+		setProperty("FORMAT_FILTER","");
 	}
 
 	@Override
