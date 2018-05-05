@@ -25,6 +25,11 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		return trayNotifier;
 	}
 	
+	@Override
+	public FORMAT_NOTIFICATION getFormat() {
+		return FORMAT_NOTIFICATION.TEXT;
+	}
+	
 	public OSTrayNotifier() {
 		try {
 			trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));

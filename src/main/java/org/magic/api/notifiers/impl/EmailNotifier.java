@@ -15,6 +15,11 @@ import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 public class EmailNotifier extends AbstractMTGNotifier{
 
 	@Override
+	public FORMAT_NOTIFICATION getFormat() {
+		return FORMAT_NOTIFICATION.HTML;
+	}
+	
+	@Override
 	public String getName() {
 		return "Email";
 	}

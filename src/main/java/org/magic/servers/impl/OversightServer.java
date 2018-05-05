@@ -9,7 +9,9 @@ import java.util.TimerTask;
 
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.notifiers.impl.ConsoleNotifier;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
@@ -47,18 +49,15 @@ public class OversightServer extends AbstractMTGServer {
 					List<CardShake> ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
 					Collections.sort(ret, new CardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
 				
-					
-					String msg = toMessage(ret);
-					
 					MTGNotification notif = new MTGNotification();
 									notif.setTitle("Oversight");
-									
 									notif.setType(MessageType.INFO);
-					
+									
 					for(String not : getString("NOTIFIER").split(","))
 					{
-						notif.setMessage(msg);
-						MTGControler.getInstance().getNotifier(not).send(notif);
+						MTGNotifier notifier = MTGControler.getInstance().getNotifier(not);
+						notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
+						notifier.send(notif);
 					}
 				
 				} catch (IOException e) {

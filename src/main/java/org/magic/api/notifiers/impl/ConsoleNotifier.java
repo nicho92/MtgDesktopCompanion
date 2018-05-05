@@ -10,6 +10,11 @@ import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 public class ConsoleNotifier extends AbstractMTGNotifier {
 	
 	@Override
+	public FORMAT_NOTIFICATION getFormat() {
+		return FORMAT_NOTIFICATION.TEXT;
+	}
+	
+	@Override
 	public void send(MTGNotification notification) throws IOException {
 		switch (notification.getType()) {
 		case ERROR : logger.error(notification.getMessage());break;

@@ -17,10 +17,15 @@ import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 public class TelegramNotifier extends AbstractMTGNotifier {
 
 	@Override
+	public FORMAT_NOTIFICATION getFormat() {
+		return FORMAT_NOTIFICATION.MARKDOWN;
+	}
+	
+	@Override
 	public void send(MTGNotification notification) throws IOException {
 		
 		
-		String urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode=html&chat_id=%s&text=%s";
+		String urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode=markdown&chat_id=%s&text=%s";
 
 		String apiToken = getString("TOKEN");
 		String chatId = getString("CHANNEL");

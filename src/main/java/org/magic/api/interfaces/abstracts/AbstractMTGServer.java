@@ -6,10 +6,12 @@ import java.text.NumberFormat;
 
 import org.magic.api.interfaces.MTGServer;
 import org.magic.services.MTGConstants;
+import org.test.ReportNotificationManager;
 
 public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTGServer {
 
 	protected NumberFormat formatter = new DecimalFormat("#0.00");  
+	protected ReportNotificationManager notifFormater;
 	
 	public AbstractMTGServer() {
 		super();
@@ -22,6 +24,9 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 			initDefault();
 			save();
 		}
+		
+		notifFormater = new ReportNotificationManager();
+		
 	}
 
 	@Override
