@@ -6,6 +6,7 @@ import java.io.IOException;
 import javax.swing.JOptionPane;
 
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
@@ -13,7 +14,6 @@ public class SwingNotifier extends AbstractMTGNotifier {
 
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		
 		JOptionPane.showMessageDialog(null, notification.getMessage(), notification.getTitle(), convert(notification.getType()));
 	}
 

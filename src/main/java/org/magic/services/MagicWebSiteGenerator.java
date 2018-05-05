@@ -30,12 +30,12 @@ import freemarker.template.TemplateExceptionHandler;
 
 public class MagicWebSiteGenerator extends Observable {
 
-	Template template;
-	Configuration cfg;
+	private Configuration cfg;
 	private String dest;
 	private List<MTGPricesProvider> pricesProvider;
 	private List<MagicCollection> cols;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private Logger logger = MTGLogger.getLogger(this.getClass());
+	int i = 0;
 
 	public MagicWebSiteGenerator(String template, String dest) throws IOException {
 		cfg = new Configuration(Configuration.VERSION_2_3_28);
@@ -53,8 +53,7 @@ public class MagicWebSiteGenerator extends Observable {
 		});
 	}
 
-	public void generate(List<MagicCollection> cols, List<MTGPricesProvider> providers)
-			throws TemplateException, IOException, SQLException {
+	public void generate(List<MagicCollection> cols, List<MTGPricesProvider> providers) throws TemplateException, IOException, SQLException {
 		this.pricesProvider = providers;
 		this.cols = cols;
 
@@ -94,8 +93,7 @@ public class MagicWebSiteGenerator extends Observable {
 		}
 	}
 
-	private void generateEditionsTemplate(Set<MagicEdition> eds, MagicCollection col)
-			throws IOException, SQLException, TemplateException {
+	private void generateEditionsTemplate(Set<MagicEdition> eds, MagicCollection col)throws IOException, SQLException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-ed.html");
 		Map rootEd = new HashMap<>();
 		rootEd.put("cols", cols);
@@ -112,8 +110,7 @@ public class MagicWebSiteGenerator extends Observable {
 
 	}
 
-	int i = 0;
-
+	
 	private void generateCardsTemplate(MagicCard mc) throws IOException, TemplateException {
 		Template cardTemplate = cfg.getTemplate("page-card.html");
 

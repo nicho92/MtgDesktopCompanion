@@ -52,11 +52,14 @@ public class OversightServer extends AbstractMTGServer {
 					
 					MTGNotification notif = new MTGNotification();
 									notif.setTitle("Oversight");
-									notif.setMessage(msg);
+									
 									notif.setType(MessageType.INFO);
 					
 					for(String not : getString("NOTIFIER").split(","))
+					{
+						notif.setMessage(msg);
 						MTGControler.getInstance().getNotifier(not).send(notif);
+					}
 				
 				} catch (IOException e) {
 					logger.error(e);

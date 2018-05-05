@@ -3,6 +3,7 @@ package org.magic.api.notifiers.impl;
 import java.io.IOException;
 
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
@@ -10,7 +11,6 @@ public class ConsoleNotifier extends AbstractMTGNotifier {
 	
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		
 		switch (notification.getType()) {
 		case ERROR : logger.error(notification.getMessage());break;
 		case INFO : logger.info(notification.getMessage());break;

@@ -5,7 +5,7 @@ import java.util.Date;
 
 public class MTGNotification {
 
-	public enum FORMAT_NOTIFICATION {EMAIL,TEXT,MARKDOWN};
+	public enum FORMAT_NOTIFICATION {HTML,TEXT,MARKDOWN}
 	
 	
 	private FORMAT_NOTIFICATION format;

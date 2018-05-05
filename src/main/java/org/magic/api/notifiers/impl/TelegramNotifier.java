@@ -10,6 +10,7 @@ import java.net.URLConnection;
 import java.net.URLEncoder;
 
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
@@ -17,6 +18,8 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 
 	@Override
 	public void send(MTGNotification notification) throws IOException {
+		
+		
 		String urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode=html&chat_id=%s&text=%s";
 
 		String apiToken = getString("TOKEN");
