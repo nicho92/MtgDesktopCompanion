@@ -169,6 +169,18 @@ public class ConfigurationPanelGUI extends JPanel {
 		});
 		serversScrollPane.setViewportView(serversTreeTable);
 
+		JScrollPane notificationScrollPane = new JScrollPane();
+		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("NOTIFICATION"), MTGConstants.ICON_TAB_NOTIFICATION,notificationScrollPane, null);
+		notificationsTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGNotifier>(true,
+				MTGControler.getInstance().getNotifierProviders()));
+		notificationsTreeTable.addTreeSelectionListener(e -> {
+			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
+				((ProviderTreeTableModel) notificationsTreeTable.getTreeTableModel())
+						.setSelectedNode((MTGNotifier) e.getNewLeadSelectionPath().getPathComponent(1));
+		});
+		notificationScrollPane.setViewportView(notificationsTreeTable);
+		
+		
 		JScrollPane cachesScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CACHES"), MTGConstants.ICON_TAB_CACHE,
 				cachesScrollPane, null);
@@ -206,16 +218,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		wallpaperScrollPane.setViewportView(wallpapersTreeTable);
 		
 		
-		JScrollPane notificationScrollPane = new JScrollPane();
-		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("NOTIFICATION"), MTGConstants.ICON_TAB_NOTIFICATION,notificationScrollPane, null);
-		notificationsTreeTable = new JXTreeTable(new ProviderTreeTableModel<MTGNotifier>(true,
-				MTGControler.getInstance().getNotifierProviders()));
-		notificationsTreeTable.addTreeSelectionListener(e -> {
-			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
-				((ProviderTreeTableModel) notificationsTreeTable.getTreeTableModel())
-						.setSelectedNode((MTGNotifier) e.getNewLeadSelectionPath().getPathComponent(1));
-		});
-		notificationScrollPane.setViewportView(notificationsTreeTable);
+		
 		
 
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();

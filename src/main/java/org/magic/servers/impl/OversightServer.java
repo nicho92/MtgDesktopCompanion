@@ -65,23 +65,6 @@ public class OversightServer extends AbstractMTGServer {
 				}
 			}
 
-			private String toMessage(List<CardShake> ret) {
-				StringBuilder build = new StringBuilder();
-				for(CardShake cs : ret)
-				{
-					build.append(cs.getName())
-					   .append("(")
-					   .append(cs.getEd())
-					   .append(") : ")
-					   .append( (cs.getPercentDayChange()>0)?"+":"")
-					   .append(formatter.format(cs.getPercentDayChange())+"%")
-					   .append(" -> ")
-					   .append(cs.getPrice())
-					   .append("$\n");
-				}
-				
-				return build.toString();
-			}
 		};
 
 		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString("TIMEOUT_MINUTE")) * 60000);

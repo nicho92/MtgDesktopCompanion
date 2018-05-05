@@ -11,6 +11,9 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
+import freemarker.template.Configuration;
+import freemarker.template.Version;
+
 public class MTGConstants {
 
 	private MTGConstants() {
@@ -50,8 +53,9 @@ public class MTGConstants {
 	public static final URL WEBUI_LOCATION = MTGConstants.class.getResource("/web-ui");
 	public static final String MTG_TEMPLATES_DIR = "./templates";
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
-
-	private static final String ICON_DIR="/icons";
+	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_28;
+	public static final String ICON_DIR="/icons";
+	public static final String MTG_REPORTS_DIR = "/report";
 	
 	private static String iconPack="flat";
 
@@ -160,6 +164,7 @@ public class MTGConstants {
 	public static final String HTML_TAG_TBODY = "tbody";
 	public static final String HTML_TAG_TR = "tr";
 	public static final String HTML_TAG_TD = "td";
+	
 	
 	
 }

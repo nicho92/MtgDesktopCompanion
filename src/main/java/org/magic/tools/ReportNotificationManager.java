@@ -1,4 +1,4 @@
-package org.test;
+package org.magic.tools;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 import freemarker.template.Configuration;
@@ -30,12 +31,12 @@ public class ReportNotificationManager {
 	private boolean errorLoading=false;
 	
 	public ReportNotificationManager() {
-		  	cfg = new Configuration(Configuration.VERSION_2_3_28);
+		  	cfg = new Configuration(MTGConstants.FREEMARKER_VERSION);
 	        try {
-				cfg.setDirectoryForTemplateLoading(new File(ReportNotificationManager.class.getResource("/report").getFile()));
+				cfg.setDirectoryForTemplateLoading(new File(ReportNotificationManager.class.getResource(MTGConstants.MTG_REPORTS_DIR).getFile()));
 				cfg.setDefaultEncoding("UTF-8");
 				cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
-				cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(Configuration.VERSION_2_3_28).build());
+				cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(MTGConstants.FREEMARKER_VERSION).build());
 			} catch (IOException e) {
 				errorLoading=true;
 				logger.error("error init Freemarker ",e);
@@ -48,7 +49,6 @@ public class ReportNotificationManager {
 	{
 		if(errorLoading)
 			return list.toString();
-		
 		
 		Map<String,Object> input = new HashMap<>();
 		input.put("modele", list);

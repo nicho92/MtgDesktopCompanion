@@ -6,7 +6,7 @@ import java.io.IOException;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.services.MTGConstants;
-import org.test.ReportNotificationManager;
+import org.magic.tools.ReportNotificationManager;
 
 public abstract class AbstractMTGNotifier extends AbstractMTGPlugin implements MTGNotifier {
 
