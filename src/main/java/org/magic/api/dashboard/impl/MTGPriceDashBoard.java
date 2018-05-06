@@ -182,7 +182,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String edition = "";
 
 		if (me == null)
-			edition = mc.getEditions().get(0).getSet();
+			edition = mc.getCurrentSet().getSet();
 		else
 			edition = me.getSet();
 

@@ -54,7 +54,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 				ThreadManager.getInstance().execute(() -> {
 					int row = table.getSelectedRow();
 					MagicCardAlert alt = (MagicCardAlert) table.getValueAt(row, 0);
-					historyPricesPanel.init(alt.getCard(), alt.getCard().getEditions().get(0),
+					historyPricesPanel.init(alt.getCard(), alt.getCard().getCurrentSet(),
 							alt.getCard().toString());
 					historyPricesPanel.revalidate();
 				});

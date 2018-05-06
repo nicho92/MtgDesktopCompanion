@@ -99,7 +99,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, mc.getName());
 			pst.setObject(3, mc);
-			pst.setString(4, mc.getEditions().get(0).getId());
+			pst.setString(4, mc.getCurrentSet().getId());
 			pst.setString(5, "");
 			pst.setString(6, collection.getName());
 			pst.executeUpdate();
@@ -116,7 +116,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 
 		try (PreparedStatement pst = con.prepareStatement(sql)) {
 			pst.setString(1, mc.getName());
-			pst.setString(2, mc.getEditions().get(0).getId());
+			pst.setString(2, mc.getCurrentSet().getId());
 			if (collection != null)
 				pst.setString(3, collection.getName());
 
@@ -325,9 +325,9 @@ public class HsqlDAO extends AbstractMagicDAO {
 
 		try (PreparedStatement pst = con.prepareStatement("SELECT COLLECTION FROM CARDS WHERE name=? and edition=?")) {
 			pst.setString(1, mc.getName());
-			pst.setString(2, mc.getEditions().get(0).getId());
+			pst.setString(2, mc.getCurrentSet().getId());
 			logger.trace("SELECT COLLECTION FROM CARDS WHERE name='" + mc.getName() + "' and edition='"
-					+ mc.getEditions().get(0).getId() + "'");
+					+ mc.getCurrentSet().getId() + "'");
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCollection> cols = new ArrayList<>();
 				while (rs.next()) {

@@ -56,7 +56,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		int index = 0;
 
 		if (me == null)
-			me = mc.getEditions().get(0);
+			me = mc.getCurrentSet();
 
 		if (mc == null) {
 			url = getString("URL_EDITIONS") + replace(me.getId(), false) + "#" + getString("FORMAT");

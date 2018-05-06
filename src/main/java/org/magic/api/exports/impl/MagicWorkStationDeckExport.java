@@ -31,7 +31,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 			temp.append("    ");
 			temp.append(deck.getMap().get(mc));
 			temp.append(" ");
-			temp.append("[").append(mc.getEditions().get(0).getId().toUpperCase()).append("]");
+			temp.append("[").append(mc.getCurrentSet().getId().toUpperCase()).append("]");
 			temp.append(mc.getName());
 			temp.append("\n");
 		}
@@ -40,7 +40,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 			temp.append("SB: ");
 			temp.append(deck.getMap().get(mc));
 			temp.append(" ");
-			temp.append("[").append(mc.getEditions().get(0).getId()).append("]");
+			temp.append("[").append(mc.getCurrentSet().getId()).append("]");
 			temp.append(mc.getName());
 			temp.append("\n");
 		}

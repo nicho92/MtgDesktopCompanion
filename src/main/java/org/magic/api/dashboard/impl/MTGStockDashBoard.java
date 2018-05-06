@@ -129,7 +129,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		if (me != null)
 			setId = correspondance.get(me.getId());
 		else
-			setId = correspondance.get(mc.getEditions().get(0).getId());
+			setId = correspondance.get(mc.getCurrentSet().getId());
 
 		String url = MTGSTOCK_API_URI + "/search/autocomplete/" + StringUtils.replaceAll(mc.getName(), " ", "%20");
 		

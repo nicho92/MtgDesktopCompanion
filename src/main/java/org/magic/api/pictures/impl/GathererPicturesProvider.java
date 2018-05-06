@@ -40,7 +40,7 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 		MagicEdition selected = ed;
 
 		if (ed == null)
-			selected = mc.getEditions().get(0);
+			selected = mc.getCurrentSet();
 
 		for (String k : getArray("CALL_MCI_FOR")) {
 			if (selected.getId().startsWith(k)) {

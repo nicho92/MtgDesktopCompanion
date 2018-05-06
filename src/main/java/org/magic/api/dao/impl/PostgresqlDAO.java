@@ -124,7 +124,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, mc.getName());
 			pst.setBinaryStream(3, convertObject(mc));
-			pst.setString(4, mc.getEditions().get(0).getId());
+			pst.setString(4, mc.getCurrentSet().getId());
 			pst.setString(5, MTGControler.getInstance().getEnabledCardsProviders().toString());
 			pst.setString(6, collection.getName());
 			pst.executeUpdate();
@@ -137,7 +137,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con
 				.prepareStatement("delete from cards where name=? and edition=? and collection=?")) {
 			pst.setString(1, mc.getName());
-			pst.setString(2, mc.getEditions().get(0).getId());
+			pst.setString(2, mc.getCurrentSet().getId());
 			pst.setString(3, collection.getName());
 			pst.executeUpdate();
 		}
@@ -331,7 +331,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 		try (PreparedStatement pst = con.prepareStatement("SELECT collection FROM cards WHERE name=? and edition=?")) {
 			pst.setString(1, mc.getName());
-			pst.setString(2, mc.getEditions().get(0).getId());
+			pst.setString(2, mc.getCurrentSet().getId());
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCollection> cols = new ArrayList<>();
 				while (rs.next()) {

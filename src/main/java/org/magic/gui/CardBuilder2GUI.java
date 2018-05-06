@@ -473,7 +473,7 @@ public class CardBuilder2GUI extends JPanel {
 				if (mc.getId() == null)
 					mc.setId(DigestUtils.sha1Hex(me.getSet() + mc.getId() + mc.getName()));
 
-				if (!mc.getEditions().get(0).equals(me))
+				if (!mc.getCurrentSet().equals(me))
 					mc.getEditions().add(0, me);
 				try {
 					provider.addCard(me, mc);
@@ -514,7 +514,7 @@ public class CardBuilder2GUI extends JPanel {
 		btnRefresh.doClick();
 		namesModel.init(mc);
 		try {
-			cardImage = recordedProvider.getPicture(mc, mc.getEditions().get(0));
+			cardImage = recordedProvider.getPicture(mc, mc.getCurrentSet());
 			panelPictures.repaint();
 		} catch (Exception e) {
 			cardImage = recordedProvider.getBackPicture();

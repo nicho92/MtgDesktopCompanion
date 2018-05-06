@@ -489,7 +489,7 @@ public class CardSearchPanel extends JPanel {
 							cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(
 									cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
 
-						if (cards.size() < 50)
+						//if (cards.size() < 50)
 							Collections.sort(cards, new CardsEditionSorter());
 
 						open(cards);
@@ -523,7 +523,7 @@ public class CardSearchPanel extends JPanel {
 				} else {
 					try {
 						selectedCard = (MagicCard) tableCards.getValueAt(tableCards.getSelectedRow(), 0);
-						selectedEdition = selectedCard.getEditions().get(0);
+						selectedEdition = selectedCard.getCurrentSet();
 						updateCards();
 					} catch (Exception e) {
 						logger.error(e);
@@ -642,7 +642,7 @@ public class CardSearchPanel extends JPanel {
 			public void mouseClicked(MouseEvent e) {
 				DisplayableCard lab = (DisplayableCard) thumbnailPanel.getComponentAt(new Point(e.getX(), e.getY()));
 				selectedCard = lab.getMagicCard();
-				selectedEdition = lab.getMagicCard().getEditions().get(0);
+				selectedEdition = lab.getMagicCard().getCurrentSet();
 				cardsPicPanel.showPhoto(selectedCard);
 				updateCards();
 			}
@@ -694,7 +694,7 @@ public class CardSearchPanel extends JPanel {
 				((DefaultListModel<MagicEdition>) listEdition.getModel()).addElement(me);
 
 			detailCardPanel.setMagicCard(selectedCard, true);
-			magicEditionDetailPanel.setMagicEdition(selectedCard.getEditions().get(0));
+			magicEditionDetailPanel.setMagicEdition(selectedCard.getCurrentSet());
 
 			for (MagicRuling mr : selectedCard.getRulings()) {
 				txtRulesArea.append(mr.toString());

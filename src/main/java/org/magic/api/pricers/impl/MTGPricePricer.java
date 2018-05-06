@@ -34,7 +34,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 
 		MagicEdition selected = ed;
 		if (ed == null)
-			selected = card.getEditions().get(0);
+			selected = card.getCurrentSet();
 
 		String set = selected.getSet().replaceAll(" ", "_");
 

@@ -47,10 +47,10 @@ public class MTGArenaExport extends AbstractCardExport {
 				.append(" ")
 				.append(entry.getKey())
 				.append(" (")
-				.append(translate(entry.getKey().getEditions().get(0).getId()).toUpperCase())
+				.append(translate(entry.getKey().getCurrentSet().getId()).toUpperCase())
 				.append(")")
 				.append(" ")
-				.append(entry.getKey().getEditions().get(0).getNumber())
+				.append(entry.getKey().getCurrentSet().getNumber())
 				.append("\r\n");
 			
 		}
@@ -63,10 +63,10 @@ public class MTGArenaExport extends AbstractCardExport {
 					.append(" ")
 					.append(entry.getKey())
 					.append(" (")
-					.append(translate(entry.getKey().getEditions().get(0).getId()).toUpperCase())
+					.append(translate(entry.getKey().getCurrentSet().getId()).toUpperCase())
 					.append(")")
 					.append(" ")
-					.append(entry.getKey().getEditions().get(0).getNumber());
+					.append(entry.getKey().getCurrentSet().getNumber());
 				
 			}
 

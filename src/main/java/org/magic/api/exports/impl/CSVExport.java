@@ -94,7 +94,7 @@ public class CSVExport extends AbstractCardExport {
 			for (MagicCardStock mcs : stock) {
 				bw.write(mcs.getIdstock() + ";");
 				bw.write(mcs.getMagicCard().getName() + ";");
-				bw.write(mcs.getMagicCard().getEditions().get(0) + ";");
+				bw.write(mcs.getMagicCard().getCurrentSet() + ";");
 				bw.write(mcs.getLanguage() + ";");
 				bw.write(mcs.getQte() + ";");
 				bw.write(mcs.getCondition() + ";");
@@ -125,7 +125,7 @@ public class CSVExport extends AbstractCardExport {
 			bw.write("\n");
 			int i = 0;
 			for (MagicCard mc : cards) {
-				for (MagicPrice prices : prov.getPrice(mc.getEditions().get(0), mc)) {
+				for (MagicPrice prices : prov.getPrice(mc.getCurrentSet(), mc)) {
 					for (String k : exportedProperties) {
 						String val;
 						try {

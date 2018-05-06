@@ -354,8 +354,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 				mc.getEditions().add(me);
 
-				if (me.getRarity().equals("Basic Land")) // mtgjson give null text for basic Land. Modify it for adding
-															// mana color
+				if (mc.isBasicLand()) 
 				{
 					mc.setText(mc.getOriginalText());
 					switch (mc.getName()) {
@@ -573,7 +572,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		String jsquery = "$." + edCode + ".cards[?(@.name==\""
 				+ mc.getName().replaceAll("\\+", " ").replaceAll("\"", "\\\\\"") + "\")]";
 
-		// logger.trace("initOtherEditionVars for " + mc +"("+mc.getEditions().get(0)+")
+		// logger.trace("initOtherEditionVars for " + mc +"("+mc.getCurrentSet()+")
 		// -> " + jsquery);--> error on loading booster
 
 		List<Map<String, Object>> cardsElement = null;
@@ -634,13 +633,13 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				cacheBoosterCards.put(me.getId(), searchCardByCriteria("set", me.getId(), null, true));
 
 			for (MagicCard mc : cacheBoosterCards.get(me.getId())) {
-				if (mc.getEditions().get(0).getRarity().equalsIgnoreCase("common"))
+				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common"))
 					common.add(mc);
 
-				if (mc.getEditions().get(0).getRarity().equalsIgnoreCase("uncommon"))
+				if (mc.getCurrentSet().getRarity().equalsIgnoreCase("uncommon"))
 					uncommon.add(mc);
 
-				if (mc.getEditions().get(0).getRarity().toLowerCase().contains("rare"))
+				if (mc.getCurrentSet().getRarity().toLowerCase().contains("rare"))
 					rare.add(mc);
 
 				if (mc.getSupertypes().toString().toLowerCase().contains("basic")

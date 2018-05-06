@@ -129,7 +129,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		if (me != null)
 			jsonparams.addProperty("set", me.getId().toUpperCase());
 		else
-			jsonparams.addProperty("set", card.getEditions().get(0).getId().toUpperCase());
+			jsonparams.addProperty("set", card.getCurrentSet().getId().toUpperCase());
 
 		JsonObject obj = new JsonObject();
 		obj.add("search", jsonparams);

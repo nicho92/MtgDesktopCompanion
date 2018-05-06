@@ -1,5 +1,7 @@
 <ul>
-    <#list modele as cs>
-      <li>${cs.name} (${cs.ed}) $ ${cs.price} <#if (cs.percentDayChange>0)>&#x25B2;<#else>&#x25BC;</#if>${cs.percentDayChange}% </li>
-    </#list>
+   <#list modele as alert>
+    <#if (alert.offers?size>0)>
+      <li>${alert.card.name} (${alert.card.editions[0].id}) -> ${alert.offers?size} offers <= ${alert.price}</li>
+    </#if>
+   </#list>
 </ul>

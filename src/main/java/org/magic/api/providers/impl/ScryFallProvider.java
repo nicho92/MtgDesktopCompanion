@@ -206,13 +206,13 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			cacheBoosterCards.put(me.getId(), searchCardByCriteria("set", me.getId(), null, true));
 
 		for (MagicCard mc : cacheBoosterCards.get(me.getId())) {
-			if (mc.getEditions().get(0).getRarity().equalsIgnoreCase("common"))
+			if (mc.getCurrentSet().getRarity().equalsIgnoreCase("common"))
 				common.add(mc);
 
-			if (mc.getEditions().get(0).getRarity().equalsIgnoreCase("uncommon"))
+			if (mc.getCurrentSet().getRarity().equalsIgnoreCase("uncommon"))
 				uncommon.add(mc);
 
-			if (mc.getEditions().get(0).getRarity().toLowerCase().contains("rare"))
+			if (mc.getCurrentSet().getRarity().toLowerCase().contains("rare"))
 				rare.add(mc);
 
 		}
@@ -542,7 +542,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private void initOtherEdition(MagicCard mc) throws IOException {
 
 		String url = baseURI + "/cards/search?q=+" + URLEncoder.encode("++!\"" + mc.getName() + "\"", encoding)
-				+ "%20include:extras" + "%20-s:" + mc.getEditions().get(0).getId();
+				+ "%20include:extras" + "%20-s:" + mc.getCurrentSet().getId();
 
 		logger.trace("initOtherEdition " + URLDecoder.decode(url, encoding));
 		HttpURLConnection con;

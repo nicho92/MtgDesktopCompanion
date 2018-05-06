@@ -53,12 +53,12 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		}
 
 		if (ed == null)
-			ed = mc.getEditions().get(0);
+			ed = mc.getCurrentSet();
 
 		String infocode = ed.getMagicCardsInfoCode();
 
 		if (infocode == null)
-			infocode = mc.getEditions().get(0).getId().toLowerCase();
+			infocode = mc.getCurrentSet().getId().toLowerCase();
 
 		URL url;
 		// TODO change this function for other edition selection. mciNumber is on the
@@ -75,7 +75,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 			}
 		} else {
 			url = new URL(getString("WEBSITE") + "/" + getString("LANG") + "/" + infocode + "/"
-					+ mc.getEditions().get(0).getNumber().replaceAll("a", "").replaceAll("b", "") + ".jpg");
+					+ mc.getCurrentSet().getNumber().replaceAll("a", "").replaceAll("b", "") + ".jpg");
 		}
 		logger.debug("Get card pic from " + url);
 

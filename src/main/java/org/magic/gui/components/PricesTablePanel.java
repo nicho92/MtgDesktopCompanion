@@ -94,7 +94,7 @@ public class PricesTablePanel extends JPanel {
 				try {
 					loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES"));
 					if(ed==null)
-						model.init(card, card.getEditions().get(0));
+						model.init(card, card.getCurrentSet());
 					else
 						model.init(card, ed);
 					

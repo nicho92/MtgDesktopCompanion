@@ -71,7 +71,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		MagicEdition selected = ed;
 
 		if (ed == null)
-			selected = mc.getEditions().get(0);
+			selected = mc.getCurrentSet();
 
 		if (MTGControler.getInstance().getEnabledCache().getPic(mc, selected) != null) {
 			logger.trace("cached " + mc + "(" + selected + ") found");
@@ -113,7 +113,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
-		URL u = generateLink(mc, mc.getEditions().get(0), true);
+		URL u = generateLink(mc, mc.getCurrentSet(), true);
 
 		HttpURLConnection connection = (HttpURLConnection) u.openConnection();
 		connection.setInstanceFollowRedirects(true);

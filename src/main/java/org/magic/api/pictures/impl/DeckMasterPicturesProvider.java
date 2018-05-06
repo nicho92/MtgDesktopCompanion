@@ -88,7 +88,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 		MagicEdition selected = ed;
 		if (ed == null)
-			selected = mc.getEditions().get(0);
+			selected = mc.getCurrentSet();
 
 		for (String k : getString("CALL_MCI_FOR").split(",")) {
 			if (selected.getId().startsWith(k)) {

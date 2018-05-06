@@ -35,7 +35,7 @@ public class MythicSpoilerPicturesProvider extends AbstractPicturesProvider {
 
 		MagicEdition edition = me;
 		if (me == null)
-			edition = mc.getEditions().get(0);
+			edition = mc.getCurrentSet();
 
 		if (MTGControler.getInstance().getEnabledCache().getPic(mc, edition) != null) {
 			logger.trace("cached " + mc + "(" + edition + ") found");

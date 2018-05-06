@@ -93,9 +93,9 @@ public class CardListPanel extends JPanel {
 	public void setMagicCard(MagicCard mc) {
 		lblName.setText(mc.getName());
 		lblType.setText(mc.getFullType());
-		lblEdition.setText(mc.getEditions().get(0).toString());
-		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getEditions().get(0).getId()));
-		lblRarity.setText(mc.getEditions().get(0).getRarity());
+		lblEdition.setText(mc.getCurrentSet().toString());
+		lblEdition.setIcon(IconSetProvider.getInstance().get24(mc.getCurrentSet().getId()));
+		lblRarity.setText(mc.getCurrentSet().getRarity());
 		manaPanel.setManaCost(mc.getCost());
 	}
 }

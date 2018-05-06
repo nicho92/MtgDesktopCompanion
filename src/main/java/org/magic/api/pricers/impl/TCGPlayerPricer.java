@@ -38,7 +38,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		String set = "";
 
 		if (me == null)
-			set = URLEncoder.encode(card.getEditions().get(0).getSet(), getString("ENCODING"));
+			set = URLEncoder.encode(card.getCurrentSet().getSet(), getString("ENCODING"));
 		else
 			set = URLEncoder.encode(me.getSet(), getString("ENCODING"));
 

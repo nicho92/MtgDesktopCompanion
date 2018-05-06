@@ -15,7 +15,7 @@ public class IDGenerator {
 
 	public static String generate(MagicCard mc) {
 		try {
-			return generate(mc, mc.getEditions().get(0));
+			return generate(mc, mc.getCurrentSet());
 		} catch (Exception e) {
 			return "";
 		}

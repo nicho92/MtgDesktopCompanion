@@ -96,7 +96,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		String html = getString("URL");
 
 		if (me == null)
-			me = card.getEditions().get(0);
+			me = card.getCurrentSet();
 
 		String keyword = "";
 		try {

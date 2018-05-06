@@ -37,7 +37,7 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	public BufferedImage getPic(MagicCard mc, MagicEdition ed) {
 
 		if (ed == null)
-			ed = mc.getEditions().get(0);
+			ed = mc.getCurrentSet();
 
 		return cache.get(generateIdIndex(mc, ed));
 	}
@@ -46,7 +46,7 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) {
 		logger.debug("put " + mc + " in cache");
 		if (ed == null)
-			cache.put(generateIdIndex(mc, mc.getEditions().get(0)), im);
+			cache.put(generateIdIndex(mc, mc.getCurrentSet()), im);
 		else
 			cache.put(generateIdIndex(mc, ed), im);
 	}

@@ -102,7 +102,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, serialiser.toJsonTree(mc).toString());
-			pst.setString(3, mc.getEditions().get(0).getId());
+			pst.setString(3, mc.getCurrentSet().getId());
 			pst.setString(4, MTGControler.getInstance().getEnabledCardsProviders().toString());
 			pst.setString(5, collection.getName());
 			pst.executeUpdate();
@@ -115,7 +115,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con
 				.prepareStatement("delete from cards where id=? and edition=? and collection=?")) {
 			pst.setString(1, IDGenerator.generate(mc));
-			pst.setString(2, mc.getEditions().get(0).getId());
+			pst.setString(2, mc.getCurrentSet().getId());
 			pst.setString(3, collection.getName());
 			pst.executeUpdate();
 		}
@@ -327,7 +327,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement("SELECT collection FROM cards WHERE id=? and edition=?")) {
 			String id = IDGenerator.generate(mc);
 			pst.setString(1, id);
-			pst.setString(2, mc.getEditions().get(0).getId());
+			pst.setString(2, mc.getCurrentSet().getId());
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCollection> cols = new ArrayList<>();
 				while (rs.next()) {

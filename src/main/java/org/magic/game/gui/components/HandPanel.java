@@ -96,7 +96,7 @@ public class HandPanel extends DraggablePanel {
 				lab.setTappable(activateCards);
 
 				try {
-					if (mc.getEditions().get(0).getMultiverse_id() == "0")
+					if (mc.getCurrentSet().getMultiverse_id() == "0")
 						lab.setText(mc.getName());
 
 					addComponent(lab);

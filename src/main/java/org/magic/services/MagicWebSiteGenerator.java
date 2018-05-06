@@ -78,7 +78,7 @@ public class MagicWebSiteGenerator extends Observable {
 			rootEd.put("colName", col.getName());
 			Set<MagicEdition> eds = new HashSet<>();
 			for (MagicCard mc : MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col)) {
-				eds.add(mc.getEditions().get(0));
+				eds.add(mc.getCurrentSet());
 				generateCardsTemplate(mc);
 			}
 
@@ -122,7 +122,7 @@ public class MagicWebSiteGenerator extends Observable {
 		if (!pricesProvider.isEmpty()) {
 			for (MTGPricesProvider prov : pricesProvider) {
 				try {
-					prices.addAll(prov.getPrice(mc.getEditions().get(0), mc));
+					prices.addAll(prov.getPrice(mc.getCurrentSet(), mc));
 				} catch (Exception e) {
 					logger.error("Generating card template for " + mc, e);
 				}

@@ -56,6 +56,13 @@ public class MagicCard implements Serializable {
 		return getEditions().get(0);
 	}
 	
+	public boolean isBasicLand()
+	{
+		return (getName().trim().equalsIgnoreCase("Plains") || getName().trim().equalsIgnoreCase("Island")
+				|| getName().trim().equalsIgnoreCase("Swamp") || getName().trim().equalsIgnoreCase("Mountain")
+				|| getName().trim().equalsIgnoreCase("Forest"));
+	}
+	
 	
 	public String getImageName() {
 		return imageName;

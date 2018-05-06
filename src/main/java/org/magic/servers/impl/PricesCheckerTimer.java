@@ -7,10 +7,12 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.notifiers.impl.ConsoleNotifier;
@@ -23,10 +25,9 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		return STATUT.STABLE;
 	}
 
-	Timer timer;
-	TimerTask tache;
+	private Timer timer;
+	private TimerTask tache;
 	private boolean running = false;
-
 
 	@Override
 	public String description() {
@@ -43,22 +44,19 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		running = true;
 		tache = new TimerTask() {
 			public void run() {
-				StringBuilder message = new StringBuilder();
 				if (MTGControler.getInstance().getEnabledDAO().listAlerts() != null)
 					for (MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().listAlerts()) {
 						alert.getOffers().clear();
-						for (MTGPricesProvider prov : MTGControler.getInstance().getEnabledPricers()) {
+						for (MTGPricesProvider prov : MTGControler.getInstance().getEnabledPricers()) 
+						{
 							List<MagicPrice> okz = new ArrayList<>();
 							try {
-								List<MagicPrice> list = prov.getPrice(alert.getCard().getEditions().get(0),
-										alert.getCard());
+								List<MagicPrice> list = prov.getPrice(alert.getCard().getCurrentSet(),alert.getCard());
 								for (MagicPrice p : list) {
-									if (p.getValue() <= alert.getPrice() && p.getValue() > Double
-											.parseDouble(MTGControler.getInstance().get("min-price-alert"))) {
+									if (p.getValue() <= alert.getPrice() && p.getValue() > Double.parseDouble(MTGControler.getInstance().get("min-price-alert"))) {
 										alert.getOffers().add(p);
 										okz.add(p);
-										logger.info("Found offer " + prov + ":" + alert.getCard() + " " + p.getValue()
-												+ p.getCurrency());
+										logger.info("Found offer " + prov + ":" + alert.getCard() + " " + p.getValue()+ p.getCurrency());
 									}
 								}
 								prov.alertDetected(okz);
@@ -67,27 +65,24 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 								logger.error("error loading price " + prov, e);
 							}
 						}
-						message.append(alert.getCard()).append(" : ").append(alert.getOffers().size()).append(" offers")
-								.append("\n");
 					}
 				
-				if(message.length()>0) {
 					MTGNotification notif = new MTGNotification();
 					notif.setTitle("New offers");
-					notif.setMessage(message.toString());
 					notif.setType(MessageType.INFO);
-				
-					
-						for(String not : getString("NOTIFIER").split(","))
-						{
-							try {
-							MTGControler.getInstance().getNotifier(not).send(notif);
-							} catch (IOException e) {
-								logger.error(e);
-							}
+					for(String not : getString("NOTIFIER").split(","))
+					{
+						try {
+										
+							MTGNotifier notifier = MTGControler.getInstance().getNotifier(not);
+							notif.setMessage(notifFormater.generate(notifier.getFormat(), MTGControler.getInstance().getEnabledDAO().listAlerts(), MagicCardAlert.class));
+							notifier.send(notif);
+						} catch (IOException e) {
+							logger.error(e);
 						}
+					}
 				}
-			}
+			
 		};
 
 		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString("TIMEOUT_MINUTE")) * 60000);

@@ -48,7 +48,7 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 			temp.append("MD,");
 			temp.append(deck.getMap().get(mc) + ",");
 			temp.append("\"" + mc.getName() + "\",");
-			temp.append(mc.getEditions().get(0).getId());
+			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
 			setChanged();
 			notifyObservers(c++);
@@ -57,7 +57,7 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 			temp.append("SB,");
 			temp.append(deck.getMapSideBoard().get(mc) + ",");
 			temp.append("\"" + mc.getName() + "\",");
-			temp.append(mc.getEditions().get(0).getId());
+			temp.append(mc.getCurrentSet().getId());
 			temp.append("\n");
 			setChanged();
 			notifyObservers(c++);

@@ -86,7 +86,7 @@ public class FileDAO extends AbstractMagicDAO {
 		if (!f.exists())
 			f.mkdir();
 
-		f = new File(f, removeCon(mc.getEditions().get(0).getId()));
+		f = new File(f, removeCon(mc.getCurrentSet().getId()));
 		if (!f.exists())
 			f.mkdir();
 
@@ -103,7 +103,7 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
 		File f = Paths.get(directory.getAbsolutePath(), CARDSDIR, collection.getName(),
-				removeCon(mc.getEditions().get(0).getId()), IDGenerator.generate(mc)).toFile();
+				removeCon(mc.getCurrentSet().getId()), IDGenerator.generate(mc)).toFile();
 		File parent = f.getParentFile();
 
 		if (f.exists())

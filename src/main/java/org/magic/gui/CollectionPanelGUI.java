@@ -417,7 +417,7 @@ public class CollectionPanelGUI extends JPanel {
 				btnExportPriceCatalog.setEnabled(false);
 
 				magicCardDetailPanel.setMagicCard((MagicCard) curr.getUserObject());
-				magicEditionDetailPanel.setMagicEdition(card.getEditions().get(0));
+				magicEditionDetailPanel.setMagicEdition(card.getCurrentSet());
 				magicCardDetailPanel.enableThumbnail(true);
 				jsonPanel.show(curr.getUserObject());
 

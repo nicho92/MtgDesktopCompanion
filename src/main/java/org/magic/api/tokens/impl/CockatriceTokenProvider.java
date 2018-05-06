@@ -118,21 +118,21 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			if (value.getElementsByTagName("text").item(0) != null)
 				tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 
-			tok.getEditions().add(mc.getEditions().get(0));
+			tok.getEditions().add(mc.getCurrentSet());
 			tok.setNumber("T");
 
 			NodeList sets = value.getElementsByTagName("set");
 			for (int s = 0; s < sets.getLength(); s++) {
 				String idSet = sets.item(s).getTextContent();
 
-				if (idSet.equals(mc.getEditions().get(0).getId())) {
+				if (idSet.equals(mc.getCurrentSet().getId())) {
 					MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(idSet);
 					tok.getEditions().add(ed);
 				}
 
 			}
 
-			tok.setId(DigestUtils.sha1Hex(tok.getEditions().get(0).getId() + tok.getName()));
+			tok.setId(DigestUtils.sha1Hex(tok.getCurrentSet().getId() + tok.getName()));
 
 			return tok;
 
@@ -163,7 +163,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 			tok.setNumber("E");
 
-			tok.getEditions().add(mc.getEditions().get(0));
+			tok.getEditions().add(mc.getCurrentSet());
 			logger.debug("Create token " + tok);
 			return tok;
 
@@ -216,8 +216,8 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			if (map == null)
 				throw new NullPointerException("no pics found");
 
-			if (map.get(tok.getEditions().get(0).getId()) != null) // error on
-				connection = map.get(tok.getEditions().get(0).getId()).openConnection();
+			if (map.get(tok.getCurrentSet().getId()) != null) // error on
+				connection = map.get(tok.getCurrentSet().getId()).openConnection();
 			else
 				connection = map.get(map.keySet().iterator().next()).openConnection();
 

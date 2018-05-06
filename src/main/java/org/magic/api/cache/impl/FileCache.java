@@ -54,7 +54,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		try {
 
 			if (ed == null)
-				ed = mc.getEditions().get(0);
+				ed = mc.getCurrentSet();
 
 			logger.trace("search in cache : " + mc + " " + ed);
 
@@ -76,7 +76,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 	public void put(BufferedImage im, MagicCard mc, MagicEdition ed) throws IOException {
 
 		if (ed == null)
-			ed = mc.getEditions().get(0);
+			ed = mc.getCurrentSet();
 
 		logger.debug("save in cache : " + mc + " " + ed);
 

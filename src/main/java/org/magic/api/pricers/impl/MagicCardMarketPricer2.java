@@ -61,12 +61,12 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 	}
 
 	public static Product getProductFromCard(MagicCard mc, List<Product> list) {
-		String edName = mc.getEditions().get(0).getSet();
+		String edName = mc.getCurrentSet().getSet();
 		Product resultat = null;
 		for (Product p : list) {
 
-			if (mc.getEditions().get(0).getMkm_name() != null)
-				edName = mc.getEditions().get(0).getMkm_name();
+			if (mc.getCurrentSet().getMkm_name() != null)
+				edName = mc.getCurrentSet().getMkm_name();
 
 			if (p.getCategoryName().equalsIgnoreCase("Magic Single") && edName.startsWith(p.getExpansionName())) {
 				resultat = p;
@@ -81,7 +81,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		try {
 
 			if (me == null)
-				me = card.getEditions().get(0);
+				me = card.getCurrentSet();
 
 			lists = new ArrayList<>();
 

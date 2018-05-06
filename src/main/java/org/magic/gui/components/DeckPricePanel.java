@@ -76,7 +76,7 @@ public class DeckPricePanel extends JPanel {
 
 				for (MagicCard c : deck.getMap().keySet()) {
 					try {
-						List<MagicPrice> prices = model.getProviders().get(0).getPrice(c.getEditions().get(0), c);
+						List<MagicPrice> prices = model.getProviders().get(0).getPrice(c.getCurrentSet(), c);
 						MagicPrice p = null;
 						if (!prices.isEmpty()) {
 							Collections.sort(prices, new MagicPricesComparator());

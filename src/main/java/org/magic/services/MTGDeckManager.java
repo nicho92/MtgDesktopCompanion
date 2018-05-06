@@ -196,7 +196,7 @@ public class MTGDeckManager extends Observable {
 		TreeMap<String, Integer> temp = new TreeMap<>();
 
 		for (MagicCard mc : cards) {
-			temp.put(mc.getEditions().get(0).getRarity(), countRarities(mc.getEditions().get(0).getRarity(), cards));
+			temp.put(mc.getCurrentSet().getRarity(), countRarities(mc.getCurrentSet().getRarity(), cards));
 		}
 		return temp;
 
@@ -206,7 +206,7 @@ public class MTGDeckManager extends Observable {
 		int count = 0;
 		for (MagicCard mc : cards) {
 			try {
-				if (mc.getEditions().get(0).getRarity().equals(rarity))
+				if (mc.getCurrentSet().getRarity().equals(rarity))
 					count++;
 
 			} catch (Exception e) {

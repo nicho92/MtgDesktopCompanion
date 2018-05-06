@@ -41,13 +41,13 @@ public class XMageDeckExport extends AbstractCardExport {
 
 		temp.append("NAME: " + deck.getName() + "\n");
 		for (MagicCard mc : deck.getMap().keySet()) {
-			temp.append(deck.getMap().get(mc)).append(" ").append("[").append(mc.getEditions().get(0).getId())
-					.append(":").append(mc.getEditions().get(0).getNumber()).append("]").append(" ")
+			temp.append(deck.getMap().get(mc)).append(" ").append("[").append(mc.getCurrentSet().getId())
+					.append(":").append(mc.getCurrentSet().getNumber()).append("]").append(" ")
 					.append(mc.getName()).append("\n");
 		}
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("SB: ").append(deck.getMapSideBoard().get(mc)).append(" ").append("[")
-					.append(mc.getEditions().get(0).getId()).append(":").append(mc.getEditions().get(0).getNumber())
+					.append(mc.getCurrentSet().getId()).append(":").append(mc.getCurrentSet().getNumber())
 					.append("]").append(" ").append(mc.getName()).append("\n");
 		}
 

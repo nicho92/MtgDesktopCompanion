@@ -78,7 +78,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 		case 0:
 			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row);
 		case 1:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getCard().getEditions().get(0);
+			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getCard().getCurrentSet();
 		case 2:
 			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getPrice();
 		case 3:

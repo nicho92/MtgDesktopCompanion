@@ -8,10 +8,10 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
 
-		if (o1.getEditions().get(0).getNumber() != null && o2.getEditions().get(0).getNumber() != null
-				&& (o1.getEditions().get(0).equals(o2.getEditions().get(0)))) {
-			int n1 = calculate(o1.getEditions().get(0).getNumber());
-			int n2 = calculate(o2.getEditions().get(0).getNumber());
+		if (o1.getCurrentSet().getNumber() != null && o2.getCurrentSet().getNumber() != null
+				&& (o1.getCurrentSet().equals(o2.getCurrentSet()))) {
+			int n1 = calculate(o1.getCurrentSet().getNumber());
+			int n2 = calculate(o2.getCurrentSet().getNumber());
 			return n1 - n2;
 		}
 
@@ -38,14 +38,6 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 	private int calculate(String s) {
 		String num = s.replaceAll("\\D", "");
 		return num.isEmpty() ? 0 : Integer.parseInt(num);
-	}
-
-	private boolean isBasic(MagicCard mc) {
-		String cardName = mc.getName();
-		return (cardName.trim().equalsIgnoreCase("Plains") || cardName.trim().equalsIgnoreCase("Island")
-				|| cardName.trim().equalsIgnoreCase("Swamp") || cardName.trim().equalsIgnoreCase("Mountain")
-				|| cardName.trim().equalsIgnoreCase("Forest"));
-
 	}
 
 	private int land(MagicCard mc) {
@@ -75,7 +67,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 			if (mc.getTypes().toString().toLowerCase().contains("artifact")) {
 				return 6;
 			} else if (mc.getTypes().toString().toLowerCase().contains("land")) {
-				if (isBasic(mc)) {
+				if (mc.isBasicLand()) {
 					return land(mc); // basic land order
 				} else {
 					return 7; // advanced land

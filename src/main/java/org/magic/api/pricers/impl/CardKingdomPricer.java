@@ -83,7 +83,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		String html = getString("URL");
 
 		if (me == null)
-			me = card.getEditions().get(0);
+			me = card.getCurrentSet();
 
 		String url = html + format(findGoodEds(me.getSet())) + "/" + format(card.getName());
 		Elements prices = null;
