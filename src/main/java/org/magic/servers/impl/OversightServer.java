@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
+import java.util.function.Predicate;
 
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
@@ -48,6 +49,9 @@ public class OversightServer extends AbstractMTGServer {
 					List<CardShake> ret=null;
 					try {
 						ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
+						
+						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt("ALERT_MIN_PERCENT"));
+						
 						Collections.sort(ret, new CardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
 						
 					} catch (IOException e1) {

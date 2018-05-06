@@ -25,11 +25,19 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 	public void send(MTGNotification notification) throws IOException {
 		
 		
-		String urlString = "https://api.telegram.org/bot%s/sendMessage?chat_id=%s&text=%s";
+		String urlString = "https://api.telegram.org/bot%s/sendMessage?parse_mode="+getFormat().name().toLowerCase()+"&chat_id=%s&text=%s";
 
 		String apiToken = getString("TOKEN");
 		String chatId = getString("CHANNEL");
-		urlString = String.format(urlString, apiToken, chatId, URLEncoder.encode(notification.getMessage(),"UTF-8"));
+		String msg = URLEncoder.encode(notification.getMessage(),"UTF-8");
+		
+		if(msg.length()>4096)
+		{
+			msg = msg.substring(0, 4096);
+			logger.error("Message is too long : " + msg.length() + ">4096. Will truncate it");
+		}
+		
+		urlString = String.format(urlString, apiToken, chatId, msg);
 
 		URL url = new URL(urlString);
 		URLConnection conn = url.openConnection();
