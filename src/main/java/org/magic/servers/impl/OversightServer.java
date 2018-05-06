@@ -45,9 +45,14 @@ public class OversightServer extends AbstractMTGServer {
 		running = true;
 		tache = new TimerTask() {
 			public void run() {
-				try {
-					List<CardShake> ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
-					Collections.sort(ret, new CardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
+					List<CardShake> ret=null;
+					try {
+						ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
+						Collections.sort(ret, new CardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
+						
+					} catch (IOException e1) {
+						logger.error(e1);
+					}
 				
 					MTGNotification notif = new MTGNotification();
 									notif.setTitle("Oversight");
@@ -57,12 +62,13 @@ public class OversightServer extends AbstractMTGServer {
 					{
 						MTGNotifier notifier = MTGControler.getInstance().getNotifier(not);
 						notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
-						notifier.send(notif);
+						try {
+							notifier.send(notif);
+						} catch (IOException e) {
+							logger.error(e);
+						}
 					}
 				
-				} catch (IOException e) {
-					logger.error(e);
-				}
 			}
 
 		};

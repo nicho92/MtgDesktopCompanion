@@ -72,6 +72,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 								
 								CardShake cs = new CardShake();
 								cs.setCard(alert.getCard());
+								cs.setEd(cs.getCard().getCurrentSet().getSet());
 								cs.setDateUpdate(new Date());
 								cs.setPercentDayChange(pcDay);
 								cs.setPercentWeekChange(pcWeek);

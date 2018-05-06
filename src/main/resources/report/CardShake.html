@@ -1,5 +1,5 @@
 <ul>
     <#list modele as cs>
-      <li>${cs.name} (${cs.ed}) $ ${cs.price} <#if (cs.percentDayChange>0)>&#x25B2;<#else>&#x25BC;</#if>${cs.percentDayChange}% </li>
+      <li>${cs.name} <#if cs.ed??>(${cs.ed})</#if> ${cs.price} <#if (cs.percentDayChange>0)>&#x25B2;<#else>&#x25BC;</#if>${cs.percentDayChange}% </li>
     </#list>
 </ul>

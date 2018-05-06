@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
@@ -215,6 +216,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		con.disconnect();
 		}
 	}
+	
 
 	@Override
 	public String getName() {
