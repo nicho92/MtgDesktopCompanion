@@ -123,6 +123,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
+		
+		if(mc==null)
+		{
+			logger.error("couldn't calculate edition only");
+			return new TreeMap<>();
+		}
+		
+		
 		connect();
 		logger.debug(mc + " " + me);
 		int setId = -1;
@@ -202,18 +210,20 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	private void initEds() throws IOException {
 		
-		if(correspondance.isEmpty()) {
-		HttpURLConnection con = getConnection(MTGSTOCK_API_URI + "/card_sets");
-		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
-		for (JsonElement el : arr) {
-			if (!el.getAsJsonObject().get("abbreviation").isJsonNull())
-				correspondance.put(el.getAsJsonObject().get("abbreviation").getAsString(),
-						el.getAsJsonObject().get("id").getAsInt());
-			else
-				logger.trace("no id for" + el.getAsJsonObject().get("name"));
-		}
-		logger.debug("init editions id done: " + correspondance.size() + " items");
-		con.disconnect();
+		if(correspondance.isEmpty()) 
+		{
+			HttpURLConnection con = getConnection(MTGSTOCK_API_URI + "/card_sets");
+			JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
+			arr.forEach(el->{
+				if (!el.getAsJsonObject().get("abbreviation").isJsonNull())
+					correspondance.put(el.getAsJsonObject().get("abbreviation").getAsString(),
+							el.getAsJsonObject().get("id").getAsInt());
+				else
+					logger.trace("no id for" + el.getAsJsonObject().get("name"));
+				con.disconnect();	
+			});
+			logger.debug("init editions id done: " + correspondance.size() + " items");
+			
 		}
 	}
 	

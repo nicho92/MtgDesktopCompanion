@@ -10,20 +10,21 @@ import org.magic.gui.components.dialog.MTGSplashScreen;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.Chrono;
 
 public class MtgDesktopCompanion {
 
 	final Logger logger = MTGLogger.getLogger(this.getClass());
-	long time1 = 0;
-	long time2 = 0;
 	MTGSplashScreen launch;
+	Chrono chrono;
 
 	public static void main(String[] args) {
 		new MtgDesktopCompanion();
 	}
 
 	public MtgDesktopCompanion() {
-		time1 = System.currentTimeMillis();
+		chrono = new Chrono();
+		chrono.start();
 
 		launch = new MTGSplashScreen();
 		MTGLogger.getMTGAppender().addObserver(launch);
@@ -66,8 +67,8 @@ public class MtgDesktopCompanion {
 						logger.error(e);
 					}
 
-			time2 = System.currentTimeMillis();
-			logger.info("Apps started in " + (time2 - time1) / 1000 + " sec");
+			long time = chrono.stop();
+			logger.info("Apps started in " + time + " sec");
 		});
 	}
 

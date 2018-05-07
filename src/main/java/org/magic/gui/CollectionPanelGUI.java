@@ -384,6 +384,20 @@ public class CollectionPanelGUI extends JPanel {
 				statsPanel.enabledAdd(false);
 				btnExport.setEnabled(true);
 				btnExportPriceCatalog.setEnabled(true);
+				ThreadManager.getInstance().execute(() -> {
+					try {
+
+						List<MagicCard> list = dao.listCardsFromCollection(selectedcol);
+						rarityRepartitionPanel.init(list);
+						typeRepartitionPanel.init(list);
+						manaRepartitionPanel.init(list);
+						jsonPanel.show(curr.getUserObject());
+
+					} catch (Exception e) {
+						logger.error("error",e);
+					}
+				}, "Calculate Collection cards");
+				
 			}
 
 			if (curr.getUserObject() instanceof MagicEdition) {
@@ -394,20 +408,18 @@ public class CollectionPanelGUI extends JPanel {
 				ThreadManager.getInstance().execute(() -> {
 					try {
 
-						MagicCollection collec = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent())
-								.getUserObject();
+						MagicCollection collec = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
 						List<MagicCard> list = dao.listCardsFromCollection(collec, (MagicEdition) curr.getUserObject());
 						rarityRepartitionPanel.init(list);
 						typeRepartitionPanel.init(list);
 						manaRepartitionPanel.init(list);
-						historyPricesPanel.init(null, (MagicEdition) curr.getUserObject(),
-								curr.getUserObject().toString());
+						historyPricesPanel.init(null, (MagicEdition) curr.getUserObject(),curr.getUserObject().toString());
 						jsonPanel.show(curr.getUserObject());
 
 					} catch (Exception e) {
 						logger.error(e);
 					}
-				}, "Refresh Collection");
+				}, "Calculate Editions cards");
 			}
 
 			if (curr.getUserObject() instanceof MagicCard) {
@@ -644,6 +656,7 @@ public class CollectionPanelGUI extends JPanel {
 		});
 
 	}
+	
 
 	public void initPopupCollection() throws SQLException {
 

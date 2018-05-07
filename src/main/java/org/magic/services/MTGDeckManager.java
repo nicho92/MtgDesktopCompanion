@@ -138,44 +138,44 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<Integer, Integer> analyseCMC(List<MagicCard> cards) {
-		TreeMap<Integer, Integer> temp = new TreeMap<>();
-
-		for (MagicCard mc : cards) {
-			if ((mc.getCmc() != null) && !mc.getTypes().contains("Land"))
-				temp.put(mc.getCmc(), countCmc(mc.getCmc(), cards));
-		}
-		return temp;
+		TreeMap<Integer, Integer> cmcs = new TreeMap<>();
+		cards.forEach(card->{
+			if ((card.getCmc() != null) && !card.getTypes().contains("Land"))
+				cmcs.put(card.getCmc(), cmcs.get(card.getCmc())==null ? 1 : cmcs.get(card.getCmc())+1);	
+		});
+		
+		return cmcs;
 	}
 
 	public Map<String, Integer> analyseTypes(List<MagicCard> cards) {
-		TreeMap<String, Integer> temp = new TreeMap<>();
-
-		for (MagicCard mc : cards) {
-			if (!mc.getTypes().isEmpty())
-				temp.put(mc.getTypes().get(0), countType(mc.getTypes().get(0), cards));
-		}
-		return temp;
+		TreeMap<String, Integer> types = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+		cards.forEach(card->types.put(card.getTypes().get(0), types.get(card.getTypes().get(0))==null ? 1 : types.get(card.getTypes().get(0))+1));
+		return types;
 	}
 
-	public Map<String, Integer> analyseColors(List<MagicCard> cards) {
-		TreeMap<String, Integer> temp = new TreeMap<>();
-
-		for (MagicCard mc : cards) {
-			if (!mc.getColors().isEmpty()) {
-				if (mc.getColors().size() == 1)
-					temp.put(mc.getColors().get(0), countColors(mc.getColors().get(0), cards));
-
-				if (mc.getColors().size() > 1)
-					temp.put("Multi", countColors("Multi", cards));
-
-			} else {
-				temp.put("Uncolor", countColors("Uncolor", cards));
+	public Map<String,Integer> analyseColors(List<MagicCard> cards)
+	{
+		TreeMap<String, Integer> colors = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+		cards.forEach(card->{
+			
+			if(!card.getColors().isEmpty()) {
+				
+				if (card.getColors().size() == 1){
+					colors.put(card.getColors().get(0), colors.get(card.getColors().get(0))==null? 1 : colors.get(card.getColors().get(0))+1);
+				}
+				
+				if (card.getColors().size() > 1) {
+					colors.put("Multi", colors.get("Multi")==null? 1 : colors.get("Multi")+1);
+				}
 			}
-		}
-		return temp;
-
+			else 
+			{
+				colors.put("Uncolor", colors.get("Uncolor")==null? 1 : colors.get("Uncolor")+1);
+			}
+		});
+		return colors;
 	}
-
+	
 	public Map<MagicCard, List<Double>> analyseDrawing(MagicDeck d) {
 		DeckCalculator calc = new DeckCalculator(d);
 
@@ -193,76 +193,9 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public Map<String, Integer> analyseRarities(List<MagicCard> cards) {
-		TreeMap<String, Integer> temp = new TreeMap<>();
-
-		for (MagicCard mc : cards) {
-			temp.put(mc.getCurrentSet().getRarity(), countRarities(mc.getCurrentSet().getRarity(), cards));
-		}
-		return temp;
-
-	}
-
-	private Integer countRarities(String rarity, List<MagicCard> cards) {
-		int count = 0;
-		for (MagicCard mc : cards) {
-			try {
-				if (mc.getCurrentSet().getRarity().equals(rarity))
-					count++;
-
-			} catch (Exception e) {
-				logger.error("error in count", e);
-			}
-		}
-		return count;
-
-	}
-
-	private Integer countColors(String string, List<MagicCard> cards) {
-		Integer count = 0;
-
-		if (string.equals("Uncolor")) {
-			for (MagicCard mc : cards)
-				if (mc.getColors().isEmpty())
-					count++;
-
-			return count;
-		} else if (string.equals("Multi")) {
-			for (MagicCard mc : cards)
-				if (mc.getColors().size() > 1)
-					count++;
-
-			return count;
-		} else {
-			for (MagicCard mc : cards)
-				if (mc.getColors().size() == 1 && mc.getColors().get(0).equals(string))
-					count++;
-
-			return count;
-		}
-
-	}
-
-	private Integer countCmc(Integer cmc, List<MagicCard> cards) {
-		int count = 0;
-
-		for (MagicCard mc : cards) {
-			if (!mc.getTypes().contains("Land")) {
-				int cm = (mc.getCmc() == null) ? 0 : mc.getCmc();
-				if (cm == cmc)
-					count++;
-			}
-		}
-		return count;
-
-	}
-
-	private Integer countType(String type, List<MagicCard> cards) {
-		Integer count = 0;
-		for (MagicCard mc : cards)
-			if (!mc.getTypes().isEmpty() && mc.getTypes().get(0).equals(type))
-				count++;
-
-		return count;
+		TreeMap<String, Integer> rarity = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
+		cards.forEach(card->rarity.put(card.getCurrentSet().getRarity(), rarity.get(card.getCurrentSet().getRarity())==null? 1 : rarity.get(card.getCurrentSet().getRarity())+1));
+		return rarity;
 
 	}
 
