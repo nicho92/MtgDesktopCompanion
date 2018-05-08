@@ -1,8 +1,6 @@
 package org.magic.services;
 
 import java.awt.Dimension;
-import java.awt.SystemTray;
-import java.awt.TrayIcon.MessageType;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
@@ -23,7 +21,6 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -34,19 +31,18 @@ import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
+import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.api.notifiers.impl.NullNotifier;
-import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.game.model.Player;
-import org.magic.gui.MagicGUI;
-import org.magic.gui.abstracts.AbstractJDashlet;
-import org.magic.servers.impl.AlertTrendServer;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.tools.ImageUtils;
@@ -123,38 +119,14 @@ public class MTGControler {
 	public void setProperty(Object k, Object c) {
 		try {
 			String path = "";
-
-			if (k instanceof MTGPricesProvider) {
-				path = "pricers/pricer[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGCardsProvider) {
-				path = "providers/provider[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGDao) {
-				path = "daos/dao[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGShopper) {
-				path = "shoppers/shopper[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGDashBoard) {
-				path = "dashboards/dashboard[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGCardsExport) {
-				path = "deckexports/export[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGDeckSniffer) {
-				path = "decksniffer/sniffer[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGPictureProvider) {
-				path = "pictures/picture[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGServer) {
-				path = "servers/server[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGPicturesCache) {
-				path = "caches/cache[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGNewsProvider) {
-				path = "newsProvider/news[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGWallpaperProvider) {
-				path = "wallpapers/wallpaper[class='" + k.getClass().getName() + "']/enable";
-			} else if (k instanceof MTGNotifier) {
-				path = "notifiers/notifier[class='" + k.getClass().getName() + "']/enable";
-			} 
+			
+			if(k instanceof MTGPlugin){
+				path = PluginRegistry.inst().getEntry(((MTGPlugin) k).getType()).getXpath()+"[class='" + k.getClass().getName() + "']/enable";
+			}
 			else {
 				path = k.toString();
 			}
-			logger.debug("set " + k + " to " + c);
+			logger.debug("set " + k + " to " + c + " (" + path+")");
 
 			config.setProperty(path, c);
 			builder.save();
@@ -230,169 +202,23 @@ public class MTGControler {
 
 		classLoader = MTGControler.class.getClassLoader();
 		try {
-
 			config = builder.getConfiguration();
-			logger.info("loading pricers");
-			pricers = new ArrayList<>();
-
-			for (int i = 1; i <= config.getList("//pricer/class").size(); i++) {
-				String s = config.getString("pricers/pricer[" + i + "]/class");
-				MTGPricesProvider prov = loadItem(s);
-				if (prov != null) {
-					prov.enable(config.getBoolean("pricers/pricer[" + i + "]/enable"));
-					pricers.add(prov);
-				}
-			}
-
-			logger.info("loading cards provider");
-			cardsProviders = new ArrayList<>();
-
-			for (int i = 1; i <= config.getList("//provider/class").size(); i++) {
-				String s = config.getString("providers/provider[" + i + "]/class");
-				MTGCardsProvider prov = loadItem(s);
-				if (prov != null) {
-					prov.enable(config.getBoolean("providers/provider[" + i + "]/enable"));
-					cardsProviders.add(prov);
-				}
-			}
-
-			logger.info("loading DAOs");
-			daoProviders = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//dao/class").size(); i++) {
-				String s = config.getString("daos/dao[" + i + "]/class");
-				MTGDao prov = loadItem(s);
-				if (prov != null) {
-					prov.enable(config.getBoolean("daos/dao[" + i + "]/enable"));
-					daoProviders.add(prov);
-				}
-			}
-
-			logger.info("loading Caches");
-			caches = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//cache/class").size(); i++) {
-				String s = config.getString("caches/cache[" + i + "]/class");
-				MTGPicturesCache prov = loadItem(s);
-
-				if (prov != null) {
-					prov.enable(config.getBoolean("caches/cache[" + i + "]/enable"));
-					caches.add(prov);
-				}
-			}
-
-			logger.info("loading Shoppers");
-			cardsShoppers = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//shopper/class").size(); i++) {
-				String s = config.getString("shoppers/shopper[" + i + "]/class");
-				MTGShopper prov = loadItem(s);
-				if (prov != null) {
-					prov.enable(config.getBoolean("shoppers/shopper[" + i + "]/enable"));
-					cardsShoppers.add(prov);
-				}
-			}
-
-			logger.info("loading DashBoard");
-			dashboards = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//dashboard/class").size(); i++) {
-				String s = config.getString("dashboards/dashboard[" + i + "]/class");
-				MTGDashBoard prov = loadItem(s);
-				if (prov != null) {
-					prov.enable(config.getBoolean("dashboards/dashboard[" + i + "]/enable"));
-					dashboards.add(prov);
-				}
-			}
-
-			logger.info("loading Dashlets");
-			dashlets = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//dashlet/class").size(); i++) {
-				String s = config.getString("dashlets/dashlet[" + i + "]/class");
-				AbstractJDashlet prov = loadItem(s);
-				dashlets.add(prov);
-
-			}
-
-			logger.info("loading Deck Exports");
-			exports = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//export/class").size(); i++) {
-				String s = config.getString("deckexports/export[" + i + "]/class");
-				AbstractCardExport prov = loadItem(s);
-				if (prov != null) {
-					prov.enable(config.getBoolean("deckexports/export[" + i + "]/enable"));
-					exports.add(prov);
-				}
-			}
-
-			logger.info("loading Deck Sniffer");
-			deckSniffers = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//sniffer/class").size(); i++) {
-				String s = config.getString("decksniffer/sniffer[" + i + "]/class");
-				MTGDeckSniffer prov = loadItem(s);
-				if (prov != null) {
-					prov.enable(config.getBoolean("decksniffer/sniffer[" + i + "]/enable"));
-					deckSniffers.add(prov);
-				}
-			}
-
-			logger.info("loading Pictures provider");
-			picturesProviders = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//picture/class").size(); i++) {
-				String s = config.getString("pictures/picture[" + i + "]/class");
-				MTGPictureProvider prov = loadItem(s);
-				if (prov != null) {
-					prov.enable(config.getBoolean("pictures/picture[" + i + "]/enable"));
-					picturesProviders.add(prov);
-				}
-			}
-
-			logger.info("loading Servers");
-			servers = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//server/class").size(); i++) {
-				String s = config.getString("servers/server[" + i + "]/class");
-				MTGServer prov = loadItem(s);
-
-				if (prov != null) {
-					prov.enable(config.getBoolean("servers/server[" + i + "]/enable"));
-					servers.add(prov);
-				}
-			}
-
-			logger.info("loading News");
-			news = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//news/class").size(); i++) {
-				String s = config.getString("newsProvider/news[" + i + "]/class");
-				MTGNewsProvider prov = loadItem(s);
-
-				if (prov != null) {
-					prov.enable(config.getBoolean("newsProvider/news[" + i + "]/enable"));
-					news.add(prov);
-				}
-			}
-			
-			logger.info("loading notifiers");
-			notifiers = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//notifier/class").size(); i++) {
-				String s = config.getString("notifiers/notifier[" + i + "]/class");
-				MTGNotifier prov = loadItem(s);
-
-				if (prov != null) {
-					prov.enable(config.getBoolean("notifiers/notifier[" + i + "]/enable"));
-					notifiers.add(prov);
-				}
-			}
-
-			logger.info("loading wallpapers");
-			wallpapers = new ArrayList<>();
-			for (int i = 1; i <= config.getList("//wallpaper/class").size(); i++) {
-				String s = config.getString("wallpapers/wallpaper[" + i + "]/class");
-				MTGWallpaperProvider prov = loadItem(s);
-
-				if (prov != null) {
-					prov.enable(config.getBoolean("wallpapers/wallpaper[" + i + "]/enable"));
-					wallpapers.add(prov);
-				}
-			}
-
+			PluginRegistry.inst().setConfig(config);
+			pricers = PluginRegistry.inst().listPlugins(MTGPricesProvider.class);
+			cardsProviders = PluginRegistry.inst().listPlugins(MTGCardsProvider.class);
+			daoProviders = PluginRegistry.inst().listPlugins(MTGDao.class);
+			caches = PluginRegistry.inst().listPlugins(MTGPicturesCache.class);;
+			cardsShoppers = PluginRegistry.inst().listPlugins(MTGShopper.class);
+			dashboards = PluginRegistry.inst().listPlugins(MTGDashBoard.class);
+			exports = PluginRegistry.inst().listPlugins(MTGCardsExport.class);
+			deckSniffers = PluginRegistry.inst().listPlugins(MTGDeckSniffer.class);
+			picturesProviders = PluginRegistry.inst().listPlugins(MTGPictureProvider.class);;
+			servers = PluginRegistry.inst().listPlugins(MTGServer.class);;
+			news = PluginRegistry.inst().listPlugins(MTGNewsProvider.class);;
+			notifiers = PluginRegistry.inst().listPlugins(MTGNotifier.class);;
+			wallpapers = PluginRegistry.inst().listPlugins(MTGWallpaperProvider.class);;
+			dashlets = PluginRegistry.inst().listPlugins(AbstractJDashlet.class);
 			keyWordManager = new KeyWordProvider();
-
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
 
@@ -410,27 +236,7 @@ public class MTGControler {
 	}
 
 	public boolean updateConfigMods() {
-		return new ModuleInstaller().updateConfigWithNewModule();
-	}
-
-	public <T> T loadItem(String classname) {
-		try {
-			logger.debug("-load module :  " + classname);
-			return (T) classLoader.loadClass(classname).getDeclaredConstructor().newInstance();
-		} catch (ClassNotFoundException e) {
-			logger.error(classname + " is not found");
-			remove(classname);
-			return null;
-		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			logger.error("error loading " + classname, e);
-			return null;
-		}
-	}
-
-	public void remove(String classname) {
-		logger.debug("need to remove " + classname);
-
+		return PluginRegistry.inst().updateConfigWithNewModule();
 	}
 
 	public MTGPicturesCache getEnabledCache() {
@@ -440,7 +246,6 @@ public class MTGControler {
 
 		return null;
 	}
-	
 	
 	public List<MTGNotifier> getNotifierProviders(){
 		return notifiers;

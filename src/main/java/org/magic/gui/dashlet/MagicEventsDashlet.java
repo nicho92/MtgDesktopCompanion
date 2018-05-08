@@ -14,7 +14,7 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
-import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.MagicEventsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
@@ -87,9 +87,9 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 		});
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getProperty("x")),
-					(int) Double.parseDouble(getProperty("y")), (int) Double.parseDouble(getProperty("w")),
-					(int) Double.parseDouble(getProperty("h")));
+			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
+					(int) Double.parseDouble(getString("h")));
 
 			setBounds(r);
 		}

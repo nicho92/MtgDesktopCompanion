@@ -18,7 +18,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGFormat;
-import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
@@ -69,12 +69,12 @@ public class TrendingDashlet extends AbstractJDashlet {
 		scrollPane.setViewportView(table);
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getProperty("x")),
-					(int) Double.parseDouble(getProperty("y")), (int) Double.parseDouble(getProperty("w")),
-					(int) Double.parseDouble(getProperty("h")));
+			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
+					(int) Double.parseDouble(getString("h")));
 
 			try {
-				cboFormats.setSelectedItem(MTGFormat.valueOf(getProperty("FORMAT")));
+				cboFormats.setSelectedItem(MTGFormat.valueOf(getString("FORMAT")));
 
 			} catch (Exception e) {
 				logger.error(e);

@@ -15,7 +15,7 @@ import javax.swing.JMenuItem;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
-import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -52,12 +52,12 @@ public class DashBoardGUI2 extends JDesktopPane {
 			for (JInternalFrame jif : getAllFrames()) {
 				i++;
 				AbstractJDashlet dash = (AbstractJDashlet) jif;
-				dash.save("x", String.valueOf(dash.getBounds().getX()));
-				dash.save("y", String.valueOf(dash.getBounds().getY()));
-				dash.save("w", String.valueOf(dash.getBounds().getWidth()));
-				dash.save("h", String.valueOf(dash.getBounds().getHeight()));
-				dash.save("class", dash.getClass().getName());
-				dash.save("id", String.valueOf(i));
+				dash.setProperty("x", String.valueOf(dash.getBounds().getX()));
+				dash.setProperty("y", String.valueOf(dash.getBounds().getY()));
+				dash.setProperty("w", String.valueOf(dash.getBounds().getWidth()));
+				dash.setProperty("h", String.valueOf(dash.getBounds().getHeight()));
+				dash.setProperty("class", dash.getClass().getName());
+				dash.setProperty("id", String.valueOf(i));
 				File f = new File(AbstractJDashlet.confdir, i + ".conf");
 
 				try (FileOutputStream fos = new FileOutputStream(f)) {

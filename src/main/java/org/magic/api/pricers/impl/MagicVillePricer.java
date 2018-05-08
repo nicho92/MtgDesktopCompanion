@@ -79,7 +79,6 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	}
 
 	private String prefixZeros(String value, int len) {
-		logger.debug("parsingNumber " + value + " " + len);
 		char[] t = new char[len];
 		int l = value.trim().length();
 		int k = len - l;

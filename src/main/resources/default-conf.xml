@@ -27,6 +27,13 @@
     <keystore-pass>changeit</keystore-pass>
     <default-land-deck>ZEN</default-land-deck>
     
+    
+   <tokens>
+   	<token>
+   		<class>org.magic.api.tokens.impl.CockatriceTokenProvider</class>
+   		<enable>true</enable>
+   	</token>
+   </tokens>
     <notifiers>
         <notifier>
      		<class>org.magic.api.notifiers.impl.ConsoleNotifier</class>

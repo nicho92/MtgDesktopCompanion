@@ -21,7 +21,7 @@ import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
-import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
@@ -79,12 +79,12 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 				
 			
 				int val = (Integer) spinner.getValue();
-				save("LIMIT", String.valueOf(val));
-				save("STD", String.valueOf(boxS.isSelected()));
-				save("MDN", String.valueOf(boxM.isSelected()));
-				save("LEG", String.valueOf(boxL.isSelected()));
-				save("VIN", String.valueOf(boxV.isSelected()));
-				save("SORT",String.valueOf(cboSorter.getSelectedItem()));
+				setProperty("LIMIT", String.valueOf(val));
+				setProperty("STD", String.valueOf(boxS.isSelected()));
+				setProperty("MDN", String.valueOf(boxM.isSelected()));
+				setProperty("LEG", String.valueOf(boxL.isSelected()));
+				setProperty("VIN", String.valueOf(boxV.isSelected()));
+				setProperty("SORT",String.valueOf(cboSorter.getSelectedItem()));
 				
 				List<CardShake> ret = new ArrayList<>();
 				ret.addAll(shakes.subList(0, val));
@@ -153,9 +153,9 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 		initToolTip(table, 0, 1);
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getProperty("x")),
-					(int) Double.parseDouble(getProperty("y")), (int) Double.parseDouble(getProperty("w")),
-					(int) Double.parseDouble(getProperty("h")));
+			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
+					(int) Double.parseDouble(getString("h")));
 
 			try {
 				spinner.setValue(Integer.parseInt(getProperty("LIMIT", "5")));

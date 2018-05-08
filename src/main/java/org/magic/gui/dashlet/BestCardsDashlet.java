@@ -12,7 +12,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGFormat;
-import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.CardDominanceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -67,9 +67,9 @@ public class BestCardsDashlet extends AbstractJDashlet {
 		cboFilter.addActionListener(ae -> init());
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getProperty("x")),
-					(int) Double.parseDouble(getProperty("y")), (int) Double.parseDouble(getProperty("w")),
-					(int) Double.parseDouble(getProperty("h")));
+			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
+					(int) Double.parseDouble(getString("h")));
 
 			try {
 				cboFormat.setSelectedItem(getProperty("FORMAT", "standard"));
@@ -91,8 +91,8 @@ public class BestCardsDashlet extends AbstractJDashlet {
 			models.fireTableDataChanged();
 			table.packAll();
 			table.setRowSorter(new TableRowSorter(models));
-			save("FORMAT", cboFormat.getSelectedItem().toString());
-			save("FILTER", cboFilter.getSelectedItem().toString());
+			setProperty("FORMAT", cboFormat.getSelectedItem().toString());
+			setProperty("FILTER", cboFilter.getSelectedItem().toString());
 			lblLoading.setVisible(false);
 		}, "init BestCardsDashlet");
 	}

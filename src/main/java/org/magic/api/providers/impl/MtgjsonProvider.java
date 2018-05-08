@@ -172,11 +172,9 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 			cacheBoosterCards = new HashMap<>();
 			logger.info(this + " : parsing db file");
-			long time1 = System.currentTimeMillis();
+			
 			ctx = JsonPath.parse(fileSetJson);
-			long time2 = System.currentTimeMillis();
-
-			logger.info(this + " : parsing OK (" + (time2 - time1) / 1000 + " s)");
+			logger.info(this + " : parsing OK");
 		} catch (Exception e1) {
 			logger.error(e1);
 		}

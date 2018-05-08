@@ -15,7 +15,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicEdition;
-import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.MagicEditionListRenderer;
@@ -79,13 +79,13 @@ public class EditionsDashlet extends AbstractJDashlet {
 		cboEditions.addActionListener(ae -> init());
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getProperty("x")),
-					(int) Double.parseDouble(getProperty("y")), (int) Double.parseDouble(getProperty("w")),
-					(int) Double.parseDouble(getProperty("h")));
+			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
+					(int) Double.parseDouble(getString("h")));
 
 			MagicEdition ed;
 			try {
-				ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(getProperty("EDITION"));
+				ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(getString("EDITION"));
 				cboEditions.setSelectedItem(ed);
 			} catch (Exception e) {
 				logger.error("Error retrieve editions", e);
@@ -124,7 +124,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 				} catch (Exception e) {
 					// do nothing
 				}
-				save("EDITION", ed.getId());
+				setProperty("EDITION", ed.getId());
 				lblLoading.setVisible(false);
 			}, "init EditionDashLet");
 

@@ -10,8 +10,7 @@ public class LanguageService {
 	ResourceBundle rbundle;
 	StringBuilder temp;
 
-	private static final String BUNDLE = "locales.lang";
-
+	
 	public String get(String k, Object... values) {
 		String t = get(k);
 		for (int i = 0; i < values.length; i++) {
@@ -35,12 +34,12 @@ public class LanguageService {
 
 	public LanguageService() {
 		temp = new StringBuilder();
-		rbundle = ResourceBundle.getBundle(BUNDLE, getDefault());
+		rbundle = ResourceBundle.getBundle(MTGConstants.BUNDLE, getDefault());
 	}
 
 	public LanguageService(Locale l) {
 		temp = new StringBuilder();
-		rbundle = ResourceBundle.getBundle(BUNDLE, l);
+		rbundle = ResourceBundle.getBundle(MTGConstants.BUNDLE, l);
 	}
 
 	public Locale getDefault() {
@@ -53,9 +52,9 @@ public class LanguageService {
 
 	public void changeLocal(Locale l) {
 		if (l != null)
-			rbundle = ResourceBundle.getBundle(BUNDLE, l);
+			rbundle = ResourceBundle.getBundle(MTGConstants.BUNDLE, l);
 		else
-			rbundle = ResourceBundle.getBundle(BUNDLE, getDefault());
+			rbundle = ResourceBundle.getBundle(MTGConstants.BUNDLE, getDefault());
 	}
 
 	public String get(String key) {

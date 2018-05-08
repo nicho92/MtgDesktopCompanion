@@ -28,7 +28,7 @@ import org.magic.api.beans.Booster;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.gui.abstracts.AbstractJDashlet;
+import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.BoostersTableModel;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionListRenderer;
@@ -183,9 +183,9 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 		});
 
 		if (getProperties().size() > 0) {
-			Rectangle r = new Rectangle((int) Double.parseDouble(getProperty("x")),
-					(int) Double.parseDouble(getProperty("y")), (int) Double.parseDouble(getProperty("w")),
-					(int) Double.parseDouble(getProperty("h")));
+			Rectangle r = new Rectangle((int) Double.parseDouble(getString("x")),
+					(int) Double.parseDouble(getString("y")), (int) Double.parseDouble(getString("w")),
+					(int) Double.parseDouble(getString("h")));
 			setBounds(r);
 		}
 
