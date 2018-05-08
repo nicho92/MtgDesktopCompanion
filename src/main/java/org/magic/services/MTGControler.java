@@ -121,7 +121,7 @@ public class MTGControler {
 			String path = "";
 			
 			if(k instanceof MTGPlugin){
-				path = PluginRegistry.inst().getEntry(((MTGPlugin) k).getType()).getXpath()+"[class='" + k.getClass().getName() + "']/enable";
+				path = PluginRegistry.inst().getEntryFor(k).getXpath()+"[class='" + k.getClass().getName() + "']/enable";
 			}
 			else {
 				path = k.toString();

@@ -11,6 +11,7 @@ import java.util.Set;
 
 import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.log4j.Logger;
+import org.magic.api.dao.impl.MysqlDAO;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -56,7 +57,13 @@ public class PluginRegistry {
 			init();
 	}
 	
-	public PluginEntry getEntry(PLUGINS p)
+	
+	public PluginEntry getEntryFor(Object k)
+	{
+		return getEntry(k.getClass().getSuperclass().getInterfaces()[0]);
+	}
+	
+	public PluginEntry getEntry(Class p)
 	{
 		return registry.get(p);
 	}
@@ -166,6 +173,13 @@ class PluginEntry
 	private String classpath;
 	private String root;
 	private String element;
+	
+	
+	@Override
+	public String toString() {
+		return getClasspath()+ " " + getXpath();
+	}
+	
 	
 	public PluginEntry (String root, String element,String classpath)
 	{
