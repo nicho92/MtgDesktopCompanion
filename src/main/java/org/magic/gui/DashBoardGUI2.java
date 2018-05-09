@@ -44,11 +44,16 @@ public class DashBoardGUI2 extends JDesktopPane {
 			int i = 0;
 
 			try {
+
+				if (!AbstractJDashlet.confdir.exists())
+						FileUtils.forceMkdir(AbstractJDashlet.confdir);
+				
 				FileUtils.cleanDirectory(AbstractJDashlet.confdir);
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
 
+			
 			for (JInternalFrame jif : getAllFrames()) {
 				i++;
 				AbstractJDashlet dash = (AbstractJDashlet) jif;
@@ -65,7 +70,10 @@ public class DashBoardGUI2 extends JDesktopPane {
 				} catch (IOException e) {
 					logger.error(e);
 				}
-			}
+			}	
+			
+		
+			
 		});
 
 		mnWindow.add(mntmSaveDisplay);
