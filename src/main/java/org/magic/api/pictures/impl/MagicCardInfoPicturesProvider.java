@@ -33,8 +33,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 		try {
 			InstallCert.install("magiccards.info");
-			System.setProperty("javax.net.ssl.trustStore",
-					new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+			//System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
 		} catch (Exception e1) {
 			logger.error(e1);
 		}

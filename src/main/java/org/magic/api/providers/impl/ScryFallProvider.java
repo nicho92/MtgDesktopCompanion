@@ -51,7 +51,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		parser = new JsonParser();
 		try {
 			InstallCert.install("api.scryfall.com");
-			System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
+		//	System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
 		} catch (Exception e1) {
 			logger.error("Erreur installation certificat", e1);
 		}

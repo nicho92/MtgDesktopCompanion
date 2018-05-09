@@ -100,12 +100,16 @@ public class InstallCert {
 			String alias = host + "-" + (i++);
 			ks.setCertificateEntry(alias, cert);
 
-			OutputStream out = new FileOutputStream(new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME));
+			File f = new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
+			
+			OutputStream out = new FileOutputStream(f);
 			ks.store(out, passphrase);
 			out.close();
 
-			logger.debug("Added certificate to keystore '" + new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME)
-					+ "' using alias '" + alias + "'");
+			logger.debug("Added certificate to keystore '" + f + "' using alias '" + alias + "'");
+			
+			System.setProperty("javax.net.ssl.trustStore",f.getAbsolutePath());
+			
 		}
 	}
 
