@@ -24,13 +24,15 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	
 	public MTGDecksSniffer() {
 		super();
-
-		try {
-			InstallCert.install("mtgdecks.net");
-			//System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
-		} catch (Exception e1) {
-			logger.error(e1);
-		}
+			if(getBoolean("LOAD_CERTIFICATE"))
+			{
+				try {
+					InstallCert.installCert("mtgdecks.net");
+					setProperty("LOAD_CERTIFICATE", "false");
+				} catch (Exception e1) {
+					logger.error(e1);
+				}
+			}
 	}
 	
 	@Override
@@ -154,6 +156,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		setProperty("URL", "https://mtgdecks.net");
 		setProperty("FORMAT", "Standard");
 		setProperty("MAX_PAGE", "2");
+		setProperty("LOAD_CERTIFICATE", "true");
 	}
 
 	@Override

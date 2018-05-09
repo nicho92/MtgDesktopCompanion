@@ -34,11 +34,14 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 		list = new ArrayList<>();
 
-		try {
-			InstallCert.install("www.cardkingdom.com");
-			//System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
-		} catch (Exception e1) {
-			logger.error(e1);
+		if(getBoolean("LOAD_CERTIFICATE"))
+		{
+			try {
+				InstallCert.installCert("mtgdecks.net");
+				setProperty("LOAD_CERTIFICATE", "false");
+			} catch (Exception e1) {
+				logger.error(e1);
+			}
 		}
 
 		eds = new ArrayList<>();

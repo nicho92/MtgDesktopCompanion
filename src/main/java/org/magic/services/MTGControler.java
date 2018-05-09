@@ -188,8 +188,6 @@ public class MTGControler {
 			
 			PluginRegistry.inst().setConfig(config);
 			
-			
-			
 			keyWordManager = new KeyWordProvider();
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());

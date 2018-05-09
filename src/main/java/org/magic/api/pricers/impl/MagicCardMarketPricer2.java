@@ -35,17 +35,18 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		super();
 
 		try {
-			MkmAPIConfig.getInstance().init(getString("APP_ACCESS_TOKEN_SECRET"), getString("APP_ACCESS_TOKEN"),
-					getString("APP_SECRET"), getString("APP_TOKEN"));
+			MkmAPIConfig.getInstance().init(getString("APP_ACCESS_TOKEN_SECRET"), getString("APP_ACCESS_TOKEN"),getString("APP_SECRET"), getString("APP_TOKEN"));
 		} catch (MkmException e) {
 			logger.error(e);
 		}
-
-		try {
-			InstallCert.install("www.mkmapi.eu");
-			//System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
-		} catch (Exception e1) {
-			logger.error(e1);
+		if(getBoolean("LOAD_CERTIFICATE"))
+		{
+			try {
+				InstallCert.installCert("mtgdecks.net");
+				setProperty("LOAD_CERTIFICATE", "false");
+			} catch (Exception e1) {
+				logger.error(e1);
+			}
 		}
 	}
 

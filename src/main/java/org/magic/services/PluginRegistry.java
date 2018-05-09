@@ -98,7 +98,7 @@ public class PluginRegistry {
 		}
 	}
 	
-	public <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)
+	public synchronized <T extends MTGPlugin> List<T> listPlugins(Class<T> classe)
 	{
 		PluginEntry<T> entry = registry.get(classe);
 		

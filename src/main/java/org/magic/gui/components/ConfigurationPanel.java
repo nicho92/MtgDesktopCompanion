@@ -894,7 +894,7 @@ public class ConfigurationPanel extends JPanel {
 		add(lblLoading, gbclblLoading);
 		btnAdd.addActionListener(ae -> {
 			try {
-				InstallCert.install(txtWebSiteCertificate.getText());
+				InstallCert.installCert(txtWebSiteCertificate.getText());
 			} catch (Exception e) {
 				JOptionPane.showMessageDialog(null, e, "ERROR", JOptionPane.ERROR_MESSAGE);
 			}

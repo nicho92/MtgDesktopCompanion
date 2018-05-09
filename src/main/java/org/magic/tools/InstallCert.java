@@ -35,12 +35,11 @@ public class InstallCert {
 	private InstallCert() {
 	}
 
-	public static void install(String website) throws IOException, KeyManagementException, KeyStoreException,NoSuchAlgorithmException, CertificateException {
+	public static void installCert(String website) throws IOException, KeyManagementException, KeyStoreException,NoSuchAlgorithmException, CertificateException {
 		String host;
 		int port;
 
-		File defaultF = new File(
-				System.getProperty("java.home") + File.separatorChar + "lib" + File.separatorChar + "security");
+		File defaultF = new File(System.getProperty("java.home") + File.separatorChar + "lib" + File.separatorChar + "security");
 		char[] passphrase;
 		String[] c = website.split(":");
 		host = c[0];

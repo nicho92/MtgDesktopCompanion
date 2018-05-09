@@ -30,12 +30,16 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	public MagicCardInfoPicturesProvider() {
 		super();
 
-		try {
-			InstallCert.install("magiccards.info");
-			//System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
-		} catch (Exception e1) {
-			logger.error(e1);
+		if(getBoolean("LOAD_CERTIFICATE"))
+		{
+			try {
+				InstallCert.installCert("mtgdecks.net");
+				setProperty("LOAD_CERTIFICATE", "false");
+			} catch (Exception e1) {
+				logger.error(e1);
+			}
 		}
+		
 		newW = getInt("CARD_SIZE_WIDTH");
 		newH = getInt("CARD_SIZE_HEIGHT");
 

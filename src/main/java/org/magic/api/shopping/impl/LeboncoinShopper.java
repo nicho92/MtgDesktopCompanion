@@ -42,13 +42,14 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 	private void init() {
 		httpclient = HttpClients.createDefault();
 		formatter = new SimpleDateFormat(getString("DATE_FORMAT"));
-
-		try {
-			InstallCert.install(getString("CERT_SERV"));
-			//System.setProperty("javax.net.ssl.trustStore",new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME).getAbsolutePath());
-		} catch (Exception e1) {
-
-			logger.error(e1);
+		if(getBoolean("LOAD_CERTIFICATE"))
+		{
+			try {
+				InstallCert.installCert("mtgdecks.net");
+				setProperty("LOAD_CERTIFICATE", "false");
+			} catch (Exception e1) {
+				logger.error(e1);
+			}
 		}
 	}
 
