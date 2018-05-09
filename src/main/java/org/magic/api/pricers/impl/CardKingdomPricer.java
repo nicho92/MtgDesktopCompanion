@@ -137,6 +137,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		setProperty("URL", "https://www.cardkingdom.com/mtg/");
 		setProperty("WEBSITE", "https://www.cardkingdom.com/");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		setProperty("LOAD_CERTIFICATE", "true");
 	}
 
 	@Override

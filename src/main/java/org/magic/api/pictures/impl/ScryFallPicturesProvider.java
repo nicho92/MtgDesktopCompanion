@@ -138,7 +138,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		setProperty("CERT_SERV", "scryfall.com");
 		setProperty("PIC_SIZE", "large");
 		setProperty("ICON_SET_SIZE", "medium");
-
+		setProperty("LOAD_CERTIFICATE", "true");
 	}
 
 	@Override

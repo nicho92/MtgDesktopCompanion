@@ -201,6 +201,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		setProperty("MAX_RESULT", "");
 		setProperty("PASS", "PASS");
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
+		setProperty("LOAD_CERTIFICATE", "true");
 
 	}
 

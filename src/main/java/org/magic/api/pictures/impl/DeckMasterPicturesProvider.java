@@ -167,7 +167,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		setProperty("URL", "https://deckmaster.info/");
 		setProperty("ICON_SET_SIZE", "medium");
-
+		setProperty("LOAD_CERTIFICATE", "true");
 	}
 
 	@Override

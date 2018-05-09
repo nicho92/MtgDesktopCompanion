@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.services.MTGConstants;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
@@ -76,6 +77,14 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String getVersion() {
 		return "1.0";
+	}
+	
+	@Override
+	public void initDefault() {
+		super.initDefault();
+		
+		setProperty("PICS_DIR",new File(MTGConstants.CONF_DIR,"/sets/privatePics").getAbsolutePath());
+		setProperty("FORMAT","PNG");
 	}
 
 }
