@@ -43,7 +43,6 @@ public class DashBoardGUI2 extends JDesktopPane {
 			int i = 0;
 
 			try {
-
 				FileUtils.cleanDirectory(AbstractJDashlet.confdir);
 			} catch (IOException e1) {
 				logger.error(e1);
@@ -92,8 +91,6 @@ public class DashBoardGUI2 extends JDesktopPane {
 		} catch (Exception e) {
 			logger.error("Error", e);
 		}
-
-		System.out.println(AbstractJDashlet.confdir);
 	
 		for (File f : AbstractJDashlet.confdir.listFiles()) {
 			try {

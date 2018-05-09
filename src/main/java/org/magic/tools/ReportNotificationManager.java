@@ -26,11 +26,11 @@ public class ReportNotificationManager {
 	public ReportNotificationManager() {
 		  	cfg = new Configuration(MTGConstants.FREEMARKER_VERSION);
 	        try {
-				cfg.setDirectoryForTemplateLoading(new File(ReportNotificationManager.class.getResource(MTGConstants.MTG_REPORTS_DIR).getFile()));
+				cfg.setClassForTemplateLoading(ReportNotificationManager.class, MTGConstants.MTG_REPORTS_DIR);
 				cfg.setDefaultEncoding("UTF-8");
 				cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 				cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(MTGConstants.FREEMARKER_VERSION).build());
-			} catch (IOException e) {
+			} catch (Exception e) {
 				errorLoading=true;
 				logger.error("error init Freemarker ",e);
 			}
