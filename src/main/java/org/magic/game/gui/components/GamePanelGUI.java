@@ -66,7 +66,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JLabel lblLibraryCount;
 	private static GamePanelGUI instance;
 	private JTextField txtChat;
-	private transient MTGTokensProvider tokenGenerator;
 	private PlayerGameBoard playerGameBoard;
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
@@ -115,17 +114,13 @@ public class GamePanelGUI extends JPanel implements Observer {
 		exilPanel.setPlayer(p1);
 	}
 
-	public MTGTokensProvider getTokenGenerator() {
-		return tokenGenerator;
-	}
-
 	private GamePanelGUI() {
 
 		setLayout(new BorderLayout(0, 0));
 
 		panneauDroit = new JPanel();
 
-		tokenGenerator = new CockatriceTokenProvider();
+		
 
 		add(panneauDroit, BorderLayout.CENTER);
 		panneauDroit.setLayout(new BorderLayout(0, 0));

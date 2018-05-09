@@ -29,7 +29,7 @@ public class EmbalmActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard tok = GamePanelGUI.getInstance().getTokenGenerator().generateTokenFor(card.getMagicCard());
+			MagicCard tok = MTGControler.getInstance().getEnabledTokensProvider().generateTokenFor(card.getMagicCard());
 			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsDimension(), true);
 			dc.addCounter(new ItemCounter("Embalm", Color.YELLOW));
 

@@ -35,6 +35,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.MTGShopper;
+import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.MTGPlugin.PLUGINS;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
@@ -204,6 +205,11 @@ public class MTGControler {
 	public List<AbstractJDashlet> getDashlets() {
 		return PluginRegistry.inst().listPlugins(AbstractJDashlet.class);
 	}
+	
+	public List<MTGTokensProvider> getTokens() {
+		return PluginRegistry.inst().listPlugins(MTGTokensProvider.class);
+	}
+	
 
 	public KeyWordProvider getKeyWordManager() {
 		return keyWordManager;
@@ -220,6 +226,15 @@ public class MTGControler {
 
 		return null;
 	}
+	
+	public MTGTokensProvider getEnabledTokensProvider() {
+		for (MTGTokensProvider p : getTokens())
+			if (p.isEnable())
+				return p;
+
+		return null;
+	}
+	
 	
 	public List<MTGNotifier> getNotifierProviders(){
 		return PluginRegistry.inst().listPlugins(MTGNotifier.class);

@@ -31,7 +31,6 @@ public class PlayerGameBoard extends JPanel implements Observer {
 	private JLabel lblHandCount;
 	private JLabel lblLibraryCount;
 	private static PlayerGameBoard instance;
-	private transient MTGTokensProvider tokenGenerator;
 	private JPanel panelInfo;
 
 	public JPanel getPanelInfo() {
@@ -67,17 +66,13 @@ public class PlayerGameBoard extends JPanel implements Observer {
 		panelBattleField.setPlayer(p1);
 	}
 
-	public MTGTokensProvider getTokenGenerator() {
-		return tokenGenerator;
-	}
 
 	public PlayerGameBoard() {
 		setBorder(new LineBorder(Color.RED, 2));
 
 		setLayout(new BorderLayout(0, 0));
 
-		tokenGenerator = new CockatriceTokenProvider();
-
+		
 		panelInfo = new JPanel();
 		add(panelInfo, BorderLayout.WEST);
 		panelInfo.setLayout(new BorderLayout(0, 0));

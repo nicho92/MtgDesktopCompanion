@@ -27,7 +27,7 @@ public class CreateActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		try {
-			MagicCard tok = GamePanelGUI.getInstance().getTokenGenerator().generateTokenFor(card.getMagicCard());
+			MagicCard tok = MTGControler.getInstance().getEnabledTokensProvider().generateTokenFor(card.getMagicCard());
 			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsDimension(), true);
 			dc.setMagicCard(tok);
 			GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);

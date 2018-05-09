@@ -392,11 +392,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 				menu.add(new CopyFromActions(this));
 
 			menu.add(sep);
-			if (GamePanelGUI.getInstance().getTokenGenerator().isTokenizer(magicCard)) {
+			if (MTGControler.getInstance().getEnabledTokensProvider().isTokenizer(magicCard)) {
 				menu.add(new JMenuItem(new CreateActions(this)));
 			}
 
-			if (GamePanelGUI.getInstance().getTokenGenerator().isEmblemizer(magicCard))
+			if (MTGControler.getInstance().getEnabledTokensProvider().isEmblemizer(magicCard))
 				menu.add(new JMenuItem(new EmblemActions(this)));
 
 			setComponentPopupMenu(menu);
@@ -482,7 +482,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		try {
 			if (mc.getLayout().equals(MagicCard.LAYOUT.Token.toString())
 					|| mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString())) {
-				fullResPics = GamePanelGUI.getInstance().getTokenGenerator().getPictures(mc);
+				fullResPics = MTGControler.getInstance().getEnabledTokensProvider().getPictures(mc);
 			} else {
 				fullResPics = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
 
