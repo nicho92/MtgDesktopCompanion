@@ -71,6 +71,10 @@ public class DashBoardGUI2 extends JDesktopPane {
 		mnWindow.add(mntmSaveDisplay);
 		add(menuBar);
 
+		if (!AbstractJDashlet.confdir.exists())
+			AbstractJDashlet.confdir.mkdir();
+
+		
 		try {
 			for (AbstractJDashlet dash : MTGControler.getInstance().getDashlets()) {
 				JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName());
@@ -88,9 +92,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 			logger.error("Error", e);
 		}
 
-		if (!AbstractJDashlet.confdir.exists())
-			AbstractJDashlet.confdir.mkdir();
-
+	
 		for (File f : AbstractJDashlet.confdir.listFiles()) {
 			try {
 				Properties p = new Properties();

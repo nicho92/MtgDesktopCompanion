@@ -7,8 +7,6 @@ import org.magic.services.MTGConstants;
 
 public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTGDashBoard {
 
-	
-
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.DASHBOARD;

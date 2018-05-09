@@ -30,7 +30,7 @@ import org.utils.patterns.observer.Observer;
 public abstract class AbstractJDashlet extends JInternalFrame implements MTGDashlet {
 
 	private static final long serialVersionUID = 1L;
-	public static final File confdir = new File(MTGConstants.CONF_DIR, "dashboards/dashlets");
+	public static final File confdir= new File(MTGConstants.CONF_DIR, "dashboards/dashlets");
 	private Properties props;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCardDetailPanel pane;
