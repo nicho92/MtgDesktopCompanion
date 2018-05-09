@@ -12,7 +12,6 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.console.MTGConsoleHandler;
-import org.magic.services.MTGControler;
 
 public class ConsoleServer extends AbstractMTGServer {
 

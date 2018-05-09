@@ -33,8 +33,6 @@ import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.MTGTokensProvider;
-import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.actions.library.DrawActions;
 import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.gui.components.dialog.DeckSideBoardSwitcherDialog;

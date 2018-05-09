@@ -2,13 +2,8 @@ package org.magic.servers.impl;
 
 import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
-import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -20,10 +15,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.api.notifiers.impl.ConsoleNotifier;
 import org.magic.services.MTGControler;
-
-import com.google.common.collect.Iterables;
 
 public class AlertTrendServer extends AbstractMTGServer {
 

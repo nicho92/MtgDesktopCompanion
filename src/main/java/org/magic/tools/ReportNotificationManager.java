@@ -2,20 +2,13 @@ package org.magic.tools;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.Serializable;
 import java.io.StringWriter;
 import java.io.Writer;
-import java.lang.reflect.ParameterizedType;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
-import org.magic.api.beans.CardShake;
-import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;

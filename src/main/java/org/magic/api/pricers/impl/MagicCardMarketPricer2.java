@@ -1,6 +1,5 @@
 package org.magic.api.pricers.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -20,7 +19,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
 import org.magic.tools.InstallCert;
 

@@ -9,7 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 

@@ -1,6 +1,5 @@
 package org.magic.api.providers.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -18,7 +17,6 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.InstallCert;
 
 import com.google.gson.Gson;

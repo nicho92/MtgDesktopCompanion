@@ -6,16 +6,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
-import java.util.function.Predicate;
 
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
-import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.api.notifiers.impl.ConsoleNotifier;
-import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.services.MTGControler;
 import org.magic.sorters.CardsShakeSorter;
 import org.magic.sorters.CardsShakeSorter.SORT;

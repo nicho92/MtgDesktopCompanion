@@ -2,7 +2,6 @@ package org.magic.api.notifiers.impl;
 
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
-import java.awt.TrayIcon.MessageType;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 

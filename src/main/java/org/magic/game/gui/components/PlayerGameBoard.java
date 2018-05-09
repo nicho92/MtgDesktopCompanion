@@ -13,8 +13,6 @@ import javax.swing.JSpinner;
 import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
-import org.magic.api.interfaces.MTGTokensProvider;
-import org.magic.api.tokens.impl.CockatriceTokenProvider;
 import org.magic.game.model.Player;
 import org.magic.services.MTGConstants;
 import org.utils.patterns.observer.Observable;
