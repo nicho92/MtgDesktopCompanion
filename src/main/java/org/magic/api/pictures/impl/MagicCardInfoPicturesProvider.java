@@ -123,7 +123,8 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		setProperty("WEBSITE", "https://magiccards.info/scans/");
 		setProperty("LANG", "en");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
-
+		setProperty("LOAD_CERTIFICATE", "true");
+		
 	}
 
 	@Override

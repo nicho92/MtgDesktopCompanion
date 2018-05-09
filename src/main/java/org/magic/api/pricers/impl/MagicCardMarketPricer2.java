@@ -210,6 +210,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		setProperty("MAX", "10");
 		setProperty("USER_ARTICLE", "false");
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
+		setProperty("LOAD_CERTIFICATE","true");
 
 	}
 
