@@ -299,8 +299,7 @@ public class SealedPanel extends JPanel {
 		panelLands.add(txtNumberLand);
 		txtNumberLand.setColumns(2);
 
-		cboLands = new JComboBox<>(
-				new DefaultComboBoxModel<>(new String[] { "Plains", "Island", "Swamp", "Mountain", "Forest" }));
+		cboLands = new JComboBox<>(new DefaultComboBoxModel<>(new String[] { "Plains", "Island", "Swamp", "Mountain", "Forest" }));
 		panelLands.add(cboLands);
 
 		JButton btnAddLands = new JButton("+");

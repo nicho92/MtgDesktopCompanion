@@ -124,8 +124,7 @@ public class CardBuilder2GUI extends JPanel {
 			JPanel panelMisc = new JPanel();
 			JPanel panelCardEditions = new JPanel();
 			JPanel legalitiesPanel = new JPanel();
-			legalitiesPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "",
-					TitledBorder.LEADING, TitledBorder.TOP, null, null));
+			legalitiesPanel.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "",TitledBorder.LEADING, TitledBorder.TOP, null, null));
 
 			JToggleButton tglStd = new JToggleButton("STD");
 			JToggleButton tglMdn = new JToggleButton("MDN");

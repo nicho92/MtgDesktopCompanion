@@ -549,14 +549,12 @@ public class CollectionPanelGUI extends JPanel {
 					progressBar.setMaximum(max);
 					progressBar.setValue(0);
 
-					MagicWebSiteGenerator gen = new MagicWebSiteGenerator(diag.getTemplate(),
-							diag.getDest().getAbsolutePath());
+					MagicWebSiteGenerator gen = new MagicWebSiteGenerator(diag.getTemplate(),diag.getDest().getAbsolutePath());
 
 					gen.addObserver((Observable o, Object arg) -> progressBar.setValue((int) arg));
 					gen.generate(diag.getSelectedCollections(), diag.getPriceProviders());
 
-					int res = JOptionPane.showConfirmDialog(null,
-							MTGControler.getInstance().getLangService().getCapitalize("WEBSITE_CONFIRMATION_VIEW"));
+					int res = JOptionPane.showConfirmDialog(null,MTGControler.getInstance().getLangService().getCapitalize("WEBSITE_CONFIRMATION_VIEW"));
 
 					if (res == JOptionPane.YES_OPTION) {
 						Path p = Paths.get(diag.getDest().getAbsolutePath() + "/index.htm");

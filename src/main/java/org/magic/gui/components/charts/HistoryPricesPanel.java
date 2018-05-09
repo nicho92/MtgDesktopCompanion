@@ -36,7 +36,7 @@ public class HistoryPricesPanel extends JPanel {
 	private JCheckBox chckbxShowEditions;
 	private JCheckBox chckbxShowAllDashboard;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private TimeSeries series;
+	
 	
 	public HistoryPricesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -109,7 +109,7 @@ public class HistoryPricesPanel extends JPanel {
 		TimeSeries series1 = new TimeSeries(title);
 		if (showAll) {
 			for (MTGDashBoard d : MTGControler.getInstance().getDashboardsProviders()) {
-				series = new TimeSeries(d.getName());
+				TimeSeries series = new TimeSeries(d.getName());
 				Map<Date, Double> mapTime;
 				try {
 					mapTime = d.getPriceVariation(mc, me);
