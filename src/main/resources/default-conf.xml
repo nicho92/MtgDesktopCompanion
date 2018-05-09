@@ -11,47 +11,74 @@
         <alarm>true</alarm>
         <shopper>true</shopper>
         <cardbuilder>true</cardbuilder>
-        <history>true</history>
         <stock>true</stock>
+        <history>true</history>
         <wallpaper>true</wallpaper>
     </modules>
     <langage>English</langage>
-    <locale>en</locale>
-   	<lookAndFeel>javax.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
-    <debug>INFO</debug>
+    <debug>DEBUG</debug>
     <tooltip>true</tooltip>
     <default-library>Library</default-library>
     <loglevel>DEBUG</loglevel>
-    <default-website-dir/>
+    <default-website-dir>.</default-website-dir>
     <keystore-name>jssecacerts</keystore-name>
     <keystore-pass>changeit</keystore-pass>
-    <default-land-deck>ZEN</default-land-deck>
+    <default-land-deck>XLN</default-land-deck>
+    <min-price-alert>1</min-price-alert>
+    <debug-json-panel>true</debug-json-panel>
+    <lookAndFeel>javax.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
+    <locale>en</locale>
+    <game>
+        <cards>
+            <card-width>154</card-width>
+            <card-height>215</card-height>
+            <card-heigth>215</card-heigth>
+        </cards>
+        <player-profil>
+            <name>Player</name>
+            <foreground>-16737997</foreground>
+            <background></background>
+            <avatar></avatar>
+        </player-profil>
+    </game>
+  
     
-    
-   <tokens>
-   	<token>
-   		<class>org.magic.api.tokens.impl.CockatriceTokenProvider</class>
-   		<enable>true</enable>
-   	</token>
-   </tokens>
-    <notifiers>
-        <notifier>
-     		<class>org.magic.api.notifiers.impl.ConsoleNotifier</class>
+     <dashlets>
+        <dashlet>
+            <class>org.magic.gui.dashlet.AlertedCardsTrendingDashlet</class>
             <enable>true</enable>
-    	</notifier>
-    	<notifier>
-     		<class>org.magic.api.notifiers.impl.EmailNotifier</class>
+        </dashlet>
+        <dashlet>
+            <class>org.magic.gui.dashlet.BestCardsDashlet</class>
+             <enable>true</enable>
+        </dashlet>
+        <dashlet>
+            <class>org.magic.gui.dashlet.BestTrendingDashlet</class>
+             <enable>true</enable>
+        </dashlet>
+        <dashlet>
+            <class>org.magic.gui.dashlet.BoosterBoxDashlet</class>
+             <enable>true</enable>
+        </dashlet>
+        <dashlet>
+            <class>org.magic.gui.dashlet.EditionsDashlet</class>
+             <enable>true</enable>
+        </dashlet>
+        <dashlet>
+            <class>org.magic.gui.dashlet.TrendingDashlet</class>
+             <enable>true</enable>
+        </dashlet>
+        <dashlet>
+            <class>org.magic.gui.dashlet.MagicEventsDashlet</class>
+             <enable>true</enable>
+        </dashlet>
+    </dashlets>
+    <tokens>
+        <token>
+            <class>org.magic.api.tokens.impl.CockatriceTokenProvider</class>
             <enable>true</enable>
-    	</notifier>
-    	<notifier>
-     		<class>org.magic.api.notifiers.impl.OSTrayNotifier</class>
-            <enable>true</enable>
-    	</notifier>
-    	<notifier>
-     		<class>org.magic.api.notifiers.impl.NullNotifier</class>
-            <enable>true</enable>
-    	</notifier>
-    </notifiers>
+        </token>
+    </tokens>
     <caches>
         <cache>
             <class>org.magic.api.cache.impl.FileCache</class>
@@ -66,15 +93,6 @@
             <enable>false</enable>
         </cache>
     </caches>
-    <dashlets>
-    	<dashlet><class>org.magic.gui.dashlet.AlertedCardsTrendingDashlet</class></dashlet>
-    	<dashlet><class>org.magic.gui.dashlet.BestCardsDashlet</class></dashlet>
-    	<dashlet><class>org.magic.gui.dashlet.BestTrendingDashlet</class></dashlet>
-    	<dashlet><class>org.magic.gui.dashlet.BoosterBoxDashlet</class></dashlet>
-    	<dashlet><class>org.magic.gui.dashlet.EditionsDashlet</class></dashlet>
-    	<dashlet><class>org.magic.gui.dashlet.TrendingDashlet</class></dashlet>
-    	<dashlet><class>org.magic.gui.dashlet.MagicEventsDashlet</class></dashlet>
-    </dashlets>
     <servers>
         <server>
             <class>org.magic.servers.impl.ConsoleServer</class>
@@ -85,10 +103,6 @@
             <enable>true</enable>
         </server>
         <server>
-            <class>org.magic.servers.impl.PricesCheckerTimer</class>
-            <enable>true</enable>
-        </server>
-        <server>
             <class>org.magic.servers.impl.MTGGameRoomServer</class>
             <enable>true</enable>
         </server>
@@ -96,11 +110,45 @@
             <class>org.magic.servers.impl.WebManagerServer</class>
             <enable>true</enable>
         </server>
-         <server>
+        <server>
             <class>org.magic.servers.impl.AlertTrendServer</class>
             <enable>true</enable>
         </server>
+        <server>
+            <class>org.magic.servers.impl.OversightServer</class>
+            <enable>true</enable>
+        </server>
+        <server>
+            <class>org.magic.servers.impl.PricesCheckerTimer</class>
+            <enable>true</enable>
+        </server>
     </servers>
+    <notifiers>
+        <notifier>
+            <class>org.magic.api.notifiers.impl.ConsoleNotifier</class>
+            <enable>true</enable>
+        </notifier>
+        <notifier>
+            <class>org.magic.api.notifiers.impl.EmailNotifier</class>
+            <enable>true</enable>
+        </notifier>
+        <notifier>
+            <class>org.magic.api.notifiers.impl.OSTrayNotifier</class>
+            <enable>true</enable>
+        </notifier>
+        <notifier>
+            <class>org.magic.api.notifiers.impl.NullNotifier</class>
+            <enable>true</enable>
+        </notifier>
+        <notifier>
+            <class>org.magic.api.notifiers.impl.SwingNotifier</class>
+            <enable>true</enable>
+        </notifier>
+        <notifier>
+            <class>org.magic.api.notifiers.impl.TelegramNotifier</class>
+            <enable>true</enable>
+        </notifier>
+    </notifiers>
     <pricers>
         <pricer>
             <class>org.magic.api.pricers.impl.MagicCardMarketPricer2</class>
@@ -116,7 +164,7 @@
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.MagicVillePricer</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.TCGPlayerPricer</class>
@@ -132,15 +180,15 @@
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.MTGPricePricer</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.CardKingdomPricer</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.MagicBazarPricer</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </pricer>
         <pricer>
             <class>org.magic.api.pricers.impl.StarCityGamesPricer</class>
@@ -186,7 +234,7 @@
             <class>org.magic.api.dao.impl.FileDAO</class>
             <enable>false</enable>
         </dao>
-         <dao>
+        <dao>
             <class>org.magic.api.dao.impl.MongoDbDAO</class>
             <enable>false</enable>
         </dao>
@@ -221,8 +269,8 @@
             <enable>false</enable>
         </picture>
         <picture>
-        	<class>org.magic.api.pictures.impl.MTGCardMakerPicturesProvider</class>
-        	<enable>false</enable>
+            <class>org.magic.api.pictures.impl.MTGCardMakerPicturesProvider</class>
+            <enable>false</enable>
         </picture>
     </pictures>
     <shoppers>
@@ -232,27 +280,13 @@
         </shopper>
         <shopper>
             <class>org.magic.api.shopping.impl.EbayShopper</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </shopper>
         <shopper>
             <class>org.magic.api.shopping.impl.PriceMinisterShopper</class>
             <enable>false</enable>
         </shopper>
     </shoppers>
-    <newsProvider>
-        <news>
-            <class>org.magic.api.news.impl.RSSNewsProvider</class>
-            <enable>true</enable>
-        </news>
-         <news>
-            <class>org.magic.api.news.impl.TwitterNewsProvider</class>
-            <enable>true</enable>
-        </news>
-        <news>
-            <class>org.magic.api.news.impl.MagicCorpForumProvider</class>
-            <enable>true</enable>
-        </news>
-    </newsProvider>
     <dashboards>
         <dashboard>
             <class>org.magic.api.dashboard.impl.MTGoldFishDashBoard</class>
@@ -270,19 +304,15 @@
     <decksniffer>
         <sniffer>
             <class>org.magic.api.decksniffer.impl.TappedOutDeckSniffer</class>
-            <enable>true</enable>
-        </sniffer>
-        <sniffer>
-            <class>org.magic.api.decksniffer.impl.MTGSalvationDeckSniffer</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </sniffer>
         <sniffer>
             <class>org.magic.api.decksniffer.impl.MTGoldFishDeck</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </sniffer>
         <sniffer>
             <class>org.magic.api.decksniffer.impl.MagicCorporationDecks</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </sniffer>
         <sniffer>
             <class>org.magic.api.decksniffer.impl.LotusNoirDecks</class>
@@ -297,16 +327,24 @@
             <enable>true</enable>
         </sniffer>
         <sniffer>
-            <class>org.magic.api.decksniffer.impl.MTGTop8DeckSniffer</class>
-            <enable>false</enable>
+            <class>org.magic.api.decksniffer.impl.MTGSalvationDeckSniffer</class>
+            <enable>true</enable>
         </sniffer>
-         <sniffer>
+        <sniffer>
+            <class>org.magic.api.decksniffer.impl.MTGTop8DeckSniffer</class>
+            <enable>true</enable>
+        </sniffer>
+        <sniffer>
             <class>org.magic.api.decksniffer.impl.MTGDecksSniffer</class>
+            <enable>true</enable>
+        </sniffer>
+        <sniffer>
+            <class>org.magic.api.decksniffer.impl.AetherhubDeckSniffer</class>
             <enable>true</enable>
         </sniffer>
     </decksniffer>
     <deckexports>
-    	<export>
+        <export>
             <class>org.magic.api.exports.impl.ManualImportExport</class>
             <enable>true</enable>
         </export>
@@ -366,32 +404,38 @@
             <class>org.magic.api.exports.impl.MagicWorkStationDeckExport</class>
             <enable>true</enable>
         </export>
+        <export>
+            <class>org.magic.api.exports.impl.MTGArenaExport</class>
+            <enable>true</enable>
+        </export>
     </deckexports>
+    <newsProvider>
+        <news>
+            <class>org.magic.api.news.impl.RSSNewsProvider</class>
+            <enable>true</enable>
+        </news>
+        <news>
+            <class>org.magic.api.news.impl.TwitterNewsProvider</class>
+            <enable>true</enable>
+        </news>
+        <news>
+            <class>org.magic.api.news.impl.MagicCorpForumProvider</class>
+            <enable>false</enable>
+        </news>
+    </newsProvider>
     <wallpapers>
         <wallpaper>
             <class>org.magic.api.wallpaper.impl.ArtOfMtgWallpaperProvider</class>
             <enable>true</enable>
         </wallpaper>
-          <wallpaper>
+        <wallpaper>
             <class>org.magic.api.wallpaper.impl.FilesWallpaperProvider</class>
             <enable>true</enable>
         </wallpaper>
-          <wallpaper>
+        <wallpaper>
             <class>org.magic.api.wallpaper.impl.WizardsOfTheCoastWallpaperProvider</class>
             <enable>true</enable>
         </wallpaper>
     </wallpapers>
- 	<min-price-alert/>
-    <debug-json-panel>false</debug-json-panel>
-    <game>
-        <cards>
-            <card-width>154</card-width>
-            <card-height>215</card-height>
-        </cards>
-        <player-profil>
-            <name>nicho</name>
-            <foreground/>
-            <background/>
-        </player-profil>
-    </game>
+  
 </conf>
