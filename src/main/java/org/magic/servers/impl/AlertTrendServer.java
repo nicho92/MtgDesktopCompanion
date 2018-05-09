@@ -158,7 +158,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 
 	@Override
 	public void initDefault() {
-		setProperty("AUTOSTART", "true");
+		setProperty("AUTOSTART", "false");
 		setProperty("TIMEOUT_MINUTE", "120");
 		setProperty("ALERT_MIN_PERCENT","40");
 		setProperty("THREAD_PAUSE","2000");
