@@ -50,23 +50,8 @@ import org.magic.tools.ImageUtils;
 public class MTGControler {
 
 	private static MTGControler inst;
-	private List<MTGPricesProvider> pricers;
-	private List<MTGCardsProvider> cardsProviders;
-	private List<MTGDao> daoProviders;
-	private List<MTGShopper> cardsShoppers;
-	private List<MTGDeckSniffer> deckSniffers;
-	private List<MTGPictureProvider> picturesProviders;
-	private List<MTGDashBoard> dashboards;
-	private List<MTGCardsExport> exports;
-	private List<MTGServer> servers;
-	private List<MTGNewsProvider> news;
-	private List<MTGPicturesCache> caches;
-	private List<MTGWallpaperProvider> wallpapers;
-	private List<MTGNotifier> notifiers;
-	private List<AbstractJDashlet> dashlets;
 	private KeyWordProvider keyWordManager;
 	private XMLConfiguration config;
-	private ClassLoader classLoader;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private LanguageService langService;
 	private LookAndFeelProvider lafService;
@@ -126,7 +111,7 @@ public class MTGControler {
 			else {
 				path = k.toString();
 			}
-			logger.debug("set " + k + " to " + c + " (" + path+")");
+			logger.debug("set " + k + " to " + c);
 
 			config.setProperty(path, c);
 			builder.save();
@@ -187,7 +172,7 @@ public class MTGControler {
 		File conf = new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME);
 		if (!conf.exists())
 			try {
-				logger.info("conf file doesn't exist. creating one from default file");
+				logger.info(conf+" file doesn't exist. creating one from default file");
 				FileUtils.copyURLToFile(getClass().getResource("/default-conf.xml"),
 						new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME));
 				logger.info("conf file created");
@@ -200,24 +185,13 @@ public class MTGControler {
 				.setFile(new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME)).setSchemaValidation(false)
 				.setValidating(false).setEncoding("UTF-8").setExpressionEngine(new XPathExpressionEngine()));
 
-		classLoader = MTGControler.class.getClassLoader();
 		try {
 			config = builder.getConfiguration();
+			
 			PluginRegistry.inst().setConfig(config);
-			pricers = PluginRegistry.inst().listPlugins(MTGPricesProvider.class);
-			cardsProviders = PluginRegistry.inst().listPlugins(MTGCardsProvider.class);
-			daoProviders = PluginRegistry.inst().listPlugins(MTGDao.class);
-			caches = PluginRegistry.inst().listPlugins(MTGPicturesCache.class);;
-			cardsShoppers = PluginRegistry.inst().listPlugins(MTGShopper.class);
-			dashboards = PluginRegistry.inst().listPlugins(MTGDashBoard.class);
-			exports = PluginRegistry.inst().listPlugins(MTGCardsExport.class);
-			deckSniffers = PluginRegistry.inst().listPlugins(MTGDeckSniffer.class);
-			picturesProviders = PluginRegistry.inst().listPlugins(MTGPictureProvider.class);;
-			servers = PluginRegistry.inst().listPlugins(MTGServer.class);;
-			news = PluginRegistry.inst().listPlugins(MTGNewsProvider.class);;
-			notifiers = PluginRegistry.inst().listPlugins(MTGNotifier.class);;
-			wallpapers = PluginRegistry.inst().listPlugins(MTGWallpaperProvider.class);;
-			dashlets = PluginRegistry.inst().listPlugins(AbstractJDashlet.class);
+			
+			
+			
 			keyWordManager = new KeyWordProvider();
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
@@ -228,7 +202,7 @@ public class MTGControler {
 	}
 
 	public List<AbstractJDashlet> getDashlets() {
-		return dashlets;
+		return PluginRegistry.inst().listPlugins(AbstractJDashlet.class);
 	}
 
 	public KeyWordProvider getKeyWordManager() {
@@ -248,7 +222,7 @@ public class MTGControler {
 	}
 	
 	public List<MTGNotifier> getNotifierProviders(){
-		return notifiers;
+		return PluginRegistry.inst().listPlugins(MTGNotifier.class);
 	}
 	
 	public List<MTGNotifier> getEnabledNotifiers() {
@@ -263,23 +237,23 @@ public class MTGControler {
 	
 
 	public List<MTGPicturesCache> getCachesProviders() {
-		return caches;
+		return PluginRegistry.inst().listPlugins(MTGPicturesCache.class);
 	}
 
 	public List<MTGCardsProvider> getCardsProviders() {
-		return cardsProviders;
+		return PluginRegistry.inst().listPlugins(MTGCardsProvider.class);
 	}
 
 	public List<MTGDao> getDaoProviders() {
-		return daoProviders;
+		return PluginRegistry.inst().listPlugins(MTGDao.class);
 	}
 
 	public List<MTGPictureProvider> getPicturesProviders() {
-		return picturesProviders;
+		return PluginRegistry.inst().listPlugins(MTGPictureProvider.class);
 	}
 
 	public List<MTGPricesProvider> getPricerProviders() {
-		return pricers;
+		return PluginRegistry.inst().listPlugins(MTGPricesProvider.class);
 	}
 
 	public List<MTGPricesProvider> getEnabledPricers() {
@@ -326,11 +300,11 @@ public class MTGControler {
 	}
 
 	public List<MTGDeckSniffer> getDeckSnifferProviders() {
-		return deckSniffers;
+		return PluginRegistry.inst().listPlugins(MTGDeckSniffer.class);
 	}
 
 	public List<MTGShopper> getShoppersProviders() {
-		return cardsShoppers;
+		return PluginRegistry.inst().listPlugins(MTGShopper.class);
 	}
 
 	public List<MTGShopper> getEnabledShoppers() {
@@ -351,11 +325,11 @@ public class MTGControler {
 	}
 
 	public List<MTGDashBoard> getDashboardsProviders() {
-		return dashboards;
+		return  PluginRegistry.inst().listPlugins(MTGDashBoard.class);
 	}
 
 	public List<MTGServer> getServers() {
-		return servers;
+		return PluginRegistry.inst().listPlugins(MTGServer.class);
 	}
 
 	public List<MTGServer> getEnabledServers() {
@@ -367,7 +341,7 @@ public class MTGControler {
 	}
 
 	public List<MTGCardsExport> getImportExportProviders() {
-		return exports;
+		return PluginRegistry.inst().listPlugins(MTGCardsExport.class);
 	}
 
 	public List<MTGCardsExport> getEnabledDeckExports() {
@@ -394,7 +368,7 @@ public class MTGControler {
 	public MTGCardsExport getAbstractExporterFromExt(File f) {
 		String ext = FilenameUtils.getExtension(f.getAbsolutePath());
 
-		for (MTGCardsExport ace : exports) {
+		for (MTGCardsExport ace : getImportExportProviders()) {
 			if (ace.getFileExtension().endsWith(ext))
 				return ace;
 		}
@@ -411,7 +385,7 @@ public class MTGControler {
 	}
 
 	public List<MTGNewsProvider> getNewsProviders() {
-		return news;
+		return PluginRegistry.inst().listPlugins(MTGNewsProvider.class);
 	}
 
 	public MTGNewsProvider getNewsProvider(String string) {
@@ -432,7 +406,7 @@ public class MTGControler {
 	}
 
 	public List<MTGWallpaperProvider> getWallpaperProviders() {
-		return wallpapers;
+		return PluginRegistry.inst().listPlugins(MTGWallpaperProvider.class);
 	}
 
 	public List<MTGWallpaperProvider> getEnabledWallpaper() {

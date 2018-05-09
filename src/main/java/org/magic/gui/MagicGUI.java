@@ -1,6 +1,5 @@
 package org.magic.gui;
 
-import java.awt.AWTException;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
@@ -75,7 +74,7 @@ public class MagicGUI extends JFrame {
 		tabbedPane.setSelectedIndex(id);
 	}
 
-	public void initGUI() throws ClassNotFoundException, IOException, SQLException, AWTException {
+	public void initGUI() throws ClassNotFoundException, IOException, SQLException {
 		JMenuBar mtgMnuBar;
 		JMenu mnFile;
 		JMenu mnuAbout;

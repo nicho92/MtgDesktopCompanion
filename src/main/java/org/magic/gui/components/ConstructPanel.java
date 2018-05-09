@@ -278,9 +278,7 @@ public class ConstructPanel extends JPanel {
 
 		btnImport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
-
 			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
-
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.IMPORT) {
 
 					JMenuItem it = new JMenuItem();
@@ -289,12 +287,10 @@ public class ConstructPanel extends JPanel {
 					it.addActionListener(itEvent -> {
 						JFileChooser jf = new JFileChooser(".");
 						jf.setFileFilter(new FileFilter() {
-
 							@Override
 							public String getDescription() {
 								return exp.getName();
 							}
-
 							@Override
 							public boolean accept(File f) {
 								return (f.isDirectory() || f.getName().endsWith(exp.getFileExtension()));
@@ -315,8 +311,7 @@ public class ConstructPanel extends JPanel {
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",
-											f.getName(), exp));
+									loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(), exp));
 									deck = exp.importDeck(f);
 									JOptionPane.showMessageDialog(null,
 											MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
@@ -678,8 +673,7 @@ public class ConstructPanel extends JPanel {
 			ThreadManager.getInstance().execute(() -> {
 				try {
 					String searchName = txtSearch.getText();
-					List<MagicCard> cards = MTGControler.getInstance().getEnabledCardsProviders()
-							.searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null, false);
+					List<MagicCard> cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(cboAttributs.getSelectedItem().toString(), searchName, null, false);
 					MagicFormat form = new MagicFormat();
 
 					for (MagicCard m : cards) {

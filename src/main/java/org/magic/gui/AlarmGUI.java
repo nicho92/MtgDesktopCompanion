@@ -222,8 +222,7 @@ public class AlarmGUI extends JPanel {
 		btnImport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 
-			JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService()
-					.getCapitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
+			JMenuItem mnuImportSearch = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("IMPORT_FROM", MTGControler.getInstance().getLangService().get("SEARCH_MODULE")));
 			mnuImportSearch.setIcon(MTGConstants.ICON_SEARCH);
 
 			mnuImportSearch.addActionListener(importAE -> {
@@ -245,7 +244,6 @@ public class AlarmGUI extends JPanel {
 					it.addActionListener(itEvent -> {
 						JFileChooser jf = new JFileChooser(".");
 						jf.setFileFilter(new FileFilter() {
-
 							@Override
 							public String getDescription() {
 								return exp.getName();

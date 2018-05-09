@@ -22,8 +22,8 @@ public class BestCardsDashlet extends AbstractJDashlet {
 
 	private JXTable table;
 	private CardDominanceTableModel models;
-	JComboBox<MTGFormat> cboFormat;
-	JComboBox<String> cboFilter;
+	private JComboBox<MTGFormat> cboFormat;
+	private JComboBox<String> cboFilter;
 	private JLabel lblLoading;
 
 	public BestCardsDashlet() {

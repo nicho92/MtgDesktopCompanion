@@ -52,6 +52,7 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.gui.components.charts.CmcChartPanel;
@@ -581,40 +582,43 @@ public class CardSearchPanel extends JPanel {
 			JPopupMenu menu = new JPopupMenu();
 
 			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
-				JMenuItem it = new JMenuItem();
-				it.setIcon(exp.getIcon());
-				it.setText(exp.getName());
-				it.addActionListener(exportEvent -> {
-					JFileChooser jf = new JFileChooser(".");
-					jf.setSelectedFile(new File("search" + exp.getFileExtension()));
-					int result = jf.showSaveDialog(null);
-					final File f = jf.getSelectedFile();
+				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(exportEvent -> {
+						JFileChooser jf = new JFileChooser(".");
+						jf.setSelectedFile(new File("search" + exp.getFileExtension()));
+						int result = jf.showSaveDialog(null);
+						final File f = jf.getSelectedFile();
 
-					if (result == JFileChooser.APPROVE_OPTION)
-						ThreadManager.getInstance().execute(() -> {
-							try {
-								loading(true, "export " + exp);
+						if (result == JFileChooser.APPROVE_OPTION)
+							ThreadManager.getInstance().execute(() -> {
+								try {
+									loading(true, "export " + exp);
 
-								List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel())
-										.getListCards();
-								exp.export(export, f);
-								loading(false, "");
-								JOptionPane.showMessageDialog(null,
-										MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
-										exp.getName() + " "
-												+ MTGControler.getInstance().getLangService().get("FINISHED"),
-										JOptionPane.INFORMATION_MESSAGE);
-							} catch (Exception e) {
-								logger.error(e);
-								loading(false, "");
-								JOptionPane.showMessageDialog(null, e,
-										MTGControler.getInstance().getLangService().getError(),
-										JOptionPane.ERROR_MESSAGE);
-							}
-						}, "export search " + exp);
-				});
+									List<MagicCard> export = ((MagicCardTableModel) tableCards.getRowSorter().getModel())
+											.getListCards();
+									exp.export(export, f);
+									loading(false, "");
+									JOptionPane.showMessageDialog(null,
+											MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
+											exp.getName() + " "
+													+ MTGControler.getInstance().getLangService().get("FINISHED"),
+											JOptionPane.INFORMATION_MESSAGE);
+								} catch (Exception e) {
+									logger.error(e);
+									loading(false, "");
+									JOptionPane.showMessageDialog(null, e,
+											MTGControler.getInstance().getLangService().getError(),
+											JOptionPane.ERROR_MESSAGE);
+								}
+							}, "export search " + exp);
+					});
 
-				menu.add(it);
+					menu.add(it);
+				}
+				
 			}
 
 			Component b = (Component) ae.getSource();

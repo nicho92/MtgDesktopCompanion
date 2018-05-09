@@ -48,6 +48,7 @@ import org.magic.api.exports.impl.CSVExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.CardStockPanel;
 import org.magic.gui.components.JSONPanel;
@@ -298,55 +299,58 @@ public class CollectionPanelGUI extends JPanel {
 			JPopupMenu menu = new JPopupMenu();
 
 			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
-				JMenuItem it = new JMenuItem();
-				it.setIcon(exp.getIcon());
-				it.setText(exp.getName());
-				it.addActionListener(arg0 -> ThreadManager.getInstance().execute(() -> {
-					try {
+				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
+					JMenuItem it = new JMenuItem();
+					it.setIcon(exp.getIcon());
+					it.setText(exp.getName());
+					it.addActionListener(arg0 -> ThreadManager.getInstance().execute(() -> {
+						try {
 
-						DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
-						JFileChooser jf = new JFileChooser();
+							DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
+							JFileChooser jf = new JFileChooser();
 
-						MagicCollection mc = null;
-						MagicEdition ed = null;
+							MagicCollection mc = null;
+							MagicEdition ed = null;
 
-						if (curr.getUserObject() instanceof MagicEdition) {
-							ed = (MagicEdition) curr.getUserObject();
-							mc = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
-						} else {
-							mc = (MagicCollection) curr.getUserObject();
-						}
+							if (curr.getUserObject() instanceof MagicEdition) {
+								ed = (MagicEdition) curr.getUserObject();
+								mc = (MagicCollection) ((DefaultMutableTreeNode) curr.getParent()).getUserObject();
+							} else {
+								mc = (MagicCollection) curr.getUserObject();
+							}
 
-						jf.setSelectedFile(new File(mc.getName() + exp.getFileExtension()));
-						int result = jf.showSaveDialog(null);
-						File f = jf.getSelectedFile();
+							jf.setSelectedFile(new File(mc.getName() + exp.getFileExtension()));
+							int result = jf.showSaveDialog(null);
+							File f = jf.getSelectedFile();
 
-						exp.addObserver((Observable o, Object arg) -> progressBar.setValue((int) arg));
+							exp.addObserver((Observable o, Object arg) -> progressBar.setValue((int) arg));
 
-						if (result == JFileChooser.APPROVE_OPTION) {
-							progressBar.setVisible(true);
-							if (ed == null)
-								exp.export(dao.listCardsFromCollection(mc), f);
-							else
-								exp.export(dao.listCardsFromCollection(mc, ed), f);
+							if (result == JFileChooser.APPROVE_OPTION) {
+								progressBar.setVisible(true);
+								if (ed == null)
+									exp.export(dao.listCardsFromCollection(mc), f);
+								else
+									exp.export(dao.listCardsFromCollection(mc, ed), f);
 
+								progressBar.setVisible(false);
+								JOptionPane.showMessageDialog(null,
+										MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
+										MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
+										JOptionPane.INFORMATION_MESSAGE);
+
+							}
+
+						} catch (Exception e) {
+							logger.error(e);
 							progressBar.setVisible(false);
-							JOptionPane.showMessageDialog(null,
-									MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
-									MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-									JOptionPane.INFORMATION_MESSAGE);
-
+							JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),
+									JOptionPane.ERROR_MESSAGE);
 						}
+					}, "export collection with " + exp));
 
-					} catch (Exception e) {
-						logger.error(e);
-						progressBar.setVisible(false);
-						JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),
-								JOptionPane.ERROR_MESSAGE);
-					}
-				}, "export collection with " + exp));
-
-				menu.add(it);
+					menu.add(it);
+				}
+				
 			}
 
 			Component b = (Component) ae.getSource();
