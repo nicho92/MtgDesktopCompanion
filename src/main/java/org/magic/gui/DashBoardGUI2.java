@@ -38,15 +38,14 @@ public class DashBoardGUI2 extends JDesktopPane {
 		JMenu mnWindow = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("WINDOW"));
 		menuBar.add(mnWindow);
 
-		JMenuItem mntmSaveDisplay = new JMenuItem(
-				MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
+		JMenuItem mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
 		mntmSaveDisplay.addActionListener(ae -> {
 			int i = 0;
 
 			try {
 
 				if (!AbstractJDashlet.confdir.exists())
-						FileUtils.forceMkdir(AbstractJDashlet.confdir);
+					AbstractJDashlet.confdir.mkdirs();
 				
 				FileUtils.cleanDirectory(AbstractJDashlet.confdir);
 			} catch (IOException e1) {
@@ -78,9 +77,6 @@ public class DashBoardGUI2 extends JDesktopPane {
 
 		mnWindow.add(mntmSaveDisplay);
 		add(menuBar);
-
-		if (!AbstractJDashlet.confdir.exists())
-			AbstractJDashlet.confdir.mkdir();
 
 		
 		try {

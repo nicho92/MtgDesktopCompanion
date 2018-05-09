@@ -188,7 +188,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 		setProperty("DATE_FORMAT", "dd MMMM. H:m");
 		setProperty("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
 		setProperty("CERT_SERV", "www.leboncoin.fr");
-
+		setProperty("LOAD_CERTIFICATE", "false");
 	}
 
 	@Override
