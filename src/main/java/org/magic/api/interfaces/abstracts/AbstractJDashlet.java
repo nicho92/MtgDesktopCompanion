@@ -38,6 +38,14 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	public AbstractJDashlet() {
 		props = new Properties();
 
+
+		if (!confdir.exists())
+		{
+			boolean ret = confdir.mkdirs();
+			logger.debug(confdir + " doesn't exist, create it="+ret);
+			
+		}
+		
 		addInternalFrameListener(new InternalFrameAdapter() {
 			@Override
 			public void internalFrameClosed(InternalFrameEvent e) {
@@ -46,6 +54,8 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 					FileUtils.deleteQuietly(new File(confdir, dash.getProperties().get("id") + ".conf"));
 			}
 		});
+		
+		
 
 		setTitle(getName());
 		setResizable(true);
@@ -108,8 +118,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 					}
 
 					try {
-						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
-								.searchCardByCriteria("name", cardName, ed, true).get(0);
+						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", cardName, ed, true).get(0);
 						pane.setMagicCard(mc);
 						popUp.setBorder(new LineBorder(Color.black));
 						popUp.setVisible(false);

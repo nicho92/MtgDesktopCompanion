@@ -44,13 +44,6 @@ public class DashBoardGUI2 extends JDesktopPane {
 
 			try {
 
-				if (!AbstractJDashlet.confdir.exists())
-				{
-					boolean ret = AbstractJDashlet.confdir.mkdirs();
-					logger.debug(AbstractJDashlet.confdir + " doesn't exist, create it="+ret);
-					
-				}
-				
 				FileUtils.cleanDirectory(AbstractJDashlet.confdir);
 			} catch (IOException e1) {
 				logger.error(e1);
@@ -100,6 +93,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 			logger.error("Error", e);
 		}
 
+		System.out.println(AbstractJDashlet.confdir);
 	
 		for (File f : AbstractJDashlet.confdir.listFiles()) {
 			try {
