@@ -13,6 +13,7 @@ import java.util.TimerTask;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCardAlert;
+import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.services.MTGControler;
@@ -44,12 +45,11 @@ public class AlertTrendServer extends AbstractMTGServer {
 		running = true;
 		tache = new TimerTask() {
 			public void run() {
-				StringBuilder message = new StringBuilder();
+				List<CardShake> ret=new ArrayList<>();
 				if (MTGControler.getInstance().getEnabledDAO().listAlerts() != null)
 					for (MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().listAlerts()) {
-						Map<Date,Double> map = null;
 						try {
-							map = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet());
+							Map<Date,Double> map= MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet());
 							if(map!=null)
 							{
 								List<Entry<Date, Double>> res = new ArrayList<>(map.entrySet());
@@ -64,6 +64,8 @@ public class AlertTrendServer extends AbstractMTGServer {
 								
 								CardShake cs = new CardShake();
 								cs.setCard(alert.getCard());
+								cs.setName(cs.getCard().getName());
+
 								cs.setEd(cs.getCard().getCurrentSet().getSet());
 								cs.setDateUpdate(new Date());
 								cs.setPercentDayChange(pcDay);
@@ -73,22 +75,10 @@ public class AlertTrendServer extends AbstractMTGServer {
 								cs.setPrice(map.get(now));
 								alert.setShake(cs);
 								
-								if(Math.abs(pcDay)>=getInt("ALERT_MIN_PERCENT"))
-								{
-									
-										message.append(alert.getCard())
-											   .append("(")
-											   .append(alert.getCard().getCurrentSet().getId())
-											   .append(") : ")
-											   .append( (pcDay>0)?"+":"")
-											   .append(formatter.format(pcDay)+"%")
-											   .append(" -> ")
-											   .append(alert.getShake().getPrice())
-											   .append("$\n");
-								}			
 								
-								
-								
+								if(Math.abs(cs.getPercentDayChange())>=getInt("ALERT_MIN_PERCENT"))
+									ret.add(cs);
+							
 								if(getInt("THREAD_PAUSE")!=null)
 									Thread.sleep(getInt("THREAD_PAUSE"));
 							}
@@ -103,25 +93,30 @@ public class AlertTrendServer extends AbstractMTGServer {
 							running=false;
 						}
 						
+						System.out.println(ret);
 						
 						
 					}
 				
-				if(message.length()>0)
+				if(!ret.isEmpty())
 				{
 					MTGNotification notif = new MTGNotification();
-									notif.setTitle("Alerts Variation");
-									notif.setMessage(message.toString());
-									notif.setType(MessageType.INFO);
-				
+					notif.setTitle("Alert Trend Cards");
+					notif.setType(MessageType.INFO);
+					
 					for(String not : getString("NOTIFIER").split(","))
 					{
+						MTGNotifier notifier = MTGControler.getInstance().getNotifier(not);
+						notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
 						try {
-						MTGControler.getInstance().getNotifier(not).send(notif);
+							notifier.send(notif);
 						} catch (IOException e) {
 							logger.error(e);
 						}
 					}
+					
+					
+					
 				}
 				
 
