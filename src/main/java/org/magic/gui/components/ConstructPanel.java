@@ -88,7 +88,7 @@ public class ConstructPanel extends JPanel {
 	private JTable tableDeck;
 	private JTable tableSide;
 	private JList<MagicCard> listResult;
-	private JLabel lblExport = new JLabel("");
+	private JLabel lblExport;
 	private DrawProbabilityPanel cardDrawProbaPanel;
 
 	public static final int MAIN = 0;
@@ -136,8 +136,7 @@ public class ConstructPanel extends JPanel {
 		JScrollPane scrollResult;
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
-
-		lblExport.setIcon(MTGConstants.ICON_LOADING);
+		lblExport = new JLabel(MTGConstants.ICON_LOADING);
 		lblExport.setVisible(false);
 
 		setLayout(new BorderLayout(0, 0));
@@ -166,7 +165,7 @@ public class ConstructPanel extends JPanel {
 		btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 		panneauHaut.add(btnSearch);
 
-		final JLabel lblCards = new JLabel();
+		JLabel lblCards = new JLabel();
 		panneauHaut.add(lblCards);
 
 		JButton btnNewDeck = new JButton(MTGConstants.ICON_NEW);

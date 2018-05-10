@@ -37,6 +37,7 @@ import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
@@ -97,8 +98,8 @@ public class AlarmGUI extends JPanel {
 		btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		JPanel serversPanel = new JPanel();
-		ServerStatePanel oversightPanel = new ServerStatePanel(MTGControler.getInstance().getServer(AlertTrendServer.class));
-		ServerStatePanel serverPricePanel = new ServerStatePanel(MTGControler.getInstance().getServer(PricesCheckerTimer.class));
+		ServerStatePanel oversightPanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Trend Server", MTGServer.class));
+		ServerStatePanel serverPricePanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Price Checker", MTGServer.class));
 		new TableFilterHeader(table, AutoChoices.ENABLED);
 
 		

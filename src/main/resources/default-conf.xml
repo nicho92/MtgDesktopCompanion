@@ -352,6 +352,10 @@
             <class>org.magic.api.exports.impl.WebsiteImportExport</class>
             <enable>true</enable>
         </export>
+         <export>
+            <class>org.magic.api.exports.impl.PriceCatalogExport</class>
+            <enable>true</enable>
+        </export>
         <export>
             <class>org.magic.api.exports.impl.CocatriceDeckExport</class>
             <enable>true</enable>

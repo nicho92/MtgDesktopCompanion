@@ -44,7 +44,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.exports.impl.CSVExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
@@ -62,7 +61,6 @@ import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.MassCollectionImporterDialog;
 import org.magic.gui.components.dialog.MassMoverDialog;
-import org.magic.gui.components.dialog.PriceCatalogExportDialog;
 import org.magic.gui.components.dialog.WebSiteGeneratorDialog;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.gui.renderer.MagicCardsTreeCellRenderer;
@@ -119,7 +117,6 @@ public class CollectionPanelGUI extends JPanel {
 		JButton btnAddAllSet = new JButton(MTGConstants.ICON_CHECK);
 		JButton btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		JButton btnMassCollection = new JButton(MTGConstants.ICON_IMPORT);
-		JButton btnExportPriceCatalog = new JButton(MTGConstants.ICON_EURO);
 		JButton btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
 		JScrollPane scrollPaneCollections = new JScrollPane();
 		JSplitPane splitListPanel = new JSplitPane();
@@ -159,7 +156,6 @@ public class CollectionPanelGUI extends JPanel {
 		progressBar.setVisible(false);
 		btnRemove.setEnabled(true);
 		btnExport.setEnabled(false);
-		btnExportPriceCatalog.setEnabled(false);
 
 		splitPane.setResizeWeight(0.5);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
@@ -201,7 +197,6 @@ public class CollectionPanelGUI extends JPanel {
 		panneauHaut.add(btnAddAllSet);
 		panneauHaut.add(btnMassCollection);
 		panneauHaut.add(btnExport);
-		panneauHaut.add(btnExportPriceCatalog);
 		panneauHaut.add(btnGenerateWebSite);
 		panneauHaut.add(progressBar);
 		add(splitListPanel, BorderLayout.CENTER);
@@ -237,8 +232,6 @@ public class CollectionPanelGUI extends JPanel {
 		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
 		btnMassCollection
 				.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_IMPORT"));
-		btnExportPriceCatalog
-				.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_EXPORT_PRICES"));
 		btnGenerateWebSite
 				.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_WEBSITE"));
 
@@ -298,12 +291,13 @@ public class CollectionPanelGUI extends JPanel {
 		btnExport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 
-			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) {
+			for (final MTGCardsExport exp : MTGControler.getInstance().getEnabledDeckExports()) 
+			{
 				if (exp.getMods() == MODS.BOTH || exp.getMods() == MODS.EXPORT) {
 					JMenuItem it = new JMenuItem();
 					it.setIcon(exp.getIcon());
 					it.setText(exp.getName());
-					it.addActionListener(arg0 -> ThreadManager.getInstance().execute(() -> {
+					it.addActionListener(al -> ThreadManager.getInstance().execute(() -> {
 						try {
 
 							DefaultMutableTreeNode curr = (DefaultMutableTreeNode) path.getLastPathComponent();
@@ -377,17 +371,14 @@ public class CollectionPanelGUI extends JPanel {
 
 			if (curr.getUserObject() instanceof String) {
 				btnExport.setEnabled(false);
-				btnExportPriceCatalog.setEnabled(false);
 				statsPanel.enabledAdd(false);
 			}
 
 			if (curr.getUserObject() instanceof MagicCollection) {
 				btnExport.setEnabled(true);
-				btnExportPriceCatalog.setEnabled(true);
 				selectedcol = (MagicCollection) curr.getUserObject();
 				statsPanel.enabledAdd(false);
 				btnExport.setEnabled(true);
-				btnExportPriceCatalog.setEnabled(true);
 				ThreadManager.getInstance().execute(() -> {
 					try {
 
@@ -407,7 +398,6 @@ public class CollectionPanelGUI extends JPanel {
 			if (curr.getUserObject() instanceof MagicEdition) {
 				magicEditionDetailPanel.setMagicEdition((MagicEdition) curr.getUserObject());
 				btnExport.setEnabled(true);
-				btnExportPriceCatalog.setEnabled(false);
 				statsPanel.enabledAdd(false);
 				ThreadManager.getInstance().execute(() -> {
 					try {
@@ -430,8 +420,6 @@ public class CollectionPanelGUI extends JPanel {
 				final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent())
 						.getUserObject();
 				btnExport.setEnabled(false);
-				btnExportPriceCatalog.setEnabled(false);
-
 				magicCardDetailPanel.setMagicCard((MagicCard) curr.getUserObject());
 				magicEditionDetailPanel.setMagicEdition(card.getCurrentSet());
 				magicCardDetailPanel.enableThumbnail(true);
@@ -507,31 +495,7 @@ public class CollectionPanelGUI extends JPanel {
 			model.fireTableDataChanged();
 		});
 
-		btnExportPriceCatalog.addActionListener(ae ->
-
-		ThreadManager.getInstance().execute(() -> {
-			try {
-				PriceCatalogExportDialog diag = new PriceCatalogExportDialog(selectedcol);
-				diag.setVisible(true);
-				if (diag.value()) {
-					progressBar.setVisible(true);
-					progressBar.setStringPainted(true);
-					progressBar.setMinimum(0);
-					progressBar.setMaximum(dao.getCardsCount(selectedcol, null));
-					CSVExport exp = new CSVExport();
-					exp.addObserver((Observable o, Object arg) -> progressBar.setValue((int) arg));
-					exp.exportPriceCatalog(dao.listCardsFromCollection(selectedcol), diag.getDest(),
-							diag.getPriceProviders());
-
-					JOptionPane.showMessageDialog(null,
-							MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"));
-					progressBar.setVisible(false);
-				}
-			} catch (Exception e) {
-				logger.error(e);
-			}
-		}, "btnExportPriceCatalog export Prices"));
-
+		
 		btnGenerateWebSite.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
 			try {
 

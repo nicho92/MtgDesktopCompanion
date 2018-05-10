@@ -112,52 +112,6 @@ public class CSVExport extends AbstractCardExport {
 
 	}
 
-	public void exportPriceCatalog(List<MagicCard> cards, File f, MTGPricesProvider prov) throws IOException {
-		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
-			exportedProperties = getString("exportedProperties").split(",");
-			exportedPricesProperties = getString("exportedPricesProperties").split(",");
-
-			for (String k : exportedProperties)
-				bw.write(k + ";");
-			for (String k : exportedPricesProperties)
-				bw.write(k + ";");
-
-			bw.write("\n");
-			int i = 0;
-			for (MagicCard mc : cards) {
-				for (MagicPrice prices : prov.getPrice(mc.getCurrentSet(), mc)) {
-					for (String k : exportedProperties) {
-						String val;
-						try {
-							val = BeanUtils.getProperty(mc, k);
-							if (val == null)
-								val = "";
-							bw.write(val.replaceAll("\n", "") + ";");
-						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-							throw new IOException(e);
-						}
-					}
-
-					for (String p : exportedPricesProperties) {
-						String val;
-						try {
-							val = BeanUtils.getProperty(prices, p);
-							if (val == null)
-								val = "";
-							bw.write(val.replaceAll("\n", "") + ";");
-						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-							throw new IOException(e);
-						}
-
-					}
-					bw.write("\n");
-				}
-				setChanged();
-				notifyObservers(i++);
-			}
-		}
-	}
-
 	@Override
 	public void export(List<MagicCard> cards, File f) throws IOException {
 
@@ -279,7 +233,6 @@ public class CSVExport extends AbstractCardExport {
 	public void initDefault() {
 		setProperty("exportedProperties", "number,name,cost,supertypes,types,subtypes,editions");
 		setProperty("exportedDeckProperties", "name,cost,supertypes,types,subtypes,editions[0].id");
-		setProperty("exportedPricesProperties", "site,seller,value,currency,language,quality,foil");
 		setProperty("importDeckCharSeparator", ";");
 
 	}

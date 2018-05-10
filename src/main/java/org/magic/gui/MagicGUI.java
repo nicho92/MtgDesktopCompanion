@@ -24,6 +24,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.notifiers.impl.OSTrayNotifier;
 import org.magic.gui.components.CardSearchPanel;
 import org.magic.gui.components.LoggerViewPanel;
@@ -48,7 +49,7 @@ public class MagicGUI extends JFrame {
 
 		
 		try {
-			osNotifier = MTGControler.getInstance().getNotifier("Tray");
+			osNotifier = (OSTrayNotifier)MTGControler.getInstance().getPlugin("Tray",MTGNotifier.class);
 		}
 		catch(Exception e)
 		{

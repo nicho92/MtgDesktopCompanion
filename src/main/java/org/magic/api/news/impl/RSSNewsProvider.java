@@ -49,7 +49,10 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 				MagicNewsContent content = new MagicNewsContent();
 				content.setTitle(s.getTitle());
 				content.setAuthor(s.getAuthor());
-				content.setDate(s.getPublishedDate());
+				if(s.getPublishedDate()==null)
+					content.setDate(s.getUpdatedDate());
+				else
+					content.setDate(s.getPublishedDate());
 				URL link;
 				if (!s.getLink().startsWith(baseURI))
 					link = new URL(baseURI + s.getLink());

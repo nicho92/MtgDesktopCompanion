@@ -72,7 +72,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 					{
 						try {
 										
-							MTGNotifier notifier = MTGControler.getInstance().getNotifier(not);
+							MTGNotifier notifier = MTGControler.getInstance().getPlugin(not, MTGNotifier.class);
 							notif.setMessage(notifFormater.generate(notifier.getFormat(), MTGControler.getInstance().getEnabledDAO().listAlerts(), MagicCardAlert.class));
 							notifier.send(notif);
 						} catch (IOException e) {

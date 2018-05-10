@@ -29,7 +29,7 @@ public class OversightServer extends AbstractMTGServer {
 
 	@Override
 	public String description() {
-		return "oversight for daily prices variations";
+		return "Oversight for daily prices variations";
 	}
 
 	public OversightServer() {
@@ -45,11 +45,8 @@ public class OversightServer extends AbstractMTGServer {
 					List<CardShake> ret=null;
 					try {
 						ret = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(null);
-						
 						ret.removeIf(cs->Math.abs(cs.getPercentDayChange())<getInt("ALERT_MIN_PERCENT"));
-						
 						Collections.sort(ret, new CardsShakeSorter(SORT.valueOf(getString("SORT_FILTER"))));
-						
 					} catch (IOException e1) {
 						logger.error(e1);
 					}
@@ -60,7 +57,7 @@ public class OversightServer extends AbstractMTGServer {
 									
 					for(String not : getString("NOTIFIER").split(","))
 					{
-						MTGNotifier notifier = MTGControler.getInstance().getNotifier(not);
+						MTGNotifier notifier = MTGControler.getInstance().getPlugin(not, MTGNotifier.class);
 						notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
 						try {
 							notifier.send(notif);

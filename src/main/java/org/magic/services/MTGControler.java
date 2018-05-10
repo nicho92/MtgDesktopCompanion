@@ -39,6 +39,7 @@ import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.api.notifiers.impl.NullNotifier;
 import org.magic.game.model.Player;
 import org.magic.services.extra.KeyWordProvider;
@@ -428,21 +429,14 @@ public class MTGControler {
 		return enable;
 	}
 
-	public <T  extends AbstractMTGServer> T getServer(Class<T> class1) {
-		for(MTGServer s : getServers())
-			if(s.getClass()==class1)
-				return (T)s;
-		return null;
-	}
-	
 	@SuppressWarnings("unchecked")
-	public <T  extends AbstractMTGNotifier> T getNotifier(String className) {
-		for(MTGNotifier s : getEnabledNotifiers()) {
-			if(s.getName().equalsIgnoreCase(className))
+	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
+		for(MTGPlugin s : PluginRegistry.inst().listPlugins(type)) {
+			if(s.getName().equalsIgnoreCase(name))
 				return (T) s;
 		
 		}
-		logger.error(className + " doesn't exist or is not enabled");
-		return (T) new NullNotifier();
+		logger.error(name + " doesn't exist or is not enabled");
+		return null;
 	}
 }

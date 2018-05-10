@@ -78,6 +78,11 @@ public class ServerStatePanel extends JPanel {
 
 		TimerTask tache = new TimerTask() {
 			public void run() {
+				
+				btnStartStop.setEnabled(server.isEnable());
+				lblName.setEnabled(server.isEnable());
+				lblalive.setEnabled(server.isEnable());
+				
 				if (server.isAlive())
 					btnStartStop.setText(MTGControler.getInstance().getLangService().getCapitalize("STOP"));
 				else
