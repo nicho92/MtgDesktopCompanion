@@ -431,12 +431,6 @@ public class MTGControler {
 
 	@SuppressWarnings("unchecked")
 	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
-		for(MTGPlugin s : PluginRegistry.inst().listPlugins(type)) {
-			if(s.getName().equalsIgnoreCase(name))
-				return (T) s;
-		
-		}
-		logger.error(name + " doesn't exist or is not enabled");
-		return null;
+		return PluginRegistry.inst().getPlugin(name,type);
 	}
 }

@@ -82,20 +82,16 @@ public class AlertTrendServer extends AbstractMTGServer {
 								if(getInt("THREAD_PAUSE")!=null)
 									Thread.sleep(getInt("THREAD_PAUSE"));
 							}
-						} catch (IOException e)
-						{
-							
-							logger.error(e);
 						}
-						catch(InterruptedException e)
+						catch(IOException e1)
+						{
+							logger.error(e1);
+						}
+						catch(Exception e)
 						{
 							logger.error(e);
 							running=false;
 						}
-						
-						System.out.println(ret);
-						
-						
 					}
 				
 				if(!ret.isEmpty())

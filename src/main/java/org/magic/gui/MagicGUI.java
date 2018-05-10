@@ -53,7 +53,8 @@ public class MagicGUI extends JFrame {
 		}
 		catch(Exception e)
 		{
-			osNotifier=null;
+			logger.error("error loading osNotifier",e);
+			osNotifier=new OSTrayNotifier();
 		}
 		
 		
@@ -284,13 +285,10 @@ public class MagicGUI extends JFrame {
 		
 				if (serviceUpdate.hasNewVersion())
 				{
-					MTGNotification notif = new MTGNotification();
-					notif.setType(MessageType.INFO);
-					notif.setTitle(getTitle());
-					notif.setMessage(MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION") + " "
+					String msg=(MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION") + " "
 									+ serviceUpdate.getOnlineVersion() + " "
 									+ MTGControler.getInstance().getLangService().get("AVAILABLE"));
-					
+					MTGNotification notif = new MTGNotification(getTitle(),msg,MessageType.INFO);
 					osNotifier.send(notif);
 				}
 			}

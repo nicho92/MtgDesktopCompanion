@@ -18,6 +18,15 @@ public class MTGNotification {
 		type=MessageType.INFO;
 	}
 	
+	public MTGNotification(String title,String msg,MessageType t)
+	{
+		this.message=msg;
+		this.title=title;
+		date = new Date();
+		type=t;
+	}
+	
+	
 	@Override
 	public String toString() {
 		return getDate() + ":"+ getMessage();
