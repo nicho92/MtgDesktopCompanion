@@ -33,6 +33,8 @@ import com.google.gson.JsonParser;
 
 public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
+	private static final String MAX_RESULT = "MAX_RESULT";
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	String dsite = "www.decktutor.com";
 
 	@Override
@@ -64,11 +66,11 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		cookieStore = new BasicCookieStore();
 		httpContext = new BasicHttpContext();
 		parser = new JsonParser();
-		if(getBoolean("LOAD_CERTIFICATE"))
+		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
 				InstallCert.installCert("mtgdecks.net");
-				setProperty("LOAD_CERTIFICATE", "false");
+				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -133,8 +135,8 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		JsonObject obj = new JsonObject();
 		obj.add("search", jsonparams);
 
-		if (getString("MAX_RESULT") != null)
-			obj.addProperty("limit", getString("MAX_RESULT"));
+		if (getString(MAX_RESULT) != null)
+			obj.addProperty("limit", getString(MAX_RESULT));
 
 		logger.debug(getName() + " request :" + obj);
 		reqSearch.setEntity(new StringEntity(obj.toString()));
@@ -198,10 +200,10 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		setProperty("WEBSITE", "https://" + dsite);
 		setProperty("LANG", "en");
 		setProperty("LOGIN", "login");
-		setProperty("MAX_RESULT", "");
+		setProperty(MAX_RESULT, "");
 		setProperty("PASS", "PASS");
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
-		setProperty("LOAD_CERTIFICATE", "true");
+		setProperty(LOAD_CERTIFICATE, "true");
 
 	}
 

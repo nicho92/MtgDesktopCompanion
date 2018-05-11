@@ -20,6 +20,8 @@ import org.magic.services.MTGControler;
 
 public class LotusNoirDecks extends AbstractDeckSniffer {
 
+	private static final String MAX_PAGE = "MAX_PAGE";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -70,11 +72,11 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		String decksUrl = getString("URL") + "?dpage=" + getString("MAX_PAGE") + "&action=" + getString("FORMAT");
+		String decksUrl = getString("URL") + "?dpage=" + getString(MAX_PAGE) + "&action=" + getString("FORMAT");
 
 		logger.debug("snif decks : " + decksUrl);
 
-		int nbPage = Integer.parseInt(getString("MAX_PAGE"));
+		int nbPage = Integer.parseInt(getString(MAX_PAGE));
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (int i = 1; i <= nbPage; i++) {
@@ -125,7 +127,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	public void initDefault() {
 		setProperty("URL", "http://www.lotusnoir.info/magic/decks/");
 		setProperty("FORMAT", "decks-populaires");
-		setProperty("MAX_PAGE", "2");
+		setProperty(MAX_PAGE, "2");
 		setProperty("TIMEOUT", "0");
 
 	}

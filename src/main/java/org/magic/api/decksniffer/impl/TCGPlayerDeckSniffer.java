@@ -22,6 +22,8 @@ import org.magic.tools.IncapsulaParser;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
+	private static final String FORMAT = "FORMAT";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -94,14 +96,14 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		String url = getString("URL") + "/magic/deck/search?format=" + getString("FORMAT") + "&page=1";
+		String url = getString("URL") + "/magic/deck/search?format=" + getString(FORMAT) + "&page=1";
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage = 1;
 		int maxPage = Integer.parseInt(getString("MAX_PAGE"));
 
 		for (int i = 1; i <= maxPage; i++) {
-			url = getString("URL") + "/magic/deck/search?format=" + getString("FORMAT") + "&page=" + nbPage;
+			url = getString("URL") + "/magic/deck/search?format=" + getString(FORMAT) + "&page=" + nbPage;
 			Document d = Jsoup.parse(IncapsulaParser.readUrl(url));
 			Elements table = d.getElementsByClass("dataTable");
 
@@ -161,7 +163,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("FORMAT", "standard");
+		setProperty(FORMAT, "standard");
 		setProperty("URL", "https://decks.tcgplayer.com");
 		setProperty("MAX_PAGE", "1");
 

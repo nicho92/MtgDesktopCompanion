@@ -38,7 +38,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private static String baseURI = "https://api.scryfall.com";
 	private JsonParser parser;
-	private String encoding = "UTF-8";
+	private String encoding = MTGConstants.DEFAULT_ENCODING;
 	private String version;
 
 	public ScryFallProvider() {

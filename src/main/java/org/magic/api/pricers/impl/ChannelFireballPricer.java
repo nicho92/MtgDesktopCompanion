@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -35,24 +36,24 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		String keyword = card.getName();
 		String url = getString("URL");
 
-		keyword = URLEncoder.encode(keyword, getString("ENCODING"));
+		keyword = URLEncoder.encode(keyword, MTGConstants.DEFAULT_ENCODING);
 
 		setProperty("KEYWORD", keyword);
 
 		if (me != null)
-			keyword += "&setname=" + URLEncoder.encode(me.getSet(), getString("ENCODING"));
+			keyword += "&setname=" + URLEncoder.encode(me.getSet(), MTGConstants.DEFAULT_ENCODING);
 
 		String link = url.replaceAll("%CARDNAME%", keyword);
 
 		logger.info(getName() + " Looking for price " + link);
-		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), getString("ENCODING")));
+		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), MTGConstants.DEFAULT_ENCODING));
 		JsonElement root = new JsonParser().parse(reader);
 
 		String value = root.getAsJsonArray().get(0).getAsString();
 
 		MagicPrice mp = new MagicPrice();
 		mp.setUrl("http://store.channelfireball.com/products/search?query="
-				+ URLEncoder.encode(card.getName(), getString("ENCODING")));
+				+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING));
 		mp.setSite(getName());
 		mp.setCurrency(value.substring(0, 1));
 		mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));
@@ -81,7 +82,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		setProperty("MAX", "5");
 		setProperty("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
 		setProperty("WEBSITE", "http://store.channelfireball.com/");
-		setProperty("ENCODING", "UTF-8");
+		
 		setProperty("KEYWORD", "");
 
 	}

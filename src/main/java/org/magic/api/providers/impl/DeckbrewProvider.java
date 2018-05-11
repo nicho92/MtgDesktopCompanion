@@ -17,6 +17,7 @@ import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
+import org.magic.services.MTGConstants;
 import org.magic.tools.InstallCert;
 
 import com.google.gson.Gson;
@@ -27,10 +28,11 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 public class DeckbrewProvider extends AbstractCardsProvider {
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private String urldeckbrewJSON = "https://api.deckbrew.com/mtg";
 	private Gson gson;
 	private List<MagicEdition> list;
-	private String encoding = "UTF-8";
+	private String encoding = MTGConstants.DEFAULT_ENCODING;
 
 	public DeckbrewProvider() {
 		super();
@@ -41,11 +43,11 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 	}
 
 	public void init() {
-		if(getBoolean("LOAD_CERTIFICATE"))
+		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
 				InstallCert.installCert("mtgdecks.net");
-				setProperty("LOAD_CERTIFICATE", "false");
+				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -256,7 +258,7 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("LOAD_CERTIFICATE", "true");
+		setProperty(LOAD_CERTIFICATE, "true");
 
 	}
 

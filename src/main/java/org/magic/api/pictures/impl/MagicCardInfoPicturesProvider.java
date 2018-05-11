@@ -19,6 +19,8 @@ import org.magic.tools.InstallCert;
 
 public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -30,11 +32,11 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	public MagicCardInfoPicturesProvider() {
 		super();
 
-		if(getBoolean("LOAD_CERTIFICATE"))
+		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
 				InstallCert.installCert("mtgdecks.net");
-				setProperty("LOAD_CERTIFICATE", "false");
+				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -123,7 +125,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		setProperty("WEBSITE", "https://magiccards.info/scans/");
 		setProperty("LANG", "en");
 		
-		setProperty("LOAD_CERTIFICATE", "true");
+		setProperty(LOAD_CERTIFICATE, "true");
 		
 	}
 

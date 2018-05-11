@@ -132,7 +132,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		else
 			jsonparams.add("cards", new Gson().toJsonTree(getCards(me)));
 
-		FileUtils.writeStringToFile(new File(setDirectory, me.getId() + ext), jsonparams.toString(), "UTF-8");
+		FileUtils.writeStringToFile(new File(setDirectory, me.getId() + ext), jsonparams.toString(), MTGConstants.DEFAULT_ENCODING);
 
 	}
 

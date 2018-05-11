@@ -16,6 +16,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
@@ -80,7 +81,7 @@ public class JsonExport extends AbstractCardExport {
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
 
-		FileUtils.writeStringToFile(dest, toJson(deck).toString(), "UTF-8");
+		FileUtils.writeStringToFile(dest, toJson(deck).toString(), MTGConstants.DEFAULT_ENCODING);
 	}
 
 	public JsonObject toJson(MagicDeck deck) {

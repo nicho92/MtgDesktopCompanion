@@ -42,6 +42,7 @@ import com.google.gson.JsonParser;
 
 public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
+	private static final String LOGIN2 = "LOGIN";
 	private CookieStore cookieStore;
 	private HttpClient httpclient;
 	private HttpContext httpContext;
@@ -91,7 +92,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		HttpPost login = new HttpPost("https://tappedout.net/accounts/login/");
 		List<NameValuePair> nvps = new ArrayList<>();
 		nvps.add(new BasicNameValuePair("next", "/"));
-		nvps.add(new BasicNameValuePair("username", getString("LOGIN")));
+		nvps.add(new BasicNameValuePair("username", getString(LOGIN2)));
 		nvps.add(new BasicNameValuePair("PASS", getString("PASS")));
 		nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", getCookieValue("csrftoken")));
 		login.setEntity(new UrlEncodedFormEntity(nvps));
@@ -99,7 +100,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		login.addHeader("Upgrade-Insecure-Requests", "1");
 		login.addHeader("Origin", "https://tappedout.net");
 		HttpResponse resp = httpclient.execute(login, httpContext);
-		logger.debug("Connection OK : " + getString("LOGIN") + " " + resp.getStatusLine().getStatusCode());
+		logger.debug("Connection OK : " + getString(LOGIN2) + " " + resp.getStatusLine().getStatusCode());
 	}
 
 	@Override
@@ -211,7 +212,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("LOGIN", "login@mail.com");
+		setProperty(LOGIN2, "login@mail.com");
 		setProperty("PASS", "changeme");
 		setProperty("FORMAT", "standard");
 		

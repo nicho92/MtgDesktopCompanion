@@ -16,6 +16,8 @@ import org.magic.services.MTGConstants;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
+	private static final String PICS_DIR = "PICS_DIR";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -24,7 +26,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	BufferedImage back;
 
 	public void savePicture(BufferedImage bi, MagicCard mc, MagicEdition ed) throws IOException {
-		File mainDir = getFile("PICS_DIR");
+		File mainDir = getFile(PICS_DIR);
 		File edDir = new File(mainDir, ed.getId());
 
 		if (!edDir.exists())
@@ -35,7 +37,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	public void removePicture(MagicEdition ed, MagicCard mc) {
-		File mainDir = getFile("PICS_DIR");
+		File mainDir = getFile(PICS_DIR);
 		File edDir = new File(mainDir, ed.getId());
 		FileUtils.deleteQuietly(new File(edDir, mc.getId() + "." + getString("FORMAT")));
 	}
@@ -43,8 +45,8 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public PersonalSetPicturesProvider() {
 		super();
 
-		if (!getFile("PICS_DIR").exists())
-			getFile("PICS_DIR").mkdir();
+		if (!getFile(PICS_DIR).exists())
+			getFile(PICS_DIR).mkdir();
 
 	}
 
@@ -55,7 +57,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
-		File mainDir = getFile("PICS_DIR");
+		File mainDir = getFile(PICS_DIR);
 		File edDir = new File(mainDir, ed.getId());
 		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
 		if (edDir.exists())
@@ -83,7 +85,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public void initDefault() {
 		super.initDefault();
 		
-		setProperty("PICS_DIR",new File(MTGConstants.CONF_DIR,"/sets/privatePics").getAbsolutePath());
+		setProperty(PICS_DIR,new File(MTGConstants.CONF_DIR,"/sets/privatePics").getAbsolutePath());
 		setProperty("FORMAT","PNG");
 	}
 

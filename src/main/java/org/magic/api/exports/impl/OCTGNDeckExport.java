@@ -19,6 +19,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -26,6 +27,8 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 public class OCTGNDeckExport extends AbstractCardExport {
+
+	private static final String SHARED = "SHARED";
 
 	@Override
 	public STATUT getStatut() {
@@ -39,15 +42,15 @@ public class OCTGNDeckExport extends AbstractCardExport {
 	public void export(MagicDeck deck, File dest) throws IOException {
 		StringBuilder temp = new StringBuilder();
 
-		temp.append("<?xml version='1.0' encoding='utf-8' standalone='yes'?>");
+		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("' standalone='yes'?>");
 		temp.append("<deck game='" + getString("MAGIC_GAME_ID") + "' sleeveid='" + getString("SLEEVE_ID") + "' >");
-		temp.append("<section name='Main' shared='" + getString("SHARED") + "'>");
+		temp.append("<section name='Main' shared='" + getString(SHARED) + "'>");
 		for (MagicCard mc : deck.getMap().keySet()) {
 			temp.append("<card qty='").append(deck.getMap().get(mc)).append("' id='" + mc.getId() + "'>")
 					.append(mc.getName()).append("</card>");
 		}
 		temp.append("</section>");
-		temp.append("<section name='Sideboard' shared='" + getString("SHARED") + "'>");
+		temp.append("<section name='Sideboard' shared='" + getString(SHARED) + "'>");
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("<card qty='").append(deck.getMapSideBoard().get(mc)).append("' id='" + mc.getId() + "'>")
 					.append(mc.getName()).append("</card>");
@@ -58,7 +61,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 		temp.append("</deck>");
 
-		FileUtils.writeStringToFile(dest, temp.toString(), "UTF-8");
+		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
 
 	}
 
@@ -120,7 +123,7 @@ public class OCTGNDeckExport extends AbstractCardExport {
 	public void initDefault() {
 		setProperty("MAGIC_GAME_ID", "a6c8d2e8-7cd8-11dd-8f94-e62b56d89593");
 		setProperty("SLEEVE_ID", "0");
-		setProperty("SHARED", "False");
+		setProperty(SHARED, "False");
 
 	}
 

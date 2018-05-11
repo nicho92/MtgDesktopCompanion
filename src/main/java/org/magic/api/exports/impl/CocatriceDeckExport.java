@@ -19,6 +19,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
@@ -44,7 +45,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		int c = 0;
 		String endZoneTag = "</zone>";
 
-		temp.append("<?xml version='1.0' encoding='UTF-8'?>");
+		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("'?>");
 		temp.append("<cockatrice_deck version='" + getString("VERSION") + "'>");
 		temp.append("<deckname>").append(deck.getName()).append("</deckname>");
 		temp.append("<comments>").append(deck.getDescription()).append("</comments>");
@@ -64,7 +65,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		temp.append(endZoneTag);
 		temp.append("</cockatrice_deck>");
 
-		FileUtils.writeStringToFile(dest, temp.toString(), "UTF-8");
+		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
 
 	}
 

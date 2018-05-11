@@ -15,6 +15,7 @@ import org.magic.services.MTGConstants;
 
 public class WebManagerServer extends AbstractMTGServer {
 
+	private static final String SERVER_PORT = "SERVER-PORT";
 	private Server server;
 	private URL webRootLocation;
 
@@ -24,7 +25,7 @@ public class WebManagerServer extends AbstractMTGServer {
 
 	public WebManagerServer() {
 		super();
-		server = new Server(getInt("SERVER-PORT"));
+		server = new Server(getInt(SERVER_PORT));
 
 		webRootLocation = MTGConstants.WEBUI_LOCATION;
 		if (webRootLocation == null) {
@@ -47,14 +48,14 @@ public class WebManagerServer extends AbstractMTGServer {
 		URL u = null;
 		try {
 			u = this.getClass().getResource("/web-ui/dist/js/rest-server.js");
-			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='" + getString("REST_BACKEND_URI") + "';","UTF-8");
+			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='" + getString("REST_BACKEND_URI") + "';",MTGConstants.DEFAULT_ENCODING);
 		} catch (Exception e) {
 			logger.error("couldn't write js rest file " + u, e);
 		}
 
 		try {
 			server.start();
-			logger.info("Server start on port " + getInt("SERVER-PORT") + " @ " + webRootLocation);
+			logger.info("Server start on port " + getInt(SERVER_PORT) + " @ " + webRootLocation);
 		} catch (Exception e) {
 			throw new IOException(e);
 		}
@@ -103,7 +104,7 @@ public class WebManagerServer extends AbstractMTGServer {
 
 	@Override
 	public void initDefault() {
-		setProperty("SERVER-PORT", "80");
+		setProperty(SERVER_PORT, "80");
 		setProperty("AUTOSTART", "false");
 		setProperty("ALLOW_LIST_DIR", "false");
 		setProperty("REST_BACKEND_URI", "http://localhost:8080");

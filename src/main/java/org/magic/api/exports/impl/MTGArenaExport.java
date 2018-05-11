@@ -20,6 +20,7 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class MTGArenaExport extends AbstractCardExport {
@@ -71,7 +72,7 @@ public class MTGArenaExport extends AbstractCardExport {
 				
 			}
 
-		FileUtils.writeStringToFile(dest, temp.toString(), "UTF-8");
+		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
 		
 		
 		StringSelection selection = new StringSelection(temp.toString());

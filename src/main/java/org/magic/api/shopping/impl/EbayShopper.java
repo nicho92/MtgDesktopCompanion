@@ -12,6 +12,7 @@ import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
 import org.magic.api.pricers.impl.EbayPricer;
+import org.magic.services.MTGConstants;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -42,13 +43,13 @@ public class EbayShopper extends AbstractMagicShopper {
 			url = url.replaceAll("%COUNTRY%", getString("COUNTRY"));
 			url = url.replaceAll("%MAX%", getString("MAX"));
 
-			String keyword = URLEncoder.encode(search, getString("ENCODING"));
+			String keyword = URLEncoder.encode(search, MTGConstants.DEFAULT_ENCODING);
 
 			String link = url.replaceAll("%KEYWORD%", keyword);
 
 			logger.info(getName() + " looking for " + link);
 
-			try (JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), "UTF-8"))) {
+			try (JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), MTGConstants.DEFAULT_ENCODING))) {
 				JsonElement root = new JsonParser().parse(reader);
 				JsonElement articles = root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray()
 						.get(0).getAsJsonObject().get("searchResult");

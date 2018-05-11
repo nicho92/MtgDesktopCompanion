@@ -23,6 +23,7 @@ import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
 
+	private static final String MULTI = "Multi";
 	private MTGCardsExport serialis;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -165,7 +166,7 @@ public class MTGDeckManager extends Observable {
 				}
 				
 				if (card.getColors().size() > 1) {
-					colors.put("Multi", colors.get("Multi")==null? 1 : colors.get("Multi")+1);
+					colors.put(MULTI, colors.get(MULTI)==null? 1 : colors.get(MULTI)+1);
 				}
 			}
 			else 

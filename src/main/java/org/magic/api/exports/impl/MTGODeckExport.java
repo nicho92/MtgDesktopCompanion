@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class MTGODeckExport extends AbstractCardExport {
@@ -48,7 +49,7 @@ public class MTGODeckExport extends AbstractCardExport {
 			temp.append("SB: ").append(deck.getMapSideBoard().get(mc)).append(" ").append(mc.getName()).append("\n");
 		}
 
-		FileUtils.writeStringToFile(dest, temp.toString(), "UTF-8");
+		FileUtils.writeStringToFile(dest, temp.toString(), MTGConstants.DEFAULT_ENCODING);
 	}
 
 	@Override

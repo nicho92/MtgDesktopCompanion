@@ -17,10 +17,11 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.services.MTGConstants;
 
 public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 
-	private String encoding = "UTF-8";
+	private String encoding = MTGConstants.DEFAULT_ENCODING;
 
 	@Override
 	public STATUT getStatut() {

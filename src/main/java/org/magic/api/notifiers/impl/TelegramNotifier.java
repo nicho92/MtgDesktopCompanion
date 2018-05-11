@@ -13,6 +13,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
+import org.magic.services.MTGConstants;
 
 public class TelegramNotifier extends AbstractMTGNotifier {
 
@@ -29,7 +30,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 
 		String apiToken = getString("TOKEN");
 		String chatId = getString("CHANNEL");
-		String msg = URLEncoder.encode(notification.getMessage(),"UTF-8");
+		String msg = URLEncoder.encode(notification.getMessage(),MTGConstants.DEFAULT_ENCODING);
 		
 		if(msg.length()>4096)
 		{

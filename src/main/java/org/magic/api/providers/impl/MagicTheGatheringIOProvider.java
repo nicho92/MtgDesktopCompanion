@@ -24,6 +24,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
+import org.magic.services.MTGConstants;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -33,11 +34,22 @@ import com.google.gson.stream.JsonReader;
 
 public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
+	private static final String TOUGHNESS = "toughness";
+	private static final String POWER = "power";
+	private static final String MULTIVERSEID = "multiverseid";
+	private static final String RARITY = "rarity";
+	private static final String NUMBER = "number";
+	private static final String LAYOUT = "layout";
+	private static final String FOREIGN_NAMES = "foreignNames";
+	private static final String TEXT = "text";
+	private static final String ORIGINAL_TEXT = "originalText";
+	private static final String ARTIST = "artist";
+	
+	
 	private String jsonUrl = "https://api.magicthegathering.io/v1";
 	private File fcacheCount = new File(confdir, "mtgio.cache");
 	private Properties propsCache;
-	private String encoding = "UTF-8";
-
+	
 	public MagicTheGatheringIOProvider() {
 		super();
 		init();
@@ -73,7 +85,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		List<MagicCard> lists = new ArrayList<>();
 		URLConnection con = null;
 		int page = 1;
-		String url = jsonUrl + "/cards?" + att + "=" + URLEncoder.encode(crit, encoding);
+		String url = jsonUrl + "/cards?" + att + "=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING);
 		logger.debug(url);
 
 		con = getConnection(url);
@@ -83,10 +95,10 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		int totalcount = con.getHeaderFieldInt("Total-Count", 0);
 
 		while (count < totalcount) {
-			url = jsonUrl + "/cards?" + att + "=" + URLEncoder.encode(crit, encoding) + "&page=" + page++;
+			url = jsonUrl + "/cards?" + att + "=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING) + "&page=" + page++;
 			logger.debug(url);
 			con = getConnection(url);
-			reader = new JsonReader(new InputStreamReader(con.getInputStream(), encoding));
+			reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
 			JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");
 			for (int i = 0; i < jsonList.size(); i++) {
 				lists.add(generateCard(jsonList.get(i).getAsJsonObject()));
@@ -98,7 +110,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
-		return searchCardByCriteria("number", id, me, true).get(0);
+		return searchCardByCriteria(NUMBER, id, me, true).get(0);
 	}
 
 	private MagicCard generateCard(JsonObject obj) throws IOException {
@@ -117,30 +129,30 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		if (obj.get("manaCost") != null)
 			mc.setCost(obj.get("manaCost").getAsString());
 
-		if (obj.get("text") != null)
-			mc.setText(obj.get("text").getAsString());
+		if (obj.get(TEXT) != null)
+			mc.setText(obj.get(TEXT).getAsString());
 
-		if (obj.get("originalText") != null)
-			mc.setOriginalText(obj.get("originalText").getAsString());
+		if (obj.get(ORIGINAL_TEXT) != null)
+			mc.setOriginalText(obj.get(ORIGINAL_TEXT).getAsString());
 
 	
-		if (obj.get("artist") != null)
-			mc.setArtist(obj.get("artist").getAsString());
+		if (obj.get(ARTIST) != null)
+			mc.setArtist(obj.get(ARTIST).getAsString());
 
 		if (obj.get("cmc") != null)
 			mc.setCmc(obj.get("cmc").getAsInt());
 
-		if (obj.get("layout") != null)
-			mc.setLayout(obj.get("layout").getAsString());
+		if (obj.get(LAYOUT) != null)
+			mc.setLayout(obj.get(LAYOUT).getAsString());
 
-		if (obj.get("number") != null)
-			mc.setNumber(obj.get("number").getAsString());
+		if (obj.get(NUMBER) != null)
+			mc.setNumber(obj.get(NUMBER).getAsString());
 
-		if (obj.get("power") != null)
-			mc.setPower(obj.get("power").getAsString());
+		if (obj.get(POWER) != null)
+			mc.setPower(obj.get(POWER).getAsString());
 
-		if (obj.get("toughness") != null)
-			mc.setToughness(obj.get("toughness").getAsString());
+		if (obj.get(TOUGHNESS) != null)
+			mc.setToughness(obj.get(TOUGHNESS).getAsString());
 
 		if (obj.get("loyalty") != null)
 			mc.setLoyalty(obj.get("loyalty").getAsInt());
@@ -189,7 +201,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 				JsonObject k = arr.get(i).getAsJsonObject();
 				MagicRuling rule = new MagicRuling();
 				rule.setDate(k.get("date").getAsString());
-				rule.setText(k.get("text").getAsString());
+				rule.setText(k.get(TEXT).getAsString());
 				mc.getRulings().add(rule);
 			}
 		}
@@ -216,11 +228,11 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		String currentSet = obj.get("set").getAsString();
 		MagicEdition currentEd = getSetById(currentSet);
 
-		if (obj.get("multiverseid") != null)
-			currentEd.setMultiverseid(obj.get("multiverseid").getAsString());
+		if (obj.get(MULTIVERSEID) != null)
+			currentEd.setMultiverseid(obj.get(MULTIVERSEID).getAsString());
 
-		if (obj.get("rarity") != null)
-			currentEd.setRarity(obj.get("rarity").getAsString());
+		if (obj.get(RARITY) != null)
+			currentEd.setRarity(obj.get(RARITY).getAsString());
 
 		currentEd.setNumber(mc.getNumber());
 
@@ -249,16 +261,16 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 		mc.getForeignNames().add(defaultMcn);
 
-		if (obj.get("foreignNames") != null) {
-			JsonArray arr = obj.get("foreignNames").getAsJsonArray();
+		if (obj.get(FOREIGN_NAMES) != null) {
+			JsonArray arr = obj.get(FOREIGN_NAMES).getAsJsonArray();
 			for (int i = 0; i < arr.size(); i++) {
 				JsonObject lang = arr.get(i).getAsJsonObject();
 				MagicCardNames mcn = new MagicCardNames();
 				mcn.setName(lang.get("name").getAsString());
 				mcn.setLanguage(lang.get("language").getAsString());
 
-				if (lang.get("multiverseid") != null)
-					mcn.setGathererId(lang.get("multiverseid").getAsInt());
+				if (lang.get(MULTIVERSEID) != null)
+					mcn.setGathererId(lang.get(MULTIVERSEID).getAsInt());
 
 				mc.getForeignNames().add(mcn);
 			}
@@ -278,19 +290,19 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		JsonObject temp = null;
 		try {
 			reader = new JsonReader(new InputStreamReader(getConnection(
-					jsonUrl + "/cards?set=" + ed.getId() + "&name=" + URLEncoder.encode(mc.getName(), encoding))
+					jsonUrl + "/cards?set=" + ed.getId() + "&name=" + URLEncoder.encode(mc.getName(), MTGConstants.DEFAULT_ENCODING))
 							.getInputStream(),
-					encoding));
+					MTGConstants.DEFAULT_ENCODING));
 			root = new JsonParser().parse(reader).getAsJsonObject();
 
 			temp = root.get("cards").getAsJsonArray().get(0).getAsJsonObject();
 
-			if (temp.get("rarity") != null)
-				ed.setRarity(temp.get("rarity").getAsString());
-			if (temp.get("multiverseid") != null)
-				ed.setMultiverseid(temp.get("multiverseid").getAsString());
-			if (temp.get("number") != null)
-				ed.setNumber(temp.get("number").getAsString());
+			if (temp.get(RARITY) != null)
+				ed.setRarity(temp.get(RARITY).getAsString());
+			if (temp.get(MULTIVERSEID) != null)
+				ed.setMultiverseid(temp.get(MULTIVERSEID).getAsString());
+			if (temp.get(NUMBER) != null)
+				ed.setNumber(temp.get(NUMBER).getAsString());
 
 		} catch (Exception e) {
 			logger.error("ERROR on " + ed.getId() + " " + mc.getName() + ": " + e);
@@ -341,8 +353,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	private URLConnection getConnection(String url) throws IOException {
 		logger.debug("get stream from " + url);
 		URLConnection connection = new URL(url).openConnection();
-		connection.setRequestProperty("User-Agent",
-				"Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
+		connection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
 		connection.connect();
 		return connection;
 
@@ -358,7 +369,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 			URLConnection con = getConnection(url);
 
-			JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), encoding));
+			JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
 			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 			for (int i = 0; i < root.get(rootKey).getAsJsonArray().size(); i++) {
 				JsonObject e = root.get(rootKey).getAsJsonArray().get(i).getAsJsonObject();
@@ -377,7 +388,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			return cacheEditions.get(id);
 
 		JsonReader reader = new JsonReader(
-				new InputStreamReader(getConnection(jsonUrl + "/sets/" + id).getInputStream(), encoding));
+				new InputStreamReader(getConnection(jsonUrl + "/sets/" + id).getInputStream(), MTGConstants.DEFAULT_ENCODING));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		return generateEdition(root.getAsJsonObject("set"));
 	}
@@ -389,8 +400,8 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		return new String[] { "name", "foreignNames", "text", "artist", "type", "rarity", "flavor", "cmc", "set",
-				"watermark", "power", "toughness", "layout" };
+		return new String[] { "name", FOREIGN_NAMES, TEXT, ARTIST, "type", RARITY, "flavor", "cmc", "set",
+				"watermark", POWER, TOUGHNESS, LAYOUT };
 	}
 
 	@Override

@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -46,13 +47,13 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 
 		setProperty("KEYWORD", keyword);
 
-		keyword = URLEncoder.encode(keyword, getString("ENCODING"));
+		keyword = URLEncoder.encode(keyword, MTGConstants.DEFAULT_ENCODING);
 
 		String link = url.replaceAll("%KEYWORD%", keyword);
 
 		logger.info(getName() + " looking for " + keyword);
 
-		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), "UTF-8"));
+		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), MTGConstants.DEFAULT_ENCODING));
 		JsonElement root = new JsonParser().parse(reader);
 
 		JsonElement articles = root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray().get(0)
@@ -116,7 +117,6 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		setProperty("API_KEY", "none04674-8d13-4421-af9e-ec641c7ee59");
 		setProperty("URL","http://svcs.ebay.fr/services/search/FindingService/v1?SECURITY-APPNAME=%API_KEY%&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID=%COUNTRY%&keywords=%KEYWORD%&paginationInput.entriesPerPage=%MAX%");
 		setProperty("WEBSITE", "http://www.ebay.com/");
-		setProperty("ENCODING", "UTF-8");
 		setProperty("KEYWORD", "");
 
 	}

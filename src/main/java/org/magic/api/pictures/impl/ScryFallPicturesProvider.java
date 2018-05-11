@@ -19,6 +19,7 @@ import org.magic.tools.InstallCert;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private Boolean scryfallProvider = null;
 	
 	@Override
@@ -28,11 +29,11 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	public ScryFallPicturesProvider() {
 		super();
-		if(getBoolean("LOAD_CERTIFICATE"))
+		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
 				InstallCert.installCert("mtgdecks.net");
-				setProperty("LOAD_CERTIFICATE", "false");
+				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -136,7 +137,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		setProperty("CERT_SERV", "scryfall.com");
 		setProperty("PIC_SIZE", "large");
 		setProperty("ICON_SET_SIZE", "medium");
-		setProperty("LOAD_CERTIFICATE", "true");
+		setProperty(LOAD_CERTIFICATE, "true");
 	}
 
 	@Override

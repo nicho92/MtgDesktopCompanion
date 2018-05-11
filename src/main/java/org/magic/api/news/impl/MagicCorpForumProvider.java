@@ -15,6 +15,7 @@ import org.magic.services.MTGConstants;
 
 public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
+	private static final String PAGINATION = "PAGINATION";
 	private String prefixForum = "gathering-forum-viewtopic-";
 
 	@Override
@@ -34,7 +35,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 		String endUri = n.getUrl().substring(n.getUrl().indexOf(idTopic) + idTopic.length() + 1);
 
 		String id = "";
-		for (int i = 0; i < maxpage * getInt("PAGINATION"); i += getInt("PAGINATION")) {
+		for (int i = 0; i < maxpage * getInt(PAGINATION); i += getInt(PAGINATION)) {
 			MagicNewsContent cont = new MagicNewsContent();
 			cont.setAuthor("MagicCorp");
 
@@ -68,7 +69,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("PAGINATION", "15");
+		setProperty(PAGINATION, "15");
 		setProperty("SITE", "http://www.magiccorporation.com/");
 	}
 

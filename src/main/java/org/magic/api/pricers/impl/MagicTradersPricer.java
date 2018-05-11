@@ -14,6 +14,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
@@ -55,7 +56,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 						MagicPrice mp = new MagicPrice();
 						mp.setSeller(getName());
 						mp.setUrl("http://store.eudogames.com/products/search?query="
-								+ URLEncoder.encode(card.getName(), "UTF-8"));
+								+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING));
 						mp.setSite(getName());
 						mp.setValue(f);
 						mp.setCurrency("$");

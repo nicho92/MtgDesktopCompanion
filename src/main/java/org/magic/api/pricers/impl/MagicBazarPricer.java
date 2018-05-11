@@ -35,7 +35,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		list.clear();
-		String url = getString("URL") + URLEncoder.encode(card.getName(), "UTF-8");
+		String url = getString("URL") + URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING);
 		logger.info(getName() + " looking for prices " + url);
 
 		try {

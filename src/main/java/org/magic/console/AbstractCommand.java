@@ -16,6 +16,7 @@ import org.apache.mina.core.session.IoSession;
 import org.asciitable.impl.ASCIITableImpl;
 import org.asciitable.impl.CollectionASCIITableAware;
 import org.asciitable.spec.IASCIITableAware;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 public abstract class AbstractCommand implements Command {
@@ -43,7 +44,7 @@ public abstract class AbstractCommand implements Command {
 		formatter.printHelp(ps, 50, getCommandName(), null, opts, 0, 0, null);
 		ps.close();
 		try {
-			session.write(baos.toString("UTF-8"));
+			session.write(baos.toString(MTGConstants.DEFAULT_ENCODING));
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e);
 		}

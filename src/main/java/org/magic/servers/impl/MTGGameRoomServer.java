@@ -27,11 +27,20 @@ import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
 
 public class MTGGameRoomServer extends AbstractMTGServer {
+	private static final String SERVER_PORT = "SERVER-PORT";
+
+
+	private static final String PLAYER = "PLAYER";
+
+
+	private static final String MAX_CLIENT = "MAX_CLIENT";
+	
+	
 	private IoAcceptor acceptor;
 	private IoHandlerAdapter adapter = new IoHandlerAdapter() {
 
 		private void playerUpdate(ChangeStatusAction act) {
-			((Player) acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute("PLAYER"))
+			((Player) acceptor.getManagedSessions().get(act.getPlayer().getId()).getAttribute(PLAYER))
 					.setState(act.getPlayer().getState());
 		}
 
@@ -40,15 +49,15 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 		}
 
 		private void join(IoSession session, JoinAction ja) {
-			if (!getString("MAX_CLIENT").equals("0")
-					&& acceptor.getManagedSessions().size() >= Integer.parseInt(getString("MAX_CLIENT"))) {
-				session.write(new SpeakAction(null, "Number of users reached (" + getString("MAX_CLIENT") + ")"));
+			if (!getString(MAX_CLIENT).equals("0")
+					&& acceptor.getManagedSessions().size() >= Integer.parseInt(getString(MAX_CLIENT))) {
+				session.write(new SpeakAction(null, "Number of users reached (" + getString(MAX_CLIENT) + ")"));
 				session.closeOnFlush();
 				return;
 			}
 			ja.getPlayer().setState(STATE.CONNECTED);
 			ja.getPlayer().setId(session.getId());
-			session.setAttribute("PLAYER", ja.getPlayer());
+			session.setAttribute(PLAYER, ja.getPlayer());
 			speak(new SpeakAction(ja.getPlayer(), " is now connected"));
 			session.write(session.getId());
 
@@ -124,9 +133,9 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 	}
 
 	protected void changeDeck(IoSession session, ChangeDeckAction cda) {
-		Player p = (Player) session.getAttribute("PLAYER");
+		Player p = (Player) session.getAttribute(PLAYER);
 		p.setDeck(cda.getDeck());
-		session.setAttribute("PLAYER", p);
+		session.setAttribute(PLAYER, p);
 
 	}
 
@@ -139,8 +148,8 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 	public void refreshPlayers(IoSession session) {
 		List<Player> list = new ArrayList<>();
 		for (IoSession s : acceptor.getManagedSessions().values()) {
-			if (session.getId() != ((Player) s.getAttribute("PLAYER")).getId())
-				list.add((Player) s.getAttribute("PLAYER"));
+			if (session.getId() != ((Player) s.getAttribute(PLAYER)).getId())
+				list.add((Player) s.getAttribute(PLAYER));
 		}
 
 		session.write(new ListPlayersAction(list));
@@ -162,8 +171,8 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 
 	@Override
 	public void start() throws IOException {
-		acceptor.bind(new InetSocketAddress(Integer.parseInt(getString("SERVER-PORT"))));
-		logger.info("Server started on port " + getString("SERVER-PORT") + " ...");
+		acceptor.bind(new InetSocketAddress(Integer.parseInt(getString(SERVER_PORT))));
+		logger.info("Server started on port " + getString(SERVER_PORT) + " ...");
 	}
 
 	@Override
@@ -194,12 +203,12 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 
 	@Override
 	public void initDefault() {
-		setProperty("SERVER-PORT", "18567");
+		setProperty(SERVER_PORT, "18567");
 		setProperty("IDLE-TIME", "10");
 		setProperty("BUFFER-SIZE", "2048");
 		setProperty("AUTOSTART", "false");
 		setProperty("WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room");
-		setProperty("MAX_CLIENT", "0");
+		setProperty(MAX_CLIENT, "0");
 
 	}
 

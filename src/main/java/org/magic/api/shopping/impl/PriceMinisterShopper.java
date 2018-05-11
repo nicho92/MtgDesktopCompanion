@@ -11,6 +11,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
+import org.magic.services.MTGConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -35,7 +36,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper {
 			url.append(getString("URL")).append("&login=").append(getString("LOGIN")).append("&pwd=")
 					.append(getString("PASS")).append("&version=").append(getString("VERSION")).append("&scope=")
 					.append(getString("SCOPE")).append("&nbproductsperpage=").append(getString("NB_PRODUCT_PAGE"))
-					.append("&kw=").append(URLEncoder.encode(search, getString("ENCODING"))).append("&nav=")
+					.append("&kw=").append(URLEncoder.encode(search, MTGConstants.DEFAULT_ENCODING)).append("&nav=")
 					.append(getString("CATEGORIE"));
 
 			logger.debug(getName() + " parsing item from " + url);
@@ -99,7 +100,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper {
 		setProperty("NB_PRODUCT_PAGE", "20");
 		
 		setProperty("WEBSITE", "http://www.priceminister.com/");
-		setProperty("ENCODING", "UTF-8");
+		
 
 	}
 

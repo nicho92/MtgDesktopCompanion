@@ -34,7 +34,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 	
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
-		String cardName = URLEncoder.encode(card.getName(), "UTF-8");
+		String cardName = URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING);
 		
 		logger.debug(getName() + " looking for price " + getString("URL")+cardName);
 		

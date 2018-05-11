@@ -22,13 +22,15 @@ import org.magic.tools.InstallCert;
 public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 	
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
+
 	public MTGDecksSniffer() {
 		super();
-			if(getBoolean("LOAD_CERTIFICATE"))
+			if(getBoolean(LOAD_CERTIFICATE))
 			{
 				try {
 					InstallCert.installCert("mtgdecks.net");
-					setProperty("LOAD_CERTIFICATE", "false");
+					setProperty(LOAD_CERTIFICATE, "false");
 				} catch (Exception e1) {
 					logger.error(e1);
 				}
@@ -156,7 +158,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 		setProperty("URL", "https://mtgdecks.net");
 		setProperty("FORMAT", "Standard");
 		setProperty("MAX_PAGE", "2");
-		setProperty("LOAD_CERTIFICATE", "true");
+		setProperty(LOAD_CERTIFICATE, "true");
 	}
 
 	@Override

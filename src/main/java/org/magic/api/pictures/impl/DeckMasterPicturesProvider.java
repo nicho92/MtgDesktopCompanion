@@ -22,6 +22,8 @@ import org.magic.tools.InstallCert;
 
 public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -30,11 +32,11 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	public DeckMasterPicturesProvider() {
 		super();
 
-		if(getBoolean("LOAD_CERTIFICATE"))
+		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
 				InstallCert.installCert("mtgdecks.net");
-				setProperty("LOAD_CERTIFICATE", "false");
+				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -167,7 +169,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		
 		setProperty("URL", "https://deckmaster.info/");
 		setProperty("ICON_SET_SIZE", "medium");
-		setProperty("LOAD_CERTIFICATE", "true");
+		setProperty(LOAD_CERTIFICATE, "true");
 	}
 
 	@Override

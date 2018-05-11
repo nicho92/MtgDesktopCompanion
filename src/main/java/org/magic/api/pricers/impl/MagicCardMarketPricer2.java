@@ -24,6 +24,8 @@ import org.magic.tools.InstallCert;
 
 public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
+	private static final String MIN_CONDITION = "MIN_CONDITION";
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private List<MagicPrice> lists;
 
 	@Override
@@ -39,11 +41,11 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		} catch (MkmException e) {
 			logger.error(e);
 		}
-		if(getBoolean("LOAD_CERTIFICATE"))
+		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
 				InstallCert.installCert("mtgdecks.net");
-				setProperty("LOAD_CERTIFICATE", "false");
+				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -137,8 +139,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 				if (!getString("LANGUAGE_ID").equals(""))
 					aatts.put(ARTICLES_ATT.idLanguage, getString("LANGUAGE_ID"));
 
-				if (!getString("MIN_CONDITION").equals(""))
-					aatts.put(ARTICLES_ATT.minCondition, getString("MIN_CONDITION"));
+				if (!getString(MIN_CONDITION).equals(""))
+					aatts.put(ARTICLES_ATT.minCondition, getString(MIN_CONDITION));
 
 				List<Article> articles = aServ.find(resultat, aatts);
 				logger.debug(getName() + " found " + articles.size() + " items");
@@ -205,12 +207,12 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		setProperty("APP_ACCESS_TOKEN_SECRET", "");
 		setProperty("LANGUAGE_ID", "1");
 		setProperty("IS_EXACT", "false");
-		setProperty("MIN_CONDITION", "");
+		setProperty(MIN_CONDITION, "");
 		setProperty("COMMONCHECK", "false");
 		setProperty("MAX", "10");
 		setProperty("USER_ARTICLE", "false");
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
-		setProperty("LOAD_CERTIFICATE","true");
+		setProperty(LOAD_CERTIFICATE,"true");
 
 	}
 

@@ -12,8 +12,11 @@ import org.apache.mina.transport.socket.nio.NioSocketAcceptor;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.console.MTGConsoleHandler;
+import org.magic.services.MTGConstants;
 
 public class ConsoleServer extends AbstractMTGServer {
+
+	private static final String SERVER_PORT = "SERVER-PORT";
 
 	@Override
 	public STATUT getStatut() {
@@ -36,12 +39,12 @@ public class ConsoleServer extends AbstractMTGServer {
 	public void start() throws IOException {
 		acceptor = new NioSocketAcceptor();
 		acceptor.getFilterChain().addLast("codec",
-				new ProtocolCodecFilter(new TextLineCodecFactory(Charset.forName(getString("ENCODING")))));
+				new ProtocolCodecFilter(new TextLineCodecFactory(Charset.forName(MTGConstants.DEFAULT_ENCODING))));
 		acceptor.getSessionConfig().setReadBufferSize(Integer.parseInt(getString("BUFFER-SIZE")));
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, Integer.parseInt(getString("IDLE-TIME")));
 		acceptor.setHandler(new MTGConsoleHandler());
-		acceptor.bind(new InetSocketAddress(Integer.parseInt(getString("SERVER-PORT"))));
-		logger.info("Server started on port " + getString("SERVER-PORT"));
+		acceptor.bind(new InetSocketAddress(Integer.parseInt(getString(SERVER_PORT))));
+		logger.info("Server started on port " + getString(SERVER_PORT));
 	}
 
 	@Override
@@ -73,10 +76,10 @@ public class ConsoleServer extends AbstractMTGServer {
 
 	@Override
 	public void initDefault() {
-		setProperty("SERVER-PORT", "5152");
+		setProperty(SERVER_PORT, "5152");
 		setProperty("IDLE-TIME", "10");
 		setProperty("BUFFER-SIZE", "2048");
-		setProperty("ENCODING", "UTF-8");
+		
 		setProperty("AUTOSTART", "false");
 
 	}

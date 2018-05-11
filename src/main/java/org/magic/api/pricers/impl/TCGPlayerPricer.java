@@ -15,6 +15,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -38,9 +39,9 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		String set = "";
 
 		if (me == null)
-			set = URLEncoder.encode(card.getCurrentSet().getSet(), getString("ENCODING"));
+			set = URLEncoder.encode(card.getCurrentSet().getSet(), MTGConstants.DEFAULT_ENCODING);
 		else
-			set = URLEncoder.encode(me.getSet(), getString("ENCODING"));
+			set = URLEncoder.encode(me.getSet(), MTGConstants.DEFAULT_ENCODING);
 
 		if (set.contains("Edition"))
 			set = set.replaceAll("Edition", "");
@@ -113,7 +114,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		setProperty("API_KEY", "MGCASSTNT");
 		setProperty("URL", "http://partner.tcgplayer.com/x3/phl.asmx/p?v=3&pk=%API_KEY%&s=%SET%&p=%CARTE%");
 		setProperty("WEBSITE", "http://www.tcgplayer.com/");
-		setProperty("ENCODING", "UTF-8");
+		
 		setProperty("KEYWORD", "");
 
 	}

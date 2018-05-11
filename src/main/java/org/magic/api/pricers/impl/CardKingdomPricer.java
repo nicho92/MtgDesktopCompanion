@@ -20,6 +20,7 @@ import org.magic.tools.InstallCert;
 
 public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private Document doc;
 	private List<MagicPrice> list;
 	private List<String> eds;
@@ -34,11 +35,11 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 		list = new ArrayList<>();
 
-		if(getBoolean("LOAD_CERTIFICATE"))
+		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
 				InstallCert.installCert("mtgdecks.net");
-				setProperty("LOAD_CERTIFICATE", "false");
+				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -137,7 +138,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		setProperty("URL", "https://www.cardkingdom.com/mtg/");
 		setProperty("WEBSITE", "https://www.cardkingdom.com/");
 		
-		setProperty("LOAD_CERTIFICATE", "true");
+		setProperty(LOAD_CERTIFICATE, "true");
 	}
 
 	@Override

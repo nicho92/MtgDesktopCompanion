@@ -40,7 +40,7 @@ public class MagicWebSiteGenerator extends Observable {
 	public MagicWebSiteGenerator(String template, String dest) throws IOException {
 		cfg = new Configuration(MTGConstants.FREEMARKER_VERSION);
 		cfg.setDirectoryForTemplateLoading(new File(MTGConstants.MTG_TEMPLATES_DIR, template));
-		cfg.setDefaultEncoding("UTF-8");
+		cfg.setDefaultEncoding(MTGConstants.DEFAULT_ENCODING);
 		cfg.setTemplateExceptionHandler(TemplateExceptionHandler.RETHROW_HANDLER);
 		cfg.setObjectWrapper(new DefaultObjectWrapperBuilder(MTGConstants.FREEMARKER_VERSION).build());
 

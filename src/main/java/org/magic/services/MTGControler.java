@@ -178,7 +178,7 @@ public class MTGControler {
 		Parameters params = new Parameters();
 		builder = new FileBasedConfigurationBuilder<XMLConfiguration>(XMLConfiguration.class).configure(params.xml()
 				.setFile(new File(MTGConstants.CONF_DIR, MTGConstants.CONF_FILENAME)).setSchemaValidation(false)
-				.setValidating(false).setEncoding("UTF-8").setExpressionEngine(new XPathExpressionEngine()));
+				.setValidating(false).setEncoding(MTGConstants.DEFAULT_ENCODING).setExpressionEngine(new XPathExpressionEngine()));
 
 		try {
 			config = builder.getConfiguration();
@@ -366,10 +366,6 @@ public class MTGControler {
 				return serv.isAlive();
 
 		return false;
-	}
-
-	public void saveConfig(File f) {
-		// TODO : export config
 	}
 
 	public MTGCardsExport getAbstractExporterFromExt(File f) {

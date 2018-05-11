@@ -17,6 +17,7 @@ import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGStory;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonArray;
@@ -60,7 +61,7 @@ public class StoryProvider {
 		HttpURLConnection con = (HttpURLConnection) getConnection(url);
 		JsonReader reader = null;
 		try {
-			reader = new JsonReader(new InputStreamReader(con.getInputStream(), "UTF-8"));
+			reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
 		} catch (Exception e1) {
 			logger.error("Error parsing URL", e1);
 		}
