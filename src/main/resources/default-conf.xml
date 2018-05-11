@@ -348,9 +348,9 @@
             <class>org.magic.api.exports.impl.ManualImportExport</class>
             <enable>true</enable>
         </export>
-        <export>
-            <class>org.magic.api.exports.impl.WebsiteImportExport</class>
-            <enable>true</enable>
+       <export>
+            <class>org.magic.api.exports.impl.WebsiteDeckImport</class>
+            <enable>false</enable>
         </export>
          <export>
             <class>org.magic.api.exports.impl.PriceCatalogExport</class>

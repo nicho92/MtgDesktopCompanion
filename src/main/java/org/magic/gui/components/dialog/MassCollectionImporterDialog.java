@@ -40,7 +40,7 @@ public class MassCollectionImporterDialog extends JDialog {
 
 	public MassCollectionImporterDialog() {
 		setSize(new Dimension(646, 290));
-		setIconImage(MTGConstants.ICON_COLLECTION.getImage());
+		setIconImage(MTGConstants.ICON_MASS_IMPORT.getImage());
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("MASS_CARDS_IMPORT"));
 		try {
 			initGUI();

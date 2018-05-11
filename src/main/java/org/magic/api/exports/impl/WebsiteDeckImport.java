@@ -16,7 +16,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.gui.components.dialog.DeckSnifferDialog;
 import org.magic.services.MTGConstants;
 
-public class WebsiteImportExport extends AbstractCardExport {
+public class WebsiteDeckImport extends AbstractCardExport {
 
 	@Override
 	public MODS getMods() {

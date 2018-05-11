@@ -116,7 +116,7 @@ public class CollectionPanelGUI extends JPanel {
 		JButton btnRemove = new JButton(MTGConstants.ICON_DELETE);
 		JButton btnAddAllSet = new JButton(MTGConstants.ICON_CHECK);
 		JButton btnExport = new JButton(MTGConstants.ICON_EXPORT);
-		JButton btnMassCollection = new JButton(MTGConstants.ICON_IMPORT);
+		JButton btnMassCollection = new JButton(MTGConstants.ICON_MASS_IMPORT);
 		JButton btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
 		JScrollPane scrollPaneCollections = new JScrollPane();
 		JSplitPane splitListPanel = new JSplitPane();
@@ -230,10 +230,8 @@ public class CollectionPanelGUI extends JPanel {
 		btnRemove.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("ITEM_SELECTED_REMOVE"));
 		btnAddAllSet.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_SET_FULL"));
 		btnExport.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("EXPORT_AS"));
-		btnMassCollection
-				.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_IMPORT"));
-		btnGenerateWebSite
-				.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_WEBSITE"));
+		btnMassCollection.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("COLLECTION_IMPORT"));
+		btnGenerateWebSite.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_WEBSITE"));
 
 		List<SortKey> keys = new ArrayList<>();
 		SortKey sortKey = new SortKey(3, SortOrder.DESCENDING);// column index 2
