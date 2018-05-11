@@ -45,7 +45,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String url = getString("WEBSITE") + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
 		logger.debug("Get Shake for " + url);
 		
-		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
+		Document doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
 		try {
 			
 			String date = doc.getElementsByClass("span6").get(1).text().replaceAll("Updated:", "")
@@ -126,7 +126,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String url = "http://www.mtgprice.com/spoiler_lists/" + name;
 		logger.debug("get Prices for " + name + " " + url);
 
-		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
+		Document doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
 
 		Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 
@@ -189,7 +189,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		edition = edition.replaceAll(" ", "_");
 
 		String url = "http://www.mtgprice.com/sets/" + edition + "/" + name;
-		Document d = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
+		Document d = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
 
 		logger.debug("get Prices for " + name + " " + url);
 
@@ -234,7 +234,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	public void initDefault() {
 		setProperty("PERIOD", "WEEKLY");
 		setProperty("WEBSITE", "http://www.mtgprice.com");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 	}
 
 	@Override

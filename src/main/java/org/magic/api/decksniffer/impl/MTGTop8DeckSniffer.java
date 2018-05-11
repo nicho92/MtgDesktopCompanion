@@ -66,7 +66,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document root = Jsoup.connect(info.getUrl().toString()).userAgent(getString("USER_AGENT")).timeout(0).get();
+		Document root = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT).timeout(0).get();
 		MagicDeck d = new MagicDeck();
 		d.setDescription(info.getUrl().toString());
 		d.setName(info.getName());
@@ -164,7 +164,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("URL", "http://mtgtop8.com/");
 		setProperty("EVENT_FILTER", "");
 		setProperty("FORMAT", "Standard");

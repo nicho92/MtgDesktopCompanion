@@ -82,7 +82,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		logger.debug("Get card pic from " + url);
 
 		URLConnection connection = url.openConnection();
-		connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
+		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.connect();
 
 		Image img = null;
@@ -122,7 +122,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		super.initDefault();
 		setProperty("WEBSITE", "https://magiccards.info/scans/");
 		setProperty("LANG", "en");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("LOAD_CERTIFICATE", "true");
 		
 	}

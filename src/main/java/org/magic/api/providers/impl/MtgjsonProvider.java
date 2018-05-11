@@ -62,7 +62,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 	private InputStream getStreamFromUrl(URL u) throws IOException {
 		URLConnection connection = u.openConnection();
-		connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
+		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.connect();
 
 		return connection.getInputStream();
@@ -699,7 +699,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	public void initDefault() {
 		setProperty("URL_SET_JSON_ZIP", "http://mtgjson.com/json/AllSets-x.json.zip");
 		setProperty("URL_VERSION", "http://mtgjson.com/json/version.json");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 
 	}
 }

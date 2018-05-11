@@ -291,7 +291,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		setProperty("LOGIN", "login@mail.com");
 		setProperty("PASS", "changeme");
 		setProperty("MTGSTOCKS_BASE_URL", "https://www.mtgstocks.com");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		setProperty("CARD_PRICES_SHAKER", "market"); // [low, avg, high, foil, market, market_foil]
 		setProperty("FORMAT_SHAKER", "average"); // average // market
 		setProperty("SHAKERS","normal,foil");

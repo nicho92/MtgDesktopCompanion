@@ -49,12 +49,12 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		try {
 
 			Document d = Jsoup.connect(getString("URL") + "/card.php?multiverseid=" + multiverseid)
-					.userAgent(getString("USER_AGENT")).get();
+					.userAgent(MTGConstants.USER_AGENT).get();
 
 			logger.debug("read " + getString("URL") + "/card.php?multiverseid=" + multiverseid);
 			Element e = d.select(".card > img").get(0);
 			HttpURLConnection con = (HttpURLConnection) new URL(e.attr("src")).openConnection();
-			con.setRequestProperty("User-Agent", getString("USER_AGENT"));
+			con.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 			return ImageIO.read(con.getInputStream());
 
 		} catch (Exception e) {
@@ -145,7 +145,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		URL u = new URL(getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"
 				+ rarity.substring(0, 1).toUpperCase() + ".png");
 		HttpURLConnection con = (HttpURLConnection) u.openConnection();
-		con.setRequestProperty("User-Agent", getString("USER_AGENT"));
+		con.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		BufferedImage im = ImageIO.read(con.getInputStream());
 		return resizeIconSet(im);
 	}
@@ -164,7 +164,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 	public void initDefault() {
 		super.initDefault();
 		setProperty("CALL_MCI_FOR", "p,CEI,CED,CPK,CST");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("URL", "https://deckmaster.info/");
 		setProperty("ICON_SET_SIZE", "medium");
 		setProperty("LOAD_CERTIFICATE", "true");

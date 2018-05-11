@@ -83,7 +83,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		httpContext = new BasicHttpContext();
 		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 
-		httpclient = HttpClients.custom().setUserAgent(getString("USER_AGENT"))
+		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
 				.setRedirectStrategy(new LaxRedirectStrategy()).build();
 
 		httpclient.execute(new HttpGet("https://tappedout.net/accounts/login/?next=/"), httpContext);
@@ -214,7 +214,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		setProperty("LOGIN", "login@mail.com");
 		setProperty("PASS", "changeme");
 		setProperty("FORMAT", "standard");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("URL_JSON", "https://tappedout.net/api/deck/latest/%FORMAT%");
 		setProperty("CERT_SERV", "www.tappedout.net");
 

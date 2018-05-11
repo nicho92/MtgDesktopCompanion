@@ -45,7 +45,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
-		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(getString("USER_AGENT")).get();
+		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT).get();
 
 		Elements e = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
 
@@ -101,7 +101,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 			logger.debug("sniff url : " + url);
 
-			Document d = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
+			Document d = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
 
 			Elements e = null;
 
@@ -161,7 +161,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	public void initDefault() {
 		setProperty("SUPPORT", "paper");
 		setProperty("FORMAT", "modern");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("URL", "http://www.mtggoldfish.com/");
 		setProperty("MAX_PAGE", "2");
 		setProperty("METAGAME", "false");

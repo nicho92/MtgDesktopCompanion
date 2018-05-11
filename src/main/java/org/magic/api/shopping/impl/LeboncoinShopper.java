@@ -67,7 +67,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 			logger.debug("parsing item from " + html);
 
 			try {
-				doc = Jsoup.connect(html).userAgent(getString("USER_AGENT")).get();
+				doc = Jsoup.connect(html).userAgent(MTGConstants.USER_AGENT).get();
 			} catch (IOException e1) {
 				logger.error(e1);
 			}
@@ -182,7 +182,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 		setProperty("MAX_PAGE", "2");
 		setProperty("MAX_RESULT", "30");
 		setProperty("URL", "http://www.leboncoin.fr/li?o=%PAGE%&q=%SEARCH%&it=%TITLE_ONLY%");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("PROTOCOLE", "http:");
 		setProperty("WEBSITE", "http://www.leboncoin.fr/");
 		setProperty("DATE_FORMAT", "dd MMMM. H:m");

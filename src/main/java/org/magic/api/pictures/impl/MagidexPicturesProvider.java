@@ -61,7 +61,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		logger.debug("get card from " + uri.toURL());
 		HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
 		connection.setInstanceFollowRedirects(true);
-		connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
+		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.connect();
 
 		try {
@@ -93,7 +93,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public void initDefault() {
 		super.initDefault();
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 	}
 
 	@Override

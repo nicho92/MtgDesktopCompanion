@@ -50,7 +50,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 		logger.debug("get deck at " + info.getUrl());
 
-		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(getString("USER_AGENT")).get();
+		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT).get();
 
 		for (Element e : d.select("table.subtitle a"))
 			deck.getTags().add(e.text());
@@ -94,7 +94,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 		for (int i = 1; i <= maxPage; i++) {
 			url = getString("URL") + "/" + getString("FORMAT") + "/decklists/page:" + nbPage;
-			Document d = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
+			Document d = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
 
 			Elements trs = d.select("table.table tr");
 
@@ -152,7 +152,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("URL", "https://mtgdecks.net");
 		setProperty("FORMAT", "Standard");
 		setProperty("MAX_PAGE", "2");

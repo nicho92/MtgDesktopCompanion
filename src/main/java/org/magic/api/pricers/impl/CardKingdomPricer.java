@@ -47,7 +47,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		eds = new ArrayList<>();
 		try {
 			doc = Jsoup.connect("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az")
-					.userAgent(getString("USER_AGENT")).timeout(0).get();
+					.userAgent(MTGConstants.USER_AGENT).timeout(0).get();
 
 			Elements e = doc.select(".anchorList a[href]");
 
@@ -92,7 +92,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 		logger.info(getName() + " looking for prices " + url);
 		try {
-			doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).timeout(0).get();
+			doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).timeout(0).get();
 			qualities = doc.select(".cardTypeList li");
 			prices = doc.select(".stylePrice");
 
@@ -136,7 +136,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	public void initDefault() {
 		setProperty("URL", "https://www.cardkingdom.com/mtg/");
 		setProperty("WEBSITE", "https://www.cardkingdom.com/");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("LOAD_CERTIFICATE", "true");
 	}
 

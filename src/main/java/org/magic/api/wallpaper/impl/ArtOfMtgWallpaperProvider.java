@@ -81,7 +81,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 	@Override
 	public void initDefault() {
 		setProperty("URL", "http://www.artofmtg.com");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 
 	}
 

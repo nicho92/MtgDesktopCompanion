@@ -98,7 +98,7 @@ public class PriceMinisterShopper extends AbstractMagicShopper {
 		setProperty("URL", "https://ws.priceminister.com/listing_ssl_ws?action=listing");
 		setProperty("SCOPE", "PRICING");
 		setProperty("NB_PRODUCT_PAGE", "20");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("WEBSITE", "http://www.priceminister.com/");
 		setProperty("ENCODING", "UTF-8");
 

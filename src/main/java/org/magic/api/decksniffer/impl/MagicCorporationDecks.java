@@ -30,7 +30,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document d = Jsoup.connect(getString("URL") + "/" + info.getUrl().toString()).userAgent(getString("USER_AGENT"))
+		Document d = Jsoup.connect(getString("URL") + "/" + info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT)
 				.get();
 
 		MagicDeck deck = new MagicDeck();
@@ -52,7 +52,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		Document d = Jsoup.connect(getString("URL") + "/mc.php?rub=decks&limit=0").userAgent(getString("USER_AGENT"))
+		Document d = Jsoup.connect(getString("URL") + "/mc.php?rub=decks&limit=0").userAgent(MTGConstants.USER_AGENT)
 				.get();
 
 		Elements e = d.select("table.html_table > tbody");
@@ -106,7 +106,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("URL", "http://www.magiccorporation.com/");
 
 	}

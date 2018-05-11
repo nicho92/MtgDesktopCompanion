@@ -83,7 +83,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 
 		logger.debug("get deck " + info.getUrl());
-		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(getString("USER_AGENT"))
+		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT)
 				.timeout(getInt("TIMEOUT")).get();
 
 		deck.setDescription(info.getUrl().toString());
@@ -143,7 +143,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		for (int i = 1; i <= nbPage; i++) {
 			Document d = Jsoup.connect(getString("URL") + "/" + getString("FORMAT") + "/?lng=fr&page=" + i)
-					.userAgent(getString("USER_AGENT")).timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+					.userAgent(MTGConstants.USER_AGENT).timeout(Integer.parseInt(getString("TIMEOUT"))).get();
 
 			Elements e = d.select("tr.touch_row");
 
@@ -183,7 +183,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		setProperty("URL", "https://deckstats.net/decks/f/");
 		setProperty("TIMEOUT", "0");
 		setProperty("FORMAT", "standard");

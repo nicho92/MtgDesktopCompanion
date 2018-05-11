@@ -83,7 +83,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setInstanceFollowRedirects(true);
-		connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
+		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.connect();
 		logger.debug("load pics " + connection.getURL().toString());
 
@@ -118,7 +118,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 		HttpURLConnection connection = (HttpURLConnection) u.openConnection();
 		connection.setInstanceFollowRedirects(true);
-		connection.setRequestProperty("User-Agent", getString("USER_AGENT"));
+		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.connect();
 		logger.debug("load pics " + connection.getURL().toString());
 
@@ -134,7 +134,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public void initDefault() {
 		super.initDefault();
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("CERT_SERV", "scryfall.com");
 		setProperty("PIC_SIZE", "large");
 		setProperty("ICON_SET_SIZE", "medium");

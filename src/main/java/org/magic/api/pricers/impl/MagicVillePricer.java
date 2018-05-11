@@ -72,7 +72,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		logger.info(getName() + " looking for prices " + url);
 
 		
-		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
+		Document doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
 		
 		Element table = null;
 		try {
@@ -127,7 +127,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	public void initDefault() {
 		setProperty("MAX", "5");
 		setProperty("WEBSITE", "http://www.magic-ville.com/");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 
 	}
 

@@ -49,7 +49,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 	
-		Document d = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
+		Document d = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
 
 		deck.setDescription(info.getUrl().toString() + "\n" + d.select("section.guide div").text());
 
@@ -105,7 +105,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 			String link = url + "&page=" + nbPage;
 			logger.debug("sniff url : " + link);
 
-			Document d = Jsoup.connect(link).userAgent(getString("USER_AGENT")).get();
+			Document d = Jsoup.connect(link).userAgent(MTGConstants.USER_AGENT).get();
 
 			Elements e = null;
 
@@ -195,7 +195,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 		setProperty("URL", "http://www.mtgsalvation.com/");
 		setProperty("MAX_PAGE", "2");
 		setProperty("FORMAT", "Standard");

@@ -36,7 +36,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 		logger.debug("get deck at " + info.getUrl());
 
-		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(getString("USER_AGENT"))
+		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT)
 				.timeout(Integer.parseInt(getString("TIMEOUT"))).get();
 
 		deck.setDescription(info.getUrl().toString());
@@ -79,7 +79,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 		for (int i = 1; i <= nbPage; i++) {
 			Document d = Jsoup.connect(getString("URL") + "?dpage=" + i + "&action=" + getString("FORMAT"))
-					.userAgent(getString("USER_AGENT")).timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+					.userAgent(MTGConstants.USER_AGENT).timeout(Integer.parseInt(getString("TIMEOUT"))).get();
 
 			Elements e = d.select("div.thumb_page");
 
@@ -123,7 +123,6 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		setProperty("URL", "http://www.lotusnoir.info/magic/decks/");
 		setProperty("FORMAT", "decks-populaires");
 		setProperty("MAX_PAGE", "2");

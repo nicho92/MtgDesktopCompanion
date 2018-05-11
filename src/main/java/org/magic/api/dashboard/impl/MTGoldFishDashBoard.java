@@ -45,7 +45,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	private Document read(String url) throws IOException {
-		return Jsoup.connect(url).userAgent(getString("USER_AGENT")).timeout(getInt("TIMEOUT")).get();
+		return Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).timeout(getInt("TIMEOUT")).get();
 	}
 
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
@@ -361,7 +361,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		setProperty("URL_MOVERS", "https://www.mtggoldfish.com/movers-details/");
 		setProperty("URL_EDITIONS", "https://www.mtggoldfish.com/index/");
 		setProperty("WEBSITE", "https://www.mtggoldfish.com/");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 		setProperty("FORMAT", "paper");
 		setProperty("TIMEOUT", "0");
 		setProperty("DAILY_WEEKLY", "wow");

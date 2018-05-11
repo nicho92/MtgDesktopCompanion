@@ -27,7 +27,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 
 	private String read(String url) throws IOException {
 		logger.debug("retrieve from " + url);
-		HttpClient httpClient = HttpClients.custom().setUserAgent(getString("USER_AGENT"))
+		HttpClient httpClient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
 				.setRedirectStrategy(new LaxRedirectStrategy()).build();
 		HttpGet req = new HttpGet(url);
 		req.addHeader("content-type", "application/json");
@@ -86,7 +86,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 	@Override
 	public void initDefault() {
 		setProperty("URL", "https://magic.wizards.com/en/see-more-wallpaper");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 	}
 
 	@Override

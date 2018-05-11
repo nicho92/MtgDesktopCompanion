@@ -39,7 +39,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		logger.info(getName() + " looking for prices " + url);
 
 		try {
-			doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).timeout(0).get();
+			doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).timeout(0).get();
 			Elements els = doc.select("div.filterElement");
 			for (int i = 0; i < els.size(); i++) {
 				Element e = els.get(i);
@@ -82,7 +82,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 	@Override
 	public void initDefault() {
 		setProperty("URL", "https://www.magicbazar.fr/recherche/result.php?s=");
-		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
+		
 
 	}
 
