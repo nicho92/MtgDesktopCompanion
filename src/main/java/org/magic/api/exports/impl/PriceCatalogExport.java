@@ -54,38 +54,41 @@ public class PriceCatalogExport extends AbstractCardExport {
 			bw.write("\n");
 			int i = 0;
 			
-			MTGPricesProvider prov = MTGControler.getInstance().getPlugin(getString("PRICER"),MTGPricesProvider.class);
+			for(String pricer : getString("PRICER").split(","))
+			{	
+				MTGPricesProvider prov = MTGControler.getInstance().getPlugin(pricer,MTGPricesProvider.class);
 			
-			for (MagicCard mc : deck.getMap().keySet()) {
-				for (MagicPrice prices : prov.getPrice(mc.getCurrentSet(), mc)) {
-					for (String k : exportedCardsProperties) {
-						String val;
-						try {
-							val = BeanUtils.getProperty(mc, k);
-							if (val == null)
-								val = "";
-							bw.write(val.replaceAll("\n", "") + ";");
-						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-							throw new IOException(e);
+					for (MagicCard mc : deck.getMap().keySet()) {
+						for (MagicPrice prices : prov.getPrice(mc.getCurrentSet(), mc)) {
+							for (String k : exportedCardsProperties) {
+								String val;
+								try {
+									val = BeanUtils.getProperty(mc, k);
+									if (val == null)
+										val = "";
+									bw.write(val.replaceAll("\n", "") + ";");
+								} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+									throw new IOException(e);
+								}
+							}
+		
+							for (String p : exportedPricesProperties) {
+								String val;
+								try {
+									val = BeanUtils.getProperty(prices, p);
+									if (val == null)
+										val = "";
+									bw.write(val.replaceAll("\n", "") + ";");
+								} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+									throw new IOException(e);
+								}
+		
+							}
+							bw.write("\n");
 						}
+						setChanged();
+						notifyObservers(i++);
 					}
-
-					for (String p : exportedPricesProperties) {
-						String val;
-						try {
-							val = BeanUtils.getProperty(prices, p);
-							if (val == null)
-								val = "";
-							bw.write(val.replaceAll("\n", "") + ";");
-						} catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
-							throw new IOException(e);
-						}
-
-					}
-					bw.write("\n");
-				}
-				setChanged();
-				notifyObservers(i++);
 			}
 		}
 
