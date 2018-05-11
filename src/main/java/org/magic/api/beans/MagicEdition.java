@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 public class MagicEdition implements Serializable, Comparable<MagicEdition> {
+	public static final long serialVersionUID = 1L;
 
 	private String set;
 	private String rarity;
@@ -14,11 +15,7 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private String flavor;
 	private String number;
 	private String layout;
-	private transient MagicPrice price;
 	private String url;
-	private String image_url;
-	private String set_url;
-	private String store_url;
 	private String id;
 	private String releaseDate;
 	private String type;
@@ -27,27 +24,35 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private String border;
 	private transient List<Object> booster;
 	private Map<String, String> translations;
-	public static final long serialVersionUID = 4136786369066180196L;
 	private boolean onlineOnly;
 	private String magicCardsInfoCode;
 	private Integer mkm_id;
 	private String mkm_name;
 	private String gathererCode;
 
-	public Integer getMkm_id() {
+	
+	public String getMultiverseid() {
+		return multiverse_id;
+	}
+	
+	public void setMultiverseid(String multiverseid) {
+		this.multiverse_id = multiverseid;
+	}
+	
+	public Integer getMkmid() {
 		return mkm_id;
 	}
 
-	public void setMkm_id(Integer mkm_id) {
-		this.mkm_id = mkm_id;
+	public void setMkmid(Integer mkmid) {
+		this.mkm_id = mkmid;
 	}
 
-	public String getMkm_name() {
+	public String getMkmName() {
 		return mkm_name;
 	}
 
-	public void setMkm_name(String mkm_name) {
-		this.mkm_name = mkm_name;
+	public void setMkmName(String mkmname) {
+		this.mkm_name = mkmname;
 	}
 
 	public String getMagicCardsInfoCode() {
@@ -174,13 +179,6 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 		this.artist = artist;
 	}
 
-	public String getMultiverse_id() {
-		return multiverse_id;
-	}
-
-	public void setMultiverse_id(String multiverse_id) {
-		this.multiverse_id = multiverse_id;
-	}
 
 	public String getFlavor() {
 		return flavor;
@@ -206,44 +204,12 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 		this.layout = layout;
 	}
 
-	public MagicPrice getPrice() {
-		return price;
-	}
-
-	public void setPrice(MagicPrice price) {
-		this.price = price;
-	}
-
 	public String getUrl() {
 		return url;
 	}
 
 	public void setUrl(String url) {
 		this.url = url;
-	}
-
-	public String getImage_url() {
-		return image_url;
-	}
-
-	public void setImage_url(String image_url) {
-		this.image_url = image_url;
-	}
-
-	public String getSet_url() {
-		return set_url;
-	}
-
-	public void setSet_url(String set_url) {
-		this.set_url = set_url;
-	}
-
-	public String getStore_url() {
-		return store_url;
-	}
-
-	public void setStore_url(String store_url) {
-		this.store_url = store_url;
 	}
 
 	public int compare(MagicEdition o1, MagicEdition o2) {

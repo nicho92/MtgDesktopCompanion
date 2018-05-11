@@ -38,7 +38,6 @@ import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
-import org.magic.services.PluginRegistry;
 import org.magic.sorters.CardsEditionSorter;
 
 import com.google.gson.Gson;

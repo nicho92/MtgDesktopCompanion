@@ -48,8 +48,6 @@ import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
 import org.magic.gui.renderer.CardShakeRenderer;
-import org.magic.servers.impl.AlertTrendServer;
-import org.magic.servers.impl.PricesCheckerTimer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;

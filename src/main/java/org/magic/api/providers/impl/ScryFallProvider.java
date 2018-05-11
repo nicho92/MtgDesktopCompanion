@@ -466,7 +466,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			ed = (MagicEdition) BeanUtils.cloneBean(getSetById(obj.get("set").getAsString()));
 			ed.setArtist(mc.getArtist());
 			if (mc.getMultiverseid() != null)
-				ed.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
+				ed.setMultiverseid(String.valueOf(mc.getMultiverseid()));
 
 			ed.setRarity(obj.get("rarity").getAsString());
 			ed.setOnlineOnly(obj.get("digital").getAsBoolean());
@@ -567,7 +567,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 						ed.setArtist(obj.get("artist").getAsString());
 
 					if (obj.get("multiverse_id") != null)
-						ed.setMultiverse_id(obj.get("multiverse_id").getAsString());
+						ed.setMultiverseid(obj.get("multiverse_id").getAsString());
 
 					if (obj.get("rarity") != null)
 						ed.setRarity(obj.get("rarity").getAsString());

@@ -11,7 +11,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.services.MTGConstants;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;

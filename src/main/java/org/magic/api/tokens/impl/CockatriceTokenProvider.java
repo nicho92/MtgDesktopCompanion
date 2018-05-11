@@ -16,6 +16,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
@@ -65,7 +66,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public boolean isEmblemizer(MagicCard mc) {
-		if (mc.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
+		if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString()))
 			return false;
 
 		String expression = "//card[reverse-related=\"" + mc.getName() + "\"][contains(name,'emblem')]";
@@ -84,7 +85,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Element value = (Element) nodeList.item(0);
 			MagicCard tok = new MagicCard();
-			tok.setLayout(MagicCard.LAYOUT.Token.toString());
+			tok.setLayout(StringUtils.capitalize(MagicCard.LAYOUT.TOKEN.toString().toLowerCase()));
 			tok.setCmc(0);
 			tok.setName(value.getElementsByTagName("name").item(0).getTextContent());
 
@@ -105,7 +106,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			if (types.toLowerCase().contains("creature"))
 				tok.getTypes().add("Creature");
 
-			tok.getTypes().add(MagicCard.LAYOUT.Token.toString());
+			tok.getTypes().add(StringUtils.capitalize(MagicCard.LAYOUT.TOKEN.toString().toLowerCase()));
 
 			tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
 
@@ -153,12 +154,12 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Element value = (Element) nodeList.item(0);
 			MagicCard tok = new MagicCard();
-			tok.setLayout(MagicCard.LAYOUT.Emblem.toString());
+			tok.setLayout(StringUtils.capitalize(MagicCard.LAYOUT.EMBLEM.toString().toLowerCase()));
 			tok.setCmc(0);
 			tok.setName(
 					value.getElementsByTagName("name").item(0).getTextContent().replaceAll("\\(emblem\\)", "").trim());
 			String types = value.getElementsByTagName("type").item(0).getTextContent();
-			tok.getSupertypes().add(MagicCard.LAYOUT.Emblem.toString());
+			tok.getSupertypes().add(StringUtils.capitalize(MagicCard.LAYOUT.EMBLEM.toString().toLowerCase()));
 			tok.getSubtypes().add(types.substring(types.indexOf("\u2014") + 1));
 			tok.setText(value.getElementsByTagName("text").item(0).getTextContent());
 			tok.setNumber("E");
@@ -178,7 +179,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 		String expression = "//card[name=\"" + tok.getName() + "\"]";
 
-		if (tok.getLayout().equals(MagicCard.LAYOUT.Emblem.toString()))
+		if (tok.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString()))
 			expression = "//card[name=\"" + tok.getName() + " (emblem)\"]";
 
 		logger.debug(expression + " for " + tok);

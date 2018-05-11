@@ -47,7 +47,7 @@ public class CacheProviderTests {
 					 ed.setBorder("Black");
 					 ed.setRarity("Rare");
 					 ed.setArtist("Christopher Rush");
-					 ed.setMultiverse_id("3");
+					 ed.setMultiverseid("3");
 					 ed.setNumber("232");
 		
 		mc.getEditions().add(ed);

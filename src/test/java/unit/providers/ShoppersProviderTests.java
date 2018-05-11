@@ -46,10 +46,10 @@ public class ShoppersProviderTests {
 					 ed.setBorder("Black");
 					 ed.setRarity("Rare");
 					 ed.setArtist("Christopher Rush");
-					 ed.setMultiverse_id("3");
+					 ed.setMultiverseid("3");
 					 ed.setNumber("232");
-					 ed.setMkm_id(1);
-					 ed.setMkm_name("Alpha");
+					 ed.setMkmid(1);
+					 ed.setMkmName("Alpha");
 		mc.getEditions().add(ed);
 	}
 	

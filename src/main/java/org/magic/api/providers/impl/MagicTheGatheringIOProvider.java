@@ -217,7 +217,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		MagicEdition currentEd = getSetById(currentSet);
 
 		if (obj.get("multiverseid") != null)
-			currentEd.setMultiverse_id(obj.get("multiverseid").getAsString());
+			currentEd.setMultiverseid(obj.get("multiverseid").getAsString());
 
 		if (obj.get("rarity") != null)
 			currentEd.setRarity(obj.get("rarity").getAsString());
@@ -242,7 +242,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		defaultMcn.setName(mc.getName());
 		defaultMcn.setLanguage("English");
 		try {
-			defaultMcn.setGathererId(Integer.parseInt(currentEd.getMultiverse_id()));
+			defaultMcn.setGathererId(Integer.parseInt(currentEd.getMultiverseid()));
 		} catch (Exception e) {
 			defaultMcn.setGathererId(0);
 		}
@@ -288,7 +288,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			if (temp.get("rarity") != null)
 				ed.setRarity(temp.get("rarity").getAsString());
 			if (temp.get("multiverseid") != null)
-				ed.setMultiverse_id(temp.get("multiverseid").getAsString());
+				ed.setMultiverseid(temp.get("multiverseid").getAsString());
 			if (temp.get("number") != null)
 				ed.setNumber(temp.get("number").getAsString());
 
@@ -307,8 +307,8 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		ed.setReleaseDate(obj.get("releaseDate").getAsString());
 
 		if (obj.get("mkm_id") != null) {
-			ed.setMkm_id(obj.get("mkm_id").getAsInt());
-			ed.setMkm_name(obj.get("mkm_name").getAsString());
+			ed.setMkmid(obj.get("mkm_id").getAsInt());
+			ed.setMkmName(obj.get("mkm_name").getAsString());
 		}
 
 		if (obj.get("magicCardsInfoCode") != null)

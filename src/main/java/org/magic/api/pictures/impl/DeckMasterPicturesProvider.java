@@ -102,7 +102,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 			return resizeCard(MTGControler.getInstance().getEnabledCache().getPic(mc, selected), newW, newH);
 		}
 
-		BufferedImage im = getPicture(selected.getMultiverse_id());
+		BufferedImage im = getPicture(selected.getMultiverseid());
 
 		if (im != null)
 			MTGControler.getInstance().getEnabledCache().put(im, mc, ed);

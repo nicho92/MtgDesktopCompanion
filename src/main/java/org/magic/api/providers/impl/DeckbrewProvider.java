@@ -143,14 +143,14 @@ public class DeckbrewProvider extends AbstractCardsProvider {
 					JsonObject obj = editions.get(j).getAsJsonObject();
 					MagicEdition ed = getSetById(obj.get("set_id").getAsString());
 					ed.setArtist(obj.get("artist").getAsString());
-					ed.setMultiverse_id(obj.get("multiverse_id").getAsString());
+					ed.setMultiverseid(obj.get("multiverse_id").getAsString());
 					ed.setRarity(obj.get("rarity").getAsString());
 					ed.setNumber(obj.get("number").getAsString());
 
 					MagicCardNames name = new MagicCardNames();
 					name.setName(mc.getName());
 					name.setLanguage("English");
-					name.setGathererId(Integer.parseInt(ed.getMultiverse_id()));
+					name.setGathererId(Integer.parseInt(ed.getMultiverseid()));
 					mc.getForeignNames().add(name);
 					mc.setLayout(obj.get("layout").getAsString());
 					mc.getEditions().add(ed);

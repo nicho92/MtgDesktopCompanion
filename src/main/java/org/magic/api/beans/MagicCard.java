@@ -11,7 +11,7 @@ public class MagicCard implements Serializable {
 	*/
 
 	public enum LAYOUT {
-		Normal, Token, Emblem
+		NORMAL, TOKEN, EMBLEM
 	}
 
 	private static final long serialVersionUID = 1L;

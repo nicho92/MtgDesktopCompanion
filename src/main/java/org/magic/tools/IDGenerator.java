@@ -24,10 +24,10 @@ public class IDGenerator {
 	public static String generate(MagicCard mc, MagicEdition ed) {
 		// String id = ed.getId()+mc.getName()+mc.getImageName(); --> mtgjson
 
-		String id = String.valueOf((mc.getName() + ed + ed.getNumber() + ed.getMultiverse_id()));
+		String id = String.valueOf((mc.getName() + ed + ed.getNumber() + ed.getMultiverseid()));
 		id = DigestUtils.sha1Hex(id);
 
-		logger.trace("Generate ID for " + (mc.getName() + "|" + ed + "|" + ed.getNumber() + "|" + ed.getMultiverse_id())
+		logger.trace("Generate ID for " + (mc.getName() + "|" + ed + "|" + ed.getNumber() + "|" + ed.getMultiverseid())
 				+ "=" + id);
 
 		return id;

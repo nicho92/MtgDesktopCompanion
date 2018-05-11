@@ -143,6 +143,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		JsonArray arr = new JsonParser().parse(manajson).getAsJsonArray();
 		manajson = "";
 		boolean hascolor = false;
+		StringBuilder build = new StringBuilder(manajson);
 		for (int i = 0; i < arr.size(); i++) {
 			JsonObject obj = arr.get(i).getAsJsonObject();
 			String c = ColorParser.parse(obj.get("name").getAsString());
@@ -154,11 +155,11 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 			}
 
 			if (hascolor && !c.equals("{C}")) {
-				manajson += c;
+				build.append(c);
 			}
 		}
 
-		return manajson;
+		return build.toString();
 	}
 
 	private Integer getFormatCode(String property) {

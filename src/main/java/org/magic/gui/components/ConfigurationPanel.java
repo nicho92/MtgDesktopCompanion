@@ -225,9 +225,9 @@ public class ConfigurationPanel extends JPanel {
 
 		ThreadManager.getInstance().execute(() -> {
 			try {
-				loading(true, "backup " + MTGControler.getInstance().getEnabledDAO() + " database");
+				loading(true, "backup db " + MTGControler.getInstance().getEnabledDAO() + " database");
 				MTGControler.getInstance().getEnabledDAO().backup(new File(textField.getText()));
-				loading(false, "backup " + MTGControler.getInstance().getEnabledDAO() + " end");
+				loading(false,"");
 
 			} catch (Exception e1) {
 				logger.error(e1);
@@ -477,14 +477,14 @@ public class ConfigurationPanel extends JPanel {
 		});
 
 		JPanel panelCheckCache = new JPanel();
-		GridBagConstraints gbc_panelCheckCache = new GridBagConstraints();
-		gbc_panelCheckCache.anchor = GridBagConstraints.WEST;
-		gbc_panelCheckCache.gridwidth = 3;
-		gbc_panelCheckCache.insets = new Insets(0, 0, 5, 5);
-		gbc_panelCheckCache.fill = GridBagConstraints.VERTICAL;
-		gbc_panelCheckCache.gridx = 1;
-		gbc_panelCheckCache.gridy = 8;
-		panelConfig.add(panelCheckCache, gbc_panelCheckCache);
+		GridBagConstraints gbcPanelCheckCache = new GridBagConstraints();
+		gbcPanelCheckCache.anchor = GridBagConstraints.WEST;
+		gbcPanelCheckCache.gridwidth = 3;
+		gbcPanelCheckCache.insets = new Insets(0, 0, 5, 5);
+		gbcPanelCheckCache.fill = GridBagConstraints.VERTICAL;
+		gbcPanelCheckCache.gridx = 1;
+		gbcPanelCheckCache.gridy = 8;
+		panelConfig.add(panelCheckCache, gbcPanelCheckCache);
 
 		chckbxIconset = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("IMG_SET"));
 		panelCheckCache.add(chckbxIconset);
@@ -743,12 +743,12 @@ public class ConfigurationPanel extends JPanel {
 		gbc_panelModule.gridx = 1;
 		gbc_panelModule.gridy = 2;
 		add(panelModule, gbc_panelModule);
-		GridBagLayout gbl_panelModule = new GridBagLayout();
-		gbl_panelModule.columnWidths = new int[] { 0, 0, 0, 103, 0 };
-		gbl_panelModule.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-		gbl_panelModule.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		gbl_panelModule.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
-		panelModule.setLayout(gbl_panelModule);
+		GridBagLayout gblPanelModule = new GridBagLayout();
+		gblPanelModule.columnWidths = new int[] { 0, 0, 0, 103, 0 };
+		gblPanelModule.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gblPanelModule.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblPanelModule.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		panelModule.setLayout(gblPanelModule);
 
 		chckbxSearch = new JCheckBox(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
 		chckbxSearch.setSelected(MTGControler.getInstance().get("modules/search").equals("true"));

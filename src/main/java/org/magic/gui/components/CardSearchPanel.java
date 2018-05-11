@@ -567,7 +567,7 @@ public class CardSearchPanel extends JPanel {
 
 				if (e.getStateChange() == ItemEvent.SELECTED && selLang != null) {
 					MagicEdition ed = (MagicEdition) BeanUtils.cloneBean(selectedEdition);
-					ed.setMultiverse_id("" + selLang.getGathererId());
+					ed.setMultiverseid("" + selLang.getGathererId());
 
 					logger.debug("change lang to " + selLang + " for " + ed);
 					cardsPicPanel.showPhoto(selectedCard, ed);

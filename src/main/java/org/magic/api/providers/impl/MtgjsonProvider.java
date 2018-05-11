@@ -50,7 +50,6 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	private File fversion = new File(confdir, "version");
 
 	private ReadContext ctx;
-	private List<String> currentSet;
 
 	private String version;
 
@@ -223,7 +222,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 	private List<MagicCard> search(String jsquery, String att, String crit) {
 
-		currentSet = new ArrayList<>();
+		List<String> currentSet = new ArrayList<>();
 		List<MagicCard> listCards = new ArrayList<>();
 
 		logger.debug("searchCardByCriteria : " + jsquery);
@@ -348,7 +347,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				me.setNumber(mc.getNumber());
 
 				if (mc.getMultiverseid() != null)
-					me.setMultiverse_id(String.valueOf(mc.getMultiverseid()));
+					me.setMultiverseid(String.valueOf(mc.getMultiverseid()));
 
 				mc.getEditions().add(me);
 
@@ -386,7 +385,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 						if (!print.equalsIgnoreCase(codeEd)) {
 							MagicEdition meO = getSetById(print);
 							if (mc.getMultiverseid() == null)
-								meO.setMultiverse_id(String.valueOf(0));
+								meO.setMultiverseid(String.valueOf(0));
 
 							initOtherEditionCardsVar(mc, meO);
 
@@ -513,11 +512,11 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		}
 
 		try {
-			me.setMkm_id(ctx.read("$." + id + ".mkm_id", Integer.class));
-			me.setMkm_name(ctx.read("$." + id + ".mkm_name", String.class));
+			me.setMkmid(ctx.read("$." + id + ".mkm_id", Integer.class));
+			me.setMkmName(ctx.read("$." + id + ".mkm_name", String.class));
 		} catch (Exception e) {
-			me.setMkm_id(null);
-			me.setMkm_name(null);
+			me.setMkmid(null);
+			me.setMkmName(null);
 		}
 
 		try {
@@ -596,14 +595,14 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				}
 
 				try {
-					me.setMkm_id(Integer.parseInt(String.valueOf(map.get("mkm_id"))));
-					me.setMkm_name(String.valueOf(map.get("mkm_name")));
+					me.setMkmid(Integer.parseInt(String.valueOf(map.get("mkm_id"))));
+					me.setMkmName(String.valueOf(map.get("mkm_name")));
 				} catch (Exception e) {
 					logger.trace("initOtherEditionCardsVar mkm_id not found");
 				}
 
 				try {
-					me.setMultiverse_id(String.valueOf((int) (double) map.get("multiverseid")));
+					me.setMultiverseid(String.valueOf((int) (double) map.get("multiverseid")));
 				} catch (Exception e) {
 					logger.trace("multiverseNotFound for " + me);
 				}

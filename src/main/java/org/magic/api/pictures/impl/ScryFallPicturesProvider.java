@@ -20,7 +20,7 @@ import org.magic.tools.InstallCert;
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 	private Boolean scryfallProvider = null;
-
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -48,15 +48,14 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if (scryfallProvider == null)
 			scryfallProvider = MTGControler.getInstance().getEnabledCardsProviders() instanceof ScryFallProvider;
 
-		String url = "https://api.scryfall.com/cards/" + selected.getId().toLowerCase() + "/" + selected.getNumber()
-				+ "?format=image";
+		String url = "https://api.scryfall.com/cards/" + selected.getId().toLowerCase() + "/" + selected.getNumber()+ "?format=image";
 
 		if (scryfallProvider) {
 			url = "https://api.scryfall.com/cards/" + mc.getId() + "?format=image";
 		}
 
-		if (selected.getMultiverse_id() != null && !selected.getMultiverse_id().equals("0"))
-			url = "https://api.scryfall.com/cards/multiverse/" + selected.getMultiverse_id() + "?format=image";
+		if (selected.getMultiverseid() != null && !selected.getMultiverseid().equals("0"))
+			url = "https://api.scryfall.com/cards/multiverse/" + selected.getMultiverseid() + "?format=image";
 
 		if (crop)
 			url += "&version=art_crop";
@@ -123,8 +122,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		logger.debug("load pics " + connection.getURL().toString());
 
 		try {
-			BufferedImage bufferedImage = ImageIO.read(connection.getInputStream());
-			return bufferedImage;
+			return ImageIO.read(connection.getInputStream());
 		} catch (Exception e) {
 			logger.error(e);
 			return getBackPicture();
