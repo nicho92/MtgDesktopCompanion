@@ -27,8 +27,7 @@ public class EditionCellRenderer extends DefaultTableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 			int row, int column) {
 		pane.removeAll();
-		pane.setBackground(
-				super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
+		pane.setBackground(super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
 
 		for (MagicEdition ed : (List<MagicEdition>) value) {
 			JLabel l = new JLabel(IconSetProvider.getInstance().get16(ed.getId()));

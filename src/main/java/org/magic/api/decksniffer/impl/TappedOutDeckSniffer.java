@@ -140,9 +140,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 			List<MagicCard> ret;
 			if (idSet == null) {
-				if (cardName.trim().equalsIgnoreCase("Plains") || cardName.trim().equalsIgnoreCase("Island")
-						|| cardName.trim().equalsIgnoreCase("Swamp") || cardName.trim().equalsIgnoreCase("Mountain")
-						|| cardName.trim().equalsIgnoreCase("Forest")) {
+				if (MagicCard.isBasicLand(cardName)) {
 					MagicEdition ed = new MagicEdition();
 					ed.setId(MTGControler.getInstance().get("default-land-deck"));
 					ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", cardName, ed,

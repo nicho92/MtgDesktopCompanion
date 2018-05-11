@@ -71,9 +71,7 @@ public class ManualImportDialog extends JDialog {
 			String name = l.substring(l.indexOf(' '), l.length());
 			try {
 				MagicCard mc;
-				if (name.trim().equalsIgnoreCase("Plains") || name.trim().equalsIgnoreCase("Island")
-						|| name.trim().equalsIgnoreCase("Swamp") || name.trim().equalsIgnoreCase("Mountain")
-						|| name.trim().equalsIgnoreCase("Forest")) {
+				if (MagicCard.isBasicLand(name)) {
 					MagicEdition ed = new MagicEdition();
 					ed.setId(MTGControler.getInstance().get("default-land-deck"));
 					mc = MTGControler.getInstance().getEnabledCardsProviders()

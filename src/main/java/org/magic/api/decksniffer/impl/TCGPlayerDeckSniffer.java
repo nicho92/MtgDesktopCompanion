@@ -52,9 +52,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 			String cardName = main.get(0).getElementsByClass("subdeck-group__card-name").get(i).text();
 
 			MagicEdition ed = null;
-			if (cardName.trim().equalsIgnoreCase("Plains") || cardName.trim().equalsIgnoreCase("Island")
-					|| cardName.trim().equalsIgnoreCase("Swamp") || cardName.trim().equalsIgnoreCase("Mountain")
-					|| cardName.trim().equalsIgnoreCase("Forest")) {
+			if (MagicCard.isBasicLand(cardName)) {
 				ed = new MagicEdition();
 				ed.setId(MTGControler.getInstance().get("default-land-deck"));
 			}
@@ -76,9 +74,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 				String cardName = main.get(1).getElementsByClass("subdeck-group__card-name").get(i).text();
 
 				MagicEdition ed = null;
-				if (cardName.trim().equalsIgnoreCase("Plains") || cardName.trim().equalsIgnoreCase("Island")
-						|| cardName.trim().equalsIgnoreCase("Swamp") || cardName.trim().equalsIgnoreCase("Mountain")
-						|| cardName.trim().equalsIgnoreCase("Forest")) {
+				if (MagicCard.isBasicLand(cardName)) {
 					ed = new MagicEdition();
 					ed.setId(MTGControler.getInstance().get("default-land-deck"));
 				}
