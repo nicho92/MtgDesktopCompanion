@@ -154,14 +154,14 @@ public class MTGArenaExport extends AbstractCardExport {
 	}
 
 	@Override
-	public void initDefault() {
-		
-
+	public String getVersion() {
+		return "1.0";
 	}
 
 	@Override
-	public String getVersion() {
-		return "1.0";
+	public void initDefault() {
+		// do nothing
+		
 	}
 
 }

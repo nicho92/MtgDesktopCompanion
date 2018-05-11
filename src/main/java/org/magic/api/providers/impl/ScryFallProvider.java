@@ -192,8 +192,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		return new String[] { "name", "custom", "type", "color", "oracle", "mana", "cmc", "power", "toughness",
-				"loyalty", "is", "rarity", "cube", "artist", "flavor", "watermark", "border", "frame", "set" };
+		return new String[] { "name", "custom", "type", "color", "oracle", "mana", "cmc", "power", "toughness","loyalty", "is", "rarity", "cube", "artist", "flavor", "watermark", "border", "frame", "set" };
 	}
 
 	@Override

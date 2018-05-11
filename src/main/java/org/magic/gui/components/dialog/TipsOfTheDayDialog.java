@@ -20,11 +20,7 @@ public class TipsOfTheDayDialog extends JXTipOfTheDay {
 
 	}
 
-	/**
-	 * @deprecated
-	 */
 	@Override
-	@Deprecated
 	public void show() {
 		String key = "tooltip";
 		showDialog(null, new JXTipOfTheDay.ShowOnStartupChoice() {

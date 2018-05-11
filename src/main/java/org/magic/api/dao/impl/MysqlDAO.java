@@ -111,7 +111,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public void removeCard(MagicCard mc, MagicCollection collection) throws SQLException {
-		logger.debug("delete " + mc + " from " + collection);
+		logger.debug("delete " + mc + " in " + collection);
 		try (PreparedStatement pst = con
 				.prepareStatement("delete from cards where id=? and edition=? and collection=?")) {
 			pst.setString(1, IDGenerator.generate(mc));

@@ -244,12 +244,7 @@ public class StockPanelGUI extends JPanel {
 									model.fireTableDataChanged();
 									updateCount();
 									lblLoading.setVisible(false);
-									JOptionPane.showMessageDialog(null,
-											MTGControler.getInstance().getLangService().combine("IMPORT", "FINISHED"),
-											exp.getName() + " "
-													+ MTGControler.getInstance().getLangService()
-															.getCapitalize("FINISHED"),
-											JOptionPane.INFORMATION_MESSAGE);
+									JOptionPane.showMessageDialog(null,MTGControler.getInstance().getLangService().combine("IMPORT", "FINISHED"),exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),JOptionPane.INFORMATION_MESSAGE);
 
 								} catch (Exception e) {
 									logger.error("ERROR", e);

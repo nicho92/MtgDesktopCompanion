@@ -75,7 +75,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 				else
 					savedDeck.getMapSideBoard().put(mc, savedDeck.getMapSideBoard().get(mc) + 1);
 
-				lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());
+				refresh();
 			}
 		});
 		btnAdd.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -94,7 +94,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 				else
 					savedDeck.getMap().put(mc, savedDeck.getMap().get(mc) + 1);
 
-				lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());
+				refresh();
 			}
 		});
 		btnRemove.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -127,6 +127,11 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		pack();
 	}
 
+	private void refresh() {
+		lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());
+		
+	}
+
 	private void init() {
 
 		modMain.removeAllElements();
@@ -138,7 +143,7 @@ public class DeckSideBoardSwitcherDialog extends JDialog {
 		for (MagicCard mc : bckDeck.getSideAsList())
 			modSide.addElement(mc);
 
-		lblDecksize.setText("DeckSize : " + savedDeck.getNbCards());
+		refresh();
 	}
 
 	public MagicDeck getDeck() {

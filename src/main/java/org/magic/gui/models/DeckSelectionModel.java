@@ -5,11 +5,9 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
-import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
