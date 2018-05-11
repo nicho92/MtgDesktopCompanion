@@ -4,8 +4,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -18,98 +28,52 @@ import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
 
 public class MagicVillePricer extends AbstractMagicPricesProvider {
-
-	Document doc;
-	List<MagicPrice> list;
-	CloseableHttpClient httpclient;
-
+	
+	private HttpClient httpclient;
+	
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.DEV;
 	}
+	
+	private ResponseHandler<String> responseHandler = new ResponseHandler<String>() {
+
+		public String handleResponse(final HttpResponse response) throws IOException {
+			int status = response.getStatusLine().getStatusCode();
+			HttpEntity entity = response.getEntity();
+
+			if (status >= 200 && status < 300) {
+				return entity != null ? EntityUtils.toString(entity) : null;
+			} else {
+				throw new ClientProtocolException(
+						"Unexpected response status: " + status + ":" + EntityUtils.toString(entity));
+			}
+		}
+	};
 
 	public MagicVillePricer() {
 		super();
+		httpclient = HttpClientBuilder.create().build();
 
-		list = new ArrayList<>();
-		httpclient = HttpClients.createDefault();
-
-	}
-
-	public static String getMGVILLCodeEdition(MagicEdition me) {
-		switch (me.getId()) {
-		case "M10":
-			return "10m";
-		case "M11":
-			return "11m";
-		case "M12":
-			return "12m";
-		case "M13":
-			return "13m";
-		case "M14":
-			return "14m";
-		case "M15":
-			return "15m";
-		case "DRK":
-			return "dar";
-		case "5DN":
-			return "fda";
-		case "10E":
-			return "xth";
-		case "CSP":
-			return "col";
-		case "ARB":
-			return "alr";
-		case "DST":
-			return "drs";
-		case "5ED":
-			return "5th";
-		case "ALA":
-			return "soa";
-		case "TMP":
-			return "tem";
-		case "CN2":
-			return "2cn";
-		case "MM3":
-			return "mmc";
-		default:
-			return me.getId();
-		}
-
-	}
-
-	private String prefixZeros(String value, int len) {
-		char[] t = new char[len];
-		int l = value.trim().length();
-		int k = len - l;
-		for (int i = 0; i < k; i++) {
-			t[i] = '0';
-		}
-		value.getChars(0, l, t, k);
-		return new String(t);
 	}
 
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
-
-		list.clear();
-		String html = getString("URL");
-
-		if (me == null)
-			me = card.getCurrentSet();
-
-		String keyword = "";
-		try {
-			keyword = getMGVILLCodeEdition(me) + prefixZeros(card.getNumber().replaceAll("a", "").trim(), 3);
-		} catch (Exception e) {
-			logger.error("no number for " + card);
-			return list;
-		}
-		setProperty("KEYWORD", keyword);
-		String url = html + keyword;
-
+		List<MagicPrice> list = new ArrayList<>();
+		HttpPost searchPost = new HttpPost(getString("WEBSITE")+"/fr/resultats.php?zbob=1");
+		List<NameValuePair> nvps = new ArrayList<>();
+							nvps.add(new BasicNameValuePair("recherche_titre", card.getName()));
+	
+		searchPost.setEntity(new UrlEncodedFormEntity(nvps));
+		String res = httpclient.execute(searchPost,responseHandler);
+		String key = "ref=";
+		String code = res.substring(res.indexOf(key), res.indexOf("\";"));
+		String url = getString("WEBSITE")+"/fr/register/show_card_sale?"+code;
+		
 		logger.info(getName() + " looking for prices " + url);
 
-		doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).timeout(0).get();
+		
+		Document doc = Jsoup.connect(url).userAgent(getString("USER_AGENT")).get();
+		
 		Element table = null;
 		try {
 			table = doc.select("table[width=98%]").get(2); // select the first table.
@@ -150,7 +114,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public String getName() {
-		return "Magic-Villois";
+		return "Magic-Ville";
 	}
 
 	@Override
@@ -162,16 +126,14 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	@Override
 	public void initDefault() {
 		setProperty("MAX", "5");
-		setProperty("URL", "http://www.magic-ville.com/fr/register/show_card_sale.php?gamerid=");
 		setProperty("WEBSITE", "http://www.magic-ville.com/");
-		setProperty("KEYWORD", "");
 		setProperty("USER_AGENT", MTGConstants.USER_AGENT);
 
 	}
 
 	@Override
 	public String getVersion() {
-		return "1.5";
+		return "2.0";
 	}
 
 }

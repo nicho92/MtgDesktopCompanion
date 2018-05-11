@@ -12,7 +12,7 @@ import org.magic.api.beans.MagicEdition;
 public interface MTGCardsProvider extends MTGPlugin {
 
 	public enum STATUT {
-		DEV, BETA, STABLE, ABANDONNED
+		DEV, BETA, STABLE, ABANDONNED,DEPRECATED
 	}
 
 	public void init();
