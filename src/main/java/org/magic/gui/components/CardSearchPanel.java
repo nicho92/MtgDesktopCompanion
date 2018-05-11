@@ -490,8 +490,7 @@ public class CardSearchPanel extends JPanel {
 							cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(
 									cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
 
-						//if (cards.size() < 50)
-							Collections.sort(cards, new CardsEditionSorter());
+						Collections.sort(cards, new CardsEditionSorter());
 
 						open(cards);
 						return null;

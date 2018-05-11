@@ -43,8 +43,12 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
 				String name = fields[0].trim();
 				String price = fields[1].trim();
+				double f =0;
 				try {
-					double f = Double.parseDouble(price);
+					f = Double.parseDouble(price);
+				} catch (NumberFormatException e) {
+					logger.error("error parsing "+ price);
+				}
 					String cname = getCorrectName(card.getName());
 					if (name.startsWith(cname)) {
 						logger.info(getName() + " found " + cname);
@@ -59,9 +63,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
 						return list;
 					}
-				} catch (NumberFormatException e) {
-					continue;
-				}
+				
 
 			}
 			return list;

@@ -90,8 +90,7 @@ public class StockPanelGUI extends JPanel {
 
 	private JComboBox<String> cboSelections;
 	private String[] selections = new String[] { "", MTGControler.getInstance().getLangService().get("NEW"),MTGControler.getInstance().getLangService().get("UPDATED") };
-	private File f;
-	
+	private File fileImport;
 	
 
 	public StockPanelGUI() {
@@ -225,11 +224,10 @@ public class StockPanelGUI extends JPanel {
 						});
 
 						int res = -1;
-						f = new File("");
-
+						
 						if (!exp.needDialogGUI()) {
 							res = jf.showOpenDialog(null);
-							f = jf.getSelectedFile();
+							fileImport = jf.getSelectedFile();
 						} else {
 							res = JFileChooser.APPROVE_OPTION;
 
@@ -239,7 +237,7 @@ public class StockPanelGUI extends JPanel {
 							ThreadManager.getInstance().execute(() -> {
 								try {
 									lblLoading.setVisible(true);
-									List<MagicCardStock> list = exp.importStock(f);
+									List<MagicCardStock> list = exp.importStock(fileImport);
 									for (MagicCardStock mc : list) {
 										addStock(mc);
 									}
@@ -298,14 +296,14 @@ public class StockPanelGUI extends JPanel {
 							}
 						});
 						int res = jf.showSaveDialog(null);
-						final File f = jf.getSelectedFile();
+						final File fileExport = jf.getSelectedFile();
 
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
 									lblLoading.setVisible(true);
 
-									exp.exportStock(model.getList(), f);
+									exp.exportStock(model.getList(), fileExport);
 
 									lblLoading.setVisible(false);
 									JOptionPane.showMessageDialog(null,

@@ -29,6 +29,7 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.gui.components.NewsEditorPanel;
 import org.magic.gui.models.MagicNewsTableModel;
+import org.magic.gui.renderer.NewsTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -78,36 +79,7 @@ public class RssGUI extends JPanel {
 		leftPanel.setLayout(new BorderLayout(0, 0));
 		tree.setModel(new DefaultTreeModel(rootNode));
 		lblLoading.setVisible(false);
-		tree.setCellRenderer(new DefaultTreeCellRenderer() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-					boolean isLeaf, int row, boolean focused) {
-				Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
-
-				if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicNews) {
-					switch (((MagicNews) ((DefaultMutableTreeNode) value).getUserObject()).getProvider()
-							.getProviderType()) {
-					case RSS:
-						setIcon(MTGConstants.ICON_RSS);
-						break;
-					case TWITTER:
-						setIcon(MTGConstants.ICON_TWITTER);
-						break;
-					case FORUM:
-						setIcon(MTGConstants.ICON_FORUM);
-						break;
-					}
-
-				}
-
-				if (((DefaultMutableTreeNode) value).getUserObject() instanceof String)
-					setIcon(MTGConstants.ICON_NEWS);
-
-				return c;
-			}
-		});
+		tree.setCellRenderer(new NewsTreeCellRenderer());
 
 		
 		scrollEditor.setViewportView(editorPane);

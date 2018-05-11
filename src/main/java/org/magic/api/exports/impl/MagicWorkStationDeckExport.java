@@ -58,7 +58,6 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
 
 			String line = read.readLine();
-			int ecart = 0;
 
 			while (line != null) {
 				line = line.trim();

@@ -15,7 +15,6 @@ import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
 public class DeckSelectionModel extends DefaultTableModel {
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private final String[] columns = { MTGControler.getInstance().getLangService().getCapitalize("DECK"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"), "Standard", "Modern", "Legacy",

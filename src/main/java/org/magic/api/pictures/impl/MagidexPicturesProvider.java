@@ -91,12 +91,6 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	@Override
-	public void initDefault() {
-		super.initDefault();
-		
-	}
-
-	@Override
 	public String getVersion() {
 		return "1.0";
 	}

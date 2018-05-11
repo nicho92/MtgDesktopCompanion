@@ -38,7 +38,6 @@ public class DeckSnifferDialog extends JDialog {
 	private transient MTGDeckSniffer selectedSniffer;
 	private JButton btnConnect;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private TableFilterHeader filterHeader;
 
 	public DeckSnifferDialog() {
 

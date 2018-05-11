@@ -15,7 +15,7 @@ public class NullNotifier extends AbstractMTGNotifier {
 	
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		// do nothing;
+		// do nothing
 	}
 
 	@Override
