@@ -260,7 +260,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	@Override
 	public void initDefault() {
-		// TODO Auto-generated method stub
+		//do nothing
 
 	}
 

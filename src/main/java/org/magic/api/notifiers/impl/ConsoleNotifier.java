@@ -37,7 +37,7 @@ public class ConsoleNotifier extends AbstractMTGNotifier {
 
 	@Override
 	public void initDefault() {
-		// TODO Auto-generated method stub
+		// do nothing
 
 	}
 

@@ -275,10 +275,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 							setSelected(!isSelected());
 							repaint();
 						}
-						if (e.getClickCount() == 2) {
-							if (isTappable())
-								tap(!isTapped());
-							return;
+						if (e.getClickCount() == 2 && isTappable()) {
+							tap(!isTapped());
 						}
 					}
 

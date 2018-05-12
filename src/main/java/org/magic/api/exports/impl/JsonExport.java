@@ -159,7 +159,7 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public void initDefault() {
-		// TODO Auto-generated method stub
+		//do nothing
 
 	}
 

@@ -614,7 +614,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public void initDefault() {
-		// TODO Auto-generated method stub
+		//do nothing
 
 	}
 

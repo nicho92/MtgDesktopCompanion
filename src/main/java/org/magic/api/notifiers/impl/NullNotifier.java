@@ -30,7 +30,7 @@ public class NullNotifier extends AbstractMTGNotifier {
 
 	@Override
 	public void initDefault() {
-		// TODO Auto-generated method stub
+		//do nothing
 		
 	}
 

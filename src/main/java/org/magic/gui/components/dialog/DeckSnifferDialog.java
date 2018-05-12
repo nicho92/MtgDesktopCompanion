@@ -87,7 +87,7 @@ public class DeckSnifferDialog extends JDialog {
 		panel.add(btnConnect);
 
 		cboFormats = new JComboBox<>();
-		cboFormats.addActionListener(e -> { // TODO add change listener
+		cboFormats.addActionListener(e -> {
 			try {
 				lblLoad.setVisible(true);
 				selectedSniffer.setProperty("FORMAT", cboFormats.getSelectedItem());
@@ -120,7 +120,7 @@ public class DeckSnifferDialog extends JDialog {
 			try {
 				lblLoad.setVisible(true);
 				btnImport.setEnabled(false);
-				importedDeck = selectedSniffer.getDeck((RetrievableDeck) model.getValueAt(table.getSelectedRow(), 0)); //todo bugfix with tableheader
+				importedDeck = selectedSniffer.getDeck((RetrievableDeck) model.getValueAt(table.getSelectedRow(), 0)); 
 				lblLoad.setVisible(false);
 				btnImport.setEnabled(true);
 				dispose();

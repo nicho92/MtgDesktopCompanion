@@ -210,9 +210,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			JsonArray arr = obj.get("names").getAsJsonArray();
 
 			List<String> list = new ArrayList<>();
-			for (int i = 0; i < arr.size(); list.add(arr.get(i++).getAsString())) {
-				// TODO complete this function
-			}
+			
 
 			list.remove(mc.getName());
 
@@ -430,7 +428,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public void initDefault() {
-		// TODO Auto-generated method stub
+		//do nothing
 
 	}
 

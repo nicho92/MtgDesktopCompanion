@@ -212,10 +212,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		if (att.equalsIgnoreCase("multiverseid") || att.equalsIgnoreCase("cmc")) {
 			jsquery = "$" + filterEdition + ".cards[?(@." + att + " == " + crit + ")]";
 		}
-		if (att.equalsIgnoreCase("foreignNames")) // TODO : find the good formula
-		{
-			jsquery = "$" + filterEdition + ".cards[foreignNames][?(@.name =~ /^.*" + crit + ".*$/i)]";
-		}
+		
 		return search(jsquery, att, crit);
 	}
 
@@ -538,7 +535,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	}
 
 	public String[] getQueryableAttributs() {
-		return new String[] { "name", "foreignNames", "text", "artist", "type", "rarity", "flavor", "cmc", "set",
+		return new String[] { "name", "text", "artist", "type", "rarity", "flavor", "cmc", "set",
 				"watermark", "power", "toughness", "layout", "reserved" };
 	}
 
