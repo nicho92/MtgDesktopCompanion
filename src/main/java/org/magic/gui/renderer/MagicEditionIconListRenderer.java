@@ -10,24 +10,23 @@ import javax.swing.ListCellRenderer;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.IconSetProvider;
 
-public class MagicEditionListRenderer extends JLabel implements ListCellRenderer<MagicEdition> {
+public class MagicEditionIconListRenderer extends JLabel implements ListCellRenderer<MagicEdition> {
 
 	public enum SIZE {SMALL,MEDIUM}
 	
 	private SIZE size;
 	
-	public MagicEditionListRenderer(SIZE s) {
+	public MagicEditionIconListRenderer(SIZE s) {
 		size=s;
 	}
 	
-	public MagicEditionListRenderer() {
+	public MagicEditionIconListRenderer() {
 		size=SIZE.MEDIUM;
 	}
 	
 	
 	@Override
-	public Component getListCellRendererComponent(JList<? extends MagicEdition> list, MagicEdition value, int index,
-			boolean isSelected, boolean cellHasFocus) {
+	public Component getListCellRendererComponent(JList<? extends MagicEdition> list, MagicEdition value, int index,boolean isSelected, boolean cellHasFocus) {
 
 		if (value != null) {
 			ImageIcon ic;

@@ -61,8 +61,8 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.models.MagicCardTableModel;
-import org.magic.gui.renderer.EditionCellRenderer;
-import org.magic.gui.renderer.MagicEditionListRenderer;
+import org.magic.gui.renderer.MagicEditionsJLabelRenderer;
+import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -289,9 +289,9 @@ public class CardSearchPanel extends JPanel {
 
 		//////// RENDERER
 		tableCards.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
-		tableCards.getColumnModel().getColumn(6).setCellRenderer(new EditionCellRenderer());
-		cboEdition.setRenderer(new MagicEditionListRenderer());
-		listEdition.setCellRenderer(new MagicEditionListRenderer());
+		tableCards.getColumnModel().getColumn(6).setCellRenderer(new MagicEditionsJLabelRenderer());
+		cboEdition.setRenderer(new MagicEditionIconListRenderer());
+		listEdition.setCellRenderer(new MagicEditionIconListRenderer());
 
 		///////// CONFIGURE COMPONENTS
 		txtRulesArea.setLineWrap(true);

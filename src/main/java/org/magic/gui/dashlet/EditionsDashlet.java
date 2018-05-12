@@ -18,7 +18,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
-import org.magic.gui.renderer.MagicEditionListRenderer;
+import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
@@ -55,7 +55,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 		}
 
 		cboEditions = new JComboBox(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
-		cboEditions.setRenderer(new MagicEditionListRenderer());
+		cboEditions.setRenderer(new MagicEditionIconListRenderer());
 
 		panel.add(cboEditions);
 

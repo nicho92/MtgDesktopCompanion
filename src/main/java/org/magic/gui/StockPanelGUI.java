@@ -46,8 +46,8 @@ import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.models.CardStockTableModel;
 import org.magic.gui.renderer.EnumConditionEditor;
 import org.magic.gui.renderer.IntegerCellEditor;
-import org.magic.gui.renderer.MagicEditionListEditor;
-import org.magic.gui.renderer.MagicEditionRenderer;
+import org.magic.gui.renderer.MagicEditionsComboBoxEditor;
+import org.magic.gui.renderer.MagicEditionsComboBoxRenderer;
 import org.magic.gui.renderer.StockTableRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -521,8 +521,8 @@ public class StockPanelGUI extends JPanel {
 		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
 
-		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionListEditor());
-		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionRenderer());
+		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxEditor());
+		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxRenderer());
 
 		table.packAll();
 		new TableFilterHeader(table, AutoChoices.ENABLED);

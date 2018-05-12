@@ -25,7 +25,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
-import org.magic.gui.renderer.MagicEditionListRenderer;
+import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -65,7 +65,7 @@ public class MassCollectionImporterDialog extends JDialog {
 			logger.error(e2);
 		}
 		final JComboBox cboEditions = new JComboBox(list.toArray());
-		cboEditions.setRenderer(new MagicEditionListRenderer());
+		cboEditions.setRenderer(new MagicEditionIconListRenderer());
 		panelCollectionInput.add(cboEditions);
 
 		List<MagicCollection> lc = MTGControler.getInstance().getEnabledDAO().getCollections();

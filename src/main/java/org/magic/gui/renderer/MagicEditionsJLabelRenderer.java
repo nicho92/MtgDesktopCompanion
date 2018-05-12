@@ -12,9 +12,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.IconSetProvider;
 
-public class EditionCellRenderer extends DefaultTableCellRenderer {
+public class MagicEditionsJLabelRenderer extends DefaultTableCellRenderer {
 
-	public EditionCellRenderer() {
+	public MagicEditionsJLabelRenderer() {
 		FlowLayout flowLayout = new FlowLayout();
 		flowLayout.setVgap(0);
 		flowLayout.setAlignment(FlowLayout.LEFT);
@@ -24,8 +24,7 @@ public class EditionCellRenderer extends DefaultTableCellRenderer {
 	JPanel pane = new JPanel();
 
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		pane.removeAll();
 		pane.setBackground(super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
 

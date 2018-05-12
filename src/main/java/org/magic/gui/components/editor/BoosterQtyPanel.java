@@ -13,7 +13,7 @@ import javax.swing.SpinnerNumberModel;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
-import org.magic.gui.renderer.MagicEditionListRenderer;
+import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -46,7 +46,7 @@ public class BoosterQtyPanel extends JPanel {
 			logger.error(e1);
 		}
 		cboEditions = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
-		cboEditions.setRenderer(new MagicEditionListRenderer());
+		cboEditions.setRenderer(new MagicEditionIconListRenderer());
 		add(cboEditions);
 
 		spinner = new JSpinner();

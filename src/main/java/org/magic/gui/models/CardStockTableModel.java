@@ -191,9 +191,16 @@ public class CardStockTableModel extends DefaultTableModel {
 	}
 
 	private void updateEdition(MagicCardStock magicCardStock, MagicEdition aValue) {
-		MagicEdition ed = aValue;
-		magicCardStock.getMagicCard().getEditions().remove(ed);
-		magicCardStock.getMagicCard().getEditions().add(0, (MagicEdition) aValue);
+		
+		if(!magicCardStock.getMagicCard().getCurrentSet().equals(aValue))
+		{
+			
+			MagicEdition ed = aValue;
+			magicCardStock.setMagicCard(MTGControler.getInstance().switchEditions(magicCardStock.getMagicCard(), ed));
+			magicCardStock.getMagicCard().getEditions().remove(ed);
+			magicCardStock.getMagicCard().getEditions().add(0, (MagicEdition) aValue);
+			
+		}
 
 	}
 

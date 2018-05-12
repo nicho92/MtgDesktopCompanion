@@ -59,8 +59,8 @@ import org.magic.gui.components.dialog.JDeckChooserDialog;
 import org.magic.gui.models.DeckModel;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicCardListRenderer;
-import org.magic.gui.renderer.MagicEditionListEditor;
-import org.magic.gui.renderer.MagicEditionRenderer;
+import org.magic.gui.renderer.MagicEditionsComboBoxEditor;
+import org.magic.gui.renderer.MagicEditionsComboBoxRenderer;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -438,8 +438,8 @@ public class ConstructPanel extends JPanel {
 		tableDeck.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableDeck.setRowSorter(sorterCards);
 		tableDeck.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
-		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
-		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
+		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxRenderer());
+		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxEditor());
 
 		JScrollPane scrollSideboard = new JScrollPane();
 		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, scrollSideboard, null);
@@ -449,8 +449,8 @@ public class ConstructPanel extends JPanel {
 		tableSide.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableSide.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
 		tableSide.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
-		tableSide.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionRenderer());
-		tableSide.getColumnModel().getColumn(3).setCellEditor(new MagicEditionListEditor());
+		tableSide.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxRenderer());
+		tableSide.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxEditor());
 		tableSide.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
 
 		scrollSideboard.setViewportView(tableSide);

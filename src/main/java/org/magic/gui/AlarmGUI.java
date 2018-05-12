@@ -48,8 +48,8 @@ import org.magic.gui.components.renderer.MagicPricePanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.AlertedCardsRenderer;
 import org.magic.gui.renderer.CardShakeRenderer;
-import org.magic.gui.renderer.MagicEditionListEditor;
-import org.magic.gui.renderer.MagicEditionRenderer;
+import org.magic.gui.renderer.MagicEditionsComboBoxEditor;
+import org.magic.gui.renderer.MagicEditionsComboBoxRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -116,8 +116,8 @@ public class AlarmGUI extends JPanel {
 		table.getColumnModel().getColumn(4).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new CardShakeRenderer());
-		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionRenderer());
-		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionListEditor());
+		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxRenderer());
+		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxEditor());
 
 		panelRight.setLayout(new BorderLayout());
 	
