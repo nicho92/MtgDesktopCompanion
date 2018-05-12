@@ -1,5 +1,7 @@
 package org.magic.gui.models;
 
+import java.util.List;
+
 import javax.swing.table.DefaultTableModel;
 
 import org.apache.log4j.Logger;
@@ -45,7 +47,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 		case 0:
 			return MagicCardAlert.class;
 		case 1:
-			return MagicEdition.class;
+			return List.class;
 		case 2:
 			return Double.class;
 		case 3:
@@ -64,7 +66,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		return (column == 2);
+		return (column == 2 || column==1);
 	}
 
 	@Override
@@ -78,7 +80,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 		case 0:
 			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row);
 		case 1:
-			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getCard().getCurrentSet();
+			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getCard().getEditions();
 		case 2:
 			return MTGControler.getInstance().getEnabledDAO().listAlerts().get(row).getPrice();
 		case 3:
@@ -98,13 +100,24 @@ public class CardAlertTableModel extends DefaultTableModel {
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		MagicCardAlert alert = MTGControler.getInstance().getEnabledDAO().listAlerts().get(row);
-		alert.setPrice(Double.parseDouble(aValue.toString()));
+		
+		if (column == 1) {
+			MagicEdition ed = (MagicEdition) aValue;
+			alert.getCard().getEditions().remove(ed);
+			alert.getCard().getEditions().add(0, (MagicEdition) aValue);
+		}
+		
+		if(column==2) {
+			alert.setPrice(Double.parseDouble(aValue.toString()));
+		}
+		
 		try {
 			MTGControler.getInstance().getEnabledDAO().updateAlert(alert);
 			fireTableDataChanged();
 		} catch (Exception e) {
 			logger.error("error set value " + aValue, e);
 		}
+		
 	}
 
 }

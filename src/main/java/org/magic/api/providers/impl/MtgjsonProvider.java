@@ -104,8 +104,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 			logger.info("check new version of " + toString() + " (" + temp + ")");
 
-			InputStreamReader fr = new InputStreamReader(getStreamFromUrl(new URL(getString("URL_VERSION"))),
-					"ISO-8859-1");
+			InputStreamReader fr = new InputStreamReader(getStreamFromUrl(new URL(getString("URL_VERSION"))),MTGConstants.DEFAULT_ENCODING);
 			BufferedReader br = new BufferedReader(fr);
 			version = br.readLine();
 
