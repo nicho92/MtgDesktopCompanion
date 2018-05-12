@@ -116,7 +116,7 @@ public class AlarmGUI extends JPanel {
 		table.getColumnModel().getColumn(4).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(6).setCellRenderer(new CardShakeRenderer());
-		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxRenderer());
+		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxRenderer(false));
 		table.getColumnModel().getColumn(1).setCellEditor(new MagicEditionsComboBoxEditor());
 
 		panelRight.setLayout(new BorderLayout());

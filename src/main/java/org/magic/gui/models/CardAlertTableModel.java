@@ -1,11 +1,9 @@
 package org.magic.gui.models;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;

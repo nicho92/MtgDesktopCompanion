@@ -31,14 +31,20 @@ import com.google.gson.Gson;
 
 public class MysqlDAO extends AbstractMagicDAO {
 
+	private static final String MCARD = "mcard";
+	private static final String MYSQL_DUMP_PATH = "MYSQL_DUMP_PATH";
+	private static final String LOGIN = "LOGIN";
+	private static final String PASS = "PASS";
+	private static final String DB_NAME = "DB_NAME";
+	private static final String PARAMS = "PARAMS";
+	private static final String SERVERPORT = "SERVERPORT";
+	private static final String SERVERNAME = "SERVERNAME";
+	private static final String DRIVER = "DRIVER";
+	
+	
 	private Connection con;
 	private List<MagicCardAlert> list;
 	private Gson serialiser;
-	
-	
-	private enum KEYS {
-		DRIVER, SERVERNAME, SERVERPORT, DB_NAME, LOGIN, PASS, CARD_STORE, PARAMS, MYSQL_DUMP_PATH
-	}
 
 	@Override
 	public STATUT getStatut() {
@@ -53,11 +59,11 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	public void init() throws SQLException, ClassNotFoundException {
 		logger.info("init " + getName());
-		Class.forName(getString(KEYS.DRIVER.name()));
-		String url = "jdbc:mysql://" + getString(KEYS.SERVERNAME.name()) + ":" + getString(KEYS.SERVERPORT.name());
-		logger.trace("Connexion to " + url + "/" + getString(KEYS.DB_NAME.name()) + getString(KEYS.PARAMS.name()));
-		con = DriverManager.getConnection(url + "/" + getString(KEYS.DB_NAME.name()) + getString(KEYS.PARAMS.name()),
-				getString(KEYS.LOGIN.name()), getString(KEYS.PASS.name()));
+		Class.forName(getString(DRIVER));
+		String url = "jdbc:mysql://" + getString(SERVERNAME) + ":" + getString(SERVERPORT);
+		logger.trace("Connexion to " + url + "/" + getString(DB_NAME) + getString(PARAMS));
+		con = DriverManager.getConnection(url + "/" + getString(DB_NAME) + getString(PARAMS),
+				getString(LOGIN), getString(PASS));
 		createDB();
 		logger.info("init " + getName() + " done");
 
@@ -146,7 +152,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
 			List<MagicCard> listCards = new ArrayList<>();
 			while (rs.next()) {
-				listCards.add(serialiser.fromJson(rs.getString("mcard"), MagicCard.class) );
+				listCards.add(serialiser.fromJson(rs.getString(MCARD), MagicCard.class) );
 			}
 			return listCards;
 		}
@@ -207,7 +213,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCard> ret = new ArrayList<>();
 				while (rs.next()) {
-					ret.add(serialiser.fromJson(rs.getString("mcard"),MagicCard.class));
+					ret.add(serialiser.fromJson(rs.getString(MCARD),MagicCard.class));
 				}
 				return ret;
 			}
@@ -298,7 +304,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public String getDBLocation() {
-		return getString(KEYS.SERVERNAME.name()) + "/" + getString(KEYS.DB_NAME.name());
+		return getString(SERVERNAME) + "/" + getString(DB_NAME);
 	}
 
 	@Override
@@ -395,7 +401,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 				state.setComment(rs.getString("comments"));
 				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard(serialiser.fromJson(rs.getString("mcard"),MagicCard.class));
+				state.setMagicCard(serialiser.fromJson(rs.getString(MCARD),MagicCard.class));
 				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 				try {
 					state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
@@ -477,17 +483,17 @@ public class MysqlDAO extends AbstractMagicDAO {
 	@Override
 	public void backup(File f) throws SQLException, IOException {
 
-		if (getString(KEYS.MYSQL_DUMP_PATH.name()).length() <= 0)
+		if (getString(MYSQL_DUMP_PATH).length() <= 0)
 			throw new NullPointerException("Please fill MYSQL_DUMP_PATH var");
 
-		if (!new File(getString(KEYS.MYSQL_DUMP_PATH.name())).exists())
-			throw new IOException(getString(KEYS.MYSQL_DUMP_PATH.name()) + " doesn't exist");
+		if (!new File(getString(MYSQL_DUMP_PATH)).exists())
+			throw new IOException(getString(MYSQL_DUMP_PATH) + " doesn't exist");
 
-		String dumpCommand = getString(KEYS.MYSQL_DUMP_PATH.name()) + "/mysqldump " + getString(KEYS.DB_NAME.name())
-				+ " -h " + getString(KEYS.SERVERNAME.name()) + " -u " + getString(KEYS.LOGIN.name()) + " -p"
-				+ getString(KEYS.PASS.name()) + " --port " + getString(KEYS.SERVERPORT.name());
+		String dumpCommand = getString(MYSQL_DUMP_PATH) + "/mysqldump " + getString(DB_NAME)
+				+ " -h " + getString(SERVERNAME) + " -u " + getString(LOGIN) + " -p"
+				+ getString(PASS) + " --port " + getString(SERVERPORT);
 		Runtime rt = Runtime.getRuntime();
-		logger.info("begin Backup " + getString(KEYS.DB_NAME.name()));
+		logger.info("begin Backup " + getString(DB_NAME));
 		Process child;
 
 		child = rt.exec(dumpCommand);
@@ -497,7 +503,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			while ((ch = in.read()) != -1) {
 				ps.write(ch);
 			}
-			logger.info("Backup " + getString(KEYS.DB_NAME.name()) + " done");
+			logger.info("Backup " + getString(DB_NAME) + " done");
 		}
 
 	}
@@ -513,7 +519,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				while (rs.next()) {
 					MagicCardAlert alert = new MagicCardAlert();
-					alert.setCard(serialiser.fromJson(rs.getString("mcard"),MagicCard.class));
+					alert.setCard(serialiser.fromJson(rs.getString(MCARD),MagicCard.class));
 					alert.setId(rs.getString("id"));
 					alert.setPrice(rs.getDouble("amount"));
 
@@ -544,7 +550,10 @@ public class MysqlDAO extends AbstractMagicDAO {
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
 
 		try (PreparedStatement pst = con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)")) {
-			pst.setString(1, IDGenerator.generate(alert.getCard()));
+			
+			alert.setId(IDGenerator.generate(alert.getCard()));
+			
+			pst.setString(1, alert.getId());
 			pst.setString(2, serialiser.toJsonTree(alert.getCard()).toString());
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
@@ -648,14 +657,14 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public void initDefault() {
-		setProperty(KEYS.DRIVER.name(), "com.mysql.jdbc.Driver");
-		setProperty(KEYS.SERVERNAME.name(), "localhost");
-		setProperty(KEYS.SERVERPORT.name(), "3306");
-		setProperty(KEYS.DB_NAME.name(), "mtgdesktopclient");
-		setProperty(KEYS.LOGIN.name(), "login");
-		setProperty(KEYS.PASS.name(), "");
-		setProperty(KEYS.PARAMS.name(), "?autoDeserialize=true&autoReconnect=true");
-		setProperty(KEYS.MYSQL_DUMP_PATH.name(), "C:\\Program Files (x86)\\Mysql\\bin");
+		setProperty(DRIVER, "com.mysql.jdbc.Driver");
+		setProperty(SERVERNAME, "localhost");
+		setProperty(SERVERPORT, "3306");
+		setProperty(DB_NAME, "mtgdesktopclient");
+		setProperty(LOGIN, "login");
+		setProperty(PASS, "");
+		setProperty(PARAMS, "?autoDeserialize=true&autoReconnect=true");
+		setProperty(MYSQL_DUMP_PATH, "C:\\Program Files (x86)\\Mysql\\bin");
 
 	}
 

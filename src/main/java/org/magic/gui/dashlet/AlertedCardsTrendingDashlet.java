@@ -12,6 +12,7 @@ import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.models.CardAlertTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
+import org.magic.gui.renderer.MagicEditionsComboBoxRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
 
@@ -47,7 +48,8 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		getContentPane().add(historyPricesPanel, BorderLayout.SOUTH);
 		table.getColumnModel().getColumn(4).setCellRenderer(new CardShakeRenderer());
 		table.getColumnModel().getColumn(5).setCellRenderer(new CardShakeRenderer());
-
+		table.getColumnModel().getColumn(1).setCellRenderer(new MagicEditionsComboBoxRenderer(false));
+		
 		table.getSelectionModel().addListSelectionListener(event -> {
 
 			if (!event.getValueIsAdjusting()) {

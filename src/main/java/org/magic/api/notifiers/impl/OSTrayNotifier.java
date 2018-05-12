@@ -17,10 +17,19 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 	private SystemTray tray;
 
 	public SystemTray getTray() {
+		
+		if(tray==null)
+			init();
+		
 		return tray;
 	}
 	
 	public TrayIcon getTrayNotifier() {
+		
+		if(trayNotifier==null)
+			init();
+		
+		
 		return trayNotifier;
 	}
 	
@@ -28,25 +37,30 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 	public FORMAT_NOTIFICATION getFormat() {
 		return FORMAT_NOTIFICATION.TEXT;
 	}
+
 	
-	public OSTrayNotifier() {
+	private void init()
+	{
 		try {
-			trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
-			tray = SystemTray.getSystemTray();
-			
-			if (SystemTray.isSupported()) {
-				tray.add(trayNotifier);
+			if(trayNotifier==null)
+			{
+				trayNotifier = new TrayIcon(MTGConstants.IMAGE_LOGO.getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+				tray = SystemTray.getSystemTray();
+				if (SystemTray.isSupported()) {
+					tray.add(trayNotifier);
+				}
 			}
-			
-		} catch (Exception e) {
+		}
+		catch (Exception e) {
 			logger.error(e);
 		}
 	}
 	
+	
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		trayNotifier.displayMessage(notification.getTitle(), notification.getMessage(), notification.getType());
-
+		
+		getTrayNotifier().displayMessage(notification.getTitle(), notification.getMessage(), notification.getType());
 	}
 	
 	@Override

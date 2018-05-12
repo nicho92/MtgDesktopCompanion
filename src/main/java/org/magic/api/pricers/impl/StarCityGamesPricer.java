@@ -22,15 +22,6 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 	
 	NumberFormat format = NumberFormat.getCurrencyInstance();
 	
-	public static void main(String[] args) throws IOException {
-		MagicCard mc = new MagicCard();
-		mc.setName("Black lotus");
-		
-		new StarCityGamesPricer().getPrice(null, mc);
-		
-		
-	}
-	
 	
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
