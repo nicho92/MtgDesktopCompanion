@@ -7,8 +7,8 @@ import org.apache.commons.lang3.StringUtils;
 
 public class LanguageService {
 
-	ResourceBundle rbundle;
-	StringBuilder temp;
+	private ResourceBundle rbundle;
+	private StringBuilder temp;
 
 	
 	public String get(String k, Object... values) {

@@ -27,12 +27,9 @@ import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
 
 public class MTGGameRoomServer extends AbstractMTGServer {
+
 	private static final String SERVER_PORT = "SERVER-PORT";
-
-
 	private static final String PLAYER = "PLAYER";
-
-
 	private static final String MAX_CLIENT = "MAX_CLIENT";
 	
 	

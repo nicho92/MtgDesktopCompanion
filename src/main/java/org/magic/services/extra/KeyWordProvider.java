@@ -18,7 +18,7 @@ import com.google.gson.reflect.TypeToken;
 
 public class KeyWordProvider {
 
-	List<MTGKeyWord> list;
+	private List<MTGKeyWord> list;
 
 	public List<MTGKeyWord> getList() {
 		return list;

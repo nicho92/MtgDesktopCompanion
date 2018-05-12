@@ -10,8 +10,8 @@ import org.utils.patterns.observer.Observer;
 
 public class MTGAppender extends AppenderSkeleton {
 
-	List<LoggingEvent> events;
-	Observable obs;
+	private List<LoggingEvent> events;
+	private Observable obs;
 
 	public List<LoggingEvent> getEvents() {
 		return events;

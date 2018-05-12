@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.providers.impl.DeckbrewProvider;
 import org.magic.api.providers.impl.MagicTheGatheringIOProvider;
 import org.magic.api.providers.impl.MtgjsonProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
@@ -59,7 +58,6 @@ public class CardsProviderTests {
 	{
 		testProviders(new ScryFallProvider(),"b0faa7f2-b547-42c4-a810-839da50dadfe");
 		testProviders(new MagicTheGatheringIOProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
-		testProviders(new DeckbrewProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
 		testProviders(new MtgjsonProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
 		testProviders(new PrivateMTGSetProvider(),"c944c7dc960c4832604973844edee2a1fdc82d98");
 	}

@@ -13,8 +13,7 @@ import org.apache.log4j.Logger;
 
 public class ThreadManager {
 
-	static ThreadManager inst;
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private static ThreadManager inst;
 
 	private String name;
 	private String info;

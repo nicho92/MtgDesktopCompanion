@@ -18,19 +18,12 @@ import org.xml.sax.SAXException;
 
 public class VersionChecker {
 
-	DocumentBuilderFactory builderFactory;
-	DocumentBuilder builder;
-	Document document;
-	NodeList nodeList;
-
-	String actualVersion;
-	String onlineVersion;
-
-	Logger logger = MTGLogger.getLogger(this.getClass());
+	private String actualVersion;
+	private String onlineVersion;
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public VersionChecker() {
 		actualVersion = MTGControler.getInstance().getVersion();
-		builderFactory = DocumentBuilderFactory.newInstance();
 		try {
 			InputStream input = new URL(MTGConstants.MTG_DESKTOP_POM_URL).openConnection().getInputStream();
 			onlineVersion = parseXML(input);

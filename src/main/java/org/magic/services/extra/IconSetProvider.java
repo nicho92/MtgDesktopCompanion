@@ -16,17 +16,17 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.cache.impl.FileCache;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.Chrono;
 
 public class IconSetProvider {
 
 	private static IconSetProvider inst;
-
 	private Map<String, ImageIcon> cache24;
 	private Map<String, ImageIcon> cache16;
 	private File localDirectory;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private static final String EXT = "_set.png";
-
+	
 	public void clean() throws IOException {
 		FileUtils.cleanDirectory(localDirectory);
 	}
@@ -34,18 +34,17 @@ public class IconSetProvider {
 	private IconSetProvider() {
 		cache24 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 		cache16 = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
-
+		Chrono chrono = new Chrono();
 		localDirectory = new File(new FileCache().getConfdir(), "sets_icons");
 
 		if (!localDirectory.exists())
 			localDirectory.mkdir();
 
 		try {
+			chrono.start();
 			logger.debug("Init IconSet cache");
-			long time1 = System.currentTimeMillis();
 			initCache();
-			long time2 = System.currentTimeMillis();
-			logger.debug("Init IconSet cache : done " + (time2 - time1) / 1000 + " sec");
+			logger.debug("Init IconSet cache : done " + chrono.stop() + " sec");
 		} catch (Exception e) {
 			logger.error("error init cache", e);
 		}

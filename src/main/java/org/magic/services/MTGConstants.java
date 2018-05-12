@@ -26,7 +26,7 @@ public class MTGConstants {
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.CONF_DIR, "downloadWallpaper");
 	public static final String MTG_APP_NAME = "MTG Desktop Companion";
 	public static final String BUNDLE = "locales.lang";
-
+	public static final String FONT="Tahoma";
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
 	public static final String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";

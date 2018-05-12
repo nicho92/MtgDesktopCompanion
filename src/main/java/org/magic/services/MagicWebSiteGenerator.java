@@ -35,7 +35,7 @@ public class MagicWebSiteGenerator extends Observable {
 	private List<MTGPricesProvider> pricesProvider;
 	private List<MagicCollection> cols;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	int i = 0;
+	private int i = 0;
 
 	public MagicWebSiteGenerator(String template, String dest) throws IOException {
 		cfg = new Configuration(MTGConstants.FREEMARKER_VERSION);

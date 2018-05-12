@@ -12,11 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicPrice;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class MagicPricePanel extends JPanel {
 
-	private String useFonts = "Tahoma";
 
 	public MagicPricePanel(MagicPrice price) {
 		setBackground(SystemColor.inactiveCaptionBorder);
@@ -31,7 +31,7 @@ public class MagicPricePanel extends JPanel {
 
 		JLabel lblName = new JLabel(price.getSite());
 		lblName.setBorder(new LineBorder(new Color(0, 0, 0), 1, true));
-		lblName.setFont(new Font(useFonts, Font.BOLD, 11));
+		lblName.setFont(new Font(MTGConstants.FONT, Font.BOLD, 11));
 		GridBagConstraints gbclblName = new GridBagConstraints();
 		gbclblName.gridwidth = 2;
 		gbclblName.fill = GridBagConstraints.BOTH;
@@ -41,7 +41,7 @@ public class MagicPricePanel extends JPanel {
 		add(lblName, gbclblName);
 
 		JLabel lblPrice = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("PRICE") + " :");
-		lblPrice.setFont(new Font(useFonts, Font.BOLD, 11));
+		lblPrice.setFont(new Font(MTGConstants.FONT, Font.BOLD, 11));
 		GridBagConstraints gbclblPrice = new GridBagConstraints();
 		gbclblPrice.anchor = GridBagConstraints.WEST;
 		gbclblPrice.insets = new Insets(0, 0, 5, 5);
@@ -58,7 +58,7 @@ public class MagicPricePanel extends JPanel {
 		add(lblpriceValue, gbclblpriceValue);
 
 		JLabel lblSeller = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SELLER") + " :");
-		lblSeller.setFont(new Font(useFonts, Font.BOLD, 11));
+		lblSeller.setFont(new Font(MTGConstants.FONT, Font.BOLD, 11));
 		GridBagConstraints gbclblSeller = new GridBagConstraints();
 		gbclblSeller.anchor = GridBagConstraints.WEST;
 		gbclblSeller.insets = new Insets(0, 0, 5, 5);
@@ -74,7 +74,7 @@ public class MagicPricePanel extends JPanel {
 		add(lblSellerinfo, gbclblSellerinfo);
 
 		JLabel lblInfos = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("INFORMATIONS") + " :");
-		lblInfos.setFont(new Font(useFonts, Font.BOLD, 11));
+		lblInfos.setFont(new Font(MTGConstants.FONT, Font.BOLD, 11));
 		GridBagConstraints gbclblInfos = new GridBagConstraints();
 		gbclblInfos.anchor = GridBagConstraints.WEST;
 		gbclblInfos.insets = new Insets(0, 0, 0, 5);
