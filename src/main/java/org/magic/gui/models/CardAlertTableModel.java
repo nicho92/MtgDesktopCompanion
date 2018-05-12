@@ -109,12 +109,13 @@ public class CardAlertTableModel extends DefaultTableModel {
 			try {
 				if(!ed.equals(alert.getCard().getCurrentSet())) 
 				{
-					MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", alert.getCard().getName(), ed, true).get(0);
+					MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
+					MagicCard mc = MTGControler.getInstance().switchEditions(alert.getCard(), ed);
 					MagicCardAlert alert2 = new MagicCardAlert();
 					alert2.setCard(mc);
 					alert2.setPrice(alert.getPrice());
 					MTGControler.getInstance().getEnabledDAO().saveAlert(alert2);
-					MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
+					
 				}
 			} catch (Exception e) {
 				logger.error("error set value " + aValue, e);

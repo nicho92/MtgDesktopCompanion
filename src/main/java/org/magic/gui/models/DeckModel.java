@@ -1,7 +1,10 @@
 package org.magic.gui.models;
 
+import java.lang.reflect.InvocationTargetException;
+
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -129,11 +132,24 @@ public class DeckModel extends DefaultTableModel {
 	public void setValueAt(Object aValue, int row, int column) {
 
 		MagicCard mc = (this.t == TYPE.DECK) ? deck.getValueAt(row) : deck.getSideValueAt(row);
-
+		
 		if (column == 3) {
 			MagicEdition ed = (MagicEdition) aValue;
-			mc.getEditions().remove(ed);
-			mc.getEditions().add(0, (MagicEdition) aValue);
+
+			if(!ed.equals(mc.getCurrentSet()))
+			{
+				int qty = (this.t == TYPE.DECK) ? deck.getMap().get(mc) : deck.getMapSideBoard().get(mc);
+				MagicCard newC = MTGControler.getInstance().switchEditions(mc, ed);
+				if (t == TYPE.DECK) {
+					deck.getMap().remove(mc);
+					deck.getMap().put(newC, qty);
+				}
+				else
+				{
+					deck.getMapSideBoard().remove(mc);
+					deck.getMapSideBoard().put(newC, qty);
+				}
+			}
 		}
 
 		if (column == 4)

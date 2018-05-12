@@ -549,7 +549,6 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
 			logger.debug("save alert for " + alert.getCard()+ " ("+alert.getCard().getCurrentSet()+")");
-			logger.trace("insert into alerts  ( id,mcard,amount) values ("+IDGenerator.generate(alert.getCard())+","+alert.getCard()+","+alert.getPrice()+")");
 			list.add(alert);
 		}
 	}
@@ -569,14 +568,17 @@ public class MysqlDAO extends AbstractMagicDAO {
 	public void deleteAlert(MagicCardAlert alert) throws SQLException 
 	{
 		try (PreparedStatement pst = con.prepareStatement("delete from alerts where id=?")) {
-			logger.trace("delete from alerts where id="+alert.getId());
+			logger.debug("delete from alerts where id="+alert.getId());
 			pst.setString(1, alert.getId());
 			int res = pst.executeUpdate();
 			logger.debug("delete alert " + alert + " ("+alert.getCard().getCurrentSet()+")="+res);
 		}
 
 		if (list != null)
-			list.remove(alert);
+		{
+			boolean res = list.remove(alert);
+			logger.debug("delete alert from list " + res);
+		}
 
 	}
 

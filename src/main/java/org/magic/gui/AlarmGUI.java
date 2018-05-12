@@ -54,6 +54,7 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
+import org.magic.tools.IDGenerator;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
@@ -316,6 +317,7 @@ public class AlarmGUI extends JPanel {
 		MagicCardAlert alert = new MagicCardAlert();
 		alert.setCard(mc);
 		alert.setPrice(1.0);
+		alert.setId(IDGenerator.generate(mc));
 		try {
 			MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
 		} catch (SQLException e) {

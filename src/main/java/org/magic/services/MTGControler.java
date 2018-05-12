@@ -20,6 +20,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
@@ -112,6 +114,16 @@ public class MTGControler {
 			builder.save();
 		} catch (Exception e) {
 			logger.error("Error saving " + c, e);
+		}
+	}
+	
+	public MagicCard switchEditions(MagicCard mc, MagicEdition ed)
+	{
+		try {
+			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", mc.getName(), ed, true).get(0);
+		} catch (IOException e) {
+			logger.error(mc +" is not found in " + ed);
+			return mc;
 		}
 	}
 
