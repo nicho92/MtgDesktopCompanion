@@ -55,6 +55,10 @@ public class MagicCardAlert {
 	}
 
 	public int hashCode() {
+		if(getId()==null)
+			return -1;
+		
+		
 		return getId().hashCode();
 	}
 

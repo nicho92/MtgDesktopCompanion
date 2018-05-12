@@ -1,10 +1,13 @@
 package org.magic.gui.models;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
@@ -100,23 +103,35 @@ public class CardAlertTableModel extends DefaultTableModel {
 	@Override
 	public void setValueAt(Object aValue, int row, int column) {
 		MagicCardAlert alert = MTGControler.getInstance().getEnabledDAO().listAlerts().get(row);
-		
-		if (column == 1) {
+		if (column == 1) 
+		{
 			MagicEdition ed = (MagicEdition) aValue;
-			alert.getCard().getEditions().remove(ed);
-			alert.getCard().getEditions().add(0, (MagicEdition) aValue);
+			try {
+				if(!ed.equals(alert.getCard().getCurrentSet())) 
+				{
+					MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", alert.getCard().getName(), ed, true).get(0);
+					MagicCardAlert alert2 = new MagicCardAlert();
+					alert2.setCard(mc);
+					alert2.setPrice(alert.getPrice());
+					MTGControler.getInstance().getEnabledDAO().saveAlert(alert2);
+					MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
+				}
+			} catch (Exception e) {
+				logger.error("error set value " + aValue, e);
+			}
 		}
 		
-		if(column==2) {
+		if(column==2) 
+		{
 			alert.setPrice(Double.parseDouble(aValue.toString()));
+			try {
+				MTGControler.getInstance().getEnabledDAO().updateAlert(alert);
+			} catch (Exception e) {
+				logger.error("error set value " + aValue, e);
+			}
 		}
 		
-		try {
-			MTGControler.getInstance().getEnabledDAO().updateAlert(alert);
-			fireTableDataChanged();
-		} catch (Exception e) {
-			logger.error("error set value " + aValue, e);
-		}
+		fireTableDataChanged();
 		
 	}
 

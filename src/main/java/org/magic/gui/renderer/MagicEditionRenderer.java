@@ -8,12 +8,15 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
 import org.magic.api.beans.MagicEdition;
+import org.magic.gui.renderer.MagicEditionListRenderer.SIZE;
 
 public class MagicEditionRenderer extends DefaultTableCellRenderer {
 	@Override
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
 		List<MagicEdition> e = (List) value;
-		return new JComboBox<>(e.toArray(new MagicEdition[e.size()]));
+		JComboBox<MagicEdition> cbo = new JComboBox<>(e.toArray(new MagicEdition[e.size()]));
+		cbo.setRenderer(new MagicEditionListRenderer(SIZE.SMALL));
+		return cbo;
 	}
 }

@@ -307,7 +307,9 @@ public class AlarmGUI extends JPanel {
 	private void updateInfo(MagicCardAlert selected) {
 		magicCardDetailPanel.setMagicCard(selected.getCard());
 		variationPanel.init(selected.getCard(), null, selected.getCard().getName());
-		pricesTablePanel.init(selected.getCard(), selected.getCard().getCurrentSet());
+		
+		if(tabbedPane.getSelectedIndex()==2)
+			pricesTablePanel.init(selected.getCard(), selected.getCard().getCurrentSet());
 	}
 
 	private void addCard(MagicCard mc) {

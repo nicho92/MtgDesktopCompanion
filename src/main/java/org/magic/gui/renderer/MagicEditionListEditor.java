@@ -13,7 +13,7 @@ import org.magic.api.beans.MagicEdition;
 public class MagicEditionListEditor extends DefaultCellEditor {
 
 	private DefaultComboBoxModel<MagicEdition> model;
-
+	
 	public MagicEditionListEditor() {
 		super(new JComboBox<MagicEdition>());
 		model = (DefaultComboBoxModel<MagicEdition>) ((JComboBox<MagicEdition>) getComponent()).getModel();

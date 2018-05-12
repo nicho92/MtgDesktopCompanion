@@ -116,8 +116,7 @@ public class CardSearchPanel extends JPanel {
 	private JXTable tableCards;
 
 	private JButton btnExport;
-
-		private JList<MagicEdition> listEdition;
+	private JList<MagicEdition> listEdition;
 
 	private JLabel lblLoading;
 

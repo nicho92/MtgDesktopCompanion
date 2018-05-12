@@ -72,7 +72,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			logger.debug("Create table stocks");
 			stat.executeUpdate("create table stocks (idstock integer PRIMARY KEY AUTO_INCREMENT, idmc varchar(250), mcard TEXT, collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,altered boolean,price double)");
 			logger.debug("Create table Alerts");
-			stat.executeUpdate("create table alerts (id varchar(250), mcard TEXT, amount DECIMAL)");
+			stat.executeUpdate("create table alerts (id varchar(250) PRIMARY KEY, mcard TEXT, amount DECIMAL)");
 			logger.debug("Create table News");
 			stat.executeUpdate("CREATE TABLE news (id INT NOT NULL AUTO_INCREMENT PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100))");
 
@@ -86,6 +86,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 			stat.executeUpdate("ALTER TABLE cards ADD INDEX(edition);");
 			stat.executeUpdate("ALTER TABLE cards ADD INDEX(collection);");
 			stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
+			
 			
 			return true;
 		} catch (SQLException e) {
@@ -547,27 +548,31 @@ public class MysqlDAO extends AbstractMagicDAO {
 			pst.setString(2, serialiser.toJsonTree(alert.getCard()).toString());
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
-			logger.debug("save alert for " + alert.getCard());
+			logger.debug("save alert for " + alert.getCard()+ " ("+alert.getCard().getCurrentSet()+")");
+			logger.trace("insert into alerts  ( id,mcard,amount) values ("+IDGenerator.generate(alert.getCard())+","+alert.getCard()+","+alert.getPrice()+")");
 			list.add(alert);
 		}
 	}
 
 	@Override
 	public void updateAlert(MagicCardAlert alert) throws SQLException {
-		try (PreparedStatement pst = con.prepareStatement("update alerts set amount=? where id=?")) {
+		try (PreparedStatement pst = con.prepareStatement("update alerts set amount=?,mcard=? where id=?")) {
 			pst.setDouble(1, alert.getPrice());
-			pst.setString(2, alert.getId());
+			pst.setString(2, serialiser.toJsonTree(alert.getCard()).toString());
+			pst.setString(3, alert.getId());
 			pst.executeUpdate();
 		}
 
 	}
 
 	@Override
-	public void deleteAlert(MagicCardAlert alert) throws SQLException {
-		logger.debug("delete alert " + alert);
+	public void deleteAlert(MagicCardAlert alert) throws SQLException 
+	{
 		try (PreparedStatement pst = con.prepareStatement("delete from alerts where id=?")) {
-			pst.setString(1, IDGenerator.generate(alert.getCard()));
-			pst.executeUpdate();
+			logger.trace("delete from alerts where id="+alert.getId());
+			pst.setString(1, alert.getId());
+			int res = pst.executeUpdate();
+			logger.debug("delete alert " + alert + " ("+alert.getCard().getCurrentSet()+")="+res);
 		}
 
 		if (list != null)
