@@ -31,7 +31,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "standard", "modern", "legacy", "vintage", "commander", };
+		return new String[] { "standard", "modern", "legacy", "vintage", "commander" };
 	}
 
 	@Override
