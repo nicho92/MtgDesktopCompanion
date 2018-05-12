@@ -21,6 +21,9 @@ import org.magic.services.MTGControler;
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
+	private static final String SUPPORT = "SUPPORT";
+	private static final String FORMAT = "FORMAT";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -94,10 +97,10 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		for (int i = 1; i <= maxPage; i++) {
 
 			if (!metagames)
-				url = getString("URL") + "/deck/custom/" + getString("FORMAT") + "?page=" + nbPage + "#"
-						+ getString("SUPPORT");
+				url = getString("URL") + "/deck/custom/" + getString(FORMAT) + "?page=" + nbPage + "#"
+						+ getString(SUPPORT);
 			else
-				url = getString("URL") + "metagame/" + getString("FORMAT") + "/full#" + getString("SUPPORT");
+				url = getString("URL") + "metagame/" + getString(FORMAT) + "/full#" + getString(SUPPORT);
 
 			logger.debug("sniff url : " + url);
 
@@ -112,7 +115,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 			for (Element cont : e) {
 
-				Elements desc = cont.select("span.deck-price-" + getString("SUPPORT") + "> a");
+				Elements desc = cont.select("span.deck-price-" + getString(SUPPORT) + "> a");
 				Elements colors = cont.select("span.manacost > img");
 				StringBuilder deckColor = new StringBuilder();
 
@@ -159,8 +162,8 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("SUPPORT", "paper");
-		setProperty("FORMAT", "modern");
+		setProperty(SUPPORT, "paper");
+		setProperty(FORMAT, "standard");
 		
 		setProperty("URL", "http://www.mtggoldfish.com/");
 		setProperty("MAX_PAGE", "2");

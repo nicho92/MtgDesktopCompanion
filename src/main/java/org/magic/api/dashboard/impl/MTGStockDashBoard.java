@@ -29,6 +29,8 @@ import com.google.gson.JsonParser;
 import com.google.gson.stream.JsonReader;
 
 public class MTGStockDashBoard extends AbstractDashBoard {
+	private static final String PRINT = "print";
+	private static final String LEGAL = "legal";
 	private static final String MTGSTOCK_API_URI = "https://api.mtgstocks.com";
 	private boolean connected;
 	private Map<String, Integer> correspondance;
@@ -68,7 +70,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		for (String filter : getString("SHAKERS").split(","))
 			for (JsonElement el : interests.get(getString("FORMAT_SHAKER")).getAsJsonObject().get(filter).getAsJsonArray()) 
 			{
-				if ( f==null || (el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(format) != null && el.getAsJsonObject().get("print").getAsJsonObject().get("legal").getAsJsonObject().get(format).getAsString().equalsIgnoreCase("legal"))) 
+				if ( f==null || (el.getAsJsonObject().get(PRINT).getAsJsonObject().get(LEGAL).getAsJsonObject().get(format) != null && el.getAsJsonObject().get(PRINT).getAsJsonObject().get(LEGAL).getAsJsonObject().get(format).getAsString().equalsIgnoreCase(LEGAL))) 
 					ret.add(extract(el));
 				
 			}
@@ -77,13 +79,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	private CardShake extract(JsonElement el) {
 		CardShake cs = new CardShake();
-		cs.setName(el.getAsJsonObject().get("print").getAsJsonObject().get("name").getAsString());
+		cs.setName(el.getAsJsonObject().get(PRINT).getAsJsonObject().get("name").getAsString());
 		cs.setPrice(el.getAsJsonObject().get("present_price").getAsDouble());
 		cs.setPercentDayChange(el.getAsJsonObject().get("percentage").getAsDouble());
 		cs.setPriceDayChange(el.getAsJsonObject().get("present_price").getAsDouble()- el.getAsJsonObject().get("past_price").getAsDouble());
 		cs.setDateUpdate(new Date(el.getAsJsonObject().get("date").getAsLong()));
 		correspondance.forEach((key, value) -> {
-			if (value == el.getAsJsonObject().get("print").getAsJsonObject().get("set_id").getAsInt()) {
+			if (value == el.getAsJsonObject().get(PRINT).getAsJsonObject().get("set_id").getAsInt()) {
 				cs.setEd(key);
 			}
 		});

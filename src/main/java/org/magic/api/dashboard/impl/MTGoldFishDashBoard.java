@@ -30,6 +30,11 @@ import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
+	private static final String URL_MOVERS = "URL_MOVERS";
+	private static final String URL_EDITIONS = "URL_EDITIONS";
+	private static final String FORMAT = "FORMAT";
+	private static final String DAILY_WEEKLY = "DAILY_WEEKLY";
+	private static final String WEBSITE = "WEBSITE";
 	private Date updateTime;
 	private boolean stop;
 	private Map<String, String> mapConcordance;
@@ -59,7 +64,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			me = mc.getCurrentSet();
 
 		if (mc == null) {
-			url = getString("URL_EDITIONS") + replace(me.getId(), false) + "#" + getString("FORMAT");
+			url = getString(URL_EDITIONS) + replace(me.getId(), false) + "#" + getString(FORMAT);
 			index = 6;
 		} else {
 			String cardName = StringUtils.replaceAll(mc.getName(), " ", "+");
@@ -74,7 +79,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			editionName = StringUtils.replaceAll(editionName, ",", "");
 			editionName = StringUtils.replaceAll(editionName, ":", "");
 
-			url = getString("WEBSITE") + "/price/" + convert(editionName) + "/" + cardName + "#" + getString("FORMAT");
+			url = getString(WEBSITE) + "/price/" + convert(editionName) + "/" + cardName + "#" + getString(FORMAT);
 			index = 8;
 
 		}
@@ -129,8 +134,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if(f!=null)
 			gameFormat=f.name();
 		
-		String urlW = getString("URL_MOVERS") + getString("FORMAT") + "/" + gameFormat.toLowerCase() + "/winners/"+ getString("DAILY_WEEKLY");
-		String urlL = getString("URL_MOVERS") + getString("FORMAT") + "/" + gameFormat.toLowerCase() + "/losers/"+ getString("DAILY_WEEKLY");
+		String urlW = getString(URL_MOVERS) + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
+		String urlL = getString(URL_MOVERS) + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
 
 		logger.debug("Loding Shake " + urlW);
 		logger.debug("Loding Shake " + urlL);
@@ -184,10 +189,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		List<CardShake> list = new ArrayList<>();
 
 		if (edition.isOnlineOnly())
-			urlEditionChecker = getString("URL_EDITIONS") + replace(edition.getId().toUpperCase(), false) + "#online";
+			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + "#online";
 		else
-			urlEditionChecker = getString("URL_EDITIONS") + replace(edition.getId().toUpperCase(), false) + "#"
-					+ getString("FORMAT");
+			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + "#"
+					+ getString(FORMAT);
 
 		logger.debug("Parsing dashboard " + urlEditionChecker);
 
@@ -224,7 +229,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	public List<CardDominance> getBestCards(MTGFormat f, String filter) throws IOException {
 
 		// spells, creatures, all, lands
-		String u = getString("WEBSITE") + "/format-staples/" + f.toString().toLowerCase() + "/full/" + filter;
+		String u = getString(WEBSITE) + "/format-staples/" + f.toString().toLowerCase() + "/full/" + filter;
 		Document doc = read(u);
 
 		logger.debug("get best cards : " + u);
@@ -358,12 +363,12 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 	@Override
 	public void initDefault() {
-		setProperty("URL_MOVERS", "https://www.mtggoldfish.com/movers-details/");
-		setProperty("URL_EDITIONS", "https://www.mtggoldfish.com/index/");
-		setProperty("WEBSITE", "https://www.mtggoldfish.com/");
-		setProperty("FORMAT", "paper");
+		setProperty(URL_MOVERS, "https://www.mtggoldfish.com/movers-details/");
+		setProperty(URL_EDITIONS, "https://www.mtggoldfish.com/index/");
+		setProperty(WEBSITE, "https://www.mtggoldfish.com/");
+		setProperty(FORMAT, "paper");
 		setProperty("TIMEOUT", "0");
-		setProperty("DAILY_WEEKLY", "wow");
+		setProperty(DAILY_WEEKLY, "wow");
 
 	}
 
