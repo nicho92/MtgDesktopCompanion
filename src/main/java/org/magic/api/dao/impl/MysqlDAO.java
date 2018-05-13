@@ -564,6 +564,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public void updateAlert(MagicCardAlert alert) throws SQLException {
+		logger.debug("update " + alert);
 		try (PreparedStatement pst = con.prepareStatement("update alerts set amount=?,mcard=? where id=?")) {
 			pst.setDouble(1, alert.getPrice());
 			pst.setString(2, serialiser.toJsonTree(alert.getCard()).toString());
