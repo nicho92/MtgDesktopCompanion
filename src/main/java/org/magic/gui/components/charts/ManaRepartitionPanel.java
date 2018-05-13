@@ -5,13 +5,11 @@ import java.awt.Color;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.JPanel;
 
-import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -23,7 +21,6 @@ import org.jfree.data.general.PieDataset;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.services.MTGDeckManager;
-import org.magic.services.MTGLogger;
 
 public class ManaRepartitionPanel extends JPanel {
 

@@ -7,6 +7,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import javax.swing.JDialog;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
@@ -14,13 +15,14 @@ import javax.swing.SwingConstants;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
-public class AboutDialog extends JDialog {
+public class AboutDialog extends JFrame {
 
 	private static final long serialVersionUID = 1L;
 
 	public AboutDialog() {
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("ABOUT") + " " + MTGConstants.MTG_APP_NAME);
 		setResizable(false);
+		setIconImage(MTGConstants.IMAGE_LOGO);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JTextArea txtrWizardsOfThe = new JTextArea();
