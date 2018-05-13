@@ -1,6 +1,8 @@
 package org.magic.gui.components.charts;
 
 import java.awt.BorderLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -26,13 +28,18 @@ public class CmcChartPanel extends JPanel {
 	public CmcChartPanel() {
 		setLayout(new BorderLayout(0, 0));
 		manager = new MTGDeckManager();
+		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent componentEvent) {
+				init(cards);
+			}
+
+		});
 	}
 
 	public void init(MagicDeck deck) {
-		cards = new ArrayList<>();
-		if (deck != null && deck.getMap() != null)
-			cards = deck.getAsList();
-		refresh();
+		init(deck.getAsList());
 	}
 
 	ChartPanel pane;
@@ -40,6 +47,10 @@ public class CmcChartPanel extends JPanel {
 	private void refresh() {
 		this.removeAll();
 
+
+		if(cards==null)
+			return;
+		
 		JFreeChart chart = ChartFactory.createBarChart("Mana Curve", "cost", "number", getManaCurveDataSet(),
 				PlotOrientation.VERTICAL, true, true, false);
 
@@ -47,11 +58,13 @@ public class CmcChartPanel extends JPanel {
 
 		this.add(pane, BorderLayout.CENTER);
 		chart.fireChartChanged();
+		pane.revalidate();
 	}
 
 	public void init(List<MagicCard> cards) {
 		this.cards = cards;
-		refresh();
+		if(isVisible() && cards!=null)
+			refresh();
 	}
 
 	private CategoryDataset getManaCurveDataSet() {

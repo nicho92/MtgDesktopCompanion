@@ -2,6 +2,8 @@ package org.magic.gui.components.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,28 +30,40 @@ public class TypeRepartitionPanel extends JPanel {
 
 	public TypeRepartitionPanel() {
 		manager = new MTGDeckManager();
-
 		setLayout(new BorderLayout(0, 0));
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent componentEvent) {
+				init(cards);
+			}
+		});
 	}
 
 	public void init(MagicDeck deck) {
-		cards = new ArrayList<>();
-
-		if (deck != null)
-			cards = deck.getAsList();
-
-		refresh();
+		if(deck!=null && !deck.getMap().isEmpty())
+			init(deck.getAsList());
 	}
+	public void init(List<MagicCard> cards) {
+		this.cards = cards;
+		
+		if(isVisible())
+			refresh();
+	}
+
 
 	private void refresh() {
 		this.removeAll();
-
+		
+		if(cards==null)
+			return;
+		
 		JFreeChart chart = ChartFactory.createPieChart3D("Type repartition", // chart title
 				getTypeRepartitionDataSet(), // data
 				false, // include legend
 				true, true);
 
 		ChartPanel pane = new ChartPanel(chart);
+		this.add(pane, BorderLayout.CENTER);
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("B", Color.BLACK);
 		plot.setSectionPaint("W", Color.WHITE);
@@ -62,13 +76,11 @@ public class TypeRepartitionPanel extends JPanel {
 		PieSectionLabelGenerator generator = new StandardPieSectionLabelGenerator("{0} = {1}", new DecimalFormat("0"),
 				new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
-		this.add(pane, BorderLayout.CENTER);
+		
+		chart.fireChartChanged();
+		pane.revalidate();
 	}
 
-	public void init(List<MagicCard> cards) {
-		this.cards = cards;
-		refresh();
-	}
 
 	private PieDataset getTypeRepartitionDataSet() {
 		DefaultPieDataset dataset = new DefaultPieDataset();

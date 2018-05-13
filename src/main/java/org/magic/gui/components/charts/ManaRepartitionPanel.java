@@ -2,6 +2,8 @@ package org.magic.gui.components.charts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,34 +34,41 @@ public class ManaRepartitionPanel extends JPanel {
 	public ManaRepartitionPanel() {
 		manager = new MTGDeckManager();
 		setLayout(new BorderLayout(0, 0));
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent componentEvent) {
+				init(cards);
+			}
+		});
+		
 	}
 
 	public void init(MagicDeck deck) {
-		cards = new ArrayList<>();
-		try {
+		if(deck!=null && !deck.getMap().isEmpty())
+			init(deck.getAsList());
 
-			cards = deck.getAsList();
-
-		} catch (Exception e) {
-			logger.error("Error init " + deck, e);
-		}
-		refresh();
 	}
 
 	public void init(List<MagicCard> cards) {
 		this.cards = cards;
-		refresh();
+		if(isVisible()&&cards!=null)
+			refresh();
 	}
 
 	private void refresh() {
 		this.removeAll();
 
+		if(cards==null)
+			return;
+		
 		JFreeChart chart = ChartFactory.createPieChart3D("Color repartition", // chart title
 				getManaRepartitionDataSet(), // data
 				false, // include legend
 				true, true);
 
 		ChartPanel pane = new ChartPanel(chart);
+		this.add(pane, BorderLayout.CENTER);
+		
 		PiePlot plot = (PiePlot) chart.getPlot();
 		plot.setSectionPaint("Black", Color.BLACK);
 		plot.setSectionPaint("White", Color.WHITE);
@@ -81,9 +90,8 @@ public class ManaRepartitionPanel extends JPanel {
 				new DecimalFormat("0.00%"));
 		plot.setLabelGenerator(generator);
 
-		this.add(pane, BorderLayout.CENTER);
-		this.revalidate();
-		this.repaint();
+		chart.fireChartChanged();
+		pane.revalidate();
 
 	}
 

@@ -429,9 +429,7 @@ public class CollectionPanelGUI extends JPanel {
 					statsPanel.enabledAdd(true);
 				}, "Update Collection");
 
-				if (tabbedPane.getSelectedIndex() == 2) {
-					pricePanel.init(card,null);
-				}
+				pricePanel.init(card,null);
 
 				ThreadManager.getInstance().execute(() -> {
 					try {
@@ -442,11 +440,6 @@ public class CollectionPanelGUI extends JPanel {
 				}, "update history");
 			}
 
-		});
-
-		tabbedPane.addChangeListener(e -> {
-			if ((tabbedPane.getSelectedIndex() == 2) && ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject() instanceof MagicCard)
-				pricePanel.init(((MagicCard) ((DefaultMutableTreeNode) tree.getLastSelectedPathComponent()).getUserObject()),null);
 		});
 
 		tree.addMouseListener(new MouseAdapter() {

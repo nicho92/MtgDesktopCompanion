@@ -79,7 +79,6 @@ public class CardSearchPanel extends JPanel {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	public static final int INDEX_PRICES = 2;
 	public static final int INDEX_THUMB = 1;
 
 	private MagicCard selectedCard;
@@ -549,9 +548,7 @@ public class CardSearchPanel extends JPanel {
 					}
 					cardsPicPanel.showPhoto(selectedCard);// backcard
 					historyChartPanel.init(selectedCard, selectedEdition, selectedCard.getName());
-
-					if (tabbedCardsInfo.getSelectedIndex() == INDEX_PRICES)
-						priceTablePanel.init(selectedCard,selectedEdition);
+					priceTablePanel.init(selectedCard,selectedEdition);
 
 					loading(false, "");
 				}, "changeEdition");
@@ -625,10 +622,9 @@ public class CardSearchPanel extends JPanel {
 			menu.setLocation(p.x, p.y + b.getHeight());
 		});
 
-		tabbedCardsInfo.addChangeListener(e -> {
-			if (tabbedCardsInfo.getSelectedIndex() == INDEX_PRICES)
-				priceTablePanel.init(selectedCard,selectedEdition);
-		});
+//		tabbedCardsInfo.addChangeListener(e -> {
+//				priceTablePanel.init(selectedCard,selectedEdition);
+//		});
 
 		txtFilter.addActionListener(ae -> {
 			String text = txtFilter.getText();
@@ -703,8 +699,7 @@ public class CardSearchPanel extends JPanel {
 				txtRulesArea.append("\n");
 			}
 
-			if (tabbedCardsInfo.getSelectedIndex() == INDEX_PRICES)
-				priceTablePanel.init(selectedCard,selectedEdition);
+			priceTablePanel.init(selectedCard,selectedEdition);
 
 			panelJson.show(selectedCard);
 

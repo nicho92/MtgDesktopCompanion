@@ -3,6 +3,8 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URI;
@@ -39,6 +41,8 @@ public class PricesTablePanel extends JPanel {
 	private transient DefaultRowSorter<DefaultTableModel, Integer> sorterPrice;
 	private transient List<RowSorter.SortKey> sortKeys;
 	
+	private MagicCard currentCard;
+	private MagicEdition currentEd;
 	
 	public PricesTablePanel() {
 		JPanel panel = new JPanel();
@@ -82,29 +86,43 @@ public class PricesTablePanel extends JPanel {
 			}
 		});
 		
-		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent componentEvent) {
+				init(currentCard,currentEd);
+			}
+
+		});
 		
 	}
 
 	public void init(MagicCard card,MagicEdition ed)
 	{
+		currentCard = card;
+		currentEd=ed;
 		
-		if(card!=null)
-			ThreadManager.getInstance().execute(() -> {
-				try {
-					loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES"));
-					if(ed==null)
-						model.init(card, card.getCurrentSet());
-					else
-						model.init(card, ed);
-					
-					model.fireTableDataChanged();
-					loading(false, "");
-					
-				} catch (Exception e) {
-					logger.error(e);
-				}
-			}, "addTreeSelectionListener init graph cards");
+		if(currentCard==null && currentEd==null)
+			return;
+		
+		
+		if(ed==null)
+			currentEd=card.getCurrentSet();
+		
+		if(isVisible()&&card!=null)
+		{
+				ThreadManager.getInstance().execute(() -> {
+					try {
+						loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_PRICES") + " : " + currentCard + "("+currentEd+")" );
+						model.init(currentCard, currentEd);
+						model.fireTableDataChanged();
+						loading(false, "");
+						
+					} catch (Exception e) {
+						logger.error(e);
+					}
+				}, "addTreeSelectionListener init graph cards");
+		}
+		
 	}
 
 	private void loading(boolean b, String capitalize) {

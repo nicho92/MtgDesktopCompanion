@@ -64,6 +64,12 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 	
 		searchPost.setEntity(new UrlEncodedFormEntity(nvps));
 		String res = httpclient.execute(searchPost,responseHandler);
+		if(res.length()>100)
+		{
+			logger.error("too much result");
+			return list;
+		}
+		
 		String key = "ref=";
 		String code = res.substring(res.indexOf(key), res.indexOf("\";"));
 		String url = getString("WEBSITE")+"/fr/register/show_card_sale?"+code;

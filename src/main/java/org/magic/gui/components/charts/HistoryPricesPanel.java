@@ -4,6 +4,8 @@ import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -36,7 +38,11 @@ public class HistoryPricesPanel extends JPanel {
 	private JCheckBox chckbxShowEditions;
 	private JCheckBox chckbxShowAllDashboard;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	
+	private ChartPanel pane;
+	private Map<Date, Double> map;
+	private String title;
+	private MagicCard mc;
+	private MagicEdition me;
 	
 	public HistoryPricesPanel() {
 		setLayout(new BorderLayout(0, 0));
@@ -72,34 +78,31 @@ public class HistoryPricesPanel extends JPanel {
 		gbcchckbxShowAllDashboard.gridx = 0;
 		gbcchckbxShowAllDashboard.gridy = 1;
 		panel.add(chckbxShowAllDashboard, gbcchckbxShowAllDashboard);
-	}
-
-	ChartPanel pane;
-	private Map<Date, Double> map;
-	private String title;
-	private MagicCard mc;
-	private MagicEdition me;
-
-	
-	public Map<Date, Double> getMap() {
-		return map;
+		
+		addComponentListener(new ComponentAdapter() {
+			@Override
+			public void componentShown(ComponentEvent componentEvent) {
+				init(mc,me,title);
+			}
+		});
+		
 	}
 	
 	public void init(MagicCard card, MagicEdition me, String title) {
-		try {
-			this.mc = card;
-			this.me = me;
-			
-			if(me==null)
-				me=card.getCurrentSet();
-			
-			this.map = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(card, me);
-			this.title = title;
-			refresh();
-		} catch (IOException e) {
-			logger.error("error init " + card, e);
+		this.mc = card;
+		this.me = me;
+		if(me==null)
+			me=card.getCurrentSet();
+		this.title = title;
+		
+		if(isVisible()) {
+			try {
+				this.map = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(card, me);
+				refresh();
+			} catch (IOException e) {
+				logger.error("error init " + card, e);
+			}
 		}
-
 	}
 
 	private void refresh() {
