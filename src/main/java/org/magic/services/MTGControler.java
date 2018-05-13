@@ -120,7 +120,7 @@ public class MTGControler {
 	public MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{
 		try {
-			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", mc.getName(), ed, true).get(0);
+			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( mc.getName(), ed, true).get(0);
 		} catch (IOException e) {
 			logger.error(mc +" is not found in " + ed);
 			return mc;

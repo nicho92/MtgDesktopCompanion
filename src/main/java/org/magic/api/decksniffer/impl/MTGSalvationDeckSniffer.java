@@ -75,7 +75,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 						ed.setId(MTGControler.getInstance().get("default-land-deck"));
 					}
 					MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
-							.searchCardByCriteria("name", cardName, ed, true).get(0);
+							.searchCardByName( cardName, ed, true).get(0);
 					if (!sideboard) {
 						deck.getMap().put(mc, qte);
 					} else {

@@ -72,7 +72,7 @@ public class XMageDeckExport extends AbstractCardExport {
 						String cardName = line.substring(line.indexOf(']') + 1, line.length()).trim();
 						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
 						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
-								.searchCardByCriteria("name", cardName, ed, true).get(0);
+								.searchCardByName( cardName, ed, true).get(0);
 						deck.getMap().put(mc, qte);
 
 					} else {
@@ -82,7 +82,7 @@ public class XMageDeckExport extends AbstractCardExport {
 						String cardName = line.substring(line.indexOf(']') + 1, line.length()).trim();
 						int qte = Integer.parseInt(line.substring(0, line.indexOf('[')).trim());
 						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
-								.searchCardByCriteria("name", cardName, ed, true).get(0);
+								.searchCardByName( cardName, ed, true).get(0);
 						deck.getMap().put(mc, qte);
 					}
 				} else {

@@ -34,7 +34,7 @@ public class FlipActions extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			MagicCard mc = MTGControler
-					.getInstance().getEnabledCardsProviders().searchCardByCriteria("name",
+					.getInstance().getEnabledCardsProviders().searchCardByName(
 							card.getMagicCard().getRotatedCardName(), card.getMagicCard().getCurrentSet(), true)
 					.get(0);
 			card.setMagicCard(mc);

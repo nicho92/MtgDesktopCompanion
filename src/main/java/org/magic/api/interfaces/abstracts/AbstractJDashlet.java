@@ -118,7 +118,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 					}
 
 					try {
-						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", cardName, ed, true).get(0);
+						MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, ed, true).get(0);
 						pane.setMagicCard(mc);
 						popUp.setBorder(new LineBorder(Color.black));
 						popUp.setVisible(false);

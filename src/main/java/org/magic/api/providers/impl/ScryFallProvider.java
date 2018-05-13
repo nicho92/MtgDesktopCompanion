@@ -65,8 +65,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)
-			throws IOException {
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException {
 		List<MagicCard> list = new ArrayList<>();
 
 		String comparator = crit;

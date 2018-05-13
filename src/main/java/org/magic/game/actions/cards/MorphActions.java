@@ -79,7 +79,7 @@ public class MorphActions extends AbstractAction {
 			}
 		} else {
 			try {
-				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name",
+				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(
 						card.getMagicCard().getRotatedCardName(), card.getMagicCard().getCurrentSet(), true)
 						.get(0);
 				card.setMagicCard(mc);

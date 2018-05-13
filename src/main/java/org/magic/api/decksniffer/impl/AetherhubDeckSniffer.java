@@ -77,7 +77,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 			String name = line.substring(line.indexOf(' '), line.indexOf('('));
 			String ed =  line.substring( line.indexOf('(')+1,line.indexOf(')'));
 			MagicEdition me = MTGControler.getInstance().getEnabledCardsProviders().getSetById(ed);
-			deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", name.trim(), me, true).get(0), qte);
+			deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name.trim(), me, true).get(0), qte);
 		
 		}
 		

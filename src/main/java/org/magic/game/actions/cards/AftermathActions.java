@@ -20,7 +20,7 @@ public class AftermathActions extends AbilitySpell {
 
 		try {
 			mc = MTGControler
-					.getInstance().getEnabledCardsProviders().searchCardByCriteria("name",
+					.getInstance().getEnabledCardsProviders().searchCardByName(
 							card.getMagicCard().getRotatedCardName(), card.getMagicCard().getCurrentSet(), true)
 					.get(0);
 			cost = mc.getCost();

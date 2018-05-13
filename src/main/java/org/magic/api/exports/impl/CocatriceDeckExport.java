@@ -89,7 +89,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
 				deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders()
-						.searchCardByCriteria("name", name, null, true).get(0), qte);
+						.searchCardByName( name, null, true).get(0), qte);
 				setChanged();
 				notifyObservers(c++);
 			}
@@ -99,7 +99,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 				String name = result.item(i).getAttributes().getNamedItem("name").getTextContent();
 				Integer qte = Integer.parseInt(result.item(i).getAttributes().getNamedItem("number").getTextContent());
 				deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledCardsProviders()
-						.searchCardByCriteria("name", name, null, true).get(0), qte);
+						.searchCardByName( name, null, true).get(0), qte);
 				setChanged();
 				notifyObservers(c++);
 			}

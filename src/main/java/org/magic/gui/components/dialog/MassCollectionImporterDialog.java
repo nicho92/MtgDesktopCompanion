@@ -133,7 +133,7 @@ public class MassCollectionImporterDialog extends JDialog {
 							mc = MTGControler.getInstance().getEnabledCardsProviders().getCardByNumber(id, ed);
 						else
 							mc = MTGControler.getInstance().getEnabledCardsProviders()
-									.searchCardByCriteria("name", id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),
+									.searchCardByName( id.replaceAll("\n", " ").replaceAll("  ", " ").trim(),
 											(MagicEdition) cboEditions.getSelectedItem(), true)
 									.get(0);
 

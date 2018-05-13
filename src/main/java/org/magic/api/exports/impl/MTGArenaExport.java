@@ -127,9 +127,9 @@ public class MTGArenaExport extends AbstractCardExport {
 				
 					
 					if(!side)
-						deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", name.trim(), me, true).get(0), qte);
+						deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( name.trim(), me, true).get(0), qte);
 					else
-						deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", name.trim(), me, true).get(0), qte);
+						deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( name.trim(), me, true).get(0), qte);
 					
 				}
 				

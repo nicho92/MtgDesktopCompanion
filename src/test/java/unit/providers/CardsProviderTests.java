@@ -87,13 +87,13 @@ public class CardsProviderTests {
 				System.out.println("LOAD EDITION :ERROR " + e);
 			}
 			try {
-				p.searchCardByCriteria("name", mc.getName(), ed, true);
+				p.searchCardByName( mc.getName(), ed, true);
 				System.out.println("SEARCH CARD :OK");
 			} catch (Exception e) {
 				System.out.println("SEARCH CARD :ERROR " + e);
 			}
 			try {
-				p.searchCardByCriteria("name", mc.getName(), null, false);
+				p.searchCardByName( mc.getName(), null, false);
 				System.out.println("SEARCH CARD :OK");
 			} catch (Exception e) {
 				System.out.println("SEARCH CARD :ERROR " + e);

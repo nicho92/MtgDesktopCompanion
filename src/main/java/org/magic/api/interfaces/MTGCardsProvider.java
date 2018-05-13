@@ -19,8 +19,11 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public MagicCard getCardById(String id) throws IOException;
 
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)
-			throws IOException;
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact) throws IOException;
+	
+	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException;
+	
+	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException;
 
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException;
 

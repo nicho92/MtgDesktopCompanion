@@ -315,7 +315,7 @@ public class SealedPanel extends JPanel {
 		MagicEdition ed = new MagicEdition();
 		ed.setId(MTGControler.getInstance().get("default-land-deck"));
 		try {
-			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", land, ed, true)
+			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( land, ed, true)
 					.get(0);
 
 			for (int i = 0; i < qte; i++) {

@@ -539,7 +539,7 @@ public class CardSearchPanel extends JPanel {
 					loading(true, MTGControler.getInstance().getLangService().getCapitalize("LOADING_EDITIONS"));
 					try {
 						selectedCard = MTGControler.getInstance().getEnabledCardsProviders()
-								.searchCardByCriteria("name", selectedCard.getName(), selectedEdition, false).get(0);
+								.searchCardByName( selectedCard.getName(), selectedEdition, false).get(0);
 						detailCardPanel.setMagicCard(selectedCard);
 						magicEditionDetailPanel.setMagicEdition(selectedEdition);
 

@@ -75,7 +75,7 @@ public class CardsPicPanel extends JXPanel {
 		} else {
 			try {
 				MagicCard flipC = MTGControler.getInstance().getEnabledCardsProviders()
-						.searchCardByCriteria("name", card.getRotatedCardName(), card.getCurrentSet(), true)
+						.searchCardByName( card.getRotatedCardName(), card.getCurrentSet(), true)
 						.get(0);
 				back = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(flipC, null);
 			} catch (Exception e) {

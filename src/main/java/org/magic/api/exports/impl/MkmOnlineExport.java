@@ -92,7 +92,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 					p.setEnName(p.getEnName().substring(0, p.getEnName().indexOf("(Version")));
 
 				d.getMap().put(MTGControler.getInstance().getEnabledCardsProviders()
-						.searchCardByCriteria("name", p.getEnName().trim(), null, true).get(0), w.getCount());
+						.searchCardByName( p.getEnName().trim(), null, true).get(0), w.getCount());
 			} catch (Exception e) {
 				logger.error("could not import " + w);
 			}
@@ -240,7 +240,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 			mcs.setAltered(a.isAltered());
 			mcs.setPrice(a.getPrice());
 			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
-					.searchCardByCriteria("name", a.getProduct().getEnName(), null, true).get(0);
+					.searchCardByName( a.getProduct().getEnName(), null, true).get(0);
 			MagicCardMarketPricer2.selectEditionCard(mc, a.getProduct().getExpansionName());
 
 			mcs.setMagicCard(mc);

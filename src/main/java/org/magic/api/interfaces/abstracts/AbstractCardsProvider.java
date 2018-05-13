@@ -1,6 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,6 +34,18 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 		cacheEditions = new TreeMap<>();
 
 	}
+	
+	@Override
+	public List<MagicCard> searchCardByEdition(MagicEdition ed) throws IOException {
+		return searchCardByCriteria("set", ed.getId(), null, false);
+	}
+	
+	
+	@Override
+	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException {
+		return searchCardByCriteria("name",name, me, exact);
+	}
+	
 
 	@Override
 	public PLUGINS getType() {

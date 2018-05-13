@@ -144,17 +144,17 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				if (MagicCard.isBasicLand(cardName)) {
 					MagicEdition ed = new MagicEdition();
 					ed.setId(MTGControler.getInstance().get("default-land-deck"));
-					ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", cardName, ed,
+					ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, ed,
 							true);
 				} else {
-					ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", cardName, null,
+					ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, null,
 							true);
 				}
 
 			} else {
 				MagicEdition ed = new MagicEdition();
 				ed.setId(idSet);
-				ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", cardName, ed, true);
+				ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, ed, true);
 			}
 
 			if (!ret.isEmpty()) {

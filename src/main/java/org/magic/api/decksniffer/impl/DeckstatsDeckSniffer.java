@@ -114,10 +114,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 					MagicEdition ed = new MagicEdition();
 					ed.setId(MTGControler.getInstance().get("default-land-deck"));
 					mc = MTGControler.getInstance().getEnabledCardsProviders()
-							.searchCardByCriteria("name", cardName, ed, true).get(0);
+							.searchCardByName(cardName, ed, true).get(0);
 				} else {
 					mc = MTGControler.getInstance().getEnabledCardsProviders()
-							.searchCardByCriteria("name", cardName, null, true).get(0);
+							.searchCardByName(cardName, null, true).get(0);
 				}
 
 				if (side)
