@@ -42,6 +42,10 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		}
 
 		eds = new ArrayList<>();
+	}
+	
+	private void initEds()
+	{
 		try {
 			doc = Jsoup.connect("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az")
 					.userAgent(MTGConstants.USER_AGENT).timeout(0).get();
@@ -77,6 +81,10 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 
+		if(eds.isEmpty())
+			initEds();
+		
+		
 		List<MagicPrice> list = new ArrayList<>();
 		String html = getString("URL");
 

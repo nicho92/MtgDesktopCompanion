@@ -30,11 +30,6 @@ public class ConsoleServer extends AbstractMTGServer {
 		return "use mtg desktop companion via telnet connection";
 	}
 
-
-	public ConsoleServer() throws IOException {
-		super();
-	}
-
 	@Override
 	public void start() throws IOException {
 		acceptor = new NioSocketAcceptor();

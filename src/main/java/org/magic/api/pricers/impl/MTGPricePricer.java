@@ -22,11 +22,6 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 		return STATUT.BETA;
 	}
 
-	public MTGPricePricer() {
-		super();
-
-	}
-
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition ed, MagicCard card) throws IOException {
 		if (getString("API_KEY").equals(""))

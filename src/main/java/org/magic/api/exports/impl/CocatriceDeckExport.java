@@ -32,10 +32,6 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		return STATUT.DEV;
 	}
 
-	public CocatriceDeckExport() {
-		super();
-	}
-
 	public String getFileExtension() {
 		return ".cod";
 	}

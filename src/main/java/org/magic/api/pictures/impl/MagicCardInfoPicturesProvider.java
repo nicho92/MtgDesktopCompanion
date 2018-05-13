@@ -26,8 +26,6 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		return STATUT.BETA;
 	}
 
-	private int w;
-	private int h;
 
 	public MagicCardInfoPicturesProvider() {
 		super();
@@ -44,9 +42,6 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		
 		newW = getInt("CARD_SIZE_WIDTH");
 		newH = getInt("CARD_SIZE_HEIGHT");
-
-		w = 223;
-		h = 311;
 	}
 
 	@Override
@@ -89,7 +84,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
 		Image img = null;
 
-		img = ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
+		img = ImageIO.read(connection.getInputStream()).getScaledInstance(newW, newH, BufferedImage.SCALE_SMOOTH);
 		BufferedImage bufferedImage = new BufferedImage(img.getWidth(null), img.getHeight(null),
 				BufferedImage.TYPE_INT_RGB);
 

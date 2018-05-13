@@ -26,8 +26,11 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
 	private static final String MIN_CONDITION = "MIN_CONDITION";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
+	
 	private List<MagicPrice> lists;
-
+	private boolean initied=false;
+	
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -35,9 +38,13 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
 	public MagicCardMarketPricer2() {
 		super();
-
+	}
+	
+	private void init()
+	{
 		try {
 			MkmAPIConfig.getInstance().init(getString("APP_ACCESS_TOKEN_SECRET"), getString("APP_ACCESS_TOKEN"),getString("APP_SECRET"), getString("APP_TOKEN"));
+			initied=true;
 		} catch (MkmException e) {
 			logger.error(e);
 		}
@@ -51,6 +58,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 			}
 		}
 	}
+	
 
 	public static void selectEditionCard(MagicCard mc, String edition) {
 		for (MagicEdition ed : mc.getEditions())
@@ -61,6 +69,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 	}
 
 	public static Product getProductFromCard(MagicCard mc, List<Product> list) {
+		
 		String edName = mc.getCurrentSet().getSet();
 		Product resultat = null;
 		for (Product p : list) {
@@ -78,6 +87,9 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 	}
 
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
+		if(!initied)
+			init();
+		
 		try {
 
 			if (me == null)
@@ -176,7 +188,9 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
 	@Override
 	public void alertDetected(final List<MagicPrice> p) {
-
+		if(!initied)
+			init();
+	
 		ThreadManager.getInstance().execute(() -> {
 			if (!p.isEmpty() && getString("AUTOMATIC_ADD_CARD_ALERT").equals("true")) {
 				CartServices cart = new CartServices();

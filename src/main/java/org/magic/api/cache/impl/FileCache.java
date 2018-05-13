@@ -17,12 +17,16 @@ import org.magic.tools.IDGenerator;
 
 public class FileCache extends AbstractMTGPicturesCache {
 
+	private static final String DIRECTORY = "DIRECTORY";
+	private static final String FORMAT = "FORMAT";
+	private File dir;
+	
 	private enum KEYS {
 		FORMAT, DIRECTORY
 	}
 
 	public File getDirectory() {
-		return directory;
+		return dir;
 	}
 
 	@Override
@@ -30,7 +34,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		return STATUT.STABLE;
 	}
 
-	File directory;
+	
 
 	private String generateIdIndex(MagicCard mc, MagicEdition ed) {
 		return IDGenerator.generate(mc, ed);
@@ -39,9 +43,9 @@ public class FileCache extends AbstractMTGPicturesCache {
 	public FileCache() {
 		super();
 
-		directory = new File(getString(KEYS.DIRECTORY.name()));
-		if (!directory.exists())
-			directory.mkdir();
+		dir = new File(getString(DIRECTORY));
+		if (!dir.exists())
+			dir.mkdir();
 	}
 
 	@Override
@@ -58,7 +62,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 
 			logger.trace("search in cache : " + mc + " " + ed);
 
-			File save = new File(directory, MTGControler.getInstance().getEnabledPicturesProvider().getName());
+			File save = new File(dir, MTGControler.getInstance().getEnabledPicturesProvider().getName());
 			if (!save.exists())
 				save.mkdir();
 
@@ -66,7 +70,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 			if (!save.exists())
 				save.mkdir();
 
-			return ImageIO.read(new File(save, generateIdIndex(mc, ed) + "." + getString(KEYS.FORMAT.name())));
+			return ImageIO.read(new File(save, generateIdIndex(mc, ed) + "." + getString(FORMAT)));
 		} catch (IOException e) {
 			return null;
 		}
@@ -80,7 +84,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 
 		logger.debug("save in cache : " + mc + " " + ed);
 
-		File f = new File(directory, MTGControler.getInstance().getEnabledPicturesProvider().getName());
+		File f = new File(dir, MTGControler.getInstance().getEnabledPicturesProvider().getName());
 		if (!f.exists())
 			f.mkdir();
 
@@ -88,8 +92,8 @@ public class FileCache extends AbstractMTGPicturesCache {
 		if (!f.exists())
 			f.mkdir();
 
-		ImageIO.write(im, getString(KEYS.FORMAT.name()),
-				new File(f, generateIdIndex(mc, ed) + "." + getString(KEYS.FORMAT.name())));
+		ImageIO.write(im, getString(FORMAT),
+				new File(f, generateIdIndex(mc, ed) + "." + getString(FORMAT)));
 
 	}
 
@@ -103,17 +107,17 @@ public class FileCache extends AbstractMTGPicturesCache {
 	@Override
 	public void clear() {
 		try {
-			FileUtils.cleanDirectory(directory);
+			FileUtils.cleanDirectory(dir);
 		} catch (IOException e) {
-			logger.error("Couldn't clean " + directory, e);
+			logger.error("Couldn't clean " + dir, e);
 		}
 
 	}
 
 	@Override
 	public void initDefault() {
-		setProperty(KEYS.DIRECTORY.name(), MTGConstants.CONF_DIR + "/caches/cachePics");
-		setProperty(KEYS.FORMAT.name(), "png");
+		setProperty(DIRECTORY, MTGConstants.CONF_DIR + "/caches/cachePics");
+		setProperty(FORMAT, "png");
 
 	}
 

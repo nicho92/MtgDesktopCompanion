@@ -25,9 +25,9 @@ import org.magic.services.MTGControler;
 
 public class CSVExport extends AbstractCardExport {
 
-	String[] exportedProperties;
-	String[] exportedDeckProperties;
-	String[] exportedPricesProperties;
+	private String[] exportedProperties;
+	private String[] exportedDeckProperties;
+	
 
 	@Override
 	public STATUT getStatut() {

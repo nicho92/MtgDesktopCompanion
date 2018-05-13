@@ -26,9 +26,6 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		return STATUT.BETA;
 	}
 
-	public TCGPlayerPricer() {
-		super();
-	}
 
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {

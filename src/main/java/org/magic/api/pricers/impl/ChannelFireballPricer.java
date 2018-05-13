@@ -25,10 +25,6 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		return STATUT.BETA;
 	}
 
-	public ChannelFireballPricer() {
-		super();
-
-	}
 
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {

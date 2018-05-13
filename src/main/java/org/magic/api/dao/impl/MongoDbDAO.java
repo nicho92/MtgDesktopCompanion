@@ -76,10 +76,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return STATUT.BETA;
 	}
 
-	public MongoDbDAO() {
-		super();
-	}
-
+	
 	public void init() throws SQLException, ClassNotFoundException {
 
 		gson = new Gson();

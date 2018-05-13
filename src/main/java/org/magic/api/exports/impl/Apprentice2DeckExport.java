@@ -35,10 +35,6 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 		return ".dec";
 	}
 
-	public Apprentice2DeckExport() {
-		super();
-
-	}
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {

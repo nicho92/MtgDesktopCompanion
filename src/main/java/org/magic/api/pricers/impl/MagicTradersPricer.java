@@ -23,9 +23,6 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 		return STATUT.STABLE;
 	}
 
-	public MagicTradersPricer() {
-		super();
-	}
 
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 

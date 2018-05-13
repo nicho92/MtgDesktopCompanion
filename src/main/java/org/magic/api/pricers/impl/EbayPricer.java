@@ -21,17 +21,14 @@ import com.google.gson.stream.JsonReader;
 
 public class EbayPricer extends AbstractMagicPricesProvider {
 
+	private String keyword = "";
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
 	}
 
-	String keyword = "";
 
-	public EbayPricer() {
-		super();
-
-	}
 
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<>();
