@@ -40,7 +40,7 @@ public class TypeRepartitionPanel extends JPanel {
 	}
 
 	public void init(MagicDeck deck) {
-		if(deck!=null && !deck.getMap().isEmpty())
+		if(deck!=null)
 			init(deck.getAsList());
 	}
 	public void init(List<MagicCard> cards) {

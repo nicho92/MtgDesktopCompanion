@@ -28,7 +28,6 @@ import org.magic.services.MTGLogger;
 public class ManaRepartitionPanel extends JPanel {
 
 	private List<MagicCard> cards;
-	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private transient MTGDeckManager manager;
 
 	public ManaRepartitionPanel() {
@@ -44,14 +43,14 @@ public class ManaRepartitionPanel extends JPanel {
 	}
 
 	public void init(MagicDeck deck) {
-		if(deck!=null && !deck.getMap().isEmpty())
+		if(deck!=null)
 			init(deck.getAsList());
 
 	}
 
 	public void init(List<MagicCard> cards) {
 		this.cards = cards;
-		if(isVisible()&&cards!=null)
+		if(isVisible())
 			refresh();
 	}
 

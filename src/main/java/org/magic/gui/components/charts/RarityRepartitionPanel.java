@@ -40,7 +40,7 @@ public class RarityRepartitionPanel extends JPanel {
 	}
 
 	public void init(MagicDeck deck) {
-		if(deck!=null && !deck.getMap().isEmpty())
+		if(deck!=null)
 			init(deck.getAsList());
 	}
 
