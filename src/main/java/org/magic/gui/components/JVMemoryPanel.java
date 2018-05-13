@@ -50,13 +50,11 @@ public class JVMemoryPanel extends JPanel {
 		add(progressBar);
 		defaultBack = progressBar.getBackground();
 		defaultFront = progressBar.getForeground();
-
 		t = new Timer();
 		task = new TimerTask() {
 			public void run() {
 				progressBar.setValue(toMB((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())));
-				tooltip = toMB((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())) + "/"
-						+ toMB((Runtime.getRuntime().totalMemory())) + " MB";
+				tooltip = toMB((Runtime.getRuntime().totalMemory() - Runtime.getRuntime().freeMemory())) + "/"+ toMB((Runtime.getRuntime().totalMemory())) + " MB";
 				progressBar.setToolTipText(tooltip);
 
 				double pc = ((progressBar.getValue() * 100) / progressBar.getMaximum());

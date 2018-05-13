@@ -1,6 +1,8 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 import javax.swing.DefaultRowSorter;
 import javax.swing.JButton;
@@ -57,8 +59,9 @@ public class ThreadMonitorPanel extends JPanel {
 		memoryPanel = new JVMemoryPanel();
 		panel.add(memoryPanel);
 
-		t = new Timer(1000, e -> model.fireTableDataChanged());
+		t = new Timer(3000, e -> model.fireTableDataChanged());
 		t.start();
+		
 
 	}
 }
