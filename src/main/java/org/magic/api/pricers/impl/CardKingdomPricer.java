@@ -22,7 +22,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private Document doc;
-	private List<MagicPrice> list;
 	private List<String> eds;
 
 	@Override
@@ -32,9 +31,6 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 	public CardKingdomPricer() {
 		super();
-
-		list = new ArrayList<>();
-
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
@@ -81,7 +77,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 
-		list.clear();
+		List<MagicPrice> list = new ArrayList<>();
 		String html = getString("URL");
 
 		if (me == null)

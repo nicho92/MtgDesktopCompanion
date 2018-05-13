@@ -34,6 +34,12 @@ import org.magic.services.MTGControler;
 
 public class MkmOnlineExport extends AbstractCardExport {
 
+	private static final String STOCK_USE = "STOCK_USE";
+	private static final String MAX_WANTLIST_SIZE = "MAX_WANTLIST_SIZE";
+	private static final String LANGUAGES = "LANGUAGES";
+	private static final String DEFAULT_QTE = "DEFAULT_QTE";
+	private static final String QUALITY = "QUALITY";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -99,7 +105,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	public void export(List<MagicCard> cards, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 		for (MagicCard mc : cards)
-			d.getMap().put(mc, Integer.parseInt(getString("DEFAULT_QTE")));
+			d.getMap().put(mc, Integer.parseInt(getString(DEFAULT_QTE)));
 
 		d.setName(f.getName());
 
@@ -128,11 +134,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 				w.setProduct(p);
 				w.setCount(deck.getMap().get(mc));
 				w.setFoil(new MkmBoolean(false));
-				w.setMinCondition(getString("QUALITY"));
+				w.setMinCondition(getString(QUALITY));
 				w.setAltered(new MkmBoolean(false));
 				w.setType("product");
 				w.setSigned(new MkmBoolean(false));
-				for (String s : getString("LANGUAGES").split(","))
+				for (String s : getString(LANGUAGES).split(","))
 					w.getIdLanguage().add(Integer.parseInt(s));
 				wants.add(w);
 			} else {
@@ -144,7 +150,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 		}
 
-		int max = Integer.parseInt(getString("MAX_WANTLIST_SIZE"));
+		int max = Integer.parseInt(getString(MAX_WANTLIST_SIZE));
 		if (wants.size() <= max) {
 			Wantslist l = wlService.createWantList(deck.getName());
 			logger.debug("Create " + l + " list with " + wants.size() + " items");
@@ -176,7 +182,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 
-		if (!getString("STOCK_USE").equals("true")) {
+		if (!getString(STOCK_USE).equals("true")) {
 			MagicDeck d = new MagicDeck();
 			d.setName(f.getName());
 			for (MagicCardStock mcs : stock) {
@@ -215,7 +221,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
 
-		if (!getString("STOCK_USE").equals("true"))
+		if (!getString(STOCK_USE).equals("true"))
 			return importFromDeck(importDeck(f));
 
 		StockService serv = new StockService();
@@ -290,11 +296,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public void initDefault() {
-		setProperty("QUALITY", "GD");
-		setProperty("DEFAULT_QTE", "1");
-		setProperty("LANGUAGES", "1,2");
-		setProperty("MAX_WANTLIST_SIZE", "150");
-		setProperty("STOCK_USE", "true");
+		setProperty(QUALITY, "GD");
+		setProperty(DEFAULT_QTE, "1");
+		setProperty(LANGUAGES, "1");
+		setProperty(MAX_WANTLIST_SIZE, "150");
+		setProperty(STOCK_USE, "true");
 
 	}
 

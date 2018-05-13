@@ -12,8 +12,6 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -28,9 +26,8 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 	private static final String PROTOCOLE = "PROTOCOLE";
 	private static final String MAX_RESULT = "MAX_RESULT";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-	Document doc;
-	CloseableHttpClient httpclient;
-	SimpleDateFormat formatter;
+	private Document doc;
+	private SimpleDateFormat formatter;
 
 	@Override
 	public STATUT getStatut() {
@@ -43,7 +40,6 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 	}
 
 	private void init() {
-		httpclient = HttpClients.createDefault();
 		formatter = new SimpleDateFormat(getString("DATE_FORMAT"));
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
