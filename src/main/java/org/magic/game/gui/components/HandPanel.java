@@ -74,7 +74,7 @@ public class HandPanel extends DraggablePanel {
 	public void initThumbnails(final List<MagicCard> cards, final boolean activateCards, final boolean rightClick) {
 
 		if (t != null && t.isAlive())
-			t.stop();
+			t.interrupt();
 
 		c.weightx = 1;
 		c.weighty = 1;
