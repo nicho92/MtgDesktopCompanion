@@ -85,14 +85,9 @@ public class CardSearchPanel extends JPanel {
 
 	private MagicCard selectedCard;
 	private MagicEdition selectedEdition;
-
 	private MagicCardTableModel cardsModeltable;
-
 	private JTabbedPane tabbedCardsView;
-	
-
 	private static CardSearchPanel inst;
-
 	private HandPanel thumbnailPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private TypeRepartitionPanel typeRepartitionPanel;
@@ -194,7 +189,6 @@ public class CardSearchPanel extends JPanel {
 		JComboBox<MagicEdition> cboEdition;
 		TableFilterHeader filterHeader;
 		JButton btnClear;
-		JButton btnSearch;
 		JButton btnFilter;
 		
 		
@@ -250,8 +244,6 @@ public class CardSearchPanel extends JPanel {
 		
 		thumbnailPanel = new HandPanel();
 		thumbnailPanel.setBackground(MTGConstants.THUMBNAIL_BACKGROUND_COLOR);
-
-		btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 		btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		btnFilter = new JButton(MTGConstants.ICON_FILTER);
 		btnClear = new JButton(MTGConstants.ICON_CLEAR);
@@ -274,7 +266,7 @@ public class CardSearchPanel extends JPanel {
 
 		listEdition = new JList<>();
 
-		txtMagicSearch = new JXSearchField();
+		txtMagicSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
 		txtMagicSearch.setSearchMode(SearchMode.REGULAR);
 		
 		txtRulesArea = new JTextArea();
@@ -335,7 +327,7 @@ public class CardSearchPanel extends JPanel {
 		scrollCards.setMinimumSize(new Dimension(0, 0));
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
 		txtFilter.setColumns(25);
-		txtMagicSearch.setColumns(35);
+		txtMagicSearch.setColumns(50);
 
 		/////// VISIBILITY
 		tableCards.setColumnControlVisible(true);
@@ -371,7 +363,6 @@ public class CardSearchPanel extends JPanel {
 		panneauHaut.add(cboCollections);
 		panneauHaut.add(txtMagicSearch);
 		panneauHaut.add(cboEdition);
-		panneauHaut.add(btnSearch);
 		panneauHaut.add(btnFilter);
 		panneauHaut.add(btnExport);
 		panneauHaut.add(lblLoading);
@@ -461,7 +452,7 @@ public class CardSearchPanel extends JPanel {
 			}
 		});
 
-		btnSearch.addActionListener(ae -> {
+		txtMagicSearch.addActionListener(ae -> {
 
 			Observer ob = new Observer() {
 				@Override
@@ -484,7 +475,7 @@ public class CardSearchPanel extends JPanel {
 					String searchName = txtMagicSearch.getText();
 					try {
 						List<MagicCard> cards;
-						MTGControler.getInstance().getEnabledCardsProviders().addObserver(ob);
+						//MTGControler.getInstance().getEnabledCardsProviders().addObserver(ob);
 
 						if (cboCollections.isVisible())
 							cards = MTGControler.getInstance().getEnabledDAO()
@@ -510,7 +501,7 @@ public class CardSearchPanel extends JPanel {
 					loading(false, "");
 					cardsModeltable.fireTableDataChanged();
 					btnExport.setEnabled(tableCards.getRowCount() > 0);
-					MTGControler.getInstance().getEnabledCardsProviders().removeObserver(ob);
+				//	MTGControler.getInstance().getEnabledCardsProviders().removeObserver(ob);
 
 				}
 			}.execute();
@@ -648,7 +639,7 @@ public class CardSearchPanel extends JPanel {
 
 		});
 
-		txtMagicSearch.addActionListener(e -> btnSearch.doClick());
+		
 
 	}
 

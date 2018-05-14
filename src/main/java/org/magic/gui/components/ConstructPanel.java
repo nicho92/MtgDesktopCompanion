@@ -43,6 +43,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXSearchField;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
@@ -127,11 +128,10 @@ public class ConstructPanel extends JPanel {
 	private void initGUI() {
 
 		JPanel panneauHaut = new JPanel();
-		JButton btnSearch;
 		JButton btnUpdate;
 		HandPanel thumbnail;
 		JPanel panelBottom;
-		JTextField txtSearch;
+		JXSearchField txtSearch;
 		JComboBox<String> cboAttributs;
 		JScrollPane scrollResult;
 		JTabbedPane tabbedPane;
@@ -158,12 +158,9 @@ public class ConstructPanel extends JPanel {
 				MTGControler.getInstance().getEnabledCardsProviders().getQueryableAttributs()));
 		panneauHaut.add(cboAttributs);
 
-		txtSearch = new JTextField();
+		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
 		panneauHaut.add(txtSearch);
 		txtSearch.setColumns(25);
-
-		btnSearch = new JButton(MTGConstants.ICON_SEARCH);
-		panneauHaut.add(btnSearch);
 
 		JLabel lblCards = new JLabel();
 		panneauHaut.add(lblCards);
@@ -658,11 +655,9 @@ public class ConstructPanel extends JPanel {
 			}
 		});
 
-		txtSearch.addActionListener(e -> btnSearch.doClick());
-
 		tabbedDeckSide.addChangeListener(e -> selectedIndex = tabbedDeckSide.getSelectedIndex());
 
-		btnSearch.addActionListener(aeSearch -> {
+		txtSearch.addActionListener(aeSearch -> {
 
 			if (txtSearch.getText().equals(""))
 				return;

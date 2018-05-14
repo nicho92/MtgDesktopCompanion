@@ -37,11 +37,6 @@ public class SpeedConfigurator extends JFrame {
 	private JCheckBox checkBox5;
 	private JCheckBox checkBox7;
 	private JCheckBox checkBox9;
-	private JPanel panelMods;
-	private JLabel lblCollectionManager;
-	private JLabel lblDeckBuilder;
-	private JLabel label;
-	private JLabel lblAll;
 	
 	public static void main(String[] args) {
 		new SpeedConfigurator().setVisible(true);
@@ -54,42 +49,6 @@ public class SpeedConfigurator extends JFrame {
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		getContentPane().add(tabbedPane);
-		
-		panelMods = new JPanel();
-		tabbedPane.addTab("New tab", null, panelMods, null);
-		GridBagLayout gbl_panelMods = new GridBagLayout();
-		gbl_panelMods.columnWidths = new int[]{0, 0};
-		gbl_panelMods.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
-		gbl_panelMods.columnWeights = new double[]{0.0, Double.MIN_VALUE};
-		gbl_panelMods.rowWeights = new double[]{0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE};
-		panelMods.setLayout(gbl_panelMods);
-		
-		lblCollectionManager = new JLabel("Collection Manager :");
-		GridBagConstraints gbc_lblCollectionManager = new GridBagConstraints();
-		gbc_lblCollectionManager.insets = new Insets(0, 0, 5, 0);
-		gbc_lblCollectionManager.gridx = 0;
-		gbc_lblCollectionManager.gridy = 1;
-		panelMods.add(lblCollectionManager, gbc_lblCollectionManager);
-		
-		lblDeckBuilder = new JLabel("Deck Builder :");
-		GridBagConstraints gbc_lblDeckBuilder = new GridBagConstraints();
-		gbc_lblDeckBuilder.insets = new Insets(0, 0, 5, 0);
-		gbc_lblDeckBuilder.gridx = 0;
-		gbc_lblDeckBuilder.gridy = 2;
-		panelMods.add(lblDeckBuilder, gbc_lblDeckBuilder);
-		
-		label = new JLabel("");
-		GridBagConstraints gbc_label = new GridBagConstraints();
-		gbc_label.insets = new Insets(0, 0, 5, 0);
-		gbc_label.gridx = 0;
-		gbc_label.gridy = 3;
-		panelMods.add(label, gbc_label);
-		
-		lblAll = new JLabel("All :");
-		GridBagConstraints gbc_lblAll = new GridBagConstraints();
-		gbc_lblAll.gridx = 0;
-		gbc_lblAll.gridy = 4;
-		panelMods.add(lblAll, gbc_lblAll);
 
 		JPanel panneau1 = new JPanel();
 		tabbedPane.addTab("Configuration", null, panneau1, null);
