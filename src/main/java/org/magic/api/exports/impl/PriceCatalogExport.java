@@ -110,11 +110,6 @@ public class PriceCatalogExport extends AbstractCardExport {
 	}
 
 	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
-	@Override
 	public void initDefault() {
 		setProperty("PRICER", "");
 		setProperty("PROPERTIES_CARD", "number,name,cost,supertypes,types,subtypes,editions");

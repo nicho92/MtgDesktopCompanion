@@ -23,10 +23,6 @@ public class NullNotifier extends AbstractMTGNotifier {
 		return "Null";
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public void initDefault() {

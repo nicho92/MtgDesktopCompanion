@@ -25,10 +25,6 @@ import org.magic.services.MTGControler;
 
 public class CSVExport extends AbstractCardExport {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public String getName() {

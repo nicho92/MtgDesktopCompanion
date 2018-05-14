@@ -266,7 +266,7 @@ public class Player extends Observable implements Serializable {
 	public void discardCardFromLibrary(MagicCard mc) {
 		library.remove(mc);
 		graveyard.add(mc);
-		logAction("Discard " + mc + " from library");
+		logAction("Discard " + mc + " from library to graveyard");
 
 	}
 

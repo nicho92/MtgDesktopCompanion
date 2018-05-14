@@ -26,10 +26,6 @@ public class FileCache extends AbstractMTGPicturesCache {
 		return dir;
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	
 

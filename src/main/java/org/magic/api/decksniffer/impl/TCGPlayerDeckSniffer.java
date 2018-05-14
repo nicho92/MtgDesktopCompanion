@@ -24,10 +24,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	private static final String FORMAT = "FORMAT";
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public String[] listFilter() {

@@ -30,11 +30,6 @@ public class OCTGNDeckExport extends AbstractCardExport {
 
 	private static final String SHARED = "SHARED";
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
 	public String getFileExtension() {
 		return ".o8d";
 	}

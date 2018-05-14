@@ -38,10 +38,6 @@ public class FileDAO extends AbstractMagicDAO {
 	private static final String ALERTSDIR = "alerts";
 	private static final String NEWSDIR = "news";
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	public <T> T read(Class<T> c, File f) throws IOException {
 		return export.fromJson(FileUtils.readFileToString(f, Charset.defaultCharset()), c);

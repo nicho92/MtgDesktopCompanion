@@ -13,15 +13,7 @@ public class NoCache extends AbstractMTGPicturesCache {
 		super();
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
-	@Override
-	public String toString() {
-		return getName();
-	}
+	
 
 	@Override
 	public String getName() {

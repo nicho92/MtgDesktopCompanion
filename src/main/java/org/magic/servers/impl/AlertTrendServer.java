@@ -20,11 +20,11 @@ import org.magic.services.MTGControler;
 
 public class AlertTrendServer extends AbstractMTGServer {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
+	private static final String NOTIFIER = "NOTIFIER";
+	private static final String THREAD_PAUSE = "THREAD_PAUSE";
+	private static final String ALERT_MIN_PERCENT = "ALERT_MIN_PERCENT";
+	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
+	private static final String AUTOSTART = "AUTOSTART";
 	private Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
@@ -76,11 +76,11 @@ public class AlertTrendServer extends AbstractMTGServer {
 								alert.setShake(cs);
 								
 								
-								if(Math.abs(cs.getPercentDayChange())>=getInt("ALERT_MIN_PERCENT"))
+								if(Math.abs(cs.getPercentDayChange())>=getInt(ALERT_MIN_PERCENT))
 									ret.add(cs);
 							
-								if(getInt("THREAD_PAUSE")!=null)
-									Thread.sleep(getInt("THREAD_PAUSE"));
+								if(getInt(THREAD_PAUSE)!=null)
+									Thread.sleep(getInt(THREAD_PAUSE));
 							}
 						}
 						catch(IOException e1)
@@ -100,7 +100,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 					notif.setTitle("Alert Trend Cards");
 					notif.setType(MessageType.INFO);
 					
-					for(String not : getString("NOTIFIER").split(","))
+					for(String not : getString(NOTIFIER).split(","))
 					{
 						MTGNotifier notifier = MTGControler.getInstance().getPlugin(not, MTGNotifier.class);
 						notif.setMessage(notifFormater.generate(notifier.getFormat(), ret, CardShake.class));
@@ -119,8 +119,8 @@ public class AlertTrendServer extends AbstractMTGServer {
 			}
 		};
 
-		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString("TIMEOUT_MINUTE")) * 60000);
-		logger.info("Server start with " + getString("TIMEOUT_MINUTE") + " min timeout");
+		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString(TIMEOUT_MINUTE)) * 60000);
+		logger.info("Server start with " + getString(TIMEOUT_MINUTE) + " min timeout");
 
 	}
 
@@ -144,16 +144,16 @@ public class AlertTrendServer extends AbstractMTGServer {
 
 	@Override
 	public boolean isAutostart() {
-		return getBoolean("AUTOSTART");
+		return getBoolean(AUTOSTART);
 	}
 
 	@Override
 	public void initDefault() {
-		setProperty("AUTOSTART", "false");
-		setProperty("TIMEOUT_MINUTE", "120");
-		setProperty("ALERT_MIN_PERCENT","40");
-		setProperty("THREAD_PAUSE","2000");
-		setProperty("NOTIFIER","Tray,Console");
+		setProperty(AUTOSTART, "false");
+		setProperty(TIMEOUT_MINUTE, "120");
+		setProperty(ALERT_MIN_PERCENT,"40");
+		setProperty(THREAD_PAUSE,"2000");
+		setProperty(NOTIFIER,"Tray,Console");
 	}
 
 	@Override

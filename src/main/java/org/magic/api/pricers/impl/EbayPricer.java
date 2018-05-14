@@ -21,13 +21,7 @@ import com.google.gson.stream.JsonReader;
 
 public class EbayPricer extends AbstractMagicPricesProvider {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
-
-
+	
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> prices = new ArrayList<>();
 

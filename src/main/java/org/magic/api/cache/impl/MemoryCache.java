@@ -14,11 +14,6 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 
 	Map<String, BufferedImage> cache;
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
 	private String generateIdIndex(MagicCard mc, MagicEdition ed) {
 		return IDGenerator.generate(mc, ed);
 	}

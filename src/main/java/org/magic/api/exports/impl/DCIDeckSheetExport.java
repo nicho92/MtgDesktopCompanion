@@ -47,10 +47,6 @@ public class DCIDeckSheetExport extends AbstractCardExport {
 		return MODS.EXPORT;
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {

@@ -677,10 +677,6 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		return new URL("http://mtgjson.com/");
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public void initDefault() {

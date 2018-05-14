@@ -18,12 +18,6 @@ import org.magic.services.MTGConstants;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
-
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 
 		URL link = new URL(getString("URL"));

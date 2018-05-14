@@ -32,10 +32,7 @@ import org.magic.tools.IDGenerator;
 
 public class HsqlDAO extends AbstractMagicDAO {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
+
 
 	private String cardField = "mcard";
 	private Connection con;

@@ -29,10 +29,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 	private Document doc;
 	private SimpleDateFormat formatter;
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
+
 
 	public LeboncoinShopper() {
 		super();

@@ -21,10 +21,6 @@ import com.google.gson.stream.JsonReader;
 
 public class EbayShopper extends AbstractMagicShopper {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	EbayPricer pricer;
 

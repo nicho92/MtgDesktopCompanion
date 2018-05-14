@@ -23,13 +23,9 @@ import org.magic.services.MTGControler;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
-	Map<Integer, String> cacheColor;
+	private Map<Integer, String> cacheColor;
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
+	
 	public DeckstatsDeckSniffer() {
 		super();
 		cacheColor = new HashMap<>();

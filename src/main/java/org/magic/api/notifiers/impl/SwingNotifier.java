@@ -38,10 +38,6 @@ public class SwingNotifier extends AbstractMTGNotifier {
 		return "Swing";
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public void initDefault() {

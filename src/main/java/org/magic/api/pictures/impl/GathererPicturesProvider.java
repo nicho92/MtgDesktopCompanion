@@ -14,12 +14,6 @@ import org.magic.services.MTGControler;
 
 public class GathererPicturesProvider extends AbstractPicturesProvider {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
-	BufferedImage back;
 	private MagicCardInfoPicturesProvider mciProv;
 
 	public GathererPicturesProvider() {

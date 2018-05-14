@@ -17,12 +17,6 @@ import org.magic.sorters.CardsShakeSorter;
 import org.magic.sorters.CardsShakeSorter.SORT;
 
 public class OversightServer extends AbstractMTGServer {
-
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
 	private Timer timer;
 	private TimerTask tache;
 	private boolean running = false;

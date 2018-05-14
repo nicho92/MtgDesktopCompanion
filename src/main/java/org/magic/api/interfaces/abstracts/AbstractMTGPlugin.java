@@ -7,6 +7,7 @@ import java.util.Properties;
 
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
@@ -144,6 +145,10 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	@Override
 	public String toString() {
 		return getName();
+	}
+
+	public STATUT getStatut() {
+		return STATUT.STABLE;
 	}
 
 }

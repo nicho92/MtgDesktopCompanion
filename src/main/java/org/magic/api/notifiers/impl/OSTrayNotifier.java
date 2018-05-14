@@ -73,10 +73,7 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		return "Tray";
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
+
 
 	@Override
 	public void initDefault() {

@@ -24,10 +24,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	private static final String SUPPORT = "SUPPORT";
 	private static final String FORMAT = "FORMAT";
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
+	
 
 	private boolean metagames = false;
 

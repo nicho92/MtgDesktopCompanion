@@ -46,10 +46,6 @@ public class MysqlDAO extends AbstractMagicDAO {
 	private List<MagicCardAlert> list;
 	private Gson serialiser;
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	public MysqlDAO() throws ClassNotFoundException, SQLException {
 		super();

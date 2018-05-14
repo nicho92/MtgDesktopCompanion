@@ -435,10 +435,6 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return "Json Http Server";
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public void initDefault() {

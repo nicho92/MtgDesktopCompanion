@@ -23,11 +23,6 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	private static final String MAX_PAGE = "MAX_PAGE";
 
 	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
-
-	@Override
 	public String[] listFilter() {
 		return new String[] { "derniers-decks", "decks-du-moment", "decks-populaires" };
 	}

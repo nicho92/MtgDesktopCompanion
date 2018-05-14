@@ -30,10 +30,6 @@ public class ConsoleNotifier extends AbstractMTGNotifier {
 		return "Console";
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public void initDefault() {

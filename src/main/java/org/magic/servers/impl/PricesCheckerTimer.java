@@ -18,10 +18,6 @@ import org.magic.services.MTGControler;
 
 public class PricesCheckerTimer extends AbstractMTGServer {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	private Timer timer;
 	private TimerTask tache;

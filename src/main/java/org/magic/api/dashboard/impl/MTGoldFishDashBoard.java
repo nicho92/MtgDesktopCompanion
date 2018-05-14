@@ -39,10 +39,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	private boolean stop;
 	private Map<String, String> mapConcordance;
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	public MTGoldFishDashBoard() {
 		super();

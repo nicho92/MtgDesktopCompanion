@@ -34,10 +34,6 @@ public class PDFExport extends AbstractCardExport {
 		return MODS.EXPORT;
 	}
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	private PdfPCell getCells(MagicCard card) throws BadElementException, IOException {
 

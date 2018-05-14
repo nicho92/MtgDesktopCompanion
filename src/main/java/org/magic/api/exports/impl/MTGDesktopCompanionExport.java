@@ -19,10 +19,6 @@ import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class MTGDesktopCompanionExport extends AbstractCardExport {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public String getName() {

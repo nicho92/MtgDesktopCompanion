@@ -27,10 +27,7 @@ import com.google.gson.stream.JsonReader;
 
 public class JsonExport extends AbstractCardExport {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
+	
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {

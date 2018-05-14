@@ -20,10 +20,6 @@ import org.magic.services.MTGControler;
 
 public class MTGODeckExport extends AbstractCardExport {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.STABLE;
-	}
 
 	@Override
 	public String getName() {
