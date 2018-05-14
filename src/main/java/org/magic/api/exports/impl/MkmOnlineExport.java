@@ -2,7 +2,6 @@ package org.magic.api.exports.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;

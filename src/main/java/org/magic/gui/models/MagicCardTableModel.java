@@ -65,8 +65,7 @@ public class MagicCardTableModel extends DefaultTableModel {
 			case 3:
 				return mc.getFullType();
 			case 4:
-				return contains(mc.getTypes(), "creature") ? mc.getPower() + "/" + mc.getToughness()
-						: contains(mc.getTypes(), "planeswalker") ? mc.getLoyalty() : "";
+				return powerorloyalty(mc);
 			case 5:
 				return (mc.getCurrentSet() != null) ? mc.getCurrentSet().getRarity() : "";
 			case 6:
@@ -82,6 +81,16 @@ public class MagicCardTableModel extends DefaultTableModel {
 			return null;
 		}
 
+	}
+
+	private String powerorloyalty(MagicCard mc) {
+		
+		if(contains(mc.getTypes(), "creature"))
+			return mc.getPower() + "/" + mc.getToughness();
+		else if(contains(mc.getTypes(), "planeswalker"))
+			return String.valueOf(mc.getLoyalty());
+		
+		return "";
 	}
 
 	private String getName(List<MagicCardNames> foreignNames) {

@@ -61,7 +61,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 		return count;
 	}
 
-	public int extractColorless(String manaCost) {
+	private int extractColorless(String manaCost) {
 		try {
 			return Integer.parseInt(manaCost.replaceAll("[^0-9]", ""));
 		} catch (Exception e) {
@@ -69,6 +69,17 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 		}
 
 	}
+	
+	private String powerorloyalty(MagicCard mc) {
+		
+		if(extractColorless(mc.getCost()) > 0)
+			return String.valueOf(extractColorless(mc.getCost()));
+		else if (mc.getCost().contains("X"))
+				return "X";
+						
+		return "0";
+	}
+	
 
 	public URL getPictureURL(MagicCard mc) throws MalformedURLException, UnsupportedEncodingException {
 
@@ -91,7 +102,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 						+ (mc.getCost().contains("{B}") ? String.valueOf(count(mc.getCost(), "{B}")) : "0") + "&mana_w="
 						+ (mc.getCost().contains("{W}") ? String.valueOf(count(mc.getCost(), "{W}")) : "0")
 						+ "&mana_colorless="
-						+ (extractColorless(mc.getCost()) > 0 ? extractColorless(mc.getCost()) : (mc.getCost().contains("X")) ? "X" : "0")
+						+ powerorloyalty(mc)
 						+ "&picture=" + "&supertype=" + "&cardtype=" + URLEncoder.encode(mc.getFullType(), encoding)
 						+ "&subtype=" + "&expansion=" + "&rarity=" + mc.getRarity() + "&cardtext="
 						+ URLEncoder.encode(

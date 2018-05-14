@@ -10,7 +10,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
 public class DeckSelectionModel extends DefaultTableModel {
 
