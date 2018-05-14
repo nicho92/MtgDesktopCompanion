@@ -87,8 +87,6 @@ public class MysqlDAO extends AbstractMagicDAO {
 			stat.executeUpdate("ALTER TABLE cards ADD INDEX(edition);");
 			stat.executeUpdate("ALTER TABLE cards ADD INDEX(collection);");
 			stat.executeUpdate("ALTER TABLE cards ADD PRIMARY KEY (ID,edition,collection);");
-			
-			
 			return true;
 		} catch (SQLException e) {
 			logger.error(e);

@@ -168,10 +168,10 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				unZipIt();
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_VERSION"))), fversion);
 			}
-			logger.info(this + " : parsing db file");
+			logger.debug(this + " : parsing db file");
 			ctx = JsonPath.parse(fileSetJson);
+			logger.debug(this + " : parsing OK");
 			
-			logger.info(this + " : parsing OK");
 		} catch (Exception e1) {
 			logger.error(e1);
 		}
@@ -181,27 +181,26 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		return searchCardByCriteria("id", id, null, true).get(0);
 	}
 
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact)
-			throws IOException {
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
 
 		String filterEdition = ".";
 
 		if (ed != null)
 			filterEdition = filterEdition + ed.getId();
 
-		String jsquery = "$" + filterEdition + ".cards[?(@." + att + " =~ /^.*" + crit.replaceAll("\\+", " ")
-				+ ".*$/i)]";
+		String jsquery = "$" + filterEdition + ".cards[?(@." + att + " =~ /^.*" + crit.replaceAll("\\+", " ")+ ".*$/i)]";
 
 		if (exact)
 			jsquery = "$" + filterEdition + ".cards[?(@." + att + " == \"" + crit.replaceAll("\\+", " ") + "\")]";
 
-		if (att.equalsIgnoreCase("set")) {
+		if (att.equalsIgnoreCase("set")) 
+		{
 			if (cacheBoosterCards.get(crit) != null) {
 				logger.debug(crit + " is already in cache. Loading from it");
 				return cacheBoosterCards.get(crit);
 			}
-
-			if (crit.length() == 4) {
+			if (crit.length() == 4) //4=promo cards 
+			{
 				crit = crit.substring(0, 1) + crit.substring(1).toUpperCase();
 				jsquery = "$." + crit + ".cards";
 			} else {
@@ -236,6 +235,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 				if (map.get("name") != null)
 					mc.setName(map.get("name").toString());
+				
 				mc.setFlippable(false);
 				mc.setTranformable(false);
 				if (map.get("multiverseid") != null)
@@ -365,10 +365,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				}
 
 				/* get other sets */
-				if (!me.getRarity().equals("Basic Land") && map.get("printings") != null)// too much elements, so,
-																							// remove all re-printings
-																							// information for basic
-																							// lands
+				if (!me.getRarity().equals("Basic Land") && map.get("printings") != null)// too much elements, so,remove all re-printings information for basic lands
 				{
 					for (String print : (List<String>) map.get("printings")) {
 						if (!print.equalsIgnoreCase(codeEd)) {

@@ -22,7 +22,6 @@ public class SleeveCalculator {
 		
 		MagicEdition ed = new MagicEdition();
 		ed.setId("TSP");
-		ed.setSet("TSP");
 		List<MagicCard> cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByEdition(ed);
 		int l = 3;
 		int c = 3;
@@ -31,7 +30,7 @@ public class SleeveCalculator {
 		
 		List<List<MagicCard>> partition = Lists.partition(cards, feuille);
 		
-		logger.info("cards number :" + cards.size() +"Workbook sheets :" + partition.size());
+		logger.info("cards number :" + cards.size() +" Workbook sheets :" + partition.size());
 		
 		
 	}
