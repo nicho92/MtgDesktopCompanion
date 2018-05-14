@@ -45,6 +45,8 @@ import javax.swing.table.TableRowSorter;
 
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -103,11 +105,8 @@ public class CardSearchPanel extends JPanel {
 	private PricesTablePanel priceTablePanel;
 	private JTextArea txtRulesArea;
 	private JSONPanel panelJson;
-
-	private JTextField txtMagicSearch;
-
+	private JXSearchField txtMagicSearch;
 	private JPopupMenu popupMenu = new JPopupMenu();
-
 	private JComboBox<MagicCardNames> cboLanguages;
 	private JComboBox<String> cboQuereableItems;
 	private JComboBox<MagicCollection> cboCollections;
@@ -275,8 +274,11 @@ public class CardSearchPanel extends JPanel {
 
 		listEdition = new JList<>();
 
-		txtMagicSearch = new JTextField();
+		txtMagicSearch = new JXSearchField();
+		txtMagicSearch.setSearchMode(SearchMode.REGULAR);
+		
 		txtRulesArea = new JTextArea();
+		
 		txtFilter = new JTextField();
 
 		filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
