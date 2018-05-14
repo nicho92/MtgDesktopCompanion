@@ -625,10 +625,6 @@ public class CardSearchPanel extends JPanel {
 			menu.setLocation(p.x, p.y + b.getHeight());
 		});
 
-//		tabbedCardsInfo.addChangeListener(e -> {
-//				priceTablePanel.init(selectedCard,selectedEdition);
-//		});
-
 		txtFilter.addActionListener(ae -> {
 			String text = txtFilter.getText();
 			if (text.length() == 0) {

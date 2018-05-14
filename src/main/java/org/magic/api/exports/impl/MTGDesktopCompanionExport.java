@@ -7,12 +7,10 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Date;
-import java.util.List;
 
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
