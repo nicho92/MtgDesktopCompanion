@@ -46,7 +46,6 @@ import javax.swing.table.TableRowSorter;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
-import org.jdesktop.swingx.JXSearchField.SearchMode;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -239,9 +238,7 @@ public class CardSearchPanel extends JPanel {
 		panelFilters = new JPanel();
 		ManaPanel pan = new ManaPanel();
 		panelJson = new JSONPanel();
-
 		tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
-		
 		thumbnailPanel = new HandPanel();
 		thumbnailPanel.setBackground(MTGConstants.THUMBNAIL_BACKGROUND_COLOR);
 		btnExport = new JButton(MTGConstants.ICON_EXPORT);
@@ -260,21 +257,22 @@ public class CardSearchPanel extends JPanel {
 		cboLanguages = new JComboBox<>();
 
 		tableCards = new JXTable();
-
+		
 		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
 		JLabel lblFilter = new JLabel();
 
 		listEdition = new JList<>();
 
 		txtMagicSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
-		txtMagicSearch.setSearchMode(SearchMode.REGULAR);
+		txtMagicSearch.setBackground(Color.WHITE);
+		txtMagicSearch.setSearchMode(MTGConstants.SEARCH_MODE);
 		
 		txtRulesArea = new JTextArea();
 		
 		txtFilter = new JTextField();
 
 		filterHeader = new TableFilterHeader(tableCards, AutoChoices.ENABLED);
-
+		
 		cboEdition = new JComboBox<>(new DefaultComboBoxModel<MagicEdition>(li.toArray(new MagicEdition[li.size()])));
 
 		//////// MODELS
@@ -475,7 +473,7 @@ public class CardSearchPanel extends JPanel {
 					String searchName = txtMagicSearch.getText();
 					try {
 						List<MagicCard> cards;
-						//MTGControler.getInstance().getEnabledCardsProviders().addObserver(ob);
+						MTGControler.getInstance().getEnabledCardsProviders().addObserver(ob);
 
 						if (cboCollections.isVisible())
 							cards = MTGControler.getInstance().getEnabledDAO()
@@ -501,7 +499,7 @@ public class CardSearchPanel extends JPanel {
 					loading(false, "");
 					cardsModeltable.fireTableDataChanged();
 					btnExport.setEnabled(tableCards.getRowCount() > 0);
-				//	MTGControler.getInstance().getEnabledCardsProviders().removeObserver(ob);
+					MTGControler.getInstance().getEnabledCardsProviders().removeObserver(ob);
 
 				}
 			}.execute();

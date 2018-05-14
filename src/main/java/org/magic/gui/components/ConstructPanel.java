@@ -1,6 +1,7 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -159,6 +160,9 @@ public class ConstructPanel extends JPanel {
 		panneauHaut.add(cboAttributs);
 
 		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		txtSearch.setSearchMode(MTGConstants.SEARCH_MODE);
+		txtSearch.setBackground(Color.WHITE);
+
 		panneauHaut.add(txtSearch);
 		txtSearch.setColumns(25);
 

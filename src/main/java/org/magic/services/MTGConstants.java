@@ -11,6 +11,8 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
+import org.jdesktop.swingx.JXSearchField.SearchMode;
+
 import freemarker.template.Configuration;
 import freemarker.template.Version;
 
@@ -57,6 +59,10 @@ public class MTGConstants {
 	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_28;
 	public static final String ICON_DIR="/icons";
 	public static final String MTG_REPORTS_DIR = "/report";
+	
+	
+	public static final SearchMode SEARCH_MODE = SearchMode.REGULAR;
+
 	
 	private static String iconPack="flat";
 
