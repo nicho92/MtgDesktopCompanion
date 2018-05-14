@@ -7,6 +7,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
 import java.util.Enumeration;
 
 import javax.swing.JButton;
@@ -34,20 +35,20 @@ import org.magic.services.MTGControler;
 
 public class JDeckChooserDialog extends JDialog {
 
-	JXTable table;
-	CmcChartPanel cmcChartPanel;
-	MagicDeck selectedDeck;
-	JTagsPanel tagsPanel;
+	private JXTable table;
+	private CmcChartPanel cmcChartPanel;
+	private MagicDeck selectedDeck;
+	private JTagsPanel tagsPanel;
 
-	JTree tree;
-	DefaultTreeModel model;
-	DefaultMutableTreeNode root;
-	DefaultMutableTreeNode creatureNode = new DefaultMutableTreeNode("Creatures");
-	DefaultMutableTreeNode artifactsNode = new DefaultMutableTreeNode("Artifacts");
-	DefaultMutableTreeNode planeswalkerNode = new DefaultMutableTreeNode("Planeswalkers");
-	DefaultMutableTreeNode landsNode = new DefaultMutableTreeNode("Lands");
-	DefaultMutableTreeNode spellsNode = new DefaultMutableTreeNode("Spells");
-	DefaultMutableTreeNode sideNode = new DefaultMutableTreeNode("Sideboard");
+	private JTree tree;
+	private DefaultTreeModel model;
+	private DefaultMutableTreeNode root;
+	private DefaultMutableTreeNode creatureNode = new DefaultMutableTreeNode("Creatures");
+	private DefaultMutableTreeNode artifactsNode = new DefaultMutableTreeNode("Artifacts");
+	private DefaultMutableTreeNode planeswalkerNode = new DefaultMutableTreeNode("Planeswalkers");
+	private DefaultMutableTreeNode landsNode = new DefaultMutableTreeNode("Lands");
+	private DefaultMutableTreeNode spellsNode = new DefaultMutableTreeNode("Spells");
+	private DefaultMutableTreeNode sideNode = new DefaultMutableTreeNode("Sideboard");
 
 	public MagicDeck getSelectedDeck() {
 		return selectedDeck;
@@ -172,7 +173,11 @@ public class JDeckChooserDialog extends JDialog {
 					JOptionPane.YES_NO_OPTION);
 
 			if (res == JOptionPane.YES_OPTION) {
-				((DeckSelectionModel) table.getModel()).remove(selectedDeck);
+				try {
+					((DeckSelectionModel) table.getModel()).remove(selectedDeck);
+				} catch (IOException e1) {
+					JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+				}
 			}
 		});
 

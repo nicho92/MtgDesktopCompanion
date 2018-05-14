@@ -21,6 +21,9 @@ import org.magic.tools.IncapsulaParser;
 
 public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
+	private static final String SUBDECK_GROUP_CARD_QTY = "subdeck-group__card-qty";
+	private static final String MAX_PAGE = "MAX_PAGE";
+	private static final String URL = "URL";
 	private static final String FORMAT = "FORMAT";
 
 
@@ -43,9 +46,9 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 		Elements main = d.getElementsByClass("subdeck");
 
-		int taille = main.get(0).getElementsByClass("subdeck-group__card-qty").size();
+		int taille = main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).size();
 		for (int i = 0; i < taille; i++) {
-			int qte = Integer.parseInt(main.get(0).getElementsByClass("subdeck-group__card-qty").get(i).text());
+			int qte = Integer.parseInt(main.get(0).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 			String cardName = main.get(0).getElementsByClass("subdeck-group__card-name").get(i).text();
 
 			MagicEdition ed = null;
@@ -65,9 +68,9 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 		}
 
 		if (main.size() > 1) {
-			int tailleSide = main.get(1).getElementsByClass("subdeck-group__card-qty").size();
+			int tailleSide = main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).size();
 			for (int i = 0; i < tailleSide; i++) {
-				int qte = Integer.parseInt(main.get(1).getElementsByClass("subdeck-group__card-qty").get(i).text());
+				int qte = Integer.parseInt(main.get(1).getElementsByClass(SUBDECK_GROUP_CARD_QTY).get(i).text());
 				String cardName = main.get(1).getElementsByClass("subdeck-group__card-name").get(i).text();
 
 				MagicEdition ed = null;
@@ -91,14 +94,14 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		String url = getString("URL") + "/magic/deck/search?format=" + getString(FORMAT) + "&page=1";
+		String url = getString(URL) + "/magic/deck/search?format=" + getString(FORMAT) + "&page=1";
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage = 1;
-		int maxPage = Integer.parseInt(getString("MAX_PAGE"));
+		int maxPage = Integer.parseInt(getString(MAX_PAGE));
 
 		for (int i = 1; i <= maxPage; i++) {
-			url = getString("URL") + "/magic/deck/search?format=" + getString(FORMAT) + "&page=" + nbPage;
+			url = getString(URL) + "/magic/deck/search?format=" + getString(FORMAT) + "&page=" + nbPage;
 			Document d = Jsoup.parse(IncapsulaParser.readUrl(url));
 			Elements table = d.getElementsByClass("dataTable");
 
@@ -121,7 +124,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 					mana += "{G}";
 
 				String deckName = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
-				String link = getString("URL")
+				String link = getString(URL)
 						+ tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).getElementsByTag("a").attr("href");
 				String deckPlayer = tr.getElementsByTag(MTGConstants.HTML_TAG_TD).get(2).text();
 
@@ -159,8 +162,8 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public void initDefault() {
 		setProperty(FORMAT, "standard");
-		setProperty("URL", "https://decks.tcgplayer.com");
-		setProperty("MAX_PAGE", "1");
+		setProperty(URL, "https://decks.tcgplayer.com");
+		setProperty(MAX_PAGE, "1");
 
 	}
 

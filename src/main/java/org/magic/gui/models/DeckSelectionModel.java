@@ -1,5 +1,6 @@
 package org.magic.gui.models;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -99,7 +100,7 @@ public class DeckSelectionModel extends DefaultTableModel {
 		}
 	}
 
-	public void remove(MagicDeck selectedDeck) {
+	public void remove(MagicDeck selectedDeck) throws IOException {
 		manager.remove(selectedDeck);
 		decks.remove(selectedDeck);
 		fireTableDataChanged();

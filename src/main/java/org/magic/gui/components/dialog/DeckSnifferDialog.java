@@ -81,7 +81,7 @@ public class DeckSnifferDialog extends JDialog {
 
 			} catch (Exception e1) {
 				lblLoad.setVisible(false);
-				JOptionPane.showMessageDialog(null, e1, "Error", JOptionPane.ERROR_MESSAGE);
+				JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 			}
 		}, "Connection to " + selectedSniffer));
 		panel.add(btnConnect);

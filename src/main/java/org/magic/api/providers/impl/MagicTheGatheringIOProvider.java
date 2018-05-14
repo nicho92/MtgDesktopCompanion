@@ -52,8 +52,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	
 	public MagicTheGatheringIOProvider() {
 		super();
-		init();
-
 	}
 
 	@Override

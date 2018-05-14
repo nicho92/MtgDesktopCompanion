@@ -25,6 +25,9 @@ import org.xml.sax.InputSource;
 
 public class CocatriceDeckExport extends AbstractCardExport {
 
+	private static final String DEFAULT_PRICE = "DEFAULT_PRICE";
+	private static final String VERSION = "VERSION";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -40,13 +43,13 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		String endZoneTag = "</zone>";
 
 		temp.append("<?xml version='1.0' encoding='").append(MTGConstants.DEFAULT_ENCODING).append("'?>");
-		temp.append("<cockatrice_deck version='" + getString("VERSION") + "'>");
+		temp.append("<cockatrice_deck version='" + getString(VERSION) + "'>");
 		temp.append("<deckname>").append(deck.getName()).append("</deckname>");
 		temp.append("<comments>").append(deck.getDescription()).append("</comments>");
 		temp.append("<zone name='main'>");
 		for (MagicCard mc : deck.getMap().keySet()) {
 			temp.append("<card number='").append(deck.getMap().get(mc))
-					.append("' price='" + getString("DEFAULT_PRICE") + "' name=\"").append(mc.getName()).append("\"/>");
+					.append("' price='" + getString(DEFAULT_PRICE) + "' name=\"").append(mc.getName()).append("\"/>");
 			setChanged();
 			notifyObservers(c++);
 		}
@@ -54,7 +57,7 @@ public class CocatriceDeckExport extends AbstractCardExport {
 		temp.append("<zone name='side'>");
 		for (MagicCard mc : deck.getMapSideBoard().keySet()) {
 			temp.append("<card number='").append(deck.getMapSideBoard().get(mc))
-					.append("' price='" + getString("DEFAULT_PRICE") + "' name=\"").append(mc.getName()).append("\"/>");
+					.append("' price='" + getString(DEFAULT_PRICE) + "' name=\"").append(mc.getName()).append("\"/>");
 		}
 		temp.append(endZoneTag);
 		temp.append("</cockatrice_deck>");
@@ -120,14 +123,14 @@ public class CocatriceDeckExport extends AbstractCardExport {
 
 	@Override
 	public void initDefault() {
-		setProperty("VERSION", "1.0");
-		setProperty("DEFAULT_PRICE", "0");
+		setProperty(VERSION, "1.0");
+		setProperty(DEFAULT_PRICE, "0");
 
 	}
 
 	@Override
 	public String getVersion() {
-		return getProperty("VERSION", "2.0");
+		return getProperty(VERSION, "2.0");
 	}
 
 }

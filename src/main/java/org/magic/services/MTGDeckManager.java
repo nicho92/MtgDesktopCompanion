@@ -113,14 +113,10 @@ public class MTGDeckManager extends Observable {
 
 	}
 
-	public void remove(MagicDeck selectedDeck) {
+	public void remove(MagicDeck selectedDeck) throws IOException {
 		File f = new File(MTGConstants.MTG_DECK_DIRECTORY, selectedDeck.getName() + serialis.getFileExtension());
 		logger.debug("remove "+selectedDeck +":"+f.getAbsolutePath());
-		try {
-			FileUtils.forceDelete(f);
-		} catch (IOException e) {
-			logger.error("error removing " + f , e);
-		}
+		FileUtils.forceDelete(f);
 	}
 
 	public Map<String, Boolean> analyseLegalities(MagicDeck d) {

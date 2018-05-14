@@ -540,7 +540,9 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 		txtTextPane.updateTextWithIcons();
 
 		if (thumbnail && magicCard != null)
+		{
 			ThreadManager.getInstance().execute(() -> loadPics(),"load pics");
+		}
 
 		if (magicCard != null && !magicCard.getEditions().isEmpty()) {
 

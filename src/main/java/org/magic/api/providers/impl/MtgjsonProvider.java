@@ -48,22 +48,18 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	private File fileSetJsonTemp = new File(confdir, "AllSets-x.json.zip");
 	private File fileSetJson = new File(confdir, "AllSets-x.json");
 	private File fversion = new File(confdir, "version");
-
 	private ReadContext ctx;
-
 	private String version;
 
 	public MtgjsonProvider() {
 		super();
 		CacheProvider.setCache(new LRUCache(200));
-		init();
 	}
 
 	private InputStream getStreamFromUrl(URL u) throws IOException {
 		URLConnection connection = u.openConnection();
 		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.connect();
-
 		return connection.getInputStream();
 	}
 
@@ -444,12 +440,11 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 		if (!cacheEditions.values().isEmpty()) {
 			logger.debug("editions already loaded. return cache");
-			return new ArrayList(cacheEditions.values());
+			return new ArrayList<>(cacheEditions.values());
 		}
 
 		final List<String> codeEd = new ArrayList<>();
 		ctx.withListeners(fr -> {
-
 			if (fr.path().startsWith("$"))
 				codeEd.add(fr.path().substring(fr.path().indexOf("$[") + 3, fr.path().indexOf("]") - 1));
 			return null;
@@ -460,7 +455,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			cacheEditions.put(codeedition, getSetById(codeedition));
 		}
 
-		return new ArrayList(cacheEditions.values());
+		return new ArrayList<>(cacheEditions.values());
 
 	}
 
@@ -535,8 +530,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	}
 
 	public String[] getQueryableAttributs() {
-		return new String[] { "name", "text", "artist", "type", "rarity", "flavor", "cmc", "set",
-				"watermark", "power", "toughness", "layout", "reserved" };
+		return new String[] { "name", "text", "artist", "type", "rarity", "flavor", "cmc", "set","watermark", "power", "toughness", "layout", "reserved" };
 	}
 
 	public String getName() {
@@ -544,8 +538,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	}
 
 	public String[] getLanguages() {
-		return new String[] { "English", "Chinese Simplified", "Chinese Traditional", "French", "German", "Italian",
-				"Japanese", "Korean", "Portugese", "Russian", "Spanish" };
+		return new String[] { "English", "Chinese Simplified", "Chinese Traditional", "French", "German", "Italian","Japanese", "Korean", "Portugese", "Russian", "Spanish" };
 	}
 
 	private void initOtherEditionCardsVar(MagicCard mc, MagicEdition me) {
