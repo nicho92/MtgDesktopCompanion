@@ -6,8 +6,8 @@ import java.io.FileOutputStream;
 import java.util.Properties;
 
 import org.apache.log4j.Logger;
-import org.magic.api.interfaces.MTGPlugin;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 

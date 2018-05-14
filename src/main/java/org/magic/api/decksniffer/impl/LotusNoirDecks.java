@@ -13,13 +13,15 @@ import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class LotusNoirDecks extends AbstractDeckSniffer {
 
+	private static final String TIMEOUT = "TIMEOUT";
+	private static final String FORMAT = "FORMAT";
+	private static final String URL = "URL";
 	private static final String MAX_PAGE = "MAX_PAGE";
 
 	@Override
@@ -34,7 +36,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		logger.debug("get deck at " + info.getUrl());
 
 		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT)
-				.timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+				.timeout(Integer.parseInt(getString(TIMEOUT))).get();
 
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
@@ -67,7 +69,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		String decksUrl = getString("URL") + "?dpage=" + getString(MAX_PAGE) + "&action=" + getString("FORMAT");
+		String decksUrl = getString(URL) + "?dpage=" + getString(MAX_PAGE) + "&action=" + getString(FORMAT);
 
 		logger.debug("snif decks : " + decksUrl);
 
@@ -75,8 +77,8 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (int i = 1; i <= nbPage; i++) {
-			Document d = Jsoup.connect(getString("URL") + "?dpage=" + i + "&action=" + getString("FORMAT"))
-					.userAgent(MTGConstants.USER_AGENT).timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+			Document d = Jsoup.connect(getString(URL) + "?dpage=" + i + "&action=" + getString(FORMAT))
+					.userAgent(MTGConstants.USER_AGENT).timeout(Integer.parseInt(getString(TIMEOUT))).get();
 
 			Elements e = d.select("div.thumb_page");
 
@@ -120,10 +122,10 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("URL", "http://www.lotusnoir.info/magic/decks/");
-		setProperty("FORMAT", "decks-populaires");
+		setProperty(URL, "http://www.lotusnoir.info/magic/decks/");
+		setProperty(FORMAT, "decks-populaires");
 		setProperty(MAX_PAGE, "2");
-		setProperty("TIMEOUT", "0");
+		setProperty(TIMEOUT, "0");
 
 	}
 

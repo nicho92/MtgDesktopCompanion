@@ -16,13 +16,16 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
-import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
+	private static final String MAX_PAGE = "MAX_PAGE";
+	private static final String FORMAT = "FORMAT";
+	private static final String TIMEOUT = "TIMEOUT";
+	private static final String URL = "URL";
 	private Map<Integer, String> cacheColor;
 
 	
@@ -80,7 +83,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 		logger.debug("get deck " + info.getUrl());
 		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT)
-				.timeout(getInt("TIMEOUT")).get();
+				.timeout(getInt(TIMEOUT)).get();
 
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
@@ -134,12 +137,12 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		int nbPage = Integer.parseInt(getString("MAX_PAGE"));
+		int nbPage = Integer.parseInt(getString(MAX_PAGE));
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (int i = 1; i <= nbPage; i++) {
-			Document d = Jsoup.connect(getString("URL") + "/" + getString("FORMAT") + "/?lng=fr&page=" + i)
-					.userAgent(MTGConstants.USER_AGENT).timeout(Integer.parseInt(getString("TIMEOUT"))).get();
+			Document d = Jsoup.connect(getString(URL) + "/" + getString(FORMAT) + "/?lng=fr&page=" + i)
+					.userAgent(MTGConstants.USER_AGENT).timeout(Integer.parseInt(getString(TIMEOUT))).get();
 
 			Elements e = d.select("tr.touch_row");
 
@@ -179,10 +182,10 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("URL", "https://deckstats.net/decks/f/");
-		setProperty("TIMEOUT", "0");
-		setProperty("FORMAT", "standard");
-		setProperty("MAX_PAGE", "2");
+		setProperty(URL, "https://deckstats.net/decks/f/");
+		setProperty(TIMEOUT, "0");
+		setProperty(FORMAT, "standard");
+		setProperty(MAX_PAGE, "2");
 
 	}
 

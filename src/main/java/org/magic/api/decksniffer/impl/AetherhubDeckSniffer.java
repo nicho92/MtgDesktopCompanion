@@ -32,6 +32,8 @@ import com.google.gson.JsonParser;
 
 public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
+	private static final String FORMAT = "FORMAT";
+	private static final String URL = "URL";
 	private HttpClient httpclient;
 	private Map<String,String> formats;
 	
@@ -93,7 +95,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	public List<RetrievableDeck> getDeckList() throws IOException {
 		List<RetrievableDeck> list = new ArrayList<>();
 		
-		HttpResponse resp = httpclient.execute(new HttpGet(getString("URL")+formats.get(getString("FORMAT"))));
+		HttpResponse resp = httpclient.execute(new HttpGet(getString(URL)+formats.get(getString(FORMAT))));
 		String ret = EntityUtils.toString(resp.getEntity());
 		JsonObject el = new JsonParser().parse(ret).getAsJsonObject();
 		JsonArray arr = el.get("metadecks").getAsJsonArray();
@@ -152,8 +154,8 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public void initDefault() {
-		setProperty("URL", "https://aetherhub.com/Meta/FetchMetaList");
-		setProperty("FORMAT", "All");	
+		setProperty(URL, "https://aetherhub.com/Meta/FetchMetaList");
+		setProperty(FORMAT, "All");	
 	}
 
 	@Override

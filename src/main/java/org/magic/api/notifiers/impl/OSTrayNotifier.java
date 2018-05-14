@@ -7,7 +7,6 @@ import java.io.IOException;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
-import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.MTGConstants;
 

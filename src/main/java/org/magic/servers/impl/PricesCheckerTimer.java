@@ -10,7 +10,6 @@ import java.util.TimerTask;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
