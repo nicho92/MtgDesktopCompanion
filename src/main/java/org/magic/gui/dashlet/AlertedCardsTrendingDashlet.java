@@ -43,7 +43,6 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		scrollPane.setViewportView(table);
 
 		HistoryPricesPanel historyPricesPanel = new HistoryPricesPanel();
-		historyPricesPanel.setMaximumSize(new Dimension(2147483647, 200));
 		historyPricesPanel.setPreferredSize(new Dimension(119, 200));
 		getContentPane().add(historyPricesPanel, BorderLayout.SOUTH);
 		table.getColumnModel().getColumn(4).setCellRenderer(new CardShakeRenderer());

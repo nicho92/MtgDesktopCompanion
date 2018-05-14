@@ -297,14 +297,18 @@ public class DeckDetailsPanel extends JPanel {
 	}
 
 	public void updatePicture() {
+		
+		
+		if(magicDeck.getMap().isEmpty())
+			return;
+		
 		ThreadManager.getInstance().execute(() -> {
 			try {
 				panel.removeAll();
 				for (int i = 0; i < 4; i++) {
 					JLabel lab = new JLabel();
 					MagicCard mc = (MagicCard) magicDeck.getMap().keySet().toArray()[i];
-					lab.setIcon(
-							new ImageIcon(ImageUtils.resize(MTGControler.getInstance().getEnabledPicturesProvider().extractPicture(mc), 150, 220)));
+					lab.setIcon(new ImageIcon(ImageUtils.resize(MTGControler.getInstance().getEnabledPicturesProvider().extractPicture(mc), 150, 220)));
 					lab.setToolTipText(mc.getName());
 					panel.add(lab);
 				}
@@ -312,7 +316,7 @@ public class DeckDetailsPanel extends JPanel {
 				panel.repaint();
 
 			} catch (Exception e) {
-				logger.error("error in updatePicture " + e.getMessage());
+				logger.error("error in updatePicture " + e);
 			}
 		}, "extract deck pictures");
 	}

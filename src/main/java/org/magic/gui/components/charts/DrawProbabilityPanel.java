@@ -12,11 +12,13 @@ import javax.swing.table.AbstractTableModel;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.DeckCalculator;
 
 public class DrawProbabilityPanel extends JPanel {
 
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private transient DeckCalculator calc;
 	private AbstractTableModel model;
@@ -41,9 +43,8 @@ public class DrawProbabilityPanel extends JPanel {
 		panel.setBackground(Color.WHITE);
 		add(panel, BorderLayout.NORTH);
 
-		JLabel lblDrawProbability = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("DRAW_PROBABILITIES"));
-		lblDrawProbability.setFont(new Font("Tahoma", Font.BOLD, 14));
+		JLabel lblDrawProbability = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DRAW_PROBABILITIES"));
+		lblDrawProbability.setFont(new Font(MTGConstants.FONT, Font.BOLD, 14));
 		panel.add(lblDrawProbability);
 	}
 

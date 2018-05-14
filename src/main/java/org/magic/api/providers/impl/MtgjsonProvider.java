@@ -30,6 +30,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.Chrono;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
@@ -50,10 +51,12 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	private File fversion = new File(confdir, "version");
 	private ReadContext ctx;
 	private String version;
+	private Chrono chrono;
 
 	public MtgjsonProvider() {
 		super();
-		CacheProvider.setCache(new LRUCache(200));
+		CacheProvider.setCache(new LRUCache(400));
+	
 	}
 
 	private InputStream getStreamFromUrl(URL u) throws IOException {
@@ -122,6 +125,10 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 	public void init() {
 		logger.info("init " + this);
+		
+		chrono=new Chrono();
+		cacheBoosterCards = new HashMap<>();
+
 		Configuration.setDefaults(new Configuration.Defaults() {
 
 			private final JsonProvider jsonProvider = new GsonJsonProvider();
@@ -151,23 +158,19 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 			if (!fileSetJson.exists() || fileSetJson.length() == 0) {
 				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_SET_JSON_ZIP"))),
-						fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_SET_JSON_ZIP"))),fileSetJsonTemp);
 				unZipIt();
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_VERSION"))), fversion);
 			}
 
 			if (hasNewVersion()) {
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_SET_JSON_ZIP"))),
-						fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_SET_JSON_ZIP"))),fileSetJsonTemp);
 				unZipIt();
 				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_VERSION"))), fversion);
 			}
-
-			cacheBoosterCards = new HashMap<>();
 			logger.info(this + " : parsing db file");
-			
 			ctx = JsonPath.parse(fileSetJson);
+			
 			logger.info(this + " : parsing OK");
 		} catch (Exception e1) {
 			logger.error(e1);
@@ -437,12 +440,12 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		String jsquery = "$.*";
 
 		logger.debug("load editions");
-
 		if (!cacheEditions.values().isEmpty()) {
-			logger.debug("editions already loaded. return cache");
+			logger.trace("editions already loaded.Return cache");
 			return new ArrayList<>(cacheEditions.values());
 		}
-
+		
+		chrono.start();
 		final List<String> codeEd = new ArrayList<>();
 		ctx.withListeners(fr -> {
 			if (fr.path().startsWith("$"))
@@ -454,7 +457,8 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		for (String codeedition : codeEd) {
 			cacheEditions.put(codeedition, getSetById(codeedition));
 		}
-
+		logger.debug("Loading editions OK in " + chrono.stop() + " sec.");
+		
 		return new ArrayList<>(cacheEditions.values());
 
 	}

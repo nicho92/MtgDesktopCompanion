@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.gui.MagicGUI;
 import org.magic.gui.components.dialog.MTGSplashScreen;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -68,7 +69,7 @@ public class MtgDesktopCompanion {
 					}
 
 			long time = chrono.stop();
-			logger.info("Apps started in " + time + " sec");
+			logger.info(MTGConstants.MTG_APP_NAME + " started in " + time + " sec");
 		});
 	}
 

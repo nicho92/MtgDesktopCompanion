@@ -97,8 +97,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 				Properties p = new Properties();
 				FileInputStream fis = new FileInputStream(f);
 				p.load(fis);
-				AbstractJDashlet dash = (AbstractJDashlet) classLoader.loadClass(p.get("class").toString())
-						.getDeclaredConstructor().newInstance();
+				AbstractJDashlet dash = (AbstractJDashlet) classLoader.loadClass(p.get("class").toString()).getDeclaredConstructor().newInstance();
 				dash.setProperties(p);
 				fis.close();
 				addDash(dash);
