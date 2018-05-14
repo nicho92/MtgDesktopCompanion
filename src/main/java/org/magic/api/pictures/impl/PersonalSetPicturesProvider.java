@@ -85,7 +85,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 	public void initDefault() {
 		super.initDefault();
 		
-		setProperty(PICS_DIR,new File(MTGConstants.CONF_DIR,"/sets/privatePics").getAbsolutePath());
+		setProperty(PICS_DIR,Paths.get(MTGConstants.CONF_DIR.getAbsolutePath(),"sets","privatePics").toFile().getAbsolutePath());
 		setProperty("FORMAT","PNG");
 	}
 

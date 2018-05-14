@@ -87,7 +87,7 @@ public class CardSearchPanel extends JPanel {
 	private MagicCardTableModel cardsModeltable;
 
 	private JTabbedPane tabbedCardsView;
-	private JTabbedPane tabbedCardsInfo;
+	
 
 	private static CardSearchPanel inst;
 
@@ -231,6 +231,7 @@ public class CardSearchPanel extends JPanel {
 		panneauStat = new JPanel();
 		panneauHaut = new JPanel();
 		panneauCard = new JPanel();
+		JTabbedPane tabbedCardsInfo = new JTabbedPane(JTabbedPane.TOP);
 		editionDetailPanel = new JPanel();
 		panelResultsCards = new JPanel();
 		cmcChart = new CmcChartPanel();
@@ -247,7 +248,7 @@ public class CardSearchPanel extends JPanel {
 		panelJson = new JSONPanel();
 
 		tabbedCardsView = new JTabbedPane(JTabbedPane.TOP);
-		tabbedCardsInfo = new JTabbedPane(JTabbedPane.TOP);
+		
 		thumbnailPanel = new HandPanel();
 		thumbnailPanel.setBackground(MTGConstants.THUMBNAIL_BACKGROUND_COLOR);
 
@@ -466,6 +467,8 @@ public class CardSearchPanel extends JPanel {
 					cardsModeltable.addCard((MagicCard) arg);
 				}
 			};
+			
+			
 			selectedEdition = null;
 			if (txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
 				return;

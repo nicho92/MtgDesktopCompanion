@@ -3,13 +3,19 @@ package org.beta;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
 
 import com.google.common.collect.Lists;
 
 public class SleeveCalculator {
+	
+	protected static Logger logger = MTGLogger.getLogger(SleeveCalculator.class);
+	
+	
 	public static void main(String[] args) throws IOException {
 	
 		MTGControler.getInstance().getEnabledCardsProviders().init();
@@ -25,8 +31,7 @@ public class SleeveCalculator {
 		
 		List<List<MagicCard>> partition = Lists.partition(cards, feuille);
 		
-		System.out.println("cards number :" + cards.size());
-		System.out.println("Workbook sheets :" + partition.size());
+		logger.info("cards number :" + cards.size() +"Workbook sheets :" + partition.size());
 		
 		
 	}

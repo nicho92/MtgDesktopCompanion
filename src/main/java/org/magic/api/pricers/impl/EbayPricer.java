@@ -21,8 +21,6 @@ import com.google.gson.stream.JsonReader;
 
 public class EbayPricer extends AbstractMagicPricesProvider {
 
-	private String keyword = "";
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -37,7 +35,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		url = url.replaceAll("%API_KEY%", getString("API_KEY"));
 		url = url.replaceAll("%COUNTRY%", getString("COUNTRY"));
 		url = url.replaceAll("%MAX%", getString("MAX"));
-		keyword = card.getName();
+		String keyword = card.getName();
 
 		if (me != null)
 			keyword += " " + me.getSet();

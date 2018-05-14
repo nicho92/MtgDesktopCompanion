@@ -23,15 +23,11 @@ public class DeckSelectionModel extends DefaultTableModel {
 	public DeckSelectionModel() {
 		decks = new ArrayList<>();
 		manager = new MTGDeckManager();
-		manager.addObserver(new Observer() {
-
-			@Override
-			public void update(Observable o, Object obj) {
+		manager.addObserver((Observable o, Object obj)->{
 				decks.add((MagicDeck) obj);
 				fireTableDataChanged();
-
-			}
 		});
+		
 		ThreadManager.getInstance().execute(() -> manager.listDecks());
 
 	}

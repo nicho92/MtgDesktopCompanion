@@ -188,7 +188,6 @@ public class ManaPanel extends JPanel {
 			case "G/U":
 				val = 39;
 				break;
-
 			case "2/W":
 				val = 40;
 				break;

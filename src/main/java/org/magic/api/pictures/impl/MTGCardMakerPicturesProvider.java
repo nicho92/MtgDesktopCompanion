@@ -91,8 +91,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 						+ (mc.getCost().contains("{B}") ? String.valueOf(count(mc.getCost(), "{B}")) : "0") + "&mana_w="
 						+ (mc.getCost().contains("{W}") ? String.valueOf(count(mc.getCost(), "{W}")) : "0")
 						+ "&mana_colorless="
-						+ (extractColorless(mc.getCost()) > 0 ? extractColorless(mc.getCost())
-								: (mc.getCost().contains("X")) ? "X" : "0")
+						+ (extractColorless(mc.getCost()) > 0 ? extractColorless(mc.getCost()) : (mc.getCost().contains("X")) ? "X" : "0")
 						+ "&picture=" + "&supertype=" + "&cardtype=" + URLEncoder.encode(mc.getFullType(), encoding)
 						+ "&subtype=" + "&expansion=" + "&rarity=" + mc.getRarity() + "&cardtext="
 						+ URLEncoder.encode(

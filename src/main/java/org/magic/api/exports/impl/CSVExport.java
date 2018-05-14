@@ -25,10 +25,6 @@ import org.magic.services.MTGControler;
 
 public class CSVExport extends AbstractCardExport {
 
-	private String[] exportedProperties;
-	private String[] exportedDeckProperties;
-	
-
 	@Override
 	public STATUT getStatut() {
 		return STATUT.STABLE;
@@ -112,7 +108,7 @@ public class CSVExport extends AbstractCardExport {
 	@Override
 	public void export(List<MagicCard> cards, File f) throws IOException {
 
-		exportedProperties = getString("exportedProperties").split(",");
+		String[] exportedProperties = getString("exportedProperties").split(",");
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
 			for (String k : exportedProperties)
@@ -137,7 +133,7 @@ public class CSVExport extends AbstractCardExport {
 	@Override
 	public void export(MagicDeck deck, File f) throws IOException {
 
-		exportedDeckProperties = getString("exportedDeckProperties").split(",");
+		String[] exportedDeckProperties= getString("exportedDeckProperties").split(",");
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
 

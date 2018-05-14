@@ -20,10 +20,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 	private static final String DIRECTORY = "DIRECTORY";
 	private static final String FORMAT = "FORMAT";
 	private File dir;
-	
-	private enum KEYS {
-		FORMAT, DIRECTORY
-	}
+
 
 	public File getDirectory() {
 		return dir;

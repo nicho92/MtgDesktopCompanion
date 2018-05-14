@@ -40,7 +40,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 	private static final String DEFAULT_QTE = "DEFAULT_QTE";
 	private static final String QUALITY = "QUALITY";
 
-	private HttpURLConnection connection;
 	private MagicCardMarketPricer2 mkmPricer;
 	private EnumMap<PRODUCT_ATTS, String> atts;
 	private ProductServices pService;

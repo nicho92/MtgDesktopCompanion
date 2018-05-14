@@ -53,13 +53,8 @@ public class MTGDeckManager extends Observable {
 
 	public List<MagicDeck> listDecks() {
 		List<MagicDeck> decks = new ArrayList<>();
-		for (File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles(new FilenameFilter() {
-			
-			@Override
-			public boolean accept(File dir, String name) {
-				return name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase());
-			}
-		})) {
+		for (File f : MTGConstants.MTG_DECK_DIRECTORY.listFiles((File dir, String name)->name.toLowerCase().endsWith(serialis.getFileExtension().toLowerCase()))) 
+		{
 			try {
 				MagicDeck deck = serialis.importDeck(f);
 				decks.add(deck);
