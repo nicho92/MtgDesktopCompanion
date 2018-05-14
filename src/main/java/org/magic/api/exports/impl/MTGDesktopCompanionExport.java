@@ -60,12 +60,6 @@ public class MTGDesktopCompanionExport extends AbstractCardExport {
 		return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/icons/logo.png"));
 	}
 
-
-	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
-		return importFromDeck(importDeck(f));
-	}
-
 	@Override
 	public void initDefault() {
 		setProperty("VERSION", "1.0");

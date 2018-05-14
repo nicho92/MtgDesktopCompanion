@@ -109,10 +109,6 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 		return new ImageIcon(Apprentice2DeckExport.class.getResource("/icons/plugins/apprentice.png"));
 	}
 
-	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
-		return importFromDeck(importDeck(f));
-	}
 
 	@Override
 	public void initDefault() {

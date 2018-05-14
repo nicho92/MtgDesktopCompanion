@@ -78,10 +78,7 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 		}
 	}
 
-	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
-		return importFromDeck(importDeck(f));
-	}
+
 
 	@Override
 	public Icon getIcon() {

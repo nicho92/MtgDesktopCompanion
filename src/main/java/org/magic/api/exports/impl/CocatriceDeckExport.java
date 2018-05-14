@@ -119,10 +119,6 @@ public class CocatriceDeckExport extends AbstractCardExport {
 	}
 
 
-	@Override
-	public List<MagicCardStock> importStock(File f) throws IOException {
-		return importFromDeck(importDeck(f));
-	}
 
 	@Override
 	public void initDefault() {
