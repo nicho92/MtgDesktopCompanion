@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;
@@ -20,6 +21,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.LocaleUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
@@ -437,4 +439,19 @@ public class MTGControler {
 	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
 		return PluginRegistry.inst().getPlugin(name,type);
 	}
+	
+	
+	private MTGNotifier notifier;
+	public void notify(MTGNotification notif)
+	{
+		try {
+			if(notifier==null)
+				notifier=getPlugin("swing", MTGNotifier.class);
+			
+			notifier.send(notif);
+		} catch (IOException e) {
+			logger.error(notif.getMessage());
+		}
+	}
+	
 }
