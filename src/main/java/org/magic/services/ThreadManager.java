@@ -30,6 +30,20 @@ public class ThreadManager {
 		return info;
 	}
 
+	public void execute(Runnable task, String name) {
+		this.name = name;
+		executor.execute(task);
+	}
+
+	public void execute(Runnable task) {
+		this.name = "Thread";
+		executor.execute(task);
+		info = (String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d %s", executor.getPoolSize(),
+				executor.getCorePoolSize(), executor.getActiveCount(), executor.getCompletedTaskCount(),
+				executor.getTaskCount(), name));
+	}
+
+	
 	public void runInEdt(Runnable runnable) {
 		if (SwingUtilities.isEventDispatchThread())
 			runnable.run();
@@ -39,10 +53,7 @@ public class ThreadManager {
 
 	public void runInEdt(Runnable runnable, String name) {
 		this.name = name;
-		if (SwingUtilities.isEventDispatchThread())
-			runnable.run();
-		else
-			SwingUtilities.invokeLater(runnable);
+		runInEdt(runnable);
 	}
 
 	private ThreadManager() {
@@ -69,22 +80,6 @@ public class ThreadManager {
 		};
 	}
 
-	public void execute(Runnable task, String name) {
-		this.name = name;
-		executor.execute(task);
-
-		info = (String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d %s", executor.getPoolSize(),
-				executor.getCorePoolSize(), executor.getActiveCount(), executor.getCompletedTaskCount(),
-				executor.getTaskCount(), name));
-	}
-
-	public void execute(Runnable task) {
-		this.name = "Thread";
-		executor.execute(task);
-		info = (String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d %s", executor.getPoolSize(),
-				executor.getCorePoolSize(), executor.getActiveCount(), executor.getCompletedTaskCount(),
-				executor.getTaskCount(), name));
-	}
 
 	public ThreadPoolExecutor getExecutor() {
 		return executor;

@@ -25,6 +25,8 @@ import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXSearchField;
+import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.components.JBuzyLabel;
@@ -40,7 +42,7 @@ public class WallpaperGUI extends JPanel {
 	private transient MTGWallpaperProvider selectedProvider;
 	private JBuzyLabel lblLoad;
 	private JPanel panelThumnail;
-	private JTextField txtSearch;
+	private JXSearchField txtSearch;
 	private JButton btnImport;
 	private GridBagConstraints c;
 	private int index = 0;
@@ -97,7 +99,8 @@ public class WallpaperGUI extends JPanel {
 
 		panel.add(cboWallpapersProv);
 
-		txtSearch = new JTextField();
+		txtSearch = new JXSearchField();
+		txtSearch.setSearchMode(MTGConstants.SEARCH_MODE);
 		panel.add(txtSearch);
 		txtSearch.setColumns(20);
 

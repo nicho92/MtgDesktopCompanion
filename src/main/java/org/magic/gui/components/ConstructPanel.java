@@ -311,6 +311,7 @@ public class ConstructPanel extends JPanel {
 							ThreadManager.getInstance().execute(() -> {
 								try {
 									loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(), exp));
+									
 									deck = exp.importDeck(f);
 									JOptionPane.showMessageDialog(null,
 											MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
