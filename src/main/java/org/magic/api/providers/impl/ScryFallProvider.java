@@ -274,8 +274,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		MagicCard mc = new MagicCard();
 
 		if (cacheCards.get(obj.get("id").getAsString()) != null) {
-			setChanged();
-			notifyObservers(mc);
 			logger.trace("card " + obj.get("id") + "found in cache");
 			return cacheCards.get(obj.get("id").getAsString());
 		}
@@ -476,10 +474,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 		new Thread(() -> {
 			try {
-				if (!mc.getFullType().contains("Basic Land"))// too much elements, so, remove all re-printings
-																// information for basic lands
+				if (!mc.isBasicLand())
 					initOtherEdition(mc);
-
 				// generateRules(mc);
 			} catch (Exception e) {
 				logger.error("error in initOtherEdition :" + e.getMessage());
