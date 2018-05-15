@@ -104,9 +104,7 @@ public class CardSearchPanel extends JPanel {
 	private JComboBox<MagicCardNames> cboLanguages;
 	private JComboBox<String> cboQuereableItems;
 	private JComboBox<MagicCollection> cboCollections;
-
 	private JXTable tableCards;
-
 	private JButton btnExport;
 	private JList<MagicEdition> listEdition;
 
@@ -415,8 +413,16 @@ public class CardSearchPanel extends JPanel {
 
 		/////// Action listners
 
-		cboEdition
-				.addActionListener(ae -> txtMagicSearch.setText(((MagicEdition) cboEdition.getSelectedItem()).getId()));
+		cboEdition.addActionListener(ae -> {
+				txtMagicSearch.setText(((MagicEdition) cboEdition.getSelectedItem()).getId());
+				txtMagicSearch.postActionEvent();
+				});
+		
+		
+		cboCollections.addActionListener(ae -> {
+			txtMagicSearch.setText(((MagicCollection) cboCollections.getSelectedItem()).getName());
+			txtMagicSearch.postActionEvent();
+		});
 
 		btnClear.addActionListener(ae -> {
 			txtFilter.setText("");

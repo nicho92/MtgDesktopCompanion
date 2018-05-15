@@ -20,7 +20,8 @@ public class MagicCardTableModel extends DefaultTableModel {
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_NUMBER"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR") };
+			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),
+			"RL"};
 
 	public MagicCardTableModel() {
 		cards = new ArrayList<>();
@@ -74,6 +75,8 @@ public class MagicCardTableModel extends DefaultTableModel {
 				return (mc.getCurrentSet() != null) ? mc.getCurrentSet().getNumber() : "";
 			case 8:
 				return mc.getColors();
+			case 9:
+				return mc.isReserved();
 			default:
 				return mc;
 			}
