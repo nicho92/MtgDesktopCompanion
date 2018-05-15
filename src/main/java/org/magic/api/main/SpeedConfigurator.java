@@ -42,6 +42,7 @@ public class SpeedConfigurator extends JFrame {
 		new SpeedConfigurator().setVisible(true);
 
 	}
+	
 
 	public SpeedConfigurator() {
 		setTitle("Speed Configurator");

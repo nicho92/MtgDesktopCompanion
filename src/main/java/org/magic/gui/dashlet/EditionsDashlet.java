@@ -16,6 +16,7 @@ import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
@@ -29,7 +30,7 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 public class EditionsDashlet extends AbstractJDashlet {
 
 	private JXTable table;
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 	private JComboBox<MagicEdition> cboEditions;
 	private EditionsShakerTableModel modEdition;
 
@@ -59,9 +60,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 		panel.add(cboEditions);
 
-		lblLoading = new JLabel("");
-		lblLoading.setIcon(MTGConstants.ICON_LOADING);
-		lblLoading.setVisible(false);
+		lblLoading = new JBuzyLabel();
 		panel.add(lblLoading);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -114,7 +113,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 
 		if (cboEditions.getSelectedItem() != null)
 			ThreadManager.getInstance().execute(() -> {
-				lblLoading.setVisible(true);
+				lblLoading.buzy(true);
 				MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
 				modEdition.init(ed);
 				try {
@@ -125,7 +124,7 @@ public class EditionsDashlet extends AbstractJDashlet {
 					// do nothing
 				}
 				setProperty("EDITION", ed.getId());
-				lblLoading.setVisible(false);
+				lblLoading.buzy(false);
 			}, "init EditionDashLet");
 
 	}

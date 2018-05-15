@@ -25,6 +25,7 @@ import org.apache.log4j.Logger;
 import org.fit.cssbox.swingbox.BrowserPane;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.NewsEditorPanel;
 import org.magic.gui.models.MagicNewsTableModel;
 import org.magic.gui.renderer.NewsTreeCellRenderer;
@@ -42,7 +43,7 @@ public class RssGUI extends JPanel {
 	private NewsEditorPanel newsPanel;
 	private DefaultMutableTreeNode rootNode;
 	private JTree tree;
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 	private JButton btnNewButton;
 	private JButton btnSave;
 	private JButton btnDelete;
@@ -66,7 +67,7 @@ public class RssGUI extends JPanel {
 		btnNewButton = new JButton(MTGConstants.ICON_NEW);
 		btnSave = new JButton(MTGConstants.ICON_SAVE);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
-		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
+		lblLoading = new JBuzyLabel();
 		newsPanel = new NewsEditorPanel();
 		
 		setLayout(new BorderLayout(0, 0));
@@ -76,7 +77,6 @@ public class RssGUI extends JPanel {
 		editorPane.setContentType("text/html");
 		leftPanel.setLayout(new BorderLayout(0, 0));
 		tree.setModel(new DefaultTreeModel(rootNode));
-		lblLoading.setVisible(false);
 		tree.setCellRenderer(new NewsTreeCellRenderer());
 
 		
@@ -147,14 +147,14 @@ public class RssGUI extends JPanel {
 			if (curr.getUserObject() instanceof MagicNews)
 				ThreadManager.getInstance().execute(() -> {
 					try {
-						lblLoading.setVisible(true);
+						lblLoading.buzy(true);
 						newsPanel.setMagicNews((MagicNews) curr.getUserObject());
 						model.init((MagicNews) curr.getUserObject());
 					} catch (Exception e) {
 						logger.error("error reading rss", e);
 					}
 					model.fireTableDataChanged();
-					lblLoading.setVisible(false);
+					lblLoading.buzy(false);
 				}, "load RSS " + curr.getUserObject());
 		});
 
@@ -171,15 +171,15 @@ public class RssGUI extends JPanel {
 					}
 				} else {
 					ThreadManager.getInstance().execute(() -> {
-						lblLoading.setVisible(true);
+						lblLoading.buzy(true);
 						try {
 							logger.debug("loading " + sel.getLink());
 							editorPane.setPage(sel.getLink());
 							editorPane.setCaretPosition(0);
-							lblLoading.setVisible(false);
+							lblLoading.buzy(false);
 						} catch (IOException e) {
 							logger.error("Error reading " + sel.getLink(), e);
-							lblLoading.setVisible(false);
+							lblLoading.buzy(false);
 						}
 
 					});

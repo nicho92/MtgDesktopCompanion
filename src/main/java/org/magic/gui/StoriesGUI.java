@@ -22,6 +22,7 @@ import javax.swing.text.html.HTMLEditorKit;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.magic.api.beans.MTGStory;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.renderer.MTGStoryListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -31,7 +32,7 @@ import org.magic.services.extra.StoryProvider;
 
 public class StoriesGUI extends JPanel {
 
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 	private transient StoryProvider provider;
 	private JList<MTGStory> listResult;
 	private DefaultListModel<MTGStory> resultListModel;
@@ -62,7 +63,7 @@ public class StoriesGUI extends JPanel {
 					evt.consume();
 
 					ThreadManager.getInstance().execute(() -> {
-						lblLoading.setVisible(true);
+						lblLoading.buzy(true);
 						try {
 							editorPane.setText(Jsoup.connect(listResult.getSelectedValue().getUrl().toString()).get()
 									.select("div#content-detail-page-of-an-article").html());
@@ -71,7 +72,7 @@ public class StoriesGUI extends JPanel {
 							JOptionPane.showMessageDialog(null, e.getMessage(),
 									MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 						}
-						lblLoading.setVisible(false);
+						lblLoading.buzy(false);
 					}, "Load story");
 				} else {
 					try {
@@ -93,8 +94,7 @@ public class StoriesGUI extends JPanel {
 		btnLoadNext.addActionListener(ae -> initStories());
 		panel.add(btnLoadNext);
 
-		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
-		lblLoading.setVisible(false);
+		lblLoading = new JBuzyLabel();
 		panel.add(lblLoading);
 
 		editorPane = new JEditorPane();
@@ -115,7 +115,7 @@ public class StoriesGUI extends JPanel {
 
 	public void initStories() {
 		ThreadManager.getInstance().execute(() -> {
-			lblLoading.setVisible(true);
+			lblLoading.buzy(true);
 
 			try {
 				for (MTGStory story : provider.next())
@@ -123,7 +123,7 @@ public class StoriesGUI extends JPanel {
 			} catch (IOException e) {
 				logger.error(e);
 			} finally {
-				lblLoading.setVisible(false);
+				lblLoading.buzy(false);
 			}
 		}, "loading stories");
 	}

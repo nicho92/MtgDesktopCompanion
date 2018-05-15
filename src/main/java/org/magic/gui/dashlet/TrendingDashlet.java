@@ -19,6 +19,7 @@ import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.models.CardsShakerTableModel;
 import org.magic.gui.renderer.CardShakeRenderer;
 import org.magic.services.MTGConstants;
@@ -32,7 +33,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 	private JXTable table;
 	private CardsShakerTableModel modStandard;
 	private JComboBox<MTGFormat> cboFormats;
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 	private JLabel lblInfoUpdate;
 
 	public TrendingDashlet() {
@@ -50,9 +51,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 		cboFormats.addItemListener(ie -> init());
 		panneauHaut.add(cboFormats);
 
-		lblLoading = new JLabel("");
-		lblLoading.setIcon(MTGConstants.ICON_LOADING);
-		lblLoading.setVisible(false);
+		lblLoading = new JBuzyLabel();
 
 		btnRefresh = new JButton("");
 		btnRefresh.addActionListener(ae -> init());
@@ -98,7 +97,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 
 	public void init() {
 		ThreadManager.getInstance().execute(() -> {
-			lblLoading.setVisible(true);
+			lblLoading.buzy(true);
 			modStandard.init((MTGFormat) cboFormats.getSelectedItem());
 
 			try {
@@ -107,7 +106,7 @@ public class TrendingDashlet extends AbstractJDashlet {
 				logger.error(e);
 			}
 			setProperty("FORMAT", ((MTGFormat) cboFormats.getSelectedItem()).toString());
-			lblLoading.setVisible(false);
+			lblLoading.buzy(false);
 			table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
 
 			lblInfoUpdate.setText(MTGControler.getInstance().getEnabledDashBoard().getName() + "(updated : "

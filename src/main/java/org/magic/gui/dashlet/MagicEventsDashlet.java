@@ -15,6 +15,7 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.models.MagicEventsTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
@@ -24,7 +25,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 	private JXTable table;
 	private MagicEventsTableModel eventsModel;
 	private JComboBox<Integer> cboYear;
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 	private JComboBox<Integer> cboMonth;
 	private transient MTGEventProvider provider;
 	private Calendar c;
@@ -46,9 +47,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 		cboYear.addItemListener(ie -> init());
 		panneauHaut.add(cboYear);
 
-		lblLoading = new JLabel("");
-		lblLoading.setIcon(MTGConstants.ICON_LOADING);
-		lblLoading.setVisible(false);
+		lblLoading = new JBuzyLabel();
 
 		cboMonth = new JComboBox<>();
 		panneauHaut.add(cboMonth);
@@ -100,7 +99,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 
 	public void init() {
 		ThreadManager.getInstance().execute(() -> {
-			lblLoading.setVisible(true);
+			lblLoading.buzy(true);
 			int y = c.get(Calendar.YEAR);
 			int m = c.get(Calendar.MONTH) + 1;
 			try {
@@ -120,7 +119,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 			} catch (Exception e) {
 				logger.error(e);
 			}
-			lblLoading.setVisible(false);
+			lblLoading.buzy(false);
 			eventsModel.fireTableDataChanged();
 			table.packAll();
 

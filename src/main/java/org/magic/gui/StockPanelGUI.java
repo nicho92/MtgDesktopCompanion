@@ -40,6 +40,7 @@ import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
@@ -69,7 +70,7 @@ public class StockPanelGUI extends JPanel {
 	
 	private JButton btnReload;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 	private JPanel rightPanel;
 	private JSpinner spinner;
 	private JComboBox<String> cboLanguages;
@@ -104,15 +105,15 @@ public class StockPanelGUI extends JPanel {
 			for (MagicCardStock ms : model.getList())
 				if (ms.isUpdate())
 					try {
-						lblLoading.setVisible(true);
+						lblLoading.buzy(true);
 						MTGControler.getInstance().getEnabledDAO().saveOrUpdateStock(ms);
 						ms.setUpdate(false);
-						lblLoading.setVisible(false);
+						lblLoading.buzy(false);
 					} catch (SQLException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(),
 								MTGControler.getInstance().getLangService().getError() + " : " + ms,
 								JOptionPane.ERROR_MESSAGE);
-						lblLoading.setVisible(false);
+						lblLoading.buzy(false);
 					}
 
 			model.fireTableDataChanged();
@@ -141,16 +142,16 @@ public class StockPanelGUI extends JPanel {
 				ThreadManager.getInstance().execute(() -> {
 					try {
 						int[] selected = table.getSelectedRows();
-						lblLoading.setVisible(true);
+						lblLoading.buzy(true);
 						List<MagicCardStock> stocks = extract(selected);
 						model.removeRows(stocks);
 						updateCount();
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),
 								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
-						lblLoading.setVisible(false);
+						lblLoading.buzy(false);
 					}
-					lblLoading.setVisible(false);
+					lblLoading.buzy(false);
 					updateCount();
 
 				}, "delete stock");
@@ -167,13 +168,13 @@ public class StockPanelGUI extends JPanel {
 				logger.debug("reload collection");
 				ThreadManager.getInstance().execute(() -> {
 					try {
-						lblLoading.setVisible(true);
+						lblLoading.buzy(true);
 						model.init();
 					} catch (SQLException e1) {
 						JOptionPane.showMessageDialog(null, e1.getMessage(),
 								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 					}
-					lblLoading.setVisible(false);
+					lblLoading.buzy(false);
 					updateCount();
 				}, "reload stock");
 
@@ -236,19 +237,19 @@ public class StockPanelGUI extends JPanel {
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									lblLoading.setVisible(true);
+									lblLoading.buzy(true);
 									List<MagicCardStock> list = exp.importStock(fileImport);
 									for (MagicCardStock mc : list) {
 										addStock(mc);
 									}
 									model.fireTableDataChanged();
 									updateCount();
-									lblLoading.setVisible(false);
+									lblLoading.buzy(false);
 									JOptionPane.showMessageDialog(null,MTGControler.getInstance().getLangService().combine("IMPORT", "FINISHED"),exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),JOptionPane.INFORMATION_MESSAGE);
 
 								} catch (Exception e) {
 									logger.error("ERROR", e);
-									lblLoading.setVisible(false);
+									lblLoading.buzy(false);
 									JOptionPane.showMessageDialog(null, e,
 											MTGControler.getInstance().getLangService().getError(),
 											JOptionPane.ERROR_MESSAGE);
@@ -296,11 +297,11 @@ public class StockPanelGUI extends JPanel {
 						if (res == JFileChooser.APPROVE_OPTION)
 							ThreadManager.getInstance().execute(() -> {
 								try {
-									lblLoading.setVisible(true);
+									lblLoading.buzy(true);
 
 									exp.exportStock(model.getList(), fileExport);
 
-									lblLoading.setVisible(false);
+									lblLoading.buzy(false);
 									JOptionPane.showMessageDialog(null,
 											MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
 											exp.getName() + " "
@@ -310,7 +311,7 @@ public class StockPanelGUI extends JPanel {
 
 								} catch (Exception e) {
 									logger.error(e);
-									lblLoading.setVisible(false);
+									lblLoading.buzy(false);
 									JOptionPane.showMessageDialog(null, e,
 											MTGControler.getInstance().getLangService().getError(),
 											JOptionPane.ERROR_MESSAGE);
@@ -330,7 +331,7 @@ public class StockPanelGUI extends JPanel {
 		});
 
 		btnGeneratePrice.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
-			lblLoading.setVisible(true);
+			lblLoading.buzy(true);
 			for (int i : table.getSelectedRows()) {
 				MagicCardStock s = (MagicCardStock) table.getModel().getValueAt(table.convertRowIndexToModel(i), 0);
 				Collection<Double> prices;
@@ -352,7 +353,7 @@ public class StockPanelGUI extends JPanel {
 
 				model.fireTableDataChanged();
 			}
-			lblLoading.setVisible(false);
+			lblLoading.buzy(false);
 
 		}, "generate prices for stock"));
 
@@ -484,8 +485,7 @@ public class StockPanelGUI extends JPanel {
 		btnReload.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("RELOAD"));
 		actionPanel.add(btnReload);
 
-		lblLoading = new JLabel();
-		lblLoading.setVisible(false);
+		lblLoading = new JBuzyLabel();
 
 		btnshowMassPanel = new JButton("");
 
@@ -508,8 +508,6 @@ public class StockPanelGUI extends JPanel {
 		btnshowMassPanel.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("MASS_MODIFICATION"));
 		btnshowMassPanel.setIcon(MTGConstants.ICON_MANUAL);
 		actionPanel.add(btnshowMassPanel);
-
-		lblLoading.setIcon(MTGConstants.ICON_LOADING);
 		actionPanel.add(lblLoading);
 
 		JScrollPane scrollTable = new JScrollPane();
@@ -742,13 +740,13 @@ public class StockPanelGUI extends JPanel {
 
 		ThreadManager.getInstance().execute(() -> {
 			try {
-				lblLoading.setVisible(true);
+				lblLoading.buzy(true);
 				model.init();
 			} catch (SQLException e1) {
 				JOptionPane.showMessageDialog(null, e1.getMessage(),
 						MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
 			}
-			lblLoading.setVisible(false);
+			lblLoading.buzy(false);
 			updateCount();
 
 		}, "init stock");

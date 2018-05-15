@@ -53,7 +53,7 @@ import org.magic.sorters.ColorSorter;
 import org.magic.sorters.TypesSorter;
 
 public class SealedPanel extends JPanel {
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 	private SealedPackTableModel model;
 	private BoosterPanel panelOpenedBooster;
 	private JComboBox<MagicEdition> cboEditions;
@@ -168,8 +168,7 @@ public class SealedPanel extends JPanel {
 		gbcbtnSaveDeck.gridy = 1;
 		panel.add(btnSaveDeck, gbcbtnSaveDeck);
 
-		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
-		lblLoading.setVisible(false);
+		lblLoading = new JBuzyLabel();
 		GridBagConstraints gbclblLoading = new GridBagConstraints();
 		gbclblLoading.gridx = 3;
 		gbclblLoading.gridy = 1;
@@ -354,7 +353,7 @@ public class SealedPanel extends JPanel {
 		ThreadManager.getInstance().execute(() -> {
 			int column = 0;
 			list = new ArrayList<>();
-			lblLoading.setVisible(true);
+			lblLoading.buzy(true);
 			for (Entry<MagicEdition, Integer> ed : model.getSealedPack().getEntries()) {
 
 				try {
@@ -372,13 +371,13 @@ public class SealedPanel extends JPanel {
 					}
 				} catch (IOException e) {
 					logger.error(e);
-					lblLoading.setVisible(false);
+					lblLoading.buzy(false);
 				}
 
 			}
 			panelOpenedBooster.setList(list);
 			refreshStats();
-			lblLoading.setVisible(false);
+			lblLoading.buzy(false);
 		});
 	}
 

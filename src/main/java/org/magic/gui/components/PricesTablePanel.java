@@ -37,7 +37,7 @@ public class PricesTablePanel extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private CardsPriceTableModel model;
 	private JXTable tablePrices;
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 	private transient DefaultRowSorter<DefaultTableModel, Integer> sorterPrice;
 	private transient List<RowSorter.SortKey> sortKeys;
 	
@@ -46,7 +46,9 @@ public class PricesTablePanel extends JPanel {
 	
 	public PricesTablePanel() {
 		JPanel panel = new JPanel();
-		panel.setPreferredSize(new Dimension(0,MTGConstants.ICON_LOADING.getIconHeight()));
+		lblLoading = new JBuzyLabel();
+		
+		panel.setPreferredSize(new Dimension(0,lblLoading.getIcon().getIconHeight()));
 		JScrollPane scrollPane = new JScrollPane();
 		model = new CardsPriceTableModel();
 		tablePrices = new JXTable(model);
@@ -64,8 +66,7 @@ public class PricesTablePanel extends JPanel {
 		
 		add(panel, BorderLayout.NORTH);
 		
-		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
-		lblLoading.setVisible(false);
+		
 		panel.add(lblLoading);
 		add(scrollPane, BorderLayout.CENTER);
 		scrollPane.setViewportView(tablePrices);
@@ -125,9 +126,8 @@ public class PricesTablePanel extends JPanel {
 		
 	}
 
-	private void loading(boolean b, String capitalize) {
-		lblLoading.setVisible(b);
-		lblLoading.setText(capitalize);
+	private void loading(boolean b, String s) {
+		lblLoading.buzy(b,s);
 	}
 	
 	

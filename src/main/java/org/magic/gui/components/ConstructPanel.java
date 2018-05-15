@@ -90,7 +90,7 @@ public class ConstructPanel extends JPanel {
 	private JTable tableDeck;
 	private JTable tableSide;
 	private JList<MagicCard> listResult;
-	private JLabel lblExport;
+	private JBuzyLabel lblExport;
 	private DrawProbabilityPanel cardDrawProbaPanel;
 
 	public static final int MAIN = 0;
@@ -137,8 +137,7 @@ public class ConstructPanel extends JPanel {
 		JScrollPane scrollResult;
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
-		lblExport = new JLabel(MTGConstants.ICON_LOADING);
-		lblExport.setVisible(false);
+		lblExport = new JBuzyLabel();
 
 		setLayout(new BorderLayout(0, 0));
 		deckmodel = new DeckModel(DeckModel.TYPE.DECK);
@@ -215,7 +214,7 @@ public class ConstructPanel extends JPanel {
 			Map<MagicCard, Integer> updateS = new HashMap<>();
 
 			btnUpdate.setEnabled(false);
-			lblExport.setVisible(true);
+			loading(true, "");
 			for (MagicCard mc : deck.getMap().keySet()) {
 				try {
 					updateM.put(MTGControler.getInstance().getEnabledCardsProviders().getCardById(mc.getId()),
@@ -223,7 +222,7 @@ public class ConstructPanel extends JPanel {
 				} catch (Exception e) {
 					logger.error(e);
 					btnUpdate.setEnabled(true);
-					lblExport.setVisible(false);
+					loading(false, "");
 				}
 			}
 			for (MagicCard mc : deck.getMapSideBoard().keySet()) {
@@ -232,7 +231,7 @@ public class ConstructPanel extends JPanel {
 							deck.getMapSideBoard().get(mc));
 				} catch (Exception e) {
 					btnUpdate.setEnabled(true);
-					lblExport.setVisible(false);
+					loading(false, "");
 				}
 			}
 
@@ -245,7 +244,7 @@ public class ConstructPanel extends JPanel {
 			updatePanels();
 
 			btnUpdate.setEnabled(true);
-			lblExport.setVisible(false);
+			loading(false, "");
 			JOptionPane.showMessageDialog(null,
 					MTGControler.getInstance().getLangService().getCapitalize("UPDATED_DECK"),
 					MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),

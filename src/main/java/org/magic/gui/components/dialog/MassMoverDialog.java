@@ -19,6 +19,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.models.MagicCardTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
@@ -37,7 +38,7 @@ public class MassMoverDialog extends JDialog {
 	private MagicEdition toSaveEd;
 	private boolean change = false;
 	private JComboBox<MagicCollection> cboCollections;
-	private JLabel lblWaiting;
+	private JBuzyLabel lblWaiting;
 	private JButton btnMove;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -69,9 +70,7 @@ public class MassMoverDialog extends JDialog {
 		}
 		panel.add(cboCollections);
 
-		lblWaiting = new JLabel("");
-		lblWaiting.setVisible(false);
-		lblWaiting.setIcon(MTGConstants.ICON_LOADING);
+		lblWaiting = new JBuzyLabel();
 		panel.add(lblWaiting);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -96,7 +95,7 @@ public class MassMoverDialog extends JDialog {
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 
 		btnMove.addActionListener(e -> {
-			lblWaiting.setVisible(true);
+			lblWaiting.buzy(true);
 			btnMove.setEnabled(false);
 
 			if (tableCards.getSelectedRowCount() > 0) {
@@ -112,18 +111,18 @@ public class MassMoverDialog extends JDialog {
 							
 							logger.info("moving " + mc + " to " + cboCollections.getSelectedItem());
 							change = true;
-							lblWaiting.setText("moving " + mc);
+							lblWaiting.buzy(true,"moving " + mc);
 						} catch (SQLException e1) {
 							logger.error(e1);
 							JOptionPane.showMessageDialog(null, e1, "ERROR", JOptionPane.ERROR_MESSAGE);
-							lblWaiting.setVisible(false);
+							lblWaiting.buzy(false);
 							btnMove.setEnabled(true);
 
 						}
 					}
 
 					try {
-						lblWaiting.setText(MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
+						lblWaiting.buzy(true,MTGControler.getInstance().getLangService().getCapitalize("UPDATE"));
 						if (toSaveEd == null)
 							model.init(dao.listCardsFromCollection(toSaveCol));
 						else
@@ -135,7 +134,7 @@ public class MassMoverDialog extends JDialog {
 					}
 
 					model.fireTableDataChanged();
-					lblWaiting.setVisible(false);
+					lblWaiting.buzy(false);
 					btnMove.setEnabled(true);
 
 				}, "mass movement");

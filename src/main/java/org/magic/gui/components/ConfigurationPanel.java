@@ -58,7 +58,7 @@ public class ConfigurationPanel extends JPanel {
 	private JComboBox<String> cbojsonView;
 	private JTextField txtWebSiteCertificate;
 	private JCheckBox chkToolTip;
-	private JLabel lblLoading = new JLabel();
+	private JBuzyLabel lblLoading;
 	private JTextField txtName;
 	private JLabel lblIconAvatar;
 	private JSpinner spinCardW;
@@ -80,18 +80,15 @@ public class ConfigurationPanel extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public void loading(boolean show, String text) {
-		lblLoading.setText(text);
-		lblLoading.setVisible(show);
+		lblLoading.buzy(show,text);
 	}
 
 	public ConfigurationPanel() {
-		lblLoading.setIcon(MTGConstants.ICON_LOADING);
-		lblLoading.setVisible(false);
-
 		cboTargetDAO = new JComboBox<>();
 		cboCollections = new JComboBox<>();
 		cboEditionLands = new JComboBox<>();
-
+		lblLoading = new JBuzyLabel();
+		
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 396, 212, 0 };
 		gridBagLayout.rowHeights = new int[] { 179, 0, 0, 0, 0 };

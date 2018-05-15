@@ -110,7 +110,7 @@ public class CardSearchPanel extends JPanel {
 	private JButton btnExport;
 	private JList<MagicEdition> listEdition;
 
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 
 	public static CardSearchPanel getInstance() {
 		if (inst == null)
@@ -120,8 +120,7 @@ public class CardSearchPanel extends JPanel {
 	}
 
 	public void loading(boolean show, String text) {
-		lblLoading.setText(text);
-		lblLoading.setVisible(show);
+		lblLoading.buzy(show,text);
 	}
 
 	public List<MagicCard> getMultiSelection() {
@@ -258,7 +257,7 @@ public class CardSearchPanel extends JPanel {
 
 		tableCards = new JXTable();
 		
-		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
+		lblLoading = new JBuzyLabel();
 		JLabel lblFilter = new JLabel();
 
 		listEdition = new JList<>();

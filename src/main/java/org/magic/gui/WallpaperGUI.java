@@ -27,6 +27,7 @@ import javax.swing.JTextField;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
@@ -37,7 +38,7 @@ public class WallpaperGUI extends JPanel {
 	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGWallpaperProvider> cboWallpapersProv;
 	private transient MTGWallpaperProvider selectedProvider;
-	private JLabel lblLoad;
+	private JBuzyLabel lblLoad;
 	private JPanel panelThumnail;
 	private JTextField txtSearch;
 	private JButton btnImport;
@@ -109,7 +110,7 @@ public class WallpaperGUI extends JPanel {
 				c.weighty = 1;
 				c.gridx = 0;
 				c.gridy = 0;
-				lblLoad.setVisible(true);
+				lblLoad.buzy(true);
 				List<Wallpaper> list = selectedProvider.search(txtSearch.getText());
 
 				for (Wallpaper w : list) {
@@ -126,19 +127,17 @@ public class WallpaperGUI extends JPanel {
 
 				}
 
-				lblLoad.setVisible(false);
+				lblLoad.buzy(false);
 
 			} catch (Exception e1) {
-				lblLoad.setVisible(false);
+				lblLoad.buzy(false);
 				JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
 						JOptionPane.ERROR_MESSAGE);
 			}
 		}, "search " + selectedProvider));
 
-		lblLoad = new JLabel("");
+		lblLoad = new JBuzyLabel();
 		panel.add(lblLoad);
-		lblLoad.setIcon(MTGConstants.ICON_LOADING);
-		lblLoad.setVisible(false);
 
 		JPanel panel1 = new JPanel();
 		add(panel1, BorderLayout.SOUTH);

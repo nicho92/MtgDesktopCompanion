@@ -41,6 +41,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGServer;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.components.MagicCardDetailPanel;
 import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.ServerStatePanel;
@@ -75,7 +76,7 @@ public class AlarmGUI extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JTabbedPane tabbedPane;
 	private JButton btnImport;
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 	private File f;
 	private PricesTablePanel pricesTablePanel;
 	private JButton btnSuggestPrice;
@@ -100,7 +101,7 @@ public class AlarmGUI extends JPanel {
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnSuggestPrice = new JButton(MTGConstants.ICON_EURO);
 		
-		lblLoading = new JLabel(MTGConstants.ICON_LOADING);
+		lblLoading = new JBuzyLabel();
 		
 		JPanel serversPanel = new JPanel();
 		ServerStatePanel oversightPanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Trend Server", MTGServer.class));
@@ -110,8 +111,6 @@ public class AlarmGUI extends JPanel {
 		
 ///////CONFIG		
 		setLayout(new BorderLayout());
-		lblLoading.setVisible(false);
-		
 		splitPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		scrollTable.setPreferredSize(new Dimension(2, 200));
 		table.setModel(model);
@@ -237,7 +236,7 @@ public class AlarmGUI extends JPanel {
 				} catch (Exception e) {
 					JOptionPane.showMessageDialog(null, e.getMessage(),
 							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
-					lblLoading.setVisible(false);
+					loading(false,"");
 				}
 				loading(false, "");
 				
@@ -256,7 +255,7 @@ public class AlarmGUI extends JPanel {
 				ThreadManager.getInstance().execute(() -> {
 					try {
 						int[] selected = table.getSelectedRows();
-						lblLoading.setVisible(true);
+						loading(true,"");
 						List<MagicCardAlert> alerts = extract(selected);
 						for (MagicCardAlert alert : alerts)
 							MTGControler.getInstance().getEnabledDAO().deleteAlert(alert);
@@ -265,9 +264,9 @@ public class AlarmGUI extends JPanel {
 					} catch (Exception e) {
 						JOptionPane.showMessageDialog(null, e.getMessage(),
 								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
-						lblLoading.setVisible(false);
+						loading(false,"");
 					}
-					lblLoading.setVisible(false);
+					loading(false,"");
 
 				}, "delete alerts");
 
@@ -380,8 +379,7 @@ public class AlarmGUI extends JPanel {
 	}
 
 	private void loading(boolean b, String string) {
-		lblLoading.setText(string);
-		lblLoading.setVisible(b);
+		lblLoading.buzy(b,string);
 
 	}
 

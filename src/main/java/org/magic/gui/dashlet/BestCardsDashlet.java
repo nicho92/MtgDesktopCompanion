@@ -13,6 +13,7 @@ import javax.swing.table.TableRowSorter;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
+import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.models.CardDominanceTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -24,7 +25,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	private CardDominanceTableModel models;
 	private JComboBox<MTGFormat> cboFormat;
 	private JComboBox<String> cboFilter;
-	private JLabel lblLoading;
+	private JBuzyLabel lblLoading;
 
 	public BestCardsDashlet() {
 		super();
@@ -51,8 +52,7 @@ public class BestCardsDashlet extends AbstractJDashlet {
 				new DefaultComboBoxModel<>(MTGControler.getInstance().getEnabledDashBoard().getDominanceFilters()));
 		panneauHaut.add(cboFilter);
 
-		lblLoading = new JLabel("");
-		lblLoading.setIcon(MTGConstants.ICON_LOADING);
+		lblLoading = new JBuzyLabel();
 		panneauHaut.add(lblLoading);
 
 		JScrollPane scrollPane = new JScrollPane();
@@ -86,14 +86,14 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	@Override
 	public void init() {
 		ThreadManager.getInstance().execute(() -> {
-			lblLoading.setVisible(true);
+			lblLoading.buzy(true);
 			models.init((MTGFormat) cboFormat.getSelectedItem(), cboFilter.getSelectedItem().toString());
 			models.fireTableDataChanged();
 			table.packAll();
 			table.setRowSorter(new TableRowSorter(models));
 			setProperty("FORMAT", cboFormat.getSelectedItem().toString());
 			setProperty("FILTER", cboFilter.getSelectedItem().toString());
-			lblLoading.setVisible(false);
+			lblLoading.buzy(false);
 		}, "init BestCardsDashlet");
 	}
 
