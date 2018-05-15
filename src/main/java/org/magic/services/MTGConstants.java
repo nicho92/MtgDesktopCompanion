@@ -12,6 +12,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXSearchField.SearchMode;
+import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.MTGCardsExport;
 
 import freemarker.template.Configuration;
 import freemarker.template.Version;
@@ -45,6 +47,9 @@ public class MTGConstants {
 	public static final String TABLE_ALTERNATE_ROW_COLOR = "#E1E4F2";
 	public static final Color THUMBNAIL_BACKGROUND_COLOR = SystemColor.windowBorder;
 
+	public static final MTGCardsExport DEFAULT_SERIALIZER = new JsonExport();
+	
+	
 	public static final Color COLLECTION_100PC = Color.GREEN;
 	public static final Color COLLECTION_90PC = new Color(188, 245, 169);
 	public static final Color COLLECTION_50PC = Color.ORANGE;

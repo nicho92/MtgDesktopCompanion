@@ -29,6 +29,7 @@ import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 
 public class MTGoldFishDashBoard extends AbstractDashBoard {
+	private static final String TIMEOUT = "TIMEOUT";
 	private static final String URL_MOVERS = "URL_MOVERS";
 	private static final String URL_EDITIONS = "URL_EDITIONS";
 	private static final String FORMAT = "FORMAT";
@@ -45,7 +46,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	private Document read(String url) throws IOException {
-		return Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).timeout(getInt("TIMEOUT")).get();
+		return Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).timeout(getInt(TIMEOUT)).get();
 	}
 
 	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
@@ -179,6 +180,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
+
+		if(cacheEditions.get(edition.getId())!=null)
+			return cacheEditions.get(edition.getId());
+		
 		String oldID = edition.getId();
 		String urlEditionChecker = "";
 		List<CardShake> list = new ArrayList<>();
@@ -186,8 +191,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		if (edition.isOnlineOnly())
 			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + "#online";
 		else
-			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + "#"
-					+ getString(FORMAT);
+			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + "#"+ getString(FORMAT);
 
 		logger.debug("Parsing dashboard " + urlEditionChecker);
 
@@ -217,6 +221,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		} catch (IndexOutOfBoundsException e) {
 			logger.error(e);
 		}
+		
+		cacheEditions.put(edition.getId(), list);
+		
 		return list;
 	}
 
@@ -362,7 +369,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		setProperty(URL_EDITIONS, "https://www.mtggoldfish.com/index/");
 		setProperty(WEBSITE, "https://www.mtggoldfish.com/");
 		setProperty(FORMAT, "paper");
-		setProperty("TIMEOUT", "0");
+		setProperty(TIMEOUT, "0");
 		setProperty(DAILY_WEEKLY, "wow");
 
 	}

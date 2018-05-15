@@ -23,6 +23,7 @@ import org.utils.patterns.observer.Observable;
 public class MTGDeckManager extends Observable {
 
 	private static final String MULTI = "Multi";
+	
 	private MTGCardsExport serialis;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -31,7 +32,7 @@ public class MTGDeckManager extends Observable {
 	}
 
 	public MTGDeckManager() {
-		serialis = new JsonExport();
+		serialis = MTGConstants.DEFAULT_SERIALIZER;
 	}
 
 	public void setSerialiser(MTGCardsExport serialis) {
