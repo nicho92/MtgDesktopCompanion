@@ -98,7 +98,7 @@ public class BoosterPicturesProvider {
 			logger.error(me.getId() + " is not found :" + e);
 			return null;
 		} catch (Exception e) {
-			logger.error(me.getId() + " error loading " + url + " " + e.getMessage());
+			logger.error(me.getId() + " error loading " + url + " " + e);
 			return null;
 		}
 	}

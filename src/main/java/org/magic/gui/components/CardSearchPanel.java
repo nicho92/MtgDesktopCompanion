@@ -508,7 +508,11 @@ public class CardSearchPanel extends JPanel {
 		tableCards.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
-
+				
+				if(tableCards.getSelectedRow()==-1)
+					return;
+				
+				
 				if (SwingUtilities.isRightMouseButton(evt)) {
 					Point point = evt.getPoint();
 					popupMenu.show(tableCards, (int) point.getX(), (int) point.getY());
