@@ -424,10 +424,4 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return STATUT.DEV;
 	}
 
-	@Override
-	public void initDefault() {
-		//do nothing
-
-	}
-
 }

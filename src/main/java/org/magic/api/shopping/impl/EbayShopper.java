@@ -90,11 +90,6 @@ public class EbayShopper extends AbstractMagicShopper {
 		return "Ebay";
 	}
 
-	@Override
-	public void initDefault() {
-		//do nothing
-
-	}
 
 	@Override
 	public String getVersion() {

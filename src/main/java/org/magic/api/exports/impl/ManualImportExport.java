@@ -79,11 +79,6 @@ public class ManualImportExport extends AbstractCardExport {
 		return "Manual";
 	}
 
-	@Override
-	public void initDefault() {
-		// do nothing
-
-	}
 
 	@Override
 	public String getVersion() {

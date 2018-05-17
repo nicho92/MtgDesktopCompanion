@@ -151,4 +151,9 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return STATUT.STABLE;
 	}
 
+	@Override
+	public void initDefault() {
+		// do nothing
+		
+	}
 }

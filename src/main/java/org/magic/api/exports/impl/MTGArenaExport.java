@@ -159,10 +159,5 @@ public class MTGArenaExport extends AbstractCardExport {
 		return "1.0";
 	}
 
-	@Override
-	public void initDefault() {
-		// do nothing
-		
-	}
 
 }

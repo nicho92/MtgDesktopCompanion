@@ -52,12 +52,6 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 	}
 
 	@Override
-	public void initDefault() {
-		// do nothing
-
-	}
-
-	@Override
 	public String getVersion() {
 		return "1";
 	}

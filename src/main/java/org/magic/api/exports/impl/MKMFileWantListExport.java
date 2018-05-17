@@ -82,13 +82,6 @@ public class MKMFileWantListExport extends AbstractCardExport {
 	}
 
 
-
-	@Override
-	public void initDefault() {
-		//do nothing
-
-	}
-
 	@Override
 	public String getVersion() {
 		return "1.0";

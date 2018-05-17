@@ -137,10 +137,6 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 		return list;
 	}
 
-	@Override
-	public void connect() throws IOException {
-		//	do nothing
-	}
 
 	@Override
 	public String getName() {
@@ -161,6 +157,13 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public String getVersion() {
 		return "0.1";
+	}
+
+
+	@Override
+	public void connect() throws IOException {
+		// TODO Auto-generated method stub
+		
 	}
 
 

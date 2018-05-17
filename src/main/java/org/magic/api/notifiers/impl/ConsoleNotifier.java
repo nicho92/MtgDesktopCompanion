@@ -30,11 +30,6 @@ public class ConsoleNotifier extends AbstractMTGNotifier {
 	}
 
 
-	@Override
-	public void initDefault() {
-		// do nothing
-
-	}
 
 	@Override
 	public String getVersion() {

@@ -153,11 +153,6 @@ public class JsonExport extends AbstractCardExport {
 		return list;
 	}
 
-	@Override
-	public void initDefault() {
-		//do nothing
-
-	}
 
 	@Override
 	public String getVersion() {

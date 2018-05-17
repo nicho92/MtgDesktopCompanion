@@ -79,11 +79,7 @@ public class WebsiteDeckImport extends AbstractCardExport {
 		return "Website";
 	}
 
-	@Override
-	public void initDefault() {
-		// do nothing
-
-	}
+	
 
 	@Override
 	public String getVersion() {

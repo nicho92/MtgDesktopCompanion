@@ -85,11 +85,6 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 
 
 
-	@Override
-	public void initDefault() {
-		// do nothing
-
-	}
 
 	@Override
 	public String getVersion() {

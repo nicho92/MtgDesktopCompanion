@@ -258,10 +258,5 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return "Personnal Data Set Provider";
 	}
 
-	@Override
-	public void initDefault() {
-		//do nothing
-
-	}
 
 }
