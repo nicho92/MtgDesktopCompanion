@@ -1,6 +1,5 @@
 package org.magic.servers.impl;
 
-import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -12,6 +11,7 @@ import java.util.TimerTask;
 
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
@@ -97,7 +97,7 @@ public class AlertTrendServer extends AbstractMTGServer {
 				{
 					MTGNotification notif = new MTGNotification();
 					notif.setTitle("Alert Trend Cards");
-					notif.setType(MessageType.INFO);
+					notif.setType(MESSAGE_TYPE.INFO);
 					
 					for(String not : getString(NOTIFIER).split(","))
 					{

@@ -19,14 +19,13 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
-import org.magic.api.beans.MTGFormat;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.gui.components.JBuzyLabel;
@@ -134,8 +133,7 @@ public class WallpaperGUI extends JPanel {
 
 			} catch (Exception e1) {
 				lblLoad.buzy(false);
-				JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 			}
 		}, "search " + selectedProvider));
 
@@ -160,14 +158,14 @@ public class WallpaperGUI extends JPanel {
 
 					} catch (IOException e1) {
 						error = true;
-						JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
-								JOptionPane.ERROR_MESSAGE);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 					}
 				}
 			}
 
 			if (!error)
-				JOptionPane.showMessageDialog(null, "Finished", "OK", JOptionPane.INFORMATION_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification("OK", MTGControler.getInstance().getLangService().get("FINISHED"), MESSAGE_TYPE.INFO));
+			
 
 		});
 

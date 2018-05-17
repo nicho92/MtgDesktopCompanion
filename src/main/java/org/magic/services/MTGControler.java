@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
-import javax.swing.JOptionPane;
 
 import org.apache.commons.configuration2.XMLConfiguration;
 import org.apache.commons.configuration2.builder.FileBasedConfigurationBuilder;

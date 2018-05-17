@@ -2,11 +2,13 @@ package org.magic.api.notifiers.impl;
 
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
+import java.awt.TrayIcon.MessageType;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.MTGConstants;
 
@@ -55,11 +57,20 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		}
 	}
 	
+	private MessageType convert(MESSAGE_TYPE type) {
+		switch(type)
+		{
+		 case ERROR : return MessageType.ERROR;
+		 case INFO : return MessageType.INFO;
+		 case WARNING : return MessageType.WARNING;
+		 case NONE : return MessageType.NONE;
+		 default: return MessageType.INFO;
+		}
+	}
 	
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		
-		getTrayNotifier().displayMessage(notification.getTitle(), notification.getMessage(), notification.getType());
+		getTrayNotifier().displayMessage(notification.getTitle(), notification.getMessage(), convert(notification.getType()));
 	}
 	
 	@Override

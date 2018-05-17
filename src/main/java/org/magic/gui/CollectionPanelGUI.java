@@ -40,6 +40,8 @@ import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
@@ -266,8 +268,7 @@ public class CollectionPanelGUI extends JPanel {
 				initPopupCollection();
 			} catch (Exception ex) {
 				logger.error(ex);
-				JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 			}
 		});
 
@@ -325,18 +326,18 @@ public class CollectionPanelGUI extends JPanel {
 									exp.export(dao.listCardsFromCollection(mc, ed), f);
 
 								progressBar.setVisible(false);
-								JOptionPane.showMessageDialog(null,
-										MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
+								
+								MTGControler.getInstance().notify(new MTGNotification(
 										MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-										JOptionPane.INFORMATION_MESSAGE);
-
+										MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
+										MESSAGE_TYPE.INFO
+										));
 							}
 
 						} catch (Exception e) {
 							logger.error(e);
 							progressBar.setVisible(false);
-							JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),
-									JOptionPane.ERROR_MESSAGE);
+							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 						}
 					}, "export collection with " + exp));
 
@@ -521,8 +522,7 @@ public class CollectionPanelGUI extends JPanel {
 			} catch (Exception e) {
 				logger.error("error generating website", e);
 				progressBar.setVisible(false);
-				JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}
 		}, "btnGenerateWebSite generate website"));
 
@@ -544,8 +544,7 @@ public class CollectionPanelGUI extends JPanel {
 					model.calculate();
 					model.fireTableDataChanged();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 					logger.error(e);
 				}
 		});
@@ -567,8 +566,7 @@ public class CollectionPanelGUI extends JPanel {
 						curr.removeFromParent();
 					}
 				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 				}
 			}
 			if (curr.getUserObject() instanceof MagicEdition) {
@@ -582,8 +580,7 @@ public class CollectionPanelGUI extends JPanel {
 						curr.removeFromParent();
 					}
 				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 				}
 			}
 			if (curr.getUserObject() instanceof MagicCollection) {
@@ -595,8 +592,7 @@ public class CollectionPanelGUI extends JPanel {
 						curr.removeFromParent();
 					}
 				} catch (SQLException e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 				}
 			}
 
@@ -604,8 +600,7 @@ public class CollectionPanelGUI extends JPanel {
 				try {
 					model.calculate();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 				}
 				tree.refresh();
 

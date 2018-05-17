@@ -14,13 +14,14 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JScrollPane;
 import javax.swing.JTextPane;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicDeck;
@@ -144,10 +145,12 @@ public class MassCollectionImporterDialog extends JDialog {
 						logger.error(e1);
 					}
 				}
-				JOptionPane.showMessageDialog(null,
-						MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED", ids.length),
+				
+				MTGControler.getInstance().notify(new MTGNotification(
 						MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-						JOptionPane.INFORMATION_MESSAGE);
+						MTGControler.getInstance().getLangService().getCapitalize("X_ITEMS_IMPORTED", ids.length),
+						MESSAGE_TYPE.INFO
+						));
 				if (!checkNewOne.isSelected()) {
 					setVisible(false);
 					progressBar.setValue(0);

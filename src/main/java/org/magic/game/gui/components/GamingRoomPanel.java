@@ -27,6 +27,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicDeck;
 import org.magic.game.model.Player;
 import org.magic.game.model.Player.STATE;
@@ -233,8 +234,7 @@ public class GamingRoomPanel extends JPanel {
 				}, "live connection");
 
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(getRootPane(), e, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}
 		});
 

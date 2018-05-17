@@ -5,9 +5,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
@@ -46,7 +47,7 @@ public class MeldActions extends AbstractAction {
 		try {
 			card2 = GamePanelGUI.getInstance().getPanelBattleField().lookupCardBy("name", meldWith).get(0);
 		} catch (Exception ex) {
-			JOptionPane.showMessageDialog(null, "Could not meld the card, " + meldWith + " is not on the battlefield");
+			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(), "Could not meld the card, " + meldWith + " is not on the battlefield", MESSAGE_TYPE.ERROR));
 			return;
 		}
 

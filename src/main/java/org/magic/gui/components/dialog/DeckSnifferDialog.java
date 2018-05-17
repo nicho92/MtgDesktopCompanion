@@ -6,13 +6,12 @@ import java.awt.Dimension;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
@@ -82,7 +81,7 @@ public class DeckSnifferDialog extends JDialog {
 
 			} catch (Exception e1) {
 				lblLoad.buzy(false);
-				JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 			}
 		}, "Connection to " + selectedSniffer));
 		panel.add(btnConnect);
@@ -98,8 +97,7 @@ public class DeckSnifferDialog extends JDialog {
 			} catch (Exception e1) {
 				lblLoad.buzy(false);
 				logger.error("error change cboFormat", e1);
-				JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 			}
 		});
 		panel.add(cboFormats);
@@ -125,9 +123,7 @@ public class DeckSnifferDialog extends JDialog {
 				dispose();
 			} catch (Exception e1) {
 				logger.error(e1);
-				JOptionPane.showMessageDialog(null, e1,
-						MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 				importedDeck = null;
 				lblLoad.buzy(false);
 				btnImport.setEnabled(true);

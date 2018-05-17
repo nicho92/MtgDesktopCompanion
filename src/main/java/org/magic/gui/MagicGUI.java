@@ -5,7 +5,6 @@ import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.MenuItem;
 import java.awt.PopupMenu;
-import java.awt.TrayIcon.MessageType;
 import java.io.File;
 import java.io.IOException;
 import java.net.URI;
@@ -16,12 +15,12 @@ import javax.swing.JFrame;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGNotifier;
@@ -63,8 +62,7 @@ public class MagicGUI extends JFrame {
 			initGUI();
 		} catch (Exception e) {
 			logger.error("Error init GUI", e);
-			JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),
-					JOptionPane.ERROR_MESSAGE);
+			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 		}
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"),
 				MTGConstants.ICON_CONFIG, new ConfigurationPanelGUI(), null);
@@ -183,8 +181,7 @@ public class MagicGUI extends JFrame {
 					}, "open " + f);
 
 				} else {
-					JOptionPane.showMessageDialog(null, "NO EXPORTER AVAILABLE",
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),"NO EXPORT FOUND",MESSAGE_TYPE.ERROR));
 				}
 			}
 		});
@@ -288,7 +285,7 @@ public class MagicGUI extends JFrame {
 					String msg=(MTGControler.getInstance().getLangService().getCapitalize("NEW_VERSION") + " "
 									+ serviceUpdate.getOnlineVersion() + " "
 									+ MTGControler.getInstance().getLangService().get("AVAILABLE"));
-					MTGNotification notif = new MTGNotification(getTitle(),msg,MessageType.INFO);
+					MTGNotification notif = new MTGNotification(getTitle(),msg,MESSAGE_TYPE.INFO);
 					osNotifier.send(notif);
 				}
 			}

@@ -21,7 +21,6 @@ import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
@@ -34,11 +33,11 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -893,7 +892,7 @@ public class ConfigurationPanel extends JPanel {
 			try {
 				InstallCert.installCert(txtWebSiteCertificate.getText());
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(null, e, "ERROR", JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}
 		});
 

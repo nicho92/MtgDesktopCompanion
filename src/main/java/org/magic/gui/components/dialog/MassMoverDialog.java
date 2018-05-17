@@ -8,13 +8,12 @@ import java.sql.SQLException;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
@@ -114,7 +113,7 @@ public class MassMoverDialog extends JDialog {
 							lblWaiting.buzy(true,"moving " + mc);
 						} catch (SQLException e1) {
 							logger.error(e1);
-							JOptionPane.showMessageDialog(null, e1, "ERROR", JOptionPane.ERROR_MESSAGE);
+							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 							lblWaiting.buzy(false);
 							btnMove.setEnabled(true);
 
@@ -129,8 +128,7 @@ public class MassMoverDialog extends JDialog {
 							model.init(dao.listCardsFromCollection(toSaveCol, toSaveEd));
 					} catch (SQLException ex) {
 						logger.error(ex);
-						JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(),
-								JOptionPane.ERROR_MESSAGE);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 					}
 
 					model.fireTableDataChanged();

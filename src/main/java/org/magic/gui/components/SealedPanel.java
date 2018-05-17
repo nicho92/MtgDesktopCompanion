@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.Booster;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -422,8 +423,7 @@ public class SealedPanel extends JPanel {
 			deck.setName(name);
 			deckManager.saveDeck(deck);
 		} catch (IOException ex) {
-			JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(),
-					JOptionPane.ERROR_MESSAGE);
+			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 		}
 	}
 }

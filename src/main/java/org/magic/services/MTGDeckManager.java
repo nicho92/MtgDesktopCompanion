@@ -15,7 +15,6 @@ import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
-import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.tools.DeckCalculator;
 import org.utils.patterns.observer.Observable;

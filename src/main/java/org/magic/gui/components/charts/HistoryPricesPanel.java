@@ -46,15 +46,15 @@ public class HistoryPricesPanel extends JPanel {
 	
 	public HistoryPricesPanel() {
 		setLayout(new BorderLayout(0, 0));
-		JPanel panel = new JPanel();
-		add(panel, BorderLayout.EAST);
+		JPanel panelActions = new JPanel();
+		add(panelActions, BorderLayout.EAST);
 		pane = new ChartPanel(null);
 		GridBagLayout gblpanel = new GridBagLayout();
 		gblpanel.columnWidths = new int[] { 91, 0 };
 		gblpanel.rowHeights = new int[] { 23, 0, 0 };
 		gblpanel.columnWeights = new double[] { 0.0, Double.MIN_VALUE };
 		gblpanel.rowWeights = new double[] { 0.0, 0.0, Double.MIN_VALUE };
-		panel.setLayout(gblpanel);
+		panelActions.setLayout(gblpanel);
 		chckbxShowEditions = new JCheckBox("Show Editions");
 		chckbxShowEditions.setSelected(showEdition);
 		chckbxShowEditions.addActionListener(ae -> {
@@ -66,7 +66,7 @@ public class HistoryPricesPanel extends JPanel {
 		gbcchckbxShowEditions.insets = new Insets(0, 0, 5, 0);
 		gbcchckbxShowEditions.gridx = 0;
 		gbcchckbxShowEditions.gridy = 0;
-		panel.add(chckbxShowEditions, gbcchckbxShowEditions);
+		panelActions.add(chckbxShowEditions, gbcchckbxShowEditions);
 
 		chckbxShowAllDashboard = new JCheckBox("Show all dashboard");
 		chckbxShowAllDashboard.addActionListener(ae -> {
@@ -77,7 +77,7 @@ public class HistoryPricesPanel extends JPanel {
 		GridBagConstraints gbcchckbxShowAllDashboard = new GridBagConstraints();
 		gbcchckbxShowAllDashboard.gridx = 0;
 		gbcchckbxShowAllDashboard.gridy = 1;
-		panel.add(chckbxShowAllDashboard, gbcchckbxShowAllDashboard);
+		panelActions.add(chckbxShowAllDashboard, gbcchckbxShowAllDashboard);
 		
 		addComponentListener(new ComponentAdapter() {
 			@Override
@@ -110,7 +110,8 @@ public class HistoryPricesPanel extends JPanel {
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 
 		TimeSeries series1 = new TimeSeries(title);
-		if (showAll) {
+		if (showAll) 
+		{
 			for (MTGDashBoard d : MTGControler.getInstance().getDashboardsProviders()) {
 				TimeSeries series = new TimeSeries(d.getName());
 				Map<Date, Double> mapTime;
@@ -137,8 +138,7 @@ public class HistoryPricesPanel extends JPanel {
 			dataset.addSeries(series1);
 		}
 
-		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Price", dataset, true, true,
-				false);
+		JFreeChart chart = ChartFactory.createTimeSeriesChart("Price Variation", "Date", "Price", dataset, true, true,false);
 
 		if (showEdition)
 			try {

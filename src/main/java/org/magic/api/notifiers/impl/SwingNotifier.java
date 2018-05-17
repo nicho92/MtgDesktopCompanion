@@ -1,12 +1,12 @@
 package org.magic.api.notifiers.impl;
 
-import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
 
 import javax.swing.JOptionPane;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
 public class SwingNotifier extends AbstractMTGNotifier {
@@ -21,7 +21,7 @@ public class SwingNotifier extends AbstractMTGNotifier {
 		JOptionPane.showMessageDialog(null, notification.getMessage(), notification.getTitle(), convert(notification.getType()));
 	}
 
-	private int convert(MessageType type) {
+	private int convert(MESSAGE_TYPE type) {
 		switch(type)
 		{
 		 case ERROR : return JOptionPane.ERROR_MESSAGE;

@@ -10,8 +10,6 @@ import java.sql.SQLException;
 import java.util.Enumeration;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -23,6 +21,7 @@ import javax.swing.tree.TreePath;
 
 import org.apache.log4j.Logger;
 import org.fit.cssbox.swingbox.BrowserPane;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.gui.components.JBuzyLabel;
@@ -118,8 +117,7 @@ public class RssGUI extends JPanel {
 				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error saving news", ex);
-				JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 			}
 		});
 
@@ -130,8 +128,7 @@ public class RssGUI extends JPanel {
 				initTree();
 			} catch (SQLException ex) {
 				logger.error("Error delete news", ex);
-				JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 			}
 		});
 	

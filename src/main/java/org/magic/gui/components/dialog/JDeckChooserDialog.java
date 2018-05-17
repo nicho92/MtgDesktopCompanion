@@ -24,6 +24,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.gui.components.charts.CmcChartPanel;
@@ -149,8 +150,7 @@ public class JDeckChooserDialog extends JDialog {
 		JButton btnSelect = new JButton(MTGControler.getInstance().getLangService().getCapitalize("OPEN"));
 		btnSelect.addActionListener(e -> {
 			if (selectedDeck == null)
-				JOptionPane.showMessageDialog(null,
-						MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"));
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),new NullPointerException(MTGControler.getInstance().getLangService().getCapitalize("CHOOSE_DECK"))));
 			else
 				dispose();
 		});
@@ -176,7 +176,7 @@ public class JDeckChooserDialog extends JDialog {
 				try {
 					((DeckSelectionModel) table.getModel()).remove(selectedDeck);
 				} catch (IOException e1) {
-					JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 				}
 			}
 		});

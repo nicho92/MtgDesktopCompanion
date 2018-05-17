@@ -27,6 +27,7 @@ import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.beansbinding.Bindings;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicCollection;
@@ -169,8 +170,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 				MTGControler.getInstance().getEnabledDAO().saveAlert(alert);
 			} catch (Exception e) {
 				logger.error(e);
-				JOptionPane.showMessageDialog(null, e, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 			}
 		});
 

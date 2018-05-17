@@ -28,7 +28,6 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
@@ -47,6 +46,8 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicCollection;
@@ -158,8 +159,7 @@ public class CardSearchPanel extends JPanel {
 								MTGControler.getInstance().getEnabledDAO().getCollection(collec));
 					} catch (SQLException e1) {
 						logger.error(e1);
-						JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
-								JOptionPane.ERROR_MESSAGE);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 					}
 
 				}
@@ -599,17 +599,15 @@ public class CardSearchPanel extends JPanel {
 											.getListCards();
 									exp.export(export, f);
 									loading(false, "");
-									JOptionPane.showMessageDialog(null,
+									MTGControler.getInstance().notify(new MTGNotification(
+											exp.getName() + " "+ MTGControler.getInstance().getLangService().get("FINISHED"),
 											MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
-											exp.getName() + " "
-													+ MTGControler.getInstance().getLangService().get("FINISHED"),
-											JOptionPane.INFORMATION_MESSAGE);
+											MESSAGE_TYPE.INFO
+											));
 								} catch (Exception e) {
 									logger.error(e);
 									loading(false, "");
-									JOptionPane.showMessageDialog(null, e,
-											MTGControler.getInstance().getLangService().getError(),
-											JOptionPane.ERROR_MESSAGE);
+									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 								}
 							}, "export search " + exp);
 					});
@@ -667,7 +665,7 @@ public class CardSearchPanel extends JPanel {
 			initGUI();
 		} catch (Exception e) {
 			logger.error("Error init", e);
-			JOptionPane.showMessageDialog(null, e, "ERROR", JOptionPane.ERROR_MESSAGE);
+			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 		}
 
 		logger.debug("construction of GUI : done");

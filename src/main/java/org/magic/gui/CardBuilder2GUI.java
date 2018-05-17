@@ -40,6 +40,7 @@ import javax.swing.border.TitledBorder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXTable;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
@@ -372,8 +373,7 @@ public class CardBuilder2GUI extends JPanel {
 						initCard(new MagicCard());
 					}
 				} catch (IOException ex) {
-					JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService()
-							.get(MTGControler.getInstance().getLangService().getError()), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 				}
 			});
 
@@ -398,8 +398,7 @@ public class CardBuilder2GUI extends JPanel {
 					editionModel.init(provider.loadEditions());
 					editionModel.fireTableDataChanged();
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 				}
 			});
 
@@ -428,8 +427,7 @@ public class CardBuilder2GUI extends JPanel {
 						editionModel.init(provider.loadEditions());
 						editionModel.fireTableDataChanged();
 					} catch (Exception ex) {
-						JOptionPane.showMessageDialog(null, ex.getMessage(),
-								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 					}
 				}
 
@@ -456,8 +454,7 @@ public class CardBuilder2GUI extends JPanel {
 						cardsModel.init(provider.getCards(ed));
 						cardsModel.fireTableDataChanged();
 					} catch (IOException e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),
-								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 					}
 				}
 			});
@@ -483,8 +480,7 @@ public class CardBuilder2GUI extends JPanel {
 					g.dispose();
 					picturesProvider.savePicture(bi, mc, me);
 				} catch (IOException ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 				}
 			});
 
@@ -496,15 +492,13 @@ public class CardBuilder2GUI extends JPanel {
 					jsonPanel.show(magicCardEditorPanel.getMagicCard());
 
 				} catch (Exception ex) {
-					JOptionPane.showMessageDialog(null, ex.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 				}
 
 			});
 
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(null, e.getMessage(), MTGControler.getInstance().getLangService().getError(),
-					JOptionPane.ERROR_MESSAGE);
+			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 		}
 	}
 

@@ -9,9 +9,7 @@ import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JEditorPane;
-import javax.swing.JLabel;
 import javax.swing.JList;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
@@ -21,10 +19,10 @@ import javax.swing.text.html.HTMLEditorKit;
 
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGStory;
 import org.magic.gui.components.JBuzyLabel;
 import org.magic.gui.renderer.MTGStoryListRenderer;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
@@ -69,8 +67,7 @@ public class StoriesGUI extends JPanel {
 									.select("div#content-detail-page-of-an-article").html());
 
 						} catch (Exception e) {
-							JOptionPane.showMessageDialog(null, e.getMessage(),
-									MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 						}
 						lblLoading.buzy(false);
 					}, "Load story");
@@ -78,8 +75,7 @@ public class StoriesGUI extends JPanel {
 					try {
 						Desktop.getDesktop().browse(listResult.getSelectedValue().getUrl().toURI());
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),
-								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 					}
 				}
 			}

@@ -21,7 +21,6 @@ import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
@@ -34,6 +33,7 @@ import javax.swing.JTable;
 import javax.swing.filechooser.FileFilter;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicDeck;
@@ -191,8 +191,7 @@ public class AlarmGUI extends JPanel {
 						Desktop.getDesktop().browse(new URI(list.getSelectedValue().getUrl()));
 					}
 				} catch (Exception e1) {
-					JOptionPane.showMessageDialog(null, e1, MTGControler.getInstance().getLangService().getError(),
-							JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 				}
 
 			}
@@ -234,8 +233,7 @@ public class AlarmGUI extends JPanel {
 					}
 					model.fireTableDataChanged();
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 					loading(false,"");
 				}
 				loading(false, "");
@@ -262,8 +260,7 @@ public class AlarmGUI extends JPanel {
 
 						model.fireTableDataChanged();
 					} catch (Exception e) {
-						JOptionPane.showMessageDialog(null, e.getMessage(),
-								MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 						loading(false,"");
 					}
 					loading(false,"");
@@ -334,9 +331,7 @@ public class AlarmGUI extends JPanel {
 								} catch (Exception e) {
 									logger.error("error import", e);
 									loading(false, "");
-									JOptionPane.showMessageDialog(null, e,
-											MTGControler.getInstance().getLangService().getError(),
-											JOptionPane.ERROR_MESSAGE);
+									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 								}
 
 							}, "import " + exp);

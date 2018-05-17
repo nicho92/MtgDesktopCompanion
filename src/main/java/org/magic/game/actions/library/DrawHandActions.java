@@ -4,9 +4,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
 import javax.swing.AbstractAction;
-import javax.swing.JOptionPane;
 
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.services.MTGControler;
 
 public class DrawHandActions extends AbstractAction {
 
@@ -28,10 +30,9 @@ public class DrawHandActions extends AbstractAction {
 			GamePanelGUI.getInstance().getLblHandCount()
 					.setText(String.valueOf(GamePanelGUI.getInstance().getPlayer().getLibrary().size()));
 		} catch (IndexOutOfBoundsException ex) {
-			JOptionPane.showMessageDialog(null, "Not enougth cards in library", "Error", JOptionPane.ERROR_MESSAGE);
+			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),"Not enougth cards in library",MESSAGE_TYPE.ERROR));
 		}
-		GamePanelGUI.getInstance().getHandPanel().initThumbnails(GamePanelGUI.getInstance().getPlayer().getHand(), true,
-				true);
+		GamePanelGUI.getInstance().getHandPanel().initThumbnails(GamePanelGUI.getInstance().getPlayer().getHand(), true,true);
 
 	}
 

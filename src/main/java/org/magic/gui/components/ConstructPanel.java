@@ -34,7 +34,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.CellEditorListener;
@@ -45,6 +44,8 @@ import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
+import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicFormat;
@@ -200,8 +201,7 @@ public class ConstructPanel extends JPanel {
 				}
 			} catch (Exception ex) {
 				logger.error(ex);
-				JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 			}
 
 		});
@@ -245,10 +245,11 @@ public class ConstructPanel extends JPanel {
 
 			btnUpdate.setEnabled(true);
 			loading(false, "");
-			JOptionPane.showMessageDialog(null,
-					MTGControler.getInstance().getLangService().getCapitalize("UPDATED_DECK"),
+			MTGControler.getInstance().notify(new MTGNotification(
 					MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-					JOptionPane.INFORMATION_MESSAGE);
+					MTGControler.getInstance().getLangService().getCapitalize("UPDATED_DECK"),
+					MESSAGE_TYPE.INFO
+					));
 		}, "Update Deck"));
 		btnUpdate.setIcon(MTGConstants.ICON_REFRESH);
 
@@ -266,8 +267,7 @@ public class ConstructPanel extends JPanel {
 				deckManager.saveDeck(deck);
 			} catch (Exception ex) {
 				logger.error("error saving", ex);
-				JOptionPane.showMessageDialog(null, ex, MTGControler.getInstance().getLangService().getError(),
-						JOptionPane.ERROR_MESSAGE);
+				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 			}
 
 		});
@@ -313,11 +313,12 @@ public class ConstructPanel extends JPanel {
 									loading(true, MTGControler.getInstance().getLangService().get("LOADING_FILE",f.getName(), exp));
 									
 									deck = exp.importDeck(f);
-									JOptionPane.showMessageDialog(null,
+									
+									MTGControler.getInstance().notify(new MTGNotification(
 											MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-											exp.getName() + " "
-													+ MTGControler.getInstance().getLangService().get("FINISHED"),
-											JOptionPane.INFORMATION_MESSAGE);
+											exp.getName() + " "+ MTGControler.getInstance().getLangService().get("FINISHED"),
+											MESSAGE_TYPE.INFO
+											));
 									setDeck(deck);
 									loading(false, "");
 									deckmodel.init(deck);
@@ -328,9 +329,7 @@ public class ConstructPanel extends JPanel {
 								} catch (Exception e) {
 									logger.error("error import", e);
 									loading(false, "");
-									JOptionPane.showMessageDialog(null, e,
-											MTGControler.getInstance().getLangService().getError(),
-											JOptionPane.ERROR_MESSAGE);
+									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 								}
 
 							}, "import " + exp);
@@ -373,18 +372,16 @@ public class ConstructPanel extends JPanel {
 							try {
 								loading(true, MTGControler.getInstance().getLangService().get("EXPORT_TO", deck, exp));
 								exp.export(deck, exportedFile);
-								JOptionPane.showMessageDialog(null,
+								MTGControler.getInstance().notify(new MTGNotification(
+										exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
 										MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
-										exp.getName() + " "
-												+ MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-										JOptionPane.INFORMATION_MESSAGE);
+										MESSAGE_TYPE.INFO
+										));
 								loading(false, "");
 							} catch (Exception e) {
 								logger.error(e);
 								loading(false, "");
-								JOptionPane.showMessageDialog(null, e,
-										MTGControler.getInstance().getLangService().getError(),
-										JOptionPane.ERROR_MESSAGE);
+								MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 							}
 						}, "Export " + deck + " to " + exp.getName());
 					});
@@ -689,8 +686,7 @@ public class ConstructPanel extends JPanel {
 					listResult.updateUI();
 
 				} catch (Exception e) {
-					JOptionPane.showMessageDialog(null, e.getMessage(),
-							MTGControler.getInstance().getLangService().getError(), JOptionPane.ERROR_MESSAGE);
+					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 				}
 
 			}, "search deck");

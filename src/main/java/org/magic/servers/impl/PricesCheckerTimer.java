@@ -1,6 +1,5 @@
 package org.magic.servers.impl;
 
-import java.awt.TrayIcon.MessageType;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.magic.api.beans.MTGNotification;
+import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGNotifier;
@@ -62,7 +62,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 				
 					MTGNotification notif = new MTGNotification();
 					notif.setTitle("New offers");
-					notif.setType(MessageType.INFO);
+					notif.setType(MESSAGE_TYPE.INFO);
 					for(String not : getString("NOTIFIER").split(","))
 					{
 						try {

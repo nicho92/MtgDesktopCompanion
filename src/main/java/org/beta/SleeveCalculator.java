@@ -23,7 +23,7 @@ public class SleeveCalculator {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
 		
 		MagicEdition ed = new MagicEdition();
-		ed.setId("TSP");
+		ed.setId("TMP");
 		List<MagicCard> cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByEdition(ed);
 		Collections.sort(cards, new CardsEditionSorter());
 		
@@ -46,7 +46,7 @@ public class SleeveCalculator {
 		{	
 			for(MagicCard card : currentPage) 
 			{
-				System.out.println(currentCard+"\t"+card.getName().substring(0, 5) + "\tsheet="+currentSheet + "\tc="+column+ "\tl=" + line +"\t" + rv);
+				System.out.println(currentCard+"\t"+card.getName() + "\tsheet="+currentSheet + "\tc="+column+ "\tl=" + line +"\t" + rv);
 				column++;
 				if(column>c)
 				{

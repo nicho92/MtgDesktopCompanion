@@ -1,24 +1,32 @@
 package org.magic.api.beans;
 
-import java.awt.TrayIcon.MessageType;
 import java.util.Date;
 
 public class MTGNotification {
 
 	public enum FORMAT_NOTIFICATION {HTML,TEXT,MARKDOWN}
-
+	public enum MESSAGE_TYPE{ERROR,WARNING,INFO,NONE};
 	private Date date;
 	private String sender;
 	private String message;
 	private String title;
-	private MessageType type;
+	private MESSAGE_TYPE type;
 	
 	public MTGNotification() {
 		date = new Date();
-		type=MessageType.INFO;
+		type=MESSAGE_TYPE.INFO;
 	}
 	
-	public MTGNotification(String title,String msg,MessageType t)
+	public MTGNotification(String title,Exception e)
+	{
+		this.message=e.getMessage();
+		this.title=title;
+		date = new Date();
+		type=MESSAGE_TYPE.ERROR;
+	}
+	
+	
+	public MTGNotification(String title,String msg,MESSAGE_TYPE t)
 	{
 		this.message=msg;
 		this.title=title;
@@ -55,10 +63,10 @@ public class MTGNotification {
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	public MessageType getType() {
+	public MESSAGE_TYPE getType() {
 		return type;
 	}
-	public void setType(MessageType type) {
+	public void setType(MESSAGE_TYPE type) {
 		this.type = type;
 	}
 	
