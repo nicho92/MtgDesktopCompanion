@@ -145,11 +145,6 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		return list;
 	}
 
-	@Override
-	public void connect() throws IOException {
-		// do nothing
-
-	}
 
 	@Override
 	public String getName() {

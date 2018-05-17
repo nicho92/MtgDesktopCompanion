@@ -105,10 +105,6 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		return list;
 	}
 
-	@Override
-	public void connect() throws IOException {
-		// Do nothing because not needed
-	}
 
 	@Override
 	public String getName() {

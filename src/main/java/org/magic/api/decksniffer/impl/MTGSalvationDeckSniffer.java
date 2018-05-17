@@ -183,11 +183,6 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		}
 	}
 
-	@Override
-	public void connect() throws IOException {
-		// do nothing
-
-	}
 
 	@Override
 	public String getName() {

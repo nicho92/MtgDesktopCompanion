@@ -170,10 +170,6 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		return list;
 	}
 
-	@Override
-	public void connect() throws IOException {
-		// nothing to do
-	}
 
 	@Override
 	public String getName() {

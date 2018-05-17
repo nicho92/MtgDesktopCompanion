@@ -148,11 +148,6 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	}
 
-	@Override
-	public void connect() throws IOException {
-		logger.trace("no implementation for connect()");
-
-	}
 
 	@Override
 	public String getName() {

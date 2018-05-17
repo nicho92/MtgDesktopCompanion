@@ -1,6 +1,7 @@
 package org.magic.api.interfaces.abstracts;
 
 import java.io.File;
+import java.io.IOException;
 
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGConstants;
@@ -23,6 +24,12 @@ public abstract class AbstractDeckSniffer extends AbstractMTGPlugin implements M
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.DECKS;
+	}
+	
+	@Override
+	public void connect() throws IOException {
+		// do nothing by default
+		
 	}
 
 }
