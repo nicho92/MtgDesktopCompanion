@@ -80,11 +80,6 @@ public class ManualImportExport extends AbstractCardExport {
 	}
 
 	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
-
-	@Override
 	public void initDefault() {
 		// do nothing
 

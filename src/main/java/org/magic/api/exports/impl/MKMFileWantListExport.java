@@ -18,10 +18,6 @@ import org.magic.services.MTGControler;
 
 public class MKMFileWantListExport extends AbstractCardExport {
 
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
