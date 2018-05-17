@@ -445,7 +445,7 @@ public class MTGControler {
 	{
 		try {
 			if(notifier==null)
-				notifier=getPlugin("swing", MTGNotifier.class);
+				notifier=getPlugin(MTGConstants.DEFAULT_NOTIFIER_NAME, MTGNotifier.class);
 			
 			notifier.send(notif);
 		} catch (IOException e) {
