@@ -5,12 +5,16 @@ import java.util.Date;
 public class MTGNotification {
 
 	public enum FORMAT_NOTIFICATION {HTML,TEXT,MARKDOWN}
-	public enum MESSAGE_TYPE{ERROR,WARNING,INFO,NONE};
+	public enum MESSAGE_TYPE{ERROR,WARNING,INFO,NONE}
+	
 	private Date date;
 	private String sender;
 	private String message;
 	private String title;
 	private MESSAGE_TYPE type;
+	private Exception exception;
+	
+	
 	
 	public MTGNotification() {
 		date = new Date();
@@ -21,10 +25,10 @@ public class MTGNotification {
 	{
 		this.message=e.getMessage();
 		this.title=title;
+		this.exception=e;
 		date = new Date();
 		type=MESSAGE_TYPE.ERROR;
 	}
-	
 	
 	public MTGNotification(String title,String msg,MESSAGE_TYPE t)
 	{
@@ -32,6 +36,11 @@ public class MTGNotification {
 		this.title=title;
 		date = new Date();
 		type=t;
+	}
+	
+
+	public Exception getException() {
+		return exception;
 	}
 	
 	
