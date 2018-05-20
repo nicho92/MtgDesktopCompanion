@@ -8,6 +8,9 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -17,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import javax.swing.AbstractAction;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.DefaultRowSorter;
@@ -35,6 +39,7 @@ import javax.swing.JSplitPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.ListSelectionModel;
 import javax.swing.RowFilter;
 import javax.swing.SwingUtilities;
@@ -412,7 +417,13 @@ public class CardSearchPanel extends JPanel {
 		}
 
 		/////// Action listners
-
+		addComponentListener(new ComponentAdapter() {
+			@Override
+		    public void componentShown(ComponentEvent componentEvent){
+		        txtMagicSearch.requestFocus();
+		    }
+		}); 
+		
 		cboEdition.addActionListener(ae -> {
 				txtMagicSearch.setText(((MagicEdition) cboEdition.getSelectedItem()).getId());
 				txtMagicSearch.postActionEvent();

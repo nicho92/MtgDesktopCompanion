@@ -43,7 +43,9 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
 import org.magic.gui.components.JBuzyLabel;
+import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicCardDetailPanel;
+import org.magic.gui.components.PricesTablePanel;
 import org.magic.gui.components.charts.HistoryPricesPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
 import org.magic.gui.models.CardStockTableModel;
@@ -68,8 +70,8 @@ public class StockPanelGUI extends JPanel {
 	private boolean multiselection = false;
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private HistoryPricesPanel historyPricePanel;
-	
-	
+	private PricesTablePanel pricePanel;
+	private JSONPanel jsonPanel;
 	private JButton btnReload;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JBuzyLabel lblLoading;
@@ -413,7 +415,8 @@ public class StockPanelGUI extends JPanel {
 	private void updatePanels(MagicCardStock selectedStock) {
 		magicCardDetailPanel.setMagicCard(selectedStock.getMagicCard());
 		historyPricePanel.init(selectedStock.getMagicCard(), null, selectedStock.getMagicCard().getName());
-		
+		pricePanel.init(selectedStock.getMagicCard(), selectedStock.getMagicCard().getCurrentSet());
+		jsonPanel.show(selectedStock);
 	}
 
 	public void addStock(MagicCardStock mcs) {
@@ -460,7 +463,7 @@ public class StockPanelGUI extends JPanel {
 		model = new CardStockTableModel();
 		magicCardDetailPanel = new MagicCardDetailPanel();
 		historyPricePanel = new HistoryPricesPanel();
-		
+		pricePanel = new PricesTablePanel();
 		
 		JPanel centerPanel = new JPanel();
 		add(centerPanel, BorderLayout.CENTER);
@@ -497,7 +500,7 @@ public class StockPanelGUI extends JPanel {
 		actionPanel.add(btnExport);
 
 		btnGeneratePrice = new JButton();
-
+		jsonPanel = new JSONPanel();
 		btnGeneratePrice.setIcon(MTGConstants.ICON_EURO);
 		btnGeneratePrice.setToolTipText(MTGControler.getInstance().getLangService().getCapitalize("GENERATE_PRICE"));
 		actionPanel.add(btnGeneratePrice);
@@ -536,8 +539,11 @@ public class StockPanelGUI extends JPanel {
 
 		
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("DETAILS"),MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel);
+		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICES"),MTGConstants.ICON_TAB_PRICES, pricePanel);
 		tabPanel.addTab(MTGControler.getInstance().getLangService().get("PRICE_VARIATIONS"),MTGConstants.ICON_TAB_VARIATIONS,historyPricePanel);
-		
+		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
+			tabPanel.addTab("Json", MTGConstants.ICON_TAB_JSON, jsonPanel, null);
+
 		
 		rightPanel = new JPanel();
 		rightPanel.setBackground(SystemColor.inactiveCaption);
