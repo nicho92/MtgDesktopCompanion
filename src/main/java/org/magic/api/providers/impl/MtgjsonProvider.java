@@ -248,9 +248,15 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				if (map.get("cmc") != null)
 					mc.setCmc((int) Double.parseDouble(String.valueOf(map.get("cmc"))));
 
-				mc.setPower(String.valueOf(map.get("power")));
-				mc.setToughness(String.valueOf(map.get("toughness")));
-				mc.setFlavor(String.valueOf(map.get("flavor")));
+				if (map.get("power") != null)
+					mc.setPower(String.valueOf(map.get("power")));
+				
+				if (map.get("toughness") != null)
+					mc.setToughness(String.valueOf(map.get("toughness")));
+				
+				if (map.get("flavor") != null)
+					mc.setFlavor(String.valueOf(map.get("flavor")));
+				
 				mc.setArtist(String.valueOf(map.get("artist")));
 				mc.setLayout(String.valueOf(map.get("layout")));
 

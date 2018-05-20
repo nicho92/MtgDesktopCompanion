@@ -29,11 +29,11 @@ public class MagicCard implements Serializable {
 	private List<MagicEdition> editions;
 	private String originalText;
 	private String originalType;
-	private String power;
-	private String toughness;
+	private String power="";
+	private String toughness="";
 	private Integer loyalty;
-	private String artist;
-	private String flavor;
+	private String artist="";
+	private String flavor="";
 	private List<MagicRuling> rulings;
 	private String number;
 	private List<Integer> variations;

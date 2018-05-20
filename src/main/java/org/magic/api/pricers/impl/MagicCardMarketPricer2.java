@@ -162,7 +162,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 					mp.setCountry(String.valueOf(a.getSeller().getAddress().getCountry()));
 					mp.setValue(a.getPrice());
 					mp.setQuality(a.getCondition());
-					mp.setUrl("https://www.magiccardmarket.eu" + resultat.getWebsite());
+					mp.setUrl("https://www.cardmarket.com" + resultat.getWebsite());
 					mp.setSite("MagicCardMarket");
 					mp.setFoil(a.isFoil());
 					mp.setCurrency("EUR");
