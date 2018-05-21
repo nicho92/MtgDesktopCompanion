@@ -21,6 +21,11 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public void setProps(Properties props) {
 		this.props = props;
 	}
+	
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
 
 	public AbstractMTGPlugin() {
 		props = new Properties();

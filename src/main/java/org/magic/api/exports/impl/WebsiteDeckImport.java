@@ -78,11 +78,5 @@ public class WebsiteDeckImport extends AbstractCardExport {
 		return "Website";
 	}
 
-	
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 
 }

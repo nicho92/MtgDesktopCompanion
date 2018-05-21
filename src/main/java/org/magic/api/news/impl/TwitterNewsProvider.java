@@ -91,8 +91,4 @@ public class TwitterNewsProvider extends AbstractMagicNewsProvider {
 
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 }

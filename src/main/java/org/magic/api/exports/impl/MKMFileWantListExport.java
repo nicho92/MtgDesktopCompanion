@@ -80,10 +80,4 @@ public class MKMFileWantListExport extends AbstractCardExport {
 		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/mkm.png"));
 	}
 
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
-
 }

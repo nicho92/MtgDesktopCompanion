@@ -243,9 +243,5 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 
 }

@@ -107,9 +107,6 @@ public class PriceMinisterShopper extends AbstractMagicShopper {
 
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
+
 
 }

@@ -145,9 +145,5 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		setProperty(LOAD_CERTIFICATE, "true");
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 
 }

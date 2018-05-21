@@ -76,10 +76,6 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		return "Personal Set Pictures";
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 	
 	@Override
 	public void initDefault() {

@@ -37,10 +37,4 @@ public class SwingNotifier extends AbstractMTGNotifier {
 		return "Swing";
 	}
 
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
-
 }

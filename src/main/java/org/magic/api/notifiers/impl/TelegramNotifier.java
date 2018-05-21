@@ -74,9 +74,5 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 
 }

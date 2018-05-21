@@ -66,6 +66,12 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 
 	}
 
+
+	@Override
+	public String getVersion() {
+		return "1.0";
+	}
+	
 	@Override
 	public boolean isEnable() {
 		return true;
@@ -183,10 +189,6 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 
 	@Override
 	public void addObserver(Observer o) {

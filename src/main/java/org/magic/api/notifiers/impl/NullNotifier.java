@@ -23,9 +23,4 @@ public class NullNotifier extends AbstractMTGNotifier {
 	}
 
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
-
 }

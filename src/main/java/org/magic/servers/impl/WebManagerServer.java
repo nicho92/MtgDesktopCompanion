@@ -110,9 +110,4 @@ public class WebManagerServer extends AbstractMTGServer {
 		setProperty("REST_BACKEND_URI", "http://localhost:8080");
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
-
 }

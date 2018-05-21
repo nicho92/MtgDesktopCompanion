@@ -90,9 +90,6 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		return null;
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
+	
 
 }

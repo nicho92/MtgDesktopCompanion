@@ -154,10 +154,5 @@ public class MTGArenaExport extends AbstractCardExport {
 		return STATUT.DEV;
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
-
 
 }

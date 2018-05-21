@@ -186,9 +186,5 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 		setProperty(LOAD_CERTIFICATE, "false");
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 
 }

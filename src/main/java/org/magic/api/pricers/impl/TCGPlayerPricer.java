@@ -116,9 +116,5 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 
 }

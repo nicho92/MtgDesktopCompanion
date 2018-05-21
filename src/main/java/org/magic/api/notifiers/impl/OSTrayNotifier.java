@@ -83,12 +83,4 @@ public class OSTrayNotifier extends AbstractMTGNotifier {
 		return "Tray";
 	}
 
-
-
-
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
-
 }

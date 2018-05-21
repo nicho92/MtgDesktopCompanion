@@ -38,10 +38,6 @@ public class EmailNotifier extends AbstractMTGNotifier{
 		setProperty("SSL", "true");
 	}
 
-	@Override
-	public String getVersion() {
-		return "1.0";
-	}
 
 	@Override
 	public void send(MTGNotification notification) throws IOException {
