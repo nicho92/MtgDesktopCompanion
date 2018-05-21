@@ -73,7 +73,6 @@
 			<scope>system</scope>
 			<systemPath>${project.basedir}/lib/laf-plugin.jar</systemPath>
 		</dependency>
-		
 		<dependency>
     		<groupId>net.sf.cssbox</groupId>
    			<artifactId>swingbox</artifactId>

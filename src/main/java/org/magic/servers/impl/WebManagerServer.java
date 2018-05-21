@@ -15,6 +15,9 @@ import org.magic.services.MTGConstants;
 
 public class WebManagerServer extends AbstractMTGServer {
 
+	private static final String REST_BACKEND_URI = "REST_BACKEND_URI";
+	private static final String ALLOW_LIST_DIR = "ALLOW_LIST_DIR";
+	private static final String AUTOSTART = "AUTOSTART";
 	private static final String SERVER_PORT = "SERVER-PORT";
 	private Server server;
 	private URL webRootLocation;
@@ -37,7 +40,7 @@ public class WebManagerServer extends AbstractMTGServer {
 		DefaultServlet defaultServlet = new DefaultServlet();
 		ServletHolder holderPwd = new ServletHolder("default", defaultServlet);
 		holderPwd.setInitParameter("resourceBase", webRootLocation.toString());
-		holderPwd.setInitParameter("dirAllowed", getString("ALLOW_LIST_DIR"));
+		holderPwd.setInitParameter("dirAllowed", getString(ALLOW_LIST_DIR));
 
 		ctx.addServlet(holderPwd, "/*");
 		server.setHandler(ctx);
@@ -48,7 +51,7 @@ public class WebManagerServer extends AbstractMTGServer {
 		URL u = null;
 		try {
 			u = this.getClass().getResource("/web-ui/dist/js/rest-server.js");
-			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='" + getString("REST_BACKEND_URI") + "';",MTGConstants.DEFAULT_ENCODING);
+			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='" + getString(REST_BACKEND_URI) + "';",MTGConstants.DEFAULT_ENCODING);
 		} catch (Exception e) {
 			logger.error("couldn't write js rest file " + u, e);
 		}
@@ -84,7 +87,7 @@ public class WebManagerServer extends AbstractMTGServer {
 
 	@Override
 	public boolean isAutostart() {
-		return getBoolean("AUTOSTART");
+		return getBoolean(AUTOSTART);
 	}
 
 	@Override
@@ -105,9 +108,9 @@ public class WebManagerServer extends AbstractMTGServer {
 	@Override
 	public void initDefault() {
 		setProperty(SERVER_PORT, "80");
-		setProperty("AUTOSTART", "false");
-		setProperty("ALLOW_LIST_DIR", "false");
-		setProperty("REST_BACKEND_URI", "http://localhost:8080");
+		setProperty(AUTOSTART, "false");
+		setProperty(ALLOW_LIST_DIR, "false");
+		setProperty(REST_BACKEND_URI, "http://localhost:8080");
 	}
 
 }

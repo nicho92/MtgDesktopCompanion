@@ -1,9 +1,12 @@
 package org.magic.api.beans;
 
+import java.io.File;
+import java.io.Serializable;
 import java.util.Date;
 
-public class MTGNotification {
+public class MTGNotification implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	public enum FORMAT_NOTIFICATION {HTML,TEXT,MARKDOWN}
 	public enum MESSAGE_TYPE{ERROR,WARNING,INFO,NONE}
 	
@@ -13,6 +16,8 @@ public class MTGNotification {
 	private String title;
 	private MESSAGE_TYPE type;
 	private Exception exception;
+	private File file;
+	
 	
 	
 	
@@ -38,6 +43,13 @@ public class MTGNotification {
 		type=t;
 	}
 	
+	public File getFile() {
+		return file;
+	}
+	
+	public void setFile(File file) {
+		this.file = file;
+	}
 
 	public Exception getException() {
 		return exception;

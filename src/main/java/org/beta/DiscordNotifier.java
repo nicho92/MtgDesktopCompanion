@@ -10,7 +10,6 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 
 	@Override
 	public void send(MTGNotification notification) throws IOException {
-		// do send message
 		
 	}
 
@@ -22,6 +21,13 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 	@Override
 	public String getName() {
 		return "Discord";
+	}
+	
+	@Override
+	public void initDefault() {
+		setProperty("BOT_ID", "");
+		setProperty("TOKEN","");
+		setProperty("CHANNELID", "");
 	}
 
 }
