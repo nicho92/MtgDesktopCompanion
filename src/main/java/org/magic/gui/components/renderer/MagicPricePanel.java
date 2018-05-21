@@ -49,7 +49,7 @@ public class MagicPricePanel extends JPanel {
 		gbclblPrice.gridy = 1;
 		add(lblPrice, gbclblPrice);
 
-		JLabel lblpriceValue = new JLabel(price.getValue() + price.getCurrency());
+		JLabel lblpriceValue = new JLabel(price.getValue() + " " +price.getCurrency());
 		GridBagConstraints gbclblpriceValue = new GridBagConstraints();
 		gbclblpriceValue.insets = new Insets(0, 0, 5, 0);
 		gbclblpriceValue.fill = GridBagConstraints.VERTICAL;

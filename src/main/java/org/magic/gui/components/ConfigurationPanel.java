@@ -304,6 +304,7 @@ public class ConfigurationPanel extends JPanel {
 		cboLogLevels = new JComboBox<>(
 				new DefaultComboBoxModel<>(new Level[] { Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE }));
 		GridBagConstraints gbccboLogLevels = new GridBagConstraints();
+		gbccboLogLevels.fill = GridBagConstraints.HORIZONTAL;
 		gbccboLogLevels.gridwidth = 3;
 		gbccboLogLevels.insets = new Insets(0, 0, 5, 5);
 		gbccboLogLevels.gridx = 1;

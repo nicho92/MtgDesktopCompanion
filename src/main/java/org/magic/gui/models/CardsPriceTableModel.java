@@ -2,6 +2,7 @@ package org.magic.gui.models;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
@@ -102,7 +103,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 		case 1:
 			return Double.class;
 		case 2:
-			return String.class;
+			return Currency.class;
 		case 3:
 			return String.class;
 		case 4:

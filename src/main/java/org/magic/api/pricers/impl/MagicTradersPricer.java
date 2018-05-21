@@ -49,7 +49,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 								+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING));
 						mp.setSite(getName());
 						mp.setValue(f);
-						mp.setCurrency("$");
+						mp.setCurrency("USD");
 						list.add(mp);
 
 						return list;

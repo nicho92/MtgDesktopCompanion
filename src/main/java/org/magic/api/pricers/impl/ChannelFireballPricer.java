@@ -5,6 +5,7 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
@@ -51,7 +52,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		mp.setUrl("http://store.channelfireball.com/products/search?query="
 				+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING));
 		mp.setSite(getName());
-		mp.setCurrency(value.substring(0, 1));
+		mp.setCurrency("USD");
 		mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));
 
 		ArrayList<MagicPrice> list = new ArrayList<>();

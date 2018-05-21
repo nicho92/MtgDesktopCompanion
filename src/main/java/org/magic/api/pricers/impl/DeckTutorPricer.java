@@ -5,6 +5,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.List;
 
 import org.apache.http.HttpEntity;
@@ -162,9 +163,9 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 			price.setSite(getName());
 			price.setLanguage(item.get("language").getAsString());
 			price.setQuality(item.get("condition").getAsString());
-			price.setCurrency("EUR");
+			price.setCurrency(Currency.getInstance("EUR"));
 			price.setValue(
-					Double.parseDouble(item.get("price").getAsString().replaceAll(price.getCurrency(), "").trim()));
+					Double.parseDouble(item.get("price").getAsString().replaceAll(price.getCurrency().getCurrencyCode(), "").trim()));
 			price.setUrl("https://mtg.decktutor.com/insertions/" + item.get("code").getAsString() + "/"
 					+ item.get("title").getAsString().replaceAll(" - ", "-").replaceAll(" ", "-") + ".html");
 			price.setShopItem(item);

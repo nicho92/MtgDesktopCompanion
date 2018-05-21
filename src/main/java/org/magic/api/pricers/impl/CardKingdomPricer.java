@@ -112,7 +112,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 			String price = prices.get(i).html().replaceAll("\\$", "");
 			mp.setValue(Double.parseDouble(price));
-			mp.setCurrency("$");
+			mp.setCurrency("USD");
 			mp.setSeller("Card Kingdom");
 			mp.setSite(getName());
 			mp.setUrl(url);

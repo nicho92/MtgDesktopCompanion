@@ -42,7 +42,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 				MagicPrice mp = new MagicPrice();
 				mp.setSite(getName());
 				mp.setCountry("USA");
-				mp.setCurrency("$");
+				mp.setCurrency("USD");
 				mp.setUrl(tr.select("td").get(0).select("a").attr("href"));
 				mp.setSeller(tr.select("td").get(1).text());
 				mp.setQuality(tr.select("td").get(6).text());

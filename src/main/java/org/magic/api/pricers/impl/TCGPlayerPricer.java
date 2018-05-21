@@ -74,7 +74,7 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 			NodeList nodes = doc.getElementsByTagName("product");
 
 			MagicPrice mp = new MagicPrice();
-			mp.setCurrency("$");
+			mp.setCurrency("USD");
 			mp.setSite(getName());
 			mp.setUrl(nodes.item(0).getChildNodes().item(11).getTextContent());
 			mp.setSeller(getName());

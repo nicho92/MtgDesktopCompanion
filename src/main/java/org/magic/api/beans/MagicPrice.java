@@ -1,11 +1,13 @@
 package org.magic.api.beans;
 
+import java.util.Currency;
+
 public class MagicPrice implements Comparable<MagicPrice> {
 
 	private Double value;
 	private String seller;
 	private String url;
-	private String currency;
+	private Currency currency;
 	private String site;
 	private boolean foil;
 	private String language;
@@ -59,11 +61,18 @@ public class MagicPrice implements Comparable<MagicPrice> {
 		this.site = site;
 	}
 
-	public String getCurrency() {
+	public Currency getCurrency() {
 		return currency;
 	}
 
-	public void setCurrency(String currency) {
+	
+	public void setCurrency(String currencyCode)
+	{
+		this.currency=Currency.getInstance(currencyCode);
+	}
+	
+	
+	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
 

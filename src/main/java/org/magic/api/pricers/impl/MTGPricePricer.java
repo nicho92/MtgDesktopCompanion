@@ -62,7 +62,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 
 				if (name.equalsIgnoreCase(card.getName())) {
 					MagicPrice price = new MagicPrice();
-					price.setCurrency("$");
+					price.setCurrency("USD");
 					price.setSeller("MTGPrice");
 					price.setUrl(getString("WEBSITE") + "/sets/" + set + "/"
 							+ mtgpriceID.substring(0, mtgpriceID.indexOf(set)));
