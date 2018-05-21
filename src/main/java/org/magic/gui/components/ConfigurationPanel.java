@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.util.Currency;
 import java.util.Locale;
 
 import javax.imageio.ImageIO;
@@ -44,6 +45,8 @@ import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ImageUtils;
 import org.magic.tools.InstallCert;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ConfigurationPanel extends JPanel {
 
@@ -243,9 +246,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelConfig, gbcpanelConfig);
 		GridBagLayout gblpanelConfig = new GridBagLayout();
 		gblpanelConfig.columnWidths = new int[] { 0, 0, 0, 0, 0, 0 };
-		gblpanelConfig.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gblpanelConfig.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gblpanelConfig.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblpanelConfig.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gblpanelConfig.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
+		gblpanelConfig.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panelConfig.setLayout(gblpanelConfig);
 
 		JLabel lblMainCol = new JLabel(
@@ -266,7 +269,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JButton btnSaveDefaultLib = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		GridBagConstraints gbcbtnSave = new GridBagConstraints();
-		gbcbtnSave.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSave.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSave.gridx = 4;
 		gbcbtnSave.gridy = 0;
 		panelConfig.add(btnSaveDefaultLib, gbcbtnSave);
@@ -289,7 +292,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JButton btnSaveDefaultLandDeck = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		GridBagConstraints gbcbtnSave1 = new GridBagConstraints();
-		gbcbtnSave1.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSave1.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSave1.gridx = 4;
 		gbcbtnSave1.gridy = 1;
 		panelConfig.add(btnSaveDefaultLandDeck, gbcbtnSave1);
@@ -313,7 +316,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JButton btnSaveLoglevel = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		GridBagConstraints gbcbtnSaveLoglevel = new GridBagConstraints();
-		gbcbtnSaveLoglevel.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSaveLoglevel.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSaveLoglevel.gridx = 4;
 		gbcbtnSaveLoglevel.gridy = 2;
 		panelConfig.add(btnSaveLoglevel, gbcbtnSaveLoglevel);
@@ -339,7 +342,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JButton btnSaveJson = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		GridBagConstraints gbcbtnSaveJson = new GridBagConstraints();
-		gbcbtnSaveJson.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSaveJson.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSaveJson.gridx = 4;
 		gbcbtnSaveJson.gridy = 3;
 		panelConfig.add(btnSaveJson, gbcbtnSaveJson);
@@ -365,7 +368,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JButton btnSavePrice = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
 		GridBagConstraints gbcbtnSavePrice = new GridBagConstraints();
-		gbcbtnSavePrice.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSavePrice.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSavePrice.gridx = 4;
 		gbcbtnSavePrice.gridy = 4;
 		panelConfig.add(btnSavePrice, gbcbtnSavePrice);
@@ -418,7 +421,7 @@ public class ConfigurationPanel extends JPanel {
 				ae -> MTGControler.getInstance().setProperty("langage", cboLanguages.getSelectedItem().toString()));
 
 		GridBagConstraints gbcbtnSavelang = new GridBagConstraints();
-		gbcbtnSavelang.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSavelang.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSavelang.gridx = 4;
 		gbcbtnSavelang.gridy = 6;
 		panelConfig.add(btnSavelang, gbcbtnSavelang);
@@ -446,7 +449,7 @@ public class ConfigurationPanel extends JPanel {
 		btnSave.addActionListener(ae -> MTGControler.getInstance().setProperty("locale", cboLocales.getSelectedItem()));
 
 		GridBagConstraints gbcbtnSave3 = new GridBagConstraints();
-		gbcbtnSave3.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSave3.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSave3.gridx = 4;
 		gbcbtnSave3.gridy = 7;
 		panelConfig.add(btnSave, gbcbtnSave3);
@@ -492,14 +495,14 @@ public class ConfigurationPanel extends JPanel {
 		chckbxIconcards.setSelected(true);
 		GridBagConstraints gbcbtnClean = new GridBagConstraints();
 		gbcbtnClean.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnClean.insets = new Insets(0, 0, 5, 0);
+		gbcbtnClean.insets = new Insets(0, 0, 5, 5);
 		gbcbtnClean.gridx = 4;
 		gbcbtnClean.gridy = 8;
 		panelConfig.add(btnClean, gbcbtnClean);
 
 		JLabel lblLook = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("LOOK") + " :");
 		GridBagConstraints gbclblLook = new GridBagConstraints();
-		gbclblLook.insets = new Insets(0, 0, 0, 5);
+		gbclblLook.insets = new Insets(0, 0, 5, 5);
 		gbclblLook.gridx = 0;
 		gbclblLook.gridy = 9;
 		panelConfig.add(lblLook, gbclblLook);
@@ -516,11 +519,42 @@ public class ConfigurationPanel extends JPanel {
 
 		GridBagConstraints gbccomboBox = new GridBagConstraints();
 		gbccomboBox.gridwidth = 3;
-		gbccomboBox.insets = new Insets(0, 0, 0, 5);
+		gbccomboBox.insets = new Insets(0, 0, 5, 5);
 		gbccomboBox.fill = GridBagConstraints.HORIZONTAL;
 		gbccomboBox.gridx = 1;
 		gbccomboBox.gridy = 9;
 		panelConfig.add(cboLook, gbccomboBox);
+		
+		JLabel lblCurrency = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CURRENCY")+" :");
+		GridBagConstraints gbclblCurrency = new GridBagConstraints();
+		gbclblCurrency.insets = new Insets(0, 0, 0, 5);
+		gbclblCurrency.gridx = 0;
+		gbclblCurrency.gridy = 10;
+		panelConfig.add(lblCurrency, gbclblCurrency);
+		
+		JComboBox<Currency> cboCurrency = new JComboBox<>(new DefaultComboBoxModel<>(Currency.getAvailableCurrencies().toArray(new Currency[Currency.getAvailableCurrencies().size()])));
+		
+		if(MTGControler.getInstance().get("currency").isEmpty())
+			cboCurrency.setSelectedItem(Currency.getInstance(Locale.getDefault()));
+		else
+			cboCurrency.setSelectedItem(Currency.getInstance(MTGControler.getInstance().get("currency")));
+		
+		GridBagConstraints gbccboCurrency = new GridBagConstraints();
+		gbccboCurrency.gridwidth = 3;
+		gbccboCurrency.insets = new Insets(0, 0, 0, 5);
+		gbccboCurrency.fill = GridBagConstraints.HORIZONTAL;
+		gbccboCurrency.gridx = 1;
+		gbccboCurrency.gridy = 10;
+		panelConfig.add(cboCurrency, gbccboCurrency);
+		
+		JButton btnSavecurrency = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		btnSavecurrency.addActionListener(ae->MTGControler.getInstance().setProperty("currency", cboCurrency.getSelectedItem()));
+		GridBagConstraints gbcbtnSavecurrency = new GridBagConstraints();
+		gbcbtnSavecurrency.insets = new Insets(0, 0, 0, 5);
+		gbcbtnSavecurrency.fill = GridBagConstraints.HORIZONTAL;
+		gbcbtnSavecurrency.gridx = 4;
+		gbcbtnSavecurrency.gridy = 10;
+		panelConfig.add(btnSavecurrency, gbcbtnSavecurrency);
 		cboLook.addActionListener(ae -> MTGControler.getInstance().getLafService().setLookAndFeel(
 				SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem()));
 
@@ -734,16 +768,16 @@ public class ConfigurationPanel extends JPanel {
 		JPanel panelModule = new JPanel();
 		panelModule.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true), "Modules",
 				TitledBorder.LEADING, TitledBorder.TOP, null, new Color(64, 64, 64)));
-		GridBagConstraints gbc_panelModule = new GridBagConstraints();
-		gbc_panelModule.insets = new Insets(0, 0, 5, 0);
-		gbc_panelModule.fill = GridBagConstraints.BOTH;
-		gbc_panelModule.gridx = 1;
-		gbc_panelModule.gridy = 2;
-		add(panelModule, gbc_panelModule);
+		GridBagConstraints gbcpanelModule = new GridBagConstraints();
+		gbcpanelModule.insets = new Insets(0, 0, 5, 0);
+		gbcpanelModule.fill = GridBagConstraints.BOTH;
+		gbcpanelModule.gridx = 1;
+		gbcpanelModule.gridy = 2;
+		add(panelModule, gbcpanelModule);
 		GridBagLayout gblPanelModule = new GridBagLayout();
-		gblPanelModule.columnWidths = new int[] { 0, 0, 0, 103, 0 };
+		gblPanelModule.columnWidths = new int[] { 0, 0, 0, 103, 0, 0 };
 		gblPanelModule.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
-		gblPanelModule.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblPanelModule.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gblPanelModule.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelModule.setLayout(gblPanelModule);
 
@@ -765,7 +799,7 @@ public class ConfigurationPanel extends JPanel {
 
 		GridBagConstraints gbcchckbxCollection = new GridBagConstraints();
 		gbcchckbxCollection.anchor = GridBagConstraints.WEST;
-		gbcchckbxCollection.insets = new Insets(0, 0, 5, 0);
+		gbcchckbxCollection.insets = new Insets(0, 0, 5, 5);
 		gbcchckbxCollection.gridx = 3;
 		gbcchckbxCollection.gridy = 0;
 		panelModule.add(chckbxCollection, gbcchckbxCollection);
@@ -787,7 +821,7 @@ public class ConfigurationPanel extends JPanel {
 				.addItemListener(ie -> MTGControler.getInstance().setProperty("modules/game", chckbxGame.isSelected()));
 		GridBagConstraints gbcchckbxGame = new GridBagConstraints();
 		gbcchckbxGame.anchor = GridBagConstraints.WEST;
-		gbcchckbxGame.insets = new Insets(0, 0, 5, 0);
+		gbcchckbxGame.insets = new Insets(0, 0, 5, 5);
 		gbcchckbxGame.gridx = 3;
 		gbcchckbxGame.gridy = 1;
 		panelModule.add(chckbxGame, gbcchckbxGame);
@@ -809,7 +843,7 @@ public class ConfigurationPanel extends JPanel {
 				ie -> MTGControler.getInstance().setProperty("modules/shopper", chckbxShopper.isSelected()));
 		GridBagConstraints gbcchckbxShopper = new GridBagConstraints();
 		gbcchckbxShopper.anchor = GridBagConstraints.WEST;
-		gbcchckbxShopper.insets = new Insets(0, 0, 5, 0);
+		gbcchckbxShopper.insets = new Insets(0, 0, 5, 5);
 		gbcchckbxShopper.gridx = 3;
 		gbcchckbxShopper.gridy = 2;
 		panelModule.add(chckbxShopper, gbcchckbxShopper);
@@ -832,7 +866,7 @@ public class ConfigurationPanel extends JPanel {
 
 		GridBagConstraints gbcchckbxRss = new GridBagConstraints();
 		gbcchckbxRss.anchor = GridBagConstraints.WEST;
-		gbcchckbxRss.insets = new Insets(0, 0, 5, 0);
+		gbcchckbxRss.insets = new Insets(0, 0, 5, 5);
 		gbcchckbxRss.gridx = 3;
 		gbcchckbxRss.gridy = 3;
 		panelModule.add(chckbxRss, gbcchckbxRss);
@@ -854,7 +888,7 @@ public class ConfigurationPanel extends JPanel {
 		chckbxStock.addItemListener(
 				ie -> MTGControler.getInstance().setProperty("modules/stock", chckbxStock.isSelected()));
 		GridBagConstraints gbcchckbxStock = new GridBagConstraints();
-		gbcchckbxStock.insets = new Insets(0, 0, 5, 0);
+		gbcchckbxStock.insets = new Insets(0, 0, 5, 5);
 		gbcchckbxStock.anchor = GridBagConstraints.WEST;
 		gbcchckbxStock.gridx = 3;
 		gbcchckbxStock.gridy = 4;
@@ -879,6 +913,7 @@ public class ConfigurationPanel extends JPanel {
 				ie -> MTGControler.getInstance().setProperty("modules/wallpaper", chckbxWallpaper.isSelected()));
 
 		GridBagConstraints gbcchckbxWallpaper = new GridBagConstraints();
+		gbcchckbxWallpaper.insets = new Insets(0, 0, 0, 5);
 		gbcchckbxWallpaper.anchor = GridBagConstraints.WEST;
 		gbcchckbxWallpaper.gridx = 3;
 		gbcchckbxWallpaper.gridy = 5;

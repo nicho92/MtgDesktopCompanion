@@ -15,10 +15,23 @@ import com.google.gson.JsonParser;
 public class CurrencyConverter {
 	private Logger logger = MTGLogger.getLogger(IDGenerator.class);
 	
+	
 	public static void main(String[] args) throws IOException {
-		
-		System.out.println(new CurrencyConverter().getValue(Currency.getInstance("EUR"), Currency.getInstance("USD"), 100));
+		System.out.println(new CurrencyConverter().getValue(Currency.getInstance("EUR"), Currency.getInstance("USD"), 1));
 	}
+	
+	public void refresh()
+	{
+		
+	}
+	
+	
+	
+	public double getValue(String from, String to, double value) throws IOException
+	{
+		return getValue(Currency.getInstance(from), Currency.getInstance(to), value);
+	}
+	
 	
 	public double getValue(Currency from, Currency to, double value) throws IOException
 	{
