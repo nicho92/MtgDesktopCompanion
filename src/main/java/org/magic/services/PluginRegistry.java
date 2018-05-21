@@ -55,7 +55,7 @@ public class PluginRegistry {
 			init();
 	}
 	
-	
+	//TODO correct this for Dashlets
 	public PluginEntry getEntryFor(Object k)
 	{
 		return getEntry(k.getClass().getSuperclass().getInterfaces()[0]);

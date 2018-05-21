@@ -16,8 +16,7 @@ public class ManaCellRenderer extends DefaultTableCellRenderer {
 			int row, int column) {
 
 		pane.setManaCost(String.valueOf(value));
-		pane.setBackground(
-				super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
+		pane.setBackground(super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column).getBackground());
 		return pane;
 
 	}

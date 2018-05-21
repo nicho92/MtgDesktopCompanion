@@ -38,9 +38,13 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		keyword = URLEncoder.encode(keyword, MTGConstants.DEFAULT_ENCODING);
 
 		String link = url.replaceAll("%KEYWORD%", keyword);
+		
+		if(getBoolean("FIXEDPRICE_ONLY"))
+			link+="&itemFilter(0).name=ListingType&itemFilter(0).value(1)=FixedPrice";
+		
 
-		logger.info(getName() + " looking for " + keyword);
-
+		logger.info(getName() + " looking for " + keyword + " (" + link+")");
+		
 		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), MTGConstants.DEFAULT_ENCODING));
 		JsonElement root = new JsonParser().parse(reader);
 
@@ -106,6 +110,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 		setProperty("URL","http://svcs.ebay.fr/services/search/FindingService/v1?SECURITY-APPNAME=%API_KEY%&OPERATION-NAME=findItemsByKeywords&RESPONSE-DATA-FORMAT=JSON&GLOBAL-ID=%COUNTRY%&keywords=%KEYWORD%&paginationInput.entriesPerPage=%MAX%");
 		setProperty("WEBSITE", "http://www.ebay.com/");
 		setProperty("KEYWORD", "");
+		setProperty("FIXEDPRICE_ONLY","false");
 
 	}
 

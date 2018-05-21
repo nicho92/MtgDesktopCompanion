@@ -175,7 +175,10 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String name = "";
 
 		if (mc == null)
-			throw new NullPointerException("no magiccard defined");
+		{
+			logger.error("no magiccard defined");
+			return historyPrice;
+		}
 
 		name = mc.getName().replaceAll(" ", "_");
 

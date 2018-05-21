@@ -102,14 +102,14 @@ public class MTGControler {
 	public void setProperty(Object k, Object c) {
 		try {
 			String path = "";
-			
+			logger.debug("set " + k + " to " + c);
+
 			if(k instanceof MTGPlugin){
 				path = PluginRegistry.inst().getEntryFor(k).getXpath()+"[class='" + k.getClass().getName() + "']/enable";
 			}
 			else {
 				path = k.toString();
 			}
-			logger.debug("set " + k + " to " + c);
 
 			config.setProperty(path, c);
 			builder.save();
@@ -121,7 +121,7 @@ public class MTGControler {
 	public MagicCard switchEditions(MagicCard mc, MagicEdition ed)
 	{
 		try {
-			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( mc.getName(), ed, true).get(0);
+			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(mc.getName(), ed, true).get(0);
 		} catch (IOException e) {
 			logger.error(mc +" is not found in " + ed);
 			return mc;
