@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.beta;
 
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,6 +7,7 @@ import java.util.Currency;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
+import org.magic.tools.IDGenerator;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
