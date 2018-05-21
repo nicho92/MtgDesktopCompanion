@@ -17,9 +17,9 @@ import org.magic.tools.Chrono;
 
 public class MtgDesktopCompanion {
 
-	final Logger logger = MTGLogger.getLogger(this.getClass());
-	MTGSplashScreen launch;
-	Chrono chrono;
+	private final Logger logger = MTGLogger.getLogger(this.getClass());
+	private MTGSplashScreen launch;
+	private Chrono chrono;
 
 	public static void main(String[] args) {
 		new MtgDesktopCompanion();
