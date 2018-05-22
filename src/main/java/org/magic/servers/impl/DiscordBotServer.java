@@ -13,6 +13,7 @@ import org.magic.services.MTGControler;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
+import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
@@ -41,19 +42,17 @@ public class DiscordBotServer extends AbstractMTGServer {
 				if (event.getAuthor().isBot()) 
 					return;
 				
+				logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
+				
 				MessageChannel channel = event.getChannel();
 				
 				try {
 					String[] msg = event.getMessage().getContentRaw().split(" ");
-					
 					Command com = MTGConsoleHandler.commandFactory(msg[0]);
-					
 					String ret = com.run(msg).toString();
-					
 					if(ret.length()>2000)
 						ret=ret.substring(0, 2000);
-					
-					
+			
 					channel.sendMessage(ret).queue();
 					
 				} catch (Exception e) {
@@ -86,16 +85,17 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	@Override
 	public void stop() throws IOException {
-		
 		if(jda!=null)
+		{
 			jda.shutdown();
+			jda.getPresence().setPresence(OnlineStatus.OFFLINE,false);
+		}
 	}
 
 	@Override
 	public boolean isAlive() {
 		if(jda!=null)
 			return jda.getStatus().equals(JDA.Status.CONNECTED);
-		
 		return false;
 	}
 
@@ -115,7 +115,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 	}
 
 	@Override
-	public void initDefault() {
+	public void initDefault() 
+	{
 		setProperty("TOKEN","");
 		setProperty("AUTOSTART", "false");
 	}
