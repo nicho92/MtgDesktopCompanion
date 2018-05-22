@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.apache.mina.core.session.IoSession;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.MTGShopper;
 import org.magic.console.AbstractCommand;
@@ -40,11 +39,6 @@ public class Shop extends AbstractCommand {
 			return usage();
 		}
 		return null;
-	}
-
-	@Override
-	public void quit() {
-		// do nothing
 	}
 
 	@Override

@@ -34,11 +34,6 @@ public class Shake extends AbstractCommand {
 		return null;
 	}
 
-	@Override
-	public void quit() {
-		// do nothing
-
-	}
 
 	@Override
 	public String getCommandName() {

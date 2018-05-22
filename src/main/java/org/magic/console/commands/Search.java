@@ -7,7 +7,6 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.apache.mina.core.session.IoSession;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
@@ -53,11 +52,6 @@ public class Search extends AbstractCommand {
 			return usage();
 		}
 		return "unknow";
-	}
-
-	@Override
-	public void quit() {
-		// do nothing
 	}
 
 	@Override

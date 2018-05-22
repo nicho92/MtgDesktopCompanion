@@ -50,5 +50,11 @@ public abstract class AbstractCommand implements Command {
 		}
 		
 	}
+	
+	@Override
+	public void quit() {
+		// nothing to do
+
+	}
 
 }
