@@ -1,6 +1,7 @@
 package org.magic.servers.impl;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.security.auth.login.LoginException;
 
@@ -23,8 +24,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private JDA jda;
 	private ListenerAdapter listener;
 	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
+		MTGControler.getInstance().getEnabledDAO().init();
 		new DiscordBotServer().start();
 	}
 	
