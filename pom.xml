@@ -25,7 +25,21 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+	
+	<repositories>
+	  <repository>
+	    <id>jcenter</id>
+	    <url>http://jcenter.bintray.com</url>
+	  </repository>
+	</repositories>
+		
+	
 	<dependencies>
+		<dependency>
+		    <groupId>net.dv8tion</groupId>
+			  <artifactId>JDA</artifactId>
+			  <version>3.6.0_367</version>
+		</dependency>
 		<dependency>
 		    <groupId>com.sparkjava</groupId>
 		    <artifactId>spark-core</artifactId>

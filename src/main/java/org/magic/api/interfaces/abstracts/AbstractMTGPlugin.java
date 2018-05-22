@@ -88,6 +88,15 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			return null;
 		}
 	}
+	
+	public Long getLong(String k) {
+		try {
+			return Long.parseLong(getString(k));
+		} catch (NumberFormatException e) {
+			return null;
+		}
+	}
+	
 
 	public double getDouble(String k) {
 		return Double.parseDouble(getString(k));
@@ -120,7 +129,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			load();
 		}
 
-		return getProperty(k, "");
+		return getProperty(k, "").trim();
 	}
 
 	@Override
