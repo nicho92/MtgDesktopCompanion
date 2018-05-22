@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
@@ -13,7 +14,6 @@ import org.magic.servers.impl.ConsoleServer;
 import org.magic.services.MTGLogger;
 
 public class MTGConsoleHandler extends IoHandlerAdapter {
-	ClassLoader classLoader = ConsoleServer.class.getClassLoader();
 
 	protected static final String[] att_cards = { "name", "fullType", "editions[0].rarity", "colors", "cost" };
 	protected static final String[] att_set = { "id", "set", "cardCount", "releaseDate", "block" };
@@ -72,10 +72,9 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 		}
 	}
 
-	public Command commandFactory(String name) throws ClassNotFoundException, InstantiationException,
-			IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		String clazz = Character.toUpperCase(name.charAt(0)) + name.substring(1);
-		Class myCommand = classLoader.loadClass("org.magic.console.commands." + clazz);
+	public static Command commandFactory(String name) throws ClassNotFoundException, InstantiationException,IllegalAccessException, InvocationTargetException, NoSuchMethodException {
+		String clazz = StringUtils.capitalize(name);
+		Class myCommand = ConsoleServer.class.getClassLoader().loadClass("org.magic.console.commands." + clazz);
 		return (Command) myCommand.getDeclaredConstructor().newInstance();
 	}
 
@@ -94,7 +93,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 			String line = message.toString();
 			String[] commandeLine = line.split(" ");
 			Command c = commandFactory(commandeLine[0]);
-			c.run(commandeLine, session, this);
+			session.write(c.run(commandeLine));
 			c.quit();
 			history.add(line);
 		}

@@ -23,25 +23,23 @@ public class Shop extends AbstractCommand {
 	}
 
 	@Override
-	public void run(String[] array, IoSession session, MTGConsoleHandler mtgConsoleHandler)
-			throws IOException, ParseException {
+	public Object run(String[] array)throws IOException, ParseException {
 		CommandLine cl = parser.parse(opts, array);
-		this.session = session;
-
 		if (cl.hasOption("s")) {
 			String att = cl.getOptionValue("s");
 			List<ShopItem> list = new ArrayList<>();
 			for (MTGShopper ms : MTGControler.getInstance().getShoppersProviders())
 				list.addAll(ms.search(att));
 
-			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttShop())));
+			return (showList(list, Arrays.asList(MTGConsoleHandler.getAttShop())));
 		}
 		if (cl.hasOption("l")) {
-			session.write(showList(MTGControler.getInstance().getShoppersProviders(), Arrays.asList("name", "enable")));
+			return (showList(MTGControler.getInstance().getShoppersProviders(), Arrays.asList("name", "enable")));
 		}
 		if (cl.hasOption("?")) {
-			usage();
+			return usage();
 		}
+		return null;
 	}
 
 	@Override

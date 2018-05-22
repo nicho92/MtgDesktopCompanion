@@ -14,7 +14,7 @@ import com.google.gson.JsonParser;
 
 
 public class CurrencyConverter {
-	private Logger logger = MTGLogger.getLogger(IDGenerator.class);
+	private Logger logger = MTGLogger.getLogger(CurrencyConverter.class);
 	
 	
 	public static void main(String[] args) throws IOException {

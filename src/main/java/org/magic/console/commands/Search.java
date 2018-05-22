@@ -25,21 +25,18 @@ public class Search extends AbstractCommand {
 	}
 
 	@Override
-	public void run(String[] args, IoSession session, MTGConsoleHandler mtgConsoleHandler)
-			throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+	public Object run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
 		CommandLine cl = parser.parse(opts, args);
-		this.session = session;
 		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			List<MagicCard> list = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(att, val, null,
-					false);
-			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttCards())));
+			List<MagicCard> list = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(att, val, null,false);
+			return showList(list, Arrays.asList(MTGConsoleHandler.getAttCards()));
 		}
 
 		if (cl.hasOption("s")) {
 			List<MagicEdition> list = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
-			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttSet())));
+			return(showList(list, Arrays.asList(MTGConsoleHandler.getAttSet())));
 		}
 
 		if (cl.hasOption("col")) {
@@ -49,12 +46,13 @@ public class Search extends AbstractCommand {
 			} catch (SQLException e) {
 				throw new IOException(e);
 			}
-			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttCols())));
+			return (showList(list, Arrays.asList(MTGConsoleHandler.getAttCols())));
 		}
 
 		if (cl.hasOption("?")) {
-			usage();
+			return usage();
 		}
+		return "unknow";
 	}
 
 	@Override

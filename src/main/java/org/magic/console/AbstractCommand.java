@@ -23,7 +23,6 @@ public abstract class AbstractCommand implements Command {
 
 	protected CommandLineParser parser = new DefaultParser();
 	protected Options opts = new Options();
-	protected IoSession session;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	protected <T> String showList(List<T> list, List<String> attributes) {
@@ -37,18 +36,19 @@ public abstract class AbstractCommand implements Command {
 	}
 
 	@Override
-	public void usage() {
+	public String usage() {
 		HelpFormatter formatter = new HelpFormatter();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintWriter ps = new PrintWriter(baos);
 		formatter.printHelp(ps, 50, getCommandName(), null, opts, 0, 0, null);
 		ps.close();
 		try {
-			session.write(baos.toString(MTGConstants.DEFAULT_ENCODING));
+			return baos.toString(MTGConstants.DEFAULT_ENCODING);
 		} catch (UnsupportedEncodingException e) {
 			logger.error(e);
+			return e.getMessage();
 		}
-
+		
 	}
 
 }

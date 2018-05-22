@@ -8,11 +8,9 @@ import org.apache.mina.core.session.IoSession;
 
 public interface Command {
 
-	public void run(String[] array, IoSession session, MTGConsoleHandler mtgConsoleHandler)
-			throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException,
-			InvocationTargetException, NoSuchMethodException;
+	public Object run(String[] array)throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException,InvocationTargetException, NoSuchMethodException;
 
-	public void usage();
+	public String usage();
 
 	public void quit();
 

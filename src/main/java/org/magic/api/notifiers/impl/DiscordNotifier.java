@@ -20,39 +20,42 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 
 	
 	public static void main(String[] args) throws IOException {
-		new DiscordNotifier().send(new MTGNotification("Test", "Test de notification via apps", MESSAGE_TYPE.INFO));
+		new DiscordNotifier().send(new MTGNotification("Test", "<html>Test de :mana0: via apps</html>", MESSAGE_TYPE.INFO));
 	}
 	
 	@Override
 	public void send(MTGNotification notification) throws IOException {
 		 
-		
+		JDA jda=null;
 		try {
-			
-			JDA jda = new JDABuilder(AccountType.BOT).setToken(getString("TOKEN")).buildBlocking();
+			//TODO emoji
+			jda = new JDABuilder(AccountType.BOT).setToken(getString("TOKEN")).buildBlocking();
 			TextChannel chan = jda.getTextChannelById(getLong("CHANNELID"));
 			notification.setSender(jda.getSelfUser().getName());
 			
 			MessageBuilder msg = new MessageBuilder();
 			msg.append(notification.getMessage());
 			
-			
-			chan.sendMessage(msg.build()).queue();
-			
-			jda.shutdown();
-			
+			if(notification.getFile()==null)
+				chan.sendMessage(msg.build()).queue();
+			else
+				chan.sendFile(notification.getFile(),msg.build());
 		} catch (LoginException e) {
 			logger.error("couldn't init login",e);
 		} catch (InterruptedException e) {
 			logger.error("Interupted !",e);
 			Thread.currentThread().interrupt();
 		}
+		finally {
+			if(jda!=null)
+				jda.shutdown();
+		}
 		 		 
 	}
 
 	@Override
 	public FORMAT_NOTIFICATION getFormat() {
-		return FORMAT_NOTIFICATION.TEXT;
+		return FORMAT_NOTIFICATION.MARKDOWN;
 	}
 
 	@Override

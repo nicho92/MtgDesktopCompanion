@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.apache.mina.core.session.IoSession;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.console.AbstractCommand;
@@ -21,20 +20,18 @@ public class Shake extends AbstractCommand {
 	}
 
 	@Override
-	public void run(String[] array, IoSession session, MTGConsoleHandler mtgConsoleHandler)
-			throws ParseException, IOException {
+	public Object run(String[] array)throws ParseException, IOException {
 		CommandLine cl = parser.parse(opts, array);
-		this.session = session;
-
 		if (cl.hasOption("f")) {
 			String att = cl.getOptionValue("f");
 			List<CardShake> list = MTGControler.getInstance().getEnabledDashBoard().getShakerFor(MTGFormat.valueOf(att));
-			session.write(showList(list, Arrays.asList(MTGConsoleHandler.getAttShake())));
+			return (showList(list, Arrays.asList(MTGConsoleHandler.getAttShake())));
 		}
 
 		if (cl.hasOption("?")) {
-			usage();
+			return usage();
 		}
+		return null;
 	}
 
 	@Override
