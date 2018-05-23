@@ -81,9 +81,13 @@ Try your deck in game simulator :
 Create deck in sealed format :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/sealed.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/sealed.png)
 
+get your companion in discoard's channels
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/discord.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/discord.png)
+
+
+
 
 Generate Website of your collections :
-
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website.png)
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website2.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/website2.png)
 
