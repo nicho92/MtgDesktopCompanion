@@ -14,12 +14,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
-import org.magic.api.notifiers.impl.DiscordNotifier;
-import org.magic.console.Command;
-import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
 import org.magic.sorters.MagicPricesComparator;
-import org.magic.tools.ArgsLineParser;
 import org.magic.tools.ColorParser;
 
 import net.dv8tion.jda.core.AccountType;
@@ -34,10 +30,10 @@ import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
 public class DiscordBotServer extends AbstractMTGServer {
 
+	private static final String SEARCHING = "OK i'm looking for it ! (let me few seconds...)";
+	private static final String REGEX = "\\{(.*?)\\}";
 	private JDA jda;
 	private ListenerAdapter listener;
-	
-	private static String regex = "\\{(.*?)\\}";
 	
 	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
@@ -63,7 +59,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 				
 				MessageChannel channel = event.getChannel();
 				
-					Pattern p = Pattern.compile(regex);
+					Pattern p = Pattern.compile(REGEX);
 					Matcher m = p.matcher(event.getMessage().getContentRaw());
 					while(m.find())
 					{
@@ -76,6 +72,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 							name=name.substring(0, name.indexOf('|'));
 						}
 						try{
+							if(getBoolean("SHOWPRICE"))
+								channel.sendMessage(SEARCHING).queue();
+							
 							MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name, ed, false).get(0);
 							channel.sendMessage(parseCard(mc)).queue();
 						}
@@ -98,21 +97,21 @@ public class DiscordBotServer extends AbstractMTGServer {
 		EmbedBuilder eb = new EmbedBuilder();
 		eb.setTitle(mc.getName()+ " " + mc.getCost());
 		eb.setColor(ColorParser.getColorParse(mc.getColors()));
-		eb.setDescription(mc.getText()+"\n");
-		
+		eb.getDescriptionBuilder().append(mc.getTypes().get(0)+"\n");
+		eb.getDescriptionBuilder().append(mc.getText()+"\n");
+		eb.getDescriptionBuilder().append("\n**Editions**: ");
+		mc.getEditions().forEach(me->eb.getDescriptionBuilder().append(me.getId()).append(","));
+		try {
+			eb.getDescriptionBuilder().append("\n**Collections :**"+MTGControler.getInstance().getEnabledDAO().listCollectionFromCards(mc).toString());
+		} catch (SQLException e) {
+			logger.error(e);
+		}
+	
 		if(getString("THUMBNAIL_IMAGE").equalsIgnoreCase("THUMBNAIL"))
 			eb.setThumbnail("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+mc.getCurrentSet().getMultiverseid()+"&type=card");
 		else
 			eb.setImage("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+mc.getCurrentSet().getMultiverseid()+"&type=card");
 		
-		eb.getDescriptionBuilder().append("\n**Editions**: ");
-		mc.getEditions().forEach(me->eb.getDescriptionBuilder().append(me.getId()).append(","));
-		
-		try {
-			eb.setFooter("Collections :"+MTGControler.getInstance().getEnabledDAO().listCollectionFromCards(mc).toString(),null);
-		} catch (SQLException e) {
-			logger.error(e);
-		}
 		
 		if(getBoolean("SHOWPRICE"))
 			MTGControler.getInstance().getEnabledPricers().forEach(prov->{
@@ -125,8 +124,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 					}
 				}
 			);
-		
-		logger.debug(eb.build().toJSONObject());
+	
+		logger.trace("sended json="+eb.build().toJSONObject());
 		
 		return eb.build();
 	}
