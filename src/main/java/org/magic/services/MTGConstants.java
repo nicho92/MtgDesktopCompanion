@@ -66,6 +66,7 @@ public class MTGConstants {
 	public static final String ICON_DIR="/icons";
 	public static final String MTG_REPORTS_DIR = "/report";
 	
+	public static final String COMMANDS_PACKAGE = "org.magic.console.commands";
 	
 	public static final SearchMode SEARCH_MODE = SearchMode.REGULAR;
 

@@ -11,7 +11,9 @@ import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.magic.servers.impl.ConsoleServer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ArgsLineParser;
 
 public class MTGConsoleHandler extends IoHandlerAdapter {
 
@@ -74,7 +76,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 
 	public static Command commandFactory(String name) throws ClassNotFoundException, InstantiationException,IllegalAccessException, InvocationTargetException, NoSuchMethodException {
 		String clazz = StringUtils.capitalize(name);
-		Class myCommand = ConsoleServer.class.getClassLoader().loadClass("org.magic.console.commands." + clazz);
+		Class myCommand = MTGConsoleHandler.class.getClassLoader().loadClass(MTGConstants.COMMANDS_PACKAGE +"." + clazz);
 		return (Command) myCommand.getDeclaredConstructor().newInstance();
 	}
 
@@ -91,7 +93,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 			session.write("\033[2J");
 		} else {
 			String line = message.toString();
-			String[] commandeLine = line.split(" ");
+			String[] commandeLine = ArgsLineParser.translateCommandline(line);
 			Command c = commandFactory(commandeLine[0]);
 			session.write(c.run(commandeLine));
 			c.quit();

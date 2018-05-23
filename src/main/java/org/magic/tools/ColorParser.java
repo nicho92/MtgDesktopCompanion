@@ -1,5 +1,8 @@
 package org.magic.tools;
 
+import java.awt.Color;
+import java.util.List;
+
 public class ColorParser {
 
 	private ColorParser() {
@@ -20,6 +23,29 @@ public class ColorParser {
 		return "{C}";
 	}
 
+	public static Color getColorParse(List<String> fullColorName)
+	{
+		
+		if(fullColorName.size()>1)
+			return Color.YELLOW;
+		
+		if(fullColorName.isEmpty())
+			return new Color(139,69,19);
+			
+			
+		if(fullColorName.get(0).equalsIgnoreCase("blue"))
+			return Color.BLUE;
+		else if (fullColorName.get(0).equalsIgnoreCase("black"))
+			return Color.BLACK;
+		else if (fullColorName.get(0).equalsIgnoreCase("red"))
+			return Color.RED;
+		else if (fullColorName.get(0).equalsIgnoreCase("green"))
+			return Color.GREEN;
+		
+		return Color.WHITE;
+	}
+	
+	
 	public static String getNameByCode(String code) {
 		if (code == null)
 			return "";
@@ -36,6 +62,11 @@ public class ColorParser {
 			return "Green";
 
 		return "";
+	}
+
+	public static Color getColorParse() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

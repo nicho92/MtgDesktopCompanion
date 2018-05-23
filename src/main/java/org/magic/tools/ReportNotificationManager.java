@@ -2,6 +2,7 @@ package org.magic.tools;
 
 import java.io.StringWriter;
 import java.io.Writer;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,6 +35,14 @@ public class ReportNotificationManager {
 			}
 			
 	}
+	
+	public <T> String generate(FORMAT_NOTIFICATION f, T obj, Class<T> type)
+	{
+		List<T> t = new ArrayList<>();
+		t.add(obj);
+		return generate(f, t, type);
+	}
+	
 	
 	
 	public <T> String generate(FORMAT_NOTIFICATION f, List<T> list, Class<T> type)

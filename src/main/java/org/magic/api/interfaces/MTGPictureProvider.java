@@ -15,5 +15,8 @@ public interface MTGPictureProvider extends MTGPlugin {
 	public BufferedImage getBackPicture();
 
 	public BufferedImage extractPicture(MagicCard mc) throws IOException;
+	
+//	public String getURLPicture(MagicCard mc, MagicEdition ed)throws IOException;
+	
 
 }

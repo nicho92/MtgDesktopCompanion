@@ -1,59 +1,51 @@
 package org.magic.console.commands;
 
+
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.apache.commons.lang3.ArrayUtils;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.beans.MagicEdition;
 import org.magic.console.AbstractCommand;
+import org.magic.console.MTGConsoleHandler;
+import org.magic.services.MTGControler;
 
 public class Get extends AbstractCommand {
 
-	
-	public static void main(String[] args) 
-	{
-		
-		String command ="coucou --n test emrak -s Rise of Eldrazi -c";
-		
-		String[] split=command.split(" ");
-		
-		for(int i=0;i<split.length;i++)
-		{
-			String arg=split[i];
-			if(!arg.startsWith("-"))
-			{	
-				StringBuilder temp=new StringBuilder();
-				int y=i;
-				while(y<split.length && !split[y].startsWith("-"))
-					temp.append(split[y++]).append(" ");
-				
-				arg=temp.toString().trim();
-				
-				
-			}
-			else
-			{
-				System.out.println(arg);
-			}
-			
-			
-		}
-		
-		
-		//new Get().run(command.split(" "));
-	}
-	
-	
 	public Get() {
 		
 		opts.addOption("n", "name", true, "get Card by name");
-		opts.addOption("s", "set", true, "show all sets");
+		opts.addOption("s", "strict", false, "strict search");
+		opts.addOption("e", "edition", true, "search in edition");
 		opts.addOption("?", "help", false, "help for command");
 	}
 	
 	@Override
-	public Object run(String[] array) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException
+	public Object run(String[] array) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
 	{	
-		 CommandLine line = parser.parse(opts, array);
-				System.out.println(line.getOptionValue("s"));
+		CommandLine cl = parser.parse(opts, array);
+		
+		String name=null;
+		MagicEdition edition=null;
+		boolean strict=cl.hasOption("s");
+		
+		if (cl.hasOption("n")) {
+			name = cl.getOptionValue("n");
+		}
+		
+		if (cl.hasOption("e")) {
+			edition = new MagicEdition();
+			edition.setId(cl.getOptionValue("e"));
+		}
+		
+		if(name!=null)
+		{
+			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name,edition, strict).get(0);
+		}
+		
 		return null;
 	}
 
