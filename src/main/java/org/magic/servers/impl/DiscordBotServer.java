@@ -55,9 +55,9 @@ public class DiscordBotServer extends AbstractMTGServer {
 				if (event.getAuthor().isBot()) 
 					return;
 				
-				logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
+					logger.debug("Received message :" + event.getMessage().getContentRaw() + " from " + event.getAuthor().getName()+ " in #" + event.getChannel().getName());
 				
-				MessageChannel channel = event.getChannel();
+					MessageChannel channel = event.getChannel();
 				
 					Pattern p = Pattern.compile(REGEX);
 					Matcher m = p.matcher(event.getMessage().getContentRaw());
