@@ -62,7 +62,7 @@ public class Collection extends AbstractCommand {
 				else
 					pc = (double) model.getMapCount().get(ed) / 1;
 
-				obj.add("pc", new JsonPrimitive(pc));
+				obj.add("pc", new JsonPrimitive(pc*100));
 
 				arr.add(obj);
 			}
