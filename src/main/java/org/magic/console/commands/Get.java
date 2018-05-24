@@ -10,9 +10,11 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.console.AbstractCommand;
 import org.magic.services.MTGControler;
 
+import com.google.gson.JsonElement;
+
 public class Get extends AbstractCommand {
 
-	public Get() {
+	public void initOptions() {
 		opts.addOption("n", "name", true, "get Card by name");
 		opts.addOption("e", "equal", false, "strict search");
 		opts.addOption("s", "set", true, "search in edition");
@@ -20,7 +22,7 @@ public class Get extends AbstractCommand {
 	}
 	
 	@Override
-	public Object run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
+	public JsonElement run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
 	{	
 
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
@@ -29,7 +31,6 @@ public class Get extends AbstractCommand {
 		String name=null;
 		MagicEdition edition=null;
 		boolean strict=cl.hasOption("e");
-		
 		
 		if(cl.getOptions().length==0)
 		{
@@ -49,7 +50,7 @@ public class Get extends AbstractCommand {
 		if(name!=null)
 		{
 			try {
-				return MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name,edition, strict).get(0);
+				return json.toJsonTree(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name,edition, strict).get(0));
 			}catch(Exception e)
 			{
 				return null;
@@ -59,11 +60,6 @@ public class Get extends AbstractCommand {
 		return null;
 	}
 
-	
 
-	@Override
-	public String getCommandName() {
-		return "get";
-	}
 
 }

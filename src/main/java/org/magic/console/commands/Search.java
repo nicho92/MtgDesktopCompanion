@@ -11,9 +11,11 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.console.AbstractCommand;
 import org.magic.services.MTGControler;
 
+import com.google.gson.JsonElement;
+
 public class Search extends AbstractCommand {
 
-	public Search() {
+	public void initOptions()  {
 		opts.addOption("c", "cards", true, "search cards");
 		opts.addOption("s", "set", false, "show all sets");
 		opts.addOption("col", "cols", false, "show all collections");
@@ -21,7 +23,7 @@ public class Search extends AbstractCommand {
 	}
 
 	@Override
-	public Object run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+	public JsonElement run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
 	
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
 		
@@ -30,11 +32,11 @@ public class Search extends AbstractCommand {
 		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(att, val, null,false);
+			return json.toJsonTree(MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(att, val, null,false));
 		}
 
 		if (cl.hasOption("s")) {
-			return MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
+			return json.toJsonTree(MTGControler.getInstance().getEnabledCardsProviders().loadEditions());
 		}
 
 		if (cl.hasOption("col")) {
@@ -44,18 +46,14 @@ public class Search extends AbstractCommand {
 			} catch (SQLException e) {
 				throw new IOException(e);
 			}
-			return list;
+			return json.toJsonTree(list);
 		}
 
 		if (cl.hasOption("?")) {
 			return usage();
 		}
-		return "unknow";
+		return null;
 	}
 
-	@Override
-	public String getCommandName() {
-		return "search";
-	}
 
 }

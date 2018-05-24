@@ -182,6 +182,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 	{
 		setProperty("TOKEN","");
 		setProperty("AUTOSTART", "false");
+		setProperty("SHOW_WAITING_MESSAGE", "false");
 		setProperty("SHOWPRICE", "true");
 		setProperty("THUMBNAIL_IMAGE", "THUMBNAIL");
 	}

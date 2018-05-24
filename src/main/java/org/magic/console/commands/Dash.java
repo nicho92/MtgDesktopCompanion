@@ -12,18 +12,23 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.console.AbstractCommand;
 import org.magic.services.MTGControler;
 
+import com.google.gson.JsonElement;
+
 public class Dash extends AbstractCommand {
 
-	public Dash() {
+	@Override
+	public void initOptions() {
 		opts.addOption("f", "format", true, "get trending for a format");
 		opts.addOption("c", "card", true, "get trending for a card");
 		opts.addOption("s", "set", true, "get trending for a set");
 		opts.addOption("t", "trending", true, "get trending for a set");
 		opts.addOption("?", "help", false, "help for command");
+		
 	}
 
+
 	@Override
-	public Object run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
+	public JsonElement run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
 	{	
 
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
@@ -32,12 +37,12 @@ public class Dash extends AbstractCommand {
 		
 		if (cl.hasOption("f")) {
 			MTGFormat f = MTGFormat.valueOf(cl.getOptionValue("f"));
-			return MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f);
+			return json.toJsonTree(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f));
 		}
 		
 		if (cl.hasOption("s")) {
 			MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(cl.getOptionValue("s"));
-			return MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed);
+			return json.toJsonTree(MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed));
 		}
 		
 		if (cl.hasOption("c")) {
@@ -46,16 +51,11 @@ public class Dash extends AbstractCommand {
 				ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(cl.getOptionValue("s"));
 			
 			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
-			return MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, ed);
+			return json.toJsonTree(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, ed));
 		}
 		return null;
 	}
 
-	
 
-	@Override
-	public String getCommandName() {
-		return "dash";
-	}
 
 }
