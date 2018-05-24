@@ -3,16 +3,17 @@ package org.magic.console.commands;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
+import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.console.AbstractCommand;
+import org.magic.console.CommandResponse;
 import org.magic.services.MTGControler;
-
-import com.google.gson.JsonElement;
 
 public class Dash extends AbstractCommand {
 
@@ -28,7 +29,7 @@ public class Dash extends AbstractCommand {
 
 
 	@Override
-	public JsonElement run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
+	public CommandResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
 	{	
 
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
@@ -36,13 +37,13 @@ public class Dash extends AbstractCommand {
 		CommandLine cl = parser.parse(opts, args);
 		
 		if (cl.hasOption("f")) {
-			MTGFormat f = MTGFormat.valueOf(cl.getOptionValue("f"));
-			return json.toJsonTree(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f));
+			MTGFormat f = MTGFormat.valueOf(cl.getOptionValue("f").toUpperCase());
+			return new CommandResponse(CardShake.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f)));
 		}
 		
-		if (cl.hasOption("s")) {
+		if (cl.hasOption("s") && !cl.hasOption("c")) {
 			MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(cl.getOptionValue("s"));
-			return json.toJsonTree(MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed));
+			return new CommandResponse(CardShake.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed)));
 		}
 		
 		if (cl.hasOption("c")) {
@@ -51,7 +52,11 @@ public class Dash extends AbstractCommand {
 				ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(cl.getOptionValue("s"));
 			
 			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
-			return json.toJsonTree(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, ed));
+			return new CommandResponse(Map.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, ed)));
+		}
+		
+		if (cl.hasOption("?")) {
+			return usage();
 		}
 		return null;
 	}

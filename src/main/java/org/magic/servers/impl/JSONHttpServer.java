@@ -39,7 +39,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.sorters.CardsEditionSorter;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
@@ -64,7 +63,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	private ByteArrayOutputStream baos;
 	private boolean running = false;
 	private static final String RETURN_OK = "{\"result\":\"OK\"}";
-	private Gson converter;
+	private JsonExport converter;
 
 	private String error(String msg) {
 		return "{\"error\":\"" + msg + "\"}";
@@ -74,7 +73,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		super();
 
 		manager = new MTGDeckManager();
-		converter = new Gson();
+		converter = new JsonExport();
 		transformer = new ResponseTransformer() {
 			@Override
 			public String render(Object model) throws Exception {
@@ -286,7 +285,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			double pc = 0;
 			for (MagicEdition ed : eds) {
 				JsonObject obj = new JsonObject();
-				obj.add("edition", converter.toJsonTree(ed));
+				obj.add("edition", converter.toJsonElement(ed));
 				obj.addProperty("release", ed.getReleaseDate());
 				obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
 				obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
@@ -383,12 +382,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			JsonObject obj = new JsonObject();
 
-			obj.add("cmc", converter.toJsonTree(manager.analyseCMC(d.getAsList())));
-			obj.add("types", converter.toJsonTree(manager.analyseTypes(d.getAsList())));
-			obj.add("rarity", converter.toJsonTree(manager.analyseRarities(d.getAsList())));
-			obj.add("colors", converter.toJsonTree(manager.analyseColors(d.getAsList())));
-			obj.add("legalities", converter.toJsonTree(manager.analyseLegalities(d)));
-			obj.add("drawing", converter.toJsonTree(manager.analyseDrawing(d)));
+			obj.add("cmc", converter.toJsonElement(manager.analyseCMC(d.getAsList())));
+			obj.add("types", converter.toJsonElement(manager.analyseTypes(d.getAsList())));
+			obj.add("rarity", converter.toJsonElement(manager.analyseRarities(d.getAsList())));
+			obj.add("colors", converter.toJsonElement(manager.analyseColors(d.getAsList())));
+			obj.add("legalities", converter.toJsonElement(manager.analyseLegalities(d)));
+			obj.add("drawing", converter.toJsonElement(manager.analyseDrawing(d)));
 			return obj;
 
 		}, transformer);
@@ -479,7 +478,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.addProperty("enabled", plug.isEnable());
 			obj.addProperty("version", plug.getVersion());
 			obj.addProperty("status", plug.getStatut().name());
-			obj.add("config", converter.toJsonTree(plug.getProperties()));
+			obj.add("config", converter.toJsonElement(plug.getProperties()));
 			arr.add(obj);
 		}
 		return arr;

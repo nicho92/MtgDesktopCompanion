@@ -19,6 +19,7 @@ import org.magic.services.MTGConstants;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
@@ -26,6 +27,12 @@ import com.google.gson.stream.JsonReader;
 
 public class JsonExport extends AbstractCardExport {
 
+	private Gson gson;
+	
+	public JsonExport() {
+		super();
+		gson=new Gson();
+	}
 	
 
 	@Override
@@ -76,8 +83,17 @@ public class JsonExport extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
-
 		FileUtils.writeStringToFile(dest, toJson(deck).toString(), MTGConstants.DEFAULT_ENCODING);
+	}
+	
+	public String toJson(Object o)
+	{
+		return gson.toJson(o);
+	}
+	
+	public JsonElement toJsonElement(Object o)
+	{
+		return gson.toJsonTree(o);
 	}
 
 	public JsonObject toJson(MagicDeck deck) {

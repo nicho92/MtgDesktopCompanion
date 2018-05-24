@@ -6,11 +6,11 @@ import java.util.Arrays;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.console.AbstractCommand;
+import org.magic.console.CommandResponse;
 import org.magic.services.MTGControler;
-
-import com.google.gson.JsonElement;
 
 public class Get extends AbstractCommand {
 
@@ -22,7 +22,7 @@ public class Get extends AbstractCommand {
 	}
 	
 	@Override
-	public JsonElement run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
+	public CommandResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
 	{	
 
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
@@ -50,9 +50,10 @@ public class Get extends AbstractCommand {
 		if(name!=null)
 		{
 			try {
-				return json.toJsonTree(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name,edition, strict).get(0));
+				return new CommandResponse(MagicCard.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name,edition, strict).get(0)));
 			}catch(Exception e)
 			{
+				logger.error(e);
 				return null;
 			}
 		}

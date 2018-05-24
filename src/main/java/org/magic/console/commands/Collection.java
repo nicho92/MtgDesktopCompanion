@@ -8,14 +8,15 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
+import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.console.AbstractCommand;
+import org.magic.console.CommandResponse;
 import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonPrimitive;
 
@@ -31,13 +32,13 @@ public class Collection extends AbstractCommand {
 	}
 	
 	@Override
-	public JsonElement run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,ParseException, IOException, InvocationTargetException, NoSuchMethodException {
+	public CommandResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,ParseException, IOException, InvocationTargetException, NoSuchMethodException {
 	
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
 		CommandLine cl = parser.parse(opts, args);
 		if (cl.hasOption("l")) {
 			try {
-				return json.toJsonTree(MTGControler.getInstance().getEnabledDAO().getCollections());
+				return new CommandResponse(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDAO().getCollections()));
 			} catch (SQLException e) {
 				return null;
 			}
@@ -65,7 +66,18 @@ public class Collection extends AbstractCommand {
 
 				arr.add(obj);
 			}
-			return arr;
+			return new CommandResponse(JsonArray.class, Arrays.asList("edition","release","qty","cardNumber","defaultLibrary","pc"), arr);
+		}
+		
+		if (cl.hasOption("l")) {
+			try {
+				return new CommandResponse(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDAO().getCollections()));
+			} catch (SQLException e) {
+				return null;
+			}
+		}
+		if (cl.hasOption("?")) {
+			return usage();
 		}
 		
 		return null;

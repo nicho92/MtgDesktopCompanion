@@ -5,13 +5,11 @@ import java.lang.reflect.InvocationTargetException;
 
 import org.apache.commons.cli.ParseException;
 
-import com.google.gson.JsonElement;
-
 public interface Command {
 
-	public JsonElement run(String[] array) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException,InvocationTargetException, NoSuchMethodException;
+	public CommandResponse run(String[] array) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException,InvocationTargetException, NoSuchMethodException;
 
-	public JsonElement usage();
+	public CommandResponse usage();
 
 	public void quit();
 

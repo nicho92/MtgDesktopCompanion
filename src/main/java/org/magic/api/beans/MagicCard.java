@@ -5,17 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MagicCard implements Serializable {
-
-	/**
-	* 
-	*/
-
 	public enum LAYOUT {
 		NORMAL, TOKEN, EMBLEM
 	}
-
 	private static final long serialVersionUID = 1L;
-	private String name;
+	private String name="";
 	private String id;
 	private String url;
 	private List<String> supertypes;
@@ -24,18 +18,18 @@ public class MagicCard implements Serializable {
 	private List<String> colors;
 	private List<MagicCardNames> foreignNames;
 	private Integer cmc;
-	private String cost;
-	private String text;
+	private String cost="";
+	private String text="";
 	private List<MagicEdition> editions;
-	private String originalText;
-	private String originalType;
+	private String originalText="";
+	private String originalType="";
 	private String power="";
 	private String toughness="";
 	private Integer loyalty;
 	private String artist="";
 	private String flavor="";
 	private List<MagicRuling> rulings;
-	private String number;
+	private String number="";
 	private List<Integer> variations;
 	private List<String> colorIdentity;
 	private String watermarks;
@@ -53,7 +47,10 @@ public class MagicCard implements Serializable {
 	private boolean reserved;
 
 	public MagicEdition getCurrentSet() {
-		return getEditions().get(0);
+		if(!getEditions().isEmpty())
+			return getEditions().get(0);
+		
+		return null;
 	}
 	
 	public static boolean isBasicLand(String cardName)
@@ -146,7 +143,6 @@ public class MagicCard implements Serializable {
 		variations = new ArrayList<>();
 		colorIdentity = new ArrayList<>();
 		legalities = new ArrayList<>();
-
 	}
 
 	public String getOriginalText() {
