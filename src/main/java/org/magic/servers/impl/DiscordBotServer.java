@@ -83,12 +83,8 @@ public class DiscordBotServer extends AbstractMTGServer {
 							logger.error(e);
 							channel.sendMessage("Sorry i can't found "+name ).queue();
 						}
-
 					}
-			
-				
 			}
-
 		};
 	}
 	

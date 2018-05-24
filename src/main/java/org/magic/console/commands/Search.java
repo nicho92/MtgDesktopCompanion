@@ -7,11 +7,8 @@ import java.util.List;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
-import org.magic.api.beans.MagicEdition;
 import org.magic.console.AbstractCommand;
-import org.magic.console.MTGConsoleHandler;
 import org.magic.services.MTGControler;
 
 public class Search extends AbstractCommand {
@@ -25,17 +22,19 @@ public class Search extends AbstractCommand {
 
 	@Override
 	public Object run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+	
+		logger.debug("running "+ this +" with " + Arrays.asList(args));
+		
 		CommandLine cl = parser.parse(opts, args);
+		
 		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			List<MagicCard> list = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(att, val, null,false);
-			return showList(list, Arrays.asList(MTGConsoleHandler.getAttCards()));
+			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(att, val, null,false);
 		}
 
 		if (cl.hasOption("s")) {
-			List<MagicEdition> list = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
-			return(showList(list, Arrays.asList(MTGConsoleHandler.getAttSet())));
+			return MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
 		}
 
 		if (cl.hasOption("col")) {
@@ -45,7 +44,7 @@ public class Search extends AbstractCommand {
 			} catch (SQLException e) {
 				throw new IOException(e);
 			}
-			return (showList(list, Arrays.asList(MTGConsoleHandler.getAttCols())));
+			return list;
 		}
 
 		if (cl.hasOption("?")) {

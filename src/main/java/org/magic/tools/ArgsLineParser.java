@@ -16,8 +16,9 @@ public class ArgsLineParser {
 	}
 	
 	
-	public static String[] translateCommandline(final String toProcess) 
+	public static String[] translateCommandline(String toProcess) 
 	{
+		
         if (toProcess == null || toProcess.isEmpty()) {
           return new String[0];
         }

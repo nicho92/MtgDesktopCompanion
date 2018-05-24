@@ -61,7 +61,7 @@ public class ConsoleServer extends AbstractMTGServer {
 
 	@Override
 	public String getName() {
-		return "Console Server";
+		return "Console";
 	}
 
 	@Override
