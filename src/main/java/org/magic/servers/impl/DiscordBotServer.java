@@ -94,6 +94,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 		eb.setTitle(mc.getName()+ " " + mc.getCost());
 		eb.setColor(ColorParser.getColorParse(mc.getColors()));
 		eb.getDescriptionBuilder().append(mc.getTypes().get(0)+"\n");
+		eb.getDescriptionBuilder().append("Reserved :");
+		if(mc.isReserved())
+			eb.getDescriptionBuilder().append(":white_check_mark: \n");
+		else
+			eb.getDescriptionBuilder().append(":no_entry_sign:  \n");
+		
 		eb.getDescriptionBuilder().append(mc.getText()+"\n");
 		eb.getDescriptionBuilder().append("\n**Editions**: ");
 		mc.getEditions().forEach(me->eb.getDescriptionBuilder().append(me.getId()).append(","));
