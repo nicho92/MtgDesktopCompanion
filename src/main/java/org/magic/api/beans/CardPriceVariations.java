@@ -9,8 +9,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-import com.google.common.collect.Iterables;
-
 public class CardPriceVariations {
 
 	private Map<Date,Double> variations;
@@ -21,6 +19,9 @@ public class CardPriceVariations {
 	
 	private Date getLastValueAt(int val)
 	{
+		if(variations.isEmpty())
+			return null;
+		
 		List<Entry<Date, Double>> res = asList();
 		return res.get(res.size()-val).getKey();
 	}
@@ -37,7 +38,7 @@ public class CardPriceVariations {
 	
 	public Date getLastDay()
 	{
-		return Iterables.getLast(variations.keySet());
+		return getLastValueAt(1);
 	}
 	
 	public List<Entry<Date, Double>> asList()
