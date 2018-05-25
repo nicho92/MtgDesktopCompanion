@@ -10,22 +10,22 @@ import com.google.gson.JsonObject;
 
 import de.vandermeer.asciitable.AsciiTable;
 
-public class CommandResponse {
+public class CommandResponse<T> {
 	
 	private JsonElement element;
 	private List<String> attributes;
-	private Class classe;
+	private Class<T> classe;
 	
 	public boolean isList()
 	{
 		return element.isJsonArray();
 	}
 	
-	public Class getClasse() {
+	public Class<T> getClasse() {
 		return classe;
 	}
 	
-	public void setClasse(Class classe) {
+	public void setClasse(Class<T> classe) {
 		this.classe = classe;
 	}
 	
@@ -34,7 +34,7 @@ public class CommandResponse {
 		attributes=new ArrayList<>();
 	}
 	
-	public CommandResponse(Class cls, List<String> attributes, JsonElement element)
+	public CommandResponse(Class<T> cls, List<String> attributes, JsonElement element)
 	{
 		this.classe=cls;
 		this.attributes=attributes;

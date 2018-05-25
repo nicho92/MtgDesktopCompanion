@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
-import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.Jsoup;
@@ -19,6 +18,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
@@ -49,11 +49,11 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		return Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).timeout(getInt(TIMEOUT)).get();
 	}
 
-	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		stop = false;
 		String url = "";
-		Map<Date, Double> historyPrice = new TreeMap<>();
+		CardPriceVariations historyPrice = new CardPriceVariations();
 		int index = 0;
 
 		if (me == null)

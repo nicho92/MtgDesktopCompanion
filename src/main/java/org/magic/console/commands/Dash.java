@@ -29,7 +29,7 @@ public class Dash extends AbstractCommand {
 
 
 	@Override
-	public CommandResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
+	public CommandResponse<?> run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException
 	{	
 
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
@@ -38,12 +38,12 @@ public class Dash extends AbstractCommand {
 		
 		if (cl.hasOption("f")) {
 			MTGFormat f = MTGFormat.valueOf(cl.getOptionValue("f").toUpperCase());
-			return new CommandResponse(CardShake.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f)));
+			return new CommandResponse<>(CardShake.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getShakerFor(f)));
 		}
 		
 		if (cl.hasOption("s") && !cl.hasOption("c")) {
 			MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(cl.getOptionValue("s"));
-			return new CommandResponse(CardShake.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed)));
+			return new CommandResponse<>(CardShake.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed)));
 		}
 		
 		if (cl.hasOption("c")) {
@@ -52,7 +52,7 @@ public class Dash extends AbstractCommand {
 				ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(cl.getOptionValue("s"));
 			
 			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
-			return new CommandResponse(Map.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, ed)));
+			return new CommandResponse<>(Map.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, ed)));
 		}
 		
 		if (cl.hasOption("?")) {

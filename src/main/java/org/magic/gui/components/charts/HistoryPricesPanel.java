@@ -25,6 +25,7 @@ import org.jfree.data.time.Day;
 import org.jfree.data.time.TimeSeries;
 import org.jfree.data.time.TimeSeriesCollection;
 import org.jfree.data.time.TimeSeriesDataItem;
+import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -39,7 +40,7 @@ public class HistoryPricesPanel extends JPanel {
 	private JCheckBox chckbxShowAllDashboard;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private ChartPanel pane;
-	private Map<Date, Double> map;
+	private CardPriceVariations map;
 	private String title;
 	private MagicCard mc;
 	private MagicEdition me;
@@ -115,7 +116,7 @@ public class HistoryPricesPanel extends JPanel {
 			for (MTGDashBoard d : MTGControler.getInstance().getDashboardsProviders()) 
 			{
 				TimeSeries series = new TimeSeries(d.getName());
-				Map<Date, Double> mapTime;
+				CardPriceVariations mapTime;
 				try {
 					mapTime = d.getPriceVariation(mc, me);
 					if (mapTime != null) {

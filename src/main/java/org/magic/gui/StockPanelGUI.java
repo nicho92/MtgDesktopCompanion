@@ -335,8 +335,7 @@ public class StockPanelGUI extends JPanel {
 				Collection<Double> prices;
 				Double price = 0.0;
 				try {
-					prices = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(s.getMagicCard(), null)
-							.values();
+					prices = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(s.getMagicCard(), null).values();
 					if (!prices.isEmpty())
 						price = (Double) prices.toArray()[prices.size() - 1];
 					else

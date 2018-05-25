@@ -14,6 +14,7 @@ import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
@@ -123,12 +124,12 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
 		
 		if(mc==null)
 		{
 			logger.error("couldn't calculate edition only");
-			return new TreeMap<>();
+			return new CardPriceVariations();
 		}
 		
 		
@@ -162,15 +163,15 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		String urlP = MTGSTOCK_API_URI + "/prints/" + id + "/prices";
 		con = getConnection(urlP);
 
-		Map<Date, Double> ret = extractPrice(
+		CardPriceVariations ret = extractPrice(
 				parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject());
 		con.disconnect();
 		return ret;
 	}
 
-	private Map<Date, Double> extractPrice(JsonObject obj) {
+	private CardPriceVariations extractPrice(JsonObject obj) {
 		JsonArray arr = obj.get(getString("CARD_PRICES_SHAKER")).getAsJsonArray();
-		Map<Date, Double> prices = new TreeMap<>();
+		CardPriceVariations prices = new CardPriceVariations();
 		Calendar cal = GregorianCalendar.getInstance();
 
 		for (JsonElement el : arr) {

@@ -24,7 +24,7 @@ public class Search extends AbstractCommand {
 	}
 
 	@Override
-	public CommandResponse run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
+	public CommandResponse<?> run(String[] args)throws ParseException, ClassNotFoundException, InstantiationException, IllegalAccessException, IOException {
 	
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
 		
@@ -33,11 +33,11 @@ public class Search extends AbstractCommand {
 		if (cl.hasOption("c")) {
 			String att = cl.getOptionValue("c").split("=")[0];
 			String val = cl.getOptionValue("c").split("=")[1];
-			return new CommandResponse(MagicCard.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(att, val, null,false)));
+			return new CommandResponse<>(MagicCard.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(att, val, null,false)));
 		}
 
 		if (cl.hasOption("s")) {
-			return new CommandResponse(MagicEdition.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledCardsProviders().loadEditions()));
+			return new CommandResponse<>(MagicEdition.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledCardsProviders().loadEditions()));
 		}
 
 		if (cl.hasOption("col")) {
@@ -47,7 +47,7 @@ public class Search extends AbstractCommand {
 			} catch (SQLException e) {
 				throw new IOException(e);
 			}
-			return new CommandResponse(MagicCollection.class, null,json.toJsonElement(list));
+			return new CommandResponse<>(MagicCollection.class, null,json.toJsonElement(list));
 		}
 
 		if (cl.hasOption("?")) {

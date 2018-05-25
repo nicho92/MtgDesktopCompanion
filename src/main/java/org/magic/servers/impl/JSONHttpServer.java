@@ -22,6 +22,7 @@ import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
 
+import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -307,8 +308,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().getCardById(request.params(":idCard"));
 
 			JsonArray arr = new JsonArray();
-			Map<Date, Double> res = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc,
-					mc.getCurrentSet());
+			CardPriceVariations res = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc,mc.getCurrentSet());
 
 			for (Entry<Date, Double> val : res.entrySet()) {
 				JsonObject obj = new JsonObject();

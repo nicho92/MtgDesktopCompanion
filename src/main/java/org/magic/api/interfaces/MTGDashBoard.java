@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
@@ -17,7 +18,7 @@ public interface MTGDashBoard extends MTGPlugin {
 
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException;
 
-	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
+	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException;
 
 	public List<CardDominance> getBestCards(MTGFormat f, String filter) throws IOException;
 

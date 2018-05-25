@@ -32,13 +32,13 @@ public class Collection extends AbstractCommand {
 	}
 	
 	@Override
-	public CommandResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,ParseException, IOException, InvocationTargetException, NoSuchMethodException {
+	public CommandResponse<?> run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,ParseException, IOException, InvocationTargetException, NoSuchMethodException {
 	
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
 		CommandLine cl = parser.parse(opts, args);
 		if (cl.hasOption("l")) {
 			try {
-				return new CommandResponse(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDAO().getCollections()));
+				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDAO().getCollections()));
 			} catch (SQLException e) {
 				return null;
 			}
@@ -66,12 +66,12 @@ public class Collection extends AbstractCommand {
 
 				arr.add(obj);
 			}
-			return new CommandResponse(JsonArray.class, Arrays.asList("edition","release","qty","cardNumber","defaultLibrary","pc"), arr);
+			return new CommandResponse<>(JsonArray.class, Arrays.asList("edition","release","qty","cardNumber","defaultLibrary","pc"), arr);
 		}
 		
 		if (cl.hasOption("l")) {
 			try {
-				return new CommandResponse(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDAO().getCollections()));
+				return new CommandResponse<>(MagicCollection.class, null, json.toJsonElement(MTGControler.getInstance().getEnabledDAO().getCollections()));
 			} catch (SQLException e) {
 				return null;
 			}

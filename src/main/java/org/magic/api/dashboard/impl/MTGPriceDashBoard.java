@@ -7,8 +7,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
-import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -16,6 +14,7 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.CardDominance;
+import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
@@ -169,9 +168,9 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	}
 
 	@Override
-	public Map<Date, Double> getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
+	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
 
-		Map<Date, Double> historyPrice = new TreeMap<>();
+		CardPriceVariations historyPrice = new CardPriceVariations();
 		String name = "";
 
 		if (mc == null)
