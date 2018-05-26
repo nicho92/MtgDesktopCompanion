@@ -2,6 +2,7 @@ package org.magic.gui.dashlet;
 
 import java.awt.BorderLayout;
 
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
@@ -21,7 +22,11 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 	
 	public MkmOversightDashlet() {
 		super();
-		setFrameIcon(new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/mkm.png")));
+	}
+	
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/mkm.png"));
 	}
 	
 	

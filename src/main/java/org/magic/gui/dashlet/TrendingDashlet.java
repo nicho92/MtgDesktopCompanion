@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -36,9 +37,9 @@ public class TrendingDashlet extends AbstractJDashlet {
 	private JBuzyLabel lblLoading;
 	private JLabel lblInfoUpdate;
 
-	public TrendingDashlet() {
-		super();
-		setFrameIcon(MTGConstants.ICON_EURO);
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_EURO;
 	}
 
 	public void initGUI() {

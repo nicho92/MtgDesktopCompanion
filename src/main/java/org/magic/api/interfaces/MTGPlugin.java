@@ -3,6 +3,8 @@ package org.magic.api.interfaces;
 import java.io.File;
 import java.util.Properties;
 
+import javax.swing.Icon;
+
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.utils.patterns.observer.Observer;
 
@@ -42,4 +44,6 @@ public interface MTGPlugin {
 	public void removeObservers();
 
 	public void removeObserver(Observer o);
+	
+	public Icon getIcon() ;
 }

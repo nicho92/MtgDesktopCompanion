@@ -7,6 +7,7 @@ import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -33,11 +34,12 @@ public class EditionsDashlet extends AbstractJDashlet {
 	private JComboBox<MagicEdition> cboEditions;
 	private EditionsShakerTableModel modEdition;
 
-	public EditionsDashlet() {
-		super();
-		setFrameIcon(MTGConstants.ICON_EURO);
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_EURO;
 	}
-
+	
+	
 	public void initGUI() {
 		JPanel panel = new JPanel();
 		getContentPane().add(panel, BorderLayout.NORTH);

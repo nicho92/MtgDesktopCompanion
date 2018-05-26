@@ -8,6 +8,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
+import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -29,12 +30,13 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 	private transient MTGEventProvider provider;
 	private Calendar c;
 
-	public MagicEventsDashlet() {
-		super();
-		setFrameIcon(MTGConstants.ICON_GAME);
 
+
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_GAME;
 	}
-
+	
 	public void initGUI() {
 
 		provider = new MTGEventProvider();

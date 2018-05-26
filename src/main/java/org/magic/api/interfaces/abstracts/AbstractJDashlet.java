@@ -37,7 +37,8 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 
 	public AbstractJDashlet() {
 		props = new Properties();
-
+		
+		setFrameIcon(getIcon());
 
 		if (!confdir.exists())
 		{

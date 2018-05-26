@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.Icon;
+
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
@@ -24,5 +26,8 @@ public interface MTGDashBoard extends MTGPlugin {
 	public Date getUpdatedDate();
 
 	public String[] getDominanceFilters();
+	
+	public Icon getIcon();
+	
 
 }

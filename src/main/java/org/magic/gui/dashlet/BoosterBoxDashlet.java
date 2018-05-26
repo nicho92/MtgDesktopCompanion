@@ -12,6 +12,7 @@ import java.util.Map.Entry;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
@@ -43,8 +44,12 @@ public class BoosterBoxDashlet extends AbstractJDashlet {
 
 	public BoosterBoxDashlet() {
 		super();
-		setFrameIcon(MTGConstants.ICON_DOLLARS);
 		doubleFormat = new DecimalFormat("#0.00");
+	}
+	
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_DOLLARS;
 	}
 
 	@Override

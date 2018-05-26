@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Rectangle;
 
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.Icon;
 import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -26,11 +27,12 @@ public class BestCardsDashlet extends AbstractJDashlet {
 	private JComboBox<String> cboFilter;
 	private JBuzyLabel lblLoading;
 
-	public BestCardsDashlet() {
-		super();
-		setFrameIcon(MTGConstants.ICON_UP);
+	
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_UP;
 	}
-
+	
 	@Override
 	public String getName() {
 		return "Most Played cards";

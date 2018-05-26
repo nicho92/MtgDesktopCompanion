@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Rectangle;
 
+import javax.swing.Icon;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
@@ -19,10 +20,12 @@ import org.magic.services.ThreadManager;
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 	private CardAlertTableModel model;
 
-	public AlertedCardsTrendingDashlet() {
-		super();
-		setFrameIcon(MTGConstants.ICON_ALERT);
+	
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_ALERT;
 	}
+	
 
 	@Override
 	public String getName() {

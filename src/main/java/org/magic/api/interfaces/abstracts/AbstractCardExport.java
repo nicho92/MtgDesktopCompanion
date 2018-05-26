@@ -62,12 +62,6 @@ public abstract class AbstractCardExport extends AbstractMTGPlugin implements MT
 		export(d, f);
 	}
 	
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/icons/plugins/"+getName().toLowerCase()+".png"));
-	}
-	
-	
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		MagicDeck d = new MagicDeck();
 		d.setName(f.getName());

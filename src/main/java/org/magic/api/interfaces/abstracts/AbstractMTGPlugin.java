@@ -5,9 +5,14 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.util.Properties;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import org.apache.log4j.Logger;
+import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.MTGPlugin;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
@@ -170,4 +175,16 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		// do nothing
 		
 	}
+	
+	@Override
+	public Icon getIcon() {
+		try {
+			return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/icons/plugins/"+getName().toLowerCase()+".png"));
+		}
+		catch(Exception e)
+		{
+			return new ImageIcon(MTGConstants.IMAGE_LOGO);
+		}
+	}
+	
 }

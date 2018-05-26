@@ -13,6 +13,8 @@ import org.magic.sorters.CardsEditionSorter;
 
 import com.google.common.collect.Lists;
 
+import de.vandermeer.asciitable.AsciiTable;
+
 public class SleeveCalculator {
 	
 	protected static Logger logger = MTGLogger.getLogger(SleeveCalculator.class);
@@ -40,13 +42,21 @@ public class SleeveCalculator {
 		int line=1;
 		int column=1;
 		int currentCard=1;
-		
 		String rv = "recto";
+		
+		AsciiTable table = new AsciiTable();
+		
+		table.addRule();
+		table.addRow("N°","Name","Sheet","column","row","recto/verso");
+		table.addRule();
+		table.getContext().setWidth(200);
 		for(List<MagicCard> currentPage : pages)
 		{	
 			for(MagicCard card : currentPage) 
 			{
-				System.out.println(currentCard+"\t"+card.getName() + "\tsheet="+currentSheet + "\tc="+column+ "\tl=" + line +"\t" + rv);
+				
+				table.addRow(currentCard,card.getName(),currentSheet,column,line,rv);
+				
 				column++;
 				if(column>c)
 				{
@@ -62,12 +72,12 @@ public class SleeveCalculator {
 				currentCard++;
 				
 			}
+			table.addRule();
 			currentSheet++;
-			System.out.println("");
-			
-			
-			
 		}
+		
+		
+		System.out.println(table.render());
 		
 		
 		
