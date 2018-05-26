@@ -62,20 +62,37 @@ public class MTGConstants {
 	public static final URL WEBUI_LOCATION = MTGConstants.class.getResource("/web-ui");
 	public static final String MTG_TEMPLATES_DIR = "./templates";
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
-	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_28;
 	public static final String ICON_DIR="/icons";
 	public static final String MTG_REPORTS_DIR = "/report";
-	
 	public static final String COMMANDS_PACKAGE = "org.magic.console.commands";
-	
 	public static final SearchMode SEARCH_MODE = SearchMode.REGULAR;
+	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_28;
+
+	public static final int TABLE_ROW_HEIGHT = 18;
+	public static final int TABLE_ROW_WIDTH = 18;
 
 	
-	private static String iconPack="flat";
+	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
+	public static final ImageIcon ICON_MANA_GOLD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/gold.png"));
+	public static final ImageIcon ICON_MANA_INCOLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/uncolor.png"));
+	public static final ImageIcon ICON_BACK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/bottom.png"));
+
+
+
+	public static final String GAME_FONT = "Tahoma";
+
+	public static final String HTML_TAG_TABLE = "table";
+	public static final String HTML_TAG_TBODY = "tbody";
+	public static final String HTML_TAG_TR = "tr";
+	public static final String HTML_TAG_TD = "td";
+	
+	
 
 	public static final Image IMAGE_LOGO = Toolkit.getDefaultToolkit().getImage(MTGConstants.class.getResource(ICON_DIR+"/logo.png"));
 
 	
+	private static String iconPack="flat";
+
 	public static final ImageIcon ICON_GAME_HAND = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/hand.png"));
 	public static final ImageIcon ICON_GAME_LIBRARY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/librarysize.png"));
 	public static final ImageIcon ICON_GAME_PLANESWALKER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/planeswalker.png"));
@@ -84,13 +101,13 @@ public class MTGConstants {
 	public static final ImageIcon ICON_GAME_COLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/colors.gif"));
 	public static final Image GAME_PLAYMAT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/playmat.png")).getImage();
 	
-	
 	public static final ImageIcon ICON_RSS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/rss.png"));
 	public static final ImageIcon ICON_TWITTER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/twitter.png"));
 	public static final ImageIcon ICON_FORUM = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/forum.png"));
-
 	
 	public static final ImageIcon ICON_SEARCH = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/search.png"));
+	public static final ImageIcon ICON_SEARCH_24 = new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(24, 24, BufferedImage.SCALE_SMOOTH));
+
 	public static final ImageIcon ICON_COLLECTION = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/collection.png"));
 	public static final ImageIcon ICON_GAME = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/game.png"));
 	public static final ImageIcon ICON_ALERT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/bell.png"));
@@ -103,10 +120,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_STOCK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/stock.png"));
 	public static final ImageIcon ICON_STORY = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/stories.png"));
 	public static final ImageIcon ICON_WALLPAPER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/wallpaper.png"));
-	
-	public static final ImageIcon ICON_SEARCH_24 = new ImageIcon(ICON_SEARCH.getImage().getScaledInstance(24, 24, BufferedImage.SCALE_SMOOTH));
-
-	
 	
 	public static final ImageIcon ICON_EXPORT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/export.png"));
 	public static final ImageIcon ICON_FILTER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/filter.png"));
@@ -129,7 +142,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_OPEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/open.png"));
 	public static final ImageIcon ICON_ABOUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/about.jpg"));
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/masters-logo.png"));
-	
 	
 	public static final ImageIcon ICON_TAB_NOTIFICATION=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/notify.png"));
 	public static final ImageIcon ICON_TAB_THUMBNAIL=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/thumbnail.png"));
@@ -163,23 +175,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_NEWS = new ImageIcon(ICON_NEWS.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 
 	
-	
-	public static final URL URL_MANA_SYMBOLS = MTGConstants.class.getResource(ICON_DIR+"/mana/Mana.png");
-	public static final ImageIcon ICON_MANA_GOLD = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/gold.png"));
-	public static final ImageIcon ICON_MANA_INCOLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/mana/uncolor.png"));
-
-	public static final ImageIcon ICON_BACK = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/bottom.png"));
-
-
-	public static final int TABLE_ROW_HEIGHT = 18;
-	public static final int TABLE_ROW_WIDTH = 18;
-
-	public static final String GAME_FONT = "Tahoma";
-
-	public static final String HTML_TAG_TABLE = "table";
-	public static final String HTML_TAG_TBODY = "tbody";
-	public static final String HTML_TAG_TR = "tr";
-	public static final String HTML_TAG_TD = "td";
 	
 	
 	
