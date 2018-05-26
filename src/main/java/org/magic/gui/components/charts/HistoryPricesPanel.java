@@ -9,7 +9,6 @@ import java.awt.event.ComponentEvent;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Map;
 import java.util.Map.Entry;
 
 import javax.swing.JCheckBox;

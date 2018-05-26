@@ -5,7 +5,6 @@ import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;

@@ -42,6 +42,10 @@ import com.google.gson.JsonParser;
 
 public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
+	private static final String CERT_SERV = "CERT_SERV";
+	private static final String URL_JSON = "URL_JSON";
+	private static final String FORMAT = "FORMAT";
+	private static final String PASS = "PASS";
 	private static final String LOGIN2 = "LOGIN";
 	private CookieStore cookieStore;
 	private HttpClient httpclient;
@@ -93,7 +97,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		List<NameValuePair> nvps = new ArrayList<>();
 		nvps.add(new BasicNameValuePair("next", "/"));
 		nvps.add(new BasicNameValuePair("username", getString(LOGIN2)));
-		nvps.add(new BasicNameValuePair("PASS", getString("PASS")));
+		nvps.add(new BasicNameValuePair(PASS, getString(PASS)));
 		nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", getCookieValue("csrftoken")));
 		login.setEntity(new UrlEncodedFormEntity(nvps));
 		login.addHeader("Referer", "https://tappedout.net/accounts/login/?next=/");
@@ -173,7 +177,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		String tappedJson = StringUtils.replaceAll(getString("URL_JSON"), "%FORMAT%", getString("FORMAT"));
+		String tappedJson = StringUtils.replaceAll(getString(URL_JSON), "%FORMAT%", getString(FORMAT));
 
 		logger.debug("sniff url : " + tappedJson);
 		String responseBody = EntityUtils
@@ -213,11 +217,11 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	@Override
 	public void initDefault() {
 		setProperty(LOGIN2, "login@mail.com");
-		setProperty("PASS", "changeme");
-		setProperty("FORMAT", "standard");
+		setProperty(PASS, "changeme");
+		setProperty(FORMAT, "standard");
 		
-		setProperty("URL_JSON", "https://tappedout.net/api/deck/latest/%FORMAT%");
-		setProperty("CERT_SERV", "www.tappedout.net");
+		setProperty(URL_JSON, "https://tappedout.net/api/deck/latest/%FORMAT%");
+		setProperty(CERT_SERV, "www.tappedout.net");
 
 	}
 

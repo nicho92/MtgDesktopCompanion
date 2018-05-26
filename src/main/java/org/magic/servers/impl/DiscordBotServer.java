@@ -53,12 +53,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private ListenerAdapter listener;
 	private List<MagicCard> liste;
 	
-	public static void main(String[] args) throws IOException, ClassNotFoundException, SQLException {
-		MTGControler.getInstance().getEnabledCardsProviders().init();
-		MTGControler.getInstance().getEnabledDAO().init();
-		new DiscordBotServer().start();
-	}
-	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -279,9 +273,6 @@ public class DiscordBotServer extends AbstractMTGServer {
 //=================================================================EMBEDED MESSAGE
 class NavigableEmbed extends ListenerAdapter {
 
-	
-	//\u2190
-	//\u2192
 	public enum EmbedButton {
 		PREVIOUS("\u2b05"),
 		NEXT("\u27a1");
