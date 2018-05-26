@@ -1,7 +1,5 @@
 package org.beta;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.Currency;
 import java.util.HashMap;
 
@@ -22,6 +20,9 @@ public class CurrencyConverter {
 	}
 	
 	public static void main(String[] args){
+		
+		
+		
 		System.out.println(new CurrencyConverter().getValue(Currency.getInstance("USD"), Currency.getInstance("EUR"), 1));
 	}
 	

@@ -273,15 +273,18 @@ public class DiscordBotServer extends AbstractMTGServer {
 		setProperty(SHOWPRICE, "true");
 		setProperty(THUMBNAIL_IMAGE, "THUMBNAIL");
 	}
-	
+
 }
 
 //=================================================================EMBEDED MESSAGE
 class NavigableEmbed extends ListenerAdapter {
 
+	
+	//\u2190
+	//\u2192
 	public enum EmbedButton {
-		PREVIOUS("⬅"),
-		NEXT("➡");
+		PREVIOUS("\u2b05"),
+		NEXT("\u27a1");
 
 		private String icon;
 
