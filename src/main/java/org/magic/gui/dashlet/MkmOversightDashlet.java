@@ -16,7 +16,7 @@ import org.magic.gui.models.MkmInsightModel;
 
 public class MkmOversightDashlet extends AbstractJDashlet {
 	
-	private InsightService service;
+	private transient InsightService service;
 	private MkmInsightModel model;
 	
 	public MkmOversightDashlet() {

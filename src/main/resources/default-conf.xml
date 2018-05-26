@@ -126,6 +126,10 @@
             <class>org.magic.servers.impl.PricesCheckerTimer</class>
             <enable>true</enable>
         </server>
+        <server>
+            <class>org.magic.servers.impl.DiscordBotServer</class>
+            <enable>true</enable>
+        </server>
     </servers>
     <notifiers>
         <notifier>
@@ -150,6 +154,10 @@
         </notifier>
         <notifier>
             <class>org.magic.api.notifiers.impl.TelegramNotifier</class>
+            <enable>true</enable>
+        </notifier>
+        <notifier>
+            <class>org.magic.api.notifiers.impl.DiscordNotifier</class>
             <enable>true</enable>
         </notifier>
     </notifiers>
@@ -410,6 +418,10 @@
         </export>
         <export>
             <class>org.magic.api.exports.impl.MTGArenaExport</class>
+            <enable>true</enable>
+        </export>
+        <export>
+            <class>org.magic.api.exports.impl.MTGStockExport</class>
             <enable>true</enable>
         </export>
     </deckexports>

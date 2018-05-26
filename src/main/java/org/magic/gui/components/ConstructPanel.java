@@ -87,22 +87,16 @@ public class ConstructPanel extends JPanel {
 	private JButton btnExports;
 	private transient MTGDeckManager deckManager;
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
-
 	private JTable tableDeck;
 	private JTable tableSide;
 	private JList<MagicCard> listResult;
 	private JBuzyLabel lblExport;
 	private DrawProbabilityPanel cardDrawProbaPanel;
-
 	public static final int MAIN = 0;
 	public static final int SIDE = 1;
-
 	protected int selectedIndex = 0;
-
 	private File exportedFile;
-
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
 	private File f;
 	private Player p;
 
@@ -155,8 +149,7 @@ public class ConstructPanel extends JPanel {
 		flowLayout.setAlignment(FlowLayout.LEFT);
 		add(panneauHaut, BorderLayout.NORTH);
 
-		cboAttributs = new JComboBox<>(new DefaultComboBoxModel<String>(
-				MTGControler.getInstance().getEnabledCardsProviders().getQueryableAttributs()));
+		cboAttributs = new JComboBox<>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledCardsProviders().getQueryableAttributs()));
 		panneauHaut.add(cboAttributs);
 
 		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));

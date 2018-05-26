@@ -33,7 +33,7 @@ public class Player extends Observable implements Serializable {
 	private BattleField battlefield;
 	private ManaPool manaPool;
 	private Locale local;
-	private BufferedImage icon;
+	private transient BufferedImage icon;
 
 	private int poisonCounter;
 

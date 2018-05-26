@@ -335,7 +335,7 @@ public class CollectionPanelGUI extends JPanel {
 							}
 
 						} catch (Exception e) {
-							logger.error(e);
+							logger.error("error in export",e);
 							progressBar.setVisible(false);
 							MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 						}

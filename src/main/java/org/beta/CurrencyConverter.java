@@ -1,55 +1,39 @@
 package org.beta;
 
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.URL;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Currency;
+import java.util.HashMap;
 
 import org.apache.log4j.Logger;
 import org.magic.services.MTGLogger;
-import org.magic.tools.IDGenerator;
-
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 
 
 public class CurrencyConverter {
 	private Logger logger = MTGLogger.getLogger(CurrencyConverter.class);
+
+	private HashMap<Currency, Double> map;
 	
-	
-	public static void main(String[] args) throws IOException {
-		System.out.println(new CurrencyConverter().getValue(Currency.getInstance("EUR"), Currency.getInstance("USD"), 1));
+	public CurrencyConverter() {
+		map = new HashMap<>();
+		map.put(Currency.getInstance("USD"), 1.0);
+		map.put(Currency.getInstance("EUR"), 0.857889711);
+		map.put(Currency.getInstance("GBP"), 1.330805);
 	}
 	
-	public void refresh()
-	{
-		
+	public static void main(String[] args){
+		System.out.println(new CurrencyConverter().getValue(Currency.getInstance("USD"), Currency.getInstance("EUR"), 1));
 	}
 	
-	
-	
-	public double getValue(String from, String to, double value) throws IOException
+	public double getValue(String from, String to, double value)
 	{
 		return getValue(Currency.getInstance(from), Currency.getInstance(to), value);
 	}
 	
 	
-	public double getValue(Currency from, Currency to, double value) throws IOException
+	public double getValue(Currency from, Currency to, double value)
 	{
-		
-		String code = from.getCurrencyCode() +"_"+to.getCurrencyCode();
-		
-		StringBuilder build = new StringBuilder();
-		build.append("https://free.currencyconverterapi.com/api/v5/convert?q=")
-			 .append(code)
-			 .append("&compact=ultra");
-		
-		logger.debug("get currency " + build);
-		
-		JsonElement el = new JsonParser().parse(new InputStreamReader(new URL(build.toString()).openStream()));
-		
-		return value*el.getAsJsonObject().get(code).getAsDouble();
-		
+		return 0;
 	}
 	
 	

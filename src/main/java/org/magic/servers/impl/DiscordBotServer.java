@@ -175,22 +175,25 @@ public class DiscordBotServer extends AbstractMTGServer {
 	private MessageEmbed parseCard(MagicCard mc) {
 		
 		EmbedBuilder eb = new EmbedBuilder();
+		eb.setDescription("");
 		eb.setTitle(mc.getName()+ " " + mc.getCost());
 		eb.setColor(ColorParser.getColorParse(mc.getColors()));
-		eb.getDescriptionBuilder().append(mc.getTypes()+"\n");
-		eb.getDescriptionBuilder().append(mc.getText()).append("\n");
-		eb.getDescriptionBuilder().append("**Edition:** ").append(mc.getCurrentSet().getSet()).append("\n");
-		eb.getDescriptionBuilder().append("**Reserved:** ");
+		StringBuilder temp = new StringBuilder();
+		temp.append(mc.getTypes()+"\n");
+		temp.append(mc.getText()).append("\n");
+		temp.append("**Edition:** ").append(mc.getCurrentSet().getSet()).append("\n");
+		temp.append("**Reserved:** ");
 		if(mc.isReserved())
-			eb.getDescriptionBuilder().append(":white_check_mark: \n");
+			temp.append(":white_check_mark: \n");
 		else
-			eb.getDescriptionBuilder().append(":no_entry_sign:  \n");
+			temp.append(":no_entry_sign:  \n");
 		
 		try {
-			eb.getDescriptionBuilder().append("**Collections:** "+MTGControler.getInstance().getEnabledDAO().listCollectionFromCards(mc).toString());
+			temp.append("**Collections:** "+MTGControler.getInstance().getEnabledDAO().listCollectionFromCards(mc).toString());
 		} catch (SQLException e) {
 			logger.error(e);
 		}
+		eb.setDescription(temp.toString());
 	
 		if(getString(THUMBNAIL_IMAGE).equalsIgnoreCase("THUMBNAIL"))
 			eb.setThumbnail("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid="+mc.getCurrentSet().getMultiverseid()+"&type=card");
@@ -348,7 +351,7 @@ class NavigableEmbed extends ListenerAdapter {
 				message = message.editMessage(embed).submit().get();
 			}
 		} catch (InterruptedException | ExecutionException e) {
-			e.printStackTrace();
+			//do nothing
 		}
 	}
 
@@ -478,7 +481,7 @@ class ReactionListener extends ListenerAdapter {
 
 	private void enable() {
 		this.jda.addEventListener(this);
-		//if (this.expireTimeout > 0) resetTimer();
+		if (this.expireTimeout > 0) resetTimer();
 	}
 
 	public void disable() {

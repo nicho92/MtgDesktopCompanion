@@ -40,7 +40,7 @@ public class HistoryPricesPanel extends JPanel {
 	private JCheckBox chckbxShowAllDashboard;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private ChartPanel pane;
-	private CardPriceVariations map;
+	private transient CardPriceVariations map;
 	private String title;
 	private MagicCard mc;
 	private MagicEdition me;
