@@ -38,6 +38,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
 	public MagicCardMarketPricer2() {
 		super();
+		
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
@@ -51,6 +52,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 	
 	private void init()
 	{
+		
+		
 		try {
 			MkmAPIConfig.getInstance().init(getString("APP_ACCESS_TOKEN_SECRET"), getString("APP_ACCESS_TOKEN"),getString("APP_SECRET"), getString("APP_TOKEN"));
 			initied=true;

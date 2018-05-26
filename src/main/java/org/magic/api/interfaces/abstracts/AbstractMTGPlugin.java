@@ -84,6 +84,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 			value = "";
 
 		props.put(k, value);
+		save();
 	}
 
 	public Integer getInt(String k) {
@@ -108,7 +109,6 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	}
 
 	public boolean getBoolean(String k) {
-		
 		if(getString(k)==null)
 			return false;
 			

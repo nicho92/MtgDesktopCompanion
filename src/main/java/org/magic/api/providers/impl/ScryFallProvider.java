@@ -42,11 +42,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	public ScryFallProvider() {
 		super();
-	}
-
-	@Override
-	public void init() {
-		parser = new JsonParser();
 		if(getBoolean("LOAD_CERTIFICATE"))
 		{
 			try {
@@ -57,6 +52,12 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 		}
 
+	}
+
+	@Override
+	public void init() {
+		parser = new JsonParser();
+		
 	}
 
 	@Override

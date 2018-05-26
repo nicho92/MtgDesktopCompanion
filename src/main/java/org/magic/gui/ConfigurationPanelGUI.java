@@ -60,13 +60,11 @@ public class ConfigurationPanelGUI extends JPanel {
 		JScrollPane cardsProvidersScrollPane = new JScrollPane();
 		subTabbedProviders.addTab(MTGControler.getInstance().getLangService().getCapitalize("CARDS"), MTGConstants.ICON_BACK,cardsProvidersScrollPane, null);
 
-		cardsProviderTable = new JXTreeTable(
-				new ProviderTreeTableModel<MTGCardsProvider>(false, MTGControler.getInstance().getCardsProviders()));
+		cardsProviderTable = new JXTreeTable(new ProviderTreeTableModel<MTGCardsProvider>(false, MTGControler.getInstance().getCardsProviders()));
 		cardsProvidersScrollPane.setViewportView(cardsProviderTable);
 		cardsProviderTable.addTreeSelectionListener(e -> {
 			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
-				((ProviderTreeTableModel) cardsProviderTable.getTreeTableModel())
-						.setSelectedNode((MTGCardsProvider) e.getNewLeadSelectionPath().getPathComponent(1));
+				((ProviderTreeTableModel) cardsProviderTable.getTreeTableModel()).setSelectedNode((MTGCardsProvider) e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 
 		JScrollPane picturesScollPane = new JScrollPane();

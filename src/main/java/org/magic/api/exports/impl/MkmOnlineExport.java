@@ -52,13 +52,14 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	public MkmOnlineExport() {
 		super();
-		mkmPricer = new MagicCardMarketPricer2();
+		
 
 	}
 	
 	private void init()
 	{
 		try {
+			mkmPricer = new MagicCardMarketPricer2();
 			MkmAPIConfig.getInstance().init(mkmPricer.getString("APP_ACCESS_TOKEN_SECRET"),
 					mkmPricer.getString("APP_ACCESS_TOKEN"), mkmPricer.getString("APP_SECRET"),
 					mkmPricer.getString("APP_TOKEN"));
