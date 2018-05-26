@@ -38,6 +38,15 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
 	public MagicCardMarketPricer2() {
 		super();
+		if(getBoolean(LOAD_CERTIFICATE))
+		{
+			try {
+				InstallCert.installCert("cardmarket.com");
+				setProperty(LOAD_CERTIFICATE, "false");
+			} catch (Exception e1) {
+				logger.error(e1);
+			}
+		}
 	}
 	
 	private void init()
@@ -48,15 +57,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		} catch (MkmException e) {
 			logger.error(e);
 		}
-		if(getBoolean(LOAD_CERTIFICATE))
-		{
-			try {
-				InstallCert.installCert("mtgdecks.net");
-				setProperty(LOAD_CERTIFICATE, "false");
-			} catch (Exception e1) {
-				logger.error(e1);
-			}
-		}
+		
+		
 	}
 	
 

@@ -43,16 +43,21 @@ public class MkmOnlineExport extends AbstractCardExport {
 	private EnumMap<PRODUCT_ATTS, String> atts;
 	private ProductServices pService;
 
+	private boolean init=false;
 	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
 	}
 
-	public MkmOnlineExport() throws MkmException {
+	public MkmOnlineExport() {
 		super();
 		mkmPricer = new MagicCardMarketPricer2();
 
+	}
+	
+	private void init()
+	{
 		try {
 			MkmAPIConfig.getInstance().init(mkmPricer.getString("APP_ACCESS_TOKEN_SECRET"),
 					mkmPricer.getString("APP_ACCESS_TOKEN"), mkmPricer.getString("APP_SECRET"),
@@ -63,13 +68,20 @@ public class MkmOnlineExport extends AbstractCardExport {
 			atts.put(PRODUCT_ATTS.exact, "true");
 			atts.put(PRODUCT_ATTS.idGame, "1");
 			atts.put(PRODUCT_ATTS.idLanguage, "1");
+			init=true;
 		} catch (MkmException e) {
 			logger.error(e);
+			init=false;
 		}
 	}
+	
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
+		
+		if(!init)
+			init();
+		
 		WantsService service = new WantsService();
 		MagicDeck d = new MagicDeck();
 		d.setName(f.getName());
@@ -102,6 +114,11 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public void export(List<MagicCard> cards, File f) throws IOException {
+		
+		if(!init)
+			init();
+
+		
 		MagicDeck d = new MagicDeck();
 		for (MagicCard mc : cards)
 			d.getMap().put(mc, Integer.parseInt(getString(DEFAULT_QTE)));
@@ -118,6 +135,10 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public void export(MagicDeck deck, File dest) throws IOException {
+		if(!init)
+			init();
+
+		
 		WantsService wlService = new WantsService();
 		List<WantItem> wants = new ArrayList<>();
 
@@ -180,6 +201,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
+		if(!init)
+			init();
 
 		if (!getString(STOCK_USE).equals("true")) {
 			MagicDeck d = new MagicDeck();
@@ -219,6 +242,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 	@Override
 	public List<MagicCardStock> importStock(File f) throws IOException {
+		if(!init)
+			init();
 
 		if (!getString(STOCK_USE).equals("true"))
 			return importFromDeck(importDeck(f));

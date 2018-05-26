@@ -24,6 +24,7 @@ import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.exports.impl.MKMFileWantListExport;
 import org.magic.api.exports.impl.MTGDesktopCompanionExport;
 import org.magic.api.exports.impl.MTGODeckExport;
+import org.magic.api.exports.impl.MTGStockExport;
 import org.magic.api.exports.impl.MagicWorkStationDeckExport;
 import org.magic.api.exports.impl.MkmOnlineExport;
 import org.magic.api.exports.impl.OCTGNDeckExport;
@@ -93,12 +94,9 @@ public class ExportsProviderTests {
 		testExports(new PDFExport());
 		testExports(new XMageDeckExport());
 		testExports(new MagicWorkStationDeckExport());
-		try {
-			testExports(new MkmOnlineExport());
-		} catch (MkmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		testExports(new MTGStockExport());
+		testExports(new MkmOnlineExport());
+		
 	}
 	
 	
