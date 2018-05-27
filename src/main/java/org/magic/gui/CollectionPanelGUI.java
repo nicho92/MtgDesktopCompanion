@@ -146,7 +146,7 @@ public class CollectionPanelGUI extends JPanel {
 		
 		//////// MODELS
 		model = new MagicEditionsTableModel();
-		DefaultRowSorter sorterEditions = new TableRowSorter<DefaultTableModel>(model);
+		DefaultRowSorter<DefaultTableModel, Integer> sorterEditions = new TableRowSorter<>(model);
 		model.init(provider.loadEditions());
 		tableEditions.setModel(model);
 		new TableFilterHeader(tableEditions, AutoChoices.ENABLED);
