@@ -19,6 +19,10 @@ public class MTGNotification implements Serializable {
 	private File file;
 	
 	
+	public static MTGNotification newInstance(Exception e)
+	{
+		return new MTGNotification("ERROR", e);
+	}
 	
 	
 	public MTGNotification() {

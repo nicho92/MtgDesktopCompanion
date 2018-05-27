@@ -15,13 +15,14 @@ import javax.swing.JMenuItem;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MTGNotification;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.PluginRegistry;
 
 public class DashBoardGUI2 extends JDesktopPane {
 
-	private transient ClassLoader classLoader = DashBoardGUI2.class.getClassLoader();
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public DashBoardGUI2() {
@@ -80,7 +81,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 				JMenuItem mntmNewMenuItem = new JMenuItem(dash.getName());
 				mntmNewMenuItem.addActionListener(e -> {
 					try {
-						addDash(dash);
+						addDash(PluginRegistry.inst().newInstance(dash.getClass()));
 					} catch (Exception ex) {
 						logger.error("Error Loading " + dash, ex);
 					}
@@ -97,7 +98,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 				Properties p = new Properties();
 				FileInputStream fis = new FileInputStream(f);
 				p.load(fis);
-				AbstractJDashlet dash = (AbstractJDashlet) classLoader.loadClass(p.get("class").toString()).getDeclaredConstructor().newInstance();
+				AbstractJDashlet dash = PluginRegistry.inst().newInstance(p.get("class").toString());
 				dash.setProperties(p);
 				fis.close();
 				addDash(dash);
@@ -110,9 +111,15 @@ public class DashBoardGUI2 extends JDesktopPane {
 	}
 
 	public void addDash(AbstractJDashlet dash) {
-		dash.initGUI();
-		dash.init();
-		add(dash);
+		
+		try {
+			dash.initGUI();
+			dash.init();
+			add(dash);
+		} catch (Exception e) {
+			MTGControler.getInstance().notify(MTGNotification.newInstance(e));
+		} 
+		
 	}
 
 }

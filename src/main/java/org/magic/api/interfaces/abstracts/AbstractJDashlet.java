@@ -2,7 +2,7 @@ package org.magic.api.interfaces.abstracts;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -27,7 +27,7 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observer;
 
-public abstract class AbstractJDashlet extends JInternalFrame implements MTGDashlet {
+public abstract class AbstractJDashlet extends JInternalFrame implements MTGDashlet{
 
 	private static final long serialVersionUID = 1L;
 	public static final File confdir= new File(MTGConstants.CONF_DIR, "dashboards/dashlets");
@@ -35,6 +35,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicCardDetailPanel pane;
 
+	
 	public AbstractJDashlet() {
 		props = new Properties();
 		
@@ -63,8 +64,7 @@ public abstract class AbstractJDashlet extends JInternalFrame implements MTGDash
 		setClosable(true);
 		setIconifiable(true);
 		setMaximizable(true);
-		setSize(new Dimension(536, 346));
-
+		setBounds(new Rectangle(5,5, 536,346));
 	}
 
 

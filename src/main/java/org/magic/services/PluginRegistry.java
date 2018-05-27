@@ -55,6 +55,18 @@ public class PluginRegistry {
 			init();
 	}
 	
+	public <T> T newInstance(Class<T> classname) {
+		
+		return newInstance(classname.getName());
+		
+	}
+	
+	public <T> T newInstance(String classname) {
+		
+		return loadItem(classname);
+	}
+	
+	
 	//TODO correct this for Dashlets
 	public PluginEntry getEntryFor(Object k)
 	{
