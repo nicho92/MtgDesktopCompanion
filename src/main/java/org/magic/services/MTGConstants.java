@@ -67,6 +67,7 @@ public class MTGConstants {
 	public static final SearchMode SEARCH_MODE = SearchMode.REGULAR;
 	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_28;
 
+	public static final int TREE_ROW_HEIGHT = 24;
 	public static final int TABLE_ROW_HEIGHT = 18;
 	public static final int TABLE_ROW_WIDTH = 18;
 

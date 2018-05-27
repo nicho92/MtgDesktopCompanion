@@ -3,10 +3,10 @@ package org.magic.api.commands.impl;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.Map;
 
 import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
+import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
@@ -52,7 +52,7 @@ public class Dash extends AbstractCommand {
 				ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(cl.getOptionValue("s"));
 			
 			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(cl.getOptionValue("c"), ed, false).get(0);
-			return new CommandResponse<>(Map.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, ed)));
+			return new CommandResponse<>(CardPriceVariations.class, null,json.toJsonElement(MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc, ed)));
 		}
 		
 		if (cl.hasOption("?")) {

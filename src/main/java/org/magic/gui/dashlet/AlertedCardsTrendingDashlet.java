@@ -6,8 +6,8 @@ import java.awt.Rectangle;
 
 import javax.swing.Icon;
 import javax.swing.JScrollPane;
-import javax.swing.JTable;
 
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.charts.HistoryPricesPanel;
@@ -42,7 +42,7 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 		model = new CardAlertTableModel();
-		JTable table = new JTable(model);
+		JXTable table = new JXTable(model);
 		scrollPane.setViewportView(table);
 
 		HistoryPricesPanel historyPricesPanel = new HistoryPricesPanel();
@@ -73,6 +73,8 @@ public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
 			setBounds(r);
 		}
 
+		table.packAll();
+		
 		setVisible(true);
 
 	}

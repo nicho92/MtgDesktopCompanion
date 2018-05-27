@@ -15,6 +15,7 @@ import org.magic.services.MTGConstants;
 
 public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
+	private static final String SITE = "SITE";
 	private static final String PAGINATION = "PAGINATION";
 	private String prefixForum = "gathering-forum-viewtopic-";
 
@@ -29,7 +30,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 			maxpage = 1;
 		}
 
-		String suffix = n.getUrl().replaceAll(getString("SITE") + prefixForum, "");
+		String suffix = n.getUrl().replaceAll(getString(SITE) + prefixForum, "");
 		String idForum = suffix.split("-")[0];
 		String idTopic = suffix.split("-")[1];
 		String endUri = n.getUrl().substring(n.getUrl().indexOf(idTopic) + idTopic.length() + 1);
@@ -44,7 +45,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 			else
 				id = i + "-";
 
-			cont.setLink(new URL(getString("SITE") + prefixForum + idForum + "-" + idTopic + "-" + id + endUri));
+			cont.setLink(new URL(getString(SITE) + prefixForum + idForum + "-" + idTopic + "-" + id + endUri));
 			cont.setTitle("Page " + id);
 			ret.add(cont);
 		}
@@ -70,7 +71,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	@Override
 	public void initDefault() {
 		setProperty(PAGINATION, "15");
-		setProperty("SITE", "http://www.magiccorporation.com/");
+		setProperty(SITE, "http://www.magiccorporation.com/");
 	}
 
 	@Override
