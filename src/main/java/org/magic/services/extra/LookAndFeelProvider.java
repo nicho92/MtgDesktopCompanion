@@ -45,7 +45,7 @@ public class LookAndFeelProvider {
 			SwingUtilities.updateComponentTreeUI(ui);
 
 		} catch (Exception e) {
-			logger.error(e.getMessage());
+			logger.error("error setLookAndFeel",e);
 		}
 	}
 
