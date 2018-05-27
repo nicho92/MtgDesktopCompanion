@@ -25,21 +25,14 @@ public class MTGPluginTreeCellRenderer extends DefaultTreeCellRenderer{
 		
 		if(value instanceof MTGPlugin)
 		{
-				   lab.setText(value.toString());
-				   lab.setIcon(((MTGPlugin)value).getIcon());
-				   return lab;
+		   lab.setText(value.toString());
+		   lab.setIcon(((MTGPlugin)value).getIcon());
 		}
 		else if (value instanceof Entry)
 		{
-					lab.setText(((Entry)value).getKey().toString());
-			return lab;
+			lab.setText(((Entry)value).getKey().toString());
 		}
-		
-		
-		return super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-		
-		
-		
+		return lab;
 	}
 	
 }

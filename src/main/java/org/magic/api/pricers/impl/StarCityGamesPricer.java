@@ -65,7 +65,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public String getName() {
-		return "StarCityGames";
+		return "StarCityGame";
 	}
 
 	@Override

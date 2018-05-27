@@ -194,12 +194,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	public String getName() {
 		return "MagicCardMarket";
 	}
-
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/mkm.png"));
-	}
-
+	
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {
 		if(!init)

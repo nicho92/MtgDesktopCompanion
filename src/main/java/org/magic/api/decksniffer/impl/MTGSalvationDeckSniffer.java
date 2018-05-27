@@ -186,7 +186,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String getName() {
-		return "MTGSalvation Deck";
+		return "MTGSalvation";
 	}
 
 	@Override

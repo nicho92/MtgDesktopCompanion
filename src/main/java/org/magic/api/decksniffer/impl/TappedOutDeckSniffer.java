@@ -78,7 +78,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String getName() {
-		return "Tapped Out";
+		return "TappedOut";
 	}
 
 	@Override

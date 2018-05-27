@@ -151,7 +151,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String getName() {
-		return "TCG Player Decks";
+		return "TCGPlayer";
 	}
 
 	@Override

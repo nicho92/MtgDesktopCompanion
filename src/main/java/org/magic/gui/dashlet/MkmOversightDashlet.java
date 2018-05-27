@@ -26,7 +26,7 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 	
 	@Override
 	public Icon getIcon() {
-		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/mkm.png"));
+		return new ImageIcon(MKMFileWantListExport.class.getResource("/icons/plugins/magiccardmarket.png"));
 	}
 	
 	
