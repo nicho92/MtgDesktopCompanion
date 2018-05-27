@@ -234,18 +234,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public String getVersion() {
-		try {
-
-			if (version == null) {
-				Document d = Jsoup.connect("https://scryfall.com/blog/category/api").timeout(0).get();
-				String date = d.select("a.muted-n").first().text();
-				version = date;
-			}
-		} catch (IOException e) {
-			logger.error(e);
-			version = "";
-		}
-		return version;
+		return "2.0";
 	}
 
 	@Override

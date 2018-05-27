@@ -1,4 +1,4 @@
-package org.magic.console.commands;
+package org.magic.api.commands.impl;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -10,7 +10,7 @@ import org.apache.commons.cli.ParseException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.console.AbstractCommand;
+import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.CommandResponse;
 import org.magic.services.MTGControler;
 

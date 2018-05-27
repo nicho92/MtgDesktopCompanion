@@ -1,4 +1,4 @@
-package org.magic.console;
+package org.magic.api.interfaces.abstracts;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
@@ -10,6 +10,8 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.log4j.Logger;
 import org.magic.api.exports.impl.JsonExport;
+import org.magic.api.interfaces.Command;
+import org.magic.console.CommandResponse;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 

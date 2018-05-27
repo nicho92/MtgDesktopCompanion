@@ -215,10 +215,6 @@ public class ConfigurationPanelGUI extends JPanel {
 		});
 		wallpaperScrollPane.setViewportView(wallpapersTreeTable);
 		
-		
-		
-		
-
 		ConfigurationPanel configurationPanel = new ConfigurationPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,
 				configurationPanel, null);

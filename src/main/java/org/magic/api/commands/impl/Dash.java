@@ -1,4 +1,4 @@
-package org.magic.console.commands;
+package org.magic.api.commands.impl;
 
 
 import java.io.IOException;
@@ -11,7 +11,7 @@ import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.console.AbstractCommand;
+import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.CommandResponse;
 import org.magic.services.MTGControler;
 
