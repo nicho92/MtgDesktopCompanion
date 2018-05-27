@@ -8,9 +8,9 @@ import org.magic.console.CommandResponse;
 
 public interface MTGCommand extends MTGPlugin{
 
-	public <T extends MTGCommand> CommandResponse<T> run(String[] array) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException,InvocationTargetException, NoSuchMethodException;
+	public CommandResponse run(String[] array) throws ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException, IOException,InvocationTargetException, NoSuchMethodException;
 
-	public <T extends MTGCommand> CommandResponse usage();
+	public CommandResponse usage();
 
 	public void quit();
 
