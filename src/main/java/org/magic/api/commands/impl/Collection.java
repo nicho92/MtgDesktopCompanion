@@ -10,7 +10,6 @@ import org.apache.commons.cli.CommandLine;
 import org.apache.commons.cli.ParseException;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.Command;
 import org.magic.api.interfaces.abstracts.AbstractCommand;
 import org.magic.console.CommandResponse;
 import org.magic.gui.models.MagicEditionsTableModel;
@@ -84,4 +83,5 @@ public class Collection extends AbstractCommand {
 		return null;
 	}
 
+	
 }

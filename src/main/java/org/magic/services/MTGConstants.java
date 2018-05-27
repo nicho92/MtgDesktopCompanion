@@ -64,7 +64,6 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_VERSION_FILE = "/version";
 	public static final String ICON_DIR="/icons";
 	public static final String MTG_REPORTS_DIR = "/report";
-	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl";
 	public static final SearchMode SEARCH_MODE = SearchMode.REGULAR;
 	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_28;
 

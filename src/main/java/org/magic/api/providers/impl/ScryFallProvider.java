@@ -15,8 +15,6 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -38,7 +36,6 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private static String baseURI = "https://api.scryfall.com";
 	private JsonParser parser;
-	private String version;
 
 	public ScryFallProvider() {
 		super();

@@ -11,9 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
-import org.magic.api.interfaces.Command;
-import org.magic.services.MTGConstants;
+import org.magic.api.interfaces.MTGCommand;
 import org.magic.services.MTGLogger;
+import org.magic.services.PluginRegistry;
 import org.magic.tools.ArgsLineParser;
 
 public class MTGConsoleHandler extends IoHandlerAdapter {
@@ -50,10 +50,8 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 		}
 	}
 
-	public static Command commandFactory(String name) throws ClassNotFoundException, InstantiationException,IllegalAccessException, InvocationTargetException, NoSuchMethodException {
-		String clazz = StringUtils.capitalize(name);
-		Class myCommand = MTGConsoleHandler.class.getClassLoader().loadClass(MTGConstants.COMMANDS_PACKAGE +"." + clazz);
-		return (Command) myCommand.getDeclaredConstructor().newInstance();
+	private MTGCommand commandFactory(String name) {
+		return PluginRegistry.inst().newInstance("org.magic.api.commands.impl."+StringUtils.capitalize(name));
 	}
 	
 	
@@ -67,12 +65,22 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 		} else {
 			String line = message.toString();
 			String[] commandeLine = ArgsLineParser.translateCommandline(line);
-			Command c = commandFactory(commandeLine[0]);
-			logger.debug("message="+line + " commandLine="+Arrays.asList(commandeLine) + " Command="+c);
-			CommandResponse ret = c.run(commandeLine);
-			session.write(ret);
-			c.quit();
-			history.add(line);
+			MTGCommand c = commandFactory(commandeLine[0]);
+			
+			if(c==null)
+			{
+				session.write("Command not found");
+			}
+			else
+			{
+				
+				logger.debug("message="+line + " commandLine="+Arrays.asList(commandeLine) + " Command="+c);
+				CommandResponse<MTGCommand> ret = c.run(commandeLine);
+				session.write(ret);
+				c.quit();
+				history.add(line);
+				
+			}
 		}
 
 	}
