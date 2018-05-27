@@ -102,11 +102,6 @@ public class Apprentice2DeckExport extends AbstractCardExport {
 
 	}
 
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(Apprentice2DeckExport.class.getResource("/icons/plugins/apprentice.png"));
-	}
-
 
 	@Override
 	public void initDefault() {

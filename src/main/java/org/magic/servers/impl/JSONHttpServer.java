@@ -20,6 +20,8 @@ import java.util.List;
 import java.util.Map.Entry;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.MTGFormat;
@@ -440,6 +442,12 @@ public class JSONHttpServer extends AbstractMTGServer {
 		return "Json Http Server";
 	}
 
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(DiscordBotServer.class.getResource("/icons/plugins/json.png"));
+	}
+	
+	
 
 	@Override
 	public void initDefault() {

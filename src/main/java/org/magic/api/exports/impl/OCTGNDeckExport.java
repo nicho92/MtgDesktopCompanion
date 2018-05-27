@@ -95,10 +95,6 @@ public class OCTGNDeckExport extends AbstractCardExport {
 		}
 	}
 
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(OCTGNDeckExport.class.getResource("/icons/plugins/octgn.png"));
-	}
 
 	@Override
 	public String getName() {

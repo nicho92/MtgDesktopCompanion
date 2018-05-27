@@ -148,7 +148,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 	@Override
 	public String getName() {
-		return "MTGGoldFish Deck";
+		return "MTGGoldFish";
 	}
 
 	@Override

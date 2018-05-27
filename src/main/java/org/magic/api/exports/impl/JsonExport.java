@@ -137,10 +137,6 @@ public class JsonExport extends AbstractCardExport {
 		return "Json";
 	}
 
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(CSVExport.class.getResource("/icons/plugins/json.png"));
-	}
 
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {

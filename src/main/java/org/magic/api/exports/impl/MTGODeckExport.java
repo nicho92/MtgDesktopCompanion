@@ -83,13 +83,6 @@ public class MTGODeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public Icon getIcon() {
-		return new ImageIcon(MTGODeckExport.class.getResource("/icons/plugins/mtgo.png"));
-	}
-
-
-
-	@Override
 	public void initDefault() {
 		setProperty("VERSION", "1.0");
 

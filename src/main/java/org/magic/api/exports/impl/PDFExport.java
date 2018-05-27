@@ -100,10 +100,6 @@ public class PDFExport extends AbstractCardExport {
 		return "PDF";
 	}
 
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(PDFExport.class.getResource("/icons/plugins/pdf.png"));
-	}
 
 	@Override
 	public void exportStock(List<MagicCardStock> stock, File f) throws IOException {

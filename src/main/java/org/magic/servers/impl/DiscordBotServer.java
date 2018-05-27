@@ -18,10 +18,13 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.security.auth.login.LoginException;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
+import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
@@ -259,6 +262,12 @@ public class DiscordBotServer extends AbstractMTGServer {
 		return "Discord Bot";
 	}
 
+	
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(DiscordBotServer.class.getResource("/icons/plugins/discord.png"));
+	}
+	
 	@Override
 	public void initDefault() 
 	{

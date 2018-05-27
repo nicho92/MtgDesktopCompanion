@@ -6,9 +6,6 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
@@ -77,11 +74,6 @@ public class MagicWorkStationDeckExport extends AbstractCardExport {
 	}
 
 
-
-	@Override
-	public Icon getIcon() {
-		return new ImageIcon(CSVExport.class.getResource("/icons/plugins/mtgworkstation.png"));
-	}
 
 	@Override
 	public String getName() {

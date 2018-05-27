@@ -90,15 +90,6 @@ public class XMageDeckExport extends AbstractCardExport {
 	}
 
 	@Override
-	public Icon getIcon() {
-		return new ImageIcon(XMageDeckExport.class.getResource("/icons/plugins/xmage.png"));
-	}
-
-	
-
-	
-
-	@Override
 	public void initDefault() {
 		// Nothing to do
 

@@ -146,7 +146,7 @@ public class MTGArenaExport extends AbstractCardExport {
 
 	@Override
 	public String getName() {
-		return "MTG Arena";
+		return "MTGArena";
 	}
 
 	@Override
