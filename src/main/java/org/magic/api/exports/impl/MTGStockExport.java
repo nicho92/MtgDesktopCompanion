@@ -48,7 +48,7 @@ public class MTGStockExport extends AbstractCardExport {
 
 	@Override
 	public String getName() {
-		return "MTGStock";
+		return "MTGStocks";
 	}
 
 	

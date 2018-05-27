@@ -9,15 +9,21 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXTreeTable;
+import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;
-import org.magic.gui.models.conf.ProviderTreeTableModel;
+import org.magic.gui.models.conf.PluginTreeTableModel;
+import org.magic.gui.renderer.MTGPluginTreeCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class ConfigurationPanelGUI extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTabbedPane subTabbedProviders ;
 	
 	public ConfigurationPanelGUI() {
@@ -50,6 +56,7 @@ public class ConfigurationPanelGUI extends JPanel {
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("RSS_MODULE"), MTGConstants.ICON_TAB_NEWS, true, MTGControler.getInstance().getNewsProviders());
 		createTab(MTGControler.getInstance().getLangService().getCapitalize("WALLPAPER"), MTGConstants.ICON_TAB_WALLPAPER, true, MTGControler.getInstance().getWallpaperProviders());
 
+
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("CONFIGURATION"), MTGConstants.ICON_TAB_ADMIN,new ConfigurationPanel(), null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("ACTIVE_SERVERS"), MTGConstants.ICON_TAB_ACTIVESERVER, new ServersGUI(),null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("LOGS"), MTGConstants.ICON_TAB_RULES, new LoggerViewPanel(),null);
@@ -61,11 +68,13 @@ public class ConfigurationPanelGUI extends JPanel {
 	{
 		JScrollPane scroll = new JScrollPane();
 		subTabbedProviders.addTab(label, ic,scroll, null);
-		JXTreeTable table = new JXTreeTable(new ProviderTreeTableModel<T>(multi, list));
+		JXTreeTable table = new JXTreeTable(new PluginTreeTableModel<T>(multi, list));
+		table.setTreeCellRenderer(new MTGPluginTreeCellRenderer());
+		
 		scroll.setViewportView(table);
 		table.addTreeSelectionListener(e -> {
 			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
-				((ProviderTreeTableModel<?>) table.getTreeTableModel()).setSelectedNode((T) e.getNewLeadSelectionPath().getPathComponent(1));
+				((PluginTreeTableModel<?>) table.getTreeTableModel()).setSelectedNode((T) e.getNewLeadSelectionPath().getPathComponent(1));
 		});
 
 	}

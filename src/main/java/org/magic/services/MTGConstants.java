@@ -67,7 +67,7 @@ public class MTGConstants {
 	public static final SearchMode SEARCH_MODE = SearchMode.REGULAR;
 	public static final Version FREEMARKER_VERSION=Configuration.VERSION_2_3_28;
 
-	public static final int TREE_ROW_HEIGHT = 24;
+	public static final int TREE_ROW_HEIGHT = 32;
 	public static final int TABLE_ROW_HEIGHT = 18;
 	public static final int TABLE_ROW_WIDTH = 18;
 
@@ -142,6 +142,9 @@ public class MTGConstants {
 	public static final ImageIcon ICON_OPEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/open.png"));
 	public static final ImageIcon ICON_ABOUT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/about.jpg"));
 	public static final ImageIcon ICON_SPLASHSCREEN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/masters-logo.png"));
+	public static final ImageIcon ICON_DEFAULT_PLUGIN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/default.png"));
+
+	
 	
 	public static final ImageIcon ICON_TAB_NOTIFICATION=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/notify.png"));
 	public static final ImageIcon ICON_TAB_THUMBNAIL=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/thumbnail.png"));
@@ -174,6 +177,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_CACHE = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_NEWS = new ImageIcon(ICON_NEWS.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 
+	
 	
 	
 	

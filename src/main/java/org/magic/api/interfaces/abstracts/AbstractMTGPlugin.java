@@ -179,11 +179,14 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	@Override
 	public Icon getIcon() {
 		try {
-			return new ImageIcon(MTGDesktopCompanionExport.class.getResource("/icons/plugins/"+getName().toLowerCase()+".png"));
+			logger.info("/icons/plugins/"+getName().toLowerCase()+".png");
+			
+			return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/"+getName().toLowerCase()+".png"));
 		}
 		catch(Exception e)
 		{
-			return new ImageIcon(MTGConstants.IMAGE_LOGO);
+			
+			return MTGConstants.ICON_DEFAULT_PLUGIN;
 		}
 	}
 	

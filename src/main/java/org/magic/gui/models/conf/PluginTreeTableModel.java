@@ -12,7 +12,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
-public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
+public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
 
 	private String[] columnsNames = { MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"),
 			MTGControler.getInstance().getLangService().getCapitalize("VALUE"), "Version",
@@ -25,13 +25,13 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
 	private List<T> listElements;
 	private boolean multipleSelection = false;
 
-	public ProviderTreeTableModel(boolean multipleSelection, List<T> listPlugins) {
+	public PluginTreeTableModel(boolean multipleSelection, List<T> listPlugins) {
 		super(new Object());
 		this.multipleSelection = multipleSelection;
 		listElements = listPlugins;
 	}
 
-	protected int getPosition(Entry k, Properties p) {
+	protected int getPosition(Entry<String, Object> k, Properties p) {
 		for (int i = 0; i < p.keySet().size(); i++) {
 			if (p.keySet().toArray()[i].toString().equals(k.getKey()))
 				return i;
@@ -43,6 +43,7 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
 	public Object getChild(Object parent, int index) {
 		if (parent instanceof MTGPlugin) {
 			T dept = (T) parent;
+			
 			return getPropByIndex(dept, index);
 		}
 		return new ArrayList<T>(listElements).get(index);
@@ -98,7 +99,7 @@ public class ProviderTreeTableModel<T extends MTGPlugin> extends AbstractTreeTab
 			MTGPlugin prov = (MTGPlugin) node;
 			switch (column) {
 			case 0:
-				return prov.getName();
+				return prov;
 			case 1:
 				return prov.getStatut();
 			case 2:

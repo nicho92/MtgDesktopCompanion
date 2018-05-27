@@ -232,7 +232,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	public String getName() {
-		return "MTG Stocks";
+		return "MTGStocks";
 	}
 
 	@Override
