@@ -358,7 +358,7 @@
         </export>
        <export>
             <class>org.magic.api.exports.impl.WebsiteDeckImport</class>
-            <enable>false</enable>
+            <enable>true</enable>
         </export>
          <export>
             <class>org.magic.api.exports.impl.PriceCatalogExport</class>
