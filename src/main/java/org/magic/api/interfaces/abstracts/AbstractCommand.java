@@ -4,6 +4,9 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.DefaultParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -79,6 +82,12 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	}
 
 
+	 @Override
+	public Icon getIcon() {
+		return new ImageIcon(AbstractCommand.class.getResource("/icons/plugins/console.png"));
+	}
+	 
+	 
 	@Override
 	public void quit() {
 		// nothing to do

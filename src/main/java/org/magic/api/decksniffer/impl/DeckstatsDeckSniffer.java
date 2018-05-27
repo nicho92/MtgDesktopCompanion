@@ -173,7 +173,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String getName() {
-		return "DeckStats.net";
+		return "DeckStats";
 	}
 
 	@Override
