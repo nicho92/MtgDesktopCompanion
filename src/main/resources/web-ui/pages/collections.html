@@ -66,24 +66,19 @@
 		        "ajax": {"url":restserver+"/dash/collection","dataSrc":""},
 		        "columns": [
 		        	{ 
-		                "data": "edition",
+		                "data": "set",
 		                "width": "2%",
 		                "render": function(data, type, row, meta){
 		                	 if(type === 'display'){
-									data =  '<i class="ss ss-'+data.id.toLowerCase()+' ss-common ss-2x"></i>' ;		                		 
+									data =  '<i class="ss ss-'+data.toLowerCase()+' ss-common ss-2x"></i>' ;		                		 
 		                	 }
 		                   return data;
 		                }
 		            },
 		            { 
-		                "data": "edition",
-		                "width": "25%",
-		                "render": function(data, type, row, meta){
-		                	 if(type === 'display'){
-									data =  data.set;		                		 
-		                	 }
-		                   return data;
-		                }
+		                "data": "name",
+		                "width": "25%"
+		                
 		            },
 		            { 
 		                "data": "release",
@@ -174,7 +169,7 @@
                             <table id="tableEditionsCollection" class="display" style="width:100%">
 						        <thead>
 						            <tr>
-						                <th></th>
+						                <th>Set</th>
 						                <th>Name</th>
 						                <th>ReleaseDate</th>
 						                <th>Qty</th>

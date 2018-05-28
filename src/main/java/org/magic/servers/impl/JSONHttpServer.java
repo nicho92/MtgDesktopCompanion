@@ -288,6 +288,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			for (MagicEdition ed : eds) {
 				JsonObject obj = new JsonObject();
 				obj.add("edition", converter.toJsonElement(ed));
+				obj.addProperty("set", ed.getId());
+				obj.addProperty("name", ed.getSet());
 				obj.addProperty("release", ed.getReleaseDate());
 				obj.add("qty", new JsonPrimitive(model.getMapCount().get(ed)));
 				obj.add("cardNumber", new JsonPrimitive(ed.getCardCount()));
