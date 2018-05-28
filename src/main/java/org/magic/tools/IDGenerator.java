@@ -25,7 +25,8 @@ public class IDGenerator {
 		
 		String number=ed.getNumber();
 		
-		if(number.isEmpty())
+		
+		if(number!=null&&number.isEmpty() )
 			number=null;
 			
 		

@@ -13,7 +13,6 @@ import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGCardsExport;
 import org.magic.api.interfaces.MTGCardsProvider;
-import org.magic.api.interfaces.MTGCommand;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
@@ -153,7 +152,7 @@ public class PluginRegistry {
 	}
 
 	public boolean updateConfigWithNewModule() {
-		PluginRegistry.inst().entrySet().forEach(p->
+		entrySet().forEach(p->
 		{
 			for (Class c : extractMissing(p.getValue().getClasspath(), p.getValue().getXpath()))
 				MTGControler.getInstance().addProperty(p.getValue().getXpath(), c);
@@ -180,7 +179,7 @@ public class PluginRegistry {
 	}
 
 	public <T extends MTGPlugin> T getPlugin(String name,Class<T> type) {
-		for(MTGPlugin s : PluginRegistry.inst().listPlugins(type)) {
+		for(MTGPlugin s : listPlugins(type)) {
 			if(s.getName().equalsIgnoreCase(name))
 				return (T) s;
 		

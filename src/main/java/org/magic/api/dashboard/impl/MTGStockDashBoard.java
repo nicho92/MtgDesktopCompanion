@@ -97,9 +97,13 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	public List<CardShake> getShakeForEdition(MagicEdition edition) throws IOException {
 		connect();
 
+		if(cacheEditions.get(edition.getId())!=null)
+			return cacheEditions.get(edition.getId());
+		
 		List<CardShake> list = new ArrayList<>();
 
 		String url = MTGSTOCK_API_URI + "/card_sets/" + correspondance.get(edition.getId());
+		logger.debug("loading edition cardshake from " + url);
 		HttpURLConnection con = getConnection(url);
 		JsonObject obj = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
 
@@ -118,7 +122,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			}
 			list.add(cs);
 		}
-
+		cacheEditions.put(edition.getId(), list);
 		con.disconnect();
 		return list;
 	}
@@ -151,7 +155,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
 		int id = arr.get(0).getAsJsonObject().get("id").getAsInt();
 
-		logger.debug("found " + id + " for " + mc.getName());
+		logger.trace("found " + id + " for " + mc.getName());
 
 		String urlC = MTGSTOCK_API_URI + "/prints/" + id;
 		con = getConnection(urlC);
