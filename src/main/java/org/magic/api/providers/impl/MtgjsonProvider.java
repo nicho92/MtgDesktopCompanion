@@ -541,7 +541,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	}
 
 	public String getName() {
-		return "MTG Json Provider";
+		return "MTGJson";
 	}
 
 	public String[] getLanguages() {
