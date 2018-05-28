@@ -50,18 +50,18 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 		}
 	}
 
-	private MTGCommand commandFactory(String name) {
+	public static MTGCommand commandFactory(String name) {
 		return PluginRegistry.inst().newInstance("org.magic.api.commands.impl."+StringUtils.capitalize(name));
 	}
 	
 	
-	public static String[] translateCommandline(String toProcess) 
+	public static String[] translateCommandline(String stringCommand) 
 	{
 		
-        if (toProcess == null || toProcess.isEmpty()) {
+        if (stringCommand == null || stringCommand.isEmpty()) {
           return new String[0];
         }
-        StringTokenizer tok = new StringTokenizer(toProcess, " ", false);
+        StringTokenizer tok = new StringTokenizer(stringCommand, " ", false);
         List<String> list = new ArrayList<>();
         StringBuilder current = new StringBuilder();
         
@@ -111,9 +111,8 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 			}
 			else
 			{
-				
 				logger.debug("message="+line + " commandLine="+Arrays.asList(commandeLine) + " Command="+c);
-				CommandResponse<MTGCommand> ret = c.run(commandeLine);
+				CommandResponse<?> ret = c.run(commandeLine);
 				session.write(ret);
 				c.quit();
 				history.add(line);
