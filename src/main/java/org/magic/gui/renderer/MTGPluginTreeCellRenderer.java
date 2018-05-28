@@ -12,12 +12,11 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGConstants;
 
 public class MTGPluginTreeCellRenderer extends DefaultTreeCellRenderer{
-
+	
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,int row, boolean hasFocus) {
-		tree.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
 		JLabel lab = new JLabel();
-
+		tree.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
 		lab.setBackground(tree.getBackground());
 		lab.setForeground(tree.getForeground());
 		if(value instanceof MTGPlugin)
