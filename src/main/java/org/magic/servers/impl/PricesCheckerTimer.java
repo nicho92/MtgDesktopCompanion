@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.Icon;
+
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardAlert;
@@ -13,6 +15,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.MTGPricesProvider;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class PricesCheckerTimer extends AbstractMTGServer {
@@ -117,4 +120,9 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 		return "1.5";
 	}
 
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_EURO;
+	}
+	
 }

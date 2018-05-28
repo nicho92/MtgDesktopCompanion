@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import javax.swing.Icon;
+
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
 import org.magic.api.beans.MTGNotification;
@@ -14,6 +16,7 @@ import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCardAlert;
 import org.magic.api.interfaces.MTGNotifier;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class AlertTrendServer extends AbstractMTGServer {
@@ -27,6 +30,10 @@ public class AlertTrendServer extends AbstractMTGServer {
 	private TimerTask tache;
 	private boolean running = false;
 
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_ALERT;
+	}
 
 	@Override
 	public String description() {

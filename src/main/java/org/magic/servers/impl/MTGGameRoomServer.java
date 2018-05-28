@@ -5,6 +5,8 @@ import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
+
 import org.apache.mina.core.service.IoAcceptor;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IdleStatus;
@@ -25,6 +27,7 @@ import org.magic.game.network.actions.ReponseAction;
 import org.magic.game.network.actions.RequestPlayAction;
 import org.magic.game.network.actions.ShareDeckAction;
 import org.magic.game.network.actions.SpeakAction;
+import org.magic.services.MTGConstants;
 
 public class MTGGameRoomServer extends AbstractMTGServer {
 
@@ -207,6 +210,11 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 		setProperty("WELCOME_MESSAGE", "Welcome to my MTG Desktop Gaming Room");
 		setProperty(MAX_CLIENT, "0");
 
+	}
+	
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_GAME;
 	}
 
 	@Override

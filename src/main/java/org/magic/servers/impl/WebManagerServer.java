@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 
+import javax.swing.Icon;
+
 import org.apache.commons.io.FileUtils;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.DefaultServlet;
@@ -85,6 +87,12 @@ public class WebManagerServer extends AbstractMTGServer {
 			return false;
 	}
 
+	
+	@Override
+	public Icon getIcon() {
+		return MTGConstants.ICON_WEBSITE;
+	}
+	
 	@Override
 	public boolean isAutostart() {
 		return getBoolean(AUTOSTART);

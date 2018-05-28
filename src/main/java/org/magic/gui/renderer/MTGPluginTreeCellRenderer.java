@@ -1,9 +1,8 @@
 package org.magic.gui.renderer;
 
 import java.awt.Component;
-import java.util.Map;
+import java.awt.Font;
 import java.util.Map.Entry;
-import java.util.concurrent.ConcurrentHashMap;
 
 import javax.swing.JLabel;
 import javax.swing.JTree;
@@ -17,14 +16,13 @@ public class MTGPluginTreeCellRenderer extends DefaultTreeCellRenderer{
 	@Override
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean sel, boolean expanded, boolean leaf,int row, boolean hasFocus) {
 		tree.setRowHeight(MTGConstants.TREE_ROW_HEIGHT);
-		
 		JLabel lab = new JLabel();
-		
+
 		lab.setBackground(tree.getBackground());
 		lab.setForeground(tree.getForeground());
-		
 		if(value instanceof MTGPlugin)
 		{
+		   lab.setFont(lab.getFont().deriveFont(Font.BOLD));
 		   lab.setText(value.toString());
 		   lab.setIcon(((MTGPlugin)value).getIcon());
 		}

@@ -5,10 +5,13 @@ import java.io.IOException;
 import java.net.URL;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class GathererPicturesProvider extends AbstractPicturesProvider {
@@ -86,6 +89,11 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String getVersion() {
 		return "2.0";
+	}
+	
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(MTGConstants.IMAGE_LOGO);
 	}
 
 }
