@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.StringTokenizer;
 
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.lang3.StringUtils;
@@ -14,7 +15,6 @@ import org.apache.mina.core.session.IoSession;
 import org.magic.api.interfaces.MTGCommand;
 import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
-import org.magic.tools.ArgsLineParser;
 
 public class MTGConsoleHandler extends IoHandlerAdapter {
 
@@ -55,6 +55,44 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 	}
 	
 	
+	public static String[] translateCommandline(String toProcess) 
+	{
+		
+        if (toProcess == null || toProcess.isEmpty()) {
+          return new String[0];
+        }
+        StringTokenizer tok = new StringTokenizer(toProcess, " ", false);
+        List<String> list = new ArrayList<>();
+        StringBuilder current = new StringBuilder();
+        
+        while (tok.hasMoreTokens()) 
+        {
+        	String currentTok = tok.nextToken();
+        	
+        	if(currentTok.startsWith("-"))
+        	{
+        		if(current.length()>0)
+        		{
+        			list.add(current.toString().trim());
+        			current=new StringBuilder();
+        		}
+        		list.add(currentTok);
+        	}
+        	else
+        	{
+        		current.append(currentTok).append(" ");
+        	}
+        }
+        
+        if(!current.toString().isEmpty())
+        	list.add(current.toString().trim());
+        
+        
+        final String[] args = new String[list.size()];
+        return list.toArray(args);
+    }
+	
+	
 	@Override
 	public void messageReceived(IoSession session, Object message)throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException, ParseException,InvocationTargetException, NoSuchMethodException {
 		if (message == null)
@@ -64,7 +102,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 			session.write("\033[2J");
 		} else {
 			String line = message.toString();
-			String[] commandeLine = ArgsLineParser.translateCommandline(line);
+			String[] commandeLine = translateCommandline(line);
 			MTGCommand c = commandFactory(commandeLine[0]);
 			
 			if(c==null)
