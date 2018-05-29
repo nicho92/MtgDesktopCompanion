@@ -66,16 +66,15 @@ public class ConfigurationPanelGUI extends JPanel {
 
 	private <T extends MTGPlugin> void createTab(String label, Icon ic, boolean multi,List<T> list)
 	{
-		JScrollPane scroll = new JScrollPane();
-		subTabbedProviders.addTab(label, ic,scroll, null);
 		JXTreeTable table = new JXTreeTable(new PluginTreeTableModel<T>(multi, list));
+		table.setShowGrid(true, false);
 		table.setTreeCellRenderer(new MTGPluginTreeCellRenderer());
-		
-		scroll.setViewportView(table);
+		subTabbedProviders.addTab(label, ic,new JScrollPane(table), null);
 		table.addTreeSelectionListener(e -> {
 			if (e.getNewLeadSelectionPath() != null && e.getNewLeadSelectionPath().getPathCount() > 1)
 				((PluginTreeTableModel<?>) table.getTreeTableModel()).setSelectedNode((T) e.getNewLeadSelectionPath().getPathComponent(1));
 		});
+		table.packAll();
 
 	}
 	

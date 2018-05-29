@@ -81,7 +81,7 @@ Try your deck in game simulator :
 Create deck in sealed format :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/sealed.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/sealed.png)
 
-get your companion in discoard's channels
+get your companion in discord's channels
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/discord.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/discord.png)
 
 
