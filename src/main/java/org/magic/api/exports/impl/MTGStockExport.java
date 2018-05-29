@@ -6,6 +6,7 @@ import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
 
@@ -19,6 +20,11 @@ public class MTGStockExport extends AbstractCardExport {
 	@Override
 	public MODS getMods() {
 		return MODS.EXPORT;
+	}
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
 	}
 
 	@Override
