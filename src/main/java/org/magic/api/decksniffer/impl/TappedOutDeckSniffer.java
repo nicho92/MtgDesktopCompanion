@@ -62,7 +62,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		if(getBoolean("LOAD_CERTIFICATE"))
 		{
 			try {
-				InstallCert.installCert("mtgdecks.net");
+				InstallCert.installCert("tappedout.net");
 				setProperty("LOAD_CERTIFICATE", "false");
 			} catch (Exception e1) {
 				logger.error(e1);

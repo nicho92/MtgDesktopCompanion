@@ -33,7 +33,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
-				InstallCert.installCert("mtgdecks.net");
+				InstallCert.installCert("magiccards.info");
 				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);

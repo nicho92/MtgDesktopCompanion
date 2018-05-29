@@ -42,7 +42,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if(getBoolean("LOAD_CERTIFICATE"))
 		{
 			try {
-				InstallCert.installCert("mtgdecks.net");
+				InstallCert.installCert("scryfall.com");
 				setProperty("LOAD_CERTIFICATE", "false");
 			} catch (Exception e1) {
 				logger.error(e1);

@@ -40,7 +40,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
-				InstallCert.installCert("mtgdecks.net");
+				InstallCert.installCert("leboncoin.fr");
 				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);

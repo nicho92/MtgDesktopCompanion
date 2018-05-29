@@ -70,7 +70,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
-				InstallCert.installCert("mtgdecks.net");
+				InstallCert.installCert("decktutor.com");
 				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);

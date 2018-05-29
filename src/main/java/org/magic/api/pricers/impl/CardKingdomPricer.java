@@ -34,7 +34,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
-				InstallCert.installCert("mtgdecks.net");
+				InstallCert.installCert("cardkingdom.com");
 				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
