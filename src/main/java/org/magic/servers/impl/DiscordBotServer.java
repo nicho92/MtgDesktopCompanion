@@ -24,7 +24,6 @@ import javax.swing.ImageIcon;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
-import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGServer;
 import org.magic.servers.impl.NavigableEmbed.EmbedButton;
@@ -153,9 +152,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 
 	
 	private void applyControl(String emote, Message message, boolean enabled) {
-		
 			message.addReaction(emote).queue();
-
 			if (!enabled) {
 				message.getReactions().parallelStream().filter(r -> r.getReactionEmote().getEmote().getName().equals(emote))
 								   .forEach(r -> {

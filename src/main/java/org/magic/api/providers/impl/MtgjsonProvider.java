@@ -55,7 +55,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 	public MtgjsonProvider() {
 		super();
-		CacheProvider.setCache(new LRUCache(400));
+		CacheProvider.setCache(new LRUCache(getInt("LRU_CACHE")));
 	
 	}
 
@@ -554,8 +554,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		if (!edCode.startsWith("p"))
 			edCode = edCode.toUpperCase();
 
-		String jsquery = "$." + edCode + ".cards[?(@.name==\""
-				+ mc.getName().replaceAll("\\+", " ").replaceAll("\"", "\\\\\"") + "\")]";
+		String jsquery = "$." + edCode + ".cards[?(@.name==\""+ mc.getName().replaceAll("\\+", " ").replaceAll("\"", "\\\\\"") + "\")]";
 
 		// logger.trace("initOtherEditionVars for " + mc +"("+mc.getCurrentSet()+")
 		// -> " + jsquery);--> error on loading booster
@@ -682,6 +681,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	public void initDefault() {
 		setProperty("URL_SET_JSON_ZIP", "http://mtgjson.com/json/AllSets-x.json.zip");
 		setProperty("URL_VERSION", "http://mtgjson.com/json/version.json");
+		setProperty("LRU_CACHE", "400");
 		
 
 	}
