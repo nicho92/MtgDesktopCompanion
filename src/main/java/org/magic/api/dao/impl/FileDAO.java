@@ -317,7 +317,7 @@ public class FileDAO extends AbstractMagicDAO {
 	@Override
 	public void saveAlert(MagicCardAlert alert) throws SQLException {
 		try {
-			save(alert, new File(directory, "/alerts/" + IDGenerator.generate(alert.getCard())));
+			save(alert, Paths.get(directory.getAbsolutePath(), ALERTSDIR,IDGenerator.generate(alert.getCard())).toFile());
 		} catch (IOException e) {
 			throw new SQLException(e);
 		}
@@ -325,7 +325,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void deleteAlert(MagicCardAlert alert) throws SQLException {
-		File f = new File(directory, "/alerts/" + IDGenerator.generate(alert.getCard()));
+		File f = Paths.get(directory.getAbsolutePath(), ALERTSDIR,IDGenerator.generate(alert.getCard())).toFile();
 		if (f.exists())
 			FileUtils.deleteQuietly(f);
 	}
@@ -398,7 +398,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public void initDefault() {
-		setProperty("URL", confdir.getAbsolutePath() + "/filesDB");
+		setProperty("URL", Paths.get(confdir.getAbsolutePath(),"filesDB").toString());
 		setProperty("SERIALIZER", "json");
 
 	}
