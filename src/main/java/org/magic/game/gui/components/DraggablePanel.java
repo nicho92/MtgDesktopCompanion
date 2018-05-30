@@ -13,6 +13,7 @@ import org.apache.commons.beanutils.BeanUtils;
 import org.apache.log4j.Logger;
 import org.magic.game.model.Player;
 import org.magic.game.transfert.CardTransfertHandler;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public abstract class DraggablePanel extends JPanel implements Draggable {
@@ -48,6 +49,15 @@ public abstract class DraggablePanel extends JPanel implements Draggable {
 	public int getCardHeight() {
 		return (int) d.getHeight();
 	}
+	
+	public Dimension getCardsDimension()
+	{
+		if (d == null)
+			d = MTGControler.getInstance().getCardsDimension();
+		
+		return d;
+	}
+	
 
 	public DraggablePanel() {
 		setTransferHandler(new CardTransfertHandler());

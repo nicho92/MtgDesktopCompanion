@@ -89,16 +89,13 @@ public class HandPanel extends DraggablePanel {
 		t = new Thread(() -> {
 
 			for (MagicCard mc : cards) {
-				if (d == null)
-					d = MTGControler.getInstance().getCardsDimension();
+				
 
-				DisplayableCard lab = new DisplayableCard(mc, d, activateCards, rightClick);
+				DisplayableCard lab = new DisplayableCard(mc, getCardsDimension(), activateCards, rightClick);
 				lab.setTappable(activateCards);
 
 				try {
-					if (mc.getCurrentSet().getMultiverseid() == "0")
-						lab.setText(mc.getName());
-
+				
 					addComponent(lab);
 					revalidate();
 				} catch (Exception e) {

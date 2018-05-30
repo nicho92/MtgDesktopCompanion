@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.annotations.XYImageAnnotation;
 import org.jfree.chart.annotations.XYTextAnnotation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.time.Day;
@@ -30,6 +31,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.extra.IconSetProvider;
 
 public class HistoryPricesPanel extends JPanel {
 
@@ -93,6 +95,7 @@ public class HistoryPricesPanel extends JPanel {
 		this.me = me;
 		if(me==null)
 			me=card.getCurrentSet();
+		
 		this.title = title;
 		
 		if(isVisible()) {
@@ -151,8 +154,8 @@ public class HistoryPricesPanel extends JPanel {
 
 						double x = item.getPeriod().getFirstMillisecond();
 						double y = item.getValue().doubleValue();
-						XYTextAnnotation annot = new XYTextAnnotation(edition.getId(), x, y);
-						annot.setToolTipText(edition.getSet());
+						XYImageAnnotation annot = new XYImageAnnotation(x,y,IconSetProvider.getInstance().get16(edition.getId()).getImage()); 
+										  annot.setToolTipText(edition.getSet());
 						XYPlot plot = (XYPlot) chart.getPlot();
 						plot.addAnnotation(annot);
 					}
