@@ -15,7 +15,8 @@ public class CardPriceVariations {
 	private MagicCard card;
 	
 	
-	public CardPriceVariations() {
+	public CardPriceVariations(MagicCard card) {
+		this.card=card;
 		variations = new TreeMap<>();
 	}
 	
@@ -106,11 +107,6 @@ public class CardPriceVariations {
 		return variations.entrySet();
 	}
 
-	public void setCard(MagicCard mc) {
-		this.card=mc;
-		
-	}
-	
 	public MagicCard getCard() {
 		return card;
 	}

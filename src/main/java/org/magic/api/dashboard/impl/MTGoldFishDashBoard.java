@@ -53,8 +53,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		stop = false;
 		String url = "";
-		CardPriceVariations historyPrice = new CardPriceVariations();
-		historyPrice.setCard(mc);
+		CardPriceVariations historyPrice = new CardPriceVariations(mc);
 
 		int index = 0;
 

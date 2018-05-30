@@ -133,7 +133,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		if(mc==null)
 		{
 			logger.error("couldn't calculate edition only");
-			return new CardPriceVariations();
+			return new CardPriceVariations(mc);
 		}
 
 		
@@ -167,17 +167,15 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		String urlP = MTGSTOCK_API_URI + "/prints/" + id + "/prices";
 		con = getConnection(urlP);
 
-		CardPriceVariations ret = extractPrice(
-				parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject());
+		CardPriceVariations ret = extractPrice(parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject(), mc);
 		con.disconnect();
-		ret.setCard(mc);
-
+	
 		return ret;
 	}
 
-	private CardPriceVariations extractPrice(JsonObject obj) {
+	private CardPriceVariations extractPrice(JsonObject obj,MagicCard mc) {
 		JsonArray arr = obj.get(getString("CARD_PRICES_SHAKER")).getAsJsonArray();
-		CardPriceVariations prices = new CardPriceVariations();
+		CardPriceVariations prices = new CardPriceVariations(mc);
 		Calendar cal = GregorianCalendar.getInstance();
 
 		for (JsonElement el : arr) {
