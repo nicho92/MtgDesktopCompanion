@@ -1,14 +1,20 @@
 package org.magic.api.exports.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class MTGStockExport extends AbstractCardExport {
 
@@ -17,10 +23,6 @@ public class MTGStockExport extends AbstractCardExport {
 		return ".mtgstock";
 	}
 	
-	@Override
-	public MODS getMods() {
-		return MODS.EXPORT;
-	}
 	
 	@Override
 	public STATUT getStatut() {
@@ -46,10 +48,56 @@ public class MTGStockExport extends AbstractCardExport {
 		
 	}
 
+	
+	public static void main(String[] args) throws IOException {
+		MTGControler.getInstance().getEnabledCardsProviders().init();
+		MTGStockExport expo = new MTGStockExport();
+				expo.importDeck(new File("D:\\Downloads\\inventory.csv"));
+	}
+	
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
+			MagicDeck deck = new MagicDeck();
+			deck.setName(f.getName().substring(0, f.getName().indexOf('.')));
+
+			String line = read.readLine(); //skip first line
+			
+			line=read.readLine();
+
+			while (line != null) {
+				line = line.trim();
+				try {
+				Pattern p = Pattern.compile("\"([^\"]*)\"");
+				Matcher m = p.matcher(line);
+				String name="";
+				String ed="";
+				int index=0;
+				if(m.find())
+				{
+					name = m.group(1);
+					m.find();
+					ed=m.group(1);
+					index=m.end();
+				}
+				
+				line = line.substring(index+1);
+				int qty = Integer.parseInt(line.substring(0, line.indexOf(',')));
+				MagicEdition edition = MTGControler.getInstance().getEnabledCardsProviders().getSetByName(ed);
+				MagicCard card = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name, edition, true).get(0);
+				deck.getMap().put(card, qty);
+				
+				}
+				catch(Exception e)
+				{
+					logger.error("Error parsing " + line,e);
+				}
+				
+				
+				line = read.readLine();
+			}
+			return deck;
+		}
 	}
 
 	@Override

@@ -42,7 +42,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 
 	@Override
 	public String getName() {
-		return "File Cache";
+		return "File";
 	}
 
 	@Override

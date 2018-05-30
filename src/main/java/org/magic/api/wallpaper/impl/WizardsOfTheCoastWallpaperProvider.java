@@ -5,6 +5,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import org.apache.commons.io.FilenameUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
@@ -89,6 +92,11 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 		
 	}
 
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(MTGConstants.IMAGE_LOGO);
+	}
+	
 	@Override
 	public String getVersion() {
 		return "0.1";

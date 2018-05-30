@@ -50,11 +50,6 @@ public class MkmOnlineExport extends AbstractCardExport {
 		return STATUT.BETA;
 	}
 
-	public MkmOnlineExport() {
-		super();
-		
-
-	}
 	
 	private void init()
 	{

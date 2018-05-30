@@ -64,7 +64,7 @@ public class FileDAO extends AbstractMagicDAO {
 
 	@Override
 	public String getName() {
-		return "FileDB";
+		return "File";
 	}
 
 	private String removeCon(String a) {

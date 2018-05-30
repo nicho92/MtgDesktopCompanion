@@ -24,7 +24,7 @@ public class MemoryCache extends AbstractMTGPicturesCache {
 
 	@Override
 	public String getName() {
-		return "Memory Cache";
+		return "Memory";
 	}
 
 	@Override

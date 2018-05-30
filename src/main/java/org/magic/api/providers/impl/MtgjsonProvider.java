@@ -442,11 +442,11 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 		String jsquery = "$.*";
 
-		logger.debug("load editions");
 		if (!cacheEditions.values().isEmpty()) {
 			logger.trace("editions already loaded.Return cache");
 			return new ArrayList<>(cacheEditions.values());
 		}
+		logger.debug("load editions");
 		
 		chrono.start();
 		final List<String> codeEd = new ArrayList<>();

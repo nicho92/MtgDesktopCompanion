@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.TreeMap;
 
 import org.magic.api.beans.MagicCard;
@@ -44,6 +45,16 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	@Override
 	public List<MagicCard> searchCardByName(String name, MagicEdition me, boolean exact) throws IOException {
 		return searchCardByCriteria("name",name, me, exact);
+	}
+	
+	
+	@Override
+	public MagicEdition getSetByName(String name) throws IOException {
+			
+		return loadEditions().parallelStream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
+		
+		
+		
 	}
 	
 

@@ -5,11 +5,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
+import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import org.magic.services.MTGConstants;
 
@@ -62,6 +66,12 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	public String getName() {
 		return "MagicCorporation Topic";
 	}
+	
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(AbstractMTGPlugin.class.getResource("/icons/plugins/magiccorporation.png"));
+	}
+	
 
 	@Override
 	public STATUT getStatut() {

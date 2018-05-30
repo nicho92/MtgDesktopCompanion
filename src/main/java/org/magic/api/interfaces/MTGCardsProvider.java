@@ -30,6 +30,8 @@ public interface MTGCardsProvider extends MTGPlugin {
 	public List<MagicEdition> loadEditions() throws IOException;
 
 	public MagicEdition getSetById(String id) throws IOException;
+	
+	public MagicEdition getSetByName(String name) throws IOException;
 
 	public String[] getLanguages();
 

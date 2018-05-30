@@ -52,7 +52,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 
 	@Override
 	public String getName() {
-		return "Filer";
+		return "File";
 	}
 
 	@Override
