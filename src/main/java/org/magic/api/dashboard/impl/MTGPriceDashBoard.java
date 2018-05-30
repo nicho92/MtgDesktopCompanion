@@ -171,6 +171,8 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		CardPriceVariations historyPrice = new CardPriceVariations();
+		historyPrice.setCard(mc);
+
 		String name = "";
 
 		if (mc == null)

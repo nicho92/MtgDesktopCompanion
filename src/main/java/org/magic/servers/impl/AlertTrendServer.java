@@ -54,31 +54,11 @@ public class AlertTrendServer extends AbstractMTGServer {
 				if (MTGControler.getInstance().getEnabledDAO().listAlerts() != null)
 					for (MagicCardAlert alert : MTGControler.getInstance().getEnabledDAO().listAlerts()) {
 						try {
-							CardPriceVariations map= MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet());
-							if(map!=null)
+							CardPriceVariations cpv= MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(alert.getCard(), alert.getCard().getCurrentSet());
+							if(cpv!=null)
 							{
-								Date now = map.getLastDay();
-								Date yesterday = map.getYesterday();
-								Date week = map.getLastWeek();
-
-								double valDay = map.get(now) - map.get(yesterday);
-								double valWeek = map.get(now) - map.get(week);		 
-								double pcWeek = (map.get(now) - map.get(week))/map.get(week)*100;
-								double pcDay = (map.get(now) - map.get(yesterday))/map.get(yesterday)*100;
-								
-								CardShake cs = new CardShake();
-								cs.setCard(alert.getCard());
-								cs.setName(cs.getCard().getName());
-
-								cs.setEd(cs.getCard().getCurrentSet().getSet());
-								cs.setDateUpdate(new Date());
-								cs.setPercentDayChange(pcDay);
-								cs.setPercentWeekChange(pcWeek);
-								cs.setPriceDayChange(valDay);
-								cs.setPriceWeekChange(valWeek);
-								cs.setPrice(map.get(now));
+								CardShake cs = cpv.toCardShake();
 								alert.setShake(cs);
-								
 								
 								if(Math.abs(cs.getPercentDayChange())>=getInt(ALERT_MIN_PERCENT))
 									ret.add(cs);

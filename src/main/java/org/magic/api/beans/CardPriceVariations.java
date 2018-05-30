@@ -12,6 +12,8 @@ import java.util.TreeMap;
 public class CardPriceVariations {
 
 	private Map<Date,Double> variations;
+	private MagicCard card;
+	
 	
 	public CardPriceVariations() {
 		variations = new TreeMap<>();
@@ -24,6 +26,37 @@ public class CardPriceVariations {
 		
 		List<Entry<Date, Double>> res = asList();
 		return res.get(res.size()-val).getKey();
+	}
+	
+	public CardShake toCardShake()
+	{
+		
+		if(!variations.isEmpty())
+		{
+			Date now = getLastDay();
+			Date yesterday = getYesterday();
+			Date week = getLastWeek();
+	
+			double valDay = get(now) - get(yesterday);
+			double valWeek = get(now) - get(week);		 
+			double pcWeek = (get(now) - get(week))/get(week)*100;
+			double pcDay = (get(now) - get(yesterday))/get(yesterday)*100;
+			
+			CardShake cs = new CardShake();
+					  cs.setCard(card);
+					  cs.setName(cs.getCard().getName());
+					  
+			cs.setEd(cs.getCard().getCurrentSet().getSet());
+			cs.setDateUpdate(new Date());
+			cs.setPercentDayChange(pcDay);
+			cs.setPercentWeekChange(pcWeek);
+			cs.setPriceDayChange(valDay);
+			cs.setPriceWeekChange(valWeek);
+			cs.setPrice(get(now));
+			return cs;
+		}
+		
+		return null;
 	}
 	
 	public Date getLastWeek()
@@ -71,6 +104,15 @@ public class CardPriceVariations {
 	public Set<Entry<Date, Double>> entrySet()
 	{
 		return variations.entrySet();
+	}
+
+	public void setCard(MagicCard mc) {
+		this.card=mc;
+		
+	}
+	
+	public MagicCard getCard() {
+		return card;
 	}
 	
 	

@@ -135,7 +135,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			logger.error("couldn't calculate edition only");
 			return new CardPriceVariations();
 		}
-		
+
 		
 		connect();
 		logger.debug(mc + " " + me);
@@ -170,6 +170,8 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		CardPriceVariations ret = extractPrice(
 				parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject());
 		con.disconnect();
+		ret.setCard(mc);
+
 		return ret;
 	}
 

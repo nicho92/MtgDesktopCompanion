@@ -41,7 +41,7 @@ public class HistoryPricesPanel extends JPanel {
 	private JCheckBox chckbxShowAllDashboard;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private ChartPanel pane;
-	private transient CardPriceVariations map;
+	private transient CardPriceVariations cpVariations;
 	private String title;
 	private MagicCard mc;
 	private MagicEdition me;
@@ -90,6 +90,10 @@ public class HistoryPricesPanel extends JPanel {
 		
 	}
 	
+	public CardPriceVariations getVariations() {
+		return cpVariations;
+	}
+	
 	public void init(MagicCard card, MagicEdition me, String title) {
 		this.mc = card;
 		this.me = me;
@@ -100,7 +104,7 @@ public class HistoryPricesPanel extends JPanel {
 		
 		if(isVisible()) {
 			try {
-				this.map = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(card, me);
+				this.cpVariations = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(card, me);
 				refresh();
 			} catch (IOException e) {
 				logger.error("error init " + card, e);
@@ -136,7 +140,7 @@ public class HistoryPricesPanel extends JPanel {
 
 		} else {
 
-			for (Entry<Date, Double> d : map.entrySet())
+			for (Entry<Date, Double> d : cpVariations.entrySet())
 				series1.add(new Day(d.getKey()), d.getValue().doubleValue());
 
 			dataset.addSeries(series1);
