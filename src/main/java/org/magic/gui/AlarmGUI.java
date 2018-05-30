@@ -135,10 +135,7 @@ public class AlarmGUI extends JPanel {
 		serversPanel.setLayout(new GridLayout(2, 1, 0, 0));
 		serversPanel.add(oversightPanel);
 		serversPanel.add(serverPricePanel);
-		
 		panelRight.add(serversPanel,BorderLayout.SOUTH);
-		
-		
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DETAILS"), MTGConstants.ICON_TAB_DETAILS, magicCardDetailPanel, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS, variationPanel, null);
 		pricesTablePanel = new PricesTablePanel();
@@ -165,6 +162,7 @@ public class AlarmGUI extends JPanel {
 	}
 
 	private void initActions() {
+		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
@@ -175,7 +173,7 @@ public class AlarmGUI extends JPanel {
 					int modelRow = table.convertRowIndexToModel(viewRow);
 					MagicCardAlert selected = (MagicCardAlert) table.getModel().getValueAt(modelRow, 0);
 					updateInfo(selected);
-					
+					table.setRowSelectionInterval(modelRow, modelRow);
 					for (MagicPrice mp : selected.getOffers())
 						resultListModel.addElement(mp);
 				}

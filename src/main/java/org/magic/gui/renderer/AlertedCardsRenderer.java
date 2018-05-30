@@ -11,10 +11,17 @@ public class AlertedCardsRenderer extends DefaultTableCellRenderer {
 	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 		Component comp = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 		comp.setForeground(Color.BLACK);
+		
+		
+		
 		if ((Integer) value > 0)
 			comp.setBackground(Color.GREEN);
+		else if(isSelected)
+			comp.setBackground(table.getSelectionBackground());
 		else
 			comp.setBackground(table.getBackground());
+		
+		
 		return comp;
 	}
 }

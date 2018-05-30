@@ -34,7 +34,7 @@ import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
-	private static String baseURI = "https://api.scryfall.com";
+	private String baseURI = "https://api.scryfall.com";
 	private JsonParser parser;
 
 	public ScryFallProvider() {
@@ -51,10 +51,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	}
 
+	
+	@Override
+	public void initDefault() {
+		setProperty("LOAD_CERTIFICATE", "true");
+		setProperty("URL", "https://api.scryfall.com");
+	}
+	
 	@Override
 	public void init() {
 		parser = new JsonParser();
-		
+		baseURI=getString("URL");
 	}
 
 	@Override
