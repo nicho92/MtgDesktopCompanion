@@ -89,7 +89,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 			selectedProvider.setProperty(k, strValue);
 			logger.debug("put " + k + "=" + strValue + " to " + selectedProvider);
 			((Entry) node).setValue(strValue);
-			//selectedProvider.save();
+			
 		}
 	}
 

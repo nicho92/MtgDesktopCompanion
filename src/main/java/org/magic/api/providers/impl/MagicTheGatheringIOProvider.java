@@ -34,6 +34,9 @@ import com.google.gson.stream.JsonReader;
 
 public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
+	private static final String LOYALTY = "loyalty";
+	private static final String MANA_COST = "manaCost";
+	private static final String NAME = "name";
 	private static final String TOUGHNESS = "toughness";
 	private static final String POWER = "power";
 	private static final String MULTIVERSEID = "multiverseid";
@@ -121,11 +124,11 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		if(cacheCards.get(mc.getId())!=null)
 			return cacheCards.get(mc.getId());
 		
-		if (obj.get("name") != null)
-			mc.setName(obj.get("name").getAsString());
+		if (obj.get(NAME) != null)
+			mc.setName(obj.get(NAME).getAsString());
 
-		if (obj.get("manaCost") != null)
-			mc.setCost(obj.get("manaCost").getAsString());
+		if (obj.get(MANA_COST) != null)
+			mc.setCost(obj.get(MANA_COST).getAsString());
 
 		if (obj.get(TEXT) != null)
 			mc.setText(obj.get(TEXT).getAsString());
@@ -152,8 +155,8 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		if (obj.get(TOUGHNESS) != null)
 			mc.setToughness(obj.get(TOUGHNESS).getAsString());
 
-		if (obj.get("loyalty") != null)
-			mc.setLoyalty(obj.get("loyalty").getAsInt());
+		if (obj.get(LOYALTY) != null)
+			mc.setLoyalty(obj.get(LOYALTY).getAsInt());
 
 		if (obj.get("mciNumber") != null)
 			mc.setMciNumber(String.valueOf(obj.get("mciNumber")));
@@ -262,7 +265,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			for (int i = 0; i < arr.size(); i++) {
 				JsonObject lang = arr.get(i).getAsJsonObject();
 				MagicCardNames mcn = new MagicCardNames();
-				mcn.setName(lang.get("name").getAsString());
+				mcn.setName(lang.get(NAME).getAsString());
 				mcn.setLanguage(lang.get("language").getAsString());
 
 				if (lang.get(MULTIVERSEID) != null)
@@ -309,7 +312,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	private MagicEdition generateEdition(JsonObject obj) throws IOException {
 		MagicEdition ed = new MagicEdition();
 		ed.setId(obj.get("code").getAsString());
-		ed.setSet(obj.get("name").getAsString());
+		ed.setSet(obj.get(NAME).getAsString());
 		ed.setType(obj.get("type").getAsString());
 		ed.setBorder(obj.get("border").getAsString());
 		ed.setReleaseDate(obj.get("releaseDate").getAsString());
@@ -396,7 +399,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		return new String[] { "name", FOREIGN_NAMES, TEXT, ARTIST, "type", RARITY, "flavor", "cmc", "set",
+		return new String[] { NAME, FOREIGN_NAMES, TEXT, ARTIST, "type", RARITY, "flavor", "cmc", "set",
 				"watermark", POWER, TOUGHNESS, LAYOUT };
 	}
 

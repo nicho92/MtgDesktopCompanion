@@ -8,7 +8,6 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
-import org.api.mkm.services.InsightService;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.exports.impl.MKMFileWantListExport;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
@@ -17,9 +16,7 @@ import org.magic.gui.models.MkmInsightModel;
 
 public class MkmOversightDashlet extends AbstractJDashlet {
 	
-	private transient InsightService service;
-	private MkmInsightModel model;
-	
+
 	public MkmOversightDashlet() {
 		super();
 	}
@@ -44,7 +41,7 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 	public void initGUI() 
 	{
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		model=new MkmInsightModel();
+		MkmInsightModel model=new MkmInsightModel();
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		
@@ -62,7 +59,7 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 
 	@Override
 	public void init() {
-		service=new InsightService();
+		//TODO make the dev
 	}
 
 }
