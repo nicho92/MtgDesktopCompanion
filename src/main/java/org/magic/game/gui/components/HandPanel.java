@@ -11,7 +11,6 @@ import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.PositionEnum;
-import org.magic.services.MTGControler;
 
 public class HandPanel extends DraggablePanel {
 

@@ -9,7 +9,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 
 import org.jdesktop.swingx.JXTreeTable;
-import org.jdesktop.swingx.renderer.DefaultTableRenderer;
 import org.magic.api.interfaces.MTGPlugin;
 import org.magic.gui.components.ConfigurationPanel;
 import org.magic.gui.components.LoggerViewPanel;

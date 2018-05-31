@@ -26,6 +26,7 @@ import javax.net.ssl.X509TrustManager;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class InstallCert {
@@ -60,7 +61,7 @@ public class InstallCert {
 			KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
 			ks.load(in, passphrase);
 
-			SSLContext context = SSLContext.getInstance("TLS");
+			SSLContext context = SSLContext.getInstance(MTGConstants.SSL_PROTO);
 			TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
 			tmf.init(ks);
 			X509TrustManager defaultTrustManager = (X509TrustManager) tmf.getTrustManagers()[0];

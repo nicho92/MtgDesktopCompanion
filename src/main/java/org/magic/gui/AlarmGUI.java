@@ -100,9 +100,7 @@ public class AlarmGUI extends JPanel {
 		btnImport = new JButton(MTGConstants.ICON_IMPORT);
 		btnDelete = new JButton(MTGConstants.ICON_DELETE);
 		btnSuggestPrice = new JButton(MTGConstants.ICON_EURO);
-		
 		lblLoading = new JBuzyLabel();
-		
 		JPanel serversPanel = new JPanel();
 		ServerStatePanel oversightPanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Trend Server", MTGServer.class));
 		ServerStatePanel serverPricePanel = new ServerStatePanel(MTGControler.getInstance().getPlugin("Alert Price Checker", MTGServer.class));
@@ -158,10 +156,13 @@ public class AlarmGUI extends JPanel {
 			}
 
 		});
+		
 		initActions();
 	}
 
 	private void initActions() {
+		
+		
 		
 		table.addMouseListener(new MouseAdapter() {
 			@Override

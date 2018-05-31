@@ -5,9 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import org.apache.commons.lang3.NotImplementedException;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;

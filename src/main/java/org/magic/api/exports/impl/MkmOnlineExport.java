@@ -6,9 +6,6 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
-
 import org.apache.commons.collections4.ListUtils;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;

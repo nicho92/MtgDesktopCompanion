@@ -22,7 +22,7 @@ public class MTGConstants {
 
 	private MTGConstants() {
 	}
-
+	public static final String SSL_PROTO = "TLS";
 	public static final String CONF_FILENAME = "mtgcompanion-conf.xml";
 	public static final String CONF_JSON_BOOSTER = "/data/keywords.json";
 	public static final File CONF_DIR = new File(System.getProperty("user.home") + "/.magicDeskCompanion/");

@@ -36,7 +36,7 @@ public class MkmInsightModel extends DefaultTableModel {
 		return "";
 	}
 	
-	
+	@Override
 	public int getRowCount() {
 		if(elements!=null)
 			return elements.size();
