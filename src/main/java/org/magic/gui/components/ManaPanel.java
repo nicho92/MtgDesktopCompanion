@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -47,6 +48,7 @@ public class ManaPanel extends JPanel {
 	int count = 0;
 
 	String manaCost;
+	private HashMap<String,Integer> map;
 
 	public ManaPanel() {
 		fl.setAlignment(FlowLayout.LEFT);
@@ -104,6 +106,47 @@ public class ManaPanel extends JPanel {
 			}
 
 		}
+		
+		map = new HashMap<>();
+		map.put("X", 21);
+		map.put("Y",22);
+		map.put("Z",23);
+		map.put("W",24);
+		map.put("U",25);
+		map.put("B",26);
+		map.put("R",27);
+		map.put("G",28);
+		map.put("S",29);
+		map.put("W/P",45);
+		map.put("U/P",46);
+		map.put("B/P",47);
+		map.put("R/P",48);
+		map.put("G/P",49);
+		map.put("W/U",30);
+		map.put("W/B",31);
+		map.put("U/B",32);
+		map.put("U/R",33);
+		map.put("B/R",34);
+		map.put("B/G",35);
+		map.put("R/W",36);
+		map.put("R/G",37);
+		map.put("G/W",38);
+		map.put("G/U",39);
+		map.put("2/W",40);
+		map.put("2/U",41);
+		map.put("2/B",42);
+		map.put("2/R",43);
+		map.put("2/G",44);
+		map.put("T",50);
+		map.put("Q",51);
+		map.put("C",69);
+		map.put("\u221e",52);
+		map.put("\u00BD",53);
+		map.put("CHAOS",67);
+		map.put("E",68);
+		map.put("hr",58);
+		map.put("hw",57);
+		
 
 	}
 
@@ -114,125 +157,8 @@ public class ManaPanel extends JPanel {
 		try {
 			val = Integer.parseInt(el);
 		} catch (NumberFormatException ne) {
-			switch (el) {
-			case "X":
-				val = 21;
-				break;
-			case "Y":
-				val = 22;
-				break;
-			case "Z":
-				val = 23;
-				break;
-			case "W":
-				val = 24;
-				break;
-			case "U":
-				val = 25;
-				break;
-			case "B":
-				val = 26;
-				break;
-			case "R":
-				val = 27;
-				break;
-			case "G":
-				val = 28;
-				break;
-			case "S":
-				val = 29;
-				break;
-			case "W/P":
-				val = 45;
-				break;
-			case "U/P":
-				val = 46;
-				break;
-			case "B/P":
-				val = 47;
-				break;
-			case "R/P":
-				val = 48;
-				break;
-			case "G/P":
-				val = 49;
-				break;
-
-			case "W/U":
-				val = 30;
-				break;
-			case "W/B":
-				val = 31;
-				break;
-			case "U/B":
-				val = 32;
-				break;
-			case "U/R":
-				val = 33;
-				break;
-			case "B/R":
-				val = 34;
-				break;
-			case "B/G":
-				val = 35;
-				break;
-			case "R/W":
-				val = 36;
-				break;
-			case "R/G":
-				val = 37;
-				break;
-			case "G/W":
-				val = 38;
-				break;
-			case "G/U":
-				val = 39;
-				break;
-			case "2/W":
-				val = 40;
-				break;
-			case "2/U":
-				val = 41;
-				break;
-			case "2/B":
-				val = 42;
-				break;
-			case "2/R":
-				val = 43;
-				break;
-			case "2/G":
-				val = 44;
-				break;
-			case "T":
-				val = 50;
-				break;
-			case "Q":
-				val = 51;
-				break;
-			case "C":
-				val = 69;
-				break;
-			case "\u221e":
-				val = 52;
-				break;// infinity symbol
-			case "\u00BD":
-				val = 53;
-				break;// 1/2 symbol
-			case "CHAOS":
-				val = 67;
-				break;
-			case "E":
-				val = 68;
-				break;
-			case "hr":
-				val = 58;
-				break; // half red unghined
-			case "hw":
-				val = 57;
-				break; // half white unghined
-			default:
-				val = 0;
-			}
+			val= map.get(el);
+		
 		}
 		List<Image> lst = new ArrayList<>();
 

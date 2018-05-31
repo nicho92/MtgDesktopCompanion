@@ -77,7 +77,7 @@ public class SleeveCalculator {
 		}
 		
 		
-		System.out.println(table.render());
+		logger.debug("\n"+table.render());
 		
 		
 		

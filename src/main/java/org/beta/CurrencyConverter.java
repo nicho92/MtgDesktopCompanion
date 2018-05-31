@@ -8,7 +8,7 @@ import org.magic.services.MTGLogger;
 
 
 public class CurrencyConverter {
-	private Logger logger = MTGLogger.getLogger(CurrencyConverter.class);
+	private static Logger logger = MTGLogger.getLogger(CurrencyConverter.class);
 
 	private HashMap<Currency, Double> map;
 	
@@ -21,9 +21,7 @@ public class CurrencyConverter {
 	
 	public static void main(String[] args){
 		
-		
-		
-		System.out.println(new CurrencyConverter().getValue(Currency.getInstance("USD"), Currency.getInstance("EUR"), 1));
+		logger.debug(new CurrencyConverter().getValue(Currency.getInstance("USD"), Currency.getInstance("EUR"), 1));
 	}
 	
 	public double getValue(String from, String to, double value)

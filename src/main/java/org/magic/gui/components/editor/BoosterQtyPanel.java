@@ -18,6 +18,8 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class BoosterQtyPanel extends JPanel {
+	
+	private static final long serialVersionUID = 1L;
 	private JComboBox<MagicEdition> cboEditions;
 	private JSpinner spinner;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
