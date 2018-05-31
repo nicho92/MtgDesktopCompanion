@@ -49,12 +49,6 @@ public class MTGStockExport extends AbstractCardExport {
 	}
 
 	
-	public static void main(String[] args) throws IOException {
-		MTGControler.getInstance().getEnabledCardsProviders().init();
-		MTGStockExport expo = new MTGStockExport();
-				expo.importDeck(new File("D:\\Downloads\\inventory.csv"));
-	}
-	
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
 		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
@@ -64,7 +58,7 @@ public class MTGStockExport extends AbstractCardExport {
 			String line = read.readLine(); //skip first line
 			
 			line=read.readLine();
-
+			int val=0;
 			while (line != null) {
 				line = line.trim();
 				try {
@@ -86,7 +80,8 @@ public class MTGStockExport extends AbstractCardExport {
 				MagicEdition edition = MTGControler.getInstance().getEnabledCardsProviders().getSetByName(ed);
 				MagicCard card = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name, edition, true).get(0);
 				deck.getMap().put(card, qty);
-				
+				setChanged();
+				notifyObservers(val++);
 				}
 				catch(Exception e)
 				{
