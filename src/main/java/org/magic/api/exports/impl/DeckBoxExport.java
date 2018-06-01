@@ -1,17 +1,24 @@
 package org.magic.api.exports.impl;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.apache.commons.io.FileUtils;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 
 public class DeckBoxExport extends AbstractCardExport {
 
@@ -35,6 +42,17 @@ public class DeckBoxExport extends AbstractCardExport {
 		 case PROXY : return "";
 		 default : return condition.name(); 
 		}
+	}
+	
+	private EnumCondition reverse(String condition)
+	{
+		switch (condition)
+		{
+		 case "Good (Lightly Played)": return EnumCondition.LIGHTLY_PLAYED;
+		 case "Near Mint":  return EnumCondition.NEAR_MINT; 
+		 default : EnumCondition.valueOf(condition.toUpperCase());
+		}
+		return EnumCondition.valueOf(condition.toUpperCase());
 	}
 	
 	
@@ -91,7 +109,6 @@ public class DeckBoxExport extends AbstractCardExport {
 			line.append(name).append(",");
 			line.append(mc.getCurrentSet().getSet()).append(",");
 			line.append(mc.getCurrentSet().getNumber()).append(",");
-			//line.append("Near Mint,French,foil,signed,proof,altered,misprint,,,0\n");
 			line.append("Near Mint,,,,,,,,,0\n");
 			
 			FileUtils.write(dest, line, MTGConstants.DEFAULT_ENCODING,true);
@@ -102,9 +119,78 @@ public class DeckBoxExport extends AbstractCardExport {
 	}
 
 	@Override
+	public List<MagicCardStock> importStock(File f) throws IOException {
+		
+		List<MagicCardStock> list = new ArrayList<>();
+		try (BufferedReader read = new BufferedReader(new FileReader(f))) {
+			String line = read.readLine();
+			while (line != null) {
+				line = read.readLine();
+				if(line.isEmpty())
+					break;
+				
+				MagicCardStock mcs = new MagicCardStock();
+				
+				mcs.setQte(Integer.parseInt(line.substring(0, line.indexOf(','))));
+				
+				line=line.substring(line.indexOf(',')+1,line.length());
+				line=line.substring(line.indexOf(',')+1,line.length()); //don't care the next one
+				Pattern p = Pattern.compile("\"([^\"]*)\"");
+				Matcher m = p.matcher(line);
+				String name=null;
+				if(m.find())
+				{
+					name=m.group(1);
+					line=line.substring(line.lastIndexOf('"')+2,line.length());
+				}
+				else
+				{
+					name=line.substring(0, line.indexOf(','));
+					line=line.substring(line.indexOf(',')+1,line.length());
+				}
+				MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetByName(line.substring(0, line.indexOf(',')));
+				line=line.substring(line.indexOf(',')+1,line.length());
+				line=line.substring(line.indexOf(',')+1,line.length()); //don't care of number
+				
+				MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name, ed, true).get(0);
+				mcs.setMagicCard(mc);
+				
+		
+				if(!line.startsWith(","))
+				{
+					String condition = line.substring(0, line.indexOf(','));
+					mcs.setCondition(reverse(condition));
+				}
+				line=line.substring(line.indexOf(',')+1,line.length());
+				
+				mcs.setLanguage(line.substring(line.indexOf(',')+1,line.length()));
+				line=line.substring(line.indexOf(',')+1,line.length());
+				
+				mcs.setAltered(line.contains("Altered Art"));
+				mcs.setFoil(line.contains("Foiled"));
+				mcs.setSigned(line.contains("Signed"));
+				
+				
+				list.add(mcs);
+			}
+		}
+		
+		return list;
+	}
+	
+
+	@Override
 	public MagicDeck importDeck(File f) throws IOException {
-		// TODO Auto-generated method stub
-		return null;
+		List<MagicCardStock> list = importStock(f);
+		MagicDeck d = new MagicDeck();
+		
+		for(MagicCardStock st : list)
+		{
+			d.getMap().put(st.getMagicCard(), st.getQte());
+		}
+		
+		return d;
+		
 	}
 
 	@Override
