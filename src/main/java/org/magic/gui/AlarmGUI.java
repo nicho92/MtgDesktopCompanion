@@ -174,7 +174,7 @@ public class AlarmGUI extends JPanel {
 					int modelRow = table.convertRowIndexToModel(viewRow);
 					MagicCardAlert selected = (MagicCardAlert) table.getModel().getValueAt(modelRow, 0);
 					updateInfo(selected);
-					table.setRowSelectionInterval(modelRow, modelRow);
+					table.setRowSelectionInterval(viewRow, viewRow);
 					for (MagicPrice mp : selected.getOffers())
 						resultListModel.addElement(mp);
 				}

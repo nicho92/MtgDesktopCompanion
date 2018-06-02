@@ -10,6 +10,9 @@ import java.awt.Image;
 import java.awt.Point;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -102,7 +105,7 @@ public class CardSearchPanel extends JPanel {
 	private PricesTablePanel priceTablePanel;
 	private JTextArea txtRulesArea;
 	private JSONPanel panelJson;
-	private JXSearchField txtMagicSearch;
+	private JXSearchField txtSearch;
 	private JPopupMenu popupMenu = new JPopupMenu();
 	private JComboBox<MagicCardNames> cboLanguages;
 	private JComboBox<String> cboQuereableItems;
@@ -262,9 +265,9 @@ public class CardSearchPanel extends JPanel {
 
 		listEdition = new JList<>();
 
-		txtMagicSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
-		txtMagicSearch.setBackground(Color.WHITE);
-		txtMagicSearch.setSearchMode(MTGConstants.SEARCH_MODE);
+		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		txtSearch.setBackground(Color.WHITE);
+		txtSearch.setSearchMode(MTGConstants.SEARCH_MODE);
 		
 		txtRulesArea = new JTextArea();
 		
@@ -324,7 +327,7 @@ public class CardSearchPanel extends JPanel {
 		scrollCards.setMinimumSize(new Dimension(0, 0));
 		scrollThumbnails.getVerticalScrollBar().setUnitIncrement(10);
 		txtFilter.setColumns(25);
-		txtMagicSearch.setColumns(50);
+		txtSearch.setColumns(50);
 
 		/////// VISIBILITY
 		tableCards.setColumnControlVisible(true);
@@ -358,7 +361,7 @@ public class CardSearchPanel extends JPanel {
 
 		panneauHaut.add(cboQuereableItems);
 		panneauHaut.add(cboCollections);
-		panneauHaut.add(txtMagicSearch);
+		panneauHaut.add(txtSearch);
 		panneauHaut.add(cboEdition);
 		panneauHaut.add(btnFilter);
 		panneauHaut.add(btnExport);
@@ -417,19 +420,19 @@ public class CardSearchPanel extends JPanel {
 		addComponentListener(new ComponentAdapter() {
 			@Override
 		    public void componentShown(ComponentEvent componentEvent){
-		        txtMagicSearch.requestFocus();
+		        txtSearch.requestFocus();
 		    }
 		}); 
 		
 		cboEdition.addActionListener(ae -> {
-				txtMagicSearch.setText(((MagicEdition) cboEdition.getSelectedItem()).getId());
-				txtMagicSearch.postActionEvent();
+				txtSearch.setText(((MagicEdition) cboEdition.getSelectedItem()).getId());
+				txtSearch.postActionEvent();
 				});
 		
 		
 		cboCollections.addActionListener(ae -> {
-			txtMagicSearch.setText(((MagicCollection) cboCollections.getSelectedItem()).getName());
-			txtMagicSearch.postActionEvent();
+			txtSearch.setText(((MagicCollection) cboCollections.getSelectedItem()).getName());
+			txtSearch.postActionEvent();
 		});
 
 		btnClear.addActionListener(ae -> {
@@ -449,21 +452,29 @@ public class CardSearchPanel extends JPanel {
 
 		cboQuereableItems.addActionListener(e -> {
 			if (cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("set")) {
-				txtMagicSearch.setVisible(false);
+				txtSearch.setVisible(false);
 				cboEdition.setVisible(true);
 				cboCollections.setVisible(false);
 			} else if (cboQuereableItems.getSelectedItem().toString().equalsIgnoreCase("collections")) {
-				txtMagicSearch.setVisible(false);
+				txtSearch.setVisible(false);
 				cboEdition.setVisible(false);
 				cboCollections.setVisible(true);
 			} else {
-				txtMagicSearch.setVisible(true);
+				txtSearch.setVisible(true);
 				cboEdition.setVisible(false);
 				cboCollections.setVisible(false);
 			}
 		});
-
-		txtMagicSearch.addActionListener(ae -> {
+		
+		txtSearch.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				txtSearch.setText("");
+			}
+		});
+		
+		
+		txtSearch.addActionListener(ae -> {
 
 			Observer ob = new Observer() {
 				@Override
@@ -474,7 +485,7 @@ public class CardSearchPanel extends JPanel {
 			
 			
 			selectedEdition = null;
-			if (txtMagicSearch.getText().equals("") && !cboCollections.isVisible())
+			if (txtSearch.getText().equals("") && !cboCollections.isVisible())
 				return;
 			
 			
@@ -483,7 +494,7 @@ public class CardSearchPanel extends JPanel {
 			new SwingWorker<Object, Object>() {
 				protected Void doInBackground() {
 					loading(true, MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
-					String searchName = txtMagicSearch.getText();
+					String searchName = txtSearch.getText().trim();
 					try {
 						List<MagicCard> cards;
 						MTGControler.getInstance().getEnabledCardsProviders().addObserver(ob);

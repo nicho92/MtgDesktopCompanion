@@ -8,7 +8,7 @@ import org.magic.services.MTGConstants;
 public abstract class AbstractMagicNewsProvider extends AbstractMTGPlugin implements MTGNewsProvider {
 
 	public enum NEWS_TYPE {
-		RSS, TWITTER, FORUM
+		RSS, TWITTER, FORUM, REDDIT
 	}
 
 	@Override
