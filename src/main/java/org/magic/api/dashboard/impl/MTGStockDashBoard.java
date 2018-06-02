@@ -6,6 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Currency;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
@@ -85,6 +86,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		cs.setPercentDayChange(el.getAsJsonObject().get("percentage").getAsDouble());
 		cs.setPriceDayChange(el.getAsJsonObject().get("present_price").getAsDouble()- el.getAsJsonObject().get("past_price").getAsDouble());
 		cs.setDateUpdate(new Date(el.getAsJsonObject().get("date").getAsLong()));
+		cs.setCurrency(Currency.getInstance("USD"));
 		correspondance.forEach((key, value) -> {
 			if (value == el.getAsJsonObject().get(PRINT).getAsJsonObject().get("set_id").getAsInt()) {
 				cs.setEd(key);
@@ -113,6 +115,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			CardShake cs = new CardShake();
 			cs.setName(el.getAsJsonObject().get("name").getAsString());
 			cs.setEd(edition.getId());
+			cs.setCurrency(Currency.getInstance("USD"));
 			try{
 				cs.setPrice(el.getAsJsonObject().get("latest_price").getAsJsonObject().get("avg").getAsDouble());
 			}
@@ -176,6 +179,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private CardPriceVariations extractPrice(JsonObject obj,MagicCard mc) {
 		JsonArray arr = obj.get(getString("CARD_PRICES_SHAKER")).getAsJsonArray();
 		CardPriceVariations prices = new CardPriceVariations(mc);
+		prices.setCurrency(Currency.getInstance("USD"));
 		Calendar cal = GregorianCalendar.getInstance();
 
 		for (JsonElement el : arr) {

@@ -2,6 +2,7 @@ package org.magic.api.beans;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +14,12 @@ public class CardPriceVariations {
 
 	private Map<Date,Double> variations;
 	private MagicCard card;
-	
+	private Currency currency;
 	
 	public CardPriceVariations(MagicCard card) {
 		this.card=card;
 		variations = new TreeMap<>();
+		currency=Currency.getInstance("USD");
 	}
 	
 	private Date getLastValueAt(int val)
@@ -109,6 +111,14 @@ public class CardPriceVariations {
 
 	public MagicCard getCard() {
 		return card;
+	}
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
 	}
 	
 	

@@ -1,6 +1,7 @@
 package org.magic.api.beans;
 
 import java.net.URL;
+import java.util.Currency;
 import java.util.Date;
 
 public class CardShake {
@@ -15,6 +16,7 @@ public class CardShake {
 	private MagicCard card;
 	private String ed;
 	private Date dateUpdate;
+	private Currency currency;
 
 	public CardShake() {
 		price = 0.0;
@@ -22,8 +24,25 @@ public class CardShake {
 		percentDayChange = 0;
 		priceWeekChange = 0;
 		percentWeekChange = 0;
-
+		currency=Currency.getInstance("USD");
 	}
+	
+	
+	
+
+	public Currency getCurrency() {
+		return currency;
+	}
+
+
+
+
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+
+
+
 
 	public Date getDateUpdate() {
 		return dateUpdate;

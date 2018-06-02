@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -79,7 +80,6 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 				String set = e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(1).text();
 				set = set.replaceAll("_\\(Foil\\)", "");
 				cs.setEd(getCodeForExt(set));
-
 				list.add(cs);
 
 			}

@@ -1,7 +1,9 @@
 package org.magic.services;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.URL;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -21,8 +23,27 @@ public class VersionChecker {
 	private String onlineVersion;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
+	public String getVersion() {
+		InputStream input = getClass().getResourceAsStream(MTGConstants.MTG_DESKTOP_VERSION_FILE);
+		BufferedReader read = new BufferedReader(new InputStreamReader(input));
+		try {
+			String version = read.readLine();
+
+			if (version.startsWith("${"))
+				return "0.0";
+			else
+				return version;
+
+		} catch (IOException e) {
+			return "";
+		}
+
+	}
+
+	
+	
 	public VersionChecker() {
-		actualVersion = MTGControler.getInstance().getVersion();
+		actualVersion = getVersion();
 		try {
 			InputStream input = new URL(MTGConstants.MTG_DESKTOP_POM_URL).openConnection().getInputStream();
 			onlineVersion = parseXML(input);

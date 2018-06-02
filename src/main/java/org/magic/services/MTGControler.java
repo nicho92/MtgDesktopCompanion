@@ -41,6 +41,7 @@ import org.magic.api.interfaces.MTGTokensProvider;
 import org.magic.api.interfaces.MTGWallpaperProvider;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.game.model.Player;
+import org.magic.services.extra.CurrencyConverter;
 import org.magic.services.extra.KeyWordProvider;
 import org.magic.services.extra.LookAndFeelProvider;
 import org.magic.tools.ImageUtils;
@@ -52,6 +53,7 @@ public class MTGControler {
 	private XMLConfiguration config;
 	private FileBasedConfigurationBuilder<XMLConfiguration> builder;
 	private LanguageService langService;
+	private CurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	
@@ -80,8 +82,8 @@ public class MTGControler {
 	}
 
 	public Dimension getCardsDimension() {
-		int w = Integer.parseInt(MTGControler.getInstance().get("/game/cards/card-width"));
-		int h = Integer.parseInt(MTGControler.getInstance().get("/game/cards/card-height"));
+		int w = Integer.parseInt(get("/game/cards/card-width"));
+		int h = Integer.parseInt(get("/game/cards/card-height"));
 		return new Dimension(w, h);
 	}
 
@@ -128,23 +130,7 @@ public class MTGControler {
 		}
 	}
 
-	public String getVersion() {
-		InputStream input = getClass().getResourceAsStream(MTGConstants.MTG_DESKTOP_VERSION_FILE);
-		BufferedReader read = new BufferedReader(new InputStreamReader(input));
-		try {
-			String version = read.readLine();
-
-			if (version.startsWith("${"))
-				return "0.0";
-			else
-				return version;
-
-		} catch (IOException e) {
-			return "";
-		}
-
-	}
-
+	
 	public Locale getLocale() {
 		try {
 			return LocaleUtils.toLocale(config.getString("locale"));
@@ -198,6 +184,7 @@ public class MTGControler {
 			
 			PluginRegistry.inst().setConfig(config);
 			
+			currencyService = new CurrencyConverter();
 			keyWordManager = new KeyWordProvider();
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
@@ -205,6 +192,10 @@ public class MTGControler {
 		} catch (Exception e) {
 			logger.error("error init", e);
 		}
+	}
+	
+	public CurrencyConverter getCurrencyService() {
+		return currencyService;
 	}
 
 	public List<AbstractJDashlet> getDashlets() {

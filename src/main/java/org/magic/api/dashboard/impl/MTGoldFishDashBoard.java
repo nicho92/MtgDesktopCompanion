@@ -5,6 +5,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Currency;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +55,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		stop = false;
 		String url = "";
 		CardPriceVariations historyPrice = new CardPriceVariations(mc);
-
+		historyPrice.setCurrency(Currency.getInstance("USD"));
 		int index = 0;
 
 		if (me == null)
