@@ -4,12 +4,15 @@ chrome.runtime.onInstalled.addListener(function() {
     });
   });
 
+
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => 
 {
-      console.log(request.message);
-      
-      
-      
-      
-      sendResponse({message: "hi to you"});
+	console.log(request);
+	
+	chrome.storage.sync.get(['serverURL'], function(data) {
+		url=data.serverURL+"/cards/search/name/"+request.message;
+		console.log(url);
+	});
+	
+	sendResponse({message: 'ok'});
 });
