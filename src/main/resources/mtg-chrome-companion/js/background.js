@@ -13,8 +13,12 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) =>
 	  	        url: data.serverURL+"/cards/light/"+request.message
 	  	        
 	  	    }).then(function(data) {
-	  	    	console.log(data);
 	  	    	chrome.browserAction.setBadgeText({text: data.length+""});
+	  	    	
+	  	    	chrome.storage.sync.set({data: data}, function() {
+	  	          console.log("Storage data done");
+	  	        });
+	  	    	
 	  	    	sendResponse({result: data});
 	  	    });
 	});
