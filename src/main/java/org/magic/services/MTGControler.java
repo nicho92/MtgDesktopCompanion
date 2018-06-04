@@ -184,11 +184,11 @@ public class MTGControler {
 			
 			PluginRegistry.inst().setConfig(config);
 			
-			currencyService = new CurrencyConverter();
 			keyWordManager = new KeyWordProvider();
 			langService = new LanguageService();
 			langService.changeLocal(getLocale());
-
+			currencyService = new CurrencyConverter(get("currencylayer-access-api"));
+			
 		} catch (Exception e) {
 			logger.error("error init", e);
 		}

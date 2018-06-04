@@ -7,12 +7,15 @@ chrome.runtime.onInstalled.addListener(function() {
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => 
 {
-	console.log(request);
-	
 	chrome.storage.sync.get(['serverURL'], function(data) {
-		url=data.serverURL+"/cards/search/name/"+request.message;
-		console.log(url);
+		$.ajax({
+	  	        url: data.serverURL+"/cards/search/name/"+request.message+"/true"
+	  	        
+	  	    }).then(function(data) {
+	  	    	console.log(data);
+	  	    	 chrome.browserAction.setBadgeText({text: data.length+""});
+	  	    	sendResponse({result: data});
+	  	    });
 	});
-	
-	sendResponse({message: 'ok'});
+    return true; // need for asynchronous call 
 });

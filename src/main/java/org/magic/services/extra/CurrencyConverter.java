@@ -22,8 +22,10 @@ public class CurrencyConverter {
 	private Logger logger = MTGLogger.getLogger(CurrencyConverter.class);
 	private HashMap<String, Double> map;
 	private File cache;
-
-	public CurrencyConverter() {
+	private String token;
+	
+	public CurrencyConverter(String token) {
+		this.token=token;
 		map = new HashMap<>();
 		cache=new File(MTGConstants.CONF_DIR,"conversionData.json");
 		try {
@@ -81,7 +83,7 @@ public class CurrencyConverter {
 		
 		if(!cache.exists())
 		{
-			String token = MTGControler.getInstance().get("currencylayer-access-api");
+			
 			URL url = new URL("http://apilayer.net/api/live?access_key="+token);
 			logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from "+url);
 			JsonElement parse = new JsonParser().parse(new InputStreamReader(url.openStream()));
