@@ -39,8 +39,6 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 			}
 		}
 
-		newW = getInt("CARD_SIZE_WIDTH");
-		newH = getInt("CARD_SIZE_HEIGHT");
 
 	}
 

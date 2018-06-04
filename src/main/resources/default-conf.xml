@@ -15,6 +15,7 @@
         <history>true</history>
         <wallpaper>true</wallpaper>
     </modules>
+    <currencylayer-access-api></currencylayer-access-api>
     <langage>English</langage>
     <debug>DEBUG</debug>
     <tooltip>true</tooltip>
@@ -424,6 +425,13 @@
             <class>org.magic.api.exports.impl.MTGStockExport</class>
             <enable>true</enable>
         </export>
+        <export>
+            <class>org.magic.api.exports.impl.DeckBoxExport</class>
+            <enable>true</enable>
+        </export>
+        
+        
+        
     </deckexports>
     <newsProvider>
         <news>

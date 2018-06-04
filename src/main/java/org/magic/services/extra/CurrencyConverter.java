@@ -28,11 +28,7 @@ public class CurrencyConverter {
 		this.token=token;
 		map = new HashMap<>();
 		cache=new File(MTGConstants.CONF_DIR,"conversionData.json");
-		try {
-			init();
-		} catch (IOException e) {
-			logger.error("Could not init Currency Converter",e);
-		}
+		init();
 	}
 	
 	public Double convert(Currency from, Currency to, double value)
@@ -78,26 +74,32 @@ public class CurrencyConverter {
 		
 	}
 	
-	public void init() throws IOException{
-		JsonObject obj;
-		
-		if(!cache.exists())
-		{
+	public void init() {
+		try {
+			JsonObject obj;
+			if(!cache.exists())
+			{
+				
+				URL url = new URL("http://apilayer.net/api/live?access_key="+token);
+				logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from "+url);
+				JsonElement parse = new JsonParser().parse(new InputStreamReader(url.openStream()));
+				obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
+				FileUtils.writeStringToFile(cache, obj.toString(), MTGConstants.DEFAULT_ENCODING);
+			}
+			else
+			{
+				obj = new JsonParser().parse(FileUtils.readFileToString(cache,MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
+			}
 			
-			URL url = new URL("http://apilayer.net/api/live?access_key="+token);
-			logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from "+url);
-			JsonElement parse = new JsonParser().parse(new InputStreamReader(url.openStream()));
-			obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
-			FileUtils.writeStringToFile(cache, obj.toString(), MTGConstants.DEFAULT_ENCODING);
+			obj.entrySet().forEach(entry->{
+				map.put(entry.getKey().substring(3),entry.getValue().getAsDouble());
+			});
 		}
-		else
+		catch(Exception e)
 		{
-			obj = new JsonParser().parse(FileUtils.readFileToString(cache,MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
+			logger.error("couldn't init CurrencyConverter");
 		}
 		
-		obj.entrySet().forEach(entry->{
-			map.put(entry.getKey().substring(3),entry.getValue().getAsDouble());
-		});
 	}
 	
 	

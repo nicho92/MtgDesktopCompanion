@@ -20,12 +20,6 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		return PLUGINS.PICTURES;
 	}
 
-	@Override
-	public void save() {
-		super.save();
-		newW = getInt("CARD_SIZE_WIDTH");
-		newH = getInt("CARD_SIZE_HEIGHT");
-	}
 
 	public AbstractPicturesProvider() {
 		super();
@@ -38,6 +32,10 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			initDefault();
 			save();
 		}
+
+		newW = getInt("CARD_SIZE_WIDTH");
+		newH = getInt("CARD_SIZE_HEIGHT");
+		
 	}
 
 	@Override

@@ -1,32 +1,33 @@
 <html>
 <head>
+<link href="/css/bootstrap.min.css" rel="stylesheet">
+ 
 <style>
 body{
 	color:#000000;
-	width:300px;
+	width:400px;
 }
-.title{
-	font-weight:800;
-}
-.title h3{
-	margin-top:0px;
-	margin-bottom:0px;
-}
-.popup-div{
-	text-align:center;
-	padding-bottom:10px;
-}
+
 </style>
 </head>
 
 <body>
-	<div class="popup-div title">
-		<img src="/img/logo.png" class="logo" id="logo" />
-		<h3>MTG Chrome Companion</h3>
-		<div id='content'></div>
-		<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=xx&type=card" class="logo" id="cardPic" />
+<div align='center'><img src="/img/logo.png" class="logo" id="logo" /><b>MTG Chrome Companion</b></div>
+<div class="row">
+	<div class="col-lg-1">
+		<div class="panel panel-default">
+			<div class="panel-heading"><span id='cardname'></span></div>
+			<div class="panel-body">
+				<p>
+					<img src="http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=xx&type=card" class="logo" id="cardPic" />
+				</p>
+			</div>
+			<div class="panel-footer">
+				<p id='content'></p>
+			</div>
+		</div>
 	</div>
-	
+</div>
 	
 <script src="/libs/jquery-3.3.1.min.js"></script>	
 <script src="/js/popup.js"></script>

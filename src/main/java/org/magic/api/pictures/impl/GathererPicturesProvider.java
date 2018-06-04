@@ -18,12 +18,6 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 
 	private MagicCardInfoPicturesProvider mciProv;
 
-	public GathererPicturesProvider() {
-		super();
-
-		newW = getInt("CARD_SIZE_WIDTH");
-		newH = getInt("CARD_SIZE_HEIGHT");
-	}
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {

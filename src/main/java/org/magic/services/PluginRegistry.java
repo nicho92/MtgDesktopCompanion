@@ -175,6 +175,7 @@ public class PluginRegistry {
 				}
 			}
 		}
+		
 		return retour;
 	}
 

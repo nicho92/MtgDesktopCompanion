@@ -22,13 +22,7 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		return STATUT.DEV;
 	}
 
-	public MagidexPicturesProvider() {
-		super();
 
-		newW = getInt("CARD_SIZE_WIDTH");
-		newH = getInt("CARD_SIZE_HEIGHT");
-
-	}
 
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition me) throws IOException {

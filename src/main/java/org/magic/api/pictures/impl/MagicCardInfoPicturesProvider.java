@@ -39,9 +39,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 				logger.error(e1);
 			}
 		}
-		
-		newW = getInt("CARD_SIZE_WIDTH");
-		newH = getInt("CARD_SIZE_HEIGHT");
+	
 	}
 
 	@Override
