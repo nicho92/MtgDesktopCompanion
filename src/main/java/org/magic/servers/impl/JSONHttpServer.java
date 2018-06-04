@@ -152,6 +152,28 @@ public class JSONHttpServer extends AbstractMTGServer {
 						.searchCardByCriteria(request.params(":att"), request.params(":val"), null, Boolean.parseBoolean(request.params(":exact"))),
 				transformer);
 		
+
+		get("/cards/light/:name", getString(MIME),(request, response) -> {
+			List<MagicCard> list= MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(request.params(":name"), null, true);
+			JsonArray arr = new JsonArray();
+			
+			for(MagicCard mc : list)
+			{
+				List<MagicCollection> cols = MTGControler.getInstance().getEnabledDAO().listCollectionFromCards(mc);
+				
+				JsonObject obj = new JsonObject();
+							obj.addProperty("name", mc.getName());
+							obj.addProperty("cost", mc.getCost());
+							obj.addProperty("type", mc.getFullType());
+							obj.addProperty("set", mc.getCurrentSet().getSet());
+							obj.addProperty("multiverse", mc.getCurrentSet().getMultiverseid());
+							obj.add("collections", converter.toJsonElement(cols));
+				arr.add(obj);			
+			}
+			return arr;
+			
+		},transformer);
+		
 		
 		get("/cards/name/:idEd/:cName", getString(MIME), (request, response) -> {
 
