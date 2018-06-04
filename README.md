@@ -23,6 +23,8 @@ Features :
 - Standalone servers (game room, console server, http server, price checking).
 - New magiccardMarket Pricer : Stay tunned !!,  when you're alerted by a good bid for your wanted cards, it's automatically added to your cart ! 
 - Manage your stock card, mass modification, import/export from deck, website. Update your Mkm Seller Account stock, Automaticaly update prices !
+- Get alerted with many notifier (Telegram, mail, Discord,....) 
+- NEW : Plugin for Chrome : select cardname in website to check in your collections.
 
 > Modularity : 
 - choose :
@@ -81,9 +83,11 @@ Try your deck in game simulator :
 Create deck in sealed format :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/sealed.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/sealed.png)
 
-get your companion in discord's channels
+get your companion in discord's channels :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/discord.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/discord.png)
 
+get your companion in chrome :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/mtgchromecompanion.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/mtgchromecompanion.png)
 
 
 
