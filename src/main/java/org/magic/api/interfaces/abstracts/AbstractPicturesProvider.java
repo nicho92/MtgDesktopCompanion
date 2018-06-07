@@ -14,8 +14,8 @@ import org.magic.tools.ImageUtils;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
-	protected int newW;
-	protected int newH;
+	protected int newW=223;
+	protected int newH=310;
 
 	@Override
 	public PLUGINS getType() {
@@ -34,17 +34,28 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			initDefault();
 			save();
 		}
-
 		
-		updateSize();
-		
+		try {
+			setSize(MTGControler.getInstance().getPictureProviderDimension());
+		}
+		catch(Exception e)
+		{
+			logger.error("couldn't set size");
+		}
 		
 	}
 
-	public void updateSize() {
-		Dimension d = MTGControler.getInstance().getPictureProviderDimension();
-		newW=(int)d.getWidth();
-		newH=(int)d.getHeight();
+
+	private void setSize(Dimension d) {
+		setSize((int)d.getWidth(), (int)d.getHeight());
+		
+	}
+
+
+	@Override
+	public void setSize(int w,int h) {
+		newW=w;
+		newH=h;
 		
 	}
 
