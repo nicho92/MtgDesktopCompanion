@@ -81,7 +81,7 @@ public class MTGControler {
 		return inst;
 	}
 
-	public Dimension getCardsDimension() {
+	public Dimension getCardsGameDimension() {
 		int w = Integer.parseInt(get("/game/cards/card-width"));
 		int h = Integer.parseInt(get("/game/cards/card-height"));
 		return new Dimension(w, h);
@@ -100,6 +100,19 @@ public class MTGControler {
 			logger.error(e);
 		}
 	}
+	
+	public void setDimension(int w, int h)
+	{
+		setProperty("card-pictures-dimension", w+"x"+h);
+	}
+	
+	public Dimension getPictureProviderDimension()
+	{
+		String dim = get("card-pictures-dimension");
+		String[] dimT = dim.split("x");
+		return new Dimension(Integer.parseInt(dimT[0]), Integer.parseInt(dimT[1]));
+	}
+	
 	
 	public void setProperty(Object k, Object c) {
 		try {

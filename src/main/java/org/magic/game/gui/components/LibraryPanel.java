@@ -34,8 +34,8 @@ public class LibraryPanel extends DraggablePanel {
 
 		try {
 			i = MTGControler.getInstance().getEnabledPicturesProvider().getBackPicture().getScaledInstance(
-					(int) MTGControler.getInstance().getCardsDimension().getWidth(),
-					(int) MTGControler.getInstance().getCardsDimension().getHeight(), BufferedImage.SCALE_SMOOTH);
+					(int) MTGControler.getInstance().getCardsGameDimension().getWidth(),
+					(int) MTGControler.getInstance().getCardsGameDimension().getHeight(), BufferedImage.SCALE_SMOOTH);
 			setPreferredSize(new Dimension(i.getWidth(null), i.getHeight(null)));
 
 		} catch (Exception e) {

@@ -286,8 +286,8 @@ public class SealedPanel extends JPanel {
 		JScrollPane scrollDeck = new JScrollPane();
 		scrollDeck.setViewportView(panelDeck);
 		panelEast.add(scrollDeck);
-		panelDeck.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsDimension().getWidth() + 5,
-				(int) (MTGControler.getInstance().getCardsDimension().getHeight() * 30)));
+		panelDeck.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth() + 5,
+				(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 30)));
 
 		panelEast.add(new JLabel(MTGControler.getInstance().getLangService().getCapitalize("DROP_HERE")),
 				BorderLayout.NORTH);
@@ -383,7 +383,7 @@ public class SealedPanel extends JPanel {
 	}
 
 	private DisplayableCard createCard(MagicCard mc) {
-		DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true, false);
+		DisplayableCard c = new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true, false);
 		c.addObserver(panelDetail);
 		return c;
 

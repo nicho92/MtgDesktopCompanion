@@ -15,7 +15,7 @@ public class GraveyardPanel extends DraggablePanel {
 		setLayout(null);
 		setBorder(new LineBorder(Color.BLACK));
 		setBackground(Color.GRAY);
-		setPreferredSize(new Dimension(0, (int) (MTGControler.getInstance().getCardsDimension().getHeight() * 30)));
+		setPreferredSize(new Dimension(0, (int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 30)));
 	}
 
 	@Override

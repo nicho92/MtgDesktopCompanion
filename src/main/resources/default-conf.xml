@@ -29,11 +29,12 @@
     <debug-json-panel>true</debug-json-panel>
     <lookAndFeel>javax.swing.plaf.nimbus.NimbusLookAndFeel</lookAndFeel>
     <locale>en</locale>
+    <card-pictures-dimension>336x468</card-pictures-dimension>
+    
     <game>
         <cards>
             <card-width>154</card-width>
             <card-height>215</card-height>
-            <card-heigth>215</card-heigth>
         </cards>
         <player-profil>
             <name>Player</name>

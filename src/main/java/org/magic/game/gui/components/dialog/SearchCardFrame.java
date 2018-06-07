@@ -58,7 +58,7 @@ public class SearchCardFrame extends JDialog {
 	public SearchCardFrame(Player p, PositionEnum source) {
 		init(p, source);
 		setTitle(p.getName() + "'s" + source.toString());
-		pane.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
+		pane.setThumbnailSize(MTGControler.getInstance().getCardsGameDimension());
 
 		switch (source) {
 		case GRAVEYARD:
@@ -81,7 +81,7 @@ public class SearchCardFrame extends JDialog {
 	// used by ScryActions.
 	public SearchCardFrame(Player p, List<MagicCard> list, PositionEnum source) {
 		init(p, source);
-		pane.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
+		pane.setThumbnailSize(MTGControler.getInstance().getCardsGameDimension());
 		pane.initThumbnails(list, true, true);
 	}
 

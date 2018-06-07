@@ -29,7 +29,7 @@ public class MoveGraveyardActions extends AbstractAction {
 
 			for (MagicCard mc : disc) {
 				GamePanelGUI.getInstance().getPanelGrave()
-						.addComponent(new DisplayableCard(mc, MTGControler.getInstance().getCardsDimension(), true));
+						.addComponent(new DisplayableCard(mc, MTGControler.getInstance().getCardsGameDimension(), true));
 			}
 			GamePanelGUI.getInstance().getPanelGrave().postTreatment(null);
 		}

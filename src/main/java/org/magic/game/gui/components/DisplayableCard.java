@@ -478,8 +478,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		}
 
 		try {
-			if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.TOKEN.toString())
-					|| mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString())) {
+			if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.TOKEN.toString())|| mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString())) {
 				fullResPics = MTGControler.getInstance().getEnabledTokensProvider().getPictures(mc);
 			} else {
 				fullResPics = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);

@@ -33,7 +33,6 @@ public class BattleFieldPanel extends DraggablePanel {
 			DisplayableCard card = (DisplayableCard) c;
 			selected.add(card);
 		}
-
 		return selected;
 	}
 

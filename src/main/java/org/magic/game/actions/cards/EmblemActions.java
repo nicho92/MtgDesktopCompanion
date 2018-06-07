@@ -28,7 +28,7 @@ public class EmblemActions extends AbstractAction {
 	public void actionPerformed(ActionEvent e) {
 		try {
 			MagicCard tok = MTGControler.getInstance().getEnabledTokensProvider().generateEmblemFor(card.getMagicCard());
-			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsDimension(), true);
+			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
 			dc.setMagicCard(tok);
 			GamePanelGUI.getInstance().getPanelBattleField().addComponent(dc);
 			GamePanelGUI.getInstance().getPanelBattleField().revalidate();

@@ -52,8 +52,8 @@ public class BoosterPanel extends JPanel {
 			p = getColumnAt(lastColumn);
 		}
 		p.setPlayer(GameManager.getInstance().getCurrentPlayer());
-		p.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsDimension().getWidth() + 5,
-				(int) (MTGControler.getInstance().getCardsDimension().getHeight() * 30)));
+		p.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth() + 5,
+				(int) (MTGControler.getInstance().getCardsGameDimension().getHeight() * 30)));
 		p.addComponent(i);
 		p.postTreatment(i);
 

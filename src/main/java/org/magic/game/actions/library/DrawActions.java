@@ -31,7 +31,7 @@ public class DrawActions extends AbstractAction {
 			DisplayableCard c = new DisplayableCard(
 					GamePanelGUI.getInstance().getPlayer().getHand()
 							.get(GamePanelGUI.getInstance().getPlayer().getHand().size() - 1),
-					MTGControler.getInstance().getCardsDimension(), true);
+					MTGControler.getInstance().getCardsGameDimension(), true);
 			c.enableDrag(true);
 			GamePanelGUI.getInstance().getHandPanel().addComponent(c);
 

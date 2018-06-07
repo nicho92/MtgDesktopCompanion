@@ -1,5 +1,6 @@
 package org.magic.api.interfaces.abstracts;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -8,6 +9,7 @@ import javax.imageio.ImageIO;
 
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.tools.ImageUtils;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
@@ -33,10 +35,19 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 			save();
 		}
 
-		newW = getInt("CARD_SIZE_WIDTH");
-		newH = getInt("CARD_SIZE_HEIGHT");
+		
+		updateSize();
+		
 		
 	}
+
+	public void updateSize() {
+		Dimension d = MTGControler.getInstance().getPictureProviderDimension();
+		newW=(int)d.getWidth();
+		newH=(int)d.getHeight();
+		
+	}
+
 
 	@Override
 	public BufferedImage getBackPicture() {
@@ -50,8 +61,6 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 
 	@Override
 	public void initDefault() {
-		setProperty("CARD_SIZE_WIDTH", "223");
-		setProperty("CARD_SIZE_HEIGHT", "310");
 	}
 
 	public BufferedImage resizeCard(BufferedImage img, int newW, int newH) {

@@ -315,7 +315,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		JScrollPane scrollActions = new JScrollPane();
 
 		scrollActions
-				.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsDimension().getWidth(), 0));
+				.setPreferredSize(new Dimension((int) MTGControler.getInstance().getCardsGameDimension().getWidth(), 0));
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("EVENTS"), null, scrollActions,
 				null);
 
@@ -385,7 +385,7 @@ public class GamePanelGUI extends JPanel implements Observer {
 		handPanel = new HandPanel();
 		handPanel.setLayout(new FlowLayout(FlowLayout.LEFT));
 		handPanel.enableDragging(true);
-		handPanel.setThumbnailSize(MTGControler.getInstance().getCardsDimension());
+		handPanel.setThumbnailSize(MTGControler.getInstance().getCardsGameDimension());
 		panelBottom.setLayout(new BorderLayout(0, 0));
 		handPanel.setRupture(7);
 

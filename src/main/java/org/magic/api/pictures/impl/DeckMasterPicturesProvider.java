@@ -1,5 +1,6 @@
 package org.magic.api.pictures.impl;
 
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
@@ -41,9 +42,6 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 				logger.error(e1);
 			}
 		}
-
-		newW = getInt("CARD_SIZE_WIDTH");
-		newH = getInt("CARD_SIZE_HEIGHT");
 	}
 
 	private BufferedImage getPicture(String multiverseid) throws IOException {
@@ -88,6 +86,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getPicture(MagicCard mc, MagicEdition ed) throws IOException {
+
 
 		MagicEdition selected = ed;
 		if (ed == null)

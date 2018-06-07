@@ -34,16 +34,17 @@ import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
-	private String baseURI = "https://api.scryfall.com";
+	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
+	private String baseURI = "";
 	private JsonParser parser;
 
 	public ScryFallProvider() {
 		super();
-		if(getBoolean("LOAD_CERTIFICATE"))
+		if(getBoolean(LOAD_CERTIFICATE))
 		{
 			try {
 				InstallCert.installCert("scryfall.com");
-				setProperty("LOAD_CERTIFICATE", "false");
+				setProperty(LOAD_CERTIFICATE, "false");
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -54,7 +55,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	
 	@Override
 	public void initDefault() {
-		setProperty("LOAD_CERTIFICATE", "true");
+		setProperty(LOAD_CERTIFICATE, "true");
 		setProperty("URL", "https://api.scryfall.com");
 	}
 	
@@ -78,28 +79,30 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		if (exact)
 			comparator = "!\"" + crit + "\"";
 
-		String url = baseURI + "/cards/";
+		StringBuilder url = new StringBuilder(baseURI);
+				url.append("/cards/");
+				
 		if (att.equals("name"))
-			url += "search?q=" + URLEncoder.encode("++" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING);
+			url.append("search?q=").append(URLEncoder.encode("++" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING));
 		else if (att.equals("custom"))
-			url += "search?q=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING);
+			url.append("search?q=").append(URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING));
 		else if (att.equals("set"))
-			url += "search?q=" + URLEncoder.encode("++e:" + crit, MTGConstants.DEFAULT_ENCODING);
+			url.append("search?q=").append(URLEncoder.encode("++e:" + crit, MTGConstants.DEFAULT_ENCODING));
 		else if (att.equals("id"))
-			url += URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING);
+			url.append(URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING));
 		else
-			url += "search?q=" + URLEncoder.encode(att + ":" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING);
+			url.append("search?q=").append(URLEncoder.encode(att + ":" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING));
 
 		if (me != null)
-			url += "%20" + URLEncoder.encode("e:" + me.getId(), MTGConstants.DEFAULT_ENCODING);
+			url.append("%20").append(URLEncoder.encode("e:" + me.getId(), MTGConstants.DEFAULT_ENCODING));
 
 		HttpURLConnection con;
 		JsonReader reader;
 		boolean hasMore = true;
 		while (hasMore) {
 
-			logger.debug(URLDecoder.decode(url, MTGConstants.DEFAULT_ENCODING));
-			con = (HttpURLConnection) getConnection(url);
+			logger.debug(URLDecoder.decode(url.toString(), MTGConstants.DEFAULT_ENCODING));
+			con = (HttpURLConnection) getConnection(url.toString());
 
 			if (!isCorrectConnection(con))
 				return list;
@@ -120,7 +123,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					hasMore = el.getAsJsonObject().get("has_more").getAsBoolean();
 
 					if (hasMore)
-						url = el.getAsJsonObject().get("next_page").getAsString();
+						url = new StringBuilder(el.getAsJsonObject().get("next_page").getAsString());
 
 					Thread.sleep(50);
 				}
@@ -190,7 +193,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public String[] getLanguages() {
-		return new String[] { "English" };
+		return new String[] { "en","es","fr","de","it","pt","ja","ru","zhs","he","ar" };
 	}
 
 	@Override

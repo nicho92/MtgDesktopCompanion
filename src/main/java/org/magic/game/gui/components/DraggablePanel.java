@@ -53,7 +53,7 @@ public abstract class DraggablePanel extends JPanel implements Draggable {
 	public Dimension getCardsDimension()
 	{
 		if (d == null)
-			d = MTGControler.getInstance().getCardsDimension();
+			d = MTGControler.getInstance().getCardsGameDimension();
 		
 		return d;
 	}
