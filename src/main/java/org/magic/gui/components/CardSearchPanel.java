@@ -81,6 +81,7 @@ import org.utils.patterns.observer.Observer;
 
 import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
+import javax.swing.JSpinner;
 
 public class CardSearchPanel extends JPanel {
 

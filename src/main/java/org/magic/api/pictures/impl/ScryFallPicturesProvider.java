@@ -90,8 +90,6 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 			if (bufferedImage != null)
 				MTGControler.getInstance().getEnabledCache().put(bufferedImage, mc, selected);
-
-			System.out.println("w="+newW + " h="+newH );
 			
 			return resizeCard(bufferedImage, newW, newH);
 		} catch (Exception e) {
