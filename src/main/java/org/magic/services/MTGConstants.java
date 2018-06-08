@@ -40,7 +40,13 @@ public class MTGConstants {
 
 	public static final String USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/26.0.1410.65 Safari/537.31";
 	public static final String DEFAULT_ENCODING="UTF-8";
-
+	
+	public static final int DEFAULT_PIC_WIDTH = 223;
+	public static final int DEFAULT_PIC_HEIGHT = 310;
+	
+	public static final double CARD_PICS_RATIO = 1.39;
+	
+	
 	public static final String DEFAULT_NOTIFIER_NAME="swing";
 	
 	public static final int MTG_DESKTOP_TABBED_POSITION = JTabbedPane.LEFT;
@@ -176,6 +182,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_TAB_WALLPAPER = new ImageIcon(ICON_WALLPAPER.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_CACHE = new ImageIcon(ICON_CLEAR.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
 	public static final ImageIcon ICON_TAB_NEWS = new ImageIcon(ICON_NEWS.getImage().getScaledInstance(16, 16, BufferedImage.SCALE_SMOOTH));
+	
 
 	
 	

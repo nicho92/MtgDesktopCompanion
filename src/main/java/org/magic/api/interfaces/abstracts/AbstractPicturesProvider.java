@@ -14,8 +14,8 @@ import org.magic.tools.ImageUtils;
 
 public abstract class AbstractPicturesProvider extends AbstractMTGPlugin implements MTGPictureProvider {
 
-	protected int newW=223;
-	protected int newH=310;
+	protected int newW=MTGConstants.DEFAULT_PIC_HEIGHT;
+	protected int newH=MTGConstants.DEFAULT_PIC_WIDTH;
 
 	@Override
 	public PLUGINS getType() {
@@ -45,20 +45,11 @@ public abstract class AbstractPicturesProvider extends AbstractMTGPlugin impleme
 		
 	}
 
-
-	private void setSize(Dimension d) {
-		setSize((int)d.getWidth(), (int)d.getHeight());
-		
-	}
-
-
 	@Override
-	public void setSize(int w,int h) {
-		newW=w;
-		newH=h;
-		
+	public void setSize(Dimension d) {
+		newW=(int)d.getWidth();
+		newH=(int)d.getHeight();
 	}
-
 
 	@Override
 	public BufferedImage getBackPicture() {

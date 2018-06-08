@@ -25,7 +25,7 @@ public class SleeveCalculator {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
 		
 		MagicEdition ed = new MagicEdition();
-		ed.setId("TMP");
+		ed.setId("BBD");
 		List<MagicCard> cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByEdition(ed);
 		Collections.sort(cards, new CardsEditionSorter());
 		

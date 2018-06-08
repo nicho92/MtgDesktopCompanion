@@ -8,71 +8,51 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import org.magic.services.MTGConstants;
+
+import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+
 public class JResizerPanel extends JPanel {
-	
-	private JSpinner spinW;
-	private JSpinner spinH;
-	
-	private double ratio = 1.39;
-	
-	
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		f.getContentPane().add(new JResizerPanel());
-		f.setVisible(true);
-		
-	}
-	
-	public JResizerPanel() {
-		init();
-	}
-	
-	
-	public JResizerPanel(int w, int h) {
-		init();
-		
-		spinH.setValue(h);
-		spinW.setValue(w);
-	}
+	private double ratio = MTGConstants.CARD_PICS_RATIO;
+	private JLabel lblDimension;
+	private Dimension dimension;
+	private JSpinner spinner;
 	
 	public JResizerPanel(Dimension d) {
+		dimension=d;
 		init();
-		
-		spinH.setValue(d.getHeight());
-		spinW.setValue(d.getWidth());
 	}
 	
-	public void init() {
+	public Dimension getDimension() {
+		return dimension;
+	}
+	
+	
+	
+	private void init() {
+		setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
+		spinner = new JSpinner();
+		spinner.setPreferredSize(new Dimension(60, 20));
+		spinner.setModel(new SpinnerNumberModel(0, null, null, 1));
+		add(spinner);
+		lblDimension = new JLabel("");
+		add(lblDimension);
 		
-		JLabel lblW = new JLabel("W:");
-		add(lblW);
-		
-		spinW = new JSpinner();
-		spinW.setPreferredSize(new Dimension(60, 20));
-		spinW.addChangeListener(ce-> {
-			Integer val = (Integer)spinW.getValue();
-			spinH.setValue((val/ratio));
-			
+		update();
+		spinner.addChangeListener(ce-> {
+			Number val = (Number)spinner.getValue();
+			int w = (int) (dimension.getWidth()+val.intValue());
+			int h = (int) (w*ratio);
+			dimension.setSize(w, h);
+			update();
 		});
-		
-
-		
-		spinW.setModel(new SpinnerNumberModel(0, 0, null, 1));
-		add(spinW);
-		
-		JLabel lblH = new JLabel("H:");
-		add(lblH);
-		
-		spinH = new JSpinner();
-		spinH.setPreferredSize(new Dimension(60, 20));
-		spinH.setModel(new SpinnerNumberModel(0, 0, null, 1));
-		add(spinH);
-		
-		spinH.addChangeListener(ce-> {
-			Integer val = (Integer)spinH.getValue();
-			spinW.setValue((val/ratio));
-			
-		});
+	}
+	
+	
+	private void update()
+	{
+		lblDimension.setText((int)dimension.getWidth()+"x"+(int)dimension.getHeight());
 	}
 
 }

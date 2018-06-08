@@ -1,5 +1,6 @@
 package org.magic.api.interfaces;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -16,6 +17,6 @@ public interface MTGPictureProvider extends MTGPlugin {
 
 	public BufferedImage extractPicture(MagicCard mc) throws IOException;
 	
-	public void setSize(int w,int h);
+	public void setSize(Dimension d);
 
 }

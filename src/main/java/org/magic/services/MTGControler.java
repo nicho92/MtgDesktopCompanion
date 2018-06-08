@@ -100,20 +100,13 @@ public class MTGControler {
 			logger.error(e);
 		}
 	}
-	
-	public void setDimension(int w, int h)
-	{
-		setProperty("card-pictures-dimension", w+"x"+h);
+
+	public Dimension getPictureProviderDimension() {
+		int w = Integer.parseInt(get("/card-pictures-dimension/width"));
+		int h = Integer.parseInt(get("/card-pictures-dimension/height"));
+		return new Dimension(w, h);
 	}
-	
-	public Dimension getPictureProviderDimension()
-	{
-		String dim = get("card-pictures-dimension");
-		String[] dimT = dim.split("x");
-		return new Dimension(Integer.parseInt(dimT[0]), Integer.parseInt(dimT[1]));
-	}
-	
-	
+
 	public void setProperty(Object k, Object c) {
 		try {
 			String path = "";
