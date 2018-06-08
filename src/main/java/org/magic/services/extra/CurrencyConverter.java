@@ -10,7 +10,6 @@ import java.util.HashMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 import com.google.gson.JsonElement;
@@ -91,9 +90,7 @@ public class CurrencyConverter {
 				obj = new JsonParser().parse(FileUtils.readFileToString(cache,MTGConstants.DEFAULT_ENCODING)).getAsJsonObject();
 			}
 			
-			obj.entrySet().forEach(entry->{
-				map.put(entry.getKey().substring(3),entry.getValue().getAsDouble());
-			});
+			obj.entrySet().forEach(entry->map.put(entry.getKey().substring(3),entry.getValue().getAsDouble()));
 		}
 		catch(Exception e)
 		{

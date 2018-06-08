@@ -39,7 +39,6 @@ public class MTGLogger {
 
 	public static MTGAppender getMTGAppender() {
 		if ((MTGAppender) getAppender("APPS") == null) {
-			System.err.println("appender APPS is not found");
 			return new MTGAppender();
 		}
 		return (MTGAppender) getAppender("APPS");

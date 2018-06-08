@@ -29,6 +29,7 @@ public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTG
 		
 	}
 
+	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.SERVER;

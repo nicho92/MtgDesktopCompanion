@@ -1,17 +1,14 @@
 package org.magic.gui.components;
 
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import org.magic.services.MTGConstants;
-
-import java.awt.BorderLayout;
-import java.awt.FlowLayout;
 
 public class JResizerPanel extends JPanel {
 	private double ratio = MTGConstants.CARD_PICS_RATIO;

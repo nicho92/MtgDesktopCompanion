@@ -557,8 +557,7 @@ public class MagicCardDetailPanel extends JPanel implements Observer {
 			ThreadManager.getInstance().execute(() -> {
 				try {
 					((DefaultListModel) listCollection.getModel()).removeAllElements();
-					for (MagicCollection col : MTGControler.getInstance().getEnabledDAO()
-							.listCollectionFromCards(magicCard))
+					for (MagicCollection col : MTGControler.getInstance().getEnabledDAO().listCollectionFromCards(magicCard))
 						((DefaultListModel) listCollection.getModel()).addElement(col);
 				} catch (Exception e) {
 					logger.error(e);
