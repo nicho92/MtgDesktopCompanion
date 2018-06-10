@@ -52,4 +52,8 @@ public class JResizerPanel extends JPanel {
 		lblDimension.setText((int)dimension.getWidth()+"x"+(int)dimension.getHeight());
 	}
 
+	public void setValue(int i) {
+		spinner.setValue(i);
+	}
+
 }

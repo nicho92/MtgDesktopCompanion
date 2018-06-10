@@ -571,6 +571,7 @@ public class ConfigurationPanel extends JPanel {
 		btnSavePicSize.addActionListener(ae->{
 				MTGControler.getInstance().setProperty("/card-pictures-dimension/width", (int)resizerPanel.getDimension().getWidth());
 				MTGControler.getInstance().setProperty("/card-pictures-dimension/height", (int)resizerPanel.getDimension().getHeight());
+				resizerPanel.setValue(0);
 				MTGControler.getInstance().getEnabledPicturesProvider().setSize(resizerPanel.getDimension());
 		});
 		GridBagConstraints gbcbtnSavePicSize = new GridBagConstraints();
@@ -765,6 +766,7 @@ public class ConfigurationPanel extends JPanel {
 			MTGControler.getInstance().setProperty("/game/player-profil/name", txtName.getText());
 			MTGControler.getInstance().setProperty("/game/cards/card-width", (int)gamePicsResizerPanel.getDimension().getWidth());
 			MTGControler.getInstance().setProperty("/game/cards/card-height", (int)gamePicsResizerPanel.getDimension().getHeight());
+			resizerPanel.setValue(0);
 			GamePanelGUI.getInstance().getHandPanel().setSize(gamePicsResizerPanel.getDimension());
 		});
 
