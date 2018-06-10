@@ -89,9 +89,29 @@ public class CollectionPanelGUI extends JPanel {
 	private transient MagicEditionDetailPanel magicEditionDetailPanel;
 	private HistoryPricesPanel historyPricesPanel;
 	private JSONPanel jsonPanel;
-	private JPopupMenu popupMenuEdition = new JPopupMenu();
-	private JPopupMenu popupMenuCards = new JPopupMenu();
+	private JPopupMenu popupMenuEdition;
+	private JPopupMenu popupMenuCards;
+	private MagicEditionsTableModel model;
+	private JProgressBar progressBar;
+	private TypeRepartitionPanel typeRepartitionPanel;
+	private ManaRepartitionPanel manaRepartitionPanel;
+	private RarityRepartitionPanel rarityRepartitionPanel;
+	private MagicCardDetailPanel magicCardDetailPanel;
+	private CardStockPanel statsPanel;
+	private JLabel lblTotal;
 
+	private JButton btnRefresh;
+	private JButton btnRemove;
+	private JButton btnAddAllSet;
+	private JButton btnExport;
+	private JButton btnMassCollection;
+	private JButton btnGenerateWebSite;
+	private JSplitPane splitListPanel;
+	private JSplitPane splitPane;
+	
+	
+	private PricesTablePanel pricePanel;
+	
 	public CollectionPanelGUI() throws IOException, SQLException, ClassNotFoundException {
 		this.provider = MTGControler.getInstance().getEnabledCardsProviders();
 		this.dao = MTGControler.getInstance().getEnabledDAO();
@@ -101,33 +121,35 @@ public class CollectionPanelGUI extends JPanel {
 	public void initGUI() throws IOException, SQLException, ClassNotFoundException {
 		logger.info("init collection GUI");
 
-		MagicEditionsTableModel model;
-		JProgressBar progressBar;
+		
 		JTabbedPane tabbedPane;
-		TypeRepartitionPanel typeRepartitionPanel;
-		ManaRepartitionPanel manaRepartitionPanel;
-		RarityRepartitionPanel rarityRepartitionPanel;
-		MagicCardDetailPanel magicCardDetailPanel;
-		CardStockPanel statsPanel;
-		JLabel lblTotal;
+		JPanel panneauHaut;
+		JButton btnAdd;
+		
+		JPanel panneauGauche;
+		JScrollPane scrollPane;
+		JPanel panelTotal;
+		JPanel panneauDroite;
+		MagicCollectionTableCellRenderer render;
+
 
 		//////// INIT COMPONENTS
-		JPanel panneauHaut = new JPanel();
-		JButton btnAdd = new JButton(MTGConstants.ICON_NEW);
-		JButton btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
-		JButton btnRemove = new JButton(MTGConstants.ICON_DELETE);
-		JButton btnAddAllSet = new JButton(MTGConstants.ICON_CHECK);
-		JButton btnExport = new JButton(MTGConstants.ICON_EXPORT);
-		JButton btnMassCollection = new JButton(MTGConstants.ICON_MASS_IMPORT);
-		JButton btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
-		JScrollPane scrollPaneCollections = new JScrollPane();
-		JSplitPane splitListPanel = new JSplitPane();
-		JSplitPane splitPane = new JSplitPane();
-		JPanel panneauGauche = new JPanel();
-		JScrollPane scrollPane = new JScrollPane();
-		JPanel panelTotal = new JPanel();
-		JPanel panneauDroite = new JPanel();
-		MagicCollectionTableCellRenderer render = new MagicCollectionTableCellRenderer();
+		panneauHaut = new JPanel();
+		btnAdd = new JButton(MTGConstants.ICON_NEW);
+		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
+		btnRemove = new JButton(MTGConstants.ICON_DELETE);
+		btnAddAllSet = new JButton(MTGConstants.ICON_CHECK);
+		btnExport = new JButton(MTGConstants.ICON_EXPORT);
+		btnMassCollection = new JButton(MTGConstants.ICON_MASS_IMPORT);
+		btnGenerateWebSite = new JButton(MTGConstants.ICON_WEBSITE);
+		
+		splitListPanel = new JSplitPane();
+		splitPane = new JSplitPane();
+		panneauGauche = new JPanel();
+		scrollPane = new JScrollPane();
+		panelTotal = new JPanel();
+		panneauDroite = new JPanel();
+		render = new MagicCollectionTableCellRenderer();
 
 		tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		progressBar = new JProgressBar();
@@ -142,7 +164,7 @@ public class CollectionPanelGUI extends JPanel {
 		jsonPanel = new JSONPanel();
 		tree = new LazyLoadingTree();
 		tableEditions = new JXTable();
-		PricesTablePanel pricePanel = new PricesTablePanel();
+		pricePanel = new PricesTablePanel();
 		
 		//////// MODELS
 		model = new MagicEditionsTableModel();
@@ -161,7 +183,7 @@ public class CollectionPanelGUI extends JPanel {
 
 		splitPane.setResizeWeight(0.5);
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		scrollPaneCollections.setMinimumSize(new Dimension(0, 0));
+		
 		tree.setCellRenderer(new MagicCardsTreeCellRenderer());
 
 		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
@@ -204,8 +226,7 @@ public class CollectionPanelGUI extends JPanel {
 		add(splitListPanel, BorderLayout.CENTER);
 		splitListPanel.setRightComponent(panneauDroite);
 		panneauDroite.add(splitPane, BorderLayout.CENTER);
-		splitPane.setLeftComponent(scrollPaneCollections);
-		scrollPaneCollections.setViewportView(tree);
+		splitPane.setLeftComponent(new JScrollPane(tree));
 		splitPane.setRightComponent(tabbedPane);
 		splitListPanel.setLeftComponent(panneauGauche);
 		panneauGauche.add(scrollPane);
@@ -271,6 +292,16 @@ public class CollectionPanelGUI extends JPanel {
 			}
 		});
 
+		
+
+		initActions();
+
+	}
+	
+	
+	private void initActions()
+	{
+		
 		btnRefresh.addActionListener(e ->
 
 		ThreadManager.getInstance().execute(() -> {
@@ -285,7 +316,8 @@ public class CollectionPanelGUI extends JPanel {
 			model.fireTableDataChanged();
 			progressBar.setVisible(false);
 		}, "update Tree"));
-
+		
+		
 		btnExport.addActionListener(ae -> {
 			JPopupMenu menu = new JPopupMenu();
 
@@ -606,8 +638,8 @@ public class CollectionPanelGUI extends JPanel {
 
 			}
 		});
-
 	}
+	
 	
 
 	public void initPopupCollection() throws SQLException {
@@ -618,11 +650,6 @@ public class CollectionPanelGUI extends JPanel {
 		JMenu menuItemAdd = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("ADD_MISSING_CARDS_IN"));
 		JMenu menuItemMove = new JMenu(MTGControler.getInstance().getLangService().getCapitalize("MOVE_CARD_TO"));
 		JMenuItem menuItemAlerts = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("ADD_CARDS_ALERTS"));
-		
-		
-	
-		
-		
 		
 		for (MagicCollection mc : dao.getCollections()) {
 			JMenuItem adds = new JMenuItem(mc.getName());
