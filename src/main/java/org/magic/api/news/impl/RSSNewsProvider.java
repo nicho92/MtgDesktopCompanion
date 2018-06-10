@@ -11,7 +11,6 @@ import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 import org.xml.sax.InputSource;
 

@@ -8,7 +8,6 @@ import java.net.URLConnection;
 
 import javax.imageio.ImageIO;
 
-import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
 public class Wallpaper {

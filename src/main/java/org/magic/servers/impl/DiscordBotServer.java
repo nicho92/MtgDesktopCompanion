@@ -31,6 +31,8 @@ import org.magic.services.MTGControler;
 import org.magic.sorters.MagicPricesComparator;
 import org.magic.tools.ColorParser;
 
+import com.itextpdf.text.log.Logger;
+
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
@@ -351,7 +353,7 @@ class NavigableEmbed extends ListenerAdapter {
 				message = message.editMessage(embed).submit().get();
 			}
 		} catch (InterruptedException | ExecutionException e) {
-			//do nothing
+			Thread.currentThread().interrupt();
 		}
 	}
 

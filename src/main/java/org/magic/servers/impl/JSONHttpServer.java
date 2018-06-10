@@ -52,6 +52,10 @@ import spark.Spark;
 
 public class JSONHttpServer extends AbstractMTGServer {
 
+	private static final String NAME = ":name";
+	private static final String ID_SET = ":idSet";
+	private static final String ID_ED = ":idEd";
+	private static final String ID_CARDS = ":idCards";
 	private static final String PASSTOKEN = "PASSWORD-TOKEN";
 	private static final String ACCESS_CONTROL_ALLOW_HEADERS = "Access-Control-Allow-Headers";
 	private static final String ACCESS_CONTROL_REQUEST_METHOD = "Access-Control-Request-Method";
@@ -154,7 +158,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 
 		get("/cards/light/:name", getString(MIME),(request, response) -> {
-			List<MagicCard> list= MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(request.params(":name"), null, true);
+			List<MagicCard> list= MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(request.params(NAME), null, true);
 			JsonArray arr = new JsonArray();
 			
 			for(MagicCard mc : list)
@@ -177,7 +181,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		
 		get("/cards/name/:idEd/:cName", getString(MIME), (request, response) -> {
 
-			MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(request.params(":idEd"));
+			MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(request.params(ID_ED));
 			return MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(
 					request.params(":cName"), ed, true);
 		}, transformer);
@@ -209,8 +213,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 		get("/cards/list/:col/:idEd", getString(MIME), (request, response) -> {
 			MagicCollection col = new MagicCollection(request.params(":col"));
 			MagicEdition ed = new MagicEdition();
-			ed.setId(request.params(":idEd"));
-			ed.setSet(request.params(":idEd"));
+			ed.setId(request.params(ID_ED));
+			ed.setSet(request.params(ID_ED));
 			return MTGControler.getInstance().getEnabledDAO().listCardsFromCollection(col, ed);
 		}, transformer);
 
@@ -219,7 +223,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/cards/:idSet/cards", getString(MIME), (request, response) -> {
 			MagicEdition ed = new MagicEdition();
-			ed.setId(request.params(":idSet"));
+			ed.setId(request.params(ID_SET));
 			List<MagicCard> ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByEdition(ed);
 			Collections.sort(ret, new CardsEditionSorter());
 
@@ -227,7 +231,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/collections/:name/count", getString(MIME), (request, response) -> MTGControler.getInstance()
-				.getEnabledDAO().getCardsCountGlobal(new MagicCollection(request.params(":name"))), transformer);
+				.getEnabledDAO().getCardsCountGlobal(new MagicCollection(request.params(NAME))), transformer);
 
 		get("/collections/list", getString(MIME),
 				(request, response) -> MTGControler.getInstance().getEnabledDAO().getCollections(), transformer);
@@ -238,10 +242,10 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/collections/:name", getString(MIME), (request, response) -> MTGControler.getInstance().getEnabledDAO()
-				.getCollection(request.params(":name")), transformer);
+				.getCollection(request.params(NAME)), transformer);
 
 		put("/collections/add/:name", getString(MIME), (request, response) -> {
-			MTGControler.getInstance().getEnabledDAO().saveCollection(new MagicCollection(request.params(":name")));
+			MTGControler.getInstance().getEnabledDAO().saveCollection(new MagicCollection(request.params(NAME)));
 			return RETURN_OK;
 		});
 
@@ -249,7 +253,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 				(request, response) -> MTGControler.getInstance().getEnabledCardsProviders().loadEditions(), transformer);
 
 		get("/editions/:idSet", getString(MIME), (request, response) -> MTGControler.getInstance()
-				.getEnabledCardsProviders().getSetById(request.params(":idSet")), transformer);
+				.getEnabledCardsProviders().getSetById(request.params(ID_SET)), transformer);
 
 		get("/editions/list/:colName", getString(MIME), (request, response) -> {
 			List<MagicEdition> eds = new ArrayList<>();
@@ -264,9 +268,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/prices/:idSet/:name", getString(MIME), (request, response) -> {
-			MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(request.params(":idSet"));
+			MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(request.params(ID_SET));
 			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
-					.searchCardByName( request.params(":name"), ed, false).get(0);
+					.searchCardByName( request.params(NAME), ed, false).get(0);
 			List<MagicPrice> pricesret = new ArrayList<>();
 			for (MTGPricesProvider prices : MTGControler.getInstance().getEnabledPricers())
 				pricesret.addAll(prices.getPrice(ed, mc));
@@ -279,13 +283,13 @@ public class JSONHttpServer extends AbstractMTGServer {
 				(request, response) -> MTGControler.getInstance().getEnabledDAO().listAlerts(), transformer);
 
 		get("/alerts/:idCards", getString(MIME), (request, response) -> {
-			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().getCardById(request.params(":idCards"));
+			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().getCardById(request.params(ID_CARDS));
 			return MTGControler.getInstance().getEnabledDAO().hasAlert(mc);
 
 		}, transformer);
 
 		put("/alerts/add/:idCards", (request, response) -> {
-			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().getCardById(request.params(":idCards"));
+			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().getCardById(request.params(ID_CARDS));
 			MagicCardAlert alert = new MagicCardAlert();
 			alert.setCard(mc);
 			alert.setPrice(0.0);
@@ -294,7 +298,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 		});
 
 		put("/stock/add/:idCards", (request, response) -> {
-			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().getCardById(request.params(":idCards"));
+			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().getCardById(request.params(ID_CARDS));
 			MagicCardStock stock = new MagicCardStock();
 			stock.setQte(1);
 			stock.setMagicCard(mc);
@@ -335,8 +339,8 @@ public class JSONHttpServer extends AbstractMTGServer {
 			return arr;
 		}, transformer);
 
-		get("/dash/card/:idCard", getString(MIME), (request, response) -> {
-			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().getCardById(request.params(":idCard"));
+		get("/dash/card/:idCards", getString(MIME), (request, response) -> {
+			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders().getCardById(request.params(ID_CARDS));
 
 			JsonArray arr = new JsonArray();
 			CardPriceVariations res = MTGControler.getInstance().getEnabledDashBoard().getPriceVariation(mc,mc.getCurrentSet());
@@ -354,7 +358,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 		get("/dash/edition/:idEd", getString(MIME), (request, response) -> {
 			MagicEdition ed = new MagicEdition();
-			ed.setId(request.params(":idEd"));
+			ed.setId(request.params(ID_ED));
 			return MTGControler.getInstance().getEnabledDashBoard().getShakeForEdition(ed);
 		}, transformer);
 
@@ -365,9 +369,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			baos = new ByteArrayOutputStream();
 
-			MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(request.params(":idEd"));
+			MagicEdition ed = MTGControler.getInstance().getEnabledCardsProviders().getSetById(request.params(ID_ED));
 			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
-					.searchCardByName( request.params(":name"), ed, true).get(0);
+					.searchCardByName( request.params(NAME), ed, true).get(0);
 			BufferedImage im = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
 			ImageIO.write(im, "png", baos);
 			baos.flush();
@@ -382,7 +386,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 
 			baos = new ByteArrayOutputStream();
 			MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
-					.searchCardByName( request.params(":name"), null, true).get(0);
+					.searchCardByName( request.params(NAME), null, true).get(0);
 			BufferedImage im = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
 			ImageIO.write(im, "png", baos);
 			baos.flush();
@@ -405,11 +409,11 @@ public class JSONHttpServer extends AbstractMTGServer {
 		}, transformer);
 
 		get("/deck/:name", getString(MIME),
-				(request, response) -> new JsonExport().toJson(manager.getDeck(request.params(":name"))), transformer);
+				(request, response) -> new JsonExport().toJson(manager.getDeck(request.params(NAME))), transformer);
 
 		get("/deck/stats/:name", getString(MIME), (request, response) -> {
 
-			MagicDeck d = manager.getDeck(request.params(":name"));
+			MagicDeck d = manager.getDeck(request.params(NAME));
 
 			JsonObject obj = new JsonObject();
 
