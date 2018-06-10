@@ -262,8 +262,7 @@ public class CollectionPanelGUI extends JPanel {
 			collectionAdd.setName(name);
 			try {
 				dao.saveCollection(collectionAdd);
-				((LazyLoadingTree.MyNode) getJTree().getModel().getRoot())
-						.add(new DefaultMutableTreeNode(collectionAdd));
+				((LazyLoadingTree.MyNode) getJTree().getModel().getRoot()).add(new DefaultMutableTreeNode(collectionAdd));
 				getJTree().refresh();
 				initPopupCollection();
 			} catch (Exception ex) {
@@ -416,8 +415,7 @@ public class CollectionPanelGUI extends JPanel {
 			}
 
 			if (curr.getUserObject() instanceof MagicCard) {
-				final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent())
-						.getUserObject();
+				final MagicCard card = (MagicCard) ((DefaultMutableTreeNode) path.getLastPathComponent()).getUserObject();
 				btnExport.setEnabled(false);
 				magicCardDetailPanel.setMagicCard((MagicCard) curr.getUserObject());
 				magicEditionDetailPanel.setMagicEdition(card.getCurrentSet());
@@ -425,8 +423,7 @@ public class CollectionPanelGUI extends JPanel {
 				jsonPanel.show(curr.getUserObject());
 
 				ThreadManager.getInstance().execute(() -> {
-					statsPanel.initMagicCardStock(card,
-							(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
+					statsPanel.initMagicCardStock(card,(MagicCollection) ((DefaultMutableTreeNode) curr.getParent().getParent()).getUserObject());
 					statsPanel.enabledAdd(true);
 				}, "Update Collection");
 
@@ -467,7 +464,10 @@ public class CollectionPanelGUI extends JPanel {
 						it.addActionListener(ae -> {
 							MassMoverDialog d = new MassMoverDialog((MagicCollection) node.getUserObject(), null);
 							d.setVisible(true);
-							logger.debug("closing mass import with change =" + d.hasChange());
+							if(d.hasChange())
+								tree.refresh(node);
+							
+							logger.trace("closing mass import with change =" + d.hasChange());
 						});
 						p.show(e.getComponent(), e.getX(), e.getY());
 					}
@@ -602,7 +602,7 @@ public class CollectionPanelGUI extends JPanel {
 				} catch (Exception e) {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 				}
-				tree.refresh();
+				tree.refresh(curr);
 
 			}
 		});
@@ -642,7 +642,7 @@ public class CollectionPanelGUI extends JPanel {
 					dao.moveCard(card, oldCol, nmagicCol);
 					nodeCd.removeFromParent();
 					nodeCol.add(new DefaultMutableTreeNode(card));
-					tree.refresh();
+					tree.refresh(((DefaultMutableTreeNode) path.getPathComponent(2)));
 				} catch (SQLException e1) {
 					logger.error(e1);
 				}
@@ -670,7 +670,7 @@ public class CollectionPanelGUI extends JPanel {
 						for (MagicCard m : sets)
 							dao.saveCard(m, col);
 
-						tree.refresh();
+						tree.refresh(node);
 					} catch (Exception e1) {
 						logger.error(e1);
 					}
@@ -702,6 +702,11 @@ public class CollectionPanelGUI extends JPanel {
 			MassMoverDialog d = new MassMoverDialog(col, edition);
 			d.setVisible(true);
 			logger.debug("closing mass import with change =" + d.hasChange());
+			
+			if(d.hasChange()==true)
+				tree.refresh((DefaultMutableTreeNode)path.getPathComponent(2));
+			
+			
 		});
 		
 		menuItemAlerts.addActionListener(e ->{

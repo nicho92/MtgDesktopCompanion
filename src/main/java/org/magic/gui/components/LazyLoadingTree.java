@@ -221,4 +221,9 @@ public class LazyLoadingTree extends JTree {
 
 	}
 
+	public void refresh(DefaultMutableTreeNode curr) {
+		model.reload(curr);
+		
+	}
+
 }
