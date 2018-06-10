@@ -2,10 +2,7 @@
 Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
 [![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.magic%3Amagic-api)](https://sonarcloud.io/dashboard?id=org.magic%3Amagic-api) 
-
 [![Build Status](https://travis-ci.org/nicho92/MtgDesktopCompanion.svg?branch=master)](https://travis-ci.org/nicho92/MtgDesktopCompanion)
-
-Download latest version 
 [![Github Releases (by Release)](https://img.shields.io/github/downloads/atom/atom/v1.93/total.svg)](https://github.com/nicho92/MtgDesktopCompanion/blob/master/dist/mtg-desktop-companion.zip?raw=true)
 
 
