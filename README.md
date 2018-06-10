@@ -1,9 +1,11 @@
 # Magic The Gathering Desktop Companion
 Personal Magic the Gathering card manager Deck Builder and Collection Editor
 
-[![Quality Gate](https://sonarcloud.io/api/badges/gate?key=org.magic%3Amagic-api)](https://sonarcloud.io/dashboard?id=org.magic%3Amagic-api) 
+[![GitHub issues](https://img.shields.io/github/issues/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/issues)
 [![Build Status](https://travis-ci.org/nicho92/MtgDesktopCompanion.svg?branch=master)](https://travis-ci.org/nicho92/MtgDesktopCompanion)
-[![Github Releases (by Release)](https://img.shields.io/github/downloads/atom/atom/v1.93/total.svg)](https://github.com/nicho92/MtgDesktopCompanion/blob/master/dist/mtg-desktop-companion.zip?raw=true)
+[![GitHub forks](https://img.shields.io/github/forks/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/network)
+[![GitHub stars](https://img.shields.io/github/stars/nicho92/MtgDesktopCompanion.svg)](https://github.com/nicho92/MtgDesktopCompanion/stargazers)
+
 
 
 
