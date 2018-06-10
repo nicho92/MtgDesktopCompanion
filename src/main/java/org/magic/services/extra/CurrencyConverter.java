@@ -10,7 +10,9 @@ import java.util.HashMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -79,9 +81,8 @@ public class CurrencyConverter {
 			if(!cache.exists())
 			{
 				
-				URL url = new URL("http://apilayer.net/api/live?access_key="+token);
-				logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from "+url);
-				JsonElement parse = new JsonParser().parse(new InputStreamReader(url.openStream()));
+				logger.debug(cache.getAbsolutePath() + " doesn't exist. Will create it from website");
+				JsonElement parse = new JsonParser().parse(new InputStreamReader(URLTools.openConnection("http://apilayer.net/api/live?access_key="+token).getInputStream()));
 				obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
 				FileUtils.writeStringToFile(cache, obj.toString(), MTGConstants.DEFAULT_ENCODING);
 			}
