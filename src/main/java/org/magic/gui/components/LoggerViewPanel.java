@@ -1,6 +1,8 @@
 package org.magic.gui.components;
 
 import java.awt.BorderLayout;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
@@ -9,7 +11,10 @@ import javax.swing.JComboBox;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.RowFilter;
+import javax.swing.RowSorter;
+import javax.swing.SortOrder;
 import javax.swing.Timer;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Level;
@@ -19,34 +24,46 @@ import org.magic.services.MTGConstants;
 
 public class LoggerViewPanel extends JPanel {
 	
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private LogTableModel model;
 	private Timer t;
 	private JCheckBox chckbxAutorefresh;
 	private JButton btnRefresh;
 	private JComboBox<Level> cboChooseLevel;
-
+	private TableRowSorter<TableModel> datesorter;
+	
+	
 	public LoggerViewPanel() {
 		model = new LogTableModel();
+		cboChooseLevel = new JComboBox<>(new DefaultComboBoxModel<>(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE }));
+		JPanel panel = new JPanel();
+		table = new JXTable(model);
+		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
+		t = new Timer(1000, e -> model.fireTableDataChanged());
+		chckbxAutorefresh = new JCheckBox("Auto-refresh");
+		
+		
 		setLayout(new BorderLayout(0, 0));
 
-		JScrollPane scrollPane = new JScrollPane();
-		add(scrollPane, BorderLayout.CENTER);
 
-		table = new JXTable(model);
-		scrollPane.setViewportView(table);
-
-		JPanel panel = new JPanel();
+		add(new JScrollPane(table), BorderLayout.CENTER);
 		add(panel, BorderLayout.NORTH);
-
-		btnRefresh = new JButton("");
-		btnRefresh.addActionListener(ae -> model.fireTableDataChanged());
-		btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
+		panel.add(chckbxAutorefresh);
 		panel.add(btnRefresh);
-
-		t = new Timer(1000, e -> model.fireTableDataChanged());
-
-		chckbxAutorefresh = new JCheckBox("Auto-refresh");
+		panel.add(cboChooseLevel);
+		
+		datesorter = new TableRowSorter<>(table.getModel());
+		List<RowSorter.SortKey> sortKeys = new ArrayList<>();
+		int columnIndexToSort = 1;
+		sortKeys.add(new RowSorter.SortKey(columnIndexToSort, SortOrder.DESCENDING));
+		datesorter.setSortKeys(sortKeys);
+		table.setRowSorter(datesorter);
+		
+		
+		
+		btnRefresh.addActionListener(ae -> model.fireTableDataChanged());
+		
 		chckbxAutorefresh.addItemListener(ie -> {
 
 			if (chckbxAutorefresh.isSelected()) {
@@ -57,9 +74,7 @@ public class LoggerViewPanel extends JPanel {
 				btnRefresh.setEnabled(true);
 			}
 		});
-		panel.add(chckbxAutorefresh);
 		
-		cboChooseLevel = new JComboBox<>(new DefaultComboBoxModel<>(new Level[] {null, Level.INFO, Level.ERROR, Level.DEBUG, Level.TRACE }));
 		cboChooseLevel.addActionListener(ae->{
 			
 			if(cboChooseLevel.getSelectedItem()!=null)
@@ -70,13 +85,14 @@ public class LoggerViewPanel extends JPanel {
 			}
 			else
 			{
-				table.setRowSorter(null);
+				table.setRowSorter(datesorter);
+				
 			}
 			
 			
 			
 		});
-		panel.add(cboChooseLevel);
+		
 		table.packAll();
 	}
 

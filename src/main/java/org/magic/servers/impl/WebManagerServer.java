@@ -21,6 +21,7 @@ public class WebManagerServer extends AbstractMTGServer {
 	private static final String ALLOW_LIST_DIR = "ALLOW_LIST_DIR";
 	private static final String AUTOSTART = "AUTOSTART";
 	private static final String SERVER_PORT = "SERVER-PORT";
+	private static final String REST_JS_FILENAME="rest-server.js";
 	private Server server;
 	private URL webRootLocation;
 
@@ -51,11 +52,16 @@ public class WebManagerServer extends AbstractMTGServer {
 	@Override
 	public void start() throws IOException {
 		URL u = null;
+		
+		//TODO in jar file, we can't write file. So make code to read it from local directory
 		try {
-			u = this.getClass().getResource("/web-ui/dist/js/rest-server.js");
+			u = this.getClass().getResource("/web-ui/dist/js/"+REST_JS_FILENAME);
 			FileUtils.writeStringToFile(new File(u.toURI()), "var restserver='" + getString(REST_BACKEND_URI) + "';",MTGConstants.DEFAULT_ENCODING);
 		} catch (Exception e) {
 			logger.error("couldn't write js rest file " + u, e);
+			logger.info("Create " + new File(".").getAbsolutePath()+"/"+REST_JS_FILENAME+". then, restart server");
+			FileUtils.writeStringToFile(new File(".",REST_JS_FILENAME), "var restserver='" + getString(REST_BACKEND_URI) + "';",MTGConstants.DEFAULT_ENCODING);
+			
 		}
 
 		try {
