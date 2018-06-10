@@ -703,7 +703,7 @@ public class CollectionPanelGUI extends JPanel {
 			d.setVisible(true);
 			logger.debug("closing mass import with change =" + d.hasChange());
 			
-			if(d.hasChange()==true)
+			if(d.hasChange())
 				tree.refresh((DefaultMutableTreeNode)path.getPathComponent(2));
 			
 			

@@ -3,14 +3,12 @@ package org.magic.services.extra;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.net.URL;
 import java.util.Currency;
 import java.util.HashMap;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
-import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.URLTools;
 
