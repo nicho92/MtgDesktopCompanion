@@ -16,6 +16,7 @@ import org.magic.api.providers.impl.ScryFallProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.URLTools;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
@@ -79,10 +80,8 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
 		URL url = generateLink(mc, selected, false);
 
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setInstanceFollowRedirects(true);
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-		connection.connect();
+		HttpURLConnection connection = URLTools.openConnection(url);
+	
 		logger.debug("load pics " + connection.getURL().toString());
 
 		try {
@@ -114,10 +113,7 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
 		URL u = generateLink(mc, mc.getCurrentSet(), true);
 
-		HttpURLConnection connection = (HttpURLConnection) u.openConnection();
-		connection.setInstanceFollowRedirects(true);
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-		connection.connect();
+		HttpURLConnection connection = URLTools.openConnection(u);
 		logger.debug("load pics " + connection.getURL().toString());
 
 		try {

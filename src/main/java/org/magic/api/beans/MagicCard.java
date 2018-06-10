@@ -40,11 +40,22 @@ public class MagicCard implements Serializable {
 	private String gathererCode;
 	private String mciNumber;
 	private String imageName;
-
+	@Deprecated private String rotatedCardName;
+	private MagicCard rotatedCard;
 	private boolean flippable = false;
 	private boolean tranformable = false;
-
 	private boolean reserved;
+	
+	
+	
+
+	public MagicCard getRotatedCard() {
+		return rotatedCard;
+	}
+
+	public void setRotatedCard(MagicCard rotatedCard) {
+		this.rotatedCard = rotatedCard;
+	}
 
 	public MagicEdition getCurrentSet() {
 		if(!getEditions().isEmpty())
@@ -114,12 +125,12 @@ public class MagicCard implements Serializable {
 		this.gathererCode = gathererCode;
 	}
 
-	private String rotatedCardName;
 
+	@Deprecated
 	public String getRotatedCardName() {
 		return rotatedCardName;
 	}
-
+	@Deprecated
 	public void setRotatedCardName(String rotatedCardName) {
 		this.rotatedCardName = rotatedCardName;
 	}

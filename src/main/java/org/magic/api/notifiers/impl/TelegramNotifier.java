@@ -14,6 +14,7 @@ import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 public class TelegramNotifier extends AbstractMTGNotifier {
 
@@ -40,8 +41,7 @@ public class TelegramNotifier extends AbstractMTGNotifier {
 		
 		urlString = String.format(urlString, apiToken, chatId, msg);
 
-		URL url = new URL(urlString);
-		URLConnection conn = url.openConnection();
+		URLConnection conn = URLTools.openConnection(urlString);
 
 		StringBuilder sb = new StringBuilder();
 		

@@ -14,6 +14,7 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.URLTools;
 
 public class MagidexPicturesProvider extends AbstractPicturesProvider {
 
@@ -53,11 +54,8 @@ public class MagidexPicturesProvider extends AbstractPicturesProvider {
 		}
 
 		logger.debug("get card from " + uri.toURL());
-		HttpURLConnection connection = (HttpURLConnection) uri.toURL().openConnection();
-		connection.setInstanceFollowRedirects(true);
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-		connection.connect();
-
+		HttpURLConnection connection = URLTools.openConnection(uri.toURL());
+	
 		try {
 			BufferedImage bufferedImage = ImageIO.read(connection.getInputStream());
 			if (bufferedImage != null)

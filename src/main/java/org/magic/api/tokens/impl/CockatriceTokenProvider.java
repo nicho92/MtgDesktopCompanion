@@ -23,6 +23,7 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractTokensProvider;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
+import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
@@ -218,13 +219,11 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 				throw new NullPointerException("no pics found");
 
 			if (map.get(tok.getCurrentSet().getId()) != null) // error on
-				connection = map.get(tok.getCurrentSet().getId()).openConnection();
+				connection = URLTools.openConnection(map.get(tok.getCurrentSet().getId()));
 			else
-				connection = map.get(map.keySet().iterator().next()).openConnection();
+				connection = URLTools.openConnection(map.get(map.keySet().iterator().next()));
 
 			logger.debug("Load token pics : " + connection.getURL());
-			connection.setRequestProperty("User-Agent",
-					"Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
 			return ImageIO.read(connection.getInputStream());
 		} catch (Exception e) {
 			logger.error("error pics reading for " + tok, e);

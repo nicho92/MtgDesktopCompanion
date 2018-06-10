@@ -14,6 +14,7 @@ import javax.xml.xpath.XPathExpressionException;
 import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
+import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
@@ -45,7 +46,7 @@ public class VersionChecker {
 	public VersionChecker() {
 		actualVersion = getVersion();
 		try {
-			InputStream input = new URL(MTGConstants.MTG_DESKTOP_POM_URL).openConnection().getInputStream();
+			InputStream input =URLTools.openConnection(MTGConstants.MTG_DESKTOP_POM_URL).getInputStream();
 			onlineVersion = parseXML(input);
 		} catch (Exception e) {
 			onlineVersion = "";

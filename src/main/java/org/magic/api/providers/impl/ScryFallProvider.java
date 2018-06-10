@@ -25,6 +25,7 @@ import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
 import org.magic.tools.InstallCert;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -57,6 +58,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public void initDefault() {
 		setProperty(LOAD_CERTIFICATE, "true");
 		setProperty("URL", "https://api.scryfall.com");
+		setProperty("MULTILANG","false");
 	}
 	
 	@Override
@@ -102,7 +104,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		while (hasMore) {
 
 			logger.debug(URLDecoder.decode(url.toString(), MTGConstants.DEFAULT_ENCODING));
-			con = (HttpURLConnection) getConnection(url.toString());
+			con = URLTools.openConnection(url.toString());
 
 			if (!isCorrectConnection(con))
 				return list;
@@ -142,7 +144,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	@Override
 	public MagicCard getCardByNumber(String id, MagicEdition me) throws IOException {
 		String url = baseURI + "/cards/" + me.getId() + "/" + id;
-		URLConnection con = getConnection(url);
+		URLConnection con = URLTools.openConnection(url);
 		JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		return generateCard(root, true, null);
@@ -152,10 +154,10 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	public List<MagicEdition> loadEditions() throws IOException {
 		if (cacheEditions.size() <= 0) {
 			String url = baseURI + "/sets";
-			URLConnection con = getConnection(url);
+			URLConnection con = URLTools.openConnection(url);
 
 			JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
-			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
+			JsonObject root = new JsonParser().parse(reader).getAsJsonObject(); 
 			for (int i = 0; i < root.get("data").getAsJsonArray().size(); i++) {
 
 				JsonObject e = root.get("data").getAsJsonArray().get(i).getAsJsonObject();
@@ -179,7 +181,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 		try {
 			JsonReader reader = new JsonReader(new InputStreamReader(
-					getConnection(baseURI + "/sets/" + id.toLowerCase()).getInputStream(), MTGConstants.DEFAULT_ENCODING));
+					URLTools.openConnection(baseURI + "/sets/" + id.toLowerCase()).getInputStream(), MTGConstants.DEFAULT_ENCODING));
 			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 			return generateEdition(root.getAsJsonObject());
 		} catch (Exception e) {
@@ -259,13 +261,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		return "Scryfall";
 	}
 
-	private URLConnection getConnection(String url) throws IOException {
-		logger.trace("get stream from " + url);
-		URLConnection connection = new URL(url).openConnection();
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-		connection.connect();
-		return connection;
-	}
+	
 
 	private MagicCard generateCard(JsonObject obj, boolean exact, String search) throws IOException {
 		MagicCard mc = new MagicCard();
@@ -489,7 +485,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	private void generateRules(MagicCard mc) throws IOException {
 		String url = "https://api.scryfall.com/cards/" + mc.getId() + "/rulings";
-		HttpURLConnection con = (HttpURLConnection) getConnection(url);
+		HttpURLConnection con = URLTools.openConnection(url);
 
 		JsonElement el = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING)));
 		JsonArray arr = el.getAsJsonObject().get("data").getAsJsonArray();
@@ -542,7 +538,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		JsonReader reader;
 		boolean hasMore = true;
 		while (hasMore) {
-			con = (HttpURLConnection) getConnection(url);
+			con = URLTools.openConnection(url);
 
 			try {
 				reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));

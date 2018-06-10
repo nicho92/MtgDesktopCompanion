@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -89,7 +90,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		String url = jsonUrl + "/cards?" + att + "=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING);
 		logger.debug(url);
 
-		con = getConnection(url);
+		con = URLTools.openConnection(url);
 		JsonReader reader;
 
 		int count = 0;
@@ -98,7 +99,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		while (count < totalcount) {
 			url = jsonUrl + "/cards?" + att + "=" + URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING) + "&page=" + page++;
 			logger.debug(url);
-			con = getConnection(url);
+			con = URLTools.openConnection(url);
 			reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
 			JsonArray jsonList = new JsonParser().parse(reader).getAsJsonObject().getAsJsonArray("cards");
 			for (int i = 0; i < jsonList.size(); i++) {
@@ -288,7 +289,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		JsonObject root = null;
 		JsonObject temp = null;
 		try {
-			reader = new JsonReader(new InputStreamReader(getConnection(
+			reader = new JsonReader(new InputStreamReader(URLTools.openConnection(
 					jsonUrl + "/cards?set=" + ed.getId() + "&name=" + URLEncoder.encode(mc.getName(), MTGConstants.DEFAULT_ENCODING))
 							.getInputStream(),
 					MTGConstants.DEFAULT_ENCODING));
@@ -334,7 +335,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	}
 
 	private int getCount(String id) throws IOException {
-		int count = getConnection(jsonUrl + "/cards?set=" + id).getHeaderFieldInt("Total-Count", 0);
+		int count = URLTools.openConnection(jsonUrl + "/cards?set=" + id).getHeaderFieldInt("Total-Count", 0);
 		propsCache.put(id, String.valueOf(count));
 		try {
 			logger.info("update cache " + id);
@@ -349,14 +350,6 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		return count;
 	}
 
-	private URLConnection getConnection(String url) throws IOException {
-		logger.debug("get stream from " + url);
-		URLConnection connection = new URL(url).openConnection();
-		connection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
-		connection.connect();
-		return connection;
-
-	}
 
 	@Override
 	public List<MagicEdition> loadEditions() throws IOException {
@@ -366,7 +359,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 
 			logger.info("connect to " + url);
 
-			URLConnection con = getConnection(url);
+			URLConnection con = URLTools.openConnection(url);
 
 			JsonReader reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));
 			JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
@@ -387,7 +380,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 			return cacheEditions.get(id);
 
 		JsonReader reader = new JsonReader(
-				new InputStreamReader(getConnection(jsonUrl + "/sets/" + id).getInputStream(), MTGConstants.DEFAULT_ENCODING));
+				new InputStreamReader(URLTools.openConnection(jsonUrl + "/sets/" + id).getInputStream(), MTGConstants.DEFAULT_ENCODING));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
 		return generateEdition(root.getAsJsonObject("set"));
 	}

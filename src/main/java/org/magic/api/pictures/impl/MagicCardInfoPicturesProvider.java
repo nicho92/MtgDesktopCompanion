@@ -16,6 +16,7 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.URLTools;
 
 public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
@@ -76,9 +77,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 		}
 		logger.debug("Get card pic from " + url);
 
-		URLConnection connection = url.openConnection();
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-		connection.connect();
+		URLConnection connection = URLTools.openConnection(url);
 
 		Image img = null;
 

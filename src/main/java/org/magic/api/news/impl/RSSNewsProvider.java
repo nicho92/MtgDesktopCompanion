@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 import org.xml.sax.InputSource;
 
 import com.rometools.rome.feed.synd.SyndEntry;
@@ -35,10 +36,8 @@ public class RSSNewsProvider extends AbstractMagicNewsProvider {
 
 		List<MagicNewsContent> ret = new ArrayList<>();
 		try {
-			HttpURLConnection openConnection = (HttpURLConnection) new URL(rssBean.getUrl()).openConnection();
+			HttpURLConnection openConnection = URLTools.openConnection(rssBean.getUrl());
 			logger.debug("reading " + rssBean.getUrl());
-			openConnection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-			openConnection.setInstanceFollowRedirects(true);
 			is = openConnection.getInputStream();
 			InputSource source = new InputSource(is);
 

@@ -13,6 +13,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -42,7 +43,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		String link = url.replaceAll("%CARDNAME%", keyword);
 
 		logger.info(getName() + " Looking for price " + link);
-		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), MTGConstants.DEFAULT_ENCODING));
+		JsonReader reader = new JsonReader(new InputStreamReader(URLTools.openConnection(link).getInputStream()));
 		JsonElement root = new JsonParser().parse(reader);
 
 		String value = root.getAsJsonArray().get(0).getAsString();

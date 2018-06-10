@@ -19,6 +19,7 @@ import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.URLTools;
 
 public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
@@ -52,8 +53,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 			logger.debug("read " + getString("URL") + "/card.php?multiverseid=" + multiverseid);
 			Element e = d.select(".card > img").get(0);
-			HttpURLConnection con = (HttpURLConnection) new URL(e.attr("src")).openConnection();
-			con.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
+			HttpURLConnection con = URLTools.openConnection(e.attr("src"));
 			return ImageIO.read(con.getInputStream());
 
 		} catch (Exception e) {
@@ -144,8 +144,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 		URL u = new URL(getString("URL") + "/images/sets/" + setID.toUpperCase() + "_"
 				+ rarity.substring(0, 1).toUpperCase() + ".png");
-		HttpURLConnection con = (HttpURLConnection) u.openConnection();
-		con.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
+		HttpURLConnection con = URLTools.openConnection(u);
 		BufferedImage im = ImageIO.read(con.getInputStream());
 		return resizeIconSet(im);
 	}

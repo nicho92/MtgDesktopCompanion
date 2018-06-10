@@ -31,6 +31,7 @@ import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
+import org.magic.tools.URLTools;
 
 import com.jayway.jsonpath.Configuration;
 import com.jayway.jsonpath.JsonPath;
@@ -60,10 +61,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	}
 
 	private InputStream getStreamFromUrl(URL u) throws IOException {
-		URLConnection connection = u.openConnection();
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-		connection.connect();
-		return connection.getInputStream();
+		return URLTools.openConnection(u).getInputStream();
 	}
 
 	private void unZipIt() {

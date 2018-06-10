@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.tools.URLTools;
 
 import com.google.gson.stream.JsonReader;
 
@@ -34,7 +35,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 		String set = selected.getSet().replaceAll(" ", "_");
 
 		String url = getString("WS_URL") + "?apiKey=" + getString("API_KEY") + "&s=" + set;
-		InputStream stream = new URL(url).openConnection().getInputStream();
+		InputStream stream = URLTools.openConnection(url).getInputStream();
 		List<MagicPrice> ret = new ArrayList<>();
 
 		logger.info(getName() + " looking for price at " + url);

@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
@@ -87,10 +88,8 @@ public class BoosterPicturesProvider {
 			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Node item = nodeList.item(0);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-			connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-			return new ImageIcon(
-					ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
+			HttpURLConnection connection = URLTools.openConnection(url);
+			return new ImageIcon(ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
 		} catch (IOException e) {
 			logger.error(me.getId() + " could not load : " + url + ":" + e);
 			return null;

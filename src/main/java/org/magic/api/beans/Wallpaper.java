@@ -9,6 +9,7 @@ import java.net.URLConnection;
 import javax.imageio.ImageIO;
 
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 public class Wallpaper {
 
@@ -19,8 +20,7 @@ public class Wallpaper {
 
 	public BufferedImage getPicture() throws IOException {
 		if (picture == null) {
-			URLConnection connection = url.openConnection();
-			connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
+			URLConnection connection = URLTools.openConnection(url);
 			picture = ImageIO.read(connection.getInputStream());
 		}
 		return picture;

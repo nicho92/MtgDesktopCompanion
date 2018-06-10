@@ -19,6 +19,7 @@ import org.jsoup.nodes.Document;
 import org.magic.api.beans.MTGStory;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -39,15 +40,7 @@ public class StoryProvider {
 		this.local = local;
 	}
 
-	private URLConnection getConnection(String url) throws IOException {
-		logger.debug("get stream from " + url);
-		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-		connection.setRequestProperty("User-Agent",MTGConstants.USER_AGENT);
-		connection.setInstanceFollowRedirects(true);
-		connection.connect();
-
-		return connection;
-	}
+	
 
 	public int getOffset() {
 		return offset;
@@ -57,7 +50,7 @@ public class StoryProvider {
 		String url = baseURI + "/" + local.getLanguage() + "/section-articles-see-more-ajax?l=" + local.getLanguage()
 				+ "&sort=DESC&f=13961&offset=" + (offset++);
 		List<MTGStory> list = new ArrayList<>();
-		HttpURLConnection con = (HttpURLConnection) getConnection(url);
+		HttpURLConnection con = URLTools.openConnection(url);
 		JsonReader reader = null;
 		try {
 			reader = new JsonReader(new InputStreamReader(con.getInputStream(), MTGConstants.DEFAULT_ENCODING));

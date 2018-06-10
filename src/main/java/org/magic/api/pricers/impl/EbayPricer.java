@@ -12,6 +12,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -45,7 +46,7 @@ public class EbayPricer extends AbstractMagicPricesProvider {
 
 		logger.info(getName() + " looking for " + keyword + " (" + link+")");
 		
-		JsonReader reader = new JsonReader(new InputStreamReader(new URL(link).openStream(), MTGConstants.DEFAULT_ENCODING));
+		JsonReader reader = new JsonReader(new InputStreamReader(URLTools.openConnection(link).getInputStream()));
 		JsonElement root = new JsonParser().parse(reader);
 
 		JsonElement articles = root.getAsJsonObject().entrySet().iterator().next().getValue().getAsJsonArray().get(0)

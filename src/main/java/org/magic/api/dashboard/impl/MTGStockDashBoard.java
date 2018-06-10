@@ -3,7 +3,6 @@ package org.magic.api.dashboard.impl;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
@@ -22,7 +21,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
-import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -106,7 +105,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 		String url = MTGSTOCK_API_URI + "/card_sets/" + correspondance.get(edition.getId());
 		logger.debug("loading edition cardshake from " + url);
-		HttpURLConnection con = getConnection(url);
+		HttpURLConnection con = URLTools.openConnection(url);
 		JsonObject obj = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
 
 		JsonArray arr = obj.get("prints").getAsJsonArray();
@@ -153,7 +152,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		logger.debug("get prices to " + url);
 		
-		HttpURLConnection con = getConnection(url);
+		HttpURLConnection con = URLTools.openConnection(url);
 
 		JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
 		int id = arr.get(0).getAsJsonObject().get("id").getAsInt();
@@ -161,14 +160,14 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		logger.trace("found " + id + " for " + mc.getName());
 
 		String urlC = MTGSTOCK_API_URI + "/prints/" + id;
-		con = getConnection(urlC);
+		con = URLTools.openConnection(urlC);
 
 		id = searchId(id, setId,
 				parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject());
 
 		// get prices
 		String urlP = MTGSTOCK_API_URI + "/prints/" + id + "/prices";
-		con = getConnection(urlP);
+		con = URLTools.openConnection(urlP);
 
 		CardPriceVariations ret = extractPrice(parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject(), mc);
 		con.disconnect();
@@ -212,7 +211,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	private void initInterests() throws IOException {
 
 		if (interests == null) {
-			HttpURLConnection con = getConnection(MTGSTOCK_API_URI + "/interests");
+			HttpURLConnection con = URLTools.openConnection(MTGSTOCK_API_URI + "/interests");
 			interests = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
 			con.disconnect();
 		}
@@ -222,7 +221,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		
 		if(correspondance.isEmpty()) 
 		{
-			HttpURLConnection con = getConnection(MTGSTOCK_API_URI + "/card_sets");
+			HttpURLConnection con = URLTools.openConnection(MTGSTOCK_API_URI + "/card_sets");
 			JsonArray arr = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonArray();
 			arr.forEach(el->{
 				if (!el.getAsJsonObject().get("abbreviation").isJsonNull())
@@ -277,7 +276,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 			break;
 		}
 		String url = MTGSTOCK_API_URI + "/analytics/mostplayed/" + id;
-		HttpURLConnection con = getConnection(url);
+		HttpURLConnection con =  URLTools.openConnection(url);
 		JsonObject obj = parser.parse(new JsonReader(new InputStreamReader(con.getInputStream()))).getAsJsonObject();
 		JsonArray arr = obj.get("mostplayed").getAsJsonArray();
 		int i = 1;
@@ -310,14 +309,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 	@Override
 	public String getVersion() {
 		return "1";
-	}
-
-	private HttpURLConnection getConnection(String url) throws IOException {
-		logger.trace("get stream from " + url);
-		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-		connection.connect();
-		return connection;
 	}
 
 }

@@ -22,10 +22,9 @@ public class IncapsulaParser {
 		if (incapsulaCookie != null)
 			return incapsulaCookie;
 
-		HttpURLConnection cookieConnection = (HttpURLConnection) new URL(url).openConnection();
+		HttpURLConnection cookieConnection = URLTools.openConnection(url);
 		cookieConnection.setRequestMethod("GET");
 		cookieConnection.setRequestProperty("Accept", "text/html; charset="+MTGConstants.DEFAULT_ENCODING);
-		cookieConnection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		cookieConnection.setRequestProperty("Connection", "close");
 
 		String visid = null;
@@ -56,10 +55,9 @@ public class IncapsulaParser {
 		StringBuilder response = new StringBuilder();
 		BufferedReader in = null;
 
-		HttpURLConnection connection = (HttpURLConnection) new URL(url).openConnection();
+		HttpURLConnection connection = URLTools.openConnection(url);
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("Accept", "text/html; charset="+MTGConstants.DEFAULT_ENCODING);
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.setRequestProperty("Cookie", getIncapsulaCookie(url));
 
 		in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
