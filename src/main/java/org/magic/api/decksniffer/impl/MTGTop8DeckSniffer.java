@@ -27,6 +27,7 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.URLTools;
 
 public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
@@ -66,7 +67,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document root = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT).timeout(0).get();
+		Document root = URLTools.extractHtml(info.getUrl().toString());
 		MagicDeck d = new MagicDeck();
 		d.setDescription(info.getUrl().toString());
 		d.setName(info.getName());

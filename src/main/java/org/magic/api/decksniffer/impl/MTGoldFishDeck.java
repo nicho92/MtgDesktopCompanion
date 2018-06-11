@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -17,6 +16,7 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.URLTools;
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
@@ -44,7 +44,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
-		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT).get();
+		Document d = URLTools.extractHtml(info.getUrl().toString());
 
 		Elements e = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
 
@@ -100,7 +100,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 
 			logger.debug("sniff url : " + url);
 
-			Document d = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
+			Document d = URLTools.extractHtml(url);
 
 			Elements e = null;
 

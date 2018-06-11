@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicCard;
@@ -14,7 +13,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
-import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 
@@ -23,7 +22,7 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 
-			Document d = Jsoup.connect(getString("URL") + "/?s=" + search).userAgent(MTGConstants.USER_AGENT).get();
+			Document d = URLTools.extractHtml(getString("URL") + "/?s=" + search);
 
 			for (Element e : d.select("article.result")) {
 				Wallpaper w = new Wallpaper();
@@ -45,9 +44,8 @@ public class ArtOfMtgWallpaperProvider extends AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 
-			Document d = Jsoup.connect(getString("URL") + "/set/" + ed.getSet().toLowerCase().replaceAll(" ", "-"))
-					.userAgent(getProperty("USER_AGENT", MTGConstants.USER_AGENT)).get();
-
+			Document d = URLTools.extractHtml(getString("URL") + "/set/" + ed.getSet().toLowerCase().replaceAll(" ", "-"));
+					
 			for (Element e : d.select("div.elastic-portfolio-item img")) {
 				Wallpaper w = new Wallpaper();
 				w.setName(e.attr("title"));

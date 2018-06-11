@@ -122,7 +122,7 @@ public class DeckSnifferDialog extends JDialog {
 				btnImport.setEnabled(true);
 				dispose();
 			} catch (Exception e1) {
-				logger.error(e1);
+				logger.error("Error snif",e1);
 				MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 				importedDeck = null;
 				lblLoad.buzy(false);

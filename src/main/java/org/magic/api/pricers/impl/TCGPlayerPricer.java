@@ -1,7 +1,6 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
-import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,6 +15,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 
@@ -66,8 +66,8 @@ public class TCGPlayerPricer extends AbstractMagicPricesProvider {
 		Document doc = null;
 
 		try {
-			doc = dBuilder.parse(new URL(link).openStream());
-			logger.debug(doc);
+			doc = dBuilder.parse(URLTools.openConnection(link).getInputStream());
+			logger.trace(doc);
 
 			doc.getDocumentElement().normalize();
 

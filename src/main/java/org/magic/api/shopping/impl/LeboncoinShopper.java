@@ -12,13 +12,12 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.ShopItem;
 import org.magic.api.interfaces.abstracts.AbstractMagicShopper;
-import org.magic.services.MTGConstants;
 import org.magic.tools.InstallCert;
+import org.magic.tools.URLTools;
 
 public class LeboncoinShopper extends AbstractMagicShopper {
 
@@ -62,7 +61,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 			logger.debug("parsing item from " + html);
 
 			try {
-				doc = Jsoup.connect(html).userAgent(MTGConstants.USER_AGENT).get();
+				doc =URLTools.extractHtml(html);
 			} catch (IOException e1) {
 				logger.error(e1);
 			}

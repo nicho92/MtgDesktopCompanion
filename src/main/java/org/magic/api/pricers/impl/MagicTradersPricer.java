@@ -14,6 +14,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 public class MagicTradersPricer extends AbstractMagicPricesProvider {
 
@@ -22,7 +23,7 @@ public class MagicTradersPricer extends AbstractMagicPricesProvider {
 		URL link = new URL(getString("URL"));
 		logger.info(getName() + " looking for prices " + link);
 
-		InputStream is = link.openStream();
+		InputStream is = URLTools.openConnection(link).getInputStream();
 		try (BufferedReader read = new BufferedReader(new InputStreamReader(is))) {
 			String line;
 			List<MagicPrice> list = new ArrayList<>();

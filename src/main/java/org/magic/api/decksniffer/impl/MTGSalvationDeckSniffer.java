@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -17,9 +16,9 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.ColorParser;
+import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 
@@ -49,7 +48,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 	
-		Document d = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
+		Document d = URLTools.extractHtml(url);
 
 		deck.setDescription(info.getUrl().toString() + "\n" + d.select("section.guide div").text());
 
@@ -105,7 +104,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 			String link = url + "&page=" + nbPage;
 			logger.debug("sniff url : " + link);
 
-			Document d = Jsoup.connect(link).userAgent(MTGConstants.USER_AGENT).get();
+			Document d = URLTools.extractHtml(link);
 
 			Elements e = null;
 

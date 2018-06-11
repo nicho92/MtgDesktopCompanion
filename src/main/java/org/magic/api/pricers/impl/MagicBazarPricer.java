@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.text.StringEscapeUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -16,6 +15,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 public class MagicBazarPricer extends AbstractMagicPricesProvider {
 
@@ -39,7 +39,7 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 		logger.info(getName() + " looking for prices " + url);
 
 		try {
-			doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).timeout(0).get();
+			doc = URLTools.extractHtml(url);
 			Elements els = doc.select("div.filterElement");
 			for (int i = 0; i < els.size(); i++) {
 				Element e = els.get(i);

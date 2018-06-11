@@ -10,7 +10,6 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.CardDominance;
@@ -23,6 +22,7 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -44,7 +44,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String url = getString("WEBSITE") + "/taneLayout/mtg_price_tracker.jsp?period=" + getString("PERIOD");
 		logger.debug("Get Shake for " + url);
 		
-		Document doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
+		Document doc = URLTools.extractHtml(url);
 		try {
 			
 			String date = doc.getElementsByClass("span6").get(1).text().replaceAll("Updated:", "")
@@ -124,7 +124,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		String url = "http://www.mtgprice.com/spoiler_lists/" + name;
 		logger.debug("get Prices for " + name + " " + url);
 
-		Document doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
+		Document doc =URLTools.extractHtml(url);
 
 		Element table = doc.getElementsByTag("body").get(0).getElementsByTag("script").get(2);
 
@@ -191,7 +191,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		edition = edition.replaceAll(" ", "_");
 
 		String url = "http://www.mtgprice.com/sets/" + edition + "/" + name;
-		Document d = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
+		Document d = URLTools.extractHtml(url);
 
 		logger.debug("get Prices for " + name + " " + url);
 

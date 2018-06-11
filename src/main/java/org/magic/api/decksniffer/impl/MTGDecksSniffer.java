@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -15,9 +14,9 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
+import org.magic.tools.URLTools;
 
 public class MTGDecksSniffer extends AbstractDeckSniffer {
 
@@ -52,7 +51,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 		logger.debug("get deck at " + info.getUrl());
 
-		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT).get();
+		Document d = URLTools.extractHtml(info.getUrl().toString());
 
 		for (Element e : d.select("table.subtitle a"))
 			deck.getTags().add(e.text());
@@ -95,7 +94,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 		for (int i = 1; i <= maxPage; i++) {
 			url = getString("URL") + "/" + getString("FORMAT") + "/decklists/page:" + nbPage;
-			Document d = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
+			Document d = URLTools.extractHtml(url);
 
 			Elements trs = d.select("table.table tr");
 

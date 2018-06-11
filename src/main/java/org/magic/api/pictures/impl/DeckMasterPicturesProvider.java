@@ -9,14 +9,12 @@ import java.net.URL;
 
 import javax.imageio.ImageIO;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.InstallCert;
 import org.magic.tools.URLTools;
@@ -48,8 +46,8 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 
 		try {
 
-			Document d = Jsoup.connect(getString("URL") + "/card.php?multiverseid=" + multiverseid)
-					.userAgent(MTGConstants.USER_AGENT).get();
+			Document d = URLTools.extractHtml(getString("URL") + "/card.php?multiverseid=" + multiverseid);
+					
 
 			logger.debug("read " + getString("URL") + "/card.php?multiverseid=" + multiverseid);
 			Element e = d.select(".card > img").get(0);

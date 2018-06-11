@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -15,6 +14,7 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 public class MagicCorporationDecks extends AbstractDeckSniffer {
 
@@ -30,8 +30,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document d = Jsoup.connect(getString("URL") + "/" + info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT)
-				.get();
+		Document d = URLTools.extractHtml(getString("URL") + "/" + info.getUrl().toString());
 
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
@@ -52,8 +51,7 @@ public class MagicCorporationDecks extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		Document d = Jsoup.connect(getString("URL") + "/mc.php?rub=decks&limit=0").userAgent(MTGConstants.USER_AGENT)
-				.get();
+		Document d = URLTools.extractHtml(getString("URL") + "/mc.php?rub=decks&limit=0");
 
 		Elements e = d.select("table.html_table > tbody");
 

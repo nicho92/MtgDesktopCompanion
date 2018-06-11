@@ -15,7 +15,6 @@ import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -25,6 +24,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 public class MagicVillePricer extends AbstractMagicPricesProvider {
 	
@@ -77,7 +77,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		logger.info(getName() + " looking for prices " + url);
 
 		
-		Document doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).get();
+		Document doc =URLTools.extractHtml(url);
 		
 		Element table = null;
 		try {

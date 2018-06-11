@@ -8,14 +8,13 @@ import java.util.List;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
-import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 
@@ -27,7 +26,7 @@ public class MagicCorpForumProvider extends AbstractMagicNewsProvider {
 	public List<MagicNewsContent> listNews(MagicNews n) throws IOException {
 		List<MagicNewsContent> ret = new ArrayList<>();
 		int maxpage = 0;
-		Document d = Jsoup.connect(n.getUrl()).userAgent(MTGConstants.USER_AGENT).get();
+		Document d = URLTools.extractHtml(n.getUrl());
 		try {
 			maxpage = Integer.parseInt(d.select("a[title=Dernière Page]").first().text());
 		} catch (Exception e) {

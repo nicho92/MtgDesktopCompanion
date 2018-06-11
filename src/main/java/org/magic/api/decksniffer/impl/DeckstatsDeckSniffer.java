@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -17,8 +16,8 @@ import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.URLTools;
 
 public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 
@@ -82,8 +81,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		MagicDeck deck = new MagicDeck();
 
 		logger.debug("get deck " + info.getUrl());
-		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT)
-				.timeout(getInt(TIMEOUT)).get();
+		Document d = URLTools.extractHtml(info.getUrl().toString());
 
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
@@ -141,8 +139,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (int i = 1; i <= nbPage; i++) {
-			Document d = Jsoup.connect(getString(URL) + "/" + getString(FORMAT) + "/?lng=fr&page=" + i)
-					.userAgent(MTGConstants.USER_AGENT).timeout(Integer.parseInt(getString(TIMEOUT))).get();
+			Document d = URLTools.extractHtml(getString(URL) + "/" + getString(FORMAT) + "/?lng=fr&page=" + i);
 
 			Elements e = d.select("tr.touch_row");
 

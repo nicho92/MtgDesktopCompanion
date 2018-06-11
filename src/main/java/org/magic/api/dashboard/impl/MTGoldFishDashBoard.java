@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import java.util.Objects;
 
 import org.apache.commons.lang3.StringUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -26,6 +25,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractDashBoard;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 import org.mozilla.javascript.Parser;
 import org.mozilla.javascript.ast.AstNode;
 
@@ -47,7 +47,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	private Document read(String url) throws IOException {
-		return Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).timeout(getInt(TIMEOUT)).get();
+		return URLTools.extractHtml(url);
 	}
 
 	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {

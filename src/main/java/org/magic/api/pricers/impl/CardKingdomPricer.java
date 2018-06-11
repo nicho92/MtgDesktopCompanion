@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.apache.commons.text.similarity.EditDistance;
 import org.apache.commons.text.similarity.JaccardDistance;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -15,8 +14,8 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.InstallCert;
+import org.magic.tools.URLTools;
 
 public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
@@ -47,11 +46,8 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 	private void initEds()
 	{
 		try {
-			doc = Jsoup.connect("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az")
-					.userAgent(MTGConstants.USER_AGENT).timeout(0).get();
-
+			doc = URLTools.extractHtml("http://www.cardkingdom.com/catalog/magic_the_gathering/by_az");
 			Elements e = doc.select(".anchorList a[href]");
-
 			for (Element ed : e)
 				eds.add(ed.html());
 		} catch (IOException e) {
@@ -97,7 +93,7 @@ public class CardKingdomPricer extends AbstractMagicPricesProvider {
 
 		logger.info(getName() + " looking for prices " + url);
 		try {
-			doc = Jsoup.connect(url).userAgent(MTGConstants.USER_AGENT).timeout(0).get();
+			doc = URLTools.extractHtml(url);
 			qualities = doc.select(".cardTypeList li");
 			prices = doc.select(".stylePrice");
 

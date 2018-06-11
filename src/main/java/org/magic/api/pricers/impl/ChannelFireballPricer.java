@@ -1,7 +1,6 @@
 package org.magic.api.pricers.impl;
 
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +14,6 @@ import org.magic.services.MTGConstants;
 import org.magic.tools.URLTools;
 
 import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
 
 public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 
@@ -41,9 +38,8 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 
 		String link = url.replaceAll("%CARDNAME%", keyword);
 
-		logger.info(getName() + " Looking for price " + link);
-		JsonReader reader = new JsonReader(new InputStreamReader(URLTools.openConnection(link).getInputStream()));
-		JsonElement root = new JsonParser().parse(reader);
+		logger.info(getName() + " Looking for prices " + link);
+		JsonElement root = URLTools.extractJson(link);
 
 		String value = root.getAsJsonArray().get(0).getAsString();
 
@@ -78,7 +74,6 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		setProperty("MAX", "5");
 		setProperty("URL", "http://magictcgprices.appspot.com/api/cfb/price.json?cardname=%CARDNAME%");
 		setProperty("WEBSITE", "http://store.channelfireball.com/");
-		
 		setProperty("KEYWORD", "");
 
 	}

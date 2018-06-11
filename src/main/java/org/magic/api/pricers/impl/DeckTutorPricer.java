@@ -36,7 +36,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 
 	private static final String MAX_RESULT = "MAX_RESULT";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-	String dsite = "www.decktutor.com";
+	private String dsite = "www.decktutor.com";
 
 	@Override
 	public STATUT getStatut() {

@@ -14,9 +14,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.RetrievableDeck;
@@ -24,6 +24,7 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -60,6 +61,11 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	}
 	
+	public static void main(String[] args) throws IOException {
+		AetherhubDeckSniffer snif = new AetherhubDeckSniffer();
+		
+		snif.getDeck(snif.getDeckList().get(0));
+	}
 	
 	@Override
 	public String[] listFilter() {
@@ -68,18 +74,23 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
-		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT).get();
-		Element e = d.select("textarea#exportList").first();
+		Document d =URLTools.extractHtml(info.getUrl().toString());
+		Elements trs = d.select("div#tab_full tr");
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
+		boolean sideboard=false;
 		
-		for (String line : e.text().split("\r\n"))
+		//TODO, cards parser
+		for(Element tr : trs)
 		{
-			int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
-			String name = line.substring(line.indexOf(' '), line.indexOf('('));
-			String ed =  line.substring( line.indexOf('(')+1,line.indexOf(')'));
-			MagicEdition me = MTGControler.getInstance().getEnabledCardsProviders().getSetById(ed);
-			deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name.trim(), me, true).get(0), qte);
+//			int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
+//			String name = line.substring(line.indexOf(' '), line.indexOf('('));
+//			String ed =  line.substring( line.indexOf('(')+1,line.indexOf(')'));
+//			MagicEdition me = MTGControler.getInstance().getEnabledCardsProviders().getSetById(ed);
+//			deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name.trim(), me, true).get(0), qte);
+			
+			System.out.println(tr);
+			sideboard=true;
 		
 		}
 		

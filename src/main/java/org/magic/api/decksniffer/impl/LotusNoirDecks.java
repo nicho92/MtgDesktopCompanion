@@ -6,7 +6,6 @@ import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -16,10 +15,11 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
+import org.magic.tools.URLTools;
 
 public class LotusNoirDecks extends AbstractDeckSniffer {
 
-	private static final String TIMEOUT = "TIMEOUT";
+	
 	private static final String FORMAT = "FORMAT";
 	private static final String URL = "URL";
 	private static final String MAX_PAGE = "MAX_PAGE";
@@ -35,8 +35,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 
 		logger.debug("get deck at " + info.getUrl());
 
-		Document d = Jsoup.connect(info.getUrl().toString()).userAgent(MTGConstants.USER_AGENT)
-				.timeout(Integer.parseInt(getString(TIMEOUT))).get();
+		Document d = URLTools.extractHtml(info.getUrl().toString());
 
 		deck.setDescription(info.getUrl().toString());
 		deck.setName(info.getName());
@@ -77,8 +76,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		List<RetrievableDeck> list = new ArrayList<>();
 
 		for (int i = 1; i <= nbPage; i++) {
-			Document d = Jsoup.connect(getString(URL) + "?dpage=" + i + "&action=" + getString(FORMAT))
-					.userAgent(MTGConstants.USER_AGENT).timeout(Integer.parseInt(getString(TIMEOUT))).get();
+			Document d = URLTools.extractHtml(getString(URL) + "?dpage=" + i + "&action=" + getString(FORMAT));
 
 			Elements e = d.select("div.thumb_page");
 
@@ -121,7 +119,7 @@ public class LotusNoirDecks extends AbstractDeckSniffer {
 		setProperty(URL, "http://www.lotusnoir.info/magic/decks/");
 		setProperty(FORMAT, "decks-populaires");
 		setProperty(MAX_PAGE, "2");
-		setProperty(TIMEOUT, "0");
+	
 
 	}
 

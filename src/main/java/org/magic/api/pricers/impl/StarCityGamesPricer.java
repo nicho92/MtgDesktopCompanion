@@ -6,7 +6,6 @@ import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -16,6 +15,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 
@@ -29,7 +29,7 @@ public class StarCityGamesPricer extends AbstractMagicPricesProvider {
 		
 		logger.debug(getName() + " looking for price " + getString("URL")+cardName);
 		
-		Document d = Jsoup.connect(getString("URL")+cardName).userAgent(MTGConstants.USER_AGENT).get();
+		Document d = URLTools.extractHtml(getString("URL")+cardName);
 		List<MagicPrice> ret = new ArrayList<>();
 		Elements trs = d.getElementById("search_results_table").select("tr");
 		trs.remove(0);//remove empty tr
