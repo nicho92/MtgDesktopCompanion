@@ -14,8 +14,10 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
 import org.apache.http.util.EntityUtils;
+import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.safety.Whitelist;
 import org.jsoup.select.Elements;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.beans.MagicEdition;
@@ -60,13 +62,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 				 .setRedirectStrategy(new LaxRedirectStrategy()).build();
 
 	}
-	
-	public static void main(String[] args) throws IOException {
-		AetherhubDeckSniffer snif = new AetherhubDeckSniffer();
-		
-		snif.getDeck(snif.getDeckList().get(0));
-	}
-	
+
 	@Override
 	public String[] listFilter() {
 		return formats.keySet().toArray(new String[formats.keySet().size()]);
@@ -74,31 +70,33 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public MagicDeck getDeck(RetrievableDeck info) throws IOException {
+		
+		logger.debug("get deck from " + info.getUrl());
 		Document d =URLTools.extractHtml(info.getUrl().toString());
-		Elements trs = d.select("div#tab_full tr");
+		Elements div = d.select("div#tab_text");
 		MagicDeck deck = new MagicDeck();
 		deck.setName(info.getName());
 		boolean sideboard=false;
-		
-		//TODO, cards parser
-		for(Element tr : trs)
+		String[] lines = div.html().replaceAll("</h4>", "<br>").split("<br>");
+		for(int i=1;i<lines.length;i++)
 		{
-//			int qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
-//			String name = line.substring(line.indexOf(' '), line.indexOf('('));
-//			String ed =  line.substring( line.indexOf('(')+1,line.indexOf(')'));
-//			MagicEdition me = MTGControler.getInstance().getEnabledCardsProviders().getSetById(ed);
-//			deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(name.trim(), me, true).get(0), qte);
+			String line=lines[i].trim();
 			
-			System.out.println(tr);
-			sideboard=true;
-		
+			if(line.startsWith("<h4>Sideboard"))
+			{
+				sideboard=true;
+			}
+			else
+			{
+				Integer qte = Integer.parseInt(line.substring(0, line.indexOf(' ')));
+				String cardName = line.substring(line.indexOf(' '), line.length()).trim();
+				
+				if(sideboard)
+					deck.getMapSideBoard().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(cardName, null, true).get(0), qte);
+				else
+					deck.getMap().put(MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(cardName, null, true).get(0), qte);
+			}
 		}
-		
-		Element t = d.select("div .decknotes").first();
-		deck.setDescription(t.text());
-		
-		
-	
 		return deck;
 	}
 
@@ -167,7 +165,7 @@ public class AetherhubDeckSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public String getVersion() {
-		return "0.1";
+		return "0.3";
 	}
 
 
