@@ -32,9 +32,13 @@
 	    <url>http://jcenter.bintray.com</url>
 	  </repository>
 	</repositories>
-		
-	
 	<dependencies>
+		<dependency>
+		    <groupId>org.codehaus.groovy</groupId>
+		    <artifactId>groovy-all</artifactId>
+		    <version>3.0.0-alpha-2</version>
+		    <type>pom</type>
+		</dependency>
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
