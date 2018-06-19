@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.jsoup.nodes.Document;
@@ -297,7 +298,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 	}
 
 	private void initConcordance() {
-		mapConcordance = new HashMap<>();
+		mapConcordance = new TreeMap<>(String.CASE_INSENSITIVE_ORDER);
 
 		mapConcordance.put("TMP", "TE");
 		mapConcordance.put("STH", "ST");

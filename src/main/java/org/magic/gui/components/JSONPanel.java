@@ -24,7 +24,7 @@ public class JSONPanel extends JScrollPane {
 
 		Gson g = new GsonBuilder().setPrettyPrinting().create();
 		textpane.setText(g.toJson(mc));
-
+		textpane.setCaretPosition(0);
 	}
 
 }

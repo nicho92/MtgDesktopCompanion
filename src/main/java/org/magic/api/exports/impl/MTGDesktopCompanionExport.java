@@ -12,10 +12,16 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
 import org.magic.api.beans.MagicDeck;
+import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class MTGDesktopCompanionExport extends AbstractCardExport {
 
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEPRECATED;
+	}
 
 	@Override
 	public String getName() {
