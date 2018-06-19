@@ -14,6 +14,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.cache.impl.FileCache;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.Chrono;
@@ -69,7 +70,7 @@ public class IconSetProvider {
 
 			try {
 				String set = getEquiv(id);
-				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/" + set + EXT));
+				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR + set + EXT));
 
 				if (!set.equals(id)) {
 					FileUtils.moveFile(iconFile, new File(localDirectory, set + EXT));
@@ -78,7 +79,7 @@ public class IconSetProvider {
 				ImageIO.write(im, "png", iconFile);
 			} catch (Exception ex) {
 				logger.trace("couldnt load " + id);
-				im = ImageIO.read(IconSetProvider.class.getResource("/set/icons/PMTG1_set.png"));
+				im = ImageIO.read(IconSetProvider.class.getResource(MTGConstants.SET_ICON_DIR+"PMTG1_set.png"));
 
 			}
 			return im;
