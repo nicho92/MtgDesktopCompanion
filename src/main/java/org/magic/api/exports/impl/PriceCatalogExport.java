@@ -22,6 +22,8 @@ import org.magic.services.MTGControler;
 
 public class PriceCatalogExport extends AbstractCardExport {
 
+	private static final String PRICER = "PRICER";
+
 	@Override
 	public Icon getIcon() {
 		return MTGConstants.ICON_EURO;
@@ -53,7 +55,11 @@ public class PriceCatalogExport extends AbstractCardExport {
 			bw.write("\n");
 			int i = 0;
 			
-			for(String pricer : getString("PRICER").split(","))
+			if(getString(PRICER).isEmpty())
+				throw new IOException("PRICER parameter must be set");
+			
+			
+			for(String pricer : getString(PRICER).split(","))
 			{	
 				MTGPricesProvider prov = MTGControler.getInstance().getPlugin(pricer,MTGPricesProvider.class);
 			
@@ -110,10 +116,9 @@ public class PriceCatalogExport extends AbstractCardExport {
 
 	@Override
 	public void initDefault() {
-		setProperty("PRICER", "");
+		setProperty(PRICER, "");
 		setProperty("PROPERTIES_CARD", "number,name,cost,supertypes,types,subtypes,editions");
 		setProperty("PROPERTIES_PRICE", "site,seller,value,currency,language,quality,foil");
-		
 	}
 
 
