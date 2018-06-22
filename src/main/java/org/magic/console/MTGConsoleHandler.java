@@ -13,6 +13,7 @@ import org.apache.log4j.Logger;
 import org.apache.mina.core.service.IoHandlerAdapter;
 import org.apache.mina.core.session.IoSession;
 import org.magic.api.interfaces.MTGCommand;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.services.PluginRegistry;
 
@@ -51,7 +52,7 @@ public class MTGConsoleHandler extends IoHandlerAdapter {
 	}
 
 	public static MTGCommand commandFactory(String name) {
-		return PluginRegistry.inst().newInstance("org.magic.api.commands.impl."+StringUtils.capitalize(name));
+		return PluginRegistry.inst().newInstance(MTGConstants.COMMANDS_PACKAGE+StringUtils.capitalize(name));
 	}
 	
 	
