@@ -3,7 +3,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/119235.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/a/ac/REN_logo.jpg"/>
 	</booster>
 	<booster id='LEA'>
 		<packs lang='en'>
@@ -111,7 +111,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://client-cdn.crystalcommerce.com/photo/ccghouse/file/10824/large/eqD7vGTA4rS38ZrA.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/5/5c/PO2_logo.png/250px-PO2_logo.png?version=d56abbf4d0041779ee5bc997ba9b9dfb"/>
 	</booster>
 	<booster id='POR'>
 		<packs lang='en'>
@@ -123,7 +123,7 @@
 		<packs lang='en'>
 			<pack num='1' url="https://www.cardgeek.nl/files/3315/0437/4078/Ixalan_booster.png"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://i1.wp.com/engagedfamilygaming.com/wp-content/uploads/2017/10/mtg-ixalan-logo.png?fit=500%2C200"/>
 	</booster>
 	<booster id='RQS'>
 		<packs lang='en'>
@@ -843,7 +843,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://geeklyinc.com/wp-content/uploads/2015/02/Commander2014Splash.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_C13_SetLogo.png"/>
 	</booster>
 	<booster id='DD3_DVD'>
 		<packs lang='en'>
@@ -1017,7 +1017,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://www.magicspoiler.com/wp-content/uploads/2017/03/Duel-Decks-Mind-vs-Might-Packaging.png"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_Logo_DSS_Name_0.png"/>
 	</booster>
 	<booster id='HOU'>
 		<packs lang='en'>
@@ -1035,7 +1035,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://media.wizards.com/2017/images/daily/X4aEhWQxxy.png"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/170.jpg"/>
 	</booster>
 	<booster id='C17'>
 		<packs lang='en'>
@@ -1059,43 +1059,43 @@
 		<packs lang='en'>
 			<pack num='1' url="https://3.bp.blogspot.com/-jm13Z746z_Y/Wd0C6S7SHeI/AAAAAAAAfI8/VduWz6JAYe4fHt8FlDLTvLMWplAc1QeKwCLcBGAs/s1600/MTG%2Bexpolorers%2Bixalan%2Bboard%2Bgame%2B%25281%2529.png"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://images1.mtggoldfish.com/mtg_sets/explorers_of_ixalan_logo.png"/>
 	</booster>
 	<booster id='UST'>
 		<packs lang='en'>
 			<pack num='1' url="http://www.manaleak.com/magic-the-gathering/images/mtg_unstable_booster_pack_1.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/en_qKSvq65PtG.png"/>
 	</booster>
 	<booster id='RIX'>
 		<packs lang='en'>
 			<pack num='1' url="https://themanashop.ch/24406-thickbox_default/rivals-of-ixalan-booster-pack.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/134/741/320/160/636449262134009634.png"/>
 	</booster>
 	<booster id='A25'>
 		<packs lang='en'>
 			<pack num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1158680.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/202/904/320/160/636519257872367750.png"/>
 	</booster>
 	<booster id='DOM'>
 		<packs lang='en'>
 			<pack num='1' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/e/ed/DOM_booster_Teferi.png/325px-DOM_booster_Teferi.png?version=3570665047bb5829f0084d0d1953493f"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/eu_7wvQ36SfSt.png"/>
 	</booster>
 	<booster id='BBD'>
 		<packs lang='en'>
 			<pack num='1' url="https://www.spielraum.co.at/Images/Produkte/Magic/BoosterENG/BattlebondBooster.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://images1.mtggoldfish.com/mtg_sets/battlebond-set-logo.png"/>
 	</booster>
 	<booster id='SS1'>
 		<packs lang='en'>
 			<pack num='1' url="https://media.wizards.com/2018/images/daily/d3piESj2ib.png"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/1/1c/SS1_logo.png"/>
 	</booster>
 	<booster id='CM2'>
 		<packs lang='en'>
@@ -1107,6 +1107,15 @@
 		<packs lang='en'>
 			<pack num='1' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/b/b5/GS1_packaging_Chinese.png/300px-GS1_packaging_Chinese.png?version=8845862c2ac7004ac13c16fc7b1f35ea"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://media.wizards.com/2018/images/magic/Soon/event/GS1/EN_zxZaQpA.png"/>
 	</booster>
+	<booster id='M19'>
+		<packs lang='en'>
+			<pack num='1' url=""/>
+		</packs>
+		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/Shadow_EN_x8mSpWT0C9.png"/>
+	</booster>
+	
+	
+	
 </boosterUrls>
