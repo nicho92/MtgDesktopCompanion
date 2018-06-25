@@ -82,7 +82,7 @@ public class BoosterPicturesProvider {
 		String url = "";
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]";
+			String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/packs/pack[contains(@num,'1')]";
 			logger.debug(expression);
 			NodeList nodeList;
 			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -101,5 +101,30 @@ public class BoosterPicturesProvider {
 			return null;
 		}
 	}
+	
+	public Icon getBannerFor(MagicEdition me) {
+		String url = "";
+		try {
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/banner[contains(@lang,'en')]";
+			logger.debug(expression);
+			NodeList nodeList;
+			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			Node item = nodeList.item(0);
+			url = item.getAttributes().getNamedItem("url").getNodeValue();
+			HttpURLConnection connection = URLTools.openConnection(url);
+			return new ImageIcon(ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
+		} catch (IOException e) {
+			logger.error(me.getId() + " could not load : " + url + ":" + e);
+			return null;
+		} catch (XPathExpressionException e) {
+			logger.error(me.getId() + " is not found :" + e);
+			return null;
+		} catch (Exception e) {
+			logger.error(me.getId() + " error loading " + url + " " + e);
+			return null;
+		}
+	}
+	
 
 }
