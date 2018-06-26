@@ -37,6 +37,7 @@ public class URLTools {
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.setInstanceFollowRedirects(true);
+		//connection.setConnectTimeout(3000);
 		connection.connect();
 		return connection;
 	}

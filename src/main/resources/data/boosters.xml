@@ -984,7 +984,7 @@
 		<packs lang='en'>
 			<pack num='1' url="https://www.leisuregames.com/acatalog/kaladesh-booster.png"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_KLD_Name_0.png"/>
+		<banner lang='en' url="https://juegacescomics.es/wp-content/uploads/2016/09/logo_750.png"/>
 	</booster>
 	<booster id='C16'>
 		<packs lang='en'>
@@ -996,7 +996,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://media.wizards.com/2016/images/daily/pIFZeAMYk1.png"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_AER_Set_Name.png"/>
+		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/124/778/320/160/636011056405671140.png"/>
 	</booster>
 	<booster id='PCA'>
 		<packs lang='en'>
@@ -1008,13 +1008,13 @@
 		<packs lang='en'>
 			<pack num='1' url="http://i.tcgplayer.com/127068_200w.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_MM3_Name.png"/>
+		<banner lang='en' url="http://www.lataniere.fr/wp-content/uploads/2017/03/MagicMM17logo.png"/>
 	</booster>
 	<booster id='AKH'>
 		<packs lang='en'>
 			<pack num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1102276.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_AKH_Name.png"/>
+		<banner lang='en' url="http://www.magic-ville.com/fr/graph/bigsetlogos/akh.png"/>
 	</booster>
 	<booster id='DDS'>
 		<packs lang='en'>
@@ -1044,7 +1044,7 @@
 		<packs lang='en'>
 			<pack num='1' url="https://images1.mtggoldfish.com/featured_images/1674/c16-decklists-featured.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/169.png"/>
 	</booster>
 	<booster id='IMA'>
 		<packs lang='en'>
@@ -1052,7 +1052,7 @@
 			<pack num='2' url="https://www.trader-online.de/out/pictures/generated/product/1/800_800_75/iconic_masters_2017_booster_packung_pack_box_magic_mtg_guenstig_kaufen.png"/>
 			<pack num='3' url="https://images-na.ssl-images-amazon.com/images/I/71bR3cIj8nL._SY741_.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_IMA_Logo.png"/>
+		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/EN_IMA-Logo_Top_Product_Page.png"/>
 	</booster>
 	<booster id='DDT'>
 		<packs lang='en'>
