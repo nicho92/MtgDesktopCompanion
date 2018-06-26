@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,16 +30,11 @@ public class BoosterPicturesProvider {
 	private DocumentBuilderFactory builderFactory;
 	private DocumentBuilder builder;
 	private Document document;
-
-	private int w;
-	private int h;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private List<String> list;
 
 	public BoosterPicturesProvider() {
-		w = 254;
-		h = 450;
 
 		builderFactory = DocumentBuilderFactory.newInstance();
 		try {
@@ -91,13 +87,13 @@ public class BoosterPicturesProvider {
 	
 	
 	
-	public Image getBoosterFor(MagicEdition me, int pos) {
+	public BufferedImage getBoosterFor(MagicEdition me, int pos) {
 		String url = "";
 		try {
 			NodeList nodeList=getBoostersUrl(me);
 			Node item = nodeList.item(pos);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			return URLTools.extractImage(url).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
+			return URLTools.extractImage(url);
 		} catch (IOException e) {
 			logger.error(me.getId() + " could not load : " + url + ":" + e);
 			return null;
@@ -107,7 +103,7 @@ public class BoosterPicturesProvider {
 		}
 	}
 	
-	public Image getBannerFor(MagicEdition me) {
+	public BufferedImage getBannerFor(MagicEdition me) {
 		String url = "";
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
@@ -116,7 +112,7 @@ public class BoosterPicturesProvider {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Node item = nodeList.item(0);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			return URLTools.extractImage(url).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
+			return URLTools.extractImage(url);
 		} catch (IOException e) {
 			logger.error(me.getId() + " could not load : " + url + ":" + e);
 			return null;
