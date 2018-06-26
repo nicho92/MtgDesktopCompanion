@@ -108,7 +108,7 @@ public class BoosterPicturesProvider {
 		}
 	}
 	
-	public Icon getBannerFor(MagicEdition me) {
+	public Image getBannerFor(MagicEdition me) {
 		String url = "";
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
@@ -118,7 +118,7 @@ public class BoosterPicturesProvider {
 			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Node item = nodeList.item(0);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			return new ImageIcon(ImageIO.read(URLTools.openConnection(url).getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
+			return ImageIO.read(URLTools.openConnection(url).getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
 		} catch (IOException e) {
 			logger.error(me.getId() + " could not load : " + url + ":" + e);
 			return null;
