@@ -55,16 +55,14 @@ public class GathererPicturesProvider extends AbstractPicturesProvider {
 	}
 
 	private BufferedImage getPicture(String multiverseid) throws IOException {
-		URL url = new URL(
-				"http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + multiverseid + "&type=card");
+		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?multiverseid=" + multiverseid + "&type=card");
 		return ImageIO.read(url);
 
 	}
 
 	@Override
 	public BufferedImage getSetLogo(String set, String rarity) throws IOException {
-		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="
-				+ getString("SET_SIZE") + "&rarity=" + rarity.substring(0, 1));
+		URL url = new URL("http://gatherer.wizards.com/Handlers/Image.ashx?type=symbol&set=" + set + "&size="+ getString("SET_SIZE") + "&rarity=" + rarity.substring(0, 1));
 		return ImageIO.read(url);
 	}
 

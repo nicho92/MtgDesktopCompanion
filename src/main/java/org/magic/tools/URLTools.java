@@ -1,10 +1,15 @@
 package org.magic.tools;
 
+import java.awt.Image;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import javax.imageio.ImageIO;
+
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.log4j.Logger;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -51,7 +56,18 @@ public class URLTools {
 		return new JsonParser().parse(reader);
 	}
 	
+	public static String extractAsString(String url) throws IOException
+	{
+		logger.trace("get String from " + url);
+		return IOUtils.toString(openConnection(url).getInputStream(), MTGConstants.DEFAULT_ENCODING); 
+	}
 	
+
+	public static Image extractImage(String url) throws IOException
+	{
+		logger.trace("get Image from " + url);
+		return ImageIO.read(openConnection(url).getInputStream()); 
+	}
 	
 	
 	

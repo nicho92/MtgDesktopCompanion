@@ -8,8 +8,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -46,7 +44,7 @@ public class BoosterPicturesProvider {
 		try {
 			builder = builderFactory.newDocumentBuilder();
 			logger.debug("Loading booster pics");
-			document = builder.parse(new URL(MTGConstants.MTG_BOOSTERS_URI).openStream());
+			document = builder.parse(URLTools.openConnection(MTGConstants.MTG_BOOSTERS_URI).getInputStream());
 			logger.debug("Loading booster pics done");
 			list = new ArrayList<>();
 		} catch (Exception e) {
@@ -82,6 +80,7 @@ public class BoosterPicturesProvider {
 	{
 		XPath xPath = XPathFactory.newInstance().newXPath();
 		String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/packs/pack";
+		logger.trace(expression);
 		try {
 			return (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
@@ -92,13 +91,13 @@ public class BoosterPicturesProvider {
 	
 	
 	
-	public Image getBoosterFor(MagicEdition me,int pos) {
+	public Image getBoosterFor(MagicEdition me, int pos) {
 		String url = "";
 		try {
 			NodeList nodeList=getBoostersUrl(me);
 			Node item = nodeList.item(pos);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			return ImageIO.read(URLTools.openConnection(url).getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
+			return URLTools.extractImage(url).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
 		} catch (IOException e) {
 			logger.error(me.getId() + " could not load : " + url + ":" + e);
 			return null;
@@ -112,13 +111,12 @@ public class BoosterPicturesProvider {
 		String url = "";
 		try {
 			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/banner[contains(@lang,'en')]";
-			logger.debug(expression);
-			NodeList nodeList;
-			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/banner";
+			logger.trace(expression);
+			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Node item = nodeList.item(0);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			return ImageIO.read(URLTools.openConnection(url).getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
+			return URLTools.extractImage(url).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
 		} catch (IOException e) {
 			logger.error(me.getId() + " could not load : " + url + ":" + e);
 			return null;

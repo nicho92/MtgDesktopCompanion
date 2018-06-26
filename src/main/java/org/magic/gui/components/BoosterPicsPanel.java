@@ -21,7 +21,6 @@ public class BoosterPicsPanel extends JTabbedPane {
 		setLayout(new BorderLayout(0, 0));
 		provider = new BoosterPicturesProvider();
 	}
-
 	
 	public void setEdition(MagicEdition ed) {
 		removeAll();
@@ -34,8 +33,6 @@ public class BoosterPicsPanel extends JTabbedPane {
 		for(int i =0; i<boostersUrl.getLength();i++)
 			addTab(String.valueOf(i+1), new JLabel(new ImageIcon(provider.getBoosterFor(ed, i))));
 		
-		
-		addTab("Banner", new JLabel(new ImageIcon(provider.getBannerFor(ed))));
 	}
 
 }

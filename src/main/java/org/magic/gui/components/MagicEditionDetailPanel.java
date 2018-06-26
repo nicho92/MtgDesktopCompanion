@@ -26,7 +26,6 @@ import org.magic.gui.models.EditionsShakerTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
-import org.magic.services.extra.BoosterPicturesProvider;
 
 public class MagicEditionDetailPanel extends JPanel {
 
