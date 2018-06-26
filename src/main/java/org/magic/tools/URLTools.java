@@ -1,6 +1,7 @@
 package org.magic.tools;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
@@ -63,7 +64,7 @@ public class URLTools {
 	}
 	
 
-	public static Image extractImage(String url) throws IOException
+	public static BufferedImage extractImage(String url) throws IOException
 	{
 		logger.trace("get Image from " + url);
 		return ImageIO.read(openConnection(url).getInputStream()); 
