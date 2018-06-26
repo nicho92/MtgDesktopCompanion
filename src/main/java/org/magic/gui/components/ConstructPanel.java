@@ -372,7 +372,7 @@ public class ConstructPanel extends JPanel {
 										));
 								loading(false, "");
 							} catch (Exception e) {
-								logger.error(e);
+								logger.error("error",e);
 								loading(false, "");
 								MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 							}

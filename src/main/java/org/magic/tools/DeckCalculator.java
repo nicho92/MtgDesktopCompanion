@@ -5,11 +5,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.math3.distribution.HypergeometricDistribution;
+import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
+import org.magic.services.MTGLogger;
 
 public class DeckCalculator {
 
+	private Logger logger = MTGLogger.getLogger(this.getClass());
 	private MagicDeck deck;
 	private DecimalFormat format;
 
@@ -45,8 +48,13 @@ public class DeckCalculator {
 			drawedCards = 7;
 		else
 			drawedCards = drawedCards + turn;
-
-		int numberInDeck = deck.getMap().get(mc);
+		int numberInDeck = 0;
+		try {
+			numberInDeck = deck.getMap().get(mc);
+		}catch(Exception e)
+		{
+			logger.error(e);
+		}
 		int numberCardsInDeck = deck.getNbCards();
 		try {
 			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards).upperCumulativeProbability(1);
