@@ -15,7 +15,7 @@ public class BoosterProviderTests {
 		BoosterPicturesProvider prov = new BoosterPicturesProvider();
 		for(String id : prov.listEditionsID())
 		{
-			System.out.println(id+";"+(prov.getBoosterFor(id)!=null));
+			System.out.println(id+";"+(prov.getBoosterFor(id,0)!=null));
 		}
 		
 	}

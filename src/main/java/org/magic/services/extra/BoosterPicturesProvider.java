@@ -1,8 +1,8 @@
 package org.magic.services.extra;
 
+import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,38 +63,44 @@ public class BoosterPicturesProvider {
 			XPath xPath = XPathFactory.newInstance().newXPath();
 			String expression = "//booster/@id";
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-
 			for (int i = 0; i < nodeList.getLength(); i++)
 				list.add(nodeList.item(i).getNodeValue());
+			
 		} catch (Exception e) {
 			logger.error("Error retrieving IDs ", e);
 		}
 		return list;
 	}
 
-	public Icon getBoosterFor(String id) {
+	public Image getBoosterFor(String id,int pos) {
 		MagicEdition ed = new MagicEdition();
 		ed.setId(id);
-		return getBoosterFor(ed);
+		return getBoosterFor(ed,pos);
 	}
 
-	public Icon getBoosterFor(MagicEdition me) {
-		String url = "";
+	public NodeList getBoostersUrl(MagicEdition me)
+	{
+		XPath xPath = XPathFactory.newInstance().newXPath();
+		String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/packs/pack";
 		try {
-			XPath xPath = XPathFactory.newInstance().newXPath();
-			String expression = "//booster[contains(@id,'" + me.getId().toUpperCase() + "')]/packs/pack[contains(@num,'1')]";
-			logger.debug(expression);
-			NodeList nodeList;
-			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
-			Node item = nodeList.item(0);
-			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			HttpURLConnection connection = URLTools.openConnection(url);
-			return new ImageIcon(ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
-		} catch (IOException e) {
-			logger.error(me.getId() + " could not load : " + url + ":" + e);
-			return null;
+			return (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
 			logger.error(me.getId() + " is not found :" + e);
+			return null;
+		}
+	}
+	
+	
+	
+	public Image getBoosterFor(MagicEdition me,int pos) {
+		String url = "";
+		try {
+			NodeList nodeList=getBoostersUrl(me);
+			Node item = nodeList.item(pos);
+			url = item.getAttributes().getNamedItem("url").getNodeValue();
+			return ImageIO.read(URLTools.openConnection(url).getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH);
+		} catch (IOException e) {
+			logger.error(me.getId() + " could not load : " + url + ":" + e);
 			return null;
 		} catch (Exception e) {
 			logger.error(me.getId() + " error loading " + url + " " + e);
@@ -112,8 +118,7 @@ public class BoosterPicturesProvider {
 			nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Node item = nodeList.item(0);
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
-			HttpURLConnection connection = URLTools.openConnection(url);
-			return new ImageIcon(ImageIO.read(connection.getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
+			return new ImageIcon(ImageIO.read(URLTools.openConnection(url).getInputStream()).getScaledInstance(w, h, BufferedImage.SCALE_SMOOTH));
 		} catch (IOException e) {
 			logger.error(me.getId() + " could not load : " + url + ":" + e);
 			return null;

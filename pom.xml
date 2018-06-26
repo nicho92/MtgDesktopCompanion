@@ -36,7 +36,7 @@
 		<dependency>
 		    <groupId>org.codehaus.groovy</groupId>
 		    <artifactId>groovy-all</artifactId>
-		    <version>3.0.0-alpha-2</version>
+		    <version>3.0.0-alpha-3</version>
 		    <type>pom</type>
 		</dependency>
 		<dependency>
@@ -305,7 +305,7 @@
 		<dependency>
 			<groupId>net.coderazzi</groupId>
 			<artifactId>tablefilter-swing</artifactId>
-			<version>5.3.1</version>
+			<version>5.4.0</version>
 		</dependency>
 		<dependency>
 			<groupId>com.thoughtworks.xstream</groupId>

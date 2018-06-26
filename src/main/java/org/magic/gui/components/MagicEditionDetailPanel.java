@@ -43,14 +43,13 @@ public class MagicEditionDetailPanel extends JPanel {
 	private EditionsShakerTableModel mod;
 	private boolean showPrices;
 	private JCheckBox chkOnline;
-	private JLabel lblBoosterPic;
-	private transient BoosterPicturesProvider boosterProvider;
+	private BoosterPicsPanel lblBoosterPic;
 	private boolean openBooster;
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public MagicEditionDetailPanel(boolean showTablePrice, boolean openBooster) {
-		showPrices = showTablePrice;
+		this.showPrices = showTablePrice;
 		this.openBooster = openBooster;
 
 		initGUI();
@@ -69,19 +68,17 @@ public class MagicEditionDetailPanel extends JPanel {
 		JButton btnOpenBooster;
 		JLabel lblOnlineSet;
 		JPanel panneauHaut;
-		JScrollPane scrollPane;
 		JLabel lblBlock;
 		JLabel lblId;
 		JTable table;
+		splitPane = new JSplitPane();
+		panneauHaut = new JPanel();
 
-		boosterProvider = new BoosterPicturesProvider();
-
+		
 		setLayout(new BorderLayout(0, 0));
 
-		splitPane = new JSplitPane();
-
+		
 		splitPane.setOrientation(JSplitPane.VERTICAL_SPLIT);
-		panneauHaut = new JPanel();
 
 		this.add(splitPane);
 
@@ -242,16 +239,14 @@ public class MagicEditionDetailPanel extends JPanel {
 
 		}
 
-		lblBoosterPic = new JLabel();
+		lblBoosterPic = new BoosterPicsPanel();
 		panneauBooster.add(lblBoosterPic);
 
 		if (showPrices) {
-			scrollPane = new JScrollPane();
 			mod = new EditionsShakerTableModel();
 			table = new JTable(mod);
 			table.setRowSorter(new TableRowSorter(mod));
-			scrollPane.setViewportView(table);
-			splitPane.setRightComponent(scrollPane);
+			splitPane.setRightComponent(new JScrollPane(table));
 		} else {
 			splitPane.setRightComponent(null);
 		}
@@ -302,8 +297,7 @@ public class MagicEditionDetailPanel extends JPanel {
 			}, "load prices for" + magicEdition);
 		}
 
-		ThreadManager.getInstance().execute(() -> lblBoosterPic.setIcon(boosterProvider.getBoosterFor(magicEdition)),
-				"load booster pic for " + magicEdition);
+		lblBoosterPic.setEdition(magicEdition);
 
 	}
 
