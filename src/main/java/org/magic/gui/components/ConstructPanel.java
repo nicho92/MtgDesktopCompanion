@@ -73,6 +73,9 @@ import org.magic.services.ThreadManager;
 
 public class ConstructPanel extends JPanel {
 
+	private static final String UPDATED_DECK = "UPDATED_DECK";
+	private static final String FINISHED = "FINISHED";
+	
 	private DeckDetailsPanel deckDetailsPanel;
 	private CmcChartPanel cmcChartPanel;
 	private ManaRepartitionPanel manaRepartitionPanel;
@@ -239,8 +242,8 @@ public class ConstructPanel extends JPanel {
 			btnUpdate.setEnabled(true);
 			loading(false, "");
 			MTGControler.getInstance().notify(new MTGNotification(
-					MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-					MTGControler.getInstance().getLangService().getCapitalize("UPDATED_DECK"),
+					MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
+					MTGControler.getInstance().getLangService().getCapitalize(UPDATED_DECK),
 					MESSAGE_TYPE.INFO
 					));
 		}, "Update Deck"));
@@ -308,8 +311,8 @@ public class ConstructPanel extends JPanel {
 									deck = exp.importDeck(f);
 									
 									MTGControler.getInstance().notify(new MTGNotification(
-											MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-											exp.getName() + " "+ MTGControler.getInstance().getLangService().get("FINISHED"),
+											MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
+											exp.getName() + " "+ MTGControler.getInstance().getLangService().get(FINISHED),
 											MESSAGE_TYPE.INFO
 											));
 									setDeck(deck);
@@ -366,8 +369,8 @@ public class ConstructPanel extends JPanel {
 								loading(true, MTGControler.getInstance().getLangService().get("EXPORT_TO", deck, exp));
 								exp.export(deck, exportedFile);
 								MTGControler.getInstance().notify(new MTGNotification(
-										exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
-										MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),
+										exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
+										MTGControler.getInstance().getLangService().combine("EXPORT", FINISHED),
 										MESSAGE_TYPE.INFO
 										));
 								loading(false, "");
