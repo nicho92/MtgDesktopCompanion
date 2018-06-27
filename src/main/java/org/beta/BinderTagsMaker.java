@@ -28,23 +28,14 @@ public class BinderTagsMaker {
 	private Dimension d;
 	private boolean border;
 	private LOGO addlogo;
+	private List<BufferedImage> lst;
 	
-	
-	public static void main(String[] args) throws IOException {
-		
-		 MTGControler.getInstance().getEnabledCardsProviders().init();
-		BinderTagsEditor editor = new BinderTagsEditor();
-		editor.setVisible(true);
-		
-		
-		Dimension d = new Dimension(567, 2173);
-		
-	}
 	
 	public BinderTagsMaker(){
 		prov = new BoosterPicturesProvider();
 		addlogo=null;
 		border=true;
+		lst = new ArrayList<>();
 	}
 	
 	public void init(Color back,Dimension d,boolean border, LOGO b)
@@ -53,6 +44,7 @@ public class BinderTagsMaker {
 		this.d=d;
 		this.border=border;
 		this.addlogo=b;
+		lst.clear();
 	}
 	
 	
@@ -79,6 +71,10 @@ public class BinderTagsMaker {
 		return generateFromId(Arrays.asList(ids));
 	}
 	
+	public void clear()
+	{
+		lst.clear();
+	}
 
 	
 	private BufferedImage add(List<BufferedImage> imgs) {
@@ -86,7 +82,7 @@ public class BinderTagsMaker {
 		int offset = 0;
 		int hei = offset;
 		int width=0;
-		List<BufferedImage> lst = new ArrayList<>();
+		
 		
 		
 		if(d==null)
