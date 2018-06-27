@@ -11,7 +11,6 @@ import javax.swing.SpinnerNumberModel;
 import org.magic.services.MTGConstants;
 
 public class JResizerPanel extends JPanel {
-	private double ratio = MTGConstants.CARD_PICS_RATIO;
 	private JLabel lblDimension;
 	private Dimension dimension;
 	private JSpinner spinner;
@@ -40,7 +39,7 @@ public class JResizerPanel extends JPanel {
 		spinner.addChangeListener(ce-> {
 			Number val = (Number)spinner.getValue();
 			int w = (int) (dimension.getWidth()+val.intValue());
-			int h = (int) (w*ratio);
+			int h = (int) (w*MTGConstants.CARD_PICS_RATIO);
 			dimension.setSize(w, h);
 			update();
 		});

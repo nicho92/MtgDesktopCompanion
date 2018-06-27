@@ -19,6 +19,17 @@ public class ImageUtils {
 		ImageIO.write(img, format, f);
 	}
 
+	
+	public static BufferedImage scaleResize(BufferedImage img, int width)
+	{
+		int oldW=img.getWidth();
+		int oldH=img.getHeight();
+		double ratio = oldW/oldH;
+		int h = (int) (width/ratio);
+		return resize(img, h, width);
+	}
+	
+	
 	public static BufferedImage resize(BufferedImage img, int newH, int newW) {
 		Image tmp = img.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
 		BufferedImage dimg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
@@ -67,4 +78,7 @@ public class ImageUtils {
 
 		return newImage;
 	}
+	
+	
+	
 }
