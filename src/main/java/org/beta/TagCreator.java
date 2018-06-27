@@ -33,7 +33,6 @@ public class TagCreator {
 		Dimension d = new Dimension(567, 2173);
 		TagCreator t = new TagCreator();
 		t.init(Color.WHITE, d, true,true);
-		
 		t.generateFromId(new File("d:/test.png"),"4ED","MIR","VIS","WTH","MM3","MM2","IMA","DDU","");
 	}
 	
