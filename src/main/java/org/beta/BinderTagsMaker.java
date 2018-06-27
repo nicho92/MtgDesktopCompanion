@@ -2,9 +2,9 @@ package org.beta;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -14,35 +14,40 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicEdition;
+import org.magic.gui.components.dialog.BinderTagsEditor;
+import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
 import org.magic.tools.ImageUtils;
 
-import com.itextpdf.awt.geom.Dimension;
 
-public class TagCreator {
+public class BinderTagsMaker {
 
 	private BoosterPicturesProvider prov;
 	private Color backColor=null;
 	private Dimension d;
 	private boolean border;
-	private boolean addlogo;
+	private LOGO addlogo;
 	
 	
 	public static void main(String[] args) throws IOException {
+		
+		 MTGControler.getInstance().getEnabledCardsProviders().init();
+		BinderTagsEditor editor = new BinderTagsEditor();
+		editor.setVisible(true);
+		
+		
 		Dimension d = new Dimension(567, 2173);
-		TagCreator t = new TagCreator();
-		t.init(Color.WHITE, d, true,true);
-		t.generateFromId(new File("d:/test.png"),"4ED","MIR","VIS","WTH","MM3","MM2","IMA","DDU","");
+		
 	}
 	
-	public TagCreator(){
+	public BinderTagsMaker(){
 		prov = new BoosterPicturesProvider();
-		addlogo=true;
+		addlogo=null;
 		border=true;
 	}
 	
-	public void init(Color back,Dimension d,boolean border, boolean b)
+	public void init(Color back,Dimension d,boolean border, LOGO b)
 	{
 		this.backColor=back;
 		this.d=d;
@@ -51,7 +56,7 @@ public class TagCreator {
 	}
 	
 	
-	public void generateFromId(File f,List<String> ids) throws IOException
+	public BufferedImage generateFromId(List<String> ids) throws IOException
 	{
 		List<BufferedImage> ims = new ArrayList<>();
 		for(String id :ids)
@@ -60,18 +65,18 @@ public class TagCreator {
 				if(im!=null)
 					ims.add(im);
 		}
-		ImageUtils.saveImage(add(ims), f,"PNG");
+		return add(ims);
 	}
 	
-	public void generateFromList(File f,List<MagicEdition> eds) throws IOException
+	public BufferedImage generateFromList(List<MagicEdition> eds) throws IOException
 	{
-		generateFromId(f,eds.stream().map(MagicEdition::getId).collect(Collectors.toList()));
+		return generateFromId(eds.stream().map(MagicEdition::getId).collect(Collectors.toList()));
 	}
 	
 	
-	public void generateFromId(File f,String... ids) throws IOException
+	public BufferedImage generateFromId(String... ids) throws IOException
 	{
-		generateFromId(f,Arrays.asList(ids));
+		return generateFromId(Arrays.asList(ids));
 	}
 	
 
@@ -89,8 +94,8 @@ public class TagCreator {
 		else
 			width=(int) d.getWidth();
 		
-		if(addlogo)
-			lst.add(ImageUtils.scaleResize(prov.getLogo(LOGO.YELLOW), width));
+		if(addlogo!=null)
+			lst.add(ImageUtils.scaleResize(prov.getLogo(addlogo), width));
 		
 		for (Image im : imgs) {
 			BufferedImage imgb = (BufferedImage) im;
