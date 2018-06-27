@@ -33,7 +33,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://assets.dacw.co/itemimages/mtgcei2.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://www.magiclibrarities.net/images/logos/1126.png"/>
 	</booster>
 	<booster id='STH'>
 		<packs lang='en'>
@@ -57,7 +57,7 @@
 		<packs lang='en'>
 			<pack num='1' url="https://6d4be195623157e28848-7697ece4918e0a73861de0eb37d08968.ssl.cf1.rackcdn.com/27348_200w.jpg"/>
 		</packs>
-		<banner lang='en' url=""/>
+		<banner lang='en' url="https://c-5uwzmx78pmca09x24l9c3x781t2ex78ig1sx2ektwclnzwvbx2evmb.g00.gamepedia.com/g00/3_c-5ubo.oiumx78mlqi.kwu_/c-5UWZMXPMCA09x24pbbx78ax3ax2fx2fl9c3x781t2ex78ig1s.ktwclnzwvb.vmbx2fuboaitdibqwv_oiumx78mlqix2fbpcujx2f2x2f2ix2fTMO_twow.rx78ox2f153x78f-TMO_twow.rx78ox3fdmzaqwvx3d54k50m996ii95l423k38m18n25j7l45kx26q98k.uizsx3dquiom_$/$/$/$/$/$/$"/>
 	</booster>
 	<booster id='DRK'>
 		<packs lang='en'>
@@ -126,11 +126,11 @@
 			<pack num='3' url="http://magiccards.nl/wp-content/uploads/2017/09/Ixalan-boosterpack-4.png?v=796834e7a283"/>
 			<pack num='4' url="https://www.trader-online.de/out/pictures/generated/product/3/800_800_75/ixalan_booster_pack_packung_box_deutsch_german_magic_the_gathering_mtg_3.png"/>
 		</packs>
-		<banner lang='en' url="https://i1.wp.com/engagedfamilygaming.com/wp-content/uploads/2017/10/mtg-ixalan-logo.png?fit=500%2C200"/>
+		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/133/153/320/160/636390134824986390.png"/>
 	</booster>
 	<booster id='RQS'>
 		<packs lang='en'>
-			<pack num='1' url="https://hydra-media.cursecdn.com/mtgsalvation.gamepedia.com/thumb/1/16/Rivals2.jpg/300px-Rivals2.jpg?version=a43e7a2c63eae04b001a693f9635296b"/>
+			<pack num='1' url="https://c-5uwzmx78pmca09x24l9c3x781t2ex78ig1sx2ektwclnzwvbx2evmb.g00.gamepedia.com/g00/3_c-5ubo.oiumx78mlqi.kwu_/c-5UWZMXPMCA09x24pbbx78ax3ax2fx2fl9c3x781t2ex78ig1s.ktwclnzwvb.vmbx2fuboaitdibqwv_oiumx78mlqix2f9x2f94x2fZqdita0.rx78ox3fdmzaqwvx3djj686ml00n2373917n3987k8j7lll6i6x26q98k.uizsx3dquiom_$/$/$/$/$"/>
 		</packs>
 		<banner lang='en' url=""/>
 	</booster>
@@ -882,7 +882,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://media.wizards.com/2014/ujehvsbfrf153/co5sseipua_en_bstr_01.png"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_FRF_SetLogo.png"/>
+		<banner lang='en' url="http://www.rebornspoilers.cards/expansions/fate_reforged/fate_png.png"/>
 	</booster>
 	<booster id='DDO'>
 		<packs lang='en'>
