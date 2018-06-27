@@ -1,4 +1,12 @@
 <boosterUrls>
+	<game>
+		<logo version="yellow" url="https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/Magicthegathering-logo.svg/2000px-Magicthegathering-logo.svg.png"/>
+		<logo version="orange" url="https://www.puregamemedia.fr/wp-content/uploads/2017/09/logo_mtg.png"/>
+		<logo version="blue" url="https://www.corbytechnicalschool.org/_files/images/B34A44C0A7347024A4D703C82A9B5BB9.gif"/>
+		<logo version="new" url="https://boutique.magiccorporation.com/images/jeu/1.png"/>
+		<logo version="white" url="https://www.bkomstudios.com/wp-content/uploads/2016/11/pjt_magic_logo.png"/>
+	</game>
+
 	<booster id='REN'>
 		<packs lang='en'>
 			<pack num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/119235.jpg"/>
@@ -1084,6 +1092,12 @@
 			<pack num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/1158680.jpg"/>
 		</packs>
 		<banner lang='en' url="https://media-dominaria.cursecdn.com/avatars/thumbnails/202/904/320/160/636519257872367750.png"/>
+	</booster>
+	<booster id='DDU'>
+		<packs lang='en'>
+			<pack num='1' url="https://ludiworld.com/newshop/25954/duel-decks-elves-vs-inventors-magic-the-gathering.jpg"/>
+		</packs>
+		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/en_P0b5vByBsx.png"/>
 	</booster>
 	<booster id='DOM'>
 		<packs lang='en'>

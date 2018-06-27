@@ -31,7 +31,7 @@ public class BoosterPicturesProvider {
 	private DocumentBuilder builder;
 	private Document document;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-
+	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW};
 	private List<String> list;
 
 	public BoosterPicturesProvider() {
@@ -40,7 +40,8 @@ public class BoosterPicturesProvider {
 		try {
 			builder = builderFactory.newDocumentBuilder();
 			logger.debug("Loading booster pics");
-			document = builder.parse(URLTools.openConnection(MTGConstants.MTG_BOOSTERS_URI).getInputStream());
+		//	document = builder.parse(URLTools.openConnection(MTGConstants.MTG_BOOSTERS_URI).getInputStream());
+			document = builder.parse(MTGConstants.MTG_BOOSTERS_LOCAL_URI.openStream());
 			logger.debug("Loading booster pics done");
 			list = new ArrayList<>();
 		} catch (Exception e) {
@@ -110,6 +111,31 @@ public class BoosterPicturesProvider {
 	}
 	
 	
+	
+	public BufferedImage getLogo(LOGO logo)
+	{
+		String url = "";
+		try {
+			XPath xPath = XPathFactory.newInstance().newXPath();
+			String expression = "//logo[contains(@version,'" + logo.name().toLowerCase() + "')]";
+			logger.trace(expression);
+			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
+			Node item = nodeList.item(0);
+			url = item.getAttributes().getNamedItem("url").getNodeValue();
+			return URLTools.extractImage(url);
+		} catch (IOException e) {
+			logger.error(logo + " could not load : " + url,e);
+			return null;
+		} catch (XPathExpressionException e) {
+			logger.error(logo + " is not found :" + e);
+			return null;
+		} catch (Exception e) {
+			logger.error(logo + " error loading " + url,e);
+			return null;
+		}
+	}
+	
+	
 	public BufferedImage getBannerFor(MagicEdition me) {
 		String url = "";
 		try {
@@ -121,13 +147,13 @@ public class BoosterPicturesProvider {
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
 			return URLTools.extractImage(url);
 		} catch (IOException e) {
-			logger.error(me.getId() + " could not load : " + url + ":" + e);
+			logger.error(me.getId() + " could not load : " + url,e);
 			return null;
 		} catch (XPathExpressionException e) {
 			logger.error(me.getId() + " is not found :" + e);
 			return null;
 		} catch (Exception e) {
-			logger.error(me.getId() + " error loading " + url + " " + e);
+			logger.error(me.getId() + " error loading " + url,e);
 			return null;
 		}
 	}

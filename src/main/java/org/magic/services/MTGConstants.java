@@ -36,6 +36,8 @@ public class MTGConstants {
 	public static final String MTG_DESKTOP_POM_URL = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/pom.xml";
 	public static final String MTG_DESKTOP_APP_ZIP = "https://github.com/nicho92/MtgDesktopCompanion/tree/master/dist";
 	public static final String MTG_BOOSTERS_URI = "https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/src/main/resources/data/boosters.xml";
+	public static final URL MTG_BOOSTERS_LOCAL_URI = MTGConstants.class.getResource("/data/boosters.xml");	
+	
 	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
 	public static final String SET_ICON_DIR = "/icons/set/";
 	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
