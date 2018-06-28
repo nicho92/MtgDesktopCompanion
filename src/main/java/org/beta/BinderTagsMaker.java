@@ -6,16 +6,12 @@ import java.awt.Dimension;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import org.magic.api.beans.MagicEdition;
-import org.magic.gui.components.dialog.BinderTagsEditor;
-import org.magic.services.MTGControler;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
 import org.magic.tools.ImageUtils;
@@ -29,26 +25,38 @@ public class BinderTagsMaker {
 	private boolean border;
 	private LOGO addlogo;
 	private List<BufferedImage> lst;
+	int hei = 0;
+	int width=0;
 	
 	
-	public BinderTagsMaker(){
+	public Dimension getDimension() {
+		return d;
+	}
+	
+	public void setLogo(LOGO addlogo) {
+		this.addlogo = addlogo;
+	}
+	
+	public void setBackColor(Color backColor) {
+		this.backColor = backColor;
+	}
+	
+	public void setBorder(boolean border) {
+		this.border = border;
+	}
+
+	public BinderTagsMaker(Dimension d){
 		prov = new BoosterPicturesProvider();
 		addlogo=null;
 		border=true;
+		this.d=d;
 		lst = new ArrayList<>();
 	}
 	
-	public void init(Color back,Dimension d,boolean border, LOGO b)
-	{
-		this.backColor=back;
-		this.d=d;
-		this.border=border;
-		this.addlogo=b;
-		lst.clear();
-	}
+
+		
 	
-	
-	public BufferedImage generateFromId(List<String> ids) throws IOException
+	public void addIds(List<String> ids)
 	{
 		List<BufferedImage> ims = new ArrayList<>();
 		for(String id :ids)
@@ -57,18 +65,30 @@ public class BinderTagsMaker {
 				if(im!=null)
 					ims.add(im);
 		}
-		return add(ims);
+		add(ims);
 	}
 	
-	public BufferedImage generateFromList(List<MagicEdition> eds) throws IOException
+	public void add(MagicEdition ed)
 	{
-		return generateFromId(eds.stream().map(MagicEdition::getId).collect(Collectors.toList()));
+		BufferedImage img = prov.getBannerFor(ed);
+		if(img!=null)
+		{
+			ArrayList<BufferedImage> l = new ArrayList<>();
+			l.add(img);
+			add(l);
+		}
 	}
 	
 	
-	public BufferedImage generateFromId(String... ids) throws IOException
+	public void addList(List<MagicEdition> eds)
 	{
-		return generateFromId(Arrays.asList(ids));
+		addIds(eds.stream().map(MagicEdition::getId).collect(Collectors.toList()));
+	}
+	
+	
+	public void adds(String... ids)
+	{
+		addIds(Arrays.asList(ids));
 	}
 	
 	public void clear()
@@ -77,13 +97,11 @@ public class BinderTagsMaker {
 	}
 
 	
-	private BufferedImage add(List<BufferedImage> imgs) {
+	private void add(List<BufferedImage> imgs) {
 
 		int offset = 0;
-		int hei = offset;
-		int width=0;
-		
-		
+		hei = offset;
+		width=0;
 		
 		if(d==null)
 			width=imgs.get(0).getWidth(null);
@@ -91,7 +109,7 @@ public class BinderTagsMaker {
 			width=(int) d.getWidth();
 		
 		if(addlogo!=null)
-			lst.add(ImageUtils.scaleResize(prov.getLogo(addlogo), width));
+			lst.set(0,ImageUtils.scaleResize(prov.getLogo(addlogo), width));
 		
 		for (Image im : imgs) {
 			BufferedImage imgb = (BufferedImage) im;
@@ -104,6 +122,10 @@ public class BinderTagsMaker {
 			hei=(int)d.getHeight();
 		
 		
+	}
+
+	public BufferedImage generate() {
+
 		BufferedImage newImage = new BufferedImage(width, hei, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = newImage.createGraphics();
 		
