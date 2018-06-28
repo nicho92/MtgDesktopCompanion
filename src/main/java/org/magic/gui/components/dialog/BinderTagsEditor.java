@@ -43,9 +43,8 @@ public class BinderTagsEditor extends JDialog {
 	
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel previewPanel;
-	private BinderTagsMaker tagMaker;
-	private BufferedImage img;
-	private Color background;
+	private transient BinderTagsMaker tagMaker;
+	private transient BufferedImage img;
 	private JComboBox<LOGO> cboLogo;
 	private JCheckBox chckbxBorder;
 	private JCheckBox chckbxAddHeader;
@@ -80,7 +79,6 @@ public class BinderTagsEditor extends JDialog {
 		leftPanel = new JPanel();
 		JPanel editorPanel = new JPanel();
 		JPanel panel = new JPanel();
-		
 		btnAdd = new JButton("+");
 
 		
@@ -234,7 +232,7 @@ public class BinderTagsEditor extends JDialog {
 			try {
 				ImageIO.write(img, "PNG", f);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
+			
 				e1.printStackTrace();
 			}
 						 

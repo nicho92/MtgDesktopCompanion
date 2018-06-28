@@ -25,7 +25,7 @@ public class BinderTagsMaker {
 	private boolean border;
 	private LOGO addlogo;
 	private List<BufferedImage> lst;
-	int hei = 0;
+	int height = 0;
 	int width=0;
 	
 	
@@ -65,7 +65,7 @@ public class BinderTagsMaker {
 				if(im!=null)
 					ims.add(im);
 		}
-		add(ims);
+		create(ims);
 	}
 	
 	public void add(MagicEdition ed)
@@ -75,7 +75,7 @@ public class BinderTagsMaker {
 		{
 			ArrayList<BufferedImage> l = new ArrayList<>();
 			l.add(img);
-			add(l);
+			create(l);
 		}
 	}
 	
@@ -97,10 +97,11 @@ public class BinderTagsMaker {
 	}
 
 	
-	private void add(List<BufferedImage> imgs) {
+	
+	private void create(List<BufferedImage> imgs) {
 
 		int offset = 0;
-		hei = offset;
+		height = offset;
 		width=0;
 		
 		if(d==null)
@@ -114,24 +115,24 @@ public class BinderTagsMaker {
 		for (Image im : imgs) {
 			BufferedImage imgb = (BufferedImage) im;
 			imgb=ImageUtils.scaleResize(imgb, width);
-			hei += imgb.getHeight();
+			height += imgb.getHeight();
 			lst.add(imgb);
 		}
 		
 		if(d!=null&&d.getHeight()>0)
-			hei=(int)d.getHeight();
+			height=(int)d.getHeight();
 		
 		
 	}
 
 	public BufferedImage generate() {
 
-		BufferedImage newImage = new BufferedImage(width, hei, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g2 = newImage.createGraphics();
 		
 		if(backColor!=null)
 		{
-			g2.setColor(Color.WHITE);
+			g2.setColor(backColor);
 			g2.fillRect(0,0,newImage.getWidth(),newImage.getHeight());
 		}
 		
