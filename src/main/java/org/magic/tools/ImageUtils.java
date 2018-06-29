@@ -1,5 +1,6 @@
 package org.magic.tools;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
@@ -19,6 +20,39 @@ public class ImageUtils {
 		ImageIO.write(img, format, f);
 	}
 
+	
+	public static BufferedImage trimHorizontally(BufferedImage img) {
+	    int width = img.getWidth();
+	    int height = img.getHeight();
+	    int x0;
+	    int x1;
+	    int j;
+	    int i;
+	    int alpha;
+
+	    leftLoop:
+	        for(i = 0; i < width; i++) {
+
+	            for(j = 0; j < height; j++) {
+	                if(new Color(img.getRGB(i, j), true).getAlpha() != 0)  {
+	                    break leftLoop;
+	                }
+	            }
+	        }
+	    x0 = i;
+	    rightLoop:
+	        for(i = width-1; i >= 0; i--) {
+
+	            for(j = 0; j < height; j++) {
+	                if(new Color(img.getRGB(i, j), true).getAlpha() != 0) {
+	                    break rightLoop;
+	                }
+	            }
+	        }
+	    x1 = i+1;
+
+	    return img.getSubimage(x0, 0, x1-x0, height);
+	}
 	
 	public static BufferedImage scaleResize(BufferedImage img, int width)
 	{

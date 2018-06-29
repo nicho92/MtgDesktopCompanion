@@ -68,7 +68,7 @@ public class URLTools {
 	public static BufferedImage extractImage(String url) throws IOException
 	{
 		logger.trace("get Image from " + url);
-		return ImageIO.read(openConnection(url).getInputStream()); 
+		return ImageUtils.trimHorizontally(ImageIO.read(openConnection(url).getInputStream())); 
 	}
 	
 	
