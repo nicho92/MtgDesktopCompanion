@@ -107,13 +107,13 @@
 		<packs lang='en'>
 			<pack num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/80773.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_CHR_SetLogo.png"/>
+		<banner lang='en' url="http://mtgen.net/chr/images/logo-word.png"/>
 	</booster>
 	<booster id='HML'>
 		<packs lang='en'>
 			<pack num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/112139.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_HML_SetLogo.png"/>
+		<banner lang='en' url="http://mtgen.net/hml/images/logo-word.png"/>
 	</booster>
 	<booster id='PO2'>
 		<packs lang='en'>
