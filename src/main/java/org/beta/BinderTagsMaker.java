@@ -110,7 +110,9 @@ public class BinderTagsMaker {
 			width=(int) d.getWidth();
 		
 		if(addlogo!=null)
+		{
 			lst.set(0,ImageUtils.scaleResize(prov.getLogo(addlogo), width));
+		}
 		
 		for (Image im : imgs) {
 			BufferedImage imgb = (BufferedImage) im;
@@ -119,7 +121,7 @@ public class BinderTagsMaker {
 			lst.add(imgb);
 		}
 		
-		if(d!=null&&d.getHeight()>0)
+		if(d!=null && d.getHeight()>0)
 			height=(int)d.getHeight();
 		
 		

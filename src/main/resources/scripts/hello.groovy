@@ -1,8 +1,4 @@
-import org.magic.api.providers.impl.*
-import org.magic.api.interfaces.*
-import com.jayway.jsonpath.spi.cache.*;
+import org.magic.services.*;
 
-CacheProvider.setCache(new LRUCache(400));
-MTGCardsProvider prov = new MtgjsonProvider();
-prov.init();
-prov.searchCardByName("Reflecting pool",null,false);
+MTGControler.getInstance().getEnabledCardsProvider().init();
+MTGControler.getInstance().getEnabledCardsProvider().searchCardByName("Reflecting pool",null,false);

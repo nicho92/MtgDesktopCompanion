@@ -38,6 +38,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class BinderTagsEditor extends JDialog {
 	
@@ -49,12 +51,12 @@ public class BinderTagsEditor extends JDialog {
 	private JCheckBox chckbxBorder;
 	private JCheckBox chckbxAddHeader;
 	private JButton btnBackgroundColor ;
-	private JButton btnExit;
 	private JButton btnSave;
 	private JButton btnAdd;
 	private JComboBox cboEditions ;
 	private JPanel panel1;
 	private JPanel leftPanel;
+	private JButton btnNew;
 	
 	
 	
@@ -143,12 +145,12 @@ public class BinderTagsEditor extends JDialog {
 		panel1 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel1.getLayout();
 		flowLayout.setAlignment(FlowLayout.LEFT);
-		GridBagConstraints gbc_panel_1 = new GridBagConstraints();
-		gbc_panel_1.insets = new Insets(0, 0, 5, 5);
-		gbc_panel_1.fill = GridBagConstraints.BOTH;
-		gbc_panel_1.gridx = 1;
-		gbc_panel_1.gridy = 1;
-		editorPanel.add(panel1, gbc_panel_1);
+		GridBagConstraints gbcpanel1 = new GridBagConstraints();
+		gbcpanel1.insets = new Insets(0, 0, 5, 5);
+		gbcpanel1.fill = GridBagConstraints.BOTH;
+		gbcpanel1.gridx = 1;
+		gbcpanel1.gridy = 1;
+		editorPanel.add(panel1, gbcpanel1);
 		
 		chckbxAddHeader = new JCheckBox("add Header");
 		panel1.add(chckbxAddHeader);
@@ -178,12 +180,12 @@ public class BinderTagsEditor extends JDialog {
 		JPanel commandsPanel = new JPanel();
 		leftPanel.add(commandsPanel, BorderLayout.SOUTH);
 		
+		btnNew = new JButton(MTGConstants.ICON_NEW);
+		
+		commandsPanel.add(btnNew);
+		
 		btnSave = new JButton(MTGConstants.ICON_SAVE);
 		commandsPanel.add(btnSave);
-		
-		btnExit = new JButton(MTGConstants.ICON_DELETE);
-		
-		commandsPanel.add(btnExit);
 		
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		
@@ -196,7 +198,6 @@ public class BinderTagsEditor extends JDialog {
 
 
 	private void initActions() {
-		btnExit.addActionListener(ae->dispose());
 		
 		btnAdd.addActionListener(e->{
 			tagMaker.add((MagicEdition)cboEditions.getSelectedItem());
@@ -215,7 +216,6 @@ public class BinderTagsEditor extends JDialog {
 			else
 				tagMaker.setLogo((LOGO)cboLogo.getSelectedItem());
 
-			updateInfo();
 		});
 		
 		cboLogo.addItemListener(e-> {
@@ -229,6 +229,12 @@ public class BinderTagsEditor extends JDialog {
 			tagMaker.setBorder(chckbxBorder.isSelected());
 			updateInfo();	
 		});
+		
+		btnNew.addActionListener(e->{
+			tagMaker.clear();
+			updateInfo();
+		});
+		
 		
 		btnSave.addActionListener(e->{
 			JFileChooser choose = new JFileChooser();

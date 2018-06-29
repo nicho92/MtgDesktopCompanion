@@ -492,7 +492,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/FTVDragons2.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DRB_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/From_the_Vault_Dragons_large.png?v=1426636511"/>
 	</booster>
 	<booster id='ME2'>
 		<packs lang='en'>
@@ -510,7 +510,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/JVCBoxSet.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DD2_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Jace_vs._Chandra_70ae2965-a029-4197-8660-079c95746105_large.png?v=1427048446"/>
 	</booster>
 	<booster id='CON'>
 		<packs lang='en'>
@@ -522,7 +522,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MTG_DVD/DVD_BoxSet.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDC_SetLogo.png"/>
+		<banner lang='en' url="https://www.magiclibrarities.net/images/logos/225.png"/>
 	</booster>
 	<booster id='ARB'>
 		<packs lang='en'>
@@ -538,9 +538,9 @@
 	</booster>
 	<booster id='V09'>
 		<packs lang='en'>
-			<pack num='1' url="http://www.magicfrag.fr/image_upload/from-the-vault-exiled-magic-the-gathering.jpg"/>
+			<pack num='1' url="http://www.magiccorporation.com/images/magic/editions/maxi/from_the_vault_exiled.png"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_V09_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/From_the_Vault_Exiled_63256ce5-8603-4114-b8cd-53ef01986ee8_large.png?v=1426682556"/>
 	</booster>
 	<booster id='HOP'>
 		<packs lang='en'>
@@ -562,9 +562,9 @@
 	</booster>
 	<booster id='DDD'>
 		<packs lang='en'>
-			<pack num='1' url="http://www.gamehead.com/sites/default/files/styles/gh_lightbox/public/images/product_files/707073/garruk-vs-liliana-glam.jpg?itok=5pZrAPpg"/>
+			<pack num='1' url="https://www.magiclibrarities.net/images/edition_comment/1532.png"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDD_SetLogo.png"/>
+		<banner lang='en' url="https://www.magiclibrarities.net/images/logos/246.png"/>
 	</booster>
 	<booster id='H09'>
 		<packs lang='en'>
@@ -582,7 +582,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_PVC/MTG_PVC_BoxSet.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDE_SetLogo.png"/>
+		<banner lang='en' url="http://www.magic-ville.com/fr/graph/bigsetlogos/pvc.gif"/>
 	</booster>
 	<booster id='ROE'>
 		<packs lang='en'>
@@ -612,7 +612,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_EVT/MTG_EVT_BoxSet.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDF_SetLogo.png"/>
+		<banner lang='en' url="https://www.rebellion.es/img/magic/logo/dueldeck_elspethvstezzeret.png"/>
 	</booster>
 	<booster id='SOM'>
 		<packs lang='en'>
@@ -642,7 +642,7 @@
 		<packs lang='en'>
 			<pack num='1' url="https://images-na.ssl-images-amazon.com/images/I/51H4JXCnu9L._SY355_.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDG_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Knights_vs._Dragons_Customized_large.png?v=1427059468"/>
 	</booster>
 	<booster id='NPH'>
 		<packs lang='en'>
@@ -672,7 +672,7 @@
 		<packs lang='en'>
 			<pack num='1' url="https://images-na.ssl-images-amazon.com/images/I/71xKKVo8unL._SY450_.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDH_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Ajani_vs._Nicol_Bolas_fee1545e-d664-4a8a-accb-6af744958f00_large.png?v=1427045831"/>
 	</booster>
 	<booster id='ISD'>
 		<packs lang='en'>
@@ -696,7 +696,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_VVK/MTG_VVK_BoxSet.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDI_SetLogo.png"/>
+		<banner lang='en' url="http://www.smfcorp.net/images/editions/gros_logos/106.png"/>
 	</booster>
 	<booster id='AVR'>
 		<packs lang='en'>
@@ -726,7 +726,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://t2.gstatic.com/images?q=tbn:ANd9GcSWoBVCya7hSBLOzrHjSnLo-4uvPUQjcxhQuhoeBqD4RW_bSpPPrWd-njA"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDJ_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Izzet_vs._Golgari_12fcdbe0-848c-48c0-8c54-3a909a9bca61_large.png?v=1427048928"/>
 	</booster>
 	<booster id='RTR'>
 		<packs lang='en'>
@@ -750,7 +750,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MAG_SVT/DDSorinVsTibalt.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDK_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Sorin_vs._Tibalt_62edd42f-d887-472a-a053-8168772b3b2b_large.png?v=1427047144"/>
 	</booster>
 	<booster id='DGM'>
 		<packs lang='en'>
@@ -780,7 +780,7 @@
 		<packs lang='en'>
 			<pack num='1' url="https://www.magic-feel.de/images/produkte/i61/Heroes-vs--Monsters-MtG-Magic-the-Gathering-Duel-Decks-e.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDL_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Heroes_vs._Monsters_693226f2-8ce4-4e3d-8ee4-6591cb3d2f4d_large.png?v=1427047676"/>
 	</booster>
 	<booster id='C13'>
 		<packs lang='en'>
@@ -804,7 +804,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales//cardscans/MTG/JVV/en/JaceVsVraska_lg.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDM_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Jace_vs._Vraska_Alternate_large.png?v=1427049224"/>
 	</booster>
 	<booster id='JOU'>
 		<packs lang='en'>
@@ -846,7 +846,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://www.cardkingdom.com/images/magic-the-gathering/duel-decks-speed-vs-cunning/duel-decks-speed-vs-cunning-40670-medium.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDN_SetLogo.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Speed_vs._Cunning_Alternate_be408924-d157-4f48-a2b4-35e728cfb1e4_large.png?v=1427046833"/>
 	</booster>
 	<booster id='KTK'>
 		<packs lang='en'>
@@ -900,7 +900,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://media.wizards.com/2014/c14/aakdfnppleih2/thao3q9rp0_product_ddo_en.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDO_SetLogo_0.png"/>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Duel_Decks_Elspeth_vs._Kiora_large.png?v=1426880055"/>
 	</booster>
 	<booster id='DTK'>
 		<packs lang='en'>
@@ -936,7 +936,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://media.wizards.com/2015/images/daily/EN_6rvvchitua.png"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDP_SetLogo.png"/>
+		<banner lang='en' url="http://www.magiccorporation.com/images/magic/editions/maxi/duel_decks_zendikar_vs_eldrazi.png"/>
 	</booster>
 	<booster id='BFZ'>
 		<packs lang='en'>
@@ -960,7 +960,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MTG/DDQ/en/sealed/DDQ_Box.jpg"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_DDQ_LOGO.png"/>
+		<banner lang='en' url="http://www.purplepawn.com/wp-content/uploads/2015/11/WOCB65160000-logo-500x235.png"/>
 	</booster>
 	<booster id='SOI'>
 		<packs lang='en'>
@@ -1032,7 +1032,7 @@
 		<packs lang='en'>
 			<pack num='1' url="http://www.magicspoiler.com/wp-content/uploads/2017/03/Duel-Decks-Mind-vs-Might-Packaging.png"/>
 		</packs>
-		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_Logo_DSS_Name_0.png"/>
+		<banner lang='en' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/d/d4/MVM_logo.png"/>
 	</booster>
 	<booster id='HOU'>
 		<packs lang='en'>
