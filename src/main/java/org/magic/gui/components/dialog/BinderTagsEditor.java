@@ -61,6 +61,12 @@ public class BinderTagsEditor extends JDialog {
 	public static void main(String[] args) {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
 		new BinderTagsEditor().setVisible(true);
+		
+		int pixelPerInch=300; 
+		double mm = (576 * 25.4) / pixelPerInch;
+		
+		System.out.println(mm/10);
+		
 	}
 	
 	
@@ -102,15 +108,15 @@ public class BinderTagsEditor extends JDialog {
 				this.revalidate();
 			}
 		};
-		previewPanel.setPreferredSize(new Dimension(600, 2000));
+		previewPanel.setPreferredSize(new Dimension(576, 2173));
 		
 		previewPanel.setBackground(Color.white);
 		
 		
 		JScrollPane scrollPane = new JScrollPane(previewPanel);
-		scrollPane.setPreferredSize(new Dimension(602, 600));
-		getContentPane().add(scrollPane, BorderLayout.EAST);
-		getContentPane().add(leftPanel, BorderLayout.CENTER);
+		scrollPane.setPreferredSize(new Dimension(250, 250));
+		getContentPane().add(scrollPane, BorderLayout.CENTER);
+		getContentPane().add(leftPanel, BorderLayout.WEST);
 		leftPanel.setLayout(new BorderLayout(0, 0));
 		leftPanel.add(editorPanel, BorderLayout.NORTH);
 		GridBagLayout gbleditorPanel = new GridBagLayout();
@@ -164,6 +170,7 @@ public class BinderTagsEditor extends JDialog {
 		
 		
 		GridBagConstraints gbcbtnBackgroundColor = new GridBagConstraints();
+		gbcbtnBackgroundColor.anchor = GridBagConstraints.WEST;
 		gbcbtnBackgroundColor.insets = new Insets(0, 0, 0, 5);
 		gbcbtnBackgroundColor.gridx = 1;
 		gbcbtnBackgroundColor.gridy = 3;
@@ -226,13 +233,11 @@ public class BinderTagsEditor extends JDialog {
 		btnSave.addActionListener(e->{
 			JFileChooser choose = new JFileChooser();
 						 choose.showSaveDialog(null);
-			
 			File f = choose.getSelectedFile();
-			
 			try {
 				ImageIO.write(img, "PNG", f);
 			} catch (IOException e1) {
-			
+				// TODO Auto-generated catch block
 				e1.printStackTrace();
 			}
 						 
