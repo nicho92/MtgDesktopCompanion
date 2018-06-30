@@ -3,7 +3,6 @@ package org.magic.gui.components;
 import java.awt.BorderLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.nio.Buffer;
 
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;

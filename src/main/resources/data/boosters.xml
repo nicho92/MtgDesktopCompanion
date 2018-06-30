@@ -88,6 +88,9 @@
 	<booster id='ICE'>
 		<packs lang='en'>
 			<pack num='1' url="http://lib.store.yahoo.net/lib/inmint/magic-iceage-pack.jpg"/>
+			<pack num='2' url="http://www.meeplemart.com/resize/Shared/Images/Product/Magic-Ice-Age-Booster-Pack/Ice-Age-Booster.jpg"/>
+			<pack num='3' url="https://i.ytimg.com/vi/3W3BtFVlLpM/maxresdefault.jpg"/>
+			<pack num='4' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/iceage_boosterpack.jpg"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/ice/images/logo-word.png"/>
 	</booster>
@@ -133,7 +136,12 @@
 		</packs>
 		<banner lang='en' url="http://mtgen.net/sth/images/logo-word.png"/>
 	</booster>
-	
+	<booster id='PGRU'>
+		<packs lang='en'>
+			<pack num='1' url="https://www.magiclibrarities.net/images/edition_comment/4198.png"/>
+		</packs>
+		<banner lang='en' url="https://cdn.shopify.com/s/files/1/0742/5123/collections/Guru_large.png?v=1427025766"/>
+	</booster>
 	
 	
 	<booster id='XLN'>
@@ -443,6 +451,7 @@
 	<booster id='FUT'>
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/Future%20Sight%20Booster%20Pack.jpg"/>
+			<pack num='2' url="https://www.magicbazar.fr/img/product/l/booster_future_sight_vision_avenir_fr.png"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/fut/images/logo-word.png"/>
 	</booster>
@@ -742,7 +751,7 @@
 	</booster>
 	<booster id='GTC'>
 		<packs lang='en'>
-			<pack num='1' url="http://magic.wizards.com/sites/mtg/files/image_legacy_migration/images/magic/daily/arcana/1137_3_1imutg088j.jpg"/>
+			<pack num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/images/magic/daily/arcana/1137_3_1imutg088j.jpg"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/gtc/images/logo-word.png"/>
 	</booster>
@@ -994,7 +1003,8 @@
 	</booster>
 	<booster id='KLD'>
 		<packs lang='en'>
-			<pack num='1' url="https://www.leisuregames.com/acatalog/kaladesh-booster.png"/>
+			<pack num='1' url="https://www.magicbazar.fr/img/product/booster_kaladesh_fr.png"/>
+			<pack num='2' url="https://c1-ebgames.eb-cdn.com.au/merchandising/images/packshots/79723d6e20bd411a9dc439fb33b54ef1_Large.png"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/kld/images/logo-word.png"/>
 	</booster>

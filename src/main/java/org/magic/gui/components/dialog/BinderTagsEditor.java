@@ -63,12 +63,6 @@ public class BinderTagsEditor extends JDialog {
 	public static void main(String[] args) {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
 		new BinderTagsEditor().setVisible(true);
-		
-		int pixelPerInch=300; 
-		double mm = (576 * 25.4) / pixelPerInch;
-		
-		System.out.println(mm/10);
-		
 	}
 	
 	
@@ -80,8 +74,13 @@ public class BinderTagsEditor extends JDialog {
 	
 	
 	public BinderTagsEditor() {
-		tagMaker = new BinderTagsMaker(new Dimension(567,2173));
-		setTitle("Binder Tags Editor");
+		Dimension d = new Dimension(567,2173);
+		int pixelPerInch=300; 
+		double mmW = (d.getWidth() * 25.4) / pixelPerInch;
+		double mmH = (d.getHeight() * 25.4) / pixelPerInch;
+		
+		tagMaker = new BinderTagsMaker(d);
+		setTitle("Binder Tags Editor " +mmW+"x"+mmH+"mm");
 
 		
 		leftPanel = new JPanel();
@@ -212,9 +211,13 @@ public class BinderTagsEditor extends JDialog {
 	
 		chckbxAddHeader.addActionListener(ae->{
 			if(!chckbxAddHeader.isSelected())
+			{
 				tagMaker.setLogo(null);
+			}
 			else
+			{
 				tagMaker.setLogo((LOGO)cboLogo.getSelectedItem());
+			}
 
 		});
 		

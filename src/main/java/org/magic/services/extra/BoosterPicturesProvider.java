@@ -2,9 +2,9 @@ package org.magic.services.extra;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
-import java.nio.Buffer;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +18,7 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.cache.impl.FileCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.URLTools;
@@ -33,9 +34,16 @@ public class BoosterPicturesProvider {
 	private Logger logger = MTGLogger.getLogger(this.getClass());
 	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW};
 	private List<String> list;
-
+	private File localDirectory;
+	
 	public BoosterPicturesProvider() {
-
+		
+		localDirectory = Paths.get(new FileCache().getConfdir().getAbsolutePath(), "sets_booster").toFile();
+		
+		if(!localDirectory.exists())
+			localDirectory.mkdir();
+		
+		
 		builderFactory = DocumentBuilderFactory.newInstance();
 		try {
 			builder = builderFactory.newDocumentBuilder();
@@ -46,6 +54,18 @@ public class BoosterPicturesProvider {
 			list = new ArrayList<>();
 		} catch (Exception e) {
 			logger.error(e);
+		}
+	}
+	
+	public void caching()
+	{
+		for(String s : listEditionsID())
+		{
+			try {
+				ImageIO.write(getBannerFor(s), "PNG", new File(localDirectory,s+"_banner.png"));
+			} catch (Exception e) {
+				logger.error("Can't save banner " + s + ":"+e);
+			}
 		}
 	}
 

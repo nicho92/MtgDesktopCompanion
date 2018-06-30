@@ -25,8 +25,8 @@ public class BinderTagsMaker {
 	private boolean border;
 	private LOGO addlogo;
 	private List<BufferedImage> lst;
-	int height = 0;
-	int width=0;
+	int height=1;
+	int width=1;
 	
 	
 	public Dimension getDimension() {
@@ -100,10 +100,10 @@ public class BinderTagsMaker {
 	
 	private void create(List<BufferedImage> imgs) {
 
-		int offset = 0;
+		int offset = 1;
 		height = offset;
-		width=0;
-		
+		width=1;
+	
 		if(d==null)
 			width=imgs.get(0).getWidth(null);
 		else
@@ -111,7 +111,10 @@ public class BinderTagsMaker {
 		
 		if(addlogo!=null)
 		{
-			lst.set(0,ImageUtils.scaleResize(prov.getLogo(addlogo), width));
+			if(!lst.isEmpty())
+				lst.set(0,ImageUtils.scaleResize(prov.getLogo(addlogo), width));
+			else
+				lst.add(ImageUtils.scaleResize(prov.getLogo(addlogo), width));
 		}
 		
 		for (Image im : imgs) {
