@@ -34,7 +34,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.BETA;
+		return STATUT.DEV;
 	}
 
 	

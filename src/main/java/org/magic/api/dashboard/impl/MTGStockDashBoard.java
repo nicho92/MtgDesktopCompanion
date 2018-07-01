@@ -40,7 +40,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 
 	public MTGStockDashBoard() {

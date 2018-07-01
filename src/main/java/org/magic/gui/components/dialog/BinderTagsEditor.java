@@ -40,6 +40,8 @@ import org.magic.services.MTGLogger;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.event.ChangeListener;
+import javax.swing.event.ChangeEvent;
 
 public class BinderTagsEditor extends JDialog {
 	
@@ -57,6 +59,9 @@ public class BinderTagsEditor extends JDialog {
 	private JPanel panel1;
 	private JPanel leftPanel;
 	private JButton btnNew;
+	private JPanel panelInterspace;
+	private JLabel lblInterSpace;
+	private JSpinner spinSpace;
 	
 	
 	
@@ -122,9 +127,9 @@ public class BinderTagsEditor extends JDialog {
 		leftPanel.add(editorPanel, BorderLayout.NORTH);
 		GridBagLayout gbleditorPanel = new GridBagLayout();
 		gbleditorPanel.columnWidths = new int[]{0, 275, 0, 0};
-		gbleditorPanel.rowHeights = new int[]{0, 0, 0, 0, 0};
+		gbleditorPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
 		gbleditorPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbleditorPanel.rowWeights = new double[]{1.0, 0.0, 0.0, 1.0, Double.MIN_VALUE};
+		gbleditorPanel.rowWeights = new double[]{1.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		editorPanel.setLayout(gbleditorPanel);
 		
 		GridBagConstraints gbcpanel = new GridBagConstraints();
@@ -168,14 +173,29 @@ public class BinderTagsEditor extends JDialog {
 		
 		btnBackgroundColor = new JButton(MTGConstants.ICON_GAME_COLOR);
 		
-		
-		
 		GridBagConstraints gbcbtnBackgroundColor = new GridBagConstraints();
 		gbcbtnBackgroundColor.anchor = GridBagConstraints.WEST;
-		gbcbtnBackgroundColor.insets = new Insets(0, 0, 0, 5);
+		gbcbtnBackgroundColor.insets = new Insets(0, 0, 5, 5);
 		gbcbtnBackgroundColor.gridx = 1;
 		gbcbtnBackgroundColor.gridy = 3;
 		editorPanel.add(btnBackgroundColor, gbcbtnBackgroundColor);
+		
+		panelInterspace = new JPanel();
+		FlowLayout flowLayout1 = (FlowLayout) panelInterspace.getLayout();
+		flowLayout1.setAlignment(FlowLayout.LEFT);
+		GridBagConstraints gbcPanelInterSpace = new GridBagConstraints();
+		gbcPanelInterSpace.insets = new Insets(0, 0, 0, 5);
+		gbcPanelInterSpace.fill = GridBagConstraints.BOTH;
+		gbcPanelInterSpace.gridx = 1;
+		gbcPanelInterSpace.gridy = 4;
+		editorPanel.add(panelInterspace, gbcPanelInterSpace);
+		
+		lblInterSpace = new JLabel("inter space :");
+		panelInterspace.add(lblInterSpace);
+		
+		spinSpace = new JSpinner();
+		
+		panelInterspace.add(spinSpace);
 		JPanel commandsPanel = new JPanel();
 		leftPanel.add(commandsPanel, BorderLayout.SOUTH);
 		
@@ -238,6 +258,9 @@ public class BinderTagsEditor extends JDialog {
 			updateInfo();
 		});
 		
+		spinSpace.addChangeListener(ce ->{
+			tagMaker.setSpace((int)spinSpace.getValue());
+		});
 		
 		btnSave.addActionListener(e->{
 			JFileChooser choose = new JFileChooser();

@@ -27,6 +27,7 @@ public class BinderTagsMaker {
 	private List<BufferedImage> lst;
 	int height=1;
 	int width=1;
+	private int space;
 	
 	
 	public Dimension getDimension() {
@@ -49,6 +50,7 @@ public class BinderTagsMaker {
 		prov = new BoosterPicturesProvider();
 		addlogo=null;
 		border=true;
+		space=0;
 		this.d=d;
 		lst = new ArrayList<>();
 	}
@@ -120,7 +122,7 @@ public class BinderTagsMaker {
 		for (Image im : imgs) {
 			BufferedImage imgb = (BufferedImage) im;
 			imgb=ImageUtils.scaleResize(imgb, width);
-			height += imgb.getHeight();
+			height += imgb.getHeight()+space;
 			lst.add(imgb);
 		}
 		
@@ -153,10 +155,15 @@ public class BinderTagsMaker {
 		int x = 0;
 		for (BufferedImage im : lst) {
 			g2.drawImage(im, null, 0, x);
-			x += im.getHeight();
+			x += im.getHeight()+space;
 		}
 		g2.dispose();
 		return newImage;
+	}
+
+	public void setSpace(int value) {
+		this.space=value*10;
+		
 	}
 	
 

@@ -14,7 +14,8 @@ public class MagicCardStock {
 	private boolean altered;
 	private boolean update;
 	private double price;
-
+	private boolean oversize;
+	
 	public double getPrice() {
 		return price;
 	}
@@ -118,6 +119,14 @@ public class MagicCardStock {
 
 	public void setComment(String comment) {
 		this.comment = comment;
+	}
+
+	public boolean isOversize() {
+		return oversize;
+	}
+
+	public void setOversize(boolean oversize) {
+		this.oversize = oversize;
 	}
 
 }
