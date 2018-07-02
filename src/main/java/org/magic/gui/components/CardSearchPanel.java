@@ -14,6 +14,7 @@ import java.awt.event.ItemEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -492,26 +493,33 @@ public class CardSearchPanel extends JPanel {
 				protected Void doInBackground() {
 					loading(true, MTGControler.getInstance().getLangService().getCapitalize("SEARCHING"));
 					String searchName = txtSearch.getText().trim();
-					try {
-						List<MagicCard> cards;
+					
+						List<MagicCard> cards = null;
 						MTGControler.getInstance().getEnabledCardsProviders().addObserver(ob);
 
+						try {
 						if (cboCollections.isVisible())
-							cards = MTGControler.getInstance().getEnabledDAO()
-									.listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
+							cards = MTGControler.getInstance().getEnabledDAO().listCardsFromCollection((MagicCollection) cboCollections.getSelectedItem());
 						else
-							cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(
-									cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
-
-						Collections.sort(cards, new CardsEditionSorter());
-
+							cards = MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria(cboQuereableItems.getSelectedItem().toString(), searchName, null, false);
+						}
+						catch(IOException e)
+						{
+							logger.error("Error searching "+ searchName,e);
+						} catch (SQLException e) {
+							logger.error("Error in dao for "+ searchName,e);
+						}
+						
+						
+						try {
+							Collections.sort(cards, new CardsEditionSorter());
+						}
+						catch(IllegalArgumentException e)
+						{
+							logger.error("error sorting result",e);
+						}
 						open(cards);
 						return null;
-					} catch (Exception e) {
-						logger.error("Erreur search", e);
-						return null;
-					}
-
 				}
 
 				@Override

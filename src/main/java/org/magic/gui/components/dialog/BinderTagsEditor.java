@@ -82,12 +82,9 @@ public class BinderTagsEditor extends JDialog {
 	
 	public BinderTagsEditor() {
 		Dimension d = new Dimension(567,2173);
-		int pixelPerInch=300; 
-		double mmW = (d.getWidth() * 25.4) / pixelPerInch;
-		double mmH = (d.getHeight() * 25.4) / pixelPerInch;
-		
+	
 		tagMaker = new BinderTagsMaker(d);
-		setTitle("Binder Tags Editor " +mmW+"x"+mmH+"mm");
+		setTitle("Binder Tags Editor");
 
 		
 		leftPanel = new JPanel();
@@ -269,12 +266,9 @@ public class BinderTagsEditor extends JDialog {
 						 choose.showSaveDialog(null);
 			File f = choose.getSelectedFile();
 			try {
-				ImageUtils.saveImage2(img, f, "PNG",300);
-				
-				
+				ImageUtils.saveImageInPng(img, f, 300);
 			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
+				logger.error("Error saving image", e1);
 			}
 						 
 		});

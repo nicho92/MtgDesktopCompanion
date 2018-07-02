@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.imageio.IIOImage;
@@ -14,8 +15,10 @@ import javax.imageio.ImageIO;
 import javax.imageio.ImageTypeSpecifier;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOInvalidTreeException;
 import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
+import javax.imageio.stream.ImageOutputStream;
 
 public class ImageUtils {
 
@@ -119,19 +122,48 @@ public class ImageUtils {
 		return newImage;
 	}
 
-	public static void saveImage2(BufferedImage img, File f, String s, int i) throws IOException {
-		ImageWriter writer = ImageIO.getImageWritersByFormatName(s).next();
-        writer.setOutput(ImageIO.createImageOutputStream(f));
-        ImageWriteParam param = writer.getDefaultWriteParam();
-        IIOMetadata metadata = writer.getDefaultImageMetadata(ImageTypeSpecifier.createFromRenderedImage(img), param);
-        IIOMetadataNode root = (IIOMetadataNode) metadata.getAsTree(metadata.getNativeMetadataFormatName());
-        IIOMetadataNode jfif = (IIOMetadataNode) root.getElementsByTagName("app0JFIF").item(0);
-        jfif.setAttribute("resUnits", "1");
-        jfif.setAttribute("Xdensity", String.valueOf(i));
-        jfif.setAttribute("Ydensity",  String.valueOf(i));
-        metadata.mergeTree(metadata.getNativeMetadataFormatName(), root);
-        writer.write(null, new IIOImage(img, null, metadata), param);
+	public static void saveImageInPng(BufferedImage img, File f,int dpi) throws IOException {
+		for (Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("png"); iw.hasNext();) 
+		{
+		   ImageWriter writer = iw.next();
+		   ImageWriteParam writeParam = writer.getDefaultWriteParam();
+		   ImageTypeSpecifier typeSpecifier = ImageTypeSpecifier.createFromBufferedImageType(BufferedImage.TYPE_INT_RGB);
+		   IIOMetadata metadata = writer.getDefaultImageMetadata(typeSpecifier, writeParam);
+		   if (metadata.isReadOnly() || !metadata.isStandardMetadataFormatSupported()) {
+		      continue;
+		   }
+
+		   setDPI(metadata,dpi);
+
+		   ImageOutputStream stream = ImageIO.createImageOutputStream(f);
+		   try {
+		      writer.setOutput(stream);
+		      writer.write(metadata, new IIOImage(img, null, metadata), writeParam);
+		   } finally {
+		      stream.close();
+		   }
+		   break;
+		}
 	}
+		
+	
+	
+	
+
+	 private static void setDPI(IIOMetadata metadata,int dpi) throws IIOInvalidTreeException {
+			double dotsPerMilli = 1.0 * dpi / 10 / 2.54;
+			IIOMetadataNode horiz = new IIOMetadataNode("HorizontalPixelSize");
+			horiz.setAttribute("value", Double.toString(dotsPerMilli));
+			IIOMetadataNode vert = new IIOMetadataNode("VerticalPixelSize");
+			vert.setAttribute("value", Double.toString(dotsPerMilli));
+			IIOMetadataNode dim = new IIOMetadataNode("Dimension");
+			dim.appendChild(horiz);
+			dim.appendChild(vert);
+			IIOMetadataNode root = new IIOMetadataNode("javax_imageio_1.0");
+			root.appendChild(dim);
+			metadata.mergeTree("javax_imageio_1.0", root);
+	 }
+	
 	
 	
 	
