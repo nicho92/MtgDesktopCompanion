@@ -9,7 +9,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageTypeSpecifier;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.metadata.IIOMetadata;
+import javax.imageio.metadata.IIOMetadataNode;
 
 public class ImageUtils {
 
@@ -111,6 +117,20 @@ public class ImageUtils {
 		g2.dispose();
 
 		return newImage;
+	}
+
+	public static void saveImage2(BufferedImage img, File f, String s, int i) throws IOException {
+		ImageWriter writer = ImageIO.getImageWritersByFormatName(s).next();
+        writer.setOutput(ImageIO.createImageOutputStream(f));
+        ImageWriteParam param = writer.getDefaultWriteParam();
+        IIOMetadata metadata = writer.getDefaultImageMetadata(ImageTypeSpecifier.createFromRenderedImage(img), param);
+        IIOMetadataNode root = (IIOMetadataNode) metadata.getAsTree(metadata.getNativeMetadataFormatName());
+        IIOMetadataNode jfif = (IIOMetadataNode) root.getElementsByTagName("app0JFIF").item(0);
+        jfif.setAttribute("resUnits", "1");
+        jfif.setAttribute("Xdensity", String.valueOf(i));
+        jfif.setAttribute("Ydensity",  String.valueOf(i));
+        metadata.mergeTree(metadata.getNativeMetadataFormatName(), root);
+        writer.write(null, new IIOImage(img, null, metadata), param);
 	}
 	
 	

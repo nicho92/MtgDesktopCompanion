@@ -269,7 +269,9 @@ public class BinderTagsEditor extends JDialog {
 						 choose.showSaveDialog(null);
 			File f = choose.getSelectedFile();
 			try {
-				ImageUtils.saveImage(img, f, "PNG");
+				ImageUtils.saveImage2(img, f, "PNG",300);
+				
+				
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
