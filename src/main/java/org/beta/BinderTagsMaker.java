@@ -134,7 +134,7 @@ public class BinderTagsMaker {
 
 	public BufferedImage generate() {
 
-		BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
+		BufferedImage newImage = new BufferedImage(width, height, BufferedImage.TYPE_4BYTE_ABGR);
 		Graphics2D g2 = newImage.createGraphics();
 		
 		if(backColor!=null)

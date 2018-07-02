@@ -38,6 +38,8 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
+import org.magic.tools.ImageUtils;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
@@ -190,7 +192,7 @@ public class BinderTagsEditor extends JDialog {
 		gbcPanelInterSpace.gridy = 4;
 		editorPanel.add(panelInterspace, gbcPanelInterSpace);
 		
-		lblInterSpace = new JLabel("inter space :");
+		lblInterSpace = new JLabel("Space :");
 		panelInterspace.add(lblInterSpace);
 		
 		spinSpace = new JSpinner();
@@ -267,7 +269,7 @@ public class BinderTagsEditor extends JDialog {
 						 choose.showSaveDialog(null);
 			File f = choose.getSelectedFile();
 			try {
-				ImageIO.write(img, "PNG", f);
+				ImageUtils.saveImage(img, f, "PNG");
 			} catch (IOException e1) {
 				// TODO Auto-generated catch block
 				e1.printStackTrace();
