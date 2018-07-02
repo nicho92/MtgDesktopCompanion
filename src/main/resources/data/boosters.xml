@@ -1120,12 +1120,15 @@
 			<pack num='3' url="https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/w/i/wizc34890000a-magic-the-gathering-dominaria-booster-pack-15-cards-03_1.1524114507.png"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/dom/images/logo-word.png"/>
+		<box lang='fr' url="https://www.magicmadhouse.co.uk/images/dominaria-booster-box-p278260-272809_medium.jpg"/>
+		
 	</booster>
 	<booster id='BBD'>
 		<packs lang='en'>
 			<pack num='1' url="https://www.spielraum.co.at/Images/Produkte/Magic/BoosterENG/BattlebondBooster.jpg"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/bbd/images/logo-word.png"/>
+		<box lang='fr' url="https://images-na.ssl-images-amazon.com/images/I/51r8DZCMrKL._SX425_.jpg"/>
 	</booster>
 	<booster id='SS1'>
 		<packs lang='en'>
@@ -1145,6 +1148,7 @@
 		</packs>
 		<banner lang='en' url="https://media.wizards.com/2018/images/magic/Soon/event/GS1/EN_zxZaQpA.png"/>
 	</booster>
+	
 	<booster id='M19'>
 		<packs lang='en'>
 			<pack num='1' url="http://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_01_02-1024x1024.png"/>
@@ -1154,6 +1158,9 @@
 			<pack num='5' url="http://fr.ubergizmo.com/wp-content/uploads/2018/06/MTGM19_FR_Bstr_05_02-1024x1024.png"/>
 		</packs>
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/Shadow_EN_x8mSpWT0C9.png"/>
+		<box lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28619-jeux-de-cartes-magic-the-gathering-boites-de-boosters-core-set-2019.jpg"/>
+		<bundle lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28628-jeux-de-cartes-magic-the-gathering-coffrets-core-set-2019-bundle.jpg"/>
+		<constructpack lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28623-jeux-de-cartes-magic-the-gathering-decks-preconstruits-edition-de-base-2019-kit-de-construction-de-deck.jpg"/>
 	</booster>
 	
 	
