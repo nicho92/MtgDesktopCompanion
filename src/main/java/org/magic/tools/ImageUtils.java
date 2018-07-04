@@ -1,12 +1,15 @@
 package org.magic.tools;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Iterator;
 import java.util.List;
 
@@ -147,7 +150,31 @@ public class ImageUtils {
 	}
 		
 	
+	public static Dimension toMM(Dimension d,int dpi)
+	{
+		BigDecimal bd = BigDecimal.valueOf((d.getWidth() * 25.4) / dpi);
+				   bd=bd.setScale(2, RoundingMode.HALF_UP);
+				   
+	    BigDecimal bd2 = BigDecimal.valueOf((d.getHeight() * 25.4) / dpi);
+	    		   bd2=bd2.setScale(2, RoundingMode.HALF_UP);				   
+				   
+		return new Dimension((int)bd.doubleValue(), (int)bd2.doubleValue());
+	}
 	
+	
+	public static double toMM(double d,int dpi)
+	{
+		BigDecimal bd = BigDecimal.valueOf((d * 25.4) / dpi);
+		bd=bd.setScale(2, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+	
+	public static double toPX(double val,int dpi)
+	{
+		BigDecimal bd = BigDecimal.valueOf((val / 25.4) * dpi);
+		bd=bd.setScale(2, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
 	
 
 	 private static void setDPI(IIOMetadata metadata,int dpi) throws IIOInvalidTreeException {

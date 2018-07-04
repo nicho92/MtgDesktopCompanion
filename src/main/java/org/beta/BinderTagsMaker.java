@@ -55,8 +55,6 @@ public class BinderTagsMaker {
 		lst = new ArrayList<>();
 	}
 	
-
-		
 	
 	public void addIds(List<String> ids)
 	{
