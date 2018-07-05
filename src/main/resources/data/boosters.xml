@@ -1099,6 +1099,7 @@
 			<pack num='1' url="https://themanashop.ch/24406-thickbox_default/rivals-of-ixalan-booster-pack.jpg"/>
 			<pack num='2' urm="https://cdn.shopify.com/s/files/1/0263/9009/products/305065_s0.jpg?v=1516645140"/>
 		</packs>
+		<bundle lang="en" url="https://cdn8.bigcommerce.com/s-ua4dd/images/stencil/1280x1280/products/23398/55356/Rivals-of-Ixalan-Bundle__16642.1513578221.png"/>
 		<banner lang='en' url="http://mtgen.net/rix/images/logo-word.png"/>
 	</booster>
 	<booster id='A25'>
@@ -1118,10 +1119,10 @@
 			<pack num='1' url="https://d1u5p3l4wpay3k.cloudfront.net/mtgsalvation_gamepedia/thumb/e/ed/DOM_booster_Teferi.png/325px-DOM_booster_Teferi.png?version=3570665047bb5829f0084d0d1953493f"/>
 			<pack num='2' url="https://52f4e29a8321344e30ae-0f55c9129972ac85d6b1f4e703468e6b.ssl.cf2.rackcdn.com/products/pictures/1158686.jpg"/>
 			<pack num='3' url="https://cache.popcultcha.com.au/media/catalog/product/cache/1/image/1800x/040ec09b1e35df139433887a97daa66f/w/i/wizc34890000a-magic-the-gathering-dominaria-booster-pack-15-cards-03_1.1524114507.png"/>
+			<pack num='4' url="https://www.trader-online.de/out/pictures/generated/product/2/800_800_75/dominaria_booster_packung_pack_box_magic_the_gathering_mtg_trader_guenstig_deutsch_german_2.jpg"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/dom/images/logo-word.png"/>
 		<box lang='fr' url="https://www.magicmadhouse.co.uk/images/dominaria-booster-box-p278260-272809_medium.jpg"/>
-		
 	</booster>
 	<booster id='BBD'>
 		<packs lang='en'>
@@ -1160,7 +1161,7 @@
 		<banner lang='en' url="https://magic.wizards.com/sites/mtg/files/Shadow_EN_x8mSpWT0C9.png"/>
 		<box lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28619-jeux-de-cartes-magic-the-gathering-boites-de-boosters-core-set-2019.jpg"/>
 		<bundle lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28628-jeux-de-cartes-magic-the-gathering-coffrets-core-set-2019-bundle.jpg"/>
-		<constructpack lang='fr' url="https://boutique.magiccorporation.com/images/produits/maxi/28623-jeux-de-cartes-magic-the-gathering-decks-preconstruits-edition-de-base-2019-kit-de-construction-de-deck.jpg"/>
+		<constructpack lang='fr' url="https://pbs.twimg.com/media/DhRUFJTXkAE9R-8.png"/>
 	</booster>
 	
 	

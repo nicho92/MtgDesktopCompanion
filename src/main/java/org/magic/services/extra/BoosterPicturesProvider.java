@@ -8,7 +8,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.xpath.XPath;
@@ -21,6 +20,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.cache.impl.FileCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ImageUtils;
 import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
@@ -32,16 +32,10 @@ public class BoosterPicturesProvider {
 	private DocumentBuilder builder;
 	private Document document;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
-	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW};
+	public enum LOGO { ORANGE,BLUE,YELLOW,WHITE,NEW}
 	private List<String> list;
-	private File localDirectory;
 	
 	public BoosterPicturesProvider() {
-		
-		localDirectory = Paths.get(new FileCache().getConfdir().getAbsolutePath(), "sets_booster").toFile();
-		
-		if(!localDirectory.exists())
-			localDirectory.mkdir();
 		
 		
 		builderFactory = DocumentBuilderFactory.newInstance();
@@ -57,17 +51,7 @@ public class BoosterPicturesProvider {
 		}
 	}
 	
-	public void caching()
-	{
-		for(String s : listEditionsID())
-		{
-			try {
-				ImageIO.write(getBannerFor(s), "PNG", new File(localDirectory,s+"_banner.png"));
-			} catch (Exception e) {
-				logger.error("Can't save banner " + s + ":"+e);
-			}
-		}
-	}
+
 
 	public List<String> listEditionsID() {
 

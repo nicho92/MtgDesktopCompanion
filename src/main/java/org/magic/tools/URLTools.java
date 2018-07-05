@@ -37,7 +37,6 @@ public class URLTools {
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
 		connection.setInstanceFollowRedirects(true);
-		//connection.setConnectTimeout(3000);
 		connection.connect();
 		return connection;
 	}
@@ -68,7 +67,7 @@ public class URLTools {
 	public static BufferedImage extractImage(String url) throws IOException
 	{
 		logger.trace("get Image from " + url);
-		return ImageUtils.trimHorizontally(ImageIO.read(openConnection(url).getInputStream())); 
+		return ImageUtils.trimAlpha(ImageIO.read(openConnection(url).getInputStream())); 
 	}
 	
 	

@@ -33,7 +33,7 @@ public class ImageUtils {
 	}
 
 	
-	public static BufferedImage trimHorizontally(BufferedImage img) {
+	public static BufferedImage trimAlpha(BufferedImage img) {
 	    int width = img.getWidth();
 	    int height = img.getHeight();
 	    int x0;
