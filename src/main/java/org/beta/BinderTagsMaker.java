@@ -55,6 +55,13 @@ public class BinderTagsMaker {
 		lst = new ArrayList<>();
 	}
 	
+	public void setEditions(List<MagicEdition> eds)
+	{
+		clear();
+		addList(eds);
+	}
+	
+	
 	
 	public void addIds(List<String> ids)
 	{
