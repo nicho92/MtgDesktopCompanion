@@ -29,7 +29,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.editor.JTagsPanel;
-import org.magic.gui.models.DeckSelectionModel;
+import org.magic.gui.models.DeckSelectionTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -120,7 +120,7 @@ public class JDeckChooserDialog extends JDialog {
 			}
 		});
 
-		table = new JXTable(new DeckSelectionModel());
+		table = new JXTable(new DeckSelectionTableModel());
 		table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 
 		table.addMouseListener(new MouseAdapter() {
@@ -174,7 +174,7 @@ public class JDeckChooserDialog extends JDialog {
 
 			if (res == JOptionPane.YES_OPTION) {
 				try {
-					((DeckSelectionModel) table.getModel()).remove(selectedDeck);
+					((DeckSelectionTableModel) table.getModel()).remove(selectedDeck);
 				} catch (IOException e1) {
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e1));
 				}

@@ -59,7 +59,7 @@ import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.RarityRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
 import org.magic.gui.components.dialog.JDeckChooserDialog;
-import org.magic.gui.models.DeckModel;
+import org.magic.gui.models.DeckCardsTableModel;
 import org.magic.gui.renderer.IntegerCellEditor;
 import org.magic.gui.renderer.MagicCardListRenderer;
 import org.magic.gui.renderer.MagicEditionsComboBoxEditor;
@@ -84,8 +84,8 @@ public class ConstructPanel extends JPanel {
 	private MagicCardDetailPanel magicCardDetailPanel;
 	private DrawProbabilityPanel drawProbabilityPanel;
 	private DeckPricePanel deckPricePanel;
-	private DeckModel deckSidemodel;
-	private DeckModel deckmodel;
+	private DeckCardsTableModel deckSidemodel;
+	private DeckCardsTableModel deckmodel;
 	private MagicDeck deck;
 	private JButton btnExports;
 	private transient MTGDeckManager deckManager;
@@ -138,8 +138,8 @@ public class ConstructPanel extends JPanel {
 		lblExport = new JBuzyLabel();
 
 		setLayout(new BorderLayout(0, 0));
-		deckmodel = new DeckModel(DeckModel.TYPE.DECK);
-		deckSidemodel = new DeckModel(DeckModel.TYPE.SIDE);
+		deckmodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.DECK);
+		deckSidemodel = new DeckCardsTableModel(DeckCardsTableModel.TYPE.SIDE);
 		deckDetailsPanel = new DeckDetailsPanel();
 		panelBottom = new JPanel();
 

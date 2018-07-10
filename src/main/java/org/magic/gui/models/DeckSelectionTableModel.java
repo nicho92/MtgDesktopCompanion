@@ -12,14 +12,14 @@ import org.magic.services.MTGDeckManager;
 import org.magic.services.ThreadManager;
 import org.utils.patterns.observer.Observable;
 
-public class DeckSelectionModel extends DefaultTableModel {
+public class DeckSelectionTableModel extends DefaultTableModel {
 
 	private final String[] columns = { MTGControler.getInstance().getLangService().getCapitalize("DECK"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"), "Standard", "Modern", "Legacy","Vintage", MTGControler.getInstance().getLangService().getCapitalize("CARDS") };
 	private List<MagicDeck> decks;
 	private transient MTGDeckManager manager;
 
-	public DeckSelectionModel() {
+	public DeckSelectionTableModel() {
 		decks = new ArrayList<>();
 		manager = new MTGDeckManager();
 		manager.addObserver((Observable o, Object obj)->{

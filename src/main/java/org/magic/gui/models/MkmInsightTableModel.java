@@ -6,7 +6,7 @@ import javax.swing.table.DefaultTableModel;
 
 import org.api.mkm.modele.InsightElement;
 
-public class MkmInsightModel extends DefaultTableModel {
+public class MkmInsightTableModel extends DefaultTableModel {
 
 	private String[] columnName;
 	private List<InsightElement> elements;

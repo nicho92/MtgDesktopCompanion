@@ -12,7 +12,7 @@ import org.jdesktop.swingx.JXTable;
 import org.magic.api.exports.impl.MKMFileWantListExport;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
-import org.magic.gui.models.MkmInsightModel;
+import org.magic.gui.models.MkmInsightTableModel;
 
 public class MkmOversightDashlet extends AbstractJDashlet {
 	
@@ -41,7 +41,7 @@ public class MkmOversightDashlet extends AbstractJDashlet {
 	public void initGUI() 
 	{
 		getContentPane().setLayout(new BorderLayout(0, 0));
-		MkmInsightModel model=new MkmInsightModel();
+		MkmInsightTableModel model=new MkmInsightTableModel();
 		JPanel panneauHaut = new JPanel();
 		getContentPane().add(panneauHaut, BorderLayout.NORTH);
 		

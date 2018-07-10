@@ -32,7 +32,7 @@ public class Collection extends AbstractCommand {
 	}
 	
 	@Override
-	public CommandResponse run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,ParseException, IOException, InvocationTargetException, NoSuchMethodException {
+	public CommandResponse<?> run(String[] args) throws ClassNotFoundException, InstantiationException, IllegalAccessException,ParseException, IOException, InvocationTargetException, NoSuchMethodException {
 	
 		logger.debug("running "+ this +" with " + Arrays.asList(args));
 		CommandLine cl = parser.parse(opts, args);

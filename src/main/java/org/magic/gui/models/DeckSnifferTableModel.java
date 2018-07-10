@@ -10,7 +10,7 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.services.MTGControler;
 
-public class DeckSnifferModel extends DefaultTableModel {
+public class DeckSnifferTableModel extends DefaultTableModel {
 
 	private final String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("NAME"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),
@@ -21,7 +21,7 @@ public class DeckSnifferModel extends DefaultTableModel {
 
 	private transient List<RetrievableDeck> decks;
 
-	public DeckSnifferModel() {
+	public DeckSnifferTableModel() {
 		decks = new ArrayList<>();
 	}
 

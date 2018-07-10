@@ -44,6 +44,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
+import javax.swing.JList;
 
 public class BinderTagsEditor extends JDialog {
 	
@@ -56,8 +57,6 @@ public class BinderTagsEditor extends JDialog {
 	private JCheckBox chckbxAddHeader;
 	private JButton btnBackgroundColor ;
 	private JButton btnSave;
-	private JButton btnAdd;
-	private JComboBox cboEditions ;
 	private JPanel panel1;
 	private JPanel leftPanel;
 	private JButton btnNew;
@@ -65,6 +64,8 @@ public class BinderTagsEditor extends JDialog {
 	private JLabel lblInterSpace;
 	private JSpinner spinSpace;
 	private int dpi=300;
+	private JScrollPane scrollListEdition;
+	private JList<MagicEdition> listEditions;
 	
 	
 	public static void main(String[] args) {
@@ -101,8 +102,6 @@ public class BinderTagsEditor extends JDialog {
 		
 		leftPanel = new JPanel();
 		JPanel editorPanel = new JPanel();
-		JPanel panel = new JPanel();
-		btnAdd = new JButton("+");
 
 		
 		
@@ -138,24 +137,21 @@ public class BinderTagsEditor extends JDialog {
 		leftPanel.add(editorPanel, BorderLayout.NORTH);
 		GridBagLayout gbleditorPanel = new GridBagLayout();
 		gbleditorPanel.columnWidths = new int[]{0, 275, 0, 0};
-		gbleditorPanel.rowHeights = new int[]{0, 0, 0, 0, 0, 0};
+		gbleditorPanel.rowHeights = new int[]{0, 249, 0, 0, 0, 0};
 		gbleditorPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
-		gbleditorPanel.rowWeights = new double[]{1.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
+		gbleditorPanel.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		editorPanel.setLayout(gbleditorPanel);
+		listEditions = new JList<>();
 		
-		GridBagConstraints gbcpanel = new GridBagConstraints();
-		gbcpanel.insets = new Insets(0, 0, 5, 5);
-		gbcpanel.fill = GridBagConstraints.BOTH;
-		gbcpanel.gridx = 1;
-		gbcpanel.gridy = 0;
-		editorPanel.add(panel, gbcpanel);
+		scrollListEdition = new JScrollPane(listEditions);
+		GridBagConstraints gbcscrollPane1 = new GridBagConstraints();
+		gbcscrollPane1.insets = new Insets(0, 0, 5, 5);
+		gbcscrollPane1.fill = GridBagConstraints.BOTH;
+		gbcscrollPane1.gridx = 1;
+		gbcscrollPane1.gridy = 1;
+		editorPanel.add(scrollListEdition, gbcscrollPane1);
 		
 		
-		cboEditions = new JComboBox(new DefaultComboBoxModel<>(list.toArray()));
-		cboEditions.setRenderer(new MagicEditionIconListRenderer());
-		panel.add(cboEditions);
-		
-		panel.add(btnAdd);
 		
 		panel1 = new JPanel();
 		FlowLayout flowLayout = (FlowLayout) panel1.getLayout();
@@ -164,7 +160,7 @@ public class BinderTagsEditor extends JDialog {
 		gbcpanel1.insets = new Insets(0, 0, 5, 5);
 		gbcpanel1.fill = GridBagConstraints.BOTH;
 		gbcpanel1.gridx = 1;
-		gbcpanel1.gridy = 1;
+		gbcpanel1.gridy = 2;
 		editorPanel.add(panel1, gbcpanel1);
 		
 		chckbxAddHeader = new JCheckBox("add Header");
@@ -172,24 +168,6 @@ public class BinderTagsEditor extends JDialog {
 		
 		cboLogo = new JComboBox<>(new DefaultComboBoxModel<>(LOGO.values()));
 		panel1.add(cboLogo);
-		
-		chckbxBorder = new JCheckBox("Border");
-		
-		GridBagConstraints gbcchckbxBorder = new GridBagConstraints();
-		gbcchckbxBorder.insets = new Insets(0, 0, 5, 5);
-		gbcchckbxBorder.anchor = GridBagConstraints.WEST;
-		gbcchckbxBorder.gridx = 1;
-		gbcchckbxBorder.gridy = 2;
-		editorPanel.add(chckbxBorder, gbcchckbxBorder);
-		
-		btnBackgroundColor = new JButton(MTGConstants.ICON_GAME_COLOR);
-		
-		GridBagConstraints gbcbtnBackgroundColor = new GridBagConstraints();
-		gbcbtnBackgroundColor.anchor = GridBagConstraints.WEST;
-		gbcbtnBackgroundColor.insets = new Insets(0, 0, 5, 5);
-		gbcbtnBackgroundColor.gridx = 1;
-		gbcbtnBackgroundColor.gridy = 3;
-		editorPanel.add(btnBackgroundColor, gbcbtnBackgroundColor);
 		
 		panelInterspace = new JPanel();
 		FlowLayout flowLayout1 = (FlowLayout) panelInterspace.getLayout();
@@ -207,6 +185,12 @@ public class BinderTagsEditor extends JDialog {
 		spinSpace = new JSpinner();
 		
 		panelInterspace.add(spinSpace);
+		
+		btnBackgroundColor = new JButton(MTGConstants.ICON_GAME_COLOR);
+		panelInterspace.add(btnBackgroundColor);
+		
+		chckbxBorder = new JCheckBox("Border");
+		panelInterspace.add(chckbxBorder);
 		JPanel commandsPanel = new JPanel();
 		leftPanel.add(commandsPanel, BorderLayout.SOUTH);
 		
@@ -228,11 +212,6 @@ public class BinderTagsEditor extends JDialog {
 
 
 	private void initActions() {
-		
-		btnAdd.addActionListener(e->{
-			tagMaker.add((MagicEdition)cboEditions.getSelectedItem());
-			updateInfo();
-		});
 		
 		btnBackgroundColor.addActionListener(ae->{
 			Color selected = JColorChooser.showDialog(null, "Color Selection", Color.WHITE);
@@ -271,6 +250,7 @@ public class BinderTagsEditor extends JDialog {
 		
 		spinSpace.addChangeListener(ce ->{
 			tagMaker.setSpace((int)spinSpace.getValue());
+			updateInfo();
 		});
 		
 		btnSave.addActionListener(e->{

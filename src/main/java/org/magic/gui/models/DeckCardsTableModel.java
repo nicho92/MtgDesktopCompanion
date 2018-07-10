@@ -9,7 +9,7 @@ import org.magic.services.MTGControler;
 
 import com.itextpdf.text.List;
 
-public class DeckModel extends DefaultTableModel {
+public class DeckCardsTableModel extends DefaultTableModel {
 
 	private String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("NAME"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"),
@@ -34,7 +34,7 @@ public class DeckModel extends DefaultTableModel {
 		return super.getColumnClass(columnIndex);
 	}
 
-	public DeckModel(TYPE t) {
+	public DeckCardsTableModel(TYPE t) {
 		this.t = t;
 		deck = new MagicDeck();
 	}

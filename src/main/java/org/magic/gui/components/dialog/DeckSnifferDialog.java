@@ -17,7 +17,7 @@ import org.magic.api.beans.RetrievableDeck;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.abstracts.AbstractDeckSniffer;
 import org.magic.gui.components.JBuzyLabel;
-import org.magic.gui.models.DeckSnifferModel;
+import org.magic.gui.models.DeckSnifferTableModel;
 import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
@@ -29,7 +29,7 @@ public class DeckSnifferDialog extends JDialog {
 	private JTable table;
 	private JComboBox<AbstractDeckSniffer> cboSniffers;
 	private JComboBox<String> cboFormats;
-	private DeckSnifferModel model;
+	private DeckSnifferTableModel model;
 	private MagicDeck importedDeck;
 	private JBuzyLabel lblLoad;
 	private JButton btnImport;
@@ -50,7 +50,7 @@ public class DeckSnifferDialog extends JDialog {
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
 		table = new JTable();
-		model = new DeckSnifferModel();
+		model = new DeckSnifferTableModel();
 		table.setModel(model);
 		scrollPane.setViewportView(table);
 		
