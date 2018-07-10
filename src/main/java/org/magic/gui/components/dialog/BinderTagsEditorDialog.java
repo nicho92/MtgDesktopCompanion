@@ -16,6 +16,7 @@ import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
+import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JColorChooser;
@@ -32,6 +33,7 @@ import javax.swing.SpinnerNumberModel;
 
 import org.apache.log4j.Logger;
 import org.beta.BinderTagsMaker;
+import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
@@ -46,7 +48,7 @@ import javax.swing.event.ChangeListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.JList;
 
-public class BinderTagsEditor extends JDialog {
+public class BinderTagsEditorDialog extends JDialog {
 	
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel previewPanel;
@@ -66,11 +68,12 @@ public class BinderTagsEditor extends JDialog {
 	private int dpi=300;
 	private JScrollPane scrollListEdition;
 	private JList<MagicEdition> listEditions;
-	
+	private DefaultListModel<MagicEdition> model;
+	private JButton btnRefresh;
 	
 	public static void main(String[] args) {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
-		new BinderTagsEditor().setVisible(true);
+		new BinderTagsEditorDialog().setVisible(true);
 	}
 	
 	
@@ -93,7 +96,7 @@ public class BinderTagsEditor extends JDialog {
 		tagMaker = new BinderTagsMaker(d);
 	}
 	
-	public BinderTagsEditor() {
+	public BinderTagsEditorDialog() {
 		
 		init();
 		
@@ -102,14 +105,16 @@ public class BinderTagsEditor extends JDialog {
 		
 		leftPanel = new JPanel();
 		JPanel editorPanel = new JPanel();
-
-		
+		model = new DefaultListModel<>();
+		listEditions = new JList<>(model);
+		listEditions.setCellRenderer(new MagicEditionIconListRenderer());
 		
 		getContentPane().setLayout(new BorderLayout(0, 0));
 		
-		List<MagicEdition> list = new ArrayList<>();
 		try {
-			list = MTGControler.getInstance().getEnabledCardsProviders().loadEditions();
+			for(MagicEdition ed : MTGControler.getInstance().getEnabledCardsProviders().loadEditions())
+				model.addElement(ed);
+				
 		} catch (IOException e2) {
 			logger.error(e2);
 		}
@@ -141,7 +146,6 @@ public class BinderTagsEditor extends JDialog {
 		gbleditorPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbleditorPanel.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		editorPanel.setLayout(gbleditorPanel);
-		listEditions = new JList<>();
 		
 		scrollListEdition = new JScrollPane(listEditions);
 		GridBagConstraints gbcscrollPane1 = new GridBagConstraints();
@@ -198,6 +202,10 @@ public class BinderTagsEditor extends JDialog {
 		
 		commandsPanel.add(btnNew);
 		
+		btnRefresh = new JButton(MTGConstants.ICON_REFRESH);
+		
+		commandsPanel.add(btnRefresh);
+		
 		btnSave = new JButton(MTGConstants.ICON_SAVE);
 		commandsPanel.add(btnSave);
 		
@@ -212,6 +220,12 @@ public class BinderTagsEditor extends JDialog {
 
 
 	private void initActions() {
+		
+		btnRefresh.addActionListener(ae-> {
+			tagMaker.addList(listEditions.getSelectedValuesList());
+			updateInfo();
+		});
+		
 		
 		btnBackgroundColor.addActionListener(ae->{
 			Color selected = JColorChooser.showDialog(null, "Color Selection", Color.WHITE);
