@@ -11,10 +11,7 @@ import java.awt.Insets;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -25,15 +22,14 @@ import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JList;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 import org.apache.log4j.Logger;
 import org.beta.BinderTagsMaker;
-import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
@@ -41,12 +37,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
 import org.magic.tools.ImageUtils;
-
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
-import javax.swing.JList;
 
 public class BinderTagsEditorDialog extends JDialog {
 	
@@ -222,7 +212,7 @@ public class BinderTagsEditorDialog extends JDialog {
 	private void initActions() {
 		
 		btnRefresh.addActionListener(ae-> {
-			tagMaker.addList(listEditions.getSelectedValuesList());
+			tagMaker.setEditions(listEditions.getSelectedValuesList());
 			updateInfo();
 		});
 		
