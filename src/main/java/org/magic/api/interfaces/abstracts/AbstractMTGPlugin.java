@@ -3,6 +3,8 @@ package org.magic.api.interfaces.abstracts;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Properties;
 
 import javax.swing.Icon;
@@ -119,6 +121,17 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 		return getString(k).split(",");
 	}
 
+	
+	public URL getURL(String k)
+	{
+		try {
+			return new URL(k);
+		} catch (MalformedURLException e) {
+			logger.error(e);
+		}
+		return null;
+	}
+	
 	public File getFile(String k) {
 		return new File(getString(k));
 	}

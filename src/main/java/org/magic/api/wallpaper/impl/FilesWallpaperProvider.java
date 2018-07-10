@@ -22,7 +22,7 @@ public class FilesWallpaperProvider extends AbstractWallpaperProvider {
 		List<Wallpaper> list = new ArrayList<>();
 		try {
 
-			Collection<File> res = FileUtils.listFiles(new File(getString("DIRECTORY")), new String[] { "png", "jpg" },
+			Collection<File> res = FileUtils.listFiles(getFile("DIRECTORY"), new String[] { "png", "jpg" },
 					true);
 
 			for (File f : res) {

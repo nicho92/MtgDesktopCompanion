@@ -1,11 +1,8 @@
 package org.magic.services;
 
-import java.util.concurrent.FutureTask;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionHandler;
-import java.util.concurrent.RunnableFuture;
 import java.util.concurrent.ThreadPoolExecutor;
-import java.util.concurrent.TimeUnit;
 
 import javax.swing.SwingUtilities;
 
@@ -15,7 +12,6 @@ public class ThreadManager {
 
 	private static ThreadManager inst;
 
-	private String name;
 	private String info;
 	private ThreadPoolExecutor executor;
 
@@ -31,16 +27,18 @@ public class ThreadManager {
 	}
 
 	public void execute(Runnable task, String name) {
-		this.name = name;
 		executor.execute(task);
+		info = String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d %s", 
+							executor.getPoolSize(),
+							executor.getCorePoolSize(), 
+							executor.getActiveCount(), 
+							executor.getCompletedTaskCount(),
+							executor.getTaskCount(), 
+							name);
 	}
 
 	public void execute(Runnable task) {
-		this.name = "Thread";
-		executor.execute(task);
-		info = (String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d %s", executor.getPoolSize(),
-				executor.getCorePoolSize(), executor.getActiveCount(), executor.getCompletedTaskCount(),
-				executor.getTaskCount(), name));
+		execute(task,"Thread");
 	}
 
 	
@@ -51,35 +49,9 @@ public class ThreadManager {
 			SwingUtilities.invokeLater(runnable);
 	}
 
-	public void runInEdt(Runnable runnable, String name) {
-		this.name = name;
-		runInEdt(runnable);
-	}
-
 	private ThreadManager() {
-		// LinkedBlockingQueue // ArrayBlockingQueue
-		executor = new ThreadPoolExecutor(50, 50, 80, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<Runnable>(10)) {
-			@Override
-			protected void beforeExecute(Thread t, Runnable r) {
-				t.setName(name);
-			}
-
-			@Override
-			protected void afterExecute(Runnable r, Throwable t) {
-				// do nothing
-			}
-
-			@Override
-			protected <V> RunnableFuture<V> newTaskFor(final Runnable runnable, V v) {
-				return new FutureTask<V>(runnable, v) {
-					public String toString() {
-						return runnable.toString();
-					}
-				};
-			}
-		};
+		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 	}
-
 
 	public ThreadPoolExecutor getExecutor() {
 		return executor;

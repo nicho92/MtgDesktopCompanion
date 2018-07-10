@@ -16,7 +16,6 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JTabbedPane;
-import javax.swing.SwingUtilities;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification;
@@ -112,7 +111,7 @@ public class MagicGUI extends JFrame {
 		mnuAbout.add(mntmAboutMagicDesktop);
 		mnuAbout.add(mntmReportBug);
 
-		mntmLogsItem.addActionListener(ae -> SwingUtilities.invokeLater(() -> {
+		mntmLogsItem.addActionListener(ae -> ThreadManager.getInstance().runInEdt(() -> {
 			JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("LOGS"));
 			f.getContentPane().add(new LoggerViewPanel());
 			f.setLocationRelativeTo(null);
@@ -123,7 +122,7 @@ public class MagicGUI extends JFrame {
 
 		mntmThreadItem.addActionListener(e ->
 
-		SwingUtilities.invokeLater(() -> {
+		ThreadManager.getInstance().runInEdt(() -> {
 			JFrame f = new JFrame(MTGControler.getInstance().getLangService().getCapitalize("THREADS"));
 			f.getContentPane().add(new ThreadMonitorPanel());
 			f.setLocationRelativeTo(null);

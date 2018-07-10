@@ -155,15 +155,15 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 			if (!fileSetJson.exists() || fileSetJson.length() == 0) {
 				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_SET_JSON_ZIP"))),fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(getURL("URL_SET_JSON_ZIP")),fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_VERSION"))), fversion);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(getURL("URL_VERSION")), fversion);
 			}
 
 			if (hasNewVersion()) {
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_SET_JSON_ZIP"))),fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(getURL("URL_SET_JSON_ZIP")),fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(new URL(getString("URL_VERSION"))), fversion);
+				FileUtils.copyInputStreamToFile(getStreamFromUrl(getURL("URL_VERSION")), fversion);
 			}
 			logger.debug(this + " : parsing db file");
 			ctx = JsonPath.parse(fileSetJson);

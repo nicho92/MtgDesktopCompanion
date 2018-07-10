@@ -26,6 +26,11 @@ public class ServerStatePanel extends JPanel {
 	private JLabel lblalive;
 	private JLabel lblLogs;
 
+	
+	public MTGServer getServer() {
+		return server;
+	}
+	
 	public ServerStatePanel(MTGServer s) {
 
 		if(s==null)
@@ -40,7 +45,7 @@ public class ServerStatePanel extends JPanel {
 		icons.put(true, MTGConstants.ICON_CHECK);
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 109, 40, 47, 42, 0, 0 };
-		gridBagLayout.rowHeights = new int[] { 23, 0 };
+		gridBagLayout.rowHeights = new int[] { 48, 0 };
 		gridBagLayout.columnWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gridBagLayout.rowWeights = new double[] { 0.0, Double.MIN_VALUE };
 		setLayout(gridBagLayout);
