@@ -44,8 +44,7 @@ public class ChannelFireballPricer extends AbstractMagicPricesProvider {
 		String value = root.getAsJsonArray().get(0).getAsString();
 
 		MagicPrice mp = new MagicPrice();
-		mp.setUrl("http://store.channelfireball.com/products/search?query="
-				+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING));
+		mp.setUrl("http://store.channelfireball.com/products/search?query="+ URLEncoder.encode(card.getName(), MTGConstants.DEFAULT_ENCODING));
 		mp.setSite(getName());
 		mp.setCurrency("USD");
 		mp.setValue(Double.parseDouble(value.substring(1).replaceAll(",", "")));

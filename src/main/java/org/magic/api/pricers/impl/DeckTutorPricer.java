@@ -25,6 +25,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
+import org.magic.services.MTGConstants;
 import org.magic.tools.InstallCert;
 
 import com.google.gson.JsonArray;
@@ -122,8 +123,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		reqSearch.addHeader("Content-type", "application/json");
 		reqSearch.addHeader("Accept", "application/json");
 		reqSearch.addHeader("x-dt-cdb-Language", "en");
-		reqSearch.addHeader("User-Agent",
-				"Mozilla/5.0 (Windows; U; WindowsNT 5.1; en-US; rv1.8.1.6) Gecko/20070725 Firefox/2.0.0.6");
+		reqSearch.addHeader("User-Agent",MTGConstants.USER_AGENT);
 
 		jsonparams = new JsonObject();
 		jsonparams.addProperty("name", card.getName());
@@ -139,10 +139,10 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		if (getString(MAX_RESULT) != null)
 			obj.addProperty("limit", getString(MAX_RESULT));
 
-		logger.debug(getName() + " request :" + obj);
+		logger.trace(getName() + " request :" + obj);
 		reqSearch.setEntity(new StringEntity(obj.toString()));
 		response = httpClient.execute(reqSearch, responseHandler, httpContext);
-		logger.debug(getName() + " response :" + response);
+		logger.trace(getName() + " response :" + response);
 		increment();
 
 		return parseResult(response);
