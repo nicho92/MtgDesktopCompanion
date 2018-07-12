@@ -374,6 +374,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 					.searchCardByName( request.params(NAME), ed, true).get(0);
 			BufferedImage im = MTGControler.getInstance().getEnabledPicturesProvider().getPicture(mc, null);
 			ImageIO.write(im, "png", baos);
+			
 			baos.flush();
 			byte[] imageInByte = baos.toByteArray();
 			baos.close();
