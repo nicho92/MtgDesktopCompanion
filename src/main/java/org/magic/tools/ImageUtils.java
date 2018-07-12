@@ -23,6 +23,8 @@ import javax.imageio.metadata.IIOMetadata;
 import javax.imageio.metadata.IIOMetadataNode;
 import javax.imageio.stream.ImageOutputStream;
 
+import org.magic.services.MTGConstants;
+
 public class ImageUtils {
 
 	private ImageUtils() {
@@ -125,7 +127,7 @@ public class ImageUtils {
 		return newImage;
 	}
 
-	public static void saveImageInPng(BufferedImage img, File f,int dpi) throws IOException {
+	public static void saveImageInPng(BufferedImage img, File f) throws IOException {
 		for (Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("png"); iw.hasNext();) 
 		{
 		   ImageWriter writer = iw.next();
@@ -136,7 +138,7 @@ public class ImageUtils {
 		      continue;
 		   }
 
-		   setDPI(metadata,dpi);
+		   setDPI(metadata);
 
 		   ImageOutputStream stream = ImageIO.createImageOutputStream(f);
 		   try {
@@ -150,35 +152,35 @@ public class ImageUtils {
 	}
 		
 	
-	public static Dimension toMM(Dimension d,int dpi)
+	public static Dimension toMM(Dimension d)
 	{
-		BigDecimal bd = BigDecimal.valueOf((d.getWidth() * 25.4) / dpi);
+		BigDecimal bd = BigDecimal.valueOf((d.getWidth() * 25.4) / MTGConstants.DPI);
 				   bd=bd.setScale(2, RoundingMode.HALF_UP);
 				   
-	    BigDecimal bd2 = BigDecimal.valueOf((d.getHeight() * 25.4) / dpi);
+	    BigDecimal bd2 = BigDecimal.valueOf((d.getHeight() * 25.4) / MTGConstants.DPI);
 	    		   bd2=bd2.setScale(2, RoundingMode.HALF_UP);				   
 				   
 		return new Dimension((int)bd.doubleValue(), (int)bd2.doubleValue());
 	}
 	
 	
-	public static double toMM(double d,int dpi)
+	public static double toMM(double d)
 	{
-		BigDecimal bd = BigDecimal.valueOf((d * 25.4) / dpi);
+		BigDecimal bd = BigDecimal.valueOf((d * 25.4) / MTGConstants.DPI);
 		bd=bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
 	
-	public static double toPX(double val,int dpi)
+	public static double toPX(double val)
 	{
-		BigDecimal bd = BigDecimal.valueOf((val / 25.4) * dpi);
+		BigDecimal bd = BigDecimal.valueOf((val / 25.4) * MTGConstants.DPI);
 		bd=bd.setScale(2, RoundingMode.HALF_UP);
 		return bd.doubleValue();
 	}
 	
 
-	 private static void setDPI(IIOMetadata metadata,int dpi) throws IIOInvalidTreeException {
-			double dotsPerMilli = 1.0 * dpi / 10 / 2.54;
+	 private static void setDPI(IIOMetadata metadata) throws IIOInvalidTreeException {
+			double dotsPerMilli = 1.0 * MTGConstants.DPI / 10 / 2.54;
 			IIOMetadataNode horiz = new IIOMetadataNode("HorizontalPixelSize");
 			horiz.setAttribute("value", Double.toString(dotsPerMilli));
 			IIOMetadataNode vert = new IIOMetadataNode("VerticalPixelSize");

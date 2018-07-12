@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import org.magic.services.MTGConstants;
+
 public class SystemEnvTableModel extends DefaultTableModel {
 
 	private List<String> keys;
@@ -32,9 +34,7 @@ public class SystemEnvTableModel extends DefaultTableModel {
 			return keys.get(row);
 		else
 			return  System.getenv().get(keys.get(row));
-		
 	}
-	
 	
 	@Override
 	public int getRowCount() {

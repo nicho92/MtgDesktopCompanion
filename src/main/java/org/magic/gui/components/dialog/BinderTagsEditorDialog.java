@@ -55,7 +55,6 @@ public class BinderTagsEditorDialog extends JDialog {
 	private JPanel panelInterspace;
 	private JLabel lblInterSpace;
 	private JSpinner spinSpace;
-	private int dpi=300;
 	private JScrollPane scrollListEdition;
 	private JList<MagicEdition> listEditions;
 	private DefaultListModel<MagicEdition> model;
@@ -77,12 +76,12 @@ public class BinderTagsEditorDialog extends JDialog {
 	private void init()
 	{
 		Dimension d = new Dimension(567,2173);
-		double mmW = ImageUtils.toMM(d.getWidth(), dpi);
- 		double mmH = ImageUtils.toMM(d.getHeight(), dpi);
+		double mmW = ImageUtils.toMM(d.getWidth());
+ 		double mmH = ImageUtils.toMM(d.getHeight());
  		String res = JOptionPane.showInputDialog("Dimension in mm", mmW+"x"+mmH);
  		String result[] = res.split("x");
  		
- 		d = new Dimension((int)ImageUtils.toPX(Double.parseDouble(result[0]), dpi), (int)ImageUtils.toPX(Double.parseDouble(result[1]), dpi));
+ 		d = new Dimension((int)ImageUtils.toPX(Double.parseDouble(result[0])), (int)ImageUtils.toPX(Double.parseDouble(result[1])));
 		tagMaker = new BinderTagsMaker(d);
 	}
 	
@@ -262,7 +261,7 @@ public class BinderTagsEditorDialog extends JDialog {
 						 choose.showSaveDialog(null);
 			File f = choose.getSelectedFile();
 			try {
-				ImageUtils.saveImageInPng(img, f, dpi);
+				ImageUtils.saveImageInPng(img, f);
 			} catch (IOException e1) {
 				logger.error("Error saving image", e1);
 			}
