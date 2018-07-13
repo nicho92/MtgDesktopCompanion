@@ -19,6 +19,7 @@ import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class SpeedConfigurator extends JFrame {
@@ -46,6 +47,7 @@ public class SpeedConfigurator extends JFrame {
 
 	public SpeedConfigurator() {
 		setTitle("Speed Configurator");
+		setIconImage(MTGConstants.ICON_CONFIG.getImage());
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);

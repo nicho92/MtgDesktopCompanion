@@ -13,7 +13,6 @@ public class WebUIServerLauncher {
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, IOException {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
 		MTGControler.getInstance().getEnabledDAO().init();
-		
 		MTGControler.getInstance().getPlugin(new JSONHttpServer().getName(), MTGServer.class).start();
 		MTGControler.getInstance().getPlugin(new WebManagerServer().getName(), MTGServer.class).start();
 	}
