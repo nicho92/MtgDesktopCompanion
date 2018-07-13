@@ -43,7 +43,12 @@ public class MagicCardTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
+		try {
+			return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
+		}
+		catch(Exception e){
+			return columns[column];
+		}
 	}
 
 	@Override

@@ -11,8 +11,7 @@ import org.magic.services.MTGControler;
 public class BoostersTableModel extends DefaultTableModel {
 
 	private transient List<Booster> boosters;
-	private static final String[] COLUMNS = { "CARD_NUMBER",
-			"PRICE" };
+	private static final String[] COLUMNS = { "CARD_NUMBER","PRICE" };
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
@@ -46,7 +45,12 @@ public class BoostersTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return MTGControler.getInstance().getLangService().getCapitalize(COLUMNS[column]);
+		try {
+			return MTGControler.getInstance().getLangService().getCapitalize(COLUMNS[column]);
+		}
+		catch(Exception e){
+			return COLUMNS[column];
+		}
 	}
 
 	public void addLine(Booster bl) {
