@@ -43,7 +43,7 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	@Override
 	public String getColumnName(int column) {
 		if(column==0)
-			return "Key";
+			return "ID";
 		else
 			return "Value";
 	}
