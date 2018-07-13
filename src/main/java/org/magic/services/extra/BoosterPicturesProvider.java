@@ -100,10 +100,10 @@ public class BoosterPicturesProvider {
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
 			return URLTools.extractImage(url);
 		} catch (IOException e) {
-			logger.error(me.getId() + " could not load : " + url + ":" + e);
+			logger.error(me.getId() + " could not load : " + url, e);
 			return null;
 		} catch (Exception e) {
-			logger.error(me.getId() + " error loading " + url + " " + e);
+			logger.error(me.getId() + " error loading " + url, e);
 			return null;
 		}
 	}

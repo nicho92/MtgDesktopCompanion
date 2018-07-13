@@ -12,8 +12,12 @@ import java.security.KeyStore;
 import java.security.KeyStoreException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.security.cert.Certificate;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
@@ -33,6 +37,27 @@ public class InstallCert {
 	static final Logger logger = MTGLogger.getLogger(InstallCert.class);
 
 	private InstallCert() {
+	}
+	
+	
+	
+	public static Map<String, Certificate> listTrustedCert()
+	{
+		File keystoreFile = new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
+		Map<String,Certificate> map = new HashMap<>();
+		try(FileInputStream fis = new FileInputStream(keystoreFile))
+		{
+			KeyStore keystore = KeyStore.getInstance(KeyStore.getDefaultType());
+			keystore.load(fis, MTGConstants.KEYSTORE_PASS.toCharArray());
+			Enumeration<String> enumeration = keystore.aliases();
+			while(enumeration.hasMoreElements()) {
+		            String alias = enumeration.nextElement();
+		            map.put(alias, keystore.getCertificate(alias));
+		    }
+		} catch (Exception e) {
+			logger.error("error reading " + keystoreFile, e);
+		} 
+		return map;
 	}
 
 	public static void installCert(String website) throws IOException, KeyManagementException, KeyStoreException,NoSuchAlgorithmException, CertificateException {
