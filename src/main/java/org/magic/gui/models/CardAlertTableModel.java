@@ -15,14 +15,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	static final String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("CARD"),
-			MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
-			MTGControler.getInstance().getLangService().getCapitalize("MAX_BID"),
-			MTGControler.getInstance().getLangService().getCapitalize("OFFERS"),
-			MTGControler.getInstance().getLangService().getCapitalize("DAILY"),
-			MTGControler.getInstance().getLangService().getCapitalize("WEEKLY"),
-			MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY")
-			};
+	static final String[] columns = new String[] { "CARD","EDITION","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };
 
 	@Override
 	public int getColumnCount() {
@@ -72,7 +65,7 @@ public class CardAlertTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columns[column];
+		return  MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override

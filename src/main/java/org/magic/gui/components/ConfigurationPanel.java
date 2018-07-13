@@ -32,18 +32,22 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCollection;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ImageUtils;
 import org.magic.tools.InstallCert;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class ConfigurationPanel extends JPanel {
 
@@ -624,7 +628,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagLayout gblpanelWebSite = new GridBagLayout();
 		gblpanelWebSite.columnWidths = new int[] { 0, 0, 0, 103, 0, 0 };
 		gblpanelWebSite.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
-		gblpanelWebSite.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblpanelWebSite.columnWeights = new double[] { 1.0, 1.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		gblpanelWebSite.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelWebSite.setLayout(gblpanelWebSite);
 
@@ -691,9 +695,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelProfil, gbcpanelProfil);
 		GridBagLayout gblpanelProfil = new GridBagLayout();
 		gblpanelProfil.columnWidths = new int[] { 0, 71, 0, 0, 0, 0 };
-		gblpanelProfil.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
+		gblpanelProfil.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gblpanelProfil.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gblpanelProfil.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblpanelProfil.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
 		panelProfil.setLayout(gblpanelProfil);
 
 		JLabel lblName = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :");
@@ -742,7 +746,7 @@ public class ConfigurationPanel extends JPanel {
 		gbclblIconAvatar.fill = GridBagConstraints.BOTH;
 		gbclblIconAvatar.gridwidth = 2;
 		gbclblIconAvatar.gridheight = 4;
-		gbclblIconAvatar.insets = new Insets(0, 0, 0, 5);
+		gbclblIconAvatar.insets = new Insets(0, 0, 5, 5);
 		gbclblIconAvatar.gridx = 1;
 		gbclblIconAvatar.gridy = 1;
 		panelProfil.add(lblIconAvatar, gbclblIconAvatar);
@@ -773,7 +777,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		
 		GridBagConstraints gbcbtnSave2 = new GridBagConstraints();
-		gbcbtnSave2.insets = new Insets(0, 0, 0, 5);
+		gbcbtnSave2.insets = new Insets(0, 0, 5, 5);
 		gbcbtnSave2.gridx = 3;
 		gbcbtnSave2.gridy = 4;
 		panelProfil.add(btnSave2, gbcbtnSave2);
