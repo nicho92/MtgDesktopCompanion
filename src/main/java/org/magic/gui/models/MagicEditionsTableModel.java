@@ -19,15 +19,15 @@ import org.magic.services.extra.IconSetProvider;
 public class MagicEditionsTableModel extends DefaultTableModel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("EDITION_CODE"),
-			MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
-			MTGControler.getInstance().getLangService().getCapitalize("EDITION_SIZE"),
-			MTGControler.getInstance().getLangService().getCapitalize("DATE_RELEASE"),
-			MTGControler.getInstance().getLangService().getCapitalize("PC_COMPLETE"),
-			MTGControler.getInstance().getLangService().getCapitalize("QTY"),
-			MTGControler.getInstance().getLangService().getCapitalize("EDITION_TYPE"),
-			MTGControler.getInstance().getLangService().getCapitalize("EDITION_BLOCK"),
-			MTGControler.getInstance().getLangService().getCapitalize("EDITION_ONLINE") };
+	String[] columns = new String[] { "EDITION_CODE",
+			"EDITION",
+			"EDITION_SIZE",
+			"DATE_RELEASE",
+			"PC_COMPLETE",
+			"QTY",
+			"EDITION_TYPE",
+			"EDITION_BLOCK",
+			"EDITION_ONLINE" };
 
 	private List<MagicEdition> list;
 
@@ -95,7 +95,7 @@ public class MagicEditionsTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columns[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override

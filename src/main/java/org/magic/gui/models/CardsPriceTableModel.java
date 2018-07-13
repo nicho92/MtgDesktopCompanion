@@ -23,14 +23,14 @@ public class CardsPriceTableModel extends DefaultTableModel {
 	private transient List<MagicPrice> prices;
 	public static final int ROW_URL = 7;
 
-	String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"),
-			MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
-			MTGControler.getInstance().getLangService().getCapitalize("CURRENCY"),
-			MTGControler.getInstance().getLangService().getCapitalize("SELLER"),
-			MTGControler.getInstance().getLangService().getCapitalize("QUALITY"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
-			MTGControler.getInstance().getLangService().getCapitalize("COUNTRY"),
-			MTGControler.getInstance().getLangService().getCapitalize("URL"), };
+	String[] columns = new String[] { "WEBSITE",
+			"PRICE",
+			"CURRENCY",
+			"SELLER",
+			"QUALITY",
+			"CARD_LANGUAGE",
+			"COUNTRY",
+			"URL"};
 
 	public void addPrice(MagicPrice p) {
 		prices.add(p);
@@ -79,7 +79,7 @@ public class CardsPriceTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columns[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override

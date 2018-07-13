@@ -11,11 +11,11 @@ import com.itextpdf.text.List;
 
 public class DeckCardsTableModel extends DefaultTableModel {
 
-	private String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("NAME"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),
-			MTGControler.getInstance().getLangService().getCapitalize("QTY") };
+	private String[] columns = new String[] { "NAME",
+			"CARD_TYPES",
+			"CARD_MANA",
+			"CARD_EDITIONS",
+			"QTY" };
 
 	private MagicDeck deck;
 
@@ -54,7 +54,7 @@ public class DeckCardsTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columns[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override

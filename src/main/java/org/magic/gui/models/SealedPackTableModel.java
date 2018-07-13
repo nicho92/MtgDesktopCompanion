@@ -9,8 +9,8 @@ import org.magic.services.MTGControler;
 public class SealedPackTableModel extends DefaultTableModel {
 	private SealedPack pack;
 
-	private static final String[] COLUMNS = { MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
-			MTGControler.getInstance().getLangService().getCapitalize("QTY") };
+	private static final String[] COLUMNS = { "EDITION",
+			"QTY" };
 
 	public SealedPack getSealedPack() {
 		return pack;
@@ -70,7 +70,7 @@ public class SealedPackTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return COLUMNS[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(COLUMNS[column]);
 	}
 
 	public SealedPackTableModel() {

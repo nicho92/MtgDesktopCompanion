@@ -18,18 +18,18 @@ public class CardStockTableModel extends DefaultTableModel {
 
 	private transient List<MagicCardStock> list;
 
-	static final String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("ID"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD"),
-			MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
-			MTGControler.getInstance().getLangService().getCapitalize("COLLECTION"),
-			MTGControler.getInstance().getLangService().getCapitalize("QUALITY"),
-			MTGControler.getInstance().getLangService().getCapitalize("QTY"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
-			MTGControler.getInstance().getLangService().getCapitalize("FOIL"),
-			MTGControler.getInstance().getLangService().getCapitalize("SIGNED"),
-			MTGControler.getInstance().getLangService().getCapitalize("ALTERED"),
-			MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
-			MTGControler.getInstance().getLangService().getCapitalize("COMMENTS") };
+	static final String[] columns = new String[] { "ID",
+			"CARD",
+			"EDITION",
+			"COLLECTION",
+			"QUALITY",
+			"QTY",
+			"CARD_LANGUAGE",
+			"FOIL",
+			"SIGNED",
+			"ALTERED",
+			"PRICE",
+			"COMMENTS" };
 
 	public List<MagicCardStock> getList() {
 		return list;
@@ -114,7 +114,7 @@ public class CardStockTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columns[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override

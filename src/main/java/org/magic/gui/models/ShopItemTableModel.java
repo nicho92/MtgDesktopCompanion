@@ -17,12 +17,12 @@ public class ShopItemTableModel extends DefaultTableModel {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	private String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("WEBSITE"),
-			MTGControler.getInstance().getLangService().getCapitalize("SHOP_NAME"),
-			MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
-			MTGControler.getInstance().getLangService().getCapitalize("SHOP_DATE"),
-			MTGControler.getInstance().getLangService().getCapitalize("SHOP_TYPE"),
-			MTGControler.getInstance().getLangService().getCapitalize("URL") };
+	private String[] columns = new String[] { "WEBSITE",
+			"SHOP_NAME",
+			"PRICE",
+			"SHOP_DATE",
+			"SHOP_TYPE",
+			"URL" };
 
 	private transient List<ShopItem> items;
 
@@ -44,7 +44,7 @@ public class ShopItemTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columns[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override

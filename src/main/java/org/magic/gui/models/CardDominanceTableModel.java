@@ -14,11 +14,11 @@ import org.magic.services.MTGLogger;
 
 public class CardDominanceTableModel extends DefaultTableModel {
 
-	static final String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("CARD"),
-			MTGControler.getInstance().getLangService().getCapitalize("POSITION"),
-			MTGControler.getInstance().getLangService().getCapitalize("PC_DOMINANCE"),
-			MTGControler.getInstance().getLangService().getCapitalize("PC_DECKS"),
-			MTGControler.getInstance().getLangService().getCapitalize("PLAYERS") };
+	static final String[] columns = new String[] { "CARD",
+			"POSITION",
+			"PC_DOMINANCE",
+			"PC_DECKS",
+			"PLAYERS" };
 	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private transient List<CardDominance> list;
@@ -73,7 +73,7 @@ public class CardDominanceTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columns[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override

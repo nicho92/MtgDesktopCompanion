@@ -16,13 +16,13 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
-	private String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("CARD"),
-			MTGControler.getInstance().getLangService().getCapitalize("EDITION"),
-			MTGControler.getInstance().getLangService().getCapitalize("PRICE"),
-			MTGControler.getInstance().getLangService().getCapitalize("DAILY"),
-			MTGControler.getInstance().getLangService().getCapitalize("PC_DAILY"),
-			MTGControler.getInstance().getLangService().getCapitalize("WEEKLY"),
-			MTGControler.getInstance().getLangService().getCapitalize("PC_WEEKLY") };
+	private String[] columns = new String[] { "CARD",
+			"EDITION",
+			"PRICE",
+			"DAILY",
+			"PC_DAILY",
+			"WEEKLY",
+			"PC_WEEKLY" };
 
 	private transient List<CardShake> list;
 
@@ -54,7 +54,7 @@ public class EditionsShakerTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columns[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override

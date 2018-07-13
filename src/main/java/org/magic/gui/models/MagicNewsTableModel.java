@@ -11,9 +11,9 @@ import org.magic.services.MTGControler;
 
 public class MagicNewsTableModel extends DefaultTableModel {
 
-	private static final String[] COLUMNS = { MTGControler.getInstance().getLangService().getCapitalize("RSS_TITLE"),
-			MTGControler.getInstance().getLangService().getCapitalize("RSS_DATE"),
-			MTGControler.getInstance().getLangService().getCapitalize("RSS_AUTHOR") };
+	private static final String[] COLUMNS = { "RSS_TITLE",
+			"RSS_DATE",
+			"RSS_AUTHOR" };
 	private transient List<MagicNewsContent> ret;
 
 	@Override
@@ -32,7 +32,7 @@ public class MagicNewsTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return COLUMNS[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(COLUMNS[column]);
 	}
 
 	@Override

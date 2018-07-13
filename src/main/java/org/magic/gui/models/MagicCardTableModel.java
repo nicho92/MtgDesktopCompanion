@@ -12,15 +12,15 @@ import org.magic.services.MTGControler;
 public class MagicCardTableModel extends DefaultTableModel {
 
 	private List<MagicCard> cards;
-	private String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("NAME"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_MANA"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_TYPES"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_POWER"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_RARITY"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_EDITIONS"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_NUMBER"),
-			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),
+	private String[] columns = new String[] { "NAME",
+			"CARD_LANGUAGE",
+			"CARD_MANA",
+			"CARD_TYPES",
+			"CARD_POWER",
+			"CARD_RARITY",
+			"CARD_EDITIONS",
+			"CARD_NUMBER",
+			"CARD_COLOR",
 			"RL"};
 
 	public MagicCardTableModel() {
@@ -43,7 +43,7 @@ public class MagicCardTableModel extends DefaultTableModel {
 
 	@Override
 	public String getColumnName(int column) {
-		return columns[column];
+		return MTGControler.getInstance().getLangService().getCapitalize(columns[column]);
 	}
 
 	@Override
