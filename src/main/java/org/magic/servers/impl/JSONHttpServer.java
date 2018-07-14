@@ -23,6 +23,7 @@ import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.jxpath.ri.compiler.Path;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.MTGFormat;
 import org.magic.api.beans.MagicCard;
@@ -447,6 +448,9 @@ public class JSONHttpServer extends AbstractMTGServer {
 			obj.add(PLUGINS.NOTIFIER.name(), convert(MTGControler.getInstance().getNotifierProviders()));
 			return obj;
 		}, transformer);
+		
+		
+		get("/",getString(MIME),(request,response) -> RETURN_OK);
 
 	}
 

@@ -74,6 +74,12 @@ public class LookAndFeelProvider {
 				logger.error("Loading " + c, e);
 			}
 		}
+		
+		list.add(new LookAndFeelInfo("Tatoo Smart","com.jtattoo.plaf.smart.SmartLookAndFeel"));
+		list.add(new LookAndFeelInfo("Tatoo Acryl","com.jtattoo.plaf.acryl.AcrylLookAndFeel"));
+		list.add(new LookAndFeelInfo("Tatoo Aero", "com.jtattoo.plaf.aero.AeroLookAndFeel"));
+		
+		
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}
 	

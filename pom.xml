@@ -10,7 +10,7 @@
 	</issueManagement>
 	<groupId>org.magic</groupId>
 	<artifactId>magic-api</artifactId>
-	<version>1.93</version>
+	<version>1.94</version>
 	<packaging>jar</packaging>
 	<scm>
 		<url>https://github.com/nicho92/MtgDesktopCompanion</url>
@@ -39,6 +39,12 @@
 		    <version>3.0.0-alpha-3</version>
 		    <type>pom</type>
 		</dependency> -->
+			
+		<dependency>
+		    <groupId>com.jtattoo</groupId>
+		    <artifactId>JTattoo</artifactId>
+		    <version>1.6.11</version>
+		</dependency>
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
@@ -259,7 +265,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.2.jre7</version>
+			<version>42.2.3.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
