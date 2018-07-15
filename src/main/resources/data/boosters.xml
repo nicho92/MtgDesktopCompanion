@@ -832,6 +832,7 @@
 			<pack num='1' url="https://magic.wizards.com/sites/mtg/files/image_legacy_migration/mtg/images/digital/magiconline/theros_booster.jpg"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/ths/images/logo-word.png"/>
+		<box lang="en" url="https://magic.wizards.com/sites/mtg/files/images/featured/EN_THSBooster_Product.png"/>
 	</booster>
 	<booster id='BNG'>
 		<packs lang='en'>
