@@ -125,7 +125,7 @@ public abstract class AbstractMTGPlugin extends Observable implements MTGPlugin 
 	public URL getURL(String k)
 	{
 		try {
-			return new URL(k);
+			return new URL(props.getProperty(k));
 		} catch (MalformedURLException e) {
 			logger.error(e);
 		}

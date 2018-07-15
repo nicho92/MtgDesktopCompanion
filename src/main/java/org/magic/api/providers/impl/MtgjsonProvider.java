@@ -59,10 +59,6 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	
 	}
 
-	private InputStream getStreamFromUrl(URL u) throws IOException {
-		return URLTools.openConnection(u).getInputStream();
-	}
-
 	private void unZipIt() {
 
 		byte[] buffer = new byte[1024];
@@ -100,7 +96,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 			logger.info("check new version of " + toString() + " (" + temp + ")");
 
-			InputStreamReader fr = new InputStreamReader(getStreamFromUrl(new URL(getString("URL_VERSION"))),MTGConstants.DEFAULT_ENCODING);
+			InputStreamReader fr = new InputStreamReader(URLTools.openConnection(getURL("URL_VERSION")).getInputStream());
 			BufferedReader br = new BufferedReader(fr);
 			version = br.readLine();
 
@@ -155,15 +151,15 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 			if (!fileSetJson.exists() || fileSetJson.length() == 0) {
 				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(getURL("URL_SET_JSON_ZIP")),fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_SET_JSON_ZIP")).getInputStream(),fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(getURL("URL_VERSION")), fversion);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_VERSION")).getInputStream(), fversion);
 			}
 
 			if (hasNewVersion()) {
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(getURL("URL_SET_JSON_ZIP")),fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_SET_JSON_ZIP")).getInputStream(),fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(getStreamFromUrl(getURL("URL_VERSION")), fversion);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_VERSION")).getInputStream(), fversion);
 			}
 			logger.debug(this + " : parsing db file");
 			ctx = JsonPath.parse(fileSetJson);
@@ -464,6 +460,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	}
 
 	public MagicEdition getSetById(String id) {
+	
 		MagicEdition me = new MagicEdition();
 		if (!id.substring(0, 1).equals("p"))
 			id = id.toUpperCase();
@@ -476,7 +473,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			me.setType(ctx.read("$." + id + ".type", String.class));
 
 			if (me.getCardCount() == 0)
-				me.setCardCount(ctx.read("$." + id + ".cards", List.class).size());// long !
+				me.setCardCount(ctx.read("$." + id + ".cards", List.class).size());// TODO expensive time !
 
 		} catch (PathNotFoundException pnfe) {
 			me.setSet(id);
