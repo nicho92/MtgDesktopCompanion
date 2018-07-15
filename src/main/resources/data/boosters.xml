@@ -515,6 +515,32 @@
 		</packs>
 		<banner lang='en' url="http://mtgen.net/ala/images/logo-word.png"/>
 	</booster>
+	<booster id='TD2'>
+		<packs>
+			<pack num='1' url="https://c-5uwzmx78pmca09x24l9c3x781t2ex78ig1sx2ektwclnzwvbx2evmb.g00.gamepedia.com/g00/3_c-5ubo.oiumx78mlqi.kwu_/c-5UWZMXPMCA09x24pbbx78ax3ax2fx2fl9c3x781t2ex78ig1s.ktwclnzwvb.vmbx2fuboaitdibqwv_oiumx78mlqix2fjx2fjkx2fUqzzwlqv_Xczm_da_Vme_Xpgzmfqi.rx78ox3fdmzaqwvx3dlj7921j94i758500l4679k5l434k87ijx26q98k.uizsx3dquiom_$/$/$/$/$"/>
+		</packs>
+	</booster>
+	<booster id='TFTH'>
+		<packs>
+			<pack num='1' url="https://images-na.ssl-images-amazon.com/images/I/51hdd4TG6gL.jpg"/>
+		</packs>
+	</booster>
+	<booster id='THP1'>
+		<packs>
+			<pack num='1' url="https://images-na.ssl-images-amazon.com/images/I/51hdd4TG6gL.jpg"/>
+		</packs>
+	</booster>
+	<booster id='THP2'>
+		<packs>
+			<pack num='1' url="https://cdn.shopify.com/s/files/1/2493/1456/products/2017-12-10_1601_600x600.png"/>
+		</packs>
+	</booster>
+	<booster id='THP3'>
+		<packs>
+			<pack num='1' url="https://www.magiclibrarities.net/images/edition_comment/1465.png"/>
+		</packs>
+	</booster>
+	
 	<booster id='DD2'>
 		<packs lang='en'>
 			<pack num='1' url="http://static.starcitygames.com/sales/cardscans/MAGBOX/JVCBoxSet.jpg"/>
