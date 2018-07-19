@@ -48,7 +48,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>3.6.0_380</version>
+			  <version>3.7.1_385</version>
 		</dependency>
 		<dependency>
 		    <groupId>com.sparkjava</groupId>
@@ -265,7 +265,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.3.jre7</version>
+			<version>42.2.4.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
@@ -370,6 +370,7 @@
 						<unix>.sh</unix>
 					</binFileExtensions>
 					<extraJvmArguments>-Xmx1128m</extraJvmArguments>
+					<extraJvmArguments>-XX:+UseStringDeduplication -XX:+UseG1GC</extraJvmArguments>
 					<showConsoleWindow>false</showConsoleWindow>
 				</configuration>
 				<executions>
