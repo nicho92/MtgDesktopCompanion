@@ -36,7 +36,7 @@ public class DashBoardGUI2 extends JDesktopPane {
 		mntmSaveDisplay = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("SAVE_DISPLAY"));
 
 		setBackground(SystemColor.activeCaption);
-		menuBar.setBounds(0, 0, 84, 21);
+		menuBar.setBounds(0, 0, 100, 21);
 		menuBar.add(mnNewMenu);
 		menuBar.add(mnWindow);
 
