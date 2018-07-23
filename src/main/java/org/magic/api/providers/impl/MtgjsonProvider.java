@@ -155,15 +155,14 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				unZipIt();
 				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_VERSION")).getInputStream(), fversion);
 			}
-
-			if (hasNewVersion()) {
+			else if (hasNewVersion()) {
 				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_SET_JSON_ZIP")).getInputStream(),fileSetJsonTemp);
 				unZipIt();
 				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_VERSION")).getInputStream(), fversion);
 			}
 			logger.debug(this + " : parsing db file");
 			ctx = JsonPath.parse(fileSetJson);
-			logger.debug(this + " : parsing OK");
+			logger.debug(this + " : parsing OK ");
 			
 		} catch (Exception e1) {
 			logger.error(e1);
@@ -440,8 +439,8 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			return new ArrayList<>(cacheEditions.values());
 		}
 		logger.debug("load editions");
-		
 		chrono.start();
+		
 		final List<String> codeEd = new ArrayList<>();
 		ctx.withListeners(fr -> {
 			if (fr.path().startsWith("$"))
@@ -471,10 +470,12 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			me.setReleaseDate(ctx.read("$." + id + ".releaseDate", String.class));
 			me.setBorder(ctx.read("$." + id + ".border", String.class));
 			me.setType(ctx.read("$." + id + ".type", String.class));
-
 			if (me.getCardCount() == 0)
-				me.setCardCount(ctx.read("$." + id + ".cards", List.class).size());// TODO expensive time !
-
+				{
+					me.setCardCount(ctx.read("$." + id + ".cards", List.class).size());// TODO expensive time !
+					//String res = ""+ctx.read("$." + id + ".cards.length()");
+					//me.setCardCount(Integer.parseInt(res));
+				}
 		} catch (PathNotFoundException pnfe) {
 			me.setSet(id);
 			me.setReleaseDate("");
