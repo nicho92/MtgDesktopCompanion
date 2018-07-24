@@ -30,18 +30,19 @@ import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
+import org.postgresql.util.PGobject;
 
 public class PostgresqlDAO extends AbstractMagicDAO {
 
 	private Connection con;
 	private List<MagicCardAlert> list;
+	private String mcardField = "mcard";
 
 	private enum KEYS {
 		DRIVER, SERVERNAME, SERVERPORT, DB_NAME, LOGIN, PASS, URL_PGDUMP
 	}
 
-	private String mcardField = "mcard";
-
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
@@ -65,20 +66,17 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 	public boolean createDB() {
 		try (Statement stat = con.createStatement()) {
 			logger.debug("Create table Cards");
-			stat.executeUpdate(
-					"create table cards (ID varchar(250),name varchar(250), mcard bytea, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
+			stat.executeUpdate("create table cards (ID varchar(250),name varchar(250), mcard json, edition varchar(20), cardprovider varchar(50),collection varchar(250))");
 			logger.debug("Create table Shop");
 			stat.executeUpdate("create table shop (id varchar(250), statut varchar(250))");
 			logger.debug("Create table collections");
 			stat.executeUpdate("CREATE TABLE collections ( name VARCHAR(250))");
 			logger.debug("Create table stocks");
-			stat.executeUpdate(
-					"create table stocks (idstock SERIAL PRIMARY KEY , idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard bytea,altered boolean,price decimal)");
+			stat.executeUpdate("create table stocks (idstock SERIAL PRIMARY KEY , idmc varchar(250), collection varchar(250),comments varchar(250), conditions varchar(50),foil boolean, signedcard boolean, langage varchar(50), qte integer,mcard json,altered boolean,price decimal)");
 			logger.debug("Create table Alerts");
-			stat.executeUpdate("create table alerts (id varchar(250), mcard bytea, amount decimal)");
+			stat.executeUpdate("create table alerts (id varchar(250), mcard json, amount decimal)");
 			logger.debug("Create table News");
-			stat.executeUpdate(
-					"CREATE TABLE news (id SERIAL PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews VARCHAR(100))");
+			stat.executeUpdate("CREATE TABLE news (id SERIAL PRIMARY KEY, name VARCHAR(100), url VARCHAR(256), categorie VARCHAR(100),typeNews VARCHAR(100))");
 
 			logger.debug("populate collections");
 			stat.executeUpdate("insert into collections values ('Library')");
@@ -93,28 +91,30 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 	}
 
-	ObjectInputStream oin;
+	
 
-	private <T> T readObject(Class<T> classe, InputStream o) {
+	private <T> T readObject(Class<T> class1, PGobject object) {
 		try {
-			logger.trace("loading " + classe);
-			oin = new ObjectInputStream(o);
-			return (T) oin.readObject();
+			return serialiser.fromJson(object.getValue(), class1);
 		} catch (Exception e) {
+			logger.error("error reading " + object,e);
 			return null;
 		}
 
 	}
 
-	private ByteArrayInputStream convertObject(Object c) {
-		try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				ObjectOutputStream oos = new ObjectOutputStream(baos);) {
-			oos.writeObject(c);
-			return new ByteArrayInputStream(baos.toByteArray());
-		} catch (IOException e) {
-			logger.error(e);
-			return null;
+	private PGobject convertObject(Object c) {
+		
+		PGobject jsonObject = new PGobject();
+		jsonObject.setType("json");
+		try {
+			jsonObject.setValue(serialiser.toJsonTree(c).toString());
+		} catch (SQLException e) {
+			logger.error("error convert " + c,e);
 		}
+		
+		return jsonObject;
+		
 	}
 
 	@Override
@@ -123,7 +123,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement("insert into cards values (?,?,?,?,?,?)");) {
 			pst.setString(1, IDGenerator.generate(mc));
 			pst.setString(2, mc.getName());
-			pst.setBinaryStream(3, convertObject(mc));
+			pst.setObject(3, convertObject(mc));
 			pst.setString(4, mc.getCurrentSet().getId());
 			pst.setString(5, MTGControler.getInstance().getEnabledCardsProviders().toString());
 			pst.setString(6, collection.getName());
@@ -152,7 +152,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		try (PreparedStatement pst = con.prepareStatement(sql); ResultSet rs = pst.executeQuery();) {
 			List<MagicCard> ret = new ArrayList<>();
 			while (rs.next()) {
-				ret.add(readObject(MagicCard.class, rs.getBinaryStream(mcardField)));
+				ret.add(readObject(MagicCard.class, (PGobject)rs.getObject(mcardField)));
 			}
 			return ret;
 
@@ -213,7 +213,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			try (ResultSet rs = pst.executeQuery()) {
 				List<MagicCard> ret = new ArrayList<>();
 				while (rs.next()) {
-					ret.add(readObject(MagicCard.class, rs.getBinaryStream(mcardField)));
+					ret.add(readObject(MagicCard.class,(PGobject) rs.getObject(mcardField)));
 				}
 
 				return ret;
@@ -411,7 +411,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 				state.setComment(rs.getString("comments"));
 				state.setIdstock(rs.getInt("idstock"));
-				state.setMagicCard(readObject(MagicCard.class, rs.getBinaryStream(mcardField)));
+				state.setMagicCard(readObject(MagicCard.class, (PGobject)rs.getObject(mcardField)));
 				state.setMagicCollection(new MagicCollection(rs.getString("collection")));
 				state.setCondition(EnumCondition.valueOf(rs.getString("conditions")));
 				state.setFoil(rs.getBoolean("foil"));
@@ -432,7 +432,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			logger.debug("insert " + state);
 			try (PreparedStatement pst = con.prepareStatement(
 					"insert into stocks  ( mcard,conditions,foil,signedcard,langage,qte,comments,idmc,collection,altered,price) values (?,?,?,?,?,?,?,?,?,?,?)")) {
-				pst.setBinaryStream(1, convertObject(state.getMagicCard()));
+				pst.setObject(1, convertObject(state.getMagicCard()));
 				pst.setString(2, state.getCondition().toString());
 				pst.setBoolean(3, state.isFoil());
 				pst.setBoolean(4, state.isSigned());
@@ -475,7 +475,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 			while (rs.next()) {
 
 				MagicCardAlert alert = new MagicCardAlert();
-				alert.setCard(readObject(MagicCard.class, rs.getBinaryStream(mcardField)));
+				alert.setCard(readObject(MagicCard.class, (PGobject)rs.getObject(mcardField)));
 				alert.setId(rs.getString("id"));
 				alert.setPrice(rs.getDouble("amount"));
 
@@ -517,7 +517,7 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 		logger.debug("save " + alert);
 		try (PreparedStatement pst = con.prepareStatement("insert into alerts  ( id,mcard,amount) values (?,?,?)")) {
 			pst.setString(1, IDGenerator.generate(alert.getCard()));
-			pst.setBinaryStream(2, convertObject(alert.getCard()));
+			pst.setObject(2, convertObject(alert.getCard()));
 			pst.setDouble(3, alert.getPrice());
 			pst.executeUpdate();
 			list.add(alert);

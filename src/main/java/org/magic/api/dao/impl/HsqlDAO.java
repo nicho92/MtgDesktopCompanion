@@ -31,8 +31,6 @@ import org.magic.tools.IDGenerator;
 
 public class HsqlDAO extends AbstractMagicDAO {
 
-
-
 	private String cardField = "mcard";
 	private Connection con;
 

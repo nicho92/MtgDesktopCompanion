@@ -472,9 +472,9 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			me.setType(ctx.read("$." + id + ".type", String.class));
 			if (me.getCardCount() == 0)
 				{
-					me.setCardCount(ctx.read("$." + id + ".cards", List.class).size());// TODO expensive time !
-					//String res = ""+ctx.read("$." + id + ".cards.length()");
-					//me.setCardCount(Integer.parseInt(res));
+					//me.setCardCount(ctx.read("$." + id + ".cards", List.class).size());// TODO expensive time !
+					String res = ""+ctx.read("$." + id + ".cards.length()");
+					me.setCardCount(Integer.parseInt(res));
 				}
 		} catch (PathNotFoundException pnfe) {
 			me.setSet(id);

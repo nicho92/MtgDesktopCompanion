@@ -8,8 +8,13 @@ import org.magic.api.beans.MagicCollection;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.services.MTGConstants;
 
+import com.google.gson.Gson;
+
 public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGDao {
 
+	protected Gson serialiser;
+	
+	
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.DAO;
@@ -26,6 +31,8 @@ public abstract class AbstractMagicDAO extends AbstractMTGPlugin implements MTGD
 			initDefault();
 			save();
 		}
+		
+		serialiser=new Gson();
 	}
 	
 	@Override

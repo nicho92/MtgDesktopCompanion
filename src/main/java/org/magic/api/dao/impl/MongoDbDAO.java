@@ -45,8 +45,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	private MongoClient client;
 	private MongoDatabase db;
-	private Gson gson;
-
 	private String colCards = "cards";
 	private String colShops = "shops";
 	private String colCollects = "collects";
@@ -63,12 +61,12 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbColIDField = "collection.name";
 
 	private <T> T deserialize(Object o, Class<T> classe) {
-		return gson.fromJson(o.toString(), classe);
+		return serialiser.fromJson(o.toString(), classe);
 
 	}
 
 	private String serialize(Object o) {
-		return gson.toJson(o);
+		return serialiser.toJson(o);
 	}
 
 	@Override
@@ -78,8 +76,6 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	
 	public void init() throws SQLException, ClassNotFoundException {
-
-		gson = new Gson();
 
 		CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
 				fromProviders(PojoCodecProvider.builder().automatic(true).build()));

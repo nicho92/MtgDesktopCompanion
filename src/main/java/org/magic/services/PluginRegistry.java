@@ -95,7 +95,6 @@ public class PluginRegistry {
 		registry.put(MTGTokensProvider.class, new PluginEntry<MTGTokensProvider>(false,"/tokens","/token", "org.magic.api.tokens.impl"));
 		registry.put(MTGWallpaperProvider.class, new PluginEntry<MTGWallpaperProvider>(true,"/wallpapers","/wallpaper", "org.magic.api.wallpaper.impl"));
 		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet"));
-		//registry.put(MTGCommand.class, new PluginEntry<MTGCommand>(true,"/commands", "/command", "org.magic.api.commands.impl"));
 	}
 	
 	private <T> T loadItem(String classname) {

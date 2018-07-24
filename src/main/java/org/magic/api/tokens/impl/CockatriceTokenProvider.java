@@ -45,7 +45,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		try {
 			builderFactory = DocumentBuilderFactory.newInstance();
 			builder = builderFactory.newDocumentBuilder();
-			document = builder.parse(new URL(getString("URL")).openStream());
+			document = builder.parse(URLTools.openConnection(getURL("URL")).getInputStream());
 			xPath = XPathFactory.newInstance().newXPath();
 		} catch (Exception e) {
 			logger.error(e);

@@ -43,22 +43,18 @@ public class MysqlDAO extends AbstractMagicDAO {
 	
 	private Connection con;
 	private List<MagicCardAlert> list;
-	private Gson serialiser;
-
 
 	public MysqlDAO() throws ClassNotFoundException, SQLException {
 		super();
 		list = new ArrayList<>();
-		serialiser = new Gson();
 	}
 
 	public void init() throws SQLException, ClassNotFoundException {
 		logger.info("init " + getName());
-		Class.forName(getString(DRIVER));
+		//Class.forName(getString(DRIVER));
 		String url = "jdbc:mysql://" + getString(SERVERNAME) + ":" + getString(SERVERPORT);
 		logger.trace("Connexion to " + url + "/" + getString(DB_NAME) + getString(PARAMS));
-		con = DriverManager.getConnection(url + "/" + getString(DB_NAME) + getString(PARAMS),
-				getString(LOGIN), getString(PASS));
+		con = DriverManager.getConnection(url + "/" + getString(DB_NAME) + getString(PARAMS),getString(LOGIN), getString(PASS));
 		createDB();
 		logger.info("init " + getName() + " done");
 

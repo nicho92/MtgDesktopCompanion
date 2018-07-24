@@ -46,10 +46,6 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		initConcordance();
 	}
 
-	private Document read(String url) throws IOException {
-		return URLTools.extractHtml(url);
-	}
-
 	public CardPriceVariations getPriceVariation(MagicCard mc, MagicEdition me) throws IOException {
 
 		stop = false;
@@ -86,7 +82,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 			logger.debug("get shakes from " + url);
 
-			Document d = read(url);
+			Document d = URLTools.extractHtml(url);
 
 			Element js = d.getElementsByTag("script").get(index);
 
@@ -136,13 +132,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		String urlW = getString(URL_MOVERS) + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/winners/"+ getString(DAILY_WEEKLY);
 		String urlL = getString(URL_MOVERS) + getString(FORMAT) + "/" + gameFormat.toLowerCase() + "/losers/"+ getString(DAILY_WEEKLY);
 
-		logger.debug("Loding Shake " + urlW);
-		logger.debug("Loding Shake " + urlL);
-
-		Document doc = read(urlW);
-
-		Document doc2 = read(urlL);
-
+		logger.trace("Loading Shake " + urlW + " and " + urlL);
+		Document doc = URLTools.extractHtml(urlW);
+		Document doc2 = URLTools.extractHtml(urlL);
 		try {
 			updateTime = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'")
 					.parse(doc.getElementsByClass("timeago").get(0).attr("title"));
@@ -196,9 +188,9 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 		else
 			urlEditionChecker = getString(URL_EDITIONS) + replace(edition.getId().toUpperCase(), false) + "#"+ getString(FORMAT);
 
-		logger.debug("Parsing dashboard " + urlEditionChecker);
+		logger.trace("Parsing dashboard " + urlEditionChecker);
 
-		Document doc = read(urlEditionChecker);
+		Document doc = URLTools.extractHtml(urlEditionChecker);
 		Element table = null;
 		try {
 
@@ -207,10 +199,8 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			for (Element e : table.getElementsByTag(MTGConstants.HTML_TAG_TR)) {
 				CardShake cs = new CardShake();
 
-				cs.setName(
-						e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().replaceAll("\\(RL\\)", "").trim());
-				cs.setImg(new URL("http://" + e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).getElementsByTag("a")
-						.get(0).attr("data-full-image")));
+				cs.setName(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).text().replaceAll("\\(RL\\)", "").trim());
+				cs.setImg(new URL("http://" + e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(0).getElementsByTag("a").get(0).attr("data-full-image")));
 				cs.setPrice(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(3).text()));
 				cs.setPriceDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(4).text()));
 				cs.setPercentDayChange(parseDouble(e.getElementsByTag(MTGConstants.HTML_TAG_TD).get(5).text()));
@@ -235,7 +225,7 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 		// spells, creatures, all, lands
 		String u = getString(WEBSITE) + "/format-staples/" + f.toString().toLowerCase() + "/full/" + filter;
-		Document doc = read(u);
+		Document doc = URLTools.extractHtml(u);
 
 		logger.debug("get best cards : " + u);
 		Elements trs = doc.select("table tr");

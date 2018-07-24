@@ -176,7 +176,7 @@ public class CardSearchPanel extends JPanel {
 
 	private void initGUI() {
 		logger.info("init search GUI");
-
+		cardsModeltable = new MagicCardTableModel();
 		JPanel panelResultsCards;
 		JPanel panelFilters;
 		JPanel panelmana;
@@ -685,14 +685,14 @@ public class CardSearchPanel extends JPanel {
 	public CardSearchPanel() {
 
 		try {
-			cardsModeltable = new MagicCardTableModel();
+			
 			initGUI();
 		} catch (Exception e) {
 			logger.error("Error init", e);
 			MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
 		}
 
-		logger.debug("construction of GUI : done");
+		logger.debug("construction of SearchGUI : done");
 	}
 
 	public HandPanel getThumbnailPanel() {

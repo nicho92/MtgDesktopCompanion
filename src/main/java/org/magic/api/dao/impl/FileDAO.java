@@ -29,9 +29,7 @@ import com.google.gson.Gson;
 
 public class FileDAO extends AbstractMagicDAO {
 
-	private Gson export;
 	private File directory;
-
 	private static final String CARDSDIR = "cards";
 	private static final String STOCKDIR = "stocks";
 	private static final String ALERTSDIR = "alerts";
@@ -39,16 +37,15 @@ public class FileDAO extends AbstractMagicDAO {
 
 
 	public <T> T read(Class<T> c, File f) throws IOException {
-		return export.fromJson(FileUtils.readFileToString(f, Charset.defaultCharset()), c);
+		return serialiser.fromJson(FileUtils.readFileToString(f, Charset.defaultCharset()), c);
 	}
 
 	public void save(Object o, File f) throws IOException {
-		FileUtils.write(f, export.toJson(o), Charset.defaultCharset());
+		FileUtils.write(f, serialiser.toJson(o), Charset.defaultCharset());
 	}
 
 	@Override
 	public void init() {
-		export = new Gson();
 		directory = new File(getString("URL"));
 
 		if (!directory.exists())
