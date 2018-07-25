@@ -99,7 +99,7 @@ public class PluginRegistry {
 	
 	private <T> T loadItem(String classname) {
 		try {
-			logger.debug("-load plugin :  " + classname);
+			logger.debug("\tload plugin :  " + classname);
 			return (T) classLoader.loadClass(classname).getDeclaredConstructor().newInstance();
 		} catch (ClassNotFoundException e) {
 			logger.error(classname + " is not found");

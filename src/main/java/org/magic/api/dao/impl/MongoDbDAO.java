@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
+import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
 import com.google.gson.Gson;
@@ -403,7 +404,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 
 	private Object getNextSequence() {
 		MongoCollection<Document> countersCollection = db.getCollection("idSequences");
-		if (countersCollection.count() == 0) {
+		if (countersCollection.countDocuments() == 0) {
 			createCountersCollection(countersCollection);
 		}
 		Document searchQuery = new Document("_id", "stock_increment");
@@ -413,13 +414,20 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		return result.get("seq");
 	}
 
-	// TODO, doesn't work
 	@Override
 	public List<MagicNews> listNews() {
-		List<MagicNews> stocks = new ArrayList<>();
-		db.getCollection(colNews, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result -> stocks
-				.add(deserialize(result.get(dbNewsField).toString(), MagicNews.class)));
-		return stocks;
+		List<MagicNews> news = new ArrayList<>();
+		db.getCollection(colNews, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{ 
+			MagicNews mn = deserialize(result.get(dbNewsField).toString(), MagicNews.class);
+			try{
+				mn.setProvider(MTGControler.getInstance().getNewsProvider(result.get("typeNews").toString()));
+			}catch(Exception e)
+			{
+				logger.error("error get typeNews provider "+result,e);
+			}
+			news.add(mn);
+		});
+			return news;
 	}
 
 	@Override
@@ -429,26 +437,26 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		db.getCollection(colNews).deleteOne(filter);
 	}
 
-	// TODO, doesn't work
 	@Override
 	public void saveOrUpdateNews(MagicNews state) {
-		logger.debug("saving " + state);
-
+	
 		if (state.getId() == -1) {
+			logger.debug("saving " + state);
 			state.setId(Integer.parseInt(getNextSequence().toString()));
 			BasicDBObject obj = new BasicDBObject();
 			obj.put(dbNewsField, state);
-			obj.put("provider", state.getProvider());
+			obj.put("typeNews", state.getProvider().getName());
 			db.getCollection(colNews, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 
 		} else {
+			logger.debug("update " + state);
+
 			Bson filter = new Document("newsItem.id", state.getId());
 			BasicDBObject obj = new BasicDBObject();
 			obj.put(dbNewsField, state);
-			obj.put("provider", state.getProvider());
+			obj.put("typeNews", state.getProvider().getName());
 			logger.debug(filter);
-			UpdateResult res = db.getCollection(colNews, BasicDBObject.class).replaceOne(filter,
-					BasicDBObject.parse(serialize(obj)));
+			UpdateResult res = db.getCollection(colNews, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);
 		}
 
