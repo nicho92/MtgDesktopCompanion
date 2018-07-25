@@ -42,7 +42,6 @@ public class ImageUtils {
 	    int x1;
 	    int j;
 	    int i;
-	    int alpha;
 
 	    leftLoop:
 	        for(i = 0; i < width; i++) {
@@ -72,7 +71,7 @@ public class ImageUtils {
 	{
 		int oldW=img.getWidth();
 		int oldH=img.getHeight();
-		double ratio = oldW/oldH;
+		double ratio = (double)oldW/oldH;
 		int h = (int) (width/ratio);
 		return resize(img, h, width);
 	}

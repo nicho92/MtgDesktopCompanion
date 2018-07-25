@@ -64,9 +64,5 @@ public class ColorParser {
 		return "";
 	}
 
-	public static Color getColorParse() {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

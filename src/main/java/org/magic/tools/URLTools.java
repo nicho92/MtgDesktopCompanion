@@ -30,6 +30,20 @@ public class URLTools {
 		return openConnection(new URL(url));
 	}
 	
+	public static HttpURLConnection getConnection(String url) throws IOException {
+		return getConnection(new URL(url));
+	}
+	
+	public static HttpURLConnection getConnection(URL url) throws IOException {
+		logger.trace("get stream from " + url);
+		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
+		connection.setInstanceFollowRedirects(true);
+		
+		return connection;
+	}
+	
+	
 	public static HttpURLConnection openConnection(URL url) throws IOException {
 		logger.trace("get stream from " + url);
 		HttpURLConnection connection = (HttpURLConnection) url.openConnection();

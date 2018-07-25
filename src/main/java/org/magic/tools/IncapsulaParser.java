@@ -21,7 +21,7 @@ public class IncapsulaParser {
 		if (incapsulaCookie != null)
 			return incapsulaCookie;
 
-		HttpURLConnection cookieConnection = URLTools.openConnection(url);
+		HttpURLConnection cookieConnection = URLTools.getConnection(url);
 		cookieConnection.setRequestMethod("GET");
 		cookieConnection.setRequestProperty("Accept", "text/html; charset="+MTGConstants.DEFAULT_ENCODING);
 		cookieConnection.setRequestProperty("Connection", "close");
@@ -54,7 +54,7 @@ public class IncapsulaParser {
 		StringBuilder response = new StringBuilder();
 		BufferedReader in = null;
 
-		HttpURLConnection connection = URLTools.openConnection(url);
+		HttpURLConnection connection = URLTools.getConnection(url);
 		connection.setRequestMethod("GET");
 		connection.setRequestProperty("Accept", "text/html; charset="+MTGConstants.DEFAULT_ENCODING);
 		connection.setRequestProperty("Cookie", getIncapsulaCookie(url));
