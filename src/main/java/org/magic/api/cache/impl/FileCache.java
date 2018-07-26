@@ -13,6 +13,7 @@ import org.magic.api.interfaces.abstracts.AbstractMTGPicturesCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
+import org.magic.tools.ImageUtils;
 
 public class FileCache extends AbstractMTGPicturesCache {
 
@@ -84,9 +85,7 @@ public class FileCache extends AbstractMTGPicturesCache {
 		if (!f.exists())
 			f.mkdir();
 
-		ImageIO.write(im, getString(FORMAT),
-				new File(f, generateIdIndex(mc, ed) + "." + getString(FORMAT)));
-
+		ImageUtils.saveImage(im, new File(f, generateIdIndex(mc, ed) + "." + getString(FORMAT)), getString(FORMAT));
 	}
 
 	private String removeCon(String a) {
