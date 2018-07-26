@@ -49,11 +49,7 @@ public abstract class AbstractCardsProvider extends AbstractMTGPlugin implements
 	
 	@Override
 	public MagicEdition getSetByName(String name) throws IOException {
-			
 		return loadEditions().parallelStream().filter(ed->ed.getSet().equalsIgnoreCase(name)).findFirst().orElse(null);
-		
-		
-		
 	}
 	
 

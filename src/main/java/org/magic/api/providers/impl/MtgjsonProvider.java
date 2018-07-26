@@ -6,7 +6,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -21,6 +20,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.magic.api.beans.Booster;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
@@ -28,7 +28,6 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.MagicFormat;
 import org.magic.api.beans.MagicRuling;
 import org.magic.api.interfaces.abstracts.AbstractCardsProvider;
-import org.magic.services.MTGConstants;
 import org.magic.tools.Chrono;
 import org.magic.tools.URLTools;
 
@@ -46,6 +45,8 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 public class MtgjsonProvider extends AbstractCardsProvider {
 
+	private static final String URL_VERSION = "URL_VERSION";
+	private static final String URL_SET_JSON_ZIP = "URL_SET_JSON_ZIP";
 	private File fileSetJsonTemp = new File(confdir, "AllSets-x.json.zip");
 	private File fileSetJson = new File(confdir, "AllSets-x.json");
 	private File fversion = new File(confdir, "version");
@@ -96,7 +97,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 			logger.info("check new version of " + toString() + " (" + temp + ")");
 
-			InputStreamReader fr = new InputStreamReader(URLTools.openConnection(getURL("URL_VERSION")).getInputStream());
+			InputStreamReader fr = new InputStreamReader(URLTools.openConnection(getURL(URL_VERSION)).getInputStream());
 			BufferedReader br = new BufferedReader(fr);
 			version = br.readLine();
 
@@ -151,14 +152,14 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 			if (!fileSetJson.exists() || fileSetJson.length() == 0) {
 				logger.info("datafile does not exist. Downloading it");
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_SET_JSON_ZIP")).getInputStream(),fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL(URL_SET_JSON_ZIP)).getInputStream(),fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_VERSION")).getInputStream(), fversion);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL(URL_VERSION)).getInputStream(), fversion);
 			}
 			else if (hasNewVersion()) {
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_SET_JSON_ZIP")).getInputStream(),fileSetJsonTemp);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL(URL_SET_JSON_ZIP)).getInputStream(),fileSetJsonTemp);
 				unZipIt();
-				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL("URL_VERSION")).getInputStream(), fversion);
+				FileUtils.copyInputStreamToFile(URLTools.openConnection(getURL(URL_VERSION)).getInputStream(), fversion);
 			}
 			logger.debug(this + " : parsing db file");
 			ctx = JsonPath.parse(fileSetJson);
@@ -172,6 +173,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	public MagicCard getCardById(String id) throws IOException {
 		return searchCardByCriteria("id", id, null, true).get(0);
 	}
+	
 
 	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition ed, boolean exact) throws IOException {
 
@@ -199,7 +201,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				jsquery = "$." + crit.toUpperCase() + ".cards";
 			}
 		}
-		if (att.equalsIgnoreCase("multiverseid") || att.equalsIgnoreCase("cmc")) {
+		else if(StringUtils.isNumeric(crit)) {
 			jsquery = "$" + filterEdition + ".cards[?(@." + att + " == " + crit + ")]";
 		}
 		
@@ -223,13 +225,13 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		int indexSet = 0;
 		for (Map<String, Object> map : cardsElement) {
 			MagicCard mc = new MagicCard();
-			
 
 				if (map.get("name") != null)
 					mc.setName(map.get("name").toString());
 				
 				mc.setFlippable(false);
 				mc.setTranformable(false);
+
 				if (map.get("multiverseid") != null)
 					mc.setMultiverseid((int) (double) map.get("multiverseid"));
 
@@ -449,9 +451,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 		}).read(jsquery, List.class);
 
-		for (String codeedition : codeEd) {
-			cacheEditions.put(codeedition, getSetById(codeedition));
-		}
+		codeEd.forEach(codeedition->cacheEditions.put(codeedition, getSetById(codeedition)));
 		logger.debug("Loading editions OK in " + chrono.stop() + " sec.");
 		
 		return new ArrayList<>(cacheEditions.values());
@@ -674,8 +674,8 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("URL_SET_JSON_ZIP", "http://mtgjson.com/json/AllSets-x.json.zip");
-		setProperty("URL_VERSION", "http://mtgjson.com/json/version.json");
+		setProperty(URL_SET_JSON_ZIP, "http://mtgjson.com/json/AllSets-x.json.zip");
+		setProperty(URL_VERSION, "http://mtgjson.com/json/version.json");
 		setProperty("LRU_CACHE", "400");
 		
 
