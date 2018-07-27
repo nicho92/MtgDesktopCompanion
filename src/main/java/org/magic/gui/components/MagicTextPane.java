@@ -42,7 +42,6 @@ public class MagicTextPane extends JTextPane {
 
 	public void updateTextWithIcons() {
 
-		setText(getText().replaceAll("CHAOS", "{CHAOS}"));
 		setText(getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
 
 		String regex = "\\{(.*?)\\}";

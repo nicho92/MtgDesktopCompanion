@@ -17,7 +17,6 @@ public abstract class AbilitySpell extends AbstractSpell {
 	@Override
 	public void actionPerformed(ActionEvent paramActionEvent) {
 		GameManager.getInstance().getStack().put(this);
-
 	}
 
 	@Override

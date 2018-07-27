@@ -10,7 +10,8 @@ import java.util.EnumSet;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.magic.tools.Chrono;
+import org.magic.api.beans.MagicCard;
+import org.magic.game.model.factories.AbilitiesFactory;
 
 import com.google.gson.JsonArray;
 import com.jayway.jsonpath.Configuration;
@@ -51,14 +52,17 @@ public class TestPredicates {
 
 		});
 		Configuration.defaultConfiguration().addOptions(Option.DEFAULT_PATH_LEAF_TO_NULL);
+		Filter cheapFictionFilter = filter(where("name").regex(Pattern.compile("/^.*liliana.*$/i")));
+		
+		System.out.println(cheapFictionFilter);
+		
+		JsonArray books = parse(f).read("$..cards[?]",cheapFictionFilter);
+		
+		MagicCard mc = new MagicCard();
+		mc.setText(books.get(0).getAsJsonObject().get("text").getAsString());
 		
 		
-		Chrono c1 = new Chrono();
-		c1.start();
-		Filter cheapFictionFilter = filter(where("cmc").eq("10"));
-		JsonArray books =  parse(f).read("$..cards[?]",cheapFictionFilter);
-		System.out.println(c1.stop() +" mm");
-		System.out.println(books);
+		System.out.println(AbilitiesFactory.getInstance().getAbilities(mc));
 		
 		
 	}
