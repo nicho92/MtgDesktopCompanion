@@ -1,5 +1,7 @@
 package org.magic.game.model.abilities;
 
+import java.util.List;
+
 import org.magic.game.model.factories.EffectsFactory;
 
 public class TriggeredAbilities extends AbstractAbilities {
@@ -20,20 +22,26 @@ public class TriggeredAbilities extends AbstractAbilities {
 		return true;
 	}
 
-	public void init(KEYWORDS key,String s) {
-		event = s.substring(key.name().length(),s.indexOf(',')).trim();
-		s=s.substring(s.indexOf(',')+1).trim();
-		setEffects(EffectsFactory.getInstance().parseEffect(s));
+	public void init(KEYWORDS key,List<String> list) {
 		
+		String s = list.get(0);
+		if(getCard().getName().indexOf(',')<0)
+			event = s.substring(key.name().length(),s.indexOf(',')).trim();
+		else
+			event = s.substring(key.name().length(),s.lastIndexOf(',')).trim();
+		
+		s=s.substring(s.lastIndexOf(',')+1).trim();
+		list.set(0,s);
+		setEffects(EffectsFactory.getInstance().parseEffect(list));
 	}
 
 	
 	@Override
 	public String toString() {
 		StringBuilder build = new StringBuilder();
-		build.append("TRIGGER:\nWHEN:\n\t").append(event).append("\n\tDO :");
-		getEffects().forEach(e->build.append("\n\t").append(e).append("\n"));
-		build.append("END");
+		build.append("\nTRIGGER:\nWHEN:\n\t").append(event).append("\n\tDO :");
+		getEffects().forEach(e->build.append("\n\t").append(e));
+		build.append("\nEND");
 		return build.toString();
 		
 	}

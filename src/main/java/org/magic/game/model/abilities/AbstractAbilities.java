@@ -5,16 +5,18 @@ import java.util.List;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.abilities.costs.Cost;
+import org.magic.game.model.abilities.costs.LoyaltyCost;
 import org.magic.game.model.abilities.effects.Effect;
 
 public abstract class AbstractAbilities {
 
 	private MagicCard card;
-	private Cost cost;
+	private List<Cost> costs;
 	private List<Effect> effects;
 	
 	public AbstractAbilities() {
 		effects = new ArrayList<>();
+		costs=new ArrayList<>();
 	}
 	
 	
@@ -22,16 +24,35 @@ public abstract class AbstractAbilities {
 		return effects;
 	}
 	
+	public void addEffect(Effect e) {
+		effects.add(e);
+	}
+	
+	public void addCost(Cost e) {
+		costs.add(e);
+	}
+	
+	public void setCost(Cost c) {
+		costs.clear();
+		addCost(c);
+		
+	}
+	
 	public void setEffects(List<Effect> effects) {
 		this.effects = effects;
 	}
 	
-	public Cost getCost() {
-		return cost;
+	public Cost getCost()
+	{
+		return costs.get(0);
 	}
 	
-	public void setCost(Cost cost) {
-		this.cost = cost;
+	public List<Cost> getCosts() {
+		return costs;
+	}
+	
+	public void setCosts(List<Cost> costs) {
+		this.costs = costs;
 	}
 	
 	public MagicCard getCard() {

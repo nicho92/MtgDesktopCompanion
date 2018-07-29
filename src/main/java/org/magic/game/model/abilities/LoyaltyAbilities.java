@@ -1,11 +1,20 @@
 package org.magic.game.model.abilities;
 
-public abstract class LoyaltyAbilities extends ActivatedAbilities {
+public class LoyaltyAbilities extends ActivatedAbilities {
 
 	
 	@Override
 	public boolean isLoyalty() {
 		return true;
 	}
+	
+	@Override
+	public String toString() {
+		StringBuilder build = new StringBuilder();
+		build.append("\nLOYALTY: WHEN ").append("PUT ").append(getCosts()).append(" COUNTER:").append(getEffects().get(0)).append(" END");
+		return build.toString();
+	}
+
+	
 	
 }

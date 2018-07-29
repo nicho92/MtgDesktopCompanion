@@ -1,6 +1,6 @@
 package org.magic.game.model.abilities;
 
-public abstract class ManaAbilities extends ActivatedAbilities {
+public abstract class ManaAbilities extends AbstractAbilities {
 
 	@Override
 	public boolean isStackable() {

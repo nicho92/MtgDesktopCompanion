@@ -33,13 +33,11 @@
 	  </repository>
 	</repositories>
 	<dependencies>
-		<!-- <dependency>
-		    <groupId>org.codehaus.groovy</groupId>
-		    <artifactId>groovy-all</artifactId>
-		    <version>3.0.0-alpha-3</version>
-		    <type>pom</type>
-		</dependency> -->
-			
+		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-core</artifactId>
+		    <version>7.4.0</version>
+		</dependency>
 		<dependency>
 		    <groupId>com.jtattoo</groupId>
 		    <artifactId>JTattoo</artifactId>

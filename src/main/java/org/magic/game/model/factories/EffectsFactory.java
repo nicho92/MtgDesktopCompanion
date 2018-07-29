@@ -21,25 +21,36 @@ public class EffectsFactory {
 	private EffectsFactory() {	}
 	
 	
-	
-	public List<Effect> parseEffect(String text)
+	public List<Effect> parseEffect(List<String> sentences)
 	{
 		ArrayList<Effect> arr = new ArrayList<>();
 		
-		OneShotEffect eff = new OneShotEffect();
+		if(sentences.isEmpty())
+			return arr;
 		
-		String[] se = text.split(", then");
-		
-		if(se.length>1)
+		if(sentences.size()==1)
 		{
-			eff.setEffectDescription(se[0]);
-			OneShotEffect effc = new OneShotEffect();
-			effc.setEffectDescription(se[1]);
-			eff.setChildEffect(effc);
+			arr.add(parseEffect(sentences.get(0)));
 		}
-		
-		arr.add(eff);
+		else
+		{
+			for(int i=0;i<sentences.size();i++)
+			{
+				arr.add(parseEffect(sentences.get(i)));
+				
+			}
+		}
+			
+			
 		return arr;
 		
 	}
+	
+	public Effect parseEffect(String s)
+	{
+			OneShotEffect e = new OneShotEffect();
+			e.setEffectDescription(s);
+			return e;
+	}
+	
 }
