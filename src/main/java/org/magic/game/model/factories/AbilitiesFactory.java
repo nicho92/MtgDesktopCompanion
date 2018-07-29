@@ -4,11 +4,16 @@ import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.text.StringTokenizer;
+import org.magic.api.beans.MTGKeyWord;
+import org.magic.api.beans.MTGKeyWord.EVENT;
+import org.magic.api.beans.MTGKeyWord.SUBTYPE;
+import org.magic.api.beans.MTGKeyWord.TYPE;
+import org.magic.api.pricers.impl.MagicVillePricer;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
@@ -24,6 +29,7 @@ import org.magic.game.model.abilities.costs.LifeCost;
 import org.magic.game.model.abilities.costs.LoyaltyCost;
 import org.magic.game.model.abilities.costs.ManaCost;
 import org.magic.game.model.abilities.costs.TapCost;
+import org.magic.services.MTGControler;
 import org.magic.tools.MTGOraclePatterns;
 
 public class AbilitiesFactory {
@@ -83,6 +89,8 @@ public class AbilitiesFactory {
 	
 	public List<AbstractAbilities> getAbilities(MagicCard mc)
 	{
+		
+		mc.setText(removeParenthesis(mc.getText()));
 		List<AbstractAbilities> ret = new ArrayList<>();
 		ret.addAll(getActivatedAbilities(mc));
 		ret.addAll(getLoyaltyAbilities(mc));
@@ -92,31 +100,40 @@ public class AbilitiesFactory {
 		return ret;
 	}
 	
+	private String removeParenthesis(String text)
+	{
+		return text.replaceAll(MTGOraclePatterns.PARENTHESES_PATTERN.getPattern(),"");
+	}
 	
 	
 	private List<ActivatedAbilities> getActivatedAbilities(MagicCard mc) {
 		List<ActivatedAbilities> ret = new ArrayList<>();
+	
+		
+		
 		
 		if(!mc.isPlaneswalker())
-		for(String s : listSentences(mc))
 		{
-			int end = s.indexOf('.');
-			
-			if(s.indexOf(':')>1 && s.indexOf(':')<end)
+			for(String s : listSentences(mc))
 			{
-				String[] costs = s.substring(0,s.indexOf(':')).split(",");
-				ActivatedAbilities abs = new ActivatedAbilities();
+				int end = s.indexOf('.');
 				
-				for(String c : costs)
+				if(s.indexOf(':')>1 && s.indexOf(':')<end)
 				{
-					abs.addCost(parseCosts(c.trim()));
+					String[] costs = s.substring(0,s.indexOf(':')).split(",");
+					ActivatedAbilities abs = new ActivatedAbilities();
+					
+					for(String c : costs)
+					{
+						abs.addCost(parseCosts(c.trim()));
+					}
+					
+					abs.addEffect(EffectsFactory.getInstance().parseEffect(s.substring(s.indexOf(':')+1)));
+					
+					
+					ret.add(abs);
+					
 				}
-				
-				abs.addEffect(EffectsFactory.getInstance().parseEffect(s.substring(s.indexOf(':')+1)));
-				
-				
-				ret.add(abs);
-				
 			}
 		}
 		return ret;
@@ -213,7 +230,23 @@ public class AbilitiesFactory {
 
 
 	private List<StaticAbilities> parseStaticAbilities(MagicCard mc) {
-		return new ArrayList<>();
+		List<StaticAbilities> list = new ArrayList<>();
+		
+		Set<MTGKeyWord> keys= MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(mc);
+		
+		keys.forEach(key->{
+			
+			if(key.getEvent().equals(EVENT.STATIC))
+			{
+				StaticAbilities abs = new StaticAbilities();
+				abs.setCard(mc);
+				abs.init(key);
+				list.add(abs);
+			}
+		});
+		
+		
+		return list;
 	}
 
 

@@ -69,9 +69,14 @@ public class MagicCard implements Serializable {
 		return !power.isEmpty();
 	}
 	
+	public boolean isEnchantment()
+	{
+		return getTypes().toString().toLowerCase().contains("enchantment");
+	}
+	
 	public boolean isPermanent()
 	{
-		return isBasicLand()||isPlaneswalker()||isCreature();//|| isEnchantement,...
+		return isBasicLand()||isPlaneswalker()||isCreature()|| isEnchantment();
 	}
 	
 	public boolean isPlaneswalker()

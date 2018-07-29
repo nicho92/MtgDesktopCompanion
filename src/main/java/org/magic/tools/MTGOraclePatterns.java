@@ -3,7 +3,8 @@ package org.magic.tools;
 public enum MTGOraclePatterns {
 	
 	COST_LIFE_PATTERN ("\\QPay\\E (.*?) \\Qlife\\E"),
-	MANA_PATTERN ("\\{(.*?)\\}");
+	MANA_PATTERN ("\\{(.*?)\\}"),
+	PARENTHESES_PATTERN("\\(.*\\)");
 	
 	
 	

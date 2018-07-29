@@ -7,9 +7,6 @@ public class ActivatedAbilities extends AbstractAbilities {
 	public String toString() {
 		StringBuilder build = new StringBuilder();
 		build.append("\nACTIVATED WHEN PAID:").append(getCosts()).append("\n\tDO :").append(getEffects()).append("\nEND");
-		
-		
-		
 		return build.toString();
 	}
 }

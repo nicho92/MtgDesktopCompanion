@@ -47,6 +47,7 @@ import org.magic.game.actions.cards.RemoveCounterActions;
 import org.magic.game.actions.cards.SelectionActions;
 import org.magic.game.actions.cards.TapActions;
 import org.magic.game.model.GameManager;
+import org.magic.game.model.Player;
 import org.magic.game.model.PositionEnum;
 import org.magic.game.model.Turn.PHASES;
 import org.magic.game.model.counters.AbstractCounter;
@@ -86,7 +87,9 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private boolean rightActions;
 	private transient Observable obs;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
-
+	private Player owner;
+	
+	
 	public List<AbstractCounter> getCounters() {
 		return counters;
 	}
@@ -243,6 +246,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 	}
 
 	public void construct(MagicCard mc, Dimension d, boolean activateCards, boolean rightClick) {
+		
+		owner = GameManager.getInstance().getCurrentPlayer();
 		rightActions = rightClick;
 		menu = new JPopupMenu();
 		sep = new JSeparator();
@@ -326,7 +331,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			menu.add(new JMenuItem(new SelectionActions(this)));
 			menu.add(new JMenuItem(new TapActions(this)));
 
-			if (magicCard.getFullType().toLowerCase().contains("creature")) {
+			if (magicCard.isCreature()) {
 				JMenu mnuModifier = new JMenu("P/T");
 				mnuModifier.add(new BonusCounterActions(this, new BonusCounter(1, 0)));
 				mnuModifier.add(new BonusCounterActions(this, new BonusCounter(-1, 0)));
@@ -345,7 +350,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 			mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Orange", Color.ORANGE)));
 			menu.add(mnuCounter);
 
-			if (magicCard.getFullType().contains("Planeswalker")) {
+			if (magicCard.isPlaneswalker()) {
 				JMenu mnuModifier = new JMenu("Loyalty");
 
 				for (LoyaltyCounter count : listLoyalty())

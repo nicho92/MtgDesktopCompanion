@@ -108,7 +108,9 @@ public class CardTransfertHandler extends TransferHandler {
 				src.getParent().revalidate();
 				target.updatePanel();
 				src.getParent().repaint();
+				
 				GameManager.getInstance().getStack().put(new CardSpell(src.getName(), src.getText(), src));
+				
 				logger.debug("move " + src.getMagicCard().getName() + " from "
 						+ ((Draggable) src.getParent()).getOrigine() + " to " + target.getOrigine());
 				((Draggable) src.getParent()).moveCard(src, target.getOrigine());
