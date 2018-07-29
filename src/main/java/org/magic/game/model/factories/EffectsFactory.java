@@ -38,6 +38,8 @@ public class EffectsFactory {
 			{
 				arr.add(parseEffect(sentences.get(i)));
 				
+				if(sentences.get(i).endsWith("."))
+					break;
 			}
 		}
 			

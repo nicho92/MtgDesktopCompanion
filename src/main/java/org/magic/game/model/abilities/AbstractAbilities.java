@@ -7,6 +7,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.game.model.abilities.costs.Cost;
 import org.magic.game.model.abilities.costs.LoyaltyCost;
 import org.magic.game.model.abilities.effects.Effect;
+import org.utils.patterns.observer.Observer;
 
 public abstract class AbstractAbilities {
 

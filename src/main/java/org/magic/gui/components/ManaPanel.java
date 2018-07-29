@@ -21,6 +21,7 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
+import org.magic.tools.MTGOraclePatterns;
 
 public class ManaPanel extends JPanel {
 	private int cols = 10;
@@ -31,7 +32,6 @@ public class ManaPanel extends JPanel {
 	private boolean cached = false;
 	private int rowHeight = MTGConstants.TABLE_ROW_HEIGHT;
 	private int rowWidth = MTGConstants.TABLE_ROW_WIDTH;
-	private String regex = "\\{(.*?)\\}";
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public int getRowHeight() {
@@ -69,7 +69,7 @@ public class ManaPanel extends JPanel {
 		if (manaCost == null)
 			return;
 
-		Pattern p = Pattern.compile(regex);
+		Pattern p = Pattern.compile(MTGOraclePatterns.MANA_PATTERN.getPattern());
 		Matcher m = p.matcher(manaCost);
 
 		fl.setVgap(0);

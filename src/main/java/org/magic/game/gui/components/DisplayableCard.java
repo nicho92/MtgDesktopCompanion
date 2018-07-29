@@ -38,7 +38,6 @@ import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
-import org.magic.game.actions.cards.CopyFromActions;
 import org.magic.game.actions.cards.CreateActions;
 import org.magic.game.actions.cards.EmblemActions;
 import org.magic.game.actions.cards.FixCreaturePowerActions;
@@ -385,9 +384,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 				menu.add(mnuModifier);
 			}
-
-			if (magicCard.getText() != null && magicCard.getText().contains("copy of"))
-				menu.add(new CopyFromActions(this));
 
 			menu.add(sep);
 			if (MTGControler.getInstance().getEnabledTokensProvider().isTokenizer(magicCard)) {

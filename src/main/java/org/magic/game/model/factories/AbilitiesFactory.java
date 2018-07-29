@@ -24,6 +24,7 @@ import org.magic.game.model.abilities.costs.LifeCost;
 import org.magic.game.model.abilities.costs.LoyaltyCost;
 import org.magic.game.model.abilities.costs.ManaCost;
 import org.magic.game.model.abilities.costs.TapCost;
+import org.magic.tools.MTGOraclePatterns;
 
 public class AbilitiesFactory {
 
@@ -45,25 +46,25 @@ public class AbilitiesFactory {
 		bi = BreakIterator.getSentenceInstance(Locale.US);
 	}
 	
-	private List<String> listSentences(String s)
-	{
-		List<String> arr = new ArrayList<>();
-		
-		bi.setText(s);
-		int lastIndex = bi.first();
-		while (lastIndex != BreakIterator.DONE) {
-			int firstIndex = lastIndex;
-            lastIndex = bi.next();
-            if (lastIndex != BreakIterator.DONE) {
-            	String s2 = s.substring(firstIndex, lastIndex);
-            	
-            	if(!s2.startsWith("("))
-            		arr.add(s2);
-            }
-		}
-		return arr;
-	}
-	
+//	private List<String> listSentences(String s)
+//	{
+//		List<String> arr = new ArrayList<>();
+//		
+//		bi.setText(s);
+//		int lastIndex = bi.first();
+//		while (lastIndex != BreakIterator.DONE) {
+//			int firstIndex = lastIndex;
+//            lastIndex = bi.next();
+//            if (lastIndex != BreakIterator.DONE) {
+//            	String s2 = s.substring(firstIndex, lastIndex);
+//            	
+//            	if(!s2.startsWith("("))
+//            		arr.add(s2);
+//            }
+//		}
+//		return arr;
+//	}
+//	
 	
 	
 	private List<String> listSentences(MagicCard mc)
@@ -71,9 +72,9 @@ public class AbilitiesFactory {
 		List<String> arr = new ArrayList<>();
 		for(String s :  mc.getText().split("\n"))
 		{
-			if(s.indexOf('.')<s.length())
-				arr.addAll(listSentences(s));
-			else
+//			if(s.indexOf('.')<s.length())
+//				arr.addAll(listSentences(s));
+//			else
 				arr.add(s);
 		}
 		
@@ -95,9 +96,13 @@ public class AbilitiesFactory {
 	
 	private List<ActivatedAbilities> getActivatedAbilities(MagicCard mc) {
 		List<ActivatedAbilities> ret = new ArrayList<>();
+		
+		if(!mc.isPlaneswalker())
 		for(String s : listSentences(mc))
 		{
-			if(s.indexOf(':')>1)
+			int end = s.indexOf('.');
+			
+			if(s.indexOf(':')>1 && s.indexOf(':')<end)
 			{
 				String[] costs = s.substring(0,s.indexOf(':')).split(",");
 				ActivatedAbilities abs = new ActivatedAbilities();
@@ -119,29 +124,35 @@ public class AbilitiesFactory {
 
 
 	private Cost parseCosts(String c) {
+
 		if(c.equals("{T}"))
 			return new TapCost();
 		
-		Pattern p = Pattern.compile(Pattern.quote("Pay") +" (.*?) "+Pattern.quote("life"));
-		Matcher m=p.matcher(c);
+		if(c.contains("{E}"))
+			return new EnergyCost(StringUtils.countMatches(c, "{E}"));
 		
+		////////////////
+		Pattern p = Pattern.compile(MTGOraclePatterns.COST_LIFE_PATTERN.getPattern());
+		Matcher m=p.matcher(c);
 		if(m.find())
 			return new LifeCost(Integer.parseInt(m.group(1)));
 		
-		p = Pattern.compile("\\{(.*?)\\}");
+		////////////////		
+		p = Pattern.compile(MTGOraclePatterns.MANA_PATTERN.getPattern());
 		m = p.matcher(c);
-		if(c.contains("{E}"))
+		if(m.matches()) 
 		{
-			return new EnergyCost(StringUtils.countMatches(c, "{E}"));
-		}
-
-		if(m.find())
-		{
-				ManaCost mana = new ManaCost();
-				mana.setManaCost(m.group());
-				return mana;	
+			m=m.reset();
+			ManaCost mana = new ManaCost();
+			while(m.find())
+			{
+					mana.add(m.group());
+			}
+			return mana;
 		}
 		
+	
+		////////////////		
 		ActionCost ac = new ActionCost();
 		ac.setAction(c);
 		
@@ -220,6 +231,7 @@ public class AbilitiesFactory {
 									   t.setCard(mc);
 									   t.setCost(null);
 									   t.init(k,listSentences(mc).subList(i, listSentences(mc).size()));
+									   
 					arr.add(t);
 				}
 			}

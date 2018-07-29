@@ -1,12 +1,17 @@
 package org.magic.game.model.abilities;
 
 import java.util.List;
+import java.util.StringTokenizer;
 
+import org.apache.commons.lang3.StringUtils;
 import org.magic.game.model.factories.EffectsFactory;
+import org.utils.patterns.observer.Observable;
+import org.utils.patterns.observer.Observer;
 
-public class TriggeredAbilities extends AbstractAbilities {
+public class TriggeredAbilities extends AbstractAbilities implements Observer {
 	
 	private String event;
+	
 	public enum KEYWORDS { WHEN, WHENEVER,AT}
 	
 	public String getEvent() {
@@ -26,11 +31,16 @@ public class TriggeredAbilities extends AbstractAbilities {
 		
 		String s = list.get(0);
 		if(getCard().getName().indexOf(',')<0)
+		{
 			event = s.substring(key.name().length(),s.indexOf(',')).trim();
+			s=s.substring(s.indexOf(',')+1).trim();
+		}
 		else
+		{
 			event = s.substring(key.name().length(),s.lastIndexOf(',')).trim();
+			s=s.substring(s.lastIndexOf(',')+1).trim();
+		}
 		
-		s=s.substring(s.lastIndexOf(',')+1).trim();
 		list.set(0,s);
 		setEffects(EffectsFactory.getInstance().parseEffect(list));
 	}
@@ -43,6 +53,12 @@ public class TriggeredAbilities extends AbstractAbilities {
 		getEffects().forEach(e->build.append("\n\t").append(e));
 		build.append("\nEND");
 		return build.toString();
+		
+	}
+
+	@Override
+	public void update(Observable o, Object arg) {
+		System.out.println(o +" " + arg);
 		
 	}
 
