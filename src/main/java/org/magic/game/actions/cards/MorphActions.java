@@ -62,7 +62,7 @@ public class MorphActions extends AbstractAction {
 			mc.setEditions(card.getMagicCard().getEditions());
 			mc.setRotatedCardName(card.getMagicCard().getName());
 			MagicRuling r = new MagicRuling();
-			r.setText(MTGControler.getInstance().getKeyWordManager().generateFromString(k).getDescription());
+			r.setText(MTGControler.getInstance().getKeyWordManager().generateFromKeyString(k).getDescription());
 			mc.getRulings().add(r);
 			mc.setText(k + " " + cost);
 			mc.setLayout(card.getMagicCard().getLayout());

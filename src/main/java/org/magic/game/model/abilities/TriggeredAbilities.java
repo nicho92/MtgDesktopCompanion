@@ -1,14 +1,10 @@
 package org.magic.game.model.abilities;
 
 import java.util.List;
-import java.util.StringTokenizer;
 
-import org.apache.commons.lang3.StringUtils;
 import org.magic.game.model.factories.EffectsFactory;
-import org.utils.patterns.observer.Observable;
-import org.utils.patterns.observer.Observer;
 
-public class TriggeredAbilities extends AbstractAbilities implements Observer {
+public class TriggeredAbilities extends AbstractAbilities {
 	
 	private String event;
 	
@@ -53,12 +49,6 @@ public class TriggeredAbilities extends AbstractAbilities implements Observer {
 		getEffects().forEach(e->build.append("\n\t").append(e));
 		build.append("\nEND");
 		return build.toString();
-		
-	}
-
-	@Override
-	public void update(Observable o, Object arg) {
-		System.out.println(o +" " + arg);
 		
 	}
 

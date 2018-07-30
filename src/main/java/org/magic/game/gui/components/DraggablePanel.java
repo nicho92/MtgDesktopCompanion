@@ -15,8 +15,10 @@ import org.magic.game.model.Player;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.utils.patterns.observer.Observer;
 
-public abstract class DraggablePanel extends JPanel implements Draggable {
+public abstract class DraggablePanel extends JPanel implements Draggable
+{
 
 	Dimension d;
 
@@ -26,9 +28,6 @@ public abstract class DraggablePanel extends JPanel implements Draggable {
 	boolean dragging = true;
 	protected Player player;
 
-	public void executeDragging(DisplayableCard card, MouseEvent e) {
-
-	}
 
 	public boolean isDragging() {
 		return dragging;

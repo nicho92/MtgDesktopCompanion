@@ -1,12 +1,12 @@
 package org.magic.game.model;
 
-import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
-import org.magic.game.model.abilities.costs.Cost;
+import org.magic.game.model.costs.Cost;
+import org.magic.game.model.effects.AbstractEffect;
 import org.magic.services.MTGLogger;
 
 public abstract class AbstractSpell  implements Spell  {
@@ -14,14 +14,18 @@ public abstract class AbstractSpell  implements Spell  {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected MagicCard card;
 	protected List<Cost> costs;
-
-	public abstract boolean isStackable();
-
+	protected List<AbstractEffect> effects;
+	
+	public boolean hasCost()
+	{
+		return !costs.isEmpty();
+	}
+	
 	
 	public AbstractSpell()
 	{
 		costs=new ArrayList<>();
-		
+		effects=new ArrayList<>();
 	}
 	
 	public void addCost(Cost e) {
@@ -33,18 +37,34 @@ public abstract class AbstractSpell  implements Spell  {
 		addCost(c);
 		
 	}
+
+	public void setCosts(List<Cost> costs) {
+		this.costs = costs;
+	}
+	
+	
+	public List<AbstractEffect> getEffects() {
+		return effects;
+	}
+	
+	public void addEffect(AbstractEffect e) {
+		effects.add(e);
+	}
+	
+	public void setEffects(List<AbstractEffect> effects) {
+		this.effects = effects;
+	}
 	
 	public Cost getCost()
 	{
-		return costs.get(0);
+		if(!costs.isEmpty())
+			return getCosts().get(0);
+		else
+			return null;
 	}
 	
 	public List<Cost> getCosts() {
 		return costs;
-	}
-	
-	public void setCosts(List<Cost> costs) {
-		this.costs = costs;
 	}
 	
 	
@@ -56,5 +76,4 @@ public abstract class AbstractSpell  implements Spell  {
 		this.card = card;
 	}
 
-	public abstract void actionPerformed(ActionEvent e);
 }

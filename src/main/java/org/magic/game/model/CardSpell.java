@@ -1,10 +1,6 @@
 package org.magic.game.model;
 
-import java.awt.event.ActionEvent;
-import java.util.List;
-
 import org.magic.game.gui.components.DisplayableCard;
-import org.magic.game.model.abilities.effects.Effect;
 import org.magic.game.model.factories.CostsFactory;
 
 public class CardSpell extends AbstractSpell {
@@ -38,18 +34,5 @@ public class CardSpell extends AbstractSpell {
 		
 	}
 
-
-	@Override
-	public List<Effect> getEffects() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	@Override
-	public void actionPerformed(ActionEvent e) {
-		// TODO Auto-generated method stub
-		
-	}
 
 }

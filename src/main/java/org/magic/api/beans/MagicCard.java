@@ -4,6 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 public class MagicCard implements Serializable {
 	public enum LAYOUT {
 		NORMAL, TOKEN, EMBLEM
@@ -66,7 +68,7 @@ public class MagicCard implements Serializable {
 	
 	public boolean isCreature()
 	{
-		return !power.isEmpty();
+		return getTypes().toString().toLowerCase().contains("creature");
 	}
 	
 	public boolean isEnchantment()
@@ -76,7 +78,7 @@ public class MagicCard implements Serializable {
 	
 	public boolean isPermanent()
 	{
-		return isBasicLand()||isPlaneswalker()||isCreature()|| isEnchantment();
+		return isLand()||isPlaneswalker()||isCreature()|| isEnchantment();
 	}
 	
 	public boolean isPlaneswalker()

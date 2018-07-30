@@ -11,7 +11,7 @@ import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
 
 public class SearchCardFrame extends JDialog {
@@ -21,17 +21,17 @@ public class SearchCardFrame extends JDialog {
 
 	DisplayableCard selectedCard;
 
-	private void init(Player p, final PositionEnum source) {
+	private void init(Player p, final ZoneEnum source) {
 		setSize(new Dimension(800, 600));
 		scPane = new JScrollPane();
 		pane = new HandPanel() {
 			@Override
-			public PositionEnum getOrigine() {
+			public ZoneEnum getOrigine() {
 				return source;
 			}
 
 			@Override
-			public void moveCard(DisplayableCard mc, PositionEnum to) {
+			public void moveCard(DisplayableCard mc, ZoneEnum to) {
 				switch (source) {
 				case LIBRARY:
 					GamePanelGUI.getInstance().getPanelLibrary().moveCard(mc, to);
@@ -55,7 +55,7 @@ public class SearchCardFrame extends JDialog {
 	}
 
 	// used by SearchAction.
-	public SearchCardFrame(Player p, PositionEnum source) {
+	public SearchCardFrame(Player p, ZoneEnum source) {
 		init(p, source);
 		setTitle(p.getName() + "'s" + source.toString());
 		pane.setThumbnailSize(MTGControler.getInstance().getCardsGameDimension());
@@ -79,7 +79,7 @@ public class SearchCardFrame extends JDialog {
 	}
 
 	// used by ScryActions.
-	public SearchCardFrame(Player p, List<MagicCard> list, PositionEnum source) {
+	public SearchCardFrame(Player p, List<MagicCard> list, ZoneEnum source) {
 		init(p, source);
 		pane.setThumbnailSize(MTGControler.getInstance().getCardsGameDimension());
 		pane.initThumbnails(list, true, true);

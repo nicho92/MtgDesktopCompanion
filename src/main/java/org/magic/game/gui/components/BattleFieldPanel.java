@@ -17,7 +17,7 @@ import org.magic.game.actions.battlefield.ChangeBackGroundActions;
 import org.magic.game.actions.battlefield.FlipaCoinActions;
 import org.magic.game.actions.battlefield.SelectedTapActions;
 import org.magic.game.actions.battlefield.UnselectAllAction;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -83,12 +83,12 @@ public class BattleFieldPanel extends DraggablePanel {
 	}
 
 	@Override
-	public PositionEnum getOrigine() {
-		return PositionEnum.BATTLEFIELD;
+	public ZoneEnum getOrigine() {
+		return ZoneEnum.BATTLEFIELD;
 	}
 
 	@Override
-	public void moveCard(DisplayableCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 		switch (to) {
 		case GRAVEYARD:
 			player.discardCardFromBattleField(mc.getMagicCard());

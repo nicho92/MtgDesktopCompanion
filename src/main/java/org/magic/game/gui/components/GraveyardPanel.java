@@ -5,7 +5,7 @@ import java.awt.Dimension;
 
 import javax.swing.border.LineBorder;
 
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
 
 public class GraveyardPanel extends DraggablePanel {
@@ -19,8 +19,8 @@ public class GraveyardPanel extends DraggablePanel {
 	}
 
 	@Override
-	public PositionEnum getOrigine() {
-		return PositionEnum.GRAVEYARD;
+	public ZoneEnum getOrigine() {
+		return ZoneEnum.GRAVEYARD;
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class GraveyardPanel extends DraggablePanel {
 	}
 
 	@Override
-	public void moveCard(DisplayableCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 		switch (to) {
 		case BATTLEFIELD:
 			player.playCardFromGraveyard(mc.getMagicCard());

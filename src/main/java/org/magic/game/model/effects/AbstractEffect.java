@@ -1,9 +1,23 @@
-package org.magic.game.model.abilities.effects;
+package org.magic.game.model.effects;
 
-public abstract class Effect {
+import org.magic.game.model.AbstractSpell;
+
+public abstract class AbstractEffect extends AbstractSpell {
 
 	protected String effectDescription;
-	protected Effect childEffect;
+	protected AbstractEffect childEffect;
+	
+	
+	@Override
+	public void resolve() {
+			
+	}
+	
+	
+	@Override
+	public boolean isStackable() {
+		return true;
+	}
 	
 	public boolean hasChild()
 	{
@@ -11,11 +25,11 @@ public abstract class Effect {
 	}
 	
 	
-	public Effect getChildEffect() {
+	public AbstractEffect getChildEffect() {
 		return childEffect;
 	}
 	
-	public void setChildEffect(Effect childEffect) {
+	public void setChildEffect(AbstractEffect childEffect) {
 		this.childEffect = childEffect;
 	}
 	

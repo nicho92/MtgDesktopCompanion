@@ -1,6 +1,5 @@
 package org.magic.game.actions.cards;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 
@@ -31,7 +30,7 @@ public class EmbalmActions extends AbstractAction {
 		try {
 			MagicCard tok = MTGControler.getInstance().getEnabledTokensProvider().generateTokenFor(card.getMagicCard());
 			DisplayableCard dc = new DisplayableCard(tok, MTGControler.getInstance().getCardsGameDimension(), true);
-			dc.addCounter(new ItemCounter("Embalm", Color.YELLOW));
+			dc.addCounter(new ItemCounter("Embalm"));
 
 			dc.setMagicCard(tok);
 			GamePanelGUI.getInstance().getPlayer().exileCardFromGraveyard(card.getMagicCard());

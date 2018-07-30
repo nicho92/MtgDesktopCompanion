@@ -24,8 +24,7 @@ public class ItemCounterActions extends AbstractAction {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 
-		String counter = JOptionPane.showInputDialog("Counter's name ?");
-		itemCounter.setName(counter);
+		itemCounter.setName(itemCounter.getName());
 
 		card.addCounter(itemCounter);
 		card.initActions();

@@ -1,6 +1,5 @@
-package org.magic.game.model.abilities.costs;
+package org.magic.game.model.costs;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.TreeMap;
 

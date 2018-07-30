@@ -9,7 +9,7 @@ import javax.swing.JOptionPane;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.dialog.SearchCardFrame;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 
 public class ScryActions extends AbstractAction {
 
@@ -44,7 +44,7 @@ public class ScryActions extends AbstractAction {
 
 		if (value != null) {
 			new SearchCardFrame(GamePanelGUI.getInstance().getPlayer(),
-					GamePanelGUI.getInstance().getPlayer().scry(Integer.parseInt(value.trim())), PositionEnum.LIBRARY)
+					GamePanelGUI.getInstance().getPlayer().scry(Integer.parseInt(value.trim())), ZoneEnum.LIBRARY)
 							.setVisible(true);
 		}
 

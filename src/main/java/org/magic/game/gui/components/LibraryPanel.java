@@ -14,7 +14,7 @@ import org.magic.game.actions.library.DrawHandActions;
 import org.magic.game.actions.library.MoveGraveyardActions;
 import org.magic.game.actions.library.ShuffleActions;
 import org.magic.game.actions.player.SearchActions;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -50,7 +50,7 @@ public class LibraryPanel extends DraggablePanel {
 	}
 
 	@Override
-	public void moveCard(DisplayableCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 
 		switch (to) {
 		case BATTLEFIELD:
@@ -75,8 +75,8 @@ public class LibraryPanel extends DraggablePanel {
 	}
 
 	@Override
-	public PositionEnum getOrigine() {
-		return PositionEnum.LIBRARY;
+	public ZoneEnum getOrigine() {
+		return ZoneEnum.LIBRARY;
 	}
 
 	@Override

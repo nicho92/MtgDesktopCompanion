@@ -7,6 +7,7 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -33,9 +34,12 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import org.apache.commons.beanutils.BeanUtils;
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.configuration2.event.ConfigurationErrorEvent;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
+import org.magic.game.actions.cards.AbilitiesActions;
 import org.magic.game.actions.cards.AttachActions;
 import org.magic.game.actions.cards.BonusCounterActions;
 import org.magic.game.actions.cards.CreateActions;
@@ -48,17 +52,22 @@ import org.magic.game.actions.cards.SelectionActions;
 import org.magic.game.actions.cards.TapActions;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
+import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.Turn.PHASES;
 import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
 import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
+import org.magic.game.model.factories.AbilitiesFactory;
+import org.magic.game.model.factories.CountersFactory;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
+
+import com.itextpdf.text.log.CounterFactory;
 
 public class DisplayableCard extends JLabel implements Draggable {
 
@@ -83,7 +92,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private transient List<AbstractCounter> counters;
 	private transient Image fullResPics;
 	private boolean showLoyalty;
-	private PositionEnum position;
+	private ZoneEnum position;
 	private boolean rightActions;
 	private transient Observable obs;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
@@ -98,11 +107,11 @@ public class DisplayableCard extends JLabel implements Draggable {
 		this.counters = counters;
 	}
 
-	public PositionEnum getPosition() {
+	public ZoneEnum getPosition() {
 		return position;
 	}
 
-	public void setPosition(PositionEnum position) {
+	public void setPosition(ZoneEnum position) {
 		this.position = position;
 	}
 
@@ -312,7 +321,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		((DraggablePanel) getParent()).getTransferHandler().exportAsDrag(this, e, TransferHandler.MOVE);
 	}
 
-	private AbstractAction generateActionFrom(MTGKeyWord k) throws ClassNotFoundException, NoSuchMethodException,
+	private AbstractAction generateActionFromKey(MTGKeyWord k) throws ClassNotFoundException, NoSuchMethodException,
 			InstantiationException, IllegalAccessException, InvocationTargetException {
 		Class a = DisplayableCard.class.getClassLoader()
 				.loadClass("org.magic.game.actions.cards." + k.toString() + "Actions");
@@ -342,19 +351,34 @@ public class DisplayableCard extends JLabel implements Draggable {
 				mnuModifier.add(new FixCreaturePowerActions(this));
 				menu.add(mnuModifier);
 			}
+			
+			if(getMagicCard().isPermanent()) {
+			JMenu mnuAbilities = new JMenu("Abilities");
+			for(AbstractAbilities c : AbilitiesFactory.getInstance().getAbilities(getMagicCard()))
+				{
+					if(c.isActivated() && !c.isLoyalty())
+					{
+						mnuAbilities.add(new AbilitiesActions(c));
+					}
+				}
 
-			JMenu mnuCounter = new JMenu("Counter");
+			menu.add(mnuAbilities);
+			}
 
-			mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Yellow", Color.YELLOW)));
-			mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Green", Color.GREEN)));
-			mnuCounter.add(new ItemCounterActions(this, new ItemCounter("Orange", Color.ORANGE)));
-			menu.add(mnuCounter);
+			
+			List<ItemCounter> items = CountersFactory.getInstance().createItemCounter(getMagicCard());
+			if(!items.isEmpty())
+			{ 
+				JMenu mnuCounter = new JMenu("Counters");
+				for(ItemCounter c : CountersFactory.getInstance().createItemCounter(getMagicCard()))
+					mnuCounter.add(new ItemCounterActions(this, c));
+				
+				menu.add(mnuCounter);
+			}
 
 			if (magicCard.isPlaneswalker()) {
 				JMenu mnuModifier = new JMenu("Loyalty");
-
-				for (LoyaltyCounter count : listLoyalty())
-					mnuModifier.add(new LoyaltyActions(this, count));
+				CountersFactory.getInstance().createLoyaltyCounter(getMagicCard()).forEach(lc->mnuModifier.add(new LoyaltyActions(this, lc)));
 				menu.add(mnuModifier);
 			}
 
@@ -363,23 +387,24 @@ public class DisplayableCard extends JLabel implements Draggable {
 			}
 
 			Set<MTGKeyWord> l = MTGControler.getInstance().getKeyWordManager().getKeywordsFrom(magicCard);
-			JMenu abilities = new JMenu("Actions");
-
-			if (magicCard.getLayout().equalsIgnoreCase("aftermath"))
-				l.add(MTGControler.getInstance().getKeyWordManager().generateFromString("Aftermath"));
+			
+//			if (magicCard.getLayout().equalsIgnoreCase("aftermath"))
+//				l.add(MTGControler.getInstance().getKeyWordManager().generateFromKeyString("Aftermath"));
 
 			if (!l.isEmpty()) {
+				JMenu actions = new JMenu("Actions");
+
 				for (final MTGKeyWord k : l) {
 					JMenuItem it;
 					try {
-						it = new JMenuItem(generateActionFrom(k));
+						it = new JMenuItem(generateActionFromKey(k));
 					} catch (Exception e) {
 						it = new JMenuItem(k.getKeyword());
 						it.setToolTipText(k.getDescription());
 					}
-					abilities.add(it);
+					actions.add(it);
 				}
-				menu.add(abilities);
+				menu.add(actions);
 			}
 
 			if (!counters.isEmpty()) {
@@ -439,34 +464,6 @@ public class DisplayableCard extends JLabel implements Draggable {
 		this.tapped = t;
 	}
 
-	private List<LoyaltyCounter> listLoyalty() {
-		String[] values = magicCard.getText().split("\n");
-		List<LoyaltyCounter> actions = new ArrayList<>();
-
-		for (String s : values) {
-
-			if (s.startsWith("+")) {
-				LoyaltyCounter act = new LoyaltyCounter(
-						Integer.parseInt(s.substring(s.indexOf('+'), s.indexOf(':')).trim()),
-						s.substring(s.indexOf(':') + 1).trim());
-				actions.add(act);
-			} else if (s.startsWith("0")) {
-				LoyaltyCounter act = new LoyaltyCounter(0, s.substring(s.indexOf(':') + 1).trim());
-				actions.add(act);
-			} else {
-				LoyaltyCounter act;
-				try {
-					act = new LoyaltyCounter(Integer.parseInt("-" + s.substring(1, s.indexOf(':')).trim()),
-							s.substring(s.indexOf(':') + 1).trim());
-				} catch (Exception e) {
-					act = new LoyaltyCounter(0, s.substring(s.indexOf(':') + 1).trim());
-				}
-				actions.add(act);
-			}
-		}
-		return actions;
-	}
-
 	public MagicCard getMagicCard() {
 		return magicCard;
 	}
@@ -510,7 +507,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 	}
 
 	@Override
-	public void moveCard(DisplayableCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 		((DraggablePanel) getParent()).moveCard(mc, to);
 	}
 
@@ -524,7 +521,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 	}
 
 	@Override
-	public PositionEnum getOrigine() {
+	public ZoneEnum getOrigine() {
 		return ((DraggablePanel) getParent()).getOrigine();
 	}
 

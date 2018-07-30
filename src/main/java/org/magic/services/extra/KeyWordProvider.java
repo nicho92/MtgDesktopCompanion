@@ -35,7 +35,7 @@ public class KeyWordProvider {
 
 	}
 
-	public MTGKeyWord generateFromString(String key) {
+	public MTGKeyWord generateFromKeyString(String key) {
 		for (MTGKeyWord k : list)
 			if (key.equalsIgnoreCase(k.getKeyword()))
 				return k;

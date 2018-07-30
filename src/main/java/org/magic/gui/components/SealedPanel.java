@@ -37,7 +37,7 @@ import org.magic.api.interfaces.MTGComparator;
 import org.magic.game.gui.components.BoosterPanel;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GraveyardPanel;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 import org.magic.gui.components.charts.CmcChartPanel;
 import org.magic.gui.components.charts.ManaRepartitionPanel;
 import org.magic.gui.components.charts.TypeRepartitionPanel;
@@ -260,14 +260,14 @@ public class SealedPanel extends JPanel {
 
 		panelDeck = new GraveyardPanel() {
 			@Override
-			public PositionEnum getOrigine() {
-				return PositionEnum.DECK;
+			public ZoneEnum getOrigine() {
+				return ZoneEnum.DECK;
 
 			}
 
 			@Override
-			public void moveCard(DisplayableCard mc, PositionEnum to) {
-				if (to == PositionEnum.BOOSTER) {
+			public void moveCard(DisplayableCard mc, ZoneEnum to) {
+				if (to == ZoneEnum.BOOSTER) {
 					deck.remove(mc.getMagicCard());
 					list.add(mc.getMagicCard());
 					refreshStats();

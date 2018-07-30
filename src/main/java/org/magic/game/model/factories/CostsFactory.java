@@ -4,12 +4,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.apache.commons.lang3.StringUtils;
-import org.magic.game.model.abilities.costs.ActionCost;
-import org.magic.game.model.abilities.costs.Cost;
-import org.magic.game.model.abilities.costs.EnergyCost;
-import org.magic.game.model.abilities.costs.LifeCost;
-import org.magic.game.model.abilities.costs.ManaCost;
-import org.magic.game.model.abilities.costs.TapCost;
+import org.magic.game.model.costs.ActionCost;
+import org.magic.game.model.costs.Cost;
+import org.magic.game.model.costs.EnergyCost;
+import org.magic.game.model.costs.LifeCost;
+import org.magic.game.model.costs.ManaCost;
+import org.magic.game.model.costs.TapCost;
 import org.magic.tools.MTGOraclePatterns;
 
 public class CostsFactory {

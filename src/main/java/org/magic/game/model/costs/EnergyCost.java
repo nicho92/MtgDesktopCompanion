@@ -1,4 +1,4 @@
-package org.magic.game.model.abilities.costs;
+package org.magic.game.model.costs;
 
 public class EnergyCost extends NumberCost {
 

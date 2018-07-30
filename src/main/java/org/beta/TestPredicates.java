@@ -14,7 +14,7 @@ public class TestPredicates {
 	public static void main(String[] args) throws IOException {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
 		
-		String[] test = new String[] {"Pawn of Ulamog","Ulamog, the Ceaseless Hunger","Liliana's Contract","Sorin, Grim Nemesis","Ring of Evos Isle","Tasigur, the Golden Fang","Wall of Air"};
+		String[] test = new String[] {"Blinkmoth Nexus","Pawn of Ulamog","Ulamog, the Ceaseless Hunger","Liliana's Contract","Sorin, Grim Nemesis","Ring of Evos Isle","Tasigur, the Golden Fang","Wall of Air","Genju of the Fields","Drekavac","Balduvian Shaman"};
 		
 		List<MagicCard> list = new ArrayList<>();
 		

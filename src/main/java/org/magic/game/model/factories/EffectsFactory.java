@@ -3,8 +3,8 @@ package org.magic.game.model.factories;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.magic.game.model.abilities.effects.Effect;
-import org.magic.game.model.abilities.effects.OneShotEffect;
+import org.magic.game.model.effects.AbstractEffect;
+import org.magic.game.model.effects.OneShotEffect;
 
 public class EffectsFactory {
 
@@ -21,9 +21,9 @@ public class EffectsFactory {
 	private EffectsFactory() {	}
 	
 	
-	public List<Effect> parseEffect(List<String> sentences)
+	public List<AbstractEffect> parseEffect(List<String> sentences)
 	{
-		ArrayList<Effect> arr = new ArrayList<>();
+		ArrayList<AbstractEffect> arr = new ArrayList<>();
 		
 		if(sentences.isEmpty())
 			return arr;
@@ -48,7 +48,7 @@ public class EffectsFactory {
 		
 	}
 	
-	public Effect parseEffect(String s)
+	public AbstractEffect parseEffect(String s)
 	{
 			OneShotEffect e = new OneShotEffect();
 			e.setEffectDescription(s);

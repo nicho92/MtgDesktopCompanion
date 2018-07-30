@@ -10,7 +10,7 @@ import javax.swing.JLabel;
 import javax.swing.border.LineBorder;
 
 import org.magic.api.beans.MagicCard;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 
 public class HandPanel extends DraggablePanel {
 
@@ -18,10 +18,10 @@ public class HandPanel extends DraggablePanel {
 	private int index = 0;
 	private int val = 7;
 	private transient Thread t;
-	private PositionEnum origine = PositionEnum.HAND;
+	private ZoneEnum origine = ZoneEnum.HAND;
 
 	@Override
-	public void moveCard(DisplayableCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 
 		switch (to) {
 		case BATTLEFIELD:
@@ -109,11 +109,11 @@ public class HandPanel extends DraggablePanel {
 	}
 
 	@Override
-	public PositionEnum getOrigine() {
+	public ZoneEnum getOrigine() {
 		return origine;
 	}
 
-	public void setOrigine(PositionEnum or) {
+	public void setOrigine(ZoneEnum or) {
 		origine = or;
 
 	}

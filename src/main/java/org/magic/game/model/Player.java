@@ -484,7 +484,7 @@ public class Player extends Observable implements Serializable {
 
 	}
 
-	public void moveCard(PositionEnum from, PositionEnum to, MagicCard mc) {
+	public void moveCard(ZoneEnum from, ZoneEnum to, MagicCard mc) {
 		// do nothing
 	}
 

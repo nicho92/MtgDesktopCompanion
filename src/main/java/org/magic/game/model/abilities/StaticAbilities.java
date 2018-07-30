@@ -1,7 +1,5 @@
 package org.magic.game.model.abilities;
 
-import java.awt.event.ActionEvent;
-
 import org.magic.api.beans.MTGKeyWord;
 
 public class StaticAbilities extends AbstractAbilities {

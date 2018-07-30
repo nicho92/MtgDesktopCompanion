@@ -8,7 +8,7 @@ import javax.swing.JMenuItem;
 import javax.swing.border.LineBorder;
 
 import org.magic.game.actions.player.SearchActions;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 
 public class ExilPanel extends DraggablePanel {
 
@@ -33,8 +33,8 @@ public class ExilPanel extends DraggablePanel {
 	}
 
 	@Override
-	public PositionEnum getOrigine() {
-		return PositionEnum.EXIL;
+	public ZoneEnum getOrigine() {
+		return ZoneEnum.EXIL;
 	}
 
 	@Override
@@ -44,7 +44,7 @@ public class ExilPanel extends DraggablePanel {
 	}
 
 	@Override
-	public void moveCard(DisplayableCard mc, PositionEnum to) {
+	public void moveCard(DisplayableCard mc, ZoneEnum to) {
 		switch (to) {
 		case BATTLEFIELD:
 			player.playCardFromExile(mc.getMagicCard());

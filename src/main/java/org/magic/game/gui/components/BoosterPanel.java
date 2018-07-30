@@ -8,7 +8,7 @@ import javax.swing.JPanel;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.GameManager;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 import org.magic.services.MTGControler;
 
 public class BoosterPanel extends JPanel {
@@ -35,14 +35,14 @@ public class BoosterPanel extends JPanel {
 			p = new GraveyardPanel() {
 
 				@Override
-				public PositionEnum getOrigine() {
-					return PositionEnum.BOOSTER;
+				public ZoneEnum getOrigine() {
+					return ZoneEnum.BOOSTER;
 				}
 
 				@Override
-				public void moveCard(DisplayableCard mc, PositionEnum to) {
+				public void moveCard(DisplayableCard mc, ZoneEnum to) {
 
-					if (to == PositionEnum.DECK)
+					if (to == ZoneEnum.DECK)
 						list.remove(mc.getMagicCard());
 				}
 			};

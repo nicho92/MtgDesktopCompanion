@@ -7,13 +7,13 @@ import javax.swing.AbstractAction;
 
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.dialog.SearchCardFrame;
-import org.magic.game.model.PositionEnum;
+import org.magic.game.model.ZoneEnum;
 
 public class SearchActions extends AbstractAction {
 
-	PositionEnum pos;
+	ZoneEnum pos;
 
-	public SearchActions(PositionEnum pos) {
+	public SearchActions(ZoneEnum pos) {
 		putValue(NAME, "Search in " + pos);
 		putValue(SHORT_DESCRIPTION, "");
 		putValue(MNEMONIC_KEY, KeyEvent.VK_S);
