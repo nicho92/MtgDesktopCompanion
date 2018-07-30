@@ -18,11 +18,13 @@ import javax.swing.SwingUtilities;
 import javax.swing.TransferHandler;
 
 import org.apache.log4j.Logger;
+import org.magic.game.actions.cards.AbilitiesActions;
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.Draggable;
 import org.magic.game.gui.components.DraggablePanel;
 import org.magic.game.model.CardSpell;
 import org.magic.game.model.GameManager;
+import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGLogger;
 
 public class CardTransfertHandler extends TransferHandler {
@@ -110,6 +112,7 @@ public class CardTransfertHandler extends TransferHandler {
 				src.getParent().repaint();
 				
 				GameManager.getInstance().getStack().put(new CardSpell(src));
+				GameManager.getInstance().registerTriggers(AbilitiesFactory.getInstance().getTriggeredAbility(src.getMagicCard()));
 				
 				logger.debug("move " + src.getMagicCard().getName() + " from "
 						+ ((Draggable) src.getParent()).getOrigine() + " to " + target.getOrigine());

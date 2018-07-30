@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import org.magic.game.model.abilities.TriggeredAbilities;
+
 public class GameManager {
 
 	private List<Player> players;
@@ -85,6 +87,13 @@ public class GameManager {
 
 	public SpellStack getStack() {
 		return stack;
+	}
+
+	public void registerTriggers(List<TriggeredAbilities> triggeredAbility) {
+		if(!triggeredAbility.isEmpty())
+			triggeredAbility.forEach(trig->System.out.println(trig));
+		
+		
 	}
 
 }
