@@ -62,6 +62,12 @@ public class TriggeredAbilities extends AbstractAbilities implements Observer {
 		
 	}
 
+	@Override
+	public void resolve() {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 	
 }

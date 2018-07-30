@@ -1,36 +1,60 @@
 package org.magic.game.model;
 
-import java.awt.event.KeyEvent;
-
-import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.log4j.Logger;
+import org.magic.api.beans.MagicCard;
+import org.magic.game.model.abilities.costs.Cost;
 import org.magic.services.MTGLogger;
 
-public abstract class AbstractSpell extends AbstractAction {
+public abstract class AbstractSpell  implements Spell  {
 
-	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
-
-	public abstract String getCost();
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	protected MagicCard card;
+	protected List<Cost> costs;
 
 	public abstract boolean isStackable();
 
-	public String getDescription() {
-		return getValue(SHORT_DESCRIPTION).toString();
+	
+	public AbstractSpell()
+	{
+		costs=new ArrayList<>();
+		
+	}
+	
+	public void addCost(Cost e) {
+		costs.add(e);
+	}
+	
+	public void setCost(Cost c) {
+		costs.clear();
+		addCost(c);
+		
+	}
+	
+	public Cost getCost()
+	{
+		return costs.get(0);
+	}
+	
+	public List<Cost> getCosts() {
+		return costs;
+	}
+	
+	public void setCosts(List<Cost> costs) {
+		this.costs = costs;
+	}
+	
+	
+	public MagicCard getCard() {
+		return card;
+	}
+	
+	public void setCard(MagicCard card) {
+		this.card = card;
 	}
 
-	public String getName() {
-		return getValue(NAME).toString();
-	}
-
-	public AbstractSpell(String name, String description, KeyEvent k) {
-		super(name);
-		putValue(SHORT_DESCRIPTION, description);
-		putValue(MNEMONIC_KEY, k);
-	}
-
-	public AbstractSpell(String name, String description) {
-		super(name);
-		putValue(SHORT_DESCRIPTION, description);
-	}
+	public abstract void actionPerformed(ActionEvent e);
 }

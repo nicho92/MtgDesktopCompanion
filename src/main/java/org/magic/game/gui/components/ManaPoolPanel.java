@@ -38,7 +38,7 @@ public class ManaPoolPanel extends JPanel implements Observer {
 	public ManaPoolPanel() {
 
 		spinW = new JSpinner();
-		spinW.addChangeListener(ce -> player.setMana("{B}", (int) spinW.getValue()));
+		spinW.addChangeListener(ce -> player.setMana("{W}", (int) spinW.getValue()));
 		setLayout(new GridLayout(0, 2, 0, 0));
 
 		ManaPanel panelW = new ManaPanel();

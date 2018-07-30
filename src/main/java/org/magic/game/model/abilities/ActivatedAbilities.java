@@ -9,4 +9,10 @@ public class ActivatedAbilities extends AbstractAbilities {
 		build.append("\nACTIVATED WHEN PAID:").append(getCosts()).append("\n\tDO :").append(getEffects()).append("\nEND");
 		return build.toString();
 	}
+
+	@Override
+	public void resolve() {
+		// TODO Auto-generated method stub
+		
+	}
 }

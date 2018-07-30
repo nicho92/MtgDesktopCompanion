@@ -432,4 +432,8 @@ public class MagicCard implements Serializable {
 		return layout;
 	}
 
+	public boolean isLand() {
+		return getTypes().toString().toLowerCase().contains("land");
+	}
+
 }

@@ -1,41 +1,55 @@
 package org.magic.game.model;
 
 import java.awt.event.ActionEvent;
+import java.util.List;
 
 import org.magic.game.gui.components.DisplayableCard;
+import org.magic.game.model.abilities.effects.Effect;
+import org.magic.game.model.factories.CostsFactory;
 
 public class CardSpell extends AbstractSpell {
 
-	DisplayableCard c;
+	private DisplayableCard c;
 
-	public CardSpell(String name, String description, DisplayableCard card) {
-		super(name, description);
+	public CardSpell(DisplayableCard card) {
+		super();
 		this.c = card;
+		setCost(CostsFactory.getInstance().parseCosts(c.getMagicCard().getCost()));
 	}
 
-	@Override
-	public void actionPerformed(ActionEvent paramActionEvent) {
-		// do nothing
-
-	}
 
 	public DisplayableCard getDisplayableCard() {
 		return c;
 	}
-
-	@Override
-	public String getCost() {
-		return c.getMagicCard().getCost();
-	}
-
+	
 	@Override
 	public boolean isStackable() {
-		return !c.getMagicCard().getTypes().toString().toLowerCase().contains("land");
+		return !c.getMagicCard().isLand();
 	}
 
 	@Override
 	public String toString() {
 		return c.getMagicCard().toString();
+	}
+	
+	@Override
+	public void resolve() {
+		// TODO Auto-generated method stub
+		
+	}
+
+
+	@Override
+	public List<Effect> getEffects() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

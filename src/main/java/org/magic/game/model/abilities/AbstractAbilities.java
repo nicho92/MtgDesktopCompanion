@@ -1,23 +1,25 @@
 package org.magic.game.model.abilities;
 
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.game.model.AbstractSpell;
 import org.magic.game.model.abilities.costs.Cost;
 import org.magic.game.model.abilities.costs.LoyaltyCost;
 import org.magic.game.model.abilities.effects.Effect;
 import org.utils.patterns.observer.Observer;
 
-public abstract class AbstractAbilities {
+public abstract class AbstractAbilities extends AbstractSpell {
 
-	private MagicCard card;
-	private List<Cost> costs;
-	private List<Effect> effects;
+	
+	private static final long serialVersionUID = 1L;
+	private transient List<Effect> effects;
 	
 	public AbstractAbilities() {
+		super();
 		effects = new ArrayList<>();
-		costs=new ArrayList<>();
 	}
 	
 	
@@ -29,40 +31,12 @@ public abstract class AbstractAbilities {
 		effects.add(e);
 	}
 	
-	public void addCost(Cost e) {
-		costs.add(e);
-	}
-	
-	public void setCost(Cost c) {
-		costs.clear();
-		addCost(c);
-		
-	}
-	
 	public void setEffects(List<Effect> effects) {
 		this.effects = effects;
 	}
 	
-	public Cost getCost()
-	{
-		return costs.get(0);
-	}
+
 	
-	public List<Cost> getCosts() {
-		return costs;
-	}
-	
-	public void setCosts(List<Cost> costs) {
-		this.costs = costs;
-	}
-	
-	public MagicCard getCard() {
-		return card;
-	}
-	
-	public void setCard(MagicCard card) {
-		this.card = card;
-	}
 	
 	public boolean isStatic()
 	{
@@ -87,6 +61,12 @@ public abstract class AbstractAbilities {
 	public boolean isStackable()
 	{
 		return true;
+	}
+	
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

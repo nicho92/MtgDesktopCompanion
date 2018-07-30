@@ -35,7 +35,7 @@ public class CreateActions extends AbstractAction {
 			GamePanelGUI.getInstance().getPanelBattleField().repaint();
 			GamePanelGUI.getInstance().getPlayer().playToken(tok);
 		} catch (Exception ex) {
-			logger.error(ex);
+			logger.error("error creating action", ex);
 		}
 
 	}

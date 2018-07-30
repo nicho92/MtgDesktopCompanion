@@ -125,7 +125,7 @@ public class AbilitiesFactory {
 					
 					for(String c : costs)
 					{
-						abs.addCost(parseCosts(c.trim()));
+						abs.addCost(CostsFactory.getInstance().parseCosts(c.trim()));
 					}
 					
 					abs.addEffect(EffectsFactory.getInstance().parseEffect(s.substring(s.indexOf(':')+1)));
@@ -139,42 +139,6 @@ public class AbilitiesFactory {
 		return ret;
 	}
 
-
-	private Cost parseCosts(String c) {
-
-		if(c.equals("{T}"))
-			return new TapCost();
-		
-		if(c.contains("{E}"))
-			return new EnergyCost(StringUtils.countMatches(c, "{E}"));
-		
-		////////////////
-		Pattern p = Pattern.compile(MTGOraclePatterns.COST_LIFE_PATTERN.getPattern());
-		Matcher m=p.matcher(c);
-		if(m.find())
-			return new LifeCost(Integer.parseInt(m.group(1)));
-		
-		////////////////		
-		p = Pattern.compile(MTGOraclePatterns.MANA_PATTERN.getPattern());
-		m = p.matcher(c);
-		if(m.matches()) 
-		{
-			m=m.reset();
-			ManaCost mana = new ManaCost();
-			while(m.find())
-			{
-					mana.add(m.group());
-			}
-			return mana;
-		}
-		
-	
-		////////////////		
-		ActionCost ac = new ActionCost();
-		ac.setAction(c);
-		
-		return ac;
-	}
 
 
 	private List<LoyaltyAbilities> getLoyaltyAbilities(MagicCard mc) {

@@ -4,11 +4,14 @@ import javax.swing.JFrame;
 
 import org.magic.gui.GameGUI;
 import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class GameClient {
 
 	public static void main(String[] args) {
+		
+		MTGControler.getInstance().getEnabledCardsProviders().init();
 		
 		ThreadManager.getInstance().runInEdt(() -> {
 			JFrame f = new JFrame();
