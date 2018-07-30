@@ -8,8 +8,9 @@ import org.magic.api.beans.MagicCard;
 import org.magic.game.model.costs.Cost;
 import org.magic.game.model.effects.AbstractEffect;
 import org.magic.services.MTGLogger;
+import org.utils.patterns.observer.Observable;
 
-public abstract class AbstractSpell  implements Spell  {
+public abstract class AbstractSpell implements Spell  {
 
 	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	protected MagicCard card;

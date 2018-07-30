@@ -6,7 +6,9 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
-public class SpellStack {
+import org.utils.patterns.observer.Observable;
+
+public class SpellStack extends Observable {
 
 	Deque<AbstractSpell> stack;
 
@@ -20,7 +22,11 @@ public class SpellStack {
 
 	public void put(AbstractSpell a) {
 		if (a.isStackable())
+		{
 			stack.push(a);
+			setChanged();
+			notifyObservers(a);
+		}
 	}
 
 	public AbstractSpell pop() {

@@ -68,6 +68,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private JPanel panelInfo;
 	private TurnsPanel turnsPanel;
 	private ExilPanel exilPanel;
+	private StackPanel stackPanel;
+	
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public static GamePanelGUI getInstance() {
@@ -117,13 +119,16 @@ public class GamePanelGUI extends JPanel implements Observer {
 		setLayout(new BorderLayout(0, 0));
 
 		panneauDroit = new JPanel();
-
+		stackPanel=new StackPanel();
+		GameManager.getInstance().getStack().addObserver(stackPanel);
 		
+		
+		panelInfo = new JPanel();
+			
 
 		add(panneauDroit, BorderLayout.CENTER);
 		panneauDroit.setLayout(new BorderLayout(0, 0));
 
-		panelInfo = new JPanel();
 		panneauDroit.add(panelInfo, BorderLayout.WEST);
 		panelInfo.setLayout(new BorderLayout(0, 0));
 
@@ -331,7 +336,9 @@ public class GamePanelGUI extends JPanel implements Observer {
 		pane.add(panneauHaut, BorderLayout.CENTER);
 
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION"), MTGConstants.ICON_TAB_DETAILS, pane, null);
-
+		tabbedPane.addTab("STACK", MTGConstants.ICON_TAB_DECK, stackPanel, null);
+		
+		
 		JPanel panelPics = new JPanel();
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("PICTURES"), MTGConstants.ICON_TAB_PICTURE, panelPics, null);
 		panelPics.setLayout(new BorderLayout(0, 0));
