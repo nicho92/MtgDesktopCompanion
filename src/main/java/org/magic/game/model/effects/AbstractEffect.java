@@ -13,7 +13,6 @@ public abstract class AbstractEffect extends AbstractSpell {
 			
 	}
 	
-	
 	@Override
 	public boolean isStackable() {
 		return true;

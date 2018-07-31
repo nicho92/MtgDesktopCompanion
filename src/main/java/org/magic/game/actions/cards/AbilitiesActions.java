@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 
+import org.magic.game.model.GameManager;
 import org.magic.game.model.abilities.AbstractAbilities;
 
 public class AbilitiesActions extends AbstractAction {
@@ -19,7 +20,7 @@ public class AbilitiesActions extends AbstractAction {
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		abs.resolve();
+		GameManager.getInstance().getStack().put(abs);
 
 	}
 

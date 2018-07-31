@@ -76,7 +76,7 @@ public class GameManager {
 			player.init();
 
 		turns = new ArrayList<>();
-
+		stack.clean();
 		turns.add(new Turn());
 	}
 

@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
-import org.magic.tools.MTGOraclePatterns;
+import org.magic.tools.OracleCardsPatterns;
 
 public class ManaPanel extends JPanel {
 	private int cols = 10;
@@ -69,7 +69,7 @@ public class ManaPanel extends JPanel {
 		if (manaCost == null)
 			return;
 
-		Pattern p = Pattern.compile(MTGOraclePatterns.MANA_PATTERN.getPattern());
+		Pattern p = Pattern.compile(OracleCardsPatterns.MANA_PATTERN.getPattern());
 		Matcher m = p.matcher(manaCost);
 
 		fl.setVgap(0);

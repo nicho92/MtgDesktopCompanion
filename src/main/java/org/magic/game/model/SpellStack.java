@@ -18,6 +18,8 @@ public class SpellStack extends Observable {
 
 	public void clean() {
 		stack.clear();
+		setChanged();
+		notifyObservers(null);
 	}
 
 	public void put(AbstractSpell a) {
@@ -45,6 +47,17 @@ public class SpellStack extends Observable {
 			b.append(it.next()).append("\n");
 		}
 		return b.toString();
+	}
+
+	public void resolve() {
+		
+		while(!stack.isEmpty())
+		{
+			AbstractSpell sp = pop();
+			sp.resolve();
+			setChanged();
+			notifyObservers(null);
+		}
 	}
 
 }

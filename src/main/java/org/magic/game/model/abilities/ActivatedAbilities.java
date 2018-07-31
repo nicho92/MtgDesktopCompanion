@@ -3,6 +3,7 @@ package org.magic.game.model.abilities;
 public class ActivatedAbilities extends AbstractAbilities {
 
 
+
 	@Override
 	public String toString() {
 		StringBuilder build = new StringBuilder();

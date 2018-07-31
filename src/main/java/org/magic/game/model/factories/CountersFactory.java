@@ -12,7 +12,7 @@ import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
 import org.magic.game.model.effects.AbstractEffect;
 import org.magic.game.model.effects.OneShotEffect;
-import org.magic.tools.MTGOraclePatterns;
+import org.magic.tools.OracleCardsPatterns;
 
 public class CountersFactory {
 
@@ -39,7 +39,7 @@ public class CountersFactory {
 	public List<ItemCounter> createItemCounter(MagicCard mc)
 	{
 		ArrayList<ItemCounter> arr = new ArrayList<>();
-		Pattern p = Pattern.compile(MTGOraclePatterns.COUNTERS.getPattern());
+		Pattern p = Pattern.compile(OracleCardsPatterns.COUNTERS.getPattern());
 		Matcher m = p.matcher(mc.getText());
 		while(m.find())
 		{
@@ -85,7 +85,7 @@ public class CountersFactory {
 	{
 		ArrayList<AbstractCounter> arr = new ArrayList<>();
 		
-		Pattern p = Pattern.compile(MTGOraclePatterns.COUNTERS.getPattern());
+		Pattern p = Pattern.compile(OracleCardsPatterns.COUNTERS.getPattern());
 			Matcher m = p.matcher(mc.getText());
 			while(m.find())
 			{

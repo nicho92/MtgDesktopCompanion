@@ -22,7 +22,6 @@ public abstract class AbstractSpell implements Spell  {
 		return !costs.isEmpty();
 	}
 	
-	
 	public AbstractSpell()
 	{
 		costs=new ArrayList<>();
