@@ -19,11 +19,11 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
 import org.magic.api.beans.MagicCard;
+import org.magic.tools.OracleCardsPatterns;
 
 public class MagicTextPane extends JTextPane {
 
 	ManaPanel manaPanel;
-	MagicCard card;
 
 	public MagicTextPane() {
 		manaPanel = new ManaPanel();
@@ -44,8 +44,7 @@ public class MagicTextPane extends JTextPane {
 
 		setText(getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
 
-		String regex = "\\{(.*?)\\}";
-		Pattern p = Pattern.compile(regex);
+		Pattern p = Pattern.compile(OracleCardsPatterns.MANA_PATTERN.getPattern());
 		Matcher m = p.matcher(getText());
 
 		String text = getText();
