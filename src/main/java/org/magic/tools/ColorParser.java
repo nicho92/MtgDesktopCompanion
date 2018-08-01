@@ -23,7 +23,29 @@ public class ColorParser {
 		return "{C}";
 	}
 
-	public static Color getColorParse(List<String> fullColorName)
+	public static Color getColorManaParse(List<String> manas)
+	{
+		
+		if(manas.size()>1)
+			return Color.YELLOW;
+		
+		if(manas.isEmpty())
+			return new Color(139,69,19);
+			
+			
+		if(manas.get(0).contains("U"))
+			return Color.BLUE;
+		else if (manas.get(0).equalsIgnoreCase("B"))
+			return Color.BLACK;
+		else if (manas.get(0).equalsIgnoreCase("R"))
+			return Color.RED;
+		else if (manas.get(0).equalsIgnoreCase("G"))
+			return Color.GREEN;
+		
+		return Color.WHITE;
+	}
+	
+	public static Color getFullNameColorParse(List<String> fullColorName)
 	{
 		
 		if(fullColorName.size()>1)

@@ -12,4 +12,9 @@ public abstract class ManaAbilities extends AbstractAbilities {
 		return true;
 	}
 	
+	@Override
+	public boolean isResolved() {
+		return true;
+	}
+	
 }

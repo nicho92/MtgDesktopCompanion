@@ -16,6 +16,7 @@ import org.magic.game.model.AbstractSpell;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.services.MTGConstants;
+import org.magic.tools.ColorParser;
 
 public class SpellRendererPanel extends JPanel {
 	
@@ -27,8 +28,10 @@ public class SpellRendererPanel extends JPanel {
 	
 	public void setColor(Color fore,Color back)
 	{
-		setBackground(back);
-		setForeground(fore);
+		lblIconCard.setBackground(back);
+		lblIconCard.setForeground(fore);
+		lblCardName.setBackground(back);
+		lblCardName.setForeground(fore);
 	}
 	
 	public SpellRendererPanel(AbstractSpell value) {
@@ -41,15 +44,27 @@ public class SpellRendererPanel extends JPanel {
 		add(lblCardName, BorderLayout.NORTH);
 		add(textPane, BorderLayout.CENTER);
 		add(lblIconCard, BorderLayout.WEST);
+		
+		
 		setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		lblIconCard.setOpaque(true);
+		lblCardName.setOpaque(true);
+		
+		
 		
 		if(value instanceof AbstractAbilities)
 		{
 			AbstractAbilities abs = (AbstractAbilities)value;
 			textPane.setText(abs.getEffects().toString());
 			lblCardName.setText(abs.getCard().toString());
-			lblIconCard.setIcon(MTGConstants.ICON_TAB_MANA);
-			setToolTipText(abs.toString());
+			
+			if(abs.isActivated())
+				lblIconCard.setIcon(MTGConstants.ICON_GAME_ACTIVATED);
+			else if(abs.isStatic())
+				lblIconCard.setIcon(MTGConstants.ICON_GAME_STATIC);
+			else if(abs.isTriggered())
+				lblIconCard.setIcon(MTGConstants.ICON_GAME_TRIGGER);
+			
 		}
 		else
 		{
@@ -59,6 +74,14 @@ public class SpellRendererPanel extends JPanel {
 		}
 		textPane.updateTextWithIcons();
 		textPane.setPreferredSize(new Dimension(5,50));
+		
+		Color c = ColorParser.getFullNameColorParse(value.getCard().getColors());
+		setColor(Color.BLACK, c);
+		
+		if(c.equals(Color.BLACK))
+			setColor(Color.WHITE, c);
+		
+		
      }
 	
 	

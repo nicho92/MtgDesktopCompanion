@@ -37,8 +37,7 @@ public class CardTransfertHandler extends TransferHandler {
 
 	public CardTransfertHandler() {
 
-		localObjectFlavor = new ActivationDataFlavor(DisplayableCard.class, DataFlavor.javaJVMLocalObjectMimeType,
-				"DisplayableCard");
+		localObjectFlavor = new ActivationDataFlavor(DisplayableCard.class, DataFlavor.javaJVMLocalObjectMimeType,"DisplayableCard");
 		window.add(dragLab);
 		window.setBackground(new Color(0, true));
 
@@ -111,11 +110,8 @@ public class CardTransfertHandler extends TransferHandler {
 				target.updatePanel();
 				src.getParent().repaint();
 				
-				GameManager.getInstance().getStack().put(new CardSpell(src));
-				GameManager.getInstance().registerTriggers(AbilitiesFactory.getInstance().getTriggeredAbility(src.getMagicCard()));
 				
-				logger.debug("move " + src.getMagicCard().getName() + " from "
-						+ ((Draggable) src.getParent()).getOrigine() + " to " + target.getOrigine());
+				logger.debug("move " + src.getMagicCard().getName() + " from "+ ((Draggable) src.getParent()).getOrigine() + " to " + target.getOrigine());
 				((Draggable) src.getParent()).moveCard(src, target.getOrigine());
 				target.addComponent(src);
 

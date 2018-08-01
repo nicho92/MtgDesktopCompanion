@@ -2,12 +2,13 @@ package org.magic.game.model;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.model.effects.OneShotEffect;
+import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.game.model.factories.CostsFactory;
 
 public class CardSpell extends AbstractSpell {
 
 	private DisplayableCard c;
-
+	
 	
 	
 	public CardSpell(DisplayableCard card) {
@@ -19,6 +20,8 @@ public class CardSpell extends AbstractSpell {
 					  e.setCard(card.getMagicCard());
 					  e.setEffectDescription(card.getMagicCard().getText());
 					  e.setCost(CostsFactory.getInstance().parseCosts(card.getMagicCard().getCost()));
+		
+		
 		addEffect(e);
 	}
 
@@ -37,11 +40,6 @@ public class CardSpell extends AbstractSpell {
 		return c.getMagicCard().toString();
 	}
 	
-	@Override
-	public void resolve() {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 }

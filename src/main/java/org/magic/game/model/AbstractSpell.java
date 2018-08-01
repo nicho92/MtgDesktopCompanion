@@ -5,8 +5,12 @@ import java.util.List;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
+import org.magic.game.actions.cards.AbilitiesActions;
+import org.magic.game.model.TriggerManager.TRIGGERS;
+import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.costs.Cost;
 import org.magic.game.model.effects.AbstractEffect;
+import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
@@ -16,6 +20,28 @@ public abstract class AbstractSpell implements Spell  {
 	protected MagicCard card;
 	protected List<Cost> costs;
 	protected List<AbstractEffect> effects;
+	protected boolean resolved;
+	protected List<AbstractAbilities> abilities;
+	
+	
+	public boolean isResolved() {
+		return resolved;
+	}
+	
+
+	@Override
+	public void resolve() {
+		resolved=true;
+		
+		for(AbstractAbilities abs : AbilitiesFactory.getInstance().getTriggeredAbility(card))
+		{
+			GameManager.getInstance().getTriggers().register(TRIGGERS.ENTER_BATTLEFIELD, abs);
+		}
+		
+	}
+
+	
+	
 	
 	public boolean hasCost()
 	{
@@ -26,6 +52,7 @@ public abstract class AbstractSpell implements Spell  {
 	{
 		costs=new ArrayList<>();
 		effects=new ArrayList<>();
+		
 	}
 	
 	public void addCost(Cost e) {

@@ -4,9 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.magic.game.model.abilities.TriggeredAbilities;
-
-public class GameManager {
+public class GameManager{
 
 	private List<Player> players;
 
@@ -14,11 +12,22 @@ public class GameManager {
 	private List<Turn> turns;
 
 	private SpellStack stack;
-
+	private TriggerManager triggers;
+	
+	
 	private GameManager() {
 		turns = new ArrayList<>();
 		players = new ArrayList<>();
 		stack = new SpellStack();
+		triggers = new TriggerManager();
+	}
+	
+	public TriggerManager getTriggers() {
+		return triggers;
+	}
+	
+	public void setTriggers(TriggerManager triggers) {
+		this.triggers = triggers;
 	}
 
 	public List<Turn> getTurns() {
@@ -89,11 +98,5 @@ public class GameManager {
 		return stack;
 	}
 
-	public void registerTriggers(List<TriggeredAbilities> triggeredAbility) {
-		if(!triggeredAbility.isEmpty())
-			triggeredAbility.forEach(trig->System.out.println(trig));
-		
-		
-	}
 
 }

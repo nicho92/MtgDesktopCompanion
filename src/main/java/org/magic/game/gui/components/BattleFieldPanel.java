@@ -17,7 +17,11 @@ import org.magic.game.actions.battlefield.ChangeBackGroundActions;
 import org.magic.game.actions.battlefield.FlipaCoinActions;
 import org.magic.game.actions.battlefield.SelectedTapActions;
 import org.magic.game.actions.battlefield.UnselectAllAction;
+import org.magic.game.model.CardSpell;
+import org.magic.game.model.GameManager;
 import org.magic.game.model.ZoneEnum;
+import org.magic.game.model.TriggerManager.TRIGGERS;
+import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
@@ -77,9 +81,11 @@ public class BattleFieldPanel extends DraggablePanel {
 		setComponentPopupMenu(battlefieldMenu);
 	}
 
-	public void addComponent(DisplayableCard card) {
-		this.add(card);
-		card.setPosition(getOrigine());
+	public void addComponent(DisplayableCard c) {
+		this.add(c);
+		c.setPosition(getOrigine());
+		GameManager.getInstance().getStack().put(new CardSpell(c));
+	//	GameManager.getInstance().getTriggers().resolve(TRIGGERS.ENTER_BATTLEFIELD);
 	}
 
 	@Override

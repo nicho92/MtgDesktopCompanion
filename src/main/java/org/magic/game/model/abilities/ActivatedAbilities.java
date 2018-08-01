@@ -12,12 +12,6 @@ public class ActivatedAbilities extends AbstractAbilities {
 	}
 
 	@Override
-	public void resolve() {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
 	public boolean isActivated() {
 		return true;
 	}

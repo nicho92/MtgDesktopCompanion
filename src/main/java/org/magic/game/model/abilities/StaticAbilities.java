@@ -21,11 +21,6 @@ public class StaticAbilities extends AbstractAbilities {
 		return "\nSTATIC: " + key.getKeyword();
 	}
 
-	@Override
-	public void resolve() {
-		// TODO Auto-generated method stub
-		
-	}
 
 	
 }

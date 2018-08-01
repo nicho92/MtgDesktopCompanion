@@ -41,7 +41,6 @@ public class SpellStack extends Observable {
 
 	public String toString() {
 		StringBuilder b = new StringBuilder();
-
 		Iterator<AbstractSpell> it = stack.iterator();
 		while (it.hasNext()) {
 			b.append(it.next()).append("\n");

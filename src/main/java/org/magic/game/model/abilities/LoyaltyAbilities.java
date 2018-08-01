@@ -15,6 +15,9 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 		return build.toString();
 	}
 
-	
+	@Override
+	public boolean isResolved() {
+		return true;
+	}
 	
 }

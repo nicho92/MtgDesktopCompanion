@@ -1,6 +1,7 @@
 package org.magic.game.model.effects;
 
 import org.magic.game.model.AbstractSpell;
+import org.magic.game.model.GameManager;
 
 public abstract class AbstractEffect extends AbstractSpell {
 
@@ -10,7 +11,7 @@ public abstract class AbstractEffect extends AbstractSpell {
 	
 	@Override
 	public void resolve() {
-			
+		
 	}
 	
 	@Override

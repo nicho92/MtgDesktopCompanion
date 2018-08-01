@@ -121,6 +121,7 @@ public class DisplayableCard extends JLabel implements Draggable {
 		initActions();
 	}
 
+	
 	public void removeCounter(AbstractCounter c) {
 		counters.remove(c);
 		c.remove(this);

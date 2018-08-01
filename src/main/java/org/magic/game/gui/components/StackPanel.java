@@ -3,7 +3,6 @@ package org.magic.game.gui.components;
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.TimerTask;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JLabel;
@@ -12,14 +11,13 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
-import org.jdesktop.swingx.JXPanel;
 import org.magic.game.gui.components.renderer.StackItemRenderer;
 import org.magic.game.model.AbstractSpell;
 import org.magic.game.model.GameManager;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
-public class StackPanel extends JXPanel implements Observer {
+public class StackPanel extends JPanel implements Observer {
 	
 	private JList<AbstractSpell> listStack;
 	private DefaultListModel<AbstractSpell> model;
@@ -43,12 +41,11 @@ public class StackPanel extends JXPanel implements Observer {
 					if(model.size()>0) {
 						lblCounter.setText("RESOLVING " + model.size() + " spell(s)");
 						GameManager.getInstance().getStack().resolve();
-						timer.start();
+						
 					}
 					else
 					{
 						startTime=SECONDE;
-						timer.restart();
 					}
 				}
 			}
@@ -64,19 +61,33 @@ public class StackPanel extends JXPanel implements Observer {
 		add(new JScrollPane(listStack ), BorderLayout.CENTER);
 		add(panel, BorderLayout.NORTH);
 		panel.add(lblCounter);
+	}
+	
+	
+	public void enableChrono(boolean b)
+	{
+		startTime=SECONDE;
 		
-		timer.start();
+		if(b)
+			timer.start();
+		else
+			timer.stop();
+		
 		
 	}
 	
 	public void updateStack()
 	{
 		model.clear();
-		startTime=SECONDE;
 		for(AbstractSpell spell : GameManager.getInstance().getStack().toList())
 		{
 			model.addElement(spell);
 		}
+		
+		if(!model.isEmpty())
+			enableChrono(true);
+			
+		
 	}
 
 	@Override
