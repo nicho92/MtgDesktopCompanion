@@ -39,7 +39,7 @@ public class TriggeredAbilities extends AbstractAbilities {
 		}
 		
 		list.set(0,s);
-		setEffects(EffectsFactory.getInstance().parseEffect(list));
+		setEffects(EffectsFactory.getInstance().parseEffect(getCard(),list));
 	}
 
 	
@@ -51,6 +51,11 @@ public class TriggeredAbilities extends AbstractAbilities {
 		build.append("\nEND");
 		return build.toString();
 		
+	}
+	
+	@Override
+	public String getTitle() {
+		return getEvent();
 	}
 
 	

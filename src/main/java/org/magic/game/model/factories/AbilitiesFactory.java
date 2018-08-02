@@ -83,7 +83,7 @@ public class AbilitiesFactory {
 					for(String c : costs)
 						abs.addCost(CostsFactory.getInstance().parseCosts(c.trim()));
 					
-					abs.addEffect(EffectsFactory.getInstance().parseEffect(s.substring(s.indexOf(':')+1)));
+					abs.addEffect(EffectsFactory.getInstance().parseEffect(mc,s.substring(s.indexOf(':')+1)));
 					
 					
 					ret.add(abs);
@@ -133,7 +133,7 @@ public class AbilitiesFactory {
 							}	
 						}
 						
-						abilities.addEffect(EffectsFactory.getInstance().parseEffect(s.substring(subs.length())));
+						abilities.addEffect(EffectsFactory.getInstance().parseEffect(mc,s.substring(subs.length())));
 						list.add(abilities);
 				}
 			}

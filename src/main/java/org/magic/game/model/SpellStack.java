@@ -6,11 +6,14 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
+import org.apache.log4j.Logger;
+import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 
 public class SpellStack extends Observable {
 
 	Deque<AbstractSpell> stack;
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public SpellStack() {
 		stack = new ArrayDeque<>();
@@ -48,8 +51,7 @@ public class SpellStack extends Observable {
 		return b.toString();
 	}
 
-	public void resolve() {
-		
+	public void unstack() {
 		while(!stack.isEmpty())
 		{
 			AbstractSpell sp = pop();

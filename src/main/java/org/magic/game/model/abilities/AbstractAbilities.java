@@ -38,4 +38,8 @@ public abstract class AbstractAbilities extends AbstractSpell {
 		return true;
 	}
 
+	public String getTitle()
+	{
+		return card.getName();
+	}
 }

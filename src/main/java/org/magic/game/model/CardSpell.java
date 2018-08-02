@@ -20,8 +20,6 @@ public class CardSpell extends AbstractSpell {
 					  e.setCard(card.getMagicCard());
 					  e.setEffectDescription(card.getMagicCard().getText());
 					  e.setCost(CostsFactory.getInstance().parseCosts(card.getMagicCard().getCost()));
-		
-		
 		addEffect(e);
 	}
 

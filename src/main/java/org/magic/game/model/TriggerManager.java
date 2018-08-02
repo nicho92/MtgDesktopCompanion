@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.magic.api.beans.MagicCard;
 import org.utils.patterns.observer.Observable;
 
 import java.util.Set;
@@ -24,7 +25,6 @@ public class TriggerManager extends Observable {
 	{
 		triggers.computeIfAbsent(t, k->new ArrayList<>());
 		triggers.get(t).add(as);
-		//TODO change
 		setChanged();
 		notifyObservers(as);
 	}
@@ -35,14 +35,17 @@ public class TriggerManager extends Observable {
 		a.forEach(as->register(t, a));
 	}
 	
-	public void trigger(TRIGGERS t)
+	public void trigger(TRIGGERS t,MagicCard mc)
 	{
-		triggers.get(t).forEach(as->as.resolve());
-			
+//		if(triggers.get(t)!=null)
+//		{
+//			triggers.get(t).forEach(as->as.resolve());
+//		}
 	}
 
 	public Set<Entry<TRIGGERS, List<AbstractSpell>>> list() {
 		return triggers.entrySet();
 	}
+
 	
 }

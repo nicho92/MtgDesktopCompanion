@@ -5,22 +5,25 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
+import javax.swing.SwingWorker;
 
 import org.magic.game.model.AbstractSpell;
 
 public class StackItemRenderer extends JLabel implements ListCellRenderer<AbstractSpell> 
 {
 	
-
+	SpellRendererPanel render = new SpellRendererPanel();
+	
 	@Override
 	public Component getListCellRendererComponent(JList<? extends AbstractSpell> list, AbstractSpell value, int index,boolean isSelected, boolean cellHasFocus) {
 		
-		try{		
-			return new SpellRendererPanel(value);
+		try{	
+				render.setSpell(value);
+				return render;
+		
 		}
 		catch(Exception e)
 		{
-			e.printStackTrace();
 			return new JLabel(value.toString());
 		}
 		

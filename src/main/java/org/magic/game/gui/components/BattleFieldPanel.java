@@ -24,6 +24,7 @@ import org.magic.game.model.TriggerManager.TRIGGERS;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.services.ThreadManager;
 
 public class BattleFieldPanel extends DraggablePanel {
 
@@ -85,7 +86,8 @@ public class BattleFieldPanel extends DraggablePanel {
 		this.add(c);
 		c.setPosition(getOrigine());
 		GameManager.getInstance().getStack().put(new CardSpell(c));
-	//	GameManager.getInstance().getTriggers().resolve(TRIGGERS.ENTER_BATTLEFIELD);
+		AbilitiesFactory.getInstance().getTriggeredAbility(c.getMagicCard()).forEach(ta->GameManager.getInstance().getStack().put(ta));
+		//GameManager.getInstance().getTriggers().trigger(TRIGGERS.ENTER_BATTLEFIELD,c.getMagicCard());
 	}
 
 	@Override

@@ -30,8 +30,8 @@ public class TriggersPanel extends JPanel implements Observer {
 		listStack = new JList<>(model);
 		setLayout(new BorderLayout(0, 0));
 		listStack.setCellRenderer(new StackItemRenderer());
-		
 		add(new JScrollPane(listStack ), BorderLayout.CENTER);
+		
 	}
 	
 	

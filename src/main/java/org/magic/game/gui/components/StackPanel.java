@@ -11,20 +11,24 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
 
+import org.apache.log4j.Logger;
 import org.magic.game.gui.components.renderer.StackItemRenderer;
 import org.magic.game.model.AbstractSpell;
 import org.magic.game.model.GameManager;
+import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
+import javax.swing.JButton;
 
 public class StackPanel extends JPanel implements Observer {
-	
+	protected Logger logger = MTGLogger.getLogger(this.getClass());
 	private JList<AbstractSpell> listStack;
 	private DefaultListModel<AbstractSpell> model;
 	private JLabel lblCounter;
 	private Timer timer;
 	private static final int SECONDE=10;
 	private long startTime=SECONDE;
+	private JButton btnPause;
 	
 	public StackPanel() {
 		model = new DefaultListModel<>();
@@ -38,9 +42,10 @@ public class StackPanel extends JPanel implements Observer {
 				if(startTime==0)
 				{
 					timer.stop();
-					if(model.size()>0) {
+					if(model.size()>0)
+					{
 						lblCounter.setText("RESOLVING " + model.size() + " spell(s)");
-						GameManager.getInstance().getStack().resolve();
+						GameManager.getInstance().getStack().unstack();
 						
 					}
 					else
@@ -61,6 +66,23 @@ public class StackPanel extends JPanel implements Observer {
 		add(new JScrollPane(listStack ), BorderLayout.CENTER);
 		add(panel, BorderLayout.NORTH);
 		panel.add(lblCounter);
+		
+		btnPause = new JButton("Pause");
+		
+		btnPause.addActionListener(ae->{
+				
+				if(timer.isRunning())
+				{
+					timer.stop();
+					btnPause.setText("Start");
+				}
+				else
+				{
+					timer.start();
+					btnPause.setText("Pause");
+				}
+		});
+		panel.add(btnPause);
 	}
 	
 	
@@ -69,9 +91,15 @@ public class StackPanel extends JPanel implements Observer {
 		startTime=SECONDE;
 		
 		if(b)
+		{
 			timer.start();
+			btnPause.setText("Pause");
+		}
 		else
+		{
 			timer.stop();
+			btnPause.setText("Start");
+		}
 		
 		
 	}
@@ -80,12 +108,13 @@ public class StackPanel extends JPanel implements Observer {
 	{
 		model.clear();
 		for(AbstractSpell spell : GameManager.getInstance().getStack().toList())
-		{
 			model.addElement(spell);
-		}
 		
+	
 		if(!model.isEmpty())
+		{
 			enableChrono(true);
+		}
 			
 		
 	}

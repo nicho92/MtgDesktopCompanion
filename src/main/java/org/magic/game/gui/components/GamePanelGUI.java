@@ -69,7 +69,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 	private TurnsPanel turnsPanel;
 	private ExilPanel exilPanel;
 	private StackPanel stackPanel;
-	private TriggersPanel triggersPanel;
 	
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
@@ -80,11 +79,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 		return instance;
 	}
 
-	public TriggersPanel getTriggersPanel() {
-		return triggersPanel;
-	}
-	
-	
 	public TurnsPanel getTurnsPanel() {
 		return turnsPanel;
 
@@ -126,10 +120,8 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 		panneauDroit = new JPanel();
 		stackPanel=new StackPanel();
-		triggersPanel = new TriggersPanel();
 		
 		GameManager.getInstance().getStack().addObserver(stackPanel);
-		
 		
 		panelInfo = new JPanel();
 			
@@ -345,7 +337,6 @@ public class GamePanelGUI extends JPanel implements Observer {
 
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DESCRIPTION"), MTGConstants.ICON_TAB_DETAILS, pane, null);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("STACK"), MTGConstants.ICON_TAB_DECK, stackPanel, null);
-		tabbedPane.addTab("TRIGGER", MTGConstants.ICON_GAME_TRIGGER, triggersPanel, null);
 		
 		
 		JPanel panelPics = new JPanel();

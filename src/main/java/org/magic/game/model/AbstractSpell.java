@@ -32,11 +32,7 @@ public abstract class AbstractSpell implements Spell  {
 	@Override
 	public void resolve() {
 		resolved=true;
-		
-		for(AbstractAbilities abs : AbilitiesFactory.getInstance().getTriggeredAbility(card))
-		{
-			GameManager.getInstance().getTriggers().register(TRIGGERS.ENTER_BATTLEFIELD, abs);
-		}
+		System.out.println("resolve " + this);
 		
 	}
 
