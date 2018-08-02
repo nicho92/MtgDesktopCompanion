@@ -10,6 +10,7 @@ import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
+import javax.swing.event.ListDataEvent;
 
 import org.apache.log4j.Logger;
 import org.magic.game.gui.components.renderer.StackItemRenderer;
@@ -104,24 +105,36 @@ public class StackPanel extends JPanel implements Observer {
 		
 	}
 	
-	public void updateStack()
+	public void addStack(AbstractSpell sp)
 	{
-		model.clear();
-		for(AbstractSpell spell : GameManager.getInstance().getStack().toList())
-			model.addElement(spell);
+		model.add(0,sp);
 		
-	
+		
 		if(!model.isEmpty())
 		{
 			enableChrono(true);
 		}
-			
-		
 	}
+	
+	public void removeStack()
+	{
+		try {
+		model.removeElementAt(0);
+		}
+		catch(ArrayIndexOutOfBoundsException e) {
+			//do nothing
+			}
+	}
+
+	
 
 	@Override
 	public void update(Observable o, Object ob) {
-		updateStack();
+		
+		if(ob!=null)
+			addStack((AbstractSpell)ob);
+		else
+			removeStack();
 	}
 }
 

@@ -57,11 +57,13 @@ public class SpellRendererPanel extends JPanel {
 	
 	public void setSpell(AbstractSpell value) {
 		
+		lblCardName.setText(value.getTitle());
+		
+		
 		if(value instanceof AbstractAbilities)
 		{
 			AbstractAbilities abs = (AbstractAbilities)value;
 			
-			lblCardName.setText(abs.getTitle());
 			textPane.setText(abs.getEffects().toString());
 			
 			if(abs.isActivated())

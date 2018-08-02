@@ -40,4 +40,5 @@ public class CardSpell extends AbstractSpell {
 	
 
 
+
 }

@@ -29,11 +29,14 @@ public abstract class AbstractSpell implements Spell  {
 	}
 	
 
+	public String getTitle()
+	{
+		return getCard().getName();
+	}
+
 	@Override
 	public void resolve() {
 		resolved=true;
-		System.out.println("resolve " + this);
-		
 	}
 
 	
