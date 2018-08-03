@@ -6,6 +6,7 @@ import javax.swing.AbstractAction;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.counters.LoyaltyCounter;
 
 public class LoyaltyActions extends AbstractAction {
@@ -26,8 +27,7 @@ public class LoyaltyActions extends AbstractAction {
 		card.addCounter(val);
 		card.showLoyalty(true);
 		card.repaint();
-		GamePanelGUI.getInstance().getPlayer()
-				.logAction("set " + card.getMagicCard().getName() + " loyalty to " + card.getMagicCard().getLoyalty());
+		GamePanelGUI.getInstance().getPlayer().logAction("set " + card.getMagicCard().getName() + " loyalty to " + card.getMagicCard().getLoyalty());
 	}
 
 }

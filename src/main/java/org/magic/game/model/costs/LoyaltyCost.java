@@ -17,6 +17,10 @@ public class LoyaltyCost extends NumberCost{
 			return getModifier()+"X";
 		return (getValue()>0) ? "+"+getValue(): String.valueOf(getValue());
 	}
+
+	public boolean isX() {
+		return getValue()==null;
+	}
 	
 	
 }

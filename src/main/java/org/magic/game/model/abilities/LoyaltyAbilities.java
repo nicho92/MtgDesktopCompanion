@@ -20,4 +20,12 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 		return true;
 	}
 	
+	@Override
+	public String getTitle() {
+		return getCost() + ":" + getEffects();
+	}
+	
+	
+	
+	
 }

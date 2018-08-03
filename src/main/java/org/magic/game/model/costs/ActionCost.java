@@ -14,7 +14,4 @@ public class ActionCost extends Cost {
 		return action;
 	}
 
-	
-	
-	
 }

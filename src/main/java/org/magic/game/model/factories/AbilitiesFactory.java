@@ -96,7 +96,7 @@ public class AbilitiesFactory {
 
 
 
-	private List<LoyaltyAbilities> getLoyaltyAbilities(MagicCard mc) {
+	public List<LoyaltyAbilities> getLoyaltyAbilities(MagicCard mc) {
 		
 		List<LoyaltyAbilities> list = new ArrayList<>();
 		if(mc.getFullType().toLowerCase().contains("planeswalker"))

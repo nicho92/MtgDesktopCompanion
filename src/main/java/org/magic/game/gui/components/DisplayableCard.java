@@ -7,7 +7,6 @@ import java.awt.FontMetrics;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
@@ -34,8 +33,6 @@ import javax.swing.border.Border;
 import javax.swing.border.LineBorder;
 
 import org.apache.commons.beanutils.BeanUtils;
-import org.apache.commons.collections4.ListUtils;
-import org.apache.commons.configuration2.event.ConfigurationErrorEvent;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGKeyWord;
 import org.magic.api.beans.MagicCard;
@@ -52,9 +49,9 @@ import org.magic.game.actions.cards.SelectionActions;
 import org.magic.game.actions.cards.TapActions;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.Player;
+import org.magic.game.model.Turn.PHASES;
 import org.magic.game.model.ZoneEnum;
 import org.magic.game.model.abilities.AbstractAbilities;
-import org.magic.game.model.Turn.PHASES;
 import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
 import org.magic.game.model.counters.ItemCounter;
@@ -66,8 +63,6 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-
-import com.itextpdf.text.log.CounterFactory;
 
 public class DisplayableCard extends JLabel implements Draggable {
 
@@ -354,6 +349,9 @@ public class DisplayableCard extends JLabel implements Draggable {
 			}
 			
 			if(getMagicCard().isPermanent()) {
+			List<AbstractAbilities> abs = AbilitiesFactory.getInstance().getAbilities(getMagicCard());
+			
+			if(!abs.isEmpty()) {
 			JMenu mnuAbilities = new JMenu("Abilities");
 			for(AbstractAbilities c : AbilitiesFactory.getInstance().getAbilities(getMagicCard()))
 				{
@@ -363,7 +361,8 @@ public class DisplayableCard extends JLabel implements Draggable {
 					}
 				}
 
-			menu.add(mnuAbilities);
+				menu.add(mnuAbilities);
+			}
 			}
 
 			
@@ -379,7 +378,10 @@ public class DisplayableCard extends JLabel implements Draggable {
 
 			if (magicCard.isPlaneswalker()) {
 				JMenu mnuModifier = new JMenu("Loyalty");
-				CountersFactory.getInstance().createLoyaltyCounter(getMagicCard()).forEach(lc->mnuModifier.add(new LoyaltyActions(this, lc)));
+				
+				AbilitiesFactory.getInstance().getLoyaltyAbilities(getMagicCard()).forEach(la->mnuModifier.add(new LoyaltyActions(this, new LoyaltyCounter(la))));
+				
+				//CountersFactory.getInstance().createLoyaltyCounter(getMagicCard()).forEach(lc->mnuModifier.add(new LoyaltyActions(this, lc)));
 				menu.add(mnuModifier);
 			}
 

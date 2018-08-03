@@ -10,6 +10,14 @@ public abstract class NumberCost extends Cost {
 		return value;
 	}
 	
+	
+	@Override
+	public boolean isNumberCost()
+	{
+		return true;
+	}
+
+	
 	public NumberCost(int value) {
 		super();
 		setValue(value);
@@ -22,7 +30,10 @@ public abstract class NumberCost extends Cost {
 
 	public void setX(Integer x)
 	{
-		setValue(x);
+		if(modifier.equals("-"))
+			setValue(-x);
+		else
+			setValue(x);
 	}
 	
 	public void setValue(Integer value) {

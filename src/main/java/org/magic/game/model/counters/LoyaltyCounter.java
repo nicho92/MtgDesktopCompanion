@@ -1,15 +1,26 @@
 package org.magic.game.model.counters;
 
+import javax.swing.JOptionPane;
+
 import org.magic.game.gui.components.DisplayableCard;
+import org.magic.game.model.abilities.LoyaltyAbilities;
+import org.magic.game.model.costs.LoyaltyCost;
 
 public class LoyaltyCounter extends AbstractCounter {
 
-	int value;
+	LoyaltyCost value;
 	String label;
 
 	public LoyaltyCounter(int value, String label) {
-		this.value = value;
+		this.value = new LoyaltyCost(value);
 		this.label = label;
+	}
+
+	public LoyaltyCounter(LoyaltyAbilities la) {
+		
+		this.label=la.getEffects().get(0).getEffectDescription();
+		this.value=(LoyaltyCost)la.getCost();
+		
 	}
 
 	@Override
@@ -21,8 +32,14 @@ public class LoyaltyCounter extends AbstractCounter {
 		} catch (Exception e) {
 			logger.error(e);
 		}
-
-		displayableCard.getMagicCard().setLoyalty(loy + value);
+		
+		if(value.isX())
+		{
+			String x = JOptionPane.showInputDialog("X ?");
+			value.setX(Integer.parseInt(x));
+		}
+		displayableCard.getMagicCard().setLoyalty(loy + value.getValue());
+		
 	}
 
 	@Override
@@ -34,19 +51,12 @@ public class LoyaltyCounter extends AbstractCounter {
 			logger.error(e);
 		}
 
-		displayableCard.getMagicCard().setLoyalty(loy - value);
+		displayableCard.getMagicCard().setLoyalty(loy - value.getValue());
 
 	}
 
 	@Override
 	public String describe() {
-		String plus = "";
-
-		if (value > 0)
-			plus = "+";
-		else if (value == 0)
-			plus = " ";
-
-		return plus + value + ": " + label;
+		return value + ": " + label;
 	}
 }

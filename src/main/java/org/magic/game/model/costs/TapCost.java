@@ -7,4 +7,8 @@ public class TapCost extends Cost {
 	public String toString() {
 		return "Tap";
 	}
+	
+	
 }
+
+
