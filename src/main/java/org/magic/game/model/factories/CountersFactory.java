@@ -55,32 +55,6 @@ public class CountersFactory {
 		return arr;
 	}
 	
-	public List<LoyaltyCounter> createLoyaltyCounter(MagicCard magicCard)
-	{
-		ArrayList<LoyaltyCounter> arr = new ArrayList<>();
-		String[] values = magicCard.getText().split("\n");
-	
-		for (String s : values) 
-		{
-			if (s.startsWith("+")) {
-				LoyaltyCounter act = new LoyaltyCounter(Integer.parseInt(s.substring(s.indexOf('+'), s.indexOf(':')).trim()),s.substring(s.indexOf(':') + 1).trim());
-				arr.add(act);
-			} else if (s.startsWith("0")) {
-				LoyaltyCounter act = new LoyaltyCounter(0, s.substring(s.indexOf(':') + 1).trim());
-				arr.add(act);
-			} else {
-				LoyaltyCounter act;
-				try {
-					act = new LoyaltyCounter(Integer.parseInt("-" + s.substring(1, s.indexOf(':')).trim()),s.substring(s.indexOf(':') + 1).trim());
-				} catch (Exception e) {
-					act = new LoyaltyCounter(0, s.substring(s.indexOf(':') + 1).trim());
-				}
-				arr.add(act);
-			}
-		}
-		return arr;
-	}
-	
 	
 	public LoyaltyCounter createCounter(LoyaltyAbilities la)
 	{

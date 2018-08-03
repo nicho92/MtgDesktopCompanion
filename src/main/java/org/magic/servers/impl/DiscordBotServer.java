@@ -217,13 +217,10 @@ public class DiscordBotServer extends AbstractMTGServer {
 			jda = new JDABuilder(AccountType.BOT)
 							.setToken(getString(TOKEN))
 							.addEventListener(listener)
-							.buildBlocking();
+							.build();
 		
 		} catch (LoginException e) {
 			throw new IOException(e);
-		} catch (InterruptedException e) {
-			logger.error("Interrupted",e);
-			Thread.currentThread().interrupt();
 		}
 		
 	}

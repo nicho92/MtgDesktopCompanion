@@ -13,6 +13,7 @@ import org.magic.game.model.costs.EnergyCost;
 import org.magic.game.model.costs.LifeCost;
 import org.magic.game.model.costs.ManaCost;
 import org.magic.game.model.costs.TapCost;
+import org.magic.game.model.costs.TapCost.DIR;
 import org.magic.tools.OracleCardsPatterns;
 
 public class CostsFactory {
@@ -45,7 +46,11 @@ public class CostsFactory {
 	public Cost parseCosts(String c) {
 
 		if(c.equals("{T}"))
-			return new TapCost();
+			return new TapCost(DIR.TAP);
+		
+		if(c.equals("{Q}"))
+			return new TapCost(DIR.UNTAP);
+		
 		
 		if(c.contains("{E}"))
 			return new EnergyCost(StringUtils.countMatches(c, "{E}"));

@@ -25,10 +25,6 @@ public class WebManagerServer extends AbstractMTGServer {
 	private Server server;
 	private URL webRootLocation;
 
-	public static void main(String[] args) throws Exception {
-		new WebManagerServer().start();
-	}
-
 	public WebManagerServer() {
 		super();
 		server = new Server(getInt(SERVER_PORT));
