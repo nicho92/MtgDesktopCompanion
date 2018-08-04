@@ -5,7 +5,6 @@ import java.awt.Component;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.ListCellRenderer;
-import javax.swing.SwingWorker;
 
 import org.magic.game.model.AbstractSpell;
 

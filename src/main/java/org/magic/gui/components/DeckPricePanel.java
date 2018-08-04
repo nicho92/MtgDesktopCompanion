@@ -53,11 +53,12 @@ public class DeckPricePanel extends JPanel {
 	public DeckPricePanel() {
 		setLayout(new BorderLayout(0, 0));
 
+		JButton btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
 		JPanel panel = new JPanel();
+		
 		add(panel, BorderLayout.NORTH);
 
-		cboPricers = new JComboBox<>(
-				new DefaultComboBoxModel(MTGControler.getInstance().getEnabledPricers().toArray()));
+		cboPricers = new JComboBox<>(new DefaultComboBoxModel(MTGControler.getInstance().getEnabledPricers().toArray()));
 		cboPricers.addItemListener(ie -> {
 			if (ie.getStateChange() == ItemEvent.SELECTED) {
 				model.setProvider((MTGPricesProvider) cboPricers.getSelectedItem());
@@ -66,7 +67,6 @@ public class DeckPricePanel extends JPanel {
 		});
 		panel.add(cboPricers);
 
-		JButton btnCheckPrice = new JButton(MTGConstants.ICON_EURO);
 
 		btnCheckPrice.addActionListener(ae -> {
 			model.clear();
@@ -102,7 +102,7 @@ public class DeckPricePanel extends JPanel {
 
 				}
 				deck.setAveragePrice(total);
-			});
+			}, "loading deck price");
 
 		});
 		panel.add(btnCheckPrice);

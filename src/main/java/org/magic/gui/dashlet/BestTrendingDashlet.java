@@ -99,10 +99,11 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 			}
 
 			table.setModel(modStandard);
+			modStandard.fireTableDataChanged();
 			table.setRowSorter(new TableRowSorter(modStandard));
 			table.packAll();
 			table.getColumnModel().getColumn(3).setCellRenderer(new CardShakeRenderer());
-			modStandard.fireTableDataChanged();
+			
 		}, "Init best Dashlet");
 
 	}

@@ -28,8 +28,6 @@ public interface MTGCardsExport extends MTGPlugin {
 
 	public Icon getIcon();
 
-	public void addObserver(Observer o);
-
 	public boolean needDialogGUI();
 
 	public MODS getMods();

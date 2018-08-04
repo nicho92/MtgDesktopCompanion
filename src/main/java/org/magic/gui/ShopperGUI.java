@@ -114,7 +114,7 @@ public class ShopperGUI extends JPanel {
 
 		panneauEast.add(lblPicShopItem, BorderLayout.NORTH);
 
-		btnSearch.addActionListener(ae -> ThreadManager.getInstance().execute(() -> mod.init(txtSearch.getText())));
+		btnSearch.addActionListener(ae -> ThreadManager.getInstance().execute(() -> mod.init(txtSearch.getText()), "Search Shop Item"));
 
 	}
 

@@ -7,26 +7,31 @@ public enum OracleCardsPatterns {
 	
 	COST_LIFE_PATTERN ("\\QPay\\E (.*?) \\Qlife\\E"),
 	MANA_PATTERN ("\\{(.*?)\\}"),
-	PARENTHESES_PATTERN("\\(.*\\)"),
 	COUNTERS("(?:[Pp]ut) (a|an|two|three|four|five|six|seven|eight|nine|ten) (.*?) counter[s]? on "),
-	ADD_MANA("(?:[Aa]dd) "+MANA_PATTERN);
+	ADD_MANA("(?:[Aa]dd) "+MANA_PATTERN),
+	REMINDER("(?:\\(.+?\\))");
 	
 	
 	private String pattern = "";
 	
 	OracleCardsPatterns(String name){
 	    this.pattern = name;
-	  }
+	}
 	
-	@Override
-	public String toString(){
-	    return getPattern();
-	  }
 	
 	public String getPattern() {
 		return pattern;
 	}
 
+	
+	public boolean hasPattern(String s , OracleCardsPatterns pat)
+	{
+		Pattern p = Pattern.compile(pat.getPattern());
+		Matcher m = p.matcher(s);
+		return m.find();
+		
+	}
+	
 	
 	public static void main(String[] args) {
 		
@@ -36,12 +41,12 @@ public enum OracleCardsPatterns {
 		test("Add {U}, {U}, or {B}.");
 		test("{T}: Add {U}{U}, {U}{R}, or {R}{R}.");
 		test("Add one mana of any color");
-		test("Whenever enchanted land is tapped for mana, its controller adds an additional {G}{G}.");
+		test("Whenever enchanted land is tapped for mana, (its) controller adds an additional {G}{G}.");
 	}
 	
 	public static void test(String s)
 	{
-		Pattern p = Pattern.compile(ADD_MANA.getPattern());
+		Pattern p = Pattern.compile(REMINDER.getPattern());
 		Matcher m = p.matcher(s);
 		while(m.find())
 			System.out.println(m.group());

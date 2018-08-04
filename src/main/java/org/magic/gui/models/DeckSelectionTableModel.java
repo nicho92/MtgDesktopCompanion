@@ -27,7 +27,7 @@ public class DeckSelectionTableModel extends DefaultTableModel {
 				fireTableDataChanged();
 		});
 		
-		ThreadManager.getInstance().execute(() -> manager.listDecks());
+		ThreadManager.getInstance().execute(() -> manager.listDecks(), "ListDecks");
 
 	}
 

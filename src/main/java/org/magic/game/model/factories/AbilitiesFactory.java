@@ -63,7 +63,7 @@ public class AbilitiesFactory {
 	
 	private String removeParenthesis(String text)
 	{
-		return text.replaceAll(OracleCardsPatterns.PARENTHESES_PATTERN.getPattern(),"");
+		return text.replaceAll(OracleCardsPatterns.REMINDER.getPattern(),"");
 	}
 	
 	

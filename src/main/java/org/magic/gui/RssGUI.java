@@ -179,7 +179,7 @@ public class RssGUI extends JPanel {
 							lblLoading.buzy(false);
 						}
 
-					});
+					}, "reading news "+sel.getLink());
 				}
 			}
 		});

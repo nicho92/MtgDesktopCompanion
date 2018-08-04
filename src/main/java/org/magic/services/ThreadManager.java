@@ -1,10 +1,12 @@
 package org.magic.services;
 
+import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.SwingUtilities;
+import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 
@@ -25,8 +27,9 @@ public class ThreadManager {
 	public String getInfo() {
 		return info;
 	}
-
+	
 	public void execute(Runnable task, String name) {
+		
 		executor.execute(task);
 		info = String.format("Execution:  [%d/%d] Active: %d, Completed: %d, Task: %d %s", 
 							executor.getPoolSize(),
@@ -35,12 +38,10 @@ public class ThreadManager {
 							executor.getCompletedTaskCount(),
 							executor.getTaskCount(), 
 							name);
+	
+		
+		
 	}
-
-	public void execute(Runnable task) {
-		execute(task,"Thread");
-	}
-
 	
 	public void runInEdt(Runnable runnable) {
 		if (SwingUtilities.isEventDispatchThread())
@@ -53,17 +54,8 @@ public class ThreadManager {
 		executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
 	}
 
-	public ThreadPoolExecutor getExecutor() {
+	public ExecutorService getExecutor() {
 		return executor;
-	}
-
-	public void setCorePoolSize(int core) {
-		executor.setCorePoolSize(core);
-	}
-
-	public void setMaximumPoolSize(int core) {
-		executor.setMaximumPoolSize(core);
-
 	}
 
 }

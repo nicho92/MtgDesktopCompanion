@@ -379,7 +379,7 @@ public class SealedPanel extends JPanel {
 			panelOpenedBooster.setList(list);
 			refreshStats();
 			lblLoading.buzy(false);
-		});
+		}, "Opening Sealed Booster");
 	}
 
 	private DisplayableCard createCard(MagicCard mc) {
