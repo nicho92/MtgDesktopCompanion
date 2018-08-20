@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultRowSorter;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
@@ -193,6 +194,9 @@ public class CollectionPanelGUI extends JPanel {
 		tableEditions.setDefaultRenderer(String.class, render);
 		tableEditions.setDefaultRenderer(Integer.class, render);
 		tableEditions.setDefaultRenderer(double.class, render);
+		tableEditions.setDefaultRenderer(Boolean.class, render);
+		tableEditions.setDefaultRenderer(ImageIcon.class, render);
+		
 		tableEditions.setRowHeight(25);
 		tableEditions.setRowSorter(sorterEditions);
 

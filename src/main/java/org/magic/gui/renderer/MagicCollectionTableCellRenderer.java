@@ -6,6 +6,9 @@ import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import javax.swing.ImageIcon;
+import javax.swing.JCheckBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
@@ -21,19 +24,32 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 	}
 
 	Component pane;
-
+	
 	@Override
-	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-			int row, int column) {
+	public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,int row, int column) {
 
 		if (column == 4)
 			value = new DecimalFormat("#0%").format((double) value);
 
-		pane = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		if(value instanceof ImageIcon)
+		{
+			pane=new JLabel((ImageIcon)value);
+			((JLabel)pane).setOpaque(true);
+		}
+		else if(value instanceof Boolean)
+		{
+			pane=new JPanel();
+			((JPanel)pane).add(new JCheckBox("",Boolean.parseBoolean(value.toString())));
+		}
+		else
+		{
+			pane = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+		}
+		
 		pane.setBackground(c);
-
+	
 		if ((double) table.getValueAt(row, 4) * 100 < 5) {
-			pane.setBackground(table.getBackground());
+			pane.setBackground(Color.WHITE);
 			pane.setForeground(Color.BLACK);
 		}
 
@@ -56,6 +72,8 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 			pane.setBackground(MTGConstants.COLLECTION_100PC);
 			pane.setForeground(Color.BLACK);
 		}
+		
+		
 		return pane;
 	}
 
