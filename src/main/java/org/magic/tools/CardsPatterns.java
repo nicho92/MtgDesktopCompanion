@@ -18,6 +18,11 @@ public enum CardsPatterns {
 	    this.pattern = name;
 	}
 	
+	@Override
+	public String toString()
+	{
+		return pattern;
+	}
 	
 	public String getPattern() {
 		return pattern;
@@ -31,27 +36,4 @@ public enum CardsPatterns {
 		return m.find();
 		
 	}
-	
-	
-	public static void main(String[] args) {
-		
-		test("Add {R}");
-		test("Add {R} or {B}");
-		test("{T}, Sacrifice Ancient Spring: Add {G}{B}.");
-		test("Add {U}, {U}, or {B}.");
-		test("{T}: Add {U}{U}, {U}{R}, or {R}{R}.");
-		test("Add one mana of any color");
-		test("Whenever enchanted land is tapped for mana, (its) controller adds an additional {G}{G}.");
-	}
-	
-	public static void test(String s)
-	{
-		Pattern p = Pattern.compile(REMINDER.getPattern());
-		Matcher m = p.matcher(s);
-		while(m.find())
-			System.out.println(m.group());
-	}
-	
-	
-	
 }
