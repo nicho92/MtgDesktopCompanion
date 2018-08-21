@@ -17,6 +17,8 @@ import org.magic.services.MTGLogger;
 import org.pushingpixels.substance.api.SubstanceLookAndFeel;
 import org.reflections.Reflections;
 
+import com.jtattoo.plaf.AbstractLookAndFeel;
+
 public class LookAndFeelProvider {
 
 	private Logger logger = MTGLogger.getLogger(this.getClass());
@@ -75,11 +77,16 @@ public class LookAndFeelProvider {
 			}
 		}
 		
-		list.add(new LookAndFeelInfo("Tatoo Smart","com.jtattoo.plaf.smart.SmartLookAndFeel"));
-		list.add(new LookAndFeelInfo("Tatoo Acryl","com.jtattoo.plaf.acryl.AcrylLookAndFeel"));
-		list.add(new LookAndFeelInfo("Tatoo Aero", "com.jtattoo.plaf.aero.AeroLookAndFeel"));
-		
-		
+		classReflections = new Reflections("com.jtattoo.plaf");
+		for (Class<? extends AbstractLookAndFeel> c : classReflections.getSubTypesOf(AbstractLookAndFeel.class)) {
+			try {
+				AbstractLookAndFeel look = c.getConstructor(null).newInstance();
+				list.add(new LookAndFeelInfo("JTatoo " + look.getID(), c.getName()));
+			} catch (Exception e) {
+				logger.error("Loading " + c, e);
+			}
+		}
+
 		return list.toArray(new LookAndFeelInfo[list.size()]);
 	}
 	
