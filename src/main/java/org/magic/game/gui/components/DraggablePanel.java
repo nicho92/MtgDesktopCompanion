@@ -2,7 +2,6 @@ package org.magic.game.gui.components;
 
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import org.magic.game.model.Player;
 import org.magic.game.transfert.CardTransfertHandler;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.utils.patterns.observer.Observer;
 
 public abstract class DraggablePanel extends JPanel implements Draggable
 {

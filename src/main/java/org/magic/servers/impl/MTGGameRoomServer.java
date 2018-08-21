@@ -165,10 +165,6 @@ public class MTGGameRoomServer extends AbstractMTGServer {
 		acceptor.getSessionConfig().setIdleTime(IdleStatus.BOTH_IDLE, Integer.parseInt(getString("IDLE-TIME")));
 	}
 
-	public static void main(String[] args) throws Exception {
-		new MTGGameRoomServer().start();
-	}
-
 	@Override
 	public void start() throws IOException {
 		acceptor.bind(new InetSocketAddress(Integer.parseInt(getString(SERVER_PORT))));

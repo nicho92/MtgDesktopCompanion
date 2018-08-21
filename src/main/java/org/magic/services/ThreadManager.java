@@ -6,7 +6,6 @@ import java.util.concurrent.RejectedExecutionHandler;
 import java.util.concurrent.ThreadPoolExecutor;
 
 import javax.swing.SwingUtilities;
-import javax.swing.SwingWorker;
 
 import org.apache.log4j.Logger;
 

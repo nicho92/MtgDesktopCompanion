@@ -2,7 +2,6 @@ package org.magic.game.model.abilities;
 
 import java.util.List;
 
-import org.magic.game.model.GameManager;
 import org.magic.game.model.factories.EffectsFactory;
 
 public class TriggeredAbilities extends AbstractAbilities {

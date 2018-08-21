@@ -6,7 +6,6 @@ import javax.security.auth.login.LoginException;
 
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
-import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.interfaces.abstracts.AbstractMTGNotifier;
 
 import net.dv8tion.jda.core.AccountType;
@@ -18,9 +17,6 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 
 	public static final int MAXSIZE=2000;
 	
-	public static void main(String[] args) throws IOException {
-		new DiscordNotifier().send(new MTGNotification("Test", "<html>Test de :mana0: via apps</html>", MESSAGE_TYPE.INFO));
-	}
 	
 	@Override
 	public void send(MTGNotification notification) throws IOException {

@@ -29,7 +29,6 @@ import org.magic.api.interfaces.abstracts.AbstractMagicDAO;
 import org.magic.services.MTGControler;
 import org.magic.tools.IDGenerator;
 
-import com.google.gson.Gson;
 import com.mongodb.BasicDBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.MongoClientOptions;

@@ -2,7 +2,6 @@ package org.magic.game.model;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.model.effects.OneShotEffect;
-import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.game.model.factories.CostsFactory;
 
 public class CardSpell extends AbstractSpell {

@@ -11,8 +11,6 @@ import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
 import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
-import org.magic.game.model.effects.AbstractEffect;
-import org.magic.game.model.effects.OneShotEffect;
 import org.magic.tools.OracleCardsPatterns;
 
 public class CountersFactory {

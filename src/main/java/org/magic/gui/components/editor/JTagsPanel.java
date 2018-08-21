@@ -15,7 +15,6 @@ import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
@@ -41,13 +40,6 @@ public class JTagsPanel extends JPanel {
 		this.clickcounttoDelete = clickcounttoDelete;
 	}
 
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		f.getContentPane().add(new JTagsPanel());
-		f.setVisible(true);
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.pack();
-	}
 
 	public JTagsPanel() {
 		initGUI();

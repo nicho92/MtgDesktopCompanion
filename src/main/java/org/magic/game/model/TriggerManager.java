@@ -5,11 +5,10 @@ import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.magic.api.beans.MagicCard;
 import org.utils.patterns.observer.Observable;
-
-import java.util.Set;
 
 public class TriggerManager extends Observable {
 

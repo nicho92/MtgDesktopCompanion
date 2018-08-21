@@ -5,12 +5,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.Timer;
-import javax.swing.event.ListDataEvent;
 
 import org.apache.log4j.Logger;
 import org.magic.game.gui.components.renderer.StackItemRenderer;
@@ -19,7 +19,6 @@ import org.magic.game.model.GameManager;
 import org.magic.services.MTGLogger;
 import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
-import javax.swing.JButton;
 
 public class StackPanel extends JPanel implements Observer {
 	protected Logger logger = MTGLogger.getLogger(this.getClass());

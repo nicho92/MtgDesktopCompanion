@@ -2,9 +2,7 @@ package org.magic.services.extra;
 
 import java.awt.Image;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +15,8 @@ import javax.xml.xpath.XPathFactory;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.cache.impl.FileCache;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.tools.ImageUtils;
 import org.magic.tools.URLTools;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

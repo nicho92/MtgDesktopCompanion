@@ -1,8 +1,7 @@
 package org.magic.gui.components;
 
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;import org.magic.api.beans.MagicCard;
-import org.magic.game.model.factories.AbilitiesFactory;
+import javax.swing.JTextArea;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

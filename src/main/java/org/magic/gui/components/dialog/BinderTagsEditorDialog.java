@@ -59,6 +59,7 @@ public class BinderTagsEditorDialog extends JDialog {
 	private JList<MagicEdition> listEditions;
 	private DefaultListModel<MagicEdition> model;
 	private JButton btnRefresh;
+	private JLabel lblSelection;
 	
 	public static void main(String[] args) {
 		MTGControler.getInstance().getEnabledCardsProviders().init();
@@ -79,7 +80,7 @@ public class BinderTagsEditorDialog extends JDialog {
 		double mmW = ImageUtils.toMM(d.getWidth());
  		double mmH = ImageUtils.toMM(d.getHeight());
  		String res = JOptionPane.showInputDialog("Dimension in mm", mmW+"x"+mmH);
- 		String result[] = res.split("x");
+ 		String[] result = res.split("x");
  		
  		d = new Dimension((int)ImageUtils.toPX(Double.parseDouble(result[0])), (int)ImageUtils.toPX(Double.parseDouble(result[1])));
 		tagMaker = new BinderTagsMaker(d);
@@ -135,6 +136,14 @@ public class BinderTagsEditorDialog extends JDialog {
 		gbleditorPanel.columnWeights = new double[]{1.0, 1.0, 1.0, Double.MIN_VALUE};
 		gbleditorPanel.rowWeights = new double[]{1.0, 1.0, 0.0, 1.0, 1.0, Double.MIN_VALUE};
 		editorPanel.setLayout(gbleditorPanel);
+		
+		lblSelection = new JLabel("Select your expansions :");
+		GridBagConstraints gbclblSelection = new GridBagConstraints();
+		gbclblSelection.anchor = GridBagConstraints.NORTHWEST;
+		gbclblSelection.insets = new Insets(0, 0, 5, 5);
+		gbclblSelection.gridx = 1;
+		gbclblSelection.gridy = 0;
+		editorPanel.add(lblSelection, gbclblSelection);
 		
 		scrollListEdition = new JScrollPane(listEditions);
 		GridBagConstraints gbcscrollPane1 = new GridBagConstraints();

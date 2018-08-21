@@ -10,7 +10,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardStock;
 import org.magic.api.beans.MagicDeck;
 import org.magic.api.interfaces.abstracts.AbstractCardExport.MODS;
-import org.utils.patterns.observer.Observer;
 
 public interface MTGCardsExport extends MTGPlugin {
 

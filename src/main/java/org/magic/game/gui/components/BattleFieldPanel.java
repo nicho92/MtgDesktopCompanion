@@ -20,11 +20,9 @@ import org.magic.game.actions.battlefield.UnselectAllAction;
 import org.magic.game.model.CardSpell;
 import org.magic.game.model.GameManager;
 import org.magic.game.model.ZoneEnum;
-import org.magic.game.model.TriggerManager.TRIGGERS;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
-import org.magic.services.ThreadManager;
 
 public class BattleFieldPanel extends DraggablePanel {
 

@@ -6,7 +6,6 @@ import javax.swing.AbstractAction;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
-import org.magic.game.model.abilities.LoyaltyAbilities;
 import org.magic.game.model.counters.LoyaltyCounter;
 
 public class LoyaltyActions extends AbstractAction {

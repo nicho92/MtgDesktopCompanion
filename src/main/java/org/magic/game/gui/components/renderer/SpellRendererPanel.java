@@ -3,19 +3,13 @@ package org.magic.game.gui.components.renderer;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Rectangle;
-import java.awt.geom.Rectangle2D;
 
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextPane;
-import javax.swing.text.BadLocationException;
 
 import org.magic.game.model.AbstractSpell;
 import org.magic.game.model.abilities.AbstractAbilities;
-import org.magic.game.model.abilities.TriggeredAbilities;
-import org.magic.game.model.effects.AbstractEffect;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;

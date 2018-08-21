@@ -1,17 +1,13 @@
 package org.magic.game.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.Map.Entry;
 
 import javax.swing.DefaultListModel;
-import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.Timer;
 
 import org.magic.game.gui.components.renderer.StackItemRenderer;
 import org.magic.game.model.AbstractSpell;

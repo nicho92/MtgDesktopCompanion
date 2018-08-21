@@ -1,7 +1,5 @@
 package org.magic.game.model.costs;
 
-import org.apache.commons.lang3.StringUtils;
-
 public class TapCost extends Cost {
 
 	

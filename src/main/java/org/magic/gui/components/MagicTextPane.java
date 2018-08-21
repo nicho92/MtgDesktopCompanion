@@ -18,7 +18,6 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import org.magic.api.beans.MagicCard;
 import org.magic.tools.OracleCardsPatterns;
 
 public class MagicTextPane extends JTextPane {

@@ -17,7 +17,6 @@ import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -46,14 +45,6 @@ public class WallpaperGUI extends JPanel {
 	private GridBagConstraints c;
 	private int index = 0;
 	private int val = 4;
-
-	public static void main(String[] args) {
-		JFrame f = new JFrame();
-		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.getContentPane().add(new WallpaperGUI());
-		f.pack();
-		f.setVisible(true);
-	}
 
 	public void addComponent(JWallThumb i) {
 		if (index >= val) {
