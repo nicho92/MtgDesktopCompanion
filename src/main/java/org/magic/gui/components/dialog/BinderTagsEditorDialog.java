@@ -38,7 +38,7 @@ import org.magic.services.extra.BoosterPicturesProvider.LOGO;
 import org.magic.tools.BinderTagsMaker;
 import org.magic.tools.ImageUtils;
 
-public class BinderTagsEditorDialog extends JDialog {
+public class BinderTagsEditorDialog extends JFrame {
 	
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel previewPanel;
@@ -83,9 +83,8 @@ public class BinderTagsEditorDialog extends JDialog {
 	public BinderTagsEditorDialog() {
 		
 		init();
-		
 		setTitle(MTGControler.getInstance().getLangService().getCapitalize("BINDER_TAG_EDITOR"));
-		setIconImage(MTGConstants.ICON_TAB_CONSTRUCT.getImage());
+		setIconImage(MTGConstants.ICON_BINDERS.getImage());
 		
 		
 		leftPanel = new JPanel();
