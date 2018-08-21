@@ -1,4 +1,4 @@
-package org.beta;
+package org.magic.tools;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
-import org.magic.tools.ImageUtils;
 
 
 public class BinderTagsMaker {

@@ -1,17 +1,20 @@
-package org.beta;
+package unit.cardanalyse;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.junit.Test;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGControler;
 
-public class TestPredicates {
+public class CardAnalyzeTest {
 
 	
-	public static void main(String[] args) throws IOException {
+	@Test
+	public void test() throws IOException
+	{
 		MTGControler.getInstance().getEnabledCardsProviders().init();
 		
 		String[] test = new String[] {"Gonti, Lord of Luxury","Blinkmoth Nexus","Pawn of Ulamog","Ulamog, the Ceaseless Hunger","Liliana's Contract","Sorin, Grim Nemesis","Ring of Evos Isle","Tasigur, the Golden Fang","Wall of Air","Genju of the Fields","Drekavac","Balduvian Shaman"};
@@ -27,7 +30,8 @@ public class TestPredicates {
 			System.out.println(list.get(index).getText());
 			System.out.println("----------------------------------------------------");
 			System.out.println(AbilitiesFactory.getInstance().getAbilities(list.get(index)));
-		}
-		
+		}	
 	}
+	
+	
 }

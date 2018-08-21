@@ -29,13 +29,13 @@ import javax.swing.JScrollPane;
 import javax.swing.JSpinner;
 
 import org.apache.log4j.Logger;
-import org.beta.BinderTagsMaker;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
+import org.magic.tools.BinderTagsMaker;
 import org.magic.tools.ImageUtils;
 
 public class BinderTagsEditorDialog extends JDialog {
@@ -60,13 +60,7 @@ public class BinderTagsEditorDialog extends JDialog {
 	private DefaultListModel<MagicEdition> model;
 	private JButton btnRefresh;
 	private JLabel lblSelection;
-	
-	public static void main(String[] args) {
-		MTGControler.getInstance().getEnabledCardsProviders().init();
-		new BinderTagsEditorDialog().setVisible(true);
-	}
-	
-	
+
 	public void updateInfo() {
 		img = tagMaker.generate();
 		previewPanel.revalidate();
@@ -90,8 +84,9 @@ public class BinderTagsEditorDialog extends JDialog {
 		
 		init();
 		
-		setTitle("Binder Tags Editor");
-
+		setTitle(MTGControler.getInstance().getLangService().getCapitalize("BINDER_TAG_EDITOR"));
+		setIconImage(MTGConstants.ICON_TAB_CONSTRUCT.getImage());
+		
 		
 		leftPanel = new JPanel();
 		JPanel editorPanel = new JPanel();
