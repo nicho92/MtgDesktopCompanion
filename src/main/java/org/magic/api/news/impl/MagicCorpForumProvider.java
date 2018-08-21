@@ -11,7 +11,6 @@ import javax.swing.ImageIcon;
 import org.jsoup.nodes.Document;
 import org.magic.api.beans.MagicNews;
 import org.magic.api.beans.MagicNewsContent;
-import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
 import org.magic.api.interfaces.abstracts.AbstractMagicNewsProvider;
 import org.magic.tools.URLTools;

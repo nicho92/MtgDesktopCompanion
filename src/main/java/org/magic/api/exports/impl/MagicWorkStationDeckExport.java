@@ -8,7 +8,6 @@ import java.io.IOException;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicDeck;
-import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractCardExport;
 
 public class MagicWorkStationDeckExport extends AbstractCardExport {

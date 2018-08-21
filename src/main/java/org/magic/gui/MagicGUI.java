@@ -10,7 +10,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.sql.SQLException;
 
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JMenu;

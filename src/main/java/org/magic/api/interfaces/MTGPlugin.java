@@ -5,14 +5,19 @@ import java.util.Properties;
 
 import javax.swing.Icon;
 
-import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.utils.patterns.observer.Observer;
 
 public interface MTGPlugin {
+	
 	public enum PLUGINS {
 		PROVIDER, DASHBOARD, PRICER, SERVER, PICTURES, SHOPPER, EXPORT, DECKS, DAO, TOKENS, CACHE, NEWS, WALLPAPER, NOTIFIER,DASHLET,COMMAND;
 	}
 
+
+	public enum STATUT {
+		DEV, BETA, STABLE, ABANDONNED,DEPRECATED
+	}
+	
 	public Properties getProperties();
 
 	public void setProperty(String k, Object value);

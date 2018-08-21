@@ -11,9 +11,6 @@ import org.magic.api.beans.MagicEdition;
 
 public interface MTGCardsProvider extends MTGPlugin {
 
-	public enum STATUT {
-		DEV, BETA, STABLE, ABANDONNED,DEPRECATED
-	}
 
 	public void init();
 
@@ -39,16 +36,7 @@ public interface MTGCardsProvider extends MTGPlugin {
 
 	public Booster generateBooster(MagicEdition me) throws IOException;
 
-	public String getVersion();
-
 	public URL getWebSite() throws MalformedURLException;
 
-	public void enable(boolean enabled);
-
-	public boolean isEnable();
-
-	public STATUT getStatut();
-
-	public String getName();
 
 }

@@ -20,8 +20,8 @@ import javax.swing.SwingConstants;
 import org.apache.log4j.Logger;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGLogger;
-import org.magic.tools.ImageUtils;
 import org.magic.tools.CardsPatterns;
+import org.magic.tools.ImageUtils;
 
 public class ManaPanel extends JPanel {
 	private int cols = 10;

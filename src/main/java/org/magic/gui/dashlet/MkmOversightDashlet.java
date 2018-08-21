@@ -10,7 +10,6 @@ import javax.swing.JScrollPane;
 
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.exports.impl.MKMFileWantListExport;
-import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.models.MkmInsightTableModel;
 
