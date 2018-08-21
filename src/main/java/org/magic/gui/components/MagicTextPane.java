@@ -18,7 +18,7 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
-import org.magic.tools.OracleCardsPatterns;
+import org.magic.tools.CardsPatterns;
 
 public class MagicTextPane extends JTextPane {
 
@@ -43,7 +43,7 @@ public class MagicTextPane extends JTextPane {
 
 		setText(getText().replaceAll("(?m)^[ \t]*\r?\n", ""));
 
-		Pattern p = Pattern.compile(OracleCardsPatterns.MANA_PATTERN.getPattern());
+		Pattern p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
 		Matcher m = p.matcher(getText());
 
 		String text = getText();

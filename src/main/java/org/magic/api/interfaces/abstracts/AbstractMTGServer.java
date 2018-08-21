@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 
 import org.magic.api.interfaces.MTGServer;
 import org.magic.services.MTGConstants;
-import org.magic.tools.ReportNotificationManager;
+import org.magic.services.ReportNotificationManager;
 
 public abstract class AbstractMTGServer extends AbstractMTGPlugin implements MTGServer {
 

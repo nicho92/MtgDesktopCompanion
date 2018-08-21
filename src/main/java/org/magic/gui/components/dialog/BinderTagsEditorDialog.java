@@ -31,18 +31,18 @@ import javax.swing.JSpinner;
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicEdition;
 import org.magic.gui.renderer.MagicEditionIconListRenderer;
+import org.magic.services.BinderTagsManager;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
-import org.magic.tools.BinderTagsMaker;
 import org.magic.tools.ImageUtils;
 
 public class BinderTagsEditorDialog extends JFrame {
 	
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel previewPanel;
-	private transient BinderTagsMaker tagMaker;
+	private transient BinderTagsManager tagMaker;
 	private transient BufferedImage img;
 	private JComboBox<LOGO> cboLogo;
 	private JCheckBox chckbxBorder;
@@ -77,7 +77,7 @@ public class BinderTagsEditorDialog extends JFrame {
  		String[] result = res.split("x");
  		
  		d = new Dimension((int)ImageUtils.toPX(Double.parseDouble(result[0])), (int)ImageUtils.toPX(Double.parseDouble(result[1])));
-		tagMaker = new BinderTagsMaker(d);
+		tagMaker = new BinderTagsManager(d);
 	}
 	
 	public BinderTagsEditorDialog() {

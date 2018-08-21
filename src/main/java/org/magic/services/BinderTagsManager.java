@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -14,9 +14,10 @@ import java.util.stream.Collectors;
 import org.magic.api.beans.MagicEdition;
 import org.magic.services.extra.BoosterPicturesProvider;
 import org.magic.services.extra.BoosterPicturesProvider.LOGO;
+import org.magic.tools.ImageUtils;
 
 
-public class BinderTagsMaker {
+public class BinderTagsManager {
 
 	private BoosterPicturesProvider prov;
 	private Color backColor=null;
@@ -45,7 +46,7 @@ public class BinderTagsMaker {
 		this.border = border;
 	}
 
-	public BinderTagsMaker(Dimension d){
+	public BinderTagsManager(Dimension d){
 		prov = new BoosterPicturesProvider();
 		addlogo=null;
 		border=true;

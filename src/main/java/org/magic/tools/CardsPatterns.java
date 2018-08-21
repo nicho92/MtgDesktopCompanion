@@ -3,7 +3,7 @@ package org.magic.tools;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum OracleCardsPatterns {
+public enum CardsPatterns {
 	
 	COST_LIFE_PATTERN ("\\QPay\\E (.*?) \\Qlife\\E"),
 	MANA_PATTERN ("\\{(.*?)\\}"),
@@ -14,7 +14,7 @@ public enum OracleCardsPatterns {
 	
 	private String pattern = "";
 	
-	OracleCardsPatterns(String name){
+	CardsPatterns(String name){
 	    this.pattern = name;
 	}
 	
@@ -24,7 +24,7 @@ public enum OracleCardsPatterns {
 	}
 
 	
-	public boolean hasPattern(String s , OracleCardsPatterns pat)
+	public boolean hasPattern(String s , CardsPatterns pat)
 	{
 		Pattern p = Pattern.compile(pat.getPattern());
 		Matcher m = p.matcher(s);

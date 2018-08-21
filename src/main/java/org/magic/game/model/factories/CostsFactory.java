@@ -14,7 +14,7 @@ import org.magic.game.model.costs.LifeCost;
 import org.magic.game.model.costs.ManaCost;
 import org.magic.game.model.costs.TapCost;
 import org.magic.game.model.costs.TapCost.DIR;
-import org.magic.tools.OracleCardsPatterns;
+import org.magic.tools.CardsPatterns;
 
 public class CostsFactory {
 
@@ -56,13 +56,13 @@ public class CostsFactory {
 			return new EnergyCost(StringUtils.countMatches(c, "{E}"));
 		
 		////////////////
-		Pattern p = Pattern.compile(OracleCardsPatterns.COST_LIFE_PATTERN.getPattern());
+		Pattern p = Pattern.compile(CardsPatterns.COST_LIFE_PATTERN.getPattern());
 		Matcher m=p.matcher(c);
 		if(m.find())
 			return new LifeCost(Integer.parseInt(m.group(1)));
 		
 		////////////////		
-		p = Pattern.compile(OracleCardsPatterns.MANA_PATTERN.getPattern());
+		p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
 		m = p.matcher(c);
 		if(m.matches()) 
 		{

@@ -11,7 +11,7 @@ import org.magic.game.model.counters.AbstractCounter;
 import org.magic.game.model.counters.BonusCounter;
 import org.magic.game.model.counters.ItemCounter;
 import org.magic.game.model.counters.LoyaltyCounter;
-import org.magic.tools.OracleCardsPatterns;
+import org.magic.tools.CardsPatterns;
 
 public class CountersFactory {
 
@@ -38,7 +38,7 @@ public class CountersFactory {
 	public List<ItemCounter> createItemCounter(MagicCard mc)
 	{
 		ArrayList<ItemCounter> arr = new ArrayList<>();
-		Pattern p = Pattern.compile(OracleCardsPatterns.COUNTERS.getPattern());
+		Pattern p = Pattern.compile(CardsPatterns.COUNTERS.getPattern());
 		Matcher m = p.matcher(mc.getText());
 		while(m.find())
 		{
@@ -63,7 +63,7 @@ public class CountersFactory {
 	{
 		ArrayList<AbstractCounter> arr = new ArrayList<>();
 		
-		Pattern p = Pattern.compile(OracleCardsPatterns.COUNTERS.getPattern());
+		Pattern p = Pattern.compile(CardsPatterns.COUNTERS.getPattern());
 			Matcher m = p.matcher(mc.getText());
 			while(m.find())
 			{

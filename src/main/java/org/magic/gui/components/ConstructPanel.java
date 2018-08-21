@@ -403,6 +403,9 @@ public class ConstructPanel extends JPanel {
 		add(tabbedPane, BorderLayout.CENTER);
 
 		JSplitPane panneauDeck = new JSplitPane();
+		panneauDeck.setDividerLocation(0.5);
+		panneauDeck.setResizeWeight(0.5);
+
 		panneauDeck.setOrientation(JSplitPane.VERTICAL_SPLIT);
 		tabbedPane.addTab(MTGControler.getInstance().getLangService().getCapitalize("DECK"), MTGConstants.ICON_TAB_DECK, panneauDeck, null);
 		DefaultRowSorter sorterCards = new TableRowSorter<DefaultTableModel>(deckmodel);

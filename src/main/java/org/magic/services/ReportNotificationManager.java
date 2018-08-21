@@ -1,4 +1,4 @@
-package org.magic.tools;
+package org.magic.services;
 
 import java.io.StringWriter;
 import java.io.Writer;
@@ -9,8 +9,6 @@ import java.util.Map;
 
 import org.apache.log4j.Logger;
 import org.magic.api.beans.MTGNotification.FORMAT_NOTIFICATION;
-import org.magic.services.MTGConstants;
-import org.magic.services.MTGLogger;
 
 import freemarker.template.Configuration;
 import freemarker.template.DefaultObjectWrapperBuilder;

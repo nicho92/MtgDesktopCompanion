@@ -11,7 +11,7 @@ import org.apache.log4j.Logger;
 import org.magic.api.beans.MagicCard;
 import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.services.MTGLogger;
-import org.magic.tools.OracleCardsPatterns;
+import org.magic.tools.CardsPatterns;
 import org.utils.patterns.observer.Observable;
 
 public class ManaPool extends Observable implements Serializable {
@@ -65,7 +65,7 @@ public class ManaPool extends Observable implements Serializable {
 		if (mc.getCmc() == null)
 			return;
 
-		Pattern p = Pattern.compile(OracleCardsPatterns.MANA_PATTERN.getPattern());
+		Pattern p = Pattern.compile(CardsPatterns.MANA_PATTERN.getPattern());
 		Matcher m = p.matcher(mc.getCost());
 
 		while (m.find()) {

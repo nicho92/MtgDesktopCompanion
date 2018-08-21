@@ -18,7 +18,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGCardsProvider.STATUT;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
-import org.magic.tools.OracleCardsPatterns;
+import org.magic.tools.CardsPatterns;
 
 public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 
@@ -52,7 +52,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 
 	public int count(String manaCost, String item) {
 		int count = 0;
-		String regex = OracleCardsPatterns.MANA_PATTERN.getPattern();
+		String regex = CardsPatterns.MANA_PATTERN.getPattern();
 		Pattern p = Pattern.compile(regex);
 		Matcher m = p.matcher(manaCost);
 		while (m.find()) {

@@ -18,7 +18,7 @@ import org.magic.game.model.abilities.TriggeredAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities.KEYWORDS;
 import org.magic.game.model.costs.LoyaltyCost;
 import org.magic.services.MTGControler;
-import org.magic.tools.OracleCardsPatterns;
+import org.magic.tools.CardsPatterns;
 
 public class AbilitiesFactory {
 
@@ -63,7 +63,7 @@ public class AbilitiesFactory {
 	
 	private String removeParenthesis(String text)
 	{
-		return text.replaceAll(OracleCardsPatterns.REMINDER.getPattern(),"");
+		return text.replaceAll(CardsPatterns.REMINDER.getPattern(),"");
 	}
 	
 	

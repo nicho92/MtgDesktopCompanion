@@ -39,7 +39,9 @@ public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 		else if(value instanceof Boolean)
 		{
 			pane=new JPanel();
-			((JPanel)pane).add(new JCheckBox("",Boolean.parseBoolean(value.toString())));
+			JCheckBox jcbox=new JCheckBox("",Boolean.parseBoolean(value.toString()));
+			jcbox.setOpaque(false);
+			((JPanel)pane).add(jcbox);
 		}
 		else
 		{
