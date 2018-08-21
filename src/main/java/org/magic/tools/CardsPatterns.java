@@ -6,9 +6,9 @@ import java.util.regex.Pattern;
 public enum CardsPatterns {
 	
 	COST_LIFE_PATTERN ("\\QPay\\E (.*?) \\Qlife\\E"),
-	MANA_PATTERN ("\\{(.*?)\\}"),
+	MANA_PATTERN ("\\{(W|U|B|R|G|C)\\}"),
 	COUNTERS("(?:[Pp]ut) (a|an|two|three|four|five|six|seven|eight|nine|ten) (.*?) counter[s]? on "),
-	ADD_MANA("(?:[Aa]dd) "+MANA_PATTERN),
+	ADD_MANA("(?:[Aa]dd[s]?) ("+MANA_PATTERN+")+|((one|two|three|four|five) mana)"),
 	REMINDER("(?:\\(.+?\\))");
 	
 	
