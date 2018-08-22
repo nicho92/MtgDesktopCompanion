@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.api.mkm.exceptions.MkmException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Article.ARTICLES_ATT;
@@ -23,6 +24,7 @@ import org.magic.tools.InstallCert;
 
 public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
+	private static final String FILTER_COUNTRY = "FILTER_COUNTRY";
 	private static final String MIN_CONDITION = "MIN_CONDITION";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	
@@ -160,7 +162,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 				List<Article> articles = aServ.find(resultat, aatts);
 				logger.debug(getName() + " found " + articles.size() + " items");
 
-				for (Article a : articles) {
+				for (Article a : articles) 
+				{
 					MagicPrice mp = new MagicPrice();
 					mp.setSeller(String.valueOf(a.getSeller()));
 					mp.setCountry(String.valueOf(a.getSeller().getAddress().getCountry()));
@@ -172,8 +175,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 					mp.setCurrency("EUR");
 					mp.setLanguage(a.getLanguage().toString());
 					mp.setShopItem(a);
-
-					lists.add(mp);
+					
+					if(StringUtils.isEmpty(getString(FILTER_COUNTRY)) || mp.getCountry().equalsIgnoreCase(getString(FILTER_COUNTRY)))
+						lists.add(mp);
+						
 				}
 			}
 
@@ -229,6 +234,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		setProperty("MAX", "10");
 		setProperty("USER_ARTICLE", "false");
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
+		setProperty(FILTER_COUNTRY, "");
 		setProperty(LOAD_CERTIFICATE,"true");
 
 	}

@@ -155,6 +155,7 @@ public class MagicCard implements Serializable {
 	public String getRotatedCardName() {
 		return rotatedCardName;
 	}
+	
 	@Deprecated
 	public void setRotatedCardName(String rotatedCardName) {
 		this.rotatedCardName = rotatedCardName;

@@ -1,9 +1,11 @@
 package org.magic.api.beans;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Booster {
+public class Booster implements Serializable 
+{
 	private String boosterNumber;
 	private List<MagicCard> cards;
 	private Double price;
