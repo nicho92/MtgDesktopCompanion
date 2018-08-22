@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.commons.lang3.StringUtils;
 import org.api.mkm.exceptions.MkmException;
@@ -234,7 +235,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		setProperty("MAX", "10");
 		setProperty("USER_ARTICLE", "false");
 		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
-		setProperty(FILTER_COUNTRY, "");
+		setProperty(FILTER_COUNTRY, Locale.getDefault().getCountry());
 		setProperty(LOAD_CERTIFICATE,"true");
 
 	}
