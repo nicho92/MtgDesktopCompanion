@@ -58,6 +58,8 @@ public class MongoDbDAO extends AbstractMagicDAO {
 	private String dbNewsField = "newsItem";
 	private String dbStockField = "stockItem";
 	private String dbColIDField = "collection.name";
+	private String dbTypeNewsField = "typeNews";
+
 
 	private <T> T deserialize(Object o, Class<T> classe) {
 		return serialiser.fromJson(o.toString(), classe);
@@ -175,10 +177,10 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			obj.add(new BasicDBObject(dbColIDField, cols.getName()));
 			obj.add(new BasicDBObject(dbEditionField, me.getId().toUpperCase()));
 			andQuery.put("$and", obj);
-			return (int) db.getCollection(colCards, BasicDBObject.class).count(andQuery);
+			return (int) db.getCollection(colCards, BasicDBObject.class).countDocuments(andQuery);
 		} else {
 			return (int) db.getCollection(colCards, BasicDBObject.class)
-					.count(new BasicDBObject(dbColIDField, cols.getName()));
+					.countDocuments(new BasicDBObject(dbColIDField, cols.getName()));
 		}
 
 	}
@@ -418,7 +420,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 		db.getCollection(colNews, BasicDBObject.class).find().forEach((Consumer<BasicDBObject>) result ->{ 
 			MagicNews mn = deserialize(result.get(dbNewsField).toString(), MagicNews.class);
 			try{
-				mn.setProvider(MTGControler.getInstance().getNewsProvider(result.get("typeNews").toString()));
+				mn.setProvider(MTGControler.getInstance().getNewsProvider(result.get(dbTypeNewsField).toString()));
 			}catch(Exception e)
 			{
 				logger.error("error get typeNews provider "+result,e);
@@ -443,7 +445,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			state.setId(Integer.parseInt(getNextSequence().toString()));
 			BasicDBObject obj = new BasicDBObject();
 			obj.put(dbNewsField, state);
-			obj.put("typeNews", state.getProvider().getName());
+			obj.put(dbTypeNewsField, state.getProvider().getName());
 			db.getCollection(colNews, BasicDBObject.class).insertOne(BasicDBObject.parse(serialize(obj)));
 
 		} else {
@@ -452,7 +454,7 @@ public class MongoDbDAO extends AbstractMagicDAO {
 			Bson filter = new Document("newsItem.id", state.getId());
 			BasicDBObject obj = new BasicDBObject();
 			obj.put(dbNewsField, state);
-			obj.put("typeNews", state.getProvider().getName());
+			obj.put(dbTypeNewsField, state.getProvider().getName());
 			logger.debug(filter);
 			UpdateResult res = db.getCollection(colNews, BasicDBObject.class).replaceOne(filter,BasicDBObject.parse(serialize(obj)));
 			logger.debug(res);

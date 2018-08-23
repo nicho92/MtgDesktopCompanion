@@ -12,7 +12,7 @@ import org.magic.services.MTGControler;
 
 public class DeckSnifferTableModel extends DefaultTableModel {
 
-	private final String[] columns = new String[] { "NAME",
+	private static final String[] columns = new String[] { "NAME",
 			"CARD_COLOR",
 			"AUTHOR",
 			"DESCRIPTION"

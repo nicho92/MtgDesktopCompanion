@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.RegExUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.CookieStore;
@@ -134,7 +134,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			int qte = inv.get(1).getAsJsonObject().get("qty").getAsInt();
 
 			// remove foil if present
-			cardName = StringUtils.replaceAll(cardName, "\\*.+?\\*", "").trim();
+			cardName = RegExUtils.replaceAll(cardName, "\\*.+?\\*", "").trim();
 
 			// ged ed if present
 			String idSet = null;
@@ -142,7 +142,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			while (m.find()) {
 				idSet = (m.group(1));
 			}
-			cardName = StringUtils.replaceAll(cardName, "\\(([^)]+)\\)", "").trim();
+			cardName = RegExUtils.replaceAll(cardName, "\\(([^)]+)\\)", "").trim();
 
 			// remove behavior if present
 			if (cardName.contains("#"))
@@ -185,7 +185,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 
 	public List<RetrievableDeck> getDeckList() throws IOException {
 
-		String tappedJson = StringUtils.replaceAll(getString(URL_JSON), "%FORMAT%", getString(FORMAT));
+		String tappedJson = RegExUtils.replaceAll(getString(URL_JSON), "%FORMAT%", getString(FORMAT));
 
 		logger.debug("sniff url : " + tappedJson);
 		String responseBody = EntityUtils

@@ -2,8 +2,10 @@ package org.magic.api.interfaces;
 
 import java.util.Comparator;
 
-public interface MTGComparator<MagicCard> extends Comparator<MagicCard> {
+import org.magic.api.beans.MagicCard;
 
-	public int getWeight(MagicCard mc);
+public interface MTGComparator<T extends MagicCard> extends Comparator<MagicCard> {
+
+	public int getWeight(T mc);
 
 }

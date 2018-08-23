@@ -13,7 +13,7 @@ import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.TreeMap;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.RegExUtils;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -61,17 +61,17 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 			url = getString(URL_EDITIONS) + replace(me.getId(), false) + "#" + getString(FORMAT);
 			index = 6;
 		} else {
-			String cardName = StringUtils.replaceAll(mc.getName(), " ", "+");
-			cardName = StringUtils.replaceAll(cardName, "'", "");
-			cardName = StringUtils.replaceAll(cardName, ",", "");
+			String cardName = RegExUtils.replaceAll(mc.getName(), " ", "+");
+			cardName = RegExUtils.replaceAll(cardName, "'", "");
+			cardName = RegExUtils.replaceAll(cardName, ",", "");
 
 			if (cardName.indexOf('/') > -1)
 				cardName = cardName.substring(0, cardName.indexOf('/')).trim();
 
-			String editionName = StringUtils.replaceAll(me.toString(), " ", "+");
-			editionName = StringUtils.replaceAll(editionName, "'", "");
-			editionName = StringUtils.replaceAll(editionName, ",", "");
-			editionName = StringUtils.replaceAll(editionName, ":", "");
+			String editionName = RegExUtils.replaceAll(me.toString(), " ", "+");
+			editionName = RegExUtils.replaceAll(editionName, "'", "");
+			editionName = RegExUtils.replaceAll(editionName, ",", "");
+			editionName = RegExUtils.replaceAll(editionName, ":", "");
 
 			url = getString(WEBSITE) + "/price/" + convert(editionName) + "/" + cardName + "#" + getString(FORMAT);
 			index = 8;
@@ -91,10 +91,10 @@ public class MTGoldFishDashBoard extends AbstractDashBoard {
 
 				if (!stop && visitedNode.toSource().startsWith("d")) {
 					String val = visitedNode.toSource();
-					val = StringUtils.replaceAll(val, "d \\+\\= ", "");
-					val = StringUtils.replaceAll(val, "\\\\n", "");
-					val = StringUtils.replaceAll(val, ";", "");
-					val = StringUtils.replaceAll(val, "\"", "");
+					val = RegExUtils.replaceAll(val, "d \\+\\= ", "");
+					val = RegExUtils.replaceAll(val, "\\\\n", "");
+					val = RegExUtils.replaceAll(val, ";", "");
+					val = RegExUtils.replaceAll(val, "\"", "");
 					String[] res = val.split(",");
 
 					try {

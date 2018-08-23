@@ -67,7 +67,7 @@ public class SleeveCalculator {
 				if((currentCard%(page))==0)
 				{
 					line=1;
-					rv=rv.equals("recto")?"verso":"recto";
+					rv=rv.equals("recto")?"R":"V";
 				}
 				currentCard++;
 				

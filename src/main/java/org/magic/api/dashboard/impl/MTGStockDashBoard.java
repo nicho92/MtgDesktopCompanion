@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.RegExUtils;
 import org.magic.api.beans.CardDominance;
 import org.magic.api.beans.CardPriceVariations;
 import org.magic.api.beans.CardShake;
@@ -147,7 +147,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		else
 			setId = correspondance.get(mc.getCurrentSet().getId());
 
-		String url = MTGSTOCK_API_URI + "/search/autocomplete/" + StringUtils.replaceAll(mc.getName(), " ", "%20");
+		String url = MTGSTOCK_API_URI + "/search/autocomplete/" + RegExUtils.replaceAll(mc.getName(), " ", "%20");
 		
 		logger.debug("get prices to " + url);
 		

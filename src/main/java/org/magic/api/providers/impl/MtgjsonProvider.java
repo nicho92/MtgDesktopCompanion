@@ -45,6 +45,20 @@ import com.jayway.jsonpath.spi.mapper.MappingProvider;
 
 public class MtgjsonProvider extends AbstractCardsProvider {
 
+	private static final String CMC = "cmc";
+	private static final String NAME = "name";
+	private static final String CARDS_ROOT_SEARCH = ".cards[?(@.";
+	private static final String NAMES = "names";
+	private static final String COLOR_IDENTITY = "colorIdentity";
+	private static final String WATERMARK = "watermark";
+	private static final String TOUGHNESS = "toughness";
+	private static final String RESERVED = "reserved";
+	private static final String RARITY = "rarity";
+	private static final String POWER = "power";
+	private static final String NUMBER = "number";
+	private static final String MULTIVERSEID = "multiverseid";
+	private static final String GATHERER_CODE = "gathererCode";
+	private static final String FLAVOR = "flavor";
 	private static final String URL_VERSION = "URL_VERSION";
 	private static final String URL_SET_JSON_ZIP = "URL_SET_JSON_ZIP";
 	private File fileSetJsonTemp = new File(confdir, "AllSets-x.json.zip");
@@ -182,10 +196,10 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		if (ed != null)
 			filterEdition = filterEdition + ed.getId();
 
-		String jsquery = "$" + filterEdition + ".cards[?(@." + att + " =~ /^.*" + crit.replaceAll("\\+", " ")+ ".*$/i)]";
+		String jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " =~ /^.*" + crit.replaceAll("\\+", " ")+ ".*$/i)]";
 
 		if (exact)
-			jsquery = "$" + filterEdition + ".cards[?(@." + att + " == \"" + crit.replaceAll("\\+", " ") + "\")]";
+			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == \"" + crit.replaceAll("\\+", " ") + "\")]";
 
 		if (att.equalsIgnoreCase("set")) 
 		{
@@ -202,7 +216,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			}
 		}
 		else if(StringUtils.isNumeric(crit)) {
-			jsquery = "$" + filterEdition + ".cards[?(@." + att + " == " + crit + ")]";
+			jsquery = "$" + filterEdition + CARDS_ROOT_SEARCH + att + " == " + crit + ")]";
 		}
 		
 		return search(jsquery, att, crit);
@@ -226,30 +240,30 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		for (Map<String, Object> map : cardsElement) {
 			MagicCard mc = new MagicCard();
 
-				if (map.get("name") != null)
-					mc.setName(map.get("name").toString());
+				if (map.get(NAME) != null)
+					mc.setName(map.get(NAME).toString());
 				
 				mc.setFlippable(false);
 				mc.setTranformable(false);
 
-				if (map.get("multiverseid") != null)
-					mc.setMultiverseid((int) (double) map.get("multiverseid"));
+				if (map.get(MULTIVERSEID) != null)
+					mc.setMultiverseid((int) (double) map.get(MULTIVERSEID));
 
 				mc.setId(String.valueOf(map.get("id")));
 
 				mc.setText(String.valueOf(map.get("text")));
 
-				if (map.get("cmc") != null)
-					mc.setCmc((int) Double.parseDouble(String.valueOf(map.get("cmc"))));
+				if (map.get(CMC) != null)
+					mc.setCmc((int) Double.parseDouble(String.valueOf(map.get(CMC))));
 
-				if (map.get("power") != null)
-					mc.setPower(String.valueOf(map.get("power")));
+				if (map.get(POWER) != null)
+					mc.setPower(String.valueOf(map.get(POWER)));
 				
-				if (map.get("toughness") != null)
-					mc.setToughness(String.valueOf(map.get("toughness")));
+				if (map.get(TOUGHNESS) != null)
+					mc.setToughness(String.valueOf(map.get(TOUGHNESS)));
 				
-				if (map.get("flavor") != null)
-					mc.setFlavor(String.valueOf(map.get("flavor")));
+				if (map.get(FLAVOR) != null)
+					mc.setFlavor(String.valueOf(map.get(FLAVOR)));
 				
 				mc.setArtist(String.valueOf(map.get("artist")));
 				mc.setLayout(String.valueOf(map.get("layout")));
@@ -278,20 +292,20 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				if (map.get("colors") != null)
 					mc.getColors().addAll((List<String>) map.get("colors"));
 
-				if (map.get("colorIdentity") != null)
-					mc.getColorIdentity().addAll((List<String>) map.get("colorIdentity"));
+				if (map.get(COLOR_IDENTITY) != null)
+					mc.getColorIdentity().addAll((List<String>) map.get(COLOR_IDENTITY));
 
-				if (map.get("watermark") != null)
-					mc.setWatermarks(String.valueOf(map.get("watermark")));
+				if (map.get(WATERMARK) != null)
+					mc.setWatermarks(String.valueOf(map.get(WATERMARK)));
 
-				if (map.get("number") != null)
-					mc.setNumber(String.valueOf(map.get("number")));
+				if (map.get(NUMBER) != null)
+					mc.setNumber(String.valueOf(map.get(NUMBER)));
 
-				if (map.get("gathererCode") != null)
-					mc.setGathererCode(String.valueOf(map.get("gathererCode")));
+				if (map.get(GATHERER_CODE) != null)
+					mc.setGathererCode(String.valueOf(map.get(GATHERER_CODE)));
 
-				if (map.get("reserved") != null)
-					mc.setReserved(Boolean.valueOf(String.valueOf(map.get("reserved"))));
+				if (map.get(RESERVED) != null)
+					mc.setReserved(Boolean.valueOf(String.valueOf(map.get(RESERVED))));
 
 				if (map.get("loyalty") != null) {
 					try {
@@ -332,7 +346,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 					codeEd = currentSet.get(indexSet++);
 
 				MagicEdition me = getSetById(codeEd);
-				me.setRarity(String.valueOf(map.get("rarity")));
+				me.setRarity(String.valueOf(map.get(RARITY)));
 				me.setNumber(mc.getNumber());
 
 				if (mc.getMultiverseid() != null)
@@ -394,18 +408,18 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 					for (Map<String, Object> mapNames : (List<Map>) map.get("foreignNames")) {
 						MagicCardNames fnames = new MagicCardNames();
 						fnames.setLanguage(String.valueOf(mapNames.get("language")));
-						fnames.setName(String.valueOf(mapNames.get("name")));
+						fnames.setName(String.valueOf(mapNames.get(NAME)));
 
-						if (mapNames.get("multiverseid") != null)
-							fnames.setGathererId((int) (double) mapNames.get("multiverseid"));
+						if (mapNames.get(MULTIVERSEID) != null)
+							fnames.setGathererId((int) (double) mapNames.get(MULTIVERSEID));
 
 						mc.getForeignNames().add(fnames);
 					}
 				}
 
-				if (map.get("names") != null) {
-					((List) map.get("names")).remove(mc.getName());
-					String rotateName = ((List) map.get("names")).get(((List) map.get("names")).size() - 1).toString();
+				if (map.get(NAMES) != null) {
+					((List) map.get(NAMES)).remove(mc.getName());
+					String rotateName = ((List) map.get(NAMES)).get(((List) map.get(NAMES)).size() - 1).toString();
 					mc.setRotatedCardName(rotateName);
 
 					if (mc.getLayout().equals("flip"))
@@ -532,7 +546,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 	}
 
 	public String[] getQueryableAttributs() {
-		return new String[] { "name", "text", "artist", "type", "rarity", "flavor", "cmc", "set","watermark", "power", "toughness", "layout", "reserved" };
+		return new String[] { NAME, "text", "artist", "type", RARITY, FLAVOR, CMC, "set",WATERMARK, POWER, TOUGHNESS, "layout", RESERVED };
 	}
 
 	public String getName() {
@@ -564,14 +578,14 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		if (cardsElement != null)
 			for (Map<String, Object> map : cardsElement) {
 				try {
-					me.setRarity(String.valueOf(map.get("rarity")));
+					me.setRarity(String.valueOf(map.get(RARITY)));
 				} catch (Exception e) {
 					me.setRarity(mc.getRarity());
 				}
 
 				try {
 
-					me.setNumber(String.valueOf(map.get("number")));
+					me.setNumber(String.valueOf(map.get(NUMBER)));
 				} catch (Exception e) {
 					logger.trace("initOtherEditionCardsVar number not found");
 				}
@@ -584,13 +598,13 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 				}
 
 				try {
-					me.setMultiverseid(String.valueOf((int) (double) map.get("multiverseid")));
+					me.setMultiverseid(String.valueOf((int) (double) map.get(MULTIVERSEID)));
 				} catch (Exception e) {
 					logger.trace("multiverseNotFound for " + me);
 				}
 
 				try {
-					me.setGathererCode(String.valueOf(map.get("gathererCode")));
+					me.setGathererCode(String.valueOf(map.get(GATHERER_CODE)));
 				} catch (Exception e) {
 					logger.trace("gathererCode for " + me + " not found");
 				}
@@ -652,7 +666,7 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 		String jsquery = "$." + me.getId().toUpperCase() + ".cards[?(@.number == '" + num + "')]";
 		logger.debug("search " + jsquery);
 		try {
-			MagicCard mc = search(jsquery, "number", num).get(0);
+			MagicCard mc = search(jsquery, NUMBER, num).get(0);
 			mc.getEditions().add(me);
 			return mc;
 		} catch (Exception e) {
