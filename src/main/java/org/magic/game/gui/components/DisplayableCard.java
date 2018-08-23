@@ -94,6 +94,10 @@ public class DisplayableCard extends JLabel implements Draggable {
 	private Player owner;
 	
 	
+	public Player getOwner() {
+		return owner;
+	}
+	
 	public List<AbstractCounter> getCounters() {
 		return counters;
 	}

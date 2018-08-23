@@ -24,7 +24,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 		JDA jda=null;
 		try {
 			
-			jda = new JDABuilder(AccountType.BOT).setToken(getString("TOKEN")).buildBlocking();
+			jda = new JDABuilder(AccountType.BOT).setToken(getString("TOKEN")).build();
 			TextChannel chan = jda.getTextChannelById(getLong("CHANNELID"));
 			notification.setSender(jda.getSelfUser().getName());
 			
@@ -61,10 +61,7 @@ public class DiscordNotifier extends AbstractMTGNotifier {
 			
 		} catch (LoginException e) {
 			logger.error("couldn't init login",e);
-		} catch (InterruptedException e) {
-			logger.error("Interupted !",e);
-			Thread.currentThread().interrupt();
-		}
+		} 
 		finally {
 			if(jda!=null)
 				jda.shutdown();

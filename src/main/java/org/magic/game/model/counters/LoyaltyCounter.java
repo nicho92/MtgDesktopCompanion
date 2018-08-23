@@ -8,8 +8,8 @@ import org.magic.game.model.costs.LoyaltyCost;
 
 public class LoyaltyCounter extends AbstractCounter {
 
-	LoyaltyCost value;
-	String label;
+	private LoyaltyCost value;
+	private String label;
 
 	public LoyaltyCounter(int value, String label) {
 		this.value = new LoyaltyCost(value);

@@ -26,6 +26,7 @@ import org.magic.api.beans.MagicPrice;
 import org.magic.api.interfaces.abstracts.AbstractMagicPricesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.InstallCert;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
@@ -98,7 +99,7 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		jsonparams.addProperty("password", getString("PASS"));
 
 		HttpPost reqCredential = new HttpPost(getString("URL") + "/account/login");
-		reqCredential.addHeader("content-type", "application/json");
+		reqCredential.addHeader("content-type", URLTools.HEADER_JSON);
 		reqCredential.setEntity(new StringEntity(jsonparams.toString()));
 
 		String response = httpClient.execute(reqCredential, responseHandler, httpContext);
@@ -119,8 +120,8 @@ public class DeckTutorPricer extends AbstractMagicPricesProvider {
 		} catch (NoSuchAlgorithmException e) {
 			throw new IOException(e);
 		}
-		reqSearch.addHeader("Content-type", "application/json");
-		reqSearch.addHeader("Accept", "application/json");
+		reqSearch.addHeader("Content-type", URLTools.HEADER_JSON);
+		reqSearch.addHeader("Accept", URLTools.HEADER_JSON);
 		reqSearch.addHeader("x-dt-cdb-Language", "en");
 		reqSearch.addHeader("User-Agent",MTGConstants.USER_AGENT);
 

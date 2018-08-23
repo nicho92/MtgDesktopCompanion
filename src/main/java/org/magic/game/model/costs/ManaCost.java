@@ -3,7 +3,7 @@ package org.magic.game.model.costs;
 import java.util.Map;
 import java.util.TreeMap;
 
-public class ManaCost extends Cost {
+public class ManaCost implements Cost {
 
 	private Map<String,Integer> mcost;
 	

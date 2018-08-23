@@ -63,6 +63,7 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class StockPanelGUI extends JPanel {
+	private static final String FINISHED = "FINISHED";
 	private JXTable table;
 	private CardStockTableModel model;
 	private JButton btnDelete = new JButton();
@@ -247,8 +248,8 @@ public class StockPanelGUI extends JPanel {
 									lblLoading.buzy(false);
 									
 									MTGControler.getInstance().notify(new MTGNotification(
-											MTGControler.getInstance().getLangService().combine("IMPORT", "FINISHED"),
-											exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize("FINISHED"),
+											MTGControler.getInstance().getLangService().combine("IMPORT", FINISHED),
+											exp.getName() + " "+ MTGControler.getInstance().getLangService().getCapitalize(FINISHED),
 											MESSAGE_TYPE.INFO
 											));
 
@@ -306,9 +307,9 @@ public class StockPanelGUI extends JPanel {
 
 									lblLoading.buzy(false);
 									
-									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().combine("EXPORT", "FINISHED"),exp.getName() + " "
+									MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().combine("EXPORT", FINISHED),exp.getName() + " "
 											+ MTGControler.getInstance().getLangService()
-											.getCapitalize("FINISHED"),MESSAGE_TYPE.INFO));
+											.getCapitalize(FINISHED),MESSAGE_TYPE.INFO));
 								} catch (Exception e) {
 									logger.error(e);
 									lblLoading.buzy(false);

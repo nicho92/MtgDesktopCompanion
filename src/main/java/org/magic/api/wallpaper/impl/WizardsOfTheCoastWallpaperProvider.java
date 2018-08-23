@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.abstracts.AbstractWallpaperProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonParser;
 
@@ -32,7 +33,7 @@ public class WizardsOfTheCoastWallpaperProvider extends AbstractWallpaperProvide
 		HttpClient httpClient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT)
 				.setRedirectStrategy(new LaxRedirectStrategy()).build();
 		HttpGet req = new HttpGet(url);
-		req.addHeader("content-type", "application/json");
+		req.addHeader("content-type", URLTools.HEADER_JSON);
 		HttpResponse resp = httpClient.execute(req);
 		return EntityUtils.toString(resp.getEntity());
 	}

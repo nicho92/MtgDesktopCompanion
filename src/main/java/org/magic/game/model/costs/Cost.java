@@ -1,8 +1,10 @@
 package org.magic.game.model.costs;
 
-public abstract class Cost {
+import java.io.Serializable;
 
-	public boolean isNumberCost()
+public interface Cost  extends Serializable{
+
+	public default boolean isNumberCost()
 	{
 		return false;
 	}

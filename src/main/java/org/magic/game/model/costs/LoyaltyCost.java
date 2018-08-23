@@ -1,6 +1,8 @@
 package org.magic.game.model.costs;
 
-public class LoyaltyCost extends NumberCost{
+public class LoyaltyCost extends NumberCost {
+
+	private static final long serialVersionUID = 1L;
 
 	public LoyaltyCost(int value) {
 		super(value);

@@ -1,6 +1,6 @@
 package org.magic.game.model.costs;
 
-public abstract class NumberCost extends Cost {
+public abstract class NumberCost implements Cost {
 
 	protected Integer value;
 	protected String modifier;

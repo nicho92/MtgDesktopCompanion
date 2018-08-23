@@ -21,7 +21,11 @@ import com.google.gson.stream.JsonReader;
 
 public class URLTools {
 
-	static Logger logger = MTGLogger.getLogger(URLTools.class);
+	private static Logger logger = MTGLogger.getLogger(URLTools.class);
+	
+	public static String HEADER_JSON="application/json";
+	
+	
 
 	private URLTools() 
 	{}

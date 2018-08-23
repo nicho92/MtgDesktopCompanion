@@ -1,6 +1,6 @@
 package org.magic.game.model.costs;
 
-public class ActionCost extends Cost {
+public class ActionCost implements Cost {
 
 	private String action;
 	

@@ -2,7 +2,7 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<name>MagicDesktopCompanion</name>
-	<description>Card manager for magic the gathering</description>
+	<description>Cards manager for magic the gathering</description>
 	<url>https://github.com/nicho92/MtgDesktopCompanion</url>
 	<issueManagement>
 		<system>Github</system>
@@ -77,7 +77,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>3.7.1_397</version>
+			  <version>3.7.1_398</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -282,11 +282,11 @@
 			<artifactId>rome-utils</artifactId>
 			<version>1.11.0</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>1.8.0-beta2</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-log4j12</artifactId>

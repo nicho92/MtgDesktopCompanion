@@ -1,8 +1,6 @@
 package org.magic.game.gui.components;
 
 import java.awt.BorderLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
@@ -21,7 +19,9 @@ import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
 public class StackPanel extends JPanel implements Observer {
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	private static final String START = "Start";
+	private static final String PAUSE = "Pause";
+	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JList<AbstractSpell> listStack;
 	private DefaultListModel<AbstractSpell> model;
 	private JLabel lblCounter;
@@ -33,9 +33,7 @@ public class StackPanel extends JPanel implements Observer {
 	public StackPanel() {
 		model = new DefaultListModel<>();
 		
-		timer = new Timer(1000,new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent e) {
+		timer = new Timer(1000,e->{
 				startTime=startTime-1;
 				lblCounter.setText(String.valueOf(startTime));
 				
@@ -53,7 +51,7 @@ public class StackPanel extends JPanel implements Observer {
 						startTime=SECONDE;
 					}
 				}
-			}
+			
 		});
 
 		lblCounter = new JLabel(String.valueOf(startTime));
@@ -67,19 +65,19 @@ public class StackPanel extends JPanel implements Observer {
 		add(panel, BorderLayout.NORTH);
 		panel.add(lblCounter);
 		
-		btnPause = new JButton("Pause");
+		btnPause = new JButton(PAUSE);
 		
 		btnPause.addActionListener(ae->{
 				
 				if(timer.isRunning())
 				{
 					timer.stop();
-					btnPause.setText("Start");
+					btnPause.setText(START);
 				}
 				else
 				{
 					timer.start();
-					btnPause.setText("Pause");
+					btnPause.setText(PAUSE);
 				}
 		});
 		panel.add(btnPause);
@@ -93,12 +91,12 @@ public class StackPanel extends JPanel implements Observer {
 		if(b)
 		{
 			timer.start();
-			btnPause.setText("Pause");
+			btnPause.setText(PAUSE);
 		}
 		else
 		{
 			timer.stop();
-			btnPause.setText("Start");
+			btnPause.setText(START);
 		}
 		
 		

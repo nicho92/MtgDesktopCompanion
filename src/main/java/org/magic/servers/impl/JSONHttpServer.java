@@ -40,6 +40,7 @@ import org.magic.gui.models.MagicEditionsTableModel;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGDeckManager;
 import org.magic.sorters.CardsEditionSorter;
+import org.magic.tools.URLTools;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -491,7 +492,7 @@ public class JSONHttpServer extends AbstractMTGServer {
 	public void initDefault() {
 		setProperty(SERVER_PORT, "8080");
 		setProperty(AUTOSTART, "false");
-		setProperty(MIME, "application/json");
+		setProperty(MIME, URLTools.HEADER_JSON);
 		setProperty(ENABLE_GZIP, "false");
 		setProperty(ACCESS_CONTROL_ALLOW_ORIGIN, "*");
 		setProperty(ACCESS_CONTROL_REQUEST_METHOD, "GET,PUT,POST,DELETE,OPTIONS");

@@ -1,6 +1,6 @@
 package org.magic.game.model.costs;
 
-public class TapCost extends Cost {
+public class TapCost implements Cost {
 
 	
 	public enum DIR {TAP,UNTAP}

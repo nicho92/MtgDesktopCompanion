@@ -35,7 +35,24 @@ import com.google.gson.stream.JsonReader;
 
 public class ScryFallProvider extends AbstractCardsProvider {
 
+	private static final String SEARCH_Q = "search?q=";
+	private static final String COLOR = "color";
+	private static final String WATERMARK = "watermark";
+	private static final String TYPE_LINE = "type_line";
+	private static final String POWER = "power";
+	private static final String LOYALTY = "loyalty";
+	private static final String TOUGHNESS = "toughness";
+	private static final String RARITY = "rarity";
+	private static final String MULTIVERSE_ID = "multiverse_id";
+	private static final String DIGITAL = "digital";
+	private static final String COLORS = "colors";
+	private static final String COLLECTOR_NUMBER = "collector_number";
+	private static final String ARTIST = "artist";
+	private static final String CARD_FACES = "card_faces";
+	private static final String BORDER = "border";
+	private static final String NAME = "name";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
+	
 	private String baseURI = "";
 	private JsonParser parser;
 
@@ -84,16 +101,16 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		StringBuilder url = new StringBuilder(baseURI);
 				url.append("/cards/");
 				
-		if (att.equals("name"))
-			url.append("search?q=").append(URLEncoder.encode("++" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING));
+		if (att.equals(NAME))
+			url.append(SEARCH_Q).append(URLEncoder.encode("++" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING));
 		else if (att.equals("custom"))
-			url.append("search?q=").append(URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING));
+			url.append(SEARCH_Q).append(URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING));
 		else if (att.equals("set"))
-			url.append("search?q=").append(URLEncoder.encode("++e:" + crit, MTGConstants.DEFAULT_ENCODING));
+			url.append(SEARCH_Q).append(URLEncoder.encode("++e:" + crit, MTGConstants.DEFAULT_ENCODING));
 		else if (att.equals("id"))
 			url.append(URLEncoder.encode(crit, MTGConstants.DEFAULT_ENCODING));
 		else
-			url.append("search?q=").append(URLEncoder.encode(att + ":" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING));
+			url.append(SEARCH_Q).append(URLEncoder.encode(att + ":" + comparator + " include:extras", MTGConstants.DEFAULT_ENCODING));
 
 		if (me != null)
 			url.append("%20").append(URLEncoder.encode("e:" + me.getId(), MTGConstants.DEFAULT_ENCODING));
@@ -200,7 +217,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 	@Override
 	public String[] getQueryableAttributs() {
-		return new String[] { "name", "custom", "type", "color", "oracle", "mana", "cmc", "power", "toughness","loyalty", "is", "rarity", "cube", "artist", "flavor", "watermark", "border", "frame", "set" };
+		return new String[] { NAME, "custom", "type", COLOR, "oracle", "mana", "cmc", POWER, TOUGHNESS,LOYALTY, "is", RARITY, "cube", ARTIST, "flavor", WATERMARK, BORDER, "frame", "set" };
 	}
 
 	@Override
@@ -272,7 +289,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 		}
 
 		mc.setId(obj.get("id").getAsString());
-		mc.setName(obj.get("name").getAsString());
+		mc.setName(obj.get(NAME).getAsString());
 		mc.setCmc(obj.get("cmc").getAsInt());
 		mc.setLayout(obj.get("layout").getAsString());
 
@@ -297,24 +314,24 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			mc.setFlavor("");
 		}
 
-		if (obj.get("type_line") != null)
-			generateTypes(mc, String.valueOf(obj.get("type_line")));
+		if (obj.get(TYPE_LINE) != null)
+			generateTypes(mc, String.valueOf(obj.get(TYPE_LINE)));
 
 		MagicCardNames n = new MagicCardNames();
 		n.setLanguage("English");
 		n.setName(mc.getName());
 		try {
-			n.setGathererId(obj.get("multiverse_id").getAsInt());
+			n.setGathererId(obj.get(MULTIVERSE_ID).getAsInt());
 		} catch (NullPointerException e) {
 			n.setGathererId(0);
 		}
 
 		mc.getForeignNames().add(n);
 
-		mc.setNumber(obj.get("collector_number").getAsString());
+		mc.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
 
 		try {
-			mc.setArtist(obj.get("artist").getAsString());
+			mc.setArtist(obj.get(ARTIST).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("artist not found");
 		}
@@ -324,22 +341,22 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			logger.trace("reserved not found");
 		}
 		try {
-			mc.setPower(obj.get("power").getAsString());
+			mc.setPower(obj.get(POWER).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("power not found");
 		}
 		try {
-			mc.setToughness(obj.get("toughness").getAsString());
+			mc.setToughness(obj.get(TOUGHNESS).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("toughness not found");
 		}
 		try {
-			mc.setLoyalty(obj.get("loyalty").getAsInt());
+			mc.setLoyalty(obj.get(LOYALTY).getAsInt());
 		} catch (Exception e) {
 			logger.trace("loyalty not found");
 		}
 		try {
-			mc.setWatermarks(obj.get("watermark").getAsString());
+			mc.setWatermarks(obj.get(WATERMARK).getAsString());
 		} catch (NullPointerException e) {
 			logger.trace("watermark not found");
 		}
@@ -349,8 +366,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			logger.trace("illustration_id not found");
 		}
 
-		if (obj.get("colors") != null) {
-			Iterator<JsonElement> it = obj.get("colors").getAsJsonArray().iterator();
+		if (obj.get(COLORS) != null) {
+			Iterator<JsonElement> it = obj.get(COLORS).getAsJsonArray().iterator();
 			while (it.hasNext())
 				mc.getColors().add(ColorParser.getNameByCode(it.next().getAsString()));
 
@@ -388,17 +405,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 				}
 
 		}
-		if (obj.get("card_faces") != null) {
-			mc.setText(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("oracle_text")
+		if (obj.get(CARD_FACES) != null) {
+			mc.setText(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("oracle_text")
 					.getAsString());
-			mc.setCost(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost")
+			mc.setCost(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("mana_cost")
 					.getAsString());
 			mc.setRotatedCardName(
-					obj.get("card_faces").getAsJsonArray().get(1).getAsJsonObject().get("name").getAsString());
-			mc.setImageName(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("illustration_id")
+					obj.get(CARD_FACES).getAsJsonArray().get(1).getAsJsonObject().get(NAME).getAsString());
+			mc.setImageName(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get("illustration_id")
 					.getAsString());
 
-			generateTypes(mc, obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("type_line")
+			generateTypes(mc, obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(TYPE_LINE)
 					.getAsString());
 
 			try {
@@ -408,23 +425,23 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 			try {
 				mc.setLoyalty(
-						obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("loyalty").getAsInt());
+						obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(LOYALTY).getAsInt());
 			} catch (Exception e) {
 				logger.error(mc.getName() + " has no loyalty: " + e);
 			}
 
 			try {
-				Iterator<JsonElement> it = obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject()
-						.get("colors").getAsJsonArray().iterator();
+				Iterator<JsonElement> it = obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject()
+						.get(COLORS).getAsJsonArray().iterator();
 				while (it.hasNext())
 					mc.getColors().add(ColorParser.getNameByCode(it.next().getAsString()));
 			} catch (Exception e) {
 				logger.error(mc.getName() + " has no colors: " + e);
 			}
 			try {
-				mc.setPower(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("power")
+				mc.setPower(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(POWER)
 						.getAsString());
-				mc.setToughness(obj.get("card_faces").getAsJsonArray().get(idface).getAsJsonObject().get("toughness")
+				mc.setToughness(obj.get(CARD_FACES).getAsJsonArray().get(idface).getAsJsonObject().get(TOUGHNESS)
 						.getAsString());
 			} catch (Exception e) {
 				logger.error(mc.getName() + " has no power/toughness: " + e);
@@ -438,7 +455,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 
 			int index = -1;
 			for (int i = 0; i < arr.size(); i++) {
-				if (arr.get(i).getAsJsonObject().get("name").getAsString().equals(mc.getName())) {
+				if (arr.get(i).getAsJsonObject().get(NAME).getAsString().equals(mc.getName())) {
 					index = i;
 					break;
 				}
@@ -446,7 +463,7 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			}
 			arr.remove(index);
 			if (arr.size() == 1)
-				mc.setRotatedCardName(arr.get(0).getAsJsonObject().get("name").getAsString());
+				mc.setRotatedCardName(arr.get(0).getAsJsonObject().get(NAME).getAsString());
 		}
 
 		MagicEdition ed;
@@ -456,8 +473,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			if (mc.getMultiverseid() != null)
 				ed.setMultiverseid(String.valueOf(mc.getMultiverseid()));
 
-			ed.setRarity(obj.get("rarity").getAsString());
-			ed.setOnlineOnly(obj.get("digital").getAsBoolean());
+			ed.setRarity(obj.get(RARITY).getAsString());
+			ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
 			ed.setNumber(mc.getNumber());
 			mc.getEditions().add(ed);
 
@@ -469,7 +486,8 @@ public class ScryFallProvider extends AbstractCardsProvider {
 			try {
 				if (!mc.isBasicLand())
 					initOtherEdition(mc);
-				// generateRules(mc);
+					
+				generateRules(mc);
 			} catch (Exception e) {
 				logger.error("error in initOtherEdition :" + e.getMessage());
 			}
@@ -549,17 +567,17 @@ public class ScryFallProvider extends AbstractCardsProvider {
 					JsonObject obj = jsonList.get(i).getAsJsonObject();
 					MagicEdition ed = getSetById(obj.get("set").getAsString());
 
-					if (obj.get("artist") != null)
-						ed.setArtist(obj.get("artist").getAsString());
+					if (obj.get(ARTIST) != null)
+						ed.setArtist(obj.get(ARTIST).getAsString());
 
-					if (obj.get("multiverse_id") != null)
-						ed.setMultiverseid(obj.get("multiverse_id").getAsString());
+					if (obj.get(MULTIVERSE_ID) != null)
+						ed.setMultiverseid(obj.get(MULTIVERSE_ID).getAsString());
 
-					if (obj.get("rarity") != null)
-						ed.setRarity(obj.get("rarity").getAsString());
+					if (obj.get(RARITY) != null)
+						ed.setRarity(obj.get(RARITY).getAsString());
 
-					if (obj.get("collector_number") != null)
-						ed.setNumber(obj.get("collector_number").getAsString());
+					if (obj.get(COLLECTOR_NUMBER) != null)
+						ed.setNumber(obj.get(COLLECTOR_NUMBER).getAsString());
 
 					mc.getEditions().add(ed);
 				}
@@ -579,14 +597,14 @@ public class ScryFallProvider extends AbstractCardsProvider {
 	private MagicEdition generateEdition(JsonObject obj) {
 		MagicEdition ed = new MagicEdition();
 		ed.setId(obj.get("code").getAsString());
-		ed.setSet(obj.get("name").getAsString());
+		ed.setSet(obj.get(NAME).getAsString());
 		ed.setType(obj.get("set_type").getAsString());
 
-		if (obj.get("digital") != null)
-			ed.setOnlineOnly(obj.get("digital").getAsBoolean());
+		if (obj.get(DIGITAL) != null)
+			ed.setOnlineOnly(obj.get(DIGITAL).getAsBoolean());
 
-		if (obj.get("border") != null)
-			ed.setBorder(obj.get("border").getAsString());
+		if (obj.get(BORDER) != null)
+			ed.setBorder(obj.get(BORDER).getAsString());
 
 		ed.setCardCount(obj.get("card_count").getAsInt());
 
