@@ -21,6 +21,7 @@ import org.magic.services.MTGControler;
 public class PricesCheckerTimer extends AbstractMTGServer {
 
 
+	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
 	private Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
@@ -81,8 +82,8 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 			
 		};
 
-		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString("TIMEOUT_MINUTE")) * 60000);
-		logger.info("Server start with " + getString("TIMEOUT_MINUTE") + " min timeout");
+		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString(TIMEOUT_MINUTE)) * 60000);
+		logger.info("Server start with " + getString(TIMEOUT_MINUTE) + " min timeout");
 
 	}
 
@@ -111,7 +112,7 @@ public class PricesCheckerTimer extends AbstractMTGServer {
 	@Override
 	public void initDefault() {
 		setProperty("AUTOSTART", "false");
-		setProperty("TIMEOUT_MINUTE", "120");
+		setProperty(TIMEOUT_MINUTE, "120");
 		setProperty("NOTIFIER","Tray");
 	}
 

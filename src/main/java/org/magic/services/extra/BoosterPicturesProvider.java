@@ -81,7 +81,7 @@ public class BoosterPicturesProvider {
 		try {
 			return (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 		} catch (XPathExpressionException e) {
-			logger.error(me.getId() + " is not found :" + e);
+			logger.error(me.getId() + " not found :" + e);
 			return null;
 		}
 	}
@@ -96,10 +96,10 @@ public class BoosterPicturesProvider {
 			url = item.getAttributes().getNamedItem("url").getNodeValue();
 			return URLTools.extractImage(url);
 		} catch (IOException e) {
-			logger.error(me.getId() + " could not load : " + url, e);
+			logger.error(me.getId() + " could not open : " + url, e);
 			return null;
 		} catch (Exception e) {
-			logger.error(me.getId() + " error loading " + url, e);
+			logger.error(me.getId() + " error " + url, e);
 			return null;
 		}
 	}

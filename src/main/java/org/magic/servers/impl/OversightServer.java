@@ -19,6 +19,7 @@ import org.magic.sorters.CardsShakeSorter;
 import org.magic.sorters.CardsShakeSorter.SORT;
 
 public class OversightServer extends AbstractMTGServer {
+	private static final String TIMEOUT_MINUTE = "TIMEOUT_MINUTE";
 	private Timer timer;
 	private TimerTask tache;
 	private boolean running = false;
@@ -66,8 +67,8 @@ public class OversightServer extends AbstractMTGServer {
 
 		};
 
-		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString("TIMEOUT_MINUTE")) * 60000);
-		logger.info("Server start with " + getString("TIMEOUT_MINUTE") + " min timeout");
+		timer.scheduleAtFixedRate(tache, 0, Long.parseLong(getString(TIMEOUT_MINUTE)) * 60000);
+		logger.info("Server start with " + getString(TIMEOUT_MINUTE) + " min timeout");
 
 	}
 
@@ -103,7 +104,7 @@ public class OversightServer extends AbstractMTGServer {
 	@Override
 	public void initDefault() {
 		setProperty("AUTOSTART", "false");
-		setProperty("TIMEOUT_MINUTE", "120");
+		setProperty(TIMEOUT_MINUTE, "120");
 		setProperty("ALERT_MIN_PERCENT","40");
 		setProperty("NOTIFIER","Tray,Console");
 		setProperty("SORT_FILTER","DAY_PRICE_CHANGE");

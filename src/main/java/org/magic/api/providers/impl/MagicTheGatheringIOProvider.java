@@ -99,8 +99,7 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		logger.debug(url);
 
 		con = URLTools.openConnection(url);
-		JsonReader reader;
-
+	
 		int count = 0;
 		int totalcount = con.getHeaderFieldInt("Total-Count", 0);
 
@@ -215,13 +214,8 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 		}
 
 		if (obj.get("names") != null) {
-			JsonArray arr = obj.get("names").getAsJsonArray();
-
 			List<String> list = new ArrayList<>();
-			
-
 			list.remove(mc.getName());
-
 			String rotateName = (list.get(list.size() - 1));
 			mc.setRotatedCardName(rotateName);
 

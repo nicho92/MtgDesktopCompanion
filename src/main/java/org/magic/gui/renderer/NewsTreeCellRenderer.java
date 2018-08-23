@@ -29,6 +29,8 @@ public class NewsTreeCellRenderer extends DefaultTreeCellRenderer {
 			case FORUM:
 				setIcon(MTGConstants.ICON_FORUM);
 				break;
+			
+			default: setIcon(null);
 			}
 			}
 			catch(Exception e)
