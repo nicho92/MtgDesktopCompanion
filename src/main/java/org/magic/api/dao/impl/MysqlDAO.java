@@ -49,7 +49,6 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	public void init() throws SQLException, ClassNotFoundException {
 		logger.info("init " + getName());
-		//Class.forName(getString(DRIVER));
 		String url = "jdbc:mysql://" + getString(SERVERNAME) + ":" + getString(SERVERPORT);
 		logger.trace("Connexion to " + url + "/" + getString(DB_NAME) + getString(PARAMS));
 		con = DriverManager.getConnection(url + "/" + getString(DB_NAME) + getString(PARAMS),getString(LOGIN), getString(PASS));
@@ -449,7 +448,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 				logger.error(e);
 			}
 		} else {
-			logger.debug("update " + state);
+			logger.debug("update Stock " + state);
 			try (PreparedStatement pst = con.prepareStatement(
 					"update stocks set comments=?, conditions=?, foil=?,signedcard=?,langage=?, qte=? ,altered=?,price=?,idmc=?,collection=? where idstock=?")) {
 				pst.setString(1, state.getComment());

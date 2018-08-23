@@ -290,10 +290,6 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		return ret;
 	}
 
-	@Override
-	public String[] getDominanceFilters() {
-		return new String[] { "" };
-	}
 
 	@Override
 	public void initDefault() {

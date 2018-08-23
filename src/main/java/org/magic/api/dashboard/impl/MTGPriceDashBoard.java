@@ -226,10 +226,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 		return new ArrayList<>();
 	}
 
-	@Override
-	public String[] getDominanceFilters() {
-		return new String[] { "" };
-	}
+	
 
 	@Override
 	public void initDefault() {
@@ -239,7 +236,7 @@ public class MTGPriceDashBoard extends AbstractDashBoard {
 
 	@Override
 	public String getVersion() {
-		return "0.1";
+		return "0.2";
 	}
 
 }

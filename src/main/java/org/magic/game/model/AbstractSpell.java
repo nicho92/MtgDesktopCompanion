@@ -12,12 +12,12 @@ import org.magic.services.MTGLogger;
 
 public abstract class AbstractSpell implements Spell  {
 
-	protected Logger logger = MTGLogger.getLogger(this.getClass());
+	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 	protected MagicCard card;
-	protected List<Cost> costs;
-	protected List<AbstractEffect> effects;
+	protected transient List<Cost> costs;
+	protected transient List<AbstractEffect> effects;
 	protected boolean resolved;
-	protected List<AbstractAbilities> abilities;
+	protected transient List<AbstractAbilities> abilities;
 	
 	
 	public boolean isResolved() {

@@ -32,4 +32,9 @@ public abstract class AbstractDashBoard extends AbstractMTGPlugin implements MTG
 			save();
 		}
 	}
+	
+	@Override
+	public String[] getDominanceFilters() {
+		return new String[] { "" };
+	}
 }
