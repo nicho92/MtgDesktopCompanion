@@ -515,9 +515,13 @@ public class StockPanelGUI extends JPanel {
 		StockTableRenderer render = new StockTableRenderer();
 
 		table.setDefaultRenderer(Object.class, render);
+		table.setDefaultRenderer(Boolean.class, render);
+		table.setDefaultRenderer(Double.class, render);
 		table.setDefaultEditor(EnumCondition.class, new EnumConditionEditor());
 		table.setDefaultEditor(Integer.class, new IntegerCellEditor());
 
+		
+		
 		table.getColumnModel().getColumn(2).setCellEditor(new MagicEditionsComboBoxEditor());
 		table.getColumnModel().getColumn(2).setCellRenderer(new MagicEditionsComboBoxRenderer());
 
