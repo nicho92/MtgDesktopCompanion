@@ -23,7 +23,7 @@ public class URLTools {
 
 	private static Logger logger = MTGLogger.getLogger(URLTools.class);
 	
-	public static String HEADER_JSON="application/json";
+	public static final String HEADER_JSON="application/json";
 	
 	
 

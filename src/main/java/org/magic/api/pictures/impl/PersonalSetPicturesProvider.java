@@ -15,6 +15,7 @@ import org.magic.services.MTGConstants;
 
 public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 
+	private static final String FORMAT = "FORMAT";
 	private static final String PICS_DIR = "PICS_DIR";
 
 	@Override
@@ -31,14 +32,14 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		if (!edDir.exists())
 			edDir.mkdir();
 
-		ImageIO.write(bi, getString("FORMAT"),
-				Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString("FORMAT").toLowerCase()).toFile());
+		ImageIO.write(bi, getString(FORMAT),
+				Paths.get(edDir.getAbsolutePath(), mc.getId() + "." + getString(FORMAT).toLowerCase()).toFile());
 	}
 
 	public void removePicture(MagicEdition ed, MagicCard mc) {
 		File mainDir = getFile(PICS_DIR);
 		File edDir = new File(mainDir, ed.getId());
-		FileUtils.deleteQuietly(new File(edDir, mc.getId() + "." + getString("FORMAT")));
+		FileUtils.deleteQuietly(new File(edDir, mc.getId() + "." + getString(FORMAT)));
 	}
 
 	public PersonalSetPicturesProvider() {
@@ -60,7 +61,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		File edDir = new File(mainDir, ed.getId());
 		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
 		if (edDir.exists())
-			return ImageIO.read(new File(edDir, mc.getId() + "." + getString("FORMAT")));
+			return ImageIO.read(new File(edDir, mc.getId() + "." + getString(FORMAT)));
 		else
 			return null;
 	}
@@ -81,7 +82,7 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		super.initDefault();
 		
 		setProperty(PICS_DIR,Paths.get(MTGConstants.CONF_DIR.getAbsolutePath(),"sets","privatePics").toFile().getAbsolutePath());
-		setProperty("FORMAT","PNG");
+		setProperty(FORMAT,"PNG");
 	}
 
 }

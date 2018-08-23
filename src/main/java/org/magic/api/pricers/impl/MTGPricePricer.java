@@ -16,6 +16,8 @@ import com.google.gson.stream.JsonReader;
 
 public class MTGPricePricer extends AbstractMagicPricesProvider {
 
+	private static final String API_KEY = "API_KEY";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -23,7 +25,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public List<MagicPrice> getPrice(MagicEdition ed, MagicCard card) throws IOException {
-		if (getString("API_KEY").equals(""))
+		if (getString(API_KEY).equals(""))
 			throw new NullPointerException("API_KEY must be filled");
 
 		MagicEdition selected = ed;
@@ -32,7 +34,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 
 		String set = selected.getSet().replaceAll(" ", "_");
 
-		String url = getString("WS_URL") + "?apiKey=" + getString("API_KEY") + "&s=" + set;
+		String url = getString("WS_URL") + "?apiKey=" + getString(API_KEY) + "&s=" + set;
 		InputStream stream = URLTools.openConnection(url).getInputStream();
 		List<MagicPrice> ret = new ArrayList<>();
 
@@ -100,7 +102,7 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 	public void initDefault() {
 		setProperty("MAX", "5");
 		setProperty("WS_URL", "http://www.mtgprice.com/api");
-		setProperty("API_KEY", "");
+		setProperty(API_KEY, "");
 		setProperty("WEBSITE", "http://www.mtgprice.com/");
 
 	}

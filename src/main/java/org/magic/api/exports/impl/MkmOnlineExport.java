@@ -35,7 +35,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	private static final String DEFAULT_QTE = "DEFAULT_QTE";
 	private static final String QUALITY = "QUALITY";
 
-	private MagicCardMarketPricer2 mkmPricer;
+	
 	private EnumMap<PRODUCT_ATTS, String> atts;
 	private ProductServices pService;
 
@@ -50,7 +50,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 	private void init()
 	{
 		try {
-			mkmPricer = new MagicCardMarketPricer2();
+			MagicCardMarketPricer2 mkmPricer = new MagicCardMarketPricer2();
 			MkmAPIConfig.getInstance().init(mkmPricer.getString("APP_ACCESS_TOKEN_SECRET"),
 					mkmPricer.getString("APP_ACCESS_TOKEN"), mkmPricer.getString("APP_SECRET"),
 					mkmPricer.getString("APP_TOKEN"));
@@ -280,8 +280,8 @@ public class MkmOnlineExport extends AbstractCardExport {
 			return "PL";
 		case POOR:
 			return "PO";
+		default : return null;
 		}
-		return null;
 	}
 
 	private EnumCondition convert(String condition) {
