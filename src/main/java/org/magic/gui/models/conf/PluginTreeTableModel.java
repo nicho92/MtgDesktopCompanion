@@ -12,6 +12,7 @@ import org.magic.api.interfaces.MTGPlugin;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
+@SuppressWarnings({ "rawtypes", "unchecked" })
 public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTableModel {
 
 	private String[] columnsNames = { MTGControler.getInstance().getLangService().getCapitalize("PROVIDERS"),
@@ -155,7 +156,7 @@ public class PluginTreeTableModel<T extends MTGPlugin> extends AbstractTreeTable
 
 	@Override
 	public boolean isCellEditable(Object node, int column) {
-		return (node instanceof Entry && column == 1) || (column == 3);
+		return (isLeaf(node) && column == 1) || (column == 3);
 	}
 
 	public void setSelectedNode(MTGPlugin pathComponent) {
