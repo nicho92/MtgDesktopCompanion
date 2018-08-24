@@ -63,6 +63,10 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class StockPanelGUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String FINISHED = "FINISHED";
 	private JXTable table;
 	private CardStockTableModel model;

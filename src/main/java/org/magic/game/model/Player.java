@@ -17,6 +17,11 @@ import org.utils.patterns.observer.Observable;
 
 public class Player extends Observable implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public enum STATE {
 		CONNECTED, BUSY, AWAY, GAMING
 	}

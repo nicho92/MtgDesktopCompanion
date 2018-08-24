@@ -7,6 +7,10 @@ import org.magic.services.MTGControler;
 
 public class MagicCardNamesTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private MagicCard mc;
 	private static final String[] COLUMN = new String[] {
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_LANGUAGE"),

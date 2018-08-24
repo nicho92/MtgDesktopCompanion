@@ -11,6 +11,11 @@ import com.itextpdf.text.List;
 
 public class DeckCardsTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private String[] columns = new String[] { "NAME",
 			"CARD_TYPES",
 			"CARD_MANA",

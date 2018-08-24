@@ -29,6 +29,10 @@ import org.magic.services.ThreadManager;
 
 public class MagicEditionDetailPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
 	private org.magic.api.beans.MagicEdition magicEdition = new org.magic.api.beans.MagicEdition();
 	private JTextField borderJTextField;

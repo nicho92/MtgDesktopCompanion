@@ -12,6 +12,10 @@ import org.magic.game.model.Turn;
 
 public class DrawPhase extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String detail = "<html>-The active player draws a card from their library.<br/>"
 			+ "-Any abilities that trigger at the beginning of the draw step go on the stack.<br/>"
 			+ "-The active player gains priority.</html>";

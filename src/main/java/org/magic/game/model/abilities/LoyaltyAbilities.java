@@ -3,6 +3,11 @@ package org.magic.game.model.abilities;
 public class LoyaltyAbilities extends ActivatedAbilities {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public boolean isLoyalty() {
 		return true;

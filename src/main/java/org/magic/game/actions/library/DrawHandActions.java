@@ -12,6 +12,11 @@ import org.magic.services.MTGControler;
 
 public class DrawHandActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public DrawHandActions() {
 		super("Draw Hand");
 		putValue(SHORT_DESCRIPTION, "Draw a new Hand");

@@ -6,6 +6,13 @@ import org.magic.services.MTGConstants;
 
 public class JBuzyLabel extends JLabel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
 	public JBuzyLabel() {
 		super(MTGConstants.ICON_LOADING);
 		buzy(false);

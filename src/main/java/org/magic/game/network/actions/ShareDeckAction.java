@@ -5,6 +5,10 @@ import org.magic.game.model.Player;
 
 public class ShareDeckAction extends AbstractNetworkAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Player p;
 	Player to;
 

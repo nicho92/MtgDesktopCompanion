@@ -16,6 +16,11 @@ import org.magic.gui.models.MkmInsightTableModel;
 public class MkmOversightDashlet extends AbstractJDashlet {
 	
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MkmOversightDashlet() {
 		super();
 	}

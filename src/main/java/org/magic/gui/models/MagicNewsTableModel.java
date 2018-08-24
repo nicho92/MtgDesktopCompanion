@@ -11,6 +11,10 @@ import org.magic.services.MTGControler;
 
 public class MagicNewsTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String[] COLUMNS = { "RSS_TITLE",
 			"RSS_DATE",
 			"RSS_AUTHOR" };

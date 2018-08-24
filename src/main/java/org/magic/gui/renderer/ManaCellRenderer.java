@@ -9,6 +9,10 @@ import org.magic.gui.components.ManaPanel;
 
 public class ManaCellRenderer extends DefaultTableCellRenderer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ManaPanel pane = new ManaPanel();
 
 	@Override

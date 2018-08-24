@@ -15,6 +15,11 @@ import org.magic.services.MTGLogger;
 
 public class ShopItemTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private String[] columns = new String[] { "WEBSITE",

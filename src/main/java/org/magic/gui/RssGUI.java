@@ -34,6 +34,10 @@ import org.magic.services.MTGLogger;
 import org.magic.services.ThreadManager;
 
 public class RssGUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private MagicNewsTableModel model;
 	private BrowserPane editorPane;

@@ -79,6 +79,11 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class CollectionPanelGUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private JXTable tableEditions;

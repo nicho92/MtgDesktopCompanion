@@ -16,6 +16,10 @@ import org.magic.services.MTGConstants;
 
 public class MagicCollectionTableCellRenderer extends DefaultTableRenderer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	HashMap<String, ImageIcon> cache;
 	Color c;
 

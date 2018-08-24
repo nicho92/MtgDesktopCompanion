@@ -34,6 +34,10 @@ import org.magic.services.extra.IconSetProvider;
 
 public class HistoryPricesPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	boolean showEdition = false;
 	boolean showAll = false;
 	private JCheckBox chckbxShowEditions;

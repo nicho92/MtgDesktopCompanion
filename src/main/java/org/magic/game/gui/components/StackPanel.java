@@ -19,6 +19,10 @@ import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
 public class StackPanel extends JPanel implements Observer {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String START = "Start";
 	private static final String PAUSE = "Pause";
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());

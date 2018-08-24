@@ -20,6 +20,10 @@ import org.magic.services.MTGLogger;
 
 public class ManualImportDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JEditorPane editorPane;
 	private MagicDeck deck;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());

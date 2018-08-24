@@ -23,6 +23,11 @@ import org.magic.services.PluginRegistry;
 
 public class DashBoardGUI2 extends JDesktopPane {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	private JMenuItem mntmSaveDisplay;

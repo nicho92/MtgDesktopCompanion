@@ -39,6 +39,10 @@ import org.magic.tools.ImageUtils;
 
 public class BinderTagsEditorDialog extends JFrame {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private JPanel previewPanel;
 	private transient BinderTagsManager tagMaker;
@@ -103,6 +107,11 @@ public class BinderTagsEditorDialog extends JFrame {
 		}
 		
 		previewPanel = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected void paintComponent(Graphics g) {
 				super.paintComponent(g);

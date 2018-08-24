@@ -63,6 +63,11 @@ public class DrawProbabilityPanel extends JPanel {
 	private void initCard(MagicCard card) {
 		model = new AbstractTableModel() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public String getColumnName(int t) {
 
@@ -99,6 +104,11 @@ public class DrawProbabilityPanel extends JPanel {
 
 	private void initDeck() {
 		model = new AbstractTableModel() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 
 			@Override
 			public String getColumnName(int t) {

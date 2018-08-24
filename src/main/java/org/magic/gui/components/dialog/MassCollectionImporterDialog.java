@@ -34,6 +34,10 @@ import org.magic.services.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String[] ids;
 	private JTextPane txtNumbersInput;
 	private MagicDeck deck;

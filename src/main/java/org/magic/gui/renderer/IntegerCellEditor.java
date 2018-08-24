@@ -10,6 +10,10 @@ import javax.swing.table.TableCellEditor;
 
 public class IntegerCellEditor extends AbstractCellEditor implements TableCellEditor {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	JSpinner spinner;
 
 	public IntegerCellEditor() {

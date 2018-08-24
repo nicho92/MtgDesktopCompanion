@@ -16,6 +16,10 @@ import org.magic.services.MTGControler;
 
 public class SearchCardFrame extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	HandPanel pane;
 	JScrollPane scPane;
 
@@ -25,6 +29,11 @@ public class SearchCardFrame extends JDialog {
 		setSize(new Dimension(800, 600));
 		scPane = new JScrollPane();
 		pane = new HandPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public ZoneEnum getOrigine() {
 				return source;

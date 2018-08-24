@@ -12,6 +12,11 @@ import org.magic.game.gui.components.GamePanelGUI;
 
 public class MadnessActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private DisplayableCard card;
 
 	private String k = "Madness";

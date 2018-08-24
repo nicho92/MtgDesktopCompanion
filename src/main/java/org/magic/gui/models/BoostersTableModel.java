@@ -10,6 +10,10 @@ import org.magic.services.MTGControler;
 
 public class BoostersTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient List<Booster> boosters;
 	private static final String[] COLUMNS = { "CARD_NUMBER","PRICE" };
 

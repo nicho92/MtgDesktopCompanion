@@ -16,6 +16,10 @@ import org.magic.tools.ColorParser;
 
 public class SpellRendererPanel extends JPanel {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private MagicTextPane textPane;
 	private JLabel lblCardName;
 	private JLabel lblIconCard;

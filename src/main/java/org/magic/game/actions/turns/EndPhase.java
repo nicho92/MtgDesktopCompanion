@@ -11,6 +11,10 @@ import org.magic.game.model.Turn;
 
 public class EndPhase extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String detail = "<html>The end step, often referred to as the <b>end of turn</b> and previously known as the <b>end of turn</b>,<br/>"
 			+ "is the first step of the ending phase. It is usually the last opportunity for a player to perform any action<br/>"
 			+ "before the next player's turn starts.</html>";

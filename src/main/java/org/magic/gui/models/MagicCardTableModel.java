@@ -11,6 +11,10 @@ import org.magic.services.MTGControler;
 
 public class MagicCardTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<MagicCard> cards;
 	private String[] columns = new String[] { "NAME",
 			"CARD_LANGUAGE",

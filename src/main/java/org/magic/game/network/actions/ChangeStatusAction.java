@@ -5,6 +5,10 @@ import org.magic.game.model.Player.STATE;
 
 public class ChangeStatusAction extends AbstractNetworkAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Player player;
 
 	public ChangeStatusAction(Player p) {

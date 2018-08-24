@@ -4,6 +4,10 @@ import java.io.Serializable;
 
 public class MagicRuling implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String date;
 	String text;
 

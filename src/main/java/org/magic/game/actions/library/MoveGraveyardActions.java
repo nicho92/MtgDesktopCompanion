@@ -14,6 +14,11 @@ import org.magic.services.MTGControler;
 
 public class MoveGraveyardActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MoveGraveyardActions() {
 		putValue(NAME, "Put X cards in graveyard");
 		putValue(SHORT_DESCRIPTION, "");

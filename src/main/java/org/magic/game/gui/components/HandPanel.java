@@ -14,6 +14,10 @@ import org.magic.game.model.ZoneEnum;
 
 public class HandPanel extends DraggablePanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private GridBagConstraints c;
 	private int index = 0;
 	private int val = 7;

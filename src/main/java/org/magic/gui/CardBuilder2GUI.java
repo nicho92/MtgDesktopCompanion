@@ -151,6 +151,11 @@ public class CardBuilder2GUI extends JPanel {
 			cboSets = new JComboBox<>();
 			namesModel = new MagicCardNamesTableModel();
 			panelPictures = new JPanel() {
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
+
 				@Override
 				protected void paintComponent(Graphics g) {
 					super.paintComponent(g);

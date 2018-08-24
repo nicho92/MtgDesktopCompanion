@@ -20,6 +20,10 @@ import org.magic.services.MTGControler;
 
 public class ServerStatePanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient MTGServer server;
 	private Map<Boolean, ImageIcon> icons;
 	private JButton btnStartStop;

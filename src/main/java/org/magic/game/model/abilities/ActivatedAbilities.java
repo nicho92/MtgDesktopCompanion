@@ -4,6 +4,11 @@ public class ActivatedAbilities extends AbstractAbilities {
 
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	@Override
 	public String toString() {
 		StringBuilder build = new StringBuilder();

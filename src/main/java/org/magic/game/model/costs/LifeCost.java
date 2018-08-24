@@ -3,6 +3,13 @@ package org.magic.game.model.costs;
 public class LifeCost extends NumberCost {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
 	public LifeCost(int qty) {
 		super(qty);
 	}

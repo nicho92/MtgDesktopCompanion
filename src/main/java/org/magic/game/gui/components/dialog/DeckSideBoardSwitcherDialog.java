@@ -18,6 +18,10 @@ import org.magic.gui.renderer.MagicCardListRenderer;
 
 public class DeckSideBoardSwitcherDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private MagicDeck savedDeck;
 	private MagicDeck bckDeck;
 	private JLabel lblDecksize;

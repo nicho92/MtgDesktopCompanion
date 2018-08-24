@@ -11,6 +11,11 @@ import org.magic.game.model.Turn;
 
 public class BlockPhase extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public BlockPhase() {
 		super("Block");
 		putValue(SHORT_DESCRIPTION, "Block Phase");

@@ -11,7 +11,6 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.TableCellRenderer;
 
 import org.jdesktop.swingx.JXTreeTable;
 import org.magic.api.interfaces.MTGPlugin;

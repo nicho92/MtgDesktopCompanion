@@ -8,6 +8,10 @@ import org.api.mkm.modele.InsightElement;
 
 public class MkmInsightTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String[] columnName;
 	private List<InsightElement> elements;
 	

@@ -26,6 +26,10 @@ import org.magic.services.ThreadManager;
 
 public class DeckSnifferDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private JComboBox<AbstractDeckSniffer> cboSniffers;
 	private JComboBox<String> cboFormats;

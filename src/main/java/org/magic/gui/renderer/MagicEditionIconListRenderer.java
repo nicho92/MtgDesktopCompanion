@@ -12,6 +12,12 @@ import org.magic.services.extra.IconSetProvider;
 
 public class MagicEditionIconListRenderer extends JLabel implements ListCellRenderer<MagicEdition> {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
 	public enum SIZE {SMALL,MEDIUM}
 	
 	private SIZE size;

@@ -49,6 +49,10 @@ import org.utils.patterns.observer.Observer;
 
 public class GamingRoomPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtServer;
 	private JTextField txtPort;
 	private JTable table;
@@ -169,6 +173,11 @@ public class GamingRoomPanel extends JPanel {
 			editorPane.setForeground(Color.BLACK);
 		}
 		list.setCellRenderer(new DefaultListCellRenderer() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected,boolean cellHasFocus) {
 				JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected,
@@ -325,6 +334,10 @@ public class GamingRoomPanel extends JPanel {
 
 class PlayerTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String[] columns = { MTGControler.getInstance().getLangService().getCapitalize("PLAYER"),
 			MTGControler.getInstance().getLangService().getCapitalize("DECK"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"),

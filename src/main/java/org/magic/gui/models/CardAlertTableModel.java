@@ -13,6 +13,11 @@ import org.magic.services.MTGLogger;
 
 public class CardAlertTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	static final String[] columns = new String[] { "CARD","EDITION","MAX_BID","OFFERS","DAILY","WEEKLY","PC_DAILY" };

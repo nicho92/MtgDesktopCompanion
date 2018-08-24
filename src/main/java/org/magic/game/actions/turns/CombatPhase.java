@@ -11,6 +11,10 @@ import org.magic.game.model.Turn;
 
 public class CombatPhase extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String detail = "<html>-The active player gains priority.<br/>"
 			+ "-Creatures assigned in this step are attacking.</html>";
 

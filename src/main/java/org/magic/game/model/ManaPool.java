@@ -16,6 +16,10 @@ import org.utils.patterns.observer.Observable;
 
 public class ManaPool extends Observable implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Map<String, Integer> pool;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 

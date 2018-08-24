@@ -18,6 +18,11 @@ import org.magic.services.MTGControler;
 public class MagicPricePanel extends JPanel {
 
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public MagicPricePanel(MagicPrice price) {
 		setBackground(SystemColor.inactiveCaptionBorder);
 

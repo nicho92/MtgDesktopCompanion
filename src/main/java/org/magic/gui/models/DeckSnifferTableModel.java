@@ -12,6 +12,11 @@ import org.magic.services.MTGControler;
 
 public class DeckSnifferTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final String[] columns = new String[] { "NAME",
 			"CARD_COLOR",
 			"AUTHOR",

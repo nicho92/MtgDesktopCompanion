@@ -10,6 +10,11 @@ import org.magic.services.MTGControler;
 
 public class ServersGUI extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ServersGUI() {
 		setLayout(new GridLayout(10, 1, 0, 0));
 		for (MTGServer s : MTGControler.getInstance().getServers()) {

@@ -29,6 +29,10 @@ import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 
 public class CardStockLinePanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtComment;
 	private JComboBox<EnumCondition> cboState;
 	private JComboBox cboLanguage;

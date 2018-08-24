@@ -20,6 +20,10 @@ import org.utils.patterns.observer.Observer;
 
 public class PlayerGameBoard extends JPanel implements Observer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JSpinner spinLife;
 	private JSpinner spinPoison;
 	private BattleFieldPanel panelBattleField;

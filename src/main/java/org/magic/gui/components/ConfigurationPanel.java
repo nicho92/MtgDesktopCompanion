@@ -47,6 +47,10 @@ import org.magic.tools.InstallCert;
 
 public class ConfigurationPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField textField;
 	private JComboBox<MTGDao> cboTargetDAO;
 	private JComboBox<MagicCollection> cboCollections;
@@ -505,6 +509,11 @@ public class ConfigurationPanel extends JPanel {
 		JComboBox<LookAndFeelInfo> cboLook = new JComboBox<>(
 				new DefaultComboBoxModel<>(MTGControler.getInstance().getLafService().getAllLookAndFeel()));
 		cboLook.setRenderer(new DefaultListCellRenderer() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public Component getListCellRendererComponent(javax.swing.JList<?> list, Object value, int index,
 					boolean isSelected, boolean cellHasFocus) {

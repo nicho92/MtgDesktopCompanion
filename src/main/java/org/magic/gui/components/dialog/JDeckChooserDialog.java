@@ -36,6 +36,10 @@ import org.magic.services.MTGControler;
 
 public class JDeckChooserDialog extends JDialog {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CmcChartPanel cmcChartPanel;
 	private MagicDeck selectedDeck;

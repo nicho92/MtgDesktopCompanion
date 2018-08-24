@@ -10,6 +10,10 @@ import org.magic.game.model.counters.LoyaltyCounter;
 
 public class LoyaltyActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DisplayableCard card;
 	private transient LoyaltyCounter val;
 

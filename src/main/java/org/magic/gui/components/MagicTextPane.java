@@ -22,6 +22,10 @@ import org.magic.tools.CardsPatterns;
 
 public class MagicTextPane extends JTextPane {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ManaPanel manaPanel;
 
 	public MagicTextPane() {

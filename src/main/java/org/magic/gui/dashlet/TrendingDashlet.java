@@ -31,6 +31,10 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class TrendingDashlet extends AbstractJDashlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CardsShakerTableModel modStandard;
 	private JComboBox<MTGFormat> cboFormats;

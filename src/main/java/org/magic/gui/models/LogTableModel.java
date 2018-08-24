@@ -9,6 +9,10 @@ import org.magic.services.MTGLogger;
 
 public class LogTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient MTGAppender app;
 	private static final String[] COLUMNS = { "LEVEL", "TIME", "CLASS", "MESSAGE" };
 

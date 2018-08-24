@@ -14,6 +14,10 @@ import org.utils.patterns.observer.Observable;
 import org.utils.patterns.observer.Observer;
 
 public class ManaPoolPanel extends JPanel implements Observer {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JSpinner spinW;
 	private JSpinner spinU;
 	private JSpinner spinB;

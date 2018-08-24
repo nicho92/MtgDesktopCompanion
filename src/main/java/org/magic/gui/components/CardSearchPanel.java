@@ -82,6 +82,11 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class CardSearchPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public static final int INDEX_THUMB = 1;

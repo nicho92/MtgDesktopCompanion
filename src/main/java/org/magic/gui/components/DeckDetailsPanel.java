@@ -31,6 +31,10 @@ import org.magic.services.ThreadManager;
 import org.magic.tools.ImageUtils;
 
 public class DeckDetailsPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private transient BindingGroup mBindingGroup;
 	private MagicDeck magicDeck = new MagicDeck();

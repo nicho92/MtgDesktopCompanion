@@ -23,6 +23,10 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class SpeedConfigurator extends JFrame {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGDao> cboDAOs;
 	private JComboBox<MTGPictureProvider> cboPictures;
 	private JComboBox<MTGDashBoard> cboDashboard;

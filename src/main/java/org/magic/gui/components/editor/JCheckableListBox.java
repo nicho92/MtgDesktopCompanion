@@ -6,6 +6,11 @@ import org.japura.gui.CheckComboBox;
 
 public class JCheckableListBox<T> extends CheckComboBox {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public JCheckableListBox() {
 		super();
 	}

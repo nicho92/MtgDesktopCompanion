@@ -29,6 +29,10 @@ import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class EditionsDashlet extends AbstractJDashlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private JBuzyLabel lblLoading;
 	private JComboBox<MagicEdition> cboEditions;

@@ -24,6 +24,10 @@ import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 
 public class LightDescribeCardPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtName;
 	private JTextField txtType;
 	private JTextField txtPower;

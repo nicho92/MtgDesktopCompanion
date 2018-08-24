@@ -4,6 +4,10 @@ import org.magic.api.beans.MTGKeyWord;
 
 public class StaticAbilities extends AbstractAbilities {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private MTGKeyWord key;
 	
 	

@@ -41,6 +41,10 @@ import org.utils.patterns.observer.Observer;
 
 public class MagicCardDetailPanel extends JPanel implements Observer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mBindingGroup;
 	private MagicCard magicCard;
 	private JTextField cmcJTextField;

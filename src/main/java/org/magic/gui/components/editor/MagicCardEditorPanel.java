@@ -34,6 +34,10 @@ import org.magic.services.MTGControler;
 
 public class MagicCardEditorPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient BindingGroup mbindingGroup;
 	private MagicCard magicCard = new MagicCard();
 	private JTextField artistJTextField;

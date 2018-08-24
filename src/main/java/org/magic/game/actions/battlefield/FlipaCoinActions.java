@@ -10,6 +10,11 @@ import org.magic.game.gui.components.GamePanelGUI;
 
 public class FlipaCoinActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public FlipaCoinActions() {
 		super("Flip a Coin");
 		putValue(SHORT_DESCRIPTION, "Flip a Coin");

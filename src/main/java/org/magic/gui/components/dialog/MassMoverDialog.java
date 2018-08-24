@@ -30,6 +30,10 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class MassMoverDialog extends JDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable tableCards;
 	private MagicCardTableModel model;
 	private transient MTGDao dao;

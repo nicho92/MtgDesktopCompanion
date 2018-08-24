@@ -14,6 +14,10 @@ import org.utils.patterns.observer.Observable;
 
 public class DeckSelectionTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final String[] columns = { MTGControler.getInstance().getLangService().getCapitalize("DECK"),
 			MTGControler.getInstance().getLangService().getCapitalize("CARD_COLOR"), "Standard", "Modern", "Legacy","Vintage", MTGControler.getInstance().getLangService().getCapitalize("CARDS") };
 	private List<MagicDeck> decks;

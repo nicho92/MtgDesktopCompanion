@@ -10,6 +10,10 @@ import java.util.Set;
 
 public class SealedPack implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient Map<MagicEdition, Integer> pack;
 
 	public SealedPack() {

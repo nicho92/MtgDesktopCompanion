@@ -9,6 +9,11 @@ import org.magic.game.gui.components.GamePanelGUI;
 
 public class ShuffleActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public ShuffleActions() {
 		putValue(NAME, "Shuffle library");
 		putValue(SHORT_DESCRIPTION, "Shuffle the Library");

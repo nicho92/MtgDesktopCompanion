@@ -7,6 +7,11 @@ import org.magic.api.beans.SealedPack;
 import org.magic.services.MTGControler;
 
 public class SealedPackTableModel extends DefaultTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private SealedPack pack;
 
 	private static final String[] COLUMNS = { "EDITION",

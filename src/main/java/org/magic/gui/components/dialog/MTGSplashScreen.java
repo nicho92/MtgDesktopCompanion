@@ -28,6 +28,11 @@ public class MTGSplashScreen extends JWindow implements Observer {
 
 	public MTGSplashScreen() {
 		JPanel panel = new JPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected void paintComponent(Graphics g) {
 				if (g instanceof Graphics2D) {

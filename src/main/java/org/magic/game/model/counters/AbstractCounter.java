@@ -8,6 +8,10 @@ import org.magic.services.MTGLogger;
 
 public abstract class AbstractCounter implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	public abstract void apply(DisplayableCard displayableCard);

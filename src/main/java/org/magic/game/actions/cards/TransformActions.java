@@ -14,6 +14,10 @@ import org.magic.services.MTGLogger;
 
 public class TransformActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DisplayableCard card;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 

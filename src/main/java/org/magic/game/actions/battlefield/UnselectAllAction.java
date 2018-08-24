@@ -10,6 +10,11 @@ import org.magic.game.gui.components.GamePanelGUI;
 
 public class UnselectAllAction extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public UnselectAllAction() {
 		super("(Un)Select cards");
 		putValue(SHORT_DESCRIPTION, "(un)select the cards on battlefields");

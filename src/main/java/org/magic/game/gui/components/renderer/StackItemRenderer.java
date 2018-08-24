@@ -11,6 +11,10 @@ import org.magic.game.model.AbstractSpell;
 public class StackItemRenderer extends JLabel implements ListCellRenderer<AbstractSpell> 
 {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	SpellRendererPanel render = new SpellRendererPanel();
 	
 	@Override

@@ -11,6 +11,11 @@ import org.magic.game.model.Turn;
 
 public class MainPhase extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	int step;
 
 	String detail = "<html>Abilities that trigger at the beginning of the main phase go onto the stack.<br/>"

@@ -9,6 +9,10 @@ import org.magic.game.gui.components.DisplayableCard;
 
 public class AttachActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	DisplayableCard mc;
 
 	public AttachActions(DisplayableCard mc) {

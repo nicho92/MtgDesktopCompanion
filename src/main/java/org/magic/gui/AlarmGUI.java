@@ -64,6 +64,10 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class AlarmGUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private CardAlertTableModel model;
 	private MagicCardDetailPanel magicCardDetailPanel;

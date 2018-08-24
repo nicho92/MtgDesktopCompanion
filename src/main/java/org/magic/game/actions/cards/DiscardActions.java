@@ -9,6 +9,10 @@ import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
 
 public class DiscardActions extends AbstractAction {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DisplayableCard card;
 
 	public DiscardActions(DisplayableCard card) {

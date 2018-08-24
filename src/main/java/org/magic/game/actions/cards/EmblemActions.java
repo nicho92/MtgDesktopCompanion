@@ -14,6 +14,10 @@ import org.magic.services.MTGLogger;
 
 public class EmblemActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private DisplayableCard card;
 

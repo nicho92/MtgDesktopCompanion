@@ -18,6 +18,11 @@ import org.magic.services.MTGLogger;
 public abstract class DraggablePanel extends JPanel implements Draggable
 {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	Dimension d;
 
 	protected JPopupMenu menu = new JPopupMenu();

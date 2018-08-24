@@ -34,6 +34,10 @@ import net.coderazzi.filters.gui.AutoChoices;
 import net.coderazzi.filters.gui.TableFilterHeader;
 
 public class ShopperGUI extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTextField txtSearch;
 	private JXTable tableItemShop;
 
@@ -75,6 +79,10 @@ public class ShopperGUI extends JPanel {
 		filterHeader.setSelectionBackground(Color.LIGHT_GRAY);
 		tableItemShop.getColumnModel().getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
 			SimpleDateFormat f = new SimpleDateFormat("dd/MM/yy HH:mm");
 
 			@Override

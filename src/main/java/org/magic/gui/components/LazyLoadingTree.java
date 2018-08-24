@@ -25,6 +25,10 @@ import org.magic.sorters.CardsEditionSorter;
 
 public class LazyLoadingTree extends JTree {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DefaultTreeModel model;
 	private MyNode root;
 

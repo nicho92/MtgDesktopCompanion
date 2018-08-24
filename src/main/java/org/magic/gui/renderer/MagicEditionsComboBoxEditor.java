@@ -12,6 +12,10 @@ import org.magic.api.beans.MagicEdition;
 
 public class MagicEditionsComboBoxEditor extends DefaultCellEditor {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DefaultComboBoxModel<MagicEdition> model;
 	
 	public MagicEditionsComboBoxEditor() {

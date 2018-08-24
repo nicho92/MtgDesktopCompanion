@@ -10,6 +10,10 @@ import org.magic.game.gui.components.GamePanelGUI;
 
 public class CyclingActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DisplayableCard card;
 
 	public CyclingActions(DisplayableCard card) {

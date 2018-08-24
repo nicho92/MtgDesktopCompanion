@@ -11,6 +11,11 @@ import org.magic.game.model.Turn;
 
 public class DamagePhase extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public DamagePhase() {
 		super("Damage");
 		putValue(SHORT_DESCRIPTION, "Damage phase");

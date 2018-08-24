@@ -19,6 +19,10 @@ import org.magic.tools.ColorParser;
 
 public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private ManaPanel pane;
 	private Map<String, ImageIcon> map;
 

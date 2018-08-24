@@ -11,6 +11,10 @@ import org.magic.api.beans.EnumCondition;
 
 public class EnumConditionEditor extends DefaultCellEditor {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DefaultComboBoxModel<EnumCondition> model;
 
 	public EnumConditionEditor() {

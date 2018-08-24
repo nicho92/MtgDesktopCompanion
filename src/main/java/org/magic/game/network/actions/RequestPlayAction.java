@@ -4,6 +4,10 @@ import org.magic.game.model.Player;
 
 public class RequestPlayAction extends AbstractNetworkAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Player p1;
 	Player p2;
 

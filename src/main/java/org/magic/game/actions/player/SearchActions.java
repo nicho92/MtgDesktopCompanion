@@ -11,6 +11,10 @@ import org.magic.game.model.ZoneEnum;
 
 public class SearchActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	ZoneEnum pos;
 
 	public SearchActions(ZoneEnum pos) {

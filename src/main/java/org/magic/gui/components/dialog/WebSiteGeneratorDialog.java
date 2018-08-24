@@ -25,6 +25,11 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class WebSiteGeneratorDialog extends JDialog {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private JTextField txtDest;
 
 	private boolean value = false;

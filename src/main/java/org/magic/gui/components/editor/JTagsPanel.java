@@ -62,6 +62,11 @@ public class JTagsPanel extends JPanel {
 		btnAdd = new JButton();
 		AbstractAction action = new AbstractAction("+") {
 
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				JTextField field = new JTextField(10);
@@ -192,6 +197,11 @@ public class JTagsPanel extends JPanel {
 }
 
 class TagLabel extends JLabel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public TagLabel(String t, Color f, Color b, Font font) {
 		super(t);
 		setToolTipText(t);

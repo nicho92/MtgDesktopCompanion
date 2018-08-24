@@ -17,6 +17,10 @@ import org.magic.services.MTGLogger;
 
 public class MeldActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DisplayableCard card;
 	private String meldWith = "";
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());

@@ -13,6 +13,10 @@ import org.magic.services.MTGControler;
 
 public class BoosterPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	int lastColumn = -1;
 	private List<MagicCard> list;
 
@@ -33,6 +37,11 @@ public class BoosterPanel extends JPanel {
 		GraveyardPanel p;
 		if (lastColumn < column) {
 			p = new GraveyardPanel() {
+
+				/**
+				 * 
+				 */
+				private static final long serialVersionUID = 1L;
 
 				@Override
 				public ZoneEnum getOrigine() {

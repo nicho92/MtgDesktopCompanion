@@ -54,6 +54,10 @@ import org.magic.sorters.ColorSorter;
 import org.magic.sorters.TypesSorter;
 
 public class SealedPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JBuzyLabel lblLoading;
 	private SealedPackTableModel model;
 	private BoosterPanel panelOpenedBooster;
@@ -259,6 +263,11 @@ public class SealedPanel extends JPanel {
 		panelEast.setLayout(new BorderLayout(0, 0));
 
 		panelDeck = new GraveyardPanel() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public ZoneEnum getOrigine() {
 				return ZoneEnum.DECK;

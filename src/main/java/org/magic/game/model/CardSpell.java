@@ -6,6 +6,10 @@ import org.magic.game.model.factories.CostsFactory;
 
 public class CardSpell extends AbstractSpell {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DisplayableCard c;
 	
 	

@@ -2,6 +2,11 @@ package org.magic.game.network.actions;
 
 public class ReponseAction extends AbstractNetworkAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public enum CHOICE {
 		YES, NO
 	}

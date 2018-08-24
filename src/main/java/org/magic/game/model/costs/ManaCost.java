@@ -5,6 +5,10 @@ import java.util.TreeMap;
 
 public class ManaCost implements Cost {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Map<String,Integer> mcost;
 	
 	

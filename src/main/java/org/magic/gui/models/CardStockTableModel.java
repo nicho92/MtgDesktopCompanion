@@ -16,6 +16,11 @@ import org.magic.services.MTGControler;
 
 public class CardStockTableModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private transient List<MagicCardStock> list;
 
 	static final String[] columns = new String[] { "ID",

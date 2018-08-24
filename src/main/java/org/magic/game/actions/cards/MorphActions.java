@@ -18,6 +18,10 @@ import org.magic.services.MTGLogger;
 
 public class MorphActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DisplayableCard card;
 	private String cost;
 	private static String k = "Morph";

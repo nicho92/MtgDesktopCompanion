@@ -10,6 +10,11 @@ import org.magic.services.MTGControler;
 
 public class GraveyardPanel extends DraggablePanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public GraveyardPanel() {
 		super();
 		setLayout(null);

@@ -4,6 +4,10 @@ import org.magic.game.model.AbstractSpell;
 
 public abstract class AbstractEffect extends AbstractSpell {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected String effectDescription;
 	protected AbstractEffect childEffect;
 	

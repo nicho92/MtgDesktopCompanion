@@ -12,6 +12,10 @@ import java.awt.image.BufferedImage;
 import javax.swing.JPanel;
 
 public class CropImagePanel extends JPanel implements MouseListener, MouseMotionListener {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int dragStatus = 0;
 	private int c1;
 	private int c2;

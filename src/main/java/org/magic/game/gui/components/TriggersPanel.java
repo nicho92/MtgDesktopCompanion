@@ -18,6 +18,10 @@ import org.utils.patterns.observer.Observer;
 
 public class TriggersPanel extends JPanel implements Observer {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JList<AbstractSpell> listStack;
 	private DefaultListModel<AbstractSpell> model;
 	

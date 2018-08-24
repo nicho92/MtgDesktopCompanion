@@ -16,6 +16,10 @@ import org.magic.services.extra.IconSetProvider;
 
 public class CardListPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel lblName;
 	private JLabel lblType;
 	private JLabel lblEdition;

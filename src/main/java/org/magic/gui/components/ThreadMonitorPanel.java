@@ -16,6 +16,10 @@ import org.magic.services.MTGControler;
 import org.magic.services.ThreadManager;
 
 public class ThreadMonitorPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JTable table;
 	private ThreadModel model;
 	private transient DefaultRowSorter sorterCards;
@@ -66,6 +70,10 @@ public class ThreadMonitorPanel extends JPanel {
 
 class ThreadModel extends DefaultTableModel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	String[] columns = new String[] { MTGControler.getInstance().getLangService().getCapitalize("GROUP"),
 			MTGControler.getInstance().getLangService().getCapitalize("NAME"),
 			MTGControler.getInstance().getLangService().getCapitalize("STATE") };

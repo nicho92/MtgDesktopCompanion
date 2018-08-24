@@ -17,6 +17,10 @@ import org.magic.services.MTGLogger;
 
 public class CardStockPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JPanel content;
 	private GridLayout layout = new GridLayout();
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());

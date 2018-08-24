@@ -24,6 +24,10 @@ import org.magic.tools.CardsPatterns;
 import org.magic.tools.ImageUtils;
 
 public class ManaPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int cols = 10;
 	private int rows = 7;
 	private int chunkWidth = 100;

@@ -165,6 +165,10 @@ public class WallpaperGUI extends JPanel {
 }
 
 class JWallThumb extends JLabel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean selected = false;
 	private Color c = getBackground();
 	private transient Wallpaper wall;

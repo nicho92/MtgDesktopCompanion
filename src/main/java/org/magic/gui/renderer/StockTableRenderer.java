@@ -13,6 +13,10 @@ import org.magic.api.beans.MagicCardStock;
 
 public class StockTableRenderer extends DefaultTableRenderer {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Component pane;
 
 	@Override

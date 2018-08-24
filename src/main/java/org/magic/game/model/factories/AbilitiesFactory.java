@@ -1,9 +1,7 @@
 package org.magic.game.model.factories;
 
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.Set;
 
 import org.magic.api.beans.MTGKeyWord;
@@ -22,7 +20,6 @@ import org.magic.tools.CardsPatterns;
 
 public class AbilitiesFactory {
 
-	private BreakIterator bi;
 	private static AbilitiesFactory inst;
 	
 	
@@ -37,7 +34,7 @@ public class AbilitiesFactory {
 	
 	
 	private AbilitiesFactory() {
-		bi = BreakIterator.getSentenceInstance(Locale.US);
+	
 	}
 	
 	private List<String> listSentences(MagicCard mc)

@@ -32,6 +32,10 @@ import org.magic.sorters.MagicPricesComparator;
 
 public class DeckPricePanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JComboBox<MTGPricesProvider> cboPricers;
 	private JTable tablePrice;
 	private CardsPriceTableModel model;

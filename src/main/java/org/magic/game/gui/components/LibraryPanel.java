@@ -20,6 +20,10 @@ import org.magic.services.MTGLogger;
 
 public class LibraryPanel extends DraggablePanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private transient Image i;
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 

@@ -4,10 +4,13 @@ import org.magic.game.model.AbstractSpell;
 
 public abstract class AbstractAbilities extends AbstractSpell {
 
+	private static final long serialVersionUID = 1L;
+
 	public AbstractAbilities() {
 		super();
 	}
 
+	
 	public boolean isStatic()
 	{
 		return false;

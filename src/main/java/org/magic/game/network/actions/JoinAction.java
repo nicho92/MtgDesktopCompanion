@@ -4,6 +4,10 @@ import org.magic.game.model.Player;
 
 public class JoinAction extends AbstractNetworkAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Player p1;
 
 	public JoinAction(Player p1) {

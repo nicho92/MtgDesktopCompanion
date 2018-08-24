@@ -10,6 +10,10 @@ import org.magic.game.model.Player;
 
 public class EndTurnPhase extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Player p;
 
 	public EndTurnPhase() {

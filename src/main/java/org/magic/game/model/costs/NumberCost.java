@@ -2,6 +2,10 @@ package org.magic.game.model.costs;
 
 public abstract class NumberCost implements Cost {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	protected Integer value;
 	protected String modifier;
 	protected String x;

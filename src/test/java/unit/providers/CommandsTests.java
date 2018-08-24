@@ -2,8 +2,6 @@ package unit.providers;
 
 import static org.junit.Assert.fail;
 
-import java.sql.SQLException;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.magic.api.interfaces.MTGCommand;

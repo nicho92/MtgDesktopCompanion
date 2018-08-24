@@ -10,6 +10,10 @@ import org.magic.game.model.counters.ItemCounter;
 
 public class ItemCounterActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private DisplayableCard card;
 	private transient ItemCounter itemCounter;
 

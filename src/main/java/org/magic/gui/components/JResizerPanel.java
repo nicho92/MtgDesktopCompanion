@@ -11,6 +11,10 @@ import javax.swing.SpinnerNumberModel;
 import org.magic.services.MTGConstants;
 
 public class JResizerPanel extends JPanel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel lblDimension;
 	private Dimension dimension;
 	private JSpinner spinner;

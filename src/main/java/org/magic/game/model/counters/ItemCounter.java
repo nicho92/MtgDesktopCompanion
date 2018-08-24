@@ -4,6 +4,10 @@ import org.magic.game.gui.components.DisplayableCard;
 
 public class ItemCounter extends AbstractCounter {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String name;
 
 	public ItemCounter(String name) {

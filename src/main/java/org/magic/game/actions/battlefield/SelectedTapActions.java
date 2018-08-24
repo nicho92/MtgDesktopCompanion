@@ -10,6 +10,11 @@ import org.magic.game.gui.components.GamePanelGUI;
 
 public class SelectedTapActions extends AbstractAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public SelectedTapActions() {
 		super("(Un)Tap Selected Cards");
 		putValue(SHORT_DESCRIPTION, "Tap/Untap the cards on battlefields");

@@ -73,6 +73,10 @@ import org.magic.services.ThreadManager;
 
 public class ConstructPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private static final String UPDATED_DECK = "UPDATED_DECK";
 	private static final String FINISHED = "FINISHED";
 	
@@ -597,6 +601,11 @@ public class ConstructPanel extends JPanel {
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 
 		groupsFilterResult = new ButtonGroup() {
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			public void setSelected(ButtonModel model, boolean selected) {
 				if (selected) {

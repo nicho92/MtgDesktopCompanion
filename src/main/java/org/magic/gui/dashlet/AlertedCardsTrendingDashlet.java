@@ -18,6 +18,10 @@ import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
 
 public class AlertedCardsTrendingDashlet extends AbstractJDashlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private CardAlertTableModel model;
 
 	

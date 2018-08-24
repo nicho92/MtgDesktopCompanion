@@ -25,6 +25,10 @@ import org.magic.services.MTGLogger;
 
 public class CardTransfertHandler extends TransferHandler {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private final DataFlavor localObjectFlavor;
 	private static JWindow window = new JWindow();
 	private static JLabel dragLab = new JLabel();

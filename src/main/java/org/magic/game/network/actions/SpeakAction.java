@@ -6,6 +6,10 @@ import org.magic.game.model.Player;
 
 public class SpeakAction extends AbstractNetworkAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	Player p;
 	String text;
 	Color color;

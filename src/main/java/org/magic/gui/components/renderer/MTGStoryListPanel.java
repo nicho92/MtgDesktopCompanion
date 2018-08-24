@@ -16,6 +16,10 @@ import org.magic.api.beans.MTGStory;
 
 public class MTGStoryListPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JLabel lblicon;
 	private String useFonts = "Tahoma";
 

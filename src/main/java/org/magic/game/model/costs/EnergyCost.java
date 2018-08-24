@@ -2,6 +2,10 @@ package org.magic.game.model.costs;
 
 public class EnergyCost extends NumberCost {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String text="{E}"; 
 	
 	public EnergyCost(int qty)

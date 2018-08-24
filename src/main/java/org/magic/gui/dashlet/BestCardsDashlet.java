@@ -21,6 +21,10 @@ import org.magic.services.ThreadManager;
 
 public class BestCardsDashlet extends AbstractJDashlet {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private CardDominanceTableModel models;
 	private JComboBox<MTGFormat> cboFormat;

@@ -54,7 +54,7 @@ public abstract class AbstractCommand extends AbstractMTGPlugin implements MTGCo
 	
 	
 	@Override
-	public CommandResponse usage() {
+	public CommandResponse<?> usage() {
 		HelpFormatter formatter = new HelpFormatter();
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		PrintWriter ps = new PrintWriter(baos);

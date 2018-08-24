@@ -10,6 +10,10 @@ import org.magic.api.beans.MagicCard;
 
 public class Graveyard implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<MagicCard> cards;
 
 	public Graveyard() {

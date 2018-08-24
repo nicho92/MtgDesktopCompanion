@@ -21,6 +21,10 @@ import org.magic.services.MTGDeckManager;
 
 public class CmcChartPanel extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<MagicCard> cards;
 	private transient MTGDeckManager manager;
 

@@ -8,6 +8,10 @@ import org.magic.game.model.costs.LoyaltyCost;
 
 public class LoyaltyCounter extends AbstractCounter {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private LoyaltyCost value;
 	private String label;
 

@@ -3,6 +3,11 @@ package org.magic.game.model.costs;
 public class TapCost implements Cost {
 
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public enum DIR {TAP,UNTAP}
 	
 	

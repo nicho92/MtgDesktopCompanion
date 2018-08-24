@@ -30,6 +30,10 @@ import org.magic.services.extra.StoryProvider;
 
 public class StoriesGUI extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JBuzyLabel lblLoading;
 	private transient StoryProvider provider;
 	private JList<MTGStory> listResult;

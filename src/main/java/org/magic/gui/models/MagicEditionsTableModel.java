@@ -17,6 +17,11 @@ import org.magic.services.MTGLogger;
 import org.magic.services.extra.IconSetProvider;
 
 public class MagicEditionsTableModel extends DefaultTableModel {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 
 	String[] columns = new String[] { "EDITION_CODE",

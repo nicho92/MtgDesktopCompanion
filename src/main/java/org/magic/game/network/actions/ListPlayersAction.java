@@ -6,6 +6,10 @@ import org.magic.game.model.Player;
 
 public class ListPlayersAction extends AbstractNetworkAction {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private List<Player> list;
 
 	public ListPlayersAction(List<Player> p) {

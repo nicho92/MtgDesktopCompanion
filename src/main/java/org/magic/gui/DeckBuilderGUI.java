@@ -12,6 +12,11 @@ import org.magic.services.MTGControler;
 
 public class DeckBuilderGUI extends JPanel {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	public DeckBuilderGUI() {
 		setLayout(new BorderLayout());
 		JTabbedPane tab = new JTabbedPane();

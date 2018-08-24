@@ -12,7 +12,19 @@ import org.utils.patterns.observer.Observable;
 
 public class TriggerManager extends Observable {
 
-	public enum TRIGGERS {ENTER_BATTLEFIELD,ENTER_GRAVEYARD}
+	public enum TRIGGERS {
+		  ENTER_THE_BATTLEFIELD,
+		  CREATURE_CAST,CRANK,
+		  SPELL_CAST,
+		  CREATURE_DEALS_DAMAGE,
+		  CREATURE_DIES,
+		  CREATURE_ATTACKS, 
+		  BECOME_BLOCKED,
+		  AURA_ATTACH,
+		  ENCOUNTER,
+		  TAPPED}
+
+	
 	
 	private Map<TRIGGERS,List<AbstractSpell>> triggers;
 	

@@ -22,6 +22,10 @@ import org.magic.services.ThreadManager;
 import org.magic.services.extra.MTGEventProvider;
 
 public class MagicEventsDashlet extends AbstractJDashlet {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private JXTable table;
 	private MagicEventsTableModel eventsModel;
 	private JComboBox<Integer> cboYear;
