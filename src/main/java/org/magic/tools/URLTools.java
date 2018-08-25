@@ -57,6 +57,11 @@ public class URLTools {
 		return connection;
 	}
 	
+	public static Document toHtml(String s)
+	{
+		return Jsoup.parse(s);
+	}
+	
 	public static Document extractHtml(String url) throws IOException
 	{
 		logger.trace("get html from " + url);
@@ -82,10 +87,14 @@ public class URLTools {
 
 	public static BufferedImage extractImage(String url) throws IOException
 	{
-		logger.trace("get Image from " + url);
-		return ImageUtils.trimAlpha(ImageIO.read(openConnection(url).getInputStream())); 
+		return extractImage(new URL(url));
 	}
 	
+	public static BufferedImage extractImage(URL url) throws IOException
+	{
+		logger.trace("get Image from " + url);
+		return ImageIO.read(openConnection(url).getInputStream()); 
+	}
 	
 	
 }

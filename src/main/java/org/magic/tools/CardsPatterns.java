@@ -9,8 +9,8 @@ public enum CardsPatterns {
 	MANA_PATTERN ("\\{(.*?)\\}"),
 	COUNTERS("(?:[Pp]ut) (a|an|two|three|four|five|six|seven|eight|nine|ten) (.*?) counter[s]? on "),
 	ADD_MANA("(?:[Aa]dd[s]?) ("+MANA_PATTERN+")+|((one|two|three|four|five) mana)"),
-	REMINDER("(?:\\(.+?\\))");
-	
+	REMINDER("(?:\\(.+?\\))"),
+	TRIGGER_ENTERS_BATTLEFIELD("(.*?) enters the battlefield");
 	
 	private String pattern = "";
 	
@@ -28,12 +28,18 @@ public enum CardsPatterns {
 		return pattern;
 	}
 
+	public static Matcher extract(String s , CardsPatterns pat)
+	{
+		Pattern p = Pattern.compile(pat.getPattern());
+		return p.matcher(s);
+	}
 	
-	public boolean hasPattern(String s , CardsPatterns pat)
+	
+	public static boolean hasPattern(String s , CardsPatterns pat)
 	{
 		Pattern p = Pattern.compile(pat.getPattern());
 		Matcher m = p.matcher(s);
 		return m.find();
-		
 	}
+	
 }

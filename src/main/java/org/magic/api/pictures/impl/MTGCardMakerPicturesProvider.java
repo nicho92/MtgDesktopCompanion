@@ -18,6 +18,7 @@ import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;
+import org.magic.tools.URLTools;
 
 public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 
@@ -40,7 +41,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 		try {
 
 			URL url = getPictureURL(mc);
-			return ImageIO.read(url);
+			return URLTools.extractImage(url);
 
 		} catch (Exception e) {
 			logger.error("Error readin pics for " + mc, e);
@@ -81,7 +82,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 	}
 	
 
-	public URL getPictureURL(MagicCard mc) throws MalformedURLException, UnsupportedEncodingException {
+	private URL getPictureURL(MagicCard mc) throws MalformedURLException, UnsupportedEncodingException {
 
 		String color = "colorless";
 		if (!mc.getColors().isEmpty())

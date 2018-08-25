@@ -22,7 +22,7 @@ public class ColorParser {
 
 		return "{C}";
 	}
-
+	
 	public static Color getColorManaParse(List<String> manas)
 	{
 		
@@ -31,7 +31,6 @@ public class ColorParser {
 		
 		if(manas.isEmpty())
 			return new Color(139,69,19);
-			
 			
 		if(manas.get(0).contains("U"))
 			return Color.BLUE;

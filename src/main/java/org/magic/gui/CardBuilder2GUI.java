@@ -44,7 +44,9 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
+import org.magic.api.pictures.impl.MTGDesignPicturesProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.gui.components.JSONPanel;
@@ -60,6 +62,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.tools.ImageUtils;
 
 public class CardBuilder2GUI extends JPanel {
 
@@ -72,7 +75,7 @@ public class CardBuilder2GUI extends JPanel {
 	private transient PrivateMTGSetProvider provider;
 	private JComboBox<MagicEdition> cboSets;
 	private CropImagePanel panelImage;
-	private transient MTGCardMakerPicturesProvider picProvider;
+	private transient MTGPictureProvider picProvider;
 	private transient PersonalSetPicturesProvider recordedProvider;
 	private transient Image cardImage;
 	private JPanel panelPictures;
@@ -141,7 +144,8 @@ public class CardBuilder2GUI extends JPanel {
 			spinCommon = new JSpinner();
 			spinRare = new JSpinner();
 			spinUnco = new JSpinner();
-			picProvider = new MTGCardMakerPicturesProvider();
+			//picProvider = new MTGCardMakerPicturesProvider();
+			picProvider = new MTGDesignPicturesProvider();
 			cardsModel = new MagicCardTableModel();
 			jsonPanel = new JSONPanel();
 			jsonPanel.setMaximumSize(new Dimension(400, 10));
@@ -491,12 +495,13 @@ public class CardBuilder2GUI extends JPanel {
 
 			btnRefresh.addActionListener(e -> {
 				try {
-					cardImage = ImageIO.read(picProvider.getPictureURL(magicCardEditorPanel.getMagicCard()));
+					cardImage = ImageUtils.scaleResize(picProvider.getPicture(magicCardEditorPanel.getMagicCard(),null),panelPictures.getWidth());
 					panelPictures.revalidate();
 					panelPictures.repaint();
 					jsonPanel.show(magicCardEditorPanel.getMagicCard());
 
 				} catch (Exception ex) {
+					logger.error("error painting",ex);
 					MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),ex));
 				}
 

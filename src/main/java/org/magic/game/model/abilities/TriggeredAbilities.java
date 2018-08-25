@@ -1,9 +1,10 @@
 package org.magic.game.model.abilities;
 
+import java.util.Arrays;
 import java.util.List;
 
-import org.magic.game.model.TriggerManager.TRIGGERS;
 import org.magic.game.model.factories.EffectsFactory;
+import org.magic.tools.CardsPatterns;
 
 public class TriggeredAbilities extends AbstractAbilities {
 	
@@ -14,25 +15,15 @@ public class TriggeredAbilities extends AbstractAbilities {
 	private String event;
 	public enum KEYWORDS { WHEN, WHENEVER, AT}
 	private KEYWORDS key;
+	private CardsPatterns trigger;
 	
 	public String getEvent() {
 		return event;
 	}
-	
-	public TRIGGERS getTrigger()
+
+	public CardsPatterns getTrigger()
 	{
-		
-		if(event.indexOf("enters the battlefield")>-1)
-		{
-			if(event.substring(0, event.indexOf("enters the battlefield")).trim().equals(getCard().getName()))
-				setTarget(this);
-			
-			return TRIGGERS.ENTER_THE_BATTLEFIELD;
-		}
-		
-		
-		return null;
-		
+		return trigger;
 	}
 	
 	
@@ -57,6 +48,12 @@ public class TriggeredAbilities extends AbstractAbilities {
 		
 		list.set(0,s);
 		setEffects(EffectsFactory.getInstance().parseEffect(getCard(),list));
+		
+		Arrays.asList(CardsPatterns.values()).stream().filter(p->p.name().startsWith("TRIGGER_")).forEach(p->{
+			if(CardsPatterns.hasPattern(event, p))
+				trigger=p;
+		});
+		
 	}
 
 	

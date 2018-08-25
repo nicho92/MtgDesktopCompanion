@@ -65,7 +65,7 @@ public class BinderTagsEditorDialog extends JFrame {
 	private JLabel lblSelection;
 
 	public void updateInfo() {
-		img = tagMaker.generate();
+		img = ImageUtils.trimAlpha(tagMaker.generate());
 		previewPanel.revalidate();
 		previewPanel.repaint();
 	}
