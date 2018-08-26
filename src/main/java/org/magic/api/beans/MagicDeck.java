@@ -88,7 +88,7 @@ public class MagicDeck implements Serializable {
 		for (MagicCard mc : mapDeck.keySet()) {
 			if ((mc.getCmc() != null))
 				for (String c : mc.getColors())
-					cmap.add(ColorParser.parse(c));
+					cmap.add(ColorParser.getCodeByName(c,true));
 		}
 		return cmap.toString();
 	}

@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -45,7 +44,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.pictures.impl.MTGCardMakerPicturesProvider;
 import org.magic.api.pictures.impl.MTGDesignPicturesProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
@@ -446,7 +444,8 @@ public class CardBuilder2GUI extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					MagicCard ed = (MagicCard) cardsTable.getValueAt(cardsTable.getSelectedRow(), 0);
-
+					
+					
 					if (arg0.getClickCount() == 2) {
 						initCard(ed);
 						tabbedPane.setSelectedIndex(1);
@@ -478,7 +477,7 @@ public class CardBuilder2GUI extends JPanel {
 				if (mc.getId() == null)
 					mc.setId(DigestUtils.sha1Hex(me.getSet() + mc.getId() + mc.getName()));
 
-				if (!mc.getCurrentSet().equals(me))
+				if ((mc.getCurrentSet()!=me))
 					mc.getEditions().add(0, me);
 				try {
 					provider.addCard(me, mc);
@@ -495,7 +494,12 @@ public class CardBuilder2GUI extends JPanel {
 
 			btnRefresh.addActionListener(e -> {
 				try {
-					cardImage = ImageUtils.scaleResize(picProvider.getPicture(magicCardEditorPanel.getMagicCard(),null),panelPictures.getWidth());
+					BufferedImage img = picProvider.getPicture(magicCardEditorPanel.getMagicCard(),null);
+					
+					if(img!=null)
+					{
+						cardImage = ImageUtils.scaleResize(img,panelPictures.getWidth());
+					}
 					panelPictures.revalidate();
 					panelPictures.repaint();
 					jsonPanel.show(magicCardEditorPanel.getMagicCard());

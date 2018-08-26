@@ -31,6 +31,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGControler;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class MagicCardEditorPanel extends JPanel {
 
@@ -43,7 +45,7 @@ public class MagicCardEditorPanel extends JPanel {
 	private JTextField artistJTextField;
 	private JTextField costJTextField;
 	private JTextField flavorJTextField;
-	private JCheckBox flippableJCheckBox;
+	private JCheckBox chboxFoil;
 	private JTextField gathererCodeJTextField;
 	private JComboBox<String> layoutJComboBox;
 	private JTextField loyaltyJTextField;
@@ -55,7 +57,6 @@ public class MagicCardEditorPanel extends JPanel {
 	private JTextField rotatedCardNameJTextField;
 	private MagicTextPane textJEditorPane;
 	private JTextField toughnessJTextField;
-	private JCheckBox tranformableJCheckBox;
 	private JTextField watermarksJTextField;
 	private JPanel panel;
 	private JLabel label;
@@ -67,6 +68,8 @@ public class MagicCardEditorPanel extends JPanel {
 	private JPanel panel2;
 	private ManaPanel pan = new ManaPanel();
 	private JCheckableListBox<String> cboSubtypes;
+	private JLabel lblTxtSize;
+	private JSpinner spinner;
 
 	public MagicCardEditorPanel(org.magic.api.beans.MagicCard newMagicCard) {
 		setMagicCard(newMagicCard);
@@ -450,22 +453,22 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc11.gridx = 1;
 		componentgbc11.gridy = 9;
 		add(numberJTextField, componentgbc11);
-
-		JLabel tranformableLabel = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("CARD_TRANSFORMABLE") + " :");
-		GridBagConstraints labelgbc18 = new GridBagConstraints();
-		labelgbc18.insets = new Insets(5, 5, 5, 5);
-		labelgbc18.gridx = 2;
-		labelgbc18.gridy = 9;
-		add(tranformableLabel, labelgbc18);
-
-		tranformableJCheckBox = new JCheckBox();
-		GridBagConstraints componentgbc18 = new GridBagConstraints();
-		componentgbc18.insets = new Insets(5, 0, 5, 0);
-		componentgbc18.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc18.gridx = 3;
-		componentgbc18.gridy = 9;
-		add(tranformableJCheckBox, componentgbc18);
+		
+				JLabel lblFoil = new JLabel(
+						"Foil :");
+				GridBagConstraints gbclblFoil = new GridBagConstraints();
+				gbclblFoil.anchor = GridBagConstraints.EAST;
+				gbclblFoil.insets = new Insets(5, 5, 5, 5);
+				gbclblFoil.gridx = 2;
+				gbclblFoil.gridy = 9;
+				add(lblFoil, gbclblFoil);
+		
+				chboxFoil = new JCheckBox();
+				GridBagConstraints gbcchboxFoil = new GridBagConstraints();
+				gbcchboxFoil.insets = new Insets(5, 0, 5, 0);
+				gbcchboxFoil.gridx = 3;
+				gbcchboxFoil.gridy = 9;
+				add(chboxFoil, gbcchboxFoil);
 
 		JLabel mciNumberLabel = new JLabel("Mci:");
 		GridBagConstraints labelgbc8 = new GridBagConstraints();
@@ -481,22 +484,22 @@ public class MagicCardEditorPanel extends JPanel {
 		componentgbc8.gridx = 1;
 		componentgbc8.gridy = 10;
 		add(mciNumberJTextField, componentgbc8);
-
-		JLabel flippableLabel = new JLabel(
-				MTGControler.getInstance().getLangService().getCapitalize("CARD_FLIPPABLE") + " :");
-		GridBagConstraints labelgbc4 = new GridBagConstraints();
-		labelgbc4.insets = new Insets(5, 5, 5, 5);
-		labelgbc4.gridx = 2;
-		labelgbc4.gridy = 10;
-		add(flippableLabel, labelgbc4);
-
-		flippableJCheckBox = new JCheckBox();
-		GridBagConstraints componentgbc4 = new GridBagConstraints();
-		componentgbc4.insets = new Insets(5, 0, 5, 0);
-		componentgbc4.fill = GridBagConstraints.HORIZONTAL;
-		componentgbc4.gridx = 3;
-		componentgbc4.gridy = 10;
-		add(flippableJCheckBox, componentgbc4);
+		
+		lblTxtSize = new JLabel("Text Size :");
+		GridBagConstraints gbclblTxtSize = new GridBagConstraints();
+		gbclblTxtSize.anchor = GridBagConstraints.EAST;
+		gbclblTxtSize.insets = new Insets(0, 0, 5, 5);
+		gbclblTxtSize.gridx = 2;
+		gbclblTxtSize.gridy = 10;
+		add(lblTxtSize, gbclblTxtSize);
+		
+		spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(32, 18, 38, 1));
+		GridBagConstraints gbcspinner = new GridBagConstraints();
+		gbcspinner.insets = new Insets(0, 0, 5, 0);
+		gbcspinner.gridx = 3;
+		gbcspinner.gridy = 10;
+		add(spinner, gbcspinner);
 
 		JLabel gathererCodeLabel = new JLabel("Gatherer ID:");
 		GridBagConstraints labelgbc5 = new GridBagConstraints();
@@ -567,111 +570,87 @@ public class MagicCardEditorPanel extends JPanel {
 			cboSubtypes.setSelectedElements(magicCard.getSubtypes());
 		}
 	}
-
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, String> artistProperty = BeanProperty.create("artist");
 		BeanProperty<JTextField, String> textProperty = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, artistProperty, artistJTextField, textProperty);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, artistProperty, artistJTextField, textProperty);
 		autoBinding.bind();
 		//
 		BeanProperty<MagicCard, String> costProperty = BeanProperty.create("cost");
 		BeanProperty<JTextField, String> textProperty1 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings
-				.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, costJTextField, textProperty1);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding2 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, costProperty, costJTextField, textProperty1);
 		autoBinding2.bind();
 		//
 		BeanProperty<MagicCard, String> flavorProperty = BeanProperty.create("flavor");
 		BeanProperty<JTextField, String> textProperty2 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding3 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, flavorProperty, flavorJTextField, textProperty2);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding3 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flavorProperty, flavorJTextField, textProperty2);
 		autoBinding3.bind();
 		//
 		BeanProperty<MagicCard, Boolean> flippableProperty = BeanProperty.create("flippable");
 		BeanProperty<JCheckBox, Boolean> selectedProperty = BeanProperty.create("selected");
-		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding4 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, flippableProperty, flippableJCheckBox, selectedProperty);
+		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding4 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, flippableProperty, chboxFoil, selectedProperty);
 		autoBinding4.bind();
 		//
 		BeanProperty<MagicCard, String> gathererCodeProperty = BeanProperty.create("gathererCode");
 		BeanProperty<JTextField, String> textProperty3 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding5 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, gathererCodeProperty, gathererCodeJTextField, textProperty3);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding5 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, gathererCodeProperty, gathererCodeJTextField, textProperty3);
 		autoBinding5.bind();
 		//
 		BeanProperty<MagicCard, Object> layoutProperty = BeanProperty.create("layout");
 		BeanProperty<JComboBox, Object> selectedIndexProperty = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding6 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, layoutProperty, layoutJComboBox, selectedIndexProperty);
+		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, layoutProperty, layoutJComboBox, selectedIndexProperty);
 		autoBinding6.bind();
 		//
 		BeanProperty<MagicCard, Object> loyaltyProperty = BeanProperty.create("loyalty");
 		BeanProperty<JTextField, Object> valueProperty1 = BeanProperty.create("value");
-		AutoBinding<MagicCard, Object, JTextField, Object> autoBinding7 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, valueProperty1);
+		AutoBinding<MagicCard, Object, JTextField, Object> autoBinding7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, valueProperty1);
 		autoBinding7.bind();
 		//
 		BeanProperty<MagicCard, String> mciNumberProperty = BeanProperty.create("mciNumber");
 		BeanProperty<JTextField, String> textProperty4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding8 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, mciNumberProperty, mciNumberJTextField, textProperty4);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding8 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, mciNumberProperty, mciNumberJTextField, textProperty4);
 		autoBinding8.bind();
 		//
 		BeanProperty<MagicCard, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding10 = Bindings
-				.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty5);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty5);
 		autoBinding10.bind();
 		//
 		BeanProperty<MagicCard, String> numberProperty = BeanProperty.create("number");
 		BeanProperty<JTextField, Object> valueProperty3 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, Object> autoBinding11 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, valueProperty3);
+		AutoBinding<MagicCard, String, JTextField, Object> autoBinding11 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, numberProperty, numberJTextField, valueProperty3);
 		autoBinding11.bind();
 		//
 		BeanProperty<MagicCard, String> powerProperty = BeanProperty.create("power");
 		BeanProperty<JTextField, Object> valueProperty4 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, Object> autoBinding13 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, powerProperty, powerJTextField, valueProperty4);
+		AutoBinding<MagicCard, String, JTextField, Object> autoBinding13 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, powerProperty, powerJTextField, valueProperty4);
 		autoBinding13.bind();
 		//
 		BeanProperty<MagicCard, Object> rarityProperty = BeanProperty.create("rarity");
 		BeanProperty<JComboBox, Object> selectedIndexProperty1 = BeanProperty.create("selectedItem");
-		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding14 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
+		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding14 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rarityProperty, rarityJComboBox, selectedIndexProperty1);
 		autoBinding14.bind();
 		//
 		BeanProperty<MagicCard, String> rotatedCardNameProperty = BeanProperty.create("rotatedCardName");
 		BeanProperty<JTextField, String> textProperty7 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding15 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, rotatedCardNameProperty, rotatedCardNameJTextField,
-				textProperty7);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding15 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, rotatedCardNameProperty, rotatedCardNameJTextField, textProperty7);
 		autoBinding15.bind();
 		//
 		BeanProperty<MagicCard, String> textProperty8 = BeanProperty.create("text");
 		BeanProperty<JEditorPane, String> textProperty9 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JEditorPane, String> autoBinding16 = Bindings
-				.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty8, textJEditorPane, textProperty9);
+		AutoBinding<MagicCard, String, JEditorPane, String> autoBinding16 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, textProperty8, textJEditorPane, textProperty9);
 		autoBinding16.bind();
 		//
 		BeanProperty<MagicCard, String> toughnessProperty = BeanProperty.create("toughness");
 		BeanProperty<JTextField, Object> valueProperty5 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, Object> autoBinding17 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, valueProperty5);
+		AutoBinding<MagicCard, String, JTextField, Object> autoBinding17 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, toughnessProperty, toughnessJTextField, valueProperty5);
 		autoBinding17.bind();
-		//
-		BeanProperty<MagicCard, Boolean> tranformableProperty = BeanProperty.create("tranformable");
-		BeanProperty<JCheckBox, Boolean> selectedProperty1 = BeanProperty.create("selected");
-		AutoBinding<MagicCard, Boolean, JCheckBox, Boolean> autoBinding18 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, tranformableProperty, tranformableJCheckBox, selectedProperty1);
-		autoBinding18.bind();
 		//
 		BeanProperty<MagicCard, String> watermarksProperty = BeanProperty.create("watermarks");
 		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
-		AutoBinding<MagicCard, String, JTextField, String> autoBinding19 = Bindings.createAutoBinding(
-				UpdateStrategy.READ_WRITE, magicCard, watermarksProperty, watermarksJTextField, textProperty10);
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding19 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, watermarksProperty, watermarksJTextField, textProperty10);
 		autoBinding19.bind();
-
+		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
 		bindingGroup.addBinding(autoBinding);
@@ -689,8 +668,11 @@ public class MagicCardEditorPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding15);
 		bindingGroup.addBinding(autoBinding16);
 		bindingGroup.addBinding(autoBinding17);
-		bindingGroup.addBinding(autoBinding18);
 		bindingGroup.addBinding(autoBinding19);
 		return bindingGroup;
+	}
+	
+	public JCheckBox getColorIndicatorJCheckBox() {
+		return chboxFoil;
 	}
 }

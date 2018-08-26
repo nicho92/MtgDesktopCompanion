@@ -170,7 +170,7 @@ public class DiscordBotServer extends AbstractMTGServer {
 		EmbedBuilder eb = new EmbedBuilder();
 		eb.setDescription("");
 		eb.setTitle(mc.getName()+ " " + mc.getCost());
-		eb.setColor(ColorParser.getFullNameColorParse(mc.getColors()));
+		eb.setColor(ColorParser.getColorByName(mc.getColors()));
 		StringBuilder temp = new StringBuilder();
 		temp.append(mc.getTypes()+"\n");
 		temp.append(mc.getText()).append("\n");

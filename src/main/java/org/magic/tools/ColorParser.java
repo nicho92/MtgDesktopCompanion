@@ -8,22 +8,43 @@ public class ColorParser {
 	private ColorParser() {
 	}
 
-	public static String parse(String fullColorName) {
-		if (fullColorName.equalsIgnoreCase("white"))
-			return "{W}";
-		else if (fullColorName.equalsIgnoreCase("blue"))
-			return "{U}";
-		else if (fullColorName.equalsIgnoreCase("black"))
-			return "{B}";
-		else if (fullColorName.equalsIgnoreCase("red"))
-			return "{R}";
-		else if (fullColorName.equalsIgnoreCase("green"))
-			return "{G}";
-
-		return "{C}";
+	
+	public static String getCodeByName(List<String> fullColorNames,boolean bracket) {
+		StringBuilder build = new StringBuilder();
+		for(String c : fullColorNames)
+			build.append(getCodeByName(c, bracket));
+		
+		return build.toString();
+		
 	}
 	
-	public static Color getColorManaParse(List<String> manas)
+	
+	public static String getCodeByName(String fullColorName,boolean bracket) {
+		
+		String bracketO="";
+		String bracketC="";
+		
+		if(bracket)
+		{
+			bracketO="{";
+			bracketC="}";
+		}
+
+		if (fullColorName.equalsIgnoreCase("white"))
+			return bracketO+"W"+bracketC;
+		else if (fullColorName.equalsIgnoreCase("blue"))
+			return bracketO+"U"+bracketC;
+		else if (fullColorName.equalsIgnoreCase("black"))
+			return bracketO+"B"+bracketC;
+		else if (fullColorName.equalsIgnoreCase("red"))
+			return bracketO+"R"+bracketC;
+		else if (fullColorName.equalsIgnoreCase("green"))
+			return bracketO+"G"+bracketC;
+
+		return bracketO+"C"+bracketC;
+	}
+	
+	public static Color getColorByCode(List<String> manas)
 	{
 		
 		if(manas.size()>1)
@@ -44,7 +65,7 @@ public class ColorParser {
 		return Color.WHITE;
 	}
 	
-	public static Color getFullNameColorParse(List<String> fullColorName)
+	public static Color getColorByName(List<String> fullColorName)
 	{
 		
 		if(fullColorName.size()>1)

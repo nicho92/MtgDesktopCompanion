@@ -144,7 +144,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		StringBuilder build = new StringBuilder(manajson);
 		for (int i = 0; i < arr.size(); i++) {
 			JsonObject obj = arr.get(i).getAsJsonObject();
-			String c = ColorParser.parse(obj.get("name").getAsString());
+			String c = ColorParser.getCodeByName(obj.get("name").getAsString(),true);
 			JsonArray tab = obj.get("data").getAsJsonArray();
 			hascolor = false;
 			for (int j = 0; j < tab.size(); j++) {

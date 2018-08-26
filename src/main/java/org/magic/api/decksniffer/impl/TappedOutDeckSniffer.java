@@ -48,6 +48,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 	private static final String FORMAT = "FORMAT";
 	private static final String PASS = "PASS";
 	private static final String LOGIN2 = "LOGIN";
+	private String uriBase="https://tappedout.net";
 	private CookieStore cookieStore;
 	private HttpClient httpclient;
 	private HttpContext httpContext;
@@ -100,18 +101,18 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT).setRedirectStrategy(new LaxRedirectStrategy()).build();
 		
-		httpclient.execute(new HttpGet("https://tappedout.net/accounts/login/?next=/"), httpContext);
+		httpclient.execute(new HttpGet(uriBase+"/accounts/login/?next=/"), httpContext);
 		
-		HttpPost login = new HttpPost("https://tappedout.net/accounts/login/");
+		HttpPost login = new HttpPost(uriBase+"/accounts/login/");
 		List<NameValuePair> nvps = new ArrayList<>();
 							nvps.add(new BasicNameValuePair("next", "/"));
 							nvps.add(new BasicNameValuePair("username", getString(LOGIN2)));
 							nvps.add(new BasicNameValuePair("password", getString(PASS)));
 							nvps.add(new BasicNameValuePair("csrfmiddlewaretoken", getCookieValue("csrftoken")));
 		login.setEntity(new UrlEncodedFormEntity(nvps));
-		login.addHeader("Referer", "https://tappedout.net/accounts/login/?next=/");
+		login.addHeader("Referer", uriBase+"/accounts/login/?next=/");
 		login.addHeader("Upgrade-Insecure-Requests", "1");
-		login.addHeader("Origin", "https://tappedout.net");
+		login.addHeader("Origin", uriBase);
 		HttpResponse resp = httpclient.execute(login, httpContext);
 		EntityUtils.consume(resp.getEntity());
 		logger.debug("Connection : " + getString(LOGIN2) + " " + resp.getStatusLine().getReasonPhrase());
@@ -241,7 +242,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		setProperty(LOGIN2, "login@mail.com");
 		setProperty(PASS, "changeme");
 		setProperty(FORMAT, "standard");
-		setProperty(URL_JSON, "https://tappedout.net/api/deck/latest/%FORMAT%");
+		setProperty(URL_JSON, uriBase+"/api/deck/latest/%FORMAT%");
 		setProperty(CERT_SERV, "www.tappedout.net");
 
 	}

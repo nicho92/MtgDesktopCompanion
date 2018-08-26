@@ -80,7 +80,7 @@ public class SpellRendererPanel extends JPanel {
 		}
 		
 		textPane.updateTextWithIcons();
-		Color c = ColorParser.getFullNameColorParse(value.getCard().getColors());
+		Color c = ColorParser.getColorByName(value.getCard().getColors());
 		setColor(Color.BLACK, c);
 		
 		if(c.equals(Color.BLACK))

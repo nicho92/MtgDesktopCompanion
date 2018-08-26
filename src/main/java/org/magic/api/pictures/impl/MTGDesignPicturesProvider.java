@@ -16,12 +16,9 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.conn.HttpClientConnectionManager;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.client.LaxRedirectStrategy;
-import org.apache.http.impl.conn.BasicHttpClientConnectionManager;
-import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
@@ -29,6 +26,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
+import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
 
 public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
@@ -87,19 +85,52 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 		URIBuilder build = new URIBuilder();
 		build.setScheme("https").setHost("mtg.design").setPath("render");
 		
+
+		if(me!=null)
+		{
+			build.addParameter("card-number", mc.getNumber());
+			build.addParameter("card-total", String.valueOf(me.getCardCount()));
+			build.addParameter("card-set", me.getId());
+			build.addParameter("language", "EN");
+			build.addParameter("card-border", me.getBorder().toLowerCase());
+		}
+		else
+		{
+			build.addParameter("card-number", "1");
+			build.addParameter("card-total", "1");
+			build.addParameter("card-set", "MTG");
+			build.addParameter("language", "EN");
+			build.addParameter("card-border", "black");
+		}
 		build.addParameter("card-title", mc.getName());
 		build.addParameter("mana-cost", mc.getCost());
-		build.addParameter("card-number", "1");
-		build.addParameter("card-total", "5");
-		build.addParameter("card-set", "MTD");
-		build.addParameter("language", "EN");
-		build.addParameter("super-type", "Legendary");
-		build.addParameter("type", "Artifact Creature");
+		
+		if(!mc.getSupertypes().isEmpty())
+			build.addParameter("super-type", String.join(" ", mc.getSupertypes()));
+		
+		if(!mc.getTypes().isEmpty() && !mc.getSubtypes().isEmpty())
+			build.addParameter("type", String.join(" ", mc.getTypes()) + " - "+ String.join(" ", mc.getSubtypes()));
+		else
+			build.addParameter("type", String.join(" ", mc.getTypes()));
+
 		build.addParameter("text-size", "38");
 		
-		build.addParameter("artwork", "http://images6.fanpop.com/image/photos/35500000/Colossal-Titan-titans-shingeki-no-kyojin-35500475-677-219.jpg");
+		if(!mc.getRarity().isEmpty())
+			build.addParameter("rarity", mc.getRarity().substring(0,1).toUpperCase());
+		else
+			build.addParameter("rarity", "C");
+
+		if(!mc.getArtist().isEmpty())
+			build.addParameter("artist", mc.getArtist());
+
+		if(!mc.getPower().isEmpty())
+			build.addParameter("power", mc.getPower());
+	
+		if(!mc.getToughness().isEmpty())
+			build.addParameter("toughness", mc.getToughness());
+		
+		build.addParameter("artwork", "http://3.bp.blogspot.com/-f6E9fYXf68c/VRi2d72GANI/AAAAAAAAUlU/gWCDRR6wy-k/s1600/loch-ness.jpg");
 		build.addParameter("designer", "nicho");
-		build.addParameter("card-border", "black");
 		build.addParameter("land-overlay", "C");
 		build.addParameter("watermark", "0");
 		build.addParameter("card-layout", "regular");
@@ -107,27 +138,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 		build.addParameter("centered", "true");
 		build.addParameter("foil", "false");
 		build.addParameter("lighten", "false");
-		build.addParameter("edit", "false");
-		
-		
-		build.addParameter("card-accent", "W"); //binome de cost
-		build.addParameter("card-template", "Gld"); 
-		
-		if(mc.getColors().size()>1)
-		{
-		}
-		if(mc.getColors().size()>2)
-		{
-			build.addParameter("card-template", "Gld");
-		}
-		
-		if(!mc.getArtist().isEmpty())
-			build.addParameter("artist", mc.getArtist());
-		
-		if(!mc.getRarity().isEmpty())
-			build.addParameter("rarity", mc.getRarity().substring(0,1).toUpperCase());
-		else
-			build.addParameter("rarity", "C");
 		
 		if(!mc.getText().isEmpty())
 			build.addParameter("rules-text", mc.getText());
@@ -135,27 +145,46 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 		if(!mc.getFlavor().isEmpty())
 			build.addParameter("flavor-text", mc.getFlavor());
 	
-		if(!mc.getPower().isEmpty())
-			build.addParameter("power", mc.getPower());
 		
-		if(!mc.getToughness().isEmpty())
-			build.addParameter("toughness", mc.getToughness());
+		
+		
+		
+		
+		if(mc.getColors().size()==1)
+		{
+			build.addParameter("card-template", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
+			build.addParameter("card-accent", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
+			
+		}
+		else if(mc.getColors().size()>1 && mc.getColors().size()<=2)
+		{
+			build.addParameter("card-template", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
+			build.addParameter("card-accent", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
+			
+		}else if(mc.getColors().size()>2)
+		{
+			build.addParameter("card-template", "Gld");
+			build.addParameter("card-accent", "Gld");
+		}
+		else
+		{
+			build.addParameter("card-template", "C");
+			build.addParameter("card-accent", "C");
+		}
+		
+		build.addParameter("edit", "false");
 
-		
-		
-		
-		HttpEntity p;
 		try {
 			logger.debug("generate " + build.build());
 			HttpGet get = new HttpGet(build.build());
-			p = httpclient.execute(get, httpContext).getEntity();
-			logger.debug("generate done");
-			BufferedImage im = ImageIO.read(p.getContent());
-			EntityUtils.consume(p);
+			HttpResponse resp = httpclient.execute(get, httpContext);
+			logger.debug("generate " + resp.getStatusLine().getReasonPhrase());
+			BufferedImage im = ImageIO.read(resp.getEntity().getContent());
+			EntityUtils.consume(resp.getEntity());
 			return im;
 		} catch (Exception e) {
-			logger.error("error generate",e);
-			return null;
+			logger.error("error generate : ",e);
+			return getBackPicture();
 		}
 		
 		
@@ -164,13 +193,11 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 
 	@Override
 	public BufferedImage getSetLogo(String setID, String rarity) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public BufferedImage extractPicture(MagicCard mc) throws IOException {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

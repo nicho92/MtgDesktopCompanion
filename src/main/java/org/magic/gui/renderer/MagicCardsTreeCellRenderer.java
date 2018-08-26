@@ -60,7 +60,7 @@ public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 					setIcon(map.get("{X}"));
 				}
 				if (mc.getColors().size() == 1) {
-					setIcon(map.get(ColorParser.parse(mc.getColors().get(0))));
+					setIcon(map.get(ColorParser.getCodeByName(mc.getColors().get(0),false)));
 				}
 				if (mc.getColors().size() > 1) {
 					setIcon(MTGConstants.ICON_MANA_GOLD);
