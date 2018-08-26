@@ -43,8 +43,7 @@ public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 	}
 
 	@Override
-	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded,
-			boolean isLeaf, int row, boolean focused) {
+	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean isLeaf, int row, boolean focused) {
 		Component c = super.getTreeCellRendererComponent(tree, value, selected, expanded, isLeaf, row, focused);
 		try {
 			if (((DefaultMutableTreeNode) value).getUserObject() instanceof MagicEdition) {
@@ -60,7 +59,7 @@ public class MagicCardsTreeCellRenderer extends DefaultTreeCellRenderer {
 					setIcon(map.get("{X}"));
 				}
 				if (mc.getColors().size() == 1) {
-					setIcon(map.get(ColorParser.getCodeByName(mc.getColors().get(0),false)));
+					setIcon(map.get(ColorParser.getCodeByName(mc.getColors().get(0),true)));
 				}
 				if (mc.getColors().size() > 1) {
 					setIcon(MTGConstants.ICON_MANA_GOLD);

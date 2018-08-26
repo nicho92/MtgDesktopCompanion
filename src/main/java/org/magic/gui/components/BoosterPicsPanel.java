@@ -49,7 +49,7 @@ public class BoosterPicsPanel extends JTabbedPane {
 	}
 
 	private Image resizeBooster(BufferedImage boosterFor) {
-		return ImageUtils.resize(boosterFor, 450, 254);
+		return ImageUtils.resize(ImageUtils.trimAlpha(boosterFor), 450, 254);
 		
 	}
 
