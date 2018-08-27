@@ -70,11 +70,9 @@ public class CardBuilder2GUI extends JPanel {
 	private MagicCardEditorPanel magicCardEditorPanel;
 	private MagicEditionsTableModel editionModel;
 
-	private transient PrivateMTGSetProvider provider;
 	private JComboBox<MagicEdition> cboSets;
 	private CropImagePanel panelImage;
 	private transient MTGPictureProvider picProvider;
-	private transient PersonalSetPicturesProvider recordedProvider;
 	private transient Image cardImage;
 	private JPanel panelPictures;
 	private JXTable cardsTable;
@@ -87,6 +85,8 @@ public class CardBuilder2GUI extends JPanel {
 	private JSpinner spinUnco;
 	private JPanel foreignNamesEditorPanel;
 	private transient PersonalSetPicturesProvider picturesProvider;
+	private transient PrivateMTGSetProvider provider;
+
 	private JButton btnRefresh;
 	private JTable listNames;
 	private MagicCardNamesTableModel namesModel;
@@ -136,7 +136,6 @@ public class CardBuilder2GUI extends JPanel {
 			//////////////////////////////////////////////////// INIT GLOBAL COMPONENTS
 			editionModel = new MagicEditionsTableModel();
 			provider = new PrivateMTGSetProvider();
-			recordedProvider = new PersonalSetPicturesProvider();
 			btnRefresh = new JButton("");
 			picturesProvider = new PersonalSetPicturesProvider();
 			spinCommon = new JSpinner();
@@ -518,14 +517,16 @@ public class CardBuilder2GUI extends JPanel {
 
 	protected void initCard(MagicCard mc) {
 		magicCardEditorPanel.setMagicCard(mc);
-		btnRefresh.doClick();
+		//btnRefresh.doClick();
 		namesModel.init(mc);
 		try {
-			cardImage = recordedProvider.getPicture(mc, mc.getCurrentSet());
-			panelPictures.repaint();
+			cardImage = picturesProvider.getPicture(mc, mc.getCurrentSet());
 		} catch (Exception e) {
-			cardImage = recordedProvider.getBackPicture();
+			cardImage = picturesProvider.getBackPicture();
 			logger.error(e);
+		}
+		finally {
+			panelPictures.repaint();
 		}
 
 	}
