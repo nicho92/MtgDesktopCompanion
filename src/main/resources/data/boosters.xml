@@ -204,8 +204,11 @@
 	<booster id='TMP'>
 		<packs lang='en'>
 			<pack num='1' url="http://940ee6dce6677fa01d25-0f55c9129972ac85d6b1f4e703468e6b.r99.cf2.rackcdn.com/products/pictures/89386.jpg"/>
+			<pack num='2' url="http://assets.dacw.co/itemimages/magic-tempest-pack.jpg"/>
+			<pack num='3' url="https://crystal-cdn4.crystalcommerce.com/photos/30676/large/3bUFJFtBmXd4L6y8.jpg"/>
 		</packs>
 		<banner lang='en' url="http://mtgen.net/tmp/images/logo-word.png"/>
+		<box lang="EN" url="https://images-na.ssl-images-amazon.com/images/I/51i%2BIf3BtvL._SX425_.jpg"/>
 	</booster>
 	<booster id='EXO'>
 		<packs lang='en'>
