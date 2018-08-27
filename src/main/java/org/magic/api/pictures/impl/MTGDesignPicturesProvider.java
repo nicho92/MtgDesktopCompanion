@@ -133,11 +133,13 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 		build.addParameter("designer", "nicho");
 		build.addParameter("land-overlay", "C");
 		build.addParameter("watermark", "0");
-		build.addParameter("card-layout", "regular");
 		build.addParameter("set-symbol", "0");
-		build.addParameter("centered", "true");
-		build.addParameter("foil", "false");
+		build.addParameter("centered", getString("CENTER"));
+		build.addParameter("foil", getString("FOIL"));
 		build.addParameter("lighten", "false");
+		
+		build.addParameter("card-layout", "regular");
+
 		
 		if(!mc.getText().isEmpty())
 			build.addParameter("rules-text", mc.getText());
@@ -210,7 +212,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 	public void initDefault() {
 		setProperty("LOGIN", "");
 		setProperty("PASS", "");
-		
+		setProperty("FOIL", "false");
+		setProperty("CENTER", "yes");
+		setProperty("SIZE", "36");
+		setProperty("INDICATOR","yes");
 	}
 
 }
