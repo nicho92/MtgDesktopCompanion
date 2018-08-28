@@ -8,8 +8,8 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -20,7 +20,9 @@ import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 
 import org.japura.gui.model.DefaultListCheckModel;
 import org.jdesktop.beansbinding.AutoBinding;
@@ -32,8 +34,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGControler;
-import javax.swing.JSpinner;
-import javax.swing.SpinnerNumberModel;
 
 public class MagicCardEditorPanel extends JPanel {
 
@@ -131,7 +131,7 @@ public class MagicCardEditorPanel extends JPanel {
 				btn.addActionListener(ev -> {
 					StringBuilder cost = new StringBuilder();
 					int cmc = 0;
-					List<String> colors = new ArrayList<>();
+					Set<String> colors = new LinkedHashSet<>();
 
 					if (!cboUn.getSelectedItem().equals("X")) {
 						if (cboUn.getSelectedIndex() > 0) {
@@ -178,8 +178,8 @@ public class MagicCardEditorPanel extends JPanel {
 					}
 
 					magicCard.setCmc(cmc);
-					magicCard.setColors(colors);
-					magicCard.setColorIdentity(colors);
+					magicCard.setColors(new ArrayList(colors));
+					magicCard.setColorIdentity(new ArrayList(colors));
 					costJTextField.setText(cost.toString());
 					g.dispose();
 				});
