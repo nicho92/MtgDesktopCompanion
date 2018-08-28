@@ -44,7 +44,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  impl
 			return URLTools.extractImage(url);
 
 		} catch (Exception e) {
-			logger.error("Error readin pics for " + mc, e);
+			logger.error("Error reading pics for " + mc, e);
 			return null;
 		}
 
@@ -157,6 +157,12 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  impl
 
 	@Override
 	public void setColorIndicator(boolean selected) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setColorAccentuation(String c) {
 		// TODO Auto-generated method stub
 		
 	}

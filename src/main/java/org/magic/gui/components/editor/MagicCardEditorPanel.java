@@ -34,6 +34,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGControler;
+import java.awt.event.ItemListener;
+import java.awt.event.ItemEvent;
 
 public class MagicCardEditorPanel extends JPanel {
 
@@ -71,6 +73,8 @@ public class MagicCardEditorPanel extends JPanel {
 	private JSpinner spinner;
 	private JLabel lblColorIndicator;
 	private JCheckBox chkColorIndicator;
+	private JLabel lblColorOrientation;
+	private JComboBox cboColorAccent;
 
 	public MagicCardEditorPanel(org.magic.api.beans.MagicCard newMagicCard) {
 		setMagicCard(newMagicCard);
@@ -80,7 +84,7 @@ public class MagicCardEditorPanel extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, 1.0E-4 };
+		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0E-4 };
 		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
 				1.0E-4 };
 		setLayout(gridBagLayout);
@@ -513,6 +517,24 @@ public class MagicCardEditorPanel extends JPanel {
 		gbcchkColorIndicator.gridx = 3;
 		gbcchkColorIndicator.gridy = 11;
 		add(chkColorIndicator, gbcchkColorIndicator);
+		
+		lblColorOrientation = new JLabel("Color Orientation :");
+		GridBagConstraints gbclblColorOrientation = new GridBagConstraints();
+		gbclblColorOrientation.anchor = GridBagConstraints.NORTHEAST;
+		gbclblColorOrientation.insets = new Insets(0, 0, 5, 5);
+		gbclblColorOrientation.gridx = 2;
+		gbclblColorOrientation.gridy = 12;
+		add(lblColorOrientation, gbclblColorOrientation);
+		
+		cboColorAccent = new JComboBox(new DefaultComboBoxModel(new String[] {"", "C", "G", "W", "WU", "WB", "U", "UB", "UR", "C", "B", "BR", "BG", "R", "RG", "TW", "G", "GW", "GU"}));
+		
+		GridBagConstraints gbccomboBox = new GridBagConstraints();
+		gbccomboBox.anchor = GridBagConstraints.NORTH;
+		gbccomboBox.insets = new Insets(0, 0, 5, 0);
+		gbccomboBox.fill = GridBagConstraints.HORIZONTAL;
+		gbccomboBox.gridx = 3;
+		gbccomboBox.gridy = 12;
+		add(cboColorAccent, gbccomboBox);
 
 		if (magicCard != null) {
 			mbindingGroup = initDataBindings();
@@ -653,5 +675,8 @@ public class MagicCardEditorPanel extends JPanel {
 	}
 	public JCheckBox getChkColorIndicator() {
 		return chkColorIndicator;
+	}
+	public JComboBox getCboColorAccent() {
+		return cboColorAccent;
 	}
 }

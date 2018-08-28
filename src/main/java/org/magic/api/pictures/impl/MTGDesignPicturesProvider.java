@@ -129,7 +129,12 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider implemen
 		
 		build.addParameter("artwork", getString("URI"));
 		build.addParameter("designer", "nicho");
-		build.addParameter("land-overlay", "C");
+		
+		if(mc.isLand() && !getString("ACCENT").isEmpty())		
+			build.addParameter("land-overlay", getString("ACCENT"));
+		else
+			build.addParameter("land-overlay", "C");
+		
 		build.addParameter("watermark", "0");
 		build.addParameter("set-symbol", "0");
 		build.addParameter("centered", getString("CENTER"));
@@ -152,17 +157,17 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider implemen
 		{
 			build.addParameter("card-template", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
 			build.addParameter("card-accent", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
-			
 		}
-		else if(mc.getColors().size()>1 && mc.getColors().size()<=2)
+		else if(mc.getColors().size()==2)
 		{
-			build.addParameter("card-template", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
+			build.addParameter("card-template", "Gld");//ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
 			build.addParameter("card-accent", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
-			
-		}else if(mc.getColors().size()>2)
+		}
+		else if(mc.getColors().size()>2)
 		{
 			build.addParameter("card-template", "Gld");
 			build.addParameter("card-accent", "Gld");
+			
 		}
 		else
 		{
@@ -254,6 +259,13 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider implemen
 	@Override
 	public void setColorIndicator(boolean selected) {
 		setProperty("INDICATOR", String.valueOf(selected));
+		
+	}
+
+
+	@Override
+	public void setColorAccentuation(String c) {
+		setProperty("ACCENT", c);
 		
 	}
 

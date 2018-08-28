@@ -10,4 +10,5 @@ public interface MTGPictureEditor extends MTGPictureProvider {
 	public void setCenter(boolean center);
 	public void setImage(URI img);
 	public void setColorIndicator(boolean selected);
+	public void setColorAccentuation(String c);
 }

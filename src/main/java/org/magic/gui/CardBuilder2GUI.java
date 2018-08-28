@@ -357,7 +357,7 @@ public class CardBuilder2GUI extends JPanel {
 			magicCardEditorPanel.getSizeSpinner().addChangeListener(ce->picProvider.setTextSize((Integer)magicCardEditorPanel.getSizeSpinner().getValue()));
 			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->picProvider.setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
 			magicCardEditorPanel.getChboxFoil().addActionListener(ae->picProvider.setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
-	
+			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> {picProvider.setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString());});
 			
 			btnRemoveName.addActionListener(e -> {
 				int row = listNames.getSelectedRow();
