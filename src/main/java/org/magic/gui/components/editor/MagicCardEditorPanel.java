@@ -9,6 +9,7 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
@@ -130,7 +131,7 @@ public class MagicCardEditorPanel extends JPanel {
 				btn.addActionListener(ev -> {
 					StringBuilder cost = new StringBuilder();
 					int cmc = 0;
-					HashSet<String> colors = new HashSet<>();
+					List<String> colors = new ArrayList<>();
 
 					if (!cboUn.getSelectedItem().equals("X")) {
 						if (cboUn.getSelectedIndex() > 0) {
@@ -177,8 +178,8 @@ public class MagicCardEditorPanel extends JPanel {
 					}
 
 					magicCard.setCmc(cmc);
-					magicCard.setColors(new ArrayList<String>(colors));
-					magicCard.setColorIdentity(new ArrayList<String>(colors));
+					magicCard.setColors(colors);
+					magicCard.setColorIdentity(colors);
 					costJTextField.setText(cost.toString());
 					g.dispose();
 				});

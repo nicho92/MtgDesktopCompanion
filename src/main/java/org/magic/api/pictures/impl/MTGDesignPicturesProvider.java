@@ -127,7 +127,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider implemen
 		if(!mc.getToughness().isEmpty())
 			build.addParameter("toughness", mc.getToughness());
 		
-		build.addParameter("artwork", "http://3.bp.blogspot.com/-f6E9fYXf68c/VRi2d72GANI/AAAAAAAAUlU/gWCDRR6wy-k/s1600/loch-ness.jpg");
+		build.addParameter("artwork", getString("URI"));
 		build.addParameter("designer", "nicho");
 		build.addParameter("land-overlay", "C");
 		build.addParameter("watermark", "0");
@@ -169,6 +169,15 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider implemen
 			build.addParameter("card-template", "C");
 			build.addParameter("card-accent", "C");
 		}
+
+		if(getBoolean("INDICATOR"))
+		{
+			if(mc.getColors().size()==1)
+				build.addParameter("color-indicator",ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
+			else
+				build.addParameter("color-indicator",ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
+		}
+		
 		
 		build.addParameter("edit", "false");
 
@@ -238,8 +247,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider implemen
 
 	@Override
 	public void setImage(URI img) {
-		
-		
+		setProperty("URI", String.valueOf(img.toString()));
 	}
 
 

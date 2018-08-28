@@ -190,9 +190,6 @@ public class CardBuilder2GUI extends JPanel {
 			panelImage = new CropImagePanel();
 			magicCardEditorPanel = new MagicCardEditorPanel();
 			
-			magicCardEditorPanel.getSizeSpinner().addChangeListener(ce->picProvider.setTextSize((Integer)magicCardEditorPanel.getSizeSpinner().getValue()));
-			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->picProvider.setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
-			magicCardEditorPanel.getChboxFoil().addActionListener(ae->picProvider.setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
 			
 			magicEditionDetailPanel = new MagicEditionDetailPanel(false, false);
 
@@ -356,6 +353,12 @@ public class CardBuilder2GUI extends JPanel {
 			panelImage.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 			//////////////////////////////////////////////////// ACTION LISTENER
+			
+			magicCardEditorPanel.getSizeSpinner().addChangeListener(ce->picProvider.setTextSize((Integer)magicCardEditorPanel.getSizeSpinner().getValue()));
+			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->picProvider.setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
+			magicCardEditorPanel.getChboxFoil().addActionListener(ae->picProvider.setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
+	
+			
 			btnRemoveName.addActionListener(e -> {
 				int row = listNames.getSelectedRow();
 				namesModel.removeRow(row);
@@ -545,12 +548,12 @@ public class CardBuilder2GUI extends JPanel {
 
 	protected void initCard(MagicCard mc) {
 		magicCardEditorPanel.setMagicCard(mc);
-		//btnRefresh.doClick();
+		//
 		namesModel.init(mc);
 		try {
 			cardImage = picturesProvider.getPicture(mc, mc.getCurrentSet());
 		} catch (Exception e) {
-			cardImage = picturesProvider.getBackPicture();
+			btnRefresh.doClick();
 			logger.error(e);
 		}
 		finally {
