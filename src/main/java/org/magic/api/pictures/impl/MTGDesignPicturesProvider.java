@@ -2,6 +2,7 @@ package org.magic.api.pictures.impl;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,16 +25,13 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
 
-public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
-
-	public static void main(String[] args) throws IOException {
-		new MTGDesignPicturesProvider().getPicture(null, null);
-	}
+public class MTGDesignPicturesProvider extends AbstractPicturesProvider implements MTGPictureEditor{
 
 	private BasicHttpContext httpContext;
 	private BasicCookieStore cookieStore;
@@ -113,7 +111,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 		else
 			build.addParameter("type", String.join(" ", mc.getTypes()));
 
-		build.addParameter("text-size", "38");
+		build.addParameter("text-size", getString("SIZE"));
 		
 		if(!mc.getRarity().isEmpty())
 			build.addParameter("rarity", mc.getRarity().substring(0,1).toUpperCase());
@@ -135,7 +133,10 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 		build.addParameter("watermark", "0");
 		build.addParameter("set-symbol", "0");
 		build.addParameter("centered", getString("CENTER"));
-		build.addParameter("foil", getString("FOIL"));
+		
+		if(getBoolean("FOIL"))
+			build.addParameter("foil", "true");
+		
 		build.addParameter("lighten", "false");
 		
 		build.addParameter("card-layout", "regular");
@@ -146,11 +147,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 		
 		if(!mc.getFlavor().isEmpty())
 			build.addParameter("flavor-text", mc.getFlavor());
-	
-		
-		
-		
-		
 		
 		if(mc.getColors().size()==1)
 		{
@@ -216,6 +212,41 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider {
 		setProperty("CENTER", "yes");
 		setProperty("SIZE", "36");
 		setProperty("INDICATOR","yes");
+	}
+
+
+	@Override
+	public void setFoil(Boolean b) {
+		setProperty("FOIL", String.valueOf(b));
+		
+	}
+
+
+	@Override
+	public void setTextSize(int size) {
+		setProperty("SIZE", String.valueOf(size));
+		
+	}
+
+
+	@Override
+	public void setCenter(boolean center) {
+		setProperty("CENTER", String.valueOf(center));
+		
+	}
+
+
+	@Override
+	public void setImage(URI img) {
+		
+		
+	}
+
+
+	@Override
+	public void setColorIndicator(boolean selected) {
+		setProperty("INDICATOR", String.valueOf(selected));
+		
 	}
 
 }

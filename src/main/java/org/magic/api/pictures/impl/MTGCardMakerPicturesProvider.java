@@ -5,22 +5,22 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.imageio.ImageIO;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;
 import org.magic.tools.URLTools;
 
-public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
+public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  implements MTGPictureEditor{
 
 	private String encoding = MTGConstants.DEFAULT_ENCODING;
 
@@ -129,6 +129,36 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public String getName() {
 		return "MTGCard Maker";
+	}
+
+	@Override
+	public void setFoil(Boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setTextSize(int size) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setCenter(boolean center) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setImage(URI img) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setColorIndicator(boolean selected) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

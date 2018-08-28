@@ -518,6 +518,10 @@ public class MagicCardEditorPanel extends JPanel {
 		}
 	}
 
+	public JCheckBox getChboxFoil() {
+		return chboxFoil;
+	}
+
 	public MagicCard getMagicCard() {
 		magicCard.setTypes(cboTypes.getSelectedElements());
 		magicCard.setSupertypes(cboSuperType.getSelectedElements());
@@ -552,7 +556,7 @@ public class MagicCardEditorPanel extends JPanel {
 	}
 	
 	public JCheckBox getColorIndicatorJCheckBox() {
-		return chboxFoil;
+		return chkColorIndicator;
 	}
 	protected BindingGroup initDataBindings() {
 		BeanProperty<MagicCard, String> artistProperty = BeanProperty.create("artist");
