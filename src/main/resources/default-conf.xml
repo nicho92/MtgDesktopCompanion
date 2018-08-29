@@ -282,11 +282,17 @@
             <class>org.magic.api.pictures.impl.MythicSpoilerPicturesProvider</class>
             <enable>false</enable>
         </picture>
-        <picture>
-            <class>org.magic.api.pictures.impl.MTGCardMakerPicturesProvider</class>
-            <enable>false</enable>
-        </picture>
     </pictures>
+    <editors>
+	    <editor>
+	    	<class>org.magic.api.pictureseditor.impl.MTGCardMakerPicturesProvider</class>
+	        <enable>true</enable>
+	    </editor>
+	    <editor>
+        	<class>org.magic.api.pictureseditor.impl.MTGDesignPicturesProvider</class>
+        	<enable>false</enable>
+        </editor>
+    </editors>
     <shoppers>
         <shopper>
             <class>org.magic.api.shopping.impl.LeboncoinShopper</class>
@@ -434,9 +440,6 @@
             <class>org.magic.api.exports.impl.DeckBoxExport</class>
             <enable>true</enable>
         </export>
-        
-        
-        
     </deckexports>
     <newsProvider>
         <news>

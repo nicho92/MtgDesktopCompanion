@@ -28,6 +28,7 @@ import org.magic.api.interfaces.MTGDashBoard;
 import org.magic.api.interfaces.MTGDeckSniffer;
 import org.magic.api.interfaces.MTGNewsProvider;
 import org.magic.api.interfaces.MTGNotifier;
+import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.interfaces.MTGPictureProvider;
 import org.magic.api.interfaces.MTGPicturesCache;
 import org.magic.api.interfaces.MTGPlugin;
@@ -111,6 +112,7 @@ public class MTGControler {
 
 			if(k instanceof MTGPlugin){
 				path = PluginRegistry.inst().getEntryFor(k).getXpath()+"[class='" + k.getClass().getName() + "']/enable";
+				logger.debug(path);
 			}
 			else {
 				path = k.toString();
@@ -119,7 +121,7 @@ public class MTGControler {
 			config.setProperty(path, c);
 			builder.save();
 		} catch (Exception e) {
-			logger.error("Error saving " + c, e);
+			logger.error("Error saving "+k+"="+ c, e);
 		}
 	}
 	
@@ -234,6 +236,14 @@ public class MTGControler {
 		return null;
 	}
 	
+	public MTGPictureEditor getEnabledPictureEditor() {
+		for (MTGPictureEditor p : getPicturesEditors())
+			if (p.isEnable())
+				return p;
+
+		return null;
+	}
+	
 	
 	public List<MTGNotifier> getNotifierProviders(){
 		return PluginRegistry.inst().listPlugins(MTGNotifier.class);
@@ -268,6 +278,10 @@ public class MTGControler {
 
 	public List<MTGPricesProvider> getPricerProviders() {
 		return PluginRegistry.inst().listPlugins(MTGPricesProvider.class);
+	}
+	
+	public List<MTGPictureEditor> getPicturesEditors() {
+		return PluginRegistry.inst().listPlugins(MTGPictureEditor.class);
 	}
 
 	public List<MTGPricesProvider> getEnabledPricers() {

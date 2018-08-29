@@ -13,18 +13,14 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.io.File;
 import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
-import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -46,14 +42,13 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.MTGPictureEditor;
-import org.magic.api.interfaces.MTGPictureProvider;
-import org.magic.api.pictures.impl.MTGDesignPicturesProvider;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
+import org.magic.api.pictureseditor.impl.MTGCardMakerPicturesProvider;
+import org.magic.api.pictureseditor.impl.MTGDesignPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;
 import org.magic.gui.components.dialog.CardSearchImportDialog;
-import org.magic.gui.components.editor.CropImagePanel;
 import org.magic.gui.components.editor.MagicCardEditorPanel;
 import org.magic.gui.models.MagicCardNamesTableModel;
 import org.magic.gui.models.MagicCardTableModel;
@@ -64,10 +59,6 @@ import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.ImageUtils;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
-import javax.swing.event.ChangeListener;
-import javax.swing.event.ChangeEvent;
 
 public class CardBuilder2GUI extends JPanel {
 
@@ -78,7 +69,6 @@ public class CardBuilder2GUI extends JPanel {
 	private MagicEditionsTableModel editionModel;
 
 	private JComboBox<MagicEdition> cboSets;
-	private CropImagePanel panelImage;
 	private transient MTGPictureEditor picProvider;
 	private transient Image cardImage;
 	private JPanel panelPictures;
@@ -128,20 +118,6 @@ public class CardBuilder2GUI extends JPanel {
 			JLabel lblRareMythic = new JLabel("Rare/Mythic :");
 
 			JTabbedPane tabbedCards = new JTabbedPane(JTabbedPane.TOP);
-			JButton btnImage = new JButton("Image");
-			JButton btnUrl = new JButton("URL");
-			btnUrl.addActionListener(ae->{
-				
-				try {
-					String url = JOptionPane.showInputDialog("URL");
-					picProvider.setImage(new URI(url));
-				} catch (Exception e1) {
-					logger.error("Error with url ",e1);
-					MTGControler.getInstance().notify(new MTGNotification("ERROR", e1));
-				}
-				
-			});
-			JPanel panelButtons = new JPanel();
 			JPanel panelMisc = new JPanel();
 			JPanel panelCardEditions = new JPanel();
 			JPanel legalitiesPanel = new JPanel();
@@ -171,26 +147,20 @@ public class CardBuilder2GUI extends JPanel {
 			cboSets = new JComboBox<>();
 			namesModel = new MagicCardNamesTableModel();
 			panelPictures = new JPanel() {
-				/**
-				 * 
-				 */
 				private static final long serialVersionUID = 1L;
-
 				@Override
 				protected void paintComponent(Graphics g) {
 					super.paintComponent(g);
 					g.drawImage(cardImage, 0, 0, null);
-					if (panelImage.getCroppedImage() != null)
-						g.drawImage(panelImage.getCroppedImage(), 35, 68, 329, 242, null);
+					if (magicCardEditorPanel.getImagePanel().getCroppedImage() != null)
+						g.drawImage(magicCardEditorPanel.getImagePanel().getCroppedImage(), 35, 68, 329, 242, null);
+					revalidate();
 				}
 			};
 
 			foreignNamesEditorPanel = new JPanel();
 			listNames = new JTable();
-			panelImage = new CropImagePanel();
 			magicCardEditorPanel = new MagicCardEditorPanel();
-			
-			
 			magicEditionDetailPanel = new MagicEditionDetailPanel(false, false);
 
 			//////////////////////////////////////////////////// MODELS INIT
@@ -204,10 +174,6 @@ public class CardBuilder2GUI extends JPanel {
 
 			List<MagicEdition> eds = provider.loadEditions();
 			cboSets.setModel(new DefaultComboBoxModel<MagicEdition>(eds.toArray(new MagicEdition[eds.size()])));
-			panelButtons.setLayout(new BorderLayout(0, 0));
-			
-			panelButtons.add(btnImage, BorderLayout.SOUTH);
-			panelButtons.add(btnUrl, BorderLayout.NORTH);
 			
 			//////////////////////////////////////////////////// LAYOUT CONFIGURATION
 			setLayout(new BorderLayout(0, 0));
@@ -258,15 +224,6 @@ public class CardBuilder2GUI extends JPanel {
 			gridBagLayout.rowHeights = new int[]{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 33, 0, 0};
 			gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0 };
 			gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0 };
-			GridBagConstraints gbcBtnImage = new GridBagConstraints();
-			gbcBtnImage.insets = new Insets(0, 0, 0, 5);
-			gbcBtnImage.gridx = 0;
-			gbcBtnImage.gridy = 12;
-			GridBagConstraints gbcCropImagePanel = new GridBagConstraints();
-			gbcCropImagePanel.gridwidth = 4;
-			gbcCropImagePanel.fill = GridBagConstraints.BOTH;
-			gbcCropImagePanel.gridx = 1;
-			gbcCropImagePanel.gridy = 12;
 
 			panelBooster.setLayout(gblPanelBooster);
 
@@ -296,8 +253,6 @@ public class CardBuilder2GUI extends JPanel {
 			panelBooster.add(lblRareMythic, gbcLblRareMythic);
 			panelBooster.add(spinRare, gbcSpinRare);
 			panelCards.add(tabbedCards, BorderLayout.CENTER);
-			magicCardEditorPanel.add(panelButtons, gbcBtnImage);
-			magicCardEditorPanel.add(panelImage, gbcCropImagePanel);
 			tabbedCards.addTab("Details", MTGConstants.ICON_TAB_DETAILS, magicCardEditorPanel, null);
 			tabbedCards.addTab("Editions", MTGConstants.ICON_BACK, panelCardEditions, null);
 			tabbedCards.addTab("Misc", MTGConstants.ICON_TAB_ADMIN, panelMisc, null);
@@ -321,7 +276,6 @@ public class CardBuilder2GUI extends JPanel {
 			
 			//////////////////////////////////////////////////// COMPONENT CONFIG
 			editionModel.init(provider.loadEditions());
-
 			editionModel.fireTableDataChanged();
 			splitcardEdPanel.setOrientation(JSplitPane.VERTICAL_SPLIT);
 			
@@ -350,14 +304,24 @@ public class CardBuilder2GUI extends JPanel {
 			panelPictures.setPreferredSize(new Dimension(400, 10));
 			listNames.getColumnModel().getColumn(0).setCellEditor(new MagicCardNameEditor());
 			buttonsForeignNamesPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 5, 5));
-			panelImage.setBorder(new LineBorder(new Color(0, 0, 0)));
 
 			//////////////////////////////////////////////////// ACTION LISTENER
 			
 			magicCardEditorPanel.getSizeSpinner().addChangeListener(ce->picProvider.setTextSize((Integer)magicCardEditorPanel.getSizeSpinner().getValue()));
 			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->picProvider.setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
 			magicCardEditorPanel.getChboxFoil().addActionListener(ae->picProvider.setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
-			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> {picProvider.setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString());});
+			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> picProvider.setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString()));
+			magicCardEditorPanel.getBtnUrl().addActionListener(ae->{
+																		
+																	try {
+																			String urlImage = JOptionPane.showInputDialog("URL");
+																			picProvider.setImage(new URI(urlImage));
+																		} catch (Exception e1) {
+																			logger.error("Error with url ",e1);
+																			MTGControler.getInstance().notify(new MTGNotification("ERROR", e1));
+																		}
+																		
+																	});
 			
 			btnRemoveName.addActionListener(e -> {
 				int row = listNames.getSelectedRow();
@@ -372,18 +336,6 @@ public class CardBuilder2GUI extends JPanel {
 				name.setName("");
 				magicCardEditorPanel.getMagicCard().getForeignNames().add(name);
 				namesModel.init(magicCardEditorPanel.getMagicCard());
-			});
-
-			btnImage.addActionListener(e -> {
-
-				JFileChooser choose = new JFileChooser();
-				choose.showOpenDialog(null);
-				File pics = choose.getSelectedFile();
-				Image i = new ImageIcon(pics.getAbsolutePath()).getImage();
-				panelImage.setImage(
-						i.getScaledInstance(panelImage.getWidth(), panelImage.getHeight(), Image.SCALE_SMOOTH));
-				panelImage.revalidate();
-				panelImage.repaint();
 			});
 
 			btnNewCard.addActionListener(e -> {

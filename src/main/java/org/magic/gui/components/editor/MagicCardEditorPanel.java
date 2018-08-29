@@ -1,5 +1,6 @@
 package org.magic.gui.components.editor;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -7,6 +8,7 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
@@ -18,11 +20,13 @@ import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
 import javax.swing.JEditorPane;
+import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.border.LineBorder;
 
 import org.japura.gui.model.DefaultListCheckModel;
 import org.jdesktop.beansbinding.AutoBinding;
@@ -34,8 +38,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGControler;
-import java.awt.event.ItemListener;
-import java.awt.event.ItemEvent;
 
 public class MagicCardEditorPanel extends JPanel {
 
@@ -75,6 +77,10 @@ public class MagicCardEditorPanel extends JPanel {
 	private JCheckBox chkColorIndicator;
 	private JLabel lblColorOrientation;
 	private JComboBox cboColorAccent;
+	private JPanel panelImageButtons;
+	private JButton btnImage;
+	private JButton btnUrl;
+	private CropImagePanel imagePanel;
 
 	public MagicCardEditorPanel(org.magic.api.beans.MagicCard newMagicCard) {
 		setMagicCard(newMagicCard);
@@ -84,8 +90,8 @@ public class MagicCardEditorPanel extends JPanel {
 		GridBagLayout gridBagLayout = new GridBagLayout();
 		gridBagLayout.columnWidths = new int[] { 0, 279, 122, 103, 0 };
 		gridBagLayout.rowHeights = new int[] { 0, 0, 31, 28, 0, 56, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
-		gridBagLayout.columnWeights = new double[] { 0.0, 1.0, 0.0, 1.0, 1.0E-4 };
-		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+		gridBagLayout.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 1.0E-4 };
+		gridBagLayout.rowWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0,
 				1.0E-4 };
 		setLayout(gridBagLayout);
 
@@ -312,8 +318,8 @@ public class MagicCardEditorPanel extends JPanel {
 		txtSubTypes.setColumns(10);
 
 		panelButton = new JPanel();
-		FlowLayout fl_panelButton = (FlowLayout) panelButton.getLayout();
-		fl_panelButton.setAlignment(FlowLayout.LEFT);
+		FlowLayout flpanelButton = (FlowLayout) panelButton.getLayout();
+		flpanelButton.setAlignment(FlowLayout.LEFT);
 		GridBagConstraints gbcpanelButton = new GridBagConstraints();
 		gbcpanelButton.gridwidth = 2;
 		gbcpanelButton.insets = new Insets(0, 0, 5, 5);
@@ -504,6 +510,59 @@ public class MagicCardEditorPanel extends JPanel {
 		gbcspinner.gridy = 10;
 		add(spinner, gbcspinner);
 		
+		panelImageButtons = new JPanel();
+		GridBagConstraints gbcpanelImageButtons = new GridBagConstraints();
+		gbcpanelImageButtons.gridheight = 3;
+		gbcpanelImageButtons.insets = new Insets(0, 0, 0, 5);
+		gbcpanelImageButtons.fill = GridBagConstraints.BOTH;
+		gbcpanelImageButtons.gridx = 0;
+		gbcpanelImageButtons.gridy = 11;
+		add(panelImageButtons, gbcpanelImageButtons);
+		GridBagLayout gblpanelImageButtons = new GridBagLayout();
+		gblpanelImageButtons.columnWidths = new int[]{63, 0};
+		gblpanelImageButtons.rowHeights = new int[]{23, 0, 0};
+		gblpanelImageButtons.columnWeights = new double[]{1.0, Double.MIN_VALUE};
+		gblpanelImageButtons.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
+		panelImageButtons.setLayout(gblpanelImageButtons);
+		
+		btnImage = new JButton("Image");
+		btnImage.addActionListener(e -> {
+
+			JFileChooser choose = new JFileChooser();
+			choose.showOpenDialog(null);
+			File pics = choose.getSelectedFile();
+			Image i = new ImageIcon(pics.getAbsolutePath()).getImage();
+			imagePanel.setImage(
+					i.getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH));
+			imagePanel.revalidate();
+			imagePanel.repaint();
+		});
+		GridBagConstraints gbcbtnImage = new GridBagConstraints();
+		gbcbtnImage.fill = GridBagConstraints.HORIZONTAL;
+		gbcbtnImage.anchor = GridBagConstraints.NORTH;
+		gbcbtnImage.insets = new Insets(0, 0, 5, 0);
+		gbcbtnImage.gridx = 0;
+		gbcbtnImage.gridy = 0;
+		panelImageButtons.add(btnImage, gbcbtnImage);
+		
+		btnUrl = new JButton("URL");
+		GridBagConstraints gbcbtnUrl = new GridBagConstraints();
+		gbcbtnUrl.fill = GridBagConstraints.HORIZONTAL;
+		gbcbtnUrl.anchor = GridBagConstraints.NORTH;
+		gbcbtnUrl.gridx = 0;
+		gbcbtnUrl.gridy = 1;
+		panelImageButtons.add(btnUrl, gbcbtnUrl);
+		
+		imagePanel = new CropImagePanel();
+		imagePanel.setBorder(new LineBorder(Color.BLACK));
+		GridBagConstraints gbcimagePanel = new GridBagConstraints();
+		gbcimagePanel.gridheight = 3;
+		gbcimagePanel.insets = new Insets(0, 0, 5, 5);
+		gbcimagePanel.fill = GridBagConstraints.BOTH;
+		gbcimagePanel.gridx = 1;
+		gbcimagePanel.gridy = 11;
+		add(imagePanel, gbcimagePanel);
+		
 		lblColorIndicator = new JLabel("Color Indicator");
 		GridBagConstraints gbclblColorIndicator = new GridBagConstraints();
 		gbclblColorIndicator.insets = new Insets(0, 0, 5, 5);
@@ -520,13 +579,13 @@ public class MagicCardEditorPanel extends JPanel {
 		
 		lblColorOrientation = new JLabel("Color Orientation :");
 		GridBagConstraints gbclblColorOrientation = new GridBagConstraints();
-		gbclblColorOrientation.anchor = GridBagConstraints.NORTHEAST;
+		gbclblColorOrientation.anchor = GridBagConstraints.NORTH;
 		gbclblColorOrientation.insets = new Insets(0, 0, 5, 5);
 		gbclblColorOrientation.gridx = 2;
 		gbclblColorOrientation.gridy = 12;
 		add(lblColorOrientation, gbclblColorOrientation);
 		
-		cboColorAccent = new JComboBox(new DefaultComboBoxModel(new String[] {"", "C", "G", "W", "WU", "WB", "U", "UB", "UR", "C", "B", "BR", "BG", "R", "RG", "TW", "G", "GW", "GU"}));
+		cboColorAccent = new JComboBox<>(new DefaultComboBoxModel<String>(new String[] {"", "C", "G", "W", "WU", "WB", "U", "UB", "UR", "C", "B", "BR", "BG", "R", "RG", "TW", "G", "GW", "GU"}));
 		
 		GridBagConstraints gbccomboBox = new GridBagConstraints();
 		gbccomboBox.anchor = GridBagConstraints.NORTH;
@@ -673,10 +732,13 @@ public class MagicCardEditorPanel extends JPanel {
 	public JSpinner getSizeSpinner() {
 		return spinner;
 	}
-	public JCheckBox getChkColorIndicator() {
-		return chkColorIndicator;
-	}
 	public JComboBox getCboColorAccent() {
 		return cboColorAccent;
+	}
+	public CropImagePanel getImagePanel() {
+		return imagePanel;
+	}
+	public JButton getBtnUrl() {
+		return btnUrl;
 	}
 }

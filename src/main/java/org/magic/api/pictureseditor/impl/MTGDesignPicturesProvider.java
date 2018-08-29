@@ -1,5 +1,6 @@
-package org.magic.api.pictures.impl;
+package org.magic.api.pictureseditor.impl;
 
+import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URI;
@@ -25,19 +26,19 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGPictureEditor;
-import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
 
-public class MTGDesignPicturesProvider extends AbstractPicturesProvider implements MTGPictureEditor{
+public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	private BasicHttpContext httpContext;
 	private BasicCookieStore cookieStore;
 	private HttpClient httpclient;
 	
 	public MTGDesignPicturesProvider() throws IOException {
+		super();
 		cookieStore = new BasicCookieStore();
 		httpContext = new BasicHttpContext();
 		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
@@ -196,7 +197,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider implemen
 			return im;
 		} catch (Exception e) {
 			logger.error("error generate : ",e);
-			return getBackPicture();
+			return null;
 		}
 		
 		
@@ -204,18 +205,8 @@ public class MTGDesignPicturesProvider extends AbstractPicturesProvider implemen
 	}
 
 	@Override
-	public BufferedImage getSetLogo(String setID, String rarity) throws IOException {
-		return null;
-	}
-
-	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws IOException {
-		return null;
-	}
-
-	@Override
 	public String getName() {
-		return "Mtg.design";
+		return "MtgDesign";
 	}
 	
 	@Override

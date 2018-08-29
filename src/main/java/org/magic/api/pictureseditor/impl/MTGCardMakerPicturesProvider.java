@@ -1,4 +1,4 @@
-package org.magic.api.pictures.impl;
+package org.magic.api.pictureseditor.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
@@ -14,13 +14,13 @@ import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGPictureEditor;
-import org.magic.api.interfaces.abstracts.AbstractPicturesProvider;
+import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
+import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;
 import org.magic.tools.URLTools;
 
-public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  implements MTGPictureEditor{
+public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider{
 
 	private String encoding = MTGConstants.DEFAULT_ENCODING;
 
@@ -116,15 +116,7 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesProvider  impl
 
 	}
 
-	@Override
-	public BufferedImage getSetLogo(String setID, String rarity) throws IOException {
-		return null;
-	}
 
-	@Override
-	public BufferedImage extractPicture(MagicCard mc) throws IOException {
-		return new GathererPicturesProvider().extractPicture(mc);
-	}
 
 	@Override
 	public String getName() {
