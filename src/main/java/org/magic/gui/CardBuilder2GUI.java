@@ -69,7 +69,6 @@ public class CardBuilder2GUI extends JPanel {
 	private MagicEditionsTableModel editionModel;
 
 	private JComboBox<MagicEdition> cboSets;
-	private transient MTGPictureEditor picProvider;
 	private transient Image cardImage;
 	private JPanel panelPictures;
 	private JXTable cardsTable;
@@ -136,8 +135,6 @@ public class CardBuilder2GUI extends JPanel {
 			spinCommon = new JSpinner();
 			spinRare = new JSpinner();
 			spinUnco = new JSpinner();
-			//picProvider = new MTGCardMakerPicturesProvider();
-			picProvider = new MTGDesignPicturesProvider();
 			cardsModel = new MagicCardTableModel();
 			jsonPanel = new JSONPanel();
 			jsonPanel.setMaximumSize(new Dimension(400, 10));
@@ -307,15 +304,15 @@ public class CardBuilder2GUI extends JPanel {
 
 			//////////////////////////////////////////////////// ACTION LISTENER
 			
-			magicCardEditorPanel.getSizeSpinner().addChangeListener(ce->picProvider.setTextSize((Integer)magicCardEditorPanel.getSizeSpinner().getValue()));
-			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->picProvider.setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
-			magicCardEditorPanel.getChboxFoil().addActionListener(ae->picProvider.setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
-			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> picProvider.setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString()));
+			magicCardEditorPanel.getSizeSpinner().addChangeListener(ce->MTGControler.getInstance().getEnabledPictureEditor().setTextSize((Integer)magicCardEditorPanel.getSizeSpinner().getValue()));
+			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->MTGControler.getInstance().getEnabledPictureEditor().setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
+			magicCardEditorPanel.getChboxFoil().addActionListener(ae->MTGControler.getInstance().getEnabledPictureEditor().setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
+			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> MTGControler.getInstance().getEnabledPictureEditor().setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString()));
 			magicCardEditorPanel.getBtnUrl().addActionListener(ae->{
 																		
 																	try {
 																			String urlImage = JOptionPane.showInputDialog("URL");
-																			picProvider.setImage(new URI(urlImage));
+																			MTGControler.getInstance().getEnabledPictureEditor().setImage(new URI(urlImage));
 																		} catch (Exception e1) {
 																			logger.error("Error with url ",e1);
 																			MTGControler.getInstance().notify(new MTGNotification("ERROR", e1));
@@ -476,7 +473,7 @@ public class CardBuilder2GUI extends JPanel {
 
 			btnRefresh.addActionListener(e -> {
 				try {
-					BufferedImage img = picProvider.getPicture(magicCardEditorPanel.getMagicCard(),null);
+					BufferedImage img = MTGControler.getInstance().getEnabledPictureEditor().getPicture(magicCardEditorPanel.getMagicCard(),null);
 					
 					if(img!=null)
 					{
