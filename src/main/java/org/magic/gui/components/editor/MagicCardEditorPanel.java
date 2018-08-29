@@ -8,11 +8,13 @@ import java.awt.Image;
 import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
+import javax.imageio.ImageIO;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -22,12 +24,14 @@ import javax.swing.JDialog;
 import javax.swing.JEditorPane;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.border.LineBorder;
 
+import org.apache.log4j.Logger;
 import org.japura.gui.model.DefaultListCheckModel;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.AutoBinding.UpdateStrategy;
@@ -38,6 +42,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
 import org.magic.services.MTGControler;
+import org.magic.services.MTGLogger;
+import org.magic.tools.URLTools;
 
 public class MagicCardEditorPanel extends JPanel {
 
@@ -80,7 +86,9 @@ public class MagicCardEditorPanel extends JPanel {
 	private JPanel panelImageButtons;
 	private JButton btnImage;
 	private JButton btnUrl;
-	private CropImagePanel imagePanel;
+	private CropImagePanel imagePanel;	
+	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+
 
 	public MagicCardEditorPanel(org.magic.api.beans.MagicCard newMagicCard) {
 		setMagicCard(newMagicCard);
@@ -531,11 +539,8 @@ public class MagicCardEditorPanel extends JPanel {
 			JFileChooser choose = new JFileChooser();
 			choose.showOpenDialog(null);
 			File pics = choose.getSelectedFile();
-			Image i = new ImageIcon(pics.getAbsolutePath()).getImage();
-			imagePanel.setImage(
-					i.getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH));
-			imagePanel.revalidate();
-			imagePanel.repaint();
+			magicCard.setImageName(pics.getAbsolutePath());
+			showCrop();
 		});
 		GridBagConstraints gbcbtnImage = new GridBagConstraints();
 		gbcbtnImage.fill = GridBagConstraints.HORIZONTAL;
@@ -552,6 +557,11 @@ public class MagicCardEditorPanel extends JPanel {
 		gbcbtnUrl.gridx = 0;
 		gbcbtnUrl.gridy = 1;
 		panelImageButtons.add(btnUrl, gbcbtnUrl);
+		btnUrl.addActionListener(ae->{
+					String urlImage = JOptionPane.showInputDialog("URL");
+					magicCard.setImageName(urlImage);
+					showCrop();
+		});
 		
 		imagePanel = new CropImagePanel();
 		imagePanel.setBorder(new LineBorder(Color.BLACK));
@@ -600,6 +610,27 @@ public class MagicCardEditorPanel extends JPanel {
 		}
 	}
 
+
+	private void showCrop() {
+	
+		BufferedImage buff;
+		try {
+			if(magicCard.getImageName().startsWith("http"))
+				buff = URLTools.extractImage(magicCard.getImageName());
+			else
+				buff = ImageIO.read(new File(magicCard.getImageName()));
+			
+			Image i = new ImageIcon(buff).getImage();
+			imagePanel.setImage(i.getScaledInstance(imagePanel.getWidth(), imagePanel.getHeight(), Image.SCALE_SMOOTH));
+			imagePanel.revalidate();
+			imagePanel.repaint();
+			
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		
+	}
+
 	public JCheckBox getChboxFoil() {
 		return chboxFoil;
 	}
@@ -635,6 +666,7 @@ public class MagicCardEditorPanel extends JPanel {
 			cboTypes.setSelectedElements(magicCard.getTypes());
 			cboSubtypes.setSelectedElements(magicCard.getSubtypes());
 		}
+		
 	}
 	
 	public JCheckBox getColorIndicatorJCheckBox() {
@@ -738,7 +770,5 @@ public class MagicCardEditorPanel extends JPanel {
 	public CropImagePanel getImagePanel() {
 		return imagePanel;
 	}
-	public JButton getBtnUrl() {
-		return btnUrl;
-	}
+	
 }

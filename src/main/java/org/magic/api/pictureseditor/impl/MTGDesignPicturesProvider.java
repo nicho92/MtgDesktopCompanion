@@ -128,7 +128,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(!mc.getToughness().isEmpty())
 			build.addParameter("toughness", mc.getToughness());
 		
-		build.addParameter("artwork", getString("URI"));
+		build.addParameter("artwork", mc.getImageName());
 		build.addParameter("designer", "nicho");
 		
 		if(mc.isLand() && !getString("ACCENT").isEmpty())		
@@ -239,13 +239,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		setProperty("CENTER", String.valueOf(center));
 		
 	}
-
-
-	@Override
-	public void setImage(URI img) {
-		setProperty("URI", String.valueOf(img.toString()));
-	}
-
 
 	@Override
 	public void setColorIndicator(boolean selected) {

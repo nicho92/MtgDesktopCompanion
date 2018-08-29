@@ -308,17 +308,7 @@ public class CardBuilder2GUI extends JPanel {
 			magicCardEditorPanel.getColorIndicatorJCheckBox().addActionListener(ae->MTGControler.getInstance().getEnabledPictureEditor().setColorIndicator(magicCardEditorPanel.getColorIndicatorJCheckBox().isSelected()));
 			magicCardEditorPanel.getChboxFoil().addActionListener(ae->MTGControler.getInstance().getEnabledPictureEditor().setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
 			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> MTGControler.getInstance().getEnabledPictureEditor().setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString()));
-			magicCardEditorPanel.getBtnUrl().addActionListener(ae->{
-																		
-																	try {
-																			String urlImage = JOptionPane.showInputDialog("URL");
-																			MTGControler.getInstance().getEnabledPictureEditor().setImage(new URI(urlImage));
-																		} catch (Exception e1) {
-																			logger.error("Error with url ",e1);
-																			MTGControler.getInstance().notify(new MTGNotification("ERROR", e1));
-																		}
-																		
-																	});
+			
 			
 			btnRemoveName.addActionListener(e -> {
 				int row = listNames.getSelectedRow();
@@ -497,7 +487,7 @@ public class CardBuilder2GUI extends JPanel {
 
 	protected void initCard(MagicCard mc) {
 		magicCardEditorPanel.setMagicCard(mc);
-		//
+		jsonPanel.show(mc);
 		namesModel.init(mc);
 		try {
 			cardImage = picturesProvider.getPicture(mc, mc.getCurrentSet());

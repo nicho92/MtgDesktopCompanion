@@ -140,13 +140,6 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		// TODO Auto-generated method stub
 		
 	}
-
-	@Override
-	public void setImage(URI img) {
-		// TODO Auto-generated method stub
-		
-	}
-
 	@Override
 	public void setColorIndicator(boolean selected) {
 		// TODO Auto-generated method stub
