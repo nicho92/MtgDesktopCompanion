@@ -17,7 +17,6 @@ import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.index.Term;
-import org.apache.lucene.search.Collector;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
@@ -28,42 +27,50 @@ import org.apache.lucene.store.FSDirectory;
 import org.magic.api.beans.MagicCard;
 import org.magic.services.MTGControler;
 
+
+
 public class TestLucene {
 
 	private IndexWriter indexWriter;
-	private static Directory dir;
+	private Directory dir;
 	
 	
 	public static void main(String[] args) throws IOException {
 		TestLucene t = new TestLucene();
-	//	MTGControler.getInstance().getEnabledCardsProviders().init();
-		
-		
+	
 		if(t.open())
 		{	
-//			for(MagicCard mc : MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", "", null, false))
-//			{
-//				t.addDocuments(mc);
-//			}
-//			t.commit();
+			//MTGControler.getInstance().getEnabledCardsProviders().init();
+			//t.initIndex();
 			
-			 Query query = new TermQuery(new Term("name", "Counterspell"));
-			
-			 IndexReader indexReader = DirectoryReader.open(dir);
-			 IndexSearcher searcher = new IndexSearcher(indexReader);
-			 TopDocs top = searcher.search(query, 10);
-			 
-			 for(ScoreDoc d : top.scoreDocs)
-			 {
-				 System.out.println(d.doc);
-			 }
-			 
+			t.search("name", "Counterspell");
 			
 			t.close();
 		}
 	}
 	
-	 public long commit() throws IOException
+	private void search(String fld,String value) throws IOException {
+		 Query query = new TermQuery(new Term(fld,value));
+			
+		 IndexReader indexReader = DirectoryReader.open(dir);
+		 IndexSearcher searcher = new IndexSearcher(indexReader);
+		 TopDocs top = searcher.search(query, 10);
+		 for(ScoreDoc d : top.scoreDocs)
+		 {
+			 System.out.println(searcher.doc(d.doc));
+		 }
+		 
+		
+	}
+
+	private void initIndex() throws IOException {
+		for(MagicCard mc : MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", "", null, false))
+			addDocuments(mc);
+
+		commit();
+	}
+
+	public long commit() throws IOException
 	 {
 		 return indexWriter.commit();
 	 }
@@ -76,7 +83,7 @@ public class TestLucene {
 		    	Analyzer analyzer = new StandardAnalyzer();
 	            IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 	            				  iwc.setOpenMode(OpenMode.CREATE_OR_APPEND);
-
+	            				  
 	            indexWriter = new IndexWriter(dir, iwc);
 	            return true;
 	        } catch (Exception e) {
