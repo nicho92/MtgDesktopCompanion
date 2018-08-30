@@ -301,9 +301,9 @@ public class MagicCardEditorPanel extends JPanel {
 		cboTypes = new JCheckableListBox<>();
 		DefaultListCheckModel model = new DefaultListCheckModel();
 		cboTypes.setModel(model);
-		for (String t : new String[] { "", "Arcane", "Artifact", "Aura", "Basic", "Clue", "Conspiracy", "Continuous",
+		for (String t : new String[] { "", "Arcane", "Artifact", "Aura", "Clue", "Conspiracy", "Continuous",
 				"Contraption", "Creature", "Curse", "Elite", "Enchantment", "Equipment", "Fortification",
-				"Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Legendary", "Local", "Mana source",
+				"Global enchantment", "Hero", "Instant", "Interrupt", "Land", "Local", "Mana source",
 				"Mono", "Ongoing", "Permanent", "Phenomenon", "Plane", "Planeswalker", "Poly", "Scheme", "Shrine",
 				"Snow", "Sorcery", "Spell", "Summon", "Trap", "Tribal", "Vanguard", "Vehicle", "World" }) {
 			model.addElement(t);
@@ -356,7 +356,7 @@ public class MagicCardEditorPanel extends JPanel {
 		labelgbc16.gridy = 4;
 		add(textLabel, labelgbc16);
 
-		textJEditorPane = new MagicTextPane();
+		textJEditorPane = new MagicTextPane(false);
 		GridBagConstraints componentgbc16 = new GridBagConstraints();
 		componentgbc16.gridwidth = 3;
 		componentgbc16.gridheight = 2;
@@ -703,11 +703,6 @@ public class MagicCardEditorPanel extends JPanel {
 		AutoBinding<MagicCard, Object, JComboBox, Object> autoBinding6 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, layoutProperty, layoutJComboBox, selectedIndexProperty);
 		autoBinding6.bind();
 		//
-		BeanProperty<MagicCard, Object> loyaltyProperty = BeanProperty.create("loyalty");
-		BeanProperty<JTextField, Object> valueProperty1 = BeanProperty.create("value");
-		AutoBinding<MagicCard, Object, JTextField, Object> autoBinding7 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, valueProperty1);
-		autoBinding7.bind();
-		//
 		BeanProperty<MagicCard, String> nameProperty = BeanProperty.create("name");
 		BeanProperty<JTextField, String> textProperty5 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding10 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, nameProperty, nameJTextField, textProperty5);
@@ -742,6 +737,13 @@ public class MagicCardEditorPanel extends JPanel {
 		BeanProperty<JTextField, String> textProperty10 = BeanProperty.create("text");
 		AutoBinding<MagicCard, String, JTextField, String> autoBinding19 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, watermarksProperty, watermarksJTextField, textProperty10);
 		autoBinding19.bind();
+		
+		BeanProperty<MagicCard, String> loyaltyProperty = BeanProperty.create("loyalty");
+		BeanProperty<JTextField, String> textProperty11 = BeanProperty.create("text");
+		AutoBinding<MagicCard, String, JTextField, String> autoBinding20 = Bindings.createAutoBinding(UpdateStrategy.READ_WRITE, magicCard, loyaltyProperty, loyaltyJTextField, textProperty11);
+		autoBinding20.bind();
+		
+		
 		//
 		BindingGroup bindingGroup = new BindingGroup();
 		//
@@ -751,7 +753,6 @@ public class MagicCardEditorPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding4);
 		bindingGroup.addBinding(autoBinding5);
 		bindingGroup.addBinding(autoBinding6);
-		bindingGroup.addBinding(autoBinding7);
 		bindingGroup.addBinding(autoBinding10);
 		bindingGroup.addBinding(autoBinding11);
 		bindingGroup.addBinding(autoBinding13);
@@ -759,6 +760,7 @@ public class MagicCardEditorPanel extends JPanel {
 		bindingGroup.addBinding(autoBinding16);
 		bindingGroup.addBinding(autoBinding17);
 		bindingGroup.addBinding(autoBinding19);
+		bindingGroup.addBinding(autoBinding20);
 		return bindingGroup;
 	}
 	public JSpinner getSizeSpinner() {

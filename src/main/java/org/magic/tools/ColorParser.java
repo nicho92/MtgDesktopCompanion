@@ -10,6 +10,10 @@ public class ColorParser {
 
 	
 	public static String getCodeByName(List<String> fullColorNames,boolean bracket) {
+		
+		if(fullColorNames.isEmpty())
+			return getCodeByName("",bracket);
+		
 		StringBuilder build = new StringBuilder();
 		for(String c : fullColorNames)
 			build.append(getCodeByName(c, bracket));

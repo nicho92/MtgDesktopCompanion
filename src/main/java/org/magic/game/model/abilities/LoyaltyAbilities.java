@@ -1,5 +1,7 @@
 package org.magic.game.model.abilities;
 
+import org.magic.game.model.effects.AbstractEffect;
+
 public class LoyaltyAbilities extends ActivatedAbilities {
 
 	
@@ -30,6 +32,11 @@ public class LoyaltyAbilities extends ActivatedAbilities {
 		return getCost() + ":" + getEffects();
 	}
 	
+	
+	public AbstractEffect getEffect()
+	{
+		return getEffects().get(0);
+	}
 	
 	
 	

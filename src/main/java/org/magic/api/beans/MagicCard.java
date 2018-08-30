@@ -85,7 +85,7 @@ public class MagicCard implements Serializable {
 
 	public boolean isPlaneswalker()
 	{
-		return (loyalty!=null);
+		return getTypes().toString().toLowerCase().contains("planeswalker");
 	}
 	
 	

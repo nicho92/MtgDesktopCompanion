@@ -26,22 +26,45 @@ public class MagicTextPane extends JTextPane {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private transient KeyAdapter translation;
+	
 	ManaPanel manaPanel;
 
 	public MagicTextPane() {
+		init();
+		enableTranslate(true);
+	}
+	
+	public MagicTextPane(Boolean enable) {
+		init();
+		enableTranslate(enable);
+	}
+	
+	
+	private void init() {
 		manaPanel = new ManaPanel();
 		setPreferredSize(new Dimension(200, 150));
 		getDocument().putProperty(DefaultEditorKit.EndOfLineStringProperty, "\n");
 
-		addKeyListener(new KeyAdapter() {
+		translation=new KeyAdapter() {
 			@Override
 			public void keyReleased(KeyEvent e) {
 				int pos = getCaretPosition();
 				updateTextWithIcons();
 				setCaretPosition(pos);
 			}
-		});
+		};
 	}
+
+	public void enableTranslate(boolean b)
+	{
+		
+		if(b)
+			addKeyListener(translation);
+		else
+			removeKeyListener(translation);
+	}
+	
 
 	public void updateTextWithIcons() {
 

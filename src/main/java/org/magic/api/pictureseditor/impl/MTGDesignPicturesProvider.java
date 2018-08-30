@@ -27,6 +27,8 @@ import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
+import org.magic.game.model.abilities.LoyaltyAbilities;
+import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
 import org.magic.tools.URLTools;
@@ -128,6 +130,9 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(!mc.getToughness().isEmpty())
 			build.addParameter("toughness", mc.getToughness());
 		
+		if(mc.getLoyalty()!=null)
+			build.addParameter("loyalty", String.valueOf(mc.getLoyalty()));
+		
 		build.addParameter("artwork", mc.getImageName());
 		build.addParameter("designer", "nicho");
 		
@@ -145,11 +150,25 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		
 		build.addParameter("lighten", "false");
 		
+		
 		build.addParameter("card-layout", "regular");
 
 		
 		if(!mc.getText().isEmpty())
-			build.addParameter("rules-text", mc.getText());
+		{
+			if(!mc.isPlaneswalker())
+			{
+				build.addParameter("rules-text", mc.getText());
+			}
+			else
+			{
+				
+				List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
+				build.addParameter("pw-size", String.valueOf(abs.size()));
+				for(int i=0;i<abs.size();i++)
+					build.addParameter( (i==0)?"rules-text":"pw-text"+(i+1), abs.get(i).getCost()+": "+ abs.get(i).getEffect() +'\u00a0');
+			}
+		}
 		
 		if(!mc.getFlavor().isEmpty())
 			build.addParameter("flavor-text", mc.getFlavor());
@@ -178,10 +197,16 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		if(getBoolean("INDICATOR"))
 		{
+			try {
 			if(mc.getColors().size()==1)
 				build.addParameter("color-indicator",ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
 			else
 				build.addParameter("color-indicator",ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
+			}
+			catch(Exception e)
+			{
+				logger.error(e);
+			}
 		}
 		
 		
