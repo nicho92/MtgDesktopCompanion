@@ -2,30 +2,28 @@ package org.beta;
 
 import java.io.IOException;
 import java.nio.file.Paths;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
-import org.apache.lucene.document.IntPoint;
-import org.apache.lucene.document.StringField;
+import org.apache.lucene.document.FieldType;
+import org.apache.lucene.document.NumericDocValuesField;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
 import org.apache.lucene.queries.mlt.MoreLikeThis;
-import org.apache.lucene.index.Term;
+import org.apache.lucene.queryparser.classic.ParseException;
+import org.apache.lucene.queryparser.classic.QueryParser;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
-
 import org.magic.api.beans.MagicCard;
 import org.magic.services.MTGControler;
 
@@ -35,64 +33,54 @@ public class TestLucene {
 
 	private IndexWriter indexWriter;
 	private Directory dir;
+	private Analyzer analyzer ;
 	
-	
-	public static void main(String[] args) throws IOException {
+	public static void main(String[] args) throws IOException, ParseException {
 		TestLucene t = new TestLucene();
 	
 		if(t.open())
 		{	
-			//MTGControler.getInstance().getEnabledCardsProviders().init();
-			//t.initIndex();
+			MTGControler.getInstance().getEnabledCardsProviders().init();
+			t.initIndex();
 			
-			t.similarity("name", "Counterspell");
+			t.similarity();
 			
 			t.close();
 		}
 	}
 	
-	public void similarity(String fld,String value) throws IOException
+	public void similarity() throws IOException, ParseException
 	{
-		 Query query = new TermQuery(new Term(fld,value));
+		 Query query = new QueryParser("name", analyzer).parse("name:'Woolly Thoctar'");
 			
 		 IndexReader indexReader = DirectoryReader.open(dir);
 		 IndexSearcher searcher = new IndexSearcher(indexReader);
 		 
 		 MoreLikeThis mlt = new MoreLikeThis(indexReader);
-		 			  mlt.setFieldNames(new String[] {"title","text","cmc"});
-		 			  mlt.setAnalyzer(new StandardAnalyzer());
-		 			  mlt.setMinTermFreq(0);
-		 			  mlt.setMinDocFreq(0);
-		 TopDocs top = searcher.search(query, 10);
+		 			  mlt.setFieldNames(new String[] {"text","color"});
+		 			  mlt.setAnalyzer(analyzer);
+		 			  mlt.setMinTermFreq(1);
+		 			 
+		 TopDocs top = searcher.search(query, 5);
 		 ScoreDoc d = top.scoreDocs[0];
 		 
-		 System.out.println(d);
-		 
+		 System.out.println("Found similarity for : " +d.doc);
 		 Query like = mlt.like(d.doc);
-		 TopDocs likes = searcher.search(like,5);
+		
+		 
+		 TopDocs likes = searcher.search(like,50);
+		 
+		 
 		 for(ScoreDoc l : likes.scoreDocs)
 			{
-			 System.out.println(l.score +" " + searcher.doc(l.doc));
+			 Document doc = searcher.doc(l.doc);
+			 System.out.println(l.score +"% : " + doc.get("name") + " " + doc.get("text") +" " + doc.get("color"));
 			}
 		 
 		
 		
 	}
 	
-	
-	public List<Document> search(String fld,String value) throws IOException {
-		 Query query = new TermQuery(new Term(fld,value));
-			
-		 IndexReader indexReader = DirectoryReader.open(dir);
-		 IndexSearcher searcher = new IndexSearcher(indexReader);
-		 TopDocs top = searcher.search(query, 10);
-		 List<Document> ret = new ArrayList<>();
-		 for(ScoreDoc d : top.scoreDocs)
-			 ret.add(searcher.doc(d.doc));
-		 
-		 return ret;
-	}
-
 	public void initIndex() throws IOException {
 		for(MagicCard mc : MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", "", null, false))
 			addDocuments(mc);
@@ -110,7 +98,7 @@ public class TestLucene {
 		    try 
 	        {
 		    	dir = FSDirectory.open(Paths.get("d:\\index\\"));
-		    	Analyzer analyzer = new StandardAnalyzer();
+		    	analyzer = new StandardAnalyzer();
 	            IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 	            				  iwc.setOpenMode(OpenMode.CREATE_OR_APPEND);
 	            				  
@@ -131,12 +119,25 @@ public class TestLucene {
 	 
 	 public void addDocuments(MagicCard mc) throws IOException{
           Document doc = new Document();
-           		   doc.add(new StringField("name", mc.getName(), Field.Store.YES));
-           		   doc.add(new StringField("cost", mc.getCost(), Field.Store.YES));
-           		   doc.add(new StringField("text", mc.getText(), Field.Store.YES));
-           		   doc.add(new StringField("type", mc.getFullType(), Field.Store.YES));
-           		   doc.add(new StringField("flavor", mc.getFlavor(), Field.Store.YES));
-	      		   doc.add(new IntPoint("cmc", mc.getCmc()));
+          			
+          		FieldType fieldType = new FieldType();
+		          		fieldType.setStored(true);
+		          		fieldType.setStoreTermVectors(true);
+		          		fieldType.setTokenized(true);
+		          		fieldType.setIndexOptions(IndexOptions.DOCS_AND_FREQS_AND_POSITIONS);
+		          		
+           		   doc.add(new Field("name", mc.getName(), fieldType));
+           		   doc.add(new Field("cost", mc.getCost(),fieldType));
+           		   doc.add(new Field("text", mc.getText(), fieldType));
+           		   doc.add(new Field("type", mc.getFullType(), fieldType));
+           		   doc.add(new Field("set",mc.getCurrentSet().getId(),fieldType));
+           		   doc.add(new NumericDocValuesField("cmc",mc.getCmc()));
+           		   
+	      		   for(String color:mc.getColors())
+	      		   {
+	      			   doc.add(new Field("color", color, fieldType));
+	      		   }
+	      		   
           indexWriter.addDocument(doc);
  	 }
 	    
