@@ -82,7 +82,7 @@
 		<dependency>
 		    <groupId>net.dv8tion</groupId>
 			  <artifactId>JDA</artifactId>
-			  <version>3.7.1_398</version>
+			  <version>3.7.1_406</version>
 			  <exclusions>
 			    <exclusion>
 			          <groupId>club.minnced</groupId>
@@ -270,7 +270,7 @@
 		<dependency>
 			<groupId>org.postgresql</groupId>
 			<artifactId>postgresql</artifactId>
-			<version>42.2.4.jre7</version>
+			<version>42.2.5.jre7</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mozilla</groupId>
