@@ -75,6 +75,11 @@
 		    <version>7.4.0</version>
 		</dependency>
 		<dependency>
+		    <groupId>org.apache.lucene</groupId>
+		    <artifactId>lucene-queries</artifactId>
+		    <version>7.4.0</version>
+		</dependency>
+		<dependency>
 		    <groupId>com.jtattoo</groupId>
 		    <artifactId>JTattoo</artifactId>
 		    <version>1.6.11</version>

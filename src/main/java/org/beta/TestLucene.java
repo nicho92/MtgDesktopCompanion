@@ -16,6 +16,7 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.queries.mlt.MoreLikeThis;
 import org.apache.lucene.index.Term;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.Query;
@@ -24,6 +25,7 @@ import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+
 import org.magic.api.beans.MagicCard;
 import org.magic.services.MTGControler;
 
@@ -43,27 +45,55 @@ public class TestLucene {
 			//MTGControler.getInstance().getEnabledCardsProviders().init();
 			//t.initIndex();
 			
-			t.search("name", "Counterspell");
+			t.similarity("name", "Counterspell");
 			
 			t.close();
 		}
 	}
 	
-	private void search(String fld,String value) throws IOException {
+	public void similarity(String fld,String value) throws IOException
+	{
+		 Query query = new TermQuery(new Term(fld,value));
+			
+		 IndexReader indexReader = DirectoryReader.open(dir);
+		 IndexSearcher searcher = new IndexSearcher(indexReader);
+		 
+		 MoreLikeThis mlt = new MoreLikeThis(indexReader);
+		 			  mlt.setFieldNames(new String[] {"title","text","cmc"});
+		 			  mlt.setAnalyzer(new StandardAnalyzer());
+		 			  mlt.setMinTermFreq(0);
+		 			  mlt.setMinDocFreq(0);
+		 TopDocs top = searcher.search(query, 10);
+		 ScoreDoc d = top.scoreDocs[0];
+		 
+		 System.out.println(d);
+		 
+		 Query like = mlt.like(d.doc);
+		 TopDocs likes = searcher.search(like,5);
+		 for(ScoreDoc l : likes.scoreDocs)
+			{
+			 System.out.println(l.score +" " + searcher.doc(l.doc));
+			}
+		 
+		
+		
+	}
+	
+	
+	public List<Document> search(String fld,String value) throws IOException {
 		 Query query = new TermQuery(new Term(fld,value));
 			
 		 IndexReader indexReader = DirectoryReader.open(dir);
 		 IndexSearcher searcher = new IndexSearcher(indexReader);
 		 TopDocs top = searcher.search(query, 10);
+		 List<Document> ret = new ArrayList<>();
 		 for(ScoreDoc d : top.scoreDocs)
-		 {
-			 System.out.println(searcher.doc(d.doc));
-		 }
+			 ret.add(searcher.doc(d.doc));
 		 
-		
+		 return ret;
 	}
 
-	private void initIndex() throws IOException {
+	public void initIndex() throws IOException {
 		for(MagicCard mc : MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", "", null, false))
 			addDocuments(mc);
 
