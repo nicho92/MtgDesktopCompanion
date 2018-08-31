@@ -66,7 +66,7 @@ public class ConfigurationPanel extends JPanel {
 	private JLabel lblIconAvatar;
 	private JCheckBox chckbxIconset;
 	private JCheckBox chckbxIconcards;
-
+	private JButton btnIndexation;
 	private JCheckBox chckbxSearch;
 	private JCheckBox chckbxCollection;
 	private JCheckBox chckbxDashboard;
@@ -115,9 +115,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelDAO, gbcpanelDAO);
 		GridBagLayout gblpanelDAO = new GridBagLayout();
 		gblpanelDAO.columnWidths = new int[] { 0, 0, 130, 0, 0 };
-		gblpanelDAO.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
+		gblpanelDAO.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
 		gblpanelDAO.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gblpanelDAO.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblpanelDAO.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelDAO.setLayout(gblpanelDAO);
 
 		JLabel lblBackupDao = new JLabel(
@@ -185,7 +185,7 @@ public class ConfigurationPanel extends JPanel {
 
 		JLabel lblSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIZE") + " : ");
 		GridBagConstraints gbclblSize = new GridBagConstraints();
-		gbclblSize.insets = new Insets(0, 0, 0, 5);
+		gbclblSize.insets = new Insets(0, 0, 5, 5);
 		gbclblSize.gridx = 0;
 		gbclblSize.gridy = 4;
 		panelDAO.add(lblSize, gbclblSize);
@@ -194,10 +194,25 @@ public class ConfigurationPanel extends JPanel {
 				String.valueOf(MTGControler.getInstance().getEnabledDAO().getDBSize() / 1024 / 1024) + "MB");
 		GridBagConstraints gbclblSizeValue = new GridBagConstraints();
 		gbclblSizeValue.gridwidth = 2;
-		gbclblSizeValue.insets = new Insets(0, 0, 0, 5);
+		gbclblSizeValue.insets = new Insets(0, 0, 5, 5);
 		gbclblSizeValue.gridx = 1;
 		gbclblSizeValue.gridy = 4;
 		panelDAO.add(lblSizeValue, gbclblSizeValue);
+		
+		JLabel lblIndexation = new JLabel("Réindexation : ");
+		GridBagConstraints gbc_lblIndexation = new GridBagConstraints();
+		gbc_lblIndexation.insets = new Insets(0, 0, 0, 5);
+		gbc_lblIndexation.gridx = 0;
+		gbc_lblIndexation.gridy = 5;
+		panelDAO.add(lblIndexation, gbc_lblIndexation);
+		
+		btnIndexation = new JButton("Reindexation");
+		
+		GridBagConstraints gbc_btnIndexation = new GridBagConstraints();
+		gbc_btnIndexation.insets = new Insets(0, 0, 0, 5);
+		gbc_btnIndexation.gridx = 2;
+		gbc_btnIndexation.gridy = 5;
+		panelDAO.add(btnIndexation, gbc_btnIndexation);
 
 		btnDuplicate.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
 			try {
@@ -946,6 +961,30 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLoading.gridx = 0;
 		gbclblLoading.gridy = 3;
 		add(lblLoading, gbclblLoading);
+		
+		
+		btnIndexation.addActionListener(ae->
+			
+			ThreadManager.getInstance().execute(()->{
+					try {
+						loading(true, "Indexation");
+						btnIndexation.setEnabled(false);
+						MTGControler.getInstance().getEnabledCardIndexer().open();
+						MTGControler.getInstance().getEnabledCardIndexer().initIndex();
+						MTGControler.getInstance().getEnabledCardIndexer().close();
+						
+					} catch (Exception e) {
+						logger.error("error indexation",e);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+					}
+					finally {
+						loading(false, "");
+						btnIndexation.setEnabled(true);
+					}
+			}, "Indexation")
+			
+		);
+		
 		btnAdd.addActionListener(ae -> {
 			try {
 				InstallCert.installCert(txtWebSiteCertificate.getText());
