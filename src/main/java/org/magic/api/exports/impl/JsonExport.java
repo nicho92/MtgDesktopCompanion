@@ -31,6 +31,11 @@ public class JsonExport extends AbstractCardExport {
 		gson=new Gson();
 	}
 	
+	
+	public <T> T fromJson(Class<T> classe, String s)
+	{
+		return gson.fromJson(s, classe);
+	}
 
 	@Override
 	public MagicDeck importDeck(File f) throws IOException {
