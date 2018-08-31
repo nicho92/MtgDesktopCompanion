@@ -434,6 +434,22 @@ public class CardSearchPanel extends JPanel {
 		    }
 		}); 
 		
+		
+		similarityPanel.getTableSimilarity().addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent evt) {
+				
+				if(similarityPanel.getTableSimilarity().getSelectedRow()==-1)
+					return;
+				
+				MagicCard mc = (MagicCard) similarityPanel.getTableSimilarity().getValueAt(similarityPanel.getTableSimilarity().getSelectedRow(), 0);
+				cardsPicPanel.showPhoto(mc);
+			}
+		});
+		
+		
+		
+		
 		cboEdition.addActionListener(ae -> {
 				txtSearch.setText(((MagicEdition) cboEdition.getSelectedItem()).getId());
 				txtSearch.postActionEvent();
