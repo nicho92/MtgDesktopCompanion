@@ -969,10 +969,7 @@ public class ConfigurationPanel extends JPanel {
 					try {
 						loading(true, "Indexation");
 						btnIndexation.setEnabled(false);
-						MTGControler.getInstance().getEnabledCardIndexer().open();
 						MTGControler.getInstance().getEnabledCardIndexer().initIndex();
-						MTGControler.getInstance().getEnabledCardIndexer().close();
-						
 					} catch (Exception e) {
 						logger.error("error indexation",e);
 						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));

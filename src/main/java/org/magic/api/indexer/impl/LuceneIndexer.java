@@ -61,6 +61,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		if(mc==null)
 			return ret;
 		
+		if(dir==null)
+			open();
+		
 		logger.debug("search similar cards for " + mc);
 		
 		try (IndexReader indexReader = DirectoryReader.open(dir))
@@ -92,7 +95,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		 {
 			 logger.error("can't found "+mc);
 		 }
-			 
+		 close();
 		 return ret;
 		
 		} catch (ParseException e) {
@@ -103,6 +106,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	}
 	
 	public void initIndex() throws IOException {
+		
+		if(dir==null)
+			open();
 		
 		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 		  				   iwc.setOpenMode(OpenMode.CREATE);
@@ -132,6 +138,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public void close() throws IOException
 	{
 		dir.close();
+		dir=null;
 	}
 	
 	private Document toDocuments(MagicCard mc) {
