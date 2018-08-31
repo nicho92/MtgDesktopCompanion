@@ -2,6 +2,7 @@ package org.magic.api.indexer.impl;
 
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -42,9 +43,9 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	
 	@Override
 	public void initDefault() {
-		setProperty("boost", "true");
+		setProperty("boost", "false");
 		setProperty("minTermFreq", "1");
-		setProperty("fields","text,color,types,cmc");
+		setProperty("fields","cost,text,color,type,cmc");
 		setProperty("maxResults","20");
 	}
 	
@@ -70,9 +71,10 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		{
 			
 		 IndexSearcher searcher = new IndexSearcher(indexReader);
-		 Query query = new QueryParser("name", analyzer).parse("name:"+mc.getName());
+		 Query query = new QueryParser("text", analyzer).parse("name:"+mc.getName());
 		 logger.trace(query);
 		 TopDocs top = searcher.search(query, 1);
+		 
 		 if(top.totalHits>0)
 		 {
 			 MoreLikeThis mlt = new MoreLikeThis(indexReader);
@@ -82,22 +84,24 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			  mlt.setBoost(getBoolean("boost"));
 			  
 			 ScoreDoc d = top.scoreDocs[0];
+			 logger.trace("found doc id="+d.doc);
 			 Query like = mlt.like(d.doc);
-			 logger.trace("query="+like);
+			 
+			 logger.trace("mlt="+Arrays.asList(mlt.retrieveInterestingTerms(d.doc)));
+			 logger.trace("Like query="+like);
 			 TopDocs likes = searcher.search(like,getInt("maxResults"));
+			 
 			 for(ScoreDoc l : likes.scoreDocs)
-				{
-				 Document doc = searcher.doc(l.doc);
-				 ret.put(serializer.fromJson(MagicCard.class, doc.get("data")),l.score);
-				}
+				 ret.put(serializer.fromJson(MagicCard.class, searcher.doc(l.doc).get("data")),l.score);
+
+			 close();
+			
 		 }
 		 else
 		 {
 			 logger.error("can't found "+mc);
 		 }
-		 close();
-		 return ret;
-		
+		 
 		} catch (ParseException e) {
 			logger.error(e);
 		}
