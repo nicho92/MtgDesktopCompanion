@@ -30,8 +30,6 @@ import org.apache.lucene.store.FSDirectory;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
-import org.magic.api.interfaces.abstracts.AbstractMTGPlugin;
-import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 
@@ -42,28 +40,12 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	private Analyzer analyzer ;
 	private JsonExport serializer;
 	
-	public static void main(String[] args) throws IOException {
-		LuceneIndexer t = new LuceneIndexer();
-	
-		if(t.open())
-		{	
-			//MTGControler.getInstance().getEnabledCardsProviders().init();
-			//t.initIndex();
-			MagicCard mc = new MagicCard();
-				mc.setName("Emrakul, the Promised End");
-				
-			t.similarity(mc).entrySet().forEach(s->System.out.println("------"+s.getValue() +" " + s.getKey() + " ("+s.getKey().getCurrentSet()+")"));
-			
-			t.close();
-		}
-	}
-	
-	
 	@Override
 	public void initDefault() {
 		setProperty("boost", "true");
 		setProperty("minTermFreq", "1");
 		setProperty("fields","text,color,types,cmc");
+		setProperty("maxResults","20");
 	}
 	
 	public LuceneIndexer() {
@@ -81,30 +63,28 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		 IndexSearcher searcher = new IndexSearcher(indexReader);
 		 Query query = new QueryParser("name", analyzer).parse("name:"+mc.getName());
 		
-		 logger.debug(query);
-		 MoreLikeThis mlt = new MoreLikeThis(indexReader);
-		 			  mlt.setFieldNames(getArray("fields"));
-		 			  mlt.setAnalyzer(analyzer);
-		 			  mlt.setMinTermFreq(getInt("minTermFreq"));
-		 			  mlt.setBoost(getBoolean("boost"));
-
-		 			  
+		 logger.trace(query);
 		 TopDocs top = searcher.search(query, 1);
-		 ScoreDoc d = top.scoreDocs[0];
-		 Query like = mlt.like(d.doc);
-		 logger.debug(like);
-		 
-		 TopDocs likes = searcher.search(like,50);
-		 
-		 
-		 for(ScoreDoc l : likes.scoreDocs)
-			{
-			 Document doc = searcher.doc(l.doc);
-			 ret.put(serializer.fromJson(MagicCard.class, doc.get("data")),l.score);
-			}
-		 
-		 
-		return ret;
+		 if(top.totalHits>0)
+		 {
+			 MoreLikeThis mlt = new MoreLikeThis(indexReader);
+			  mlt.setFieldNames(getArray("fields"));
+			  mlt.setAnalyzer(analyzer);
+			  mlt.setMinTermFreq(getInt("minTermFreq"));
+			  mlt.setBoost(getBoolean("boost"));
+			  
+			 ScoreDoc d = top.scoreDocs[0];
+			 Query like = mlt.like(d.doc);
+			 logger.trace(like);
+			 TopDocs likes = searcher.search(like,getInt("maxResults"));
+			 for(ScoreDoc l : likes.scoreDocs)
+				{
+				 Document doc = searcher.doc(l.doc);
+				 ret.put(serializer.fromJson(MagicCard.class, doc.get("data")),l.score);
+				}
+		 }			 
+			 
+		 return ret;
 		
 		} catch (ParseException e) {
 			logger.error(e);
@@ -118,9 +98,11 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		IndexWriterConfig iwc = new IndexWriterConfig(analyzer);
 		  				   iwc.setOpenMode(OpenMode.CREATE);
 	    IndexWriter indexWriter = new IndexWriter(dir, iwc);
-		 
-		for(MagicCard mc : MTGControler.getInstance().getEnabledCardsProviders().searchCardByCriteria("name", "", null, false))
-			 indexWriter.addDocument(toDocuments(mc));
+	    
+		for(MagicCard mc : MTGControler.getInstance().getEnabledCardsProviders().searchCardByName("", null, false))
+		{
+			indexWriter.addDocument(toDocuments(mc));
+		}
 		
 		indexWriter.commit();
 		indexWriter.close();
@@ -129,7 +111,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public boolean open(){
 	    try 
         {
-	    	dir = FSDirectory.open(Paths.get(MTGConstants.CONF_DIR.getAbsolutePath(),"index"));
+	    	dir = FSDirectory.open(Paths.get(confdir.getAbsolutePath(),"luceneIndex"));
             return true;
         } 
 	    catch (Exception e) {

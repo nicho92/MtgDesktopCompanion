@@ -12,6 +12,7 @@ import java.util.Set;
 import org.apache.commons.configuration2.FileBasedConfiguration;
 import org.apache.log4j.Logger;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -97,6 +98,7 @@ public class PluginRegistry {
 		registry.put(MTGWallpaperProvider.class, new PluginEntry<MTGWallpaperProvider>(true,"/wallpapers","/wallpaper", "org.magic.api.wallpaper.impl"));
 		registry.put(AbstractJDashlet.class, new PluginEntry<AbstractJDashlet>(true,"/dashlets", "/dashlet", "org.magic.gui.dashlet"));
 		registry.put(MTGPictureEditor.class, new PluginEntry<MTGPictureEditor>(false,"/editors", "/editor", "org.magic.api.pictureseditor.impl"));
+		registry.put(MTGCardsIndexer.class, new PluginEntry<MTGCardsIndexer>(false, "/indexers", "/index", "org.magic.api.indexer.impl"));
 	}
 	
 	private <T> T loadItem(String classname) {

@@ -100,6 +100,7 @@ public class CardSearchPanel extends JPanel {
 	private ManaRepartitionPanel manaRepartitionPanel;
 	private TypeRepartitionPanel typeRepartitionPanel;
 	private RarityRepartitionPanel rarityRepartitionPanel;
+	private SimilarityCardPanel similarityPanel;
 	private CmcChartPanel cmcChart;
 	private CardsPicPanel cardsPicPanel;
 	private HistoryPricesPanel historyChartPanel;
@@ -249,7 +250,9 @@ public class CardSearchPanel extends JPanel {
 		btnExport = new JButton(MTGConstants.ICON_EXPORT);
 		btnFilter = new JButton(MTGConstants.ICON_FILTER);
 		btnClear = new JButton(MTGConstants.ICON_CLEAR);
-
+		similarityPanel = new SimilarityCardPanel();
+		
+		
 		cboQuereableItems = new JComboBox<>(new DefaultComboBoxModel<String>(
 				MTGControler.getInstance().getEnabledCardsProviders().getQueryableAttributs()));
 		try {
@@ -396,6 +399,10 @@ public class CardSearchPanel extends JPanel {
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,
 				historyChartPanel, null);
 
+		tabbedCardsInfo.addTab("Similarity", MTGConstants.ICON_SEARCH_24,similarityPanel, null);
+		
+		
+		
 		if (MTGControler.getInstance().get("debug-json-panel").equalsIgnoreCase("true"))
 			tabbedCardsInfo.addTab("Json", MTGConstants.ICON_TAB_JSON, panelJson, null);
 
@@ -726,7 +733,7 @@ public class CardSearchPanel extends JPanel {
 			}
 
 			priceTablePanel.init(selectedCard,selectedEdition);
-
+			similarityPanel.init(selectedCard);
 			panelJson.show(selectedCard);
 
 			ThreadManager.getInstance().execute(

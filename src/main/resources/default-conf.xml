@@ -89,6 +89,12 @@
             <enable>true</enable>
         </token>
     </tokens>
+    <indexers>
+        <index>
+            <class>org.magic.api.indexer.impl.LuceneIndexer</class>
+            <enable>true</enable>
+        </index>
+    </indexers>
     <caches>
         <cache>
             <class>org.magic.api.cache.impl.FileCache</class>

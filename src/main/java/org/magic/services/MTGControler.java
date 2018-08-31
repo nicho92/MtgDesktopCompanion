@@ -22,6 +22,7 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.beans.Wallpaper;
 import org.magic.api.interfaces.MTGCardsExport;
+import org.magic.api.interfaces.MTGCardsIndexer;
 import org.magic.api.interfaces.MTGCardsProvider;
 import org.magic.api.interfaces.MTGDao;
 import org.magic.api.interfaces.MTGDashBoard;
@@ -54,6 +55,12 @@ public class MTGControler {
 	private CurrencyConverter currencyService;
 	private LookAndFeelProvider lafService;
 	private Logger logger = MTGLogger.getLogger(this.getClass());
+	
+	
+	
+	
+	
+	
 	
 	public LookAndFeelProvider getLafService() {
 		if (lafService != null) {
@@ -244,7 +251,18 @@ public class MTGControler {
 		return null;
 	}
 	
+	public MTGCardsIndexer getEnabledCardIndexer() {
+		for (MTGCardsIndexer p : getCardsIndexers())
+			if (p.isEnable())
+				return p;
+
+		return null;
+	}
 	
+	public List<MTGCardsIndexer> getCardsIndexers() {
+		return PluginRegistry.inst().listPlugins(MTGCardsIndexer.class);
+	}
+
 	public List<MTGNotifier> getNotifierProviders(){
 		return PluginRegistry.inst().listPlugins(MTGNotifier.class);
 	}

@@ -84,11 +84,11 @@
 		    <artifactId>lucene-queryparser</artifactId>
 		    <version>7.4.0</version>
 		</dependency>
-		<dependency>
+		<!-- <dependency>
 		    <groupId>org.apache.lucene</groupId>
 		    <artifactId>lucene-analyzers-common</artifactId>
 		    <version>7.4.0</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 		    <groupId>com.jtattoo</groupId>
 		    <artifactId>JTattoo</artifactId>
