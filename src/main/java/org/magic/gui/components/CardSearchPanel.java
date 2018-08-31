@@ -399,7 +399,7 @@ public class CardSearchPanel extends JPanel {
 		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("PRICE_VARIATIONS"), MTGConstants.ICON_TAB_VARIATIONS,
 				historyChartPanel, null);
 
-		tabbedCardsInfo.addTab("Similarity", MTGConstants.ICON_SEARCH_24,similarityPanel, null);
+		tabbedCardsInfo.addTab(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"), MTGConstants.ICON_TAB_SIMILARITY,similarityPanel, null);
 		
 		
 		
@@ -603,7 +603,7 @@ public class CardSearchPanel extends JPanel {
 					MagicEdition ed = (MagicEdition) BeanUtils.cloneBean(selectedEdition);
 					ed.setMultiverseid("" + selLang.getGathererId());
 
-					logger.debug("change lang to " + selLang + " for " + ed);
+					logger.trace("change lang to " + selLang + " for " + ed);
 					cardsPicPanel.showPhoto(selectedCard, ed);
 				}
 

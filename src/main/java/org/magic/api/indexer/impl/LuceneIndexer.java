@@ -56,13 +56,18 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	
 	public Map<MagicCard,Float> similarity(MagicCard mc) throws IOException 
 	{
-		Map<MagicCard,Float> ret = new LinkedHashMap<>(); 
+		Map<MagicCard,Float> ret = new LinkedHashMap<>();
+		
+		if(mc==null)
+			return ret;
+		
+		logger.debug("search similar cards for " + mc);
+		
 		try (IndexReader indexReader = DirectoryReader.open(dir))
 		{
 			
 		 IndexSearcher searcher = new IndexSearcher(indexReader);
 		 Query query = new QueryParser("name", analyzer).parse("name:"+mc.getName());
-		
 		 logger.trace(query);
 		 TopDocs top = searcher.search(query, 1);
 		 if(top.totalHits>0)
@@ -75,14 +80,18 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			  
 			 ScoreDoc d = top.scoreDocs[0];
 			 Query like = mlt.like(d.doc);
-			 logger.trace(like);
+			 logger.trace("query="+like);
 			 TopDocs likes = searcher.search(like,getInt("maxResults"));
 			 for(ScoreDoc l : likes.scoreDocs)
 				{
 				 Document doc = searcher.doc(l.doc);
 				 ret.put(serializer.fromJson(MagicCard.class, doc.get("data")),l.score);
 				}
-		 }			 
+		 }
+		 else
+		 {
+			 logger.error("can't found "+mc);
+		 }
 			 
 		 return ret;
 		

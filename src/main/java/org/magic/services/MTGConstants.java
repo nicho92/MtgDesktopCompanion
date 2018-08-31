@@ -157,7 +157,7 @@ public class MTGConstants {
 	public static final ImageIcon ICON_DEFAULT_PLUGIN = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/default.png"));
 
 	
-	
+	public static final ImageIcon ICON_TAB_SIMILARITY=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/similarity.png"));
 	public static final ImageIcon ICON_TAB_NOTIFICATION=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/notify.png"));
 	public static final ImageIcon ICON_TAB_THUMBNAIL=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/thumbnail.png"));
 	public static final ImageIcon ICON_TAB_ANALYSE=new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/tabs/analyse.png"));

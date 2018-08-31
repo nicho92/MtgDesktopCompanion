@@ -44,6 +44,7 @@ public class SimilarityCardPanel extends JPanel {
 	public void init(MagicCard mc) {
 		currentCard = mc;
 		
+		if(isVisible()) {
 		try {
 			MTGControler.getInstance().getEnabledCardIndexer().open();
 			model.init(MTGControler.getInstance().getEnabledCardIndexer().similarity(mc));
@@ -52,6 +53,7 @@ public class SimilarityCardPanel extends JPanel {
 			logger.error(e);
 		}
 		
+		}
 	}
 
 	
