@@ -600,10 +600,7 @@ public class ConstructPanel extends JPanel {
 		JPanel panneauResultFilter = new JPanel();
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 
-		groupsFilterResult = new ButtonGroup() {
-			/**
-			 * 
-			 */
+		groupsFilterResult = new ButtonGroup() /*{
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -614,7 +611,7 @@ public class ConstructPanel extends JPanel {
 					clearSelection();
 				}
 			}
-		};
+		}*/;
 
 		JToggleButton tglbtnStd = new JToggleButton("STD");
 		tglbtnStd.setActionCommand("Standard");

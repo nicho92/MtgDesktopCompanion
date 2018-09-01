@@ -71,7 +71,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		{
 			
 		 IndexSearcher searcher = new IndexSearcher(indexReader);
-		 Query query = new QueryParser("text", analyzer).parse("name:"+mc.getName());
+		 Query query = new QueryParser("text", analyzer).parse("name:\""+mc.getName()+"\"");
 		 logger.trace(query);
 		 TopDocs top = searcher.search(query, 1);
 		 
@@ -82,6 +82,8 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			  mlt.setAnalyzer(analyzer);
 			  mlt.setMinTermFreq(getInt("minTermFreq"));
 			  mlt.setBoost(getBoolean("boost"));
+			  
+			  
 			  
 			 ScoreDoc d = top.scoreDocs[0];
 			 logger.trace("found doc id="+d.doc);

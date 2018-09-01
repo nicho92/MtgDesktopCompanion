@@ -17,17 +17,17 @@ public class SimilarityCardsTableModel extends DefaultTableModel {
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient Map<MagicCard,Float> map;
-	private static final String[] COLUMNS = { "CARD","%" };
+	private static final String[] COLUMNS = { "CARD","CARD_EDITIONS","%" };
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
 		switch (columnIndex) {
 		case 0:
 			return MagicCard.class;
-		case 1:
+		case 2:
 			return Float.class;
 		default:
-			return super.getColumnClass(columnIndex);
+			return String.class;
 		}
 	}
 
@@ -37,10 +37,9 @@ public class SimilarityCardsTableModel extends DefaultTableModel {
 		
 		MagicCard r = new ArrayList<>(map.keySet()).get(row);
 		switch (column) {
-		case 0:
-			return r; 
-		case 1:
-			return map.get(r);
+		case 0:return r;
+		case 1:return r.getCurrentSet();
+		case 2:return map.get(r);
 		default:
 			return "";
 		}
