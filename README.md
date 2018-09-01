@@ -26,6 +26,8 @@ Features :
 - Manage your stock card, mass modification, import/export from deck, website. Update your Mkm Seller Account stock, Automaticaly update prices !
 - Get alerted with many notifier (Telegram, mail, Discord,....) 
 - NEW : Plugin for Chrome : select cardname in website to check in your collections.
+- in
+
 
 > Modularity : 
 - choose :
@@ -37,7 +39,8 @@ Features :
 - pictures providers
 - cache providers
 - News providers
-- wallpapers providers
+- Wallpapers providers
+- Indexation provider
 
 Main interface :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/magicSearch.png)
@@ -62,6 +65,10 @@ Manage your dashboard with your interested "dashlet"
 
 Check for price variation :
 ![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/priceVariation.png)
+
+Use "MoreLikeThis" Functionnality :
+![https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png](https://raw.githubusercontent.com/nicho92/MtgDesktopCompanion/master/wiki/morelikethis.png)
+
 
 
 lookup for cards in auction website :
