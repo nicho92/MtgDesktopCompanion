@@ -15,18 +15,19 @@ Features :
 - Create and Manage decks
 - manage your collection
 - Generate a website of your collections with your own template.
-- get dashboard of cards prices variation
+- get dashboard of cards prices variation (MTGStock, MTGOldfish,...)
 - lookup for cards in auction websites
 - import / export decks and list cards in multiple format (mtgo,dci sheet, csv, cockatrice,MagicCardMarket wantlist..) 
 - get alerted for wanted cards !
-- import your deck from website (tappedout, deckstat,mtggoldfish,...)
-- manacurve, color and type repartition
+- import your deck from websites (tappedout, deckstat,mtggoldfish,mtgTop8,...)
+- manacurve, color and type repartition analysis
 - Standalone servers (game room, console server, http server, price checking).
-- New magiccardMarket Pricer : Stay tunned !!,  when you're alerted by a good bid for your wanted cards, it's automatically added to your cart ! 
+- New magiccardMarket Pricer : Stay tunned !!,  when you're alerted by a good bid for your wanted cards, it's automatically added to your cart's account ! 
 - Manage your stock card, mass modification, import/export from deck, website. Update your Mkm Seller Account stock, Automaticaly update prices !
 - Get alerted with many notifier (Telegram, mail, Discord,....) 
-- NEW : Plugin for Chrome : select cardname in website to check in your collections.
-- in
+- Discord Bot 
+- Plugin for Chrome : select cardname in website to check in your collections.
+- Use MTGCompanion throught webpage or mobile.
 
 
 > Modularity : 
