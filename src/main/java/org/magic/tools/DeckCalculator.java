@@ -42,6 +42,10 @@ public class DeckCalculator {
 	}
 
 	public double getProbability(int turn, MagicCard mc) {
+		
+		if(mc==null)
+			return  0;
+		
 		int drawedCards = 7;
 
 		if (turn <= 0)
@@ -53,12 +57,13 @@ public class DeckCalculator {
 			numberInDeck = deck.getMap().get(mc);
 		}catch(Exception e)
 		{
-			logger.error(e);
+			logger.error("Error in probability ",e);
 		}
 		int numberCardsInDeck = deck.getNbCards();
 		try {
 			return new HypergeometricDistribution(numberCardsInDeck, numberInDeck, drawedCards).upperCumulativeProbability(1);
 		} catch (Exception e) {
+			logger.error("Error in HypergeometricDistribution ",e);
 			return 0;
 		}
 

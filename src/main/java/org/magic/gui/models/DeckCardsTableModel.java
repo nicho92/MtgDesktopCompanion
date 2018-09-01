@@ -155,11 +155,12 @@ public class DeckCardsTableModel extends DefaultTableModel {
 		}
 
 		if (column == 4)
+		{
 			if (Integer.valueOf(aValue.toString()) == 0) {
 				if (t == TYPE.DECK) {
 					deck.getMap().remove(deck.getValueAt(row));
 				} else {
-					deck.getMapSideBoard().remove(deck.getValueAt(row));
+					deck.getMapSideBoard().remove(deck.getSideValueAt(row));
 				}
 			} else {
 				if (t == TYPE.DECK) {
@@ -168,7 +169,8 @@ public class DeckCardsTableModel extends DefaultTableModel {
 					deck.getMapSideBoard().put(deck.getSideValueAt(row), Integer.valueOf(aValue.toString()));
 				}
 			}
-
+			
+		}
 		fireTableDataChanged();
 	}
 
