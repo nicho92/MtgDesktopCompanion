@@ -44,6 +44,7 @@ import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
 import org.jdesktop.swingx.JXSearchField;
+import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MTGNotification.MESSAGE_TYPE;
 import org.magic.api.beans.MagicCard;
@@ -94,8 +95,8 @@ public class ConstructPanel extends JPanel {
 	private JButton btnExports;
 	private transient MTGDeckManager deckManager;
 	private DefaultListModel<MagicCard> resultListModel = new DefaultListModel<>();
-	private JTable tableDeck;
-	private JTable tableSide;
+	private JXTable tableDeck;
+	private JXTable tableSide;
 	private JList<MagicCard> listResult;
 	private JBuzyLabel lblExport;
 	private DrawProbabilityPanel cardDrawProbaPanel;
@@ -424,15 +425,12 @@ public class ConstructPanel extends JPanel {
 		cardDrawProbaPanel = new DrawProbabilityPanel();
 		panelBottom.add(cardDrawProbaPanel, BorderLayout.EAST);
 
-		final JTabbedPane tabbedDeckSide = new JTabbedPane(JTabbedPane.BOTTOM);
+		final JTabbedPane tabbedDeckSide = new JTabbedPane(JTabbedPane.RIGHT);
 
 		panneauDeck.setLeftComponent(tabbedDeckSide);
 
-		JScrollPane scrollDeck = new JScrollPane();
-		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, scrollDeck, null);
-
-		tableDeck = new JTable();
-		scrollDeck.setViewportView(tableDeck);
+		tableDeck = new JXTable();
+		tabbedDeckSide.addTab("Main", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableDeck), null);
 
 		tableDeck.setModel(deckmodel);
 		tableDeck.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
@@ -442,10 +440,7 @@ public class ConstructPanel extends JPanel {
 		tableDeck.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxRenderer());
 		tableDeck.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxEditor());
 
-		JScrollPane scrollSideboard = new JScrollPane();
-		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, scrollSideboard, null);
-
-		tableSide = new JTable();
+		tableSide = new JXTable();
 		tableSide.setModel(deckSidemodel);
 		tableSide.setRowHeight(MTGConstants.TABLE_ROW_HEIGHT);
 		tableSide.getColumnModel().getColumn(2).setCellRenderer(new ManaCellRenderer());
@@ -453,13 +448,11 @@ public class ConstructPanel extends JPanel {
 		tableSide.getColumnModel().getColumn(3).setCellRenderer(new MagicEditionsComboBoxRenderer());
 		tableSide.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxEditor());
 		tableSide.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
-
-		scrollSideboard.setViewportView(tableSide);
+		tabbedDeckSide.addTab("SideBoard", MTGConstants.ICON_TAB_DECK, new JScrollPane(tableSide), null);
 
 		tableDeck.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
-
 				MagicCard mc = (MagicCard) tableDeck.getValueAt(tableDeck.getSelectedRow(), 0);
 				magicCardDetailPanel.setMagicCard(mc);
 				cardDrawProbaPanel.init(deck, mc);
@@ -469,15 +462,12 @@ public class ConstructPanel extends JPanel {
 		tableSide.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
-
 				MagicCard mc = (MagicCard) tableSide.getValueAt(tableSide.getSelectedRow(), 0);
 				magicCardDetailPanel.setMagicCard(mc);
-
 			}
 		});
 
 		tableDeck.addKeyListener(new KeyAdapter() {
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 				MagicCard mc = (MagicCard) tableDeck.getValueAt(tableDeck.getSelectedRow(), 0);
@@ -485,12 +475,10 @@ public class ConstructPanel extends JPanel {
 					deck.getMap().remove(mc);
 					deckmodel.init(deck);
 				}
-
 			}
 		});
 
 		tableSide.addKeyListener(new KeyAdapter() {
-
 			@Override
 			public void keyTyped(KeyEvent e) {
 				MagicCard mc = (MagicCard) tableSide.getValueAt(tableSide.getSelectedRow(), 0);
@@ -600,7 +588,7 @@ public class ConstructPanel extends JPanel {
 		JPanel panneauResultFilter = new JPanel();
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 
-		groupsFilterResult = new ButtonGroup() /*{
+		groupsFilterResult = new ButtonGroup() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -611,7 +599,7 @@ public class ConstructPanel extends JPanel {
 					clearSelection();
 				}
 			}
-		}*/;
+		};
 
 		JToggleButton tglbtnStd = new JToggleButton("STD");
 		tglbtnStd.setActionCommand("Standard");
