@@ -48,12 +48,12 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	private Directory dir;
 	private Analyzer analyzer ;
 	private JsonExport serializer;
-	private final String dirName="luceneIndex";
+	private static final String DIRNAME="luceneIndex";
 	
 	public static void main(String[] args) {
 		LuceneIndexer inde = new LuceneIndexer();
 		
-		inde.terms("name").entrySet().forEach(e->{
+		inde.terms("type").entrySet().forEach(e->{
 			System.out.println(e.getKey() + " "+ e.getValue());
 		});
 		
@@ -96,7 +96,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
 		            .forEachOrdered(x -> map2.put(x.getKey(), x.getValue()));
 			            
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error("error ",e);
 		}
 		return map2;
@@ -182,7 +182,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public boolean open(){
 	    try 
         {
-	    	dir = FSDirectory.open(Paths.get(confdir.getAbsolutePath(),dirName));
+	    	dir = FSDirectory.open(Paths.get(confdir.getAbsolutePath(),DIRNAME));
             return true;
         } 
 	    catch (Exception e) {
@@ -234,7 +234,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 
 	@Override
 	public long size() {
-		return FileUtils.sizeOfDirectory(new File(confdir,dirName));
+		return FileUtils.sizeOfDirectory(new File(confdir,DIRNAME));
 	}
 
 	 

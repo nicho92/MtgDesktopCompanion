@@ -39,7 +39,7 @@
 			<artifactId>mkm-api</artifactId>
 			<version>0.9b</version>
 			<scope>system</scope>
-			<systemPath>${project.basedir}/lib/mkm-api-java-0.9b.jar</systemPath>
+			<systemPath>${project.basedir}/lib/mkm-api-java-0.9.1.jar</systemPath>
 		</dependency>
 		<dependency>
 			<groupId>com.github.insubstantial</groupId>

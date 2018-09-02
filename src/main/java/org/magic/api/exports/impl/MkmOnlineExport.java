@@ -139,8 +139,9 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 			Product p;
 
+			logger.debug("looking product for " + mc);
 			p = MagicCardMarketPricer2.getProductFromCard(mc, pService.findProduct(mc.getName(), atts));
-
+			
 			if (p != null) {
 				WantItem w = new WantItem();
 				w.setProduct(p);
