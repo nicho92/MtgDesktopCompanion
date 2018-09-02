@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.apache.commons.collections4.ListUtils;
 import org.api.mkm.exceptions.MkmException;
+import org.api.mkm.exceptions.MkmNetworkException;
 import org.api.mkm.modele.Article;
 import org.api.mkm.modele.Localization;
 import org.api.mkm.modele.MkmBoolean;
@@ -136,30 +137,33 @@ public class MkmOnlineExport extends AbstractCardExport {
 
 		int c = 0;
 		for (MagicCard mc : deck.getMap().keySet()) {
-
 			Product p;
-
-			logger.debug("looking product for " + mc);
-			p = MagicCardMarketPricer2.getProductFromCard(mc, pService.findProduct(mc.getName(), atts));
-			
-			if (p != null) {
-				WantItem w = new WantItem();
-				w.setProduct(p);
-				w.setCount(deck.getMap().get(mc));
-				w.setFoil(new MkmBoolean(false));
-				w.setMinCondition(getString(QUALITY));
-				w.setAltered(new MkmBoolean(false));
-				w.setType("product");
-				w.setSigned(new MkmBoolean(false));
-				for (String s : getString(LANGUAGES).split(","))
-					w.getIdLanguage().add(Integer.parseInt(s));
-				wants.add(w);
-			} else {
-				logger.debug("could not export " + mc);
+			try {
+				p = MagicCardMarketPricer2.getProductFromCard(mc, pService.findProduct(mc.getName(), atts));
+				
+					if (p != null) {
+						WantItem w = new WantItem();
+						w.setProduct(p);
+						w.setCount(deck.getMap().get(mc));
+						w.setFoil(new MkmBoolean(false));
+						w.setMinCondition(getString(QUALITY));
+						w.setAltered(new MkmBoolean(false));
+						w.setType("product");
+						w.setSigned(new MkmBoolean(false));
+						for (String s : getString(LANGUAGES).split(","))
+							w.getIdLanguage().add(Integer.parseInt(s));
+						wants.add(w);
+					} else {
+						logger.debug("could not find product for " + mc);
+					}
+				
+				setChanged();
+				notifyObservers(c++);
 			}
-
-			setChanged();
-			notifyObservers(c++);
+			catch(MkmNetworkException ex)
+			{
+				logger.error("could not export " + mc,ex);
+			}	
 
 		}
 
