@@ -168,7 +168,7 @@ public class MTGControler {
 		try {
 			p.setIcon(ImageIO.read(new File(url)));
 		} catch (Exception e) {
-			logger.error("error loading player " + p + " "+e.getMessage());
+			logger.error("error loading player " + p + " "+e);
 		}
 		return p;
 	}

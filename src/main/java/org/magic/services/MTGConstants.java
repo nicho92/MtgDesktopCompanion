@@ -112,7 +112,6 @@ public class MTGConstants {
 	public static final ImageIcon ICON_GAME_TRIGGER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/trigger.png"));
 	public static final ImageIcon ICON_GAME_ACTIVATED = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/activated.png"));
 	public static final ImageIcon ICON_GAME_COLOR = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/"+iconPack+"/colors.gif"));
-	public static final Image GAME_PLAYMAT = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/game/playmat.png")).getImage();
 	
 	public static final ImageIcon ICON_RSS = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/rss.png"));
 	public static final ImageIcon ICON_TWITTER = new ImageIcon(MTGConstants.class.getResource(ICON_DIR+"/plugins/twitter.png"));
