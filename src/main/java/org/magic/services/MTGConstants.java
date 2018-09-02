@@ -29,7 +29,7 @@ public class MTGConstants {
 	public static final File MTG_DECK_DIRECTORY = new File(MTGConstants.CONF_DIR, "decks");
 	public static final File MTG_WALLPAPER_DIRECTORY = new File(MTGConstants.CONF_DIR, "downloadWallpaper");
 	public static final String MTG_APP_NAME = "MTG Desktop Companion";
-	public static final String BUNDLE = "locales.lang";
+	public static final String MESSAGE_BUNDLE = "locales.lang";
 	public static final String FONT="Tahoma";
 	public static final String MTG_DESKTOP_ISSUES_URL = "https://github.com/nicho92/MtgDesktopCompanion/issues";
 	public static final String MTG_DESKTOP_WIKI_URL = "https://github.com/nicho92/MtgDesktopCompanion/wiki";
@@ -47,6 +47,7 @@ public class MTGConstants {
 	public static final int DEFAULT_PIC_WIDTH = 223;
 	public static final int DEFAULT_PIC_HEIGHT = 310;
 	public static final double CARD_PICS_RATIO = 1.39;
+	
 	public static final int DPI=300;
 	
 	public static final String DEFAULT_NOTIFIER_NAME="swing";

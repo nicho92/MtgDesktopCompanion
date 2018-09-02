@@ -34,12 +34,12 @@ public class LanguageService {
 
 	public LanguageService() {
 		temp = new StringBuilder();
-		rbundle = ResourceBundle.getBundle(MTGConstants.BUNDLE, getDefault());
+		rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, getDefault());
 	}
 
 	public LanguageService(Locale l) {
 		temp = new StringBuilder();
-		rbundle = ResourceBundle.getBundle(MTGConstants.BUNDLE, l);
+		rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, l);
 	}
 
 	public Locale getDefault() {
@@ -52,9 +52,9 @@ public class LanguageService {
 
 	public void changeLocal(Locale l) {
 		if (l != null)
-			rbundle = ResourceBundle.getBundle(MTGConstants.BUNDLE, l);
+			rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, l);
 		else
-			rbundle = ResourceBundle.getBundle(MTGConstants.BUNDLE, getDefault());
+			rbundle = ResourceBundle.getBundle(MTGConstants.MESSAGE_BUNDLE, getDefault());
 	}
 
 	public String get(String key) {
