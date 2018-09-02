@@ -10,6 +10,6 @@ public interface MTGCardsIndexer extends MTGPlugin {
 	
 	public Map<MagicCard,Float> similarity(MagicCard mc) throws IOException;
 	public void initIndex() throws IOException;
-	
+	public long size();
 	
 }

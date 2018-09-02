@@ -1,12 +1,15 @@
 package org.magic.api.indexer.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
+import org.antlr.v4.misc.OrderedHashMap;
+import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
 import org.apache.lucene.document.Document;
@@ -20,6 +23,9 @@ import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
 import org.apache.lucene.index.IndexWriterConfig;
 import org.apache.lucene.index.IndexWriterConfig.OpenMode;
+import org.apache.lucene.index.MultiFields;
+import org.apache.lucene.index.Terms;
+import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queries.mlt.MoreLikeThis;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
@@ -29,6 +35,7 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
+import org.apache.lucene.util.BytesRef;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
@@ -41,6 +48,16 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	private Directory dir;
 	private Analyzer analyzer ;
 	private JsonExport serializer;
+	private final String dirName="luceneIndex";
+	
+	public static void main(String[] args) {
+		LuceneIndexer inde = new LuceneIndexer();
+		
+		inde.terms("name").entrySet().forEach(e->{
+			System.out.println(e.getKey() + " "+ e.getValue());
+		});
+		
+	}
 	
 	@Override
 	public void initDefault() {
@@ -55,6 +72,36 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		serializer=new JsonExport();
 		analyzer = new StandardAnalyzer();
 	}
+	
+	public Map<String,Long> terms(String field)
+	{
+		if(dir==null)
+			open();
+		
+		 Map<String,Long> map= new OrderedHashMap<>();
+		 Map<String,Long> map2= new OrderedHashMap<>();
+		 
+		 try {
+			 IndexReader reader = DirectoryReader.open(dir);
+			 		Terms terms = MultiFields.getTerms(reader, field);
+		            TermsEnum it = terms.iterator();
+		            BytesRef term = it.next();
+		            while (term != null) {
+		               map.put(term.utf8ToString(), it.totalTermFreq());
+		               term = it.next();
+		            }
+		            
+		            map.entrySet()
+		            .stream()
+		            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
+		            .forEachOrdered(x -> map2.put(x.getKey(), x.getValue()));
+			            
+		} catch (IOException e) {
+			logger.error("error ",e);
+		}
+		return map2;
+	}
+	
 	
 	public Map<MagicCard,Float> similarity(MagicCard mc) throws IOException 
 	{
@@ -135,7 +182,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public boolean open(){
 	    try 
         {
-	    	dir = FSDirectory.open(Paths.get(confdir.getAbsolutePath(),"luceneIndex"));
+	    	dir = FSDirectory.open(Paths.get(confdir.getAbsolutePath(),dirName));
             return true;
         } 
 	    catch (Exception e) {
@@ -183,6 +230,11 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	@Override
 	public PLUGINS getType() {
 		return PLUGINS.INDEXER;
+	}
+
+	@Override
+	public long size() {
+		return FileUtils.sizeOfDirectory(new File(confdir,dirName));
 	}
 
 	 
