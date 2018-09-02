@@ -12,6 +12,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.List;
@@ -38,6 +39,7 @@ import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JToggleButton;
 import javax.swing.ListSelectionModel;
+import javax.swing.SwingUtilities;
 import javax.swing.event.CellEditorListener;
 import javax.swing.event.ChangeEvent;
 import javax.swing.filechooser.FileFilter;
@@ -77,9 +79,7 @@ import org.magic.services.ThreadManager;
 
 public class ConstructPanel extends JPanel {
 
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private static final String UPDATED_DECK = "UPDATED_DECK";
 	private static final String FINISHED = "FINISHED";
@@ -108,7 +108,8 @@ public class ConstructPanel extends JPanel {
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
 	private File f;
 	private Player p;
-
+	private JLabel lblCards;
+	
 	public void loading(boolean show, String text) {
 		lblExport.setText(text);
 		lblExport.setVisible(show);
@@ -141,7 +142,6 @@ public class ConstructPanel extends JPanel {
 		JPanel panelBottom;
 		JXSearchField txtSearch;
 		JComboBox<String> cboAttributs;
-		JScrollPane scrollResult;
 		JTabbedPane tabbedPane;
 		ButtonGroup groupsFilterResult;
 		lblExport = new JBuzyLabel();
@@ -153,7 +153,7 @@ public class ConstructPanel extends JPanel {
 		FlowLayout flowLayout = (FlowLayout) panneauHaut.getLayout();
 		cboAttributs = new JComboBox<>(new DefaultComboBoxModel<String>(MTGControler.getInstance().getEnabledCardsProviders().getQueryableAttributs()));	
 		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
-		JLabel lblCards = new JLabel();
+		lblCards = new JLabel();
 		JButton btnNewDeck = new JButton(MTGConstants.ICON_NEW);
 		JButton btnOpen = new JButton(MTGConstants.ICON_OPEN);
 		btnUpdate = new JButton();
@@ -432,7 +432,6 @@ public class ConstructPanel extends JPanel {
 		
 
 		magicCardDetailPanel = new MagicCardDetailPanel();
-//		magicCardDetailPanel.setPreferredSize(new Dimension(0, 0));
 		magicCardDetailPanel.enableThumbnail(true);
 		panelBottom.setLayout(new BorderLayout(0, 0));
 		panelBottom.add(magicCardDetailPanel);
@@ -510,15 +509,15 @@ public class ConstructPanel extends JPanel {
 		add(panneauGauche, BorderLayout.WEST);
 		panneauGauche.setLayout(new BorderLayout(0, 0));
 
-		scrollResult = new JScrollPane();
-		panneauGauche.add(scrollResult);
+	
 
 		listResult = new JList<>(new DefaultListModel<MagicCard>());
 		listResult.setCellRenderer(new MagicCardListRenderer());
 		listResult.setMinimumSize(new Dimension(100, 0));
 		listResult.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-		scrollResult.setViewportView(listResult);
-
+		panneauGauche.add(new JScrollPane(listResult));
+		
+		
 		JPanel panneauResultFilter = new JPanel();
 		panneauGauche.add(panneauResultFilter, BorderLayout.NORTH);
 
@@ -632,6 +631,9 @@ public class ConstructPanel extends JPanel {
 		table.getColumnModel().getColumn(3).setCellEditor(new MagicEditionsComboBoxEditor());
 		table.getColumnModel().getColumn(4).setCellEditor(new IntegerCellEditor());
 		
+		
+		
+		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent ev) {
@@ -640,6 +642,36 @@ public class ConstructPanel extends JPanel {
 				
 				if(f==MAIN)
 					cardDrawProbaPanel.init(deck, mc);
+				
+				if(SwingUtilities.isRightMouseButton(ev))
+				{
+					JPopupMenu menu = new JPopupMenu();
+					JMenuItem item = new JMenuItem(MTGControler.getInstance().getLangService().getCapitalize("MORE_LIKE_THIS"));
+					menu.add(item);
+					item.addActionListener(ae->{
+						
+						resultListModel.removeAllElements();
+						listResult.updateUI();
+						
+						
+						try {
+							for(MagicCard card : MTGControler.getInstance().getEnabledCardIndexer().similarity(mc).keySet())
+								resultListModel.addElement(card);
+						
+							lblCards.setText(resultListModel.size() + " " + MTGControler.getInstance().getLangService().get("RESULTS"));
+							listResult.setModel(resultListModel);
+							listResult.updateUI();
+							
+						} catch (IOException e) {
+							logger.error(e);
+						}
+					});
+					Point point = ev.getPoint();
+					menu.show(table, (int) point.getX(), (int) point.getY());
+					
+				}
+				
+				
 			}
 		});
 		

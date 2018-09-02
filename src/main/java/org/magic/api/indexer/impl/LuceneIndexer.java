@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.apache.lucene.analysis.Analyzer;
@@ -96,6 +97,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 for(ScoreDoc l : likes.scoreDocs)
 				 ret.put(serializer.fromJson(MagicCard.class, searcher.doc(l.doc).get("data")),l.score);
 
+			 logger.debug("found " + likes.scoreDocs.length + " results");
 			 close();
 			
 		 }
@@ -110,6 +112,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		return ret;
 		
 	}
+
 	
 	public void initIndex() throws IOException {
 		
