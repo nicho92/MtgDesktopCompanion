@@ -133,7 +133,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(mc.getLoyalty()!=null)
 			build.addParameter("loyalty", String.valueOf(mc.getLoyalty()));
 		
-		if(mc.getImageName().startsWith("http"))
+		if(mc.getImageName()!=null && mc.getImageName().startsWith("http"))
 			build.addParameter("artwork", mc.getImageName());
 		
 		build.addParameter("designer", "nicho");
