@@ -89,7 +89,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 		if(me!=null)
 		{
-			build.addParameter("card-number", mc.getNumber());
+			build.addParameter("card-number", !mc.getNumber().isEmpty()?mc.getNumber():"1");
 			build.addParameter("card-total", String.valueOf(me.getCardCount()));
 			build.addParameter("card-set", me.getId());
 			build.addParameter("language", "EN");

@@ -22,6 +22,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
 import org.apache.log4j.Logger;
+import org.jdesktop.swingx.JXSearchField;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.beans.ShopItem;
 import org.magic.gui.models.ShopItemTableModel;
@@ -38,10 +39,8 @@ public class ShopperGUI extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private JTextField txtSearch;
+	private JXSearchField txtSearch;
 	private JXTable tableItemShop;
-
-	private JButton btnSearch = new JButton(MTGConstants.ICON_SEARCH);
 	private JPanel panel = new JPanel();
 	private JLabel lblSearch = new JLabel(MTGControler.getInstance().getLangService().get("SEARCH_MODULE") + " :");
 	private JScrollPane shopItemScrollPane = new JScrollPane();
@@ -61,12 +60,15 @@ public class ShopperGUI extends JPanel {
 
 		panel.add(lblSearch);
 
-		txtSearch = new JTextField();
-		panel.add(txtSearch);
+		txtSearch = new JXSearchField(MTGControler.getInstance().getLangService().getCapitalize("SEARCH_MODULE"));
+		txtSearch.setBackground(Color.WHITE);
+		txtSearch.setSearchMode(MTGConstants.SEARCH_MODE);
 		txtSearch.setColumns(35);
-		txtSearch.addActionListener(e -> btnSearch.doClick());
+		txtSearch.addActionListener(ae -> ThreadManager.getInstance().execute(() -> mod.init(txtSearch.getText()), "Search Shop Item"));
 
-		panel.add(btnSearch);
+		
+		panel.add(txtSearch);
+	
 		mod = new ShopItemTableModel();
 
 		DefaultRowSorter sorter = new TableRowSorter<DefaultTableModel>(mod);
@@ -121,8 +123,6 @@ public class ShopperGUI extends JPanel {
 		panneauEast.setLayout(new BorderLayout(0, 0));
 
 		panneauEast.add(lblPicShopItem, BorderLayout.NORTH);
-
-		btnSearch.addActionListener(ae -> ThreadManager.getInstance().execute(() -> mod.init(txtSearch.getText()), "Search Shop Item"));
 
 	}
 
