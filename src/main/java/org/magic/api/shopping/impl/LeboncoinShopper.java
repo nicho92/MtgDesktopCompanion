@@ -21,7 +21,6 @@ import org.magic.tools.URLTools;
 
 public class LeboncoinShopper extends AbstractMagicShopper {
 
-	private static final String PROTOCOLE = "PROTOCOLE";
 	private static final String MAX_RESULT = "MAX_RESULT";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private Document doc;
@@ -34,6 +33,10 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 		init();
 	}
 
+	public static void main(String[] args) {
+		new LeboncoinShopper().search("lot cartes magic");
+	}
+	
 	private void init() {
 		formatter = new SimpleDateFormat(getString("DATE_FORMAT"));
 		if(getBoolean(LOAD_CERTIFICATE))
@@ -55,8 +58,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 		int maxPage = Integer.parseInt(getString("MAX_PAGE"));
 
 		for (int p = 1; p <= maxPage; p++) {
-			html = getString("URL").replaceAll("%SEARCH%", search).replaceAll("%PAGE%", String.valueOf(p))
-					.replaceAll("%TITLE_ONLY%", getString("TITLE_ONLY"));
+			html = getString("URL").replaceAll("%SEARCH%", search).replaceAll("%PAGE%", String.valueOf(p));
 
 			logger.debug("parsing item from " + html);
 
@@ -66,14 +68,14 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 				logger.error(e1);
 			}
 
-			Elements listElements = doc.select(getString("ROOT_TAG")).get(0).getElementsByTag("li");
+			Elements listElements = doc.select("div.react-tabs__tab-panel").get(0).getElementsByTag("li");
 
 			for (int i = 0; i < listElements.size(); i++) {
 				String url = listElements.get(i).getElementsByTag("a").get(0).attr("href");
 				ShopItem a = new ShopItem();
 				a.setName(listElements.get(i).getElementsByTag("a").get(0).attr("title"));
 				try {
-					a.setUrl(new URL(getString(PROTOCOLE) + url));
+					a.setUrl(new URL("https://" + url));
 				} catch (MalformedURLException e1) {
 					a.setUrl(null);
 				}
@@ -87,7 +89,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 					a.setImage(new URL(listElements.get(i).getElementsByClass("lazyload").get(0).attr("data-imgsrc")));
 				} catch (IndexOutOfBoundsException e) {
 					try {
-						a.setImage(new URL(getString(PROTOCOLE) + "//static.leboncoin.fr/img/no-picture.png"));
+						a.setImage(new URL("https://static.leboncoin.fr/img/no-picture.png"));
 					} catch (MalformedURLException e1) {
 						logger.error(e1);
 					}
@@ -175,13 +177,9 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 		setProperty("TITLE_ONLY", "0");
 		setProperty("MAX_PAGE", "2");
 		setProperty(MAX_RESULT, "30");
-		setProperty("URL", "http://www.leboncoin.fr/li?o=%PAGE%&q=%SEARCH%&it=%TITLE_ONLY%");
-		
-		setProperty(PROTOCOLE, "http:");
-		setProperty("WEBSITE", "http://www.leboncoin.fr/");
+		setProperty("URL", "https://www.leboncoin.fr/recherche/?text=%SEARCH%&page=%PAGE%");
 		setProperty("DATE_FORMAT", "dd MMMM. H:m");
 		setProperty("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
-		setProperty("CERT_SERV", "www.leboncoin.fr");
 		setProperty(LOAD_CERTIFICATE, "false");
 	}
 

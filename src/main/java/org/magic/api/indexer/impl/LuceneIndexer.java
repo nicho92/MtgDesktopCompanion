@@ -10,7 +10,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.antlr.v4.misc.OrderedHashMap;
 import org.apache.commons.io.FileUtils;
 import org.apache.lucene.analysis.Analyzer;
 import org.apache.lucene.analysis.standard.StandardAnalyzer;
@@ -31,47 +30,45 @@ import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queries.mlt.MoreLikeThis;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
-import org.apache.lucene.search.Collector;
 import org.apache.lucene.search.IndexSearcher;
-import org.apache.lucene.search.PositiveScoresOnlyCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.search.SimpleCollector;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TotalHitCountCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
+import org.apache.lucene.util.Version;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGControler;
 
 
-
 public class LuceneIndexer extends AbstractCardsIndexer {
 
+	private static final String BOOST = "boost";
+	private static final String MIN_TERM_FREQ = "minTermFreq";
+	private static final String MAX_RESULTS = "maxResults";
+	private static final String FIELDS = "fields";
+	private static final String DIRNAME="luceneIndex";
+
+	
 	private Directory dir;
 	private Analyzer analyzer ;
 	private JsonExport serializer;
-	private static final String DIRNAME="luceneIndex";
 	
 	public static void main(String[] args) {
 		LuceneIndexer inde = new LuceneIndexer();
-		
-		System.out.println(inde.search("name:Emrakul*"));
-		
-//		inde.terms("type").entrySet().forEach(e->{
-//			System.out.println(e.getKey() + " "+ e.getValue());
-//		});
+		inde.terms("type").entrySet().forEach(e->System.out.println(e.getKey() + " "+ e.getValue()));
 	}
 	
 	@Override
 	public void initDefault() {
-		setProperty("boost", "false");
-		setProperty("minTermFreq", "1");
-		setProperty("fields","cost,text,color,type,cmc");
-		setProperty("maxResults","20");
+		setProperty(BOOST, "false");
+		setProperty(MIN_TERM_FREQ, "1");
+		setProperty(FIELDS,"cost,text,color,type,cmc");
+		setProperty(MAX_RESULTS,"20");
 	}
 	
 	public LuceneIndexer() {
@@ -79,7 +76,6 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		serializer=new JsonExport();
 		analyzer = new StandardAnalyzer();
 	}
-	
 	
 	public List<MagicCard> search(String q)
 	{
@@ -90,7 +86,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		
 		try (IndexReader indexReader = DirectoryReader.open(dir))
 		{
-			IndexSearcher searcher = new IndexSearcher(indexReader);
+			 IndexSearcher searcher = new IndexSearcher(indexReader);
 			 Query query = new QueryParser("name", analyzer).parse(q);
 			 logger.trace(query);
 			 
@@ -110,14 +106,18 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		return ret;
 	}
 	
+	@Override
+	public String getVersion() {
+		return Version.LATEST.toString();
+	}
 	
 	public Map<String,Long> terms(String field)
 	{
 		if(dir==null)
 			open();
 		
-		 Map<String,Long> map= new OrderedHashMap<>();
-		 Map<String,Long> map2= new OrderedHashMap<>();
+		 Map<String,Long> map= new LinkedHashMap<>();
+		 Map<String,Long> map2= new LinkedHashMap<>();
 		 
 		 try {
 			 IndexReader reader = DirectoryReader.open(dir);
@@ -137,7 +137,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		} catch (Exception e) {
 			logger.error("error ",e);
 		}
-		return map2;
+		return map;
 	}
 	
 	
@@ -164,10 +164,10 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		 if(top.totalHits>0)
 		 {
 			 MoreLikeThis mlt = new MoreLikeThis(indexReader);
-			  mlt.setFieldNames(getArray("fields"));
+			  mlt.setFieldNames(getArray(FIELDS));
 			  mlt.setAnalyzer(analyzer);
-			  mlt.setMinTermFreq(getInt("minTermFreq"));
-			  mlt.setBoost(getBoolean("boost"));
+			  mlt.setMinTermFreq(getInt(MIN_TERM_FREQ));
+			  mlt.setBoost(getBoolean(BOOST));
 			  
 			  
 			  
@@ -177,7 +177,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			 
 			 logger.trace("mlt="+Arrays.asList(mlt.retrieveInterestingTerms(d.doc)));
 			 logger.trace("Like query="+like);
-			 TopDocs likes = searcher.search(like,getInt("maxResults"));
+			 TopDocs likes = searcher.search(like,getInt(MAX_RESULTS));
 			 
 			 for(ScoreDoc l : likes.scoreDocs)
 				 ret.put(serializer.fromJson(MagicCard.class, searcher.doc(l.doc).get("data")),l.score);
@@ -249,13 +249,15 @@ public class LuceneIndexer extends AbstractCardsIndexer {
            		   doc.add(new Field("text", mc.getText(), fieldType));
            		   doc.add(new Field("type", mc.getFullType(), fieldType));
            		   doc.add(new Field("set",mc.getCurrentSet().getId(),fieldType));
-           		   doc.add(new StringField("data",serializer.toJson(mc),Field.Store.YES));
            		   doc.add(new StoredField("cmc",mc.getCmc()));
+           		   doc.add(new StringField("data",serializer.toJson(mc),Field.Store.YES));
            		   
-	      		   for(String color:mc.getColors())
-	      		   {
-	      			   doc.add(new Field("color", color, fieldType));
-	      		   }
+            	   for(String color:mc.getColors())
+            	   {
+            		   doc.add(new Field("color", color, fieldType));
+            	   }
+            	 
+            	   
 	      		   
          return doc;
  	 }
@@ -274,6 +276,7 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public long size() {
 		return FileUtils.sizeOfDirectory(new File(confdir,DIRNAME));
 	}
+
 
 	 
 }
