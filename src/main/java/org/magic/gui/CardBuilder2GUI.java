@@ -101,12 +101,11 @@ public class CardBuilder2GUI extends JPanel {
 			JPanel buttonsForeignNamesPanel = new JPanel();
 			JButton btnRemoveName = new JButton("Remove");
 			JSplitPane splitcardEdPanel = new JSplitPane();
-			JScrollPane scrollTableEdition = new JScrollPane();
 			JPanel panelCards = new JPanel();
 			JPanel panelCardsHaut = new JPanel();
-			JButton btnImport = new JButton("");
-			JScrollPane scrollTableCards = new JScrollPane();
-			JButton btnSaveCard = new JButton("");
+			JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
+			
+			JButton btnSaveCard = new JButton(MTGConstants.ICON_SAVE);
 			JButton btnAddName = new JButton("add Languages");
 			JTabbedPane tabbedResult = new JTabbedPane(JTabbedPane.TOP);
 			JButton btnRemoveCard = new JButton("");
@@ -258,10 +257,9 @@ public class CardBuilder2GUI extends JPanel {
 			legalitiesPanel.add(tglMdn);
 			legalitiesPanel.add(tglLeg);
 			legalitiesPanel.add(tglVin);
-			splitcardEdPanel.setLeftComponent(scrollTableEdition);
-			scrollTableEdition.setViewportView(editionsTable);
-			splitcardEdPanel.setRightComponent(scrollTableCards);
-			scrollTableCards.setViewportView(cardsTable);
+			splitcardEdPanel.setLeftComponent(new JScrollPane(editionsTable));
+			
+			splitcardEdPanel.setRightComponent( new JScrollPane(cardsTable));
 			panelSets.add(magicEditionDetailPanel, BorderLayout.EAST);
 			panelMisc.add(foreignNamesEditorPanel);
 			foreignNamesEditorPanel.setLayout(new BorderLayout(0, 0));
@@ -291,8 +289,8 @@ public class CardBuilder2GUI extends JPanel {
 
 			magicEditionDetailPanel.setEditable(true);
 
-			btnImport.setIcon(MTGConstants.ICON_IMPORT);
-			btnSaveCard.setIcon(MTGConstants.ICON_SAVE);
+			
+			
 			btnRefresh.setIcon(MTGConstants.ICON_REFRESH);
 			btnRemoveCard.setIcon(MTGConstants.ICON_DELETE);
 			btnNewCard.setIcon(MTGConstants.ICON_NEW);
@@ -435,6 +433,8 @@ public class CardBuilder2GUI extends JPanel {
 					}
 				}
 			});
+			
+			
 			btnSaveCard.addActionListener(e -> {
 				MagicEdition me = (MagicEdition) cboSets.getSelectedItem();
 				MagicCard mc = magicCardEditorPanel.getMagicCard();
@@ -450,8 +450,7 @@ public class CardBuilder2GUI extends JPanel {
 					mc.getEditions().add(0, me);
 				try {
 					provider.addCard(me, mc);
-					BufferedImage bi = new BufferedImage(panelPictures.getSize().width, 560,
-							BufferedImage.TYPE_INT_ARGB);
+					BufferedImage bi = new BufferedImage(panelPictures.getSize().width, 560,BufferedImage.TYPE_INT_ARGB);
 					Graphics2D g = bi.createGraphics();
 					panelPictures.paint(g);
 					g.dispose();
@@ -463,7 +462,7 @@ public class CardBuilder2GUI extends JPanel {
 
 			btnRefresh.addActionListener(e -> {
 				try {
-					BufferedImage img = MTGControler.getInstance().getEnabledPictureEditor().getPicture(magicCardEditorPanel.getMagicCard(),null);
+					BufferedImage img = MTGControler.getInstance().getEnabledPictureEditor().getPicture(magicCardEditorPanel.getMagicCard(),(MagicEdition) cboSets.getSelectedItem());
 					
 					if(img!=null)
 					{

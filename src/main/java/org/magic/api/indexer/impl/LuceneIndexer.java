@@ -3,9 +3,11 @@ package org.magic.api.indexer.impl;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.antlr.v4.misc.OrderedHashMap;
@@ -29,10 +31,14 @@ import org.apache.lucene.index.TermsEnum;
 import org.apache.lucene.queries.mlt.MoreLikeThis;
 import org.apache.lucene.queryparser.classic.ParseException;
 import org.apache.lucene.queryparser.classic.QueryParser;
+import org.apache.lucene.search.Collector;
 import org.apache.lucene.search.IndexSearcher;
+import org.apache.lucene.search.PositiveScoresOnlyCollector;
 import org.apache.lucene.search.Query;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.search.SimpleCollector;
 import org.apache.lucene.search.TopDocs;
+import org.apache.lucene.search.TotalHitCountCollector;
 import org.apache.lucene.store.Directory;
 import org.apache.lucene.store.FSDirectory;
 import org.apache.lucene.util.BytesRef;
@@ -53,10 +59,11 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	public static void main(String[] args) {
 		LuceneIndexer inde = new LuceneIndexer();
 		
-		inde.terms("type").entrySet().forEach(e->{
-			System.out.println(e.getKey() + " "+ e.getValue());
-		});
+		System.out.println(inde.search("name:Emrakul*"));
 		
+//		inde.terms("type").entrySet().forEach(e->{
+//			System.out.println(e.getKey() + " "+ e.getValue());
+//		});
 	}
 	
 	@Override
@@ -72,6 +79,37 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		serializer=new JsonExport();
 		analyzer = new StandardAnalyzer();
 	}
+	
+	
+	public List<MagicCard> search(String q)
+	{
+		if(dir==null)
+			open();
+		
+		List<MagicCard> ret = new ArrayList<>();
+		
+		try (IndexReader indexReader = DirectoryReader.open(dir))
+		{
+			IndexSearcher searcher = new IndexSearcher(indexReader);
+			 Query query = new QueryParser("name", analyzer).parse(q);
+			 logger.trace(query);
+			 
+			 TotalHitCountCollector collector = new TotalHitCountCollector();
+			 searcher.search(query,collector);
+			 
+			 TopDocs top= searcher.search(query, Math.max(1, collector.getTotalHits()));
+			 
+			 for(int i =0;i<top.totalHits;i++)
+				 ret.add(serializer.fromJson(MagicCard.class, searcher.doc(top.scoreDocs[i].doc).get("data")));
+			 
+			 
+		} catch (Exception e) {
+			logger.error(e);
+		}
+		
+		return ret;
+	}
+	
 	
 	public Map<String,Long> terms(String field)
 	{

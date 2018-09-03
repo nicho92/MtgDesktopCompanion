@@ -209,10 +209,31 @@ public class ConfigurationPanel extends JPanel {
 		btnIndexation = new JButton("Reindexation");
 		
 		GridBagConstraints gbc_btnIndexation = new GridBagConstraints();
+		gbc_btnIndexation.fill = GridBagConstraints.HORIZONTAL;
 		gbc_btnIndexation.insets = new Insets(0, 0, 0, 5);
 		gbc_btnIndexation.gridx = 2;
 		gbc_btnIndexation.gridy = 5;
 		panelDAO.add(btnIndexation, gbc_btnIndexation);
+		
+		
+		btnIndexation.addActionListener(ae->
+			
+			ThreadManager.getInstance().execute(()->{
+					try {
+						loading(true, "Indexation");
+						btnIndexation.setEnabled(false);
+						MTGControler.getInstance().getEnabledCardIndexer().initIndex();
+					} catch (Exception e) {
+						logger.error("error indexation",e);
+						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
+					}
+					finally {
+						loading(false, "");
+						btnIndexation.setEnabled(true);
+					}
+			}, "Indexation")
+			
+		);
 
 		btnDuplicate.addActionListener(ae -> ThreadManager.getInstance().execute(() -> {
 			try {
@@ -961,26 +982,6 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLoading.gridx = 0;
 		gbclblLoading.gridy = 3;
 		add(lblLoading, gbclblLoading);
-		
-		
-		btnIndexation.addActionListener(ae->
-			
-			ThreadManager.getInstance().execute(()->{
-					try {
-						loading(true, "Indexation");
-						btnIndexation.setEnabled(false);
-						MTGControler.getInstance().getEnabledCardIndexer().initIndex();
-					} catch (Exception e) {
-						logger.error("error indexation",e);
-						MTGControler.getInstance().notify(new MTGNotification(MTGControler.getInstance().getLangService().getError(),e));
-					}
-					finally {
-						loading(false, "");
-						btnIndexation.setEnabled(true);
-					}
-			}, "Indexation")
-			
-		);
 		
 		btnAdd.addActionListener(ae -> {
 			try {
