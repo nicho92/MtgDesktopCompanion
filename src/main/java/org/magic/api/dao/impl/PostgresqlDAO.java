@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -619,7 +620,10 @@ public class PostgresqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public String getVersion() {
-		return "1.1";
+		
+		Driver d = new org.postgresql.Driver();
+		return d.getMajorVersion()+"."+d.getMinorVersion();
+		
 	}
 
 }

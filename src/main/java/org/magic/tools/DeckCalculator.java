@@ -55,9 +55,9 @@ public class DeckCalculator {
 		int numberInDeck = 0;
 		try {
 			numberInDeck = deck.getMap().get(mc);
-		}catch(Exception e)
+		}catch(NullPointerException e)
 		{
-			logger.error("Error in probability ",e);
+			logger.error(mc + " is not found in main deck");
 		}
 		int numberCardsInDeck = deck.getNbCards();
 		try {

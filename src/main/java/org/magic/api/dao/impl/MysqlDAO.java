@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintStream;
 import java.sql.Connection;
+import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -664,7 +665,14 @@ public class MysqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public String getVersion() {
-		return "3.1";
+		
+		try {
+			Driver d = new com.mysql.jdbc.Driver();
+			return d.getMajorVersion()+"."+d.getMinorVersion();
+		} catch (SQLException e) {
+			return "1.0";
+		}
+		
 	}
 
 }

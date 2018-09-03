@@ -18,6 +18,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 import org.apache.commons.io.FileUtils;
+import org.hsqldb.jdbc.JDBCDriver;
 import org.magic.api.beans.EnumCondition;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardAlert;
@@ -612,6 +613,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 
 	@Override
 	public String getVersion() {
-		return "1";
+		JDBCDriver driv = new JDBCDriver();
+		return driv.getMajorVersion()+"."+driv.getMinorVersion();
 	}
 }
