@@ -19,8 +19,7 @@ public class Wallpaper {
 
 	public BufferedImage getPicture() throws IOException {
 		if (picture == null) {
-			URLConnection connection = URLTools.openConnection(url);
-			picture = ImageIO.read(connection.getInputStream());
+			picture = URLTools.extractImage(url);
 		}
 		return picture;
 	}

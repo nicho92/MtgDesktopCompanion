@@ -41,8 +41,7 @@ public class MTGConstants {
 	public static final String WIZARD_EVENTS_URL = "https://magic.wizards.com/en/calendar-node-field-event-date-ajax/month/";
 	public static final String SET_ICON_DIR = "/icons/set/";
 	public static final String COMMANDS_PACKAGE = "org.magic.api.commands.impl.";
-	public static final String USER_AGENT = "Mozilla/5.0 (Linux; Intel Mac OS X 10_7_5) AppleWebKit/537.31 (KHTML, like Gecko) Chrome/33.0.1750.117 Safari/537.31";
-	//public static final String USER_AGENT = "Mozilla/5.0 (Linux; Android 7.0; SM-G930V Build/NRD90M) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3071.125 Mobile Safari/537.36";
+	public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36";
 	public static final String DEFAULT_ENCODING="UTF-8";
 	
 	public static final int DEFAULT_PIC_WIDTH = 223;

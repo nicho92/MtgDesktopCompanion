@@ -52,17 +52,10 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 	private static final String MAX_RESULTS = "maxResults";
 	private static final String FIELDS = "fields";
 	private static final String DIRNAME="luceneIndex";
-
-	
 	private Directory dir;
 	private Analyzer analyzer ;
 	private JsonExport serializer;
-	
-	public static void main(String[] args) {
-		LuceneIndexer inde = new LuceneIndexer();
-		inde.terms("type").entrySet().forEach(e->System.out.println(e.getKey() + " "+ e.getValue()));
-	}
-	
+
 	@Override
 	public void initDefault() {
 		setProperty(BOOST, "false");

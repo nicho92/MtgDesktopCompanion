@@ -60,12 +60,14 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 		for (int p = 1; p <= maxPage; p++) {
 			html = getString("URL").replaceAll("%SEARCH%", search).replaceAll("%PAGE%", String.valueOf(p));
 
-			logger.debug("parsing item from " + html);
+			logger.trace("parsing item from " + html);
 
 			try {
 				doc =URLTools.extractHtml(html);
+				
 			} catch (IOException e1) {
-				logger.error(e1);
+				logger.error("error",e1);
+				return list;
 			}
 
 			Elements listElements = doc.select("div.react-tabs__tab-panel").get(0).getElementsByTag("li");

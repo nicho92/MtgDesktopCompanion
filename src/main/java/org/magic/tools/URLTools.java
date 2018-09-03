@@ -49,12 +49,9 @@ public class URLTools {
 	
 	
 	public static HttpURLConnection openConnection(URL url) throws IOException {
-		logger.trace("get stream from " + url);
-		HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestProperty("User-Agent", MTGConstants.USER_AGENT);
-		connection.setInstanceFollowRedirects(true);
-		connection.connect();
-		return connection;
+		HttpURLConnection con = getConnection(url);
+		con.connect();
+		return con;
 	}
 	
 	public static Document toHtml(String s)
@@ -64,23 +61,17 @@ public class URLTools {
 	
 	public static Document extractHtml(String url) throws IOException
 	{
-		logger.trace("get html from " + url);
-		return Jsoup.connect(url)
-			 .userAgent(MTGConstants.USER_AGENT)
-			 .timeout(0)
-			 .get();
+		return Jsoup.parse(extractAsString(url));
 	}
 	
 	public static JsonElement extractJson(String url) throws IOException
 	{
-		logger.trace("get json from " + url);
 		JsonReader reader = new JsonReader(new InputStreamReader(openConnection(url).getInputStream()));
 		return new JsonParser().parse(reader);
 	}
 	
 	public static String extractAsString(String url) throws IOException
 	{
-		logger.trace("get String from " + url);
 		return IOUtils.toString(openConnection(url).getInputStream(), MTGConstants.DEFAULT_ENCODING); 
 	}
 	
@@ -92,7 +83,6 @@ public class URLTools {
 	
 	public static BufferedImage extractImage(URL url) throws IOException
 	{
-		logger.trace("get Image from " + url);
 		return ImageIO.read(openConnection(url).getInputStream()); 
 	}
 	
