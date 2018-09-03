@@ -45,7 +45,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		deck.setName(info.getName());
 		deck.setDescription(info.getUrl().toString());
 		Document d = URLTools.extractHtml(info.getUrl().toString());
-
+	
 		Elements e = d.select("table.deck-view-deck-table").get(0).select(MTGConstants.HTML_TAG_TR);
 
 		boolean sideboard = false;
@@ -101,7 +101,8 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 			logger.debug("sniff url : " + url);
 
 			Document d = URLTools.extractHtml(url);
-
+			logger.trace(d);
+			
 			Elements e = null;
 
 			if (!metagames)
@@ -156,7 +157,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 		setProperty(SUPPORT, "paper");
 		setProperty(FORMAT, "standard");
 		
-		setProperty("URL", "http://www.mtggoldfish.com/");
+		setProperty("URL", "https://www.mtggoldfish.com/");
 		setProperty("MAX_PAGE", "2");
 		setProperty("METAGAME", "false");
 

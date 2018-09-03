@@ -61,7 +61,7 @@ public class URLTools {
 	
 	public static Document extractHtml(String url) throws IOException
 	{
-		return Jsoup.parse(extractAsString(url));
+		return toHtml(extractAsString(url));
 	}
 	
 	public static JsonElement extractJson(String url) throws IOException
