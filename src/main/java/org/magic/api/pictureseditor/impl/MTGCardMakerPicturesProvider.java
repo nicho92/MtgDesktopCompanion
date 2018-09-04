@@ -2,10 +2,8 @@ package org.magic.api.pictureseditor.impl;
 
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
-import java.net.URI;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Calendar;
@@ -15,7 +13,6 @@ import java.util.regex.Pattern;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
-import org.magic.api.pictures.impl.GathererPicturesProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;
 import org.magic.tools.URLTools;

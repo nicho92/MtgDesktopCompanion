@@ -4,9 +4,6 @@ import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.net.URL;
-import java.net.URLConnection;
-
-import javax.imageio.ImageIO;
 
 import org.magic.tools.URLTools;
 

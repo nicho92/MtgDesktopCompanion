@@ -14,7 +14,6 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -41,10 +40,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
-import org.magic.api.interfaces.MTGPictureEditor;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
-import org.magic.api.pictureseditor.impl.MTGCardMakerPicturesProvider;
-import org.magic.api.pictureseditor.impl.MTGDesignPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.gui.components.JSONPanel;
 import org.magic.gui.components.MagicEditionDetailPanel;

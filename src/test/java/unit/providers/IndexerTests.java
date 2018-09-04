@@ -65,7 +65,13 @@ public class IndexerTests {
 				
 				System.out.println("####### TESTING "+ p.getName());
 				System.out.println(p.getProperties());
+				System.out.println(p.listFields());
 				
+				p.search(mc.getName()).forEach(c->{
+					System.out.println(c.getName());
+				});
+				
+				p.terms("name").entrySet().forEach(r->System.out.println(r.getKey() +" " + r.getValue()));
 				
 				p.similarity(mc).entrySet().forEach(entry->{
 					System.out.println(entry.getValue() + "\t" + entry.getKey());

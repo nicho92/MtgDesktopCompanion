@@ -1,6 +1,9 @@
 package org.magic.gui.models.conf;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -8,7 +11,9 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 
 	private static final long serialVersionUID = 1L;
 
-	private transient Map<K,V> map;
+	private transient List<Entry<K, V>> keys;
+	
+	private String[] columnsName =new String[] {"ID","VALUE"};
 	
 	public MapTableModel() {
 	}
@@ -18,20 +23,40 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 		init(map2);
 	}
 	
+	public void setColumnNameAt(int index,String name)
+	{
+		columnsName[index]=name;
+	}
+	
+	public void setColumnNames(String c1,String c2)
+	{
+		columnsName[0]=c1;
+		columnsName[1]=c2;
+	}
 	
 	public void init(Map<K, V> map)
 	{
-		this.map=map;
+		this.keys = new ArrayList<>(map.entrySet());
 		fireTableDataChanged();
-		fireTableStructureChanged();
 	}
 	
 	@Override
 	public int getRowCount() {
-		if(map==null)
+		if(keys==null)
 			return 0;
 		
-		return map.size();
+		return keys.size();
+	}
+	
+	@Override
+	public Class<?> getColumnClass(int columnIndex) {
+		if(keys==null || keys.get(0)==null)
+			return super.getColumnClass(columnIndex);
+		
+		if(columnIndex==0)
+			return keys.get(0).getKey().getClass();
+		else
+			return keys.get(0).getValue().getClass();
 	}
 	
 	
@@ -42,10 +67,7 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	
 	@Override
 	public String getColumnName(int column) {
-		if(column==0)
-			return "ID";
-		else
-			return "Value";
+		return columnsName[column];
 	}
 	
 	
@@ -57,9 +79,9 @@ public class MapTableModel<K,V> extends DefaultTableModel {
 	@Override
 	public Object getValueAt(int row, int column) {
 		if(column==0)
-			return map.keySet().toArray()[row];
-		else return map.get(map.keySet().toArray()[row]);
-			
+			return keys.get(row).getKey();
+		else
+			return keys.get(row).getValue();
 	}
 	
 	

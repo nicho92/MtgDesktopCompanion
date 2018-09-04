@@ -7,6 +7,8 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.Icon;
 import javax.swing.JComboBox;
@@ -16,7 +18,7 @@ import javax.swing.JScrollPane;
 import org.jdesktop.swingx.JXTable;
 import org.magic.api.interfaces.abstracts.AbstractJDashlet;
 import org.magic.gui.components.JBuzyLabel;
-import org.magic.gui.models.MagicEventsTableModel;
+import org.magic.gui.models.conf.MapTableModel;
 import org.magic.services.MTGConstants;
 import org.magic.services.ThreadManager;
 import org.magic.services.extra.MTGEventProvider;
@@ -27,7 +29,7 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 	 */
 	private static final long serialVersionUID = 1L;
 	private JXTable table;
-	private MagicEventsTableModel eventsModel;
+	private MapTableModel<String, Date> eventsModel;
 	private JComboBox<Integer> cboYear;
 	private JBuzyLabel lblLoading;
 	private JComboBox<Integer> cboMonth;
@@ -61,7 +63,9 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 		JScrollPane scrollPane = new JScrollPane();
 		getContentPane().add(scrollPane, BorderLayout.CENTER);
 
-		eventsModel = new MagicEventsTableModel();
+		eventsModel = new MapTableModel<>();
+		eventsModel.setColumnNames("Event","Start Date");
+
 		table = new JXTable();
 
 		scrollPane.setViewportView(table);
@@ -114,7 +118,9 @@ public class MagicEventsDashlet extends AbstractJDashlet {
 				logger.error(e);
 			}
 			try {
-				eventsModel.init(provider.listEvents(y, m));
+				Map<String, Date> map = new HashMap<>();
+				provider.listEvents(y, m).stream().forEach(ev-> map.put(ev.getTitle(), ev.getStartDate()));
+				eventsModel.init(map);
 			} catch (IOException e1) {
 				logger.error(e1);
 			}

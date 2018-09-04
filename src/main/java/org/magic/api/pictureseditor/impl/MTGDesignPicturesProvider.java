@@ -1,9 +1,7 @@
 package org.magic.api.pictureseditor.impl;
 
-import java.awt.Dimension;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 

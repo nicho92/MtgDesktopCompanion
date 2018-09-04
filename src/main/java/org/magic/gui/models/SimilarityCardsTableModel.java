@@ -1,7 +1,6 @@
 package org.magic.gui.models;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 

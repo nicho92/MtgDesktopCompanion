@@ -5,7 +5,6 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,6 +18,7 @@ import org.apache.lucene.document.FieldType;
 import org.apache.lucene.document.StoredField;
 import org.apache.lucene.document.StringField;
 import org.apache.lucene.index.DirectoryReader;
+import org.apache.lucene.index.Fields;
 import org.apache.lucene.index.IndexOptions;
 import org.apache.lucene.index.IndexReader;
 import org.apache.lucene.index.IndexWriter;
@@ -43,6 +43,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.exports.impl.JsonExport;
 import org.magic.api.interfaces.abstracts.AbstractCardsIndexer;
 import org.magic.services.MTGControler;
+
+import com.google.common.collect.Iterators;
 
 
 public class LuceneIndexer extends AbstractCardsIndexer {
@@ -69,6 +71,21 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		serializer=new JsonExport();
 		analyzer = new StandardAnalyzer();
 	}
+	
+	public String[] listFields()
+	{
+		if(dir==null)
+			open();
+		
+		try (IndexReader indexReader = DirectoryReader.open(dir))
+		{
+			Fields f = MultiFields.getFields(indexReader);
+			return Iterators.toArray(f.iterator(), String.class);
+		} catch (IOException e) {
+			return new String[0];
+		}
+	}
+	
 	
 	public List<MagicCard> search(String q)
 	{
@@ -110,7 +127,8 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 			open();
 		
 		 Map<String,Long> map= new LinkedHashMap<>();
-		 Map<String,Long> map2= new LinkedHashMap<>();
+		
+		 logger.debug("looking terms for "+ field);
 		 
 		 try {
 			 IndexReader reader = DirectoryReader.open(dir);
@@ -121,11 +139,11 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		               map.put(term.utf8ToString(), it.totalTermFreq());
 		               term = it.next();
 		            }
-		            
-		            map.entrySet()
+		            logger.debug("looking terms for "+ field +" " + map.size());
+		          /*  map.entrySet()
 		            .stream()
 		            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-		            .forEachOrdered(x -> map2.put(x.getKey(), x.getValue()));
+		            .forEachOrdered(x -> map2.put(x.getKey(), x.getValue()));*/
 			            
 		} catch (Exception e) {
 			logger.error("error ",e);

@@ -82,6 +82,10 @@
             <class>org.magic.gui.dashlet.MkmOversightDashlet</class>
              <enable>true</enable>
         </dashlet>
+        <dashlet>
+            <class>org.magic.gui.dashlet.IndexationDashlet</class>
+             <enable>true</enable>
+        </dashlet>
     </dashlets>
     <tokens>
         <token>
@@ -302,7 +306,7 @@
     <shoppers>
         <shopper>
             <class>org.magic.api.shopping.impl.LeboncoinShopper</class>
-            <enable>true</enable>
+            <enable>false</enable>
         </shopper>
         <shopper>
             <class>org.magic.api.shopping.impl.EbayShopper</class>
