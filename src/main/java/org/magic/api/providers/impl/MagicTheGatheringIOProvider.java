@@ -52,6 +52,8 @@ public class MagicTheGatheringIOProvider extends AbstractCardsProvider {
 	private static final String TEXT = "text";
 	private static final String ORIGINAL_TEXT = "originalText";
 	private static final String ARTIST = "artist";
+	
+	
 	private File fcacheCount = new File(confdir, "mtgio.cache");
 	private Properties propsCache;
 	

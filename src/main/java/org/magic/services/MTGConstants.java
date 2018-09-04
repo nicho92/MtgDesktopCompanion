@@ -50,7 +50,7 @@ public class MTGConstants {
 	
 	public static final int DPI=300;
 	
-	public static final String DEFAULT_NOTIFIER_NAME="swing";
+	public static final String DEFAULT_NOTIFIER_NAME="Tray";
 	
 	public static final int MTG_DESKTOP_TABBED_POSITION = JTabbedPane.LEFT;
 
