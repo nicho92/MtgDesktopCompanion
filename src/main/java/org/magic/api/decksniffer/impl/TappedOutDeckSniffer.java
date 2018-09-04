@@ -58,19 +58,6 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 		return STATUT.BETA;
 	}
 
-	public static void main(String[] args) {
-		MTGDeckSniffer snif = new TappedOutDeckSniffer();
-		RetrievableDeck d;
-		try {
-			d = snif.getDeckList().get(0);
-			snif.getDeck(d);
-			
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
 	public TappedOutDeckSniffer() {
 		super();
 

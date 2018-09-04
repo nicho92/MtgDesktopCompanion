@@ -184,6 +184,11 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 		setProperty("ROOT_TAG", "section[class=tabsContent block-white dontSwitch]");
 		setProperty(LOAD_CERTIFICATE, "false");
 	}
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.ABANDONNED;
+	}
 
 
 }
