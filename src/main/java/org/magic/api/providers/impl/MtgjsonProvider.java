@@ -485,11 +485,10 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			me.setBorder(ctx.read("$." + id + ".border", String.class));
 			me.setType(ctx.read("$." + id + ".type", String.class));
 			if (me.getCardCount() == 0)
-				{
-					//me.setCardCount(ctx.read("$." + id + ".cards", List.class).size());// TODO expensive time !
-					String res = ""+ctx.read("$." + id + ".cards.length()");
-					me.setCardCount(Integer.parseInt(res));
-				}
+			{
+				String res = ""+ctx.read("$." + id + ".cards.length()");
+				me.setCardCount(Integer.parseInt(res));
+			}
 		} catch (PathNotFoundException pnfe) {
 			me.setSet(id);
 			me.setReleaseDate("");
@@ -564,9 +563,6 @@ public class MtgjsonProvider extends AbstractCardsProvider {
 			edCode = edCode.toUpperCase();
 
 		String jsquery = "$." + edCode + ".cards[?(@.name==\""+ mc.getName().replaceAll("\\+", " ").replaceAll("\"", "\\\\\"") + "\")]";
-
-		// logger.trace("initOtherEditionVars for " + mc +"("+mc.getCurrentSet()+")
-		// -> " + jsquery);--> error on loading booster
 
 		List<Map<String, Object>> cardsElement = null;
 		try {

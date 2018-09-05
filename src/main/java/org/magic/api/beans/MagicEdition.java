@@ -29,8 +29,18 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	private Integer mkm_id;
 	private String mkm_name;
 	private String gathererCode;
+	private boolean foilOnly;
 
 	
+	
+	public boolean isFoilOnly() {
+		return foilOnly;
+	}
+
+	public void setFoilOnly(boolean foilOnly) {
+		this.foilOnly = foilOnly;
+	}
+
 	public String getMultiverseid() {
 		return multiverse_id;
 	}
