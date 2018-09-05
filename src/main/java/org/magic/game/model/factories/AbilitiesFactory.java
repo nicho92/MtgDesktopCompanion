@@ -1,5 +1,6 @@
 package org.magic.game.model.factories;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
@@ -18,8 +19,9 @@ import org.magic.game.model.costs.LoyaltyCost;
 import org.magic.services.MTGControler;
 import org.magic.tools.CardsPatterns;
 
-public class AbilitiesFactory {
+public class AbilitiesFactory implements Serializable{
 
+	private static final long serialVersionUID = 1L;
 	private static AbilitiesFactory inst;
 	
 	

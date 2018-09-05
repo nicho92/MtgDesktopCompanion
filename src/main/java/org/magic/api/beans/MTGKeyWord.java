@@ -1,6 +1,8 @@
 package org.magic.api.beans;
 
-public class MTGKeyWord {
+import java.io.Serializable;
+
+public class MTGKeyWord implements Serializable{
 
 	public enum TYPE {
 		ABILITIES, ACTION, WORD

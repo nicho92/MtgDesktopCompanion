@@ -21,6 +21,8 @@ import org.utils.patterns.observer.Observable;
 
 public class MTGDeckManager extends Observable {
 
+	private static final String UNCOLOR = "Uncolor";
+
 	private static final String MULTI = "Multi";
 	
 	private MTGCardsExport serialis;
@@ -161,7 +163,7 @@ public class MTGDeckManager extends Observable {
 			}
 			else 
 			{
-				colors.put("Uncolor", colors.get("Uncolor")==null? 1 : colors.get("Uncolor")+1);
+				colors.put(UNCOLOR, colors.get(UNCOLOR)==null? 1 : colors.get(UNCOLOR)+1);
 			}
 		});
 		return colors;

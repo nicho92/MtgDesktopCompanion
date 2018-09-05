@@ -54,6 +54,7 @@ import org.magic.sorters.ColorSorter;
 import org.magic.sorters.TypesSorter;
 
 public class SealedPanel extends JPanel {
+	private static final String SORT_BY = "SORT_BY";
 	/**
 	 * 
 	 */
@@ -196,17 +197,17 @@ public class SealedPanel extends JPanel {
 		panelSorters.setLayout(new GridLayout(0, 1, 0, 0));
 
 		rdioCmcSortButton = new JRadioButton(
-				MTGControler.getInstance().getLangService().getCapitalize("SORT_BY", "cmc"));
+				MTGControler.getInstance().getLangService().getCapitalize(SORT_BY, "cmc"));
 		rdioCmcSortButton.addActionListener(ae -> sort(new CmcSorter()));
 
 		panelSorters.add(rdioCmcSortButton);
 
-		rdiocolorSort = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize("SORT_BY", "color"));
+		rdiocolorSort = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize(SORT_BY, "color"));
 		rdiocolorSort.addActionListener(ae -> sort(new ColorSorter()));
 
 		panelSorters.add(rdiocolorSort);
 
-		rdiotypeSort = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize("SORT_BY", "type"));
+		rdiotypeSort = new JRadioButton(MTGControler.getInstance().getLangService().getCapitalize(SORT_BY, "type"));
 		rdiotypeSort.addActionListener(ae -> sort(new TypesSorter()));
 
 		panelSorters.add(rdiotypeSort);
