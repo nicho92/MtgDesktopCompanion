@@ -63,7 +63,6 @@ public class CardBuilder2GUI extends JPanel {
 	private MagicEditionDetailPanel magicEditionDetailPanel;
 	private MagicCardEditorPanel magicCardEditorPanel;
 	private MagicEditionsTableModel editionModel;
-
 	private JComboBox<MagicEdition> cboSets;
 	private transient Image cardImage;
 	private JPanel panelPictures;
@@ -78,7 +77,6 @@ public class CardBuilder2GUI extends JPanel {
 	private JPanel foreignNamesEditorPanel;
 	private transient PersonalSetPicturesProvider picturesProvider;
 	private transient PrivateMTGSetProvider provider;
-
 	private JButton btnRefresh;
 	private JTable listNames;
 	private MagicCardNamesTableModel namesModel;
@@ -333,8 +331,7 @@ public class CardBuilder2GUI extends JPanel {
 
 			btnRemoveCard.addActionListener(e -> {
 				try {
-					int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService()
-							.get("CONFIRM_DELETE", magicCardEditorPanel.getMagicCard()));
+					int res = JOptionPane.showConfirmDialog(null, MTGControler.getInstance().getLangService().get("CONFIRM_DELETE", magicCardEditorPanel.getMagicCard()));
 					if (res == JOptionPane.YES_OPTION) {
 						provider.removeCard((MagicEdition) cboSets.getSelectedItem(),
 								magicCardEditorPanel.getMagicCard());

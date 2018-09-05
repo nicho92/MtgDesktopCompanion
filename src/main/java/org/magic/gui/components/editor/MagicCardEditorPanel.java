@@ -41,6 +41,7 @@ import org.jdesktop.beansbinding.Bindings;
 import org.magic.api.beans.MagicCard;
 import org.magic.gui.components.MagicTextPane;
 import org.magic.gui.components.ManaPanel;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
 import org.magic.tools.URLTools;
@@ -132,6 +133,7 @@ public class MagicCardEditorPanel extends JPanel {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				final JDialog g = new JDialog();
+				g.setIconImage(MTGConstants.ICON_GAME_COLOR.getImage());
 				g.getContentPane().setLayout(new FlowLayout());
 				g.setModal(true);
 
@@ -196,8 +198,8 @@ public class MagicCardEditorPanel extends JPanel {
 					}
 
 					magicCard.setCmc(cmc);
-					magicCard.setColors(new ArrayList(colors));
-					magicCard.setColorIdentity(new ArrayList(colors));
+					magicCard.setColors(new ArrayList<>(colors));
+					magicCard.setColorIdentity(new ArrayList<>(colors));
 					costJTextField.setText(cost.toString());
 					g.dispose();
 				});

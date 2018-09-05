@@ -667,7 +667,7 @@ public class MysqlDAO extends AbstractMagicDAO {
 	public String getVersion() {
 		
 		try {
-			Driver d = new com.mysql.jdbc.Driver();
+			Driver d = new com.mysql.cj.jdbc.Driver();
 			return d.getMajorVersion()+"."+d.getMinorVersion();
 		} catch (SQLException e) {
 			return "1.0";

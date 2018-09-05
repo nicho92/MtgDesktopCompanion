@@ -47,6 +47,7 @@ import org.magic.tools.InstallCert;
 
 public class ConfigurationPanel extends JPanel {
 
+	private static final String CURRENCY = "currency";
 	/**
 	 * 
 	 */
@@ -574,10 +575,10 @@ public class ConfigurationPanel extends JPanel {
 		
 		JComboBox<Currency> cboCurrency = new JComboBox<>(new DefaultComboBoxModel<>(Currency.getAvailableCurrencies().toArray(new Currency[Currency.getAvailableCurrencies().size()])));
 		
-		if(MTGControler.getInstance().get("currency").isEmpty())
+		if(MTGControler.getInstance().get(CURRENCY).isEmpty())
 			cboCurrency.setSelectedItem(Currency.getInstance(Locale.getDefault()));
 		else
-			cboCurrency.setSelectedItem(Currency.getInstance(MTGControler.getInstance().get("currency")));
+			cboCurrency.setSelectedItem(Currency.getInstance(MTGControler.getInstance().get(CURRENCY)));
 		
 		GridBagConstraints gbccboCurrency = new GridBagConstraints();
 		gbccboCurrency.gridwidth = 3;
@@ -588,7 +589,7 @@ public class ConfigurationPanel extends JPanel {
 		panelConfig.add(cboCurrency, gbccboCurrency);
 		
 		JButton btnSavecurrency = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		btnSavecurrency.addActionListener(ae->MTGControler.getInstance().setProperty("currency", cboCurrency.getSelectedItem()));
+		btnSavecurrency.addActionListener(ae->MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem()));
 		GridBagConstraints gbcbtnSavecurrency = new GridBagConstraints();
 		gbcbtnSavecurrency.insets = new Insets(0, 0, 5, 0);
 		gbcbtnSavecurrency.fill = GridBagConstraints.HORIZONTAL;

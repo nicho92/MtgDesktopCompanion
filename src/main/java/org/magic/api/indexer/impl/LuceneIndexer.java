@@ -140,11 +140,6 @@ public class LuceneIndexer extends AbstractCardsIndexer {
 		               term = it.next();
 		            }
 		            logger.debug("looking terms for "+ field +" " + map.size());
-		          /*  map.entrySet()
-		            .stream()
-		            .sorted(Collections.reverseOrder(Map.Entry.comparingByValue()))
-		            .forEachOrdered(x -> map2.put(x.getKey(), x.getValue()));*/
-			            
 		} catch (Exception e) {
 			logger.error("error ",e);
 		}
