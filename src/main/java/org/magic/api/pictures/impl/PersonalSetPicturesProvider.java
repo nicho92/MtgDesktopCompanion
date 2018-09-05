@@ -61,9 +61,14 @@ public class PersonalSetPicturesProvider extends AbstractPicturesProvider {
 		File edDir = new File(mainDir, ed.getId());
 		logger.debug("load pic directory " + edDir + " pics :" + mc.getId());
 		if (edDir.exists())
+		{
 			return ImageIO.read(new File(edDir, mc.getId() + "." + getString(FORMAT)));
+		}
 		else
+		{
+			logger.debug(new File(edDir, mc.getId() + "." + getString(FORMAT)) + " is not found");
 			return null;
+		}
 	}
 
 	@Override

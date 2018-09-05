@@ -407,8 +407,6 @@ public class CardBuilder2GUI extends JPanel {
 				@Override
 				public void mouseClicked(MouseEvent arg0) {
 					MagicCard ed = (MagicCard) cardsTable.getValueAt(cardsTable.getSelectedRow(), 0);
-					
-					
 					if (arg0.getClickCount() == 2) {
 						initCard(ed);
 						tabbedPane.setSelectedIndex(1);
@@ -486,14 +484,11 @@ public class CardBuilder2GUI extends JPanel {
 		namesModel.init(mc);
 		try {
 			cardImage = picturesProvider.getPicture(mc, mc.getCurrentSet());
+			panelPictures.repaint();
 		} catch (Exception e) {
 			btnRefresh.doClick();
 			logger.error(e);
 		}
-		finally {
-			panelPictures.repaint();
-		}
-
 	}
 
 	protected void initEdition(MagicEdition ed) {
