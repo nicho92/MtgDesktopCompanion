@@ -33,8 +33,6 @@
          <width>336</width>
          <height>468</height>
     </card-pictures-dimension>
-    
-    
     <game>
         <cards>
             <card-width>154</card-width>
@@ -47,9 +45,7 @@
             <avatar></avatar>
         </player-profil>
     </game>
-  
-    
-     <dashlets>
+    <dashlets>
         <dashlet>
             <class>org.magic.gui.dashlet.AlertedCardsTrendingDashlet</class>
             <enable>true</enable>

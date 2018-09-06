@@ -18,6 +18,7 @@ import org.magic.tools.URLTools;
 
 public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 
+	private static final String WEBSITE = "WEBSITE";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 
 	@Override
@@ -57,20 +58,19 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 			infocode = mc.getCurrentSet().getId().toLowerCase();
 
 		URL url;
-		// TODO change this function for other edition selection. mciNumber is on the
-		// card, not on the selected Edition
+		// TODO change this function for other edition selection. mciNumber is on the card, not on the selected Edition
 		if (mc.getMciNumber() != null) {
 			if (mc.getMciNumber().contains("/")) {
 				String mcinumber = mc.getMciNumber().substring(mc.getMciNumber().lastIndexOf('/')).replaceAll(".html",
 						"");
 				url = new URL(
-						getString("WEBSITE") + "/" + getString("LANG") + "/" + infocode + "/" + mcinumber + ".jpg");
+						getString(WEBSITE) + "/" + getString("LANG") + "/" + infocode + "/" + mcinumber + ".jpg");
 			} else {
-				url = new URL(getString("WEBSITE") + "/" + getString("LANG") + "/" + infocode + "/" + mc.getMciNumber()
+				url = new URL(getString(WEBSITE) + "/" + getString("LANG") + "/" + infocode + "/" + mc.getMciNumber()
 						+ ".jpg");
 			}
 		} else {
-			url = new URL(getString("WEBSITE") + "/" + getString("LANG") + "/" + infocode + "/"
+			url = new URL(getString(WEBSITE) + "/" + getString("LANG") + "/" + infocode + "/"
 					+ mc.getCurrentSet().getNumber().replaceAll("a", "").replaceAll("b", "") + ".jpg");
 		}
 		logger.debug("Get card pic from " + url);
@@ -112,7 +112,7 @@ public class MagicCardInfoPicturesProvider extends AbstractPicturesProvider {
 	@Override
 	public void initDefault() {
 		super.initDefault();
-		setProperty("WEBSITE", "https://magiccards.info/scans/");
+		setProperty(WEBSITE, "https://magiccards.info/scans/");
 		setProperty("LANG", "en");
 		
 		setProperty(LOAD_CERTIFICATE, "true");

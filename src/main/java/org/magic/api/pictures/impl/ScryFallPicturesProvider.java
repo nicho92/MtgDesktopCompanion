@@ -18,6 +18,7 @@ import org.magic.tools.URLTools;
 
 public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 
+	private static final String IMAGE_TAG = "?format=image";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 	private Boolean scryfallProvider = null;
 	
@@ -46,14 +47,14 @@ public class ScryFallPicturesProvider extends AbstractPicturesProvider {
 		if (scryfallProvider == null)
 			scryfallProvider = MTGControler.getInstance().getEnabledCardsProviders() instanceof ScryFallProvider;
 
-		String url = "https://api.scryfall.com/cards/" + selected.getId().toLowerCase() + "/" + selected.getNumber()+ "?format=image";
+		String url = "https://api.scryfall.com/cards/" + selected.getId().toLowerCase() + "/" + selected.getNumber()+ IMAGE_TAG;
 
 		if (scryfallProvider) {
-			url = "https://api.scryfall.com/cards/" + mc.getId() + "?format=image";
+			url = "https://api.scryfall.com/cards/" + mc.getId() + IMAGE_TAG;
 		}
 
 		if (selected.getMultiverseid() != null && !selected.getMultiverseid().equals("0"))
-			url = "https://api.scryfall.com/cards/multiverse/" + selected.getMultiverseid() + "?format=image";
+			url = "https://api.scryfall.com/cards/multiverse/" + selected.getMultiverseid() + IMAGE_TAG;
 
 		if (crop)
 			url += "&version=art_crop";

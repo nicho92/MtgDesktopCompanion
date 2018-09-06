@@ -166,8 +166,6 @@ public class AlarmGUI extends JPanel {
 
 	private void initActions() {
 		
-		
-		
 		table.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent evt) {
@@ -207,7 +205,6 @@ public class AlarmGUI extends JPanel {
 			
 			if(table.getSelectedRows().length<=0)
 				return;
-			
 			
 			ThreadManager.getInstance().execute(() -> {
 				try {

@@ -45,7 +45,6 @@ public class BoosterPicsPanel extends JTabbedPane {
 				logger.error(e);
 			}
 		}
-		//addTab("Banner", new JLabel(new ImageIcon(provider.getBannerFor(ed))));
 	}
 
 	private Image resizeBooster(BufferedImage boosterFor) {
