@@ -39,6 +39,7 @@ public class HsqlDAO extends AbstractMagicDAO {
 		DRIVER, URL, DBNAME, LOGIN, PASS
 	}
 
+
 	public void init() throws ClassNotFoundException, SQLException {
 		logger.info("init " + getName());
 		Class.forName(getString(KEYS.DRIVER.name()));

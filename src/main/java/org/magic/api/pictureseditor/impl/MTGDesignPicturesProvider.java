@@ -33,6 +33,15 @@ import org.magic.tools.URLTools;
 
 public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
+	private static final String ACCENT = "ACCENT";
+	private static final String CENTER = "CENTER";
+	private static final String INDICATOR = "INDICATOR";
+	private static final String CARD_ACCENT = "card-accent";
+	private static final String CARD_TEMPLATE = "card-template";
+	private static final String TRUE = "true";
+	private static final String FALSE = "false";
+	private static final String DESIGNER ="designer";
+	
 	private BasicHttpContext httpContext;
 	private BasicCookieStore cookieStore;
 	private HttpClient httpclient;
@@ -134,21 +143,21 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		if(mc.getImageName()!=null && mc.getImageName().startsWith("http"))
 			build.addParameter("artwork", mc.getImageName());
 		
-		build.addParameter("designer", "nicho");
+		build.addParameter(DESIGNER, getString(DESIGNER));
 		
-		if(mc.isLand() && !getString("ACCENT").isEmpty())		
-			build.addParameter("land-overlay", getString("ACCENT"));
+		if(mc.isLand() && !getString(ACCENT).isEmpty())		
+			build.addParameter("land-overlay", getString(ACCENT));
 		else
 			build.addParameter("land-overlay", "C");
 		
 		build.addParameter("watermark", "0");
 		build.addParameter("set-symbol", "0");
-		build.addParameter("centered", getString("CENTER"));
+		build.addParameter("centered", getString(CENTER));
 		
 		if(getBoolean("FOIL"))
-			build.addParameter("foil", "true");
+			build.addParameter("foil", TRUE);
 		
-		build.addParameter("lighten", "false");
+		build.addParameter("lighten", FALSE);
 		
 		
 		build.addParameter("card-layout", "regular");
@@ -175,27 +184,27 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		
 		if(mc.getColors().size()==1)
 		{
-			build.addParameter("card-template", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
-			build.addParameter("card-accent", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
+			build.addParameter(CARD_TEMPLATE, ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
+			build.addParameter(CARD_ACCENT, ColorParser.getCodeByName(mc.getColors(),false).substring(0, 1));
 		}
 		else if(mc.getColors().size()==2)
 		{
-			build.addParameter("card-template", "Gld");//ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
-			build.addParameter("card-accent", ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
+			build.addParameter(CARD_TEMPLATE, ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
+			build.addParameter(CARD_ACCENT, ColorParser.getCodeByName(mc.getColors(),false).substring(0, 2));
 		}
 		else if(mc.getColors().size()>2)
 		{
-			build.addParameter("card-template", "Gld");
-			build.addParameter("card-accent", "Gld");
+			build.addParameter(CARD_TEMPLATE, "Gld");
+			build.addParameter(CARD_ACCENT, "Gld");
 			
 		}
 		else
 		{
-			build.addParameter("card-template", "C");
-			build.addParameter("card-accent", "C");
+			build.addParameter(CARD_TEMPLATE, "C");
+			build.addParameter(CARD_ACCENT, "C");
 		}
 
-		if(getBoolean("INDICATOR"))
+		if(getBoolean(INDICATOR))
 		{
 			try {
 			if(mc.getColors().size()==1)
@@ -210,7 +219,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		}
 		
 		
-		build.addParameter("edit", "false");
+		build.addParameter("edit", FALSE);
 
 		try {
 			logger.debug("generate " + build.build());
@@ -238,10 +247,11 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	public void initDefault() {
 		setProperty("LOGIN", "");
 		setProperty("PASS", "");
-		setProperty("FOIL", "false");
-		setProperty("CENTER", "yes");
+		setProperty("FOIL", FALSE);
+		setProperty(CENTER, "yes");
 		setProperty("SIZE", "36");
-		setProperty("INDICATOR","yes");
+		setProperty(INDICATOR,"yes");
+		setProperty(DESIGNER,System.getProperty("user.name"));
 	}
 
 
@@ -261,20 +271,20 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	@Override
 	public void setCenter(boolean center) {
-		setProperty("CENTER", String.valueOf(center));
+		setProperty(CENTER, String.valueOf(center));
 		
 	}
 
 	@Override
 	public void setColorIndicator(boolean selected) {
-		setProperty("INDICATOR", String.valueOf(selected));
+		setProperty(INDICATOR, String.valueOf(selected));
 		
 	}
 
 
 	@Override
 	public void setColorAccentuation(String c) {
-		setProperty("ACCENT", c);
+		setProperty(ACCENT, c);
 		
 	}
 
