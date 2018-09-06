@@ -150,7 +150,7 @@ public class MkmOnlineExport extends AbstractCardExport {
 						w.setAltered(new MkmBoolean(false));
 						w.setType("product");
 						w.setSigned(new MkmBoolean(false));
-						for (String s : getString(LANGUAGES).split(","))
+						for (String s : getArray(LANGUAGES))
 							w.getIdLanguage().add(Integer.parseInt(s));
 						wants.add(w);
 					} else {

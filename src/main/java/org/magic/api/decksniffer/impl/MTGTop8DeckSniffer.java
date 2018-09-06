@@ -117,8 +117,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 			nvps.add(new BasicNameValuePair("date_end", ""));
 
 			if (getString("COMPETITION_FILTER") != null) {
-				String[] comp = getString("COMPETITION_FILTER").split(",");
-				for (String c : comp)
+				for (String c : getArray("COMPETITION_FILTER"))
 					nvps.add(new BasicNameValuePair(" compet_check[" + c.toUpperCase() + "]", "1"));
 			}
 

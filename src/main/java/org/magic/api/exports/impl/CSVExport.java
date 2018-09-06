@@ -100,7 +100,7 @@ public class CSVExport extends AbstractCardExport {
 	@Override
 	public void export(List<MagicCard> cards, File f) throws IOException {
 
-		String[] exportedProperties = getString("exportedProperties").split(",");
+		String[] exportedProperties = getArray("exportedProperties");
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
 			for (String k : exportedProperties)
@@ -125,7 +125,7 @@ public class CSVExport extends AbstractCardExport {
 	@Override
 	public void export(MagicDeck deck, File f) throws IOException {
 
-		String[] exportedDeckProperties= getString("exportedDeckProperties").split(",");
+		String[] exportedDeckProperties= getArray("exportedDeckProperties");
 
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(f))) {
 

@@ -43,8 +43,8 @@ public class PriceCatalogExport extends AbstractCardExport {
 	public void export(MagicDeck deck, File dest) throws IOException {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(dest))) 
 		{
-			String[] exportedPricesProperties = getString("PROPERTIES_PRICE").split(",");
-			String[] exportedCardsProperties = getString("PROPERTIES_CARD").split(",");
+			String[] exportedPricesProperties = getArray("PROPERTIES_PRICE");
+			String[] exportedCardsProperties = getArray("PROPERTIES_CARD");
 			
 			for (String k : exportedCardsProperties)
 				bw.write(k + ";");
@@ -59,7 +59,7 @@ public class PriceCatalogExport extends AbstractCardExport {
 				throw new IOException("PRICER parameter must be set");
 			
 			
-			for(String pricer : getString(PRICER).split(","))
+			for(String pricer : getArray(PRICER))
 			{	
 				MTGPricesProvider prov = MTGControler.getInstance().getPlugin(pricer,MTGPricesProvider.class);
 			

@@ -88,7 +88,7 @@ public class DeckMasterPicturesProvider extends AbstractPicturesProvider {
 		if (ed == null)
 			selected = mc.getCurrentSet();
 
-		for (String k : getString("CALL_MCI_FOR").split(",")) {
+		for (String k : getArray("CALL_MCI_FOR")) {
 			if (selected.getId().startsWith(k)) {
 				return new MagicCardInfoPicturesProvider().getPicture(mc, selected);
 			}

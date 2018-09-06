@@ -52,7 +52,7 @@ public class EmailNotifier extends AbstractMTGNotifier{
 			email.setFrom(getString("FROM"));
 			email.setSubject(notification.getTitle());
 			email.setTextMsg(notification.getMessage());
-			for(String to : getString("SEND_TO").split(","))
+			for(String to : getArray("SEND_TO"))
 				email.addTo(to);
 			email.send();
 			

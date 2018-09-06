@@ -67,7 +67,7 @@ public class MTGStockDashBoard extends AbstractDashBoard {
 		if(f !=null)
 			format=f.name().toLowerCase();
 		
-		for (String filter : getString("SHAKERS").split(","))
+		for (String filter : getArray("SHAKERS"))
 			for (JsonElement el : interests.get(getString("FORMAT_SHAKER")).getAsJsonObject().get(filter).getAsJsonArray()) 
 			{
 				if ( f==null || (el.getAsJsonObject().get(PRINT).getAsJsonObject().get(LEGAL).getAsJsonObject().get(format) != null && el.getAsJsonObject().get(PRINT).getAsJsonObject().get(LEGAL).getAsJsonObject().get(format).getAsString().equalsIgnoreCase(LEGAL))) 
