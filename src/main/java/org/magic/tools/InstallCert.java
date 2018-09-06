@@ -65,11 +65,11 @@ public class InstallCert {
 		int port;
 
 		File defaultF = new File(System.getProperty("java.home") + File.separatorChar + "lib" + File.separatorChar + "security");
-		char[] passphrase;
+		char[] phrase;
 		String[] c = website.split(":");
 		host = c[0];
 		port = 443;
-		passphrase = MTGConstants.KEYSTORE_PASS.toCharArray();
+		phrase = MTGConstants.KEYSTORE_PASS.toCharArray();
 
 		File keystoreFile = new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
 		if (!keystoreFile.exists()) {
@@ -83,7 +83,7 @@ public class InstallCert {
 		logger.debug("Loading KeyStore " + keystoreFile.getAbsolutePath() + "...");
 		try (InputStream in = new FileInputStream(keystoreFile)) {
 			KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-			ks.load(in, passphrase);
+			ks.load(in, phrase);
 
 			SSLContext context = SSLContext.getInstance(MTGConstants.SSL_PROTO);
 			TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
@@ -127,7 +127,7 @@ public class InstallCert {
 			File f = new File(MTGConstants.CONF_DIR, MTGConstants.KEYSTORE_NAME);
 			
 			OutputStream out = new FileOutputStream(f);
-			ks.store(out, passphrase);
+			ks.store(out, phrase);
 			out.close();
 
 			logger.debug("Added certificate to keystore '" + f + "' using alias '" + alias + "'");
