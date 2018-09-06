@@ -24,6 +24,10 @@ import com.google.gson.stream.JsonReader;
 
 public class JsonExport extends AbstractCardExport {
 
+	private static final String COLORS = "colors";
+	private static final String NAME = "name";
+	private static final String TAGS = "tags";
+	private static final String DESCRIPTION = "description";
 	private Gson gson;
 	
 	public JsonExport() {
@@ -44,14 +48,14 @@ public class JsonExport extends AbstractCardExport {
 
 		MagicDeck deck = new MagicDeck();
 	
-		if (!root.get("name").isJsonNull())
-			deck.setName(root.get("name").getAsString());
+		if (!root.get(NAME).isJsonNull())
+			deck.setName(root.get(NAME).getAsString());
 
-		if (!root.get("description").isJsonNull())
-			deck.setDescription(root.get("description").getAsString());
+		if (!root.get(DESCRIPTION).isJsonNull())
+			deck.setDescription(root.get(DESCRIPTION).getAsString());
 
-		if (!root.get("tags").isJsonNull()) {
-			JsonArray arr = root.get("tags").getAsJsonArray();
+		if (!root.get(TAGS).isJsonNull()) {
+			JsonArray arr = root.get(TAGS).getAsJsonArray();
 			for (int i = 0; i < arr.size(); i++)
 				deck.getTags().add(arr.get(i).getAsString());
 		}
@@ -100,9 +104,9 @@ public class JsonExport extends AbstractCardExport {
 
 	public JsonObject toJson(MagicDeck deck) {
 		JsonObject json = new JsonObject();
-		json.addProperty("name", deck.getName());
-		json.addProperty("description", deck.getDescription());
-		json.addProperty("colors", deck.getColors());
+		json.addProperty(NAME, deck.getName());
+		json.addProperty(DESCRIPTION, deck.getDescription());
+		json.addProperty(COLORS, deck.getColors());
 		json.addProperty("averagePrice", deck.getAveragePrice());
 		json.add("creationDate", new JsonPrimitive(deck.getDateCreation().getTime()));
 		json.add("updateDate", new JsonPrimitive(deck.getDateUpdate().getTime()));
@@ -110,7 +114,7 @@ public class JsonExport extends AbstractCardExport {
 		for (String s : deck.getTags())
 			tags.add(s);
 
-		json.add("tags", tags);
+		json.add(TAGS, tags);
 
 		JsonArray main = new JsonArray();
 

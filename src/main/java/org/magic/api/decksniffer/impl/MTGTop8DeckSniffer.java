@@ -30,6 +30,7 @@ import org.magic.tools.URLTools;
 
 public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 
+	private static final String COMPETITION_FILTER = "COMPETITION_FILTER";
 	Map<String, String> formats;
 
 	public MTGTop8DeckSniffer() {
@@ -116,8 +117,8 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 			nvps.add(new BasicNameValuePair("date_start", getString("DATE_START_FILTER")));
 			nvps.add(new BasicNameValuePair("date_end", ""));
 
-			if (getString("COMPETITION_FILTER") != null) {
-				for (String c : getArray("COMPETITION_FILTER"))
+			if (getString(COMPETITION_FILTER) != null) {
+				for (String c : getArray(COMPETITION_FILTER))
 					nvps.add(new BasicNameValuePair(" compet_check[" + c.toUpperCase() + "]", "1"));
 			}
 
@@ -165,7 +166,7 @@ public class MTGTop8DeckSniffer extends AbstractDeckSniffer {
 		setProperty("MAX_PAGE", "2");
 		setProperty("TIMEOUT", "0");
 		setProperty("CARD_FILTER", "");
-		setProperty("COMPETITION_FILTER", "P,M,C,R");
+		setProperty(COMPETITION_FILTER, "P,M,C,R");
 		setProperty("DATE_START_FILTER", "");
 
 	}

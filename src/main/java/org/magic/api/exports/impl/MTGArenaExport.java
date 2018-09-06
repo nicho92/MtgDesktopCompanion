@@ -1,7 +1,6 @@
 package org.magic.api.exports.impl;
 
 import java.awt.Toolkit;
-import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.io.BufferedReader;
 import java.io.File;
@@ -75,10 +74,9 @@ public class MTGArenaExport extends AbstractCardExport {
 		
 		
 		StringSelection selection = new StringSelection(temp.toString());
-		Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
-		clipboard.setContents(selection, selection);
+		Toolkit.getDefaultToolkit().getSystemClipboard().setContents(selection, selection);
 		
-		logger.debug("save in clipboard");
+		logger.debug("saved in clipboard");
 
 	}
 	

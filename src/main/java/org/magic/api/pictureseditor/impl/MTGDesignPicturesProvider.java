@@ -196,7 +196,6 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		{
 			build.addParameter(CARD_TEMPLATE, "Gld");
 			build.addParameter(CARD_ACCENT, "Gld");
-			
 		}
 		else
 		{

@@ -29,6 +29,9 @@ import org.w3c.dom.NodeList;
 
 public class CockatriceTokenProvider extends AbstractTokensProvider {
 
+	private static final String CARD_REVERSE_RELATED = "//card[reverse-related=\"";
+	private static final String COLOR = "color";
+
 	@Override
 	public STATUT getStatut() {
 		return STATUT.BETA;
@@ -54,7 +57,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public boolean isTokenizer(MagicCard mc) {
-		String expression = "//card[reverse-related=\"" + mc.getName() + "\"][not(contains(name,'emblem'))]";
+		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
 		logger.debug("looking for token : " + expression);
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
@@ -69,7 +72,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 		if (mc.getLayout().equalsIgnoreCase(MagicCard.LAYOUT.EMBLEM.toString()))
 			return false;
 
-		String expression = "//card[reverse-related=\"" + mc.getName() + "\"][contains(name,'emblem')]";
+		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'emblem')]";
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			return (nodeList.getLength() > 0);
@@ -80,7 +83,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public MagicCard generateTokenFor(MagicCard mc) {
-		String expression = "//card[reverse-related=\"" + mc.getName() + "\"][not(contains(name,'emblem'))]";
+		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][not(contains(name,'emblem'))]";
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
 			Element value = (Element) nodeList.item(0);
@@ -89,10 +92,10 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 			tok.setCmc(0);
 			tok.setName(value.getElementsByTagName("name").item(0).getTextContent());
 
-			if (value.getElementsByTagName("color").item(0) != null) {
+			if (value.getElementsByTagName(COLOR).item(0) != null) {
 				tok.getColors()
-						.add(ColorParser.getNameByCode(value.getElementsByTagName("color").item(0).getTextContent()));
-				tok.getColorIdentity().add("{" + value.getElementsByTagName("color").item(0).getTextContent() + "}");
+						.add(ColorParser.getNameByCode(value.getElementsByTagName(COLOR).item(0).getTextContent()));
+				tok.getColorIdentity().add("{" + value.getElementsByTagName(COLOR).item(0).getTextContent() + "}");
 			}
 
 			String types = value.getElementsByTagName("type").item(0).getTextContent();
@@ -148,7 +151,7 @@ public class CockatriceTokenProvider extends AbstractTokensProvider {
 
 	@Override
 	public MagicCard generateEmblemFor(MagicCard mc) throws IOException {
-		String expression = "//card[reverse-related=\"" + mc.getName() + "\"][contains(name,'emblem')]";
+		String expression = CARD_REVERSE_RELATED + mc.getName() + "\"][contains(name,'emblem')]";
 		logger.debug(expression);
 		try {
 			NodeList nodeList = (NodeList) xPath.compile(expression).evaluate(document, XPathConstants.NODESET);
