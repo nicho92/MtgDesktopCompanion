@@ -62,15 +62,10 @@ public class MagicCardTableModel extends DefaultTableModel {
 
 	@Override
 	public Class<?> getColumnClass(int columnIndex) {
-		
-		if(columnIndex==0)
-			return MagicCard.class;
-		else if(columnIndex==6)
-			return List.class;
-		else if (columnIndex==9)
-			return Boolean.class;
-		
-		return String.class;
+		if(!cards.isEmpty())
+			return cards.get(0).getClass();
+		else
+			return Object.class;
 	}
 	
 	@Override

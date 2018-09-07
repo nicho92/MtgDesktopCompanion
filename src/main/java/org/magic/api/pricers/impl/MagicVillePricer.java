@@ -27,6 +27,8 @@ import org.magic.tools.URLTools;
 
 public class MagicVillePricer extends AbstractMagicPricesProvider {
 	
+	private static final String MAX = "MAX";
+	private static final String WEBSITE = "WEBSITE";
 	private HttpClient httpclient;
 	
 	@Override
@@ -57,7 +59,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 	public List<MagicPrice> getPrice(MagicEdition me, MagicCard card) throws IOException {
 		List<MagicPrice> list = new ArrayList<>();
-		HttpPost searchPost = new HttpPost(getString("WEBSITE")+"/fr/resultats.php?zbob=1");
+		HttpPost searchPost = new HttpPost(getString(WEBSITE)+"/fr/resultats.php?zbob=1");
 		List<NameValuePair> nvps = new ArrayList<>();
 							nvps.add(new BasicNameValuePair("recherche_titre", card.getName()));
 	
@@ -71,7 +73,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		
 		String key = "ref=";
 		String code = res.substring(res.indexOf(key), res.indexOf("\";"));
-		String url = getString("WEBSITE")+"/fr/register/show_card_sale?"+code;
+		String url = getString(WEBSITE)+"/fr/register/show_card_sale?"+code;
 		
 		logger.info(getName() + " looking for prices " + url);
 
@@ -108,10 +110,10 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 		}
 
-		logger.info(getName() + " found " + list.size() + " item(s) return " + getString("MAX") + " items");
+		logger.info(getName() + " found " + list.size() + " item(s) return " + getString(MAX) + " items");
 
-		if (list.size() > Integer.parseInt(getString("MAX")) && Integer.parseInt(getString("MAX")) > -1)
-			return list.subList(0, Integer.parseInt(getString("MAX")));
+		if (list.size() > Integer.parseInt(getString(MAX)) && Integer.parseInt(getString(MAX)) > -1)
+			return list.subList(0, Integer.parseInt(getString(MAX)));
 
 		return list;
 	}
@@ -129,8 +131,8 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 
 	@Override
 	public void initDefault() {
-		setProperty("MAX", "5");
-		setProperty("WEBSITE", "http://www.magic-ville.com/");
+		setProperty(MAX, "5");
+		setProperty(WEBSITE, "http://www.magic-ville.com/");
 		
 
 	}

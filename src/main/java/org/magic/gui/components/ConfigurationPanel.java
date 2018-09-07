@@ -9,6 +9,7 @@ import java.awt.Insets;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.File;
+import java.io.IOException;
 import java.util.Currency;
 import java.util.Locale;
 
@@ -44,6 +45,8 @@ import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ImageUtils;
 import org.magic.tools.InstallCert;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class ConfigurationPanel extends JPanel {
 
@@ -80,6 +83,7 @@ public class ConfigurationPanel extends JPanel {
 	private JCheckBox chckbxStock;
 
 	private transient Logger logger = MTGLogger.getLogger(this.getClass());
+	private JTextField txtCurrencyFieldApiCode;
 
 	public void loading(boolean show, String text) {
 		lblLoading.buzy(show,text);
@@ -116,9 +120,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelDAO, gbcpanelDAO);
 		GridBagLayout gblpanelDAO = new GridBagLayout();
 		gblpanelDAO.columnWidths = new int[] { 0, 0, 130, 0, 0 };
-		gblpanelDAO.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0 };
+		gblpanelDAO.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
 		gblpanelDAO.columnWeights = new double[] { 0.0, 1.0, 0.0, 0.0, Double.MIN_VALUE };
-		gblpanelDAO.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblpanelDAO.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelDAO.setLayout(gblpanelDAO);
 
 		JLabel lblBackupDao = new JLabel(
@@ -173,7 +177,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagConstraints gbclblLocation = new GridBagConstraints();
 		gbclblLocation.insets = new Insets(0, 0, 5, 5);
 		gbclblLocation.gridx = 0;
-		gbclblLocation.gridy = 3;
+		gbclblLocation.gridy = 2;
 		panelDAO.add(lblLocation, gbclblLocation);
 
 		JLabel lblLocationValue = new JLabel(MTGControler.getInstance().getEnabledDAO().getDBLocation());
@@ -181,14 +185,14 @@ public class ConfigurationPanel extends JPanel {
 		gbclblLocationValue.gridwidth = 2;
 		gbclblLocationValue.insets = new Insets(0, 0, 5, 5);
 		gbclblLocationValue.gridx = 1;
-		gbclblLocationValue.gridy = 3;
+		gbclblLocationValue.gridy = 2;
 		panelDAO.add(lblLocationValue, gbclblLocationValue);
 
 		JLabel lblSize = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("SIZE") + " : ");
 		GridBagConstraints gbclblSize = new GridBagConstraints();
 		gbclblSize.insets = new Insets(0, 0, 5, 5);
 		gbclblSize.gridx = 0;
-		gbclblSize.gridy = 4;
+		gbclblSize.gridy = 3;
 		panelDAO.add(lblSize, gbclblSize);
 
 		JLabel lblSizeValue = new JLabel(
@@ -197,14 +201,14 @@ public class ConfigurationPanel extends JPanel {
 		gbclblSizeValue.gridwidth = 2;
 		gbclblSizeValue.insets = new Insets(0, 0, 5, 5);
 		gbclblSizeValue.gridx = 1;
-		gbclblSizeValue.gridy = 4;
+		gbclblSizeValue.gridy = 3;
 		panelDAO.add(lblSizeValue, gbclblSizeValue);
 		
 		JLabel lblIndexation = new JLabel("Réindexation : ");
 		GridBagConstraints gbclblIndexation = new GridBagConstraints();
 		gbclblIndexation.insets = new Insets(0, 0, 0, 5);
 		gbclblIndexation.gridx = 0;
-		gbclblIndexation.gridy = 5;
+		gbclblIndexation.gridy = 4;
 		panelDAO.add(lblIndexation, gbclblIndexation);
 		
 		btnIndexation = new JButton("Reindexation");
@@ -213,7 +217,7 @@ public class ConfigurationPanel extends JPanel {
 		gbcbtnIndexation.fill = GridBagConstraints.HORIZONTAL;
 		gbcbtnIndexation.insets = new Insets(0, 0, 0, 5);
 		gbcbtnIndexation.gridx = 2;
-		gbcbtnIndexation.gridy = 5;
+		gbcbtnIndexation.gridy = 4;
 		panelDAO.add(btnIndexation, gbcbtnIndexation);
 		
 		
@@ -282,9 +286,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelConfig, gbcpanelConfig);
 		GridBagLayout gblpanelConfig = new GridBagLayout();
 		gblpanelConfig.columnWidths = new int[] { 0, 0, 0, 0, 0, 0 };
-		gblpanelConfig.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
+		gblpanelConfig.rowHeights = new int[] { 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0 };
 		gblpanelConfig.columnWeights = new double[] { 1.0, 1.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gblpanelConfig.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, Double.MIN_VALUE };
+		gblpanelConfig.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 1.0, Double.MIN_VALUE };
 		panelConfig.setLayout(gblpanelConfig);
 
 		JLabel lblMainCol = new JLabel(
@@ -562,42 +566,12 @@ public class ConfigurationPanel extends JPanel {
 		gbccomboBox.gridy = 9;
 		panelConfig.add(cboLook, gbccomboBox);
 		
-		JLabel lblCurrency = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CURRENCY")+" :");
-		GridBagConstraints gbclblCurrency = new GridBagConstraints();
-		gbclblCurrency.insets = new Insets(0, 0, 5, 5);
-		gbclblCurrency.gridx = 0;
-		gbclblCurrency.gridy = 10;
-		panelConfig.add(lblCurrency, gbclblCurrency);
-		
-		JComboBox<Currency> cboCurrency = new JComboBox<>(new DefaultComboBoxModel<>(Currency.getAvailableCurrencies().toArray(new Currency[Currency.getAvailableCurrencies().size()])));
-		
-		if(MTGControler.getInstance().get(CURRENCY).isEmpty())
-			cboCurrency.setSelectedItem(Currency.getInstance(Locale.getDefault()));
-		else
-			cboCurrency.setSelectedItem(Currency.getInstance(MTGControler.getInstance().get(CURRENCY)));
-		
-		GridBagConstraints gbccboCurrency = new GridBagConstraints();
-		gbccboCurrency.gridwidth = 3;
-		gbccboCurrency.insets = new Insets(0, 0, 5, 5);
-		gbccboCurrency.fill = GridBagConstraints.HORIZONTAL;
-		gbccboCurrency.gridx = 1;
-		gbccboCurrency.gridy = 10;
-		panelConfig.add(cboCurrency, gbccboCurrency);
-		
-		JButton btnSavecurrency = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
-		btnSavecurrency.addActionListener(ae->MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem()));
-		GridBagConstraints gbcbtnSavecurrency = new GridBagConstraints();
-		gbcbtnSavecurrency.insets = new Insets(0, 0, 5, 0);
-		gbcbtnSavecurrency.fill = GridBagConstraints.HORIZONTAL;
-		gbcbtnSavecurrency.gridx = 4;
-		gbcbtnSavecurrency.gridy = 10;
-		panelConfig.add(btnSavecurrency, gbcbtnSavecurrency);
 		
 		JLabel lblPicsSize = new JLabel("Zoom :");
 		GridBagConstraints gbclblPicsSize = new GridBagConstraints();
 		gbclblPicsSize.insets = new Insets(0, 0, 0, 5);
 		gbclblPicsSize.gridx = 0;
-		gbclblPicsSize.gridy = 11;
+		gbclblPicsSize.gridy = 10;
 		panelConfig.add(lblPicsSize, gbclblPicsSize);
 		
 		JResizerPanel resizerPanel = new JResizerPanel(MTGControler.getInstance().getPictureProviderDimension());
@@ -606,7 +580,7 @@ public class ConfigurationPanel extends JPanel {
 		gbcresizerPanel.insets = new Insets(0, 0, 0, 5);
 		gbcresizerPanel.fill = GridBagConstraints.BOTH;
 		gbcresizerPanel.gridx = 1;
-		gbcresizerPanel.gridy = 11;
+		gbcresizerPanel.gridy = 10;
 		panelConfig.add(resizerPanel, gbcresizerPanel);
 		
 		JButton btnSavePicSize = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
@@ -618,7 +592,7 @@ public class ConfigurationPanel extends JPanel {
 		});
 		GridBagConstraints gbcbtnSavePicSize = new GridBagConstraints();
 		gbcbtnSavePicSize.gridx = 4;
-		gbcbtnSavePicSize.gridy = 11;
+		gbcbtnSavePicSize.gridy = 10;
 		panelConfig.add(btnSavePicSize, gbcbtnSavePicSize);
 		cboLook.addActionListener(ae -> MTGControler.getInstance().getLafService().setLookAndFeel(
 				SwingUtilities.getAncestorOfClass(JFrame.class, this), (LookAndFeelInfo) cboLook.getSelectedItem()));
@@ -732,9 +706,9 @@ public class ConfigurationPanel extends JPanel {
 		add(panelProfil, gbcpanelProfil);
 		GridBagLayout gblpanelProfil = new GridBagLayout();
 		gblpanelProfil.columnWidths = new int[] { 0, 71, 0, 0, 0, 0 };
-		gblpanelProfil.rowHeights = new int[] { 0, 0, 0, 0, 0, 0 };
+		gblpanelProfil.rowHeights = new int[] { 0, 0, 29, 0, 0 };
 		gblpanelProfil.columnWeights = new double[] { 0.0, 0.0, 0.0, 1.0, 0.0, Double.MIN_VALUE };
-		gblpanelProfil.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
+		gblpanelProfil.rowWeights = new double[] { 0.0, 0.0, 0.0, 0.0, Double.MIN_VALUE };
 		panelProfil.setLayout(gblpanelProfil);
 
 		JLabel lblName = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("NAME") + " :");
@@ -782,7 +756,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagConstraints gbclblIconAvatar = new GridBagConstraints();
 		gbclblIconAvatar.fill = GridBagConstraints.BOTH;
 		gbclblIconAvatar.gridwidth = 2;
-		gbclblIconAvatar.gridheight = 4;
+		gbclblIconAvatar.gridheight = 3;
 		gbclblIconAvatar.insets = new Insets(0, 0, 0, 5);
 		gbclblIconAvatar.gridx = 1;
 		gbclblIconAvatar.gridy = 1;
@@ -791,7 +765,7 @@ public class ConfigurationPanel extends JPanel {
 		
 		JPanel panelSubGame = new JPanel();
 		GridBagConstraints gbcpanelSubGame = new GridBagConstraints();
-		gbcpanelSubGame.gridheight = 3;
+		gbcpanelSubGame.gridheight = 2;
 		gbcpanelSubGame.insets = new Insets(0, 0, 5, 5);
 		gbcpanelSubGame.fill = GridBagConstraints.BOTH;
 		gbcpanelSubGame.gridx = 3;
@@ -816,7 +790,7 @@ public class ConfigurationPanel extends JPanel {
 		GridBagConstraints gbcbtnSave2 = new GridBagConstraints();
 		gbcbtnSave2.insets = new Insets(0, 0, 0, 5);
 		gbcbtnSave2.gridx = 3;
-		gbcbtnSave2.gridy = 4;
+		gbcbtnSave2.gridy = 3;
 		panelProfil.add(btnSave2, gbcbtnSave2);
 
 		JPanel panelModule = new JPanel();
@@ -975,8 +949,95 @@ public class ConfigurationPanel extends JPanel {
 		GridBagConstraints gbclblLoading = new GridBagConstraints();
 		gbclblLoading.gridwidth = 2;
 		gbclblLoading.gridx = 0;
-		gbclblLoading.gridy = 3;
+		gbclblLoading.gridy = 4;
 		add(lblLoading, gbclblLoading);
+		
+		JPanel panelCurrency = new JPanel();
+		GridBagLayout gblpanelCurrency = new GridBagLayout();
+		gblpanelCurrency.columnWidths = new int[]{106, 67, 0, 0};
+		gblpanelCurrency.rowHeights = new int[]{23, 0, 0, 0};
+		gblpanelCurrency.columnWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		gblpanelCurrency.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
+		panelCurrency.setLayout(gblpanelCurrency);
+		panelCurrency.setBorder(new TitledBorder(new LineBorder(new Color(0, 0, 0), 1, true),MTGControler.getInstance().getLangService().getCapitalize("CURRENCY"), TitledBorder.LEADING,TitledBorder.TOP, null, new Color(64, 64, 64)));
+		GridBagConstraints gbcpanelCurrency = new GridBagConstraints();
+		gbcpanelCurrency.insets = new Insets(0, 0, 5, 5);
+		gbcpanelCurrency.fill = GridBagConstraints.BOTH;
+		gbcpanelCurrency.gridx = 0;
+		gbcpanelCurrency.gridy = 3;
+		add(panelCurrency, gbcpanelCurrency);
+			
+			JLabel lblCurrency = new JLabel(MTGControler.getInstance().getLangService().getCapitalize("CURRENCY")+" :");
+			GridBagConstraints gbclblCurrency = new GridBagConstraints();
+			gbclblCurrency.anchor = GridBagConstraints.WEST;
+			gbclblCurrency.insets = new Insets(0, 0, 5, 5);
+			gbclblCurrency.gridx = 0;
+			gbclblCurrency.gridy = 0;
+			panelCurrency.add(lblCurrency, gbclblCurrency);
+		
+		JComboBox<Currency> cboCurrency = new JComboBox<>(new DefaultComboBoxModel<>(Currency.getAvailableCurrencies().toArray(new Currency[Currency.getAvailableCurrencies().size()])));
+		GridBagConstraints gbccboCurrency = new GridBagConstraints();
+		gbccboCurrency.fill = GridBagConstraints.HORIZONTAL;
+		gbccboCurrency.insets = new Insets(0, 0, 5, 5);
+		gbccboCurrency.gridx = 1;
+		gbccboCurrency.gridy = 0;
+		panelCurrency.add(cboCurrency, gbccboCurrency);
+		
+		if(MTGControler.getInstance().get(CURRENCY).isEmpty())
+			cboCurrency.setSelectedItem(Currency.getInstance(Locale.getDefault()));
+		else
+			cboCurrency.setSelectedItem(Currency.getInstance(MTGControler.getInstance().get(CURRENCY)));
+
+		
+		JButton btnSavecurrency = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		GridBagConstraints gbcbtnSavecurrency = new GridBagConstraints();
+		gbcbtnSavecurrency.fill = GridBagConstraints.HORIZONTAL;
+		gbcbtnSavecurrency.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSavecurrency.gridx = 2;
+		gbcbtnSavecurrency.gridy = 0;
+		panelCurrency.add(btnSavecurrency, gbcbtnSavecurrency);
+		
+		JLabel lclCodeCurrency = new JLabel("CurrencyLayer API code :");
+		GridBagConstraints gbclclCodeCurrency = new GridBagConstraints();
+		gbclclCodeCurrency.insets = new Insets(0, 0, 5, 5);
+		gbclclCodeCurrency.anchor = GridBagConstraints.WEST;
+		gbclclCodeCurrency.gridx = 0;
+		gbclclCodeCurrency.gridy = 1;
+		panelCurrency.add(lclCodeCurrency, gbclclCodeCurrency);
+		
+		txtCurrencyFieldApiCode = new JTextField(MTGControler.getInstance().get("/currencylayer-access-api"));
+		GridBagConstraints gbctextField1 = new GridBagConstraints();
+		gbctextField1.insets = new Insets(0, 0, 5, 5);
+		gbctextField1.fill = GridBagConstraints.HORIZONTAL;
+		gbctextField1.gridx = 1;
+		gbctextField1.gridy = 1;
+		panelCurrency.add(txtCurrencyFieldApiCode, gbctextField1);
+		txtCurrencyFieldApiCode.setColumns(10);
+		
+		JButton btnSaveCode = new JButton(MTGControler.getInstance().getLangService().getCapitalize("SAVE"));
+		btnSaveCode.addActionListener(e->MTGControler.getInstance().setProperty("currencylayer-access-api", txtCurrencyFieldApiCode.getText()));
+		GridBagConstraints gbcbtnSaveCode = new GridBagConstraints();
+		gbcbtnSaveCode.insets = new Insets(0, 0, 5, 0);
+		gbcbtnSaveCode.gridx = 2;
+		gbcbtnSaveCode.gridy = 1;
+		panelCurrency.add(btnSaveCode, gbcbtnSaveCode);
+		
+		JButton btnUpdateCurrency = new JButton("Update Currency");
+		btnUpdateCurrency.addActionListener(ae-> {
+			try {
+				MTGControler.getInstance().getCurrencyService().clean();
+				MTGControler.getInstance().getCurrencyService().init();
+			} catch (IOException e) {
+				logger.error(e);
+			}
+			
+		});
+		GridBagConstraints gbcbtnUpdateCurrency = new GridBagConstraints();
+		gbcbtnUpdateCurrency.insets = new Insets(0, 0, 0, 5);
+		gbcbtnUpdateCurrency.gridx = 1;
+		gbcbtnUpdateCurrency.gridy = 2;
+		panelCurrency.add(btnUpdateCurrency, gbcbtnUpdateCurrency);
+		btnSavecurrency.addActionListener(ae->MTGControler.getInstance().setProperty(CURRENCY, cboCurrency.getSelectedItem()));
 		
 		btnAdd.addActionListener(ae -> {
 			try {

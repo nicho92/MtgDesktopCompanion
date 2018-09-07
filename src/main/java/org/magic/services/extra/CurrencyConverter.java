@@ -83,6 +83,7 @@ public class CurrencyConverter {
 				JsonElement parse = new JsonParser().parse(new InputStreamReader(URLTools.openConnection("http://apilayer.net/api/live?access_key="+token).getInputStream()));
 				obj = parse.getAsJsonObject().get("quotes").getAsJsonObject();
 				FileUtils.writeStringToFile(cache, obj.toString(), MTGConstants.DEFAULT_ENCODING);
+				logger.debug(cache.getAbsolutePath() + " created");
 			}
 			else
 			{
