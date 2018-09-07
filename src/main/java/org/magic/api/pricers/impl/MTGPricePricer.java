@@ -69,7 +69,8 @@ public class MTGPricePricer extends AbstractMagicPricesProvider {
 							+ mtgpriceID.substring(0, mtgpriceID.indexOf(set)));
 					price.setValue(Double.parseDouble(fairPrice.replaceAll("\\$", "")));
 					price.setQuality("NM");
-					price.setFoil(mtgpriceID.substring(mtgpriceID.indexOf(set) + set.length()).startsWith("true"));
+					int start=mtgpriceID.indexOf(set) + set.length();
+					price.setFoil(mtgpriceID.indexOf("true", start)>-1);
 					price.setSite(getName());
 					ret.add(price);
 					reader.close();

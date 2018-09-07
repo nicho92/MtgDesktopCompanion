@@ -17,6 +17,9 @@ import org.utils.patterns.observer.Observable;
 
 public class Player extends Observable implements Serializable {
 
+	private static final String PLAY_TERM = "Play ";
+	private static final String EXIL_TERM = "Exil ";
+	private static final String DISCARD_TERM = "Discard ";
 	/**
 	 * 
 	 */
@@ -264,14 +267,14 @@ public class Player extends Observable implements Serializable {
 	public void discardCardFromHand(MagicCard mc) {
 		hand.remove(mc);
 		graveyard.add(mc);
-		logAction("Discard " + mc);
+		logAction(DISCARD_TERM + mc);
 
 	}
 
 	public void discardCardFromLibrary(MagicCard mc) {
 		library.remove(mc);
 		graveyard.add(mc);
-		logAction("Discard " + mc + " from library to graveyard");
+		logAction(DISCARD_TERM + mc + " from library to graveyard");
 
 	}
 
@@ -285,7 +288,7 @@ public class Player extends Observable implements Serializable {
 			library.getCards().remove(i);
 
 		}
-		logAction("Discard " + parseInt + " cards from library");
+		logAction(DISCARD_TERM + parseInt + " cards from library");
 		return ret;
 
 	}
@@ -293,28 +296,28 @@ public class Player extends Observable implements Serializable {
 	public void exileCardFromBattleField(MagicCard mc) {
 		battlefield.remove(mc);
 		exil.add(mc);
-		logAction("Exil " + mc + " from battlefield");
+		logAction(EXIL_TERM + mc + " from battlefield");
 
 	}
 
 	public void exileCardFromLibrary(MagicCard mc) {
 		library.remove(mc);
 		exil.add(mc);
-		logAction("Exil " + mc + " from library");
+		logAction(EXIL_TERM + mc + " from library");
 
 	}
 
 	public void exileCardFromHand(MagicCard mc) {
 		hand.remove(mc);
 		exil.add(mc);
-		logAction("Exil " + mc + " from Hand");
+		logAction(EXIL_TERM + mc + " from Hand");
 
 	}
 
 	public void exileCardFromGraveyard(MagicCard mc) {
 		graveyard.remove(mc);
 		exil.add(mc);
-		logAction("Exil " + mc + " from graveyard");
+		logAction(EXIL_TERM + mc + " from graveyard");
 
 	}
 
@@ -340,14 +343,14 @@ public class Player extends Observable implements Serializable {
 	public void playCardFromGraveyard(MagicCard mc) {
 		graveyard.remove(mc);
 		battlefield.add(mc);
-		logAction("play " + mc + " from graveyard");
+		logAction(PLAY_TERM + mc + " from graveyard");
 
 	}
 
 	public void playCardFromExile(MagicCard mc) {
 		exil.remove(mc);
 		battlefield.add(mc);
-		logAction("play " + mc + " from exile");
+		logAction(PLAY_TERM + mc + " from exile");
 
 	}
 
@@ -434,7 +437,7 @@ public class Player extends Observable implements Serializable {
 		hand.remove(mc);
 		manaPool.useMana(mc);
 		battlefield.add(mc);
-		logAction("Play " + mc);
+		logAction(PLAY_TERM + mc);
 	}
 
 	@Override
@@ -474,7 +477,7 @@ public class Player extends Observable implements Serializable {
 	public void playCardFromLibrary(MagicCard mc) {
 		battlefield.add(mc);
 		library.remove(mc);
-		logAction("play " + mc + " from library");
+		logAction(PLAY_TERM + mc + " from library");
 
 	}
 

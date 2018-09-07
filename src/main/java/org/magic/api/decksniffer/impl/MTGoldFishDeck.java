@@ -20,6 +20,13 @@ import org.magic.tools.URLTools;
 
 public class MTGoldFishDeck extends AbstractDeckSniffer {
 
+	private static final String BRAWL = "brawl";
+	private static final String COMMANDER = "commander";
+	private static final String VINTAGE = "vintage";
+	private static final String LEGACY = "legacy";
+	private static final String PAUPER = "pauper";
+	private static final String MODERN = "modern";
+	private static final String STANDARD = "standard";
 	private static final String SUPPORT = "SUPPORT";
 	private static final String FORMAT = "FORMAT";
 
@@ -30,9 +37,9 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	@Override
 	public String[] listFilter() {
 		if (metagames)
-			return new String[] { "standard", "modern", "pauper", "legacy", "vintage", "commander", "brawl" };
+			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, COMMANDER, BRAWL };
 		else
-			return new String[] { "standard", "modern", "pauper", "legacy", "vintage", "arena_standard","block", "commander", "limited",
+			return new String[] { STANDARD, MODERN, PAUPER, LEGACY, VINTAGE, "arena_standard","block", COMMANDER, "limited",
 					"frontier", "canadian_highlander", "penny_dreadful", "tiny_Leaders", "free_Form" };
 	}
 
@@ -155,7 +162,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 	@Override
 	public void initDefault() {
 		setProperty(SUPPORT, "paper");
-		setProperty(FORMAT, "standard");
+		setProperty(FORMAT, STANDARD);
 		
 		setProperty("URL", "https://www.mtggoldfish.com/");
 		setProperty("MAX_PAGE", "2");

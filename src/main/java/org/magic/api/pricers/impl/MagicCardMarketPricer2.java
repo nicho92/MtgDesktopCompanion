@@ -25,6 +25,8 @@ import org.magic.tools.InstallCert;
 
 public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 
+	private static final String FALSE = "false";
+	private static final String LANGUAGE_ID = "LANGUAGE_ID";
 	private static final String FILTER_COUNTRY = "FILTER_COUNTRY";
 	private static final String MIN_CONDITION = "MIN_CONDITION";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
@@ -45,7 +47,7 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		{
 			try {
 				InstallCert.installCert("cardmarket.com");
-				setProperty(LOAD_CERTIFICATE, "false");
+				setProperty(LOAD_CERTIFICATE, FALSE);
 			} catch (Exception e1) {
 				logger.error(e1);
 			}
@@ -121,10 +123,10 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 			atts.put(PRODUCT_ATTS.idGame, "1");
 			atts.put(PRODUCT_ATTS.exact, getString("IS_EXACT"));
 
-			if (!getString("LANGUAGE_ID").equals(""))
-				atts.put(PRODUCT_ATTS.idLanguage, getString("LANGUAGE_ID"));
+			if (!getString(LANGUAGE_ID).equals(""))
+				atts.put(PRODUCT_ATTS.idLanguage, getString(LANGUAGE_ID));
 
-			if (getString("USER_ARTICLE").equals("false")) {
+			if (getString("USER_ARTICLE").equals(FALSE)) {
 				Product p = getProductFromCard(card, pService.findProduct(card.getName(), atts));
 
 				if (p != null) {
@@ -154,8 +156,8 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 				aatts.put(ARTICLES_ATT.start, "0");
 				aatts.put(ARTICLES_ATT.maxResults, getString("MAX"));
 
-				if (!getString("LANGUAGE_ID").equals(""))
-					aatts.put(ARTICLES_ATT.idLanguage, getString("LANGUAGE_ID"));
+				if (!getString(LANGUAGE_ID).equals(""))
+					aatts.put(ARTICLES_ATT.idLanguage, getString(LANGUAGE_ID));
 
 				if (!getString(MIN_CONDITION).equals(""))
 					aatts.put(ARTICLES_ATT.minCondition, getString(MIN_CONDITION));
@@ -228,13 +230,13 @@ public class MagicCardMarketPricer2 extends AbstractMagicPricesProvider {
 		setProperty("APP_SECRET", "");
 		setProperty("APP_ACCESS_TOKEN", "");
 		setProperty("APP_ACCESS_TOKEN_SECRET", "");
-		setProperty("LANGUAGE_ID", "1");
-		setProperty("IS_EXACT", "false");
+		setProperty(LANGUAGE_ID, "1");
+		setProperty("IS_EXACT", FALSE);
 		setProperty(MIN_CONDITION, "");
-		setProperty("COMMONCHECK", "false");
+		setProperty("COMMONCHECK", FALSE);
 		setProperty("MAX", "10");
-		setProperty("USER_ARTICLE", "false");
-		setProperty("AUTOMATIC_ADD_CARD_ALERT", "false");
+		setProperty("USER_ARTICLE", FALSE);
+		setProperty("AUTOMATIC_ADD_CARD_ALERT", FALSE);
 		setProperty(FILTER_COUNTRY, Locale.getDefault().getCountry());
 		setProperty(LOAD_CERTIFICATE,"true");
 

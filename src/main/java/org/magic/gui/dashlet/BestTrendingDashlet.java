@@ -33,6 +33,8 @@ import org.magic.sorters.CardsShakeSorter.SORT;
 
 public class BestTrendingDashlet extends AbstractJDashlet {
 
+	private static final String TRUE = "true";
+	private static final String FALSE = "false";
 	/**
 	 * 
 	 */
@@ -175,10 +177,10 @@ public class BestTrendingDashlet extends AbstractJDashlet {
 			}
 
 			try {
-				boxS.setSelected(Boolean.parseBoolean(getProperty("STD", "false")));
-				boxM.setSelected(Boolean.parseBoolean(getProperty("MDN", "true")));
-				boxL.setSelected(Boolean.parseBoolean(getProperty("LEG", "false")));
-				boxV.setSelected(Boolean.parseBoolean(getProperty("VIN", "false")));
+				boxS.setSelected(Boolean.parseBoolean(getProperty("STD", FALSE)));
+				boxM.setSelected(Boolean.parseBoolean(getProperty("MDN", TRUE)));
+				boxL.setSelected(Boolean.parseBoolean(getProperty("LEG", FALSE)));
+				boxV.setSelected(Boolean.parseBoolean(getProperty("VIN", FALSE)));
 				cboSorter.setSelectedItem(SORT.valueOf(getProperty("SORT","DAY_PRICE_CHANGE")));
 			} catch (Exception e) {
 				logger.error("can't get boxs values", e);

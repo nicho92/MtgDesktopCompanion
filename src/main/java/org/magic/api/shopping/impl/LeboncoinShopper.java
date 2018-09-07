@@ -21,9 +21,10 @@ import org.magic.tools.URLTools;
 
 public class LeboncoinShopper extends AbstractMagicShopper {
 
+	private static final String ITEM_SUPP = "item_supp";
+	private static final String ITEM_INFOS = "item_infos";
 	private static final String MAX_RESULT = "MAX_RESULT";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
-	private Document doc;
 	private SimpleDateFormat formatter;
 
 
@@ -61,7 +62,7 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 			html = getString("URL").replaceAll("%SEARCH%", search).replaceAll("%PAGE%", String.valueOf(p));
 
 			logger.trace("parsing item from " + html);
-
+			Document doc=null;
 			try {
 				doc =URLTools.extractHtml(html);
 				
@@ -81,9 +82,9 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 				} catch (MalformedURLException e1) {
 					a.setUrl(null);
 				}
-				a.setLieu(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp")
+				a.setLieu(listElements.get(i).getElementsByClass(ITEM_INFOS).get(0).getElementsByClass(ITEM_SUPP)
 						.get(1).text());
-				a.setType(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp")
+				a.setType(listElements.get(i).getElementsByClass(ITEM_INFOS).get(0).getElementsByClass(ITEM_SUPP)
 						.get(0).text());
 				a.setId(url.substring(url.lastIndexOf('/') + 1, url.lastIndexOf('.')).trim());
 				a.setShopName(getName());
@@ -103,12 +104,12 @@ public class LeboncoinShopper extends AbstractMagicShopper {
 					a.setPrice(parsePrice(listElements.get(i).getElementsByClass("item_price").get(0).text()));
 
 				try {
-					a.setDate(parseDate(listElements.get(i).getElementsByClass("item_infos").get(0)
-							.getElementsByClass("item_supp").get(2).text()));
+					a.setDate(parseDate(listElements.get(i).getElementsByClass(ITEM_INFOS).get(0)
+							.getElementsByClass(ITEM_SUPP).get(2).text()));
 				} catch (Exception e) {
 					logger.error(e);
 				}
-				a.setUrgent(listElements.get(i).getElementsByClass("item_infos").get(0).getElementsByClass("item_supp")
+				a.setUrgent(listElements.get(i).getElementsByClass(ITEM_INFOS).get(0).getElementsByClass(ITEM_SUPP)
 						.get(2).text().startsWith("Urgent"));
 				list.add(a);
 

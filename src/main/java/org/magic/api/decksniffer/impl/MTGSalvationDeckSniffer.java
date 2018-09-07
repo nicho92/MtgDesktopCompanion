@@ -5,7 +5,9 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -27,14 +29,31 @@ import com.google.gson.JsonParser;
 
 public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 
+	private Map<String,Integer> mapCodes;
+	
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
 	}
+	
+	public MTGSalvationDeckSniffer() {
+		super();
+		
+		mapCodes = new HashMap<>();
+		mapCodes.put("Standard", 32);
+		mapCodes.put("Casual", 16);
+		mapCodes.put("Classic", 64);
+		mapCodes.put("Commander", 2);
+		mapCodes.put("Legacy", 4);
+		mapCodes.put("Vintage", 8);
+		mapCodes.put("Modern", 1);
+		
+	}
+	
 
 	@Override
 	public String[] listFilter() {
-		return new String[] { "Standard", "Casual", "Classic", "Commander", "Legacy", "Vintage", "Modern" };
+		return mapCodes.keySet().toArray(new String[mapCodes.size()]);
 	}
 
 	@Override
@@ -161,24 +180,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 	}
 
 	private Integer getFormatCode(String property) {
-		switch (property) {
-		case "Standard":
-			return 32;
-		case "Casual":
-			return 16;
-		case "Classic":
-			return 64;
-		case "Commander":
-			return 2;
-		case "Legacy":
-			return 4;
-		case "Vintage":
-			return 8;
-		case "Modern":
-			return 1;
-		default:
-			return null;
-		}
+		return mapCodes.get(property);
 	}
 
 
@@ -192,7 +194,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 		
 		setProperty("URL", "http://www.mtgsalvation.com/");
 		setProperty("MAX_PAGE", "2");
-		setProperty("FORMAT", "Standard");
+		setProperty("FORMAT", "Modern");
 		setProperty("FILTER", "1");// HOT=1, NEW=2, TOPWEEK=3,TOPMONTH=4,TOPALLTIME=5
 
 	}

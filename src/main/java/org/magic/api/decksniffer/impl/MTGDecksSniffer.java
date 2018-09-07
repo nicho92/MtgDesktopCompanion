@@ -20,6 +20,9 @@ import org.magic.tools.URLTools;
 public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 	
+	private static final String MAX_PAGE = "MAX_PAGE";
+	private static final String URL = "URL";
+	private static final String FORMAT = "FORMAT";
 	private static final String LOAD_CERTIFICATE = "LOAD_CERTIFICATE";
 
 	public MTGDecksSniffer() {
@@ -85,14 +88,14 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 	@Override
 	public List<RetrievableDeck> getDeckList() throws IOException {
-		String url = getString("URL") + "/" + getString("FORMAT") + "/decklists/page:1";
+		String url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:1";
 		logger.debug("get List deck at " + url);
 		List<RetrievableDeck> list = new ArrayList<>();
 		int nbPage = 1;
-		int maxPage = getInt("MAX_PAGE");
+		int maxPage = getInt(MAX_PAGE);
 
 		for (int i = 1; i <= maxPage; i++) {
-			url = getString("URL") + "/" + getString("FORMAT") + "/decklists/page:" + nbPage;
+			url = getString(URL) + "/" + getString(FORMAT) + "/decklists/page:" + nbPage;
 			Document d = URLTools.extractHtml(url);
 
 			Elements trs = d.select("table.table tr");
@@ -103,7 +106,7 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 
 				deck.setName(tr.select("td a").first().text());
 				try {
-					deck.setUrl(new URI(getString("URL") + '/' + tr.select("td a").first().attr("href")));
+					deck.setUrl(new URI(getString(URL) + '/' + tr.select("td a").first().attr("href")));
 				} catch (URISyntaxException e) {
 					deck.setUrl(null);
 				}
@@ -147,9 +150,9 @@ public class MTGDecksSniffer extends AbstractDeckSniffer {
 	@Override
 	public void initDefault() {
 		
-		setProperty("URL", "https://mtgdecks.net");
-		setProperty("FORMAT", "Standard");
-		setProperty("MAX_PAGE", "2");
+		setProperty(URL, "https://mtgdecks.net");
+		setProperty(FORMAT, "Standard");
+		setProperty(MAX_PAGE, "2");
 		setProperty(LOAD_CERTIFICATE, "true");
 	}
 

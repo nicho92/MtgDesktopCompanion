@@ -29,6 +29,7 @@ import com.google.gson.stream.JsonReader;
 
 public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
+	private static final String CARDS = "cards";
 	public static final File setDirectory = new File(MTGConstants.CONF_DIR, "sets");
 	private String ext = ".json";
 
@@ -46,7 +47,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		File f = new File(setDirectory, me.getId() + ext);
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
-		JsonArray cards = root.get("cards").getAsJsonArray();
+		JsonArray cards = root.get(CARDS).getAsJsonArray();
 
 		for (int i = 0; i < cards.size(); i++) {
 			JsonElement el = cards.get(i);
@@ -70,7 +71,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		FileReader fr = new FileReader(new File(setDirectory, me.getId() + ext));
 		JsonReader reader = new JsonReader(fr);
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
-		JsonArray arr = (JsonArray) root.get("cards");
+		JsonArray arr = (JsonArray) root.get(CARDS);
 		Type listType = new TypeToken<ArrayList<MagicCard>>() {
 		}.getType();
 		fr.close();
@@ -82,7 +83,7 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		File f = new File(setDirectory, me.getId() + ext);
 		JsonReader reader = new JsonReader(new FileReader(f));
 		JsonObject root = new JsonParser().parse(reader).getAsJsonObject();
-		JsonArray cards = root.get("cards").getAsJsonArray();
+		JsonArray cards = root.get(CARDS).getAsJsonArray();
 
 		int index = indexOf(mc, cards);
 
@@ -128,9 +129,9 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		jsonparams.add("main", new Gson().toJsonTree(me));
 
 		if (cardCount == 0)
-			jsonparams.add("cards", new JsonArray());
+			jsonparams.add(CARDS, new JsonArray());
 		else
-			jsonparams.add("cards", new Gson().toJsonTree(getCards(me)));
+			jsonparams.add(CARDS, new Gson().toJsonTree(getCards(me)));
 
 		FileUtils.writeStringToFile(new File(setDirectory, me.getId() + ext), jsonparams.toString(), MTGConstants.DEFAULT_ENCODING);
 
@@ -159,11 +160,8 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	@Override
-	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)
-			throws IOException {
-
+	public List<MagicCard> searchCardByCriteria(String att, String crit, MagicEdition me, boolean exact)throws IOException {
 		List<MagicCard> res = new ArrayList<>();
-
 		if (me == null) {
 			for (MagicEdition ed : loadEditions())
 				for (MagicCard mc : getCards(ed))

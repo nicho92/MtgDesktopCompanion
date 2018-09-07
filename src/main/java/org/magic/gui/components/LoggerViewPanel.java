@@ -31,7 +31,7 @@ public class LoggerViewPanel extends JPanel {
 	private JCheckBox chckbxAutorefresh;
 	private JButton btnRefresh;
 	private JComboBox<Level> cboChooseLevel;
-	private TableRowSorter<TableModel> datesorter;
+	private transient TableRowSorter<TableModel> datesorter;
 	
 	
 	public LoggerViewPanel() {

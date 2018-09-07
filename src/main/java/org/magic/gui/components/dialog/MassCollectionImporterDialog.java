@@ -34,9 +34,7 @@ import org.magic.services.ThreadManager;
 
 public class MassCollectionImporterDialog extends JDialog {
 
-	/**
-	 * 
-	 */
+	private static final String NUMBER = "number";
 	private static final long serialVersionUID = 1L;
 	private String[] ids;
 	private JTextPane txtNumbersInput;
@@ -79,7 +77,7 @@ public class MassCollectionImporterDialog extends JDialog {
 		panelCollectionInput.add(lblNewLabel);
 
 		final JComboBox<String> cboByType = new JComboBox<>();
-		cboByType.setModel(new DefaultComboBoxModel<String>(new String[] { "number", "name" }));
+		cboByType.setModel(new DefaultComboBoxModel<String>(new String[] { NUMBER, "name" }));
 		panelCollectionInput.add(cboByType);
 
 		JLabel lblIn = new JLabel("in");
@@ -122,7 +120,7 @@ public class MassCollectionImporterDialog extends JDialog {
 			final MagicEdition ed = (MagicEdition) cboEditions.getSelectedItem();
 			final MagicCollection col = (MagicCollection) cboCollections.getSelectedItem();
 
-			if (cboByType.getSelectedItem().equals("number"))
+			if (cboByType.getSelectedItem().equals(NUMBER))
 				ids = txtNumbersInput.getText().replaceAll("\n", " ").replaceAll("  ", " ").trim().split(" ");
 			else
 				ids = txtNumbersInput.getText().split("\n");
@@ -134,7 +132,7 @@ public class MassCollectionImporterDialog extends JDialog {
 					try {
 						MagicCard mc = null;
 
-						if (cboByType.getSelectedItem().toString().equalsIgnoreCase("number"))
+						if (cboByType.getSelectedItem().toString().equalsIgnoreCase(NUMBER))
 							mc = MTGControler.getInstance().getEnabledCardsProviders().getCardByNumber(id, ed);
 						else
 							mc = MTGControler.getInstance().getEnabledCardsProviders()
