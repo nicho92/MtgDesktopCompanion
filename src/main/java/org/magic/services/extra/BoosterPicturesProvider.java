@@ -103,11 +103,9 @@ public class BoosterPicturesProvider {
 			return null;
 		}
 	}
-	public BufferedImage getBannerFor(String IDme)
+	public BufferedImage getBannerFor(String idMe)
 	{
-		MagicEdition ed = new MagicEdition();
-		ed.setId(IDme);
-		return getBannerFor(ed);
+		return getBannerFor(new MagicEdition(idMe));
 	}
 	
 	

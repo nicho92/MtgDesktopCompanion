@@ -53,8 +53,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 			MagicEdition ed = null;
 			if (MagicCard.isBasicLand(cardName)) {
-				ed = new MagicEdition();
-				ed.setId(MTGControler.getInstance().get("default-land-deck"));
+				ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 			}
 
 			if (cardName.contains("//"))
@@ -75,8 +74,7 @@ public class TCGPlayerDeckSniffer extends AbstractDeckSniffer {
 
 				MagicEdition ed = null;
 				if (MagicCard.isBasicLand(cardName)) {
-					ed = new MagicEdition();
-					ed.setId(MTGControler.getInstance().get("default-land-deck"));
+					ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 				}
 
 				if (cardName.contains("//"))

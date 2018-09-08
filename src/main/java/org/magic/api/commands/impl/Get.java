@@ -43,8 +43,7 @@ public class Get extends AbstractCommand {
 		}
 		
 		if (cl.hasOption("s")) {
-			edition = new MagicEdition();
-			edition.setId(cl.getOptionValue("s"));
+			edition = new MagicEdition(cl.getOptionValue("s"));
 		}
 		
 		if(name!=null)

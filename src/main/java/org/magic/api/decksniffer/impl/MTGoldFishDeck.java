@@ -66,8 +66,7 @@ public class MTGoldFishDeck extends AbstractDeckSniffer {
 				String cardName = tr.select("td.deck-col-card").text();
 				MagicEdition ed = null;
 				if (MagicCard.isBasicLand(cardName)) {
-					ed = new MagicEdition();
-					ed.setId(MTGControler.getInstance().get("default-land-deck"));
+					ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 				}
 
 				if (cardName.contains("//"))

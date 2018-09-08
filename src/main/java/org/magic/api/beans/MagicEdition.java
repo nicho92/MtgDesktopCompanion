@@ -88,6 +88,12 @@ public class MagicEdition implements Serializable, Comparable<MagicEdition> {
 	public void setTranslations(Map<String, String> translations) {
 		this.translations = translations;
 	}
+	
+	public MagicEdition(String idMe)
+	{
+		this.id=idMe;
+		booster = new ArrayList<>();
+	}
 
 	public MagicEdition() {
 		booster = new ArrayList<>();

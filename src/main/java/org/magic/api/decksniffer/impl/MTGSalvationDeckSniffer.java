@@ -88,8 +88,7 @@ public class MTGSalvationDeckSniffer extends AbstractDeckSniffer {
 					String cardName = s.substring(s.indexOf(' '), s.length()).trim();
 					MagicEdition ed = null;
 					if (MagicCard.isBasicLand(cardName)) {
-						ed = new MagicEdition();
-						ed.setId(MTGControler.getInstance().get("default-land-deck"));
+						ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 					}
 					MagicCard mc = MTGControler.getInstance().getEnabledCardsProviders()
 							.searchCardByName( cardName, ed, true).get(0);

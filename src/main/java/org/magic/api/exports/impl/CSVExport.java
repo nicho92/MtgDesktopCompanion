@@ -197,8 +197,7 @@ public class CSVExport extends AbstractCardExport {
 				String qte = part[1];
 				String set = part[2];
 
-				MagicEdition ed = new MagicEdition();
-				ed.setId(set);
+				MagicEdition ed = new MagicEdition(set);
 				List<MagicCard> list = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName(
 						name, ed, true);
 

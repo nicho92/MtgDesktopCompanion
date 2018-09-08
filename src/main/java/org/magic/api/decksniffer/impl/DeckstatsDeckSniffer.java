@@ -108,8 +108,7 @@ public class DeckstatsDeckSniffer extends AbstractDeckSniffer {
 				MagicCard mc = null;
 
 				if (MagicCard.isBasicLand(cardName)) {
-					MagicEdition ed = new MagicEdition();
-					ed.setId(MTGControler.getInstance().get("default-land-deck"));
+					MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 					mc = MTGControler.getInstance().getEnabledCardsProviders()
 							.searchCardByName(cardName, ed, true).get(0);
 				} else {

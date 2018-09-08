@@ -148,8 +148,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 			List<MagicCard> ret;
 			if (idSet == null) {
 				if (MagicCard.isBasicLand(cardName)) {
-					MagicEdition ed = new MagicEdition();
-					ed.setId(MTGControler.getInstance().get("default-land-deck"));
+					MagicEdition ed = new MagicEdition(MTGControler.getInstance().get("default-land-deck"));
 					ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, ed,
 							true);
 				} else {
@@ -158,8 +157,7 @@ public class TappedOutDeckSniffer extends AbstractDeckSniffer {
 				}
 
 			} else {
-				MagicEdition ed = new MagicEdition();
-				ed.setId(idSet);
+				MagicEdition ed = new MagicEdition(idSet);
 				ret = MTGControler.getInstance().getEnabledCardsProviders().searchCardByName( cardName, ed, true);
 			}
 
