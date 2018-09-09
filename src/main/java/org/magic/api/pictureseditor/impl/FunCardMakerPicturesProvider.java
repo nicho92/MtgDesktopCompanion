@@ -32,6 +32,8 @@ import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
 import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
+import org.magic.game.model.abilities.LoyaltyAbilities;
+import org.magic.game.model.factories.AbilitiesFactory;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
 import org.magic.tools.ImageUtils;
@@ -128,9 +130,20 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						   
 						    
 						    if(mc.isPlaneswalker())
-						    	nvps.add(new BasicNameValuePair("template", "modern-planeswalker3"));
+						    {
+						    	List<LoyaltyAbilities> abs = AbilitiesFactory.getInstance().getLoyaltyAbilities(mc);
+						    	nvps.add(new BasicNameValuePair("template", "modern-planeswalker"+abs.size()));
+						    	nvps.add(new BasicNameValuePair("fields[loyalty-base]", String.valueOf(mc.getLoyalty())));
+						    	for(int i=0;i<abs.size();i++)
+						    	{
+						    		nvps.add(new BasicNameValuePair("fields[capa"+(i+1)+"-cost]", abs.get(i).getCost().toString().trim()));
+						    		nvps.add(new BasicNameValuePair("fields[capa"+(i+1)+"]", abs.get(i).getEffect().toString().trim()));
+						    	}
+						    }
 						    else
+						    {
 						    	nvps.add(new BasicNameValuePair("template", getString("LAYOUT_OLD_MODERN").toLowerCase()+"-basic"));
+						    }
 						    
 						    String colorBase;
 						    
@@ -154,6 +167,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    
 						    
 						    nvps.add(new BasicNameValuePair("fields[background-base]", colorBase));
+						    nvps.add(new BasicNameValuePair("fields[background-texture]", colorBase));
 						    
 						    if(mc.isCreature())
 						    	nvps.add(new BasicNameValuePair("fields[fe]",mc.getPower()+"/"+mc.getToughness()));
