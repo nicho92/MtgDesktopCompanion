@@ -6,11 +6,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
 
-import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
@@ -44,9 +42,12 @@ import com.google.gson.JsonElement;
 public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider {
 
 	
+	private static final String HYBRIDE = "HYBRIDE";
 	private static final String GENERATE_URL ="http://funcardmaker.thaledric.fr/generate.php";
 	private static final String UPLOAD_URL ="http://funcardmaker.thaledric.fr/upload.php";
-	private static final String WEBSITE="funcardmaker.thaledric.fr";
+	private static final String DOMAIN="funcardmaker.thaledric.fr";
+	private static final String WEBSITE="http://"+DOMAIN;
+	
 	private BasicHttpContext httpContext;
 	private BasicCookieStore cookieStore;
 	private HttpClient httpclient;
@@ -103,7 +104,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			c=c.charAt(0)+"/"+c.charAt(1);
 		}
 		
-		setProperty("HYBRIDE",c);
+		setProperty(HYBRIDE,c);
 		
 	}
 
@@ -113,9 +114,9 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			connect();
 		
 		HttpPost post = new HttpPost(GENERATE_URL);
-		post.addHeader("Host", WEBSITE);
-		post.addHeader("Origin", "http://"+WEBSITE);
-		post.addHeader("Referer","http://"+WEBSITE);
+		post.addHeader("Host", DOMAIN);
+		post.addHeader("Origin", WEBSITE);
+		post.addHeader("Referer",WEBSITE);
 		
 		List<NameValuePair> nvps = new ArrayList<>();
 						    nvps.add(new BasicNameValuePair("width", "791"));
@@ -162,8 +163,8 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    		colorBase="m";
 						    }
 						    
-						    if(!getString("HYBRIDE").isEmpty())
-						    	colorBase=getString("HYBRIDE").toLowerCase();
+						    if(!getString(HYBRIDE).isEmpty())
+						    	colorBase=getString(HYBRIDE).toLowerCase();
 						    
 						    
 						    nvps.add(new BasicNameValuePair("fields[background-base]", colorBase));
@@ -190,6 +191,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 						    logger.debug(post + " with " + nvps);
 						    HttpResponse resp = httpclient.execute(post, httpContext);
 						    String ret = EntityUtils.toString(resp.getEntity());
+						    EntityUtils.consume(resp.getEntity());
 						    logger.trace("RESPONSE: "+ret);
 						    
 						    JsonElement el = URLTools.toJson(ret);
@@ -203,22 +205,22 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 			connect();
 		
 		MultipartEntityBuilder builder = MultipartEntityBuilder.create();
-		builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
-		builder.addPart("fcm-file-media", new FileBody(f, ContentType.DEFAULT_BINARY));
-		builder.addTextBody("fcm-field-illuscrop-x", "0");
-		builder.addTextBody("fcm-field-illuscrop-y", "0");
-		builder.addTextBody("fcm-field-illuscrop-w", "46");
-		builder.addTextBody("fcm-field-illuscrop-h", "7");
-		builder.addTextBody("MAX_FILE_SIZE", "104857600");
+								builder.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+								builder.addPart("fcm-file-media", new FileBody(f, ContentType.DEFAULT_BINARY));
+								builder.addTextBody("fcm-field-illuscrop-x", "0");
+								builder.addTextBody("fcm-field-illuscrop-y", "0");
+								builder.addTextBody("fcm-field-illuscrop-w", "46");
+								builder.addTextBody("fcm-field-illuscrop-h", "7");
+								builder.addTextBody("MAX_FILE_SIZE", "104857600");
 		
 		HttpEntity ent = builder.build();
 		HttpPost upload = new HttpPost(UPLOAD_URL);
-				upload.addHeader("Host", WEBSITE);
-				upload.addHeader("Origin", "http://"+WEBSITE);
-				upload.addHeader("Referer","http://"+WEBSITE);
+				upload.addHeader("Host", DOMAIN);
+				upload.addHeader("Origin", WEBSITE);
+				upload.addHeader("Referer",WEBSITE);
 				upload.addHeader("X-Requested-With","XMLHttpRequest");
-					
-				 upload.setEntity(ent);
+	            upload.setEntity(ent);
+	            
 				 HttpResponse resp = httpclient.execute(upload, httpContext);
 				 logger.trace("Upload image " + resp.getStatusLine());
 				 JsonElement response = URLTools.toJson(EntityUtils.toString(resp.getEntity()));
@@ -237,7 +239,7 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	public void initDefault() {
 		setProperty("COPYRIGHT", "(c)2018-Wizards of the coast");
 		setProperty("LAYOUT_OLD_MODERN","modern");
-		setProperty("HYBRIDE","");
+		setProperty(HYBRIDE,"");
 	}
 	
 	@Override
