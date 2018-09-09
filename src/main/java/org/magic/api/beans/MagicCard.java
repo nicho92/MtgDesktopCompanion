@@ -368,7 +368,7 @@ public class MagicCard implements Serializable {
 			temp.append(s).append(" ");
 
 		if (!getSubtypes().isEmpty()) {
-			temp.append(" - ");
+			temp.append("- ");
 			for (String s : getSubtypes())
 				temp.append(s).append(" ");
 		}

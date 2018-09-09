@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.http.HttpEntity;
@@ -28,6 +30,7 @@ import org.apache.http.protocol.BasicHttpContext;
 import org.apache.http.util.EntityUtils;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.exports.impl.PDFExport;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.ColorParser;
@@ -233,4 +236,14 @@ public class FunCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 		return "0.4.1 Alpha";
 	}
 
+	@Override
+	public Icon getIcon() {
+		return new ImageIcon(PDFExport.class.getResource("/icons/plugins/smf.png"));
+	}
+	
+	@Override
+	public STATUT getStatut() {
+		return STATUT.DEV;
+	}
+	
 }
