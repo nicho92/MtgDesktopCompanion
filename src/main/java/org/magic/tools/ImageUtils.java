@@ -6,10 +6,12 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 
@@ -125,6 +127,22 @@ public class ImageUtils {
 
 		return newImage;
 	}
+	
+	public static BufferedImage readBase64(String base) throws IOException
+	{
+		BufferedImage image = null;
+		byte[] imageByte;
+
+		imageByte = Base64.getDecoder().decode(base);
+		
+		ByteArrayInputStream bis = new ByteArrayInputStream(imageByte);
+		image = ImageIO.read(bis);
+		bis.close();
+		
+		return image;
+	}
+	
+	
 
 	public static void saveImageInPng(BufferedImage img, File f) throws IOException {
 		for (Iterator<ImageWriter> iw = ImageIO.getImageWritersByFormatName("png"); iw.hasNext();) 

@@ -40,6 +40,7 @@ import org.magic.api.beans.MTGNotification;
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicCardNames;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.pictures.impl.PersonalSetPicturesProvider;
 import org.magic.api.providers.impl.PrivateMTGSetProvider;
 import org.magic.gui.components.JSONPanel;
@@ -142,8 +143,12 @@ public class CardBuilder2GUI extends JPanel {
 				protected void paintComponent(Graphics g) {
 					super.paintComponent(g);
 					g.drawImage(cardImage, 0, 0, null);
-					if (magicCardEditorPanel.getImagePanel().getCroppedImage() != null)
+					
+					
+					if (magicCardEditorPanel.getImagePanel().getCroppedImage() != null && MTGControler.getInstance().getEnabledPictureEditor().getMode()==MOD.LOCAL)
 						g.drawImage(magicCardEditorPanel.getImagePanel().getCroppedImage(), 35, 68, 329, 242, null);
+					
+					
 					revalidate();
 				}
 			};

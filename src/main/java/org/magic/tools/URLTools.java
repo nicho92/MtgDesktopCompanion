@@ -58,6 +58,13 @@ public class URLTools {
 		return Jsoup.parse(s);
 	}
 	
+	public static JsonElement toJson(String s)
+	{
+		return new JsonParser().parse(s);
+	}
+	
+	
+	
 	public static Document extractHtml(String url) throws IOException
 	{
 		return toHtml(extractAsString(url));

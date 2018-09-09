@@ -12,6 +12,7 @@ import java.util.regex.Pattern;
 
 import org.magic.api.beans.MagicCard;
 import org.magic.api.beans.MagicEdition;
+import org.magic.api.interfaces.MTGPictureEditor.MOD;
 import org.magic.api.interfaces.abstracts.AbstractPicturesEditorProvider;
 import org.magic.services.MTGConstants;
 import org.magic.tools.CardsPatterns;
@@ -24,6 +25,11 @@ public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider
 	@Override
 	public STATUT getStatut() {
 		return STATUT.DEV;
+	}
+	
+	@Override
+	public MOD getMode() {
+		return MOD.LOCAL;
 	}
 
 	public BufferedImage generatePictureForCard(MagicCard mc, BufferedImage pic) {

@@ -360,14 +360,14 @@ public class MagicCard implements Serializable {
 
 	public String getFullType() {
 		StringBuilder temp = new StringBuilder();
-		if (getSupertypes() != null)
+		if (!getSupertypes().isEmpty())
 			for (String s : getSupertypes())
 				temp.append(s).append(" ");
 
 		for (String s : getTypes())
 			temp.append(s).append(" ");
 
-		if (getSubtypes() != null) {
+		if (!getSubtypes().isEmpty()) {
 			temp.append(" - ");
 			for (String s : getSubtypes())
 				temp.append(s).append(" ");

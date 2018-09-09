@@ -53,6 +53,11 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		httpContext.setAttribute(HttpClientContext.COOKIE_STORE, cookieStore);
 	}
 	
+	@Override
+	public MOD getMode() {
+		return MOD.URI;
+	}
+	
 	
 	private void connect() throws IOException {
 		String u = "https://mtg.design/login";

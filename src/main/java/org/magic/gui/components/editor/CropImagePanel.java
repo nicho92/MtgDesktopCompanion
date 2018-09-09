@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -56,6 +57,17 @@ public class CropImagePanel extends JPanel implements MouseListener, MouseMotion
 		return bimage;
 	}
 
+	public Rectangle getCroppedDimension()
+	{
+		
+		int w = c1 - c3;
+		int h = c2 - c4;
+		w = w * -1;
+		h = h * -1;
+		return new Rectangle(c1, c2, w, h);
+	}
+	
+	
 	public BufferedImage getCroppedImage() {
 		try {
 			int w = c1 - c3;
