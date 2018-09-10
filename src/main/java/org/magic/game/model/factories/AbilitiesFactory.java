@@ -55,7 +55,6 @@ public class AbilitiesFactory implements Serializable{
 		ret.addAll(getActivatedAbilities(mc));
 		ret.addAll(getLoyaltyAbilities(mc));
 		ret.addAll(getTriggeredAbility(mc));
-		ret.addAll(parseManaAbilities(mc));
 		ret.addAll(parseStaticAbilities(mc));
 		return ret;
 	}
@@ -98,7 +97,7 @@ public class AbilitiesFactory implements Serializable{
 	public List<LoyaltyAbilities> getLoyaltyAbilities(MagicCard mc) {
 		
 		List<LoyaltyAbilities> list = new ArrayList<>();
-		if(mc.getFullType().toLowerCase().contains("planeswalker"))
+		if(mc.isPlaneswalker())
 		{
 			for(String s : listSentences(mc))
 			{
@@ -141,10 +140,6 @@ public class AbilitiesFactory implements Serializable{
 		
 	}
 
-
-	private List<ManaAbilities> parseManaAbilities(MagicCard mc) {
-		return new ArrayList<>();
-	}
 
 
 	private List<StaticAbilities> parseStaticAbilities(MagicCard mc) {

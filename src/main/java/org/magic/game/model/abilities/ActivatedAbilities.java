@@ -3,10 +3,6 @@ package org.magic.game.model.abilities;
 public class ActivatedAbilities extends AbstractAbilities {
 
 
-
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 
 	@Override

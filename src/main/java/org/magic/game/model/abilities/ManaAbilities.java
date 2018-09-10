@@ -1,6 +1,6 @@
 package org.magic.game.model.abilities;
 
-public abstract class ManaAbilities extends AbstractAbilities {
+public abstract class ManaAbilities extends ActivatedAbilities {
 
 	/**
 	 * 
@@ -20,6 +20,11 @@ public abstract class ManaAbilities extends AbstractAbilities {
 	@Override
 	public boolean isResolved() {
 		return true;
+	}
+	
+	@Override
+	public boolean isActivated() {
+		return false;
 	}
 	
 }
