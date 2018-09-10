@@ -270,7 +270,6 @@ public class MagicEditionDetailPanel extends JPanel {
 		typeJTextField.setEditable(b);
 		setJTextField.setEditable(b);
 		chkOnline.setEnabled(b);
-
 	}
 
 	public org.magic.api.beans.MagicEdition getMagicEdition() {

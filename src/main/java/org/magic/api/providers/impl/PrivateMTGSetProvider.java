@@ -114,6 +114,23 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return new Gson().fromJson(root.get("main"), MagicEdition.class);
 	}
 
+	public void saveEdition(MagicEdition ed, List<MagicCard> cards2) {
+		
+		cards2.forEach(mc->{
+			try {
+				removeCard(ed, mc);
+				addCard(ed, mc);
+				saveEdition(ed);
+			} catch (IOException e) {
+				logger.error(e);
+			}
+		});
+		
+	}
+
+	
+	
+	
 	public void saveEdition(MagicEdition me) throws IOException {
 		int cardCount = 0;
 		try {
@@ -256,5 +273,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return "Personnal Data Set Provider";
 	}
 
+	
 
 }

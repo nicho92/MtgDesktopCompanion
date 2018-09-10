@@ -15,6 +15,7 @@ import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.swing.DefaultComboBoxModel;
@@ -55,6 +56,7 @@ import org.magic.gui.renderer.ManaCellRenderer;
 import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 import org.magic.services.MTGLogger;
+import org.magic.sorters.CardsEditionSorter;
 import org.magic.tools.ImageUtils;
 
 public class CardBuilder2GUI extends JPanel {
@@ -99,7 +101,8 @@ public class CardBuilder2GUI extends JPanel {
 			JPanel panelCards = new JPanel();
 			JPanel panelCardsHaut = new JPanel();
 			JButton btnImport = new JButton(MTGConstants.ICON_IMPORT);
-			
+			JButton btnRefreshSet = new JButton(MTGConstants.ICON_REFRESH);
+
 			JButton btnSaveCard = new JButton(MTGConstants.ICON_SAVE);
 			JButton btnAddName = new JButton("add Languages");
 			JTabbedPane tabbedResult = new JTabbedPane(JTabbedPane.TOP);
@@ -280,6 +283,8 @@ public class CardBuilder2GUI extends JPanel {
 			btnSaveEdition.setToolTipText("Save the set");
 			btnNewSet.setToolTipText("New set");
 			btnRemoveEdition.setToolTipText("Delete Set");
+			
+			panelEditionHaut.add(btnRefreshSet);
 			btnImport.setToolTipText("Import existing card");
 			btnSaveCard.setToolTipText("Save the card");
 			btnRefresh.setToolTipText("Refresh");
@@ -306,6 +311,35 @@ public class CardBuilder2GUI extends JPanel {
 			magicCardEditorPanel.getChboxFoil().addActionListener(ae->MTGControler.getInstance().getEnabledPictureEditor().setFoil(magicCardEditorPanel.getChboxFoil().isSelected()));
 			magicCardEditorPanel.getCboColorAccent().addItemListener(ie-> MTGControler.getInstance().getEnabledPictureEditor().setColorAccentuation(magicCardEditorPanel.getCboColorAccent().getSelectedItem().toString()));
 			
+			
+			btnRefreshSet.addActionListener(e->{
+				
+				MagicEdition ed = (MagicEdition) editionsTable.getValueAt(editionsTable.getSelectedRow(), 1);
+				try {
+					List<MagicCard> cards = provider.getCards(ed);
+					ed.setCardCount(cards.size());
+					Collections.sort(cards,new CardsEditionSorter());
+					
+					for(int i=0;i<cards.size();i++)
+						{
+							cards.get(i).setNumber(String.valueOf((i+1)));
+							cards.get(i).getCurrentSet().setNumber(String.valueOf((i+1)));
+						}
+					provider.saveEdition(ed,cards);
+					
+					
+					
+					
+					
+					
+				} catch (IOException e1) {
+					logger.error(e1);
+				}
+				
+				
+				
+				
+			});
 			
 			btnRemoveName.addActionListener(e -> {
 				int row = listNames.getSelectedRow();
@@ -407,9 +441,9 @@ public class CardBuilder2GUI extends JPanel {
 
 			cardsTable.addMouseListener(new MouseAdapter() {
 				@Override
-				public void mouseClicked(MouseEvent arg0) {
+				public void mouseClicked(MouseEvent me) {
 					MagicCard ed = (MagicCard) cardsTable.getValueAt(cardsTable.getSelectedRow(), 0);
-					if (arg0.getClickCount() == 2) {
+					if (me.getClickCount() == 2) {
 						initCard(ed);
 						tabbedPane.setSelectedIndex(1);
 					}
