@@ -9,6 +9,7 @@ import javax.swing.JPanel;
 
 import org.magic.game.gui.components.DisplayableCard;
 import org.magic.game.gui.components.GamePanelGUI;
+import org.magic.services.MTGConstants;
 
 public class CardChooseDialog extends JDialog {
 
@@ -24,7 +25,7 @@ public class CardChooseDialog extends JDialog {
 		setTitle("Choose card");
 		setModal(true);
 		setLocationRelativeTo(null);
-
+		setIconImage(MTGConstants.ICON_SEARCH.getImage());
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		comboBox = new JComboBox<>();

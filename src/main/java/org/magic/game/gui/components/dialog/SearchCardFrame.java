@@ -12,6 +12,7 @@ import org.magic.game.gui.components.GamePanelGUI;
 import org.magic.game.gui.components.HandPanel;
 import org.magic.game.model.Player;
 import org.magic.game.model.ZoneEnum;
+import org.magic.services.MTGConstants;
 import org.magic.services.MTGControler;
 
 public class SearchCardFrame extends JDialog {
@@ -27,6 +28,7 @@ public class SearchCardFrame extends JDialog {
 
 	private void init(Player p, final ZoneEnum source) {
 		setSize(new Dimension(800, 600));
+		setIconImage(MTGConstants.ICON_SEARCH.getImage());
 		scPane = new JScrollPane();
 		pane = new HandPanel() {
 			/**
