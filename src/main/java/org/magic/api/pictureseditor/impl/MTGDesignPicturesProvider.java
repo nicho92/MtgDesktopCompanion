@@ -86,7 +86,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 
 	@Override
 	public STATUT getStatut() {
-		return STATUT.DEV;
+		return STATUT.BETA;
 	}
 	
 	@Override

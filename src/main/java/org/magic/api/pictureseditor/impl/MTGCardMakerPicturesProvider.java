@@ -21,11 +21,6 @@ import org.magic.tools.URLTools;
 public class MTGCardMakerPicturesProvider extends AbstractPicturesEditorProvider{
 
 	private String encoding = MTGConstants.DEFAULT_ENCODING;
-
-	@Override
-	public STATUT getStatut() {
-		return STATUT.DEV;
-	}
 	
 	@Override
 	public MOD getMode() {
