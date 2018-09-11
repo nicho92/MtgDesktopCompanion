@@ -8,8 +8,7 @@ public class CardsEditionSorter implements MTGComparator<MagicCard> {
 	@Override
 	public int compare(MagicCard o1, MagicCard o2) {
 
-		if (o1.getCurrentSet().getNumber() != null && o2.getCurrentSet().getNumber() != null
-				&& (o1.getCurrentSet().equals(o2.getCurrentSet()))) {
+		if (o1.getCurrentSet().getNumber() != null && o2.getCurrentSet().getNumber() != null && (o1.getCurrentSet().equals(o2.getCurrentSet()))) {
 			int n1 = calculate(o1.getCurrentSet().getNumber());
 			int n2 = calculate(o2.getCurrentSet().getNumber());
 			return n1 - n2;

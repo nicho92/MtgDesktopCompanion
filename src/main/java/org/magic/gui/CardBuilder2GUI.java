@@ -318,8 +318,9 @@ public class CardBuilder2GUI extends JPanel {
 				try {
 					List<MagicCard> cards = provider.getCards(ed);
 					ed.setCardCount(cards.size());
-					Collections.sort(cards,new CardsEditionSorter());
 					
+					cards.forEach(mc->mc.getCurrentSet().setNumber(null));
+					Collections.sort(cards,new CardsEditionSorter());
 					for(int i=0;i<cards.size();i++)
 						{
 							cards.get(i).setNumber(String.valueOf((i+1)));
@@ -466,6 +467,10 @@ public class CardBuilder2GUI extends JPanel {
 			
 			
 			btnSaveCard.addActionListener(e -> {
+				
+				
+				btnRefresh.doClick();
+				
 				MagicEdition me = (MagicEdition) cboSets.getSelectedItem();
 				MagicCard mc = magicCardEditorPanel.getMagicCard();
 				me.setNumber(mc.getNumber());

@@ -33,7 +33,7 @@ public class MagicCard implements Serializable {
 	private List<Integer> variations;
 	private List<String> colorIdentity;
 	private String watermarks;
-	private String layout;
+	private String layout="normal";
 	private Integer multiverseid;
 	private List<MagicFormat> legalities;
 	private String rarity="";
