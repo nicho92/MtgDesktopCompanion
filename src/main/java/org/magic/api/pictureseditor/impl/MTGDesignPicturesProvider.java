@@ -41,6 +41,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	private static final String TRUE = "true";
 	private static final String FALSE = "false";
 	private static final String DESIGNER ="designer";
+	private static final String BASE_URI="https://mtg.design";
 	
 	private BasicHttpContext httpContext;
 	private BasicCookieStore cookieStore;
@@ -60,7 +61,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 	
 	
 	private void connect() throws IOException {
-		String u = "https://mtg.design/login";
+		String u = BASE_URI+"/login";
 		httpclient = HttpClients.custom().setUserAgent(MTGConstants.USER_AGENT).setRedirectStrategy(new LaxRedirectStrategy()).build();
 
 		HttpEntity p = httpclient.execute(new HttpGet(u), httpContext).getEntity();
@@ -75,7 +76,7 @@ public class MTGDesignPicturesProvider extends AbstractPicturesEditorProvider{
 		login.setEntity(new UrlEncodedFormEntity(nvps));
 		login.addHeader("Referer", u);
 		login.addHeader("Upgrade-Insecure-Requests", "1");
-		login.addHeader("Origin", "https://mtg.design");
+		login.addHeader("Origin", BASE_URI);
 		
 		HttpResponse resp = httpclient.execute(login, httpContext);
 		
