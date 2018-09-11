@@ -7,6 +7,8 @@ import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
@@ -196,7 +198,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	private boolean hasValue(MagicCard mc, String att, String val) {
 		try {
-			logger.debug(mc + " " + att + " " + val);
 			return BeanUtils.getProperty(mc, att).toUpperCase().contains(val.toUpperCase());
 		} catch (Exception e) {
 			logger.error(e);
@@ -241,7 +242,11 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	public String[] getQueryableAttributs() {
 		try {
 			Set<String> keys = BeanUtils.describe(new MagicCard()).keySet();
-			return keys.toArray(new String[keys.size()]);
+			
+			String[] ret =keys.toArray(new String[keys.size()]) ;
+			Arrays.sort(ret);
+			
+			return ret;
 		} catch (Exception e) {
 			logger.error(e);
 			return new String[0];
