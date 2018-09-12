@@ -11,7 +11,6 @@ import org.magic.api.beans.MagicCard;
 import org.magic.game.model.abilities.AbstractAbilities;
 import org.magic.game.model.abilities.ActivatedAbilities;
 import org.magic.game.model.abilities.LoyaltyAbilities;
-import org.magic.game.model.abilities.ManaAbilities;
 import org.magic.game.model.abilities.StaticAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities;
 import org.magic.game.model.abilities.TriggeredAbilities.KEYWORDS;

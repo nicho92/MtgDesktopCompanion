@@ -36,6 +36,16 @@ public class JsonExport extends AbstractCardExport {
 	}
 	
 	
+	public String toJson(Object o)
+	{
+		return gson.toJson(o);
+	}
+	
+	public JsonElement toJsonElement(Object o)
+	{
+		return gson.toJsonTree(o);
+	}
+	
 	public <T> T fromJson(Class<T> classe, String s)
 	{
 		return gson.fromJson(s, classe);
@@ -91,16 +101,7 @@ public class JsonExport extends AbstractCardExport {
 	public void export(MagicDeck deck, File dest) throws IOException {
 		FileUtils.writeStringToFile(dest, toJson(deck).toString(), MTGConstants.DEFAULT_ENCODING);
 	}
-	
-	public String toJson(Object o)
-	{
-		return gson.toJson(o);
-	}
-	
-	public JsonElement toJsonElement(Object o)
-	{
-		return gson.toJsonTree(o);
-	}
+
 
 	public JsonObject toJson(MagicDeck deck) {
 		JsonObject json = new JsonObject();

@@ -45,8 +45,6 @@ import org.magic.services.ThreadManager;
 import org.magic.services.extra.IconSetProvider;
 import org.magic.tools.ImageUtils;
 import org.magic.tools.InstallCert;
-import java.awt.event.ActionListener;
-import java.awt.event.ActionEvent;
 
 public class ConfigurationPanel extends JPanel {
 

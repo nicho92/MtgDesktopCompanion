@@ -33,7 +33,6 @@
 	  </repository>
 	</repositories>
 	<dependencies>
-		
 		<dependency>
 			<groupId>mkm-api</groupId>
 			<artifactId>mkm-api</artifactId>
