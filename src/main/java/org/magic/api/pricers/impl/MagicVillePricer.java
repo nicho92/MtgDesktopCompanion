@@ -62,7 +62,7 @@ public class MagicVillePricer extends AbstractMagicPricesProvider {
 		HttpPost searchPost = new HttpPost(getString(WEBSITE)+"/fr/resultats.php?zbob=1");
 		List<NameValuePair> nvps = new ArrayList<>();
 							nvps.add(new BasicNameValuePair("recherche_titre", card.getName()));
-	
+
 		searchPost.setEntity(new UrlEncodedFormEntity(nvps));
 		String res = httpclient.execute(searchPost,responseHandler);
 		if(res.length()>100)
