@@ -53,9 +53,9 @@ public class MagicBazarPricer extends AbstractMagicPricesProvider {
 				mp.setSeller(e.getElementsByClass("edition").get(0).getElementsByIndexEquals(0).get(0).text());
 				mp.setFoil(!e.getElementsByClass("logo").isEmpty());
 				list.add(mp);
+			}
 			logger.info(getName() + " found " + list.size() + " item(s)");
 
-			}
 			return list;
 		} catch (Exception e) {
 			logger.trace("Error loading price for " + url, e);

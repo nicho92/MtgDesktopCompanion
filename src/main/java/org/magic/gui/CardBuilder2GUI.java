@@ -527,7 +527,7 @@ public class CardBuilder2GUI extends JPanel {
 			cardImage = picturesProvider.getPicture(mc, mc.getCurrentSet());
 			panelPictures.repaint();
 		} catch (Exception e) {
-			btnRefresh.doClick();
+			//btnRefresh.doClick();
 			logger.error(e);
 		}
 	}
