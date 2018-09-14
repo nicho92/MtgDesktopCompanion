@@ -127,6 +127,7 @@ public class CardBuilder2GUI extends JPanel {
 			//////////////////////////////////////////////////// INIT GLOBAL COMPONENTS
 			editionModel = new MagicEditionsTableModel();
 			provider = new PrivateMTGSetProvider();
+			provider.init();
 			btnRefresh = new JButton("");
 			picturesProvider = new PersonalSetPicturesProvider();
 			spinCommon = new JSpinner();

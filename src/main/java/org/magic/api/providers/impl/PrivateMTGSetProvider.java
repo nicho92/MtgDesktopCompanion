@@ -31,9 +31,11 @@ import com.google.gson.stream.JsonReader;
 public class PrivateMTGSetProvider extends AbstractCardsProvider {
 
 	private static final String CARDS = "cards";
-	public static final File setDirectory = new File(MTGConstants.CONF_DIR, "sets");
+	
 	private String ext = ".json";
-
+	private File setDirectory;
+	
+	
 	public void removeEdition(MagicEdition me) {
 		File f = new File(setDirectory, me.getId() + ext);
 		try {
@@ -59,13 +61,6 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 			}
 		}
 		return false;
-	}
-
-	public PrivateMTGSetProvider() {
-		super();
-
-		if (!setDirectory.exists())
-			setDirectory.mkdir();
 	}
 
 	public List<MagicCard> getCards(MagicEdition me) throws IOException {
@@ -156,8 +151,13 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 	}
 
 	public void init() {
-		// do nothing
-
+		setDirectory = getFile("DIRECTORY");
+		logger.debug("Opening directory " + setDirectory);
+		if (!setDirectory.exists())
+		{
+			logger.debug("Directory " + setDirectory + " doesn't exist");
+			setDirectory.mkdir();
+		}
 	}
 
 	public MagicCard getCardById(String id, MagicEdition ed) {
@@ -277,6 +277,10 @@ public class PrivateMTGSetProvider extends AbstractCardsProvider {
 		return "Personnal Data Set Provider";
 	}
 
+	@Override
+	public void initDefault() {
+		setProperty("DIRECTORY",new File(MTGConstants.CONF_DIR, "sets").getAbsolutePath());
+	}
 	
 
 }
