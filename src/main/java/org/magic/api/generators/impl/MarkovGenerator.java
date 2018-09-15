@@ -1,0 +1,117 @@
+package org.magic.api.generators.impl;
+
+import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+
+import org.apache.commons.io.FileUtils;
+import org.magic.api.beans.MagicCard;
+import org.magic.api.interfaces.MTGTextGenerator;
+import org.magic.api.interfaces.abstracts.AbstractMTGTextGenerator;
+import org.magic.services.MTGConstants;
+import org.magic.services.MTGControler;
+import org.magic.tools.CardsPatterns;
+
+import rita.RiMarkov;
+
+public class MarkovGenerator extends AbstractMTGTextGenerator {
+
+	private RiMarkov rs;
+	private File cache;
+	
+	
+	public static void main(String[] args) {
+		MTGTextGenerator gen = new MarkovGenerator();
+		gen.init();
+		System.out.println(gen.generateText());
+		System.out.println(gen.generateText());
+		System.out.println(gen.generateText());
+		System.out.println(gen.generateText());
+		System.out.println(gen.generateText());
+		System.out.println(gen.generateText());
+		
+	}
+	
+	@Override
+	public String generateText()
+	{
+		return rs.generateSentence();
+	}
+	
+	@Override
+	public String[] suggestWords(String[] start)
+	{
+		return rs.getCompletions(start);
+	}
+
+	public void init()
+	{
+		  rs = new RiMarkov(getInt("NGEN"),true,false);	
+		  cache = getFile("CACHE_FILE");
+		  
+		  
+		  if(!cache.exists())
+		  {
+			  logger.debug("Init MarkovGenerator");
+			  StringBuilder build = new StringBuilder();
+			  for(MagicCard mc : MTGControler.getInstance().getEnabledCardIndexer().search("*:*"))
+			  {
+				  if(!mc.getCurrentSet().getType().toLowerCase().startsWith("un") && (mc.getText()!=null || !mc.getText().isEmpty() || !mc.getText().equalsIgnoreCase("null"))) {
+						  String r = mc.getText().replaceAll(CardsPatterns.REMINDER.getPattern(), "")
+								  				 .replaceAll("\n", " ")
+								  				 .trim();
+						  build.append(r).append("\n");
+				  }
+			  }
+			  
+			try {
+				saveCache(build.toString());
+			} catch (IOException e) {
+				logger.error("error saving file "+cache.getAbsolutePath(),e);
+			}
+			rs.loadText(build.toString());
+		  }
+		  else
+		  {
+			  try {
+				logger.debug("loading cache from " + cache);
+				rs.loadFrom(cache.toURI().toURL());
+			} catch (MalformedURLException e) {
+				logger.error("error loading file "+cache.getAbsolutePath(),e);
+			}
+		  }
+		  
+		  
+	}
+	
+	private void saveCache(String s) throws IOException
+	{
+		logger.debug("saving cache to " + cache);
+		FileUtils.writeStringToFile(cache, s,MTGConstants.DEFAULT_ENCODING);		
+	}
+
+	@Override
+	public String getName() {
+		return "Markov";
+	}
+	
+	
+	@Override
+	public void setProperty(String k, Object value) {
+		super.setProperty(k, value);
+		
+		if(k.equals("NGEN")&& rs!=null)
+		{
+			rs.N=getInt(k);
+		}
+	}
+	
+	
+	
+	@Override
+	public void initDefault() {
+		setProperty("CACHE_FILE", new File(confdir,"markov.gen").getAbsolutePath());
+		setProperty("NGEN", "5");
+	}
+	
+}

@@ -34,6 +34,13 @@
 	</repositories>
 	<dependencies>
 		<dependency>
+			<groupId>rita-api</groupId>
+			<artifactId>rita-api</artifactId>
+			<version>1.3.85</version>
+			<scope>system</scope>
+			<systemPath>${project.basedir}/lib/rita.jar</systemPath>
+		</dependency>
+		<dependency>
 			<groupId>mkm-api</groupId>
 			<artifactId>mkm-api</artifactId>
 			<version>0.9b</version>
